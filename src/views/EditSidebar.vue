@@ -39,8 +39,11 @@
 		</template>
 
 		<template v-else-if="isError">
-			<EmptyContent icon="icon-calendar-dark">
+			<EmptyContent>
 				{{ $t('calendar', 'Event does not exist') }}
+				<template #icon>
+					<CalendarBlank :size="20" decorative />
+				</template>
 				<template #desc>
 					{{ error }}
 				</template>
@@ -55,17 +58,28 @@
 			v-if="!isLoading && !isError"
 			#secondary-actions>
 			<ActionLink v-if="hasDownloadURL"
-				icon="icon-download"
 				:href="downloadURL">
+				<template #icon>
+					<Download :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Download') }}
 			</ActionLink>
-			<ActionButton v-if="canDelete && !canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(false)">
+			<ActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave(false)">
+				<template #icon>
+					<Delete :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Delete') }}
 			</ActionButton>
-			<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(false)">
+			<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(false)">
+				<template #icon>
+					<Delete :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Delete this occurrence') }}
 			</ActionButton>
-			<ActionButton v-if="canDelete && canCreateRecurrenceException" icon="icon-delete" @click="deleteAndLeave(true)">
+			<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(true)">
+				<template #icon>
+					<Delete :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Delete this and all future') }}
 			</ActionButton>
 		</template>
@@ -78,7 +92,7 @@
 				:calendars="calendars"
 				:calendar="selectedCalendar"
 				:is-read-only="isReadOnly || !canModifyCalendar"
-				@selectCalendar="changeCalendar" />
+				@select-calendar="changeCalendar" />
 
 			<PropertyTitleTimePicker
 				:start-date="startDate"
@@ -89,20 +103,23 @@
 				:is-read-only="isReadOnly"
 				:can-modify-all-day="canModifyAllDay"
 				:user-timezone="currentUserTimezone"
-				@updateStartDate="updateStartDate"
-				@updateStartTimezone="updateStartTimezone"
-				@updateEndDate="updateEndDate"
-				@updateEndTimezone="updateEndTimezone"
-				@toggleAllDay="toggleAllDay" />
+				:append-to-body="true"
+				@update-start-date="updateStartDate"
+				@update-start-timezone="updateStartTimezone"
+				@update-end-date="updateEndDate"
+				@update-end-timezone="updateEndTimezone"
+				@toggle-all-day="toggleAllDay" />
 		</template>
 
 		<AppSidebarTab
 			v-if="!isLoading && !isError"
 			id="app-sidebar-tab-details"
 			class="app-sidebar-tab"
-			icon="icon-details"
 			:name="$t('calendar', 'Details')"
 			:order="0">
+			<template #icon>
+				<InformationOutline :size="20" decorative />
+			</template>
 			<div class="app-sidebar-tab__content">
 				<PropertyText
 					:is-read-only="isReadOnly"
@@ -136,8 +153,8 @@
 					:is-read-only="isReadOnly"
 					:prop-model="rfcProps.categories"
 					:value="categories"
-					@addSingleValue="addCategory"
-					@removeSingleValue="removeCategory" />
+					@add-single-value="addCategory"
+					@remove-single-value="removeCategory" />
 
 				<PropertyColor
 					:calendar-color="selectedCalendarColor"
@@ -145,6 +162,20 @@
 					:prop-model="rfcProps.color"
 					:value="color"
 					@update:value="updateColor" />
+
+				<AlarmList
+					:calendar-object-instance="calendarObjectInstance"
+					:is-read-only="isReadOnly" />
+
+				<!-- TODO: If not editing the master item, force updating this and all future   -->
+				<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
+				<Repeat
+					:calendar-object-instance="calendarObjectInstance"
+					:recurrence-rule="calendarObjectInstance.recurrenceRule"
+					:is-read-only="isReadOnly"
+					:is-editing-master-item="isEditingMasterItem"
+					:is-recurrence-exception="isRecurrenceException"
+					@force-this-and-all-future="forceModifyingFuture" />
 			</div>
 			<SaveButtons
 				v-if="showSaveButtons"
@@ -152,16 +183,18 @@
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
 				:force-this-and-all-future="forceThisAndAllFuture"
-				@saveThisOnly="saveAndLeave(false)"
-				@saveThisAndAllFuture="saveAndLeave(true)" />
+				@save-this-only="saveAndLeave(false)"
+				@save-this-and-all-future="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			v-if="!isLoading && !isError"
 			id="app-sidebar-tab-attendees"
 			class="app-sidebar-tab"
-			icon="icon-group"
 			:name="$t('calendar', 'Attendees')"
 			:order="1">
+			<template #icon>
+				<AccountMultiple :size="20" decorative />
+			</template>
 			<div class="app-sidebar-tab__content">
 				<InviteesList
 					v-if="!isLoading"
@@ -174,16 +207,18 @@
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
 				:force-this-and-all-future="forceThisAndAllFuture"
-				@saveThisOnly="saveAndLeave(false)"
-				@saveThisAndAllFuture="saveAndLeave(true)" />
+				@save-this-only="saveAndLeave(false)"
+				@save-this-and-all-future="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<AppSidebarTab
 			v-if="!isLoading && !isError"
 			id="app-sidebar-tab-resources"
 			class="app-sidebar-tab"
-			icon="icon-address"
 			:name="$t('calendar', 'Resources')"
 			:order="2">
+			<template #icon>
+				<MapMarker :size="20" decorative />
+			</template>
 			<div class="app-sidebar-tab__content">
 				<ResourceList
 					v-if="!isLoading"
@@ -196,56 +231,8 @@
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
 				:force-this-and-all-future="forceThisAndAllFuture"
-				@saveThisOnly="saveAndLeave(false)"
-				@saveThisAndAllFuture="saveAndLeave(true)" />
-		</AppSidebarTab>
-		<AppSidebarTab
-			v-if="!isLoading && !isError"
-			id="app-sidebar-tab-reminders"
-			class="app-sidebar-tab"
-			icon="icon-reminder"
-			:name="$t('calendar', 'Reminders')"
-			:order="3">
-			<div class="app-sidebar-tab__content">
-				<AlarmList
-					:calendar-object-instance="calendarObjectInstance"
-					:is-read-only="isReadOnly" />
-			</div>
-			<SaveButtons
-				v-if="showSaveButtons"
-				class="app-sidebar-tab__buttons"
-				:can-create-recurrence-exception="canCreateRecurrenceException"
-				:is-new="isNew"
-				:force-this-and-all-future="forceThisAndAllFuture"
-				@saveThisOnly="saveAndLeave(false)"
-				@saveThisAndAllFuture="saveAndLeave(true)" />
-		</AppSidebarTab>
-		<AppSidebarTab
-			v-if="!isLoading && !isError"
-			id="app-sidebar-tab-repeat"
-			class="app-sidebar-tab"
-			icon="icon-repeat"
-			:name="$t('calendar', 'Repeat')"
-			:order="4">
-			<div class="app-sidebar-tab__content">
-				<!-- TODO: If not editing the master item, force updating this and all future   -->
-				<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
-				<Repeat
-					:calendar-object-instance="calendarObjectInstance"
-					:recurrence-rule="calendarObjectInstance.recurrenceRule"
-					:is-read-only="isReadOnly"
-					:is-editing-master-item="isEditingMasterItem"
-					:is-recurrence-exception="isRecurrenceException"
-					@forceThisAndAllFuture="forceModifyingFuture" />
-			</div>
-			<SaveButtons
-				v-if="showSaveButtons"
-				class="app-sidebar-tab__buttons"
-				:can-create-recurrence-exception="canCreateRecurrenceException"
-				:is-new="isNew"
-				:force-this-and-all-future="forceThisAndAllFuture"
-				@saveThisOnly="saveAndLeave(false)"
-				@saveThisAndAllFuture="saveAndLeave(true)" />
+				@save-this-only="saveAndLeave(false)"
+				@save-this-and-all-future="saveAndLeave(true)" />
 		</AppSidebarTab>
 	</AppSidebar>
 </template>
@@ -275,6 +262,13 @@ import PropertySelectMultiple from '../components/Editor/Properties/PropertySele
 import PropertyColor from '../components/Editor/Properties/PropertyColor.vue'
 import ResourceList from '../components/Editor/Resources/ResourceList'
 
+import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
+import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
+import Delete from 'vue-material-design-icons/Delete.vue'
+import Download from 'vue-material-design-icons/Download.vue'
+import InformationOutline from 'vue-material-design-icons/InformationOutline.vue'
+import MapMarker from 'vue-material-design-icons/MapMarker.vue'
+
 export default {
 	name: 'EditSidebar',
 	components: {
@@ -295,6 +289,12 @@ export default {
 		PropertyText,
 		PropertyTitleTimePicker,
 		Repeat,
+		AccountMultiple,
+		CalendarBlank,
+		Delete,
+		Download,
+		InformationOutline,
+		MapMarker,
 	},
 	mixins: [
 		EditorMixin,

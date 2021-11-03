@@ -24,7 +24,7 @@ webpackRules.RULE_JS.exclude = BabelLoaderExcludeNodeModulesExcept([
 	'p-queue',
 	'p-try',
 	'cdav-library',
-	'calendar-js',
+	'yocto-queue',
 ])
 
 // Edit SCSS rule

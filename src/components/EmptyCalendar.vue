@@ -21,8 +21,11 @@
   -->
 
 <template>
-	<EmptyContent icon="icon-calendar-dark">
+	<EmptyContent>
 		{{ $t('calendar', 'Public calendar does not exist') }}
+		<template #icon>
+			<CalendarBlank :size="20" decorative />
+		</template>
 		<template #desc>
 			{{ $t('calendar', 'Maybe the share was deleted or has expired?' ) }}
 		</template>
@@ -31,11 +34,13 @@
 
 <script>
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 
 export default {
 	name: 'EmptyCalendar',
 	components: {
 		EmptyContent,
+		CalendarBlank,
 	},
 }
 </script>

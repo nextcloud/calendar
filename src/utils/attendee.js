@@ -1,7 +1,9 @@
 /**
  * @copyright Copyright (c) 2021 Richard Steinmetz <richard@steinmetz.cloud>
+ *
  * @author Richard Steinmetz <richard@steinmetz.cloud>
- * @license GNU AGPL version 3 or any later version
+ *
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,6 +17,7 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
 /**
@@ -29,6 +32,20 @@ export function removeMailtoPrefix(uri) {
 	}
 
 	return uri
+}
+
+/**
+ * Add the mailto prefix to a URI if it doesn't have one yet and return it
+ *
+ * @param {string} uri URI to add the prefix to
+ * @return {string} URI with a mailto prefix
+ */
+export function addMailtoPrefix(uri) {
+	if (uri.startsWith('mailto:')) {
+		return uri
+	}
+
+	return `mailto:${uri}`
 }
 
 /**

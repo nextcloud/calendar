@@ -1,7 +1,9 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
+ *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @license GNU AGPL version 3 or any later version
+ *
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,17 +17,14 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 import Vue from 'vue'
 import getTimezoneManager from '../services/timezoneDataProviderService'
 import {
 	getDateFromDateTimeValue,
 } from '../utils/date.js'
-import DurationValue from '@nextcloud/calendar-js/src/values/durationValue.js'
-import AttendeeProperty from '@nextcloud/calendar-js/src/properties/attendeeProperty.js'
-import DateTimeValue from '@nextcloud/calendar-js/src/values/dateTimeValue.js'
-import RecurValue from '@nextcloud/calendar-js/src/values/recurValue.js'
-import Property from '@nextcloud/calendar-js/src/properties/property.js'
+import { AttendeeProperty, Property, DateTimeValue, DurationValue, RecurValue } from '@nextcloud/calendar-js'
 import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/recurrence.js'
 import {
 	getDefaultEventObject,
@@ -44,6 +43,7 @@ import { mapAlarmComponentToAlarmObject } from '../models/alarm.js'
 import { getObjectAtRecurrenceId } from '../utils/calendarObject.js'
 import logger from '../utils/logger.js'
 import settings from './settings.js'
+import { getRFCProperties } from '../models/rfcProps'
 
 const state = {
 	isNew: null,
@@ -492,7 +492,6 @@ const mutations = {
 	 * @param {object} state The Vuex state
 	 * @param {object} data The destructuring object
 	 * @param {object} data.attendee The attendee object
-	 * @param {boolean} data.rsvp New RSVP value
 	 */
 	toggleAttendeeRSVP(state, { attendee }) {
 		const oldRSVP = attendee.attendeeProperty.rsvp
@@ -1449,6 +1448,14 @@ const actions = {
 			})
 			logger.debug(`Added defaultReminder (${defaultReminder}s) to newly created event`)
 		}
+
+		// Add default status
+		const rfcProps = getRFCProperties()
+		const status = rfcProps.status.defaultValue
+		commit('changeStatus', {
+			calendarObjectInstance,
+			status,
+		})
 
 		commit('setCalendarObjectInstanceForNewEvent', {
 			calendarObject,

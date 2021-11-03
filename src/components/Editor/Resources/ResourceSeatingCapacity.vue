@@ -1,7 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
+  - @copyright Copyright (c) 2021 Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -21,16 +21,36 @@
   -->
 
 <template>
-	<div class="editor-invitee-list-empty-message">
-		<div class="icon icon-reminder editor-invitee-list-empty-message__icon" />
-		<div class="editor-invitee-list-empty-message__caption">
-			{{ $t('calendar', 'No reminders yet') }}
+	<div class="resource-capacity">
+		<div class="resource-capacity__input">
+			<input
+				type="number"
+				min="0"
+				:placeholder="placeholder"
+				:value="value"
+				@input.prevent.stop="changeValue">
 		</div>
 	</div>
 </template>
 
 <script>
 export default {
-	name: 'NoAlarmView',
+	name: 'ResourceSeatingCapacity',
+	props: {
+		value: {
+			type: Number,
+			required: true,
+		},
+	},
+	computed: {
+		placeholder() {
+			return this.$t('calendar', 'Minimum seating capacity')
+		},
+	},
+	methods: {
+		changeValue(event) {
+			this.$emit('update:value', parseInt(event.target.value))
+		},
+	},
 }
 </script>

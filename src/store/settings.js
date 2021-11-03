@@ -1,7 +1,9 @@
 /**
  * @copyright Copyright (c) 2020 Georg Ehrke
+ *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @license GNU AGPL version 3 or any later version
+ *
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,6 +17,7 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 import { enableBirthdayCalendar } from '../services/caldavService.js'
 import { mapDavCollectionToCalendar } from '../models/calendar'
@@ -242,8 +245,8 @@ const actions = {
 	 * Updates the user's setting for visibility of event popover
 	 *
 	 * @param {object} context The Vuex context
-	 * @param context.state
-	 * @param context.commit
+	 * @param {object} context.state The store state
+	 * @param {object} context.commit The store mutations
 	 * @return {Promise<void>}
 	 */
 	async togglePopoverEnabled({ state, commit }) {
@@ -258,8 +261,8 @@ const actions = {
 	 * Updates the user's setting for visibility of weekends
 	 *
 	 * @param {object} context The Vuex context
-	 * @param context.state
-	 * @param context.commit
+	 * @param {object} context.state The store state
+	 * @param {object} context.commit The store mutations
 	 * @return {Promise<void>}
 	 */
 	async toggleWeekendsEnabled({ state, commit }) {

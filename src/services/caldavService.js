@@ -1,7 +1,9 @@
 /**
  * @copyright Copyright (c) 2020 Georg Ehrke
+ *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @license GNU AGPL version 3 or any later version
+ *
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,6 +17,7 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 import DavClient from 'cdav-library'
 import { generateRemoteUrl } from '@nextcloud/router'
@@ -219,6 +222,20 @@ const principalPropertySearchByDisplaynameOrEmail = async (term) => {
 }
 
 /**
+ * Performs a principal property search based on multiple advanced filters
+ *
+ * @param {object} query The destructuring query object
+ * @param {string=} query.displayName The display name to search for
+ * @param {number=} query.capacity The minimum required seating capacity
+ * @param {string[]=} query.features The features to filter by
+ * @param {string=} query.roomType The room type to filter by
+ * @return {Promise<Principal[]>}
+ */
+const advancedPrincipalPropertySearch = async (query) => {
+	return getClient().advancedPrincipalPropertySearch(query)
+}
+
+/**
  * Finds one principal by it's URL
  *
  * @param {string} url The principal-url
@@ -242,5 +259,6 @@ export {
 	getBirthdayCalendar,
 	getCurrentUserPrincipal,
 	principalPropertySearchByDisplaynameOrEmail,
+	advancedPrincipalPropertySearch,
 	findPrincipalByUrl,
 }

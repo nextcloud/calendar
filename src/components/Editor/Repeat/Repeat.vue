@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -21,60 +22,79 @@
   -->
 
 <template>
-	<div>
-		<RepeatFreqInterval
-			v-if="!isRecurrenceException && !isReadOnly"
-			:frequency="recurrenceRule.frequency"
-			:interval="recurrenceRule.interval"
-			@changeInterval="changeInterval"
-			@changeFrequency="changeFrequency" />
-		<RepeatFreqWeeklyOptions
-			v-if="isFreqWeekly && !isRecurrenceException && !isReadOnly"
-			:by-day="recurrenceRule.byDay"
-			@addByDay="addByDay"
-			@removeByDay="removeByDay" />
-		<RepeatFreqMonthlyOptions
-			v-if="isFreqMonthly && !isRecurrenceException && !isReadOnly"
-			:by-day="recurrenceRule.byDay"
-			:by-month-day="recurrenceRule.byMonthDay"
-			:by-set-position="recurrenceRule.bySetPosition"
-			@addByMonthDay="addByMonthDay"
-			@removeByMonthDay="removeByMonthDay"
-			@changeByDay="setByDay"
-			@changeBySetPosition="setBySetPosition"
-			@changeToBySetPosition="changeToBySetPositionMonthly"
-			@changeToByDay="changeToByDayMonthly" />
-		<RepeatFreqYearlyOptions
-			v-if="isFreqYearly && !isRecurrenceException && !isReadOnly"
-			:by-day="recurrenceRule.byDay"
-			:by-month="recurrenceRule.byMonth"
-			:by-set-position="recurrenceRule.bySetPosition"
-			@changeByDay="setByDay"
-			@changeBySetPosition="setBySetPosition"
-			@addByMonth="addByMonth"
-			@removeByMonth="removeByMonth"
-			@enableBySetPosition="enableBySetPositionYearly"
-			@disableBySetPosition="disableBySetPositionYearly" />
-		<RepeatEndRepeat
-			v-if="isRepeating && !isRecurrenceException && !isReadOnly"
-			:calendar-object-instance="calendarObjectInstance"
-			:until="recurrenceRule.until"
-			:count="recurrenceRule.count"
-			@setInfinite="setInfinite"
-			@setUntil="setUntil"
-			@setCount="setCount"
-			@changeToCount="changeToCount"
-			@changeToUntil="changeToUntil" />
-		<RepeatSummary
-			v-if="!isReadOnly"
-			:recurrence-rule="recurrenceRule" />
-		<RepeatSummaryReadOnly
-			v-if="isReadOnly"
-			:recurrence-rule="recurrenceRule" />
-		<RepeatUnsupportedWarning
-			v-if="recurrenceRule.isUnsupported && !isRecurrenceException" />
-		<RepeatExceptionWarning
-			v-if="isRecurrenceException" />
+	<div class="property-repeat">
+		<div class="property-repeat__summary">
+			<RepeatIcon
+				class="property-repeat__summary__icon"
+				:title="$t('calendar', 'Repeat')"
+				:size="20" />
+			<RepeatSummary
+				class="property-repeat__summary__content"
+				:recurrence-rule="recurrenceRule" />
+			<Actions v-if="!isReadOnly">
+				<ActionButton @click="toggleOptions">
+					<template #icon>
+						<component
+							:is="toggleIcon"
+							:size="20"
+							decorative />
+					</template>
+					{{ toggleTitle }}
+				</ActionButton>
+			</Actions>
+		</div>
+
+		<div
+			v-if="showOptions"
+			class="property-repeat__options">
+			<RepeatFreqInterval
+				v-if="!isRecurrenceException && !isReadOnly"
+				:frequency="recurrenceRule.frequency"
+				:interval="recurrenceRule.interval"
+				@change-interval="changeInterval"
+				@change-frequency="changeFrequency" />
+			<RepeatFreqWeeklyOptions
+				v-if="isFreqWeekly && !isRecurrenceException && !isReadOnly"
+				:by-day="recurrenceRule.byDay"
+				@add-by-day="addByDay"
+				@remove-by-day="removeByDay" />
+			<RepeatFreqMonthlyOptions
+				v-if="isFreqMonthly && !isRecurrenceException && !isReadOnly"
+				:by-day="recurrenceRule.byDay"
+				:by-month-day="recurrenceRule.byMonthDay"
+				:by-set-position="recurrenceRule.bySetPosition"
+				@add-by-month-day="addByMonthDay"
+				@remove-by-month-day="removeByMonthDay"
+				@change-by-day="setByDay"
+				@change-by-set-position="setBySetPosition"
+				@change-to-by-set-position="changeToBySetPositionMonthly"
+				@change-to-by-day="changeToByDayMonthly" />
+			<RepeatFreqYearlyOptions
+				v-if="isFreqYearly && !isRecurrenceException && !isReadOnly"
+				:by-day="recurrenceRule.byDay"
+				:by-month="recurrenceRule.byMonth"
+				:by-set-position="recurrenceRule.bySetPosition"
+				@change-by-day="setByDay"
+				@change-by-set-position="setBySetPosition"
+				@add-by-month="addByMonth"
+				@remove-by-month="removeByMonth"
+				@enable-by-set-position="enableBySetPositionYearly"
+				@disable-by-set-position="disableBySetPositionYearly" />
+			<RepeatEndRepeat
+				v-if="isRepeating && !isRecurrenceException && !isReadOnly"
+				:calendar-object-instance="calendarObjectInstance"
+				:until="recurrenceRule.until"
+				:count="recurrenceRule.count"
+				@set-infinite="setInfinite"
+				@set-until="setUntil"
+				@set-count="setCount"
+				@change-to-count="changeToCount"
+				@change-to-until="changeToUntil" />
+			<RepeatUnsupportedWarning
+				v-if="recurrenceRule.isUnsupported && !isRecurrenceException" />
+			<RepeatExceptionWarning
+				v-if="isRecurrenceException" />
+		</div>
 	</div>
 </template>
 
@@ -87,13 +107,16 @@ import RepeatFreqInterval from './RepeatFreqInterval.vue'
 import RepeatUnsupportedWarning from './RepeatUnsupportedWarning.vue'
 import RepeatExceptionWarning from './RepeatExceptionWarning.vue'
 import RepeatSummary from './RepeatSummary.vue'
-import RepeatSummaryReadOnly from './RepeatSummaryReadOnly.vue'
+import RepeatIcon from 'vue-material-design-icons/Repeat.vue'
+import Pencil from 'vue-material-design-icons/Pencil.vue'
+import Check from 'vue-material-design-icons/Check.vue'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 
 export default {
 	name: 'Repeat',
 	components: {
 		RepeatSummary,
-		RepeatSummaryReadOnly,
 		RepeatExceptionWarning,
 		RepeatFreqInterval,
 		RepeatFreqYearlyOptions,
@@ -101,6 +124,11 @@ export default {
 		RepeatFreqWeeklyOptions,
 		RepeatEndRepeat,
 		RepeatUnsupportedWarning,
+		RepeatIcon,
+		Pencil,
+		Check,
+		Actions,
+		ActionButton,
 	},
 	props: {
 		/**
@@ -142,6 +170,11 @@ export default {
 			required: true,
 		},
 	},
+	data() {
+		return {
+			showOptions: false,
+		}
+	},
 	computed: {
 		/**
 		 * Whether or not this event is recurring
@@ -174,6 +207,28 @@ export default {
 		 */
 		isFreqYearly() {
 			return this.recurrenceRule.frequency === 'YEARLY'
+		},
+		/**
+		 * The name of the icon for the toggle options button
+		 *
+		 * @return {string}
+		 */
+		toggleIcon() {
+			if (this.showOptions) {
+				return 'Check'
+			}
+			return 'Pencil'
+		},
+		/**
+		 * The text of the toggle options button
+		 *
+		 * @return {string}
+		 */
+		toggleTitle() {
+			if (this.showOptions) {
+				return this.t('calendar', 'Save')
+			}
+			return this.t('calendar', 'Edit')
 		},
 	},
 	methods: {
@@ -421,8 +476,14 @@ export default {
 			}
 
 			if (!this.isEditingMasterItem) {
-				this.$emit('forceThisAndAllFuture')
+				this.$emit('force-this-and-all-future')
 			}
+		},
+		/**
+		 * Toggle visibility of the options
+		 */
+		toggleOptions() {
+			this.showOptions = !this.showOptions
 		},
 	},
 }

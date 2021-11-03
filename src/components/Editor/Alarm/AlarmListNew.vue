@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -21,19 +22,16 @@
   -->
 
 <template>
-	<Multiselect
+	<PropertySelect
+		:prop-model="propModel"
+		:is-read-only="false"
+		:value="null"
+		:show-icon="showIcon"
 		class="property-alarm-new"
-		track-by="value"
-		label="label"
-		open-direction="bottom"
-		:placeholder="$t('calendar', '+ Add reminder')"
-		:options="options"
-		:searchable="false"
-		@select="addReminderFromSelect" />
+		@update:value="addReminderFromSelect" />
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import { mapState } from 'vuex'
 import { getDefaultAlarms } from '../../../defaults/defaultAlarmProvider.js'
 import {
@@ -41,14 +39,19 @@ import {
 	getAmountHoursMinutesAndUnitForAllDayEvents,
 } from '../../../utils/alarms.js'
 import alarmFormat from '../../../filters/alarmFormat.js'
+import PropertySelect from '../Properties/PropertySelect'
 
 export default {
 	name: 'AlarmListNew',
 	components: {
-		Multiselect,
+		PropertySelect,
 	},
 	props: {
 		isAllDay: {
+			type: Boolean,
+			required: true,
+		},
+		showIcon: {
 			type: Boolean,
 			required: true,
 		},
@@ -70,16 +73,23 @@ export default {
 				}
 			})
 		},
+		propModel() {
+			return {
+				options: this.options,
+				icon: 'Bell',
+				placeholder: this.$t('calendar', '+ Add reminder'),
+				readableName: this.$t('calendar', 'Add reminder'),
+			}
+		},
 	},
 	methods: {
 		/**
 		 * This emits the add alarm event
 		 *
-		 * @param root0
-		 * @param root0.value
+		 * @param {object} value The alarm value
 		 */
-		addReminderFromSelect({ value }) {
-			this.$emit('addAlarm', value)
+		addReminderFromSelect(value) {
+			this.$emit('add-alarm', value)
 		},
 		/**
 		 *

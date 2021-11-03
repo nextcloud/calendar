@@ -32,18 +32,20 @@
 				:timezone-id="startTimezone"
 				prefix="from"
 				:is-all-day="isAllDay"
+				:append-to-body="appendToBody"
 				:user-timezone-id="userTimezone"
 				@change="changeStart"
-				@changeTimezone="changeStartTimezone" />
+				@change-timezone="changeStartTimezone" />
 
 			<DatePicker
 				:date="endDate"
 				:timezone-id="endTimezone"
 				prefix="to"
 				:is-all-day="isAllDay"
+				:append-to-body="appendToBody"
 				:user-timezone-id="userTimezone"
 				@change="changeEnd"
-				@changeTimezone="changeEndTimezone" />
+				@change-timezone="changeEndTimezone" />
 		</div>
 		<div
 			v-if="isReadOnly"
@@ -156,6 +158,15 @@ export default {
 			type: String,
 			required: true,
 		},
+		/**
+		 * Whether to append the datepickers to body or not.
+		 * Necessary in the AppSidebar, otherwise it will be cut off be the
+		 * AppSidebar edges.
+		 */
+		appendToBody: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
@@ -237,7 +248,7 @@ export default {
 		 * @param {Date} value The new start date
 		 */
 		changeStart(value) {
-			this.$emit('updateStartDate', value)
+			this.$emit('update-start-date', value)
 		},
 		/**
 		 * Updates the timezone of the start date
@@ -250,7 +261,7 @@ export default {
 				return
 			}
 
-			this.$emit('updateStartTimezone', value)
+			this.$emit('update-start-timezone', value)
 		},
 		/**
 		 * Update the end date
@@ -258,7 +269,7 @@ export default {
 		 * @param {Date} value The new end date
 		 */
 		changeEnd(value) {
-			this.$emit('updateEndDate', value)
+			this.$emit('update-end-date', value)
 		},
 		/**
 		 * Updates the timezone of the end date
@@ -271,7 +282,7 @@ export default {
 				return
 			}
 
-			this.$emit('updateEndTimezone', value)
+			this.$emit('update-end-timezone', value)
 		},
 		/**
 		 * Toggles the all-day state of an event
@@ -281,7 +292,7 @@ export default {
 				return
 			}
 
-			this.$emit('toggleAllDay')
+			this.$emit('toggle-all-day')
 		},
 	},
 }

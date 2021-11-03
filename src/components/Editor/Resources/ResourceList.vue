@@ -25,7 +25,8 @@
 		<ResourceListSearch
 			v-if="!isReadOnly && hasUserEmailAddress"
 			:already-invited-emails="alreadyInvitedEmails"
-			@addResource="addResource" />
+			:calendar-object-instance="calendarObjectInstance"
+			@add-resource="addResource" />
 
 		<ResourceListItem
 			v-for="resource in resources"
@@ -33,14 +34,22 @@
 			:resource="resource"
 			:is-read-only="isReadOnly"
 			:organizer-display-name="organizerDisplayName"
-			@removeResource="removeResource" />
+			@remove-resource="removeResource" />
 
 		<NoAttendeesView
 			v-if="isReadOnly && isListEmpty"
-			:message="noResourcesMessage" />
+			:message="noResourcesMessage">
+			<template #icon>
+				<MapMarker :size="50" decorative />
+			</template>
+		</NoAttendeesView>
 		<NoAttendeesView
 			v-if="!isReadOnly && isListEmpty && hasUserEmailAddress"
-			:message="noResourcesMessage" />
+			:message="noResourcesMessage">
+			<template #icon>
+				<MapMarker :size="50" decorative />
+			</template>
+		</NoAttendeesView>
 		<OrganizerNoEmailError
 			v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
 	</div>
@@ -53,6 +62,8 @@ import ResourceListItem from './ResourceListItem'
 import OrganizerNoEmailError from '../OrganizerNoEmailError'
 import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee'
 
+import MapMarker from 'vue-material-design-icons/MapMarker.vue'
+
 export default {
 	name: 'ResourceList',
 	components: {
@@ -60,6 +71,7 @@ export default {
 		NoAttendeesView,
 		ResourceListSearch,
 		OrganizerNoEmailError,
+		MapMarker,
 	},
 	props: {
 		isReadOnly: {
@@ -95,7 +107,7 @@ export default {
 		},
 	},
 	methods: {
-		addResource({ commonName, email, calendarUserType, language, timezoneId }) {
+		addResource({ commonName, email, calendarUserType, language, timezoneId, roomAddress }) {
 			this.$store.commit('addAttendee', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				commonName,
@@ -108,11 +120,32 @@ export default {
 				timezoneId,
 				organizer: this.$store.getters.getCurrentUserPrincipal,
 			})
+			this.updateLocation(roomAddress)
 		},
 		removeResource(resource) {
 			this.$store.commit('removeAttendee', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				attendee: resource,
+			})
+		},
+		/**
+		 * Apply the location of the first resource to the event.
+		 * Has no effect if the location is already set or there are multiple resource.
+		 *
+		 * @param {string} location The location to apply
+		 */
+		updateLocation(location) {
+			if (this.calendarObjectInstance.location || this.calendarObjectInstance.eventComponent.location) {
+				return
+			}
+
+			if (this.resources.length !== 1) {
+				return
+			}
+
+			this.$store.commit('changeLocation', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				location,
 			})
 		},
 	},

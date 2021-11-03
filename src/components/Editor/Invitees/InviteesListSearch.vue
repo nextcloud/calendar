@@ -23,7 +23,7 @@
 
 <template>
 	<Multiselect
-		class="invitees-search"
+		class="invitees-search__multiselect"
 		:options="matches"
 		:searchable="true"
 		:internal-search="false"
@@ -33,15 +33,25 @@
 		:placeholder="placeholder"
 		:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
 		open-direction="bottom"
-		track-by="email"
+		track-by="uid"
 		label="dropdownName"
 		@search-change="findAttendees"
 		@select="addAttendee">
 		<template #option="{ option }">
 			<div class="invitees-search-list-item">
-				<Avatar v-if="option.isUser" :user="option.avatar" :display-name="option.dropdownName" />
-				<Avatar v-if="!option.isUser" :url="option.avatar" :display-name="option.dropdownName" />
-				<div class="invitees-search-list-item__label invitees-search-list-item__label--with-multiple-email">
+				<!-- We need to specify a unique key here for the avatar to be reactive. -->
+				<Avatar
+					v-if="option.isUser"
+					:key="option.uid"
+					:user="option.avatar"
+					:display-name="option.dropdownName" />
+				<Avatar
+					v-else
+					:key="option.uid"
+					:url="option.avatar"
+					:display-name="option.dropdownName" />
+
+				<div class="invitees-search-list-item__label">
 					<div>
 						{{ option.dropdownName }}
 					</div>
@@ -124,6 +134,11 @@ export default {
 					}
 				}
 
+				// Generate a unique id for every result to make the avatar components reactive
+				for (const match of matches) {
+					match.uid = Math.random().toString(16).slice(2)
+				}
+
 				this.isLoading = false
 				this.inputGiven = true
 			} else {
@@ -134,7 +149,7 @@ export default {
 			this.matches = matches
 		}, 500),
 		addAttendee(selectedValue) {
-			this.$emit('addAttendee', selectedValue)
+			this.$emit('add-attendee', selectedValue)
 		},
 		async findAttendeesFromContactsAPI(query) {
 			let response
@@ -216,7 +231,7 @@ export default {
 					commonName: principal.displayname,
 					calendarUserType: principal.calendarUserType,
 					email: principal.email,
-					lang: null,
+					language: principal.language,
 					isUser: principal.calendarUserType === 'INDIVIDUAL',
 					avatar: principal.userId,
 					hasMultipleEMails: false,

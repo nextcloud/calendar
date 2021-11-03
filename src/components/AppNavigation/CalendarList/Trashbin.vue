@@ -22,62 +22,90 @@
 <template>
 	<AppNavigationItem :title="t('calendar', 'Trash bin')"
 		:pinned="true"
-		icon="icon-delete"
 		@click.prevent="onShow">
+		<template #icon>
+			<Delete :size="20" decorative />
+		</template>
 		<template #extra>
 			<Modal v-if="showModal"
 				@close="showModal = false">
 				<div class="modal__content">
 					<h2>{{ t('calendar', 'Trash bin') }}</h2>
-					<span v-if="!items.length">{{ t('calendar', 'You do not have any deleted calendars or events') }}</span>
-					<table v-else>
-						<tr>
-							<th class="name">
-								{{ t('calendar', 'Name') }}
-							</th>
-							<th class="deletedAt">
-								{{ t('calendar', 'Deleted') }}
-							</th>
-							<th>&nbsp;</th>
-						</tr>
-						<tr v-for="item in items" :key="item.url">
-							<td>
-								<div class="item">
-									<div>
-										<div
-											class="color-dot"
-											:style="{ 'background-color': item.color }" />
-									</div>
+					<EmptyContent
+						v-if="loading"
+						icon="icon-loading"
+						class="modal__content__loading">
+						<template #desc>
+							{{ t('calendar', 'Loading deleted elements.') }}
+						</template>
+					</EmptyContent>
+					<EmptyContent
+						v-else-if="!items.length"
+						class="modal__content__empty">
+						<template #icon>
+							<Delete :size="20" decorative />
+						</template>
+						<template #desc>
+							{{ t('calendar', 'You do not have any deleted elements.') }}
+						</template>
+					</EmptyContent>
+					<template v-else>
+						<table>
+							<tr>
+								<th class="name">
+									{{ t('calendar', 'Name') }}
+								</th>
+								<th class="deletedAt">
+									{{ t('calendar', 'Deleted') }}
+								</th>
+								<th>&nbsp;</th>
+							</tr>
+							<tr v-for="item in items" :key="item.url">
+								<td>
+									<div class="item">
+										<div>
+											<div
+												class="color-dot"
+												:style="{ 'background-color': item.color }" />
+										</div>
 
-									<div>
-										<div>{{ item.name }}</div>
-										<div v-if="item.subline" class="item-subline">
-											{{ item.subline }}
+										<div>
+											<div>{{ item.name }}</div>
+											<div v-if="item.subline" class="item-subline">
+												{{ item.subline }}
+											</div>
 										</div>
 									</div>
-								</div>
-							</td>
-							<td class="deletedAt">
-								<Moment class="timestamp" :timestamp="item.deletedAt" />
-							</td>
-							<td>
-								<button @click="restore(item)">
-									{{ t('calendar','Restore') }}
-								</button>
+								</td>
+								<td class="deletedAt">
+									<Moment class="timestamp" :timestamp="item.deletedAt" />
+								</td>
+								<td>
+									<button @click="restore(item)">
+										{{ t('calendar','Restore') }}
+									</button>
 
-								<Actions :force-menu="true">
-									<ActionButton
-										icon="icon-delete"
-										@click="onDeletePermanently(item)">
-										{{ t('calendar','Delete permanently') }}
-									</ActionButton>
-								</Actions>
-							</td>
-						</tr>
-					</table>
-					<p v-if="retentionDuration" class="footer">
-						{{ n('calendar', 'Elements in the trash bin are deleted after {numDays} day', 'Elements in the trash bin are deleted after {numDays} days', retentionDuration, { numDays: retentionDuration }) }}
-					</p>
+									<Actions :force-menu="true">
+										<ActionButton
+											@click="onDeletePermanently(item)">
+											<template #icon>
+												<Delete :size="20" decorative />
+											</template>
+											{{ t('calendar','Delete permanently') }}
+										</ActionButton>
+									</Actions>
+								</td>
+							</tr>
+						</table>
+						<div class="footer">
+							<p v-if="retentionDuration">
+								{{ n('calendar', 'Elements in the trash bin are deleted after {numDays} day', 'Elements in the trash bin are deleted after {numDays} days', retentionDuration, { numDays: retentionDuration }) }}
+							</p>
+							<button @click="onEmptyTrashBin()">
+								{{ t('calendar','Empty trash bin') }}
+							</button>
+						</div>
+					</template>
 				</div>
 			</Modal>
 		</template>
@@ -89,6 +117,7 @@ import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
+import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import moment from '@nextcloud/moment'
 import logger from '../../../utils/logger'
 import { showError } from '@nextcloud/dialogs'
@@ -96,18 +125,23 @@ import { mapGetters } from 'vuex'
 import Moment from './Moment'
 import { uidToHexColor } from '../../../utils/color'
 
+import Delete from 'vue-material-design-icons/Delete.vue'
+
 export default {
 	name: 'Trashbin',
 	components: {
 		AppNavigationItem,
+		EmptyContent,
 		Modal,
 		Moment,
 		Actions,
 		ActionButton,
+		Delete,
 	},
 	data() {
 		return {
 			showModal: false,
+			loading: true,
 		}
 	},
 	computed: {
@@ -173,6 +207,7 @@ export default {
 		async onShow() {
 			this.showModal = true
 
+			this.loading = true
 			try {
 				await Promise.all([
 					this.$store.dispatch('loadDeletedCalendars'),
@@ -190,6 +225,7 @@ export default {
 
 				showError(t('calendar', 'Could not load deleted calendars and objects'))
 			}
+			this.loading = false
 		},
 		async onDeletePermanently(item) {
 			logger.debug('deleting ' + item.url + ' permanently', item)
@@ -226,6 +262,23 @@ export default {
 				showError(t('calendar', 'Could not restore calendar or event'))
 			}
 		},
+		onEmptyTrashBin() {
+			OC.dialogs.confirm(
+				t('calendar', 'Do you really want to empty the trash bin?'),
+				t('calendar', 'Empty trash bin'),
+				this.emptyTrashBin,
+				true
+			)
+		},
+
+		emptyTrashBin(confirm) {
+			if (!confirm) {
+				return
+			}
+			this.items.forEach((item) => {
+				this.onDeletePermanently(item)
+			})
+		},
 	},
 }
 </script>
@@ -234,6 +287,11 @@ export default {
 .modal__content {
 	max-width: 40vw;
 	margin: 2vw;
+
+	&__loading,
+	&__empty {
+		margin-top: 25px !important;
+	}
 }
 
 ::v-deep .modal-wrapper .modal-container {
@@ -275,6 +333,9 @@ th {
 	text-align: center;
 	font-size: small;
 	margin-top: 16px;
+	& > p {
+		margin-bottom: 12px;
+	}
 }
 
 .color-dot {

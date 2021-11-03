@@ -1,9 +1,13 @@
 /**
  * @copyright Copyright (c) 2019 Team Popcorn <teampopcornberlin@gmail.com>
+ *
  * @copyright Copyright (c) 2020 Georg Ehrke
+ *
  * @author Team Popcorn <teampopcornberlin@gmail.com>
+ *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @license GNU AGPL version 3 or any later version
+ *
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -17,6 +21,7 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 import { IMPORT_STAGE_DEFAULT } from '../models/consts.js'
 

@@ -1,7 +1,9 @@
 /**
  * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
+ *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
- * @license GNU AGPL version 3 or any later version
+ *
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,6 +17,7 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 import md5 from 'md5'
 
@@ -36,10 +39,12 @@ export const uidToColor = (uid) => {
 	const steps = 6
 	const finalPalette = GenColors(steps)
 
-	// Convert a string to an integer evenly
 	/**
-	 * @param hash
-	 * @param maximum
+	 * Convert a string to an integer evenly
+	 *
+	 * @param {string} hash The string to convert
+	 * @param {number} maximum The maximum value
+	 * @return {number} The integer calculated
 	 */
 	function hashToInt(hash, maximum) {
 		let finalInt = 0
@@ -64,9 +69,11 @@ export const uidToColor = (uid) => {
 }
 
 /**
- * @param r
- * @param g
- * @param b
+ * Color object
+ *
+ * @param {number} r The red value
+ * @param {number} g The green value
+ * @param {number} b The blue value
  */
 function Color(r, g, b) {
 	this.r = r
@@ -75,8 +82,11 @@ function Color(r, g, b) {
 }
 
 /**
- * @param steps
- * @param ends
+ * Calculate the number of steps
+ *
+ * @param {number} steps The number of steps
+ * @param {Array} ends The ends
+ * @return {Array} Array containing the number of steps per color
  */
 function stepCalc(steps, ends) {
 	const step = new Array(3)
@@ -87,9 +97,12 @@ function stepCalc(steps, ends) {
 }
 
 /**
- * @param steps
- * @param color1
- * @param color2
+ * Create a color palette from two colors
+ *
+ * @param {number} steps The number of steps the palette has
+ * @param {string} color1 The first color
+ * @param {string} color2 The second color
+ * @return {Array} The created palette array
  */
 function mixPalette(steps, color1, color2) {
 	const palette = []

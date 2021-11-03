@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -22,10 +23,12 @@
 
 <template>
 	<div v-if="display" class="property-text">
-		<div
+		<component
+			:is="icon"
+			:size="20"
+			:title="readableName"
 			class="property-text__icon"
-			:class="icon"
-			:title="readableName" />
+			:class="{ 'property-text__icon--hidden': !showIcon }" />
 
 		<div
 			class="property-text__input"
@@ -41,26 +44,33 @@
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div
 				v-else
-				v-linkify="value" />
+				v-linkify="{ text: value, linkify: true }" />
 		</div>
 
 		<div
 			v-if="hasInfo"
 			v-tooltip="info"
-			class="property-text__info icon-details" />
+			class="property-select__info">
+			<InformationVariant
+				:size="20"
+				decorative />
+		</div>
 	</div>
 </template>
 
 <script>
 import autosize from '../../../directives/autosize.js'
 import PropertyMixin from '../../../mixins/PropertyMixin'
-import { linkify } from '../../../directives/linkify.js'
+import linkify from '@nextcloud/vue/dist/Directives/Linkify'
+
+import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
 
 export default {
 	name: 'PropertyText',
 	directives: {
 		autosize,
 		linkify,
+		InformationVariant,
 	},
 	mixins: [
 		PropertyMixin,

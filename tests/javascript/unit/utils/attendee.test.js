@@ -20,13 +20,24 @@
  *
  */
 
-import { organizerDisplayName, removeMailtoPrefix } from '../../../../src/utils/attendee'
+import {
+	addMailtoPrefix,
+	organizerDisplayName,
+	removeMailtoPrefix,
+} from '../../../../src/utils/attendee'
 
 describe('utils/attendee test suite', () => {
 	it('should remove mailto prefixes from uris', () => {
 		const uri = 'principal@test.com'
 		expect(removeMailtoPrefix(uri)).toEqual(uri)
 		expect(removeMailtoPrefix(`mailto:${uri}`)).toEqual(uri)
+	})
+
+	it('should add mailto prefixes to uris', () => {
+		const uri = 'principal@test.com'
+		const uriWithPrefix = `mailto:${uri}`
+		expect(addMailtoPrefix(uri)).toEqual(uriWithPrefix)
+		expect(addMailtoPrefix(uriWithPrefix)).toEqual(uriWithPrefix)
 	})
 
 	it('should extract a display name of an organizer', () => {

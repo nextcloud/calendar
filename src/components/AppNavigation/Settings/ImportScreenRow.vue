@@ -28,7 +28,7 @@
 		<CalendarPicker class="import-modal-file-item__calendar-select"
 			:calendar="calendar"
 			:calendars="calendars"
-			@selectCalendar="selectCalendar" />
+			@select-calendar="selectCalendar" />
 	</li>
 </template>
 

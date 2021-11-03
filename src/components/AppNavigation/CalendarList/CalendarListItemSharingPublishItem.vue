@@ -24,18 +24,26 @@
 		:title="$t('calendar', 'Share link')"
 		:menu-open.sync="menuOpen">
 		<template slot="icon">
-			<div :class="{published: isPublished, 'icon-public': !isPublished, 'icon-public-white': isPublished}" class="avatar" />
+			<LinkVariant
+				:class="{published: isPublished}"
+				:size="18"
+				decorative
+				class="avatar" />
 		</template>
 
 		<template v-if="!isPublished" slot="actions">
 			<ActionButton
 				v-if="!publishingCalendar"
-				icon="icon-add"
+				key="publish"
 				@click.prevent.stop="publishCalendar">
+				<template #icon>
+					<Plus :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Publish calendar') }}
 			</ActionButton>
 			<ActionButton
-				v-if="publishingCalendar"
+				v-else
+				key="publishing"
 				icon="icon-loading-small"
 				:disabled="true">
 				{{ $t('calendar', 'Publishing calendar') }}
@@ -45,8 +53,10 @@
 		<template v-if="isPublished" slot="counter">
 			<Actions>
 				<ActionButton
-					icon="icon-clippy"
 					@click.prevent.stop="copyPublicLink">
+					<template #icon>
+						<ClipboardArrowLeftOutline :size="20" decorative />
+					</template>
 					{{ $t('calendar', 'Copy public link') }}
 				</ActionButton>
 			</Actions>
@@ -54,14 +64,18 @@
 		<template v-if="isPublished" slot="actions">
 			<ActionButton
 				v-if="showEMailLabel"
-				icon="icon-mail"
 				@click.prevent.stop="openEMailLinkInput">
+				<template #icon>
+					<Email :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Send link to calendar via email') }}
 			</ActionButton>
 			<ActionInput
 				v-if="showEMailInput"
-				icon="icon-mail"
 				@submit.prevent.stop="sendLinkViaEMail">
+				<template #icon>
+					<Email :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Enter one address') }}
 			</ActionInput>
 			<ActionText
@@ -73,8 +87,10 @@
 
 			<ActionButton
 				v-if="showCopySubscriptionLinkLabel"
-				icon="icon-calendar-dark"
 				@click.prevent.stop="copySubscriptionLink">
+				<template #icon>
+					<CalendarBlank :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Copy subscription link') }}
 			</ActionButton>
 			<ActionText
@@ -86,18 +102,25 @@
 			<ActionText
 				v-if="showCopySubscriptionLinkSuccess"
 				icon="icon-calendar-dark">
+				<template #icon>
+					<CalendarBlank :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Copied link') }}
 			</ActionText>
 			<ActionText
-				v-if="showCopySubscriptionLinkError"
-				icon="icon-calendar-dark">
+				v-if="showCopySubscriptionLinkError">
+				<template #icon>
+					<CalendarBlank :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Could not copy link') }}
 			</ActionText>
 
 			<ActionButton
 				v-if="showCopyEmbedCodeLinkLabel"
-				icon="icon-embed"
 				@click.prevent.stop="copyEmbedCode">
+				<template #icon>
+					<CodeBrackets :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Copy embedding code') }}
 			</ActionButton>
 			<ActionText
@@ -107,20 +130,26 @@
 				{{ $t('calendar', 'Copying code …') }}
 			</ActionText>
 			<ActionText
-				v-if="showCopyEmbedCodeLinkSuccess"
-				icon="icon-embed">
+				v-if="showCopyEmbedCodeLinkSuccess">
+				<template #icon>
+					<CodeBrackets :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Copied code') }}
 			</ActionText>
 			<ActionText
-				v-if="showCopyEmbedCodeLinkError"
-				icon="icon-embed">
+				v-if="showCopyEmbedCodeLinkError">
+				<template #icon>
+					<CodeBrackets :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Could not copy code') }}
 			</ActionText>
 
 			<ActionButton
 				v-if="!unpublishingCalendar"
-				icon="icon-delete"
 				@click.prevent.stop="unpublishCalendar">
+				<template #icon>
+					<Delete :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'Delete share link') }}
 			</ActionButton>
 			<ActionText
@@ -151,6 +180,14 @@ import {
 } from '@nextcloud/dialogs'
 import HttpClient from '@nextcloud/axios'
 
+import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
+import ClipboardArrowLeftOutline from 'vue-material-design-icons/ClipboardArrowLeftOutline.vue'
+import CodeBrackets from 'vue-material-design-icons/CodeBrackets.vue'
+import Delete from 'vue-material-design-icons/Delete.vue'
+import Email from 'vue-material-design-icons/Email.vue'
+import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'
+import Plus from 'vue-material-design-icons/Plus.vue'
+
 export default {
 	name: 'CalendarListItemSharingPublishItem',
 	components: {
@@ -159,6 +196,13 @@ export default {
 		ActionInput,
 		ActionText,
 		AppNavigationItem,
+		CalendarBlank,
+		ClipboardArrowLeftOutline,
+		CodeBrackets,
+		Delete,
+		Email,
+		LinkVariant,
+		Plus,
 	},
 	directives: {
 		ClickOutside,

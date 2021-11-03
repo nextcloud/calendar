@@ -4,6 +4,7 @@
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Georg Ehrke
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -47,8 +48,7 @@
 
 	.editor-invitee-list-empty-message,
 	.editor-reminders-list-empty-message,
-	.editor-invitee-list-no-email-configured-message,
-	.repeat-option-set-summary-read-only {
+	.editor-invitee-list-no-email-configured-message {
 		margin-top: 20px;
 
 		&__icon {
@@ -219,33 +219,13 @@
 			}
 		}
 
-		&--summary {
-			display: flex;
-			justify-content: space-between;
-			line-height: 34px;
-		}
-
 		&__label {
 			margin-right: auto;
 		}
 	}
 
 	.repeat-option-warning {
-		display: flex;
-		align-items: center;
-		margin-top: 20px;
-
-		&__icon {
-			height: 32px;
-			width: 32px;
-			min-width: 32px;
-			min-height: 32px;
-			background-size: 32px;
-		}
-
-		&__info {
-			text-align: center;
-		}
+		text-align: center;
 	}
 
 	.property-title-time-picker {
@@ -335,7 +315,7 @@
 		}
 	}
 
-	.property-alarm-new {
+	.property-alarm-list {
 		width: 100%;
 	}
 
@@ -345,24 +325,28 @@
 		min-height: 44px;
 
 		&__icon {
-			width: 32px;
-			height: 32px;
-			background-color: var(--color-border-dark);
-			border-radius: 50%;
+			align-self: flex-start;
+
+			&--hidden {
+				visibility: hidden;
+			}
 
 			.icon {
-				opacity: .7;
-				height: 32px;
-				width: 32px;
-				background-size: 20px;
+				width: 34px;
+				height: 44px;
+				margin-left: -5px;
+				margin-right: 5px;
+				// TODO: enable me again if the other icons on the details tab have an opacity too
+				// opacity: .7;
 			}
 		}
 
 		&__label {
-			padding: 0 8px;
+			padding: 0 7px;
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
+			align-self: center;
 		}
 
 		&__options {
@@ -373,71 +357,130 @@
 		}
 
 		&__edit {
-			padding: 0 8px;
 			display: flex;
 			align-items: center;
 			width: 100%;
+			min-width: 0;
+			padding-right: 8px;
 
 			input[type=number] {
-				width: 4em;
+				width: 3em;
+			}
+
+			.multiselect {
+				flex: 1 auto;
+				height: 34px;
+				min-width: 0;
+			}
+
+			.mx-datepicker {
+				flex: 1 auto;
 			}
 
 			&--timed {
-				.multiselect {
-					width: 100%;
-				}
 			}
 
 			&--all-day {
-				justify-content: space-between;
+				flex-wrap: wrap;
+				margin-bottom: 5px;
+				gap: 0 5px;
 
-				.multiselect {
-					width: unset !important; // TODO - remove
-					min-width: 8em !important;
+				&__distance,
+				&__time {
+					display: flex;
+					flex: 1;
+					align-items: center;
 				}
 
-				.before-at-label {
-					margin: 0 auto;
+				&__distance {
+					.multiselect {
+						width: 6em;
+					}
 				}
 
-				.mx-datepicker {
-					width: 8em !important;
+				&__time {
+					&__before-at-label {
+						flex: 0 0 auto;
+						margin-right: 5px;
+					}
+
+					.mx-datepicker {
+						width: 7em;
+					}
 				}
 			}
 
 			&--absolute {
 				.mx-datepicker {
-					width: 100% !important;
+					width: unset;
 				}
 			}
 		}
 	}
 
-	.resource-search,
-	.invitees-search {
+	.property-repeat {
+		width: 100%;
+
+		&__summary {
+			display: flex;
+			align-items: center;
+			margin-bottom: 5px;
+
+			&__icon {
+				width: 34px;
+				height: 34px;
+				margin-left: -5px;
+				margin-right: 5px;
+			}
+
+			&__content {
+				flex: 1 auto;
+				padding: 0 7px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+		}
+
+		&__options {
+			margin-bottom: 5px;
+		}
+	}
+
+	.resource-search__multiselect,
+	.invitees-search__multiselect {
 		width: 100%;
 
 		.resource-search-list-item,
 		.invitees-search-list-item {
 			display: flex;
 			align-items: center;
+			width: 100%;
+
+			// Account for avatar width (because it is position: relative)
+			padding-right: 32px;
 
 			&__label {
 				width: 100%;
 				padding: 0 8px;
 
-				&--with-multiple-email,
-				&--single-email {
-					div:nth-child(1) {
-						color: var(--color-main-text)
-					}
+				&__availability {
+					color: var(--color-text-maxcontrast);
 				}
 
-				&--with-multiple-email {
-					div:nth-child(2) {
-						color: var(--color-text-lighter);
-						line-height: 1;
-					}
+				div {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
+
+				div:nth-child(1) {
+					color: var(--color-main-text)
+				}
+
+				div:nth-child(2) {
+					color: var(--color-text-lighter);
+					line-height: 1;
 				}
 			}
 		}
@@ -461,6 +504,17 @@
 			color: var(--color-text-maxcontrast);
 			font-weight: 300;
 			margin-left: 5px;
+		}
+	}
+
+	.resource-search {
+		&__capacity {
+			display: flex;
+			align-items: center;
+
+			&__actions {
+				margin-left: 5px;
+			}
 		}
 	}
 
@@ -502,19 +556,29 @@
 	.property-select,
 	.property-color,
 	.property-select-multiple,
-	.property-title {
+	.property-title,
+	.resource-capacity,
+	.resource-room-type {
 		display: flex;
 		width: 100%;
 		align-items: flex-start;
+		margin-bottom: 5px;
 
 		&__icon,
 		&__info {
 			height: 34px;
 			width: 34px;
-			margin-top: 5px;
+		}
+
+		&__icon {
+			&--hidden {
+				visibility: hidden;
+			}
 		}
 
 		&__info {
+			display: flex;
+			justify-content: center;
 			opacity: .5;
 		}
 
@@ -533,18 +597,27 @@
 			textarea,
 			input,
 			div.multiselect {
-				width: 100%
+				width: 100%;
+			}
+
+			textarea {
+				max-height: calc(100vh - 600px);
+				vertical-align: top;
+				margin: 0;
 			}
 
 			&--readonly {
 				div {
-					width: 100%;
+					width: calc(100% - 8px); /* for typical (thin) scrollbar size */
 					white-space: pre-line;
 					margin: 3px 3px 3px 0;
 					padding: 8px 7px;
 					background-color: var(--color-main-background);
 					color: var(--color-main-text);
 					outline: none;
+					overflow-y: scroll;
+					word-break: break-word; /* allows breaking on long URLs */
+					max-height: 30vh;
 				}
 
 				a.linkified {
@@ -576,6 +649,7 @@
 			border-radius: var(--border-radius);
 			height: 34px !important;
 			width: 34px !important;
+			margin: 0;
 		}
 	}
 
@@ -617,6 +691,10 @@
 		&__input input {
 			font-size: 20px;
 		}
+	}
+
+	.resource-room-type {
+		margin-bottom: 5px;
 	}
 
 	.illustration-header {

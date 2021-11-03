@@ -67,8 +67,10 @@
 				</ActionRadio>
 
 				<ActionButton
-					icon="icon-delete"
 					@click="removeAttendee">
+					<template #icon>
+						<Delete :size="20" decorative />
+					</template>
 					{{ $t('calendar', 'Remove attendee') }}
 				</ActionButton>
 			</Actions>
@@ -84,6 +86,8 @@ import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
 import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
 import { removeMailtoPrefix } from '../../../utils/attendee'
 
+import Delete from 'vue-material-design-icons/Delete.vue'
+
 export default {
 	name: 'InviteesListItem',
 	components: {
@@ -92,6 +96,7 @@ export default {
 		ActionCheckbox,
 		ActionRadio,
 		Actions,
+		Delete,
 	},
 	props: {
 		attendee: {
@@ -167,7 +172,7 @@ export default {
 		 * Removes an attendee from the event
 		 */
 		removeAttendee() {
-			this.$emit('removeAttendee', this.attendee)
+			this.$emit('remove-attendee', this.attendee)
 		},
 	},
 }

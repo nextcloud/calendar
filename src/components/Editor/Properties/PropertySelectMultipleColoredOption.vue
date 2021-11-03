@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -29,6 +30,7 @@
 
 <script>
 import { uidToColor } from '../../../utils/uidToColor.js'
+import logger from '../../../utils/logger'
 
 export default {
 	name: 'PropertySelectMultipleColoredOption',
@@ -40,6 +42,8 @@ export default {
 	},
 	computed: {
 		label() {
+			const option = this.option
+			logger.debug('Option render', { option })
 			if (typeof this.option === 'string') {
 				return this.option
 			}

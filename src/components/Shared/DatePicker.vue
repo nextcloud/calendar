@@ -35,6 +35,7 @@
 		:show-time-panel="showTimePanel"
 		:show-week-number="showWeekNumbers"
 		:use12h="showAmPm"
+		:append-to-body="appendToBody"
 		v-bind="$attrs"
 		v-on="$listeners"
 		@close="close"
@@ -54,10 +55,10 @@
 						{{ $t('calendar', 'Please select a time zone:') }}
 					</strong>
 				</div>
-				<TimezoneSelect
+				<TimezonePicker
 					class="timezone-popover-wrapper__timezone-select"
 					:value="timezoneId"
-					@change="changeTimezone" />
+					@input="changeTimezone" />
 			</Popover>
 		</template>
 		<template
@@ -91,7 +92,7 @@ import {
 	showError,
 } from '@nextcloud/dialogs'
 
-import TimezoneSelect from './TimezoneSelect'
+import TimezonePicker from '@nextcloud/vue/dist/Components/TimezonePicker'
 import { getLangConfigForVue2DatePicker } from '../../utils/localization.js'
 
 export default {
@@ -99,7 +100,7 @@ export default {
 	components: {
 		DatetimePicker,
 		Popover,
-		TimezoneSelect,
+		TimezonePicker,
 	},
 	props: {
 		date: {
@@ -129,6 +130,10 @@ export default {
 		max: {
 			type: Date,
 			default: null,
+		},
+		appendToBody: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	data() {
@@ -237,7 +242,7 @@ export default {
 		 * @param {string} timezoneId The new timezoneId
 		 */
 		changeTimezone(timezoneId) {
-			this.$emit('changeTimezone', timezoneId)
+			this.$emit('change-timezone', timezoneId)
 		},
 		/**
 		 * Toggles the visibility of the timezone popover

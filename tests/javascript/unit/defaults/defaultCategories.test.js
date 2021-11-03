@@ -34,7 +34,7 @@ describe('defaults/defaultCategories test suite', () => {
 		translate
 			.mockImplementation((app, str) => str)
 
-		expect(defaultCategories()).toEqual([
+		const categories = [
 			'Anniversary',
 			'Appointment',
 			'Business',
@@ -50,7 +50,12 @@ describe('defaults/defaultCategories test suite', () => {
 			'Special occasion',
 			'Travel',
 			'Vacation',
-		])
+		]
+
+		expect(defaultCategories()).toEqual(categories.map(category => ({
+			value: category,
+			label: category,
+		})))
 
 		expect(translate).toHaveBeenCalledTimes(15)
 		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'Anniversary')

@@ -1,7 +1,9 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
+ *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @license GNU AGPL version 3 or any later version
+ *
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,6 +17,7 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 import { imagePath } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
@@ -23,7 +26,7 @@ import { translate as t } from '@nextcloud/l10n'
  * Get an illustration for a given title
  *
  * @param {string} title Title to find illustration for
- * @param {String[]=} categories A list of categories
+ * @param {string[]} categories A list of categories
  * @return {string} Link to image
  */
 export const getIllustrationForTitle = (title, categories = []) => {
@@ -399,8 +402,14 @@ const data = [{
 }, {
 	strings: [
 		'Exam',
+		'Written test',
+		'Oral test',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Exam'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Written test'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Oral test'),
 	],
 	illustrationNames: [
 		'exams',

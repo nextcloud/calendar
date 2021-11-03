@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -22,10 +23,12 @@
 
 <template>
 	<div v-if="display" class="property-select-multiple">
-		<div
+		<component
+			:is="icon"
+			:size="20"
+			:title="readableName"
 			class="property-select-multiple__icon"
-			:class="icon"
-			:title="readableName" />
+			:class="{ 'property-select-multiple__icon--hidden': !showIcon }" />
 
 		<div
 			class="property-select-multiple__input"
@@ -41,6 +44,8 @@
 				:value="value"
 				:multiple="true"
 				:taggable="true"
+				track-by="value"
+				label="label"
 				@select="selectValue"
 				@tag="selectValue"
 				@remove="unselectValue">
@@ -55,7 +60,7 @@
 			<div v-else class="property-select-multiple-colored-tag-wrapper">
 				<PropertySelectMultipleColoredTag
 					v-for="singleValue in value"
-					:key="singleValue"
+					:key="singleValue.value"
 					:option="singleValue" />
 			</div>
 		</div>
@@ -63,7 +68,11 @@
 		<div
 			v-if="hasInfo"
 			v-tooltip="info"
-			class="property-select-multiple__info icon-details" />
+			class="property-select__info">
+			<InformationVariant
+				:size="20"
+				decorative />
+		</div>
 	</div>
 </template>
 
@@ -74,18 +83,25 @@ import PropertySelectMultipleColoredTag from './PropertySelectMultipleColoredTag
 import PropertySelectMultipleColoredOption from './PropertySelectMultipleColoredOption.vue'
 import { getLocale } from '@nextcloud/l10n'
 
+import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
+
 export default {
 	name: 'PropertySelectMultiple',
 	components: {
 		PropertySelectMultipleColoredOption,
 		PropertySelectMultipleColoredTag,
 		Multiselect,
+		InformationVariant,
 	},
 	mixins: [
 		PropertyMixin,
 	],
 	props: {
 		coloredOptions: {
+			type: Boolean,
+			default: false,
+		},
+		closeOnSelect: {
 			type: Boolean,
 			default: false,
 		},
@@ -96,16 +112,26 @@ export default {
 		},
 		options() {
 			const options = this.propModel.options.slice()
-			for (const value of (this.value || [])) {
-				if (options.includes(value)) {
+			for (const value of (this.value ?? [])) {
+				if (options.find(option => option.value === value)) {
 					continue
 				}
 
-				options.push(value)
+				// Add pseudo options for unknown values
+				options.push({
+					value,
+					label: value,
+				})
 			}
 
 			return options
-				.sort((a, b) => a.localeCompare(b, getLocale().replace('_', '-'), { sensitivity: 'base' }))
+				.sort((a, b) => {
+					return a.label.localeCompare(
+						b.label,
+						getLocale().replace('_', '-'),
+						{ sensitivity: 'base' },
+					)
+				})
 		},
 	},
 	methods: {
@@ -114,14 +140,14 @@ export default {
 				return
 			}
 
-			this.$emit('addSingleValue', value)
+			this.$emit('add-single-value', value.value)
 		},
 		unselectValue(value) {
 			if (!value) {
 				return
 			}
 
-			this.$emit('removeSingleValue', value)
+			this.$emit('remove-single-value', value.value)
 		},
 	},
 }

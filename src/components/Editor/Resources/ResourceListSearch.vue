@@ -21,52 +21,101 @@
   -->
 
 <template>
-	<Multiselect
-		class="resource-search"
-		:options="matches"
-		:searchable="true"
-		:internal-search="false"
-		:max-height="600"
-		:show-no-results="true"
-		:show-no-options="false"
-		:placeholder="placeholder"
-		:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
-		open-direction="bottom"
-		track-by="email"
-		label="displayName"
-		@search-change="findResources"
-		@select="addResource">
-		<template #option="{ option }">
-			<div class="resource-search-list-item">
-				<Avatar
-					:disable-tooltip="true"
-					:display-name="option.displayName" />
-				<div class="resource-search-list-item__label resource-search-list-item__label--single-email">
-					<div>
-						{{ option.displayName }}
+	<div class="resource-search">
+		<Multiselect
+			class="resource-search__multiselect"
+			:options="matches"
+			:searchable="true"
+			:internal-search="false"
+			:max-height="600"
+			:show-no-results="true"
+			:show-no-options="false"
+			:placeholder="placeholder"
+			:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
+			open-direction="bottom"
+			track-by="email"
+			label="displayName"
+			@search-change="findResources"
+			@select="addResource">
+			<template #option="{ option }">
+				<div class="resource-search-list-item">
+					<Avatar
+						:disable-tooltip="true"
+						:display-name="option.displayName" />
+					<div class="resource-search-list-item__label resource-search-list-item__label--single-email">
+						<div>
+							{{ option.displayName }}
+							<span
+								v-if="!isAvailable"
+								class="resource-search-list-item__label__availability">
+								({{ formatAvailability(option.isAvailable) }})
+							</span>
+						</div>
+						<div :title="option.subLine">
+							{{ option.subLine }}
+						</div>
 					</div>
 				</div>
+			</template>
+		</Multiselect>
+
+		<template v-if="hasAdvancedFilters">
+			<div class="resource-search__capacity">
+				<ResourceSeatingCapacity :value.sync="capacity" />
+				<Actions
+					v-if="hasAdvancedFilters"
+					class="resource-search__capacity__actions">
+					<ActionCheckbox :checked.sync="isAvailable">
+						<!-- Translators room or resource is not yet booked -->
+						{{ $t('calendar', 'Available') }}
+					</ActionCheckbox>
+					<ActionCheckbox :checked.sync="hasProjector">
+						{{ $t('calendar', 'Projector') }}
+					</ActionCheckbox>
+					<ActionCheckbox :checked.sync="hasWhiteboard">
+						{{ $t('calendar', 'Whiteboard') }}
+					</ActionCheckbox>
+					<ActionCheckbox :checked.sync="isAccessible">
+						{{ $t('calendar', 'Wheelchair accessible') }}
+					</ActionCheckbox>
+				</Actions>
 			</div>
+			<ResourceRoomType :value.sync="roomType" />
 		</template>
-	</Multiselect>
+	</div>
 </template>
 
 <script>
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import debounce from 'debounce'
 import logger from '../../../utils/logger'
+import { advancedPrincipalPropertySearch } from '../../../services/caldavService'
+import Actions from '@nextcloud/vue/dist/Components/Actions'
+import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
+import ResourceSeatingCapacity from './ResourceSeatingCapacity'
+import { addMailtoPrefix, removeMailtoPrefix } from '../../../utils/attendee'
+import { doFreeBusyRequest } from '../../../utils/freebusy'
+import { AttendeeProperty } from '@nextcloud/calendar-js'
+import ResourceRoomType from './ResourceRoomType'
 
 export default {
 	name: 'ResourceListSearch',
 	components: {
 		Avatar,
 		Multiselect,
+		ResourceSeatingCapacity,
+		Actions,
+		ActionCheckbox,
+		ResourceRoomType,
 	},
 	props: {
 		alreadyInvitedEmails: {
 			type: Array,
+			required: true,
+		},
+		calendarObjectInstance: {
+			type: Object,
 			required: true,
 		},
 	},
@@ -75,6 +124,12 @@ export default {
 			isLoading: false,
 			inputGiven: false,
 			matches: [],
+			capacity: NaN,
+			roomType: '',
+			isAvailable: true,
+			isAccessible: false,
+			hasProjector: false,
+			hasWhiteboard: false,
 		}
 	},
 	computed: {
@@ -83,6 +138,23 @@ export default {
 		},
 		noResult() {
 			return this.$t('calendar', 'No match found')
+		},
+		hasAdvancedFilters() {
+			// TODO: Remove me when Calendar doesn't support server < 23
+			return parseInt(OC.config.version.split('.')[0]) >= 23
+		},
+		features() {
+			const features = []
+			if (this.isAccessible) {
+				features.push('WHEELCHAIR-ACCESSIBLE')
+			}
+			if (this.hasProjector) {
+				features.push('PROJECTOR')
+			}
+			if (this.hasWhiteboard) {
+				features.push('WHITEBOARD')
+			}
+			return features
 		},
 	},
 	methods: {
@@ -102,18 +174,25 @@ export default {
 			this.matches = matches
 		}, 500),
 		addResource(selectedValue) {
-			this.$emit('addResource', selectedValue)
+			this.$emit('add-resource', selectedValue)
 		},
-		async findResourcesFromDAV(query) {
+		async findResourcesFromDAV(input) {
 			let results
 			try {
-				results = await principalPropertySearchByDisplaynameOrEmail(query)
+				const query = { displayName: input }
+				if (this.hasAdvancedFilters) {
+					query.capacity = this.capacity
+					query.features = this.features
+					query.roomType = this.roomType
+				}
+				results = await advancedPrincipalPropertySearch(query)
 			} catch (error) {
 				logger.debug('Could not find resources', { error })
 				return []
 			}
 
-			return results
+			// Build options
+			let options = results
 				.filter(principal => {
 					if (!principal.email) {
 						return false
@@ -131,14 +210,92 @@ export default {
 					return true
 				})
 				.map(principal => {
+					const subLineData = []
+					if (principal.roomSeatingCapacity) {
+						subLineData.push(this.$n('calendar', '{seatingCapacity} seat', '{seatingCapacity} seats', principal.roomSeatingCapacity, {
+							seatingCapacity: principal.roomSeatingCapacity,
+						}))
+					}
+					if (principal.roomAddress) {
+						subLineData.push(principal.roomAddress)
+					}
+
 					return {
 						commonName: principal.displayname,
 						email: principal.email,
 						calendarUserType: principal.calendarUserType,
 						displayName: principal.displayname ?? principal.email,
+						subLine: subLineData.join(' - '),
+						isAvailable: true,
+						roomAddress: principal.roomAddress,
 					}
 				})
+
+			// Check resource availability
+			if (this.hasAdvancedFilters) {
+				await this.checkAvailability(options)
+			}
+
+			// Filter by availability
+			if (this.hasAdvancedFilters && this.isAvailable) {
+				options = options.filter(option => option.isAvailable)
+			}
+
+			return options
+		},
+		/**
+		 * Check resource availability using a free busy request
+		 * and amend the status to the option object (option.isAvailable)
+		 *
+		 * @param {object[]} options The search results to amend with an availability
+		 */
+		async checkAvailability(options) {
+			if (options.length === 0) {
+				return
+			}
+
+			const organizer = new AttendeeProperty(
+				'ORGANIZER',
+				addMailtoPrefix(this.$store.getters.getCurrentUserPrincipalEmail),
+			)
+			const start = this.calendarObjectInstance.eventComponent.startDate
+			const end = this.calendarObjectInstance.eventComponent.endDate
+			const attendees = []
+			for (const option of options) {
+				attendees.push(new AttendeeProperty('ATTENDEE', addMailtoPrefix(option.email)))
+			}
+
+			for await (const [attendeeProperty] of doFreeBusyRequest(start, end, organizer, attendees)) {
+				const attendeeEmail = removeMailtoPrefix(attendeeProperty.email)
+				for (const option of options) {
+					if (removeMailtoPrefix(option.email) === attendeeEmail) {
+						option.isAvailable = false
+						break
+					}
+				}
+			}
+		},
+		/**
+		 * Format availability of a search result
+		 *
+		 * @param {boolean} isAvailable The availability state
+		 * @return {string} Human readable and localized availability
+		 */
+		formatAvailability(isAvailable) {
+			if (isAvailable) {
+				// TRANSLATORS room or resource is available due to not being booked yet
+				return this.$t('calendar', 'available')
+			}
+
+			// TRANSLATORS room or resource is unavailable due to it being already booked
+			return this.$t('calendar', 'unavailable')
 		},
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.resource-search__multiselect {
+	padding-bottom: 5px !important;
+}
+</style>

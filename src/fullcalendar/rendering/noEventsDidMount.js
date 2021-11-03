@@ -1,7 +1,9 @@
 /**
  * @copyright Copyright (c) 2020 Georg Ehrke
+ *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @license GNU AGPL version 3 or any later version
+ *
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -15,6 +17,7 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 import Vue from 'vue'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
@@ -24,8 +27,7 @@ import { translate as t } from '@nextcloud/l10n'
  * Adds our standardized emptyContent component if list view is empty
  *
  * @param {object} data The destructuring object
- * @param data.el
- * @param {Node} el The HTML element
+ * @param {Node} data.el The HTML element
  */
 export default function({ el }) {
 	const EmptyContentClass = Vue.extend(EmptyContent)

@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -22,10 +23,12 @@
 
 <template>
 	<div v-if="display" class="property-select">
-		<div
+		<component
+			:is="icon"
+			:size="20"
+			:title="readableName"
 			class="property-select__icon"
-			:class="icon"
-			:title="readableName" />
+			:class="{ 'property-select__icon--hidden': !showIcon }" />
 
 		<div
 			class="property-select__input"
@@ -37,6 +40,7 @@
 				:allow-empty="false"
 				:title="readableName"
 				:value="selectedValue"
+				:placeholder="placeholder"
 				track-by="value"
 				label="label"
 				@select="changeValue" />
@@ -47,7 +51,11 @@
 		<div
 			v-if="hasInfo"
 			v-tooltip="info"
-			class="property-select__info icon-details" />
+			class="property-select__info">
+			<InformationVariant
+				:size="20"
+				decorative />
+		</div>
 	</div>
 </template>
 
@@ -55,10 +63,13 @@
 import PropertyMixin from '../../../mixins/PropertyMixin'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 
+import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
+
 export default {
 	name: 'PropertySelect',
 	components: {
 		Multiselect,
+		InformationVariant,
 	},
 	mixins: [
 		PropertyMixin,
@@ -90,11 +101,9 @@ export default {
 <style lang="scss" scoped>
 
 .property-select {
-	margin-bottom: 4px;
 	&__input {
 		// 34px left and right need to be subtracted. See https://github.com/nextcloud/calendar/pull/3361
 		width: calc(100% - 34px - 34px);
-		padding-bottom: 5px;
 	}
 }
 
