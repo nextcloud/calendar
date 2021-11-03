@@ -59,7 +59,7 @@ class EventConflictFilter {
 		$preparationDuration = DateInterval::createFromDateString($config->getPreparationDuration() . ' minutes');
 		$followUpDuration = DateInterval::createFromDateString($config->getFollowupDuration() . ' minutes');
 
-		return array_filter($slots, function(Interval $slot) use ($followUpDuration, $preparationDuration, $query): bool {
+		return array_filter($slots, function (Interval $slot) use ($followUpDuration, $preparationDuration, $query): bool {
 			$query->setTimerangeStart($slot->getStartAsObject()->sub($preparationDuration));
 			$query->setTimerangeEnd($slot->getEndAsObject()->add($followUpDuration));
 

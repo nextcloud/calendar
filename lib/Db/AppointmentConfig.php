@@ -182,5 +182,4 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 			'dailyMax' => $this->getDailyMax()
 		];
 	}
-
 }
