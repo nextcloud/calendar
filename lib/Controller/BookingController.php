@@ -71,7 +71,6 @@ class BookingController extends Controller {
 	 */
 	public function getBookableSlots(int $appointmentConfigId,
 									 int $startTime,
-									 int $endTime,
 									 string $timeZone): JsonResponse {
 		// Convert the timestamps to the beginning and end of the respective day in the specified timezone
 		$tz = new DateTimeZone($timeZone);
@@ -81,7 +80,7 @@ class BookingController extends Controller {
 			->setTime(0, 0)
 			->getTimestamp();
 		$endTimeInTz = (new DateTimeImmutable())
-			->setTimestamp($endTime)
+			->setTimestamp($startTime)
 			->setTimezone($tz)
 			->setTime(23, 59, 59)
 			->getTimestamp();
