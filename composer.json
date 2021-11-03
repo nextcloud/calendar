@@ -1,4 +1,10 @@
 {
+    "config": {
+        "platform": {
+            "php": "7.3"
+        },
+        "sort-packages": true
+    },
     "require": {
         "php": "^7.2|^8.0"
     },
