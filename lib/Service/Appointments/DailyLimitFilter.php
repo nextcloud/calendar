@@ -49,7 +49,7 @@ class DailyLimitFilter {
 	 */
 	public function filter(AppointmentConfig $config, array $slots): array {
 		// 0. If there is no limit then we don't have to filter anything
-		if ($config->getDailyMax() === 0) {
+		if ($config->getDailyMax() === null) {
 			return $slots;
 		}
 
