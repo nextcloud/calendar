@@ -55,8 +55,8 @@ class BookingService {
 	}
 
 	// CREATE
-	public function book(string $calendarData) {
-		// use new ICreateFromString::create method
+	public function book(int $startTimeInTz, int $endTimeInTz, AppointmentConfig $config, int $start) {
+		$slots = $this->getAvailableSlots($config, $startTimeInTz, $endTimeInTz);
 	}
 
 	/**

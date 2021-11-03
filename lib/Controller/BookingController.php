@@ -110,12 +110,37 @@ class BookingController extends Controller {
 
 	public function bookSlot(int $appointmentConfigId,
 							 int $start,
+							 int $end,
+							 string $timeZone,
 							 string $name,
 							 string $email,
 							 string $description): JsonResponse {
-		return JsonResponse::success();
+		$tz = new DateTimeZone($timeZone);
+		$startTimeInTz = (new DateTimeImmutable())
+			->setTimestamp($start)
+			->setTimezone($tz)
+			->setTime(0, 0)
+			->getTimestamp();
+		$endTimeInTz = (new DateTimeImmutable())
+			->setTimestamp($end)
+			->setTimezone($tz)
+			->setTime(23, 59, 59)
+			->getTimestamp();
 
-		//$this->bookingService->book($calendarData);
+		if ($startTimeInTz > $endTimeInTz) {
+			return JsonResponse::fail('Invalid time range', Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$config = $this->appointmentConfigService->findById($appointmentConfigId);
+		} catch (ServiceException $e) {
+			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
+		}
+
+		// validate slot is available
+		// write slot, preparation duration and follow up duration events
+//		$this->bookingService->book($startTimeInTz, $endTimeInTz, $config, $start);
+
 		return JsonResponse::success();
 	}
 }
