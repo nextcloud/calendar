@@ -25,12 +25,7 @@ declare(strict_types=1);
 namespace OCA\Calendar\Service\Appointments;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
-use OC\Calendar\CalendarQuery;
-use OC\Calendar\Manager;
-use OCA\DAV\CalDAV\CalDavBackend;
-use OCA\DAV\CalDAV\CalendarProvider;
 use OCA\Calendar\Db\AppointmentConfig;
-use OCA\Calendar\Db\AppointmentConfigMapper;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class BookingServiceTest extends TestCase {

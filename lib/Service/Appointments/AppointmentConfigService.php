@@ -173,7 +173,7 @@ class AppointmentConfigService {
 						   ?int $dailyMax,
 						   ?array $freebusyUris = [],
 						   ?int $start = null,
-	                       ?int $end = null): AppointmentConfig {
+						   ?int $end = null): AppointmentConfig {
 		try {
 			$appointmentConfig = new AppointmentConfig();
 			$appointmentConfig->setToken($this->random->generate(12, ISecureRandom::CHAR_HUMAN_READABLE));

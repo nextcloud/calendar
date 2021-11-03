@@ -31,7 +31,6 @@ use OC\AppFramework\Bootstrap\ServiceRegistration;
 use OC\Calendar\Manager;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\CalendarProvider;
-use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\AppointmentConfigMapper;
 use OCP\IConfig;
 use OCP\IL10N;
