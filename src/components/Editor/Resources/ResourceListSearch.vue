@@ -87,6 +87,7 @@
 
 <script>
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import { checkResourceAvailability } from '../../../services/freeBusyService'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import debounce from 'debounce'
 import logger from '../../../utils/logger'
@@ -94,9 +95,6 @@ import { advancedPrincipalPropertySearch } from '../../../services/caldavService
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
 import ResourceSeatingCapacity from './ResourceSeatingCapacity'
-import { addMailtoPrefix, removeMailtoPrefix } from '../../../utils/attendee'
-import { doFreeBusyRequest } from '../../../utils/freebusy'
-import { AttendeeProperty } from '@nextcloud/calendar-js'
 import ResourceRoomType from './ResourceRoomType'
 
 export default {
@@ -233,7 +231,12 @@ export default {
 
 			// Check resource availability
 			if (this.hasAdvancedFilters) {
-				await this.checkAvailability(options)
+				await checkResourceAvailability(
+					options,
+					this.$store.getters.getCurrentUserPrincipalEmail,
+					this.calendarObjectInstance.eventComponent.startDate,
+					this.calendarObjectInstance.eventComponent.endDate,
+				)
 			}
 
 			// Filter by availability
@@ -242,38 +245,6 @@ export default {
 			}
 
 			return options
-		},
-		/**
-		 * Check resource availability using a free busy request
-		 * and amend the status to the option object (option.isAvailable)
-		 *
-		 * @param {object[]} options The search results to amend with an availability
-		 */
-		async checkAvailability(options) {
-			if (options.length === 0) {
-				return
-			}
-
-			const organizer = new AttendeeProperty(
-				'ORGANIZER',
-				addMailtoPrefix(this.$store.getters.getCurrentUserPrincipalEmail),
-			)
-			const start = this.calendarObjectInstance.eventComponent.startDate
-			const end = this.calendarObjectInstance.eventComponent.endDate
-			const attendees = []
-			for (const option of options) {
-				attendees.push(new AttendeeProperty('ATTENDEE', addMailtoPrefix(option.email)))
-			}
-
-			for await (const [attendeeProperty] of doFreeBusyRequest(start, end, organizer, attendees)) {
-				const attendeeEmail = removeMailtoPrefix(attendeeProperty.email)
-				for (const option of options) {
-					if (removeMailtoPrefix(option.email) === attendeeEmail) {
-						option.isAvailable = false
-						break
-					}
-				}
-			}
 		},
 		/**
 		 * Format availability of a search result

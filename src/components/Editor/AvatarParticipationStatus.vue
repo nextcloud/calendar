@@ -26,9 +26,9 @@
 			:disable-tooltip="true"
 			:user="avatarLink"
 			:is-no-user="isResource" />
-		<div class="avatar-participation-status__indicator" :class="className.class" />
+		<div class="avatar-participation-status__indicator" :class="status.indicatorClass" />
 		<div class="avatar-participation-status__text">
-			{{ className.label }}
+			{{ status.label }}
 		</div>
 	</div>
 </template>
@@ -62,6 +62,10 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+		isSuggestion: {
+			type: Boolean,
+			default: false,
+		},
 		attendeeIsOrganizer: {
 			type: Boolean,
 			required: true,
@@ -72,36 +76,42 @@ export default {
 		},
 	},
 	computed: {
-		className() {
+		status() {
+			if (this.isSuggestion) {
+				return {
+					indicatorClass: ['accepted', 'icon', 'icon-checkmark-white'],
+					label: t('calendar', 'Suggested.'),
+				}
+			}
 
 			if (this.isResource && this.participationStatus === 'ACCEPTED') {
 				return {
-					class: ['accepted', 'icon', 'icon-checkmark-white'],
+					indicatorClass: ['accepted', 'icon', 'icon-checkmark-white'],
 					label: t('calendar', 'Available.'),
 				}
 			}
 			if (this.isResource && this.participationStatus === 'DECLINED') {
 				return {
-					class: ['declined', 'icon', 'icon-close-white'],
+					indicatorClass: ['declined', 'icon', 'icon-close-white'],
 					label: t('calendar', 'Not available.'),
 				}
 			}
 			if (this.isResource) {
 				return {
-					class: ['no-response', 'icon', 'icon-invitees-no-response-white'],
+					indicatorClass: ['no-response', 'icon', 'icon-invitees-no-response-white'],
 					label: t('calendar', 'Checking availability.'),
 				}
 			}
 
 			if (this.participationStatus === 'ACCEPTED' && this.isViewedByOrganizer) {
 				return {
-					class: ['accepted', 'icon', 'icon-checkmark-white'],
+					indicatorClass: ['accepted', 'icon', 'icon-checkmark-white'],
 					label: t('calendar', 'Invitation accepted.'),
 				}
 			}
 			if (this.participationStatus === 'ACCEPTED' && !this.isViewedByOrganizer) {
 				return {
-					class: ['accepted', 'icon', 'icon-checkmark-white'],
+					indicatorClass: ['accepted', 'icon', 'icon-checkmark-white'],
 					label: t('calendar', 'Accepted {organizerName}\'s invitation.', {
 						organizerName: this.organizerDisplayName,
 					}),
@@ -110,13 +120,13 @@ export default {
 
 			if (this.participationStatus === 'DECLINED' && this.isViewedByOrganizer) {
 				return {
-					class: ['declined', 'icon', 'icon-close-white'],
+					indicatorClass: ['declined', 'icon', 'icon-close-white'],
 					label: t('calendar', 'Invitation declined.'),
 				}
 			}
 			if (this.participationStatus === 'DECLINED' && !this.isViewedByOrganizer) {
 				return {
-					class: ['declined', 'icon', 'icon-close-white'],
+					indicatorClass: ['declined', 'icon', 'icon-close-white'],
 					label: t('calendar', 'Declined {organizerName}\'s invitation.', {
 						organizerName: this.organizerDisplayName,
 					}),
@@ -124,23 +134,26 @@ export default {
 			}
 
 			if (this.participationStatus === 'DELEGATED') {
-				return this.$t('calendar', 'Invitation is delegated.')
+				return {
+					indicatorClass: [],
+					label: this.$t('calendar', 'Invitation is delegated.'),
+				}
 			}
 			if (this.participationStatus === 'TENTATIVE') {
 				return {
-					class: ['tentative', 'icon', 'icon-checkmark-white'],
+					indicatorClass: ['tentative', 'icon', 'icon-checkmark-white'],
 					label: t('calendar', 'Participation marked as tentative.'),
 				}
 			}
 
 			if (this.isViewedByOrganizer) {
 				return {
-					class: ['no-response', 'icon', 'icon-invitees-no-response-white'],
+					indicatorClass: ['no-response', 'icon', 'icon-invitees-no-response-white'],
 					label: t('calendar', 'Invitation sent.'),
 				}
 			} else {
 				return {
-					class: ['no-response', 'icon', 'icon-invitees-no-response-white'],
+					indicatorClass: ['no-response', 'icon', 'icon-invitees-no-response-white'],
 					label: t('calendar', 'Has not responded to {organizerName}\'s invitation yet.', {
 						organizerName: this.organizerDisplayName,
 					}),
