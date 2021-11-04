@@ -26,6 +26,8 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Service\Appointments;
 
+use DateTime;
+use DateTimeImmutable;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCP\Calendar\Exceptions\CalendarException;
@@ -62,13 +64,15 @@ class BookingCalendarWriter {
 
 	/**
 	 * @param AppointmentConfig $config
-	 * @param \DateTime $start
+	 * @param DateTimeImmutable $start
 	 * @param string $name
 	 * @param string $email
 	 * @param string $description
 	 *
+	 * @throws RuntimeException
+	 *
 	 */
-	public function write(AppointmentConfig $config, \DateTime $start, string $name, string $email, string $description) : void {
+	public function write(AppointmentConfig $config, DateTimeImmutable $start, string $name, string $email, string $description) : void {
 		$calendar = current($this->manager->getCalendarsForPrincipal($config->getPrincipalUri(), [$config->getTargetCalendarUri()]));
 		if (!($calendar instanceof CalendarImpl)) {
 			throw new RuntimeException('Could not find a public writable calendar for this principal');
@@ -98,7 +102,7 @@ class BookingCalendarWriter {
 		$vcalendar->VEVENT->add('X-NC-APPOINTMENT', $config->getToken());
 
 		$filename = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
-		$serialized = $vcalendar->serialize();
+
 		try {
 			$calendar->createFromString($filename . '.ics', $vcalendar->serialize());
 		} catch (CalendarException $e) {

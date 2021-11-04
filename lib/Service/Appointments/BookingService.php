@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Service\Appointments;
 
-use DateTime;
+use DateTimeImmutable;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Exception\ServiceException;
 
@@ -58,8 +58,20 @@ class BookingService {
 		$this->calendarWriter = $calendarWriter;
 	}
 
-	// CREATE
-	public function book(AppointmentConfig $config, DateTime $startTimeInTz, DateTime $endTimeInTz, int $start, string $name, string $email, string $description): Interval {
+	/**
+	 * @param AppointmentConfig $config
+	 * @param DateTimeImmutable $startTimeInTz
+	 * @param DateTimeImmutable $endTimeInTz
+	 * @param int $start
+	 * @param string $name
+	 * @param string $email
+	 * @param string $description
+	 *
+	 * @return Interval
+	 *
+	 * @throws ServiceException
+	 */
+	public function book(AppointmentConfig $config, DateTimeImmutable $startTimeInTz, DateTimeImmutable $endTimeInTz, int $start, string $name, string $email, string $description): Interval {
 		$slots = $this->getAvailableSlots($config, $startTimeInTz->getTimestamp(), $endTimeInTz->getTimestamp());
 		$bookingSlot = current(array_filter($slots, static function ($slot) use ($start) {
 			return $slot->getStart() === $start;
