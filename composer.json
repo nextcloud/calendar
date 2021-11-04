@@ -1,4 +1,10 @@
 {
+    "config": {
+        "platform": {
+            "php": "7.3"
+        },
+        "sort-packages": true
+    },
     "require": {
         "php": "^7.3|^8.0",
         "simshaun/recurr": "^5.0"

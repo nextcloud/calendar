@@ -25,10 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Service\Appointments;
 
-use OC\Calendar\CalendarQuery;
 use OCA\Calendar\Db\AppointmentConfig;
-use OCA\Calendar\Db\AppointmentConfigMapper;
-use OCP\Calendar\IManager;
 
 class BookingService {
 
