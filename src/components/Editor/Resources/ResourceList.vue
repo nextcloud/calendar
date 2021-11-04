@@ -37,14 +37,7 @@
 			@remove-resource="removeResource" />
 
 		<NoAttendeesView
-			v-if="isReadOnly && isListEmpty"
-			:message="noResourcesMessage">
-			<template #icon>
-				<MapMarker :size="50" decorative />
-			</template>
-		</NoAttendeesView>
-		<NoAttendeesView
-			v-if="!isReadOnly && isListEmpty && hasUserEmailAddress"
+			v-if="isListEmpty && hasUserEmailAddress"
 			:message="noResourcesMessage">
 			<template #icon>
 				<MapMarker :size="50" decorative />
