@@ -35,14 +35,6 @@
 		</div>
 		<div class="resource-list-item__actions">
 			<Actions v-if="isViewedByOrganizer">
-				<ActionButton
-					@click="removeResource">
-					<template #icon>
-						<Delete :size="20" decorative />
-					</template>
-					{{ $t('calendar', 'Remove resource') }}
-				</ActionButton>
-				<ActionSeparator v-if="seatingCapacity || roomType || hasProjector || hasWhiteboard || isAccessible" />
 				<ActionCaption
 					v-if="seatingCapacity"
 					:title="seatingCapacity" />
@@ -58,6 +50,13 @@
 				<ActionCaption
 					v-if="isAccessible"
 					:title="$t('calendar', 'Wheelchair accessible')" />
+				<ActionSeparator v-if="seatingCapacity || roomType || hasProjector || hasWhiteboard || isAccessible" />
+				<ActionButton @click="removeResource">
+					<template #icon>
+						<Delete :size="20" decorative />
+					</template>
+					{{ $t('calendar', 'Remove resource') }}
+				</ActionButton>
 			</actions>
 		</div>
 	</div>
