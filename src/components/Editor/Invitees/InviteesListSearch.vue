@@ -133,7 +133,7 @@ export default {
 				}
 
 				matches.forEach(contact => {
-		  		contact.uid = randomId()
+					contact.uid = randomId()
 					this.$store.commit('appendContact', { contact })
 				})
 
