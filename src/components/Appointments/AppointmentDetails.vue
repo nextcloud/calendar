@@ -118,15 +118,17 @@ export default {
 
 <style lang="scss" scoped>
 ::v-deep .modal-container {
-  width: calc(100vw - 120px) !important;
-  height: calc(100vh - 120px) !important;
-  max-width: 600px !important;
-  max-height: 500px !important;
+	width: calc(100vw - 120px) !important;
+	height: calc(100vh - 120px) !important;
+	max-width: 600px !important;
+	max-height: 500px !important;
 }
+
 .booking-appointment-details {
 	display: flex;
 	flex-direction: row;
 }
+
 .booking-details {
 	padding-left: 30px;
 	padding-top: 80px;
@@ -137,34 +139,37 @@ export default {
 	padding-left: 120px;
 	padding-top: 40px;
 }
+
 .add-guest {
 	display: block;
 	color: var(--color-primary);
 	background-color: transparent;
 }
+
 .meeting-info {
-padding-right: 10px;
+	padding-right: 10px;
 }
+
 .meeting-text {
 	display: grid;
 	align-items: center;
 
 	textarea {
-	  resize: vertical;
-	  grid-area: 1 / 1;
-	  width: 100%;
-	  margin: 3px 3px 3px 0;
-	  padding: 7px 6px;
-	  color: var(--color-main-text);
-	  border: 1px solid var(--color-border-dark);
-	  border-radius: var(--border-radius);
-	  background-color: var(--color-main-background);
-	  cursor: text;
+		resize: vertical;
+		grid-area: 1 / 1;
+		width: 100%;
+		margin: 3px 3px 3px 0;
+		padding: 7px 6px;
+		color: var(--color-main-text);
+		border: 1px solid var(--color-border-dark);
+		border-radius: var(--border-radius);
+		background-color: var(--color-main-background);
+		cursor: text;
 
-	  &:hover {
-		border-color: var(--color-primary-element) !important;
-		outline: none !important;
-	  }
+		&:hover {
+			border-color: var(--color-primary-element) !important;
+			outline: none !important;
+		}
 	}
 }
 </style>
