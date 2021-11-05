@@ -24,6 +24,7 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
 use OCA\Calendar\Exception\ServiceException;
@@ -107,26 +108,37 @@ class BookingController extends Controller {
 		);
 	}
 
+	/**
+	 * @NoAdminRequired
+	 * @PublicPage
+	 *
+	 * @param int $appointmentConfigId
+	 * @param int $start
+	 * @param int $end
+	 * @param string $name
+	 * @param string $email
+	 * @param string $description
+	 * @param string $timeZone
+	 * @return JsonResponse
+	 */
 	public function bookSlot(int $appointmentConfigId,
 							 int $start,
 							 int $end,
-							 string $timeZone,
 							 string $name,
 							 string $email,
-							 string $description): JsonResponse {
+							 string $description,
+							 string $timeZone = 'Pacific/Auckland'): JsonResponse {
 		$tz = new DateTimeZone($timeZone);
 		$startTimeInTz = (new DateTimeImmutable())
 			->setTimestamp($start)
 			->setTimezone($tz)
-			->setTime(0, 0)
-			->getTimestamp();
+			->setTime(0, 0);
 		$endTimeInTz = (new DateTimeImmutable())
 			->setTimestamp($end)
 			->setTimezone($tz)
-			->setTime(23, 59, 59)
-			->getTimestamp();
+			->setTime(23, 59, 59);
 
-		if ($startTimeInTz > $endTimeInTz) {
+		if ($startTimeInTz->getTimestamp() > $endTimeInTz->getTimestamp()) {
 			return JsonResponse::fail('Invalid time range', Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -136,10 +148,12 @@ class BookingController extends Controller {
 			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
 		}
 
-		// validate slot is available
-		// write slot, preparation duration and follow up duration events
-//		$this->bookingService->book($startTimeInTz, $endTimeInTz, $config, $start);
+		try {
+			$slot = $this->bookingService->book($config, $startTimeInTz, $endTimeInTz, $start, $name, $email, $description);
+		} catch (ServiceException $e) {
+			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
+		}
 
-		return JsonResponse::success();
+		return JsonResponse::success($slot);
 	}
 }

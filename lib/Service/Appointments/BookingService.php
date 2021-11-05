@@ -73,6 +73,7 @@ class BookingService {
 	 */
 	public function book(AppointmentConfig $config, DateTimeImmutable $startTimeInTz, DateTimeImmutable $endTimeInTz, int $start, string $name, string $email, string $description): Interval {
 		$slots = $this->getAvailableSlots($config, $startTimeInTz->getTimestamp(), $endTimeInTz->getTimestamp());
+		/** @var Interval $bookingSlot */
 		$bookingSlot = current(array_filter($slots, static function ($slot) use ($start) {
 			return $slot->getStart() === $start;
 		}));
@@ -81,8 +82,13 @@ class BookingService {
 			throw new ServiceException('Could not find slot for booking');
 		}
 
+		$start = $startTimeInTz->setTimestamp($start);
+
+		if(!$start) {
+			throw new ServiceException('Could not create booking slot for this time');
+		}
 		// Pass the $startTimeInTz to get the Timezone for the booker
-		$this->calendarWriter->write($config, $startTimeInTz, $name, $email, $description);
+		$this->calendarWriter->write($config, $start, $name, $email, $description);
 
 		return $bookingSlot;
 	}

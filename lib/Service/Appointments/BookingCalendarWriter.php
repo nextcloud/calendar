@@ -89,16 +89,17 @@ class BookingCalendarWriter {
 			'VERSION' => '2.0',
 			'VEVENT' => [
 				'SUMMARY' => $config->getName(),
-				'REQUEST-STATUS' => '2.0;Success',
+				'STATUS' => 'CONFIRMED',
 				'DESCRIPTION' => $description,
 				'DTSTART' => $start,
 				'DTEND' => $start->setTimestamp($start->getTimestamp() + $config->getLength())
 			]
 		]);
 
+		// this isn't working as intended yet - it writes to the calendar of the organiser nicely, but not the booking attendee
 		$vcalendar->VEVENT->add('ORGANIZER', $organizer->getEMailAddress(), [ 'CN' => $organizer->getDisplayName()]);
-		$vcalendar->VEVENT->add('ATTENDEE', $organizer->getEMailAddress(), [ 'CN' => $organizer->getDisplayName(), 'RSVP' => false, 'PARTSTAT' => 'ACCEPTED']);
-		$vcalendar->VEVENT->add('ATTENDEE', $email, ['CN' => $name, 'RSVP' => false, 'PARTSTAT' => 'ACCEPTED']);
+		$vcalendar->VEVENT->add('ATTENDEE', $organizer->getEMailAddress(), [ 'CN' => $organizer->getDisplayName(), 'CUTYPE' => 'INDIVIDUAL', 'RSVP' => 'TRUE', 'PARTSTAT' => 'NEEDS-ACTION']);
+		$vcalendar->VEVENT->add('ATTENDEE', $email, ['CN' => $name,'CUTYPE' => 'INDIVIDUAL', 'RSVP' => 'TRUE', 'PARTSTAT' => 'NEEDS-ACTION']);
 		$vcalendar->VEVENT->add('X-NC-APPOINTMENT', $config->getToken());
 
 		$filename = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
