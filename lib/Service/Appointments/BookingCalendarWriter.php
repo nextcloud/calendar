@@ -73,7 +73,7 @@ class BookingCalendarWriter {
 	 * @throws RuntimeException
 	 *
 	 */
-	public function write(AppointmentConfig $config, DateTimeImmutable $start, string $name, string $email, string $description) : void {
+	public function write(AppointmentConfig $config, DateTimeImmutable $start, string $name, string $email, ?string $description = null) : void {
 		$calendar = current($this->manager->getCalendarsForPrincipal($config->getPrincipalUri(), [$config->getTargetCalendarUri()]));
 		if (!($calendar instanceof ICreateFromString)) {
 			throw new RuntimeException('Could not find a public writable calendar for this principal');
@@ -91,13 +91,15 @@ class BookingCalendarWriter {
 			'VEVENT' => [
 				'SUMMARY' => $config->getName(),
 				'STATUS' => 'CONFIRMED',
-				'DESCRIPTION' => $description,
 				'DTSTART' => $start,
 				'DTEND' => $start->setTimestamp($start->getTimestamp() + $config->getLength())
 			]
 		]);
 
-		// this isn't working as intended yet - it writes to the calendar of the organiser nicely, but not the booking attendee
+		if($description !== null) {
+			$vcalendar->VEVENT->add('DESCRIPTION', $description);
+		}
+
 		$vcalendar->VEVENT->add('ORGANIZER', 'mailto:' . $organizer->getEMailAddress(), [ 'CN' => $organizer->getDisplayName()]);
 		$vcalendar->VEVENT->add('ATTENDEE', 'mailto:' . $organizer->getEMailAddress(), [ 'CN' => $organizer->getDisplayName(), 'CUTYPE' => 'INDIVIDUAL', 'RSVP' => 'TRUE', 'PARTSTAT' => 'NEEDS-ACTION']);
 		$vcalendar->VEVENT->add('ATTENDEE', 'mailto:' . $email, ['CN' => $name,'CUTYPE' => 'INDIVIDUAL', 'RSVP' => 'TRUE', 'PARTSTAT' => 'NEEDS-ACTION']);

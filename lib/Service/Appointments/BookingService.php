@@ -27,7 +27,7 @@ namespace OCA\Calendar\Service\Appointments;
 
 use DateTimeImmutable;
 use OCA\Calendar\Db\AppointmentConfig;
-use OCA\Calendar\Exception\ServiceException;
+use OCA\Calendar\Exception\ClientException;
 
 class BookingService {
 
@@ -60,8 +60,8 @@ class BookingService {
 
 	/**
 	 * @param AppointmentConfig $config
-	 * @param DateTimeImmutable $startTimeInTz
-	 * @param DateTimeImmutable $endTimeInTz
+	 * @param DateTimeImmutable $startTimeOfDayInTz
+	 * @param DateTimeImmutable $endTimeOfDayInTz
 	 * @param int $start
 	 * @param string $name
 	 * @param string $email
@@ -69,26 +69,27 @@ class BookingService {
 	 *
 	 * @return Interval
 	 *
-	 * @throws ServiceException
+	 * @throws ClientException
 	 */
-	public function book(AppointmentConfig $config, DateTimeImmutable $startTimeInTz, DateTimeImmutable $endTimeInTz, int $start, string $name, string $email, string $description): Interval {
-		$slots = $this->getAvailableSlots($config, $startTimeInTz->getTimestamp(), $endTimeInTz->getTimestamp());
-		/** @var Interval $bookingSlot */
-		$bookingSlot = current(array_filter($slots, static function ($slot) use ($start) {
+	public function book(AppointmentConfig $config, DateTimeImmutable $startTimeOfDayInTz, DateTimeImmutable $endTimeOfDayInTz, int $start, string $name, string $email, ?string $description = null): Interval {
+		$slots = $this->getAvailableSlots($config, $startTimeOfDayInTz->getTimestamp(), $endTimeOfDayInTz->getTimestamp());
+
+		/** @var Interval|false $bookingSlot */
+		$bookingSlot = current(array_filter($slots, static function (Interval $slot) use ($start) {
 			return $slot->getStart() === $start;
 		}));
 
 		if (!$bookingSlot) {
-			throw new ServiceException('Could not find slot for booking');
+			throw new ClientException('Could not find slot for booking');
 		}
 
-		$start = $startTimeInTz->setTimestamp($start);
-
-		if(!$start) {
-			throw new ServiceException('Could not create booking slot for this time');
+		$startObj = $startTimeOfDayInTz->setTimestamp($start);
+		if(!$startObj) {
+			throw new ClientException('Could not create booking slot for this time');
 		}
+
 		// Pass the $startTimeInTz to get the Timezone for the booker
-		$this->calendarWriter->write($config, $start, $name, $email, $description);
+		$this->calendarWriter->write($config, $startObj, $name, $email, $description);
 
 		return $bookingSlot;
 	}
