@@ -31,6 +31,7 @@ use DateTimeImmutable;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCP\Calendar\Exceptions\CalendarException;
+use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IManager;
 use OCP\IConfig;
 use OCP\IUserManager;
@@ -74,7 +75,7 @@ class BookingCalendarWriter {
 	 */
 	public function write(AppointmentConfig $config, DateTimeImmutable $start, string $name, string $email, string $description) : void {
 		$calendar = current($this->manager->getCalendarsForPrincipal($config->getPrincipalUri(), [$config->getTargetCalendarUri()]));
-		if (!($calendar instanceof CalendarImpl)) {
+		if (!($calendar instanceof ICreateFromString)) {
 			throw new RuntimeException('Could not find a public writable calendar for this principal');
 		}
 
@@ -97,9 +98,9 @@ class BookingCalendarWriter {
 		]);
 
 		// this isn't working as intended yet - it writes to the calendar of the organiser nicely, but not the booking attendee
-		$vcalendar->VEVENT->add('ORGANIZER', $organizer->getEMailAddress(), [ 'CN' => $organizer->getDisplayName()]);
-		$vcalendar->VEVENT->add('ATTENDEE', $organizer->getEMailAddress(), [ 'CN' => $organizer->getDisplayName(), 'CUTYPE' => 'INDIVIDUAL', 'RSVP' => 'TRUE', 'PARTSTAT' => 'NEEDS-ACTION']);
-		$vcalendar->VEVENT->add('ATTENDEE', $email, ['CN' => $name,'CUTYPE' => 'INDIVIDUAL', 'RSVP' => 'TRUE', 'PARTSTAT' => 'NEEDS-ACTION']);
+		$vcalendar->VEVENT->add('ORGANIZER', 'mailto:' . $organizer->getEMailAddress(), [ 'CN' => $organizer->getDisplayName()]);
+		$vcalendar->VEVENT->add('ATTENDEE', 'mailto:' . $organizer->getEMailAddress(), [ 'CN' => $organizer->getDisplayName(), 'CUTYPE' => 'INDIVIDUAL', 'RSVP' => 'TRUE', 'PARTSTAT' => 'NEEDS-ACTION']);
+		$vcalendar->VEVENT->add('ATTENDEE', 'mailto:' . $email, ['CN' => $name,'CUTYPE' => 'INDIVIDUAL', 'RSVP' => 'TRUE', 'PARTSTAT' => 'NEEDS-ACTION']);
 		$vcalendar->VEVENT->add('X-NC-APPOINTMENT', $config->getToken());
 
 		$filename = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
