@@ -26,8 +26,17 @@ declare(strict_types=1);
 namespace OCA\Calendar\Service\Appointments;
 
 use DateTimeImmutable;
+use DateTimeZone;
 use OCA\Calendar\Db\AppointmentConfig;
+use OCA\Calendar\Db\AppointmentConfigMapper;
+use OCA\Calendar\Db\Booking;
+use OCA\Calendar\Db\BookingMapper;
 use OCA\Calendar\Exception\ClientException;
+use OCA\Calendar\Exception\ServiceException;
+use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\DB\Exception;
+use OCP\Security\ISecureRandom;
 
 class BookingService {
 
@@ -45,17 +54,77 @@ class BookingService {
 
 	/** @var BookingCalendarWriter */
 	private $calendarWriter;
+	/** @var BookingMapper */
+	private $bookingMapper;
+
+	/** @var AppointmentConfigMapper */
+	private $appointmentConfigMapper;
+	/** @var ISecureRandom */
+	private $random;
 
 	public function __construct(AvailabilityGenerator $availabilityGenerator,
 								SlotExtrapolator $extrapolator,
 								DailyLimitFilter $dailyLimitFilter,
 								EventConflictFilter $eventConflictFilter,
-								BookingCalendarWriter $calendarWriter) {
+								AppointmentConfigMapper $appointmentConfigMapper,
+								BookingMapper $bookingMapper,
+								BookingCalendarWriter $calendarWriter,
+								ISecureRandom $random) {
 		$this->availabilityGenerator = $availabilityGenerator;
 		$this->extrapolator = $extrapolator;
 		$this->dailyLimitFilter = $dailyLimitFilter;
 		$this->eventConflictFilter = $eventConflictFilter;
 		$this->calendarWriter = $calendarWriter;
+		$this->bookingMapper = $bookingMapper;
+		$this->appointmentConfigMapper = $appointmentConfigMapper;
+		$this->random = $random;
+	}
+
+	/**
+	 * @param string $token
+	 * @return Interval
+	 *
+	 * @throws ClientException
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function confirmBooking(string $token): Interval {
+		// pretty sure this can move
+		try {
+			$booking = $this->bookingMapper->findByToken($token);
+		} catch (DoesNotExistException $e) {
+			throw new ClientException('Could not find the booking', 0, $e);
+		}
+
+		try {
+			$config = $this->appointmentConfigMapper->findById($booking->getId());
+		} catch (DoesNotExistException $e) {
+			throw new ClientException('Could not find the booking', 0, $e);
+		}
+
+		// pass $config, start and end as before
+		$slots = $this->getAvailableSlots($config, $booking->getStart(), $booking->getEnd());
+
+		$start = $booking->getStart();
+		/** @var Interval|false $bookingSlot */
+		$bookingSlot = current(array_filter($slots, static function (Interval $slot) use ($start) {
+			return $slot->getStart() === $start;
+		}));
+
+		if (!$bookingSlot) {
+			throw new ClientException('Slot for bookin is not available any more');
+		}
+
+		$tz = new DateTimeZone($booking->getTimezone());
+		$startObj = (new DateTimeImmutable())->setTimestamp($booking->getStart())->setTimezone($tz);
+		if(!$startObj) {
+			throw new ClientException('Could not make sense of booking times');
+		}
+
+		// Pass the $startTimeInTz to get the Timezone for the booker
+		$this->calendarWriter->write($config, $startObj, $booking->getName(), $booking->getEmail(), $booking->getDescription());
+
+		return $bookingSlot;
 	}
 
 	/**
@@ -83,14 +152,23 @@ class BookingService {
 			throw new ClientException('Could not find slot for booking');
 		}
 
-		$startObj = $startTimeOfDayInTz->setTimestamp($start);
-		if(!$startObj) {
-			throw new ClientException('Could not create booking slot for this time');
+		// this can move probably? run the booking logic, return slot, set that as start and end time for the new Booking obj?
+		$booking = new Booking();
+		$booking->setApptConfigId($config->getId());
+		$booking->setCreatedAt(time());
+		$booking->setToken($this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC));
+		$booking->setName($name);
+		$booking->setDescription($description);
+		$booking->setEmail($email);
+		$booking->setStart($start);
+		$booking->setEnd($endTimeOfDayInTz->getTimestamp());
+		$tz = $startTimeOfDayInTz->getTimezone()->getName();
+		$booking->setTimezone($tz);
+		try {
+			$this->bookingMapper->insert($booking);
+		} catch (Exception $e) {
+			throw new ServiceException('Could not create booking');
 		}
-
-		// Pass the $startTimeInTz to get the Timezone for the booker
-		$this->calendarWriter->write($config, $startObj, $name, $email, $description);
-
 		return $bookingSlot;
 	}
 

@@ -35,6 +35,8 @@ use Safe\DateTimeImmutable;
  * @method void setId(int $id)
  * @method int getApptConfigId()
  * @method void setApptConfigId(int $apptConfigId)
+ * @method int getCreatedAt()
+ * @method void setCreatedAt(int $timestamp)
  * @method string getToken()
  * @method void setToken(string $token)
  * @method string getName()
@@ -54,6 +56,9 @@ class Booking extends Entity implements JsonSerializable {
 
 	/** @var int */
 	protected $apptConfigId;
+
+	/** @var int */
+	protected $createdAt;
 
 	/** @var string */
 	protected $token;
@@ -79,6 +84,7 @@ class Booking extends Entity implements JsonSerializable {
 	public function jsonSerialize() {
 		return [
 			'id' => $this->getId(),
+			'created_at' => $this->getCreatedAt(),
 			'apptConfigId' => $this->getApptConfigId(),
 			'token' => $this->getToken(),
 			'name' => $this->getName(),
