@@ -26,6 +26,9 @@ export default class AppointmentConfig {
 	/** @member {?number} */
 	id
 
+	/** @member {?string} */
+	token
+
 	/** @member {string} */
 	name
 
@@ -68,11 +71,27 @@ export default class AppointmentConfig {
 	/**
 	 * Create a new AppointmentConfig from the given plain object data
 	 *
-	 * @param {{dailyMax: ?number, visibility: string, preparationDuration: number, length: number, description: string, increment: number, availability: string, followupDuration: number, name: string, location: string, id: ?number, buffer: number, targetCalendarUri: string, freebusyUris: ?string}} data The plain object containing the data from this instance
+	 * @param {object} data Appointment config data to construct an instance from
+	 * @param {?number} data.id Id
+	 * @param {?string} data.token Token
+	 * @param {string} data.name Name
+	 * @param {string} data.description Description
+	 * @param {string} data.location Location
+	 * @param {string} data.visibility Visibility
+	 * @param {string} data.targetCalendarUri Target calendar URI
+	 * @param {string} data.availability Availability
+	 * @param {number} data.length Length in seconds
+	 * @param {number} data.increment Increment in seconds
+	 * @param {number} data.preparationDuration Preparation duration in seconds
+	 * @param {number} data.followupDuration Followup duration in seconds
+	 * @param {number} data.buffer Buffer in seconds
+	 * @param {?number} data.dailyMax Max daily slots
+	 * @param {?string} data.freebusyUris FreeBusy URIs
 	 */
 	constructor(data) {
 		data ??= {}
 		this.id = data.id
+		this.token = data.token
 		this.name = data.name
 		this.description = data.description
 		this.location = data.location
