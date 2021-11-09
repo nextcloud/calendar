@@ -42,10 +42,10 @@ class BookingMapper extends QBMapper {
 
 	/**
 	 * @param string $token
-	 * @return AppointmentConfig
+	 * @return Booking
 	 * @throws DoesNotExistException
 	 */
-	public function findByToken(string $token) : AppointmentConfig {
+	public function findByToken(string $token) : Booking {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from($this->getTableName())
