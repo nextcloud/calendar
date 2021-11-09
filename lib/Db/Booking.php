@@ -44,9 +44,9 @@ use Safe\DateTimeImmutable;
  * @method string getEmail()
  * @method void setEmail(string $email)
  * @method int|null getStart()
- * @method void setStart(?int $start)
+ * @method void setStart(int $start)
  * @method int|null getEnd()
- * @method void setEnd(?int $end)
+ * @method void setEnd(int $end)
  * @method string getTimezone()
  * @method void setTimezone(string $timezone)
  */
