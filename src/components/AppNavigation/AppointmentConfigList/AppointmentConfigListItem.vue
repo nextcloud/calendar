@@ -23,7 +23,8 @@
 <template>
 	<div>
 		<AppNavigationItem
-			:title="config.name">
+			:title="config.name"
+			@click.prevent>
 			<template #icon>
 				<CalendarCheckIcon :size="20" decorative />
 			</template>

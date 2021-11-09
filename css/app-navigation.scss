@@ -314,6 +314,11 @@
 			.app-navigation-caption {
 				margin-top: 22px;
 			}
+
+			.app-navigation-entry-link,
+			.app-navigation-entry-link * {
+				cursor: default;
+			}
 		}
 	}
 }
