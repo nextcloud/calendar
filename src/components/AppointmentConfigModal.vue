@@ -26,81 +26,87 @@
 		@close="$emit('close')">
 		<!-- Wait for the config to become available before rendering the form. -->
 		<div v-if="editing" class="appointment-config-modal">
-			<h2>{{ title }}</h2>
+			<Confirmation
+				v-if="showConfirmation"
+				:is-new="isNew"
+				:config="editing"
+				@close="$emit('close')" />
+			<template v-else>
+				<h2>{{ formTitle }}</h2>
+				<div class="appointment-config-modal__form">
+					<fieldset>
+						<TextInput
+							class="appointment-config-modal__form__row"
+							:label="t('calendar', 'Name')"
+							:value.sync="editing.name" />
+						<TextInput
+							class="appointment-config-modal__form__row"
+							:label="t('calendar', 'Location')"
+							:value.sync="editing.location" />
+						<TextArea
+							class="appointment-config-modal__form__row"
+							:label="t('calendar', 'Description')"
+							:value.sync="editing.description" />
 
-			<div class="appointment-config-modal__form">
-				<fieldset>
-					<TextInput
-						class="appointment-config-modal__form__row"
-						:label="t('calendar', 'Name')"
-						:value.sync="editing.name" />
-					<TextInput
-						class="appointment-config-modal__form__row"
-						:label="t('calendar', 'Location')"
-						:value.sync="editing.location" />
-					<TextArea
-						class="appointment-config-modal__form__row"
-						:label="t('calendar', 'Description')"
-						:value.sync="editing.description" />
-
-					<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
-						<div class="calendar-select">
-							<label>{{ t('calendar', 'Calendar') }}</label>
-							<CalendarPicker
-								:calendar="calendar"
-								:calendars="sortedCalendars"
-								:show-calendar-on-select="false"
-								@select-calendar="changeCalendar" />
+						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
+							<div class="calendar-select">
+								<label>{{ t('calendar', 'Calendar') }}</label>
+								<CalendarPicker
+									:calendar="calendar"
+									:calendars="sortedCalendars"
+									:show-calendar-on-select="false"
+									@select-calendar="changeCalendar" />
+							</div>
+							<VisibilitySelect
+								:label="t('calendar', 'Visibility')"
+								:value.sync="editing.visibility" />
 						</div>
-						<VisibilitySelect
-							:label="t('calendar', 'Visibility')"
-							:value.sync="editing.visibility" />
-					</div>
 
-					<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
-						<DurationInput
-							:label="t('calendar', 'Duration')"
-							:value.sync="editing.length" />
-						<DurationSelect
-							:label="t('calendar', 'Increments')"
-							:value.sync="editing.increment" />
-					</div>
-				</fieldset>
+						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
+							<DurationInput
+								:label="t('calendar', 'Duration')"
+								:value.sync="editing.length" />
+							<DurationSelect
+								:label="t('calendar', 'Increments')"
+								:value.sync="editing.increment" />
+						</div>
+					</fieldset>
 
-				<fieldset>
-					<header>{{ t('calendar', 'Add time before and after the event') }}</header>
+					<fieldset>
+						<header>{{ t('calendar', 'Add time before and after the event') }}</header>
 
-					<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
-						<CheckedDurationSelect
-							:label="t('calendar', 'Before the event')"
-							:enabled.sync="enablePreparationDuration"
-							:value.sync="editing.preparationDuration" />
-						<CheckedDurationSelect
-							:label="t('calendar', 'After the event')"
-							:enabled.sync="enableFollowupDuration"
-							:value.sync="editing.followupDuration" />
-					</div>
-				</fieldset>
+						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
+							<CheckedDurationSelect
+								:label="t('calendar', 'Before the event')"
+								:enabled.sync="enablePreparationDuration"
+								:value.sync="editing.preparationDuration" />
+							<CheckedDurationSelect
+								:label="t('calendar', 'After the event')"
+								:enabled.sync="enableFollowupDuration"
+								:value.sync="editing.followupDuration" />
+						</div>
+					</fieldset>
 
-				<fieldset>
-					<header>{{ t('calendar', 'Planning restrictions') }}</header>
+					<fieldset>
+						<header>{{ t('calendar', 'Planning restrictions') }}</header>
 
-					<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
-						<DurationSelect
-							:label="t('calendar', 'Minimum time before next available slot')"
-							:value.sync="editing.buffer" />
-						<NumberInput
-							:label="t('calendar','Max slots per day')"
-							:value.sync="editing.dailyMax" />
-					</div>
-				</fieldset>
-			</div>
-			<button
-				class="primary appointment-config-modal__submit-button"
-				:disabled="!editing.name"
-				@click="save">
-				{{ saveButtonText }}
-			</button>
+						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
+							<DurationSelect
+								:label="t('calendar', 'Minimum time before next available slot')"
+								:value.sync="editing.buffer" />
+							<NumberInput
+								:label="t('calendar','Max slots per day')"
+								:value.sync="editing.dailyMax" />
+						</div>
+					</fieldset>
+				</div>
+				<button
+					class="primary appointment-config-modal__submit-button"
+					:disabled="!editing.name"
+					@click="save">
+					{{ saveButtonText }}
+				</button>
+			</template>
 		</div>
 	</Modal>
 </template>
@@ -118,6 +124,8 @@ import NumberInput from './AppointmentConfigModal/NumberInput'
 import DurationSelect from './AppointmentConfigModal/DurationSelect'
 import CheckedDurationSelect from './AppointmentConfigModal/CheckedDurationSelect'
 import VisibilitySelect from './AppointmentConfigModal/VisibilitySelect'
+import logger from '../utils/logger'
+import Confirmation from './AppointmentConfigModal/Confirmation'
 
 export default {
 	name: 'AppointmentConfigModal',
@@ -131,6 +139,7 @@ export default {
 		TextArea,
 		DurationSelect,
 		VisibilitySelect,
+		Confirmation,
 	},
 	props: {
 		config: {
@@ -147,13 +156,14 @@ export default {
 			editing: undefined,
 			enablePreparationDuration: false,
 			enableFollowupDuration: false,
+			showConfirmation: false,
 		}
 	},
 	computed: {
 		...mapGetters([
 			'sortedCalendars',
 		]),
-		title() {
+		formTitle() {
 			if (this.isNew) {
 				return this.$t('calendar', 'Create appointment')
 			}
@@ -188,17 +198,18 @@ export default {
 	},
 	watch: {
 		config() {
-			this.cloneConfig()
+			this.reset()
 		},
 	},
 	created() {
-		this.cloneConfig()
+		this.reset()
 	},
 	methods: {
-		cloneConfig() {
+		reset() {
 			this.editing = this.config?.clone() ?? new AppointmentConfig()
 			this.enablePreparationDuration = !!this.editing.preparationDuration
 			this.enableFollowupDuration = !!this.editing.followupDuration
+			this.showConfirmation = false
 		},
 		changeAvailability(value) {
 			this.editing.availability = value.value
@@ -206,7 +217,7 @@ export default {
 		changeCalendar(calendar) {
 			this.editing.targetCalendarUri = calendar.url
 		},
-		save() {
+		async save() {
 			if (!this.enablePreparationDuration) {
 				this.editing.preparationDuration = this.defaultConfig.preparationDuration
 			}
@@ -217,7 +228,19 @@ export default {
 
 			this.editing.targetCalendarUri ??= this.defaultConfig.targetCalendarUri
 
-			this.$emit('save', this.editing)
+			const config = this.editing
+			try {
+				if (this.isNew) {
+					logger.info('Creating new config', { config })
+					this.editing = await this.$store.dispatch('createConfig', { config })
+				} else {
+					logger.info('Saving config', { config })
+					this.editing = await this.$store.dispatch('updateConfig', { config })
+				}
+				this.showConfirmation = true
+			} catch (error) {
+				logger.error('Failed to save config', { error, config, isNew: this.isNew })
+			}
 		},
 	},
 }

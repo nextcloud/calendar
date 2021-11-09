@@ -49,7 +49,6 @@
 			v-if="showModal"
 			:is-new="false"
 			:config="config"
-			@save="save"
 			@close="closeModal" />
 	</div>
 </template>
@@ -61,8 +60,6 @@ import PencilIcon from 'vue-material-design-icons/Pencil'
 import TrashCanIcon from 'vue-material-design-icons/TrashCan'
 import AppointmentConfig from '../../../models/appointmentConfig'
 import AppointmentConfigModal from '../../AppointmentConfigModal'
-import logger from '../../../utils/logger'
-import { generateUrl } from '@nextcloud/router'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant'
 
 export default {
@@ -91,28 +88,12 @@ export default {
 		closeModal() {
 			this.showModal = false
 		},
-		async save(config) {
-			logger.info('Saving existing config', { config })
-			this.loading = true
-			try {
-				await this.$store.dispatch('updateConfig', { config })
-				this.closeModal()
-			} catch (error) {
-				logger.error('Creating appointment config failed', { error, config })
-			} finally {
-				this.loading = false
-			}
-		},
 		copyLink() {
 			if (!navigator || !navigator.clipboard) {
 				return
 			}
 
-			const baseUrl = `${window.location.protocol}//${window.location.hostname}`
-			const relativeUrl = generateUrl('/apps/calendar/appointment/{token}', {
-				token: this.config.token,
-			})
-			navigator.clipboard.writeText(baseUrl + relativeUrl)
+			navigator.clipboard.writeText(this.config.bookingUrl)
 		},
 	},
 }

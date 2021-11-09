@@ -20,6 +20,8 @@
  *
  */
 
+import { generateUrl } from '@nextcloud/router'
+
 /** @class */
 export default class AppointmentConfig {
 
@@ -150,12 +152,25 @@ export default class AppointmentConfig {
 		return new AppointmentConfig(JSON.parse(jsonString))
 	}
 
+	/**
+	 * Get the absolute booking URL of this instance
+	 *
+	 * @return {string} Absolute URL
+	 */
+	get bookingUrl() {
+		const baseUrl = `${window.location.protocol}//${window.location.hostname}`
+		const relativeUrl = generateUrl('/apps/calendar/appointment/{token}', {
+			token: this.token,
+		})
+		return baseUrl + relativeUrl
+	}
+
 }
 
 /**
  * Try to parse an int from the given value or return undefined
  *
- * @param {string|null|undefined} value The value to parse
+ * @param {string|number|null|undefined} value The value to parse
  * @return {number|undefined} Parsed number or undefined
  */
 function tryParseInt(value) {

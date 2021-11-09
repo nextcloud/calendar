@@ -64,6 +64,7 @@ const actions = {
 		try {
 			const updatedConfig = await updateConfig(config)
 			commit('updateConfig', { config: updatedConfig })
+			return updatedConfig
 		} catch (error) {
 			logger.error('Failed to update config', { error })
 			throw error
@@ -73,6 +74,7 @@ const actions = {
 		try {
 			const fullConfig = await createConfig(config)
 			commit('addConfig', { config: fullConfig })
+			return fullConfig
 		} catch (error) {
 			logger.error('Failed to create config', { error })
 			throw error
