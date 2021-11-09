@@ -50,18 +50,27 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		allowZero: {
+			type: Boolean,
+			default: false,
+		},
 	},
-	data() {
-		return {
-			options: [
+	computed: {
+		options() {
+			const options = [
+				{ value: 0, label: this.t('calendar', '0 minutes') },
 				{ value: 5 * 60, label: this.t('calendar', '5 minutes') },
 				{ value: 10 * 60, label: this.t('calendar', '10 minutes') },
 				{ value: 15 * 60, label: this.t('calendar', '15 minutes') },
 				{ value: 30 * 60, label: this.t('calendar', '30 minutes') },
 				{ value: 45 * 60, label: this.t('calendar', '45 minutes') },
 				{ value: 60 * 60, label: this.t('calendar', '1 hour') },
-			],
-		}
+			]
+			if (!this.allowZero) {
+				options.splice(0, 1)
+			}
+			return options
+		},
 	},
 }
 </script>
