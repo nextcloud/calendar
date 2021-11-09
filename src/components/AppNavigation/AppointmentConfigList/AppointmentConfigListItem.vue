@@ -24,6 +24,9 @@
 	<div>
 		<AppNavigationItem
 			:title="config.name">
+			<template #icon>
+				<CalendarCheckIcon :size="20" decorative />
+			</template>
 			<template #actions>
 				<ActionButton
 					:close-after-click="true"
@@ -57,6 +60,7 @@
 <script>
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck'
 import PencilIcon from 'vue-material-design-icons/Pencil'
 import TrashCanIcon from 'vue-material-design-icons/TrashCan'
 import AppointmentConfig from '../../../models/appointmentConfig'
@@ -73,6 +77,7 @@ export default {
 		ActionButton,
 		PencilIcon,
 		TrashCanIcon,
+		CalendarCheckIcon,
 		LinkVariantIcon,
 	},
 	props: {
