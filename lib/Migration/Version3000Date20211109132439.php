@@ -55,7 +55,7 @@ class Version3000Date20211109132439 extends SimpleMigrationStep {
 		]);
 		$table->addColumn('email', Types::STRING, [
 			'notnull' => true,
-			'length' => 64
+			'length' => 128
 		]);
 		$table->addColumn('start', Types::INTEGER, [
 			'notnull' => true,
