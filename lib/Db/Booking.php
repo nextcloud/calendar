@@ -26,19 +26,21 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Db;
 
+use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
+use Safe\DateTimeImmutable;
 
 /**
  * @method int getId()
  * @method void setId(int $id)
  * @method int getApptConfigId()
- * @method void setApptConfigId(int $appointmentConfigId)
+ * @method void setApptConfigId(int $apptConfigId)
  * @method string getToken()
  * @method void setToken(string $token)
  * @method string getName()
  * @method void setName(string $name)
- * @method string getDescription()
- * @method void setDescription(string $name)
+ * @method string|null getDescription()
+ * @method void setDescription(?string $description)
  * @method string getEmail()
  * @method void setEmail(string $email)
  * @method int|null getStart()
@@ -50,4 +52,41 @@ use OCP\AppFramework\Db\Entity;
  */
 class Booking extends Entity implements JsonSerializable {
 
+	/** @var int */
+	protected $apptConfigId;
+
+	/** @var string */
+	protected $token;
+
+	/** @var string */
+	protected $name = '';
+
+	/** @var string|null */
+	protected $description;
+
+	/** @var string */
+	protected $email;
+
+	/** @var int */
+	protected $start;
+
+	/** @var int */
+	protected $end;
+
+	/** @var string */
+	protected $timezone;
+
+	public function jsonSerialize() {
+		return [
+			'id' => $this->getId(),
+			'apptConfigId' => $this->getApptConfigId(),
+			'token' => $this->getToken(),
+			'name' => $this->getName(),
+			'description' => $this->getDescription(),
+			'email' => $this->getEmail(),
+			'start' => $this->getStart(),
+			'end' => $this->getEnd(),
+			'timezone' => $this->getTimezone()
+		];
+	}
 }
