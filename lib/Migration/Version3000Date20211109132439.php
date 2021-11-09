@@ -53,7 +53,7 @@ class Version3000Date20211109132439 extends SimpleMigrationStep {
 			'notnull' => false,
 			'length' => null
 		]);
-		$table->addColumn('email', 'string', [
+		$table->addColumn('email', Types::STRING, [
 			'notnull' => true,
 			'length' => 64
 		]);

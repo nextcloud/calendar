@@ -75,12 +75,11 @@ class BookingCalendarWriter {
 	 */
 	public function write(AppointmentConfig $config, DateTimeImmutable $start, string $name, string $email, ?string $description = null) : void {
 		$calendar = current($this->manager->getCalendarsForPrincipal($config->getPrincipalUri(), [$config->getTargetCalendarUri()]));
-		if (!($calendar instanceof ICreateFromString)) {
+		if (!$calendar || !($calendar instanceof ICreateFromString)) {
 			throw new RuntimeException('Could not find a public writable calendar for this principal');
 		}
 
 		$organizer = $this->userManager->get($config->getUserId());
-
 		if ($organizer === null) {
 			throw new RuntimeException('Organizer not registered user for this instance');
 		}
@@ -90,19 +89,45 @@ class BookingCalendarWriter {
 			'VERSION' => '2.0',
 			'VEVENT' => [
 				'SUMMARY' => $config->getName(),
-				'STATUS' => 'CONFIRMED',
 				'DTSTART' => $start,
-				'DTEND' => $start->setTimestamp($start->getTimestamp() + $config->getLength())
+				'DTEND' => $start->setTimestamp($start->getTimestamp() + ($config->getLength() * 60)) // *60 can be removed as soon as the switch to seconds as intervals etc is complete
 			]
 		]);
 
 		if($description !== null) {
 			$vcalendar->VEVENT->add('DESCRIPTION', $description);
 		}
-
-		$vcalendar->VEVENT->add('ORGANIZER', 'mailto:' . $organizer->getEMailAddress(), [ 'CN' => $organizer->getDisplayName()]);
-		$vcalendar->VEVENT->add('ATTENDEE', 'mailto:' . $organizer->getEMailAddress(), [ 'CN' => $organizer->getDisplayName(), 'CUTYPE' => 'INDIVIDUAL', 'RSVP' => 'TRUE', 'PARTSTAT' => 'NEEDS-ACTION']);
-		$vcalendar->VEVENT->add('ATTENDEE', 'mailto:' . $email, ['CN' => $name,'CUTYPE' => 'INDIVIDUAL', 'RSVP' => 'TRUE', 'PARTSTAT' => 'NEEDS-ACTION']);
+		$vcalendar->VEVENT->add(
+			'ORGANIZER',
+			'mailto:' . $organizer->getEMailAddress(),
+			[
+				'CN' => $organizer->getDisplayName(),
+				'CUTYPE' => 'INDIVIDUAL',
+				'PARTSTAT' => 'ACCEPTED'
+			]
+		);
+		$vcalendar->VEVENT->add(
+			'ATTENDEE',
+			'mailto:' . $organizer->getEMailAddress(),
+				[
+					'CN' => $organizer->getDisplayName(),
+					'CUTYPE' => 'INDIVIDUAL',
+					'RSVP' => 'TRUE',
+					'ROLE' => 'REQ-PARTICIPANT',
+					'PARTSTAT' => 'ACCEPTED'
+				]
+		);
+		$vcalendar->VEVENT->add(
+			'ATTENDEE',
+			'mailto:' . $email,
+			[
+				'CN' => $name,
+				'CUTYPE' => 'INDIVIDUAL',
+				'RSVP' => 'TRUE',
+				'PARTSTAT' => 'NEEDS-ACTION',
+				'ROLE' => 'REQ-PARTICIPANT'
+			]
+		);
 		$vcalendar->VEVENT->add('X-NC-APPOINTMENT', $config->getToken());
 
 		$filename = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);

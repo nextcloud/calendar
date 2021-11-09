@@ -65,7 +65,7 @@ class BookingService {
 	 * @param int $start
 	 * @param string $name
 	 * @param string $email
-	 * @param string $description
+	 * @param string|null $description
 	 *
 	 * @return Interval
 	 *
@@ -105,9 +105,7 @@ class BookingService {
 		// 3. Filter out the daily limits
 		$filteredByDailyLimit = $this->dailyLimitFilter->filter($config, $allPossibleSlots);
 		// 4. Filter out booking conflicts
-		$filteredByConflict = $this->eventConflictFilter->filter($config, $filteredByDailyLimit);
-
-		return $filteredByConflict;
+		return $this->eventConflictFilter->filter($config, $filteredByDailyLimit);
 	}
 
 	// Update

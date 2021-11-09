@@ -26,6 +26,28 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Db;
 
-class Booking extends \OCP\AppFramework\Db\Entity {
+use OCP\AppFramework\Db\Entity;
+
+/**
+ * @method int getId()
+ * @method void setId(int $id)
+ * @method int getApptConfigId()
+ * @method void setApptConfigId(int $appointmentConfigId)
+ * @method string getToken()
+ * @method void setToken(string $token)
+ * @method string getName()
+ * @method void setName(string $name)
+ * @method string getDescription()
+ * @method void setDescription(string $name)
+ * @method string getEmail()
+ * @method void setEmail(string $email)
+ * @method int|null getStart()
+ * @method void setStart(?int $start)
+ * @method int|null getEnd()
+ * @method void setEnd(?int $end)
+ * @method string getTimezone()
+ * @method void setTimezone(string $timezone)
+ */
+class Booking extends Entity implements JsonSerializable {
 
 }
