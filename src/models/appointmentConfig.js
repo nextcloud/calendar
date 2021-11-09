@@ -107,6 +107,12 @@ export default class AppointmentConfig {
 		this.freebusyUris = data.freebusyUris
 	}
 
+	/**
+	 * Create a default appointment config instance from the given vuex store
+	 *
+	 * @param {object} store The vuex store object (e.g. this.$store)
+	 * @return {AppointmentConfig} Default appointment config instance
+	 */
 	static createDefault(store) {
 		return new AppointmentConfig({
 			name: '',
