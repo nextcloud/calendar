@@ -56,7 +56,6 @@
 				v-if="showModalForNewConfig"
 				:is-new="true"
 				:config="defaultConfig"
-				@save="saveNewConfig"
 				@close="closeModal" />
 		</template>
 		<NoEmailAddressWarning v-else />
@@ -111,16 +110,6 @@ export default {
 	methods: {
 		closeModal() {
 			this.showModalForNewConfig = false
-		},
-		async saveNewConfig(config) {
-			logger.info('Saving new config', { config })
-
-			try {
-				await this.$store.dispatch('createConfig', { config })
-				this.closeModal()
-			} catch (error) {
-				logger.error('Creating appointment config failed', { error, config })
-			}
 		},
 		async deleteConfig(config) {
 			logger.info('Deleting config', { config })
