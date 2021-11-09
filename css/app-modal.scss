@@ -74,3 +74,16 @@
 		margin-top: 20px;
 	}
 }
+
+.app-config-modal-confirmation {
+	.empty-content {
+		margin-top: 0 !important;
+		margin-bottom: 20px;
+	}
+
+	&__buttons {
+		display: flex;
+		justify-content: center;
+		gap: 0 10px;
+	}
+}
