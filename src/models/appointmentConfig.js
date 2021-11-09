@@ -67,7 +67,7 @@ export default class AppointmentConfig {
 	/** @member {?number} */
 	dailyMax
 
-	/** @member {?string} */
+	/** @member {?string[]} */
 	freebusyUris
 
 	/**
@@ -88,7 +88,7 @@ export default class AppointmentConfig {
 	 * @param {number} data.followupDuration Followup duration in seconds
 	 * @param {number} data.buffer Buffer in seconds
 	 * @param {?number} data.dailyMax Max daily slots
-	 * @param {?string} data.freebusyUris FreeBusy URIs
+	 * @param {?string[]} data.freebusyUris FreeBusy URIs
 	 */
 	constructor(data) {
 		data ??= {}
