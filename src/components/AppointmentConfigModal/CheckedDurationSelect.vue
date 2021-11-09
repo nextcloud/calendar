@@ -34,6 +34,7 @@
 		</div>
 		<DurationSelect
 			class="checked-duration-select__duration"
+			:allow-zero="true"
 			:disabled="!enabled"
 			:value="value"
 			@update:value="$emit('update:value', $event)" />
@@ -56,7 +57,7 @@ export default {
 		},
 		value: {
 			type: Number,
-			default: undefined,
+			default: 0,
 		},
 		enabled: {
 			type: Boolean,
