@@ -10,9 +10,6 @@ use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-/**
- * Auto-generated migration step: Please modify to your needs!
- */
 class Version3000Date20211109132439 extends SimpleMigrationStep {
 
 
