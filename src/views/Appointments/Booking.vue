@@ -40,6 +40,7 @@
 			<h3>{{ $t('calendar', 'Select date') }}</h3>
 			<div class="booking__date">
 				<DatetimePicker v-model="selectedDate"
+					:disabled-date="disabledDate"
 					type="date"
 					@change="fetchSlots" />
 			</div>
@@ -108,9 +109,26 @@ export default {
 		const defaultTimezone = jstz.determine()
 		const defaultTimeZoneId = defaultTimezone ? defaultTimezone.name() : 'UTC'
 
+		// Build the real first possible date and time
+		const now = new Date()
+		const selectedDate = new Date(Math.max(
+			this.config.start ? this.config.start * 1000 : now,
+			now
+		))
+		if (this.config.timeBeforeNextSlot) {
+			selectedDate.setSeconds(selectedDate.getSeconds() + this.config.timeBeforeNextSlot * 60)
+		}
+
+		const minimumDate = new Date(selectedDate.getTime())
+		// Make it one sec before midnight so it shows the next full day as available
+		minimumDate.setHours(0, 0, 0)
+		minimumDate.setSeconds(minimumDate.getSeconds() - 1)
+
 		return {
 			loadingSlots: false,
-			selectedDate: new Date(),
+			minimumDate,
+			selectedDate,
+			endDate: this.config.end ? new Date(this.config.end * 1000) : undefined,
 			timeZone: defaultTimeZoneId,
 			slots: [],
 			selectedSlot: undefined,
@@ -126,6 +144,22 @@ export default {
 		await this.fetchSlots()
 	},
 	methods: {
+		/**
+		 * Whether or not the date is acceptable
+		 *
+		 * @param {Date} date The date to compare to
+		 * @return {boolean}
+		 */
+		disabledDate(date) {
+			if (date <= this.minimumDate) {
+				return true
+			}
+			if (this.endDate && this.endDate < date) {
+				return true
+			}
+
+			return false
+		},
 		async fetchSlots() {
 			this.slots = []
 			this.loadingSlots = true
