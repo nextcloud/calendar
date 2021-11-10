@@ -24,8 +24,8 @@
 				<div>
 					{{ $t('calendar', 'Name') }}
 				</div>
-				<input id="name"
-					v-model="name"
+				<input id="displayName"
+					v-model="displayName"
 					type="text"
 					class="no-close"
 					required>
@@ -92,7 +92,7 @@ export default {
 		return {
 			description: '',
 			email: this.visitorInfo.email,
-			name: this.visitorInfo.displayName,
+			displayName: this.visitorInfo.displayName,
 		}
 	},
 	computed: {
@@ -109,7 +109,7 @@ export default {
 				slot: this.timeSlot,
 				description: this.description,
 				email: this.email,
-				name: this.name,
+		  	displayName: this.displayName,
 			})
 		},
 	},

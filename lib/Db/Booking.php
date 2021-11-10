@@ -39,8 +39,8 @@ use Safe\DateTimeImmutable;
  * @method void setCreatedAt(int $timestamp)
  * @method string getToken()
  * @method void setToken(string $token)
- * @method string getName()
- * @method void setName(string $name)
+ * @method string getDisplayName()
+ * @method void setDisplayName(string $displayName)
  * @method string|null getDescription()
  * @method void setDescription(?string $description)
  * @method string getEmail()
@@ -64,7 +64,7 @@ class Booking extends Entity implements JsonSerializable {
 	protected $token;
 
 	/** @var string */
-	protected $name = '';
+	protected $displayName = '';
 
 	/** @var string|null */
 	protected $description;
@@ -81,13 +81,21 @@ class Booking extends Entity implements JsonSerializable {
 	/** @var string */
 	protected $timezone;
 
+	public function __construct() {
+		$this->addType('id', 'integer');
+		$this->addType('apptConfigId', 'integer');
+		$this->addType('createdAt', 'integer');
+		$this->addType('start', 'integer');
+		$this->addType('end', 'integer');
+	}
+
 	public function jsonSerialize() {
 		return [
 			'id' => $this->getId(),
 			'created_at' => $this->getCreatedAt(),
 			'apptConfigId' => $this->getApptConfigId(),
 			'token' => $this->getToken(),
-			'name' => $this->getName(),
+			'displayName' => $this->getDisplayName(),
 			'description' => $this->getDescription(),
 			'email' => $this->getEmail(),
 			'start' => $this->getStart(),

@@ -179,16 +179,16 @@ export default {
 				this.loadingSlots = false
 			}
 		},
-		async onSave({ slot, name, email, description }) {
+		async onSave({ slot, displayName, email, description }) {
 			console.info('slot will be booked', {
 				slot,
 				description,
 				email,
-				name,
+				displayName,
 			})
 
 			try {
-				await bookSlot(this.config, slot, name, email, description)
+				await bookSlot(this.config, slot, displayName, email, description)
 
 				console.info('appointment booked')
 

@@ -27,13 +27,16 @@ namespace OCA\Calendar\Controller;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
+use OCA\Calendar\Exception\ClientException;
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Http\JsonResponse;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCA\Calendar\Service\Appointments\BookingService;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\Exception;
 use OCP\IRequest;
 
 class BookingController extends Controller {
@@ -115,30 +118,20 @@ class BookingController extends Controller {
 	 * @param int $appointmentConfigId
 	 * @param int $start
 	 * @param int $end
-	 * @param string $name
+	 * @param string $displayName
 	 * @param string $email
 	 * @param string $description
 	 * @param string $timeZone
 	 * @return JsonResponse
 	 */
-	public function bookSlot(int $appointmentConfigId,
-							 int $start,
-							 int $end,
-							 string $name,
+	public function bookSlot(int    $appointmentConfigId,
+							 int    $start,
+							 int    $end,
+							 string $displayName,
 							 string $email,
 							 string $description,
-							 string $timeZone = 'Pacific/Auckland'): JsonResponse {
-		$tz = new DateTimeZone($timeZone);
-		$startTimeInTz = (new DateTimeImmutable())
-			->setTimestamp($start)
-			->setTimezone($tz)
-			->setTime(0, 0);
-		$endTimeInTz = (new DateTimeImmutable())
-			->setTimestamp($end)
-			->setTimezone($tz)
-			->setTime(23, 59, 59);
-
-		if ($startTimeInTz->getTimestamp() > $endTimeInTz->getTimestamp()) {
+							 string $timeZone): JsonResponse {
+		if ($start > $end) {
 			return JsonResponse::fail('Invalid time range', Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -149,11 +142,51 @@ class BookingController extends Controller {
 		}
 
 		try {
-			$slot = $this->bookingService->book($config, $startTimeInTz, $endTimeInTz, $start, $name, $email, $description);
+			$booking = $this->bookingService->book($config, $start, $end, $timeZone, $displayName, $email, $description);
+		} catch (ClientException $e) {
+			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
+		}
+
+		try {
+			$this->bookingService->sendConfirmationEmail($booking, $config);
+		} catch( ServiceException $e) {
+			$this->bookingService->deleteEntity($booking);
+			return JsonResponse::fail(null, Http::STATUS_BAD_REQUEST);
+		}
+
+		return JsonResponse::success($booking);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param string $token
+	 * @return JsonResponse
+	 * @throws Exception
+	 * @throws MultipleObjectsReturnedException
+	 */
+	public function confirmBooking(string $token): JsonResponse {
+		try {
+			$booking = $this->bookingService->findByToken($token);
+		} catch(ClientException $e) {
+			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
+		}
+
+		try {
+			$config = $this->appointmentConfigService->findById($booking->getApptConfigId());
 		} catch (ServiceException $e) {
 			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
 		}
 
-		return JsonResponse::success($slot);
+		try {
+			$booking = $this->bookingService->confirmBooking($booking, $config);
+		} catch (ClientException $e) {
+			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
+		}
+
+		$this->bookingService->deleteEntity($booking);
+
+		return JsonResponse::success($booking);
 	}
 }

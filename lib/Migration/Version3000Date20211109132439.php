@@ -42,7 +42,7 @@ class Version3000Date20211109132439 extends SimpleMigrationStep {
 			'notnull' => true,
 			'length' => 32
 		]);
-		$table->addColumn('name', Types::STRING, [
+		$table->addColumn('display_name', Types::STRING, [
 			'notnull' => true,
 			'length' => 128
 		]);

@@ -73,7 +73,7 @@ class BookingCalendarWriter {
 	 * @throws RuntimeException
 	 *
 	 */
-	public function write(AppointmentConfig $config, DateTimeImmutable $start, string $name, string $email, ?string $description = null) : void {
+	public function write(AppointmentConfig $config, DateTimeImmutable $start, string $displayName, string $email, ?string $description = null) : void {
 		$calendar = current($this->manager->getCalendarsForPrincipal($config->getPrincipalUri(), [$config->getTargetCalendarUri()]));
 		if (!$calendar || !($calendar instanceof ICreateFromString)) {
 			throw new RuntimeException('Could not find a public writable calendar for this principal');
@@ -89,6 +89,7 @@ class BookingCalendarWriter {
 			'VERSION' => '2.0',
 			'VEVENT' => [
 				'SUMMARY' => $config->getName(),
+				'STATUS' => 'CONFRIMED',
 				'DTSTART' => $start,
 				'DTEND' => $start->setTimestamp($start->getTimestamp() + ($config->getLength() * 60)) // *60 can be removed as soon as the switch to seconds as intervals etc is complete
 			]
@@ -107,25 +108,25 @@ class BookingCalendarWriter {
 			]
 		);
 		$vcalendar->VEVENT->add(
-			'ATTENDEE',
-			'mailto:' . $organizer->getEMailAddress(),
-				[
-					'CN' => $organizer->getDisplayName(),
-					'CUTYPE' => 'INDIVIDUAL',
-					'RSVP' => 'TRUE',
-					'ROLE' => 'REQ-PARTICIPANT',
-					'PARTSTAT' => 'ACCEPTED'
-				]
+		'ATTENDEE',
+		'mailto:' . $organizer->getEMailAddress(),
+			[
+				'CN' => $organizer->getDisplayName(),
+				'CUTYPE' => 'INDIVIDUAL',
+				'RSVP' => 'TRUE',
+				'ROLE' => 'REQ-PARTICIPANT',
+				'PARTSTAT' => 'ACCEPTED'
+			]
 		);
 		$vcalendar->VEVENT->add(
 			'ATTENDEE',
 			'mailto:' . $email,
 			[
-				'CN' => $name,
+				'CN' => $displayName,
 				'CUTYPE' => 'INDIVIDUAL',
 				'RSVP' => 'TRUE',
-				'PARTSTAT' => 'NEEDS-ACTION',
-				'ROLE' => 'REQ-PARTICIPANT'
+				'ROLE' => 'REQ-PARTICIPANT',
+				'PARTSTAT' => 'ACCEPTED'
 			]
 		);
 		$vcalendar->VEVENT->add('X-NC-APPOINTMENT', $config->getToken());

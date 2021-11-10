@@ -27,6 +27,7 @@ namespace OCA\Calendar\Service\Appointments;
 
 use DateTimeImmutable;
 use DateTimeZone;
+use OC\URLGenerator;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\AppointmentConfigMapper;
 use OCA\Calendar\Db\Booking;
@@ -35,8 +36,21 @@ use OCA\Calendar\Exception\ClientException;
 use OCA\Calendar\Exception\ServiceException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use OCP\AppFramework\Http;
 use OCP\DB\Exception;
+use OCP\DB\Exception as DbException;
+use OCP\Defaults;
+use OCP\EventDispatcher\IEventDispatcher;
+use OCP\IDateTimeFormatter;
+use OCP\IL10N;
+use OCP\ILogger;
+use OCP\IUserManager;
+use OCP\L10N\IFactory;
+use OCP\Mail\IEMailTemplate;
+use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
+use OCP\Util;
+use Sabre\VObject\Component\VEvent;
 
 class BookingService {
 
@@ -57,27 +71,56 @@ class BookingService {
 	/** @var BookingMapper */
 	private $bookingMapper;
 
-	/** @var AppointmentConfigMapper */
-	private $appointmentConfigMapper;
 	/** @var ISecureRandom */
 	private $random;
+
+	/** @var IMailer */
+	private $mailer;
+
+	/** @var IUserManager */
+	private $userManager;
+	/** @var IL10N */
+	private $l10n;
+	private $logger;
+	private $urlGenerator;
+	/** @var Defaults */
+	private $defaults;
+	/** @var IDateTimeFormatter */
+	private $dateFormatter;
+	/** @var IFactory */
+	private $lFactory;
 
 	public function __construct(AvailabilityGenerator $availabilityGenerator,
 								SlotExtrapolator $extrapolator,
 								DailyLimitFilter $dailyLimitFilter,
 								EventConflictFilter $eventConflictFilter,
-								AppointmentConfigMapper $appointmentConfigMapper,
 								BookingMapper $bookingMapper,
 								BookingCalendarWriter $calendarWriter,
-								ISecureRandom $random) {
+								ISecureRandom $random,
+								IMailer $mailer,
+								IUserManager $userManager,
+								IL10N $l10n,
+	Defaults $defaults,
+	ILogger $logger,
+	URLGenerator $urlGenerator,
+								IDateTimeFormatter $dateFormatter,
+	IFactory $lFactory) {
+
 		$this->availabilityGenerator = $availabilityGenerator;
 		$this->extrapolator = $extrapolator;
 		$this->dailyLimitFilter = $dailyLimitFilter;
 		$this->eventConflictFilter = $eventConflictFilter;
 		$this->calendarWriter = $calendarWriter;
 		$this->bookingMapper = $bookingMapper;
-		$this->appointmentConfigMapper = $appointmentConfigMapper;
 		$this->random = $random;
+		$this->mailer = $mailer;
+		$this->userManager = $userManager;
+		$this->l10n = $l10n;
+		$this->logger = $logger;
+		$this->urlGenerator = $urlGenerator;
+		$this->defaults = $defaults;
+		$this->dateFormatter = $dateFormatter;
+		$this->lFactory = $lFactory;
 	}
 
 	/**
@@ -88,31 +131,11 @@ class BookingService {
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
 	 */
-	public function confirmBooking(string $token): Interval {
-		// pretty sure this can move
-		try {
-			$booking = $this->bookingMapper->findByToken($token);
-		} catch (DoesNotExistException $e) {
-			throw new ClientException('Could not find the booking', 0, $e);
-		}
-
-		try {
-			$config = $this->appointmentConfigMapper->findById($booking->getId());
-		} catch (DoesNotExistException $e) {
-			throw new ClientException('Could not find the booking', 0, $e);
-		}
-
-		// pass $config, start and end as before
-		$slots = $this->getAvailableSlots($config, $booking->getStart(), $booking->getEnd());
-
-		$start = $booking->getStart();
-		/** @var Interval|false $bookingSlot */
-		$bookingSlot = current(array_filter($slots, static function (Interval $slot) use ($start) {
-			return $slot->getStart() === $start;
-		}));
+	public function confirmBooking(Booking $booking, AppointmentConfig $config): Interval {
+		$bookingSlot = current($this->getAvailableSlots($config, $booking->getStart(), $booking->getEnd()));
 
 		if (!$bookingSlot) {
-			throw new ClientException('Slot for bookin is not available any more');
+			throw new ClientException('Slot for booking is not available any more');
 		}
 
 		$tz = new DateTimeZone($booking->getTimezone());
@@ -121,10 +144,10 @@ class BookingService {
 			throw new ClientException('Could not make sense of booking times');
 		}
 
-		// Pass the $startTimeInTz to get the Timezone for the booker
-		$this->calendarWriter->write($config, $startObj, $booking->getName(), $booking->getEmail(), $booking->getDescription());
+		// Pass the $startTimeInTz to get the correct timezone for the booking user
+		$this->calendarWriter->write($config, $startObj, $booking->getDisplayName(), $booking->getEmail(), $booking->getDescription());
 
-		return $bookingSlot;
+		return $booking;
 	}
 
 	/**
@@ -132,7 +155,7 @@ class BookingService {
 	 * @param DateTimeImmutable $startTimeOfDayInTz
 	 * @param DateTimeImmutable $endTimeOfDayInTz
 	 * @param int $start
-	 * @param string $name
+	 * @param string $displayName
 	 * @param string $email
 	 * @param string|null $description
 	 *
@@ -140,13 +163,8 @@ class BookingService {
 	 *
 	 * @throws ClientException
 	 */
-	public function book(AppointmentConfig $config, DateTimeImmutable $startTimeOfDayInTz, DateTimeImmutable $endTimeOfDayInTz, int $start, string $name, string $email, ?string $description = null): Interval {
-		$slots = $this->getAvailableSlots($config, $startTimeOfDayInTz->getTimestamp(), $endTimeOfDayInTz->getTimestamp());
-
-		/** @var Interval|false $bookingSlot */
-		$bookingSlot = current(array_filter($slots, static function (Interval $slot) use ($start) {
-			return $slot->getStart() === $start;
-		}));
+	public function book(AppointmentConfig $config,int $start, int $end, string $timeZone, string $displayName, string $email, ?string $description = null): Booking {
+		$bookingSlot = current($this->getAvailableSlots($config, $start, $end));
 
 		if (!$bookingSlot) {
 			throw new ClientException('Could not find slot for booking');
@@ -157,19 +175,18 @@ class BookingService {
 		$booking->setApptConfigId($config->getId());
 		$booking->setCreatedAt(time());
 		$booking->setToken($this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC));
-		$booking->setName($name);
+		$booking->setDisplayName($displayName);
 		$booking->setDescription($description);
 		$booking->setEmail($email);
 		$booking->setStart($start);
-		$booking->setEnd($endTimeOfDayInTz->getTimestamp());
-		$tz = $startTimeOfDayInTz->getTimezone()->getName();
-		$booking->setTimezone($tz);
+		$booking->setEnd($end);
+		$booking->setTimezone($timeZone);
 		try {
 			$this->bookingMapper->insert($booking);
-		} catch (Exception $e) {
-			throw new ServiceException('Could not create booking');
+		} catch (Exception|ServiceException $e) {
+			throw new ServiceException('Could not create booking', 0, $e);
 		}
-		return $bookingSlot;
+		return $booking;
 	}
 
 	/**
@@ -195,4 +212,132 @@ class BookingService {
 	public function delete() {
 		// this would be a cancel request to ICreateFromString::create()
 	}
+
+	/**
+	 * @param Booking $booking
+	 * @param string $uid
+	 * @throws ServiceException
+	 */
+	public function sendConfirmationEmail(Booking $booking, AppointmentConfig $config) {
+		$user = $this->userManager->get($config->getUserId());
+
+		if($user === null) {
+			throw new ServiceException('Could not find organizer');
+		}
+
+		$fromEmail = $user->getEMailAddress();
+		$fromName = $user->getDisplayName();
+
+
+		$instanceName = $this->defaults->getName();
+		$sys = \OCP\Util::getDefaultEmailAddress($instanceName);
+		$message = $this->mailer->createMessage()
+			->setFrom([$sys => $fromName])
+			->setTo([$booking->getEmail() => $booking->getDisplayName()])
+			->setReplyTo([$fromEmail => $fromName]);
+
+
+		$template = $this->mailer->createEMailTemplate('calendar.confirmAppointment');
+		$template->addHeader();
+
+		//Subject
+		$subject = $this->l10n->t('Your Appointment "%s" needs confirmation', [$config->getName()]);
+		$template->setSubject($subject);
+
+		// Heading
+		$summary = $this->l10n->t("Dear %s, please confirm your booking", [$booking->getDisplayName()]);
+		$template->addHeading($summary);
+
+		// Create Booking overview
+		$this->addBulletList($template, $this->l10n, $booking, $config->getLocation());
+
+		// http://nextcloud.local/
+		$bookingUrl = $this->urlGenerator->linkToRouteAbsolute('calendar.booking.confirmBooking', ['token' => $booking->getToken()]);
+		$template->addBodyButton($this->l10n->t('Confirm'), $bookingUrl);
+
+		$bodyText = $this->l10n->t('This confirmation link expires in 24 hours.');
+		$template->addBodyText($bodyText);
+
+		$bodyText = $this->l10n->t("If you wish to cancel the appointment after all, please contact your organizer:");
+		$template->addBodyText($bodyText);
+		$template->addBodyText($this->l10n->t("Message $fromEmail"));
+
+		$template->addFooter();
+
+		$message->useTemplate($template);
+
+
+		try {
+			$failed = $this->mailer->send($message);
+			if ($failed) {
+				$this->logger->error('Unable to deliver message to {failed}', ['app' => 'calendar', 'failed' => implode(', ', $failed)]);
+			}
+		} catch (\Exception $ex) {
+			$this->logger->logException($ex, ['app' => 'calendar']);
+		}
+	}
+
+	private function addBulletList(IEMailTemplate $template,
+								   IL10N $l10n,
+								   Booking $booking,
+								   ?string $location = null):void {
+
+		$template->addBodyListItem($booking->getDisplayName(), $l10n->t('Appointment:'));
+
+		$l = $this->lFactory->findGenericLanguage();
+		$relativeDateTime = $this->dateFormatter->formatDateTimeRelativeDay(
+			$booking->getStart(),
+			'long',
+			'short',
+			new \DateTimeZone($booking->getTimezone()),
+			$this->lFactory->get('calendar',$l)
+		);
+
+		$template->addBodyListItem($relativeDateTime, $l10n->t('Date:'));
+
+		if (isset($location)) {
+			$template->addBodyListItem($location, $l10n->t('Where:'));
+		}
+		if ($booking->getDescription() !== null) {
+			$template->addBodyListItem($booking->getDescription(), $l10n->t('Description:'));
+		}
+	}
+
+	/**
+	 * @param string $path
+	 * @return string
+	 */
+	private function getAbsoluteImagePath(string $path):string {
+		return $this->urlGenerator->getAbsoluteURL(
+			$this->urlGenerator->imagePath('core', $path)
+		);
+	}
+
+	/**
+	 * @param string $token
+	 * @return Booking
+	 * @throws ClientException
+	 */
+	public function findByToken(string $token): Booking {
+		try {
+			return $this->bookingMapper->findByToken($token);
+		} catch (DoesNotExistException $e) {
+			throw new ClientException(
+				"Booking $token does not exist",
+				0,
+				$e,
+				Http::STATUS_NOT_FOUND
+			);
+		}
+	}
+
+	/**
+	 * @param $booking
+	 * @throws DbException
+	 */
+	public function deleteEntity($booking) {
+		$this->bookingMapper->delete($booking);
+	}
+
+
 }
