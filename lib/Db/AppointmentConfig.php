@@ -127,6 +127,17 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 	/** @var string */
 	public const VISIBILITY_PRIVATE = 'PRIVATE';
 
+	public function __construct() {
+		$this->addType('start', 'int');
+		$this->addType('end', 'int');
+		$this->addType('length', 'int');
+		$this->addType('increment', 'int');
+		$this->addType('preparationDuration', 'int');
+		$this->addType('followupDuration', 'int');
+		$this->addType('timeBeforeNextSlot', 'int');
+		$this->addType('dailyMax', 'int');
+	}
+
 	/**
 	 * Total length of one slot of the appointment config
 	 * in minutes

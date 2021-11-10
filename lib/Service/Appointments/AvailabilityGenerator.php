@@ -26,8 +26,19 @@ declare(strict_types=1);
 namespace OCA\Calendar\Service\Appointments;
 
 use OCA\Calendar\Db\AppointmentConfig;
+use OCP\AppFramework\Utility\ITimeFactory;
+use function ceil;
+use function max;
+use function min;
 
 class AvailabilityGenerator {
+
+	/** @var ITimeFactory */
+	private $timeFactory;
+
+	public function __construct(ITimeFactory $timeFactory) {
+		$this->timeFactory = $timeFactory;
+	}
 
 	/**
 	 * Generate intervals at which the user is generally available
@@ -41,16 +52,39 @@ class AvailabilityGenerator {
 	public function generate(AppointmentConfig $config,
 							 int $start,
 							 int $end): array {
+		$now = $this->timeFactory->getTime();
+
+		$bufferBeforeStart = ($config->getTimeBeforeNextSlot() ?? 0) * 60;
+		$earliestStart = max(
+			$start,
+			$now + $bufferBeforeStart,
+			($config->getStart() ?? $now) + $bufferBeforeStart
+		);
+		// Always round to "beautiful" slot starts according to slot length
+		// E.g. 5m slots should only be available at 10:20 and 10:25, not at 10:17
+		//      when the user opens the page at 10:17.
+		$roundTo = (int) round(($config->getLength() * 60) / 300) * 300;
+		$earliestStart = (int) ceil($earliestStart / $roundTo) * $roundTo;
+		$latestEnd = min(
+			$end,
+			$config->getEnd() ?? $end
+		);
+
+		// If we reach this state then there are no available dates anymore
+		if ($latestEnd <= $earliestStart) {
+			return [];
+		}
+
 		if ($config->getAvailability() === null) {
 			// No availability -> full time range is available
 			return [
-				new Interval($start, $end),
+				new Interval($earliestStart, $latestEnd),
 			];
 		}
 
 		// TODO: derive intervals from RRULE
 		return [
-			new Interval($start, $end),
+			new Interval($earliestStart, $latestEnd),
 		];
 	}
 }
