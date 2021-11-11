@@ -53,10 +53,47 @@ class DailyLimitFilterTest extends TestCase {
 
 	public function testNoFilteringRequired(): void {
 		$config = new AppointmentConfig();
-		$config->setDailyMax(0);
+		$config->setDailyMax(null);
 		$slots = [
 			new Interval(0, 100),
 		];
+
+		$filtered = $this->filter->filter($config, $slots);
+
+		self::assertSame($slots, $filtered);
+	}
+
+	public function testOneOtherEventButUnrelated(): void {
+		$config = new AppointmentConfig();
+		$config->setDailyMax(1);
+		$config->setUserId('user1');
+		$config->setTargetCalendarUri('personal');
+		$config->setToken('abc123');
+		$slots = [
+			new Interval(0, 100),
+		];
+		$query = $this->createMock(ICalendarQuery::class);
+		$this->manager->expects(self::once())
+			->method('newQuery')
+			->with('principals/users/user1')
+			->willReturn($query);
+		$this->manager->expects(self::once())
+			->method('searchForPrincipal')
+			->with($query)
+			->willReturn([
+				[
+					'UID' => 'abc',
+					'objects' => [
+						0 => [
+							'X-NC-APPOINTMENT' => [
+								0 => [
+									0 => 'somethingelse',
+								],
+							],
+						],
+					],
+				]
+			]);
 
 		$filtered = $this->filter->filter($config, $slots);
 
@@ -81,7 +118,18 @@ class DailyLimitFilterTest extends TestCase {
 			->method('searchForPrincipal')
 			->with($query)
 			->willReturn([
-				['UID' => 'abc']
+				[
+					'UID' => 'abc',
+					'objects' => [
+						0 => [
+							'X-NC-APPOINTMENT' => [
+								0 => [
+									0 => 'abc123',
+								],
+							],
+						],
+					],
+				]
 			]);
 
 		$filtered = $this->filter->filter($config, $slots);
@@ -111,7 +159,18 @@ class DailyLimitFilterTest extends TestCase {
 			->with($query)
 			->willReturnOnConsecutiveCalls(
 				[
-					['UID' => 'abc']
+					[
+						'UID' => 'abc',
+						'objects' => [
+							0 => [
+								'X-NC-APPOINTMENT' => [
+									0 => [
+										0 => 'abc123',
+									],
+								],
+							],
+						],
+					],
 				],
 				[],
 			);
