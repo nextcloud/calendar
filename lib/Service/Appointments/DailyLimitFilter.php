@@ -79,9 +79,11 @@ class DailyLimitFilter {
 			$events = $this->calendarManger->searchForPrincipal($query);
 
 			$eventsOfSameAppointment = array_filter($events, function(array $event) use ($config) {
-				$appointmentToken = $event['objects'][0]['X-NC-APPOINTMENT'][0][0] ?? null;
+				$isAppointment = ($event['objects'][0]['X-NC-APPOINTMENT'][0][0] ?? null) === $config->getToken();
+				$isCancelled = ($event['objects'][0]['STATUS'][0] ?? null) === 'CANCELLED';
+				$isFree = ($event['objects'][0]['TRANSP'][0] ?? null) === 'TRANSPARENT';
 
-				return $config->getToken() === $appointmentToken;
+				return $isAppointment && !$isCancelled && !$isFree;
 			});
 
 			// Only days with less than the max number are still available
