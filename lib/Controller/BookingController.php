@@ -27,6 +27,7 @@ namespace OCA\Calendar\Controller;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
+use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Exception\ClientException;
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Http\JsonResponse;
@@ -35,6 +36,8 @@ use OCA\Calendar\Service\Appointments\BookingService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
 use OCP\IRequest;
@@ -49,10 +52,13 @@ class BookingController extends Controller {
 
 	/** @var AppointmentConfigService */
 	private $appointmentConfigService;
+	/** @var IInitialState */
+	private $initialState;
 
 	public function __construct(string                   $appName,
 								IRequest                 $request,
 								ITimeFactory             $timeFactory,
+								IInitialState $initialState,
 								BookingService           $bookingService,
 								AppointmentConfigService $appointmentConfigService) {
 		parent::__construct($appName, $request);
@@ -60,6 +66,7 @@ class BookingController extends Controller {
 		$this->bookingService = $bookingService;
 		$this->timeFactory = $timeFactory;
 		$this->appointmentConfigService = $appointmentConfigService;
+		$this->initialState = $initialState;
 	}
 
 	/**
@@ -166,27 +173,61 @@ class BookingController extends Controller {
 	 * @throws Exception
 	 * @throws MultipleObjectsReturnedException
 	 */
-	public function confirmBooking(string $token): JsonResponse {
+	public function confirmBooking(string $token): TemplateResponse {
 		try {
 			$booking = $this->bookingService->findByToken($token);
 		} catch(ClientException $e) {
-			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
+			return new TemplateResponse(
+				Application::APP_ID,
+				'appointments/404-booking',
+				[],
+				TemplateResponse::RENDER_AS_GUEST
+			);
 		}
 
 		try {
+			// This should never happen
 			$config = $this->appointmentConfigService->findById($booking->getApptConfigId());
 		} catch (ServiceException $e) {
-			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
+			return new TemplateResponse(
+				Application::APP_ID,
+				'appointments/404-booking',
+				[],
+				TemplateResponse::RENDER_AS_GUEST
+			);
 		}
 
 		try {
+			// Show template that links you to the booking overview - conflicting slots are most likely
 			$booking = $this->bookingService->confirmBooking($booking, $config);
 		} catch (ClientException $e) {
-			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
+			$this->initialState->provideInitialState(
+				'appointment-link',
+				'appointments/' . $config->getUserId() . '/' . $config->getToken() // url generator
+			);
+			$this->initialState->provideInitialState(
+				'booking',
+				$booking
+			);
+			return new TemplateResponse(
+				Application::APP_ID,
+				'appointments/booking-conflict',
+				[],
+				TemplateResponse::RENDER_AS_GUEST
+			);
 		}
 
 		$this->bookingService->deleteEntity($booking);
 
-		return JsonResponse::success($booking);
+		$this->initialState->provideInitialState(
+			'booking',
+			$booking
+		);
+		return new TemplateResponse(
+			Application::APP_ID,
+			'appointments/confirmation',
+			[],
+			TemplateResponse::RENDER_AS_GUEST
+		);
 	}
 }

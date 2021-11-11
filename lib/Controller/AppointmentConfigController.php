@@ -231,6 +231,7 @@ class AppointmentConfigController extends Controller {
 		}
 
 		try {
+			// delete all outstanding bookings
 			$this->appointmentConfigService->delete($id, $this->userId);
 			return JsonResponse::success();
 		} catch (ServiceException $e) {

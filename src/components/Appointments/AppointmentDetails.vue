@@ -87,12 +87,17 @@ export default {
 			required: true,
 			type: Object,
 		},
+		timeZoneId: {
+			required: true,
+			type: String,
+		},
 	},
 	data() {
 		return {
 			description: '',
 			email: this.visitorInfo.email,
 			displayName: this.visitorInfo.displayName,
+			timeZone: this.timeZoneId,
 		}
 	},
 	computed: {
@@ -109,7 +114,8 @@ export default {
 				slot: this.timeSlot,
 				description: this.description,
 				email: this.email,
-		  	displayName: this.displayName,
+				displayName: this.displayName,
+				timeZone: this.timeZone,
 			})
 		},
 	},

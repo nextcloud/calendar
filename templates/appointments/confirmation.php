@@ -23,9 +23,8 @@ declare(strict_types=1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/** @var \OCP\IL10N $l */
+script(\OCA\Calendar\AppInfo\Application::APP_ID, 'calendar-appointments-confirmation');
 
 ?>
-<div class="update">
-	<?php p($l->t('Appointment not found')); ?>
-</div>
+
+<div id="appointment-confirmation"></div>

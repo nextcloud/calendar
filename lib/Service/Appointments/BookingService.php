@@ -124,14 +124,13 @@ class BookingService {
 	}
 
 	/**
-	 * @param string $token
-	 * @return Interval
+	 * @param Booking $booking
+	 * @param AppointmentConfig $config
+	 * @return Booking
 	 *
 	 * @throws ClientException
-	 * @throws Exception
-	 * @throws MultipleObjectsReturnedException
 	 */
-	public function confirmBooking(Booking $booking, AppointmentConfig $config): Interval {
+	public function confirmBooking(Booking $booking, AppointmentConfig $config): Booking {
 		$bookingSlot = current($this->getAvailableSlots($config, $booking->getStart(), $booking->getEnd()));
 
 		if (!$bookingSlot) {
@@ -152,16 +151,17 @@ class BookingService {
 
 	/**
 	 * @param AppointmentConfig $config
-	 * @param DateTimeImmutable $startTimeOfDayInTz
-	 * @param DateTimeImmutable $endTimeOfDayInTz
 	 * @param int $start
+	 * @param int $end
+	 * @param string $timeZone
 	 * @param string $displayName
 	 * @param string $email
 	 * @param string|null $description
 	 *
-	 * @return Interval
+	 * @return Booking
 	 *
 	 * @throws ClientException
+	 * @throws ServiceException
 	 */
 	public function book(AppointmentConfig $config,int $start, int $end, string $timeZone, string $displayName, string $email, ?string $description = null): Booking {
 		$bookingSlot = current($this->getAvailableSlots($config, $start, $end));
@@ -215,7 +215,7 @@ class BookingService {
 
 	/**
 	 * @param Booking $booking
-	 * @param string $uid
+	 * @param AppointmentConfig $config
 	 * @throws ServiceException
 	 */
 	public function sendConfirmationEmail(Booking $booking, AppointmentConfig $config) {
@@ -251,7 +251,6 @@ class BookingService {
 		// Create Booking overview
 		$this->addBulletList($template, $this->l10n, $booking, $config->getLocation());
 
-		// http://nextcloud.local/
 		$bookingUrl = $this->urlGenerator->linkToRouteAbsolute('calendar.booking.confirmBooking', ['token' => $booking->getToken()]);
 		$template->addBodyButton($this->l10n->t('Confirm'), $bookingUrl);
 

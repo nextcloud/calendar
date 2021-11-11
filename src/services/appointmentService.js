@@ -46,8 +46,9 @@ export async function findSlots(config, start, timeZone) {
  * @param displayName
  * @param email
  * @param description
+ * @param timeZone
  */
-export async function bookSlot(config, slot, displayName, email, description) {
+export async function bookSlot(config, slot, displayName, email, description, timeZone) {
 	const url = generateUrl('/apps/calendar/appointment/{id}/book', {
 		id: config.id,
 	})
@@ -58,6 +59,7 @@ export async function bookSlot(config, slot, displayName, email, description) {
 		displayName,
 		email,
 		description,
+		timeZone
 	})
 
 	return response.data.data
