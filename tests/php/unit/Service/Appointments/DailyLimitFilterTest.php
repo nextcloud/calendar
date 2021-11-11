@@ -100,6 +100,86 @@ class DailyLimitFilterTest extends TestCase {
 		self::assertSame($slots, $filtered);
 	}
 
+	public function testOneOtherEventButCancelled(): void {
+		$config = new AppointmentConfig();
+		$config->setDailyMax(1);
+		$config->setUserId('user1');
+		$config->setTargetCalendarUri('personal');
+		$config->setToken('abc123');
+		$slots = [
+			new Interval(0, 100),
+		];
+		$query = $this->createMock(ICalendarQuery::class);
+		$this->manager->expects(self::once())
+			->method('newQuery')
+			->with('principals/users/user1')
+			->willReturn($query);
+		$this->manager->expects(self::once())
+			->method('searchForPrincipal')
+			->with($query)
+			->willReturn([
+				[
+					'UID' => 'abc',
+					'objects' => [
+						0 => [
+							'X-NC-APPOINTMENT' => [
+								0 => [
+									0 => 'abc123',
+								],
+							],
+							'STATUS' => [
+								0 => 'CANCELLED',
+							],
+						],
+					],
+				]
+			]);
+
+		$filtered = $this->filter->filter($config, $slots);
+
+		self::assertSame($slots, $filtered);
+	}
+
+	public function testOneOtherEventButFree(): void {
+		$config = new AppointmentConfig();
+		$config->setDailyMax(1);
+		$config->setUserId('user1');
+		$config->setTargetCalendarUri('personal');
+		$config->setToken('abc123');
+		$slots = [
+			new Interval(0, 100),
+		];
+		$query = $this->createMock(ICalendarQuery::class);
+		$this->manager->expects(self::once())
+			->method('newQuery')
+			->with('principals/users/user1')
+			->willReturn($query);
+		$this->manager->expects(self::once())
+			->method('searchForPrincipal')
+			->with($query)
+			->willReturn([
+				[
+					'UID' => 'abc',
+					'objects' => [
+						0 => [
+							'X-NC-APPOINTMENT' => [
+								0 => [
+									0 => 'abc123',
+								],
+							],
+							'STATUS' => [
+								0 => 'CANCELLED',
+							],
+						],
+					],
+				]
+			]);
+
+		$filtered = $this->filter->filter($config, $slots);
+
+		self::assertSame($slots, $filtered);
+	}
+
 	public function testOneNotAvailable(): void {
 		$config = new AppointmentConfig();
 		$config->setDailyMax(1);
