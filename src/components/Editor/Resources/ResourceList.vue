@@ -37,14 +37,7 @@
 			@remove-resource="removeResource" />
 
 		<NoAttendeesView
-			v-if="isReadOnly && isListEmpty"
-			:message="noResourcesMessage">
-			<template #icon>
-				<MapMarker :size="50" decorative />
-			</template>
-		</NoAttendeesView>
-		<NoAttendeesView
-			v-if="!isReadOnly && isListEmpty && hasUserEmailAddress"
+			v-if="isListEmpty && hasUserEmailAddress"
 			:message="noResourcesMessage">
 			<template #icon>
 				<MapMarker :size="50" decorative />
@@ -52,10 +45,25 @@
 		</NoAttendeesView>
 		<OrganizerNoEmailError
 			v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
+
+		<h3 v-if="suggestedRooms.length">
+			{{ $t('calendar', 'Suggestions') }}
+		</h3>
+		<ResourceListItem
+			v-for="room in suggestedRooms"
+			:key="room.email + '-suggested'"
+			:resource="room"
+			:is-read-only="false"
+			:organizer-display-name="organizerDisplayName"
+			:is-suggestion="true"
+			@add-suggestion="addResource" />
 	</div>
 </template>
 
 <script>
+import { advancedPrincipalPropertySearch } from '../../../services/caldavService'
+import { checkResourceAvailability } from '../../../services/freeBusyService'
+import logger from '../../../utils/logger'
 import NoAttendeesView from '../NoAttendeesView'
 import ResourceListSearch from './ResourceListSearch'
 import ResourceListItem from './ResourceListItem'
@@ -83,17 +91,31 @@ export default {
 			required: true,
 		},
 	},
+	data() {
+		return {
+			suggestedRooms: [],
+		}
+	},
 	computed: {
 		resources() {
 			return this.calendarObjectInstance.attendees.filter(attendee => {
 				return ['ROOM', 'RESOURCE'].includes(attendee.attendeeProperty.userType)
 			})
 		},
+		attendees() {
+			return this.calendarObjectInstance.attendees.filter(attendee => {
+				return !['RESOURCE', 'ROOM'].includes(attendee.attendeeProperty.userType)
+			})
+		},
+		hasAdvancedFilters() {
+			// TODO: Remove me when Calendar doesn't support server < 23
+			return parseInt(OC.config.version.split('.')[0]) >= 23
+		},
 		noResourcesMessage() {
 			return this.$t('calendar', 'No rooms or resources yet')
 		},
 		isListEmpty() {
-			return this.resources.length === 0
+			return this.resources.length === 0 && this.suggestedRooms.length === 0
 		},
 		alreadyInvitedEmails() {
 			return this.resources.map(attendee => removeMailtoPrefix(attendee.uri))
@@ -105,6 +127,14 @@ export default {
 			const emailAddress = this.$store.getters.getCurrentUserPrincipal?.emailAddress
 			return !!emailAddress
 		},
+	},
+	watch: {
+		resources() {
+			this.loadRoomSuggestions()
+		},
+	},
+	async mounted() {
+		await this.loadRoomSuggestions()
 	},
 	methods: {
 		addResource({ commonName, email, calendarUserType, language, timezoneId, roomAddress }) {
@@ -127,6 +157,45 @@ export default {
 				calendarObjectInstance: this.calendarObjectInstance,
 				attendee: resource,
 			})
+		},
+		async loadRoomSuggestions() {
+			if (this.resources.length > 0 || !this.hasAdvancedFilters) {
+				this.suggestedRooms = []
+				return
+			}
+
+			try {
+				logger.info('fetching suggestions for ' + this.attendees.length + ' attendees')
+				const query = {
+					capacity: this.attendees.length,
+				}
+				const results = (await advancedPrincipalPropertySearch(query)).map(principal => {
+					return {
+						commonName: principal.displayname,
+						email: principal.email,
+						calendarUserType: principal.calendarUserType,
+						displayName: principal.displayname ?? principal.email,
+						isAvailable: true,
+						roomAddress: principal.roomAddress,
+						uri: principal.email,
+						organizer: this.$store.getters.getCurrentUserPrincipal,
+					}
+				})
+
+				await checkResourceAvailability(
+					results,
+					this.$store.getters.getCurrentUserPrincipalEmail,
+					this.calendarObjectInstance.eventComponent.startDate,
+					this.calendarObjectInstance.eventComponent.endDate,
+				)
+				logger.debug('availability of room suggestions fetched', { results })
+
+				// Take the first three available options
+				this.suggestedRooms = results.filter(room => room.isAvailable).slice(0, 3)
+			} catch (error) {
+				logger.error('Could not find resources', { error })
+				this.suggestedRooms = []
+			}
 		},
 		/**
 		 * Apply the location of the first resource to the event.

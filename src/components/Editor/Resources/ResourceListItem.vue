@@ -26,23 +26,24 @@
 			:attendee-is-organizer="false"
 			:is-viewed-by-organizer="isViewedByOrganizer"
 			:is-resource="true"
+			:is-suggestion="isSuggestion"
 			:avatar-link="commonName"
-			:participation-status="resource.participationStatus"
+			:participation-status="participationStatus"
 			:organizer-display-name="organizerDisplayName"
 			:common-name="commonName" />
 		<div class="resource-list-item__displayname">
 			{{ commonName }}
 		</div>
 		<div class="resource-list-item__actions">
-			<Actions v-if="isViewedByOrganizer">
-				<ActionButton
-					@click="removeResource">
+			<Actions v-if="isViewedByOrganizer && isSuggestion">
+				<ActionButton @click="addSuggestion">
 					<template #icon>
-						<Delete :size="20" decorative />
+						<Plus :size="20" decorative />
 					</template>
-					{{ $t('calendar', 'Remove resource') }}
+					{{ $t('calendar', 'Add resource') }}
 				</ActionButton>
-				<ActionSeparator v-if="seatingCapacity || roomType || hasProjector || hasWhiteboard || isAccessible" />
+			</actions>
+			<Actions v-else-if="isViewedByOrganizer">
 				<ActionCaption
 					v-if="seatingCapacity"
 					:title="seatingCapacity" />
@@ -58,6 +59,13 @@
 				<ActionCaption
 					v-if="isAccessible"
 					:title="$t('calendar', 'Wheelchair accessible')" />
+				<ActionSeparator v-if="seatingCapacity || roomType || hasProjector || hasWhiteboard || isAccessible" />
+				<ActionButton @click="removeResource">
+					<template #icon>
+						<Delete :size="20" decorative />
+					</template>
+					{{ $t('calendar', 'Remove resource') }}
+				</ActionButton>
 			</actions>
 		</div>
 	</div>
@@ -75,6 +83,7 @@ import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/c
 import { formatRoomType } from '../../../models/resourceProps'
 
 import Delete from 'vue-material-design-icons/Delete.vue'
+import Plus from 'vue-material-design-icons/Plus.vue'
 
 export default {
 	name: 'ResourceListItem',
@@ -85,6 +94,7 @@ export default {
 		ActionSeparator,
 		Actions,
 		Delete,
+		Plus,
 	},
 	props: {
 		resource: {
@@ -98,6 +108,10 @@ export default {
 		isReadOnly: {
 			type: Boolean,
 			required: true,
+		},
+		isSuggestion: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	data() {
@@ -148,6 +162,13 @@ export default {
 			const roomType = this.principal?.roomType
 			return formatRoomType(roomType) ?? roomType
 		},
+		participationStatus() {
+			if (this.isSuggestion) {
+				return ''
+			}
+
+			return this.resource.participationStatus
+		},
 	},
 	watch: {
 		async resource() {
@@ -158,6 +179,12 @@ export default {
 		await this.fetchPrincipal()
 	},
 	methods: {
+		/**
+		 * Add this suggestions to the event
+		 */
+		addSuggestion() {
+			this.$emit('add-suggestion', this.resource)
+		},
 		/**
 		 * Removes a resource from the event
 		 */
