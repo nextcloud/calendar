@@ -30,8 +30,13 @@ use DateTimeImmutable;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Service\Appointments\AvailabilityGenerator;
 use OCA\Calendar\Service\Appointments\Interval;
+use OCP\AppFramework\Utility\ITimeFactory;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class AvailabilityGeneratorTest extends TestCase {
+
+	/** @var ITimeFactory|MockObject */
+	private $timeFactory;
 
 	/** @var AvailabilityGenerator */
 	private $generator;
@@ -39,23 +44,70 @@ class AvailabilityGeneratorTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->generator = new AvailabilityGenerator();
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
+
+		$this->generator = new AvailabilityGenerator(
+			$this->timeFactory,
+		);
 	}
 
 	public function testNoAvailabilitySet(): void {
 		$config = new AppointmentConfig();
+		$config->setLength(60);
 		$config->setAvailability(null);
 
-		$slots = $this->generator->generate($config, 1, 2);
+		$slots = $this->generator->generate($config, 1 * 3600, 2 * 3600);
 
 		self::assertEquals(
-			[new Interval(1, 2)],
+			[new Interval(1 * 3600, 2 * 3600)],
 			$slots,
 		);
 	}
 
-	public function testSimpleRrule(): void {
+	public function testNoAvailabilitySetRoundToFive(): void {
 		$config = new AppointmentConfig();
+		$config->setLength(47);
+		$config->setAvailability(null);
+
+		$slots = $this->generator->generate($config, (int)2.8 * 3600, 4 * 3600);
+
+		self::assertCount(1, $slots);
+		self::assertEquals(0, $slots[0]->getStart() % 300);
+	}
+
+	public function testNoAvailabilityButEndDate(): void {
+		$config = new AppointmentConfig();
+		$config->setLength(60);
+		$config->setAvailability(null);
+		$config->setEnd(10*3600);
+
+		$slots = $this->generator->generate($config, 4 * 3600, 15 * 3600);
+
+		self::assertEquals(
+			[new Interval(4 * 3600, 10 * 3600)],
+			$slots,
+		);
+	}
+
+	public function testNoAvailabilityAfterEndDate(): void {
+		$this->timeFactory->method('getTime')
+			->willReturn(15*3600);
+		$config = new AppointmentConfig();
+		$config->setLength(60);
+		$config->setAvailability(null);
+		$config->setEnd(10*3600);
+
+		$slots = $this->generator->generate($config, 13 * 3600, 15 * 3600);
+
+		self::assertEmpty($slots);
+	}
+
+	public function testSimpleRrule(): void {
+		self::markTestSkipped('RRULEs are not implemented');
+		return;
+
+		$config = new AppointmentConfig();
+		$config->setLength(60);
 		$config->setAvailability('RRULE:FREQ=MINUTELY;INTERVAL=15;WKST=MO;BYDAY=MO;BYHOUR=8,9,10,11');
 
 		$mondayMidnight = (new DateTimeImmutable())->setDate(2021, 11, 1)->setTime(0, 0);
