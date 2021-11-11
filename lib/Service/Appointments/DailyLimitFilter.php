@@ -64,9 +64,12 @@ class DailyLimitFilter {
 		// 2. Check what days are bookable
 		/** @var CalendarQuery $query */
 		$query = $this->calendarManger->newQuery($config->getPrincipalUri());
-		$query->addSearchCalendar($config->getTargetCalendarUri());
-		$query->addSearchProperty('X-NC-APPOINTMENT');
-		$query->setSearchPattern($config->getToken());
+		// Note: the query is not limited to the target calendar so that the user can
+		//         1. Move the event to another calendar
+		//         2. Update the config to write to another calendar
+		//       Also, the CalDAV back-end currently only indexes some event properties
+		//       and our X-* property isn't one of them. Therefore we have to do the
+		//       filtering in PHP rather than on the DB.
 		$available = [];
 		foreach ($days as $ts => $day) {
 			$nextDay = $day->modify('+1 day');
@@ -75,8 +78,14 @@ class DailyLimitFilter {
 
 			$events = $this->calendarManger->searchForPrincipal($query);
 
+			$eventsOfSameAppointment = array_filter($events, function(array $event) use ($config) {
+				$appointmentToken = $event['objects'][0]['X-NC-APPOINTMENT'][0][0] ?? null;
+
+				return $config->getToken() === $appointmentToken;
+			});
+
 			// Only days with less than the max number are still available
-			$available[$ts] = count($events) < $config->getDailyMax();
+			$available[$ts] = count($eventsOfSameAppointment) < $config->getDailyMax();
 		}
 
 		// 3. Filter out the slots that are on an unavailable day
