@@ -26,6 +26,155 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Service\Appointments;
 
+use OC\URLGenerator;
+use OCA\Calendar\Db\AppointmentConfig;
+use OCA\Calendar\Db\Booking;
+use OCA\Calendar\Db\BookingMapper;
+use OCA\Calendar\Exception\ServiceException;
+use OCP\Defaults;
+use OCP\IDateTimeFormatter;
+use OCP\IL10N;
+use OCP\ILogger;
+use OCP\IUserManager;
+use OCP\L10N\IFactory;
+use OCP\Mail\IEMailTemplate;
+use OCP\Mail\IMailer;
+use OCP\Security\ISecureRandom;
+
 class Mailer {
 
+	/** @var IUserManager */
+	private $userManager;
+	/** @var IMailer */
+	private $mailer;
+	/** @var IL10N */
+	private $l10n;
+	/** @var Defaults */
+	private $defaults;
+	/** @var ILogger */
+	private $logger;
+	/** @var URLGenerator */
+	private $urlGenerator;
+	/** @var IDateTimeFormatter */
+	private $dateFormatter;
+	/** @var IFactory */
+	private $lFactory;
+
+	public function __construct(IMailer            $mailer,
+								IUserManager       $userManager,
+								IL10N              $l10n,
+								Defaults           $defaults,
+								ILogger            $logger,
+								URLGenerator       $urlGenerator,
+								IDateTimeFormatter $dateFormatter,
+								IFactory           $lFactory) {
+
+		$this->userManager = $userManager;
+		$this->mailer = $mailer;
+		$this->l10n = $l10n;
+		$this->defaults = $defaults;
+		$this->logger = $logger;
+		$this->urlGenerator = $urlGenerator;
+		$this->dateFormatter = $dateFormatter;
+		$this->lFactory = $lFactory;
+	}
+
+	/**
+	 * @param Booking $booking
+	 * @param AppointmentConfig $config
+	 * @throws ServiceException
+	 */
+	public function sendConfirmationEmail(Booking $booking, AppointmentConfig $config) {
+		$user = $this->userManager->get($config->getUserId());
+
+		if($user === null) {
+			throw new ServiceException('Could not find organizer');
+		}
+
+		$fromEmail = $user->getEMailAddress();
+		$fromName = $user->getDisplayName();
+
+
+		$instanceName = $this->defaults->getName();
+		$sys = \OCP\Util::getDefaultEmailAddress($instanceName);
+		$message = $this->mailer->createMessage()
+			->setFrom([$sys => $fromName])
+			->setTo([$booking->getEmail() => $booking->getDisplayName()])
+			->setReplyTo([$fromEmail => $fromName]);
+
+
+		$template = $this->mailer->createEMailTemplate('calendar.confirmAppointment');
+		$template->addHeader();
+
+		//Subject
+		$subject = $this->l10n->t('Your Appointment "%s" needs confirmation', [$config->getName()]);
+		$template->setSubject($subject);
+
+		// Heading
+		$summary = $this->l10n->t("Dear %s, please confirm your booking", [$booking->getDisplayName()]);
+		$template->addHeading($summary);
+
+		// Create Booking overview
+		$this->addBulletList($template, $this->l10n, $booking, $config->getLocation());
+
+		$bookingUrl = $this->urlGenerator->linkToRouteAbsolute('calendar.booking.confirmBooking', ['token' => $booking->getToken()]);
+		$template->addBodyButton($this->l10n->t('Confirm'), $bookingUrl);
+
+		$bodyText = $this->l10n->t('This confirmation link expires in 24 hours.');
+		$template->addBodyText($bodyText);
+
+		$bodyText = $this->l10n->t("If you wish to cancel the appointment after all, please contact your organizer:");
+		$template->addBodyText($bodyText);
+		$template->addBodyText($this->l10n->t("Message $fromEmail"));
+
+		$template->addFooter();
+
+		$message->useTemplate($template);
+
+
+		try {
+			$failed = $this->mailer->send($message);
+			if ($failed) {
+				$this->logger->error('Unable to deliver message to {failed}', ['app' => 'calendar', 'failed' => implode(', ', $failed)]);
+			}
+		} catch (\Exception $ex) {
+			$this->logger->logException($ex, ['app' => 'calendar']);
+		}
+	}
+
+	private function addBulletList(IEMailTemplate $template,
+								   IL10N $l10n,
+								   Booking $booking,
+								   ?string $location = null):void {
+
+		$template->addBodyListItem($booking->getDisplayName(), $l10n->t('Appointment:'));
+
+		$l = $this->lFactory->findGenericLanguage();
+		$relativeDateTime = $this->dateFormatter->formatDateTimeRelativeDay(
+			$booking->getStart(),
+			'long',
+			'short',
+			new \DateTimeZone($booking->getTimezone()),
+			$this->lFactory->get('calendar',$l)
+		);
+
+		$template->addBodyListItem($relativeDateTime, $l10n->t('Date:'));
+
+		if (isset($location)) {
+			$template->addBodyListItem($location, $l10n->t('Where:'));
+		}
+		if ($booking->getDescription() !== null) {
+			$template->addBodyListItem($booking->getDescription(), $l10n->t('Description:'));
+		}
+	}
+
+	/**
+	 * @param string $path
+	 * @return string
+	 */
+	private function getAbsoluteImagePath(string $path):string {
+		return $this->urlGenerator->getAbsoluteURL(
+			$this->urlGenerator->imagePath('core', $path)
+		);
+	}
 }

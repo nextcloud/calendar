@@ -74,37 +74,13 @@ class BookingService {
 	/** @var ISecureRandom */
 	private $random;
 
-	/** @var IMailer */
-	private $mailer;
-
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IL10N */
-	private $l10n;
-	private $logger;
-	private $urlGenerator;
-	/** @var Defaults */
-	private $defaults;
-	/** @var IDateTimeFormatter */
-	private $dateFormatter;
-	/** @var IFactory */
-	private $lFactory;
-
 	public function __construct(AvailabilityGenerator $availabilityGenerator,
 								SlotExtrapolator $extrapolator,
 								DailyLimitFilter $dailyLimitFilter,
 								EventConflictFilter $eventConflictFilter,
 								BookingMapper $bookingMapper,
 								BookingCalendarWriter $calendarWriter,
-								ISecureRandom $random,
-								IMailer $mailer,
-								IUserManager $userManager,
-								IL10N $l10n,
-	Defaults $defaults,
-	ILogger $logger,
-	URLGenerator $urlGenerator,
-								IDateTimeFormatter $dateFormatter,
-	IFactory $lFactory) {
+								ISecureRandom $random) {
 
 		$this->availabilityGenerator = $availabilityGenerator;
 		$this->extrapolator = $extrapolator;
@@ -113,14 +89,6 @@ class BookingService {
 		$this->calendarWriter = $calendarWriter;
 		$this->bookingMapper = $bookingMapper;
 		$this->random = $random;
-		$this->mailer = $mailer;
-		$this->userManager = $userManager;
-		$this->l10n = $l10n;
-		$this->logger = $logger;
-		$this->urlGenerator = $urlGenerator;
-		$this->defaults = $defaults;
-		$this->dateFormatter = $dateFormatter;
-		$this->lFactory = $lFactory;
 	}
 
 	/**
@@ -183,7 +151,7 @@ class BookingService {
 		$booking->setTimezone($timeZone);
 		try {
 			$this->bookingMapper->insert($booking);
-		} catch (Exception|ServiceException $e) {
+		} catch (Exception $e) {
 			throw new ServiceException('Could not create booking', 0, $e);
 		}
 		return $booking;
@@ -214,105 +182,6 @@ class BookingService {
 	}
 
 	/**
-	 * @param Booking $booking
-	 * @param AppointmentConfig $config
-	 * @throws ServiceException
-	 */
-	public function sendConfirmationEmail(Booking $booking, AppointmentConfig $config) {
-		$user = $this->userManager->get($config->getUserId());
-
-		if($user === null) {
-			throw new ServiceException('Could not find organizer');
-		}
-
-		$fromEmail = $user->getEMailAddress();
-		$fromName = $user->getDisplayName();
-
-
-		$instanceName = $this->defaults->getName();
-		$sys = \OCP\Util::getDefaultEmailAddress($instanceName);
-		$message = $this->mailer->createMessage()
-			->setFrom([$sys => $fromName])
-			->setTo([$booking->getEmail() => $booking->getDisplayName()])
-			->setReplyTo([$fromEmail => $fromName]);
-
-
-		$template = $this->mailer->createEMailTemplate('calendar.confirmAppointment');
-		$template->addHeader();
-
-		//Subject
-		$subject = $this->l10n->t('Your Appointment "%s" needs confirmation', [$config->getName()]);
-		$template->setSubject($subject);
-
-		// Heading
-		$summary = $this->l10n->t("Dear %s, please confirm your booking", [$booking->getDisplayName()]);
-		$template->addHeading($summary);
-
-		// Create Booking overview
-		$this->addBulletList($template, $this->l10n, $booking, $config->getLocation());
-
-		$bookingUrl = $this->urlGenerator->linkToRouteAbsolute('calendar.booking.confirmBooking', ['token' => $booking->getToken()]);
-		$template->addBodyButton($this->l10n->t('Confirm'), $bookingUrl);
-
-		$bodyText = $this->l10n->t('This confirmation link expires in 24 hours.');
-		$template->addBodyText($bodyText);
-
-		$bodyText = $this->l10n->t("If you wish to cancel the appointment after all, please contact your organizer:");
-		$template->addBodyText($bodyText);
-		$template->addBodyText($this->l10n->t("Message $fromEmail"));
-
-		$template->addFooter();
-
-		$message->useTemplate($template);
-
-
-		try {
-			$failed = $this->mailer->send($message);
-			if ($failed) {
-				$this->logger->error('Unable to deliver message to {failed}', ['app' => 'calendar', 'failed' => implode(', ', $failed)]);
-			}
-		} catch (\Exception $ex) {
-			$this->logger->logException($ex, ['app' => 'calendar']);
-		}
-	}
-
-	private function addBulletList(IEMailTemplate $template,
-								   IL10N $l10n,
-								   Booking $booking,
-								   ?string $location = null):void {
-
-		$template->addBodyListItem($booking->getDisplayName(), $l10n->t('Appointment:'));
-
-		$l = $this->lFactory->findGenericLanguage();
-		$relativeDateTime = $this->dateFormatter->formatDateTimeRelativeDay(
-			$booking->getStart(),
-			'long',
-			'short',
-			new \DateTimeZone($booking->getTimezone()),
-			$this->lFactory->get('calendar',$l)
-		);
-
-		$template->addBodyListItem($relativeDateTime, $l10n->t('Date:'));
-
-		if (isset($location)) {
-			$template->addBodyListItem($location, $l10n->t('Where:'));
-		}
-		if ($booking->getDescription() !== null) {
-			$template->addBodyListItem($booking->getDescription(), $l10n->t('Description:'));
-		}
-	}
-
-	/**
-	 * @param string $path
-	 * @return string
-	 */
-	private function getAbsoluteImagePath(string $path):string {
-		return $this->urlGenerator->getAbsoluteURL(
-			$this->urlGenerator->imagePath('core', $path)
-		);
-	}
-
-	/**
 	 * @param string $token
 	 * @return Booking
 	 * @throws ClientException
@@ -337,6 +206,4 @@ class BookingService {
 	public function deleteEntity($booking) {
 		$this->bookingMapper->delete($booking);
 	}
-
-
 }

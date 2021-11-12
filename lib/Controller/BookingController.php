@@ -33,6 +33,7 @@ use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Http\JsonResponse;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCA\Calendar\Service\Appointments\BookingService;
+use OCA\Calendar\Service\Appointments\Mailer;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
@@ -52,14 +53,19 @@ class BookingController extends Controller {
 
 	/** @var AppointmentConfigService */
 	private $appointmentConfigService;
+
 	/** @var IInitialState */
 	private $initialState;
 
-	public function __construct(string                   $appName,
-								IRequest                 $request,
-								ITimeFactory             $timeFactory,
+	/** @var Mailer */
+	private $mailer;
+
+	public function __construct(string $appName,
+								IRequest $request,
+								ITimeFactory $timeFactory,
 								IInitialState $initialState,
-								BookingService           $bookingService,
+								BookingService $bookingService,
+								Mailer $mailer,
 								AppointmentConfigService $appointmentConfigService) {
 		parent::__construct($appName, $request);
 
@@ -67,6 +73,7 @@ class BookingController extends Controller {
 		$this->timeFactory = $timeFactory;
 		$this->appointmentConfigService = $appointmentConfigService;
 		$this->initialState = $initialState;
+		$this->mailer = $mailer;
 	}
 
 	/**
@@ -155,7 +162,7 @@ class BookingController extends Controller {
 		}
 
 		try {
-			$this->bookingService->sendConfirmationEmail($booking, $config);
+			$this->mailer->sendConfirmationEmail($booking, $config);
 		} catch( ServiceException $e) {
 			$this->bookingService->deleteEntity($booking);
 			return JsonResponse::fail(null, Http::STATUS_BAD_REQUEST);
