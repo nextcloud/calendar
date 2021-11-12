@@ -27,7 +27,7 @@
 				:display-name="userInfo.displayName"
 				:disable-tooltip="true"
 				:disable-menu="true"
-				:size="64" />
+				:size="180" />
 			<div class="booking__display-name">
 				<strong>{{ userInfo.displayName }}</strong>
 			</div>
