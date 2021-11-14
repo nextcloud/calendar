@@ -206,7 +206,7 @@ OC.L10N.register(
     "on date" : "am Datum",
     "after" : "Nach",
     "_time_::_times_" : ["Mal","Mal"],
-    "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it." : "Dieser Termin ist die Wiederholungsausnahme eines sich wiederholenden Termins. Sie können keine Wiederholungsregel hinzufügen.",
+    "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it." : "Dieser Termin ist die Wiederholungsausnahme eines sich wiederholenden Termins. Du kannst keine Wiederholungsregel hinzufügen.",
     "first" : "ersten",
     "third" : "dritten",
     "fourth" : "vierten",
