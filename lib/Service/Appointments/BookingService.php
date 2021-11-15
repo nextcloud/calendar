@@ -203,7 +203,7 @@ class BookingService {
 	 * @param $booking
 	 * @throws DbException
 	 */
-	public function deleteEntity($booking) {
+	public function deleteEntity($booking): void {
 		$this->bookingMapper->delete($booking);
 	}
 }

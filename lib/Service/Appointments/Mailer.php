@@ -123,9 +123,8 @@ class Mailer {
 		$bodyText = $this->l10n->t('This confirmation link expires in 24 hours.');
 		$template->addBodyText($bodyText);
 
-		$bodyText = $this->l10n->t("If you wish to cancel the appointment after all, please contact your organizer:");
+		$bodyText = $this->l10n->t("If you wish to cancel the appointment after all, please contact your organizer.");
 		$template->addBodyText($bodyText);
-		$template->addBodyText($this->l10n->t("Message $fromEmail"));
 
 		$template->addFooter();
 

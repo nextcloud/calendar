@@ -1,13 +1,11 @@
 <template>
 	<div class="update">
-		The slot for your appointment from
-		<br>
-		<b>{{ startDate }}</b> to <b>{{ endDate }}</b>
-		<br>
-		is not available any more.
+		{{ $t('calendar', 'The slot for your appointment from {startDate} to {endDate} is not available any more.', {startDate:startDate, endDate:endDate}) }}
 		<br>
 		<br>
-		Please choose a different slot <a :href="link">here</a>.
+		{{ $t('calendar', 'Please book a different slot:') }}
+		<br>
+		<a :href="link">{{ $t('calendar', 'See all available slots') }}</a>
 	</div>
 </template>
 
@@ -37,7 +35,3 @@ export default {
 	},
 }
 </script>
-
-<style scoped>
-
-</style>

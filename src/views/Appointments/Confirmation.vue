@@ -1,12 +1,14 @@
 <template>
 	<div class="update">
-		The slot for your appointment from
+		{{ $t('calendar', 'The slot for your appointment has been confirmed') }}
 		<br>
-		<b>{{ startDate }}</b> to <b>{{ endDate }}</b>
 		<br>
-		booked for {{ booking.displayName }} ({{ booking.email }})
+		{{ $t('calendar', 'Appointment Details:') }}
 		<br>
-		has been confirmed.
+		{{ $t('calendar', 'Time:') }} <b>{{ startDate }}</b> - <b>{{ endDate }}</b>
+		<br>
+		{{ $t('calendar', 'Booked for:') }} {{ booking.displayName }} ({{ booking.email }})
+		<br>
 		<br>
 	</div>
 </template>
@@ -32,6 +34,3 @@ export default {
 	},
 }
 </script>
-
-<style scoped>
-</style>

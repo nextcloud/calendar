@@ -33,7 +33,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 /**
- * @template-extends QBMapper<AppointmentConfig>
+ * @template-extends QBMapper<Booking>
  */
 class BookingMapper extends QBMapper {
 	public function __construct(IDBConnection $db) {
@@ -52,4 +52,19 @@ class BookingMapper extends QBMapper {
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 		return $this->findEntity($qb);
 	}
+	public function deleteOutdated(int $limit = null): int {
+		$now = time();
+		$limit += $limit;
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('*')
+			->from($this->getTableName())
+			->where($qb->expr()->lt($now, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT);
+		if($limit !== null) {
+			$qb->orWhere($qb->expr()->lt());
+		}
+
+		return $qb->executeStatement();
+
+	}
+
 }
