@@ -27,21 +27,40 @@
 			:disable-tooltip="true"
 			:disable-menu="true"
 			:size="180" />
-		<div class="user-info">
-			<strong> {{ userInfo.displayName }} </strong>
-		</div>
-		<div class="config-info">
-			<a v-for="config in configs"
-				:key="config.id"
-				:href="linkToConfig(config)"
-				class="config-name">
-				<strong>{{ config.name }}</strong>
-				<span class="icon-arrow-right" />
-			</a>
-		</div>
-		<div v-if="configs.length === 0">
-			<EmptyContent icon="icon-calendar-dark" />
-			{{ $t('calendar', 'No public appointments found for {displayname}', { displayname: userInfo.displayName }) }}
+		<h2 class="user-info">
+			{{ $t('calendar', 'Book an appointment with {name}', { name: userInfo.displayName }) }}
+		</h2>
+		<div class="appointment-configs">
+			<template v-if="configs.length > 0">
+				<div
+					v-for="config in configs"
+					:key="config.id"
+					class="config">
+					<a
+						:href="linkToConfig(config)"
+						class="config-link">
+						<div class="header">
+							<CalendarCheckIcon decorative />
+							<span class="name">{{ config.name }}</span>
+						</div>
+						<div
+							v-if="config.description !== ''"
+							class="description">
+							{{ config.description }}
+						</div>
+					</a>
+				</div>
+			</template>
+			<div v-else>
+				<EmptyContent>
+					<template #icon>
+						<CalendarBlankIcon decorative />
+					</template>
+					<template #desc>
+						{{ $t('calendar', 'No public appointments found for {name}', { name: userInfo.displayName }) }}
+					</template>
+				</EmptyContent>
+			</div>
 		</div>
 	</div>
 </template>
@@ -50,12 +69,16 @@
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import { generateUrl } from '@nextcloud/router'
+import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck'
+import CalendarBlankIcon from 'vue-material-design-icons/CalendarBlank.vue'
 
 export default {
 	name: 'Overview',
 	components: {
 		Avatar,
-	  EmptyContent,
+		EmptyContent,
+		CalendarCheckIcon,
+		CalendarBlankIcon,
 	},
 	props: {
 		configs: {
@@ -77,6 +100,7 @@ export default {
 }
 
 </script>
+
 <style lang="scss" scoped>
 .overview-info {
 	display: flex;
@@ -84,37 +108,69 @@ export default {
 	flex-direction: column;
 	max-width: 900px;
 	margin: 50px auto;
-	height: 150px;
-}
-
-.config-info {
-	display: flex;
-	flex-wrap: wrap;
-	max-width: 500px;
-	width: 100%;
-}
-
-.config-name:hover {
-	background-color: var(--color-background-hover);
-	border-radius: 16px;
-}
-
-.config-name {
-	display: flex;
-	flex: 1 auto;
-	margin-left: 40px;
-	font-size: 16px;
-	align-items: center;
-}
-
-.icon-arrow-right {
-	background-image: var(--icon-triangle-e-000);
-	margin-left: 10px;
+	padding: 0 25px;
 }
 
 .user-info {
 	color: var( --color-text-maxcontrast);
 	margin-bottom: 50px;
 	margin-top: 20px;
+}
+
+.appointment-configs {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+
+	.config {
+		display: flex;
+		justify-content: center;
+		width: 250px;
+		padding: 8px;
+
+		.config-link {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding: 16px;
+			border-radius: var(--border-radius-large);
+			background-color: var(--color-background-dark);
+			width: 100%;
+
+			&:hover {
+				background-color: var(--color-background-hover);
+			}
+
+			.header {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+
+				.material-design-icon {
+					margin-right: 5px;
+				}
+
+				.name {
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					overflow: hidden;
+					font-weight: bold;
+				}
+			}
+		}
+
+		.description {
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+			width: 100%;
+		}
+	}
+
+	::v-deep .empty-content {
+		margin-top: 20px;
+	}
 }
 </style>
