@@ -908,7 +908,9 @@ const actions = {
 				calendarObjects.push(calendarObject)
 				calendarObjectIds.push(calendarObject.id)
 			} catch (e) {
-				console.error('could not convert calendar object', e)
+				console.error(`could not convert calendar object of calendar ${calendar.id}`, e, {
+					response: r,
+				})
 			}
 		}
 
