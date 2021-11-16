@@ -20,9 +20,8 @@
 				<span class="booking__time">{{ startTime }} - {{ endTime }}</span>
 			</div>
 			<div class="appointment-details">
-				<h2>{{ $t('calendar', 'Enter details') }}</h2>
 				<div>
-					{{ $t('calendar', 'Name') }}
+					{{ $t('calendar', 'Your name') }}
 				</div>
 				<input id="name"
 					v-model="name"
@@ -30,7 +29,7 @@
 					class="no-close"
 					required>
 				<div>
-					{{ $t('calendar', 'Email') }}
+					{{ $t('calendar', 'Your email address') }}
 				</div>
 				<input ref="email"
 					v-model="email"
@@ -45,6 +44,7 @@
 						<textarea
 							id="biography"
 							v-model="description"
+							v-autosize="true"
 							rows="8"
 							autocapitalize="none"
 							autocomplete="off" />
@@ -61,6 +61,7 @@
 <script>
 import Avatar from '@nextcloud/vue/dist/Components/Avatar'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
+import autosize from '../../directives/autosize'
 
 import { timeStampToLocaleTime } from '../../utils/localeTime'
 
@@ -69,6 +70,9 @@ export default {
 	components: {
 		Avatar,
 		Modal,
+	},
+	directives: {
+		autosize,
 	},
 	props: {
 		config: {
@@ -122,22 +126,25 @@ export default {
 	height: calc(100vh - 120px) !important;
 	max-width: 600px !important;
 	max-height: 500px !important;
+	overflow: auto !important;
 }
 
 .booking-appointment-details {
 	display: flex;
 	flex-direction: row;
+	padding: 30px;
 }
 
 .booking-details {
-	padding-left: 30px;
-	padding-top: 80px;
 	white-space: nowrap;
 }
 
 .appointment-details {
 	padding-left: 120px;
-	padding-top: 40px;
+
+	input {
+		width: 100%;
+	}
 }
 
 .add-guest {
@@ -146,15 +153,12 @@ export default {
 	background-color: transparent;
 }
 
-.meeting-info {
-	padding-right: 10px;
-}
-
 .meeting-text {
 	display: grid;
 	align-items: center;
 
 	textarea {
+		display: block;
 		resize: vertical;
 		grid-area: 1 / 1;
 		width: 100%;
