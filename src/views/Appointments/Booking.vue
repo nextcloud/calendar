@@ -234,6 +234,10 @@ export default {
 		flex-grow: 2;
 	}
 
+	&__time-zone {
+		max-width: 210px;
+	}
+
 	&__slots {
 		display: flex;
 		flex-direction: column;
