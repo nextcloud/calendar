@@ -73,6 +73,24 @@
 					</fieldset>
 
 					<fieldset>
+						<header>{{ t('calendar', 'Pick time ranges where appointments are allowed') }}</header>
+						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
+							<CalendarAvailability :slots.sync="editing.availability.slots"
+								:l10n-to="t('calendar', 'to')"
+								:l10n-delete-slot="t('calendar', 'Delete slot')"
+								:l10n-empty-day="t('calendar', 'No times set')"
+								:l10n-add-slot="t('calendar', 'Add')"
+								:l10n-monday="t('calendar', 'Monday')"
+								:l10n-tuesday="t('calendar', 'Tuesday')"
+								:l10n-wednesday="t('calendar', 'Wednesday')"
+								:l10n-thursday="t('calendar', 'Thursday')"
+								:l10n-friday="t('calendar', 'Friday')"
+								:l10n-saturday="t('calendar', 'Saturday')"
+								:l10n-sunday="t('calendar', 'Sunday')" />
+						</div>
+					</fieldset>
+
+					<fieldset>
 						<header>{{ t('calendar', 'Add time before and after the event') }}</header>
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
@@ -112,11 +130,11 @@
 </template>
 
 <script>
+import { CalendarAvailability } from '@nextcloud/calendar-availability-vue'
 import Modal from '@nextcloud/vue/dist/Components/Modal'
 import TextInput from './AppointmentConfigModal/TextInput'
 import TextArea from './AppointmentConfigModal/TextArea'
 import AppointmentConfig from '../models/appointmentConfig'
-import { getRFCProperties } from '../models/rfcProps'
 import { mapGetters } from 'vuex'
 import CalendarPicker from './Shared/CalendarPicker'
 import DurationInput from './AppointmentConfigModal/DurationInput'
@@ -130,6 +148,7 @@ import Confirmation from './AppointmentConfigModal/Confirmation'
 export default {
 	name: 'AppointmentConfigModal',
 	components: {
+		CalendarAvailability,
 		CheckedDurationSelect,
 		CalendarPicker,
 		DurationInput,
@@ -177,13 +196,6 @@ export default {
 
 			return this.$t('calendar', 'Update')
 		},
-		availabilityModel() {
-			return getRFCProperties().timeTransparency
-		},
-		availability() {
-			const availability = this.editing.availability ?? this.availabilityModel.defaultValue
-			return this.availabilityModel.options.find(opt => opt.value === availability)
-		},
 		calendar() {
 			if (!this.editing.targetCalendarUri) {
 				return this.sortedCalendars[0]
@@ -206,13 +218,10 @@ export default {
 	},
 	methods: {
 		reset() {
-			this.editing = this.config?.clone() ?? new AppointmentConfig()
+			this.editing = this.config?.clone() ?? AppointmentConfig.createDefault(this.$store)
 			this.enablePreparationDuration = !!this.editing.preparationDuration
 			this.enableFollowupDuration = !!this.editing.followupDuration
 			this.showConfirmation = false
-		},
-		changeAvailability(value) {
-			this.editing.availability = value.value
 		},
 		changeCalendar(calendar) {
 			this.editing.targetCalendarUri = calendar.url
