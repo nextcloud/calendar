@@ -48,6 +48,9 @@ class BookingServiceTest extends TestCase {
 	/** @var mixed|Manager|MockObject */
 	private $manager;
 
+	/** @var MailService|MockObject */
+	private $mailService;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$backend = \OC::$server->get(CalDavBackend::class);

@@ -33,6 +33,7 @@ use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 
 class AppointmentConfigController extends Controller {
 
@@ -42,13 +43,18 @@ class AppointmentConfigController extends Controller {
 	/** @var string|null */
 	private $userId;
 
+	/** @var LoggerInterface */
+	private $logger;
+
 	public function __construct(string $appName,
 								IRequest $request,
 								AppointmentConfigService $appointmentService,
+								LoggerInterface $logger,
 								?string $userId) {
 		parent::__construct($appName, $request);
 		$this->appointmentConfigService = $appointmentService;
 		$this->userId = $userId;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -56,12 +62,17 @@ class AppointmentConfigController extends Controller {
 	 */
 	public function index(): JsonResponse {
 		if ($this->userId === null) {
+			$this->logger->warning('User not found');
 			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
 		}
 
-		return JsonResponse::success(
-			$this->appointmentConfigService->getAllAppointmentConfigurations($this->userId)
-		);
+		try {
+			$appointmentConfigs = $this->appointmentConfigService->getAllAppointmentConfigurations($this->userId);
+			return JsonResponse::success($appointmentConfigs);
+		} catch (ServiceException $e) {
+			$this->logger->error('No appointment configurations found', ['exception' => $e]);
+			return JsonResponse::fail([], $e->getHttpCode() ?? Http::STATUS_BAD_REQUEST);
+		}
 	}
 
 	/**
@@ -71,6 +82,7 @@ class AppointmentConfigController extends Controller {
 	 */
 	public function show(int $id): JsonResponse {
 		if ($this->userId === null) {
+			$this->logger->warning('User not found');
 			return JsonResponse::fail();
 		}
 
@@ -78,9 +90,8 @@ class AppointmentConfigController extends Controller {
 			$appointmentConfig = $this->appointmentConfigService->findByIdAndUser($id, $this->userId);
 			return JsonResponse::success($appointmentConfig);
 		} catch (ClientException $e) {
+			$this->logger->warning('No appointment configuration found with id ' . $id, ['exception' => $e]);
 			return JsonResponse::fail([], $e->getHttpCode() ?? Http::STATUS_BAD_REQUEST);
-		} catch (ServiceException $e) {
-			return JsonResponse::errorFromThrowable($e);
 		}
 	}
 
@@ -145,6 +156,7 @@ class AppointmentConfigController extends Controller {
 			);
 			return JsonResponse::success($appointmentConfig);
 		} catch (ServiceException $e) {
+			$this->logger->error('Could not create new configuration', ['exception' => $e]);
 			return JsonResponse::errorFromThrowable($e);
 		}
 	}
@@ -193,7 +205,8 @@ class AppointmentConfigController extends Controller {
 
 		try {
 			$appointmentConfig = $this->appointmentConfigService->findByIdAndUser($id, $this->userId);
-		} catch (ServiceException $e) {
+		} catch (ClientException $e) {
+			$this->logger->error('Could not find configuration with id ' . $id, ['exception' => $e]);
 			return JsonResponse::errorFromThrowable($e);
 		}
 
@@ -218,6 +231,7 @@ class AppointmentConfigController extends Controller {
 			$appointmentConfig = $this->appointmentConfigService->update($appointmentConfig);
 			return JsonResponse::success($appointmentConfig);
 		} catch (ServiceException $e) {
+			$this->logger->error('Could not update configuration with id ' . $id, ['exception' => $e]);
 			return JsonResponse::errorFromThrowable($e, 403);
 		}
 	}
@@ -227,6 +241,7 @@ class AppointmentConfigController extends Controller {
 	 */
 	public function destroy(int $id): JsonResponse {
 		if ($this->userId === null) {
+			$this->logger->warning('User not found');
 			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
 		}
 
@@ -235,6 +250,7 @@ class AppointmentConfigController extends Controller {
 			$this->appointmentConfigService->delete($id, $this->userId);
 			return JsonResponse::success();
 		} catch (ServiceException $e) {
+			$this->logger->error('Could not delete configuration with id ' . $id, ['exception' => $e]);
 			return JsonResponse::errorFromThrowable($e, 403);
 		}
 	}

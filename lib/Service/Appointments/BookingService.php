@@ -27,30 +27,17 @@ namespace OCA\Calendar\Service\Appointments;
 
 use DateTimeImmutable;
 use DateTimeZone;
-use OC\URLGenerator;
+use InvalidArgumentException;
 use OCA\Calendar\Db\AppointmentConfig;
-use OCA\Calendar\Db\AppointmentConfigMapper;
 use OCA\Calendar\Db\Booking;
 use OCA\Calendar\Db\BookingMapper;
 use OCA\Calendar\Exception\ClientException;
 use OCA\Calendar\Exception\ServiceException;
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
 use OCP\DB\Exception;
 use OCP\DB\Exception as DbException;
-use OCP\Defaults;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\IDateTimeFormatter;
-use OCP\IL10N;
-use OCP\ILogger;
-use OCP\IUserManager;
-use OCP\L10N\IFactory;
-use OCP\Mail\IEMailTemplate;
-use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
-use OCP\Util;
-use Sabre\VObject\Component\VEvent;
 
 class BookingService {
 
@@ -68,11 +55,13 @@ class BookingService {
 
 	/** @var BookingCalendarWriter */
 	private $calendarWriter;
+
 	/** @var BookingMapper */
 	private $bookingMapper;
 
 	/** @var ISecureRandom */
 	private $random;
+	private $mailService;
 
 	public function __construct(AvailabilityGenerator $availabilityGenerator,
 								SlotExtrapolator $extrapolator,
@@ -80,7 +69,8 @@ class BookingService {
 								EventConflictFilter $eventConflictFilter,
 								BookingMapper $bookingMapper,
 								BookingCalendarWriter $calendarWriter,
-								ISecureRandom $random) {
+								ISecureRandom $random,
+								MailService $mailService) {
 
 		$this->availabilityGenerator = $availabilityGenerator;
 		$this->extrapolator = $extrapolator;
@@ -89,14 +79,11 @@ class BookingService {
 		$this->calendarWriter = $calendarWriter;
 		$this->bookingMapper = $bookingMapper;
 		$this->random = $random;
+		$this->mailService = $mailService;
 	}
 
 	/**
-	 * @param Booking $booking
-	 * @param AppointmentConfig $config
-	 * @return Booking
-	 *
-	 * @throws ClientException
+	 * @throws ClientException|DbException
 	 */
 	public function confirmBooking(Booking $booking, AppointmentConfig $config): Booking {
 		$bookingSlot = current($this->getAvailableSlots($config, $booking->getStart(), $booking->getEnd()));
@@ -113,23 +100,14 @@ class BookingService {
 
 		// Pass the $startTimeInTz to get the correct timezone for the booking user
 		$this->calendarWriter->write($config, $startObj, $booking->getDisplayName(), $booking->getEmail(), $booking->getDescription());
-
+		$this->bookingMapper->delete($booking);
 		return $booking;
 	}
 
 	/**
-	 * @param AppointmentConfig $config
-	 * @param int $start
-	 * @param int $end
-	 * @param string $timeZone
-	 * @param string $displayName
-	 * @param string $email
-	 * @param string|null $description
-	 *
-	 * @return Booking
-	 *
 	 * @throws ClientException
 	 * @throws ServiceException
+	 * @throws DbException
 	 */
 	public function book(AppointmentConfig $config,int $start, int $end, string $timeZone, string $displayName, string $email, ?string $description = null): Booking {
 		$bookingSlot = current($this->getAvailableSlots($config, $start, $end));
@@ -138,7 +116,12 @@ class BookingService {
 			throw new ClientException('Could not find slot for booking');
 		}
 
-		// this can move probably? run the booking logic, return slot, set that as start and end time for the new Booking obj?
+		try {
+			$tz = new DateTimeZone($timeZone);
+		} catch(Exception $e) {
+			throw new InvalidArgumentException('Could not make sense of the timezone', $e->getCode(), $e);
+		}
+
 		$booking = new Booking();
 		$booking->setApptConfigId($config->getId());
 		$booking->setCreatedAt(time());
@@ -148,12 +131,20 @@ class BookingService {
 		$booking->setEmail($email);
 		$booking->setStart($start);
 		$booking->setEnd($end);
-		$booking->setTimezone($timeZone);
+		$booking->setTimezone($tz->getName());
 		try {
 			$this->bookingMapper->insert($booking);
 		} catch (Exception $e) {
 			throw new ServiceException('Could not create booking', 0, $e);
 		}
+
+		try {
+			$this->mailService->sendConfirmationEmail($booking, $config);
+		} catch( ServiceException $e) {
+			$this->bookingMapper->delete($booking);
+			throw $e;
+		}
+
 		return $booking;
 	}
 
@@ -173,7 +164,7 @@ class BookingService {
 
 	// Update
 	public function updateBooking() {
-		// noop for now? we don't support a public update method at the moment
+		// noop for now. we don't support a public update method at the moment
 	}
 
 	// Delete
@@ -197,13 +188,5 @@ class BookingService {
 				Http::STATUS_NOT_FOUND
 			);
 		}
-	}
-
-	/**
-	 * @param $booking
-	 * @throws DbException
-	 */
-	public function deleteEntity($booking): void {
-		$this->bookingMapper->delete($booking);
 	}
 }

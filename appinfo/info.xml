@@ -36,6 +36,9 @@
 	<dependencies>
 		<nextcloud min-version="20" max-version="24" />
 	</dependencies>
+	<background-jobs>
+		<job>OCA\Calendar\BackgroundJob\CleanupJob</job>
+	</background-jobs>
 	<repair-steps>
 		<post-migration>
 			<step>OCA\Calendar\RepairSteps\CurrentViewNameRepairStep</step>

@@ -53,6 +53,7 @@ use Safe\DateTimeImmutable;
  * @method void setTimezone(string $timezone)
  */
 class Booking extends Entity implements JsonSerializable {
+	public const EXPIRY = 24; // hours
 
 	/** @var int */
 	protected $apptConfigId;

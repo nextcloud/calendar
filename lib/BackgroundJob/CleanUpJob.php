@@ -27,34 +27,30 @@ declare(strict_types=1);
 namespace OCA\Calendar\BackgroundJob;
 
 use OCA\Calendar\Db\BookingMapper;
-use OCA\Mail\Service\CleanupService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 class CleanUpJob extends TimedJob {
 
-	/** @var CleanupService */
-	private $cleanupService;
-
 	/** @var BookingMapper */
 	private $mapper;
+
 	/** @var ILogger */
 	private $logger;
 
 	public function __construct(ITimeFactory $time,
 								BookingMapper $mapper,
-	ILogger $logger) {
+								LoggerInterface $logger) {
 		parent::__construct($time);
-		$this->setInterval(24);
+		$this->setInterval(24*60*60);
 		$this->mapper = $mapper;
 		$this->logger = $logger;
 	}
 
 	protected function run($argument): void {
-		$timeStampLimit = $this->time->getTime(); // from the appointment config?
-		$bookings = $this->mapper->deleteOutdated( $timeStampLimit);
-		$this->logger->info('Found and deleted' . $bookings . ' outdated booking confirmations.', ['app' => 'calendar']);
-
+		$outdated = $this->mapper->deleteOutdated();
+		$this->logger->info('Found and deleted ' . $outdated . ' outdated booking confirmations.');
 	}
 }

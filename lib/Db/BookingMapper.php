@@ -28,6 +28,7 @@ namespace OCA\Calendar\Db;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception as DbException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
@@ -36,8 +37,12 @@ use OCP\IDBConnection;
  * @template-extends QBMapper<Booking>
  */
 class BookingMapper extends QBMapper {
-	public function __construct(IDBConnection $db) {
+	/** @var ITimeFactory */
+	private $time;
+
+	public function __construct(IDBConnection $db, ITimeFactory $time) {
 		parent::__construct($db, 'calendar_appt_bookings');
+		$this->time = $time;
 	}
 
 	/**
@@ -52,17 +57,12 @@ class BookingMapper extends QBMapper {
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 		return $this->findEntity($qb);
 	}
-	public function deleteOutdated(int $limit = null): int {
-		$now = time();
-		$limit += $limit;
+	public function deleteOutdated() : int {
+		$limit = $this->time->getTime() - (Booking::EXPIRY * 60 * 60);
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete('*')
 			->from($this->getTableName())
-			->where($qb->expr()->lt($now, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT);
-		if($limit !== null) {
-			$qb->orWhere($qb->expr()->lt());
-		}
-
+			->where($qb->expr()->lt('created_at', $qb->createNamedParameter($limit, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
 		return $qb->executeStatement();
 
 	}

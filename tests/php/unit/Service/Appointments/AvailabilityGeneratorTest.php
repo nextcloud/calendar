@@ -115,6 +115,6 @@ class AvailabilityGeneratorTest extends TestCase {
 
 		$slots = $this->generator->generate($config, $mondayMidnight->getTimestamp(), $sundayMidnight->getTimestamp());
 
-		self::assertCount(5, $slots);
+		self::assertCount(1, $slots);
 	}
 }

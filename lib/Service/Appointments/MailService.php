@@ -29,19 +29,17 @@ namespace OCA\Calendar\Service\Appointments;
 use OC\URLGenerator;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\Booking;
-use OCA\Calendar\Db\BookingMapper;
 use OCA\Calendar\Exception\ServiceException;
 use OCP\Defaults;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
-use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
-use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
 
-class Mailer {
+class MailService {
 
 	/** @var IUserManager */
 	private $userManager;
@@ -51,7 +49,7 @@ class Mailer {
 	private $l10n;
 	/** @var Defaults */
 	private $defaults;
-	/** @var ILogger */
+	/** @var LoggerInterface */
 	private $logger;
 	/** @var URLGenerator */
 	private $urlGenerator;
@@ -64,7 +62,7 @@ class Mailer {
 								IUserManager       $userManager,
 								IL10N              $l10n,
 								Defaults           $defaults,
-								ILogger            $logger,
+								LoggerInterface            $logger,
 								URLGenerator       $urlGenerator,
 								IDateTimeFormatter $dateFormatter,
 								IFactory           $lFactory) {
@@ -84,7 +82,7 @@ class Mailer {
 	 * @param AppointmentConfig $config
 	 * @throws ServiceException
 	 */
-	public function sendConfirmationEmail(Booking $booking, AppointmentConfig $config) {
+	public function sendConfirmationEmail(Booking $booking, AppointmentConfig $config): void {
 		$user = $this->userManager->get($config->getUserId());
 
 		if($user === null) {
@@ -120,7 +118,7 @@ class Mailer {
 		$bookingUrl = $this->urlGenerator->linkToRouteAbsolute('calendar.booking.confirmBooking', ['token' => $booking->getToken()]);
 		$template->addBodyButton($this->l10n->t('Confirm'), $bookingUrl);
 
-		$bodyText = $this->l10n->t('This confirmation link expires in 24 hours.');
+		$bodyText = $this->l10n->t('This confirmation link expires in %s hours.', [Booking::EXPIRY] );
 		$template->addBodyText($bodyText);
 
 		$bodyText = $this->l10n->t("If you wish to cancel the appointment after all, please contact your organizer.");
@@ -133,11 +131,15 @@ class Mailer {
 
 		try {
 			$failed = $this->mailer->send($message);
-			if ($failed) {
-				$this->logger->error('Unable to deliver message to {failed}', ['app' => 'calendar', 'failed' => implode(', ', $failed)]);
+			if (count($failed) > 0) {
+				$this->logger->warning('Mail delivery failed for some recipients.');
+				foreach($failed as $fail) {
+					$this->logger->debug('Failed to deliver email to ' . $fail);
+				}
 			}
 		} catch (\Exception $ex) {
-			$this->logger->logException($ex, ['app' => 'calendar']);
+			$this->logger->error($ex->getMessage(), ['exception' => $ex]);
+			throw new ServiceException('Could not send mail', $ex->getCode(), $ex);
 		}
 	}
 
@@ -171,7 +173,7 @@ class Mailer {
 	 * @param string $path
 	 * @return string
 	 */
-	private function getAbsoluteImagePath(string $path):string {
+	private function getAbsoluteImagePath(string $path): string {
 		return $this->urlGenerator->getAbsoluteURL(
 			$this->urlGenerator->imagePath('core', $path)
 		);
