@@ -21,6 +21,7 @@
  */
 
 import { generateUrl } from '@nextcloud/router'
+import { getEmptySlots } from '@nextcloud/calendar-availability-vue'
 
 /** @class */
 export default class AppointmentConfig {
@@ -46,7 +47,7 @@ export default class AppointmentConfig {
 	/** @member {string} */
 	targetCalendarUri
 
-	/** @member {string} */
+	/** @member {Object} */
 	availability
 
 	/** @member {number} */
@@ -81,7 +82,7 @@ export default class AppointmentConfig {
 	 * @param {string} data.location Location
 	 * @param {string} data.visibility Visibility
 	 * @param {string} data.targetCalendarUri Target calendar URI
-	 * @param {string} data.availability Availability
+	 * @param {Object} data.availability Availability
 	 * @param {number} data.length Length in seconds
 	 * @param {number} data.increment Increment in seconds
 	 * @param {number} data.preparationDuration Preparation duration in seconds
@@ -116,12 +117,24 @@ export default class AppointmentConfig {
 	 * @return {AppointmentConfig} Default appointment config instance
 	 */
 	static createDefault(store) {
+		// Set default availability to Mo-Fr 9-5
+		// TODO: fetch user's working hours if possible
+		const tsAtTime = (hours, minutes) => Math.round((new Date()).setHours(hours, minutes, 0, 0) / 1000)
+		const slots = getEmptySlots();
+		['MO', 'TU', 'WE', 'TH', 'FR'].forEach(day => slots[day].push({
+			start: tsAtTime(9, 0),
+			end: tsAtTime(17, 0),
+		}))
+
 		return new AppointmentConfig({
 			name: '',
 			description: '',
 			location: '',
 			targetCalendarUri: store.getters.sortedCalendars[0].url,
-			availability: '',
+			availability: {
+				timezoneId: store.getters.getResolvedTimezone,
+				slots,
+			},
 			visibility: 'PUBLIC',
 			length: 5 * 60,
 			increment: 15 * 60,

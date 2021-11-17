@@ -26,6 +26,7 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Controller;
 
+use InvalidArgumentException;
 use OCA\Calendar\Exception\ClientException;
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Http\JsonResponse;
@@ -34,6 +35,9 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
+use function array_keys;
+use function array_merge;
+use function array_values;
 
 class AppointmentConfigController extends Controller {
 
@@ -96,14 +100,42 @@ class AppointmentConfigController extends Controller {
 	}
 
 	/**
+	 * @throws InvalidArgumentException
+	 */
+	private function validateAvailability(array $availability): void {
+		$expectedKeys = ['slots', 'timezoneId'];
+		$actualKeys = array_keys($availability);
+		sort($actualKeys);
+		if ($expectedKeys !== $actualKeys) {
+			throw new InvalidArgumentException('Invalid value for availability');
+		}
+
+		$expectedDayKeys = ['FR', 'MO', 'SA', 'SU', 'TH', 'TU', 'WE'];
+		$actualDayKeys = array_keys($availability['slots']);
+		sort($actualDayKeys);
+		if ($expectedDayKeys !== $actualDayKeys) {
+			throw new InvalidArgumentException('Invalid value for availability slots');
+		}
+
+		$slots = array_merge(...array_values($availability['slots']));
+		foreach ($slots as $slot) {
+			$slotKeys = array_keys($slot);
+			sort($slotKeys);
+			if ($slotKeys !== ['end', 'start']) {
+				throw new InvalidArgumentException('Invalid value for availability slot');
+			}
+		}
+	}
+
+	/**
 	 * @NoAdminRequired
 	 *
 	 * @param string $name
 	 * @param string $description
-	 * @param string $location
+	 * @param string|null $location
 	 * @param string $visibility
 	 * @param string $targetCalendarUri
-	 * @param string|null $availability
+	 * @param array $availability
 	 * @param int $length
 	 * @param int $increment
 	 * @param int $preparationDuration
@@ -118,10 +150,10 @@ class AppointmentConfigController extends Controller {
 	public function create(
 		string $name,
 		string $description,
-		string $location,
+		?string $location,
 		string $visibility,
 		string $targetCalendarUri,
-		?string $availability,
+		array $availability,
 		int $length,
 		int $increment,
 		int $preparationDuration = 0,
@@ -133,6 +165,11 @@ class AppointmentConfigController extends Controller {
 		?int $end = null): JsonResponse {
 		if ($this->userId === null) {
 			return JsonResponse::fail();
+		}
+		try {
+			$this->validateAvailability($availability);
+		} catch (InvalidArgumentException $e) {
+			return JsonResponse::fail($e->getMessage(), Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
 		try {
@@ -167,10 +204,10 @@ class AppointmentConfigController extends Controller {
 	 * @param int $id
 	 * @param string $name
 	 * @param string $description
-	 * @param string $location
+	 * @param string|null $location
 	 * @param string $visibility
 	 * @param string $targetCalendarUri
-	 * @param string|null $availability
+	 * @param array $availability
 	 * @param int $length
 	 * @param int $increment
 	 * @param int $preparationDuration
@@ -186,10 +223,10 @@ class AppointmentConfigController extends Controller {
 		int $id,
 		string $name,
 		string $description,
-		string $location,
+		?string $location,
 		string $visibility,
 		string $targetCalendarUri,
-		?string $availability,
+		array $availability,
 		int $length,
 		int $increment,
 		int $preparationDuration = 0,
@@ -201,6 +238,11 @@ class AppointmentConfigController extends Controller {
 		?int $end = null): JsonResponse {
 		if ($this->userId === null) {
 			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
+		}
+		try {
+			$this->validateAvailability($availability);
+		} catch (InvalidArgumentException $e) {
+			return JsonResponse::fail($e->getMessage(), Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
 		try {
@@ -216,7 +258,7 @@ class AppointmentConfigController extends Controller {
 		$appointmentConfig->setVisibility($visibility);
 		$appointmentConfig->setUserId($this->userId);
 		$appointmentConfig->setTargetCalendarUri($targetCalendarUri);
-		$appointmentConfig->setAvailability($availability);
+		$appointmentConfig->setAvailabilityAsArray($availability);
 		$appointmentConfig->setLength($length);
 		$appointmentConfig->setIncrement($increment);
 		$appointmentConfig->setPreparationDuration($preparationDuration);

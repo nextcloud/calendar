@@ -141,11 +141,11 @@ class AppointmentConfigService {
 	/**
 	 * @param string $name
 	 * @param string $description
-	 * @param string $location
+	 * @param string|null $location
 	 * @param string $visibility
 	 * @param string $userId
 	 * @param string $targetCalendarUri
-	 * @param string|null $availability
+	 * @param array $availability
 	 * @param int $length
 	 * @param int $increment
 	 * @param int $preparationDuration
@@ -160,11 +160,11 @@ class AppointmentConfigService {
 	 */
 	public function create(string $name,
 						   string $description,
-						   string $location,
+						   ?string $location,
 						   string $visibility,
 						   string $userId,
 						   string $targetCalendarUri,
-						   ?string $availability,
+						   array $availability,
 						   int $length,
 						   int $increment,
 						   int $preparationDuration,
@@ -183,7 +183,7 @@ class AppointmentConfigService {
 			$appointmentConfig->setVisibility($visibility);
 			$appointmentConfig->setUserId($userId);
 			$appointmentConfig->setTargetCalendarUri($targetCalendarUri);
-			$appointmentConfig->setAvailability($availability);
+			$appointmentConfig->setAvailabilityAsArray($availability);
 			$appointmentConfig->setLength($length);
 			$appointmentConfig->setIncrement($increment);
 			$appointmentConfig->setPreparationDuration($preparationDuration);
