@@ -65,8 +65,7 @@ class BookingMapper extends QBMapper {
 	public function deleteOutdated(int $validFor = 0) : int {
 		$limit = $this->time->getTime() - ($validFor);
 		$qb = $this->db->getQueryBuilder();
-		$qb->delete('*')
-			->from($this->getTableName())
+		$qb->delete($this->getTableName())
 			->where($qb->expr()->lt('created_at', $qb->createNamedParameter($limit, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
 		return $qb->executeStatement();
 
