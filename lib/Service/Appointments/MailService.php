@@ -93,8 +93,7 @@ class MailService {
 		$fromName = $user->getDisplayName();
 
 
-		$instanceName = $this->defaults->getName();
-		$sys = \OCP\Util::getDefaultEmailAddress($instanceName);
+		$sys = $this->getSysEmail();
 		$message = $this->mailer->createMessage()
 			->setFrom([$sys => $fromName])
 			->setTo([$booking->getEmail() => $booking->getDisplayName()])
@@ -170,12 +169,10 @@ class MailService {
 	}
 
 	/**
-	 * @param string $path
 	 * @return string
 	 */
-	private function getAbsoluteImagePath(string $path): string {
-		return $this->urlGenerator->getAbsoluteURL(
-			$this->urlGenerator->imagePath('core', $path)
-		);
+	private function getSysEmail(): string {
+		$instanceName = $this->defaults->getName();
+		return \OCP\Util::getDefaultEmailAddress($instanceName);
 	}
 }
