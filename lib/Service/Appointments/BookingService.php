@@ -41,6 +41,9 @@ use OCP\Security\ISecureRandom;
 
 class BookingService {
 
+	/** @var int the expiry of a booking confirmation */
+	public const EXPIRY = 86400;
+
 	/** @var AvailabilityGenerator */
 	private $availabilityGenerator;
 
@@ -61,6 +64,8 @@ class BookingService {
 
 	/** @var ISecureRandom */
 	private $random;
+
+	/** @var MailService */
 	private $mailService;
 
 	public function __construct(AvailabilityGenerator $availabilityGenerator,
@@ -71,7 +76,6 @@ class BookingService {
 								BookingCalendarWriter $calendarWriter,
 								ISecureRandom $random,
 								MailService $mailService) {
-
 		$this->availabilityGenerator = $availabilityGenerator;
 		$this->extrapolator = $extrapolator;
 		$this->dailyLimitFilter = $dailyLimitFilter;
@@ -105,9 +109,7 @@ class BookingService {
 	}
 
 	/**
-	 * @throws ClientException
-	 * @throws ServiceException
-	 * @throws DbException
+	 * @throws ClientException|ServiceException|DbException
 	 */
 	public function book(AppointmentConfig $config,int $start, int $end, string $timeZone, string $displayName, string $email, ?string $description = null): Booking {
 		$bookingSlot = current($this->getAvailableSlots($config, $start, $end));
@@ -173,8 +175,6 @@ class BookingService {
 	}
 
 	/**
-	 * @param string $token
-	 * @return Booking
 	 * @throws ClientException
 	 */
 	public function findByToken(string $token): Booking {
@@ -188,5 +188,12 @@ class BookingService {
 				Http::STATUS_NOT_FOUND
 			);
 		}
+	}
+
+	/**
+	 * @throws DbException
+	 */
+	public function deleteOutdated(): int {
+		return $this->bookingMapper->deleteOutdated(self::EXPIRY);
 	}
 }

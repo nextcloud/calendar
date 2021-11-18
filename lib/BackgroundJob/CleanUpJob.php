@@ -26,31 +26,31 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\BackgroundJob;
 
-use OCA\Calendar\Db\BookingMapper;
+use OCA\Calendar\Service\Appointments\BookingService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\ILogger;
 use Psr\Log\LoggerInterface;
 
 class CleanUpJob extends TimedJob {
-
-	/** @var BookingMapper */
-	private $mapper;
-
 	/** @var ILogger */
 	private $logger;
 
+	/** @var BookingService */
+	private $service;
+
 	public function __construct(ITimeFactory $time,
-								BookingMapper $mapper,
+								BookingService $service,
 								LoggerInterface $logger) {
 		parent::__construct($time);
 		$this->setInterval(24*60*60);
-		$this->mapper = $mapper;
+		$this->service = $service;
 		$this->logger = $logger;
 	}
 
+
 	protected function run($argument): void {
-		$outdated = $this->mapper->deleteOutdated();
+		$outdated = $this->service->deleteOutdated();
 		$this->logger->info('Found and deleted ' . $outdated . ' outdated booking confirmations.');
 	}
 }

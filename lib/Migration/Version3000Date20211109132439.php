@@ -2,6 +2,27 @@
 
 declare(strict_types=1);
 
+/**
+ * @copyright 2021 Anna Larch <anna.larch@gmx.net>
+ *
+ * @author Anna Larch <anna.larch@gmx.net>
+ *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This code is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License, version 3,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License, version 3,
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
+ */
+
 namespace OCA\Calendar\Migration;
 
 use Closure;
@@ -23,46 +44,46 @@ class Version3000Date20211109132439 extends SimpleMigrationStep {
 		$schema = $schemaClosure();
 
 		$table = $schema->createTable('calendar_appt_bookings');
-		$table->addColumn('id', Types::BIGINT, [
+		$table->addColumn('id', 'bigint', [
 			'autoincrement' => true,
 			'notnull' => true,
 			'length' => 11,
 			'unsigned' => true
 		]);
-		$table->addColumn('appt_config_id', Types::BIGINT, [
+		$table->addColumn('appt_config_id', 'bigint', [
 			'notnull' => true,
 			'length' => 11,
 			'unsigned' => true
 		]);
-		$table->addColumn('created_at', Types::INTEGER, [
+		$table->addColumn('created_at', 'integer', [
 			'notnull' => true,
 			'length' => 4
 		]);
-		$table->addColumn('token', Types::STRING, [
+		$table->addColumn('token', 'string', [
 			'notnull' => true,
 			'length' => 32
 		]);
-		$table->addColumn('display_name', Types::STRING, [
+		$table->addColumn('display_name', 'string', [
 			'notnull' => true,
 			'length' => 128
 		]);
-		$table->addColumn('description', Types::TEXT, [
+		$table->addColumn('description', 'text', [
 			'notnull' => false,
 			'length' => null
 		]);
-		$table->addColumn('email', Types::STRING, [
+		$table->addColumn('email', 'string', [
 			'notnull' => true,
 			'length' => 128
 		]);
-		$table->addColumn('start', Types::INTEGER, [
+		$table->addColumn('start', 'integer', [
 			'notnull' => true,
 			'length' => 4
 		]);
-		$table->addColumn('end', Types::INTEGER, [
+		$table->addColumn('end', 'integer', [
 			'notnull' => true,
 			'length' => 4
 		]);
-		$table->addColumn('timezone', Types::STRING, [
+		$table->addColumn('timezone', 'string', [
 			'notnull' => true,
 			'length' => 32
 		]);

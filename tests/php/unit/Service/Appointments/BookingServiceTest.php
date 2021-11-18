@@ -25,9 +25,12 @@ declare(strict_types=1);
 namespace OCA\Calendar\Service\Appointments;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use Exception;
+use OCA\Calendar\Db\Booking;
 use OCA\Calendar\Db\BookingMapper;
 use OCA\Calendar\Exception\ClientException;
 use OCA\Calendar\Db\AppointmentConfig;
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Safe\DateTimeImmutable;
@@ -106,6 +109,26 @@ class BookingServiceTest extends TestCase {
 	}
 
 	public function testBookInvalidTimestamp(): void {
+		$intervals = [];
+
+		$this->availabilityGenerator->expects(self::once())
+			->method('generate')
+			->willReturn($intervals);
+		$this->extrapolator->expects(self::once())
+			->method('extrapolate')
+			->willReturnArgument(1);
+		$this->dailyLimitFilter->expects(self::once())
+			->method('filter')
+			->willReturnArgument(1);
+		$this->eventConflictFilter->expects(self::once())
+			->method('filter')
+			->willReturnArgument(1);
+
+		$this->expectException(ClientException::class);
+		$this->service->book(new AppointmentConfig(), 4054546654, 44545454, 'Europe/Vienna', 'Test', 'test@test.com', 'Test');
+	}
+
+	public function testBookInvalidTimezone(): void {
 		$intervals = [
 			new Interval(1891378800, 1891382400),
 			new Interval(1891382400, 1891386000),
@@ -125,8 +148,8 @@ class BookingServiceTest extends TestCase {
 			->method('filter')
 			->willReturnArgument(1);
 
-		$this->expectException(ClientException::class);
-		$this->service->book(new AppointmentConfig(), 1891382400, 1891386000, 'Europe/Vienna', 'Test', 'test@test.com', 'Test');
+		$this->expectException(Exception::class);
+		$this->service->book(new AppointmentConfig(), 4054546654, 44545454, 'Nighttime/DAYTIME!', 'Test', 'test@test.com', 'Test');
 	}
 
 	public function testBook(): void {
@@ -150,10 +173,104 @@ class BookingServiceTest extends TestCase {
 		$this->eventConflictFilter->expects(self::once())
 			->method('filter')
 			->willReturnArgument(1);
-		$this->bookingCalendarWriter->expects(self::once())
-			->method('write');
+		$this->bookingMapper->expects(self::once())
+			->method('insert');
+		$this->mailService->expects(self::once())
+			->method('sendConfirmationEmail');
 
 		$this->service->book(new AppointmentConfig(), $start->getTimestamp(), $end->getTimestamp(), 'Europe/Berlin', 'Test', 'test@test.com');
 	}
 
+	public function testConfirmBooking(): void {
+		$booking = new Booking();
+		$booking->setStart(1891378800);
+		$booking->setEnd(1891382400);
+		$booking->setTimezone('Europe/Vienna');
+		$booking->setDisplayName('Test');
+		$booking->setDescription('Testing');
+		$booking->setEmail('anna@banana.com');
+		$config = new AppointmentConfig();
+		$interval = [
+			new Interval(1891378800, 1891382400)
+		];
+
+		$this->availabilityGenerator->expects(self::once())
+			->method('generate')
+			->willReturn($interval);
+		$this->extrapolator->expects(self::once())
+			->method('extrapolate')
+			->willReturnArgument(1);
+		$this->dailyLimitFilter->expects(self::once())
+			->method('filter')
+			->willReturnArgument(1);
+		$this->eventConflictFilter->expects(self::once())
+			->method('filter')
+			->willReturnArgument(1);
+		$this->bookingCalendarWriter->expects(self::once())
+			->method('write');
+		$this->bookingMapper->expects(self::once())
+			->method('delete');
+
+		$this->service->confirmBooking($booking, $config);
+	}
+
+	public function testConfirmBookingNoSlot(): void {
+		$booking = new Booking();
+		$booking->setStart(1891378800);
+		$booking->setEnd(1891382400);
+		$config = new AppointmentConfig();
+		$interval = [];
+
+		$this->availabilityGenerator->expects(self::once())
+			->method('generate')
+			->willReturn($interval);
+		$this->extrapolator->expects(self::once())
+			->method('extrapolate')
+			->willReturnArgument(1);
+		$this->dailyLimitFilter->expects(self::once())
+			->method('filter')
+			->willReturnArgument(1);
+		$this->eventConflictFilter->expects(self::once())
+			->method('filter')
+			->willReturnArgument(1);
+		$this->bookingCalendarWriter->expects(self::never())
+			->method('write');
+		$this->bookingMapper->expects(self::never())
+			->method('delete');
+
+		$this->expectException(ClientException::class);
+		$this->service->confirmBooking($booking, $config);
+	}
+
+	public function testFindByToken() {
+		$token = 'test';
+
+		$this->bookingMapper->expects(self::once())
+			->method('findByToken')
+			->with($token)
+			->willReturn(new Booking());
+
+		$this->service->findByToken($token);
+	}
+
+	public function testFindByTokenNoToken() {
+		$token = 'iDontExists';
+
+		$this->bookingMapper->expects(self::once())
+			->method('findByToken')
+			->with($token)
+			->willThrowException(new DoesNotExistException(''));
+
+		$this->expectException(ClientException::class);
+		$this->service->findByToken($token);
+	}
+
+	public function testDeleteOutdated() : void {
+		$this->bookingMapper->expects(self::once())
+			->method('deleteOutdated')
+			->with(24*60*60)
+			->willReturn(1);
+
+		$this->service->deleteOutdated();
+	}
 }

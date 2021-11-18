@@ -118,7 +118,7 @@ class MailService {
 		$bookingUrl = $this->urlGenerator->linkToRouteAbsolute('calendar.booking.confirmBooking', ['token' => $booking->getToken()]);
 		$template->addBodyButton($this->l10n->t('Confirm'), $bookingUrl);
 
-		$bodyText = $this->l10n->t('This confirmation link expires in %s hours.', [Booking::EXPIRY] );
+		$bodyText = $this->l10n->t('This confirmation link expires in %s hours.', [BookingService::EXPIRY] );
 		$template->addBodyText($bodyText);
 
 		$bodyText = $this->l10n->t("If you wish to cancel the appointment after all, please contact your organizer.");
