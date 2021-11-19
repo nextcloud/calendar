@@ -63,8 +63,11 @@ class AvailabilityGenerator {
 		// Always round to "beautiful" slot starts according to slot length
 		// E.g. 5m slots should only be available at 10:20 and 10:25, not at 10:17
 		//      when the user opens the page at 10:17.
-		$roundTo = (int) round(($config->getLength() * 60) / 300) * 300;
-		$earliestStart = (int) ceil($earliestStart / $roundTo) * $roundTo;
+		// But only do this when the time isn't already a "pretty" time
+		if($earliestStart % $config->getLength() !== 0) {
+			$roundTo = (int) round(($config->getLength() * 60) / 300) * 300;
+			$earliestStart = (int) ceil($earliestStart / $roundTo) * $roundTo;
+		}
 		$latestEnd = min(
 			$end,
 			$config->getEnd() ?? $end

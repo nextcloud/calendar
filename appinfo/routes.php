@@ -39,6 +39,7 @@ return [
 		['name' => 'appointment#show', 'url' => '/appointment/{token}', 'verb' => 'GET'],
 		['name' => 'booking#getBookableSlots', 'url' => '/appointment/{appointmentConfigId}/slots', 'verb' => 'GET'],
 		['name' => 'booking#bookSlot', 'url' => '/appointment/{appointmentConfigId}/book', 'verb' => 'POST'],
+		['name' => 'booking#confirmBooking', 'url' => '/appointment/confirm/{token}', 'verb' => 'GET'],
 		// Public views
 		['name' => 'publicView#public_index_with_branding', 'url' => '/p/{token}', 'verb' => 'GET'],
 		['name' => 'publicView#public_index_with_branding', 'url' => '/p/{token}/{view}/{timeRange}', 'verb' => 'GET', 'postfix' => 'publicview.timerange'],
