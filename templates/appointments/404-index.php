@@ -27,4 +27,6 @@ declare(strict_types=1);
 
 ?>
 
-<?php p($l->t('User not found')); ?>
+<div class="update">
+	<?php p($l->t('User not found')); ?>
+</div>

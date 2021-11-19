@@ -23,8 +23,8 @@
 				<div>
 					{{ $t('calendar', 'Your name') }}
 				</div>
-				<input id="name"
-					v-model="name"
+				<input id="displayName"
+					v-model="displayName"
 					type="text"
 					class="no-close"
 					required>
@@ -91,12 +91,17 @@ export default {
 			required: true,
 			type: Object,
 		},
+		timeZoneId: {
+			required: true,
+			type: String,
+		},
 	},
 	data() {
 		return {
 			description: '',
 			email: this.visitorInfo.email,
-			name: this.visitorInfo.displayName,
+			displayName: this.visitorInfo.displayName,
+			timeZone: this.timeZoneId,
 		}
 	},
 	computed: {
@@ -113,7 +118,8 @@ export default {
 				slot: this.timeSlot,
 				description: this.description,
 				email: this.email,
-				name: this.name,
+				displayName: this.displayName,
+				timeZone: this.timeZone,
 			})
 		},
 	},
