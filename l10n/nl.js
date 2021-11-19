@@ -70,7 +70,7 @@ OC.L10N.register(
     "can edit" : "kan wijzigen",
     "Unshare with {displayName}" : "Stop delen met {displayName}",
     "An error occurred, unable to change the unshare the calendar." : "Er is een fout opgetreden waardoor het wijzigen van het delen van de agenda niet gelukt is.",
-    "An error occurred, unable to change the permission of the share." : "Er is een fout opgetreden, het is niet mogelijk om de permissie van de share te wijzigen",
+    "An error occurred, unable to change the permission of the share." : "Er is een fout opgetreden, het is niet mogelijk om de machtiging van de share te wijzigen",
     "+ New calendar" : "+ Nieuwe agenda",
     "New calendar" : "Nieuwe agenda",
     "Creating calendar …" : "Creëren agenda ...",
