@@ -68,6 +68,9 @@
 				@save="onSave"
 				@close="selectedSlot = undefined" />
 		</div>
+		<AppointmentBookingConfirmation
+			v-if="bookingConfirmed"
+			@close="bookingConfirmed = false" />
 	</div>
 </template>
 
@@ -80,6 +83,7 @@ import TimezonePicker from '@nextcloud/vue/dist/Components/TimezonePicker'
 import AppointmentSlot from '../../components/Appointments/AppointmentSlot'
 import { bookSlot, findSlots } from '../../services/appointmentService'
 import AppointmentDetails from '../../components/Appointments/AppointmentDetails'
+import AppointmentBookingConfirmation from '../../components/Appointments/AppointmentBookingConfirmation'
 
 export default {
 	name: 'Booking',
@@ -88,7 +92,8 @@ export default {
 		Avatar,
 		DatetimePicker,
 		TimezonePicker,
-	  AppointmentDetails,
+		AppointmentDetails,
+		AppointmentBookingConfirmation,
 	},
 	props: {
 		config: {
@@ -132,12 +137,16 @@ export default {
 			timeZone: defaultTimeZoneId,
 			slots: [],
 			selectedSlot: undefined,
+			bookingConfirmed: false,
 		}
 	},
 	watch: {
 		timeZone() {
 			// TODO: fix the @nextcloud/vue component to emit @change
 			this.fetchSlots()
+		},
+		config() {
+			this.bookingConfirmed = false
 		},
 	},
 	async mounted() {
@@ -193,6 +202,7 @@ export default {
 				console.info('appointment booked')
 
 				this.selectedSlot = undefined
+				this.bookingConfirmed = true
 			} catch (e) {
 				console.error('could not book appointment', e)
 			}
