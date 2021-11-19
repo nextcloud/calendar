@@ -29,6 +29,7 @@ use ChristophWurst\Nextcloud\Testing\TestCase;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Service\Appointments\Interval;
 use OCA\Calendar\Service\Appointments\SlotExtrapolator;
+use OCP\Calendar\ICalendarQuery;
 
 class SlotExtrapolatorTest extends TestCase {
 
@@ -37,6 +38,10 @@ class SlotExtrapolatorTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
+
+		if(!class_exists(ICalendarQuery::class)) {
+			$this->markTestIncomplete();
+		}
 
 		$this->extrapolator = new SlotExtrapolator();
 	}

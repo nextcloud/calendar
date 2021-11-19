@@ -65,6 +65,7 @@
 				:config="config"
 				:time-slot="selectedSlot"
 				:visitor-info="visitorInfo"
+				:time-zone-id="timeZone"
 				@save="onSave"
 				@close="selectedSlot = undefined" />
 		</div>
@@ -188,16 +189,17 @@ export default {
 				this.loadingSlots = false
 			}
 		},
-		async onSave({ slot, name, email, description }) {
+		async onSave({ slot, displayName, email, description, timeZone }) {
 			console.info('slot will be booked', {
 				slot,
 				description,
 				email,
-				name,
+				displayName,
+				timeZone,
 			})
 
 			try {
-				await bookSlot(this.config, slot, name, email, description)
+				await bookSlot(this.config, slot, displayName, email, description, timeZone)
 
 				console.info('appointment booked')
 
