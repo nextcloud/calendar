@@ -126,9 +126,9 @@ class AppointmentConfigService {
 
 	/**
 	 * @param int $id
-	 *
+	 * @param string $userId
 	 * @return AppointmentConfig
-	 * @throws ServiceException
+	 * @throws ClientException
 	 */
 	public function findByIdAndUser(int $id, string $userId): AppointmentConfig {
 		try {

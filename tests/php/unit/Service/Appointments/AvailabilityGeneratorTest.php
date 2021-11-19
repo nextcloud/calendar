@@ -31,6 +31,7 @@ use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Service\Appointments\AvailabilityGenerator;
 use OCA\Calendar\Service\Appointments\Interval;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Calendar\ICalendarQuery;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class AvailabilityGeneratorTest extends TestCase {
@@ -43,6 +44,10 @@ class AvailabilityGeneratorTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
+
+		if(!class_exists(ICalendarQuery::class)) {
+			$this->markTestIncomplete();
+		}
 
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
 
@@ -73,6 +78,53 @@ class AvailabilityGeneratorTest extends TestCase {
 
 		self::assertCount(1, $slots);
 		self::assertEquals(0, $slots[0]->getStart() % 300);
+	}
+
+	public function testNoAvailabilitySetRoundWithIncrement(): void {
+		$config = new AppointmentConfig();
+		$config->setLength(90);
+		$config->setIncrement(60);
+		$config->setAvailability(null);
+
+		$slots = $this->generator->generate($config, 1 * 5400, 2 * 5400);
+
+		self::assertCount(1, $slots);
+		self::assertEquals(0, $slots[0]->getStart() % 5400);
+	}
+
+	public function testNoAvailabilitySetRoundWithPrettyNumbers(): void {
+		$config = new AppointmentConfig();
+		$config->setLength(90);
+		$config->setAvailability(null);
+
+		$slots = $this->generator->generate($config, 1 * 5400 + 1, 2 * 5400 + 1);
+
+		self::assertCount(1, $slots);
+		self::assertEquals($slots[0]->getStart(), 2*5400);
+		self::assertEquals(0, $slots[0]->getStart() % 5400);
+	}
+
+	public function testNoAvailabilitySetRoundWithFourtyMinutes(): void {
+		$config = new AppointmentConfig();
+		$config->setLength(40);
+		$config->setAvailability(null);
+
+		$slots = $this->generator->generate($config, 1 * 2400, 2 * 2400);
+
+		self::assertCount(1, $slots);
+		self::assertEquals(0, $slots[0]->getStart() % 2400);
+	}
+
+	public function testNoAvailabilitySetRoundWithFourtyMinutesNotPretty(): void {
+		$config = new AppointmentConfig();
+		$config->setLength(40);
+		$config->setAvailability(null);
+
+		$slots = $this->generator->generate($config, 1 * 2400 +1, 2 * 2400+1);
+
+		self::assertCount(1, $slots);
+		self::assertEquals($slots[0]->getStart(), 2*2400);
+		self::assertEquals(0, $slots[0]->getStart() % 2400);
 	}
 
 	public function testNoAvailabilityButEndDate(): void {
@@ -115,6 +167,6 @@ class AvailabilityGeneratorTest extends TestCase {
 
 		$slots = $this->generator->generate($config, $mondayMidnight->getTimestamp(), $sundayMidnight->getTimestamp());
 
-		self::assertCount(5, $slots);
+		self::assertCount(1, $slots);
 	}
 }
