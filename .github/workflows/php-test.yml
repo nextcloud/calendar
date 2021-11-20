@@ -12,12 +12,10 @@ jobs:
     strategy:
       matrix:
         php-versions: ['7.3', '7.4']
-        nextcloud-versions: ['stable20', 'stable21', 'master']
+        nextcloud-versions: ['stable20', 'stable21', 'stable22', 'stable23', 'master']
         include:
           - php-versions: '7.2'
             nextcloud-versions: 'stable20'
-          - php-versions: '8.0'
-            nextcloud-versions: 'stable21'
           - php-versions: '8.0'
             nextcloud-versions: 'master'
     name: php${{ matrix.php-versions }} on ${{ matrix.nextcloud-versions }} unit tests
