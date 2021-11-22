@@ -58,7 +58,8 @@ class AppointmentController extends Controller {
 								IUserManager $userManager,
 								AppointmentConfigService $configService,
 								IInitialState $initialState,
-								?string $userId) {
+								?string $userId
+								) {
 		parent::__construct(Application::APP_ID, $request);
 
 		$this->userManager = $userManager;
@@ -94,7 +95,7 @@ class AppointmentController extends Controller {
 		);
 		$this->initialState->provideInitialState(
 			'appointmentConfigs',
-			array_filter($this->configService->getAllAppointmentConfigurations($userId), function (AppointmentConfig $config): bool {
+			array_filter($this->configService->getAllAppointmentConfigurations($userId), static function (AppointmentConfig $config): bool {
 				return $config->getVisibility() === AppointmentConfig::VISIBILITY_PUBLIC;
 			}),
 		);

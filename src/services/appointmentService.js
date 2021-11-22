@@ -43,11 +43,12 @@ export async function findSlots(config, start, timeZone) {
 /**
  * @param config
  * @param slot
- * @param name
+ * @param displayName
  * @param email
  * @param description
+ * @param timeZone
  */
-export async function bookSlot(config, slot, name, email, description) {
+export async function bookSlot(config, slot, displayName, email, description, timeZone) {
 	const url = generateUrl('/apps/calendar/appointment/{id}/book', {
 		id: config.id,
 	})
@@ -55,9 +56,10 @@ export async function bookSlot(config, slot, name, email, description) {
 	const response = await axios.post(url, {
 		start: slot.start,
 		end: slot.end,
-		name,
+		displayName,
 		email,
 		description,
+		timeZone
 	})
 
 	return response.data.data

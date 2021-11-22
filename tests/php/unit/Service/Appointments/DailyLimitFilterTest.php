@@ -33,6 +33,9 @@ use OCP\Calendar\ICalendarQuery;
 use OCP\Calendar\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
+/**
+ * @requires OCP\Calendar\ICalendarQuery::newQuery
+ */
 class DailyLimitFilterTest extends TestCase {
 
 	/** @var IManager|MockObject */
@@ -43,6 +46,10 @@ class DailyLimitFilterTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
+
+		if(!class_exists(ICalendarQuery::class)) {
+			$this->markTestIncomplete();
+		}
 
 		$this->manager = $this->createMock(IManager::class);
 
