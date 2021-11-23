@@ -55,7 +55,14 @@ webpackConfig.plugins.push(
 			pattern: './src/assets/iconfont/*.svg'
 		}
 	}),
-	new webpack.IgnorePlugin(/^\.\/locale(s)?$/, /(moment)$/)
+	new webpack.IgnorePlugin(/^\.\/locale(s)?$/, /(moment)$/),
+	new webpack.ProvidePlugin({
+		// Shim ICAL to prevent using the global object (window.ICAL).
+		// The library ical.js heavily depends on instanceof checks which will
+		// break if two separate versions of the library are used (e.g. bundled one
+		// and global one).
+		ICAL: 'ical.js',
+	}),
 )
 
 module.exports = webpackConfig
