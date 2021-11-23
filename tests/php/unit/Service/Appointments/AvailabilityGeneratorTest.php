@@ -27,6 +27,7 @@ namespace OCA\Calendar\Tests\Unit\Service\Appointments;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use DateTimeImmutable;
+use DateTimeZone;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Service\Appointments\AvailabilityGenerator;
 use OCA\Calendar\Service\Appointments\Interval;
@@ -155,18 +156,303 @@ class AvailabilityGeneratorTest extends TestCase {
 	}
 
 	public function testSimpleRrule(): void {
-		self::markTestSkipped('RRULEs are not implemented');
-		return;
+
+		$dateTime = new DateTimeImmutable();
+		$tz = new DateTimeZone('Europe/Vienna');
+		$startTimestamp = $dateTime->setTimezone($tz)
+			->setDate(2021, 11, 22)
+			->setTime(8,0)->getTimestamp();
+		$endTimestamp = $dateTime->setTime(17, 0)->getTimestamp();
+		$testData = [
+			'timezoneId' => $tz->getName(),
+			'slots' => [
+				'MO' => [
+					'start' => $startTimestamp,
+					'end' => $endTimestamp,
+				],
+				'TU' => [
+					'start' => $startTimestamp,
+					'end' => $endTimestamp,
+				],
+				'WE' => [
+					'start' => $startTimestamp,
+					'end' => $endTimestamp,
+				],
+				'TH' => [
+					'start' => $startTimestamp,
+					'end' => $endTimestamp,
+				],
+				'FR' => [
+					'start' => $startTimestamp,
+					'end' => $endTimestamp,
+				],
+				'SA' => [],
+				'SU' => []
+			]
+		];
+
+		$array = json_encode($testData, JSON_THROW_ON_ERROR);
 
 		$config = new AppointmentConfig();
 		$config->setLength(60);
-		$config->setAvailability('RRULE:FREQ=MINUTELY;INTERVAL=15;WKST=MO;BYDAY=MO;BYHOUR=8,9,10,11');
+		$config->setAvailability($array);
 
-		$mondayMidnight = (new DateTimeImmutable())->setDate(2021, 11, 1)->setTime(0, 0);
-		$sundayMidnight = $mondayMidnight->modify('+7 days');
+		$wednesdayMidnight = (new DateTimeImmutable())->setDate(2021, 11, 3)->setTime(0, 0);
+		$thursdayMidnight = $wednesdayMidnight->modify('+1 day');
 
-		$slots = $this->generator->generate($config, $mondayMidnight->getTimestamp(), $sundayMidnight->getTimestamp());
+		$slots = $this->generator->generate($config, $wednesdayMidnight->getTimestamp(), $thursdayMidnight->getTimestamp());
 
 		self::assertCount(1, $slots);
 	}
+
+	public function testViennaComplexRrule(): void {
+
+		$dateTime = new DateTimeImmutable();
+		$tz = new DateTimeZone('Europe/Vienna');
+		$dateTime->setTimezone($tz)->setDate(2021, 11, 22);
+		$testData = [
+			'timezoneId' => $tz->getName(),
+			'slots' => [
+				'MO' => [
+					'start' => $dateTime->setTime(16, 0)->getTimestamp(),
+					'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+				],
+				'TU' => [
+					'start' => $dateTime->setTime(8, 30)->getTimestamp(),
+					'end' => $dateTime->setTime(11, 45)->getTimestamp(),
+				],
+				'WE' => [
+					'start' => $dateTime->setTime(13, 0)->getTimestamp(),
+					'end' => $dateTime->setTime(14, 0)->getTimestamp(),
+				],
+				'TH' => [
+					'start' => $dateTime->setTime(19, 0)->getTimestamp(),
+					'end' => $dateTime->setTime(23, 59)->getTimestamp(),
+				],
+				'FR' => [
+					'start' => $dateTime->setTime(6, 0)->getTimestamp(),
+					'end' => $dateTime->setTime(8, 0)->getTimestamp(),
+				],
+				'SA' => [
+					'start' => $dateTime->setTime(1, 52)->getTimestamp(),
+					'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+				],
+				'SU' => []
+			]
+		];
+
+		$array = json_encode($testData, JSON_THROW_ON_ERROR);
+
+		$config = new AppointmentConfig();
+		$config->setLength(60);
+		$config->setAvailability($array);
+
+		$wednesdayMidnight = (new DateTimeImmutable())->setDate(2021, 11, 3)->setTime(0, 0);
+		$thursdayMidnight = $wednesdayMidnight->modify('+1 day');
+
+		$slots = $this->generator->generate($config, $wednesdayMidnight->getTimestamp(), $thursdayMidnight->getTimestamp());
+
+		self::assertCount(1, $slots);
+	}
+
+	public function testForAuckland(): void {
+
+		$dateTime = new DateTimeImmutable();
+		$tz = new DateTimeZone('Pacific/Auckland');
+		$startTimestamp = $dateTime->setTimezone($tz)->setDate(2021, 11, 22)->setTime(8,0)->getTimestamp();
+		$endTimestamp = $dateTime->setTime(17, 0)->getTimestamp();
+
+		$testData = [
+			'timezoneId' => $tz->getName(),
+			'slots' => [
+				'MO' => [
+					'start' => $startTimestamp,
+					'end' => $endTimestamp
+				],
+				'TU' => [
+					'start' => $startTimestamp,
+					'end' => $endTimestamp,
+				],
+				'WE' => [
+					'start' => $startTimestamp,
+					'end' => $endTimestamp,
+				],
+				'TH' => [
+					'start' => $startTimestamp,
+					'end' => $endTimestamp,
+				],
+				'FR' => [
+					'start' => $startTimestamp,
+					'end' => $endTimestamp,
+				],
+				'SA' => [],
+				'SU' => []
+			]
+		];
+
+		$array = json_encode($testData, JSON_THROW_ON_ERROR);
+
+		$config = new AppointmentConfig();
+		$config->setLength(60);
+		$config->setAvailability($array);
+
+		$wednesdayMidnight = (new DateTimeImmutable())->setDate(2021, 11, 3)->setTime(0, 0);
+		$thursdayMidnight = $wednesdayMidnight->modify('+1 day');
+
+		$slots = $this->generator->generate($config, $wednesdayMidnight->getTimestamp(), $thursdayMidnight->getTimestamp());
+
+
+		self::assertCount(1, $slots);
+	}
+
+	public function testAucklandComplexRrule(): void {
+
+		$dateTime = new DateTimeImmutable();
+		$tz = new DateTimeZone('Pacific/Auckland');
+		$dateTime->setTimezone($tz)->setDate(2021, 11, 22);
+		$testData = [
+			'timezoneId' => $tz->getName(),
+			'slots' => [
+				'MO' => [
+					'start' => $dateTime->setTime(16, 0)->getTimestamp(),
+					'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+				],
+				'TU' => [
+					'start' => $dateTime->setTime(8, 30)->getTimestamp(),
+					'end' => $dateTime->setTime(11, 45)->getTimestamp(),
+				],
+				'WE' => [
+					'start' => $dateTime->setTime(13, 0)->getTimestamp(),
+					'end' => $dateTime->setTime(14, 0)->getTimestamp(),
+				],
+				'TH' => [
+					'start' => $dateTime->setTime(19, 0)->getTimestamp(),
+					'end' => $dateTime->setTime(23, 59)->getTimestamp(),
+				],
+				'FR' => [
+					'start' => $dateTime->setTime(6, 0)->getTimestamp(),
+					'end' => $dateTime->setTime(8, 0)->getTimestamp(),
+				],
+				'SA' => [
+					'start' => $dateTime->setTime(1, 52)->getTimestamp(),
+					'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+				],
+				'SU' => []
+			]
+		];
+
+		$array = json_encode($testData, JSON_THROW_ON_ERROR);
+
+		$config = new AppointmentConfig();
+		$config->setLength(60);
+		$config->setAvailability($array);
+
+		$wednesdayMidnight = (new DateTimeImmutable())->setTimezone($tz)->setDate(2021, 11, 3)->setTime(0, 0);
+		$thursdayMidnight = $wednesdayMidnight->modify('+1 day');
+
+		$slots = $this->generator->generate($config, $wednesdayMidnight->getTimestamp(), $thursdayMidnight->getTimestamp());
+
+		self::assertCount(1, $slots);
+	}
+
+	public function testAucklandAndViennaComplexRrule(): void {
+		$dateTime = new DateTimeImmutable();
+		$tz = new DateTimeZone('Europe/Vienna');
+		$dateTime->setTimezone($tz)->setDate(2021, 11, 22);
+		$testData = [
+			'timezoneId' => $tz->getName(),
+			'slots' => [
+				'MO' => [
+					'start' => $dateTime->setTime(16, 0)->getTimestamp(),
+					'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+				],
+				'TU' => [
+					'start' => $dateTime->setTime(8, 30)->getTimestamp(),
+					'end' => $dateTime->setTime(15, 45)->getTimestamp(),
+				],
+				'WE' => [
+					'start' => $dateTime->setTime(06, 0)->getTimestamp(),
+					'end' => $dateTime->setTime(14, 0)->getTimestamp(),
+				],
+				'TH' => [
+					'start' => $dateTime->setTime(19, 0)->getTimestamp(),
+					'end' => $dateTime->setTime(23, 59)->getTimestamp(),
+				],
+				'FR' => [
+					'start' => $dateTime->setTime(6, 0)->getTimestamp(),
+					'end' => $dateTime->setTime(8, 0)->getTimestamp(),
+				],
+				'SA' => [
+					'start' => $dateTime->setTime(1, 52)->getTimestamp(),
+					'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+				],
+				'SU' => []
+			]
+		];
+
+		$array = json_encode($testData, JSON_THROW_ON_ERROR);
+
+		$config = new AppointmentConfig();
+		$config->setLength(60);
+		$config->setAvailability($array);
+
+		$auckland = new DateTimeZone('Pacific/Auckland');
+		$wednesdayMidnight = (new DateTimeImmutable())->setTimezone($auckland)->setDate(2021, 11, 3)->setTime(0, 0);
+		$thursdayMidnight = $wednesdayMidnight->modify('+1 day');
+
+		$slots = $this->generator->generate($config, $wednesdayMidnight->getTimestamp(), $thursdayMidnight->getTimestamp());
+		self::assertCount(2, $slots);
+	}
+
+	public function testAucklandAndViennaComplexRruleNoResult(): void {
+
+		$dateTime = new DateTimeImmutable();
+		$tz = new DateTimeZone('Europe/Vienna');
+		$dateTime->setTimezone($tz)->setDate(2021, 11, 22);
+		$testData = [
+			'timezoneId' => $tz->getName(),
+			'slots' => [
+				'MO' => [
+					'start' => $dateTime->setTime(16, 0)->getTimestamp(),
+					'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+				],
+				'TU' => [
+					'start' => $dateTime->setTime(8, 30)->getTimestamp(),
+					'end' => $dateTime->setTime(11, 45)->getTimestamp(),
+				],
+				'WE' => [
+					'start' => $dateTime->setTime(13, 0)->getTimestamp(),
+					'end' => $dateTime->setTime(14, 0)->getTimestamp(),
+				],
+				'TH' => [
+					'start' => $dateTime->setTime(19, 0)->getTimestamp(),
+					'end' => $dateTime->setTime(23, 59)->getTimestamp(),
+				],
+				'FR' => [
+					'start' => $dateTime->setTime(6, 0)->getTimestamp(),
+					'end' => $dateTime->setTime(8, 0)->getTimestamp(),
+				],
+				'SA' => [
+					'start' => $dateTime->setTime(1, 52)->getTimestamp(),
+					'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+				],
+				'SU' => []
+			]
+		];
+
+
+		$array = json_encode($testData, JSON_THROW_ON_ERROR);
+
+		$config = new AppointmentConfig();
+		$config->setLength(60);
+		$config->setAvailability($array);
+
+		$auckland = new DateTimeZone('Pacific/Auckland');
+		$wednesdayMidnight = (new DateTimeImmutable())->setTimezone($auckland)->setDate(2021, 11, 3)->setTime(0, 0);
+		$thursdayMidnight = $wednesdayMidnight->modify('+1 day');
+
+		$slots = $this->generator->generate($config, $wednesdayMidnight->getTimestamp(), $thursdayMidnight->getTimestamp());
+		self::assertCount(0, $slots);
+	}
+
 }
