@@ -9,15 +9,19 @@
 					:display-name="userInfo.displayName"
 					:disable-tooltip="true"
 					:disable-menu="true"
-					:size="64" />
+					:size="128" />
 				<div class="booking__display-name">
 					<strong>{{ userInfo.displayName }}</strong>
 				</div>
 				<h2 class="booking__name">
 					{{ config.name }}
 				</h2>
-				<span class="booking__description">{{ config.description }}</span>
-				<span class="booking__time">{{ startTime }} - {{ endTime }}</span>
+				<div class="booking__time">
+					{{ startTime }} - {{ endTime }}
+				</div>
+				<div class="booking__description">
+					{{ config.description }}
+				</div>
 			</div>
 			<div class="appointment-details">
 				<div>
@@ -50,10 +54,13 @@
 							autocomplete="off" />
 					</div>
 				</div>
-				<button class="button primary"
-					@click="save">
-					{{ $t('calendar', 'Book the appointment') }}
-				</button>
+				<div class="buttons">
+					<button
+						class="button primary"
+						@click="save">
+						{{ $t('calendar', 'Book the appointment') }}
+					</button>
+				</div>
 			</div>
 		</div>
 	</Modal>
@@ -129,8 +136,7 @@ export default {
 <style lang="scss" scoped>
 ::v-deep .modal-container {
 	width: calc(100vw - 120px) !important;
-	height: calc(100vh - 120px) !important;
-	max-width: 600px !important;
+	max-width: 720px !important;
 	max-height: 500px !important;
 	overflow: auto !important;
 }
@@ -142,14 +148,29 @@ export default {
 }
 
 .booking-details {
-	white-space: nowrap;
+	flex: 1 220px;
+}
+
+.booking__time {
+	margin-bottom: 12px;
 }
 
 .appointment-details {
-	padding-left: 120px;
+	flex: 1 auto;
+	padding-left: 30px;
 
 	input {
 		width: 100%;
+	}
+}
+
+.buttons {
+	display: flex;
+	justify-content: end;
+	margin-top: 10px;
+
+	.button {
+		margin: 0;
 	}
 }
 
