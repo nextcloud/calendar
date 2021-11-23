@@ -122,7 +122,7 @@ export default {
 			now
 		))
 		if (this.config.timeBeforeNextSlot) {
-			selectedDate.setSeconds(selectedDate.getSeconds() + this.config.timeBeforeNextSlot * 60)
+			selectedDate.setSeconds(selectedDate.getSeconds() + this.config.timeBeforeNextSlot)
 		}
 
 		const minimumDate = new Date(selectedDate.getTime())
