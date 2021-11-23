@@ -137,8 +137,8 @@ class AppointmentConfigControllerTest extends TestCase {
 		$appointment->setLocation('Test');
 		$appointment->setVisibility('PUBLIC');
 		$appointment->setTargetCalendarUri('test');
-		$appointment->setLength(5);
-		$appointment->setIncrement(5);
+		$appointment->setLength(5 * 60);
+		$appointment->setIncrement(5 * 60);
 
 		$this->service->expects($this->once())
 			->method('create')
@@ -152,8 +152,8 @@ class AppointmentConfigControllerTest extends TestCase {
 			'PUBLIC',
 			'test',
 			null,
-			5,
-			5
+			5 * 60,
+			5 * 60
 		);
 
 		$this->assertEquals(200, $response->getStatus());
@@ -166,8 +166,8 @@ class AppointmentConfigControllerTest extends TestCase {
 		$appointment->setLocation('Test');
 		$appointment->setVisibility('PUBLIC');
 		$appointment->setTargetCalendarUri('test');
-		$appointment->setLength(5);
-		$appointment->setIncrement(5);
+		$appointment->setLength(5 * 60);
+		$appointment->setIncrement(5 * 60);
 
 		$this->service->expects($this->once())
 			->method('create')
@@ -181,8 +181,8 @@ class AppointmentConfigControllerTest extends TestCase {
 			'PUBLIC',
 			'test',
 			null,
-			5,
-			5
+			5 * 60,
+			5 * 60
 		);
 
 		$this->assertEquals(500, $response->getStatus());
@@ -196,8 +196,8 @@ class AppointmentConfigControllerTest extends TestCase {
 		$appointment->setLocation('Test');
 		$appointment->setVisibility('PUBLIC');
 		$appointment->setTargetCalendarUri('test');
-		$appointment->setLength(5);
-		$appointment->setIncrement(5);
+		$appointment->setLength(5 * 60);
+		$appointment->setIncrement(5 * 60);
 
 		$this->service->expects($this->once())
 			->method('findByIdAndUser')
@@ -217,8 +217,8 @@ class AppointmentConfigControllerTest extends TestCase {
 			'PUBLIC',
 			'test',
 			null,
-			5,
-			5
+			5 * 60,
+			5 * 60
 		);
 
 		$this->assertEquals(200, $response->getStatus());
@@ -232,8 +232,8 @@ class AppointmentConfigControllerTest extends TestCase {
 		$appointment->setLocation('Test');
 		$appointment->setVisibility('PUBLIC');
 		$appointment->setTargetCalendarUri('test');
-		$appointment->setLength(5);
-		$appointment->setIncrement(5);
+		$appointment->setLength(5 * 60);
+		$appointment->setIncrement(5 * 60);
 
 		$this->service->expects($this->once())
 			->method('findByIdAndUser')
@@ -247,8 +247,8 @@ class AppointmentConfigControllerTest extends TestCase {
 			'PUBLIC',
 			'test',
 			null,
-			5,
-			5
+			5 * 60,
+			5 * 60
 		);
 
 		$this->assertEquals(500, $response->getStatus());
@@ -262,8 +262,8 @@ class AppointmentConfigControllerTest extends TestCase {
 		$appointment->setLocation('Test');
 		$appointment->setVisibility('PUBLIC');
 		$appointment->setTargetCalendarUri('test');
-		$appointment->setLength(5);
-		$appointment->setIncrement(5);
+		$appointment->setLength(5 * 60);
+		$appointment->setIncrement(5 * 60);
 
 		$this->service->expects($this->once())
 			->method('update')
@@ -277,8 +277,8 @@ class AppointmentConfigControllerTest extends TestCase {
 			'PUBLIC',
 			'test',
 			null,
-			5,
-			5
+			5 * 60,
+			5 * 60
 		);
 
 		$this->assertEquals(403, $response->getStatus());

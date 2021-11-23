@@ -48,8 +48,8 @@ class SlotExtrapolatorTest extends TestCase {
 
 	public function testNoAvailability(): void {
 		$config = new AppointmentConfig();
-		$config->setLength(60);
-		$config->setIncrement(15);
+		$config->setLength(60 * 60);
+		$config->setIncrement(15 * 60);
 		$availabilityIntervals = [];
 
 		$slots = $this->extrapolator->extrapolate($config, $availabilityIntervals);
@@ -62,10 +62,10 @@ class SlotExtrapolatorTest extends TestCase {
 	 */
 	public function testNoneFits(): void {
 		$config = new AppointmentConfig();
-		$config->setLength(60);
-		$config->setIncrement(15);
+		$config->setLength(60 * 60);
+		$config->setIncrement(15 * 60);
 		$availabilityIntervals = [
-			new Interval(0, 30 * 60),
+			new Interval(0, 30 * 60 * 60),
 		];
 
 		$slots = $this->extrapolator->extrapolate($config, $availabilityIntervals);
@@ -78,10 +78,10 @@ class SlotExtrapolatorTest extends TestCase {
 	 */
 	public function testExactlyOne(): void {
 		$config = new AppointmentConfig();
-		$config->setLength(60);
-		$config->setIncrement(15);
+		$config->setLength(60 * 60);
+		$config->setIncrement(15 * 60);
 		$availabilityIntervals = [
-			new Interval(0, 60 * 60),
+			new Interval(0, 60 * 60 *60),
 		];
 
 		$slots = $this->extrapolator->extrapolate($config, $availabilityIntervals);
@@ -94,10 +94,10 @@ class SlotExtrapolatorTest extends TestCase {
 	 */
 	public function testOverlaps(): void {
 		$config = new AppointmentConfig();
-		$config->setLength(60);
-		$config->setIncrement(15);
+		$config->setLength(60 * 60);
+		$config->setIncrement(15 * 60);
 		$availabilityIntervals = [
-			new Interval(0, 90 * 60),
+			new Interval(0, 90 * 60 * 60),
 		];
 
 		$slots = $this->extrapolator->extrapolate($config, $availabilityIntervals);
@@ -110,11 +110,11 @@ class SlotExtrapolatorTest extends TestCase {
 	 */
 	public function testMultipleIntervals(): void {
 		$config = new AppointmentConfig();
-		$config->setLength(60);
-		$config->setIncrement(15);
+		$config->setLength(60 * 60);
+		$config->setIncrement(15 * 60);
 		$availabilityIntervals = [
-			new Interval(0, 60 * 60),
-			new Interval(100 * 60, 160 * 60),
+			new Interval(0, 60 * 60 * 60),
+			new Interval(100 * 60 * 60, 160 * 60 * 60),
 		];
 
 		$slots = $this->extrapolator->extrapolate($config, $availabilityIntervals);
