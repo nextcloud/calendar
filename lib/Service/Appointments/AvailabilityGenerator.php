@@ -61,7 +61,7 @@ class AvailabilityGenerator {
 							 int $end): array {
 		$now = $this->timeFactory->getTime();
 
-		$bufferBeforeStart = ($config->getTimeBeforeNextSlot() ?? 0) * 60;
+		$bufferBeforeStart = ($config->getTimeBeforeNextSlot() ?? 0);
 		$earliestStart = max(
 			$start,
 			$now + $bufferBeforeStart,
@@ -72,7 +72,7 @@ class AvailabilityGenerator {
 		//      when the user opens the page at 10:17.
 		// But only do this when the time isn't already a "pretty" time
 		if($earliestStart % $config->getLength() !== 0) {
-			$roundTo = (int) round(($config->getLength() * 60) / 300) * 300;
+			$roundTo = (int) round(($config->getLength()) / 300) * 300;
 			$earliestStart = (int) ceil($earliestStart / $roundTo) * $roundTo;
 		}
 		$latestEnd = min(

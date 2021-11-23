@@ -70,8 +70,8 @@ class AppointmentConfigMapperTest extends TestCase {
 		$appointment->setToken('okens');
 		$appointment->setName('Test 2');
 		$appointment->setDescription('Test Description');
-		$appointment->setIncrement(15);
-		$appointment->setLength(60);
+		$appointment->setIncrement(15 * 60);
+		$appointment->setLength(60 * 60);
 		$appointment->setTargetCalendarUri('testuri');
 		$appointment->setVisibility(AppointmentConfig::VISIBILITY_PUBLIC);
 		$appointment->setUserId('testuser');
@@ -87,9 +87,9 @@ class AppointmentConfigMapperTest extends TestCase {
 		$this->assertObjectHasAttribute('description', $appointment);
 		$this->assertEquals('Test Description', $appointment->getDescription());
 		$this->assertObjectHasAttribute('increment', $appointment);
-		$this->assertEquals(15, $appointment->getIncrement());
+		$this->assertEquals(15 * 60, $appointment->getIncrement());
 		$this->assertObjectHasAttribute('length', $appointment);
-		$this->assertEquals(60, $appointment->getLength());
+		$this->assertEquals(60 * 60, $appointment->getLength());
 		$this->assertObjectHasAttribute('targetCalendarUri', $appointment);
 		$this->assertEquals('testuri', $appointment->getTargetCalendarUri());
 		$this->assertObjectHasAttribute('visibility', $appointment);
@@ -106,8 +106,8 @@ class AppointmentConfigMapperTest extends TestCase {
 		$appointment->setToken('okensdsadsas');
 		$appointment->setName('Test 2');
 		$appointment->setDescription('Test Description');
-		$appointment->setIncrement(15);
-		$appointment->setLength(60);
+		$appointment->setIncrement(15 * 60);
+		$appointment->setLength(60 * 60);
 		$appointment->setTargetCalendarUri('testuri');
 		$appointment->setVisibility(AppointmentConfig::VISIBILITY_PUBLIC);
 		$appointment->setUserId('testuser');
@@ -123,9 +123,9 @@ class AppointmentConfigMapperTest extends TestCase {
 		$this->assertObjectHasAttribute('description', $appointment);
 		$this->assertEquals('Test Description', $appointment->getDescription());
 		$this->assertObjectHasAttribute('increment', $appointment);
-		$this->assertEquals(15, $appointment->getIncrement());
+		$this->assertEquals(15 * 60, $appointment->getIncrement());
 		$this->assertObjectHasAttribute('length', $appointment);
-		$this->assertEquals(60, $appointment->getLength());
+		$this->assertEquals(60 * 60, $appointment->getLength());
 		$this->assertObjectHasAttribute('targetCalendarUri', $appointment);
 		$this->assertEquals('testuri', $appointment->getTargetCalendarUri());
 		$this->assertObjectHasAttribute('visibility', $appointment);
@@ -139,8 +139,8 @@ class AppointmentConfigMapperTest extends TestCase {
 		$appointment->setToken('frokns');
 		$appointment->setName('Test 3');
 		$appointment->setDescription('Test Description');
-		$appointment->setIncrement(15);
-		$appointment->setLength(60);
+		$appointment->setIncrement(15 * 60);
+		$appointment->setLength(60 * 60);
 		$appointment->setTargetCalendarUri('testuri');
 		$appointment->setVisibility(AppointmentConfig::VISIBILITY_PUBLIC);
 		$appointment->setUserId('testuser');
@@ -161,8 +161,8 @@ class AppointmentConfigMapperTest extends TestCase {
 		$appointment->setToken('frokns');
 		$appointment->setName('Test 2');
 		$appointment->setDescription('Test Description');
-		$appointment->setIncrement(15);
-		$appointment->setLength(60);
+		$appointment->setIncrement(15 * 60);
+		$appointment->setLength(60 * 60);
 		$appointment->setTargetCalendarUri('testuri');
 		$appointment->setVisibility(AppointmentConfig::VISIBILITY_PUBLIC);
 		$appointment->setUserId('testuser');
