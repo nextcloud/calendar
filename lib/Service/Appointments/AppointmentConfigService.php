@@ -52,13 +52,15 @@ class AppointmentConfigService {
 
 	/**
 	 * @param string $userId
+	 * @param string|null $visibility optionally filter for visibility
+	 * @psalm-param AppointmentConfig::VISIBILITY_* $visibility
 	 *
 	 * @return AppointmentConfig[]
 	 * @throws ServiceException
 	 */
-	public function getAllAppointmentConfigurations(string $userId): array {
+	public function getAllAppointmentConfigurations(string $userId, string $visibility = null): array {
 		try {
-			return $this->mapper->findAllForUser($userId);
+			return $this->mapper->findAllForUser($userId, $visibility);
 		} catch (DbException $e) {
 			throw new ServiceException('Error fetching configs', $e->getCode(), $e);
 		}
