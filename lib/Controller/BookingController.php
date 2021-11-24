@@ -181,7 +181,7 @@ class BookingController extends Controller {
 			return JsonResponse::fail(null, Http::STATUS_UNPROCESSABLE_ENTITY);
 		} catch (ServiceException|ClientException $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
-			return JsonResponse::errorFromThrowable($e, $e->getHttpCode());
+			return JsonResponse::errorFromThrowable($e, $e->getHttpCode() ?? Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
 		return JsonResponse::success($booking);
