@@ -70,7 +70,7 @@ class AvailabilityGenerator {
 		// E.g. 5m slots should only be available at 10:20 and 10:25, not at 10:17
 		//      when the user opens the page at 10:17.
 		// But only do this when the time isn't already a "pretty" time
-		if($earliestStart % $config->getLength() !== 0) {
+		if ($earliestStart % $config->getLength() !== 0) {
 			$roundTo = (int) round(($config->getLength()) / 300) * 300;
 			$earliestStart = (int) ceil($earliestStart / $roundTo) * $roundTo;
 		}
@@ -102,8 +102,8 @@ class AvailabilityGenerator {
 		$applicableSlots = $this->filterDates($start, $slots, $timeZone);
 
 		$intervals = [];
-		foreach($applicableSlots as $slot) {
-			if($slot['end'] <= $earliestStart || $slot['start'] >= $latestEnd) {
+		foreach ($applicableSlots as $slot) {
+			if ($slot['end'] <= $earliestStart || $slot['start'] >= $latestEnd) {
 				continue;
 			}
 			$startSlot = max(
@@ -122,12 +122,12 @@ class AvailabilityGenerator {
 	private function filterDates(int $start, array $availabilityArray, string $timeZone) : array {
 		// First, transform all timestamps to DateTime Objects
 		$availabilityRules = [];
-		foreach($availabilityArray as $key => $availabilitySlots) {
-			if(empty($availabilitySlots)) {
+		foreach ($availabilityArray as $key => $availabilitySlots) {
+			if (empty($availabilitySlots)) {
 				$availabilityRules[$key] = [];
 				continue;
 			}
-			foreach($availabilitySlots as $slot) {
+			foreach ($availabilitySlots as $slot) {
 				$availabilityRules[$key][] = [
 					'start' => (new DateTimeImmutable())->setTimestamp($slot['start']),
 					'end' => (new DateTimeImmutable())->setTimestamp($slot['end'])
@@ -145,20 +145,20 @@ class AvailabilityGenerator {
 
 		$applicable = [];
 		/** @var DateTimeImmutable $item */
-		foreach($period as $item) {
+		foreach ($period as $item) {
 			// get the weekday from our item and select the applicable rule
 			$weekday = strtoupper(mb_strcut($item->format('D'), 0, 2));
 			/** @var DateTimeImmutable[][] $dailyRules */
 			$dailyRules = $availabilityRules[$weekday];
 			// days with no rule should be treated as unavailable
-			if(empty($dailyRules)) {
+			if (empty($dailyRules)) {
 				continue;
 			}
-			foreach($dailyRules as $dailyRule) {
+			foreach ($dailyRules as $dailyRule) {
 				$dStart = $dailyRule['start'];
 				$dEnd = $dailyRule['end'];
-				$applicable[] =  [
-					'start' =>	$item->setTime((int)$dStart->format('H'), (int)$dStart->format('i'))->getTimestamp(),
+				$applicable[] = [
+					'start' => $item->setTime((int)$dStart->format('H'), (int)$dStart->format('i'))->getTimestamp(),
 					'end' => $item->setTime((int)$dEnd->format('H'), (int)$dEnd->format('i'))->getTimestamp(),
 				];
 			}

@@ -31,7 +31,6 @@ use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\Calendar\ICalendarQuery;
 use OCP\Contacts\IManager;
-use OCP\IInitialStateService;
 use OCP\IRequest;
 use OCP\IUser;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -63,7 +62,7 @@ class AppointmentConfigControllerTest extends TestCase {
 	protected function setUp():void {
 		parent::setUp();
 
-		if(!class_exists(ICalendarQuery::class)) {
+		if (!class_exists(ICalendarQuery::class)) {
 			$this->markTestIncomplete();
 		}
 

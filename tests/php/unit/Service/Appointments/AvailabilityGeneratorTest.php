@@ -46,7 +46,7 @@ class AvailabilityGeneratorTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		if(!class_exists(ICalendarQuery::class)) {
+		if (!class_exists(ICalendarQuery::class)) {
 			$this->markTestIncomplete();
 		}
 
@@ -101,7 +101,7 @@ class AvailabilityGeneratorTest extends TestCase {
 		$slots = $this->generator->generate($config, 1 * 5400 + 1, 2 * 5400 + 1);
 
 		self::assertCount(1, $slots);
-		self::assertEquals($slots[0]->getStart(), 2*5400);
+		self::assertEquals($slots[0]->getStart(), 2 * 5400);
 		self::assertEquals(0, $slots[0]->getStart() % 5400);
 	}
 
@@ -121,10 +121,10 @@ class AvailabilityGeneratorTest extends TestCase {
 		$config->setLength(40 * 60);
 		$config->setAvailability(null);
 
-		$slots = $this->generator->generate($config, 1 * 2400 +1, 2 * 2400+1);
+		$slots = $this->generator->generate($config, 1 * 2400 + 1, 2 * 2400 + 1);
 
 		self::assertCount(1, $slots);
-		self::assertEquals($slots[0]->getStart(), 2*2400);
+		self::assertEquals($slots[0]->getStart(), 2 * 2400);
 		self::assertEquals(0, $slots[0]->getStart() % 2400);
 	}
 
@@ -132,7 +132,7 @@ class AvailabilityGeneratorTest extends TestCase {
 		$config = new AppointmentConfig();
 		$config->setLength(60 * 60);
 		$config->setAvailability(null);
-		$config->setEnd(10*3600);
+		$config->setEnd(10 * 3600);
 
 		$slots = $this->generator->generate($config, 4 * 3600, 15 * 3600);
 
@@ -144,11 +144,11 @@ class AvailabilityGeneratorTest extends TestCase {
 
 	public function testNoAvailabilityAfterEndDate(): void {
 		$this->timeFactory->method('getTime')
-			->willReturn(15*3600);
+			->willReturn(15 * 3600);
 		$config = new AppointmentConfig();
 		$config->setLength(60 * 60);
 		$config->setAvailability(null);
-		$config->setEnd(10*3600);
+		$config->setEnd(10 * 3600);
 
 		$slots = $this->generator->generate($config, 13 * 3600, 15 * 3600);
 
@@ -156,7 +156,6 @@ class AvailabilityGeneratorTest extends TestCase {
 	}
 
 	public function testSimpleRule(): void {
-
 		$dateTime = new DateTimeImmutable();
 		$tz = new DateTimeZone('Europe/Vienna');
 		$startTimestamp = $dateTime->setTimezone($tz)
@@ -216,7 +215,6 @@ class AvailabilityGeneratorTest extends TestCase {
 	}
 
 	public function testViennaComplexRule(): void {
-
 		$dateTime = new DateTimeImmutable();
 		$tz = new DateTimeZone('Europe/Vienna');
 		$dateTime->setTimezone($tz)->setDate(2021, 11, 22);
@@ -282,7 +280,6 @@ class AvailabilityGeneratorTest extends TestCase {
 	}
 
 	public function testViennaComplexRuleWithLunch(): void {
-
 		$dateTime = new DateTimeImmutable();
 		$tz = new DateTimeZone('Europe/Vienna');
 		$dateTime->setTimezone($tz)->setDate(2021, 11, 22);
@@ -348,7 +345,6 @@ class AvailabilityGeneratorTest extends TestCase {
 	}
 
 	public function testForAuckland(): void {
-
 		$dateTime = new DateTimeImmutable();
 		$tz = new DateTimeZone('Pacific/Auckland');
 		$startTimestamp = $dateTime->setTimezone($tz)->setDate(2021, 11, 22)->setTime(8,0)->getTimestamp();
@@ -407,7 +403,6 @@ class AvailabilityGeneratorTest extends TestCase {
 	}
 
 	public function testAucklandComplexRule(): void {
-
 		$dateTime = new DateTimeImmutable();
 		$tz = new DateTimeZone('Pacific/Auckland');
 		$dateTime->setTimezone($tz)->setDate(2021, 11, 22);
@@ -554,7 +549,6 @@ class AvailabilityGeneratorTest extends TestCase {
 	}
 
 	public function testAucklandAndViennaComplexRuleNoResult(): void {
-
 		$dateTime = new DateTimeImmutable();
 		$tz = new DateTimeZone('Europe/Vienna');
 		$dateTime->setTimezone($tz)->setDate(2021, 11, 22);
@@ -618,5 +612,4 @@ class AvailabilityGeneratorTest extends TestCase {
 		$slots = $this->generator->generate($config, $wednesdayMidnight->getTimestamp(), $thursdayMidnight->getTimestamp());
 		self::assertCount(0, $slots);
 	}
-
 }

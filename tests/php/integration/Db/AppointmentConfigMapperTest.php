@@ -25,10 +25,8 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Tests\Integration\Db;
 
-use BadFunctionCallException;
 use ChristophWurst\Nextcloud\Testing\DatabaseTransaction;
 use ChristophWurst\Nextcloud\Testing\TestCase;
-use InvalidArgumentException;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\AppointmentConfigMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
