@@ -112,14 +112,16 @@ class AppointmentsAction implements ILinkAction {
 
 		// Directly link to this one appointment
 		if (count($this->configs) === 1) {
-			return $this->urlGenerator->getAbsoluteURL(
-				'/apps/calendar/appointment/' . $this->configs[0]->getToken()
+			return $this->urlGenerator->linkToRouteAbsolute(
+				'calendar.appointment.show',
+				['token' => $this->configs[0]->getToken()],
 			);
 		}
 
 		// Link to the overview page
-		return $this->urlGenerator->getAbsoluteURL(
-			'/apps/calendar/appointments/' . $this->targetUser->getUID()
+		return $this->urlGenerator->linkToRouteAbsolute(
+			'calendar.appointment.index',
+			['userId' => $this->targetUser->getUID()],
 		);
 	}
 }
