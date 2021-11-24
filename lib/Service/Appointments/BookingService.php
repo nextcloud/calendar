@@ -165,16 +165,6 @@ class BookingService {
 		return $this->eventConflictFilter->filter($config, $filteredByDailyLimit);
 	}
 
-	// Update
-	public function updateBooking() {
-		// noop for now. we don't support a public update method at the moment
-	}
-
-	// Delete
-	public function delete() {
-		// this would be a cancel request to ICreateFromString::create()
-	}
-
 	/**
 	 * @throws ClientException
 	 */
