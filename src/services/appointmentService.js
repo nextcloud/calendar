@@ -59,7 +59,7 @@ export async function bookSlot(config, slot, displayName, email, description, ti
 		displayName,
 		email,
 		description,
-		timeZone
+		timeZone,
 	})
 
 	return response.data.data

@@ -26,15 +26,10 @@ namespace OCA\Calendar\Controller;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use DateTimeZone;
-use OC\AppFramework\Services\InitialState;
 use OC\URLGenerator;
 use OCA\Calendar\Db\AppointmentConfig;
-use OCA\Calendar\Exception\ClientException;
-use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCA\Calendar\Service\Appointments\BookingService;
-use OCA\Calendar\Service\Appointments\BookingServiceTest;
-use OCA\Calendar\Service\Appointments\MailService;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\ICalendarQuery;
@@ -87,7 +82,7 @@ class BookingControllerTest extends TestCase {
 	protected function setUp():void {
 		parent::setUp();
 
-		if(!class_exists(ICalendarQuery::class)) {
+		if (!class_exists(ICalendarQuery::class)) {
 			$this->markTestIncomplete();
 		}
 
@@ -140,7 +135,7 @@ class BookingControllerTest extends TestCase {
 			->method('getAvailableSlots')
 			->with($apptConfg, $sDT, $eDT);
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $start, $end,'Europe/Berlin' );
+		$this->controller->getBookableSlots($apptConfg->getId(), $start, $end,'Europe/Berlin');
 	}
 
 	public function testGetBookableSlotsInvalidTimezone(): void {
@@ -158,7 +153,7 @@ class BookingControllerTest extends TestCase {
 			->method('getAvailableSlots');
 
 		$this->expectException(\Exception::class);
-		$this->controller->getBookableSlots($apptConfg->getId(), $start, $end, 'Hook/Neverland' );
+		$this->controller->getBookableSlots($apptConfg->getId(), $start, $end, 'Hook/Neverland');
 	}
 
 	public function testGetBookableSlotsInvalidTimestamps() {
@@ -177,7 +172,7 @@ class BookingControllerTest extends TestCase {
 		$this->logger->expects(self::once())
 			->method('warning');
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $end, $start,'Europe/Berlin' );
+		$this->controller->getBookableSlots($apptConfg->getId(), $end, $start,'Europe/Berlin');
 	}
 
 	public function testGetBookableSlotsInvalidTimespan() {
@@ -196,7 +191,7 @@ class BookingControllerTest extends TestCase {
 		$this->logger->expects(self::once())
 			->method('warning');
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $start, $end,'Europe/Berlin' );
+		$this->controller->getBookableSlots($apptConfg->getId(), $start, $end,'Europe/Berlin');
 	}
 
 	public function testGetBookableSlotsDatesInPast() {
@@ -218,6 +213,6 @@ class BookingControllerTest extends TestCase {
 		$this->logger->expects(self::once())
 			->method('warning');
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $start, $end,'Europe/Berlin' );
+		$this->controller->getBookableSlots($apptConfg->getId(), $start, $end,'Europe/Berlin');
 	}
 }

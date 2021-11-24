@@ -26,7 +26,6 @@ declare(strict_types=1);
 namespace OCA\Calendar\Db;
 
 use OCP\AppFramework\Db\DoesNotExistException;
-use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception as DbException;
@@ -68,7 +67,5 @@ class BookingMapper extends QBMapper {
 		$qb->delete($this->getTableName())
 			->where($qb->expr()->lt('created_at', $qb->createNamedParameter($limit, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
 		return $qb->executeStatement();
-
 	}
-
 }

@@ -44,7 +44,7 @@ class EventConflictFilterTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		if(!class_exists(ICalendarQuery::class)) {
+		if (!class_exists(ICalendarQuery::class)) {
 			$this->markTestIncomplete();
 		}
 

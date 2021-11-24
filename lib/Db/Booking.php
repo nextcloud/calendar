@@ -28,7 +28,6 @@ namespace OCA\Calendar\Db;
 
 use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
-use Safe\DateTimeImmutable;
 
 /**
  * @method int getId()

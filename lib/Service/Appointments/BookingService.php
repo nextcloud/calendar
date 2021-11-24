@@ -99,7 +99,7 @@ class BookingService {
 
 		$tz = new DateTimeZone($booking->getTimezone());
 		$startObj = (new DateTimeImmutable())->setTimestamp($booking->getStart())->setTimezone($tz);
-		if(!$startObj) {
+		if (!$startObj) {
 			throw new ClientException('Could not make sense of booking times');
 		}
 
@@ -121,7 +121,7 @@ class BookingService {
 
 		try {
 			$tz = new DateTimeZone($timeZone);
-		} catch(Exception $e) {
+		} catch (Exception $e) {
 			throw new InvalidArgumentException('Could not make sense of the timezone', $e->getCode(), $e);
 		}
 
@@ -143,7 +143,7 @@ class BookingService {
 
 		try {
 			$this->mailService->sendConfirmationEmail($booking, $config);
-		} catch( ServiceException $e) {
+		} catch (ServiceException $e) {
 			$this->bookingMapper->delete($booking);
 			throw $e;
 		}

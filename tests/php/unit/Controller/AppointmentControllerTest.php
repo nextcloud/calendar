@@ -36,7 +36,6 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
-use Sabre\VObject\Cli;
 
 class AppointmentControllerTest extends TestCase {
 
@@ -70,7 +69,7 @@ class AppointmentControllerTest extends TestCase {
 	protected function setUp():void {
 		parent::setUp();
 
-		if(!class_exists(ICalendarQuery::class)) {
+		if (!class_exists(ICalendarQuery::class)) {
 			$this->markTestIncomplete();
 		}
 
@@ -151,5 +150,4 @@ class AppointmentControllerTest extends TestCase {
 
 		$this->controller->show($token);
 	}
-
 }

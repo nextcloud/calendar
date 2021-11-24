@@ -26,10 +26,8 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Service\Appointments;
 
-use DateTime;
 use DateTimeImmutable;
 use OCA\Calendar\Db\AppointmentConfig;
-use OCA\DAV\CalDAV\CalendarImpl;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IManager;
@@ -95,7 +93,7 @@ class BookingCalendarWriter {
 			]
 		]);
 
-		if(!empty($description)) {
+		if (!empty($description)) {
 			$vcalendar->VEVENT->add('DESCRIPTION', $description);
 		}
 

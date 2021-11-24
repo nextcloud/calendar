@@ -43,7 +43,7 @@ class CleanUpOutdatedBookingsJob extends TimedJob {
 								BookingService $service,
 								LoggerInterface $logger) {
 		parent::__construct($time);
-		$this->setInterval(24*60*60);
+		$this->setInterval(24 * 60 * 60);
 		$this->service = $service;
 		$this->logger = $logger;
 	}
