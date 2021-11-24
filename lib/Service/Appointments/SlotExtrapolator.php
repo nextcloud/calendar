@@ -38,8 +38,8 @@ class SlotExtrapolator {
 	 */
 	public function extrapolate(AppointmentConfig $config,
 								array $availabilityIntervals): array {
-		$increment = $config->getIncrement() * 60;
-		$length = $config->getLength() * 60;
+		$increment = $config->getIncrement();
+		$length = $config->getLength();
 		$slots = [];
 
 		foreach ($availabilityIntervals as $available) {

@@ -23,6 +23,7 @@ declare(strict_types=1);
  *
  */
 
+use ChristophWurst\Nextcloud\Testing\TestCase;
 use OC\BackgroundJob\JobList;
 use OCA\Calendar\BackgroundJob\CleanUpOutdatedBookingsJob;
 use OCA\Calendar\Service\Appointments\BookingService;
@@ -31,7 +32,6 @@ use OCP\Calendar\ICalendarQuery;
 use OCP\ILogger;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use Test\TestCase;
 
 class CleanupOutdatedBookingJobTest extends TestCase {
 
