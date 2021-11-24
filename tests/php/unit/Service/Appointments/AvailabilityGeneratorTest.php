@@ -155,7 +155,7 @@ class AvailabilityGeneratorTest extends TestCase {
 		self::assertEmpty($slots);
 	}
 
-	public function testSimpleRrule(): void {
+	public function testSimpleRule(): void {
 
 		$dateTime = new DateTimeImmutable();
 		$tz = new DateTimeZone('Europe/Vienna');
@@ -167,24 +167,34 @@ class AvailabilityGeneratorTest extends TestCase {
 			'timezoneId' => $tz->getName(),
 			'slots' => [
 				'MO' => [
-					'start' => $startTimestamp,
-					'end' => $endTimestamp,
+					[
+						'start' => $startTimestamp,
+						'end' => $endTimestamp,
+					]
 				],
 				'TU' => [
-					'start' => $startTimestamp,
-					'end' => $endTimestamp,
+					[
+						'start' => $startTimestamp,
+						'end' => $endTimestamp,
+					]
 				],
 				'WE' => [
-					'start' => $startTimestamp,
-					'end' => $endTimestamp,
+					[
+						'start' => $startTimestamp,
+						'end' => $endTimestamp,
+					]
 				],
 				'TH' => [
-					'start' => $startTimestamp,
-					'end' => $endTimestamp,
+					[
+						'start' => $startTimestamp,
+						'end' => $endTimestamp,
+					]
 				],
 				'FR' => [
-					'start' => $startTimestamp,
-					'end' => $endTimestamp,
+					[
+						'start' => $startTimestamp,
+						'end' => $endTimestamp,
+					]
 				],
 				'SA' => [],
 				'SU' => []
@@ -205,7 +215,7 @@ class AvailabilityGeneratorTest extends TestCase {
 		self::assertCount(1, $slots);
 	}
 
-	public function testViennaComplexRrule(): void {
+	public function testViennaComplexRule(): void {
 
 		$dateTime = new DateTimeImmutable();
 		$tz = new DateTimeZone('Europe/Vienna');
@@ -214,28 +224,110 @@ class AvailabilityGeneratorTest extends TestCase {
 			'timezoneId' => $tz->getName(),
 			'slots' => [
 				'MO' => [
-					'start' => $dateTime->setTime(16, 0)->getTimestamp(),
-					'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(8, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(12, 0)->getTimestamp(),
+					],
+					[
+						'start' => $dateTime->setTime(14, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(18, 0)->getTimestamp(),
+					]
 				],
 				'TU' => [
-					'start' => $dateTime->setTime(8, 30)->getTimestamp(),
-					'end' => $dateTime->setTime(11, 45)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(8, 30)->getTimestamp(),
+						'end' => $dateTime->setTime(11, 45)->getTimestamp(),
+					]
 				],
 				'WE' => [
-					'start' => $dateTime->setTime(13, 0)->getTimestamp(),
-					'end' => $dateTime->setTime(14, 0)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(13, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(14, 0)->getTimestamp(),
+					]
 				],
 				'TH' => [
-					'start' => $dateTime->setTime(19, 0)->getTimestamp(),
-					'end' => $dateTime->setTime(23, 59)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(19, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(23, 59)->getTimestamp(),
+					]
 				],
 				'FR' => [
-					'start' => $dateTime->setTime(6, 0)->getTimestamp(),
-					'end' => $dateTime->setTime(8, 0)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(6, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(8, 0)->getTimestamp(),
+					]
 				],
 				'SA' => [
-					'start' => $dateTime->setTime(1, 52)->getTimestamp(),
-					'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(1, 52)->getTimestamp(),
+						'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+					]
+				],
+				'SU' => [],
+			]
+		];
+
+		$array = json_encode($testData, JSON_THROW_ON_ERROR);
+
+		$config = new AppointmentConfig();
+		$config->setLength(60 * 60);
+		$config->setAvailability($array);
+
+		$mondayMidnight = (new DateTimeImmutable())->setDate(2021, 11, 1)->setTime(0, 0);
+		$sundayMidnight = $mondayMidnight->modify('+1 days');
+
+		$slots = $this->generator->generate($config, $mondayMidnight->getTimestamp(), $sundayMidnight->getTimestamp());
+
+		self::assertCount(2, $slots);
+	}
+
+	public function testViennaComplexRuleWithLunch(): void {
+
+		$dateTime = new DateTimeImmutable();
+		$tz = new DateTimeZone('Europe/Vienna');
+		$dateTime->setTimezone($tz)->setDate(2021, 11, 22);
+		$testData = [
+			'timezoneId' => $tz->getName(),
+			'slots' => [
+				'MO' => [
+					[
+						'start' => $dateTime->setTime(8, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(12, 0)->getTimestamp(),
+					]
+				],
+				'TU' => [
+					[
+						'start' => $dateTime->setTime(8, 30)->getTimestamp(),
+						'end' => $dateTime->setTime(11, 45)->getTimestamp(),
+					],
+					[
+						'start' => $dateTime->setTime(14, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(18, 0)->getTimestamp(),
+					]
+				],
+				'WE' => [
+					[
+						'start' => $dateTime->setTime(13, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(14, 0)->getTimestamp(),
+					]
+				],
+				'TH' => [
+					[
+						'start' => $dateTime->setTime(19, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(23, 59)->getTimestamp(),
+					]
+				],
+				'FR' => [
+					[
+						'start' => $dateTime->setTime(6, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(8, 0)->getTimestamp(),
+					]
+				],
+				'SA' => [
+					[
+						'start' => $dateTime->setTime(1, 52)->getTimestamp(),
+						'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+					]
 				],
 				'SU' => []
 			]
@@ -244,12 +336,11 @@ class AvailabilityGeneratorTest extends TestCase {
 		$array = json_encode($testData, JSON_THROW_ON_ERROR);
 
 		$config = new AppointmentConfig();
-		$config->setLength(60 * 60
-		);
-		$config->setAvailability('RRULE:FREQ=MINUTELY;INTERVAL=15;WKST=MO;BYDAY=MO;BYHOUR=8,9,10,11');
+		$config->setLength(60 * 60);
+		$config->setAvailability($array);
 
 		$mondayMidnight = (new DateTimeImmutable())->setDate(2021, 11, 1)->setTime(0, 0);
-		$sundayMidnight = $mondayMidnight->modify('+7 days');
+		$sundayMidnight = $mondayMidnight->modify('+1 days');
 
 		$slots = $this->generator->generate($config, $mondayMidnight->getTimestamp(), $sundayMidnight->getTimestamp());
 
@@ -267,24 +358,34 @@ class AvailabilityGeneratorTest extends TestCase {
 			'timezoneId' => $tz->getName(),
 			'slots' => [
 				'MO' => [
-					'start' => $startTimestamp,
-					'end' => $endTimestamp
+					[
+						'start' => $startTimestamp,
+						'end' => $endTimestamp,
+					]
 				],
 				'TU' => [
-					'start' => $startTimestamp,
-					'end' => $endTimestamp,
+					[
+						'start' => $startTimestamp,
+						'end' => $endTimestamp,
+					]
 				],
 				'WE' => [
-					'start' => $startTimestamp,
-					'end' => $endTimestamp,
+					[
+						'start' => $startTimestamp,
+						'end' => $endTimestamp,
+					]
 				],
 				'TH' => [
-					'start' => $startTimestamp,
-					'end' => $endTimestamp,
+					[
+						'start' => $startTimestamp,
+						'end' => $endTimestamp,
+					]
 				],
 				'FR' => [
-					'start' => $startTimestamp,
-					'end' => $endTimestamp,
+					[
+						'start' => $startTimestamp,
+						'end' => $endTimestamp,
+					]
 				],
 				'SA' => [],
 				'SU' => []
@@ -302,11 +403,10 @@ class AvailabilityGeneratorTest extends TestCase {
 
 		$slots = $this->generator->generate($config, $wednesdayMidnight->getTimestamp(), $thursdayMidnight->getTimestamp());
 
-
 		self::assertCount(1, $slots);
 	}
 
-	public function testAucklandComplexRrule(): void {
+	public function testAucklandComplexRule(): void {
 
 		$dateTime = new DateTimeImmutable();
 		$tz = new DateTimeZone('Pacific/Auckland');
@@ -315,28 +415,44 @@ class AvailabilityGeneratorTest extends TestCase {
 			'timezoneId' => $tz->getName(),
 			'slots' => [
 				'MO' => [
-					'start' => $dateTime->setTime(16, 0)->getTimestamp(),
-					'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(8, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(12, 0)->getTimestamp(),
+					],
+					[
+						'start' => $dateTime->setTime(14, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(18, 0)->getTimestamp(),
+					]
 				],
 				'TU' => [
-					'start' => $dateTime->setTime(8, 30)->getTimestamp(),
-					'end' => $dateTime->setTime(11, 45)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(8, 30)->getTimestamp(),
+						'end' => $dateTime->setTime(11, 45)->getTimestamp(),
+					]
 				],
 				'WE' => [
-					'start' => $dateTime->setTime(13, 0)->getTimestamp(),
-					'end' => $dateTime->setTime(14, 0)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(13, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(14, 0)->getTimestamp(),
+					]
 				],
 				'TH' => [
-					'start' => $dateTime->setTime(19, 0)->getTimestamp(),
-					'end' => $dateTime->setTime(23, 59)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(19, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(23, 59)->getTimestamp(),
+					]
 				],
 				'FR' => [
-					'start' => $dateTime->setTime(6, 0)->getTimestamp(),
-					'end' => $dateTime->setTime(8, 0)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(6, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(8, 0)->getTimestamp(),
+					]
 				],
 				'SA' => [
-					'start' => $dateTime->setTime(1, 52)->getTimestamp(),
-					'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(1, 52)->getTimestamp(),
+						'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+					]
 				],
 				'SU' => []
 			]
@@ -348,15 +464,15 @@ class AvailabilityGeneratorTest extends TestCase {
 		$config->setLength(60 * 60);
 		$config->setAvailability($array);
 
-		$wednesdayMidnight = (new DateTimeImmutable())->setTimezone($tz)->setDate(2021, 11, 3)->setTime(0, 0);
+		$wednesdayMidnight = (new DateTimeImmutable())->setTimezone($tz)->setDate(2021, 11, 1)->setTime(0, 0);
 		$thursdayMidnight = $wednesdayMidnight->modify('+1 day');
 
 		$slots = $this->generator->generate($config, $wednesdayMidnight->getTimestamp(), $thursdayMidnight->getTimestamp());
 
-		self::assertCount(1, $slots);
+		self::assertCount(2, $slots);
 	}
 
-	public function testAucklandAndViennaComplexRrule(): void {
+	public function testAucklandAndViennaComplexRule(): void {
 		$dateTime = new DateTimeImmutable();
 		$tz = new DateTimeZone('Europe/Vienna');
 		$dateTime->setTimezone($tz)->setDate(2021, 11, 22);
@@ -364,28 +480,60 @@ class AvailabilityGeneratorTest extends TestCase {
 			'timezoneId' => $tz->getName(),
 			'slots' => [
 				'MO' => [
-					'start' => $dateTime->setTime(16, 0)->getTimestamp(),
-					'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(8, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(12, 0)->getTimestamp(),
+					],
+					[
+						'start' => $dateTime->setTime(14, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(18, 0)->getTimestamp(),
+					]
 				],
 				'TU' => [
-					'start' => $dateTime->setTime(8, 30)->getTimestamp(),
-					'end' => $dateTime->setTime(15, 45)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(8, 30)->getTimestamp(),
+						'end' => $dateTime->setTime(11, 45)->getTimestamp(),
+					],
+					[
+						'start' => $dateTime->setTime(14, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(18, 0)->getTimestamp(),
+					]
 				],
 				'WE' => [
-					'start' => $dateTime->setTime(06, 0)->getTimestamp(),
-					'end' => $dateTime->setTime(14, 0)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(8, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(14, 0)->getTimestamp(),
+					],
+					[
+						'start' => $dateTime->setTime(15, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(18, 0)->getTimestamp(),
+					]
 				],
 				'TH' => [
-					'start' => $dateTime->setTime(19, 0)->getTimestamp(),
-					'end' => $dateTime->setTime(23, 59)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(14, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(18, 0)->getTimestamp(),
+					],
+					[
+						'start' => $dateTime->setTime(19, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(23, 59)->getTimestamp(),
+					]
 				],
 				'FR' => [
-					'start' => $dateTime->setTime(6, 0)->getTimestamp(),
-					'end' => $dateTime->setTime(8, 0)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(6, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(8, 0)->getTimestamp(),
+					],
+					[
+						'start' => $dateTime->setTime(10, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(14, 0)->getTimestamp(),
+					]
 				],
 				'SA' => [
-					'start' => $dateTime->setTime(1, 52)->getTimestamp(),
-					'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(1, 52)->getTimestamp(),
+						'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+					]
 				],
 				'SU' => []
 			]
@@ -405,7 +553,7 @@ class AvailabilityGeneratorTest extends TestCase {
 		self::assertCount(2, $slots);
 	}
 
-	public function testAucklandAndViennaComplexRruleNoResult(): void {
+	public function testAucklandAndViennaComplexRuleNoResult(): void {
 
 		$dateTime = new DateTimeImmutable();
 		$tz = new DateTimeZone('Europe/Vienna');
@@ -414,33 +562,48 @@ class AvailabilityGeneratorTest extends TestCase {
 			'timezoneId' => $tz->getName(),
 			'slots' => [
 				'MO' => [
-					'start' => $dateTime->setTime(16, 0)->getTimestamp(),
-					'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(8, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(12, 0)->getTimestamp(),
+					],
+					[
+						'start' => $dateTime->setTime(14, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(18, 0)->getTimestamp(),
+					]
 				],
 				'TU' => [
-					'start' => $dateTime->setTime(8, 30)->getTimestamp(),
-					'end' => $dateTime->setTime(11, 45)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(8, 30)->getTimestamp(),
+						'end' => $dateTime->setTime(11, 45)->getTimestamp(),
+					]
 				],
 				'WE' => [
-					'start' => $dateTime->setTime(13, 0)->getTimestamp(),
-					'end' => $dateTime->setTime(14, 0)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(13, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(14, 0)->getTimestamp(),
+					]
 				],
 				'TH' => [
-					'start' => $dateTime->setTime(19, 0)->getTimestamp(),
-					'end' => $dateTime->setTime(23, 59)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(19, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(23, 59)->getTimestamp(),
+					]
 				],
 				'FR' => [
-					'start' => $dateTime->setTime(6, 0)->getTimestamp(),
-					'end' => $dateTime->setTime(8, 0)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(6, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(8, 0)->getTimestamp(),
+					]
 				],
 				'SA' => [
-					'start' => $dateTime->setTime(1, 52)->getTimestamp(),
-					'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+					[
+						'start' => $dateTime->setTime(1, 52)->getTimestamp(),
+						'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+					]
 				],
 				'SU' => []
 			]
 		];
-
 
 		$array = json_encode($testData, JSON_THROW_ON_ERROR);
 
