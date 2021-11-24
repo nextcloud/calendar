@@ -33,7 +33,6 @@ use JsonException;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
 use RuntimeException;
-use function array_map;
 use function ceil;
 use function max;
 use function min;
