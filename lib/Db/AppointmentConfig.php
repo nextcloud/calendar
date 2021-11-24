@@ -46,7 +46,7 @@ use function json_encode;
  * @method string getUserId()
  * @method void setUserId(string $userId)
  * @method string getTargetCalendarUri()
- * @method void setTargetCalendarUri(string $calendarUri)
+ * @method void setTargetCalendarUri(string $targetCalendarUri)
  * @method string|null getCalendarFreebusyUris()
  * @method void setCalendarFreebusyUris(?string $freebusyUris)
  * @method string getAvailability()
@@ -185,7 +185,7 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 			'location' => $this->getLocation(),
 			'visibility' => $this->getVisibility(),
 			'userId' => $this->getUserId(),
-			'calendarUri' => $this->getTargetCalendarUri(),
+			'targetCalendarUri' => $this->getTargetCalendarUri(),
 			'calendarFreeBusyUris' => $this->getCalendarFreebusyUris(),
 			'availability' => $this->getAvailability() === null ? null : json_decode($this->getAvailability(), true, 512, JSON_THROW_ON_ERROR),
 			'start' => $this->getStart(),
