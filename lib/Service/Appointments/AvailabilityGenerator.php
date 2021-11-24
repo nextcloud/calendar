@@ -121,6 +121,7 @@ class AvailabilityGenerator {
 	}
 
 	private function filterDates(int $start, array $availabilityArray, string $timeZone) : array {
+		$tz = new DateTimeZone($timeZone);
 		// First, transform all timestamps to DateTime Objects
 		$availabilityRules = [];
 		foreach ($availabilityArray as $key => $availabilitySlots) {
@@ -130,18 +131,18 @@ class AvailabilityGenerator {
 			}
 			foreach ($availabilitySlots as $slot) {
 				$availabilityRules[$key][] = [
-					'start' => (new DateTimeImmutable())->setTimestamp($slot['start']),
-					'end' => (new DateTimeImmutable())->setTimestamp($slot['end'])
+					'start' => (new DateTimeImmutable())->setTimezone($tz)->setTimestamp($slot['start']),
+					'end' => (new DateTimeImmutable())->setTimezone($tz)->setTimestamp($slot['end'])
 				];
 			}
 		}
 
 		// get the period the check can apply to
-		$tz = new DateTimeZone($timeZone);
+
 		$period = new DatePeriod(
-			(new DateTimeImmutable())->setTimestamp($start - 87600)->setTimezone($tz)->setTime(0,0),
+			(new DateTimeImmutable())->setTimezone($tz)->setTimestamp($start - 87600)->setTime(0,0),
 			new DateInterval('P1D'),
-			(new DateTimeImmutable())->setTimestamp($start + 87600)->setTimezone($tz)->setTime(23, 59),
+			(new DateTimeImmutable())->setTimezone($tz)->setTimestamp($start + 87600)->setTime(23, 59),
 		);
 
 		$applicable = [];
