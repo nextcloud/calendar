@@ -111,12 +111,13 @@ export default class AppointmentConfig {
 	}
 
 	/**
-	 * Create a default appointment config instance from the given vuex store
+	 * Create a default appointment config instance
 	 *
-	 * @param {object} store The vuex store object (e.g. this.$store)
+	 * @param {string} targetCalendarUri
+	 * @param {string} timezoneId
 	 * @return {AppointmentConfig} Default appointment config instance
 	 */
-	static createDefault(store) {
+	static createDefault(targetCalendarUri, timezoneId) {
 		// Set default availability to Mo-Fr 9-5
 		// TODO: fetch user's working hours if possible
 		const tsAtTime = (hours, minutes) => Math.round((new Date()).setHours(hours, minutes, 0, 0) / 1000)
@@ -130,9 +131,9 @@ export default class AppointmentConfig {
 			name: '',
 			description: '',
 			location: '',
-			targetCalendarUri: store.getters.sortedCalendars[0].url,
+			targetCalendarUri,
 			availability: {
-				timezoneId: store.getters.getResolvedTimezone,
+				timezoneId,
 				slots,
 			},
 			visibility: 'PUBLIC',
