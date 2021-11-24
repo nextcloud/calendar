@@ -27,7 +27,6 @@ namespace OCA\Calendar\Service\Appointments;
 
 use DateInterval;
 use DatePeriod;
-use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
 use JsonException;
@@ -123,15 +122,17 @@ class AvailabilityGenerator {
 	private function filterDates(int $start, array $availabilityArray, string $timeZone) : array {
 		// First, transform all timestamps to DateTime Objects
 		$availabilityRules = [];
-		foreach($availabilityArray as $key => $availabilitySlot) {
-			if(empty($availabilitySlot)) {
+		foreach($availabilityArray as $key => $availabilitySlots) {
+			if(empty($availabilitySlots)) {
 				$availabilityRules[$key] = [];
 				continue;
 			}
-			$availabilityRules[$key] = [
-				'start' => (new DateTimeImmutable())->setTimestamp($availabilitySlot['start']),
-				'end' => (new DateTimeImmutable())->setTimestamp($availabilitySlot['end'])
-			];
+			foreach($availabilitySlots as $slot) {
+				$availabilityRules[$key][] = [
+					'start' => (new DateTimeImmutable())->setTimestamp($slot['start']),
+					'end' => (new DateTimeImmutable())->setTimestamp($slot['end'])
+				];
+			}
 		}
 
 		// get the period the check can apply to
@@ -147,18 +148,22 @@ class AvailabilityGenerator {
 		foreach($period as $item) {
 			// get the weekday from our item and select the applicable rule
 			$weekday = strtoupper(mb_strcut($item->format('D'), 0, 2));
-			/** @var DateTimeImmutable[] $dailyRule */
-			$dailyRule = $availabilityRules[$weekday];
+			/** @var DateTimeImmutable[][] $dailyRules */
+			$dailyRules = $availabilityRules[$weekday];
 			// days with no rule should be treated as unavailable
-			if(empty($dailyRule)) {
+			if(empty($dailyRules)) {
 				continue;
 			}
-			$dStart = $dailyRule['start'];
-			$applicable[$weekday]['start'] = $item->setTime((int)$dStart->format('H'), (int)$dStart->format('i'))->getTimestamp();
-			$dEnd = $dailyRule['end'];
-			$applicable[$weekday]['end'] = $item->setTime((int)$dEnd->format('H'), (int)$dEnd->format('i'))->getTimestamp();
+			foreach($dailyRules as $dailyRule) {
+				$dStart = $dailyRule['start'];
+				$dEnd = $dailyRule['end'];
+				$applicable[] =  [
+					'start' =>	$item->setTime((int)$dStart->format('H'), (int)$dStart->format('i'))->getTimestamp(),
+					'end' => $item->setTime((int)$dEnd->format('H'), (int)$dEnd->format('i'))->getTimestamp(),
+				];
+			}
 		}
-		// we now have an array that contains filtered and current timestamps for the availability
+		/** [][] */
 		return $applicable;
 	}
 }
