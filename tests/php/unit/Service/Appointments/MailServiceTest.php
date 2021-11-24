@@ -24,13 +24,14 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\Calendar\Service\Appointments;
+namespace OCA\Calendar\Tests\Unit\Service\Appointments;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use OC\URLGenerator;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\Booking;
 use OCA\Calendar\Exception\ServiceException;
+use OCA\Calendar\Service\Appointments\MailService;
 use OCP\Calendar\ICalendarQuery;
 use OCP\Defaults;
 use OCP\IDateTimeFormatter;
@@ -48,28 +49,36 @@ class MailServiceTest extends TestCase {
 
 	/** @var mixed|IUserManager|MockObject */
 	private $userManager;
+
 	/** @var mixed|IMailer|MockObject */
 	private $mailer;
+
 	/** @var mixed|IL10N|MockObject */
 	private $l10n;
+
 	/** @var mixed|Defaults|MockObject */
 	private $defaults;
+
 	/** @var mixed|MockObject|LoggerInterface */
 	private $logger;
+
 	/** @var mixed|URLGenerator|MockObject */
 	private $urlGenerator;
+
 	/** @var mixed|IDateTimeFormatter|MockObject */
 	private $dateFormatter;
+
 	/** @var mixed|IFactory|MockObject */
 	private $lFactory;
+
 	/** @var MailService */
 	private $mailService;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		if (!class_exists(ICalendarQuery::class)) {
-			$this->markTestIncomplete();
+		if (!interface_exists(ICalendarQuery::class)) {
+			self::markTestIncomplete();
 		}
 
 		$this->userManager = $this->createMock(IUserManager::class);
@@ -92,7 +101,7 @@ class MailServiceTest extends TestCase {
 		);
 	}
 
-	public function testSendConfirmationEmail() {
+	public function testSendConfirmationEmail(): void {
 		$booking = new Booking();
 		$booking->setEmail('test@test.com');
 		$booking->setDisplayName('Test');
@@ -102,28 +111,26 @@ class MailServiceTest extends TestCase {
 		$config = new AppointmentConfig();
 		$config->setUserId('test');
 		$config->setLocation('Test');
-
 		$this->userManager->expects(self::once())
 			->method('get')
 			->willReturn($this->createConfiguredMock(IUser::class, [
 				'getEmailAddress' => 'test@test.com',
 				'getDisplayName' => 'Test Test'
 			]));
-
 		$mailMessage = $this->createMock(IMessage::class);
 		$this->mailer->expects(self::once())
 			->method('createMessage')
 			->willReturn($mailMessage);
-		$mailMessage->expects($this->once())
+		$mailMessage->expects(self::once())
 			->method('setFrom')
 			->willReturn($mailMessage);
-		$mailMessage->expects($this->once())
+		$mailMessage->expects(self::once())
 			->method('setTo')
 			->willReturn($mailMessage);
-		$mailMessage->expects($this->once())
+		$mailMessage->expects(self::once())
 			->method('setReplyTo')
 			->willReturn($mailMessage);
-		$mailMessage->expects($this->once())
+		$mailMessage->expects(self::once())
 			->method('useTemplate')
 			->willReturn($mailMessage);
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
@@ -147,7 +154,7 @@ class MailServiceTest extends TestCase {
 			->method('addFooter');
 		$this->mailer->expects(self::once())
 			->method('createEmailTemplate');
-		$this->l10n->expects($this->exactly(9))
+		$this->l10n->expects(self::exactly(9))
 			->method('t');
 		$this->lFactory->expects(self::once())
 			->method('findGenericLanguage')
@@ -168,20 +175,19 @@ class MailServiceTest extends TestCase {
 		$this->mailService->sendConfirmationEmail($booking, $config);
 	}
 
-	public function testSendConfirmationEmailNoUser() {
+	public function testSendConfirmationEmailNoUser(): void {
 		$booking = new Booking();
 		$config = new AppointmentConfig();
 		$config->setUserId('test');
-
 		$this->userManager->expects(self::once())
 			->method('get')
 			->willReturn(null);
-
 		$this->expectException(ServiceException::class);
+
 		$this->mailService->sendConfirmationEmail($booking, $config);
 	}
 
-	public function testSendConfirmationEmailMailerException() {
+	public function testSendConfirmationEmailMailerException(): void {
 		$booking = new Booking();
 		$booking->setEmail('test@test.com');
 		$booking->setDisplayName('Test');
@@ -191,28 +197,26 @@ class MailServiceTest extends TestCase {
 		$config = new AppointmentConfig();
 		$config->setUserId('test');
 		$config->setLocation('Test');
-
 		$this->userManager->expects(self::once())
 			->method('get')
 			->willReturn($this->createConfiguredMock(IUser::class, [
 				'getEmailAddress' => 'test@test.com',
 				'getDisplayName' => 'Test Test'
 			]));
-
 		$mailMessage = $this->createMock(IMessage::class);
 		$this->mailer->expects(self::once())
 			->method('createMessage')
 			->willReturn($mailMessage);
-		$mailMessage->expects($this->once())
+		$mailMessage->expects(self::once())
 			->method('setFrom')
 			->willReturn($mailMessage);
-		$mailMessage->expects($this->once())
+		$mailMessage->expects(self::once())
 			->method('setTo')
 			->willReturn($mailMessage);
-		$mailMessage->expects($this->once())
+		$mailMessage->expects(self::once())
 			->method('setReplyTo')
 			->willReturn($mailMessage);
-		$mailMessage->expects($this->once())
+		$mailMessage->expects(self::once())
 			->method('useTemplate')
 			->willReturn($mailMessage);
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
@@ -236,7 +240,7 @@ class MailServiceTest extends TestCase {
 			->method('addFooter');
 		$this->mailer->expects(self::once())
 			->method('createEmailTemplate');
-		$this->l10n->expects($this->exactly(9))
+		$this->l10n->expects(self::exactly(9))
 			->method('t');
 		$this->lFactory->expects(self::once())
 			->method('findGenericLanguage')
@@ -250,10 +254,11 @@ class MailServiceTest extends TestCase {
 			->method('send')
 			->willThrowException(new \Exception(''));
 		$this->expectException(ServiceException::class);
+
 		$this->mailService->sendConfirmationEmail($booking, $config);
 	}
 
-	public function testSendConfirmationEmailMailerFailed() {
+	public function testSendConfirmationEmailMailerFailed(): void {
 		$booking = new Booking();
 		$booking->setEmail('test@test.com');
 		$booking->setDisplayName('Test');
@@ -263,28 +268,26 @@ class MailServiceTest extends TestCase {
 		$config = new AppointmentConfig();
 		$config->setUserId('test');
 		$config->setLocation('Test');
-
 		$this->userManager->expects(self::once())
 			->method('get')
 			->willReturn($this->createConfiguredMock(IUser::class, [
 				'getEmailAddress' => 'test@test.com',
 				'getDisplayName' => 'Test Test'
 			]));
-
 		$mailMessage = $this->createMock(IMessage::class);
 		$this->mailer->expects(self::once())
 			->method('createMessage')
 			->willReturn($mailMessage);
-		$mailMessage->expects($this->once())
+		$mailMessage->expects(self::once())
 			->method('setFrom')
 			->willReturn($mailMessage);
-		$mailMessage->expects($this->once())
+		$mailMessage->expects(self::once())
 			->method('setTo')
 			->willReturn($mailMessage);
-		$mailMessage->expects($this->once())
+		$mailMessage->expects(self::once())
 			->method('setReplyTo')
 			->willReturn($mailMessage);
-		$mailMessage->expects($this->once())
+		$mailMessage->expects(self::once())
 			->method('useTemplate')
 			->willReturn($mailMessage);
 		$emailTemplate = $this->createMock(IEMailTemplate::class);
@@ -308,7 +311,7 @@ class MailServiceTest extends TestCase {
 			->method('addFooter');
 		$this->mailer->expects(self::once())
 			->method('createEmailTemplate');
-		$this->l10n->expects($this->exactly(9))
+		$this->l10n->expects(self::exactly(9))
 			->method('t');
 		$this->lFactory->expects(self::once())
 			->method('findGenericLanguage')
@@ -325,6 +328,7 @@ class MailServiceTest extends TestCase {
 			->method('warning');
 		$this->logger->expects(self::once())
 			->method('debug');
+		$this->expectException(ServiceException::class);
 
 		$this->mailService->sendConfirmationEmail($booking, $config);
 	}

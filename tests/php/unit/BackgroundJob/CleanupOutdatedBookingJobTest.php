@@ -50,8 +50,8 @@ class CleanupOutdatedBookingJobTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		if (!class_exists(ICalendarQuery::class)) {
-			$this->markTestIncomplete();
+		if (!interface_exists(ICalendarQuery::class)) {
+			self::markTestIncomplete();
 		}
 
 		$this->time = $this->createMock(ITimeFactory::class);

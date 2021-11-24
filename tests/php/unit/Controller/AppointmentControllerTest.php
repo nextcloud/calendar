@@ -69,8 +69,8 @@ class AppointmentControllerTest extends TestCase {
 	protected function setUp():void {
 		parent::setUp();
 
-		if (!class_exists(ICalendarQuery::class)) {
-			$this->markTestIncomplete();
+		if (!interface_exists(ICalendarQuery::class)) {
+			self::markTestIncomplete();
 		}
 
 		$this->request = $this->createMock(IRequest::class);

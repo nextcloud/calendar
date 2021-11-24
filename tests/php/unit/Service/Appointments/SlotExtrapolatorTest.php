@@ -39,8 +39,8 @@ class SlotExtrapolatorTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		if (!class_exists(ICalendarQuery::class)) {
-			$this->markTestIncomplete();
+		if (!interface_exists(ICalendarQuery::class)) {
+			self::markTestIncomplete();
 		}
 
 		$this->extrapolator = new SlotExtrapolator();
@@ -65,7 +65,7 @@ class SlotExtrapolatorTest extends TestCase {
 		$config->setLength(60 * 60);
 		$config->setIncrement(15 * 60);
 		$availabilityIntervals = [
-			new Interval(0, 30 * 60 * 60),
+			new Interval(0, 30 * 60),
 		];
 
 		$slots = $this->extrapolator->extrapolate($config, $availabilityIntervals);
@@ -81,7 +81,7 @@ class SlotExtrapolatorTest extends TestCase {
 		$config->setLength(60 * 60);
 		$config->setIncrement(15 * 60);
 		$availabilityIntervals = [
-			new Interval(0, 60 * 60 * 60),
+			new Interval(0, 60 * 60),
 		];
 
 		$slots = $this->extrapolator->extrapolate($config, $availabilityIntervals);
@@ -97,7 +97,7 @@ class SlotExtrapolatorTest extends TestCase {
 		$config->setLength(60 * 60);
 		$config->setIncrement(15 * 60);
 		$availabilityIntervals = [
-			new Interval(0, 90 * 60 * 60),
+			new Interval(0, 90 * 60),
 		];
 
 		$slots = $this->extrapolator->extrapolate($config, $availabilityIntervals);
@@ -113,8 +113,8 @@ class SlotExtrapolatorTest extends TestCase {
 		$config->setLength(60 * 60);
 		$config->setIncrement(15 * 60);
 		$availabilityIntervals = [
-			new Interval(0, 60 * 60 * 60),
-			new Interval(100 * 60 * 60, 160 * 60 * 60),
+			new Interval(0, 60 * 60),
+			new Interval(100 * 60, 160 * 60),
 		];
 
 		$slots = $this->extrapolator->extrapolate($config, $availabilityIntervals);

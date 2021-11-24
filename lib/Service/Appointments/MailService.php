@@ -39,6 +39,7 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use Psr\Log\LoggerInterface;
+use function implode;
 
 class MailService {
 
@@ -134,12 +135,12 @@ class MailService {
 				$this->logger->warning('Mail delivery failed for some recipients.');
 				foreach ($failed as $fail) {
 					$this->logger->debug('Failed to deliver email to ' . $fail);
-					throw new ServiceException('Could not send mail for recipient ' . $fail);
 				}
+				throw new ServiceException('Could not send mail for recipient(s) ' . implode(', ', $failed));
 			}
 		} catch (Exception $ex) {
 			$this->logger->error($ex->getMessage(), ['exception' => $ex]);
-			throw new ServiceException('Could not send mail', $ex->getCode(), $ex);
+			throw new ServiceException('Could not send mail: ' . $ex->getMessage(), $ex->getCode(), $ex);
 		}
 	}
 
