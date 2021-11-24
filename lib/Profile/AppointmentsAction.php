@@ -33,7 +33,6 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Profile\ILinkAction;
-use function array_filter;
 use function count;
 
 class AppointmentsAction implements ILinkAction {
