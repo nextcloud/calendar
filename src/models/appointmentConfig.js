@@ -63,7 +63,7 @@ export default class AppointmentConfig {
 	followupDuration
 
 	/** @member {number} */
-	buffer
+	timeBeforeNextSlot
 
 	/** @member {?number} */
 	dailyMax
@@ -87,7 +87,7 @@ export default class AppointmentConfig {
 	 * @param {number} data.increment Increment in seconds
 	 * @param {number} data.preparationDuration Preparation duration in seconds
 	 * @param {number} data.followupDuration Followup duration in seconds
-	 * @param {number} data.buffer Buffer in seconds
+	 * @param {number} data.timeBeforeNextSlot Time before next slot in seconds
 	 * @param {?number} data.dailyMax Max daily slots
 	 * @param {?string[]} data.freebusyUris FreeBusy URIs
 	 */
@@ -105,7 +105,7 @@ export default class AppointmentConfig {
 		this.increment = tryParseInt(data.increment) ?? 0
 		this.preparationDuration = tryParseInt(data.preparationDuration)
 		this.followupDuration = tryParseInt(data.followupDuration)
-		this.buffer = tryParseInt(data.buffer)
+		this.timeBeforeNextSlot = tryParseInt(data.timeBeforeNextSlot)
 		this.dailyMax = tryParseInt(data.dailyMax)
 		this.freebusyUris = data.freebusyUris
 	}
@@ -140,7 +140,7 @@ export default class AppointmentConfig {
 			increment: 15 * 60,
 			preparationDuration: 0,
 			followupDuration: 0,
-			buffer: 0,
+			timeBeforeNextSlot: 0,
 			freebusyUris: [],
 		})
 

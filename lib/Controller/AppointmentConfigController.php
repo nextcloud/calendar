@@ -140,7 +140,7 @@ class AppointmentConfigController extends Controller {
 	 * @param int $increment
 	 * @param int $preparationDuration
 	 * @param int $followupDuration
-	 * @param int $timeToNextSlot
+	 * @param int $timeBeforeNextSlot
 	 * @param int|null $dailyMax
 	 * @param string[]|null $freebusyUris
 	 * @param int|null $start
@@ -158,7 +158,7 @@ class AppointmentConfigController extends Controller {
 		int $increment,
 		int $preparationDuration = 0,
 		int $followupDuration = 0,
-		int $timeToNextSlot = 0,
+		int $timeBeforeNextSlot = 0,
 		?int $dailyMax = null,
 		?array $freebusyUris = null,
 		?int $start = null,
@@ -185,7 +185,7 @@ class AppointmentConfigController extends Controller {
 				$increment,
 				$preparationDuration,
 				$followupDuration,
-				$timeToNextSlot,
+				$timeBeforeNextSlot,
 				$dailyMax,
 				$freebusyUris,
 				$start,
@@ -212,7 +212,7 @@ class AppointmentConfigController extends Controller {
 	 * @param int $increment
 	 * @param int $preparationDuration
 	 * @param int $followupDuration
-	 * @param int $timeToNextSlot
+	 * @param int $timeBeforeNextSlot
 	 * @param int|null $dailyMax
 	 * @param string[] $freebusyUris
 	 * @param int|null $start
@@ -231,7 +231,7 @@ class AppointmentConfigController extends Controller {
 		int $increment,
 		int $preparationDuration = 0,
 		int $followupDuration = 0,
-		int $timeToNextSlot = 0,
+		int $timeBeforeNextSlot = 0,
 		?int $dailyMax = null,
 		?array $freebusyUris = null,
 		?int $start = null,
@@ -263,7 +263,7 @@ class AppointmentConfigController extends Controller {
 		$appointmentConfig->setIncrement($increment);
 		$appointmentConfig->setPreparationDuration($preparationDuration);
 		$appointmentConfig->setFollowupDuration($followupDuration);
-		$appointmentConfig->setTimeBeforeNextSlot($timeToNextSlot);
+		$appointmentConfig->setTimeBeforeNextSlot($timeBeforeNextSlot);
 		$appointmentConfig->setDailyMax($dailyMax);
 		$appointmentConfig->setCalendarFreeBusyUrisAsArray($freebusyUris ?? []);
 		$appointmentConfig->setStart($start);
