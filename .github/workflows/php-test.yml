@@ -14,7 +14,7 @@ jobs:
         php-versions: ['7.3', '7.4']
         nextcloud-versions: ['stable20', 'stable21', 'stable22', 'stable23', 'master']
         include:
-          - php-versions: '7.2'
+          - php-versions: '7.3'
             nextcloud-versions: 'stable20'
           - php-versions: '8.0'
             nextcloud-versions: 'master'
@@ -41,10 +41,6 @@ jobs:
       if: ${{ matrix.nextcloud-versions == 'stable20' }}
       working-directory: nextcloud/3rdparty
       run: composer require nikic/php-parser:4.10
-    - name: Downgrade phpunit for php7.2
-      if: ${{ matrix.php-versions == '7.2' }}
-      working-directory: nextcloud/apps/calendar
-      run: composer update christophwurst/nextcloud_testing -W
     - name: Install dependencies
       working-directory: nextcloud/apps/calendar
       run: composer install
