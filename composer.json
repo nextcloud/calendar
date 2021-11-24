@@ -16,6 +16,7 @@
         "cs:fix": "php-cs-fixer fix",
         "cs:check": "php-cs-fixer fix --dry-run --diff",
         "lint": "find . -name \\*.php -not -path './vendor/*' -print0 | xargs -0 -n1 php -l",
-        "test": "phpunit --configuration phpunit.unit.xml --fail-on-warning"
+        "test": "phpunit --configuration phpunit.unit.xml --fail-on-warning",
+        "test:dev": "phpunit --configuration phpunit.unit.xml --fail-on-warning --stop-on-error --stop-on-failure"
     }
 }

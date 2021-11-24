@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use InvalidArgumentException;
+use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Exception\ClientException;
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Http\JsonResponse;
@@ -50,12 +51,11 @@ class AppointmentConfigController extends Controller {
 	/** @var LoggerInterface */
 	private $logger;
 
-	public function __construct(string $appName,
-								IRequest $request,
+	public function __construct(IRequest $request,
 								AppointmentConfigService $appointmentService,
 								LoggerInterface $logger,
 								?string $userId) {
-		parent::__construct($appName, $request);
+		parent::__construct(Application::APP_ID, $request);
 		$this->appointmentConfigService = $appointmentService;
 		$this->userId = $userId;
 		$this->logger = $logger;

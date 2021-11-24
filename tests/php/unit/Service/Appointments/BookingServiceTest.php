@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * Calendar App
  *
@@ -22,7 +23,7 @@ declare(strict_types=1);
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-namespace OCA\Calendar\Service\Appointments;
+namespace OCA\Calendar\Tests\Unit\Service\Appointments;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use Exception;
@@ -30,6 +31,14 @@ use OCA\Calendar\Db\Booking;
 use OCA\Calendar\Db\BookingMapper;
 use OCA\Calendar\Exception\ClientException;
 use OCA\Calendar\Db\AppointmentConfig;
+use OCA\Calendar\Service\Appointments\AvailabilityGenerator;
+use OCA\Calendar\Service\Appointments\BookingCalendarWriter;
+use OCA\Calendar\Service\Appointments\BookingService;
+use OCA\Calendar\Service\Appointments\DailyLimitFilter;
+use OCA\Calendar\Service\Appointments\EventConflictFilter;
+use OCA\Calendar\Service\Appointments\Interval;
+use OCA\Calendar\Service\Appointments\MailService;
+use OCA\Calendar\Service\Appointments\SlotExtrapolator;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Calendar\ICalendarQuery;
 use OCP\Security\ISecureRandom;
@@ -50,9 +59,6 @@ class BookingServiceTest extends TestCase {
 	/** @var EventConflictFilter|MockObject */
 	private $eventConflictFilter;
 
-	/** @var BookingService */
-	private $service;
-
 	/** @var BookingCalendarWriter|MockObject */
 	private $bookingCalendarWriter;
 
@@ -65,11 +71,14 @@ class BookingServiceTest extends TestCase {
 	/** @var MailService|MockObject */
 	private $mailService;
 
+	/** @var BookingService */
+	private $service;
+
 	protected function setUp(): void {
 		parent::setUp();
 
-		if (!class_exists(ICalendarQuery::class)) {
-			$this->markTestIncomplete();
+		if (!interface_exists(ICalendarQuery::class)) {
+			self::markTestIncomplete();
 		}
 
 		$this->availabilityGenerator = $this->createMock(AvailabilityGenerator::class);
@@ -115,7 +124,6 @@ class BookingServiceTest extends TestCase {
 
 	public function testBookInvalidTimestamp(): void {
 		$intervals = [];
-
 		$this->availabilityGenerator->expects(self::once())
 			->method('generate')
 			->willReturn($intervals);
@@ -141,7 +149,6 @@ class BookingServiceTest extends TestCase {
 			new Interval(1891382400, 1891386000),
 			new Interval(1891386000, 1891389600)
 		];
-
 		$this->availabilityGenerator->expects(self::once())
 			->method('generate')
 			->willReturn($intervals);
@@ -222,7 +229,7 @@ class BookingServiceTest extends TestCase {
 		$this->bookingCalendarWriter->expects(self::once())
 			->method('write');
 		$this->bookingMapper->expects(self::once())
-			->method('delete');
+			->method('update');
 
 		$this->service->confirmBooking($booking, $config);
 	}

@@ -71,8 +71,8 @@ class AvailabilityGenerator {
 		//      when the user opens the page at 10:17.
 		// But only do this when the time isn't already a "pretty" time
 		if ($earliestStart % $config->getLength() !== 0) {
-			$roundTo = (int) round(($config->getLength()) / 300) * 300;
-			$earliestStart = (int) ceil($earliestStart / $roundTo) * $roundTo;
+			$roundTo = (int)round(($config->getLength()) / 300) * 300;
+			$earliestStart = (int)ceil($earliestStart / $roundTo) * $roundTo;
 		}
 		$latestEnd = min(
 			$end,
@@ -103,23 +103,30 @@ class AvailabilityGenerator {
 
 		$intervals = [];
 		foreach ($applicableSlots as $slot) {
-			if ($slot['end'] <= $earliestStart || $slot['start'] >= $latestEnd) {
+			if ($slot->getEnd() <= $earliestStart || $slot->getStart() >= $latestEnd) {
 				continue;
 			}
 			$startSlot = max(
 				$earliestStart,
-				$slot['start']
+				$slot->getStart()
 			);
 			$endSlot = min(
 				$latestEnd,
-				$slot['end']
+				$slot->getEnd()
 			);
 			$intervals[] = new Interval($startSlot, $endSlot);
 		}
 		return $intervals;
 	}
 
-	private function filterDates(int $start, array $availabilityArray, string $timeZone) : array {
+	/**
+	 * @param int $start
+	 * @param array $availabilityArray
+	 * @param string $timeZone
+	 *
+	 * @return Interval[]
+	 */
+	private function filterDates(int $start, array $availabilityArray, string $timeZone): array {
 		$tz = new DateTimeZone($timeZone);
 		// First, transform all timestamps to DateTime Objects
 		$availabilityRules = [];
@@ -139,14 +146,16 @@ class AvailabilityGenerator {
 		// get the period the check can apply to
 
 		$period = new DatePeriod(
-			(new DateTimeImmutable())->setTimezone($tz)->setTimestamp($start - 87600)->setTime(0,0),
+			(new DateTimeImmutable())->setTimezone($tz)->setTimestamp($start - 87600)->setTime(0, 0),
 			new DateInterval('P1D'),
 			(new DateTimeImmutable())->setTimezone($tz)->setTimestamp($start + 87600)->setTime(23, 59),
 		);
 
+		/** @var Interval[] $applicable */
 		$applicable = [];
-		/** @var DateTimeImmutable $item */
 		foreach ($period as $item) {
+			/** @var DateTimeImmutable $item */
+
 			// get the weekday from our item and select the applicable rule
 			$weekday = strtoupper(mb_strcut($item->format('D'), 0, 2));
 			/** @var DateTimeImmutable[][] $dailyRules */
@@ -158,13 +167,12 @@ class AvailabilityGenerator {
 			foreach ($dailyRules as $dailyRule) {
 				$dStart = $dailyRule['start'];
 				$dEnd = $dailyRule['end'];
-				$applicable[] = [
-					'start' => $item->setTime((int)$dStart->format('H'), (int)$dStart->format('i'))->getTimestamp(),
-					'end' => $item->setTime((int)$dEnd->format('H'), (int)$dEnd->format('i'))->getTimestamp(),
-				];
+				$applicable[] = new Interval(
+					$item->setTime((int)$dStart->format('H'), (int)$dStart->format('i'))->getTimestamp(),
+					$item->setTime((int)$dEnd->format('H'), (int)$dEnd->format('i'))->getTimestamp(),
+				);
 			}
 		}
-		/** [][] */
 		return $applicable;
 	}
 }
