@@ -67,7 +67,6 @@ class MailService {
 								URLGenerator       $urlGenerator,
 								IDateTimeFormatter $dateFormatter,
 								IFactory           $lFactory) {
-
 		$this->userManager = $userManager;
 		$this->mailer = $mailer;
 		$this->l10n = $l10n;
@@ -86,7 +85,7 @@ class MailService {
 	public function sendConfirmationEmail(Booking $booking, AppointmentConfig $config): void {
 		$user = $this->userManager->get($config->getUserId());
 
-		if($user === null) {
+		if ($user === null) {
 			throw new ServiceException('Could not find organizer');
 		}
 
@@ -118,7 +117,7 @@ class MailService {
 		$bookingUrl = $this->urlGenerator->linkToRouteAbsolute('calendar.booking.confirmBooking', ['token' => $booking->getToken()]);
 		$template->addBodyButton($this->l10n->t('Confirm'), $bookingUrl);
 
-		$bodyText = $this->l10n->t('This confirmation link expires in %s hours.', [(BookingService::EXPIRY /3600)] );
+		$bodyText = $this->l10n->t('This confirmation link expires in %s hours.', [(BookingService::EXPIRY / 3600)]);
 		$template->addBodyText($bodyText);
 
 		$bodyText = $this->l10n->t("If you wish to cancel the appointment after all, please contact your organizer.");
@@ -133,7 +132,7 @@ class MailService {
 			$failed = $this->mailer->send($message);
 			if (count($failed) > 0) {
 				$this->logger->warning('Mail delivery failed for some recipients.');
-				foreach($failed as $fail) {
+				foreach ($failed as $fail) {
 					$this->logger->debug('Failed to deliver email to ' . $fail);
 					throw new ServiceException('Could not send mail for recipient ' . $fail);
 				}
@@ -148,7 +147,6 @@ class MailService {
 								   IL10N $l10n,
 								   Booking $booking,
 								   ?string $location = null):void {
-
 		$template->addBodyListItem($booking->getDisplayName(), $l10n->t('Appointment:'));
 
 		$l = $this->lFactory->findGenericLanguage();

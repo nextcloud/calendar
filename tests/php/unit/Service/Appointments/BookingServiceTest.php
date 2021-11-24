@@ -68,7 +68,7 @@ class BookingServiceTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		if(!class_exists(ICalendarQuery::class)) {
+		if (!class_exists(ICalendarQuery::class)) {
 			$this->markTestIncomplete();
 		}
 
@@ -139,7 +139,7 @@ class BookingServiceTest extends TestCase {
 		$intervals = [
 			new Interval(1891378800, 1891382400),
 			new Interval(1891382400, 1891386000),
-			new Interval(1891386000, 1891389600 )
+			new Interval(1891386000, 1891389600)
 		];
 
 		$this->availabilityGenerator->expects(self::once())
@@ -167,7 +167,7 @@ class BookingServiceTest extends TestCase {
 		$intervals = [
 			new Interval(1891378800, 1891382400),
 			new Interval(1891382400, 1891386000),
-			new Interval(1891386000, 1891389600 )
+			new Interval(1891386000, 1891389600)
 		];
 
 		$this->availabilityGenerator->expects(self::once())
@@ -281,7 +281,7 @@ class BookingServiceTest extends TestCase {
 	public function testDeleteOutdated() : void {
 		$this->bookingMapper->expects(self::once())
 			->method('deleteOutdated')
-			->with(24*60*60)
+			->with(24 * 60 * 60)
 			->willReturn(1);
 
 		$this->service->deleteOutdated();

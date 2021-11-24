@@ -198,7 +198,7 @@ class BookingController extends Controller {
 	public function confirmBooking(string $token): TemplateResponse {
 		try {
 			$booking = $this->bookingService->findByToken($token);
-		} catch(ClientException $e) {
+		} catch (ClientException $e) {
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 			return new TemplateResponse(
 				Application::APP_ID,
@@ -220,7 +220,7 @@ class BookingController extends Controller {
 			);
 		}
 
-		$link = $this->urlGenerator->linkToRouteAbsolute( 'calendar.appointment.show', [ 'token' => $config->getToken() ]);
+		$link = $this->urlGenerator->linkToRouteAbsolute('calendar.appointment.show', [ 'token' => $config->getToken() ]);
 		try {
 			$booking = $this->bookingService->confirmBooking($booking, $config);
 		} catch (ClientException $e) {

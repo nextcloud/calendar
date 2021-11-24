@@ -111,5 +111,4 @@ class AppointmentConfigMapper extends QBMapper {
 
 		return $qb->executeStatement();
 	}
-
 }
