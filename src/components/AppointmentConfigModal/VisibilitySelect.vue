@@ -56,7 +56,6 @@ export default {
 			options: [
 				{ value: 'PUBLIC', label: this.t('calendar', 'Public') },
 				{ value: 'PRIVATE', label: this.t('calendar', 'Private') },
-				{ value: 'REGISTERED', label: this.t('calendar', 'Registered users') },
 			],
 		}
 	},
