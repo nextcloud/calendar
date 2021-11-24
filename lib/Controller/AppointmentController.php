@@ -38,7 +38,6 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\IRequest;
 use OCP\IUserManager;
 use RuntimeException;
-use function array_filter;
 
 class AppointmentController extends Controller {
 
