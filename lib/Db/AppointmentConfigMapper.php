@@ -85,14 +85,19 @@ class AppointmentConfigMapper extends QBMapper {
 
 	/**
 	 * @param string $userId
+	 * @param string|null $visibility optionally filter for visibility
+	 * @psalm-param AppointmentConfig::VISIBILITY_* $visibility
 	 * @return AppointmentConfig[]
 	 * @throws DbException
 	 */
-	public function findAllForUser(string $userId): array {
+	public function findAllForUser(string $userId, string $visibility = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
+		if ($visibility !== null) {
+			$qb->andWhere($qb->expr()->eq('visibility', $qb->createNamedParameter($visibility)));
+		}
 		return $this->findEntities($qb);
 	}
 

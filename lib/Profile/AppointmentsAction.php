@@ -69,11 +69,9 @@ class AppointmentsAction implements ILinkAction {
 	public function preload(IUser $targetUser): void {
 		$this->targetUser = $targetUser;
 
-		$this->configs = array_filter(
-			$this->configService->getAllAppointmentConfigurations($targetUser->getUID()),
-			function (AppointmentConfig $config): bool {
-				return $config->getVisibility() === AppointmentConfig::VISIBILITY_PUBLIC;
-			}
+		$this->configs = $this->configService->getAllAppointmentConfigurations(
+			$targetUser->getUID(),
+			AppointmentConfig::VISIBILITY_PUBLIC
 		);
 	}
 

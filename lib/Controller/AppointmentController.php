@@ -95,9 +95,7 @@ class AppointmentController extends Controller {
 		);
 		$this->initialState->provideInitialState(
 			'appointmentConfigs',
-			array_filter($this->configService->getAllAppointmentConfigurations($userId), static function (AppointmentConfig $config): bool {
-				return $config->getVisibility() === AppointmentConfig::VISIBILITY_PUBLIC;
-			}),
+			$this->configService->getAllAppointmentConfigurations($userId, AppointmentConfig::VISIBILITY_PUBLIC),
 		);
 
 		return new TemplateResponse(
