@@ -29,7 +29,7 @@ import { generateUrl } from '@nextcloud/router'
  * @param timeZone {String} target time zone for the time stamps
  */
 export async function findSlots(config, start, timeZone) {
-	const url = generateUrl('/apps/calendar/appointment/{id}/slots?startTime={start}&endTime={end}&timeZone={timeZone}', {
+	const url = generateUrl('/apps/calendar/appointment/{id}/slots?startTime={start}&timeZone={timeZone}', {
 		id: config.id,
 		start,
 		timeZone,
