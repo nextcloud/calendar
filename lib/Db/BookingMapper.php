@@ -57,6 +57,23 @@ class BookingMapper extends QBMapper {
 		return $this->findEntity($qb);
 	}
 
+	public function deleteByUserId(string $uid) {
+		$subQuery = $this->db->getQueryBuilder();
+		$delete = $this->db->getQueryBuilder();
+		$subQuery->select('id')
+			->from('calendar_appt_configs')
+			->where($delete->expr()->eq('user_id', $delete->createNamedParameter($uid), IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR);
+		$delete->delete($this->getTableName())
+			->where(
+				$delete->expr()->in(
+					'appt_config_id',
+					$delete->createFunction($subQuery->getSQL()),
+					IQueryBuilder::PARAM_INT_ARRAY
+				)
+			);
+		return $delete->executeStatement();
+	}
+
 	/**
 	 * @param int $validFor is subtracted from time() and then compared against 'created_at'.
 	 * @throws DbException
