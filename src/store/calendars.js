@@ -52,6 +52,7 @@ import {
 const state = {
 	calendars: [],
 	trashBin: undefined,
+	scheduleInbox: undefined,
 	deletedCalendars: [],
 	deletedCalendarObjects: [],
 	calendarsById: {},
@@ -78,6 +79,10 @@ const mutations = {
 
 	addTrashBin(state, { trashBin }) {
 		state.trashBin = trashBin
+	},
+
+	addScheduleInbox(state, { scheduleInbox }) {
+		state.scheduleInbox = scheduleInbox
 	},
 
 	/**
@@ -412,6 +417,10 @@ const getters = {
 		return state.trashBin
 	},
 
+	scheduleInbox: (state) => {
+		return state.scheduleInbox
+	},
+
 	/**
 	 * List of deleted sorted calendars
 	 *
@@ -546,13 +555,16 @@ const actions = {
 	 * @return {Promise<object>} the results
 	 */
 	async loadCollections({ commit, state, getters }) {
-		const { calendars, trashBins } = await findAll()
+		const { calendars, trashBins, scheduleInboxes } = await findAll()
 		console.info('calendar home scanned', calendars, trashBins)
 		calendars.map((calendar) => mapDavCollectionToCalendar(calendar, getters.getCurrentUserPrincipal)).forEach(calendar => {
 			commit('addCalendar', { calendar })
 		})
 		if (trashBins.length) {
 			commit('addTrashBin', { trashBin: trashBins[0] })
+		}
+		if (scheduleInboxes.length) {
+			commit('addScheduleInbox', { scheduleInbox: scheduleInboxes[0] })
 		}
 
 		commit('initialCalendarsLoaded')

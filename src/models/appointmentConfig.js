@@ -21,7 +21,10 @@
  */
 
 import { generateUrl } from '@nextcloud/router'
-import { getEmptySlots } from '@nextcloud/calendar-availability-vue'
+import {
+	getEmptySlots,
+	vavailabilityToSlots,
+} from '@nextcloud/calendar-availability-vue'
 
 /** @class */
 export default class AppointmentConfig {
@@ -114,18 +117,24 @@ export default class AppointmentConfig {
 	 * Create a default appointment config instance
 	 *
 	 * @param {string} targetCalendarUri
-	 * @param {string} timezoneId
+	 * @param {ScheduleInbox} scheduleInbox
+	 * @param {string} timezoneId fallback time zone when no schedule inbox availability is set
 	 * @return {AppointmentConfig} Default appointment config instance
 	 */
-	static createDefault(targetCalendarUri, timezoneId) {
-		// Set default availability to Mo-Fr 9-5
-		// TODO: fetch user's working hours if possible
-		const tsAtTime = (hours, minutes) => Math.round((new Date()).setHours(hours, minutes, 0, 0) / 1000)
-		const slots = getEmptySlots();
-		['MO', 'TU', 'WE', 'TH', 'FR'].forEach(day => slots[day].push({
-			start: tsAtTime(9, 0),
-			end: tsAtTime(17, 0),
-		}))
+	static createDefault(targetCalendarUri, scheduleInbox, timezoneId) {
+		let slots = getEmptySlots()
+		if (scheduleInbox && scheduleInbox.availability) {
+			const converted = vavailabilityToSlots(scheduleInbox.availability)
+			slots = converted.slots
+			timezoneId = slots.timezoneId
+		} else {
+			// Set default availability to Mo-Fr 9-5
+			const tsAtTime = (hours, minutes) => Math.round((new Date()).setHours(hours, minutes, 0, 0) / 1000);
+			['MO', 'TU', 'WE', 'TH', 'FR'].forEach(day => slots[day].push({
+				start: tsAtTime(9, 0),
+				end: tsAtTime(17, 0),
+			}))
+		}
 
 		return new AppointmentConfig({
 			name: '',
