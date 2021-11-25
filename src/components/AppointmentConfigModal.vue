@@ -111,7 +111,8 @@
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<DurationSelect
 								:label="t('calendar', 'Minimum time before next available slot')"
-								:value.sync="editing.timeBeforeNextSlot" />
+								:value.sync="editing.timeBeforeNextSlot"
+								:max="7*24*60*60" />
 							<NumberInput
 								:label="t('calendar','Max slots per day')"
 								:value.sync="editing.dailyMax" />
