@@ -38,6 +38,7 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\DB\Exception;
 use OCP\DB\Exception as DbException;
+use OCP\IUser;
 use OCP\Security\ISecureRandom;
 
 class BookingService {
@@ -179,6 +180,10 @@ class BookingService {
 				Http::STATUS_NOT_FOUND
 			);
 		}
+	}
+
+	public function deleteByUser(IUser $user): void {
+		$this->bookingMapper->deleteByUserId($user->getUID());
 	}
 
 	/**

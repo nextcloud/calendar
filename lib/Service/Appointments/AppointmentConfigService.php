@@ -34,6 +34,7 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 use OCP\AppFramework\Http;
 use OCP\DB\Exception as DbException;
+use OCP\IUser;
 use OCP\Security\ISecureRandom;
 
 class AppointmentConfigService {
@@ -200,5 +201,9 @@ class AppointmentConfigService {
 		} catch (DbException $e) {
 			throw new ServiceException('Could not create new appointment', $e->getCode(), $e);
 		}
+	}
+
+	public function deleteByUser(IUser $getUser): void {
+		$this->mapper->deleteByUserId($getUser->getUID());
 	}
 }

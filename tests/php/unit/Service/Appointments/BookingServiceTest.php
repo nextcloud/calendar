@@ -23,6 +23,7 @@ declare(strict_types=1);
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCA\Calendar\Tests\Unit\Service\Appointments;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
@@ -41,6 +42,7 @@ use OCA\Calendar\Service\Appointments\MailService;
 use OCA\Calendar\Service\Appointments\SlotExtrapolator;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Calendar\ICalendarQuery;
+use OCP\IUser;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Safe\DateTimeImmutable;
@@ -113,7 +115,7 @@ class BookingServiceTest extends TestCase {
 		$this->eventConflictFilter->expects(self::once())
 			->method('filter');
 
-		$slots = $this->service-> getAvailableSlots($config, 0, 100);
+		$slots = $this->service->getAvailableSlots($config, 0, 100);
 		self::assertEmpty($slots);
 	}
 
@@ -285,7 +287,17 @@ class BookingServiceTest extends TestCase {
 		$this->service->findByToken($token);
 	}
 
-	public function testDeleteOutdated() : void {
+	public function testDeleteByUser(): void {
+		$user = $this->createMock(IUser::class);
+		$user->method('getUid')->willReturn('user123');
+		$this->bookingMapper->expects(self::once())
+			->method('deleteByUserId')
+			->with('user123');
+
+		$this->service->deleteByUser($user);
+	}
+
+	public function testDeleteOutdated(): void {
 		$this->bookingMapper->expects(self::once())
 			->method('deleteOutdated')
 			->with(24 * 60 * 60)
