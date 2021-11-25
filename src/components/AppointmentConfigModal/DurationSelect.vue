@@ -54,9 +54,14 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		max: {
+			type: Number,
+			default: 60 * 60,
+		},
 	},
 	computed: {
 		options() {
+			// TODO: shouldn't this use the translatePlural (n) function?
 			const options = [
 				{ value: 0, label: this.t('calendar', '0 minutes') },
 				{ value: 5 * 60, label: this.t('calendar', '5 minutes') },
@@ -65,11 +70,17 @@ export default {
 				{ value: 30 * 60, label: this.t('calendar', '30 minutes') },
 				{ value: 45 * 60, label: this.t('calendar', '45 minutes') },
 				{ value: 60 * 60, label: this.t('calendar', '1 hour') },
+				{ value: 2 * 60 * 60, label: this.t('calendar', '2 hours') },
+				{ value: 6 * 60 * 60, label: this.t('calendar', '6 hours') },
+				{ value: 24 * 60 * 60, label: this.t('calendar', '1 day') },
+				{ value: 2 * 24 * 60 * 60, label: this.t('calendar', '2 days') },
+				{ value: 7 * 24 * 60 * 60, label: this.t('calendar', '1 week') },
 			]
 			if (!this.allowZero) {
 				options.splice(0, 1)
 			}
-			return options
+
+			return options.filter(option => option.value <= this.max)
 		},
 	},
 }
