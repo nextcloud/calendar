@@ -435,7 +435,7 @@ OC.L10N.register(
     "Video-call" : "Połączenie wideo",
     "Video-chat" : "Rozmowa wideo",
     "Video-meeting" : "Spotkanie wideo",
-    "Call" : "Rozmowa telefoniczna",
+    "Call" : "Połącz",
     "Calling" : "Zadzwonić",
     "Christmas" : "Boże Narodzenie",
     "Conference" : "Konferencja",
