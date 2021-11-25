@@ -60,6 +60,7 @@ class AvailabilityGeneratorTest extends TestCase {
 	public function testNoAvailabilitySet(): void {
 		$config = new AppointmentConfig();
 		$config->setLength(60 * 60);
+		$config->setIncrement(300);
 		$config->setAvailability(null);
 
 		$slots = $this->generator->generate($config, 1 * 3600, 2 * 3600);
@@ -72,65 +73,90 @@ class AvailabilityGeneratorTest extends TestCase {
 
 	public function testNoAvailabilitySetRoundToFive(): void {
 		$config = new AppointmentConfig();
-		$config->setLength(47 * 60);
+		$config->setLength(2820);
+		$config->setIncrement(900);
 		$config->setAvailability(null);
 
-		$slots = $this->generator->generate($config, (int)2.8 * 3600, 4 * 3600);
+		$slots = $this->generator->generate($config, 3610, 4 * 3600);
 
 		self::assertCount(1, $slots);
-		self::assertEquals(0, $slots[0]->getStart() % 300);
+		self::assertEquals(0, $slots[0]->getStart() % 900);
+		self::assertEquals(4500, $slots[0]->getStart());
+	}
+
+	public function testNoAvailabilitySetRoundWithSpecificTimes(): void {
+		$config = new AppointmentConfig();
+		$config->setLength(3600);
+		$config->setIncrement(900);
+		$config->setAvailability(null);
+
+		$slots = $this->generator->generate($config, 1637837100, 1637840700);
+
+		self::assertCount(1, $slots);
+		self::assertEquals(0, $slots[0]->getStart() % 900);
+		self::assertEquals(3600, ($slots[0]->getEnd() - $slots[0]->getStart()));
+		self::assertEquals(
+			[new Interval(1637837100, 1637840700)],
+			$slots,
+		);
 	}
 
 	public function testNoAvailabilitySetRoundWithIncrement(): void {
 		$config = new AppointmentConfig();
-		$config->setLength(90 * 60);
-		$config->setIncrement(60 * 60);
+		$config->setLength(5400);
+		$config->setIncrement(3600);
 		$config->setAvailability(null);
 
 		$slots = $this->generator->generate($config, 1 * 5400, 2 * 5400);
 
 		self::assertCount(1, $slots);
-		self::assertEquals(0, $slots[0]->getStart() % 5400);
+		self::assertEquals(0, $slots[0]->getStart() % 3600);
+		self::assertEquals(7200, $slots[0]->getStart());
 	}
 
-	public function testNoAvailabilitySetRoundWithPrettyNumbers(): void {
+	public function testNoAvailabilitySetRoundToPrettyNumbers(): void {
 		$config = new AppointmentConfig();
-		$config->setLength(90 * 60);
+		$config->setLength(5400);
+		$config->setIncrement(300);
 		$config->setAvailability(null);
 
 		$slots = $this->generator->generate($config, 1 * 5400 + 1, 2 * 5400 + 1);
 
 		self::assertCount(1, $slots);
-		self::assertEquals($slots[0]->getStart(), 2 * 5400);
-		self::assertEquals(0, $slots[0]->getStart() % 5400);
+		self::assertEquals(0, $slots[0]->getStart() % 300);
+		self::assertEquals(5700, $slots[0]->getStart());
 	}
 
 	public function testNoAvailabilitySetRoundWithFourtyMinutes(): void {
 		$config = new AppointmentConfig();
-		$config->setLength(40 * 60);
+		$config->setLength(2400);
+		$config->setIncrement(600);
 		$config->setAvailability(null);
 
 		$slots = $this->generator->generate($config, 1 * 2400, 2 * 2400);
 
 		self::assertCount(1, $slots);
-		self::assertEquals(0, $slots[0]->getStart() % 2400);
+		self::assertEquals(0, $slots[0]->getStart() % 600);
+		self::assertEquals(2400, $slots[0]->getStart());
 	}
 
 	public function testNoAvailabilitySetRoundWithFourtyMinutesNotPretty(): void {
 		$config = new AppointmentConfig();
-		$config->setLength(40 * 60);
+		$config->setLength(2400);
+		$config->setIncrement(300);
 		$config->setAvailability(null);
 
 		$slots = $this->generator->generate($config, 1 * 2400 + 1, 2 * 2400 + 1);
 
 		self::assertCount(1, $slots);
-		self::assertEquals($slots[0]->getStart(), 2 * 2400);
-		self::assertEquals(0, $slots[0]->getStart() % 2400);
+		self::assertEquals(0, $slots[0]->getStart() % 300);
+		self::assertEquals(2700, $slots[0]->getStart());
 	}
 
 	public function testNoAvailabilityButEndDate(): void {
 		$config = new AppointmentConfig();
-		$config->setLength(60 * 60);
+		$config->setLength(3600);
+		$config->setIncrement(300);
 		$config->setAvailability(null);
 		$config->setEnd(10 * 3600);
 
@@ -140,13 +166,15 @@ class AvailabilityGeneratorTest extends TestCase {
 			[new Interval(4 * 3600, 10 * 3600)],
 			$slots,
 		);
+		self::assertEquals(4 * 3600, $slots[0]->getStart());
 	}
 
 	public function testNoAvailabilityAfterEndDate(): void {
 		$this->timeFactory->method('getTime')
 			->willReturn(15 * 3600);
 		$config = new AppointmentConfig();
-		$config->setLength(60 * 60);
+		$config->setLength(3600);
+		$config->setIncrement(3600);
 		$config->setAvailability(null);
 		$config->setEnd(10 * 3600);
 
@@ -166,7 +194,8 @@ class AvailabilityGeneratorTest extends TestCase {
 			->setTimezone($tz)
 			->setTime(17, 0)->getTimestamp();
 		$config = new AppointmentConfig();
-		$config->setLength(60 * 60);
+		$config->setLength(3600);
+		$config->setIncrement(3600);
 		$config->setAvailability(json_encode([
 			'timezoneId' => $tz->getName(),
 			'slots' => [
@@ -216,7 +245,8 @@ class AvailabilityGeneratorTest extends TestCase {
 		$tz = new DateTimeZone('Europe/Vienna');
 		$dateTime = (new DateTimeImmutable())->setTimezone($tz)->setDate(2021, 11, 22);
 		$config = new AppointmentConfig();
-		$config->setLength(60 * 60);
+		$config->setLength(3600);
+		$config->setIncrement(3600);
 		$config->setAvailability(json_encode([
 			'timezoneId' => $tz->getName(),
 			'slots' => [
@@ -275,7 +305,8 @@ class AvailabilityGeneratorTest extends TestCase {
 		$tz = new DateTimeZone('Europe/Vienna');
 		$dateTime = (new DateTimeImmutable())->setTimezone($tz)->setDate(2021, 11, 22);
 		$config = new AppointmentConfig();
-		$config->setLength(60 * 60);
+		$config->setLength(3600);
+		$config->setIncrement(3600);
 		$config->setAvailability(json_encode([
 			'timezoneId' => $tz->getName(),
 			'slots' => [
@@ -336,7 +367,8 @@ class AvailabilityGeneratorTest extends TestCase {
 		$startTimestamp = $dateTime->setTimezone($tz)->setDate(2021, 11, 22)->setTime(8, 0)->getTimestamp();
 		$endTimestamp = $dateTime->setTime(17, 0)->getTimestamp();
 		$config = new AppointmentConfig();
-		$config->setLength(60 * 60);
+		$config->setLength(3600);
+		$config->setIncrement(3600);
 		$config->setAvailability(json_encode([
 			'timezoneId' => $tz->getName(),
 			'slots' => [
@@ -386,7 +418,9 @@ class AvailabilityGeneratorTest extends TestCase {
 		$tz = new DateTimeZone('Pacific/Auckland');
 		$dateTime = (new DateTimeImmutable())->setTimezone($tz)->setDate(2021, 11, 22);
 		$config = new AppointmentConfig();
-		$config->setLength(60 * 60);
+		$config->setLength(3600);
+		$config->setIncrement(3600);
+
 		$config->setAvailability(json_encode([
 			'timezoneId' => $tz->getName(),
 			'slots' => [
@@ -445,7 +479,8 @@ class AvailabilityGeneratorTest extends TestCase {
 		$tz = new DateTimeZone('Europe/Vienna');
 		$dateTime = (new DateTimeImmutable())->setTimezone($tz)->setDate(2021, 11, 22);
 		$config = new AppointmentConfig();
-		$config->setLength(60 * 60);
+		$config->setLength(3600);
+		$config->setIncrement(3600);
 		$config->setAvailability(json_encode([
 			'timezoneId' => $tz->getName(),
 			'slots' => [
@@ -521,7 +556,8 @@ class AvailabilityGeneratorTest extends TestCase {
 		$tz = new DateTimeZone('Europe/Vienna');
 		$dateTime = (new DateTimeImmutable())->setTimezone($tz)->setDate(2021, 11, 22);
 		$config = new AppointmentConfig();
-		$config->setLength(60 * 60);
+		$config->setLength(3600);
+		$config->setIncrement(3600);
 		$config->setAvailability(json_encode([
 			'timezoneId' => $tz->getName(),
 			'slots' => [
