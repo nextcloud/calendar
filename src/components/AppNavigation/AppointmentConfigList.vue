@@ -44,9 +44,9 @@
 		</AppNavigationCaption>
 
 		<template v-if="hasUserEmailAddress">
-			<template v-if="configs.length > 0">
+			<template v-if="sortedConfigs.length > 0">
 				<AppointmentConfigListItem
-					v-for="config in configs"
+					v-for="config in sortedConfigs"
 					:key="config.id"
 					:config="config"
 					@delete="deleteConfig(config)" />
@@ -105,6 +105,9 @@ export default {
 			}
 
 			return !!principal.emailAddress
+		},
+		sortedConfigs() {
+			return [...this.configs].sort((config1, config2) => config1.name.localeCompare(config2.name))
 		},
 	},
 	methods: {
