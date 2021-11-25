@@ -1,10 +1,30 @@
 # Changelog
 
+## 2.4.0 – 2021-11-25
+### Added
+- Advanced Search for Rooms and Resources
+- Room Auto Suggestions for events that will fit all attendees
+### Changed
+- Design Polishing of Right Sidebar
+  - Merged Alarm, Detail and Repeat tab in right sidebar
+  - Moved Resources to separate tab
+  - Placeholder Text and field heights
+  - Timepicker
+  - Simplified Simple Editor
+  - ...
+- Event recurrences
+  - Calendar can't be edited any longer
+- Dependencies
+- Translations
+### Fixed
+- Sharing: Groups and Principal URIs with spaces and other special characters
+- Trashbin timestamp
+
 ## 2.3.4 – 2021-09-28
 ### Fixed
 - Event height in weekly view
 - Events disappearing from grid
-- Movnig calendars on Android
+- Moving calendars on Android
 - Missing default status
 - Simple editor size
 - Sidebar datepicker rendering
