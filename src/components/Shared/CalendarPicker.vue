@@ -1,7 +1,7 @@
 <template>
 	<Multiselect
 		label="displayName"
-		track-by="displayName"
+		track-by="url"
 		:disabled="isDisabled"
 		:options="calendars"
 		:value="calendar"
