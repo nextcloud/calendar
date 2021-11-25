@@ -95,6 +95,7 @@ export default {
 		defaultConfig() {
 			return AppointmentConfig.createDefault(
 				this.calendarUrlToUri(this.$store.getters.sortedCalendars[0].url),
+				this.$store.getters.scheduleInbox,
 				this.$store.getters.getResolvedTimezone,
 			)
 		},
