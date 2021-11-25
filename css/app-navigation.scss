@@ -8,6 +8,7 @@
  * @author Raghu Nayyar
  * @author Georg Ehrke
  * @author John Molakvoæ
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -306,6 +307,17 @@
 						}
 					}
 				}
+			}
+		}
+
+		.appointment-config-list {
+			.app-navigation-caption {
+				margin-top: 22px;
+			}
+
+			.app-navigation-entry-link,
+			.app-navigation-entry-link * {
+				cursor: default;
 			}
 		}
 	}

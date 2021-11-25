@@ -34,6 +34,12 @@ return [
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth|listMonth'], 'postfix' => 'view.timerange'],
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}/new/{mode}/{isAllDay}/{dtStart}/{dtEnd}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth|listMonth'], 'postfix' => 'view.timerange.new'],
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}/edit/{mode}/{objectId}/{recurrenceId}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth|listMonth'], 'postfix' => 'view.timerange.edit'],
+		// Appointments
+		['name' => 'appointment#index', 'url' => '/appointments/{userId}', 'verb' => 'GET'],
+		['name' => 'appointment#show', 'url' => '/appointment/{token}', 'verb' => 'GET'],
+		['name' => 'booking#getBookableSlots', 'url' => '/appointment/{appointmentConfigId}/slots', 'verb' => 'GET'],
+		['name' => 'booking#bookSlot', 'url' => '/appointment/{appointmentConfigId}/book', 'verb' => 'POST'],
+		['name' => 'booking#confirmBooking', 'url' => '/appointment/confirm/{token}', 'verb' => 'GET'],
 		// Public views
 		['name' => 'publicView#public_index_with_branding', 'url' => '/p/{token}', 'verb' => 'GET'],
 		['name' => 'publicView#public_index_with_branding', 'url' => '/p/{token}/{view}/{timeRange}', 'verb' => 'GET', 'postfix' => 'publicview.timerange'],
@@ -51,5 +57,8 @@ return [
 		['name' => 'settings#setConfig', 'url' => '/v1/config/{key}', 'verb' => 'POST'],
 		// Tools
 		['name' => 'email#sendEmailPublicLink', 'url' => '/v1/public/sendmail', 'verb' => 'POST'],
+	],
+	'resources' => [
+		'appointmentConfig' => ['url' => '/v1/appointment_configs']
 	]
 ];

@@ -26,6 +26,7 @@
 			<AppNavigationHeader :is-public="!isAuthenticatedUser" />
 			<template #list>
 				<AppNavigationSpacer />
+
 				<!-- Calendar / Subscription List -->
 				<CalendarList
 					:is-public="!isAuthenticatedUser"
@@ -33,6 +34,14 @@
 				<CalendarListNew
 					v-if="!loadingCalendars && isAuthenticatedUser"
 					:disabled="loadingCalendars" />
+
+				<!-- Appointment Configuration List -->
+				<template v-if="hasAppointmentsFeature && isAuthenticatedUser">
+					<AppNavigationSpacer />
+					<AppointmentConfigList />
+				</template>
+
+				<!-- Trashbin -->
 				<Trashbin v-if="hasTrashBin" />
 			</template>
 			<!-- Settings and import -->
@@ -94,10 +103,12 @@ import {
 } from '@nextcloud/dialogs'
 import '@nextcloud/dialogs/styles/toast.scss'
 import Trashbin from '../components/AppNavigation/CalendarList/Trashbin'
+import AppointmentConfigList from '../components/AppNavigation/AppointmentConfigList'
 
 export default {
 	name: 'Calendar',
 	components: {
+		AppointmentConfigList,
 		CalendarGrid,
 		EmptyCalendar,
 		EmbedTopNavigation,
@@ -169,6 +180,10 @@ export default {
 			}
 
 			return null
+		},
+		hasAppointmentsFeature() {
+			// TODO: Remove me when Calendar doesn't support server < 23
+			return parseInt(OC.config.version.split('.')[0]) >= 23
 		},
 	},
 	created() {

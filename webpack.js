@@ -12,6 +12,12 @@ const appVersion = JSON.stringify(process.env.npm_package_version)
 // Add dashboard entry
 webpackConfig.entry.dashboard = path.join(__dirname, 'src', 'dashboard.js')
 
+// Add appointments entries
+webpackConfig.entry['appointments-booking'] = path.join(__dirname, 'src', 'appointments/main-booking.js')
+webpackConfig.entry['appointments-confirmation'] = path.join(__dirname, 'src', 'appointments/main-confirmation.js')
+webpackConfig.entry['appointments-conflict'] = path.join(__dirname, 'src', 'appointments/main-conflict.js')
+webpackConfig.entry['appointments-overview'] = path.join(__dirname, 'src', 'appointments/main-overview.js')
+
 // Edit JS rule
 webpackRules.RULE_JS.test = /\.m?js$/
 webpackRules.RULE_JS.exclude = BabelLoaderExcludeNodeModulesExcept([
@@ -49,11 +55,11 @@ webpackConfig.plugins.push(
 		family: `iconfont-calendar-app-${md5(appVersion)}`,
 		dest: {
 			font: './src/fonts/[family].[type]',
-			css: './src/fonts/scss/iconfont-calendar-app.scss'
+			css: './src/fonts/scss/iconfont-calendar-app.scss',
 		},
 		watch: {
-			pattern: './src/assets/iconfont/*.svg'
-		}
+			pattern: './src/assets/iconfont/*.svg',
+		},
 	}),
 	new webpack.IgnorePlugin(/^\.\/locale(s)?$/, /(moment)$/),
 	new webpack.ProvidePlugin({
