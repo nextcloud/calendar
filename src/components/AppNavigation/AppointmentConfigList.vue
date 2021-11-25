@@ -93,7 +93,10 @@ export default {
 			configs: 'allConfigs',
 		}),
 		defaultConfig() {
-			return AppointmentConfig.createDefault(this.$store)
+			return AppointmentConfig.createDefault(
+				this.calendarUrlToUri(this.$store.getters.sortedCalendars[0].url),
+				this.$store.getters.getResolvedTimezone,
+			)
 		},
 		hasAtLeastOneCalendar() {
 			return !!this.$store.getters.sortedCalendars[0]
@@ -110,6 +113,12 @@ export default {
 	methods: {
 		closeModal() {
 			this.showModalForNewConfig = false
+		},
+		calendarUrlToUri(url) {
+			// Trim trailing slash and split into URL parts
+			const parts = url.replace(/\/$/, '').split('/')
+			// The last one is the URI
+			return parts[parts.length - 1]
 		},
 		async deleteConfig(config) {
 			logger.info('Deleting config', { config })

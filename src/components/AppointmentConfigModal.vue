@@ -51,7 +51,7 @@
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<div class="calendar-select">
 								<label>{{ t('calendar', 'Calendar') }}</label>
-								<CalendarPicker
+								<CalendarPicker v-if="calendar !== undefined"
 									:calendar="calendar"
 									:calendars="sortedCalendars"
 									:show-calendar-on-select="false"
@@ -201,11 +201,14 @@ export default {
 				return this.sortedCalendars[0]
 			}
 
-			const url = this.editing.targetCalendarUri
-			return this.sortedCalendars.find(cal => cal.url === url)
+			const uri = this.editing.targetCalendarUri
+			return this.sortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
 		},
 		defaultConfig() {
-			return AppointmentConfig.createDefault(this.$store)
+			return AppointmentConfig.createDefault(
+				this.calendarUrlToUri(this.$store.getters.sortedCalendars[0].url),
+				this.$store.getters.getResolvedTimezone,
+			)
 		},
 	},
 	watch: {
@@ -218,13 +221,20 @@ export default {
 	},
 	methods: {
 		reset() {
-			this.editing = this.config?.clone() ?? AppointmentConfig.createDefault(this.$store)
+			this.editing = this.config.clone()
+
 			this.enablePreparationDuration = !!this.editing.preparationDuration
 			this.enableFollowupDuration = !!this.editing.followupDuration
 			this.showConfirmation = false
 		},
+		calendarUrlToUri(url) {
+			// Trim trailing slash and split into URL parts
+			const parts = url.replace(/\/$/, '').split('/')
+			// The last one is the URI
+			return parts[parts.length - 1]
+		},
 		changeCalendar(calendar) {
-			this.editing.targetCalendarUri = calendar.url
+			this.editing.targetCalendarUri = this.calendarUrlToUri(calendar.url)
 		},
 		async save() {
 			if (!this.enablePreparationDuration) {
