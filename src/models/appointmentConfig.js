@@ -126,7 +126,7 @@ export default class AppointmentConfig {
 		if (scheduleInbox && scheduleInbox.availability) {
 			const converted = vavailabilityToSlots(scheduleInbox.availability)
 			slots = converted.slots
-			timezoneId = slots.timezoneId
+			timezoneId = converted.timezoneId ?? timezoneId
 		} else {
 			// Set default availability to Mo-Fr 9-5
 			const tsAtTime = (hours, minutes) => Math.round((new Date()).setHours(hours, minutes, 0, 0) / 1000);
