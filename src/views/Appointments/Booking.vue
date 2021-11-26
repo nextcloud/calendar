@@ -20,7 +20,9 @@
   -->
 
 <template>
-	<div class="booking">
+	<div
+		v-if="!bookingConfirmed"
+		class="booking">
 		<div class="booking__config-user-info">
 			<Avatar
 				:user="userInfo.uid"
@@ -70,10 +72,10 @@
 				@save="onSave"
 				@close="selectedSlot = undefined" />
 		</div>
-		<AppointmentBookingConfirmation
-			v-if="bookingConfirmed"
-			@close="bookingConfirmed = false" />
 	</div>
+	<AppointmentBookingConfirmation
+		v-else
+		@close="bookingConfirmed = false" />
 </template>
 
 <script>
@@ -149,7 +151,6 @@ export default {
 			this.fetchSlots()
 		},
 		selectedSlot() {
-			this.bookingConfirmed = false
 			this.bookingError = false
 		},
 	},

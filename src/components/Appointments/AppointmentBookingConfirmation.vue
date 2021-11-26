@@ -21,34 +21,28 @@
   -->
 
 <template>
-	<Modal @close="$emit('close')">
-		<div class="appointment-booking-confirmation">
-			<EmptyContent>
-				<template #icon>
-					<CheckIcon decorative />
-				</template>
-				<template #desc>
-					{{ $t('calendar', 'Your appointment is booked, we sent you an email with details.') }}
-				</template>
-			</EmptyContent>
-			<div class="appointment-booking-confirmation__buttons">
-				<button @click="$emit('close')">
-					{{ $t('calendar', 'Close') }}
-				</button>
-			</div>
-		</div>
-	</Modal>
+	<div class="appointment-booking-confirmation">
+		<EmptyContent title="foobar">
+			<template #icon>
+				<CheckIcon decorative />
+			</template>
+			{{ $t('calendar', 'Your appointment is booked') }}
+			<template #desc>
+				<div class="appointment-booking-confirmation__desc">
+					{{ $t('calendar', 'We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now.') }}
+				</div>
+			</template>
+		</EmptyContent>
+	</div>
 </template>
 
 <script>
-import Modal from '@nextcloud/vue/dist/Components/Modal'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import CheckIcon from 'vue-material-design-icons/Check'
 
 export default {
 	name: 'AppointmentBookingConfirmation',
 	components: {
-		Modal,
 		EmptyContent,
 		CheckIcon,
 	},
@@ -57,20 +51,16 @@ export default {
 
 <style lang="scss" scoped>
 .appointment-booking-confirmation {
-	overflow: auto;
+	margin: 0 auto;
 	padding: 2vw;
-	max-width: 300px;
-	max-height: calc(80vh - 4vw);
-	box-sizing: border-box;
+	max-width: 500px;
 
 	.empty-content {
-		margin-top: 0 !important;
 		margin-bottom: 20px;
 	}
 
-	&__buttons {
-		display: flex;
-		justify-content: center;
+	&__desc {
+		text-align: center;
 	}
 }
 </style>
