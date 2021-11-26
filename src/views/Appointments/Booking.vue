@@ -52,12 +52,17 @@
 			<h3>{{ $t('calendar', 'Select slot') }}</h3>
 
 			<div class="booking__slots">
-				<AppointmentSlot v-for="slot in slots"
-					:key="slot.start"
-					:start="slot.start"
-					:end="slot.end"
-					:time-zone-id="timeZone"
-					@click="onSlotClicked(slot)" />
+				<div v-if="slots.length === 0 && !loadingSlots">
+					{{ $t('calendar', 'No slots available') }}
+				</div>
+				<template v-else>
+					<AppointmentSlot v-for="slot in slots"
+						:key="slot.start"
+						:start="slot.start"
+						:end="slot.end"
+						:time-zone-id="timeZone"
+						@click="onSlotClicked(slot)" />
+				</template>
 			</div>
 			<AppointmentDetails v-if="selectedSlot"
 				:key="selectedSlot.start"
