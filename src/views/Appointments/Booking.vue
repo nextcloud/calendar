@@ -66,6 +66,7 @@
 				:time-slot="selectedSlot"
 				:visitor-info="visitorInfo"
 				:time-zone-id="timeZone"
+				:show-error="bookingError"
 				@save="onSave"
 				@close="selectedSlot = undefined" />
 		</div>
@@ -139,6 +140,7 @@ export default {
 			slots: [],
 			selectedSlot: undefined,
 			bookingConfirmed: false,
+			bookingError: false,
 		}
 	},
 	watch: {
@@ -146,8 +148,9 @@ export default {
 			// TODO: fix the @nextcloud/vue component to emit @change
 			this.fetchSlots()
 		},
-		config() {
+		selectedSlot() {
 			this.bookingConfirmed = false
+			this.bookingError = false
 		},
 	},
 	async mounted() {
@@ -198,6 +201,7 @@ export default {
 				timeZone,
 			})
 
+			this.bookingError = false
 			try {
 				await bookSlot(this.config, slot, displayName, email, description, timeZone)
 
@@ -207,6 +211,7 @@ export default {
 				this.bookingConfirmed = true
 			} catch (e) {
 				console.error('could not book appointment', e)
+				this.bookingError = true
 			}
 		},
 		onSlotClicked(slot) {
