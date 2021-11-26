@@ -409,6 +409,20 @@ const getters = {
 			.sort((a, b) => a.order - b.order)
 	},
 
+	/**
+	 * List of sorted calendars owned by the principal
+	 *
+	 * @param {object} state the store data
+	 * @return {Array}
+	 */
+	ownSortedCalendars(state) {
+		return state.calendars
+			.filter(calendar => calendar.supportsEvents)
+			.filter(calendar => !calendar.readOnly)
+			.filter(calendar => !calendar.isSharedWithMe)
+			.sort((a, b) => a.order - b.order)
+	},
+
 	hasTrashBin(state) {
 		return state.trashBin !== undefined && state.trashBin.retentionDuration !== 0
 	},

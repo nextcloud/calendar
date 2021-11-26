@@ -53,7 +53,7 @@
 								<label>{{ t('calendar', 'Calendar') }}</label>
 								<CalendarPicker v-if="calendar !== undefined"
 									:calendar="calendar"
-									:calendars="sortedCalendars"
+									:calendars="ownSortedCalendars"
 									:show-calendar-on-select="false"
 									@select-calendar="changeCalendar" />
 							</div>
@@ -182,7 +182,7 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'sortedCalendars',
+			'ownSortedCalendars',
 		]),
 		formTitle() {
 			if (this.isNew) {
@@ -200,15 +200,15 @@ export default {
 		},
 		calendar() {
 			if (!this.editing.targetCalendarUri) {
-				return this.sortedCalendars[0]
+				return this.ownSortedCalendars[0]
 			}
 
 			const uri = this.editing.targetCalendarUri
-			return this.sortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
+			return this.ownSortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
 		},
 		defaultConfig() {
 			return AppointmentConfig.createDefault(
-				this.calendarUrlToUri(this.$store.getters.sortedCalendars[0].url),
+				this.calendarUrlToUri(this.$store.getters.ownSortedCalendars[0].url),
 				this.$store.getters.scheduleInbox,
 				this.$store.getters.getResolvedTimezone,
 			)

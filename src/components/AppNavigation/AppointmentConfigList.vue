@@ -94,13 +94,13 @@ export default {
 		}),
 		defaultConfig() {
 			return AppointmentConfig.createDefault(
-				this.calendarUrlToUri(this.$store.getters.sortedCalendars[0].url),
+				this.calendarUrlToUri(this.$store.getters.ownSortedCalendars[0].url),
 				this.$store.getters.scheduleInbox,
 				this.$store.getters.getResolvedTimezone,
 			)
 		},
 		hasAtLeastOneCalendar() {
-			return !!this.$store.getters.sortedCalendars[0]
+			return !!this.$store.getters.ownSortedCalendars[0]
 		},
 		hasUserEmailAddress() {
 			const principal = this.$store.getters.getCurrentUserPrincipal
