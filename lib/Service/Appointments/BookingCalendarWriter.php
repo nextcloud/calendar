@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\Calendar\Service\Appointments;
 
 use DateTimeImmutable;
+use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICreateFromString;
@@ -36,6 +37,7 @@ use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use RuntimeException;
 use Sabre\VObject\Component\VCalendar;
+use function abs;
 
 class BookingCalendarWriter {
 
@@ -59,6 +61,22 @@ class BookingCalendarWriter {
 		$this->manager = $manager;
 		$this->userManager = $userManager;
 		$this->random = $random;
+	}
+
+	private function secondsToIso8601Duration(int $secs): string {
+		$day = 24 * 60 * 60;
+		$hour = 60 * 60;
+		$minute = 60;
+		if ($secs % $day === 0) {
+			return 'PT' . $secs / $day . 'S';
+		}
+		if ($secs % $hour === 0) {
+			return 'PT' . $secs / $hour . 'H';
+		}
+		if ($secs % $minute === 0) {
+			return 'PT' . $secs / $minute . 'M';
+		}
+		return 'PT' . $secs . 'S';
 	}
 
 	/**
@@ -129,6 +147,19 @@ class BookingCalendarWriter {
 				'PARTSTAT' => 'ACCEPTED'
 			]
 		);
+
+		$defaultReminder = $this->config->getUserValue(
+			$config->getUserId(),
+			Application::APP_ID,
+			'defaultReminder',
+			'none'
+		);
+		if ($defaultReminder !== 'none') {
+			$alarm = $vcalendar->createComponent('VALARM');
+			$alarm->add($vcalendar->createProperty('TRIGGER', '-' . $this->secondsToIso8601Duration(abs((int) $defaultReminder)), ['RELATED' => 'START']));
+			$alarm->add($vcalendar->createProperty('ACTION', 'DISPLAY'));
+			$vcalendar->VEVENT->add($alarm);
+		}
 
 		$vcalendar->VEVENT->add('X-NC-APPOINTMENT', $config->getToken());
 
