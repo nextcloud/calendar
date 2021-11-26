@@ -54,8 +54,14 @@ export default {
 	data() {
 		return {
 			options: [
-				{ value: 'PUBLIC', label: this.t('calendar', 'Public') },
-				{ value: 'PRIVATE', label: this.t('calendar', 'Private') },
+				{
+					value: 'PUBLIC',
+					label: this.t('calendar', 'Public – shown on the profile page'),
+				},
+				{
+					value: 'PRIVATE',
+					label: this.t('calendar', 'Private – only accessible via secret link'),
+				},
 			],
 		}
 	},
