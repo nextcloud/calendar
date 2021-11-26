@@ -89,7 +89,7 @@ class BookingCalendarWriter {
 				'SUMMARY' => $config->getName(),
 				'STATUS' => 'CONFRIMED',
 				'DTSTART' => $start,
-				'DTEND' => $start->setTimestamp($start->getTimestamp() + ($config->getLength() * 60)) // *60 can be removed as soon as the switch to seconds as intervals etc is complete
+				'DTEND' => $start->setTimestamp($start->getTimestamp() + ($config->getLength()))
 			]
 		]);
 
