@@ -54,6 +54,11 @@
 							autocomplete="off" />
 					</div>
 				</div>
+				<div
+					v-if="showError"
+					class="booking-error">
+					{{ $t('calendar', 'Could not book the appointment. Please try again later or contact the organizer.') }}
+				</div>
 				<div class="buttons">
 					<button
 						class="button primary"
@@ -101,6 +106,10 @@ export default {
 		timeZoneId: {
 			required: true,
 			type: String,
+		},
+		showError: {
+			required: true,
+			type: Boolean,
 		},
 	},
 	data() {
@@ -156,12 +165,17 @@ export default {
 }
 
 .appointment-details {
+	max-width: 360px;
 	flex: 1 auto;
 	padding-left: 30px;
 
 	input {
 		width: 100%;
 	}
+}
+
+.booking-error {
+	color: var(--color-error);
 }
 
 .buttons {
