@@ -105,7 +105,7 @@ class BookingCalendarWriter {
 			'VERSION' => '2.0',
 			'VEVENT' => [
 				'SUMMARY' => $config->getName(),
-				'STATUS' => 'CONFRIMED',
+				'STATUS' => 'CONFIRMED',
 				'DTSTART' => $start,
 				'DTEND' => $start->setTimestamp($start->getTimestamp() + ($config->getLength()))
 			]
