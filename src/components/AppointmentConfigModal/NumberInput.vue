@@ -27,7 +27,7 @@
 			:id="id"
 			type="number"
 			min="0"
-			:value="value"
+			:value="realValue"
 			@input="change">
 	</div>
 </template>
@@ -44,7 +44,11 @@ export default {
 		},
 		value: {
 			type: Number,
-			default: 0,
+			default: undefined,
+		},
+		allowEmpty: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	data() {
@@ -52,9 +56,18 @@ export default {
 			id: randomId(),
 		}
 	},
+	computed: {
+		realValue() {
+			if (this.allowEmpty) {
+				return this.value
+			}
+
+			return this.value ?? 0
+		},
+	},
 	methods: {
 		change(e) {
-			this.$emit('update:value', e.target.value)
+			this.$emit('update:value', parseInt(e.target.value))
 		},
 	},
 }

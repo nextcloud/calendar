@@ -115,7 +115,8 @@
 								:max="7*24*60*60" />
 							<NumberInput
 								:label="t('calendar','Max slots per day')"
-								:value.sync="editing.dailyMax" />
+								:value.sync="editing.dailyMax"
+								:allow-empty="true" />
 						</div>
 					</fieldset>
 				</div>
