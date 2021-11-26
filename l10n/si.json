@@ -26,18 +26,18 @@
     "Filename" : "ගොනු නාමය",
     "Cancel" : "අවලංගු කරන්න",
     "Actions" : "ක්‍රියාමාර්ග",
+    "Location" : "ස්ථානය",
+    "Description" : "විස්තරය",
+    "Monday" : "සඳුදා",
+    "Save" : "සුරකින්න",
+    "Update" : "යාවත්කාල",
+    "Close" : "වසන්න",
     "Email" : "විද්‍යුත් තැපෑල",
     "Busy" : "කාර්යබහුලයි",
     "Unknown" : "නොදන්නා",
-    "Save" : "සුරකින්න",
-    "Monday" : "සඳුදා",
     "More" : "තව",
-    "Update" : "යාවත්කාල",
     "Personal" : "පුද්ගලික",
     "Details" : "විස්තර",
-    "Close" : "වසන්න",
-    "Anniversary" : "සංවත්සරය",
-    "Location" : "ස්ථානය",
-    "Description" : "විස්තරය"
+    "Anniversary" : "සංවත්සරය"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
