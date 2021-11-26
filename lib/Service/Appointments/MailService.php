@@ -140,7 +140,6 @@ class MailService {
 			}
 		} catch (Exception $ex) {
 			$this->logger->error($ex->getMessage(), ['exception' => $ex]);
-			throw new ServiceException('Could not send mail: ' . $ex->getMessage(), $ex->getCode(), $ex);
 		}
 	}
 
