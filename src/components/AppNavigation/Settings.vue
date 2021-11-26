@@ -102,6 +102,15 @@
 				</template>
 				{{ $t('calendar', 'Copy iOS/macOS CalDAV address') }}
 			</ActionButton>
+			<ActionLink
+				v-if="hasAppointmentsFeature"
+				:href="availabilitySettingsUrl"
+				target="_blank">
+				<template #icon>
+					<OpenInNewIcon :size="20" decorative />
+				</template>
+				{{ $t('calendar', 'Personal availability settings') }}
+			</ActionLink>
 			<ActionButton
 				v-shortkey.propagate="['h']"
 				@click.prevent.stop="showKeyboardShortcuts"
@@ -119,10 +128,12 @@
 <script>
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
+import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import AppNavigationSettings from '@nextcloud/vue/dist/Components/AppNavigationSettings'
 import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
 import {
 	generateRemoteUrl,
+	generateUrl,
 } from '@nextcloud/router'
 import {
 	mapGetters,
@@ -149,6 +160,7 @@ import { getDefaultAlarms } from '../../defaults/defaultAlarmProvider.js'
 
 import ClipboardArrowLeftOutline from 'vue-material-design-icons/ClipboardArrowLeftOutline.vue'
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
+import OpenInNewIcon from 'vue-material-design-icons/OpenInNew'
 
 export default {
 	name: 'Settings',
@@ -156,12 +168,14 @@ export default {
 		ShortcutOverview,
 		ActionButton,
 		ActionCheckbox,
+		ActionLink,
 		AppNavigationSettings,
 		Multiselect,
 		SettingsImportSection,
 		SettingsTimezoneSelect,
 		ClipboardArrowLeftOutline,
 		InformationVariant,
+		OpenInNewIcon,
 	},
 	props: {
 		loadingCalendars: {
@@ -254,6 +268,13 @@ export default {
 		},
 		selectedDefaultReminderOption() {
 			return this.defaultReminderOptions.find(o => o.value === this.defaultReminder)
+		},
+		hasAppointmentsFeature() {
+			// TODO: Remove me when Calendar doesn't support server < 23
+			return parseInt(OC.config.version.split('.')[0]) >= 23
+		},
+		availabilitySettingsUrl() {
+			return generateUrl('/settings/user/groupware')
 		},
 	},
 	methods: {
