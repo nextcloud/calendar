@@ -29,6 +29,11 @@
 				<CalendarCheckIcon :size="20" decorative />
 			</template>
 			<template #actions>
+				<ActionLink :href="config.bookingUrl"
+					target="_blank">
+					<OpenInNewIcon slot="icon" :size="20" decorative />
+					{{ t('calendar', 'Preview') }}
+				</ActionLink>
 				<ActionButton
 					:close-after-click="true"
 					@click="copyLink">
@@ -60,7 +65,9 @@
 <script>
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck'
+import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil'
 import TrashCanIcon from 'vue-material-design-icons/TrashCan'
 import AppointmentConfig from '../../../models/appointmentConfig'
@@ -73,6 +80,8 @@ export default {
 		AppointmentConfigModal,
 		AppNavigationItem,
 		ActionButton,
+		ActionLink,
+		OpenInNewIcon,
 		PencilIcon,
 		TrashCanIcon,
 		CalendarCheckIcon,
