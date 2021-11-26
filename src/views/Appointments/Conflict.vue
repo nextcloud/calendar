@@ -1,7 +1,7 @@
 <template>
 	<div class="update">
 		<div v-if="confirmed" class="confirmed">
-			{{ $t('calendar', 'Thank you, your booking from {startDate} to {endDate} has been confirmed.', {startDate:startDate, endDate:endDate}) }}
+			{{ $t('calendar', 'Thank you. Your booking from {startDate} to {endDate} has been confirmed.', {startDate:startDate, endDate:endDate}) }}
 			<br>
 			<br>
 			{{ $t('calendar', 'Book another appointment:') }}
