@@ -20,7 +20,6 @@ OC.L10N.register(
     "Monday" : "সোমবার",
     "Save" : "সংরক্ষণ",
     "Update" : "পরিবর্ধন",
-    "Close" : "বন্ধ",
     "Email" : "ইমেইল",
     "Unknown" : "অজানা",
     "Repeat" : "পূনঃসংঘটন",
@@ -29,6 +28,7 @@ OC.L10N.register(
     "Personal" : "ব্যক্তিগত",
     "Details" : "বিসতারিত",
     "Attendees" : "অংশগ্রহণকারীবৃন্দ",
+    "Close" : "বন্ধ",
     "Daily" : "দৈনিক",
     "Weekly" : "সাপ্তাহিক",
     "Mail" : "মেইল"

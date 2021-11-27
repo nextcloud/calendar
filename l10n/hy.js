@@ -18,7 +18,6 @@ OC.L10N.register(
     "Monday" : "Երկուշաբթի",
     "Save" : "Պահպանել",
     "Update" : "Թարմացնել",
-    "Close" : "Փակել",
     "Email" : "Էլ․փոստ",
     "Unknown" : "Անհայտ",
     "Repeat" : "Կրկնել",
@@ -29,6 +28,7 @@ OC.L10N.register(
     "Personal" : "Անձնական",
     "Details" : "Մանրամասներ",
     "Attendees" : "Մասնակիցներ",
+    "Close" : "Փակել",
     "Confirmed" : "Հաստատված",
     "Mail" : "Փոստ"
 },

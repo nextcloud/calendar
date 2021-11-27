@@ -20,7 +20,6 @@ OC.L10N.register(
     "Monday" : "Bazar ertəsi",
     "Save" : "Saxla",
     "Update" : "Yenilənmə",
-    "Close" : "Bağla",
     "Email" : "Email",
     "Repeat" : "Təkrar",
     "never" : "heç vaxt",
@@ -28,6 +27,7 @@ OC.L10N.register(
     "Personal" : "Şəxsi",
     "Details" : "Detallar",
     "Attendees" : "İştirakçılar",
+    "Close" : "Bağla",
     "Daily" : "Günlük",
     "Weekly" : "Həftəlik",
     "Mail" : "Məktub"

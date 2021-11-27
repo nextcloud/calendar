@@ -33,13 +33,13 @@ OC.L10N.register(
     "Monday" : "සඳුදා",
     "Save" : "සුරකින්න",
     "Update" : "යාවත්කාල",
-    "Close" : "වසන්න",
     "Email" : "විද්‍යුත් තැපෑල",
     "Busy" : "කාර්යබහුලයි",
     "Unknown" : "නොදන්නා",
     "More" : "තව",
     "Personal" : "පුද්ගලික",
     "Details" : "විස්තර",
+    "Close" : "වසන්න",
     "Anniversary" : "සංවත්සරය"
 },
 "nplurals=2; plural=(n != 1);");
