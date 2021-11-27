@@ -105,7 +105,7 @@ class MailService {
 		$template->addHeader();
 
 		//Subject
-		$subject = $this->l10n->t('Your Appointment "%s" needs confirmation', [$config->getName()]);
+		$subject = $this->l10n->t('Your appointment "%s" needs confirmation', [$config->getName()]);
 		$template->setSubject($subject);
 
 		// Heading
