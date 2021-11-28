@@ -14,7 +14,6 @@ OC.L10N.register(
     "Appointments" : "Hitzorduak",
     "Schedule appointment \"%s\"" : "Antolatu \"%s\" hitzordua",
     "Schedule an appointment" : "Antolatu hitzordu bat",
-    "Your Appointment \"%s\" needs confirmation" : "Zure \"%s\" hitzorduak berrespena behar du",
     "Confirm" : "Berretsi",
     "Appointment:" : "Hitzordua:",
     "Date:" : "Data:",

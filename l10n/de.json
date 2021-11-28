@@ -12,7 +12,6 @@
     "Appointments" : "Termine",
     "Schedule appointment \"%s\"" : "Termin planen \"%s\"",
     "Schedule an appointment" : "Vereinbare einen Termin",
-    "Your Appointment \"%s\" needs confirmation" : "Dein Termin \"%s\" benötigt eine Bestätigung",
     "Dear %s, please confirm your booking" : "Hallo%s, bitte bestätige die Terminbuchung",
     "Confirm" : "Bestätigen",
     "This confirmation link expires in %s hours." : "Dieser Bestätigungslink läuft in %s Stunden ab.",
