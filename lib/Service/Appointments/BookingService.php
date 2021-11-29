@@ -40,6 +40,8 @@ use OCP\DB\Exception;
 use OCP\DB\Exception as DbException;
 use OCP\IUser;
 use OCP\Security\ISecureRandom;
+use Psr\Log\LoggerInterface;
+use function count;
 
 class BookingService {
 
@@ -70,6 +72,9 @@ class BookingService {
 	/** @var MailService */
 	private $mailService;
 
+	/** @var LoggerInterface */
+	private $logger;
+
 	public function __construct(AvailabilityGenerator $availabilityGenerator,
 								SlotExtrapolator $extrapolator,
 								DailyLimitFilter $dailyLimitFilter,
@@ -77,7 +82,8 @@ class BookingService {
 								BookingMapper $bookingMapper,
 								BookingCalendarWriter $calendarWriter,
 								ISecureRandom $random,
-								MailService $mailService) {
+								MailService $mailService,
+								LoggerInterface $logger) {
 		$this->availabilityGenerator = $availabilityGenerator;
 		$this->extrapolator = $extrapolator;
 		$this->dailyLimitFilter = $dailyLimitFilter;
@@ -86,6 +92,7 @@ class BookingService {
 		$this->bookingMapper = $bookingMapper;
 		$this->random = $random;
 		$this->mailService = $mailService;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -163,7 +170,16 @@ class BookingService {
 		// 3. Filter out the daily limits
 		$filteredByDailyLimit = $this->dailyLimitFilter->filter($config, $allPossibleSlots);
 		// 4. Filter out booking conflicts
-		return $this->eventConflictFilter->filter($config, $filteredByDailyLimit);
+		$available = $this->eventConflictFilter->filter($config, $filteredByDailyLimit);
+
+		$this->logger->debug('Appointment config ' . $config->getToken() . ' has {availabilityIntervals} intervals that result in {allPossibleSlots} possible slots. {filteredByDailyLimit} slots remain after the daily limit. {available} available slots remain after conflict checking.', [
+			'availabilityIntervals' => count($availabilityIntervals),
+			'allPossibleSlots' => count($allPossibleSlots),
+			'filteredByDailyLimit' => count($filteredByDailyLimit),
+			'available' => count($available),
+		]);
+
+		return $available;
 	}
 
 	/**

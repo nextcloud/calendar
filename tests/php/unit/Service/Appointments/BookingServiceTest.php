@@ -45,6 +45,7 @@ use OCP\Calendar\ICalendarQuery;
 use OCP\IUser;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Safe\DateTimeImmutable;
 
 class BookingServiceTest extends TestCase {
@@ -73,6 +74,9 @@ class BookingServiceTest extends TestCase {
 	/** @var MailService|MockObject */
 	private $mailService;
 
+	/** @var MockObject|LoggerInterface */
+	private $logger;
+
 	/** @var BookingService */
 	private $service;
 
@@ -91,6 +95,7 @@ class BookingServiceTest extends TestCase {
 		$this->bookingCalendarWriter = $this->createMock(BookingCalendarWriter::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->mailService = $this->createMock(MailService::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->service = new BookingService(
 			$this->availabilityGenerator,
 			$this->extrapolator,
@@ -99,7 +104,8 @@ class BookingServiceTest extends TestCase {
 			$this->bookingMapper,
 			$this->bookingCalendarWriter,
 			$this->random,
-			$this->mailService
+			$this->mailService,
+			$this->logger,
 		);
 	}
 
