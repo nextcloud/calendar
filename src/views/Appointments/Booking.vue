@@ -36,6 +36,7 @@
 			<h2 class="booking__name">
 				{{ config.name }}
 			</h2>
+			<!-- Description needs to stay inline due to its whitespace -->
 			<span class="booking__description">{{ config.description }}</span>
 		</div>
 		<div class="booking__date-selection">
@@ -238,6 +239,10 @@ export default {
 	&__date-selection {
 		display: flex;
 		flex-direction: column;
+	}
+
+	&__description {
+		white-space: break-spaces;
 	}
 
 	&__config-user-info,
