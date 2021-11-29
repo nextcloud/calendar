@@ -33,6 +33,7 @@ use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IManager;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use RuntimeException;
@@ -52,15 +53,19 @@ class BookingCalendarWriter {
 
 	/** @var ISecureRandom */
 	private $random;
+	/** @var IL10N */
+	private $l10n;
 
 	public function __construct(IConfig $config,
 								IManager $manager,
 								IUserManager $userManager,
-								ISecureRandom $random) {
+								ISecureRandom $random,
+								IL10N $l10n) {
 		$this->config = $config;
 		$this->manager = $manager;
 		$this->userManager = $userManager;
 		$this->random = $random;
+		$this->l10n = $l10n;
 	}
 
 	private function secondsToIso8601Duration(int $secs): string {
@@ -168,7 +173,54 @@ class BookingCalendarWriter {
 		try {
 			$calendar->createFromString($filename . '.ics', $vcalendar->serialize());
 		} catch (CalendarException $e) {
-			throw new RuntimeException('Could not write to calendar', 0, $e);
+			throw new RuntimeException('Could not write event  for appointment config id ' . $config->getId(). ' to calendar: ' . $e->getMessage(), 0, $e);
+		}
+
+		if ($config->getPreparationDuration() !== 0) {
+			$string = $this->l10n->t('Prepare for %s', [$config->getName()]);
+			$prepStart = $start->setTimestamp($start->getTimestamp() - $config->getPreparationDuration());
+			$prepCalendar = new VCalendar([
+				'CALSCALE' => 'GREGORIAN',
+				'VERSION' => '2.0',
+				'VEVENT' => [
+					'SUMMARY' => $string,
+					'STATUS' => 'CONFIRMED',
+					'DTSTART' => $prepStart,
+					'DTEND' => $start
+				]
+			]);
+
+			$prepFileName = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
+
+			try {
+				$calendar->createFromString($prepFileName . '.ics', $prepCalendar->serialize());
+			} catch (CalendarException $e) {
+				throw new RuntimeException('Could not write event  for appointment config id ' . $config->getId(). ' to calendar: ' . $e->getMessage(), 0, $e);
+			}
+		}
+
+		if ($config->getFollowupDuration() !== 0) {
+			$string = $this->l10n->t('Follow up for %s', [$config->getName()]);
+			$followupStart = $start->setTimestamp($start->getTimestamp() + $config->getLength());
+			$followUpEnd = $followupStart->setTimestamp($followupStart->getTimestamp() + $config->getFollowupDuration());
+			$followUpCalendar = new VCalendar([
+				'CALSCALE' => 'GREGORIAN',
+				'VERSION' => '2.0',
+				'VEVENT' => [
+					'SUMMARY' => $string,
+					'STATUS' => 'CONFIRMED',
+					'DTSTART' => $followupStart,
+					'DTEND' => $followUpEnd
+				]
+			]);
+
+			$followUpFilename = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
+
+			try {
+				$calendar->createFromString($followUpFilename . '.ics', $followUpCalendar->serialize());
+			} catch (CalendarException $e) {
+				throw new RuntimeException('Could not write event  for appointment config id ' . $config->getId(). ' to calendar: ' . $e->getMessage(), 0, $e);
+			}
 		}
 	}
 }
