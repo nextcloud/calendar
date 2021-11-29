@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.0 – 2021-11-29
+### Added
+- Appointments - configure your appointment configuration, send out the link or show it on your profile, and let other people book an appointment with you
+### Fixed
+- Empty calendar widget on dashboard
+
 ## 2.4.0 – 2021-11-25
 ### Added
 - Advanced Search for Rooms and Resources
