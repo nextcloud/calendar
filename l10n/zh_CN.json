@@ -12,6 +12,7 @@
     "Appointments" : "预约",
     "Schedule appointment \"%s\"" : "安排预约\"%s\"",
     "Schedule an appointment" : "安排预约",
+    "Your appointment \"%s\" needs confirmation" : "你的预约 \"%s\" 需要确认",
     "Dear %s, please confirm your booking" : "亲爱的 %s，请确认你的登记",
     "Confirm" : "确认",
     "This confirmation link expires in %s hours." : "确认链接将在 %s 小时内过期",

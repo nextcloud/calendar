@@ -14,6 +14,7 @@ OC.L10N.register(
     "Appointments" : "預約",
     "Schedule appointment \"%s\"" : "安排預約 \"%s\"",
     "Schedule an appointment" : "安排約會",
+    "Your appointment \"%s\" needs confirmation" : "你的預約 \"%s\" 需要確認",
     "Dear %s, please confirm your booking" : "%s，請確認您的預約",
     "Confirm" : "確認",
     "This confirmation link expires in %s hours." : "此確認鏈接將在 %s 小時後過期。",

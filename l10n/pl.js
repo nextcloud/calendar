@@ -14,6 +14,7 @@ OC.L10N.register(
     "Appointments" : "Spotkania",
     "Schedule appointment \"%s\"" : "Umówione spotkanie \"%s\"",
     "Schedule an appointment" : "Umów się na spotkanie",
+    "Your appointment \"%s\" needs confirmation" : "Twoje spotkanie \"%s\" wymaga potwierdzenia",
     "Dear %s, please confirm your booking" : "Drogi %s, proszę o potwierdzenie rezerwacji",
     "Confirm" : "Potwierdź",
     "This confirmation link expires in %s hours." : "Ten link potwierdzający wygaśnie za %s godzin.",
