@@ -35,6 +35,7 @@
 					{{ t('calendar', 'Preview') }}
 				</ActionLink>
 				<ActionButton
+					v-if="hasClipboard"
 					:close-after-click="true"
 					@click="copyLink">
 					<LinkVariantIcon slot="icon" :size="20" decorative />
@@ -73,6 +74,8 @@ import PencilIcon from 'vue-material-design-icons/Pencil'
 import AppointmentConfig from '../../../models/appointmentConfig'
 import AppointmentConfigModal from '../../AppointmentConfigModal'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant'
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import logger from '../../../utils/logger'
 
 export default {
 	name: 'AppointmentConfigListItem',
@@ -99,16 +102,23 @@ export default {
 			loading: false,
 		}
 	},
+	computed: {
+		hasClipboard() {
+			return navigator && navigator.clipboard
+		},
+	},
 	methods: {
 		closeModal() {
 			this.showModal = false
 		},
-		copyLink() {
-			if (!navigator || !navigator.clipboard) {
-				return
+		async copyLink() {
+			try {
+				await navigator.clipboard.writeText(this.config.bookingUrl)
+				showSuccess(this.$t('calendar', 'Appointment link was copied to clipboard'))
+			} catch (error) {
+				logger.error('Failed to copy appointment link to clipboard', { error })
+				showError(this.$t('calendar', 'Appointment link could not be copied to clipboard'))
 			}
-
-			navigator.clipboard.writeText(this.config.bookingUrl)
 		},
 	},
 }
