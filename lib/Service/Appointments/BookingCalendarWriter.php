@@ -190,10 +190,6 @@ class BookingCalendarWriter {
 				]
 			]);
 
-			$prepCalendar->VEVENT->add('RELATED-TO', $vcalendar->VEVENT->{'UID'});
-			$prepCalendar->VEVENT->add('RELTYPE', 'PARENT');
-			$prepCalendar->VEVENT->add('X-NC-PRE-APPOINTMENT', $config->getToken());
-
 			$prepFileName = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
 
 			try {
@@ -217,10 +213,6 @@ class BookingCalendarWriter {
 					'DTEND' => $followUpEnd
 				]
 			]);
-
-			$followUpCalendar->VEVENT->add('RELATED-TO', $vcalendar->VEVENT->{'UID'});
-			$followUpCalendar->VEVENT->add('RELTYPE', 'PARENT');
-			$followUpCalendar->VEVENT->add('X-NC-POST-APPOINTMENT', $config->getToken());
 
 			$followUpFilename = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
 
