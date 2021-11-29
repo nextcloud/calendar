@@ -49,7 +49,7 @@
 				<ActionButton
 					:close-after-click="true"
 					@click="$emit('delete', $event)">
-					<TrashCanIcon slot="icon" :size="20" decorative />
+					<DeleteIcon slot="icon" :size="20" decorative />
 					{{ t('calendar', 'Delete') }}
 				</ActionButton>
 			</template>
@@ -67,9 +67,9 @@ import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck'
+import DeleteIcon from 'vue-material-design-icons/Delete'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil'
-import TrashCanIcon from 'vue-material-design-icons/TrashCan'
 import AppointmentConfig from '../../../models/appointmentConfig'
 import AppointmentConfigModal from '../../AppointmentConfigModal'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant'
@@ -81,9 +81,9 @@ export default {
 		AppNavigationItem,
 		ActionButton,
 		ActionLink,
+		DeleteIcon,
 		OpenInNewIcon,
 		PencilIcon,
-		TrashCanIcon,
 		CalendarCheckIcon,
 		LinkVariantIcon,
 	},
