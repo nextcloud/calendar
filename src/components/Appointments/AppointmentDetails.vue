@@ -19,9 +19,8 @@
 				<div class="booking__time">
 					{{ startTime }} - {{ endTime }}
 				</div>
-				<div class="booking__description">
-					{{ config.description }}
-				</div>
+				<!-- Description needs to stay inline due to its whitespace -->
+				<span class="booking__description">{{ config.description }}</span>
 			</div>
 			<div class="appointment-details">
 				<div>
@@ -176,6 +175,10 @@ export default {
 
 .booking-error {
 	color: var(--color-error);
+}
+
+.booking__description {
+	white-space: break-spaces;
 }
 
 .buttons {
