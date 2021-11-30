@@ -230,8 +230,8 @@ export default {
 
 <style lang="scss" scoped>
 .booking {
-	margin: auto;
-	padding-top: 80px;
+	margin: 0 auto;
+	padding-top: 50px;
 	display: flex;
 	flex-direction: row;
 	max-width: 800px;
