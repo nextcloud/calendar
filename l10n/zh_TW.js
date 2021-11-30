@@ -336,6 +336,10 @@ OC.L10N.register(
     "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "感謝您。已確認您從 {startDate} 到 {endDate} 的預約。",
     "Book another appointment:" : "設定其他預約：",
     "See all available slots" : "檢視其他可用的時段",
+    "The slot for your appointment from {startDate} to {endDate} is not available any more." : "您從 {startDate} 至 {endDate} 的預約時段不再可用。",
+    "Please book a different slot:" : "請選擇其他時段：",
+    "Book an appointment with {name}" : "登記與 {name} 的預約",
+    "No public appointments found for {name}" : "找不到 {name} 的公開預約",
     "Personal" : "私人",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "自動時區偵測認為您的時間是 UTC。\n這很可能視您的網路瀏覽器安全措施的結果。\n請在行事曆設定中手動設定您的時間。",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "找不到您設定的時間 ({timezoneId})。正在汰退至 UTC。\n請在設定中變更您的時區並回報此問題。",
@@ -529,6 +533,8 @@ OC.L10N.register(
     "Wine tasting" : "品酒",
     "Golf" : "高爾夫球",
     "Dinner" : "晚餐",
-    "Lunch" : "午餐"
+    "Lunch" : "午餐",
+    "Appointment not found" : "找不到預約",
+    "User not found" : "找不到使用者"
 },
 "nplurals=1; plural=0;");
