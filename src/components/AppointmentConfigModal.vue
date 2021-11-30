@@ -122,7 +122,7 @@
 				</div>
 				<button
 					class="primary appointment-config-modal__submit-button"
-					:disabled="!editing.name"
+					:disabled="!editing.name || editing.length === 0"
 					@click="save">
 					{{ saveButtonText }}
 				</button>
