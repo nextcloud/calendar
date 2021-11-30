@@ -113,14 +113,14 @@ class AppointmentsAction implements ILinkAction {
 		if (count($this->configs) === 1) {
 			return $this->urlGenerator->linkToRouteAbsolute(
 				'calendar.appointment.show',
-				['token' => $this->configs[0]->getToken()],
+				['token' => $this->configs[0]->getToken()]
 			);
 		}
 
 		// Link to the overview page
 		return $this->urlGenerator->linkToRouteAbsolute(
 			'calendar.appointment.index',
-			['userId' => $this->targetUser->getUID()],
+			['userId' => $this->targetUser->getUID()]
 		);
 	}
 }
