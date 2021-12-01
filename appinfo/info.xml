@@ -28,11 +28,9 @@
 	<website>https://github.com/nextcloud/calendar/</website>
 	<bugs>https://github.com/nextcloud/calendar/issues</bugs>
 	<repository type="git">https://github.com/nextcloud/calendar.git</repository>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/view_week.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/public_sharing.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar_attendees.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar_reminders.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/week_new_event.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/week_room_suggestion.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/week_sidebar.png</screenshot>
 	<dependencies>
 		<nextcloud min-version="20" max-version="24" />
 	</dependencies>
