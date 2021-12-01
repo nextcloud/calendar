@@ -50,7 +50,7 @@ export default class AppointmentConfig {
 	/** @member {string} */
 	targetCalendarUri
 
-	/** @member {Object} */
+	/** @member {object} */
 	availability
 
 	/** @member {number} */
@@ -72,7 +72,7 @@ export default class AppointmentConfig {
 	dailyMax
 
 	/** @member {?string[]} */
-	freebusyUris
+	calendarFreeBusyUris
 
 	/**
 	 * Create a new AppointmentConfig from the given plain object data
@@ -85,14 +85,14 @@ export default class AppointmentConfig {
 	 * @param {string} data.location Location
 	 * @param {string} data.visibility Visibility
 	 * @param {string} data.targetCalendarUri Target calendar URI
-	 * @param {Object} data.availability Availability
+	 * @param {object} data.availability Availability
 	 * @param {number} data.length Length in seconds
 	 * @param {number} data.increment Increment in seconds
 	 * @param {number} data.preparationDuration Preparation duration in seconds
 	 * @param {number} data.followupDuration Followup duration in seconds
 	 * @param {number} data.timeBeforeNextSlot Time before next slot in seconds
 	 * @param {?number} data.dailyMax Max daily slots
-	 * @param {?string[]} data.freebusyUris FreeBusy URIs
+	 * @param {?string[]} data.calendarFreeBusyUris URIs of calendars to check for conflicts
 	 */
 	constructor(data) {
 		data ??= {}
@@ -110,7 +110,7 @@ export default class AppointmentConfig {
 		this.followupDuration = tryParseInt(data.followupDuration)
 		this.timeBeforeNextSlot = tryParseInt(data.timeBeforeNextSlot)
 		this.dailyMax = tryParseInt(data.dailyMax)
-		this.freebusyUris = data.freebusyUris
+		this.calendarFreeBusyUris = data.calendarFreeBusyUris
 	}
 
 	/**
@@ -151,7 +151,7 @@ export default class AppointmentConfig {
 			preparationDuration: 0,
 			followupDuration: 0,
 			timeBeforeNextSlot: 0,
-			freebusyUris: [],
+			calendarFreeBusyUris: [],
 		})
 
 	}

@@ -142,7 +142,7 @@ class AppointmentConfigController extends Controller {
 	 * @param int $followupDuration
 	 * @param int $timeBeforeNextSlot
 	 * @param int|null $dailyMax
-	 * @param string[]|null $freebusyUris
+	 * @param string[]|null $calendarFreeBusyUris
 	 * @param int|null $start
 	 * @param int|null $end
 	 * @return JsonResponse
@@ -160,7 +160,7 @@ class AppointmentConfigController extends Controller {
 		int $followupDuration = 0,
 		int $timeBeforeNextSlot = 0,
 		?int $dailyMax = null,
-		?array $freebusyUris = null,
+		?array $calendarFreeBusyUris = null,
 		?int $start = null,
 		?int $end = null): JsonResponse {
 		if ($this->userId === null) {
@@ -187,7 +187,7 @@ class AppointmentConfigController extends Controller {
 				$followupDuration,
 				$timeBeforeNextSlot,
 				$dailyMax,
-				$freebusyUris,
+				$calendarFreeBusyUris,
 				$start,
 				$end
 			);
@@ -233,7 +233,7 @@ class AppointmentConfigController extends Controller {
 		int $followupDuration = 0,
 		int $timeBeforeNextSlot = 0,
 		?int $dailyMax = null,
-		?array $freebusyUris = null,
+		?array $calendarFreeBusyUris = null,
 		?int $start = null,
 		?int $end = null): JsonResponse {
 		if ($this->userId === null) {
@@ -265,7 +265,7 @@ class AppointmentConfigController extends Controller {
 		$appointmentConfig->setFollowupDuration($followupDuration);
 		$appointmentConfig->setTimeBeforeNextSlot($timeBeforeNextSlot);
 		$appointmentConfig->setDailyMax($dailyMax);
-		$appointmentConfig->setCalendarFreeBusyUrisAsArray($freebusyUris ?? []);
+		$appointmentConfig->setCalendarFreeBusyUrisAsArray($calendarFreeBusyUris ?? []);
 		$appointmentConfig->setStart($start);
 		$appointmentConfig->setEnd($end);
 
