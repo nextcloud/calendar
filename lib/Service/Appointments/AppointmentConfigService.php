@@ -155,7 +155,7 @@ class AppointmentConfigService {
 	 * @param int $followupDuration
 	 * @param int $buffer
 	 * @param int|null $dailyMax
-	 * @param string[] $freebusyUris
+	 * @param string[] $calendarFreeBusyUris
 	 * @param int|null $start
 	 * @param int|null $end
 	 * @return AppointmentConfig
@@ -174,7 +174,7 @@ class AppointmentConfigService {
 						   int $followupDuration,
 						   int $buffer,
 						   ?int $dailyMax,
-						   ?array $freebusyUris = [],
+						   ?array $calendarFreeBusyUris = [],
 						   ?int $start = null,
 						   ?int $end = null): AppointmentConfig {
 		try {
@@ -193,7 +193,7 @@ class AppointmentConfigService {
 			$appointmentConfig->setFollowupDuration($followupDuration);
 			$appointmentConfig->setTimeBeforeNextSlot($buffer);
 			$appointmentConfig->setDailyMax($dailyMax);
-			$appointmentConfig->setCalendarFreeBusyUrisAsArray($freebusyUris);
+			$appointmentConfig->setCalendarFreeBusyUrisAsArray($calendarFreeBusyUris);
 			$appointmentConfig->setStart($start);
 			$appointmentConfig->setEnd($end);
 

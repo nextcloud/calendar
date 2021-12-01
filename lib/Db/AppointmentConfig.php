@@ -186,7 +186,7 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 			'visibility' => $this->getVisibility(),
 			'userId' => $this->getUserId(),
 			'targetCalendarUri' => $this->getTargetCalendarUri(),
-			'calendarFreeBusyUris' => $this->getCalendarFreebusyUris(),
+			'calendarFreeBusyUris' => $this->getCalendarFreebusyUrisAsArray(),
 			'availability' => $this->getAvailability() === null ? null : json_decode($this->getAvailability(), true),
 			'start' => $this->getStart(),
 			'end' => $this->getEnd(),
