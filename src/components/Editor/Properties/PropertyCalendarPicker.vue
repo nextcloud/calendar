@@ -27,7 +27,7 @@
 			:class="{ 'property-select__input--readonly-calendar-picker': isReadOnly }">
 			<CalendarPicker
 				v-if="!isReadOnly"
-				:calendar="calendar"
+				:value="calendar"
 				:calendars="calendars"
 				:show-calendar-on-select="true"
 				@select-calendar="selectCalendar" />

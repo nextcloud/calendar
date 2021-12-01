@@ -57,6 +57,12 @@
 					flex: 1 200px;
 				}
 			}
+
+			// Rows that don't have their own vue components
+			&--local {
+				display: flex;
+				flex-direction: column;
+			}
 		}
 
 		&__row + &__row {
