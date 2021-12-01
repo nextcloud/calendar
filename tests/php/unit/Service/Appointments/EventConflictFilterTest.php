@@ -32,6 +32,7 @@ use OCA\Calendar\Service\Appointments\Interval;
 use OCP\Calendar\ICalendarQuery;
 use OCP\Calendar\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class EventConflictFilterTest extends TestCase {
 
@@ -41,6 +42,9 @@ class EventConflictFilterTest extends TestCase {
 	/** @var EventConflictFilter */
 	private $filter;
 
+	/** @var mixed|MockObject|LoggerInterface */
+	private $logger;
+
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -49,9 +53,11 @@ class EventConflictFilterTest extends TestCase {
 		}
 
 		$this->calendarManager = $this->createMock(IManager::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->filter = new EventConflictFilter(
 			$this->calendarManager,
+			$this->logger
 		);
 	}
 
@@ -89,7 +95,7 @@ class EventConflictFilterTest extends TestCase {
 			->method('searchForPrincipal')
 			->with($query)
 			->willReturn([
-				['UID' => 'abc'],
+				['uid' => 'abc'],
 			]);
 
 		$filtered = $this->filter->filter($config, $slots);
