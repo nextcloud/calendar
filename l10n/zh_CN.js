@@ -158,7 +158,6 @@ OC.L10N.register(
     "CalDAV link could not be copied to clipboard." : "CalDAV链接无法复制到剪贴板。",
     "Appointment was created successfully" : "成功创建预约",
     "Appointment was updated successfully" : "成功更新预约",
-    "minutes" : "分钟",
     "0 minutes" : "0 分钟",
     "5 minutes" : "5 分钟",
     "10 minutes" : "10 分钟",

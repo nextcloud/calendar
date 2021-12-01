@@ -158,7 +158,6 @@ OC.L10N.register(
     "CalDAV link could not be copied to clipboard." : "CalDAV link kon niet worden gekopieerd naar klembord.",
     "Appointment was created successfully" : "Afspraak succesvol gecreëerd",
     "Appointment was updated successfully" : "Afspraak succesvol geüpdatet",
-    "minutes" : "minuten",
     "0 minutes" : "0 minuten",
     "5 minutes" : "5 minuten",
     "10 minutes" : "10 minuten",

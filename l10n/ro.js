@@ -136,7 +136,6 @@ OC.L10N.register(
     "CalDAV link could not be copied to clipboard." : "Linkul CalDAV nu a putut fi copiat în clipboard.",
     "Appointment was created successfully" : "Programarea a fost creeata cu succes",
     "Appointment was updated successfully" : "Programarea a fost actualizată cu succes",
-    "minutes" : "minute",
     "0 minutes" : "0 minute",
     "5 minutes" : "5 minute",
     "10 minutes" : "10 minute",

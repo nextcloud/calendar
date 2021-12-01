@@ -152,7 +152,6 @@ OC.L10N.register(
     "CalDAV link could not be copied to clipboard." : "Impossible de copier le lien CalDAV dans le presse-papier.",
     "Appointment was created successfully" : "Le rendez-vous a été créé avec succès",
     "Appointment was updated successfully" : "Le rendez-vous a été modifié avec succès",
-    "minutes" : "minutes",
     "0 minutes" : "0 minutes",
     "5 minutes" : "5 minutes",
     "10 minutes" : "10 minutes",

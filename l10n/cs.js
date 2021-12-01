@@ -158,7 +158,6 @@ OC.L10N.register(
     "CalDAV link could not be copied to clipboard." : "CalDAV odkaz se nepodařilo zkopírovat do schránky.",
     "Appointment was created successfully" : "Schůzka byla úspěšně vytvořena",
     "Appointment was updated successfully" : "Schůzka byla úspěšně zaktualizována",
-    "minutes" : "minuty",
     "0 minutes" : "0 minut",
     "5 minutes" : "5 minut",
     "10 minutes" : "10 minut",
