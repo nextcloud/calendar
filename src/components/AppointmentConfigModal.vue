@@ -219,7 +219,7 @@ export default {
 			return this.ownSortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
 		},
 		conflictCalendars() {
-			const freebusyUris = this.editing.freebusyUris ?? []
+			const freebusyUris = this.editing.calendarFreeBusyUris ?? []
 			return freebusyUris.map(uri => {
 				return this.ownSortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
 			})
@@ -258,10 +258,10 @@ export default {
 			this.editing.targetCalendarUri = this.calendarUrlToUri(calendar.url)
 		},
 		addConflictCalender(calendar) {
-			this.editing.freebusyUris.push(this.calendarUrlToUri(calendar.url))
+			this.editing.calendarFreeBusyUris.push(this.calendarUrlToUri(calendar.url))
 		},
 		removeConflictCalendar(calendar) {
-			this.editing.freebusyUris = this.editing.freebusyUris.filter(uri => uri !== this.calendarUrlToUri(calendar.url))
+			this.editing.calendarFreeBusyUris = this.editing.calendarFreeBusyUris.filter(uri => uri !== this.calendarUrlToUri(calendar.url))
 		},
 		async save() {
 			if (!this.enablePreparationDuration) {
