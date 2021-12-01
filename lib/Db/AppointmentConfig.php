@@ -158,7 +158,7 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 	}
 
 	public function getCalendarFreebusyUrisAsArray(): array {
-		return json_decode($this->getCalendarFreebusyUris(), true, 512, JSON_THROW_ON_ERROR);
+		return json_decode($this->getCalendarFreebusyUris(), true);
 	}
 
 	/**
@@ -171,7 +171,7 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 	}
 
 	public function setAvailabilityAsArray(array $availability): self {
-		$this->setAvailability(json_encode($availability, JSON_THROW_ON_ERROR));
+		$this->setAvailability(json_encode($availability));
 
 		return $this;
 	}
@@ -187,7 +187,7 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 			'userId' => $this->getUserId(),
 			'targetCalendarUri' => $this->getTargetCalendarUri(),
 			'calendarFreeBusyUris' => $this->getCalendarFreebusyUris(),
-			'availability' => $this->getAvailability() === null ? null : json_decode($this->getAvailability(), true, 512, JSON_THROW_ON_ERROR),
+			'availability' => $this->getAvailability() === null ? null : json_decode($this->getAvailability(), true),
 			'start' => $this->getStart(),
 			'end' => $this->getEnd(),
 			'length' => $this->getLength(),

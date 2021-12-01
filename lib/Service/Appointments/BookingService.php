@@ -176,7 +176,7 @@ class BookingService {
 			'availabilityIntervals' => count($availabilityIntervals),
 			'allPossibleSlots' => count($allPossibleSlots),
 			'filteredByDailyLimit' => count($filteredByDailyLimit),
-			'available' => count($available),
+			'available' => count($available)
 		]);
 
 		return $available;

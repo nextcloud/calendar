@@ -29,10 +29,8 @@ use DateInterval;
 use DatePeriod;
 use DateTimeImmutable;
 use DateTimeZone;
-use JsonException;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
-use RuntimeException;
 use function ceil;
 use function max;
 use function min;
@@ -92,11 +90,8 @@ class AvailabilityGenerator {
 			];
 		}
 
-		try {
-			$availabilityRule = json_decode($config->getAvailability(), true, 512, JSON_THROW_ON_ERROR);
-		} catch (JsonException $e) {
-			throw new RuntimeException('Could not parse JSON for slots', 0, $e);
-		}
+		$availabilityRule = json_decode($config->getAvailability(), true);
+
 		$timeZone = $availabilityRule['timezoneId'];
 		$slots = $availabilityRule['slots'];
 
@@ -149,7 +144,7 @@ class AvailabilityGenerator {
 		$period = new DatePeriod(
 			(new DateTimeImmutable())->setTimezone($tz)->setTimestamp($start - 87600)->setTime(0, 0),
 			new DateInterval('P1D'),
-			(new DateTimeImmutable())->setTimezone($tz)->setTimestamp($start + 87600)->setTime(23, 59),
+			(new DateTimeImmutable())->setTimezone($tz)->setTimestamp($start + 87600)->setTime(23, 59)
 		);
 
 		/** @var Interval[] $applicable */
@@ -170,7 +165,7 @@ class AvailabilityGenerator {
 				$dEnd = $dailyRule['end'];
 				$applicable[] = new Interval(
 					$item->setTime((int)$dStart->format('H'), (int)$dStart->format('i'))->getTimestamp(),
-					$item->setTime((int)$dEnd->format('H'), (int)$dEnd->format('i'))->getTimestamp(),
+					$item->setTime((int)$dEnd->format('H'), (int)$dEnd->format('i'))->getTimestamp()
 				);
 			}
 		}

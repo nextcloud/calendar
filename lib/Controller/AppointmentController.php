@@ -90,11 +90,11 @@ class AppointmentController extends Controller {
 			[
 				'uid' => $user->getUID(),
 				'displayName' => $user->getDisplayName(),
-			],
+			]
 		);
 		$this->initialState->provideInitialState(
 			'appointmentConfigs',
-			$this->configService->getAllAppointmentConfigurations($userId, AppointmentConfig::VISIBILITY_PUBLIC),
+			$this->configService->getAllAppointmentConfigurations($userId, AppointmentConfig::VISIBILITY_PUBLIC)
 		);
 
 		return new TemplateResponse(
@@ -135,7 +135,7 @@ class AppointmentController extends Controller {
 			[
 				'uid' => $configOwner->getUID(),
 				'displayName' => $configOwner->getDisplayName(),
-			],
+			]
 		);
 		$this->initialState->provideInitialState(
 			'config',
@@ -153,7 +153,7 @@ class AppointmentController extends Controller {
 				[
 					'displayName' => $currentUser->getDisplayName(),
 					'email' => $currentUser->getEMailAddress(),
-				],
+				]
 			);
 		}
 

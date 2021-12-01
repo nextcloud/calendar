@@ -112,10 +112,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState('default_reminder', $defaultReminder);
 		$this->initialStateService->provideInitialState('show_tasks', $showTasks);
 		$this->initialStateService->provideInitialState('tasks_enabled', $tasksEnabled);
-		$this->initialStateService->provideInitialState(
-			'appointmentConfigs',
-			$this->appointmentConfigService->getAllAppointmentConfigurations($this->userId),
-		);
+		$this->initialStateService->provideInitialState('appointmentConfigs',$this->appointmentConfigService->getAllAppointmentConfigurations($this->userId));
 
 		return new TemplateResponse($this->appName, 'main');
 	}
