@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.0.1 - 2021-12-01
+### Fixed
+- PHP7.2 syntax errors
+- Usage of Nextcloud 21+ API on Nextcloud 20
+- Vertical padding of the appointments booking page
+- White space handling of appointments description
+
 ## 3.0.0 – 2021-11-29
 ### Added
 - Appointments - configure your appointment configuration, send out the link or show it on your profile, and let other people book an appointment with you
