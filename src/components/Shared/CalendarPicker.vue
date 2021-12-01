@@ -4,13 +4,20 @@
 		track-by="url"
 		:disabled="isDisabled"
 		:options="calendars"
-		:value="calendar"
-		@select="change">
-		<template #singleLabel="scope">
-			<CalendarPickerOption v-bind="scope.option" />
+		:value="value"
+		:multiple="multiple"
+		@select="change"
+		@remove="remove">
+		<template #singleLabel="{ option }">
+			<CalendarPickerOption v-bind="option" />
 		</template>
-		<template #option="scope">
-			<CalendarPickerOption v-bind="scope.option" />
+		<template #option="{ option }">
+			<CalendarPickerOption v-bind="option" />
+		</template>
+		<template #tag="{ option }">
+			<div class="calendar-picker__tag">
+				<CalendarPickerOption v-bind="option" />
+			</div>
 		</template>
 	</Multiselect>
 </template>
@@ -25,8 +32,8 @@ export default {
 		Multiselect,
 	},
 	props: {
-		calendar: {
-			type: Object,
+		value: {
+			type: [Object, Array],
 			required: true,
 		},
 		calendars: {
@@ -34,6 +41,10 @@ export default {
 			required: true,
 		},
 		showCalendarOnSelect: {
+			type: Boolean,
+			default: false,
+		},
+		multiple: {
 			type: Boolean,
 			default: false,
 		},
@@ -62,6 +73,11 @@ export default {
 
 			this.$emit('select-calendar', newCalendar)
 		},
+		remove(calendar) {
+			if (this.multiple) {
+				this.$emit('remove-calendar', calendar)
+			}
+		},
 	},
 }
 </script>
@@ -69,5 +85,15 @@ export default {
 <style lang="scss" scoped>
 ::v-deep .multiselect__tags {
 	margin: 3px 0;
+}
+
+.calendar-picker__tag {
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+	padding: 0 5px;
+}
+
+.calendar-picker__tag + .calendar-picker__tag {
+	margin-left: 5px;
 }
 </style>

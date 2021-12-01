@@ -26,7 +26,7 @@
 			{{ file.name }}
 		</div>
 		<CalendarPicker class="import-modal-file-item__calendar-select"
-			:calendar="calendar"
+			:value="calendar"
 			:calendars="calendars"
 			@select-calendar="selectCalendar" />
 	</li>

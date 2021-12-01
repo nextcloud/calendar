@@ -52,7 +52,7 @@
 							<div class="calendar-select">
 								<label>{{ t('calendar', 'Calendar') }}</label>
 								<CalendarPicker v-if="calendar !== undefined"
-									:calendar="calendar"
+									:value="calendar"
 									:calendars="ownSortedCalendars"
 									:show-calendar-on-select="false"
 									@select-calendar="changeCalendar" />
@@ -69,6 +69,18 @@
 							<DurationSelect
 								:label="t('calendar', 'Increments')"
 								:value.sync="editing.increment" />
+						</div>
+
+						<div
+							class="appointment-config-modal__form__row appointment-config-modal__form__row--local">
+							<label>Calendars to check for conflicts</label>
+							<CalendarPicker
+								:value="conflictCalendars"
+								:calendars="ownSortedCalendars"
+								:multiple="true"
+								:show-calendar-on-select="false"
+								@select-calendar="addConflictCalender"
+								@remove-calendar="removeConflictCalendar" />
 						</div>
 					</fieldset>
 
@@ -206,6 +218,12 @@ export default {
 			const uri = this.editing.targetCalendarUri
 			return this.ownSortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
 		},
+		conflictCalendars() {
+			const freebusyUris = this.editing.freebusyUris ?? []
+			return freebusyUris.map(uri => {
+				return this.ownSortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
+			})
+		},
 		defaultConfig() {
 			return AppointmentConfig.createDefault(
 				this.calendarUrlToUri(this.$store.getters.ownSortedCalendars[0].url),
@@ -238,6 +256,12 @@ export default {
 		},
 		changeCalendar(calendar) {
 			this.editing.targetCalendarUri = this.calendarUrlToUri(calendar.url)
+		},
+		addConflictCalender(calendar) {
+			this.editing.freebusyUris.push(this.calendarUrlToUri(calendar.url))
+		},
+		removeConflictCalendar(calendar) {
+			this.editing.freebusyUris = this.editing.freebusyUris.filter(uri => uri !== this.calendarUrlToUri(calendar.url))
 		},
 		async save() {
 			if (!this.enablePreparationDuration) {
