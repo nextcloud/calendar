@@ -26,11 +26,11 @@
 		<div class="input">
 			<input
 				:id="id"
-				type="number"
-				min="0"
-				:value="valueInMinutes"
-				@input="change">
-			<span>{{ t('calendar', 'minutes') }}</span>
+				v-model="internalValue"
+				type="text"
+				@input="change"
+				@focus="focus"
+				@blur="updateInternalValue">
 		</div>
 	</div>
 </template>
@@ -53,23 +53,57 @@ export default {
 	data() {
 		return {
 			id: randomId(),
+			internalValue: '',
 		}
 	},
 	computed: {
 		valueInMinutes() {
+			// Convert value prop from seconds to minutes
 			return Math.round(this.value / 60)
 		},
+		valueWithUnit() {
+			return this.$n('calendar', '{duration} minute', '{duration} minutes', this.valueInMinutes, {
+				duration: this.valueInMinutes,
+			})
+		},
+		parsedInternalValue() {
+			const matches = this.internalValue.match(/[0-9]+/)
+			if (!matches) {
+				return 0
+			}
+
+			const minutes = parseInt(matches[0])
+			return isNaN(minutes) ? 0 : minutes
+		},
+	},
+	watch: {
+		value(newVal) {
+			// Only apply new value if it really changed compared to the internal state
+			if (this.parsedInternalValue * 60 !== newVal) {
+				this.updateInternalValue()
+			}
+		},
+	},
+	mounted() {
+		this.updateInternalValue()
 	},
 	methods: {
-		change(e) {
-			this.$emit('update:value', e.target.value * 60)
+		change() {
+			// Emit value in seconds
+			this.$emit('update:value', this.parsedInternalValue * 60)
+		},
+		focus() {
+			// Remove minutes prefix upon focus
+			this.internalValue = this.valueInMinutes.toString()
+		},
+		updateInternalValue() {
+			this.internalValue = this.valueWithUnit
 		},
 	},
 }
 </script>
 
 <style lang="scss" scoped>
-// TODO: move to global scss file
 .duration-input {
 	.input {
 		display: flex;
@@ -77,7 +111,6 @@ export default {
 
 		input {
 			flex: 1 auto;
-			//max-width: 15em;
 		}
 	}
 }
