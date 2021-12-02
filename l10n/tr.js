@@ -158,6 +158,7 @@ OC.L10N.register(
     "CalDAV link could not be copied to clipboard." : "CalDAV bağlantısı panoya kopyalanamadı.",
     "Appointment was created successfully" : "Randevu oluşturuldu",
     "Appointment was updated successfully" : "Randevu güncellendi",
+    "_{duration} minute_::_{duration} minutes_" : ["{duration} dakika","{duration} dakika"],
     "0 minutes" : "0 dakika",
     "5 minutes" : "5 dakika",
     "10 minutes" : "10 dakika",
