@@ -73,10 +73,10 @@
 
 						<div
 							class="appointment-config-modal__form__row appointment-config-modal__form__row--local">
-							<label>Calendars to check for conflicts</label>
+							<label>{{ t('calendar', 'Additional calendars to check for conflicts') }}</label>
 							<CalendarPicker
 								:value="conflictCalendars"
-								:calendars="ownSortedCalendars"
+								:calendars="selectableConflictCalendars"
 								:multiple="true"
 								:show-calendar-on-select="false"
 								@select-calendar="addConflictCalender"
@@ -218,6 +218,10 @@ export default {
 			const uri = this.editing.targetCalendarUri
 			return this.ownSortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
 		},
+		selectableConflictCalendars() {
+			// The target calendar is always a conflict calendar, remove it from additional conflict calendars
+			return this.ownSortedCalendars.filter(calendar => calendar.url !== this.calendar.url)
+		},
 		conflictCalendars() {
 			const freebusyUris = this.editing.calendarFreeBusyUris ?? []
 			return freebusyUris.map(uri => {
@@ -256,6 +260,7 @@ export default {
 		},
 		changeCalendar(calendar) {
 			this.editing.targetCalendarUri = this.calendarUrlToUri(calendar.url)
+			this.editing.calendarFreeBusyUris = this.editing.calendarFreeBusyUris.filter(uri => uri !== this.calendarUrlToUri(calendar.url))
 		},
 		addConflictCalender(calendar) {
 			this.editing.calendarFreeBusyUris.push(this.calendarUrlToUri(calendar.url))
