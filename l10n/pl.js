@@ -158,6 +158,7 @@ OC.L10N.register(
     "CalDAV link could not be copied to clipboard." : "Nie można skopiować linku CalDAV do schowka.",
     "Appointment was created successfully" : "Spotkanie zostało pomyślnie utworzone",
     "Appointment was updated successfully" : "Spotkanie zostało pomyślnie zaktualizowane",
+    "_{duration} minute_::_{duration} minutes_" : ["{duration} minuta","{duration} minuty","{duration} minut","{duration} minut"],
     "0 minutes" : "0 minut",
     "5 minutes" : "5 minut",
     "10 minutes" : "10 minut",
