@@ -19,6 +19,10 @@
 	<licence>agpl</licence>
 	<author homepage="https://georg.coffee">Georg Ehrke</author>
 	<author homepage="https://tcit.fr">Thomas Citharel</author>
+	<author>Christoph Wurst</author>
+	<author>Greta Doçi</author>
+	<author>Richard Steinmetz</author>
+	<author>Anna Larch</author>
 	<namespace>Calendar</namespace>
 	<documentation>
 		<user>https://docs.nextcloud.com/server/latest/user_manual/en/pim/calendar.html</user>
@@ -32,7 +36,8 @@
 	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/week_room_suggestion.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/week_sidebar.png</screenshot>
 	<dependencies>
-		<nextcloud min-version="20" max-version="24" />
+		<php min-version="7.3" max-version="8.0" />
+		<nextcloud min-version="21" max-version="24" />
 	</dependencies>
 	<background-jobs>
 		<job>OCA\Calendar\BackgroundJob\CleanUpOutdatedBookingsJob</job>
