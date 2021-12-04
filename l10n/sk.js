@@ -179,6 +179,7 @@ OC.L10N.register(
     "Visibility" : "Viditeľnosť",
     "Duration" : "Trvanie",
     "Increments" : "Prírastky",
+    "Additional calendars to check for conflicts" : "Ďalšie kalendáre pre kontrolu konfliktov",
     "Pick time ranges where appointments are allowed" : "Vyberte časové rozsahy, v ktorých sú povolené stretnutia",
     "to" : "do",
     "Delete slot" : "Odstrániť slot",

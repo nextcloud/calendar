@@ -179,6 +179,7 @@ OC.L10N.register(
     "Visibility" : "可见性",
     "Duration" : "持续时间",
     "Increments" : "增量",
+    "Additional calendars to check for conflicts" : "其他要检查冲突的日历",
     "Pick time ranges where appointments are allowed" : "选择允许预约的时间范围",
     "to" : "到",
     "Delete slot" : "删除档期",

@@ -179,6 +179,7 @@ OC.L10N.register(
     "Visibility" : "Láthatóság",
     "Duration" : "Időtartam",
     "Increments" : "Lépésköz",
+    "Additional calendars to check for conflicts" : "További naptárak az ütközés-ellenőrzéshez",
     "Pick time ranges where appointments are allowed" : "Válasszon időszakokat, amikor a találkozók engedélyezettek",
     "to" : "–",
     "Delete slot" : "Idősáv törlése",

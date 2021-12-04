@@ -179,6 +179,7 @@ OC.L10N.register(
     "Visibility" : "Widoczne",
     "Duration" : "Czas trwania",
     "Increments" : "Zwiększ",
+    "Additional calendars to check for conflicts" : "Dodatkowe kalendarze do sprawdzania konfliktów",
     "Pick time ranges where appointments are allowed" : "Wybierz przedziały czasowe, w których dozwolone są spotkania",
     "to" : "od",
     "Delete slot" : "Usuń przedział czasowy",
