@@ -179,6 +179,7 @@ OC.L10N.register(
     "Visibility" : "Görünürlük",
     "Duration" : "Süre",
     "Increments" : "Artımlar",
+    "Additional calendars to check for conflicts" : "Çakışmaların denetleneceği diğer takvimler",
     "Pick time ranges where appointments are allowed" : "Randevuların verilebileceği zaman aralıklarını seçin",
     "to" : "ile",
     "Delete slot" : "Aralığı sil",
