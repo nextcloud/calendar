@@ -21,7 +21,7 @@
 	<author homepage="https://tcit.fr">Thomas Citharel</author>
 	<namespace>Calendar</namespace>
 	<documentation>
-		<user>https://docs.nextcloud.com/server/latest/user_manual/en/pim/calendar.html</user>
+		<user>https://docs.nextcloud.com/server/latest/user_manual/en/groupware/calendar.html</user>
 	</documentation>
 	<category>office</category>
 	<category>organization</category>
