@@ -96,6 +96,24 @@ const data = [{
 	],
 }, {
 	strings: [
+		'Commute',
+		'Commuting',
+		'Shuttle',
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Commute'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Commuting'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Shuttle'),
+	],
+	illustrationNames: [
+		'city_driver',
+		'subway',
+		'bicycle',
+		'biking'
+	],
+}, {
+	strings: [
 		'Holiday',
 		'Vacation',
 		// TRANSLATORS This string is used for matching the event title to an illustration
