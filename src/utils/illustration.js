@@ -273,6 +273,25 @@ const data = [{
 	],
 }, {
 	strings: [
+		'Review',
+		'Audit',
+		'Inspection',
+		'Proofreading',
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Review'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Audit'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Inspection'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Proofreading'),
+	],
+	illustrationNames: [
+		'reviewed_docs',
+		'certification',
+	],
+}, {
+	strings: [
 		'Baseball',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Baseball'),
@@ -350,8 +369,11 @@ const data = [{
 }, {
 	strings: [
 		'Drive',
+		'Driving',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Drive'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Driving'),
 	],
 	illustrationNames: [
 		'electric_car',
