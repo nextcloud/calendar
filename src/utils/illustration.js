@@ -181,6 +181,22 @@ const data = [{
 	],
 }, {
 	strings: [
+		'Deadline',
+		'Submission',
+		'Reporting',
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Deadline'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Submission'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Reporting'),
+	],
+	illustrationNames: [
+		'charts',
+		'business_plan',
+	],
+}, {
+	strings: [
 		'Camping',
 		'Camp',
 		// TRANSLATORS This string is used for matching the event title to an illustration
