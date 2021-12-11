@@ -579,10 +579,13 @@ const data = [{
 	strings: [
 		'Barber',
 		'Haircut',
+		'Hairdresser',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Barber'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Haircut'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Hairdresser'),
 	],
 	illustrationNames: [
 		'barber',
