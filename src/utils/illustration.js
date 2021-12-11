@@ -108,6 +108,30 @@ const data = [{
 	],
 }, {
 	strings: [
+		'Concert',
+		'Festival',
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Concert'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Festival'),
+	],
+	illustrationNames: [
+		'compose_music',
+	],
+}, {
+	strings: [
+		'Theater',
+		'Theatre',
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Theater'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Theatre'),
+	],
+	illustrationNames: [
+		'awards',
+	],
+}, {
+	strings: [
 		'Presentation',
 		'Present',
 		// TRANSLATORS This string is used for matching the event title to an illustration
