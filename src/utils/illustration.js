@@ -136,6 +136,25 @@ const data = [{
 	],
 }, {
 	strings: [
+		'Invoice',
+		'Finance',
+		'Bank',
+		'Money',
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Invoice'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Finance'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Bank'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Money'),
+	],
+	illustrationNames: [
+		'pay_online',
+		'personal_finance',
+	],
+}, {
+	strings: [
 		'Wedding',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Wedding'),
@@ -341,7 +360,7 @@ const data = [{
 	strings: [
 		'Bicycle',
 		'Cycle',
-		'Cycling'
+		'Cycling',
 		'Biking',
 		'Bike',
 		// TRANSLATORS This string is used for matching the event title to an illustration
