@@ -135,6 +135,15 @@ const data = [{
 	],
 }, {
 	strings: [
+		'Dog',
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Dog'),
+	],
+	illustrationNames: [
+		'dog_walking',
+	],
+}, {
+	strings: [
 		'Concert',
 		'Festival',
 		// TRANSLATORS This string is used for matching the event title to an illustration
@@ -302,12 +311,15 @@ const data = [{
 	strings: [
 		'Bicycle',
 		'Cycle',
+		'Cycling'
 		'Biking',
 		'Bike',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Bicycle'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Cycle'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Cycling'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Biking'),
 		// TRANSLATORS This string is used for matching the event title to an illustration
