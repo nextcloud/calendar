@@ -110,7 +110,7 @@ const data = [{
 		'city_driver',
 		'subway',
 		'bicycle',
-		'biking'
+		'biking',
 	],
 }, {
 	strings: [
@@ -123,15 +123,6 @@ const data = [{
 	],
 	illustrationNames: [
 		'sunlight',
-		'outdoor_adventure',
-	],
-}, {
-	strings: [
-		'Camping',
-		// TRANSLATORS This string is used for matching the event title to an illustration
-		t('calendar', 'Camping'),
-	],
-	illustrationNames: [
 		'outdoor_adventure',
 	],
 }, {
@@ -240,6 +231,22 @@ const data = [{
 	illustrationNames: [
 		'camping',
 		'into_the_night',
+		'outdoor_adventure',
+	],
+}, {
+	strings: [
+		'Election',
+		'Voting',
+		'Vote',
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Election'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Voting'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Vote'),
+	],
+	illustrationNames: [
+		'voting',
 	],
 }, {
 	strings: [
