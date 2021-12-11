@@ -309,6 +309,7 @@ const data = [{
 	],
 	illustrationNames: [
 		'art_lover',
+		'art_museum',
 	],
 }, {
 	strings: [
@@ -584,6 +585,7 @@ const data = [{
 	],
 	illustrationNames: [
 		'professor',
+		'teaching',
 	],
 }, {
 	strings: [
