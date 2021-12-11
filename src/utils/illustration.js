@@ -613,6 +613,19 @@ const data = [{
 	],
 }, {
 	strings: [
+		'Birthday',
+		'Anniversary',
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Birthday'),
+		// TRANSLATORS This string is used for matching the event title to an illustration
+		t('calendar', 'Anniversary'),
+	],
+	illustrationNames: [
+		'birthday_cake',
+		'gift',
+	],
+}, {
+	strings: [
 		'Shopping',
 		// TRANSLATORS This string is used for matching the event title to an illustration
 		t('calendar', 'Shopping'),
