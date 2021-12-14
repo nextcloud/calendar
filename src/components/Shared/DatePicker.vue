@@ -144,7 +144,7 @@ export default {
 				stringify: this.stringify,
 				parse: this.parse,
 			},
-			showTimePanel: false,
+			showTimePanel: true,
 		}
 	},
 	computed: {
@@ -255,10 +255,10 @@ export default {
 			this.showTimezonePopover = !this.showTimezonePopover
 		},
 		/**
-		 * Reset to date-panel on close of datepicker
+		 * Reset to time-panel on close of datepicker
 		 */
 		close() {
-			this.showTimePanel = false
+			this.showTimePanel = true
 			this.$emit('close')
 		},
 		/**
