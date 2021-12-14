@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import DavClient from 'cdav-library'
+import DavClient from '@nextcloud/cdav-library'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import { CALDAV_BIRTHDAY_CALENDAR } from '../models/consts.js'
