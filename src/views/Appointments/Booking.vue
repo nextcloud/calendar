@@ -234,6 +234,7 @@ export default {
 	padding-top: 50px;
 	display: flex;
 	flex-direction: row;
+	flex-wrap: wrap;
 	max-width: 800px;
 
 	&__date-selection {
