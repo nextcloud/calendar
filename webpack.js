@@ -25,7 +25,6 @@ webpackRules.RULE_JS.exclude = BabelLoaderExcludeNodeModulesExcept([
 	'p-defer',
 	'p-queue',
 	'p-try',
-	'cdav-library',
 	'yocto-queue',
 ])
 
