@@ -63,6 +63,11 @@
 // Center the date in month view
 .fc-daygrid-day-top {
 	justify-content: center;
+
+	// more prominent marking of the current day
+	.fc-day-today & {
+		background-color: var(--color-primary);
+	}
 }
 
 // Override Nextcloud styles which highlight table rows on hover
@@ -108,6 +113,12 @@
 .fc .fc-daygrid-day.fc-day-today,
 .fc .fc-timegrid-col.fc-day-today {
 	background-color: unset !important;
+}
+
+// emphasize current month in month view
+.fc-daygrid-day.fc-day.fc-day-other,
+.fc .fc-daygrid-day.fc-day-today.fc-day-other {
+	background-color: var(--color-background-dark) !important;
 }
 
 // ### FullCalendar Event adjustments
@@ -230,4 +241,3 @@
 .fc-daygrid-day-events {
 	position:relative !important;
 }
-
