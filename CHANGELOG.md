@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.0.2 – 2021-12-15
+### Fixed
+- Previous/next month buttons
+- Cancelled and free events cause appointment slot conflicts
+- User deletion SQL error
+- User doc URL
+- Outdated screenshots
+- Appointments booking page with mobile browsers
+
 ## 3.0.1 - 2021-12-01
 ### Fixed
 - PHP7.2 syntax errors
