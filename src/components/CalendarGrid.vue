@@ -135,6 +135,7 @@ export default {
 				headerToolbar: false,
 				height: '100%',
 				slotDuration: this.slotDuration,
+				expandRows: true,
 				weekNumbers: this.showWeekNumbers,
 				weekends: this.showWeekends,
 				dayMaxEventRows: this.eventLimit,
