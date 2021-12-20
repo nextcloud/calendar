@@ -212,7 +212,7 @@
 .fc-v-event {
 	min-height: 4em;
 
-	.fc-timegrid-event-short {
+	&.fc-timegrid-event-short {
 		min-height: 2em;
 	}
 
