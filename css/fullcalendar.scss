@@ -119,6 +119,9 @@
 .fc-daygrid-day.fc-day.fc-day-other,
 .fc .fc-daygrid-day.fc-day-today.fc-day-other {
 	background-color: var(--color-background-dark) !important;
+	.fc-daygrid-day-top {
+		opacity: 0.6;
+	}
 }
 
 // ### FullCalendar Event adjustments
