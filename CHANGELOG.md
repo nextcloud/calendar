@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.3 – 2021-12-21
+### Fixed
+- Events editable by anyone
+- Time display for short events
+- Event title cut off even for long events with enough display space
+
 ## 3.0.2 – 2021-12-15
 ### Fixed
 - Previous/next month buttons
