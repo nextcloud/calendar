@@ -32,9 +32,9 @@
 	<website>https://github.com/nextcloud/calendar/</website>
 	<bugs>https://github.com/nextcloud/calendar/issues</bugs>
 	<repository type="git">https://github.com/nextcloud/calendar.git</repository>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/week_new_event.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/week_room_suggestion.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/week_sidebar.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/main/screenshots/week_new_event.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/main/screenshots/week_room_suggestion.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/main/screenshots/week_sidebar.png</screenshot>
 	<dependencies>
 		<php min-version="7.3" max-version="8.0" />
 		<nextcloud min-version="21" max-version="24" />
