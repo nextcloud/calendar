@@ -249,7 +249,7 @@ OC.L10N.register(
     "Non-working hours" : "休業時間",
     "Not in office" : "欠勤",
     "Phone call" : "電話",
-    "Sick day" : "病欠",
+    "Sick day" : "体調不良",
     "Special occasion" : "特別な用事",
     "Travel" : "旅行",
     "Vacation" : "休暇",
