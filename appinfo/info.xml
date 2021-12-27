@@ -17,12 +17,8 @@
 	]]></description>
 	<version>3.1.0-alpha.1</version>
 	<licence>agpl</licence>
-	<author homepage="https://georg.coffee">Georg Ehrke</author>
-	<author homepage="https://tcit.fr">Thomas Citharel</author>
-	<author>Christoph Wurst</author>
-	<author>Greta Doçi</author>
-	<author>Richard Steinmetz</author>
 	<author>Anna Larch</author>
+	<author homepage="https://github.com/nextcloud/groupware">Nextcloud Groupware Team</author>
 	<namespace>Calendar</namespace>
 	<documentation>
 		<user>https://docs.nextcloud.com/server/latest/user_manual/en/groupware/calendar.html</user>
