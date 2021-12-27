@@ -92,7 +92,7 @@
 				:calendars="calendars"
 				:calendar="selectedCalendar"
 				:is-read-only="isReadOnly || !canModifyCalendar || isViewedByAttendee"
-				@selectCalendar="changeCalendar" />
+				@select-calendar="changeCalendar" />
 
 			<PropertyTitleTimePicker
 				:start-date="startDate"
