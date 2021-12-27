@@ -2,7 +2,7 @@
 name: "\U0001F680 Feature Request"
 about: You have a neat idea that should be implemented?
 title: ''
-labels: enhancement-proposed, 0. to triage
+labels: enhancement, 0. to triage
 assignees: ''
 version: 0.1
 ---
