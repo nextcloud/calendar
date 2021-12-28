@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.4 – 2021-12-28
+### Fixed
+- Calendar picker in the editor sidebar
+
 ## 3.0.3 – 2021-12-21
 ### Fixed
 - Events editable by anyone
