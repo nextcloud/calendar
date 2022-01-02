@@ -63,11 +63,6 @@
 // Center the date in month view
 .fc-daygrid-day-top {
 	justify-content: center;
-
-	// more prominent marking of the current day
-	.fc-day-today & {
-		background-color: var(--color-primary);
-	}
 }
 
 // Override Nextcloud styles which highlight table rows on hover
@@ -109,10 +104,10 @@
 	word-break: break-word;
 }
 
-// Fix right border on today not being visible in month and week view when using Firefox
+// highlight current day
 .fc .fc-daygrid-day.fc-day-today,
 .fc .fc-timegrid-col.fc-day-today {
-	background-color: unset !important;
+	background-color: var(--color-primary-light) !important;
 }
 
 // emphasize current month in month view
