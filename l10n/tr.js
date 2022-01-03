@@ -151,7 +151,7 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Birincil CalDAV adresini kopyala",
     "Copy iOS/macOS CalDAV address" : "iOS/macOS CalDAV adresini kopyala",
     "Personal availability settings" : "Kişisel uygunluk ayarları",
-    "Show keyboard shortcuts" : "Tuş takımı kısayollarını görüntüle",
+    "Show keyboard shortcuts" : "Kısayol tuşlarını görüntüle",
     "Settings & import" : "Ayarlar ve içe aktarma",
     "No reminder" : "Herhangi bir anımsatıcı yok",
     "CalDAV link copied to clipboard." : "CalDAV bağlantısı panoya kopyalandı.",

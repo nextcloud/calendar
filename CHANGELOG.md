@@ -1,5 +1,24 @@
 # Changelog
 
+## 3.0.4 – 2021-12-28
+### Fixed
+- Calendar picker in the editor sidebar
+
+## 3.0.3 – 2021-12-21
+### Fixed
+- Events editable by anyone
+- Time display for short events
+- Event title cut off even for long events with enough display space
+
+## 3.0.2 – 2021-12-15
+### Fixed
+- Previous/next month buttons
+- Cancelled and free events cause appointment slot conflicts
+- User deletion SQL error
+- User doc URL
+- Outdated screenshots
+- Appointments booking page with mobile browsers
+
 ## 3.0.1 - 2021-12-01
 ### Fixed
 - PHP7.2 syntax errors

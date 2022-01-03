@@ -247,11 +247,15 @@
 }
 
 .fc-v-event {
-        min-height: 4em;
-}
+	min-height: 4em;
 
-.fc-v-event.fc-timegrid-event-short {
-        min-height: 2em;
+	&.fc-timegrid-event-short {
+		min-height: 2em;
+	}
+
+	.fc-event-title {
+		white-space: initial;
+	}
 }
 
 // Fix Month view

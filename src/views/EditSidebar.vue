@@ -91,7 +91,7 @@
 				v-if="showCalendarPicker"
 				:calendars="calendars"
 				:calendar="selectedCalendar"
-				:is-read-only="isReadOnly || !canModifyCalendar"
+				:is-read-only="isReadOnly || !canModifyCalendar || isViewedByAttendee"
 				@select-calendar="changeCalendar" />
 
 			<PropertyTitleTimePicker
@@ -100,7 +100,7 @@
 				:end-date="endDate"
 				:end-timezone="endTimezone"
 				:is-all-day="isAllDay"
-				:is-read-only="isReadOnly"
+				:is-read-only="isReadOnly || isViewedByAttendee"
 				:can-modify-all-day="canModifyAllDay"
 				:user-timezone="currentUserTimezone"
 				:append-to-body="true"
@@ -122,35 +122,35 @@
 			</template>
 			<div class="app-sidebar-tab__content">
 				<PropertyText
-					:is-read-only="isReadOnly"
+					:is-read-only="isReadOnly || isViewedByAttendee"
 					:prop-model="rfcProps.location"
 					:value="location"
 					@update:value="updateLocation" />
 				<PropertyText
-					:is-read-only="isReadOnly"
+					:is-read-only="isReadOnly || isViewedByAttendee"
 					:prop-model="rfcProps.description"
 					:value="description"
 					@update:value="updateDescription" />
 
 				<PropertySelect
-					:is-read-only="isReadOnly"
+					:is-read-only="isReadOnly || isViewedByAttendee"
 					:prop-model="rfcProps.status"
 					:value="status"
 					@update:value="updateStatus" />
 				<PropertySelect
-					:is-read-only="isReadOnly"
+					:is-read-only="isReadOnly || isViewedByAttendee"
 					:prop-model="rfcProps.accessClass"
 					:value="accessClass"
 					@update:value="updateAccessClass" />
 				<PropertySelect
-					:is-read-only="isReadOnly"
+					:is-read-only="isReadOnly || isViewedByAttendee"
 					:prop-model="rfcProps.timeTransparency"
 					:value="timeTransparency"
 					@update:value="updateTimeTransparency" />
 
 				<PropertySelectMultiple
 					:colored-options="true"
-					:is-read-only="isReadOnly"
+					:is-read-only="isReadOnly || isViewedByAttendee"
 					:prop-model="rfcProps.categories"
 					:value="categories"
 					@add-single-value="addCategory"
@@ -158,7 +158,7 @@
 
 				<PropertyColor
 					:calendar-color="selectedCalendarColor"
-					:is-read-only="isReadOnly"
+					:is-read-only="isReadOnly || isViewedByAttendee"
 					:prop-model="rfcProps.color"
 					:value="color"
 					@update:value="updateColor" />
@@ -172,7 +172,7 @@
 				<Repeat
 					:calendar-object-instance="calendarObjectInstance"
 					:recurrence-rule="calendarObjectInstance.recurrenceRule"
-					:is-read-only="isReadOnly"
+					:is-read-only="isReadOnly || isViewedByAttendee"
 					:is-editing-master-item="isEditingMasterItem"
 					:is-recurrence-exception="isRecurrenceException"
 					@force-this-and-all-future="forceModifyingFuture" />
@@ -199,7 +199,8 @@
 				<InviteesList
 					v-if="!isLoading"
 					:calendar-object-instance="calendarObjectInstance"
-					:is-read-only="isReadOnly" />
+					:is-viewed-by-organizer="!isViewedByAttendee"
+					:is-read-only="isReadOnly || isViewedByAttendee" />
 			</div>
 			<SaveButtons
 				v-if="showSaveButtons"
@@ -223,7 +224,7 @@
 				<ResourceList
 					v-if="!isLoading"
 					:calendar-object-instance="calendarObjectInstance"
-					:is-read-only="isReadOnly" />
+					:is-read-only="isReadOnly || isViewedByAttendee" />
 			</div>
 			<SaveButtons
 				v-if="showSaveButtons"

@@ -214,11 +214,20 @@ const mutations = {
 			// endDate is inclusive, but DTEND needs to be exclusive, so always add one day
 			calendarObjectInstance.eventComponent.endDate.addDuration(DurationValue.fromSeconds(60 * 60 * 24))
 		} else {
+			// Is end before start?
 			if (endDateObj.compare(startDateObj) === -1) {
-				const timezone = getTimezoneManager().getTimezoneForId(startDateObj.timezoneId)
-				calendarObjectInstance.eventComponent.startDate
-					= calendarObjectInstance.eventComponent.endDate.getInTimezone(timezone)
-				calendarObjectInstance.startDate = getDateFromDateTimeValue(calendarObjectInstance.eventComponent.startDate)
+				// Is end more than one day before start?
+				endDateObj.addDuration(DurationValue.fromSeconds(60 * 60 * 24))
+				if (endDateObj.compare(startDateObj) === -1) {
+					const timezone = getTimezoneManager().getTimezoneForId(startDateObj.timezoneId)
+					calendarObjectInstance.eventComponent.startDate
+						= calendarObjectInstance.eventComponent.endDate.getInTimezone(timezone)
+					calendarObjectInstance.startDate = getDateFromDateTimeValue(calendarObjectInstance.eventComponent.startDate)
+				} else {
+					// add one day to endDate if the endDate is before the startDate which allows to easily create events that reach over or to 0:00
+					calendarObjectInstance.eventComponent.endDate.addDuration(DurationValue.fromSeconds(60 * 60 * 24))
+					endDate = new Date(endDate.getTime() + 24 * 60 * 60 * 1000)
+				}
 			}
 		}
 
