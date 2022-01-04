@@ -109,6 +109,13 @@
 				@update-end-date="updateEndDate"
 				@update-end-timezone="updateEndTimezone"
 				@toggle-all-day="toggleAllDay" />
+
+			<InvitationResponseButtons
+				v-if="isViewedByAttendee && userAsAttendee"
+				:attendee="userAsAttendee"
+				:calendar-id="calendarId"
+				:narrow="true"
+				@close="closeEditorAndSkipAction" />
 		</template>
 
 		<AppSidebarTab
@@ -261,6 +268,7 @@ import SaveButtons from '../components/Editor/SaveButtons.vue'
 import PropertySelectMultiple from '../components/Editor/Properties/PropertySelectMultiple.vue'
 import PropertyColor from '../components/Editor/Properties/PropertyColor.vue'
 import ResourceList from '../components/Editor/Resources/ResourceList'
+import InvitationResponseButtons from '../components/Editor/InvitationResponseButtons'
 
 import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
@@ -295,6 +303,7 @@ export default {
 		Download,
 		InformationOutline,
 		MapMarker,
+		InvitationResponseButtons,
 	},
 	mixins: [
 		EditorMixin,

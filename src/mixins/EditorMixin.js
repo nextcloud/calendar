@@ -2,6 +2,7 @@
  * @copyright Copyright (c) 2019 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0-or-later
  *
@@ -19,6 +20,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 import { getRFCProperties } from '../models/rfcProps'
 import logger from '../utils/logger.js'
 import { getIllustrationForTitle } from '../utils/illustration.js'
@@ -30,6 +32,7 @@ import {
 	mapState,
 } from 'vuex'
 import { translate as t } from '@nextcloud/l10n'
+import { removeMailtoPrefix } from '../utils/attendee'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
@@ -211,6 +214,33 @@ export default {
 			return calendar.readOnly
 		},
 		/**
+		 * Returns whether the user is an attendee of the event
+		 *
+		 * @return {boolean}
+		 */
+		isViewedByAttendee() {
+			return this.userAsAttendee !== null
+		},
+		/**
+		 * Returns the attendee property corresponding to the current user
+		 *
+		 * @return {?object}
+		 */
+		userAsAttendee() {
+			if (!this.calendarObjectInstance.organizer) {
+				return null
+			}
+
+			const principal = removeMailtoPrefix(this.$store.getters.getCurrentUserPrincipalEmail)
+			for (const attendee of this.calendarObjectInstance.attendees) {
+				if (removeMailtoPrefix(attendee.uri) === principal) {
+					return attendee
+				}
+			}
+
+			return null
+		},
+		/**
 		 * Returns all calendars selectable by the user
 		 *
 		 * @return {object[]}
@@ -369,6 +399,14 @@ export default {
 				params,
 			})
 			this.$store.commit('resetCalendarObjectInstanceObjectIdAndRecurrenceId')
+		},
+		/**
+		 * Closes the editor and returns to normal calendar-view without running any action.
+		 * This is useful if the calendar-object-instance has already been saved.
+		 */
+		closeEditorAndSkipAction() {
+			this.requiresActionOnRouteLeave = false
+			this.closeEditor()
 		},
 		/**
 		 * Resets the calendar-object back to it's original state and closes the editor
