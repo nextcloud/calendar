@@ -46,7 +46,7 @@ webpackRules.RULE_SCSS.use = [
 			},
 		},
 	},
-],
+]
 
 webpackConfig.plugins.push(
 	new IconfontPlugin({
