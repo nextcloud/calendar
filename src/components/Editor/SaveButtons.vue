@@ -34,7 +34,7 @@
 			{{ $t('calendar', 'Save') }}
 		</button>
 		<button
-			v-if="shoUpdateButton"
+			v-if="showUpdateButton"
 			class="primary"
 			@click="saveThisOnly">
 			{{ $t('calendar', 'Update') }}
@@ -83,7 +83,7 @@ export default {
 		showSaveButton() {
 			return this.isNew && !this.canCreateRecurrenceException && !this.isReadOnly
 		},
-		shoUpdateButton() {
+		showUpdateButton() {
 			return !this.isNew && !this.canCreateRecurrenceException && !this.isReadOnly
 		},
 		showUpdateOnlyThisButton() {
