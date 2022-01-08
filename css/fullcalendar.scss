@@ -92,6 +92,10 @@
 		}
 	}
 
+	.fc-event {
+		box-shadow: 0px 0px 0px 1px var(--color-primary-light) !important;
+	}
+
 	.fc-daygrid-day-number {
 		background: var(--color-primary);
 		color: var(--color-primary-text);
@@ -228,20 +232,6 @@
 	.fc-daygrid-more-link {
 		word-break: break-all;
 		white-space: normal;
-	}
-
-	.fc-day-today {
-		.fc-timegrid-col-frame {
-			background-color: var(--color-primary-light);
-		}
-
-		.fc-daygrid-day-frame {
-			background-color: var(--color-primary-light);
-		}
-
-		.fc-event {
-			box-shadow: 0px 0px 0px 1px var(--color-primary-light) !important;
-		}
 	}
 }
 
