@@ -93,7 +93,7 @@
 		"babel-core": "^7.0.0-bridge.0",
 		"babel-jest": "^27.4.4",
 		"babel-loader-exclude-node-modules-except": "^1.2.1",
-		"ical.js": "^1.4.0",
+		"ical.js": "^1.5.0",
 		"iconfont-plugin-webpack": "^1.1.4",
 		"jest": "^27.4.5",
 		"jest-serializer-vue": "^2.0.2",
