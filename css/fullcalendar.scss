@@ -4,6 +4,7 @@
  * @copyright 2020 Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Georg Ehrke
+ * @author René Gieling <github@dartcafe.de>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -81,6 +82,7 @@
 // Today highlighting
 .fc-day-today {
 	&.fc-col-header-cell {
+		background-color: var(--color-primary-light);
 		a, span {
 			background-color: var(--color-primary);
 			color: var(--color-primary-text) !important;
@@ -88,6 +90,10 @@
 			padding: 2px 6px;
 			font-weight: bold;
 		}
+	}
+
+	.fc-event {
+		box-shadow: 0px 0px 0px 1px var(--color-primary-light) !important;
 	}
 
 	.fc-daygrid-day-number {
@@ -221,28 +227,11 @@
 	word-break: break-word;
 	white-space: normal;
 }
+
 .fc-timeGridWeek-view {
 	.fc-daygrid-more-link {
 		word-break: break-all;
 		white-space: normal;
-	}
-
-	.fc-day-today {
-		&.fc-col-header-cell {
-			background-color: var(--color-primary-light);
-		}
-
-		.fc-timegrid-col-frame {
-			background-color: var(--color-primary-light);
-		}
-
-		.fc-daygrid-day-frame {
-			background-color: var(--color-primary-light);
-		}
-
-		.fc-event {
-			box-shadow: 0px 0px 0px 1px var(--color-primary-light) !important;
-		}
 	}
 }
 
