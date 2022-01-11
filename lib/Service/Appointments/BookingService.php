@@ -7,6 +7,7 @@ declare(strict_types=1);
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -163,6 +164,17 @@ class BookingService {
 	 * @return Interval[]
 	 */
 	public function getAvailableSlots(AppointmentConfig $config, int $startTime, int $endTime): array {
+		if ($config->getFutureLimit() !== null) {
+			/** @var int $maxEndTime */
+			$maxEndTime = time() + $config->getFutureLimit();
+			if ($startTime > $maxEndTime) {
+				return [];
+			}
+			if ($endTime > $maxEndTime) {
+				$endTime = $maxEndTime;
+			}
+		}
+
 		// 1. Build intervals at which slots may be booked
 		$availabilityIntervals = $this->availabilityGenerator->generate($config, $startTime, $endTime);
 		// 2. Generate all possible slots

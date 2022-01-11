@@ -71,6 +71,9 @@ export default class AppointmentConfig {
 	/** @member {?number} */
 	dailyMax
 
+	/** @member {?number} */
+	futureLimit
+
 	/** @member {?string[]} */
 	calendarFreeBusyUris
 
@@ -92,6 +95,7 @@ export default class AppointmentConfig {
 	 * @param {number} data.followupDuration Followup duration in seconds
 	 * @param {number} data.timeBeforeNextSlot Time before next slot in seconds
 	 * @param {?number} data.dailyMax Max daily slots
+	 * @param {?number} data.futureLimit Limits how far in the future appointments can be booked
 	 * @param {?string[]} data.calendarFreeBusyUris URIs of calendars to check for conflicts
 	 */
 	constructor(data) {
@@ -110,6 +114,7 @@ export default class AppointmentConfig {
 		this.followupDuration = tryParseInt(data.followupDuration)
 		this.timeBeforeNextSlot = tryParseInt(data.timeBeforeNextSlot)
 		this.dailyMax = tryParseInt(data.dailyMax)
+		this.futureLimit = tryParseInt(data.futureLimit)
 		this.calendarFreeBusyUris = data.calendarFreeBusyUris
 	}
 
@@ -152,6 +157,7 @@ export default class AppointmentConfig {
 			followupDuration: 0,
 			timeBeforeNextSlot: 0,
 			calendarFreeBusyUris: [],
+			futureLimit: 2 * 30 * 24 * 60 * 60, // 2 months
 		})
 
 	}

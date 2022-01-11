@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -158,6 +159,7 @@ class AppointmentConfigService {
 	 * @param string[] $calendarFreeBusyUris
 	 * @param int|null $start
 	 * @param int|null $end
+	 * @param int|null $futureLimit
 	 * @return AppointmentConfig
 	 * @throws ServiceException
 	 */
@@ -176,7 +178,8 @@ class AppointmentConfigService {
 						   ?int $dailyMax,
 						   ?array $calendarFreeBusyUris = [],
 						   ?int $start = null,
-						   ?int $end = null): AppointmentConfig {
+						   ?int $end = null,
+						   ?int $futureLimit = null): AppointmentConfig {
 		try {
 			$appointmentConfig = new AppointmentConfig();
 			$appointmentConfig->setToken($this->random->generate(12, ISecureRandom::CHAR_HUMAN_READABLE));
@@ -196,6 +199,7 @@ class AppointmentConfigService {
 			$appointmentConfig->setCalendarFreeBusyUrisAsArray($calendarFreeBusyUris);
 			$appointmentConfig->setStart($start);
 			$appointmentConfig->setEnd($end);
+			$appointmentConfig->setFutureLimit($futureLimit);
 
 			return $this->mapper->insert($appointmentConfig);
 		} catch (DbException $e) {
