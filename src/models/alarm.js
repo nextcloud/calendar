@@ -40,6 +40,8 @@ const getDefaultAlarmObject = (props = {}) => Object.assign({}, {
 	isRelative: false,
 	// Date object of an absolute alarm (if it's absolute, it must be DATE-TIME)
 	absoluteDate: null,
+	// The time zone id of for absolute alarms
+	absoluteTimezoneId: null,
 	// Whether or not the relative alarm is before the event,
 	relativeIsBefore: null,
 	// Whether or not the alarm is relative to the event's start
@@ -109,6 +111,7 @@ const mapAlarmComponentToAlarmObject = (alarmComponent) => {
 			type: alarmComponent.action,
 			isRelative: alarmComponent.trigger.isRelative(),
 			absoluteDate,
+			absoluteTimezoneId: alarmComponent.trigger.value.timezoneId,
 		})
 	}
 }

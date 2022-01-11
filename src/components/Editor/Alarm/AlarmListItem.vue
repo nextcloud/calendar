@@ -88,8 +88,10 @@
 			<DatePicker
 				prefix="on"
 				:date="alarm.absoluteDate"
+				:timezone-id="alarm.absoluteTimezoneId"
 				:is-all-day="false"
-				@change="changeAbsoluteDate" />
+				@change="changeAbsoluteDate"
+				@change-timezone="changeAbsoluteTimezoneId" />
 		</div>
 		<div
 			v-if="!isReadOnly"
@@ -460,6 +462,18 @@ export default {
 				calendarObjectInstance: this.calendarObjectInstance,
 				alarm: this.alarm,
 				date,
+			})
+		},
+		/**
+		 * Changes the time zone of the absolute alarm
+		 *
+		 * @param {string} timezoneId The new time zone id of the alarm
+		 */
+		changeAbsoluteTimezoneId(timezoneId) {
+			this.$store.commit('changeAlarmAbsoluteTimezoneId', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				alarm: this.alarm,
+				timezoneId,
 			})
 		},
 	},
