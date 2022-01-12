@@ -43,6 +43,7 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 			type: null,
 			isRelative: false,
 			absoluteDate: null,
+			absoluteTimezoneId: null,
 			relativeIsBefore: null,
 			relativeIsRelatedToStart: null,
 			relativeUnitTimed: null,
@@ -64,6 +65,7 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 			type: 'DISPLAY',
 			isRelative: false,
 			absoluteDate: null,
+			absoluteTimezoneId: null,
 			relativeIsBefore: null,
 			relativeIsRelatedToStart: null,
 			relativeUnitTimed: null,
@@ -90,6 +92,7 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 			type: 'DISPLAY',
 			isRelative: false,
 			absoluteDate: mockDate,
+			absoluteTimezoneId: 'UTC',
 			relativeIsBefore: null,
 			relativeIsRelatedToStart: null,
 			relativeUnitTimed: null,
@@ -102,6 +105,38 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 		})
 
 		expect(getDateFromDateTimeValue.mock.calls[0][0].jsDate.toISOString()).toEqual('2020-03-06T08:30:00.000Z')
+
+		expect(getAmountAndUnitForTimedEvents).toHaveBeenCalledTimes(0)
+		expect(getAmountHoursMinutesAndUnitForAllDayEvents).toHaveBeenCalledTimes(0)
+	})
+
+	it('should properly load an absolute alarm with a time zone other than UTC', () => {
+		const mockDate = new Date()
+		getDateFromDateTimeValue
+			.mockReturnValueOnce(mockDate)
+
+		const alarmComponent = getAlarmComponentFromAsset('alarms/absoluteAlarmWithTimezone')
+		const alarmModel = mapAlarmComponentToAlarmObject(alarmComponent)
+
+		expect(alarmModel).toEqual({
+			alarmComponent,
+			type: 'DISPLAY',
+			isRelative: false,
+			absoluteDate: mockDate,
+			absoluteTimezoneId: 'Africa/Banjul',
+			relativeIsBefore: null,
+			relativeIsRelatedToStart: null,
+			relativeUnitTimed: null,
+			relativeAmountTimed: null,
+			relativeUnitAllDay: null,
+			relativeAmountAllDay: null,
+			relativeHoursAllDay: null,
+			relativeMinutesAllDay: null,
+			relativeTrigger: null,
+		})
+
+		expect(getDateFromDateTimeValue.mock.calls[0][0].getInUTC().jsDate.toISOString()).toEqual('2022-01-15T09:00:00.000Z')
+		expect(getDateFromDateTimeValue.mock.calls[0][0].timezoneId).toEqual('Africa/Banjul')
 
 		expect(getAmountAndUnitForTimedEvents).toHaveBeenCalledTimes(0)
 		expect(getAmountHoursMinutesAndUnitForAllDayEvents).toHaveBeenCalledTimes(0)
@@ -130,6 +165,7 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 			type: 'DISPLAY',
 			isRelative: true,
 			absoluteDate: null,
+			absoluteTimezoneId: null,
 			relativeIsBefore: true,
 			relativeIsRelatedToStart: true,
 			relativeUnitTimed: 'hours',
@@ -184,6 +220,7 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 			type: 'DISPLAY',
 			isRelative: true,
 			absoluteDate: null,
+			absoluteTimezoneId: null,
 			relativeIsBefore: true,
 			relativeIsRelatedToStart: true,
 			relativeUnitTimed: 'hours',
@@ -224,6 +261,7 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 			type: 'DISPLAY',
 			isRelative: true,
 			absoluteDate: null,
+			absoluteTimezoneId: null,
 			relativeIsBefore: false,
 			relativeIsRelatedToStart: true,
 			relativeUnitTimed: 'hours',
@@ -264,6 +302,7 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 			type: 'DISPLAY',
 			isRelative: true,
 			absoluteDate: null,
+			absoluteTimezoneId: null,
 			relativeIsBefore: false,
 			relativeIsRelatedToStart: true,
 			relativeUnitTimed: 'hours',
@@ -304,6 +343,7 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 			type: 'DISPLAY',
 			isRelative: true,
 			absoluteDate: null,
+			absoluteTimezoneId: null,
 			relativeIsBefore: true,
 			relativeIsRelatedToStart: false,
 			relativeUnitTimed: 'hours',
