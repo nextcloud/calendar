@@ -34,9 +34,11 @@
 		</div>
 		<DurationSelect
 			class="checked-duration-select__duration"
-			:allow-zero="true"
+			:allow-zero="defaultValue === 0"
 			:disabled="!enabled"
-			:value="value"
+			:value="valueOrDefault"
+			:min="min"
+			:max="max"
 			@update:value="$emit('update:value', $event)" />
 	</div>
 </template>
@@ -56,6 +58,10 @@ export default {
 			required: true,
 		},
 		value: {
+			type: [Number, null, undefined],
+			required: true,
+		},
+		defaultValue: {
 			type: Number,
 			default: 0,
 		},
@@ -63,11 +69,24 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+		min: {
+			type: Number,
+			default: 0,
+		},
+		max: {
+			type: [Number, null, undefined],
+			default: 60 * 60,
+		},
 	},
 	data() {
 		return {
 			id: randomId(),
 		}
+	},
+	computed: {
+		valueOrDefault() {
+			return this.value ?? this.defaultValue
+		},
 	},
 }
 </script>

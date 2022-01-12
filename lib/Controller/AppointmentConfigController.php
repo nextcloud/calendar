@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -145,6 +146,7 @@ class AppointmentConfigController extends Controller {
 	 * @param string[]|null $calendarFreeBusyUris
 	 * @param int|null $start
 	 * @param int|null $end
+	 * @param int|null $futureLimit
 	 * @return JsonResponse
 	 */
 	public function create(
@@ -162,7 +164,8 @@ class AppointmentConfigController extends Controller {
 		?int $dailyMax = null,
 		?array $calendarFreeBusyUris = null,
 		?int $start = null,
-		?int $end = null): JsonResponse {
+		?int $end = null,
+		?int $futureLimit = null): JsonResponse {
 		if ($this->userId === null) {
 			return JsonResponse::fail();
 		}
@@ -189,7 +192,8 @@ class AppointmentConfigController extends Controller {
 				$dailyMax,
 				$calendarFreeBusyUris,
 				$start,
-				$end
+				$end,
+				$futureLimit
 			);
 			return JsonResponse::success($appointmentConfig);
 		} catch (ServiceException $e) {
@@ -214,9 +218,10 @@ class AppointmentConfigController extends Controller {
 	 * @param int $followupDuration
 	 * @param int $timeBeforeNextSlot
 	 * @param int|null $dailyMax
-	 * @param string[] $freebusyUris
+	 * @param string[] $calendarFreeBusyUris
 	 * @param int|null $start
 	 * @param int|null $end
+	 * @param int|null $futureLimit
 	 * @return JsonResponse
 	 */
 	public function update(
@@ -235,7 +240,8 @@ class AppointmentConfigController extends Controller {
 		?int $dailyMax = null,
 		?array $calendarFreeBusyUris = null,
 		?int $start = null,
-		?int $end = null): JsonResponse {
+		?int $end = null,
+		?int $futureLimit = null): JsonResponse {
 		if ($this->userId === null) {
 			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
 		}
@@ -268,6 +274,7 @@ class AppointmentConfigController extends Controller {
 		$appointmentConfig->setCalendarFreeBusyUrisAsArray($calendarFreeBusyUris ?? []);
 		$appointmentConfig->setStart($start);
 		$appointmentConfig->setEnd($end);
+		$appointmentConfig->setFutureLimit($futureLimit);
 
 		try {
 			$appointmentConfig = $this->appointmentConfigService->update($appointmentConfig);

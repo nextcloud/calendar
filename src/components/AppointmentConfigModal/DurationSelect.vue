@@ -54,33 +54,82 @@ export default {
 			type: Boolean,
 			default: false,
 		},
-		max: {
+		min: {
 			type: Number,
+			default: 0,
+		},
+		max: {
+			type: [Number, null, undefined],
 			default: 60 * 60,
 		},
 	},
 	computed: {
 		options() {
-			// TODO: shouldn't this use the translatePlural (n) function?
-			const options = [
-				{ value: 0, label: this.t('calendar', '0 minutes') },
-				{ value: 5 * 60, label: this.t('calendar', '5 minutes') },
-				{ value: 10 * 60, label: this.t('calendar', '10 minutes') },
-				{ value: 15 * 60, label: this.t('calendar', '15 minutes') },
-				{ value: 30 * 60, label: this.t('calendar', '30 minutes') },
-				{ value: 45 * 60, label: this.t('calendar', '45 minutes') },
-				{ value: 60 * 60, label: this.t('calendar', '1 hour') },
-				{ value: 2 * 60 * 60, label: this.t('calendar', '2 hours') },
-				{ value: 6 * 60 * 60, label: this.t('calendar', '6 hours') },
-				{ value: 24 * 60 * 60, label: this.t('calendar', '1 day') },
-				{ value: 2 * 24 * 60 * 60, label: this.t('calendar', '2 days') },
-				{ value: 7 * 24 * 60 * 60, label: this.t('calendar', '1 week') },
-			]
-			if (!this.allowZero) {
-				options.splice(0, 1)
+			let options = []
+
+			if (this.allowZero) {
+				options.push({ value: 0, label: this.t('calendar', '0 minutes') })
 			}
 
-			return options.filter(option => option.value <= this.max)
+			options.push(...[
+				// Minutes
+				...[5, 10, 15, 30, 45].map(duration => {
+					const label = this.n('calendar', '{duration} minute', '{duration} minutes', duration, {
+						duration,
+					})
+					return { value: duration * 60, label }
+				}),
+
+				// Hours
+				...[1, 2, 6].map(duration => {
+					const label = this.n('calendar', '{duration} hour', '{duration} hours', duration, {
+						duration,
+					})
+					return { value: duration * 60 * 60, label }
+				}),
+
+				// Days
+				...[1, 2].map(duration => {
+					const label = this.n('calendar', '{duration} day', '{duration} days', duration, {
+						duration,
+					})
+					return { value: duration * 60 * 60 * 24, label }
+				}),
+
+				// Weeks
+				...[1, 2, 4, 6].map(duration => {
+					const label = this.n('calendar', '{duration} week', '{duration} weeks', duration, {
+						duration,
+					})
+					return { value: duration * 60 * 60 * 24 * 7, label }
+				}),
+
+				// Months
+				...[1, 2, 3, 6, 9].map(duration => {
+					const label = this.n('calendar', '{duration} month', '{duration} months', duration, {
+						duration,
+					})
+					return { value: duration * 60 * 60 * 24 * 30, label }
+				}),
+
+				// Years
+				...[1].map(duration => {
+					const label = this.n('calendar', '{duration} year', '{duration} years', duration, {
+						duration,
+					})
+					return { value: duration * 60 * 60 * 24 * 365, label }
+				}),
+			])
+
+			if (this.min) {
+				options = options.filter(option => {
+					return option.value >= this.min || (this.allowZero && option.value === 0)
+				})
+			}
+			if (this.max) {
+				options = options.filter(option => option.value <= this.max)
+			}
+			return options
 		},
 	},
 }

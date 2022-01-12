@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -67,6 +68,8 @@ use function json_encode;
  * @method void setTimeBeforeNextSlot(int $buffer)
  * @method int|null getDailyMax()
  * @method void setDailyMax(?int $max)
+ * @method int|null getFutureLimit()
+ * @method void setFutureLimit(?int $limit)
  */
 class AppointmentConfig extends Entity implements JsonSerializable {
 
@@ -121,6 +124,9 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 	/** @var int|null */
 	protected $dailyMax;
 
+	/** @var int|null */
+	protected $futureLimit;
+
 	/** @var string */
 	public const VISIBILITY_PUBLIC = 'PUBLIC';
 
@@ -136,6 +142,7 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 		$this->addType('followupDuration', 'int');
 		$this->addType('timeBeforeNextSlot', 'int');
 		$this->addType('dailyMax', 'int');
+		$this->addType('futureLimit', 'int');
 	}
 
 	/**
@@ -196,7 +203,8 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 			'followUpDuration' => $this->getFollowupDuration(),
 			'totalLength' => $this->getTotalLength(),
 			'timeBeforeNextSlot' => $this->getTimeBeforeNextSlot(),
-			'dailyMax' => $this->getDailyMax()
+			'dailyMax' => $this->getDailyMax(),
+			'futureLimit' => $this->getFutureLimit()
 		];
 	}
 }

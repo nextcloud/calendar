@@ -130,6 +130,16 @@
 								:value.sync="editing.dailyMax"
 								:allow-empty="true" />
 						</div>
+
+						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
+							<CheckedDurationSelect
+								:label="t('calendar', 'Limit how far in the future appointments can be booked')"
+								:enabled.sync="enableFutureLimit"
+								:value.sync="editing.futureLimit"
+								:default-value="defaultConfig.futureLimit"
+								:min="7 * 24 * 60 * 60"
+								:max="null" />
+						</div>
 					</fieldset>
 				</div>
 				<button
@@ -189,6 +199,7 @@ export default {
 			editing: undefined,
 			enablePreparationDuration: false,
 			enableFollowupDuration: false,
+			enableFutureLimit: false,
 			showConfirmation: false,
 		}
 	},
@@ -250,6 +261,8 @@ export default {
 
 			this.enablePreparationDuration = !!this.editing.preparationDuration
 			this.enableFollowupDuration = !!this.editing.followupDuration
+			this.enableFutureLimit = !!this.editing.futureLimit
+
 			this.showConfirmation = false
 		},
 		calendarUrlToUri(url) {
@@ -275,6 +288,10 @@ export default {
 
 			if (!this.enableFollowupDuration) {
 				this.editing.followupDuration = this.defaultConfig.followupDuration
+			}
+
+			if (!this.enableFutureLimit) {
+				this.editing.futureLimit = null
 			}
 
 			this.editing.targetCalendarUri ??= this.defaultConfig.targetCalendarUri
