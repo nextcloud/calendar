@@ -274,9 +274,6 @@ export default {
 			if (this.isLoading) {
 				return false
 			}
-			if (this.isViewedByAttendee) {
-				return false
-			}
 
 			return this.calendarObject.existsOnServer
 		},
