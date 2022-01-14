@@ -36,7 +36,6 @@
 			:key="invitee.email"
 			:attendee="invitee"
 			:is-read-only="isReadOnly"
-			:is-viewed-by-organizer="isViewedByOrganizer"
 			:organizer-display-name="organizerDisplayName"
 			@remove-attendee="removeAttendee" />
 		<NoAttendeesView
@@ -97,10 +96,6 @@ export default {
 	},
 	props: {
 		isReadOnly: {
-			type: Boolean,
-			required: true,
-		},
-		isViewedByOrganizer: {
 			type: Boolean,
 			required: true,
 		},
