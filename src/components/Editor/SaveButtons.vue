@@ -74,23 +74,19 @@ export default {
 			type: Boolean,
 			default: false,
 		},
-		isReadOnly: {
-			type: Boolean,
-			default: false,
-		},
 	},
 	computed: {
 		showSaveButton() {
-			return this.isNew && !this.canCreateRecurrenceException && !this.isReadOnly
+			return this.isNew && !this.canCreateRecurrenceException
 		},
 		shoUpdateButton() {
-			return !this.isNew && !this.canCreateRecurrenceException && !this.isReadOnly
+			return !this.isNew && !this.canCreateRecurrenceException
 		},
 		showUpdateOnlyThisButton() {
-			return this.canCreateRecurrenceException && !this.forceThisAndAllFuture && !this.isReadOnly
+			return this.canCreateRecurrenceException && !this.forceThisAndAllFuture
 		},
 		showUpdateThisAndFutureButton() {
-			return this.canCreateRecurrenceException && !this.isReadOnly
+			return this.canCreateRecurrenceException
 		},
 	},
 	methods: {
