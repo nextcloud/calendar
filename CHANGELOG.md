@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.5 – 2022-01-18
+### Fixed
+- Events being editable locally by attendees reenabled
+- Fix reminder time zone picker and formatting
+
 ## 3.0.4 – 2021-12-28
 ### Fixed
 - Calendar picker in the editor sidebar
