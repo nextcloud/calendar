@@ -42,7 +42,7 @@ import pLimit from 'p-limit'
 import { uidToHexColor } from '../utils/color.js'
 import { translate as t } from '@nextcloud/l10n'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
-import { CalendarComponent, Timezone } from '@nextcloud/calendar-js'
+import { CalendarComponent, Timezone, TimezoneComponent } from '@nextcloud/calendar-js'
 import {
 	CALDAV_BIRTHDAY_CALENDAR,
 	IMPORT_STAGE_IMPORTING,
@@ -664,7 +664,7 @@ const actions = {
 		const timezoneObject = getTimezoneManager().getTimezoneForId(timezone)
 		if (timezoneObject !== Timezone.utc && timezoneObject !== Timezone.floating) {
 			const calendar = CalendarComponent.fromEmpty()
-			calendar.addComponent(timezoneObject.toTimezoneComponent())
+			calendar.addComponent(TimezoneComponent.fromICALJs(timezoneObject.toICALJs()))
 			timezoneIcs = calendar.toICS(false)
 		}
 
