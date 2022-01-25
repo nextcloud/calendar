@@ -97,7 +97,7 @@
 		"iconfont-plugin-webpack": "^1.1.4",
 		"jest": "^27.4.7",
 		"jest-serializer-vue": "^2.0.2",
-		"resolve-url-loader": "^4.0.0",
+		"resolve-url-loader": "^5.0.0",
 		"vue-jest": "^3.0.7",
 		"vue-template-compiler": "^2.6.12"
 	},
