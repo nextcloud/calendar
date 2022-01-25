@@ -157,6 +157,7 @@
     "Appointment was updated successfully" : "Termin wurde aktualisiert",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} Minute","{duration} Minuten"],
     "0 minutes" : "0 Minuten",
+    "_{duration} hour_::_{duration} hours_" : ["{duration} Stunde","{duration} Stunden"],
     "_{duration} day_::_{duration} days_" : ["{duration} Tag","{duration} Tage"],
     "_{duration} week_::_{duration} weeks_" : ["{duration} Woche","{duration} Wochen"],
     "_{duration} month_::_{duration} months_" : ["{duration} Monat","{duration} Monate"],
