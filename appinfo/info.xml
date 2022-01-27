@@ -52,4 +52,9 @@
 			<order>5</order>
 		</navigation>
 	</navigations>
+
+	<commands>
+		<command>OCA\Calendar\Command\Export</command>
+		<command>OCA\Calendar\Command\Import</command>
+	</commands>
 </info>
