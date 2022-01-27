@@ -1527,6 +1527,18 @@ const actions = {
 		const calendarObject = state.calendarObject
 
 		if (eventComponent.isDirty()) {
+			// ALTREP parameter is not set by NC calendar, but by CalDAV clients like Thunderbird.
+			// To avoid inconsistencies, remove ALTREP parameter upon modification.
+			const veventComponent = calendarObject.calendarComponent.getFirstComponent('VEVENT')
+			if (veventComponent) {
+				const descriptionProperty = veventComponent.getFirstProperty('Description')
+				if (descriptionProperty) {
+					if (descriptionProperty.hasParameter('ALTREP')) {
+						descriptionProperty.deleteParameter('ALTREP')
+					}
+				}
+			}
+
 			const isForkedItem = eventComponent.primaryItem !== null
 			let original = null
 			let fork = null
