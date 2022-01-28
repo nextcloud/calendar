@@ -148,6 +148,12 @@
 				:value="description"
 				@update:value="updateDescription" />
 
+			<InvitationResponseButtons
+				v-if="isViewedByAttendee && userAsAttendee"
+				:attendee="userAsAttendee"
+				:calendar-id="calendarId"
+				@close="closeEditorAndSkipAction" />
+
 			<SaveButtons
 				v-if="!isReadOnly"
 				class="event-popover__buttons"
@@ -176,6 +182,7 @@ import PropertyText from '../components/Editor/Properties/PropertyText.vue'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
 import PopoverLoadingIndicator from '../components/Popover/PopoverLoadingIndicator.vue'
 import { getPrefixedRoute } from '../utils/router.js'
+import InvitationResponseButtons from '../components/Editor/InvitationResponseButtons'
 
 import ArrowExpand from 'vue-material-design-icons/ArrowExpand.vue'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
@@ -203,6 +210,7 @@ export default {
 		Close,
 		Download,
 		Delete,
+		InvitationResponseButtons,
 	},
 	mixins: [
 		EditorMixin,
