@@ -311,6 +311,14 @@ const mutations = {
 	 * @param {string} data.description New description to set
 	 */
 	changeDescription(state, { calendarObjectInstance, description }) {
+		// ALTREP parameter is not set by NC calendar, but by CalDAV clients like Thunderbird.
+		// To avoid inconsistencies, remove ALTREP parameter upon modification.
+		const descriptionProperty = calendarObjectInstance.eventComponent.getFirstProperty('Description')
+		if (descriptionProperty) {
+			if (descriptionProperty.hasParameter('ALTREP')) {
+				descriptionProperty.deleteParameter('ALTREP')
+			}
+		}
 		calendarObjectInstance.eventComponent.description = description
 		calendarObjectInstance.description = description
 	},
