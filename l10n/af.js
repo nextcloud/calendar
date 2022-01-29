@@ -33,6 +33,7 @@ OC.L10N.register(
     "Notification" : "Kennisgewing",
     "Email" : "E-pos",
     "Unknown" : "Onbekend",
+    "Tentative" : "Tentatief",
     "All day" : "Heeldag",
     "Repeat" : "Herhaal",
     "never" : "nooit",
@@ -48,7 +49,6 @@ OC.L10N.register(
     "Daily" : "Daagliks",
     "Weekly" : "Weekliks",
     "Confirmed" : "Bevestig",
-    "Tentative" : "Tentatief",
     "Categories" : "Kategorieë",
     "Mail" : "Pos"
 },

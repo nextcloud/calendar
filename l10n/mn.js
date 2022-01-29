@@ -30,6 +30,7 @@ OC.L10N.register(
     "Notification" : "Мэдэгдэл",
     "Email" : "Цахим шуудан",
     "Unknown" : "Үл танигдах зүйл",
+    "Tentative" : "Урьдчилсан тов",
     "Repeat" : "Давтах",
     "never" : "хэзээ ч үгүй",
     "after" : "дараа",
@@ -47,7 +48,6 @@ OC.L10N.register(
     "When shared hide this event" : "Түгээсэн тохиолдолд энэ үйл явдлыг нуу",
     "Status" : "төлөв",
     "Confirmed" : "Баталгаажсан",
-    "Tentative" : "Урьдчилсан тов",
     "Categories" : "төрөл",
     "Mail" : "Цахим шуудан"
 },

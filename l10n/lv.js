@@ -39,6 +39,7 @@ OC.L10N.register(
     "Email" : "E-pasts",
     "Busy" : "Aizņemts",
     "Unknown" : "Nezināms",
+    "Tentative" : "Mēģinājums",
     "All day" : "Visas dienas",
     "Repeat" : "Atkārtot",
     "never" : "nekad",
@@ -59,7 +60,6 @@ OC.L10N.register(
     "When shared hide this event" : "Ja koplietots, tad paslēpt notikumu",
     "Status" : "Status",
     "Confirmed" : "Apstiprināts",
-    "Tentative" : "Mēģinājums",
     "Categories" : "Kategorijas",
     "Presentation" : "Prezentācija",
     "Mail" : "E-pasts"

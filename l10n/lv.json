@@ -37,6 +37,7 @@
     "Email" : "E-pasts",
     "Busy" : "Aizņemts",
     "Unknown" : "Nezināms",
+    "Tentative" : "Mēģinājums",
     "All day" : "Visas dienas",
     "Repeat" : "Atkārtot",
     "never" : "nekad",
@@ -57,7 +58,6 @@
     "When shared hide this event" : "Ja koplietots, tad paslēpt notikumu",
     "Status" : "Status",
     "Confirmed" : "Apstiprināts",
-    "Tentative" : "Mēģinājums",
     "Categories" : "Kategorijas",
     "Presentation" : "Prezentācija",
     "Mail" : "E-pasts"

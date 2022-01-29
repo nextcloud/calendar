@@ -226,6 +226,7 @@ OC.L10N.register(
     "Participation marked as tentative." : "Participarea a fost marcată ca o încercare.",
     "Invitation sent." : "Invitaţia a fost trimisă.",
     "Unknown" : "Necunoscut",
+    "Tentative" : "Tentativă",
     "Repeat" : "Repetă",
     "never" : "niciodată",
     "after" : "după",
@@ -258,7 +259,6 @@ OC.L10N.register(
     "When shared hide this event" : "Ascunde evenimentul la partajare",
     "Status" : "Stare",
     "Confirmed" : "Confirmat",
-    "Tentative" : "Tentativă",
     "Mail" : "Mail"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

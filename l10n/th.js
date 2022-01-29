@@ -29,6 +29,7 @@ OC.L10N.register(
     "Update" : "อัพเดท",
     "Email" : "อีเมล",
     "Unknown" : "ไม่ทราบ",
+    "Tentative" : "ชั่วคราว",
     "Repeat" : "ทำซ้ำ",
     "never" : "ไม่ต้องเลย",
     "after" : "หลัง",
@@ -46,7 +47,6 @@ OC.L10N.register(
     "When shared show only busy" : "เมื่อแชร์จะแสดงเฉพาะไม่ว่าง",
     "When shared hide this event" : "เมื่อแชร์จะซ่อนกิจกรรมนี้",
     "Confirmed" : "ได้รับการยืนยันแล้ว",
-    "Tentative" : "ชั่วคราว",
     "Presentation" : "งานนำเสนอ",
     "Office" : "สำนักงาน",
     "Mail" : "จดหมาย"

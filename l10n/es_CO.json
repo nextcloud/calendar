@@ -33,6 +33,7 @@
     "Notification" : "Notificación",
     "Email" : "Correo electrónico",
     "Unknown" : "Desconocido",
+    "Tentative" : "Tentativo",
     "All day" : "Todo el día",
     "Repeat" : "Repetir",
     "never" : "nunca",
@@ -52,7 +53,6 @@
     "When shared hide this event" : "Al compartir, ocultar este evento ",
     "Status" : "Estatus",
     "Confirmed" : "Confirmado",
-    "Tentative" : "Tentativo",
     "Categories" : "Categorías",
     "Mail" : "Correo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

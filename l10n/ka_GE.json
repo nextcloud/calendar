@@ -31,6 +31,7 @@
     "Notification" : "შეტყობინება",
     "Email" : "ელ-ფოსტა",
     "Unknown" : "ამოუცნობი",
+    "Tentative" : "საცდელი",
     "All day" : "მთელი დღე",
     "Repeat" : "გამეორება",
     "never" : "არასდროს",
@@ -50,7 +51,6 @@
     "When shared hide this event" : "როდესაც გაზიარებულია არ გამოჩნდეს ეს მოვლენა",
     "Status" : "სტატუსი",
     "Confirmed" : "დადასტურებლია",
-    "Tentative" : "საცდელი",
     "Categories" : "კატეგორიები",
     "Mail" : "ფოსტა"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"

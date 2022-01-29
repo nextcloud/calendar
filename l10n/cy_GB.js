@@ -30,6 +30,7 @@ OC.L10N.register(
     "Update" : "Diweddaru",
     "Email" : "E-bost",
     "Unknown" : "Anhysbys",
+    "Tentative" : "I'w gadarnhau",
     "Repeat" : "Ailadrodd",
     "never" : "byth",
     "after" : "wedi",
@@ -45,7 +46,6 @@ OC.L10N.register(
     "When shared show only busy" : "Pan wedi ei rannu, yn dangos dim ond prysur",
     "When shared hide this event" : "Pan wedi ei rannu, yn cuddio'r digwyddiad hwn",
     "Confirmed" : "Cadarnhawyd",
-    "Tentative" : "I'w gadarnhau",
     "Mail" : "E-bost"
 },
 "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;");

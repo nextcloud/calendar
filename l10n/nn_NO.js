@@ -25,6 +25,7 @@ OC.L10N.register(
     "Update" : "Oppdater",
     "Email" : "E-post",
     "Unknown" : "Ukjend",
+    "Tentative" : "Førebels",
     "Repeat" : "Gjenta",
     "never" : "aldri",
     "after" : "etter",
@@ -41,7 +42,6 @@ OC.L10N.register(
     "When shared hide this event" : "Når delt, gøym denne hendinga",
     "Status" : "Status",
     "Confirmed" : "Stadfesta",
-    "Tentative" : "Førebels",
     "Mail" : "Post"
 },
 "nplurals=2; plural=(n != 1);");

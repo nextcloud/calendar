@@ -33,6 +33,7 @@ OC.L10N.register(
     "Notification" : "შეტყობინება",
     "Email" : "ელ-ფოსტა",
     "Unknown" : "ამოუცნობი",
+    "Tentative" : "საცდელი",
     "All day" : "მთელი დღე",
     "Repeat" : "გამეორება",
     "never" : "არასდროს",
@@ -52,7 +53,6 @@ OC.L10N.register(
     "When shared hide this event" : "როდესაც გაზიარებულია არ გამოჩნდეს ეს მოვლენა",
     "Status" : "სტატუსი",
     "Confirmed" : "დადასტურებლია",
-    "Tentative" : "საცდელი",
     "Categories" : "კატეგორიები",
     "Mail" : "ფოსტა"
 },

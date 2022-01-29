@@ -26,6 +26,7 @@ OC.L10N.register(
     "Update" : "Actualisar",
     "Email" : "E-posta",
     "Unknown" : "Incognite",
+    "Tentative" : "Tentative",
     "Repeat" : "Repeter",
     "never" : "nunquam",
     "after" : "post",
@@ -43,7 +44,6 @@ OC.L10N.register(
     "When shared show only busy" : "Quando compartite, monstrar solo si illo es occupate",
     "When shared hide this event" : "Quando compartite, celar iste evento",
     "Confirmed" : "Confirmate",
-    "Tentative" : "Tentative",
     "Presentation" : "Presentation",
     "Mail" : "Posta"
 },

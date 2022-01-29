@@ -33,6 +33,7 @@ OC.L10N.register(
     "Notification" : "Notificación",
     "Email" : "Correo electrónico",
     "Unknown" : "Desconocido",
+    "Tentative" : "Tentativo",
     "All day" : "Todo el día",
     "Repeat" : "Repetir",
     "never" : "nunca",
@@ -52,7 +53,6 @@ OC.L10N.register(
     "When shared hide this event" : "Al compartir, ocultar este evento ",
     "Status" : "Estatus",
     "Confirmed" : "Confirmado",
-    "Tentative" : "Tentativo",
     "Categories" : "Categorías",
     "Mail" : "Correo"
 },

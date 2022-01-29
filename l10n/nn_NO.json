@@ -23,6 +23,7 @@
     "Update" : "Oppdater",
     "Email" : "E-post",
     "Unknown" : "Ukjend",
+    "Tentative" : "Førebels",
     "Repeat" : "Gjenta",
     "never" : "aldri",
     "after" : "etter",
@@ -39,7 +40,6 @@
     "When shared hide this event" : "Når delt, gøym denne hendinga",
     "Status" : "Status",
     "Confirmed" : "Stadfesta",
-    "Tentative" : "Førebels",
     "Mail" : "Post"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

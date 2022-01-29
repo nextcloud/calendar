@@ -24,6 +24,7 @@
     "Update" : "Actualisar",
     "Email" : "E-posta",
     "Unknown" : "Incognite",
+    "Tentative" : "Tentative",
     "Repeat" : "Repeter",
     "never" : "nunquam",
     "after" : "post",
@@ -41,7 +42,6 @@
     "When shared show only busy" : "Quando compartite, monstrar solo si illo es occupate",
     "When shared hide this event" : "Quando compartite, celar iste evento",
     "Confirmed" : "Confirmate",
-    "Tentative" : "Tentative",
     "Presentation" : "Presentation",
     "Mail" : "Posta"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
