@@ -320,7 +320,7 @@ const mutations = {
 	 * @param {string} data.description New description to set
 	 */
 	changeDescription(state, { calendarObjectInstance, description }) {
-		// To avoid inconsistencies, remove all parameters (e.g., ALTREP) upon modification.
+		// To avoid inconsistencies (bug #3863), remove all parameters (e.g., ALTREP) upon modification
 		const descriptionProperty = calendarObjectInstance.eventComponent.getFirstProperty('Description')
 		if (descriptionProperty) {
 			for (const parameter of descriptionProperty.getParametersIterator()) {
