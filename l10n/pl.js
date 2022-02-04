@@ -108,6 +108,7 @@ OC.L10N.register(
     "Delete permanently" : "Usuń trwale",
     "Empty trash bin" : "Opróżnij kosz",
     "Untitled element" : "Element bez tytułu",
+    "Unknown calendar" : "Kalendarz nieznany",
     "Could not load deleted calendars and objects" : "Nie udało się wczytać usuniętych kalendarzy i obiektów",
     "Could not restore calendar or event" : "Nie udało się przywrócić kalendarza lub wydarzenia",
     "Do you really want to empty the trash bin?" : "Czy na pewno chcesz opróżnić kosz?",

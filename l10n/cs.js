@@ -108,6 +108,7 @@ OC.L10N.register(
     "Delete permanently" : "Trvale odstranit",
     "Empty trash bin" : "Vyprázdnit koš",
     "Untitled element" : "Prvek bez názvu",
+    "Unknown calendar" : "Neznámý kalendář",
     "Could not load deleted calendars and objects" : "Nedaří se načíst smazané kalendáře a objekty",
     "Could not restore calendar or event" : "Kalendář nebo událost se nepodařilo obnovit",
     "Do you really want to empty the trash bin?" : "Opravdu chcete koš vyprázdnit?",
