@@ -41,6 +41,7 @@
 			</ActionButton>
 			<ActionInput
 				v-if="showCreateCalendarInput"
+				:aria-label="$t('calendar', 'Name for new calendar')"
 				@submit.prevent.stop="createNewCalendar">
 				<template #icon>
 					<CalendarBlank :size="20" decorative />
@@ -63,6 +64,7 @@
 			</ActionButton>
 			<ActionInput
 				v-if="showCreateCalendarTaskListInput"
+				:aria-label="$t('calendar', 'Name for new calendar')"
 				@submit.prevent.stop="createNewCalendarTaskList">
 				<template #icon>
 					<CalendarCheck :size="20" decorative />
@@ -85,6 +87,7 @@
 			</ActionButton>
 			<ActionInput
 				v-if="showCreateSubscriptionInput"
+				:aria-label="$t('calendar', 'Name for new calendar')"
 				@submit.prevent.stop="createNewSubscription">
 				<template #icon>
 					<LinkVariant :size="20" decorative />
