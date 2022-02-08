@@ -171,7 +171,7 @@ export default {
 				} catch (e) {
 					// ignore
 				}
-				let subline = vobject.calendar.displayName
+				let subline = vobject.calendar?.displayName || t('calendar', 'Unknown calendar')
 				if (vobject.isEvent) {
 					const event = vobject?.calendarComponent.getFirstComponent('VEVENT')
 					if (event?.startDate.jsDate && event?.isAllDay()) {
@@ -181,8 +181,8 @@ export default {
 					}
 				}
 				const color = vobject.calendarComponent.getComponentIterator().next().value?.color
-						?? vobject.calendar.color
-						?? uidToHexColor(vobject.calendar.displayName)
+						?? vobject.calendar?.color
+						?? uidToHexColor(subline)
 				return {
 					vobject,
 					type: 'object',
