@@ -32,19 +32,19 @@
 		<div class="property-select-multiple__input"
 			:class="{ 'property-select-multiple__input--readonly': isReadOnly }">
 			<Multiselect v-if="!isReadOnly"
+				v-model="selectionData"
 				:options="options"
 				:searchable="true"
 				:placeholder="placeholder"
 				:tag-placeholder="tagPlaceholder"
 				:allow-empty="true"
 				:title="readableName"
-				:value="value"
 				:multiple="true"
 				:taggable="true"
-				track-by="value"
+				track-by="label"
 				label="label"
 				@select="selectValue"
-				@tag="selectValue"
+				@tag="tag"
 				@remove="unselectValue">
 				<template v-if="coloredOptions" #tag="scope">
 					<PropertySelectMultipleColoredTag v-bind="scope" />
@@ -100,22 +100,41 @@ export default {
 			default: false,
 		},
 	},
+	data() {
+		return {
+			selectionData: [],
+		}
+	},
 	computed: {
 		display() {
-			return !(this.isReadOnly && this.value.length === 0)
+			return !(this.isReadOnly && this.selectionData.length === 0)
 		},
 		options() {
 			const options = this.propModel.options.slice()
-			for (const value of (this.value ?? [])) {
-				if (options.find(option => option.value === value)) {
+			for (const category of (this.selectionData ?? [])) {
+				if (options.find(option => option.value === category.value)) {
 					continue
 				}
 
 				// Add pseudo options for unknown values
 				options.push({
-					value,
-					label: value,
+					value: category.value,
+					label: category.label,
 				})
+			}
+
+			for (const category of this.value) {
+				if (!options.find(option => option.value === category)) {
+					options.push({ value: category, label: category })
+				}
+			}
+
+			if (this.customLabelBuffer) {
+				for (const category of this.customLabelBuffer) {
+					if (!options.find(option => option.value === category.value)) {
+						options.push(category)
+					}
+				}
 			}
 
 			return options
@@ -127,6 +146,14 @@ export default {
 					)
 				})
 		},
+	},
+	created() {
+		for (const category of this.value) {
+			const option = this.options.find(option => option.value === category)
+			if (option) {
+				this.selectionData.push(option)
+			}
+		}
 	},
 	methods: {
 		selectValue(value) {
@@ -142,6 +169,23 @@ export default {
 			}
 
 			this.$emit('remove-single-value', value.value)
+
+			// store removed custom options to keep it in the option list
+			const options = this.propModel.options.slice()
+			if (!options.find(option => option.value === value.value)) {
+				if (!this.customLabelBuffer) {
+					this.customLabelBuffer = []
+				}
+				this.customLabelBuffer.push(value)
+			}
+		},
+		tag(value) {
+			if (!value) {
+				return
+			}
+
+			this.selectionData.push({ value, label: value })
+			this.$emit('add-single-value', value)
 		},
 	},
 }
