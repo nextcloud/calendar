@@ -93,6 +93,7 @@ OC.L10N.register(
     "An error occurred, unable to change the permission of the share." : "Bir sorun çıktı. Takvimin izin ayarı değiştirilemedi.",
     "+ New calendar" : "+ Yeni takvim",
     "New calendar" : "Takvim ekle",
+    "Name for new calendar" : "Yeni takvimin adı",
     "Creating calendar …" : "Takvim oluşturuluyor …",
     "New calendar with task list" : "Görev listesi ile yeni takvim",
     "New subscription from link (read-only)" : "Bağlantıdan yeni abonelik (salt okunur)",

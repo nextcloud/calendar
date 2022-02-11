@@ -93,6 +93,7 @@ OC.L10N.register(
     "An error occurred, unable to change the permission of the share." : "Wystąpił błąd, nie można zmienić uprawnień do udostępnienia.",
     "+ New calendar" : "+ Nowy kalendarz",
     "New calendar" : "Nowy kalendarz",
+    "Name for new calendar" : "Nazwa nowego kalendarza",
     "Creating calendar …" : "Tworzenie kalendarza…",
     "New calendar with task list" : "Nowy kalendarz z listą zadań",
     "New subscription from link (read-only)" : "Nowa subskrypcja z linku (tylko do odczytu)",

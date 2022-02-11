@@ -91,6 +91,7 @@
     "An error occurred, unable to change the permission of the share." : "Es ist ein Fehler aufgetreten, die Berechtigung für die Freigabe konnte nicht geändert werden.",
     "+ New calendar" : "+ Neuer Kalender",
     "New calendar" : "Neuer Kalender",
+    "Name for new calendar" : "Name für neuen Kalender",
     "Creating calendar …" : "Erstelle Kalender …",
     "New calendar with task list" : "Neuer Kalender mit Aufgabenliste",
     "New subscription from link (read-only)" : "Neues Abonnement aus Link (schreibgeschützt)",

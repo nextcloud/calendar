@@ -100,6 +100,7 @@ OC.L10N.register(
     "Delete permanently" : "Ištrinti negrįžtamai",
     "Empty trash bin" : "Išvalyti šiukšlinę",
     "Untitled element" : "Elementas be pavadinimo",
+    "Unknown calendar" : "Nežinomas kalendorius",
     "Could not load deleted calendars and objects" : "Nepavyko įkelti ištrintų kalendorių ir objektų",
     "Could not restore calendar or event" : "Nepavyko atkurti kalendoriaus ar įvykio",
     "Do you really want to empty the trash bin?" : "Ar tikrai norite išvalyti šiukšlinę?",

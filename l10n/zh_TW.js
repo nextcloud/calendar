@@ -93,6 +93,7 @@ OC.L10N.register(
     "An error occurred, unable to change the permission of the share." : "發生錯誤，無法變更分享權限",
     "+ New calendar" : "+ 新日曆",
     "New calendar" : "新日曆",
+    "Name for new calendar" : "新行事曆名稱",
     "Creating calendar …" : "正在建立日曆…",
     "New calendar with task list" : "新日曆及待辦清單",
     "New subscription from link (read-only)" : "自連結建立新訂閱（唯讀）",

@@ -93,6 +93,7 @@ OC.L10N.register(
     "An error occurred, unable to change the permission of the share." : "Došlo k chybě, nepodařilo se změnit přístupová práva k sdílení.",
     "+ New calendar" : "+ Nový kalendář",
     "New calendar" : "Nový kalendář",
+    "Name for new calendar" : "Název pro nový kalendář",
     "Creating calendar …" : "Vytváření kalendáře…",
     "New calendar with task list" : "Nový kalendář s úkolníkem",
     "New subscription from link (read-only)" : "Nové přihlášení se k odběru z odkazu (pouze pro čtení)",
