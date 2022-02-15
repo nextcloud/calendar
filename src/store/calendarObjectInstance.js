@@ -298,6 +298,9 @@ const mutations = {
 	 * @param {string} data.location New location to set
 	 */
 	changeLocation(state, { calendarObjectInstance, location }) {
+		// Special case: delete Apple-specific location property to avoid inconsistencies
+		calendarObjectInstance.eventComponent.deleteAllProperties('X-APPLE-STRUCTURED-LOCATION')
+
 		calendarObjectInstance.eventComponent.location = location
 		calendarObjectInstance.location = location
 	},
