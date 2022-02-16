@@ -187,20 +187,6 @@
 		}
 	}
 
-	.app-navigation-entry__icon-bullet-disabled {
-		display: block;
-		// there is 2 margins
-		padding: 15px;
-		div {
-			border: 1px solid var(--color-border-dark);
-			width: 15px;
-			height: 15px;
-			cursor: pointer;
-			transition: background 100ms ease-in-out;
-			border-radius: 50%;
-		}
-	}
-
 	.app-navigation-entry__utils {
 		.action-checkbox__label {
 			padding-right: 0 !important;
