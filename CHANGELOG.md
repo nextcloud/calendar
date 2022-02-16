@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.6 – 2022-02-16
+### Fixed
+- Fix invalid X-APPLE-STRUCTURED-LOCATION on location update
+- Fix trashbin being unavaliable
+- FIx previously ignored DESCRIPTION;ALTREP property
+
 ## 3.0.5 – 2022-01-18
 ### Fixed
 - Events being editable locally by attendees reenabled
