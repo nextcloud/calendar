@@ -23,8 +23,9 @@
 
 ## :hammer_and_wrench: Installation
 
-In your Nextcloud, simply navigate to »Apps«, choose the category »Organization«, find the Calendar app and enable it.
-Then open the Calendar app from the app menu.
+The app is distributed through the [app store](https://apps.nextcloud.com/apps/calendar) and you can install it [right from your Nextcloud installation](https://docs.nextcloud.com/server/stable/admin_manual/apps_management.html).
+
+Release tarballs are hosted at https://github.com/nextcloud-releases/calendar/releases.
 
 ## :satellite: Support
 
@@ -42,12 +43,7 @@ If you find bugs or have problems with the CalDAV-Backend, you should ask the te
 
 ## Maintainers
 
-- [Christoph Wurst](https://github.com/ChristophWurst)
-- [Thomas Citharel](https://github.com/tcitworld)
-- [Richard Steinmetz](https://github.com/st3iny)
-- [and many more](https://github.com/nextcloud/calendar/graphs/contributors)
-
-If you’d like to join, just go through the [issue list](https://github.com/nextcloud/calendar/issues?utf8=✓&q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22+) and fix some. :)   
+* [Nextcloud Groupware team](https://github.com/nextcloud/groupware/#members)
 
 ## Build the app
 
