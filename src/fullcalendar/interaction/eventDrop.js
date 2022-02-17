@@ -49,9 +49,6 @@ export default function(store, fcAPI) {
 		}
 
 		const objectId = event.extendedProps.objectId
-		const recurrenceId = event.extendedProps.recurrenceId
-		const recurrenceIdDate = new Date(recurrenceId * 1000)
-
 		let calendarObject
 		try {
 			calendarObject = await store.dispatch('getEventByObjectId', { objectId })
@@ -61,11 +58,19 @@ export default function(store, fcAPI) {
 			return
 		}
 
-		const eventComponent = getObjectAtRecurrenceId(calendarObject, recurrenceIdDate)
-		if (!eventComponent) {
-			console.debug('Recurrence-id not found')
-			revert()
-			return
+		let eventComponent
+		const recurrenceId = event.extendedProps.recurrenceId
+		if (recurrenceId) {
+			const recurrenceIdDate = new Date(recurrenceId * 1000)
+			eventComponent = getObjectAtRecurrenceId(calendarObject, recurrenceIdDate)
+			if (!eventComponent) {
+				console.debug('Recurrence-id not found')
+				revert()
+				return
+			}
+		} else {
+			const iterator = calendarObject.calendarComponent.getVObjectIterator()
+			eventComponent = iterator.next().value
 		}
 
 		try {
