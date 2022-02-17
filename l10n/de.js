@@ -475,6 +475,7 @@ OC.L10N.register(
     "Presentation" : "Präsentation",
     "Talk" : "Talk",
     "Speech" : "Gespräch",
+    "Deadline" : "Abgabefrist",
     "Submission" : "Einreichung",
     "Reporting" : "Berichten",
     "Camping" : "Camping",
