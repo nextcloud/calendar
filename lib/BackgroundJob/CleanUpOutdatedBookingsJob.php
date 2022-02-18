@@ -31,6 +31,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
 use OCP\ILogger;
 use Psr\Log\LoggerInterface;
+use function method_exists;
 
 class CleanUpOutdatedBookingsJob extends TimedJob {
 	/** @var ILogger */
@@ -43,9 +44,16 @@ class CleanUpOutdatedBookingsJob extends TimedJob {
 								BookingService $service,
 								LoggerInterface $logger) {
 		parent::__construct($time);
-		$this->setInterval(24 * 60 * 60);
 		$this->service = $service;
 		$this->logger = $logger;
+
+		$this->setInterval(24 * 60 * 60);
+		/**
+		 * @todo remove check with 24+
+		 */
+		if (method_exists($this, 'setTimeSensitivity')) {
+			$this->setTimeSensitivity(self::TIME_INSENSITIVE);
+		}
 	}
 
 
