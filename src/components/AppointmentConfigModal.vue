@@ -204,7 +204,8 @@ export default {
 			}
 
 			const uri = this.editing.targetCalendarUri
-			return this.ownSortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
+			const calendar = this.ownSortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
+			return calendar || this.ownSortedCalendars[0]
 		},
 		defaultConfig() {
 			return AppointmentConfig.createDefault(
