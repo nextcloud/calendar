@@ -91,6 +91,7 @@
     "An error occurred, unable to change the permission of the share." : "Vyskytla sa chyba, nie je možné zmeniť práva na zdieľanie kalendára.",
     "+ New calendar" : "+ Nový kalendár",
     "New calendar" : "Nový kalendár",
+    "Name for new calendar" : "Názov nového kalendára",
     "Creating calendar …" : "Vytváranie kalendára …",
     "New calendar with task list" : "Nový kalendár so zoznamom úloh",
     "New subscription from link (read-only)" : "Nový odber z odkazu (iba na čítanie)",
