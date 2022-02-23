@@ -26,13 +26,18 @@
 		class="button primary new-event"
 		@click="newEvent"
 		@shortkey="newEvent">
-		{{ $t('calendar', '+ New event') }}
+		<Plus :size="20" />
+		{{ $t('calendar', 'New event') }}
 	</button>
 </template>
 
 <script>
+import Plus from 'vue-material-design-icons/Plus.vue'
 export default {
 	name: 'AppNavigationHeaderNewEvent',
+	components: {
+		Plus,
+	},
 	methods: {
 		/**
 		 * Opens the new event dialog
@@ -43,3 +48,10 @@ export default {
 	},
 }
 </script>
+
+<style scoped>
+.button.primary.new-event {
+	display: flex;
+	align-items: center;
+}
+</style>
