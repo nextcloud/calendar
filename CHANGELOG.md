@@ -1,10 +1,31 @@
 # Changelog
 
+## 3.1.0 - 2022-02-28
+### Added
+- Accept & decline invitations from web
+- Conflict calendars for appointments
+- Limit how far in the future appointments can be booked
+### Changed
+- Time-insensitive background jobs are now run at off-peak times
+- Illustrations for Voting, BBQ, Weddings, etc.
+- Calendar monthly and weekly view now grey out days of other months
+- Full calendar week view now highlights "Today"
+- Date & time picker enhancements - end time now influences start time, lets you choose a time first
+- Show the whole title of an event if the display field is large enough
+- Metadata for appointments config prep- and followup time
+### Removed
+- Nextcloud 20 support
+- PHP7.2 support
+### Fixed
+- Accessibility
+- Broken appointment modal if destination calendar was deleted
+- Fix vertical scrolling issues on mobile devices
+
 ## 3.0.6 – 2022-02-16
 ### Fixed
-- Fix invalid X-APPLE-STRUCTURED-LOCATION on location update
-- Fix trashbin being unavaliable
-- FIx previously ignored DESCRIPTION;ALTREP property
+- Invalid X-APPLE-STRUCTURED-LOCATION on location update
+- Trashbin being unavaliable
+- Previously ignored DESCRIPTION;ALTREP property
 
 ## 3.0.5 – 2022-01-18
 ### Fixed
