@@ -26,15 +26,18 @@
 		:title="calendar.displayName || $t('calendar', 'Untitled calendar')"
 		:class="{deleted: !!deleteTimeout, disabled: !calendar.enabled, 'open-sharing': shareMenuOpen}"
 		@click.prevent.stop="toggleEnabled">
-		<AppNavigationIconBullet
-			v-if="calendar.enabled"
-			slot="icon"
-			:color="calendar.color"
-			@click.prevent.stop="toggleEnabled" />
-		<AppNavigationDisabledCalendarIconBullet
-			v-if="!calendar.enabled"
-			slot="icon"
-			@click.prevent.stop="toggleEnabled" />
+		<template slot="icon">
+			<Actions>
+				<ActionButton @click.prevent.stop="toggleEnabled">
+					<template #icon>
+						<CheckboxBlankCircle
+							:title="calendar.enabled ? $t('calendar', 'Disable calendar') : $t('calendar', 'Enable calendar') "
+							:size="20"
+							:fill-color="calendar.enabled ? calendar.color : 'var(--color-text-lighter)'" />
+					</template>
+				</ActionButton>
+			</Actions>
+		</template>
 
 		<template v-if="!deleteTimeout" slot="counter">
 			<Actions v-if="showSharingIcon" class="sharing">
@@ -171,7 +174,6 @@ import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
 import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
 import ActionText from '@nextcloud/vue/dist/Components/ActionText'
-import AppNavigationIconBullet from '@nextcloud/vue/dist/Components/AppNavigationIconBullet'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
 import ClickOutside from 'vue-click-outside'
 import {
@@ -183,11 +185,10 @@ import {
 	generateRemoteUrl,
 } from '@nextcloud/router'
 
-import AppNavigationDisabledCalendarIconBullet from './AppNavigationDisabledCalendarIconBullet.vue'
 import CalendarListItemSharingSearch from './CalendarListItemSharingSearch.vue'
 import CalendarListItemSharingPublishItem from './CalendarListItemSharingPublishItem.vue'
 import CalendarListItemSharingShareItem from './CalendarListItemSharingShareItem.vue'
-
+import CheckboxBlankCircle from 'vue-material-design-icons/CheckboxBlankCircle.vue'
 import Close from 'vue-material-design-icons/Close.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 import Download from 'vue-material-design-icons/Download.vue'
@@ -205,12 +206,11 @@ export default {
 		ActionInput,
 		ActionLink,
 		ActionText,
-		AppNavigationDisabledCalendarIconBullet,
-		AppNavigationIconBullet,
 		AppNavigationItem,
 		CalendarListItemSharingSearch,
 		CalendarListItemSharingPublishItem,
 		CalendarListItemSharingShareItem,
+		CheckboxBlankCircle,
 		Close,
 		Delete,
 		Download,
