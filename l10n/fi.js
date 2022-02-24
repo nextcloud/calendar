@@ -33,7 +33,6 @@ OC.L10N.register(
     "Next day" : "Seuraava päivä",
     "Next week" : "Seuraava viikko",
     "Next month" : "Seuraava kuukausi",
-    "+ New event" : "+ Uusi tapahtuma",
     "Today" : "Tänään",
     "Day" : "Päivä",
     "Week" : "Viikko",

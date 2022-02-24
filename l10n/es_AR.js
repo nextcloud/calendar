@@ -14,7 +14,6 @@ OC.L10N.register(
     "Next day" : "Proximo día",
     "Next week" : "Proxima semana",
     "Next month" : "Proximo mes",
-    "+ New event" : "+ Nuevo evento",
     "Today" : "Hoy",
     "Day" : "Día",
     "Week" : "Semana",

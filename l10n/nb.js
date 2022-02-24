@@ -16,7 +16,6 @@ OC.L10N.register(
     "Next day" : "Neste dag",
     "Next week" : "Neste uke",
     "Next month" : "Neste måned",
-    "+ New event" : "+ Ny hendelse",
     "Today" : "I dag",
     "Day" : "Dag",
     "Week" : "Uke",

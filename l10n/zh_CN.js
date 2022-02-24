@@ -34,7 +34,6 @@ OC.L10N.register(
     "Next day" : "后一天",
     "Next week" : "下周",
     "Next month" : "下个月",
-    "+ New event" : "+ 新事件",
     "Today" : "今天",
     "Day" : "日",
     "Week" : "星期",

@@ -8,7 +8,6 @@ OC.L10N.register(
     "Cheers!" : "Priekā!",
     "Calendar" : "Kalendārs",
     "A Calendar app for Nextcloud" : "Kalendāra lietotne priekš Nextcloud",
-    "+ New event" : "+ Jauns notikums",
     "Today" : "Šodien",
     "Day" : "Diena",
     "Week" : "Nedēļa",

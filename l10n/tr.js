@@ -34,7 +34,6 @@ OC.L10N.register(
     "Next day" : "Sonraki gün",
     "Next week" : "Sonraki hafta",
     "Next month" : "Sonraki ay",
-    "+ New event" : "+ Yeni etkinlik",
     "Today" : "Bugün",
     "Day" : "Gün",
     "Week" : "Hafta",

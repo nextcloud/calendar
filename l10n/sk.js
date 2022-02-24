@@ -34,7 +34,6 @@ OC.L10N.register(
     "Next day" : "Nasledujúci deň",
     "Next week" : "Nasledujúci týždeň",
     "Next month" : "Nasledujúci mesiac",
-    "+ New event" : "+ Nová udalosť",
     "Today" : "Dnes",
     "Day" : "Deň",
     "Week" : "Týždeň",

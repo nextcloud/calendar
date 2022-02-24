@@ -18,7 +18,6 @@ OC.L10N.register(
     "Next day" : "Deiz war-lerc'h",
     "Next week" : "Sizhun a zeu",
     "Next month" : "Miz a zeu",
-    "+ New event" : "+ Darvoud nevez",
     "Today" : "Hiziv",
     "Day" : "Deiz",
     "Week" : "Sizhun",

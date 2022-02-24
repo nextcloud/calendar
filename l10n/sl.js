@@ -30,7 +30,6 @@ OC.L10N.register(
     "Next day" : "Naslednji dan",
     "Next week" : "Naslednji teden",
     "Next month" : "Naslednji mesec",
-    "+ New event" : "+ Nov dogodek",
     "Today" : "Danes",
     "Day" : "Dan",
     "Week" : "Teden",
