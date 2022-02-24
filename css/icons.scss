@@ -23,6 +23,7 @@
 // TODO: Use icon svg api instead of mixins when the server drops scss compilation.
 // https://docs.nextcloud.com/server/latest/developer_manual/design/icons.html#svg-color-api
 
+@include icon-black-white('attendee', 'calendar', 1);
 @include icon-black-white('briefcase', 'calendar', 5);
 @include icon-black-white('circle', 'calendar', 1);
 @include icon-black-white('color-picker', 'calendar', 1);
@@ -45,3 +46,5 @@
 @include icon-black-white('view-week', 'calendar', 1);
 @include icon-color('reminder', 'calendar', '#fffffe', 1);
 @include icon-color('reminder', 'calendar', '#000001', 1);
+@include icon-color('attendee', 'calendar', '#fffffe', 1);
+@include icon-color('attendee', 'calendar', '#000001', 1);

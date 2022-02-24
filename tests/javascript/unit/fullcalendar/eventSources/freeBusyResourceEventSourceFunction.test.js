@@ -27,10 +27,10 @@ import {
 	getHexForColorName,
 } from '../../../../../src/utils/color.js'
 import { translate } from '@nextcloud/l10n'
-import {getAllObjectsInTimeRange} from "../../../../../src/utils/calendarObject.js";
+import { getAllObjectsInTimeRange } from '../../../../../src/utils/calendarObject.js'
 jest.mock('@nextcloud/l10n')
 jest.mock('../../../../../src/utils/color.js')
-jest.mock("../../../../../src/utils/calendarObject.js")
+jest.mock('../../../../../src/utils/calendarObject.js')
 
 describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 
@@ -51,16 +51,16 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 		isLight
 			.mockImplementation(() => false)
 
-		const event11Start = new Date(2020, 1, 1, 10, 0, 0, 0);
-		const event11End = new Date(2020, 1, 1, 15, 0, 0, 0);
-		const event12Start = new Date(2020, 1, 2, 10, 0, 0, 0);
-		const event12End = new Date(2020, 1, 2, 15, 0, 0, 0);
-		const event13Start = new Date(2020, 1, 3, 10, 0, 0, 0);
-		const event13End = new Date(2020, 1, 3, 15, 0, 0, 0);
-		const event21Start = new Date(2020, 5, 5, 0, 0, 0, 0);
-		const event21End = new Date(2020, 5, 6, 0, 0, 0, 0);
-		const event31Start = new Date(2020, 6, 10, 10, 0, 0, 0);
-		const event31End = new Date(2020, 6, 10, 10, 0, 0, 0);
+		const event11Start = new Date(2020, 1, 1, 10, 0, 0, 0)
+		const event11End = new Date(2020, 1, 1, 15, 0, 0, 0)
+		const event12Start = new Date(2020, 1, 2, 10, 0, 0, 0)
+		const event12End = new Date(2020, 1, 2, 15, 0, 0, 0)
+		const event13Start = new Date(2020, 1, 3, 10, 0, 0, 0)
+		const event13End = new Date(2020, 1, 3, 15, 0, 0, 0)
+		const event21Start = new Date(2020, 5, 5, 0, 0, 0, 0)
+		const event21End = new Date(2020, 5, 6, 0, 0, 0, 0)
+		const event31Start = new Date(2020, 6, 10, 10, 0, 0, 0)
+		const event31End = new Date(2020, 6, 10, 10, 0, 0, 0)
 
 		const eventComponentSet1 = [{
 			name: 'VEVENT',
@@ -71,15 +71,16 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			canModifyAllDay: jest.fn().mockReturnValue(false),
 			startDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event11Start
-				})
+					jsDate: event11Start,
+				}),
 			},
 			endDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event11End
-				})
+					jsDate: event11End,
+				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
+			getAttendeeList: jest.fn().mockReturnValue([]),
 		}, {
 			name: 'VEVENT',
 			id: '1-2',
@@ -89,16 +90,17 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			canModifyAllDay: jest.fn().mockReturnValue(false),
 			startDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event12Start
-				})
+					jsDate: event12Start,
+				}),
 			},
 			endDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event12End
-				})
+					jsDate: event12End,
+				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
 			title: 'Untitled\nmultiline\nevent',
+			getAttendeeList: jest.fn().mockReturnValue([]),
 		}, {
 			name: 'VEVENT',
 			id: '1-3',
@@ -108,15 +110,16 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			canModifyAllDay: jest.fn().mockReturnValue(false),
 			startDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event13Start
-				})
+					jsDate: event13Start,
+				}),
 			},
 			endDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event13End
-				})
+					jsDate: event13End,
+				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(true),
+			getAttendeeList: jest.fn().mockReturnValue([]),
 		}]
 		const eventComponentSet2 = [{
 			name: 'VEVENT',
@@ -127,15 +130,16 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			canModifyAllDay: jest.fn().mockReturnValue(true),
 			startDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event21Start
-				})
+					jsDate: event21Start,
+				}),
 			},
 			endDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event21End
-				})
+					jsDate: event21End,
+				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
+			getAttendeeList: jest.fn().mockReturnValue([]),
 		}]
 		const eventComponentSet4 = [{
 			name: 'VEVENT',
@@ -146,16 +150,17 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			canModifyAllDay: jest.fn().mockReturnValue(true),
 			startDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event31Start
-				})
+					jsDate: event31Start,
+				}),
 			},
 			endDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event31End
-				})
+					jsDate: event31End,
+				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
 			color: 'red',
+			getAttendeeList: jest.fn().mockReturnValue(['someone']),
 		}]
 
 		getAllObjectsInTimeRange
@@ -219,7 +224,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					davUrl: 'url1',
 					objectType: 'VEVENT',
 					percent: null,
-				}
+				},
 			},
 			{
 				id: '1###1-2',
@@ -227,7 +232,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				allDay: false,
 				start: event12Start,
 				end: event12End,
-				classNames: [ 'fc-event-nc-cancelled' ],
+				classNames: ['fc-event-nc-cancelled'],
 				extendedProps: {
 					objectId: '1',
 					recurrenceId: 456,
@@ -239,7 +244,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					davUrl: 'url1',
 					objectType: 'VEVENT',
 					percent: null,
-				}
+				},
 			},
 			{
 				id: '1###1-3',
@@ -247,7 +252,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				allDay: false,
 				start: event13Start,
 				end: event13End,
-				classNames: [ 'fc-event-nc-tentative', 'fc-event-nc-alarms' ],
+				classNames: ['fc-event-nc-tentative', 'fc-event-nc-alarms'],
 				extendedProps: {
 					objectId: '1',
 					recurrenceId: 789,
@@ -259,7 +264,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					davUrl: 'url1',
 					objectType: 'VEVENT',
 					percent: null,
-				}
+				},
 			},
 			{
 				id: '2###2-1',
@@ -279,7 +284,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					davUrl: 'url2',
 					objectType: 'VEVENT',
 					percent: null,
-				}
+				},
 			},
 			{
 				id: '4###3-1',
@@ -287,7 +292,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				allDay: false,
 				start: event31Start,
 				end: event31End,
-				classNames: [],
+				classNames: ['fc-event-nc-attendees'],
 				extendedProps: {
 					objectId: '4',
 					recurrenceId: 303,
@@ -303,7 +308,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				backgroundColor: '#ff0000',
 				borderColor: '#ff0000',
 				textColor: '#eeeeee',
-			}
+			},
 		])
 
 		expect(eventComponentSet1[0].startDate.getInTimezone).toHaveBeenCalledTimes(1)
@@ -432,16 +437,16 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 		isLight
 			.mockImplementation(() => false)
 
-		const event1Start = new Date(2020, 1, 1, 10, 0, 0, 0);
-		const event1End = new Date(2020, 1, 1, 15, 0, 0, 0);
-		const event2Start = new Date(2020, 1, 2, 10, 0, 0, 0);
-		const event2End = new Date(2020, 1, 2, 15, 0, 0, 0);
-		const event3Start = new Date(2020, 1, 3, 10, 0, 0, 0);
-		const event3End = new Date(2020, 1, 3, 15, 0, 0, 0);
-		const event4Start = new Date(2020, 5, 5, 0, 0, 0, 0);
-		const event4End = new Date(2020, 5, 6, 0, 0, 0, 0);
-		const event5Start = new Date(2020, 6, 10, 10, 0, 0, 0);
-		const event5End = new Date(2020, 6, 10, 10, 0, 0, 0);
+		const event1Start = new Date(2020, 1, 1, 10, 0, 0, 0)
+		const event1End = new Date(2020, 1, 1, 15, 0, 0, 0)
+		const event2Start = new Date(2020, 1, 2, 10, 0, 0, 0)
+		const event2End = new Date(2020, 1, 2, 15, 0, 0, 0)
+		const event3Start = new Date(2020, 1, 3, 10, 0, 0, 0)
+		const event3End = new Date(2020, 1, 3, 15, 0, 0, 0)
+		const event4Start = new Date(2020, 5, 5, 0, 0, 0, 0)
+		const event4End = new Date(2020, 5, 6, 0, 0, 0, 0)
+		const event5Start = new Date(2020, 6, 10, 10, 0, 0, 0)
+		const event5End = new Date(2020, 6, 10, 10, 0, 0, 0)
 
 		const eventComponentSet = [{
 			name: 'VTODO',
@@ -452,16 +457,17 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			canModifyAllDay: jest.fn().mockReturnValue(false),
 			startDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event1Start
-				})
+					jsDate: event1Start,
+				}),
 			},
 			endDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event1End
-				})
+					jsDate: event1End,
+				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
 			percent: null,
+			getAttendeeList: jest.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '2',
@@ -471,16 +477,17 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			canModifyAllDay: jest.fn().mockReturnValue(false),
 			startDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event2Start
-				})
+					jsDate: event2Start,
+				}),
 			},
 			endDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event2End
-				})
+					jsDate: event2End,
+				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
 			percent: null,
+			getAttendeeList: jest.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '3',
@@ -490,16 +497,17 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			canModifyAllDay: jest.fn().mockReturnValue(false),
 			startDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event3Start
-				})
+					jsDate: event3Start,
+				}),
 			},
 			endDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event3End
-				})
+					jsDate: event3End,
+				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
 			percent: 99,
+			getAttendeeList: jest.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '4',
@@ -509,17 +517,18 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			canModifyAllDay: jest.fn().mockReturnValue(false),
 			startDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event4Start
-				})
+					jsDate: event4Start,
+				}),
 			},
 			endDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event4End
-				})
+					jsDate: event4End,
+				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
 			title: 'This task has a title',
 			percent: null,
+			getAttendeeList: jest.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '5',
@@ -529,17 +538,18 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			canModifyAllDay: jest.fn().mockReturnValue(false),
 			startDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event5Start
-				})
+					jsDate: event5Start,
+				}),
 			},
 			endDate: {
 				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event5End
-				})
+					jsDate: event5End,
+				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
 			title: 'This task has a title and percent',
 			percent: 99,
+			getAttendeeList: jest.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '6',
@@ -552,6 +562,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			startDate: null,
 			endDate: null,
 			percent: null,
+			getAttendeeList: jest.fn().mockReturnValue([]),
 		}]
 
 		getAllObjectsInTimeRange

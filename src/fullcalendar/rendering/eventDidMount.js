@@ -40,6 +40,17 @@ export default function({ event, el }) {
 		el.firstChild.appendChild(notificationIcon)
 	}
 
+	if (el.classList.contains('fc-event-nc-attendees')) {
+		const attendeeIcon = document.createElement('span')
+		attendeeIcon.classList.add('icon-event-attendee')
+		if (event.extendedProps.darkText) {
+			attendeeIcon.classList.add('icon-event-attendee--dark')
+		} else {
+			attendeeIcon.classList.add('icon-event-attendee--light')
+		}
+		el.firstChild.appendChild(attendeeIcon)
+	}
+
 	if (el.classList.contains('fc-event-nc-task')) {
 		if (el.classList.contains('fc-list-event')) {
 			// List view

@@ -119,6 +119,10 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				}
 			}
 
+			if (object.getAttendeeList().length > 0) {
+				classNames.push('fc-event-nc-attendees')
+			}
+
 			const fcEvent = {
 				id: [calendarObject.id, object.id].join('###'),
 				title,

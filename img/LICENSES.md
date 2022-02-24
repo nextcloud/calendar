@@ -1,5 +1,10 @@
 # Licenses
 
+## attendee.svg
+- Created by: Google (modified)
+- License: Apache License Version 2.0
+- Link: https://fonts.google.com/icons?selected=Material%20Icons%3Agroup%3A
+
 ## briefcase.svg
 - Created by: [Oriza Creative](https://thenounproject.com/orizacreativa)
 - License: CC-BY

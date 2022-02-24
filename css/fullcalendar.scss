@@ -156,18 +156,65 @@
 	}
 
 	// Reminder icon on events with alarms set
-	.fc-event-nc-alarms {
-		.icon-event-reminder {
+	&.fc-event-nc-alarms, &.fc-event-nc-attendees {
+		.icon-event-reminder, .icon-event-attendee {
 			background-color: inherit;
 			background-position: right;
 			position: absolute;
-			top: 0;
+			top: 2px;
 			right: 0;
-			&--light {
+		}
+	}
+
+	// Reminder icon on calendar color background
+	&.fc-event-nc-alarms {
+		.icon-event-reminder--light {
+			background-image: var(--icon-calendar-reminder-fffffe)
+		}
+		.icon-event-reminder--dark {
+			background-image: var(--icon-calendar-reminder-000001)
+		}
+	}
+
+	// Reminder icon on theme background
+	&.fc-list-event, &.fc-daygrid-dot-event {
+		&.fc-event-nc-alarms {
+			.icon-event-reminder--light {
+				background-image: var(--icon-calendar-reminder-000001)
+			}
+
+			.icon-event-reminder--dark {
 				background-image: var(--icon-calendar-reminder-fffffe)
 			}
-			&--dark {
-				background-image: var(--icon-calendar-reminder-000001)
+		}
+	}
+
+	// Attendee icon on events with attendees
+	&.fc-event-nc-alarms, &.fc-event-nc-attendees {
+		.icon-event-reminder + .icon-event-attendee {
+			right: 15px;
+		}
+	}
+
+	// Attendee icon on calendar color background
+	&.fc-event-nc-attendees {
+		.icon-event-attendee--light {
+			background-image: var(--icon-calendar-attendee-fffffe)
+		}
+		.icon-event-attendee--dark {
+			background-image: var(--icon-calendar-attendee-000001)
+		}
+	}
+
+	// Attendee icon on theme background
+	&.fc-list-event, &.fc-daygrid-dot-event {
+		&.fc-event-nc-attendees {
+			.icon-event-attendee--light {
+				background-image: var(--icon-calendar-attendee-000001)
+			}
+
+			.icon-event-attendee--dark {
+				background-image: var(--icon-calendar-attendee-fffffe)
 			}
 		}
 	}
