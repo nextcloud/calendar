@@ -6,7 +6,7 @@
         "sort-packages": true
     },
     "require": {
-        "php": "^7.2|^8.0"
+        "php": ">=7.3 <=8.1"
     },
     "require-dev": {
         "christophwurst/nextcloud_testing": "0.12.4",
