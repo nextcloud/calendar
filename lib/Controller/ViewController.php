@@ -30,6 +30,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IRequest;
+use function in_array;
 
 class ViewController extends Controller {
 
@@ -94,6 +95,10 @@ class ViewController extends Controller {
 		$defaultReminder = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminder', $defaultDefaultReminder);
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
 		$hideEventExport = $this->config->getAppValue($this->appName, 'hideEventExport', 'no') === 'yes';
+		$forceEventAlarmType = $this->config->getAppValue($this->appName, 'forceEventAlarmType', '');
+		if (!in_array($forceEventAlarmType, ['DISPLAY', 'EMAIL'], true)) {
+			$forceEventAlarmType = null;
+		}
 
 		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
 		$talkApiVersion = version_compare($this->appManager->getAppVersion('spreed'), '12.0.0', '>=') ? 'v4' : 'v1';
@@ -114,6 +119,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState('show_tasks', $showTasks);
 		$this->initialStateService->provideInitialState('tasks_enabled', $tasksEnabled);
 		$this->initialStateService->provideInitialState('hide_event_export', $hideEventExport);
+		$this->initialStateService->provideInitialState('force_event_alarm_type', $forceEventAlarmType);
 		$this->initialStateService->provideInitialState('appointmentConfigs',$this->appointmentConfigService->getAllAppointmentConfigurations($this->userId));
 
 		return new TemplateResponse($this->appName, 'main');

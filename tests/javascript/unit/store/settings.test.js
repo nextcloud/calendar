@@ -49,6 +49,7 @@ describe('store/settings test suite', () => {
 		expect(settingsStore.state).toEqual({
 			appVersion: null,
 			firstRun: null,
+			forceEventAlarmType: null,
 			hideEventExport: false,
 			talkEnabled: false,
 			eventLimit: null,

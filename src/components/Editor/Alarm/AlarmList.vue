@@ -43,6 +43,7 @@
 <script>
 import AlarmListNew from './AlarmListNew'
 import AlarmListItem from './AlarmListItem'
+import { mapState } from 'vuex'
 
 export default {
 	name: 'AlarmList',
@@ -61,6 +62,9 @@ export default {
 		},
 	},
 	computed: {
+	  ...mapState({
+		  forceEventAlarmType: (state) => state.settings.forceEventAlarmType,
+	  }),
 		alarms() {
 			return this.calendarObjectInstance.alarms
 		},
@@ -74,7 +78,7 @@ export default {
 		addAlarm(totalSeconds) {
 			this.$store.commit('addAlarmToCalendarObjectInstance', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				type: 'DISPLAY',
+				type: this.forceEventAlarmType ?? 'DISPLAY',
 				totalSeconds,
 			})
 		},
