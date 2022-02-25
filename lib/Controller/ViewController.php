@@ -93,6 +93,7 @@ class ViewController extends Controller {
 		$slotDuration = $this->config->getUserValue($this->userId, $this->appName, 'slotDuration', $defaultSlotDuration);
 		$defaultReminder = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminder', $defaultDefaultReminder);
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
+		$hideEventExport = $this->config->getAppValue($this->appName, 'hideEventExport', 'no') === 'yes';
 
 		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
 		$talkApiVersion = version_compare($this->appManager->getAppVersion('spreed'), '12.0.0', '>=') ? 'v4' : 'v1';
@@ -112,6 +113,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState('default_reminder', $defaultReminder);
 		$this->initialStateService->provideInitialState('show_tasks', $showTasks);
 		$this->initialStateService->provideInitialState('tasks_enabled', $tasksEnabled);
+		$this->initialStateService->provideInitialState('hide_event_export', $hideEventExport);
 		$this->initialStateService->provideInitialState('appointmentConfigs',$this->appointmentConfigService->getAllAppointmentConfigurations($this->userId));
 
 		return new TemplateResponse($this->appName, 'main');

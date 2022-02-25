@@ -30,6 +30,7 @@
 		:title-placeholder="$t('calendar', 'Event title')"
 		:subtitle="subTitle"
 		:empty="isLoading || isError"
+		:force-menu="true"
 		@close="cancel"
 		@update:title="updateTitle">
 		<template v-if="isLoading">
@@ -57,7 +58,7 @@
 		<template
 			v-if="!isLoading && !isError"
 			#secondary-actions>
-			<ActionLink v-if="hasDownloadURL"
+			<ActionLink v-if="!hideEventExport && hasDownloadURL"
 				:href="downloadURL">
 				<template #icon>
 					<Download :size="20" decorative />
@@ -311,6 +312,7 @@ export default {
 	computed: {
 		...mapState({
 			locale: (state) => state.settings.momentLocale,
+			hideEventExport: (state) => state.settings.hideEventExport,
 		}),
 		accessClass() {
 			return this.calendarObjectInstance?.accessClass || null
