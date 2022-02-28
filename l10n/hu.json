@@ -93,7 +93,7 @@
     "An error occurred, unable to change the permission of the share." : "Hiba történt, nem lehet megváltoztatni a megosztás jogosultságait.",
     "+ New calendar" : "+ Új naptár",
     "New calendar" : "Új naptár",
-    "Name for new calendar" : "Új naptár elnevezése",
+    "Name for new calendar" : "Új naptár neve",
     "Creating calendar …" : "Naptár létrehozása…",
     "New calendar with task list" : "Új naptár feladatlistával",
     "New subscription from link (read-only)" : "Új feliratkozás hivatkozásból (csak olvasható)",
