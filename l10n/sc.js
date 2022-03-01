@@ -20,7 +20,6 @@ OC.L10N.register(
     "Next day" : "Die imbeniente",
     "Next week" : "Sa chida chi benit",
     "Next month" : "Su mese chi benit",
-    "+ New event" : "+ Eventu nou",
     "Today" : "Oe",
     "Day" : "Die",
     "Week" : "Chida",

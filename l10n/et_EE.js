@@ -13,7 +13,6 @@ OC.L10N.register(
     "Next day" : "Järgmine päev",
     "Next week" : "Järgmine nädal",
     "Next month" : "Järgmine kuu",
-    "+ New event" : "+ Uus sündmus",
     "Today" : "Täna",
     "Day" : "Päev",
     "Week" : "Nädal",

@@ -19,7 +19,6 @@ OC.L10N.register(
     "Next day" : "היום הבא",
     "Next week" : "השבוע הבא",
     "Next month" : "החודש הבא",
-    "+ New event" : "+ ארוע חדש",
     "Today" : "היום",
     "Day" : "יום",
     "Week" : "שבוע",

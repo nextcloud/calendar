@@ -24,7 +24,6 @@ OC.L10N.register(
     "Next day" : "翌日",
     "Next week" : "翌週",
     "Next month" : "翌月",
-    "+ New event" : "+ 新しいイベント",
     "Today" : "今日",
     "Day" : "日",
     "Week" : "週",

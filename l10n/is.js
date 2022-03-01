@@ -17,7 +17,6 @@ OC.L10N.register(
     "Next day" : "Næsta dag",
     "Next week" : "Næsta viku",
     "Next month" : "Næsti mánuður",
-    "+ New event" : "+ Nýr atburður",
     "Today" : "Í dag",
     "Day" : "Dagur",
     "Week" : "Vika",

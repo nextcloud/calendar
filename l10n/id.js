@@ -16,7 +16,6 @@ OC.L10N.register(
     "Next day" : "Hari setelah",
     "Next week" : "Minggu setelah",
     "Next month" : "Bulan setelah",
-    "+ New event" : "+ Acara baru",
     "Today" : "Hari Ini",
     "Day" : "Hari",
     "Week" : "Minggu",

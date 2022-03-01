@@ -30,7 +30,6 @@ OC.L10N.register(
     "Next day" : "Nästa dag",
     "Next week" : "Nästa vecka",
     "Next month" : "Nästa månad",
-    "+ New event" : "+ Ny händelse",
     "Today" : "Idag",
     "Day" : "Dag",
     "Week" : "Vecka",
