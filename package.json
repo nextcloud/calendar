@@ -54,7 +54,7 @@
 		"@nextcloud/logger": "^2.1.0",
 		"@nextcloud/moment": "^1.1.1",
 		"@nextcloud/router": "^2.0.0",
-		"@nextcloud/vue": "^4.4.0",
+		"@nextcloud/vue": "^5.1.0",
 		"@nextcloud/vue-dashboard": "^2.0.1",
 		"autosize": "^5.0.1",
 		"closest-css-color": "^1.0.0",
