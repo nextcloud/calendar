@@ -34,7 +34,6 @@ OC.L10N.register(
     "Next day" : "Következő nap",
     "Next week" : "Következő hét",
     "Next month" : "Következő hónap",
-    "+ New event" : "+ Új esemény",
     "Today" : "Ma",
     "Day" : "Nap",
     "Week" : "Hét",

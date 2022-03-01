@@ -14,7 +14,6 @@ OC.L10N.register(
     "Next day" : "Jorn seguent",
     "Next week" : "Setmana seguenta",
     "Next month" : "Mes seguent",
-    "+ New event" : "+ eveniment novèl",
     "Today" : "Uèi",
     "Day" : "Jorn",
     "Week" : "Aquesta setmana",
