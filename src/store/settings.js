@@ -42,6 +42,7 @@ const state = {
 	tasksEnabled: false,
 	timezone: 'automatic',
 	hideEventExport: false,
+	forceEventAlarmType: null,
 	// user-defined Nextcloud settings
 	momentLocale: 'en',
 }
@@ -143,9 +144,10 @@ const mutations = {
 	 * @param {boolean} data.talkEnabled Whether or not the talk app is enabled
 	 * @param {boolean} data.tasksEnabled Whether ot not the tasks app is enabled
 	 * @param {string} data.timezone The timezone to view the calendar in. Either an Olsen timezone or "automatic"
-	 * @param data.hideEventExport
+	 * @param {boolean} data.hideEventExport
+	 * @param {string} data.forceEventAlarmType
 	 */
-	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport }) {
+	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType }) {
 		logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -175,6 +177,7 @@ Initial settings:
 		state.tasksEnabled = tasksEnabled
 		state.timezone = timezone
 		state.hideEventExport = hideEventExport
+		state.forceEventAlarmType = forceEventAlarmType
 	},
 
 	/**

@@ -95,6 +95,7 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
 				['calendar', 'hideEventExport', 'no', 'yes'],
+				['calendar', 'forceEventAlarmType', '', ''],
 				['calendar', 'installed_version', null, '1.0.0'],
 			]);
 		$this->config
@@ -145,6 +146,7 @@ class ViewControllerTest extends TestCase {
 				['show_tasks', false],
 				['tasks_enabled', true],
 				['hide_event_export', true],
+				['force_event_alarm_type', null],
 				['appointmentConfigs', [new AppointmentConfig()]],
 			);
 

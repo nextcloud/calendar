@@ -98,33 +98,35 @@
 			class="property-alarm-item__options">
 			<Actions>
 				<ActionRadio
+					v-if="canChangeAlarmType && (isAlarmTypeDisplay || forceEventAlarmType === null || forceEventAlarmType === 'DISPLAY')"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeDisplay"
 					@change="changeType('DISPLAY')">
 					{{ $t('calendar', 'Notification') }}
 				</ActionRadio>
 				<ActionRadio
+					v-if="canChangeAlarmType && (isAlarmTypeEmail || forceEventAlarmType === null || forceEventAlarmType === 'EMAIL')"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeEmail"
 					@change="changeType('EMAIL')">
 					{{ $t('calendar', 'Email') }}
 				</ActionRadio>
 				<ActionRadio
-					v-if="isAlarmTypeAudio"
+					v-if="canChangeAlarmType && isAlarmTypeAudio"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeAudio"
 					@change="changeType('AUDIO')">
 					{{ $t('calendar', 'Audio notification') }}
 				</ActionRadio>
 				<ActionRadio
-					v-if="isAlarmTypeOther"
+					v-if="canChangeAlarmType && isAlarmTypeOther"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeOther"
 					@change="changeType(alarm.type)">
 					{{ $t('calendar', 'Other notification') }}
 				</ActionRadio>
 
-				<ActionSeparator v-if="!isRecurring" />
+				<ActionSeparator v-if="canChangeAlarmType && !isRecurring" />
 
 				<ActionRadio
 					v-if="!isRecurring"
@@ -236,6 +238,7 @@ export default {
 	computed: {
 		...mapState({
 			locale: (state) => state.settings.momentLocale,
+			forceEventAlarmType: (state) => state.settings.forceEventAlarmType,
 		}),
 		canEdit() {
 			// You can always edit an alarm if it's absolute
@@ -262,6 +265,9 @@ export default {
 			}
 
 			return true
+		},
+		canChangeAlarmType() {
+		  return this.forceEventAlarmType !== null && this.alarm.type !== this.forceEventAlarmType
 		},
 		alarmTypeName() {
 			return this._uid + '-radio-type-name'
