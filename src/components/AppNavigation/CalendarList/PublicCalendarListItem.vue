@@ -75,7 +75,7 @@
 				<template #icon>
 					<Download :size="20" decorative />
 				</template>
-				{{ $t('calendar', 'Download') }}
+				{{ $t('calendar', 'Export') }}
 			</ActionLink>
 		</template>
 	</AppNavigationItem>
