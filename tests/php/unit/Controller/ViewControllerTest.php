@@ -94,6 +94,7 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
+				['calendar', 'hideEventExport', 'no', 'yes'],
 				['calendar', 'installed_version', null, '1.0.0'],
 			]);
 		$this->config
@@ -143,6 +144,7 @@ class ViewControllerTest extends TestCase {
 				['default_reminder', '00:10:00'],
 				['show_tasks', false],
 				['tasks_enabled', true],
+				['hide_event_export', true],
 				['appointmentConfigs', [new AppointmentConfig()]],
 			);
 

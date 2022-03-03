@@ -68,8 +68,8 @@
 						{{ $t('calendar', 'Show more details') }}
 					</ActionButton>
 				</Actions>
-				<Actions v-if="!isLoading && !isError">
-					<ActionLink v-if="hasDownloadURL"
+				<Actions v-if="!isLoading && !isError" :force-menu="true">
+					<ActionLink v-if="!hideEventExport && hasDownloadURL"
 						:href="downloadURL">
 						<template #icon>
 							<Download :size="20" decorative />
@@ -189,6 +189,7 @@ import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import Close from 'vue-material-design-icons/Close.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 import Download from 'vue-material-design-icons/Download.vue'
+import { mapState } from 'vuex'
 
 export default {
 	name: 'EditSimple',
@@ -215,6 +216,11 @@ export default {
 	mixins: [
 		EditorMixin,
 	],
+	computed: {
+	  ...mapState({
+		  hideEventExport: (state) => state.settings.hideEventExport,
+	  }),
+	},
 	data() {
 		return {
 			placement: 'auto',

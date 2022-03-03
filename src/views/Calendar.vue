@@ -218,6 +218,7 @@ export default {
 			tasksEnabled: loadState('calendar', 'tasks_enabled'),
 			timezone: loadState('calendar', 'timezone'),
 			showTasks: loadState('calendar', 'show_tasks'),
+			hideEventExport: loadState('calendar', 'hide_event_export'),
 		})
 		this.$store.dispatch('initializeCalendarJsConfig')
 
