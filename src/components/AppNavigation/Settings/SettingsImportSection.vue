@@ -245,7 +245,7 @@ export default {
 			await this.$store.dispatch('importEventsIntoCalendar')
 
 			if (this.total === this.accepted) {
-				showSuccess(this.$n('calendar', 'Successfully imported %n event', 'Successfully imported %n events.', this.total))
+				showSuccess(this.$n('calendar', 'Successfully imported %n event', 'Successfully imported %n events', this.total))
 			} else {
 				showWarning(this.$t('calendar', 'Import partially failed. Imported {accepted} out of {total}.', {
 					accepted: this.accepted,
