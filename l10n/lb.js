@@ -8,7 +8,6 @@ OC.L10N.register(
     "Week" : "Woch",
     "Month" : "Mount",
     "Delete" : "Läschen",
-    "Download" : "Eroflueden",
     "Share link" : "Link deelen",
     "Share with users or groups" : "Mat Benotzer oder Gruppen deelen",
     "can edit" : "kann änneren",

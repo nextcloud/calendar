@@ -12,7 +12,6 @@ OC.L10N.register(
     "Week" : "Veke",
     "Month" : "Månad",
     "Delete" : "Slett",
-    "Download" : "Last ned",
     "Share link" : "Del lenkje",
     "can edit" : "kan endra",
     "New calendar" : "Ny kalender",

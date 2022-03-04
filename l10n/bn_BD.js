@@ -8,7 +8,6 @@ OC.L10N.register(
     "Week" : "সপ্তাহ",
     "Month" : "মাস",
     "Delete" : "মুছে",
-    "Download" : "ডাউনলোড",
     "Share link" : "লিংক ভাগাভাগি করেন",
     "can edit" : "সম্পাদনা করতে পারবেন",
     "New calendar" : "নতুন দিনপঞ্জী",

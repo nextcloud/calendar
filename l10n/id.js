@@ -27,7 +27,6 @@ OC.L10N.register(
     "Edit color" : "Edit warna",
     "Saving color …" : "Menyimpan warna …",
     "Copy private link" : "Salin tautan privat",
-    "Download" : "Unduh",
     "An error occurred, unable to change visibility of the calendar." : "Terjadi galat, tidak dapat mengubah visibilitas kalender.",
     "An error occurred, unable to delete the calendar." : "Terjadi galat, tidak dapat menghapus kalender.",
     "Calendar link copied to clipboard." : "Tautan kalender disalin ke papan klip.",

@@ -28,7 +28,6 @@ OC.L10N.register(
     "Edit color" : "Modificar la color",
     "Saving color …" : "Enregistrament de la color …",
     "Copy private link" : "Copiar lo ligam privat",
-    "Download" : "Telecargar",
     "Share link" : "Partejar lo ligam",
     "Publish calendar" : "Publicar lo calendièr",
     "Copy public link" : "Copiar lo ligam public",

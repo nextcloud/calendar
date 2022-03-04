@@ -31,7 +31,6 @@ OC.L10N.register(
     "Edit color" : "ערוך צבע",
     "Saving color …" : "שמירת הצבע ...",
     "Copy private link" : "העתקת קישור פרטי",
-    "Download" : "הורדה",
     "Unshare from me" : "ביטול השיתוף איתי",
     "An error occurred, unable to change visibility of the calendar." : "אירעה שגיאה--לא מצליחים לשנות את הראות של לוח השנה.",
     "An error occurred, unable to delete the calendar." : "אירעה שגיאה, לא ניתן למחוק את היומן.",

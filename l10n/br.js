@@ -30,7 +30,6 @@ OC.L10N.register(
     "Edit color" : "Embann al liv",
     "Saving color …" : "Enrollañ al liv   ...",
     "Copy private link" : "Eilañ al liamm prevez",
-    "Download" : "Pellgargañ",
     "Unshare from me" : "Paouez da lodañ ganin",
     "An error occurred, unable to change visibility of the calendar." : "C'hoarvezet ez eus ur fazi, ne c'halletr ket kemmañ gweluster an deiziataer.",
     "An error occurred, unable to delete the calendar." : "C'hoarvezet ez eus ur fazi, ne c'haller ket dilemel an deiziataer.",

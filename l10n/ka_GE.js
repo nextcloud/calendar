@@ -13,7 +13,6 @@ OC.L10N.register(
     "Month" : "თვე",
     "List" : "ჩამონათვალი",
     "Delete" : "წაშლა",
-    "Download" : "ჩამოტვირთვა",
     "Share link" : "ბმულის გაზიარება",
     "Share with users or groups" : "გაზიარება მოხმარებლებთან ან ჯგუფებთან",
     "can edit" : "შეგიძლია შეცვლა",

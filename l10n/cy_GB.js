@@ -13,7 +13,6 @@ OC.L10N.register(
     "Week" : "Wythnos",
     "Month" : "Mis",
     "Delete" : "Dileu",
-    "Download" : "Llwytho i lawr",
     "Share link" : "Rhannu dolen",
     "Share with users or groups" : "Rhannwch gyda defnyddwyr neu grwpiau",
     "No users or groups" : "Dim defnyddwyr na grwpiau",

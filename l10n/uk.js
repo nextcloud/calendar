@@ -32,7 +32,6 @@ OC.L10N.register(
     "Edit color" : "Редагувати колір",
     "Saving color …" : "Збереження кольору ...",
     "Copy private link" : "Копіювати приватне посилання",
-    "Download" : "Завантажити",
     "Unshare from me" : "Від'єднати від мене",
     "An error occurred, unable to change visibility of the calendar." : "Помилка: неможливо змінити відображення календаря.",
     "An error occurred, unable to delete the calendar." : "Помилка: неможливо вилучити календар.",

@@ -40,7 +40,6 @@ OC.L10N.register(
     "Edit color" : "色を編集",
     "Saving color …" : "色を保存しています …",
     "Copy private link" : "プライベートリンクをコピー",
-    "Download" : "ダウンロード",
     "Unshare from me" : "共有を自分から解除",
     "An error occurred, unable to change visibility of the calendar." : "エラーが発生したため、カレンダーの表示状態を変更できません。",
     "An error occurred, unable to delete the calendar." : "エラーが発生したため、カレンダーを削除できません。",

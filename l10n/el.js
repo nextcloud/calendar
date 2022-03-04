@@ -33,7 +33,6 @@ OC.L10N.register(
     "Edit color" : "Επεξεργασία χρώματος",
     "Saving color …" : "Αποθήκευση χρώματος …",
     "Copy private link" : "Αντιγραφή ιδιωτικού συνδέσμου",
-    "Download" : "Λήψη",
     "Unshare from me" : "Διακοπή διαμοιρασμού με εμένα",
     "An error occurred, unable to change visibility of the calendar." : "Παρουσιάστηκε σφάλμα, δεν δύναται να αλλάξει η εμφάνιση του ημερολογίου.",
     "An error occurred, unable to delete the calendar." : "Παρουσιάστηκε σφάλμα, δεν δύναται να διαγραφή το ημερολόγιο.",

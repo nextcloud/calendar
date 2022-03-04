@@ -44,7 +44,6 @@ OC.L10N.register(
     "Edit color" : "Taisyti spalvą",
     "Saving color …" : "Įrašoma spalva…",
     "Copy private link" : "Kopijuoti privačią nuorodą",
-    "Download" : "Atsisiųsti",
     "Unshare from me" : "Nustoti bendrinti su manimi",
     "An error occurred, unable to change visibility of the calendar." : "Įvyko klaida, nepavyko pakeisti kalendoriaus matomumo.",
     "An error occurred, unable to delete the calendar." : "Įvyko klaida, nepavyko ištrinti kalendorių.",

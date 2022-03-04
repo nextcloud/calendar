@@ -28,7 +28,6 @@ OC.L10N.register(
     "Untitled calendar" : "Untitled calendar",
     "Edit color" : "Edit colour",
     "Copy private link" : "Copy private link",
-    "Download" : "Download",
     "An error occurred, unable to change visibility of the calendar." : "An error occurred, unable to change visibility of the calendar.",
     "An error occurred, unable to delete the calendar." : "An error occurred, unable to delete the calendar.",
     "Calendar link copied to clipboard." : "Calendar link copied to clipboard.",

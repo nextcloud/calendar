@@ -51,7 +51,6 @@ OC.L10N.register(
     "Edit color" : "Muokkaa väriä",
     "Saving color …" : "Tallennetaan väri …",
     "Copy private link" : "Kopioi yksityinen linkki",
-    "Download" : "Lataa",
     "Unshare from me" : "Lopeta jako minulle",
     "An error occurred, unable to change visibility of the calendar." : "Tapahtui virhe. Kalenterin näkyvyyttä ei voitu muuttaa.",
     "An error occurred, unable to delete the calendar." : "Tapahtui virhe, kalenteria ei voitu poistaa.",

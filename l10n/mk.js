@@ -31,7 +31,6 @@ OC.L10N.register(
     "Edit color" : "Уреди бои",
     "Saving color …" : "Зачувување боја …",
     "Copy private link" : "Копирај приватен линк",
-    "Download" : "Преземи",
     "Unshare from me" : "Не споделувај со мене",
     "An error occurred, unable to change visibility of the calendar." : "Настана грешка, неможе да се промени видливоста на календарот.",
     "An error occurred, unable to delete the calendar." : "Настана грешка, неможе да се избрише календарот.",

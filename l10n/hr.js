@@ -33,7 +33,6 @@ OC.L10N.register(
     "Edit color" : "Uredi boju",
     "Saving color …" : "Spremanje boje...",
     "Copy private link" : "Kopiraj privatnu poveznicu",
-    "Download" : "Preuzmi",
     "Unshare from me" : "Prekid dijeljenja sa mnom",
     "An error occurred, unable to change visibility of the calendar." : "Došlo je do pogreške, nije moguće promijeniti vidljivost kalendara.",
     "An error occurred, unable to delete the calendar." : "Došlo je do pogreške, nije moguće izbrisati kalendar.",

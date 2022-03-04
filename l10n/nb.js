@@ -28,7 +28,6 @@ OC.L10N.register(
     "Edit color" : "Rediger farge",
     "Saving color …" : "Lagrer farge  ...",
     "Copy private link" : "Kopier privat lenke",
-    "Download" : "Last ned",
     "Unshare from me" : "Fjern deling fra meg",
     "An error occurred, unable to change visibility of the calendar." : "En feil oppstod, kan ikke endre synlighet til kalenderen.",
     "An error occurred, unable to delete the calendar." : "En feil oppstod, kan ikke slette kalenderen. ",

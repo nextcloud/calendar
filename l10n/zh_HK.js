@@ -55,7 +55,6 @@ OC.L10N.register(
     "Edit color" : "編輯顏色",
     "Saving color …" : "儲存顏色…",
     "Copy private link" : "複製私人連結",
-    "Download" : "下載",
     "Unshare from me" : "由我取消的分享",
     "An error occurred, unable to change visibility of the calendar." : "發生錯誤，無法改變日曆的能見度",
     "An error occurred, unable to delete the calendar." : "發生錯誤，無法刪除日曆",

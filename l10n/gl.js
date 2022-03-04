@@ -31,7 +31,6 @@ OC.L10N.register(
     "Edit color" : "Editar a cor",
     "Saving color …" : "Gardando a cor …",
     "Copy private link" : "Copiar a ligazón privada",
-    "Download" : "Descargar",
     "Unshare from me" : "Deixar de compartir",
     "An error occurred, unable to change visibility of the calendar." : "Produciuse un erro, non é posíbel cambiar a visibilidade do calendario.",
     "An error occurred, unable to delete the calendar." : "Produciuse un erro, non é posíbel eliminar o calendario.",

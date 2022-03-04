@@ -14,7 +14,6 @@ OC.L10N.register(
     "Month" : "Monato",
     "Delete" : "Forigi",
     "Copy private link" : "Kopii privatan ligilon",
-    "Download" : "Elŝuti",
     "Calendar link copied to clipboard." : "Kalendara ligilo kopiita al tondujo",
     "Calendar link could not be copied to clipboard." : "Kalendara ligilo ne eblis esti kopiita al tondujo",
     "Share link" : "Kunhavigi ligilon",

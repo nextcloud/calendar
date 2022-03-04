@@ -9,7 +9,6 @@ OC.L10N.register(
     "Week" : "Septimana",
     "Month" : "Mense",
     "Delete" : "Deler",
-    "Download" : "Discargar",
     "Share link" : "Compartir ligamine",
     "Share with users or groups" : "Compartir con usatores o gruppos",
     "can edit" : "pote modificar",

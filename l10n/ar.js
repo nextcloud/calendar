@@ -30,7 +30,6 @@ OC.L10N.register(
     "Edit color" : "تعديل اللون",
     "Saving color …" : "جاري حفظ اللون    …",
     "Copy private link" : "نسخ الرابط الخاص",
-    "Download" : "تنزيل",
     "Unshare from me" : "أنت ألغيت المشاركة",
     "An error occurred, unable to change visibility of the calendar." : "حدث خطأ، لا يمكن تعديل وضعية ظهور التقويم.",
     "An error occurred, unable to delete the calendar." : "حدث خطأ، لا يمكن حذف التقويم.",

@@ -12,7 +12,6 @@ OC.L10N.register(
     "Week" : "Долоо хоног",
     "Month" : "Сар",
     "Delete" : "Устгах",
-    "Download" : "Татаж авах",
     "Share link" : "Холбоос хуваалцах",
     "Share with users or groups" : "Бусад хэрэглэгч, бүлэгт хуваалцах",
     "can edit" : "засаж чадна",

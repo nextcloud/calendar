@@ -14,7 +14,6 @@ OC.L10N.register(
     "Month" : "Maand",
     "List" : "Lys",
     "Delete" : "Skrap",
-    "Download" : "Laai af",
     "Share link" : "Deel skakel",
     "Share with users or groups" : "Deel met gebruikers of groepe",
     "No users or groups" : "Geen gebruikers of groepe",

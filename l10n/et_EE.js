@@ -24,7 +24,6 @@ OC.L10N.register(
     "Edit color" : "Muuda värvi",
     "Saving color …" : "Salvestan värvi ...",
     "Copy private link" : "Kopeeri privaatne link",
-    "Download" : "Lae alla",
     "Share link" : "Jaga link",
     "Publish calendar" : "Avalda kalender",
     "Copy public link" : "Kopeeri avalik link",

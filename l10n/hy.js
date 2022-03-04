@@ -8,7 +8,6 @@ OC.L10N.register(
     "Week" : "Շաբաթ",
     "Month" : "Ամիս",
     "Delete" : "Ջնջել",
-    "Download" : "Ներբեռնել",
     "Share link" : "Կիսվել հղմամբ",
     "Share with users or groups" : "Կիսվել օգտատերերի կամ խմբերի հետ",
     "can edit" : "կարող է խմբագրել",

@@ -13,7 +13,6 @@ OC.L10N.register(
     "Month" : "Muaj",
     "List" : "List",
     "Delete" : "Fshije",
-    "Download" : "Shkarkoje",
     "Share link" : "Ndani lidhjen",
     "Share with users or groups" : "Nda me përdoruesit ose grupet",
     "can edit" : "mund të përpunojnë",

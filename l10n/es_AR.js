@@ -22,7 +22,6 @@ OC.L10N.register(
     "Delete" : "Borrar",
     "Edit name" : "Editar nombre",
     "Edit color" : "Editar color",
-    "Download" : "Descargar",
     "Share link" : "Compartir link",
     "Copy public link" : "Copiar link publico",
     "Copied link" : "Link copiado",

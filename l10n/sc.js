@@ -32,7 +32,6 @@ OC.L10N.register(
     "Edit color" : "Modìfica su colore",
     "Saving color …" : "Sarvende su colore …",
     "Copy private link" : "Còpia ligòngiu privadu",
-    "Download" : "Iscàrriga",
     "Unshare from me" : "Annulla sa cumpartzidura cun me",
     "An error occurred, unable to change visibility of the calendar." : "B'at àpidu un'errore, no at fatu a cambiare sa visibilidade de su calendàriu.",
     "An error occurred, unable to delete the calendar." : "B'at àpidu un'errore, no at fatu a cantzellare su calendàriu.",

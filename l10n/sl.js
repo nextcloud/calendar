@@ -46,7 +46,6 @@ OC.L10N.register(
     "Edit color" : "Uredi barvo",
     "Saving color …" : "Shranjevanje barve ...",
     "Copy private link" : "Kopiraj zasebno povezavo",
-    "Download" : "Prejmi",
     "Unshare from me" : "Prekini souporabo",
     "An error occurred, unable to change visibility of the calendar." : "Prišlo je do napake; ni mogoče spremeniti vidnosti koledarja.",
     "An error occurred, unable to delete the calendar." : "Prišlo je do napake; ni mogoče izbrisati koledarja.",

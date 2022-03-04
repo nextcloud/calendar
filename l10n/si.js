@@ -24,7 +24,6 @@ OC.L10N.register(
     "Edit color" : "වර්ණය සංස්කරණය",
     "Saving color …" : "සුරැකීමේ වර්ණය …",
     "Copy private link" : "පුද්. සබැඳිය පිටපත් කරන්න",
-    "Download" : "බාගන්න",
     "Filename" : "ගොනු නාමය",
     "Cancel" : "අවලංගු කරන්න",
     "Actions" : "ක්‍රියාමාර්ග",

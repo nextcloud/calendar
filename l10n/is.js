@@ -29,7 +29,6 @@ OC.L10N.register(
     "Edit color" : "Breyta lit",
     "Saving color …" : "Vista lit …",
     "Copy private link" : "Afrita einkatengil",
-    "Download" : "Sækja",
     "Unshare from me" : "Hætta deilingu frá mér",
     "An error occurred, unable to change visibility of the calendar." : "Villa kom upp, gat ekki breytt sýnileika dagatalsins.",
     "An error occurred, unable to delete the calendar." : "Villa kom upp, gat ekki eytt dagatalinu.",

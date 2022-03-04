@@ -15,7 +15,6 @@ OC.L10N.register(
     "Month" : "Mes",
     "List" : "Lista",
     "Delete" : "Borrar",
-    "Download" : "Descargar",
     "Share link" : "Compartir enlace",
     "Share with users or groups" : "Compartir con otros usuarios o grupos",
     "can edit" : "puede editar",

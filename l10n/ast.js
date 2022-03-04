@@ -11,7 +11,6 @@ OC.L10N.register(
     "Week" : "Selmana",
     "Month" : "Mes",
     "Delete" : "Desaniciar",
-    "Download" : "Baxar",
     "Share link" : "Share link",
     "Share with users or groups" : "Compartir con usuarios y grupos",
     "can edit" : "pue editar",

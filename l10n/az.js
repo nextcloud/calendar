@@ -8,7 +8,6 @@ OC.L10N.register(
     "Week" : "Həftə",
     "Month" : "Ay",
     "Delete" : "Sil",
-    "Download" : "Yüklə",
     "Share link" : "Linki yayımla",
     "can edit" : "dəyişmək olar",
     "New calendar" : "Yeni təqvim",

@@ -14,7 +14,6 @@ OC.L10N.register(
     "Month" : "Mēnesis",
     "List" : "Saraksts",
     "Delete" : "Dzēst",
-    "Download" : "Lejupielādēt",
     "Share link" : "Koplietot saiti",
     "Share with users or groups" : "Koplietot ar lietotājiem vai grupām",
     "No users or groups" : "Nav lietotāji vai grupas",

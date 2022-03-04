@@ -14,7 +14,6 @@ OC.L10N.register(
     "Week" : "สัปดาห์",
     "Month" : "เดือน",
     "Delete" : "ลบ",
-    "Download" : "ดาวน์โหลด",
     "Share link" : "แชร์ลิงค์",
     "Share with users or groups" : "แชร์กับผู้ใช้หรือกลุ่ม",
     "can edit" : "สามารถแก้ไข",

@@ -8,7 +8,6 @@ OC.L10N.register(
     "Week" : "Sedmica",
     "Month" : "Mjesec",
     "Delete" : "Obriši",
-    "Download" : "Preuzmi",
     "Share link" : "Podijelite vezu",
     "can edit" : "mogu mijenjati",
     "New calendar" : "Novi kalendar",

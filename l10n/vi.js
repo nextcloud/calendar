@@ -52,7 +52,6 @@ OC.L10N.register(
     "Edit color" : "Sửa đổi màu",
     "Saving color …" : "Đang sửa đổi màu  …",
     "Copy private link" : "Sao chép liên kết riêng tư",
-    "Download" : "Tải về",
     "Unshare from me" : "Gỡ chia sẻ khỏi tôi",
     "An error occurred, unable to change visibility of the calendar." : "Một lỗi đã xảy ra, không thể thay đổi tính hiển thị của lịch.",
     "An error occurred, unable to delete the calendar." : "Một lỗi đã xảy ra, không thể xóa lịch.",

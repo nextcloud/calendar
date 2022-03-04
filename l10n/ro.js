@@ -50,7 +50,6 @@ OC.L10N.register(
     "Edit color" : "Modifică culoarea",
     "Saving color …" : "Se salvează culoarea  ...",
     "Copy private link" : "Copiază link privat",
-    "Download" : "Descarcă",
     "Unshare from me" : "Anulare partajarea cu mine",
     "An error occurred, unable to change visibility of the calendar." : "A apărut o eroare, nu se poate schimba vizibilitatea calendarului.",
     "An error occurred, unable to delete the calendar." : "A apărut o eroare, nu se poate șterge calendarul.",
