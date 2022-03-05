@@ -126,7 +126,6 @@ OC.L10N.register(
     "{filename} could not be parsed" : "無法解析 {filename}",
     "No valid files found, aborting import" : "沒有找到有效的檔案，中斷匯入",
     "Import partially failed. Imported {accepted} out of {total}." : "匯入部分失敗，僅成功匯入 {total} 中的 {accepted} 項",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["成功匯入 %n 個活動"],
     "Automatic" : "自動",
     "Automatic ({detected})" : "自動（{detected}）",
     "New setting was not saved successfully." : "新設定未成功儲存",

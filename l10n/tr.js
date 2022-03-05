@@ -126,7 +126,6 @@ OC.L10N.register(
     "{filename} could not be parsed" : "{filename} işlenemedi",
     "No valid files found, aborting import" : "Geçerli bir dosya bulunamadı, içe aktarım iptal ediliyor",
     "Import partially failed. Imported {accepted} out of {total}." : "Etkinliklerin tümü içe aktarılamadı. İçe aktarılan: {accepted}, toplam: {total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["%n etkinlik içe aktarıldı","%n etkinlik içe aktarıldı."],
     "Automatic" : "Otomatik",
     "Automatic ({detected})" : "Otomatik ({detected})",
     "New setting was not saved successfully." : "Yeni ayarlar kaydedilemedi.",

@@ -102,7 +102,6 @@ OC.L10N.register(
     "{filename} could not be parsed" : "το {filename} δεν μπορεί να αναλυθεί",
     "No valid files found, aborting import" : "Δεν βρέθηκαν συμβατά αρχεία, ακύρωση εισαγωγής",
     "Import partially failed. Imported {accepted} out of {total}." : "Η εισαγωγή απέτυχε εν μέρει. Εισήχθησαν {accepted} από {total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["Επιτυχής εισαγωγή %n γεγονότος","Επιτυχής εισαγωγή %n γεγονότων"],
     "Automatic" : "Αυτόματο",
     "Automatic ({detected})" : "Αυτόματα ({detected})",
     "New setting was not saved successfully." : "Οι νέες ρυθμίσεις δεν αποθηκεύτηκαν επιτυχώς.",

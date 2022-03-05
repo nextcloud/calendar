@@ -76,7 +76,6 @@ OC.L10N.register(
     "_Import calendar_::_Import calendars_" : ["Impor kalender"],
     "No valid files found, aborting import" : "Berkas valid tidak ditemukan, impor dibatalkan",
     "Import partially failed. Imported {accepted} out of {total}." : "Sebagian impor gagal. Dari {total} hanya {accepted} berhasil impor.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["Berhasil impor %n acara."],
     "Automatic" : "Otomatis",
     "Automatic ({detected})" : "Otomatis ({detected})",
     "New setting was not saved successfully." : "Setelan baru tidak berhasil tersimpan.",

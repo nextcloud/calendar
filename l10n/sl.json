@@ -113,7 +113,6 @@
     "{filename} could not be parsed" : "Datoteke {filename} ni mogoče razčleniti",
     "No valid files found, aborting import" : "Ni najdenih veljavnih datotek, uvoz bo preklican",
     "Import partially failed. Imported {accepted} out of {total}." : "Uvoz je delno spodletel. Uvoženih je {accepted} od skupno {total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["Uspešno je uvožen %n dogodek.","Uspešno sta uvožena %n dogodka.","Uspešno so uvoženi %n dogodki.","Uspešno je uvoženih %n dogodkov."],
     "Automatic" : "Samodejno",
     "Automatic ({detected})" : "Samodejno ({detected})",
     "New setting was not saved successfully." : "Novih nastavitev ni bilo mogoče shraniti.",

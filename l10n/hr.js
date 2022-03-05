@@ -102,7 +102,6 @@ OC.L10N.register(
     "{filename} could not be parsed" : "Nije moguće parsirati {filename}",
     "No valid files found, aborting import" : "Nisu pronađene važeće datoteke, uvoz je otkazan",
     "Import partially failed. Imported {accepted} out of {total}." : "Djelomično neuspješan uvoz. Uvezeno {accepted} od {total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["Uspješan uvoz %n događaja","Uspješan uvoz %n događaja.","Uspješan uvoz %n događaja."],
     "Automatic" : "Automatsko",
     "Automatic ({detected})" : "Automatsko ({detected})",
     "New setting was not saved successfully." : "Nova postavka nije uspješno spremljena.",

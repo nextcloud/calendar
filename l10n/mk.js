@@ -91,7 +91,6 @@ OC.L10N.register(
     "{filename} could not be parsed" : "Датотеката {filename} не може да се анализира",
     "No valid files found, aborting import" : "Не е пронајдена валидна датотека, увозот е откажан",
     "Import partially failed. Imported {accepted} out of {total}." : "Увозот е делумно неуспешен. Увезени {accepted} од вкупно {total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["Успешно увезен %n настан","Успешно увезени %n настани."],
     "Automatic" : "Автоматски",
     "Automatic ({detected})" : "Автоматски ({detected})",
     "New setting was not saved successfully." : "Неуспешно зачувување на промените.",

@@ -114,7 +114,6 @@
     "{filename} could not be parsed" : "{filename} не можа да бъде анализиран",
     "No valid files found, aborting import" : "Не са намерени валидни файлове, прекъсване на импортирането",
     "Import partially failed. Imported {accepted} out of {total}." : "Импортирането е частично неуспешно. Импортирани {accepted} от {total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["Успешно импортиране на %n събитие","Успешно импортиране на %n събитие"],
     "Automatic" : "Автоматично",
     "Automatic ({detected})" : "Автоматично (detected})",
     "New setting was not saved successfully." : " Неуспешно запазване на новата настройка.",

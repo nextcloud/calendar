@@ -87,7 +87,6 @@ OC.L10N.register(
     "{filename} could not be parsed" : "לא ניתן לפענח את {filename}",
     "No valid files found, aborting import" : "לא נמצאו קבצים תקפים, הייבוא מבוטל",
     "Import partially failed. Imported {accepted} out of {total}." : "הייבוא נכשל חלקית. מיובא {accepted} מתוך {total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["אירוע אחד יובא בהצלחה","%n אירועים יובאו בהצלחה.","%n אירועים יובאו בהצלחה.","%n אירועים יובאו בהצלחה."],
     "Automatic" : "אוטומטי",
     "Automatic ({detected})" : "אוטומטי ({detected})",
     "New setting was not saved successfully." : "ההגדרה החדשה לא נשמרה בהצלחה.",

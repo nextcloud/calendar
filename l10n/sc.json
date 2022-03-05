@@ -97,7 +97,6 @@
     "{filename} could not be parsed" : "No at fatu a analizare {filename} ",
     "No valid files found, aborting import" : "Perunu archìviu vàlidu agatadu, annullende s'importatzione",
     "Import partially failed. Imported {accepted} out of {total}." : "Parte de s'importatzione est andada male. Importados {accepted} de {total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["Importadu %n eventu","Importados %n eventos."],
     "Automatic" : "Automàticu",
     "Automatic ({detected})" : "Automàticu ({detected})",
     "New setting was not saved successfully." : "S'impostatzione noa no est istada sarvada in manera curreta.",

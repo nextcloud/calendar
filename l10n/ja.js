@@ -105,7 +105,6 @@ OC.L10N.register(
     "{filename} could not be parsed" : "{filename} が解析できませんでした",
     "No valid files found, aborting import" : "有効なファイルが見つかりませんでした。インポートを中止します。",
     "Import partially failed. Imported {accepted} out of {total}." : "インポートが部分的に失敗しました。 {total}のうち{accepted}をインポートしました。",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["%nイベントを正常にインポートしました"],
     "Automatic" : "自動",
     "Automatic ({detected})" : "自動 ({detected})",
     "New setting was not saved successfully." : "新しい設定は正常に保存されませんでした。",

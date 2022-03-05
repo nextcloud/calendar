@@ -116,7 +116,6 @@ OC.L10N.register(
     "{filename} could not be parsed" : "{filename} kunde inte läsas",
     "No valid files found, aborting import" : "Inga giltiga filer hittades, avbryter import",
     "Import partially failed. Imported {accepted} out of {total}." : "Importen misslyckades delvis. Importerade {accepted} av {total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["Lyckades importera %n händelse","Lyckades importera %n händelser."],
     "Automatic" : "Automatisk",
     "Automatic ({detected})" : "Automatisk ({detected})",
     "New setting was not saved successfully." : "Den nya inställningen kunde inte sparas.",

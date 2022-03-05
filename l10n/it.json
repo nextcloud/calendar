@@ -124,7 +124,6 @@
     "{filename} could not be parsed" : "{filename} non può essere analizzato",
     "No valid files found, aborting import" : "Nessun file valido trovato, importazione interrotta",
     "Import partially failed. Imported {accepted} out of {total}." : "Importazione parzialmente non riuscita. Importati {accepted} di {total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["Importato correttamente %n evento","Importati correttamente %n eventi."],
     "Automatic" : "Automatico",
     "Automatic ({detected})" : "Automatico ({detected})",
     "New setting was not saved successfully." : "La nuova impostazione non è stata salvata correttamente.",

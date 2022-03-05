@@ -102,7 +102,6 @@ OC.L10N.register(
     "{filename} could not be parsed" : "{filename} 분석할 수 없음",
     "No valid files found, aborting import" : "올바른 파일을 발견할 수 없음, 가져오기 취소",
     "Import partially failed. Imported {accepted} out of {total}." : "가져오기가 부분적으로 실패했습니다. {total} 중 {accepted} 가져옴.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["%n 일정을 성공적으로 가져왔습니다."],
     "Automatic" : "자동",
     "Automatic ({detected})" : "자동 ({detected})",
     "New setting was not saved successfully." : "새로운 설정이 저장되지 않았습니다.",

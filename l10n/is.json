@@ -81,7 +81,6 @@
     "{filename} is an unsupported file-type" : "{filename} er óstudd skráartegund",
     "{filename} could not be parsed" : "Ekki var hægt að þátta {filename}",
     "No valid files found, aborting import" : "Engar gildar skrár fundust, hætti innflutningi",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["Innflutningur tókst á %n atburði","Innflutningur tókst á %n atburðum"],
     "Automatic" : "Sjálfvirkt",
     "Automatic ({detected})" : "Sjálfvirkt ({detected})",
     "New setting was not saved successfully." : "Ekki tókst að vista nýju stillinguna.",

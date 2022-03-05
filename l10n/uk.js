@@ -99,7 +99,6 @@ OC.L10N.register(
     "{filename} could not be parsed" : "Неможливо обробити {filename}",
     "No valid files found, aborting import" : "Відсутні дійсні файли, імпортування скасовано",
     "Import partially failed. Imported {accepted} out of {total}." : "Імпорт частково не вдався. Імпортовано {accepted} з {total}",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["Успішно імпортовано %n подію.","Успішно імпортовано %n подій.","Успішно імпортовано %n подій.","Успішно імпортовано %n подій."],
     "Automatic" : "Автоматично",
     "Automatic ({detected})" : "Автоматично ({detected})",
     "New setting was not saved successfully." : "Нові налаштування не було збережено.",

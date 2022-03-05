@@ -89,7 +89,6 @@ OC.L10N.register(
     "{filename} could not be parsed" : "No s'ha pogut entendre el contingut del fitxer {filename}",
     "No valid files found, aborting import" : "No s'han trobat fitxers que siguin vàlids i s'ha avortat la importació",
     "Import partially failed. Imported {accepted} out of {total}." : "La importació ha fallat parcialment. S'han importat {accepted} d'un total de {total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["S'ha importat amb èxit %n event","S'han importat amb èxit %n events."],
     "Automatic" : "Automàtic",
     "Automatic ({detected})" : "Automàtica ({detected})",
     "New setting was not saved successfully." : "No s'ha desat correctament la nova configuració.",

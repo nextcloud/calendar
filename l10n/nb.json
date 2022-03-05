@@ -82,7 +82,6 @@
     "{filename} could not be parsed" : "{filename} kunne ikke leses",
     "No valid files found, aborting import" : "Ingen gyldig filer funnet, avbryter importering",
     "Import partially failed. Imported {accepted} out of {total}." : "Importering mislykkes delvis. Importerte {accepted} av {total}. ",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["Importerte %navtale","Importerte %n hendelser."],
     "Automatic" : "Automatisk",
     "Automatic ({detected})" : "Automatisk ({detected})",
     "New setting was not saved successfully." : "Ny innstilling ble ikke lagret.",

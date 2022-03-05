@@ -123,7 +123,6 @@ OC.L10N.register(
     "{filename} could not be parsed" : "{filename} não pôde ser analisado",
     "No valid files found, aborting import" : "Nenhum arquivo válido encontrado, importação interrompida",
     "Import partially failed. Imported {accepted} out of {total}." : "Erro na importação. Importado {accepted} de {total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["%n evento importado.","%n eventos importados."],
     "Automatic" : "Automático",
     "Automatic ({detected})" : "Automático ({detected})",
     "New setting was not saved successfully." : "A nova configuração não foi salva.",

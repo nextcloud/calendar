@@ -119,7 +119,6 @@
     "{filename} could not be parsed" : "{filename} kon niet worden geanalyseerd",
     "No valid files found, aborting import" : "Geen geldige bestand gevonden, import afgebroken",
     "Import partially failed. Imported {accepted} out of {total}." : "Import is gedeeltelijk gelukt. Geïmporteerd {accepted} van de {total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["Succesvol geïmporteerd %n object.","Succesvol geïmporteerd %n objecten."],
     "Automatic" : "Automatisch",
     "Automatic ({detected})" : "Automatisch ({detected})",
     "New setting was not saved successfully." : "De nieuwe instelling is niet goed opgeslagen.",

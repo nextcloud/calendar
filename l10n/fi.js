@@ -120,7 +120,6 @@ OC.L10N.register(
     "{filename} could not be parsed" : "Tiedostoa {filename} ei voitu jäsentää",
     "No valid files found, aborting import" : "Kelvollisia tiedostoja ei löytynyt, lopetetaan tuonti",
     "Import partially failed. Imported {accepted} out of {total}." : "Tuonti epäonnistui osittain. Tuotiin {accepted}/{total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["Tuotiin onnistuneesti %n tapahtuma","Tuotiin onnistuneesti %n tapahtumaa."],
     "Automatic" : "Automaattinen",
     "Automatic ({detected})" : "Automaattinen ({detected})",
     "New setting was not saved successfully." : "Uutta asetusta ei tallennettu onnistuneesti.",

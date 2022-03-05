@@ -119,7 +119,6 @@ OC.L10N.register(
     "{filename} could not be parsed" : "{filename} nu a putut fi analizat",
     "No valid files found, aborting import" : "Nu au fost găsite fişiere valide, importarea se opreşte",
     "Import partially failed. Imported {accepted} out of {total}." : "Importarea a eşuat parţial. S-au importat  {accepted} din {total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["S-a oimportat cu succes %n eveniment","S-au importat cu succes %n evenimente.","S-au importat cu succes %n de evenimente."],
     "Automatic" : "Automat",
     "Automatic ({detected})" : "Automat ({detectat})",
     "New setting was not saved successfully." : "Noile setări nu au fost salvate cu succes.",

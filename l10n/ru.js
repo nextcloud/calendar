@@ -121,7 +121,6 @@ OC.L10N.register(
     "{filename} could not be parsed" : "Не удалось проанализировать файл {filename}",
     "No valid files found, aborting import" : "Не найдено файлов верного типа, импорт отменён",
     "Import partially failed. Imported {accepted} out of {total}." : "Импорт завершен частично. Импортировано {accepted} из {total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["Импортировано %n событие","Импортировано %n события","Импортировано %n событий","Импортировано %n события"],
     "Automatic" : "Автоматически",
     "Automatic ({detected})" : "Автоматически ({detected})",
     "New setting was not saved successfully." : "Не удалось сохранить параметры.",

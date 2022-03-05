@@ -123,7 +123,6 @@ OC.L10N.register(
     "{filename} could not be parsed" : "{filename} ezin da analizatu",
     "No valid files found, aborting import" : "Ez da baliodun fitxategirik aurkitu, inportazioa bertan behera uzten",
     "Import partially failed. Imported {accepted} out of {total}." : "Inportazioak huts egin du hein batean. Guztira {total} ziren, {accepted} inportatu dira.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["Behar bezala inportatu da gertaera %n.","Behar bezala inportatu dira %n gertaera."],
     "Automatic" : "Automatikoa",
     "Automatic ({detected})" : "Automatikoa ({detected})",
     "New setting was not saved successfully." : "Ezarpen berria ez da behar bezala gorde.",

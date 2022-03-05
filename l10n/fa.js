@@ -87,7 +87,6 @@ OC.L10N.register(
     "Cancel" : "منصرف شدن",
     "_Import calendar_::_Import calendars_" : ["وارد کردن تقویم","وارد کردن تقویم ها"],
     "Import partially failed. Imported {accepted} out of {total}." : "وارد کردن تا حدودی انجام نشد. وارد شده {accepted} بیرون از {total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["رویداد %n با موفقیت وارد شده","رویداد ها  %n با موفقیت وارد شده."],
     "Automatic" : "خودکار",
     "Automatic ({detected})" : "خودکار ({شناسایی})",
     "New setting was not saved successfully." : "تنظیم جدید با موفقیت ذخیره نشد.",

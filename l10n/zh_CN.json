@@ -119,7 +119,6 @@
     "{filename} could not be parsed" : "{filename} 无法进行解析",
     "No valid files found, aborting import" : "未找到有效文件，中止导入",
     "Import partially failed. Imported {accepted} out of {total}." : "导入部分失败。已导入{total}个中的{accepted}个。",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["成功导入%n个事件。"],
     "Automatic" : "自动",
     "Automatic ({detected})" : "自动（{detected}）",
     "New setting was not saved successfully." : "新的设置没有成功保存。",

@@ -124,7 +124,6 @@
     "{filename} could not be parsed" : "A {filename} nem dolgozható fel",
     "No valid files found, aborting import" : "Nem található érvényes fájl, importálás megszakítva",
     "Import partially failed. Imported {accepted} out of {total}." : "Az importálás részlegesen sikertelen. {accepted} / {total} lett importálva.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : ["Sikeresen importált %n eseményt.","Sikeresen importált %n eseményt."],
     "Automatic" : "Automatikus",
     "Automatic ({detected})" : "Automatikus ({detected})",
     "New setting was not saved successfully." : "Az új beállítások nem lettek elmentve.",

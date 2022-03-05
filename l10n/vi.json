@@ -119,7 +119,6 @@
     "{filename} could not be parsed" : "{filename} không thể được phân tách",
     "No valid files found, aborting import" : "Không có tệp khả dụng được tìm thấy, đang hủy quá trình nhập",
     "Import partially failed. Imported {accepted} out of {total}." : "Quá trình nhập thất bại 1 phần. Đã nhập {accepted} trong tổng {total}.",
-    "_Successfully imported %n event_::_Successfully imported %n events._" : [" %n sự kiện đã được nhập thành công"],
     "Automatic" : "Tự động",
     "Automatic ({detected})" : " ({detected}) tự động",
     "New setting was not saved successfully." : "Thiết lập mới không được lưu thành công",
