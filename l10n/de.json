@@ -125,6 +125,7 @@
     "{filename} could not be parsed" : "{filename} konnte nicht analysiert werden",
     "No valid files found, aborting import" : "Keine gültige Dateien gefunden, Import wird abgebrochen.",
     "Import partially failed. Imported {accepted} out of {total}." : "Der Import ist teilweise fehlgeschlagen. {accepted} von {total} importiert.",
+    "_Successfully imported %n event_::_Successfully imported %n events_" : ["Erfolgreich %n Termin importiert","Erfolgreich %n Termine importiert"],
     "Automatic" : "Automatisch",
     "Automatic ({detected})" : "Automatisch ({detected})",
     "New setting was not saved successfully." : "Neue Einstellung konnte nicht gespeichert werden.",

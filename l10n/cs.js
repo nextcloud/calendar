@@ -127,6 +127,7 @@ OC.L10N.register(
     "{filename} could not be parsed" : "{filename} není možné zpracovat",
     "No valid files found, aborting import" : "Nenalezeny žádné platné soubory, import proto bude ukončen",
     "Import partially failed. Imported {accepted} out of {total}." : "Import se z části nezdařil. Naimportováno {accepted} z {total}.",
+    "_Successfully imported %n event_::_Successfully imported %n events_" : ["Úspěšně naimportována %n událost","Úspěšně naimportovány %n události","Úspěšně naimportováno %n událostí","Úspěšně naimportovány %n události"],
     "Automatic" : "Automaticky",
     "Automatic ({detected})" : "Automaticky ({detected})",
     "New setting was not saved successfully." : "Nové nastavení se nepodařilo uložit.",
