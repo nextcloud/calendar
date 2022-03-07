@@ -42,6 +42,7 @@ use OCA\Calendar\Service\Appointments\MailService;
 use OCA\Calendar\Service\Appointments\SlotExtrapolator;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\Calendar\ICalendarQuery;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -73,6 +74,9 @@ class BookingServiceTest extends TestCase {
 	/** @var MailService|MockObject */
 	private $mailService;
 
+	/** @var IEventDispatcher|MockObject */
+	private $eventDispatcher;
+
 	/** @var MockObject|LoggerInterface */
 	private $logger;
 
@@ -94,7 +98,9 @@ class BookingServiceTest extends TestCase {
 		$this->bookingCalendarWriter = $this->createMock(BookingCalendarWriter::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->mailService = $this->createMock(MailService::class);
+		$this->eventDispatcher = $this->createMock(IEventDispatcher::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+
 		$this->service = new BookingService(
 			$this->availabilityGenerator,
 			$this->extrapolator,
@@ -104,6 +110,7 @@ class BookingServiceTest extends TestCase {
 			$this->bookingCalendarWriter,
 			$this->random,
 			$this->mailService,
+			$this->eventDispatcher,
 			$this->logger,
 		);
 	}
