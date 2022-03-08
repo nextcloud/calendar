@@ -125,6 +125,7 @@
     "{filename} could not be parsed" : "{filename} nie je možné spracovať",
     "No valid files found, aborting import" : "Nenašli sa žiadne platné súbory, import sa prerušuje",
     "Import partially failed. Imported {accepted} out of {total}." : "Import čiastočne zlyhal. Importované {accepted} z {total}.",
+    "_Successfully imported %n event_::_Successfully imported %n events_" : ["Úspešne naimportovaná %n udalosť","Úspešne naimportované %n udalosti","Úspešne naimportovaných %n udalostí","Úspešne naimportovaných %n udalostí"],
     "Automatic" : "Automaticky",
     "Automatic ({detected})" : "Automaticky ({detected})",
     "New setting was not saved successfully." : "Nové nastavenie nebolo možné uložiť.",
