@@ -31,9 +31,15 @@
 				<ActionButton @click.prevent.stop="toggleEnabled">
 					<template #icon>
 						<CheckboxBlankCircle
-							:title="calendar.enabled ? $t('calendar', 'Disable calendar') : $t('calendar', 'Enable calendar') "
+							v-if="calendar.enabled"
+							:title="$t('calendar', 'Disable calendar')"
 							:size="20"
-							:fill-color="calendar.enabled ? calendar.color : 'var(--color-text-lighter)'" />
+							:fill-color="calendar.color" />
+						<CheckboxBlankCircleOutline
+							v-else
+							:title="$t('calendar', 'Enable calendar')"
+							:size="20"
+							:fill-color="calendar.color" />
 					</template>
 				</ActionButton>
 			</Actions>
@@ -189,6 +195,7 @@ import CalendarListItemSharingSearch from './CalendarListItemSharingSearch.vue'
 import CalendarListItemSharingPublishItem from './CalendarListItemSharingPublishItem.vue'
 import CalendarListItemSharingShareItem from './CalendarListItemSharingShareItem.vue'
 import CheckboxBlankCircle from 'vue-material-design-icons/CheckboxBlankCircle.vue'
+import CheckboxBlankCircleOutline from 'vue-material-design-icons/CheckboxBlankCircleOutline.vue'
 import Close from 'vue-material-design-icons/Close.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 import Download from 'vue-material-design-icons/Download.vue'
@@ -211,6 +218,7 @@ export default {
 		CalendarListItemSharingPublishItem,
 		CalendarListItemSharingShareItem,
 		CheckboxBlankCircle,
+		CheckboxBlankCircleOutline,
 		Close,
 		Delete,
 		Download,
