@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.2.0 - 2022-03-09
+## Changed
+- Allow admins to force an event type
+- Allow admins to hide event exports
+- Rename 'Download' to 'Export'
+### Fixed
+- Navigation icon bullet
+- Remove dot in plural string
+- Remove blurriness from event participation indicator
+
 ## 3.1.0 - 2022-02-28
 ### Added
 - Accept & decline invitations from web

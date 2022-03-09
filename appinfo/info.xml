@@ -15,7 +15,7 @@
 * ☑️ Tasks! See tasks with a due date directly in the calendar
 * 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
 	]]></description>
-	<version>3.2.0-alpha.1</version>
+	<version>3.2.0</version>
 	<licence>agpl</licence>
 	<author>Anna Larch</author>
 	<author homepage="https://github.com/nextcloud/groupware">Nextcloud Groupware Team</author>
