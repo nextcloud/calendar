@@ -39,7 +39,7 @@
 							v-else
 							:title="$t('calendar', 'Enable calendar')"
 							:size="20"
-							fill-color="var(--color-text-lighter)" />
+							:fill-color="calendar.color" />
 					</template>
 				</ActionButton>
 			</Actions>
