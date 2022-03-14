@@ -98,14 +98,14 @@
 			class="property-alarm-item__options">
 			<Actions>
 				<ActionRadio
-					v-if="canChangeAlarmType && (isAlarmTypeDisplay || forceEventAlarmType === null || forceEventAlarmType === 'DISPLAY')"
+					v-if="canChangeAlarmType || (!isAlarmTypeDisplay && forceEventAlarmType === 'DISPLAY')"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeDisplay"
 					@change="changeType('DISPLAY')">
 					{{ $t('calendar', 'Notification') }}
 				</ActionRadio>
 				<ActionRadio
-					v-if="canChangeAlarmType && (isAlarmTypeEmail || forceEventAlarmType === null || forceEventAlarmType === 'EMAIL')"
+					v-if="canChangeAlarmType || (!isAlarmTypeEmail && forceEventAlarmType === 'EMAIL')"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeEmail"
 					@change="changeType('EMAIL')">
@@ -266,8 +266,15 @@ export default {
 
 			return true
 		},
+		/**
+		 * Changing the alarm type is allowed if the alarm type does
+		 * not match the forceEventAlarmType (yet).
+		 *
+		 * If no alarm type is forced (forceEventAlarmType === false),
+		 * this will return true as well.
+		 */
 		canChangeAlarmType() {
-		  return this.forceEventAlarmType !== null && this.alarm.type !== this.forceEventAlarmType
+			return this.alarm.type !== this.forceEventAlarmType
 		},
 		alarmTypeName() {
 			return this._uid + '-radio-type-name'
