@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.1.0 - 2022-03-10
+## 3.2.1 - 2022-03-14
 ### Fixed
 - Public Calendar Link
 - Disabled Calendar Icon
