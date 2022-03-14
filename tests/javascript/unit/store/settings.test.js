@@ -49,7 +49,7 @@ describe('store/settings test suite', () => {
 		expect(settingsStore.state).toEqual({
 			appVersion: null,
 			firstRun: null,
-			forceEventAlarmType: null,
+			forceEventAlarmType: false,
 			hideEventExport: false,
 			talkEnabled: false,
 			eventLimit: null,
@@ -168,6 +168,8 @@ describe('store/settings test suite', () => {
 			timezone: 'automatic',
 			momentLocale: 'en',
 			otherProp: 'bar',
+			hideEventExport: false,
+			forceEventAlarmType: false,
 		}
 
 		const settings = {
@@ -184,6 +186,8 @@ describe('store/settings test suite', () => {
 			tasksEnabled: true,
 			timezone: 'Europe/Berlin',
 			otherUnknownSetting: 'foo',
+			hideEventExport: false,
+			forceEventAlarmType: false,
 		}
 
 		settingsStore.mutations.loadSettingsFromServer(state, settings)
@@ -203,6 +207,8 @@ Initial settings:
 	- TalkEnabled: false
 	- TasksEnabled: true
 	- Timezone: Europe/Berlin
+	- HideEventExport: false
+	- ForceEventAlarmType: false
 `)
 		expect(state).toEqual({
 			appVersion: '2.1.0',
@@ -219,6 +225,8 @@ Initial settings:
 			timezone: 'Europe/Berlin',
 			momentLocale: 'en',
 			otherProp: 'bar',
+			hideEventExport: false,
+			forceEventAlarmType: false,
 		})
 	})
 

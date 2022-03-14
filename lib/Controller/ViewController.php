@@ -97,7 +97,7 @@ class ViewController extends Controller {
 		$hideEventExport = $this->config->getAppValue($this->appName, 'hideEventExport', 'no') === 'yes';
 		$forceEventAlarmType = $this->config->getAppValue($this->appName, 'forceEventAlarmType', '');
 		if (!in_array($forceEventAlarmType, ['DISPLAY', 'EMAIL'], true)) {
-			$forceEventAlarmType = null;
+			$forceEventAlarmType = false;
 		}
 
 		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
