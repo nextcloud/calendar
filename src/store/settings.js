@@ -42,7 +42,7 @@ const state = {
 	tasksEnabled: false,
 	timezone: 'automatic',
 	hideEventExport: false,
-	forceEventAlarmType: null,
+	forceEventAlarmType: false,
 	// user-defined Nextcloud settings
 	momentLocale: 'en',
 }
@@ -162,6 +162,8 @@ Initial settings:
 	- TalkEnabled: ${talkEnabled}
 	- TasksEnabled: ${tasksEnabled}
 	- Timezone: ${timezone}
+	- HideEventExport: ${hideEventExport}
+	- ForceEventAlarmType: ${forceEventAlarmType}
 `)
 
 		state.appVersion = appVersion
