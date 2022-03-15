@@ -242,6 +242,7 @@ const actions = {
 			calendarId: calendarObject.calendarId,
 			calendarObjectId: calendarObject.id,
 		})
+		context.commit('resetCalendarObjectToDav', { calendarObject })
 		context.commit('incrementModificationCount')
 	},
 
