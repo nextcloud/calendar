@@ -43,6 +43,7 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
 use OCP\IRequest;
+use OCP\Mail\IMailer;
 use Psr\Log\LoggerInterface;
 
 class BookingController extends Controller {
@@ -65,14 +66,18 @@ class BookingController extends Controller {
 	/** @var LoggerInterface */
 	private $logger;
 
-	public function __construct(string                   $appName,
-								IRequest                 $request,
-								ITimeFactory             $timeFactory,
-								IInitialState            $initialState,
-								BookingService           $bookingService,
+	/** @var IMailer */
+	private $mailer;
+
+	public function __construct(string $appName,
+								IRequest $request,
+								ITimeFactory $timeFactory,
+								IInitialState $initialState,
+								BookingService $bookingService,
 								AppointmentConfigService $appointmentConfigService,
-								URLGenerator             $urlGenerator,
-								LoggerInterface $logger) {
+								URLGenerator $urlGenerator,
+								LoggerInterface $logger,
+								IMailer $mailer) {
 		parent::__construct($appName, $request);
 
 		$this->bookingService = $bookingService;
@@ -81,6 +86,7 @@ class BookingController extends Controller {
 		$this->initialState = $initialState;
 		$this->urlGenerator = $urlGenerator;
 		$this->logger = $logger;
+		$this->mailer = $mailer;
 	}
 
 	/**
@@ -154,13 +160,17 @@ class BookingController extends Controller {
 	 * @param string $timeZone
 	 * @return JsonResponse
 	 */
-	public function bookSlot(int    $appointmentConfigId,
-							 int    $start,
-							 int    $end,
+	public function bookSlot(int $appointmentConfigId,
+							 int $start,
+							 int $end,
 							 string $displayName,
 							 string $email,
 							 string $description,
 							 string $timeZone): JsonResponse {
+		if (!$this->mailer->validateMailAddress($email)) {
+			return JsonResponse::fail('Invalid email address', Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
 		if ($start > $end) {
 			return JsonResponse::fail('Invalid time range', Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
