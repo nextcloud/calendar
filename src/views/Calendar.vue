@@ -219,7 +219,7 @@ export default {
 			timezone: loadState('calendar', 'timezone'),
 			showTasks: loadState('calendar', 'show_tasks'),
 			hideEventExport: loadState('calendar', 'hide_event_export'),
-			forceEventAlarmType: loadState('calendar', 'force_event_alarm_type', null),
+			forceEventAlarmType: loadState('calendar', 'force_event_alarm_type', false),
 		})
 		this.$store.dispatch('initializeCalendarJsConfig')
 

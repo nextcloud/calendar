@@ -78,7 +78,7 @@ export default {
 		addAlarm(totalSeconds) {
 			this.$store.commit('addAlarmToCalendarObjectInstance', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				type: this.forceEventAlarmType ?? 'DISPLAY',
+				type: this.forceEventAlarmType || 'DISPLAY',
 				totalSeconds,
 			})
 		},
