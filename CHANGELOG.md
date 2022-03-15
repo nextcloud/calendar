@@ -1,7 +1,13 @@
 # Changelog
 
+## 3.2.1 - 2022-03-14
+### Fixed
+- Public Calendar Link
+- Disabled Calendar Icon
+- Missing Translations
+
 ## 3.2.0 - 2022-03-09
-## Changed
+### Changed
 - Allow admins to force an event type
 - Allow admins to hide event exports
 - Rename 'Download' to 'Export'
