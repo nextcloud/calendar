@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.2 - 2022-03-16
+### Fixed
+- Email Validation for appointment booking
+- Calendar resource attendance state display
+- Alarm type selection
+
 ## 3.2.1 - 2022-03-14
 ### Fixed
 - Public Calendar Link
