@@ -21,7 +21,7 @@
 					<template #icon>
 						<Download :size="20" decorative />
 					</template>
-					{{ $t('calendar', 'Download {name}', { name: calendar.displayName || $t('calendar', 'Untitled calendar') }) }}
+					{{ $t('calendar', 'Export {name}', { name: calendar.displayName || $t('calendar', 'Untitled calendar') }) }}
 				</ActionLink>
 			</Actions>
 			<Actions>
