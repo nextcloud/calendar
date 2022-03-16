@@ -27,8 +27,12 @@ namespace OCA\Calendar\Controller;
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use DateTimeZone;
 use Exception;
+use InvalidArgumentException;
 use OC\URLGenerator;
 use OCA\Calendar\Db\AppointmentConfig;
+use OCA\Calendar\Db\Booking;
+use OCA\Calendar\Exception\NoSlotFoundException;
+use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCA\Calendar\Service\Appointments\BookingService;
 use OCP\AppFramework\Services\IInitialState;
@@ -38,6 +42,7 @@ use OCP\Contacts\IManager;
 use OCP\IInitialStateService;
 use OCP\IRequest;
 use OCP\IUser;
+use OCP\Mail\IMailer;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Safe\DateTimeImmutable;
@@ -80,6 +85,9 @@ class BookingControllerTest extends TestCase {
 	/** @var mixed|MockObject|LoggerInterface */
 	private $logger;
 
+	/** @var IMailer|MockObject */
+	private $mailer;
+
 	protected function setUp():void {
 		parent::setUp();
 
@@ -95,6 +103,7 @@ class BookingControllerTest extends TestCase {
 		$this->apptService = $this->createMock(AppointmentConfigService::class);
 		$this->urlGenerator = $this->createMock(URLGenerator::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->mailer = $this->createMock(IMailer::class);
 		$this->controller = new BookingController(
 			$this->appName,
 			$this->request,
@@ -103,7 +112,8 @@ class BookingControllerTest extends TestCase {
 			$this->bookingService,
 			$this->apptService,
 			$this->urlGenerator,
-			$this->logger
+			$this->logger,
+			$this->mailer
 		);
 	}
 
@@ -170,5 +180,113 @@ class BookingControllerTest extends TestCase {
 			->method('warning');
 
 		$this->controller->getBookableSlots($apptConfg->getId(), $start,'Europe/Berlin');
+	}
+
+	public function testBook(): void {
+		$email = 'penny@stardewvalley.edu';
+		$config = new AppointmentConfig();
+
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with($email)
+			->willReturn(true);
+		$this->apptService->expects(self::once())
+			->method('findById')
+			->willReturn($config);
+		$this->bookingService->expects(self::once())
+			->method('book')
+			->with($config, 1, 1, 'Hook/Neverland', 'Test', $email, 'Test')
+			->willReturn(new Booking());
+
+		$this->controller->bookSlot(1, 1, 1, 'Test', $email, 'Test', 'Hook/Neverland');
+	}
+
+
+	public function testBookInvalidTimeZone(): void {
+		$email = 'penny@stardewvalley.edu';
+		$config = new AppointmentConfig();
+
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with($email)
+			->willReturn(true);
+		$this->apptService->expects(self::once())
+			->method('findById')
+			->willReturn($config);
+		$this->bookingService->expects(self::once())
+			->method('book')
+			->with($config, 1, 1, 'Hook/Neverland', 'Test', $email, 'Test')
+			->willThrowException(new InvalidArgumentException());
+
+		$this->controller->bookSlot(1, 1, 1, 'Test', $email, 'Test', 'Hook/Neverland');
+	}
+
+	public function testBookInvalidSlot(): void {
+		$email = 'penny@stardewvalley.edu';
+		$config = new AppointmentConfig();
+
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with($email)
+			->willReturn(true);
+		$this->apptService->expects(self::once())
+			->method('findById')
+			->willReturn($config);
+		$this->bookingService->expects(self::once())
+			->method('book')
+			->with($config, 1, 1, 'Europe/Berlin', 'Test', $email, 'Test')
+			->willThrowException(new NoSlotFoundException());
+
+		$this->controller->bookSlot(1, 1, 1, 'Test', $email, 'Test', 'Europe/Berlin');
+	}
+
+	public function testBookInvalidBooking(): void {
+		$email = 'penny@stardewvalley.edu';
+		$config = new AppointmentConfig();
+
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with($email)
+			->willReturn(true);
+		$this->apptService->expects(self::once())
+			->method('findById')
+			->willReturn($config);
+		$this->bookingService->expects(self::once())
+			->method('book')
+			->with($config, 1, 1, 'Europe/Berlin', 'Test', $email, 'Test')
+			->willThrowException(new ServiceException());
+
+		$this->controller->bookSlot(1, 1, 1, 'Test', $email, 'Test', 'Europe/Berlin');
+	}
+
+	public function testBookInvalidId(): void {
+		$email = 'penny@stardewvalley.edu';
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with($email)
+			->willReturn(true);
+		$this->apptService->expects(self::once())
+			->method('findById')
+			->willThrowException(new ServiceException());
+		$this->bookingService->expects(self::never())
+			->method('book');
+
+		$this->controller->bookSlot(1, 1, 1, 'Test', $email, 'Test', 'Europe/Berlin');
+	}
+
+
+	public function testBookInvalidEmail(): void {
+		$email = 'testing-abcdef';
+
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with($email)
+			->willReturn(false);
+		$this->apptService->expects(self::never())
+			->method('findById');
+		$this->bookingService->expects(self::never())
+			->method('book');
+
+		$this->controller->bookSlot(1, 1, 1, 'Test', $email, 'Test', 'Europe/Berlin');
 	}
 }
