@@ -189,7 +189,7 @@ class BookingController extends Controller {
 		} catch (InvalidArgumentException $e) {
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
 			return JsonResponse::fail(null, Http::STATUS_UNPROCESSABLE_ENTITY);
-		} catch (ServiceException|ClientException $e) {
+		} catch (ServiceException $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return JsonResponse::errorFromThrowable($e, $e->getHttpCode() ?? Http::STATUS_INTERNAL_SERVER_ERROR);
 		}

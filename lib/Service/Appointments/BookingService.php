@@ -119,7 +119,7 @@ class BookingService {
 	}
 
 	/**
-	 * @throws ClientException|ServiceException|DbException
+	 * @throws ServiceException|DbException|NoSlotFoundException|InvalidArgumentException
 	 */
 	public function book(AppointmentConfig $config,int $start, int $end, string $timeZone, string $displayName, string $email, ?string $description = null): Booking {
 		$bookingSlot = current($this->getAvailableSlots($config, $start, $end));
