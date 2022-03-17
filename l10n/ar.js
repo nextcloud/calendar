@@ -205,7 +205,6 @@ OC.L10N.register(
     "Close" : "إغلاق",
     "Show more details" : "اظهار المزيد من التفاصيل",
     "Subscribe to {name}" : "اشتراك مع {name}",
-    "Download {name}" : "تحميل {name}",
     "Anniversary" : "ذكرى سنوية",
     "Appointment" : "موعد",
     "Business" : "عمل",

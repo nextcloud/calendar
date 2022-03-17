@@ -367,7 +367,6 @@ OC.L10N.register(
     "Close" : "Cerrar",
     "Show more details" : "Ver más detalles",
     "Subscribe to {name}" : "Subscribir a {name}",
-    "Download {name}" : "Descargar {name}",
     "Anniversary" : "Aniversario",
     "Appointment" : "Cita",
     "Business" : "Empresa",

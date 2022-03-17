@@ -113,7 +113,6 @@ OC.L10N.register(
     "Details" : "Detalhs",
     "Attendees" : "Convidats",
     "Close" : "Tampar",
-    "Download {name}" : "Telecargar {name}",
     "Anniversary" : "Anniversari",
     "Appointment" : "Rendetz-vos",
     "Business" : "Afar",

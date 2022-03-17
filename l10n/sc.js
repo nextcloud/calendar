@@ -259,7 +259,6 @@ OC.L10N.register(
     "Close" : "Serra",
     "Show more details" : "Mustra àteros detàllios",
     "Subscribe to {name}" : "Sutaiscrie a {name}",
-    "Download {name}" : "Iscàrriga {name}",
     "Anniversary" : "Anniversàriu",
     "Appointment" : "Apuntamentu",
     "Business" : "Afàrios",

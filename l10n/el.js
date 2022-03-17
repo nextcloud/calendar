@@ -262,7 +262,6 @@ OC.L10N.register(
     "Close" : "Κλείσιμο",
     "Show more details" : "Δείτε περισσότερες λεπτομέρειες",
     "Subscribe to {name}" : "Εγγραφείτε στον {name}",
-    "Download {name}" : "Λήψη {name}",
     "Anniversary" : "Επέτειος",
     "Appointment" : "Ραντεβού",
     "Business" : "Επιχείρηση",

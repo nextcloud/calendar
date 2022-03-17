@@ -219,7 +219,6 @@ OC.L10N.register(
     "Close" : "סגירה",
     "Show more details" : "הצגת פרטים נוספים",
     "Subscribe to {name}" : "הרשמה אל {name}",
-    "Download {name}" : "הורדת {name}",
     "Anniversary" : "יום השנה",
     "Appointment" : "פגישה",
     "Business" : "עסקי",

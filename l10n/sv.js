@@ -321,7 +321,6 @@ OC.L10N.register(
     "Close" : "Stäng",
     "Show more details" : "Visa mer information",
     "Subscribe to {name}" : "Prenumerera på {name}",
-    "Download {name}" : "Hämta {name}",
     "Anniversary" : "Födelsedag",
     "Appointment" : "Bokning",
     "Business" : "Företag",

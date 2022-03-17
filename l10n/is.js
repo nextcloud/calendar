@@ -196,7 +196,6 @@ OC.L10N.register(
     "Close" : "Loka",
     "Show more details" : "Sýna frekari upplýsingar",
     "Subscribe to {name}" : "Panta áskrift að {name}",
-    "Download {name}" : "Sækja {name}",
     "Anniversary" : "Afmæli",
     "Appointment" : "Stefnumót",
     "Business" : "Viðskipti",

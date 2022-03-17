@@ -254,7 +254,6 @@ OC.L10N.register(
     "Close" : "닫기",
     "Show more details" : "더 자세히 보기",
     "Subscribe to {name}" : "{name} 구독",
-    "Download {name}" : "{name} 다운로드",
     "Anniversary" : "기념일",
     "Appointment" : "일정",
     "Business" : "사업",

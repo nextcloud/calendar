@@ -344,7 +344,6 @@ OC.L10N.register(
     "Close" : "Затвори",
     "Show more details" : "Показване на повече подробности",
     "Subscribe to {name}" : "Абониране за {name}",
-    "Download {name}" : "Изтегляне на {name}",
     "Anniversary" : "Годишнина",
     "Appointment" : "Среща",
     "Business" : "Бизнес",

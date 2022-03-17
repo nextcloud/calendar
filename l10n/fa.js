@@ -193,7 +193,6 @@ OC.L10N.register(
     "Close" : "بستن",
     "Show more details" : "جزئیات بیشتر را نشان دهید",
     "Subscribe to {name}" : "اشتراک در {name}",
-    "Download {name}" : "بارگیری {name}",
     "Anniversary" : "سالگرد",
     "Appointment" : "وقت ملاقات",
     "Business" : "کسب و کار",

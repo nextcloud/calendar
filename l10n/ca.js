@@ -245,7 +245,6 @@ OC.L10N.register(
     "Close" : "Tanca",
     "Show more details" : "Mostra més detalls",
     "Subscribe to {name}" : "Subscriure a {name}",
-    "Download {name}" : "Baixa {name}",
     "Anniversary" : "Commemoració",
     "Appointment" : "Cita",
     "Business" : "Negocis",

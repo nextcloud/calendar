@@ -371,7 +371,6 @@ OC.L10N.register(
     "Close" : "Itxi",
     "Show more details" : "Erakutsi xehetasun gehiago",
     "Subscribe to {name}" : "Harpidetu {name}",
-    "Download {name}" : "Deskargatu {name}",
     "Anniversary" : "Urtebetetzea",
     "Appointment" : "Hitzordua",
     "Business" : "Lana",

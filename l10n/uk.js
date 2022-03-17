@@ -225,7 +225,6 @@ OC.L10N.register(
     "Close" : "Закрити",
     "Show more details" : "Збільшити деталізацію",
     "Subscribe to {name}" : "Підписатися на {name}",
-    "Download {name}" : "Завантажити {name}",
     "Anniversary" : "Річниця",
     "Appointment" : "Призначення",
     "Business" : "Робота",

@@ -372,7 +372,6 @@ OC.L10N.register(
     "Close" : " 關閉",
     "Show more details" : "顯示更多細節",
     "Subscribe to {name}" : "訂閱 {name}",
-    "Download {name}" : "下載 {name}",
     "Anniversary" : "週年",
     "Appointment" : "約會",
     "Business" : "商業",

@@ -351,7 +351,6 @@ OC.L10N.register(
     "Close" : "关闭",
     "Show more details" : "显示更多详情",
     "Subscribe to {name}" : "订阅{name}",
-    "Download {name}" : "下载{name}",
     "Anniversary" : "周年",
     "Appointment" : "预约",
     "Business" : "公司",

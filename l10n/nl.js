@@ -351,7 +351,6 @@ OC.L10N.register(
     "Close" : "Sluiten",
     "Show more details" : "Toon meer details",
     "Subscribe to {name}" : "Abonneren op {name}",
-    "Download {name}" : "Download {name}",
     "Anniversary" : "Verjaardag",
     "Appointment" : "Afspraak",
     "Business" : "Zakelijk",

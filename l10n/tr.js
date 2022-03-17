@@ -372,7 +372,6 @@ OC.L10N.register(
     "Close" : "Kapat",
     "Show more details" : "Diğer ayrıntıları görüntüle",
     "Subscribe to {name}" : "{name} takvimine abone ol",
-    "Download {name}" : "{name} takvimini indir",
     "Anniversary" : "Yıl dönümü",
     "Appointment" : "Randevu",
     "Business" : "İş",

@@ -370,7 +370,6 @@ OC.L10N.register(
     "Close" : "Bezárás",
     "Show more details" : "Részletek megjelenítése",
     "Subscribe to {name}" : "Feliratkozás erre: {name}",
-    "Download {name}" : "{name} letöltése",
     "Anniversary" : "Évforduló",
     "Appointment" : "Találkozó",
     "Business" : "Üzleti",

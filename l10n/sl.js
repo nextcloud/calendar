@@ -319,7 +319,6 @@ OC.L10N.register(
     "Close" : "Zapri",
     "Show more details" : "Pokaži več podrobnosti",
     "Subscribe to {name}" : "Naroči na {name}",
-    "Download {name}" : "Prejmi {name}",
     "Anniversary" : "Obletnica",
     "Appointment" : "Sestanek",
     "Business" : "Posel",

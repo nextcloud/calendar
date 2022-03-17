@@ -261,7 +261,6 @@ OC.L10N.register(
     "Attendees" : "参加者",
     "Close" : "閉じる",
     "Show more details" : "詳細を見る",
-    "Download {name}" : "{name}をダウンロード",
     "Anniversary" : "記念日",
     "Appointment" : "アポイントメント",
     "Business" : "ビジネス",

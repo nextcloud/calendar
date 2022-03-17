@@ -318,7 +318,6 @@ OC.L10N.register(
     "Close" : "Užverti",
     "Show more details" : "Rodyti išsamiau",
     "Subscribe to {name}" : "Prenumeruoti {name}",
-    "Download {name}" : "Atsisiųsti {name}",
     "Anniversary" : "Metinės",
     "Appointment" : "Paskyrimas",
     "Business" : "Verslas",

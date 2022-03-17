@@ -336,7 +336,6 @@ OC.L10N.register(
     "Close" : "Sulje",
     "Show more details" : "Näytä lisää tietoja",
     "Subscribe to {name}" : "Tilaa {name}",
-    "Download {name}" : "Lataa {name}",
     "Anniversary" : "Vuosipäivä",
     "Appointment" : "Tapaaminen",
     "Business" : "Business",

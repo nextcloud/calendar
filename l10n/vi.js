@@ -357,7 +357,6 @@ OC.L10N.register(
     "Close" : "Đóng",
     "Show more details" : "Cho thấy thêm chi tiết",
     "Subscribe to {name}" : "Dõi theo {name}",
-    "Download {name}" : "Tải xuống {name}",
     "Anniversary" : "Ngày kỷ niệm",
     "Appointment" : "Cuộc hẹn",
     "Business" : "Doanh nghiệp",

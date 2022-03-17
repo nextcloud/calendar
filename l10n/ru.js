@@ -372,7 +372,6 @@ OC.L10N.register(
     "Close" : "Закрыть",
     "Show more details" : "Подробные сведения",
     "Subscribe to {name}" : "Подписаться на {name}",
-    "Download {name}" : "Скачать {name}",
     "Anniversary" : "Годовщина",
     "Appointment" : "Встреча",
     "Business" : "Работа",

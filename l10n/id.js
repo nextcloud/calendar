@@ -179,7 +179,6 @@ OC.L10N.register(
     "Close" : "Tutup",
     "Show more details" : "Tampilkan detail lain",
     "Subscribe to {name}" : "Berlangganan ke {name}",
-    "Download {name}" : "Unduh {name}",
     "Anniversary" : "Hari jadi",
     "Appointment" : "Janji",
     "Business" : "Bisnis",

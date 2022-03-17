@@ -280,7 +280,6 @@ OC.L10N.register(
     "Close" : "Zatvori",
     "Show more details" : "Prikaži više pojedinosti",
     "Subscribe to {name}" : "Pretplati se na {name}",
-    "Download {name}" : "Preuzmi {name}",
     "Anniversary" : "Godišnjica",
     "Appointment" : "Dogovor",
     "Business" : "Poslovno",

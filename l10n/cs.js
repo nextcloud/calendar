@@ -372,7 +372,6 @@ OC.L10N.register(
     "Close" : "Zavřít",
     "Show more details" : "Zobrazit další podrobnosti",
     "Subscribe to {name}" : "Přihlásit se k odběru {name}",
-    "Download {name}" : "Stáhnout {name}",
     "Anniversary" : "Výročí",
     "Appointment" : "Schůzka",
     "Business" : "Práce",

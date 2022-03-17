@@ -204,7 +204,6 @@ OC.L10N.register(
     "Close" : "Lukk",
     "Show more details" : "Vis flere detaljer",
     "Subscribe to {name}" : "Abonner på {name}",
-    "Download {name}" : "Last ned {name}",
     "Anniversary" : "Jubileum",
     "Appointment" : "Avtale",
     "Business" : "Forretninger",

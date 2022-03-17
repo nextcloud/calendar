@@ -372,7 +372,6 @@ OC.L10N.register(
     "Close" : "Zamknij",
     "Show more details" : "Pokaż więcej szczegółów",
     "Subscribe to {name}" : "Subskrybuj dla {name}",
-    "Download {name}" : "Pobierz {name}",
     "Anniversary" : "Rocznica",
     "Appointment" : "Spotkanie",
     "Business" : "Biznes",
