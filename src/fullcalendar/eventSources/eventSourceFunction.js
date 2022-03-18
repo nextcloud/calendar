@@ -52,6 +52,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 
 		for (const object of allObjectsInTimeRange) {
 			const classNames = []
+			let hasAlarms = false
 
 			if (object.status === 'CANCELLED') {
 				classNames.push('fc-event-nc-cancelled')
@@ -60,6 +61,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 			}
 
 			if (object.hasComponent('VALARM')) {
+				hasAlarms = true
 				classNames.push('fc-event-nc-alarms')
 			}
 
@@ -143,6 +145,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 					davUrl: calendarObject.dav.url,
 					location: object.location,
 					description: object.description,
+					hasAlarms,
 				},
 			}
 
