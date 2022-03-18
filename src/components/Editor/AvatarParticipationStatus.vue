@@ -80,39 +80,39 @@ export default {
 			if (this.isSuggestion) {
 				return {
 					indicatorClass: ['accepted', 'icon', 'icon-checkmark-white'],
-					label: t('calendar', 'Suggested.'),
+					label: t('calendar', 'Suggested'),
 				}
 			}
 
 			if (this.isResource && this.participationStatus === 'ACCEPTED') {
 				return {
 					indicatorClass: ['accepted', 'icon', 'icon-checkmark-white'],
-					label: t('calendar', 'Available.'),
+					label: t('calendar', 'Available'),
 				}
 			}
 			if (this.isResource && this.participationStatus === 'DECLINED') {
 				return {
 					indicatorClass: ['declined', 'icon', 'icon-close-white'],
-					label: t('calendar', 'Not available.'),
+					label: t('calendar', 'Not available'),
 				}
 			}
 			if (this.isResource) {
 				return {
 					indicatorClass: ['no-response', 'icon', 'icon-invitees-no-response-white'],
-					label: t('calendar', 'Checking availability.'),
+					label: t('calendar', 'Checking availability'),
 				}
 			}
 
 			if (this.participationStatus === 'ACCEPTED' && this.isViewedByOrganizer) {
 				return {
 					indicatorClass: ['accepted', 'icon', 'icon-checkmark-white'],
-					label: t('calendar', 'Invitation accepted.'),
+					label: t('calendar', 'Invitation accepted'),
 				}
 			}
 			if (this.participationStatus === 'ACCEPTED' && !this.isViewedByOrganizer) {
 				return {
 					indicatorClass: ['accepted', 'icon', 'icon-checkmark-white'],
-					label: t('calendar', 'Accepted {organizerName}\'s invitation.', {
+					label: t('calendar', 'Accepted {organizerName}\'s invitation', {
 						organizerName: this.organizerDisplayName,
 					}),
 				}
@@ -121,13 +121,13 @@ export default {
 			if (this.participationStatus === 'DECLINED' && this.isViewedByOrganizer) {
 				return {
 					indicatorClass: ['declined', 'icon', 'icon-close-white'],
-					label: t('calendar', 'Invitation declined.'),
+					label: t('calendar', 'Invitation declined'),
 				}
 			}
 			if (this.participationStatus === 'DECLINED' && !this.isViewedByOrganizer) {
 				return {
 					indicatorClass: ['declined', 'icon', 'icon-close-white'],
-					label: t('calendar', 'Declined {organizerName}\'s invitation.', {
+					label: t('calendar', 'Declined {organizerName}\'s invitation', {
 						organizerName: this.organizerDisplayName,
 					}),
 				}
@@ -136,25 +136,25 @@ export default {
 			if (this.participationStatus === 'DELEGATED') {
 				return {
 					indicatorClass: [],
-					label: this.$t('calendar', 'Invitation is delegated.'),
+					label: this.$t('calendar', 'Invitation is delegated'),
 				}
 			}
 			if (this.participationStatus === 'TENTATIVE') {
 				return {
 					indicatorClass: ['tentative', 'icon', 'icon-checkmark-white'],
-					label: t('calendar', 'Participation marked as tentative.'),
+					label: t('calendar', 'Participation marked as tentative'),
 				}
 			}
 
 			if (this.isViewedByOrganizer) {
 				return {
 					indicatorClass: ['no-response', 'icon', 'icon-invitees-no-response-white'],
-					label: t('calendar', 'Invitation sent.'),
+					label: t('calendar', 'Invitation sent'),
 				}
 			} else {
 				return {
 					indicatorClass: ['no-response', 'icon', 'icon-invitees-no-response-white'],
-					label: t('calendar', 'Has not responded to {organizerName}\'s invitation yet.', {
+					label: t('calendar', 'Has not responded to {organizerName}\'s invitation yet', {
 						organizerName: this.organizerDisplayName,
 					}),
 				}
