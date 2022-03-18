@@ -27,6 +27,7 @@ OC.L10N.register(
     "Next day" : "Kita diena",
     "Next week" : "Kita savaitė",
     "Next month" : "Kitas mėnuo",
+    "New event" : "Naujas įvykis",
     "Today" : "Šiandiena",
     "Day" : "Diena",
     "Week" : "Savaitė",
