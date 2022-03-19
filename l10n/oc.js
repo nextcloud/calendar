@@ -80,7 +80,6 @@ OC.L10N.register(
     "_hour_::_hours_" : ["ora","oras"],
     "_day_::_days_" : ["jorn","jorns"],
     "_week_::_weeks_" : ["setmana","setmanas"],
-    "Suggested." : "Suggerit.",
     "Busy" : "Ocupat",
     "Unknown" : "Desconegut",
     "Tentative" : "Provisòri",
