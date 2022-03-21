@@ -28,6 +28,7 @@ namespace OCA\Calendar\Db;
 
 use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
+use ReturnTypeWillChange;
 use function json_decode;
 use function json_encode;
 
@@ -183,6 +184,7 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 		return $this;
 	}
 
+	#[ReturnTypeWillChange]
 	public function jsonSerialize() {
 		return [
 			'id' => $this->id,

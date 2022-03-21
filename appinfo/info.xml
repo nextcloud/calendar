@@ -32,7 +32,7 @@
 	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/main/screenshots/week_room_suggestion.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/main/screenshots/week_sidebar.png</screenshot>
 	<dependencies>
-		<php min-version="7.3" max-version="8.0" />
+		<php min-version="7.3" max-version="8.1" />
 		<nextcloud min-version="21" max-version="24" />
 	</dependencies>
 	<background-jobs>

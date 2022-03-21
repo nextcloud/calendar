@@ -28,6 +28,7 @@ namespace OCA\Calendar\Db;
 
 use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
+use ReturnTypeWillChange;
 
 /**
  * @method int getId()
@@ -94,6 +95,7 @@ class Booking extends Entity implements JsonSerializable {
 		$this->addType('confirmed', 'boolean');
 	}
 
+	#[ReturnTypeWillChange]
 	public function jsonSerialize() {
 		return [
 			'id' => $this->getId(),
