@@ -62,9 +62,9 @@ const mapDavShareeToCalendarShareObject = (sharee) => {
 	if (sharee['common-name'] && sharee['common-name'].trim() !== '') {
 		displayName = sharee['common-name']
 	} else if (sharee.href.startsWith(PRINCIPAL_PREFIX_GROUP)) {
-		displayName = decodeURIComponent(sharee.href.substr(28))
+		displayName = decodeURIComponent(sharee.href.slice(28))
 	} else if (sharee.href.startsWith(PRINCIPAL_PREFIX_USER)) {
-		displayName = decodeURIComponent(sharee.href.substr(27))
+		displayName = decodeURIComponent(sharee.href.slice(27))
 	} else {
 		displayName = sharee.href
 	}

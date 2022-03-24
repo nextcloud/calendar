@@ -141,7 +141,7 @@ export default {
 			}
 
 			// 'dav/principals/users/'.length => 21
-			const userId = this.calendar.owner.substr(lastIndex + 21)
+			const userId = this.calendar.owner.slice(lastIndex + 21)
 			if (userId.endsWith('/')) {
 				return userId.slice(0, -1)
 			}
