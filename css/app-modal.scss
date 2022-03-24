@@ -21,12 +21,7 @@
  */
 
 .appointment-config-modal {
-	overflow: auto;
 	padding: 2vw;
-	max-width: 900px;
-
-	// Subtract padding twice from max height of modal
-	max-height: calc(90vh - 4vw);
 
 	&__form {
 		display: flex;
