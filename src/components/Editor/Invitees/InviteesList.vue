@@ -23,33 +23,26 @@
 
 <template>
 	<div>
-		<InviteesListSearch
-			v-if="!isReadOnly && hasUserEmailAddress"
+		<InviteesListSearch v-if="!isReadOnly && hasUserEmailAddress"
 			:already-invited-emails="alreadyInvitedEmails"
 			@add-attendee="addAttendee" />
-		<OrganizerListItem
-			v-if="hasOrganizer"
+		<OrganizerListItem v-if="hasOrganizer"
 			:is-read-only="isReadOnly"
 			:organizer="calendarObjectInstance.organizer" />
-		<InviteesListItem
-			v-for="invitee in inviteesWithoutOrganizer"
+		<InviteesListItem v-for="invitee in inviteesWithoutOrganizer"
 			:key="invitee.email"
 			:attendee="invitee"
 			:is-read-only="isReadOnly"
 			:organizer-display-name="organizerDisplayName"
 			@remove-attendee="removeAttendee" />
-		<NoAttendeesView
-			v-if="isReadOnly && isListEmpty"
+		<NoAttendeesView v-if="isReadOnly && isListEmpty"
 			:message="noInviteesMessage" />
-		<NoAttendeesView
-			v-if="!isReadOnly && isListEmpty && hasUserEmailAddress"
+		<NoAttendeesView v-if="!isReadOnly && isListEmpty && hasUserEmailAddress"
 			:message="noInviteesMessage" />
-		<OrganizerNoEmailError
-			v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
+		<OrganizerNoEmailError v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
 
 		<div class="invitees-list-button-group">
-			<button
-				v-if="isCreateTalkRoomButtonVisible"
+			<button v-if="isCreateTalkRoomButtonVisible"
 				:disabled="isCreateTalkRoomButtonDisabled"
 				@click="createTalkRoom">
 				{{ $t('calendar', 'Create Talk room for this event') }}
@@ -58,8 +51,7 @@
 			<button v-if="!isReadOnly" :disabled="isListEmpty" @click="openFreeBusy">
 				{{ $t('calendar', 'Show busy times') }}
 			</button>
-			<FreeBusy
-				v-if="showFreeBusyModel"
+			<FreeBusy v-if="showFreeBusyModel"
 				:attendees="calendarObjectInstance.attendees"
 				:organizer="calendarObjectInstance.organizer"
 				:start-date="calendarObjectInstance.startDate"

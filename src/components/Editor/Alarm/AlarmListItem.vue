@@ -23,50 +23,40 @@
 
 <template>
 	<!-- Yes, technically an alarm is a component, not a property, but for the matter of CSS names it really doesn't matter -->
-	<div
-		v-click-outside="closeAlarmEditor"
+	<div v-click-outside="closeAlarmEditor"
 		class="property-alarm-item">
-		<div
-			class="property-alarm-item__icon"
+		<div class="property-alarm-item__icon"
 			:class="{ 'property-alarm-item__icon--hidden': !showIcon }">
-			<Bell
-				:size="20"
+			<Bell :size="20"
 				:title="t('calendar', 'Reminder')"
 				class="icon" />
 		</div>
-		<div
-			v-if="!isEditing"
+		<div v-if="!isEditing"
 			class="property-alarm-item__label">
 			{{ alarm | formatAlarm(isAllDay, currentUserTimezone, locale) }}
 		</div>
-		<div
-			v-if="isEditing && isRelativeAlarm && !isAllDay"
+		<div v-if="isEditing && isRelativeAlarm && !isAllDay"
 			class="property-alarm-item__edit property-alarm-item__edit--timed">
-			<input
-				type="number"
+			<input type="number"
 				min="0"
 				max="3600"
 				:value="alarm.relativeAmountTimed"
 				@input="changeRelativeAmountTimed">
-			<AlarmTimeUnitSelect
-				:is-all-day="isAllDay"
+			<AlarmTimeUnitSelect :is-all-day="isAllDay"
 				:count="alarm.relativeAmountTimed"
 				:unit="alarm.relativeUnitTimed"
 				:disabled="false"
 				@change="changeRelativeUnitTimed" />
 		</div>
-		<div
-			v-if="isEditing && isRelativeAlarm && isAllDay"
+		<div v-if="isEditing && isRelativeAlarm && isAllDay"
 			class="property-alarm-item__edit property-alarm-item__edit--all-day">
 			<div class="property-alarm-item__edit--all-day__distance">
-				<input
-					type="number"
+				<input type="number"
 					min="0"
 					max="3600"
 					:value="alarm.relativeAmountAllDay"
 					@input="changeRelativeAmountAllDay">
-				<AlarmTimeUnitSelect
-					:is-all-day="isAllDay"
+				<AlarmTimeUnitSelect :is-all-day="isAllDay"
 					:count="alarm.relativeAmountAllDay"
 					:unit="alarm.relativeUnitAllDay"
 					:disabled="false"
@@ -77,49 +67,41 @@
 				<span class="property-alarm-item__edit--all-day__time__before-at-label">
 					{{ $t('calendar', 'before at') }}
 				</span>
-				<TimePicker
-					:date="relativeAllDayDate"
+				<TimePicker :date="relativeAllDayDate"
 					@change="changeRelativeHourMinuteAllDay" />
 			</div>
 		</div>
-		<div
-			v-if="isEditing && isAbsoluteAlarm"
+		<div v-if="isEditing && isAbsoluteAlarm"
 			class="property-alarm-item__edit property-alarm-item__edit--absolute">
-			<DatePicker
-				prefix="on"
+			<DatePicker prefix="on"
 				:date="alarm.absoluteDate"
 				:timezone-id="alarm.absoluteTimezoneId"
 				:is-all-day="false"
 				@change="changeAbsoluteDate"
 				@change-timezone="changeAbsoluteTimezoneId" />
 		</div>
-		<div
-			v-if="!isReadOnly"
+		<div v-if="!isReadOnly"
 			class="property-alarm-item__options">
 			<Actions>
-				<ActionRadio
-					v-if="canChangeAlarmType || (!isAlarmTypeDisplay && forceEventAlarmType === 'DISPLAY')"
+				<ActionRadio v-if="canChangeAlarmType || (!isAlarmTypeDisplay && forceEventAlarmType === 'DISPLAY')"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeDisplay"
 					@change="changeType('DISPLAY')">
 					{{ $t('calendar', 'Notification') }}
 				</ActionRadio>
-				<ActionRadio
-					v-if="canChangeAlarmType || (!isAlarmTypeEmail && forceEventAlarmType === 'EMAIL')"
+				<ActionRadio v-if="canChangeAlarmType || (!isAlarmTypeEmail && forceEventAlarmType === 'EMAIL')"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeEmail"
 					@change="changeType('EMAIL')">
 					{{ $t('calendar', 'Email') }}
 				</ActionRadio>
-				<ActionRadio
-					v-if="canChangeAlarmType && isAlarmTypeAudio"
+				<ActionRadio v-if="canChangeAlarmType && isAlarmTypeAudio"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeAudio"
 					@change="changeType('AUDIO')">
 					{{ $t('calendar', 'Audio notification') }}
 				</ActionRadio>
-				<ActionRadio
-					v-if="canChangeAlarmType && isAlarmTypeOther"
+				<ActionRadio v-if="canChangeAlarmType && isAlarmTypeOther"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeOther"
 					@change="changeType(alarm.type)">
@@ -128,15 +110,13 @@
 
 				<ActionSeparator v-if="canChangeAlarmType && !isRecurring" />
 
-				<ActionRadio
-					v-if="!isRecurring"
+				<ActionRadio v-if="!isRecurring"
 					:name="alarmTriggerName"
 					:checked="isRelativeAlarm"
 					@change="switchToRelativeAlarm">
 					{{ $t('calendar', 'Relative to event') }}
 				</ActionRadio>
-				<ActionRadio
-					v-if="!isRecurring"
+				<ActionRadio v-if="!isRecurring"
 					:name="alarmTriggerName"
 					:checked="isAbsoluteAlarm"
 					@change="switchToAbsoluteAlarm">
@@ -145,16 +125,14 @@
 
 				<ActionSeparator />
 
-				<ActionButton
-					v-if="canEdit && !isEditing"
+				<ActionButton v-if="canEdit && !isEditing"
 					@click.stop="toggleEditAlarm">
 					<template #icon>
 						<Pencil :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'Edit time') }}
 				</ActionButton>
-				<ActionButton
-					v-if="canEdit && isEditing"
+				<ActionButton v-if="canEdit && isEditing"
 					@click="toggleEditAlarm">
 					<template #icon>
 						<Check :size="20" decorative />
@@ -162,8 +140,7 @@
 					{{ $t('calendar', 'Save time') }}
 				</ActionButton>
 
-				<ActionButton
-					@click="removeAlarm">
+				<ActionButton @click="removeAlarm">
 					<template #icon>
 						<Delete :size="20" decorative />
 					</template>

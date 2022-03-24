@@ -22,8 +22,7 @@
 
 <template>
 	<div class="avatar-participation-status">
-		<Avatar
-			:disable-tooltip="true"
+		<Avatar :disable-tooltip="true"
 			:user="avatarLink"
 			:is-no-user="isResource" />
 		<div class="avatar-participation-status__indicator" :class="status.indicatorClass" />

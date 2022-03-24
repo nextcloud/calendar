@@ -22,8 +22,7 @@
   -->
 
 <template>
-	<PropertySelect
-		:prop-model="propModel"
+	<PropertySelect :prop-model="propModel"
 		:is-read-only="false"
 		:value="null"
 		:show-icon="showIcon"

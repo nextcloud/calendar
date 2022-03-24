@@ -21,8 +21,7 @@
   -->
 
 <template>
-	<FullCalendar
-		ref="fullCalendar"
+	<FullCalendar ref="fullCalendar"
 		:options="options" />
 </template>
 

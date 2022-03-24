@@ -21,8 +21,7 @@
   -->
 
 <template>
-	<DatetimePicker
-		:clearable="false"
+	<DatetimePicker :clearable="false"
 		:first-day-of-week="firstDay"
 		:format="format"
 		:lang="lang"

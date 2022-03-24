@@ -31,16 +31,14 @@
 				@close="showModal = false">
 				<div class="modal__content">
 					<h2>{{ t('calendar', 'Trash bin') }}</h2>
-					<EmptyContent
-						v-if="loading"
+					<EmptyContent v-if="loading"
 						icon="icon-loading"
 						class="modal__content__loading">
 						<template #desc>
 							{{ t('calendar', 'Loading deleted elements.') }}
 						</template>
 					</EmptyContent>
-					<EmptyContent
-						v-else-if="!items.length"
+					<EmptyContent v-else-if="!items.length"
 						class="modal__content__empty">
 						<template #icon>
 							<Delete :size="20" decorative />
@@ -64,8 +62,7 @@
 								<td>
 									<div class="item">
 										<div>
-											<div
-												class="color-dot"
+											<div class="color-dot"
 												:style="{ 'background-color': item.color }" />
 										</div>
 
@@ -86,8 +83,7 @@
 									</button>
 
 									<Actions :force-menu="true">
-										<ActionButton
-											@click="onDeletePermanently(item)">
+										<ActionButton @click="onDeletePermanently(item)">
 											<template #icon>
 												<Delete :size="20" decorative />
 											</template>

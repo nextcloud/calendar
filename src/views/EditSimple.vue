@@ -21,8 +21,7 @@
   -->
 
 <template>
-	<Popover
-		ref="popover"
+	<Popover ref="popover"
 		:open="isVisible"
 		:auto-hide="false"
 		:placement="placement"
@@ -36,8 +35,7 @@
 		<template v-else-if="isError">
 			<div class="event-popover__top-right-actions">
 				<Actions>
-					<ActionButton
-						@click="cancel">
+					<ActionButton @click="cancel">
 						<template #icon>
 							<Close :size="20" decorative />
 						</template>
@@ -60,8 +58,7 @@
 		<template v-else>
 			<div class="event-popover__top-right-actions">
 				<Actions v-if="isReadOnly">
-					<ActionButton
-						@click="showMore">
+					<ActionButton @click="showMore">
 						<template #icon>
 							<ArrowExpand :size="20" decorative />
 						</template>
@@ -96,8 +93,7 @@
 					</ActionButton>
 				</Actions>
 				<Actions>
-					<ActionButton
-						@click="cancel">
+					<ActionButton @click="cancel">
 						<template #icon>
 							<Close :size="20" decorative />
 						</template>
@@ -106,24 +102,20 @@
 				</Actions>
 			</div>
 
-			<IllustrationHeader
-				:color="illustrationColor"
+			<IllustrationHeader :color="illustrationColor"
 				:illustration-url="backgroundImage" />
 
-			<PropertyTitle
-				:value="title"
+			<PropertyTitle :value="title"
 				:is-read-only="isReadOnly"
 				@update:value="updateTitle" />
 
-			<PropertyCalendarPicker
-				v-if="showCalendarPicker"
+			<PropertyCalendarPicker v-if="showCalendarPicker"
 				:calendars="calendars"
 				:calendar="selectedCalendar"
 				:is-read-only="isReadOnly"
 				@select-calendar="changeCalendar" />
 
-			<PropertyTitleTimePicker
-				:start-date="startDate"
+			<PropertyTitleTimePicker :start-date="startDate"
 				:start-timezone="startTimezone"
 				:end-date="endDate"
 				:end-timezone="endTimezone"
@@ -137,25 +129,21 @@
 				@update-end-timezone="updateEndTimezone"
 				@toggle-all-day="toggleAllDay" />
 
-			<PropertyText
-				:is-read-only="isReadOnly"
+			<PropertyText :is-read-only="isReadOnly"
 				:prop-model="rfcProps.location"
 				:value="location"
 				@update:value="updateLocation" />
-			<PropertyText
-				:is-read-only="isReadOnly"
+			<PropertyText :is-read-only="isReadOnly"
 				:prop-model="rfcProps.description"
 				:value="description"
 				@update:value="updateDescription" />
 
-			<InvitationResponseButtons
-				v-if="isViewedByAttendee && userAsAttendee && !isReadOnly"
+			<InvitationResponseButtons v-if="isViewedByAttendee && userAsAttendee && !isReadOnly"
 				:attendee="userAsAttendee"
 				:calendar-id="calendarId"
 				@close="closeEditorAndSkipAction" />
 
-			<SaveButtons
-				v-if="!isReadOnly"
+			<SaveButtons v-if="!isReadOnly"
 				class="event-popover__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"

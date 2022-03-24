@@ -13,8 +13,7 @@
 				<template #icon>
 					<Download :size="20" decorative />
 				</template>
-				<ActionLink
-					v-for="calendar in subscriptions"
+				<ActionLink v-for="calendar in subscriptions"
 					:key="calendar.id"
 					target="_blank"
 					:href="calendar.url + '?export'">
@@ -28,8 +27,7 @@
 				<template #icon>
 					<CalendarBlank :size="20" decorative />
 				</template>
-				<ActionButton
-					v-for="calendar in subscriptions"
+				<ActionButton v-for="calendar in subscriptions"
 					:key="calendar.id"
 					@click.prevent.stop="copySubscriptionLink(calendar)">
 					<template #icon>

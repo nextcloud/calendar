@@ -24,8 +24,7 @@
 	<div class="repeat-option-set repeat-option-set--yearly">
 		<div class="repeat-option-set-section">
 			<div class="repeat-option-set-section__grid">
-				<button
-					v-for="option in options"
+				<button v-for="option in options"
 					:key="option.value"
 					class="repeat-option-set-section-grid-item"
 					:class="{ primary: option.selected }"
@@ -35,18 +34,15 @@
 			</div>
 		</div>
 		<div class="repeat-option-set-section repeat-option-set-section--on-the-select">
-			<ActionCheckbox
-				class="repeat-option-set-section__title"
+			<ActionCheckbox class="repeat-option-set-section__title"
 				:checked="isBySetPositionEnabled"
 				@change="toggleBySetPosition">
 				{{ $t('calendar', 'On the') }}
 			</ActionCheckbox>
-			<RepeatFirstLastSelect
-				:by-set-position="bySetPosition"
+			<RepeatFirstLastSelect :by-set-position="bySetPosition"
 				:disabled="!isBySetPositionEnabled"
 				@change="changeBySetPosition" />
-			<RepeatOnTheSelect
-				:by-day="byDay"
+			<RepeatOnTheSelect :by-day="byDay"
 				:disabled="!isBySetPositionEnabled"
 				@change="changeByDay" />
 		</div>

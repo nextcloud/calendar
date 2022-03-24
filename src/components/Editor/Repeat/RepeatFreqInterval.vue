@@ -25,16 +25,14 @@
 		<span class="repeat-option-set__label">
 			{{ repeatEveryLabel }}
 		</span>
-		<input
-			v-if="!isIntervalDisabled"
+		<input v-if="!isIntervalDisabled"
 			class="intervalInput"
 			type="number"
 			min="1"
 			max="366"
 			:value="interval"
 			@input="changeInterval">
-		<RepeatFreqSelect
-			:freq="frequency"
+		<RepeatFreqSelect :freq="frequency"
 			:count="interval"
 			@change="changeFrequency" />
 	</div>

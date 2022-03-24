@@ -22,8 +22,7 @@
 
 <template>
 	<div>
-		<AppNavigationItem
-			:title="config.name"
+		<AppNavigationItem :title="config.name"
 			@click.prevent>
 			<template #icon>
 				<CalendarCheckIcon :size="20" decorative />
@@ -34,29 +33,25 @@
 					<OpenInNewIcon slot="icon" :size="20" decorative />
 					{{ t('calendar', 'Preview') }}
 				</ActionLink>
-				<ActionButton
-					v-if="hasClipboard"
+				<ActionButton v-if="hasClipboard"
 					:close-after-click="true"
 					@click="copyLink">
 					<LinkVariantIcon slot="icon" :size="20" decorative />
 					{{ t('calendar', 'Copy link') }}
 				</ActionButton>
-				<ActionButton
-					:close-after-click="true"
+				<ActionButton :close-after-click="true"
 					@click="showModal = true">
 					<PencilIcon slot="icon" :size="20" decorative />
 					{{ t('calendar', 'Edit') }}
 				</ActionButton>
-				<ActionButton
-					:close-after-click="true"
+				<ActionButton :close-after-click="true"
 					@click="$emit('delete', $event)">
 					<DeleteIcon slot="icon" :size="20" decorative />
 					{{ t('calendar', 'Delete') }}
 				</ActionButton>
 			</template>
 		</AppNavigationItem>
-		<AppointmentConfigModal
-			v-if="showModal"
+		<AppointmentConfigModal v-if="showModal"
 			:is-new="false"
 			:config="config"
 			@close="closeModal" />

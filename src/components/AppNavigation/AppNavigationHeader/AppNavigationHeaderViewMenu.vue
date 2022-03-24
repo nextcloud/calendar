@@ -20,15 +20,13 @@
   -->
 
 <template>
-	<Actions
-		v-shortkey="shortKeyConf"
+	<Actions v-shortkey="shortKeyConf"
 		menu-align="right"
 		@shortkey.native="selectViewFromShortcut">
 		<template #icon>
 			<component :is="defaultIcon" :size="20" decorative />
 		</template>
-		<ActionButton
-			v-for="view in views"
+		<ActionButton v-for="view in views"
 			:key="view.id"
 			:icon="view.icon"
 			@click="selectView(view.id)">

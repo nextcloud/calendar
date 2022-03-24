@@ -20,22 +20,19 @@
   -->
 
 <template>
-	<draggable
-		v-model="calendars"
+	<draggable v-model="calendars"
 		:disabled="disableDragging"
 		v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
 		draggable=".draggable-calendar-list-item"
 		@update="update">
 		<template v-if="!isPublic">
-			<CalendarListItem
-				v-for="calendar in calendars"
+			<CalendarListItem v-for="calendar in calendars"
 				:key="calendar.id"
 				class="draggable-calendar-list-item"
 				:calendar="calendar" />
 		</template>
 		<template v-else>
-			<PublicCalendarListItem
-				v-for="calendar in calendars"
+			<PublicCalendarListItem v-for="calendar in calendars"
 				:key="calendar.id"
 				:calendar="calendar" />
 		</template>

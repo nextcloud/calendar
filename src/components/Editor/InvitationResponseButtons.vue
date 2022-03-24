@@ -21,34 +21,29 @@
   -->
 
 <template>
-	<div
-		class="invitation-response-buttons"
+	<div class="invitation-response-buttons"
 		:class="{ 'invitation-response-buttons--narrow': narrow }">
-		<button
-			v-if="!isAccepted"
+		<button v-if="!isAccepted"
 			class="invitation-response-buttons__button primary"
 			:disabled="loading"
 			@click="accept">
 			{{ t('calendar', 'Accept') }}
 		</button>
-		<button
-			v-if="!isDeclined"
+		<button v-if="!isDeclined"
 			class="invitation-response-buttons__button error"
 			:disabled="loading"
 			@click="decline">
 			{{ t('calendar', 'Decline') }}
 		</button>
 		<template v-if="!isTentative">
-			<button
-				v-if="!narrow"
+			<button v-if="!narrow"
 				class="invitation-response-buttons__button"
 				:disabled="loading"
 				@click="tentative">
 				{{ t('calendar', 'Tentative') }}
 			</button>
 			<Actions v-else>
-				<ActionButton
-					:disabled="loading"
+				<ActionButton :disabled="loading"
 					@click="tentative">
 					<template #icon>
 						<CalendarQuestionIcon :size="20" />

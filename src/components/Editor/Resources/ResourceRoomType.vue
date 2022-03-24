@@ -23,8 +23,7 @@
 <template>
 	<div class="resource-room-type">
 		<div class="resource-room-type__input">
-			<Multiselect
-				:value="getOption(value)"
+			<Multiselect :value="getOption(value)"
 				:options="options"
 				:placeholder="placeholder"
 				track-by="value"

@@ -20,8 +20,7 @@
   -->
 
 <template>
-	<AppNavigationItem
-		class="app-navigation-entry-new-calendar"
+	<AppNavigationItem class="app-navigation-entry-new-calendar"
 		:class="{'app-navigation-entry-new-calendar--open': isOpen}"
 		:title="$t('calendar', '+ New calendar')"
 		:menu-open.sync="isOpen"
@@ -31,70 +30,61 @@
 			<Plus :size="20" decorative />
 		</template>
 		<template slot="actions">
-			<ActionButton
-				v-if="showCreateCalendarLabel"
+			<ActionButton v-if="showCreateCalendarLabel"
 				@click.prevent.stop="openCreateCalendarInput">
 				<template #icon>
 					<CalendarBlank :size="20" decorative />
 				</template>
 				{{ $t('calendar', 'New calendar') }}
 			</ActionButton>
-			<ActionInput
-				v-if="showCreateCalendarInput"
+			<ActionInput v-if="showCreateCalendarInput"
 				:aria-label="$t('calendar', 'Name for new calendar')"
 				@submit.prevent.stop="createNewCalendar">
 				<template #icon>
 					<CalendarBlank :size="20" decorative />
 				</template>
 			</ActionInput>
-			<ActionText
-				v-if="showCreateCalendarSaving"
+			<ActionText v-if="showCreateCalendarSaving"
 				icon="icon-loading-small">
 				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Creating calendar …') }}
 			</ActionText>
 
-			<ActionButton
-				v-if="showCreateCalendarTaskListLabel"
+			<ActionButton v-if="showCreateCalendarTaskListLabel"
 				@click.prevent.stop="openCreateCalendarTaskListInput">
 				<template #icon>
 					<CalendarCheck :size="20" decorative />
 				</template>
 				{{ $t('calendar', 'New calendar with task list') }}
 			</ActionButton>
-			<ActionInput
-				v-if="showCreateCalendarTaskListInput"
+			<ActionInput v-if="showCreateCalendarTaskListInput"
 				:aria-label="$t('calendar', 'Name for new calendar')"
 				@submit.prevent.stop="createNewCalendarTaskList">
 				<template #icon>
 					<CalendarCheck :size="20" decorative />
 				</template>
 			</ActionInput>
-			<ActionText
-				v-if="showCreateCalendarTaskListSaving"
+			<ActionText v-if="showCreateCalendarTaskListSaving"
 				icon="icon-loading-small">
 				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Creating calendar …') }}
 			</ActionText>
 
-			<ActionButton
-				v-if="showCreateSubscriptionLabel"
+			<ActionButton v-if="showCreateSubscriptionLabel"
 				@click.prevent.stop="openCreateSubscriptionInput">
 				<template #icon>
 					<LinkVariant :size="20" decorative />
 				</template>
 				{{ $t('calendar', 'New subscription from link (read-only)') }}
 			</ActionButton>
-			<ActionInput
-				v-if="showCreateSubscriptionInput"
+			<ActionInput v-if="showCreateSubscriptionInput"
 				:aria-label="$t('calendar', 'Name for new calendar')"
 				@submit.prevent.stop="createNewSubscription">
 				<template #icon>
 					<LinkVariant :size="20" decorative />
 				</template>
 			</ActionInput>
-			<ActionText
-				v-if="showCreateSubscriptionSaving"
+			<ActionText v-if="showCreateSubscriptionSaving"
 				icon="icon-loading-small">
 				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Creating subscription …') }}

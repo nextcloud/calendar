@@ -1,11 +1,9 @@
 <template>
-	<Modal
-		size="large"
+	<Modal size="large"
 		@close="$emit('close')">
 		<div class="booking-appointment-details">
 			<div class="booking-details">
-				<Avatar
-					:user="userInfo.uid"
+				<Avatar :user="userInfo.uid"
 					:display-name="userInfo.displayName"
 					:disable-tooltip="true"
 					:disable-menu="true"
@@ -44,8 +42,7 @@
 				<div class="meeting-info">
 					{{ $t('calendar', 'Please share anything that will help prepare for our meeting') }}
 					<div class="meeting-text">
-						<textarea
-							id="biography"
+						<textarea id="biography"
 							v-model="description"
 							v-autosize="true"
 							rows="8"
@@ -53,14 +50,12 @@
 							autocomplete="off" />
 					</div>
 				</div>
-				<div
-					v-if="showError"
+				<div v-if="showError"
 					class="booking-error">
 					{{ $t('calendar', 'Could not book the appointment. Please try again later or contact the organizer.') }}
 				</div>
 				<div class="buttons">
-					<button
-						class="button primary"
+					<button class="button primary"
 						@click="save">
 						{{ $t('calendar', 'Book the appointment') }}
 					</button>

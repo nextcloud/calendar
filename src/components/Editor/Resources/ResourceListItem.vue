@@ -22,8 +22,7 @@
 
 <template>
 	<div class="resource-list-item">
-		<AvatarParticipationStatus
-			:attendee-is-organizer="false"
+		<AvatarParticipationStatus :attendee-is-organizer="false"
 			:is-viewed-by-organizer="isViewedByOrganizer"
 			:is-resource="true"
 			:is-suggestion="isSuggestion"
@@ -44,20 +43,15 @@
 				</ActionButton>
 			</actions>
 			<Actions v-else-if="isViewedByOrganizer">
-				<ActionCaption
-					v-if="seatingCapacity"
+				<ActionCaption v-if="seatingCapacity"
 					:title="seatingCapacity" />
-				<ActionCaption
-					v-if="roomType"
+				<ActionCaption v-if="roomType"
 					:title="roomType" />
-				<ActionCaption
-					v-if="hasProjector"
+				<ActionCaption v-if="hasProjector"
 					:title="$t('calendar', 'Has a projector')" />
-				<ActionCaption
-					v-if="hasWhiteboard"
+				<ActionCaption v-if="hasWhiteboard"
 					:title="$t('calendar', 'Has a whiteboard')" />
-				<ActionCaption
-					v-if="isAccessible"
+				<ActionCaption v-if="isAccessible"
 					:title="$t('calendar', 'Wheelchair accessible')" />
 				<ActionSeparator v-if="seatingCapacity || roomType || hasProjector || hasWhiteboard || isAccessible" />
 				<ActionButton @click="removeResource">

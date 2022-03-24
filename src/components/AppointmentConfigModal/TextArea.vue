@@ -23,8 +23,7 @@
 <template>
 	<div class="text-area">
 		<label :for="id">{{ label }}</label>
-		<textarea
-			:id="id"
+		<textarea :id="id"
 			v-autosize="true"
 			:value="value"
 			:rows="2"

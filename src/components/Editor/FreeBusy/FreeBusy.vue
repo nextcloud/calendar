@@ -21,16 +21,14 @@
   -->
 
 <template>
-	<Modal
-		size="large"
+	<Modal size="large"
 		:title="$t('calendar', 'Availability of attendees, resources and rooms')"
 		@close="$emit('close')">
 		<div class="modal__content modal--scheduler">
 			<div v-if="loadingIndicator" class="loading-indicator">
 				<div class="icon-loading" />
 			</div>
-			<FullCalendar
-				ref="freeBusyFullCalendar"
+			<FullCalendar ref="freeBusyFullCalendar"
 				:options="options" />
 			<div class="freebusy-caption">
 				<div class="freebusy-caption__calendar-user-types" />

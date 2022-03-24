@@ -23,18 +23,15 @@
 
 <template>
 	<div v-if="display" class="property-select">
-		<component
-			:is="icon"
+		<component :is="icon"
 			:size="20"
 			:title="readableName"
 			class="property-select__icon"
 			:class="{ 'property-select__icon--hidden': !showIcon }" />
 
-		<div
-			class="property-select__input"
+		<div class="property-select__input"
 			:class="{ 'property-select__input--readonly': isReadOnly }">
-			<Multiselect
-				v-if="!isReadOnly"
+			<Multiselect v-if="!isReadOnly"
 				:options="options"
 				:searchable="false"
 				:allow-empty="false"
@@ -48,12 +45,10 @@
 			<div v-else>{{ selectedValue.label }}</div>
 		</div>
 
-		<div
-			v-if="hasInfo"
+		<div v-if="hasInfo"
 			v-tooltip="info"
 			class="property-select__info">
-			<InformationVariant
-				:size="20"
+			<InformationVariant :size="20"
 				decorative />
 		</div>
 	</div>

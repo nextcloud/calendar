@@ -22,17 +22,14 @@
 
 <template>
 	<div class="calendar-picker-option">
-		<div
-			class="calendar-picker-option__color-indicator"
+		<div class="calendar-picker-option__color-indicator"
 			:style="{ backgroundColor: color }" />
 
-		<span
-			class="calendar-picker-option__label">
+		<span class="calendar-picker-option__label">
 			{{ displayName }}
 		</span>
 
-		<Avatar
-			v-if="isSharedWithMe"
+		<Avatar v-if="isSharedWithMe"
 			class="calendar-picker-option__avatar"
 			:disable-menu="true"
 			:disable-tooltip="true"

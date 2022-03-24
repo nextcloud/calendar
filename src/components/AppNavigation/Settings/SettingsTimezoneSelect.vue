@@ -21,8 +21,7 @@
 
 <template>
 	<li class="settings-fieldset-interior-item settings-fieldset-interior-item--timezone">
-		<TimezonePicker
-			:additional-timezones="additionalTimezones"
+		<TimezonePicker :additional-timezones="additionalTimezones"
 			:value="timezone"
 			@input="setTimezoneValue" />
 	</li>

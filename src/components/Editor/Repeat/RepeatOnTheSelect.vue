@@ -21,8 +21,7 @@
   -->
 
 <template>
-	<Multiselect
-		:allow-empty="false"
+	<Multiselect :allow-empty="false"
 		:options="options"
 		:value="selected"
 		:disabled="disabled"

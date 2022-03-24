@@ -24,16 +24,14 @@
 	<div class="checked-duration-select">
 		<div class="checked-duration-select__checkbox-row">
 			<div class="checked-duration-select__checkbox-row__input-wrapper">
-				<input
-					:id="id"
+				<input :id="id"
 					:checked="enabled"
 					type="checkbox"
 					@input="$emit('update:enabled', $event.target.checked)">
 			</div>
 			<label :for="id">{{ label }}</label>
 		</div>
-		<DurationSelect
-			class="checked-duration-select__duration"
+		<DurationSelect class="checked-duration-select__duration"
 			:allow-zero="defaultValue === 0"
 			:disabled="!enabled"
 			:value="valueOrDefault"

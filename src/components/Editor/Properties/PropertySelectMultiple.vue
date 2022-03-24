@@ -23,18 +23,15 @@
 
 <template>
 	<div v-if="display" class="property-select-multiple">
-		<component
-			:is="icon"
+		<component :is="icon"
 			:size="20"
 			:title="readableName"
 			class="property-select-multiple__icon"
 			:class="{ 'property-select-multiple__icon--hidden': !showIcon }" />
 
-		<div
-			class="property-select-multiple__input"
+		<div class="property-select-multiple__input"
 			:class="{ 'property-select-multiple__input--readonly': isReadOnly }">
-			<Multiselect
-				v-if="!isReadOnly"
+			<Multiselect v-if="!isReadOnly"
 				:options="options"
 				:searchable="true"
 				:placeholder="placeholder"
@@ -58,19 +55,16 @@
 			</Multiselect>
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else class="property-select-multiple-colored-tag-wrapper">
-				<PropertySelectMultipleColoredTag
-					v-for="singleValue in value"
+				<PropertySelectMultipleColoredTag v-for="singleValue in value"
 					:key="singleValue.value"
 					:option="singleValue" />
 			</div>
 		</div>
 
-		<div
-			v-if="hasInfo"
+		<div v-if="hasInfo"
 			v-tooltip="info"
 			class="property-select__info">
-			<InformationVariant
-				:size="20"
+			<InformationVariant :size="20"
 				decorative />
 		</div>
 	</div>

@@ -22,30 +22,26 @@
 
 <template>
 	<div class="datepicker-button-section">
-		<button
-			v-shortkey="previousShortKeyConf"
+		<button v-shortkey="previousShortKeyConf"
 			:aria-label="previousLabel"
 			class="datepicker-button-section__previous button icon icon-leftarrow"
 			:title="previousLabel"
 			type="button"
 			@click="navigateToPreviousTimeRange"
 			@shortkey="navigateToPreviousTimeRange" />
-		<button
-			class="datepicker-button-section__datepicker-label button datepicker-label"
+		<button class="datepicker-button-section__datepicker-label button datepicker-label"
 			@click.stop.prevent="toggleDatepicker"
 			@mousedown.stop.prevent="doNothing"
 			@mouseup.stop.prevent="doNothing">
 			{{ selectedDate | formatDateRage(view, locale) }}
 		</button>
-		<DatePicker
-			ref="datepicker"
+		<DatePicker ref="datepicker"
 			class="datepicker-button-section__datepicker"
 			:date="selectedDate"
 			:is-all-day="true"
 			:open.sync="isDatepickerOpen"
 			@change="navigateToDate" />
-		<button
-			v-shortkey="nextShortKeyConf"
+		<button v-shortkey="nextShortKeyConf"
 			:aria-label="nextLabel"
 			class="datepicker-button-section__next button icon icon-rightarrow"
 			:title="nextLabel"

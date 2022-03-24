@@ -23,43 +23,37 @@
 	<AppNavigationSettings :title="settingsTitle">
 		<ul class="settings-fieldset-interior">
 			<SettingsImportSection :is-disabled="loadingCalendars" />
-			<ActionCheckbox
-				class="settings-fieldset-interior-item"
+			<ActionCheckbox class="settings-fieldset-interior-item"
 				:checked="birthdayCalendar"
 				:disabled="isBirthdayCalendarDisabled"
 				@update:checked="toggleBirthdayEnabled">
 				{{ $t('calendar', 'Enable birthday calendar') }}
 			</ActionCheckbox>
-			<ActionCheckbox
-				class="settings-fieldset-interior-item"
+			<ActionCheckbox class="settings-fieldset-interior-item"
 				:checked="showTasks"
 				:disabled="savingTasks"
 				@update:checked="toggleTasksEnabled">
 				{{ $t('calendar', 'Show tasks in calendar') }}
 			</ActionCheckbox>
-			<ActionCheckbox
-				class="settings-fieldset-interior-item"
+			<ActionCheckbox class="settings-fieldset-interior-item"
 				:checked="showPopover"
 				:disabled="savingPopover"
 				@update:checked="togglePopoverEnabled">
 				{{ $t('calendar', 'Enable simplified editor') }}
 			</ActionCheckbox>
-			<ActionCheckbox
-				class="settings-fieldset-interior-item"
+			<ActionCheckbox class="settings-fieldset-interior-item"
 				:checked="eventLimit"
 				:disabled="savingEventLimit"
 				@update:checked="toggleEventLimitEnabled">
 				{{ $t('calendar', 'Limit visible events per view') }}
 			</ActionCheckbox>
-			<ActionCheckbox
-				class="settings-fieldset-interior-item"
+			<ActionCheckbox class="settings-fieldset-interior-item"
 				:checked="showWeekends"
 				:disabled="savingWeekend"
 				@update:checked="toggleWeekendsEnabled">
 				{{ $t('calendar', 'Show weekends') }}
 			</ActionCheckbox>
-			<ActionCheckbox
-				class="settings-fieldset-interior-item"
+			<ActionCheckbox class="settings-fieldset-interior-item"
 				:checked="showWeekNumbers"
 				:disabled="savingWeekNumber"
 				@update:checked="toggleWeekNumberEnabled">
@@ -67,8 +61,7 @@
 			</ActionCheckbox>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--slotDuration">
 				<label for="slotDuration">{{ $t('calendar', 'Time increments') }}</label>
-				<Multiselect
-					:id="slotDuration"
+				<Multiselect :id="slotDuration"
 					:allow-empty="false"
 					:options="slotDurationOptions"
 					:value="selectedDurationOption"
@@ -79,8 +72,7 @@
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--defaultReminder">
 				<label for="defaultReminder">{{ $t('calendar', 'Default reminder') }}</label>
-				<Multiselect
-					:id="defaultReminder"
+				<Multiselect :id="defaultReminder"
 					:allow-empty="false"
 					:options="defaultReminderOptions"
 					:value="selectedDefaultReminderOption"
@@ -102,8 +94,7 @@
 				</template>
 				{{ $t('calendar', 'Copy iOS/macOS CalDAV address') }}
 			</ActionButton>
-			<ActionLink
-				v-if="hasAppointmentsFeature"
+			<ActionLink v-if="hasAppointmentsFeature"
 				:href="availabilitySettingsUrl"
 				target="_blank">
 				<template #icon>
@@ -111,8 +102,7 @@
 				</template>
 				{{ $t('calendar', 'Personal availability settings') }}
 			</ActionLink>
-			<ActionButton
-				v-shortkey.propagate="['h']"
+			<ActionButton v-shortkey.propagate="['h']"
 				@click.prevent.stop="showKeyboardShortcuts"
 				@shortkey.native="toggleKeyboardShortcuts">
 				<template #icon>

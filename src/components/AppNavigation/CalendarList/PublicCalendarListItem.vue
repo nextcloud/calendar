@@ -20,57 +20,49 @@
   -->
 
 <template>
-	<AppNavigationItem
-		:loading="calendar.loading"
+	<AppNavigationItem :loading="calendar.loading"
 		:title="calendar.displayName || $t('calendar', 'Untitled calendar')"
 		:menu-open.sync="menuOpen"
 		@click.prevent.stop="toggleEnabled">
-		<AppNavigationIconBullet
-			v-if="calendar.enabled"
+		<AppNavigationIconBullet v-if="calendar.enabled"
 			slot="icon"
 			:color="calendar.color"
 			@click.prevent.stop="toggleEnabled" />
 
 		<template slot="counter">
-			<Avatar
-				:user="owner"
+			<Avatar :user="owner"
 				:is-guest="true"
 				:disable-tooltip="true"
 				:disable-menu="true" />
 		</template>
 
 		<template slot="actions">
-			<ActionButton
-				v-if="showCopySubscriptionLinkLabel"
+			<ActionButton v-if="showCopySubscriptionLinkLabel"
 				@click.prevent.stop="copySubscriptionLink">
 				<template #icon>
 					<LinkVariant :size="20" decorative />
 				</template>
 				{{ $t('calendar', 'Copy subscription link') }}
 			</ActionButton>
-			<ActionText
-				v-if="showCopySubscriptionLinkSpinner"
+			<ActionText v-if="showCopySubscriptionLinkSpinner"
 				icon="icon-loading-small">
 				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Copying link …') }}
 			</ActionText>
-			<ActionText
-				v-if="showCopySubscriptionLinkSuccess">
+			<ActionText v-if="showCopySubscriptionLinkSuccess">
 				<template #icon>
 					<LinkVariant :size="20" decorative />
 				</template>
 				{{ $t('calendar', 'Copied link') }}
 			</ActionText>
-			<ActionText
-				v-if="showCopySubscriptionLinkError">
+			<ActionText v-if="showCopySubscriptionLinkError">
 				<template #icon>
 					<LinkVariant :size="20" decorative />
 				</template>
 				{{ $t('calendar', 'Could not copy link') }}
 			</ActionText>
 
-			<ActionLink
-				target="_blank"
+			<ActionLink target="_blank"
 				:href="downloadUrl">
 				<template #icon>
 					<Download :size="20" decorative />
