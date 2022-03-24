@@ -281,7 +281,6 @@ export default {
 
 <style lang="scss" scoped>
 .modal__content {
-	max-width: 40vw;
 	margin: 2vw;
 
 	&__loading,
