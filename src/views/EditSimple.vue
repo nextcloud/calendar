@@ -149,7 +149,7 @@
 				@update:value="updateDescription" />
 
 			<InvitationResponseButtons
-				v-if="isViewedByAttendee && userAsAttendee"
+				v-if="isViewedByAttendee && userAsAttendee && !isReadOnly"
 				:attendee="userAsAttendee"
 				:calendar-id="calendarId"
 				@close="closeEditorAndSkipAction" />
