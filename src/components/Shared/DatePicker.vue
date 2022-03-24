@@ -39,7 +39,8 @@
 		v-on="$listeners"
 		@close="close"
 		@change="change"
-		@pick="pickDate">
+		@pick="pickDate"
+		confirm>
 		<template #icon-calendar>
 			<button class="datetime-picker-inline-icon icon"
 				:class="{'icon-timezone': !isAllDay, 'icon-new-calendar': isAllDay, 'datetime-picker-inline-icon--highlighted': highlightTimezone}"
