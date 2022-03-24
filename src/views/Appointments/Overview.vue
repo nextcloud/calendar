@@ -21,8 +21,7 @@
 
 <template>
 	<div class="overview-info">
-		<Avatar
-			:user="userInfo.uid"
+		<Avatar :user="userInfo.uid"
 			:display-name="userInfo.displayName"
 			:disable-tooltip="true"
 			:disable-menu="true"
@@ -32,19 +31,16 @@
 		</h2>
 		<div class="appointment-configs">
 			<template v-if="configs.length > 0">
-				<div
-					v-for="config in configs"
+				<div v-for="config in configs"
 					:key="config.id"
 					class="config">
-					<a
-						:href="linkToConfig(config)"
+					<a :href="linkToConfig(config)"
 						class="config-link">
 						<div class="header">
 							<CalendarCheckIcon decorative />
 							<span class="name">{{ config.name }}</span>
 						</div>
-						<div
-							v-if="config.description !== ''"
+						<div v-if="config.description !== ''"
 							class="description">
 							{{ config.description }}
 						</div>

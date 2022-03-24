@@ -21,8 +21,7 @@
   -->
 
 <template>
-	<DatetimePicker
-		:lang="lang"
+	<DatetimePicker :lang="lang"
 		:first-day-of-week="firstDay"
 		:format="'YYYY-MM-DD HH:mm'"
 		:formatter="formatter"
@@ -42,36 +41,30 @@
 		@change="change"
 		@pick="pickDate">
 		<template #icon-calendar>
-			<button
-				class="datetime-picker-inline-icon icon"
+			<button class="datetime-picker-inline-icon icon"
 				:class="{'icon-timezone': !isAllDay, 'icon-new-calendar': isAllDay, 'datetime-picker-inline-icon--highlighted': highlightTimezone}"
 				@click.stop.prevent="toggleTimezonePopover"
 				@mousedown.stop.prevent="() => {}" />
-			<Popover
-				:open.sync="showTimezonePopover"
+			<Popover :open.sync="showTimezonePopover"
 				open-class="timezone-popover-wrapper">
 				<div class="timezone-popover-wrapper__title">
 					<strong>
 						{{ $t('calendar', 'Please select a time zone:') }}
 					</strong>
 				</div>
-				<TimezonePicker
-					class="timezone-popover-wrapper__timezone-select"
+				<TimezonePicker class="timezone-popover-wrapper__timezone-select"
 					:value="timezoneId"
 					@input="changeTimezone" />
 			</Popover>
 		</template>
-		<template
-			v-if="!isAllDay"
+		<template v-if="!isAllDay"
 			#footer>
-			<button
-				v-if="!showTimePanel"
+			<button v-if="!showTimePanel"
 				class="mx-btn mx-btn-text"
 				@click="toggleTimePanel">
 				{{ $t('calendar', 'Pick a time') }}
 			</button>
-			<button
-				v-else
+			<button v-else
 				class="mx-btn mx-btn-text"
 				@click="toggleTimePanel">
 				{{ $t('calendar', 'Pick a date') }}

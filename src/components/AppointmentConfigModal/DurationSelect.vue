@@ -21,8 +21,7 @@
   -->
 
 <template>
-	<Select
-		:label="label"
+	<Select :label="label"
 		:value="value"
 		:disabled="disabled"
 		:options="options"

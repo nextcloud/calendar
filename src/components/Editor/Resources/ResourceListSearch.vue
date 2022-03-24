@@ -22,8 +22,7 @@
 
 <template>
 	<div class="resource-search">
-		<Multiselect
-			class="resource-search__multiselect"
+		<Multiselect class="resource-search__multiselect"
 			:options="matches"
 			:searchable="true"
 			:internal-search="false"
@@ -39,14 +38,12 @@
 			@select="addResource">
 			<template #option="{ option }">
 				<div class="resource-search-list-item">
-					<Avatar
-						:disable-tooltip="true"
+					<Avatar :disable-tooltip="true"
 						:display-name="option.displayName" />
 					<div class="resource-search-list-item__label resource-search-list-item__label--single-email">
 						<div>
 							{{ option.displayName }}
-							<span
-								v-if="!isAvailable"
+							<span v-if="!isAvailable"
 								class="resource-search-list-item__label__availability">
 								({{ formatAvailability(option.isAvailable) }})
 							</span>
@@ -62,8 +59,7 @@
 		<template v-if="hasAdvancedFilters">
 			<div class="resource-search__capacity">
 				<ResourceSeatingCapacity :value.sync="capacity" />
-				<Actions
-					v-if="hasAdvancedFilters"
+				<Actions v-if="hasAdvancedFilters"
 					class="resource-search__capacity__actions">
 					<ActionCheckbox :checked.sync="isAvailable">
 						<!-- Translators room or resource is not yet booked -->

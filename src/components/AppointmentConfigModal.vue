@@ -21,13 +21,11 @@
   -->
 
 <template>
-	<Modal
-		size="large"
+	<Modal size="large"
 		@close="$emit('close')">
 		<!-- Wait for the config to become available before rendering the form. -->
 		<div v-if="editing" class="appointment-config-modal">
-			<Confirmation
-				v-if="showConfirmation"
+			<Confirmation v-if="showConfirmation"
 				:is-new="isNew"
 				:config="editing"
 				@close="$emit('close')" />
@@ -35,16 +33,13 @@
 				<h2>{{ formTitle }}</h2>
 				<div class="appointment-config-modal__form">
 					<fieldset>
-						<TextInput
-							class="appointment-config-modal__form__row"
+						<TextInput class="appointment-config-modal__form__row"
 							:label="t('calendar', 'Name')"
 							:value.sync="editing.name" />
-						<TextInput
-							class="appointment-config-modal__form__row"
+						<TextInput class="appointment-config-modal__form__row"
 							:label="t('calendar', 'Location')"
 							:value.sync="editing.location" />
-						<TextArea
-							class="appointment-config-modal__form__row"
+						<TextArea class="appointment-config-modal__form__row"
 							:label="t('calendar', 'Description')"
 							:value.sync="editing.description" />
 
@@ -57,25 +52,20 @@
 									:show-calendar-on-select="false"
 									@select-calendar="changeCalendar" />
 							</div>
-							<VisibilitySelect
-								:label="t('calendar', 'Visibility')"
+							<VisibilitySelect :label="t('calendar', 'Visibility')"
 								:value.sync="editing.visibility" />
 						</div>
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
-							<DurationInput
-								:label="t('calendar', 'Duration')"
+							<DurationInput :label="t('calendar', 'Duration')"
 								:value.sync="editing.length" />
-							<DurationSelect
-								:label="t('calendar', 'Increments')"
+							<DurationSelect :label="t('calendar', 'Increments')"
 								:value.sync="editing.increment" />
 						</div>
 
-						<div
-							class="appointment-config-modal__form__row appointment-config-modal__form__row--local">
+						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--local">
 							<label>{{ t('calendar', 'Additional calendars to check for conflicts') }}</label>
-							<CalendarPicker
-								:value="conflictCalendars"
+							<CalendarPicker :value="conflictCalendars"
 								:calendars="selectableConflictCalendars"
 								:multiple="true"
 								:show-calendar-on-select="false"
@@ -106,12 +96,10 @@
 						<header>{{ t('calendar', 'Add time before and after the event') }}</header>
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
-							<CheckedDurationSelect
-								:label="t('calendar', 'Before the event')"
+							<CheckedDurationSelect :label="t('calendar', 'Before the event')"
 								:enabled.sync="enablePreparationDuration"
 								:value.sync="editing.preparationDuration" />
-							<CheckedDurationSelect
-								:label="t('calendar', 'After the event')"
+							<CheckedDurationSelect :label="t('calendar', 'After the event')"
 								:enabled.sync="enableFollowupDuration"
 								:value.sync="editing.followupDuration" />
 						</div>
@@ -121,19 +109,16 @@
 						<header>{{ t('calendar', 'Planning restrictions') }}</header>
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
-							<DurationSelect
-								:label="t('calendar', 'Minimum time before next available slot')"
+							<DurationSelect :label="t('calendar', 'Minimum time before next available slot')"
 								:value.sync="editing.timeBeforeNextSlot"
 								:max="7*24*60*60" />
-							<NumberInput
-								:label="t('calendar','Max slots per day')"
+							<NumberInput :label="t('calendar','Max slots per day')"
 								:value.sync="editing.dailyMax"
 								:allow-empty="true" />
 						</div>
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
-							<CheckedDurationSelect
-								:label="t('calendar', 'Limit how far in the future appointments can be booked')"
+							<CheckedDurationSelect :label="t('calendar', 'Limit how far in the future appointments can be booked')"
 								:enabled.sync="enableFutureLimit"
 								:value.sync="editing.futureLimit"
 								:default-value="defaultConfig.futureLimit"
@@ -142,8 +127,7 @@
 						</div>
 					</fieldset>
 				</div>
-				<button
-					class="primary appointment-config-modal__submit-button"
+				<button class="primary appointment-config-modal__submit-button"
 					:disabled="!editing.name || editing.length === 0"
 					@click="save">
 					{{ saveButtonText }}

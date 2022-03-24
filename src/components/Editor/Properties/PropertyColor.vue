@@ -23,36 +23,29 @@
 
 <template>
 	<div class="property-color">
-		<component
-			:is="icon"
+		<component :is="icon"
 			:size="20"
 			:title="readableName"
 			class="property-color__icon"
 			:class="{ 'property-color__icon--hidden': !showIcon }"
 			decorative />
 
-		<div
-			v-if="isReadOnly"
+		<div v-if="isReadOnly"
 			class="property-color__input property-color__input--readonly">
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
-			<div
-				class="property-color__color-preview"
+			<div class="property-color__color-preview"
 				:style="{'background-color': selectedColor }" />
 		</div>
-		<div
-			v-else
+		<div v-else
 			class="property-color__input">
-			<ColorPicker
-				:value="selectedColor"
+			<ColorPicker :value="selectedColor"
 				:open.sync="isColorPickerOpen"
 				@input="changeColor">
 				<button class="property-color__color-preview"
 					:style="{'background-color': selectedColor }" />
 			</ColorPicker>
-			<Actions
-				v-if="showColorRevertButton">
-				<ActionButton
-					@click.prevent.stop="deleteColor">
+			<Actions v-if="showColorRevertButton">
+				<ActionButton @click.prevent.stop="deleteColor">
 					<template #icon>
 						<Undo :size="20" decorative />
 					</template>

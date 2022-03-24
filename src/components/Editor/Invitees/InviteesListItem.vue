@@ -22,8 +22,7 @@
 
 <template>
 	<div class="invitees-list-item">
-		<AvatarParticipationStatus
-			:attendee-is-organizer="false"
+		<AvatarParticipationStatus :attendee-is-organizer="false"
 			:is-viewed-by-organizer="isViewedByOrganizer"
 			:is-resource="false"
 			:avatar-link="avatarLink"
@@ -35,39 +34,33 @@
 		</div>
 		<div class="invitees-list-item__actions">
 			<Actions v-if="isViewedByOrganizer">
-				<ActionCheckbox
-					:checked="attendee.rsvp"
+				<ActionCheckbox :checked="attendee.rsvp"
 					@change="toggleRSVP">
 					{{ $t('calendar', 'Send email') }}
 				</ActionCheckbox>
 
-				<ActionRadio
-					:name="radioName"
+				<ActionRadio :name="radioName"
 					:checked="isChair"
 					@change="changeRole('CHAIR')">
 					{{ $t('calendar', 'Chairperson') }}
 				</ActionRadio>
-				<ActionRadio
-					:name="radioName"
+				<ActionRadio :name="radioName"
 					:checked="isRequiredParticipant"
 					@change="changeRole('REQ-PARTICIPANT')">
 					{{ $t('calendar', 'Required participant') }}
 				</ActionRadio>
-				<ActionRadio
-					:name="radioName"
+				<ActionRadio :name="radioName"
 					:checked="isOptionalParticipant"
 					@change="changeRole('OPT-PARTICIPANT')">
 					{{ $t('calendar', 'Optional participant') }}
 				</ActionRadio>
-				<ActionRadio
-					:name="radioName"
+				<ActionRadio :name="radioName"
 					:checked="isNonParticipant"
 					@change="changeRole('NON-PARTICIPANT')">
 					{{ $t('calendar', 'Non-participant') }}
 				</ActionRadio>
 
-				<ActionButton
-					@click="removeAttendee">
+				<ActionButton @click="removeAttendee">
 					<template #icon>
 						<Delete :size="20" decorative />
 					</template>

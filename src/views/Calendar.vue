@@ -28,11 +28,9 @@
 				<AppNavigationSpacer />
 
 				<!-- Calendar / Subscription List -->
-				<CalendarList
-					:is-public="!isAuthenticatedUser"
+				<CalendarList :is-public="!isAuthenticatedUser"
 					:loading-calendars="loadingCalendars" />
-				<CalendarListNew
-					v-if="!loadingCalendars && isAuthenticatedUser"
+				<CalendarListNew v-if="!loadingCalendars && isAuthenticatedUser"
 					:disabled="loadingCalendars" />
 
 				<!-- Appointment Configuration List -->
@@ -46,15 +44,13 @@
 			</template>
 			<!-- Settings and import -->
 			<template #footer>
-				<Settings
-					v-if="isAuthenticatedUser"
+				<Settings v-if="isAuthenticatedUser"
 					:loading-calendars="loadingCalendars" />
 			</template>
 		</AppNavigation>
 		<EmbedTopNavigation v-if="isEmbedded" />
 		<AppContent>
-			<CalendarGrid
-				v-if="!showEmptyCalendarScreen"
+			<CalendarGrid v-if="!showEmptyCalendarScreen"
 				:is-authenticated-user="isAuthenticatedUser" />
 			<EmptyCalendar v-else />
 		</AppContent>

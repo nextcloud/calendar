@@ -22,8 +22,7 @@
   -->
 
 <template>
-	<span
-		class="multiselect__tag"
+	<span class="multiselect__tag"
 		:style="{ 'background-color': color, 'border-color': borderColor, color: textColor }">
 		<span>{{ option }}</span>
 	</span>

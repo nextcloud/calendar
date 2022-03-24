@@ -19,37 +19,30 @@
   -
   -->
 <template>
-	<Modal
-		class="shortcut-overview-modal"
+	<Modal class="shortcut-overview-modal"
 		size="normal"
 		:title="$t('calendar', 'Shortcut overview')"
 		@close="$emit('close')">
-		<section
-			v-for="category in shortcuts"
+		<section v-for="category in shortcuts"
 			:key="category.categoryId"
 			class="shortcut-section">
 			<h3 class="shortcut-section__header">
 				{{ category.categoryLabel }}
 			</h3>
-			<div
-				v-for="(shortcut, index) in category.shortcuts"
+			<div v-for="(shortcut, index) in category.shortcuts"
 				:key="`${category.categoryId}-${index}`"
 				class="shortcut-section-item">
 				<span class="shortcut-section-item__keys">
-					<template
-						v-for="(keyCombination, index2) of shortcut.keys"
-						class="shortcut-section-item__key-combination">
+					<template v-for="(keyCombination, index2) of shortcut.keys">
 						<template v-for="(key, index3) in keyCombination">
 							<kbd :key="`${category.categoryId}-${index}-${index2}-${index3}`">{{ key }}</kbd>
-							<span
-								v-if="index3 !== (keyCombination.length - 1)"
+							<span v-if="index3 !== (keyCombination.length - 1)"
 								:key="`${category.categoryId}-${index}-${index2}-${index3}`"
 								class="shortcut-section-item__spacer">
 								+
 							</span>
 						</template>
-						<span
-							v-if="index2 !== (shortcut.keys.length - 1)"
+						<span v-if="index2 !== (shortcut.keys.length - 1)"
 							:key="`${category.categoryId}-${index}-${index2}`"
 							class="shortcut-section-item__spacer">
 							{{ $t('calendar', 'or') }}

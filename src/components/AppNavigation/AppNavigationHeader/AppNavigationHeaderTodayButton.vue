@@ -21,8 +21,7 @@
   -->
 
 <template>
-	<button
-		v-shortkey="['t']"
+	<button v-shortkey="['t']"
 		class="button today"
 		@shortkey="today"
 		@click="today">

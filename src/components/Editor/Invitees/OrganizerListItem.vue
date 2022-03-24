@@ -22,8 +22,7 @@
 
 <template>
 	<div class="invitees-list-item">
-		<AvatarParticipationStatus
-			:attendee-is-organizer="true"
+		<AvatarParticipationStatus :attendee-is-organizer="true"
 			:avatar-link="avatarLink"
 			:is-viewed-by-organizer="isViewedByOrganizer"
 			:is-resource="isResource"

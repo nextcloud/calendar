@@ -22,8 +22,7 @@
 
 <template>
 	<div class="today-button-section">
-		<button
-			:aria-label="title"
+		<button :aria-label="title"
 			class="button"
 			:title="title"
 			@click="today()">

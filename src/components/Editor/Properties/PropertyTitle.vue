@@ -22,11 +22,9 @@
 
 <template>
 	<div class="property-title">
-		<div
-			class="property-title__input"
+		<div class="property-title__input"
 			:class="{ 'property-title__input--readonly': isReadOnly }">
-			<input
-				v-if="!isReadOnly"
+			<input v-if="!isReadOnly"
 				v-focus
 				type="text"
 				:placeholder="t('calendar', 'Event title')"

@@ -23,8 +23,7 @@
 <template>
 	<div class="number-input">
 		<label :for="id">{{ label }}</label>
-		<input
-			:id="id"
+		<input :id="id"
 			type="number"
 			min="0"
 			:value="realValue"

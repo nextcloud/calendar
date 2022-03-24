@@ -23,8 +23,7 @@
 <template>
 	<div class="resource-capacity">
 		<div class="resource-capacity__input">
-			<input
-				type="number"
+			<input type="number"
 				min="0"
 				:placeholder="placeholder"
 				:value="value"

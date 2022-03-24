@@ -25,17 +25,13 @@
 	 The appointments feature requires at least one calendar in the vuex store.
 	 Trying to use it before calendars are loaded will result in an error.
 	-->
-	<div
-		v-if="hasAtLeastOneCalendar"
+	<div v-if="hasAtLeastOneCalendar"
 		class="appointment-config-list">
-		<AppNavigationCaption
-			class="appointment-config-list__caption"
+		<AppNavigationCaption class="appointment-config-list__caption"
 			:title="t('calendar', 'Appointments')">
-			<template
-				v-if="hasUserEmailAddress"
+			<template v-if="hasUserEmailAddress"
 				#actions>
-				<ActionButton
-					:close-after-click="true"
+				<ActionButton :close-after-click="true"
 					@click="showModalForNewConfig = true">
 					<PlusIcon slot="icon" :size="20" decorative />
 					{{ t('calendar', 'Add new') }}
@@ -45,15 +41,13 @@
 
 		<template v-if="hasUserEmailAddress">
 			<template v-if="sortedConfigs.length > 0">
-				<AppointmentConfigListItem
-					v-for="config in sortedConfigs"
+				<AppointmentConfigListItem v-for="config in sortedConfigs"
 					:key="config.id"
 					:config="config"
 					@delete="deleteConfig(config)" />
 			</template>
 
-			<AppointmentConfigModal
-				v-if="showModalForNewConfig"
+			<AppointmentConfigModal v-if="showModalForNewConfig"
 				:is-new="true"
 				:config="defaultConfig"
 				@close="closeModal" />

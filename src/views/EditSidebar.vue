@@ -24,8 +24,7 @@
   -->
 
 <template>
-	<AppSidebar
-		:title="title"
+	<AppSidebar :title="title"
 		:title-editable="!isReadOnly && !isLoading"
 		:title-placeholder="$t('calendar', 'Event title')"
 		:subtitle="subTitle"
@@ -55,8 +54,7 @@
 			<IllustrationHeader :color="illustrationColor" :illustration-url="backgroundImage" />
 		</template>
 
-		<template
-			v-if="!isLoading && !isError"
+		<template v-if="!isLoading && !isError"
 			#secondary-actions>
 			<ActionLink v-if="!hideEventExport && hasDownloadURL"
 				:href="downloadURL">
@@ -85,18 +83,15 @@
 			</ActionButton>
 		</template>
 
-		<template
-			v-if="!isLoading && !isError"
+		<template v-if="!isLoading && !isError"
 			#description>
-			<PropertyCalendarPicker
-				v-if="showCalendarPicker"
+			<PropertyCalendarPicker v-if="showCalendarPicker"
 				:calendars="calendars"
 				:calendar="selectedCalendar"
 				:is-read-only="isReadOnly || !canModifyCalendar"
 				@select-calendar="changeCalendar" />
 
-			<PropertyTitleTimePicker
-				:start-date="startDate"
+			<PropertyTitleTimePicker :start-date="startDate"
 				:start-timezone="startTimezone"
 				:end-date="endDate"
 				:end-timezone="endTimezone"
@@ -111,16 +106,14 @@
 				@update-end-timezone="updateEndTimezone"
 				@toggle-all-day="toggleAllDay" />
 
-			<InvitationResponseButtons
-				v-if="isViewedByAttendee && userAsAttendee && !isReadOnly"
+			<InvitationResponseButtons v-if="isViewedByAttendee && userAsAttendee && !isReadOnly"
 				:attendee="userAsAttendee"
 				:calendar-id="calendarId"
 				:narrow="true"
 				@close="closeEditorAndSkipAction" />
 		</template>
 
-		<AppSidebarTab
-			v-if="!isLoading && !isError"
+		<AppSidebarTab v-if="!isLoading && !isError"
 			id="app-sidebar-tab-details"
 			class="app-sidebar-tab"
 			:name="$t('calendar', 'Details')"
@@ -129,64 +122,54 @@
 				<InformationOutline :size="20" decorative />
 			</template>
 			<div class="app-sidebar-tab__content">
-				<PropertyText
-					:is-read-only="isReadOnly"
+				<PropertyText :is-read-only="isReadOnly"
 					:prop-model="rfcProps.location"
 					:value="location"
 					@update:value="updateLocation" />
-				<PropertyText
-					:is-read-only="isReadOnly"
+				<PropertyText :is-read-only="isReadOnly"
 					:prop-model="rfcProps.description"
 					:value="description"
 					@update:value="updateDescription" />
 
-				<PropertySelect
-					:is-read-only="isReadOnly"
+				<PropertySelect :is-read-only="isReadOnly"
 					:prop-model="rfcProps.status"
 					:value="status"
 					@update:value="updateStatus" />
-				<PropertySelect
-					:is-read-only="isReadOnly"
+				<PropertySelect :is-read-only="isReadOnly"
 					:prop-model="rfcProps.accessClass"
 					:value="accessClass"
 					@update:value="updateAccessClass" />
-				<PropertySelect
-					:is-read-only="isReadOnly"
+				<PropertySelect :is-read-only="isReadOnly"
 					:prop-model="rfcProps.timeTransparency"
 					:value="timeTransparency"
 					@update:value="updateTimeTransparency" />
 
-				<PropertySelectMultiple
-					:colored-options="true"
+				<PropertySelectMultiple :colored-options="true"
 					:is-read-only="isReadOnly"
 					:prop-model="rfcProps.categories"
 					:value="categories"
 					@add-single-value="addCategory"
 					@remove-single-value="removeCategory" />
 
-				<PropertyColor
-					:calendar-color="selectedCalendarColor"
+				<PropertyColor :calendar-color="selectedCalendarColor"
 					:is-read-only="isReadOnly"
 					:prop-model="rfcProps.color"
 					:value="color"
 					@update:value="updateColor" />
 
-				<AlarmList
-					:calendar-object-instance="calendarObjectInstance"
+				<AlarmList :calendar-object-instance="calendarObjectInstance"
 					:is-read-only="isReadOnly" />
 
 				<!-- TODO: If not editing the master item, force updating this and all future   -->
 				<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
-				<Repeat
-					:calendar-object-instance="calendarObjectInstance"
+				<Repeat :calendar-object-instance="calendarObjectInstance"
 					:recurrence-rule="calendarObjectInstance.recurrenceRule"
 					:is-read-only="isReadOnly"
 					:is-editing-master-item="isEditingMasterItem"
 					:is-recurrence-exception="isRecurrenceException"
 					@force-this-and-all-future="forceModifyingFuture" />
 			</div>
-			<SaveButtons
-				v-if="showSaveButtons"
+			<SaveButtons v-if="showSaveButtons"
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
@@ -194,8 +177,7 @@
 				@save-this-only="saveAndLeave(false)"
 				@save-this-and-all-future="saveAndLeave(true)" />
 		</AppSidebarTab>
-		<AppSidebarTab
-			v-if="!isLoading && !isError"
+		<AppSidebarTab v-if="!isLoading && !isError"
 			id="app-sidebar-tab-attendees"
 			class="app-sidebar-tab"
 			:name="$t('calendar', 'Attendees')"
@@ -204,13 +186,11 @@
 				<AccountMultiple :size="20" decorative />
 			</template>
 			<div class="app-sidebar-tab__content">
-				<InviteesList
-					v-if="!isLoading"
+				<InviteesList v-if="!isLoading"
 					:calendar-object-instance="calendarObjectInstance"
 					:is-read-only="isReadOnly" />
 			</div>
-			<SaveButtons
-				v-if="showSaveButtons"
+			<SaveButtons v-if="showSaveButtons"
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
@@ -218,8 +198,7 @@
 				@save-this-only="saveAndLeave(false)"
 				@save-this-and-all-future="saveAndLeave(true)" />
 		</AppSidebarTab>
-		<AppSidebarTab
-			v-if="!isLoading && !isError"
+		<AppSidebarTab v-if="!isLoading && !isError"
 			id="app-sidebar-tab-resources"
 			class="app-sidebar-tab"
 			:name="$t('calendar', 'Resources')"
@@ -228,13 +207,11 @@
 				<MapMarker :size="20" decorative />
 			</template>
 			<div class="app-sidebar-tab__content">
-				<ResourceList
-					v-if="!isLoading"
+				<ResourceList v-if="!isLoading"
 					:calendar-object-instance="calendarObjectInstance"
 					:is-read-only="isReadOnly" />
 			</div>
-			<SaveButtons
-				v-if="showSaveButtons"
+			<SaveButtons v-if="showSaveButtons"
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"

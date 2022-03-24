@@ -21,8 +21,7 @@
 	-->
 
 <template>
-	<DashboardWidget
-		id="calendar_panel"
+	<DashboardWidget id="calendar_panel"
 		:items="items"
 		:loading="loading">
 		<template #default="{ item }">
@@ -39,8 +38,7 @@
 				:sub-text="item.subText"
 				:target-url="item.targetUrl">
 				<template #avatar>
-					<div
-						v-if="item.componentName === 'VEVENT'"
+					<div v-if="item.componentName === 'VEVENT'"
 						class="calendar-dot"
 						:style="{'background-color': item.calendarColor}"
 						:title="item.calendarDisplayName" />
@@ -52,8 +50,7 @@
 			</DashboardWidgetItem>
 		</template>
 		<template #empty-content>
-			<EmptyContent
-				id="calendar-widget-empty-content"
+			<EmptyContent id="calendar-widget-empty-content"
 				icon="icon-calendar-dark">
 				<template #desc>
 					{{ t('calendar', 'No upcoming events') }}

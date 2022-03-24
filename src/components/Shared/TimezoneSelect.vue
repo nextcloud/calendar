@@ -1,6 +1,5 @@
 <template>
-	<Multiselect
-		:value="selectedTimezone"
+	<Multiselect :value="selectedTimezone"
 		:options="options"
 		:multiple="false"
 		:group-select="false"

@@ -29,15 +29,13 @@
 			</template>
 		</EmptyContent>
 		<div class="app-config-modal-confirmation__buttons">
-			<a
-				:href="config.bookingUrl"
+			<a :href="config.bookingUrl"
 				class="button"
 				rel="noopener noreferrer"
 				target="_blank">
 				{{ t('calendar', 'Preview') }}
 			</a>
-			<button
-				v-if="showCopyLinkButton"
+			<button v-if="showCopyLinkButton"
 				@click="copyLink">
 				{{ t('calendar', 'Copy link') }}
 			</button>

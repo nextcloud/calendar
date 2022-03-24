@@ -22,8 +22,7 @@
   -->
 
 <template>
-	<Multiselect
-		class="invitees-search__multiselect"
+	<Multiselect class="invitees-search__multiselect"
 		:options="matches"
 		:searchable="true"
 		:internal-search="false"
@@ -40,13 +39,11 @@
 		<template #option="{ option }">
 			<div class="invitees-search-list-item">
 				<!-- We need to specify a unique key here for the avatar to be reactive. -->
-				<Avatar
-					v-if="option.isUser"
+				<Avatar v-if="option.isUser"
 					:key="option.uid"
 					:user="option.avatar"
 					:display-name="option.dropdownName" />
-				<Avatar
-					v-else
+				<Avatar v-else
 					:key="option.uid"
 					:url="option.avatar"
 					:display-name="option.dropdownName" />

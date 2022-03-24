@@ -24,8 +24,7 @@
 	<div class="duration-input">
 		<label :for="id">{{ label }}</label>
 		<div class="input">
-			<input
-				:id="id"
+			<input :id="id"
 				v-model="internalValue"
 				type="text"
 				@input="change"

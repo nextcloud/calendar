@@ -24,11 +24,9 @@
 
 <template>
 	<div class="property-title-time-picker">
-		<div
-			v-if="!isReadOnly"
+		<div v-if="!isReadOnly"
 			class="property-title-time-picker__time-pickers">
-			<DatePicker
-				:date="startDate"
+			<DatePicker :date="startDate"
 				:timezone-id="startTimezone"
 				prefix="from"
 				:is-all-day="isAllDay"
@@ -37,8 +35,7 @@
 				@change="changeStart"
 				@change-timezone="changeStartTimezone" />
 
-			<DatePicker
-				:date="endDate"
+			<DatePicker :date="endDate"
 				:timezone-id="endTimezone"
 				prefix="to"
 				:is-all-day="isAllDay"
@@ -47,15 +44,13 @@
 				@change="changeEnd"
 				@change-timezone="changeEndTimezone" />
 		</div>
-		<div
-			v-if="isReadOnly"
+		<div v-if="isReadOnly"
 			class="property-title-time-picker__time-pickers property-title-time-picker__time-pickers--readonly">
 			<div class="property-title-time-picker-read-only-wrapper">
 				<div class="property-title-time-picker-read-only-wrapper__label">
 					{{ formattedStart }}
 				</div>
-				<div
-					v-if="!isAllDay"
+				<div v-if="!isAllDay"
 					v-tooltip="startTimezone"
 					class="property-title-time-picker-read-only-wrapper__icon icon icon-timezone"
 					:class="{ 'property-title-time-picker-read-only-wrapper__icon--highlighted': highlightStartTimezone } " />
@@ -64,8 +59,7 @@
 				<div class="property-title-time-picker-read-only-wrapper__label">
 					{{ formattedEnd }}
 				</div>
-				<div
-					v-if="!isAllDay"
+				<div v-if="!isAllDay"
 					v-tooltip="endTimezone"
 					class="property-title-time-picker-read-only-wrapper__icon icon icon-timezone"
 					:class="{ 'property-title-time-picker-read-only-wrapper__icon--highlighted': highlightEndTimezone }" />
@@ -73,15 +67,13 @@
 		</div>
 
 		<div v-if="!isReadOnly" class="property-title-time-picker__all-day">
-			<input
-				id="allDay"
+			<input id="allDay"
 				:checked="isAllDay"
 				type="checkbox"
 				class="checkbox"
 				:disabled="!canModifyAllDay"
 				@change="toggleAllDay">
-			<label
-				v-tooltip="allDayTooltip"
+			<label v-tooltip="allDayTooltip"
 				for="allDay">
 				{{ $t('calendar', 'All day') }}
 			</label>

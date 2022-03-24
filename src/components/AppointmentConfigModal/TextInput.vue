@@ -23,8 +23,7 @@
 <template>
 	<div class="text-input">
 		<label :for="id">{{ label }}</label>
-		<input
-			:id="id"
+		<input :id="id"
 			type="text"
 			:value="value"
 			@input="change">

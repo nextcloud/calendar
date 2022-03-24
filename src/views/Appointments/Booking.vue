@@ -20,12 +20,10 @@
   -->
 
 <template>
-	<div
-		v-if="!bookingConfirmed"
+	<div v-if="!bookingConfirmed"
 		class="booking">
 		<div class="booking__config-user-info">
-			<Avatar
-				:user="userInfo.uid"
+			<Avatar :user="userInfo.uid"
 				:display-name="userInfo.displayName"
 				:disable-tooltip="true"
 				:disable-menu="true"
@@ -79,8 +77,7 @@
 				@close="selectedSlot = undefined" />
 		</div>
 	</div>
-	<AppointmentBookingConfirmation
-		v-else
+	<AppointmentBookingConfirmation v-else
 		@close="bookingConfirmed = false" />
 </template>
 

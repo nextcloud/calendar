@@ -23,18 +23,15 @@
 
 <template>
 	<div v-if="display" class="property-text">
-		<component
-			:is="icon"
+		<component :is="icon"
 			:size="20"
 			:title="readableName"
 			class="property-text__icon"
 			:class="{ 'property-text__icon--hidden': !showIcon }" />
 
-		<div
-			class="property-text__input"
+		<div class="property-text__input"
 			:class="{ 'property-text__input--readonly': isReadOnly }">
-			<textarea
-				v-if="!isReadOnly"
+			<textarea v-if="!isReadOnly"
 				v-autosize="true"
 				:placeholder="placeholder"
 				:rows="rows"
@@ -42,17 +39,14 @@
 				:value="value"
 				@input.prevent.stop="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
-			<div
-				v-else
+			<div v-else
 				v-linkify="{ text: value, linkify: true }" />
 		</div>
 
-		<div
-			v-if="hasInfo"
+		<div v-if="hasInfo"
 			v-tooltip="info"
 			class="property-select__info">
-			<InformationVariant
-				:size="20"
+			<InformationVariant :size="20"
 				decorative />
 		</div>
 	</div>

@@ -22,18 +22,15 @@
 
 <template>
 	<div v-if="display" class="property-select">
-		<div
-			class="property-select__input"
+		<div class="property-select__input"
 			:class="{ 'property-select__input--readonly-calendar-picker': isReadOnly }">
-			<CalendarPicker
-				v-if="!isReadOnly"
+			<CalendarPicker v-if="!isReadOnly"
 				:value="calendar"
 				:calendars="calendars"
 				:show-calendar-on-select="true"
 				@select-calendar="selectCalendar" />
 
-			<CalendarPickerOption
-				v-else
+			<CalendarPickerOption v-else
 				:color="calendar.color"
 				:display-name="calendar.displayName"
 				:is-shared-with-me="calendar.isSharedWithMe"

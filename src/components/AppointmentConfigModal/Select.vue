@@ -23,12 +23,10 @@
 <template>
 	<div>
 		<label v-if="label" :for="id">{{ label }}</label>
-		<select
-			:id="id"
+		<select :id="id"
 			:disabled="disabled"
 			@change="onSelect">
-			<option
-				v-for="option in options"
+			<option v-for="option in options"
 				:key="option.value"
 				:value="option.value"
 				v-bind="{ selected: option.value === value }">

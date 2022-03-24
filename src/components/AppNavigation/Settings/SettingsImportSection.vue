@@ -21,8 +21,7 @@
 
 <template>
 	<li v-if="showProgressBar" class="settings-fieldset-interior-item">
-		<progress
-			class="settings-fieldset-interior-item__progressbar"
+		<progress class="settings-fieldset-interior-item__progressbar"
 			:value="imported"
 			:max="total" />
 	</li>
@@ -31,8 +30,7 @@
 			<Upload :size="20" decorative />
 			{{ $n('calendar', 'Import calendar', 'Import calendars', 1) }}
 		</label>
-		<input
-			:id="inputUid"
+		<input :id="inputUid"
 			ref="importInput"
 			class="hidden"
 			type="file"
@@ -41,8 +39,7 @@
 			multiple
 			@change="processFiles">
 
-		<ImportScreen
-			v-if="showImportModal"
+		<ImportScreen v-if="showImportModal"
 			:files="files"
 			@cancel-import="cancelImport"
 			@import-calendar="importCalendar" />

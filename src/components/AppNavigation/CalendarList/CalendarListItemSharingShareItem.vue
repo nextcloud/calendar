@@ -20,11 +20,9 @@
   -->
 
 <template>
-	<AppNavigationItem
-		:title="sharee.displayName">
+	<AppNavigationItem :title="sharee.displayName">
 		<template slot="icon">
-			<AccountMultiple
-				v-if="sharee.isGroup"
+			<AccountMultiple v-if="sharee.isGroup"
 				:size="18"
 				decorative
 				class="avatar" />
@@ -33,8 +31,7 @@
 		</template>
 
 		<template slot="counter">
-			<ActionCheckbox
-				:disabled="updatingSharee"
+			<ActionCheckbox :disabled="updatingSharee"
 				:checked="sharee.writeable"
 				@update:checked="updatePermission">
 				{{ $t('calendar', 'can edit') }}
@@ -42,8 +39,7 @@
 		</template>
 
 		<template slot="actions">
-			<ActionButton
-				:disabled="updatingSharee"
+			<ActionButton :disabled="updatingSharee"
 				@click.prevent.stop="unshare">
 				<template #icon>
 					<Delete :size="20" decorative />
