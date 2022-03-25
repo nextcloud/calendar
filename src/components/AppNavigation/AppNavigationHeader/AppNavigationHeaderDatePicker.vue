@@ -148,7 +148,7 @@ export default {
 
 			case 'listMonth':
 				newDate = modifyDate(this.selectedDate, {
-					month: factor,
+					week: 4,
 				})
 				break
 			case 'dayGridMonth':
