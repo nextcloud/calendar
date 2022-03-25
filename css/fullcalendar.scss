@@ -155,23 +155,6 @@
 		text-overflow: ellipsis;
 	}
 
-	// Reminder icon on events with alarms set
-	.fc-event-nc-alarms {
-		.icon-event-reminder {
-			background-color: inherit;
-			background-position: right;
-			position: absolute;
-			top: 0;
-			right: 0;
-			&--light {
-				background-image: var(--icon-calendar-reminder-fffffe)
-			}
-			&--dark {
-				background-image: var(--icon-calendar-reminder-000001)
-			}
-		}
-	}
-
 	// Checkboxes for Tasks
 	.fc-event-title-container {
 		display: flex;

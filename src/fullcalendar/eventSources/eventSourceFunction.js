@@ -53,6 +53,8 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 		for (const object of allObjectsInTimeRange) {
 			const classNames = []
 			let hasAlarms = false
+			let hasAttendees = false
+			let isTask = false
 
 			if (object.status === 'CANCELLED') {
 				classNames.push('fc-event-nc-cancelled')
@@ -79,6 +81,8 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				// not for how long it has been in progress already
 				jsStart = object.endDate.getInTimezone(timezone).jsDate
 				jsEnd = object.endDate.getInTimezone(timezone).jsDate
+				classNames.push('fc-event-nc-tasks')
+				isTask = true
 			} else {
 				// We do not want to display anything that's neither
 				// an event nor a task
@@ -121,6 +125,11 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				}
 			}
 
+			if (object.getAttendeeList().length > 0) {
+				hasAttendees = true
+				classNames.push('fc-event-nc-attendees')
+			}
+
 			const fcEvent = {
 				id: [calendarObject.id, object.id].join('###'),
 				title,
@@ -130,6 +139,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				// start: formatLocal(jsStart, object.isAllDay()),
 				// end: formatLocal(jsEnd, object.isAllDay()),
 				classNames,
+				hasAttendees,
 				extendedProps: {
 					objectId: calendarObject.id,
 					recurrenceId: object.getReferenceRecurrenceId()
@@ -146,6 +156,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 					location: object.location,
 					description: object.description,
 					hasAlarms,
+					isTask,
 				},
 			}
 

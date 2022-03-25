@@ -29,17 +29,6 @@
  * @param {Node} data.el The HTML element
  */
 export default function({ event, el }) {
-	if (el.classList.contains('fc-event-nc-alarms')) {
-		const notificationIcon = document.createElement('span')
-		notificationIcon.classList.add('icon-event-reminder')
-		if (event.extendedProps.darkText) {
-			notificationIcon.classList.add('icon-event-reminder--dark')
-		} else {
-			notificationIcon.classList.add('icon-event-reminder--light')
-		}
-		el.firstChild.appendChild(notificationIcon)
-	}
-
 	if (el.classList.contains('fc-event-nc-task')) {
 		if (el.classList.contains('fc-list-event')) {
 			// List view
