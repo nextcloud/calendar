@@ -28,15 +28,15 @@
 		<div class="fc-event-main-frame--icons">
 			<Bell v-if="hasAlarms"
 				:size="14"
-				class="icon-event-reminder"
-				:style="{ color: isDarkText ? 'var(--color-main-text)' : 'var(--fc-event-text-color)' }" />
+				:style="{ color: iconColor }" />
 			<AccountMultiple v-if="hasAttendees"
-				:style="{ color: isDarkText ? 'var(--color-main-text)' : 'var(--fc-event-text-color)' }"
-				class="icon-event-attendee"
+				:style="{ color: iconColor}"
 				:size="16" />
-			<CalendarCheck v-if="isTask"
-				:style="{ color: isDarkText ? 'var(--color-main-text)' : 'var(--fc-event-text-color)' }"
-				class="icon-event-task"
+			<CheckboxMarkedOutline v-if="isTask && isCheckedTaskEvent"
+				:style="{ color: iconColor }"
+				:size="16" />
+			<CheckboxBlankOutline v-if="isTask && !isCheckedTaskEvent"
+				:style="{ color: iconColor}"
 				:size="16" />
 		</div>
 	</div>
@@ -45,14 +45,16 @@
 <script>
 import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
 import Bell from 'vue-material-design-icons/Bell.vue'
-import CalendarCheck from 'vue-material-design-icons/CalendarCheck.vue'
+import CheckboxMarkedOutline from 'vue-material-design-icons/CheckboxMarkedOutline.vue'
+import CheckboxBlankOutline from 'vue-material-design-icons/CheckboxBlankOutline.vue'
 
 export default {
 	name: 'EventRender',
 	components: {
 	  AccountMultiple,
 		Bell,
-	  CalendarCheck,
+	  CheckboxMarkedOutline,
+	  CheckboxBlankOutline,
 	},
 	props: {
 		eventDetails: {
@@ -70,11 +72,17 @@ export default {
 		hasAttendees() {
 			return this.eventDetails?.event?._def?.extendedProps?.hasAttendees
 		},
+		isDarkText() {
+			return this.eventDetails?.event?._def?.extendedProps?.darkText
+		},
+	  iconColor() {
+			return this.isDarkText ? 'var(--color-main-text)' : 'var(--fc-event-text-color)'
+		},
 	  isTask() {
 		  return this.eventDetails?.event?._def?.extendedProps?.isTask
 	  },
-		isDarkText() {
-			return this.eventDetails?.event?._def?.extendedProps?.darkText
+		isCheckedTaskEvent() {
+			return this.eventDetails?.event?._def?.extendedProps?.percent === 100
 		},
 	},
 }

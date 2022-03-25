@@ -36,35 +36,17 @@ export default function({ event, el }) {
 			dotElement.classList.remove('fc-list-event-dot')
 			dotElement.classList.add('fc-list-event-checkbox')
 			dotElement.style.color = dotElement.style.borderColor
-
-			if (event.extendedProps.percent === 100) {
-				dotElement.classList.add('calendar-grid-checkbox-checked')
-			} else {
-				dotElement.classList.add('calendar-grid-checkbox')
-			}
 		} else if (el.classList.contains('fc-daygrid-dot-event')) {
 			// Dot event in day grid view
 			const dotElement = el.querySelector('.fc-daygrid-event-dot')
 			dotElement.classList.remove('fc-daygrid-event-dot')
 			dotElement.classList.add('fc-daygrid-event-checkbox')
 			dotElement.style.color = dotElement.style.borderColor
-
-			if (event.extendedProps.percent === 100) {
-				dotElement.classList.add('calendar-grid-checkbox-checked')
-			} else {
-				dotElement.classList.add('calendar-grid-checkbox')
-			}
 		} else {
 			// AgendaView and all-day grid view
 			const titleContainer = el.querySelector('.fc-event-title-container')
 			const checkboxElement = document.createElement('div')
 			checkboxElement.classList.add('fc-event-title-checkbox')
-			if (event.extendedProps.percent === 100) {
-				checkboxElement.classList.add('calendar-grid-checkbox-checked')
-			} else {
-				checkboxElement.classList.add('calendar-grid-checkbox')
-			}
-
 			titleContainer.prepend(checkboxElement)
 		}
 	}
