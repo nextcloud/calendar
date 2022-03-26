@@ -227,6 +227,8 @@
     "_day_::_days_" : ["день","дня","дней","дни"],
     "_week_::_weeks_" : ["неделя","недель","недель","недели"],
     "Available" : "Доступный",
+    "Not available" : "Не доступен",
+    "Checking availability" : "Проверка доступности",
     "Availability of attendees, resources and rooms" : "Доступность участников, ресурсов и комнат",
     "{organizer} (organizer)" : "{organizer} (организатор)",
     "Free" : "Свободен",
