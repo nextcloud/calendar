@@ -283,3 +283,17 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss">
+@import '../fonts/scss/iconfont-calendar-app.scss';
+
+.calendar-grid-checkbox {
+	border-color: transparent;
+	@include iconfont('checkbox');
+}
+
+.calendar-grid-checkbox-checked {
+	border-color: transparent;
+	@include iconfont('checkbox-checked');
+}
+</style>

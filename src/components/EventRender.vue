@@ -28,15 +28,15 @@
 		<div class="fc-event-main-frame--icons">
 			<Bell v-if="hasAlarms"
 				:size="14"
-				:style="{ color: iconColor }" />
+				class="icon-event-reminder"
+				:style="{ color: isDarkText ? 'var(--color-main-text)' : 'var(--fc-event-text-color)' }" />
 			<AccountMultiple v-if="hasAttendees"
-				:style="{ color: iconColor}"
+				:style="{ color: isDarkText ? 'var(--color-main-text)' : 'var(--fc-event-text-color)' }"
+				class="icon-event-attendee"
 				:size="16" />
-			<CheckboxMarkedOutline v-if="isTask && isCheckedTaskEvent"
-				:style="{ color: iconColor }"
-				:size="16" />
-			<CheckboxBlankOutline v-if="isTask && !isCheckedTaskEvent"
-				:style="{ color: iconColor}"
+			<CalendarCheck v-if="isTask"
+				:style="{ color: isDarkText ? 'var(--color-main-text)' : 'var(--fc-event-text-color)' }"
+				class="icon-event-task"
 				:size="16" />
 		</div>
 	</div>
@@ -45,16 +45,14 @@
 <script>
 import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
 import Bell from 'vue-material-design-icons/Bell.vue'
-import CheckboxMarkedOutline from 'vue-material-design-icons/CheckboxMarkedOutline.vue'
-import CheckboxBlankOutline from 'vue-material-design-icons/CheckboxBlankOutline.vue'
+import CalendarCheck from 'vue-material-design-icons/CalendarCheck.vue'
 
 export default {
 	name: 'EventRender',
 	components: {
 	  AccountMultiple,
 		Bell,
-	  CheckboxMarkedOutline,
-	  CheckboxBlankOutline,
+	  CalendarCheck,
 	},
 	props: {
 		eventDetails: {
@@ -72,17 +70,11 @@ export default {
 		hasAttendees() {
 			return this.eventDetails?.event?._def?.extendedProps?.hasAttendees
 		},
-		isDarkText() {
-			return this.eventDetails?.event?._def?.extendedProps?.darkText
-		},
-	  iconColor() {
-			return this.isDarkText ? 'var(--color-main-text)' : 'var(--fc-event-text-color)'
-		},
 	  isTask() {
 		  return this.eventDetails?.event?._def?.extendedProps?.isTask
 	  },
-		isCheckedTaskEvent() {
-			return this.eventDetails?.event?._def?.extendedProps?.percent === 100
+		isDarkText() {
+			return this.eventDetails?.event?._def?.extendedProps?.darkText
 		},
 	},
 }
