@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -48,7 +49,7 @@ import select from '../fullcalendar/interaction/select.js'
 // Import localization plugins
 import { getDateFormattingConfig } from '../fullcalendar/localization/dateFormattingConfig.js'
 import { getFullCalendarLocale } from '../fullcalendar/localization/localeProvider.js'
-import MomentPlugin from '../fullcalendar/localization/momentPlugin.js'
+import momentPluginFactory from '../fullcalendar/localization/momentPlugin.js'
 
 // Import rendering handlers
 import dayHeaderDidMount from '../fullcalendar/rendering/dayHeaderDidMount.js'
@@ -161,7 +162,7 @@ export default {
 				interactionPlugin,
 				listPlugin,
 				timeGridPlugin,
-				MomentPlugin,
+				momentPluginFactory(this.$store),
 				VTimezoneNamedTimezone,
 			]
 		},
