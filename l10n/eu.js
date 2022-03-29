@@ -228,6 +228,7 @@ OC.L10N.register(
     "_day_::_days_" : ["egun","egun"],
     "_week_::_weeks_" : ["aste","aste"],
     "Available" : "Erabilgarri",
+    "Not available" : "Ez dago erabilgarri",
     "Availability of attendees, resources and rooms" : "Partaide, baliabide eta gelen eskuragarritasuna",
     "{organizer} (organizer)" : "{organizer} (kudeatzailea)",
     "Free" : "Libre",
