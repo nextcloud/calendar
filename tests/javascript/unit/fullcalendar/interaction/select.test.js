@@ -77,7 +77,7 @@ describe('fullcalendar/select test suite', () => {
 		const store = { state: { settings: { skipPopover: false } } }
 		const router = { push: jest.fn() }
 		const route = { name: 'CalendarView', params: { otherParam: '456' } }
-		const window = { innerWidth: 760 }
+		const window = { innerWidth: 500 }
 
 		const start = new Date(Date.UTC(2019, 0, 1, 0, 0, 0, 0))
 		const end = new Date(Date.UTC(2019, 0, 2, 0, 0, 0, 0))
