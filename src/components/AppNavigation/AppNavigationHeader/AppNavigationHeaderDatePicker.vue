@@ -151,7 +151,7 @@ export default {
 					week: 4,
 				})
 				break
-				
+
 			case 'dayGridMonth':
 			default: {
 				// modifyDate is just adding one month, so we have to manually
