@@ -243,6 +243,9 @@ export default {
 		},
 	},
 	mounted() {
+		window.addEventListener('keydown', this.keyboardCloseEditor)
+		window.addEventListener('keydown', this.keyboardSaveEvent)
+		window.addEventListener('keydown', this.keyboardDeleteEvent)
 		this.$nextTick(() => {
 			const isNew = this.$route.name === 'NewPopoverView'
 
@@ -253,6 +256,11 @@ export default {
 				.$children[0]
 				.$refs.trigger = this.getDomElementForPopover(isNew, this.$route)
 		})
+	},
+	beforeDestroy() {
+		window.removeEventListener('keydown', this.keyboardCloseEditor)
+		window.removeEventListener('keydown', this.keyboardSaveEvent)
+		window.removeEventListener('keydown', this.keyboardDeleteEvent)
 	},
 	methods: {
 		showMore() {
