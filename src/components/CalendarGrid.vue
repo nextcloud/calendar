@@ -146,6 +146,8 @@ export default {
 				unselectAuto: false,
 				// Timezones:
 				timeZone: this.timezoneId,
+				// Disable jumping in week view and day view when clicking on any event using the simple editor
+				scrollTimeReset: false,
 			}
 		},
 		eventSources() {
