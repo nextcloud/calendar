@@ -141,9 +141,10 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			'trashBin',
-		]),
+		...mapGetters({
+			trashBin: 'trashBin',
+			timezoneObject: 'getResolvedTimezoneObject',
+		}),
 		calendars() {
 			return this.$store.getters.sortedDeletedCalendars
 		},
@@ -170,10 +171,11 @@ export default {
 				let subline = vobject.calendar?.displayName || t('calendar', 'Unknown calendar')
 				if (vobject.isEvent) {
 					const event = vobject?.calendarComponent.getFirstComponent('VEVENT')
+					const utcOffset = (event?.startDate.getInTimezone(this.timezoneObject).utcOffset() ?? 0) / 60
 					if (event?.startDate.jsDate && event?.isAllDay()) {
-						subline += ' · ' + moment(event.startDate.jsDate).format('LL')
+						subline += ' · ' + moment(event.startDate.jsDate).utcOffset(utcOffset).format('LL')
 					} else if (event?.startDate.jsDate) {
-						subline += ' · ' + moment(event?.startDate.jsDate).format('LLL')
+						subline += ' · ' + moment(event?.startDate.jsDate).utcOffset(utcOffset).format('LLL')
 					}
 				}
 				const color = vobject.calendarComponent.getComponentIterator().next().value?.color
