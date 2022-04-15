@@ -73,8 +73,9 @@ import { initializeClientForUserView } from '../services/caldavService'
 import { dateFactory } from '../utils/date'
 import pLimit from 'p-limit'
 import { eventSourceFunction } from '../fullcalendar/eventSources/eventSourceFunction'
-import getTimezoneManager from '../services/timezoneDataProviderService'
 import loadMomentLocalization from '../utils/moment.js'
+import { DateTimeValue } from '@nextcloud/calendar-js'
+import { mapGetters } from 'vuex'
 
 export default {
 	name: 'Dashboard',
@@ -93,6 +94,9 @@ export default {
 		}
 	},
 	computed: {
+		...mapGetters({
+			timezoneObject: 'getResolvedTimezoneObject',
+		}),
 		/**
 		 * Format loaded events
 		 *
@@ -174,12 +178,6 @@ export default {
 		 * @return {Promise<object[]>}
 		 */
 		async fetchExpandedEvents(from, to) {
-			const timeZone = this.$store.getters.getResolvedTimezone
-			let timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
-			if (!timezoneObject) {
-				timezoneObject = getTimezoneManager().getTimezoneForId('UTC')
-			}
-
 			const limit = pLimit(10)
 			const fetchEventPromises = []
 			for (const calendar of this.$store.getters.enabledCalendars) {
@@ -196,7 +194,7 @@ export default {
 					}
 
 					const calendarObjects = this.$store.getters.getCalendarObjectsByTimeRangeId(timeRangeId)
-					return eventSourceFunction(calendarObjects, calendar, from, to, timezoneObject)
+					return eventSourceFunction(calendarObjects, calendar, from, to, this.timezoneObject)
 				}))
 			}
 
@@ -249,9 +247,18 @@ export default {
 					sameElse: () => '[replace-from-now]',
 				}).replace('replace-from-now', moment(event.start).locale(locale).fromNow())
 			} else {
-				return moment(event.start).locale(locale).calendar(null, {
-					sameElse: () => '[replace-from-now]',
-				}).replace('replace-from-now', moment(event.start).locale(locale).fromNow())
+				const start = DateTimeValue.fromJSDate(event.start).getInTimezone(this.timezoneObject)
+				const utcOffset = start.utcOffset() / 60
+				return moment(event.start)
+					.utcOffset(utcOffset)
+					.locale(locale)
+					.calendar(null, {
+						sameElse: () => '[replace-from-now]',
+					})
+					.replace(
+						'replace-from-now',
+						moment(event.start).utcOffset(utcOffset).locale(locale).fromNow(),
+					)
 			}
 		},
 		/**
