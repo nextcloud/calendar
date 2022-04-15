@@ -25,6 +25,7 @@ import { detectTimezone } from '../services/timezoneDetectionService'
 import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
 import { setConfig } from '../services/settings.js'
 import { logInfo } from '../utils/logger.js'
+import getTimezoneManager from '../services/timezoneDataProviderService'
 
 const state = {
 	// env
@@ -209,6 +210,23 @@ const getters = {
 	getResolvedTimezone: (state) => state.timezone === 'automatic'
 		? detectTimezone()
 		: state.timezone,
+
+	/**
+	 * Gets the resolved timezone object.
+	 * Falls back to UTC if timezone is invalid.
+	 *
+	 * @param {object} state The Vuex state
+	 * @param {object} getters The vuex getters
+	 * @return {object} The calendar-js timezone object
+	 */
+	getResolvedTimezoneObject: (state, getters) => {
+		const timezone = getters.getResolvedTimezone
+		let timezoneObject = getTimezoneManager().getTimezoneForId(timezone)
+		if (!timezoneObject) {
+			timezoneObject = getTimezoneManager().getTimezoneForId('UTC')
+		}
+		return timezoneObject
+	},
 }
 
 const actions = {
