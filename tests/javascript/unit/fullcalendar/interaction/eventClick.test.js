@@ -117,7 +117,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		const store = { state: { settings: { skipPopover: false } } }
 		const router = { push: jest.fn() }
 		const route = { name: 'CalendarView', params: { otherParam: '456' } }
-		const window = { innerWidth: 760 }
+		const window = { innerWidth: 500 }
 
 		getPrefixedRoute
 			.mockReturnValueOnce('EditSidebarView')
