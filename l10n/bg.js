@@ -564,7 +564,7 @@ OC.L10N.register(
     "Travelling" : "Пътуване",
     "Trip" : "Пътуване",
     "Journey" : "Пътешествие",
-    "Collaborate" : "Сътрудействие",
+    "Collaborate" : "Сътрудничество",
     "Pair" : "Двойка",
     "Lecture" : "Лекция",
     "Seminar" : "Семинар",
