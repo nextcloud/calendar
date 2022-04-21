@@ -215,7 +215,7 @@ export default {
 			hasLocation: false,
 			hasDescription: false,
 			boundaryElement: document.querySelector('#app-content > .fc'),
-			isVisible: true,
+			isVisible: false,
 		}
 	},
 	watch: {
@@ -252,6 +252,7 @@ export default {
 			this.$refs.popover
 				.$children[0]
 				.$refs.trigger = this.getDomElementForPopover(isNew, this.$route)
+			this.isVisible = true
 		})
 	},
 	methods: {
