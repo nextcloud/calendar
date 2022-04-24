@@ -229,6 +229,7 @@ OC.L10N.register(
     "_day_::_days_" : ["deň","dni","dní","dní"],
     "_week_::_weeks_" : ["týždeň","týždne","týždňov","týždňov"],
     "Available" : "Dostupné",
+    "Not available" : "Nie je k dispozícií",
     "Availability of attendees, resources and rooms" : "Dostupnosť účastníkov, zdrojov a miestností",
     "{organizer} (organizer)" : "{organizer} (organizátor)",
     "Free" : "Voľný",
