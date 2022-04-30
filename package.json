@@ -43,7 +43,7 @@
 		"@fullcalendar/timegrid": "5.11.0",
 		"@fullcalendar/vue": "5.11.0",
 		"@nextcloud/auth": "^1.3.0",
-		"@nextcloud/axios": "^1.9.0",
+		"@nextcloud/axios": "^1.10.0",
 		"@nextcloud/calendar-availability-vue": "^0.3.1",
 		"@nextcloud/calendar-js": "^3.0.0",
 		"@nextcloud/cdav-library": "^1.1.0",
