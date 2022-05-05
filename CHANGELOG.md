@@ -1,5 +1,21 @@
 # Changelog
 
+## 3.3.0 - 2022-05-05
+### Added
+- PHP8.1 compatability
+- More uses for the popover modal
+### Changed
+- Rename "Download" to "Export"
+### Fixed
+- Crash on Chrome / Chromium for Simple Editor URL
+- Invitation response button for readonly events
+
+## 3.2.2 - 2022-03-16
+### Fixed
+- Email Validation for appointment booking
+- Calendar resource attendance state display
+- Alarm type selection
+
 ## 3.2.1 - 2022-03-14
 ### Fixed
 - Public Calendar Link
