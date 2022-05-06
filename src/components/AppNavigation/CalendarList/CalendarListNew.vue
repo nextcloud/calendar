@@ -20,14 +20,10 @@
   -->
 
 <template>
-	<AppNavigationItem class="app-navigation-entry-new-calendar"
-		:class="{'app-navigation-entry-new-calendar--open': isOpen}"
-		:title="$t('calendar', '+ New calendar')"
-		:menu-open.sync="isOpen"
-		menu-icon="icon-add"
-		@click.prevent.stop="toggleDialog">
-		<template #menu-icon>
-			<Plus :size="20" decorative />
+	<AppNavigationCaption class="appointment-config-list__caption"
+		:title="$t('calendar', 'Calendar')">
+		<template #actionsTriggerIcon>
+			<PlusIcon slot="icon" :size="20" />
 		</template>
 		<template slot="actions">
 			<ActionButton v-if="showCreateCalendarLabel"
@@ -75,7 +71,7 @@
 				<template #icon>
 					<LinkVariant :size="20" decorative />
 				</template>
-				{{ $t('calendar', 'New subscription from link (read-only)') }}
+				{{ $t('calendar', 'Subscription from link (read-only)') }}
 			</ActionButton>
 			<ActionInput v-if="showCreateSubscriptionInput"
 				:aria-label="$t('calendar', 'Name for new calendar')"
@@ -90,14 +86,14 @@
 				{{ $t('calendar', 'Creating subscription …') }}
 			</ActionText>
 		</template>
-	</AppNavigationItem>
+	</AppNavigationCaption>
 </template>
 
 <script>
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
 import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
 import ActionText from '@nextcloud/vue/dist/Components/ActionText'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import AppNavigationCaption from '@nextcloud/vue/dist/Components/AppNavigationCaption'
 import {
 	showError,
 } from '@nextcloud/dialogs'
@@ -107,7 +103,7 @@ import { uidToHexColor } from '../../../utils/color.js'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import CalendarCheck from 'vue-material-design-icons/CalendarCheck.vue'
 import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'
-import Plus from 'vue-material-design-icons/Plus.vue'
+import PlusIcon from 'vue-material-design-icons/Plus'
 
 export default {
 	name: 'CalendarListNew',
@@ -115,11 +111,11 @@ export default {
 		ActionButton,
 		ActionInput,
 		ActionText,
-		AppNavigationItem,
+	  AppNavigationCaption,
 		CalendarBlank,
 		CalendarCheck,
 		LinkVariant,
-		Plus,
+		PlusIcon,
 	},
 	data() {
 		return {

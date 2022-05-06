@@ -26,12 +26,11 @@
 			<AppNavigationHeader :is-public="!isAuthenticatedUser" />
 			<template #list>
 				<AppNavigationSpacer />
-
+				<CalendarListNew v-if="!loadingCalendars && isAuthenticatedUser"
+					:disabled="loadingCalendars" />
 				<!-- Calendar / Subscription List -->
 				<CalendarList :is-public="!isAuthenticatedUser"
 					:loading-calendars="loadingCalendars" />
-				<CalendarListNew v-if="!loadingCalendars && isAuthenticatedUser"
-					:disabled="loadingCalendars" />
 
 				<!-- Appointment Configuration List -->
 				<template v-if="hasAppointmentsFeature && isAuthenticatedUser">
