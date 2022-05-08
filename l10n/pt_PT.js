@@ -163,6 +163,7 @@ OC.L10N.register(
     "Resources" : "Recursos",
     "Close" : "Fechar",
     "Anniversary" : "Aniversário",
+    "Miscellaneous" : "Diversos",
     "Week {number} of {year}" : "Semana {number} do {year}",
     "Daily" : "Diariamente",
     "Weekly" : "Semanalmente",
