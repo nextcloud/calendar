@@ -104,8 +104,8 @@ const router = new Router({
 			redirect: `/embed/:tokens/${getInitialView()}/now`,
 		},
 		{
-			path: '/new',
-			redirect: () => `/${getInitialView()}/now/new/${getPreferredEditorRoute()}/0/${getDefaultStartDateForNewEvent()}/${getDefaultEndDateForNewEvent()}`,
+			path: '/new/:view?',
+			redirect: (to) => `/${to.params.view ?? getInitialView()}/now/new/${getPreferredEditorRoute()}/0/${getDefaultStartDateForNewEvent()}/${getDefaultEndDateForNewEvent()}`,
 		},
 		{
 			path: '/new/:allDay/:dtstart/:dtend',
