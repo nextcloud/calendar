@@ -114,7 +114,7 @@
     "Could not restore calendar or event" : "Nie udało się przywrócić kalendarza lub wydarzenia",
     "Do you really want to empty the trash bin?" : "Czy na pewno chcesz opróżnić kosz?",
     "_Elements in the trash bin are deleted after {numDays} day_::_Elements in the trash bin are deleted after {numDays} days_" : ["Elementy w koszu są usuwane po {numDays} dniu","Elementy w koszu są usuwane po {numDays} dniach","Elementy w koszu są usuwane po {numDays} dniach","Elementy w koszu są usuwane po {numDays} dniach"],
-    "Could not update calendar order." : "Nie można zaktualizować sortowania w kalendarzu.",
+    "Could not update calendar order." : "Nie można zaktualizować kolejności kalendarza.",
     "Import calendars" : "Importuj kalendarze",
     "Please select a calendar to import into …" : "Wybierz kalendarz do zaimportowania do…",
     "Filename" : "Nazwa pliku",
