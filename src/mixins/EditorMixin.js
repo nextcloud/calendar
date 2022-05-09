@@ -429,6 +429,21 @@ export default {
 			this.requiresActionOnRouteLeave = false
 			this.closeEditor()
 		},
+		keyboardCloseEditor(event) {
+			if (event.key === 'Escape') {
+				this.cancel()
+			}
+		},
+		keyboardSaveEvent(event) {
+			if (event.key === 'Enter' && event.ctrlKey === true && !this.isReadOnly && !this.canCreateRecurrenceException) {
+				this.saveAndLeave(false)
+			}
+		},
+		keyboardDeleteEvent(event) {
+			if (event.key === 'Delete' && event.ctrlKey === true && this.canDelete && !this.canCreateRecurrenceException) {
+				this.deleteAndLeave(false)
+			}
+		},
 		/**
 		 * Saves a calendar-object
 		 *

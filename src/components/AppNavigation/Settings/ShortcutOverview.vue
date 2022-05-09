@@ -20,7 +20,7 @@
   -->
 <template>
 	<Modal class="shortcut-overview-modal"
-		size="normal"
+		size="large"
 		:title="$t('calendar', 'Shortcut overview')"
 		@close="$emit('close')">
 		<section v-for="category in shortcuts"
@@ -103,6 +103,19 @@ export default {
 				}, {
 					keys: [['h']],
 					label: t('calendar', 'Show shortcuts'),
+				}],
+			}, {
+				categoryId: 'editor',
+				categoryLabel: t('calendar', 'Editor'),
+				shortcuts: [{
+					keys: [['Escape']],
+					label: t('calendar', 'Close editor'),
+				}, {
+					keys: [['Ctrl+Enter']],
+					label: t('calendar', 'Save edited event'),
+				}, {
+					keys: [['Ctrl+Delete']],
+					label: t('calendar', 'Delete edited event'),
 				}],
 			}]
 		},

@@ -87,7 +87,6 @@
 
 .shortcut-overview-modal {
 	.modal-container {
-		min-width: 600px;
 		display: flex !important;
 		flex-wrap: wrap;
 		padding: 0 12px 12px 12px !important;
@@ -128,5 +127,12 @@
 				}
 			}
 		}
+	}
+}
+
+// Fix the shortcut overview on smaller screens
+@media screen and (max-width: 800px) {
+	.shortcut-overview-modal .modal-container .shortcut-section {
+		width: 100%;
 	}
 }

@@ -322,6 +322,16 @@ export default {
 			return !eventComponent.isPartOfRecurrenceSet() || eventComponent.isExactForkOfPrimary
 		},
 	},
+	mounted() {
+		window.addEventListener('keydown', this.keyboardCloseEditor)
+		window.addEventListener('keydown', this.keyboardSaveEvent)
+		window.addEventListener('keydown', this.keyboardDeleteEvent)
+	},
+	beforeDestroy() {
+		window.removeEventListener('keydown', this.keyboardCloseEditor)
+		window.removeEventListener('keydown', this.keyboardSaveEvent)
+		window.removeEventListener('keydown', this.keyboardDeleteEvent)
+	},
 	methods: {
 		/**
 		 * Updates the access-class of this event
