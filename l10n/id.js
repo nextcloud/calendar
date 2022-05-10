@@ -261,6 +261,7 @@ OC.L10N.register(
     "Custom color" : "Warna khusus",
     "Special color of this event. Overrides the calendar-color." : "Warna spesial dari acara ini. Mengganti warna kalender.",
     "Chat room for event" : "Ruang obrolan untuk acara",
+    "Talk" : "Talk",
     "Review" : "Tinjauan",
     "Mail" : "Email",
     "Birthday" : "Tanggal lahir"

@@ -144,6 +144,7 @@ OC.L10N.register(
     "Actions" : "Azioni",
     "Create event" : "Crea evento",
     "Show shortcuts" : "Mostra scorciatoie",
+    "Editor" : "Editor",
     "Enable birthday calendar" : "Attiva calendario dei compleanni",
     "Show tasks in calendar" : "Mostra le attività in calendario",
     "Enable simplified editor" : "Attiva editor semplificato",

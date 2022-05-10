@@ -144,6 +144,7 @@ OC.L10N.register(
     "Actions" : "Aktionen",
     "Create event" : "Termin erstellen",
     "Show shortcuts" : "Tastaturkürzel anzeigen",
+    "Editor" : "Editor",
     "Enable birthday calendar" : "Geburtstagskalender aktivieren",
     "Show tasks in calendar" : "Aufgaben im Kalender anzeigen",
     "Enable simplified editor" : "Einfachen Editor aktivieren",

@@ -119,6 +119,7 @@ OC.L10N.register(
     "Actions" : "Accions",
     "Create event" : "Crea un esdeveniment",
     "Show shortcuts" : "Mostra les dreceres",
+    "Editor" : "Editor",
     "Enable birthday calendar" : "Activa el calendari d'aniversaris",
     "Show tasks in calendar" : "Mostra les tasques en el calendari",
     "Enable simplified editor" : "Habilita l'editor simplificat",
