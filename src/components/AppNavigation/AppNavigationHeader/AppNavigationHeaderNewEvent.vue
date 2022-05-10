@@ -42,7 +42,7 @@ export default {
 		 * Opens the new event dialog
 		 */
 		newEvent() {
-			this.$router.push('/new')
+			this.$router.push(`/new/${this.$route.params.view}`)
 		},
 	},
 }
