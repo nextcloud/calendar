@@ -158,7 +158,7 @@ OC.L10N.register(
     "Default reminder" : "默認提醒",
     "Copy primary CalDAV address" : "複製主要的 CalDAV 位址",
     "Copy iOS/macOS CalDAV address" : "複製 iOS/macOS 的 CalDAV 位址",
-    "Personal availability settings" : "個人可用性設置",
+    "Personal availability settings" : "個人空檔設置",
     "Show keyboard shortcuts" : "顯示鍵盤快捷鍵",
     "Settings & import" : "設定及匯入",
     "No reminder" : "無提醒",
