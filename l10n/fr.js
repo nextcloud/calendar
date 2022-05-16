@@ -219,7 +219,7 @@ OC.L10N.register(
     "Audio notification" : "Notification sonore",
     "Other notification" : "Autre notification",
     "Relative to event" : "Par rapport à l’événement",
-    "On date" : "À jour",
+    "On date" : "À une date précise",
     "Edit time" : "Modifier l'heure",
     "Save time" : "Enregistrer l'heure",
     "Remove reminder" : "Supprimer le rappel",
