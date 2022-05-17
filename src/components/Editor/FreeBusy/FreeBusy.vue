@@ -62,7 +62,7 @@ import freeBusyResourceEventSource from '../../../fullcalendar/eventSources/free
 // Import localization plugins
 import { getDateFormattingConfig } from '../../../fullcalendar/localization/dateFormattingConfig.js'
 import { getFullCalendarLocale } from '../../../fullcalendar/localization/localeProvider.js'
-import MomentPlugin from '../../../fullcalendar/localization/momentPlugin.js'
+import momentPluginFactory from '../../../fullcalendar/localization/momentPlugin.js'
 
 // Import timezone plugins
 import VTimezoneNamedTimezone from '../../../fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
@@ -139,7 +139,7 @@ export default {
 		plugins() {
 			return [
 				resourceTimelinePlugin,
-				MomentPlugin,
+				momentPluginFactory(this.$store),
 				VTimezoneNamedTimezone,
 			]
 		},
