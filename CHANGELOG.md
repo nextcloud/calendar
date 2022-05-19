@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.3.1 – 2022-05-19
+### Fixed
+- Free/busy view rendering
+- Switching view modes
+- Search term casing
+- Sidebar scrolling
+
 ## 3.3.0 - 2022-05-05
 ### Added
 - PHP8.1 compatability
