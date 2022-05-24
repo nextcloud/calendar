@@ -87,7 +87,7 @@
     "Import calendars" : "Importar calendários",
     "Filename" : "Nome do ficheiro",
     "Cancel" : "Cancelar",
-    "_Import calendar_::_Import calendars_" : ["Importar calendário","Importar calendários"],
+    "_Import calendar_::_Import calendars_" : ["Importar calendário","Importar calendários","Importar calendários"],
     "Automatic" : "Automático",
     "Navigation" : "Navegação",
     "Views" : "Vistas",
@@ -122,11 +122,11 @@
     "Notification" : "Notificação",
     "Email" : "E-mail",
     "+ Add reminder" : "+ Adicionar lembrete",
-    "_second_::_seconds_" : ["segundo","segundos"],
-    "_minute_::_minutes_" : ["minuto","minutos"],
-    "_hour_::_hours_" : ["hora","horas"],
-    "_day_::_days_" : ["dia","dias"],
-    "_week_::_weeks_" : ["semana","semanas"],
+    "_second_::_seconds_" : ["segundo","segundos","segundos"],
+    "_minute_::_minutes_" : ["minuto","minutos","minutos"],
+    "_hour_::_hours_" : ["hora","horas","horas"],
+    "_day_::_days_" : ["dia","dias","dias"],
+    "_week_::_weeks_" : ["semana","semanas","semanas"],
     "Available" : "Disponível",
     "Busy" : "Ocupado",
     "Unknown" : "Desconhecido",
@@ -147,8 +147,8 @@
     "Repeat every" : "Repetir a cada",
     "By day of the month" : "Por dia do mês",
     "On the" : "No",
-    "_month_::_months_" : ["mês","meses"],
-    "_year_::_years_" : ["ano","anos"],
+    "_month_::_months_" : ["mês","meses","meses"],
+    "_year_::_years_" : ["ano","anos","anos"],
     "weekday" : "dia da semana",
     "weekend day" : "dia do fim-de-semana",
     "available" : "disponível",
@@ -203,5 +203,5 @@
     "Dinner" : "Jantar",
     "Lunch" : "Almoço",
     "User not found" : "Utilizador não encontrado"
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
+},"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }
