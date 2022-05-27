@@ -26,7 +26,7 @@
 			<template #icon>
 				<CheckIcon decorative />
 			</template>
-			{{ $t('calendar', 'Your appointment is booked') }}
+			{{ $t('calendar', 'Please confirm your reservation') }}
 			<template #desc>
 				<div class="appointment-booking-confirmation__desc">
 					{{ $t('calendar', 'We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now.') }}
