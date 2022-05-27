@@ -29,7 +29,7 @@
 			type="button"
 			@click="navigateToPreviousTimeRange"
 			@shortkey="navigateToPreviousTimeRange">
-			<ChevronLeftIcon size="22" />
+			<ChevronLeftIcon :size="22" />
 		</button>
 		<button class="datepicker-button-section__datepicker-label button datepicker-label"
 			@click.stop.prevent="toggleDatepicker"
@@ -50,7 +50,7 @@
 			type="button"
 			@click="navigateToNextTimeRange"
 			@shortkey="navigateToNextTimeRange">
-			<ChevronRightIcon size="22" />
+			<ChevronRightIcon :size="22" />
 		</button>
 	</div>
 </template>
