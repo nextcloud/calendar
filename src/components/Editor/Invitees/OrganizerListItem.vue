@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -40,6 +41,7 @@
 
 <script>
 import AvatarParticipationStatus from '../AvatarParticipationStatus'
+import { removeMailtoPrefix } from '../../../utils/attendee'
 
 export default {
 	name: 'OrganizerListItem',
@@ -57,20 +59,28 @@ export default {
 		},
 	},
 	computed: {
+		/**
+		 * @return {string}
+		 */
 		avatarLink() {
 			// return this.$store.getters.getAvatarForContact(this.uri) || this.commonName
-			return this.organizer.commonName
+			return this.commonName
 		},
+		/**
+		 * Common name of the attendee or the uri without the 'mailto:' prefix.
+		 *
+		 * @return {string}
+		 */
 		commonName() {
 			if (this.organizer.commonName) {
 				return this.organizer.commonName
 			}
 
-			if (this.organizer.uri && this.organizer.uri.startsWith('mailto:')) {
-				return this.organizer.uri.substr(7)
+			if (this.organizer.uri) {
+				return removeMailtoPrefix(this.organizer.uri)
 			}
 
-			return this.organizer.uri
+			return ''
 		},
 		isViewedByOrganizer() {
 			return true

@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -106,10 +107,18 @@ export default {
 		},
 	},
 	computed: {
+		/**
+		 * @return {string}
+		 */
 		avatarLink() {
 			// return this.$store.getters.getAvatarForContact(this.uri) || this.commonName
 			return this.commonName
 		},
+		/**
+		 * Common name of the organizer or the uri without the 'mailto:' prefix.
+		 *
+		 * @return {string}
+		 */
 		commonName() {
 			if (this.attendee.commonName) {
 				return this.attendee.commonName
@@ -119,7 +128,7 @@ export default {
 				return removeMailtoPrefix(this.attendee.uri)
 			}
 
-			return this.attendee.uri
+			return ''
 		},
 		radioName() {
 			return this._uid + '-role-radio-input-group'
