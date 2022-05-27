@@ -95,7 +95,7 @@
 		"babel-loader-exclude-node-modules-except": "^1.2.1",
 		"ical.js": "^1.5.0",
 		"iconfont-plugin-webpack": "^1.1.4",
-		"jest": "^27.5.1",
+		"jest": "^28.1.0",
 		"jest-serializer-vue": "^2.0.2",
 		"resolve-url-loader": "^5.0.0",
 		"vue-jest": "^3.0.7",
