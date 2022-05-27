@@ -68,6 +68,7 @@ import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/c
 import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
 import { linkTo } from '@nextcloud/router'
+import { randomId } from '../../../utils/randomId'
 
 export default {
 	name: 'InviteesListSearch',
@@ -133,7 +134,7 @@ export default {
 
 				// Generate a unique id for every result to make the avatar components reactive
 				for (const match of matches) {
-					match.uid = Math.random().toString(16).slice(2)
+					match.uid = randomId()
 				}
 
 				this.isLoading = false
