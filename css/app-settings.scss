@@ -26,9 +26,11 @@
 
 		.action-checkbox {
 			line-height: unset !important;
+			white-space: unset !important;
 
 			&__label::before {
 				margin: 0 6px 3px 3px !important;
+				flex-shrink: 0;
 			}
 		}
 
