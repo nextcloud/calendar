@@ -205,7 +205,6 @@ OC.L10N.register(
     "Edit appointment" : "Randevuyu düzenle",
     "Save" : "Kaydet",
     "Update" : "Güncelle",
-    "Your appointment is booked" : "Randevunuz alındı",
     "We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now." : "Randevu bilgilerinizi içeren bir e-posta gönderildi. Randevunuzu onaylamak için lütfen e-posta içeriğindeki bağlantıya tıklayın. Bu sayfayı kapatabilirsiniz.",
     "Your name" : "Adınız",
     "Your email address" : "E-posta adresiniz",

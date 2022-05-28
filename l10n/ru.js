@@ -205,7 +205,6 @@ OC.L10N.register(
     "Edit appointment" : "Редактировать встречу",
     "Save" : "Сохранить",
     "Update" : "Обновить",
-    "Your appointment is booked" : "Вы записаны на встречу",
     "We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now." : "Мы отправили вам электронное письмо с подробной информацией. Пожалуйста, подтвердите свою встречу, используя ссылку в письме. Теперь вы можете закрыть эту страницу.",
     "Your name" : "Ваше имя",
     "Your email address" : "Ваш адрес электронной почты",

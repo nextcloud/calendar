@@ -205,7 +205,6 @@ OC.L10N.register(
     "Edit appointment" : "Editar compromisso",
     "Save" : "Salvar",
     "Update" : "Atualizar",
-    "Your appointment is booked" : "Seu compromisso está agendado",
     "We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now." : "Enviamos a você um e-mail com os detalhes. Por favor, confirme seu agendamento usando o link no e-mail. Você pode fechar esta página agora.",
     "Your name" : "Seu nome",
     "Your email address" : "Seu endereço de e-mail",

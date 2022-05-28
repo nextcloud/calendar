@@ -196,7 +196,6 @@ OC.L10N.register(
     "Edit appointment" : "予定を編集",
     "Save" : "保存",
     "Update" : "アップデート",
-    "Your appointment is booked" : "予約は完了しています",
     "We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now." : "詳細をメールでお送りしました。メールに記載されているリンクから予約の確認をお願いします。これでこのページを閉じることができます。",
     "Your name" : "あなたの名前",
     "Your email address" : "あなたのメールアドレス",

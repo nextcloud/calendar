@@ -205,7 +205,6 @@ OC.L10N.register(
     "Edit appointment" : "Upravit schůzku",
     "Save" : "Uložit",
     "Update" : "Aktualizovat",
-    "Your appointment is booked" : "Vaše schůzka je zarezervována",
     "We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now." : "V e-mailu vám pošleme podrobnosti. Prosíme, potvrďte schůzku kliknutím na odkaz v e-mailu. Tuto stránku nyní můžete zavřít.",
     "Your name" : "Vaše jméno",
     "Your email address" : "Vaše e-mailová adresa",

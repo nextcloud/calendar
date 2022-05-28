@@ -199,7 +199,6 @@ OC.L10N.register(
     "Edit appointment" : "Editează programarea",
     "Save" : "Salvează",
     "Update" : "Actualizare",
-    "Your appointment is booked" : "Rezervarea ta este confirmată",
     "We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now." : "Ți-am trimis un email cu detalii. Te rugăm să confirmi programarea ta folosind linkul din email. Poți închide această pagină acum.",
     "Your name" : "Numele tău",
     "Your email address" : "Adresa ta de email",

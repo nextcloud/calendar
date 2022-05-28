@@ -201,7 +201,6 @@ OC.L10N.register(
     "Edit appointment" : "Редактиране на среща",
     "Save" : "Запазване",
     "Update" : "Обновяване",
-    "Your appointment is booked" : "Срещата ви е резервирана",
     "We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now." : "Изпратихме ви имейл с подробности. Моля, потвърдете вашата среща, като използвате връзката в имейла. Можете да затворите тази страница сега.",
     "Your name" : "Вашето име",
     "Your email address" : "Вашият имейл адрес",

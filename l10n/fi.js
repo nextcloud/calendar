@@ -196,7 +196,6 @@ OC.L10N.register(
     "Edit appointment" : "Muokkaa tapaamista",
     "Save" : "Tallenna",
     "Update" : "Päivitä",
-    "Your appointment is booked" : "Tapaamisesi on kirjattu",
     "We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now." : "Lähetimme sinulle sähköpostin yksityiskohtien kera. Ole hyvä ja hyväksy tapaamisesi käyttäen linkkiä sähköpostissa. Voit sulkea tämän sivun.",
     "Your name" : "Nimesi",
     "Your email address" : "Sähköpostiosoitteesi",

@@ -205,7 +205,6 @@ OC.L10N.register(
     "Edit appointment" : "Találkozó szerkesztése",
     "Save" : "Mentés",
     "Update" : "Frissítés",
-    "Your appointment is booked" : "A találkozója le lett foglalva",
     "We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now." : "Küldtünk egy e-mailt a részletekkel. Erősítse meg a találkozót a levélben található hivatkozással. Bezárhatja ezt az oldalt.",
     "Your name" : "Az Ön neve",
     "Your email address" : "Az Ön e-mail-címe",
