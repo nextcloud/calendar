@@ -205,6 +205,7 @@ OC.L10N.register(
     "Edit appointment" : "編輯預約",
     "Save" : "儲存",
     "Update" : "更新",
+    "Please confirm your reservation" : "請確認您的預約",
     "We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now." : "我們向您發送了一封包含詳細信息的電子郵件。 請使用電子郵件中的連結確認您的預約。 您現在可以關閉此頁面。",
     "Your name" : "您的名字",
     "Your email address" : "您的電郵地址",
