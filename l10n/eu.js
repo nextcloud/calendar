@@ -205,6 +205,7 @@ OC.L10N.register(
     "Edit appointment" : "Editatu hitzordua",
     "Save" : "Gorde",
     "Update" : "Eguneratu",
+    "Please confirm your reservation" : "Berretsi zure erreserba",
     "We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now." : "Mezu elektroniko bat bidali dizugu xehetasunekin. Mesedez, berretsi zure hitzordua mezu elektronikoaren esteka erabiliz. Orrialde hau itxi dezakezu orain.",
     "Your name" : "Zure izena",
     "Your email address" : "Zure e-posta",
