@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.3.2 – 2022-06-02
+### Fixed
+- Squished settings checkbox label
+
 ## 3.3.1 – 2022-05-19
 ### Fixed
 - Free/busy view rendering
