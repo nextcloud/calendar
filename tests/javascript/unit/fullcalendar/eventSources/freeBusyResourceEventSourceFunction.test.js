@@ -80,6 +80,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
+			hasProperty: jest.fn().mockReturnValue(false),
 		}, {
 			name: 'VEVENT',
 			id: '1-2',
@@ -98,6 +99,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
+			hasProperty: jest.fn().mockReturnValue(false),
 			title: 'Untitled\nmultiline\nevent',
 		}, {
 			name: 'VEVENT',
@@ -117,6 +119,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(true),
+			hasProperty: jest.fn().mockReturnValue(false),
 		}]
 		const eventComponentSet2 = [{
 			name: 'VEVENT',
@@ -136,6 +139,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
+			hasProperty: jest.fn().mockReturnValue(false),
 		}]
 		const eventComponentSet4 = [{
 			name: 'VEVENT',
@@ -155,6 +159,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
+			hasProperty: jest.fn().mockReturnValue(false),
 			color: 'red',
 		}]
 
@@ -220,6 +225,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					objectType: 'VEVENT',
 					percent: null,
 					hasAlarms: false,
+					hasAttendees: false,
 				},
 			},
 			{
@@ -241,6 +247,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					objectType: 'VEVENT',
 					percent: null,
 					hasAlarms: false,
+					hasAttendees: false,
 				},
 			},
 			{
@@ -262,6 +269,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					objectType: 'VEVENT',
 					percent: null,
 					hasAlarms: true,
+					hasAttendees: false,
 				},
 			},
 			{
@@ -283,6 +291,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					objectType: 'VEVENT',
 					percent: null,
 					hasAlarms: false,
+					hasAttendees: false,
 				},
 			},
 			{
@@ -304,6 +313,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					objectType: 'VEVENT',
 					percent: null,
 					hasAlarms: false,
+					hasAttendees: false,
 				},
 				backgroundColor: '#ff0000',
 				borderColor: '#ff0000',
@@ -466,6 +476,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
+			hasProperty: jest.fn().mockReturnValue(false),
 			percent: null,
 		}, {
 			name: 'VTODO',
@@ -485,6 +496,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
+			hasProperty: jest.fn().mockReturnValue(false),
 			percent: null,
 		}, {
 			name: 'VTODO',
@@ -504,6 +516,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
+			hasProperty: jest.fn().mockReturnValue(false),
 			percent: 99,
 		}, {
 			name: 'VTODO',
@@ -523,6 +536,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
+			hasProperty: jest.fn().mockReturnValue(false),
 			title: 'This task has a title',
 			percent: null,
 		}, {
@@ -543,6 +557,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				}),
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
+			hasProperty: jest.fn().mockReturnValue(false),
 			title: 'This task has a title and percent',
 			percent: 99,
 		}, {
@@ -553,6 +568,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
 			canModifyAllDay: jest.fn().mockReturnValue(false),
 			hasComponent: jest.fn().mockReturnValue(false),
+			hasProperty: jest.fn().mockReturnValue(false),
 			title: 'Task without Due',
 			startDate: null,
 			endDate: null,
@@ -596,6 +612,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				percent: null,
 				recurrenceId: 123,
 				hasAlarms: false,
+				hasAttendees: false,
 			},
 			id: '1###1',
 			start: event1End,
@@ -618,6 +635,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				percent: null,
 				recurrenceId: 123,
 				hasAlarms: false,
+				hasAttendees: false,
 			},
 			id: '1###2',
 			start: event2End,
@@ -640,6 +658,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				percent: 99,
 				recurrenceId: 123,
 				hasAlarms: false,
+				hasAttendees: false,
 			},
 			id: '1###3',
 			start: event3End,
@@ -662,6 +681,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				percent: null,
 				recurrenceId: 123,
 				hasAlarms: false,
+				hasAttendees: false
 			},
 			id: '1###4',
 			start: event4End,
@@ -684,6 +704,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				percent: 99,
 				recurrenceId: 123,
 				hasAlarms: false,
+				hasAttendees: false,
 			},
 			id: '1###5',
 			start: event5End,
