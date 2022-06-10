@@ -293,11 +293,6 @@ export default {
 ::v-deep .mx-input{
 	height: 38px !important;
 }
-
-::v-deep .icon-new-calendar {
-	background-color: var(--color-main-background); border: none; padding: 6px; margin-top: 17px;
-	cursor: default;
-}
 </style>
 
 <style lang="scss">

@@ -36,16 +36,23 @@
 		:use12h="showAmPm"
 		:append-to-body="appendToBody"
 		v-bind="$attrs"
+		confirm
 		v-on="$listeners"
 		@close="close"
 		@change="change"
-		@pick="pickDate"
-		confirm>
+		@pick="pickDate">
 		<template #icon-calendar>
-			<button class="datetime-picker-inline-icon icon"
-				:class="{'icon-timezone': !isAllDay, 'icon-new-calendar': isAllDay, 'datetime-picker-inline-icon--highlighted': highlightTimezone}"
+			<Button type="tertiary-no-background"
 				@click.stop.prevent="toggleTimezonePopover"
-				@mousedown.stop.prevent="() => {}" />
+				@mousedown.stop.prevent="() => {}">
+				<template #icon>
+					<IconNewCalendar v-if="isAllDay"
+						:size="20" />
+					<IconTimezone v-else
+						:class="{ 'highlighted-timezone-icon': highlightTimezone }"
+						:size="20" />
+				</template>
+			</Button>
 			<Popover :open.sync="showTimezonePopover"
 				open-class="timezone-popover-wrapper">
 				<div class="timezone-popover-wrapper__title">
@@ -60,22 +67,25 @@
 		</template>
 		<template v-if="!isAllDay"
 			#footer>
-			<button v-if="!showTimePanel"
+			<Button v-if="!showTimePanel"
 				class="mx-btn mx-btn-text"
 				@click="toggleTimePanel">
 				{{ $t('calendar', 'Pick a time') }}
-			</button>
-			<button v-else
+			</Button>
+			<Button v-else
 				class="mx-btn mx-btn-text"
 				@click="toggleTimePanel">
 				{{ $t('calendar', 'Pick a date') }}
-			</button>
+			</Button>
 		</template>
 	</DatetimePicker>
 </template>
 
 <script>
+import Button from '@nextcloud/vue/dist/Components/Button'
 import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
+import IconTimezone from 'vue-material-design-icons/Web'
+import IconNewCalendar from 'vue-material-design-icons/CalendarBlankOutline'
 import Popover from '@nextcloud/vue/dist/Components/Popover'
 import {
 	getFirstDay,
@@ -92,9 +102,12 @@ import { getLangConfigForVue2DatePicker } from '../../utils/localization.js'
 export default {
 	name: 'DatePicker',
 	components: {
+		Button,
 		DatetimePicker,
 		Popover,
 		TimezonePicker,
+	  IconTimezone,
+	  IconNewCalendar,
 	},
 	props: {
 		date: {
@@ -403,3 +416,11 @@ export default {
 	},
 }
 </script>
+<style lang="scss" scoped>
+::v-deep .button-vue__icon {
+		margin-top: 16px;
+}
+.highlighted-timezone-icon {
+opacity: .7;
+}
+</style>
