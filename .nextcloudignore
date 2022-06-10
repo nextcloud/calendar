@@ -26,6 +26,7 @@ phpunit.unit.xml
 README.md
 screenshots
 src
+stylelint.config.js
 tests
 timezones
 webpack.*
