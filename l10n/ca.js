@@ -348,6 +348,7 @@ OC.L10N.register(
     "Relaxing" : "Relax",
     "Relax" : "Relax",
     "Commuting" : "Trajecte",
+    "Invoice" : "Factura",
     "Presentation" : "Presentació",
     "Talk" : "Parla",
     "Camping" : "Acampada",
