@@ -6,6 +6,8 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * @author Richard Steinmetz
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -39,35 +41,14 @@ use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ViewControllerTest extends TestCase {
-	/** @var string */
-	private $appName;
-
-	/** @var IRequest|MockObject */
-	private $request;
-
-	/** @var IAppManager|MockObject */
-	private $appManager;
-
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var AppointmentConfigService|MockObject */
-	private $appointmentContfigService;
-
-	/** @var IInitialState|MockObject */
-	private $initialStateService;
-
-	/** @var string */
-	private $userId;
-
-	/** @var ViewController */
-	private $controller;
-
-	/** @var IAppData|MockObject */
-	private $appData;
-
-	/** @var CompareVersion|MockObject*/
-	private $compareVersion;
+	private string $appName;
+	private IRequest|MockObject $request;
+	private IAppManager|MockObject $appManager;
+	private IConfig|MockObject $config;
+	private AppointmentConfigService|MockObject $appointmentContfigService;
+	private IInitialState|MockObject $initialStateService;
+	private string $userId;
+	private ViewController $controller;
 
 	protected function setUp(): void {
 		$this->appName = 'calendar';

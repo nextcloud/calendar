@@ -5,6 +5,8 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -32,8 +34,7 @@ use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ContactControllerTest extends TestCase {
-	/** @var string */
-	protected $appName;
+	protected string $appName;
 
 	/** @var IRequest|MockObject */
 	protected $request;
@@ -47,8 +48,7 @@ class ContactControllerTest extends TestCase {
 	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var ContactController */
-	protected $controller;
+	protected ContactController $controller;
 
 	protected function setUp():void {
 		parent::setUp();

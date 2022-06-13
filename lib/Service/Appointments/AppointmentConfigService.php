@@ -9,6 +9,7 @@ declare(strict_types=1);
  *
  * @author Anna Larch <anna.larch@gmx.net>
  * @author Richard Steinmetz <richard@steinmetz.cloud>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -39,16 +40,8 @@ use OCP\IUser;
 use OCP\Security\ISecureRandom;
 
 class AppointmentConfigService {
-	/** @var AppointmentConfigMapper */
-	private $mapper;
-
-	/** @var ISecureRandom */
-	private $random;
-
-	public function __construct(AppointmentConfigMapper $mapper,
-		ISecureRandom $random) {
-		$this->mapper = $mapper;
-		$this->random = $random;
+	public function __construct(private AppointmentConfigMapper $mapper,
+								private ISecureRandom $random) {
 	}
 
 	/**
@@ -99,7 +92,7 @@ class AppointmentConfigService {
 	 * @param int $id
 	 *
 	 * @return AppointmentConfig
-	 * @throws ServiceException
+	 * @throws ClientException
 	 */
 	public function findById(int $id): AppointmentConfig {
 		try {
@@ -114,6 +107,9 @@ class AppointmentConfigService {
 		}
 	}
 
+	/**
+	 * @throws ClientException
+	 */
 	public function findByToken(string $token): AppointmentConfig {
 		try {
 			return $this->mapper->findByToken($token);

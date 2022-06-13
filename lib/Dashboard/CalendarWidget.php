@@ -6,6 +6,7 @@ declare(strict_types=1);
  *
  * @author Julius Härtl <jus@bitgrid.net>
  * @author Richard Steinmetz <richard@steinmetz.cloud>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -47,14 +48,6 @@ use OCP\IURLGenerator;
 use OCP\Util;
 
 class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionWidget {
-	protected IL10N $l10n;
-	protected IInitialState $initialStateService;
-	protected JSDataService $dataService;
-	protected IDateTimeFormatter $dateTimeFormatter;
-	protected IURLGenerator $urlGenerator;
-	protected IManager $calendarManager;
-	protected ITimeFactory $timeFactory;
-
 	/**
 	 * CalendarWidget constructor.
 	 *
@@ -65,20 +58,13 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 	 * @param IURLGenerator $urlGenerator
 	 * @param IManager $calendarManager
 	 */
-	public function __construct(IL10N $l10n,
-		IInitialState $initialStateService,
-		JSDataService $dataService,
-		IDateTimeFormatter $dateTimeFormatter,
-		IURLGenerator $urlGenerator,
-		IManager $calendarManager,
-		ITimeFactory $timeFactory) {
-		$this->l10n = $l10n;
-		$this->initialStateService = $initialStateService;
-		$this->dataService = $dataService;
-		$this->dateTimeFormatter = $dateTimeFormatter;
-		$this->urlGenerator = $urlGenerator;
-		$this->calendarManager = $calendarManager;
-		$this->timeFactory = $timeFactory;
+	public function __construct(private IL10N $l10n,
+		private IInitialState $initialStateService,
+		private JSDataService $dataService,
+		private IDateTimeFormatter $dateTimeFormatter,
+		private IURLGenerator $urlGenerator,
+		private IManager $calendarManager,
+		private ITimeFactory $timeFactory) {
 	}
 
 	/**

@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -34,8 +35,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class CleanupOutdatedBookingJobTest extends TestCase {
-	/** @var CleanUpOutdatedBookingsJob */
-	private $job;
+	private CleanUpOutdatedBookingsJob $job;
 
 	/** @var mixed|BookingService|MockObject */
 	private $service;

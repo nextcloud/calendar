@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -37,25 +38,21 @@ use OCP\IDBConnection;
 class BookingMapperTest extends TestCase {
 	use DatabaseTransaction;
 
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var BookingMapper */
-	private $mapper;
+	private BookingMapper $mapper;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->db = OC::$server->get(IDBConnection::class);
+		$db = OC::$server->get(IDBConnection::class);
 		$this->time = $this->createConfiguredMock(ITimeFactory::class, [
 			'getTime' => 1635721200
 		]);
 		$this->mapper = new BookingMapper(
-			$this->db,
+			$db,
 			$this->time
 		);
 
-		$qb = $this->db->getQueryBuilder();
+		$qb = $db->getQueryBuilder();
 
 		$delete = $qb->delete($this->mapper->getTableName());
 		$delete->execute();

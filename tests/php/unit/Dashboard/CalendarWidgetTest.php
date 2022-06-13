@@ -5,6 +5,8 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * @copyright 2020 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -69,7 +71,7 @@ class CalendarWidgetTest extends TestCase {
 		}
 
 		$this->l10n = $this->createMock(IL10N::class);
-		$this->initialState = $this->createMock(IInitialState::class);
+		$this->initialState = $this->createMock(IInitialStateService::class);
 		$this->service = $this->createMock(JSDataService::class);
 		$this->dateTimeFormatter = $this->createMock(IDateTimeFormatter::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);

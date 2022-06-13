@@ -5,6 +5,8 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * @copyright 2020 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -37,8 +39,7 @@ class JsDataServiceTest extends TestCase {
 	/** @var IUserSession|MockObject */
 	private $userSession;
 
-	/** @var JSDataService */
-	private $service;
+	private JSDataService $service;
 
 	protected function setUp(): void {
 		parent::setUp();

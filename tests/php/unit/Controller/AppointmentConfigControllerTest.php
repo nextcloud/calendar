@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -47,14 +48,12 @@ class AppointmentConfigControllerTest extends TestCase {
 	/** @var MockObject|LoggerInterface */
 	private $logger;
 
-	/** @var AppointmentConfigController */
-	private $controller;
+	private AppointmentConfigController $controller;
 
 	/** @var IUser|MockObject */
 	private $user;
 
-	/** @var array */
-	private $availability;
+	private array $availability;
 
 	protected function setUp(): void {
 		parent::setUp();

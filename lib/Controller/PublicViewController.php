@@ -5,6 +5,8 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
@@ -29,6 +31,7 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IRequest;
@@ -40,37 +43,12 @@ use OCP\IURLGenerator;
  * @package OCA\Calendar\Controller
  */
 class PublicViewController extends Controller {
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-
-	/**
-	 * @var IInitialStateService
-	 */
-	private $initialStateService;
-
-	/**
-	 * @var IURLGenerator
-	 */
-	private $urlGenerator;
-
-	/**
-	 * @param string $appName
-	 * @param IRequest $request an instance of the request
-	 * @param IConfig $config
-	 * @param IInitialStateService $initialStateService
-	 * @param IURLGenerator $urlGenerator
-	 */
-	public function __construct(string $appName,
-		IRequest $request,
-		IConfig $config,
-		IInitialStateService $initialStateService,
-		IURLGenerator $urlGenerator) {
+	public function __construct(private string $appName,
+		private IRequest $request,
+		private IConfig $config,
+		private IInitialStateService $initialStateService,
+		private IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->initialStateService = $initialStateService;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 

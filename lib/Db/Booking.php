@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -55,42 +56,17 @@ use ReturnTypeWillChange;
  * @method void setConfirmed(bool $confirm)
  */
 class Booking extends Entity implements JsonSerializable {
-	/** @var int */
-	protected $apptConfigId;
-
-	/** @var int */
-	protected $createdAt;
-
-	/** @var string */
-	protected $token;
-
-	/** @var string */
-	protected $displayName;
-
-	/** @var string|null */
-	protected $description;
-
-	/** @var string */
-	protected $email;
-
-	/** @var int */
-	protected $start;
-
-	/** @var int */
-	protected $end;
-
-	/** @var string */
-	protected $timezone;
-
-	/** @var bool */
-	protected $confirmed;
-
-	/**
-	 * Transient talk URL
-	 *
-	 * @var string|null
-	 */
-	private $talkUrl;
+	protected int $apptConfigId;
+	protected int $createdAt;
+	protected string $token;
+	protected string $displayName;
+	protected ?string $description;
+	protected string $email;
+	protected int $start;
+	protected int $end;
+	protected string $timezone;
+	protected bool $confirmed;
+	private ?string $talkUrl;
 
 	public function __construct() {
 		$this->addType('id', 'integer');
@@ -102,7 +78,7 @@ class Booking extends Entity implements JsonSerializable {
 	}
 
 	#[ReturnTypeWillChange]
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		return [
 			'id' => $this->getId(),
 			'created_at' => $this->getCreatedAt(),
