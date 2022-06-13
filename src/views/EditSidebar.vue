@@ -54,7 +54,7 @@
 			<IllustrationHeader :color="illustrationColor" :illustration-url="backgroundImage" />
 		</template>
 
-		<template v-if="!isLoading && !isError"
+		<template v-if="!isLoading && !isError && !isNew"
 			#secondary-actions>
 			<ActionLink v-if="!hideEventExport && hasDownloadURL"
 				:href="downloadURL">
