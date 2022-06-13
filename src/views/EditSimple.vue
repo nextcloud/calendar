@@ -65,7 +65,7 @@
 						{{ $t('calendar', 'Show more details') }}
 					</ActionButton>
 				</Actions>
-				<Actions v-if="!isLoading && !isError" :force-menu="true">
+				<Actions v-if="!isLoading && !isError && !isNew" :force-menu="true">
 					<ActionLink v-if="!hideEventExport && hasDownloadURL"
 						:href="downloadURL">
 						<template #icon>
