@@ -21,25 +21,21 @@ use OCP\IDBConnection;
 class BookingMapperTest extends TestCase {
 	use DatabaseTransaction;
 
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var BookingMapper */
-	private $mapper;
+	private BookingMapper $mapper;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->db = OC::$server->get(IDBConnection::class);
+		$db = OC::$server->get(IDBConnection::class);
 		$this->time = $this->createConfiguredMock(ITimeFactory::class, [
 			'getTime' => 1635721200
 		]);
 		$this->mapper = new BookingMapper(
-			$this->db,
+			$db,
 			$this->time
 		);
 
-		$qb = $this->db->getQueryBuilder();
+		$qb = $db->getQueryBuilder();
 
 		$delete = $qb->delete($this->mapper->getTableName());
 		$delete->execute();

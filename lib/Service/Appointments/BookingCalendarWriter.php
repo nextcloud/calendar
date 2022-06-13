@@ -22,31 +22,13 @@ use Sabre\VObject\Component\VCalendar;
 use function abs;
 
 class BookingCalendarWriter {
-	/** @var IConfig */
-	private $config;
-
-	/** @var IManager */
-	private $manager;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var ISecureRandom */
-	private $random;
-
-	private TimezoneGenerator $timezoneGenerator;
-
-	public function __construct(IConfig $config,
-		IManager $manager,
-		IUserManager $userManager,
-		ISecureRandom $random,
-		TimezoneGenerator $timezoneGenerator,
-		private IFactory $l10nFactory) {
-		$this->config = $config;
-		$this->manager = $manager;
-		$this->userManager = $userManager;
-		$this->random = $random;
-		$this->timezoneGenerator = $timezoneGenerator;
+	public function __construct(private IConfig $config,
+		private IManager $manager,
+		private IUserManager $userManager,
+		private ISecureRandom $random,
+		private TimezoneGenerator $timezoneGenerator,
+		private IFactory $l10n,
+	) {
 	}
 
 	private function secondsToIso8601Duration(int $secs): string {

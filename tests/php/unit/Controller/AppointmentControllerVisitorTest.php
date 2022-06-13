@@ -21,8 +21,7 @@ use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class AppointmentControllerVisitorTest extends TestCase {
-	/** @var string */
-	protected $appName;
+	protected string $appName;
 
 	/** @var IRequest|MockObject */
 	protected $request;
@@ -39,14 +38,12 @@ class AppointmentControllerVisitorTest extends TestCase {
 	/** @var AppointmentConfigService|MockObject */
 	protected $service;
 
-	/** @var AppointmentController */
-	protected $controller;
+	protected AppointmentController $controller;
 
 	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var null */
-	private $userId;
+	private ?string $userId;
 
 	protected function setUp():void {
 		parent::setUp();

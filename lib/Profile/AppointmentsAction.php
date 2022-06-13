@@ -20,32 +20,13 @@ use OCP\Profile\ILinkAction;
 use function count;
 
 class AppointmentsAction implements ILinkAction {
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var AppointmentConfigService */
-	private $configService;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IUser|null */
-	private $targetUser;
-
 	/** @var AppointmentConfig[] */
-	private $configs = [];
+	private array $configs = [];
 
-	public function __construct(IL10N $l10n,
-		IUserSession $userSession,
-		AppointmentConfigService $configService,
-		IURLGenerator $urlGenerator) {
-		$this->l10n = $l10n;
-		$this->userSession = $userSession;
-		$this->configService = $configService;
-		$this->urlGenerator = $urlGenerator;
+	public function __construct(private IL10N $l10n,
+								private IUserSession $userSession,
+								private AppointmentConfigService $configService,
+								private IURLGenerator $urlGenerator) {
 	}
 
 	public function preload(IUser $targetUser): void {

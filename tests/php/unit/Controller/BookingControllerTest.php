@@ -32,8 +32,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class BookingControllerTest extends TestCase {
-	/** @var string */
-	protected $appName;
+	protected string $appName;
 
 	/** @var IRequest|MockObject */
 	protected $request;

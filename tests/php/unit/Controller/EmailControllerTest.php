@@ -23,38 +23,17 @@ use OCP\Mail\IMessage;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class EmailControllerTest extends TestCase {
-	/** @var string */
-	private $appName;
-
-	/** @var IRequest|MockObject */
-	private $request;
-
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var Defaults|MockObject */
-	private $defaults;
-
-	/** @var IL10N|MockObject */
-	private $l10n;
-
-	/** @var IMailer|MockObject */
-	private $mailer;
-
-	/** @var IUserSession|MockObject */
-	private $userSession;
-
-	/** @var IURLGenerator|MockObject */
-	private $urlGenerator;
-
-	/** @var IUser|MockObject */
-	private $user;
-
-	/** @var IUserManager|MockObject */
-	private $userManager;
-
-	/** @var EmailController */
-	private $controller;
+	private string $appName;
+	private IRequest|MockObject $request;
+	private IConfig|MockObject $config;
+	private Defaults|MockObject $defaults;
+	private IL10N|MockObject $l10n;
+	private IMailer|MockObject $mailer;
+	private IUserSession|MockObject $userSession;
+	private IURLGenerator|MockObject $urlGenerator;
+	private IUser|MockObject $user;
+	private IUserManager|MockObject $userManager;
+	private EmailController $controller;
 
 	protected function setUp():void {
 		parent::setUp();

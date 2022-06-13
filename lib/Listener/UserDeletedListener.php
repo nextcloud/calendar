@@ -20,18 +20,9 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<Event|UserDeletedEvent>
  */
 class UserDeletedListener implements IEventListener {
-	/** @var AppointmentConfigService */
-	private $appointmentConfigService;
-
-	/** @var BookingService */
-	private $bookingService;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(AppointmentConfigService $appointmentConfigService,
-		BookingService $bookingService,
-		LoggerInterface $logger) {
+	public function __construct(private AppointmentConfigService $appointmentConfigService,
+		private BookingService $bookingService,
+		private LoggerInterface $logger) {
 		$this->appointmentConfigService = $appointmentConfigService;
 		$this->bookingService = $bookingService;
 		$this->logger = $logger;

@@ -57,8 +57,7 @@ class MailServiceTest extends TestCase {
 	/** @var IManager|MockObject  */
 	private $notificationManager;
 
-	/** @var MailService */
-	private $mailService;
+	private MailService $mailService;
 	private IConfig|MockObject $userConfig;
 
 	protected function setUp(): void {

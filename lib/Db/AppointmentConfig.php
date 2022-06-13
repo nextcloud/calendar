@@ -58,62 +58,25 @@ use function json_encode;
  * @method void setCreateTalkRoom(bool $create)
  */
 class AppointmentConfig extends Entity implements JsonSerializable {
-	/** @var string */
-	protected $token;
-
-	/** @var string */
-	protected $name = '';
-
-	/** @var string|null */
-	protected $description;
-
-	/** @var string|null */
-	protected $location;
-
-	/** @var string */
-	protected $visibility;
-
-	/** @var string */
-	protected $userId;
-
-	/** @var string */
-	protected $targetCalendarUri;
-
-	/** @var string|null */
-	protected $calendarFreebusyUris;
-
-	/** @var string|null */
-	protected $availability;
-
-	/** @var int|null */
-	protected $start;
-
-	/** @var int|null */
-	protected $end;
-
-	/** @var int */
-	protected $length;
-
-	/** @var int */
-	protected $increment;
-
-	/** @var int */
-	protected $preparationDuration;
-
-	/** @var int */
-	protected $followupDuration;
-
-	/** @var int */
-	protected $timeBeforeNextSlot;
-
-	/** @var int|null */
-	protected $dailyMax;
-
-	/** @var int|null */
-	protected $futureLimit;
-
-	/** @var bool */
-	protected $createTalkRoom;
+	protected string $token;
+	protected string $name = '';
+	protected ?string $description;
+	protected ?string $location;
+	protected string $visibility;
+	protected string $userId;
+	protected string $targetCalendarUri;
+	protected ?string $calendarFreebusyUris;
+	protected ?string $availability;
+	protected ?int $start;
+	protected ?int $end;
+	protected int $length;
+	protected int $increment;
+	protected int $preparationDuration;
+	protected int $followupDuration;
+	protected int $timeBeforeNextSlot;
+	protected ?int $dailyMax;
+	protected ?int $futureLimit;
+	protected bool $createTalkRoom;
 
 	/** @var string */
 	public const VISIBILITY_PUBLIC = 'PUBLIC';
@@ -177,7 +140,7 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 	}
 
 	#[ReturnTypeWillChange]
-	public function jsonSerialize() {
+	public function jsonSerialize(): array {
 		return [
 			'id' => $this->id,
 			'token' => $this->getToken(),

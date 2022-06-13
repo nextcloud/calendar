@@ -8,13 +8,14 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use Exception;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\IConfig;
 use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class SettingsControllerTest extends TestCase {
-	/** @var string */
-	private $appName;
+	private string $appName;
 
 	/** @var IRequest|MockObject */
 	private $request;
@@ -22,11 +23,7 @@ class SettingsControllerTest extends TestCase {
 	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var string */
-	private $userId;
-
-	/** @var SettingsController */
-	private $controller;
+	private SettingsController $controller;
 
 	protected function setUp():void {
 		parent::setUp();
@@ -34,10 +31,10 @@ class SettingsControllerTest extends TestCase {
 		$this->appName = 'calendar';
 		$this->request = $this->createMock(IRequest::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->userId = 'user123';
+		$userId = 'user123';
 
 		$this->controller = new SettingsController($this->appName,
-			$this->request, $this->config, $this->userId);
+			$this->request, $this->config, $userId);
 	}
 
 	/**
@@ -56,7 +53,7 @@ class SettingsControllerTest extends TestCase {
 
 		$actual = $this->controller->setConfig('view', $view);
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals($expectedStatusCode, $actual->getStatus());
 	}
@@ -79,11 +76,11 @@ class SettingsControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('setUserValue')
 			->with('user123', $this->appName, 'currentView', 'dayGridMonth')
-			->will($this->throwException(new \Exception));
+			->will($this->throwException(new Exception));
 
 		$actual = $this->controller->setConfig('view', 'dayGridMonth');
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals(500, $actual->getStatus());
 	}
@@ -104,7 +101,7 @@ class SettingsControllerTest extends TestCase {
 
 		$actual = $this->controller->setConfig('skipPopover', $value);
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals($expectedStatusCode, $actual->getStatus());
 	}
@@ -121,11 +118,11 @@ class SettingsControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('setUserValue')
 			->with('user123', $this->appName, 'skipPopover', 'no')
-			->will($this->throwException(new \Exception));
+			->will($this->throwException(new Exception));
 
 		$actual = $this->controller->setConfig('skipPopover', 'no');
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals(500, $actual->getStatus());
 	}
@@ -137,7 +134,7 @@ class SettingsControllerTest extends TestCase {
 
 		$actual = $this->controller->setConfig('firstRun', 'some_random_ignored_value');
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals(200, $actual->getStatus());
 	}
@@ -146,11 +143,11 @@ class SettingsControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('setUserValue')
 			->with('user123', $this->appName, 'firstRun', 'no')
-			->will($this->throwException(new \Exception));
+			->will($this->throwException(new Exception));
 
 		$actual = $this->controller->setConfig('firstRun', 'some_random_ignored_value');
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals(500, $actual->getStatus());
 	}
@@ -162,7 +159,7 @@ class SettingsControllerTest extends TestCase {
 
 		$actual = $this->controller->setConfig('timezone', 'Europe/Berlin');
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals(200, $actual->getStatus());
 	}
@@ -171,11 +168,11 @@ class SettingsControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('setUserValue')
 			->with('user123', $this->appName, 'timezone', 'Europe/Berlin')
-			->will($this->throwException(new \Exception));
+			->will($this->throwException(new Exception));
 
 		$actual = $this->controller->setConfig('timezone', 'Europe/Berlin');
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals(500, $actual->getStatus());
 	}
@@ -196,7 +193,7 @@ class SettingsControllerTest extends TestCase {
 
 		$actual = $this->controller->setConfig('showWeekends', $value);
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals($expectedStatusCode, $actual->getStatus());
 	}
@@ -213,11 +210,11 @@ class SettingsControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('setUserValue')
 			->with('user123', $this->appName, 'showWeekends', 'no')
-			->will($this->throwException(new \Exception));
+			->will($this->throwException(new Exception));
 
 		$actual = $this->controller->setConfig('showWeekends', 'no');
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals(500, $actual->getStatus());
 	}
@@ -238,7 +235,7 @@ class SettingsControllerTest extends TestCase {
 
 		$actual = $this->controller->setConfig('showWeekNr', $value);
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals($expectedStatusCode, $actual->getStatus());
 	}
@@ -255,11 +252,11 @@ class SettingsControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('setUserValue')
 			->with('user123', $this->appName, 'showWeekNr', 'no')
-			->will($this->throwException(new \Exception));
+			->will($this->throwException(new Exception));
 
 		$actual = $this->controller->setConfig('showWeekNr', 'no');
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals(500, $actual->getStatus());
 	}
@@ -280,7 +277,7 @@ class SettingsControllerTest extends TestCase {
 
 		$actual = $this->controller->setConfig('eventLimit', $value);
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals($expectedStatusCode, $actual->getStatus());
 	}
@@ -297,11 +294,11 @@ class SettingsControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('setUserValue')
 			->with('user123', $this->appName, 'eventLimit', 'no')
-			->will($this->throwException(new \Exception));
+			->will($this->throwException(new Exception));
 
 		$actual = $this->controller->setConfig('eventLimit', 'no');
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals(500, $actual->getStatus());
 	}
@@ -322,7 +319,7 @@ class SettingsControllerTest extends TestCase {
 
 		$actual = $this->controller->setConfig('slotDuration', $value);
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals($expectedStatusCode, $actual->getStatus());
 	}
@@ -344,11 +341,11 @@ class SettingsControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('setUserValue')
 			->with('user123', $this->appName, 'slotDuration', '00:30:00')
-			->will($this->throwException(new \Exception));
+			->will($this->throwException(new Exception));
 
 		$actual = $this->controller->setConfig('slotDuration', '00:30:00');
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals(500, $actual->getStatus());
 	}
@@ -369,7 +366,7 @@ class SettingsControllerTest extends TestCase {
 
 		$actual = $this->controller->setConfig('defaultReminder', $value);
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals($expectedStatusCode, $actual->getStatus());
 	}
@@ -397,11 +394,11 @@ class SettingsControllerTest extends TestCase {
 		$this->config->expects($this->once())
 			->method('setUserValue')
 			->with('user123', $this->appName, 'defaultReminder', 'none')
-			->will($this->throwException(new \Exception));
+			->will($this->throwException(new Exception));
 
 		$actual = $this->controller->setConfig('defaultReminder', 'none');
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals(500, $actual->getStatus());
 	}
@@ -409,7 +406,7 @@ class SettingsControllerTest extends TestCase {
 	public function testSetNotExistingConfig():void {
 		$actual = $this->controller->setConfig('foo', 'bar');
 
-		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertInstanceOf(JSONResponse::class, $actual);
 		$this->assertEquals([], $actual->getData());
 		$this->assertEquals(400, $actual->getStatus());
 	}

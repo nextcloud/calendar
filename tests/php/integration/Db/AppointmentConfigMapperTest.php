@@ -19,16 +19,13 @@ use OCP\IDBConnection;
 class AppointmentConfigMapperTest extends TestCase {
 	use DatabaseTransaction;
 
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var AppointmentConfigMapper */
-	private $mapper;
+	private IDBConnection $db;
+	private AppointmentConfigMapper $mapper;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->db = \OC::$server->getDatabaseConnection();
+		$this->db = \OC::$server->get(IDBConnection::class);
 		$this->mapper = new AppointmentConfigMapper(
 			$this->db
 		);

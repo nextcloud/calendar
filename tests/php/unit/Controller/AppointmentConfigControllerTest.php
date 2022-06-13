@@ -28,14 +28,12 @@ class AppointmentConfigControllerTest extends TestCase {
 	/** @var MockObject|LoggerInterface */
 	private $logger;
 
-	/** @var AppointmentConfigController */
-	private $controller;
+	private AppointmentConfigController $controller;
 
 	/** @var IUser|MockObject */
 	private $user;
 
-	/** @var array */
-	private $availability;
+	private array $availability;
 
 	protected function setUp(): void {
 		parent::setUp();

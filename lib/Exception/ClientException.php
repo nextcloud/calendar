@@ -13,8 +13,7 @@ use Exception;
 use Throwable;
 
 class ClientException extends Exception {
-	/** @var int|null */
-	private $httpCode;
+	private ?int $httpCode;
 
 	public function __construct($message = "",
 		$code = 0,

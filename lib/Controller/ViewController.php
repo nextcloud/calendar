@@ -20,34 +20,14 @@ use OCP\IConfig;
 use OCP\IRequest;
 
 class ViewController extends Controller {
-	/** @var IConfig */
-	private $config;
-
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var CompareVersion */
-	private $compareVersion;
-
-	/** @var string */
-	private $userId;
-
-	private IAppData $appData;
-
-	private CalendarInitialStateService $calendarInitialStateService;
-
-	public function __construct(string $appName,
-		IRequest $request,
-		IConfig $config,
-		?string $userId,
-		IAppData $appData,
-		CalendarInitialStateService $calendarInitialStateService) {
+	public function __construct(private string $appName,
+		private IRequest $request,
+		private IConfig $config,
+		private ?string $userId,
+		private IAppData $appData,
+		private CalendarInitialStateService $calendarInitialStateService,
+	) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->userId = $userId;
-		$this->appData = $appData;
-		$this->calendarInitialStateService = $calendarInitialStateService;
 	}
 
 	/**

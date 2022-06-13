@@ -22,30 +22,13 @@ use OCP\IUserManager;
 use RuntimeException;
 
 class AppointmentController extends Controller {
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var AppointmentConfigService */
-	private $configService;
-
-	/** @var IInitialState */
-	private $initialState;
-
-	/** @var string|null */
-	private $userId;
-
-	public function __construct(IRequest $request,
-		IUserManager $userManager,
-		AppointmentConfigService $configService,
-		IInitialState $initialState,
-		?string $userId
-	) {
+	public function __construct(private IRequest $request,
+								private IUserManager $userManager,
+								private AppointmentConfigService $configService,
+								private IInitialState $initialState,
+								private ?string $userId
+								) {
 		parent::__construct(Application::APP_ID, $request);
-
-		$this->userManager = $userManager;
-		$this->configService = $configService;
-		$this->initialState = $initialState;
-		$this->userId = $userId;
 	}
 
 	/**

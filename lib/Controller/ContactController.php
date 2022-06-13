@@ -17,6 +17,8 @@ use OCP\AppFramework\QueryException;
 use OCP\Contacts\IManager;
 use OCP\IRequest;
 use OCP\IUserManager;
+use function is_array;
+use function is_string;
 
 /**
  * Class ContactController
@@ -24,31 +26,12 @@ use OCP\IUserManager;
  * @package OCA\Calendar\Controller
  */
 class ContactController extends Controller {
-	/** @var IManager */
-	private $contactsManager;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/**
-	 * ContactController constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IManager $contacts
-	 */
-	public function __construct(string $appName,
-		IRequest $request,
-		IManager $contacts,
-		IAppManager $appManager,
-		IUserManager $userManager) {
+	public function __construct(private string $appName,
+		private IRequest $request,
+		private IManager $contacts,
+		private IAppManager $appManager,
+		private IUserManager $userManager) {
 		parent::__construct($appName, $request);
-		$this->contactsManager = $contacts;
-		$this->appManager = $appManager;
-		$this->userManager = $userManager;
 	}
 
 	/**
@@ -78,7 +61,7 @@ class ContactController extends Controller {
 			}
 
 			$name = $this->getNameFromContact($r);
-			if (\is_string($r['ADR'])) {
+			if (is_string($r['ADR'])) {
 				$r['ADR'] = [$r['ADR']];
 			}
 
@@ -129,7 +112,7 @@ class ContactController extends Controller {
 			}
 
 			$name = $this->getNameFromContact($r);
-			if (\is_string($r['EMAIL'])) {
+			if (is_string($r['EMAIL'])) {
 				$r['EMAIL'] = [$r['EMAIL']];
 			}
 
@@ -139,7 +122,7 @@ class ContactController extends Controller {
 
 			$lang = null;
 			if (isset($r['LANG'])) {
-				if (\is_array($r['LANG'])) {
+				if (is_array($r['LANG'])) {
 					$lang = $r['LANG'][0];
 				} else {
 					$lang = $r['LANG'];
@@ -148,7 +131,7 @@ class ContactController extends Controller {
 
 			$timezoneId = null;
 			if (isset($r['TZ'])) {
-				if (\is_array($r['TZ'])) {
+				if (is_array($r['TZ'])) {
 					$timezoneId = $r['TZ'][0];
 				} else {
 					$timezoneId = $r['TZ'];
@@ -247,7 +230,7 @@ class ContactController extends Controller {
 				continue;
 			}
 
-			if (\is_string($r['EMAIL'])) {
+			if (is_string($r['EMAIL'])) {
 				$r['EMAIL'] = [$r['EMAIL']];
 			}
 

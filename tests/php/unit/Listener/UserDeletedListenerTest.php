@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Tests\Unit\Listener;
 
+use ChristophWurst\Nextcloud\Testing\ServiceMockObject;
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use OCA\Calendar\Listener\UserDeletedListener;
 use OCP\EventDispatcher\Event;
@@ -16,8 +17,7 @@ use OCP\IUser;
 use OCP\User\Events\UserDeletedEvent;
 
 class UserDeletedListenerTest extends TestCase {
-	/** @var \ChristophWurst\Nextcloud\Testing\ServiceMockObject */
-	private $serviceMock;
+	private ServiceMockObject $serviceMock;
 
 	/** @var UserDeletedListener */
 	private $listener;

@@ -17,14 +17,8 @@ use Psr\Log\LoggerInterface;
 use function array_filter;
 
 class EventConflictFilter {
-	/** @var IManager */
-	private $calendarManager;
-	private $logger;
-
-	public function __construct(IManager $calendarManager,
-		LoggerInterface $logger) {
-		$this->calendarManager = $calendarManager;
-		$this->logger = $logger;
+	public function __construct(private IManager $calendarManager,
+		private LoggerInterface $logger) {
 	}
 
 	/**

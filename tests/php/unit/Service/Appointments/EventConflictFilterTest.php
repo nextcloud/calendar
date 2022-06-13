@@ -22,8 +22,7 @@ class EventConflictFilterTest extends TestCase {
 	/** @var IManager|MockObject */
 	private $calendarManager;
 
-	/** @var EventConflictFilter */
-	private $filter;
+	private EventConflictFilter $filter;
 
 	/** @var mixed|MockObject|LoggerInterface */
 	private $logger;

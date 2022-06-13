@@ -21,8 +21,7 @@ class JsDataServiceTest extends TestCase {
 	/** @var IUserSession|MockObject */
 	private $userSession;
 
-	/** @var JSDataService */
-	private $service;
+	private JSDataService $service;
 
 	protected function setUp(): void {
 		parent::setUp();

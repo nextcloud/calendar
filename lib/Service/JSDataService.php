@@ -7,28 +7,15 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Service;
 
+use JsonSerializable;
 use OCA\Calendar\AppInfo\Application;
 use OCP\IConfig;
 use OCP\IUserSession;
 use ReturnTypeWillChange;
 
-class JSDataService implements \JsonSerializable {
-	/** @var IConfig */
-	private $config;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/**
-	 * JSDataService constructor.
-	 *
-	 * @param IConfig $config
-	 * @param IUserSession $userSession
-	 */
-	public function __construct(IConfig $config,
-		IUserSession $userSession) {
-		$this->config = $config;
-		$this->userSession = $userSession;
+class JSDataService implements JsonSerializable {
+	public function __construct(private IConfig $config,
+		private IUserSession $userSession) {
 	}
 
 	/**

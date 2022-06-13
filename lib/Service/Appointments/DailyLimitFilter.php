@@ -18,10 +18,8 @@ use function array_values;
 use function count;
 
 class DailyLimitFilter {
-	/** @var IManager */
-	private $calendarManger;
-
-	public function __construct(IManager $calendarManger, private LoggerInterface $logger) {
+	public function __construct(private IManager $calendarManger,
+		private LoggerInterface $logger) {
 		$this->calendarManger = $calendarManger;
 	}
 

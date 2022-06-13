@@ -16,31 +16,13 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class CalendarInitialStateServiceTest extends TestCase {
-
-	/** @var string */
-	private $appName;
-
-	/** @var IAppManager|MockObject */
-	private $appManager;
-
-	/** @var IConfig|MockObject */
-	private $config;
-
-	/** @var AppointmentConfigService|MockObject */
-	private $appointmentContfigService;
-
-	/** @var IInitialState|MockObject */
-	private $initialStateService;
-
-	/** @var string */
-	private $userId;
-
-	/** @var CalendarInitialStateService */
-	private $service;
-
-	/** @var CompareVersion|MockObject*/
-	private $compareVersion;
+class ViewControllerTest extends TestCase {
+	private string $appName;
+	private IAppManager|MockObject $appManager;
+	private IConfig|MockObject $config;
+	private AppointmentConfigService|MockObject $appointmentContfigService;
+	private IInitialState|MockObject $initialStateService;
+	private string $userId;
 
 	protected function setUp(): void {
 		$this->appName = 'calendar';

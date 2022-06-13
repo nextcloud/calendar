@@ -7,6 +7,7 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use Exception;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -27,57 +28,16 @@ use OCP\Mail\IMessage;
  * @package OCA\Calendar\Controller
  */
 class EmailController extends Controller {
-	/** @var IConfig */
-	private $config;
-
-	/** @var Defaults */
-	private $defaults;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IMailer */
-	private $mailer;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/**
-	 * EmailController constructor.
-	 *
-	 * @param $appName
-	 * @param IRequest $request
-	 * @param IUserSession $userSession
-	 * @param IConfig $config
-	 * @param IMailer $mailer
-	 * @param IL10N $l10N
-	 * @param Defaults $defaults
-	 * @param IURLGenerator $urlGenerator
-	 * @param IUserManager $userManager
-	 */
-	public function __construct(string $appName,
-		IRequest $request,
-		IUserSession $userSession,
-		IConfig $config,
-		IMailer $mailer,
-		IL10N $l10N,
-		Defaults $defaults,
-		IURLGenerator $urlGenerator,
-		IUserManager $userManager) {
+	public function __construct(private string $appName,
+		private IRequest $request,
+		private IUserSession $userSession,
+		private IConfig $config,
+		private IMailer $mailer,
+		private IL10N $l10N,
+		private Defaults $defaults,
+		private IURLGenerator $urlGenerator,
+		private IUserManager $userManager) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->userSession = $userSession;
-		$this->mailer = $mailer;
-		$this->l10n = $l10N;
-		$this->defaults = $defaults;
-		$this->urlGenerator = $urlGenerator;
-		$this->userManager = $userManager;
 	}
 
 	/**
@@ -121,7 +81,7 @@ class EmailController extends Controller {
 
 		try {
 			$this->mailer->send($message);
-		} catch (\Exception $ex) {
+		} catch (Exception $ex) {
 			return new JSONResponse([
 				'message' => $this->l10n->t('Unexpected error sending email. Please contact your administrator.'),
 			], Http::STATUS_INTERNAL_SERVER_ERROR);

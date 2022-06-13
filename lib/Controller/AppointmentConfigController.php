@@ -23,23 +23,11 @@ use function array_merge;
 use function array_values;
 
 class AppointmentConfigController extends Controller {
-	/** @var AppointmentConfigService */
-	private $appointmentConfigService;
-
-	/** @var string|null */
-	private $userId;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(IRequest $request,
-		AppointmentConfigService $appointmentService,
-		LoggerInterface $logger,
-		?string $userId) {
+	public function __construct(private IRequest $request,
+								private AppointmentConfigService $appointmentService,
+								private LoggerInterface $logger,
+								private ?string $userId) {
 		parent::__construct(Application::APP_ID, $request);
-		$this->appointmentConfigService = $appointmentService;
-		$this->userId = $userId;
-		$this->logger = $logger;
 	}
 
 	/**

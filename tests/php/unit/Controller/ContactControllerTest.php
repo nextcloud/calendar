@@ -16,8 +16,7 @@ use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ContactControllerTest extends TestCase {
-	/** @var string */
-	protected $appName;
+	protected string $appName;
 
 	/** @var IRequest|MockObject */
 	protected $request;
@@ -31,8 +30,7 @@ class ContactControllerTest extends TestCase {
 	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var ContactController */
-	protected $controller;
+	protected ContactController $controller;
 
 	protected function setUp():void {
 		parent::setUp();

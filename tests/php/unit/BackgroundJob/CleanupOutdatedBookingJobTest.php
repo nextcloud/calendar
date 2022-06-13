@@ -18,8 +18,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class CleanupOutdatedBookingJobTest extends TestCase {
-	/** @var CleanUpOutdatedBookingsJob */
-	private $job;
+	private CleanUpOutdatedBookingsJob $job;
 
 	/** @var mixed|BookingService|MockObject */
 	private $service;

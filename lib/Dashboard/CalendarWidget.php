@@ -30,31 +30,16 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 
 class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWidget, IOptionWidget, IReloadableWidget {
-	protected IL10N $l10n;
-	protected IInitialState $initialStateService;
-	protected JSDataService $dataService;
-	protected IDateTimeFormatter $dateTimeFormatter;
-	protected IURLGenerator $urlGenerator;
-	protected IManager $calendarManager;
-	protected ITimeFactory $timeFactory;
-
 	/**
 	 * CalendarWidget constructor.
 	 */
-	public function __construct(IL10N $l10n,
-		IInitialState $initialStateService,
-		JSDataService $dataService,
-		IDateTimeFormatter $dateTimeFormatter,
-		IURLGenerator $urlGenerator,
-		IManager $calendarManager,
-		ITimeFactory $timeFactory) {
-		$this->l10n = $l10n;
-		$this->initialStateService = $initialStateService;
-		$this->dataService = $dataService;
-		$this->dateTimeFormatter = $dateTimeFormatter;
-		$this->urlGenerator = $urlGenerator;
-		$this->calendarManager = $calendarManager;
-		$this->timeFactory = $timeFactory;
+	public function __construct(private IL10N $l10n,
+		private IInitialState $initialStateService,
+		private JSDataService $dataService,
+		private IDateTimeFormatter $dateTimeFormatter,
+		private IURLGenerator $urlGenerator,
+		private IManager $calendarManager,
+		private ITimeFactory $timeFactory) {
 	}
 
 	/**

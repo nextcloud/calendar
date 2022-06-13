@@ -11,8 +11,7 @@ use Exception;
 use Throwable;
 
 class ServiceException extends Exception {
-	/** @var int|null */
-	private $httpCode;
+	private ?int $httpCode;
 
 	public function __construct($message = "",
 		$code = 0,
