@@ -1,5 +1,21 @@
 # Changelog
 
+## 3.4.0 - 2022-07-20
+### Added
+- Visually distinguish events with attendees from ones without
+- Visually distinguish events with reminders from ones without
+- More key events on the simple editor
+### Changed
+- Drop PHP7.3 support (EOL)
+- Drop Nextcloud 21 support (EOL)
+- Event rendering now uses Vue
+- Appointment booking message
+### Fixed
+- Logic to extract avatar link from inivitees list
+- Missing stylelint
+- Hide 3-dot menu button
+- Attendee search
+
 ## 3.3.2 – 2022-06-02
 ### Fixed
 - Squished settings checkbox label
