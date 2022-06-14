@@ -5,6 +5,7 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -29,6 +30,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
+use function in_array;
 
 /**
  * Class CurrentViewNameRepairStep
@@ -36,12 +38,8 @@ use OCP\Migration\IRepairStep;
  * @package OCA\Calendar\RepairSteps
  */
 class CurrentViewNameRepairStep implements IRepairStep {
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IConfig */
-	private $config;
+	private IUserManager $userManager;
+	private IConfig $config;
 
 	/**
 	 * CurrentViewNameRepairStep constructor.
@@ -73,7 +71,7 @@ class CurrentViewNameRepairStep implements IRepairStep {
 			if ($savedView === null) {
 				return;
 			}
-			if (\in_array($savedView, ['timeGridDay', 'timeGridWeek', 'dayGridMonth'], true)) {
+			if (in_array($savedView, ['timeGridDay', 'timeGridWeek', 'dayGridMonth'], true)) {
 				return;
 			}
 

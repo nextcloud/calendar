@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -47,27 +48,13 @@ use OCP\Mail\IMailer;
 use Psr\Log\LoggerInterface;
 
 class BookingController extends Controller {
-
-	/** @var BookingService */
-	private $bookingService;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var AppointmentConfigService */
-	private $appointmentConfigService;
-
-	/** @var IInitialState */
-	private $initialState;
-
-	/** @var URLGenerator */
-	private $urlGenerator;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IMailer */
-	private $mailer;
+	private BookingService $bookingService;
+	private ITimeFactory $timeFactory;
+	private AppointmentConfigService $appointmentConfigService;
+	private IInitialState $initialState;
+	private URLGenerator $urlGenerator;
+	private LoggerInterface $logger;
+	private IMailer $mailer;
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -184,7 +171,7 @@ class BookingController extends Controller {
 		try {
 			$booking = $this->bookingService->book($config, $start, $end, $timeZone, $displayName, $email, $description);
 		} catch (NoSlotFoundException $e) {
-			$this->logger->warning('No slot available for start: ' . $start . ', end: ' . $end . ', config id: ' . $appointmentConfigId , ['exception' => $e]);
+			$this->logger->warning('No slot available for start: ' . $start . ', end: ' . $end . ', config id: ' . $appointmentConfigId, ['exception' => $e]);
 			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
 		} catch (InvalidArgumentException $e) {
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);

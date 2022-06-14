@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-/*
+/**
  * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -31,36 +32,22 @@ use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
-use OCP\IUserSession;
 use OCP\Profile\ILinkAction;
 use function count;
 
 class AppointmentsAction implements ILinkAction {
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var AppointmentConfigService */
-	private $configService;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IUser|null */
-	private $targetUser;
+	private IL10N $l10n;
+	private AppointmentConfigService $configService;
+	private IURLGenerator $urlGenerator;
+	private ?IUser $targetUser;
 
 	/** @var AppointmentConfig[] */
-	private $configs = [];
+	private array $configs = [];
 
 	public function __construct(IL10N $l10n,
-								IUserSession $userSession,
 								AppointmentConfigService $configService,
 								IURLGenerator $urlGenerator) {
 		$this->l10n = $l10n;
-		$this->userSession = $userSession;
 		$this->configService = $configService;
 		$this->urlGenerator = $urlGenerator;
 	}

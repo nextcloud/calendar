@@ -7,6 +7,7 @@ declare(strict_types=1);
  * @author Georg Ehrke
  * @author Jakob Röhrl
  * @author Christoph Wurst
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  * @copyright 2019 Jakob Röhrl <jakob.roehrl@web.de>
@@ -33,6 +34,8 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Contacts\IManager;
 use OCP\IRequest;
+use function is_array;
+use function is_string;
 
 /**
  * Class ContactController
@@ -40,9 +43,7 @@ use OCP\IRequest;
  * @package OCA\Calendar\Controller
  */
 class ContactController extends Controller {
-
-	/** @var IManager */
-	private $contactsManager;
+	private IManager $contactsManager;
 
 	/**
 	 * ContactController constructor.
@@ -85,7 +86,7 @@ class ContactController extends Controller {
 			}
 
 			$name = $this->getNameFromContact($r);
-			if (\is_string($r['ADR'])) {
+			if (is_string($r['ADR'])) {
 				$r['ADR'] = [$r['ADR']];
 			}
 
@@ -136,7 +137,7 @@ class ContactController extends Controller {
 			}
 
 			$name = $this->getNameFromContact($r);
-			if (\is_string($r['EMAIL'])) {
+			if (is_string($r['EMAIL'])) {
 				$r['EMAIL'] = [$r['EMAIL']];
 			}
 
@@ -146,7 +147,7 @@ class ContactController extends Controller {
 
 			$lang = null;
 			if (isset($r['LANG'])) {
-				if (\is_array($r['LANG'])) {
+				if (is_array($r['LANG'])) {
 					$lang = $r['LANG'][0];
 				} else {
 					$lang = $r['LANG'];
@@ -155,7 +156,7 @@ class ContactController extends Controller {
 
 			$timezoneId = null;
 			if (isset($r['TZ'])) {
-				if (\is_array($r['TZ'])) {
+				if (is_array($r['TZ'])) {
 					$timezoneId = $r['TZ'][0];
 				} else {
 					$timezoneId = $r['TZ'];
@@ -194,7 +195,7 @@ class ContactController extends Controller {
 				continue;
 			}
 
-			if (\is_string($r['EMAIL'])) {
+			if (is_string($r['EMAIL'])) {
 				$r['EMAIL'] = [$r['EMAIL']];
 			}
 

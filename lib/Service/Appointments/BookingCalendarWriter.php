@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -41,20 +42,11 @@ use Sabre\VObject\Component\VCalendar;
 use function abs;
 
 class BookingCalendarWriter {
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IManager */
-	private $manager;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var ISecureRandom */
-	private $random;
-	/** @var IL10N */
-	private $l10n;
+	private IConfig $config;
+	private IManager $manager;
+	private IUserManager $userManager;
+	private ISecureRandom $random;
+	private IL10N $l10n;
 
 	public function __construct(IConfig $config,
 								IManager $manager,
@@ -85,14 +77,7 @@ class BookingCalendarWriter {
 	}
 
 	/**
-	 * @param AppointmentConfig $config
-	 * @param DateTimeImmutable $start
-	 * @param string $name
-	 * @param string $email
-	 * @param string $description
-	 *
 	 * @throws RuntimeException
-	 *
 	 */
 	public function write(AppointmentConfig $config, DateTimeImmutable $start, string $displayName, string $email, ?string $description = null) : void {
 		$calendar = current($this->manager->getCalendarsForPrincipal($config->getPrincipalUri(), [$config->getTargetCalendarUri()]));

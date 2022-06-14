@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @copyright 2021 anna.larch@gmx.net <Anna Larch>
  *
  * @author anna.larch@gmx.net <Anna Larch>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -71,8 +72,7 @@ class MailServiceTest extends TestCase {
 	/** @var mixed|IFactory|MockObject */
 	private $lFactory;
 
-	/** @var MailService */
-	private $mailService;
+	private MailService $mailService;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -93,7 +93,6 @@ class MailServiceTest extends TestCase {
 			$this->mailer,
 			$this->userManager,
 			$this->l10n,
-			$this->defaults,
 			$this->logger,
 			$this->urlGenerator,
 			$this->dateFormatter,

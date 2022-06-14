@@ -5,6 +5,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -27,38 +28,21 @@ namespace OCA\Calendar\Dashboard;
 
 use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Service\JSDataService;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\Dashboard\IWidget;
-use OCP\IInitialStateService;
 use OCP\IL10N;
+use OCP\Util;
 
 class CalendarWidget implements IWidget {
+	private IL10N $l10n;
+	private IInitialState $initialState;
+	private JSDataService $dataService;
 
-	/**
-	 * @var IL10N
-	 */
-	private $l10n;
-
-	/**
-	 * @var IInitialStateService
-	 */
-	private $initialStateService;
-
-	/**
-	 * @var JSDataService
-	 */
-	private $dataService;
-
-	/**
-	 * CalendarWidget constructor.
-	 * @param IL10N $l10n
-	 * @param IInitialStateService $initialStateService
-	 * @param JSDataService $dataService
-	 */
 	public function __construct(IL10N $l10n,
-								IInitialStateService $initialStateService,
+								IInitialState $initialState,
 								JSDataService $dataService) {
 		$this->l10n = $l10n;
-		$this->initialStateService = $initialStateService;
+		$this->initialState = $initialState;
 		$this->dataService = $dataService;
 	}
 
@@ -101,9 +85,9 @@ class CalendarWidget implements IWidget {
 	 * @inheritDoc
 	 */
 	public function load(): void {
-		\OCP\Util::addScript('calendar', 'calendar-dashboard');
+		Util::addScript('calendar', 'calendar-dashboard');
 
-		$this->initialStateService->provideLazyInitialState(Application::APP_ID, 'dashboard_data', function () {
+		$this->initialState->provideLazyInitialState('dashboard_data', function () {
 			return $this->dataService;
 		});
 	}

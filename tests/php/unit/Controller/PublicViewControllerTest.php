@@ -5,6 +5,8 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -25,17 +27,15 @@ namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
-use OCP\IInitialStateService;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class PublicViewControllerTest extends TestCase {
-
-	/** @var string */
-	private $appName;
+	private string $appName;
 
 	/** @var IRequest|MockObject */
 	private $request;
@@ -43,8 +43,8 @@ class PublicViewControllerTest extends TestCase {
 	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var IInitialStateService|MockObject */
-	private $initialStateService;
+	/** @var IInitialState|MockObject */
+	private $initialState;
 
 	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
@@ -56,11 +56,11 @@ class PublicViewControllerTest extends TestCase {
 		$this->appName = 'calendar';
 		$this->request = $this->createMock(IRequest::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->initialStateService = $this->createMock(IInitialStateService::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
 		$this->controller = new PublicViewController($this->appName, $this->request,
-			$this->config, $this->initialStateService, $this->urlGenerator);
+			$this->config, $this->initialState, $this->urlGenerator);
 	}
 
 	public function testPublicIndexWithBranding():void {
@@ -101,23 +101,23 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService
+		$this->initialState
 			->method('provideInitialState')
 			->withConsecutive(
-				['calendar', 'app_version', '1.0.0'],
-				['calendar', 'event_limit', false],
-				['calendar', 'first_run', false],
-				['calendar', 'initial_view', 'defaultCurrentView'],
-				['calendar', 'show_weekends', false],
-				['calendar', 'show_week_numbers', true],
-				['calendar', 'skip_popover', true],
-				['calendar', 'talk_enabled', false],
-				['calendar', 'talk_api_version', 'v1'],
-				['calendar', 'timezone', 'defaultTimezone'],
-				['calendar', 'slot_duration', 'defaultSlotDuration'],
-				['calendar', 'default_reminder', 'defaultDefaultReminder'],
-				['calendar', 'show_tasks', true],
-				['calendar', 'tasks_enabled', false]
+				['app_version', '1.0.0'],
+				['event_limit', false],
+				['first_run', false],
+				['initial_view', 'defaultCurrentView'],
+				['show_weekends', false],
+				['show_week_numbers', true],
+				['skip_popover', true],
+				['talk_enabled', false],
+				['talk_api_version', 'v1'],
+				['timezone', 'defaultTimezone'],
+				['slot_duration', 'defaultSlotDuration'],
+				['default_reminder', 'defaultDefaultReminder'],
+				['show_tasks', true],
+				['tasks_enabled', false]
 			);
 
 		$response = $this->controller->publicIndexWithBranding('');
@@ -178,23 +178,23 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService
+		$this->initialState
 			->method('provideInitialState')
 			->withConsecutive(
-				['calendar', 'app_version', '1.0.0'],
-				['calendar', 'event_limit', true],
-				['calendar', 'first_run', false],
-				['calendar', 'initial_view', 'defaultCurrentView'],
-				['calendar', 'show_weekends', false],
-				['calendar', 'show_week_numbers', true],
-				['calendar', 'skip_popover', true],
-				['calendar', 'talk_enabled', false],
-				['calendar', 'talk_api_version', 'v1'],
-				['calendar', 'timezone', 'defaultTimezone'],
-				['calendar', 'slot_duration', 'defaultSlotDuration'],
-				['calendar', 'default_reminder', 'defaultDefaultReminder'],
-				['calendar', 'show_tasks', false],
-				['calendar', 'tasks_enabled', false]
+				['app_version', '1.0.0'],
+				['event_limit', true],
+				['first_run', false],
+				['initial_view', 'defaultCurrentView'],
+				['show_weekends', false],
+				['show_week_numbers', true],
+				['skip_popover', true],
+				['talk_enabled', false],
+				['talk_api_version', 'v1'],
+				['timezone', 'defaultTimezone'],
+				['slot_duration', 'defaultSlotDuration'],
+				['default_reminder', 'defaultDefaultReminder'],
+				['show_tasks', false],
+				['tasks_enabled', false]
 			);
 
 		$response = $this->controller->publicIndexForEmbedding('');

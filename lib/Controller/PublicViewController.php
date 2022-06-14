@@ -5,6 +5,8 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -28,8 +30,8 @@ use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
-use OCP\IInitialStateService;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 
@@ -39,37 +41,18 @@ use OCP\IURLGenerator;
  * @package OCA\Calendar\Controller
  */
 class PublicViewController extends Controller {
+	private IConfig $config;
+	private IInitialState $initialState;
+	private IURLGenerator $urlGenerator;
 
-	/**
-	 * @var IConfig
-	 */
-	private $config;
-
-	/**
-	 * @var IInitialStateService
-	 */
-	private $initialStateService;
-
-	/**
-	 * @var IURLGenerator
-	 */
-	private $urlGenerator;
-
-	/**
-	 * @param string $appName
-	 * @param IRequest $request an instance of the request
-	 * @param IConfig $config
-	 * @param IInitialStateService $initialStateService
-	 * @param IURLGenerator $urlGenerator
-	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
-								IInitialStateService $initialStateService,
+								IInitialState $initialState,
 								IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
-		$this->initialStateService = $initialStateService;
+		$this->initialState = $initialState;
 		$this->urlGenerator = $urlGenerator;
 	}
 
@@ -131,21 +114,21 @@ class PublicViewController extends Controller {
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version', null);
 
-		$this->initialStateService->provideInitialState($this->appName, 'app_version', $appVersion);
-		$this->initialStateService->provideInitialState($this->appName, 'event_limit', ($defaultEventLimit === 'yes'));
-		$this->initialStateService->provideInitialState($this->appName, 'first_run', false);
-		$this->initialStateService->provideInitialState($this->appName, 'initial_view', $defaultInitialView);
-		$this->initialStateService->provideInitialState($this->appName, 'show_weekends', ($defaultShowWeekends === 'yes'));
-		$this->initialStateService->provideInitialState($this->appName, 'show_week_numbers', ($defaultWeekNumbers === 'yes'));
-		$this->initialStateService->provideInitialState($this->appName, 'skip_popover', ($defaultSkipPopover === 'yes'));
-		$this->initialStateService->provideInitialState($this->appName, 'talk_enabled', false);
-		$this->initialStateService->provideInitialState($this->appName, 'talk_api_version', 'v1');
-		$this->initialStateService->provideInitialState($this->appName, 'timezone', $defaultTimezone);
-		$this->initialStateService->provideInitialState($this->appName, 'slot_duration', $defaultSlotDuration);
-		$this->initialStateService->provideInitialState($this->appName, 'default_reminder', $defaultDefaultReminder);
-		$this->initialStateService->provideInitialState($this->appName, 'show_tasks', $defaultShowTasks === 'yes');
-		$this->initialStateService->provideInitialState($this->appName, 'tasks_enabled', false);
-		$this->initialStateService->provideInitialState($this->appName, 'hide_event_export', false);
+		$this->initialState->provideInitialState('app_version', $appVersion);
+		$this->initialState->provideInitialState('event_limit', ($defaultEventLimit === 'yes'));
+		$this->initialState->provideInitialState('first_run', false);
+		$this->initialState->provideInitialState('initial_view', $defaultInitialView);
+		$this->initialState->provideInitialState('show_weekends', ($defaultShowWeekends === 'yes'));
+		$this->initialState->provideInitialState('show_week_numbers', ($defaultWeekNumbers === 'yes'));
+		$this->initialState->provideInitialState('skip_popover', ($defaultSkipPopover === 'yes'));
+		$this->initialState->provideInitialState('talk_enabled', false);
+		$this->initialState->provideInitialState('talk_api_version', 'v1');
+		$this->initialState->provideInitialState('timezone', $defaultTimezone);
+		$this->initialState->provideInitialState('slot_duration', $defaultSlotDuration);
+		$this->initialState->provideInitialState('default_reminder', $defaultDefaultReminder);
+		$this->initialState->provideInitialState('show_tasks', $defaultShowTasks === 'yes');
+		$this->initialState->provideInitialState('tasks_enabled', false);
+		$this->initialState->provideInitialState('hide_event_export', false);
 
 		return new TemplateResponse($this->appName, 'main', [
 			'share_url' => $this->getShareURL(),

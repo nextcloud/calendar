@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -29,16 +30,12 @@ namespace OCA\Calendar\BackgroundJob;
 use OCA\Calendar\Service\Appointments\BookingService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
-use OCP\ILogger;
 use Psr\Log\LoggerInterface;
 use function method_exists;
 
 class CleanUpOutdatedBookingsJob extends TimedJob {
-	/** @var ILogger */
-	private $logger;
-
-	/** @var BookingService */
-	private $service;
+	private LoggerInterface $logger;
+	private BookingService $service;
 
 	public function __construct(ITimeFactory $time,
 								BookingService $service,

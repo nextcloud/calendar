@@ -8,6 +8,7 @@ declare(strict_types=1);
  *
  * @author Anna Larch <anna.larch@gmx.net>
  * @author Richard Steinmetz <richard@steinmetz.cloud>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -49,32 +50,15 @@ class BookingService {
 	/** @var int the expiry of a booking confirmation */
 	public const EXPIRY = 86400;
 
-	/** @var AvailabilityGenerator */
-	private $availabilityGenerator;
-
-	/** @var SlotExtrapolator */
-	private $extrapolator;
-
-	/** @var DailyLimitFilter */
-	private $dailyLimitFilter;
-
-	/** @var EventConflictFilter */
-	private $eventConflictFilter;
-
-	/** @var BookingCalendarWriter */
-	private $calendarWriter;
-
-	/** @var BookingMapper */
-	private $bookingMapper;
-
-	/** @var ISecureRandom */
-	private $random;
-
-	/** @var MailService */
-	private $mailService;
-
-	/** @var LoggerInterface */
-	private $logger;
+	private AvailabilityGenerator $availabilityGenerator;
+	private SlotExtrapolator $extrapolator;
+	private DailyLimitFilter $dailyLimitFilter;
+	private EventConflictFilter $eventConflictFilter;
+	private BookingCalendarWriter $calendarWriter;
+	private BookingMapper $bookingMapper;
+	private ISecureRandom $random;
+	private MailService $mailService;
+	private LoggerInterface $logger;
 
 	public function __construct(AvailabilityGenerator $availabilityGenerator,
 								SlotExtrapolator $extrapolator,
@@ -121,7 +105,7 @@ class BookingService {
 	/**
 	 * @throws ServiceException|DbException|NoSlotFoundException|InvalidArgumentException
 	 */
-	public function book(AppointmentConfig $config,int $start, int $end, string $timeZone, string $displayName, string $email, ?string $description = null): Booking {
+	public function book(AppointmentConfig $config, int $start, int $end, string $timeZone, string $displayName, string $email, ?string $description = null): Booking {
 		$bookingSlot = current($this->getAvailableSlots($config, $start, $end));
 
 		if (!$bookingSlot) {

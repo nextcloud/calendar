@@ -5,6 +5,8 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * @copyright 2020 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -25,6 +27,7 @@ namespace OCA\Calendar\Dashboard;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use OCA\Calendar\Service\JSDataService;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IInitialStateService;
 use OCP\IL10N;
 
@@ -39,14 +42,13 @@ class CalendarWidgetTest extends TestCase {
 	/** @var JSDataService|\PHPUnit\Framework\MockObject\MockObject */
 	private $service;
 
-	/** @var CalendarWidget */
-	private $widget;
+	private CalendarWidget $widget;
 
 	protected function setUp(): void {
 		parent::setUp();
 
 		$this->l10n = $this->createMock(IL10N::class);
-		$this->initialState = $this->createMock(IInitialStateService::class);
+		$this->initialState = $this->createMock(IInitialState::class);
 		$this->service = $this->createMock(JSDataService::class);
 
 		$this->widget = new CalendarWidget($this->l10n, $this->initialState, $this->service);
@@ -79,7 +81,7 @@ class CalendarWidgetTest extends TestCase {
 	public function testLoad(): void {
 		$this->initialState->expects($this->once())
 			->method('provideLazyInitialState')
-			->with('calendar', 'dashboard_data', $this->callback(function ($actual) {
+			->with('dashboard_data', $this->callback(function ($actual) {
 				$fnResult = $actual();
 				return $fnResult === $this->service;
 			}));

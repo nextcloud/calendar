@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -26,52 +27,41 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Service\Appointments;
 
+use DateTimeZone;
 use Exception;
 use OC\URLGenerator;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\Booking;
 use OCA\Calendar\Exception\ServiceException;
-use OCP\Defaults;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 use function implode;
 
 class MailService {
-
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IMailer */
-	private $mailer;
-	/** @var IL10N */
-	private $l10n;
-	/** @var Defaults */
-	private $defaults;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var URLGenerator */
-	private $urlGenerator;
-	/** @var IDateTimeFormatter */
-	private $dateFormatter;
-	/** @var IFactory */
-	private $lFactory;
+	private IUserManager $userManager;
+	private IMailer $mailer;
+	private IL10N $l10n;
+	private LoggerInterface $logger;
+	private URLGenerator $urlGenerator;
+	private IDateTimeFormatter $dateFormatter;
+	private IFactory $lFactory;
 
 	public function __construct(IMailer            $mailer,
 								IUserManager       $userManager,
 								IL10N              $l10n,
-								Defaults           $defaults,
-								LoggerInterface            $logger,
+								LoggerInterface    $logger,
 								URLGenerator       $urlGenerator,
 								IDateTimeFormatter $dateFormatter,
 								IFactory           $lFactory) {
 		$this->userManager = $userManager;
 		$this->mailer = $mailer;
 		$this->l10n = $l10n;
-		$this->defaults = $defaults;
 		$this->logger = $logger;
 		$this->urlGenerator = $urlGenerator;
 		$this->dateFormatter = $dateFormatter;
@@ -155,8 +145,8 @@ class MailService {
 			$booking->getStart(),
 			'long',
 			'short',
-			new \DateTimeZone($booking->getTimezone()),
-			$this->lFactory->get('calendar',$l)
+			new DateTimeZone($booking->getTimezone()),
+			$this->lFactory->get('calendar', $l)
 		);
 
 		$template->addBodyListItem($relativeDateTime, $l10n->t('Date:'));
@@ -173,7 +163,6 @@ class MailService {
 	 * @return string
 	 */
 	private function getSysEmail(): string {
-		$instanceName = $this->defaults->getName();
-		return \OCP\Util::getDefaultEmailAddress('appointments-noreply');
+		return Util::getDefaultEmailAddress('appointments-noreply');
 	}
 }

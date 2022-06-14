@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -35,16 +36,13 @@ use OCP\IDBConnection;
 class AppointmentConfigMapperTest extends TestCase {
 	use DatabaseTransaction;
 
-	/** @var IDBConnection */
-	private $db;
-
-	/** @var AppointmentConfigMapper */
-	private $mapper;
+	private IDBConnection $db;
+	private AppointmentConfigMapper $mapper;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->db = \OC::$server->getDatabaseConnection();
+		$this->db = \OC::$server->get(IDBConnection::class);
 		$this->mapper = new AppointmentConfigMapper(
 			$this->db
 		);

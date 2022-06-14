@@ -5,6 +5,8 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * @copyright 2020 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -23,18 +25,15 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Service;
 
+use JsonSerializable;
 use OCA\Calendar\AppInfo\Application;
 use OCP\IConfig;
 use OCP\IUserSession;
 use ReturnTypeWillChange;
 
-class JSDataService implements \JsonSerializable {
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IUserSession */
-	private $userSession;
+class JSDataService implements JsonSerializable {
+	private IConfig $config;
+	private IUserSession $userSession;
 
 	/**
 	 * JSDataService constructor.

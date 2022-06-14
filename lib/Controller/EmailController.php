@@ -25,6 +25,7 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use Exception;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
@@ -44,37 +45,13 @@ use OCP\Mail\IMessage;
  * @package OCA\Calendar\Controller
  */
 class EmailController extends Controller {
+	private IConfig $config;
+	private Defaults $defaults;
+	private IL10N $l10n;
+	private IMailer $mailer;
+	private IUserSession $userSession;
+	private IURLGenerator $urlGenerator;
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var Defaults */
-	private $defaults;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IMailer */
-	private $mailer;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/**
-	 * EmailController constructor.
-	 *
-	 * @param $appName
-	 * @param IRequest $request
-	 * @param IUserSession $userSession
-	 * @param IConfig $config
-	 * @param IMailer $mailer
-	 * @param IL10N $l10N
-	 * @param Defaults $defaults
-	 * @param IURLGenerator $urlGenerator
-	 */
 	public function __construct(string $appName,
 								IRequest $request,
 								IUserSession $userSession,
@@ -127,7 +104,7 @@ class EmailController extends Controller {
 
 		try {
 			$this->mailer->send($message);
-		} catch (\Exception $ex) {
+		} catch (Exception $ex) {
 			return new JSONResponse([
 				'message' => $this->l10n->t('Unexpected error sending email. Please contact your administrator.'),
 			], Http::STATUS_INTERNAL_SERVER_ERROR);

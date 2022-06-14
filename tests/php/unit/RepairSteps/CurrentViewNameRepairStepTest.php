@@ -5,6 +5,8 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -28,17 +30,17 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Migration\IOutput;
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class CurrentViewNameRepairStepTest extends TestCase {
 
-	/** @var IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var CurrentViewNameRepairStep */
-	private $repairStep;
+	private CurrentViewNameRepairStep $repairStep;
 
 	protected function setUp():void {
 		parent::setUp();

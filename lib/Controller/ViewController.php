@@ -5,6 +5,8 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -33,21 +35,11 @@ use OCP\IRequest;
 use function in_array;
 
 class ViewController extends Controller {
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var AppointmentConfigService */
-	private $appointmentConfigService;
-
-	/** @var IInitialState */
-	private $initialStateService;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var string */
-	private $userId;
+	private IConfig $config;
+	private AppointmentConfigService $appointmentConfigService;
+	private IInitialState $initialStateService;
+	private IAppManager $appManager;
+	private ?string $userId;
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -120,7 +112,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState('tasks_enabled', $tasksEnabled);
 		$this->initialStateService->provideInitialState('hide_event_export', $hideEventExport);
 		$this->initialStateService->provideInitialState('force_event_alarm_type', $forceEventAlarmType);
-		$this->initialStateService->provideInitialState('appointmentConfigs',$this->appointmentConfigService->getAllAppointmentConfigurations($this->userId));
+		$this->initialStateService->provideInitialState('appointmentConfigs', $this->appointmentConfigService->getAllAppointmentConfigurations($this->userId));
 
 		return new TemplateResponse($this->appName, 'main');
 	}

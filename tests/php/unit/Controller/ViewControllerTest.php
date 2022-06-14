@@ -6,6 +6,8 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -36,9 +38,7 @@ use ChristophWurst\Nextcloud\Testing\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ViewControllerTest extends TestCase {
-
-	/** @var string */
-	private $appName;
+	private string $appName;
 
 	/** @var IRequest|MockObject */
 	private $request;
@@ -55,11 +55,8 @@ class ViewControllerTest extends TestCase {
 	/** @var IInitialState|MockObject */
 	private $initialStateService;
 
-	/** @var string */
-	private $userId;
-
-	/** @var ViewController */
-	private $controller;
+	private string $userId;
+	private ViewController $controller;
 
 	protected function setUp(): void {
 		$this->appName = 'calendar';
