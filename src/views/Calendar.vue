@@ -141,6 +141,7 @@ export default {
 			showTasks: state => state.settings.showTasks,
 			timezone: state => state.settings.timezone,
 			modificationCount: state => state.calendarObjects.modificationCount,
+			disableAppointments: state => state.settings.disableAppointments,
 		}),
 		defaultDate() {
 			return getYYYYMMDDFromFirstdayParam(this.$route.params?.firstDay ?? 'now')
@@ -178,8 +179,8 @@ export default {
 			return null
 		},
 		hasAppointmentsFeature() {
-			// TODO: Remove me when Calendar doesn't support server < 23
-			return parseInt(OC.config.version.split('.')[0]) >= 23
+			// TODO: Remove the end condition when Calendar doesn't support server < 23
+			return !this.disableAppointments && parseInt(OC.config.version.split('.')[0]) >= 23
 		},
 	},
 	created() {
@@ -216,6 +217,7 @@ export default {
 			showTasks: loadState('calendar', 'show_tasks'),
 			hideEventExport: loadState('calendar', 'hide_event_export'),
 			forceEventAlarmType: loadState('calendar', 'force_event_alarm_type', false),
+			disableAppointments: loadState('calendar', 'disable_appointments', false),
 		})
 		this.$store.dispatch('initializeCalendarJsConfig')
 

@@ -32,6 +32,7 @@ const state = {
 	appVersion: null,
 	firstRun: null,
 	talkEnabled: false,
+	disableAppointments: false,
 	// user-defined calendar settings
 	eventLimit: null,
 	showTasks: null,
@@ -147,8 +148,9 @@ const mutations = {
 	 * @param {string} data.timezone The timezone to view the calendar in. Either an Olsen timezone or "automatic"
 	 * @param {boolean} data.hideEventExport
 	 * @param {string} data.forceEventAlarmType
+	 * @param {boolean} data.disableAppointments Allow to disable the appointments feature
 	 */
-	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType }) {
+	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments }) {
 		logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -165,6 +167,7 @@ Initial settings:
 	- Timezone: ${timezone}
 	- HideEventExport: ${hideEventExport}
 	- ForceEventAlarmType: ${forceEventAlarmType}
+	- disableAppointments: ${disableAppointments}
 `)
 
 		state.appVersion = appVersion
@@ -181,6 +184,7 @@ Initial settings:
 		state.timezone = timezone
 		state.hideEventExport = hideEventExport
 		state.forceEventAlarmType = forceEventAlarmType
+		state.disableAppointments = disableAppointments
 	},
 
 	/**
