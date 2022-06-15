@@ -50,8 +50,10 @@
 			</DashboardWidgetItem>
 		</template>
 		<template #empty-content>
-			<EmptyContent id="calendar-widget-empty-content"
-				icon="icon-calendar-dark">
+			<EmptyContent id="calendar-widget-empty-content">
+				<template #icon>
+					<EmptyCalendar />
+				</template>
 				<template #desc>
 					{{ t('calendar', 'No upcoming events') }}
 					<div class="empty-label">
@@ -66,6 +68,7 @@
 <script>
 import { DashboardWidget, DashboardWidgetItem } from '@nextcloud/vue-dashboard'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import EmptyCalendar from 'vue-material-design-icons/CalendarBlankOutline'
 import { loadState } from '@nextcloud/initial-state'
 import moment from '@nextcloud/moment'
 import { imagePath, generateUrl } from '@nextcloud/router'
@@ -83,6 +86,7 @@ export default {
 	  DashboardWidget,
 		DashboardWidgetItem,
 		EmptyContent,
+	  EmptyCalendar,
 	},
 	data() {
 		return {
