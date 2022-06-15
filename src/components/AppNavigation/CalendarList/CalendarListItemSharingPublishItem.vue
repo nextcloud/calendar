@@ -89,8 +89,7 @@
 				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Copying link …') }}
 			</ActionText>
-			<ActionText v-if="showCopySubscriptionLinkSuccess"
-				icon="icon-calendar-dark">
+			<ActionText v-if="showCopySubscriptionLinkSuccess">
 				<template #icon>
 					<CalendarBlank :size="20" decorative />
 				</template>
