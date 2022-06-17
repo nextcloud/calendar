@@ -27,7 +27,7 @@
 		@click.prevent.stop="toggleEnabled">
 		<template slot="icon">
 			<Actions>
-				<ActionButton @click.prevent.stop="toggleEnabled">
+				<ActionButton @click.prevent.stop="toggleEnabled" class="list-item__button">
 					<template #icon>
 						<CheckboxBlankCircle v-if="calendar.enabled"
 							:title="$t('calendar', 'Disable calendar')"
@@ -509,5 +509,9 @@ export default {
 <style lang="scss" scoped>
 	.app-navigation-entry__counter-wrapper .action-item.sharing .material-design-icon.share {
 		opacity: .3;
+	}
+
+	.list-item__button {
+		opacity: 1 !important;
 	}
 </style>
