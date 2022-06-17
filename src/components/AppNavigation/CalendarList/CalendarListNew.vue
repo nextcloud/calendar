@@ -22,11 +22,10 @@
 <template>
 	<AppNavigationItem class="app-navigation-entry-new-calendar"
 		:class="{'app-navigation-entry-new-calendar--open': isOpen}"
-		:title="$t('calendar', '+ New calendar')"
+		:title="$t('calendar', 'New calendar')"
 		:menu-open.sync="isOpen"
-		menu-icon="icon-add"
 		@click.prevent.stop="toggleDialog">
-		<template #menu-icon>
+		<template #icon>
 			<Plus :size="20" decorative />
 		</template>
 		<template slot="actions">
