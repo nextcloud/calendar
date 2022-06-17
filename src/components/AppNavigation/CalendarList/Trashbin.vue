@@ -28,6 +28,7 @@
 		</template>
 		<template #extra>
 			<Modal v-if="showModal"
+				size="large"
 				@close="showModal = false">
 				<div class="modal__content">
 					<h2>{{ t('calendar', 'Trash bin') }}</h2>
@@ -67,7 +68,7 @@
 										</div>
 
 										<div>
-											<div>{{ item.name }}</div>
+											<div class="item-name">{{ item.name }}</div>
 											<div v-if="item.subline" class="item-subline">
 												{{ item.subline }}
 											</div>
@@ -77,7 +78,7 @@
 								<td class="deletedAt">
 									<Moment class="timestamp" :timestamp="item.deletedAt" />
 								</td>
-								<td>
+								<td class="item-actions">
 									<button @click="restore(item)">
 										{{ t('calendar','Restore') }}
 									</button>
@@ -308,17 +309,20 @@ th {
 	color: var(--color-text-maxcontrast)
 }
 
-.name {
-	// Take remaining width to prevent whitespace on the right side
-	width: 100vw;
-}
-
 .item {
 	display: flex;
+
+	.item-name {
+		white-space: normal;
+	}
 
 	.item-subline {
 		color: var(--color-text-maxcontrast)
 	}
+}
+
+.item-actions {
+	text-align: right;
 }
 
 .deletedAt {
