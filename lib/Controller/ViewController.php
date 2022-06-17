@@ -95,6 +95,7 @@ class ViewController extends Controller {
 		$defaultReminder = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminder', $defaultDefaultReminder);
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
 		$hideEventExport = $this->config->getAppValue($this->appName, 'hideEventExport', 'no') === 'yes';
+		$disableAppointments = $this->config->getAppValue($this->appName, 'disableAppointments', 'no') === 'yes';
 		$forceEventAlarmType = $this->config->getAppValue($this->appName, 'forceEventAlarmType', '');
 		if (!in_array($forceEventAlarmType, ['DISPLAY', 'EMAIL'], true)) {
 			$forceEventAlarmType = false;
@@ -120,7 +121,8 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState('tasks_enabled', $tasksEnabled);
 		$this->initialStateService->provideInitialState('hide_event_export', $hideEventExport);
 		$this->initialStateService->provideInitialState('force_event_alarm_type', $forceEventAlarmType);
-		$this->initialStateService->provideInitialState('appointmentConfigs',$this->appointmentConfigService->getAllAppointmentConfigurations($this->userId));
+		$this->initialStateService->provideInitialState('appointmentConfigs', $this->appointmentConfigService->getAllAppointmentConfigurations($this->userId));
+		$this->initialStateService->provideInitialState('disable_appointments', $disableAppointments);
 
 		return new TemplateResponse($this->appName, 'main');
 	}

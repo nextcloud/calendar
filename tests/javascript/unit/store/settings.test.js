@@ -62,6 +62,7 @@ describe('store/settings test suite', () => {
 			tasksEnabled: false,
 			timezone: 'automatic',
 			momentLocale: 'en',
+			disableAppointments: false,
 		})
 	})
 
@@ -170,6 +171,7 @@ describe('store/settings test suite', () => {
 			otherProp: 'bar',
 			hideEventExport: false,
 			forceEventAlarmType: false,
+			disableAppointments: false,
 		}
 
 		const settings = {
@@ -188,6 +190,7 @@ describe('store/settings test suite', () => {
 			otherUnknownSetting: 'foo',
 			hideEventExport: false,
 			forceEventAlarmType: false,
+			disableAppointments: false,
 		}
 
 		settingsStore.mutations.loadSettingsFromServer(state, settings)
@@ -209,6 +212,7 @@ Initial settings:
 	- Timezone: Europe/Berlin
 	- HideEventExport: false
 	- ForceEventAlarmType: false
+	- disableAppointments: false
 `)
 		expect(state).toEqual({
 			appVersion: '2.1.0',
@@ -227,6 +231,7 @@ Initial settings:
 			otherProp: 'bar',
 			hideEventExport: false,
 			forceEventAlarmType: false,
+			disableAppointments: false,
 		})
 	})
 
@@ -249,7 +254,7 @@ Initial settings:
 
 		settingsStore.mutations.setMomentLocale(state, { locale: 'de' })
 		expect(logInfo).toHaveBeenCalledTimes(1)
-		expect(logInfo).toHaveBeenNthCalledWith(1, `Updated moment locale: de`)
+		expect(logInfo).toHaveBeenNthCalledWith(1, 'Updated moment locale: de')
 
 		expect(state).toEqual({
 			appVersion: null,
@@ -270,7 +275,7 @@ Initial settings:
 
 	it('should provide a getter the get the resolved timezone - automatic', () => {
 		const state = {
-			timezone: 'automatic'
+			timezone: 'automatic',
 		}
 
 		detectTimezone
@@ -283,7 +288,7 @@ Initial settings:
 
 	it('should provide a getter the get the resolved timezone - non-automatic', () => {
 		const state = {
-			timezone: 'Europe/Berlin'
+			timezone: 'Europe/Berlin',
 		}
 
 		expect(settingsStore.getters.getResolvedTimezone(state)).toEqual('Europe/Berlin')
@@ -297,8 +302,8 @@ Initial settings:
 		const getters = {
 			hasBirthdayCalendar: true,
 			getBirthdayCalendar: {
-				id: 'contact_birthdays'
-			}
+				id: 'contact_birthdays',
+			},
 		}
 		const commit = jest.fn()
 		const dispatch = jest.fn()
@@ -323,12 +328,12 @@ Initial settings:
 		const dispatch = jest.fn()
 
 		const davCalendar = {
-			davCalendar: true
+			davCalendar: true,
 		}
 		enableBirthdayCalendar.mockResolvedValueOnce(davCalendar)
 
 		const calendar = {
-			id: 'new-birthday-calendar'
+			id: 'new-birthday-calendar',
 		}
 		mapDavCollectionToCalendar.mockReturnValueOnce(calendar)
 
@@ -531,7 +536,7 @@ Initial settings:
 		expect.assertions(2)
 
 		const state = {
-			slotDuration: '00:15:00'
+			slotDuration: '00:15:00',
 		}
 		const commit = jest.fn()
 
@@ -545,7 +550,7 @@ Initial settings:
 		expect.assertions(4)
 
 		const state = {
-			slotDuration: '00:15:00'
+			slotDuration: '00:15:00',
 		}
 		const commit = jest.fn()
 
@@ -563,7 +568,7 @@ Initial settings:
 		expect.assertions(2)
 
 		const state = {
-			defaultReminder: 'none'
+			defaultReminder: 'none',
 		}
 		const commit = jest.fn()
 
@@ -577,7 +582,7 @@ Initial settings:
 		expect.assertions(4)
 
 		const state = {
-			defaultReminder: 'none'
+			defaultReminder: 'none',
 		}
 		const commit = jest.fn()
 
@@ -595,7 +600,7 @@ Initial settings:
 		expect.assertions(2)
 
 		const state = {
-			timezone: 'automatic'
+			timezone: 'automatic',
 		}
 		const commit = jest.fn()
 
@@ -609,7 +614,7 @@ Initial settings:
 		expect.assertions(4)
 
 		const state = {
-			timezone: 'automatic'
+			timezone: 'automatic',
 		}
 		const commit = jest.fn()
 
@@ -625,7 +630,7 @@ Initial settings:
 
 	it('should provide an action to initialize the calendar-js config', () => {
 		const state = {
-			appVersion: '2.3.4'
+			appVersion: '2.3.4',
 		}
 
 		settingsStore.actions.initializeCalendarJsConfig({ state })
