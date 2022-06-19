@@ -292,6 +292,7 @@ OC.L10N.register(
     "Meditation" : "مراقبه",
     "Relaxing" : "آرامش بخش",
     "Relax" : "آروم باش",
+    "Commuting" : "رفت و آمد",
     "Presentation" : "ارائه",
     "Talk" : "گفتگو",
     "Camping" : "چادر زدن",
