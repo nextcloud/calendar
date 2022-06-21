@@ -178,7 +178,7 @@ describe('store/settings test suite', () => {
 
 		const settings = {
 			appVersion: '2.1.0',
-			defaultCalendarId: null,
+			defaultCalendarId: 'Personal',
 			eventLimit: false,
 			firstRun: true,
 			showWeekNumbers: true,
