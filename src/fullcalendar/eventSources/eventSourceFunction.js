@@ -150,13 +150,12 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				},
 			}
 
-			if (object.color) {
-				const customColor = getHexForColorName(object.color)
-				if (customColor) {
-					fcEvent.backgroundColor = customColor
-					fcEvent.borderColor = customColor
-					fcEvent.textColor = generateTextColorForHex(customColor)
-				}
+			// Color of event object is a name while calendar color already is a hex value
+			const customColor = getHexForColorName(object.color) ?? calendar.color
+			if (customColor) {
+				fcEvent.backgroundColor = customColor
+				fcEvent.borderColor = customColor
+				fcEvent.textColor = generateTextColorForHex(customColor)
 			}
 
 			fcEvents.push(fcEvent)

@@ -20,23 +20,24 @@
   -
   -->
 <template>
-	<div>
-		<div class="fc-event-main-frame">
-			<div class="fc-event-time">
-				{{ eventDetails.timeText }}
+	<div class="fc-event-main-frame">
+		<div v-if="!allDay && viewType === 'dayGridMonth'"
+			class="fc-daygrid-event-dot"
+			:style="{'border-color': borderColor }" />
+		<div class="fc-event-time">
+			{{ eventDetails.timeText }}
+		</div>
+		<div class="fc-event-title-container fc-event-main-frame--icons">
+			<div class="fc-event-title fc-sticky">
+				<span class="fc-event-title">{{ eventDetails.event.title }}</span>
 			</div>
-			<div class="fc-event-title-container fc-event-main-frame--icons">
-				<div class="fc-event-title fc-sticky">
-					<span class="fc-event-title">{{ eventDetails.event.title }}</span>
-				</div>
-				<Bell v-if="hasAlarms"
-					class="icon-event-reminder"
-					:size="14"
-					:style="{ color: iconColor }" />
-				<AccountMultiple v-if="hasAttendees"
-					:size="14"
-					:style="{ color: iconColor }" />
-			</div>
+			<Bell v-if="hasAlarms"
+				class="icon-event-reminder"
+				:size="14"
+				:style="{ color: iconColor }" />
+			<AccountMultiple v-if="hasAttendees"
+				:size="14"
+				:style="{ color: iconColor }" />
 		</div>
 	</div>
 </template>
@@ -73,16 +74,44 @@ export default {
 		isDarkText() {
 			return this.eventDetails?.event?._def?.extendedProps?.darkText
 		},
+
+		/**
+		 * @return {string|undefined}
+		 */
+		borderColor() {
+			return this.eventDetails?.event?.borderColor ?? undefined
+		},
+
+		/**
+		 * @return {boolean}
+		 */
+		allDay() {
+			return this.eventDetails?.event?.allDay ?? false
+		},
 	},
 }
 </script>
 
-<style scoped>
-.fc-event-title.fc-sticky {
-	flex-grow: 1;
-}
-.fc-event-main-frame--icons {
+<style lang="scss" scoped>
+.fc-event-main-frame {
 	display: flex;
-	justify-content: space-between;
+	width: 100%;
+
+	.fc-daygrid-event-dot {
+		align-self: center;
+	}
+
+	&--icons {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.fc-event-title-container {
+		min-width: 0;
+	}
+
+	.fc-event-title.fc-sticky {
+		flex-grow: 1;
+	}
 }
 </style>
