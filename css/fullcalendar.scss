@@ -233,6 +233,10 @@
 		word-break: break-all;
 		white-space: normal;
 	}
+
+	:not(.fc-timegrid-event-short) > .fc-event-main .fc-event-title-container {
+		width: 100%;
+	}
 }
 
 .fc-v-event {
