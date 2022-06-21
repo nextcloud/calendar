@@ -116,6 +116,9 @@ export default {
 				}, {
 					keys: [['Ctrl+Delete']],
 					label: t('calendar', 'Delete edited event'),
+				}, {
+					keys: [['Ctrl+d']],
+					label: t('calendar', 'Duplicate event'),
 				}],
 			}]
 		},

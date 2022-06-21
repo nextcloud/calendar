@@ -444,6 +444,14 @@ export default {
 				this.deleteAndLeave(false)
 			}
 		},
+		keyboardDuplicateEvent(event) {
+			if (event.key === 'd' && event.ctrlKey === true) {
+				event.preventDefault()
+				if (!this.isNew && !this.isReadOnly && !this.canCreateRecurrenceException) {
+					this.duplicateEvent()
+				}
+			}
+		},
 		/**
 		 * Saves a calendar-object
 		 *
@@ -480,6 +488,16 @@ export default {
 			this.requiresActionOnRouteLeave = false
 			this.closeEditor()
 		},
+
+		/**
+		 * Duplicates a calendar-object and saves it
+		 *
+		 * @return {Promise<void>}
+		 */
+		async duplicateEvent() {
+			await this.$store.dispatch('duplicateCalendarObjectInstance')
+		},
+
 		/**
 		 * Deletes a calendar-object
 		 *

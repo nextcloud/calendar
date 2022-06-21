@@ -63,6 +63,12 @@
 				</template>
 				{{ $t('calendar', 'Export') }}
 			</ActionLink>
+			<ActionButton v-if="!canCreateRecurrenceException && !isReadOnly" @click="duplicateEvent()">
+				<template #icon>
+					<ContentDuplicate :size="20" decorative />
+				</template>
+				{{ $t('calendar', 'Duplicate') }}
+			</ActionButton>
 			<ActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave(false)">
 				<template #icon>
 					<Delete :size="20" decorative />
@@ -252,6 +258,7 @@ import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 import Download from 'vue-material-design-icons/Download.vue'
+import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
 import InformationOutline from 'vue-material-design-icons/InformationOutline.vue'
 import MapMarker from 'vue-material-design-icons/MapMarker.vue'
 
@@ -279,6 +286,7 @@ export default {
 		CalendarBlank,
 		Delete,
 		Download,
+		ContentDuplicate,
 		InformationOutline,
 		MapMarker,
 		InvitationResponseButtons,
@@ -326,11 +334,13 @@ export default {
 		window.addEventListener('keydown', this.keyboardCloseEditor)
 		window.addEventListener('keydown', this.keyboardSaveEvent)
 		window.addEventListener('keydown', this.keyboardDeleteEvent)
+		window.addEventListener('keydown', this.keyboardDuplicateEvent)
 	},
 	beforeDestroy() {
 		window.removeEventListener('keydown', this.keyboardCloseEditor)
 		window.removeEventListener('keydown', this.keyboardSaveEvent)
 		window.removeEventListener('keydown', this.keyboardDeleteEvent)
+		window.removeEventListener('keydown', this.keyboardDuplicateEvent)
 	},
 	methods: {
 		/**

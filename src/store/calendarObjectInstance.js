@@ -27,6 +27,7 @@ import {
 import { AttendeeProperty, Property, DateTimeValue, DurationValue, RecurValue } from '@nextcloud/calendar-js'
 import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/recurrence.js'
 import {
+	copyCalendarObjectInstanceIntoEventComponent,
 	getDefaultEventObject,
 	mapEventComponentToEventObject,
 } from '../models/event.js'
@@ -1565,6 +1566,33 @@ const actions = {
 				newCalendarId: calendarId,
 			})
 		}
+	},
+
+	/**
+	 * Duplicate calendar-object-instance
+	 *
+	 * @param {object} vuex The vuex destructuring object
+	 * @param {object} vuex.state The Vuex state
+	 * @param {Function} vuex.dispatch The Vuex dispatch function
+	 * @param {Function} vuex.commit The Vuex commit function
+	 * @return {Promise<void>}
+	 */
+	async duplicateCalendarObjectInstance({ state, dispatch, commit }) {
+		const oldCalendarObjectInstance = state.calendarObjectInstance
+		const oldEventComponent = oldCalendarObjectInstance.eventComponent
+		const startDate = oldEventComponent.startDate.getInUTC()
+		const endDate = oldEventComponent.endDate.getInUTC()
+		const calendarObject = await dispatch('createNewEvent', {
+			start: startDate.unixTime,
+			end: endDate.unixTime,
+			timezoneId: oldEventComponent.startDate.timezoneId,
+			isAllDay: oldEventComponent.isAllDay(),
+		})
+		const eventComponent = getObjectAtRecurrenceId(calendarObject, startDate.jsDate)
+		copyCalendarObjectInstanceIntoEventComponent(oldCalendarObjectInstance, eventComponent)
+		const calendarObjectInstance = mapEventComponentToEventObject(eventComponent)
+
+		await commit('setCalendarObjectInstanceForNewEvent', { calendarObject, calendarObjectInstance })
 	},
 
 	/**
