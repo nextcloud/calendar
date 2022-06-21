@@ -48,6 +48,7 @@ describe('store/settings test suite', () => {
 	it('should provide a default state', () => {
 		expect(settingsStore.state).toEqual({
 			appVersion: null,
+			defaultCalendarId: null,
 			firstRun: null,
 			forceEventAlarmType: false,
 			hideEventExport: false,
@@ -156,6 +157,7 @@ describe('store/settings test suite', () => {
 	it('should provide a mutation to set the settings initially', () => {
 		const state = {
 			appVersion: null,
+			defaultCalendarId: null,
 			firstRun: null,
 			talkEnabled: false,
 			eventLimit: null,
@@ -176,6 +178,7 @@ describe('store/settings test suite', () => {
 
 		const settings = {
 			appVersion: '2.1.0',
+			defaultCalendarId: null,
 			eventLimit: false,
 			firstRun: true,
 			showWeekNumbers: true,
@@ -199,6 +202,7 @@ describe('store/settings test suite', () => {
 		expect(logInfo).toHaveBeenNthCalledWith(1, `
 Initial settings:
 	- AppVersion: 2.1.0
+	- DefaultCalendarId: Personal
 	- EventLimit: false
 	- FirstRun: true
 	- ShowWeekNumbers: true
@@ -216,6 +220,7 @@ Initial settings:
 `)
 		expect(state).toEqual({
 			appVersion: '2.1.0',
+			defaultCalendarId: 'Personal',
 			eventLimit: false,
 			firstRun: true,
 			showWeekNumbers: true,
@@ -238,6 +243,7 @@ Initial settings:
 	it('should provide a mutation to set the resolved moment locale', () => {
 		const state = {
 			appVersion: null,
+			defaultCalendarId: null,
 			firstRun: null,
 			talkEnabled: false,
 			eventLimit: null,
@@ -258,6 +264,7 @@ Initial settings:
 
 		expect(state).toEqual({
 			appVersion: null,
+			defaultCalendarId: null,
 			firstRun: null,
 			talkEnabled: false,
 			eventLimit: null,

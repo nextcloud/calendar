@@ -19,6 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 import { enableBirthdayCalendar } from '../services/caldavService.js'
 import { mapDavCollectionToCalendar } from '../models/calendar'
 import { detectTimezone } from '../services/timezoneDetectionService'
@@ -197,7 +198,7 @@ Initial settings:
 		state.hideEventExport = hideEventExport
 		state.forceEventAlarmType = forceEventAlarmType
 		state.disableAppointments = disableAppointments
-		state.defaultCalendarId = settings.defaultCalendarId
+		state.defaultCalendarId = defaultCalendarId
 	},
 
 	/**
@@ -411,10 +412,8 @@ const actions = {
 			return
 		}
 
-		await HttpClient.post(getLinkToConfig('defaultCalendarId'), {
-			value: calendarId,
-		})
-		context.commit('setDefaultCalendarId', { calendarId })
+		await setConfig('defaultCalendarId', calendarId)
+		commit('setDefaultCalendarId', { calendarId })
 	},
 
 	/**
