@@ -1587,6 +1587,7 @@ const actions = {
 			end: endDate.unixTime,
 			timezoneId: oldEventComponent.startDate.timezoneId,
 			isAllDay: oldEventComponent.isAllDay(),
+			calendarId: oldEventComponent.calendarId,
 		})
 		const eventComponent = getObjectAtRecurrenceId(calendarObject, startDate.jsDate)
 		copyCalendarObjectInstanceIntoEventComponent(oldCalendarObjectInstance, eventComponent)

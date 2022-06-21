@@ -428,6 +428,7 @@ export default {
 				this.savingDefaultReminder = false
 			}
 		},
+		/**
 		 * Changes the default calendar for new events
 		 * @param {Object} selectedCalendar The new selected default calendar
 		 */
