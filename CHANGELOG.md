@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.4.0 - 2022-07-20
+## 3.4.0 - 2022-07-21
 ### Added
 - Visually distinguish events with attendees from ones without
 - Visually distinguish events with reminders from ones without
@@ -15,6 +15,7 @@
 - Missing stylelint
 - Hide 3-dot menu button
 - Attendee search
+- Color dot and event alignment
 
 ## 3.3.2 – 2022-06-02
 ### Fixed
