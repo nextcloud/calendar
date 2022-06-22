@@ -95,7 +95,6 @@ export default {
 <style lang="scss" scoped>
 .fc-event-main-frame {
 	display: flex;
-	flex-wrap: wrap;
 	width: 100%;
 
 	.fc-daygrid-event-dot {

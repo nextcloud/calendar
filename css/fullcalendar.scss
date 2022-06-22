@@ -237,6 +237,10 @@
 	:not(.fc-timegrid-event-short) > .fc-event-main .fc-event-title-container {
 		width: 100%;
 	}
+
+	.fc-event-main {
+		flex-wrap: wrap;
+	}
 }
 
 .fc-v-event {
@@ -247,7 +251,7 @@
 	}
 
 	.fc-event-title {
-		white-space: inherit;
+		white-space: initial;
 	}
 }
 
