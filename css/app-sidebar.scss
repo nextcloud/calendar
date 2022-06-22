@@ -27,6 +27,28 @@
 		height: unset !important;
 	}
 
+	.property-text-location {
+		align-items: stretch !important;
+		position:relative;
+		textarea {
+			border-right: 0px;
+			padding-right:27px;
+		}
+		.icon-externallink {
+			background-image: var(--icon-calendar-openlink-0075E0);
+			opacity: 1;
+			position: absolute;
+			top: 0;
+			right: 0;
+			z-index: 2;
+			display: block;
+			width: 34px;
+			height: 100%;
+			line-height: 34px;
+			text-align: center;
+		}
+	}
+
 	.app-sidebar-header__action {
 		margin-top: 0 !important;
 		max-height: none !important;
@@ -56,7 +78,7 @@
 			height: 50px;
 			width: 50px;
 			margin: 0 auto;
-			opacity: .5;
+			opacity: 0.5;
 		}
 
 		&__caption {
@@ -136,7 +158,7 @@
 	.repeat-option-set {
 		.repeat-option-set-section {
 			&:not(:first-of-type) {
-				margin-top: 20px
+				margin-top: 20px;
 			}
 
 			&--on-the-select {
@@ -189,7 +211,7 @@
 			align-items: center;
 
 			.multiselect,
-			input[type=number] {
+			input[type="number"] {
 				min-width: 100px;
 				width: 25%;
 			}
@@ -210,7 +232,7 @@
 
 				&__until {
 					min-width: 75px;
-					width: 50%
+					width: 50%;
 				}
 
 				&__count {
@@ -264,10 +286,10 @@
 						margin-left: 8px;
 						height: 16px;
 						width: 16px;
-						opacity: .3;
+						opacity: 0.3;
 
 						&--highlighted {
-							opacity: .7;
+							opacity: 0.7;
 						}
 
 						&:focus,
@@ -299,14 +321,14 @@
 
 		.datetime-picker-inline-icon {
 			margin-top: 17px;
-			opacity: .3;
+			opacity: 0.3;
 			border: none;
 			background-color: transparent;
 			border-radius: 0;
 			padding: 6px !important;
 
 			&--highlighted {
-				opacity: .7;
+				opacity: 0.7;
 			}
 
 			&:focus,
@@ -364,7 +386,7 @@
 			min-width: 0;
 			padding-right: 8px;
 
-			input[type=number] {
+			input[type="number"] {
 				width: 3em;
 			}
 
@@ -476,7 +498,7 @@
 				}
 
 				div:nth-child(1) {
-					color: var(--color-main-text)
+					color: var(--color-main-text);
 				}
 
 				div:nth-child(2) {
@@ -551,8 +573,8 @@
 			background-color: grey;
 		}
 	}
-
 	.property-text,
+	.property-text-location,
 	.property-select,
 	.property-color,
 	.property-select-multiple,
@@ -579,7 +601,7 @@
 		&__info {
 			display: flex;
 			justify-content: center;
-			opacity: .5;
+			opacity: 0.5;
 		}
 
 		&__info:hover {
@@ -624,13 +646,12 @@
 					text-decoration: underline;
 
 					&::after {
-						content: ' ↗';
+						content: " ↗";
 					}
 				}
 			}
 
 			&--readonly-calendar-picker {
-
 				div.calendar-picker-option {
 					margin: 3px 3px 3px 0;
 					padding: 8px 7px;
@@ -640,7 +661,6 @@
 	}
 
 	.property-color {
-
 		&__input {
 			display: flex;
 		}
@@ -731,6 +751,14 @@
 		width: 450px;
 		padding: 5px 8px;
 
+		.property-text-location {
+			align-items: stretch !important;
+			position: relative;
+			textarea {
+				border-right: 0px;
+			}
+		}
+
 		.empty-content {
 			margin-top: 0 !important;
 			padding: 50px 0;
@@ -771,7 +799,7 @@
 			top: 0 !important;
 			right: 0 !important;
 			z-index: 100 !important;
-			opacity: .7 !important;
+			opacity: 0.7 !important;
 			border-radius: 22px !important;
 
 			.action-item.action-item--single {
@@ -797,7 +825,7 @@
 	}
 }
 
-.event-popover[x-placement^='bottom'] {
+.event-popover[x-placement^="bottom"] {
 	.popover__arrow {
 		border-bottom-color: var(--color-background-dark);
 	}

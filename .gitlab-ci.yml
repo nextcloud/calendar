@@ -1,0 +1,121 @@
+stages:
+    - prepare
+    - test
+    - build
+    - deploy
+
+default:
+    image: node:15.14.0-stretch
+    before_script:
+        - npm set cache .npm
+        - npm install --prefer-offline --no-audit
+    cache:
+        key: ${CI_COMMIT_REF_SLUG}
+        paths:
+            - .npm/
+            - node_modules/
+
+install-node-deps:
+    stage: prepare
+    before_script:
+        - node --version
+        - npm --version
+    script:
+        - npm set cache .npm
+        - npm ci
+    only:
+        changes:
+            - package*.json
+
+lint:
+    stage: test
+    script:
+        - npm run lint
+
+build-frontend:
+    stage: build
+    script:
+        - npm run build
+        - mkdir -p dist/$CI_PROJECT_NAME
+        - cp -a appinfo css img l10n lib templates js dist/$CI_PROJECT_NAME
+    artifacts:
+        paths:
+            - dist/
+
+.deploy:nextcloud-app:
+    image: ubuntu:focal
+    stage: deploy
+    dependencies:
+      - build-frontend
+    before_script:
+      - mkdir $HOME/.ssh
+      - chmod 700 ~/.ssh
+      - echo "$SSH_PRIVATE_KEY_ED" > $HOME/.ssh/id_ed25519
+      - echo "$SSH_PUBKEY_ED" > $HOME/.ssh/id_ed25519.pub
+      - echo "$SSH_KNOWN_HOSTS" > $HOME/.ssh/known_hosts
+      - chmod 600 ~/.ssh/id_ed25519
+      - chmod 644 ~/.ssh/known_hosts ~/.ssh/id_ed25519.pub
+      - apt-get update && apt-get install -y openssh-client rsync
+    script:
+      - echo "Deploying $CI_PROJECT_NAME of $CI_PROJECT_PATH_SLUG to $CI_ENVIRONMENT_NAME ($DEPLOYMENT_HOST)"
+      - rsync -avzh dist/ $SSH_USER@$DEPLOYMENT_HOST:/tmp/${CI_JOB_ID}
+      - ssh $SSH_USER@$DEPLOYMENT_HOST "sudo rsync -avzh --chown www-data:www-data --delete /tmp/${CI_JOB_ID}/$CI_PROJECT_NAME ${DEPLOYMENT_PATH}/html/custom_apps/ && rm -rf /tmp/${CI_JOB_ID} && sudo docker exec -u www-data $CONTAINER_NAME /var/www/html/occ app:enable $CI_PROJECT_NAME"
+
+
+deploy:dev01:
+    extends: .deploy:nextcloud-app
+    only:
+      - master
+      - main
+      - production
+      - calender-join-btn
+    environment:
+      name: dev/01
+      url: https://dev.eeo.one/
+    variables:
+      DEPLOYMENT_BRANCH: $CI_COMMIT_BRANCH
+      CONTAINER_NAME: dev01_nextcloud
+
+deploy:dev02:
+  extends: .deploy:nextcloud-app
+  when: manual
+  only:
+    - master
+    - main
+    - production
+    - calender-join-btn
+  environment:
+    name: dev/02
+    url: https://ecloud02.dev.eeo.one
+  variables:
+    DEPLOYMENT_BRANCH: $CI_COMMIT_BRANCH
+    CONTAINER_NAME: dev02_nextcloud
+
+deploy:dev03:
+  extends: .deploy:nextcloud-app
+  when: manual
+  only:
+    - master
+    - main
+    - production
+    - calender-join-btn
+  environment:
+    name: dev/03
+    url: https://ecloud03.dev.eeo.one
+  variables:
+    DEPLOYMENT_BRANCH: $CI_COMMIT_BRANCH
+    CONTAINER_NAME: dev03_nextcloud
+
+deploy:staging:
+  extends: .deploy:nextcloud-app
+  when: manual
+  only:
+    - master
+    - main
+    - production
+  environment:
+    name: staging/01
+    url: https://eeo.one
+  variables:
+    DEPLOYMENT_BRANCH: $CI_COMMIT_BRANCH
+    CONTAINER_NAME: nextcloud

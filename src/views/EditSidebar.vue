@@ -128,7 +128,9 @@
 				<InformationOutline :size="20" decorative />
 			</template>
 			<div class="app-sidebar-tab__content">
-				<PropertyText :is-read-only="isReadOnly"
+				<PropertyTextLocation
+					class="event-location"
+					:is-read-only="isReadOnly"
 					:prop-model="rfcProps.location"
 					:value="location"
 					@update:value="updateLocation" />
@@ -242,6 +244,7 @@ import InviteesList from '../components/Editor/Invitees/InviteesList'
 import PropertyCalendarPicker from '../components/Editor/Properties/PropertyCalendarPicker'
 import PropertySelect from '../components/Editor/Properties/PropertySelect'
 import PropertyText from '../components/Editor/Properties/PropertyText'
+import PropertyTextLocation from '../components/Editor/Properties/PropertyTextLocation.vue'
 import PropertyTitleTimePicker from '../components/Editor/Properties/PropertyTitleTimePicker'
 import Repeat from '../components/Editor/Repeat/Repeat.vue'
 
@@ -280,6 +283,7 @@ export default {
 		PropertyCalendarPicker,
 		PropertySelect,
 		PropertyText,
+		PropertyTextLocation,
 		PropertyTitleTimePicker,
 		Repeat,
 		AccountMultiple,

@@ -587,6 +587,7 @@ OC.L10N.register(
     "Dinner" : "Abendessen",
     "Lunch" : "Mittagessen",
     "Appointment not found" : "Termin nicht gefunden",
-    "User not found" : "Benutzer nicht gefunden"
+    "User not found" : "Benutzer nicht gefunden",
+    "Open Link" : "Link öffnen"
 },
 "nplurals=2; plural=(n != 1);");

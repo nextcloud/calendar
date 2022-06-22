@@ -585,6 +585,7 @@
     "Dinner" : "Abendessen",
     "Lunch" : "Mittagessen",
     "Appointment not found" : "Termin nicht gefunden",
-    "User not found" : "Benutzer nicht gefunden"
+    "User not found" : "Benutzer nicht gefunden",
+    "Open Link" : "Link öffnen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

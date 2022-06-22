@@ -51,6 +51,7 @@ const getRFCProperties = () => {
 			readableName: t('calendar', 'Location'),
 			placeholder: t('calendar', 'Add a location'),
 			icon: 'MapMarker',
+			tagPlaceholder: t('calendar', 'Open Link'),
 		},
 		/**
 		 * https://tools.ietf.org/html/rfc5545#section-3.8.1.5

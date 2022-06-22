@@ -135,7 +135,9 @@
 				@update-end-timezone="updateEndTimezone"
 				@toggle-all-day="toggleAllDay" />
 
-			<PropertyText :is-read-only="isReadOnly"
+			<PropertyTextLocation
+				class="event-location"
+				:is-read-only="isReadOnly"
 				:prop-model="rfcProps.location"
 				:value="location"
 				@update:value="updateLocation" />
@@ -173,6 +175,7 @@ import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'
 import PropertyTitleTimePicker from '../components/Editor/Properties/PropertyTitleTimePicker.vue'
 import PropertyCalendarPicker from '../components/Editor/Properties/PropertyCalendarPicker.vue'
 import PropertyText from '../components/Editor/Properties/PropertyText.vue'
+import PropertyTextLocation from '../components/Editor/Properties/PropertyTextLocation.vue'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
 import PopoverLoadingIndicator from '../components/Popover/PopoverLoadingIndicator.vue'
 import { getPrefixedRoute } from '../utils/router.js'
@@ -192,6 +195,7 @@ export default {
 		PopoverLoadingIndicator,
 		SaveButtons,
 		PropertyText,
+		PropertyTextLocation,
 		PropertyCalendarPicker,
 		PropertyTitleTimePicker,
 		PropertyTitle,
