@@ -205,6 +205,7 @@ OC.L10N.register(
     "Edit appointment" : "Modifier le rendez-vous",
     "Save" : "Enregistrer",
     "Update" : "Mettre à jour",
+    "Please confirm your reservation" : "Veuillez confirmer votre réservation",
     "We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now." : "Nous vous avons envoyé un email avec les détails. Veuillez confirmer votre rendez-vous en utilisant le lien dans l'email. Vous pouvez maintenant fermer cette page.",
     "Your name" : "Votre nom",
     "Your email address" : "Votre e-mail",
