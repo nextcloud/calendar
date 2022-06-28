@@ -22,24 +22,17 @@
 <template>
 	<AppNavigationItem v-click-outside="closeShareMenu"
 		:loading="calendar.loading"
+		:aria-description="descriptionAppNavigationItem"
 		:title="calendar.displayName || $t('calendar', 'Untitled calendar')"
 		:class="{deleted: !!deleteTimeout, disabled: !calendar.enabled, 'open-sharing': shareMenuOpen}"
 		@click.prevent.stop="toggleEnabled">
 		<template slot="icon">
-			<Actions>
-				<ActionButton @click.prevent.stop="toggleEnabled">
-					<template #icon>
-						<CheckboxBlankCircle v-if="calendar.enabled"
-							:title="$t('calendar', 'Disable calendar')"
-							:size="20"
-							:fill-color="calendar.color" />
-						<CheckboxBlankCircleOutline v-else
-							:title="$t('calendar', 'Enable calendar')"
-							:size="20"
-							:fill-color="calendar.color" />
-					</template>
-				</ActionButton>
-			</Actions>
+			<CheckboxBlankCircle v-if="calendar.enabled"
+				:size="20"
+				:fill-color="calendar.color" />
+			<CheckboxBlankCircleOutline v-else
+				:size="20"
+				:fill-color="calendar.color" />
 		</template>
 
 		<template v-if="!deleteTimeout" slot="counter">
@@ -326,6 +319,22 @@ export default {
 			}
 
 			return ''
+		},
+		/**
+		 * compute aria-description for AppNavigationItem link
+		 *
+		 * @return {string}
+		 */
+		descriptionAppNavigationItem() {
+			if (this.calendar.enabled && this.calendar.displayName) {
+				return t('calendar', 'Disable calendar "{calendar}"', { calendar: this.calendar.displayName })
+			} else if (this.calendar.enabled && !this.calendar.displayName) {
+				return t('calendar', 'Disable untitled calendar')
+			} else if (!this.calendar.enabled && this.calendar.displayName) {
+				return t('calendar', 'Enable calendar "{calendar}"', { calendar: this.calendar.displayName })
+			} else {
+				return t('calendar', 'Enable untitled calendar')
+			}
 		},
 	},
 	methods: {
