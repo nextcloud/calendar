@@ -2,7 +2,6 @@
  * @copyright Copyright (c) 2019 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
- * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -228,9 +227,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					hasAlarms: false,
 					hasAttendees: false,
 				},
-				backgroundColor: '#ff0000',
-				borderColor: '#ff0000',
-				textColor: '#eeeeee',
 			},
 			{
 				id: '1###1-2',
@@ -253,9 +249,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					hasAlarms: false,
 					hasAttendees: false,
 				},
-				backgroundColor: '#ff0000',
-				borderColor: '#ff0000',
-				textColor: '#eeeeee',
 			},
 			{
 				id: '1###1-3',
@@ -278,9 +271,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					hasAlarms: true,
 					hasAttendees: false,
 				},
-				backgroundColor: '#ff0000',
-				borderColor: '#ff0000',
-				textColor: '#eeeeee',
 			},
 			{
 				id: '2###2-1',
@@ -303,9 +293,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					hasAlarms: false,
 					hasAttendees: false,
 				},
-				backgroundColor: '#ff0000',
-				borderColor: '#ff0000',
-				textColor: '#eeeeee',
 			},
 			{
 				id: '4###3-1',
@@ -371,14 +358,11 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 		expect(getAllObjectsInTimeRange).toHaveBeenNthCalledWith(3, calendarObjects[2], start, end)
 		expect(getAllObjectsInTimeRange).toHaveBeenNthCalledWith(4, calendarObjects[3], start, end)
 
-		expect(getHexForColorName).toHaveBeenCalledTimes(5)
-		for (let i = 1; i < 5; i++) {
-			expect(getHexForColorName).toHaveBeenNthCalledWith(i, undefined)
-		}
-		expect(getHexForColorName).toHaveBeenNthCalledWith(5, 'red')
+		expect(getHexForColorName).toHaveBeenCalledTimes(1)
+		expect(getHexForColorName).toHaveBeenNthCalledWith(1, 'red')
 
-		expect(generateTextColorForHex).toHaveBeenCalledTimes(5)
-		expect(generateTextColorForHex).toHaveBeenCalledWith('#ff0000')
+		expect(generateTextColorForHex).toHaveBeenCalledTimes(1)
+		expect(generateTextColorForHex).toHaveBeenNthCalledWith(1, '#ff0000')
 
 		// Make sure the following dates have not been touched
 		expect(event11Start.getFullYear()).toEqual(2020)
@@ -633,9 +617,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			id: '1###1',
 			start: event1End,
 			title: 'Untitled task',
-			backgroundColor: '#ff0000',
-			borderColor: '#ff0000',
-			textColor: '#eeeeee',
 		}, {
 			allDay: false,
 			classNames: [
@@ -659,9 +640,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			id: '1###2',
 			start: event2End,
 			title: 'Untitled task',
-			backgroundColor: '#ff0000',
-			borderColor: '#ff0000',
-			textColor: '#eeeeee',
 		}, {
 			allDay: false,
 			classNames: [
@@ -685,9 +663,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			id: '1###3',
 			start: event3End,
 			title: 'Untitled task (99%)',
-			backgroundColor: '#ff0000',
-			borderColor: '#ff0000',
-			textColor: '#eeeeee',
 		}, {
 			allDay: false,
 			classNames: [
@@ -706,14 +681,11 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				percent: null,
 				recurrenceId: 123,
 				hasAlarms: false,
-				hasAttendees: false,
+				hasAttendees: false
 			},
 			id: '1###4',
 			start: event4End,
 			title: 'This task has a title',
-			backgroundColor: '#ff0000',
-			borderColor: '#ff0000',
-			textColor: '#eeeeee',
 		}, {
 			allDay: false,
 			classNames: [
@@ -737,9 +709,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			id: '1###5',
 			start: event5End,
 			title: 'This task has a title and percent (99%)',
-			backgroundColor: '#ff0000',
-			borderColor: '#ff0000',
-			textColor: '#eeeeee',
 		}])
 
 		expect(eventComponentSet[0].startDate.getInTimezone).toHaveBeenCalledTimes(0)
@@ -771,10 +740,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 		expect(getAllObjectsInTimeRange).toHaveBeenCalledTimes(1)
 		expect(getAllObjectsInTimeRange).toHaveBeenNthCalledWith(1, calendarObjects[0], start, end)
 
-		expect(getHexForColorName).toHaveBeenCalledTimes(5)
-		expect(getHexForColorName).toHaveBeenCalledWith(undefined)
-		expect(generateTextColorForHex).toHaveBeenCalledTimes(5)
-		expect(getHexForColorName).toHaveBeenCalledWith(undefined)
+		expect(getHexForColorName).toHaveBeenCalledTimes(0)
+		expect(generateTextColorForHex).toHaveBeenCalledTimes(0)
 	})
 
 })
