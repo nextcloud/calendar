@@ -111,14 +111,14 @@
 				</template>
 				{{ $t('calendar', 'Export') }}
 			</ActionLink>
-			<ActionButton v-if="calendar.isSharedWithMe"
+			<ActionButton v-if="calendar.isSharedWithMe && canBeDeleted"
 				@click.prevent.stop="deleteCalendar">
 				<template #icon>
 					<Close :size="20" decorative />
 				</template>
 				{{ $t('calendar', 'Unshare from me') }}
 			</ActionButton>
-			<ActionButton v-if="!calendar.isSharedWithMe"
+			<ActionButton v-if="!calendar.isSharedWithMe && canBeDeleted"
 				@click.prevent.stop="deleteCalendar">
 				<template #icon>
 					<Delete :size="20" decorative />
@@ -326,6 +326,15 @@ export default {
 			}
 
 			return ''
+		},
+
+		/**
+		 * Whether the calendar can be deleted or unshared
+		 *
+		 * @return {boolean}
+		 */
+		canBeDeleted() {
+			return this.calendar.dav.currentUserPrivilegeSet.some(acl => acl === '{DAV:}unbind')
 		},
 	},
 	methods: {
