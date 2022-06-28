@@ -233,10 +233,6 @@
 		word-break: break-all;
 		white-space: normal;
 	}
-
-	:not(.fc-timegrid-event-short) > .fc-event-main .fc-event-title-container {
-		width: 100%;
-	}
 }
 
 .fc-v-event {
@@ -259,10 +255,6 @@
 	}
 	.fc-daygrid-day-frame {
 		min-height: 150px !important;
-	}
-
-	.fc-event-main-frame {
-		flex-wrap: wrap;
 	}
 }
 .fc-daygrid-day-events {
