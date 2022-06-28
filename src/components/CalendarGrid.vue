@@ -148,7 +148,7 @@ export default {
 				selectMirror: true,
 				lazyFetching: false,
 				nowIndicator: true,
-				progressiveEventRendering: true,
+				progressiveEventRendering: false,
 				unselectAuto: false,
 				// Timezones:
 				timeZone: this.timezoneId,
