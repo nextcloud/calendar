@@ -1,6 +1,10 @@
 # Changelog
 
-## 3.4.0 - 2022-07-21
+## 3.4.1 - 2022-06-28
+### Fixed
+- Calendar not loading in month view
+
+## 3.4.0 - 2022-06-21
 ### Added
 - Visually distinguish events with attendees from ones without
 - Visually distinguish events with reminders from ones without
