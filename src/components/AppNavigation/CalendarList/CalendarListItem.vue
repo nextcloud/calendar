@@ -327,11 +327,11 @@ export default {
 		 */
 		descriptionAppNavigationItem() {
 			if (this.calendar.enabled && this.calendar.displayName) {
-				return t('calendar', 'Disable calendar "{calendar}"', { calendar: this.calendar.displayName })
+				return t('calendar', 'Disable calendar {calendar}', { calendar: this.calendar.displayName })
 			} else if (this.calendar.enabled && !this.calendar.displayName) {
 				return t('calendar', 'Disable untitled calendar')
 			} else if (!this.calendar.enabled && this.calendar.displayName) {
-				return t('calendar', 'Enable calendar "{calendar}"', { calendar: this.calendar.displayName })
+				return t('calendar', 'Enable calendar {calendar}', { calendar: this.calendar.displayName })
 			} else {
 				return t('calendar', 'Enable untitled calendar')
 			}
