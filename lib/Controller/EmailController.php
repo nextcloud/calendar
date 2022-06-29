@@ -120,7 +120,7 @@ class EmailController extends Controller {
 
 		$fromAddress = $this->getFromAddress();
 		$displayName = $user->getDisplayName();
-		$subject = $this->l10n->t('%s has published the calendar »%s«', [$displayName, $calendarName]);
+		$subject = $this->l10n->t('%s has published the calendar "%s"', [$displayName, $calendarName]);
 
 		$template = $this->createTemplate($subject, $displayName, $calendarName, $token);
 		$message = $this->createMessage($fromAddress, [$recipient => $recipient], $template);
@@ -191,10 +191,10 @@ class EmailController extends Controller {
 		$emailTemplate->setSubject($subject);
 
 		$emailTemplate->addHeader();
-		$emailTemplate->addHeading($this->l10n->t('%s has published the calendar »%s«', [$displayName, $calendarName]));
+		$emailTemplate->addHeading($this->l10n->t('%s has published the calendar "%s"', [$displayName, $calendarName]));
 		$emailTemplate->addBodyText($this->l10n->t('Hello,'));
-		$emailTemplate->addBodyText($this->l10n->t('We wanted to inform you that %s has published the calendar »%s«.', [$displayName, $calendarName]));
-		$emailTemplate->addBodyButton($this->l10n->t('Open »%s«', [$calendarName]), $url);
+		$emailTemplate->addBodyText($this->l10n->t('We wanted to inform you that %s has published the calendar "%s".', [$displayName, $calendarName]));
+		$emailTemplate->addBodyButton($this->l10n->t('Open "%s"', [$calendarName]), $url);
 		// TRANSLATORS term at the end of a mail
 		$emailTemplate->addBodyText($this->l10n->t('Cheers!'));
 		$emailTemplate->addFooter();
