@@ -46,8 +46,6 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "Avtalelenken ble ikke kopiert til utklippstavlen",
     "Add new" : "Legg til ny",
     "Untitled calendar" : "Kalender uten tittel",
-    "Disable calendar" : "Deaktiver kalender",
-    "Enable calendar" : "Aktiver kalender",
     "Edit name" : "Rediger navn",
     "Saving name …" : "Lagrer navn ...",
     "Edit color" : "Rediger farge",

@@ -43,8 +43,6 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "予定リンクをクリップボードにコピーできませんでした",
     "Add new" : "新規作成",
     "Untitled calendar" : "無題のカレンダー",
-    "Disable calendar" : "カレンダーを無効にする",
-    "Enable calendar" : "カレンダーを有効にする",
     "Edit name" : "名前を編集",
     "Saving name …" : "名前を保存しています …",
     "Edit color" : "色を編集",

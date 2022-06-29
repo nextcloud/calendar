@@ -48,8 +48,6 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "Ni fu modd copïo dolen apwyntiad i'r clipfwrdd",
     "Add new" : "Ychwanegu newydd",
     "Untitled calendar" : "Calendr di-deitl",
-    "Disable calendar" : "Analluogi calendr",
-    "Enable calendar" : "Galluogi calendr",
     "Edit name" : "Golygu enw",
     "Saving name …" : "Wrthi'n cadw enw …",
     "Edit color" : "Golygu lliw",

@@ -48,8 +48,6 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "Impossibile copiare il collegamento dell'appuntamento negli appunti",
     "Add new" : "Aggiungi nuovo",
     "Untitled calendar" : "Calendario senza titolo",
-    "Disable calendar" : "Disabilita il calendario",
-    "Enable calendar" : "Abilita il calendario",
     "Edit name" : "Modifica nome",
     "Saving name …" : "Salvataggio nome...",
     "Edit color" : "Modifica colore",

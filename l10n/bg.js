@@ -48,8 +48,6 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "Връзката за среща не можа да бъде копирана в клипборда",
     "Add new" : "Добави нов",
     "Untitled calendar" : "Нов календар",
-    "Disable calendar" : "Деактивиране на календар",
-    "Enable calendar" : "Активиране на календар",
     "Edit name" : "Редактирай името",
     "Saving name …" : "Запазване...",
     "Edit color" : "Смени цвета",

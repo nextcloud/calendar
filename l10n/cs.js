@@ -48,8 +48,6 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "Odkaz na schůzku se nepodařilo zkopírovat do schránky",
     "Add new" : "Přidat novou",
     "Untitled calendar" : "Nepojmenovaný kalendář",
-    "Disable calendar" : "Vypnout kalendář",
-    "Enable calendar" : "Zapnout kalendář",
     "Edit name" : "Upravit název",
     "Saving name …" : "Ukládání názvu…",
     "Edit color" : "Upravit barvu",

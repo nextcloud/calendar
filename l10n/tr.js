@@ -48,8 +48,6 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "Randevu bağlantısı panoya kopyalanamadı",
     "Add new" : "Yeni ekle",
     "Untitled calendar" : "Adsız takvim",
-    "Disable calendar" : "Takvimi devre dışı bırak",
-    "Enable calendar" : "Takvimi etkinleştir",
     "Edit name" : "Adı düzenle",
     "Saving name …" : "Ad kaydediliyor …",
     "Edit color" : "Rengi düzenle",

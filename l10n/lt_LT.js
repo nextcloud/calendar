@@ -41,8 +41,6 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "Susitikimo nuorodos nepavyko nukopijuoti į iškarpinę",
     "Add new" : "Pridėti naują",
     "Untitled calendar" : "Kalendorius be pavadinimo",
-    "Disable calendar" : "Išjungti kalendorių",
-    "Enable calendar" : "Įjungti kalendorių",
     "Edit name" : "Taisyti pavadinimą",
     "Saving name …" : "Įrašomas pavadinimas…",
     "Edit color" : "Taisyti spalvą",

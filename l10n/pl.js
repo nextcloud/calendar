@@ -48,8 +48,6 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "Nie udało się skopiować linku do spotkania do schowka",
     "Add new" : "Dodaj nowe",
     "Untitled calendar" : "Kalendarz bez tytułu",
-    "Disable calendar" : "Wyłącz kalendarz",
-    "Enable calendar" : "Włącz kalendarz",
     "Edit name" : "Edytuj nazwę",
     "Saving name …" : "Zapisywanie nazwy…",
     "Edit color" : "Edytuj kolor",

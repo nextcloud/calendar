@@ -48,8 +48,6 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "Afspraaklink kon niet naar klembord gekopieerd worden",
     "Add new" : "Nieuwe toevoegen",
     "Untitled calendar" : "Naamloze calender",
-    "Disable calendar" : "Kalender uitschakelen",
-    "Enable calendar" : "Kalender inschakelen",
     "Edit name" : "Naam bewerken",
     "Saving name …" : "Opslaan naam ...",
     "Edit color" : "Kleur bewerken",

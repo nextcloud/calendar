@@ -48,8 +48,6 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "Liên kết cuộc hẹn không thể được sao chép vào bảng tạm",
     "Add new" : "Thêm mới",
     "Untitled calendar" : "Lịch không tiêu đề",
-    "Disable calendar" : "Vô hiệu hoá lịch",
-    "Enable calendar" : "Kích hoạt lịch",
     "Edit name" : "Sửa đổi tên",
     "Saving name …" : "Đang lưu tên  …",
     "Edit color" : "Sửa đổi màu",

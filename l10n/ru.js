@@ -48,8 +48,6 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "Не удалось скопировать в буфер обмена ссылку на эту встречу",
     "Add new" : "Добавить новое",
     "Untitled calendar" : "Календарь без названия",
-    "Disable calendar" : "Отключить календарь",
-    "Enable calendar" : "Включить календарь",
     "Edit name" : "Изменить название",
     "Saving name …" : "Сохранение названия…",
     "Edit color" : "Изменить цвет",

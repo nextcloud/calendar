@@ -47,8 +47,6 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "Linkul programării nu a putut fi copiat în clipboard",
     "Add new" : "Adaugă nou",
     "Untitled calendar" : "Calendar nedenumit",
-    "Disable calendar" : "Dezactivează calendarul",
-    "Enable calendar" : "Activează calendarul",
     "Edit name" : "Modifică numele",
     "Saving name …" : "Se salvează numele ...",
     "Edit color" : "Modifică culoarea",

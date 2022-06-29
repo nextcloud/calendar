@@ -42,8 +42,6 @@ OC.L10N.register(
     "Delete" : "Izbriši",
     "Add new" : "Dodaj novo",
     "Untitled calendar" : "Neimenovan koledar",
-    "Disable calendar" : "Onemogoči koledar",
-    "Enable calendar" : "Omogoči koledar",
     "Edit name" : "Uredi ime",
     "Saving name …" : "Shranjevanje imena ...",
     "Edit color" : "Uredi barvo",

@@ -48,8 +48,6 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "A találkozóhivatkozást nem sikerült a vágólapra másolni",
     "Add new" : "Új hozzáadása",
     "Untitled calendar" : "Névtelen naptár",
-    "Disable calendar" : "Naptár letiltása",
-    "Enable calendar" : "Naptár engedélyezése",
     "Edit name" : "Név szerkesztése",
     "Saving name …" : "Név mentése…",
     "Edit color" : "Színek szerkesztése",

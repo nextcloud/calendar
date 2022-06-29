@@ -48,8 +48,6 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "Hitzorduaren esteka ezin izan da arbelean kopiatu",
     "Add new" : "Gehitu berria",
     "Untitled calendar" : "Izenik gabeko egutegia",
-    "Disable calendar" : "Desgaitu egutegia",
-    "Enable calendar" : "Gaitu egutegia",
     "Edit name" : "Editatu izena",
     "Saving name …" : "Izena gordetzen …",
     "Edit color" : "Editatu kolorea",

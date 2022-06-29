@@ -48,8 +48,6 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "預約連結無法複製到剪貼簿",
     "Add new" : "新增",
     "Untitled calendar" : "未命名日曆",
-    "Disable calendar" : "停用行事曆",
-    "Enable calendar" : "啟用行事曆",
     "Edit name" : "編輯名稱",
     "Saving name …" : "儲存名稱…",
     "Edit color" : "編輯顏色",

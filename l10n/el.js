@@ -48,8 +48,6 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "Δεν ήταν δυνατή η αντιγραφή του συνδέσμου ραντεβού στο πρόχειρο.",
     "Add new" : "Προσθήκη νέου",
     "Untitled calendar" : "Ημερολόγιο χωρίς τίτλο",
-    "Disable calendar" : "Απενεργοποιήστε το ημερολόγιο",
-    "Enable calendar" : "Ενεργοποιήστε το ημερολόγιο",
     "Edit name" : "Επεξεργασία ονόματος",
     "Saving name …" : "Αποθήκευση ονόματος …",
     "Edit color" : "Επεξεργασία χρώματος",
