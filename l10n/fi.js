@@ -54,6 +54,8 @@ OC.L10N.register(
     "Copy private link" : "Kopioi yksityinen linkki",
     "Export" : "Vie",
     "Unshare from me" : "Lopeta jako minulle",
+    "Disable calendar \"{calendar}\"" : "Poista käytöstä kalenteri \"{calendar}\"",
+    "Enable calendar \"{calendar}\"" : "Ota käyttöön kalenteri \"{calendar}\"",
     "An error occurred, unable to change visibility of the calendar." : "Tapahtui virhe. Kalenterin näkyvyyttä ei voitu muuttaa.",
     "An error occurred, unable to delete the calendar." : "Tapahtui virhe, kalenteria ei voitu poistaa.",
     "Calendar link copied to clipboard." : "Kalenterilinkki kopioitu leikepöydälle.",
