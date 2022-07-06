@@ -146,7 +146,6 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 					location: object.location,
 					description: object.description,
 					hasAlarms,
-					hasAttendees: object.hasProperty('ATTENDEE'),
 				},
 			}
 
