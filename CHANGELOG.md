@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.4.2 - 2022-07-11
+### Fixed
+- Performance issues with Vue Event Rendering
+- Settings modal closing when using import
+
 ## 3.4.1 - 2022-06-28
 ### Fixed
 - Calendar not loading in month view
