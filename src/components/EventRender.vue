@@ -32,23 +32,18 @@
 				<Bell v-if="hasAlarms"
 					class="icon-event-reminder"
 					:size="14"
-					:style="{ color: iconColor }" />
-				<AccountMultiple v-if="hasAttendees"
-					:size="14"
-					:style="{ color: iconColor }" />
+					:style="{ color: isDarkText ? 'var(--color-main-text)' : 'var(--fc-event-text-color)' }" />
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
 import Bell from 'vue-material-design-icons/Bell.vue'
 
 export default {
 	name: 'EventRender',
 	components: {
-		AccountMultiple,
 		Bell,
 	},
 	props: {
@@ -58,17 +53,11 @@ export default {
 		},
 	},
 	computed: {
-		iconColor() {
-			return this.isDarkText ? 'var(--color-main-text)' : 'var(--fc-event-text-color)'
-		},
 		viewType() {
 			return this.eventDetails?.view?.type
 		},
 		hasAlarms() {
 			return this.eventDetails?.event?._def?.extendedProps?.hasAlarms
-		},
-		hasAttendees() {
-			return this.eventDetails?.event?._def?.extendedProps?.hasAttendees
 		},
 		isDarkText() {
 			return this.eventDetails?.event?._def?.extendedProps?.darkText
@@ -78,9 +67,6 @@ export default {
 </script>
 
 <style scoped>
-.fc-event-title.fc-sticky {
-	flex-grow: 1;
-}
 .fc-event-main-frame--icons {
 	display: flex;
 	justify-content: space-between;
