@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.4.2 - 2022-07-11
+## 3.4.2 - 2022-07-07
 ### Fixed
 - Performance issues with Vue Event Rendering
 - Settings modal closing when using import
