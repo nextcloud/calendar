@@ -166,12 +166,10 @@ export default {
 				const size = file.size
 				let type = file.type
 
-				// Handle cases where we are running inside a browser on Windows
-				//
+				// Developers are advised not to rely on the type as a sole validation scheme.
 				// https://developer.mozilla.org/en-US/docs/Web/API/File/type
-				// "Uncommon" file-extensions will result in an empty type
-				// and apparently Microsoft considers calendar files to be "uncommon"
-				if (type === '') {
+				if (!this.supportedFileTypes.includes(type)) {
+					// Try to guess file type based on its extension.
 					// If it's an xml file, our best guess is xCal: https://tools.ietf.org/html/rfc6321
 					// If it's a json file, our best guess is jCal: https://tools.ietf.org/html/rfc7265
 					// In every other case, our best guess is just plain old iCalendar: https://tools.ietf.org/html/rfc5545
@@ -184,15 +182,6 @@ export default {
 					} else {
 						type = 'text/calendar'
 					}
-				}
-
-				// Make sure the user didn't select
-				// files of a different file-type
-				if (!this.supportedFileTypes.includes(type)) {
-					showError(this.$t('calendar', '{filename} is an unsupported file-type', {
-						filename: name,
-					}))
-					continue
 				}
 
 				// Use custom-options for parser.
