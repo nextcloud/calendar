@@ -40,6 +40,8 @@
     "Copy private link" : "Kopier privat link",
     "Export" : "Eksportér",
     "Unshare from me" : "Fjern deling fra mig",
+    "Disable calendar \"{calendar}\"" : "Slå kalender fra \"{calendar}\"",
+    "Enable calendar \"{calendar}\"" : "Slå kalender til \"{calendar}\"",
     "An error occurred, unable to change visibility of the calendar." : "Kalenderens synlighed kunne ikke ændres.",
     "An error occurred, unable to delete the calendar." : "Kalenderen kunne ikke slettes.",
     "Calendar link copied to clipboard." : "Kalender link kopieret.",
