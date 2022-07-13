@@ -122,7 +122,6 @@ OC.L10N.register(
     "Calendar to import into" : "Kalenteri johon tuodaan",
     "Cancel" : "Peruuta",
     "_Import calendar_::_Import calendars_" : ["Tuo kalenteri","Tuo kalenterit"],
-    "{filename} is an unsupported file-type" : "{filename} ei ole tuettua tiedostotyyppiä",
     "{filename} could not be parsed" : "Tiedostoa {filename} ei voitu jäsentää",
     "No valid files found, aborting import" : "Kelvollisia tiedostoja ei löytynyt, lopetetaan tuonti",
     "Import partially failed. Imported {accepted} out of {total}." : "Tuonti epäonnistui osittain. Tuotiin {accepted}/{total}.",

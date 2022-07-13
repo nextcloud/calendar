@@ -121,7 +121,6 @@ OC.L10N.register(
     "Calendar to import into" : "Calendr i fewnforio iddo",
     "Cancel" : "Diddymu",
     "_Import calendar_::_Import calendars_" : ["Mewnforio'r calendr","Mewnforio calendrau","Mewnforio calendrau","Mewnforio calendrau"],
-    "{filename} is an unsupported file-type" : "Mae {filename} yn fath o ffeil nad yw'n cael ei gefnogi",
     "{filename} could not be parsed" : "Nid oedd modd dosrannu {filename}",
     "No valid files found, aborting import" : "Heb ganfod ffeiliau dilys, yn rhoi'r gorau i fewnforio",
     "Import partially failed. Imported {accepted} out of {total}." : "Methodd mewnforio yn rhannol. Wedi mewnforio {accepted} allan o {total}.",

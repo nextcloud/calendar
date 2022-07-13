@@ -105,7 +105,6 @@
     "Calendar to import into" : "Kalendar za uvoz",
     "Cancel" : "Odustani",
     "_Import calendar_::_Import calendars_" : ["Uvezi kalendar","Uvezi kalendare","Uvezi kalendare"],
-    "{filename} is an unsupported file-type" : "{filename} je nepodržana vrsta datoteke",
     "{filename} could not be parsed" : "Nije moguće parsirati {filename}",
     "No valid files found, aborting import" : "Nisu pronađene važeće datoteke, uvoz je otkazan",
     "Import partially failed. Imported {accepted} out of {total}." : "Djelomično neuspješan uvoz. Uvezeno {accepted} od {total}.",

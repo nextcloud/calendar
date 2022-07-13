@@ -120,7 +120,6 @@ OC.L10N.register(
     "Calendar to import into" : "要导入的日历",
     "Cancel" : "取消",
     "_Import calendar_::_Import calendars_" : ["导入日历"],
-    "{filename} is an unsupported file-type" : "{filename} 是不被支持的文件类型",
     "{filename} could not be parsed" : "{filename} 无法进行解析",
     "No valid files found, aborting import" : "未找到有效文件，中止导入",
     "Import partially failed. Imported {accepted} out of {total}." : "导入部分失败。已导入{total}个中的{accepted}个。",

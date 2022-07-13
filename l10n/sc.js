@@ -105,7 +105,6 @@ OC.L10N.register(
     "Calendar to import into" : "Calendàriu de importare in",
     "Cancel" : "Annulla",
     "_Import calendar_::_Import calendars_" : ["Importa calendàriu","Importa calendàrios"],
-    "{filename} is an unsupported file-type" : "{filename} est una genia de archìviu non suportada",
     "{filename} could not be parsed" : "No at fatu a analizare {filename} ",
     "No valid files found, aborting import" : "Perunu archìviu vàlidu agatadu, annullende s'importatzione",
     "Import partially failed. Imported {accepted} out of {total}." : "Parte de s'importatzione est andada male. Importados {accepted} de {total}.",

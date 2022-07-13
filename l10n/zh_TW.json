@@ -123,7 +123,6 @@
     "Calendar to import into" : "將匯入的日曆",
     "Cancel" : "取消",
     "_Import calendar_::_Import calendars_" : ["匯入日曆"],
-    "{filename} is an unsupported file-type" : "{filename} 是不支援的檔案類型",
     "{filename} could not be parsed" : "無法解析 {filename}",
     "No valid files found, aborting import" : "沒有找到有效的檔案，中斷匯入",
     "Import partially failed. Imported {accepted} out of {total}." : "匯入部分失敗，僅成功匯入 {total} 中的 {accepted} 項",

@@ -98,7 +98,6 @@ OC.L10N.register(
     "Calendar to import into" : "Календар за да направите увоз во него",
     "Cancel" : "Откажи",
     "_Import calendar_::_Import calendars_" : ["Увези календар","Увези календари"],
-    "{filename} is an unsupported file-type" : "Видот на датотеката {filename} не е поддржана",
     "{filename} could not be parsed" : "Датотеката {filename} не може да се анализира",
     "No valid files found, aborting import" : "Не е пронајдена валидна датотека, увозот е откажан",
     "Import partially failed. Imported {accepted} out of {total}." : "Увозот е делумно неуспешен. Увезени {accepted} од вкупно {total}.",

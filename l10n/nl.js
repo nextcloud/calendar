@@ -121,7 +121,6 @@ OC.L10N.register(
     "Calendar to import into" : "Agenda om naar te importeren",
     "Cancel" : "Annuleren",
     "_Import calendar_::_Import calendars_" : ["Importeer agenda","Importeer agenda's"],
-    "{filename} is an unsupported file-type" : "{filename} is een niet-ondersteund bestandstype",
     "{filename} could not be parsed" : "{filename} kon niet worden geanalyseerd",
     "No valid files found, aborting import" : "Geen geldige bestand gevonden, import afgebroken",
     "Import partially failed. Imported {accepted} out of {total}." : "Import is gedeeltelijk gelukt. Geïmporteerd {accepted} van de {total}.",

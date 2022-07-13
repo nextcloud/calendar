@@ -113,7 +113,6 @@
     "Calendar to import into" : "Koledar, v katerega naj se uvozi",
     "Cancel" : "Prekliči",
     "_Import calendar_::_Import calendars_" : ["Uvozi koledar","Uvozi koledarja","Uvozi koledarje","Uvozi koledarje"],
-    "{filename} is an unsupported file-type" : "Datoteka {filename} ni podprte vrste",
     "{filename} could not be parsed" : "Datoteke {filename} ni mogoče razčleniti",
     "No valid files found, aborting import" : "Ni najdenih veljavnih datotek, uvoz bo preklican",
     "Import partially failed. Imported {accepted} out of {total}." : "Uvoz je delno spodletel. Uvoženih je {accepted} od skupno {total}.",

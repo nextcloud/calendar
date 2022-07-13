@@ -125,7 +125,6 @@ OC.L10N.register(
     "Calendar to import into" : "Calendário a importar",
     "Cancel" : "Cancelar",
     "_Import calendar_::_Import calendars_" : ["Importar calendário","Importar calendários","Importar calendários"],
-    "{filename} is an unsupported file-type" : "{filename} é um tipo de arquivo não suportado",
     "{filename} could not be parsed" : "{filename} não pôde ser analisado",
     "No valid files found, aborting import" : "Nenhum arquivo válido encontrado, importação interrompida",
     "Import partially failed. Imported {accepted} out of {total}." : "Erro na importação. Importado {accepted} de {total}.",

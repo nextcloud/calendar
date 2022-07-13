@@ -121,7 +121,6 @@ OC.L10N.register(
     "Calendar to import into" : "Kalendár na import do ...",
     "Cancel" : "Zrušiť",
     "_Import calendar_::_Import calendars_" : ["Import kalendára","Import kalendárov","Import kalendárov","Import kalendárov"],
-    "{filename} is an unsupported file-type" : "{filename} nie je podporovaný typ súboru",
     "{filename} could not be parsed" : "{filename} nie je možné spracovať",
     "No valid files found, aborting import" : "Nenašli sa žiadne platné súbory, import sa prerušuje",
     "Import partially failed. Imported {accepted} out of {total}." : "Import čiastočne zlyhal. Importované {accepted} z {total}.",

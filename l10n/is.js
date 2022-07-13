@@ -94,7 +94,6 @@ OC.L10N.register(
     "Calendar to import into" : "Dagatal til að flytja inn í",
     "Cancel" : "Hætta við",
     "_Import calendar_::_Import calendars_" : ["Flytja inn dagatal","Flytja inn dagatöl"],
-    "{filename} is an unsupported file-type" : "{filename} er óstudd skráartegund",
     "{filename} could not be parsed" : "Ekki var hægt að þátta {filename}",
     "No valid files found, aborting import" : "Engar gildar skrár fundust, hætti innflutningi",
     "Automatic" : "Sjálfvirkt",

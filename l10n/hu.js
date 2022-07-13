@@ -125,7 +125,6 @@ OC.L10N.register(
     "Calendar to import into" : "Naptár importálva ide:",
     "Cancel" : "Mégse",
     "_Import calendar_::_Import calendars_" : ["Naptár importálása","Naptárak importálása"],
-    "{filename} is an unsupported file-type" : "A {filename} nem támogatott fájltípus",
     "{filename} could not be parsed" : "A {filename} nem dolgozható fel",
     "No valid files found, aborting import" : "Nem található érvényes fájl, importálás megszakítva",
     "Import partially failed. Imported {accepted} out of {total}." : "Az importálás részlegesen sikertelen. {accepted} / {total} lett importálva.",

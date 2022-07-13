@@ -90,7 +90,6 @@ OC.L10N.register(
     "Calendar to import into" : "Deizataer de emporzhiañ e-barzh",
     "Cancel" : "Arrest",
     "_Import calendar_::_Import calendars_" : ["Emporzhiañ deizataer","Emporzhiañ deizataer","Emporzhiañ deizataer","Emporzhiañ deizataer","Emporzhiañ deizataer"],
-    "{filename} is an unsupported file-type" : "{filename} en deus ur stumm restr n'eo ket douget",
     "{filename} could not be parsed" : "{filename} na c'hell ket bezhañ dielfennet",
     "No valid files found, aborting import" : "Restr mat kavet ebet, arrestet e vez an emporzhiañ",
     "Import partially failed. Imported {accepted} out of {total}." : "Emporzhiañ damc'hwitet. Emporzhiet {accepted} diwar {total}.",

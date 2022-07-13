@@ -96,7 +96,6 @@
     "Calendar to import into" : "לוח שנה לייבוא אליו",
     "Cancel" : "ביטול",
     "_Import calendar_::_Import calendars_" : ["יבוא לוחות שנה","יבוא לוחות שנה","יבוא לוחות שנה","יבוא לוחות שנה"],
-    "{filename} is an unsupported file-type" : "{filename} הוא סוג קובץ שאינו נתמך",
     "{filename} could not be parsed" : "לא ניתן לפענח את {filename}",
     "No valid files found, aborting import" : "לא נמצאו קבצים תקפים, הייבוא מבוטל",
     "Import partially failed. Imported {accepted} out of {total}." : "הייבוא נכשל חלקית. מיובא {accepted} מתוך {total}.",

@@ -121,7 +121,6 @@ OC.L10N.register(
     "Calendar to import into" : " Ημερολόγιο για εισαγωγή σε ",
     "Cancel" : "Ακύρωση",
     "_Import calendar_::_Import calendars_" : ["Εισαγωγή ημερολογίου","Εισαγωγή ημερολογίων"],
-    "{filename} is an unsupported file-type" : "το {filename} είναι μη υποστηριζόμενος τύπος-αρχείου",
     "{filename} could not be parsed" : "το {filename} δεν μπορεί να αναλυθεί",
     "No valid files found, aborting import" : "Δεν βρέθηκαν συμβατά αρχεία, ακύρωση εισαγωγής",
     "Import partially failed. Imported {accepted} out of {total}." : "Η εισαγωγή απέτυχε εν μέρει. Εισήχθησαν {accepted} από {total}.",

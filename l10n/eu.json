@@ -123,7 +123,6 @@
     "Calendar to import into" : "Hona inportatzeko egutegia",
     "Cancel" : "Ezeztatu",
     "_Import calendar_::_Import calendars_" : ["Inportatu egutegia","Inportatu egutegiak"],
-    "{filename} is an unsupported file-type" : "{filename} sostengu gabeko fitxategi mota bat da",
     "{filename} could not be parsed" : "{filename} ezin da analizatu",
     "No valid files found, aborting import" : "Ez da baliodun fitxategirik aurkitu, inportazioa bertan behera uzten",
     "Import partially failed. Imported {accepted} out of {total}." : "Inportazioak huts egin du hein batean. Guztira {total} ziren, {accepted} inportatu dira.",

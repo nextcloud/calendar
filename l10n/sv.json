@@ -112,7 +112,6 @@
     "Calendar to import into" : "Kalender att importera till",
     "Cancel" : "Avbryt",
     "_Import calendar_::_Import calendars_" : ["Importera kalender","Importera kalendrar"],
-    "{filename} is an unsupported file-type" : "{filename} är en filtyp som inte stöds",
     "{filename} could not be parsed" : "{filename} kunde inte läsas",
     "No valid files found, aborting import" : "Inga giltiga filer hittades, avbryter import",
     "Import partially failed. Imported {accepted} out of {total}." : "Importen misslyckades delvis. Importerade {accepted} av {total}.",

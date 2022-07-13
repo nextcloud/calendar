@@ -112,7 +112,6 @@
     "Calendar to import into" : "Kalendorius, į kurį importuoti",
     "Cancel" : "Atsisakyti",
     "_Import calendar_::_Import calendars_" : ["Importuoti kalendorių","Importuoti kalendorius","Importuoti kalendorius","Importuoti kalendorius"],
-    "{filename} is an unsupported file-type" : "{filename} nėra palaikomas failo tipas",
     "{filename} could not be parsed" : "Nepavyko išnagrinėti {filename}",
     "No valid files found, aborting import" : "Nerasta jokių tinkamų failų, importavimas nutraukiamas",
     "Import partially failed. Imported {accepted} out of {total}." : "Importavimas dalinai nepavyko. Importuota {accepted} iš {total}.",

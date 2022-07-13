@@ -118,7 +118,6 @@
     "Calendar to import into" : "Calendarul în care se importă",
     "Cancel" : "Anulează",
     "_Import calendar_::_Import calendars_" : ["Importă calendar","Importă calendare","Importă calendare"],
-    "{filename} is an unsupported file-type" : "{filename} este un fişier nesuportat",
     "{filename} could not be parsed" : "{filename} nu a putut fi analizat",
     "No valid files found, aborting import" : "Nu au fost găsite fişiere valide, importarea se opreşte",
     "Import partially failed. Imported {accepted} out of {total}." : "Importarea a eşuat parţial. S-au importat  {accepted} din {total}.",

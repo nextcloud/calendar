@@ -116,7 +116,6 @@ OC.L10N.register(
     "Calendar to import into" : "インポートするカレンダー",
     "Cancel" : "キャンセル",
     "_Import calendar_::_Import calendars_" : ["カレンダーのインポート"],
-    "{filename} is an unsupported file-type" : "{filename} はサポートされていないファイルタイプです。",
     "{filename} could not be parsed" : "{filename} が解析できませんでした",
     "No valid files found, aborting import" : "有効なファイルが見つかりませんでした。インポートを中止します。",
     "Import partially failed. Imported {accepted} out of {total}." : "インポートが部分的に失敗しました。 {total}のうち{accepted}をインポートしました。",

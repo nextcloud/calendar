@@ -125,7 +125,6 @@ OC.L10N.register(
     "Calendar to import into" : "Calendari a importar",
     "Cancel" : "Cancel·la",
     "_Import calendar_::_Import calendars_" : ["Importar calendari","Importa calendaris"],
-    "{filename} is an unsupported file-type" : "{filename} és un tipus de fitxer no compatible amb aquesta aplicació",
     "{filename} could not be parsed" : "No s'ha pogut entendre el contingut del fitxer {filename}",
     "No valid files found, aborting import" : "No s'han trobat fitxers que siguin vàlids i s'ha avortat la importació",
     "Import partially failed. Imported {accepted} out of {total}." : "La importació ha fallat parcialment. S'han importat {accepted} d'un total de {total}.",

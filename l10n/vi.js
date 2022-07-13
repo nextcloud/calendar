@@ -121,7 +121,6 @@ OC.L10N.register(
     "Calendar to import into" : "Lịch để nhập vào",
     "Cancel" : "Hủy",
     "_Import calendar_::_Import calendars_" : ["Nhập lịch"],
-    "{filename} is an unsupported file-type" : "{filename}  là một kiểu loại tệp không được hỗ trợ",
     "{filename} could not be parsed" : "{filename} không thể được phân tách",
     "No valid files found, aborting import" : "Không có tệp khả dụng được tìm thấy, đang hủy quá trình nhập",
     "Import partially failed. Imported {accepted} out of {total}." : "Quá trình nhập thất bại 1 phần. Đã nhập {accepted} trong tổng {total}.",

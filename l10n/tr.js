@@ -125,7 +125,6 @@ OC.L10N.register(
     "Calendar to import into" : "İçine aktarılacak takvim",
     "Cancel" : "İptal",
     "_Import calendar_::_Import calendars_" : ["Takvimi içe aktar","Takvimleri içe aktar"],
-    "{filename} is an unsupported file-type" : "{filename} dosya türü desteklenmiyor",
     "{filename} could not be parsed" : "{filename} işlenemedi",
     "No valid files found, aborting import" : "Geçerli bir dosya bulunamadı, içe aktarım iptal ediliyor",
     "Import partially failed. Imported {accepted} out of {total}." : "Etkinliklerin tümü içe aktarılamadı. İçe aktarılan: {accepted}, toplam: {total}.",

@@ -125,7 +125,6 @@ OC.L10N.register(
     "Calendar to import into" : "Календарь для импорта",
     "Cancel" : "Отмена",
     "_Import calendar_::_Import calendars_" : ["Импорт календаря","Импорт календарей","Импорт календарей","Импорт календарей"],
-    "{filename} is an unsupported file-type" : "Файл {filename} неподдерживаемого типа",
     "{filename} could not be parsed" : "Не удалось проанализировать файл {filename}",
     "No valid files found, aborting import" : "Не найдено файлов верного типа, импорт отменён",
     "Import partially failed. Imported {accepted} out of {total}." : "Импорт завершен частично. Импортировано {accepted} из {total}.",
