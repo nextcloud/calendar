@@ -95,6 +95,9 @@ export default {
 <style lang="scss" scoped>
 .invitees-list-item__displayname {
 	margin-bottom: 13px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .invitees-list-item__organizer-hint {
