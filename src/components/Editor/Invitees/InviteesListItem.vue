@@ -183,6 +183,9 @@ export default {
 <style lang="scss" scoped>
 .invitees-list-item__displayname {
 	margin-bottom: 17px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .avatar-participation-status {
