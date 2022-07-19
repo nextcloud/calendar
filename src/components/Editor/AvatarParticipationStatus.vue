@@ -1,5 +1,6 @@
 <!--
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
+  - @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
@@ -145,18 +146,11 @@ export default {
 				}
 			}
 
-			if (this.isViewedByOrganizer) {
-				return {
-					indicatorClass: ['no-response', 'icon', 'icon-invitees-no-response-white'],
-					label: t('calendar', 'Invitation sent'),
-				}
-			} else {
-				return {
-					indicatorClass: ['no-response', 'icon', 'icon-invitees-no-response-white'],
-					label: t('calendar', 'Has not responded to {organizerName}\'s invitation yet', {
-						organizerName: this.organizerDisplayName,
-					}),
-				}
+			return {
+				indicatorClass: ['no-response', 'icon', 'icon-invitees-no-response-white'],
+				label: t('calendar', 'Has not responded to {organizerName}\'s invitation yet', {
+					organizerName: this.organizerDisplayName,
+				}),
 			}
 		},
 	},

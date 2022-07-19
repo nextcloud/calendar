@@ -1,5 +1,6 @@
 <!--
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
+  - @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   - @author Richard Steinmetz <richard@steinmetz.cloud>
@@ -35,7 +36,7 @@
 		</div>
 		<div class="invitees-list-item__actions">
 			<Actions v-if="isViewedByOrganizer">
-				<ActionCheckbox :checked="attendee.rsvp"
+				<ActionCheckbox v-show="sendInvitations" :checked="attendee.rsvp"
 					@change="toggleRSVP">
 					{{ $t('calendar', 'Send email') }}
 				</ActionCheckbox>
@@ -73,6 +74,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import AvatarParticipationStatus from '../AvatarParticipationStatus'
 import Actions from '@nextcloud/vue/dist/Components/Actions'
 import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
@@ -107,6 +109,9 @@ export default {
 		},
 	},
 	computed: {
+		...mapState({
+			sendInvitations: state => state.settings.sendInvitations,
+		}),
 		/**
 		 * @return {string}
 		 */
