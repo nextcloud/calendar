@@ -218,7 +218,7 @@ export default {
 			return this.$store.state.importState.importState.stage === IMPORT_STAGE_IMPORTING
 		},
 		settingsTitle() {
-			return this.$t('calendar', 'Calendar Settings')
+			return this.$t('calendar', 'Calendar settings')
 		},
 		slotDurationOptions() {
 			return [{
