@@ -166,7 +166,7 @@
     "CalDAV link could not be copied to clipboard." : "El enlace CalDAV no se puede copiar al portapapeles",
     "Appointment was created successfully" : "Se ha creado la cita exitosamente",
     "Appointment was updated successfully" : "Se ha actualizado la cita exitosamente",
-    "_{duration} minute_::_{duration} minutes_" : ["{duración} minuto","{duración} minutos","{duración} minutos"],
+    "_{duration} minute_::_{duration} minutes_" : ["{duration} minuto","{duration} minutos","{duration} minutos"],
     "0 minutes" : "0 minutos",
     "_{duration} hour_::_{duration} hours_" : ["{duration} hora","{duration} horas","{duration} horas"],
     "_{duration} day_::_{duration} days_" : ["{duration} día","{duration} días","{duration} días"],
