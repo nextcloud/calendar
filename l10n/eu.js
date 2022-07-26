@@ -162,7 +162,6 @@ OC.L10N.register(
     "Copy iOS/macOS CalDAV address" : "Kopiatu iOS/macOS CalDAV helbidea",
     "Personal availability settings" : "Eskuragarritasun pertsonalaren ezarpenak",
     "Show keyboard shortcuts" : "Erakutsi teklatuaren lasterbideak",
-    "Settings & import" : "Ezarpenak eta inportazioa",
     "No reminder" : "Abisurik ez",
     "CalDAV link copied to clipboard." : "CalDAV esteka arbelera kopiatu da.",
     "CalDAV link could not be copied to clipboard." : "Ezin izan da CalDAV helbidea arbelera kopiatu.",

@@ -105,7 +105,6 @@ OC.L10N.register(
     "Enable simplified editor" : "Ativar editor simplificado",
     "Show weekends" : "Mostrar fins-de-semana",
     "Show week numbers" : "Mostrar o número das semanas",
-    "Settings & import" : "Definições & importar",
     "Location" : "Localização:",
     "Description" : "Descrição",
     "Duration" : "Duração",

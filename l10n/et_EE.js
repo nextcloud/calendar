@@ -53,7 +53,6 @@ OC.L10N.register(
     "List view" : "Nimekirjavaade",
     "Actions" : "Tegevused",
     "Show week numbers" : "Näita nädalanumberid",
-    "Settings & import" : "Sätted & importimine",
     "Location" : "Asukoht",
     "Description" : "Kirjeldus",
     "to" : "saaja",

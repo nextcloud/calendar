@@ -37,7 +37,6 @@ OC.L10N.register(
     "Actions" : "Acciones",
     "Show week numbers" : "Mostrar número de semana",
     "Show keyboard shortcuts" : "Mostrar atajos de teclado",
-    "Settings & import" : "Configuraciones & importar",
     "Location" : "Ubicación",
     "Description" : "Descripción",
     "to" : "para",

@@ -146,7 +146,6 @@ OC.L10N.register(
     "Copy iOS/macOS CalDAV address" : "Kopijuoti iOS/macOS CalDAV adresą",
     "Personal availability settings" : "Asmeninio pasiekiamumo nustatymai",
     "Show keyboard shortcuts" : "Rodyti klaviatūros kombinacijas",
-    "Settings & import" : "Nustatymai ir importavimas",
     "No reminder" : "Jokio priminimo",
     "CalDAV link copied to clipboard." : "CalDAV nuoroda nukopijuota į iškarpinę.",
     "CalDAV link could not be copied to clipboard." : "Nepavyko nukopijuoti CalDAV nuorodą į iškarpinę.",

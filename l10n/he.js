@@ -126,7 +126,6 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "העתקת כתובת CalDAV עיקרית",
     "Copy iOS/macOS CalDAV address" : "העתקת כתובת CalDAV ל־iOS/macOS",
     "Show keyboard shortcuts" : "הצגת קיצורי מקלדת",
-    "Settings & import" : "הגדרות וייבוא",
     "No reminder" : "אין תזכורת",
     "CalDAV link copied to clipboard." : "קישור ה־CalDAV הועתק ללוח הגזירים.",
     "CalDAV link could not be copied to clipboard." : "לא ניתן להעתיק את קישור ה־CalDAV ללוח הגזירים.",

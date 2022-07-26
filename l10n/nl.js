@@ -155,7 +155,6 @@ OC.L10N.register(
     "Copy iOS/macOS CalDAV address" : "Kopieer iOS/macOS CalDAV adres",
     "Personal availability settings" : "Persoonlijke beschikbaarheidsinstellingen",
     "Show keyboard shortcuts" : "Toon sneltoetsen",
-    "Settings & import" : "Instellingen & importeren",
     "No reminder" : "Geen herinnering",
     "CalDAV link copied to clipboard." : "CalDAV link gekopiëerd naar klembord.",
     "CalDAV link could not be copied to clipboard." : "CalDAV link kon niet worden gekopieerd naar klembord.",

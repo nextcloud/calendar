@@ -99,7 +99,6 @@ OC.L10N.register(
     "Show week numbers" : "Vis ugenummer ",
     "Copy primary CalDAV address" : "Kopier primær CalDAV-adresse",
     "Show keyboard shortcuts" : "Vis tastaturgenveje",
-    "Settings & import" : "Indstillinger & importer",
     "No reminder" : "Ingen påmindelse",
     "Location" : "Sted",
     "Description" : "Beskrivelse",

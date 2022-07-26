@@ -39,7 +39,6 @@ OC.L10N.register(
     "List view" : "Vista de lista",
     "Actions" : "Acciones",
     "Show week numbers" : "Mostrar número de semana",
-    "Settings & import" : "Configuraciones & importar",
     "Location" : "Ubicación",
     "Description" : "Descripción",
     "to" : "para",

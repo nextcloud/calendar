@@ -36,7 +36,6 @@ OC.L10N.register(
     "List view" : "Pamje listë",
     "Actions" : "Veprimet",
     "Show week numbers" : "Shfaq numra javësh",
-    "Settings & import" : "Konfigurimet dhe importi",
     "Location" : "Vendndodhje",
     "Description" : "Përshkrim",
     "Duration" : "Kohëzgjatja",

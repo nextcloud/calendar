@@ -36,7 +36,6 @@ OC.L10N.register(
     "List view" : "ჩამონათვლისებური ხედი",
     "Actions" : "მოქმედებები",
     "Show week numbers" : "კვირის ნომრების ჩვენება",
-    "Settings & import" : "პარამეტრები და იმპორტი",
     "Location" : "ადგილმდებარეობა",
     "Description" : "აღწერილობა",
     "to" : "ვის",

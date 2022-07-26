@@ -47,7 +47,6 @@ OC.L10N.register(
     "Actions" : "Радње",
     "Show week numbers" : "Прикажи број седмице",
     "Show keyboard shortcuts" : "Прикажи пречице тастатуре",
-    "Settings & import" : "Поставке & увоз",
     "Location" : "Локација",
     "Description" : "Опис",
     "Duration" : "Трајање",

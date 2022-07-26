@@ -158,7 +158,6 @@ OC.L10N.register(
     "Copy iOS/macOS CalDAV address" : "Kopírovať iOS/macOS CalDAV adresu",
     "Personal availability settings" : "Osobné nastavenia dostupnosti",
     "Show keyboard shortcuts" : "Zobraziť klávesové skratky",
-    "Settings & import" : "Nastavenia a import",
     "No reminder" : "Žiadna pripomienka",
     "CalDAV link copied to clipboard." : "Odkaz CalDAV skopírovaný do schránky.",
     "CalDAV link could not be copied to clipboard." : "Odkaz CalDAV nebolo možné skopírovať do schránky.",

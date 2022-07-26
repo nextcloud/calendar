@@ -154,7 +154,6 @@ OC.L10N.register(
     "Copy iOS/macOS CalDAV address" : "Copia indirizzo CalDAV iOS/macOS",
     "Personal availability settings" : "Impostazioni di disponibilità personale",
     "Show keyboard shortcuts" : "Mostra scorciatoie da tastiera",
-    "Settings & import" : "Impostazioni e importazione",
     "No reminder" : "Nessun promemoria",
     "CalDAV link copied to clipboard." : "Collegamento CalDAV copiato negli appunti.",
     "CalDAV link could not be copied to clipboard." : "Impossibile copiare collegamento CalDAV negli appunti.",

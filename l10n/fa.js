@@ -108,7 +108,6 @@ OC.L10N.register(
     "Show week numbers" : "نمایش شماره های هفته",
     "Copy primary CalDAV address" : "آدرس اصلی CalDAV را کپی کنید",
     "Copy iOS/macOS CalDAV address" : "آدرس CalDAV iOS / macOS را کپی کنید",
-    "Settings & import" : "تنظیمات و وارد کردن",
     "CalDAV link copied to clipboard." : "پیوند CalDAV در کلیپ بورد کپی شد.",
     "CalDAV link could not be copied to clipboard." : "پیوند CalDAV در کلیپ بورد قابل کپی نیست.",
     "Location" : "محل",

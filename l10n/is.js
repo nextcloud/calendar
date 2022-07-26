@@ -120,7 +120,6 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Afrita aðal-CalDAV-vistfang",
     "Copy iOS/macOS CalDAV address" : "Afrita iOS/macOS CalDAV-vistfang ",
     "Show keyboard shortcuts" : "Birta flýtivísanir á lyklaborði",
-    "Settings & import" : "Stillingar og innflutningur",
     "CalDAV link copied to clipboard." : "CalDAV-tengill afritaður á klippispjald.",
     "CalDAV link could not be copied to clipboard." : "Ekki var hægt að afrita CalDAV-tengil á klippispjald.",
     "Location" : "Staðsetning",

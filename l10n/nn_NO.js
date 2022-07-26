@@ -13,6 +13,7 @@ OC.L10N.register(
     "Day" : "Dag",
     "Week" : "Veke",
     "Month" : "Månad",
+    "Copy link" : "Kopier lenkje",
     "Edit" : "Rediger",
     "Delete" : "Slett",
     "Export" : "Eksporter",

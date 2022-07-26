@@ -111,7 +111,6 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Salin alamat utama CalDAV",
     "Copy iOS/macOS CalDAV address" : "Salin alamat CalDAV iOS/macOS",
     "Show keyboard shortcuts" : "Tampilkan pintasan papan kunci",
-    "Settings & import" : "Setelan & impor",
     "CalDAV link copied to clipboard." : "Tautan CalDAV disalin ke papan klip",
     "CalDAV link could not be copied to clipboard." : "Tautan CalDAV tidak dapat disalin ke papan klip",
     "Location" : "Lokasi",

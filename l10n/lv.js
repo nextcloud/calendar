@@ -38,7 +38,6 @@ OC.L10N.register(
     "Actions" : "Darbības",
     "Enable birthday calendar" : "Iespējot dzimšanas dienas kalendāru",
     "Show week numbers" : "Rādīt nedēļu numurus",
-    "Settings & import" : "Iestatījumi un imports",
     "Location" : "Vieta",
     "Description" : "Apraksts",
     "to" : "kam",

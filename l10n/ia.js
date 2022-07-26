@@ -27,7 +27,6 @@ OC.L10N.register(
     "Automatic" : "Automatic",
     "Actions" : "Actiones",
     "Show week numbers" : "Monstrar le numero del septimanas",
-    "Settings & import" : "Configurationes e importation",
     "Location" : "Loco",
     "Description" : "Description",
     "to" : "a",

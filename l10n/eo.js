@@ -41,7 +41,6 @@ OC.L10N.register(
     "List view" : "Lista vido",
     "Actions" : "Agoj",
     "Show week numbers" : "Montri numerojn de semajno",
-    "Settings & import" : "Agordoj kaj enporto",
     "Location" : "Loko",
     "Description" : "Priskribo",
     "to" : "al",

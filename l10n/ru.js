@@ -162,7 +162,6 @@ OC.L10N.register(
     "Copy iOS/macOS CalDAV address" : "Скопировать адрес CalDAV для iOS/macOS",
     "Personal availability settings" : "Личные настройки доступности",
     "Show keyboard shortcuts" : "Показать горячие клавиши клавиатуры",
-    "Settings & import" : "Параметры и импорт",
     "No reminder" : "Не напоминать",
     "CalDAV link copied to clipboard." : "Ссылка CalDAV скопирована в буфер обмена.",
     "CalDAV link could not be copied to clipboard." : "Не удалось скопировать ссылку CalDAV в буфер обмена.",
