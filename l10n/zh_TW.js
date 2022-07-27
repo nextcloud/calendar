@@ -162,6 +162,7 @@ OC.L10N.register(
     "Copy iOS/macOS CalDAV address" : "複製 iOS/macOS 的 CalDAV 位址",
     "Personal availability settings" : "個人可用設定",
     "Show keyboard shortcuts" : "顯示快速鍵",
+    "Calendar settings" : "行事曆設定",
     "No reminder" : "無提醒",
     "CalDAV link copied to clipboard." : "已複製 CalDAV 連結至剪貼簿",
     "CalDAV link could not be copied to clipboard." : "無法複製 CalDAV 連結至剪貼簿",

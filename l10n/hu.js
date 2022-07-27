@@ -162,6 +162,7 @@ OC.L10N.register(
     "Copy iOS/macOS CalDAV address" : "iOS/macOS CalDAV cím másolása",
     "Personal availability settings" : "Személyes elérhetőség beállításai",
     "Show keyboard shortcuts" : "Billentyűparancsok megjelenítése",
+    "Calendar settings" : "Naptár beállításai",
     "No reminder" : "Nincs emlékeztető",
     "CalDAV link copied to clipboard." : "CalDAV hivatkozás vágólapra másolva.",
     "CalDAV link could not be copied to clipboard." : "A CalDAV hivatkozást nem lehet vágólapra másolni.",
