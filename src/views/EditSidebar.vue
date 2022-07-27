@@ -1,6 +1,7 @@
 <!--
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   - @copyright Copyright (c) 2019 Jakob Röhrl <jakob.roehrl@web.de>
+  - @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   - @author Jakob Röhrl <jakob.roehrl@web.de>
@@ -204,7 +205,7 @@
 				@save-this-only="saveAndLeave(false)"
 				@save-this-and-all-future="saveAndLeave(true)" />
 		</AppSidebarTab>
-		<AppSidebarTab v-if="!isLoading && !isError"
+		<AppSidebarTab v-if="!isLoading && !isError && showResources"
 			id="app-sidebar-tab-resources"
 			class="app-sidebar-tab"
 			:name="$t('calendar', 'Resources')"
@@ -298,6 +299,7 @@ export default {
 		...mapState({
 			locale: (state) => state.settings.momentLocale,
 			hideEventExport: (state) => state.settings.hideEventExport,
+			showResources: (state) => state.settings.showResources,
 		}),
 		accessClass() {
 			return this.calendarObjectInstance?.accessClass || null

@@ -7,6 +7,7 @@ declare(strict_types=1);
  *
  * @author Georg Ehrke
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -96,6 +97,7 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
 				['calendar', 'hideEventExport', 'no', 'yes'],
 				['calendar', 'forceEventAlarmType', '', ''],
+				['calendar', 'showResources', 'yes', 'defaultShowResources'],
 				['calendar', 'installed_version', null, '1.0.0'],
 			]);
 		$this->config
@@ -147,6 +149,7 @@ class ViewControllerTest extends TestCase {
 				['tasks_enabled', true],
 				['hide_event_export', true],
 				['force_event_alarm_type', null],
+				['show_resources', true],
 				['appointmentConfigs', [new AppointmentConfig()]],
 			);
 
