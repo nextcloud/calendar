@@ -64,7 +64,7 @@ class PublicViewControllerTest extends TestCase {
 	}
 
 	public function testPublicIndexWithBranding():void {
-		$this->config->expects(self::exactly(10))
+		$this->config->expects(self::exactly(11))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'no'],

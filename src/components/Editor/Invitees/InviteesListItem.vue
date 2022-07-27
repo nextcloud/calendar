@@ -36,7 +36,8 @@
 		</div>
 		<div class="invitees-list-item__actions">
 			<Actions v-if="isViewedByOrganizer">
-				<ActionCheckbox v-show="sendInvitations" :checked="attendee.rsvp"
+				<ActionCheckbox v-show="sendInvitations"
+					:checked="attendee.rsvp"
 					@change="toggleRSVP">
 					{{ $t('calendar', 'Send email') }}
 				</ActionCheckbox>
