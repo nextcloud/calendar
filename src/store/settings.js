@@ -236,26 +236,6 @@ const getters = {
 const actions = {
 
 	/**
-	 * Updates the user's setting for visibility of birthday calendar
-	 *
-	 * @param {object} vuex The Vuex destructuring object
-	 * @param {object} vuex.getters The Vuex Getters
-	 * @param {Function} vuex.commit The Vuex commit Function
-	 * @param {Function} vuex.dispatch The Vuex dispatch Function
-	 * @return {Promise<void>}
-	 */
-	async toggleBirthdayCalendarEnabled({ getters, commit, dispatch }) {
-		if (getters.hasBirthdayCalendar) {
-			const calendar = getters.getBirthdayCalendar
-			await dispatch('deleteCalendar', { calendar })
-		} else {
-			const davCalendar = await enableBirthdayCalendar()
-			const calendar = mapDavCollectionToCalendar(davCalendar)
-			commit('addCalendar', { calendar })
-		}
-	},
-
-	/**
 	 * Updates the user's setting for event limit
 	 *
 	 * @param {object} vuex The Vuex destructuring object

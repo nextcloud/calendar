@@ -25,12 +25,6 @@
 		<ul class="settings-fieldset-interior">
 			<SettingsImportSection :is-disabled="loadingCalendars" />
 			<ActionCheckbox class="settings-fieldset-interior-item"
-				:checked="birthdayCalendar"
-				:disabled="isBirthdayCalendarDisabled"
-				@update:checked="toggleBirthdayEnabled">
-				{{ $t('calendar', 'Enable birthday calendar') }}
-			</ActionCheckbox>
-			<ActionCheckbox class="settings-fieldset-interior-item"
 				:checked="showTasks"
 				:disabled="savingTasks"
 				@update:checked="toggleTasksEnabled">
@@ -96,12 +90,12 @@
 				{{ $t('calendar', 'Copy iOS/macOS CalDAV address') }}
 			</ActionButton>
 			<ActionLink v-if="hasAppointmentsFeature"
-				:href="availabilitySettingsUrl"
+				:href="groupwareSettingsUrl"
 				target="_blank">
 				<template #icon>
 					<OpenInNewIcon :size="20" decorative />
 				</template>
-				{{ $t('calendar', 'Personal availability settings') }}
+				{{ $t('calendar', 'Groupware settings (personal availability & birthday calendar)') }}
 			</ActionLink>
 			<ActionButton v-shortkey.propagate="['h']"
 				@click.prevent.stop="showKeyboardShortcuts"
@@ -264,23 +258,11 @@ export default {
 			// TODO: Remove me when Calendar doesn't support server < 23
 			return parseInt(OC.config.version.split('.')[0]) >= 23
 		},
-		availabilitySettingsUrl() {
+		groupwareSettingsUrl() {
 			return generateUrl('/settings/user/groupware')
 		},
 	},
 	methods: {
-		async toggleBirthdayEnabled() {
-			// change to loading status
-			this.savingBirthdayCalendar = true
-			try {
-				await this.$store.dispatch('toggleBirthdayCalendarEnabled')
-				this.savingBirthdayCalendar = false
-			} catch (error) {
-				console.error(error)
-				showError(this.$t('calendar', 'New setting was not saved successfully.'))
-				this.savingBirthdayCalendar = false
-			}
-		},
 		async toggleEventLimitEnabled() {
 			// change to loading status
 			this.savingEventLimit = true
