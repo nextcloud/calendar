@@ -296,57 +296,6 @@ Initial settings:
 		expect(detectTimezone).toHaveBeenCalledTimes(0)
 	})
 
-	it('should provide an action to toggle the birthday calendar - enabled to disabled', async () => {
-		expect.assertions(3)
-
-		const getters = {
-			hasBirthdayCalendar: true,
-			getBirthdayCalendar: {
-				id: 'contact_birthdays',
-			},
-		}
-		const commit = jest.fn()
-		const dispatch = jest.fn()
-
-		dispatch.mockResolvedValueOnce()
-
-		await settingsStore.actions.toggleBirthdayCalendarEnabled({ getters, commit, dispatch })
-
-		expect(dispatch).toHaveBeenCalledTimes(1)
-		expect(dispatch).toHaveBeenNthCalledWith(1, 'deleteCalendar', { calendar: getters.getBirthdayCalendar })
-		expect(commit).toHaveBeenCalledTimes(0)
-	})
-
-	it('should provide an action to toggle the birthday calendar - disabled to enabled', async () => {
-		expect.assertions(5)
-
-		const getters = {
-			hasBirthdayCalendar: false,
-			getBirthdayCalendar: null,
-		}
-		const commit = jest.fn()
-		const dispatch = jest.fn()
-
-		const davCalendar = {
-			davCalendar: true,
-		}
-		enableBirthdayCalendar.mockResolvedValueOnce(davCalendar)
-
-		const calendar = {
-			id: 'new-birthday-calendar',
-		}
-		mapDavCollectionToCalendar.mockReturnValueOnce(calendar)
-
-		await settingsStore.actions.toggleBirthdayCalendarEnabled({ getters, commit, dispatch })
-
-		expect(enableBirthdayCalendar).toHaveBeenCalledTimes(1)
-		expect(mapDavCollectionToCalendar).toHaveBeenCalledTimes(1)
-		expect(mapDavCollectionToCalendar).toHaveBeenNthCalledWith(1, davCalendar)
-		expect(commit).toHaveBeenCalledTimes(1)
-		expect(commit).toHaveBeenNthCalledWith(1, 'addCalendar', { calendar })
-
-	})
-
 	it('should provide an action to toggle the event limit setting - false to true', async () => {
 		expect.assertions(4)
 
