@@ -35,12 +35,12 @@
 		:show-week-number="showWeekNumbers"
 		:use12h="showAmPm"
 		:append-to-body="appendToBody"
+		:confirm="showConfirm"
 		v-bind="$attrs"
 		v-on="$listeners"
 		@close="close"
 		@change="change"
-		@pick="pickDate"
-		confirm>
+		@pick="pickDate">
 		<template #icon-calendar>
 			<button class="datetime-picker-inline-icon icon"
 				:class="{'icon-timezone': !isAllDay, 'icon-new-calendar': isAllDay, 'datetime-picker-inline-icon--highlighted': highlightTimezone}"
@@ -129,6 +129,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+	  showConfirm: {
+		  type: Boolean,
+		  default: true,
+	  },
 	},
 	data() {
 		return {

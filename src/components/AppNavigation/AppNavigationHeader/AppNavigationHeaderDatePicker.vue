@@ -38,6 +38,7 @@
 		<DatePicker ref="datepicker"
 			class="datepicker-button-section__datepicker"
 			:date="selectedDate"
+			:show-confirm="false"
 			:is-all-day="true"
 			:open.sync="isDatepickerOpen"
 			@change="navigateToDate" />
