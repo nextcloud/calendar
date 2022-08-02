@@ -4,6 +4,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   - @author Jakob Röhrl <jakob.roehrl@web.de>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license AGPL-3.0-or-later
   -
@@ -23,23 +24,24 @@
   -->
 
 <template>
-	<li class="app-navigation-entry__multiselect">
+	<div class="sharing-search">
 		<Multiselect :options="usersOrGroups"
 			:searchable="true"
 			:internal-search="false"
 			:max-height="600"
 			:show-no-results="true"
 			:placeholder="$t('calendar', 'Share with users or groups')"
+			class="sharing-search__select"
 			:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
 			:user-select="true"
-			open-direction="bottom"
+			open-direction="above"
 			track-by="user"
 			label="displayName"
 			@search-change="findSharee"
 			@change="shareCalendar">
 			<span slot="noResult">{{ $t('calendar', 'No users or groups') }}</span>
 		</Multiselect>
-	</li>
+	</div>
 </template>
 
 <script>
@@ -51,7 +53,7 @@ import { generateOcsUrl } from '@nextcloud/router'
 import { urldecode } from '../../../utils/url.js'
 
 export default {
-	name: 'CalendarListItemSharingSearch',
+	name: 'SharingSearch',
 	components: {
 		Multiselect,
 	},
@@ -232,3 +234,18 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.sharing-search {
+	display: flex;
+
+	&__select {
+		flex: 1 auto;
+
+		// Fix weird height of multiselect
+		::v-deep .multiselect__tags {
+			box-sizing: border-box;
+		}
+	}
+}
+</style>

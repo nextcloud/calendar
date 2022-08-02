@@ -33,6 +33,7 @@
 					:loading-calendars="loadingCalendars" />
 				<CalendarListNew v-if="!loadingCalendars && isAuthenticatedUser"
 					:disabled="loadingCalendars" />
+				<EditCalendarModal />
 
 				<!-- Appointment Configuration List -->
 				<template v-if="isAuthenticatedUser">
@@ -73,6 +74,7 @@ import CalendarListNew from '../components/AppNavigation/CalendarList/CalendarLi
 import EmbedTopNavigation from '../components/AppNavigation/EmbedTopNavigation.vue'
 import EmptyCalendar from '../components/EmptyCalendar.vue'
 import CalendarGrid from '../components/CalendarGrid.vue'
+import EditCalendarModal from '../components/AppNavigation/EditCalendarModal.vue'
 
 // Import CalDAV related methods
 import {
@@ -118,6 +120,7 @@ export default {
 		AppNavigationSpacer,
 		CalendarListNew,
 		Trashbin,
+		EditCalendarModal,
 	},
 	data() {
 		return {
