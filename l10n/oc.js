@@ -202,6 +202,7 @@ OC.L10N.register(
     "Mail" : "Mail",
     "Gaming" : "Vidèo-jòc",
     "Bicycle" : "Bicicleta",
+    "Bike" : "Bicicleta",
     "Fishing" : "Pesca",
     "Hiking" : "Escalada",
     "Art" : "Arts",
