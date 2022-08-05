@@ -184,7 +184,7 @@ class BookingController extends Controller {
 		try {
 			$booking = $this->bookingService->book($config, $start, $end, $timeZone, $displayName, $email, $description);
 		} catch (NoSlotFoundException $e) {
-			$this->logger->warning('No slot available for start: ' . $start . ', end: ' . $end . ', config id: ' . $appointmentConfigId , ['exception' => $e]);
+			$this->logger->warning('No slot available for start: ' . $start . ', end: ' . $end . ', config id: ' . $appointmentConfigId, ['exception' => $e]);
 			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
 		} catch (InvalidArgumentException $e) {
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);

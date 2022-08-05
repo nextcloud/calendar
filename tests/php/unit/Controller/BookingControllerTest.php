@@ -144,7 +144,7 @@ class BookingControllerTest extends TestCase {
 			->method('getAvailableSlots')
 			->with($apptConfg, $sDT, $eDT);
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $start,'Europe/Berlin');
+		$this->controller->getBookableSlots($apptConfg->getId(), $start, 'Europe/Berlin');
 	}
 
 	public function testGetBookableSlotsInvalidTimezone(): void {
@@ -179,7 +179,7 @@ class BookingControllerTest extends TestCase {
 		$this->logger->expects(self::once())
 			->method('warning');
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $start,'Europe/Berlin');
+		$this->controller->getBookableSlots($apptConfg->getId(), $start, 'Europe/Berlin');
 	}
 
 	public function testBook(): void {

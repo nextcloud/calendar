@@ -156,7 +156,7 @@ class MailService {
 			'long',
 			'short',
 			new \DateTimeZone($booking->getTimezone()),
-			$this->lFactory->get('calendar',$l)
+			$this->lFactory->get('calendar', $l)
 		);
 
 		$template->addBodyListItem($relativeDateTime, $l10n->t('Date:'));
