@@ -368,7 +368,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Hier]",
     "[Last] dddd" : "dddd [dernier]",
     "Event does not exist" : "L'événement n'existe pas",
-    "Duplicate" : "Doublon",
+    "Duplicate" : "Dupliquer",
     "Delete this occurrence" : "Supprimer cette occurrence",
     "Delete this and all future" : "Supprimer cette occurrence et toutes les prochaines",
     "Details" : "Détails",
