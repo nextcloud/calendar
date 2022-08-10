@@ -1,5 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -63,6 +64,7 @@ describe('store/settings test suite', () => {
 			timezone: 'automatic',
 			momentLocale: 'en',
 			disableAppointments: false,
+			sendInvitations: true,
 		})
 	})
 
@@ -172,6 +174,7 @@ describe('store/settings test suite', () => {
 			hideEventExport: false,
 			forceEventAlarmType: false,
 			disableAppointments: false,
+			sendInvitations: true,
 		}
 
 		const settings = {
@@ -191,6 +194,7 @@ describe('store/settings test suite', () => {
 			hideEventExport: false,
 			forceEventAlarmType: false,
 			disableAppointments: false,
+			sendInvitations: true,
 		}
 
 		settingsStore.mutations.loadSettingsFromServer(state, settings)
@@ -213,6 +217,7 @@ Initial settings:
 	- HideEventExport: false
 	- ForceEventAlarmType: false
 	- disableAppointments: false
+	- SendInvitations: true
 `)
 		expect(state).toEqual({
 			appVersion: '2.1.0',
@@ -232,6 +237,7 @@ Initial settings:
 			hideEventExport: false,
 			forceEventAlarmType: false,
 			disableAppointments: false,
+			sendInvitations: true,
 		})
 	})
 

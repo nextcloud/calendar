@@ -6,6 +6,7 @@ declare(strict_types=1);
  *
  * @author Georg Ehrke
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -100,6 +101,7 @@ class ViewController extends Controller {
 		if (!in_array($forceEventAlarmType, ['DISPLAY', 'EMAIL'], true)) {
 			$forceEventAlarmType = false;
 		}
+		$sendInvitations = $this->config->getAppValue('dav', 'sendInvitations', 'yes') === 'yes';
 
 		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
 		$talkApiVersion = version_compare($this->appManager->getAppVersion('spreed'), '12.0.0', '>=') ? 'v4' : 'v1';
@@ -121,6 +123,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState('tasks_enabled', $tasksEnabled);
 		$this->initialStateService->provideInitialState('hide_event_export', $hideEventExport);
 		$this->initialStateService->provideInitialState('force_event_alarm_type', $forceEventAlarmType);
+		$this->initialStateService->provideInitialState('send_invitations', $sendInvitations);
 		$this->initialStateService->provideInitialState('appointmentConfigs', $this->appointmentConfigService->getAllAppointmentConfigurations($this->userId));
 		$this->initialStateService->provideInitialState('disable_appointments', $disableAppointments);
 

@@ -1,5 +1,6 @@
 /**
  * @copyright Copyright (c) 2020 Georg Ehrke
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -45,6 +46,7 @@ const state = {
 	timezone: 'automatic',
 	hideEventExport: false,
 	forceEventAlarmType: false,
+	sendInvitations: true,
 	// user-defined Nextcloud settings
 	momentLocale: 'en',
 }
@@ -149,8 +151,9 @@ const mutations = {
 	 * @param {boolean} data.hideEventExport
 	 * @param {string} data.forceEventAlarmType
 	 * @param {boolean} data.disableAppointments Allow to disable the appointments feature
+	 * @param {boolean} data.sendInvitations
 	 */
-	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments }) {
+	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, sendInvitations }) {
 		logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -168,6 +171,7 @@ Initial settings:
 	- HideEventExport: ${hideEventExport}
 	- ForceEventAlarmType: ${forceEventAlarmType}
 	- disableAppointments: ${disableAppointments}
+	- SendInvitations: ${sendInvitations}
 `)
 
 		state.appVersion = appVersion
@@ -185,6 +189,7 @@ Initial settings:
 		state.hideEventExport = hideEventExport
 		state.forceEventAlarmType = forceEventAlarmType
 		state.disableAppointments = disableAppointments
+		state.sendInvitations = sendInvitations
 	},
 
 	/**
