@@ -136,6 +136,8 @@ OC.L10N.register(
     "Actions" : "アクション",
     "Create event" : "イベントを作成",
     "Show shortcuts" : "概要の表示",
+    "Editor" : "エディタ",
+    "Close editor" : "エディタを閉じる",
     "Enable birthday calendar" : "誕生日カレンダーを有効にする",
     "Show tasks in calendar" : "カレンダーにタスクを表示",
     "Enable simplified editor" : "簡易エディターを有効にする",
