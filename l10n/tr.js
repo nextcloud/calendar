@@ -1,7 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
-    "User-Session unexpectedly expired" : "Kullanıcı oturumu beklenmedik şekilde kapatıldı",
+    "User-Session unexpectedly expired" : "Kullanıcı oturumunun geçerlilik süresi beklenmedik şekilde doldu",
     "Provided email-address is not valid" : "Belirtilen e-posta adresi geçersiz",
     "%s has published the calendar »%s«" : "%s, »%s« takvimini yayınladı",
     "Unexpected error sending email. Please contact your administrator." : "E-posta gönderilirken beklenmeyen bir sorun çıktı. Lütfen BT yöneticiniz ile görüşün.",
@@ -19,7 +19,7 @@ OC.L10N.register(
     "Your appointment \"%s\" needs confirmation" : "\"%s\" randevunuzun onaylanması gerekiyor",
     "Dear %s, please confirm your booking" : "Sayın %s, lütfen randevunuzu onaylayın",
     "Confirm" : "Onayla",
-    "This confirmation link expires in %s hours." : "Bu onay bağlantısının süresi %s saat sonra dolacak.",
+    "This confirmation link expires in %s hours." : "Bu onay bağlantısının geçerlilik süresi %s saat sonra dolacak.",
     "If you wish to cancel the appointment after all, please contact your organizer." : "Randevunuzu iptal etmek isterseniz, düzenleyici ile görüşün.",
     "Appointment:" : "Randevu:",
     "Date:" : "Tarih:",
@@ -329,7 +329,7 @@ OC.L10N.register(
     "Update this occurrence" : "Bu etkinliği güncelle",
     "Update this and all future" : "Bu ve sonraki etkinlikleri güncelle",
     "Public calendar does not exist" : "Herkese açık takvim bulunamadı",
-    "Maybe the share was deleted or has expired?" : "Paylaşım silinmiş ya da süresi geçmiş olabilir mi?",
+    "Maybe the share was deleted or has expired?" : "Paylaşım silinmiş ya da geçerlilik süresi dolmuş olabilir mi?",
     "Please select a time zone:" : "Lütfen bir saat dilimi seçin:",
     "Pick a time" : "Bir saat seçin",
     "Pick a date" : "Bir tarih seçin",
