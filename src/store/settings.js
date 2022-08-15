@@ -19,8 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { enableBirthdayCalendar } from '../services/caldavService.js'
-import { mapDavCollectionToCalendar } from '../models/calendar'
 import { detectTimezone } from '../services/timezoneDetectionService'
 import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
 import { setConfig } from '../services/settings.js'

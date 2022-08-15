@@ -20,7 +20,6 @@
  *
  */
 import settingsStore from '../../../../src/store/settings.js'
-import { enableBirthdayCalendar } from '../../../../src/services/caldavService.js'
 import { mapDavCollectionToCalendar } from '../../../../src/models/calendar.js'
 import { detectTimezone } from '../../../../src/services/timezoneDetectionService.js'
 import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
@@ -37,7 +36,6 @@ jest.mock('../../../../src/utils/logger.js')
 describe('store/settings test suite', () => {
 
 	beforeEach(() => {
-		enableBirthdayCalendar.mockClear()
 		mapDavCollectionToCalendar.mockClear()
 		detectTimezone.mockClear()
 		setCalendarJsConfig.mockClear()
