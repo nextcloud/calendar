@@ -161,6 +161,7 @@ OC.L10N.register(
     "Copy iOS/macOS CalDAV address" : "Kopioi iOS:in/macOS:n CalDAV-osoite",
     "Personal availability settings" : "Henkilökohtaiset saatavuusasetukset",
     "Show keyboard shortcuts" : "Näytä pikanäppäimet",
+    "Calendar settings" : "Kalenteriasetukset",
     "No reminder" : "Ei muistutusta",
     "CalDAV link copied to clipboard." : "CalDAV-linkki kopioitu leikepöydälle.",
     "CalDAV link could not be copied to clipboard." : "CalDAV-linkkiä ei voitu kopioida leikepöydälle.",
