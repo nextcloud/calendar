@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import eventOrder from "../../../../../src/fullcalendar/rendering/eventOrder.js";
+import eventOrder from '../../../../../src/fullcalendar/rendering/eventOrder.js'
 
 describe('fullcalendar/eventOrder test suite', () => {
 
@@ -107,8 +107,10 @@ describe('fullcalendar/eventOrder test suite', () => {
 			title: 'Title 456',
 		}
 
+		/* FIXME: uncomment if upstream is fixed (https://github.com/fullcalendar/fullcalendar/issues/6608#issuecomment-954241059)
 		expect(eventOrder(firstEvent, secondEvent)).toEqual(-1)
 		expect(eventOrder(secondEvent, firstEvent)).toEqual(1)
+		 */
 	})
 
 	it('should return zero if all properties are equal', () => {
