@@ -1,4 +1,11 @@
+
 # Changelog
+
+## 3.4.3 - 2022-08-23
+### Fixed
+- Missing events in week view
+- Invitee and resource name wrapping
+- Relying on guessed mime type on import
 
 ## 3.4.2 - 2022-07-07
 ### Fixed
