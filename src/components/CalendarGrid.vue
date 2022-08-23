@@ -130,7 +130,8 @@ export default {
 				dayHeaderDidMount,
 				eventDidMount,
 				noEventsDidMount,
-				eventOrder: ['start', '-duration', 'allDay', eventOrder],
+				// FIXME: remove title if upstream is fixed (https://github.com/fullcalendar/fullcalendar/issues/6608#issuecomment-954241059)
+				eventOrder: ['title', 'start', '-duration', 'allDay', eventOrder],
 				forceEventDuration: false,
 				headerToolbar: false,
 				height: '100%',

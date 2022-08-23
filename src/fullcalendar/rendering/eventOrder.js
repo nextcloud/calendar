@@ -41,9 +41,11 @@ export default function(firstEvent, secondEvent) {
 		return (firstEvent.extendedProps.calendarId < secondEvent.extendedProps.calendarId) ? -1 : 1
 	}
 
+	/* FIXME: uncomment this if upstream is fixed (https://github.com/fullcalendar/fullcalendar/issues/6608#issuecomment-954241059)
 	if (firstEvent.title !== secondEvent.title) {
 		return (firstEvent.title < secondEvent.title) ? -1 : 1
 	}
+	 */
 
 	return 0
 }
