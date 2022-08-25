@@ -1,6 +1,33 @@
+
 # Changelog
 
-## 3.4.0 - 2022-07-20
+## 3.5.0 - 2022-08-25
+### Added
+- Option to copy calendar events
+- Config setting to disable appointments
+### Changed
+- Moved icons to material design
+- Settings name
+### Fixed
+- White space on calendar title
+- Trashbin layout
+
+## 3.4.3 - 2022-08-23
+### Fixed
+- Missing events in week view
+- Invitee and resource name wrapping
+- Relying on guessed mime type on import
+
+## 3.4.2 - 2022-07-07
+### Fixed
+- Performance issues with Vue Event Rendering
+- Settings modal closing when using import
+
+## 3.4.1 - 2022-06-28
+### Fixed
+- Calendar not loading in month view
+
+## 3.4.0 - 2022-06-21
 ### Added
 - Visually distinguish events with attendees from ones without
 - Visually distinguish events with reminders from ones without
@@ -15,6 +42,7 @@
 - Missing stylelint
 - Hide 3-dot menu button
 - Attendee search
+- Color dot and event alignment
 
 ## 3.3.2 – 2022-06-02
 ### Fixed
