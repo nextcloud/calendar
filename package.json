@@ -1,7 +1,7 @@
 {
   "name": "calendar",
   "description": "A calendar app for Nextcloud. Easily sync events from various devices, share and edit them online.",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "author": "Georg Ehrke <oc.list@georgehrke.com>",
   "contributors": [
     "Georg Ehrke <oc.list@georgehrke.com>",
@@ -38,7 +38,7 @@
     "@fullcalendar/core": "5.11.0",
     "@fullcalendar/daygrid": "5.11.0",
     "@fullcalendar/interaction": "5.11.0",
-    "@fullcalendar/list": "5.11.0",
+    "@fullcalendar/list": "5.11.3",
     "@fullcalendar/resource-timeline": "5.11.0",
     "@fullcalendar/timegrid": "5.11.0",
     "@fullcalendar/vue": "5.11.0",
