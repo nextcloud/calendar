@@ -2,8 +2,8 @@
  * Calendar App
  *
  * @copyright 2021 Richard Steinmetz <richard@steinmetz.cloud>
- *
  * @author Richard Steinmetz <richard@steinmetz.cloud>
+ * @license AGPL-3.0-or-later
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -86,5 +86,16 @@
 		display: flex;
 		justify-content: center;
 		gap: 0 10px;
+	}
+}
+
+.drag-recurrence-modal {
+	&__content {
+		padding: 15px;
+
+		&__buttons {
+			display: flex;
+			flex-direction: column;
+		}
 	}
 }

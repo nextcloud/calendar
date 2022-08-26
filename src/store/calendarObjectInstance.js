@@ -1537,7 +1537,15 @@ const actions = {
 	async saveCalendarObjectInstance({ state, dispatch, commit }, { thisAndAllFuture, calendarId }) {
 		const eventComponent = state.calendarObjectInstance.eventComponent
 		const calendarObject = state.calendarObject
+		await dispatch('saveCalendarObject', {
+			thisAndAllFuture,
+			calendarId,
+			eventComponent,
+			calendarObject,
+		})
+	},
 
+	async saveCalendarObject({ dispatch, commit }, { thisAndAllFuture, calendarId, calendarObject, eventComponent }) {
 		if (eventComponent.isDirty()) {
 			const isForkedItem = eventComponent.primaryItem !== null
 			let original = null

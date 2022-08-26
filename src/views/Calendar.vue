@@ -1,6 +1,7 @@
 <!--
   - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -53,6 +54,7 @@
 			<CalendarGrid v-if="!showEmptyCalendarScreen"
 				:is-authenticated-user="isAuthenticatedUser" />
 			<EmptyCalendar v-else />
+			<DragRecurrenceModal />
 		</AppContent>
 		<!-- Edit modal -->
 		<router-view />
@@ -72,6 +74,7 @@ import CalendarListNew from '../components/AppNavigation/CalendarList/CalendarLi
 import EmbedTopNavigation from '../components/AppNavigation/EmbedTopNavigation.vue'
 import EmptyCalendar from '../components/EmptyCalendar.vue'
 import CalendarGrid from '../components/CalendarGrid.vue'
+import DragRecurrenceModal from '../components/DragRecurrenceModal'
 
 // Import CalDAV related methods
 import {
@@ -117,6 +120,7 @@ export default {
 		AppNavigationSpacer,
 		CalendarListNew,
 		Trashbin,
+		DragRecurrenceModal,
 	},
 	data() {
 		return {

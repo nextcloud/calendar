@@ -3,6 +3,8 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
+ *
  * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,7 +24,6 @@
 import { getDurationValueFromFullCalendarDuration } from '../duration'
 import getTimezoneManager from '../../services/timezoneDataProviderService'
 import logger from '../../utils/logger.js'
-import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
 
 /**
  * Returns a function to drop an event at a different position
@@ -48,25 +49,23 @@ export default function(store, fcAPI) {
 			return
 		}
 
-		const objectId = event.extendedProps.objectId
-		const recurrenceId = event.extendedProps.recurrenceId
-		const recurrenceIdDate = new Date(recurrenceId * 1000)
-
-		let calendarObject
+		let objects
 		try {
-			calendarObject = await store.dispatch('getEventByObjectId', { objectId })
+			const objectId = event.extendedProps.objectId
+			const recurrenceId = event.extendedProps.recurrenceId
+			objects = await store.dispatch('getCalendarObjectInstanceByObjectIdAndRecurrenceId', {
+				objectId,
+				recurrenceId,
+			})
 		} catch (error) {
-			console.debug(error)
+			store.commit('resetCalendarObjectInstanceObjectIdAndRecurrenceId')
+			logger.error('Recurrence was not found', { error })
 			revert()
 			return
 		}
 
-		const eventComponent = getObjectAtRecurrenceId(calendarObject, recurrenceIdDate)
-		if (!eventComponent) {
-			console.debug('Recurrence-id not found')
-			revert()
-			return
-		}
+		const { calendarObject, calendarObjectInstance } = objects
+		const eventComponent = calendarObjectInstance.eventComponent
 
 		try {
 			// shiftByDuration may throw exceptions in certain cases
@@ -75,25 +74,37 @@ export default function(store, fcAPI) {
 			store.commit('resetCalendarObjectToDav', {
 				calendarObject,
 			})
-			console.debug(error)
+			store.commit('resetCalendarObjectInstanceObjectIdAndRecurrenceId')
+			logger.error('Failed to shift event', { error })
 			revert()
 			return
 		}
 
-		if (eventComponent.canCreateRecurrenceExceptions()) {
-			eventComponent.createRecurrenceException()
-		}
-
 		try {
-			await store.dispatch('updateCalendarObject', {
-				calendarObject,
+			// Show a modal to let the user decide whether to update this or all future instances.
+			// Non-recurring events or recurrence exceptions can just be dropped and don't require
+			// extra user interaction.
+			let thisAndAllFuture = false
+			if (eventComponent.isPartOfRecurrenceSet() && eventComponent.canCreateRecurrenceExceptions()) {
+				thisAndAllFuture = await store.dispatch('showDragRecurrenceModal', {
+					eventComponent,
+				})
+			}
+
+			await store.dispatch('saveCalendarObjectInstance', {
+				thisAndAllFuture,
+				calendarId: calendarObject.calendarId,
 			})
 		} catch (error) {
 			store.commit('resetCalendarObjectToDav', {
 				calendarObject,
 			})
-			console.debug(error)
+			if (error !== 'closedByUser') {
+				logger.error('Could not drop event', { error })
+			}
 			revert()
+		} finally {
+			store.commit('resetCalendarObjectInstanceObjectIdAndRecurrenceId')
 		}
 	}
 }

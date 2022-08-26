@@ -37,6 +37,7 @@ import importState from './importState'
 import principals from './principals.js'
 import settings from './settings.js'
 import appointmentConfigs from './appointmentConfigs'
+import dragRecurrenceModal from './dragRecurrenceModal'
 
 Vue.use(Vuex)
 
@@ -53,6 +54,7 @@ export default new Vuex.Store({
 		importState,
 		principals,
 		settings,
+		dragRecurrenceModal,
 	},
 	// // Throw errors when the state is edited outside of mutations
 	// strict: true
