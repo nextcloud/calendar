@@ -19,8 +19,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { enableBirthdayCalendar } from '../services/caldavService.js'
-import { mapDavCollectionToCalendar } from '../models/calendar'
 import { detectTimezone } from '../services/timezoneDetectionService'
 import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
 import { setConfig } from '../services/settings.js'
@@ -234,26 +232,6 @@ const getters = {
 }
 
 const actions = {
-
-	/**
-	 * Updates the user's setting for visibility of birthday calendar
-	 *
-	 * @param {object} vuex The Vuex destructuring object
-	 * @param {object} vuex.getters The Vuex Getters
-	 * @param {Function} vuex.commit The Vuex commit Function
-	 * @param {Function} vuex.dispatch The Vuex dispatch Function
-	 * @return {Promise<void>}
-	 */
-	async toggleBirthdayCalendarEnabled({ getters, commit, dispatch }) {
-		if (getters.hasBirthdayCalendar) {
-			const calendar = getters.getBirthdayCalendar
-			await dispatch('deleteCalendar', { calendar })
-		} else {
-			const davCalendar = await enableBirthdayCalendar()
-			const calendar = mapDavCollectionToCalendar(davCalendar)
-			commit('addCalendar', { calendar })
-		}
-	},
 
 	/**
 	 * Updates the user's setting for event limit

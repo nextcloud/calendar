@@ -20,7 +20,6 @@
  *
  */
 import settingsStore from '../../../../src/store/settings.js'
-import { enableBirthdayCalendar } from '../../../../src/services/caldavService.js'
 import { mapDavCollectionToCalendar } from '../../../../src/models/calendar.js'
 import { detectTimezone } from '../../../../src/services/timezoneDetectionService.js'
 import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
@@ -37,7 +36,6 @@ jest.mock('../../../../src/utils/logger.js')
 describe('store/settings test suite', () => {
 
 	beforeEach(() => {
-		enableBirthdayCalendar.mockClear()
 		mapDavCollectionToCalendar.mockClear()
 		detectTimezone.mockClear()
 		setCalendarJsConfig.mockClear()
@@ -294,57 +292,6 @@ Initial settings:
 		expect(settingsStore.getters.getResolvedTimezone(state)).toEqual('Europe/Berlin')
 
 		expect(detectTimezone).toHaveBeenCalledTimes(0)
-	})
-
-	it('should provide an action to toggle the birthday calendar - enabled to disabled', async () => {
-		expect.assertions(3)
-
-		const getters = {
-			hasBirthdayCalendar: true,
-			getBirthdayCalendar: {
-				id: 'contact_birthdays',
-			},
-		}
-		const commit = jest.fn()
-		const dispatch = jest.fn()
-
-		dispatch.mockResolvedValueOnce()
-
-		await settingsStore.actions.toggleBirthdayCalendarEnabled({ getters, commit, dispatch })
-
-		expect(dispatch).toHaveBeenCalledTimes(1)
-		expect(dispatch).toHaveBeenNthCalledWith(1, 'deleteCalendar', { calendar: getters.getBirthdayCalendar })
-		expect(commit).toHaveBeenCalledTimes(0)
-	})
-
-	it('should provide an action to toggle the birthday calendar - disabled to enabled', async () => {
-		expect.assertions(5)
-
-		const getters = {
-			hasBirthdayCalendar: false,
-			getBirthdayCalendar: null,
-		}
-		const commit = jest.fn()
-		const dispatch = jest.fn()
-
-		const davCalendar = {
-			davCalendar: true,
-		}
-		enableBirthdayCalendar.mockResolvedValueOnce(davCalendar)
-
-		const calendar = {
-			id: 'new-birthday-calendar',
-		}
-		mapDavCollectionToCalendar.mockReturnValueOnce(calendar)
-
-		await settingsStore.actions.toggleBirthdayCalendarEnabled({ getters, commit, dispatch })
-
-		expect(enableBirthdayCalendar).toHaveBeenCalledTimes(1)
-		expect(mapDavCollectionToCalendar).toHaveBeenCalledTimes(1)
-		expect(mapDavCollectionToCalendar).toHaveBeenNthCalledWith(1, davCalendar)
-		expect(commit).toHaveBeenCalledTimes(1)
-		expect(commit).toHaveBeenNthCalledWith(1, 'addCalendar', { calendar })
-
 	})
 
 	it('should provide an action to toggle the event limit setting - false to true', async () => {

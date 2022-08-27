@@ -184,16 +184,6 @@ const createSubscription = async (displayName, color, source, order) => {
 }
 
 /**
- * Enables the birthday calendar
- *
- * @return {Promise<Calendar>}
- */
-const enableBirthdayCalendar = async () => {
-	await getCalendarHome().enableBirthdayCalendar()
-	return getBirthdayCalendar()
-}
-
-/**
  * Gets the birthday calendar
  *
  * @return {Promise<Calendar>}
@@ -255,7 +245,6 @@ export {
 	findSchedulingOutbox,
 	createCalendar,
 	createSubscription,
-	enableBirthdayCalendar,
 	getBirthdayCalendar,
 	getCurrentUserPrincipal,
 	principalPropertySearchByDisplaynameOrEmail,
