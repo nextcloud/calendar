@@ -11,6 +11,7 @@ OC.L10N.register(
     "Cheers!" : "Hav en fortsat god dag.",
     "Upcoming events" : "Kommende begivenheder",
     "Appointments" : "Aftaler",
+    "Schedule an appointment" : "Planlæg en aftale",
     "Confirm" : "Bekræft",
     "Appointment:" : "Aftale:",
     "Date:" : "Dato:",
