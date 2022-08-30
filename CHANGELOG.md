@@ -1,9 +1,9 @@
 
 # Changelog
 
-## 3.5.0 - 2022-08-25
+## 3.5.0 - 2022-08-30
 ### Added
-- Option to copy calendar events
+- Option to duplicate calendar events
 - Config setting to disable appointments
 ### Changed
 - Moved icons to material design
