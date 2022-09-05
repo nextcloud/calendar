@@ -50,33 +50,33 @@
 				<div class="property-title-time-picker-read-only-wrapper__label">
 					{{ formattedStart }}
 				</div>
-				<div v-if="!isAllDay"
-					v-tooltip="startTimezone"
-					class="property-title-time-picker-read-only-wrapper__icon icon icon-timezone"
-					:class="{ 'property-title-time-picker-read-only-wrapper__icon--highlighted': highlightStartTimezone } " />
-			</div>
-			<div class="property-title-time-picker-read-only-wrapper">
-				<div class="property-title-time-picker-read-only-wrapper__label">
-					{{ formattedEnd }}
+				<IconTimezone v-if="!isAllDay"
+					:title="endTimezone"
+					:class="{ 'highlighted-timezone-icon': highlightStartTimezone }"
+					:size="20" />
+				<div class="property-title-time-picker-read-only-wrapper">
+					<div class="property-title-time-picker-read-only-wrapper__label">
+						{{ formattedEnd }}
+					</div>
+					<IconTimezone v-if="!isAllDay"
+						:title="endTimezone"
+						:class="{ 'highlighted-timezone-icon': highlightStartTimezone }"
+						:size="20" />
 				</div>
-				<div v-if="!isAllDay"
-					v-tooltip="endTimezone"
-					class="property-title-time-picker-read-only-wrapper__icon icon icon-timezone"
-					:class="{ 'property-title-time-picker-read-only-wrapper__icon--highlighted': highlightEndTimezone }" />
 			</div>
-		</div>
 
-		<div v-if="!isReadOnly" class="property-title-time-picker__all-day">
-			<input id="allDay"
-				:checked="isAllDay"
-				type="checkbox"
-				class="checkbox"
-				:disabled="!canModifyAllDay"
-				@change="toggleAllDay">
-			<label v-tooltip="allDayTooltip"
-				for="allDay">
-				{{ $t('calendar', 'All day') }}
-			</label>
+			<div v-if="!isReadOnly" class="property-title-time-picker__all-day">
+				<input id="allDay"
+					:checked="isAllDay"
+					type="checkbox"
+					class="checkbox"
+					:disabled="!canModifyAllDay"
+					@change="toggleAllDay">
+				<label v-tooltip="allDayTooltip"
+					for="allDay">
+					{{ $t('calendar', 'All day') }}
+				</label>
+			</div>
 		</div>
 	</div>
 </template>
@@ -84,12 +84,14 @@
 <script>
 import moment from '@nextcloud/moment'
 import DatePicker from '../../Shared/DatePicker.vue'
+import IconTimezone from 'vue-material-design-icons/Web'
 import { mapState } from 'vuex'
 
 export default {
 	name: 'PropertyTitleTimePicker',
 	components: {
 		DatePicker,
+		IconTimezone,
 	},
 	props: {
 		/**

@@ -26,7 +26,7 @@
 				:size="18"
 				decorative
 				class="avatar" />
-			<div v-else-if="sharee.isCircle" class="avatar icon-circle" />
+			<IconCircle v-else-if="sharee.isCircle" />
 			<Avatar v-else :user="sharee.id" :display-name="sharee.displayName" />
 		</template>
 
@@ -60,6 +60,7 @@ import {
 } from '@nextcloud/dialogs'
 
 import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
+import IconCircle from '../../Icons/IconCircles.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 
 export default {
@@ -69,6 +70,7 @@ export default {
 		ActionCheckbox,
 		AppNavigationItem,
 		Avatar,
+	  IconCircle,
 		AccountMultiple,
 		Delete,
 	},
