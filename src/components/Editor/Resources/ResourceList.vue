@@ -102,10 +102,6 @@ export default {
 				return !['RESOURCE', 'ROOM'].includes(attendee.attendeeProperty.userType)
 			})
 		},
-		hasAdvancedFilters() {
-			// TODO: Remove me when Calendar doesn't support server < 23
-			return parseInt(OC.config.version.split('.')[0]) >= 23
-		},
 		noResourcesMessage() {
 			return this.$t('calendar', 'No rooms or resources yet')
 		},
@@ -154,7 +150,7 @@ export default {
 			})
 		},
 		async loadRoomSuggestions() {
-			if (this.resources.length > 0 || !this.hasAdvancedFilters) {
+			if (this.resources.length > 0) {
 				this.suggestedRooms = []
 				return
 			}

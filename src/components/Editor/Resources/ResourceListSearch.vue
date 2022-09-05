@@ -56,11 +56,10 @@
 			</template>
 		</Multiselect>
 
-		<template v-if="hasAdvancedFilters">
+		<template>
 			<div class="resource-search__capacity">
 				<ResourceSeatingCapacity :value.sync="capacity" />
-				<Actions v-if="hasAdvancedFilters"
-					class="resource-search__capacity__actions">
+				<Actions class="resource-search__capacity__actions">
 					<ActionCheckbox :checked.sync="isAvailable">
 						<!-- Translators room or resource is not yet booked -->
 						{{ $t('calendar', 'Available') }}
@@ -133,10 +132,6 @@ export default {
 		noResult() {
 			return this.$t('calendar', 'No match found')
 		},
-		hasAdvancedFilters() {
-			// TODO: Remove me when Calendar doesn't support server < 23
-			return parseInt(OC.config.version.split('.')[0]) >= 23
-		},
 		features() {
 			const features = []
 			if (this.isAccessible) {
@@ -174,11 +169,9 @@ export default {
 			let results
 			try {
 				const query = { displayName: input }
-				if (this.hasAdvancedFilters) {
-					query.capacity = this.capacity
-					query.features = this.features
-					query.roomType = this.roomType
-				}
+				query.capacity = this.capacity
+				query.features = this.features
+				query.roomType = this.roomType
 				results = await advancedPrincipalPropertySearch(query)
 			} catch (error) {
 				logger.debug('Could not find resources', { error })
@@ -226,17 +219,15 @@ export default {
 				})
 
 			// Check resource availability
-			if (this.hasAdvancedFilters) {
-				await checkResourceAvailability(
-					options,
-					this.$store.getters.getCurrentUserPrincipalEmail,
-					this.calendarObjectInstance.eventComponent.startDate,
-					this.calendarObjectInstance.eventComponent.endDate,
-				)
-			}
+			await checkResourceAvailability(
+				options,
+				this.$store.getters.getCurrentUserPrincipalEmail,
+				this.calendarObjectInstance.eventComponent.startDate,
+				this.calendarObjectInstance.eventComponent.endDate,
+			)
 
 			// Filter by availability
-			if (this.hasAdvancedFilters && this.isAvailable) {
+			if (this.isAvailable) {
 				options = options.filter(option => option.isAvailable)
 			}
 
