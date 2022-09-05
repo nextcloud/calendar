@@ -66,10 +66,10 @@
 </template>
 
 <script>
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionCaption from '@nextcloud/vue/dist/Components/ActionCaption'
-import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator'
+import Actions from '@nextcloud/vue/dist/Components/NcActions'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import ActionCaption from '@nextcloud/vue/dist/Components/NcActionCaption'
+import ActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator'
 import AvatarParticipationStatus from '../AvatarParticipationStatus'
 import { removeMailtoPrefix } from '../../../utils/attendee'
 import logger from '../../../utils/logger'

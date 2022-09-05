@@ -59,9 +59,9 @@
 </template>
 
 <script>
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
 import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck'
 import DeleteIcon from 'vue-material-design-icons/Delete'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'

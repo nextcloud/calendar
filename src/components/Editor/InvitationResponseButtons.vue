@@ -56,8 +56,8 @@
 </template>
 
 <script>
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import Actions from '@nextcloud/vue/dist/Components/NcActions'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
 import CalendarQuestionIcon from 'vue-material-design-icons/CalendarQuestion.vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import logger from '../../utils/logger'

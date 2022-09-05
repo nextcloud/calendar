@@ -110,11 +110,11 @@
 </template>
 
 <script>
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem'
+import Actions from '@nextcloud/vue/dist/Components/NcActions'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import Modal from '@nextcloud/vue/dist/Components/NcModal'
+import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
 import moment from '@nextcloud/moment'
 import logger from '../../../utils/logger'
 import { showError } from '@nextcloud/dialogs'

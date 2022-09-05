@@ -62,8 +62,8 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import Avatar from '@nextcloud/vue/dist/Components/NcAvatar'
+import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
 import { generateUrl } from '@nextcloud/router'
 import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck'
 import CalendarBlankIcon from 'vue-material-design-icons/CalendarBlank.vue'

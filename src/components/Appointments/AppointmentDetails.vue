@@ -65,8 +65,8 @@
 	</Modal>
 </template>
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
+import Avatar from '@nextcloud/vue/dist/Components/NcAvatar'
+import Modal from '@nextcloud/vue/dist/Components/NcModal'
 import autosize from '../../directives/autosize'
 
 import { timeStampToLocaleTime } from '../../utils/localeTime'

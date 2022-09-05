@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
+import ActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
 import RepeatFirstLastSelect from './RepeatFirstLastSelect.vue'
 import RepeatOnTheSelect from './RepeatOnTheSelect.vue'
 

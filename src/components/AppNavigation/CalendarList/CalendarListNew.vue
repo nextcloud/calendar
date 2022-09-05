@@ -94,10 +94,10 @@
 </template>
 
 <script>
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
-import ActionText from '@nextcloud/vue/dist/Components/ActionText'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import ActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
+import ActionText from '@nextcloud/vue/dist/Components/NcActionText'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem'
 import {
 	showError,
 } from '@nextcloud/dialogs'

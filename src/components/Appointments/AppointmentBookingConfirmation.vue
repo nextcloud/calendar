@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
 import CheckIcon from 'vue-material-design-icons/Check'
 
 export default {
