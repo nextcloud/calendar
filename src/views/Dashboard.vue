@@ -27,8 +27,10 @@
 		<template #default="{ item }">
 			<EmptyContent v-if="item.isEmptyItem"
 				id="calendar-widget-empty-content"
-				class="half-screen"
-				icon="icon-checkmark">
+				class="half-screen">
+				<template #icon>
+					<IconCheck :size="67" />
+				</template>
 				<template #desc>
 					{{ t('calendar', 'No more events today') }}
 				</template>
@@ -69,6 +71,7 @@
 import { DashboardWidget, DashboardWidgetItem } from '@nextcloud/vue-dashboard'
 import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
 import EmptyCalendar from 'vue-material-design-icons/CalendarBlankOutline'
+import IconCheck from 'vue-material-design-icons/Check'
 import { loadState } from '@nextcloud/initial-state'
 import moment from '@nextcloud/moment'
 import { imagePath, generateUrl } from '@nextcloud/router'
@@ -87,6 +90,7 @@ export default {
 		DashboardWidgetItem,
 		EmptyContent,
 	  EmptyCalendar,
+	  IconCheck,
 	},
 	data() {
 		return {

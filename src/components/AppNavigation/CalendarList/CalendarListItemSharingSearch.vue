@@ -169,7 +169,6 @@ export default {
 				list.push({
 					user,
 					displayName: result.displayname,
-					icon: isGroup ? 'icon-group' : 'icon-user',
 					uri: decodedPrincipalScheme,
 					isGroup,
 					isCircle: false,
@@ -222,7 +221,6 @@ export default {
 			}).map(circle => ({
 				user: circle.label,
 				displayName: circle.label,
-				icon: 'icon-circle',
 				uri: 'principal:principals/circles/' + circle.value.shareWith,
 				isGroup: false,
 				isCircle: true,
