@@ -30,6 +30,7 @@ use OCA\Calendar\Service\JSDataService;
 use OCP\Dashboard\IWidget;
 use OCP\IInitialStateService;
 use OCP\IL10N;
+use OCP\Util;
 
 class CalendarWidget implements IWidget {
 
@@ -87,7 +88,7 @@ class CalendarWidget implements IWidget {
 	 * @inheritDoc
 	 */
 	public function getIconClass(): string {
-		return 'icon-calendar-dark';
+		return 'app-icon-calendar';
 	}
 
 	/**
@@ -101,7 +102,8 @@ class CalendarWidget implements IWidget {
 	 * @inheritDoc
 	 */
 	public function load(): void {
-		\OCP\Util::addScript('calendar', 'calendar-dashboard');
+		Util::addScript(Application::APP_ID, 'calendar-dashboard');
+		Util::addStyle(Application::APP_ID, 'dashboard');
 
 		$this->initialStateService->provideLazyInitialState(Application::APP_ID, 'dashboard_data', function () {
 			return $this->dataService;

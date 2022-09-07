@@ -1,0 +1,8 @@
+.app-icon-calendar {
+	background-image: url('../img/calendar-dark.svg');
+}
+
+/* for NC <= 24 */
+body.theme--dark .app-icon-calendar {
+	background-image: url('../img/calendar.svg');
+}
