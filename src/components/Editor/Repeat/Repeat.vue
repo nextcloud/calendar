@@ -99,8 +99,8 @@ import RepeatSummary from './RepeatSummary.vue'
 import RepeatIcon from 'vue-material-design-icons/Repeat.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 import Check from 'vue-material-design-icons/Check.vue'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import Actions from '@nextcloud/vue/dist/Components/NcActions'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
 
 export default {
 	name: 'Repeat',

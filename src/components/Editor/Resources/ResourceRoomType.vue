@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 import { getAllRoomTypes } from '../../../models/resourceProps'
 
 export default {

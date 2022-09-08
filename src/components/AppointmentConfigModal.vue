@@ -139,7 +139,7 @@
 
 <script>
 import { CalendarAvailability } from '@nextcloud/calendar-availability-vue'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
+import Modal from '@nextcloud/vue/dist/Components/NcModal'
 import TextInput from './AppointmentConfigModal/TextInput'
 import TextArea from './AppointmentConfigModal/TextArea'
 import AppointmentConfig from '../models/appointmentConfig'

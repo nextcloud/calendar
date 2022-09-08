@@ -228,11 +228,11 @@
 	</AppSidebar>
 </template>
 <script>
-import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
-import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import AppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar'
+import AppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab'
+import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
 
 import { mapState } from 'vuex'
 

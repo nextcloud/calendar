@@ -61,10 +61,10 @@
 
 <script>
 // Import vue components
-import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
-import AppNavigationSpacer from '@nextcloud/vue/dist/Components/AppNavigationSpacer'
-import AppContent from '@nextcloud/vue/dist/Components/AppContent'
-import Content from '@nextcloud/vue/dist/Components/Content'
+import AppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation'
+import AppNavigationSpacer from '@nextcloud/vue/dist/Components/NcAppNavigationSpacer'
+import AppContent from '@nextcloud/vue/dist/Components/NcAppContent'
+import Content from '@nextcloud/vue/dist/Components/NcContent'
 import AppNavigationHeader from '../components/AppNavigation/AppNavigationHeader.vue'
 import CalendarList from '../components/AppNavigation/CalendarList.vue'
 import Settings from '../components/AppNavigation/Settings.vue'

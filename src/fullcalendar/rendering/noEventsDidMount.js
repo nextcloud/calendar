@@ -20,7 +20,7 @@
  *
  */
 import Vue from 'vue'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
 import { translate as t } from '@nextcloud/l10n'
 
 /**
