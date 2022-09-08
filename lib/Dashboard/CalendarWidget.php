@@ -25,42 +25,49 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Dashboard;
 
+use DateInterval;
+use DateTime;
+use DateTimeImmutable;
 use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Service\JSDataService;
-use OCP\Dashboard\IWidget;
-use OCP\IInitialStateService;
+use OCA\DAV\CalDAV\CalDavBackend;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\Dashboard\IAPIWidget;
+use OCP\Dashboard\Model\WidgetItem;
+use OCP\IDateTimeFormatter;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\Util;
 
-class CalendarWidget implements IWidget {
-
-	/**
-	 * @var IL10N
-	 */
-	private $l10n;
-
-	/**
-	 * @var IInitialStateService
-	 */
-	private $initialStateService;
-
-	/**
-	 * @var JSDataService
-	 */
-	private $dataService;
+class CalendarWidget implements IAPIWidget {
+	private IL10N $l10n;
+	private IInitialState $initialStateService;
+	private JSDataService $dataService;
+	private IDateTimeFormatter $dateTimeFormatter;
+	private IURLGenerator $urlGenerator;
+	private CalDavBackend $calDavBackend;
 
 	/**
 	 * CalendarWidget constructor.
 	 * @param IL10N $l10n
-	 * @param IInitialStateService $initialStateService
+	 * @param IInitialState $initialStateService
 	 * @param JSDataService $dataService
+	 * @param IDateTimeFormatter $dateTimeFormatter
+	 * @param IURLGenerator $urlGenerator
+	 * @param CalDavBackend $calDavBackend
 	 */
 	public function __construct(IL10N $l10n,
-								IInitialStateService $initialStateService,
-								JSDataService $dataService) {
+								IInitialState $initialStateService,
+								JSDataService $dataService,
+								IDateTimeFormatter $dateTimeFormatter,
+								IURLGenerator $urlGenerator,
+								CalDavBackend $calDavBackend) {
 		$this->l10n = $l10n;
 		$this->initialStateService = $initialStateService;
 		$this->dataService = $dataService;
+		$this->dateTimeFormatter = $dateTimeFormatter;
+		$this->urlGenerator = $urlGenerator;
+		$this->calDavBackend = $calDavBackend;
 	}
 
 	/**
@@ -105,8 +112,51 @@ class CalendarWidget implements IWidget {
 		Util::addScript(Application::APP_ID, 'calendar-dashboard');
 		Util::addStyle(Application::APP_ID, 'dashboard');
 
-		$this->initialStateService->provideLazyInitialState(Application::APP_ID, 'dashboard_data', function () {
+		$this->initialStateService->provideLazyInitialState('dashboard_data', function () {
 			return $this->dataService;
 		});
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getItems(string $userId, ?string $since = null, int $limit = 7): array {
+		$calendars = $this->calDavBackend->getCalendarsForUser('principals/users/' . $userId);
+		$dateTimeNow = new DateTimeImmutable();
+		$inTwoWeeks = $dateTimeNow->add(new DateInterval('P14D'));
+		$events = [];
+		$options = [
+			'timerange' => [
+				'start' => $dateTimeNow,
+				'end' => $inTwoWeeks,
+			]
+		];
+		$searchLimit = null;
+		foreach ($calendars as $calKey => $calendar) {
+			$searchResult = array_map(static function($event) use ($calendar, $dateTimeNow) {
+				$event['calendar_color'] = $calendar['{http://apple.com/ns/ical/}calendar-color'];
+				return $event;
+			}, $this->calDavBackend->search($calendar, '', [], $options, $searchLimit, 0));
+			array_push($events, ...$searchResult);
+		}
+		// for each event, is there a simple way to get the first occurrence in the future?
+
+		return array_map(function(array $event) {
+			/** @var DateTimeImmutable $startDate */
+			$startDate = $event['objects'][0]['DTSTART'][0];
+			return new WidgetItem(
+				$event['objects'][0]['SUMMARY'][0] ?? '',
+				$this->dateTimeFormatter->formatTimeSpan(DateTime::createFromImmutable($startDate)),
+				// TODO fix this route and get the correct objectId
+				$this->urlGenerator->getAbsoluteURL(
+					$this->urlGenerator->linkToRoute('calendar.view.index', ['objectId' => $event['uid']])
+				),
+				// TODO find or implement and endpoint providing colored dots images
+				// reminder: we can use the event color and the calendar color as a fallback
+				'',
+				// TODO this should be the next occurence date
+				(string) $startDate->getTimestamp(),
+			);
+		}, $events);
 	}
 }
