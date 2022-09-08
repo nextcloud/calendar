@@ -30,6 +30,7 @@ use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Files\IAppData;
 use OCP\IConfig;
 use OCP\IRequest;
 use ChristophWurst\Nextcloud\Testing\TestCase;
@@ -61,6 +62,9 @@ class ViewControllerTest extends TestCase {
 	/** @var ViewController */
 	private $controller;
 
+	/** @var IAppData|MockObject */
+	private $appData;
+
 	protected function setUp(): void {
 		$this->appName = 'calendar';
 		$this->request = $this->createMock(IRequest::class);
@@ -69,6 +73,7 @@ class ViewControllerTest extends TestCase {
 		$this->appointmentContfigService = $this->createMock(AppointmentConfigService::class);
 		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->userId = 'user123';
+		$this->appData = $this->createMock(IAppData::class);
 
 		$this->controller = new ViewController(
 			$this->appName,
@@ -78,6 +83,7 @@ class ViewControllerTest extends TestCase {
 			$this->initialStateService,
 			$this->appManager,
 			$this->userId,
+			$this->appData,
 		);
 	}
 

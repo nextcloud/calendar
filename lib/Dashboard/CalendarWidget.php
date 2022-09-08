@@ -30,44 +30,52 @@ use DateTime;
 use DateTimeImmutable;
 use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Service\JSDataService;
-use OCA\DAV\CalDAV\CalDavBackend;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Calendar\IManager;
 use OCP\Dashboard\IAPIWidget;
+use OCP\Dashboard\IButtonWidget;
+use OCP\Dashboard\IIconWidget;
+use OCP\Dashboard\Model\WidgetButton;
 use OCP\Dashboard\Model\WidgetItem;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Util;
 
-class CalendarWidget implements IAPIWidget {
+class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget {
 	private IL10N $l10n;
 	private IInitialState $initialStateService;
 	private JSDataService $dataService;
 	private IDateTimeFormatter $dateTimeFormatter;
 	private IURLGenerator $urlGenerator;
-	private CalDavBackend $calDavBackend;
+	private IManager $calendarManager;
+	private ITimeFactory $timeFactory;
 
 	/**
 	 * CalendarWidget constructor.
+	 *
 	 * @param IL10N $l10n
 	 * @param IInitialState $initialStateService
 	 * @param JSDataService $dataService
 	 * @param IDateTimeFormatter $dateTimeFormatter
 	 * @param IURLGenerator $urlGenerator
-	 * @param CalDavBackend $calDavBackend
+	 * @param IManager $calendarManager
 	 */
 	public function __construct(IL10N $l10n,
 								IInitialState $initialStateService,
 								JSDataService $dataService,
 								IDateTimeFormatter $dateTimeFormatter,
 								IURLGenerator $urlGenerator,
-								CalDavBackend $calDavBackend) {
+								IManager $calendarManager,
+								ITimeFactory $timeFactory) {
 		$this->l10n = $l10n;
 		$this->initialStateService = $initialStateService;
 		$this->dataService = $dataService;
 		$this->dateTimeFormatter = $dateTimeFormatter;
 		$this->urlGenerator = $urlGenerator;
-		$this->calDavBackend = $calDavBackend;
+		$this->calendarManager = $calendarManager;
+		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -108,6 +116,15 @@ class CalendarWidget implements IAPIWidget {
 	/**
 	 * @inheritDoc
 	 */
+	public function getIconUrl(): string {
+		return $this->urlGenerator->getAbsoluteURL(
+			$this->urlGenerator->imagePath(Application::APP_ID, 'calendar-dark.svg')
+		);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function load(): void {
 		Util::addScript(Application::APP_ID, 'calendar-dashboard');
 		Util::addStyle(Application::APP_ID, 'dashboard');
@@ -119,44 +136,63 @@ class CalendarWidget implements IAPIWidget {
 
 	/**
 	 * @inheritDoc
+	 *
+	 * @param string|null $since Use any PHP DateTime allowed values to get future dates
+	 * @param int $limit  Max 14 items is the default
 	 */
-	public function getItems(string $userId, ?string $since = null, int $limit = 7): array {
-		$calendars = $this->calDavBackend->getCalendarsForUser('principals/users/' . $userId);
-		$dateTimeNow = new DateTimeImmutable();
-		$inTwoWeeks = $dateTimeNow->add(new DateInterval('P14D'));
-		$events = [];
+	public function getItems(string $userId, ?string $since = null, int $limit = 14): array {
+		$calendars = $this->calendarManager->getCalendarsForPrincipal('principals/users/' . $userId);
+		$count = count($calendars);
+		if ($count === 0) {
+			return [];
+		}
+		$limitPerCalendar = (int)round(($limit / $count)) ?? 1;
+		$dateTime = (new DateTimeImmutable())->setTimestamp($this->timeFactory->getTime());
+		if ($since !== null) {
+			try {
+				$dateTime = new DateTimeImmutable($since);
+			} catch (\Exception $e) {
+				// silently drop the exception and proceed with "now"
+			}
+		}
+		$inTwoWeeks = $dateTime->add(new DateInterval('P14D'));
 		$options = [
 			'timerange' => [
-				'start' => $dateTimeNow,
+				'start' => $dateTime,
 				'end' => $inTwoWeeks,
 			]
 		];
-		$searchLimit = null;
-		foreach ($calendars as $calKey => $calendar) {
-			$searchResult = array_map(static function($event) use ($calendar, $dateTimeNow) {
-				$event['calendar_color'] = $calendar['{http://apple.com/ns/ical/}calendar-color'];
-				return $event;
-			}, $this->calDavBackend->search($calendar, '', [], $options, $searchLimit, 0));
-			array_push($events, ...$searchResult);
+		$widgetItems = [];
+		foreach ($calendars as $calendar) {
+			$searchResult = $calendar->search('', [], $options, $limitPerCalendar);
+			foreach ($searchResult as $calendarEvent) {
+				/** @var DateTimeImmutable $startDate */
+				$startDate = $calendarEvent['objects'][0]['DTSTART'][0];
+				$widget = new WidgetItem(
+					$calendarEvent['objects'][0]['SUMMARY'][0] ?? 'New Event',
+					$this->dateTimeFormatter->formatTimeSpan(DateTime::createFromImmutable($startDate)),
+					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.index', ['objectId' => $calendarEvent['uid']])),
+					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.getCalendarDotSvg', ['color' => $calendar->getDisplayColor() ?? '#0082c9'])), // default NC blue fallback
+					(string) $startDate->getTimestamp(),
+				);
+				$widgetItems[] = $widget;
+			}
 		}
-		// for each event, is there a simple way to get the first occurrence in the future?
+		return $widgetItems;
+	}
 
-		return array_map(function(array $event) {
-			/** @var DateTimeImmutable $startDate */
-			$startDate = $event['objects'][0]['DTSTART'][0];
-			return new WidgetItem(
-				$event['objects'][0]['SUMMARY'][0] ?? '',
-				$this->dateTimeFormatter->formatTimeSpan(DateTime::createFromImmutable($startDate)),
-				// TODO fix this route and get the correct objectId
+	/**
+	 * @inheritDoc
+	 */
+	public function getWidgetButtons(string $userId): array {
+		return [
+			new WidgetButton(
+				WidgetButton::TYPE_MORE,
 				$this->urlGenerator->getAbsoluteURL(
-					$this->urlGenerator->linkToRoute('calendar.view.index', ['objectId' => $event['uid']])
+					$this->urlGenerator->linkToRoute(Application::APP_ID . '.view.index')
 				),
-				// TODO find or implement and endpoint providing colored dots images
-				// reminder: we can use the event color and the calendar color as a fallback
-				'',
-				// TODO this should be the next occurence date
-				(string) $startDate->getTimestamp(),
-			);
-		}, $events);
+				$this->l10n->t('More events')
+			),
+		];
 	}
 }
