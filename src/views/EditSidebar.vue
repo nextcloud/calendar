@@ -39,13 +39,9 @@
 		</template>
 
 		<template v-else-if="isError">
-			<EmptyContent>
-				{{ $t('calendar', 'Event does not exist') }}
+			<EmptyContent :title="$t('calendar', 'Event does not exist')" :description="error">
 				<template #icon>
 					<CalendarBlank :size="20" decorative />
-				</template>
-				<template #desc>
-					{{ error }}
 				</template>
 			</EmptyContent>
 		</template>

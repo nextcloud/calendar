@@ -22,15 +22,9 @@
 
 <template>
 	<div class="appointment-booking-confirmation">
-		<EmptyContent title="foobar">
+		<EmptyContent :title="$t('calendar', 'Please confirm your reservation')" :description="$t('calendar', 'We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now.')">
 			<template #icon>
 				<CheckIcon decorative />
-			</template>
-			{{ $t('calendar', 'Please confirm your reservation') }}
-			<template #desc>
-				<div class="appointment-booking-confirmation__desc">
-					{{ $t('calendar', 'We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now.') }}
-				</div>
 			</template>
 		</EmptyContent>
 	</div>

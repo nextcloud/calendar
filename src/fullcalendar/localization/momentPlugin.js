@@ -38,6 +38,7 @@ const momentFactory = ($store, { array }) => {
 /**
  * Construct a cmdFormatter that can be used to construct a FullCalendar plugin
  *
+ * @param $store
  * @return {function(string, string):string} cmdFormatter function
  */
 const cmdFormatterFactory = ($store) => (cmdStr, arg) => {

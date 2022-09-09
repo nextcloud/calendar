@@ -53,7 +53,7 @@
 						:size="20" />
 				</template>
 			</Button>
-			<Popover :open.sync="showTimezonePopover"
+			<Popover :shown.sync="showTimezonePopover"
 				open-class="timezone-popover-wrapper">
 				<div class="timezone-popover-wrapper__title">
 					<strong>
@@ -417,10 +417,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-::v-deep .button-vue__icon {
-		margin-top: 16px;
-}
 .highlighted-timezone-icon {
-opacity: .7;
+	opacity: .7;
+}
+::v-deep .mx-icon-calendar {
+	right: 0;
 }
 </style>

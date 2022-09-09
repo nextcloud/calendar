@@ -27,12 +27,10 @@
 		<template #default="{ item }">
 			<EmptyContent v-if="item.isEmptyItem"
 				id="calendar-widget-empty-content"
-				class="half-screen">
+				class="half-screen"
+				:title="t('calendar', 'No more events today')">
 				<template #icon>
 					<IconCheck :size="67" />
-				</template>
-				<template #desc>
-					{{ t('calendar', 'No more events today') }}
 				</template>
 			</EmptyContent>
 			<DashboardWidgetItem v-else
@@ -52,17 +50,17 @@
 			</DashboardWidgetItem>
 		</template>
 		<template #empty-content>
-			<EmptyContent id="calendar-widget-empty-content">
+			<EmptyContent id="calendar-widget-empty-content"
+				:title="t('calendar', 'No upcoming events')">
 				<template #icon>
 					<EmptyCalendar />
 				</template>
-				<template #desc>
-					{{ t('calendar', 'No upcoming events') }}
-					<div class="empty-label">
-						<a class="button" :href="clickStartNew"> {{ t('calendar', 'Create a new event') }} </a>
-					</div>
-				</template>
 			</EmptyContent>
+			<div class="empty-label">
+				<NcButton type="secondary" :href="clickStartNew">
+					{{ t('calendar', 'Create a new event') }}
+				</NcButton>
+			</div>
 		</template>
 	</DashboardWidget>
 </template>
@@ -74,6 +72,7 @@ import EmptyCalendar from 'vue-material-design-icons/CalendarBlankOutline'
 import IconCheck from 'vue-material-design-icons/Check'
 import { loadState } from '@nextcloud/initial-state'
 import moment from '@nextcloud/moment'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton'
 import { imagePath, generateUrl } from '@nextcloud/router'
 import { initializeClientForUserView } from '../services/caldavService'
 import { dateFactory } from '../utils/date'
@@ -88,6 +87,7 @@ export default {
 	components: {
 	  DashboardWidget,
 		DashboardWidgetItem,
+	  NcButton,
 		EmptyContent,
 	  EmptyCalendar,
 	  IconCheck,
@@ -320,10 +320,12 @@ export default {
 			margin-bottom: 2vh;
 		}
 
-		.empty-label {
-			margin-top: 5vh;
-			margin-right: 5px;
-		}
+	}
+
+	.empty-label {
+		display: flex;
+		justify-content: center;
+		margin-top: 5vh;
 	}
 }
 </style>
