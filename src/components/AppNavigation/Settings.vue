@@ -117,11 +117,11 @@
 </template>
 
 <script>
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import AppNavigationSettings from '@nextcloud/vue/dist/Components/AppNavigationSettings'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import ActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
+import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
+import AppNavigationSettings from '@nextcloud/vue/dist/Components/NcAppNavigationSettings'
+import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 import {
 	generateRemoteUrl,
 	generateUrl,

@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 
 export default {

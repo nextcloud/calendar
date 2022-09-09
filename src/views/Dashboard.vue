@@ -69,7 +69,7 @@
 
 <script>
 import { DashboardWidget, DashboardWidgetItem } from '@nextcloud/vue-dashboard'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
 import EmptyCalendar from 'vue-material-design-icons/CalendarBlankOutline'
 import IconCheck from 'vue-material-design-icons/Check'
 import { loadState } from '@nextcloud/initial-state'

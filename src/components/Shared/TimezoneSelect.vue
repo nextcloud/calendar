@@ -14,7 +14,7 @@
 
 <script>
 import { getReadableTimezoneName, getSortedTimezoneList } from '@nextcloud/calendar-js'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
 import { translate as t } from '@nextcloud/l10n'
 
 import getTimezoneManager from '../../services/timezoneDataProviderService.js'

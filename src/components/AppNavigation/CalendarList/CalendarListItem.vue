@@ -152,13 +152,13 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import ActionText from '@nextcloud/vue/dist/Components/ActionText'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import Avatar from '@nextcloud/vue/dist/Components/NcAvatar'
+import Actions from '@nextcloud/vue/dist/Components/NcActions'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import ActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
+import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
+import ActionText from '@nextcloud/vue/dist/Components/NcActionText'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem'
 import ClickOutside from 'vue-click-outside'
 import {
 	showInfo,

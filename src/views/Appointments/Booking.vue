@@ -82,10 +82,10 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
+import Avatar from '@nextcloud/vue/dist/Components/NcAvatar'
+import DatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker'
 import jstz from 'jstz'
-import TimezonePicker from '@nextcloud/vue/dist/Components/TimezonePicker'
+import TimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker'
 
 import AppointmentSlot from '../../components/Appointments/AppointmentSlot'
 import { bookSlot, findSlots } from '../../services/appointmentService'
