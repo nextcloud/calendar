@@ -34,7 +34,7 @@
 					:disabled="loadingCalendars" />
 
 				<!-- Appointment Configuration List -->
-				<template v-if="hasAppointmentsFeature && isAuthenticatedUser">
+				<template v-if="isAuthenticatedUser">
 					<AppNavigationSpacer />
 					<AppointmentConfigList />
 				</template>
@@ -177,10 +177,6 @@ export default {
 			}
 
 			return null
-		},
-		hasAppointmentsFeature() {
-			// TODO: Remove the end condition when Calendar doesn't support server < 23
-			return !this.disableAppointments && parseInt(OC.config.version.split('.')[0]) >= 23
 		},
 	},
 	created() {

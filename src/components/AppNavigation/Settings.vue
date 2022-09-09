@@ -95,8 +95,7 @@
 				</template>
 				{{ $t('calendar', 'Copy iOS/macOS CalDAV address') }}
 			</ActionButton>
-			<ActionLink v-if="hasAppointmentsFeature"
-				:href="availabilitySettingsUrl"
+			<ActionLink :href="availabilitySettingsUrl"
 				target="_blank">
 				<template #icon>
 					<OpenInNewIcon :size="20" decorative />
@@ -259,10 +258,6 @@ export default {
 		},
 		selectedDefaultReminderOption() {
 			return this.defaultReminderOptions.find(o => o.value === this.defaultReminder)
-		},
-		hasAppointmentsFeature() {
-			// TODO: Remove me when Calendar doesn't support server < 23
-			return parseInt(OC.config.version.split('.')[0]) >= 23
 		},
 		availabilitySettingsUrl() {
 			return generateUrl('/settings/user/groupware')
