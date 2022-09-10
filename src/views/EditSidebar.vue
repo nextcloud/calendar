@@ -170,6 +170,12 @@
 					:is-editing-master-item="isEditingMasterItem"
 					:is-recurrence-exception="isRecurrenceException"
 					@force-this-and-all-future="forceModifyingFuture" />
+
+				<template v-if="!isLoading">
+					<h3 class="app-sidebar-tab-details__resources-heading">{{ $t('calendar', 'Resources') }}</h3>
+					<ResourceList :calendar-object-instance="calendarObjectInstance"
+						:is-read-only="isReadOnly" />
+				</template>
 			</div>
 			<SaveButtons v-if="showSaveButtons"
 				class="app-sidebar-tab__buttons"
@@ -201,17 +207,25 @@
 				@save-this-and-all-future="saveAndLeave(true)" />
 		</AppSidebarTab>
 		<AppSidebarTab v-if="!isLoading && !isError"
-			id="app-sidebar-tab-resources"
+			id="app-sidebar-tab-media"
 			class="app-sidebar-tab"
-			:name="$t('calendar', 'Resources')"
+			:name="$t('calendar', 'Media')"
 			:order="2">
 			<template #icon>
-				<MapMarker :size="20" decorative />
+				<FolderMultipleImage :size="20" decorative />
 			</template>
 			<div class="app-sidebar-tab__content">
-				<ResourceList v-if="!isLoading"
-					:calendar-object-instance="calendarObjectInstance"
-					:is-read-only="isReadOnly" />
+				<RelatedResourcesPanel class="app-sidebar-tab-media__panel"
+					provider-id="calendar"
+					:item-id="itemId"
+					@has-resources="value => hasRelatedResources = value" />
+				<EmptyContent v-if="!hasRelatedResources"
+					class="app-sidebar-tab-media__empty-content"
+					:title="$t('calendar', 'No media')">
+					<template #icon>
+						<FolderMultipleImage :size="20" decorative />
+					</template>
+				</EmptyContent>
 			</div>
 			<SaveButtons v-if="showSaveButtons"
 				class="app-sidebar-tab__buttons"
@@ -229,6 +243,7 @@ import AppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
 import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import RelatedResourcesPanel from '@nextcloud/vue/dist/Components/NcRelatedResourcesPanel.js'
 
 import { mapState } from 'vuex'
 
@@ -256,7 +271,7 @@ import Delete from 'vue-material-design-icons/Delete.vue'
 import Download from 'vue-material-design-icons/Download.vue'
 import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
 import InformationOutline from 'vue-material-design-icons/InformationOutline.vue'
-import MapMarker from 'vue-material-design-icons/MapMarker.vue'
+import FolderMultipleImage from 'vue-material-design-icons/FolderMultipleImage.vue'
 
 export default {
 	name: 'EditSidebar',
@@ -284,12 +299,18 @@ export default {
 		Download,
 		ContentDuplicate,
 		InformationOutline,
-		MapMarker,
 		InvitationResponseButtons,
+		RelatedResourcesPanel,
+		FolderMultipleImage,
 	},
 	mixins: [
 		EditorMixin,
 	],
+	data() {
+		return {
+			hasRelatedResources: false,
+		}
+	},
 	computed: {
 		...mapState({
 			locale: (state) => state.settings.momentLocale,
@@ -324,6 +345,19 @@ export default {
 			}
 
 			return !eventComponent.isPartOfRecurrenceSet() || eventComponent.isExactForkOfPrimary
+		},
+		itemId() {
+			const principalUri = this.$store.getters.getCurrentUserPrincipal?.principalScheme.replace(/^principal:/, '')
+			if (!principalUri) {
+				return null
+			}
+
+			const calendarUri = this.selectedCalendar?.uri
+			if (!calendarUri) {
+				return null
+			}
+
+			return `${principalUri}:${calendarUri}`
 		},
 	},
 	mounted() {
@@ -412,5 +446,21 @@ export default {
 <style lang="scss" scoped>
 ::v-deep .app-sidebar-header__description {
 	flex-direction: column;
+}
+
+.app-sidebar-tab-details {
+	&__resources-heading {
+		margin-top: 20px;
+		font-weight: bold;
+	}
+}
+
+.app-sidebar-tab-media {
+	&__panel {
+		margin-top: 8px;
+	}
+	&__empty-content {
+		margin-top: 10vh !important;
+	}
 }
 </style>
