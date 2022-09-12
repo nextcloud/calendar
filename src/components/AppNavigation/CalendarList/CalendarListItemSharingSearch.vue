@@ -221,6 +221,7 @@ export default {
 			}).map(circle => ({
 				user: circle.label,
 				displayName: circle.label,
+				icon: 'icon-circle',
 				uri: 'principal:principals/circles/' + circle.value.shareWith,
 				isGroup: false,
 				isCircle: true,
