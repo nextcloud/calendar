@@ -294,6 +294,7 @@ OC.L10N.register(
     "Untitled task" : "Завдання без назви",
     "Please ask your administrator to enable the Tasks App." : "Зверніться до вашого адміністратора щодо увімкнення застосунку Завдання",
     "Next" : "Далі",
+    "Year" : "рік",
     "_+%n more_::_+%n more_" : ["+%n раз ще","+%n разів ще","+%n разів ще","+%n рази ще"],
     "Other" : "Інші",
     "When shared show" : "Показувати при поширенні",
