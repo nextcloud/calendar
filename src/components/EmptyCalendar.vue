@@ -21,13 +21,10 @@
   -->
 
 <template>
-	<EmptyContent>
-		{{ $t('calendar', 'Public calendar does not exist') }}
+	<EmptyContent :title="$t('calendar', 'Public calendar does not exist')"
+		:description="$t('calendar', 'Maybe the share was deleted or has expired?' )">
 		<template #icon>
 			<CalendarBlank :size="20" decorative />
-		</template>
-		<template #desc>
-			{{ $t('calendar', 'Maybe the share was deleted or has expired?' ) }}
 		</template>
 	</EmptyContent>
 </template>

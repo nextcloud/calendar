@@ -22,10 +22,9 @@
 
 <template>
 	<div class="app-config-modal-confirmation">
-		<EmptyContent>
-			<CheckIcon slot="icon" decorative />
-			<template #desc>
-				{{ title }}
+		<EmptyContent :title="title">
+			<template #icon>
+				<CheckIcon />
 			</template>
 		</EmptyContent>
 		<div class="app-config-modal-confirmation__buttons">

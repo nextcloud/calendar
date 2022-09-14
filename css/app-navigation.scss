@@ -181,6 +181,7 @@
 
 		.multiselect {
 			width: 100%;
+		  	border-radius: var(--border-radius-large);
 
 			&__content-wrapper {
 				z-index: 200 !important;

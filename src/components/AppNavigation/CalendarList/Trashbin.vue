@@ -34,18 +34,13 @@
 					<h2>{{ t('calendar', 'Trash bin') }}</h2>
 					<EmptyContent v-if="loading"
 						icon="icon-loading"
-						class="modal__content__loading">
-						<template #desc>
-							{{ t('calendar', 'Loading deleted elements.') }}
-						</template>
-					</EmptyContent>
+						class="modal__content__loading"
+						:description="t('calendar', 'Loading deleted elements.')" />
 					<EmptyContent v-else-if="!items.length"
-						class="modal__content__empty">
+						class="modal__content__empty"
+						:description="t('calendar', 'You do not have any deleted elements.')">
 						<template #icon>
 							<Delete :size="20" decorative />
-						</template>
-						<template #desc>
-							{{ t('calendar', 'You do not have any deleted elements.') }}
 						</template>
 					</EmptyContent>
 					<template v-else>
@@ -68,7 +63,9 @@
 										</div>
 
 										<div>
-											<div class="item-name">{{ item.name }}</div>
+											<div class="item-name">
+												{{ item.name }}
+											</div>
 											<div v-if="item.subline" class="item-subline">
 												{{ item.subline }}
 											</div>

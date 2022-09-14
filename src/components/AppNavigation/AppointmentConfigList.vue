@@ -33,7 +33,9 @@
 				#actions>
 				<ActionButton :close-after-click="true"
 					@click="showModalForNewConfig = true">
-					<PlusIcon slot="icon" :size="20" decorative />
+					<template #icon>
+						<PlusIcon :size="20" decorative />
+					</template>
 					{{ t('calendar', 'Add new') }}
 				</ActionButton>
 			</template>
