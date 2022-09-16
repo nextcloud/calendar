@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { randomId } from '../../utils/randomId'
+import { randomId } from '../../utils/randomId.js'
 
 export default {
 	name: 'NumberInput',

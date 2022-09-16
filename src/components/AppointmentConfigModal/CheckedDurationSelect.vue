@@ -42,8 +42,8 @@
 </template>
 
 <script>
-import DurationSelect from './DurationSelect'
-import { randomId } from '../../utils/randomId'
+import DurationSelect from './DurationSelect.vue'
+import { randomId } from '../../utils/randomId.js'
 
 export default {
 	name: 'CheckedDurationSelect',

@@ -64,8 +64,8 @@ import {
 import { mapState } from 'vuex'
 import formatDateRage from '../../../filters/dateRangeFormat.js'
 import DatePicker from '../../Shared/DatePicker.vue'
-import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft'
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight'
+import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
+import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 
 export default {
 	name: 'AppNavigationHeaderDatePicker',

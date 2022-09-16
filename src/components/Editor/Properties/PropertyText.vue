@@ -54,8 +54,8 @@
 
 <script>
 import autosize from '../../../directives/autosize.js'
-import PropertyMixin from '../../../mixins/PropertyMixin'
-import linkify from '@nextcloud/vue/dist/Directives/Linkify'
+import PropertyMixin from '../../../mixins/PropertyMixin.js'
+import linkify from '@nextcloud/vue/dist/Directives/Linkify.js'
 
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
 

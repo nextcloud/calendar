@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { timeStampToLocaleTime } from '../../utils/localeTime'
+import { timeStampToLocaleTime } from '../../utils/localeTime.js'
 
 export default {
 	name: 'AppointmentSlot',

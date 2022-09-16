@@ -57,10 +57,10 @@
 </template>
 
 <script>
-import PropertyMixin from '../../../mixins/PropertyMixin'
-import Actions from '@nextcloud/vue/dist/Components/NcActions'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import ColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker'
+import PropertyMixin from '../../../mixins/PropertyMixin.js'
+import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import ColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
 import debounce from 'debounce'
 
 import Undo from 'vue-material-design-icons/Undo.vue'

@@ -71,8 +71,8 @@
 </template>
 
 <script>
-import PropertyMixin from '../../../mixins/PropertyMixin'
-import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import PropertyMixin from '../../../mixins/PropertyMixin.js'
+import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 import PropertySelectMultipleColoredTag from './PropertySelectMultipleColoredTag.vue'
 import PropertySelectMultipleColoredOption from './PropertySelectMultipleColoredOption.vue'
 import { getLocale } from '@nextcloud/l10n'

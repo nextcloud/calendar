@@ -63,10 +63,10 @@
 
 <script>
 import { mapState } from 'vuex'
-import InviteesListSearch from './InviteesListSearch'
-import InviteesListItem from './InviteesListItem'
-import OrganizerListItem from './OrganizerListItem'
-import NoAttendeesView from '../NoAttendeesView'
+import InviteesListSearch from './InviteesListSearch.vue'
+import InviteesListItem from './InviteesListItem.vue'
+import OrganizerListItem from './OrganizerListItem.vue'
+import NoAttendeesView from '../NoAttendeesView.vue'
 import OrganizerNoEmailError from '../OrganizerNoEmailError.vue'
 import { createTalkRoom, doesDescriptionContainTalkLink } from '../../../services/talkService.js'
 import FreeBusy from '../FreeBusy/FreeBusy.vue'
@@ -74,7 +74,7 @@ import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
-import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee'
+import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
 
 export default {
 	name: 'InviteesList',

@@ -84,7 +84,7 @@
 <script>
 import moment from '@nextcloud/moment'
 import DatePicker from '../../Shared/DatePicker.vue'
-import IconTimezone from 'vue-material-design-icons/Web'
+import IconTimezone from 'vue-material-design-icons/Web.vue'
 import { mapState } from 'vuex'
 
 export default {

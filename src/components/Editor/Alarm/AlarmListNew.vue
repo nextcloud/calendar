@@ -38,7 +38,7 @@ import {
 	getAmountHoursMinutesAndUnitForAllDayEvents,
 } from '../../../utils/alarms.js'
 import alarmFormat from '../../../filters/alarmFormat.js'
-import PropertySelect from '../Properties/PropertySelect'
+import PropertySelect from '../Properties/PropertySelect.vue'
 
 export default {
 	name: 'AlarmListNew',

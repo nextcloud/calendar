@@ -81,16 +81,16 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/NcAvatar'
-import { checkResourceAvailability } from '../../../services/freeBusyService'
-import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import { checkResourceAvailability } from '../../../services/freeBusyService.js'
+import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 import debounce from 'debounce'
-import logger from '../../../utils/logger'
-import { advancedPrincipalPropertySearch } from '../../../services/caldavService'
-import Actions from '@nextcloud/vue/dist/Components/NcActions'
-import ActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
-import ResourceSeatingCapacity from './ResourceSeatingCapacity'
-import ResourceRoomType from './ResourceRoomType'
+import logger from '../../../utils/logger.js'
+import { advancedPrincipalPropertySearch } from '../../../services/caldavService.js'
+import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
+import ActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
+import ResourceSeatingCapacity from './ResourceSeatingCapacity.vue'
+import ResourceRoomType from './ResourceRoomType.vue'
 
 export default {
 	name: 'ResourceListSearch',

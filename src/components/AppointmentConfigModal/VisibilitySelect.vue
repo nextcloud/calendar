@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<Select :label="label"
+	<SelectWrapper :label="label"
 		:value="value"
 		:disabled="disabled"
 		:options="options"
@@ -29,12 +29,12 @@
 </template>
 
 <script>
-import Select from './Select'
+import SelectWrapper from './SelectWrapper.vue'
 
 export default {
 	name: 'VisibilitySelect',
 	components: {
-		Select,
+		SelectWrapper,
 	},
 	props: {
 		label: {

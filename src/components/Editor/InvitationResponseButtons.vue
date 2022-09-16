@@ -56,11 +56,11 @@
 </template>
 
 <script>
-import Actions from '@nextcloud/vue/dist/Components/NcActions'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
+import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import CalendarQuestionIcon from 'vue-material-design-icons/CalendarQuestion.vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import logger from '../../utils/logger'
+import logger from '../../utils/logger.js'
 
 export default {
 	name: 'InvitationResponseButtons',

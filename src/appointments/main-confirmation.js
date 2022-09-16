@@ -26,7 +26,7 @@ import { linkTo } from '@nextcloud/router'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import Vue from 'vue'
 
-import Confirmation from '../views/Appointments/Confirmation'
+import Confirmation from '../views/Appointments/Confirmation.vue'
 
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line

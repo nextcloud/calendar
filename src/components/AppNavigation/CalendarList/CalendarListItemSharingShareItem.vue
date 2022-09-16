@@ -51,10 +51,10 @@
 </template>
 
 <script>
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import ActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem'
-import Avatar from '@nextcloud/vue/dist/Components/NcAvatar'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import ActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import {
 	showInfo,
 } from '@nextcloud/dialogs'

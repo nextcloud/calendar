@@ -161,12 +161,12 @@
 	</Popover>
 </template>
 <script>
-import Actions from '@nextcloud/vue/dist/Components/NcActions'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
-import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
-import Popover from '@nextcloud/vue/dist/Components/NcPopover'
-import EditorMixin from '../mixins/EditorMixin'
+import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import Popover from '@nextcloud/vue/dist/Components/NcPopover.js'
+import EditorMixin from '../mixins/EditorMixin.js'
 import IllustrationHeader from '../components/Editor/IllustrationHeader.vue'
 import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'
 import PropertyTitleTimePicker
@@ -179,7 +179,7 @@ import PopoverLoadingIndicator
 	from '../components/Popover/PopoverLoadingIndicator.vue'
 import { getPrefixedRoute } from '../utils/router.js'
 import InvitationResponseButtons
-	from '../components/Editor/InvitationResponseButtons'
+	from '../components/Editor/InvitationResponseButtons.vue'
 
 import ArrowExpand from 'vue-material-design-icons/ArrowExpand.vue'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'

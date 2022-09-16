@@ -21,8 +21,8 @@
  */
 
 import { AttendeeProperty } from '@nextcloud/calendar-js'
-import { addMailtoPrefix, removeMailtoPrefix } from '../utils/attendee'
-import { doFreeBusyRequest } from '../utils/freebusy'
+import { addMailtoPrefix, removeMailtoPrefix } from '../utils/attendee.js'
+import { doFreeBusyRequest } from '../utils/freebusy.js'
 
 /**
  * Check resource availability using a free busy request

@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import CalendarPicker from '../../Shared/CalendarPicker'
+import CalendarPicker from '../../Shared/CalendarPicker.vue'
 import CalendarPickerOption from '../../Shared/CalendarPickerOption.vue'
 
 export default {

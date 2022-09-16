@@ -59,15 +59,15 @@
 </template>
 
 <script>
-import AppointmentConfigListItem from './AppointmentConfigList/AppointmentConfigListItem'
-import AppNavigationCaption from '@nextcloud/vue/dist/Components/NcAppNavigationCaption'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import PlusIcon from 'vue-material-design-icons/Plus'
-import AppointmentConfigModal from '../AppointmentConfigModal'
-import AppointmentConfig from '../../models/appointmentConfig'
-import logger from '../../utils/logger'
+import AppointmentConfigListItem from './AppointmentConfigList/AppointmentConfigListItem.vue'
+import AppNavigationCaption from '@nextcloud/vue/dist/Components/NcAppNavigationCaption.js'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import AppointmentConfigModal from '../AppointmentConfigModal.vue'
+import AppointmentConfig from '../../models/appointmentConfig.js'
+import logger from '../../utils/logger.js'
 import { mapGetters } from 'vuex'
-import NoEmailAddressWarning from '../AppointmentConfigModal/NoEmailAddressWarning'
+import NoEmailAddressWarning from '../AppointmentConfigModal/NoEmailAddressWarning.vue'
 
 export default {
 	name: 'AppointmentConfigList',

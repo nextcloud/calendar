@@ -55,7 +55,7 @@
 
 <script>
 import ImportScreenRow from './ImportScreenRow.vue'
-import Modal from '@nextcloud/vue/dist/Components/NcModal'
+import Modal from '@nextcloud/vue/dist/Components/NcModal.js'
 
 export default {
 	name: 'ImportScreen',

@@ -66,15 +66,15 @@
 </template>
 
 <script>
-import Actions from '@nextcloud/vue/dist/Components/NcActions'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import ActionCaption from '@nextcloud/vue/dist/Components/NcActionCaption'
-import ActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator'
-import AvatarParticipationStatus from '../AvatarParticipationStatus'
-import { removeMailtoPrefix } from '../../../utils/attendee'
-import logger from '../../../utils/logger'
-import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService'
-import { formatRoomType } from '../../../models/resourceProps'
+import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import ActionCaption from '@nextcloud/vue/dist/Components/NcActionCaption.js'
+import ActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
+import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
+import { removeMailtoPrefix } from '../../../utils/attendee.js'
+import logger from '../../../utils/logger.js'
+import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
+import { formatRoomType } from '../../../models/resourceProps.js'
 
 import Delete from 'vue-material-design-icons/Delete.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'

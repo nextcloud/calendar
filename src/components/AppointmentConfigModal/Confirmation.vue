@@ -43,9 +43,9 @@
 </template>
 
 <script>
-import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
-import CheckIcon from 'vue-material-design-icons/Check'
-import AppointmentConfig from '../../models/appointmentConfig'
+import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import AppointmentConfig from '../../models/appointmentConfig.js'
 
 export default {
 	name: 'Confirmation',

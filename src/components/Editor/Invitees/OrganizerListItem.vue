@@ -40,8 +40,8 @@
 </template>
 
 <script>
-import AvatarParticipationStatus from '../AvatarParticipationStatus'
-import { removeMailtoPrefix } from '../../../utils/attendee'
+import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
+import { removeMailtoPrefix } from '../../../utils/attendee.js'
 
 export default {
 	name: 'OrganizerListItem',

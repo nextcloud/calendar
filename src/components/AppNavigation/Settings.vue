@@ -116,11 +116,11 @@
 </template>
 
 <script>
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import ActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox'
-import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
-import AppNavigationSettings from '@nextcloud/vue/dist/Components/NcAppNavigationSettings'
-import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import ActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
+import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import AppNavigationSettings from '@nextcloud/vue/dist/Components/NcAppNavigationSettings.js'
+import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 import {
 	generateRemoteUrl,
 	generateUrl,
@@ -150,7 +150,7 @@ import { getDefaultAlarms } from '../../defaults/defaultAlarmProvider.js'
 
 import ClipboardArrowLeftOutline from 'vue-material-design-icons/ClipboardArrowLeftOutline.vue'
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
-import OpenInNewIcon from 'vue-material-design-icons/OpenInNew'
+import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 
 export default {
 	name: 'Settings',
