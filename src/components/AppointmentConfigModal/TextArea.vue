@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import { randomId } from '../../utils/randomId'
-import autosize from '../../directives/autosize'
+import { randomId } from '../../utils/randomId.js'
+import autosize from '../../directives/autosize.js'
 
 export default {
 	name: 'TextArea',

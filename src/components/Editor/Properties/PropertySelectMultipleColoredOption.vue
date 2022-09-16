@@ -30,7 +30,7 @@
 
 <script>
 import { uidToColor } from '../../../utils/uidToColor.js'
-import logger from '../../../utils/logger'
+import logger from '../../../utils/logger.js'
 
 export default {
 	name: 'PropertySelectMultipleColoredOption',

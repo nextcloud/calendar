@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 
 export default {
 	name: 'RepeatFirstLastSelect',

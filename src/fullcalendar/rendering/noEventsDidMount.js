@@ -20,8 +20,8 @@
  *
  */
 import Vue from 'vue'
-import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent'
-import CalendarIcon from 'vue-material-design-icons/CalendarBlank'
+import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import CalendarIcon from 'vue-material-design-icons/CalendarBlank.vue'
 import { translate as t } from '@nextcloud/l10n'
 
 /**

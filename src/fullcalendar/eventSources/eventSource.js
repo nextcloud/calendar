@@ -22,7 +22,7 @@
 import {
 	generateTextColorForHex,
 } from '../../utils/color.js'
-import getTimezoneManager from '../../services/timezoneDataProviderService'
+import getTimezoneManager from '../../services/timezoneDataProviderService.js'
 import { getUnixTimestampFromDate } from '../../utils/date.js'
 import { eventSourceFunction } from './eventSourceFunction.js'
 import logger from '../../utils/logger.js'

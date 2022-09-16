@@ -71,8 +71,8 @@ import {
 	mapGetters,
 	mapState,
 } from 'vuex'
-import Modal from '@nextcloud/vue/dist/Components/NcModal'
-import DatePicker from '../../Shared/DatePicker'
+import Modal from '@nextcloud/vue/dist/Components/NcModal.js'
+import DatePicker from '../../Shared/DatePicker.vue'
 import { getColorForFBType } from '../../../utils/freebusy.js'
 import { getLocale } from '@nextcloud/l10n'
 import { getFirstDayOfWeekFromMomentLocale } from '../../../utils/moment.js'

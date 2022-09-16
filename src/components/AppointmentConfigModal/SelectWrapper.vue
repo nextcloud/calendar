@@ -37,10 +37,10 @@
 </template>
 
 <script>
-import { randomId } from '../../utils/randomId'
+import { randomId } from '../../utils/randomId.js'
 
 export default {
-	name: 'Select',
+	name: 'SelectWrapper',
 	props: {
 		label: {
 			type: String,

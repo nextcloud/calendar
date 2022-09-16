@@ -144,11 +144,11 @@
 </template>
 
 <script>
-import Actions from '@nextcloud/vue/dist/Components/NcActions'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import ActionInput from '@nextcloud/vue/dist/Components/NcActionInput'
-import ActionText from '@nextcloud/vue/dist/Components/NcActionText'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem'
+import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import ActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
+import ActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import ClickOutside from 'vue-click-outside'
 import {
 	generateRemoteUrl,

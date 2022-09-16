@@ -39,8 +39,8 @@
 </template>
 
 <script>
-import AlarmListNew from './AlarmListNew'
-import AlarmListItem from './AlarmListItem'
+import AlarmListNew from './AlarmListNew.vue'
+import AlarmListItem from './AlarmListItem.vue'
 import { mapState } from 'vuex'
 
 export default {

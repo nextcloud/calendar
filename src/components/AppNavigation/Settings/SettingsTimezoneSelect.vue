@@ -32,7 +32,7 @@ import {
 	mapState,
 } from 'vuex'
 
-import TimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker'
+import TimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker.js'
 import { detectTimezone } from '../../../services/timezoneDetectionService.js'
 import {
 	showInfo,

@@ -26,7 +26,7 @@ import { linkTo } from '@nextcloud/router'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import Vue from 'vue'
 
-import Booking from '../views/Appointments/Booking'
+import Booking from '../views/Appointments/Booking.vue'
 
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line

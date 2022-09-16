@@ -23,7 +23,7 @@ import {
 	NamedTimeZoneImpl,
 	createPlugin,
 } from '@fullcalendar/core'
-import getTimezoneManager from '../../services/timezoneDataProviderService'
+import getTimezoneManager from '../../services/timezoneDataProviderService.js'
 import logger from '../../utils/logger.js'
 
 /**

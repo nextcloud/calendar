@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/NcAvatar'
+import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 
 export default {
 	name: 'CalendarPickerOption',

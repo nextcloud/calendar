@@ -82,15 +82,15 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/NcAvatar'
-import DatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker'
+import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import DatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js'
 import jstz from 'jstz'
-import TimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker'
+import TimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker.js'
 
-import AppointmentSlot from '../../components/Appointments/AppointmentSlot'
-import { bookSlot, findSlots } from '../../services/appointmentService'
-import AppointmentDetails from '../../components/Appointments/AppointmentDetails'
-import AppointmentBookingConfirmation from '../../components/Appointments/AppointmentBookingConfirmation'
+import AppointmentSlot from '../../components/Appointments/AppointmentSlot.vue'
+import { bookSlot, findSlots } from '../../services/appointmentService.js'
+import AppointmentDetails from '../../components/Appointments/AppointmentDetails.vue'
+import AppointmentBookingConfirmation from '../../components/Appointments/AppointmentBookingConfirmation.vue'
 
 export default {
 	name: 'Booking',

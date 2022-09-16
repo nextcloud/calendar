@@ -56,14 +56,14 @@
 </template>
 
 <script>
-import { advancedPrincipalPropertySearch } from '../../../services/caldavService'
-import { checkResourceAvailability } from '../../../services/freeBusyService'
-import logger from '../../../utils/logger'
-import NoAttendeesView from '../NoAttendeesView'
-import ResourceListSearch from './ResourceListSearch'
-import ResourceListItem from './ResourceListItem'
-import OrganizerNoEmailError from '../OrganizerNoEmailError'
-import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee'
+import { advancedPrincipalPropertySearch } from '../../../services/caldavService.js'
+import { checkResourceAvailability } from '../../../services/freeBusyService.js'
+import logger from '../../../utils/logger.js'
+import NoAttendeesView from '../NoAttendeesView.vue'
+import ResourceListSearch from './ResourceListSearch.vue'
+import ResourceListItem from './ResourceListItem.vue'
+import OrganizerNoEmailError from '../OrganizerNoEmailError.vue'
+import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
 
 import MapMarker from 'vue-material-design-icons/MapMarker.vue'
 

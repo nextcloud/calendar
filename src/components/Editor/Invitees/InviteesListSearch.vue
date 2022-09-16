@@ -62,13 +62,13 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/NcAvatar'
-import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect'
+import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
 import { linkTo } from '@nextcloud/router'
-import { randomId } from '../../../utils/randomId'
+import { randomId } from '../../../utils/randomId.js'
 
 export default {
 	name: 'InviteesListSearch',

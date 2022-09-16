@@ -19,8 +19,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getDurationValueFromFullCalendarDuration } from '../duration'
-import getTimezoneManager from '../../services/timezoneDataProviderService'
+import { getDurationValueFromFullCalendarDuration } from '../duration.js'
+import getTimezoneManager from '../../services/timezoneDataProviderService.js'
 import logger from '../../utils/logger.js'
 import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
 

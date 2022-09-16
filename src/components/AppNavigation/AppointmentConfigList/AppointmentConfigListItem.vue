@@ -59,18 +59,18 @@
 </template>
 
 <script>
-import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton'
-import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink'
-import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck'
-import DeleteIcon from 'vue-material-design-icons/Delete'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
+import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
-import PencilIcon from 'vue-material-design-icons/Pencil'
-import AppointmentConfig from '../../../models/appointmentConfig'
-import AppointmentConfigModal from '../../AppointmentConfigModal'
-import LinkVariantIcon from 'vue-material-design-icons/LinkVariant'
+import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import AppointmentConfig from '../../../models/appointmentConfig.js'
+import AppointmentConfigModal from '../../AppointmentConfigModal.vue'
+import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import logger from '../../../utils/logger'
+import logger from '../../../utils/logger.js'
 
 export default {
 	name: 'AppointmentConfigListItem',
