@@ -271,3 +271,9 @@ export default {
 }
 
 </style>
+
+<style lang="scss">
+#content.app-calendar {
+	background-color: var(--color-main-background);
+}
+</style>
