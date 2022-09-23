@@ -1,6 +1,8 @@
 <!--
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
+  -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license AGPL-3.0-or-later
   -
@@ -22,13 +24,13 @@
 <template>
 	<AppNavigationItem class="app-navigation-entry-new-calendar"
 		:class="{'app-navigation-entry-new-calendar--open': isOpen}"
-		:title="$t('calendar', '+ New calendar')"
+		:title="$t('calendar', 'New calendar')"
 		:menu-open.sync="isOpen"
 		@click.prevent.stop="toggleDialog">
-		<template #menu-icon>
-			<Plus :size="20" decorative />
+		<template #icon>
+			<Plus :size="20" />
 		</template>
-		<template slot="actions">
+		<template #actions>
 			<ActionButton v-if="showCreateCalendarLabel"
 				@click.prevent.stop="openCreateCalendarInput">
 				<template #icon>
