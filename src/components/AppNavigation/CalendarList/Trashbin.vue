@@ -35,10 +35,10 @@
 					<EmptyContent v-if="loading"
 						icon="icon-loading"
 						class="modal__content__loading"
-						:description="t('calendar', 'Loading deleted elements.')" />
+						:description="t('calendar', 'Loading deleted items.')" />
 					<EmptyContent v-else-if="!items.length"
 						class="modal__content__empty"
-						:description="t('calendar', 'You do not have any deleted elements.')">
+						:description="t('calendar', 'You do not have any deleted items.')">
 						<template #icon>
 							<Delete :size="20" decorative />
 						</template>
@@ -93,7 +93,7 @@
 						</table>
 						<div class="footer">
 							<p v-if="retentionDuration">
-								{{ n('calendar', 'Elements in the trash bin are deleted after {numDays} day', 'Elements in the trash bin are deleted after {numDays} days', retentionDuration, { numDays: retentionDuration }) }}
+								{{ n('calendar', 'Items in the trash bin are deleted after {numDays} day', 'Items in the trash bin are deleted after {numDays} days', retentionDuration, { numDays: retentionDuration }) }}
 							</p>
 							<button @click="onEmptyTrashBin()">
 								{{ t('calendar','Empty trash bin') }}
@@ -160,7 +160,7 @@ export default {
 				color: calendar.color ?? uidToHexColor(calendar.displayname),
 			}))
 			const formattedCalendarObjects = this.objects.map(vobject => {
-				let eventSummary = t('calendar', 'Untitled element')
+				let eventSummary = t('calendar', 'Untitled item')
 				try {
 					eventSummary = vobject?.calendarComponent.getComponentIterator().next().value?.title
 				} catch (e) {
