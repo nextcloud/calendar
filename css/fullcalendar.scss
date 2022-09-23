@@ -82,11 +82,7 @@
 // Today highlighting
 .fc-day-today {
 	&.fc-col-header-cell {
-		background-color: var(--color-primary-light);
 		a, span {
-			background-color: var(--color-primary);
-			color: var(--color-primary-text) !important;
-			border-radius: var(--border-radius-pill);
 			padding: 2px 6px;
 			font-weight: bold;
 		}
@@ -96,16 +92,17 @@
 		box-shadow: 0px 0px 0px 1px var(--color-primary-light) !important;
 	}
 
-	.fc-daygrid-day-number {
-		background: var(--color-primary);
-		color: var(--color-primary-text);
-		border-radius: 50%;
-		margin: 4px;
-		width: 24px;
-		height: 24px;
-		text-align: center;
-		font-weight: bold !important;
-		padding: 0 !important;
+	.fc-daygrid-day-top {
+		background-color: var(--color-main-background);
+
+		.fc-daygrid-day-number {
+			margin: 4px;
+			width: 24px;
+			height: 24px;
+			text-align: center;
+			font-weight: bold !important;
+			padding: 0 !important;
+		}
 	}
 }
 
@@ -115,11 +112,14 @@
 	word-break: break-word;
 }
 
-// highlight current day
-.fc .fc-daygrid-day.fc-day-today,
-.fc .fc-timegrid-col.fc-day-today {
-	background-color: var(--color-primary-light) !important;
-	background-clip: padding-box;
+// highlight current day (exclude day view)
+.fc-timeGridWeek-view,
+.fc-dayGridMonth-view {
+	.fc-daygrid-day.fc-day-today,
+	.fc-timegrid-col.fc-day-today {
+		background-color: var(--color-primary-light) !important;
+		background-clip: padding-box;
+	}
 }
 
 // emphasize current month in month view
