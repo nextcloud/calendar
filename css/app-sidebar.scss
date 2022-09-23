@@ -730,6 +730,11 @@
 }
 
 .event-popover {
+	// Don't cut popovers above popovers (e.g. date time picker)
+	.v-popper__inner {
+		overflow: unset !important;
+	}
+
 	.event-popover__inner {
 		text-align: left;
 		max-width: 480px;
