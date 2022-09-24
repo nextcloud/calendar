@@ -40,7 +40,6 @@ OC.L10N.register(
     "No users or groups" : "Ei ole kasutajaid või gruppe",
     "can edit" : "saab muuta",
     "Unshare with {displayName}" : "Lõpeta jagamine kasutajaga: {displayName}",
-    "+ New calendar" : "+ Uus kalender",
     "New calendar" : "Uus kalender",
     "Name" : "Nimi",
     "Deleted" : "Kustutatud",

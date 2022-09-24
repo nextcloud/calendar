@@ -67,7 +67,6 @@ OC.L10N.register(
     "Unshare with {displayName}" : "Batal berbagi dengan {displayName}",
     "An error occurred, unable to change the unshare the calendar." : "Terjadi galat, tidak dapat mengubah pembatalan berbagi kalender.",
     "An error occurred, unable to change the permission of the share." : "Terjadi galat, tidak dapat mengubah hak akses berbagi.",
-    "+ New calendar" : "+ Kalender baru",
     "New calendar" : "Kalender baru",
     "Creating calendar …" : "Membuat kalender …",
     "New calendar with task list" : "Kalender baru dengan daftar tugas",

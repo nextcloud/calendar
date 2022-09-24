@@ -43,7 +43,6 @@ OC.L10N.register(
     "Copied code" : "Còdi copiat",
     "Could not copy code" : "Se poguèt pas copiar lo còdi",
     "can edit" : "pòt modificar",
-    "+ New calendar" : "+ Calendièr novèl",
     "New calendar" : "Calendièr novèl",
     "Name for new calendar" : "Nom del calendièr novèl",
     "Creating calendar …" : "Creacion del calendièr…",

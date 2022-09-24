@@ -79,7 +79,6 @@ OC.L10N.register(
     "Unshare with {displayName}" : "عدم اشتراک گذاری با {displayName}",
     "An error occurred, unable to change the unshare the calendar." : "خطایی روی داد ، قادر به تغییر تقویم عدم اشتراک گذاری نیست.",
     "An error occurred, unable to change the permission of the share." : "خطایی روی داد ، قادر به تغییر مجوز اشتراک نیست.",
-    "+ New calendar" : "+ تقویم جدید",
     "New calendar" : "تقویم جدید",
     "Creating calendar …" : "ایجاد تقویم ...",
     "New calendar with task list" : "تقویم جدید با لیست کارها",

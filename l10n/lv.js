@@ -24,7 +24,6 @@ OC.L10N.register(
     "Share with users or groups" : "Koplietot ar lietotājiem vai grupām",
     "No users or groups" : "Nav lietotāji vai grupas",
     "can edit" : "var rediģēt",
-    "+ New calendar" : "+ Jauns kalendārs",
     "New calendar" : "Jauns kalendārs",
     "New calendar with task list" : "Jauns kalendārs ar uzdevumu sarakstu",
     "Name" : "Vārds",

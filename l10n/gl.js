@@ -79,7 +79,6 @@ OC.L10N.register(
     "Unshare with {displayName}" : "Deixar de compartir con {displayName}",
     "An error occurred, unable to change the unshare the calendar." : "Produciuse un erro, non é posíbel cambiar a non compartición do calendario.",
     "An error occurred, unable to change the permission of the share." : "Produciuse un erro, non é posíbel cambiar o permiso da compartición.",
-    "+ New calendar" : "+ Novo calendario",
     "New calendar" : "Novo calendario",
     "Creating calendar …" : "Creando o calendario …",
     "New calendar with task list" : "Novo calendario con lista de tarefas",
