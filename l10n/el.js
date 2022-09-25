@@ -105,6 +105,7 @@ OC.L10N.register(
     "Restore" : "Επαναφορά",
     "Delete permanently" : "Οριστική διαγραφή",
     "Empty trash bin" : "Άδειασμα κάδου",
+    "Untitled item" : "Στοιχείο χωρίς όνομα",
     "Unknown calendar" : "Άγνωστο ημερολόγιο",
     "Could not load deleted calendars and objects" : "Δεν ήταν δυνατή η φόρτωση διαγραμμένων ημερολογίων και αντικειμένων",
     "Could not restore calendar or event" : "Δεν ήταν δυνατή η επαναφορά ημερολογίου ή συμβάντος",
