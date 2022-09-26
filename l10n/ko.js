@@ -239,7 +239,7 @@ OC.L10N.register(
     "Update this and all future" : "이후 모든 일정 업데이트",
     "Public calendar does not exist" : "공용 달력이 존재하지 않음",
     "Maybe the share was deleted or has expired?" : "공유가 삭제되었거나 만료되었을 수 있습니다.",
-    "Please select a time zone:" : "시간대를 선택해 주십시오: ",
+    "Please select a time zone:" : "시간대를 선택하십시오:",
     "Pick a time" : "시간 선택",
     "Pick a date" : "날짜 선택",
     "from {formattedDate}" : "{formattedDate} 부터",

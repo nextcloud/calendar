@@ -114,7 +114,7 @@
     "Could not load deleted calendars and objects" : "Gelöschte Kalender und Objekte konnten nicht geladen werden",
     "Could not restore calendar or event" : "Kalender oder Termin konnte nicht wiederhergestellt werden",
     "Do you really want to empty the trash bin?" : "Möchten Sie wirklich den Papierkorb leeren?",
-    "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Element im Papierkorb wird nach {numDays} Tagen gelöscht","Elemente im Papierkorb werden nach {numDays} Tagen gelöscht"],
+    "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Elemente im Papierkorb werden nach {numDays} Tag gelöscht","Elemente im Papierkorb werden nach {numDays} Tagen gelöscht"],
     "Could not update calendar order." : "Kalenderreihenfolge konnte nicht aktualisiert werden.",
     "Import calendars" : "Kalender importieren",
     "Please select a calendar to import into …" : "Bitte wählen Sie einen Kalender aus, in den importiert werden soll …",
