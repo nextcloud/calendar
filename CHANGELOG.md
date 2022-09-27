@@ -1,6 +1,19 @@
 
 # Changelog
 
+## 4.0.0 - 2022-09-27
+### Added
+- New design
+- Primary light background to month week and header
+### Changed
+- Drop Nextcloud 22-24 support
+- Remove unused icons and icon stylesheets
+### Fixed
+- Some translation issues with whitespaces
+- Padding of left sidebar header
+- Cut off datetime picker in simple editor
+- Contrast for day header
+
 ## 3.5.0 - 2022-08-25
 ### Added
 - Option to copy calendar events
