@@ -93,8 +93,6 @@
 	}
 
 	.fc-daygrid-day-top {
-		background-color: var(--color-main-background);
-
 		.fc-daygrid-day-number {
 			margin: 4px;
 			width: 24px;
@@ -115,6 +113,7 @@
 // highlight current day (exclude day view)
 .fc-timeGridWeek-view,
 .fc-dayGridMonth-view {
+	.fc-col-header-cell.fc-day-today,
 	.fc-daygrid-day.fc-day-today,
 	.fc-timegrid-col.fc-day-today {
 		background-color: var(--color-primary-light) !important;
