@@ -25,3 +25,13 @@ updates:
     versions:
     - ">= 4.a"
     - "< 5"
+
+# stable3.5
+- package-ecosystem: npm
+  target-branch: stable3.5
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 0
+  labels:
+    - 3 - to review
