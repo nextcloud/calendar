@@ -55,7 +55,6 @@
 }
 
 .freebusy-caption {
-	display: flex;
 	margin-top: 10px;
 
 	&__calendar-user-types,
@@ -65,12 +64,13 @@
 	}
 
 	&__colors {
-		display: flex;
-		justify-content: space-between;
-
+		width: 100%;
+		display:flex;
+		flex-wrap: wrap;
 		.freebusy-caption-item {
 			display: flex;
 			align-items: center;
+			margin-right: 30px;
 
 			&__color {
 				height: 1em;
