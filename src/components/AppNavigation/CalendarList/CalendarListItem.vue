@@ -1,5 +1,6 @@
 <!--
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
+  - @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
   - @license GNU AGPL version 3 or any later version
@@ -140,7 +141,7 @@
 		<template v-if="!deleteTimeout">
 			<div v-show="shareMenuOpen" class="sharing-section">
 				<CalendarListItemSharingSearch v-if="calendar.canBeShared" :calendar="calendar" />
-				<CalendarListItemSharingPublishItem v-if="calendar.canBePublished" :calendar="calendar" />
+				<CalendarListItemSharingPublishItem v-if="calendar.canBePublished && canSharePublicLink" :calendar="calendar" />
 				<CalendarListItemSharingShareItem v-for="sharee in calendar.shares"
 					v-show="shareMenuOpen"
 					:key="sharee.uri"
@@ -181,6 +182,7 @@ import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 import ShareVariant from 'vue-material-design-icons/ShareVariant.vue'
 import Undo from 'vue-material-design-icons/Undo.vue'
+import { mapState } from 'vuex'
 
 export default {
 	name: 'CalendarListItem',
@@ -233,6 +235,9 @@ export default {
 		}
 	},
 	computed: {
+        ...mapState({
+            canSharePublicLink: state => state.settings.canSharePublicLink,
+        }),
 		/**
 		 * Download url of the calendar
 		 *
