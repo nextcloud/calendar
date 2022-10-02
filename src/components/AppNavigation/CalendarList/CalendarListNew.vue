@@ -1,5 +1,6 @@
 <!--
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
+  - @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
   - @license GNU AGPL version 3 or any later version
@@ -70,7 +71,7 @@
 				{{ $t('calendar', 'Creating calendar …') }}
 			</ActionText>
 
-			<ActionButton v-if="showCreateSubscriptionLabel"
+			<ActionButton v-if="showCreateSubscriptionLabel && canSubscribeLink"
 				@click.prevent.stop="openCreateSubscriptionInput">
 				<template #icon>
 					<LinkVariant :size="20" decorative />
@@ -108,6 +109,7 @@ import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import CalendarCheck from 'vue-material-design-icons/CalendarCheck.vue'
 import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
+import { mapState } from 'vuex'
 
 export default {
 	name: 'CalendarListNew',
@@ -138,6 +140,11 @@ export default {
 			showCreateSubscriptionInput: false,
 			showCreateSubscriptionSaving: false,
 		}
+	},
+	computed: {
+		...mapState({
+			canSubscribeLink: state => state.settings.canSubscribeLink,
+		}),
 	},
 	watch: {
 		isOpen() {

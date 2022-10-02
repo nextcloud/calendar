@@ -1,5 +1,6 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
@@ -213,6 +214,7 @@ Initial settings:
 	- HideEventExport: false
 	- ForceEventAlarmType: false
 	- disableAppointments: false
+	- CanSubscribeLink: true
 `)
 		expect(state).toEqual({
 			appVersion: '2.1.0',
@@ -232,6 +234,7 @@ Initial settings:
 			hideEventExport: false,
 			forceEventAlarmType: false,
 			disableAppointments: false,
+			canSubscribeLink: true,
 		})
 	})
 
