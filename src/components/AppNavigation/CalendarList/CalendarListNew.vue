@@ -25,7 +25,6 @@
 		:class="{'app-navigation-entry-new-calendar--open': isOpen}"
 		:title="$t('calendar', '+ New calendar')"
 		:menu-open.sync="isOpen"
-		menu-icon="icon-add"
 		@click.prevent.stop="toggleDialog">
 		<template #menu-icon>
 			<Plus :size="20" decorative />

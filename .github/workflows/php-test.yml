@@ -45,10 +45,6 @@ jobs:
       uses: actions/checkout@v2
       with:
         path: nextcloud/apps/calendar
-    - name: Fix php-parser on stable20 incompatibility with phpunit 9.3+
-      if: ${{ matrix.nextcloud-versions == 'stable20' }}
-      working-directory: nextcloud/3rdparty
-      run: composer require nikic/php-parser:4.10
     - name: Install dependencies
       working-directory: nextcloud/apps/calendar
       run: composer install

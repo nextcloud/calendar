@@ -67,6 +67,7 @@ OC.L10N.register(
     "Save" : "Salvesta",
     "Update" : "Uuenda",
     "Your email address" : "Sinu e-posti aadress",
+    "Notification" : "Teavitus",
     "Email" : "Epost",
     "On date" : "Kuupäeval",
     "Unknown" : "Teadmata",
