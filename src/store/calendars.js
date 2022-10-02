@@ -35,9 +35,9 @@ import {
 	findAllDeletedCalendars,
 	findPublicCalendarsByTokens,
 } from '../services/caldavService.js'
-import { mapCDavObjectToCalendarObject } from '../models/calendarObject'
+import { mapCDavObjectToCalendarObject } from '../models/calendarObject.js'
 import { dateFactory, getUnixTimestampFromDate } from '../utils/date.js'
-import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar'
+import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar.js'
 import pLimit from 'p-limit'
 import { uidToHexColor } from '../utils/color.js'
 import { translate as t } from '@nextcloud/l10n'

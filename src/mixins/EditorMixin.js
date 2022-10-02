@@ -21,7 +21,7 @@
  *
  */
 
-import { getRFCProperties } from '../models/rfcProps'
+import { getRFCProperties } from '../models/rfcProps.js'
 import logger from '../utils/logger.js'
 import { getIllustrationForTitle } from '../utils/illustration.js'
 import { getPrefixedRoute } from '../utils/router.js'
@@ -32,7 +32,7 @@ import {
 	mapState,
 } from 'vuex'
 import { translate as t } from '@nextcloud/l10n'
-import { removeMailtoPrefix } from '../utils/attendee'
+import { removeMailtoPrefix } from '../utils/attendee.js'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is

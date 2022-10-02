@@ -5,7 +5,7 @@
   - @author Georg Ehrke <oc.list@georgehrke.com>
   - @author Jakob Röhrl <jakob.roehrl@web.de>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -43,12 +43,12 @@
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
 import { generateOcsUrl } from '@nextcloud/router'
-import { urldecode } from '../../../utils/url'
+import { urldecode } from '../../../utils/url.js'
 
 export default {
 	name: 'CalendarListItemSharingSearch',
@@ -221,6 +221,7 @@ export default {
 			}).map(circle => ({
 				user: circle.label,
 				displayName: circle.label,
+				icon: 'icon-circle',
 				uri: 'principal:principals/circles/' + circle.value.shareWith,
 				isGroup: false,
 				isCircle: true,

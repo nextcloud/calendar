@@ -3,7 +3,7 @@
   -
   - @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -48,12 +48,9 @@
 				</div>
 			</template>
 			<div v-else>
-				<EmptyContent>
+				<EmptyContent :title="$t('calendar', 'No public appointments found for {name}', { name: userInfo.displayName })">
 					<template #icon>
 						<CalendarBlankIcon decorative />
-					</template>
-					<template #desc>
-						{{ $t('calendar', 'No public appointments found for {name}', { name: userInfo.displayName }) }}
 					</template>
 				</EmptyContent>
 			</div>
@@ -62,10 +59,10 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import { generateUrl } from '@nextcloud/router'
-import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck'
+import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
 import CalendarBlankIcon from 'vue-material-design-icons/CalendarBlank.vue'
 
 export default {

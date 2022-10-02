@@ -3,7 +3,7 @@
   -
   - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -22,23 +22,17 @@
 
 <template>
 	<div class="appointment-booking-confirmation">
-		<EmptyContent title="foobar">
+		<EmptyContent :title="$t('calendar', 'Please confirm your reservation')" :description="$t('calendar', 'We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now.')">
 			<template #icon>
 				<CheckIcon decorative />
-			</template>
-			{{ $t('calendar', 'Please confirm your reservation') }}
-			<template #desc>
-				<div class="appointment-booking-confirmation__desc">
-					{{ $t('calendar', 'We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now.') }}
-				</div>
 			</template>
 		</EmptyContent>
 	</div>
 </template>
 
 <script>
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import CheckIcon from 'vue-material-design-icons/Check'
+import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
 
 export default {
 	name: 'AppointmentBookingConfirmation',

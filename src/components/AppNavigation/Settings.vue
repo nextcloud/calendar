@@ -2,7 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -95,8 +95,7 @@
 				</template>
 				{{ $t('calendar', 'Copy iOS/macOS CalDAV address') }}
 			</ActionButton>
-			<ActionLink v-if="hasAppointmentsFeature"
-				:href="availabilitySettingsUrl"
+			<ActionLink :href="availabilitySettingsUrl"
 				target="_blank">
 				<template #icon>
 					<OpenInNewIcon :size="20" decorative />
@@ -117,11 +116,11 @@
 </template>
 
 <script>
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import AppNavigationSettings from '@nextcloud/vue/dist/Components/AppNavigationSettings'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import ActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
+import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import AppNavigationSettings from '@nextcloud/vue/dist/Components/NcAppNavigationSettings.js'
+import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 import {
 	generateRemoteUrl,
 	generateUrl,
@@ -151,7 +150,7 @@ import { getDefaultAlarms } from '../../defaults/defaultAlarmProvider.js'
 
 import ClipboardArrowLeftOutline from 'vue-material-design-icons/ClipboardArrowLeftOutline.vue'
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
-import OpenInNewIcon from 'vue-material-design-icons/OpenInNew'
+import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 
 export default {
 	name: 'Settings',
@@ -259,10 +258,6 @@ export default {
 		},
 		selectedDefaultReminderOption() {
 			return this.defaultReminderOptions.find(o => o.value === this.defaultReminder)
-		},
-		hasAppointmentsFeature() {
-			// TODO: Remove me when Calendar doesn't support server < 23
-			return parseInt(OC.config.version.split('.')[0]) >= 23
 		},
 		availabilitySettingsUrl() {
 			return generateUrl('/settings/user/groupware')

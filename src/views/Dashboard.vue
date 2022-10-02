@@ -3,7 +3,7 @@
 	-
 	- @author Julius Härtl <jus@bitgrid.net>
 	-
-	- @license GNU AGPL version 3 or any later version
+	- @license AGPL-3.0-or-later
 	-
 	- This program is free software: you can redistribute it and/or modify
 	- it under the terms of the GNU Affero General Public License as
@@ -27,12 +27,10 @@
 		<template #default="{ item }">
 			<EmptyContent v-if="item.isEmptyItem"
 				id="calendar-widget-empty-content"
-				class="half-screen">
+				class="half-screen"
+				:title="t('calendar', 'No more events today')">
 				<template #icon>
 					<IconCheck :size="67" />
-				</template>
-				<template #desc>
-					{{ t('calendar', 'No more events today') }}
 				</template>
 			</EmptyContent>
 			<DashboardWidgetItem v-else
@@ -52,33 +50,34 @@
 			</DashboardWidgetItem>
 		</template>
 		<template #empty-content>
-			<EmptyContent id="calendar-widget-empty-content">
+			<EmptyContent id="calendar-widget-empty-content"
+				:title="t('calendar', 'No upcoming events')">
 				<template #icon>
 					<EmptyCalendar />
 				</template>
-				<template #desc>
-					{{ t('calendar', 'No upcoming events') }}
-					<div class="empty-label">
-						<a class="button" :href="clickStartNew"> {{ t('calendar', 'Create a new event') }} </a>
-					</div>
-				</template>
 			</EmptyContent>
+			<div class="empty-label">
+				<NcButton type="secondary" :href="clickStartNew">
+					{{ t('calendar', 'Create a new event') }}
+				</NcButton>
+			</div>
 		</template>
 	</DashboardWidget>
 </template>
 
 <script>
 import { DashboardWidget, DashboardWidgetItem } from '@nextcloud/vue-dashboard'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import EmptyCalendar from 'vue-material-design-icons/CalendarBlankOutline'
-import IconCheck from 'vue-material-design-icons/Check'
+import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import EmptyCalendar from 'vue-material-design-icons/CalendarBlankOutline.vue'
+import IconCheck from 'vue-material-design-icons/Check.vue'
 import { loadState } from '@nextcloud/initial-state'
 import moment from '@nextcloud/moment'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import { imagePath, generateUrl } from '@nextcloud/router'
-import { initializeClientForUserView } from '../services/caldavService'
-import { dateFactory } from '../utils/date'
+import { initializeClientForUserView } from '../services/caldavService.js'
+import { dateFactory } from '../utils/date.js'
 import pLimit from 'p-limit'
-import { eventSourceFunction } from '../fullcalendar/eventSources/eventSourceFunction'
+import { eventSourceFunction } from '../fullcalendar/eventSources/eventSourceFunction.js'
 import loadMomentLocalization from '../utils/moment.js'
 import { DateTimeValue } from '@nextcloud/calendar-js'
 import { mapGetters } from 'vuex'
@@ -88,6 +87,7 @@ export default {
 	components: {
 	  DashboardWidget,
 		DashboardWidgetItem,
+	  NcButton,
 		EmptyContent,
 	  EmptyCalendar,
 	  IconCheck,
@@ -320,10 +320,12 @@ export default {
 			margin-bottom: 2vh;
 		}
 
-		.empty-label {
-			margin-top: 5vh;
-			margin-right: 5px;
-		}
+	}
+
+	.empty-label {
+		display: flex;
+		justify-content: center;
+		margin-top: 5vh;
 	}
 }
 </style>

@@ -20,7 +20,7 @@
  *
  */
 import Vue from 'vue'
-import getTimezoneManager from '../services/timezoneDataProviderService'
+import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import {
 	getDateFromDateTimeValue,
 } from '../utils/date.js'
@@ -44,7 +44,7 @@ import { mapAlarmComponentToAlarmObject } from '../models/alarm.js'
 import { getObjectAtRecurrenceId } from '../utils/calendarObject.js'
 import logger from '../utils/logger.js'
 import settings from './settings.js'
-import { getRFCProperties } from '../models/rfcProps'
+import { getRFCProperties } from '../models/rfcProps.js'
 
 const state = {
 	isNew: null,

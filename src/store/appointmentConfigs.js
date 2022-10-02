@@ -21,8 +21,8 @@
  */
 
 import Vue from 'vue'
-import { createConfig, deleteConfig, updateConfig } from '../services/appointmentConfigService'
-import logger from '../utils/logger'
+import { createConfig, deleteConfig, updateConfig } from '../services/appointmentConfigService.js'
+import logger from '../utils/logger.js'
 
 const state = {
 	configs: {},

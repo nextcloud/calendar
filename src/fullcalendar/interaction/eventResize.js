@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getDurationValueFromFullCalendarDuration } from '../duration'
+import { getDurationValueFromFullCalendarDuration } from '../duration.js'
 import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
 
 /**

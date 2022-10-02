@@ -3,7 +3,7 @@
   -
   - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -66,15 +66,15 @@
 </template>
 
 <script>
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionCaption from '@nextcloud/vue/dist/Components/ActionCaption'
-import ActionSeparator from '@nextcloud/vue/dist/Components/ActionSeparator'
-import AvatarParticipationStatus from '../AvatarParticipationStatus'
-import { removeMailtoPrefix } from '../../../utils/attendee'
-import logger from '../../../utils/logger'
-import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService'
-import { formatRoomType } from '../../../models/resourceProps'
+import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import ActionCaption from '@nextcloud/vue/dist/Components/NcActionCaption.js'
+import ActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
+import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
+import { removeMailtoPrefix } from '../../../utils/attendee.js'
+import logger from '../../../utils/logger.js'
+import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
+import { formatRoomType } from '../../../models/resourceProps.js'
 
 import Delete from 'vue-material-design-icons/Delete.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'

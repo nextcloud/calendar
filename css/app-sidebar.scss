@@ -22,7 +22,7 @@
  */
 
 .app-sidebar,
-.event-popover .popover__inner {
+.event-popover .event-popover__inner {
 	.app-sidebar-header__figure {
 		height: unset !important;
 	}
@@ -88,17 +88,15 @@
 		height: auto !important;
 
 		&__buttons {
-			padding-top: 14px;
 			position: fixed;
-			bottom: 0px;
+			bottom: var(--body-container-margin);;
 			z-index: 2;
 			width: calc(27vw - 11px);
 			min-width: 300px - 11px;
 			max-width: 500px - 11px;
-			right: 10px;
 			background-color: var(--color-main-background);
-			padding-left: 22px;
-			padding-right: 22px;
+			border-radius: 0 0 var(--body-container-radius) 0;
+			padding: 0 8px 6px 0;
 
 			button {
 				width: 100%;
@@ -601,7 +599,7 @@
 			}
 
 			textarea {
-				max-height: calc(100vh - 600px);
+				max-height: calc(100vh - 500px);
 				vertical-align: top;
 				margin: 0;
 			}
@@ -636,6 +634,13 @@
 					padding: 8px 7px;
 				}
 			}
+		}
+	}
+
+	.property-select,
+	.property-select-multiple {
+		.multiselect {
+			min-width: unset !important;
 		}
 	}
 
@@ -725,10 +730,15 @@
 }
 
 .event-popover {
-	.popover__inner {
+	// Don't cut popovers above popovers (e.g. date time picker)
+	.v-popper__inner {
+		overflow: unset !important;
+	}
+
+	.event-popover__inner {
 		text-align: left;
-		max-width: 450px;
-		width: 450px;
+		max-width: 480px;
+		width: 480px;
 		padding: 5px 8px;
 
 		.empty-content {
@@ -742,15 +752,10 @@
 			margin-bottom: 5px;
 			background-color: var(--color-background-dark);
 			// There is probably a more elegant solution for this
-			margin-top: -5px;
-			margin-left: -8px;
-			width: 466px;
+			margin: -5px 0 5px -8px;
+			width: 496px;
 			border-top-left-radius: var(--border-radius);
 			border-top-right-radius: var(--border-radius);
-		}
-
-		.popover__inner {
-			max-width: unset !important;
 		}
 
 		.property-title-time-picker {

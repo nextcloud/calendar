@@ -28,7 +28,7 @@ import logger from '../utils/logger.js'
 import {
 	getDefaultPrincipalObject,
 	mapDavToPrincipal,
-} from '../models/principal'
+} from '../models/principal.js'
 
 const state = {
 	principals: [],

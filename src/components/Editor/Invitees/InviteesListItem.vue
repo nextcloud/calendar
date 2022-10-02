@@ -4,7 +4,7 @@
   - @author Georg Ehrke <oc.list@georgehrke.com>
   - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -73,12 +73,12 @@
 </template>
 
 <script>
-import AvatarParticipationStatus from '../AvatarParticipationStatus'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
-import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
-import { removeMailtoPrefix } from '../../../utils/attendee'
+import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
+import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import ActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio.js'
+import ActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
+import { removeMailtoPrefix } from '../../../utils/attendee.js'
 
 import Delete from 'vue-material-design-icons/Delete.vue'
 

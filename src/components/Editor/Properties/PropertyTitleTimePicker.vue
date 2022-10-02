@@ -5,7 +5,7 @@
   - @author Georg Ehrke <oc.list@georgehrke.com>
   - @author Jakob Röhrl <jakob.roehrl@web.de>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -54,29 +54,29 @@
 					:title="endTimezone"
 					:class="{ 'highlighted-timezone-icon': highlightStartTimezone }"
 					:size="20" />
-				<div class="property-title-time-picker-read-only-wrapper">
-					<div class="property-title-time-picker-read-only-wrapper__label">
-						{{ formattedEnd }}
-					</div>
-					<IconTimezone v-if="!isAllDay"
-						:title="endTimezone"
-						:class="{ 'highlighted-timezone-icon': highlightStartTimezone }"
-						:size="20" />
+			</div>
+			<div class="property-title-time-picker-read-only-wrapper">
+				<div class="property-title-time-picker-read-only-wrapper__label">
+					{{ formattedEnd }}
 				</div>
+				<IconTimezone v-if="!isAllDay"
+					:title="endTimezone"
+					:class="{ 'highlighted-timezone-icon': highlightStartTimezone }"
+					:size="20" />
 			</div>
+		</div>
 
-			<div v-if="!isReadOnly" class="property-title-time-picker__all-day">
-				<input id="allDay"
-					:checked="isAllDay"
-					type="checkbox"
-					class="checkbox"
-					:disabled="!canModifyAllDay"
-					@change="toggleAllDay">
-				<label v-tooltip="allDayTooltip"
-					for="allDay">
-					{{ $t('calendar', 'All day') }}
-				</label>
-			</div>
+		<div v-if="!isReadOnly" class="property-title-time-picker__all-day">
+			<input id="allDay"
+				:checked="isAllDay"
+				type="checkbox"
+				class="checkbox"
+				:disabled="!canModifyAllDay"
+				@change="toggleAllDay">
+			<label v-tooltip="allDayTooltip"
+				for="allDay">
+				{{ $t('calendar', 'All day') }}
+			</label>
 		</div>
 	</div>
 </template>
@@ -84,7 +84,7 @@
 <script>
 import moment from '@nextcloud/moment'
 import DatePicker from '../../Shared/DatePicker.vue'
-import IconTimezone from 'vue-material-design-icons/Web'
+import IconTimezone from 'vue-material-design-icons/Web.vue'
 import { mapState } from 'vuex'
 
 export default {

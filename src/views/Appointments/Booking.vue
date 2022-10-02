@@ -3,7 +3,7 @@
   -
   - @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -82,15 +82,15 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
+import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import DatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js'
 import jstz from 'jstz'
-import TimezonePicker from '@nextcloud/vue/dist/Components/TimezonePicker'
+import TimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker.js'
 
-import AppointmentSlot from '../../components/Appointments/AppointmentSlot'
-import { bookSlot, findSlots } from '../../services/appointmentService'
-import AppointmentDetails from '../../components/Appointments/AppointmentDetails'
-import AppointmentBookingConfirmation from '../../components/Appointments/AppointmentBookingConfirmation'
+import AppointmentSlot from '../../components/Appointments/AppointmentSlot.vue'
+import { bookSlot, findSlots } from '../../services/appointmentService.js'
+import AppointmentDetails from '../../components/Appointments/AppointmentDetails.vue'
+import AppointmentBookingConfirmation from '../../components/Appointments/AppointmentBookingConfirmation.vue'
 
 export default {
 	name: 'Booking',

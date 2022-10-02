@@ -29,8 +29,6 @@
 .today-button-section,
 .view-button-section {
 	display: flex;
-	margin-left: 3px;
-	margin-right: 3px;
 
 	.button {
 		// this border-radius affects the button in the middle of the group
@@ -91,13 +89,11 @@
 }
 
 .app-navigation-header {
-	padding: 3px 3px 0 3px;
+	padding: calc(var(--default-grid-baseline, 4px) * 2);
 }
 
 .new-event-today-view-section {
 	display: flex;
-	margin-left: 3px;
-	margin-right: 3px;
 
 	.new-event {
 		flex-grow: 5;
@@ -181,6 +177,7 @@
 
 		.multiselect {
 			width: 100%;
+		  	border-radius: var(--border-radius-large);
 
 			&__content-wrapper {
 				z-index: 200 !important;

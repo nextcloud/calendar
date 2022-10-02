@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -124,11 +124,11 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import IconCheck from 'vue-material-design-icons/CheckCircle'
-import IconNoResponse from 'vue-material-design-icons/HelpCircle'
-import IconClose from 'vue-material-design-icons/CloseCircle'
-import IconDelegated from 'vue-material-design-icons/ArrowRightDropCircle'
+import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import IconCheck from 'vue-material-design-icons/CheckCircle.vue'
+import IconNoResponse from 'vue-material-design-icons/HelpCircle.vue'
+import IconClose from 'vue-material-design-icons/CloseCircle.vue'
+import IconDelegated from 'vue-material-design-icons/ArrowRightDropCircle.vue'
 
 export default {
 	name: 'AvatarParticipationStatus',

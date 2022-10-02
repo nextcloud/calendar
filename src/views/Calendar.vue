@@ -3,7 +3,7 @@
   - @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<Content app-name="calendar" :class="classNames">
+	<NcContent app-name="calendar" :class="classNames">
 		<AppNavigation v-if="!isEmbedded && !showEmptyCalendarScreen">
 			<!-- Date Picker, View Buttons, Today Button -->
 			<AppNavigationHeader :is-public="!isAuthenticatedUser" />
@@ -35,7 +35,7 @@
 					:disabled="loadingCalendars" />
 
 				<!-- Appointment Configuration List -->
-				<template v-if="hasAppointmentsFeature && isAuthenticatedUser">
+				<template v-if="isAuthenticatedUser">
 					<AppNavigationSpacer />
 					<AppointmentConfigList />
 				</template>
@@ -57,15 +57,15 @@
 		</AppContent>
 		<!-- Edit modal -->
 		<router-view />
-	</Content>
+	</NcContent>
 </template>
 
 <script>
 // Import vue components
-import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
-import AppNavigationSpacer from '@nextcloud/vue/dist/Components/AppNavigationSpacer'
-import AppContent from '@nextcloud/vue/dist/Components/AppContent'
-import Content from '@nextcloud/vue/dist/Components/Content'
+import AppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
+import AppNavigationSpacer from '@nextcloud/vue/dist/Components/NcAppNavigationSpacer.js'
+import AppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
+import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
 import AppNavigationHeader from '../components/AppNavigation/AppNavigationHeader.vue'
 import CalendarList from '../components/AppNavigation/CalendarList.vue'
 import Settings from '../components/AppNavigation/Settings.vue'
@@ -87,8 +87,8 @@ import {
 	getUnixTimestampFromDate,
 	getYYYYMMDDFromFirstdayParam,
 } from '../utils/date.js'
-import getTimezoneManager from '../services/timezoneDataProviderService'
-import logger from '../utils/logger'
+import getTimezoneManager from '../services/timezoneDataProviderService.js'
+import logger from '../utils/logger.js'
 import {
 	mapGetters,
 	mapState,
@@ -99,8 +99,8 @@ import {
 	showWarning,
 } from '@nextcloud/dialogs'
 import '@nextcloud/dialogs/styles/toast.scss'
-import Trashbin from '../components/AppNavigation/CalendarList/Trashbin'
-import AppointmentConfigList from '../components/AppNavigation/AppointmentConfigList'
+import Trashbin from '../components/AppNavigation/CalendarList/Trashbin.vue'
+import AppointmentConfigList from '../components/AppNavigation/AppointmentConfigList.vue'
 
 export default {
 	name: 'Calendar',
@@ -112,7 +112,7 @@ export default {
 		Settings,
 		CalendarList,
 		AppNavigationHeader,
-		Content,
+		NcContent,
 		AppContent,
 		AppNavigation,
 		AppNavigationSpacer,
@@ -178,10 +178,6 @@ export default {
 			}
 
 			return null
-		},
-		hasAppointmentsFeature() {
-			// TODO: Remove the end condition when Calendar doesn't support server < 23
-			return !this.disableAppointments && parseInt(OC.config.version.split('.')[0]) >= 23
 		},
 	},
 	created() {

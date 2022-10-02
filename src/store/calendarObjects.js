@@ -24,7 +24,7 @@
  *
  */
 import Vue from 'vue'
-import { mapCalendarJsToCalendarObject } from '../models/calendarObject'
+import { mapCalendarJsToCalendarObject } from '../models/calendarObject.js'
 import logger from '../utils/logger.js'
 import {
 	createEvent,
