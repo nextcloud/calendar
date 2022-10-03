@@ -235,9 +235,13 @@ class BookingServiceTest extends TestCase {
 			->method('filter')
 			->willReturnArgument(1);
 		$this->bookingCalendarWriter->expects(self::once())
-			->method('write');
+			->method('write')
+			->willReturn('abc');
 		$this->bookingMapper->expects(self::once())
 			->method('update');
+		$this->mailService->expects(self::once())
+			->method('sendBookingInformationEmail')
+			->with($booking, $config, 'abc');
 
 		$this->service->confirmBooking($booking, $config);
 	}
@@ -265,6 +269,8 @@ class BookingServiceTest extends TestCase {
 			->method('write');
 		$this->bookingMapper->expects(self::never())
 			->method('delete');
+		$this->mailService->expects(self::never())
+			->method('sendBookingInformationEmail');
 
 		$this->expectException(ClientException::class);
 		$this->service->confirmBooking($booking, $config);
