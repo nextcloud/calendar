@@ -1,6 +1,6 @@
 name: "Bug"
 description: "Have you encountered a bug?"
-labels: ["bug", "0. to triage"]
+labels: ["bug", "0 - to triage"]
 body:
   - type: markdown
     attributes:
