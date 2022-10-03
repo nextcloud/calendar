@@ -424,7 +424,7 @@ export default {
 			// TODO - use menuOpen to keep it open instead of toast
 
 			try {
-				await this.$copyText(url)
+				await navigator.clipboard.writeText(url)
 				showSuccess(this.$t('calendar', 'Calendar link copied to clipboard.'))
 			} catch (error) {
 				console.debug(error)

@@ -38,7 +38,6 @@ import { loadState } from '@nextcloud/initial-state'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import AppointmentConfig from './models/appointmentConfig.js'
 import ClickOutside from 'vue-click-outside'
-import VueClipboard from 'vue-clipboard2'
 import VTooltip from 'v-tooltip'
 import VueShortKey from 'vue-shortkey'
 import windowTitleService from './services/windowTitleService.js'
@@ -46,7 +45,6 @@ import windowTitleService from './services/windowTitleService.js'
 // register global components
 Vue.directive('ClickOutside', ClickOutside)
 Vue.use(VTooltip)
-Vue.use(VueClipboard)
 Vue.use(VueShortKey, { prevent: ['input', 'textarea'] })
 
 // CSP config for webpack dynamic chunk loading

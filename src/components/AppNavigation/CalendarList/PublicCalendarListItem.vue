@@ -164,7 +164,7 @@ export default {
 
 			// copy link for calendar to clipboard
 			try {
-				await this.$copyText(url)
+				await navigator.clipboard.writeText(url)
 				this.menuOpen = true
 				this.showCopySubscriptionLinkLabel = false
 				this.showCopySubscriptionLinkSpinner = false

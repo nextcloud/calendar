@@ -409,7 +409,7 @@ export default {
 			const url = new URL(getCurrentUserPrincipal().principalUrl, rootURL)
 
 			try {
-				await this.$copyText(url)
+				await navigator.clipboard.writeText(url)
 				showSuccess(this.$t('calendar', 'CalDAV link copied to clipboard.'))
 			} catch (error) {
 				console.debug(error)
