@@ -153,8 +153,8 @@ export default {
 		/**
 		 * Opens the Actions menu when clicking on the main item label
 		 */
-		toggleDialog() {
-			this.isOpen = !this.isOpen
+		async toggleDialog() {
+			this.$el.querySelector('.action-item__menutoggle').click()
 		},
 		/**
 		 * Opens the create calendar input
