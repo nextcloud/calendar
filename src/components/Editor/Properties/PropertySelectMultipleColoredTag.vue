@@ -24,7 +24,7 @@
 <template>
 	<span class="multiselect__tag"
 		:style="{ 'background-color': color, 'border-color': borderColor, color: textColor }">
-		<span>{{ option }}</span>
+		<span>{{ label }}</span>
 	</span>
 </template>
 
@@ -36,7 +36,7 @@ export default {
 	name: 'PropertySelectMultipleColoredTag',
 	props: {
 		option: {
-			type: String,
+			type: [String, Object],
 			required: true,
 		},
 		search: {
@@ -49,8 +49,17 @@ export default {
 		},
 	},
 	computed: {
+		label() {
+			if (typeof this.option === 'string') {
+				return this.option
+			}
+			return this.option.label
+		},
 		colorObject() {
-			return uidToColor(this.option)
+			if (typeof this.option === 'string') {
+				return uidToColor(this.option)
+			}
+			return uidToColor(this.option.label)
 		},
 		borderColor() {
 			const color = this.colorObject
