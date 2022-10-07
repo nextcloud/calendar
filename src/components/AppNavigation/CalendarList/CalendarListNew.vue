@@ -153,7 +153,7 @@ export default {
 		/**
 		 * Opens the Actions menu when clicking on the main item label
 		 */
-		async toggleDialog() {
+		toggleDialog() {
 			this.$el.querySelector('.action-item__menutoggle').click()
 		},
 		/**
