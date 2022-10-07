@@ -102,6 +102,8 @@
     "An error occurred, unable to create the calendar." : "Der opstod en fejl, og kalenderen kunne ikke oprettes.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Indtast venligst et gyldigt link (startende med http://, https://, webcal:// eller webcals://)",
     "Trash bin" : "Skraldespand",
+    "Loading deleted items." : "Indlæser slettede elementer.",
+    "You do not have any deleted items." : "Du har ingen slettede elementer.",
     "Name" : "Navn",
     "Deleted" : "Slettet",
     "Restore" : "Gendan",

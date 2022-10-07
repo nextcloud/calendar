@@ -372,6 +372,7 @@ OC.L10N.register(
     "Meditation" : "Meditasjon",
     "Relaxing" : "Avslapping",
     "Commuting" : "Pendler",
+    "Money" : "Penger",
     "Presentation" : "Presentasjon",
     "Talk" : "Samtale",
     "Camping" : "Camping",

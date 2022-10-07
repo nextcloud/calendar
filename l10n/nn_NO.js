@@ -68,6 +68,7 @@ OC.L10N.register(
     "When shared hide this event" : "Når delt, gøym denne hendinga",
     "Status" : "Status",
     "Confirmed" : "Stadfesta",
+    "Money" : "Pengar",
     "Talk" : "Prat",
     "Mail" : "Post",
     "Birthday" : "Bursdag"
