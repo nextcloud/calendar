@@ -22,7 +22,7 @@
  */
 
 /** Override some FullCalendar CSS vars: */
-:root {
+.fc {
 	--fc-small-font-size: 0.875em;
 	--fc-page-bg-color: var(--color-main-background) !important;
 	--fc-neutral-bg-color: var(--color-background-dark) !important;
