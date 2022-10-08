@@ -262,7 +262,8 @@ export default {
 		},
 		hasAppointmentsFeature() {
 			// TODO: Remove me when Calendar doesn't support server < 23
-			return parseInt(OC.config.version.split('.')[0]) >= 23
+			//return parseInt(OC.config.version.split('.')[0]) >= 23
+			return false
 		},
 		availabilitySettingsUrl() {
 			return generateUrl('/settings/user/groupware')

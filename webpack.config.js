@@ -14,6 +14,12 @@ const appVersion = JSON.stringify(process.env.npm_package_version)
 const buildMode = process.env.NODE_ENV
 const isDev = buildMode === 'development'
 console.info('Building', appName, appVersion, '\n')
+const nextcloudproxyheader = {Cookie : 'oc_sessionPassphrase=P2fxAZiU9AMQnQ7BmTwl97Z44lbT5qi4220o41mZjQTXnlSgn4XSrBKHzz8BRPJ5ohgEjyTrGDm%2F4ZAwIyA06aeqJJqd4509bejOH%2F6jzGKrjwbi%2FwLYydq64I0jtFg8; nc_sameSiteCookielax=true; nc_sameSiteCookiestrict=true; ocb41rjp85zh=5243183c1f8d685e98eabec9075f9e2c; nc_username=panxf; nc_token=UXRtpcAy8kG2V%2BLvOaLkPGIijV71fAhG; nc_session_id=5243183c1f8d685e98eabec9075f9e2c'};
+const nextcloudproxytarget = 'http://43.142.154.107:8080/'
+const bedeproxytarget = 'http://10.32.20.145:8080/'
+const bedeproxyheader = {Authorization: 'Basic dmJlZGU6YmVkZXdvcms='};
+proxytarget = bedeproxytarget
+proxyheader = bedeproxyheader
 
 module.exports = {
 	target: 'web',
@@ -22,6 +28,14 @@ module.exports = {
 
 	entry: {
 		main: path.resolve(path.join('src', 'main.js')),
+		// Add dashboard entry
+        dashboard: path.join(__dirname, 'src', 'dashboard.js'),
+
+		// Add appointments entries,
+		appointmentsbooking: path.join(__dirname, 'src', 'appointments/main-booking.js'),
+		appointmentsconfirmation: path.join(__dirname, 'src', 'appointments/main-confirmation.js'),
+		appointmentsconflict: path.join(__dirname, 'src', 'appointments/main-conflict.js'),
+		appointmentsoverview : path.join(__dirname, 'src', 'appointments/main-overview.js'),
 	},
 	output: {
 		path: path.resolve('./js'),
@@ -36,6 +50,9 @@ module.exports = {
 			const rel = path.relative(rootDir, info.absoluteResourcePath)
 			return `webpack:///${appName}/${rel}`
 		},
+	},
+	infrastructureLogging: {
+		debug: [name => name.includes('webpack-dev-server')],
 	},
 
 	devServer: {
@@ -53,38 +70,32 @@ module.exports = {
 		},
 		proxy: {
 			'//remote.php/dav/': {
-				target: 'http://43.142.154.107:8080/',	
-				//target: 'http://10.32.20.145:8080/',	
-				//pathRewrite: {'^//remote.php/dav/':'/ucaldav/'},
+				target: proxytarget,	
+				pathRewrite: {'^//remote.php/dav/':'/ucaldav/'},
 				changeOrigin: true,
         		logLevel: 'debug',
-				//headers: {Authorization: 'Basic dmJlZGU6YmVkZXdvcms='},
-				headers: {Cookie: 'oc_sessionPassphrase=5UkCgPP2AI03QdYpqz6kQIWXrxs5sq9nW825yRvhui2l0%2F0pBEDNgzcOa46rRtkRHctiLWap49mqaUl%2Fd7fBv90sOtb3SE8voIJ4zledaJ3%2Bo7XEVrALI0c4j4xwP224; nc_sameSiteCookielax=true; nc_sameSiteCookiestrict=true; ocb41rjp85zh=8b43b66894cccaf95c1e089a46f30a26; nc_username=panxf; nc_token=%2BkRlO7A5WK%2FBFMMEejnzTQz5zgb%2FVegR; nc_session_id=8b43b66894cccaf95c1e089a46f30a26'},
+				headers: proxyheader,
 				onProxyReq: proxyReq => {
 					// Browers may send Origin headers even with same-origin
 					// requests. To prevent CORS issues, we have to change
 					// the Origin to match the target URL.
 					if (proxyReq.getHeader('origin')) {
-					  proxyReq.setHeader('origin', 'http://43.142.154.107:8080/');
-					  //proxyReq.setHeader('origin', 'http://10.32.20.145:8080/');
+					  proxyReq.setHeader('origin', proxytarget);
 					}
 				}
 			},
 			'/remote.php/dav/': {
-				target: 'http://43.142.154.107:8080/',	
-				//target: 'http://10.32.20.145:8080/',	
-				//pathRewrite: {'^/remote.php/dav/':'/ucaldav/'},
+				target: proxytarget,	
+				pathRewrite: {'^/remote.php/dav/':'/ucaldav/'},
 				changeOrigin: true,
         		logLevel: 'debug',
-				//headers: {Authorization: 'Basic dmJlZGU6YmVkZXdvcms='},
-				headers: {Cookie: 'oc_sessionPassphrase=5UkCgPP2AI03QdYpqz6kQIWXrxs5sq9nW825yRvhui2l0%2F0pBEDNgzcOa46rRtkRHctiLWap49mqaUl%2Fd7fBv90sOtb3SE8voIJ4zledaJ3%2Bo7XEVrALI0c4j4xwP224; nc_sameSiteCookielax=true; nc_sameSiteCookiestrict=true; ocb41rjp85zh=8b43b66894cccaf95c1e089a46f30a26; nc_username=panxf; nc_token=%2BkRlO7A5WK%2FBFMMEejnzTQz5zgb%2FVegR; nc_session_id=8b43b66894cccaf95c1e089a46f30a26'},
+				headers: proxyheader,
 				onProxyReq: proxyReq => {
 					// Browers may send Origin headers even with same-origin
 					// requests. To prevent CORS issues, we have to change
 					// the Origin to match the target URL.
 					if (proxyReq.getHeader('origin')) {
-					  proxyReq.setHeader('origin', 'http://43.142.154.107:8080/');
-					  //proxyReq.setHeader('origin', 'http://10.32.20.145:8080/');
+					  proxyReq.setHeader('origin', proxytarget);
 					}
 				}
 			},
@@ -102,18 +113,26 @@ module.exports = {
 					// the Origin to match the target URL.
 					console.log(req)
 					if (proxyReq.getHeader('origin')) {
-					  //proxyReq.setHeader('origin', 'http://43.142.154.107:8080/');
 					  proxyReq.setHeader('origin', 'http://10.32.20.145:8080/');
 					}
-
-					if ( req.method == "PROPFIND" && req.body ) {
-						delete req.body;
-						let body= '<x0:propfind xmlns:x0="DAV:"><x0:prop><x0:getcontenttype/><x0:getetag/><x0:resourcetype/><x0:displayname/><x0:owner/><x0:resourcetype/><x0:sync-token/><x0:current-user-privilege-set/><x0:getcontenttype/><x0:getetag/><x0:resourcetype/><x1:calendar-data xmlns:x1="urn:ietf:params:xml:ns:caldav"/></x0:prop></x0:propfind>'
-						proxyReq.setHeader( 'content-length', body.length );
-
-						// Write out body changes to the proxyReq stream
-						proxyReq.write( body );
-						proxyReq.end();
+				}
+			},
+			'/ucaldav/user/vbede': {
+				//target: 'http://43.142.154.107:8080/',	
+				target: 'http://10.32.20.145:8080/',	
+				//pathRewrite: {'^/ucaldav/user/vbede':'/ucaldav/user/vbede/calendar'},
+				//pathRewrite: {'^/ucaldav/user/vbede':'/ucaldav/user/vbede/calendar'},
+				changeOrigin: true,
+        		logLevel: 'debug',
+				headers: {Authorization: 'Basic dmJlZGU6YmVkZXdvcms='},
+				//headers: {Cookie: 'oc_sessionPassphrase=%2B6JUSF%2FsOqMrBeARgldFk2Wh8%2BSgnkth3nAeFfgCdfOx5VZstbAkuoxFrn5XjJtW1DsLLlYv2p7XxiLzkr6n1A6RTiaX%2B9gLt0s19B9DqbJM8PUpF2ymc%2BGZnTVBe46s; nc_sameSiteCookielax=true; nc_sameSiteCookiestrict=true; nc_username=panxf; ocb41rjp85zh=31a667e4cee37c98abaf4e7fb49dc8d2; nc_token=GG2%2BQwkGXQnVifgf9HMCRVUEobwm573J; nc_session_id=31a667e4cee37c98abaf4e7fb49dc8d2'},
+				onProxyReq: (proxyReq,req) => {
+					// Browers may send Origin headers even with same-origin
+					// requests. To prevent CORS issues, we have to change
+					// the Origin to match the target URL.
+					console.log(req)
+					if (proxyReq.getHeader('origin')) {
+					  proxyReq.setHeader('origin', 'http://10.32.20.145:8080/');
 					}
 				}
 			},

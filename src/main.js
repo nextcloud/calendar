@@ -24,7 +24,7 @@
  *
  */
 import 'core-js/stable'
-
+import './global.js'
 import '../css/calendar.scss'
 
 import Vue from 'vue'

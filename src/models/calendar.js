@@ -92,13 +92,15 @@ const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
 		color = uidToHexColor(displayName)
 	}
 
-	const supportsEvents = calendar.components.includes('VEVENT')
-	const supportsJournals = calendar.components.includes('VJOURNAL')
-	const supportsTasks = calendar.components.includes('VTODO')
+	const supportsEvents = calendar.components ? calendar.components.includes('VEVENT') : true
+	const supportsJournals = calendar.components ? calendar.components.includes('VJOURNAL'): false
+	const supportsTasks = calendar.components ? calendar.components.includes('VTODO'): false
 	const owner = calendar.owner
 	const readOnly = !calendar.isWriteable()
-	const canBeShared = calendar.isShareable()
-	const canBePublished = calendar.isPublishable()
+	const canBeShared = true
+	//const canBeShared = calendar.isShareable()
+	//const canBePublished = calendar.isPublishable()
+	const canBePublished = true
 	const order = calendar.order || 0
 	const url = calendar.url
 	const publishURL = calendar.publishURL || null

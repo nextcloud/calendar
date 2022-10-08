@@ -262,12 +262,12 @@ export default {
 			}
 		},
 		onEmptyTrashBin() {
-			OC.dialogs.confirm(
+			/*OC.dialogs.confirm(
 				t('calendar', 'Do you really want to empty the trash bin?'),
 				t('calendar', 'Empty trash bin'),
 				this.emptyTrashBin,
 				true
-			)
+			) */
 		},
 
 		emptyTrashBin(confirm) {
