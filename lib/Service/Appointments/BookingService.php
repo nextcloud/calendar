@@ -112,9 +112,14 @@ class BookingService {
 			throw new ClientException('Could not make sense of booking times');
 		}
 
-		$this->calendarWriter->write($config, $startObj, $booking->getDisplayName(), $booking->getEmail(), $booking->getDescription());
+		$calendar = $this->calendarWriter->write($config, $startObj, $booking->getDisplayName(), $booking->getEmail(), $booking->getDescription());
 		$booking->setConfirmed(true);
 		$this->bookingMapper->update($booking);
+		try {
+			$this->mailService->sendBookingInformationEmail($booking, $config, $calendar);
+		} catch (ServiceException $e) {
+			$this->logger->info('Could not send booking information email after confirmation by user ' . $booking->getEmail(), ['exception' => $e]);
+		}
 		return $booking;
 	}
 
