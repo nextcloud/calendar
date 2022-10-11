@@ -1,18 +1,24 @@
 
 # Changelog
 
-## 4.0.0 - 2022-09-27
+## 4.0.0 - 2022-10-11
 ### Added
 - New design
-- Primary light background to month week and header
+- Primary light background to month, week and header
+- Booking email with .ics for the event
 ### Changed
 - Drop Nextcloud 22-24 support
 - Remove unused icons and icon stylesheets
+- Rename elements to items
+- More information in booking confirmation email
+- Appointments page redesign
 ### Fixed
 - Some translation issues with whitespaces
 - Padding of left sidebar header
 - Cut off datetime picker in simple editor
 - Contrast for day header
+- Category Selection
+- Missing background color for appoitments
 
 ## 3.5.0 - 2022-08-25
 ### Added
