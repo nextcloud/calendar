@@ -227,12 +227,19 @@ export default {
 
 <style lang="scss" scoped>
 .booking {
-	margin: 0 auto;
-	padding-top: 50px;
+	margin: 25px auto;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	max-width: 800px;
+	height: fit-content;
+
+	// Taken from guest.css -> .guest-box
+	color: var(--color-main-text);
+	background-color: var(--color-main-background);
+	padding: 16px;
+	border-radius: var(--border-radius-large);
+	box-shadow: 0 0 10px var(--color-box-shadow);
 
 	&__date-selection {
 		display: flex;
@@ -274,6 +281,11 @@ export default {
 
 <style lang="scss">
 #content.app-calendar {
-	background-color: var(--color-main-background);
+	// Enable scrolling
+	overflow: auto;
+
+	// Fix box being cutoff at the bottom
+	margin-bottom: 0;
+	height: calc(var(--body-height) + var(--body-container-margin));
 }
 </style>
