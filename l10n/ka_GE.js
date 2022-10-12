@@ -8,7 +8,6 @@ OC.L10N.register(
     "Cheers!" : "წარმატებები!",
     "Confirm" : "დადასტურება",
     "Where:" : "სად:",
-    "Description:" : "აღწერა:",
     "Calendar" : "კალენდარი",
     "New event" : "ახალი მოვლენა",
     "Today" : "დღეს",

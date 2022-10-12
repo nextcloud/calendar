@@ -9,7 +9,6 @@ OC.L10N.register(
     "Confirm" : "Konfirmi",
     "Date:" : "Dato:",
     "Where:" : "Kie:",
-    "Description:" : "Priskribo:",
     "Calendar" : "Kalendaro",
     "A Calendar app for Nextcloud" : "Aplikaĵo pri kalendaro por Nextcloud",
     "New event" : "Nova okazaĵo",

@@ -8,7 +8,6 @@ OC.L10N.register(
     "Cheers!" : "Tervist!",
     "Confirm" : "Kinnita",
     "Where:" : "Kus:",
-    "Description:" : "Kirjeldus:",
     "Calendar" : "Kalender",
     "Previous day" : "Eelmine päev",
     "Previous week" : "Eelmine nädal",

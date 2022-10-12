@@ -9,7 +9,6 @@ OC.L10N.register(
     "Confirm" : "Confirmar",
     "Date:" : "Data :",
     "Where:" : "Ont :",
-    "Description:" : "Descripcion :",
     "Calendar" : "Calendièr",
     "A Calendar app for Nextcloud" : "Una aplicacion de calendièr per Nextcloud",
     "Previous day" : "Jorn passat",

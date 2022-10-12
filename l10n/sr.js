@@ -9,7 +9,6 @@ OC.L10N.register(
     "Confirm" : "Потврди",
     "Date:" : "Датум:",
     "Where:" : "Место:",
-    "Description:" : "Опис:",
     "Calendar" : "Календар",
     "A Calendar app for Nextcloud" : "Календар апликација за Некстклауд",
     "New event" : "Нови догађај",

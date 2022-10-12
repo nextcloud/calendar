@@ -9,7 +9,6 @@ OC.L10N.register(
     "Appointments" : "Takime",
     "Confirm" : "Konfirmo",
     "Where:" : "Ku:",
-    "Description:" : "Përshkrimi:",
     "Calendar" : "Kalendar",
     "New event" : "Veprimtari e re",
     "Today" : "Sot",

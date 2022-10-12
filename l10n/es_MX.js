@@ -9,7 +9,6 @@ OC.L10N.register(
     "Appointments" : "Citas",
     "Confirm" : "Confirmar",
     "Where:" : "Dónde:",
-    "Description:" : "Descripción:",
     "Calendar" : "Calendario",
     "A Calendar app for Nextcloud" : "Una aplicación de Calendario para Nextcloud",
     "New event" : "Nuevo evento",
