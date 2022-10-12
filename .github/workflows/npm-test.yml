@@ -12,20 +12,20 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14, 15, 16]
+        node-version: [14, 16, 18]
 
     name: node${{ matrix.node-version }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up node ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Set up npm 7
-        run: npm i -g npm@7
+      - name: Set up npm 8
+        run: npm i -g npm@8
 
       - name: Install dependencies
         run: npm ci
