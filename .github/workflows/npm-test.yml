@@ -12,7 +12,11 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14, 16, 18]
+        node-version: [16, 18]
+        npm-version: [8]
+        include:
+          - node-version: 14
+            npm-version: 7
 
     name: node${{ matrix.node-version }}
 
@@ -24,8 +28,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Set up npm 8
-        run: npm i -g npm@8
+      - name: Set up npm ${{ matrix.npm-version }}
+        run: npm i -g npm@${{ matrix.npm-version }}
 
       - name: Install dependencies
         run: npm ci
