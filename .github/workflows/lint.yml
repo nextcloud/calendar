@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Download schema
         run: wget https://apps.nextcloud.com/schema/apps/info.xsd
       - name: Lint info.xml
@@ -23,7 +23,7 @@ jobs:
     name: php${{ matrix.php-versions }} lint
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up php${{ matrix.php-versions }}
         uses: shivammathur/setup-php@master
         with:
@@ -37,7 +37,7 @@ jobs:
     name: ESLint
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Node
         uses: actions/setup-node@v2
@@ -61,7 +61,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up php
         uses: shivammathur/setup-php@master
