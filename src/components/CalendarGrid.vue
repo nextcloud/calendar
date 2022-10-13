@@ -280,15 +280,19 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../fonts/scss/iconfont-calendar-app.scss';
-
 .calendar-grid-checkbox {
-	border-color: transparent;
-	@include iconfont('checkbox');
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 4px;
+	height: 16px;
+	width: 16px;
 }
 
 .calendar-grid-checkbox-checked {
-	border-color: transparent;
-	@include iconfont('checkbox-checked');
+	border-style: solid;
+	border-width: 8px;
+	border-radius: 4px;
+	height: 16px;
+	width: 16px;
 }
 </style>
