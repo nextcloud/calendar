@@ -27,6 +27,16 @@ updates:
     versions:
     - ">= 4.a"
     - "< 5"
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 10
+  reviewers:
+    - "miaulalala"
+    - "st3iny"
 
 # stable3.5
 - package-ecosystem: npm
