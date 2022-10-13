@@ -26,7 +26,7 @@ jobs:
           sudo dpkg -i krankerl_0.12.3_amd64.deb
       - name: Package app
         run: krankerl package
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           path: build/artifacts/calendar.tar.gz
           if-no-files-found: error
