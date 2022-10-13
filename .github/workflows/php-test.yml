@@ -35,7 +35,7 @@ jobs:
       run: composer run test
     - name: Upload coverage to Codecov
       if: ${{ matrix.nextcloud-versions == 'master' }}
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v3
       with:
         file: nextcloud/apps/calendar/clover.unit.xml
         flags: php
