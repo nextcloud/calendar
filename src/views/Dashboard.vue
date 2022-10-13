@@ -42,10 +42,8 @@
 						class="calendar-dot"
 						:style="{'background-color': item.calendarColor}"
 						:title="item.calendarDisplayName" />
-					<div v-else
-						class="vtodo-checkbox"
-						:style="{'color': item.calendarColor}"
-						:title="item.calendarDisplayName" />
+					<IconCheckbox v-else
+						:fill-color="item.calendarColor" />
 				</template>
 			</DashboardWidgetItem>
 		</template>
@@ -70,6 +68,7 @@ import { DashboardWidget, DashboardWidgetItem } from '@nextcloud/vue-dashboard'
 import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import EmptyCalendar from 'vue-material-design-icons/CalendarBlankOutline.vue'
 import IconCheck from 'vue-material-design-icons/Check.vue'
+import IconCheckbox from 'vue-material-design-icons/CheckboxBlankOutline.vue'
 import { loadState } from '@nextcloud/initial-state'
 import moment from '@nextcloud/moment'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
@@ -91,6 +90,7 @@ export default {
 		EmptyContent,
 	  EmptyCalendar,
 	  IconCheck,
+	  IconCheckbox,
 	},
 	data() {
 		return {
@@ -293,15 +293,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../fonts/scss/iconfont-calendar-app.scss';
-
 #calendar_panel {
-	.vtodo-checkbox {
-		flex-shrink: 0;
-		border-color: transparent;
-		@include iconfont('checkbox');
-	}
-
 	.calendar-dot {
 		flex-shrink: 0;
 		height: 1rem;
