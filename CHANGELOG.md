@@ -1,7 +1,7 @@
 
 # Changelog
 
-## 4.0.0 - 2022-10-12
+## 4.0.0 - 2022-10-13
 ### Added
 - New design
 - Primary light background to month, week and header
