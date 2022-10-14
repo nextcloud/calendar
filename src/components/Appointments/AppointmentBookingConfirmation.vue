@@ -45,16 +45,44 @@ export default {
 
 <style lang="scss" scoped>
 .appointment-booking-confirmation {
-	margin: 0 auto;
-	padding: 2vw;
+  margin: 25px auto;
 	max-width: 500px;
+  height: fit-content;
+
+  // Taken from guest.css -> .guest-box
+  color: var(--color-main-text);
+  background-color: var(--color-main-background);
+  padding: 16px;
+  border-radius: var(--border-radius-large);
+  box-shadow: 0 0 10px var(--color-box-shadow);
 
 	.empty-content {
 		margin-bottom: 20px;
+			margin-top: 0;
 	}
 
 	&__desc {
 		text-align: center;
 	}
+}
+
+#content.app-calendar {
+  // Enable scrolling
+  overflow: auto;
+
+  // Fix box being cutoff at the bottom
+  margin-bottom: 0;
+  height: calc(var(--body-height) + var(--body-container-margin));
+}
+</style>
+
+<style lang="scss">
+#content.app-calendar {
+  // Enable scrolling
+  overflow: auto;
+
+  // Fix box being cutoff at the bottom
+  margin-bottom: 0;
+  height: calc(var(--body-height) + var(--body-container-margin));
 }
 </style>
