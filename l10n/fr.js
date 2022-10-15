@@ -184,7 +184,7 @@ OC.L10N.register(
     "Visibility" : "Visibilité",
     "Duration" : "Durée",
     "Increments" : "Incréments",
-    "Additional calendars to check for conflicts" : "Calendriers supplémentaires à vérifier pour les conflits",
+    "Additional calendars to check for conflicts" : "Agendas supplémentaires à vérifier pour les conflits",
     "Pick time ranges where appointments are allowed" : "Sélectionnez les plages de temps pendant lesquelles les rendez-vous sont autorisés",
     "to" : "à",
     "Delete slot" : "Supprimer le créneau",
