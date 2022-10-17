@@ -225,7 +225,7 @@ OC.L10N.register(
     "Create Talk room for this event" : "このイベントに通話ルームを作成する",
     "Show busy times" : "忙しい時間を表示",
     "No attendees yet" : "出席者はまだいません",
-    "Error creating Talk room" : "通話ルームの作成に失敗しました",
+    "Error creating Talk room" : "トークルームの作成に失敗しました",
     "Send email" : "メールを送信",
     "Chairperson" : "主宰者",
     "Required participant" : "参加必須",
