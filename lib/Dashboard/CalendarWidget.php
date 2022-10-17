@@ -25,41 +25,57 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Dashboard;
 
+use DateInterval;
+use DateTime;
+use DateTimeImmutable;
 use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Service\JSDataService;
-use OCP\Dashboard\IWidget;
-use OCP\IInitialStateService;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Calendar\IManager;
+use OCP\Dashboard\IAPIWidget;
+use OCP\Dashboard\IButtonWidget;
+use OCP\Dashboard\IIconWidget;
+use OCP\Dashboard\Model\WidgetButton;
+use OCP\Dashboard\Model\WidgetItem;
+use OCP\IDateTimeFormatter;
 use OCP\IL10N;
+use OCP\IURLGenerator;
+use OCP\Util;
 
-class CalendarWidget implements IWidget {
-
-	/**
-	 * @var IL10N
-	 */
-	private $l10n;
-
-	/**
-	 * @var IInitialStateService
-	 */
-	private $initialStateService;
-
-	/**
-	 * @var JSDataService
-	 */
-	private $dataService;
+class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget {
+	private IL10N $l10n;
+	private IInitialState $initialStateService;
+	private JSDataService $dataService;
+	private IDateTimeFormatter $dateTimeFormatter;
+	private IURLGenerator $urlGenerator;
+	private IManager $calendarManager;
+	private ITimeFactory $timeFactory;
 
 	/**
 	 * CalendarWidget constructor.
+	 *
 	 * @param IL10N $l10n
-	 * @param IInitialStateService $initialStateService
+	 * @param IInitialState $initialStateService
 	 * @param JSDataService $dataService
+	 * @param IDateTimeFormatter $dateTimeFormatter
+	 * @param IURLGenerator $urlGenerator
+	 * @param IManager $calendarManager
 	 */
 	public function __construct(IL10N $l10n,
-								IInitialStateService $initialStateService,
-								JSDataService $dataService) {
+								IInitialState $initialStateService,
+								JSDataService $dataService,
+								IDateTimeFormatter $dateTimeFormatter,
+								IURLGenerator $urlGenerator,
+								IManager $calendarManager,
+								ITimeFactory $timeFactory) {
 		$this->l10n = $l10n;
 		$this->initialStateService = $initialStateService;
 		$this->dataService = $dataService;
+		$this->dateTimeFormatter = $dateTimeFormatter;
+		$this->urlGenerator = $urlGenerator;
+		$this->calendarManager = $calendarManager;
+		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -87,7 +103,7 @@ class CalendarWidget implements IWidget {
 	 * @inheritDoc
 	 */
 	public function getIconClass(): string {
-		return 'icon-calendar-dark';
+		return 'app-icon-calendar';
 	}
 
 	/**
@@ -100,11 +116,83 @@ class CalendarWidget implements IWidget {
 	/**
 	 * @inheritDoc
 	 */
-	public function load(): void {
-		\OCP\Util::addScript('calendar', 'calendar-dashboard');
+	public function getIconUrl(): string {
+		return $this->urlGenerator->getAbsoluteURL(
+			$this->urlGenerator->imagePath(Application::APP_ID, 'calendar-dark.svg')
+		);
+	}
 
-		$this->initialStateService->provideLazyInitialState(Application::APP_ID, 'dashboard_data', function () {
+	/**
+	 * @inheritDoc
+	 */
+	public function load(): void {
+		Util::addScript(Application::APP_ID, 'calendar-dashboard');
+		Util::addStyle(Application::APP_ID, 'dashboard');
+
+		$this->initialStateService->provideLazyInitialState('dashboard_data', function () {
 			return $this->dataService;
 		});
+	}
+
+	/**
+	 * @inheritDoc
+	 *
+	 * @param string|null $since Use any PHP DateTime allowed values to get future dates
+	 * @param int $limit  Max 14 items is the default
+	 */
+	public function getItems(string $userId, ?string $since = null, int $limit = 14): array {
+		$calendars = $this->calendarManager->getCalendarsForPrincipal('principals/users/' . $userId);
+		$count = count($calendars);
+		if ($count === 0) {
+			return [];
+		}
+		$limitPerCalendar = (int)round(($limit / $count)) ?? 1;
+		$dateTime = (new DateTimeImmutable())->setTimestamp($this->timeFactory->getTime());
+		if ($since !== null) {
+			try {
+				$dateTime = new DateTimeImmutable($since);
+			} catch (\Exception $e) {
+				// silently drop the exception and proceed with "now"
+			}
+		}
+		$inTwoWeeks = $dateTime->add(new DateInterval('P14D'));
+		$options = [
+			'timerange' => [
+				'start' => $dateTime,
+				'end' => $inTwoWeeks,
+			]
+		];
+		$widgetItems = [];
+		foreach ($calendars as $calendar) {
+			$searchResult = $calendar->search('', [], $options, $limitPerCalendar);
+			foreach ($searchResult as $calendarEvent) {
+				/** @var DateTimeImmutable $startDate */
+				$startDate = $calendarEvent['objects'][0]['DTSTART'][0];
+				$widget = new WidgetItem(
+					$calendarEvent['objects'][0]['SUMMARY'][0] ?? 'New Event',
+					$this->dateTimeFormatter->formatTimeSpan(DateTime::createFromImmutable($startDate)),
+					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.index', ['objectId' => $calendarEvent['uid']])),
+					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.getCalendarDotSvg', ['color' => $calendar->getDisplayColor() ?? '#0082c9'])), // default NC blue fallback
+					(string) $startDate->getTimestamp(),
+				);
+				$widgetItems[] = $widget;
+			}
+		}
+		return $widgetItems;
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getWidgetButtons(string $userId): array {
+		return [
+			new WidgetButton(
+				WidgetButton::TYPE_MORE,
+				$this->urlGenerator->getAbsoluteURL(
+					$this->urlGenerator->linkToRoute(Application::APP_ID . '.view.index')
+				),
+				$this->l10n->t('More events')
+			),
+		];
 	}
 }
