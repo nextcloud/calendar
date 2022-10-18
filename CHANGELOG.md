@@ -1,6 +1,14 @@
 
 # Changelog
 
+## 4.0.1 - 2022-10-18
+### Changed
+- Remove iconfont and associated dependecies
+### Fixed
+- Appointment overview page design
+- Appointment details styling
+- Title only added in week view
+
 ## 4.0.0 - 2022-10-13
 ### Added
 - New design
