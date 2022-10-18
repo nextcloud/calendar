@@ -148,6 +148,7 @@ export default {
 	display: flex;
 	flex-direction: row;
 	padding: 30px;
+	flex-wrap: wrap;
 }
 
 .booking-details {
