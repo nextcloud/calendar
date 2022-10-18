@@ -2,6 +2,7 @@
   - @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
   -
   - @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
+  - @author 2022 Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license AGPL-3.0-or-later
   -
@@ -21,14 +22,16 @@
 
 <template>
 	<div class="overview-info">
-		<Avatar :user="userInfo.uid"
-			:display-name="userInfo.displayName"
-			:disable-tooltip="true"
-			:disable-menu="true"
-			:size="180" />
-		<h2 class="user-info">
-			{{ $t('calendar', 'Book an appointment with {name}', { name: userInfo.displayName }) }}
-		</h2>
+		<div class="title">
+			<Avatar :user="userInfo.uid"
+				:display-name="userInfo.displayName"
+				:disable-tooltip="true"
+				:disable-menu="true"
+				:size="180" />
+			<h2 class="user-info">
+				{{ $t('calendar', 'Book an appointment with {name}', { name: userInfo.displayName }) }}
+			</h2>
+		</div>
 		<div class="appointment-configs">
 			<template v-if="configs.length > 0">
 				<div v-for="config in configs"
@@ -101,13 +104,24 @@ export default {
 	flex-direction: column;
 	max-width: 900px;
 	margin: 50px auto;
-	padding: 0 25px;
-}
+	padding: 8px 25px;
 
-.user-info {
-	color: var( --color-text-maxcontrast);
-	margin-bottom: 50px;
-	margin-top: 20px;
+	.title {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+		padding: 15px;
+		margin-bottom: 50px;
+		background-color: var(--color-main-background);
+		border-radius: var(--border-radius-large);
+		color: var(--color-main-text);
+		box-shadow: 0 0 10px var(--color-box-shadow);
+
+		.user-info {
+			margin-top: 20px;
+		}
+	}
 }
 
 .appointment-configs {
@@ -115,6 +129,7 @@ export default {
 	align-items: center;
 	justify-content: center;
 	flex-wrap: wrap;
+	margin: 0 -8px;
 
 	.config {
 		display: flex;
@@ -128,7 +143,8 @@ export default {
 			align-items: center;
 			padding: 16px;
 			border-radius: var(--border-radius-large);
-			background-color: var(--color-background-dark);
+			background-color: var(--color-main-background);
+			box-shadow: 0 0 10px var(--color-box-shadow);
 			width: 100%;
 
 			&:hover {
@@ -165,5 +181,16 @@ export default {
 	::v-deep .empty-content {
 		margin-top: 20px;
 	}
+}
+</style>
+
+<style lang="scss">
+#content.app-calendar {
+  // Enable scrolling
+  overflow: auto;
+
+  // Fix box being cutoff at the bottom
+  margin-bottom: 0;
+  height: calc(var(--body-height) + var(--body-container-margin));
 }
 </style>
