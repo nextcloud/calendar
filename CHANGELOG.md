@@ -1,6 +1,12 @@
 
 # Changelog
 
+## 4.1.0 - 2022-10-19
+### Added
+- IButtonWidget and IIconWidget implementation
+### Fixed
+- Widget Icon in Dashboard
+
 ## 4.0.1 - 2022-10-18
 ### Changed
 - Remove iconfont and associated dependecies
