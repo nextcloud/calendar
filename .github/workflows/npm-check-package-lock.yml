@@ -1,6 +1,11 @@
 name: Check npm package lock
 
-on: pull_request
+on:
+  pull_request:
+    paths:
+      - .github/workflows/npm-check-package-lock.yml
+      - package.json
+      - package-lock.json
 
 permissions:
   contents: read
