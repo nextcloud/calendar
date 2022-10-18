@@ -131,7 +131,7 @@ export default {
 				eventDidMount,
 				noEventsDidMount,
 				// FIXME: remove title if upstream is fixed (https://github.com/fullcalendar/fullcalendar/issues/6608#issuecomment-954241059)
-				eventOrder: ['title', 'start', '-duration', 'allDay', eventOrder],
+				eventOrder: (this.$route.params.view === 'timeGridWeek' ? ['title'] : []).concat(['start', '-duration', 'allDay', eventOrder]),
 				forceEventDuration: false,
 				headerToolbar: false,
 				height: '100%',
