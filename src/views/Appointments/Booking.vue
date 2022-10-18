@@ -266,10 +266,9 @@ export default {
 	&__slot-selection {
 		flex-grow: 2;
 	}
-
-	&__time-zone {
-		max-width: 210px;
-	}
+  &__time-zone {
+	max-width: 250px;
+  }
 
 	&__slots {
 		display: flex;
