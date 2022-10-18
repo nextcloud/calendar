@@ -1,0 +1,40 @@
+name: Check npm package lock
+
+on: pull_request
+
+permissions:
+  contents: read
+
+concurrency:
+  group: node-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Read package.json node and npm engines version
+        uses: skjnldsv/read-package-engines-version-actions@v1.2
+        id: versions
+        with:
+          fallbackNode: '^16'
+          fallbackNpm: '^7'
+
+      - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ steps.versions.outputs.nodeVersion }}
+
+      - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
+        run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
+
+      - name: Update package lock file
+        run: npm i --package-lock-only
+
+      - name: Check changes of package-lock.json
+        run: |
+          bash -c "[[ ! \"`git status --porcelain package-lock.json`\" ]] || (echo 'Please recrate the package lock by running \"npm install\" and commit it.' && exit 1)"
