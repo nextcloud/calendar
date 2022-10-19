@@ -1,6 +1,13 @@
 
 # Changelog
 
+## 3.5.1 - 2022-10-19
+### Fixed
+- Timezone overlapping time suggestions for appointments
+- Mobile design for appointments
+- Event title sort order
+- Category selection
+
 ## 3.5.0 - 2022-08-30
 ### Added
 - Option to duplicate calendar events
