@@ -11,6 +11,7 @@ OC.L10N.register(
     "Open »%s«" : "Otevřít „%s“",
     "Cheers!" : "Mějte se!",
     "Upcoming events" : "Nadcházející události",
+    "More events" : "Více událostí",
     "Appointments" : "Schůzky",
     "Schedule appointment \"%s\"" : "Naplánovat schůzku „%s“",
     "Schedule an appointment" : "Naplánovat schůzku",

@@ -11,6 +11,7 @@ OC.L10N.register(
     "Open »%s«" : "開啟 »%s«",
     "Cheers!" : "太棒了！",
     "Upcoming events" : "接下來的活動",
+    "More events" : "更多活動",
     "Appointments" : "預約",
     "Schedule appointment \"%s\"" : "安排預約「%s」",
     "Schedule an appointment" : "安排預約",

@@ -11,6 +11,7 @@ OC.L10N.register(
     "Open »%s«" : "»%s« öffnen",
     "Cheers!" : "Noch einen schönen Tag!",
     "Upcoming events" : "Anstehende Termine",
+    "More events" : "Weitere Termine",
     "Appointments" : "Termine",
     "Schedule appointment \"%s\"" : "Termin planen \"%s\"",
     "Schedule an appointment" : "Vereinbare einen Termin",

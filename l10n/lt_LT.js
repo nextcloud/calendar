@@ -11,6 +11,7 @@ OC.L10N.register(
     "Open »%s«" : "Atverti „%s“",
     "Cheers!" : "Sveikinimai!",
     "Upcoming events" : "Artėjantys įvykiai",
+    "More events" : "Daugiau įvykių",
     "Appointments" : "Susitikimai",
     "Confirm" : "Patvirtinti",
     "This confirmation link expires in %s hours." : "Ši patvirtinimo nuoroda baigia galioti po %s val.",
