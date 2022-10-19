@@ -84,6 +84,18 @@ const mutations = {
 	},
 
 	/**
+	 * Updates a calendar-object's calendarId
+	 *
+	 * @param {object} state The store data
+	 * @param {object} data The destructuring object
+	 * @param {string} data.calendarObjectId Id of calendar-object to update
+	 * @param {string} data.calendarId New calendarId
+	 */
+	updateCalendarObjectIdCalendarId(state, { calendarObjectId, calendarId }) {
+		state.calendarObjects[calendarObjectId].calendarId = calendarId
+	},
+
+	/**
 	 * Resets a calendar-object to it's original server state
 	 *
 	 * @param {object} state The store data
@@ -165,17 +177,18 @@ const actions = {
 			return
 		}
 
-		const newCalendarObject = context.getters.getCalendarById(newCalendarId)
-		if (!newCalendarObject) {
+		const newCalendar = context.getters.getCalendarById(newCalendarId)
+		if (!newCalendar) {
 			logger.error('Calendar to move to not found, aborting …')
 			return
 		}
 
-		context.commit('deleteCalendarObject', {
-			calendarObject,
+		await calendarObject.dav.move(newCalendar.dav)
+		// Update calendarId in calendarObject manually as it is not stored in dav
+		context.commit('updateCalendarObjectIdCalendarId', {
+			calendarObjectId: calendarObject.id,
+			calendarId: newCalendarId,
 		})
-		await calendarObject.dav.move(newCalendarObject.dav)
-		context.commit('appendCalendarObject', { calendarObject })
 
 		context.commit('addCalendarObjectToCalendar', {
 			calendar: {
