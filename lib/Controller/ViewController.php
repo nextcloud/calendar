@@ -168,7 +168,6 @@ class ViewController extends Controller {
 	 *
 	 * @param string $color - url encoded HEX colour
 	 * @return FileDisplayResponse
-	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 */
 	public function getCalendarDotSvg(string $color = "#0082c9"): FileDisplayResponse {
@@ -182,7 +181,11 @@ class ViewController extends Controller {
 			'calendar',
 			$this->userId
 		]);
-		$folder = $this->appData->getFolder($folderName);
+		try {
+			$folder = $this->appData->getFolder($folderName);
+		} catch (NotFoundException $e) {
+			$folder = $this->appData->newFolder($folderName);
+		}
 		$file = $folder->newFile($color . '.svg', $svg);
 		$response = new FileDisplayResponse($file);
 		$response->cacheFor(24 * 3600); // 1 day
