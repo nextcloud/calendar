@@ -11,6 +11,7 @@ OC.L10N.register(
     "Open »%s«" : "»%s« aç",
     "Cheers!" : "Görüşmek üzere",
     "Upcoming events" : "Yaklaşan etkinlikler",
+    "More events" : "Diğer etkinlikler",
     "Appointments" : "Randevular",
     "Schedule appointment \"%s\"" : "\"%s\" randevusu al",
     "Schedule an appointment" : "Bir randevu alın",

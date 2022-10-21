@@ -104,6 +104,7 @@ OC.L10N.register(
     "Canceled" : "Отказано",
     "Categories" : "Категорије",
     "Add this as a new category" : "Додај ово као нову категорију",
+    "Money" : "Новац",
     "Talk" : "Разговор",
     "Movie" : "Филм",
     "Cinema" : "Биоскоп",
