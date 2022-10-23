@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "User-Session unexpectedly expired" : "Термін дії сесії користувача несподівано завершився",
     "Provided email-address is not valid" : "Надано некоректну адресу електронної пошти ",
-    "%s has published the calendar »%s«" : "%s опублікував календар »%s«",
+    "%s has published the calendar »%s«" : "%s опублікував календар \"%s\"",
     "Unexpected error sending email. Please contact your administrator." : "Виникла несподівана помилка під час надсилання електронного повідомлення. Будь ласка повідомте адміністратора.",
     "Successfully sent email to %1$s" : "Успішно надіслано лист на адресу %1$s",
     "Hello," : "Вітаємо,",
@@ -155,7 +155,7 @@ OC.L10N.register(
     "Default reminder" : "Типове нагадування",
     "Copy primary CalDAV address" : "Копіювати основну адресу CalDAV",
     "Copy iOS/macOS CalDAV address" : "Копіювати адресу CalDAV для iOS/macOS ",
-    "Personal availability settings" : "Налаштування приватної доступності",
+    "Personal availability settings" : "Налаштування доступності",
     "Show keyboard shortcuts" : "Показувати клавіатурні скорочення",
     "Calendar settings" : "Налаштування",
     "No reminder" : "Відсутні нагадування",
