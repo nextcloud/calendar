@@ -34,7 +34,9 @@ import {
 import {
 	getAmountAndUnitForTimedEvents,
 	getAmountHoursMinutesAndUnitForAllDayEvents,
-	getTotalSecondsFromAmountAndUnitForTimedEvents, getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents,
+	getTotalSecondsFromAmountAndUnitForTimedEvents,
+	getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents,
+	updateEmailAlarms,
 } from '../utils/alarms.js'
 import {
 	getClosestCSS3ColorNameForHex,
@@ -1537,6 +1539,8 @@ const actions = {
 	async saveCalendarObjectInstance({ state, dispatch, commit }, { thisAndAllFuture, calendarId }) {
 		const eventComponent = state.calendarObjectInstance.eventComponent
 		const calendarObject = state.calendarObject
+
+		updateEmailAlarms(eventComponent)
 
 		if (eventComponent.isDirty()) {
 			const isForkedItem = eventComponent.primaryItem !== null
