@@ -143,7 +143,7 @@ class MailServiceTest extends TestCase {
 			->method('setSubject');
 		$emailTemplate->expects(self::once())
 			->method('addHeading');
-		$emailTemplate->expects(self::exactly(6))
+		$emailTemplate->expects(self::exactly(5))
 			->method('addBodyListItem');
 		$emailTemplate->expects(self::once())
 			->method('addBodyButton');
@@ -153,7 +153,7 @@ class MailServiceTest extends TestCase {
 			->method('addFooter');
 		$this->mailer->expects(self::once())
 			->method('createEmailTemplate');
-		$this->l10n->expects(self::exactly(10))
+		$this->l10n->expects(self::exactly(9))
 			->method('t');
 		$this->lFactory->expects(self::once())
 			->method('findGenericLanguage')
@@ -228,7 +228,7 @@ class MailServiceTest extends TestCase {
 			->method('setSubject');
 		$emailTemplate->expects(self::once())
 			->method('addHeading');
-		$emailTemplate->expects(self::exactly(6))
+		$emailTemplate->expects(self::exactly(5))
 			->method('addBodyListItem');
 		$emailTemplate->expects(self::once())
 			->method('addBodyButton');
@@ -238,7 +238,7 @@ class MailServiceTest extends TestCase {
 			->method('addFooter');
 		$this->mailer->expects(self::once())
 			->method('createEmailTemplate');
-		$this->l10n->expects(self::exactly(10))
+		$this->l10n->expects(self::exactly(9))
 			->method('t');
 		$this->lFactory->expects(self::once())
 			->method('findGenericLanguage')
@@ -298,7 +298,7 @@ class MailServiceTest extends TestCase {
 			->method('setSubject');
 		$emailTemplate->expects(self::once())
 			->method('addHeading');
-		$emailTemplate->expects(self::exactly(6))
+		$emailTemplate->expects(self::exactly(5))
 			->method('addBodyListItem');
 		$emailTemplate->expects(self::once())
 			->method('addBodyButton');
@@ -308,7 +308,7 @@ class MailServiceTest extends TestCase {
 			->method('addFooter');
 		$this->mailer->expects(self::once())
 			->method('createEmailTemplate');
-		$this->l10n->expects(self::exactly(10))
+		$this->l10n->expects(self::exactly(9))
 			->method('t');
 		$this->lFactory->expects(self::once())
 			->method('findGenericLanguage')
@@ -372,7 +372,7 @@ class MailServiceTest extends TestCase {
 			->method('setSubject');
 		$emailTemplate->expects(self::once())
 			->method('addHeading');
-		$emailTemplate->expects(self::exactly(6))
+		$emailTemplate->expects(self::exactly(5))
 			->method('addBodyListItem');
 		$emailTemplate->expects(self::once())
 			->method('addBodyText');
@@ -382,7 +382,7 @@ class MailServiceTest extends TestCase {
 			->method('createEmailTemplate');
 		$this->mailer->expects(self::once())
 			->method('createAttachment');
-		$this->l10n->expects(self::exactly(8))
+		$this->l10n->expects(self::exactly(7))
 			->method('t');
 		$this->lFactory->expects(self::once())
 			->method('findGenericLanguage')
@@ -445,7 +445,7 @@ class MailServiceTest extends TestCase {
 			->method('setSubject');
 		$emailTemplate->expects(self::once())
 			->method('addHeading');
-		$emailTemplate->expects(self::exactly(6))
+		$emailTemplate->expects(self::exactly(5))
 			->method('addBodyListItem');
 		$emailTemplate->expects(self::once())
 			->method('addBodyText');
@@ -455,7 +455,7 @@ class MailServiceTest extends TestCase {
 			->method('createEmailTemplate');
 		$this->mailer->expects(self::once())
 			->method('createAttachment');
-		$this->l10n->expects(self::exactly(8))
+		$this->l10n->expects(self::exactly(7))
 			->method('t');
 		$this->lFactory->expects(self::once())
 			->method('findGenericLanguage')
