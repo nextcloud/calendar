@@ -236,9 +236,6 @@ class MailService {
 			$template->addBodyListItem($location, $l10n->t('Where:'));
 		}
 
-		if (!empty($location)) {
-			$template->addBodyListItem($location, $l10n->t('Where:'));
-		}
 		if (!empty($booking->getDescription())) {
 			$template->addBodyListItem($booking->getDescription(), $l10n->t('Your Comment:'));
 		}
