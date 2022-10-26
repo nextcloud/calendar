@@ -320,6 +320,17 @@ th {
 
 .item-actions {
 	text-align: right;
+
+	> button {
+		position: relative;
+		top: -3px;
+	}
+
+	> .action-item {
+		position: relative;
+		top: 2px;
+	}
+
 }
 
 .deletedAt {
