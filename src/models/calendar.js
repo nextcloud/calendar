@@ -33,6 +33,8 @@ const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
 	id: '',
 	// Visible display name
 	displayName: '',
+	// Internal uri
+	uri: '',
 	// Color of the calendar
 	color: uidToHexColor(''),
 	// Whether or not the calendar is visible in the grid
@@ -83,6 +85,7 @@ const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
 const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
 	const id = btoa(calendar.url)
 	const displayName = calendar.displayname || getCalendarUriFromUrl(calendar.url)
+	const uri = getCalendarUriFromUrl(calendar.url)
 
 	// calendar.color can be set to anything on the server,
 	// so make sure it's something that remotely looks like a color
@@ -142,6 +145,7 @@ const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
 	return getDefaultCalendarObject({
 		id,
 		displayName,
+		uri,
 		color,
 		order,
 		url,
