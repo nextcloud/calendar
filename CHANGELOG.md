@@ -7,6 +7,10 @@
 ### Fixed
 - Widget Icon in Dashboard
 
+## 4.0.2 - 2022-10-27
+### Fixed
+- Overlapping of timezones with time suggestions
+
 ## 4.0.1 - 2022-10-18
 ### Changed
 - Remove iconfont and associated dependecies
