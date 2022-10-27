@@ -36,14 +36,16 @@ use OCP\Calendar\IManager;
 use OCP\Dashboard\IAPIWidget;
 use OCP\Dashboard\IButtonWidget;
 use OCP\Dashboard\IIconWidget;
+use OCP\Dashboard\IOptionWidget;
 use OCP\Dashboard\Model\WidgetButton;
 use OCP\Dashboard\Model\WidgetItem;
+use OCP\Dashboard\Model\WidgetOptions;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Util;
 
-class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget {
+class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionWidget {
 	private IL10N $l10n;
 	private IInitialState $initialStateService;
 	private JSDataService $dataService;
@@ -194,5 +196,12 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget {
 				$this->l10n->t('More events')
 			),
 		];
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getWidgetOptions(): WidgetOptions {
+		return new WidgetOptions(true);
 	}
 }
