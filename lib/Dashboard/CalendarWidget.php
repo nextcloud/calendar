@@ -142,21 +142,13 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 	 * @param string|null $since Use any PHP DateTime allowed values to get future dates
 	 * @param int $limit  Max 14 items is the default
 	 */
-	public function getItems(string $userId, ?string $since = null, int $limit = 14): array {
+	public function getItems(string $userId, ?string $since = null, int $limit = 7): array {
 		$calendars = $this->calendarManager->getCalendarsForPrincipal('principals/users/' . $userId);
 		$count = count($calendars);
 		if ($count === 0) {
 			return [];
 		}
-		$limitPerCalendar = (int)round(($limit / $count)) ?? 1;
 		$dateTime = (new DateTimeImmutable())->setTimestamp($this->timeFactory->getTime());
-		if ($since !== null) {
-			try {
-				$dateTime = new DateTimeImmutable($since);
-			} catch (\Exception $e) {
-				// silently drop the exception and proceed with "now"
-			}
-		}
 		$inTwoWeeks = $dateTime->add(new DateInterval('P14D'));
 		$options = [
 			'timerange' => [
@@ -166,7 +158,7 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 		];
 		$widgetItems = [];
 		foreach ($calendars as $calendar) {
-			$searchResult = $calendar->search('', [], $options, $limitPerCalendar);
+			$searchResult = $calendar->search('', [], $options, $limit);
 			foreach ($searchResult as $calendarEvent) {
 				/** @var DateTimeImmutable $startDate */
 				$startDate = $calendarEvent['objects'][0]['DTSTART'][0];

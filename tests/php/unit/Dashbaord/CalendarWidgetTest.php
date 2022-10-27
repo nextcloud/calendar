@@ -137,7 +137,7 @@ class CalendarWidgetTest extends TestCase {
 				'end' => $twoWeeks,
 			]
 		];
-		$limit = 14;
+		$limit = 7;
 		$result = [
 			'id' => '3599',
 			'uid' => '59d30b6c-5a31-4d28-b1d6-c8f928180e96',
