@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 3.5.2 - 2022-10-27
+### Fixed
+- Event calendar picker out of sync after moving event
+
 ## 3.5.1 - 2022-10-19
 ### Fixed
 - Timezone overlapping time suggestions for appointments
