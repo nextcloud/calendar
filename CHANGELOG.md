@@ -34,6 +34,17 @@
 - Category Selection
 - Missing background color for appoitments
 
+## 3.5.2 - 2022-10-27
+### Fixed
+- Event calendar picker out of sync after moving event
+
+## 3.5.1 - 2022-10-19
+### Fixed
+- Timezone overlapping time suggestions for appointments
+- Mobile design for appointments
+- Event title sort order
+- Category selection
+
 ## 3.5.0 - 2022-08-25
 ### Added
 - Option to copy calendar events
