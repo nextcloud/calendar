@@ -6,6 +6,8 @@
 - IButtonWidget and IIconWidget implementation
 ### Fixed
 - Widget Icon in Dashboard
+- Appointment detail styling for small screen
+- Appointment overview page design
 
 ## 4.0.1 - 2022-10-18
 ### Changed
