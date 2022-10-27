@@ -1,6 +1,11 @@
 
 # Changelog
 
+## 4.0.2 - 2022-10-27
+### Fixed
+- Overlapping of timezones with time suggestions
+- Calendar picker out of sync after moving event
+
 ## 4.0.1 - 2022-10-18
 ### Changed
 - Remove iconfont and associated dependecies
