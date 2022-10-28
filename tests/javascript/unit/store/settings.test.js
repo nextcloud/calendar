@@ -64,6 +64,7 @@ describe('store/settings test suite', () => {
 			timezone: 'automatic',
 			momentLocale: 'en',
 			disableAppointments: false,
+			canSubscribeLink: true,
 		})
 	})
 
@@ -173,6 +174,7 @@ describe('store/settings test suite', () => {
 			hideEventExport: false,
 			forceEventAlarmType: false,
 			disableAppointments: false,
+			canSubscribeLink: true,
 		}
 
 		const settings = {
@@ -192,6 +194,7 @@ describe('store/settings test suite', () => {
 			hideEventExport: false,
 			forceEventAlarmType: false,
 			disableAppointments: false,
+			canSubscribeLink: true,
 		}
 
 		settingsStore.mutations.loadSettingsFromServer(state, settings)
