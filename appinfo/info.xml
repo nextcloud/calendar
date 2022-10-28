@@ -38,11 +38,6 @@
 	<background-jobs>
 		<job>OCA\Calendar\BackgroundJob\CleanUpOutdatedBookingsJob</job>
 	</background-jobs>
-	<repair-steps>
-		<post-migration>
-			<step>OCA\Calendar\RepairSteps\CurrentViewNameRepairStep</step>
-		</post-migration>
-	</repair-steps>
 	<navigations>
 		<navigation>
 			<id>calendar</id>
