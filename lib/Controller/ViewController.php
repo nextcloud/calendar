@@ -101,7 +101,7 @@ class ViewController extends Controller {
 		if (!in_array($forceEventAlarmType, ['DISPLAY', 'EMAIL'], true)) {
 			$forceEventAlarmType = false;
 		}
-		$canSubscribeLink = $this->config->getAppValue($this->appName, 'allow_subscribe_link', 'yes') === 'yes';
+		$canSubscribeLink = $this->config->getAppValue('dav', 'allow_calendar_subscriptions', 'yes') === 'yes';
 
 		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
 		$talkApiVersion = version_compare($this->appManager->getAppVersion('spreed'), '12.0.0', '>=') ? 'v4' : 'v1';

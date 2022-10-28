@@ -129,7 +129,7 @@ class PublicViewController extends Controller {
 		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
 		$defaultDefaultReminder = $this->config->getAppValue($this->appName, 'defaultReminder', 'none');
 		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
-		$defaultCanSubscribeLink = $this->config->getAppValue($this->appName, 'allow_subscribe_link', 'yes');
+		$defaultCanSubscribeLink = $this->config->getAppValue('dav', 'allow_calendar_subscriptions', 'yes');
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version', null);
 
