@@ -517,6 +517,6 @@ export default {
 
 <style lang="scss" scoped>
 	.app-navigation-entry__counter-wrapper .action-item.sharing .material-design-icon.share {
-		opacity: .3;
+		opacity: .7;
 	}
 </style>
