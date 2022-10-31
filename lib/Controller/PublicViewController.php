@@ -6,6 +6,7 @@ declare(strict_types=1);
  *
  * @author Georg Ehrke
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -128,6 +129,7 @@ class PublicViewController extends Controller {
 		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
 		$defaultDefaultReminder = $this->config->getAppValue($this->appName, 'defaultReminder', 'none');
 		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
+		$defaultCanSubscribeLink = $this->config->getAppValue('dav', 'allow_calendar_link_subscriptions', 'yes');
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version', null);
 
@@ -146,6 +148,7 @@ class PublicViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'show_tasks', $defaultShowTasks === 'yes');
 		$this->initialStateService->provideInitialState($this->appName, 'tasks_enabled', false);
 		$this->initialStateService->provideInitialState($this->appName, 'hide_event_export', false);
+		$this->initialStateService->provideInitialState($this->appName, 'can_subscribe_link', $defaultCanSubscribeLink);
 
 		return new TemplateResponse($this->appName, 'main', [
 			'share_url' => $this->getShareURL(),

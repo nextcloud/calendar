@@ -6,6 +6,7 @@ declare(strict_types=1);
  *
  * @author Georg Ehrke
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
+ * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -108,6 +109,7 @@ class ViewController extends Controller {
 		if (!in_array($forceEventAlarmType, ['DISPLAY', 'EMAIL'], true)) {
 			$forceEventAlarmType = false;
 		}
+		$canSubscribeLink = $this->config->getAppValue('dav', 'allow_calendar_link_subscriptions', 'yes') === 'yes';
 
 		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
 		$talkApiVersion = version_compare($this->appManager->getAppVersion('spreed'), '12.0.0', '>=') ? 'v4' : 'v1';
@@ -131,6 +133,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState('force_event_alarm_type', $forceEventAlarmType);
 		$this->initialStateService->provideInitialState('appointmentConfigs', $this->appointmentConfigService->getAllAppointmentConfigurations($this->userId));
 		$this->initialStateService->provideInitialState('disable_appointments', $disableAppointments);
+		$this->initialStateService->provideInitialState('can_subscribe_link', $canSubscribeLink);
 
 		return new TemplateResponse($this->appName, 'main');
 	}
