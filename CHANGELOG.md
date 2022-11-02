@@ -1,7 +1,7 @@
 
 # Changelog
 
-## 4.1.0 - 2022-10-19
+## 4.1.0 - 2022-11-02
 ### Added
 - IButtonWidget and IIconWidget implementation
 ### Fixed
