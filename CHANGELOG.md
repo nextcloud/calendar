@@ -1,11 +1,13 @@
 
 # Changelog
 
-## 4.1.0 - 2022-10-19
+## 4.1.0 - 2022-11-02
 ### Added
 - IButtonWidget and IIconWidget implementation
 ### Fixed
 - Widget Icon in Dashboard
+- Appointment detail styling for small screen
+- Appointment overview page design
 
 ## 4.0.1 - 2022-10-18
 ### Changed
