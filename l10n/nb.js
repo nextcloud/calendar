@@ -19,6 +19,7 @@ OC.L10N.register(
     "Dear %s, please confirm your booking" : "Kjære %s, vennligst bekreft bestillingen din",
     "Confirm" : "Bekreft",
     "This confirmation link expires in %s hours." : "Denne bekreftelseslinken utgår om %stimer.",
+    "Dear %s, your booking has been accepted." : "Kjære%s, bestillingen din har blitt akseptert.",
     "Date:" : "Dato:",
     "Where:" : "Hvor:",
     "Calendar" : "Kalender",
