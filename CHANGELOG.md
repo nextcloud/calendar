@@ -1,15 +1,13 @@
 
 # Changelog
 
-## 4.1.0 - 2022-10-19
+## 4.1.0 - 2022-11-02
 ### Added
 - IButtonWidget and IIconWidget implementation
 ### Fixed
 - Widget Icon in Dashboard
-
-## 4.0.2 - 2022-10-27
-### Fixed
-- Overlapping of timezones with time suggestions
+- Appointment detail styling for small screen
+- Appointment overview page design
 
 ## 4.0.1 - 2022-10-18
 ### Changed
@@ -37,17 +35,6 @@
 - Contrast for day header
 - Category Selection
 - Missing background color for appoitments
-
-## 3.5.2 - 2022-10-27
-### Fixed
-- Event calendar picker out of sync after moving event
-
-## 3.5.1 - 2022-10-19
-### Fixed
-- Timezone overlapping time suggestions for appointments
-- Mobile design for appointments
-- Event title sort order
-- Category selection
 
 ## 3.5.0 - 2022-08-25
 ### Added
