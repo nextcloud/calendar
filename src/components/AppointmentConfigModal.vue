@@ -34,7 +34,7 @@
 				<div class="appointment-config-modal__form">
 					<fieldset>
 						<TextInput class="appointment-config-modal__form__row"
-							:label="t('calendar', 'Name')"
+							:label="t('calendar', 'Appointment name')"
 							:value.sync="editing.name" />
 						<TextInput class="appointment-config-modal__form__row"
 							:label="t('calendar', 'Location')"
