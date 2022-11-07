@@ -180,6 +180,7 @@ OC.L10N.register(
     "To configure appointments, add your email address in personal settings." : "要設定預約，請在您的個人設定中新增電子郵件。",
     "Public – shown on the profile page" : "公開 – 在個人資料頁面上展示",
     "Private – only accessible via secret link" : "私人 – 僅能透過祕密連結存取",
+    "Appointment name" : "約會名稱",
     "Location" : "地點",
     "Description" : "描述",
     "Visibility" : "能見度",

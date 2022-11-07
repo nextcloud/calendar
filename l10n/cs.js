@@ -180,6 +180,7 @@ OC.L10N.register(
     "To configure appointments, add your email address in personal settings." : "Pokud chcete nastavovat schůzky, je třeba v nastavení, v sekci osobní údaje, zadat svůj e-mail.",
     "Public – shown on the profile page" : "Veřejné – zobrazeno na profilové stránce",
     "Private – only accessible via secret link" : "Soukromé – přístupné pouze přes soukromý odkaz",
+    "Appointment name" : "Název schůzky",
     "Location" : "Umístění",
     "Description" : "Popis",
     "Visibility" : "Viditelnost",

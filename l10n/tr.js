@@ -180,6 +180,7 @@ OC.L10N.register(
     "To configure appointments, add your email address in personal settings." : "Randevuları yapılandırmak için kişisel ayarlar bölümünden e-posta adresinizi yazın.",
     "Public – shown on the profile page" : "Herkese açık - Profil sayfasında görüntülenir",
     "Private – only accessible via secret link" : "Bireysel - Yalnızca gizli bir bağlantı ile erişilebilir",
+    "Appointment name" : "Randevu adı",
     "Location" : "Konum",
     "Description" : "Açıklama",
     "Visibility" : "Görünürlük",

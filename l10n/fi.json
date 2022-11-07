@@ -176,6 +176,7 @@
     "To configure appointments, add your email address in personal settings." : "Lisää sähköpostiosoitteesi henkilökohtaisissa asetuksissa hallitaksesi tapaamisia.",
     "Public – shown on the profile page" : "Julkinen – näytetään profiilisivulla",
     "Private – only accessible via secret link" : "Yksityinen – nähtävissä vain salaisella linkillä",
+    "Appointment name" : "Tapaamisen nimi",
     "Location" : "Sijainti",
     "Description" : "Kuvaus",
     "Visibility" : "Näkyvyys",
