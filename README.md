@@ -5,7 +5,7 @@
 
 **A calendar app for [Nextcloud](http://nextcloud.com). Easily sync events from various devices with your Nextcloud and edit them online.**  
 
-![](https://raw.githubusercontent.com/nextcloud/screenshots/master/apps/Calendar/view_week.png)
+![](https://raw.githubusercontent.com/nextcloud/screenshots/master/apps/Calendar/calendar_application.png)
 
 ## :blue_heart: :tada: Why is this so awesome?
 
@@ -17,7 +17,7 @@
 * :mag: **Search!** Find your events at ease
 * :ballot_box_with_check: **Tasks!** See tasks or Deck cards with a due date directly in the calendar
 * :speaker: **Talk rooms!** Create an associated Talk room when booking a meeting with just one click
-* :calendar: **Appointment booking** Send people a link so they can book an appointment with you [using this app](https://apps.nextcloud.com/apps/appointments)
+* :calendar: **Appointment booking!** Send people a link, so they can book an appointment with you
 * :see_no_evil: **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
 
 
