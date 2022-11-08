@@ -180,6 +180,7 @@ OC.L10N.register(
     "To configure appointments, add your email address in personal settings." : "Aby skonfigurować spotkania, dodaj swój adres e-mail w ustawieniach osobistych.",
     "Public – shown on the profile page" : "Publiczny – wyświetlane na stronie profilu",
     "Private – only accessible via secret link" : "Prywatny – dostępne tylko przez tajny link",
+    "Appointment name" : "Nazwa spotkania",
     "Location" : "Lokalizacja",
     "Description" : "Opis",
     "Visibility" : "Widoczne",

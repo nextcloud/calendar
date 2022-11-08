@@ -37,6 +37,7 @@ OC.L10N.register(
     "Actions" : "Darbības",
     "Enable birthday calendar" : "Iespējot dzimšanas dienas kalendāru",
     "Show week numbers" : "Rādīt nedēļu numurus",
+    "Appointment name" : "Tikšanās nosaukums",
     "Location" : "Vieta",
     "Description" : "Apraksts",
     "to" : "kam",
