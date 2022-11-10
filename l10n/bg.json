@@ -178,6 +178,7 @@
     "To configure appointments, add your email address in personal settings." : "За конфигуриране на срещи, добавете своя имейл адрес в личните настройки.",
     "Public – shown on the profile page" : "Публичен – показва се на страницата на профила",
     "Private – only accessible via secret link" : "Частен – достъпен само чрез тайна връзка",
+    "Appointment name" : "Име на срещата",
     "Location" : "Местоположение",
     "Description" : "Описание",
     "Visibility" : "Видимост",
