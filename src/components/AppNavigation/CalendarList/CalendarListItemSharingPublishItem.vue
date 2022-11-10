@@ -342,7 +342,7 @@ export default {
 
 			// copy link for calendar to clipboard
 			try {
-				await this.$copyText(code)
+				await navigator.clipboard.writeText(code)
 				this.menuOpen = true
 				this.showCopyEmbedCodeLinkLabel = false
 				this.showCopyEmbedCodeLinkSpinner = false
