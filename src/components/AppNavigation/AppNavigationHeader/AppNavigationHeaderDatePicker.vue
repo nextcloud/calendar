@@ -22,36 +22,38 @@
 
 <template>
 	<div class="datepicker-button-section">
-		<button v-shortkey="previousShortKeyConf"
+		<NcButton v-shortkey="previousShortKeyConf"
 			:aria-label="previousLabel"
 			class="datepicker-button-section__previous button"
 			:title="previousLabel"
-			type="button"
 			@click="navigateToPreviousTimeRange"
 			@shortkey="navigateToPreviousTimeRange">
-			<ChevronLeftIcon :size="22" />
-		</button>
-		<button class="datepicker-button-section__datepicker-label button datepicker-label"
+			<template #icon>
+				<ChevronLeftIcon :size="22" />
+			</template>
+		</NcButton>
+		<NcButton class="datepicker-button-section__datepicker-label button datepicker-label"
 			@click.stop.prevent="toggleDatepicker"
 			@mousedown.stop.prevent="doNothing"
 			@mouseup.stop.prevent="doNothing">
 			{{ selectedDate | formatDateRage(view, locale) }}
-		</button>
+		</NcButton>
 		<DatePicker ref="datepicker"
 			class="datepicker-button-section__datepicker"
 			:date="selectedDate"
 			:is-all-day="true"
 			:open.sync="isDatepickerOpen"
 			@change="navigateToDate" />
-		<button v-shortkey="nextShortKeyConf"
+		<NcButton v-shortkey="nextShortKeyConf"
 			:aria-label="nextLabel"
 			class="datepicker-button-section__next button"
 			:title="nextLabel"
-			type="button"
 			@click="navigateToNextTimeRange"
 			@shortkey="navigateToNextTimeRange">
-			<ChevronRightIcon :size="22" />
-		</button>
+			<template #icon>
+				<ChevronRightIcon :size="22" />
+			</template>
+		</NcButton>
 	</div>
 </template>
 
@@ -66,6 +68,7 @@ import formatDateRage from '../../../filters/dateRangeFormat.js'
 import DatePicker from '../../Shared/DatePicker.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 export default {
 	name: 'AppNavigationHeaderDatePicker',
@@ -73,6 +76,7 @@ export default {
 		DatePicker,
 		ChevronLeftIcon,
 		ChevronRightIcon,
+		NcButton,
 	},
 	filters: {
 		formatDateRage,

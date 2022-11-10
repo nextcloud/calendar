@@ -42,15 +42,15 @@
 		<OrganizerNoEmailError v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
 
 		<div class="invitees-list-button-group">
-			<button v-if="isCreateTalkRoomButtonVisible"
+			<NcButton v-if="isCreateTalkRoomButtonVisible"
 				:disabled="isCreateTalkRoomButtonDisabled"
 				@click="createTalkRoom">
 				{{ $t('calendar', 'Create Talk room for this event') }}
-			</button>
+			</NcButton>
 
-			<button v-if="!isReadOnly" :disabled="isListEmpty" @click="openFreeBusy">
+			<NcButton v-if="!isReadOnly" :disabled="isListEmpty" @click="openFreeBusy">
 				{{ $t('calendar', 'Show busy times') }}
-			</button>
+			</NcButton>
 			<FreeBusy v-if="showFreeBusyModel"
 				:attendees="calendarObjectInstance.attendees"
 				:organizer="calendarObjectInstance.organizer"
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import { mapState } from 'vuex'
 import InviteesListSearch from './InviteesListSearch.vue'
 import InviteesListItem from './InviteesListItem.vue'
@@ -79,6 +80,7 @@ import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attende
 export default {
 	name: 'InviteesList',
 	components: {
+		NcButton,
 		FreeBusy,
 		OrganizerNoEmailError,
 		NoAttendeesView,

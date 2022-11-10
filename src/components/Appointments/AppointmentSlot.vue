@@ -20,16 +20,20 @@
   -->
 
 <template>
-	<button class="appointment-slot" @click="$emit('click', $event)">
+	<NcButton class="appointment-slot" @click="$emit('click', $event)">
 		{{ startTime }} - {{ endTime }}
-	</button>
+	</NcButton>
 </template>
 
 <script>
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import { timeStampToLocaleTime } from '../../utils/localeTime.js'
 
 export default {
 	name: 'AppointmentSlot',
+	components: {
+		NcButton,
+	},
 	props: {
 		start: {
 			required: true,
@@ -61,3 +65,9 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.appointment-slot {
+	margin: 5px 0;
+}
+</style>

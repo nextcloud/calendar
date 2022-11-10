@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license AGPL-3.0-or-later
   -
@@ -21,37 +22,42 @@
   -->
 
 <template>
-	<div>
-		<button v-if="showMoreButton"
+	<div class="save-buttons">
+		<NcButton v-if="showMoreButton"
 			@click="showMore">
 			{{ $t('calendar', 'More') }}
-		</button>
-		<button v-if="showSaveButton"
-			class="primary"
+		</NcButton>
+		<NcButton v-if="showSaveButton"
+			type="primary"
 			@click="saveThisOnly">
 			{{ $t('calendar', 'Save') }}
-		</button>
-		<button v-if="showUpdateButton"
-			class="primary"
+		</NcButton>
+		<NcButton v-if="showUpdateButton"
+			type="primary"
 			@click="saveThisOnly">
 			{{ $t('calendar', 'Update') }}
-		</button>
-		<button v-if="showUpdateOnlyThisButton"
-			class="primary"
+		</NcButton>
+		<NcButton v-if="showUpdateOnlyThisButton"
+			type="primary"
 			@click="saveThisOnly">
 			{{ $t('calendar', 'Update this occurrence') }}
-		</button>
-		<button v-if="showUpdateThisAndFutureButton"
-			:class="{ primary: forceThisAndAllFuture}"
+		</NcButton>
+		<NcButton v-if="showUpdateThisAndFutureButton"
+			:type="forceThisAndAllFuture ? 'primary' : 'secondary'"
 			@click="saveThisAndAllFuture">
 			{{ $t('calendar', 'Update this and all future') }}
-		</button>
+		</NcButton>
 	</div>
 </template>
 
 <script>
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+
 export default {
 	name: 'SaveButtons',
+	components: {
+		NcButton,
+	},
 	props: {
 		canCreateRecurrenceException: {
 			type: Boolean,
@@ -97,3 +103,15 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.save-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+
+	button {
+		flex: 1 fit-content;
+	}
+}
+</style>

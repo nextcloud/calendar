@@ -24,13 +24,13 @@
 	<div class="repeat-option-set repeat-option-set--yearly">
 		<div class="repeat-option-set-section">
 			<div class="repeat-option-set-section__grid">
-				<button v-for="option in options"
+				<NcButton v-for="option in options"
 					:key="option.value"
 					class="repeat-option-set-section-grid-item"
-					:class="{ primary: option.selected }"
+					:class="option.selected ? 'primary' : 'secondary'"
 					@click="toggleByMonth(option.value)">
 					{{ option.label }}
-				</button>
+				</NcButton>
 			</div>
 		</div>
 		<div class="repeat-option-set-section repeat-option-set-section--on-the-select">
@@ -51,6 +51,7 @@
 
 <script>
 import ActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import RepeatFirstLastSelect from './RepeatFirstLastSelect.vue'
 import RepeatOnTheSelect from './RepeatOnTheSelect.vue'
 
@@ -60,6 +61,7 @@ export default {
 	name: 'RepeatFreqYearlyOptions',
 	components: {
 		ActionCheckbox,
+		NcButton,
 		RepeatFirstLastSelect,
 		RepeatOnTheSelect,
 	},

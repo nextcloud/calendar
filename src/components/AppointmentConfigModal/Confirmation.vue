@@ -34,15 +34,16 @@
 				target="_blank">
 				{{ t('calendar', 'Preview') }}
 			</a>
-			<button v-if="showCopyLinkButton"
+			<NcButton v-if="showCopyLinkButton"
 				@click="copyLink">
 				{{ t('calendar', 'Copy link') }}
-			</button>
+			</NcButton>
 		</div>
 	</div>
 </template>
 
 <script>
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import AppointmentConfig from '../../models/appointmentConfig.js'
@@ -50,6 +51,7 @@ import AppointmentConfig from '../../models/appointmentConfig.js'
 export default {
 	name: 'Confirmation',
 	components: {
+		NcButton,
 		EmptyContent,
 		CheckIcon,
 	},

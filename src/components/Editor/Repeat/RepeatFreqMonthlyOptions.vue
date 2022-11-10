@@ -30,14 +30,14 @@
 				{{ $t('calendar', 'By day of the month') }}
 			</ActionRadio>
 			<div class="repeat-option-set-section__grid">
-				<button v-for="option in byMonthDayOptions"
+				<NcButton v-for="option in byMonthDayOptions"
 					:key="option.value"
 					class="repeat-option-set-section-grid-item"
-					:class="{ primary: option.selected }"
+					:type="option.selected ? 'primary' : 'secondary'"
 					:disabled="!byMonthDayEnabled"
 					@click="toggleByMonthDay(option.value)">
 					{{ option.label }}
-				</button>
+				</NcButton>
 			</div>
 		</div>
 		<div class="repeat-option-set-section repeat-option-set-section--on-the-select">
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import RepeatFirstLastSelect from './RepeatFirstLastSelect.vue'
 import RepeatOnTheSelect from './RepeatOnTheSelect.vue'
 import ActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio.js'
@@ -65,6 +66,7 @@ import ActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio.js'
 export default {
 	name: 'RepeatFreqMonthlyOptions',
 	components: {
+		NcButton,
 		RepeatOnTheSelect,
 		RepeatFirstLastSelect,
 		ActionRadio,

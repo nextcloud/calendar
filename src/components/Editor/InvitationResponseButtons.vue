@@ -21,27 +21,28 @@
   -->
 
 <template>
-	<div class="invitation-response-buttons"
-		:class="{ 'invitation-response-buttons--narrow': narrow }">
-		<button v-if="!isAccepted"
-			class="invitation-response-buttons__button primary"
+	<div class="invitation-response-buttons">
+		<NcButton v-if="!isAccepted"
+			type="primary"
+			class="invitation-response-buttons__button"
 			:disabled="loading"
 			@click="accept">
 			{{ t('calendar', 'Accept') }}
-		</button>
-		<button v-if="!isDeclined"
-			class="invitation-response-buttons__button error"
+		</NcButton>
+		<NcButton v-if="!isDeclined"
+			type="error"
+			class="invitation-response-buttons__button"
 			:disabled="loading"
 			@click="decline">
 			{{ t('calendar', 'Decline') }}
-		</button>
+		</NcButton>
 		<template v-if="!isTentative">
-			<button v-if="!narrow"
+			<NcButton v-if="!narrow"
 				class="invitation-response-buttons__button"
 				:disabled="loading"
 				@click="tentative">
 				{{ t('calendar', 'Tentative') }}
-			</button>
+			</NcButton>
 			<Actions v-else>
 				<ActionButton :disabled="loading"
 					@click="tentative">
@@ -58,6 +59,7 @@
 <script>
 import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
 import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import CalendarQuestionIcon from 'vue-material-design-icons/CalendarQuestion.vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import logger from '../../utils/logger.js'
@@ -67,6 +69,7 @@ export default {
 	components: {
 		Actions,
 		ActionButton,
+		NcButton,
 		CalendarQuestionIcon,
 	},
 	props: {
@@ -161,15 +164,10 @@ export default {
 .invitation-response-buttons {
 	display: flex;
 	width: 100%;
+	gap: 5px;
 
 	&__button {
 		flex: 1 auto;
-		width: 100%;
-	}
-
-	// Fix alignment of buttons on simple editor
-	&--narrow > button + button {
-			margin-left: 5px;
 	}
 }
 </style>
