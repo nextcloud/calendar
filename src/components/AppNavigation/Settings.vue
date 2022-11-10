@@ -392,7 +392,7 @@ export default {
 		 */
 		async copyPrimaryCalDAV() {
 			try {
-				await this.$copyText(generateRemoteUrl('dav'))
+				await navigator.clipboard.writeText(generateRemoteUrl('dav'))
 				showSuccess(this.$t('calendar', 'CalDAV link copied to clipboard.'))
 			} catch (error) {
 				console.debug(error)
