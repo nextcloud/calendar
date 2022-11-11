@@ -2,7 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -152,13 +152,13 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import ActionText from '@nextcloud/vue/dist/Components/ActionText'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import ActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
+import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import ActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import ClickOutside from 'vue-click-outside'
 import {
 	showInfo,
@@ -424,7 +424,7 @@ export default {
 			// TODO - use menuOpen to keep it open instead of toast
 
 			try {
-				await this.$copyText(url)
+				await navigator.clipboard.writeText(url)
 				showSuccess(this.$t('calendar', 'Calendar link copied to clipboard.'))
 			} catch (error) {
 				console.debug(error)

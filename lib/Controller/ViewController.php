@@ -27,8 +27,12 @@ namespace OCA\Calendar\Controller;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Files\IAppData;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IConfig;
 use OCP\IRequest;
 use function in_array;
@@ -50,19 +54,23 @@ class ViewController extends Controller {
 	/** @var string */
 	private $userId;
 
+	private IAppData $appData;
+
 	public function __construct(string $appName,
 								IRequest $request,
 								IConfig $config,
 								AppointmentConfigService $appointmentConfigService,
 								IInitialState $initialStateService,
 								IAppManager $appManager,
-								?string $userId) {
+								?string $userId,
+								IAppData $appData) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->appointmentConfigService = $appointmentConfigService;
 		$this->initialStateService = $initialStateService;
 		$this->appManager = $appManager;
 		$this->userId = $userId;
+		$this->appData = $appData;
 	}
 
 	/**
@@ -101,6 +109,7 @@ class ViewController extends Controller {
 		if (!in_array($forceEventAlarmType, ['DISPLAY', 'EMAIL'], true)) {
 			$forceEventAlarmType = false;
 		}
+		$canSubscribeLink = $this->config->getAppValue('dav', 'allow_calendar_link_subscriptions', 'yes') === 'yes';
 		$showResources = $this->config->getAppValue($this->appName, 'showResources', 'yes') === 'yes';
 
 		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
@@ -126,6 +135,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState('show_resources', $showResources);
 		$this->initialStateService->provideInitialState('appointmentConfigs', $this->appointmentConfigService->getAllAppointmentConfigurations($this->userId));
 		$this->initialStateService->provideInitialState('disable_appointments', $disableAppointments);
+		$this->initialStateService->provideInitialState('can_subscribe_link', $canSubscribeLink);
 
 		return new TemplateResponse($this->appName, 'main');
 	}
@@ -150,5 +160,40 @@ class ViewController extends Controller {
 			default:
 				return $view;
 		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoCSRFRequired
+	 *
+	 * This function makes the colour dots work for mobile widgets
+	 *
+	 * Returns an SVG with size32x32 if the hex colour is valid
+	 * or a Nextcloud blue svg if the colour is not
+	 *
+	 * @param string $color - url encoded HEX colour
+	 * @return FileDisplayResponse
+	 * @throws NotPermittedException
+	 */
+	public function getCalendarDotSvg(string $color = "#0082c9"): FileDisplayResponse {
+		$validColor = '#0082c9';
+		$color = trim(urldecode($color), '#');
+		if (preg_match('/^([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
+			$validColor = '#' . $color;
+		}
+		$svg = '<svg height="32" width="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="' . $validColor . '"/></svg>';
+		$folderName = implode('_', [
+			'calendar',
+			$this->userId
+		]);
+		try {
+			$folder = $this->appData->getFolder($folderName);
+		} catch (NotFoundException $e) {
+			$folder = $this->appData->newFolder($folderName);
+		}
+		$file = $folder->newFile($color . '.svg', $svg);
+		$response = new FileDisplayResponse($file);
+		$response->cacheFor(24 * 3600); // 1 day
+		return $response;
 	}
 }

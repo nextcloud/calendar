@@ -1,13 +1,9 @@
 const path = require('path')
 const webpack = require('webpack')
-const md5 = require('md5')
 
 const webpackConfig = require('@nextcloud/webpack-vue-config')
 const webpackRules = require('@nextcloud/webpack-vue-config/rules')
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
-const IconfontPlugin = require('iconfont-plugin-webpack')
-
-const appVersion = JSON.stringify(process.env.npm_package_version)
 
 // Add dashboard entry
 webpackConfig.entry.dashboard = path.join(__dirname, 'src', 'dashboard.js')
@@ -49,17 +45,6 @@ webpackRules.RULE_SCSS.use = [
 ]
 
 webpackConfig.plugins.push(
-	new IconfontPlugin({
-		src: './src/assets/iconfont',
-		family: `iconfont-calendar-app-${md5(appVersion)}`,
-		dest: {
-			font: './src/fonts/[family].[type]',
-			css: './src/fonts/scss/iconfont-calendar-app.scss',
-		},
-		watch: {
-			pattern: './src/assets/iconfont/*.svg',
-		},
-	}),
 	new webpack.IgnorePlugin({
 		resourceRegExp: /^\.\/locale$/,
 		contextRegExp: /moment$/,

@@ -3,7 +3,7 @@
   -
   - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -59,18 +59,18 @@
 </template>
 
 <script>
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck'
-import DeleteIcon from 'vue-material-design-icons/Delete'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
+import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
-import PencilIcon from 'vue-material-design-icons/Pencil'
-import AppointmentConfig from '../../../models/appointmentConfig'
-import AppointmentConfigModal from '../../AppointmentConfigModal'
-import LinkVariantIcon from 'vue-material-design-icons/LinkVariant'
+import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import AppointmentConfig from '../../../models/appointmentConfig.js'
+import AppointmentConfigModal from '../../AppointmentConfigModal.vue'
+import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import logger from '../../../utils/logger'
+import logger from '../../../utils/logger.js'
 
 export default {
 	name: 'AppointmentConfigListItem',

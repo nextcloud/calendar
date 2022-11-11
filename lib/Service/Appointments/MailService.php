@@ -105,12 +105,17 @@ class MailService {
 		$template->addHeader();
 
 		//Subject
-		$subject = $this->l10n->t('Your appointment "%s" needs confirmation', [$config->getName()]);
+		$subject = $this->l10n->t('Your appointment "%s" with %s needs confirmation', [$config->getName(), $user->getDisplayName()]);
 		$template->setSubject($subject);
 
 		// Heading
 		$summary = $this->l10n->t("Dear %s, please confirm your booking", [$booking->getDisplayName()]);
 		$template->addHeading($summary);
+
+		$template->addBodyListItem($user->getDisplayName(), 'Appointment with:');
+		if (!empty($config->getDescription())) {
+			$template->addBodyListItem($config->getDescription(), 'Description:');
+		}
 
 		// Create Booking overview
 		$this->addBulletList($template, $this->l10n, $booking, $config->getLocation());
@@ -121,7 +126,7 @@ class MailService {
 		$bodyText = $this->l10n->t('This confirmation link expires in %s hours.', [(BookingService::EXPIRY / 3600)]);
 		$template->addBodyText($bodyText);
 
-		$bodyText = $this->l10n->t("If you wish to cancel the appointment after all, please contact your organizer.");
+		$bodyText = $this->l10n->t('If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page.');
 		$template->addBodyText($bodyText);
 
 		$template->addFooter();
@@ -144,11 +149,77 @@ class MailService {
 		}
 	}
 
+	/**
+	 * @param Booking $booking
+	 * @param AppointmentConfig $config
+	 * @throws ServiceException
+	 */
+	public function sendBookingInformationEmail(Booking $booking, AppointmentConfig $config, string $calendar): void {
+		$user = $this->userManager->get($config->getUserId());
+
+		if ($user === null) {
+			throw new ServiceException('Could not find organizer');
+		}
+
+		$fromEmail = $user->getEMailAddress();
+		$fromName = $user->getDisplayName();
+
+		$sys = $this->getSysEmail();
+		$message = $this->mailer->createMessage()
+			->setFrom([$sys => $fromName])
+			->setTo([$booking->getEmail() => $booking->getDisplayName()])
+			->setReplyTo([$fromEmail => $fromName]);
+
+
+		$template = $this->mailer->createEMailTemplate('calendar.confirmAppointment');
+		$template->addHeader();
+
+		//Subject
+		$subject = $this->l10n->t('Your appointment "%s" with %s has been accepted', [$config->getName(), $user->getDisplayName()]);
+		$template->setSubject($subject);
+
+		// Heading
+		$summary = $this->l10n->t('Dear %s, your booking has been accepted.', [$booking->getDisplayName()]);
+		$template->addHeading($summary);
+
+		$template->addBodyListItem($user->getDisplayName(), 'Appointment with:');
+		if (!empty($config->getDescription())) {
+			$template->addBodyListItem($config->getDescription(), 'Description:');
+		}
+
+		// Create Booking overview
+		$this->addBulletList($template, $this->l10n, $booking, $config->getLocation());
+
+		$bodyText = $this->l10n->t('If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page.');
+		$template->addBodyText($bodyText);
+
+		$template->addFooter();
+
+		$attachment = $this->mailer->createAttachment($calendar, "appointment.ics", "text/calendar");
+		$message->attach($attachment);
+		$message->useTemplate($template);
+
+
+		try {
+			$failed = $this->mailer->send($message);
+			if (count($failed) > 0) {
+				$this->logger->warning('Mail delivery failed for some recipients.');
+				foreach ($failed as $fail) {
+					$this->logger->debug('Failed to deliver email to ' . $fail);
+				}
+				throw new ServiceException('Could not send mail for recipient(s) ' . implode(', ', $failed));
+			}
+		} catch (Exception $ex) {
+			$this->logger->error($ex->getMessage(), ['exception' => $ex]);
+			throw new ServiceException('Could not send mail: ' . $ex->getMessage(), $ex->getCode(), $ex);
+		}
+	}
+
 	private function addBulletList(IEMailTemplate $template,
 								   IL10N $l10n,
 								   Booking $booking,
 								   ?string $location = null):void {
-		$template->addBodyListItem($booking->getDisplayName(), $l10n->t('Appointment:'));
+		$template->addBodyListItem($booking->getDisplayName(), $l10n->t('Appointment for:'));
 
 		$l = $this->lFactory->findGenericLanguage();
 		$relativeDateTime = $this->dateFormatter->formatDateTimeRelativeDay(
@@ -156,7 +227,7 @@ class MailService {
 			'long',
 			'short',
 			new \DateTimeZone($booking->getTimezone()),
-			$this->lFactory->get('calendar',$l)
+			$this->lFactory->get('calendar', $l)
 		);
 
 		$template->addBodyListItem($relativeDateTime, $l10n->t('Date:'));
@@ -164,8 +235,9 @@ class MailService {
 		if (!empty($location)) {
 			$template->addBodyListItem($location, $l10n->t('Where:'));
 		}
+
 		if (!empty($booking->getDescription())) {
-			$template->addBodyListItem($booking->getDescription(), $l10n->t('Description:'));
+			$template->addBodyListItem($booking->getDescription(), $l10n->t('Your Comment:'));
 		}
 	}
 

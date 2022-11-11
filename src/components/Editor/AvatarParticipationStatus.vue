@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -25,20 +25,120 @@
 		<Avatar :disable-tooltip="true"
 			:user="avatarLink"
 			:is-no-user="isResource" />
-		<div class="avatar-participation-status__indicator" :class="status.indicatorClass" />
-		<div class="avatar-participation-status__text">
-			{{ status.label }}
-		</div>
+		<template v-if="participationStatus === 'ACCEPTED' && isViewedByOrganizer">
+			<IconCheck class="avatar-participation-status__indicator"
+				fill-color="#32CD32"
+				:size="20" />
+			<div class="avatar-participation-status__text">
+				{{ t('calendar', 'Invitation accepted') }}
+			</div>
+		</template>
+		<template v-else-if="isResource && participationStatus === 'ACCEPTED'">
+			<IconCheck class="avatar-participation-status__indicator"
+				fill-color="#32CD32"
+				:size="20" />
+			<div class="avatar-participation-status__text">
+				{{ t('calendar', 'Available') }}
+			</div>
+		</template>
+		<template v-else-if="isSuggestion">
+			<IconCheck class="avatar-participation-status__indicator"
+				fill-color="#32CD32"
+				:size="20" />
+			<div class="avatar-participation-status__text">
+				{{ t('calendar', 'Suggested') }}
+			</div>
+		</template>
+		<template v-else-if="participationStatus === 'TENTATIVE'">
+			<IconCheck class="avatar-participation-status__indicator"
+				fill-color="#32CD32"
+				:size="20" />
+			<div class="avatar-participation-status__text">
+				{{ t('calendar', 'Participation marked as tentative') }}
+			</div>
+		</template>
+		<template v-else-if="participationStatus === 'ACCEPTED' && !isViewedByOrganizer">
+			<IconCheck class="avatar-participation-status__indicator"
+				fill-color="#32CD32"
+				:size="20" />
+			<div class="avatar-participation-status__text">
+				{{ t('calendar', 'Accepted {organizerName}\'s invitation', {
+					organizerName: organizerDisplayName,
+				}) }}
+			</div>
+		</template>
+		<template v-else-if="isResource && participationStatus === 'DECLINED'">
+			<IconClose class="avatar-participation-status__indicator"
+				:size="20" />
+			<div class="avatar-participation-status__text">
+				{{ t('calendar', 'Not available') }}
+			</div>
+		</template>
+		<template v-else-if="participationStatus === 'DECLINED' && isViewedByOrganizer">
+			<IconClose class="avatar-participation-status__indicator"
+				:size="20" />
+			<div class="avatar-participation-status__text">
+				{{ t('calendar', 'Invitation declined') }}
+			</div>
+		</template>
+		<template v-else-if="participationStatus === 'DECLINED' && !isViewedByOrganizer">
+			<IconClose class="avatar-participation-status__indicator"
+				:size="20" />
+			<div class="avatar-participation-status__text">
+				{{ t('calendar', 'Declined {organizerName}\'s invitation', {
+					organizerName: organizerDisplayName,
+				}) }}
+			</div>
+		</template>
+		<template v-else-if="participationStatus === 'DELEGATED'">
+			<IconDelegated class="avatar-participation-status__indicator"
+				:size="20" />
+			<div class="avatar-participation-status__text">
+				{{ t('calendar', 'Invitation is delegated') }}
+			</div>
+		</template>
+		<template v-else-if="isResource">
+			<IconNoResponse class="avatar-participation-status__indicator"
+				:size="20" />
+			<div class="avatar-participation-status__text">
+				{{ t('calendar', 'Checking availability') }}
+			</div>
+		</template>
+		<template v-else-if="isViewedByOrganizer">
+			<IconNoResponse class="avatar-participation-status__indicator"
+				:size="20" />
+			<div class="avatar-participation-status__text">
+				{{ t('calendar', 'Invitation sent') }}
+			</div>
+		</template>
+		<template v-else>
+			<IconNoResponse class="avatar-participation-status__indicator"
+				:size="20" />
+			<div class="avatar-participation-status__text">
+				{{ t('calendar', 'Has not responded to {organizerName}\'s invitation yet', {
+					organizerName: organizerDisplayName,
+				}) }}
+			</div>
+		</template>
 	</div>
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import IconCheck from 'vue-material-design-icons/CheckCircle.vue'
+import IconNoResponse from 'vue-material-design-icons/HelpCircle.vue'
+import IconClose from 'vue-material-design-icons/CloseCircle.vue'
+import IconDelegated from 'vue-material-design-icons/ArrowRightDropCircle.vue'
 
 export default {
 	name: 'AvatarParticipationStatus',
 	components: {
 		Avatar,
+		IconCheck,
+	  IconNoResponse,
+	  IconClose,
+	  IconDelegated,
+
 	},
 	props: {
 		avatarLink: {
@@ -74,92 +174,6 @@ export default {
 			required: true,
 		},
 	},
-	computed: {
-		status() {
-			if (this.isSuggestion) {
-				return {
-					indicatorClass: ['accepted', 'icon', 'icon-checkmark-white'],
-					label: t('calendar', 'Suggested'),
-				}
-			}
-
-			if (this.isResource && this.participationStatus === 'ACCEPTED') {
-				return {
-					indicatorClass: ['accepted', 'icon', 'icon-checkmark-white'],
-					label: t('calendar', 'Available'),
-				}
-			}
-			if (this.isResource && this.participationStatus === 'DECLINED') {
-				return {
-					indicatorClass: ['declined', 'icon', 'icon-close-white'],
-					label: t('calendar', 'Not available'),
-				}
-			}
-			if (this.isResource) {
-				return {
-					indicatorClass: ['no-response', 'icon', 'icon-invitees-no-response-white'],
-					label: t('calendar', 'Checking availability'),
-				}
-			}
-
-			if (this.participationStatus === 'ACCEPTED' && this.isViewedByOrganizer) {
-				return {
-					indicatorClass: ['accepted', 'icon', 'icon-checkmark-white'],
-					label: t('calendar', 'Invitation accepted'),
-				}
-			}
-			if (this.participationStatus === 'ACCEPTED' && !this.isViewedByOrganizer) {
-				return {
-					indicatorClass: ['accepted', 'icon', 'icon-checkmark-white'],
-					label: t('calendar', 'Accepted {organizerName}\'s invitation', {
-						organizerName: this.organizerDisplayName,
-					}),
-				}
-			}
-
-			if (this.participationStatus === 'DECLINED' && this.isViewedByOrganizer) {
-				return {
-					indicatorClass: ['declined', 'icon', 'icon-close-white'],
-					label: t('calendar', 'Invitation declined'),
-				}
-			}
-			if (this.participationStatus === 'DECLINED' && !this.isViewedByOrganizer) {
-				return {
-					indicatorClass: ['declined', 'icon', 'icon-close-white'],
-					label: t('calendar', 'Declined {organizerName}\'s invitation', {
-						organizerName: this.organizerDisplayName,
-					}),
-				}
-			}
-
-			if (this.participationStatus === 'DELEGATED') {
-				return {
-					indicatorClass: [],
-					label: this.$t('calendar', 'Invitation is delegated'),
-				}
-			}
-			if (this.participationStatus === 'TENTATIVE') {
-				return {
-					indicatorClass: ['tentative', 'icon', 'icon-checkmark-white'],
-					label: t('calendar', 'Participation marked as tentative'),
-				}
-			}
-
-			if (this.isViewedByOrganizer) {
-				return {
-					indicatorClass: ['no-response', 'icon', 'icon-invitees-no-response-white'],
-					label: t('calendar', 'Invitation sent'),
-				}
-			} else {
-				return {
-					indicatorClass: ['no-response', 'icon', 'icon-invitees-no-response-white'],
-					label: t('calendar', 'Has not responded to {organizerName}\'s invitation yet', {
-						organizerName: this.organizerDisplayName,
-					}),
-				}
-			}
-		},
-	},
 }
 </script>
 <style lang="scss" scoped>
@@ -167,6 +181,7 @@ export default {
 	bottom: 20px;
 	left: 43px;
 	position: relative;
+	opacity: .8;
 }
 
 .avatar-participation-status__text {

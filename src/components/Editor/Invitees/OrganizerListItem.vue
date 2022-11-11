@@ -4,7 +4,7 @@
   - @author Georg Ehrke <oc.list@georgehrke.com>
   - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -40,8 +40,8 @@
 </template>
 
 <script>
-import AvatarParticipationStatus from '../AvatarParticipationStatus'
-import { removeMailtoPrefix } from '../../../utils/attendee'
+import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
+import { removeMailtoPrefix } from '../../../utils/attendee.js'
 
 export default {
 	name: 'OrganizerListItem',
@@ -95,6 +95,9 @@ export default {
 <style lang="scss" scoped>
 .invitees-list-item__displayname {
 	margin-bottom: 13px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 .invitees-list-item__organizer-hint {

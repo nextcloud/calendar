@@ -30,7 +30,6 @@ OC.L10N.register(
     "Cancel" : "Цуцлах",
     "Actions" : "Үйл ажиллагаа",
     "Show week numbers" : "7 хоногийн дугаарыг харуулах",
-    "Settings & import" : "Тохиргоо, импорт",
     "Location" : "Байршил",
     "Description" : "Тодорхойлолт",
     "to" : "Дуусах нь",

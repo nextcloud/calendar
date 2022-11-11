@@ -26,17 +26,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import calendarObjectInstance from './calendarObjectInstance'
-import calendarObjects from './calendarObjects'
+import calendarObjectInstance from './calendarObjectInstance.js'
+import calendarObjects from './calendarObjects.js'
 import calendars from './calendars.js'
 import contacts from './contacts.js'
-import davRestrictions from './davRestrictions'
+import davRestrictions from './davRestrictions.js'
 import fetchedTimeRanges from './fetchedTimeRanges.js'
-import importFiles from './importFiles'
-import importState from './importState'
+import importFiles from './importFiles.js'
+import importState from './importState.js'
 import principals from './principals.js'
 import settings from './settings.js'
-import appointmentConfigs from './appointmentConfigs'
+import appointmentConfigs from './appointmentConfigs.js'
 
 Vue.use(Vuex)
 

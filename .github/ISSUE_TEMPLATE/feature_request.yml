@@ -1,6 +1,6 @@
 name: "Feature request"
 description: "You have a neat idea that should be implemented?"
-labels: ["enhancement", "0. to triage"]
+labels: ["enhancement", "0 - to triage"]
 body:
   - type: markdown
     attributes:

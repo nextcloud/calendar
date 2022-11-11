@@ -23,22 +23,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import 'core-js/stable'
+import 'core-js/stable/index.js'
 
 import '../css/calendar.scss'
 
 import Vue from 'vue'
-import App from './App'
-import router from './router'
-import store from './store'
+import App from './App.vue'
+import router from './router.js'
+import store from './store/index.js'
 import { sync } from 'vuex-router-sync'
 import { getRequestToken } from '@nextcloud/auth'
 import { linkTo } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import { translate, translatePlural } from '@nextcloud/l10n'
-import AppointmentConfig from './models/appointmentConfig'
+import AppointmentConfig from './models/appointmentConfig.js'
 import ClickOutside from 'vue-click-outside'
-import VueClipboard from 'vue-clipboard2'
 import VTooltip from 'v-tooltip'
 import VueShortKey from 'vue-shortkey'
 import windowTitleService from './services/windowTitleService.js'
@@ -46,7 +45,6 @@ import windowTitleService from './services/windowTitleService.js'
 // register global components
 Vue.directive('ClickOutside', ClickOutside)
 Vue.use(VTooltip)
-Vue.use(VueClipboard)
 Vue.use(VueShortKey, { prevent: ['input', 'textarea'] })
 
 // CSP config for webpack dynamic chunk loading

@@ -65,11 +65,11 @@
 	</Modal>
 </template>
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
-import autosize from '../../directives/autosize'
+import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import Modal from '@nextcloud/vue/dist/Components/NcModal.js'
+import autosize from '../../directives/autosize.js'
 
-import { timeStampToLocaleTime } from '../../utils/localeTime'
+import { timeStampToLocaleTime } from '../../utils/localeTime.js'
 
 export default {
 	name: 'AppointmentDetails',
@@ -148,6 +148,7 @@ export default {
 	display: flex;
 	flex-direction: row;
 	padding: 30px;
+	flex-wrap: wrap;
 }
 
 .booking-details {

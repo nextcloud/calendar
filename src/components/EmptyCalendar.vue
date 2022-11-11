@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -21,19 +21,16 @@
   -->
 
 <template>
-	<EmptyContent>
-		{{ $t('calendar', 'Public calendar does not exist') }}
+	<EmptyContent :title="$t('calendar', 'Public calendar does not exist')"
+		:description="$t('calendar', 'Maybe the share was deleted or has expired?' )">
 		<template #icon>
 			<CalendarBlank :size="20" decorative />
-		</template>
-		<template #desc>
-			{{ $t('calendar', 'Maybe the share was deleted or has expired?' ) }}
 		</template>
 	</EmptyContent>
 </template>
 
 <script>
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 
 export default {

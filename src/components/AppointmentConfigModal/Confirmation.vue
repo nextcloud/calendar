@@ -3,7 +3,7 @@
   -
   - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -22,10 +22,9 @@
 
 <template>
 	<div class="app-config-modal-confirmation">
-		<EmptyContent>
-			<CheckIcon slot="icon" decorative />
-			<template #desc>
-				{{ title }}
+		<EmptyContent :title="title">
+			<template #icon>
+				<CheckIcon />
 			</template>
 		</EmptyContent>
 		<div class="app-config-modal-confirmation__buttons">
@@ -44,9 +43,9 @@
 </template>
 
 <script>
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import CheckIcon from 'vue-material-design-icons/Check'
-import AppointmentConfig from '../../models/appointmentConfig'
+import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import AppointmentConfig from '../../models/appointmentConfig.js'
 
 export default {
 	name: 'Confirmation',

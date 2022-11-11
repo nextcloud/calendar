@@ -4,7 +4,7 @@
   - @author Georg Ehrke <oc.list@georgehrke.com>
   - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -57,10 +57,10 @@
 </template>
 
 <script>
-import PropertyMixin from '../../../mixins/PropertyMixin'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
+import PropertyMixin from '../../../mixins/PropertyMixin.js'
+import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import ColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
 import debounce from 'debounce'
 
 import Undo from 'vue-material-design-icons/Undo.vue'

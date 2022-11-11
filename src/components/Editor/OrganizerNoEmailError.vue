@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -46,7 +46,7 @@ export default {
 		 * @return {string}
 		 */
 		htmlCaption() {
-			return this.$t('calendar', 'To send out invitations and handle responses,  [linkopen]add your email address in personal settings[linkclose].')
+			return this.$t('calendar', 'To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose].')
 				.replace('[linkopen]', `<a target="_blank" href="${generateUrl('settings/user')}">`)
 				.replace('[linkclose]', '</a>')
 		},

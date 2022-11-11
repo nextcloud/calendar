@@ -3,7 +3,7 @@
   -
   - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<Select :label="label"
+	<SelectWrapper :label="label"
 		:value="value"
 		:disabled="disabled"
 		:options="options"
@@ -29,12 +29,12 @@
 </template>
 
 <script>
-import Select from './Select'
+import SelectWrapper from './SelectWrapper.vue'
 
 export default {
 	name: 'DurationSelect',
 	components: {
-		Select,
+		SelectWrapper,
 	},
 	props: {
 		label: {

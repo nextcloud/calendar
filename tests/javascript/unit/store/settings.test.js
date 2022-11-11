@@ -64,6 +64,7 @@ describe('store/settings test suite', () => {
 			timezone: 'automatic',
 			momentLocale: 'en',
 			disableAppointments: false,
+			canSubscribeLink: true,
 			enableResources: true,
 		})
 	})
@@ -174,6 +175,7 @@ describe('store/settings test suite', () => {
 			hideEventExport: false,
 			forceEventAlarmType: false,
 			disableAppointments: false,
+			canSubscribeLink: true,
 			enableResources: true,
 		}
 
@@ -194,6 +196,7 @@ describe('store/settings test suite', () => {
 			hideEventExport: false,
 			forceEventAlarmType: false,
 			disableAppointments: false,
+			canSubscribeLink: true,
 			enableResources: true,
 		}
 
@@ -217,6 +220,7 @@ Initial settings:
 	- HideEventExport: false
 	- ForceEventAlarmType: false
 	- disableAppointments: false
+	- CanSubscribeLink: true
 	- ShowResources: true
 `)
 		expect(state).toEqual({
@@ -237,6 +241,7 @@ Initial settings:
 			hideEventExport: false,
 			forceEventAlarmType: false,
 			disableAppointments: false,
+			canSubscribeLink: true,
 			showResources: true,
 		})
 	})

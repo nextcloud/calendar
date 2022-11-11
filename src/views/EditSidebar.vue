@@ -7,7 +7,7 @@
   - @author Jakob Röhrl <jakob.roehrl@web.de>
   - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -40,13 +40,9 @@
 		</template>
 
 		<template v-else-if="isError">
-			<EmptyContent>
-				{{ $t('calendar', 'Event does not exist') }}
+			<EmptyContent :title="$t('calendar', 'Event does not exist')" :description="error">
 				<template #icon>
 					<CalendarBlank :size="20" decorative />
-				</template>
-				<template #desc>
-					{{ error }}
 				</template>
 			</EmptyContent>
 		</template>
@@ -229,31 +225,31 @@
 	</AppSidebar>
 </template>
 <script>
-import AppSidebar from '@nextcloud/vue/dist/Components/AppSidebar'
-import AppSidebarTab from '@nextcloud/vue/dist/Components/AppSidebarTab'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import AppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
+import AppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
+import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 
 import { mapState } from 'vuex'
 
-import AlarmList from '../components/Editor/Alarm/AlarmList'
+import AlarmList from '../components/Editor/Alarm/AlarmList.vue'
 
-import InviteesList from '../components/Editor/Invitees/InviteesList'
-import PropertyCalendarPicker from '../components/Editor/Properties/PropertyCalendarPicker'
-import PropertySelect from '../components/Editor/Properties/PropertySelect'
-import PropertyText from '../components/Editor/Properties/PropertyText'
-import PropertyTitleTimePicker from '../components/Editor/Properties/PropertyTitleTimePicker'
+import InviteesList from '../components/Editor/Invitees/InviteesList.vue'
+import PropertyCalendarPicker from '../components/Editor/Properties/PropertyCalendarPicker.vue'
+import PropertySelect from '../components/Editor/Properties/PropertySelect.vue'
+import PropertyText from '../components/Editor/Properties/PropertyText.vue'
+import PropertyTitleTimePicker from '../components/Editor/Properties/PropertyTitleTimePicker.vue'
 import Repeat from '../components/Editor/Repeat/Repeat.vue'
 
-import EditorMixin from '../mixins/EditorMixin'
+import EditorMixin from '../mixins/EditorMixin.js'
 import IllustrationHeader from '../components/Editor/IllustrationHeader.vue'
 import moment from '@nextcloud/moment'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
 import PropertySelectMultiple from '../components/Editor/Properties/PropertySelectMultiple.vue'
 import PropertyColor from '../components/Editor/Properties/PropertyColor.vue'
-import ResourceList from '../components/Editor/Resources/ResourceList'
-import InvitationResponseButtons from '../components/Editor/InvitationResponseButtons'
+import ResourceList from '../components/Editor/Resources/ResourceList.vue'
+import InvitationResponseButtons from '../components/Editor/InvitationResponseButtons.vue'
 
 import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'

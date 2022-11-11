@@ -3,7 +3,7 @@
  *
  * @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,8 +21,8 @@
  */
 
 import { AttendeeProperty } from '@nextcloud/calendar-js'
-import { addMailtoPrefix, removeMailtoPrefix } from '../utils/attendee'
-import { doFreeBusyRequest } from '../utils/freebusy'
+import { addMailtoPrefix, removeMailtoPrefix } from '../utils/attendee.js'
+import { doFreeBusyRequest } from '../utils/freebusy.js'
 
 /**
  * Check resource availability using a free busy request

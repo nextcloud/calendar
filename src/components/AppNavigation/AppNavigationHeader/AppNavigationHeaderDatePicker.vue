@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -64,8 +64,8 @@ import {
 import { mapState } from 'vuex'
 import formatDateRage from '../../../filters/dateRangeFormat.js'
 import DatePicker from '../../Shared/DatePicker.vue'
-import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft'
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight'
+import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
+import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 
 export default {
 	name: 'AppNavigationHeaderDatePicker',

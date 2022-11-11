@@ -8,7 +8,6 @@ OC.L10N.register(
     "Cheers!" : "¡Saludos!",
     "Confirm" : "Confirmar",
     "Where:" : "Dónde:",
-    "Description:" : "Descripción:",
     "Calendar" : "Calendario",
     "New event" : "Nuevo evento",
     "Today" : "Hoy",
@@ -36,7 +35,6 @@ OC.L10N.register(
     "List view" : "Vista de lista",
     "Actions" : "Acciones",
     "Show week numbers" : "Mostrar número de semana",
-    "Settings & import" : "Configuraciones & importar",
     "Location" : "Ubicación",
     "Description" : "Descripción",
     "to" : "para",
@@ -88,4 +86,4 @@ OC.L10N.register(
     "Birthday" : "Fecha de nacimiento",
     "User not found" : "No se encontró el usuario"
 },
-"nplurals=2; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

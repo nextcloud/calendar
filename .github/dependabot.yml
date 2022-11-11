@@ -8,8 +8,12 @@ updates:
     time: "03:00"
     timezone: Europe/Paris
   open-pull-requests-limit: 10
+  reviewers:
+    - "ChristophWurst"
+    - "st3iny"
   labels:
   - 3 - to review
+  - dependencies
 - package-ecosystem: npm
   directory: "/"
   schedule:
@@ -18,10 +22,35 @@ updates:
     time: "03:00"
     timezone: Europe/Paris
   open-pull-requests-limit: 10
+  reviewers:
+    - "JuliaKirschenheuter"
+    - "st3iny"
   labels:
   - 3 - to review
+  - dependencies
   ignore:
   - dependency-name: css-loader
     versions:
     - ">= 4.a"
     - "< 5"
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 10
+  reviewers:
+    - "miaulalala"
+    - "st3iny"
+
+# stable3.5
+- package-ecosystem: npm
+  target-branch: stable3.5
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 0
+  labels:
+    - 3 - to review
+    - dependencies

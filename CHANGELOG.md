@@ -1,6 +1,68 @@
+
 # Changelog
 
-## 3.4.0 - 2022-07-20
+## 4.1.0 - 2022-11-02
+### Added
+- IButtonWidget and IIconWidget implementation
+### Fixed
+- Widget Icon in Dashboard
+- Appointment detail styling for small screen
+- Appointment overview page design
+
+## 4.0.1 - 2022-10-18
+### Changed
+- Remove iconfont and associated dependecies
+### Fixed
+- Appointment overview page design
+- Appointment details styling
+- Title only added in week view
+
+## 4.0.0 - 2022-10-13
+### Added
+- New design
+- Primary light background to month, week and header
+- Booking email with .ics for the event
+### Changed
+- Drop Nextcloud 22-24 support
+- Remove unused icons and icon stylesheets
+- Rename elements to items
+- More information in booking confirmation email
+- Appointments page redesign
+### Fixed
+- Some translation issues with whitespaces
+- Padding of left sidebar header
+- Cut off datetime picker in simple editor
+- Contrast for day header
+- Category Selection
+- Missing background color for appoitments
+
+## 3.5.0 - 2022-08-25
+### Added
+- Option to copy calendar events
+- Config setting to disable appointments
+### Changed
+- Moved icons to material design
+- Settings name
+### Fixed
+- White space on calendar title
+- Trashbin layout
+
+## 3.4.3 - 2022-08-23
+### Fixed
+- Missing events in week view
+- Invitee and resource name wrapping
+- Relying on guessed mime type on import
+
+## 3.4.2 - 2022-07-07
+### Fixed
+- Performance issues with Vue Event Rendering
+- Settings modal closing when using import
+
+## 3.4.1 - 2022-06-28
+### Fixed
+- Calendar not loading in month view
+
+## 3.4.0 - 2022-06-21
 ### Added
 - Visually distinguish events with attendees from ones without
 - Visually distinguish events with reminders from ones without
@@ -15,6 +77,7 @@
 - Missing stylelint
 - Hide 3-dot menu button
 - Attendee search
+- Color dot and event alignment
 
 ## 3.3.2 – 2022-06-02
 ### Fixed

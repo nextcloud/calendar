@@ -1,8 +1,11 @@
 <!--
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
   -
-  - @license GNU AGPL version 3 or any later version
+  - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
+  -
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -22,14 +25,13 @@
 <template>
 	<AppNavigationItem class="app-navigation-entry-new-calendar"
 		:class="{'app-navigation-entry-new-calendar--open': isOpen}"
-		:title="$t('calendar', '+ New calendar')"
+		:title="$t('calendar', 'New calendar')"
 		:menu-open.sync="isOpen"
-		menu-icon="icon-add"
 		@click.prevent.stop="toggleDialog">
-		<template #menu-icon>
-			<Plus :size="20" decorative />
+		<template #icon>
+			<Plus :size="20" />
 		</template>
-		<template slot="actions">
+		<template #actions>
 			<ActionButton v-if="showCreateCalendarLabel"
 				@click.prevent.stop="openCreateCalendarInput">
 				<template #icon>
@@ -70,7 +72,7 @@
 				{{ $t('calendar', 'Creating calendar …') }}
 			</ActionText>
 
-			<ActionButton v-if="showCreateSubscriptionLabel"
+			<ActionButton v-if="showCreateSubscriptionLabel && canSubscribeLink"
 				@click.prevent.stop="openCreateSubscriptionInput">
 				<template #icon>
 					<LinkVariant :size="20" decorative />
@@ -94,10 +96,10 @@
 </template>
 
 <script>
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
-import ActionText from '@nextcloud/vue/dist/Components/ActionText'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import ActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
+import ActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import {
 	showError,
 } from '@nextcloud/dialogs'
@@ -108,6 +110,7 @@ import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import CalendarCheck from 'vue-material-design-icons/CalendarCheck.vue'
 import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
+import { mapState } from 'vuex'
 
 export default {
 	name: 'CalendarListNew',
@@ -138,6 +141,11 @@ export default {
 			showCreateSubscriptionInput: false,
 			showCreateSubscriptionSaving: false,
 		}
+	},
+	computed: {
+		...mapState({
+			canSubscribeLink: state => state.settings.canSubscribeLink,
+		}),
 	},
 	watch: {
 		isOpen() {

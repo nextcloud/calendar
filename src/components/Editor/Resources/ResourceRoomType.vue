@@ -3,7 +3,7 @@
   -
   - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -38,8 +38,8 @@
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import { getAllRoomTypes } from '../../../models/resourceProps'
+import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import { getAllRoomTypes } from '../../../models/resourceProps.js'
 
 export default {
 	name: 'ResourceRoomType',

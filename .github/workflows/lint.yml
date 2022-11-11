@@ -1,17 +1,12 @@
 name: Lint
-
-on:
-  pull_request:
-  push:
-    branches:
-      - main
+on: pull_request
 
 jobs:
   xml-linters:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Download schema
         run: wget https://apps.nextcloud.com/schema/apps/info.xsd
       - name: Lint info.xml
@@ -28,7 +23,7 @@ jobs:
     name: php${{ matrix.php-versions }} lint
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Set up php${{ matrix.php-versions }}
         uses: shivammathur/setup-php@master
         with:
@@ -42,7 +37,7 @@ jobs:
     name: ESLint
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up Node
         uses: actions/setup-node@v2
@@ -66,7 +61,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up php
         uses: shivammathur/setup-php@master
@@ -79,3 +74,25 @@ jobs:
 
       - name: Run coding standards check
         run: composer run cs:check || ( echo 'Please run `composer run cs:fix` to format your code' && exit 1 )
+
+  summary:
+    runs-on: ubuntu-latest
+    needs:
+      - xml-linters
+      - php-linters
+      - node-linters
+      - php-cs-fixer
+
+    if: always()
+
+    name: lint-summary
+
+    steps:
+      - name: XML linter status
+        run: if ${{ needs.xml-linters.result != 'success' && needs.xml-linters.result != 'skipped' }}; then exit 1; fi
+      - name: PHP linter status
+        run: if ${{ needs.php-linters.result != 'success' && needs.php-linters.result != 'skipped' }}; then exit 1; fi
+      - name: Node linter status
+        run: if ${{ needs.node-linters.result != 'success' && needs.node-linters.result != 'skipped' }}; then exit 1; fi
+      - name: PHP cs fixer status
+        run: if ${{ needs.php-cs-fixer.result != 'success' && needs.php-cs-fixer.result != 'skipped' }}; then exit 1; fi

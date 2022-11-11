@@ -2,7 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -26,7 +26,7 @@
 				:size="18"
 				decorative
 				class="avatar" />
-			<div v-else-if="sharee.isCircle" class="avatar icon-circle" />
+			<IconCircle v-else-if="sharee.isCircle" />
 			<Avatar v-else :user="sharee.id" :display-name="sharee.displayName" />
 		</template>
 
@@ -51,15 +51,16 @@
 </template>
 
 <script>
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import ActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
+import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import {
 	showInfo,
 } from '@nextcloud/dialogs'
 
 import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
+import IconCircle from '../../Icons/IconCircles.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 
 export default {
@@ -69,6 +70,7 @@ export default {
 		ActionCheckbox,
 		AppNavigationItem,
 		Avatar,
+	  IconCircle,
 		AccountMultiple,
 		Delete,
 	},

@@ -31,7 +31,6 @@ OC.L10N.register(
     "List view" : "Vista de llista",
     "Actions" : "Aiciones",
     "Show week numbers" : "Amosar númberos de la selmana",
-    "Settings & import" : "Axustes ya importación",
     "Location" : "Llocalización",
     "Description" : "Descripción",
     "to" : "hasta",

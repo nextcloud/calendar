@@ -4,7 +4,7 @@
   - @author Georg Ehrke <oc.list@georgehrke.com>
   - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -24,7 +24,7 @@
 <template>
 	<span class="multiselect__tag"
 		:style="{ 'background-color': color, 'border-color': borderColor, color: textColor }">
-		<span>{{ option }}</span>
+		<span>{{ label }}</span>
 	</span>
 </template>
 
@@ -36,7 +36,7 @@ export default {
 	name: 'PropertySelectMultipleColoredTag',
 	props: {
 		option: {
-			type: String,
+			type: [String, Object],
 			required: true,
 		},
 		search: {
@@ -49,8 +49,17 @@ export default {
 		},
 	},
 	computed: {
+		label() {
+			if (typeof this.option === 'string') {
+				return this.option
+			}
+			return this.option.label
+		},
 		colorObject() {
-			return uidToColor(this.option)
+			if (typeof this.option === 'string') {
+				return uidToColor(this.option)
+			}
+			return uidToColor(this.option.label)
 		},
 		borderColor() {
 			const color = this.colorObject

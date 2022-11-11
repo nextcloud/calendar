@@ -4,7 +4,7 @@
   - @author Georg Ehrke <oc.list@georgehrke.com>
   - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -63,10 +63,10 @@
 
 <script>
 import { mapState } from 'vuex'
-import InviteesListSearch from './InviteesListSearch'
-import InviteesListItem from './InviteesListItem'
-import OrganizerListItem from './OrganizerListItem'
-import NoAttendeesView from '../NoAttendeesView'
+import InviteesListSearch from './InviteesListSearch.vue'
+import InviteesListItem from './InviteesListItem.vue'
+import OrganizerListItem from './OrganizerListItem.vue'
+import NoAttendeesView from '../NoAttendeesView.vue'
 import OrganizerNoEmailError from '../OrganizerNoEmailError.vue'
 import { createTalkRoom, doesDescriptionContainTalkLink } from '../../../services/talkService.js'
 import FreeBusy from '../FreeBusy/FreeBusy.vue'
@@ -74,7 +74,7 @@ import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
-import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee'
+import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
 
 export default {
 	name: 'InviteesList',

@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -60,7 +60,7 @@
 <script>
 import RepeatFirstLastSelect from './RepeatFirstLastSelect.vue'
 import RepeatOnTheSelect from './RepeatOnTheSelect.vue'
-import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
+import ActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio.js'
 
 export default {
 	name: 'RepeatFreqMonthlyOptions',

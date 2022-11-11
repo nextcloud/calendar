@@ -13,6 +13,7 @@ OC.L10N.register(
     "Day" : "Dag",
     "Week" : "Veke",
     "Month" : "Månad",
+    "Copy link" : "Kopier lenkje",
     "Edit" : "Rediger",
     "Delete" : "Slett",
     "Export" : "Eksporter",
@@ -67,6 +68,7 @@ OC.L10N.register(
     "When shared hide this event" : "Når delt, gøym denne hendinga",
     "Status" : "Status",
     "Confirmed" : "Stadfesta",
+    "Money" : "Pengar",
     "Talk" : "Prat",
     "Mail" : "Post",
     "Birthday" : "Bursdag"

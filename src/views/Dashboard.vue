@@ -3,7 +3,7 @@
 	-
 	- @author Julius Härtl <jus@bitgrid.net>
 	-
-	- @license GNU AGPL version 3 or any later version
+	- @license AGPL-3.0-or-later
 	-
 	- This program is free software: you can redistribute it and/or modify
 	- it under the terms of the GNU Affero General Public License as
@@ -28,9 +28,9 @@
 			<EmptyContent v-if="item.isEmptyItem"
 				id="calendar-widget-empty-content"
 				class="half-screen"
-				icon="icon-checkmark">
-				<template #desc>
-					{{ t('calendar', 'No more events today') }}
+				:title="t('calendar', 'No more events today')">
+				<template #icon>
+					<IconCheck :size="67" />
 				</template>
 			</EmptyContent>
 			<DashboardWidgetItem v-else
@@ -42,40 +42,41 @@
 						class="calendar-dot"
 						:style="{'background-color': item.calendarColor}"
 						:title="item.calendarDisplayName" />
-					<div v-else
-						class="vtodo-checkbox"
-						:style="{'color': item.calendarColor}"
-						:title="item.calendarDisplayName" />
+					<IconCheckbox v-else
+						:fill-color="item.calendarColor" />
 				</template>
 			</DashboardWidgetItem>
 		</template>
 		<template #empty-content>
-			<EmptyContent id="calendar-widget-empty-content">
+			<EmptyContent id="calendar-widget-empty-content"
+				:title="t('calendar', 'No upcoming events')">
 				<template #icon>
 					<EmptyCalendar />
 				</template>
-				<template #desc>
-					{{ t('calendar', 'No upcoming events') }}
-					<div class="empty-label">
-						<a class="button" :href="clickStartNew"> {{ t('calendar', 'Create a new event') }} </a>
-					</div>
-				</template>
 			</EmptyContent>
+			<div class="empty-label">
+				<NcButton type="secondary" :href="clickStartNew">
+					{{ t('calendar', 'Create a new event') }}
+				</NcButton>
+			</div>
 		</template>
 	</DashboardWidget>
 </template>
 
 <script>
 import { DashboardWidget, DashboardWidgetItem } from '@nextcloud/vue-dashboard'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import EmptyCalendar from 'vue-material-design-icons/CalendarBlankOutline'
+import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import EmptyCalendar from 'vue-material-design-icons/CalendarBlankOutline.vue'
+import IconCheck from 'vue-material-design-icons/Check.vue'
+import IconCheckbox from 'vue-material-design-icons/CheckboxBlankOutline.vue'
 import { loadState } from '@nextcloud/initial-state'
 import moment from '@nextcloud/moment'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import { imagePath, generateUrl } from '@nextcloud/router'
-import { initializeClientForUserView } from '../services/caldavService'
-import { dateFactory } from '../utils/date'
+import { initializeClientForUserView } from '../services/caldavService.js'
+import { dateFactory } from '../utils/date.js'
 import pLimit from 'p-limit'
-import { eventSourceFunction } from '../fullcalendar/eventSources/eventSourceFunction'
+import { eventSourceFunction } from '../fullcalendar/eventSources/eventSourceFunction.js'
 import loadMomentLocalization from '../utils/moment.js'
 import { DateTimeValue } from '@nextcloud/calendar-js'
 import { mapGetters } from 'vuex'
@@ -85,8 +86,11 @@ export default {
 	components: {
 	  DashboardWidget,
 		DashboardWidgetItem,
+	  NcButton,
 		EmptyContent,
 	  EmptyCalendar,
+	  IconCheck,
+	  IconCheckbox,
 	},
 	data() {
 		return {
@@ -289,15 +293,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../fonts/scss/iconfont-calendar-app.scss';
-
 #calendar_panel {
-	.vtodo-checkbox {
-		flex-shrink: 0;
-		border-color: transparent;
-		@include iconfont('checkbox');
-	}
-
 	.calendar-dot {
 		flex-shrink: 0;
 		height: 1rem;
@@ -316,10 +312,12 @@ export default {
 			margin-bottom: 2vh;
 		}
 
-		.empty-label {
-			margin-top: 5vh;
-			margin-right: 5px;
-		}
+	}
+
+	.empty-label {
+		display: flex;
+		justify-content: center;
+		margin-top: 5vh;
 	}
 }
 </style>

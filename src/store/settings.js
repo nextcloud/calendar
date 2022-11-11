@@ -21,12 +21,12 @@
  *
  */
 import { enableBirthdayCalendar } from '../services/caldavService.js'
-import { mapDavCollectionToCalendar } from '../models/calendar'
-import { detectTimezone } from '../services/timezoneDetectionService'
+import { mapDavCollectionToCalendar } from '../models/calendar.js'
+import { detectTimezone } from '../services/timezoneDetectionService.js'
 import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
 import { setConfig } from '../services/settings.js'
 import { logInfo } from '../utils/logger.js'
-import getTimezoneManager from '../services/timezoneDataProviderService'
+import getTimezoneManager from '../services/timezoneDataProviderService.js'
 
 const state = {
 	// env
@@ -46,6 +46,7 @@ const state = {
 	timezone: 'automatic',
 	hideEventExport: false,
 	forceEventAlarmType: false,
+	canSubscribeLink: true,
 	showResources: true,
 	// user-defined Nextcloud settings
 	momentLocale: 'en',
@@ -151,9 +152,10 @@ const mutations = {
 	 * @param {boolean} data.hideEventExport
 	 * @param {string} data.forceEventAlarmType
 	 * @param {boolean} data.disableAppointments Allow to disable the appointments feature
+	 * @param {boolean} data.canSubscribeLink
 	 * @param {boolean} data.showResources
 	 */
-	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, showResources }) {
+	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, canSubscribeLink, showResources }) {
 		logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -171,6 +173,7 @@ Initial settings:
 	- HideEventExport: ${hideEventExport}
 	- ForceEventAlarmType: ${forceEventAlarmType}
 	- disableAppointments: ${disableAppointments}
+	- CanSubscribeLink: ${canSubscribeLink}
 	- ShowResources: ${showResources}
 `)
 
@@ -189,6 +192,7 @@ Initial settings:
 		state.hideEventExport = hideEventExport
 		state.forceEventAlarmType = forceEventAlarmType
 		state.disableAppointments = disableAppointments
+		state.canSubscribeLink = canSubscribeLink
 		state.showResources = showResources
 	},
 

@@ -20,4 +20,3 @@
  *
  */
 script('calendar', 'calendar-main');
-style('calendar', 'icons');

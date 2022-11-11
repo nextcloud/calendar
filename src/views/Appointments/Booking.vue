@@ -3,7 +3,7 @@
   -
   - @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -82,15 +82,15 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
+import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import DatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js'
 import jstz from 'jstz'
-import TimezonePicker from '@nextcloud/vue/dist/Components/TimezonePicker'
+import TimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker.js'
 
-import AppointmentSlot from '../../components/Appointments/AppointmentSlot'
-import { bookSlot, findSlots } from '../../services/appointmentService'
-import AppointmentDetails from '../../components/Appointments/AppointmentDetails'
-import AppointmentBookingConfirmation from '../../components/Appointments/AppointmentBookingConfirmation'
+import AppointmentSlot from '../../components/Appointments/AppointmentSlot.vue'
+import { bookSlot, findSlots } from '../../services/appointmentService.js'
+import AppointmentDetails from '../../components/Appointments/AppointmentDetails.vue'
+import AppointmentBookingConfirmation from '../../components/Appointments/AppointmentBookingConfirmation.vue'
 
 export default {
 	name: 'Booking',
@@ -227,12 +227,19 @@ export default {
 
 <style lang="scss" scoped>
 .booking {
-	margin: 0 auto;
-	padding-top: 50px;
+	margin: 25px auto;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	max-width: 800px;
+	height: fit-content;
+
+	// Taken from guest.css -> .guest-box
+	color: var(--color-main-text);
+	background-color: var(--color-main-background);
+	padding: 16px;
+	border-radius: var(--border-radius-large);
+	box-shadow: 0 0 10px var(--color-box-shadow);
 
 	&__date-selection {
 		display: flex;
@@ -259,10 +266,9 @@ export default {
 	&__slot-selection {
 		flex-grow: 2;
 	}
-
-	&__time-zone {
-		max-width: 210px;
-	}
+  &__time-zone {
+	max-width: 250px;
+  }
 
 	&__slots {
 		display: flex;
@@ -270,4 +276,15 @@ export default {
 	}
 }
 
+</style>
+
+<style lang="scss">
+#content.app-calendar {
+	// Enable scrolling
+	overflow: auto;
+
+	// Fix box being cutoff at the bottom
+	margin-bottom: 0;
+	height: calc(var(--body-height) + var(--body-container-margin));
+}
 </style>

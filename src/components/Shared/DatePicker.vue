@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -42,7 +42,7 @@
 		@change="change"
 		@pick="pickDate">
 		<template #icon-calendar>
-			<Button type="tertiary-no-background"
+			<NcButton type="tertiary-no-background"
 				@click.stop.prevent="toggleTimezonePopover"
 				@mousedown.stop.prevent="() => {}">
 				<template #icon>
@@ -52,7 +52,7 @@
 						:class="{ 'highlighted-timezone-icon': highlightTimezone }"
 						:size="20" />
 				</template>
-			</Button>
+			</NcButton>
 			<Popover :open.sync="showTimezonePopover"
 				open-class="timezone-popover-wrapper">
 				<div class="timezone-popover-wrapper__title">
@@ -67,26 +67,26 @@
 		</template>
 		<template v-if="!isAllDay"
 			#footer>
-			<Button v-if="!showTimePanel"
+			<NcButton v-if="!showTimePanel"
 				class="mx-btn mx-btn-text"
 				@click="toggleTimePanel">
 				{{ $t('calendar', 'Pick a time') }}
-			</Button>
-			<Button v-else
+			</NcButton>
+			<NcButton v-else
 				class="mx-btn mx-btn-text"
 				@click="toggleTimePanel">
 				{{ $t('calendar', 'Pick a date') }}
-			</Button>
+			</NcButton>
 		</template>
 	</DatetimePicker>
 </template>
 
 <script>
-import Button from '@nextcloud/vue/dist/Components/Button'
-import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
-import IconTimezone from 'vue-material-design-icons/Web'
-import IconNewCalendar from 'vue-material-design-icons/CalendarBlankOutline'
-import Popover from '@nextcloud/vue/dist/Components/Popover'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import DatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js'
+import IconTimezone from 'vue-material-design-icons/Web.vue'
+import IconNewCalendar from 'vue-material-design-icons/CalendarBlankOutline.vue'
+import Popover from '@nextcloud/vue/dist/Components/NcPopover.js'
 import {
 	getFirstDay,
 } from '@nextcloud/l10n'
@@ -96,13 +96,13 @@ import {
 	showError,
 } from '@nextcloud/dialogs'
 
-import TimezonePicker from '@nextcloud/vue/dist/Components/TimezonePicker'
+import TimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker.js'
 import { getLangConfigForVue2DatePicker } from '../../utils/localization.js'
 
 export default {
 	name: 'DatePicker',
 	components: {
-		Button,
+		NcButton,
 		DatetimePicker,
 		Popover,
 		TimezonePicker,
@@ -417,10 +417,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-::v-deep .button-vue__icon {
-		margin-top: 16px;
-}
 .highlighted-timezone-icon {
-opacity: .7;
+	opacity: .7;
+}
+::v-deep .mx-icon-calendar {
+	right: 0;
 }
 </style>

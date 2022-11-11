@@ -41,9 +41,9 @@
 </template>
 
 <script>
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
+import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
+import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 import {
 	mapGetters,
 } from 'vuex'
@@ -86,7 +86,7 @@ export default {
 
 			// copy link for calendar to clipboard
 			try {
-				await this.$copyText(url)
+				await navigator.clipboard.writeText(url)
 				showSuccess(this.$t('calendar', 'Calendar link copied to clipboard.'))
 			} catch (error) {
 				console.debug(error)

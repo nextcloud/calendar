@@ -3,7 +3,7 @@
   -
   - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -34,7 +34,7 @@
 				<div class="appointment-config-modal__form">
 					<fieldset>
 						<TextInput class="appointment-config-modal__form__row"
-							:label="t('calendar', 'Name')"
+							:label="t('calendar', 'Appointment name')"
 							:value.sync="editing.name" />
 						<TextInput class="appointment-config-modal__form__row"
 							:label="t('calendar', 'Location')"
@@ -139,19 +139,19 @@
 
 <script>
 import { CalendarAvailability } from '@nextcloud/calendar-availability-vue'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
-import TextInput from './AppointmentConfigModal/TextInput'
-import TextArea from './AppointmentConfigModal/TextArea'
-import AppointmentConfig from '../models/appointmentConfig'
+import Modal from '@nextcloud/vue/dist/Components/NcModal.js'
+import TextInput from './AppointmentConfigModal/TextInput.vue'
+import TextArea from './AppointmentConfigModal/TextArea.vue'
+import AppointmentConfig from '../models/appointmentConfig.js'
 import { mapGetters } from 'vuex'
-import CalendarPicker from './Shared/CalendarPicker'
-import DurationInput from './AppointmentConfigModal/DurationInput'
-import NumberInput from './AppointmentConfigModal/NumberInput'
-import DurationSelect from './AppointmentConfigModal/DurationSelect'
-import CheckedDurationSelect from './AppointmentConfigModal/CheckedDurationSelect'
-import VisibilitySelect from './AppointmentConfigModal/VisibilitySelect'
-import logger from '../utils/logger'
-import Confirmation from './AppointmentConfigModal/Confirmation'
+import CalendarPicker from './Shared/CalendarPicker.vue'
+import DurationInput from './AppointmentConfigModal/DurationInput.vue'
+import NumberInput from './AppointmentConfigModal/NumberInput.vue'
+import DurationSelect from './AppointmentConfigModal/DurationSelect.vue'
+import CheckedDurationSelect from './AppointmentConfigModal/CheckedDurationSelect.vue'
+import VisibilitySelect from './AppointmentConfigModal/VisibilitySelect.vue'
+import logger from '../utils/logger.js'
+import Confirmation from './AppointmentConfigModal/Confirmation.vue'
 
 export default {
 	name: 'AppointmentConfigModal',

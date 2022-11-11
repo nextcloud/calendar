@@ -22,7 +22,7 @@
 import getTimezoneManager from '../../services/timezoneDataProviderService.js'
 import { AttendeeProperty, DateTimeValue } from '@nextcloud/calendar-js'
 import logger from '../../utils/logger.js'
-import { doFreeBusyRequest } from '../../utils/freebusy'
+import { doFreeBusyRequest } from '../../utils/freebusy.js'
 
 /**
  * Returns an event source for free-busy
