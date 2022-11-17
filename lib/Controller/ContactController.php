@@ -138,10 +138,12 @@ class ContactController extends Controller {
 			return new JSONResponse();
 		}
 
-		$result = $this->contactsManager->search($search, ['FN', 'EMAIL']);
+		$contactsResult = $this->contactsManager->search($search, ['FN', 'EMAIL']);
+
+		$groupsContactsResult = $this->contactsManager->search($search, ['CATEGORIES']);
 
 		$contacts = [];
-		foreach ($result as $r) {
+		foreach ($contactsResult as $r) {
 			// Information about system users is fetched via DAV nowadays
 			if (isset($r['isLocalSystemBook']) && $r['isLocalSystemBook']) {
 				continue;
@@ -151,43 +153,30 @@ class ContactController extends Controller {
 				continue;
 			}
 
-			$name = $this->getNameFromContact($r);
-			if (\is_string($r['EMAIL'])) {
-				$r['EMAIL'] = [$r['EMAIL']];
-			}
-
-			$photo = isset($r['PHOTO'])
-				? $this->getPhotoUri($r['PHOTO'])
-				: null;
-
-			$lang = null;
-			if (isset($r['LANG'])) {
-				if (\is_array($r['LANG'])) {
-					$lang = $r['LANG'][0];
-				} else {
-					$lang = $r['LANG'];
-				}
-			}
-
-			$timezoneId = null;
-			if (isset($r['TZ'])) {
-				if (\is_array($r['TZ'])) {
-					$timezoneId = $r['TZ'][0];
-				} else {
-					$timezoneId = $r['TZ'];
-				}
-			}
-
-			$contacts[] = [
-				'name' => $name,
-				'emails' => $r['EMAIL'],
-				'lang' => $lang,
-				'tzid' => $timezoneId,
-				'photo' => $photo,
-			];
+			$contacts[] = $this->processContact($r);
 		}
 
-		return new JSONResponse($contacts);
+		$groupsContacts = array_reduce($groupsContactsResult, function (array $acc, array $groupContact) use ($search) {
+
+			// Information about system users is fetched via DAV nowadays
+			if (isset($groupContact['isLocalSystemBook']) && $groupContact['isLocalSystemBook']) {
+				return $acc;
+			}
+
+			if (!isset($groupContact['EMAIL'])) {
+				return $acc;
+			}
+
+			$categories = array_filter(explode(',', $groupContact['CATEGORIES']), function (string $category) use ($search) {
+				return str_contains(mb_strtolower($category), mb_strtolower($search));
+			});
+			foreach ($categories as $category) {
+				$acc[$category][] = $this->processContact($groupContact);
+			}
+			return $acc;
+		}, []);
+
+		return new JSONResponse(['contacts' => $contacts, 'groups' => $groupsContacts]);
 	}
 
 	/**
@@ -327,5 +316,42 @@ class ContactController extends Controller {
 		}
 
 		return null;
+	}
+
+	private function processContact(array $contactData): array {
+		$name = $this->getNameFromContact($contactData);
+		if (\is_string($contactData['EMAIL'])) {
+			$contactData['EMAIL'] = [$contactData['EMAIL']];
+		}
+
+		$photo = isset($contactData['PHOTO'])
+			? $this->getPhotoUri($contactData['PHOTO'])
+			: null;
+
+		$lang = null;
+		if (isset($contactData['LANG'])) {
+			if (\is_array($contactData['LANG'])) {
+				$lang = $contactData['LANG'][0];
+			} else {
+				$lang = $contactData['LANG'];
+			}
+		}
+
+		$timezoneId = null;
+		if (isset($contactData['TZ'])) {
+			if (\is_array($contactData['TZ'])) {
+				$timezoneId = $contactData['TZ'][0];
+			} else {
+				$timezoneId = $contactData['TZ'];
+			}
+		}
+
+		return [
+			'name' => $name,
+			'emails' => $contactData['EMAIL'],
+			'lang' => $lang,
+			'tzid' => $timezoneId,
+			'photo' => $photo,
+		];
 	}
 }
