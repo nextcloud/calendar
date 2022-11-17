@@ -103,10 +103,10 @@ class ContactController extends Controller {
 		}
 
 		$externalAttendeesDisabled = $this->appConfig->getValueBool('dav', 'caldav_external_attendees_disabled', false);
-		$result = $this->contactsManager->search($search, ['FN', 'EMAIL'], ['enumeration' => true]);
+		$contactsResult = $this->contactsManager->search($search, ['FN', 'EMAIL'], ['enumeration' => true]);
 
 		$contacts = [];
-		foreach ($result as $r) {
+		foreach ($contactsResult as $r) {
 			if (!$this->contactsService->hasEmail($r)) {
 				continue;
 			}
@@ -125,68 +125,41 @@ class ContactController extends Controller {
 				'lang' => $lang,
 				'tzid' => $timezoneId,
 				'photo' => $photo,
-				'type' => 'individual'
 			];
 		}
 
+		$groups = [];
 		// Skip contact groups when external attendees are disabled
 		if (!$externalAttendeesDisabled) {
-			$groups = $this->contactsManager->search($search, ['CATEGORIES']);
-			$groups = array_filter($groups, function ($group) {
-				return $this->contactsService->hasEmail($group);
-			});
-			$filtered = $this->contactsService->filterGroupsWithCount($groups, $search);
-			foreach ($filtered as $groupName => $count) {
-				if ($count === 0) {
-					continue;
+			$groupsContactsResult = $this->contactsManager->search($search, ['CATEGORIES']);
+
+			$groups = array_reduce($groupsContactsResult, function (array $acc, array $groupContact) use ($search) {
+				// Information about system users is fetched via DAV nowadays
+				if (isset($groupContact['isLocalSystemBook']) && $groupContact['isLocalSystemBook']) {
+					return $acc;
 				}
-				$contacts[] = [
-					'name' => $groupName,
-					'emails' => ['mailto:' . urlencode($groupName) . '@group'],
-					'lang' => '',
-					'tzid' => '',
-					'photo' => '',
-					'type' => 'contactsgroup',
-					'members' => $count,
-				];
-			}
+
+				if (!isset($groupContact['EMAIL'])) {
+					return $acc;
+				}
+
+				$categories = array_filter(explode(',', $groupContact['CATEGORIES']), function (string $category) use ($search) {
+					return str_contains(mb_strtolower($category), mb_strtolower($search));
+				});
+				foreach ($categories as $category) {
+					$acc[$category][] = [
+						'name' => $this->contactsService->getNameFromContact($groupContact),
+						'emails' => $this->contactsService->getEmail($groupContact),
+						'lang' => $this->contactsService->getLanguageId($groupContact),
+						'tzid' => $this->contactsService->getTimezoneId($groupContact),
+						'photo' => $this->contactsService->getPhotoUri($groupContact),
+					];
+				}
+				return $acc;
+			}, []);
 		}
 
-		return new JSONResponse($contacts);
-	}
-
-	#[NoAdminRequired]
-	public function getContactGroupMembers(string $groupName): JSONResponse {
-		if (!$this->contactsManager->isEnabled()) {
-			return new JSONResponse();
-		}
-
-		$groupmembers = $this->contactsManager->search($groupName, ['CATEGORIES'], ['enumeration' => false]);
-		$contacts = [];
-		foreach ($groupmembers as $r) {
-			if (!in_array($groupName, explode(',', $r['CATEGORIES']), true)) {
-				continue;
-			}
-			if (!$this->contactsService->hasEmail($r) || $this->contactsService->isSystemBook($r)) {
-				continue;
-			}
-			$name = $this->contactsService->getNameFromContact($r);
-			$email = $this->contactsService->getEmail($r);
-			$photo = $this->contactsService->getPhotoUri($r);
-			$timezoneId = $this->contactsService->getTimezoneId($r);
-			$lang = $this->contactsService->getLanguageId($r);
-			$contacts[] = [
-				'commonName' => $name,
-				'email' => $email[0],
-				'calendarUserType' => 'INDIVIDUAL',
-				'language' => $lang,
-				'timezoneId' => $timezoneId,
-				'avatar' => $photo,
-				'isUser' => false,
-				'member' => 'mailto:' . urlencode($groupName) . '@group',
-			];
-		}
-		return new JSONResponse($contacts);
+		return new JSONResponse(['contacts' => $contacts, 'groups' => $groups]);
 	}
 
 	/**
