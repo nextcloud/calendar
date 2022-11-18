@@ -332,6 +332,9 @@ const mutations = {
 			}
 		}
 
+		// Delete custom description properties
+		calendarObjectInstance.eventComponent.deleteAllProperties('X-ALT-DESC')
+
 		calendarObjectInstance.eventComponent.description = description
 		calendarObjectInstance.description = description
 	},
