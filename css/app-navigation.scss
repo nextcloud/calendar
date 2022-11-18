@@ -144,23 +144,25 @@
 		}
 	}
 
-	.app-navigation-entry.deleted {
+	.app-navigation-entry-wrapper.deleted {
 		.app-navigation-entry__title {
 			text-decoration: line-through;
 		}
 	}
 
-	.app-navigation-entry.open-sharing {
+	.app-navigation-entry-wrapper.open-sharing {
 		box-shadow: inset 4px 0 var(--color-primary) !important;
+		margin-left: -6px;
+		padding-left: 6px;
 	}
 
-	.app-navigation-entry.disabled {
+	.app-navigation-entry-wrapper.disabled {
 		.app-navigation-entry__title {
 			color: var(--color-text-lighter) !important;
 		}
 	}
 
-	.app-navigation-entry .app-navigation-entry__children .app-navigation-entry {
+	.app-navigation-entry-wrapper .app-navigation-entry__children .app-navigation-entry {
 		padding-left: 0 !important;
 
 		.avatar {
@@ -222,7 +224,7 @@
 	ul {
 
 		// Calendar list items / Subscription list items
-		> li.app-navigation-entry {
+		> li.app-navigation-entry-wrapper {
 
 			div.sharing-section {
 				//box-shadow: inset 4px 0 var(--color-primary);
