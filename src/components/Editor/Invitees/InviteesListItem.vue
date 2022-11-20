@@ -55,11 +55,16 @@
 				</template>
 			</NcButton>
 			<Actions v-if="isViewedByOrganizer">
+				<ActionText>
+					{{ attendeeEmail }}
+					<template #icon>
+						<Email :size="20" decorative />
+					</template>
+				</ActionText>
 				<ActionCheckbox :checked="attendee.rsvp"
 					@change="toggleRSVP">
 					{{ $t('calendar', 'Request reply') }}
 				</ActionCheckbox>
-
 				<ActionRadio :name="radioName"
 					:checked="isChair"
 					@change="changeRole('CHAIR')">
@@ -111,12 +116,14 @@ import {
 	NcActionRadio as ActionRadio,
 	NcActionCheckbox as ActionCheckbox,
 	NcButton,
+	NcActionText as ActionText,
 } from '@nextcloud/vue'
 import { removeMailtoPrefix } from '../../../utils/attendee.js'
 import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
 import ChevronUp from 'vue-material-design-icons/ChevronUp.vue'
 
 import Delete from 'vue-material-design-icons/Delete.vue'
+import Email from 'vue-material-design-icons/Email.vue'
 
 export default {
 	name: 'InviteesListItem',
@@ -125,7 +132,9 @@ export default {
 		ActionButton,
 		ActionCheckbox,
 		ActionRadio,
+	  ActionText,
 		Actions,
+	  Email,
 		Delete,
 		NcButton,
 		ChevronDown,
