@@ -47,16 +47,22 @@
 						:size="20" />
 				</template>
 			</NcButton>
-			<Actions v-if="!isReadOnly && isViewedByOrganizer">
+			<Actions v-if="isViewedByOrganizer">
+				<ActionText>
+					{{ attendeeEmail }}
+					<template #icon>
+						<Email :size="20" decorative />
+					</template>
+				</ActionText>
 				<ActionCheckbox
-					v-if="!members.length"
+					v-if="!isReadOnly && !members.length"
 					:modelValue="attendee.rsvp"
 					@update:modelValue="toggleRSVP">
 					{{ $t('calendar', 'Request reply') }}
 				</ActionCheckbox>
 
 				<ActionRadio
-					v-if="!members.length"
+					v-if="!isReadOnly && !members.length"
 					:name="radioName"
 					value="CHAIR"
 					:modelValue="attendee.role"
@@ -64,7 +70,7 @@
 					{{ $t('calendar', 'Chairperson') }}
 				</ActionRadio>
 				<ActionRadio
-					v-if="!members.length"
+					v-if="!isReadOnly && !members.length"
 					:name="radioName"
 					value="REQ-PARTICIPANT"
 					:modelValue="attendee.role"
@@ -72,7 +78,7 @@
 					{{ $t('calendar', 'Required participant') }}
 				</ActionRadio>
 				<ActionRadio
-					v-if="!members.length"
+					v-if="!isReadOnly && !members.length"
 					:name="radioName"
 					value="OPT-PARTICIPANT"
 					:modelValue="attendee.role"
@@ -80,7 +86,7 @@
 					{{ $t('calendar', 'Optional participant') }}
 				</ActionRadio>
 				<ActionRadio
-					v-if="!members.length"
+					v-if="!isReadOnly && !members.length"
 					:name="radioName"
 					value="NON-PARTICIPANT"
 					:modelValue="attendee.role"
@@ -88,7 +94,9 @@
 					{{ $t('calendar', 'Non-participant') }}
 				</ActionRadio>
 
-				<ActionButton @click="removeAttendee(attendee)">
+				<ActionButton
+					v-if="!isReadOnly"
+					@click="removeAttendee(attendee)">
 					<template #icon>
 						<Delete :size="20" decorative />
 					</template>
@@ -119,11 +127,13 @@ import {
 	NcActionRadio as ActionRadio,
 	NcActions as Actions,
 	NcButton,
+	NcActionText as ActionText,
 } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
 import ChevronUp from 'vue-material-design-icons/ChevronUp.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
+import Email from 'vue-material-design-icons/Email.vue'
 import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
 import AttendeeDisplay from './AttendeeDisplay.vue'
 import { getAttendeeDetails } from '../../../services/attendeeDetails.js'
@@ -137,7 +147,9 @@ export default {
 		ActionButton,
 		ActionCheckbox,
 		ActionRadio,
+		ActionText,
 		Actions,
+		Email,
 		Delete,
 		NcButton,
 		ChevronDown,
