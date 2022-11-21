@@ -166,6 +166,10 @@ class BookingCalendarWriter {
 			$vcalendar->VEVENT->add($alarm);
 		}
 
+		if ($config->getLocation() !== null) {
+			$vcalendar->VEVENT->add('LOCATION', $config->getLocation());
+		}
+
 		$vcalendar->VEVENT->add('X-NC-APPOINTMENT', $config->getToken());
 
 		$filename = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
