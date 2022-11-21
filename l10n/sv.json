@@ -21,7 +21,7 @@
     "This confirmation link expires in %s hours." : "Bekräftelselänken slutar gälla om %s timmar.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Vänligen kontakta arrangören om du skulle vilja avboka mötet efter bekräftelse, genom att svara på detta e-mail eller genom att besöka deras profil.",
     "Your appointment \"%s\" with %s has been accepted" : "Ditt möte \"%s\" med %s har accepterats",
-    "Dear %s, your booking has been accepted." : "Kära %s, din bokning har accepterats.",
+    "Dear %s, your booking has been accepted." : "%s, din bokning har accepterats.",
     "Appointment for:" : "Möte för:",
     "Date:" : "Datum:",
     "Where:" : "Plats:",
