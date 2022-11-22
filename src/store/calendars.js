@@ -48,6 +48,7 @@ import {
 	IMPORT_STAGE_IMPORTING,
 	IMPORT_STAGE_PROCESSING,
 } from '../models/consts.js'
+import { showError } from '@nextcloud/dialogs'
 
 const state = {
 	calendars: [],
@@ -57,6 +58,7 @@ const state = {
 	deletedCalendarObjects: [],
 	calendarsById: {},
 	initialCalendarsLoaded: false,
+	editCalendarModal: undefined,
 }
 
 const mutations = {
@@ -378,6 +380,25 @@ const mutations = {
 	markCalendarAsNotLoading(state, { calendar }) {
 		state.calendarsById[calendar.id].loading = false
 	},
+
+	showEditCalendarModal(state, { calendarId }) {
+		state.editCalendarModal = {
+			calendarId,
+		}
+	},
+
+	hideEditCalendarModal(state) {
+		state.editCalendarModal = undefined
+	},
+
+	setCalendarDeleteCountdown(state, { calendar, countdown }) {
+		Vue.set(state.calendarsById[calendar.id], 'countdown', countdown)
+	},
+
+	setCalendarDeleteHandles(state, { calendar, deleteTimeout, deleteInterval }) {
+		Vue.set(state.calendarsById[calendar.id], 'deleteTimeout', deleteTimeout)
+		Vue.set(state.calendarsById[calendar.id], 'deleteInterval', deleteInterval)
+	},
 }
 
 const getters = {
@@ -555,6 +576,8 @@ const getters = {
 			return true
 		})
 	},
+
+	editCalendarModal: (state) => state.editCalendarModal,
 }
 
 const actions = {
@@ -717,6 +740,44 @@ const actions = {
 		})
 
 		context.commit('removeDeletedCalendar', { calendar })
+	},
+
+	deleteCalendarAfterTimeout(context, { calendar, countdown = 7 }) {
+		context.commit('setCalendarDeleteCountdown', { calendar, countdown })
+		const deleteInterval = setInterval(() => {
+			countdown--
+
+			if (countdown < 0) {
+				countdown = 0
+			}
+
+			context.commit('setCalendarDeleteCountdown', { calendar, countdown })
+		}, 1000)
+		const deleteTimeout = setTimeout(async () => {
+			try {
+				await context.dispatch('deleteCalendar', { calendar })
+			} catch (error) {
+				showError(t('calendar', 'An error occurred, unable to delete the calendar.'))
+				console.error(error)
+			} finally {
+				clearInterval(deleteInterval)
+			}
+		}, 7000)
+		context.commit('setCalendarDeleteHandles', {
+			calendar,
+			deleteInterval,
+			deleteTimeout,
+		})
+	},
+
+	cancelCalendarDeletion(context, { calendar }) {
+		if (calendar.deleteInterval) clearInterval(calendar.deleteInterval)
+		if (calendar.deleteTimeout) clearTimeout(calendar.deleteTimeout)
+		context.commit('setCalendarDeleteHandles', {
+			calendar,
+			deleteInterval: undefined,
+			deleteTimeout: undefined,
+		})
 	},
 
 	async restoreCalendar({ commit, state }, { calendar }) {
