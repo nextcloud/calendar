@@ -32,6 +32,7 @@ OC.L10N.register(
     "Edit" : "تعديل",
     "Delete" : "حذف ",
     "Untitled calendar" : "تقويم بدون اسم",
+    "Shared with you by" : "مشاركة معك من قبل",
     "An error occurred, unable to change visibility of the calendar." : "حدث خطأ، لا يمكن تعديل وضعية ظهور التقويم.",
     "New calendar" : "تقويم جديد",
     "Creating calendar …" : "جاري انشاء تقويم  …",
