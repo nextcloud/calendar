@@ -423,4 +423,8 @@ export default {
 .highlighted-timezone-icon {
 opacity: .7;
 }
+::v-deep .multiselect__content-wrapper {
+	border: none !important;
+	position: relative !important;
+}
 </style>
