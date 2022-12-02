@@ -2,6 +2,7 @@
   - @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
   -
   - @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
+  - @author 2022 Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license AGPL-3.0-or-later
   -
@@ -20,65 +21,67 @@
   -->
 
 <template>
-	<div v-if="!bookingConfirmed"
-		class="booking">
-		<div class="booking__config-user-info">
-			<Avatar :user="userInfo.uid"
-				:display-name="userInfo.displayName"
-				:disable-tooltip="true"
-				:disable-menu="true"
-				:size="180" />
-			<div class="booking__display-name">
-				<strong>{{ userInfo.displayName }}</strong>
-			</div>
-			<h2 class="booking__name">
-				{{ config.name }}
-			</h2>
-			<!-- Description needs to stay inline due to its whitespace -->
-			<span class="booking__description">{{ config.description }}</span>
-		</div>
-		<div class="booking__date-selection">
-			<h3>{{ $t('calendar', 'Select date') }}</h3>
-			<div class="booking__date">
-				<DatetimePicker v-model="selectedDate"
-					:disabled-date="disabledDate"
-					type="date"
-					@change="fetchSlots" />
-			</div>
-			<div class="booking__time-zone">
-				<TimezonePicker v-model="timeZone" @change="fetchSlots" />
-			</div>
-		</div>
-		<div class="booking__slot-selection">
-			<h3>{{ $t('calendar', 'Select slot') }}</h3>
-
-			<div class="booking__slots">
-				<div v-if="slots.length === 0 && !loadingSlots">
-					{{ $t('calendar', 'No slots available') }}
+	<NcGuestContent>
+		<div v-if="!bookingConfirmed"
+			class="booking">
+			<div class="booking__config-user-info">
+				<Avatar :user="userInfo.uid"
+					:display-name="userInfo.displayName"
+					:disable-tooltip="true"
+					:disable-menu="true"
+					:size="180" />
+				<div class="booking__display-name">
+					<strong>{{ userInfo.displayName }}</strong>
 				</div>
-				<template v-else>
-					<AppointmentSlot v-for="slot in slots"
-						:key="slot.start"
-						:start="slot.start"
-						:end="slot.end"
-						:time-zone-id="timeZone"
-						@click="onSlotClicked(slot)" />
-				</template>
+				<h2 class="booking__name">
+					{{ config.name }}
+				</h2>
+				<!-- Description needs to stay inline due to its whitespace -->
+				<span class="booking__description">{{ config.description }}</span>
 			</div>
-			<AppointmentDetails v-if="selectedSlot"
-				:key="selectedSlot.start"
-				:user-info="userInfo"
-				:config="config"
-				:time-slot="selectedSlot"
-				:visitor-info="visitorInfo"
-				:time-zone-id="timeZone"
-				:show-error="bookingError"
-				@save="onSave"
-				@close="selectedSlot = undefined" />
+			<div class="booking__date-selection">
+				<h3>{{ $t('calendar', 'Select date') }}</h3>
+				<div class="booking__date">
+					<DatetimePicker v-model="selectedDate"
+						:disabled-date="disabledDate"
+						type="date"
+						@change="fetchSlots" />
+				</div>
+				<div class="booking__time-zone">
+					<TimezonePicker v-model="timeZone" @change="fetchSlots" />
+				</div>
+			</div>
+			<div class="booking__slot-selection">
+				<h3>{{ $t('calendar', 'Select slot') }}</h3>
+
+				<div class="booking__slots">
+					<div v-if="slots.length === 0 && !loadingSlots">
+						{{ $t('calendar', 'No slots available') }}
+					</div>
+					<template v-else>
+						<AppointmentSlot v-for="slot in slots"
+							:key="slot.start"
+							:start="slot.start"
+							:end="slot.end"
+							:time-zone-id="timeZone"
+							@click="onSlotClicked(slot)" />
+					</template>
+				</div>
+				<AppointmentDetails v-if="selectedSlot"
+					:key="selectedSlot.start"
+					:user-info="userInfo"
+					:config="config"
+					:time-slot="selectedSlot"
+					:visitor-info="visitorInfo"
+					:time-zone-id="timeZone"
+					:show-error="bookingError"
+					@save="onSave"
+					@close="selectedSlot = undefined" />
+			</div>
 		</div>
-	</div>
-	<AppointmentBookingConfirmation v-else
-		@close="bookingConfirmed = false" />
+		<AppointmentBookingConfirmation v-else
+			@close="bookingConfirmed = false" />
+	</NcGuestContent>
 </template>
 
 <script>
@@ -86,6 +89,7 @@ import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import DatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js'
 import jstz from 'jstz'
 import TimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker.js'
+import NcGuestContent from '@nextcloud/vue/dist/Components/NcGuestContent.js'
 
 import AppointmentSlot from '../../components/Appointments/AppointmentSlot.vue'
 import { bookSlot, findSlots } from '../../services/appointmentService.js'
@@ -101,6 +105,7 @@ export default {
 		TimezonePicker,
 		AppointmentDetails,
 		AppointmentBookingConfirmation,
+		NcGuestContent,
 	},
 	props: {
 		config: {
@@ -227,19 +232,10 @@ export default {
 
 <style lang="scss" scoped>
 .booking {
-	margin: 25px auto;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	max-width: 800px;
-	height: fit-content;
-
-	// Taken from guest.css -> .guest-box
-	color: var(--color-main-text);
-	background-color: var(--color-main-background);
-	padding: 16px;
-	border-radius: var(--border-radius-large);
-	box-shadow: 0 0 10px var(--color-box-shadow);
 
 	&__date-selection {
 		display: flex;
@@ -276,15 +272,4 @@ export default {
 	}
 }
 
-</style>
-
-<style lang="scss">
-#content.app-calendar {
-	// Enable scrolling
-	overflow: auto;
-
-	// Fix box being cutoff at the bottom
-	margin-bottom: 0;
-	height: calc(var(--body-height) + var(--body-container-margin));
-}
 </style>
