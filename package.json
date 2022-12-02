@@ -56,7 +56,7 @@
     "@nextcloud/router": "^2.0.0",
     "@nextcloud/vue": "^7.1.0",
     "@nextcloud/vue-dashboard": "^2.0.1",
-    "autosize": "^5.0.1",
+    "autosize": "^5.0.2",
     "closest-css-color": "^1.0.0",
     "color-convert": "^2.0.1",
     "core-js": "^3.26.1",
