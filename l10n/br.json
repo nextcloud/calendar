@@ -27,6 +27,7 @@
     "Edit" : "Cheñch",
     "Delete" : "Dilemel",
     "Untitled calendar" : "Deiziataer hep titl",
+    "Shared with you by" : "Rannet deoc'h gant",
     "An error occurred, unable to change visibility of the calendar." : "C'hoarvezet ez eus ur fazi, ne c'halletr ket kemmañ gweluster an deiziataer.",
     "_Unsharing the calendar in {countdown} second_::_Unsharing the calendar in {countdown} seconds_" : ["Dirannañ an deizataer a ben {countdown} eilenn","Dirannañ an deizataer a ben {countdown} eilenn","Dirannañ an deizataer a ben {countdown} eilenn","Dirannañ an deizataer a ben {countdown} eilenn","Paouezet e vo da lodañ an deiziataer a-benn {countdown} eilenn"],
     "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["Dirannañ an deizataer a ben {countdown} eilenn","Dirannañ an deizataer a ben {countdown} eilenn","Dirannañ an deizataer a ben {countdown} eilenn","Dirannañ an deizataer a ben {countdown} eilenn","Dilamet e vo an deiziataer a-benn {countdown} eilenn"],

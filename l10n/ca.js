@@ -44,6 +44,7 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "No s'ha pogut copiar l'enllaç de la cita al porta-retalls",
     "Add new" : "Afegeix nou/nova",
     "Untitled calendar" : "Calendari sense títol",
+    "Shared with you by" : "Compartit amb tu per",
     "Disable calendar \"{calendar}\"" : "Desactiva el calendari \"{calendar}\"",
     "Disable untitled calendar" : "Desactiva el calendari sense títol",
     "Enable calendar \"{calendar}\"" : "Activa el calendari \"{calendar}\"",
