@@ -45,6 +45,7 @@ OC.L10N.register(
     "Add new" : "Προσθήκη νέου",
     "Untitled calendar" : "Ημερολόγιο χωρίς τίτλο",
     "Shared with you by" : "Διαμοιρασμένα μαζί σας από",
+    "Edit calendar" : "Επεξεργασία ημερολογίου",
     "Disable calendar \"{calendar}\"" : "Απενεργοποίηση ημερολογίου \"{calendar}\"",
     "Disable untitled calendar" : "Απενεργοποίηση ημερολογίου χωρίς τίτλο",
     "Enable calendar \"{calendar}\"" : "Ενεργοποίηση ημερολογίου \"{calendar}\"",
