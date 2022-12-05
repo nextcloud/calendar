@@ -53,7 +53,7 @@
 						:size="20" />
 				</template>
 			</NcButton>
-			<Popover :open.sync="showTimezonePopover"
+			<Popover :shown.sync="showTimezonePopover"
 				open-class="timezone-popover-wrapper">
 				<div class="timezone-popover-wrapper__title">
 					<strong>
