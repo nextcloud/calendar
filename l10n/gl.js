@@ -57,6 +57,7 @@ OC.L10N.register(
     "Deleted" : "Eliminada",
     "Restore" : "Restaurar",
     "Delete permanently" : "Eliminar de xeito permanente",
+    "Empty trash bin" : "Lixo baleiro",
     "Could not update calendar order." : "Non foi posíbel actualizar a orde do calendario.",
     "Share link" : "Compartir ligazón",
     "Copy public link" : "Copiar a ligazón pública",
