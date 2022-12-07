@@ -201,7 +201,7 @@ export default {
 				if (!this.calendarObjectInstance.description) {
 					newDescription = url + NEW_LINE
 				} else {
-					newDescription = this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + url + NEW_LINE
+					newDescription = this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + 'Join the call/chat at the following link:' + NEW_LINE + NEW_LINE + url + NEW_LINE
 				}
 
 				this.$store.commit('changeDescription', {
