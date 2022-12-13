@@ -213,6 +213,10 @@ export default {
 					return false
 				}
 
+				if (this.$store.getters.getCurrentUserPrincipal?.userId === principal.userId) {
+					return false
+				}
+
 				// We do not support GROUPS for now
 				if (principal.calendarUserType === 'GROUP') {
 					return false
