@@ -1,6 +1,12 @@
 
 # Changelog
 
+## 3.5.3 - 2022-12-15
+### Fixed
+- Delete X-ALT-DESC property on changing description
+- Contrast issue with share icon
+- Location in booking VEVENT
+
 ## 3.5.2 - 2022-10-27
 ### Fixed
 - Event calendar picker out of sync after moving event
