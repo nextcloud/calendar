@@ -1,6 +1,16 @@
 
 # Changelog
 
+## 4.1.1 - 2022-12-15
+### Fixed
+- Disabled timezone popup 
+- Style for timezone popup
+- Location in booking VEVENT
+- Bottom part cut off for public calendar
+- Lost app navigation styles
+- Delete X-ALT-DESC property when changing description
+- Clipboard copy
+
 ## 4.1.0 - 2022-11-02
 ### Added
 - IButtonWidget and IIconWidget implementation
