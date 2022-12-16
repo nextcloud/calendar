@@ -2,6 +2,7 @@
  * @copyright Copyright (c) 2019 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0-or-later
  *
@@ -19,6 +20,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+import { AttendeeProperty, Property } from '@nextcloud/calendar-js'
+import { translate as t } from '@nextcloud/l10n'
 
 /**
  * Get the factor for a given unit
@@ -211,4 +215,45 @@ export function getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(amoun
 	}
 
 	return amount
+}
+
+/**
+ * Propagate data from an event component to all EMAIL alarm components.
+ * An alarm component must contain a description, summary and all attendees to be notified.
+ * We don't have a separate UI for maintaining attendees of an alarm, so we just copy them from the event.
+ *
+ * https://www.rfc-editor.org/rfc/rfc5545#section-3.6.6
+ *
+ * @param {AbstractRecurringComponent} eventComponent
+ */
+export function updateEmailAlarms(eventComponent) {
+	for (const alarmComponent of eventComponent.getAlarmIterator()) {
+		if (alarmComponent.action !== 'EMAIL') {
+			continue
+		}
+
+		alarmComponent.deleteAllProperties('SUMMARY')
+		const summaryProperty = eventComponent.getFirstProperty('SUMMARY')
+		if (summaryProperty) {
+			alarmComponent.addProperty(summaryProperty.clone())
+		} else {
+			const defaultSummary = t('calendar', 'Untitled event')
+			alarmComponent.addProperty(new Property('SUMMARY', defaultSummary))
+		}
+
+		if (!alarmComponent.hasProperty('DESCRIPTION')) {
+			const defaultDescription = t('calendar', 'This is an event reminder.')
+			alarmComponent.addProperty(new Property('DESCRIPTION', defaultDescription))
+		}
+
+		alarmComponent.deleteAllProperties('ATTENDEE')
+		for (const attendee of eventComponent.getAttendeeIterator()) {
+			if (['RESOURCE', 'ROOM'].includes(attendee.userType)) {
+				continue
+			}
+
+			// Only copy the email address (value) of the attendee
+			alarmComponent.addProperty(new AttendeeProperty('ATTENDEE', attendee.value))
+		}
+	}
 }
