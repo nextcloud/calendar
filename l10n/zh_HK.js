@@ -463,6 +463,7 @@ OC.L10N.register(
     "Chat room for event" : "活動的聊天室",
     "An error occurred, unable to delete the calendar." : "發生錯誤，無法刪除日曆",
     "Imported {filename}" : "匯入的 {filename}",
+    "This is an event reminder." : "這是一個活動提醒。",
     "Meditation" : "冥想",
     "Relaxing" : "放鬆",
     "Relax" : "放鬆",

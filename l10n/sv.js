@@ -463,6 +463,7 @@ OC.L10N.register(
     "Chat room for event" : "Mötesrum för event",
     "An error occurred, unable to delete the calendar." : "Ett fel inträffade, kunde inte radera kalendern.",
     "Imported {filename}" : "Importerad {filename}",
+    "This is an event reminder." : "Detta är en händelsepåminnelse.",
     "Meditation" : "Meditation",
     "Relaxing" : "Relaxa",
     "Relax" : "Relax",
