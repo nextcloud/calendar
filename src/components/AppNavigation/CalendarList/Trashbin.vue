@@ -2,6 +2,7 @@
   - @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
   -
   - @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
+  - @author 2022 Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license AGPL-3.0-or-later
   -
@@ -75,19 +76,21 @@
 								<td class="deletedAt">
 									<Moment class="timestamp" :timestamp="item.deletedAt" />
 								</td>
-								<td class="item-actions">
-									<button @click="restore(item)">
-										{{ t('calendar','Restore') }}
-									</button>
+								<td>
+									<div class="item-actions">
+										<NcButton type="secondary" @click="restore(item)">
+											{{ t('calendar','Restore') }}
+										</NcButton>
 
-									<Actions :force-menu="true">
-										<ActionButton @click="onDeletePermanently(item)">
-											<template #icon>
-												<Delete :size="20" decorative />
-											</template>
-											{{ t('calendar','Delete permanently') }}
-										</ActionButton>
-									</Actions>
+										<Actions :force-menu="true">
+											<ActionButton @click="onDeletePermanently(item)">
+												<template #icon>
+													<Delete :size="20" decorative />
+												</template>
+												{{ t('calendar','Delete permanently') }}
+											</ActionButton>
+										</Actions>
+									</div>
 								</td>
 							</tr>
 						</table>
@@ -95,9 +98,9 @@
 							<p v-if="retentionDuration">
 								{{ n('calendar', 'Items in the trash bin are deleted after {numDays} day', 'Items in the trash bin are deleted after {numDays} days', retentionDuration, { numDays: retentionDuration }) }}
 							</p>
-							<button @click="onEmptyTrashBin()">
+							<NcButton type="error" @click="onEmptyTrashBin()">
 								{{ t('calendar','Empty trash bin') }}
-							</button>
+							</NcButton>
 						</div>
 					</template>
 				</div>
@@ -118,6 +121,7 @@ import { showError } from '@nextcloud/dialogs'
 import { mapGetters } from 'vuex'
 import Moment from './Moment.vue'
 import { uidToHexColor } from '../../../utils/color.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 import Delete from 'vue-material-design-icons/Delete.vue'
 
@@ -131,6 +135,7 @@ export default {
 		Actions,
 		ActionButton,
 		Delete,
+		NcButton,
 	},
 	data() {
 		return {
@@ -319,7 +324,9 @@ th {
 }
 
 .item-actions {
-	text-align: right;
+	display: flex;
+	justify-content: flex-end;
+	gap: 5px;
 }
 
 .deletedAt {
@@ -327,8 +334,10 @@ th {
 }
 
 .footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	color: var(--color-text-lighter);
-	text-align: center;
 	font-size: small;
 	margin-top: 16px;
 	& > p {
