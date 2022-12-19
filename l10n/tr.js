@@ -463,6 +463,7 @@ OC.L10N.register(
     "Chat room for event" : "Etkinliğin sohbet odası",
     "An error occurred, unable to delete the calendar." : "Bir sorun çıktı. Takvim silinemedi.",
     "Imported {filename}" : "{filename} içe aktarıldı",
+    "This is an event reminder." : "Bu bir etkinlik hatırlatıcısıdır.",
     "Meditation" : "Meditasyon",
     "Relaxing" : "Rahatlama",
     "Relax" : "Rahat",

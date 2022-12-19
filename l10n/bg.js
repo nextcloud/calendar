@@ -463,6 +463,7 @@ OC.L10N.register(
     "Chat room for event" : "Чат стая за събитие",
     "An error occurred, unable to delete the calendar." : "Възникна грешка, невъзможност да се изтрие календара.",
     "Imported {filename}" : "Импортирано {filename}",
+    "This is an event reminder." : "Това е напомняне за събитие.",
     "Meditation" : "Медитация",
     "Relaxing" : "Релаксиращ",
     "Relax" : "Почивка",
