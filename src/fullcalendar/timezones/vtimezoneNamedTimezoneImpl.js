@@ -2,6 +2,7 @@
  * @copyright Copyright (c) 2019 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0-or-later
  *
@@ -19,10 +20,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import {
-	NamedTimeZoneImpl,
-	createPlugin,
-} from '@fullcalendar/core'
+import { createPlugin } from '@fullcalendar/core'
+import { NamedTimeZoneImpl } from '@fullcalendar/core/internal'
 import getTimezoneManager from '../../services/timezoneDataProviderService.js'
 import logger from '../../utils/logger.js'
 
@@ -74,5 +73,6 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 }
 
 export default createPlugin({
+	name: '@nextcloud/v-timezone-named-timezone-plugin',
 	namedTimeZonedImpl: VTimezoneNamedTimezone,
 })

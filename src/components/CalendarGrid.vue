@@ -161,12 +161,12 @@ export default {
 		 */
 		plugins() {
 			return [
+				momentPluginFactory(this.$store),
+				VTimezoneNamedTimezone,
 				dayGridPlugin,
 				interactionPlugin,
 				listPlugin,
 				timeGridPlugin,
-				momentPluginFactory(this.$store),
-				VTimezoneNamedTimezone,
 			]
 		},
 		isEditable() {
