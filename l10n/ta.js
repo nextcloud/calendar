@@ -11,6 +11,8 @@ OC.L10N.register(
     "New calendar" : "புதிய நாட்காட்டி",
     "Export" : "ஏற்றுமதி",
     "Name" : "பெயர்",
+    "Restore" : "மீட்டெடு",
+    "Delete permanently" : "நிரந்தரமாக நீக்கவும்",
     "Share link" : "Share link",
     "can edit" : "தொகுக்க முடியும்",
     "Cancel" : "இரத்து செய்க",
