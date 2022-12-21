@@ -4,6 +4,7 @@
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Georg Ehrke
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -29,7 +30,7 @@
 		position: fixed;
 		top: 0;
 		left: 0;
-		height: 44px;
+		height: 50px;
 		width: 100%;
 		box-sizing: border-box;
 		background-color: var(--color-main-background);
@@ -42,6 +43,7 @@
 		.embed-header__date-section,
 		.embed-header__share-section {
 			display: flex;
+			gap: 5px;
 		}
 
 		.view-button-section {

@@ -22,20 +22,24 @@
 
 <template>
 	<div class="today-button-section">
-		<button :aria-label="title"
+		<NcButton :aria-label="title"
 			class="button"
 			:title="title"
 			@click="today()">
 			{{ $t('calendar', 'Today') }}
-		</button>
+		</NcButton>
 	</div>
 </template>
 
 <script>
 import moment from '@nextcloud/moment'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 export default {
 	name: 'EmbedHeaderTodayButton',
+	components: {
+		NcButton,
+	},
 	computed: {
 		title() {
 			return moment().format('ll')

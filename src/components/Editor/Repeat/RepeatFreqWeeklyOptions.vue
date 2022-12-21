@@ -26,22 +26,26 @@
 			{{ $t('calendar', 'on') }}
 		</span>
 		<div class="repeat-option-set-section__grid">
-			<button v-for="option in options"
+			<NcButton v-for="option in options"
 				:key="option.value"
 				class="repeat-option-set-section-grid-item"
-				:class="{ primary: option.selected }"
+				:type="option.selected ? 'primary' : 'secondary'"
 				@click="toggleByDay(option.value)">
 				{{ option.label }}
-			</button>
+			</NcButton>
 		</div>
 	</div>
 </template>
 
 <script>
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import { getDayNamesMin } from '@nextcloud/l10n'
 
 export default {
 	name: 'RepeatFreqWeeklyOptions',
+	components: {
+		NcButton,
+	},
 	props: {
 		byDay: {
 			type: Array,

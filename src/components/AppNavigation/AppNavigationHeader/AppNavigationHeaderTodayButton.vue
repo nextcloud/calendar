@@ -21,18 +21,22 @@
   -->
 
 <template>
-	<button v-shortkey="['t']"
+	<NcButton v-shortkey="['t']"
 		class="button today"
 		@shortkey="today"
 		@click="today">
 		{{ $t('calendar', 'Today') }}
-	</button>
+	</NcButton>
 </template>
 
 <script>
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 export default {
 	name: 'AppNavigationHeaderTodayButton',
+	components: {
+		NcButton,
+	},
 	methods: {
 		today() {
 			const name = this.$route.name

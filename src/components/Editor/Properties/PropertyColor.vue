@@ -41,7 +41,7 @@
 			<ColorPicker :value="selectedColor"
 				:open.sync="isColorPickerOpen"
 				@input="changeColor">
-				<button class="property-color__color-preview"
+				<NcButton class="property-color__color-preview"
 					:style="{'background-color': selectedColor }" />
 			</ColorPicker>
 			<Actions v-if="showColorRevertButton">
@@ -59,6 +59,7 @@
 <script>
 import PropertyMixin from '../../../mixins/PropertyMixin.js'
 import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import ColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
 import debounce from 'debounce'
@@ -70,6 +71,7 @@ export default {
 	components: {
 		Actions,
 		ActionButton,
+		NcButton,
 		ColorPicker,
 		Undo,
 	},

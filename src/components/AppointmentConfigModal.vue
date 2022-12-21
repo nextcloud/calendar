@@ -127,11 +127,12 @@
 						</div>
 					</fieldset>
 				</div>
-				<button class="primary appointment-config-modal__submit-button"
+				<NcButton class="appointment-config-modal__submit-button"
+					type="primary"
 					:disabled="!editing.name || editing.length === 0"
 					@click="save">
 					{{ saveButtonText }}
-				</button>
+				</NcButton>
 			</template>
 		</div>
 	</Modal>
@@ -152,6 +153,7 @@ import CheckedDurationSelect from './AppointmentConfigModal/CheckedDurationSelec
 import VisibilitySelect from './AppointmentConfigModal/VisibilitySelect.vue'
 import logger from '../utils/logger.js'
 import Confirmation from './AppointmentConfigModal/Confirmation.vue'
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 export default {
 	name: 'AppointmentConfigModal',
@@ -167,6 +169,7 @@ export default {
 		DurationSelect,
 		VisibilitySelect,
 		Confirmation,
+		NcButton,
 	},
 	props: {
 		config: {

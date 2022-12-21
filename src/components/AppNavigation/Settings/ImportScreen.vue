@@ -43,23 +43,25 @@
 		</transition-group>
 
 		<div class="import-modal__actions">
-			<button @click="cancelImport">
+			<NcButton @click="cancelImport">
 				{{ $t('calendar', 'Cancel' ) }}
-			</button>
-			<button class="primary" @click="importCalendar">
+			</NcButton>
+			<NcButton class="primary" @click="importCalendar">
 				{{ $n('calendar', 'Import calendar', 'Import calendars', files.length) }}
-			</button>
+			</NcButton>
 		</div>
 	</Modal>
 </template>
 
 <script>
+import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import ImportScreenRow from './ImportScreenRow.vue'
 import Modal from '@nextcloud/vue/dist/Components/NcModal.js'
 
 export default {
 	name: 'ImportScreen',
 	components: {
+		NcButton,
 		ImportScreenRow,
 		Modal,
 	},
