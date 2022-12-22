@@ -2,6 +2,7 @@
   - @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
   -
   - @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
+  - @author 2022 Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license AGPL-3.0-or-later
   -
