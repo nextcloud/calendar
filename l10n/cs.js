@@ -463,6 +463,7 @@ OC.L10N.register(
     "Chat room for event" : "Chat místnost pro událost",
     "An error occurred, unable to delete the calendar." : "Došlo k chybě, kalendář se nepodařilo smazat.",
     "Imported {filename}" : "Importováno {filename}",
+    "This is an event reminder." : "Toto je připomínka události.",
     "Meditation" : "Meditace",
     "Relaxing" : "Odpočinek",
     "Relax" : "Odpočinek",
