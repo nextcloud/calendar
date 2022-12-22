@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 4.1.2 - 2022-12-22
+### Fixed
+- Handling of Email VALARMs
+
 ## 4.1.1 - 2022-12-15
 ### Fixed
 - Disabled timezone popup 
