@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 3.5.4 - 2022-12-22
+### Fixed
+- Handling of Email VALARMs
+
 ## 3.5.3 - 2022-12-15
 ### Fixed
 - Delete X-ALT-DESC property on changing description
