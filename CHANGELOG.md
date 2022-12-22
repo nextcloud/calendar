@@ -1,6 +1,23 @@
 
 # Changelog
 
+## 4.2.0 - 2022-12-27
+### Added
+- Calendar sharing and settings modal
+- Parameters to allow / disallow sharing via link
+- Error handling for Widget SVG generation
+### Changed
+- Set round-icons: true for clients
+### Fixed
+- Equalize slot booking button width
+- Trash bin buttons
+- Black calendar icon on dashboard widget in dark mode
+- Unclear field label for appointment config
+- Typo in meditation.svg
+- Duplicate location in booking email
+- Widget search results returning past events
+- Handling of EMail VALARMs
+
 ## 4.1.1 - 2022-12-15
 ### Fixed
 - Disabled timezone popup 
