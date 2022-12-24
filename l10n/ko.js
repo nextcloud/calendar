@@ -344,6 +344,7 @@ OC.L10N.register(
     "Talk" : "토크",
     "Camping" : "캠핑하기",
     "Camp" : "캠핑",
+    "Vote" : "투표",
     "Movie" : "영화",
     "Cinema" : "영화",
     "Graduation" : "졸업",
