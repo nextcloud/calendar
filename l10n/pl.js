@@ -463,6 +463,7 @@ OC.L10N.register(
     "Chat room for event" : "Pokój rozmów dla wydarzenia",
     "An error occurred, unable to delete the calendar." : "Wystąpił błąd, nie można usunąć kalendarza.",
     "Imported {filename}" : "Zaimportowano {filename}",
+    "This is an event reminder." : "Przypomnienie o wydarzeniu.",
     "Meditation" : "Medytacja",
     "Relaxing" : "Odprężenie",
     "Relax" : "Relaks",
