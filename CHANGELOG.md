@@ -1,7 +1,7 @@
 
 # Changelog
 
-## 4.2.0 - 2022-12-27
+## 4.2.0 - 2022-12-29
 ### Added
 - Calendar sharing and settings modal
 - Parameters to allow / disallow sharing via link
