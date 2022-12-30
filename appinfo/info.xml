@@ -22,6 +22,8 @@
 	<namespace>Calendar</namespace>
 	<documentation>
 		<user>https://docs.nextcloud.com/server/latest/user_manual/en/groupware/calendar.html</user>
+		<admin>https://docs.nextcloud.com/server/latest/admin_manual/groupware/calendar.html</admin>
+		<developer>https://github.com/nextcloud/calendar/wiki</developer>
 	</documentation>
 	<category>office</category>
 	<category>organization</category>
