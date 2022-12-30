@@ -48,7 +48,6 @@ use Psr\Log\LoggerInterface;
 use Safe\DateTimeImmutable;
 
 class BookingControllerTest extends TestCase {
-
 	/** @var string */
 	protected $appName;
 

@@ -27,7 +27,6 @@ use Exception;
 use Throwable;
 
 class ServiceException extends Exception {
-
 	/** @var int|null */
 	private $httpCode;
 

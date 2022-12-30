@@ -47,7 +47,6 @@ use OCP\Mail\IMailer;
 use Psr\Log\LoggerInterface;
 
 class BookingController extends Controller {
-
 	/** @var BookingService */
 	private $bookingService;
 

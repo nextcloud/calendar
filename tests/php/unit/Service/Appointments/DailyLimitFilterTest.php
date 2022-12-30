@@ -37,7 +37,6 @@ use PHPUnit\Framework\MockObject\MockObject;
  * @requires OCP\Calendar\ICalendarQuery::newQuery
  */
 class DailyLimitFilterTest extends TestCase {
-
 	/** @var IManager|MockObject */
 	private $manager;
 

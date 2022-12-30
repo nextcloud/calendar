@@ -44,7 +44,6 @@ use OCP\Mail\IMessage;
  * @package OCA\Calendar\Controller
  */
 class EmailController extends Controller {
-
 	/** @var IConfig */
 	private $config;
 

@@ -31,7 +31,6 @@ use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class JsDataServiceTest extends TestCase {
-
 	/** @var IConfig|MockObject */
 	private $config;
 

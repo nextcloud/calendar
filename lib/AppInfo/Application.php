@@ -34,7 +34,6 @@ use OCP\User\Events\UserDeletedEvent;
 use function method_exists;
 
 class Application extends App implements IBootstrap {
-
 	/** @var string */
 	public const APP_ID = 'calendar';
 

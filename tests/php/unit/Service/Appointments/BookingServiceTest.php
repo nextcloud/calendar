@@ -49,7 +49,6 @@ use Psr\Log\LoggerInterface;
 use Safe\DateTimeImmutable;
 
 class BookingServiceTest extends TestCase {
-
 	/** @var AvailabilityGenerator|MockObject */
 	private $availabilityGenerator;
 

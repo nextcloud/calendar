@@ -37,7 +37,6 @@ use ChristophWurst\Nextcloud\Testing\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ViewControllerTest extends TestCase {
-
 	/** @var string */
 	private $appName;
 

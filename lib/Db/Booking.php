@@ -55,7 +55,6 @@ use ReturnTypeWillChange;
  * @method void setConfirmed(bool $confirm)
  */
 class Booking extends Entity implements JsonSerializable {
-
 	/** @var int */
 	protected $apptConfigId;
 

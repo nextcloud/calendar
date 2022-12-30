@@ -35,7 +35,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class EventConflictFilterTest extends TestCase {
-
 	/** @var IManager|MockObject */
 	private $calendarManager;
 

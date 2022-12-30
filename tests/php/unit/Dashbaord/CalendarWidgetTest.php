@@ -38,7 +38,6 @@ use Safe\DateTimeImmutable;
 use Test\TestCase;
 
 class CalendarWidgetTest extends TestCase {
-
 	/** @var IL10N|MockObject  */
 	private $l10n;
 

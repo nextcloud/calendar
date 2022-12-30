@@ -29,7 +29,6 @@ use OCP\IUserSession;
 use ReturnTypeWillChange;
 
 class JSDataService implements \JsonSerializable {
-
 	/** @var IConfig */
 	private $config;
 

@@ -39,7 +39,6 @@ use OCP\IUser;
 use OCP\Security\ISecureRandom;
 
 class AppointmentConfigService {
-
 	/** @var AppointmentConfigMapper */
 	private $mapper;
 

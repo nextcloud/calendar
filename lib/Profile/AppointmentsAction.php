@@ -36,7 +36,6 @@ use OCP\Profile\ILinkAction;
 use function count;
 
 class AppointmentsAction implements ILinkAction {
-
 	/** @var IL10N */
 	private $l10n;
 

@@ -33,7 +33,6 @@ use JsonSerializable;
  * @psalm-immutable
  */
 class Interval implements JsonSerializable {
-
 	/** @var int */
 	private $start;
 

@@ -40,7 +40,6 @@ use OCP\IUserManager;
 use RuntimeException;
 
 class AppointmentController extends Controller {
-
 	/** @var IUserManager */
 	private $userManager;
 

@@ -38,7 +38,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class AppointmentConfigControllerTest extends TestCase {
-
 	/** @var IRequest|MockObject */
 	private $request;
 

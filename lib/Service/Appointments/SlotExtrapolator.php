@@ -28,7 +28,6 @@ namespace OCA\Calendar\Service\Appointments;
 use OCA\Calendar\Db\AppointmentConfig;
 
 class SlotExtrapolator {
-
 	/**
 	 * @param AppointmentConfig $config
 	 * @param Interval[] $availabilityIntervals

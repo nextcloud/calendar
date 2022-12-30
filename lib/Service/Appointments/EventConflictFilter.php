@@ -33,7 +33,6 @@ use Psr\Log\LoggerInterface;
 use function array_filter;
 
 class EventConflictFilter {
-
 	/** @var IManager */
 	private $calendarManager;
 	private $logger;

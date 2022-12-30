@@ -32,7 +32,6 @@ use OCP\IUser;
 use OCP\User\Events\UserDeletedEvent;
 
 class UserDeletedListenerTest extends TestCase {
-
 	/** @var \ChristophWurst\Nextcloud\Testing\ServiceMockObject */
 	private $serviceMock;
 

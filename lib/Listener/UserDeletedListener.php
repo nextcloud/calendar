@@ -33,7 +33,6 @@ use OCP\User\Events\UserDeletedEvent;
 use Psr\Log\LoggerInterface;
 
 class UserDeletedListener implements IEventListener {
-
 	/** @var AppointmentConfigService */
 	private $appointmentConfigService;
 

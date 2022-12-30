@@ -38,7 +38,6 @@ use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class AppointmentControllerTest extends TestCase {
-
 	/** @var string */
 	protected $appName;
 

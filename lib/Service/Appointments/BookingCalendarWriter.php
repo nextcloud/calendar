@@ -41,7 +41,6 @@ use Sabre\VObject\Component\VCalendar;
 use function abs;
 
 class BookingCalendarWriter {
-
 	/** @var IConfig */
 	private $config;
 
