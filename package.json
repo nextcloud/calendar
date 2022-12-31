@@ -38,7 +38,7 @@
     "@fullcalendar/core": "6.0.1",
     "@fullcalendar/daygrid": "6.0.0",
     "@fullcalendar/interaction": "6.0.0",
-    "@fullcalendar/list": "6.0.0",
+    "@fullcalendar/list": "6.0.1",
     "@fullcalendar/resource": "6.0.0",
     "@fullcalendar/resource-timeline": "6.0.0",
     "@fullcalendar/timegrid": "6.0.0",
