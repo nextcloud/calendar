@@ -154,7 +154,7 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Копіювати основну адресу CalDAV",
     "Copy iOS/macOS CalDAV address" : "Копіювати адресу CalDAV для iOS/macOS ",
     "Personal availability settings" : "Налаштування доступності",
-    "Show keyboard shortcuts" : "Показувати клавіатурні скорочення",
+    "Show keyboard shortcuts" : "Показати клавіатурні скорочення",
     "Calendar settings" : "Налаштування",
     "No reminder" : "Відсутні нагадування",
     "CalDAV link copied to clipboard." : "Посилання CalDAV скопійовано.",
