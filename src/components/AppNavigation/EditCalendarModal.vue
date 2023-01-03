@@ -64,7 +64,7 @@
 					</template>
 					{{ $t('calendar', 'Copy private link') }}
 				</NcButton>
-				<NcButton :to="downloadUrl">
+				<NcButton :href="downloadUrl">
 					<template #icon>
 						<DownloadIcon :size="20" />
 					</template>
