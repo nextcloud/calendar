@@ -45,7 +45,6 @@ use Psr\Log\LoggerInterface;
 use function count;
 
 class BookingService {
-
 	/** @var int the expiry of a booking confirmation */
 	public const EXPIRY = 86400;
 

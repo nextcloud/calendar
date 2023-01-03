@@ -36,7 +36,6 @@ use function max;
 use function min;
 
 class AvailabilityGenerator {
-
 	/** @var ITimeFactory */
 	private $timeFactory;
 

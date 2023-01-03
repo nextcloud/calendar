@@ -38,7 +38,6 @@ use OCP\IRequest;
 use function in_array;
 
 class ViewController extends Controller {
-
 	/** @var IConfig */
 	private $config;
 

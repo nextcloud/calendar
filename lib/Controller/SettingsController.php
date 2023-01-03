@@ -35,7 +35,6 @@ use OCP\IRequest;
  * @package OCA\Calendar\Controller
  */
 class SettingsController extends Controller {
-
 	/** @var IConfig */
 	private $config;
 

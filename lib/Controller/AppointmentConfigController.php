@@ -42,7 +42,6 @@ use function array_merge;
 use function array_values;
 
 class AppointmentConfigController extends Controller {
-
 	/** @var AppointmentConfigService */
 	private $appointmentConfigService;
 

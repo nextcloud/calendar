@@ -46,7 +46,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
 class MailServiceTest extends TestCase {
-
 	/** @var mixed|IUserManager|MockObject */
 	private $userManager;
 

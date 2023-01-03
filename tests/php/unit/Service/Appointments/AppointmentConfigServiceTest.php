@@ -31,7 +31,6 @@ use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\IUser;
 
 class AppointmentConfigServiceTest extends TestCase {
-
 	/** @var ServiceMockObject */
 	private $serviceMock;
 

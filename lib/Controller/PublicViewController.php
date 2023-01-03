@@ -40,7 +40,6 @@ use OCP\IURLGenerator;
  * @package OCA\Calendar\Controller
  */
 class PublicViewController extends Controller {
-
 	/**
 	 * @var IConfig
 	 */

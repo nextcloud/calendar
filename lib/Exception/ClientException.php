@@ -29,7 +29,6 @@ use Exception;
 use Throwable;
 
 class ClientException extends Exception {
-
 	/** @var int|null */
 	private $httpCode;
 

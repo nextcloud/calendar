@@ -29,7 +29,6 @@ use ChristophWurst\Nextcloud\Testing\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class SettingsControllerTest extends TestCase {
-
 	/** @var string */
 	private $appName;
 

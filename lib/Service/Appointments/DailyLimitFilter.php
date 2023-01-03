@@ -33,7 +33,6 @@ use function array_values;
 use function count;
 
 class DailyLimitFilter {
-
 	/** @var IManager */
 	private $calendarManger;
 

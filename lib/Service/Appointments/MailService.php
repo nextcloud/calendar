@@ -42,7 +42,6 @@ use Psr\Log\LoggerInterface;
 use function implode;
 
 class MailService {
-
 	/** @var IUserManager */
 	private $userManager;
 	/** @var IMailer */

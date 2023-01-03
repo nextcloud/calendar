@@ -32,7 +32,6 @@ use OCA\Calendar\Service\Appointments\SlotExtrapolator;
 use OCP\Calendar\ICalendarQuery;
 
 class SlotExtrapolatorTest extends TestCase {
-
 	/** @var SlotExtrapolator */
 	private $extrapolator;
 

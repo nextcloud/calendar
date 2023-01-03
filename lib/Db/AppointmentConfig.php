@@ -73,7 +73,6 @@ use function json_encode;
  * @method void setFutureLimit(?int $limit)
  */
 class AppointmentConfig extends Entity implements JsonSerializable {
-
 	/** @var string */
 	protected $token;
 

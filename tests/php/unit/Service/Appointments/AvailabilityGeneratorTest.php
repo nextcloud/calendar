@@ -36,7 +36,6 @@ use OCP\Calendar\ICalendarQuery;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class AvailabilityGeneratorTest extends TestCase {
-
 	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
 

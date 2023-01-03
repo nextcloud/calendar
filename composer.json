@@ -1,12 +1,12 @@
 {
     "config": {
         "platform": {
-            "php": "7.4"
+            "php": "8.0"
         },
         "sort-packages": true
     },
     "require": {
-        "php": ">=7.4 <=8.1"
+        "php": ">=8.0 <=8.2"
     },
     "require-dev": {
         "christophwurst/nextcloud_testing": "0.12.4",

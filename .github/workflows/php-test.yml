@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.4', '8.0', '8.1', '8.2']
+        php-versions: ['8.0', '8.1', '8.2']
         nextcloud-versions: ['master', 'stable25']
     name: php${{ matrix.php-versions }} on ${{ matrix.nextcloud-versions }} unit tests
     env:
@@ -43,6 +43,7 @@ jobs:
         file: nextcloud/apps/calendar/clover.unit.xml
         flags: php
         fail_ci_if_error: true
+        verbose: true
 
   summary:
     runs-on: ubuntu-latest

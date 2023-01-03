@@ -30,7 +30,6 @@ use ChristophWurst\Nextcloud\Testing\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ContactControllerTest extends TestCase {
-
 	/** @var string */
 	protected $appName;
 
