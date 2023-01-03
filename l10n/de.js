@@ -51,7 +51,7 @@ OC.L10N.register(
     "Appointment link could not be copied to clipboard" : "Link für den Termin konnte nicht in die Zwischenablage kopiert werden",
     "Add new" : "Neu hinzufügen",
     "Untitled calendar" : "Unbenannter Kalender",
-    "Shared with you by" : "Geteilt mit Dir von %s",
+    "Shared with you by" : "Geteilt mit dir von",
     "Edit and share calendar" : "Kalender bearbeiten und teilen",
     "Edit calendar" : "Kalender bearbeiten",
     "Disable calendar \"{calendar}\"" : "Kalender \"{calendar}\" deaktivieren",
