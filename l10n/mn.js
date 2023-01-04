@@ -50,6 +50,7 @@ OC.L10N.register(
     "Accept" : "Хүлээн зөвшөөрөх",
     "Decline" : "Зөвшөөрөхгүй",
     "Tentative" : "Урьдчилсан тов",
+    "Send email" : "Мэйл илгээх",
     "Repeat" : "Давтах",
     "never" : "хэзээ ч үгүй",
     "after" : "дараа",
