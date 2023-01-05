@@ -3,7 +3,7 @@ on: pull_request
 
 jobs:
   release-tarball:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     name: Build release tarball
     steps:
       - name: Checkout
@@ -21,8 +21,8 @@ jobs:
           coverage: none
       - name: Install Krankerl
         run: |
-          wget https://github.com/ChristophWurst/krankerl/releases/download/v0.12.3/krankerl_0.12.3_amd64.deb
-          sudo dpkg -i krankerl_0.12.3_amd64.deb
+          wget https://github.com/ChristophWurst/krankerl/releases/download/v0.14.0/krankerl_0.14.0_amd64.deb
+          sudo dpkg -i krankerl_0.14.0_amd64.deb
       - name: Package app
         run: krankerl package
       - uses: actions/upload-artifact@v3
