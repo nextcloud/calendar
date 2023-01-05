@@ -1,6 +1,11 @@
 
 # Changelog
 
+## 4.2.1 - 2023-01-05
+### Fixed
+- Reminder form field width
+- Calendar export
+
 ## 4.2.0 - 2022-12-29
 ### Added
 - Calendar sharing and settings modal
