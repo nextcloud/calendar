@@ -172,6 +172,7 @@ OC.L10N.register(
     "To configure appointments, add your email address in personal settings." : "Para configurar compromissos, adicione seu endereço de e-mail nas configurações pessoais.",
     "Public – shown on the profile page" : "Público - mostrado na página do perfil",
     "Private – only accessible via secret link" : "Privado - acessível apenas por meio de link secreto",
+    "Appointment name" : "Nome do compromisso",
     "Location" : "Localização",
     "Description" : "Descrição",
     "Visibility" : "Visibilidade",
