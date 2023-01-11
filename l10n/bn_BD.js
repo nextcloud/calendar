@@ -34,6 +34,7 @@ OC.L10N.register(
     "Save" : "সংরক্ষণ",
     "Update" : "পরিবর্ধন",
     "Your email address" : "আপনার ই-মেইল ঠিকানা",
+    "Notification" : "নোটিফিকেশন ",
     "Email" : "ইমেইল",
     "Unknown" : "অজানা",
     "Send email" : "ইমেইল পাঠান ",
