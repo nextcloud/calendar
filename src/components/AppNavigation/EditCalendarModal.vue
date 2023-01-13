@@ -160,10 +160,10 @@ export default {
 	},
 	watch: {
 		async calendarColor() {
-			await this.saveColor()
+			await this.saveColorDebounced()
 		},
 		async calendarName() {
-			await this.saveName()
+			await this.saveNameDebounced()
 		},
 		editCalendarModal(value) {
 			if (!value) {
