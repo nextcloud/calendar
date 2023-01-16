@@ -463,6 +463,7 @@ OC.L10N.register(
     "Chat room for event" : "Csevegőszoba az eseményhez",
     "An error occurred, unable to delete the calendar." : "Hiba lépett fel, a naptárat nem lehet törölni.",
     "Imported {filename}" : "{filename} importálva",
+    "This is an event reminder." : "Ez egy eseményemlékeztető.",
     "Meditation" : "Meditáció",
     "Relaxing" : "Pihenés",
     "Relax" : "Pihenő",
