@@ -28,7 +28,7 @@
  */
 export function removeMailtoPrefix(uri) {
 	if (uri.startsWith('mailto:')) {
-		return uri.substr(7)
+		return uri.slice(7)
 	}
 
 	return uri

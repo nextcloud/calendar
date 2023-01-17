@@ -477,7 +477,7 @@ const getters = {
 		const calendarUriMap = {}
 		state.calendars.forEach(calendar => {
 			const withoutTrail = calendar.url.replace(/\/$/, '')
-			const uri = withoutTrail.substr(withoutTrail.lastIndexOf('/') + 1)
+			const uri = withoutTrail.slice(withoutTrail.lastIndexOf('/') + 1)
 			calendarUriMap[uri] = calendar
 		})
 
@@ -532,7 +532,7 @@ const getters = {
 		for (const calendar of state.calendars) {
 			const url = calendar.url.slice(0, -1)
 			const lastSlash = url.lastIndexOf('/')
-			const uri = url.substr(lastSlash + 1)
+			const uri = url.slice(lastSlash + 1)
 
 			if (uri === CALDAV_BIRTHDAY_CALENDAR) {
 				return calendar
@@ -1031,8 +1031,8 @@ const actions = {
 		// calling this action to properly handle it
 		const objectPath = atob(objectId)
 		const lastSlashIndex = objectPath.lastIndexOf('/')
-		const calendarPath = objectPath.substr(0, lastSlashIndex + 1)
-		const objectFileName = objectPath.substr(lastSlashIndex + 1)
+		const calendarPath = objectPath.slice(0, lastSlashIndex + 1)
+		const objectFileName = objectPath.slice(lastSlashIndex + 1)
 
 		const calendarId = btoa(calendarPath)
 		if (!context.state.calendarsById[calendarId]) {
