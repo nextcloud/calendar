@@ -87,6 +87,7 @@ OC.L10N.register(
     "Confirmed" : "Confirmado",
     "Canceled" : "Cancelada",
     "Categories" : "Categorías",
+    "Money" : "Dinero",
     "Presentation" : "Presentación",
     "Talk" : "Hablar",
     "Office" : "Office",
