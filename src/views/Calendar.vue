@@ -1,6 +1,6 @@
 <!--
   - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
-  - @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
+  - @copyright Copyright (c) 2022-2023 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
   - @license AGPL-3.0-or-later
@@ -218,7 +218,7 @@ export default {
 			hideEventExport: loadState('calendar', 'hide_event_export'),
 			forceEventAlarmType: loadState('calendar', 'force_event_alarm_type', false),
 			disableAppointments: loadState('calendar', 'disable_appointments', false),
-			canSubscribeLink: loadState('calendar', 'can_subscribe_link'),
+			canSubscribeLink: loadState('calendar', 'can_subscribe_link', false),
 		})
 		this.$store.dispatch('initializeCalendarJsConfig')
 
