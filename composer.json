@@ -3,7 +3,15 @@
         "platform": {
             "php": "8.0"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "classmap-authoritative": true,
+        "autoloader-suffix": "Calendar"
+    },
+    "autoload": {
+        "psr-4": {
+            "OCA\\Calendar\\": "lib/"
+        }
     },
     "require": {
         "php": ">=8.0 <=8.2"
