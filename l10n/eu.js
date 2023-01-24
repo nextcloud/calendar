@@ -462,7 +462,7 @@ OC.L10N.register(
     "Special color of this event. Overrides the calendar-color." : "Gertaera honen kolorea berezia da. Egutegi kolorea baliogabetzen du.",
     "Chat room for event" : "Txat gela gertaera honentzat",
     "An error occurred, unable to delete the calendar." : "Errore bat gertatu da, ezin da egutegia ezabatu.",
-    "Imported {filename}" : "Inportatuta {filename}",
+    "Imported {filename}" : "{filename} inportatuta",
     "This is an event reminder." : "Hau gertaera oroigarri bat da.",
     "Meditation" : "Meditazioa",
     "Relaxing" : "Erlaxatzen",
