@@ -36,7 +36,7 @@
 				<EditCalendarModal />
 
 				<!-- Appointment Configuration List -->
-				<template v-if="isAuthenticatedUser">
+				<template v-if="!disableAppointments && isAuthenticatedUser">
 					<AppNavigationSpacer />
 					<AppointmentConfigList />
 				</template>
