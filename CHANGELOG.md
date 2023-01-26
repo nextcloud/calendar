@@ -1,6 +1,12 @@
 
 # Changelog
 
+## 4.2.2 - 2023-01-26
+### Fixed
+- Disabling appointments feature
+- can_subscribe_link fallback
+- Save and edit methods in calendar modal
+
 ## 4.2.1 - 2023-01-05
 ### Fixed
 - Reminder form field width
