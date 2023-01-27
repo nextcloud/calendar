@@ -463,6 +463,7 @@ OC.L10N.register(
     "Chat room for event" : "Sala de xat per a l'esdeveniment",
     "An error occurred, unable to delete the calendar." : "S'ha produït un error. No s'ha suprimit el calendari.",
     "Imported {filename}" : "{filename} importat",
+    "This is an event reminder." : "Això és un recordatori de l'esdeveniment.",
     "Meditation" : "Meditació",
     "Relaxing" : "Relaxant",
     "Relax" : "Relax",
