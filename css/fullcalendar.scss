@@ -100,6 +100,9 @@
 			text-align: center;
 			font-weight: bold !important;
 			padding: 0 !important;
+			background: var(--color-primary);
+			color: var(--color-primary-text);
+			border-radius: 50%;
 		}
 	}
 }
