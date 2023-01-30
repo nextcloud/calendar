@@ -43,6 +43,12 @@
 					:placeholder="$t('calendar', 'Calendar name …')">
 			</div>
 
+			<h2>{{ $t('calendar', 'Timezone') }}</h2>
+			<div class="edit-calendar-modal__timezone">
+				<NcTimezonePicker v-model="calendarTimezone"
+					@input="saveTimezone" />
+			</div>
+
 			<template v-if="canBeShared">
 				<h2 class="edit-calendar-modal__sharing-header">
 					{{ $t('calendar', 'Share calendar') }}
@@ -88,9 +94,13 @@
 </template>
 
 <script>
+import ICAL from 'ical.js'
 import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
 import NcColorPicker from '@nextcloud/vue/dist/Components/NcColorPicker.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcTimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker.js'
+import { TimezoneComponent } from '@nextcloud/calendar-js'
+
 import PublishCalendar from './EditCalendarModal/PublishCalendar.vue'
 import SharingSearch from './EditCalendarModal/SharingSearch.vue'
 import ShareItem from './EditCalendarModal/ShareItem.vue'
@@ -110,6 +120,7 @@ export default {
 		NcModal,
 		NcColorPicker,
 		NcButton,
+	  NcTimezonePicker,
 		PublishCalendar,
 		SharingSearch,
 		ShareItem,
@@ -127,6 +138,7 @@ export default {
 			calendarColorChanged: false,
 			calendarName: undefined,
 			calendarNameChanged: false,
+			calendarTimezone: undefined,
 		}
 	},
 	computed: {
@@ -172,6 +184,23 @@ export default {
 
 			this.calendarName = this.calendar.displayName
 			this.calendarColor = this.calendar.color
+			if (this.calendar.timezone) {
+				try {
+					const jCal = ICAL.parse(this.calendar.timezone)
+					const iCalComp = new ICAL.Component(jCal)
+					const tzComp = TimezoneComponent.fromICALJs(iCalComp)
+					this.calendarTimezone = tzComp.getFirstComponent('VTIMEZONE').getFirstProperty('TZID').value
+				} catch (error) {
+					logger.error('Could not load calendar timezone', {
+						error,
+						calendar: this.calendar,
+						timezone: this.calendar.timezone,
+					})
+					this.calendarTimezone = 'floating'
+				}
+			} else {
+		  	this.calendarTimezone = 'floating'
+			}
 		},
 	},
 	created() {
@@ -223,6 +252,25 @@ export default {
 				logger.error('Failed to save calendar name', {
 					calendar: this.calendar,
 					newName: this.calendarName,
+				})
+			} finally {
+				this.loading = false
+			}
+		},
+
+	  async saveTimezone() {
+			this.loading = true
+
+			try {
+				await this.$store.dispatch('setCalendarTimezone', {
+					calendar: this.calendar,
+					timezone: this.calendarTimezone,
+				})
+			} catch (error) {
+				logger.error('Failed to save calendar timezone', {
+					calendar: this.calendar,
+					timezone: this.calendarTimezone,
+					error,
 				})
 			} finally {
 				this.loading = false

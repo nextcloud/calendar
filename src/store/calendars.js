@@ -175,6 +175,18 @@ const mutations = {
 	},
 
 	/**
+	 * Set a calendar's timezone
+	 *
+	 * @param {object} state the store mutations
+	 * @param {object} data destructuring object
+	 * @param {object} data.calendar the calendar to modify
+	 * @param {string} data.timezone the new timezone of the calendar
+	 */
+	setCalendarTimezone(state, { calendar, timezone }) {
+		state.calendarsById[calendar.id].timezone = timezone
+	},
+
+	/**
 	 * Changes calendar's color
 	 *
 	 * @param {object} state the store mutations
@@ -866,6 +878,28 @@ const actions = {
 
 		await calendar.dav.update()
 		context.commit('renameCalendar', { calendar, newName })
+	},
+
+	/**
+	 * Set a calendar's timezone
+	 *
+	 * @param {object} context the store mutations Current context
+	 * @param {object} data destructuring object
+	 * @param {object} data.calendar the calendar to modify
+	 * @param {string} data.timezone the new timezone of the calendar
+	 * @return {Promise}
+	 */
+	async setCalendarTimezone(context, { calendar, timezone }) {
+		let timezoneIcs = null
+		const timezoneObject = getTimezoneManager().getTimezoneForId(timezone)
+		if (timezoneObject !== Timezone.utc && timezoneObject !== Timezone.floating) {
+			const calendar = CalendarComponent.fromEmpty()
+			calendar.addComponent(TimezoneComponent.fromICALJs(timezoneObject.toICALJs()))
+			timezoneIcs = calendar.toICS(false)
+		}
+		calendar.dav.timezone = timezoneIcs
+		await calendar.dav.update()
+		context.commit('setCalendarTimezone', { calendar, timezone: timezoneIcs })
 	},
 
 	/**
