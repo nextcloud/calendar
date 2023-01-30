@@ -85,6 +85,9 @@
 		a, span {
 			padding: 2px 6px;
 			font-weight: bold;
+			background-color: var(--color-primary);
+			color: var(--color-primary-text) !important;
+			border-radius: var(--border-radius-pill);
 		}
 	}
 
