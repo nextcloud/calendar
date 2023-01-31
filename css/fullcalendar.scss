@@ -61,6 +61,12 @@
 	color: var(--color-text-lighter) !important;
 }
 
+// Make labels more readable
+.fc-col-header-cell a.fc-col-header-cell-cushion {
+	padding: 20px 4px;
+	font-size: 1.3em;
+}
+
 // Remove dotted half-lines
 .fc .fc-timegrid-slot-minor {
 	border-top-style: none !important;
