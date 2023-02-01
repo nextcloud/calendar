@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 4.2.3 - 2023-02-01
+### Fixed
+- Error handling in booking controller
+
 ## 4.2.2 - 2023-01-26
 ### Fixed
 - Disabling appointments feature
