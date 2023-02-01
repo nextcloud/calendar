@@ -42,6 +42,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\Mail\IMailer;
 use Psr\Log\LoggerInterface;
@@ -68,6 +69,7 @@ class BookingController extends Controller {
 
 	/** @var IMailer */
 	private $mailer;
+	private IConfig $systemConfig;
 
 	public function __construct(string $appName,
 								IRequest $request,
@@ -77,7 +79,8 @@ class BookingController extends Controller {
 								AppointmentConfigService $appointmentConfigService,
 								URLGenerator $urlGenerator,
 								LoggerInterface $logger,
-								IMailer $mailer) {
+								IMailer $mailer,
+								IConfig $systemConfig) {
 		parent::__construct($appName, $request);
 
 		$this->bookingService = $bookingService;
@@ -87,6 +90,7 @@ class BookingController extends Controller {
 		$this->urlGenerator = $urlGenerator;
 		$this->logger = $logger;
 		$this->mailer = $mailer;
+		$this->systemConfig = $systemConfig;
 	}
 
 	/**
@@ -191,7 +195,17 @@ class BookingController extends Controller {
 			return JsonResponse::fail(null, Http::STATUS_UNPROCESSABLE_ENTITY);
 		} catch (ServiceException $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
-			return JsonResponse::errorFromThrowable($e, $e->getHttpCode() ?? Http::STATUS_INTERNAL_SERVER_ERROR);
+
+			if ($this->systemConfig->getSystemValue('debug', false)) {
+				return JsonResponse::errorFromThrowable($e, $e->getHttpCode() ?? Http::STATUS_INTERNAL_SERVER_ERROR,
+					['debug' => true,]
+				);
+			}
+
+			return JsonResponse::error(
+				'Server error',
+				$e->getHttpCode() ?? Http::STATUS_INTERNAL_SERVER_ERROR
+			);
 		}
 
 		return JsonResponse::success($booking);
