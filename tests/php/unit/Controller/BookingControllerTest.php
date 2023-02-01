@@ -39,6 +39,7 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\ICalendarQuery;
 use OCP\Contacts\IManager;
+use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IRequest;
 use OCP\IUser;
@@ -87,6 +88,9 @@ class BookingControllerTest extends TestCase {
 	/** @var IMailer|MockObject */
 	private $mailer;
 
+	/** @var IConfig|MockObject  */
+	private $systemConfig;
+
 	protected function setUp():void {
 		parent::setUp();
 
@@ -103,6 +107,7 @@ class BookingControllerTest extends TestCase {
 		$this->urlGenerator = $this->createMock(URLGenerator::class);
 		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->mailer = $this->createMock(IMailer::class);
+		$this->systemConfig = $this->createMock(IConfig::class);
 		$this->controller = new BookingController(
 			$this->appName,
 			$this->request,
@@ -112,7 +117,8 @@ class BookingControllerTest extends TestCase {
 			$this->apptService,
 			$this->urlGenerator,
 			$this->logger,
-			$this->mailer
+			$this->mailer,
+			$this->systemConfig,
 		);
 	}
 
@@ -254,6 +260,10 @@ class BookingControllerTest extends TestCase {
 			->method('book')
 			->with($config, 1, 1, 'Europe/Berlin', 'Test', $email, 'Test')
 			->willThrowException(new ServiceException());
+		$this->systemConfig->expects(self::once())
+			->method('getSystemValue')
+			->with('debug')
+			->willReturn(false);
 
 		$this->controller->bookSlot(1, 1, 1, 'Test', $email, 'Test', 'Europe/Berlin');
 	}
