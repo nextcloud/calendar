@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 3.5.5 - 2023-02-01
+### Fixed
+- Error handling in booking controller
+
 ## 3.5.4 - 2022-12-22
 ### Fixed
 - Handling of Email VALARMs
