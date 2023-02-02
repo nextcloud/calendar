@@ -114,6 +114,12 @@ class ViewController extends Controller {
 		$talkApiVersion = version_compare($this->appManager->getAppVersion('spreed'), '12.0.0', '>=') ? 'v4' : 'v1';
 		$tasksEnabled = $this->appManager->isEnabledForUser('tasks');
 
+		$bbbEnabled = $this->appManager->isEnabledForUser('bbb')
+			&& $this->config->getAppValue('bbb', 'calendar_integration', 'no') === 'yes';
+		if ($bbbEnabled) {
+			$talkEnabled = false;
+		}
+
 		$this->initialStateService->provideInitialState('app_version', $appVersion);
 		$this->initialStateService->provideInitialState('event_limit', $eventLimit);
 		$this->initialStateService->provideInitialState('first_run', $firstRun);
@@ -133,6 +139,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState('appointmentConfigs', $this->appointmentConfigService->getAllAppointmentConfigurations($this->userId));
 		$this->initialStateService->provideInitialState('disable_appointments', $disableAppointments);
 		$this->initialStateService->provideInitialState('can_subscribe_link', $canSubscribeLink);
+		$this->initialStateService->provideInitialState('bbb_enabled', $bbbEnabled);
 
 		return new TemplateResponse($this->appName, 'main');
 	}

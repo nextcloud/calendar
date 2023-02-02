@@ -33,6 +33,7 @@ const state = {
 	appVersion: null,
 	firstRun: null,
 	talkEnabled: false,
+	bbbEnabled: false,
 	disableAppointments: false,
 	// user-defined calendar settings
 	eventLimit: null,
@@ -152,8 +153,9 @@ const mutations = {
 	 * @param {string} data.forceEventAlarmType
 	 * @param {boolean} data.disableAppointments Allow to disable the appointments feature
 	 * @param {boolean} data.canSubscribeLink
+	 * @param {boolean} data.bbbEnabled Whether or not the talk app is enabled
 	 */
-	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, canSubscribeLink }) {
+	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, canSubscribeLink, bbbEnabled }) {
 		logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -172,6 +174,7 @@ Initial settings:
 	- ForceEventAlarmType: ${forceEventAlarmType}
 	- disableAppointments: ${disableAppointments}
 	- CanSubscribeLink: ${canSubscribeLink}
+	- BbbEnabled: ${bbbEnabled}
 `)
 
 		state.appVersion = appVersion
@@ -190,6 +193,7 @@ Initial settings:
 		state.forceEventAlarmType = forceEventAlarmType
 		state.disableAppointments = disableAppointments
 		state.canSubscribeLink = canSubscribeLink
+		state.bbbEnabled = bbbEnabled
 	},
 
 	/**

@@ -219,6 +219,7 @@ export default {
 			forceEventAlarmType: loadState('calendar', 'force_event_alarm_type', false),
 			disableAppointments: loadState('calendar', 'disable_appointments', false),
 			canSubscribeLink: loadState('calendar', 'can_subscribe_link', false),
+			bbbEnabled: loadState('calendar', 'bbb_enabled', false),
 		})
 		this.$store.dispatch('initializeCalendarJsConfig')
 

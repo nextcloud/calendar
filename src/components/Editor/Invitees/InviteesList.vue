@@ -48,6 +48,8 @@
 				{{ $t('calendar', 'Create Talk room for this event') }}
 			</NcButton>
 
+			<BbbAddRoomActions :calendar-object-instance="calendarObjectInstance" />
+
 			<NcButton v-if="!isReadOnly" :disabled="isListEmpty" @click="openFreeBusy">
 				{{ $t('calendar', 'Show busy times') }}
 			</NcButton>
@@ -76,6 +78,7 @@ import {
 	showError,
 } from '@nextcloud/dialogs'
 import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
+import BbbAddRoomActions from './BbbAddRoomActions.vue'
 
 export default {
 	name: 'InviteesList',
@@ -87,6 +90,7 @@ export default {
 		InviteesListItem,
 		InviteesListSearch,
 		OrganizerListItem,
+		BbbAddRoomActions,
 	},
 	props: {
 		isReadOnly: {
