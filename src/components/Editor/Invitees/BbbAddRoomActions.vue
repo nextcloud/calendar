@@ -123,7 +123,7 @@ export default {
 				showSuccess(this.$t('calendar', 'Successfully appended link to description.'))
 			} catch (err) {
 				console.error(err)
-				showError(this.$t('calendar', 'Error creating Talk room'))
+				showError(this.$t('calendar', 'Error creating BBB room'))
 			} finally {
 				this.creatingBbbRoom = false
 			}

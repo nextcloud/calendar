@@ -35,8 +35,8 @@ export async function listBbbRooms() {
  */
 export async function createBbbRoom(title = null) {
 
-	// get restrictions first: https://github.com/sualko/cloud_bbb/blob/master/ts/Common/Api.ts#L102
-	const restrictions = (await axios.get(getUrl('restrictions'))).data[0]
+	// get restriction first: https://github.com/sualko/cloud_bbb/blob/master/ts/Common/Api.ts#L96
+	const restriction = (await axios.get(getUrl('restrictions/user'))).data
 
 	// https://github.com/sualko/cloud_bbb/blob/master/ts/Common/Api.ts#L11
 	const accessTypes = {
@@ -52,12 +52,12 @@ export async function createBbbRoom(title = null) {
 
 	let access = accessTypes.Public
 
-	const disabledRoomTypes = restrictions?.roomTypes || []
+	const disabledRoomTypes = restriction?.roomTypes || []
 	if (disabledRoomTypes.length > 0 && disabledRoomTypes.indexOf(access) > -1) {
 		access = Object.values(accessTypes).filter(a => disabledRoomTypes.indexOf(a) < 0)[0]
 	}
 
-	const maxParticipants = restrictions?.maxParticipants || 0
+	const maxParticipants = restriction?.maxParticipants || 0
 
 	// https://github.com/sualko/cloud_bbb/blob/master/ts/Common/Api.ts#L167
 
