@@ -30,6 +30,7 @@ use DateTime;
 use DateTimeImmutable;
 use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Service\JSDataService;
+use OCA\DAV\CalDAV\CalendarImpl;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\IManager;
@@ -40,10 +41,17 @@ use OCP\Dashboard\IOptionWidget;
 use OCP\Dashboard\Model\WidgetButton;
 use OCP\Dashboard\Model\WidgetItem;
 use OCP\Dashboard\Model\WidgetOptions;
+use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
+use OCP\IUserManager;
 use OCP\Util;
+use Sabre\VObject\Component\VEvent;
+use Sabre\VObject\Component\VTimeZone;
+use Sabre\VObject\Parameter;
+use Sabre\VObject\Property\VCard\Date;
+use Sabre\Xml\Reader;
 
 class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionWidget {
 	private IL10N $l10n;
@@ -53,6 +61,7 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 	private IURLGenerator $urlGenerator;
 	private IManager $calendarManager;
 	private ITimeFactory $timeFactory;
+	private IConfig $config;
 
 	/**
 	 * CalendarWidget constructor.
@@ -70,7 +79,8 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 								IDateTimeFormatter $dateTimeFormatter,
 								IURLGenerator $urlGenerator,
 								IManager $calendarManager,
-								ITimeFactory $timeFactory) {
+								ITimeFactory $timeFactory,
+								IConfig $config) {
 		$this->l10n = $l10n;
 		$this->initialStateService = $initialStateService;
 		$this->dataService = $dataService;
@@ -78,6 +88,7 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 		$this->urlGenerator = $urlGenerator;
 		$this->calendarManager = $calendarManager;
 		$this->timeFactory = $timeFactory;
+		$this->config = $config;
 	}
 
 	/**
@@ -143,31 +154,65 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 	 * @param int $limit  Max 14 items is the default
 	 */
 	public function getItems(string $userId, ?string $since = null, int $limit = 7): array {
+		// This is hw JS does it:
+		//          const start = dateFactory()
+		//			const end = dateFactory()
+		//			end.setDate(end.getDate() + 14)
+		//          const startOfToday = moment(start).startOf('day').toDate()
+		// get all vevents in this time range
+		// if "show tasks" is enabled, get all todos in the time range
+		// sort events by time
+		// filter events by:
+		// .filter(event => !event.classNames.includes('fc-event-nc-task-completed'))
+		// .filter(event => !event.classNames.includes('fc-event-nc-cancelled'))
+		// filter out all events that are before the start of the day:
+		// .filter(event => filterBefore.getTime() <= event.start.getTime())
+		// decorate the items with url / task url, colour, etc
+
 		$calendars = $this->calendarManager->getCalendarsForPrincipal('principals/users/' . $userId);
 		$count = count($calendars);
 		if ($count === 0) {
 			return [];
 		}
-		$dateTime = (new DateTimeImmutable())->setTimestamp($this->timeFactory->getTime());
-		$inTwoWeeks = $dateTime->add(new DateInterval('P14D'));
-		$options = [
-			'timerange' => [
-				'start' => $dateTime,
-				'end' => $inTwoWeeks,
-			]
-		];
+
 		$widgetItems = [];
 		foreach ($calendars as $calendar) {
-			$searchResult = $calendar->search('', [], $options, $limit);
-			foreach ($searchResult as $calendarEvent) {
-				/** @var DateTimeImmutable $startDate */
-				$startDate = $calendarEvent['objects'][0]['DTSTART'][0];
+			$timezone = null;
+			if($calendar instanceof CalendarImpl) {
+				/** @var VTimeZone $vTimezone */
+				$timezone = $calendar->getCalendarTimezoneString();
+			}
+			// make sure to include all day events
+			$startTimeWithTimezone =  (!empty($timezone)) ? $this->timeFactory->getDateTime('today', new \DateTimeZone($timezone) ?? null) : $this->timeFactory->getDateTime('today');
+			$endDate = clone $startTimeWithTimezone;
+			$endDate->modify('+15 days');
+			$options = [
+				'timerange' => [
+					'start' => $startTimeWithTimezone,
+					'end' => $endDate,
+				],
+				'sort_asc' => [
+					'firstoccurence'
+				]
+			];
+			$searchResults = $calendar->search('', [], $options, $limit);
+			foreach ($searchResults as $calendarEvent) {
+				$dtStart = DateTime::createFromImmutable($calendarEvent['objects'][0]['DTSTART'][0]);
+				$dtEnd = (isset($calendarEvent['objects'][0]['DTEND'])) ? DateTime::createFromImmutable($calendarEvent['objects'][0]['DTEND'][0]) : null;
+				if(!empty($dtEnd) && $dtStart->diff($dtEnd)->days >= 1) {
+					// All day (and longer)
+					$timeString = $this->dateTimeFormatter->formatDateSpan($dtStart);
+				} elseif(!empty($dtEnd)) {
+					$timeString = $this->dateTimeFormatter->formatDateTime($dtStart, 'short', 'short') . ' - ' . $this->dateTimeFormatter->formatTime($dtEnd, 'short');
+				} else {
+					$timeString = $this->dateTimeFormatter->formatTimeSpan($dtStart, $startTimeWithTimezone);
+				}
 				$widget = new WidgetItem(
 					$calendarEvent['objects'][0]['SUMMARY'][0] ?? 'New Event',
-					$this->dateTimeFormatter->formatTimeSpan(DateTime::createFromImmutable($startDate)),
+					$timeString,
 					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.index', ['objectId' => $calendarEvent['uid']])),
 					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.getCalendarDotSvg', ['color' => $calendar->getDisplayColor() ?? '#0082c9'])), // default NC blue fallback
-					(string) $startDate->getTimestamp(),
+					(string) $startTimeWithTimezone->getTimestamp(),
 				);
 				$widgetItems[] = $widget;
 			}
