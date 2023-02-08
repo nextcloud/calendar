@@ -38,7 +38,9 @@
 				:sub-text="item.subtitle"
 				:target-url="item.link">
 				<template #avatar>
-					<img :src="item.iconUrl">
+					<div class="calendar-dot">
+						<img :src="item.iconUrl">
+					</div>
 				</template>
 			</DashboardWidgetItem>
 		</template>
@@ -65,15 +67,12 @@ import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import EmptyCalendar from 'vue-material-design-icons/CalendarBlankOutline.vue'
 import IconCheck from 'vue-material-design-icons/Check.vue'
 import IconCheckbox from 'vue-material-design-icons/CheckboxBlankOutline.vue'
-import { loadState } from '@nextcloud/initial-state'
 import moment from '@nextcloud/moment'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import { imagePath, generateUrl, generateOcsUrl } from '@nextcloud/router'
-import { initializeClientForUserView } from '../services/caldavService.js'
 import { dateFactory } from '../utils/date.js'
 import pLimit from 'p-limit'
 import { eventSourceFunction } from '../fullcalendar/eventSources/eventSourceFunction.js'
-import loadMomentLocalization from '../utils/moment.js'
 import { DateTimeValue } from '@nextcloud/calendar-js'
 import { mapGetters } from 'vuex'
 
@@ -112,19 +111,16 @@ export default {
 				return []
 			}
 
-			return [{
-				isEmptyItem: false,
-			}].concat(this.apiItems)
-
-			const firstEvent = this.events[0]
+			const firstEvent = this.apiItems[0]
 			const endOfToday = moment(this.now).endOf('day')
-			if (endOfToday.isBefore(firstEvent.startDate)) {
+			debugger;
+			if (endOfToday.isBefore(moment.unix(firstEvent.sinceId))) {
 				return [{
-					isEmptyItem: false,
-				}].concat(this.events.slice(0, 4))
+					isEmptyItem: true,
+				}].concat(this.apiItems.slice(0, 4))
 			}
 
-			return this.events
+			return this.apiItems
 		},
 		/**
 		 * Redirects to the new event route
@@ -143,12 +139,6 @@ export default {
 		 * Initialize the widget
 		 */
 		async initialize() {
-			const start = dateFactory()
-			const end = dateFactory()
-			end.setDate(end.getDate() + 14)
-
-			const startOfToday = moment(start).startOf('day').toDate()
-
 			await this.initializeEnvironment()
 			this.loading = false
 		},
@@ -160,7 +150,6 @@ export default {
 		 */
 		async initializeEnvironment() {
 			const response = await axios.get(generateOcsUrl('apps/dashboard/api/v1/widget-items?format=json&widgets[]=calendar'))
-			console.log('===>', response)
 			this.apiItems = response.data.ocs.data.calendar
 		},
 		/**
@@ -260,6 +249,7 @@ export default {
 		width: 1rem;
 		margin-top: 0.2rem;
 		border-radius: 50%;
+		overflow: hidden;
 	}
 
 	#calendar-widget-empty-content {
