@@ -34,16 +34,13 @@
 				</template>
 			</EmptyContent>
 			<DashboardWidgetItem v-else
-				:main-text="item.mainText"
-				:sub-text="item.subText"
-				:target-url="item.targetUrl">
+				:main-text="item.title ?? ''"
+				:sub-text="item.subtitle"
+				:target-url="item.link">
 				<template #avatar>
-					<div v-if="item.componentName === 'VEVENT'"
-						class="calendar-dot"
-						:style="{'background-color': item.calendarColor}"
-						:title="item.calendarDisplayName" />
-					<IconCheckbox v-else
-						:fill-color="item.calendarColor" />
+					<div class="calendar-dot">
+						<img :src="item.iconUrl">
+					</div>
 				</template>
 			</DashboardWidgetItem>
 		</template>
@@ -64,20 +61,18 @@
 </template>
 
 <script>
+import axios from '@nextcloud/axios'
 import { DashboardWidget, DashboardWidgetItem } from '@nextcloud/vue-dashboard'
 import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
 import EmptyCalendar from 'vue-material-design-icons/CalendarBlankOutline.vue'
 import IconCheck from 'vue-material-design-icons/Check.vue'
 import IconCheckbox from 'vue-material-design-icons/CheckboxBlankOutline.vue'
-import { loadState } from '@nextcloud/initial-state'
 import moment from '@nextcloud/moment'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import { imagePath, generateUrl } from '@nextcloud/router'
-import { initializeClientForUserView } from '../services/caldavService.js'
+import { imagePath, generateUrl, generateOcsUrl } from '@nextcloud/router'
 import { dateFactory } from '../utils/date.js'
 import pLimit from 'p-limit'
 import { eventSourceFunction } from '../fullcalendar/eventSources/eventSourceFunction.js'
-import loadMomentLocalization from '../utils/moment.js'
 import { DateTimeValue } from '@nextcloud/calendar-js'
 import { mapGetters } from 'vuex'
 
@@ -94,6 +89,7 @@ export default {
 	},
 	data() {
 		return {
+			apiItems: null,
 			events: null,
 			locale: 'en',
 			imagePath: imagePath('calendar', 'illustrations/calendar'),
@@ -111,19 +107,20 @@ export default {
 		 * @return {Array}
 		 */
 		items() {
-			if (!Array.isArray(this.events) || this.events.length === 0) {
+			if (!Array.isArray(this.apiItems) || this.apiItems.length === 0) {
 				return []
 			}
 
-			const firstEvent = this.events[0]
+			const firstEvent = this.apiItems[0]
 			const endOfToday = moment(this.now).endOf('day')
-			if (endOfToday.isBefore(firstEvent.startDate)) {
+			debugger;
+			if (endOfToday.isBefore(moment.unix(firstEvent.sinceId))) {
 				return [{
 					isEmptyItem: true,
-				}].concat(this.events.slice(0, 4))
+				}].concat(this.apiItems.slice(0, 4))
 			}
 
-			return this.events
+			return this.apiItems
 		},
 		/**
 		 * Redirects to the new event route
@@ -142,15 +139,7 @@ export default {
 		 * Initialize the widget
 		 */
 		async initialize() {
-			const start = dateFactory()
-			const end = dateFactory()
-			end.setDate(end.getDate() + 14)
-
-			const startOfToday = moment(start).startOf('day').toDate()
-
 			await this.initializeEnvironment()
-			const expandedEvents = await this.fetchExpandedEvents(start, end)
-			this.events = await this.formatEvents(expandedEvents, startOfToday)
 			this.loading = false
 		},
 		/**
@@ -160,23 +149,8 @@ export default {
 		 * @return {Promise<void>}
 		 */
 		async initializeEnvironment() {
-			await initializeClientForUserView()
-			await this.$store.dispatch('fetchCurrentUserPrincipal')
-			await this.$store.dispatch('loadCollections')
-
-			const {
-				show_tasks: showTasks,
-				timezone,
-			} = loadState('calendar', 'dashboard_data')
-			const locale = await loadMomentLocalization()
-
-			this.$store.commit('loadSettingsFromServer', {
-				timezone,
-				showTasks,
-			})
-			this.$store.commit('setMomentLocale', {
-				locale,
-			})
+			const response = await axios.get(generateOcsUrl('apps/dashboard/api/v1/widget-items?format=json&widgets[]=calendar'))
+			this.apiItems = response.data.ocs.data.calendar
 		},
 		/**
 		 * Fetch events
@@ -208,31 +182,6 @@ export default {
 
 			const expandedEvents = await Promise.all(fetchEventPromises)
 			return expandedEvents.flat()
-		},
-		/**
-		 * @param {object[]} expandedEvents Array of fullcalendar events
-		 * @param {Date} filterBefore filter events that start before date
-		 * @return {object[]}
-		 */
-		formatEvents(expandedEvents, filterBefore) {
-			return expandedEvents
-				.sort((a, b) => a.start.getTime() - b.start.getTime())
-				.filter(event => !event.classNames.includes('fc-event-nc-task-completed'))
-				.filter(event => !event.classNames.includes('fc-event-nc-cancelled'))
-				.filter(event => filterBefore.getTime() <= event.start.getTime())
-				.slice(0, 7)
-				.map((event) => ({
-					isEmptyItem: false,
-					componentName: event.extendedProps.objectType,
-					targetUrl: event.extendedProps.objectType === 'VEVENT'
-						? this.getCalendarAppUrl(event)
-						: this.getTasksAppUrl(event),
-					subText: this.formatSubtext(event),
-					mainText: event.title,
-					startDate: event.start,
-					calendarColor: this.$store.state.calendars.calendarsById[event.extendedProps.calendarId].color,
-					calendarDisplayName: this.$store.state.calendars.calendarsById[event.extendedProps.calendarId].displayname,
-				}))
 		},
 		/**
 		 * @param {object} event The full-calendar formatted event
@@ -300,6 +249,7 @@ export default {
 		width: 1rem;
 		margin-top: 0.2rem;
 		border-radius: 50%;
+		overflow: hidden;
 	}
 
 	#calendar-widget-empty-content {

@@ -178,7 +178,7 @@ class ViewController extends Controller {
 		if (preg_match('/^([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {
 			$validColor = '#' . $color;
 		}
-		$svg = '<svg height="32" width="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="' . $validColor . '"/></svg>';
+		$svg = '<?xml version="1.0" encoding="UTF-8"?><svg height="32" width="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" fill="' . $validColor . '"/></svg>';
 		$folderName = implode('_', [
 			'calendar',
 			$this->userId
@@ -188,9 +188,11 @@ class ViewController extends Controller {
 		} catch (NotFoundException $e) {
 			$folder = $this->appData->newFolder($folderName);
 		}
-		$file = $folder->newFile($color . '.svg', $svg);
+		$filename = $color . '.svg';
+		$file = $folder->fileExists($filename) ? $folder->getFile($filename) : $folder->newFile($filename, $svg);
 		$response = new FileDisplayResponse($file);
 		$response->cacheFor(24 * 3600); // 1 day
+		$response->setHeaders(['Content-Type' => 'image/svg+xml']);
 		return $response;
 	}
 }
