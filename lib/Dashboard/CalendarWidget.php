@@ -183,13 +183,18 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 				$timezone = $calendar->getCalendarTimezoneString();
 			}
 			// make sure to include all day events
-			$startTimeWithTimezone =  (!empty($timezone)) ? $this->timeFactory->getDateTime('today', new \DateTimeZone($timezone) ?? null) : $this->timeFactory->getDateTime('today');
-			$endDate = clone $startTimeWithTimezone;
+			$startTimeWithTimezoneMidnight =  (!empty($timezone)) ? $this->timeFactory->getDateTime('today', new \DateTimeZone($timezone) ?? null) : $this->timeFactory->getDateTime('today');
+			$startTimeWithTimezoneNow =  (!empty($timezone)) ? $this->timeFactory->getDateTime('now', new \DateTimeZone($timezone) ?? null) : $this->timeFactory->getDateTime('now');
+			$endDate = clone $startTimeWithTimezoneMidnight;
 			$endDate->modify('+15 days');
 			$options = [
 				'timerange' => [
-					'start' => $startTimeWithTimezone,
+					'start' => $startTimeWithTimezoneMidnight,
 					'end' => $endDate,
+				],
+				'types' => [
+					'VTODO',
+					'VEVENT'
 				],
 				'sort_asc' => [
 					'firstoccurence'
@@ -197,24 +202,32 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 			];
 			$searchResults = $calendar->search('', [], $options, $limit);
 			foreach ($searchResults as $calendarEvent) {
-				$dtStart = DateTime::createFromImmutable($calendarEvent['objects'][0]['DTSTART'][0]);
-				$dtEnd = (isset($calendarEvent['objects'][0]['DTEND'])) ? DateTime::createFromImmutable($calendarEvent['objects'][0]['DTEND'][0]) : null;
-				if(!empty($dtEnd) && $dtStart->diff($dtEnd)->days >= 1) {
-					// All day (and longer)
-					$timeString = $this->dateTimeFormatter->formatDateSpan($dtStart);
-				} elseif(!empty($dtEnd)) {
-					$timeString = $this->dateTimeFormatter->formatDateTime($dtStart, 'short', 'short') . ' - ' . $this->dateTimeFormatter->formatTime($dtEnd, 'short');
-				} else {
-					$timeString = $this->dateTimeFormatter->formatTimeSpan($dtStart, $startTimeWithTimezone);
+				if($calendarEvent['type'] === 'VEVENT') {
+					$dtstart = DateTime::createFromImmutable($calendarEvent['objects'][0]['DTSTART'][0]);
+					$timestring = $this->createVeventString($calendarEvent);
+					if($timestring === null) {
+						continue;
+					}
+					$widgetItems[] = new WidgetItem(
+						$calendarEvent['objects'][0]['SUMMARY'][0] ?? 'New Event',
+						$timestring,
+						$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.index', ['objectId' => $calendarEvent['uid']])),
+						$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.getCalendarDotSvg', ['color' => $calendar->getDisplayColor() ?? '#0082c9'])), // default NC blue fallback
+						(string) $dtstart->getTimestamp(),
+					);
+//					continue;
 				}
-				$widget = new WidgetItem(
-					$calendarEvent['objects'][0]['SUMMARY'][0] ?? 'New Event',
-					$timeString,
-					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.index', ['objectId' => $calendarEvent['uid']])),
-					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.getCalendarDotSvg', ['color' => $calendar->getDisplayColor() ?? '#0082c9'])), // default NC blue fallback
-					(string) $startTimeWithTimezone->getTimestamp(),
-				);
-				$widgetItems[] = $widget;
+
+//				$timestring = $this->createVTodoString($calendarEvent);
+//
+//				$widget = new WidgetItem(
+//					$calendarEvent['objects'][0]['SUMMARY'][0] ?? 'New Event',
+//					'',
+//					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.index', ['objectId' => $calendarEvent['uid']])),
+//					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.getCalendarDotSvg', ['color' => $calendar->getDisplayColor() ?? '#0082c9'])), // default NC blue fallback
+//					(string) $dtStart->getTimestamp(),
+//				);
+//				$widgetItems[] = $widget;
 			}
 		}
 		return $widgetItems;
@@ -240,5 +253,30 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 	 */
 	public function getWidgetOptions(): WidgetOptions {
 		return new WidgetOptions(true);
+	}
+
+	private function createVeventString(array $calendarEvent) {
+		$dtstart = DateTime::createFromImmutable($calendarEvent['objects'][0]['DTSTART'][0]);
+		if (isset($calendarEvent['objects'][0]['DTEND'])) {
+			/** @var Property\ICalendar\DateTime $dtend */
+			$dtend = DateTime::createFromImmutable($calendarEvent['objects'][0]['DTEND'][0]);
+		} elseif(isset($calendarEvent['objects'][0]['DURATION'])) {
+			$dtend = clone $dtstart;
+			$dtend = $dtend->add(new DateInterval($calendarEvent['objects'][0]['DURATION'][0]));
+		} else {
+			$dtend = clone $dtstart;
+		}
+
+		// End is in the past, skipping
+		if($dtend->getTimestamp() < $this->timeFactory->getTime()) {
+			return null;
+		}
+
+		// all day (and longer) events
+		if($dtstart->diff($dtend)->days >= 1) {
+			return $this->dateTimeFormatter->formatDate($dtstart);
+		}
+
+		return $this->dateTimeFormatter->formatDateTime($dtstart, 'short') . ' - ' . $this->dateTimeFormatter->formatTime($dtend, 'short');
 	}
 }
