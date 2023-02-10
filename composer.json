@@ -6,7 +6,10 @@
         "sort-packages": true,
         "optimize-autoloader": true,
         "classmap-authoritative": true,
-        "autoloader-suffix": "Calendar"
+        "autoloader-suffix": "Calendar",
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true
+        }
     },
     "autoload": {
         "psr-4": {
@@ -14,17 +17,26 @@
         }
     },
     "require": {
-        "php": ">=8.0 <=8.2"
-    },
-    "require-dev": {
-        "christophwurst/nextcloud_testing": "0.12.4",
-        "nextcloud/coding-standard": "^1.0.0"
+        "php": ">=8.0 <=8.2",
+        "bamarni/composer-bin-plugin": "^1.8"
     },
     "scripts": {
         "cs:fix": "php-cs-fixer fix",
         "cs:check": "php-cs-fixer fix --dry-run --diff",
         "lint": "find . -name \\*.php -not -path './vendor/*' -not -path './tests/*' -print0 | xargs -0 -n1 php -l",
         "test": "phpunit --configuration phpunit.unit.xml --fail-on-warning",
-        "test:dev": "phpunit --configuration phpunit.unit.xml --fail-on-warning --stop-on-error --stop-on-failure"
+        "test:dev": "phpunit --configuration phpunit.unit.xml --fail-on-warning --stop-on-error --stop-on-failure",
+        "post-install-cmd": [
+            "@composer bin all install --ansi"
+        ],
+        "post-update-cmd": [
+            "@composer bin all update --ansi"
+        ]
+    },
+    "extra": {
+        "bamarni-bin": {
+            "bin-links": true,
+            "forward-command": false
+        }
     }
 }

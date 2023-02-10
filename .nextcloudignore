@@ -30,4 +30,6 @@ src
 stylelint.config.js
 tests
 timezones
+/vendor/bin
+/vendor-bin
 webpack.*

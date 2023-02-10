@@ -1,0 +1,11 @@
+{
+    "config": {
+        "platform": {
+            "php": "8.0"
+        },
+        "sort-packages": true
+    },
+    "require-dev": {
+        "christophwurst/nextcloud_testing": "^0.12.4"
+    }
+}
