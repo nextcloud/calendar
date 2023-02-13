@@ -209,7 +209,7 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 						continue;
 					}
 					$widgetItems[] = new WidgetItem(
-						$calendarEvent['objects'][0]['SUMMARY'][0] ?? 'New Event',
+						$calendarEvent['objects'][0]['SUMMARY'][0] ?? 'Untitled Event',
 						$timestring,
 						$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.index', ['objectId' => $calendarEvent['uid']])),
 						$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.getCalendarDotSvg', ['color' => $calendar->getDisplayColor() ?? '#0082c9'])), // default NC blue fallback
@@ -257,6 +257,9 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 
 	private function createVeventString(array $calendarEvent) {
 		$dtstart = DateTime::createFromImmutable($calendarEvent['objects'][0]['DTSTART'][0]);
+		if(isset($calendarEvent['objects'][0]['STATUS']) && $calendarEvent['objects'][0]['STATUS'][0] === 'CANCELLED') {
+			return null;
+		}
 		if (isset($calendarEvent['objects'][0]['DTEND'])) {
 			/** @var Property\ICalendar\DateTime $dtend */
 			$dtend = DateTime::createFromImmutable($calendarEvent['objects'][0]['DTEND'][0]);
