@@ -20,12 +20,8 @@
  *
  */
 
-import Vue from 'vue'
 import { generateFilePath } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
-import { translate, translatePlural } from '@nextcloud/l10n'
-import Dashboard from './views/Dashboard.vue'
-import store from './store/index.js'
 
 // eslint-disable-next-line
 __webpack_nonce__ = btoa(getRequestToken())
@@ -33,13 +29,18 @@ __webpack_nonce__ = btoa(getRequestToken())
 // eslint-disable-next-line
 __webpack_public_path__ = generateFilePath('calendar', '', 'js/')
 
-Vue.prototype.t = translate
-Vue.prototype.n = translatePlural
-Vue.prototype.OC = OC
-Vue.prototype.OCA = OCA
-
 document.addEventListener('DOMContentLoaded', function() {
-	OCA.Dashboard.register('calendar', (el) => {
+	OCA.Dashboard.register('calendar', async (el) => {
+		const { default: Vue } = await import(/* webpackChunkName: "dashboard-lazy" */'vue')
+		const { translate, translatePlural } = await import(/* webpackChunkName: "dashboard-lazy" */'@nextcloud/l10n')
+		const { default: Dashboard } = await import(/* webpackChunkName: "dashboard-lazy" */'./views/Dashboard.vue')
+		const { default: store } = await import(/* webpackChunkName: "dashboard-lazy" */'./store/index.js')
+
+		Vue.prototype.t = translate
+		Vue.prototype.n = translatePlural
+		Vue.prototype.OC = OC
+		Vue.prototype.OCA = OCA
+
 		const View = Vue.extend(Dashboard)
 		new View({
 			store,
