@@ -78,6 +78,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
 		})
 
 		expect(getDefaultRecurrenceRuleObject).toHaveBeenCalledTimes(1)
@@ -119,6 +120,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
 			otherProp: 'foo',
 		})
 
@@ -168,6 +170,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -235,6 +238,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: []
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -301,6 +305,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			],
 			customColor: null,
 			categories: [],
+			attachments: [],
 		})
 
 		const alarms = eventComponent.getAlarmList()
@@ -354,6 +359,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: ['BUSINESS', 'HUMAN RESOURCES'],
+			attachments: [],
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -409,6 +415,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: '#eeffee',
 			categories: [],
+			attachments: [],
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -467,6 +474,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -522,6 +530,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -574,6 +583,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -626,6 +636,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -682,6 +693,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -737,6 +749,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -790,6 +803,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -846,6 +860,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)

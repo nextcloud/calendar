@@ -83,6 +83,7 @@
 					@select="changeDefaultReminder" />
 			</li>
 			<SettingsTimezoneSelect :is-disabled="loadingCalendars" />
+			<SettingsAttachmentsFolder />
 			<ActionButton @click.prevent.stop="copyPrimaryCalDAV">
 				<template #icon>
 					<ClipboardArrowLeftOutline :size="20" decorative />
@@ -137,6 +138,7 @@ import {
 
 import SettingsImportSection from './Settings/SettingsImportSection.vue'
 import SettingsTimezoneSelect from './Settings/SettingsTimezoneSelect.vue'
+import SettingsAttachmentsFolder from './Settings/SettingsAttachmentsFolder.vue'
 
 import { getCurrentUserPrincipal } from '../../services/caldavService.js'
 import ShortcutOverview from './Settings/ShortcutOverview.vue'
@@ -163,6 +165,7 @@ export default {
 		Multiselect,
 		SettingsImportSection,
 		SettingsTimezoneSelect,
+		SettingsAttachmentsFolder,
 		ClipboardArrowLeftOutline,
 		InformationVariant,
 		OpenInNewIcon,
@@ -200,6 +203,7 @@ export default {
 			defaultReminder: state => state.settings.defaultReminder,
 			timezone: state => state.settings.timezone,
 			locale: (state) => state.settings.momentLocale,
+			attachmentsFolder: (state) => state.settings.attachmentsFolder,
 		}),
 		isBirthdayCalendarDisabled() {
 			return this.savingBirthdayCalendar || this.loadingCalendars

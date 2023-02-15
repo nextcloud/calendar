@@ -25,6 +25,7 @@ import { DurationValue, DateTimeValue } from '@nextcloud/calendar-js'
 import { getHexForColorName, getClosestCSS3ColorNameForHex } from '../utils/color.js'
 import { mapAlarmComponentToAlarmObject } from './alarm.js'
 import { mapAttendeePropertyToAttendeeObject } from './attendee.js'
+import { mapAttachmentPropertyToAttchmentObject } from './attachment.js'
 import {
 	getDefaultRecurrenceRuleObject,
 	mapRecurrenceRuleValueToRecurrenceRuleObject,
@@ -85,6 +86,8 @@ const getDefaultEventObject = (props = {}) => Object.assign({}, {
 	customColor: null,
 	// Categories
 	categories: [],
+	// Attachments of this event
+	attachments: [],
 }, props)
 
 /**
@@ -152,6 +155,14 @@ const mapEventComponentToEventObject = (eventComponent) => {
 	 */
 	for (const attendee of eventComponent.getAttendeeIterator()) {
 		eventObject.attendees.push(mapAttendeePropertyToAttendeeObject(attendee))
+	}
+
+	/**
+	 * Extract attachments
+	 */
+
+	for (const attachment of eventComponent.getPropertyIterator('ATTACH')) {
+		eventObject.attachments.push(mapAttachmentPropertyToAttchmentObject(attachment))
 	}
 
 	/**

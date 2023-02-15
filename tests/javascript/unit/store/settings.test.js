@@ -65,6 +65,7 @@ describe('store/settings test suite', () => {
 			momentLocale: 'en',
 			disableAppointments: false,
 			canSubscribeLink: true,
+			attachmentsFolder: '/Calendar',
 		})
 	})
 
@@ -175,6 +176,7 @@ describe('store/settings test suite', () => {
 			forceEventAlarmType: false,
 			disableAppointments: false,
 			canSubscribeLink: true,
+			attachmentsFolder: '/Calendar',
 		}
 
 		const settings = {
@@ -195,6 +197,7 @@ describe('store/settings test suite', () => {
 			forceEventAlarmType: false,
 			disableAppointments: false,
 			canSubscribeLink: true,
+			attachmentsFolder: '/Attachments',
 		}
 
 		settingsStore.mutations.loadSettingsFromServer(state, settings)
@@ -218,6 +221,7 @@ Initial settings:
 	- ForceEventAlarmType: false
 	- disableAppointments: false
 	- CanSubscribeLink: true
+	- attachmentsFolder: /Attachments
 `)
 		expect(state).toEqual({
 			appVersion: '2.1.0',
@@ -238,6 +242,7 @@ Initial settings:
 			forceEventAlarmType: false,
 			disableAppointments: false,
 			canSubscribeLink: true,
+			attachmentsFolder: '/Attachments',
 		})
 	})
 

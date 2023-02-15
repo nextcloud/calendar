@@ -24,7 +24,7 @@
   -->
 
 <template>
-	<AppSidebar :title="title"
+	<NcAppSidebar :title="title"
 		:title-editable="!isReadOnly && !isLoading"
 		:title-placeholder="$t('calendar', 'Event title')"
 		:subtitle="subTitle"
@@ -37,13 +37,12 @@
 				<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
 			</div>
 		</template>
-
 		<template v-else-if="isError">
-			<EmptyContent :title="$t('calendar', 'Event does not exist')" :description="error">
+			<NcEmptyContent :title="$t('calendar', 'Event does not exist')" :description="error">
 				<template #icon>
 					<CalendarBlank :size="20" decorative />
 				</template>
-			</EmptyContent>
+			</NcEmptyContent>
 		</template>
 
 		<template #header>
@@ -52,37 +51,37 @@
 
 		<template v-if="!isLoading && !isError && !isNew"
 			#secondary-actions>
-			<ActionLink v-if="!hideEventExport && hasDownloadURL"
+			<NcActionLink v-if="!hideEventExport && hasDownloadURL"
 				:href="downloadURL">
 				<template #icon>
 					<Download :size="20" decorative />
 				</template>
 				{{ $t('calendar', 'Export') }}
-			</ActionLink>
-			<ActionButton v-if="!canCreateRecurrenceException && !isReadOnly" @click="duplicateEvent()">
+			</NcActionLink>
+			<NcActionButton v-if="!canCreateRecurrenceException && !isReadOnly" @click="duplicateEvent()">
 				<template #icon>
 					<ContentDuplicate :size="20" decorative />
 				</template>
 				{{ $t('calendar', 'Duplicate') }}
-			</ActionButton>
-			<ActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave(false)">
+			</NcActionButton>
+			<NcActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave(false)">
 				<template #icon>
 					<Delete :size="20" decorative />
 				</template>
 				{{ $t('calendar', 'Delete') }}
-			</ActionButton>
-			<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(false)">
+			</NcActionButton>
+			<NcActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(false)">
 				<template #icon>
 					<Delete :size="20" decorative />
 				</template>
 				{{ $t('calendar', 'Delete this occurrence') }}
-			</ActionButton>
-			<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(true)">
+			</NcActionButton>
+			<NcActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(true)">
 				<template #icon>
 					<Delete :size="20" decorative />
 				</template>
 				{{ $t('calendar', 'Delete this and all future') }}
-			</ActionButton>
+			</NcActionButton>
 		</template>
 
 		<template v-if="!isLoading && !isError"
@@ -115,7 +114,7 @@
 				@close="closeEditorAndSkipAction" />
 		</template>
 
-		<AppSidebarTab v-if="!isLoading && !isError"
+		<NcAppSidebarTab v-if="!isLoading && !isError"
 			id="app-sidebar-tab-details"
 			class="app-sidebar-tab"
 			:name="$t('calendar', 'Details')"
@@ -170,16 +169,69 @@
 					:is-editing-master-item="isEditingMasterItem"
 					:is-recurrence-exception="isRecurrenceException"
 					@force-this-and-all-future="forceModifyingFuture" />
+
+				<AttachmentsList v-if="!isLoading"
+					:calendar-object-instance="calendarObjectInstance"
+					:is-read-only="isReadOnly" />
+
+				<NcModal v-if="showModal && !isPrivate()"
+					:title="t('calendar', 'Managing shared access')"
+					@close="closeAttachmentsModal">
+					<div class="modal-content">
+						<div v-if="showPreloader" class="modal-content-preloader">
+							<div :style="`width:${sharedProgress}%`" />
+						</div>
+						<div class="modal-h">
+							{{ n('calendar', 'User requires access to your file', 'Users requires access to your file', showModalUsers.length) }}
+						</div>
+						<div class="users">
+							<NcListItemIcon v-for="attendee in showModalUsers"
+								:key="attendee.uri"
+								class="user-list-item"
+								:title="attendee.commonName"
+								:subtitle="emailWithoutMailto(attendee.uri)"
+								:is-no-user="true" />
+						</div>
+						<div class="modal-subtitle">
+							{{ n('calendar', 'Attachment requiring shared access', 'Attachments requiring shared access', showModalNewAttachments.length) }}
+						</div>
+						<div class="attachments">
+							<NcListItemIcon v-for="attachment in showModalNewAttachments"
+								:key="attachment.xNcFileId"
+								class="attachment-list-item"
+								:title="getBaseName(attachment.fileName)"
+								:url="getPreview(attachment)"
+								:force-display-actions="false" />
+						</div>
+						<div class="modal-footer">
+							<div class="modal-footer-checkbox">
+								<NcCheckboxRadioSwitch v-if="!isPrivate()" :checked.sync="doNotShare">
+									{{ t('calendar', 'Deny access') }}
+								</NcCheckboxRadioSwitch>
+							</div>
+							<div class="modal-footer-buttons">
+								<NcButton @click="closeAttachmentsModal">
+									{{ t('calendar', 'Cancel') }}
+								</NcButton>
+								<NcButton type="primary"
+									:disabled="showPreloader"
+									@click="acceptAttachmentsModal(thisAndAllFuture)">
+									{{ t('calendar', 'Invite') }}
+								</NcButton>
+							</div>
+						</div>
+					</div>
+				</NcModal>
 			</div>
 			<SaveButtons v-if="showSaveButtons"
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
 				:force-this-and-all-future="forceThisAndAllFuture"
-				@save-this-only="saveAndLeave(false)"
-				@save-this-and-all-future="saveAndLeave(true)" />
-		</AppSidebarTab>
-		<AppSidebarTab v-if="!isLoading && !isError"
+				@save-this-only="prepareAccessForAttachments(false)"
+				@save-this-and-all-future="prepareAccessForAttachments(true)" />
+		</NcAppSidebarTab>
+		<NcAppSidebarTab v-if="!isLoading && !isError"
 			id="app-sidebar-tab-attendees"
 			class="app-sidebar-tab"
 			:name="$t('calendar', 'Attendees')"
@@ -197,14 +249,14 @@
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
 				:force-this-and-all-future="forceThisAndAllFuture"
-				@save-this-only="saveAndLeave(false)"
-				@save-this-and-all-future="saveAndLeave(true)" />
-		</AppSidebarTab>
-		<AppSidebarTab v-if="!isLoading && !isError"
+				@save-this-only="prepareAccessForAttachments(false)"
+				@save-this-and-all-future="prepareAccessForAttachments(true)" />
+		</NcAppSidebarTab>
+		<NcAppSidebarTab v-if="!isLoading && !isError"
 			id="app-sidebar-tab-resources"
 			class="app-sidebar-tab"
 			:name="$t('calendar', 'Resources')"
-			:order="2">
+			:order="3">
 			<template #icon>
 				<MapMarker :size="20" decorative />
 			</template>
@@ -218,19 +270,27 @@
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
 				:force-this-and-all-future="forceThisAndAllFuture"
-				@save-this-only="saveAndLeave(false)"
-				@save-this-and-all-future="saveAndLeave(true)" />
-		</AppSidebarTab>
-	</AppSidebar>
+				@save-this-only="prepareAccessForAttachments(false)"
+				@save-this-and-all-future="prepareAccessForAttachments(true)" />
+		</NcAppSidebarTab>
+	</NcAppSidebar>
 </template>
 <script>
-import AppSidebar from '@nextcloud/vue/dist/Components/NcAppSidebar.js'
-import AppSidebarTab from '@nextcloud/vue/dist/Components/NcAppSidebarTab.js'
-import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import {
+	NcAppSidebar,
+	NcAppSidebarTab,
+	NcActionLink,
+	NcActionButton,
+	NcEmptyContent,
+	NcModal,
+	NcListItemIcon,
+	NcButton,
+	NcCheckboxRadioSwitch,
+
+} from '@nextcloud/vue'
 
 import { mapState } from 'vuex'
+import { generateUrl } from '@nextcloud/router'
 
 import AlarmList from '../components/Editor/Alarm/AlarmList.vue'
 
@@ -249,6 +309,7 @@ import PropertySelectMultiple from '../components/Editor/Properties/PropertySele
 import PropertyColor from '../components/Editor/Properties/PropertyColor.vue'
 import ResourceList from '../components/Editor/Resources/ResourceList.vue'
 import InvitationResponseButtons from '../components/Editor/InvitationResponseButtons.vue'
+import AttachmentsList from '../components/Editor/Attachments/AttachmentsList.vue'
 
 import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
@@ -257,6 +318,9 @@ import Download from 'vue-material-design-icons/Download.vue'
 import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
 import InformationOutline from 'vue-material-design-icons/InformationOutline.vue'
 import MapMarker from 'vue-material-design-icons/MapMarker.vue'
+
+import { shareFile } from '../services/attachmentService.js'
+import { Parameter } from '@nextcloud/calendar-js'
 
 export default {
 	name: 'EditSidebar',
@@ -267,11 +331,15 @@ export default {
 		SaveButtons,
 		IllustrationHeader,
 		AlarmList,
-		AppSidebar,
-		AppSidebarTab,
-		ActionLink,
-		ActionButton,
-		EmptyContent,
+		NcAppSidebar,
+		NcAppSidebarTab,
+		NcActionLink,
+		NcActionButton,
+		NcEmptyContent,
+		NcModal,
+		NcListItemIcon,
+		NcButton,
+		NcCheckboxRadioSwitch,
 		InviteesList,
 		PropertyCalendarPicker,
 		PropertySelect,
@@ -286,14 +354,27 @@ export default {
 		InformationOutline,
 		MapMarker,
 		InvitationResponseButtons,
+		AttachmentsList,
 	},
 	mixins: [
 		EditorMixin,
 	],
+	data() {
+		return {
+			thisAndAllFuture: false,
+			doNotShare: false,
+			showModal: false,
+			showModalNewAttachments: [],
+			showModalUsers: [],
+			sharedProgress: 0,
+			showPreloader: false,
+		}
+	},
 	computed: {
 		...mapState({
 			locale: (state) => state.settings.momentLocale,
 			hideEventExport: (state) => state.settings.hideEventExport,
+			attachmentsFolder: state => state.settings.attachmentsFolder,
 		}),
 		accessClass() {
 			return this.calendarObjectInstance?.accessClass || null
@@ -313,6 +394,12 @@ export default {
 			}
 
 			return moment(this.calendarObjectInstance.startDate).locale(this.locale).fromNow()
+		},
+		attachments() {
+			return this.calendarObjectInstance?.attachments || null
+		},
+		currentUser() {
+			return this.$store.getters.getCurrentUserPrincipal || null
 		},
 		/**
 		 * @return {boolean}
@@ -405,11 +492,189 @@ export default {
 				customColor,
 			})
 		},
+		/**
+		 * Checks is the calendar event has attendees, but organizer or not
+		 *
+		 * @return {boolean}
+		 */
+		isPrivate() {
+			return this.calendarObjectInstance.attendees.filter((attendee) => {
+				if (this.currentUser.emailAddress.toLowerCase() !== (
+					attendee.uri.split('mailto:').length === 2
+						? attendee.uri.split('mailto:')[1].toLowerCase()
+						: attendee.uri.toLowerCase()
+				)) {
+					return attendee
+				}
+				return false
+			}).length === 0
+		},
+		getPreview(attachment) {
+			if (attachment.xNcHasPreview) {
+				return generateUrl(`/core/preview?fileId=${attachment.xNcFileId}&x=100&y=100&a=0`)
+			}
+			return attachment.formatType ? OC.MimeType.getIconUrl(attachment.formatType) : null
+		},
+		acceptAttachmentsModal() {
+			if (!this.doNotShare) {
+				const total = this.showModalNewAttachments.length
+				this.showPreloader = true
+				if (!this.isPrivate()) {
+					this.showModalNewAttachments.map(async (attachment, i) => {
+						// console.log('Add share', attachment)
+						this.sharedProgress = Math.ceil(100 * (i + 1) / total)
+
+						// add share + change attachment
+						try {
+							const data = await shareFile(`${this.attachmentsFolder}${attachment.fileName}`)
+							attachment.shareTypes = data?.share_type?.toString()
+							if (typeof attachment.attachmentProperty.getParameter('X-NC-SHARED-TYPES') === 'undefined') {
+								const xNcSharedTypes = new Parameter('X-NC-SHARED-TYPES', attachment.shareTypes)
+								attachment.attachmentProperty.setParameter(xNcSharedTypes)
+							}
+							attachment.attachmentProperty.uri = data?.url
+							attachment.uri = data?.url
+							// toastify success
+						} catch (e) {
+							// toastify err
+							console.error(e)
+						}
+						return attachment
+					})
+
+				} else {
+					// TODO it is not possible to delete shares, because share ID needed
+					/* this.showModalNewAttachments.map((attachment, i) => {
+						this.sharedProgress += Math.ceil(100 * (i + 1) / total)
+						return attachment
+					}) */
+				}
+			}
+			setTimeout(() => {
+				this.showPreloader = false
+				this.sharedProgress = 0
+				this.showModal = false
+				this.showModalNewAttachments = []
+				this.showModalUsers = []
+				this.saveEvent(this.thisAndAllFuture)
+			}, 500)
+			// trigger save event after make each attachment access
+			// 1) if !isPrivate get attachments NOT SHARED  and SharedType is empry -> API ADD SHARE
+			// 2) if isPrivate get attachments SHARED  and SharedType is not empty -> API DELETE SHARE
+			// 3) update calendarObject while pending access change
+			// 4) after all access changes, save Event trigger
+			// 5) done
+		},
+		closeAttachmentsModal() {
+			this.showModal = false
+		},
+		emailWithoutMailto(mailto) {
+			return mailto.split('mailto:').length === 2
+				? mailto.split('mailto:')[1].toLowerCase()
+				: mailto.toLowerCase()
+		},
+		getBaseName(name) {
+			return name.split('/').pop()
+		},
+		prepareAccessForAttachments(thisAndAllFuture = false) {
+			this.thisAndAllFuture = thisAndAllFuture
+			const newAttachments = this.calendarObjectInstance.attachments.filter(attachment => {
+				// get only new attachments
+				// TODO get NOT only new attachments =) Maybe we should filter all attachments without share-type, 'cause event can be private and AFTER save owner could add new participant
+				return !this.isPrivate() ? attachment.isNew && attachment.shareTypes === null : attachment.isNew && attachment.shareTypes !== null
+			})
+			// if there are new attachment and event not saved
+			if (newAttachments.length > 0 && !this.isPrivate()) {
+				// and is event NOT private,
+				// then add share to each attachment
+				// only if attachment['share-types'] is null or empty
+				this.showModal = true
+				this.showModalNewAttachments = newAttachments
+				this.showModalUsers = this.calendarObjectInstance.attendees.filter((attendee) => {
+					if (this.currentUser.emailAddress.toLowerCase() !== this.emailWithoutMailto(attendee.uri)) {
+						return attendee
+					}
+					return false
+				})
+			} else {
+				this.saveEvent(thisAndAllFuture)
+			}
+		},
+		saveEvent(thisAndAllFuture = false) {
+			// if there is new attachments and !private, then make modal with users and files/
+			// maybe check shared access before add file
+			this.saveAndLeave(thisAndAllFuture)
+			this.calendarObjectInstance.attachments = this.calendarObjectInstance.attachments.map(attachment => {
+				if (attachment.isNew) {
+					delete attachment.isNew
+				}
+				return attachment
+			})
+		},
 	},
 }
 </script>
 
 <style lang="scss" scoped>
+.modal-content {
+	padding: 16px;
+	position: relative;
+
+	.modal-content-preloader {
+		position: absolute;
+		top:0;
+		left:0;
+		right:0;
+		height: 6px;
+
+		div {
+			position: absolute;
+			top:0;
+			left: 0;
+			background: var(--color-primary-element);
+			height: 6px;
+			transition: width 0.3s linear;
+		}
+	}
+}
+.modal-subtitle {
+	font-weight: bold;
+	font-size: 16px;
+	margin-top: 16px;
+}
+.modal-h {
+	font-size: 24px;
+	font-weight: bold;
+	margin: 10px 0;
+}
+.modal-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	.modal-footer-buttons {
+		display: flex;
+
+		:first-child {
+			margin-right: 6px;
+		}
+	}
+}
+.attachments, .users {
+	display: flex;
+	flex-wrap: wrap;
+}
+::v-deep .attachments .avatardiv img {
+	border-radius: 0;
+}
+.attachment-list-item, .user-list-item {
+	width: 50%
+}
+.attachment-icon {
+	width: 40px;
+	height: auto;
+	border-radius: var(--border-radius);
+}
 ::v-deep .app-sidebar-header__description {
 	flex-direction: column;
 }

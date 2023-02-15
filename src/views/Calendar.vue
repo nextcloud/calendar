@@ -104,6 +104,8 @@ import '@nextcloud/dialogs/styles/toast.scss'
 import Trashbin from '../components/AppNavigation/CalendarList/Trashbin.vue'
 import AppointmentConfigList from '../components/AppNavigation/AppointmentConfigList.vue'
 
+import { createFolder } from '../services/attachmentService.js'
+
 export default {
 	name: 'Calendar',
 	components: {
@@ -125,6 +127,7 @@ export default {
 	data() {
 		return {
 			loadingCalendars: true,
+			loadingUser: true,
 			timeFrameCacheExpiryJob: null,
 			showEmptyCalendarScreen: false,
 		}
@@ -133,6 +136,7 @@ export default {
 		...mapGetters({
 			timezoneId: 'getResolvedTimezone',
 			hasTrashBin: 'hasTrashBin',
+			currentUserPrincipal: 'getCurrentUserPrincipal',
 		},
 		),
 		...mapState({
@@ -146,6 +150,7 @@ export default {
 			timezone: state => state.settings.timezone,
 			modificationCount: state => state.calendarObjects.modificationCount,
 			disableAppointments: state => state.settings.disableAppointments,
+			attachmentsFolder: state => state.settings.attachmentsFolder,
 		}),
 		defaultDate() {
 			return getYYYYMMDDFromFirstdayParam(this.$route.params?.firstDay ?? 'now')
@@ -181,6 +186,14 @@ export default {
 			}
 
 			return null
+		},
+	},
+	watch: {
+		currentUserPrincipal() {
+			if (this.currentUserPrincipal !== undefined && this.loadingUser) {
+				createFolder(this.attachmentsFolder, this.currentUserPrincipal.userId)
+				this.loadingUser = false
+			}
 		},
 	},
 	created() {
@@ -219,6 +232,7 @@ export default {
 			forceEventAlarmType: loadState('calendar', 'force_event_alarm_type', false),
 			disableAppointments: loadState('calendar', 'disable_appointments', false),
 			canSubscribeLink: loadState('calendar', 'can_subscribe_link', false),
+			attachmentsFolder: loadState('calendar', 'attachments_folder', false),
 		})
 		this.$store.dispatch('initializeCalendarJsConfig')
 

@@ -49,6 +49,7 @@ const state = {
 	canSubscribeLink: true,
 	// user-defined Nextcloud settings
 	momentLocale: 'en',
+	attachmentsFolder: '/Calendar',
 }
 
 const mutations = {
@@ -132,6 +133,17 @@ const mutations = {
 	},
 
 	/**
+	 * Updates the user's attachments folder
+	 *
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {string} data.attachmentsFolder The new attachments folder
+	 */
+	setAttachmentsFolder(state, { attachmentsFolder }) {
+		state.attachmentsFolder = attachmentsFolder
+	},
+
+	/**
 	 * Initialize settings
 	 *
 	 * @param {object} state The Vuex state
@@ -152,8 +164,9 @@ const mutations = {
 	 * @param {string} data.forceEventAlarmType
 	 * @param {boolean} data.disableAppointments Allow to disable the appointments feature
 	 * @param {boolean} data.canSubscribeLink
+	 * @param {string} data.attachmentsFolder Default user's attachments folder
 	 */
-	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, canSubscribeLink }) {
+	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, canSubscribeLink, attachmentsFolder }) {
 		logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -172,6 +185,7 @@ Initial settings:
 	- ForceEventAlarmType: ${forceEventAlarmType}
 	- disableAppointments: ${disableAppointments}
 	- CanSubscribeLink: ${canSubscribeLink}
+	- attachmentsFolder: ${attachmentsFolder}
 `)
 
 		state.appVersion = appVersion
@@ -190,6 +204,7 @@ Initial settings:
 		state.forceEventAlarmType = forceEventAlarmType
 		state.disableAppointments = disableAppointments
 		state.canSubscribeLink = canSubscribeLink
+		state.attachmentsFolder = attachmentsFolder
 	},
 
 	/**
@@ -408,6 +423,25 @@ const actions = {
 
 		await setConfig('timezone', timezoneId)
 		commit('setTimezone', { timezoneId })
+	},
+
+	/**
+	 * Updates the user's attachments folder
+	 *
+	 * @param {object} vuex The Vuex destructuring object
+	 * @param {object} vuex.state The Vuex state
+	 * @param {Function} vuex.commit The Vuex commit Function
+	 * @param {object} data The destructuring object
+	 * @param {string} data.attachmentsFolder The new attachments folder
+	 * @return {Promise<void>}
+	 */
+	async setAttachmentsFolder({ state, commit }, { attachmentsFolder }) {
+		if (state.attachmentsFolder === attachmentsFolder) {
+			return
+		}
+
+		await setConfig('attachmentsFolder', attachmentsFolder)
+		commit('setAttachmentsFolder', { attachmentsFolder })
 	},
 
 	/**
