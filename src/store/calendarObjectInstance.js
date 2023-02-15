@@ -24,7 +24,7 @@ import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import {
 	getDateFromDateTimeValue,
 } from '../utils/date.js'
-import { AttendeeProperty, Property, DateTimeValue, DurationValue, RecurValue } from '@nextcloud/calendar-js'
+import { AttendeeProperty, Property, DateTimeValue, DurationValue, RecurValue, AttachmentProperty, Parameter } from '@nextcloud/calendar-js'
 import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/recurrence.js'
 import {
 	copyCalendarObjectInstanceIntoEventComponent,
@@ -47,6 +47,7 @@ import { getObjectAtRecurrenceId } from '../utils/calendarObject.js'
 import logger from '../utils/logger.js'
 import settings from './settings.js'
 import { getRFCProperties } from '../models/rfcProps.js'
+import { generateUrl } from '@nextcloud/router'
 
 const state = {
 	isNew: null,
@@ -1355,6 +1356,101 @@ const mutations = {
 				calendarObjectInstance.alarms.splice(index, 1)
 			}
 		}
+	},
+
+	/**
+	 * @deprecated
+	 * @param state
+	 * @param calendarObjectInstance.calendarObjectInstance
+	 * @param calendarObjectInstance
+	 * @param calendarObjectInstance.sharedData
+	 * @param sharedData
+	 */
+	addAttachmentBySharedData(state, { calendarObjectInstance, sharedData }) {
+		const attachment = AttachmentProperty.fromLink(sharedData.url)
+		const fileName = sharedData.fileName
+
+		// hot-fix needed temporary, becase calendar-js has no fileName get-setter
+		const parameterFileName = new Parameter('FILENAME', fileName)
+		// custom has-preview parameter from dav file
+		const xNcHasPreview = new Parameter('X-NC-HAS-PREVIEW', sharedData['has-preview'].toString())
+		// custom file id parameter from dav file
+		const xNcFileId = new Parameter('X-NC-FILE-ID', sharedData.fileid.toString())
+		// custom share-types parameter from dav file
+		const xNcSharedTypes = new Parameter('X-NC-SHARED-TYPES', sharedData['share-types']['share-type']
+			? sharedData['share-types']['share-type'].join(',')
+			: '')
+	    attachment.setParameter(parameterFileName)
+	    attachment.setParameter(xNcFileId)
+	    attachment.setParameter(xNcHasPreview)
+	    attachment.setParameter(xNcSharedTypes)
+		attachment.isNew = true
+		attachment.shareTypes = sharedData['share-types']['share-type']
+			? sharedData['share-types']['share-type'].join(',')
+			: ''
+		attachment.fileName = fileName
+		attachment.xNcFileId = sharedData.fileid
+		attachment.xNcHasPreview = sharedData['has-preview']
+		attachment.formatType = sharedData.getcontenttype
+		attachment.uri = sharedData.url ? sharedData.url : generateUrl(`/f/${sharedData.fileid}`)
+
+		calendarObjectInstance.eventComponent.addProperty(attachment)
+		calendarObjectInstance.attachments.push(attachment)
+
+		// console.log(attachment)
+	},
+
+	addAttachmentWithProperty(state, { calendarObjectInstance, sharedData }) {
+		const attachment = {}
+		const fileName = sharedData.fileName
+		attachment.isNew = true
+		attachment.shareTypes = (typeof sharedData?.['share-types']?.['share-type'] === 'number'
+			? sharedData?.['share-types']?.['share-type']?.toString()
+			: sharedData?.['share-types']?.['share-type']?.join(',')) ?? null
+		attachment.fileName = fileName
+		attachment.xNcFileId = sharedData.fileid
+		attachment.xNcHasPreview = sharedData['has-preview']
+		attachment.formatType = sharedData.getcontenttype
+		attachment.uri = sharedData.url ? sharedData.url : generateUrl(`/f/${sharedData.fileid}`)
+
+		const attachmentProperty = AttachmentProperty.fromLink(attachment.uri, attachment.formatType)
+		const parameterFileName = new Parameter('FILENAME', fileName)
+		const xNcHasPreview = new Parameter('X-NC-HAS-PREVIEW', attachment.xNcHasPreview.toString())
+		const xNcFileId = new Parameter('X-NC-FILE-ID', attachment.xNcFileId.toString())
+		// ADD X-NC-SHARED-TYPES only if sharet-type not empty
+		if (attachment.shareTypes !== null) {
+			const xNcSharedTypes = new Parameter('X-NC-SHARED-TYPES', attachment.shareTypes)
+			attachmentProperty.setParameter(xNcSharedTypes)
+		}
+
+		attachmentProperty.setParameter(parameterFileName)
+		attachmentProperty.setParameter(xNcFileId)
+		attachmentProperty.setParameter(xNcHasPreview)
+		attachmentProperty.uri = attachment.uri
+
+		attachment.attachmentProperty = attachmentProperty
+
+		calendarObjectInstance.eventComponent.addProperty(attachmentProperty)
+		calendarObjectInstance.attachments.push(attachment)
+	},
+
+	/**
+	 *
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {object} data.attachment The attachment object
+	 */
+	deleteAttachment(state, { calendarObjectInstance, attachment }) {
+		try {
+			const index = calendarObjectInstance.attachments.indexOf(attachment)
+			if (index !== -1) {
+				 calendarObjectInstance.attachments.splice(index, 1)
+			}
+			calendarObjectInstance.eventComponent.removeAttachment(attachment.attachmentProperty)
+		} catch {
+		}
+
 	},
 }
 

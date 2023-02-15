@@ -99,6 +99,7 @@ class ViewController extends Controller {
 		$showWeekNumbers = $this->config->getUserValue($this->userId, $this->appName, 'showWeekNr', $defaultWeekNumbers) === 'yes';
 		$skipPopover = $this->config->getUserValue($this->userId, $this->appName, 'skipPopover', $defaultSkipPopover) === 'yes';
 		$timezone = $this->config->getUserValue($this->userId, $this->appName, 'timezone', $defaultTimezone);
+		$attachmentsFolder = $this->config->getUserValue($this->userId, 'dav', 'attachmentsFolder', '/Calendar');
 		$slotDuration = $this->config->getUserValue($this->userId, $this->appName, 'slotDuration', $defaultSlotDuration);
 		$defaultReminder = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminder', $defaultDefaultReminder);
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
@@ -124,6 +125,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState('talk_enabled', $talkEnabled);
 		$this->initialStateService->provideInitialState('talk_api_version', $talkApiVersion);
 		$this->initialStateService->provideInitialState('timezone', $timezone);
+		$this->initialStateService->provideInitialState('attachments_folder', $attachmentsFolder);
 		$this->initialStateService->provideInitialState('slot_duration', $slotDuration);
 		$this->initialStateService->provideInitialState('default_reminder', $defaultReminder);
 		$this->initialStateService->provideInitialState('show_tasks', $showTasks);

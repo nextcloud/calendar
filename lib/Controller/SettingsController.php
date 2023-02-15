@@ -90,6 +90,8 @@ class SettingsController extends Controller {
 				return $this->setDefaultReminder($value);
 			case 'showTasks':
 				return $this->setShowTasks($value);
+			case 'attachmentsFolder':
+				return $this->setAttachmentsFolder($value);
 			default:
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -162,6 +164,27 @@ class SettingsController extends Controller {
 				$this->userId,
 				$this->appName,
 				'showTasks',
+				$value
+			);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * Set config for attachments folder
+	 *
+	 * @param string $value
+	 * @return JSONResponse
+	 */
+	private function setAttachmentsFolder(string $value):JSONResponse {
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				'dav',
+				'attachmentsFolder',
 				$value
 			);
 		} catch (\Exception $e) {
