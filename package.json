@@ -32,6 +32,7 @@
     "stylelint": "stylelint src css",
     "stylelint:fix": "stylelint src css --fix",
     "test": "jest",
+    "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
