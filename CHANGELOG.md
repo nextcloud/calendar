@@ -1,5 +1,17 @@
 
 # Changelog
+## 4.3.0 - unreleased
+### Added
+- File attachments for calendar events
+### Changed
+- Lazy load dashboard component
+- Wider input for recurrences
+### Fixed
+- Exception handing for booking controller
+- Current day color sticker
+- Calendar export button
+- Share dialogue focus loss
+- Disabling appointments
 
 ## 4.2.2 - 2023-01-26
 ### Fixed
