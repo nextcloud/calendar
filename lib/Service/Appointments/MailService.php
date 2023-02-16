@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\Calendar\Service\Appointments;
 
 use Exception;
+use OC\Notification\Notification;
 use OC\URLGenerator;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\Booking;
@@ -34,10 +35,12 @@ use OCA\Calendar\Exception\ServiceException;
 use OCP\Defaults;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
+use OCP\Notification\IManager;
 use Psr\Log\LoggerInterface;
 use function implode;
 
@@ -59,14 +62,17 @@ class MailService {
 	/** @var IFactory */
 	private $lFactory;
 
-	public function __construct(IMailer            $mailer,
-								IUserManager       $userManager,
-								IL10N              $l10n,
-								Defaults           $defaults,
-								LoggerInterface            $logger,
-								URLGenerator       $urlGenerator,
+	private IManager $notificationManager;
+
+	public function __construct(IMailer $mailer,
+								IUserManager $userManager,
+								IL10N $l10n,
+								Defaults $defaults,
+								LoggerInterface $logger,
+								URLGenerator $urlGenerator,
 								IDateTimeFormatter $dateFormatter,
-								IFactory           $lFactory) {
+								IFactory $lFactory,
+								IManager $notificationManager) {
 		$this->userManager = $userManager;
 		$this->mailer = $mailer;
 		$this->l10n = $l10n;
@@ -75,6 +81,7 @@ class MailService {
 		$this->urlGenerator = $urlGenerator;
 		$this->dateFormatter = $dateFormatter;
 		$this->lFactory = $lFactory;
+		$this->notificationManager = $notificationManager;
 	}
 
 	/**
@@ -173,7 +180,7 @@ class MailService {
 		$template = $this->mailer->createEMailTemplate('calendar.confirmAppointment');
 		$template->addHeader();
 
-		//Subject
+		// Subject
 		$subject = $this->l10n->t('Your appointment "%s" with %s has been accepted', [$config->getName(), $user->getDisplayName()]);
 		$template->setSubject($subject);
 
@@ -236,7 +243,7 @@ class MailService {
 		}
 
 		if (!empty($booking->getDescription())) {
-			$template->addBodyListItem($booking->getDescription(), $l10n->t('Your Comment:'));
+			$template->addBodyListItem($booking->getDescription(), $l10n->t('Comment:'));
 		}
 	}
 
@@ -246,5 +253,98 @@ class MailService {
 	private function getSysEmail(): string {
 		$instanceName = $this->defaults->getName();
 		return \OCP\Util::getDefaultEmailAddress('appointments-noreply');
+	}
+
+	public function sendOrganizerBookingInformationEmail(Booking $booking, AppointmentConfig $config, string $calendar) {
+		/** @var IUser $user */
+		$user = $this->userManager->get($config->getUserId());
+
+		if ($user === null) {
+			throw new ServiceException('Could not find organizer');
+		}
+
+		$fromName = $user->getDisplayName();
+
+		$sys = $this->getSysEmail();
+		$message = $this->mailer->createMessage()
+			->setFrom([$sys => $fromName])
+			->setTo([$user->getEMailAddress() => $booking->getDisplayName()]);
+
+
+		$template = $this->mailer->createEMailTemplate('calendar.confirmOrganizer');
+		$template->addHeader();
+
+		// Subject
+		$subject = $this->l10n->t('You have a new appointment booking "%s" from %s', [$config->getName(), $booking->getDisplayName()]);
+		$template->setSubject($subject);
+
+		// Heading
+		$summary = $this->l10n->t('Dear %s, %s (%s) booked an appointment with you.', [$user->getDisplayName(), $booking->getDisplayName(), $booking->getEmail()]);
+		$template->addHeading($summary);
+
+		$template->addBodyListItem($booking->getDisplayName() . ' (' . $booking->getEmail() . ')', 'Appointment with:');
+		if (!empty($config->getDescription())) {
+			$template->addBodyListItem($config->getDescription(), 'Description:');
+		}
+
+		// Create Booking overview
+		$this->addBulletList($template, $this->l10n, $booking, $config->getLocation());
+		$template->addFooter();
+
+		$attachment = $this->mailer->createAttachment($calendar, 'appointment.ics', 'text/calendar');
+		$message->attach($attachment);
+		$message->useTemplate($template);
+
+
+		try {
+			$failed = $this->mailer->send($message);
+			if (count($failed) > 0) {
+				$this->logger->warning('Mail delivery failed for some recipients.');
+				foreach ($failed as $fail) {
+					$this->logger->debug('Failed to deliver email to ' . $fail);
+				}
+				throw new ServiceException('Could not send mail for recipient(s) ' . implode(', ', $failed));
+			}
+		} catch (Exception $ex) {
+			$this->logger->error('Could not send appointment organizer email: ' . $ex->getMessage(), ['exception' => $ex]);
+			throw new ServiceException('Could not send mail: ' . $ex->getMessage(), $ex->getCode(), $ex);
+		}
+	}
+
+	public function sendOrganizerBookingInformationNotification(Booking $booking, AppointmentConfig $config) {
+		$relativeDateTime = $this->dateFormatter->formatDateTimeRelativeDay(
+			$booking->getStart(),
+			'long',
+			'short',
+			new \DateTimeZone($booking->getTimezone()),
+			$this->lFactory->get('calendar')
+		);
+
+		/** @var Notification $notification */
+		$notification = $this->notificationManager->createNotification();
+		$notification
+			->setApp('calendar')
+			->setUser($config->getUserId())
+			->setObject('booking', (string) $booking->getId())
+			->setSubject('booking_accepted',
+				[
+					'type' => 'highlight',
+					'id' => $booking->getId(),
+					'name' => $config->getName(),
+					'link' => $config->getPrincipalUri()
+				])
+			->setDateTime(new \DateTime())
+			->setMessage('booking_accepted_message',
+				[
+					'type' => 'highlight',
+					'id' => $booking->getId(),
+					'display_name' => $booking->getDisplayName(),
+					'config_display_name' => $config->getName(),
+					'link' => $config->getPrincipalUri(),
+					'email' => $booking->getEmail(),
+					'date_time' => $relativeDateTime
+				]
+			);
+		$this->notificationManager->notify($notification);
 	}
 }

@@ -25,6 +25,7 @@ namespace OCA\Calendar\AppInfo;
 
 use OCA\Calendar\Dashboard\CalendarWidget;
 use OCA\Calendar\Listener\UserDeletedListener;
+use OCA\Calendar\Notification\Notifier;
 use OCA\Calendar\Profile\AppointmentsAction;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
@@ -56,6 +57,8 @@ class Application extends App implements IBootstrap {
 		}
 
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
+
+		$context->registerNotifierService(Notifier::class);
 	}
 
 	/**
