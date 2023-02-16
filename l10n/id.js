@@ -134,6 +134,8 @@ OC.L10N.register(
     "_hour_::_hours_" : ["jam"],
     "_day_::_days_" : ["hari"],
     "_week_::_weeks_" : ["minggu"],
+    "Delete file" : "Hapus berkas",
+    "Choose a file to add as attachment" : "Pilih berkas untuk ditambahkan sebagai lampiran",
     "Availability of attendees, resources and rooms" : "Ketersediaan peserta, sumber daya, dan ruangan",
     "Free" : "Luang",
     "Busy (tentative)" : "Sibuk (tentatif)",

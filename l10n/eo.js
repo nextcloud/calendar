@@ -55,6 +55,7 @@ OC.L10N.register(
     "Update" : "Ĝisdatigi",
     "Your email address" : "Via retpoŝta adreso",
     "Email" : "Retpoŝto",
+    "Delete file" : "Forigi dosieron",
     "Available" : "Disponeblaj",
     "Busy" : "Okupita",
     "Unknown" : "Nekonata",

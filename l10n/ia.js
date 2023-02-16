@@ -42,6 +42,7 @@ OC.L10N.register(
     "Update" : "Actualisar",
     "Your email address" : "Tu adresse de e-posta",
     "Email" : "E-posta",
+    "Choose a file to add as attachment" : "Selectiona un file pro adder como attachamento",
     "Unknown" : "Incognite",
     "Accept" : "Acceptar",
     "Decline" : "Refusar",

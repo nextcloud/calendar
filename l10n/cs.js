@@ -123,6 +123,7 @@ OC.L10N.register(
     "Calendar to import into" : "Kalendář do kterého importovat",
     "Cancel" : "Storno",
     "_Import calendar_::_Import calendars_" : ["Importovat kalendář","Importovat kalendáře","Importovat kalendářů","Importovat kalendáře"],
+    "Invalid location selected" : "Vybráno neplatné umístění",
     "{filename} could not be parsed" : "{filename} není možné zpracovat",
     "No valid files found, aborting import" : "Nenalezeny žádné platné soubory, import proto bude ukončen",
     "Import partially failed. Imported {accepted} out of {total}." : "Import se z části nezdařil. Naimportováno {accepted} z {total}.",

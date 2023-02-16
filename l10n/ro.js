@@ -203,6 +203,7 @@ OC.L10N.register(
     "_hour_::_hours_" : ["oră","ore","ore"],
     "_day_::_days_" : ["zi","zile","zile"],
     "_week_::_weeks_" : ["săptămână","săptămâni","săptămâni"],
+    "Delete file" : "Șterge fișier",
     "Available" : "Disponibil",
     "Not available" : "Nu este disponibil",
     "Availability of attendees, resources and rooms" : "Disponibilitatea participanților, resurse și camere",

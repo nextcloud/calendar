@@ -57,6 +57,8 @@ OC.L10N.register(
     "Your email address" : "Tu dirección de correo electrónico",
     "Notification" : "Notificación",
     "Email" : "Correo electrónico",
+    "Add from Files" : "Agregar desde Archivos",
+    "Delete file" : "Borrar archivo",
     "Available" : "Disponible",
     "Unknown" : "Desconocido",
     "Accept" : "Aceptar",

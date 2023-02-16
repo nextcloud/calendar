@@ -49,6 +49,8 @@ OC.L10N.register(
     "Update" : "อัปเดต",
     "Your email address" : "ที่อยู่อีเมลของคุณ",
     "Email" : "อีเมล",
+    "Delete file" : "ลบไฟล์",
+    "Choose a file to add as attachment" : "เลือกไฟล์ที่ต้องการแนบ",
     "Unknown" : "ไม่ทราบ",
     "Accept" : "ยอมรับ",
     "Decline" : "ปฏิเสธ",

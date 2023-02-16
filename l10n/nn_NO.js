@@ -43,6 +43,7 @@ OC.L10N.register(
     "Update" : "Oppdater",
     "Your email address" : "Di epost-adresse",
     "Email" : "E-post",
+    "Delete file" : "Slett fil",
     "Unknown" : "Ukjend",
     "Tentative" : "Førebels",
     "Send email" : "Send e-post",

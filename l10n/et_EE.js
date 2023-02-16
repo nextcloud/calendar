@@ -63,6 +63,7 @@ OC.L10N.register(
     "Notification" : "Teavitus",
     "Email" : "Epost",
     "On date" : "Kuupäeval",
+    "Delete file" : "Kustuta fail",
     "Unknown" : "Teadmata",
     "Accept" : "Nõustu",
     "Decline" : "Keeldu",

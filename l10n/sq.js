@@ -52,6 +52,8 @@ OC.L10N.register(
     "Your email address" : "Adresa juaj email",
     "Notification" : "Njoftim",
     "Email" : "Emaili",
+    "Delete file" : "Fshi skedarin",
+    "Choose a file to add as attachment" : "Zgjidhni një kartelë që të shtohet si bashkëngjitje",
     "Available" : "i disponueshëm",
     "Unknown" : "I/E panjohur",
     "Accept" : "Prano",

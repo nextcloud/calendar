@@ -56,6 +56,8 @@ OC.L10N.register(
     "Your email address" : "Jūsu e-pasta adrese",
     "Notification" : "Paziņojums",
     "Email" : "E-pasts",
+    "Delete file" : "Dzēst datni",
+    "Choose a file to add as attachment" : "Izvēlēties datni ko pievienot kā pielikumu",
     "Available" : "Pieejams",
     "Busy" : "Aizņemts",
     "Unknown" : "Nezināms",

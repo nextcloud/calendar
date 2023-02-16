@@ -155,6 +155,7 @@ OC.L10N.register(
     "_hour_::_hours_" : ["hora","horas"],
     "_day_::_days_" : ["día","días"],
     "_week_::_weeks_" : ["semana","semanas"],
+    "Delete file" : "Eliminar ficheiro",
     "Available" : "Dispoñíbel",
     "Not available" : "Non dispoñíbel",
     "Availability of attendees, resources and rooms" : "Dispoñibilidade de asistentes, recursos e salas",

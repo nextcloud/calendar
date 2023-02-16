@@ -45,6 +45,7 @@ OC.L10N.register(
     "Update" : "Шинэчлэх",
     "Notification" : "Мэдэгдэл",
     "Email" : "Цахим шуудан",
+    "Delete file" : "Файл устгах",
     "Available" : "Боломжтой",
     "Unknown" : "Үл танигдах зүйл",
     "Accept" : "Хүлээн зөвшөөрөх",

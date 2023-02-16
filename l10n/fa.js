@@ -137,6 +137,7 @@ OC.L10N.register(
     "_hour_::_hours_" : ["ساعت","ساعت ها"],
     "_day_::_days_" : ["روز","روز ها"],
     "_week_::_weeks_" : ["هفته","هفته ها"],
+    "Delete file" : "حذف پرونده",
     "Available" : "در دسترس",
     "Availability of attendees, resources and rooms" : "در دسترس بودن شرکت کنندگان ، منابع و اتاق ها",
     "Free" : "رایگان",
