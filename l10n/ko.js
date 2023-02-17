@@ -262,6 +262,7 @@ OC.L10N.register(
     "Delete this occurrence" : "이 일정 삭제",
     "Delete this and all future" : "이후 모든 일정 삭제",
     "Details" : "자세한 정보",
+    "Invite" : "초대",
     "Attendees" : "참석자",
     "Resources" : "자원",
     "Close" : "닫기",

@@ -55,6 +55,7 @@ OC.L10N.register(
     "Notification" : "Notificación",
     "Email" : "Correo electrónico",
     "Delete file" : "Borrar archivo",
+    "Choose a file to add as attachment" : "Selecciona el archivo a agregar como adjunto",
     "Unknown" : "Desconocido",
     "Accept" : "Aceptar",
     "Decline" : "Declinar",

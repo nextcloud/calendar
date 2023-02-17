@@ -52,6 +52,7 @@ OC.L10N.register(
     "Your email address" : "U e-posadres",
     "Notification" : "Kennisgewing",
     "Email" : "E-pos",
+    "Delete file" : "Skrap lêer",
     "Available" : "Beskikbaar",
     "Not available" : "Onbeskikbaar",
     "Unknown" : "Onbekend",

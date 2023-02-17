@@ -375,6 +375,7 @@ OC.L10N.register(
     "Delete this occurrence" : "Elimina questa occorrenza",
     "Delete this and all future" : "Elimina questa e tutte le future",
     "Details" : "Dettagli",
+    "Invite" : "Invita",
     "Attendees" : "Partecipanti",
     "Resources" : "Risorse",
     "Close" : "Chiudi",

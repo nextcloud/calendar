@@ -36,6 +36,7 @@ OC.L10N.register(
     "Update" : "Yenilənmə",
     "Your email address" : "Sizin email ünvanı",
     "Email" : "Email",
+    "Choose a file to add as attachment" : "Əlavə ediləcək faylı seçin",
     "Send email" : "Email yolla",
     "Repeat" : "Təkrar",
     "never" : "heç vaxt",

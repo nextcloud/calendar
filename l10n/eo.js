@@ -56,6 +56,7 @@ OC.L10N.register(
     "Your email address" : "Via retpoŝta adreso",
     "Email" : "Retpoŝto",
     "Delete file" : "Forigi dosieron",
+    "Choose a file to add as attachment" : "Elektu dosieron aldonotan kiel kunsendaĵon",
     "Available" : "Disponeblaj",
     "Busy" : "Okupita",
     "Unknown" : "Nekonata",

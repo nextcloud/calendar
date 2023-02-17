@@ -47,6 +47,8 @@ OC.L10N.register(
     "Your email address" : "Direición de corréu-e",
     "Notification" : "Avisu",
     "Email" : "email",
+    "Delete file" : "Desasniciar ficheru",
+    "Choose a file to add as attachment" : "Escueyi un ficheru p'amestalu como axuntu",
     "Unknown" : "Desconozse",
     "Accept" : "Aceutar",
     "Decline" : "Refugar",

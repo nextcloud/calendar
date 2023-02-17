@@ -210,6 +210,7 @@ OC.L10N.register(
     "_hour_::_hours_" : ["awr","awr","awr","awr"],
     "_day_::_days_" : ["diwrnod","diwrnod","diwrnod","diwrnod"],
     "_week_::_weeks_" : ["wythnos","wythnos","wythnos","wythnos"],
+    "Choose a file to add as attachment" : "Dewiswch ffeil i'w hychwanegu fel atodiad",
     "Invitation accepted" : "Derbyniwyd y gwahoddiad",
     "Available" : "Ar gael?",
     "Suggested" : "Awgrym",

@@ -59,6 +59,7 @@ OC.L10N.register(
     "Email" : "Correo electrónico",
     "Add from Files" : "Agregar desde Archivos",
     "Delete file" : "Borrar archivo",
+    "Choose a file to add as attachment" : "Selecciona el archivo a agregar como adjunto",
     "Available" : "Disponible",
     "Unknown" : "Desconocido",
     "Accept" : "Aceptar",

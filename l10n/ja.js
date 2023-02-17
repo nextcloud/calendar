@@ -287,6 +287,7 @@ OC.L10N.register(
     "Event does not exist" : "イベントは存在しません",
     "Delete this occurrence" : "この出来事を削除",
     "Details" : "詳細",
+    "Invite" : "招待状",
     "Attendees" : "参加者",
     "Resources" : "リソース",
     "Close" : "閉じる",
