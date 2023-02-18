@@ -75,6 +75,8 @@ OC.L10N.register(
     "Repeat" : "Понављај",
     "never" : "никада",
     "after" : "након",
+    "first" : "прва",
+    "last" : "последња",
     "available" : "доступно",
     "More" : "Остало",
     "Global" : "Цео свет",
