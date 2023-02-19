@@ -229,6 +229,7 @@ OC.L10N.register(
     "Out of office" : "Không ở văn phòng",
     "Unknown" : "Không xác định",
     "Accept" : "Đồng ý",
+    "Decline" : "Từ chối",
     "Tentative" : "Chưa chắc chắn",
     "Create Talk room for this event" : "Tạo một phòng trò chuyện cho sự kiện này",
     "Show busy times" : "Cho thấy các thời gian bận",
