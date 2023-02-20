@@ -42,6 +42,8 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
+use OCP\Notification\IManager;
+use OCP\Notification\INotification;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -70,6 +72,9 @@ class MailServiceTest extends TestCase {
 	/** @var mixed|IFactory|MockObject */
 	private $lFactory;
 
+	/** @var IManager|MockObject  */
+	private $notificationManager;
+
 	/** @var MailService */
 	private $mailService;
 
@@ -88,6 +93,7 @@ class MailServiceTest extends TestCase {
 		$this->urlGenerator = $this->createMock(URLGenerator::class);
 		$this->dateFormatter = $this->createMock(IDateTimeFormatter::class);
 		$this->lFactory = $this->createMock(IFactory::class);
+		$this->notificationManager = $this->createMock(IManager::class);
 		$this->mailService = new MailService(
 			$this->mailer,
 			$this->userManager,
@@ -97,6 +103,7 @@ class MailServiceTest extends TestCase {
 			$this->urlGenerator,
 			$this->dateFormatter,
 			$this->lFactory,
+			$this->notificationManager,
 		);
 	}
 
@@ -486,5 +493,200 @@ class MailServiceTest extends TestCase {
 		$this->expectException(ServiceException::class);
 
 		$this->mailService->sendBookingInformationEmail($booking, $config, 'abc');
+	}
+
+	public function testSendOrganizerBookingInformationEmail(): void {
+		$booking = new Booking();
+		$booking->setEmail('test@test.com');
+		$booking->setDisplayName('Test');
+		$booking->setStart(time());
+		$booking->setTimezone('Europe/Berlin');
+		$booking->setDescription('Test');
+		$config = new AppointmentConfig();
+		$config->setUserId('test');
+		$config->setLocation('Test');
+		$this->userManager->expects(self::once())
+			->method('get')
+			->willReturn($this->createConfiguredMock(IUser::class, [
+				'getEmailAddress' => 'test@test.com',
+				'getDisplayName' => 'Test Test'
+			]));
+		$mailMessage = $this->createMock(IMessage::class);
+		$this->mailer->expects(self::once())
+			->method('createMessage')
+			->willReturn($mailMessage);
+		$mailMessage->expects(self::once())
+			->method('setFrom')
+			->willReturn($mailMessage);
+		$mailMessage->expects(self::once())
+			->method('setTo')
+			->willReturn($mailMessage);
+		$mailMessage->expects(self::once())
+			->method('useTemplate')
+			->willReturn($mailMessage);
+		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$this->mailer->expects(self::once())
+			->method('createEmailTemplate')
+			->willReturn($emailTemplate);
+		$emailTemplate->expects(self::once())
+			->method('addHeader');
+		$emailTemplate->expects(self::once())
+			->method('setSubject');
+		$emailTemplate->expects(self::once())
+			->method('addHeading');
+		$emailTemplate->expects(self::exactly(5))
+			->method('addBodyListItem');
+		$emailTemplate->expects(self::once())
+			->method('addFooter');
+		$this->mailer->expects(self::once())
+			->method('createEmailTemplate');
+		$this->mailer->expects(self::once())
+			->method('createAttachment');
+		$this->l10n->expects(self::exactly(6))
+			->method('t');
+		$this->lFactory->expects(self::once())
+			->method('findGenericLanguage')
+			->willReturn('en');
+		$this->lFactory->expects(self::once())
+			->method('get');
+		$this->dateFormatter->expects(self::once())
+			->method('formatDateTimeRelativeDay')
+			->willReturn('Test');
+		$this->mailer->expects(self::once())
+			->method('send')
+			->willReturn([]);
+		$this->logger->expects(self::never())
+			->method('warning');
+		$this->logger->expects(self::never())
+			->method('debug');
+
+		$this->mailService->sendOrganizerBookingInformationEmail($booking, $config, 'abc');
+	}
+
+	public function testSendOrganizerBookingInformationEmailFailed(): void {
+		$booking = new Booking();
+		$booking->setEmail('test@test.com');
+		$booking->setDisplayName('Test');
+		$booking->setStart(time());
+		$booking->setTimezone('Europe/Berlin');
+		$booking->setDescription('Test');
+		$config = new AppointmentConfig();
+		$config->setUserId('test');
+		$config->setLocation('Test');
+		$this->userManager->expects(self::once())
+			->method('get')
+			->willReturn($this->createConfiguredMock(IUser::class, [
+				'getEmailAddress' => 'test@test.com',
+				'getDisplayName' => 'Test Test'
+			]));
+		$mailMessage = $this->createMock(IMessage::class);
+		$this->mailer->expects(self::once())
+			->method('createMessage')
+			->willReturn($mailMessage);
+		$mailMessage->expects(self::once())
+			->method('setFrom')
+			->willReturn($mailMessage);
+		$mailMessage->expects(self::once())
+			->method('setTo')
+			->willReturn($mailMessage);
+		$mailMessage->expects(self::once())
+			->method('useTemplate')
+			->willReturn($mailMessage);
+		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$this->mailer->expects(self::once())
+			->method('createEmailTemplate')
+			->willReturn($emailTemplate);
+		$emailTemplate->expects(self::once())
+			->method('addHeader');
+		$emailTemplate->expects(self::once())
+			->method('setSubject');
+		$emailTemplate->expects(self::once())
+			->method('addHeading');
+		$emailTemplate->expects(self::exactly(5))
+			->method('addBodyListItem');
+		$emailTemplate->expects(self::once())
+			->method('addFooter');
+		$this->mailer->expects(self::once())
+			->method('createEmailTemplate');
+		$this->mailer->expects(self::once())
+			->method('createAttachment');
+		$this->l10n->expects(self::exactly(6))
+			->method('t');
+		$this->lFactory->expects(self::once())
+			->method('findGenericLanguage')
+			->willReturn('en');
+		$this->lFactory->expects(self::once())
+			->method('get');
+		$this->dateFormatter->expects(self::once())
+			->method('formatDateTimeRelativeDay')
+			->willReturn('Test');
+		$this->mailer->expects(self::once())
+			->method('send')
+			->willReturn(['test@test.com']);
+		$this->logger->expects(self::once())
+			->method('warning');
+		$this->logger->expects(self::once())
+			->method('debug');
+		$this->expectException(ServiceException::class);
+
+		$this->mailService->sendOrganizerBookingInformationEmail($booking, $config, 'abc');
+	}
+
+	public function testSendOrganizerBookingInformationOrganizerNotFound(): void {
+		$booking = new Booking();
+		$config = new AppointmentConfig();
+		$config->setUserId('test');
+		$this->userManager->expects(self::once())
+			->method('get')
+			->willReturn(null);
+		$this->expectException(ServiceException::class);
+
+		$this->mailService->sendOrganizerBookingInformationEmail($booking, $config, 'abc');
+	}
+
+	public function testSendOrganizerBookingNotification(): void {
+		$booking = new Booking();
+		$booking->setEmail('test@test.com');
+		$booking->setDisplayName('Test');
+		$booking->setStart(time());
+		$booking->setTimezone('Europe/Berlin');
+		$booking->setDescription('Test');
+		$config = new AppointmentConfig();
+		$config->setUserId('test');
+		$config->setLocation('Test');
+		$notification = $this->createMock(INotification::class);
+
+		$this->lFactory->expects(self::once())
+			->method('get')
+			->willReturn($this->createMock(IL10N::class));
+		$this->dateFormatter->expects(self::once())
+			->method('formatDateTimeRelativeDay');
+		$this->notificationManager->expects(self::once())
+			->method('createNotification')
+			->willReturn($notification);
+		$notification->expects(self::once())
+			->method('setApp')
+			->willReturn($notification);
+		$notification->expects(self::once())
+			->method('setUser')
+			->with($config->getUserId())
+			->willReturn($notification);
+		$notification->expects(self::once())
+			->method('setObject')
+			->willReturn($notification);
+		$notification->expects(self::once())
+			->method('setSubject')
+			->willReturn($notification);
+		$notification->expects(self::once())
+			->method('setDateTime')
+			->willReturn($notification);
+		$notification->expects(self::once())
+			->method('setMessage')
+			->willReturn($notification);
+		$this->notificationManager->expects(self::once())
+			->method('notify')
+			->with($notification);
+
+		$this->mailService->sendOrganizerBookingInformationNotification($booking, $config);
 	}
 }

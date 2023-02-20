@@ -114,11 +114,20 @@ class BookingService {
 		$calendar = $this->calendarWriter->write($config, $startObj, $booking->getDisplayName(), $booking->getEmail(), $booking->getDescription());
 		$booking->setConfirmed(true);
 		$this->bookingMapper->update($booking);
+
 		try {
 			$this->mailService->sendBookingInformationEmail($booking, $config, $calendar);
+			$this->mailService->sendOrganizerBookingInformationEmail($booking, $config, $calendar);
 		} catch (ServiceException $e) {
-			$this->logger->info('Could not send booking information email after confirmation by user ' . $booking->getEmail(), ['exception' => $e]);
+			$this->logger->info('Could not send booking emails after confirmation from user ' . $booking->getEmail(), ['exception' => $e]);
 		}
+
+		try {
+			$this->mailService->sendOrganizerBookingInformationNotification($booking, $config);
+		} catch (\InvalidArgumentException $e) {
+			$this->logger->warning('Could not send booking information notification after confirmation by user ' . $booking->getEmail(), ['exception' => $e]);
+		}
+
 		return $booking;
 	}
 
