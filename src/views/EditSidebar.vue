@@ -182,7 +182,7 @@
 							<div :style="`width:${sharedProgress}%`" />
 						</div>
 						<div class="modal-h">
-							{{ n('calendar', 'User requires access to your file', 'Users requires access to your file', showModalUsers.length) }}
+							{{ n('calendar', 'User requires access to your file', 'Users require access to your file', showModalUsers.length) }}
 						</div>
 						<div class="users">
 							<NcListItemIcon v-for="attendee in showModalUsers"
@@ -193,7 +193,7 @@
 								:is-no-user="true" />
 						</div>
 						<div class="modal-subtitle">
-							{{ n('calendar', 'Attachment requiring shared access', 'Attachments requiring shared access', showModalNewAttachments.length) }}
+							{{ n('calendar', 'Attachment requires shared access', 'Attachments requiring shared access', showModalNewAttachments.length) }}
 						</div>
 						<div class="attachments">
 							<NcListItemIcon v-for="attachment in showModalNewAttachments"
