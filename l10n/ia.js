@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Hello," : "Salute %s,",
     "Cheers!" : "Congratulationes!",
-    "Confirm" : "Confirmar",
     "Calendar" : "Calendario",
+    "Confirm" : "Confirmar",
     "New event" : "Nove evento",
     "Today" : "Hodie",
     "Day" : "Die",
