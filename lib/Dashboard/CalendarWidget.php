@@ -162,11 +162,8 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 		// get all vevents in this time range
 		// if "show tasks" is enabled, get all todos in the time range
 		// sort events by time
-		// filter events by:
-		// .filter(event => !event.classNames.includes('fc-event-nc-task-completed'))
-		// .filter(event => !event.classNames.includes('fc-event-nc-cancelled'))
+		// filter events by COMPLETED and CANCELLED
 		// filter out all events that are before the start of the day:
-		// .filter(event => filterBefore.getTime() <= event.start.getTime())
 		// decorate the items with url / task url, colour, etc
 
 		$calendars = $this->calendarManager->getCalendarsForPrincipal('principals/users/' . $userId);
@@ -179,12 +176,12 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 		foreach ($calendars as $calendar) {
 			$timezone = null;
 			if($calendar instanceof CalendarImpl) {
-				/** @var VTimeZone $vTimezone */
-				$timezone = $calendar->getCalendarTimezoneString();
+				$tz = $calendar->getCalendarTimezoneString() ?? 'UTC';
+				$timezone = new \DateTimeZone($tz);
 			}
 			// make sure to include all day events
-			$startTimeWithTimezoneMidnight =  (!empty($timezone)) ? $this->timeFactory->getDateTime('today', new \DateTimeZone($timezone) ?? null) : $this->timeFactory->getDateTime('today');
-			$startTimeWithTimezoneNow =  (!empty($timezone)) ? $this->timeFactory->getDateTime('now', new \DateTimeZone($timezone) ?? null) : $this->timeFactory->getDateTime('now');
+			$startTimeWithTimezoneMidnight =  $this->timeFactory->getDateTime('today', $timezone);
+			$startTimeWithTimezoneNow =  $this->timeFactory->getDateTime('now', $timezone);
 			$endDate = clone $startTimeWithTimezoneMidnight;
 			$endDate->modify('+15 days');
 			$options = [
@@ -193,17 +190,22 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 					'end' => $endDate,
 				],
 				'types' => [
-					'VTODO',
 					'VEVENT'
 				],
 				'sort_asc' => [
 					'firstoccurence'
 				]
 			];
+			if($this->config->getUserValue($userId, Application::APP_ID, 'showTasks') === 'yes') {
+				$options['types'][] = 'VTODO';
+			}
 			$searchResults = $calendar->search('', [], $options, $limit);
 			foreach ($searchResults as $calendarEvent) {
+				$dtstart = DateTime::createFromImmutable($calendarEvent['objects'][0]['DTSTART'][0]);
 				if($calendarEvent['type'] === 'VEVENT') {
-					$dtstart = DateTime::createFromImmutable($calendarEvent['objects'][0]['DTSTART'][0]);
+					if($calendarEvent['objects'][0]['STATUS'][0] === 'CANCELLED') {
+						continue;
+					}
 					$timestring = $this->createVeventString($calendarEvent);
 					if($timestring === null) {
 						continue;
@@ -215,20 +217,33 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 						$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.getCalendarDotSvg', ['color' => $calendar->getDisplayColor() ?? '#0082c9'])), // default NC blue fallback
 						(string) $dtstart->getTimestamp(),
 					);
-//					continue;
 				}
-
-//				$timestring = $this->createVTodoString($calendarEvent);
-//
-//				$widget = new WidgetItem(
-//					$calendarEvent['objects'][0]['SUMMARY'][0] ?? 'New Event',
-//					'',
-//					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.index', ['objectId' => $calendarEvent['uid']])),
-//					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.getCalendarDotSvg', ['color' => $calendar->getDisplayColor() ?? '#0082c9'])), // default NC blue fallback
-//					(string) $dtStart->getTimestamp(),
-//				);
-//				$widgetItems[] = $widget;
 			}
+//			if($this->config->getUserValue($userId, Application::APP_ID, 'showTasks') === 'yes') {
+//				$vTodoOptions = [
+//					'types' => [
+//						'VTODO'
+//					],
+//					'sort_desc' => [
+//						'id'
+//					]
+//				];
+//				$vTodoSearchResults = $calendar->search('', [], $vTodoOptions, $limit);
+//				foreach($vTodoSearchResults as $vTodo) {
+//					if($vTodo['objects'][0]['STATUS'][0] === 'COMPLETED') {
+//						continue;
+//					}
+//					$timestring = $this->createVTodoString($vTodo);
+//					$widget = new WidgetItem(
+//						$vTodo['objects'][0]['SUMMARY'][0] ?? 'Untitled Task',
+//						$timestring,
+//						$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.index', ['objectId' => $calendarEvent['uid']])),
+//						$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.getCalendarDotSvg', ['color' => $calendar->getDisplayColor() ?? '#0082c9'])), // default NC blue fallback
+//						(string) $dtstart->getTimestamp(),
+//					);
+//					$widgetItems[] = $widget;
+//				}
+//			}
 		}
 		return $widgetItems;
 	}
