@@ -1,7 +1,7 @@
 
 # Changelog
 
-## 4.2.3 - 2023-02-01
+## 4.2.4 - 2023-02-22
 ### Fixed
 - Dependencies
 
