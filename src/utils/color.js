@@ -22,7 +22,7 @@
 import convert from 'color-convert'
 import { uidToColor } from './uidToColor.js'
 import css3Colors from 'css-color-names'
-import closestColor from 'closest-css-color'
+import closestColor from './closestColor.js'
 
 /**
  * Detect if a color is light or dark
