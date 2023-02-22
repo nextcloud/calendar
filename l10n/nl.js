@@ -67,7 +67,7 @@ OC.L10N.register(
     "An error occurred, unable to create the calendar." : "Er is een fout opgetreden waardoor het niet mogelijk is om de agenda te creëren.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Geef geldige urls op - die moeten starten met http://, https://, webcal:// of webcals://",
     "Copy subscription link" : "Kopieer abonnementslink",
-    "Copying link …" : "Kopiëren link …",
+    "Copying link …" : "Link kopiëren …",
     "Copied link" : "Link gekopieerd",
     "Could not copy link" : "Kan link niet kopiëren",
     "Export" : "Exporteren",
