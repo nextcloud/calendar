@@ -30,7 +30,9 @@
 					<div v-if="loading"
 						class="edit-calendar-modal__name-and-color__color__dot"
 						:style="{'background-color': calendarColor}" />
-					<NcColorPicker v-else v-model="calendarColor">
+					<NcColorPicker v-else
+						v-model="calendarColor"
+						:advanced-fields="true">
 						<div class="edit-calendar-modal__name-and-color__color__dot"
 							:style="{'background-color': calendarColor}" />
 					</NcColorPicker>

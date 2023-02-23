@@ -40,6 +40,7 @@
 			class="property-color__input">
 			<ColorPicker :value="selectedColor"
 				:open.sync="isColorPickerOpen"
+				:advanced-fields="true"
 				@input="changeColor">
 				<NcButton class="property-color__color-preview"
 					:style="{'background-color': selectedColor }" />
