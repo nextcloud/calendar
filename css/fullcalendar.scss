@@ -146,8 +146,8 @@
 
 // ### FullCalendar Event adjustments
 .fc-event {
-	padding-left: 3px;
-
+	padding: 0 !important;
+	margin: 0 !important;
 	&.fc-event-nc-task-completed,
 	&.fc-event-nc-tentative,
 	&.fc-event-nc-cancelled {
@@ -267,9 +267,6 @@
 	.fc-daygrid-more-link {
 		word-break: break-word;
 		white-space: normal;
-	}
-	.fc-daygrid-day-frame {
-		min-height: 150px !important;
 	}
 }
 .fc-daygrid-day-events {
