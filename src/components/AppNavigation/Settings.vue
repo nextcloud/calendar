@@ -46,7 +46,7 @@
 				:checked="eventLimit"
 				:disabled="savingEventLimit"
 				@update:checked="toggleEventLimitEnabled">
-				{{ $t('calendar', 'Limit visible events per view') }}
+				{{ $t('calendar', 'Limit the number of events displayed in the monthly view') }}
 			</ActionCheckbox>
 			<ActionCheckbox class="settings-fieldset-interior-item"
 				:checked="showWeekends"
