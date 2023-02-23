@@ -29,6 +29,7 @@ OC.L10N.register(
     "Deleted" : "Обрисано",
     "Restore" : "Врати",
     "Delete permanently" : "Обриши заувек",
+    "Empty trash bin" : "Испразни корпу за отпатке",
     "Share link" : "Дели везу",
     "Delete share link" : "Обриши везу дељења",
     "can edit" : "може да мења",
