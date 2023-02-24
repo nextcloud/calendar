@@ -394,6 +394,7 @@ OC.L10N.register(
     "Invite" : "邀請",
     "Attendees" : "參與者",
     "Resources" : "資源",
+    "_User requires access to your file_::_Users require access to your file_" : ["用戶要求存取您的檔案"],
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["需要分享存取權限的附件"],
     "Close" : " 關閉",
     "Show more details" : "顯示更多細節",
