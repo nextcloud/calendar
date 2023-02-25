@@ -26,22 +26,22 @@
  * @return {object}
  */
 const getDateFormattingConfig = () => {
+	const defaultConfig = {
+		dayHeaderFormat: 'ddd l',
+		titleFormat: 'll',
+		slotLabelFormat: 'LT',
+	}
+
 	return {
 		// Date formatting:
 		eventTimeFormat: 'LT',
 		views: {
 			dayGridMonth: {
+				...defaultConfig,
 				dayHeaderFormat: 'ddd',
-				titleFormat: 'll',
 			},
-			timeGridDay: {
-				dayHeaderFormat: 'ddd l',
-				titleFormat: 'll',
-			},
-			timeGridWeek: {
-				dayHeaderFormat: 'ddd l',
-				titleFormat: 'll',
-			},
+			timeGridDay: defaultConfig,
+			timeGridWeek: defaultConfig,
 		},
 	}
 }
