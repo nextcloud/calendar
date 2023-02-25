@@ -394,7 +394,7 @@ OC.L10N.register(
     "Invite" : "Einladen",
     "Attendees" : "Teilnehmer",
     "Resources" : "Ressourcen",
-    "_User requires access to your file_::_Users require access to your file_" : ["Benutzer benötigen Zugang zu Ihrer Datei","Benutzer benötigen Zugang zu Ihrer Datei"],
+    "_User requires access to your file_::_Users require access to your file_" : ["Benutzer benötigen Zugang zu Ihrer Datei","Benutzer benötigen Zugang zu Ihren Dateien"],
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["Anhang erfordert geteilten Zugriff","Anhänge erfordern geteilten Zugriff"],
     "Close" : "Schließen",
     "Show more details" : "Weitere Einzelheiten anzeigen",

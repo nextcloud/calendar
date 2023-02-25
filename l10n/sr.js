@@ -66,6 +66,7 @@ OC.L10N.register(
     "Choose a file to add as attachment" : "Изаберите фајл за прилог",
     "Choose a file to share as a link" : "Одаберите фајл који желите да поделите као везу",
     "Available" : "Доступно",
+    "Not available" : "Није доступно",
     "Busy" : "Заузет",
     "Unknown" : "Непознато",
     "Accept" : "Прихвати",
