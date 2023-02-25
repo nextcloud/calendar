@@ -53,6 +53,10 @@ export default async function loadMomentLocalization() {
 			LL: moment.localeData(realLocale).longDateFormat('LL'),
 			LLL: moment.localeData(realLocale).longDateFormat('LLL'),
 			LLLL: moment.localeData(realLocale).longDateFormat('LLLL'),
+			l: moment.localeData(realLocale).longDateFormat('l'),
+			ll: moment.localeData(realLocale).longDateFormat('ll'),
+			lll: moment.localeData(realLocale).longDateFormat('lll'),
+			llll: moment.localeData(realLocale).longDateFormat('llll'),
 		},
 		week: {
 			dow: moment.localeData(realLocale).firstDayOfWeek(),
@@ -70,19 +74,31 @@ export default async function loadMomentLocalization() {
  * @return {Promise<string>}
  */
 async function getLocaleFor(locale) {
+	// IMPORTANT: Keep each '/moment/local/...' string as is. Otherwise, webpack might not bundle
+	//            locale data because the contentRegExp fails to detect any files.
 	try {
-		// default load e.g. fr-fr
-		await import('moment/locale/' + locale)
+		// default load e.g. en-de
+		await import(`moment/locale/${locale}.js`)
 		return locale
 	} catch (error) {
+		const splitLocale = locale.split('-')
 		try {
-			// failure: fallback to fr
-			locale = locale.split('-')[0]
-			await import('moment/locale/' + locale)
+			// failure: fallback to de
+			locale = splitLocale[1]
+			await import(`moment/locale/${locale}.js`)
 			return locale
 		} catch (e) {
-			// failure, fallback to english
-			console.debug('Fallback to locale', 'en')
+			try {
+				// failure: fallback to en
+				locale = splitLocale[0]
+				await import(`moment/locale/${locale}.js`)
+				return locale
+			} catch (e) {
+				// failure, fallback to english
+				console.debug('Fallback to locale', 'en')
+				// English is the default locale and doesn't need to imported.
+				// It is already included in moment.js.
+			}
 		}
 	}
 
@@ -92,19 +108,8 @@ async function getLocaleFor(locale) {
 /**
  * Get's the first day of a week based on a moment locale
  *
- * @param {string} momentLocale Id of moment locale
  * @return {number}
  */
-export function getFirstDayOfWeekFromMomentLocale(momentLocale) {
-	return moment.localeData(momentLocale).firstDayOfWeek()
-}
-
-/**
- * Get's the first day of a year based on a moment locale
- *
- * @param {string} momentLocale Id of moment locale
- * @return {number}
- */
-export function getFirstDayOfYearFromMomentLocale(momentLocale) {
-	return moment.localeData(momentLocale).firstDayOfYear()
+export function getFirstDayOfWeekFromMomentLocale() {
+	return moment.localeData().firstDayOfWeek()
 }

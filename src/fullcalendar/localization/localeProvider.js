@@ -22,35 +22,17 @@
 import { translate as t } from '@nextcloud/l10n'
 import {
 	getFirstDayOfWeekFromMomentLocale,
-	getFirstDayOfYearFromMomentLocale,
 } from '../../utils/moment.js'
 
 /**
+ * Returns localization settings for the FullCalender package.
  *
- * @param {string} userLocale The user-selected locale
- * @param {string} momentLocale Our merged locale-language based moment locale
+ * @see https://fullcalendar.io/docs
  * @return {object}
  */
-const getFullCalendarLocale = (userLocale, momentLocale) => {
+const getFullCalendarLocale = () => {
 	return {
-		code: userLocale.replace(/_/g, '-').toLowerCase(),
-		week: {
-			dow: getFirstDayOfWeekFromMomentLocale(momentLocale),
-			doy: getFirstDayOfYearFromMomentLocale(momentLocale),
-		},
-		direction: 'ltr', // TODO - fix me
-		buttonText: {
-			prev: t('calendar', 'Prev'),
-			next: t('calendar', 'Next'),
-			prevYear: t('calendar', 'Prev year'),
-			nextYear: t('calendar', 'Next year'),
-			year: t('calendar', 'Year'),
-			today: t('calendar', 'Today'),
-			month: t('calendar', 'Month'),
-			week: t('calendar', 'Week'),
-			day: t('calendar', 'Day'),
-			list: t('calendar', 'List'),
-		},
+		firstDay: getFirstDayOfWeekFromMomentLocale(),
 		// TRANSLATORS W is an abbreviation for Week
 		weekText: t('calendar', 'W'),
 		allDayText: t('calendar', 'All day'),
