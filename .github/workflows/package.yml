@@ -16,7 +16,7 @@ jobs:
         uses: shivammathur/setup-php@d30ad8b1843ace22e6698ab99bbafaa747b6bd0d
         with:
           php-version: 8.0
-          tools: composer:v1
+          tools: composer
           extensions: ctype,curl,dom,gd,iconv,intl,json,mbstring,openssl,posix,sqlite,xml,zip,gmp
           coverage: none
       - name: Install Krankerl
