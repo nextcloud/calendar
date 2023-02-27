@@ -400,7 +400,7 @@ OC.L10N.register(
     "Show more details" : "Visa mer information",
     "Subscribe to {name}" : "Prenumerera på {name}",
     "Export {name}" : "Exportera {name}",
-    "Anniversary" : "Årsdag",
+    "Anniversary" : "Jubileum",
     "Appointment" : "Bokning",
     "Business" : "Företag",
     "Education" : "Utbildning",
