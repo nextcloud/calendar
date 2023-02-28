@@ -14,6 +14,40 @@ updates:
   labels:
   - 3 - to review
   - dependencies
+- package-ecosystem: composer
+  directory: "/vendor-bin/cs-fixer"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 3
+  reviewers:
+    - "ChristophWurst"
+    - "st3iny"
+  labels:
+    - 3. to review
+    - dependencies
+  commit-message:
+    prefix: ci
+    include: scope
+- package-ecosystem: composer
+  directory: "/vendor-bin/phpunit"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "03:00"
+    timezone: Europe/Paris
+  open-pull-requests-limit: 3
+  reviewers:
+    - "ChristophWurst"
+    - "st3iny"
+  labels:
+    - 3. to review
+    - dependencies
+  commit-message:
+    prefix: ci
+    include: scope
 - package-ecosystem: npm
   directory: "/"
   schedule:
