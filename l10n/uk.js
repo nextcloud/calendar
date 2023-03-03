@@ -600,7 +600,7 @@ OC.L10N.register(
     "Party" : "Вечірка",
     "Celebration" : "Святкування",
     "Celebrate" : "Святкування",
-    "Birthday" : "День народження",
+    "Birthday" : "Дата народження",
     "Shopping" : "Шопінг",
     "Groceries" : "Бакалія",
     "Skate" : "Ковзани",
