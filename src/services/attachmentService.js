@@ -21,7 +21,7 @@
  */
 
 import axios from '@nextcloud/axios'
-import { generateOcsUrl } from '@nextcloud/router'
+import { generateOcsUrl, generateRemoteUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 
@@ -84,10 +84,10 @@ const shareFileWith = async function(path, sharedWith, permissions = 17) {
 }
 
 const createFolder = async function(folderName, userId) {
-	const url = `/remote.php/dav/files/${userId}/${folderName}`
+	const url = generateRemoteUrl(`dav/files/${userId}/${folderName}`)
 	await axios({
 		method: 'MKCOL',
-		url: url.replace('//', '/'),
+		url,
 	}).catch(e => {
 		if (e.response.status !== 405) {
 			showError(t('calendar', 'Error creating a folder {folder}', {
@@ -110,7 +110,7 @@ const uploadLocalAttachment = async function(folder, event, dav, componentAttach
 				fileName: file.name,
 			}))
 		} else {
-			const url = `/remote.php/dav/files/${dav.userId}/${folder}/${file.name}`
+			const url = generateRemoteUrl(`dav/files/${dav.userId}/${folder}/${file.name}`)
 			const res = axios.put(url, file).then(resp => {
 				const data = {
 					fileName: file.name,
@@ -141,7 +141,7 @@ const uploadLocalAttachment = async function(folder, event, dav, componentAttach
 
 // TODO is shared or not @share-types@
 const getFileInfo = async function(path, dav) {
-	const url = `/remote.php/dav/files/${dav.userId}/${path}`
+	const url = generateRemoteUrl(`dav/files/${dav.userId}/${path}`)
 	const res = await axios({
 		method: 'PROPFIND',
 		url,
