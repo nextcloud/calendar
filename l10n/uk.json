@@ -474,7 +474,6 @@
     "Special color of this event. Overrides the calendar-color." : "Власний колір для цієї події. Перезаписати колір календаря.",
     "Error while sharing file" : "Помилка під час надання спільного доступу до файлу",
     "Error while sharing file with user" : "Помилка під час надання доступу користувачеві",
-    "Error creating a folder {folder}" : "Помилка під час надання створення каталогу {folder}",
     "Attachment {fileName} already exists!" : "Долучений файл {filename} вже присутній!",
     "An error occurred during getting file information" : "Помилка під час отримання інформації про файл",
     "Chat room for event" : "Кімната чату для події",

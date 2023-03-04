@@ -484,7 +484,6 @@ OC.L10N.register(
     "Special color of this event. Overrides the calendar-color." : "Sonderfarbe für diesen Termin. Überschreibt die Kalenderfarbe.",
     "Error while sharing file" : "Fehler beim Teilen der Datei",
     "Error while sharing file with user" : "Fehler beim Teilen der Datei mit Benutzer",
-    "Error creating a folder {folder}" : "Fehler beim Erstellen des Ordners {folder}",
     "Attachment {fileName} already exists!" : "Anhang {fileName} existiert bereits",
     "An error occurred during getting file information" : "Es ist ein Fehler beim Abrufen von Dateiinformationen aufgetreten",
     "Chat room for event" : "Chat-Raum für Termin",

@@ -477,7 +477,6 @@ OC.L10N.register(
     "Special color of this event. Overrides the calendar-color." : "Özel etkinlik rengi, takvim renginin yerine kullanılır.",
     "Error while sharing file" : "Dosya paylaşılırken sorun çıktı",
     "Error while sharing file with user" : "Dosya kullanıcı ile paylaşılırken sorun çıktı",
-    "Error creating a folder {folder}" : "{folder} klasörü oluşturulurken sorun çıktı",
     "Attachment {fileName} already exists!" : "{fileName} ek dosyası zaten var!",
     "An error occurred during getting file information" : "Dosya bilgileri alınırken bir sorun çıktı",
     "Chat room for event" : "Etkinliğin sohbet odası",

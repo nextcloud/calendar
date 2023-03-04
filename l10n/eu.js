@@ -483,7 +483,6 @@ OC.L10N.register(
     "Special color of this event. Overrides the calendar-color." : "Gertaera honen kolorea berezia da. Egutegi kolorea baliogabetzen du.",
     "Error while sharing file" : "Errorea fitxategia partekatzean",
     "Error while sharing file with user" : "Errorea fitxategia erabiltzailearekin partekatzean",
-    "Error creating a folder {folder}" : "Errorea {karpeta} karpeta bat sortzean",
     "Attachment {fileName} already exists!" : "{fileName} eranskina dagoeneko badago!",
     "An error occurred during getting file information" : "Errore bat gertatu da fitxategiaren informazioa eskuratzean",
     "Chat room for event" : "Txat gela gertaera honentzat",

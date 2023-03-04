@@ -479,7 +479,6 @@
     "Special color of this event. Overrides the calendar-color." : "Cor especial deste evento. Substitui a cor do calendário.",
     "Error while sharing file" : "Erro ao compartilhar arquivo",
     "Error while sharing file with user" : "Error while sharing file with user",
-    "Error creating a folder {folder}" : "Error creating a folder {folder}",
     "Attachment {fileName} already exists!" : "Attachment {fileName} already exists!",
     "An error occurred during getting file information" : "An error occurred during getting file information",
     "Chat room for event" : "Sala de bato-papo para evento",

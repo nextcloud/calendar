@@ -482,7 +482,6 @@
     "Special color of this event. Overrides the calendar-color." : "Couleur de l'évènement. Remplace la couleur de l'agenda.",
     "Error while sharing file" : "Erreur lors du partage du fichier",
     "Error while sharing file with user" : "Erreur lors du partage du fichier avec un utilisateur",
-    "Error creating a folder {folder}" : "Erreur lors de la création d'un dossier {folder}",
     "Attachment {fileName} already exists!" : "La pièce jointe {fileName} existe déjà !",
     "An error occurred during getting file information" : "Une erreur est survenue lors de la récupération des informations du fichier",
     "Chat room for event" : "Salle de discussion de cet événement",

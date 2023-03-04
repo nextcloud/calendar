@@ -112,6 +112,7 @@ OC.L10N.register(
     "An error occurred, unable to change the permission of the share." : "Произошла ошибка, не удалось изменить разрешения для общего ресурса.",
     "Share with users or groups" : "Поделиться с пользователями или группами",
     "No users or groups" : "Пользователи или группы отсутствуют",
+    "Calendar name …" : "Название календаря ...",
     "Share calendar" : "Поделиться календарем",
     "Copy private link" : "Скопировать закрытую ссылку",
     "Unshare from me" : "Отписаться",

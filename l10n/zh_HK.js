@@ -484,7 +484,6 @@ OC.L10N.register(
     "Special color of this event. Overrides the calendar-color." : "此活動的特殊顏色。覆寫日曆顏色。",
     "Error while sharing file" : "分享檔案時發生錯誤",
     "Error while sharing file with user" : "與用戶分享檔案時發生錯誤",
-    "Error creating a folder {folder}" : "建立資料夾 {folder} 時發生錯誤",
     "Attachment {fileName} already exists!" : "附件 {fileName} 已存在！",
     "An error occurred during getting file information" : "取得檔案資訊時發生錯誤",
     "Chat room for event" : "活動的聊天室",

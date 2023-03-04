@@ -484,7 +484,6 @@ OC.L10N.register(
     "Special color of this event. Overrides the calendar-color." : "Anpassad färg på denna händelse. Åsidosätter kalenderfärgen.",
     "Error while sharing file" : "Fel vid delning av fil",
     "Error while sharing file with user" : "Ett fel uppstod vid delning av fil med användare",
-    "Error creating a folder {folder}" : "Det gick inte att skapa mappen {folder}",
     "Attachment {fileName} already exists!" : "Bilagan {fileName} finns redan!",
     "An error occurred during getting file information" : "Ett fel uppstod vid hämtning av filinformation",
     "Chat room for event" : "Mötesrum för event",
