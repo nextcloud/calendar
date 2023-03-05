@@ -535,7 +535,7 @@ OC.L10N.register(
     "Planning" : "Planering",
     "Pointing" : "Peka",
     "Retrospective" : "Återkoppling",
-    "Office" : "Kontor",
+    "Office" : "Office",
     "Contributor week" : "Bidragarvecka",
     "Mail" : "E-post",
     "Soccer" : "Fotboll",
