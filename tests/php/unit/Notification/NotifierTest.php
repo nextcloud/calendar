@@ -179,20 +179,12 @@ class NotifierTest extends \PHPUnit\Framework\TestCase {
 		$notification->expects($this->once())
 			->method('setRichSubject')
 			->with('New booking {booking}', $booking);
-		$notification->expects($this->once())
-			->method('getRichSubjectParameters');
-		$notification->expects(self::once())
-			->method('setParsedSubject');
 		$notification->expects(self::once())
 			->method('getMessageParameters')
 			->willReturn($messageParameters);
 		$notification->expects($this->once())
 			->method('setRichMessage')
 			->with('{display_name} ({email}) booked the appointment "{config_display_name}" on {date_time}.', $messageRichData);
-		$notification->expects($this->once())
-			->method('getRichMessageParameters');
-		$notification->expects(self::once())
-			->method('setParsedMessage');
 
 		$return = $this->notifier->prepare($notification, 'de');
 		$this->assertEquals($notification, $return);
