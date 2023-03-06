@@ -43,7 +43,7 @@ OC.L10N.register(
     "Month" : "Місяць",
     "List" : "Список",
     "Preview" : "Перегляд",
-    "Copy link" : "Скопіювати посилання",
+    "Copy link" : "Копіювати посилання",
     "Edit" : "Редагувати",
     "Delete" : "Вилучити",
     "Appointment link was copied to clipboard" : "Посилання на зустріч скопійовано до буферу обміну",
