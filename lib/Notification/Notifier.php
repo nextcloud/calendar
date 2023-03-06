@@ -75,12 +75,6 @@ class Notifier implements INotifier {
 						'link' => $this->url->linkToRouteAbsolute('calendar.view.index')
 					]
 				]);
-				$placeholders = $replacements = [];
-				foreach ($notification->getRichSubjectParameters() as $placeholder => $parameter) {
-					$placeholders[] = '{' . $placeholder . '}';
-					$replacements[] = $parameter[$placeholder];
-				}
-				$notification->setParsedSubject(str_replace($placeholders, $replacements, $notification->getRichSubject()));
 
 				$messageParameters = $notification->getMessageParameters();
 				$notification->setRichMessage($l->t('{display_name} ({email}) booked the appointment "{config_display_name}" on {date_time}.'), [
@@ -105,16 +99,10 @@ class Notifier implements INotifier {
 						'name' => $messageParameters['config_display_name'],
 					]
 				]);
-				foreach ($notification->getRichMessageParameters() as $placeholder => $parameter) {
-					$placeholders[] = '{' . $placeholder . '}';
-					$replacements[] = $parameter[$placeholder];
-				}
-				$notification->setParsedMessage(str_replace($placeholders, $replacements, $notification->getRichMessage()));
 				break;
 			default:
 				throw  new \InvalidArgumentException();
 		}
-
 
 		return $notification;
 	}
