@@ -71,11 +71,11 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.0 <=8.2"
+        "php": ">=7.4 <=8.2"
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "8.0"
+        "php": "7.4"
     },
     "plugin-api-version": "2.3.0"
 }
