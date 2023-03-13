@@ -160,6 +160,7 @@ OC.L10N.register(
     "Delete file" : "Eliminar ficheiro",
     "Choose a file to add as attachment" : "Escolla un ficheiro para engadir como anexo",
     "Choose a file to share as a link" : "Escolla un ficheiro para compartir como ligazón",
+    "_{count} attachment_::_{count} attachments_" : ["{count} adxunto","{count} adxuntos"],
     "Available" : "Dispoñíbel",
     "Not available" : "Non dispoñíbel",
     "Availability of attendees, resources and rooms" : "Dispoñibilidade de asistentes, recursos e salas",
