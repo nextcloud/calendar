@@ -5,7 +5,7 @@ OC.L10N.register(
     "%s has published the calendar »%s«" : "%s telah mempublikasikan kalender »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Galat saat mengirim surel. Silakan hubungi administrator Anda.",
     "Hello," : "Halo,",
-    "We wanted to inform you that %s has published the calendar »%s«." : "Kami ingin menginformasikan anda bahwa %s telah mempublikasikan kalender »%s«.",
+    "We wanted to inform you that %s has published the calendar »%s«." : "Kami ingin menginformasikan Anda bahwa %s telah mempublikasikan kalender »%s«.",
     "Open »%s«" : "Buka »%s«",
     "Cheers!" : "Horee!",
     "Calendar" : "Kalender",
@@ -256,7 +256,7 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Terjadi galat, tidak dapat menghapus kalender.",
     "Talk" : "Talk",
     "Review" : "Tinjauan",
-    "Mail" : "Email",
+    "Mail" : "Surel",
     "Birthday" : "Tanggal lahir"
 },
 "nplurals=1; plural=0;");

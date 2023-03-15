@@ -17,7 +17,7 @@
     "Schedule appointment \"%s\"" : "Termin planen \"%s\"",
     "Schedule an appointment" : "Vereinbare einen Termin",
     "Prepare for %s" : "Bereite dich auf %s vor",
-    "Follow up for %s" : "Nachverfolgung für %s",
+    "Follow up for %s" : "Nachbereitung: %s",
     "Your appointment \"%s\" with %s needs confirmation" : "Für deine Terminvereinbarung \"%s\" mit %s steht die Bestätigung noch aus.",
     "Dear %s, please confirm your booking" : "Hallo %s, bitte bestätige die Terminbuchung",
     "Confirm" : "Bestätigen",
