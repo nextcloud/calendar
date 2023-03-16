@@ -74,6 +74,7 @@ OC.L10N.register(
     "Filename" : "Nama berkas",
     "Cancel" : "Batal",
     "_Import calendar_::_Import calendars_" : ["Impor kalender"],
+    "Invalid location selected" : "Lokasi yang tidak valid dipilih",
     "No valid files found, aborting import" : "Berkas valid tidak ditemukan, impor dibatalkan",
     "Import partially failed. Imported {accepted} out of {total}." : "Sebagian impor gagal. Dari {total} hanya {accepted} berhasil impor.",
     "Automatic" : "Otomatis",
