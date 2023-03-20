@@ -1,8 +1,10 @@
 
 # Changelog
-## 4.3.0 - unreleased
+
+## 4.3.0 - 2023-03-20
 ### Added
 - File attachments for calendar events
+- Organizer booking emails
 ### Changed
 - Lazy load dashboard component
 - Wider input for recurrences
@@ -12,6 +14,7 @@
 - Calendar export button
 - Share dialogue focus loss
 - Disabling appointments
+- Color picker
 
 ## 4.2.2 - 2023-01-26
 ### Fixed
