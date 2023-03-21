@@ -80,6 +80,7 @@ import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import {
 	uploadLocalAttachment,
 	getFileInfo,
+	createFolder,
 } from '../../../services/attachmentService.js'
 import { parseXML } from 'webdav/dist/node/tools/dav.js'
 
@@ -108,6 +109,7 @@ export default {
 	data() {
 		return {
 			uploading: false,
+			folderCreated: false,
 		}
 	},
 	computed: {
@@ -166,6 +168,10 @@ export default {
 			this.$refs.localAttachments.click()
 		},
 		async onLocalAttachmentSelected(e) {
+			if (!this.folderCreated) {
+				await createFolder(this.attachmentsFolder, this.currentUser.userId)
+				this.folderCreated = true
+			}
 			const attachments = await uploadLocalAttachment(this.attachmentsFolder, e, this.currentUser.dav, this.attachments)
 			// TODO do not share file, move to PHP
 			attachments.map(async attachment => {

@@ -104,8 +104,6 @@ import '@nextcloud/dialogs/dist/index.css'
 import Trashbin from '../components/AppNavigation/CalendarList/Trashbin.vue'
 import AppointmentConfigList from '../components/AppNavigation/AppointmentConfigList.vue'
 
-import { createFolder } from '../services/attachmentService.js'
-
 export default {
 	name: 'Calendar',
 	components: {
@@ -191,7 +189,6 @@ export default {
 	watch: {
 		currentUserPrincipal() {
 			if (this.currentUserPrincipal !== undefined && this.loadingUser) {
-				createFolder(this.attachmentsFolder, this.currentUserPrincipal.userId)
 				this.loadingUser = false
 			}
 		},
