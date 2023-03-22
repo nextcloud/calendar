@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 4.3.1 - 2023-03-22
+### Changed
+- Webpack version
+
 ## 4.3.0 - 2023-03-20
 ### Added
 - File attachments for calendar events
