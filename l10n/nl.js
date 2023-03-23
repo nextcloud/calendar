@@ -146,7 +146,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "Verjaardagskalender inschakelen",
     "Show tasks in calendar" : "Toon taken in agenda",
     "Enable simplified editor" : "Eenvoudige editor inschakelen",
-    "Limit visible events per view" : "Beperk aantal zichtbare afspraken per overzicht",
     "Show weekends" : "Toon weekenden",
     "Show week numbers" : "Tonen weeknummers",
     "Time increments" : "Time-toename",

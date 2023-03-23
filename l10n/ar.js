@@ -106,7 +106,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "تفعيل تقويم عيد الميلاد",
     "Show tasks in calendar" : "اظهار المهام في التقويم",
     "Enable simplified editor" : "تفعيل المحرر البسيط",
-    "Limit visible events per view" : "حصر رؤية الفعاليات بالمشاهدة",
     "Show weekends" : "اظهار ايام نهاية الاسبوع",
     "Show week numbers" : "اظهار ارقام الأسابيع",
     "Copy primary CalDAV address" : "نسخ عنوان CalDAV الرئيسي",

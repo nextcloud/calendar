@@ -130,7 +130,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "Galluogi calendr pen-blwydd",
     "Show tasks in calendar" : "Dangos tasgau yn y calendr",
     "Enable simplified editor" : "Galluogi golygydd symlach",
-    "Limit visible events per view" : "Cyfyngu ar ddigwyddiadau gweladwy fesul golwg",
     "Show weekends" : "Dangos penwythnosau",
     "Show week numbers" : "Dangos rhifau wythnosau",
     "Time increments" : "Cynyddiadau amser",

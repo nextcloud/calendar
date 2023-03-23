@@ -126,7 +126,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "誕生日カレンダーを有効にする",
     "Show tasks in calendar" : "カレンダーにタスクを表示",
     "Enable simplified editor" : "簡易エディターを有効にする",
-    "Limit visible events per view" : "表示するイベントを制限する",
     "Show weekends" : "週末を表示する",
     "Show week numbers" : "週番号を表示する",
     "Time increments" : "時間の増加",

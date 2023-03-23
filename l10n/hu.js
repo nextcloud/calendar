@@ -151,7 +151,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "Születésnapokat tartalamzó naptár engedélyezése",
     "Show tasks in calendar" : "Feladatok megjelenítése a naptárban",
     "Enable simplified editor" : "Egyszerűsített szerkesztő engedélyezése",
-    "Limit visible events per view" : "Látható események számának korlátozása nézetenként",
     "Show weekends" : "Hétvégék megjelenítése",
     "Show week numbers" : "Hetek számának megjelenítése",
     "Time increments" : "Idő lépésköze",

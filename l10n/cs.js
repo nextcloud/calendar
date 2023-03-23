@@ -160,7 +160,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "Zobrazovat kalendář s narozeninami",
     "Show tasks in calendar" : "Zobrazovat úkoly v kalendáři",
     "Enable simplified editor" : "Používat zjednodušený editor",
-    "Limit visible events per view" : "Omezit viditelné události v jednotlivých pohledech",
     "Show weekends" : "Zobrazit víkendy",
     "Show week numbers" : "Zobrazovat čísla týdnů",
     "Time increments" : "Přírůstky času",

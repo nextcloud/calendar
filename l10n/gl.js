@@ -113,7 +113,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "Activar o calendario de aniversarios",
     "Show tasks in calendar" : "Amosar as tarefas no calendario",
     "Enable simplified editor" : "Activar o editor simplificado",
-    "Limit visible events per view" : "Limitar os eventos visíbeis por vista",
     "Show weekends" : "Amosar os fins de semana",
     "Show week numbers" : "Amosar o número de semana",
     "Copy primary CalDAV address" : "Copiar o enderezo principal do CalDAV",

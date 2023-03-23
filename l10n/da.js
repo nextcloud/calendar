@@ -153,7 +153,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "Slå fødselsdagskalender til",
     "Show tasks in calendar" : "Vis opgaver i kalenderen",
     "Enable simplified editor" : "Slå simpel editor til",
-    "Limit visible events per view" : "Begræns synlige hændelser pr. visning",
     "Show weekends" : "Vis weekender",
     "Show week numbers" : "Vis ugenummer ",
     "Time increments" : "Tidsstigninger",

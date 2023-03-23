@@ -136,7 +136,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "Virkja fæðingardagatal",
     "Show tasks in calendar" : "Sýna verkefni í dagatali",
     "Enable simplified editor" : "Virkja einfaldaðan ritil",
-    "Limit visible events per view" : "Takmarka sýnilega atburði í hverri sýn",
     "Show weekends" : "Sýna helgar",
     "Show week numbers" : "Sýna vikunúmer",
     "Time increments" : "Tímaþrep",

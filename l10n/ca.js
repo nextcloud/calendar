@@ -160,7 +160,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "Habilitar el calendari d'aniversaris",
     "Show tasks in calendar" : "Mostra les tasques en el calendari",
     "Enable simplified editor" : "Habilitar l'editor simplificat",
-    "Limit visible events per view" : "Limita el esdeveniments visibles per visualització",
     "Show weekends" : "Mostra els caps de setmana",
     "Show week numbers" : "Mostra el número de la setmana",
     "Time increments" : "Increments de temps",

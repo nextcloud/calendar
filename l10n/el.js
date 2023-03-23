@@ -148,7 +148,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "Ενεργοποίηση ημερολογίου γενεθλίων",
     "Show tasks in calendar" : "Εμφάνιση εργασιών στο ημερολόγιο",
     "Enable simplified editor" : "Ενεργοποίηση απλοποιημένου προγράμματος επεξεργασίας",
-    "Limit visible events per view" : "Περιορισμός ορατών γεγονότων ανά σελίδα",
     "Show weekends" : "Εμφάνιση σαββατοκύριακων",
     "Show week numbers" : "Εμφάνιση αριθμού εβδομάδας",
     "Time increments" : "Χρόνος μεταξύ δυο ραντεβού",

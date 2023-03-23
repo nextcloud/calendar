@@ -159,7 +159,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "Ativar calendário de aniversários",
     "Show tasks in calendar" : "Mostrar tarefas no calendário",
     "Enable simplified editor" : "Ativar o editor simplificado",
-    "Limit visible events per view" : "Limitar eventos visíveis por visualização",
     "Show weekends" : "Mostrar fins de semana",
     "Show week numbers" : "Exibir o número das semanas",
     "Time increments" : "Incrementos de tempo",

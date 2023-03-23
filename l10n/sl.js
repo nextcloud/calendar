@@ -138,7 +138,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "Omogoči koledar rojstnih dni",
     "Show tasks in calendar" : "Pokaži naloge v koledarju",
     "Enable simplified editor" : "Omogoči poenostavljen urejevalnik",
-    "Limit visible events per view" : "Omeji prikaz dogodkov v pogledu",
     "Show weekends" : "Pokaži vikende",
     "Show week numbers" : "Pokaži številke tednov",
     "Time increments" : "Časovno povečevanje",

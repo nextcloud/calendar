@@ -130,7 +130,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "Bật lịch sinh nhật",
     "Show tasks in calendar" : "Cho thấy nhiệm vụ trong lịch",
     "Enable simplified editor" : "Bật chỉnh sửa đơn giản",
-    "Limit visible events per view" : "Hạn chế các sự kiện có thể thấy trên mỗi lượt xem",
     "Show weekends" : "Cho thấy ngày cuối tuần",
     "Show week numbers" : "Hiển thị số tuần",
     "Time increments" : "Mức tăng thời gian",

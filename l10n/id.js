@@ -96,7 +96,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "Aktifkan kalender ulang tahun",
     "Show tasks in calendar" : "Tampilkan tugas dalam kalender",
     "Enable simplified editor" : "Aktifkan editor serderhana",
-    "Limit visible events per view" : "Batasi acara terlihat per tampilan",
     "Show weekends" : "Tampilkan akhir pekan",
     "Show week numbers" : "Tampilkan nomor pekan",
     "Copy primary CalDAV address" : "Salin alamat utama CalDAV",

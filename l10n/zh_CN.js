@@ -147,7 +147,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "启用生日日历",
     "Show tasks in calendar" : "在日历中显示任务",
     "Enable simplified editor" : "启用简单编辑器",
-    "Limit visible events per view" : "限制每个视图的可见事件",
     "Show weekends" : "显示周末",
     "Show week numbers" : "显示星期数",
     "Time increments" : "时间增量",

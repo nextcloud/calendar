@@ -155,7 +155,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "Увімкнути календар дат народження",
     "Show tasks in calendar" : "Показувати завдання у календарі",
     "Enable simplified editor" : "Увімкнути спрощений редактор",
-    "Limit visible events per view" : "Обмежити подання подій",
     "Show weekends" : "Показувати вихідні дні",
     "Show week numbers" : "Показувати номери тижнів",
     "Time increments" : "Крок приросту часу",

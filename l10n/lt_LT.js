@@ -142,7 +142,6 @@ OC.L10N.register(
     "Enable birthday calendar" : "Įjungti gimtadienių kalendorių",
     "Show tasks in calendar" : "Rodyti užduotis kalendoriuje",
     "Enable simplified editor" : "Įjungti supaprastintą redaktorių",
-    "Limit visible events per view" : "Riboti matomus įvykius pagal rodinį",
     "Show weekends" : "Rodyti savaitgalius",
     "Show week numbers" : "Rodyti savaičių numerius",
     "Default reminder" : "Numatytasis priminimas",
