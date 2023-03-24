@@ -158,6 +158,7 @@
     "Enable birthday calendar" : "啟用生日日曆",
     "Show tasks in calendar" : "在日曆上顯示待辦事項",
     "Enable simplified editor" : "啟用簡化的編輯器",
+    "Limit the number of events displayed in the monthly view" : "限制日曆月視圖中顯示的活動次數",
     "Show weekends" : "顯示週末",
     "Show week numbers" : "顯示週數",
     "Time increments" : "時間增量",

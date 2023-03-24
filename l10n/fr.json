@@ -158,6 +158,7 @@
     "Enable birthday calendar" : "Activer l'agenda des anniversaires",
     "Show tasks in calendar" : "Afficher les tâches dans l'agenda",
     "Enable simplified editor" : "Activer l'éditeur simplifié",
+    "Limit the number of events displayed in the monthly view" : "Limiter le nombre d'évènements affichés dans la vue mensuelle",
     "Show weekends" : "Afficher les week-ends",
     "Show week numbers" : "Afficher les numéros de semaine",
     "Time increments" : "Incréments de temps",
