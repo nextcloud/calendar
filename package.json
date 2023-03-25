@@ -40,7 +40,7 @@
     "@fullcalendar/daygrid": "^6.1.4",
     "@fullcalendar/interaction": "^6.1.4",
     "@fullcalendar/list": "^6.1.4",
-    "@fullcalendar/resource": "^6.1.4",
+    "@fullcalendar/resource": "^6.1.5",
     "@fullcalendar/resource-timeline": "^6.1.4",
     "@fullcalendar/timegrid": "^6.1.4",
     "@fullcalendar/vue": "^6.1.4",
