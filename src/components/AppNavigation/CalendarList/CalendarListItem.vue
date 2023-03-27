@@ -38,10 +38,11 @@
 		</template>
 
 		<template #counter>
-			<NcAvatar v-if="isSharedWithMe && loadedOwnerPrincipal && !actionsMenuOpen"
+			<LinkVariant v-if="isSharedByMe" :size="20" />
+			<NcAvatar v-else-if="isSharedWithMe && loadedOwnerPrincipal && !actionsMenuOpen"
 				:user="ownerUserId"
 				:display-name="ownerDisplayname" />
-			<div v-if="isSharedWithMe && !loadedOwnerPrincipal" class="icon icon-loading" />
+			<div v-else-if="isSharedWithMe && !loadedOwnerPrincipal" class="icon icon-loading" />
 		</template>
 
 		<template #actions>
@@ -101,6 +102,7 @@ import CheckboxBlankCircle from 'vue-material-design-icons/CheckboxBlankCircle.v
 import CheckboxBlankCircleOutline from 'vue-material-design-icons/CheckboxBlankCircleOutline.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 import Undo from 'vue-material-design-icons/Undo.vue'
+import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'
 
 export default {
 	name: 'CalendarListItem',
@@ -112,6 +114,7 @@ export default {
 		CheckboxBlankCircleOutline,
 		Pencil,
 		Undo,
+		LinkVariant,
 		NcActionText,
 		NcActionSeparator,
 		NcActionCaption,
@@ -143,6 +146,14 @@ export default {
 		 */
 		isSharedWithMe() {
 			return this.calendar.isSharedWithMe
+		},
+		/**
+		 * Is the calendar shared by me or published via a link?
+		 *
+		 * @return {boolean}
+		 */
+		isSharedByMe() {
+			return this.calendar.shares.length > 0 || this.calendar.publishURL !== null
 		},
 		/**
 		 * Whether or not the information about the owner principal was loaded
