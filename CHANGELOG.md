@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 3.5.6 - 2023-03-27
+### Changed
+- Webpack version
+
 ## 3.5.5 - 2023-02-01
 ### Fixed
 - Error handling in booking controller
