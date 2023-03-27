@@ -160,6 +160,7 @@ OC.L10N.register(
     "Enable birthday calendar" : "Aktivera födelsedagskalender",
     "Show tasks in calendar" : "Visa uppgifter i kalendern",
     "Enable simplified editor" : "Aktivera förenklad redigerare",
+    "Limit the number of events displayed in the monthly view" : "Begränsa antalet händelser som visas i månadsvyn",
     "Show weekends" : "Visa helger",
     "Show week numbers" : "Visa veckonummer",
     "Time increments" : "Tidsintervall",

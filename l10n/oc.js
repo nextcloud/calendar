@@ -42,6 +42,8 @@ OC.L10N.register(
     "Copy public link" : "Copiar lo ligam public",
     "Copied code" : "Còdi copiat",
     "Could not copy code" : "Se poguèt pas copiar lo còdi",
+    "Delete share link" : "Suprimir lo ligam de partatge",
+    "Deleting share link …" : "Supression del ligam de partatge …",
     "can edit" : "pòt modificar",
     "Copy private link" : "Copiar lo ligam privat",
     "Import calendars" : "Importar de calendièrs",
