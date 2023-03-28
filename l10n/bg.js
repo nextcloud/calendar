@@ -160,6 +160,7 @@ OC.L10N.register(
     "Enable birthday calendar" : "Активиране на календара за рожден ден",
     "Show tasks in calendar" : "Показване на задачите в календара",
     "Enable simplified editor" : "Активиране на опростен редактор",
+    "Limit the number of events displayed in the monthly view" : "Ограничаване на броя на събитията, показвани в месечния изглед",
     "Show weekends" : "Покажи събота и неделя",
     "Show week numbers" : "Показвай номерата на седмиците",
     "Time increments" : "Времеви стъпки",
