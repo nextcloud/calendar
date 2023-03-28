@@ -262,6 +262,9 @@ import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
 import InformationOutline from 'vue-material-design-icons/InformationOutline.vue'
 import MapMarker from 'vue-material-design-icons/MapMarker.vue'
 
+import { DateTimeValue } from '@nextcloud/calendar-js'
+import getTimezoneManager from '../services/timezoneDataProviderService.js'
+
 export default {
 	name: 'EditSidebar',
 	components: {
@@ -316,7 +319,14 @@ export default {
 				return ''
 			}
 
-			return moment(this.calendarObjectInstance.startDate).locale(this.locale).fromNow()
+			const timezone = getTimezoneManager()
+				.getTimezoneForId(this.calendarObjectInstance.startTimezoneId)
+			const startDateInTz = DateTimeValue
+				.fromJSDate(this.calendarObjectInstance.startDate)
+				.getInTimezone(timezone)
+				.jsDate
+
+			return moment(startDateInTz).locale(this.locale).fromNow()
 		},
 		/**
 		 * @return {boolean}
