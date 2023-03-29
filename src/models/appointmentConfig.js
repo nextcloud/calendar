@@ -150,7 +150,7 @@ export default class AppointmentConfig {
 				timezoneId,
 				slots,
 			},
-			visibility: 'PUBLIC',
+			visibility: 'PRIVATE',
 			length: 5 * 60,
 			increment: 15 * 60,
 			preparationDuration: 0,
