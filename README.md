@@ -23,8 +23,8 @@
 * :ballot_box_with_check: **Tasks!** See tasks or Deck cards with a due date directly in the calendar
 * :speaker: **Talk rooms!** Create an associated Talk room when booking a meeting with just one click
 * :calendar: **Appointment booking** Send people a link so they can book an appointment with you [using this app](https://apps.nextcloud.com/apps/appointments)
+* :paperclip: **Attachments!** Add, upload and view event attachments
 * :see_no_evil: **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
-
 
 ## :hammer_and_wrench: Installation
 
