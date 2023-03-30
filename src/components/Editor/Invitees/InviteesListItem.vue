@@ -57,7 +57,7 @@
 			<Actions v-if="isViewedByOrganizer">
 				<ActionCheckbox :checked="attendee.rsvp"
 					@change="toggleRSVP">
-					{{ $t('calendar', 'Send email') }}
+					{{ $t('calendar', 'Request reply') }}
 				</ActionCheckbox>
 
 				<ActionRadio :name="radioName"
