@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license GNU AGPL version 3 or any later version
   -
@@ -147,10 +148,6 @@ export default {
 		return {
 			firstDay: getFirstDay() === 0 ? 7 : getFirstDay(),
 			showTimezonePopover: false,
-			formatter: {
-				stringify: this.stringify,
-				parse: this.parse,
-			},
 			showTimePanel: true,
 		}
 	},
@@ -220,6 +217,23 @@ export default {
 			const timeFormat = localeData.longDateFormat('LT').toLowerCase()
 
 			return timeFormat.indexOf('a') !== -1
+		},
+		formatter() {
+			// Wrap moment constructor as this.locale is reactive
+			const momentFactory = (date) => moment(date).locale(this.locale)
+
+			return {
+				stringify: this.stringify,
+				parse: this.parse,
+
+				// Overwrite week-of-year formatting as it depends on the locale
+				// FIXME: remove this workaround once the upstream PR is merged and released
+				//        https://github.com/nextcloud/nextcloud-vue/pull/3941
+				// FIXME: the formatter config can also be moved to data() again (as it is static)
+				getWeek(date) {
+					return momentFactory(date).format('w')
+				}
+			}
 		},
 	},
 	methods: {
