@@ -214,8 +214,12 @@ export default {
 			}
 
 			const uri = this.editing.targetCalendarUri
-			const calendar = this.ownSortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
-			return calendar || this.ownSortedCalendars[0]
+			let calendar = this.ownSortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
+			if (!calendar) {
+				calendar = this.ownSortedCalendars[0]
+				this.changeCalendar(calendar)
+			}
+			return calendar
 		},
 		selectableConflictCalendars() {
 			// The target calendar is always a conflict calendar, remove it from additional conflict calendars
