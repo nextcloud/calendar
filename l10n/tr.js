@@ -160,6 +160,7 @@ OC.L10N.register(
     "Enable birthday calendar" : "Doğum günü takvimi kullanılsın",
     "Show tasks in calendar" : "Görevler takvimde görüntülensin",
     "Enable simplified editor" : "Basitleştirilmiş düzenleyici kullanılsın",
+    "Limit the number of events displayed in the monthly view" : "Aylık görünümde görüntülenecek etkinlik sayısı sınırlansın",
     "Show weekends" : "Hafta sonları görüntülensin",
     "Show week numbers" : "Hafta numaraları görüntülensin",
     "Time increments" : "Zaman artışı",
