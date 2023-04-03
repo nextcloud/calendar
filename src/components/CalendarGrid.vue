@@ -63,9 +63,7 @@ import VTimezoneNamedTimezone from '../fullcalendar/timezones/vtimezoneNamedTime
 // Import other dependencies
 import { mapGetters, mapState } from 'vuex'
 import debounce from 'debounce'
-import { getLocale } from '@nextcloud/l10n'
 import { getYYYYMMDDFromFirstdayParam } from '../utils/date.js'
-import { getFirstDayOfWeekFromMomentLocale } from '../utils/moment.js'
 
 export default {
 	name: 'CalendarGrid',
@@ -124,8 +122,7 @@ export default {
 				navLinks: true,
 				// Localization
 				...getDateFormattingConfig(),
-				locale: getFullCalendarLocale(getLocale(), this.locale),
-				firstDay: getFirstDayOfWeekFromMomentLocale(this.locale),
+				...getFullCalendarLocale(),
 				// Rendering
 				dayHeaderDidMount,
 				eventDidMount,

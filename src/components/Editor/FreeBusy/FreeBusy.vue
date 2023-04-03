@@ -74,8 +74,6 @@ import {
 import Modal from '@nextcloud/vue/dist/Components/NcModal.js'
 import DatePicker from '../../Shared/DatePicker.vue'
 import { getColorForFBType } from '../../../utils/freebusy.js'
-import { getLocale } from '@nextcloud/l10n'
-import { getFirstDayOfWeekFromMomentLocale } from '../../../utils/moment.js'
 
 export default {
 	name: 'FreeBusy',
@@ -238,8 +236,7 @@ export default {
 				selectable: false,
 				// Localization:
 				...getDateFormattingConfig(),
-				locale: getFullCalendarLocale(getLocale(), this.locale),
-				firstDay: getFirstDayOfWeekFromMomentLocale(this.locale),
+				...getFullCalendarLocale(),
 				// Rendering
 				height: 'auto',
 				loading: this.loading,
