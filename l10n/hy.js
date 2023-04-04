@@ -47,7 +47,6 @@ OC.L10N.register(
     "Close" : "Փակել",
     "Daily" : "Օրական",
     "Weekly" : "Շաբաթական",
-    "Next" : "Հաջորդ",
     "Other" : "Այլ",
     "Confirmed" : "Հաստատված",
     "Mail" : "Փոստ",

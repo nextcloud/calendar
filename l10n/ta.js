@@ -39,8 +39,6 @@ OC.L10N.register(
     "Details" : "விவரங்கள்",
     "Attendees" : "பங்கேற்பாளர்கள்",
     "Close" : "மூடுக",
-    "Prev" : "Prev",
-    "Next" : "அடுத்த",
     "Other" : "மற்றவை",
     "Birthday" : "பிறந்த நாள்"
 },

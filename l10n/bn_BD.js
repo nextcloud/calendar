@@ -48,7 +48,6 @@ OC.L10N.register(
     "Close" : "বন্ধ",
     "Daily" : "দৈনিক",
     "Weekly" : "সাপ্তাহিক",
-    "Next" : "পরবর্তী",
     "Other" : "অন্যান্য",
     "Mail" : "মেইল",
     "Birthday" : "জন্মদিন"

@@ -60,8 +60,6 @@ OC.L10N.register(
     "Close" : "Lukk",
     "Daily" : "Kvar dag",
     "Weekly" : "Kvar veke",
-    "Next" : "Neste",
-    "Year" : "År",
     "Meeting room" : "Møterom",
     "Other" : "Anna",
     "When shared show full event" : "Når delt, vis heile hendinga",

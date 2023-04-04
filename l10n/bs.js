@@ -45,7 +45,6 @@ OC.L10N.register(
     "Close" : "Zatvori",
     "Daily" : "Dnevno",
     "Weekly" : "Sedmično",
-    "Next" : "Sljedeće",
     "Other" : "Ostali",
     "Status" : "Status",
     "Mail" : "E-Pošta",

@@ -125,7 +125,6 @@ OC.L10N.register(
     "_Every %n month_::_Every %n months_" : ["Bep miz","Bep %n viz","Bep %n miz","Bep %n miz","Bep %n miz"],
     "_Every %n year_::_Every %n years_" : ["Bep bloaz","Bep %n vloaz","Bep %n bloaz","Bep %n bloaz","Bep %n bloaz"],
     "_on {weekday}_::_on {weekdays}_" : ["d'al {weekday}","d'ar {weekday}","d'ar {weekday}","d'ar {weekday}","d'ar {weekday}"],
-    "Next" : "Da heul",
     "%n more" : "%n ouzhpenn",
     "No events to display" : "Darvoud ebet da ziskouez",
     "No events" : "Darvoud ebet",

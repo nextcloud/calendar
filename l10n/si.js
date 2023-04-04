@@ -58,8 +58,6 @@ OC.L10N.register(
     "Anniversary" : "සංවත්සරය",
     "Daily" : "දිනපතා",
     "Weekly" : "සතිපතා",
-    "Next" : "ඊළඟ",
-    "Year" : "වර්ෂය",
     "Other" : "වෙනත්",
     "Mail" : "තැපෑල",
     "Birthday" : "උපන් දිනය"

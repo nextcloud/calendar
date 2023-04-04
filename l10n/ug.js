@@ -35,7 +35,6 @@ OC.L10N.register(
     "Personal" : "شەخسىي",
     "Attendees" : "قاتناشقۇچىلار",
     "Close" : "ياپ",
-    "Next" : "كېيىنكى",
     "Other" : "باشقا",
     "Birthday" : "تۇغۇلغان كۈن"
 },

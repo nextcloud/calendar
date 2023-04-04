@@ -47,7 +47,6 @@ OC.L10N.register(
     "Close" : "Bağla",
     "Daily" : "Günlük",
     "Weekly" : "Həftəlik",
-    "Next" : "Növbəti",
     "Other" : "Digər",
     "Mail" : "Məktub",
     "Birthday" : "Ad günü"

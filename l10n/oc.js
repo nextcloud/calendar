@@ -161,8 +161,6 @@ OC.L10N.register(
     "_%n time_::_%n times_" : ["%n còp","%n còps"],
     "Untitled event" : "Eveniment sens nom",
     "Untitled task" : "Prètzfach sens nom",
-    "Next" : "Seguent",
-    "Year" : "Annada",
     "Other" : "Autre",
     "Add a location" : "Apondre un lòc",
     "Add a description" : "Apondre una descripcion",

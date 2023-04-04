@@ -74,8 +74,6 @@ OC.L10N.register(
     "Week {number} of {year}" : "Week {number} van {year}",
     "Daily" : "Daagliks",
     "Weekly" : "Weekliks",
-    "Prev" : "Vorige",
-    "Next" : "Volgende",
     "Other" : "Ander",
     "Status" : "Status",
     "Confirmed" : "Bevestig",

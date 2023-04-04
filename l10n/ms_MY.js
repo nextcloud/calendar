@@ -39,7 +39,6 @@ OC.L10N.register(
     "Close" : "Tutup",
     "Daily" : "Setiap hari",
     "Weekly" : "Setiap minggu",
-    "Next" : "Seterus",
     "Other" : "Lain",
     "Mail" : "Mel",
     "Birthday" : "Hari lahir"

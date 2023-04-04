@@ -236,7 +236,6 @@ OC.L10N.register(
     "Untitled event" : "Acara tanpa judul",
     "Untitled task" : "Tugas tanpa judul",
     "Please ask your administrator to enable the Tasks App." : "Silakan tanya administrator Anda untuk mengaktifkan aplikasi Tugas.",
-    "Next" : "Berikutnya",
     "_+%n more_::_+%n more_" : ["+%n lagi"],
     "Other" : "Lainnya",
     "Add a location" : "Tambah lokasi",

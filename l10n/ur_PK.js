@@ -32,7 +32,6 @@ OC.L10N.register(
     "More" : "مزید",
     "Personal" : "شخصی",
     "Close" : "بند ",
-    "Next" : "اگلا",
     "Other" : "دیگر",
     "Birthday" : "سالگرہ"
 },

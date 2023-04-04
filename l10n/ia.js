@@ -61,7 +61,6 @@ OC.L10N.register(
     "Week {number} of {year}" : "Septimana {number} de {year}",
     "Daily" : "Cata die",
     "Weekly" : "Cata septimana",
-    "Next" : "Sequente",
     "Other" : "Altere",
     "When shared show full event" : "Quando compartite, monstrar evento integremente",
     "When shared show only busy" : "Quando compartite, monstrar solo si illo es occupate",

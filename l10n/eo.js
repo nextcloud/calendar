@@ -83,7 +83,6 @@ OC.L10N.register(
     "Daily" : "Ĉiutage",
     "Weekly" : "Ĉiusemajne",
     "Untitled event" : "Sentitola okazaĵo",
-    "Next" : "Sekva",
     "Other" : "Alia",
     "When shared show full event" : "Kiam kunhavigita, montri plenajn detalojn",
     "When shared show only busy" : "Kiam kunhavigita, montri nur kiel okupita",

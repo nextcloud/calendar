@@ -268,7 +268,6 @@ OC.L10N.register(
     "Untitled event" : "فعالية بدون اسم",
     "Untitled task" : "مهمة بدون اسم",
     "Please ask your administrator to enable the Tasks App." : "تواصل مع مسؤول النظام لاستخدام تطبيق المهام.",
-    "Next" : "التالي",
     "%n more" : "%n المزيد",
     "No events to display" : "لا يوجد فعاليات",
     "No events" : "لا يوجد فعاليات",

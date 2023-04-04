@@ -268,7 +268,6 @@
     "Week {number} of {year}" : "Semana {number} do {year}",
     "Daily" : "Diariamente",
     "Weekly" : "Semanalmente",
-    "Next" : "Seguinte",
     "Other" : "Outro",
     "When shared show full event" : "Quando partilhado, mostrar evento completo",
     "When shared show only busy" : "Quando partilhado, mostrar apenas ocupados",

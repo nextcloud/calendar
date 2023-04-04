@@ -90,7 +90,6 @@ OC.L10N.register(
     "Weekly" : "Iga nädal",
     "Monthly" : "Igakuine",
     "Yearly" : "Igaastane",
-    "Next" : "Järgmine",
     "Other" : "Muu",
     "When shared show full event" : "Kui on jagatud, siis näita kogu sündmust",
     "When shared show only busy" : "Kui on jagatud, siis näita ainult, kas on hõivatud",

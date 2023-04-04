@@ -70,7 +70,6 @@ OC.L10N.register(
     "Week {number} of {year}" : "Selmana {number} del {year}",
     "Daily" : "Caldía",
     "Weekly" : "Selmanalmente",
-    "Next" : "Siguiente",
     "Other" : "Otru",
     "When shared show full event" : "Amosar l'eventu completu al compartir",
     "When shared show only busy" : "Amosar namás ocupáu al compartir",

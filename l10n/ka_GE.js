@@ -74,8 +74,6 @@ OC.L10N.register(
     "Week {number} of {year}" : "კვირა {number} {year}-დან",
     "Daily" : "ყოველდღიური",
     "Weekly" : "ყოველკვირეული",
-    "Prev" : "წინა",
-    "Next" : "შემდეგი",
     "Other" : "სხვა",
     "When shared show full event" : "როდესაც გაზიარებულია გამოჩნდეს სრული მოვლენა",
     "When shared show only busy" : "როდესაც გაზიარებულია გამოჩნდეს მხოლოდ დაკავებული",

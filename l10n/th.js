@@ -70,7 +70,6 @@ OC.L10N.register(
     "Week {number} of {year}" : "สัปดาห์ที่ {number} ของปี {year}",
     "Daily" : "รายวัน",
     "Weekly" : "รายสัปดาห์",
-    "Next" : "ถัดไป",
     "Other" : "อื่น ๆ",
     "When shared show full event" : "เมื่อแชร์จะแสดงกิจกรรมเต็ม",
     "When shared show only busy" : "เมื่อแชร์จะแสดงเฉพาะไม่ว่าง",
