@@ -125,7 +125,6 @@ export default {
 	data() {
 		return {
 			loadingCalendars: true,
-			loadingUser: true,
 			timeFrameCacheExpiryJob: null,
 			showEmptyCalendarScreen: false,
 		}
@@ -184,13 +183,6 @@ export default {
 			}
 
 			return null
-		},
-	},
-	watch: {
-		currentUserPrincipal() {
-			if (this.currentUserPrincipal !== undefined && this.loadingUser) {
-				this.loadingUser = false
-			}
 		},
 	},
 	created() {
