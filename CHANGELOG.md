@@ -1,6 +1,12 @@
 
 # Changelog
 
+## 3.5.7 - 2023-04-06
+### Fixed
+- Appointments default visibility
+- Sidebar editor timezone
+- Date picker
+
 ## 3.5.6 - 2023-03-27
 ### Changed
 - Webpack version
