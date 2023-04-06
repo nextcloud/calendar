@@ -532,7 +532,7 @@ OC.L10N.register(
     "Retrospective" : "Geçmişi değerlendirme",
     "Office" : "Ofis",
     "Contributor week" : "Katılımcı haftası",
-    "Mail" : "Posta",
+    "Mail" : "E-posta",
     "Soccer" : "Futbol",
     "Football" : "Amerikan futbolu",
     "Gaming" : "Oyun",

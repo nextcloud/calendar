@@ -160,6 +160,7 @@ OC.L10N.register(
     "Enable birthday calendar" : "Gaitu urtebetetzeen egutegia",
     "Show tasks in calendar" : "Erakutsi zereginak egutegian",
     "Enable simplified editor" : "Gaitu editore sinplifikatua",
+    "Limit the number of events displayed in the monthly view" : "Mugatu hileroko ikuspegian bistaratzen diren gertaeren kopurua",
     "Show weekends" : "Erakutsi asteburuak",
     "Show week numbers" : "Erakutsi aste zenbakiak",
     "Time increments" : " \nDenbora-gehikuntzak",
