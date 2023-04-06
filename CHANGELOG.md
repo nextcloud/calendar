@@ -1,6 +1,14 @@
 
 # Changelog
 
+## 4.3.2 - 2023-04-06
+### Fixed
+- Attachments folder
+- Appointments default visibility
+- Sidebar editor timezone
+- Share indicator
+- Date picker
+
 ## 4.3.1 - 2023-03-22
 ### Changed
 - Webpack version
