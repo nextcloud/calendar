@@ -38,7 +38,7 @@
 		overflow: visible;
 		z-index: 2000;
 		display: flex;
-		justify-content: space-between;
+		justify-content: flex-start;  //field updated to adjust the content towards left.
 
 		.embed-header__date-section,
 		.embed-header__share-section {
