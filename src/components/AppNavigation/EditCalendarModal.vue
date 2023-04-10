@@ -161,9 +161,6 @@ export default {
 		},
 	},
 	watch: {
-		async calendarColor() {
-			await this.saveColorDebounced()
-		},
 		async calendarName() {
 			await this.saveNameDebounced()
 		},
@@ -178,7 +175,6 @@ export default {
 	},
 	created() {
 		// debounce.flush() only works if the functions are added here (or in data())
-		this.saveColorDebounced = debounce(() => this.saveColor(), 1000)
 		this.saveNameDebounced = debounce(() => this.saveName(), 1000)
 	},
 	methods: {
@@ -237,7 +233,7 @@ export default {
 		 * @return {Promise<void>}
 		 */
 		async saveAndClose() {
-			await this.saveColorDebounced.flush()
+			await this.saveColor()
 			await this.saveNameDebounced.flush()
 			this.closeModal()
 		},
