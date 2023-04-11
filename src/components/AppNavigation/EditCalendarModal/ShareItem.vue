@@ -110,7 +110,7 @@ export default {
 				this.updatingSharee = false
 			} catch (error) {
 				console.error(error)
-				showInfo(this.$t('calendar', 'An error occurred, unable to change the unshare the calendar.'))
+				showInfo(this.$t('calendar', 'An error occurred while unsharing the calendar.'))
 
 				this.updatingSharee = false
 			}
