@@ -113,7 +113,6 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Није успео прекид објављивања календара",
     "can edit" : "може да мења",
     "Unshare with {displayName}" : "Уклони дељење са {displayName}",
-    "An error occurred, unable to change the unshare the calendar." : "Дошло је до грешке, није могуће да се прекине дељење календара",
     "An error occurred, unable to change the permission of the share." : "Дошло је до грешке, не може да се измени дозвола дељења.",
     "Share with users or groups" : "Дели са корисницима или групама",
     "No users or groups" : "Нема корисника или група",

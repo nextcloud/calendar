@@ -113,7 +113,6 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Takvim yayından kaldırılamadı",
     "can edit" : "düzenleyebilir",
     "Unshare with {displayName}" : "{displayName} ile paylaşımı kaldır",
-    "An error occurred, unable to change the unshare the calendar." : "Bir sorun çıktı. Takvimin paylaşımdan kaldırma ayarı değiştirilemedi.",
     "An error occurred, unable to change the permission of the share." : "Bir sorun çıktı. Takvimin izin ayarı değiştirilemedi.",
     "Share with users or groups" : "Kullanıcı ya da gruplar ile paylaş",
     "No users or groups" : "Herhangi bir kullanıcı ya da grup yok",

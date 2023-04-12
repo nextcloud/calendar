@@ -105,7 +105,6 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Agenda depubliceren is niet gelukt",
     "can edit" : "kan wijzigen",
     "Unshare with {displayName}" : "Stop delen met {displayName}",
-    "An error occurred, unable to change the unshare the calendar." : "Er is een fout opgetreden waardoor het wijzigen van het delen van de agenda niet gelukt is.",
     "An error occurred, unable to change the permission of the share." : "Er is een fout opgetreden, het is niet mogelijk om de machtiging van de share te wijzigen",
     "Share with users or groups" : "Deel met gebruikers of groepen",
     "No users or groups" : "Geen gebruikers of groepen",

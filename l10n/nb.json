@@ -106,7 +106,6 @@
     "Unpublishing calendar failed" : "Fjerne publiseringen av kalenderen feilet.",
     "can edit" : "kan endre",
     "Unshare with {displayName}" : "Fjern deling med {displayName}",
-    "An error occurred, unable to change the unshare the calendar." : "En feil oppsto, kan ikke endre fjerning av deling av kalenderen.",
     "An error occurred, unable to change the permission of the share." : "En feil oppsto, kan ikke endre rettighetene til delingen.",
     "Share with users or groups" : "Del med brukere eller grupper",
     "No users or groups" : "Ingen brukere eller grupper",

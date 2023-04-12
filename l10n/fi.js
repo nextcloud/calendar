@@ -110,7 +110,6 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Kalenterin julkaisun peruminen epäonnistui",
     "can edit" : "voi muokata",
     "Unshare with {displayName}" : "Poista jako kohteesta {displayName}",
-    "An error occurred, unable to change the unshare the calendar." : "Tapahtui virhe, kalenterin poissa jakamista ei voi muokata.",
     "An error occurred, unable to change the permission of the share." : "Tapahtui virhe, jaon käyttöoikeuksia ei pysty muokkaamaan.",
     "Share with users or groups" : "Jaa käyttäjien tai ryhmien kanssa",
     "No users or groups" : "Ei käyttäjiä tai ryhmiä",

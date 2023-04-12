@@ -91,7 +91,6 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Methwyd â dadgyhoeddi'r calendr",
     "can edit" : "yn gallu golygu",
     "Unshare with {displayName}" : "Dadrannu gyda {displayName}",
-    "An error occurred, unable to change the unshare the calendar." : "Bu gwall, ni fu modd newid y broses o ddad-rannu'r calendr.",
     "An error occurred, unable to change the permission of the share." : "Bu gwall, ni fu modd newid caniatâd y gyfran.",
     "Share with users or groups" : "Rhannwch gyda defnyddwyr neu grwpiau",
     "No users or groups" : "Dim defnyddwyr na grwpiau",

@@ -111,7 +111,6 @@
     "Unpublishing calendar failed" : "Avpublicering av kalendern misslyckades",
     "can edit" : "kan redigera",
     "Unshare with {displayName}" : "Sluta dela med {displayName}",
-    "An error occurred, unable to change the unshare the calendar." : "Fel uppstod. Det gick inte att ta bort kalenderdelningen.",
     "An error occurred, unable to change the permission of the share." : "Ett fel inträffade. Det gick inte att ändra behörighet för delningen.",
     "Share with users or groups" : "Dela med användare eller grupper",
     "No users or groups" : "Inga användare eller grupper",

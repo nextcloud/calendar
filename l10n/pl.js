@@ -113,7 +113,6 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Nie można cofnąć publikacji kalendarza",
     "can edit" : "może edytować",
     "Unshare with {displayName}" : "Zatrzymaj udostępnianie z {displayName}",
-    "An error occurred, unable to change the unshare the calendar." : "Wystąpił błąd, nie można zmienić cofnięcia udostępnienia kalendarza.",
     "An error occurred, unable to change the permission of the share." : "Wystąpił błąd, nie można zmienić uprawnień do udostępnienia.",
     "Share with users or groups" : "Udostępnij użytkownikom lub grupom",
     "No users or groups" : "Brak użytkowników lub grup",

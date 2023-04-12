@@ -106,7 +106,6 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Η κατάργηση δημοσιευμένου ημερολογίου απέτυχε",
     "can edit" : "δυνατότητα επεξεργασίας",
     "Unshare with {displayName}" : "Κατάργηση κοινής χρήσης με {displayName}",
-    "An error occurred, unable to change the unshare the calendar." : "Παρουσιάστηκε σφάλμα, δεν είναι δυνατή η αλλαγή της κατάργησης της κοινής χρήσης του ημερολογίου.",
     "An error occurred, unable to change the permission of the share." : "Παρουσιάστηκε σφάλμα, δεν ήταν δυνατή η αλλαγή των δικαιωμάτων της κοινής χρήσης.",
     "Share with users or groups" : "Κοινή χρήση με χρήστες ή ομάδες",
     "No users or groups" : "Δεν υπάρχουν χρήστες ή ομάδες",

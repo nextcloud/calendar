@@ -80,7 +80,6 @@
     "Unpublishing calendar failed" : "달력 공개 중단 실패",
     "can edit" : "편집 가능",
     "Unshare with {displayName}" : "{displayName}과 공유 중단",
-    "An error occurred, unable to change the unshare the calendar." : "오류가 발생하여 달력의 공개 중단을 변경할 수 없습니다.",
     "An error occurred, unable to change the permission of the share." : "오류가 발생하여 공유 권한을 변경할 수 없습니다.",
     "Share with users or groups" : "사용자 및 그룹과 공유",
     "No users or groups" : "사용자나 그룹 없음",

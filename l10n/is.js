@@ -96,7 +96,6 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Mistókst að hætta birtingu dagatals",
     "can edit" : "getur breytt",
     "Unshare with {displayName}" : "Hætta deilingu með {displayName}",
-    "An error occurred, unable to change the unshare the calendar." : "Villa kom upp, gat ekki tekið dagatalið úr deilingu.",
     "An error occurred, unable to change the permission of the share." : "Villa kom upp, gat ekki breytt heimildum á sameigninni.",
     "Share with users or groups" : "Deila með notendum eða hópum",
     "No users or groups" : "Engir notendur eða hópar",

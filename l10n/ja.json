@@ -87,7 +87,6 @@
     "Unpublishing calendar failed" : "カレンダーの公開解除に失敗しました",
     "can edit" : "編集を許可",
     "Unshare with {displayName}" : "{displayName}との共有を解除",
-    "An error occurred, unable to change the unshare the calendar." : "エラーが発生したため、カレンダーの共有を解除できませんでした。",
     "An error occurred, unable to change the permission of the share." : "エラーが発生したため、共有の権限を変更できませんでした。",
     "Share with users or groups" : "ユーザーまたはグループと共有する",
     "No users or groups" : "ユーザーまたはグループはありません",

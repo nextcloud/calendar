@@ -106,7 +106,6 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Zrušenie zverejnenia kalendára zlyhalo",
     "can edit" : "môže upraviť",
     "Unshare with {displayName}" : "Zrušiť zdieľanie s {displayName}",
-    "An error occurred, unable to change the unshare the calendar." : "Vyskytla sa chyba, nie je možné zmeniť zdieľanie kalendára.",
     "An error occurred, unable to change the permission of the share." : "Vyskytla sa chyba, nie je možné zmeniť práva na zdieľanie kalendára.",
     "Share with users or groups" : "Sprístupniť používateľom alebo skupinám",
     "No users or groups" : "Žiadni používatelia alebo skupiny",

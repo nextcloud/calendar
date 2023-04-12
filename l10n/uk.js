@@ -108,7 +108,6 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Не вдалося скасувати публікацію календаря",
     "can edit" : "може редагувати",
     "Unshare with {displayName}" : "Забрати спільний доступ з {displayName}",
-    "An error occurred, unable to change the unshare the calendar." : "Помилка: неможливо змінити скасування доступу до календаря.",
     "An error occurred, unable to change the permission of the share." : "Помилка: неможливо змінити права доступу до спільного ресурсу.",
     "Share with users or groups" : "Поділитися з користувачем або групою",
     "No users or groups" : "Відсутні користувачі або групи",

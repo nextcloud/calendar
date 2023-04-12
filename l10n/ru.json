@@ -111,7 +111,6 @@
     "Unpublishing calendar failed" : "Не удалось закрыть публичный доступ к календарю",
     "can edit" : "может ред.",
     "Unshare with {displayName}" : "Отменить общий доступ для {displayName}",
-    "An error occurred, unable to change the unshare the calendar." : "Произошла ошибка, не удалось закрыть доступ к календарю.",
     "An error occurred, unable to change the permission of the share." : "Произошла ошибка, не удалось изменить разрешения для общего ресурса.",
     "Share with users or groups" : "Поделиться с пользователями или группами",
     "No users or groups" : "Пользователи или группы отсутствуют",

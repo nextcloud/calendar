@@ -75,7 +75,6 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "ביטול פרסום לוח השנה נכשל",
     "can edit" : "ניתן לערוך",
     "Unshare with {displayName}" : "ביטול שיתוף עם {displayName}",
-    "An error occurred, unable to change the unshare the calendar." : "אירעה שגיאה, לא ניתן לשנות את ביטול שיתוף היומן.",
     "An error occurred, unable to change the permission of the share." : "אירעה שגיאה, לא ניתן לשנות את הרשאות השיתוף.",
     "Share with users or groups" : "שיתוף עם משתמשים או קבוצות",
     "No users or groups" : "אין משתמשים או קבוצות",

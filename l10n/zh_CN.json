@@ -104,7 +104,6 @@
     "Unpublishing calendar failed" : "取消发布日历失败",
     "can edit" : "可编辑",
     "Unshare with {displayName}" : "取消与 {displayName} 的共享",
-    "An error occurred, unable to change the unshare the calendar." : "发生了错误，无法取消日历共享。",
     "An error occurred, unable to change the permission of the share." : "发生了错误，无法更改共享权限。",
     "Share with users or groups" : "与用户或分组共享",
     "No users or groups" : "无用户或分组",

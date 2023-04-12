@@ -113,7 +113,6 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "取消發佈日曆失敗",
     "can edit" : "可編輯",
     "Unshare with {displayName}" : "取消與 {displayName} 的分享",
-    "An error occurred, unable to change the unshare the calendar." : "發生錯誤，無法變更日曆",
     "An error occurred, unable to change the permission of the share." : "發生錯誤，無法變更分享權限",
     "Share with users or groups" : "與使用者或群組分享",
     "No users or groups" : "沒有使用者或群組",

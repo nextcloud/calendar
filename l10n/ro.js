@@ -90,7 +90,6 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Retragerea calendarului a eşuat",
     "can edit" : "poate edita",
     "Unshare with {displayName}" : "Retrage cu {displayName}",
-    "An error occurred, unable to change the unshare the calendar." : "A apărut o eroare, nu se poate schimba retragerea calendarului.",
     "An error occurred, unable to change the permission of the share." : "A apărut o eroare, nu se poate schimba permisiunile fişierelor partajate.",
     "Share with users or groups" : "Partajează cu utilizatori sau grupuri",
     "No users or groups" : "Nu sunt utilizatori sau grupuri",

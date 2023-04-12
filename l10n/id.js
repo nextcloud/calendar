@@ -65,7 +65,6 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Gagal membatalkan penerbitan kalender",
     "can edit" : "dapat edit",
     "Unshare with {displayName}" : "Batal berbagi dengan {displayName}",
-    "An error occurred, unable to change the unshare the calendar." : "Terjadi galat, tidak dapat mengubah pembatalan berbagi kalender.",
     "An error occurred, unable to change the permission of the share." : "Terjadi galat, tidak dapat mengubah hak akses berbagi.",
     "Share with users or groups" : "Berbagi dengan pengguna atau grup",
     "No users or groups" : "Tidak ada pengguna atau grup",

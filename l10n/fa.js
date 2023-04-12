@@ -76,7 +76,6 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "عدم انتشار تقویم موفقیت آمیز نبود",
     "can edit" : "می توان ویرایش کرد",
     "Unshare with {displayName}" : "عدم اشتراک گذاری با {displayName}",
-    "An error occurred, unable to change the unshare the calendar." : "خطایی روی داد ، قادر به تغییر تقویم عدم اشتراک گذاری نیست.",
     "An error occurred, unable to change the permission of the share." : "خطایی روی داد ، قادر به تغییر مجوز اشتراک نیست.",
     "Share with users or groups" : "اشتراک گذاری با کاربران یا گروه ها ...",
     "No users or groups" : "هیچ کاربر یا گروهی وجود ندارد",
