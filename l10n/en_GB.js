@@ -113,6 +113,7 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Unpublishing calendar failed",
     "can edit" : "can edit",
     "Unshare with {displayName}" : "Unshare with {displayName}",
+    "An error occurred while unsharing the calendar." : "An error occurred while unsharing the calendar.",
     "An error occurred, unable to change the permission of the share." : "An error occurred, unable to change the permission of the share.",
     "Share with users or groups" : "Share with users or groups",
     "No users or groups" : "No users or groups",

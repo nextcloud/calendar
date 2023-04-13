@@ -113,6 +113,7 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Zrušení zveřejnění kalendáře se nezdařilo",
     "can edit" : "může upravovat",
     "Unshare with {displayName}" : "Přestat sdílet s {displayName}",
+    "An error occurred while unsharing the calendar." : "Došlo k chybě při rušení sdílení kalendáře",
     "An error occurred, unable to change the permission of the share." : "Došlo k chybě, nepodařilo se změnit přístupová práva k sdílení.",
     "Share with users or groups" : "Sdílet s uživateli nebo skupinami",
     "No users or groups" : "Žádní uživatelé nebo skupiny",

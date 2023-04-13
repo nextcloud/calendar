@@ -113,6 +113,7 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Aufhebung der Veröffentlichung des Kalenders fehlgeschlagen",
     "can edit" : "kann bearbeiten",
     "Unshare with {displayName}" : "Mit {displayName} nicht mehr teilen",
+    "An error occurred while unsharing the calendar." : "Beim Aufheben der Freigabe des Kalenders ist ein Fehler aufgetreten.",
     "An error occurred, unable to change the permission of the share." : "Es ist ein Fehler aufgetreten, die Berechtigung für die Freigabe konnte nicht geändert werden.",
     "Share with users or groups" : "Mit Benutzern oder Gruppen teilen",
     "No users or groups" : "Keine Benutzer oder Gruppen",
