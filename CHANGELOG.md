@@ -1,6 +1,11 @@
 
 # Changelog
 
+## 4.3.3 - 2023-04-13
+### Fixed
+- Screenshots
+- Color picker
+
 ## 4.3.2 - 2023-04-06
 ### Fixed
 - Attachments folder
