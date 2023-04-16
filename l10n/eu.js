@@ -113,6 +113,7 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Egutegia desargitaratzeak huts egin du",
     "can edit" : "editatu dezake",
     "Unshare with {displayName}" : "Utzi {displayName} erabiltzailearekin partekatzeari",
+    "An error occurred while unsharing the calendar." : "Errorea gertatu da egutegia partekatzeari uztean.",
     "An error occurred, unable to change the permission of the share." : "Errore bat gertatu da, ezin da partekatzearen baimena aldatu.",
     "Share with users or groups" : "Partekatu erabiltzaile edo taldeekin",
     "No users or groups" : "Ez dago erabiltzaile edota talderik",
