@@ -113,6 +113,7 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Naptár közzétételének visszavonása sikertelen",
     "can edit" : "szerkesztheti",
     "Unshare with {displayName}" : "Megosztás megszüntetése a következővel: {displayName}",
+    "An error occurred while unsharing the calendar." : "Hiba történt a naptár megosztásának megszüntetése során.",
     "An error occurred, unable to change the permission of the share." : "Hiba történt, nem lehet megváltoztatni a megosztás jogosultságait.",
     "Share with users or groups" : "Megosztás felhasználókkal vagy csoportokkal",
     "No users or groups" : "Nincsenek felhasználók vagy csoportok",
