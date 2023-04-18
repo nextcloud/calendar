@@ -113,6 +113,7 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Error al cancelar la publicación del calendario",
     "can edit" : "puede editar",
     "Unshare with {displayName}" : "Dejar de compartir con {displayName}",
+    "An error occurred while unsharing the calendar." : "Ocurrió un error al intentar dejar de compartir el calendario.",
     "An error occurred, unable to change the permission of the share." : "Se ha producido un error, no fue posible cambiar los permisos del recurso compartido.",
     "Share with users or groups" : "Compartir con otros usuarios o grupos",
     "No users or groups" : "No hay usuarios ni grupos.",

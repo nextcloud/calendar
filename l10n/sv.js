@@ -113,6 +113,7 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Avpublicering av kalendern misslyckades",
     "can edit" : "kan redigera",
     "Unshare with {displayName}" : "Sluta dela med {displayName}",
+    "An error occurred while unsharing the calendar." : "Ett fel uppstod när delningen av kalendern skulle tas bort.",
     "An error occurred, unable to change the permission of the share." : "Ett fel inträffade. Det gick inte att ändra behörighet för delningen.",
     "Share with users or groups" : "Dela med användare eller grupper",
     "No users or groups" : "Inga användare eller grupper",
