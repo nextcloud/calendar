@@ -32,9 +32,8 @@
 		}
 
 		.import-modal__actions {
-			> button {
-				display: inline-block !important;
-			}
+			display: flex;
+			gap: 5px;
 		}
 
 		.import-modal-file-item {
