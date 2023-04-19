@@ -23,9 +23,9 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use ChristophWurst\Nextcloud\Testing\TestCase;
 use OCP\IConfig;
 use OCP\IRequest;
-use ChristophWurst\Nextcloud\Testing\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class SettingsControllerTest extends TestCase {
@@ -63,7 +63,7 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider setViewWithAllowedViewDataProvider
 	 */
 	public function testSetViewWithAllowedView(string $view,
-											   int $expectedStatusCode):void {
+		int $expectedStatusCode):void {
 		if ($expectedStatusCode === 200) {
 			$this->config->expects($this->once())
 				->method('setUserValue')
@@ -111,7 +111,7 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider setPopoverWithAllowedValueDataProvider
 	 */
 	public function testSetPopoverWithAllowedValue(string $value,
-												   int $expectedStatusCode) {
+		int $expectedStatusCode) {
 		if ($expectedStatusCode === 200) {
 			$this->config->expects($this->once())
 				->method('setUserValue')
@@ -203,7 +203,7 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider setShowWeekendsWithAllowedValueDataProvider
 	 */
 	public function testSetShowWeekendsWithAllowedValue(string $value,
-														int $expectedStatusCode):void {
+		int $expectedStatusCode):void {
 		if ($expectedStatusCode === 200) {
 			$this->config->expects($this->once())
 				->method('setUserValue')
@@ -245,7 +245,7 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider setShowWeekNumbersWithAllowedValueDataProvider
 	 */
 	public function testSetShowWeekNumbersWithAllowedValue(string $value,
-														int $expectedStatusCode):void {
+		int $expectedStatusCode):void {
 		if ($expectedStatusCode === 200) {
 			$this->config->expects($this->once())
 				->method('setUserValue')
@@ -287,7 +287,7 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider setEventLimitWithAllowedValueDataProvider
 	 */
 	public function testSetEventLimitWithAllowedValue(string $value,
-														   int $expectedStatusCode):void {
+		int $expectedStatusCode):void {
 		if ($expectedStatusCode === 200) {
 			$this->config->expects($this->once())
 				->method('setUserValue')
@@ -329,7 +329,7 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider setSlotDurationWithAllowedValueDataProvider
 	 */
 	public function testSetSlotDurationWithAllowedValue(string $value,
-													  int $expectedStatusCode):void {
+		int $expectedStatusCode):void {
 		if ($expectedStatusCode === 200) {
 			$this->config->expects($this->once())
 				->method('setUserValue')
@@ -376,7 +376,7 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider setDefaultReminderWithAllowedValueDataProvider
 	 */
 	public function testSetDefaultReminderWithAllowedValue(string $value,
-														  int $expectedStatusCode):void {
+		int $expectedStatusCode):void {
 		if ($expectedStatusCode === 200) {
 			$this->config->expects($this->once())
 				->method('setUserValue')

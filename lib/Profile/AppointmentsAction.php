@@ -55,9 +55,9 @@ class AppointmentsAction implements ILinkAction {
 	private $configs = [];
 
 	public function __construct(IL10N $l10n,
-								IUserSession $userSession,
-								AppointmentConfigService $configService,
-								IURLGenerator $urlGenerator) {
+		IUserSession $userSession,
+		AppointmentConfigService $configService,
+		IURLGenerator $urlGenerator) {
 		$this->l10n = $l10n;
 		$this->userSession = $userSession;
 		$this->configService = $configService;

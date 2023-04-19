@@ -65,14 +65,14 @@ class MailService {
 	private IManager $notificationManager;
 
 	public function __construct(IMailer $mailer,
-								IUserManager $userManager,
-								IL10N $l10n,
-								Defaults $defaults,
-								LoggerInterface $logger,
-								URLGenerator $urlGenerator,
-								IDateTimeFormatter $dateFormatter,
-								IFactory $lFactory,
-								IManager $notificationManager) {
+		IUserManager $userManager,
+		IL10N $l10n,
+		Defaults $defaults,
+		LoggerInterface $logger,
+		URLGenerator $urlGenerator,
+		IDateTimeFormatter $dateFormatter,
+		IFactory $lFactory,
+		IManager $notificationManager) {
 		$this->userManager = $userManager;
 		$this->mailer = $mailer;
 		$this->l10n = $l10n;
@@ -222,9 +222,9 @@ class MailService {
 	}
 
 	private function addBulletList(IEMailTemplate $template,
-								   IL10N $l10n,
-								   Booking $booking,
-								   ?string $location = null):void {
+		IL10N $l10n,
+		Booking $booking,
+		?string $location = null):void {
 		$template->addBodyListItem($booking->getDisplayName(), $l10n->t('Appointment for:'));
 
 		$l = $this->lFactory->findGenericLanguage();

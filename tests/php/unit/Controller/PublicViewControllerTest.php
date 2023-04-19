@@ -24,13 +24,13 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use ChristophWurst\Nextcloud\Testing\TestCase;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use ChristophWurst\Nextcloud\Testing\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class PublicViewControllerTest extends TestCase {

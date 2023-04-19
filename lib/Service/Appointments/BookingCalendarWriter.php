@@ -56,10 +56,10 @@ class BookingCalendarWriter {
 	private $l10n;
 
 	public function __construct(IConfig $config,
-								IManager $manager,
-								IUserManager $userManager,
-								ISecureRandom $random,
-								IL10N $l10n) {
+		IManager $manager,
+		IUserManager $userManager,
+		ISecureRandom $random,
+		IL10N $l10n) {
 		$this->config = $config;
 		$this->manager = $manager;
 		$this->userManager = $userManager;

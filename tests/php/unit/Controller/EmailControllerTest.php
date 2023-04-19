@@ -23,6 +23,7 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use ChristophWurst\Nextcloud\Testing\TestCase;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Defaults;
 use OCP\IConfig;
@@ -34,7 +35,6 @@ use OCP\IUserSession;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
-use ChristophWurst\Nextcloud\Testing\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class EmailControllerTest extends TestCase {

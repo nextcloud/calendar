@@ -42,7 +42,7 @@ class JSDataService implements \JsonSerializable {
 	 * @param IUserSession $userSession
 	 */
 	public function __construct(IConfig $config,
-								IUserSession $userSession) {
+		IUserSession $userSession) {
 		$this->config = $config;
 		$this->userSession = $userSession;
 	}

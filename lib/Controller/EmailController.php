@@ -75,13 +75,13 @@ class EmailController extends Controller {
 	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								IUserSession $userSession,
-								IConfig $config,
-								IMailer $mailer,
-								IL10N $l10N,
-								Defaults $defaults,
-								IURLGenerator $urlGenerator) {
+		IRequest $request,
+		IUserSession $userSession,
+		IConfig $config,
+		IMailer $mailer,
+		IL10N $l10N,
+		Defaults $defaults,
+		IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
@@ -102,8 +102,8 @@ class EmailController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function sendEmailPublicLink(string $recipient,
-										string $token,
-										string $calendarName):JSONResponse {
+		string $token,
+		string $calendarName):JSONResponse {
 		$user = $this->userSession->getUser();
 		if (!$user) {
 			return new JSONResponse([
@@ -159,8 +159,8 @@ class EmailController extends Controller {
 	 * @return IMessage
 	 */
 	private function createMessage(string $from,
-								   array $recipients,
-								   IEMailTemplate $template):IMessage {
+		array $recipients,
+		IEMailTemplate $template):IMessage {
 		$message = $this->mailer->createMessage();
 		$message->setFrom([$from => $this->defaults->getName()]);
 		$message->setTo($recipients);
@@ -177,9 +177,9 @@ class EmailController extends Controller {
 	 * @return IEMailTemplate
 	 */
 	private function createTemplate(string $subject,
-									string $displayName,
-									string $calendarName,
-									string $token):IEMailTemplate {
+		string $displayName,
+		string $calendarName,
+		string $token):IEMailTemplate {
 		$url = $this->getURLFromToken($token);
 		$emailTemplate = $this->mailer->createEMailTemplate('calendar.PublicShareNotification', [
 			'displayname' => $displayName,

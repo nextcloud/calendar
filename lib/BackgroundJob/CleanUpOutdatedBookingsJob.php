@@ -41,8 +41,8 @@ class CleanUpOutdatedBookingsJob extends TimedJob {
 	private $service;
 
 	public function __construct(ITimeFactory $time,
-								BookingService $service,
-								LoggerInterface $logger) {
+		BookingService $service,
+		LoggerInterface $logger) {
 		parent::__construct($time);
 		$this->service = $service;
 		$this->logger = $logger;

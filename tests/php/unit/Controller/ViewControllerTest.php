@@ -25,6 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Controller;
 
+use ChristophWurst\Nextcloud\Testing\TestCase;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\App\IAppManager;
@@ -33,7 +34,6 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\Files\IAppData;
 use OCP\IConfig;
 use OCP\IRequest;
-use ChristophWurst\Nextcloud\Testing\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ViewControllerTest extends TestCase {

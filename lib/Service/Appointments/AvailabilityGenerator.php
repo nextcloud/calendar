@@ -53,8 +53,8 @@ class AvailabilityGenerator {
 	 * @return Interval[]
 	 */
 	public function generate(AppointmentConfig $config,
-							 int $start,
-							 int $end): array {
+		int $start,
+		int $end): array {
 		$now = $this->timeFactory->getTime();
 
 		$bufferBeforeStart = ($config->getTimeBeforeNextSlot() ?? 0);

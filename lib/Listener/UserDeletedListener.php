@@ -43,8 +43,8 @@ class UserDeletedListener implements IEventListener {
 	private $logger;
 
 	public function __construct(AppointmentConfigService $appointmentConfigService,
-								BookingService $bookingService,
-								LoggerInterface $logger) {
+		BookingService $bookingService,
+		LoggerInterface $logger) {
 		$this->appointmentConfigService = $appointmentConfigService;
 		$this->bookingService = $bookingService;
 		$this->logger = $logger;

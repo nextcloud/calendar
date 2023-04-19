@@ -40,7 +40,7 @@ use function get_class;
  */
 class JsonResponse extends Base {
 	public function __construct($data = [],
-								int $statusCode = Http::STATUS_OK) {
+		int $statusCode = Http::STATUS_OK) {
 		parent::__construct($data, $statusCode);
 
 		$this->addHeader('x-calendar-response', 'true');
@@ -53,7 +53,7 @@ class JsonResponse extends Base {
 	 * @return static
 	 */
 	public static function success($data = null,
-								   int $status = Http::STATUS_OK): self {
+		int $status = Http::STATUS_OK): self {
 		return new self(
 			[
 				'status' => 'success',
@@ -70,7 +70,7 @@ class JsonResponse extends Base {
 	 * @return static
 	 */
 	public static function fail($data = null,
-								int $status = Http::STATUS_BAD_REQUEST): self {
+		int $status = Http::STATUS_BAD_REQUEST): self {
 		return new self(
 			[
 				'status' => 'fail',
@@ -81,9 +81,9 @@ class JsonResponse extends Base {
 	}
 
 	public static function error(string $message,
-								 int $status = Http::STATUS_INTERNAL_SERVER_ERROR,
-								 array $data = [],
-								 int $code = 0): self {
+		int $status = Http::STATUS_INTERNAL_SERVER_ERROR,
+		array $data = [],
+		int $code = 0): self {
 		return new self(
 			[
 				'status' => 'error',
@@ -99,8 +99,8 @@ class JsonResponse extends Base {
 	 * @param mixed[] $data
 	 */
 	public static function errorFromThrowable(Throwable $error,
-											  int $status = Http::STATUS_INTERNAL_SERVER_ERROR,
-											  array $data = []): self {
+		int $status = Http::STATUS_INTERNAL_SERVER_ERROR,
+		array $data = []): self {
 		return self::error(
 			$error->getMessage(),
 			$status,

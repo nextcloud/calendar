@@ -65,12 +65,12 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 	 * @param IManager $calendarManager
 	 */
 	public function __construct(IL10N $l10n,
-								IInitialState $initialStateService,
-								JSDataService $dataService,
-								IDateTimeFormatter $dateTimeFormatter,
-								IURLGenerator $urlGenerator,
-								IManager $calendarManager,
-								ITimeFactory $timeFactory) {
+		IInitialState $initialStateService,
+		JSDataService $dataService,
+		IDateTimeFormatter $dateTimeFormatter,
+		IURLGenerator $urlGenerator,
+		IManager $calendarManager,
+		ITimeFactory $timeFactory) {
 		$this->l10n = $l10n;
 		$this->initialStateService = $initialStateService;
 		$this->dataService = $dataService;
