@@ -46,7 +46,7 @@ class AppointmentConfigService {
 	private $random;
 
 	public function __construct(AppointmentConfigMapper $mapper,
-								ISecureRandom $random) {
+		ISecureRandom $random) {
 		$this->mapper = $mapper;
 		$this->random = $random;
 	}
@@ -163,22 +163,22 @@ class AppointmentConfigService {
 	 * @throws ServiceException
 	 */
 	public function create(string $name,
-						   string $description,
-						   ?string $location,
-						   string $visibility,
-						   string $userId,
-						   string $targetCalendarUri,
-						   array $availability,
-						   int $length,
-						   int $increment,
-						   int $preparationDuration,
-						   int $followupDuration,
-						   int $buffer,
-						   ?int $dailyMax,
-						   ?array $calendarFreeBusyUris = [],
-						   ?int $start = null,
-						   ?int $end = null,
-						   ?int $futureLimit = null): AppointmentConfig {
+		string $description,
+		?string $location,
+		string $visibility,
+		string $userId,
+		string $targetCalendarUri,
+		array $availability,
+		int $length,
+		int $increment,
+		int $preparationDuration,
+		int $followupDuration,
+		int $buffer,
+		?int $dailyMax,
+		?array $calendarFreeBusyUris = [],
+		?int $start = null,
+		?int $end = null,
+		?int $futureLimit = null): AppointmentConfig {
 		try {
 			$appointmentConfig = new AppointmentConfig();
 			$appointmentConfig->setToken($this->random->generate(12, ISecureRandom::CHAR_HUMAN_READABLE));

@@ -76,14 +76,14 @@ class BookingService {
 	private $logger;
 
 	public function __construct(AvailabilityGenerator $availabilityGenerator,
-								SlotExtrapolator $extrapolator,
-								DailyLimitFilter $dailyLimitFilter,
-								EventConflictFilter $eventConflictFilter,
-								BookingMapper $bookingMapper,
-								BookingCalendarWriter $calendarWriter,
-								ISecureRandom $random,
-								MailService $mailService,
-								LoggerInterface $logger) {
+		SlotExtrapolator $extrapolator,
+		DailyLimitFilter $dailyLimitFilter,
+		EventConflictFilter $eventConflictFilter,
+		BookingMapper $bookingMapper,
+		BookingCalendarWriter $calendarWriter,
+		ISecureRandom $random,
+		MailService $mailService,
+		LoggerInterface $logger) {
 		$this->availabilityGenerator = $availabilityGenerator;
 		$this->extrapolator = $extrapolator;
 		$this->dailyLimitFilter = $dailyLimitFilter;

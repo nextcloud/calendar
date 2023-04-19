@@ -52,9 +52,9 @@ class AppointmentConfigController extends Controller {
 	private $logger;
 
 	public function __construct(IRequest $request,
-								AppointmentConfigService $appointmentService,
-								LoggerInterface $logger,
-								?string $userId) {
+		AppointmentConfigService $appointmentService,
+		LoggerInterface $logger,
+		?string $userId) {
 		parent::__construct(Application::APP_ID, $request);
 		$this->appointmentConfigService = $appointmentService;
 		$this->userId = $userId;

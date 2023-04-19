@@ -24,8 +24,8 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\IConfig;
 use OCP\IRequest;
 
@@ -50,9 +50,9 @@ class SettingsController extends Controller {
 	 * @param string $userId
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								IConfig $config,
-								string $userId) {
+		IRequest $request,
+		IConfig $config,
+		string $userId) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userId = $userId;
@@ -68,7 +68,7 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function setConfig(string $key,
-							  string $value):JSONResponse {
+		string $value):JSONResponse {
 		switch ($key) {
 			case 'view':
 				return $this->setView($value);

@@ -56,13 +56,13 @@ class ViewController extends Controller {
 	private IAppData $appData;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								IConfig $config,
-								AppointmentConfigService $appointmentConfigService,
-								IInitialState $initialStateService,
-								IAppManager $appManager,
-								?string $userId,
-								IAppData $appData) {
+		IRequest $request,
+		IConfig $config,
+		AppointmentConfigService $appointmentConfigService,
+		IInitialState $initialStateService,
+		IAppManager $appManager,
+		?string $userId,
+		IAppData $appData) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->appointmentConfigService = $appointmentConfigService;

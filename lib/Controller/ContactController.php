@@ -51,8 +51,8 @@ class ContactController extends Controller {
 	 * @param IManager $contacts
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								IManager $contacts) {
+		IRequest $request,
+		IManager $contacts) {
 		parent::__construct($appName, $request);
 		$this->contactsManager = $contacts;
 	}

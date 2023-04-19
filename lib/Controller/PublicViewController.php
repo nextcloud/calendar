@@ -63,10 +63,10 @@ class PublicViewController extends Controller {
 	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								IConfig $config,
-								IInitialStateService $initialStateService,
-								IURLGenerator $urlGenerator) {
+		IRequest $request,
+		IConfig $config,
+		IInitialStateService $initialStateService,
+		IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->initialStateService = $initialStateService;
@@ -118,7 +118,7 @@ class PublicViewController extends Controller {
 	 * @return TemplateResponse
 	 */
 	private function publicIndex(string $token,
-								 string $renderAs):TemplateResponse {
+		string $renderAs):TemplateResponse {
 		$defaultEventLimit = $this->config->getAppValue($this->appName, 'eventLimit', 'yes');
 		$defaultInitialView = $this->config->getAppValue($this->appName, 'currentView', 'dayGridMonth');
 		$defaultShowWeekends = $this->config->getAppValue($this->appName, 'showWeekends', 'yes');

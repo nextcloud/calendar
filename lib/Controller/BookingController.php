@@ -71,15 +71,15 @@ class BookingController extends Controller {
 	private IConfig $systemConfig;
 
 	public function __construct(string $appName,
-								IRequest $request,
-								ITimeFactory $timeFactory,
-								IInitialState $initialState,
-								BookingService $bookingService,
-								AppointmentConfigService $appointmentConfigService,
-								URLGenerator $urlGenerator,
-								LoggerInterface $logger,
-								IMailer $mailer,
-								IConfig $systemConfig) {
+		IRequest $request,
+		ITimeFactory $timeFactory,
+		IInitialState $initialState,
+		BookingService $bookingService,
+		AppointmentConfigService $appointmentConfigService,
+		URLGenerator $urlGenerator,
+		LoggerInterface $logger,
+		IMailer $mailer,
+		IConfig $systemConfig) {
 		parent::__construct($appName, $request);
 
 		$this->bookingService = $bookingService;
@@ -103,8 +103,8 @@ class BookingController extends Controller {
 	 * @return JsonResponse
 	 */
 	public function getBookableSlots(int $appointmentConfigId,
-									 int $startTime,
-									 string $timeZone): JsonResponse {
+		int $startTime,
+		string $timeZone): JsonResponse {
 		// Convert the timestamps to the beginning and end of the respective day in the specified timezone
 		try {
 			$tz = new DateTimeZone($timeZone);
@@ -164,12 +164,12 @@ class BookingController extends Controller {
 	 * @return JsonResponse
 	 */
 	public function bookSlot(int $appointmentConfigId,
-							 int $start,
-							 int $end,
-							 string $displayName,
-							 string $email,
-							 string $description,
-							 string $timeZone): JsonResponse {
+		int $start,
+		int $end,
+		string $displayName,
+		string $email,
+		string $description,
+		string $timeZone): JsonResponse {
 		if (!$this->mailer->validateMailAddress($email)) {
 			return JsonResponse::fail('Invalid email address', Http::STATUS_UNPROCESSABLE_ENTITY);
 		}

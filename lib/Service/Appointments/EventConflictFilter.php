@@ -38,7 +38,7 @@ class EventConflictFilter {
 	private $logger;
 
 	public function __construct(IManager $calendarManager,
-					LoggerInterface $logger) {
+		LoggerInterface $logger) {
 		$this->calendarManager = $calendarManager;
 		$this->logger = $logger;
 	}

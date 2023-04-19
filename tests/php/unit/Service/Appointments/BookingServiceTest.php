@@ -28,10 +28,10 @@ namespace OCA\Calendar\Tests\Unit\Service\Appointments;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use Exception;
+use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\Booking;
 use OCA\Calendar\Db\BookingMapper;
 use OCA\Calendar\Exception\ClientException;
-use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Service\Appointments\AvailabilityGenerator;
 use OCA\Calendar\Service\Appointments\BookingCalendarWriter;
 use OCA\Calendar\Service\Appointments\BookingService;
