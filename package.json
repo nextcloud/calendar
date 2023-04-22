@@ -55,7 +55,7 @@
     "@nextcloud/l10n": "^2.1.0",
     "@nextcloud/logger": "^2.5.0",
     "@nextcloud/moment": "^1.2.1",
-    "@nextcloud/router": "^2.0.1",
+    "@nextcloud/router": "^2.1.1",
     "@nextcloud/vue": "^7.10.0",
     "@nextcloud/vue-dashboard": "^2.0.1",
     "autosize": "^6.0.1",
