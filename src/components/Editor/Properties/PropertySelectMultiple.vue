@@ -42,6 +42,9 @@
 				:multiple="true"
 				:taggable="true"
 				track-by="label"
+				group-values="options"
+				group-label="group"
+				:group-select="false"
 				label="label"
 				@select="selectValue"
 				@tag="tag"
@@ -99,6 +102,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		customLabelHeading: {
+			type: String,
+			default: 'Custom Categories',
+		},
 	},
 	data() {
 		return {
@@ -111,45 +118,56 @@ export default {
 		},
 		options() {
 			const options = this.propModel.options.slice()
+			let customOptions = options.find((optionGroup) => optionGroup.group === this.customLabelHeading)
+			if (!customOptions) {
+				customOptions = {
+					group: this.customLabelHeading,
+					options: [],
+				}
+				options.unshift(customOptions)
+			}
 			for (const category of (this.selectionData ?? [])) {
-				if (options.find(option => option.value === category.value)) {
+				if (this.findOption(category, options)) {
 					continue
 				}
 
 				// Add pseudo options for unknown values
-				options.push({
+				customOptions.options.push({
 					value: category.value,
 					label: category.label,
 				})
 			}
 
 			for (const category of this.value) {
-				if (!options.find(option => option.value === category)) {
-					options.push({ value: category, label: category })
+				const categoryOption = { value: category, label: category }
+				if (!this.findOption(categoryOption, options)) {
+					customOptions.options.push(categoryOption)
 				}
 			}
 
 			if (this.customLabelBuffer) {
 				for (const category of this.customLabelBuffer) {
-					if (!options.find(option => option.value === category.value)) {
-						options.push(category)
+					if (!this.findOption(category, options)) {
+						customOptions.options.push(category)
 					}
 				}
 			}
 
-			return options
-				.sort((a, b) => {
+			for (const optionGroup of options) {
+				optionGroup.options = optionGroup.options.sort((a, b) => {
 					return a.label.localeCompare(
 						b.label,
 						getLocale().replace('_', '-'),
 						{ sensitivity: 'base' },
 					)
 				})
+			}
+			return options
 		},
 	},
 	created() {
 		for (const category of this.value) {
-			const option = this.options.find(option => option.value === category)
+			const option = this.findOption({ value: category }, this.options)
 			if (option) {
 				this.selectionData.push(option)
 			}
@@ -172,7 +190,7 @@ export default {
 
 			// store removed custom options to keep it in the option list
 			const options = this.propModel.options.slice()
-			if (!options.find(option => option.value === value.value)) {
+			if (!this.findOption(value, options)) {
 				if (!this.customLabelBuffer) {
 					this.customLabelBuffer = []
 				}
@@ -186,6 +204,15 @@ export default {
 
 			this.selectionData.push({ value, label: value })
 			this.$emit('add-single-value', value)
+		},
+		findOption(value, availableOptions) {
+			for (const optionGroup of availableOptions) {
+				const option = optionGroup.options.find(option => option.value === value.value)
+				if (option) {
+					return option
+				}
+			}
+			return undefined
 		},
 	},
 }
