@@ -42,13 +42,13 @@
 		<OrganizerNoEmailError v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
 
 		<div class="invitees-list-button-group">
-			<NcButton v-if="isCreateTalkRoomButtonVisible"
+			<NcButton class="invitees-list-button-group__button" v-if="isCreateTalkRoomButtonVisible"
 				:disabled="isCreateTalkRoomButtonDisabled"
 				@click="createTalkRoom">
 				{{ $t('calendar', 'Create Talk room for this event') }}
 			</NcButton>
 
-			<NcButton v-if="!isReadOnly" :disabled="isListEmpty" @click="openFreeBusy">
+			<NcButton class="invitees-list-button-group__button" v-if="!isReadOnly" :disabled="isListEmpty" @click="openFreeBusy">
 				{{ $t('calendar', 'Show busy times') }}
 			</NcButton>
 			<FreeBusy v-if="showFreeBusyModel"
@@ -221,3 +221,9 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.invitees-list-button-group__button {
+	width: calc(50% - 5px);
+}
+</style>
