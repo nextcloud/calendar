@@ -43,12 +43,16 @@
 
 		<div class="invitees-list-button-group">
 			<NcButton v-if="isCreateTalkRoomButtonVisible"
+				class="invitees-list-button-group__button"
 				:disabled="isCreateTalkRoomButtonDisabled"
 				@click="createTalkRoom">
 				{{ $t('calendar', 'Create Talk room for this event') }}
 			</NcButton>
 
-			<NcButton v-if="!isReadOnly" :disabled="isListEmpty" @click="openFreeBusy">
+			<NcButton v-if="!isReadOnly"
+				class="invitees-list-button-group__button"
+				:disabled="isListEmpty"
+				@click="openFreeBusy">
 				{{ $t('calendar', 'Show busy times') }}
 			</NcButton>
 			<FreeBusy v-if="showFreeBusyModel"
@@ -221,3 +225,21 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.invitees-list-button-group {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+}
+
+.invitees-list-button-group__button {
+	flex: 1 0 200px;
+
+	::v-deep .button-vue__text {
+		white-space: unset !important;
+		overflow: unset !important;
+		text-overflow: unset !important;
+	}
+}
+</style>
