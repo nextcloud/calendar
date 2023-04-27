@@ -24,19 +24,24 @@ import { generateRemoteUrl } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
 import { CALDAV_BIRTHDAY_CALENDAR } from '../models/consts.js'
 
-let client = null
-const getClient = () => {
-	if (client) {
-		return client
+const clients = {}
+
+const getClientKey = (headers) => JSON.stringify(headers)
+
+const getClient = (headers = {}) => {
+	const clientKey = getClientKey(headers)
+	if (clients[clientKey]) {
+		return clients[clientKey]
 	}
 
-	client = new DavClient({
+	clients[clientKey] = new DavClient({
 		rootUrl: generateRemoteUrl('dav'),
 	}, () => {
-		const headers = {
+		const mergedHeaders = {
 			'X-Requested-With': 'XMLHttpRequest',
 			requesttoken: getRequestToken(),
 			'X-NC-CalDAV-Webcal-Caching': 'On',
+			...headers,
 		}
 		const xhr = new XMLHttpRequest()
 		const oldOpen = xhr.open
@@ -44,8 +49,8 @@ const getClient = () => {
 		// override open() method to add headers
 		xhr.open = function() {
 			const result = oldOpen.apply(this, arguments)
-			for (const name in headers) {
-				xhr.setRequestHeader(name, headers[name])
+			for (const name in mergedHeaders) {
+				xhr.setRequestHeader(name, mergedHeaders[name])
 			}
 
 			return result
@@ -55,7 +60,7 @@ const getClient = () => {
 		return xhr
 	})
 
-	return getClient()
+	return clients[clientKey]
 }
 
 /**
@@ -75,9 +80,10 @@ const initializeClientForPublicView = async () => {
 /**
  * Fetch all calendars from the server
  *
+ * @param {object} headers
  * @return {Promise<CalendarHome>}
  */
-const getCalendarHome = () => getClient().calendarHomes[0]
+const getCalendarHome = (headers) => getClient(headers).calendarHomes[0]
 
 /**
  * Fetch all collections in the calendar home from the server
@@ -86,6 +92,20 @@ const getCalendarHome = () => getClient().calendarHomes[0]
  */
 const findAll = () => {
 	return getCalendarHome().findAllCalDAVCollectionsGrouped()
+}
+
+/**
+ * Fetch all subscriptions in the calendar home from the server
+ */
+export const findAllSubscriptions = async () => {
+	const headers = {
+		'X-NC-CalDAV-Webcal-Caching': 'Off',
+	}
+
+	// Ensure the client is initialized once
+	await getClient(headers).connect({ enableCalDAV: true })
+
+	return getCalendarHome(headers).findAllSubscriptions()
 }
 
 /**

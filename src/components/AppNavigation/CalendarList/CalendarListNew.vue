@@ -92,15 +92,15 @@
 				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Creating subscription …') }}
 			</ActionText>
-			<ActionLink v-if="canSubscribeLink"
-				href="https://www.thunderbird.net/calendar/holidays/"
-				target="_blank"
-				rel="noopener noreferrer">
-				{{ t('calendar', 'Browse holiday subscriptions. Find and copy the .ics link for your region and add it as new subscription above.') }}
+			<ActionButton v-if="canSubscribeLink" @click="showHolidaySubscriptionPicker = true">
+				{{ t('calendar', 'Add holiday calendar') }}
 				<template #icon>
 					<Web :size="20" decorative />
 				</template>
-			</ActionLink>
+			</ActionButton>
+		</template>
+		<template #extra>
+			<HolidaySubscriptionPicker v-if="showHolidaySubscriptionPicker" @close="showHolidaySubscriptionPicker = false" />
 		</template>
 	</AppNavigationItem>
 </template>
@@ -108,7 +108,6 @@
 <script>
 import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import ActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
-import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
 import ActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import ActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
@@ -130,12 +129,12 @@ export default {
 	components: {
 		ActionButton,
 		ActionInput,
-		ActionLink,
 		ActionSeparator,
 		ActionText,
 		AppNavigationItem,
 		CalendarBlank,
 		CalendarCheck,
+		HolidaySubscriptionPicker: () => import(/* webpackChunkName: "holiday-subscription-picker" */ '../../Subscription/HolidaySubscriptionPicker.vue'),
 		LinkVariant,
 		Plus,
 		Web,
@@ -156,6 +155,7 @@ export default {
 			showCreateSubscriptionLabel: true,
 			showCreateSubscriptionInput: false,
 			showCreateSubscriptionSaving: false,
+			showHolidaySubscriptionPicker: false,
 		}
 	},
 	computed: {

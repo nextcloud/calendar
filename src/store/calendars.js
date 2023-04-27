@@ -592,8 +592,8 @@ const actions = {
 	 * @return {Promise<object>} the results
 	 */
 	async loadCollections({ commit, state, getters }) {
-		const { calendars, trashBins, scheduleInboxes } = await findAll()
-		console.info('calendar home scanned', calendars, trashBins)
+		const { calendars, trashBins, scheduleInboxes, subscriptions } = await findAll()
+		console.info('calendar home scanned', calendars, trashBins, subscriptions)
 		calendars.map((calendar) => mapDavCollectionToCalendar(calendar, getters.getCurrentUserPrincipal)).forEach(calendar => {
 			commit('addCalendar', { calendar })
 		})
