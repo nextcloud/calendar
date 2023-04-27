@@ -72,6 +72,7 @@
 				{{ $t('calendar', 'Creating calendar …') }}
 			</ActionText>
 
+			<ActionSeparator v-if="canSubscribeLink" />
 			<ActionButton v-if="showCreateSubscriptionLabel && canSubscribeLink"
 				@click.prevent.stop="openCreateSubscriptionInput">
 				<template #icon>
@@ -91,6 +92,15 @@
 				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Creating subscription …') }}
 			</ActionText>
+			<ActionLink v-if="canSubscribeLink"
+				href="https://www.thunderbird.net/calendar/holidays/"
+				target="_blank"
+				rel="noopener noreferrer">
+				{{ t('calendar', 'Browse holiday subscriptions. Find and copy the .ics link for your region and add it as new subscription above.') }}
+				<template #icon>
+					<Web :size="20" decorative />
+				</template>
+			</ActionLink>
 		</template>
 	</AppNavigationItem>
 </template>
@@ -98,6 +108,8 @@
 <script>
 import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import ActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
+import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import ActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
 import ActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
 import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
 import {
@@ -110,6 +122,7 @@ import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import CalendarCheck from 'vue-material-design-icons/CalendarCheck.vue'
 import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
+import Web from 'vue-material-design-icons/Web.vue'
 import { mapState } from 'vuex'
 
 export default {
@@ -117,12 +130,15 @@ export default {
 	components: {
 		ActionButton,
 		ActionInput,
+		ActionLink,
+		ActionSeparator,
 		ActionText,
 		AppNavigationItem,
 		CalendarBlank,
 		CalendarCheck,
 		LinkVariant,
 		Plus,
+		Web,
 	},
 	data() {
 		return {
