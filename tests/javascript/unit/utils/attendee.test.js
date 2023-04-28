@@ -33,11 +33,21 @@ describe('utils/attendee test suite', () => {
 		expect(removeMailtoPrefix(`mailto:${uri}`)).toEqual(uri)
 	})
 
+	it('should return blank strings when uris are not of type string', () => {
+		expect(removeMailtoPrefix(null)).toEqual('')
+		expect(removeMailtoPrefix(undefined)).toEqual('')
+	})
+
 	it('should add mailto prefixes to uris', () => {
 		const uri = 'principal@test.com'
 		const uriWithPrefix = `mailto:${uri}`
 		expect(addMailtoPrefix(uri)).toEqual(uriWithPrefix)
 		expect(addMailtoPrefix(uriWithPrefix)).toEqual(uriWithPrefix)
+	})
+	
+	it('should add mailto prefixes to uris when they are not of type string', () => {
+		expect(addMailtoPrefix(null)).toEqual("mailto:")
+		expect(addMailtoPrefix(undefined)).toEqual("mailto:")
 	})
 
 	it('should extract a display name of an organizer', () => {
