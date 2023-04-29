@@ -38,7 +38,7 @@
   "dependencies": {
     "@fullcalendar/core": "^6.1.5",
     "@fullcalendar/daygrid": "^6.1.5",
-    "@fullcalendar/interaction": "^6.1.5",
+    "@fullcalendar/interaction": "^6.1.6",
     "@fullcalendar/list": "^6.1.5",
     "@fullcalendar/resource": "^6.1.5",
     "@fullcalendar/resource-timeline": "^6.1.5",
