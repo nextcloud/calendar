@@ -41,7 +41,7 @@
     "@fullcalendar/interaction": "^6.1.5",
     "@fullcalendar/list": "^6.1.5",
     "@fullcalendar/resource": "^6.1.5",
-    "@fullcalendar/resource-timeline": "^6.1.5",
+    "@fullcalendar/resource-timeline": "^6.1.6",
     "@fullcalendar/timegrid": "^6.1.5",
     "@fullcalendar/vue": "^6.1.5",
     "@nextcloud/auth": "^2.0.0",
