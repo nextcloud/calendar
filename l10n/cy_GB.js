@@ -319,6 +319,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Rhowch ddyddiad ac amser dilys",
     "Type to search time zone" : "Teipiwch i chwilio'r gylchfa amser",
     "Global" : "Eang",
+    "Subscribe" : "Tanysgrifio",
     "Select date" : "Dewis dyddiad",
     "Select slot" : "Dewiswch slot",
     "No slots available" : "Dim slotiau ar gael",

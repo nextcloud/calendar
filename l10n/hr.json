@@ -257,6 +257,7 @@
     "Please enter a valid date and time" : "Unesite važeći datum i vrijeme",
     "Type to search time zone" : "Upišite za pretraživanje vremenskih zona",
     "Global" : "Globalno",
+    "Subscribe" : "Preplata",
     "Time:" : "Vrijeme:",
     "Personal" : "Osobno",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Značajka automatskog otkrivanja vremenske zone utvrdila je vašu vremensku zonu kao UTC.\nVjerojatno zbog sigurnosnih mjera vašeg internetskog preglednika.\nRučno postavite vremensku zonu u postavkama kalendara.",

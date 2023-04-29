@@ -364,6 +364,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Introduza unha data e hora válidas",
     "Type to search time zone" : "Escribe para buscar zona horaria",
     "Global" : "Global",
+    "Subscribe" : "Subscribirse",
     "Select date" : "Selecciona a data",
     "Select slot" : "Selecciona franxa horaria",
     "No slots available" : "Non hai franxas horarias dispoñibles",

@@ -364,6 +364,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Молимо вас да унесете исправни датум и време",
     "Type to search time zone" : "Куцајте да потражите временску зону",
     "Global" : "Цео свет",
+    "Subscribe" : "Претплати се",
     "Select date" : "Изаберите датум",
     "Select slot" : "Изаберите термин",
     "No slots available" : "Нема доступних термина",

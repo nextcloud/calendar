@@ -74,6 +74,7 @@ OC.L10N.register(
     "after" : "дараа",
     "More" : "Дэлгэрэнгүй",
     "Global" : "Нийтийн",
+    "Subscribe" : "Захиалга",
     "Personal" : "Хувийн",
     "Details" : "Дэлгэрэнгүй",
     "Attendees" : "Оролцогчид",

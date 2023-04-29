@@ -360,6 +360,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Sartu baliozko data eta ordua",
     "Type to search time zone" : "Idatzi ordu-zona bilatzeko",
     "Global" : "Orokorra",
+    "Subscribe" : "Harpidetu",
     "Select date" : "Hautatu data",
     "Select slot" : "Hautatu tartea",
     "No slots available" : "Ez dago tarterik eskuragarri",

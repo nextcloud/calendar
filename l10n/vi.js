@@ -311,6 +311,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Vui lòng điền vào 1 ngày và thời gian khả dụng",
     "Type to search time zone" : "Nhập để kiếm cho múi thời gian",
     "Global" : "Chung",
+    "Subscribe" : "Theo dõi",
     "Select date" : "Chọn ngày",
     "Select slot" : "Chọn suất",
     "No slots available" : "Không có suất trống",

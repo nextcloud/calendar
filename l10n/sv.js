@@ -364,6 +364,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Ange giltigt datum och tid",
     "Type to search time zone" : "Skriv för att söka tidszon",
     "Global" : "Global",
+    "Subscribe" : "Prenumerera",
     "Select date" : "Välj datum",
     "Select slot" : "Välj tid",
     "No slots available" : "Inga tider tillgängliga",

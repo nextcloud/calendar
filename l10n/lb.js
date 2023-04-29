@@ -44,6 +44,7 @@ OC.L10N.register(
     "after" : "No",
     "More" : "Méi",
     "Global" : "Global",
+    "Subscribe" : "Umellen",
     "Personal" : "Perséinlech",
     "Details" : "Detailer",
     "Attendees" : "Participanten",

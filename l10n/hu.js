@@ -360,6 +360,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Adjon meg egy érvényes dátumot és időt",
     "Type to search time zone" : "Gépeljen az időzóna kereséséhez",
     "Global" : "Globális",
+    "Subscribe" : "Feliratkozás",
     "Select date" : "Válasszon dátumot",
     "Select slot" : "Válasszon idősávot",
     "No slots available" : "Nincs elérhető idősáv",

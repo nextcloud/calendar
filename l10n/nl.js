@@ -337,6 +337,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Geef een geldige datum en tijdstip op",
     "Type to search time zone" : "Type om tijdzone te zoeken",
     "Global" : "Globaal",
+    "Subscribe" : "Abonneren",
     "Select date" : "Selecteer datum",
     "Select slot" : "Selecteer tijdslot",
     "No slots available" : "Geen tijdsloten beschikbaar",

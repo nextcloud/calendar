@@ -360,6 +360,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Введите верную дату и время",
     "Type to search time zone" : "Начните вводить название часового поиска",
     "Global" : "Общие",
+    "Subscribe" : "Подписаться",
     "Select date" : "Выбрать дату",
     "Select slot" : "Выбрать слот",
     "No slots available" : "Нет свободных мест",

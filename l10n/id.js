@@ -186,6 +186,7 @@ OC.L10N.register(
     "Pick a date" : "Pilih tanggal",
     "Please enter a valid date" : "Silakan isi tanggal valid",
     "Please enter a valid date and time" : "Silakan isi tanggal dan waktu valid",
+    "Subscribe" : "Berlangganan",
     "Personal" : "Pribadi",
     "[Today]" : "[Hari ini]",
     "Details" : "Detail",

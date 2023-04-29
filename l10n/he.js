@@ -222,6 +222,7 @@ OC.L10N.register(
     "Please enter a valid date" : "נא להקליד תאריך תקני",
     "Please enter a valid date and time" : "נא להקליד שעה ותאריך תקניים",
     "Global" : "גלובלי",
+    "Subscribe" : "הרשמה",
     "Time:" : "שעה:",
     "Personal" : "אישי",
     "No more events today" : "אין עוד אירועים היום",

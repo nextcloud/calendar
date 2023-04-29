@@ -133,6 +133,7 @@ OC.L10N.register(
     "to {formattedDate}" : "cap a {formattedDate}",
     "Type to search time zone" : "Picar per cercar un fus orari",
     "Global" : "Global",
+    "Subscribe" : "S'abonar",
     "Personal" : "Personal",
     "Create a new event" : "Crear un eveniment novèl",
     "[Today]" : "[Uèi]",

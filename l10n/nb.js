@@ -353,6 +353,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Vennligst tast inn en gyldig dato og et tidspunkt",
     "Type to search time zone" : "Skriv for å søke etter tidssone",
     "Global" : "Global",
+    "Subscribe" : "Abonner",
     "Select date" : "Velg dato",
     "Select slot" : "Velg tidsrom",
     "No slots available" : "Ingen tidsrom ledig",

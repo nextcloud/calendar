@@ -272,6 +272,7 @@ OC.L10N.register(
     "Pick a time" : "Alege un interval orar",
     "Pick a date" : "Alege o dată",
     "Global" : "Global",
+    "Subscribe" : "Abonare",
     "Time:" : "Timp:",
     "Booked for:" : "Rezervat pentru:",
     "Personal" : "Personal",

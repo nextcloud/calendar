@@ -343,6 +343,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Zadajte platný dátum a čas",
     "Type to search time zone" : "Písaním nájdete časovú zónu",
     "Global" : "Globálne",
+    "Subscribe" : "Odoberať",
     "Select date" : "Vybrať dátum",
     "Select slot" : "Vybrať slot",
     "No slots available" : "Žiadny slot nie je k dispozícii",

@@ -360,6 +360,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Indtast venligst en gyldig dato og tid",
     "Type to search time zone" : "Indtast for at søge i tidszone",
     "Global" : "Global",
+    "Subscribe" : "Tilmeld",
     "Select date" : "Vælg dato",
     "Select slot" : "Vælg tidspunkt",
     "No slots available" : "Ingen ledige tidspunkter",

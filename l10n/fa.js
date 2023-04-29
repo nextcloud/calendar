@@ -205,6 +205,7 @@ OC.L10N.register(
     "Please enter a valid date" : "لطفا یک تاریخ معتبر وارد کنید",
     "Please enter a valid date and time" : "لطفاً یک تاریخ و زمان معتبر وارد کنید",
     "Global" : "عمومی",
+    "Subscribe" : "اشتراک گذاری",
     "Personal" : "شخصی",
     "No more events today" : "هیچ رویداد دیگری برای امروز وجود ندارد",
     "No upcoming events" : "رویداد پیش‌رویی وجود ندارد",

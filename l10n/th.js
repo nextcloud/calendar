@@ -62,6 +62,7 @@ OC.L10N.register(
     "More" : "เพิ่มเติม",
     "Pick a date" : "เลือกวันที่",
     "Global" : "ทั่วไป",
+    "Subscribe" : "สมัครรับข้อมูล",
     "Personal" : "ส่วนตัว",
     "Details" : "รายละเอียด",
     "Attendees" : "ผู้เข้าร่วมกิจกรรม",

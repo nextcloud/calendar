@@ -331,6 +331,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Vpisati je treba veljaven datum in čas",
     "Type to search time zone" : "Vpišite niz za iskanje časovnega pasu",
     "Global" : "Splošno",
+    "Subscribe" : "Naročilo",
     "Select date" : "Izbor datuma",
     "Select slot" : "Izbor časovnega termina",
     "No slots available" : "Ni razpoložljivih časovnih terminov",

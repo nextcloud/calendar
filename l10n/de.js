@@ -364,6 +364,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Bitte gültiges Datum und Uhrzeit angeben",
     "Type to search time zone" : "Zum Suchen der Zeitzone tippen",
     "Global" : "Weltweit",
+    "Subscribe" : "Abonnieren",
     "Select date" : "Datum auswählen",
     "Select slot" : "Zeitfenster auswählen",
     "No slots available" : "Keine Zeitfenster verfügbar",

@@ -72,6 +72,7 @@ OC.L10N.register(
     "available" : "pieejams",
     "More" : "Vairāk",
     "Global" : "Globāls",
+    "Subscribe" : "Abonēt",
     "Personal" : "Personīgs",
     "Create a new event" : "Izveidot jaunu notikumu",
     "Details" : "Detaļas",

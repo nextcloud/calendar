@@ -70,6 +70,7 @@ OC.L10N.register(
     "after" : "post",
     "More" : "Pli",
     "Global" : "Monda",
+    "Subscribe" : "Aboni",
     "Personal" : "Persona",
     "[Today]" : "[Hodiaŭ]",
     "[Tomorrow]" : "[Morgaŭ]",

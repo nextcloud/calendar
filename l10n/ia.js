@@ -53,6 +53,7 @@ OC.L10N.register(
     "after" : "post",
     "More" : "Plus",
     "Global" : "Global",
+    "Subscribe" : "Subscribe",
     "Personal" : "Personal",
     "Details" : "Detalios",
     "Attendees" : "Participantes",

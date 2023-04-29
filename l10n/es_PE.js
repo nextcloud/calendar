@@ -65,6 +65,7 @@ OC.L10N.register(
     "available" : "disponible",
     "More" : "Más",
     "Global" : "Global",
+    "Subscribe" : "Suscribir",
     "Personal" : "Personal",
     "Details" : "Detalles",
     "Attendees" : "Asistentes",

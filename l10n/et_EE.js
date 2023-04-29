@@ -76,6 +76,7 @@ OC.L10N.register(
     "after" : "pärast",
     "More" : "Rohkem",
     "Global" : "Üldine",
+    "Subscribe" : "Telli",
     "Personal" : "Isiklik",
     "Details" : "Üksikasjad",
     "Attendees" : "Osalejad",

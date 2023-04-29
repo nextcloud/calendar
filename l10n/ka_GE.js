@@ -65,6 +65,7 @@ OC.L10N.register(
     "available" : "ხელმისაწვდომი",
     "More" : "უფრო მეტი",
     "Global" : "გლობალური",
+    "Subscribe" : "გამოწერა",
     "Personal" : "პირადი",
     "Details" : "დეტლაები",
     "Attendees" : "დამსწრეები",

@@ -67,6 +67,7 @@ OC.L10N.register(
     "available" : "në gjëndje",
     "More" : "Më tepër",
     "Global" : "Globale",
+    "Subscribe" : "Abonohu",
     "Personal" : "Personale",
     "Details" : "Detajet",
     "Attendees" : "Pjesëmarrës",

@@ -342,6 +342,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "请输入有效的日期和时间",
     "Type to search time zone" : "输入以搜索时区 ",
     "Global" : "全球",
+    "Subscribe" : "订阅",
     "Select date" : "选择日期",
     "Select slot" : "选择时段",
     "No slots available" : "无可用时段",

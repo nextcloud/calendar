@@ -247,6 +247,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "올바른 날짜와 시간을 입력하십시오",
     "Type to search time zone" : "시간대를 찾기 위해 입력하세요.",
     "Global" : "국제",
+    "Subscribe" : "구독",
     "Time:" : "시간:",
     "Personal" : "개인",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "자동으로 감지된 귀하의 시간대가 UTC입니다.\n이 웹 브라우저의 보안 설정이 원인일 수 있습니다.\n달력 설정에서 수동으로 시간대를 설정해 주십시오.",

@@ -308,6 +308,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Įveskite teisingą datą ir laiką",
     "Type to search time zone" : "Rašykite norėdami ieškoti laiko juostos",
     "Global" : "Visuotinis",
+    "Subscribe" : "Prenumeruoti",
     "Time:" : "Laikas:",
     "Personal" : "Asmeniniai",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Automatinis laiko juostos aptikimas nustatė, kad jūsų laiko juosta yra UTC.\nTaip, greičiausiai, yra dėl jūsų saityno naršyklės saugos priemonių.\nKalendoriaus nustatymuose prašome rankiniu būdu nusistatyti laiko juostą.",

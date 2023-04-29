@@ -75,6 +75,7 @@ OC.L10N.register(
     "Pick a time" : "Elige una hora",
     "Pick a date" : "Elige una fecha",
     "Global" : "Global",
+    "Subscribe" : "Suscríbete",
     "Personal" : "Personal",
     "No upcoming events" : "No hay eventos próximos",
     "Create a new event" : "Crear un nuevo evento",

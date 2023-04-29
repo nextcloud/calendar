@@ -345,6 +345,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Παρακαλώ εισάγετε έγκυρη ημερομηνία και ώρα",
     "Type to search time zone" : "Πληκτρολογήστε για αναζήτηση χρονικής ζώνης",
     "Global" : "Καθολικό",
+    "Subscribe" : "Εγγραφή",
     "Select date" : "Επιλέξτε ημερομηνία",
     "Select slot" : "Επιλογή θέσης",
     "No slots available" : "Καμμια διαθέσιμη θέση",
