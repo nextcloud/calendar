@@ -65,6 +65,7 @@ OC.L10N.register(
     "available" : "beskikbaar",
     "More" : "Nog",
     "Global" : "Globaal",
+    "Subscribe" : "Teken in",
     "Personal" : "Persoonlik",
     "Details" : "Details",
     "Attendees" : "Bywoners",
