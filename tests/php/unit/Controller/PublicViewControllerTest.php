@@ -25,7 +25,7 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IRequest;
@@ -122,7 +122,7 @@ class PublicViewControllerTest extends TestCase {
 
 		$response = $this->controller->publicIndexWithBranding('');
 
-		$this->assertInstanceOf(TemplateResponse::class, $response);
+		$this->assertInstanceOf(PublicTemplateResponse::class, $response);
 		$this->assertEquals([
 			'share_url' => 'protocol://host123/456',
 			'preview_image' => 'absoluteImagePath456'
@@ -199,12 +199,12 @@ class PublicViewControllerTest extends TestCase {
 
 		$response = $this->controller->publicIndexForEmbedding('');
 
-		$this->assertInstanceOf(TemplateResponse::class, $response);
+		$this->assertInstanceOf(PublicTemplateResponse::class, $response);
 		$this->assertEquals([
 			'share_url' => 'protocol://host123/456',
 			'preview_image' => 'absoluteImagePath456'
 		], $response->getParams());
-		$this->assertEquals('base', $response->getRenderAs());
+		$this->assertEquals('public', $response->getRenderAs());
 		$this->assertEquals('main', $response->getTemplateName());
 	}
 }
