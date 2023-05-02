@@ -27,12 +27,9 @@
 
 			<div class="edit-calendar-modal__name-and-color">
 				<div class="edit-calendar-modal__name-and-color__color">
-					<div v-if="loading"
-						class="edit-calendar-modal__name-and-color__color__dot"
-						:style="{'background-color': calendarColor}" />
-					<NcColorPicker v-else
-						v-model="calendarColor"
-						:advanced-fields="true">
+					<NcColorPicker v-model="calendarColor"
+						:advanced-fields="true"
+						@update:value="calendarColorChanged = true">
 						<div class="edit-calendar-modal__name-and-color__color__dot"
 							:style="{'background-color': calendarColor}" />
 					</NcColorPicker>
@@ -41,8 +38,8 @@
 				<input v-model="calendarName"
 					class="edit-calendar-modal__name-and-color__name"
 					type="text"
-					:disabled="loading"
-					:placeholder="$t('calendar', 'Calendar name …')">
+					:placeholder="$t('calendar', 'Calendar name …')"
+					@input="calendarNameChanged = true">
 			</div>
 
 			<template v-if="canBeShared">
@@ -98,7 +95,6 @@ import SharingSearch from './EditCalendarModal/SharingSearch.vue'
 import ShareItem from './EditCalendarModal/ShareItem.vue'
 import { mapGetters } from 'vuex'
 import logger from '../../utils/logger.js'
-import debounce from 'debounce'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import DownloadIcon from 'vue-material-design-icons/Download.vue'
 import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
@@ -120,11 +116,8 @@ export default {
 		LinkVariantIcon,
 		CloseIcon,
 	},
-	props: {
-	},
 	data() {
 		return {
-			loading: false,
 			calendarColor: undefined,
 			calendarColorChanged: false,
 			calendarName: undefined,
@@ -161,9 +154,6 @@ export default {
 		},
 	},
 	watch: {
-		async calendarName() {
-			await this.saveNameDebounced()
-		},
 		editCalendarModal(value) {
 			if (!value) {
 				return
@@ -171,11 +161,9 @@ export default {
 
 			this.calendarName = this.calendar.displayName
 			this.calendarColor = this.calendar.color
+			this.calendarNameChanged = false
+			this.calendarColorChanged = false
 		},
-	},
-	created() {
-		// debounce.flush() only works if the functions are added here (or in data())
-		this.saveNameDebounced = debounce(() => this.saveName(), 1000)
 	},
 	methods: {
 		/**
@@ -189,8 +177,6 @@ export default {
 		 * Save the calendar color.
 		 */
 		async saveColor() {
-			this.loading = true
-
 			try {
 				await this.$store.dispatch('changeCalendarColor', {
 					calendar: this.calendar,
@@ -201,8 +187,7 @@ export default {
 					calendar: this.calendar,
 					newColor: this.calendarColor,
 				})
-			} finally {
-				this.loading = false
+				throw error
 			}
 		},
 
@@ -210,8 +195,6 @@ export default {
 		 * Save the calendar name.
 		 */
 		async saveName() {
-			this.loading = true
-
 			try {
 				await this.$store.dispatch('renameCalendar', {
 					calendar: this.calendar,
@@ -222,8 +205,7 @@ export default {
 					calendar: this.calendar,
 					newName: this.calendarName,
 				})
-			} finally {
-				this.loading = false
+				throw error
 			}
 		},
 
@@ -233,8 +215,17 @@ export default {
 		 * @return {Promise<void>}
 		 */
 		async saveAndClose() {
-			await this.saveColor()
-			await this.saveNameDebounced.flush()
+			try {
+				if (this.calendarColorChanged) {
+					await this.saveColor()
+				}
+				if (this.calendarNameChanged) {
+					await this.saveName()
+				}
+			} catch (error) {
+				showError(this.$t('calendar', 'Failed to save calendar name and color'))
+			}
+
 			this.closeModal()
 		},
 
