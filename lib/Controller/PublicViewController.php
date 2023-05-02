@@ -27,7 +27,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Response;
-use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IRequest;
@@ -79,16 +79,13 @@ class PublicViewController extends Controller {
 	 *
 	 * @PublicPage
 	 * @NoCSRFRequired
-	 *
-	 * @param string $token
-	 * @return Response
 	 */
 	public function publicIndexWithBranding(string $token):Response {
 		$acceptHeader = $this->request->getHeader('Accept');
 		if (strpos($acceptHeader, 'text/calendar') !== false) {
 			return new RedirectResponse($this->urlGenerator->linkTo('', 'remote.php') . '/dav/public-calendars/' . $token . '/?export');
 		}
-		return $this->publicIndex($token, 'public');
+		return $this->publicIndex($token);
 	}
 
 	/**
@@ -97,12 +94,10 @@ class PublicViewController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 * @NoSameSiteCookieRequired
-	 *
-	 * @param string $token
-	 * @return TemplateResponse
 	 */
-	public function publicIndexForEmbedding(string $token):TemplateResponse {
-		$response = $this->publicIndex($token, 'base');
+	public function publicIndexForEmbedding(string $token):PublicTemplateResponse {
+		$response = $this->publicIndex($token);
+		$response->setFooterVisible(false);
 		$response->addHeader('X-Frame-Options', 'ALLOW');
 
 		$csp = new ContentSecurityPolicy();
@@ -147,16 +142,14 @@ class PublicViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'tasks_enabled', false);
 		$this->initialStateService->provideInitialState($this->appName, 'hide_event_export', false);
 
-		return new TemplateResponse($this->appName, 'main', [
+		return new PublicTemplateResponse($this->appName, 'main', [
 			'share_url' => $this->getShareURL(),
 			'preview_image' => $this->getPreviewImage(),
-		], $renderAs);
+		]);
 	}
 
 	/**
 	 * Get the sharing Url
-	 *
-	 * @return string
 	 */
 	private function getShareURL():string {
 		$shareURL = $this->request->getServerProtocol() . '://';
@@ -168,8 +161,6 @@ class PublicViewController extends Controller {
 
 	/**
 	 * Get an image for preview when sharing in social media
-	 *
-	 * @return string
 	 */
 	private function getPreviewImage():string {
 		$relativeImagePath = $this->urlGenerator->imagePath('core', 'favicon-touch.png');
