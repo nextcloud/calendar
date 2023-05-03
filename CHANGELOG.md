@@ -1,8 +1,35 @@
 
 # Changelog
-## 4.3.0 - unreleased
+
+## 4.4.0 - unrelease
+### Added
+- Create Talk rooms for appointments
+### Changed
+- Add back PHP 7.4 support
+### Fixed
+- Public sharing footer
+- Date formatting in list view
+- Import button alignment
+- Use locale instead of language
+- DAV urls for attachments
+- Calendar booking notifications
+
+## 4.3.2 - 2023-04-06
+### Fixed
+- Attachments folder
+- Appointments default visibility
+- Sidebar editor timezone
+- Share indicator
+- Date picker
+
+## 4.3.1 - 2023-03-22
+### Changed
+- Webpack version
+
+## 4.3.0 - 2023-03-20
 ### Added
 - File attachments for calendar events
+- Organizer booking emails
 ### Changed
 - Lazy load dashboard component
 - Wider input for recurrences
@@ -12,6 +39,7 @@
 - Calendar export button
 - Share dialogue focus loss
 - Disabling appointments
+- Color picker
 
 ## 4.2.2 - 2023-01-26
 ### Fixed
