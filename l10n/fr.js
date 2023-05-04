@@ -299,7 +299,7 @@ OC.L10N.register(
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Pour envoyer des invitations et en gérer les réponses, [linkopen]ajoutez votre adresse e-mail dans vos paramètres personnels[linkclose].",
     "Remove color" : "Supprimer la couleur",
     "Event title" : "Titre de l'événement",
-    "All day" : "Journée",
+    "All day" : "Journée entière",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Impossible de modifier le paramètre de la journée entière pour les événements qui font partie d'un ensemble de récurrences.",
     "from {startDate}" : "du {startDate}",
     "from {startDate} at {startTime}" : "du {startDate} à {startTime}",
