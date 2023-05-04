@@ -39,7 +39,7 @@
 				<div class="holiday-subscription-picker__region__subcribe">
 					<NcButton :disabled="loading || subscribing[calendar.source] || subscribed[calendar.source]"
 						@click="subscribe(calendar)">
-						{{ t('calendar', 'Subscribe') }}
+						{{ subscribed[calendar.source] ? t('calendar', 'Subscribed') : t('calendar', 'Subscribe') }}
 					</NcButton>
 				</div>
 			</div>
