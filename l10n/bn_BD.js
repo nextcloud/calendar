@@ -42,6 +42,7 @@ OC.L10N.register(
     "Repeat" : "পূনঃসংঘটন",
     "never" : "কখনোই নয়",
     "More" : "বেশী",
+    "Subscribe" : "গ্রাহক হোন",
     "Personal" : "ব্যক্তিগত",
     "Details" : "বিসতারিত",
     "Attendees" : "অংশগ্রহণকারীবৃন্দ",

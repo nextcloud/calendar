@@ -240,6 +240,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Inserta•nche una data e un'ora bàlidas",
     "Type to search time zone" : "Iscrire pro chircare fusu oràriu",
     "Global" : "Globale",
+    "Subscribed" : "Sutaiscritu",
     "Subscribe" : "Sutaiscrie",
     "Time:" : "Tempus:",
     "Personal" : "Personale",

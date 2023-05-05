@@ -360,6 +360,8 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Indiqueu una data i hora vàlides",
     "Type to search time zone" : "Escriviu per cercar la zona horària",
     "Global" : "Global",
+    "Subscribed" : "Subscrit",
+    "Subscribe" : "Subscriu-m'hi",
     "Select date" : "Seleccioneu una data",
     "Select slot" : "Seleccioneu unitat temporal",
     "No slots available" : "No hi han unitats temporals disponibles",

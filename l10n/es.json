@@ -366,6 +366,7 @@
     "Holiday calendars" : "Calendarios de días feriados",
     "Holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Los calendarios de días feriados son provistos por Thunderbird. Los datos del calendario serán descargados desde {website}",
     "By {authors}" : "Por {authors}",
+    "Subscribed" : "Suscrito",
     "Subscribe" : "Suscribirse",
     "Holidays in {region}" : "Días feriados en {region}",
     "An error occurred, unable to create the holiday calendar." : "Ocurrió un error, no fue posible crear el calendario de días feriados.",

@@ -271,6 +271,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "有効な日付と時刻を入力してください",
     "Type to search time zone" : "入力して時間帯を検索",
     "Global" : "グローバル",
+    "Subscribed" : "購読",
     "Subscribe" : "購読",
     "Select date" : "日付を選択",
     "Appointment Details:" : "予定の詳細：",

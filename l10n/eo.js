@@ -54,6 +54,7 @@ OC.L10N.register(
     "Save" : "Konservi",
     "Update" : "Ĝisdatigi",
     "Your email address" : "Via retpoŝta adreso",
+    "Notification" : "Atentigo",
     "Email" : "Retpoŝto",
     "Delete file" : "Forigi dosieron",
     "Choose a file to add as attachment" : "Elektu dosieron aldonotan kiel kunsendaĵon",

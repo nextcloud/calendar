@@ -247,6 +247,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "올바른 날짜와 시간을 입력하십시오",
     "Type to search time zone" : "시간대를 찾기 위해 입력하세요.",
     "Global" : "국제",
+    "Subscribed" : "구독함",
     "Subscribe" : "구독",
     "Time:" : "시간:",
     "Personal" : "개인",

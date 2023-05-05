@@ -364,6 +364,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Veuillez saisir une date et une heure valides",
     "Type to search time zone" : "Commencer la saisie pour rechercher le fuseau horaire",
     "Global" : "Général",
+    "Subscribed" : "Abonné",
     "Subscribe" : "S'inscrire",
     "Select date" : "Sélectionner la date",
     "Select slot" : "Sélectionnez le créneau",

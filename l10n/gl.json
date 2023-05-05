@@ -366,6 +366,7 @@
     "Holiday calendars" : "Calendarios de vacacións",
     "Holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Thunderbird proporciona os calendarios de vacacións. Os datos do calendario descargaranse de {website}",
     "By {authors}" : "Por {authors}",
+    "Subscribed" : "Subscrito",
     "Subscribe" : "Subscribirse",
     "Holidays in {region}" : "Festivos en {region}",
     "An error occurred, unable to create the holiday calendar." : "Produciuse un erro, non se puido crear o calendario de vacacións.",

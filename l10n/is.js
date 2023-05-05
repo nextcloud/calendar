@@ -323,6 +323,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Settu inn gilda dags- og tímasetningu",
     "Type to search time zone" : "Skrifaðu til að leita að tímabelti...",
     "Global" : "Víðvært",
+    "Subscribed" : "Í áskrift",
     "Subscribe" : "Gerast áskrifandi",
     "Select date" : "Veldu dagsetningu",
     "Select slot" : "Veldu tímahólf",

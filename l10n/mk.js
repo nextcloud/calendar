@@ -345,6 +345,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Внесете валиден датум и време",
     "Type to search time zone" : "Пребарај временски зони",
     "Global" : "Глобално",
+    "Subscribed" : "Претплатени",
     "Subscribe" : "Претплата",
     "Select date" : "Избери датум",
     "Select slot" : "Избери термин",

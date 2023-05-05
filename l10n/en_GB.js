@@ -368,6 +368,7 @@ OC.L10N.register(
     "Holiday calendars" : "Holiday calendars",
     "Holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}",
     "By {authors}" : "By {authors}",
+    "Subscribed" : "Subscribed",
     "Subscribe" : "Subscribe",
     "Holidays in {region}" : "Holidays in {region}",
     "An error occurred, unable to create the holiday calendar." : "An error occurred, unable to create the holiday calendar.",

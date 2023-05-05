@@ -308,6 +308,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Įveskite teisingą datą ir laiką",
     "Type to search time zone" : "Rašykite norėdami ieškoti laiko juostos",
     "Global" : "Visuotinis",
+    "Subscribed" : "Prenumeruotas",
     "Subscribe" : "Prenumeruoti",
     "Time:" : "Laikas:",
     "Personal" : "Asmeniniai",

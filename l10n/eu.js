@@ -362,6 +362,7 @@ OC.L10N.register(
     "Type to search time zone" : "Idatzi ordu-zona bilatzeko",
     "Global" : "Orokorra",
     "Holiday calendars" : "Opor-egutegiak",
+    "Subscribed" : "Harpidetua",
     "Subscribe" : "Harpidetu",
     "Select date" : "Hautatu data",
     "Select slot" : "Hautatu tartea",

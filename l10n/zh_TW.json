@@ -366,6 +366,7 @@
     "Holiday calendars" : "節日行事曆",
     "Holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "節日行事曆由 Thunderbird 提供。將會從 {website} 下載行事曆資料",
     "By {authors}" : "作者為 {authors}",
+    "Subscribed" : "已訂閱",
     "Subscribe" : "訂閱",
     "Holidays in {region}" : "{region} 的節日",
     "An error occurred, unable to create the holiday calendar." : "發生錯誤，無法建立節日行事曆。",

@@ -259,6 +259,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Unesite važeći datum i vrijeme",
     "Type to search time zone" : "Upišite za pretraživanje vremenskih zona",
     "Global" : "Globalno",
+    "Subscribed" : "Pretplaćen",
     "Subscribe" : "Preplata",
     "Time:" : "Vrijeme:",
     "Personal" : "Osobno",

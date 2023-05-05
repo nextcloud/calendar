@@ -367,6 +367,7 @@ OC.L10N.register(
     "Holiday calendars" : "Feriekalendere",
     "Holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Feriekalendere leveres af Thunderbird. Kalenderdata vil blive downloadet fra {website}",
     "By {authors}" : "Af {authors}",
+    "Subscribed" : "Abonneret",
     "Subscribe" : "Tilmeld",
     "Holidays in {region}" : "Ferie i {region}",
     "An error occurred, unable to create the holiday calendar." : "Der opstod en fejl, feriekalenderen kunne ikke oprettes.",

@@ -359,6 +359,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Digite uma data e hora válida",
     "Type to search time zone" : "Digite para pesquisar o fuso horário",
     "Global" : "Global",
+    "Subscribed" : "Inscrita",
     "Subscribe" : "Se inscrever",
     "Select date" : "Selecionar data",
     "Select slot" : "Selecionar vaga",

@@ -368,6 +368,7 @@ OC.L10N.register(
     "Holiday calendars" : "Календари празника",
     "Holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Календаре празника обезбеђује Thunderbird. ПОдаци за календар ће да се преузму са {website}",
     "By {authors}" : "Урадили {authors}",
+    "Subscribed" : "Претплаћен",
     "Subscribe" : "Претплати се",
     "Holidays in {region}" : "Празници у {region}",
     "An error occurred, unable to create the holiday calendar." : "Дошло је до грешке, календар празника не може да се креира.",

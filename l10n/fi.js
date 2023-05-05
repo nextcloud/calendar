@@ -357,6 +357,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Kirjoita kelvollinen päivä ja aika",
     "Type to search time zone" : "Kirjoita etsiäksesi aikavyöhykettä",
     "Global" : "Julkinen",
+    "Subscribed" : "Tilattu",
     "Subscribe" : "Tilaa",
     "Select date" : "Valitse päivämäärä",
     "Select slot" : "Valitse aikarako",

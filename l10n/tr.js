@@ -364,6 +364,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Lütfen geçerli bir tarih ve saat yazın",
     "Type to search time zone" : "Saat dilimi aramak için yazmaya başlayın",
     "Global" : "Genel",
+    "Subscribed" : "Abone olundu",
     "Subscribe" : "Abone ol",
     "Select date" : "Tarih seçin",
     "Select slot" : "Aralık seçin",

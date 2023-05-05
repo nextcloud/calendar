@@ -260,6 +260,7 @@ OC.L10N.register(
     "More" : "Mais",
     "Pick a date" : "Escolha uma data",
     "Global" : "Global",
+    "Subscribed" : "Subscrito",
     "Subscribe" : "Subscrever",
     "Personal" : "Pessoal",
     "Details" : "Detalhes",
