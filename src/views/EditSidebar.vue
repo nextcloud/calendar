@@ -107,7 +107,7 @@
 				@update-end-timezone="updateEndTimezone"
 				@toggle-all-day="toggleAllDay" />
 
-			<InvitationResponseButtons v-if="isViewedByAttendee && userAsAttendee && !isReadOnly"
+			<InvitationResponseButtons v-if="isViewedByAttendee"
 				:attendee="userAsAttendee"
 				:calendar-id="calendarId"
 				:narrow="true"

@@ -98,9 +98,9 @@ const getters = {
 	 * Gets the email-address of the current-user-principal
 	 *
 	 * @param {object} state the store data
-	 * @return {string}
+	 * @return {string|undefined}
 	 */
-	getCurrentUserPrincipalEmail: (state) => state.principalsById[state.currentUserPrincipal].emailAddress,
+	getCurrentUserPrincipalEmail: (state) => state.principalsById[state.currentUserPrincipal]?.emailAddress,
 }
 
 const actions = {

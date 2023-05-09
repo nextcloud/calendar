@@ -227,7 +227,7 @@ export default {
 		 * @return {?object}
 		 */
 		userAsAttendee() {
-			if (!this.calendarObjectInstance.organizer) {
+			if (this.isReadOnly || !this.$store.getters.getCurrentUserPrincipalEmail || !this.calendarObjectInstance.organizer) {
 				return null
 			}
 
