@@ -1,11 +1,12 @@
 
 # Changelog
 
-## 4.4.0 - unrelease
+## 4.4.0 - unreleased
 ### Added
 - Create Talk rooms for appointments
 ### Changed
 - Add back PHP 7.4 support
+- Add save button to calendar settings
 ### Fixed
 - Public sharing footer
 - Date formatting in list view
