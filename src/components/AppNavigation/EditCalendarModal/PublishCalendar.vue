@@ -391,7 +391,7 @@ export default {
 		height: 32px;
 		border-radius: 16px;
 		color: white;
-		background-color: var(--color-primary);
+		background-color: var(--color-primary-element);
 		align-items: center;
 		justify-content: center;
 	}

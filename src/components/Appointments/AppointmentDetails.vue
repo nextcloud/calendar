@@ -190,7 +190,7 @@ export default {
 
 .add-guest {
 	display: block;
-	color: var(--color-primary);
+	color: var(--color-primary-element);
 	background-color: transparent;
 }
 

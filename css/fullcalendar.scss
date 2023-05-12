@@ -31,9 +31,9 @@
 
 	--fc-daygrid-event-dot-width: 10px !important;
 
-	--fc-event-bg-color: var(--color-primary);
-	--fc-event-border-color: var(--color-primary-text);
-	--fc-event-text-color: var(--color-primary-text);
+	--fc-event-bg-color: var(--color-primary-element);
+	--fc-event-border-color: var(--color-primary-element-text);
+	--fc-event-text-color: var(--color-primary-element-text);
 	--fc-event-selected-overlay-color: var(--color-box-shadow);
 
 	--fc-event-resizer-thickness: 8px;
@@ -41,7 +41,7 @@
 	--fc-event-resizer-dot-border-width: 1px;
 
 	--fc-non-business-color: var(--color-background-dark);
-	--fc-bg-event-color: var(--color-primary);
+	--fc-bg-event-color: var(--color-primary-element);
 	--fc-bg-event-opacity: 0.3;
 	--fc-highlight-color: rgba(188, 232, 241, 0.3); // TODO - use some color css var from us?
 	--fc-today-bg-color: var(--color-main-background) !important;
@@ -85,14 +85,14 @@
 		a, span {
 			padding: 2px 6px;
 			font-weight: bold;
-			background-color: var(--color-primary);
-			color: var(--color-primary-text) !important;
+			background-color: var(--color-primary-element);
+			color: var(--color-primary-element-text) !important;
 			border-radius: var(--border-radius-pill);
 		}
 	}
 
 	.fc-event {
-		box-shadow: 0px 0px 0px 1px var(--color-primary-light) !important;
+		box-shadow: 0px 0px 0px 1px var(--color-primary-element-light) !important;
 	}
 
 	.fc-daygrid-day-top {
@@ -103,8 +103,8 @@
 			text-align: center;
 			font-weight: bold !important;
 			padding: 0 !important;
-			background: var(--color-primary);
-			color: var(--color-primary-text);
+			background: var(--color-primary-element);
+			color: var(--color-primary-element-text);
 			border-radius: 50%;
 		}
 	}
@@ -122,7 +122,7 @@
 	.fc-col-header-cell.fc-day-today,
 	.fc-daygrid-day.fc-day-today,
 	.fc-timegrid-col.fc-day-today {
-		background-color: var(--color-primary-light) !important;
+		background-color: var(--color-primary-element-light) !important;
 		background-clip: padding-box;
 	}
 }
