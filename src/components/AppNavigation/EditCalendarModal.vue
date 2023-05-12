@@ -21,18 +21,15 @@
   -->
 
 <template>
-	<NcModal v-if="!!editCalendarModal && calendar" size="normal" @close="saveAndClose">
+	<NcModal v-if="!!editCalendarModal && calendar" size="normal" @close="closeModal">
 		<div class="edit-calendar-modal">
 			<h2>{{ $t('calendar', 'Edit calendar') }}</h2>
 
 			<div class="edit-calendar-modal__name-and-color">
 				<div class="edit-calendar-modal__name-and-color__color">
-					<div v-if="loading"
-						class="edit-calendar-modal__name-and-color__color__dot"
-						:style="{'background-color': calendarColor}" />
-					<NcColorPicker v-else
-						v-model="calendarColor"
-						:advanced-fields="true">
+					<NcColorPicker v-model="calendarColor"
+						:advanced-fields="true"
+						@update:value="calendarColorChanged = true">
 						<div class="edit-calendar-modal__name-and-color__color__dot"
 							:style="{'background-color': calendarColor}" />
 					</NcColorPicker>
@@ -41,8 +38,8 @@
 				<input v-model="calendarName"
 					class="edit-calendar-modal__name-and-color__name"
 					type="text"
-					:disabled="loading"
-					:placeholder="$t('calendar', 'Calendar name …')">
+					:placeholder="$t('calendar', 'Calendar name …')"
+					@input="calendarNameChanged = true">
 			</div>
 
 			<template v-if="canBeShared">
@@ -53,6 +50,7 @@
 				<div class="edit-calendar-modal__sharing">
 					<SharingSearch :calendar="calendar" />
 					<PublishCalendar :calendar="calendar" />
+					<InternalLink :calendar="calendar" />
 					<ShareItem v-for="sharee in calendar.shares"
 						:key="sharee.uri"
 						:sharee="sharee"
@@ -60,29 +58,29 @@
 				</div>
 			</template>
 			<div class="edit-calendar-modal__actions">
-				<NcButton @click="copyLink">
-					<template #icon>
-						<LinkVariantIcon :size="20" />
-					</template>
-					{{ $t('calendar', 'Copy private link') }}
-				</NcButton>
-				<NcButton :href="downloadUrl">
-					<template #icon>
-						<DownloadIcon :size="20" />
-					</template>
-					{{ $t('calendar', 'Export') }}
-				</NcButton>
-				<NcButton v-if="calendar.isSharedWithMe" type="error" @click="deleteCalendar">
+				<NcButton v-if="calendar.isSharedWithMe" type="tertiary" @click="deleteCalendar">
 					<template #icon>
 						<CloseIcon :size="20" />
 					</template>
 					{{ $t('calendar', 'Unshare from me') }}
 				</NcButton>
-				<NcButton v-else type="error" @click="deleteCalendar">
+				<NcButton v-else type="tertiary" @click="deleteCalendar">
 					<template #icon>
 						<DeleteIcon :size="20" />
 					</template>
 					{{ $t('calendar', 'Delete') }}
+				</NcButton>
+				<NcButton type="tertiary" :href="downloadUrl">
+					<template #icon>
+						<DownloadIcon :size="20" />
+					</template>
+					{{ $t('calendar', 'Export') }}
+				</NcButton>
+				<NcButton type="secondary" @click="saveAndClose">
+					<template #icon>
+						<CheckIcon :size="20" />
+					</template>
+					{{ $t('calendar', 'Save') }}
 				</NcButton>
 			</div>
 		</div>
@@ -96,15 +94,14 @@ import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import PublishCalendar from './EditCalendarModal/PublishCalendar.vue'
 import SharingSearch from './EditCalendarModal/SharingSearch.vue'
 import ShareItem from './EditCalendarModal/ShareItem.vue'
+import InternalLink from './EditCalendarModal/InternalLink.vue'
 import { mapGetters } from 'vuex'
 import logger from '../../utils/logger.js'
-import debounce from 'debounce'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import DownloadIcon from 'vue-material-design-icons/Download.vue'
-import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import { generateRemoteUrl } from '@nextcloud/router'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import { showError } from '@nextcloud/dialogs'
 
 export default {
 	name: 'EditCalendarModal',
@@ -117,14 +114,12 @@ export default {
 		ShareItem,
 		DeleteIcon,
 		DownloadIcon,
-		LinkVariantIcon,
 		CloseIcon,
-	},
-	props: {
+		CheckIcon,
+		InternalLink,
 	},
 	data() {
 		return {
-			loading: false,
 			calendarColor: undefined,
 			calendarColorChanged: false,
 			calendarName: undefined,
@@ -161,9 +156,6 @@ export default {
 		},
 	},
 	watch: {
-		async calendarName() {
-			await this.saveNameDebounced()
-		},
 		editCalendarModal(value) {
 			if (!value) {
 				return
@@ -171,11 +163,9 @@ export default {
 
 			this.calendarName = this.calendar.displayName
 			this.calendarColor = this.calendar.color
+			this.calendarNameChanged = false
+			this.calendarColorChanged = false
 		},
-	},
-	created() {
-		// debounce.flush() only works if the functions are added here (or in data())
-		this.saveNameDebounced = debounce(() => this.saveName(), 1000)
 	},
 	methods: {
 		/**
@@ -189,8 +179,6 @@ export default {
 		 * Save the calendar color.
 		 */
 		async saveColor() {
-			this.loading = true
-
 			try {
 				await this.$store.dispatch('changeCalendarColor', {
 					calendar: this.calendar,
@@ -201,8 +189,7 @@ export default {
 					calendar: this.calendar,
 					newColor: this.calendarColor,
 				})
-			} finally {
-				this.loading = false
+				throw error
 			}
 		},
 
@@ -210,8 +197,6 @@ export default {
 		 * Save the calendar name.
 		 */
 		async saveName() {
-			this.loading = true
-
 			try {
 				await this.$store.dispatch('renameCalendar', {
 					calendar: this.calendar,
@@ -222,8 +207,7 @@ export default {
 					calendar: this.calendar,
 					newName: this.calendarName,
 				})
-			} finally {
-				this.loading = false
+				throw error
 			}
 		},
 
@@ -233,26 +217,18 @@ export default {
 		 * @return {Promise<void>}
 		 */
 		async saveAndClose() {
-			await this.saveColor()
-			await this.saveNameDebounced.flush()
-			this.closeModal()
-		},
-
-		/**
-		 * Copies the private calendar link
-		 * to be used with clients like Thunderbird
-		 */
-		async copyLink() {
-			const rootUrl = generateRemoteUrl('dav')
-			const url = new URL(this.calendar.url, rootUrl)
-
 			try {
-				await navigator.clipboard.writeText(url)
-				showSuccess(this.$t('calendar', 'Calendar link copied to clipboard.'))
+				if (this.calendarColorChanged) {
+					await this.saveColor()
+				}
+				if (this.calendarNameChanged) {
+					await this.saveName()
+				}
 			} catch (error) {
-				console.debug(error)
-				showError(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
+				showError(this.$t('calendar', 'Failed to save calendar name and color'))
 			}
+
+			this.closeModal()
 		},
 
 		/**
@@ -298,8 +274,8 @@ export default {
 		gap: 10px;
 		margin-top: 10px;
 
-		button {
-			flex: 1 auto;
+		button:last-of-type {
+			margin-left: auto;
 		}
 	}
 
