@@ -36,7 +36,7 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
-    "@fullcalendar/core": "^6.1.6",
+    "@fullcalendar/core": "^6.1.7",
     "@fullcalendar/daygrid": "^6.1.6",
     "@fullcalendar/interaction": "^6.1.6",
     "@fullcalendar/list": "^6.1.6",
