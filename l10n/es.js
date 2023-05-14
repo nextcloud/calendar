@@ -98,6 +98,8 @@ OC.L10N.register(
     "Do you really want to empty the trash bin?" : "¿De verdad quieres vaciar la papelera?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Los elementos en la papelera de reciclaje se eliminan después de {numDays} día","Los elementos en la papelera de reciclaje se eliminan después de {numDays} días","Los elementos en la papelera de reciclaje se eliminan después de {numDays} días"],
     "Could not update calendar order." : "No se puede actualizar el orden del calendario.",
+    "Internal link" : "Enlace interno",
+    "Copy internal link" : "Copiar enlace interno",
     "Share link" : "Compartir enlace",
     "Copy public link" : "Copiar enlace público",
     "Send link to calendar via email" : "Enviado enlace al calendario por correo",

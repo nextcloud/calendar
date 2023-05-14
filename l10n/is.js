@@ -78,6 +78,8 @@ OC.L10N.register(
     "Could not restore calendar or event" : "Gat ekki endurheimt dagatal eða atburð",
     "Do you really want to empty the trash bin?" : "Viltu örugglega tæma ruslið?",
     "Could not update calendar order." : "Gat ekki uppfært röð dagatalanna.",
+    "Internal link" : "Innri tengill",
+    "Copy internal link" : "Afrita innri tengil",
     "Share link" : "Deila tengli",
     "Copy public link" : "Afrita opinberan tengil",
     "Send link to calendar via email" : "Senda tengil á dgatal með tölvupósti",

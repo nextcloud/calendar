@@ -57,6 +57,8 @@ OC.L10N.register(
     "Untitled item" : "بند غير معنون",
     "Unknown calendar" : "تقويم غير معروف",
     "Could not update calendar order." : "لا يمكن تحديث ترتيب التقويم.",
+    "Internal link" : "الرابط الداخلي",
+    "Copy internal link" : "انسخ الرابط الداخلي",
     "Share link" : "رابط المشاركة",
     "Copy public link" : "نسخ الرابط العام",
     "Send link to calendar via email" : "ارسال رابط التقويم عبر البريد",

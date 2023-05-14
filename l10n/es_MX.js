@@ -29,6 +29,7 @@ OC.L10N.register(
     "Restore" : "Restaurar",
     "Delete permanently" : "Borrar permanentemente",
     "Empty trash bin" : "Vaciar la papelera de reciclaje",
+    "Internal link" : "Enlace interno",
     "Share link" : "Compartir liga",
     "Copy public link" : "Copiar enlace público",
     "can edit" : "puede editar",

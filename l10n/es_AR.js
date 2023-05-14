@@ -33,6 +33,7 @@ OC.L10N.register(
     "Deleted" : "Eliminado",
     "Restore" : "Restaurar",
     "Delete permanently" : "Borrar permanentemente",
+    "Copy internal link" : "Copiar enlace interno",
     "Share link" : "Compartir link",
     "Copy public link" : "Copiar link publico",
     "Copied code" : "Código copiado",

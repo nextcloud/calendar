@@ -93,6 +93,7 @@
     "Do you really want to empty the trash bin?" : "Tem certeza de que deseja esvaziar a lixeira?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Os itens na lixeira são excluídos após {numDays} dias","Os itens na lixeira são excluídos após {numDays} dias","Os itens na lixeira são excluídos após {numDays} dias"],
     "Could not update calendar order." : "Não foi possível atualizar o pedido da agenda.",
+    "Copy internal link" : "Copiar link interno",
     "Share link" : "Compartilhar link",
     "Copy public link" : "Copiar link público",
     "Send link to calendar via email" : "Enviar link para o calendário via e-mail",

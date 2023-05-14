@@ -96,6 +96,7 @@
     "Do you really want to empty the trash bin?" : "您真的想要清空回收桶嗎？",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["回收桶中的項目會在{numDays}天後刪除"],
     "Could not update calendar order." : "無法變更日曆順序",
+    "Copy internal link" : "複製內部連結",
     "Share link" : "分享連結",
     "Copy public link" : "複製公開連結",
     "Send link to calendar via email" : "透過電子郵件傳送日曆連結",

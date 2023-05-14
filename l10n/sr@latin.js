@@ -10,6 +10,7 @@ OC.L10N.register(
     "Name" : "Ime",
     "Deleted" : "Obrisano",
     "Delete permanently" : "Obriši zauvek",
+    "Copy internal link" : "Kopiraj internu vezu",
     "Share link" : "Veza deljenja",
     "can edit" : "može da menja",
     "Save" : "Save",

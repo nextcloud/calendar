@@ -72,6 +72,7 @@ OC.L10N.register(
     "Could not restore calendar or event" : "Nu s-a putut restaura calendarul sau evenimentul",
     "Do you really want to empty the trash bin?" : "Doriti sigur sa goliți conținutul coșului de gunoi ?",
     "Could not update calendar order." : "Nu s-a putut actualiza ordinea calendarului.",
+    "Copy internal link" : "Copiază linkul intern",
     "Share link" : "Partajază legătură",
     "Copy public link" : "Copiză link-ul public",
     "Send link to calendar via email" : "Trimite link-ul către calendar folosind email",

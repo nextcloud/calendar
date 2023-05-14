@@ -89,6 +89,8 @@ OC.L10N.register(
     "Could not restore calendar or event" : "Impossibile ripristinare il calendario o l'evento",
     "Do you really want to empty the trash bin?" : "Vuoi davvero svuotare il cestino?",
     "Could not update calendar order." : "Impossibile aggiornare l'ordine del calendario.",
+    "Internal link" : "Collegamento interno",
+    "Copy internal link" : "Copia collegamento interno",
     "Share link" : "Condividi il collegamento",
     "Copy public link" : "Copia collegamento pubblico",
     "Send link to calendar via email" : "Invia collegamento al calendario tramite email",

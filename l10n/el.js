@@ -94,6 +94,7 @@ OC.L10N.register(
     "Do you really want to empty the trash bin?" : "Θέλετε να αδειάσετε τον κάδο απορριμμάτων;",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Τα στοιχεία στον κάδο απορριμμάτων διαγράφονται μετά από {numDays} ημέρα","Τα στοιχεία στον κάδο απορριμμάτων διαγράφονται μετά από {numDays} ημέρες"],
     "Could not update calendar order." : "Δεν μπορεί να γίνει ενημέρωση εντολών ημερολογίου.",
+    "Copy internal link" : "Αντιγραφή εσωτερικού συνδέσμου",
     "Share link" : "Διαμοιρασμός συνδέσμου",
     "Copy public link" : "Αντιγραφή δημόσιου συνδέσμου",
     "Send link to calendar via email" : "Αποστολή συνδέσμου στο ημερολόγιο μέσω email",

@@ -98,6 +98,7 @@ OC.L10N.register(
     "Do you really want to empty the trash bin?" : "Czy na pewno chcesz opróżnić kosz?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Pozycje w koszu są usuwane po {numDays} dniu","Pozycje w koszu są usuwane po {numDays} dniach","Pozycje w koszu są usuwane po {numDays} dniach","Pozycje w koszu są usuwane po {numDays} dniach"],
     "Could not update calendar order." : "Nie można zaktualizować kolejności kalendarza.",
+    "Copy internal link" : "Kopiuj link wewnętrzny",
     "Share link" : "Udostępnij link",
     "Copy public link" : "Kopiuj link publiczny",
     "Send link to calendar via email" : "Wyślij e-mailem link do kalendarza",

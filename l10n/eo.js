@@ -28,6 +28,7 @@ OC.L10N.register(
     "Deleted" : "Forigita",
     "Restore" : "Restaŭri",
     "Delete permanently" : "Forigi por ĉiam",
+    "Internal link" : "Interna ligilo",
     "Share link" : "Kunhavigi ligilon",
     "Delete share link" : "Forigi kunhavo-ligilon",
     "can edit" : "povas redakti",

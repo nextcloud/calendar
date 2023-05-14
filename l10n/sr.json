@@ -96,6 +96,8 @@
     "Do you really want to empty the trash bin?" : "Да ли заиста желите да испразните корпу за отпатке?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Ставке у корпи за отпатке се бришу након {numDays} дана","Ставке у корпи за отпатке се бришу након {numDays} дана","Ставке у корпи за отпатке се бришу након {numDays} дана"],
     "Could not update calendar order." : "Није могао да се ажурира редослед календара.",
+    "Internal link" : "Интерна веза",
+    "Copy internal link" : "Копирај интерну везу",
     "Share link" : "Дели везу",
     "Copy public link" : "Копирај јавни линк",
     "Send link to calendar via email" : "Пошаљи и-мејлом линк на календар",

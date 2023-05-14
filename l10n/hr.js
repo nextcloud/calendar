@@ -64,6 +64,8 @@ OC.L10N.register(
     "Could not restore calendar or event" : "Vraćanje kalendara ili događaja nije uspjelo",
     "Do you really want to empty the trash bin?" : "Želite li zaista isprazniti kantu za smeće?",
     "Could not update calendar order." : "Ažuriranje redoslijeda kalendara nije uspjelo.",
+    "Internal link" : "Interna poveznica",
+    "Copy internal link" : "Kopiraj internu poveznicu",
     "Share link" : "Dijeli poveznicu",
     "Copy public link" : "Kopiraj javnu poveznicu",
     "Send link to calendar via email" : "Pošalji poveznicu na kalendar putem e-pošte",

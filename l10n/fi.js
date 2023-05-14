@@ -94,6 +94,7 @@ OC.L10N.register(
     "Do you really want to empty the trash bin?" : "Haluatko varmasti tyhjentää roskakorin?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Roskakorissa olevat kohteet poistetaan {numDays} päivän jälkeen","Roskakorissa olevat kohteet poistetaan {numDays} päivän jälkeen"],
     "Could not update calendar order." : "Kalenterin järjestystä ei voitu päivittää.",
+    "Copy internal link" : "Kopioi sisäinen linkki",
     "Share link" : "Jaa linkki",
     "Copy public link" : "Kopioi julkinen linkki",
     "Send link to calendar via email" : "Lähetä kalenteriin johtava linkki sähköpostitse",

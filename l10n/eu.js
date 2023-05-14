@@ -96,6 +96,7 @@ OC.L10N.register(
     "Do you really want to empty the trash bin?" : "Ziur zaude zakarrontzia hustu nahi duzula?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Zakarrontziko elementuak egun {numDays} igaro ondoren ezabatzen dira","Zakarrontziko elementuak {numDays} egun igaro ondoren ezabatzen dira"],
     "Could not update calendar order." : "Ezin da egutegi-eskaera eguneratu.",
+    "Copy internal link" : "Kopiatu barne-esteka",
     "Share link" : "Partekatu esteka",
     "Copy public link" : "Kopiatu esteka publikoa",
     "Send link to calendar via email" : "Bidali esteka egutegira posta elektroniko bidez",

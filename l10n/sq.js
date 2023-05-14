@@ -26,6 +26,7 @@ OC.L10N.register(
     "Deleted" : "E fshirë",
     "Restore" : "Rikthe",
     "Delete permanently" : "Fshije përgjithmonë",
+    "Copy internal link" : "Kopjoni lidhjen e brendshme",
     "Share link" : "Ndani lidhjen",
     "can edit" : "mund të përpunojnë",
     "Share with users or groups" : "Nda me përdoruesit ose grupet",

@@ -79,6 +79,7 @@ OC.L10N.register(
     "Could not restore calendar or event" : "Nepavyko atkurti kalendoriaus ar įvykio",
     "Do you really want to empty the trash bin?" : "Ar tikrai norite išvalyti šiukšlinę?",
     "Could not update calendar order." : "Nepavyko atnaujinti kalendoriaus tvarkos.",
+    "Copy internal link" : "Kopijuoti vidinę nuorodą",
     "Share link" : "Bendrinimo nuoroda",
     "Copy public link" : "Kopijuoti viešąją nuorodą",
     "Send link to calendar via email" : "Siųsti el. paštu nuorodą į kalendorių",

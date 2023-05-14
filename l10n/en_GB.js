@@ -98,6 +98,7 @@ OC.L10N.register(
     "Do you really want to empty the trash bin?" : "Do you really want to empty the trash bin?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Items in the trash bin are deleted after {numDays} day","Items in the trash bin are deleted after {numDays} days"],
     "Could not update calendar order." : "Could not update calendar order.",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Share link",
     "Copy public link" : "Copy public link",
     "Send link to calendar via email" : "Send link to calendar via email",

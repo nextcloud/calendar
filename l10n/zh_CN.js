@@ -88,6 +88,7 @@ OC.L10N.register(
     "Do you really want to empty the trash bin?" : "你真想清垃圾箱吗？",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["垃圾箱中的项目会在 {numDays} 天后删除"],
     "Could not update calendar order." : "无法更新日历顺序",
+    "Copy internal link" : "复制内部链接",
     "Share link" : "共享链接",
     "Copy public link" : "复制公开链接",
     "Send link to calendar via email" : "通过电子邮件发送链接到日历",

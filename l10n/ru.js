@@ -98,6 +98,7 @@ OC.L10N.register(
     "Do you really want to empty the trash bin?" : "Вы действительно хотите очистить корзину ?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Объекты будут удалены из корзины через {numDays} день","Объекты будут удалены из корзины через {numDays} дня","Объекты будут удалены из корзины через {numDays} дней","Объекты будут удалены из корзины через {numDays} дня"],
     "Could not update calendar order." : "Не удалось обновить порядок календарей.",
+    "Copy internal link" : "Копировать внутреннюю ссылку",
     "Share link" : "Поделиться ссылкой",
     "Copy public link" : "Скопировать общедоступную ссылку",
     "Send link to calendar via email" : "Отправить ссылку на календарь по электронной почте",

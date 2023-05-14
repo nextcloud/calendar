@@ -57,6 +57,8 @@ OC.L10N.register(
     "Delete permanently" : "מחיקה לצמיתות",
     "Empty trash bin" : "פינוי סל האשפה",
     "Could not update calendar order." : "לא היה ניתן לעדכן את סדר לוח השנה.",
+    "Internal link" : "קישור פנימי",
+    "Copy internal link" : "העתקת קישור פנימי",
     "Share link" : "שיתוף קישור",
     "Copy public link" : "העתקת הקישור הציבורי",
     "Send link to calendar via email" : "שלח קישור ללוח השנה באמצעות דוא\"ל",

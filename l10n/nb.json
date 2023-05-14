@@ -88,6 +88,8 @@
     "Do you really want to empty the trash bin?" : "Vil du virkelig tømme papirkurven?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Items in the trash bin are deleted after {numDays} day","Elementer i papirkurven slettes etter {numDays} dager"],
     "Could not update calendar order." : "Kunne ikke oppdatere rekkefølgen på kalendere.",
+    "Internal link" : "Intern lenke",
+    "Copy internal link" : "Kopier intern lenke",
     "Share link" : "Del lenke",
     "Copy public link" : "Kopier offentlig lenke",
     "Send link to calendar via email" : "Sende lenke til kalenderen via e-post",

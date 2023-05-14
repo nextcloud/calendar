@@ -86,6 +86,7 @@
     "Do you really want to empty the trash bin?" : "Naozaj chcete vyprázdniť kôš?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Položky v odpadkovom koši budú odstránené po {numDays} dni","Položky v odpadkovom koši budú odstránené po {numDays} dňoch","Položky v odpadkovom koši budú odstránené po {numDays} dňoch","Položky v odpadkovom koši budú odstránené po {numDays} dňoch"],
     "Could not update calendar order." : "Poradie kalendára sa nepodarilo aktualizovať.",
+    "Copy internal link" : "Kopírovať interný odkaz",
     "Share link" : "Sprístupniť odkaz",
     "Copy public link" : "Kopírovať verejný odkaz",
     "Send link to calendar via email" : "Odoslať odkaz na kalendár emailom",

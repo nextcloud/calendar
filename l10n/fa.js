@@ -58,6 +58,8 @@ OC.L10N.register(
     "Restore" : "بازیابی",
     "Delete permanently" : "حذف قطعی",
     "Empty trash bin" : "خالی کردن سطل زباله",
+    "Internal link" : "پیوند داخلی",
+    "Copy internal link" : "کپی کردن پیوند داخلی",
     "Share link" : "لینک را به اشتراک بگذارید",
     "Copy public link" : "پیوند عمومی را کپی کنید",
     "Send link to calendar via email" : "ارسال پیوند به تقویم از طریق ایمیل",

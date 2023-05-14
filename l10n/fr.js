@@ -97,6 +97,7 @@ OC.L10N.register(
     "Do you really want to empty the trash bin?" : "Voulez-vous vraiment vider la corbeille ?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Les éléments dans la corbeille sont supprimés après {numDays} jour","Les éléments dans la corbeille sont supprimés après {numDays} jours","Les éléments dans la corbeille sont supprimés après {numDays} jours"],
     "Could not update calendar order." : "Impossible de mettre à jour l'ordre du calendrier.",
+    "Copy internal link" : "Copier le lien interne",
     "Share link" : "Lien de partage",
     "Copy public link" : "Copier le lien public",
     "Send link to calendar via email" : "Envoyer le lien vers l'agenda par e-mail",

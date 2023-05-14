@@ -90,6 +90,8 @@ OC.L10N.register(
     "Do you really want to empty the trash bin?" : "Дали навистина сакате да ја испразните kорпаta за отпадоци?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Работите од корпата за отпадоци ќе бидат избришани после {numDays} ден","Работите од корпата за отпадоци ќе бидат избришани после  {numDays} дена"],
     "Could not update calendar order." : "Неможе да се ажурира редоследот на календарите.",
+    "Internal link" : "Внатрешен линк",
+    "Copy internal link" : "Копирај внатрешен линк",
     "Share link" : "Сподели линк",
     "Copy public link" : "Копирај јавен линк",
     "Send link to calendar via email" : "Испрати линк до календарот преку е-пошта",

@@ -97,6 +97,7 @@ OC.L10N.register(
     "Do you really want to empty the trash bin?" : "Ви дійсно хочете очистити кошик?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Вміст кошику буде очищено через {numDays} день","Вміст кошику буде очищено через {numDays} дні","Вміст кошику буде очищено через {numDays} днів","Вміст кошику буде очищено через {numDays} днів"],
     "Could not update calendar order." : "Не вдалося оновити порядок подання календарів.",
+    "Internal link" : "Внутрішнє посилання",
     "Share link" : "Посилання спільного доступу",
     "Copy public link" : "Копіювати публічне посилання",
     "Send link to calendar via email" : "Відправити посилання на календар за допомогою електронної пошти",

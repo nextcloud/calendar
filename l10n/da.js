@@ -98,6 +98,8 @@ OC.L10N.register(
     "Do you really want to empty the trash bin?" : "Vil du virkelig tømme papirkurven?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Emner i papirkurven slettes efter {numDays} dag","Emner i papirkurven slettes efter {numDays} dage"],
     "Could not update calendar order." : "Kunne ikke opdatere kalenderrækkefølgen.",
+    "Internal link" : "Internt link",
+    "Copy internal link" : "Kopier internt link",
     "Share link" : "Del link",
     "Copy public link" : "Kopier offentligt link",
     "Send link to calendar via email" : "Send link til kalender via e-mail",

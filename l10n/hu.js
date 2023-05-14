@@ -95,6 +95,7 @@ OC.L10N.register(
     "Do you really want to empty the trash bin?" : "Biztos, hogy üríti a kukát?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["A kukában lévő elemek {numDays} nap után törölve lesznek","A kukában lévő elemek {numDays} nap után törölve lesznek"],
     "Could not update calendar order." : "Nem sikerült frissíteni a naptárak sorrendjét.",
+    "Copy internal link" : "Belső hivatkozás másolása",
     "Share link" : "Megosztás hivatkozással",
     "Copy public link" : "Nyilvános hivatkozás másolása",
     "Send link to calendar via email" : "Naptárhivatkozás küldése e-mailben",

@@ -95,6 +95,7 @@ OC.L10N.register(
     "Do you really want to empty the trash bin?" : "Realment voleu buidar la paperera?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Els elements de la paperera se suprimeixen al cap de {numDays} dia","Els elements de la paperera se suprimeixen al cap de {numDays} dies"],
     "Could not update calendar order." : "No s'ha pogut actualitzar l'ordre del calendari.",
+    "Copy internal link" : "Copia l'enllaç intern",
     "Share link" : "Enllaç d'ús compartit",
     "Copy public link" : "Copia l'enllaç públic",
     "Send link to calendar via email" : "Enviar per correu l'enllaç al calendari",

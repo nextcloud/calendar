@@ -87,6 +87,7 @@ OC.L10N.register(
     "Do you really want to empty the trash bin?" : "Wil je de prullenbak echt leegmaken?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Items in de prullenmand worden na {numDays} dag verwijderd","Items in de prullenmand worden na {numDays} dagen verwijderd"],
     "Could not update calendar order." : "Kon de volgorde van agenda's niet bijwerken.",
+    "Copy internal link" : "Kopieer interne link",
     "Share link" : "Deel link",
     "Copy public link" : "Kopieer openbare link",
     "Send link to calendar via email" : "Stuur link naar de agenda via e-mail",

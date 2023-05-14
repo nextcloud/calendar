@@ -96,6 +96,7 @@
     "Do you really want to empty the trash bin?" : "Realmente queres baleirar o lixo?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Os elementos da papeleira elimínanse despois de {numDays} día","Os elementos da papeleira elimínanse despois de {numDays} días"],
     "Could not update calendar order." : "Non foi posíbel actualizar a orde do calendario.",
+    "Copy internal link" : "Copiar a ligazón interna",
     "Share link" : "Compartir ligazón",
     "Copy public link" : "Copiar a ligazón pública",
     "Send link to calendar via email" : "Enviar a ligazón ao calendario por correo",
