@@ -24,7 +24,7 @@
 	<div class="appointment-booking-confirmation">
 		<EmptyContent :title="$t('calendar', 'Please confirm your reservation')" :description="$t('calendar', 'We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now.')">
 			<template #icon>
-				<CheckIcon decorative />
+				<EmailIcon decorative />
 			</template>
 		</EmptyContent>
 	</div>
@@ -32,13 +32,13 @@
 
 <script>
 import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import CheckIcon from 'vue-material-design-icons/Check.vue'
+import EmailIcon from 'vue-material-design-icons/Email.vue'
 
 export default {
 	name: 'AppointmentBookingConfirmation',
 	components: {
 		EmptyContent,
-		CheckIcon,
+		EmailIcon,
 	},
 }
 </script>
