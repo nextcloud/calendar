@@ -147,7 +147,7 @@
 	}
 
 	.app-navigation-entry-wrapper.open-sharing {
-		box-shadow: inset 4px 0 var(--color-primary) !important;
+		box-shadow: inset 4px 0 var(--color-primary-element) !important;
 		margin-left: -6px;
 		padding-left: 6px;
 	}
@@ -169,7 +169,7 @@
 		}
 
 		.avatar.published {
-			background-color: var(--color-primary);
+			background-color: var(--color-primary-element);
 			color: white;
 		}
 	}
@@ -224,7 +224,7 @@
 		> li.app-navigation-entry-wrapper {
 
 			div.sharing-section {
-				//box-shadow: inset 4px 0 var(--color-primary);
+				//box-shadow: inset 4px 0 var(--color-primary-element);
 				//padding-left: 12px;
 				//padding-right: 12px;
 				//width: 100%;
