@@ -264,7 +264,11 @@ export default {
 			return this.defaultReminderOptions.find(o => o.value === this.defaultReminder)
 		},
 		availabilitySettingsUrl() {
-			return generateUrl('/settings/user/groupware')
+			// TODO: remove specific logic when NC 25 is not supported anymore
+			return this.nextcloudVersion >= 26 ? generateUrl('/settings/user/availability') : generateUrl('/settings/user/groupware')
+		},
+		nextcloudVersion() {
+			return parseInt(OC.config.version.split('.')[0])
 		},
 	},
 	methods: {
