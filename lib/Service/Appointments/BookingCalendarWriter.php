@@ -113,7 +113,8 @@ class BookingCalendarWriter {
 			'CALSCALE' => 'GREGORIAN',
 			'VERSION' => '2.0',
 			'VEVENT' => [
-				'SUMMARY' => $config->getName(),
+				// TRANSLATORS Title for event appoinment, first the attendee name, then the appointment name
+				'SUMMARY' => $this->l10n->t('%1$s - %2$s', [$displayName, $config->getName()]),
 				'STATUS' => 'CONFIRMED',
 				'DTSTART' => $start,
 				'DTEND' => $start->setTimestamp($start->getTimestamp() + ($config->getLength()))
