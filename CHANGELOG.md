@@ -1,6 +1,14 @@
 
 # Changelog
 
+## 4.3.4 - 2023-05-17
+### Fixed
+- Public sharing footer
+- Multi-disabling for two or fewer calendars
+- Import button alignment
+- Use locale instead of language
+- Availability settings link
+
 ## 4.3.3 - 2023-04-13
 ### Fixed
 - Screenshots
