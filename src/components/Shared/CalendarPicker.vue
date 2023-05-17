@@ -50,7 +50,9 @@ export default {
 	},
 	computed: {
 		isDisabled() {
-			return this.calendars.length < 2
+			// for pickers where multiple can be selected (zero or more) we don't want to disable the picker
+			// for calendars where only one calendar can be selected, disable if there are < 2
+			return this.multiple ? this.calendars.length < 1 : this.calendars.length < 2
 		},
 	},
 	methods: {
