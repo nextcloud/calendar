@@ -118,7 +118,10 @@ class MailService {
 		// Heading
 		$summary = $this->l10n->t("Dear %s, please confirm your booking", [$booking->getDisplayName()]);
 		$template->addHeading($summary);
-
+		
+		$bookingUrl = $this->urlGenerator->linkToRouteAbsolute('calendar.booking.confirmBooking', ['token' => $booking->getToken()]);
+		$template->addBodyButton($this->l10n->t('Confirm'), $bookingUrl);
+		
 		$template->addBodyListItem($user->getDisplayName(), 'Appointment with:');
 		if (!empty($config->getDescription())) {
 			$template->addBodyListItem($config->getDescription(), 'Description:');
@@ -126,9 +129,6 @@ class MailService {
 
 		// Create Booking overview
 		$this->addBulletList($template, $this->l10n, $booking, $config);
-
-		$bookingUrl = $this->urlGenerator->linkToRouteAbsolute('calendar.booking.confirmBooking', ['token' => $booking->getToken()]);
-		$template->addBodyButton($this->l10n->t('Confirm'), $bookingUrl);
 
 		$bodyText = $this->l10n->t('This confirmation link expires in %s hours.', [(BookingService::EXPIRY / 3600)]);
 		$template->addBodyText($bodyText);
