@@ -7,6 +7,9 @@
 ### Changed
 - Add back PHP 7.4 support
 - Add save button to calendar settings
+- Icon for appointment confirmation dialogue
+- Include booking person's name in appointment event
+- Add server details and ToS link to public sharing page 
 ### Fixed
 - Public sharing footer
 - Date formatting in list view
