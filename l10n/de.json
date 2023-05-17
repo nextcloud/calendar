@@ -97,6 +97,7 @@
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Element im Papierkorb wird nach {numDays} Tagen gelöscht","Elemente im Papierkorb werden nach {numDays} Tagen gelöscht"],
     "Could not update calendar order." : "Kalenderreihenfolge konnte nicht aktualisiert werden.",
     "Internal link" : "Interner Link",
+    "A private link that can be used with external clients" : "Ein privater Link, der mit externen Clients verwendet werden kann.",
     "Copy internal link" : "Internen Link kopieren",
     "Share link" : "Link teilen",
     "Copy public link" : "Öffentlichen Link kopieren",
