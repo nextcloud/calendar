@@ -17,6 +17,7 @@
     "Appointments" : "預約",
     "Schedule appointment \"%s\"" : "安排預約「%s」",
     "Schedule an appointment" : "安排預約",
+    "%1$s - %2$s" : "%1$s - %2$s",
     "Prepare for %s" : "準備 %s",
     "Follow up for %s" : "跟進 %s",
     "Your appointment \"%s\" with %s needs confirmation" : "您的預約「%s」包含 %s 需要確認",

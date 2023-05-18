@@ -19,6 +19,7 @@ OC.L10N.register(
     "Appointments" : "Citas",
     "Schedule appointment \"%s\"" : "Programar cita \"%s\"",
     "Schedule an appointment" : "Programar una cita",
+    "%1$s - %2$s" : "%1$s - %2$s",
     "Prepare for %s" : "Preparación para %s",
     "Follow up for %s" : "Seguimiento para %s",
     "Your appointment \"%s\" with %s needs confirmation" : "Su cita \"%s\" con %s necesita confirmación",

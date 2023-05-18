@@ -13,6 +13,7 @@ OC.L10N.register(
     "Upcoming events" : "Prossimi eventi",
     "More events" : "Altri eventi",
     "Calendar" : "Calendario",
+    "New booking {booking}" : "Nuova prenotazione {booking}",
     "Appointments" : "Appuntamenti",
     "Schedule appointment \"%s\"" : "Fissa appuntamento \"%s\"",
     "Schedule an appointment" : "Fissa un appuntamento",

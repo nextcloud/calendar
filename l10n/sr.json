@@ -17,6 +17,7 @@
     "Appointments" : "Састанци",
     "Schedule appointment \"%s\"" : "Планирај састанак „%s”",
     "Schedule an appointment" : "Планирање састанка",
+    "%1$s - %2$s" : "%1$s  %2$s",
     "Prepare for %s" : "Припрема за %s",
     "Follow up for %s" : "Праћење за %s",
     "Your appointment \"%s\" with %s needs confirmation" : "Потребна је потврда за ваш састанак „%s” са  %s",

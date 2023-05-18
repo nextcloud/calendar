@@ -19,6 +19,7 @@ OC.L10N.register(
     "Appointments" : "Möten",
     "Schedule appointment \"%s\"" : "Schemalägg möte ”%s”",
     "Schedule an appointment" : "Schemalägg ett möte",
+    "%1$s - %2$s" : "%1$s - %2$s",
     "Prepare for %s" : "Förberedelse inför %s",
     "Follow up for %s" : "Uppföljning av %s",
     "Your appointment \"%s\" with %s needs confirmation" : "Ditt möte \"%s\" med %s behöver bekräftas",
