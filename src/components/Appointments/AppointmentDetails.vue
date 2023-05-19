@@ -55,7 +55,7 @@
 					{{ $t('calendar', 'Could not book the appointment. Please try again later or contact the organizer.') }}
 				</div>
 				<div class="buttons">
-					<NcButton type="primary" @click="save">
+					<NcButton type="primary" @click="save" :disabled="isLoading">
 						{{ $t('calendar', 'Book the appointment') }}
 					</NcButton>
 				</div>
@@ -113,6 +113,7 @@ export default {
 			email: this.visitorInfo.email,
 			displayName: this.visitorInfo.displayName,
 			timeZone: this.timeZoneId,
+			isLoading: false,
 		}
 	},
 	computed: {
@@ -125,12 +126,15 @@ export default {
 	},
 	methods: {
 		save() {
+			this.isLoading = true
 			this.$emit('save', {
 				slot: this.timeSlot,
 				description: this.description,
 				email: this.email,
 				displayName: this.displayName,
 				timeZone: this.timeZone,
+			}).then(() => {
+				this.isLoading = false
 			})
 		},
 	},
