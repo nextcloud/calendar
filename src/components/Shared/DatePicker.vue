@@ -26,7 +26,7 @@
 		:format="'YYYY-MM-DD HH:mm'"
 		:formatter="formatter"
 		:value="date"
-		:type="type"
+		:type="actualType"
 		:clearable="false"
 		:minute-step="5"
 		:disabled-date="disabledDate"
@@ -142,6 +142,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		type: {
+			type: String,
+			default: 'datetime',
+		},
 	},
 	data() {
 		return {
@@ -187,12 +191,12 @@ export default {
 		 *
 		 * @return {string}
 		 */
-		type() {
-			if (this.isAllDay) {
+		actualType() {
+			if (this.type === 'datetime' && this.isAllDay) {
 				return 'date'
 			}
 
-			return 'datetime'
+			return this.type
 		},
 		/**
 		 * The earliest date a user is allowed to pick in the timezone

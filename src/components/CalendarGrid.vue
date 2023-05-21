@@ -33,6 +33,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
 import timeGridPlugin from '@fullcalendar/timegrid'
+import multiMonthPlugin from '@fullcalendar/multimonth'
 
 // Import event sources
 import eventSource from '../fullcalendar/eventSources/eventSource.js'
@@ -164,6 +165,7 @@ export default {
 				interactionPlugin,
 				listPlugin,
 				timeGridPlugin,
+				multiMonthPlugin,
 			]
 		},
 		isEditable() {

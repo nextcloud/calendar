@@ -41,6 +41,9 @@ export default (value, view, locale) => {
 			year: moment(value).locale(locale).weekYear(),
 		})
 
+	case 'multiMonthYear':
+		return moment(value).locale(locale).format('YYYY')
+
 	case 'dayGridMonth':
 	case 'listMonth':
 	default:
