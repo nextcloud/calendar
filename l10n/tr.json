@@ -17,6 +17,7 @@
     "Appointments" : "Randevular",
     "Schedule appointment \"%s\"" : "\"%s\" randevusu al",
     "Schedule an appointment" : "Bir randevu alın",
+    "%1$s - %2$s" : "%1$s - %2$s",
     "Prepare for %s" : "%s için hazırlan",
     "Follow up for %s" : "%s için takip",
     "Your appointment \"%s\" with %s needs confirmation" : "\"%s\" randevunuzun (%s ile) onaylanması gerekiyor",

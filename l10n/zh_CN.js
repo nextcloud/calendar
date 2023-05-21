@@ -121,7 +121,7 @@ OC.L10N.register(
     "Invalid location selected" : "所选位置无效",
     "{filename} could not be parsed" : "{filename} 无法进行解析",
     "No valid files found, aborting import" : "未找到有效文件，中止导入",
-    "Import partially failed. Imported {accepted} out of {total}." : "部分导入失败。已导入 {total} 个中的 {accepted} 个。",
+    "Import partially failed. Imported {accepted} out of {total}." : "部分导入失败。已导入{total}个中的{accepted}个。",
     "_Successfully imported %n event_::_Successfully imported %n events_" : ["成功导入%n个事件"],
     "Automatic" : "自动",
     "Automatic ({detected})" : "自动（{detected}）",

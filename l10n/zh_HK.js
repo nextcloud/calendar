@@ -18,6 +18,7 @@ OC.L10N.register(
     "Appointments" : "預約",
     "Schedule appointment \"%s\"" : "安排預約 \"%s\"",
     "Schedule an appointment" : "安排約會",
+    "%1$s - %2$s" : "%1$s - %2$s",
     "Prepare for %s" : "準備 %s",
     "Follow up for %s" : "跟進 %s",
     "Your appointment \"%s\" with %s needs confirmation" : "您與 %s 的預約 “%s” 需要確認",
