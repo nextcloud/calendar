@@ -104,6 +104,8 @@ class PublicViewController extends Controller {
 		$csp->addAllowedFrameAncestorDomain('*');
 		$response->setContentSecurityPolicy($csp);
 
+		$this->initialStateService->provideInitialState($this->appName, 'is_embed', true);
+
 		return $response;
 	}
 
