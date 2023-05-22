@@ -70,13 +70,18 @@
 	}
 }
 
-#body-public .app-calendar-public {
-	& + footer {
-		// Only show bottom rounded corners
-		border-radius: 0 0 var(--border-radius-large) var(--border-radius-large);
+#body-public {
+	input#initial-state-calendar-is_embed ~ header#header {
+		display: none;
 	}
+	.app-calendar-public {
+		& + footer {
+			// Only show bottom rounded corners
+			border-radius: 0 0 var(--border-radius-large) var(--border-radius-large);
+		}
 
-	.app-content {
-		height: calc(100% - 65px) !important; // $footer-height is hardcoded to 65px in core/css/public.scss
+		.app-content {
+			height: calc(100% - 65px) !important; // $footer-height is hardcoded to 65px in core/css/public.scss
+		}
 	}
 }
