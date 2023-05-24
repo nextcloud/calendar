@@ -66,14 +66,11 @@
 			display: table;
 
 			label {
-				display: table-cell;
-				min-width: 50%;
-				vertical-align: middle;
+				display: block;
 			}
 
 			.multiselect {
-				display: table-cell;
-				width: 50%;
+				display: block;
 			}
 		}
 		
