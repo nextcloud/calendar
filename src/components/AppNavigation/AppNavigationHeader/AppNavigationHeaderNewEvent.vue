@@ -22,6 +22,7 @@
 
 <template>
 	<NcButton v-shortkey="['c']"
+		:aria-label="newEventButtonAriaLabel"
 		class="button new-event"
 		type="primary"
 		@click="newEvent"
@@ -29,7 +30,7 @@
 		<template #icon>
 			<Plus :size="20" />
 		</template>
-		{{ $t('calendar', 'New event') }}
+		{{ $t('calendar', 'Event') }}
 	</NcButton>
 </template>
 
@@ -42,6 +43,11 @@ export default {
 	components: {
 		Plus,
 		NcButton,
+	},
+	computed: {
+		newEventButtonAriaLabel() {
+			return this.$t('calendar', 'Create new event')
+		},
 	},
 	methods: {
 		/**
