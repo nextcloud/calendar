@@ -125,17 +125,16 @@ export default {
 		},
 	},
 	methods: {
-		save() {
+		async save() {
 			this.isLoading = true
-			this.$emit('save', {
+			await this.$emit('save', {
 				slot: this.timeSlot,
 				description: this.description,
 				email: this.email,
 				displayName: this.displayName,
 				timeZone: this.timeZone,
-			}).then(() => {
-				this.isLoading = false
 			})
+			this.isLoading = false
 		},
 	},
 }
