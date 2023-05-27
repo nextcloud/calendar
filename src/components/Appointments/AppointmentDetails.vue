@@ -58,6 +58,7 @@
 					{{ $t('calendar', 'Could not book the appointment. Please try again later or contact the organizer.') }}
 				</div>
 				<div class="buttons">
+					<NcLoadingIcon v-if="isLoading" :size="32" class="loading-icon" />
 					<NcButton type="primary" @click="save" :disabled="isLoading">
 						{{ $t('calendar', 'Book the appointment') }}
 					</NcButton>
@@ -69,6 +70,7 @@
 <script>
 import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import Modal from '@nextcloud/vue/dist/Components/NcModal.js'
 import autosize from '../../directives/autosize.js'
 
@@ -79,6 +81,7 @@ export default {
 	components: {
 		Avatar,
 		NcButton,
+		NcLoadingIcon,
 		Modal,
 	},
 	directives: {
@@ -176,6 +179,10 @@ export default {
 	input {
 		width: 100%;
 	}
+}
+
+.buttons .loading-icon {
+	margin-right:5px
 }
 
 .booking-error {
