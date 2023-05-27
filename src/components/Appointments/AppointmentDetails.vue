@@ -129,6 +129,7 @@ export default {
 	},
 	methods: {
 		async save() {
+			this.canClose = false
 			this.isLoading = true
 			await this.$emit('save', {
 				slot: this.timeSlot,
@@ -137,6 +138,7 @@ export default {
 				displayName: this.displayName,
 				timeZone: this.timeZone,
 			})
+			this.canClose = true
 			this.isLoading = false
 		},
 	},
