@@ -28,7 +28,8 @@
 					v-model="displayName"
 					type="text"
 					class="no-close"
-					required>
+					required
+					:disabled="isLoading">
 				<div>
 					{{ $t('calendar', 'Your email address') }}
 				</div>
@@ -38,6 +39,7 @@
 					autocapitalize="none"
 					autocomplete="on"
 					autocorrect="off"
+					:disabled="isLoading"
 					required>
 				<div class="meeting-info">
 					{{ $t('calendar', 'Please share anything that will help prepare for our meeting') }}
@@ -47,7 +49,8 @@
 							v-autosize="true"
 							rows="8"
 							autocapitalize="none"
-							autocomplete="off" />
+							autocomplete="off"
+							:disabled="isLoading" />
 					</div>
 				</div>
 				<div v-if="showError"
