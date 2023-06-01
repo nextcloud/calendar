@@ -44,7 +44,7 @@
     "@fullcalendar/resource-timeline": "^6.1.7",
     "@fullcalendar/timegrid": "^6.1.7",
     "@fullcalendar/vue": "^6.1.7",
-    "@nextcloud/auth": "^2.0.0",
+    "@nextcloud/auth": "^2.1.0",
     "@nextcloud/axios": "^2.3.0",
     "@nextcloud/calendar-availability-vue": "^0.6.0-alpha1",
     "@nextcloud/calendar-js": "^6.0.1",
