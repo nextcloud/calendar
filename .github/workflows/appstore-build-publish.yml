@@ -32,7 +32,7 @@ jobs:
           echo "APP_VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
       - name: Checkout
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
           path: ${{ env.APP_NAME }}
 
@@ -56,7 +56,7 @@ jobs:
       - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
         # Skip if no package.json
         if: ${{ steps.versions.outputs.nodeVersion }}
-        uses: actions/setup-node@8c91899e586c5b171469028077307d293428b516 # v3
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3
         with:
           node-version: ${{ steps.versions.outputs.nodeVersion }}
 
@@ -66,7 +66,7 @@ jobs:
         run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
 
       - name: Set up php ${{ env.PHP_VERSION }}
-        uses: shivammathur/setup-php@cb8f453143149404c7fd670b5f37c91d395b3054 # v2
+        uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d # v2
         with:
           php-version: ${{ env.PHP_VERSION }}
           coverage: none
@@ -126,9 +126,10 @@ jobs:
           unzip latest-$NCVERSION.zip
 
       - name: Checkout server master fallback
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         if: ${{ steps.server-checkout.outcome != 'success' }}
         with:
+          submodules: true
           repository: nextcloud/server
           path: nextcloud
 
@@ -148,7 +149,7 @@ jobs:
           tar -zcvf ${{ env.APP_NAME }}.tar.gz ${{ env.APP_NAME }}
 
       - name: Attach tarball to github release
-        uses: svenstaro/upload-release-action@7319e4733ec7a184d739a6f412c40ffc339b69c7 # v2
+        uses: svenstaro/upload-release-action@2b9d2847a97b04d02ad5c3df2d3a27baa97ce689 # v2
         id: attach_to_release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
