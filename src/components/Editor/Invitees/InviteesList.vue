@@ -223,7 +223,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.invitees-list-button-group {
+	display: flex;
+	flex-wrap: wrap;
+}
 .invitees-list-button-group__button {
-	width: calc(50% - 5px);
+	flex: 1 0 calc(50% - 10px);
+	margin: 5px;
 }
 </style>
