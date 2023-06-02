@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 15
       - name: Set up php$
-        uses: shivammathur/setup-php@cb8f453143149404c7fd670b5f37c91d395b3054
+        uses: shivammathur/setup-php@c5fc0d8281aba02c7fda07d3a70cc5371548067d
         with:
           php-version: 8.0
           tools: composer
