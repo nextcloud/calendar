@@ -82,7 +82,7 @@ import {
 	getFileInfo,
 	createFolder,
 } from '../../../services/attachmentService.js'
-import { parseXML } from 'webdav/dist/node/tools/dav.js'
+import { parseXML } from 'webdav'
 
 export default {
 	name: 'AttachmentsList',
