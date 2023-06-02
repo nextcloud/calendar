@@ -13,6 +13,9 @@ insert_final_newline = true
 [Makefile]
 indent_style = tab
 
+[renovate.json]
+indent_style = tab
+
 [*.yml]
 indent_style = space
 indent_size = 2
