@@ -128,7 +128,7 @@ OC.L10N.register(
     "Share calendar" : "Kalender teilen",
     "Unshare from me" : "Nicht mehr mit mir teilen",
     "Save" : "Speichern",
-    "Failed to save calendar name and color" : "Fehler beim Speichern von Kalendername und -Farbe",
+    "Failed to save calendar name and color" : "Fehler beim Speichern von Kalendername und -farbe",
     "Import calendars" : "Kalender importieren",
     "Please select a calendar to import into …" : "Bitte wählen Sie einen Kalender aus, in den importiert werden soll …",
     "Filename" : "Dateiname",
