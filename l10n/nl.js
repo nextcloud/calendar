@@ -79,7 +79,7 @@ OC.L10N.register(
     "Deleted" : "Verwijderd",
     "Restore" : "Herstellen",
     "Delete permanently" : "Definitief verwijderen",
-    "Empty trash bin" : "Leeg de prullenbak",
+    "Empty trash bin" : "Prullenbak legen",
     "Untitled item" : "Object zonder titel",
     "Unknown calendar" : "Onbekende kalender",
     "Could not load deleted calendars and objects" : "Kon de verwijderde agenda en objecten niet herstellen",
