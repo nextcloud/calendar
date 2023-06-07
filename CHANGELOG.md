@@ -1,7 +1,7 @@
 
 # Changelog
 
-## 4.4.0 - unreleased
+## 4.4.0 - 2023-06-07
 ### Added
 - Create Talk rooms for appointments
 ### Changed
@@ -17,6 +17,7 @@
 - Use locale instead of language
 - DAV urls for attachments
 - Calendar booking notifications
+- Calendar invitees buttons (width and space between)
 
 ## 4.3.2 - 2023-04-06
 ### Fixed
