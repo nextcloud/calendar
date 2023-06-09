@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 4.4.1 - 2023-06-09
+### Fixed
+- Allow dynamic autoloading for classes added during upgrade
+
 ## 4.4.0 - 2023-06-07
 ### Added
 - Create Talk rooms for appointments
