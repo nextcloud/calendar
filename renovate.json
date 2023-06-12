@@ -42,16 +42,16 @@
 			"description": "Request JavaScript reviews",
 			"matchManagers": ["npm"],
 			"reviewers": [
-				"@GretaD",
-				"@st3iny"
+				"GretaD",
+				"st3iny"
 			]
 		},
 		{
 			"description": "Request PHP reviews",
 			"matchManagers": ["composer"],
 			"reviewers": [
-				"@ChristophWurst",
-				"@st3iny"
+				"ChristophWurst",
+				"st3iny"
 			]
 		},
 		{
@@ -59,8 +59,8 @@
 			"matchManagers": ["github-actions"],
 			"extends": ["schedule:monthly"],
 			"reviewers": [
-				"@miaulalala",
-				"@st3iny"
+				"miaulalala",
+				"st3iny"
 			]
 		},
 		{
@@ -84,8 +84,8 @@
 				"3 - to review"
 			],
 			"reviewers": [
-				"@GretaD",
-				"@st3iny"
+				"GretaD",
+				"st3iny"
 			]
 		},
 		{
