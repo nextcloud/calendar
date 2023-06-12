@@ -319,6 +319,7 @@ OC.L10N.register(
     "_time_::_times_" : ["Mal","Mal"],
     "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it." : "Dieser Termin ist die Wiederholungsausnahme eines sich wiederholenden Termins. Sie können keine Wiederholungsregel hinzufügen.",
     "first" : "ersten",
+	"second" : "zweiten",
     "third" : "dritten",
     "fourth" : "vierten",
     "fifth" : "fünften",
