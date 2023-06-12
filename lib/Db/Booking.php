@@ -85,13 +85,6 @@ class Booking extends Entity implements JsonSerializable {
 	/** @var bool */
 	protected $confirmed;
 
-	/**
-	 * Transient talk URL
-	 *
-	 * @var string|null
-	 */
-	private $talkUrl;
-
 	public function __construct() {
 		$this->addType('id', 'integer');
 		$this->addType('apptConfigId', 'integer');
@@ -116,13 +109,5 @@ class Booking extends Entity implements JsonSerializable {
 			'timezone' => $this->getTimezone(),
 			'confirmed' => $this->isConfirmed(),
 		];
-	}
-
-	public function getTalkUrl(): ?string {
-		return $this->talkUrl;
-	}
-
-	public function setTalkUrl(string $talkUrl): void {
-		$this->talkUrl = $talkUrl;
 	}
 }
