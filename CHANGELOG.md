@@ -1,6 +1,11 @@
 
 # Changelog
 
+## 4.3.5 – 2023–06–12
+### Fixed
+- Allow dynamic autoloading for classes added during upgrade
+- Appointments follow-up time missing when loading a saved config
+
 ## 4.3.4 - 2023-05-17
 ### Fixed
 - Public sharing footer
