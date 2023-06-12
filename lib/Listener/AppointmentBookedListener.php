@@ -83,7 +83,8 @@ class AppointmentBookedListener implements IEventListener {
 			]);
 			return;
 		}
-		$conversationName = $this->l10n->t('%s with %s', [
+		// TRANSLATORS Title for the Talk conversation name that will be created for the appointment. First placeholder is the appointment name, second one is the person who booked the appointement's display name
+		$conversationName = $this->l10n->t('%1$s with %2$s', [
 			$event->getConfig()->getName(),
 			$event->getBooking()->getDisplayName(),
 		]);
