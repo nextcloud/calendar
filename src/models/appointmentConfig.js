@@ -77,9 +77,6 @@ export default class AppointmentConfig {
 	/** @member {?string[]} */
 	calendarFreeBusyUris
 
-	/** @member {bool} */
-	createTalkRoom
-
 	/**
 	 * Create a new AppointmentConfig from the given plain object data
 	 *
@@ -100,7 +97,6 @@ export default class AppointmentConfig {
 	 * @param {?number} data.dailyMax Max daily slots
 	 * @param {?number} data.futureLimit Limits how far in the future appointments can be booked
 	 * @param {?string[]} data.calendarFreeBusyUris URIs of calendars to check for conflicts
-	 * @param {bool} data.createTalkRoom Whether a Talk room should be created
 	 */
 	constructor(data) {
 		data ??= {}
@@ -120,7 +116,6 @@ export default class AppointmentConfig {
 		this.dailyMax = tryParseInt(data.dailyMax)
 		this.futureLimit = tryParseInt(data.futureLimit)
 		this.calendarFreeBusyUris = data.calendarFreeBusyUris
-		this.createTalkRoom = data.createTalkRoom
 	}
 
 	/**

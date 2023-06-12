@@ -42,7 +42,6 @@ use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Notification\IManager;
 use Psr\Log\LoggerInterface;
-use function htmlspecialchars;
 use function implode;
 
 class MailService {
@@ -128,7 +127,7 @@ class MailService {
 		}
 
 		// Create Booking overview
-		$this->addBulletList($template, $this->l10n, $booking, $config);
+		$this->addBulletList($template, $this->l10n, $booking, $config->getLocation());
 
 		$bodyText = $this->l10n->t('This confirmation link expires in %s hours.', [(BookingService::EXPIRY / 3600)]);
 		$template->addBodyText($bodyText);
@@ -195,7 +194,7 @@ class MailService {
 		}
 
 		// Create Booking overview
-		$this->addBulletList($template, $this->l10n, $booking, $config);
+		$this->addBulletList($template, $this->l10n, $booking, $config->getLocation());
 
 		$bodyText = $this->l10n->t('If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page.');
 		$template->addBodyText($bodyText);
@@ -225,7 +224,7 @@ class MailService {
 	private function addBulletList(IEMailTemplate $template,
 		IL10N $l10n,
 		Booking $booking,
-		AppointmentConfig $config):void {
+		?string $location = null):void {
 		$template->addBodyListItem($booking->getDisplayName(), $l10n->t('Appointment for:'));
 
 		$l = $this->lFactory->findGenericLanguage();
@@ -239,19 +238,8 @@ class MailService {
 
 		$template->addBodyListItem($relativeDateTime, $l10n->t('Date:'));
 
-		if (!$booking->isConfirmed() && $config->getCreateTalkRoom()) {
-			$template->addBodyListItem($l10n->t('You will receive a link with the confirmation email'), $l10n->t('Where:'));
-		} elseif (!$booking->isConfirmed() && !empty($config->getLocation())) {
-			$template->addBodyListItem($config->getLocation(), $l10n->t('Where:'));
-		} elseif ($booking->isConfirmed() && $booking->getTalkUrl() !== null) {
-			$template->addBodyListItem(
-				'<a href="' . htmlspecialchars($booking->getTalkUrl()) . '">' . $booking->getTalkUrl() . '</a>',
-				$l10n->t('Where:'),
-				'',
-				$booking->getTalkUrl(),
-			);
-		} elseif ($booking->isConfirmed() && !empty($config->getLocation())) {
-			$template->addBodyListItem($config->getLocation(), $l10n->t('Where:'));
+		if (!empty($location)) {
+			$template->addBodyListItem($location, $l10n->t('Where:'));
 		}
 
 		if (!empty($booking->getDescription())) {
@@ -300,7 +288,7 @@ class MailService {
 		}
 
 		// Create Booking overview
-		$this->addBulletList($template, $this->l10n, $booking, $config);
+		$this->addBulletList($template, $this->l10n, $booking, $config->getLocation());
 		$template->addFooter();
 
 		$attachment = $this->mailer->createAttachment($calendar, 'appointment.ics', 'text/calendar');
