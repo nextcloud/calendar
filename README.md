@@ -47,6 +47,8 @@ If you find bugs or have problems with the CalDAV-Backend, you should ask the te
 
 ## Build the app
 
+Make sure you have all the [necessary prerequisites](https://docs.nextcloud.com/server/latest/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation) for manual installs
+
 ``` bash
 # set up and build for production
 make
