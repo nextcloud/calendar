@@ -26,6 +26,8 @@
         "psalm": "psalm",
         "test": "phpunit --configuration phpunit.unit.xml --fail-on-warning",
         "test:dev": "phpunit --configuration phpunit.unit.xml --fail-on-warning --stop-on-error --stop-on-failure",
+        "test:integration": "phpunit -c phpunit.integration.xml --fail-on-warning",
+        "test:integration:dev": "phpunit -c phpunit.integration.xml --no-coverage --order-by=defects --stop-on-defect --fail-on-warning --stop-on-error --stop-on-failure",
         "post-install-cmd": [
             "@composer bin all install --ansi"
         ],

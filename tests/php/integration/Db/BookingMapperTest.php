@@ -84,21 +84,13 @@ class BookingMapperTest extends TestCase {
 		$token = $booking->getToken();
 		$booking = $this->mapper->findByToken($token);
 
-		$this->assertObjectHasAttribute('apptConfigId', $booking);
 		$this->assertEquals('1', $booking->getApptConfigId());
-		$this->assertObjectHasAttribute('createdAt', $booking);
 		$this->assertEquals($this->time->getTime(), $booking->getCreatedAt());
-		$this->assertObjectHasAttribute('token', $booking);
 		$this->assertEquals('oken', $booking->getToken());
-		$this->assertObjectHasAttribute('displayName', $booking);
 		$this->assertEquals('Test', $booking->getDisplayName());
-		$this->assertObjectHasAttribute('start', $booking);
 		$this->assertEquals(123, $booking->getStart());
-		$this->assertObjectHasAttribute('end', $booking);
 		$this->assertEquals(123, $booking->getEnd());
-		$this->assertObjectHasAttribute('email', $booking);
 		$this->assertEquals('test@test.com', $booking->getEmail());
-		$this->assertObjectHasAttribute('timezone', $booking);
 		$this->assertEquals('Europe/Berlin', $booking->getTimezone());
 	}
 
