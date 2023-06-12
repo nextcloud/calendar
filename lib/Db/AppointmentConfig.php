@@ -71,8 +71,6 @@ use function json_encode;
  * @method void setDailyMax(?int $max)
  * @method int|null getFutureLimit()
  * @method void setFutureLimit(?int $limit)
- * @method int|null getCreateTalkRoom()
- * @method void setCreateTalkRoom(bool $create)
  */
 class AppointmentConfig extends Entity implements JsonSerializable {
 	/** @var string */
@@ -129,9 +127,6 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 	/** @var int|null */
 	protected $futureLimit;
 
-	/** @var bool */
-	protected $createTalkRoom;
-
 	/** @var string */
 	public const VISIBILITY_PUBLIC = 'PUBLIC';
 
@@ -148,7 +143,6 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 		$this->addType('timeBeforeNextSlot', 'int');
 		$this->addType('dailyMax', 'int');
 		$this->addType('futureLimit', 'int');
-		$this->addType('createTalkRoom', 'boolean');
 	}
 
 	/**
@@ -211,8 +205,7 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 			'totalLength' => $this->getTotalLength(),
 			'timeBeforeNextSlot' => $this->getTimeBeforeNextSlot(),
 			'dailyMax' => $this->getDailyMax(),
-			'futureLimit' => $this->getFutureLimit(),
-			'createTalkRoom' => $this->getCreateTalkRoom(),
+			'futureLimit' => $this->getFutureLimit()
 		];
 	}
 }
