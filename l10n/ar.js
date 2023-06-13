@@ -21,7 +21,6 @@ OC.L10N.register(
     "Next day" : "اليوم القادم",
     "Next week" : "الاسبوع القادم",
     "Next month" : "الشهر القادم",
-    "New event" : "حدث جديد",
     "Today" : "اليوم",
     "Day" : "يوم",
     "Week" : "أسبوع",

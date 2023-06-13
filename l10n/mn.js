@@ -19,7 +19,6 @@ OC.L10N.register(
     "Next day" : "Маргааш",
     "Next week" : "Дараа 7 хоног",
     "Next month" : "Дараа сар",
-    "New event" : "Шинэ үйл явдал",
     "Today" : "Өнөөдөр",
     "Day" : "Өдөр",
     "Week" : "Долоо хоног",

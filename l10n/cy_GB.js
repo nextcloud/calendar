@@ -30,7 +30,6 @@ OC.L10N.register(
     "Next day" : "Diwrnod nesaf",
     "Next week" : "Wythnos nesaf",
     "Next month" : "Mis nesaf",
-    "New event" : "Digwyddiad newydd",
     "Today" : "Heddiw",
     "Day" : "Diwrnod",
     "Week" : "Wythnos",

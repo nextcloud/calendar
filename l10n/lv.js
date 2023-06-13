@@ -9,7 +9,6 @@ OC.L10N.register(
     "Calendar" : "Kalendārs",
     "Confirm" : "Apstiprināt",
     "A Calendar app for Nextcloud" : "Kalendāra lietotne priekš Nextcloud",
-    "New event" : "Jauns notikums",
     "Today" : "Šodien",
     "Day" : "Diena",
     "Week" : "Nedēļa",

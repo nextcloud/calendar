@@ -41,7 +41,7 @@ OC.L10N.register(
     "Next day" : "Hurrengo eguna",
     "Next week" : "Hurrengo astea",
     "Next month" : "Hurrengo hilabetea",
-    "New event" : "Gertaera berria",
+    "Event" : "Gertaera",
     "Today" : "Gaur",
     "Day" : "Eguna",
     "Week" : "Astea",

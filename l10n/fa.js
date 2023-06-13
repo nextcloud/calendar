@@ -22,7 +22,6 @@ OC.L10N.register(
     "Next day" : "روز بعد",
     "Next week" : "هفته بعد",
     "Next month" : "ماه بعد",
-    "New event" : "رویداد جدید",
     "Today" : "امروز",
     "Day" : "روز",
     "Week" : "هفته",

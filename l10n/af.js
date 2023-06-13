@@ -9,7 +9,6 @@ OC.L10N.register(
     "Calendar" : "Kalender",
     "Confirm" : "Bevestig",
     "A Calendar app for Nextcloud" : "'n Kalendertoep vir Nextcloud",
-    "New event" : "Nuwe geleentheid",
     "Today" : "Vandag",
     "Day" : "Dag",
     "Week" : "Week",

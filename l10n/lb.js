@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cheers!" : "Prost!",
     "Calendar" : "Kalenner",
-    "New event" : "Neit Evenement",
     "Today" : "Haut",
     "Day" : "Dag",
     "Week" : "Woch",

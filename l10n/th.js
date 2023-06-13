@@ -10,7 +10,6 @@ OC.L10N.register(
     "Cheers!" : "ไชโย!",
     "Calendar" : "ปฏิทิน",
     "Confirm" : "ยืนยัน",
-    "New event" : "เหตุการณ์ใหม่",
     "Today" : "วันนี้",
     "Day" : "วัน",
     "Week" : "สัปดาห์",

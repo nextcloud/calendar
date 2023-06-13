@@ -29,7 +29,6 @@ OC.L10N.register(
     "Next day" : "Ziua următoare",
     "Next week" : "Saptămâna următoare",
     "Next month" : "Luna următoare",
-    "New event" : "Eveniment nou",
     "Today" : "Astăzi",
     "Day" : "Zi",
     "Week" : "Săptămâna",

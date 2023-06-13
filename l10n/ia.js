@@ -5,7 +5,6 @@ OC.L10N.register(
     "Cheers!" : "Congratulationes!",
     "Calendar" : "Calendario",
     "Confirm" : "Confirmar",
-    "New event" : "Nove evento",
     "Today" : "Hodie",
     "Day" : "Die",
     "Week" : "Septimana",

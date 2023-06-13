@@ -12,7 +12,6 @@ OC.L10N.register(
     "Confirm" : "Confirmar",
     "Where:" : "Dónde:",
     "A Calendar app for Nextcloud" : "Una aplicación de Calendario para Nextcloud",
-    "New event" : "Nuevo evento",
     "Today" : "Hoy",
     "Day" : "Día",
     "Week" : "Semana",

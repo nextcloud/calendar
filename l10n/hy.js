@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cheers!" : "Չը՛խկ",
     "Calendar" : "Օրացույց",
-    "New event" : "Նոր իրադարձություն",
     "Today" : "Այսօր",
     "Day" : "Օր",
     "Week" : "Շաբաթ",

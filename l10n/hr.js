@@ -24,7 +24,6 @@ OC.L10N.register(
     "Next day" : "Sljedeći dan",
     "Next week" : "Sljedeći tjedan",
     "Next month" : "Sljedeći mjesec",
-    "New event" : "Novi događaj",
     "Today" : "Danas",
     "Day" : "Dan",
     "Week" : "Tjedan",

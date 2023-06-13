@@ -9,7 +9,6 @@ OC.L10N.register(
     "Calendar" : "კალენდარი",
     "Confirm" : "დადასტურება",
     "Where:" : "სად:",
-    "New event" : "ახალი მოვლენა",
     "Today" : "დღეს",
     "Day" : "დღე",
     "Week" : "კვირა",

@@ -35,7 +35,7 @@ OC.L10N.register(
     "Next day" : "Volgende dag",
     "Next week" : "Volgende week",
     "Next month" : "Volgende maand",
-    "New event" : "Nieuwe afspraak",
+    "Event" : "Evenement",
     "Today" : "Vandaag",
     "Day" : "Dag",
     "Week" : "Week",

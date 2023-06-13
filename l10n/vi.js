@@ -30,7 +30,6 @@ OC.L10N.register(
     "Next day" : "Ngày hôm sau",
     "Next week" : "Tuần sau",
     "Next month" : "Tháng sau",
-    "New event" : "Sự kiện mới",
     "Today" : "Hôm nay",
     "Day" : "Ngày",
     "Week" : "Tuần",

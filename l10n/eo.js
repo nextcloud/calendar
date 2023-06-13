@@ -11,7 +11,6 @@ OC.L10N.register(
     "Date:" : "Dato:",
     "Where:" : "Kie:",
     "A Calendar app for Nextcloud" : "Aplikaĵo pri kalendaro por Nextcloud",
-    "New event" : "Nova okazaĵo",
     "Today" : "Hodiaŭ",
     "Day" : "Tago",
     "Week" : "Semajno",

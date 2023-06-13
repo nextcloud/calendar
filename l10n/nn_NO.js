@@ -8,7 +8,6 @@ OC.L10N.register(
     "Cheers!" : "Tudelu!",
     "Calendar" : "Kalender",
     "Prepare for %s" : "Klargjer for %s",
-    "New event" : "Ny hending",
     "Today" : "I dag",
     "Day" : "Dag",
     "Week" : "Veke",
