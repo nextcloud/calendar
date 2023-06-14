@@ -43,6 +43,7 @@ OC.L10N.register(
     "Next week" : "下星期",
     "Next month" : "下個月",
     "Event" : "活動",
+    "Create new event" : "創建新活動",
     "Today" : "今日",
     "Day" : "日",
     "Week" : "星期",
