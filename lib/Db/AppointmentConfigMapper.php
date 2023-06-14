@@ -77,7 +77,7 @@ class AppointmentConfigMapper extends QBMapper {
 	 */
 	public function findByToken(string $token) : AppointmentConfig {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'token', 'name', 'description', 'location', 'visibility', 'user_id', 'target_calendar_uri', 'calendar_freebusy_uris', 'availability', 'start', 'end', 'length', 'increment', 'preparation_duration', 'followup_duration', 'time_before_next_slot', 'daily_max', 'future_limit')
+		$qb->select('*')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('token', $qb->createNamedParameter($token, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 		return $this->findEntity($qb);
