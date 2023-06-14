@@ -24,6 +24,8 @@ declare(strict_types=1);
 namespace OCA\Calendar\AppInfo;
 
 use OCA\Calendar\Dashboard\CalendarWidget;
+use OCA\Calendar\Events\BeforeAppointmentBookedEvent;
+use OCA\Calendar\Listener\AppointmentBookedListener;
 use OCA\Calendar\Listener\UserDeletedListener;
 use OCA\Calendar\Notification\Notifier;
 use OCA\Calendar\Profile\AppointmentsAction;
@@ -56,6 +58,7 @@ class Application extends App implements IBootstrap {
 			$context->registerProfileLinkAction(AppointmentsAction::class);
 		}
 
+		$context->registerEventListener(BeforeAppointmentBookedEvent::class, AppointmentBookedListener::class);
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 
 		$context->registerNotifierService(Notifier::class);

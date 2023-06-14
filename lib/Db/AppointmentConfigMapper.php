@@ -48,7 +48,7 @@ class AppointmentConfigMapper extends QBMapper {
 	 */
 	public function findByIdForUser(int $id, string $userId) : AppointmentConfig {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'token', 'name', 'description', 'location', 'visibility', 'user_id', 'target_calendar_uri', 'calendar_freebusy_uris', 'availability', 'start', 'end', 'length', 'increment', 'preparation_duration', 'followup_duration', 'time_before_next_slot', 'daily_max', 'future_limit')
+		$qb->select('*')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT))
 			->andWhere($qb->expr()->eq('user_id', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
@@ -64,7 +64,7 @@ class AppointmentConfigMapper extends QBMapper {
 	 */
 	public function findById(int $id) : AppointmentConfig {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'token', 'name', 'description', 'location', 'visibility', 'user_id', 'target_calendar_uri', 'calendar_freebusy_uris', 'availability', 'start', 'end', 'length', 'increment', 'preparation_duration', 'followup_duration', 'time_before_next_slot', 'daily_max', 'future_limit')
+		$qb->select('*')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
 		return $this->findEntity($qb);
@@ -92,7 +92,7 @@ class AppointmentConfigMapper extends QBMapper {
 	 */
 	public function findAllForUser(string $userId, string $visibility = null): array {
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'token', 'name', 'description', 'location', 'visibility', 'user_id', 'target_calendar_uri', 'calendar_freebusy_uris', 'availability', 'start', 'end', 'length', 'increment', 'preparation_duration', 'followup_duration', 'time_before_next_slot', 'daily_max', 'future_limit')
+		$qb->select('*')
 			->from($this->getTableName())
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 		if ($visibility !== null) {

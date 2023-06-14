@@ -93,7 +93,12 @@ class BookingCalendarWriter {
 	 * @return string
 	 * @throws RuntimeException
 	 */
-	public function write(AppointmentConfig $config, DateTimeImmutable $start, string $displayName, string $email, ?string $description = null) : string {
+	public function write(AppointmentConfig $config,
+		DateTimeImmutable $start,
+		string $displayName,
+		string $email,
+		?string $description = null,
+		?string $location = null) : string {
 		$calendar = current($this->manager->getCalendarsForPrincipal($config->getPrincipalUri(), [$config->getTargetCalendarUri()]));
 		if (!($calendar instanceof ICreateFromString)) {
 			throw new RuntimeException('Could not find a public writable calendar for this principal');
@@ -165,6 +170,7 @@ class BookingCalendarWriter {
 			$alarm->add($vcalendar->createProperty('ACTION', 'DISPLAY'));
 			$vcalendar->VEVENT->add($alarm);
 		}
+
 
 		if ($config->getLocation() !== null) {
 			$vcalendar->VEVENT->add('LOCATION', $config->getLocation());

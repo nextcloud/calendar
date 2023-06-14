@@ -142,24 +142,6 @@ class AppointmentConfigService {
 	}
 
 	/**
-	 * @param string $name
-	 * @param string $description
-	 * @param string|null $location
-	 * @param string $visibility
-	 * @param string $userId
-	 * @param string $targetCalendarUri
-	 * @param array $availability
-	 * @param int $length
-	 * @param int $increment
-	 * @param int $preparationDuration
-	 * @param int $followupDuration
-	 * @param int $buffer
-	 * @param int|null $dailyMax
-	 * @param string[] $calendarFreeBusyUris
-	 * @param int|null $start
-	 * @param int|null $end
-	 * @param int|null $futureLimit
-	 * @return AppointmentConfig
 	 * @throws ServiceException
 	 */
 	public function create(string $name,
@@ -178,7 +160,8 @@ class AppointmentConfigService {
 		?array $calendarFreeBusyUris = [],
 		?int $start = null,
 		?int $end = null,
-		?int $futureLimit = null): AppointmentConfig {
+		?int $futureLimit = null,
+		?bool $createTalkRoom = false): AppointmentConfig {
 		try {
 			$appointmentConfig = new AppointmentConfig();
 			$appointmentConfig->setToken($this->random->generate(12, ISecureRandom::CHAR_HUMAN_READABLE));
@@ -199,6 +182,7 @@ class AppointmentConfigService {
 			$appointmentConfig->setStart($start);
 			$appointmentConfig->setEnd($end);
 			$appointmentConfig->setFutureLimit($futureLimit);
+			$appointmentConfig->setCreateTalkRoom($createTalkRoom === true);
 
 			return $this->mapper->insert($appointmentConfig);
 		} catch (DbException $e) {
