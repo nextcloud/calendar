@@ -1,12 +1,15 @@
 {
     "config": {
         "platform": {
-            "php": "7.4"
+            "php": "7.3"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true
+        }
     },
     "require": {
-        "php": ">=7.4 <=8.1"
+        "php": ">=7.3 <=8.1"
     },
     "require-dev": {
         "christophwurst/nextcloud_testing": "0.12.4",
