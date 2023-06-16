@@ -25,11 +25,10 @@
 
 <template>
 	<div class="sharing-search">
-		<Multiselect :options="usersOrGroups"
+		<NcSelect :options="usersOrGroups"
 			:searchable="true"
 			:internal-search="false"
 			:max-height="600"
-			:show-no-results="true"
 			:placeholder="$t('calendar', 'Share with users or groups')"
 			class="sharing-search__select"
 			:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
@@ -37,15 +36,15 @@
 			open-direction="above"
 			track-by="user"
 			label="displayName"
-			@search-change="findSharee"
-			@change="shareCalendar">
-			<span slot="noResult">{{ $t('calendar', 'No users or groups') }}</span>
-		</Multiselect>
+			@search="findSharee"
+			@option:selected="shareCalendar">
+			<span slot="no-options">{{ $t('calendar', 'No users or groups') }}</span>
+		</NcSelect>
 	</div>
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import NcSelect from '@nextcloud/vue/dist/Components/NcSelect.js'
 import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
@@ -55,7 +54,7 @@ import { urldecode } from '../../../utils/url.js'
 export default {
 	name: 'SharingSearch',
 	components: {
-		Multiselect,
+		NcSelect,
 	},
 	props: {
 		calendar: {
