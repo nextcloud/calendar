@@ -811,7 +811,10 @@ export default {
 		}
 
 		try {
-			await this.save()
+			if ((from.name !== 'NewPopoverView' || to.name !== 'EditPopoverView')
+			&& (from.name !== 'NewPopoverView' || to.name !== 'EditSideBarView')) {
+				await this.save()
+			}
 			next()
 		} catch (error) {
 			console.debug(error)
