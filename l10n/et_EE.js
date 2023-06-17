@@ -42,6 +42,7 @@ OC.L10N.register(
     "Import calendars" : "Impordi kalendrid",
     "Filename" : "Faili nimi",
     "Cancel" : "Loobu",
+    "Invalid location selected" : "Vigane asukoht valitud",
     "Automatic" : "Automaatne",
     "List view" : "Nimekirjavaade",
     "Actions" : "Tegevused",
