@@ -147,6 +147,15 @@ export default {
 				})
 		},
 	},
+	async mounted() {
+		// Dirty hack but this forces a recaculation of collapsed categories. The resize event has
+		// to be dispatched multiple times for tag widths to be calculated correctly.
+		window.dispatchEvent(new Event('resize'))
+		await this.$nextTick()
+		window.dispatchEvent(new Event('resize'))
+		await this.$nextTick()
+		window.dispatchEvent(new Event('resize'))
+	},
 	created() {
 		for (const category of this.value) {
 			const option = this.options.find(option => option.value === category)
