@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.3.3 – 2023-06-20
+### Fixed
+- Duplicate categories
+
 ## 3.3.2 – 2022-06-02
 ### Fixed
 - Squished settings checkbox label
