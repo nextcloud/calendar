@@ -35,6 +35,7 @@
 		:show-week-number="showWeekNumbers"
 		:use12h="showAmPm"
 		:append-to-body="appendToBody"
+		:confirm="showConfirm"
 		v-bind="$attrs"
 		confirm
 		v-on="$listeners"
@@ -142,6 +143,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+	  showConfirm: {
+		  type: Boolean,
+		  default: true,
+	  },
 	},
 	data() {
 		return {
