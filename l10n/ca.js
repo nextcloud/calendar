@@ -104,7 +104,7 @@ OC.L10N.register(
     "Copy public link" : "Copia l'enllaç públic",
     "Send link to calendar via email" : "Enviar per correu l'enllaç al calendari",
     "Enter one address" : "Escriviu una adreça",
-    "Sending email …" : "Enviant correu …",
+    "Sending email …" : "S'està enviant un correu…",
     "Copy embedding code" : "Còpia del codi per inserir",
     "Copying code …" : "Copiant el codi …",
     "Copied code" : "Codi copiat",
