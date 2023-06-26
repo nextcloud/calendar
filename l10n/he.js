@@ -324,6 +324,7 @@ OC.L10N.register(
     "Relaxing" : "מנוחה",
     "Relax" : "לנפוש",
     "Commuting" : "בדרכים",
+    "Dog" : "כלב",
     "Presentation" : "מצגת",
     "Talk" : "שיחה",
     "Camping" : "קֶמפִּינג (= מַחֲנָאוּת)",
