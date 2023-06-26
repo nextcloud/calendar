@@ -22,9 +22,9 @@
 <template>
 	<NcModal @close="$emit('close', $event)">
 		<div class="holiday-subscription-picker">
-			<h2>{{ t('calendar', 'Holiday calendars') }}</h2>
+			<h2>{{ t('calendar', 'Public holiday calendars') }}</h2>
 			<p class="holiday-subscription-picker__attribution">
-				{{ t('calendar', 'Holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}', { website: 'thunderbird.net' }) }}
+				{{ t('calendar', 'Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}', { website: 'thunderbird.net' }) }}
 			</p>
 			<div v-for="calendar in calendars" :key="calendar.source" class="holiday-subscription-picker__region">
 				<div class="holiday-subscription-picker__region__name">
@@ -107,7 +107,7 @@ export default {
 				this.subscribed[calendar.source] = true
 			} catch (error) {
 				console.error('Could not add holiday subscription', error)
-				showError(this.$t('calendar', 'An error occurred, unable to create the holiday calendar.'))
+				showError(this.$t('calendar', 'An error occurred, unable to create the public holiday calendar.'))
 			} finally {
 				this.subscribing[calendar.source] = false
 			}

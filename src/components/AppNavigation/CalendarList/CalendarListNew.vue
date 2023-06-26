@@ -93,7 +93,7 @@
 				{{ $t('calendar', 'Creating subscription …') }}
 			</ActionText>
 			<ActionButton v-if="canSubscribeLink" @click="showHolidaySubscriptionPicker = true">
-				{{ t('calendar', 'Add holiday calendar') }}
+				{{ t('calendar', 'Add public holiday calendar') }}
 				<template #icon>
 					<Web :size="20" decorative />
 				</template>
