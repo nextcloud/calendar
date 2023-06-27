@@ -131,12 +131,12 @@ class BookingService {
 			$startObj,
 			$booking->getDisplayName(),
 			$booking->getEmail(),
+			$booking->getTimezone(),
 			$booking->getDescription(),
 			$config->getCreateTalkRoom() ? $booking->getTalkUrl() : $config->getLocation(),
 		);
 		$booking->setConfirmed(true);
 		$this->bookingMapper->update($booking);
-
 
 		try {
 			$this->mailService->sendBookingInformationEmail($booking, $config, $calendar);
