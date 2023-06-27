@@ -4,11 +4,11 @@
     "%s has published the calendar »%s«" : "%s نشر التقويم »%s«",
     "Unexpected error sending email. Please contact your administrator." : "حدث خطأ اثناء إرسال البريد. تحقّق من إعدادات البريد او تواصل مع مسؤول النظام.",
     "Successfully sent email to %1$s" : "تم إرسال الإيميل إلى %1$s بنجاح.",
-    "Hello," : "مرحبا %s،",
+    "Hello," : "مرحباً،",
     "We wanted to inform you that %s has published the calendar »%s«." : "المستخدم %s قام بنشر تقويم »%s«.",
     "Open »%s«" : "فتح »%s«",
     "Cheers!" : "تحياتي!",
-    "Upcoming events" : "الفعاليات القادمة",
+    "Upcoming events" : "الأحداث القادمة",
     "More events" : "أحداث أخرى",
     "%1$s with %2$s" : "%1$s مع %2$s",
     "Calendar" : "التقويم",
@@ -24,73 +24,97 @@
     "Dear %s, please confirm your booking" : "السيد/السيدة %s؛ رجاءً، قم بتأكيد حجز موعدك.",
     "Confirm" : "تأكيد",
     "This confirmation link expires in %s hours." : "رابط التوكيد هذا تنتهي صلاحيته بعد%s ساعات..",
+    "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "إذا كنت ترغب في إلغاء الموعد، فيُرجى الاتصال بمُنظّم الحدث عن طريق الرّد على هذا البريد الإلكتروني أو عن طريق زيارة صفحة ملفه الشخصي.",
+    "Your appointment \"%s\" with %s has been accepted" : "موعدك \"%s\" مع %s تمّ قبوله",
+    "Dear %s, your booking has been accepted." : "السيد/السيدة %s, حجزك ثم قبوله.",
+    "Appointment for:" : "موعد لـ :",
     "Date:" : "التاريخ:",
+    "Where:" : "المكان:",
+    "Comment:" : "ملاحظات:",
+    "You have a new appointment booking \"%s\" from %s" : "لديك حجز موعدٍ جديدٍ \"%s\" من %s",
+    "Dear %s, %s (%s) booked an appointment with you." : "السيد/السيدة %s, %s (%s) حجز موعداً معك.",
     "A Calendar app for Nextcloud" : "تطبيق التقويم لـ نكست كلاود",
-    "Previous day" : "اليوم الماضي",
-    "Previous week" : "الاسبوع الماضي",
+    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "تطبيق \"التقويم\" Calendar هو واجهة مستخدم لخادوم CalDAV الخاص بنكست كلاود. يمكنك مزامنة الأحداث بسهولة بين مختلف الأجهزة مع نكست كلاود و تحريرها عبر الإنترنت. \n* 🚀 ** التكامل مع تطبيقات نكست كلاود الأخرى!  مع تطبيق جهات الاتصال حاليًا و المزيد في المستقبل. تريد وضع مواعيد مباريات فريقك المفضل في التقويم الخاص بك؟ لا مشكلة! \n* 🙋 ** الحضور! ** دعوة الأشخاص إلى الأحداث الخاصة بك. \n* ⌚️ ** متوفر / مشغول! ** انظر عندما يكون الحاضرين مُتاحين للقاء. \n* ⏰ ** التذكير! ** أحصل على إشعارات تذكير بالأحداث عبر متصفحك و عبر البريد الإلكتروني. \n* 🔍 ابحث! العثور على الأحداث الخاصة بك بسهولة. \n* ☑️ المهام! اطّلع على المهام التي حان وقت إنجازها مباشرةً في التقويم. \n* 🙈 ** نحن لا نعيد اختراع العجلة! ** استنادًا إلى [مكتبة c-dav] العظيمة. (https://github.com/nextcloud/cdav-library) مكتبات [ical.js] (https://github.com/mozilla-comm/ical.js) و [fullcalendar] (https://github.com/fullcalendar/fullcalendar).",
+    "Previous day" : "أمس",
+    "Previous week" : "الأسبوع الماضي",
     "Previous month" : "الشهر الماضي",
-    "Next day" : "اليوم القادم",
-    "Next week" : "الاسبوع القادم",
+    "Next day" : "غداً",
+    "Next week" : "الأسبوع القادم",
     "Next month" : "الشهر القادم",
+    "Event" : "حدث",
+    "Create new event" : "أنشيء حدثاً جديداً",
     "Today" : "اليوم",
     "Day" : "يوم",
     "Week" : "أسبوع",
     "Month" : "شهر",
     "List" : "قائمة",
-    "Preview" : "معاينة",
-    "Copy link" : "انسخ الرابط",
+    "Preview" : "مُعاينة",
+    "Copy link" : "إنسخ الرابط",
     "Edit" : "تعديل",
     "Delete" : "حذف ",
+    "Appointment link was copied to clipboard" : "تمّ نسخ رابط الموعد في الحافظة",
+    "Appointment link could not be copied to clipboard" : "تعذّر نسخ رابط الموعد في الحافظة",
+    "Add new" : "إضافة جديد",
     "Untitled calendar" : "تقويم بدون اسم",
-    "Shared with you by" : "مشاركة معك من قبل",
+    "Shared with you by" : "مشاركة معك من قِبَل",
+    "Edit and share calendar" : "عدّل و شارك التقويم",
+    "Edit calendar" : "عدّل التقويم",
+    "Disable calendar \"{calendar}\"" : "إيقاف التقويم \"{calendar}\"",
+    "Disable untitled calendar" : "إيقاف تقويم بدون اسم",
+    "Enable calendar \"{calendar}\"" : "تمكين التقويم \"{calendar}\"",
+    "Enable untitled calendar" : "تمكين التقويم بدون اسم",
     "An error occurred, unable to change visibility of the calendar." : "حدث خطأ، لا يمكن تعديل وضعية ظهور التقويم.",
     "New calendar" : "تقويم جديد",
-    "Creating calendar …" : "جاري انشاء تقويم  …",
+    "Name for new calendar" : "اسم التقويم الجديد",
+    "Creating calendar …" : "جارٍ إنشاء التقويم …",
     "New calendar with task list" : "تقويم جديد مع قائمة مهام",
-    "New subscription from link (read-only)" : "مشتركين جدد عن طريق رابط (للقراءة فقط)",
-    "Creating subscription …" : "جاري انشاء اشتراك  …",
-    "An error occurred, unable to create the calendar." : "حدث خطأ، لا يمكن انشاء التقويم.",
-    "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "يرجى ادخال رابط صحيح (يبدأ بـ https://, http://, webcals://, webcal://)",
+    "New subscription from link (read-only)" : "إشتراك جديد عن طريق رابط (للقراءة فقط)",
+    "Creating subscription …" : "جارٍ إنشاء اشتراك …",
+    "An error occurred, unable to create the calendar." : "حدث خطأ، يتعذّر إنشاء التقويم.",
+    "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "يرجى ادخال رابطٍ صحيحٍ (يبدأ بـ https://, http://, webcals://, webcal://)",
     "Copy subscription link" : "نسخ رابط الاشتراك",
-    "Copying link …" : "جاري نسخ رابط  …",
-    "Copied link" : "تم نسخ الرابط",
-    "Could not copy link" : "لا يمكن نسخ الرابط",
+    "Copying link …" : "جارٍ نسخ رابط  …",
+    "Copied link" : "تمّ نسخ الرابط",
+    "Could not copy link" : "تعذّر نسخ الرابط",
     "Export" : "تصدير",
-    "Calendar link copied to clipboard." : "تم نسخ رابط التقويم.",
-    "Calendar link could not be copied to clipboard." : "لم نتمكن من نسخ رابط التقويم.",
-    "Trash bin" : "المهملات",
+    "Calendar link copied to clipboard." : "تم نسخ رابط التقويم إلى الحافظة.",
+    "Calendar link could not be copied to clipboard." : "تعذّر نسخ رابط التقويم إلى الحافظة.",
+    "Trash bin" : "سلّة المُهملات",
+    "Loading deleted items." : "تحميل العناصر المحذوفة",
+    "You do not have any deleted items." : "لا توجد أي عناصر محذوفة",
     "Name" : "الاسم",
-    "Deleted" : "تم حذفه",
+    "Deleted" : "تمّ حذفه",
     "Restore" : "استعادة ",
-    "Delete permanently" : "حذف بشكل دائم",
+    "Delete permanently" : "حذف نهائي",
     "Empty trash bin" : "تفريغ سلة المهملات",
-    "Untitled item" : "بند غير مُعنون",
+    "Untitled item" : "عنصر بلا اسم",
     "Unknown calendar" : "تقويم غير معروف",
-    "Could not load deleted calendars and objects" : "تعذّر تحميل التقاويم و الكيانات المحذوفة ",
+    "Could not load deleted calendars and objects" : "تعذّر تحميل التقاويم و الأشياء المحذوفة ",
     "Could not restore calendar or event" : "تعذرت استعادة تقويم أو حدث",
     "Do you really want to empty the trash bin?" : "هل ترغب حقّاً في تفريغ سلة المهملات؟",
-    "Could not update calendar order." : "لا يمكن تحديث ترتيب التقويم.",
-    "Internal link" : "الرابط الداخلي",
+    "Could not update calendar order." : "لا يمكن تعديل ترتيب التقويم.",
+    "Internal link" : "رابط داخلي",
     "A private link that can be used with external clients" : "رابط خاص يمكن استخدامه مع العملاء الخارجيين",
     "Copy internal link" : "إنسخ الرابط الداخلي",
-    "Share link" : "رابط المشاركة",
+    "Share link" : "رابط مشاركة",
     "Copy public link" : "نسخ الرابط العام",
-    "Send link to calendar via email" : "ارسال رابط التقويم عبر البريد",
-    "Enter one address" : "ادخل عنوان بريدي واحد",
-    "Sending email …" : "جاري ارسال البريد  …",
-    "Copy embedding code" : "نسخ الكود المرفق",
+    "Send link to calendar via email" : "إرسال رابط التقويم عبر الإيمل",
+    "Enter one address" : "أدخِل عنواناً بريدياً واحداً",
+    "Sending email …" : "جارٍ إرسال البريد  …",
+    "Copy embedding code" : "نسخ كود التضمين",
     "Copying code …" : "نسخ الكود  …",
-    "Copied code" : "تم نسخ الكود",
-    "Could not copy code" : "لا يمكن نسخ الكود",
-    "Delete share link" : "حذف ارتباط المشاركة",
+    "Copied code" : "تمّ نسخ الكود",
+    "Could not copy code" : "تعذّر نسخ الكود",
+    "Delete share link" : "إحذف رابط المشاركة",
     "Deleting share link …" : "حذف رابط المشاركة  …",
-    "An error occurred, unable to publish calendar." : "حصل خطأ، لا يمكن نشر التقويم",
-    "An error occurred, unable to send email." : "حدث خطأ، لا يمكن ارسال البريد.",
-    "Embed code copied to clipboard." : "تم نسخ الكود المرفق.",
-    "Embed code could not be copied to clipboard." : "لا يمكن نسخ الكود المرفق",
-    "Unpublishing calendar failed" : "فشل في الغاء نشر التقويم",
+    "An error occurred, unable to publish calendar." : "حدث خطأ، لا يمكن نشر التقويم",
+    "An error occurred, unable to send email." : "حدث خطأ، لا يُمكن إرسال البريد.",
+    "Embed code copied to clipboard." : "الكود المُضمّن تمّ نسخه إلى الحافظة",
+    "Embed code could not be copied to clipboard." : "الكود المُضمّن تعذّر نسخه إلى الحافظة",
+    "Unpublishing calendar failed" : "محاولة إلغاء نشر التقويم أخفقت",
     "can edit" : "يمكن التحرير",
-    "Unshare with {displayName}" : "الغاء المشاركة مع {displayName}",
+    "Unshare with {displayName}" : "إلغاء المشاركة مع {displayName}",
+    "An error occurred while unsharing the calendar." : "حدث خطأ أثناء إلغاء مشاركة التقويم",
     "An error occurred, unable to change the permission of the share." : "حدث خطأ، لا يمكن تعديل صلاحيات نشر التقويم.",
     "Share with users or groups" : "شارك مع مستخدمين او مجموعات",
     "No users or groups" : "لا يوجد مستخدمين أو مجموعات",
@@ -133,6 +157,7 @@
     "Description" : "الوصف",
     "Duration" : "المدة الزمنية",
     "to" : "إلى",
+    "Delete slot" : "حذف فُرَضَةٍ slot زمنية",
     "Add" : "إضافة",
     "Monday" : "الإثنين",
     "Tuesday" : "الثلاثاء",
@@ -239,9 +264,8 @@
     "Please enter a valid date and time" : "إختر تاريخاً و وقتاً صحيحاً",
     "Type to search time zone" : "أكتب للبحث في المنطقة الزمنية ",
     "Global" : "عالمي",
-    "Holiday calendars" : "تقاويم العطلات الرسمية",
-    "Holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "تقاويم العطلات الرسمية مُقدّمة من تطبيق \"ثندر بيرد\" Thunderbird. سوف يتم تحميل بيانات التقاويم من {website}.",
     "Select slot" : "إختر الفُرضة الزمنية",
+    "Time:" : "الوقت:",
     "Personal" : "شخصي",
     "No more events today" : "لا يوجد المزيد من الفعاليات اليوم",
     "No upcoming events" : "ليس هناك أحداث قادمة",
