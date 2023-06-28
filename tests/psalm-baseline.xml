@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="5.13.1@086b94371304750d1c673315321a55d15fc59015">
+  <file src="lib/Controller/AppointmentConfigController.php">
+    <RedundantCondition>
+      <code>$expectedDayKeys !== $actualDayKeys</code>
+      <code><![CDATA[$slotKeys !== ['end', 'start']]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="lib/Listener/AppointmentBookedListener.php">
+    <MissingTemplateParam>
+      <code>IEventListener</code>
+    </MissingTemplateParam>
+    <UndefinedClass>
+      <code>AppointmentBookedEvent</code>
+    </UndefinedClass>
+  </file>
+</files>

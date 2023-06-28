@@ -97,7 +97,7 @@ class ViewController extends Controller {
 		$defaultDefaultReminder = $this->config->getAppValue($this->appName, 'defaultReminder', 'none');
 		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
 
-		$appVersion = $this->config->getAppValue($this->appName, 'installed_version', null);
+		$appVersion = $this->config->getAppValue($this->appName, 'installed_version', '');
 		$eventLimit = $this->config->getUserValue($this->userId, $this->appName, 'eventLimit', $defaultEventLimit) === 'yes';
 		$firstRun = $this->config->getUserValue($this->userId, $this->appName, 'firstRun', 'yes') === 'yes';
 		$initialView = $this->getView($this->config->getUserValue($this->userId, $this->appName, 'currentView', $defaultInitialView));

@@ -29,13 +29,12 @@ namespace OCA\Calendar\BackgroundJob;
 use OCA\Calendar\Service\Appointments\BookingService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\TimedJob;
-use OCP\ILogger;
 use Psr\Log\LoggerInterface;
 use function method_exists;
 
 class CleanUpOutdatedBookingsJob extends TimedJob {
-	/** @var ILogger */
-	private $logger;
+	/** @var LoggerInterface */
+	private LoggerInterface $logger;
 
 	/** @var BookingService */
 	private $service;

@@ -121,7 +121,7 @@ class PublicViewController extends Controller {
 		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
 		$defaultCanSubscribeLink = $this->config->getAppValue('dav', 'allow_calendar_link_subscriptions', 'yes');
 
-		$appVersion = $this->config->getAppValue($this->appName, 'installed_version', null);
+		$appVersion = $this->config->getAppValue($this->appName, 'installed_version', '');
 
 		$this->initialStateService->provideInitialState($this->appName, 'app_version', $appVersion);
 		$this->initialStateService->provideInitialState($this->appName, 'event_limit', ($defaultEventLimit === 'yes'));

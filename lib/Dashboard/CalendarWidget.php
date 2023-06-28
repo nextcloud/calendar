@@ -136,12 +136,6 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 		});
 	}
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param string|null $since Use any PHP DateTime allowed values to get future dates
-	 * @param int $limit  Max 14 items is the default
-	 */
 	public function getItems(string $userId, ?string $since = null, int $limit = 7): array {
 		$calendars = $this->calendarManager->getCalendarsForPrincipal('principals/users/' . $userId);
 		$count = count($calendars);

@@ -28,7 +28,6 @@ namespace OCA\Calendar\Controller;
 use DateTimeImmutable;
 use DateTimeZone;
 use InvalidArgumentException;
-use OC\URLGenerator;
 use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Exception\ClientException;
 use OCA\Calendar\Exception\NoSlotFoundException;
@@ -44,6 +43,7 @@ use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\DB\Exception;
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\Mail\IMailer;
 use Psr\Log\LoggerInterface;
 
@@ -60,7 +60,7 @@ class BookingController extends Controller {
 	/** @var IInitialState */
 	private $initialState;
 
-	/** @var URLGenerator */
+	/** @var IURLGenerator */
 	private $urlGenerator;
 
 	/** @var LoggerInterface */
@@ -76,7 +76,7 @@ class BookingController extends Controller {
 		IInitialState $initialState,
 		BookingService $bookingService,
 		AppointmentConfigService $appointmentConfigService,
-		URLGenerator $urlGenerator,
+		IURLGenerator $urlGenerator,
 		LoggerInterface $logger,
 		IMailer $mailer,
 		IConfig $systemConfig) {
