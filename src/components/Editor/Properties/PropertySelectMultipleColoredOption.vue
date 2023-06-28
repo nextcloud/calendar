@@ -23,7 +23,7 @@
 
 <template>
 	<span class="property-select-multiple-colored-tag">
-		<div class="property-select-multiple-colored-tag__color-indicator" :style="{ 'background-color': color}" />
+		<div v-if="!isGroupLabel" class="property-select-multiple-colored-tag__color-indicator" :style="{ 'background-color': color }" />
 		<span class="property-select-multiple-colored-tag__label">{{ label }}</span>
 	</span>
 </template>
@@ -41,6 +41,9 @@ export default {
 		},
 	},
 	computed: {
+		isGroupLabel() {
+			return this.option.$isLabel && this.option.$groupLabel
+		},
 		label() {
 			const option = this.option
 			logger.debug('Option render', { option })
@@ -48,7 +51,7 @@ export default {
 				return this.option
 			}
 
-			return this.option.label
+			return this.option.$groupLabel ? this.option.$groupLabel : this.option.label
 		},
 		colorObject() {
 			return uidToColor(this.label)
