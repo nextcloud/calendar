@@ -45,6 +45,7 @@ jobs:
       if: ${{ matrix.nextcloud-versions == 'master' }}
       uses: codecov/codecov-action@v3
       with:
+        token: ${{ secrets.CODECOV_TOKEN }}
         file: nextcloud/apps/calendar/clover.unit.xml
         flags: php
         fail_ci_if_error: true
