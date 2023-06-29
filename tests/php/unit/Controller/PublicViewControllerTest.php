@@ -76,7 +76,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'yes'],
-				['calendar', 'installed_version', null, '1.0.0']
+				['calendar', 'installed_version', '', '1.0.0']
 			]);
 
 		$this->request->expects(self::once())
@@ -154,7 +154,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
-				['calendar', 'installed_version', null, '1.0.0']
+				['calendar', 'installed_version', '', '1.0.0']
 			]);
 		$this->request->expects(self::once())
 			->method('getServerProtocol')

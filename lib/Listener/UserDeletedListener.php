@@ -32,6 +32,9 @@ use OCP\EventDispatcher\IEventListener;
 use OCP\User\Events\UserDeletedEvent;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @template-implements IEventListener<Event|UserDeletedEvent>
+ */
 class UserDeletedListener implements IEventListener {
 	/** @var AppointmentConfigService */
 	private $appointmentConfigService;

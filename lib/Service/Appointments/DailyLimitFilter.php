@@ -25,8 +25,8 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Service\Appointments;
 
-use OC\Calendar\CalendarQuery;
 use OCA\Calendar\Db\AppointmentConfig;
+use OCP\Calendar\ICalendarQuery;
 use OCP\Calendar\IManager;
 use function array_filter;
 use function array_values;
@@ -61,7 +61,7 @@ class DailyLimitFilter {
 		}
 
 		// 2. Check what days are bookable
-		/** @var CalendarQuery $query */
+		/** @var ICalendarQuery $query */
 		$query = $this->calendarManger->newQuery($config->getPrincipalUri());
 		// Note: the query is not limited to the target calendar so that the user can
 		//         1. Move the event to another calendar

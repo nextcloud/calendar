@@ -83,6 +83,6 @@ class BookingMapper extends QBMapper {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->getTableName())
 			->where($qb->expr()->lt('created_at', $qb->createNamedParameter($limit, IQueryBuilder::PARAM_INT), IQueryBuilder::PARAM_INT));
-		return $qb->execute();
+		return $qb->executeStatement();
 	}
 }

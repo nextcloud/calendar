@@ -107,7 +107,7 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
 				['calendar', 'hideEventExport', 'no', 'yes'],
 				['calendar', 'forceEventAlarmType', '', ''],
-				['calendar', 'installed_version', null, '1.0.0'],
+				['calendar', 'installed_version', '', '1.0.0'],
 			]);
 		$this->config
 			->method('getUserValue')
@@ -212,7 +212,7 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
-				['calendar', 'installed_version', null, '1.0.0'],
+				['calendar', 'installed_version', '', '1.0.0'],
 			]);
 		$this->config
 			->method('getUserValue')

@@ -27,14 +27,13 @@ declare(strict_types=1);
 namespace OCA\Calendar\Service\Appointments;
 
 use Exception;
-use OC\Notification\Notification;
-use OC\URLGenerator;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\Booking;
 use OCA\Calendar\Exception\ServiceException;
 use OCP\Defaults;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\L10N\IFactory;
@@ -55,7 +54,7 @@ class MailService {
 	private $defaults;
 	/** @var LoggerInterface */
 	private $logger;
-	/** @var URLGenerator */
+	/** @var IURLGenerator */
 	private $urlGenerator;
 	/** @var IDateTimeFormatter */
 	private $dateFormatter;
@@ -69,7 +68,7 @@ class MailService {
 		IL10N $l10n,
 		Defaults $defaults,
 		LoggerInterface $logger,
-		URLGenerator $urlGenerator,
+		IURLGenerator $urlGenerator,
 		IDateTimeFormatter $dateFormatter,
 		IFactory $lFactory,
 		IManager $notificationManager) {
@@ -97,8 +96,10 @@ class MailService {
 		}
 
 		$fromEmail = $user->getEMailAddress();
+		if ($fromEmail === null) {
+			throw new ServiceException('Organizer has no email set');
+		}
 		$fromName = $user->getDisplayName();
-
 
 		$sys = $this->getSysEmail();
 		$message = $this->mailer->createMessage()
@@ -117,10 +118,10 @@ class MailService {
 		// Heading
 		$summary = $this->l10n->t("Dear %s, please confirm your booking", [$booking->getDisplayName()]);
 		$template->addHeading($summary);
-		
+
 		$bookingUrl = $this->urlGenerator->linkToRouteAbsolute('calendar.booking.confirmBooking', ['token' => $booking->getToken()]);
 		$template->addBodyButton($this->l10n->t('Confirm'), $bookingUrl);
-		
+
 		$template->addBodyListItem($user->getDisplayName(), 'Appointment with:');
 		if (!empty($config->getDescription())) {
 			$template->addBodyListItem($config->getDescription(), 'Description:');
@@ -168,6 +169,9 @@ class MailService {
 		}
 
 		$fromEmail = $user->getEMailAddress();
+		if ($fromEmail === null) {
+			throw new ServiceException('Organizer has no email set');
+		}
 		$fromName = $user->getDisplayName();
 
 		$sys = $this->getSysEmail();
@@ -263,12 +267,16 @@ class MailService {
 			throw new ServiceException('Could not find organizer');
 		}
 
+		$toEmail = $user->getEMailAddress();
+		if ($toEmail === null) {
+			throw new ServiceException('Organizer has no email set');
+		}
 		$fromName = $user->getDisplayName();
 
 		$sys = $this->getSysEmail();
 		$message = $this->mailer->createMessage()
 			->setFrom([$sys => $fromName])
-			->setTo([$user->getEMailAddress() => $booking->getDisplayName()]);
+			->setTo([$toEmail => $booking->getDisplayName()]);
 
 
 		$template = $this->mailer->createEMailTemplate('calendar.confirmOrganizer');
@@ -320,7 +328,6 @@ class MailService {
 			$this->lFactory->get('calendar')
 		);
 
-		/** @var Notification $notification */
 		$notification = $this->notificationManager->createNotification();
 		$notification
 			->setApp('calendar')
