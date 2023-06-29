@@ -1,6 +1,12 @@
 
 # Changelog
 
+## 4.4.3 – 2023–06-29
+### Changed
+- Frontend now uses NcSelect
+### Fixed
+- Empty events
+
 ## 4.4.2 – 2023–06-12
 ### Fixed
 - Temporarily revert Talk room feature for appointments due to upgrade issues
