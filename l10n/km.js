@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "ប្រតិទិន",
+    "Personal" : "ផ្ទាល់​ខ្លួន",
     "Today" : "ថ្ងៃ​នេះ",
     "Day" : "ថ្ងៃ",
     "Week" : "សប្ដាហ៍",
@@ -39,7 +40,6 @@ OC.L10N.register(
     "first" : "ទីមួយ",
     "last" : "ចុងក្រោយ",
     "More" : "ច្រើន​ទៀត",
-    "Personal" : "ផ្ទាល់​ខ្លួន",
     "Details" : "ព័ត៌មាន​លម្អិត",
     "Attendees" : "អ្នក​ចូលរួម",
     "Close" : "បិទ",

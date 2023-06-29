@@ -1,6 +1,7 @@
 { "translations": {
     "Cheers!" : "واہ!",
     "Calendar" : "کیلنڈر",
+    "Personal" : "شخصی",
     "Today" : "آج",
     "Week" : "ہفتہ",
     "Month" : "ماہ",
@@ -28,7 +29,6 @@
     "Repeat" : "دہرایں",
     "never" : "never",
     "More" : "مزید",
-    "Personal" : "شخصی",
     "Close" : "بند ",
     "Other" : "دیگر",
     "Birthday" : "سالگرہ"

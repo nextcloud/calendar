@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Cheers!" : "Prost!",
     "Calendar" : "Kalenner",
+    "Personal" : "Perséinlech",
     "Today" : "Haut",
     "Day" : "Dag",
     "Week" : "Woch",
@@ -44,7 +45,6 @@ OC.L10N.register(
     "More" : "Méi",
     "Global" : "Global",
     "Subscribe" : "Umellen",
-    "Personal" : "Perséinlech",
     "Details" : "Detailer",
     "Attendees" : "Participanten",
     "Close" : "Zoumaachen",

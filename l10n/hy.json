@@ -1,6 +1,7 @@
 { "translations": {
     "Cheers!" : "Չը՛խկ",
     "Calendar" : "Օրացույց",
+    "Personal" : "Անձնական",
     "Today" : "Այսօր",
     "Day" : "Օր",
     "Week" : "Շաբաթ",
@@ -38,7 +39,6 @@
     "after" : "հետո",
     "More" : "Ավելի",
     "Global" : "Ընդհանուր",
-    "Personal" : "Անձնական",
     "Details" : "Մանրամասներ",
     "Attendees" : "Մասնակիցներ",
     "Close" : "Փակել",

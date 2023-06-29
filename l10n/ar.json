@@ -33,6 +33,21 @@
     "Comment:" : "ملاحظات:",
     "You have a new appointment booking \"%s\" from %s" : "لديك حجز موعدٍ جديدٍ \"%s\" من %s",
     "Dear %s, %s (%s) booked an appointment with you." : "السيد/السيدة %s, %s (%s) حجز موعداً معك.",
+    "Anniversary" : "ذكرى سنوية",
+    "Appointment" : "موعد",
+    "Business" : "عمل",
+    "Education" : "تعليم",
+    "Holiday" : "اجازة",
+    "Meeting" : "اجتماع",
+    "Miscellaneous" : "متنوع",
+    "Non-working hours" : "ساعات خارج العمل",
+    "Not in office" : "خارج المكتب",
+    "Personal" : "شخصي",
+    "Phone call" : "مكالمة هاتفية",
+    "Sick day" : "اجازة مرضية",
+    "Special occasion" : "حدث خاص",
+    "Travel" : "سفر",
+    "Vacation" : "اجازة",
     "A Calendar app for Nextcloud" : "تطبيق التقويم لـ نكست كلاود",
     "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "تطبيق \"التقويم\" Calendar هو واجهة مستخدم لخادوم CalDAV الخاص بنكست كلاود. يمكنك مزامنة الأحداث بسهولة بين مختلف الأجهزة مع نكست كلاود و تحريرها عبر الإنترنت. \n* 🚀 ** التكامل مع تطبيقات نكست كلاود الأخرى!  مع تطبيق جهات الاتصال حاليًا و المزيد في المستقبل. تريد وضع مواعيد مباريات فريقك المفضل في التقويم الخاص بك؟ لا مشكلة! \n* 🙋 ** الحضور! ** دعوة الأشخاص إلى الأحداث الخاصة بك. \n* ⌚️ ** متوفر / مشغول! ** انظر عندما يكون الحاضرين مُتاحين للقاء. \n* ⏰ ** التذكير! ** أحصل على إشعارات تذكير بالأحداث عبر متصفحك و عبر البريد الإلكتروني. \n* 🔍 ابحث! العثور على الأحداث الخاصة بك بسهولة. \n* ☑️ المهام! اطّلع على المهام التي حان وقت إنجازها مباشرةً في التقويم. \n* 🙈 ** نحن لا نعيد اختراع العجلة! ** استنادًا إلى [مكتبة c-dav] العظيمة. (https://github.com/nextcloud/cdav-library) مكتبات [ical.js] (https://github.com/mozilla-comm/ical.js) و [fullcalendar] (https://github.com/fullcalendar/fullcalendar).",
     "Previous day" : "أمس",
@@ -368,7 +383,6 @@
     "Please book a different slot:" : "من فضلك، إختر فُرَضةً slot أخرى:",
     "Book an appointment with {name}" : "إحجز موعداً مع {name}",
     "No public appointments found for {name}" : "لم يُمكن إيجاد أي مواعيد عامة لـ {name}",
-    "Personal" : "شخصي",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "الاكتشاف التلقائي للمنطقة الزمنية يُحدّد منطقتك الزمنية بالنسبة للتوقيت العالمي المُوحّد UTC. هذا على الأرجح نتيجة للتدابير الأمنية لمتصفح الويب الخاص بك. يُرجى ضبط المنطقة الزمنية يدويًا في إعدادات التقويم.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "لم يتم العثور على منطقتك الزمنية التي تمّت تهيئتها ({timezoneId}). تمّ الرجوع إلى التوقيت العالمي المُوحّد UTC. يرجى تغيير منطقتك الزمنية في الإعدادات، والإبلاغ عن هذه المشكلة.",
     "No more events today" : "لا يوجد المزيد من الفعاليات اليوم",
@@ -392,20 +406,6 @@
     "Show more details" : "اظهار المزيد من التفاصيل",
     "Subscribe to {name}" : "اشتراك مع {name}",
     "Export {name}" : "تصدير {name}",
-    "Anniversary" : "ذكرى سنوية",
-    "Appointment" : "موعد",
-    "Business" : "عمل",
-    "Education" : "تعليم",
-    "Holiday" : "اجازة",
-    "Meeting" : "اجتماع",
-    "Miscellaneous" : "متنوع",
-    "Non-working hours" : "ساعات خارج العمل",
-    "Not in office" : "خارج المكتب",
-    "Phone call" : "مكالمة هاتفية",
-    "Sick day" : "اجازة مرضية",
-    "Special occasion" : "حدث خاص",
-    "Travel" : "سفر",
-    "Vacation" : "اجازة",
     "Midnight on the day the event starts" : "منتصف ليل اليوم الذي يبدأ فيه الحدث",
     "on the day of the event at {formattedHourMinute}" : "في يوم الفعالية في {formattedHourMinute}",
     "at the event's start" : "في بداية الفعالية",

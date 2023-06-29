@@ -1,5 +1,6 @@
 { "translations": {
     "Calendar" : "Kalendar",
+    "Personal" : "Peribadi",
     "Today" : "Hari ini",
     "Day" : "Hari",
     "Week" : "Minggu",
@@ -32,7 +33,6 @@
     "Repeat" : "Ulang",
     "never" : "jangan",
     "More" : "Lanjutan",
-    "Personal" : "Peribadi",
     "Attendees" : "Jemputan",
     "Close" : "Tutup",
     "Daily" : "Setiap hari",

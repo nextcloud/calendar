@@ -1,6 +1,7 @@
 { "translations": {
     "Cheers!" : "Cheers!",
     "Calendar" : "Kalendar",
+    "Personal" : "Osobno",
     "Today" : "Danas",
     "Day" : "Dan",
     "Week" : "Sedmica",
@@ -38,7 +39,6 @@
     "Repeat" : "Ponovi",
     "never" : "nikad",
     "More" : "Više",
-    "Personal" : "Osobno",
     "Attendees" : "Sudionici",
     "Close" : "Zatvori",
     "Daily" : "Dnevno",

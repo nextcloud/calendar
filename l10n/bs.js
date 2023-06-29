@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Cheers!" : "Cheers!",
     "Calendar" : "Kalendar",
+    "Personal" : "Osobno",
     "Today" : "Danas",
     "Day" : "Dan",
     "Week" : "Sedmica",
@@ -40,7 +41,6 @@ OC.L10N.register(
     "Repeat" : "Ponovi",
     "never" : "nikad",
     "More" : "Više",
-    "Personal" : "Osobno",
     "Attendees" : "Sudionici",
     "Close" : "Zatvori",
     "Daily" : "Dnevno",
