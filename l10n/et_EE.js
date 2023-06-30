@@ -34,6 +34,7 @@ OC.L10N.register(
     "Deleted" : "Kustutatud",
     "Restore" : "Taasta",
     "Delete permanently" : "Kustuta jäädavalt",
+    "Empty trash bin" : "Tühjenda prügikast",
     "Internal link" : "Sisemine link",
     "Share link" : "Jaga link",
     "Copy public link" : "Kopeeri avalik link",
