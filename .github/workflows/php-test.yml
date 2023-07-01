@@ -32,7 +32,7 @@ jobs:
     - name: Install Nextcloud
       run: php -f nextcloud/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
     - name: Checkout the app
-      uses: actions/checkout@v3
+      uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
       with:
         path: nextcloud/apps/calendar
     - name: Install dependencies
@@ -43,7 +43,7 @@ jobs:
       run: composer run test
     - name: Upload coverage to Codecov
       if: ${{ matrix.nextcloud-versions == 'master' }}
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: nextcloud/apps/calendar/clover.unit.xml
