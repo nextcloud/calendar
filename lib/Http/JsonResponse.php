@@ -37,6 +37,8 @@ use function get_class;
 
 /**
  * @see https://github.com/omniti-labs/jsend
+ *
+ * @psalm-suppress MissingTemplateParam
  */
 class JsonResponse extends Base {
 	public function __construct($data = [],
