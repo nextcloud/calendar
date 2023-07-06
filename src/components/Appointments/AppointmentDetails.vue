@@ -134,15 +134,18 @@ export default {
 		async save() {
 			this.canClose = false
 			this.isLoading = true
-			await this.$emit('save', {
-				slot: this.timeSlot,
-				description: this.description,
-				email: this.email,
-				displayName: this.displayName,
-				timeZone: this.timeZone,
-			})
-			this.canClose = true
-			this.isLoading = false
+			try {
+				await this.$emit('save', {
+					slot: this.timeSlot,
+					description: this.description,
+					email: this.email,
+					displayName: this.displayName,
+					timeZone: this.timeZone,
+				})
+			} finally {
+				this.canClose = true
+				this.isLoading = false
+			}
 		},
 	},
 }
