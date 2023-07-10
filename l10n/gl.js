@@ -108,7 +108,7 @@ OC.L10N.register(
     "Name" : "Nome",
     "Deleted" : "Eliminada",
     "Restore" : "Restaurar",
-    "Delete permanently" : "Eliminar de xeito permanente",
+    "Delete permanently" : "Eliminar definitivamente",
     "Empty trash bin" : "Cesto do lixo baleiro",
     "Untitled item" : "Elemento sen título",
     "Unknown calendar" : "Calendario descoñecido",
