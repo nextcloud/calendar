@@ -40,6 +40,11 @@ const getDateFormattingConfig = () => {
 				...defaultConfig,
 				dayHeaderFormat: 'ddd',
 			},
+			multiMonthYear: {
+				...defaultConfig,
+				dayHeaderFormat: 'ddd',
+				multiMonthMaxColumns: 4,
+			},
 			timeGridDay: defaultConfig,
 			timeGridWeek: defaultConfig,
 			listMonth: {

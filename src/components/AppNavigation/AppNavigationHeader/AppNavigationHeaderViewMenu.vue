@@ -47,6 +47,7 @@ import ViewGrid from 'vue-material-design-icons/ViewGrid.vue'
 import ViewList from 'vue-material-design-icons/ViewList.vue'
 import ViewModule from 'vue-material-design-icons/ViewModule.vue'
 import ViewWeek from 'vue-material-design-icons/ViewWeek.vue'
+import ViewComfy from 'vue-material-design-icons/ViewComfy.vue'
 
 export default {
 	name: 'AppNavigationHeaderViewMenu',
@@ -55,6 +56,7 @@ export default {
 		ActionButton,
 		ViewDay,
 		ViewGrid,
+		ViewComfy,
 		ViewList,
 		ViewModule,
 		ViewWeek,
@@ -74,6 +76,10 @@ export default {
 				icon: 'ViewModule',
 				label: this.$t('calendar', 'Month'),
 			}, {
+				id: 'multiMonthYear',
+				icon: 'ViewComfy',
+				label: this.$t('calendar', 'Year'),
+			}, {
 				id: 'listMonth',
 				icon: 'ViewList',
 				label: this.$t('calendar', 'List'),
@@ -87,8 +93,10 @@ export default {
 				timeGridWeek_Num: [2],
 				dayGridMonth: ['m'],
 				dayGridMonth_Num: [3],
+				multiMonthYear: ['y'],
+				multiMonthYear_Num: [4],
 				listMonth: ['l'],
-				listMonth_Num: [4],
+				listMonth_Num: [5],
 			}
 		},
 		defaultIcon() {

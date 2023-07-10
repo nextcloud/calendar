@@ -38,6 +38,11 @@
 			@click="view('dayGridMonth')">
 			{{ $t('calendar', 'Month') }}
 		</NcButton>
+		<NcButton :type="isYearViewSelected ? 'primary' : 'secondary'"
+			class="button"
+			@click="view('multiMonthYear')">
+			{{ $t('calendar', 'Year') }}
+		</NcButton>
 		<NcButton :class="isMonthListViewSelected ? 'primary' : 'secondary'"
 			class="button"
 			@click="view('listMonth')">
@@ -63,6 +68,9 @@ export default {
 		},
 		isMonthViewSelected() {
 			return this.selectedView === 'dayGridMonth'
+		},
+		isYearViewSelected() {
+		  return this.selectedView === 'multiMonthYear'
 		},
 		isMonthListViewSelected() {
 			return this.selectedView === 'listMonth'

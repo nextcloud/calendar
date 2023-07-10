@@ -91,7 +91,10 @@ export default {
 					keys: [['3'], ['m']],
 					label: t('calendar', 'Month view'),
 				}, {
-					keys: [['4'], ['l']],
+					keys: [['4'], ['y']],
+					label: t('calendar', 'Year view'),
+				}, {
+					keys: [['5'], ['l']],
 					label: t('calendar', 'List view'),
 				}],
 			}, {

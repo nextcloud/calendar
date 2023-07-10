@@ -120,13 +120,15 @@ export function getDateFromDateTimeValue(dateTimeValue) {
  * @param {number} data.day Number of days to add
  * @param {number} data.week Number of weeks to add
  * @param {number} data.month Number of months to add
+ * @param data.year
  * @return {Date}
  */
-export function modifyDate(date, { day = 0, week = 0, month = 0 }) {
+export function modifyDate(date, { day = 0, week = 0, month = 0, year = 0 }) {
 	date = new Date(date.getTime())
 	date.setDate(date.getDate() + day)
 	date.setDate(date.getDate() + week * 7)
 	date.setMonth(date.getMonth() + month)
+	date.setFullYear(date.getFullYear() + year)
 
 	return date
 }

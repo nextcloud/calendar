@@ -36,13 +36,14 @@
 			@click.stop.prevent="toggleDatepicker"
 			@mousedown.stop.prevent="doNothing"
 			@mouseup.stop.prevent="doNothing">
-			{{ selectedDate | formatDateRage(view, locale) }}
+			{{ selectedDate | formatDateRange(view, locale) }}
 		</NcButton>
 		<DatePicker ref="datepicker"
 			class="datepicker-button-section__datepicker"
 			:date="selectedDate"
 			:is-all-day="true"
 			:open.sync="isDatepickerOpen"
+			:type="view === 'multiMonthYear' ? 'year' : 'date'"
 			@change="navigateToDate" />
 		<NcButton v-shortkey="nextShortKeyConf"
 			:aria-label="nextLabel"
@@ -64,7 +65,7 @@ import {
 	modifyDate,
 } from '../../../utils/date.js'
 import { mapState } from 'vuex'
-import formatDateRage from '../../../filters/dateRangeFormat.js'
+import formatDateRange from '../../../filters/dateRangeFormat.js'
 import DatePicker from '../../Shared/DatePicker.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
@@ -79,7 +80,7 @@ export default {
 		NcButton,
 	},
 	filters: {
-		formatDateRage,
+		formatDateRange,
 	},
 	data() {
 		return {
@@ -107,6 +108,9 @@ export default {
 			case 'timeGridWeek':
 				return this.$t('calendar', 'Previous week')
 
+			case 'multiMonthYear':
+				return this.$t('calendar', 'Previous year')
+
 			case 'dayGridMonth':
 			default:
 				return this.$t('calendar', 'Previous month')
@@ -125,6 +129,9 @@ export default {
 
 			case 'timeGridWeek':
 				return this.$t('calendar', 'Next week')
+
+			case 'multiMonthYear':
+				return this.$t('calendar', 'Next year')
 
 			case 'dayGridMonth':
 			default:
@@ -155,6 +162,12 @@ export default {
 			case 'timeGridWeek':
 				newDate = modifyDate(this.selectedDate, {
 					week: factor,
+				})
+				break
+
+			case 'multiMonthYear':
+				newDate = modifyDate(this.selectedDate, {
+					year: factor,
 				})
 				break
 
