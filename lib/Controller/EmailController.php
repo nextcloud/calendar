@@ -4,6 +4,7 @@ declare(strict_types=1);
 /**
  * @author Thomas Citharel
  * @author Georg Ehrke
+ * @author Richard Steinmetz
  *
  * @copyright 2016 Thomas Citharel <tcit@tcit.fr>
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
@@ -104,6 +105,12 @@ class EmailController extends Controller {
 	public function sendEmailPublicLink(string $recipient,
 		string $token,
 		string $calendarName):JSONResponse {
+		if (strlen($recipient) > 512) {
+			return new JSONResponse([
+				'message' => $this->l10n->t('Provided email-address is too long'),
+			], Http::STATUS_BAD_REQUEST);
+		}
+
 		$user = $this->userSession->getUser();
 		if (!$user) {
 			return new JSONResponse([
