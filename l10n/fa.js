@@ -41,6 +41,7 @@ OC.L10N.register(
     "Day" : "روز",
     "Week" : "هفته",
     "Month" : "ماه",
+    "Year" : "سال",
     "List" : "لیست",
     "Preview" : "پیش‌نمایش",
     "Copy link" : "کپی کردن لینک",

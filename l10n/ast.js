@@ -6,6 +6,7 @@ OC.L10N.register(
     "%1$s - %2$s" : "%1$s - %2$s",
     "Date:" : "Data:",
     "Today" : "Güei",
+    "Year" : "Añu",
     "Delete" : "Desaniciar",
     "Trash bin" : "Papelera",
     "Name" : "Nome",

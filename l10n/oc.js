@@ -30,6 +30,7 @@ OC.L10N.register(
     "Day" : "Jorn",
     "Week" : "Aquesta setmana",
     "Month" : "Mes",
+    "Year" : "Annada",
     "List" : "Tièra",
     "Preview" : "Apercebut",
     "Copy link" : "Copiar lo ligam",

@@ -7,6 +7,7 @@ OC.L10N.register(
     "Day" : "ថ្ងៃ",
     "Week" : "សប្ដាហ៍",
     "Month" : "ខែ",
+    "Year" : "ឆ្នាំ",
     "Copy link" : "ចម្លងតំណ",
     "Edit" : "កែប្រែ",
     "Delete" : "លុប",

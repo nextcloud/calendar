@@ -42,6 +42,7 @@ OC.L10N.register(
     "Day" : "יום",
     "Week" : "שבוע",
     "Month" : "חודש",
+    "Year" : "שנה",
     "List" : "רשימה",
     "Preview" : "תצוגה מקדימה",
     "Copy link" : "העתקת קישור",
