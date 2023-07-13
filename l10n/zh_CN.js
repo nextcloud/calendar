@@ -39,7 +39,7 @@ OC.L10N.register(
     "Appointment" : "预约",
     "Business" : "商业",
     "Education" : "教育",
-    "Holiday" : "假日",
+    "Holiday" : "节假日",
     "Meeting" : "会议",
     "Miscellaneous" : "杂项",
     "Non-working hours" : "非工作时间",
