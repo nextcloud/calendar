@@ -39,7 +39,7 @@ OC.L10N.register(
     "Appointment" : "موعد",
     "Business" : "عمل",
     "Education" : "تعليم",
-    "Holiday" : "اجازة",
+    "Holiday" : "عطلة",
     "Meeting" : "اجتماع",
     "Miscellaneous" : "متنوع",
     "Non-working hours" : "ساعات خارج العمل",

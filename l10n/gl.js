@@ -527,7 +527,7 @@ OC.L10N.register(
     "Talk" : "Talk",
     "Speech" : "Discurso",
     "Deadline" : "Data límite",
-    "Submission" : "Presentación",
+    "Submission" : "Entrega",
     "Reporting" : "Informes",
     "Camping" : "Campismo",
     "Camp" : "Campo",
