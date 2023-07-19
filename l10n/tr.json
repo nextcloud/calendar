@@ -1,4 +1,5 @@
 { "translations": {
+    "Provided email-address is too long" : "Belirtilen e-posta adresi çok uzun",
     "User-Session unexpectedly expired" : "Kullanıcı oturumunun geçerlilik süresi beklenmedik şekilde doldu",
     "Provided email-address is not valid" : "Belirtilen e-posta adresi geçersiz",
     "%s has published the calendar »%s«" : "%s, »%s« takvimini yayınladı",

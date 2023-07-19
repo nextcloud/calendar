@@ -1,4 +1,5 @@
 { "translations": {
+    "Provided email-address is too long" : "O enderezo de correo indicado é longo de máis",
     "User-Session unexpectedly expired" : "A sesión de usuario caducou inesperadamente",
     "Provided email-address is not valid" : "O enderezo de correo-e indicado non é válido",
     "%s has published the calendar »%s«" : "%s publicou o calendario «%s»",

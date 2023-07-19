@@ -1,6 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
+    "Provided email-address is too long" : "Zadaná e-mailová adresa je příliš dlouhá",
     "User-Session unexpectedly expired" : "Sezení bylo neočekávaně přerušeno",
     "Provided email-address is not valid" : "Zadaná e-mailová adresa není platná",
     "%s has published the calendar »%s«" : "%s zveřejnil(a) kalendář „%s“",

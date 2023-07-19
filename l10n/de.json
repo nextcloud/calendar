@@ -1,4 +1,5 @@
 { "translations": {
+    "Provided email-address is too long" : "Die eingegebene Adresse ist zu lang.",
     "User-Session unexpectedly expired" : "Sitzung unerwartet abgelaufen",
     "Provided email-address is not valid" : "Angegebene E-Mail-Adresse ist ungültig",
     "%s has published the calendar »%s«" : "%s hat den Kalender »%s« veröffentlicht",
@@ -55,6 +56,7 @@
     "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Die Calendar-App ist die Oberfläche für Nextclouds CalDAV-Server. Termine können auf einfache Weise über verschiedene Geräte hinweg mit Nextcloud synchronisiert und online bearbeitet werden.\n\n* 🚀 ** Integration mit anderen Nextcloud Apps!** Aktuell Kontakte - weitere folgen.\n* 🌐 **WebCal-Unterstützung!** Möchtest du die Spieltage deines Lieblingsteams in deinem Kalender verfolgen? Kein Problem!\n* 🙋 **Teilnehmer!** Lade Teilnehmer zu deinen Terminen ein.\n* ⌚️ **Frei/Besetzt:** Sehe, wann deine Teilnehmer für ein Treffen verfügbar sind\n* ⏰ **Erinnerungen!** Erhalte Alarme für Termine innerhalb deines Browsers und per E-Mail.\n* 🔍 Suche! Finde deine Termine ganz einfach\n* ☑️ Aufgaben! Sehe deine Aufgaben mit Fälligkeitsdatum direkt in deinem Kalender\n* 🙈 **Wir erfinden das Rad nicht neu!** Die App basiert auf den großartigen [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) und [fullcalendar](https://github.com/fullcalendar/fullcalendar) Bibliotheken.",
     "Previous day" : "Vorheriger Tag",
     "Previous week" : "Vorherige Woche",
+    "Previous year" : "Vorheriges Jahr",
     "Previous month" : "Vorheriger Monat",
     "Next day" : "Nächster Tag",
     "Next week" : "Nächste Woche",
@@ -174,6 +176,7 @@
     "Day view" : "Tagesansicht",
     "Week view" : "Wochenansicht",
     "Month view" : "Monatsansicht",
+    "Year view" : "Jahresansicht",
     "List view" : "Listenansicht",
     "Actions" : "Aktionen",
     "Create event" : "Termin erstellen",

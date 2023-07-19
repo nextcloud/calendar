@@ -1,6 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
+    "Provided email-address is too long" : "عنوان الإيميل المُعطَى طويل جداً",
     "User-Session unexpectedly expired" : "إنتهت صلاحية جلسة المستخدم بشكل غير متوقع",
     "Provided email-address is not valid" : "عنوان البريد الإلكتروني المُقدّم غير صالح",
     "%s has published the calendar »%s«" : "%s نَشَرَ التقويم »%s«",

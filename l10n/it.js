@@ -139,6 +139,7 @@ OC.L10N.register(
     "Calendar to import into" : "Calendario in cui importare",
     "Cancel" : "Annulla",
     "_Import calendar_::_Import calendars_" : ["Importa calendario","Importa calendari","Importa calendari"],
+    "Invalid location selected" : "Percorso selezionato non valido",
     "{filename} could not be parsed" : "{filename} non può essere analizzato",
     "No valid files found, aborting import" : "Nessun file valido trovato, importazione interrotta",
     "Import partially failed. Imported {accepted} out of {total}." : "Importazione parzialmente non riuscita. Importati {accepted} di {total}.",

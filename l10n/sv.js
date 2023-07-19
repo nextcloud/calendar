@@ -1,6 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
+    "Provided email-address is too long" : "Den angivna e-postadressen är för lång",
     "User-Session unexpectedly expired" : "Användarsessionen upphörde oväntat",
     "Provided email-address is not valid" : "Den angivna e-postadressen är inte giltig",
     "%s has published the calendar »%s«" : "%s har publicerat kalender »%s«",

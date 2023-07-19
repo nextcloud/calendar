@@ -1,6 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
+    "Provided email-address is too long" : "Provided email-address is too long",
     "User-Session unexpectedly expired" : "User-Session unexpectedly expired",
     "Provided email-address is not valid" : "Provided email address is not valid",
     "%s has published the calendar »%s«" : "%s has published the calendar »%s«",
