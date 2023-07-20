@@ -1,6 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
+    "Provided email-address is too long" : "La dirección de correo electrónico proporcionada es demasiado larga",
     "User-Session unexpectedly expired" : "La sesión caducó inesperádamente",
     "Provided email-address is not valid" : "El correo electrónico proporcionado no es válido",
     "%s has published the calendar »%s«" : "%s ha publicado el calendario »%s«",
@@ -57,6 +58,7 @@ OC.L10N.register(
     "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "La app de Calendario es una interfaz para el servidor CalDAV de Nextcloud. Sincroniza fácilmente eventos de varios dispositivos con tu Nextcloud y edítalos en línea.\n\n* 🚀 **Integración con otras apps de Nextcloud.** Actualmente, Contactos. Y vendrán más.\n* 🌐 **Soporte de WebCal.** ¿Quieres ver los partidos de tu equipo favorito en tu calendario? ¡Sin problema!\n* 🙋 **Asistentes**. Invita gente a tus eventos.\n* ⌚️ **Libre/ocupado**. Comprueba cuándo tus asistentes están disponibles para la reunión.\n* ⏰ **Recordatorios.** Obtén alarmas de eventos en tu navegador y vía correo electrónico.\n🔍 **Búsqueda.** Encuentra tus eventos con facilidad.\n☑️ Tareas. ve las tareas con fecha de finalización directamente en el calendario.\n* 🙈 **No reinventamos la rueda.** Basada en las grandes librerías [c-dav](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) y [fullcalendar](https://github.com/fullcalendar/fullcalendar).",
     "Previous day" : "Día anterior",
     "Previous week" : "Semana anterior",
+    "Previous year" : "Año anterior",
     "Previous month" : "Mes anterior",
     "Next day" : "Día siguiente",
     "Next week" : "Semana siguiente",
@@ -176,6 +178,7 @@ OC.L10N.register(
     "Day view" : "Vista diaria",
     "Week view" : "Vista semanal",
     "Month view" : "Vista mensual",
+    "Year view" : "Vista anual",
     "List view" : "Vista de lista",
     "Actions" : "Acciones",
     "Create event" : "Crear evento",
