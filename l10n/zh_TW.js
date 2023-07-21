@@ -1,6 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
+    "Provided email-address is too long" : "已提供的電子郵件地址太長",
     "User-Session unexpectedly expired" : "使用者連線階段過期",
     "Provided email-address is not valid" : "提供的電子郵件地址無效",
     "%s has published the calendar »%s«" : "%s 發佈了日曆 »%s«",
