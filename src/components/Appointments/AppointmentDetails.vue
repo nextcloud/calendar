@@ -28,7 +28,8 @@
 					v-model="displayName"
 					type="text"
 					class="no-close"
-					required>
+					required
+					:disabled="isLoading">
 				<div>
 					{{ $t('calendar', 'Your email address') }}
 				</div>
@@ -38,6 +39,7 @@
 					autocapitalize="none"
 					autocomplete="on"
 					autocorrect="off"
+					:disabled="isLoading"
 					required>
 				<div class="meeting-info">
 					{{ $t('calendar', 'Please share anything that will help prepare for our meeting') }}
@@ -47,7 +49,8 @@
 							v-autosize="true"
 							rows="8"
 							autocapitalize="none"
-							autocomplete="off" />
+							autocomplete="off"
+							:disabled="isLoading" />
 					</div>
 				</div>
 				<div v-if="showError"
@@ -55,7 +58,8 @@
 					{{ $t('calendar', 'Could not book the appointment. Please try again later or contact the organizer.') }}
 				</div>
 				<div class="buttons">
-					<NcButton type="primary" @click="save">
+					<NcLoadingIcon v-if="isLoading" :size="32" class="loading-icon" />
+					<NcButton type="primary" @click="save" :disabled="isLoading">
 						{{ $t('calendar', 'Book the appointment') }}
 					</NcButton>
 				</div>
@@ -66,6 +70,7 @@
 <script>
 import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
 import Modal from '@nextcloud/vue/dist/Components/NcModal.js'
 import autosize from '../../directives/autosize.js'
 
@@ -76,6 +81,7 @@ export default {
 	components: {
 		Avatar,
 		NcButton,
+		NcLoadingIcon,
 		Modal,
 	},
 	directives: {
@@ -113,6 +119,7 @@ export default {
 			email: this.visitorInfo.email,
 			displayName: this.visitorInfo.displayName,
 			timeZone: this.timeZoneId,
+			isLoading: false,
 		}
 	},
 	computed: {
@@ -124,14 +131,21 @@ export default {
 		},
 	},
 	methods: {
-		save() {
-			this.$emit('save', {
-				slot: this.timeSlot,
-				description: this.description,
-				email: this.email,
-				displayName: this.displayName,
-				timeZone: this.timeZone,
-			})
+		async save() {
+			this.canClose = false
+			this.isLoading = true
+			try {
+				await this.$emit('save', {
+					slot: this.timeSlot,
+					description: this.description,
+					email: this.email,
+					displayName: this.displayName,
+					timeZone: this.timeZone,
+				})
+			} finally {
+				this.canClose = true
+				this.isLoading = false
+			}
 		},
 	},
 }
@@ -168,6 +182,10 @@ export default {
 	input {
 		width: 100%;
 	}
+}
+
+.buttons .loading-icon {
+	margin-right:5px
 }
 
 .booking-error {
