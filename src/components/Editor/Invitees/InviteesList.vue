@@ -201,7 +201,10 @@ export default {
 			const NEW_LINE = '\r\n'
 			try {
 				this.creatingTalkRoom = true
-				const url = await createTalkRoom(this.calendarObjectInstance.title)
+				const url = await createTalkRoom(
+					this.calendarObjectInstance.title,
+					this.calendarObjectInstance.description,
+				)
 
 				let newDescription
 				if (!this.calendarObjectInstance.description) {
