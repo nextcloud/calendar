@@ -52,7 +52,7 @@ OC.L10N.register(
     "Travel" : "سفر",
     "Vacation" : "اجازة",
     "Custom Categories" : "الفئات المخصصة",
-    "Collaborative Tags" : "وسوم تشاركية",
+    "Collaborative Tags" : "الوسوم التشاركية",
     "Standard Categories" : " الفئات القياسية",
     "A Calendar app for Nextcloud" : "تطبيق التقويم لـ نكست كلاود",
     "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "تطبيق \"التقويم\" Calendar هو واجهة مستخدم لخادوم CalDAV الخاص بنكست كلاود. يمكنك مزامنة الأحداث بسهولة بين مختلف الأجهزة مع نكست كلاود و تحريرها عبر الإنترنت. \n* 🚀 ** التكامل مع تطبيقات نكست كلاود الأخرى!  مع تطبيق جهات الاتصال حاليًا و المزيد في المستقبل. تريد وضع مواعيد مباريات فريقك المفضل في التقويم الخاص بك؟ لا مشكلة! \n* 🙋 ** الحضور! ** دعوة الأشخاص إلى الأحداث الخاصة بك. \n* ⌚️ ** متوفر / مشغول! ** انظر عندما يكون الحاضرين مُتاحين للقاء. \n* ⏰ ** التذكير! ** أحصل على إشعارات تذكير بالأحداث عبر متصفحك و عبر البريد الإلكتروني. \n* 🔍 ابحث! العثور على الأحداث الخاصة بك بسهولة. \n* ☑️ المهام! اطّلع على المهام التي حان وقت إنجازها مباشرةً في التقويم. \n* 🙈 ** نحن لا نعيد اختراع العجلة! ** استنادًا إلى [مكتبة c-dav] العظيمة. (https://github.com/nextcloud/cdav-library) مكتبات [ical.js] (https://github.com/mozilla-comm/ical.js) و [fullcalendar] (https://github.com/fullcalendar/fullcalendar).",
@@ -395,7 +395,7 @@ OC.L10N.register(
     "By {authors}" : "من قِبَل {authors}",
     "Subscribed" : "مُشترِك subscribed",
     "Subscribe" : "إشترك subscribe",
-    "Holidays in {region}" : "العطلات في {region}",
+    "Holidays in {region}" : "العطلات الرسمية في {region}",
     "An error occurred, unable to create the public holiday calendar." : "حدث خطأ، غير قادر على إنشاء تقويم العطللات العامة.",
     "Select date" : "إختر التاريخ",
     "Select slot" : "إختر الفُرضة الزمنية",
