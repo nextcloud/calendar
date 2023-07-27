@@ -137,6 +137,10 @@
 					:prop-model="rfcProps.location"
 					:value="location"
 					@update:value="updateLocation" />
+				<PropertyLink :is-read-only="isReadOnly"
+					:prop-model="rfcProps.conference"
+					:value="conference"
+					@update:value="updateConference" />
 				<PropertyText :is-read-only="isReadOnly"
 					:prop-model="rfcProps.description"
 					:value="description"
@@ -174,6 +178,7 @@ import PropertyTitleTimePicker
 import PropertyCalendarPicker
 	from '../components/Editor/Properties/PropertyCalendarPicker.vue'
 import PropertyText from '../components/Editor/Properties/PropertyText.vue'
+import PropertyLink from '../components/Editor/Properties/PropertyLink.vue'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
 import PopoverLoadingIndicator
 	from '../components/Popover/PopoverLoadingIndicator.vue'
@@ -211,6 +216,7 @@ export default {
 		ContentDuplicate,
 		Delete,
 		InvitationResponseButtons,
+		PropertyLink,
 	},
 	mixins: [
 		EditorMixin,

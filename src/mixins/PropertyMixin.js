@@ -37,6 +37,7 @@ import MapMarker from 'vue-material-design-icons/MapMarker.vue'
 import Tag from 'vue-material-design-icons/Tag.vue'
 import TextBoxOutline from 'vue-material-design-icons/TextBoxOutline.vue'
 import Bell from 'vue-material-design-icons/Bell.vue'
+import LaptopAccount from 'vue-material-design-icons/LaptopAccount.vue'
 
 export default {
 	components: {
@@ -48,6 +49,7 @@ export default {
 		Tag,
 		TextBoxOutline,
 		Bell,
+		LaptopAccount,
 	},
 	props: {
 		/**

@@ -56,6 +56,8 @@ const getDefaultEventObject = (props = {}) => Object.assign({}, {
 	canModifyAllDay: true,
 	// Location that the event takes places in
 	location: null,
+	// Conference URL of the event
+	conference: null,
 	// description of the event
 	description: null,
 	// Access class of the event (PUBLIC, PRIVATE, CONFIDENTIAL)
@@ -102,6 +104,7 @@ const mapEventComponentToEventObject = (eventComponent) => {
 		isAllDay: eventComponent.isAllDay(),
 		canModifyAllDay: eventComponent.canModifyAllDay(),
 		location: eventComponent.location,
+		conference: eventComponent.getConferenceList()[0]?.uri,
 		description: eventComponent.description,
 		accessClass: eventComponent.accessClass,
 		status: eventComponent.status,
@@ -199,6 +202,10 @@ const mapEventComponentToEventObject = (eventComponent) => {
 const copyCalendarObjectInstanceIntoEventComponent = (eventObject, eventComponent) => {
 	eventComponent.title = eventObject.title
 	eventComponent.location = eventObject.location
+	eventComponent.clearAllConferences()
+	if (eventObject.conference) {
+		eventComponent.addConference(eventObject.conference)
+	}
 	eventComponent.description = eventObject.description
 	eventComponent.accessClass = eventObject.accessClass
 	eventComponent.status = eventObject.status

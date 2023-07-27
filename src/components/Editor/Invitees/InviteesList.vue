@@ -198,7 +198,6 @@ export default {
 			this.showFreeBusyModel = false
 		},
 		async createTalkRoom() {
-			const NEW_LINE = '\r\n'
 			try {
 				this.creatingTalkRoom = true
 				const url = await createTalkRoom(
@@ -206,16 +205,9 @@ export default {
 					this.calendarObjectInstance.description,
 				)
 
-				let newDescription
-				if (!this.calendarObjectInstance.description) {
-					newDescription = url + NEW_LINE
-				} else {
-					newDescription = this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + url + NEW_LINE
-				}
-
-				this.$store.commit('changeDescription', {
+				this.$store.commit('changeConference', {
 					calendarObjectInstance: this.calendarObjectInstance,
-					description: newDescription,
+					conference: url,
 				})
 
 				showSuccess(this.$t('calendar', 'Successfully appended link to talk room to description.'))

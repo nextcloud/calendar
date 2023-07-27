@@ -92,6 +92,14 @@ export default {
 			return this.calendarObjectInstance?.location ?? null
 		},
 		/**
+		 * Returns the conference URL or null if the event is still loading
+		 *
+		 * @return {string|null}
+		 */
+		conference() {
+			return this.calendarObjectInstance?.conference ?? null
+		},
+		/**
 		 * Returns the description or null if the event is still loading
 		 *
 		 * @return {string|null}
@@ -569,6 +577,17 @@ export default {
 			this.$store.commit('changeLocation', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				location,
+			})
+		},
+		/**
+		 * Updates the conference URL of this event
+		 *
+		 * @param {string} conference New conference URL
+		 */
+		updateConference(conference) {
+			this.$store.commit('changeConference', {
+				calendarObjectInstance: this.calendarObjectInstance,
+				conference,
 			})
 		},
 		/**

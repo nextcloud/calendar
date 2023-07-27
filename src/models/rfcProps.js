@@ -2,6 +2,7 @@
  * @copyright Copyright (c) 2019 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0-or-later
  *
@@ -51,6 +52,17 @@ const getRFCProperties = () => {
 			readableName: t('calendar', 'Location'),
 			placeholder: t('calendar', 'Add a location'),
 			icon: 'MapMarker',
+		},
+		/**
+		 * https://datatracker.ietf.org/doc/html/rfc7986#section-5.11
+		 *
+		 * For simplicity we only use the first conference's URI. The label and features are ignored.
+		 * TODO: implement a proper list element (like reminders) in the future
+		 */
+		conference: {
+			readableName: t('calendar', 'Conference'),
+			placeholder: t('calendar', 'Add a conference URL'),
+			icon: 'LaptopAccount',
 		},
 		/**
 		 * https://tools.ietf.org/html/rfc5545#section-3.8.1.5

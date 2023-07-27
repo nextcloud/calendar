@@ -319,6 +319,22 @@ const mutations = {
 	},
 
 	/**
+	 * Change the conference URL of an event
+	 *
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+	 * @param {string} data.conference New conference URL to set
+	 */
+	changeConference(state, { calendarObjectInstance, conference }) {
+		calendarObjectInstance.eventComponent.clearAllConferences()
+		if (conference) {
+			calendarObjectInstance.eventComponent.addConference(conference)
+		}
+		calendarObjectInstance.conference = conference
+	},
+
+	/**
 	 * Change the description of an event
 	 *
 	 * @param {object} state The Vuex state
