@@ -1,6 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
+    "Provided email-address is too long" : "L'adresse e-mail fournie est trop longue",
     "User-Session unexpectedly expired" : "La session utilisateur a expiré",
     "Provided email-address is not valid" : "L'adresse e-mail fournie n'est pas valide",
     "%s has published the calendar »%s«" : "%s a publié l'agenda «%s»",
@@ -57,6 +58,7 @@ OC.L10N.register(
     "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "L'application Agenda est une interface utilisateur pour le serveur CalDAV de Nextcloud. Synchronisez facilement les événements de divers appareils avec votre Nextcloud et modifiez-les en ligne. \n\n* 🚀 ** Intégration avec d'autres applications Nextcloud ! ** Actuellement Contacts - plus à venir. \n* 🌐 ** Assistance WebCal! ** Vous voulez voir les jours de match de votre équipe préférée dans votre calendrier ? Aucun problème ! \n* 🙋 ** Participants ! ** Invitez des personnes à vos événements \n* ⌚️ ** Libre / Occupé : ** Voir quand vos participants sont disponibles pour se rencontrer \n* ⏰ ** Rappels ! ** Obtenez des alarmes pour les événements dans votre navigateur et par e-mail. \n* 🔍 Recherche ! Trouvez facilement vos événements\n* ☑️ Tâches ! Retrouvez les tâches avec une échéance directement dans l'agenda\n* 🙈 ** Nous ne réinventons pas la roue ! ** Basé sur la grande [bibliothèque c-dav] (https://github.com/nextcloud/cdav-library), [ical.js] (https://github.com/mozilla-comm/ical.js) et [fullcalendar] (https://github.com/fullcalendar/fullcalendar).",
     "Previous day" : "Jour précédent",
     "Previous week" : "Semaine précédente",
+    "Previous year" : "Année préc.",
     "Previous month" : "Mois précédent",
     "Next day" : "Jour suivant",
     "Next week" : "Semaine prochaine",
@@ -176,6 +178,7 @@ OC.L10N.register(
     "Day view" : "Affichage jour",
     "Week view" : "Affichage semaine",
     "Month view" : "Affichage mois",
+    "Year view" : "Affichage année",
     "List view" : "Affichage liste",
     "Actions" : "Actions",
     "Create event" : "Créer un événement",
@@ -392,7 +395,7 @@ OC.L10N.register(
     "By {authors}" : "Par {authors}",
     "Subscribed" : "Abonné",
     "Subscribe" : "S'abonner",
-    "Holidays in {region}" : "Vacances dans {region}",
+    "Holidays in {region}" : "Jours fériés en/au {region}",
     "An error occurred, unable to create the public holiday calendar." : "Une erreur s'est produite, impossible de créer le calendrier des jours fériés.",
     "Select date" : "Sélectionner la date",
     "Select slot" : "Sélectionnez le créneau",
