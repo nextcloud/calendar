@@ -317,7 +317,7 @@ export default {
 		},
 		categoryOptions() {
 			const categories = { ...this.rfcProps.categories }
-			categories.options = loadState('calendar', 'categories')
+			categories.options = loadState('calendar', 'categories', [])
 			return categories
 		},
 		/**
