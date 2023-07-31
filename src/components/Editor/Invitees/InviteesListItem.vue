@@ -26,7 +26,9 @@
 		<AvatarParticipationStatus :attendee-is-organizer="false"
 			:is-viewed-by-organizer="isViewedByOrganizer"
 			:is-resource="false"
+			:avatar-user="avatarUser"
 			:avatar-link="avatarLink"
+			:is-user="isUser"
 			:participation-status="attendee.participationStatus"
 			:organizer-display-name="organizerDisplayName"
 			:common-name="commonName" />
@@ -111,7 +113,12 @@ export default {
 		 * @return {string}
 		 */
 		avatarLink() {
-			// return this.$store.getters.getAvatarForContact(this.uri) || this.commonName
+			return this.$store.getters.getAvatarForContact(this.attendee.uri)
+		},
+		isUser() {
+			return this.$store.getters.isContactAnUser(this.attendee.uri) !== false
+		},
+		avatarUser() {
 			return this.commonName
 		},
 		/**

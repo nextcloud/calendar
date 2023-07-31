@@ -40,13 +40,17 @@ const mutations = {
 			state.contacts.push(contact)
 		}
 
-		for (const email of contact.emails) {
-			// In the unlikely case that multiple contacts
-			// share the same email address, we will just follow
-			// first come, first served.
-			if (state.contactByEMail[email] === undefined) {
-				Vue.set(state.contactByEMail, email, contact)
+		let primaryEmail = contact.email
+		if (contact.emails) {
+			for (const email of contact.emails) {
+				// In the unlikely case that multiple contacts
+				// share the same email address, we will just follow
+				// first come, first served.
+				primaryEmail = email
 			}
+		}
+		if (state.contactByEMail[primaryEmail] === undefined) {
+			Vue.set(state.contactByEMail, primaryEmail, contact)
 		}
 	},
 
@@ -71,8 +75,31 @@ const mutations = {
 	},
 }
 
-const getters = {}
+const getters = {
+	/**
+	 * Gets a contact's avatar
+	 *
+	 * @param {Object} state the store data
+	 * @returns {function({String}): {String}}
+	 */
+	getAvatarForContact: (state) => (uri) => {
+		const contact = state.contactByEMail[stripMailTo(uri)]
+		return contact?.isUser ? undefined : contact?.avatar
+	},
+
+	isContactAnUser: (state) => (uri) => {
+		return state.contactByEMail[stripMailTo(uri)]?.isUser
+	},
+}
 
 const actions = {}
+
+const stripMailTo = (uri) => {
+	let email = uri
+	if (uri.startsWith('mailto:')) {
+		email = uri.substr(7)
+	}
+	return email
+}
 
 export default { state, mutations, getters, actions }

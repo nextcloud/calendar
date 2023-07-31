@@ -116,9 +116,11 @@ export default {
 			return this.$t('calendar', 'No attendees yet')
 		},
 		invitees() {
-			return this.calendarObjectInstance.attendees.filter(attendee => {
+			const invitees = this.calendarObjectInstance.attendees.filter(attendee => {
 				return !['RESOURCE', 'ROOM'].includes(attendee.attendeeProperty.userType)
 			})
+			invitees.forEach(contact => this.$store.commit('appendContact', { contact: { name: contact.commonName, emails: [removeMailtoPrefix(contact.uri)] } }))
+			return invitees
 		},
 		inviteesWithoutOrganizer() {
 			if (!this.calendarObjectInstance.organizer) {
@@ -163,11 +165,7 @@ export default {
 				return true
 			}
 
-			if (doesDescriptionContainTalkLink(this.calendarObjectInstance.description)) {
-				return true
-			}
-
-			return false
+			return doesDescriptionContainTalkLink(this.calendarObjectInstance.description)
 		},
 	},
 	methods: {
