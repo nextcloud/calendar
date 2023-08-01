@@ -139,6 +139,7 @@ class PublicViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'tasks_enabled', false);
 		$this->initialStateService->provideInitialState($this->appName, 'hide_event_export', false);
 		$this->initialStateService->provideInitialState($this->appName, 'can_subscribe_link', $defaultCanSubscribeLink);
+		$this->initialStateService->provideInitialState($this->appName, 'show_resources', false);
 
 		return new PublicTemplateResponse($this->appName, 'main', [
 			'share_url' => $this->getShareURL(),

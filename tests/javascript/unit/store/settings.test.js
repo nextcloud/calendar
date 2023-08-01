@@ -66,6 +66,7 @@ describe('store/settings test suite', () => {
 			disableAppointments: false,
 			canSubscribeLink: true,
 			attachmentsFolder: '/Calendar',
+			showResources: true,
 		})
 	})
 
@@ -177,6 +178,7 @@ describe('store/settings test suite', () => {
 			disableAppointments: false,
 			canSubscribeLink: true,
 			attachmentsFolder: '/Calendar',
+			showResources: true,
 		}
 
 		const settings = {
@@ -198,6 +200,7 @@ describe('store/settings test suite', () => {
 			disableAppointments: false,
 			canSubscribeLink: true,
 			attachmentsFolder: '/Attachments',
+			showResources: true,
 		}
 
 		settingsStore.mutations.loadSettingsFromServer(state, settings)
@@ -222,6 +225,7 @@ Initial settings:
 	- disableAppointments: false
 	- CanSubscribeLink: true
 	- attachmentsFolder: /Attachments
+	- ShowResources: true
 `)
 		expect(state).toEqual({
 			appVersion: '2.1.0',
@@ -243,6 +247,7 @@ Initial settings:
 			disableAppointments: false,
 			canSubscribeLink: true,
 			attachmentsFolder: '/Attachments',
+			showResources: true,
 		})
 	})
 

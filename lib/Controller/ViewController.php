@@ -116,6 +116,7 @@ class ViewController extends Controller {
 			$forceEventAlarmType = false;
 		}
 		$canSubscribeLink = $this->config->getAppValue('dav', 'allow_calendar_link_subscriptions', 'yes') === 'yes';
+		$showResources = $this->config->getAppValue($this->appName, 'showResources', 'yes') === 'yes';
 
 		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
 		$talkApiVersion = version_compare($this->appManager->getAppVersion('spreed'), '12.0.0', '>=') ? 'v4' : 'v1';
@@ -142,6 +143,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState('disable_appointments', $disableAppointments);
 		$this->initialStateService->provideInitialState('can_subscribe_link', $canSubscribeLink);
 		$this->initialStateService->provideInitialState('categories', $this->categoriesService->getCategories($this->userId));
+		$this->initialStateService->provideInitialState('show_resources', $showResources);
 
 		return new TemplateResponse($this->appName, 'main');
 	}
