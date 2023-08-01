@@ -1,6 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
+    "Provided email-address is too long" : "Наведена и-мејл адреса је предугачка",
     "User-Session unexpectedly expired" : "Корисничка сесија се неочекивано истекла",
     "Provided email-address is not valid" : "Наведена и-мејл адреса није исправна",
     "%s has published the calendar »%s«" : "%s је објавио календар »%s«",
