@@ -5,6 +5,7 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Richard Steinmetz
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
@@ -76,6 +77,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'yes'],
+				['dav', 'allow_calendar_link_subscriptions', 'yes', 'defaultCanSubscribeLink'],
 				['calendar', 'installed_version', '', '1.0.0']
 			]);
 
@@ -101,7 +103,7 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService
+		$this->initialStateService->expects(self::exactly(17))
 			->method('provideInitialState')
 			->withConsecutive(
 				['calendar', 'app_version', '1.0.0'],
@@ -117,7 +119,10 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'slot_duration', 'defaultSlotDuration'],
 				['calendar', 'default_reminder', 'defaultDefaultReminder'],
 				['calendar', 'show_tasks', true],
-				['calendar', 'tasks_enabled', false]
+				['calendar', 'tasks_enabled', false],
+				['calendar', 'hide_event_export', false],
+				['calendar', 'can_subscribe_link', 'defaultCanSubscribeLink'],
+				['calendar', 'show_resources', false],
 			);
 
 		$response = $this->controller->publicIndexWithBranding('');
@@ -142,7 +147,7 @@ class PublicViewControllerTest extends TestCase {
 	}
 
 	public function testPublicIndexForEmbedding():void {
-		$this->config->expects(self::any())
+		$this->config->expects(self::exactly(11))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'yes'],
@@ -154,6 +159,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
+				['dav', 'allow_calendar_link_subscriptions', 'yes', 'defaultCanSubscribeLink'],
 				['calendar', 'installed_version', '', '1.0.0']
 			]);
 		$this->request->expects(self::once())
@@ -178,7 +184,7 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService
+		$this->initialStateService->expects(self::exactly(18))
 			->method('provideInitialState')
 			->withConsecutive(
 				['calendar', 'app_version', '1.0.0'],
@@ -194,7 +200,11 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'slot_duration', 'defaultSlotDuration'],
 				['calendar', 'default_reminder', 'defaultDefaultReminder'],
 				['calendar', 'show_tasks', false],
-				['calendar', 'tasks_enabled', false]
+				['calendar', 'tasks_enabled', false],
+				['calendar', 'hide_event_export', false],
+				['calendar', 'can_subscribe_link', 'defaultCanSubscribeLink'],
+				['calendar', 'show_resources', false],
+				['calendar', 'is_embed', true],
 			);
 
 		$response = $this->controller->publicIndexForEmbedding('');

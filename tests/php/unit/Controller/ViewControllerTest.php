@@ -6,6 +6,7 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Richard Steinmetz
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -93,7 +94,7 @@ class ViewControllerTest extends TestCase {
 	}
 
 	public function testIndex(): void {
-		$this->config
+		$this->config->expects(self::exactly(15))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
@@ -105,11 +106,14 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
-				['calendar', 'hideEventExport', 'no', 'yes'],
-				['calendar', 'forceEventAlarmType', '', ''],
 				['calendar', 'installed_version', '', '1.0.0'],
+				['calendar', 'hideEventExport', 'no', 'yes'],
+				['calendar', 'disableAppointments', 'no', 'no'],
+				['calendar', 'forceEventAlarmType', '', 'forceEventAlarmType'],
+				['dav', 'allow_calendar_link_subscriptions', 'yes', 'no'],
+				['calendar', 'showResources', 'yes', 'yes'],
 			]);
-		$this->config
+		$this->config->expects(self::exactly(11))
 			->method('getUserValue')
 			->willReturnMap([
 				['user123', 'calendar', 'eventLimit', 'defaultEventLimit', 'yes'],
@@ -124,13 +128,13 @@ class ViewControllerTest extends TestCase {
 				['user123', 'calendar', 'defaultReminder', 'defaultDefaultReminder', '00:10:00'],
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
 			]);
-		$this->appManager
+		$this->appManager->expects(self::exactly(2))
 			->method('isEnabledForUser')
 			->willReturnMap([
 				['spreed', null, true],
 				['tasks', null, true]
 			]);
-		$this->appManager
+		$this->appManager->expects(self::once())
 			->method('getAppVersion')
 			->willReturnMap([
 				['spreed', true, '12.0.0'],
@@ -151,7 +155,7 @@ class ViewControllerTest extends TestCase {
 					],
 				],
 			]);
-		$this->initialStateService
+		$this->initialStateService->expects(self::exactly(22))
 			->method('provideInitialState')
 			->withConsecutive(
 				['app_version', '1.0.0'],
@@ -183,6 +187,7 @@ class ViewControllerTest extends TestCase {
 						],
 					],
 				]],
+				['show_resources', true],
 			);
 
 		$response = $this->controller->index();
@@ -200,7 +205,7 @@ class ViewControllerTest extends TestCase {
 	 * @param string $expectedView
 	 */
 	public function testIndexViewFix(string $savedView, string $expectedView): void {
-		$this->config
+		$this->config->expects(self::exactly(15))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
@@ -213,8 +218,13 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
 				['calendar', 'installed_version', '', '1.0.0'],
+				['calendar', 'hideEventExport', 'no', 'yes'],
+				['calendar', 'disableAppointments', 'no', 'no'],
+				['calendar', 'forceEventAlarmType', '', 'forceEventAlarmType'],
+				['dav', 'allow_calendar_link_subscriptions', 'yes', 'no'],
+				['calendar', 'showResources', 'yes', 'yes'],
 			]);
-		$this->config
+		$this->config->expects(self::exactly(11))
 			->method('getUserValue')
 			->willReturnMap([
 				['user123', 'calendar', 'eventLimit', 'defaultEventLimit', 'yes'],
@@ -229,19 +239,34 @@ class ViewControllerTest extends TestCase {
 				['user123', 'calendar', 'defaultReminder', 'defaultDefaultReminder', '00:10:00'],
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
 			]);
-		$this->appManager
+		$this->appManager->expects(self::exactly(2))
 			->method('isEnabledForUser')
 			->willReturnMap([
 				['spreed', null, false],
 				['tasks', null, false]
 			]);
-		$this->appManager
+		$this->appManager->expects(self::once())
 			->method('getAppVersion')
 			->willReturnMap([
 				['spreed', true, '11.3.0'],
 			]);
-
-		$this->initialStateService
+		$this->appointmentContfigService->expects(self::once())
+			->method('getAllAppointmentConfigurations')
+			->with($this->userId)
+			->willReturn([new AppointmentConfig()]);
+		$this->categoriesService->expects(self::once())
+			->method('getCategories')
+			->with('user123')
+			->willReturn([
+				[
+					'group' => 'Test',
+					'options' => [
+						'label' => 'hawaii',
+						'value' => 'pizza',
+					],
+				],
+			]);
+		$this->initialStateService->expects(self::exactly(22))
 			->method('provideInitialState')
 			->withConsecutive(
 				['app_version', '1.0.0'],
@@ -258,7 +283,22 @@ class ViewControllerTest extends TestCase {
 				['slot_duration', '00:15:00'],
 				['default_reminder', '00:10:00'],
 				['show_tasks', false],
-				['tasks_enabled', false]
+				['tasks_enabled', false],
+				['hide_event_export', true],
+				['force_event_alarm_type', null],
+				['appointmentConfigs', [new AppointmentConfig()]],
+				['disable_appointments', false],
+				['can_subscribe_link', false],
+				['categories', [
+					[
+						'group' => 'Test',
+						'options' => [
+							'label' => 'hawaii',
+							'value' => 'pizza',
+						],
+					],
+				]],
+				['show_resources', true],
 			);
 
 		$response = $this->controller->index();
