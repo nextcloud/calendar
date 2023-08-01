@@ -47,6 +47,7 @@ const state = {
 	hideEventExport: false,
 	forceEventAlarmType: false,
 	canSubscribeLink: true,
+	showResources: true,
 	// user-defined Nextcloud settings
 	momentLocale: 'en',
 	attachmentsFolder: '/Calendar',
@@ -165,8 +166,9 @@ const mutations = {
 	 * @param {boolean} data.disableAppointments Allow to disable the appointments feature
 	 * @param {boolean} data.canSubscribeLink
 	 * @param {string} data.attachmentsFolder Default user's attachments folder
+	 * @param {boolean} data.showResources Show or hide the resources tab
 	 */
-	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, canSubscribeLink, attachmentsFolder }) {
+	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, canSubscribeLink, attachmentsFolder, showResources }) {
 		logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -186,6 +188,7 @@ Initial settings:
 	- disableAppointments: ${disableAppointments}
 	- CanSubscribeLink: ${canSubscribeLink}
 	- attachmentsFolder: ${attachmentsFolder}
+	- ShowResources: ${showResources}
 `)
 
 		state.appVersion = appVersion
@@ -205,6 +208,7 @@ Initial settings:
 		state.disableAppointments = disableAppointments
 		state.canSubscribeLink = canSubscribeLink
 		state.attachmentsFolder = attachmentsFolder
+		state.showResources = showResources
 	},
 
 	/**

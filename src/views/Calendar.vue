@@ -222,6 +222,7 @@ export default {
 			disableAppointments: loadState('calendar', 'disable_appointments', false),
 			canSubscribeLink: loadState('calendar', 'can_subscribe_link', false),
 			attachmentsFolder: loadState('calendar', 'attachments_folder', false),
+			showResources: loadState('calendar', 'show_resources', true),
 		})
 		this.$store.dispatch('initializeCalendarJsConfig')
 
