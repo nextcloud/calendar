@@ -62,7 +62,7 @@
     "autosize": "^6.0.1",
     "color-convert": "^2.0.1",
     "color-string": "^1.9.1",
-    "core-js": "^3.31.1",
+    "core-js": "^3.32.0",
     "css-color-names": "^1.0.1",
     "debounce": "^1.2.1",
     "jstz": "^2.1.1",
