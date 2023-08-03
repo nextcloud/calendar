@@ -116,6 +116,16 @@
 	word-break: break-word;
 }
 
+// Prevent events overlapping over day header
+.fc .fc-list-sticky .fc-list-day > * {
+	z-index: 1;
+}
+
+// Padding to account for left navigation toggle
+.fc-list-table .fc-list-day-cushion {
+	padding-left: calc(var(--default-clickable-area) + var(--default-grid-baseline) * 2);
+}
+
 // highlight current day (exclude day view)
 .fc-timeGridWeek-view,
 .fc-dayGridMonth-view {
