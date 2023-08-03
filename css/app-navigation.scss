@@ -35,7 +35,7 @@
 		// for the rounded corner buttons on the sides, see further below
 		border-radius: 0;
 		font-weight: normal;
-		margin: 3px -1px 3px 0;
+		margin: 0 0 var(--default-grid-baseline) 0;
 		flex-grow: 1;
 	}
 
@@ -94,6 +94,11 @@
 
 .new-event-today-view-section {
 	display: flex;
+
+	// Fix margins from core
+	.button {
+		margin: 0 var(--default-grid-baseline) 0 0;
+	}
 
 	.new-event {
 		flex-grow: 5;
