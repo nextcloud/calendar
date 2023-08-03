@@ -108,6 +108,11 @@
 	}
 }
 
+// Add background to navigation toggle to fix overlap with calendar elements
+.app-navigation-toggle {
+	background-color: var(--color-main-background) !important;
+}
+
 .app-navigation {
 	button.icon-share {
 		opacity: 0.3 !important;
