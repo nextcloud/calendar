@@ -1,6 +1,12 @@
 
 # Changelog
 
+## 4.4.4 – 2023–08-03
+### Fixed
+- Navigation button positioning
+- Navigation toggle overlap
+- Long email addresses in sharing
+
 ## 4.4.3 – 2023–06-29
 ### Changed
 - Frontend now uses NcSelect
