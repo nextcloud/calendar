@@ -48,6 +48,7 @@ import logger from '../utils/logger.js'
 import settings from './settings.js'
 import { getRFCProperties } from '../models/rfcProps.js'
 import { generateUrl } from '@nextcloud/router'
+import { updateTalkParticipants } from '../services/talkService.js'
 
 const state = {
 	isNew: null,
@@ -1640,6 +1641,7 @@ const actions = {
 		const calendarObject = state.calendarObject
 
 		updateEmailAlarms(eventComponent)
+		updateTalkParticipants(eventComponent)
 
 		if (eventComponent.isDirty()) {
 			const isForkedItem = eventComponent.primaryItem !== null
