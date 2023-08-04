@@ -6,8 +6,10 @@ declare(strict_types=1);
  *
  * @author Georg Ehrke
  * @author Richard Steinmetz <richard@steinmetz.cloud>
+ * @author Jonas Heinrich <heinrich@synyx.net>
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
+ * @copyright 2023 Jonas Heinrich <heinrich@synyx.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -25,6 +27,7 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use OC\App\CompareVersion;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -51,6 +54,9 @@ class ViewController extends Controller {
 	/** @var IAppManager */
 	private $appManager;
 
+	/** @var CompareVersion */
+	private $compareVersion;
+
 	/** @var string */
 	private $userId;
 
@@ -62,6 +68,7 @@ class ViewController extends Controller {
 		AppointmentConfigService $appointmentConfigService,
 		IInitialState $initialStateService,
 		IAppManager $appManager,
+		CompareVersion $compareVersion,
 		?string $userId,
 		IAppData $appData) {
 		parent::__construct($appName, $request);
@@ -69,6 +76,7 @@ class ViewController extends Controller {
 		$this->appointmentConfigService = $appointmentConfigService;
 		$this->initialStateService = $initialStateService;
 		$this->appManager = $appManager;
+		$this->compareVersion = $compareVersion;
 		$this->userId = $userId;
 		$this->appData = $appData;
 	}
@@ -117,6 +125,11 @@ class ViewController extends Controller {
 		$talkApiVersion = version_compare($this->appManager->getAppVersion('spreed'), '12.0.0', '>=') ? 'v4' : 'v1';
 		$tasksEnabled = $this->appManager->isEnabledForUser('tasks');
 
+		$circleVersion = $this->appManager->getAppVersion('circles');
+		$isCirclesEnabled = $this->appManager->isEnabledForUser('circles') === true;
+		// if circles is not installed, we use 0.0.0
+		$isCircleVersionCompatible = $this->compareVersion->isCompatible($circleVersion ? $circleVersion : '0.0.0', '22');
+
 		$this->initialStateService->provideInitialState('app_version', $appVersion);
 		$this->initialStateService->provideInitialState('event_limit', $eventLimit);
 		$this->initialStateService->provideInitialState('first_run', $firstRun);
@@ -138,6 +151,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState('disable_appointments', $disableAppointments);
 		$this->initialStateService->provideInitialState('can_subscribe_link', $canSubscribeLink);
 		$this->initialStateService->provideInitialState('show_resources', $showResources);
+		$this->initialStateService->provideInitialState('isCirclesEnabled', $isCirclesEnabled && $isCircleVersionCompatible);
 
 		return new TemplateResponse($this->appName, 'main');
 	}

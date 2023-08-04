@@ -27,6 +27,7 @@
 	<div>
 		<InviteesListSearch v-if="!isReadOnly && !isSharedWithMe && hasUserEmailAddress"
 			:already-invited-emails="alreadyInvitedEmails"
+			:organizer="calendarObjectInstance.organizer"
 			@add-attendee="addAttendee" />
 		<OrganizerListItem v-if="hasOrganizer"
 			:is-read-only="isReadOnly || isSharedWithMe"
@@ -133,8 +134,16 @@ export default {
 			})
 		},
 		groups() {
-			return this.calendarObjectInstance.attendees.filter(attendee => {
-				return attendee.attendeeProperty.userType === 'GROUP'
+			return this.invitees.filter(attendee => {
+				if (attendee.attendeeProperty.userType === 'GROUP') {
+					attendee.members = this.invitees.filter(invitee => {
+						return invitee.attendeeProperty.member
+							&& invitee.attendeeProperty.member.includes(attendee.uri)
+							&& attendee.attendeeProperty.userType === 'GROUP'
+					})
+					return attendee.members.length > 0
+				}
+				return false
 			})
 		},
 		inviteesWithoutOrganizer() {
@@ -146,36 +155,20 @@ export default {
 			return this.invitees
 				.filter(attendee => {
 					// Filter attendees which are part of an invited group
-					let isMemberOfGroup = false
-					if (attendee.attendeeProperty.member) {
-						isMemberOfGroup = this.groups.some(function(group) {
-							return attendee.attendeeProperty.member.includes(group.uri)
-								&& attendee.attendeeProperty.userType === 'INDIVIDUAL'
-						})
+					if (this.groups.some(function(group) {
+						return attendee.attendeeProperty.member
+							&& attendee.attendeeProperty.member.includes(group.uri)
+							&& attendee.attendeeProperty.userType === 'INDIVIDUAL'
+					})) {
+						return false
 					}
 
-					// Add attendee to group member list
-					if (isMemberOfGroup) {
-						this.groups.forEach(group => {
-							if (attendee.member.includes(group.uri)) {
-								if (!group.members) {
-									group.members = []
-								}
-								group.members.push(attendee)
-							}
-						})
+					// Filter empty groups
+					if (attendee.attendeeProperty.userType === 'GROUP') {
+						return attendee.members.length > 0
 					}
-
-					// Check if attendee is an empty group
-					let isEmptyGroup = attendee.attendeeProperty.userType === 'GROUP'
-					this.invitees.forEach(invitee => {
-						if (invitee.member && invitee.member.includes(attendee.uri)) {
-							isEmptyGroup = false
-						}
-					})
 
 					return attendee.uri !== this.calendarObjectInstance.organizer.uri
-						&& !isMemberOfGroup && !isEmptyGroup
 				})
 		},
 		isOrganizer() {
@@ -230,7 +223,7 @@ export default {
 		},
 	},
 	methods: {
-		addAttendee({ commonName, email, calendarUserType, language, timezoneId }) {
+		addAttendee({ commonName, email, calendarUserType, language, timezoneId, member }) {
 			this.$store.commit('addAttendee', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				commonName,
@@ -242,6 +235,7 @@ export default {
 				language,
 				timezoneId,
 				organizer: this.$store.getters.getCurrentUserPrincipal,
+				member,
 			})
 		},
 		removeAttendee(attendee) {

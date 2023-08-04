@@ -431,7 +431,7 @@ const mutations = {
 	 * @param {string=} data.timezoneId Preferred timezone of the attendee
 	 * @param {object=} data.organizer Principal of the organizer to be set if not present
 	 */
-	addAttendee(state, { calendarObjectInstance, commonName, uri, calendarUserType = null, participationStatus = null, role = null, rsvp = null, language = null, timezoneId = null, organizer = null }) {
+	addAttendee(state, { calendarObjectInstance, commonName, uri, calendarUserType = null, participationStatus = null, role = null, rsvp = null, language = null, timezoneId = null, organizer = null, member = null }) {
 		const attendee = AttendeeProperty.fromNameAndEMail(commonName, uri)
 
 		if (calendarUserType !== null) {
@@ -451,6 +451,9 @@ const mutations = {
 		}
 		if (timezoneId !== null) {
 			attendee.updateParameterIfExist('TZID', timezoneId)
+		}
+		if (member !== null) {
+			attendee.updateParameterIfExist('MEMBER', member)
 		}
 
 		// TODO - use real addAttendeeFrom method

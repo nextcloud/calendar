@@ -24,9 +24,11 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Contacts\IManager;
 use OCP\IRequest;
+use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ContactControllerTest extends TestCase {
@@ -39,6 +41,12 @@ class ContactControllerTest extends TestCase {
 	/** @var IManager|MockObject */
 	protected $manager;
 
+	/** @var IAppManager|MockObject */
+	private $appManager;
+
+	/** @var IUserManager|MockObject */
+	private $userManager;
+
 	/** @var ContactController */
 	protected $controller;
 
@@ -48,8 +56,10 @@ class ContactControllerTest extends TestCase {
 		$this->appName = 'calendar';
 		$this->request = $this->createMock(IRequest::class);
 		$this->manager = $this->createMock(IManager::class);
+		$this->appManager = $this->createMock(IAppManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 		$this->controller = new ContactController($this->appName,
-			$this->request, $this->manager);
+			$this->request, $this->manager, $this->appManager, $this->userManager);
 	}
 
 	public function testSearchLocationDisabled():void {

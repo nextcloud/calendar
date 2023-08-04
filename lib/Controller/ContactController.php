@@ -7,10 +7,12 @@ declare(strict_types=1);
  * @author Georg Ehrke
  * @author Jakob Röhrl
  * @author Christoph Wurst
+ * @author Jonas Heinrich
  *
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  * @copyright 2019 Jakob Röhrl <jakob.roehrl@web.de>
  * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @copyright 2023 Jonas Heinrich <heinrich@synyx.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -28,11 +30,16 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use OCA\Calendar\Service\ServiceException;
+use OCA\Circles\Exceptions\CircleNotFoundException;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\QueryException;
 use OCP\Contacts\IManager;
 use OCP\IRequest;
+use OCP\IUserManager;
 
 /**
  * Class ContactController
@@ -43,6 +50,12 @@ class ContactController extends Controller {
 	/** @var IManager */
 	private $contactsManager;
 
+	/** @var IAppManager */
+	private $appManager;
+
+	/** @var IUserManager */
+	private $userManager;
+
 	/**
 	 * ContactController constructor.
 	 *
@@ -52,9 +65,13 @@ class ContactController extends Controller {
 	 */
 	public function __construct(string $appName,
 		IRequest $request,
-		IManager $contacts) {
+		IManager $contacts,
+		IAppManager $appManager,
+		IUserManager $userManager) {
 		parent::__construct($appName, $request);
 		$this->contactsManager = $contacts;
+		$this->appManager = $appManager;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -172,6 +189,66 @@ class ContactController extends Controller {
 
 		return new JSONResponse($contacts);
 	}
+
+	/**
+	 * Query members of a circle by circleId
+	 *
+	 * @param string $circleId CircleId to query for members
+	 * @return JSONResponse
+	 * @throws Exception
+	 * @throws \OCP\AppFramework\QueryException
+	 *
+	 * @NoAdminRequired
+	 */
+	public function getCircleMembers(string $circleId):JSONResponse {
+		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
+			return new JSONResponse();
+		}
+		if (!$this->contactsManager->isEnabled()) {
+			return new JSONResponse();
+		}
+
+		try {
+			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($circleId, true);
+		} catch (QueryException $ex) {
+			return new JSONResponse();
+		} catch (CircleNotFoundException $ex) {
+			return new JSONResponse();
+		}
+
+		if (!$circle) {
+			return new JSONResponse();
+		}
+
+		$circleMembers = $circle->getInheritedMembers();
+
+		foreach ($circleMembers as $circleMember) {
+			if ($circleMember->isLocal()) {
+
+				$circleMemberUserId = $circleMember->getUserId();
+
+				$user = $this->userManager->get($circleMemberUserId);
+
+				if ($user === null) {
+					throw new ServiceException('Could not find organizer');
+				}
+
+				$contacts[] = [
+					'commonName' => $circleMember->getDisplayName(),
+					'calendarUserType' => 'INDIVIDUAL',
+					'email' => $user->getEMailAddress(),
+					'isUser' => true,
+					'avatar' => $circleMemberUserId,
+					'hasMultipleEMails' => false,
+					'dropdownName' => $circleMember->getDisplayName(),
+					'member' => 'mailto:circle+' . $circleId . '@' . $circleMember->getInstance(),
+				];
+			}
+		}
+
+		return new JSONResponse($contacts);
+	}
+
 
 	/**
 	 * Get a contact's photo based on their email-address
