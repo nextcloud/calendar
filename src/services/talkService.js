@@ -122,20 +122,20 @@ export async function updateTalkParticipants(eventComponent) {
 }
 
 /**
- * Checks whether the description already contains a talk link
+ * Checks whether the value contains a talk link
  *
- * @param {?string} description Description of event
+ * @param {?string} text Haystack
  * @return {boolean}
  */
-export function doesDescriptionContainTalkLink(description) {
-	if (!description) {
+export function doesContainTalkLink(text) {
+	if (!text) {
 		return false
 	}
 
 	// TODO: there is most definitely a more reliable way,
 	// but this works for now
 	const fakeUrl = generateURLForToken()
-	return description.includes(fakeUrl)
+	return text.includes(fakeUrl)
 }
 
 /**

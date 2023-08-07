@@ -73,7 +73,7 @@ import InviteesListItem from './InviteesListItem.vue'
 import OrganizerListItem from './OrganizerListItem.vue'
 import NoAttendeesView from '../NoAttendeesView.vue'
 import OrganizerNoEmailError from '../OrganizerNoEmailError.vue'
-import { createTalkRoom, doesDescriptionContainTalkLink } from '../../../services/talkService.js'
+import { createTalkRoom, doesContainTalkLink } from '../../../services/talkService.js'
 import FreeBusy from '../FreeBusy/FreeBusy.vue'
 import {
 	showSuccess,
@@ -163,7 +163,10 @@ export default {
 				return true
 			}
 
-			if (doesDescriptionContainTalkLink(this.calendarObjectInstance.description)) {
+			if (doesContainTalkLink(this.calendarObjectInstance.location)) {
+				return true
+			}
+			if (doesContainTalkLink(this.calendarObjectInstance.description)) {
 				return true
 			}
 
@@ -206,19 +209,27 @@ export default {
 					this.calendarObjectInstance.description,
 				)
 
-				let newDescription
-				if (!this.calendarObjectInstance.description) {
-					newDescription = url + NEW_LINE
+				// Store in LOCATION property if it's missing/empty. Append to description otherwise.
+				if ((this.calendarObjectInstance.location ?? '').trim() === '') {
+					this.$store.commit('changeLocation', {
+						calendarObjectInstance: this.calendarObjectInstance,
+						location: url,
+					})
+					showSuccess(this.$t('calendar', 'Successfully appended link to talk room to location.'))
 				} else {
-					newDescription = this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + url + NEW_LINE
+					if (!this.calendarObjectInstance.description) {
+						this.$store.commit('changeDescription', {
+							calendarObjectInstance: this.calendarObjectInstance,
+							description: url,
+						})
+					} else {
+						this.$store.commit('changeDescription', {
+							calendarObjectInstance: this.calendarObjectInstance,
+							description: this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + url + NEW_LINE,
+						})
+					}
+					showSuccess(this.$t('calendar', 'Successfully appended link to talk room to description.'))
 				}
-
-				this.$store.commit('changeDescription', {
-					calendarObjectInstance: this.calendarObjectInstance,
-					description: newDescription,
-				})
-
-				showSuccess(this.$t('calendar', 'Successfully appended link to talk room to description.'))
 			} catch (error) {
 				showError(this.$t('calendar', 'Error creating Talk room'))
 			} finally {
