@@ -30,17 +30,22 @@
 			:class="{ 'property-text__icon--hidden': !showIcon }" />
 
 		<div class="property-text__input"
-			:class="{ 'property-text__input--readonly': isReadOnly }">
-			<textarea v-if="!isReadOnly"
+			:class="{ 'property-text__input--readonly': isReadOnly, 'property-text__input--linkify': showLinksClickable }">
+			<textarea v-if="!isReadOnly && !showLinksClickable"
 				v-autosize="true"
 				:placeholder="placeholder"
 				:rows="rows"
 				:title="readableName"
 				:value="value"
+				@focus="handleToggleTextareaFocus(true)"
+				@blur="handleToggleTextareaFocus(false)"
 				@input.prevent.stop="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else
-				v-linkify="{ text: value, linkify: true }" />
+				v-linkify="{ text: value, linkify: true }"
+				:class="{ 'linkify-links': linkifyLinks && !isReadOnly }"
+				:style="{ 'min-height': linkifyMinHeight }"
+				@click="handleShowTextarea" />
 		</div>
 
 		<div v-if="hasInfo"
@@ -58,6 +63,7 @@ import PropertyMixin from '../../../mixins/PropertyMixin.js'
 import linkify from '@nextcloud/vue/dist/Directives/Linkify.js'
 
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
+import PropertyLinksMixin from '../../../mixins/PropertyLinksMixin.js'
 
 export default {
 	name: 'PropertyText',
@@ -68,6 +74,7 @@ export default {
 	},
 	mixins: [
 		PropertyMixin,
+		PropertyLinksMixin,
 	],
 	computed: {
 		display() {

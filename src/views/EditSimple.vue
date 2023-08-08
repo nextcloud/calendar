@@ -136,10 +136,12 @@
 				<PropertyText :is-read-only="isReadOnly"
 					:prop-model="rfcProps.location"
 					:value="location"
+					:linkify-links="true"
 					@update:value="updateLocation" />
 				<PropertyText :is-read-only="isReadOnly"
 					:prop-model="rfcProps.description"
 					:value="description"
+					:linkify-links="true"
 					@update:value="updateDescription" />
 
 				<InvitationResponseButtons v-if="isViewedByAttendee"
