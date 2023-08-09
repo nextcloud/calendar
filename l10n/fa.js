@@ -109,6 +109,7 @@ OC.L10N.register(
     "Calendar to import into" : "تقویم برای وارد کردن",
     "Cancel" : "منصرف شدن",
     "_Import calendar_::_Import calendars_" : ["وارد کردن تقویم","وارد کردن تقویم ها"],
+    "Invalid location selected" : "مکان نامعتبر انتخاب شده است",
     "Import partially failed. Imported {accepted} out of {total}." : "وارد کردن تا حدودی انجام نشد. وارد شده {accepted} بیرون از {total}.",
     "Automatic" : "خودکار",
     "Automatic ({detected})" : "خودکار ({شناسایی})",

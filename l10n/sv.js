@@ -311,6 +311,7 @@ OC.L10N.register(
     "Create Talk room for this event" : "Skapa ett rum i Talk för denna händelse",
     "Show busy times" : "Visa upptagna tider",
     "No attendees yet" : "Inga deltagare ännu",
+    "Successfully appended link to talk room to location." : "Länk till rum i Talk tillagd i plats.",
     "Successfully appended link to talk room to description." : "Länk till rum i Talk tillagd i beskrivningen.",
     "Error creating Talk room" : "Kunde inte skapa rum i Talk",
     "Send email" : "Skicka e-post",

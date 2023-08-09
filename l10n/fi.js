@@ -1,6 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
+    "Provided email-address is too long" : "Annettu sähköpostiosoite on liian pitkä",
     "User-Session unexpectedly expired" : "Käyttäjäistunto vanheni odottamatta",
     "Provided email-address is not valid" : "Sähköpostiosoite on virheellinen",
     "%s has published the calendar »%s«" : "%s on julkaissut kalenterin  »%s«",

@@ -309,6 +309,7 @@
     "Create Talk room for this event" : "Opret Snak rum for denne begivenhed",
     "Show busy times" : "Vis optaget tider",
     "No attendees yet" : "Ingen deltagere endnu",
+    "Successfully appended link to talk room to location." : "Linket til talerum til placering er tilføjet til lokationen.",
     "Successfully appended link to talk room to description." : "Link til samtalerum blev tilføjet til beskrivelsen.",
     "Error creating Talk room" : "Fejl ved oprettelse af talerum",
     "Send email" : "Send e-mail",

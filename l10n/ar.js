@@ -311,6 +311,7 @@ OC.L10N.register(
     "Create Talk room for this event" : "إنشاء غرفة مُحادثة لهذا الحدث.",
     "Show busy times" : "إظهار الأوقات المشغولة",
     "No attendees yet" : "لا يوجد حضورٌ بعدُ",
+    "Successfully appended link to talk room to location." : "تمّ إلحاق رابط غرفة المحادثة بالموقع بنجاح.",
     "Successfully appended link to talk room to description." : "تمّ إلحاق الرابط بوصف غرفة المحادثة بنجاح.",
     "Error creating Talk room" : "خطأ في انشاء غرفة محادثة",
     "Send email" : "إرسال بريد",
