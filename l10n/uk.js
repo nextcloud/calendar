@@ -1,6 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
+    "Provided email-address is too long" : "Надана адреса ел. пошти задовга",
     "User-Session unexpectedly expired" : "Термін дії сесії користувача несподівано завершився",
     "Provided email-address is not valid" : "Надано некоректну адресу електронної пошти ",
     "%s has published the calendar »%s«" : "%s опублікував календар \"%s\"",
@@ -310,6 +311,7 @@ OC.L10N.register(
     "Create Talk room for this event" : "Створити віртуальну кімнату Talk для цієї події",
     "Show busy times" : "Показувати зайнятість",
     "No attendees yet" : "Поки жодного учасника",
+    "Successfully appended link to talk room to location." : "Успішно додано посилання на розташування у кімнаті спілкування ",
     "Successfully appended link to talk room to description." : "Успішно додано посилання на віртуальну кімнату Talk до опису події.",
     "Error creating Talk room" : "Помилка при створенні віртуальної кімнати Talk",
     "Send email" : "Надіслати лист",
