@@ -38,7 +38,14 @@
 							:value.sync="editing.name" />
 						<TextInput class="appointment-config-modal__form__row"
 							:label="t('calendar', 'Location')"
-							:value.sync="editing.location" />
+							:value.sync="editing.location"
+							:disabled="isTalkEnabled && editing.createTalkRoom" />
+						<div v-if="isTalkEnabled" class="appointment-config-modal__form__row">
+							<NcCheckboxRadioSwitch :checked.sync="editing.createTalkRoom">
+								{{ t('calendar', 'Create a Talk room') }}
+							</NcCheckboxRadioSwitch>
+							<span class="appointment-config-modal__talk-room-description">{{ t('calendar', 'A unique link will be generated for every booked appointment and sent via the confirmation email') }}</span>
+						</div>
 						<TextArea class="appointment-config-modal__form__row"
 							:label="t('calendar', 'Description')"
 							:value.sync="editing.description" />
@@ -141,6 +148,7 @@
 <script>
 import { CalendarAvailability } from '@nextcloud/calendar-availability-vue'
 import Modal from '@nextcloud/vue/dist/Components/NcModal.js'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/dist/Components/NcCheckboxRadioSwitch.js'
 import TextInput from './AppointmentConfigModal/TextInput.vue'
 import TextArea from './AppointmentConfigModal/TextArea.vue'
 import AppointmentConfig from '../models/appointmentConfig.js'
@@ -170,6 +178,7 @@ export default {
 		VisibilitySelect,
 		Confirmation,
 		NcButton,
+		NcCheckboxRadioSwitch,
 	},
 	props: {
 		config: {
@@ -193,6 +202,7 @@ export default {
 	computed: {
 		...mapGetters([
 			'ownSortedCalendars',
+			'isTalkEnabled',
 		]),
 		formTitle() {
 			if (this.isNew) {
@@ -252,6 +262,10 @@ export default {
 			this.enableFutureLimit = !!this.editing.futureLimit
 
 			this.showConfirmation = false
+			// Disable Talk integration if Talk is no longer available
+			if (!this.isTalkEnabled) {
+				this.editing.createTalkRoom = false
+			}
 		},
 		calendarUrlToUri(url) {
 			// Trim trailing slash and split into URL parts
@@ -301,3 +315,11 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.appointment-config-modal {
+		&__talk-room-description {
+			color: var(--color-text-maxcontrast);
+		}
+}
+</style>

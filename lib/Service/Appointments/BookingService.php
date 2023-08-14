@@ -32,6 +32,7 @@ use InvalidArgumentException;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\Booking;
 use OCA\Calendar\Db\BookingMapper;
+use OCA\Calendar\Events\BeforeAppointmentBookedEvent;
 use OCA\Calendar\Exception\ClientException;
 use OCA\Calendar\Exception\NoSlotFoundException;
 use OCA\Calendar\Exception\ServiceException;
@@ -39,6 +40,7 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
 use OCP\DB\Exception;
 use OCP\DB\Exception as DbException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
 use OCP\Security\ISecureRandom;
 use Psr\Log\LoggerInterface;
@@ -72,6 +74,9 @@ class BookingService {
 	/** @var MailService */
 	private $mailService;
 
+	/** @var IEventDispatcher */
+	private $eventDispatcher;
+
 	/** @var LoggerInterface */
 	private $logger;
 
@@ -83,6 +88,7 @@ class BookingService {
 		BookingCalendarWriter $calendarWriter,
 		ISecureRandom $random,
 		MailService $mailService,
+		IEventDispatcher $eventDispatcher,
 		LoggerInterface $logger) {
 		$this->availabilityGenerator = $availabilityGenerator;
 		$this->extrapolator = $extrapolator;
@@ -92,6 +98,7 @@ class BookingService {
 		$this->bookingMapper = $bookingMapper;
 		$this->random = $random;
 		$this->mailService = $mailService;
+		$this->eventDispatcher = $eventDispatcher;
 		$this->logger = $logger;
 	}
 
@@ -111,9 +118,25 @@ class BookingService {
 			throw new ClientException('Could not make sense of booking times');
 		}
 
-		$calendar = $this->calendarWriter->write($config, $startObj, $booking->getDisplayName(), $booking->getEmail(), $booking->getDescription());
+		// TODO: inject broker here and remove indirection
+		$this->eventDispatcher->dispatchTyped(
+			new BeforeAppointmentBookedEvent(
+				$booking,
+				$config,
+			)
+		);
+
+		$calendar = $this->calendarWriter->write(
+			$config,
+			$startObj,
+			$booking->getDisplayName(),
+			$booking->getEmail(),
+			$booking->getDescription(),
+			$config->getCreateTalkRoom() ? $booking->getTalkUrl() : $config->getLocation(),
+		);
 		$booking->setConfirmed(true);
 		$this->bookingMapper->update($booking);
+
 
 		try {
 			$this->mailService->sendBookingInformationEmail($booking, $config, $calendar);

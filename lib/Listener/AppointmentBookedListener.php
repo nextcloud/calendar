@@ -25,7 +25,7 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Listener;
 
-use OCA\Calendar\Events\AppointmentBookedEvent;
+use OCA\Calendar\Events\BeforeAppointmentBookedEvent;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IL10N;
@@ -57,7 +57,7 @@ class AppointmentBookedListener implements IEventListener {
 	}
 
 	public function handle(Event $event): void {
-		if (!($event instanceof AppointmentBookedEvent)) {
+		if (!($event instanceof BeforeAppointmentBookedEvent)) {
 			// Don't care
 			return;
 		}

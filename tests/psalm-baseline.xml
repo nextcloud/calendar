@@ -10,8 +10,5 @@
     <MissingTemplateParam>
       <code>IEventListener</code>
     </MissingTemplateParam>
-    <UndefinedClass>
-      <code>AppointmentBookedEvent</code>
-    </UndefinedClass>
   </file>
 </files>

@@ -56,8 +56,8 @@ export default {
 			required: true,
 		},
 		value: {
-			type: [Number, null, undefined],
-			required: true,
+			type: Number,
+			default: 0,
 		},
 		defaultValue: {
 			type: Number,
