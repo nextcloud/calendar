@@ -56,7 +56,7 @@
 
 <script>
 import PropertyMixin from '../../../mixins/PropertyMixin.js'
-import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import { NcMultiselect as Multiselect } from '@nextcloud/vue'
 
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
 

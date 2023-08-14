@@ -60,8 +60,10 @@
 
 <script>
 import AppointmentConfigListItem from './AppointmentConfigList/AppointmentConfigListItem.vue'
-import AppNavigationCaption from '@nextcloud/vue/dist/Components/NcAppNavigationCaption.js'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import {
+	NcAppNavigationCaption as AppNavigationCaption,
+	NcActionButton as ActionButton,
+} from '@nextcloud/vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import AppointmentConfigModal from '../AppointmentConfigModal.vue'
 import AppointmentConfig from '../../models/appointmentConfig.js'

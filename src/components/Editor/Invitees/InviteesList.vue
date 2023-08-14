@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import { NcButton } from '@nextcloud/vue'
 import { mapState } from 'vuex'
 import InviteesListSearch from './InviteesListSearch.vue'
 import InviteesListItem from './InviteesListItem.vue'

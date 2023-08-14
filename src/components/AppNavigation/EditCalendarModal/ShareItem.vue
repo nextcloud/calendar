@@ -52,9 +52,7 @@
 </template>
 
 <script>
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import { NcActions, NcActionButton, NcAvatar } from '@nextcloud/vue'
 import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
 import IconCircle from '../../Icons/IconCircles.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'

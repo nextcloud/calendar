@@ -68,10 +68,12 @@
 	</Modal>
 </template>
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcLoadingIcon from '@nextcloud/vue/dist/Components/NcLoadingIcon.js'
-import Modal from '@nextcloud/vue/dist/Components/NcModal.js'
+import {
+	NcAvatar as Avatar,
+	NcButton,
+	NcLoadingIcon,
+	NcModal as Modal,
+} from '@nextcloud/vue'
 import autosize from '../../directives/autosize.js'
 
 import { timeStampToLocaleTime } from '../../utils/localeTime.js'

@@ -139,10 +139,7 @@
 </template>
 
 <script>
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
-import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
+import { NcActions, NcActionButton, NcActionInput, NcActionText } from '@nextcloud/vue'
 import ClickOutside from 'vue-click-outside'
 import {
 	generateRemoteUrl,

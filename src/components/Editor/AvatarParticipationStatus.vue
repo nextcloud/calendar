@@ -124,7 +124,7 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import { NcAvatar as Avatar } from '@nextcloud/vue'
 import IconCheck from 'vue-material-design-icons/CheckCircle.vue'
 import IconNoResponse from 'vue-material-design-icons/HelpCircle.vue'
 import IconClose from 'vue-material-design-icons/CloseCircle.vue'

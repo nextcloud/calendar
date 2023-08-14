@@ -63,10 +63,12 @@
 
 <script>
 // Import vue components
-import AppNavigation from '@nextcloud/vue/dist/Components/NcAppNavigation.js'
-import AppNavigationSpacer from '@nextcloud/vue/dist/Components/NcAppNavigationSpacer.js'
-import AppContent from '@nextcloud/vue/dist/Components/NcAppContent.js'
-import NcContent from '@nextcloud/vue/dist/Components/NcContent.js'
+import {
+	NcAppNavigation as AppNavigation,
+	NcAppNavigationSpacer as AppNavigationSpacer,
+	NcAppContent as AppContent,
+	NcContent,
+} from '@nextcloud/vue'
 import AppNavigationHeader from '../components/AppNavigation/AppNavigationHeader.vue'
 import CalendarList from '../components/AppNavigation/CalendarList.vue'
 import Settings from '../components/AppNavigation/Settings.vue'

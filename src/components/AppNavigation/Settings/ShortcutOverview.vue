@@ -57,7 +57,7 @@
 
 <script>
 import { translate as t } from '@nextcloud/l10n'
-import Modal from '@nextcloud/vue/dist/Components/NcModal.js'
+import { NcModal as Modal } from '@nextcloud/vue'
 
 export default {
 	components: {

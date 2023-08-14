@@ -74,10 +74,12 @@
 
 <script>
 import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
-import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import ActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio.js'
-import ActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
+import {
+	NcActions as Actions,
+	NcActionButton as ActionButton,
+	NcActionRadio as ActionRadio,
+	NcActionCheckbox as ActionCheckbox,
+} from '@nextcloud/vue'
 import { removeMailtoPrefix } from '../../../utils/attendee.js'
 
 import Delete from 'vue-material-design-icons/Delete.vue'

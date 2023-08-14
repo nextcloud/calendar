@@ -45,8 +45,7 @@
 </template>
 
 <script>
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import { NcActions, NcActionButton } from '@nextcloud/vue'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'

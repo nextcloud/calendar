@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import { NcAppNavigationItem as AppNavigationItem } from '@nextcloud/vue'
 import AlertCircleIcon from 'vue-material-design-icons/AlertCircle.vue'
 import { generateUrl } from '@nextcloud/router'
 

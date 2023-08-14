@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import DatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js'
+import { NcDatetimePicker as DatetimePicker } from '@nextcloud/vue'
 import moment from '@nextcloud/moment'
 import { mapState } from 'vuex'
 import {

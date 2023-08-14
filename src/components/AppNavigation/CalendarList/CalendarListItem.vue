@@ -91,12 +91,14 @@
 </template>
 
 <script>
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import NcActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
-import NcActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
-import NcActionCaption from '@nextcloud/vue/dist/Components/NcActionCaption.js'
+import {
+	NcAvatar,
+	NcActionButton as ActionButton,
+	NcAppNavigationItem as AppNavigationItem,
+	NcActionText,
+	NcActionSeparator,
+	NcActionCaption,
+} from '@nextcloud/vue'
 import { showError } from '@nextcloud/dialogs'
 import CheckboxBlankCircle from 'vue-material-design-icons/CheckboxBlankCircle.vue'
 import CheckboxBlankCircleOutline from 'vue-material-design-icons/CheckboxBlankCircleOutline.vue'

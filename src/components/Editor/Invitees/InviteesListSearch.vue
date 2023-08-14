@@ -62,8 +62,10 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import {
+	NcAvatar as Avatar,
+	NcMultiselect as Multiselect,
+} from '@nextcloud/vue'
 import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'

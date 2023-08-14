@@ -43,8 +43,7 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import { NcButton, NcEmptyContent as EmptyContent } from '@nextcloud/vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import AppointmentConfig from '../../models/appointmentConfig.js'
 

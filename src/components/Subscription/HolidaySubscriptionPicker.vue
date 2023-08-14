@@ -48,8 +48,7 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import NcModal from '@nextcloud/vue/dist/Components/NcModal.js'
+import { NcButton, NcModal } from '@nextcloud/vue'
 import { showError } from '@nextcloud/dialogs'
 import { mapGetters } from 'vuex'
 
