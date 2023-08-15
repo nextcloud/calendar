@@ -31,6 +31,7 @@ OC.L10N.register(
     "Dear %s, your booking has been accepted." : "Αγαπητέ/ή %s, η κράτησή σας έχει γίνει αποδεκτή.",
     "Appointment for:" : "Ραντεβού για:",
     "Date:" : "Ημερομηνία:",
+    "You will receive a link with the confirmation email" : "Θα λάβετε έναν σύνδεσμο με το email επιβεβαίωσης",
     "Where:" : "Που:",
     "Comment:" : "Σχόλιο:",
     "You have a new appointment booking \"%s\" from %s" : "Έχετε μια νέα κράτηση για το ραντεβού \"%s\" από τον/την %s",
