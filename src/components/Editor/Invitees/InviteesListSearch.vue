@@ -38,8 +38,12 @@
 		@select="addAttendee">
 		<template #option="{ option }">
 			<div class="invitees-search-list-item">
-				<!-- We need to specify a unique key here for the avatar to be reactive. -->
-				<Avatar v-if="option.isUser"
+				<Avatar v-if="option.type === 'group'">
+					<template #icon>
+						<AccountMultiple :size="20" />
+					</template>
+				</Avatar><!-- We need to specify a unique key here for the avatar to be reactive. -->
+				<Avatar v-else-if="option.isUser"
 					:key="option.uid"
 					:user="option.avatar"
 					:display-name="option.dropdownName" />
@@ -52,8 +56,11 @@
 					<div>
 						{{ option.dropdownName }}
 					</div>
-					<div v-if="option.email !== option.dropdownName">
+					<div v-if="option.email !== option.dropdownName && option.type !== 'group'">
 						{{ option.email }}
+					</div>
+					<div v-if="option.type === 'group'">
+						{{ option.subtitle }}
 					</div>
 				</div>
 			</div>
@@ -69,12 +76,14 @@ import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
 import { linkTo } from '@nextcloud/router'
 import { randomId } from '../../../utils/randomId.js'
+import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
 
 export default {
 	name: 'InviteesListSearch',
 	components: {
 		Avatar,
 		Multiselect,
+	  AccountMultiple,
 	},
 	props: {
 		alreadyInvitedEmails: {
@@ -147,7 +156,13 @@ export default {
 			this.matches = matches
 		}, 500),
 		addAttendee(selectedValue) {
-			this.$emit('add-attendee', selectedValue)
+			if (selectedValue.type === 'group') {
+				selectedValue.contacts.forEach((contact) => {
+					this.$emit('add-attendee', contact)
+				})
+			} else {
+				this.$emit('add-attendee', selectedValue)
+			}
 		},
 		async findAttendeesFromContactsAPI(query) {
 			let response
@@ -161,8 +176,24 @@ export default {
 				return []
 			}
 
-			const data = response.data
-			return data.reduce((arr, result) => {
+			const contacts = []
+			/** Groups are shown before contacts */
+			for (const [groupName, groupContacts] of Object.entries(response.data.groups)) {
+				const processedGroupContacts = this.buildEmailsFromContactData(groupContacts)
+				if (processedGroupContacts.length > 0) {
+					contacts.push({
+						type: 'group',
+						dropdownName: groupName,
+						subtitle: this.$n('calendar', 'Contains %n contact', 'Contains %n contacts', processedGroupContacts.length),
+						contacts: processedGroupContacts,
+					})
+				}
+			}
+
+			return [...contacts, ...this.buildEmailsFromContactData(response.data.contacts)]
+		},
+		buildEmailsFromContactData(contactsData) {
+			return contactsData.reduce((arr, result) => {
 				const hasMultipleEMails = result.emails.length > 1
 
 				result.emails.forEach((email) => {
@@ -174,12 +205,11 @@ export default {
 					} else {
 						name = email
 					}
-
 					if (this.alreadyInvitedEmails.includes(email)) {
 						return
 					}
-
 					arr.push({
+						type: 'contact',
 						calendarUserType: 'INDIVIDUAL',
 						commonName: result.name,
 						email,
@@ -191,7 +221,6 @@ export default {
 						dropdownName: name,
 					})
 				})
-
 				return arr
 			}, [])
 		},

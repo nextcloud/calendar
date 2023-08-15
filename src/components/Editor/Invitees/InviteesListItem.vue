@@ -35,11 +35,16 @@
 		</div>
 		<div class="invitees-list-item__actions">
 			<Actions v-if="isViewedByOrganizer">
+				<ActionText>
+					{{ attendeeEmail }}
+					<template #icon>
+						<Email :size="20" decorative />
+					</template>
+				</ActionText>
 				<ActionCheckbox :checked="attendee.rsvp"
 					@change="toggleRSVP">
 					{{ $t('calendar', 'Send email') }}
 				</ActionCheckbox>
-
 				<ActionRadio :name="radioName"
 					:checked="isChair"
 					@change="changeRole('CHAIR')">
@@ -78,9 +83,11 @@ import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
 import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 import ActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio.js'
 import ActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
+import ActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
 import { removeMailtoPrefix } from '../../../utils/attendee.js'
 
 import Delete from 'vue-material-design-icons/Delete.vue'
+import Email from 'vue-material-design-icons/Email.vue'
 
 export default {
 	name: 'InviteesListItem',
@@ -89,7 +96,9 @@ export default {
 		ActionButton,
 		ActionCheckbox,
 		ActionRadio,
+	  ActionText,
 		Actions,
+	  Email,
 		Delete,
 	},
 	props: {
@@ -125,7 +134,7 @@ export default {
 			}
 
 			if (this.attendee.uri) {
-				return removeMailtoPrefix(this.attendee.uri)
+				return this.attendeeEmail
 			}
 
 			return ''
@@ -148,6 +157,9 @@ export default {
 		isViewedByOrganizer() {
 			// TODO: check if also viewed by organizer
 			return !this.isReadOnly
+		},
+		attendeeEmail() {
+			return removeMailtoPrefix(this.attendee.uri)
 		},
 	},
 	methods: {
