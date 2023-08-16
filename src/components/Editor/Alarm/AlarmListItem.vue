@@ -152,10 +152,12 @@
 </template>
 
 <script>
-import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import ActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio.js'
-import ActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
+import {
+	NcActions as Actions,
+	NcActionButton as ActionButton,
+	NcActionRadio as ActionRadio,
+	NcActionSeparator as ActionSeparator,
+} from '@nextcloud/vue'
 import { mapState } from 'vuex'
 import ClickOutside from 'vue-click-outside'
 import formatAlarm from '../../../filters/alarmFormat.js'

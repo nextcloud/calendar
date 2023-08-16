@@ -65,13 +65,12 @@
 
 <script>
 import { DashboardWidget, DashboardWidgetItem } from '@nextcloud/vue-dashboard'
-import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import { NcEmptyContent as EmptyContent, NcButton } from '@nextcloud/vue'
 import EmptyCalendar from 'vue-material-design-icons/CalendarBlankOutline.vue'
 import IconCheck from 'vue-material-design-icons/Check.vue'
 import IconCheckbox from 'vue-material-design-icons/CheckboxBlankOutline.vue'
 import { loadState } from '@nextcloud/initial-state'
 import moment from '@nextcloud/moment'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 import { imagePath, generateUrl } from '@nextcloud/router'
 import { initializeClientForUserView } from '../services/caldavService.js'
 import { dateFactory } from '../utils/date.js'

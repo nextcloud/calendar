@@ -82,11 +82,14 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
-import DatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js'
+import {
+	NcButton,
+	NcDatetimePicker as DatetimePicker,
+	NcPopover as Popover,
+	NcTimezonePicker as TimezonePicker,
+} from '@nextcloud/vue'
 import IconTimezone from 'vue-material-design-icons/Web.vue'
 import IconNewCalendar from 'vue-material-design-icons/CalendarBlankOutline.vue'
-import Popover from '@nextcloud/vue/dist/Components/NcPopover.js'
 import {
 	getFirstDay,
 } from '@nextcloud/l10n'
@@ -96,7 +99,6 @@ import {
 	showError,
 } from '@nextcloud/dialogs'
 
-import TimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker.js'
 import { getLangConfigForVue2DatePicker } from '../../utils/localization.js'
 
 export default {

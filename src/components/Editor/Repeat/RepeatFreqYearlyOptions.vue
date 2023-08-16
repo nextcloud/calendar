@@ -50,8 +50,10 @@
 </template>
 
 <script>
-import ActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import {
+	NcActionCheckbox as ActionCheckbox,
+	NcButton,
+} from '@nextcloud/vue'
 import RepeatFirstLastSelect from './RepeatFirstLastSelect.vue'
 import RepeatOnTheSelect from './RepeatOnTheSelect.vue'
 

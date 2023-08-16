@@ -110,18 +110,20 @@
 </template>
 
 <script>
-import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
-import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import Modal from '@nextcloud/vue/dist/Components/NcModal.js'
-import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import {
+	NcAppNavigationItem as AppNavigationItem,
+	NcActions as Actions,
+	NcActionButton as ActionButton,
+	NcModal as Modal,
+	NcEmptyContent as EmptyContent,
+	NcButton,
+} from '@nextcloud/vue'
 import moment from '@nextcloud/moment'
 import logger from '../../../utils/logger.js'
 import { showError } from '@nextcloud/dialogs'
 import { mapGetters } from 'vuex'
 import Moment from './Moment.vue'
 import { uidToHexColor } from '../../../utils/color.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
 
 import Delete from 'vue-material-design-icons/Delete.vue'
 

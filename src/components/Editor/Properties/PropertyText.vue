@@ -60,7 +60,7 @@
 <script>
 import autosize from '../../../directives/autosize.js'
 import PropertyMixin from '../../../mixins/PropertyMixin.js'
-import linkify from '@nextcloud/vue/dist/Directives/Linkify.js'
+import { Linkify } from '@nextcloud/vue'
 
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
 import PropertyLinksMixin from '../../../mixins/PropertyLinksMixin.js'
@@ -69,7 +69,7 @@ export default {
 	name: 'PropertyText',
 	directives: {
 		autosize,
-		linkify,
+		Linkify,
 		InformationVariant,
 	},
 	mixins: [

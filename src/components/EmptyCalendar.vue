@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
+import { NcEmptyContent as EmptyContent } from '@nextcloud/vue'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 
 export default {

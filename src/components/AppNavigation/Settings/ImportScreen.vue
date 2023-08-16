@@ -54,9 +54,8 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import { NcButton, NcModal as Modal } from '@nextcloud/vue'
 import ImportScreenRow from './ImportScreenRow.vue'
-import Modal from '@nextcloud/vue/dist/Components/NcModal.js'
 
 export default {
 	name: 'ImportScreen',

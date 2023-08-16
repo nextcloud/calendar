@@ -36,7 +36,7 @@
 
 <script>
 import Plus from 'vue-material-design-icons/Plus.vue'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import { NcButton } from '@nextcloud/vue'
 
 export default {
 	name: 'AppNavigationHeaderNewEvent',

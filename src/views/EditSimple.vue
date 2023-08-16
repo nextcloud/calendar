@@ -163,11 +163,13 @@
 	</Popover>
 </template>
 <script>
-import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
-import EmptyContent from '@nextcloud/vue/dist/Components/NcEmptyContent.js'
-import Popover from '@nextcloud/vue/dist/Components/NcPopover.js'
+import {
+	NcActions as Actions,
+	NcActionButton as ActionButton,
+	NcActionLink as ActionLink,
+	NcEmptyContent as EmptyContent,
+	NcPopover as Popover,
+} from '@nextcloud/vue'
 import EditorMixin from '../mixins/EditorMixin.js'
 import IllustrationHeader from '../components/Editor/IllustrationHeader.vue'
 import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'

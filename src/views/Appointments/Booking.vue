@@ -85,11 +85,13 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import DatetimePicker from '@nextcloud/vue/dist/Components/NcDatetimePicker.js'
+import {
+	NcAvatar as Avatar,
+	NcDatetimePicker as DatetimePicker,
+	NcTimezonePicker as TimezonePicker,
+	NcGuestContent,
+} from '@nextcloud/vue'
 import jstz from 'jstz'
-import TimezonePicker from '@nextcloud/vue/dist/Components/NcTimezonePicker.js'
-import NcGuestContent from '@nextcloud/vue/dist/Components/NcGuestContent.js'
 
 import AppointmentSlot from '../../components/Appointments/AppointmentSlot.vue'
 import { bookSlot, findSlots } from '../../services/appointmentService.js'

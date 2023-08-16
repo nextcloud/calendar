@@ -106,11 +106,13 @@
 </template>
 
 <script>
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import ActionInput from '@nextcloud/vue/dist/Components/NcActionInput.js'
-import ActionSeparator from '@nextcloud/vue/dist/Components/NcActionSeparator.js'
-import ActionText from '@nextcloud/vue/dist/Components/NcActionText.js'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/NcAppNavigationItem.js'
+import {
+	NcActionButton as ActionButton,
+	NcActionInput as ActionInput,
+	NcActionSeparator as ActionSeparator,
+	NcActionText as ActionText,
+	NcAppNavigationItem as AppNavigationItem,
+} from '@nextcloud/vue'
 import {
 	showError,
 } from '@nextcloud/dialogs'

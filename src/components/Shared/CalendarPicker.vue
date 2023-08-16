@@ -21,7 +21,7 @@
 	</Multiselect>
 </template>
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import { NcMultiselect as Multiselect } from '@nextcloud/vue'
 import CalendarPickerOption from './CalendarPickerOption.vue'
 
 export default {

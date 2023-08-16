@@ -57,9 +57,11 @@
 </template>
 
 <script>
-import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import {
+	NcActions as Actions,
+	NcActionButton as ActionButton,
+	NcButton,
+} from '@nextcloud/vue'
 import CalendarQuestionIcon from 'vue-material-design-icons/CalendarQuestion.vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import logger from '../../utils/logger.js'

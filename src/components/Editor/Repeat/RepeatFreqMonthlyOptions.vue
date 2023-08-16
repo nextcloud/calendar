@@ -58,10 +58,12 @@
 </template>
 
 <script>
-import NcButton from '@nextcloud/vue/dist/Components/NcButton.js'
+import {
+	NcButton,
+	NcActionRadio as ActionRadio,
+} from '@nextcloud/vue'
 import RepeatFirstLastSelect from './RepeatFirstLastSelect.vue'
 import RepeatOnTheSelect from './RepeatOnTheSelect.vue'
-import ActionRadio from '@nextcloud/vue/dist/Components/NcActionRadio.js'
 
 export default {
 	name: 'RepeatFreqMonthlyOptions',

@@ -41,9 +41,11 @@
 </template>
 
 <script>
-import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
-import ActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
-import ActionLink from '@nextcloud/vue/dist/Components/NcActionLink.js'
+import {
+	NcActions as Actions,
+	NcActionButton as ActionButton,
+	NcActionLink as ActionLink,
+} from '@nextcloud/vue'
 import {
 	mapGetters,
 } from 'vuex'

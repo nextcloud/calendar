@@ -81,14 +81,16 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import {
+	NcAvatar as Avatar,
+	NcActions as Actions,
+	NcActionCheckbox as ActionCheckbox,
+	NcMultiselect as Multiselect,
+} from '@nextcloud/vue'
 import { checkResourceAvailability } from '../../../services/freeBusyService.js'
-import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
 import debounce from 'debounce'
 import logger from '../../../utils/logger.js'
 import { advancedPrincipalPropertySearch } from '../../../services/caldavService.js'
-import Actions from '@nextcloud/vue/dist/Components/NcActions.js'
-import ActionCheckbox from '@nextcloud/vue/dist/Components/NcActionCheckbox.js'
 import ResourceSeatingCapacity from './ResourceSeatingCapacity.vue'
 import ResourceRoomType from './ResourceRoomType.vue'
 

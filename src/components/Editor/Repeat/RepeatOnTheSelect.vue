@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/NcMultiselect.js'
+import { NcMultiselect as Multiselect } from '@nextcloud/vue'
 import { getDayNames } from '@nextcloud/l10n'
 
 export default {
