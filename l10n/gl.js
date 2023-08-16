@@ -219,7 +219,7 @@ OC.L10N.register(
     "Private – only accessible via secret link" : "Privado – accesíbel só mediante unha ligazón secreta",
     "Appointment name" : "Nome da cita",
     "Location" : "Localización",
-    "Create a Talk room" : "Crea unha sala en Talk",
+    "Create a Talk room" : "Crear unha sala en Talk",
     "A unique link will be generated for every booked appointment and sent via the confirmation email" : "Xerarase unha ligazón única para cada cita reservada e enviarase a través do correo de confirmación",
     "Description" : "Descrición",
     "Visibility" : "Visibilidade",

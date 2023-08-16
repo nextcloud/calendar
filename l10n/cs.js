@@ -314,6 +314,7 @@ OC.L10N.register(
     "Create Talk room for this event" : "Vytvořit pro tuto událost místnost v Talk",
     "Show busy times" : "Zobrazit, kdy zaneprázněno",
     "No attendees yet" : "Zatím žádní účastníci",
+    "Successfully appended link to talk room to location." : "Do popisu úspěšně přidán odkaz na umístění v Talk",
     "Successfully appended link to talk room to description." : "Do popisu úspěšně přidán odkaz na místnost v Talk",
     "Error creating Talk room" : "Chyba při vytváření místnosti v Talk",
     "Send email" : "Odeslat e-mail",
