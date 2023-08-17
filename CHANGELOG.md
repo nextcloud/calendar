@@ -1,7 +1,40 @@
 
 # Changelog
 
-## 4.4.0 - unreleased
+## 4.5.0 - unreleased
+### Added
+- Year grid view
+- Talk rooms for appointments are back
+- Location and description links clickable
+- App config option to hide resources tab
+### Changed
+- Talk url now written to location
+- "New event" button renamed to "Event"
+- Categories extended to include system tags and already used categories
+### Fixed
+- Categories for public calendars
+
+## 4.4.4 – 2023–08-03
+### Fixed
+- Navigation button positioning
+- Navigation toggle overlap
+- Long email addresses in sharing
+
+## 4.4.3 – 2023–06-29
+### Changed
+- Frontend now uses NcSelect
+### Fixed
+- Empty events
+
+## 4.4.2 – 2023–06-12
+### Fixed
+- Temporarily revert Talk room feature for appointments due to upgrade issues
+
+## 4.4.1 - 2023-06-09
+### Fixed
+- Allow dynamic autoloading for classes added during upgrade
+
+## 4.4.0 - 2023-06-07
 ### Added
 - Create Talk rooms for appointments
 ### Changed
@@ -17,6 +50,7 @@
 - Use locale instead of language
 - DAV urls for attachments
 - Calendar booking notifications
+- Calendar invitees buttons (width and space between)
 
 ## 4.3.2 - 2023-04-06
 ### Fixed
