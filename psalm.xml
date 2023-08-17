@@ -5,7 +5,6 @@
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config"
     errorBaseline="tests/psalm-baseline.xml"
-	findUnusedBaselineEntry="true"
 	findUnusedCode="false"
 >
     <projectFiles>

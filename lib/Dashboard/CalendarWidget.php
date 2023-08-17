@@ -5,6 +5,7 @@ declare(strict_types=1);
  * @copyright Copyright (c) 2020 Julius Härtl <jus@bitgrid.net>
  *
  * @author Julius Härtl <jus@bitgrid.net>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -46,13 +47,13 @@ use OCP\IURLGenerator;
 use OCP\Util;
 
 class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionWidget {
-	private IL10N $l10n;
-	private IInitialState $initialStateService;
-	private JSDataService $dataService;
-	private IDateTimeFormatter $dateTimeFormatter;
-	private IURLGenerator $urlGenerator;
-	private IManager $calendarManager;
-	private ITimeFactory $timeFactory;
+	protected IL10N $l10n;
+	protected IInitialState $initialStateService;
+	protected JSDataService $dataService;
+	protected IDateTimeFormatter $dateTimeFormatter;
+	protected IURLGenerator $urlGenerator;
+	protected IManager $calendarManager;
+	protected ITimeFactory $timeFactory;
 
 	/**
 	 * CalendarWidget constructor.
