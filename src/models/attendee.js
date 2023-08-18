@@ -1,7 +1,9 @@
 /**
  * @copyright Copyright (c) 2020 Georg Ehrke
+ * @copyright Copyright (c) 2023 Jonas Heinrich
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Jonas Heinrich <heinrich@synyx.net>
  *
  * @license AGPL-3.0-or-later
  *
@@ -44,6 +46,8 @@ const getDefaultAttendeeObject = (props = {}) => Object.assign({}, {
 	rsvp: false,
 	// The uri of the attendee
 	uri: null,
+	// Member address of the attendee
+	member: null,
 }, props)
 
 /**
@@ -61,6 +65,7 @@ const mapAttendeePropertyToAttendeeObject = (attendeeProperty) => {
 		role: attendeeProperty.role,
 		rsvp: attendeeProperty.rsvp,
 		uri: attendeeProperty.email,
+		member: attendeeProperty.member,
 	})
 }
 

@@ -28,6 +28,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 		expect(getDefaultAttendeeObject()).toEqual({
 			attendeeProperty: null,
 			commonName: null,
+			member: null,
 			calendarUserType: 'INDIVIDUAL',
 			participationStatus: 'NEEDS-ACTION',
 			role: 'REQ-PARTICIPANT',
@@ -43,6 +44,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 		})).toEqual({
 			attendeeProperty: null,
 			commonName: null,
+			member: null,
 			calendarUserType: 'INDIVIDUAL',
 			participationStatus: 'ACCEPTED',
 			role: 'REQ-PARTICIPANT',
@@ -59,6 +61,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 		expect(attendeeModel).toEqual({
 			attendeeProperty,
 			commonName: null,
+			member: null,
 			calendarUserType: 'INDIVIDUAL',
 			participationStatus: 'NEEDS-ACTION',
 			role: 'REQ-PARTICIPANT',
@@ -74,6 +77,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 		expect(attendeeModel).toEqual({
 			attendeeProperty,
 			commonName: null,
+			member: null,
 			calendarUserType: 'GROUP',
 			participationStatus: 'NEEDS-ACTION',
 			role: 'REQ-PARTICIPANT',
@@ -89,6 +93,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 		expect(attendeeModel).toEqual({
 			attendeeProperty,
 			commonName: null,
+			member: null,
 			calendarUserType: 'INDIVIDUAL',
 			participationStatus: 'DECLINED',
 			role: 'REQ-PARTICIPANT',
@@ -104,6 +109,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 		expect(attendeeModel).toEqual({
 			attendeeProperty,
 			commonName: null,
+			member: null,
 			calendarUserType: 'INDIVIDUAL',
 			participationStatus: 'NEEDS-ACTION',
 			role: 'CHAIR',
@@ -119,6 +125,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 		expect(attendeeModel).toEqual({
 			attendeeProperty,
 			commonName: 'Henry Cabot',
+			member: null,
 			calendarUserType: 'INDIVIDUAL',
 			participationStatus: 'TENTATIVE',
 			role: 'REQ-PARTICIPANT',
@@ -134,6 +141,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 		expect(attendeeModel).toEqual({
 			attendeeProperty,
 			commonName: 'The Big Cheese',
+			member: null,
 			calendarUserType: 'INDIVIDUAL',
 			participationStatus: 'DELEGATED',
 			role: 'NON-PARTICIPANT',
@@ -149,6 +157,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 		expect(attendeeModel).toEqual({
 			attendeeProperty,
 			commonName: 'Jane Doe',
+			member: null,
 			calendarUserType: 'INDIVIDUAL',
 			participationStatus: 'ACCEPTED',
 			role: 'REQ-PARTICIPANT',
