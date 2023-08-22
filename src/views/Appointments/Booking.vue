@@ -75,6 +75,7 @@
 					:visitor-info="visitorInfo"
 					:time-zone-id="timeZone"
 					:show-error="bookingError"
+					:is-loading="bookingLoading"
 					@save="onSave"
 					@close="selectedSlot = undefined" />
 			</div>
@@ -153,6 +154,7 @@ export default {
 			selectedSlot: undefined,
 			bookingConfirmed: false,
 			bookingError: false,
+			bookingLoading: false,
 		}
 	},
 	watch: {
@@ -204,6 +206,7 @@ export default {
 			}
 		},
 		async onSave({ slot, displayName, email, description, timeZone }) {
+			this.bookingLoading = true
 			console.info('slot will be booked', {
 				slot,
 				description,
@@ -223,7 +226,10 @@ export default {
 			} catch (e) {
 				console.error('could not book appointment', e)
 				this.bookingError = true
+			} finally {
+				this.bookingLoading = false
 			}
+
 		},
 		onSlotClicked(slot) {
 			this.selectedSlot = slot

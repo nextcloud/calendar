@@ -59,7 +59,7 @@
 				</div>
 				<div class="buttons">
 					<NcLoadingIcon v-if="isLoading" :size="32" class="loading-icon" />
-					<NcButton type="primary" @click="save" :disabled="isLoading">
+					<NcButton type="primary" :disabled="isLoading" @click="save">
 						{{ $t('calendar', 'Book the appointment') }}
 					</NcButton>
 				</div>
@@ -114,6 +114,10 @@ export default {
 			required: true,
 			type: Boolean,
 		},
+		isLoading: {
+			required: true,
+			type: Boolean,
+		},
 	},
 	data() {
 		return {
@@ -121,7 +125,6 @@ export default {
 			email: this.visitorInfo.email,
 			displayName: this.visitorInfo.displayName,
 			timeZone: this.timeZoneId,
-			isLoading: false,
 		}
 	},
 	computed: {
@@ -133,21 +136,15 @@ export default {
 		},
 	},
 	methods: {
-		async save() {
-			this.canClose = false
-			this.isLoading = true
-			try {
-				await this.$emit('save', {
-					slot: this.timeSlot,
-					description: this.description,
-					email: this.email,
-					displayName: this.displayName,
-					timeZone: this.timeZone,
-				})
-			} finally {
-				this.canClose = true
-				this.isLoading = false
-			}
+		 save() {
+			this.$emit('save', {
+				slot: this.timeSlot,
+				description: this.description,
+				email: this.email,
+				displayName: this.displayName,
+				timeZone: this.timeZone,
+			})
+
 		},
 	},
 }
