@@ -108,7 +108,7 @@
     "vue-template-compiler": "^2.7.14"
   },
   "optionalDependencies": {
-    "fsevents": "^2.3.2"
+    "fsevents": "^2.3.3"
   },
   "jest": {
     "moduleFileExtensions": [
