@@ -312,6 +312,7 @@
     "Create Talk room for this event" : "Crear sala de conversación para este evento",
     "Show busy times" : "Mostrar horarios ocupados",
     "No attendees yet" : "Aún no hay asistentes",
+    "Successfully appended link to talk room to location." : "Se ha añadido correctamente el enlace a la sala de conversación.",
     "Successfully appended link to talk room to description." : "Enlace agregado con éxito en la descripción a la sala de conversación.",
     "Error creating Talk room" : "Error al crear la sala de conversación",
     "Send email" : "Enviar email",
