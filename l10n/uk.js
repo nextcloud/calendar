@@ -127,7 +127,7 @@ OC.L10N.register(
     "Copy internal link" : "Копіювати посилання",
     "Share link" : "Посилання спільного доступу",
     "Copy public link" : "Копіювати публічне посилання",
-    "Send link to calendar via email" : "Відправити посилання на календар за допомогою електронної пошти",
+    "Send link to calendar via email" : "Надіслати посилання на календар електронною поштою",
     "Enter one address" : "Зазначте одну адресу",
     "Sending email …" : "Надсилаю повідомлення...",
     "Copy embedding code" : "Копіювати код вбудування",
