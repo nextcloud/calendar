@@ -767,9 +767,11 @@
 		}
 
 		.event-popover__top-right-actions {
+			display: flex;
+			gap: var(--default-grid-baseline);
 			position: absolute !important;
-			top: 0 !important;
-			right: 0 !important;
+			top: var(--default-grid-baseline) !important;
+			right: var(--default-grid-baseline) !important;
 			z-index: 100 !important;
 			opacity: .7 !important;
 			border-radius: 22px !important;
