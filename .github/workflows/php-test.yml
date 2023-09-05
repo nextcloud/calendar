@@ -32,7 +32,7 @@ jobs:
     - name: Install Nextcloud
       run: php -f nextcloud/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
     - name: Checkout the app
-      uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3
+      uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
       with:
         path: nextcloud/apps/calendar
     - name: Install dependencies
