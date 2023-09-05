@@ -51,7 +51,7 @@
 
 			<NcButton v-if="!isReadOnly"
 				class="invitees-list-button-group__button"
-				:disabled="isListEmpty"
+				:disabled="isListEmpty || !isOrganizer"
 				@click="openFreeBusy">
 				{{ $t('calendar', 'Show busy times') }}
 			</NcButton>
@@ -127,6 +127,11 @@ export default {
 
 			return this.invitees
 				.filter(attendee => attendee.uri !== this.calendarObjectInstance.organizer.uri)
+		},
+		isOrganizer() {
+			return this.calendarObjectInstance.organizer !== null
+				&& this.$store.getters.getCurrentUserPrincipal !== null
+				&& removeMailtoPrefix(this.calendarObjectInstance.organizer.uri) === this.$store.getters.getCurrentUserPrincipal.emailAddress
 		},
 		hasOrganizer() {
 			return this.calendarObjectInstance.organizer !== null
