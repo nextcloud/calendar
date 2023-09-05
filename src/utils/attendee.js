@@ -27,6 +27,10 @@
  * @return {string} URI without a mailto prefix
  */
 export function removeMailtoPrefix(uri) {
+	if (typeof uri !== 'string') {
+		return ''
+	}
+
 	if (uri.startsWith('mailto:')) {
 		return uri.substr(7)
 	}
@@ -41,6 +45,10 @@ export function removeMailtoPrefix(uri) {
  * @return {string} URI with a mailto prefix
  */
 export function addMailtoPrefix(uri) {
+	if (typeof uri !== 'string') {
+		return 'mailto:'
+	}
+
 	if (uri.startsWith('mailto:')) {
 		return uri
 	}
