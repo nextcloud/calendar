@@ -5,6 +5,7 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
@@ -201,6 +202,8 @@ class ViewController extends Controller {
 		}
 		$file = $folder->newFile($color . '.svg', $svg);
 		$response = new FileDisplayResponse($file);
+		// Some browsers won't render SVGs without content types (for security reasons)
+		$response->addHeader('Content-Type', 'image/svg+xml');
 		$response->cacheFor(24 * 3600); // 1 day
 		return $response;
 	}
