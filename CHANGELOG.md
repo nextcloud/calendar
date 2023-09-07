@@ -14,6 +14,11 @@
 ### Fixed
 - Categories for public calendars
 
+## 4.4.5 – 2023–09-07
+### Fixed
+- Avatars now use placeholders for attendees
+- FreeBusy disabled for attendees
+
 ## 4.4.4 – 2023–08-03
 ### Fixed
 - Navigation button positioning
