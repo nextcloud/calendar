@@ -23,8 +23,9 @@
 <template>
 	<div class="avatar-participation-status">
 		<Avatar :disable-tooltip="true"
-			:user="avatarLink"
-			:is-no-user="isResource" />
+			:user="commonName"
+			:display-name="commonName"
+			:is-no-user="true" />
 		<template v-if="participationStatus === 'ACCEPTED' && isViewedByOrganizer">
 			<IconCheck class="avatar-participation-status__indicator"
 				fill-color="#32CD32"
