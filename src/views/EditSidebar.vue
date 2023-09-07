@@ -246,7 +246,8 @@
 			<div class="app-sidebar-tab__content">
 				<InviteesList v-if="!isLoading"
 					:calendar-object-instance="calendarObjectInstance"
-					:is-read-only="isReadOnly" />
+					:is-read-only="isReadOnly"
+					:is-shared-with-me="isSharedWithMe" />
 			</div>
 			<SaveButtons v-if="showSaveButtons"
 				class="app-sidebar-tab__buttons"

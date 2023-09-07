@@ -23,22 +23,24 @@
 
 <template>
 	<div>
-		<InviteesListSearch v-if="!isReadOnly && hasUserEmailAddress"
+		<InviteesListSearch v-if="!isReadOnly && !isSharedWithMe && hasUserEmailAddress"
 			:already-invited-emails="alreadyInvitedEmails"
 			@add-attendee="addAttendee" />
 		<OrganizerListItem v-if="hasOrganizer"
-			:is-read-only="isReadOnly"
+			:is-read-only="isReadOnly || isSharedWithMe"
 			:organizer="calendarObjectInstance.organizer" />
 		<InviteesListItem v-for="invitee in inviteesWithoutOrganizer"
 			:key="invitee.email"
 			:attendee="invitee"
-			:is-read-only="isReadOnly"
+			:is-read-only="isReadOnly || isSharedWithMe"
 			:organizer-display-name="organizerDisplayName"
 			@remove-attendee="removeAttendee" />
 		<NoAttendeesView v-if="isReadOnly && isListEmpty"
 			:message="noInviteesMessage" />
 		<NoAttendeesView v-if="!isReadOnly && isListEmpty && hasUserEmailAddress"
 			:message="noInviteesMessage" />
+		<NoAttendeesView v-if="isSharedWithMe"
+			:message="noOwnerMessage" />
 		<OrganizerNoEmailError v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
 
 		<div class="invitees-list-button-group">
@@ -101,6 +103,10 @@ export default {
 			type: Object,
 			required: true,
 		},
+		isSharedWithMe: {
+			type: Boolean,
+			required: true,
+		},
 	},
 	data() {
 		return {
@@ -114,6 +120,9 @@ export default {
 		}),
 		noInviteesMessage() {
 			return this.$t('calendar', 'No attendees yet')
+		},
+		noOwnerMessage() {
+			return this.$t('calendar', 'You don\'t own this calendar, so you cannot add attendees to this event')
 		},
 		invitees() {
 			return this.calendarObjectInstance.attendees.filter(attendee => {
@@ -136,6 +145,7 @@ export default {
 		hasOrganizer() {
 			return this.calendarObjectInstance.organizer !== null
 		},
+
 		organizerDisplayName() {
 			return organizerDisplayName(this.calendarObjectInstance.organizer)
 		},
