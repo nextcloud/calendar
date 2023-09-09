@@ -316,6 +316,7 @@ OC.L10N.register(
     "Create Talk room for this event" : "Create Talk room for this event",
     "Show busy times" : "Show busy times",
     "No attendees yet" : "No attendees yet",
+    "You don't own this calendar, so you cannot add attendees to this event" : "You don't own this calendar, so you cannot add attendees to this event",
     "Successfully appended link to talk room to location." : "Successfully appended link to talk room to location.",
     "Successfully appended link to talk room to description." : "Successfully appended link to talk room to description.",
     "Error creating Talk room" : "Error creating Talk room",

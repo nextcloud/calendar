@@ -316,6 +316,7 @@ OC.L10N.register(
     "Create Talk room for this event" : "Креирај Talk собу за овај догађај",
     "Show busy times" : "Прикажи времена заузетости",
     "No attendees yet" : "Још увек нема учесника",
+    "You don't own this calendar, so you cannot add attendees to this event" : "Ово није ваш календар, тако да немате права да додате учеснике у овај догађај",
     "Successfully appended link to talk room to location." : "У локацију је успешно додат линк на Talk собу.",
     "Successfully appended link to talk room to description." : "У опис је успешно додат линк на Talk собу.",
     "Error creating Talk room" : "Грешка приликом креирања Talk собе",

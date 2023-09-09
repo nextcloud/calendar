@@ -314,6 +314,7 @@
     "Create Talk room for this event" : "建立此活動的線上會議室",
     "Show busy times" : "顯示忙碌時段",
     "No attendees yet" : "還沒有任何參與者",
+    "You don't own this calendar, so you cannot add attendees to this event" : "您並未擁有此行事曆，因此您無法新增參與者到此活動",
     "Successfully appended link to talk room to location." : "成功將線上會議室的連結加至位置",
     "Successfully appended link to talk room to description." : "成功將線上會議室的連結加至活動細節",
     "Error creating Talk room" : "建立線上會議室發生錯誤",
