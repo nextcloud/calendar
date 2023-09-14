@@ -279,3 +279,11 @@
 .fc-daygrid-day-events {
 	position:relative !important;
 }
+
+// Fix week button overlapping with the toggle
+.fc-scrollgrid-sync-inner {
+	margin-top: 8px
+}
+.fc-timegrid-axis-cushion  {
+	margin-top: 44px;
+}
