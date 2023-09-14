@@ -1,7 +1,7 @@
 
 # Changelog
 
-## 4.5.0 - unreleased
+## 4.5.0 - 2023-09-14
 ### Added
 - Year grid view
 - Talk rooms for appointments are back
