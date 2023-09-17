@@ -55,7 +55,8 @@
 				<h3>{{ $t('calendar', 'Select slot') }}</h3>
 
 				<div class="booking__slots">
-					<div v-if="slots.length === 0 && !loadingSlots">
+					<Loading v-if="loadingSlots" :size="24" />
+					<div v-else-if="slots.length === 0 && !loadingSlots">
 						{{ $t('calendar', 'No slots available') }}
 					</div>
 					<template v-else>
@@ -86,6 +87,8 @@
 </template>
 
 <script>
+import '@nextcloud/dialogs/dist/index.css'
+
 import {
 	NcAvatar as Avatar,
 	NcDatetimePicker as DatetimePicker,
@@ -93,11 +96,24 @@ import {
 	NcGuestContent,
 } from '@nextcloud/vue'
 import jstz from 'jstz'
+import MDILoading from 'vue-material-design-icons/Loading.vue'
+import { showError } from '@nextcloud/dialogs'
 
 import AppointmentSlot from '../../components/Appointments/AppointmentSlot.vue'
 import { bookSlot, findSlots } from '../../services/appointmentService.js'
 import AppointmentDetails from '../../components/Appointments/AppointmentDetails.vue'
 import AppointmentBookingConfirmation from '../../components/Appointments/AppointmentBookingConfirmation.vue'
+
+const Loading = {
+	functional: true,
+	render(h, { data, props }) {
+		return h(MDILoading, {
+			data,
+			staticClass: 'animation-rotate',
+			props,
+		})
+	},
+}
 
 export default {
 	name: 'Booking',
@@ -109,6 +125,7 @@ export default {
 		AppointmentDetails,
 		AppointmentBookingConfirmation,
 		NcGuestContent,
+		Loading,
 	},
 	props: {
 		config: {
@@ -171,7 +188,7 @@ export default {
 	},
 	methods: {
 		/**
-		 * Whether or not the date is acceptable
+		 * Whether the date is acceptable
 		 *
 		 * @param {Date} date The date to compare to
 		 * @return {boolean}
@@ -180,11 +197,7 @@ export default {
 			if (date <= this.minimumDate) {
 				return true
 			}
-			if (this.endDate && this.endDate < date) {
-				return true
-			}
-
-			return false
+			return this.endDate && this.endDate < date
 		},
 		async fetchSlots() {
 			this.slots = []
@@ -199,7 +212,7 @@ export default {
 					this.timeZone,
 				)
 			} catch (e) {
-				// TODO error toast
+				showError(this.$t('calendar', 'Could not fetch slots'))
 				console.error('Could not fetch slots', e)
 			} finally {
 				this.loadingSlots = false
@@ -270,14 +283,18 @@ export default {
 	&__slot-selection {
 		flex-grow: 2;
 	}
-  &__time-zone {
+
+	&__time-zone {
 	max-width: 250px;
-  }
+	}
+
+	&__slot-selection .material-design-icon.loading-icon.animation-rotate {
+		animation: rotate var(--animation-duration, 0.8s) linear infinite;
+	}
 
 	&__slots {
 		display: flex;
 		flex-direction: column;
 	}
 }
-
 </style>
