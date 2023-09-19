@@ -281,8 +281,8 @@
 }
 
 // Fix week button overlapping with the toggle
-.fc-scrollgrid-sync-inner {
-	margin-top: 8px
+.fc-col-header-cell {
+    padding-top: 10px !important;
 }
 .fc-timegrid-axis-cushion  {
 	margin-top: 44px;
