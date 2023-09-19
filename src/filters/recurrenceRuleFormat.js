@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -25,9 +25,9 @@ import moment from '@nextcloud/moment'
 /**
  * Formats a recurrence-rule
  *
- * @param {Object} recurrenceRule The recurrence-rule to format
- * @param {String} locale The locale to format it into
- * @returns {String}
+ * @param {object} recurrenceRule The recurrence-rule to format
+ * @param {string} locale The locale to format it into
+ * @return {string}
  */
 export default (recurrenceRule, locale) => {
 	if (recurrenceRule.frequency === 'NONE') {
@@ -138,7 +138,7 @@ export default (recurrenceRule, locale) => {
  * Gets the byDay list as formatted list of translated weekdays
  *
  * @param {string[]} byDayList The by-day-list to get formatted
- * @returns {string}
+ * @return {string}
  */
 function getTranslatedByDaySet(byDayList) {
 	const byDayNames = []
@@ -180,7 +180,7 @@ function getTranslatedByDaySet(byDayList) {
  *
  *
  * @param {string[]} byMonthList The by-month list to get formatted
- * @returns {string}
+ * @return {string}
  */
 function getTranslatedMonths(byMonthList) {
 	const sortedByMonth = byMonthList.slice().map((n) => parseInt(n, 10))
@@ -199,8 +199,8 @@ function getTranslatedMonths(byMonthList) {
 /**
  * Gets the translated ordinal number for by-set-position
  *
- * @param {Number} bySetPositionNum The by-set-position number to get the translation of
- * @returns {string}
+ * @param {number} bySetPositionNum The by-set-position number to get the translation of
+ * @return {string}
  */
 function getTranslatedOrdinalNumber(bySetPositionNum) {
 	switch (bySetPositionNum) {

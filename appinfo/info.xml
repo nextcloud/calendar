@@ -15,32 +15,31 @@
 * ☑️ Tasks! See tasks with a due date directly in the calendar
 * 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
 	]]></description>
-	<version>2.1.3</version>
+	<version>4.6.0-alpha.1</version>
 	<licence>agpl</licence>
-	<author homepage="https://georg.coffee">Georg Ehrke</author>
-	<author homepage="https://tcit.fr">Thomas Citharel</author>
+	<author>Anna Larch</author>
+	<author homepage="https://github.com/nextcloud/groupware">Nextcloud Groupware Team</author>
 	<namespace>Calendar</namespace>
 	<documentation>
-		<user>https://docs.nextcloud.com/server/latest/user_manual/en/pim/calendar.html</user>
+		<user>https://docs.nextcloud.com/server/latest/user_manual/en/groupware/calendar.html</user>
+		<admin>https://docs.nextcloud.com/server/latest/admin_manual/groupware/calendar.html</admin>
+		<developer>https://github.com/nextcloud/calendar/wiki</developer>
 	</documentation>
 	<category>office</category>
 	<category>organization</category>
 	<website>https://github.com/nextcloud/calendar/</website>
 	<bugs>https://github.com/nextcloud/calendar/issues</bugs>
 	<repository type="git">https://github.com/nextcloud/calendar.git</repository>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/view_week.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/public_sharing.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar_attendees.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar_reminders.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/main/screenshots/week_new_event.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/main/screenshots/week_room_suggestion.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/main/screenshots/week_sidebar.png</screenshot>
 	<dependencies>
-		<nextcloud min-version="20" max-version="22" />
+		<php min-version="7.4" max-version="8.2" />
+		<nextcloud min-version="25" max-version="28" />
 	</dependencies>
-	<repair-steps>
-		<post-migration>
-			<step>OCA\Calendar\RepairSteps\CurrentViewNameRepairStep</step>
-		</post-migration>
-	</repair-steps>
+	<background-jobs>
+		<job>OCA\Calendar\BackgroundJob\CleanUpOutdatedBookingsJob</job>
+	</background-jobs>
 	<navigations>
 		<navigation>
 			<id>calendar</id>

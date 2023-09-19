@@ -20,6 +20,7 @@
  *
  */
 import eventClick from "../../../../../src/fullcalendar/interaction/eventClick.js";
+import EditorMixin from "../../../../../src/mixins/EditorMixin.js";
 import {
 	getPrefixedRoute,
 	isPublicOrEmbeddedRoute,
@@ -117,7 +118,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		const store = { state: { settings: { skipPopover: false } } }
 		const router = { push: jest.fn() }
 		const route = { name: 'CalendarView', params: { otherParam: '456' } }
-		const window = { innerWidth: 760 }
+		const window = { innerWidth: 500 }
 
 		getPrefixedRoute
 			.mockReturnValueOnce('EditSidebarView')
@@ -412,4 +413,164 @@ describe('fullcalendar/eventClick test suite', () => {
 		expect(window.location).toEqual(oldLocation)
 	})
 
+	it('should do nothing when there is no require action on route leave', () => {
+		const fromRoute = {
+			name: 'Test1',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+		const toRoute = {
+			name: 'Test2',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+
+		const next = jest.fn()
+		EditorMixin.requiresActionOnRouteLeave = false
+		EditorMixin.beforeRouteLeave(toRoute, fromRoute, next)
+	})
+
+	it('should not save the event when new side bar view is open and then clicked in a saved event', () => {
+		const fromRoute = {
+			name: 'NewSideBarView',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+		const toRoute = {
+			name: 'EditSideBarView',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+
+		const next = jest.fn()
+		EditorMixin.requiresActionOnRouteLeave = true
+		EditorMixin.beforeRouteLeave(toRoute, fromRoute, next)
+	})
+
+	it('should not save the event when new popover view is open and then clicked in a saved event in popover view', () => {
+		const fromRoute = {
+			name: 'NewPopoverView',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+		const toRoute = {
+			name: 'EditPopoverView',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+
+		const next = jest.fn()
+		EditorMixin.requiresActionOnRouteLeave = true
+		EditorMixin.beforeRouteLeave(toRoute, fromRoute, next)
+	})
+
+	it('should not save the event when new popover view is open and then clicked in a saved event in sidebar view', () => {
+		const fromRoute = {
+			name: 'NewPopoverView',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+		const toRoute = {
+			name: 'EditSideBarView',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+
+		const next = jest.fn()
+		EditorMixin.requiresActionOnRouteLeave = true
+		EditorMixin.beforeRouteLeave(toRoute, fromRoute, next)
+	})
+
+	it('show save event', () => {
+		const fromRoute = {
+			name: 'EditPopoverView',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+		const toRoute = {
+			name: 'NewPopoverView',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+
+		const next = jest.fn()
+		EditorMixin.requiresActionOnRouteLeave = true
+		EditorMixin.beforeRouteLeave(toRoute, fromRoute, next)
+	})
+
+	it('show save event', () => {
+		const fromRoute = {
+			name: 'EditSideBarView',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+		const toRoute = {
+			name: 'NewSideBarView',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+
+		const next = jest.fn()
+		EditorMixin.requiresActionOnRouteLeave = true
+		EditorMixin.beforeRouteLeave(toRoute, fromRoute, next)
+	})
+
+	it('should not save event with invalid to and from routes on beforeRouteLeave', () => {
+		const fromRoute = {
+			name: 'Test1',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+		const toRoute = {
+			name: 'Test2',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+
+		const next = jest.fn()
+		EditorMixin.requiresActionOnRouteLeave = true
+		EditorMixin.beforeRouteLeave(toRoute, fromRoute, next)
+	})
 })

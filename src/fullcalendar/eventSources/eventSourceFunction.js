@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -33,11 +33,11 @@ import { getAllObjectsInTimeRange } from '../../utils/calendarObject.js'
  * convert an array of calendar-objects to events
  *
  * @param {CalendarObject[]} calendarObjects Array of calendar-objects to turn into fc events
- * @param {Object} calendar The calendar object
+ * @param {object} calendar The calendar object
  * @param {Date} start Start of time-range
  * @param {Date} end End of time-range
  * @param {Timezone} timezone Desired time-zone
- * @returns {Object}[]
+ * @return {object}[]
  */
 export function eventSourceFunction(calendarObjects, calendar, start, end, timezone) {
 	const fcEvents = []

@@ -1,10 +1,12 @@
 <?php
 
 declare(strict_types=1);
+
 /**
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Richard Steinmetz
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -24,16 +26,19 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Controller;
 
+use ChristophWurst\Nextcloud\Testing\TestCase;
+use OCA\Calendar\Db\AppointmentConfig;
+use OCA\Calendar\Service\Appointments\AppointmentConfigService;
+use OCA\Calendar\Service\CategoriesService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\Files\IAppData;
 use OCP\IConfig;
-use OCP\IInitialStateService;
 use OCP\IRequest;
-use ChristophWurst\Nextcloud\Testing\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class ViewControllerTest extends TestCase {
-
 	/** @var string */
 	private $appName;
 
@@ -46,7 +51,13 @@ class ViewControllerTest extends TestCase {
 	/** @var IConfig|MockObject */
 	private $config;
 
-	/** @var IInitialStateService|MockObject */
+	/** @var AppointmentConfigService|MockObject */
+	private $appointmentContfigService;
+
+	/** @var CategoriesService|MockObject */
+	private $categoriesService;
+
+	/** @var IInitialState|MockObject */
 	private $initialStateService;
 
 	/** @var string */
@@ -55,20 +66,35 @@ class ViewControllerTest extends TestCase {
 	/** @var ViewController */
 	private $controller;
 
+	/** @var IAppData|MockObject */
+	private $appData;
+
 	protected function setUp(): void {
 		$this->appName = 'calendar';
 		$this->request = $this->createMock(IRequest::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->config = $this->createMock(IConfig::class);
-		$this->initialStateService = $this->createMock(IInitialStateService::class);
+		$this->appointmentContfigService = $this->createMock(AppointmentConfigService::class);
+		$this->categoriesService = $this->createMock(CategoriesService::class);
+		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->userId = 'user123';
+		$this->appData = $this->createMock(IAppData::class);
 
-		$this->controller = new ViewController($this->appName, $this->request,
-			$this->config, $this->initialStateService, $this->appManager, $this->userId);
+		$this->controller = new ViewController(
+			$this->appName,
+			$this->request,
+			$this->config,
+			$this->appointmentContfigService,
+			$this->categoriesService,
+			$this->initialStateService,
+			$this->appManager,
+			$this->userId,
+			$this->appData,
+		);
 	}
 
 	public function testIndex(): void {
-		$this->config
+		$this->config->expects(self::exactly(15))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
@@ -78,11 +104,17 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'skipPopover', 'no', 'defaultSkipPopover'],
 				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
+				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
 				['calendar', 'syncTimeout', 'PT1M', 'PT1M'],
-				['calendar', 'installed_version', null, '1.0.0'],
+				['calendar', 'installed_version', '', '1.0.0'],
+				['calendar', 'hideEventExport', 'no', 'yes'],
+				['calendar', 'disableAppointments', 'no', 'no'],
+				['calendar', 'forceEventAlarmType', '', 'forceEventAlarmType'],
+				['dav', 'allow_calendar_link_subscriptions', 'yes', 'no'],
+				['calendar', 'showResources', 'yes', 'yes'],
 			]);
-		$this->config
+		$this->config->expects(self::exactly(11))
 			->method('getUserValue')
 			->willReturnMap([
 				['user123', 'calendar', 'eventLimit', 'defaultEventLimit', 'yes'],
@@ -92,32 +124,72 @@ class ViewControllerTest extends TestCase {
 				['user123', 'calendar', 'showWeekNr', 'defaultShowWeekNr', 'yes'],
 				['user123', 'calendar', 'skipPopover', 'defaultSkipPopover', 'yes'],
 				['user123', 'calendar', 'timezone', 'defaultTimezone', 'Europe/Berlin'],
+				['user123', 'dav', 'attachmentsFolder', '/Calendar', '/Calendar'],
 				['user123', 'calendar', 'slotDuration', 'defaultSlotDuration', '00:15:00'],
+				['user123', 'calendar', 'defaultReminder', 'defaultDefaultReminder', '00:10:00'],
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
 			]);
-		$this->appManager
+		$this->appManager->expects(self::exactly(2))
 			->method('isEnabledForUser')
 			->willReturnMap([
 				['spreed', null, true],
 				['tasks', null, true]
 			]);
-
-		$this->initialStateService
+		$this->appManager->expects(self::once())
+			->method('getAppVersion')
+			->willReturnMap([
+				['spreed', true, '12.0.0'],
+			]);
+		$this->appointmentContfigService->expects(self::once())
+			->method('getAllAppointmentConfigurations')
+			->with($this->userId)
+			->willReturn([new AppointmentConfig()]);
+		$this->categoriesService->expects(self::once())
+			->method('getCategories')
+			->with('user123')
+			->willReturn([
+				[
+					'group' => 'Test',
+					'options' => [
+						'label' => 'hawaii',
+						'value' => 'pizza',
+					],
+				],
+			]);
+		$this->initialStateService->expects(self::exactly(22))
 			->method('provideInitialState')
 			->withConsecutive(
-				['calendar', 'app_version', '1.0.0'],
-				['calendar', 'event_limit', true],
-				['calendar', 'first_run', true],
-				['calendar', 'initial_view', 'timeGridWeek'],
-				['calendar', 'show_weekends', true],
-				['calendar', 'show_week_numbers', true],
-				['calendar', 'skip_popover', true],
-				['calendar', 'talk_enabled', true],
-				['calendar', 'timezone', 'Europe/Berlin'],
-				['calendar', 'slot_duration', '00:15:00'],
-				['calendar', 'show_tasks', false],
+				['app_version', '1.0.0'],
+				['event_limit', true],
+				['first_run', true],
+				['initial_view', 'timeGridWeek'],
+				['show_weekends', true],
+				['show_week_numbers', true],
+				['skip_popover', true],
+				['talk_enabled', true],
+				['talk_api_version', 'v4'],
+				['timezone', 'Europe/Berlin'],
+				['attachments_folder', '/Calendar'],
 				['calendar', 'sync_timeout', 'PT1M'],
-				['calendar', 'tasks_enabled', true]
+				['slot_duration', '00:15:00'],
+				['default_reminder', '00:10:00'],
+				['show_tasks', false],
+				['tasks_enabled', true],
+				['hide_event_export', true],
+				['force_event_alarm_type', null],
+				['appointmentConfigs', [new AppointmentConfig()]],
+				['disable_appointments', false],
+				['can_subscribe_link', false],
+				['categories', [
+					[
+						'group' => 'Test',
+						'options' => [
+							'label' => 'hawaii',
+							'value' => 'pizza',
+						],
+					],
+				]],
+				['show_resources', true],
 			);
 
 		$response = $this->controller->index();
@@ -135,7 +207,7 @@ class ViewControllerTest extends TestCase {
 	 * @param string $expectedView
 	 */
 	public function testIndexViewFix(string $savedView, string $expectedView): void {
-		$this->config
+		$this->config->expects(self::exactly(15))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
@@ -145,11 +217,17 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'skipPopover', 'no', 'defaultSkipPopover'],
 				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
+				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
 				['calendar', 'syncTimeout', 'PT1M', 'PT1M'],
-				['calendar', 'installed_version', null, '1.0.0'],
+				['calendar', 'installed_version', '', '1.0.0'],
+				['calendar', 'hideEventExport', 'no', 'yes'],
+				['calendar', 'disableAppointments', 'no', 'no'],
+				['calendar', 'forceEventAlarmType', '', 'forceEventAlarmType'],
+				['dav', 'allow_calendar_link_subscriptions', 'yes', 'no'],
+				['calendar', 'showResources', 'yes', 'yes'],
 			]);
-		$this->config
+		$this->config->expects(self::exactly(11))
 			->method('getUserValue')
 			->willReturnMap([
 				['user123', 'calendar', 'eventLimit', 'defaultEventLimit', 'yes'],
@@ -159,32 +237,72 @@ class ViewControllerTest extends TestCase {
 				['user123', 'calendar', 'showWeekNr', 'defaultShowWeekNr', 'yes'],
 				['user123', 'calendar', 'skipPopover', 'defaultSkipPopover', 'yes'],
 				['user123', 'calendar', 'timezone', 'defaultTimezone', 'Europe/Berlin'],
+				['user123', 'dav', 'attachmentsFolder', '/Calendar', '/Calendar'],
 				['user123', 'calendar', 'slotDuration', 'defaultSlotDuration', '00:15:00'],
+				['user123', 'calendar', 'defaultReminder', 'defaultDefaultReminder', '00:10:00'],
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
 			]);
-		$this->appManager
+		$this->appManager->expects(self::exactly(2))
 			->method('isEnabledForUser')
 			->willReturnMap([
-				['spreed', null, true],
+				['spreed', null, false],
 				['tasks', null, false]
 			]);
-
-		$this->initialStateService
+		$this->appManager->expects(self::once())
+			->method('getAppVersion')
+			->willReturnMap([
+				['spreed', true, '11.3.0'],
+			]);
+		$this->appointmentContfigService->expects(self::once())
+			->method('getAllAppointmentConfigurations')
+			->with($this->userId)
+			->willReturn([new AppointmentConfig()]);
+		$this->categoriesService->expects(self::once())
+			->method('getCategories')
+			->with('user123')
+			->willReturn([
+				[
+					'group' => 'Test',
+					'options' => [
+						'label' => 'hawaii',
+						'value' => 'pizza',
+					],
+				],
+			]);
+		$this->initialStateService->expects(self::exactly(22))
 			->method('provideInitialState')
 			->withConsecutive(
-				['calendar', 'app_version', '1.0.0'],
-				['calendar', 'event_limit', true],
-				['calendar', 'first_run', true],
-				['calendar', 'initial_view', $expectedView],
-				['calendar', 'show_weekends', true],
-				['calendar', 'show_week_numbers', true],
-				['calendar', 'skip_popover', true],
-				['calendar', 'talk_enabled', true],
-				['calendar', 'timezone', 'Europe/Berlin'],
-				['calendar', 'slot_duration', '00:15:00'],
-				['calendar', 'show_tasks', false],
+				['app_version', '1.0.0'],
+				['event_limit', true],
+				['first_run', true],
+				['initial_view', $expectedView],
+				['show_weekends', true],
+				['show_week_numbers', true],
+				['skip_popover', true],
+				['talk_enabled', false],
+				['talk_api_version', 'v1'],
+				['timezone', 'Europe/Berlin'],
+				['attachments_folder', '/Calendar'],
 				['calendar', 'sync_timeout', 'PT1M'],
-				['calendar', 'tasks_enabled', false]
+				['slot_duration', '00:15:00'],
+				['default_reminder', '00:10:00'],
+				['show_tasks', false],
+				['tasks_enabled', false],
+				['hide_event_export', true],
+				['force_event_alarm_type', null],
+				['appointmentConfigs', [new AppointmentConfig()]],
+				['disable_appointments', false],
+				['can_subscribe_link', false],
+				['categories', [
+					[
+						'group' => 'Test',
+						'options' => [
+							'label' => 'hawaii',
+							'value' => 'pizza',
+						],
+					],
+				]],
+				['show_resources', true],
 			);
 
 		$response = $this->controller->index();

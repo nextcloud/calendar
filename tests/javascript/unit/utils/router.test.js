@@ -67,7 +67,7 @@ describe('utils/router test suite', () => {
 	})
 
 	it('should get the preferred editor view (small screens)', () => {
-		window.innerWidth = 760
+		window.innerWidth = 500
 
 		loadState
 			.mockReturnValueOnce(true)

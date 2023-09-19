@@ -4,6 +4,7 @@
  * @copyright 2020 Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Georg Ehrke
+ * @author René Gieling <github@dartcafe.de>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21,16 +22,18 @@
  */
 
 /** Override some FullCalendar CSS vars: */
-:root {
+.fc {
 	--fc-small-font-size: 0.875em;
 	--fc-page-bg-color: var(--color-main-background) !important;
 	--fc-neutral-bg-color: var(--color-background-dark) !important;
 	--fc-neutral-text-color: var(--color-text-lighter) !important;
 	--fc-border-color: var(--color-border) !important;
 
-	--fc-event-bg-color: var(--color-primary);
-	--fc-event-border-color: var(--color-primary-text);
-	--fc-event-text-color: var(--color-primary-text);
+	--fc-daygrid-event-dot-width: 10px !important;
+
+	--fc-event-bg-color: var(--color-primary-element);
+	--fc-event-border-color: var(--color-primary-element-text);
+	--fc-event-text-color: var(--color-primary-element-text);
 	--fc-event-selected-overlay-color: var(--color-box-shadow);
 
 	--fc-event-resizer-thickness: 8px;
@@ -38,11 +41,12 @@
 	--fc-event-resizer-dot-border-width: 1px;
 
 	--fc-non-business-color: var(--color-background-dark);
-	--fc-bg-event-color: var(--color-primary);
+	--fc-bg-event-color: var(--color-primary-element);
 	--fc-bg-event-opacity: 0.3;
 	--fc-highlight-color: rgba(188, 232, 241, 0.3); // TODO - use some color css var from us?
 	--fc-today-bg-color: var(--color-main-background) !important;
 	--fc-now-indicator-color: red;
+	--fc-list-event-hover-bg-color: var(--color-background-hover) !important;
 }
 
 .fc {
@@ -55,6 +59,11 @@
 .fc-timegrid-slot-label,
 .fc-col-header-cell a {
 	color: var(--color-text-lighter) !important;
+}
+
+// Remove dotted half-lines
+.fc .fc-timegrid-slot-minor {
+	border-top-style: none !important;
 }
 
 // Center the date in month view
@@ -74,24 +83,68 @@
 .fc-day-today {
 	&.fc-col-header-cell {
 		a, span {
-			background-color: var(--color-primary);
-			color: var(--color-primary-text) !important;
-			border-radius: var(--border-radius-pill);
 			padding: 2px 6px;
 			font-weight: bold;
+			background-color: var(--color-primary-element);
+			color: var(--color-primary-element-text) !important;
+			border-radius: var(--border-radius-pill);
 		}
 	}
 
-	.fc-daygrid-day-number {
-		background: var(--color-primary);
-		color: var(--color-primary-text);
-		border-radius: 50%;
-		margin: 3px 3px 0 0;
-		width: 24px;
-		height: 24px;
-		text-align: center;
-		font-weight: bold !important;
-		padding: 1px 0 !important;
+	.fc-event {
+		box-shadow: 0px 0px 0px 1px var(--color-primary-element-light) !important;
+	}
+
+	.fc-daygrid-day-top {
+		.fc-daygrid-day-number {
+			margin: 4px;
+			width: 24px;
+			height: 24px;
+			text-align: center;
+			font-weight: bold !important;
+			padding: 0 !important;
+			background: var(--color-primary-element);
+			color: var(--color-primary-element-text);
+			border-radius: 50%;
+		}
+	}
+}
+
+// Fix list table
+.fc-list-table td {
+	white-space: normal;
+	word-break: break-word;
+}
+
+// Prevent events overlapping over day header
+.fc .fc-list-sticky .fc-list-day > * {
+	z-index: 1;
+}
+
+// Padding to account for left navigation toggle
+.fc-list-table .fc-list-day-cushion {
+	padding-left: calc(var(--default-clickable-area) + var(--default-grid-baseline) * 2);
+}
+
+// highlight current day (exclude day view)
+.fc-timeGridWeek-view,
+.fc-dayGridMonth-view {
+	.fc-col-header-cell.fc-day-today,
+	.fc-daygrid-day.fc-day-today,
+	.fc-timegrid-col.fc-day-today {
+		background-color: var(--color-primary-element-light) !important;
+		background-clip: padding-box;
+	}
+}
+
+// emphasize current month in month view
+.fc-daygrid-day.fc-day.fc-day-other,
+.fc .fc-daygrid-day.fc-day-today.fc-day-other {
+	background-color: var(--color-background-dark) !important;
+	background-clip: padding-box;
+	border: 1px solid var(--color-background-darker);
+	.fc-daygrid-day-top {
+		opacity: 0.6;
 	}
 }
 
@@ -126,10 +179,10 @@
 			top: 0;
 			right: 0;
 			&--light {
-				@include icon-color('reminder', 'calendar', '#fffffe', 1);
+				background-image: var(--icon-calendar-reminder-fffffe)
 			}
 			&--dark {
-				@include icon-color('reminder', 'calendar', '#000001', 1);
+				background-image: var(--icon-calendar-reminder-000001)
 			}
 		}
 	}
@@ -140,7 +193,7 @@
 		align-content: center;
 
 		.fc-event-title-checkbox {
-			margin: 6px 4px 0 0;
+			margin: 4px 4px 0 0;
 			line-height: 1;
 		}
 	}
@@ -182,4 +235,47 @@
 	.empty-content {
 		margin-top: 0 !important;
 	}
+}
+
+// Fix week view
+.fc-col-header-cell {
+	word-break: break-word;
+	white-space: normal;
+}
+
+.fc-timeGridWeek-view {
+	.fc-daygrid-more-link {
+		word-break: break-all;
+		white-space: normal;
+	}
+
+	.fc-event-main {
+		flex-wrap: wrap;
+	}
+}
+
+.fc-v-event {
+	min-height: 4em;
+
+	&.fc-timegrid-event-short {
+		min-height: 2em;
+	}
+
+	.fc-event-title {
+		white-space: initial;
+	}
+}
+
+// Fix Month view
+.fc-dayGridMonth-view {
+	.fc-daygrid-more-link {
+		word-break: break-word;
+		white-space: normal;
+	}
+	.fc-daygrid-day-frame {
+		min-height: 150px !important;
+	}
+}
+.fc-daygrid-day-events {
+	position:relative !important;
 }

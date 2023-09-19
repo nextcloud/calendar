@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -20,24 +20,25 @@
  *
  */
 import Vue from 'vue'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
+import { NcEmptyContent as EmptyContent } from '@nextcloud/vue'
+import CalendarIcon from 'vue-material-design-icons/CalendarBlank.vue'
 import { translate as t } from '@nextcloud/l10n'
 
 /**
  * Adds our standardized emptyContent component if list view is empty
  *
- * @param {Object} data The destructuring object
- * @param {Node} el The HTML element
+ * @param {object} data The destructuring object
+ * @param {Node} data.el The HTML element
  */
 export default function({ el }) {
 	const EmptyContentClass = Vue.extend(EmptyContent)
 	const instance = new EmptyContentClass({
 		propsData: {
-			icon: 'icon-calendar-dark',
+			title: t('calendar', 'No events'),
+			description: t('calendar', 'Create a new event or change the visible time-range'),
 		},
 	})
-	instance.$slots.default = [t('calendar', 'No events')]
-	instance.$slots.desc = [t('calendar', 'Create a new event or change the visible time-range')]
+	instance.$slots.icon = [instance.$createElement(CalendarIcon)]
 	instance.$mount()
 	el.appendChild(instance.$el)
 }

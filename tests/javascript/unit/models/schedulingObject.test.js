@@ -25,8 +25,7 @@ import {
 	mapCalendarJsToSchedulingObject,
 	mapCDavObjectToSchedulingObject
 } from "../../../../src/models/schedulingObject.js";
-import CalendarComponent from "calendar-js/src/components/calendarComponent.js";
-import {getParserManager} from "calendar-js";
+import {CalendarComponent, getParserManager} from "@nextcloud/calendar-js";
 
 describe('Test suite: Scheduling Object model (models/schedulingObject.js)', () => {
 

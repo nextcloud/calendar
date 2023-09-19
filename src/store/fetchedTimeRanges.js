@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -32,13 +32,13 @@ const mutations = {
 	/**
 	 * Adds a fetched time-range to the state
 	 *
-	 * @param {Object} state The vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {String} data.calendarId Calendar-id which objects have been fetched
-	 * @param {Number} data.from timestamp of start
-	 * @param {Number} data.to timestamp of end
-	 * @param {Number} data.lastFetched timestamp of last-fetched
-	 * @param {String[]} calendarObjectIds array of
+	 * @param {object} state The vuex state
+	 * @param {object} data The destructuring object
+	 * @param {string} data.calendarId Calendar-id which objects have been fetched
+	 * @param {number} data.from timestamp of start
+	 * @param {number} data.to timestamp of end
+	 * @param {number} data.lastFetched timestamp of last-fetched
+	 * @param {string[]} data.calendarObjectIds array of calendarObjectIds
 	 */
 	addTimeRange(state, { calendarId, from, to, lastFetched, calendarObjectIds }) {
 		const fetchedTimeRange = {
@@ -57,9 +57,9 @@ const mutations = {
 	/**
 	 * Removes a fetched time-range from the state
 	 *
-	 * @param {Object} state The vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Number} data.timeRangeId Id of time-range to remove
+	 * @param {object} state The vuex state
+	 * @param {object} data The destructuring object
+	 * @param {number} data.timeRangeId Id of time-range to remove
 	 */
 	removeTimeRange(state, { timeRangeId }) {
 		const obj = state.fetchedTimeRangesById[timeRangeId]
@@ -74,10 +74,10 @@ const mutations = {
 	/**
 	 * Adds a calendar-object-id to an already fetched time-range
 	 *
-	 * @param {Object} state The vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Number} data.timeRangeId The id of the time-range
-	 * @param {String[]} data.calendarObjectIds The array of ids of the calendar-object to add
+	 * @param {object} state The vuex state
+	 * @param {object} data The destructuring object
+	 * @param {number} data.timeRangeId The id of the time-range
+	 * @param {string[]} data.calendarObjectIds The array of ids of the calendar-object to add
 	 */
 	appendCalendarObjectIdsToTimeFrame(state, { timeRangeId, calendarObjectIds }) {
 		for (const calendarObjectId of calendarObjectIds) {
@@ -90,10 +90,10 @@ const mutations = {
 	/**
 	 * Adds a calendar-object-id to an already fetched time-range
 	 *
-	 * @param {Object} state The vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Number} data.timeRangeId The id of the time-range
-	 * @param {String} data.calendarObjectId The id of the calendar-object to add
+	 * @param {object} state The vuex state
+	 * @param {object} data The destructuring object
+	 * @param {number} data.timeRangeId The id of the time-range
+	 * @param {string} data.calendarObjectId The id of the calendar-object to add
 	 */
 	appendCalendarObjectIdToTimeRange(state, { timeRangeId, calendarObjectId }) {
 		state.fetchedTimeRangesById[timeRangeId].calendarObjectIds.push(calendarObjectId)
@@ -102,10 +102,10 @@ const mutations = {
 	/**
 	 * Removes a calendar-object-id from an already fetched time-range
 	 *
-	 * @param {Object} state The vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Number} data.timeRangeId The id of the timerange
-	 * @param {String} data.calendarObjectId The id of the calendar-object to remove
+	 * @param {object} state The vuex state
+	 * @param {object} data The destructuring object
+	 * @param {number} data.timeRangeId The id of the timerange
+	 * @param {string} data.calendarObjectId The id of the calendar-object to remove
 	 */
 	removeCalendarObjectIdFromTimeRange(state, { timeRangeId, calendarObjectId }) {
 		const index = state.fetchedTimeRangesById[timeRangeId]
@@ -121,9 +121,9 @@ const mutations = {
 	/**
 	 * Removes a calendar-object-id from any time-range it may occur in
 	 *
-	 * @param {Object} state The vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {String} data.calendarObjectId The id of the calendar-object to remove
+	 * @param {object} state The vuex state
+	 * @param {object} data The destructuring object
+	 * @param {string} data.calendarObjectId The id of the calendar-object to remove
 	 */
 	removeCalendarObjectIdFromAnyTimeRange(state, { calendarObjectId }) {
 		for (const timeRange of state.fetchedTimeRanges) {
@@ -141,10 +141,10 @@ const mutations = {
 	/**
 	 * Updates the last-fetched timestamp of a time-range
 	 *
-	 * @param {Object} state The vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Number} data.timeRangeId The id of the timerange
-	 * @param {Number} lastFetched Timestamp of last-fetched
+	 * @param {object} state The vuex state
+	 * @param {object} data The destructuring object
+	 * @param {number} data.timeRangeId The id of the timerange
+	 * @param {number} data.lastFetched Timestamp of last-fetched
 	 */
 	updateTimestampOfLastFetched(state, { timeRangeId, lastFetched }) {
 		state.fetchedTimeRangesById[timeRangeId].lastFetched = lastFetched
@@ -153,10 +153,10 @@ const mutations = {
 	/**
 	 * Adds a calendar-object-id to all time-ranges of a given calendar
 	 *
-	 * @param {Object} state The vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {String} data.calendarObjectId The id of the calendar-object
-	 * @param {String} data.calendarId The id of the calendar
+	 * @param {object} state The vuex state
+	 * @param {object} data The destructuring object
+	 * @param {string} data.calendarObjectId The id of the calendar-object
+	 * @param {string} data.calendarId The id of the calendar
 	 */
 	addCalendarObjectIdToAllTimeRangesOfCalendar(state, { calendarObjectId, calendarId }) {
 		for (const timerange of state.fetchedTimeRanges) {
@@ -173,10 +173,10 @@ const mutations = {
 	/**
 	 * Removes a calendar-object-id from all time-ranges of a given calendar
 	 *
-	 * @param {Object} state The vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {String} data.calendarObjectId The id of the calendar-object
-	 * @param {String} data.calendarId The id of the calendar
+	 * @param {object} state The vuex state
+	 * @param {object} data The destructuring object
+	 * @param {string} data.calendarObjectId The id of the calendar-object
+	 * @param {string} data.calendarId The id of the calendar
 	 */
 	removeCalendarObjectIdFromAllTimeRangesOfCalendar(state, { calendarObjectId, calendarId }) {
 		for (const timerange of state.fetchedTimeRanges) {
@@ -194,7 +194,7 @@ const mutations = {
 	/**
 	 * clear FetchedTimeRanges Store
 	 *
-	 * @param {Object} state The vuex state
+	 * @param {object} state The vuex state
 	 */
 	clearFetchedTimeRanges(state) {
 		state.lastTimeRangeInsertId = -1
@@ -208,8 +208,8 @@ const getters = {
 	/**
 	 * Get all time-ranges for a calendar
 	 *
-	 * @param {Object} state The vuex state
-	 * @returns {function({String}): {Object}[]}
+	 * @param {object} state The vuex state
+	 * @return {function({String}): {Object}[]}
 	 */
 	getAllTimeRangesForCalendar: (state) => (calendarId) =>
 		state.fetchedTimeRanges.filter(f => (f.calendarId === calendarId)),
@@ -217,8 +217,8 @@ const getters = {
 	/**
 	 * Get time-range covering
 	 *
-	 * @param {Object} state The vuex state
-	 * @returns {function({Number}, {Number}, {Number}): {Object}|false}
+	 * @param {object} state The vuex state
+	 * @return {function({Number}, {Number}, {Number}): {Object}|false}
 	 */
 	getTimeRangeForCalendarCoveringRange: (state) => (calendarId, requestedFrom, requestedTo) => {
 		return state.fetchedTimeRanges.find(f => {
@@ -229,24 +229,24 @@ const getters = {
 	/**
 	 * Get all time-ranges that have been last fetched before a given time
 	 *
-	 * @param {Object} state The vuex state
-	 * @returns {function({Number}): {Object}[]}
+	 * @param {object} state The vuex state
+	 * @return {function({Number}): {Object}[]}
 	 */
 	getAllTimeRangesOlderThan: (state) => (olderThan) =>
 		state.fetchedTimeRanges.filter(f => (f.lastFetched <= olderThan)),
 
 	/**
 	 *
-	 * @param {Object} state The vuex state
-	 * @returns {number}
+	 * @param {object} state The vuex state
+	 * @return {number}
 	 */
 	getLastTimeRangeInsertId: (state) => state.lastTimeRangeInsertId,
 
 	/**
 	 *
-	 * @param {Object} state The vuex state
-	 * @param {Object} getters The vuex getters
-	 * @returns {function({Number}): {CalendarObject}[]}
+	 * @param {object} state The vuex state
+	 * @param {object} getters The vuex getters
+	 * @return {function({Number}): {CalendarObject}[]}
 	 */
 	getCalendarObjectsByTimeRangeId: (state, getters) => (timeRangeId) => {
 		if (!state.fetchedTimeRangesById[timeRangeId]) {

@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -26,23 +26,26 @@
 			{{ $t('calendar', 'on') }}
 		</span>
 		<div class="repeat-option-set-section__grid">
-			<button
-				v-for="option in options"
+			<NcButton v-for="option in options"
 				:key="option.value"
 				class="repeat-option-set-section-grid-item"
-				:class="{ primary: option.selected }"
+				:type="option.selected ? 'primary' : 'secondary'"
 				@click="toggleByDay(option.value)">
 				{{ option.label }}
-			</button>
+			</NcButton>
 		</div>
 	</div>
 </template>
 
 <script>
+import { NcButton } from '@nextcloud/vue'
 import { getDayNamesMin } from '@nextcloud/l10n'
 
 export default {
 	name: 'RepeatFreqWeeklyOptions',
+	components: {
+		NcButton,
+	},
 	props: {
 		byDay: {
 			type: Array,
@@ -87,10 +90,10 @@ export default {
 	methods: {
 		toggleByDay(day) {
 			if (this.byDay.indexOf(day) === -1) {
-				this.$emit('addByDay', day)
+				this.$emit('add-by-day', day)
 			} else {
 				if (this.byDay.length > 1) {
-					this.$emit('removeByDay', day)
+					this.$emit('remove-by-day', day)
 				}
 			}
 		},

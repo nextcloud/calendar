@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -29,10 +29,10 @@ const mutations = {
 	/**
 	 * Initialize restrictions imposed by CalDAV server
 	 *
-	 * @param {Object} state The Vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {String} data.minimumDate The minimum-date allowed by the CalDAV server
-	 * @param {String} data.maximumDate The maximum-date allowed by the CalDAV server
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {string} data.minimumDate The minimum-date allowed by the CalDAV server
+	 * @param {string} data.maximumDate The maximum-date allowed by the CalDAV server
 	 */
 	loadDavRestrictionsFromServer(state, { minimumDate, maximumDate }) {
 		state.minimumDate = minimumDate

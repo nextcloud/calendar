@@ -5,6 +5,7 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -24,18 +25,21 @@ declare(strict_types=1);
 namespace OCA\Calendar\AppInfo;
 
 use OCA\Calendar\Dashboard\CalendarWidget;
+use OCA\Calendar\Dashboard\CalendarWidgetV2;
+use OCA\Calendar\Events\BeforeAppointmentBookedEvent;
+use OCA\Calendar\Listener\AppointmentBookedListener;
+use OCA\Calendar\Listener\UserDeletedListener;
+use OCA\Calendar\Notification\Notifier;
+use OCA\Calendar\Profile\AppointmentsAction;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Dashboard\IAPIWidgetV2;
+use OCP\User\Events\UserDeletedEvent;
+use function method_exists;
 
-/**
- * Class Application
- *
- * @package OCA\Calendar\AppInfo
- */
 class Application extends App implements IBootstrap {
-
 	/** @var string */
 	public const APP_ID = 'calendar';
 
@@ -50,7 +54,22 @@ class Application extends App implements IBootstrap {
 	 * @inheritDoc
 	 */
 	public function register(IRegistrationContext $context): void {
-		$context->registerDashboardWidget(CalendarWidget::class);
+		// TODO: drop conditional code when the app is 27.1+
+		if (interface_exists(IAPIWidgetV2::class)) {
+			$context->registerDashboardWidget(CalendarWidgetV2::class);
+		} else {
+			$context->registerDashboardWidget(CalendarWidget::class);
+		}
+
+		// TODO: drop conditional code when the app is 23+
+		if (method_exists($context, 'registerProfileLinkAction')) {
+			$context->registerProfileLinkAction(AppointmentsAction::class);
+		}
+
+		$context->registerEventListener(BeforeAppointmentBookedEvent::class, AppointmentBookedListener::class);
+		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
+
+		$context->registerNotifierService(Notifier::class);
 	}
 
 	/**

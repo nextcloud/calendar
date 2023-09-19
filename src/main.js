@@ -1,11 +1,13 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
+ *
  * @copyright Copyright (c) 2019 John Molakvoæ
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,18 +23,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import 'core-js/stable'
+import 'core-js/stable/index.js'
+
+import '../css/calendar.scss'
 
 import Vue from 'vue'
-import App from './App'
-import router from './router'
-import store from './store'
+import App from './App.vue'
+import router from './router.js'
+import store from './store/index.js'
 import { sync } from 'vuex-router-sync'
 import { getRequestToken } from '@nextcloud/auth'
 import { linkTo } from '@nextcloud/router'
+import { loadState } from '@nextcloud/initial-state'
 import { translate, translatePlural } from '@nextcloud/l10n'
+import AppointmentConfig from './models/appointmentConfig.js'
 import ClickOutside from 'vue-click-outside'
-import VueClipboard from 'vue-clipboard2'
 import VTooltip from 'v-tooltip'
 import VueShortKey from 'vue-shortkey'
 import windowTitleService from './services/windowTitleService.js'
@@ -40,7 +45,6 @@ import windowTitleService from './services/windowTitleService.js'
 // register global components
 Vue.directive('ClickOutside', ClickOutside)
 Vue.use(VTooltip)
-Vue.use(VueClipboard)
 Vue.use(VueShortKey, { prevent: ['input', 'textarea'] })
 
 // CSP config for webpack dynamic chunk loading
@@ -64,6 +68,11 @@ Vue.prototype.t = translate
 Vue.prototype.n = translatePlural
 
 windowTitleService(router, store)
+
+store.commit(
+	'addInitialConfigs',
+	loadState('calendar', 'appointmentConfigs', []).map(config => new AppointmentConfig(config))
+)
 
 export default new Vue({
 	el: '#content',

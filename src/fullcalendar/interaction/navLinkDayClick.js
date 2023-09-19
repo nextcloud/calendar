@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -24,9 +24,9 @@ import { getYYYYMMDDFromDate } from '../../utils/date.js'
 /**
  * Handles a click on a day-number in the calendar-grid
  *
- * @param {Object} router The Vue router
- * @param {Object} route The current Vue route
- * @returns {function(Date): void}
+ * @param {object} router The Vue router
+ * @param {object} route The current Vue route
+ * @return {function(Date): void}
  */
 export default function(router, route) {
 	return function(date) {

@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getParserManager } from 'calendar-js'
+import { getParserManager } from '@nextcloud/calendar-js'
 import {
 	COMPONENT_NAME_EVENT,
 	COMPONENT_NAME_JOURNAL,
@@ -29,8 +29,8 @@ import {
 /**
  * Creates a complete calendar-object-object based on given props
  *
- * @param {Object} props Calendar-object-props already provided
- * @returns {Object}
+ * @param {object} props Calendar-object-props already provided
+ * @return {object}
  */
 const getDefaultCalendarObjectObject = (props = {}) => Object.assign({}, {
 	// Id of this calendar-object
@@ -61,8 +61,8 @@ const getDefaultCalendarObjectObject = (props = {}) => Object.assign({}, {
  * Maps a calendar-object from c-dav to our calendar-object object
  *
  * @param {VObject} dav The c-dav VObject
- * @param {String} calendarId The calendar-id this object is associated with
- * @returns {Object}
+ * @param {string} calendarId The calendar-id this object is associated with
+ * @return {object}
  */
 const mapCDavObjectToCalendarObject = (dav, calendarId) => {
 	const parserManager = getParserManager()
@@ -102,8 +102,8 @@ const mapCDavObjectToCalendarObject = (dav, calendarId) => {
  * Maps a calendar-component from calendar-js to our calendar-object object
  *
  * @param {CalendarComponent} calendarComponent The calendarComponent to create the calendarObject from
- * @param {String=} calendarId The associated calendar if applicable
- * @returns {Object}
+ * @param {string=} calendarId The associated calendar if applicable
+ * @return {object}
  */
 const mapCalendarJsToCalendarObject = (calendarComponent, calendarId = null) => {
 	const vObjectIterator = calendarComponent.getVObjectIterator()

@@ -6,11 +6,14 @@ charset = utf-8
 end_of_line = lf
 insert_final_newline = true
 
-[*.{js,php}]
+[*.{js,php,vue,scss}]
 indent_style = tab
 insert_final_newline = true
 
 [Makefile]
+indent_style = tab
+
+[renovate.json]
 indent_style = tab
 
 [*.yml]

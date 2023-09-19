@@ -26,9 +26,9 @@ namespace OCA\Calendar\Service;
 use OCA\Calendar\AppInfo\Application;
 use OCP\IConfig;
 use OCP\IUserSession;
+use ReturnTypeWillChange;
 
 class JSDataService implements \JsonSerializable {
-
 	/** @var IConfig */
 	private $config;
 
@@ -42,7 +42,7 @@ class JSDataService implements \JsonSerializable {
 	 * @param IUserSession $userSession
 	 */
 	public function __construct(IConfig $config,
-								IUserSession $userSession) {
+		IUserSession $userSession) {
 		$this->config = $config;
 		$this->userSession = $userSession;
 	}
@@ -50,6 +50,7 @@ class JSDataService implements \JsonSerializable {
 	/**
 	 * @inheritDoc
 	 */
+	#[ReturnTypeWillChange]
 	public function jsonSerialize() {
 		$user = $this->userSession->getUser();
 

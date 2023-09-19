@@ -5,6 +5,8 @@
  *
  * @author Georg Ehrke
  *
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
  * License as published by the Free Software Foundation; either
@@ -21,9 +23,12 @@
  */
 import { translate as t } from '@nextcloud/l10n'
 
+/**
+ *
+ */
 export function getDefaultCategories() {
 	// This list was taken from https://tools.ietf.org/html/rfc5545#section-5
-	return [
+	const values = [
 		t('calendar', 'Anniversary'),
 		t('calendar', 'Appointment'),
 		t('calendar', 'Business'),
@@ -40,6 +45,7 @@ export function getDefaultCategories() {
 		t('calendar', 'Travel'),
 		t('calendar', 'Vacation'),
 	]
+	return values.map(value => ({ value, label: value }))
 }
 
 export default getDefaultCategories

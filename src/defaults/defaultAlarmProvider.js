@@ -20,6 +20,9 @@
  *
  */
 
+/**
+ * @param {boolean} allDay is all day?
+ */
 export function getDefaultAlarms(allDay = false) {
 	if (allDay) {
 		return [

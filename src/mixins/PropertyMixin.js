@@ -3,7 +3,9 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
+ *
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -26,7 +28,27 @@
  *
  * See inline for more documentation
  */
+
+import Briefcase from 'vue-material-design-icons/Briefcase.vue'
+import Check from 'vue-material-design-icons/Check.vue'
+import Eye from 'vue-material-design-icons/Eye.vue'
+import EyedropperVariant from 'vue-material-design-icons/EyedropperVariant.vue'
+import MapMarker from 'vue-material-design-icons/MapMarker.vue'
+import Tag from 'vue-material-design-icons/Tag.vue'
+import TextBoxOutline from 'vue-material-design-icons/TextBoxOutline.vue'
+import Bell from 'vue-material-design-icons/Bell.vue'
+
 export default {
+	components: {
+		Briefcase,
+		Check,
+		Eye,
+		EyedropperVariant,
+		MapMarker,
+		Tag,
+		TextBoxOutline,
+		Bell,
+	},
 	props: {
 		/**
 		 * The prop-model object containing information about the
@@ -52,13 +74,21 @@ export default {
 		value: {
 			required: true,
 		},
+		/**
+		 * Show the icon left of the input.
+		 * Will be shown by default.
+		 */
+		showIcon: {
+			type: Boolean,
+			default: true,
+		},
 	},
 	computed: {
 		/**
 		 * Returns the icon stored in the property-model
 		 * If there is no icon set, it returns an empty string
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		icon() {
 			return this.propModel.icon || ''
@@ -67,7 +97,7 @@ export default {
 		 * Returns the placeholder text stored in the property-model
 		 * If there is no placeholder text set, it returns an empty string
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		placeholder() {
 			return this.propModel.placeholder || ''
@@ -76,7 +106,7 @@ export default {
 		 * Returns the placeholder text for tags stored in the property-model
 		 * If there is no placeholder text for tags set, it returns an empty string
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		tagPlaceholder() {
 			return this.propModel.tagPlaceholder || ''
@@ -85,7 +115,7 @@ export default {
 		 * Returns the info text stored in the property-model
 		 * If there is no info text set, it returns an empty string
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		info() {
 			return this.propModel.info || ''
@@ -94,7 +124,7 @@ export default {
 		 * Returns the property's readable name stored in the property-model
 		 * If there is no readable name set, it returns an empty string
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		readableName() {
 			return this.propModel.readableName || ''
@@ -105,7 +135,7 @@ export default {
 		 * is actually an info set and if the event is viewed
 		 * with edit permission.
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		hasInfo() {
 			return this.propModel.info !== undefined && !this.isReadOnly

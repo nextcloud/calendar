@@ -26,9 +26,11 @@
 
 		.action-checkbox {
 			line-height: unset !important;
+			white-space: unset !important;
 
 			&__label::before {
 				margin: 0 6px 3px 3px !important;
+				flex-shrink: 0;
 			}
 		}
 
@@ -52,12 +54,29 @@
 			display: block;
 			text-align: center;
 			background-position-x: 8px;
+			position: relative;
+
+			.material-design-icon {
+				position: absolute;
+			}
 		}
 
 		&--slotDuration,
+		&--defaultReminder {
+			display: table;
+
+			label {
+				display: block;
+			}
+
+			.multiselect {
+				display: block;
+			}
+		}
+		
 		&--timezone {
 			width: 100%;
-
+		
 			.multiselect {
 				width: 100%;
 			}
@@ -67,7 +86,6 @@
 
 .shortcut-overview-modal {
 	.modal-container {
-		min-width: 600px;
 		display: flex !important;
 		flex-wrap: wrap;
 		padding: 0 12px 12px 12px !important;
@@ -108,5 +126,12 @@
 				}
 			}
 		}
+	}
+}
+
+// Fix the shortcut overview on smaller screens
+@media screen and (max-width: 800px) {
+	.shortcut-overview-modal .modal-container .shortcut-section {
+		width: 100%;
 	}
 }

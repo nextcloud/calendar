@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -21,10 +21,11 @@
  */
 
 import { getDateFromDateTimeValue } from '../utils/date.js'
-import DurationValue from 'calendar-js/src/values/durationValue.js'
-import { getHexForColorName } from '../utils/color.js'
+import { DurationValue, DateTimeValue } from '@nextcloud/calendar-js'
+import { getHexForColorName, getClosestCSS3ColorNameForHex } from '../utils/color.js'
 import { mapAlarmComponentToAlarmObject } from './alarm.js'
 import { mapAttendeePropertyToAttendeeObject } from './attendee.js'
+import { mapAttachmentPropertyToAttchmentObject } from './attachment.js'
 import {
 	getDefaultRecurrenceRuleObject,
 	mapRecurrenceRuleValueToRecurrenceRuleObject,
@@ -33,8 +34,8 @@ import {
 /**
  * Creates a complete calendar-object-instance-object based on given props
  *
- * @param {Object} props The props already provided
- * @returns {Object}
+ * @param {object} props The props already provided
+ * @return {object}
  */
 const getDefaultEventObject = (props = {}) => Object.assign({}, {
 	// The real event-component coming from calendar-js
@@ -85,12 +86,14 @@ const getDefaultEventObject = (props = {}) => Object.assign({}, {
 	customColor: null,
 	// Categories
 	categories: [],
+	// Attachments of this event
+	attachments: [],
 }, props)
 
 /**
  *
  * @param {EventComponent} eventComponent The calendar-js eventComponent
- * @returns {Object}
+ * @return {object}
  */
 const mapEventComponentToEventObject = (eventComponent) => {
 	const eventObject = getDefaultEventObject({
@@ -155,6 +158,14 @@ const mapEventComponentToEventObject = (eventComponent) => {
 	}
 
 	/**
+	 * Extract attachments
+	 */
+
+	for (const attachment of eventComponent.getPropertyIterator('ATTACH')) {
+		eventObject.attachments.push(mapAttachmentPropertyToAttchmentObject(attachment))
+	}
+
+	/**
 	 * Extract recurrence-rule
 	 */
 	const recurrenceRuleIterator = eventComponent.getPropertyIterator('RRULE')
@@ -179,7 +190,53 @@ const mapEventComponentToEventObject = (eventComponent) => {
 	return eventObject
 }
 
+/**
+ * Copy data from a calendar-object-instance into a calendar-js event-component
+ *
+ * @param {object} eventObject The calendar-object-instance object
+ * @param {EventComponent} eventComponent The calendar-js EventComponent object
+ */
+const copyCalendarObjectInstanceIntoEventComponent = (eventObject, eventComponent) => {
+	eventComponent.title = eventObject.title
+	eventComponent.location = eventObject.location
+	eventComponent.description = eventObject.description
+	eventComponent.accessClass = eventObject.accessClass
+	eventComponent.status = eventObject.status
+	eventComponent.timeTransparency = eventObject.timeTransparency
+
+	for (const category of eventObject.categories) {
+		eventComponent.addCategory(category)
+	}
+
+	if (eventObject.organizer) {
+		eventComponent.setOrganizerFromNameAndEMail(eventObject.organizer.commonName, eventObject.organizer.uri)
+	}
+
+	for (const alarm of eventObject.alarms) {
+		if (alarm.isRelative) {
+			const duration = DurationValue.fromSeconds(alarm.relativeTrigger)
+			eventComponent.addRelativeAlarm(alarm.type, duration, alarm.relativeIsRelatedToStart)
+		} else {
+			const date = DateTimeValue.fromJSDate(alarm.absoluteDate)
+			eventComponent.addAbsoluteAlarm(alarm.type, date)
+		}
+	}
+
+	for (const attendee of eventObject.attendees) {
+		eventComponent.addProperty(attendee.attendeeProperty)
+	}
+
+	for (const rule of eventObject.eventComponent.getPropertyIterator('RRULE')) {
+		eventComponent.addProperty(rule)
+	}
+
+	if (eventObject.customColor) {
+		eventComponent.color = getClosestCSS3ColorNameForHex(eventObject.customColor)
+	}
+}
+
 export {
 	getDefaultEventObject,
 	mapEventComponentToEventObject,
+	copyCalendarObjectInstanceIntoEventComponent,
 }

@@ -4,6 +4,7 @@
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * @author Georg Ehrke
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -24,16 +25,12 @@
 	color: #a9a9a9 !important;
 }
 
-#body-public .content {
-	min-height: 100% !important;
-}
-
 .content.app-calendar.app-calendar-public-embedded {
 	#embed-header {
 		position: fixed;
 		top: 0;
 		left: 0;
-		height: 44px;
+		height: 50px;
 		width: 100%;
 		box-sizing: border-box;
 		background-color: var(--color-main-background);
@@ -46,6 +43,7 @@
 		.embed-header__date-section,
 		.embed-header__share-section {
 			display: flex;
+			gap: 5px;
 		}
 
 		.view-button-section {
@@ -62,12 +60,28 @@
 	}
 
 	.app-content {
-		margin-top: 44px
+		margin-top: 44px;
 		//position: absolute !important;
 		//top: 44px;
 		//left: 0;
 		//right: 0;
 		//bottom: 0;
 		//min-height: unset !important;
+	}
+}
+
+#body-public {
+	input#initial-state-calendar-is_embed ~ header#header {
+		display: none;
+	}
+	.app-calendar-public {
+		& + footer {
+			// Only show bottom rounded corners
+			border-radius: 0 0 var(--border-radius-large) var(--border-radius-large);
+		}
+
+		.app-content {
+			height: calc(100% - 65px) !important; // $footer-height is hardcoded to 65px in core/css/public.scss
+		}
 	}
 }

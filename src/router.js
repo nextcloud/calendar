@@ -1,8 +1,9 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
+ *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -23,9 +24,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import { getRootUrl, generateUrl } from '@nextcloud/router'
 
-import Calendar from './views/Calendar'
-import EditSimple from './views/EditSimple'
-import EditSidebar from './views/EditSidebar'
+import Calendar from './views/Calendar.vue'
+import EditSimple from './views/EditSimple.vue'
+import EditSidebar from './views/EditSidebar.vue'
 import {
 	getDefaultEndDateForNewEvent,
 	getDefaultStartDateForNewEvent,
@@ -103,8 +104,8 @@ const router = new Router({
 			redirect: `/embed/:tokens/${getInitialView()}/now`,
 		},
 		{
-			path: '/new',
-			redirect: () => `/${getInitialView()}/now/new/${getPreferredEditorRoute()}/0/${getDefaultStartDateForNewEvent()}/${getDefaultEndDateForNewEvent()}`,
+			path: '/new/:view?',
+			redirect: (to) => `/${to.params.view ?? getInitialView()}/now/new/${getPreferredEditorRoute()}/0/${getDefaultStartDateForNewEvent()}/${getDefaultEndDateForNewEvent()}`,
 		},
 		{
 			path: '/new/:allDay/:dtstart/:dtend',

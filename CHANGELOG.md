@@ -1,4 +1,413 @@
+
 # Changelog
+
+## 4.5.0 - unreleased
+### Added
+- Year grid view
+- Talk rooms for appointments are back
+- Location and description links clickable
+- App config option to hide resources tab
+### Changed
+- Talk url now written to location
+- "New event" button renamed to "Event"
+- Categories extended to include system tags and already used categories
+### Fixed
+- Categories for public calendars
+
+## 4.4.4 – 2023–08-03
+### Fixed
+- Navigation button positioning
+- Navigation toggle overlap
+- Long email addresses in sharing
+
+## 4.4.3 – 2023–06-29
+### Changed
+- Frontend now uses NcSelect
+### Fixed
+- Empty events
+
+## 4.4.2 – 2023–06-12
+### Fixed
+- Temporarily revert Talk room feature for appointments due to upgrade issues
+
+## 4.4.1 - 2023-06-09
+### Fixed
+- Allow dynamic autoloading for classes added during upgrade
+
+## 4.4.0 - 2023-06-07
+### Added
+- Create Talk rooms for appointments
+### Changed
+- Add back PHP 7.4 support
+- Add save button to calendar settings
+- Icon for appointment confirmation dialogue
+- Include booking person's name in appointment event
+- Add server details and ToS link to public sharing page 
+### Fixed
+- Public sharing footer
+- Date formatting in list view
+- Import button alignment
+- Use locale instead of language
+- DAV urls for attachments
+- Calendar booking notifications
+- Calendar invitees buttons (width and space between)
+
+## 4.3.2 - 2023-04-06
+### Fixed
+- Attachments folder
+- Appointments default visibility
+- Sidebar editor timezone
+- Share indicator
+- Date picker
+
+## 4.3.1 - 2023-03-22
+### Changed
+- Webpack version
+
+## 4.3.0 - 2023-03-20
+### Added
+- File attachments for calendar events
+- Organizer booking emails
+### Changed
+- Lazy load dashboard component
+- Wider input for recurrences
+### Fixed
+- Exception handing for booking controller
+- Current day color sticker
+- Calendar export button
+- Share dialogue focus loss
+- Disabling appointments
+- Color picker
+
+## 4.2.2 - 2023-01-26
+### Fixed
+- Disabling appointments feature
+- can_subscribe_link fallback
+- Save and edit methods in calendar modal
+
+## 4.2.1 - 2023-01-05
+### Fixed
+- Reminder form field width
+- Calendar export
+
+## 4.2.0 - 2022-12-29
+### Added
+- Calendar sharing and settings modal
+- Parameters to allow / disallow sharing via link
+- Error handling for Widget SVG generation
+### Changed
+- Set round-icons: true for clients
+### Fixed
+- Equalize slot booking button width
+- Trash bin buttons
+- Black calendar icon on dashboard widget in dark mode
+- Unclear field label for appointment config
+- Typo in meditation.svg
+- Duplicate location in booking email
+- Widget search results returning past events
+- Handling of EMail VALARMs
+
+## 4.1.1 - 2022-12-15
+### Fixed
+- Disabled timezone popup 
+- Style for timezone popup
+- Location in booking VEVENT
+- Bottom part cut off for public calendar
+- Lost app navigation styles
+- Delete X-ALT-DESC property when changing description
+- Clipboard copy
+
+## 4.1.0 - 2022-11-02
+### Added
+- IButtonWidget and IIconWidget implementation
+### Fixed
+- Widget Icon in Dashboard
+- Appointment detail styling for small screen
+- Appointment overview page design
+
+## 4.0.1 - 2022-10-18
+### Changed
+- Remove iconfont and associated dependecies
+### Fixed
+- Appointment overview page design
+- Appointment details styling
+- Title only added in week view
+
+## 4.0.0 - 2022-10-13
+### Added
+- New design
+- Primary light background to month, week and header
+- Booking email with .ics for the event
+### Changed
+- Drop Nextcloud 22-24 support
+- Remove unused icons and icon stylesheets
+- Rename elements to items
+- More information in booking confirmation email
+- Appointments page redesign
+### Fixed
+- Some translation issues with whitespaces
+- Padding of left sidebar header
+- Cut off datetime picker in simple editor
+- Contrast for day header
+- Category Selection
+- Missing background color for appoitments
+
+## 3.5.0 - 2022-08-25
+### Added
+- Option to copy calendar events
+- Config setting to disable appointments
+### Changed
+- Moved icons to material design
+- Settings name
+### Fixed
+- White space on calendar title
+- Trashbin layout
+
+## 3.4.3 - 2022-08-23
+### Fixed
+- Missing events in week view
+- Invitee and resource name wrapping
+- Relying on guessed mime type on import
+
+## 3.4.2 - 2022-07-07
+### Fixed
+- Performance issues with Vue Event Rendering
+- Settings modal closing when using import
+
+## 3.4.1 - 2022-06-28
+### Fixed
+- Calendar not loading in month view
+
+## 3.4.0 - 2022-06-21
+### Added
+- Visually distinguish events with attendees from ones without
+- Visually distinguish events with reminders from ones without
+- More key events on the simple editor
+### Changed
+- Drop PHP7.3 support (EOL)
+- Drop Nextcloud 21 support (EOL)
+- Event rendering now uses Vue
+- Appointment booking message
+### Fixed
+- Logic to extract avatar link from inivitees list
+- Missing stylelint
+- Hide 3-dot menu button
+- Attendee search
+- Color dot and event alignment
+
+## 3.3.2 – 2022-06-02
+### Fixed
+- Squished settings checkbox label
+
+## 3.3.1 – 2022-05-19
+### Fixed
+- Free/busy view rendering
+- Switching view modes
+- Search term casing
+- Sidebar scrolling
+
+## 3.3.0 - 2022-05-05
+### Added
+- PHP8.1 compatability
+- More uses for the popover modal
+### Changed
+- Rename "Download" to "Export"
+### Fixed
+- Crash on Chrome / Chromium for Simple Editor URL
+- Invitation response button for readonly events
+
+## 3.2.2 - 2022-03-16
+### Fixed
+- Email Validation for appointment booking
+- Calendar resource attendance state display
+- Alarm type selection
+
+## 3.2.1 - 2022-03-14
+### Fixed
+- Public Calendar Link
+- Disabled Calendar Icon
+- Missing Translations
+
+## 3.2.0 - 2022-03-09
+### Changed
+- Allow admins to force an event type
+- Allow admins to hide event exports
+- Rename 'Download' to 'Export'
+### Fixed
+- Navigation icon bullet
+- Remove dot in plural string
+- Remove blurriness from event participation indicator
+
+## 3.1.0 - 2022-02-28
+### Added
+- Accept & decline invitations from web
+- Conflict calendars for appointments
+- Limit how far in the future appointments can be booked
+### Changed
+- Time-insensitive background jobs are now run at off-peak times
+- Illustrations for Voting, BBQ, Weddings, etc.
+- Calendar monthly and weekly view now grey out days of other months
+- Full calendar week view now highlights "Today"
+- Date & time picker enhancements - end time now influences start time, lets you choose a time first
+- Show the whole title of an event if the display field is large enough
+- Metadata for appointments config prep- and followup time
+### Removed
+- Nextcloud 20 support
+- PHP7.2 support
+### Fixed
+- Accessibility
+- Broken appointment modal if destination calendar was deleted
+- Fix vertical scrolling issues on mobile devices
+
+## 3.0.6 – 2022-02-16
+### Fixed
+- Invalid X-APPLE-STRUCTURED-LOCATION on location update
+- Trashbin being unavaliable
+- Previously ignored DESCRIPTION;ALTREP property
+
+## 3.0.5 – 2022-01-18
+### Fixed
+- Events being editable locally by attendees reenabled
+- Fix reminder time zone picker and formatting
+
+## 3.0.4 – 2021-12-28
+### Fixed
+- Calendar picker in the editor sidebar
+
+## 3.0.3 – 2021-12-21
+### Fixed
+- Events editable by anyone
+- Time display for short events
+- Event title cut off even for long events with enough display space
+
+## 3.0.2 – 2021-12-15
+### Fixed
+- Previous/next month buttons
+- Cancelled and free events cause appointment slot conflicts
+- User deletion SQL error
+- User doc URL
+- Outdated screenshots
+- Appointments booking page with mobile browsers
+
+## 3.0.1 - 2021-12-01
+### Fixed
+- PHP7.2 syntax errors
+- Usage of Nextcloud 21+ API on Nextcloud 20
+- Vertical padding of the appointments booking page
+- White space handling of appointments description
+
+## 3.0.0 – 2021-11-29
+### Added
+- Appointments - configure your appointment configuration, send out the link or show it on your profile, and let other people book an appointment with you
+### Fixed
+- Empty calendar widget on dashboard
+
+## 2.4.0 – 2021-11-25
+### Added
+- Advanced Search for Rooms and Resources
+- Room Auto Suggestions for events that will fit all attendees
+### Changed
+- Design Polishing of Right Sidebar
+  - Merged Alarm, Detail and Repeat tab in right sidebar
+  - Moved Resources to separate tab
+  - Placeholder Text and field heights
+  - Timepicker
+  - Simplified Simple Editor
+  - ...
+- Event recurrences
+  - Calendar can't be edited any longer
+- Dependencies
+- Translations
+### Fixed
+- Sharing: Groups and Principal URIs with spaces and other special characters
+- Trashbin timestamp
+
+## 2.3.4 – 2021-09-28
+### Fixed
+- Event height in weekly view
+- Events disappearing from grid
+- Movnig calendars on Android
+- Missing default status
+- Simple editor size
+- Sidebar datepicker rendering
+
+## 2.3.3 – 2021-08-30
+### Fixed
+- Development dependencies shipped with production build
+- Missing email address in attendee search
+
+## 2.3.2 – 2021-08-18
+### Changed
+- Details of editor design
+- Make save buttons sticky
+- Sort objects in trash bin by newest first
+- Size of text fields in event pop-up
+### Fixed
+- Settings design regressions
+- Scrolling for trash bin
+- Unusable sidebar on mobile
+- List table issues
+- Month view issues
+- Week view issues
+- Rendering of vobject in trash bin
+- Missing loading view for trash bin
+- Task restoring error handling
+
+## 2.3.1 – 2021-07-14
+### Fixed
+- Create Talk room for event
+- Searching for sharees when resources exist on the back-end
+- Removing recurrence rule
+- 'Add reminder' dropdown position
+- Event repeat multiselect and position on low resolutions
+- Timestamps in trash bin view
+- Vue prop validation error
+
+## 2.3.0 – 2021-06-29
+### Added
+- Trash bin for calendars and their events
+- Default reminder setting
+### Changed
+- Event now have a minimum display height
+- Rendering of attendees and their state
+- Show organizer in free-busy view
+- Illustrations
+- Show shared calendars by default
+- Dropped webcals support (not webcal !)
+- Dependencies
+- Translations
+### Fixed
+- Missing right border in month and week view
+- Missing date picker
+- Principal encoding for sharing with groups with spaces in their name
+
+## 2.2.2 – 2021-05-26
+### Fixed
+- Unable to pick date in monthly view
+
+## 2.2.1 – 2021-04-27
+### Changed
+- Updated dependencies
+
+## 2.2.0 – 2021-03-24
+### Added
+- Datepicker in free/busy view
+- Grey background for all attendees in free/busy when at least one person is busy
+- Free/busy view shows day of the week
+- Nextcloud 22 (dev) support
+### Changed
+- Improved dashboard widget styling
+- Updated translations
+- Updated dependencies
+- Vary event illustrations when multiple illustrations match
+### Fixed
+- Hide cancelled events on dashboard
+- Styling of free/busy slots
+- Browser compatibility issues
+- Search DAV principal as display name or email
+- Handling of invalid calendar objects when rending a calendar
+- Sorting of free/busy resources
+- Hover background in list view with Nextcloud's dark theme
 
 ## 2.1.3 - 2021-01-04
 ### Fixed

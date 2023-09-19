@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -22,18 +22,15 @@
 
 <template>
 	<div v-if="display" class="property-select">
-		<div
-			class="property-select__input"
+		<div class="property-select__input"
 			:class="{ 'property-select__input--readonly-calendar-picker': isReadOnly }">
-			<CalendarPicker
-				v-if="!isReadOnly"
-				:calendar="calendar"
+			<CalendarPicker v-if="!isReadOnly"
+				:value="calendar"
 				:calendars="calendars"
 				:show-calendar-on-select="true"
-				@selectCalendar="selectCalendar" />
+				@select-calendar="selectCalendar" />
 
-			<CalendarPickerOption
-				v-else
+			<CalendarPickerOption v-else
 				:color="calendar.color"
 				:display-name="calendar.displayName"
 				:is-shared-with-me="calendar.isSharedWithMe"
@@ -43,7 +40,7 @@
 </template>
 
 <script>
-import CalendarPicker from '../../Shared/CalendarPicker'
+import CalendarPicker from '../../Shared/CalendarPicker.vue'
 import CalendarPickerOption from '../../Shared/CalendarPickerOption.vue'
 
 export default {
@@ -76,10 +73,11 @@ export default {
 		 * Emits the select calendar event
 		 *
 		 * // TODO: this should emit the calendar id instead
-		 * @param {Object} value The calendar Object
+		 *
+		 * @param {object} value The calendar Object
 		 */
 		selectCalendar(value) {
-			this.$emit('selectCalendar', value)
+			this.$emit('select-calendar', value)
 		},
 	},
 }

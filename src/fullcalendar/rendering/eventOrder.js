@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -26,7 +26,7 @@
  *
  * @param {EventApi} firstEvent The first full-calendar event
  * @param {EventApi} secondEvent The second full-calendar event
- * @returns {number}
+ * @return {number}
  */
 export default function(firstEvent, secondEvent) {
 	if (firstEvent.extendedProps.calendarOrder !== secondEvent.extendedProps.calendarOrder) {
@@ -41,9 +41,11 @@ export default function(firstEvent, secondEvent) {
 		return (firstEvent.extendedProps.calendarId < secondEvent.extendedProps.calendarId) ? -1 : 1
 	}
 
+	/* FIXME: uncomment this if upstream is fixed (https://github.com/fullcalendar/fullcalendar/issues/6608#issuecomment-954241059)
 	if (firstEvent.title !== secondEvent.title) {
 		return (firstEvent.title < secondEvent.title) ? -1 : 1
 	}
+	 */
 
 	return 0
 }

@@ -24,8 +24,8 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\IConfig;
 use OCP\IRequest;
 
@@ -35,7 +35,6 @@ use OCP\IRequest;
  * @package OCA\Calendar\Controller
  */
 class SettingsController extends Controller {
-
 	/** @var IConfig */
 	private $config;
 
@@ -51,9 +50,9 @@ class SettingsController extends Controller {
 	 * @param string $userId
 	 */
 	public function __construct(string $appName,
-								IRequest $request,
-								IConfig $config,
-								string $userId) {
+		IRequest $request,
+		IConfig $config,
+		string $userId) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userId = $userId;
@@ -69,7 +68,7 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function setConfig(string $key,
-							  string $value):JSONResponse {
+		string $value):JSONResponse {
 		switch ($key) {
 			case 'view':
 				return $this->setView($value);
@@ -87,8 +86,12 @@ class SettingsController extends Controller {
 				return $this->setEventLimit($value);
 			case 'slotDuration':
 				return $this->setSlotDuration($value);
+			case 'defaultReminder':
+				return $this->setDefaultReminder($value);
 			case 'showTasks':
 				return $this->setShowTasks($value);
+			case 'attachmentsFolder':
+				return $this->setAttachmentsFolder($value);
 			default:
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
@@ -102,7 +105,7 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	private function setView(string $view):JSONResponse {
-		if (!\in_array($view, ['timeGridDay', 'timeGridWeek', 'dayGridMonth', 'listMonth'])) {
+		if (!\in_array($view, ['timeGridDay', 'timeGridWeek', 'dayGridMonth', 'multiMonthYear', 'listMonth'])) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -161,6 +164,27 @@ class SettingsController extends Controller {
 				$this->userId,
 				$this->appName,
 				'showTasks',
+				$value
+			);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * Set config for attachments folder
+	 *
+	 * @param string $value
+	 * @return JSONResponse
+	 */
+	private function setAttachmentsFolder(string $value):JSONResponse {
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				'dav',
+				'attachmentsFolder',
 				$value
 			);
 		} catch (\Exception $e) {
@@ -302,6 +326,33 @@ class SettingsController extends Controller {
 				$this->userId,
 				$this->appName,
 				'slotDuration',
+				$value
+			);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * sets defaultReminder for user
+	 *
+	 * @param string $value User-selected option for default_reminder in agenda view
+	 * @return JSONResponse
+	 */
+	private function setDefaultReminder(string $value):JSONResponse {
+		if ($value !== 'none' &&
+			filter_var($value, FILTER_VALIDATE_INT,
+				['options' => ['max_range' => 0]]) === false) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'defaultReminder',
 				$value
 			);
 		} catch (\Exception $e) {

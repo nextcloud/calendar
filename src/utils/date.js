@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -25,7 +25,7 @@ import logger from './logger.js'
 /**
  * returns a new Date object
  *
- * @returns {Date}
+ * @return {Date}
  */
 export function dateFactory() {
 	return new Date()
@@ -35,7 +35,7 @@ export function dateFactory() {
  * formats a Date object as YYYYMMDD
  *
  * @param {Date} date Date to format
- * @returns {string}
+ * @return {string}
  */
 export function getYYYYMMDDFromDate(date) {
 	return new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
@@ -47,7 +47,7 @@ export function getYYYYMMDDFromDate(date) {
  * get unix time from date object
  *
  * @param {Date} date Date to format
- * @returns {number}
+ * @return {number}
  */
 export function getUnixTimestampFromDate(date) {
 	return Math.floor(date.getTime() / 1000)
@@ -56,8 +56,8 @@ export function getUnixTimestampFromDate(date) {
 /**
  * Gets a Date-object based on the firstday param used in routes
  *
- * @param {String} firstDayParam The firstday param from the router
- * @returns {Date}
+ * @param {string} firstDayParam The firstday param from the router
+ * @return {Date}
  */
 export function getDateFromFirstdayParam(firstDayParam) {
 	if (firstDayParam === 'now') {
@@ -82,8 +82,8 @@ export function getDateFromFirstdayParam(firstDayParam) {
 /**
  * formats firstday param as YYYYMMDD
  *
- * @param {String} firstDayParam The firstday param from the router
- * @returns {string}
+ * @param {string} firstDayParam The firstday param from the router
+ * @return {string}
  */
 export function getYYYYMMDDFromFirstdayParam(firstDayParam) {
 	if (firstDayParam === 'now') {
@@ -98,7 +98,7 @@ export function getYYYYMMDDFromFirstdayParam(firstDayParam) {
  * Ignores given timezone-information
  *
  * @param {DateTimeValue} dateTimeValue Value to get date from
- * @returns {Date}
+ * @return {Date}
  */
 export function getDateFromDateTimeValue(dateTimeValue) {
 	return new Date(
@@ -116,17 +116,19 @@ export function getDateFromDateTimeValue(dateTimeValue) {
  * modifies a date
  *
  * @param {Date} date Date object to modify
- * @param {Object} data The destructuring object
- * @param {Number} data.day Number of days to add
- * @param {Number} data.week Number of weeks to add
- * @param {Number} data.month Number of months to add
- * @returns {Date}
+ * @param {object} data The destructuring object
+ * @param {number} data.day Number of days to add
+ * @param {number} data.week Number of weeks to add
+ * @param {number} data.month Number of months to add
+ * @param data.year
+ * @return {Date}
  */
-export function modifyDate(date, { day = 0, week = 0, month = 0 }) {
+export function modifyDate(date, { day = 0, week = 0, month = 0, year = 0 }) {
 	date = new Date(date.getTime())
 	date.setDate(date.getDate() + day)
 	date.setDate(date.getDate() + week * 7)
 	date.setMonth(date.getMonth() + month)
+	date.setFullYear(date.getFullYear() + year)
 
 	return date
 }

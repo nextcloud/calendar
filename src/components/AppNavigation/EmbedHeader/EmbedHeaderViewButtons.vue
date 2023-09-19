@@ -2,8 +2,9 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -22,24 +23,42 @@
 
 <template>
 	<div class="view-button-section">
-		<button :class="{primary: isAgendaDayViewSelected}" class="button" @click="view('timeGridDay')">
+		<NcButton :type="isAgendaDayViewSelected ? 'primary' : 'secondary'"
+			class="button"
+			@click="view('timeGridDay')">
 			{{ $t('calendar', 'Day') }}
-		</button>
-		<button :class="{primary: isAgendaWeekViewSelected}" class="button" @click="view('timeGridWeek')">
+		</NcButton>
+		<NcButton :type="isAgendaWeekViewSelected ? 'primary' : 'secondary'"
+			class="button"
+			@click="view('timeGridWeek')">
 			{{ $t('calendar', 'Week') }}
-		</button>
-		<button :class="{primary: isMonthViewSelected}" class="button" @click="view('dayGridMonth')">
+		</NcButton>
+		<NcButton :type="isMonthViewSelected ? 'primary' : 'secondary'"
+			class="button"
+			@click="view('dayGridMonth')">
 			{{ $t('calendar', 'Month') }}
-		</button>
-		<button :class="{primary: isMonthListViewSelected}" class="button" @click="view('listMonth')">
+		</NcButton>
+		<NcButton :type="isYearViewSelected ? 'primary' : 'secondary'"
+			class="button"
+			@click="view('multiMonthYear')">
+			{{ $t('calendar', 'Year') }}
+		</NcButton>
+		<NcButton :class="isMonthListViewSelected ? 'primary' : 'secondary'"
+			class="button"
+			@click="view('listMonth')">
 			{{ $t('calendar', 'List') }}
-		</button>
+		</NcButton>
 	</div>
 </template>
 
 <script>
+import { NcButton } from '@nextcloud/vue'
+
 export default {
 	name: 'EmbedHeaderViewButtons',
+	components: {
+		NcButton,
+	},
 	computed: {
 		isAgendaDayViewSelected() {
 			return this.selectedView === 'timeGridDay'
@@ -49,6 +68,9 @@ export default {
 		},
 		isMonthViewSelected() {
 			return this.selectedView === 'dayGridMonth'
+		},
+		isYearViewSelected() {
+		  return this.selectedView === 'multiMonthYear'
 		},
 		isMonthListViewSelected() {
 			return this.selectedView === 'listMonth'

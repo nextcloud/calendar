@@ -2,8 +2,9 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -21,42 +22,42 @@
   -->
 
 <template>
-	<div>
-		<button
-			v-if="showMoreButton"
+	<div class="save-buttons">
+		<NcButton v-if="showMoreButton"
 			@click="showMore">
 			{{ $t('calendar', 'More') }}
-		</button>
-		<button
-			v-if="showSaveButton"
-			class="primary"
+		</NcButton>
+		<NcButton v-if="showSaveButton"
+			type="primary"
 			@click="saveThisOnly">
 			{{ $t('calendar', 'Save') }}
-		</button>
-		<button
-			v-if="shoUpdateButton"
-			class="primary"
+		</NcButton>
+		<NcButton v-if="showUpdateButton"
+			type="primary"
 			@click="saveThisOnly">
 			{{ $t('calendar', 'Update') }}
-		</button>
-		<button
-			v-if="showUpdateOnlyThisButton"
-			class="primary"
+		</NcButton>
+		<NcButton v-if="showUpdateOnlyThisButton"
+			type="primary"
 			@click="saveThisOnly">
 			{{ $t('calendar', 'Update this occurrence') }}
-		</button>
-		<button
-			v-if="showUpdateThisAndFutureButton"
-			:class="{ primary: forceThisAndAllFuture}"
+		</NcButton>
+		<NcButton v-if="showUpdateThisAndFutureButton"
+			:type="forceThisAndAllFuture ? 'primary' : 'secondary'"
 			@click="saveThisAndAllFuture">
 			{{ $t('calendar', 'Update this and all future') }}
-		</button>
+		</NcButton>
 	</div>
 </template>
 
 <script>
+import { NcButton } from '@nextcloud/vue'
+
 export default {
 	name: 'SaveButtons',
+	components: {
+		NcButton,
+	},
 	props: {
 		canCreateRecurrenceException: {
 			type: Boolean,
@@ -79,7 +80,7 @@ export default {
 		showSaveButton() {
 			return this.isNew && !this.canCreateRecurrenceException
 		},
-		shoUpdateButton() {
+		showUpdateButton() {
 			return !this.isNew && !this.canCreateRecurrenceException
 		},
 		showUpdateOnlyThisButton() {
@@ -91,14 +92,26 @@ export default {
 	},
 	methods: {
 		saveThisOnly() {
-			this.$emit('saveThisOnly')
+			this.$emit('save-this-only')
 		},
 		saveThisAndAllFuture() {
-			this.$emit('saveThisAndAllFuture')
+			this.$emit('save-this-and-all-future')
 		},
 		showMore() {
-			this.$emit('showMore')
+			this.$emit('show-more')
 		},
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.save-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+
+	button {
+		flex: 1 fit-content;
+	}
+}
+</style>

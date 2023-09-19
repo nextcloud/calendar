@@ -1,11 +1,13 @@
 /**
  * @copyright Copyright (c) 2019 Team Popcorn <teampopcornberlin@gmail.com>
+ *
  * @copyright Copyright (c) 2020 Georg Ehrke
  *
  * @author Team Popcorn <teampopcornberlin@gmail.com>
+ *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -35,7 +37,7 @@ const mutations = {
 	/**
 	 * Increment the number of calendar-objects accepted
 	 *
-	 * @param {Object} state the store data
+	 * @param {object} state the store data
 	 */
 	incrementAccepted(state) {
 		state.accepted++
@@ -44,7 +46,7 @@ const mutations = {
 	/**
 	 * Increment the number of calendar-objects denied
 	 *
-	 * @param {Object} state the store data
+	 * @param {object} state the store data
 	 */
 	incrementDenied(state) {
 		state.denied++
@@ -53,8 +55,8 @@ const mutations = {
 	/**
 	 * Set the total number of calendar-objects
 	 *
-	 * @param {Object} state the store data
-	 * @param {Number} total the total number of calendar-objects to import
+	 * @param {object} state the store data
+	 * @param {number} total the total number of calendar-objects to import
 	 */
 	setTotal(state, total) {
 		state.total = total
@@ -63,8 +65,8 @@ const mutations = {
 	/**
 	 * Change stage to the indicated one
 	 *
-	 * @param {Object} state the store data
-	 * @param {String} stage the name of the stage, see /src/models/consts.js
+	 * @param {object} state the store data
+	 * @param {string} stage the name of the stage, see /src/models/consts.js
 	 */
 	changeStage(state, stage) {
 		state.stage = stage
@@ -73,7 +75,7 @@ const mutations = {
 	/**
 	 * Reset to the default state
 	 *
-	 * @param {Object} state the store data
+	 * @param {object} state the store data
 	 */
 	resetState(state) {
 		state.total = 0

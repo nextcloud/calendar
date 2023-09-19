@@ -2,8 +2,9 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -22,31 +23,29 @@
 
 <template>
 	<div class="property-alarm-list">
-		<AlarmListItem
-			v-for="(alarm, index) in alarms"
+		<!-- TODO: probably not use index here for the key -->
+		<AlarmListItem v-for="(alarm, index) in alarms"
 			:key="index"
 			:alarm="alarm"
 			:calendar-object-instance="calendarObjectInstance"
 			:is-read-only="isReadOnly"
-			@removeAlarm="removeAlarm" />
-		<AlarmListNew
-			v-if="!isReadOnly"
+			:show-icon="index === 0"
+			@remove-alarm="removeAlarm" />
+		<AlarmListNew v-if="!isReadOnly"
 			:is-all-day="calendarObjectInstance.isAllDay"
-			@addAlarm="addAlarm" />
-		<NoAlarmView
-			v-if="isListEmpty" />
+			:show-icon="alarms.length === 0"
+			@add-alarm="addAlarm" />
 	</div>
 </template>
 
 <script>
-import AlarmListNew from './AlarmListNew'
-import AlarmListItem from './AlarmListItem'
-import NoAlarmView from './NoAlarmView.vue'
+import AlarmListNew from './AlarmListNew.vue'
+import AlarmListItem from './AlarmListItem.vue'
+import { mapState } from 'vuex'
 
 export default {
 	name: 'AlarmList',
 	components: {
-		NoAlarmView,
 		AlarmListItem,
 		AlarmListNew,
 	},
@@ -61,30 +60,30 @@ export default {
 		},
 	},
 	computed: {
+	  ...mapState({
+		  forceEventAlarmType: (state) => state.settings.forceEventAlarmType,
+	  }),
 		alarms() {
 			return this.calendarObjectInstance.alarms
-		},
-		isListEmpty() {
-			return this.alarms.length === 0
 		},
 	},
 	methods: {
 		/**
 		 * Adds another of the default alarms to the event
 		 *
-		 * @param {Number} totalSeconds Amount of seconds for the alarm
+		 * @param {number} totalSeconds Amount of seconds for the alarm
 		 */
 		addAlarm(totalSeconds) {
 			this.$store.commit('addAlarmToCalendarObjectInstance', {
 				calendarObjectInstance: this.calendarObjectInstance,
-				type: 'DISPLAY',
+				type: this.forceEventAlarmType || 'DISPLAY',
 				totalSeconds,
 			})
 		},
 		/**
 		 * Removes an alarm from this event
 		 *
-		 * @param {Object} alarm The alarm object
+		 * @param {object} alarm The alarm object
 		 */
 		removeAlarm(alarm) {
 			this.$store.commit('removeAlarmFromCalendarObjectInstance', {

@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -31,8 +31,8 @@ import {
 /**
  * Creates a complete principal-object based on given props
  *
- * @param {Object} props Principal-props already provided
- * @returns {any}
+ * @param {object} props Principal-props already provided
+ * @return {any}
  */
 const getDefaultPrincipalObject = (props) => Object.assign({}, {
 	// Id of the principal
@@ -70,8 +70,8 @@ const getDefaultPrincipalObject = (props) => Object.assign({}, {
 /**
  * converts a dav principal into a vuex object
  *
- * @param {Object} dav cdav-library Principal object
- * @returns {Object}
+ * @param {object} dav cdav-library Principal object
+ * @return {object}
  */
 const mapDavToPrincipal = (dav) => {
 	const id = btoa(encodeURI(dav.url))

@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -43,23 +43,24 @@
 		</transition-group>
 
 		<div class="import-modal__actions">
-			<button @click="cancelImport">
+			<NcButton @click="cancelImport">
 				{{ $t('calendar', 'Cancel' ) }}
-			</button>
-			<button class="primary" @click="importCalendar">
+			</NcButton>
+			<NcButton class="primary" @click="importCalendar">
 				{{ $n('calendar', 'Import calendar', 'Import calendars', files.length) }}
-			</button>
+			</NcButton>
 		</div>
 	</Modal>
 </template>
 
 <script>
+import { NcButton, NcModal as Modal } from '@nextcloud/vue'
 import ImportScreenRow from './ImportScreenRow.vue'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
 
 export default {
 	name: 'ImportScreen',
 	components: {
+		NcButton,
 		ImportScreenRow,
 		Modal,
 	},

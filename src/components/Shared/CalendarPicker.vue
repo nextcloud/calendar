@@ -1,21 +1,27 @@
 <template>
-	<Multiselect
-		label="displayName"
-		track-by="displayName"
+	<Multiselect label="displayName"
+		track-by="url"
 		:disabled="isDisabled"
 		:options="calendars"
-		:value="calendar"
-		@select="change">
-		<template slot="singleLabel" slot-scope="scope">
-			<CalendarPickerOption v-bind="scope.option" />
+		:value="value"
+		:multiple="multiple"
+		@select="change"
+		@remove="remove">
+		<template #singleLabel="{ option }">
+			<CalendarPickerOption v-bind="option" />
 		</template>
-		<template slot="option" slot-scope="scope">
-			<CalendarPickerOption v-bind="scope.option" />
+		<template #option="{ option }">
+			<CalendarPickerOption v-bind="option" />
+		</template>
+		<template #tag="{ option }">
+			<div class="calendar-picker__tag">
+				<CalendarPickerOption v-bind="option" />
+			</div>
 		</template>
 	</Multiselect>
 </template>
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import { NcMultiselect as Multiselect } from '@nextcloud/vue'
 import CalendarPickerOption from './CalendarPickerOption.vue'
 
 export default {
@@ -25,8 +31,8 @@ export default {
 		Multiselect,
 	},
 	props: {
-		calendar: {
-			type: Object,
+		value: {
+			type: [Object, Array],
 			required: true,
 		},
 		calendars: {
@@ -37,16 +43,23 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		multiple: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	computed: {
 		isDisabled() {
-			return this.calendars.length < 2
+			// for pickers where multiple can be selected (zero or more) we don't want to disable the picker
+			// for calendars where only one calendar can be selected, disable if there are < 2
+			return this.multiple ? this.calendars.length < 1 : this.calendars.length < 2
 		},
 	},
 	methods: {
 		/**
 		 * TODO: this should emit the calendar id instead
-		 * @param {Object} newCalendar The selected calendar
+		 *
+		 * @param {object} newCalendar The selected calendar
 		 */
 		change(newCalendar) {
 			if (!newCalendar) {
@@ -59,8 +72,29 @@ export default {
 				})
 			}
 
-			this.$emit('selectCalendar', newCalendar)
+			this.$emit('select-calendar', newCalendar)
+		},
+		remove(calendar) {
+			if (this.multiple) {
+				this.$emit('remove-calendar', calendar)
+			}
 		},
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+::v-deep .multiselect__tags {
+	margin: 3px 0;
+}
+
+.calendar-picker__tag {
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+	padding: 0 5px;
+}
+
+.calendar-picker__tag + .calendar-picker__tag {
+	margin-left: 5px;
+}
+</style>

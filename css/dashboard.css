@@ -1,0 +1,4 @@
+.app-icon-calendar {
+	background-image: url('../img/calendar-dark.svg');
+  filter: var(--background-invert-if-dark);
+}

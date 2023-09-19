@@ -1,8 +1,11 @@
 <!--
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
   -
-  - @license GNU AGPL version 3 or any later version
+  - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
+  -
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -20,88 +23,125 @@
   -->
 
 <template>
-	<AppNavigationItem
-		class="app-navigation-entry-new-calendar"
+	<AppNavigationItem class="app-navigation-entry-new-calendar"
 		:class="{'app-navigation-entry-new-calendar--open': isOpen}"
-		:title="$t('calendar', '+ New calendar')"
+		:title="$t('calendar', 'New calendar')"
 		:menu-open.sync="isOpen"
-		menu-icon="icon-add"
 		@click.prevent.stop="toggleDialog">
-		<template slot="actions">
-			<ActionButton
-				v-if="showCreateCalendarLabel"
-				icon="icon-new-calendar"
+		<template #icon>
+			<Plus :size="20" />
+		</template>
+		<template #actions>
+			<ActionButton v-if="showCreateCalendarLabel"
 				@click.prevent.stop="openCreateCalendarInput">
+				<template #icon>
+					<CalendarBlank :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'New calendar') }}
 			</ActionButton>
-			<ActionInput
-				v-if="showCreateCalendarInput"
-				icon="icon-new-calendar"
-				@submit.prevent.stop="createNewCalendar" />
-			<ActionText
-				v-if="showCreateCalendarSaving"
+			<ActionInput v-if="showCreateCalendarInput"
+				:aria-label="$t('calendar', 'Name for new calendar')"
+				@submit.prevent.stop="createNewCalendar">
+				<template #icon>
+					<CalendarBlank :size="20" decorative />
+				</template>
+			</ActionInput>
+			<ActionText v-if="showCreateCalendarSaving"
 				icon="icon-loading-small">
 				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Creating calendar …') }}
 			</ActionText>
 
-			<ActionButton
-				v-if="showCreateCalendarTaskListLabel"
-				icon="icon-new-calendar-with-task-list"
+			<ActionButton v-if="showCreateCalendarTaskListLabel"
 				@click.prevent.stop="openCreateCalendarTaskListInput">
+				<template #icon>
+					<CalendarCheck :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'New calendar with task list') }}
 			</ActionButton>
-			<ActionInput
-				v-if="showCreateCalendarTaskListInput"
-				icon="icon-new-calendar-with-task-list"
-				@submit.prevent.stop="createNewCalendarTaskList" />
-			<ActionText
-				v-if="showCreateCalendarTaskListSaving"
+			<ActionInput v-if="showCreateCalendarTaskListInput"
+				:aria-label="$t('calendar', 'Name for new calendar')"
+				@submit.prevent.stop="createNewCalendarTaskList">
+				<template #icon>
+					<CalendarCheck :size="20" decorative />
+				</template>
+			</ActionInput>
+			<ActionText v-if="showCreateCalendarTaskListSaving"
 				icon="icon-loading-small">
 				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Creating calendar …') }}
 			</ActionText>
 
-			<ActionButton
-				v-if="showCreateSubscriptionLabel"
-				icon="icon-public"
+			<ActionSeparator v-if="canSubscribeLink" />
+			<ActionButton v-if="showCreateSubscriptionLabel && canSubscribeLink"
 				@click.prevent.stop="openCreateSubscriptionInput">
+				<template #icon>
+					<LinkVariant :size="20" decorative />
+				</template>
 				{{ $t('calendar', 'New subscription from link (read-only)') }}
 			</ActionButton>
-			<ActionInput
-				v-if="showCreateSubscriptionInput"
-				icon="icon-public"
-				@submit.prevent.stop="createNewSubscription" />
-			<ActionText
-				v-if="showCreateSubscriptionSaving"
+			<ActionInput v-if="showCreateSubscriptionInput"
+				:aria-label="$t('calendar', 'Name for new calendar')"
+				@submit.prevent.stop="createNewSubscription">
+				<template #icon>
+					<LinkVariant :size="20" decorative />
+				</template>
+			</ActionInput>
+			<ActionText v-if="showCreateSubscriptionSaving"
 				icon="icon-loading-small">
 				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Creating subscription …') }}
 			</ActionText>
+			<ActionButton v-if="canSubscribeLink" @click="showHolidaySubscriptionPicker = true">
+				{{ t('calendar', 'Add public holiday calendar') }}
+				<template #icon>
+					<Web :size="20" decorative />
+				</template>
+			</ActionButton>
+		</template>
+		<template #extra>
+			<HolidaySubscriptionPicker v-if="showHolidaySubscriptionPicker" @close="showHolidaySubscriptionPicker = false" />
 		</template>
 	</AppNavigationItem>
 </template>
 
 <script>
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
-import ActionText from '@nextcloud/vue/dist/Components/ActionText'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
+import {
+	NcActionButton as ActionButton,
+	NcActionInput as ActionInput,
+	NcActionSeparator as ActionSeparator,
+	NcActionText as ActionText,
+	NcAppNavigationItem as AppNavigationItem,
+} from '@nextcloud/vue'
 import {
 	showError,
 } from '@nextcloud/dialogs'
 
 import { uidToHexColor } from '../../../utils/color.js'
 
+import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
+import CalendarCheck from 'vue-material-design-icons/CalendarCheck.vue'
+import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'
+import Plus from 'vue-material-design-icons/Plus.vue'
+import Web from 'vue-material-design-icons/Web.vue'
+import { mapState } from 'vuex'
+
 export default {
 	name: 'CalendarListNew',
 	components: {
 		ActionButton,
 		ActionInput,
+		ActionSeparator,
 		ActionText,
 		AppNavigationItem,
+		CalendarBlank,
+		CalendarCheck,
+		HolidaySubscriptionPicker: () => import(/* webpackChunkName: "holiday-subscription-picker" */ '../../Subscription/HolidaySubscriptionPicker.vue'),
+		LinkVariant,
+		Plus,
+		Web,
 	},
-	data: function() {
+	data() {
 		return {
 			// Open state
 			isOpen: false,
@@ -117,7 +157,13 @@ export default {
 			showCreateSubscriptionLabel: true,
 			showCreateSubscriptionInput: false,
 			showCreateSubscriptionSaving: false,
+			showHolidaySubscriptionPicker: false,
 		}
+	},
+	computed: {
+		...mapState({
+			canSubscribeLink: state => state.settings.canSubscribeLink,
+		}),
 	},
 	watch: {
 		isOpen() {

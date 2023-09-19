@@ -24,13 +24,13 @@ declare(strict_types=1);
 namespace OCA\Calendar\Service;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use OCP\Calendar\ICalendarQuery;
 use OCP\IConfig;
 use OCP\IUser;
 use OCP\IUserSession;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class JsDataServiceTest extends TestCase {
-
 	/** @var IConfig|MockObject */
 	private $config;
 
@@ -42,6 +42,10 @@ class JsDataServiceTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
+
+		if (!interface_exists(ICalendarQuery::class)) {
+			self::markTestIncomplete();
+		}
 
 		$this->config = $this->createMock(IConfig::class);
 		$this->userSession = $this->createMock(IUserSession::class);

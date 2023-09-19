@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -25,8 +25,8 @@ import { getDateFromDateTimeValue } from '../utils/date.js'
 /**
  * Creates a complete recurrence-rule-object based on given props
  *
- * @param {Object} props Recurrence-rule-object-props already provided
- * @returns {Object}
+ * @param {object} props Recurrence-rule-object-props already provided
+ * @return {object}
  */
 const getDefaultRecurrenceRuleObject = (props = {}) => Object.assign({}, {
 	// The calendar-js recurrence-rule value
@@ -57,7 +57,7 @@ const getDefaultRecurrenceRuleObject = (props = {}) => Object.assign({}, {
  *
  * @param {RecurValue} recurrenceRuleValue The calendar-js recurrence rule value
  * @param {DateTimeValue} baseDate The base-date used to fill unset values
- * @returns {Object}
+ * @return {object}
  */
 const mapRecurrenceRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate) => {
 	switch (recurrenceRuleValue.frequency) {
@@ -131,9 +131,9 @@ const SUPPORTED_BY_DAY_WEEKLY = [
 /**
  * Get all numbers between start and end as strings
  *
- * @param {Number} start Lower end of range
- * @param {Number} end Upper end of range
- * @returns {string[]}
+ * @param {number} start Lower end of range
+ * @param {number} end Upper end of range
+ * @return {string[]}
  */
 const getRangeAsStrings = (start, end) => {
 	return Array
@@ -150,7 +150,7 @@ const SUPPORTED_BY_MONTH_YEARLY = getRangeAsStrings(1, 12)
  * Maps a daily calendar-js recurrence-rule-value to an recurrence-rule-object
  *
  * @param {RecurValue} recurrenceRuleValue The calendar-js recurrence rule value
- * @returns {Object}
+ * @return {object}
  */
 const mapDailyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue) => {
 	/**
@@ -169,7 +169,7 @@ const mapDailyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue) => {
  *
  * @param {RecurValue} recurrenceRuleValue The calendar-js recurrence rule value
  * @param {DateTimeValue} baseDate The base-date used to fill unset values
- * @returns {Object}
+ * @return {object}
  */
 const mapWeeklyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate) => {
 	/**
@@ -177,8 +177,8 @@ const mapWeeklyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate)
 	 *
 	 * As defined in RFC5545 3.3.10. Recurrence Rule:
 	 * > Each BYDAY value can also be preceded by a positive (+n) or
-     * > negative (-n) integer.  If present, this indicates the nth
-     * > occurrence of a specific day within the MONTHLY or YEARLY "RRULE".
+	 * > negative (-n) integer.  If present, this indicates the nth
+	 * > occurrence of a specific day within the MONTHLY or YEARLY "RRULE".
 	 *
 	 * RFC 5545 specifies other components, which can be used along WEEKLY.
 	 * Among them are BYMONTH and BYSETPOS. We don't support those.
@@ -209,7 +209,7 @@ const mapWeeklyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate)
  *
  * @param {RecurValue} recurrenceRuleValue The calendar-js recurrence rule value
  * @param {DateTimeValue} baseDate The base-date used to fill unset values
- * @returns {Object}
+ * @return {object}
  */
 const mapMonthlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate) => {
 	/**
@@ -320,7 +320,7 @@ const mapMonthlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate
  *
  * @param {RecurValue} recurrenceRuleValue The calendar-js recurrence rule value
  * @param {DateTimeValue} baseDate The base-date used to fill unset values
- * @returns {Object}
+ * @return {object}
  */
 const mapYearlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate) => {
 	/**
@@ -414,8 +414,8 @@ const mapYearlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate)
 /**
  * Checks if the given parameter is a supported BYDAY value
  *
- * @param {String[]} byDay The byDay component to check
- * @returns {Boolean}
+ * @param {string[]} byDay The byDay component to check
+ * @return {boolean}
  */
 const isAllowedByDay = (byDay) => {
 	return [
@@ -435,8 +435,8 @@ const isAllowedByDay = (byDay) => {
 /**
  * Checks if the given parameter is a supported BYSETPOS value
  *
- * @param {String} bySetPos The bySetPos component to check
- * @returns {Boolean}
+ * @param {string} bySetPos The bySetPos component to check
+ * @return {boolean}
  */
 const isAllowedBySetPos = (bySetPos) => {
 	return [
@@ -454,8 +454,8 @@ const isAllowedBySetPos = (bySetPos) => {
  * Checks if the recurrence-rule contains any of the given components
  *
  * @param {RecurValue} recurrenceRule The recurrence-rule value to check for the given components
- * @param {String[]} components List of components to check for
- * @returns {Boolean}
+ * @param {string[]} components List of components to check for
+ * @return {boolean}
  */
 const containsRecurrenceComponent = (recurrenceRule, components) => {
 	for (const component of components) {
@@ -473,8 +473,8 @@ const containsRecurrenceComponent = (recurrenceRule, components) => {
  * and additional props
  *
  * @param {RecurValue} recurrenceRuleValue The recurrence-rule value to get default values from
- * @param {Object} props The properties to provide on top of default one
- * @returns {Object}
+ * @param {object} props The properties to provide on top of default one
+ * @return {object}
  */
 const getDefaultRecurrenceRuleObjectForRecurrenceValue = (recurrenceRuleValue, props) => {
 	const isUnsupported = recurrenceRuleValue.count !== null && recurrenceRuleValue.until !== null

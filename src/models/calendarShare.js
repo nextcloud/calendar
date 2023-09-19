@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -28,8 +28,8 @@ import {
 /**
  * Creates a complete calendar-share-object based on given props
  *
- * @param {Object} props Calendar-share-props already provided
- * @returns {Object}
+ * @param {object} props Calendar-share-props already provided
+ * @return {object}
  */
 const getDefaultCalendarShareObject = (props = {}) => Object.assign({}, {
 	// Unique identifier
@@ -51,8 +51,8 @@ const getDefaultCalendarShareObject = (props = {}) => Object.assign({}, {
 /**
  * Map a dav collection to our calendar object model
  *
- * @param {Object} sharee The sharee object from the cdav library shares
- * @returns {Object}
+ * @param {object} sharee The sharee object from the cdav library shares
+ * @return {object}
  */
 const mapDavShareeToCalendarShareObject = (sharee) => {
 	// sharee.href might contain non-latin characters, so let's uri encode it first
@@ -62,9 +62,9 @@ const mapDavShareeToCalendarShareObject = (sharee) => {
 	if (sharee['common-name'] && sharee['common-name'].trim() !== '') {
 		displayName = sharee['common-name']
 	} else if (sharee.href.startsWith(PRINCIPAL_PREFIX_GROUP)) {
-		displayName = decodeURIComponent(sharee.href.substr(28))
+		displayName = decodeURIComponent(sharee.href.slice(28))
 	} else if (sharee.href.startsWith(PRINCIPAL_PREFIX_USER)) {
-		displayName = decodeURIComponent(sharee.href.substr(27))
+		displayName = decodeURIComponent(sharee.href.slice(27))
 	} else {
 		displayName = sharee.href
 	}

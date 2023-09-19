@@ -2,7 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -21,17 +21,16 @@
 
 <template>
 	<li v-if="showProgressBar" class="settings-fieldset-interior-item">
-		<progress
-			class="settings-fieldset-interior-item__progressbar"
+		<progress class="settings-fieldset-interior-item__progressbar"
 			:value="imported"
 			:max="total" />
 	</li>
 	<li v-else class="settings-fieldset-interior-item">
-		<label class="settings-fieldset-interior-item__import-button button icon icon-upload" :for="inputUid">
+		<label class="settings-fieldset-interior-item__import-button button icon" :for="inputUid">
+			<Upload :size="20" decorative />
 			{{ $n('calendar', 'Import calendar', 'Import calendars', 1) }}
 		</label>
-		<input
-			:id="inputUid"
+		<input :id="inputUid"
 			ref="importInput"
 			class="hidden"
 			type="file"
@@ -40,8 +39,7 @@
 			multiple
 			@change="processFiles">
 
-		<ImportScreen
-			v-if="showImportModal"
+		<ImportScreen v-if="showImportModal"
 			:files="files"
 			@cancel-import="cancelImport"
 			@import-calendar="importCalendar" />
@@ -52,7 +50,7 @@
 import {
 	mapState,
 } from 'vuex'
-import { getParserManager } from 'calendar-js'
+import { getParserManager } from '@nextcloud/calendar-js'
 import ImportScreen from './ImportScreen.vue'
 import { readFileAsText } from '../../../services/readFileAsTextService.js'
 import {
@@ -67,10 +65,13 @@ import {
 	IMPORT_STAGE_PROCESSING,
 } from '../../../models/consts.js'
 
+import Upload from 'vue-material-design-icons/Upload.vue'
+
 export default {
 	name: 'SettingsImportSection',
 	components: {
 		ImportScreen,
+		Upload,
 	},
 	props: {
 		isDisabled: {
@@ -89,7 +90,7 @@ export default {
 		/**
 		 * Total amount of processed calendar-objects, either accepted or failed
 		 *
-		 * @returns {Number}
+		 * @return {number}
 		 */
 		imported() {
 			return this.accepted + this.denied
@@ -97,7 +98,7 @@ export default {
 		/**
 		 * Whether or not to display the upload button
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		allowUploadOfFiles() {
 			return this.stage === IMPORT_STAGE_DEFAULT
@@ -105,7 +106,7 @@ export default {
 		/**
 		 * Whether or not to display the import modal
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		showImportModal() {
 			return this.stage === IMPORT_STAGE_AWAITING_USER_SELECT
@@ -113,7 +114,7 @@ export default {
 		/**
 		 * Whether or not to display progress bar
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		showProgressBar() {
 			return this.stage === IMPORT_STAGE_IMPORTING
@@ -122,7 +123,7 @@ export default {
 		 * Unique identifier for the input field.
 		 * Needed for the label
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		inputUid() {
 			return this._uid + '-import-input'
@@ -134,7 +135,7 @@ export default {
 		 * So in case we add new supported file-types there,
 		 * we don't have to change anything here
 		 *
-		 * @returns {String[]}
+		 * @return {string[]}
 		 */
 		supportedFileTypes() {
 			return getParserManager().getAllSupportedFileTypes()
@@ -142,7 +143,7 @@ export default {
 		/**
 		 * Whether or not the import button is disabled
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		disableImport() {
 			return this.isDisabled || !this.allowUploadOfFiles
@@ -165,12 +166,10 @@ export default {
 				const size = file.size
 				let type = file.type
 
-				// Handle cases where we are running inside a browser on Windows
-				//
+				// Developers are advised not to rely on the type as a sole validation scheme.
 				// https://developer.mozilla.org/en-US/docs/Web/API/File/type
-				// "Uncommon" file-extensions will result in an empty type
-				// and apparently Microsoft considers calendar files to be "uncommon"
-				if (type === '') {
+				if (!this.supportedFileTypes.includes(type)) {
+					// Try to guess file type based on its extension.
 					// If it's an xml file, our best guess is xCal: https://tools.ietf.org/html/rfc6321
 					// If it's a json file, our best guess is jCal: https://tools.ietf.org/html/rfc7265
 					// In every other case, our best guess is just plain old iCalendar: https://tools.ietf.org/html/rfc5545
@@ -183,15 +182,6 @@ export default {
 					} else {
 						type = 'text/calendar'
 					}
-				}
-
-				// Make sure the user didn't select
-				// files of a different file-type
-				if (!this.supportedFileTypes.includes(type)) {
-					showError(this.$t('calendar', '{filename} is an unsupported file-type', {
-						filename: name,
-					}))
-					continue
 				}
 
 				// Use custom-options for parser.
@@ -241,7 +231,7 @@ export default {
 			await this.$store.dispatch('importEventsIntoCalendar')
 
 			if (this.total === this.accepted) {
-				showSuccess(this.$n('calendar', 'Successfully imported %n event', 'Successfully imported %n events.', this.total))
+				showSuccess(this.$n('calendar', 'Successfully imported %n event', 'Successfully imported %n events', this.total))
 			} else {
 				showWarning(this.$t('calendar', 'Import partially failed. Imported {accepted} out of {total}.', {
 					accepted: this.accepted,

@@ -19,5 +19,4 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-script('calendar', 'calendar');
-style('calendar', 'calendar');
+script('calendar', 'calendar-main');

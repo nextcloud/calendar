@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -21,8 +21,7 @@
   -->
 
 <template>
-	<Multiselect
-		:allow-empty="false"
+	<Multiselect :allow-empty="false"
 		:options="options"
 		:value="selected"
 		:disabled="disabled"
@@ -33,7 +32,7 @@
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import { NcMultiselect as Multiselect } from '@nextcloud/vue'
 import { getDayNames } from '@nextcloud/l10n'
 
 export default {

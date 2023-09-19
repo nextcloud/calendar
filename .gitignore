@@ -62,7 +62,8 @@ build/.sass-cache/
 
 ### Composer ###
 composer.phar
-vendor/
+/vendor/
+/vendor-bin/*/vendor
 
 # vim ex mode
 .vimrc
@@ -93,7 +94,7 @@ CVS/*
 RCS/*
 
 /.project
-.php_cs.cache
+.php-cs-fixer.cache
 .phpunit.result.cache
 
 coverage/

@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -25,10 +25,10 @@ import { translate as t } from '@nextcloud/l10n'
 /**
  * Formats a date-range depending on the user's current view
  *
- * @param {String|Date} value The date to format
- * @param {String} view The current view of the user
- * @param {String} locale Which locale to format it in
- * @returns {string}
+ * @param {string | Date} value The date to format
+ * @param {string} view The current view of the user
+ * @param {string} locale Which locale to format it in
+ * @return {string}
  */
 export default (value, view, locale) => {
 	switch (view) {
@@ -40,6 +40,9 @@ export default (value, view, locale) => {
 			number: moment(value).locale(locale).week(),
 			year: moment(value).locale(locale).weekYear(),
 		})
+
+	case 'multiMonthYear':
+		return moment(value).locale(locale).format('YYYY')
 
 	case 'dayGridMonth':
 	case 'listMonth':

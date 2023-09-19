@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -23,8 +23,7 @@
 <template>
 	<div class="repeat-option-set repeat-option-set--end">
 		<span class="repeat-option-end__label">{{ $t('calendar', 'End repeat') }}</span>
-		<Multiselect
-			class="repeat-option-end__end-type-select"
+		<Multiselect class="repeat-option-end__end-type-select"
 			:options="options"
 			:searchable="false"
 			:allow-empty="false"
@@ -33,23 +32,20 @@
 			track-by="value"
 			label="label"
 			@select="changeEndType" />
-		<DatePicker
-			v-if="isUntil"
+		<DatePicker v-if="isUntil"
 			class="repeat-option-end__until"
 			:min="minimumDate"
 			:date="until"
 			:is-all-day="true"
 			@change="changeUntil" />
-		<input
-			v-if="isCount"
+		<input v-if="isCount"
 			class="repeat-option-end__count"
 			type="number"
 			min="1"
 			max="3500"
 			:value="count"
 			@input="changeCount">
-		<span
-			v-if="isCount"
+		<span v-if="isCount"
 			class="repeat-option-end__count">
 			{{ occurrencesLabel }}
 		</span>
@@ -58,7 +54,7 @@
 
 <script>
 import DatePicker from '../../Shared/DatePicker.vue'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import { NcMultiselect as Multiselect } from '@nextcloud/vue'
 
 export default {
 	name: 'RepeatEndRepeat',
@@ -87,7 +83,7 @@ export default {
 		/**
 		 * The minimum date the user can select in the until date-picker
 		 *
-		 * @returns {Date}
+		 * @return {Date}
 		 */
 		minimumDate() {
 			return this.calendarObjectInstance.startDate
@@ -95,7 +91,7 @@ export default {
 		/**
 		 * The maximum date the user can select in the until date-picker
 		 *
-		 * @returns {Date}
+		 * @return {Date}
 		 */
 		maximumDate() {
 			return new Date(this.$store.state.davRestrictions.maximumDate)
@@ -103,7 +99,7 @@ export default {
 		/**
 		 * Whether or not this event is recurring until a given date
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		isUntil() {
 			return this.count === null && this.until !== null
@@ -111,7 +107,7 @@ export default {
 		/**
 		 * Whether or not this event is recurring after a given amount of occurrences
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		isCount() {
 			return this.count !== null && this.until === null
@@ -119,7 +115,7 @@ export default {
 		/**
 		 * Label for time/times
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		occurrencesLabel() {
 			return this.$n('calendar', 'time', 'times', this.count)
@@ -127,7 +123,7 @@ export default {
 		/**
 		 * Options for recurrence-end
 		 *
-		 * @returns {Object[]}
+		 * @return {object[]}
 		 */
 		options() {
 			return [{
@@ -144,7 +140,7 @@ export default {
 		/**
 		 * The selected option for the recurrence-end
 		 *
-		 * @returns {Object}
+		 * @return {object}
 		 */
 		selectedOption() {
 			if (this.count !== null) {
@@ -161,7 +157,7 @@ export default {
 		 * Changes the type of recurrence-end
 		 * Whether it ends never, on a given date or after an amount of occurrences
 		 *
-		 * @param {Object} value The new type of recurrence-end to select
+		 * @param {object} value The new type of recurrence-end to select
 		 */
 		changeEndType(value) {
 			console.debug(value)
@@ -171,16 +167,16 @@ export default {
 
 			switch (value.value) {
 			case 'until':
-				this.$emit('changeToUntil')
+				this.$emit('change-to-until')
 				break
 
 			case 'count':
-				this.$emit('changeToCount')
+				this.$emit('change-to-count')
 				break
 
 			case 'never':
 			default:
-				this.$emit('setInfinite')
+				this.$emit('set-infinite')
 			}
 		},
 		/**
@@ -189,7 +185,7 @@ export default {
 		 * @param {Date} date The new date to set as end
 		 */
 		changeUntil(date) {
-			this.$emit('setUntil', date)
+			this.$emit('set-until', date)
 		},
 		/**
 		 * Changes the number of occurrences in this recurrence-set
@@ -202,7 +198,7 @@ export default {
 			const selectedValue = parseInt(event.target.value, 10)
 
 			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
-				this.$emit('setCount', selectedValue)
+				this.$emit('set-count', selectedValue)
 			}
 		},
 	},

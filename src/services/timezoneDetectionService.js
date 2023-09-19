@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -24,7 +24,7 @@ import jstz from 'jstz'
 /**
  * Returns the current timezone of the user
  *
- * @returns {String} Current timezone of user
+ * @return {string} Current timezone of user
  */
 const detectTimezone = () => {
 	const determinedTimezone = jstz.determine()

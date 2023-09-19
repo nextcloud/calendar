@@ -2,8 +2,9 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -22,48 +23,58 @@
 
 <template>
 	<div v-if="display" class="property-text">
-		<div
+		<component :is="icon"
+			:size="20"
+			:title="readableName"
 			class="property-text__icon"
-			:class="icon"
-			:title="readableName" />
+			:class="{ 'property-text__icon--hidden': !showIcon }" />
 
-		<div
-			class="property-text__input"
-			:class="{ 'property-text__input--readonly': isReadOnly }">
-			<textarea
-				v-if="!isReadOnly"
+		<div class="property-text__input"
+			:class="{ 'property-text__input--readonly': isReadOnly, 'property-text__input--linkify': showLinksClickable }">
+			<textarea v-if="!isReadOnly && !showLinksClickable"
 				v-autosize="true"
 				:placeholder="placeholder"
 				:rows="rows"
 				:title="readableName"
 				:value="value"
+				@focus="handleToggleTextareaFocus(true)"
+				@blur="handleToggleTextareaFocus(false)"
 				@input.prevent.stop="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
-			<div
-				v-else
-				v-linkify="value" />
+			<div v-else
+				v-linkify="{ text: value, linkify: true }"
+				:class="{ 'linkify-links': linkifyLinks && !isReadOnly }"
+				:style="{ 'min-height': linkifyMinHeight }"
+				@click="handleShowTextarea" />
 		</div>
 
-		<div
-			v-if="hasInfo"
+		<div v-if="hasInfo"
 			v-tooltip="info"
-			class="property-text__info icon-details" />
+			class="property-select__info">
+			<InformationVariant :size="20"
+				decorative />
+		</div>
 	</div>
 </template>
 
 <script>
 import autosize from '../../../directives/autosize.js'
-import PropertyMixin from '../../../mixins/PropertyMixin'
-import { linkify } from '../../../directives/linkify.js'
+import PropertyMixin from '../../../mixins/PropertyMixin.js'
+import { Linkify } from '@nextcloud/vue'
+
+import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
+import PropertyLinksMixin from '../../../mixins/PropertyLinksMixin.js'
 
 export default {
 	name: 'PropertyText',
 	directives: {
 		autosize,
-		linkify,
+		Linkify,
+		InformationVariant,
 	},
 	mixins: [
 		PropertyMixin,
+		PropertyLinksMixin,
 	],
 	computed: {
 		display() {
@@ -82,7 +93,7 @@ export default {
 		 * Returns the default number of rows for a textarea.
 		 * This is used to give the description field an automatic size 2 rows
 		 *
-		 * @returns {number}
+		 * @return {number}
 		 */
 		rows() {
 			return this.propModel.defaultNumberOfRows || 1

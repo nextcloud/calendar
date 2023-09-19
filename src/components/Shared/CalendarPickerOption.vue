@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -22,17 +22,14 @@
 
 <template>
 	<div class="calendar-picker-option">
-		<div
-			class="calendar-picker-option__color-indicator"
+		<div class="calendar-picker-option__color-indicator"
 			:style="{ backgroundColor: color }" />
 
-		<span
-			class="calendar-picker-option__label">
+		<span class="calendar-picker-option__label">
 			{{ displayName }}
 		</span>
 
-		<Avatar
-			v-if="isSharedWithMe"
+		<Avatar v-if="isSharedWithMe"
 			class="calendar-picker-option__avatar"
 			:disable-menu="true"
 			:disable-tooltip="true"
@@ -43,7 +40,7 @@
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
+import { NcAvatar as Avatar } from '@nextcloud/vue'
 
 export default {
 	name: 'CalendarPickerOption',
@@ -72,7 +69,7 @@ export default {
 		/**
 		 * Get the principal object of the calendar's owner
 		 *
-		 * @returns {null|Object}
+		 * @return {null | object}
 		 */
 		principal() {
 			return this.$store.getters.getPrincipalByUrl(this.owner)
@@ -80,7 +77,7 @@ export default {
 		/**
 		 * Gets the user-id of the calendar's owner
 		 *
-		 * @returns {null|String}
+		 * @return {null | string}
 		 */
 		userId() {
 			if (this.principal) {
@@ -92,7 +89,7 @@ export default {
 		/**
 		 * Gets the displayname of the calendar's owner
 		 *
-		 * @returns {null|String}
+		 * @return {null | string}
 		 */
 		userDisplayName() {
 			if (this.principal) {

@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,17 +19,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getDurationValueFromFullCalendarDuration } from '../duration'
-import getTimezoneManager from '../../services/timezoneDataProviderService'
+import { getDurationValueFromFullCalendarDuration } from '../duration.js'
+import getTimezoneManager from '../../services/timezoneDataProviderService.js'
 import logger from '../../utils/logger.js'
 import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
 
 /**
  * Returns a function to drop an event at a different position
  *
- * @param {Object} store The Vuex store
- * @param {Object} fcAPI The fullcalendar api
- * @returns {Function}
+ * @param {object} store The Vuex store
+ * @param {object} fcAPI The fullcalendar api
+ * @return {Function}
  */
 export default function(store, fcAPI) {
 	return async function({ event, delta, revert }) {

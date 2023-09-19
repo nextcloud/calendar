@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -21,17 +21,17 @@
   -->
 
 <template>
-	<Multiselect
-		:allow-empty="false"
+	<Multiselect :allow-empty="false"
 		:options="options"
 		:value="selected"
+		open-direction="bottom"
 		track-by="freq"
 		label="label"
 		@select="select" />
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import { NcMultiselect as Multiselect } from '@nextcloud/vue'
 
 export default {
 	name: 'RepeatFreqSelect',
@@ -51,20 +51,20 @@ export default {
 	computed: {
 		options() {
 			return [{
-				'label': this.$t('calendar', 'never'),
-				'freq': 'NONE',
+				label: this.$t('calendar', 'never'),
+				freq: 'NONE',
 			}, {
-				'label': this.$n('calendar', 'day', 'days', this.count),
-				'freq': 'DAILY',
+				label: this.$n('calendar', 'day', 'days', this.count),
+				freq: 'DAILY',
 			}, {
-				'label': this.$n('calendar', 'week', 'weeks', this.count),
-				'freq': 'WEEKLY',
+				label: this.$n('calendar', 'week', 'weeks', this.count),
+				freq: 'WEEKLY',
 			}, {
-				'label': this.$n('calendar', 'month', 'months', this.count),
-				'freq': 'MONTHLY',
+				label: this.$n('calendar', 'month', 'months', this.count),
+				freq: 'MONTHLY',
 			}, {
-				'label': this.$n('calendar', 'year', 'years', this.count),
-				'freq': 'YEARLY',
+				label: this.$n('calendar', 'year', 'years', this.count),
+				freq: 'YEARLY',
 			}]
 		},
 		selected() {

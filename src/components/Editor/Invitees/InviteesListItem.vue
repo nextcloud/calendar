@@ -2,8 +2,9 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -22,9 +23,9 @@
 
 <template>
 	<div class="invitees-list-item">
-		<AvatarParticipationStatus
-			:attendee-is-organizer="false"
+		<AvatarParticipationStatus :attendee-is-organizer="false"
 			:is-viewed-by-organizer="isViewedByOrganizer"
+			:is-resource="false"
 			:avatar-link="avatarLink"
 			:participation-status="attendee.participationStatus"
 			:organizer-display-name="organizerDisplayName"
@@ -34,40 +35,36 @@
 		</div>
 		<div class="invitees-list-item__actions">
 			<Actions v-if="isViewedByOrganizer">
-				<ActionCheckbox
-					:checked="attendee.rsvp"
+				<ActionCheckbox :checked="attendee.rsvp"
 					@change="toggleRSVP">
-					{{ $t('calendar', 'Send e-mail') }}
+					{{ $t('calendar', 'Send email') }}
 				</ActionCheckbox>
 
-				<ActionRadio
-					:name="radioName"
+				<ActionRadio :name="radioName"
 					:checked="isChair"
 					@change="changeRole('CHAIR')">
 					{{ $t('calendar', 'Chairperson') }}
 				</ActionRadio>
-				<ActionRadio
-					:name="radioName"
+				<ActionRadio :name="radioName"
 					:checked="isRequiredParticipant"
 					@change="changeRole('REQ-PARTICIPANT')">
 					{{ $t('calendar', 'Required participant') }}
 				</ActionRadio>
-				<ActionRadio
-					:name="radioName"
+				<ActionRadio :name="radioName"
 					:checked="isOptionalParticipant"
 					@change="changeRole('OPT-PARTICIPANT')">
 					{{ $t('calendar', 'Optional participant') }}
 				</ActionRadio>
-				<ActionRadio
-					:name="radioName"
+				<ActionRadio :name="radioName"
 					:checked="isNonParticipant"
 					@change="changeRole('NON-PARTICIPANT')">
 					{{ $t('calendar', 'Non-participant') }}
 				</ActionRadio>
 
-				<ActionButton
-					icon="icon-delete"
-					@click="removeAttendee">
+				<ActionButton @click="removeAttendee">
+					<template #icon>
+						<Delete :size="20" decorative />
+					</template>
 					{{ $t('calendar', 'Remove attendee') }}
 				</ActionButton>
 			</Actions>
@@ -76,11 +73,16 @@
 </template>
 
 <script>
-import AvatarParticipationStatus from './AvatarParticipationStatus'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
-import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
+import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
+import {
+	NcActions as Actions,
+	NcActionButton as ActionButton,
+	NcActionRadio as ActionRadio,
+	NcActionCheckbox as ActionCheckbox,
+} from '@nextcloud/vue'
+import { removeMailtoPrefix } from '../../../utils/attendee.js'
+
+import Delete from 'vue-material-design-icons/Delete.vue'
 
 export default {
 	name: 'InviteesListItem',
@@ -90,6 +92,7 @@ export default {
 		ActionCheckbox,
 		ActionRadio,
 		Actions,
+		Delete,
 	},
 	props: {
 		attendee: {
@@ -106,20 +109,28 @@ export default {
 		},
 	},
 	computed: {
+		/**
+		 * @return {string}
+		 */
 		avatarLink() {
 			// return this.$store.getters.getAvatarForContact(this.uri) || this.commonName
 			return this.commonName
 		},
+		/**
+		 * Common name of the organizer or the uri without the 'mailto:' prefix.
+		 *
+		 * @return {string}
+		 */
 		commonName() {
 			if (this.attendee.commonName) {
 				return this.attendee.commonName
 			}
 
-			if (this.attendee.uri && this.attendee.uri.startsWith('mailto:')) {
-				return this.attendee.uri.substr(7)
+			if (this.attendee.uri) {
+				return removeMailtoPrefix(this.attendee.uri)
 			}
 
-			return this.attendee.uri
+			return ''
 		},
 		radioName() {
 			return this._uid + '-role-radio-input-group'
@@ -153,7 +164,7 @@ export default {
 		/**
 		 * Updates the role of the attendee
 		 *
-		 * @param {String} role The new role of the attendee
+		 * @param {string} role The new role of the attendee
 		 */
 		changeRole(role) {
 			this.$store.commit('changeAttendeesRole', {
@@ -165,8 +176,21 @@ export default {
 		 * Removes an attendee from the event
 		 */
 		removeAttendee() {
-			this.$emit('removeAttendee', this.attendee)
+			this.$emit('remove-attendee', this.attendee)
 		},
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.invitees-list-item__displayname {
+	margin-bottom: 17px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.avatar-participation-status {
+	margin-top: 5px;
+}
+</style>

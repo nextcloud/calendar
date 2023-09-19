@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -21,26 +21,21 @@
   -->
 
 <template>
-	<button
-		v-shortkey="['t']"
-		:aria-label="title"
+	<NcButton v-shortkey="['t']"
 		class="button today"
-		:title="title"
 		@shortkey="today"
 		@click="today">
 		{{ $t('calendar', 'Today') }}
-	</button>
+	</NcButton>
 </template>
 
 <script>
-import moment from '@nextcloud/moment'
+import { NcButton } from '@nextcloud/vue'
 
 export default {
 	name: 'AppNavigationHeaderTodayButton',
-	computed: {
-		title() {
-			return moment().format('ll')
-		},
+	components: {
+		NcButton,
 	},
 	methods: {
 		today() {

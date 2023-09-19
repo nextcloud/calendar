@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -25,8 +25,8 @@ import { mapDavShareeToCalendarShareObject } from './calendarShare.js'
 /**
  * Creates a complete calendar-object based on given props
  *
- * @param {Object} props Calendar-props already provided
- * @returns {Object}
+ * @param {object} props Calendar-props already provided
+ * @return {object}
  */
 const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
 	// Id of the calendar
@@ -76,9 +76,9 @@ const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
 /**
  * Map a dav collection to our calendar object model
  *
- * @param {Object} calendar The calendar object from the cdav library
- * @param {Object=} currentUserPrincipal The principal model of the current user principal
- * @returns {Object}
+ * @param {object} calendar The calendar object from the cdav library
+ * @param {object=} currentUserPrincipal The principal model of the current user principal
+ * @return {object}
  */
 const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
 	const id = btoa(calendar.url)
@@ -123,9 +123,9 @@ const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
 		enabled = calendar.enabled
 	} else {
 		// If there is no calendar-enabled,
-		// we will display the calendar by default if it's owned by the user
-		// or hide it by default it it's just shared with them
-		enabled = !isSharedWithMe
+		// we will display the calendar by default and set enabled
+		enabled = true
+		calendar.enabled = true
 	}
 
 	const shares = []
@@ -164,8 +164,8 @@ const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
 /**
  * Gets the calendar uri from the url
  *
- * @param {String} url The url to get calendar uri from
- * @returns {string}
+ * @param {string} url The url to get calendar uri from
+ * @return {string}
  */
 function getCalendarUriFromUrl(url) {
 	if (url.endsWith('/')) {

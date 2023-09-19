@@ -9,22 +9,30 @@
 		</div>
 		<!-- TODO have one button per calendar -->
 		<div class="embed-header__share-section">
-			<Actions default-icon="icon-download">
-				<ActionLink
-					v-for="calendar in subscriptions"
+			<Actions>
+				<template #icon>
+					<Download :size="20" decorative />
+				</template>
+				<ActionLink v-for="calendar in subscriptions"
 					:key="calendar.id"
-					icon="icon-download"
 					target="_blank"
 					:href="calendar.url + '?export'">
-					{{ $t('calendar', 'Download {name}', { name: calendar.displayName || $t('calendar', 'Untitled calendar') }) }}
+					<template #icon>
+						<Download :size="20" decorative />
+					</template>
+					{{ $t('calendar', 'Export {name}', { name: calendar.displayName || $t('calendar', 'Untitled calendar') }) }}
 				</ActionLink>
 			</Actions>
-			<Actions default-icon="icon-calendar-dark">
-				<ActionButton
-					v-for="calendar in subscriptions"
+			<Actions>
+				<template #icon>
+					<CalendarBlank :size="20" decorative />
+				</template>
+				<ActionButton v-for="calendar in subscriptions"
 					:key="calendar.id"
-					icon="icon-calendar-dark"
 					@click.prevent.stop="copySubscriptionLink(calendar)">
+					<template #icon>
+						<CalendarBlank :size="20" decorative />
+					</template>
 					{{ $t('calendar', 'Subscribe to {name}', { name: calendar.displayName || $t('calendar', 'Untitled calendar') }) }}
 				</ActionButton>
 			</Actions>
@@ -33,9 +41,11 @@
 </template>
 
 <script>
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
+import {
+	NcActions as Actions,
+	NcActionButton as ActionButton,
+	NcActionLink as ActionLink,
+} from '@nextcloud/vue'
 import {
 	mapGetters,
 } from 'vuex'
@@ -49,6 +59,9 @@ import AppNavigationHeaderDatePicker from './AppNavigationHeader/AppNavigationHe
 import AppNavigationHeaderTodayButton from './EmbedHeader/EmbedHeaderTodayButton.vue'
 import AppNavigationHeaderViewButtons from './EmbedHeader/EmbedHeaderViewButtons.vue'
 
+import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
+import Download from 'vue-material-design-icons/Download.vue'
+
 export default {
 	name: 'EmbedTopNavigation',
 	components: {
@@ -58,6 +71,8 @@ export default {
 		Actions,
 		ActionButton,
 		ActionLink,
+		CalendarBlank,
+		Download,
 	},
 	computed: {
 		...mapGetters({
@@ -69,16 +84,11 @@ export default {
 			const rootURL = generateRemoteUrl('dav')
 			const url = new URL(calendar.url + '?export', rootURL)
 
-			if (url.protocol === 'http:') {
-				url.protocol = 'webcal:'
-			}
-			if (url.protocol === 'https:') {
-				url.protocol = 'webcals:'
-			}
+			url.protocol = 'webcal:'
 
 			// copy link for calendar to clipboard
 			try {
-				await this.$copyText(url)
+				await navigator.clipboard.writeText(url)
 				showSuccess(this.$t('calendar', 'Calendar link copied to clipboard.'))
 			} catch (error) {
 				console.debug(error)

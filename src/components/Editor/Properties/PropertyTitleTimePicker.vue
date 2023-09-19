@@ -5,7 +5,7 @@
   - @author Georg Ehrke <oc.list@georgehrke.com>
   - @author Jakob Röhrl <jakob.roehrl@web.de>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -24,64 +24,56 @@
 
 <template>
 	<div class="property-title-time-picker">
-		<div
-			v-if="!isReadOnly"
+		<div v-if="!isReadOnly"
 			class="property-title-time-picker__time-pickers">
-			<DatePicker
-				:date="startDate"
-				:has-timezone="true"
+			<DatePicker :date="startDate"
 				:timezone-id="startTimezone"
 				prefix="from"
 				:is-all-day="isAllDay"
+				:append-to-body="appendToBody"
 				:user-timezone-id="userTimezone"
 				@change="changeStart"
-				@changeTimezone="changeStartTimezone" />
+				@change-timezone="changeStartTimezone" />
 
-			<DatePicker
-				:date="endDate"
-				:has-timezone="true"
+			<DatePicker :date="endDate"
 				:timezone-id="endTimezone"
 				prefix="to"
 				:is-all-day="isAllDay"
+				:append-to-body="appendToBody"
 				:user-timezone-id="userTimezone"
 				@change="changeEnd"
-				@changeTimezone="changeEndTimezone" />
+				@change-timezone="changeEndTimezone" />
 		</div>
-		<div
-			v-if="isReadOnly"
+		<div v-if="isReadOnly"
 			class="property-title-time-picker__time-pickers property-title-time-picker__time-pickers--readonly">
 			<div class="property-title-time-picker-read-only-wrapper">
 				<div class="property-title-time-picker-read-only-wrapper__label">
 					{{ formattedStart }}
 				</div>
-				<div
-					v-if="!isAllDay"
-					v-tooltip="startTimezone"
-					class="property-title-time-picker-read-only-wrapper__icon icon icon-timezone"
-					:class="{ 'property-title-time-picker-read-only-wrapper__icon--highlighted': highlightStartTimezone } " />
+				<IconTimezone v-if="!isAllDay"
+					:title="endTimezone"
+					:class="{ 'highlighted-timezone-icon': highlightStartTimezone }"
+					:size="20" />
 			</div>
 			<div class="property-title-time-picker-read-only-wrapper">
 				<div class="property-title-time-picker-read-only-wrapper__label">
 					{{ formattedEnd }}
 				</div>
-				<div
-					v-if="!isAllDay"
-					v-tooltip="endTimezone"
-					class="property-title-time-picker-read-only-wrapper__icon icon icon-timezone"
-					:class="{ 'property-title-time-picker-read-only-wrapper__icon--highlighted': highlightEndTimezone }" />
+				<IconTimezone v-if="!isAllDay"
+					:title="endTimezone"
+					:class="{ 'highlighted-timezone-icon': highlightStartTimezone }"
+					:size="20" />
 			</div>
 		</div>
 
 		<div v-if="!isReadOnly" class="property-title-time-picker__all-day">
-			<input
-				id="allDay"
+			<input id="allDay"
 				:checked="isAllDay"
 				type="checkbox"
 				class="checkbox"
 				:disabled="!canModifyAllDay"
 				@change="toggleAllDay">
-			<label
-				v-tooltip="allDayTooltip"
+			<label v-tooltip="allDayTooltip"
 				for="allDay">
 				{{ $t('calendar', 'All day') }}
 			</label>
@@ -92,12 +84,14 @@
 <script>
 import moment from '@nextcloud/moment'
 import DatePicker from '../../Shared/DatePicker.vue'
+import IconTimezone from 'vue-material-design-icons/Web.vue'
 import { mapState } from 'vuex'
 
 export default {
 	name: 'PropertyTitleTimePicker',
 	components: {
 		DatePicker,
+		IconTimezone,
 	},
 	props: {
 		/**
@@ -158,6 +152,15 @@ export default {
 			type: String,
 			required: true,
 		},
+		/**
+		 * Whether to append the datepickers to body or not.
+		 * Necessary in the AppSidebar, otherwise it will be cut off be the
+		 * AppSidebar edges.
+		 */
+		appendToBody: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
@@ -174,7 +177,7 @@ export default {
 		 * If the all-day checkbox is disabled, this tooltip gives an explanation to the user
 		 * why it is disabled
 		 *
-		 * @returns {string|null}
+		 * @return {string|null}
 		 */
 		allDayTooltip() {
 			if (this.canModifyAllDay) {
@@ -184,11 +187,11 @@ export default {
 				return null
 			}
 
-			return this.$t('calendar', 'Can not modify all-day setting for events that are part of a recurrence-set.')
+			return this.$t('calendar', 'Cannot modify all-day setting for events that are part of a recurrence-set.')
 		},
 		/**
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		formattedStart() {
 			if (this.isAllDay) {
@@ -205,7 +208,7 @@ export default {
 		},
 		/**
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		formattedEnd() {
 			if (this.isAllDay) {
@@ -220,13 +223,13 @@ export default {
 			})
 		},
 		/**
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		highlightStartTimezone() {
 			return this.startTimezone !== this.userTimezone
 		},
 		/**
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		highlightEndTimezone() {
 			return this.endTimezone !== this.userTimezone
@@ -239,12 +242,12 @@ export default {
 		 * @param {Date} value The new start date
 		 */
 		changeStart(value) {
-			this.$emit('updateStartDate', value)
+			this.$emit('update-start-date', value)
 		},
 		/**
 		 * Updates the timezone of the start date
 		 *
-		 * @param {String} value The new start timezone
+		 * @param {string} value The new start timezone
 		 */
 		changeStartTimezone(value) {
 			// If the value didn't change, value is null
@@ -252,7 +255,7 @@ export default {
 				return
 			}
 
-			this.$emit('updateStartTimezone', value)
+			this.$emit('update-start-timezone', value)
 		},
 		/**
 		 * Update the end date
@@ -260,12 +263,12 @@ export default {
 		 * @param {Date} value The new end date
 		 */
 		changeEnd(value) {
-			this.$emit('updateEndDate', value)
+			this.$emit('update-end-date', value)
 		},
 		/**
 		 * Updates the timezone of the end date
 		 *
-		 * @param {String} value The new end timezone
+		 * @param {string} value The new end timezone
 		 */
 		changeEndTimezone(value) {
 			// If the value didn't change, value is null
@@ -273,7 +276,7 @@ export default {
 				return
 			}
 
-			this.$emit('updateEndTimezone', value)
+			this.$emit('update-end-timezone', value)
 		},
 		/**
 		 * Toggles the all-day state of an event
@@ -283,7 +286,7 @@ export default {
 				return
 			}
 
-			this.$emit('toggleAllDay')
+			this.$emit('toggle-all-day')
 		},
 	},
 }

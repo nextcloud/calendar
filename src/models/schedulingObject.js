@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getParserManager } from 'calendar-js'
+import { getParserManager } from '@nextcloud/calendar-js'
 import { getDateFromDateTimeValue } from '../utils/date.js'
 import {
 	ITIP_MESSAGE_ADD,
@@ -35,8 +35,8 @@ import {
 /**
  * Creates a complete scheduling-object-object based on given props
  *
- * @param {Object} props Scheduling-object-props already provided
- * @returns {Object}
+ * @param {object} props Scheduling-object-props already provided
+ * @return {object}
  */
 const getDefaultSchedulingObject = (props = {}) => Object.assign({}, {
 	// Id of the scheduling-object
@@ -77,7 +77,7 @@ const getDefaultSchedulingObject = (props = {}) => Object.assign({}, {
  * Maps a calendar-object from c-dav to our calendar-object object
  *
  * @param {VObject} dav The c-dav VObject
- * @returns {Object}
+ * @return {object}
  */
 const mapCDavObjectToSchedulingObject = (dav) => {
 	const parserManager = getParserManager()
@@ -133,7 +133,7 @@ const mapCDavObjectToSchedulingObject = (dav) => {
  * Maps a calendar-component from calendar-js to our calendar-object object
  *
  * @param {CalendarComponent} calendarComponent The calendarComponent to create the calendarObject from
- * @returns {Object}
+ * @return {object}
  */
 const mapCalendarJsToSchedulingObject = (calendarComponent) => {
 	const firstVObject = getFirstObjectFromCalendarComponent(calendarComponent)
@@ -167,7 +167,7 @@ const mapCalendarJsToSchedulingObject = (calendarComponent) => {
  * Extracts the first object from the calendar-component
  *
  * @param {CalendarComponent} calendarComponent The calendar-component
- * @returns {any} First VEvent / VJournal / VTodo / VFreeBusy
+ * @return {any} First VEvent / VJournal / VTodo / VFreeBusy
  */
 const getFirstObjectFromCalendarComponent = (calendarComponent) => {
 	const vObjectIterator = calendarComponent.getVObjectIterator()

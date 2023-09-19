@@ -2,8 +2,9 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -22,21 +23,21 @@
 
 <template>
 	<div v-if="display" class="property-select">
-		<div
+		<component :is="icon"
+			:size="20"
+			:title="readableName"
 			class="property-select__icon"
-			:class="icon"
-			:title="readableName" />
+			:class="{ 'property-select__icon--hidden': !showIcon }" />
 
-		<div
-			class="property-select__input"
+		<div class="property-select__input"
 			:class="{ 'property-select__input--readonly': isReadOnly }">
-			<Multiselect
-				v-if="!isReadOnly"
+			<Multiselect v-if="!isReadOnly"
 				:options="options"
 				:searchable="false"
 				:allow-empty="false"
 				:title="readableName"
 				:value="selectedValue"
+				:placeholder="placeholder"
 				track-by="value"
 				label="label"
 				@select="changeValue" />
@@ -44,21 +45,26 @@
 			<div v-else>{{ selectedValue.label }}</div>
 		</div>
 
-		<div
-			v-if="hasInfo"
+		<div v-if="hasInfo"
 			v-tooltip="info"
-			class="property-select__info icon-details" />
+			class="property-select__info">
+			<InformationVariant :size="20"
+				decorative />
+		</div>
 	</div>
 </template>
 
 <script>
-import PropertyMixin from '../../../mixins/PropertyMixin'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import PropertyMixin from '../../../mixins/PropertyMixin.js'
+import { NcMultiselect as Multiselect } from '@nextcloud/vue'
+
+import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
 
 export default {
 	name: 'PropertySelect',
 	components: {
 		Multiselect,
+		InformationVariant,
 	},
 	mixins: [
 		PropertyMixin,
@@ -86,3 +92,14 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+
+.property-select {
+	&__input {
+		// 34px left and right need to be subtracted. See https://github.com/nextcloud/calendar/pull/3361
+		width: calc(100% - 34px - 34px);
+	}
+}
+
+</style>

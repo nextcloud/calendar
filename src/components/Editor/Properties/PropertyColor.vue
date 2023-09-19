@@ -2,8 +2,9 @@
   - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -22,34 +23,33 @@
 
 <template>
 	<div class="property-color">
-		<div
+		<component :is="icon"
+			:size="20"
+			:title="readableName"
 			class="property-color__icon"
-			:class="icon"
-			:title="readableName" />
+			:class="{ 'property-color__icon--hidden': !showIcon }"
+			decorative />
 
-		<div
-			v-if="isReadOnly"
+		<div v-if="isReadOnly"
 			class="property-color__input property-color__input--readonly">
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
-			<div
-				class="property-color__color-preview"
+			<div class="property-color__color-preview"
 				:style="{'background-color': selectedColor }" />
 		</div>
-		<div
-			v-else
+		<div v-else
 			class="property-color__input">
-			<ColorPicker
-				:value="selectedColor"
+			<ColorPicker :value="selectedColor"
 				:open.sync="isColorPickerOpen"
+				:advanced-fields="true"
 				@input="changeColor">
-				<button class="property-color__color-preview"
+				<NcButton class="property-color__color-preview"
 					:style="{'background-color': selectedColor }" />
 			</ColorPicker>
-			<Actions
-				v-if="showColorRevertButton">
-				<ActionButton
-					icon="icon-history"
-					@click.prevent.stop="deleteColor">
+			<Actions v-if="showColorRevertButton">
+				<ActionButton @click.prevent.stop="deleteColor">
+					<template #icon>
+						<Undo :size="20" decorative />
+					</template>
 					{{ $t('calendar', 'Remove color') }}
 				</ActionButton>
 			</Actions>
@@ -58,18 +58,25 @@
 </template>
 
 <script>
-import PropertyMixin from '../../../mixins/PropertyMixin'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
+import PropertyMixin from '../../../mixins/PropertyMixin.js'
+import {
+	NcActions as Actions,
+	NcButton,
+	NcActionButton as ActionButton,
+	NcColorPicker as ColorPicker,
+} from '@nextcloud/vue'
 import debounce from 'debounce'
+
+import Undo from 'vue-material-design-icons/Undo.vue'
 
 export default {
 	name: 'PropertyColor',
 	components: {
 		Actions,
 		ActionButton,
+		NcButton,
 		ColorPicker,
+		Undo,
 	},
 	mixins: [
 		PropertyMixin,
@@ -94,7 +101,7 @@ export default {
 		 * The selected color is either custom or
 		 * defaults to the color of the calendar
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		selectedColor() {
 			return this.value || this.calendarColor
@@ -102,7 +109,7 @@ export default {
 		/**
 		 * Whether or not to show the delete color button
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		showColorRevertButton() {
 			if (this.isReadOnly) {
@@ -129,7 +136,7 @@ export default {
 		 * user stopped moving the color-picker and not
 		 * immediately.
 		 *
-		 * @param {String} newColor The new Color as HEX
+		 * @param {string} newColor The new Color as HEX
 		 */
 		changeColor: debounce(function(newColor) {
 			this.$emit('update:value', newColor)

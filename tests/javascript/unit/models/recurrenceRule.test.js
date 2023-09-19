@@ -25,7 +25,7 @@ import {
 	mapRecurrenceRuleValueToRecurrenceRuleObject
 } from "../../../../src/models/recurrenceRule.js";
 import { getDateFromDateTimeValue } from '../../../../src/utils/date.js'
-import DateTimeValue from "calendar-js/src/values/dateTimeValue.js";
+import { DateTimeValue } from "@nextcloud/calendar-js";
 
 jest.mock('../../../../src/utils/date.js')
 
@@ -527,27 +527,9 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 	})
 
 	it('should properly load a recurrence-rule (20/24)', () => {
-		const recurrenceRuleValue = getRecurValueFromAsset('rrules/rrules20')
-		const baseDate = DateTimeValue.fromData({
-			year: 2020,
-			month: 3,
-			day: 15,
-			isDate: true,
-		})
-
 		// YEARLY with invalid BYMONTH
-		expect(mapRecurrenceRuleValueToRecurrenceRuleObject(recurrenceRuleValue, baseDate)).toEqual({
-			recurrenceRuleValue,
-			frequency: 'YEARLY',
-			interval: 1,
-			count: null,
-			until: null,
-			byDay: [],
-			byMonth: ['1', '2', '3'],
-			byMonthDay: [],
-			bySetPosition: null,
-			isUnsupported: true,
-		})
+		// Skipped as it is fixed upstream
+		// https://github.com/mozilla-comm/ical.js/pull/486
 	})
 
 	it('should properly load a recurrence-rule (21/24)', () => {

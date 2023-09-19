@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -25,16 +25,14 @@
 		<span class="repeat-option-set__label">
 			{{ repeatEveryLabel }}
 		</span>
-		<input
-			v-if="!isIntervalDisabled"
+		<input v-if="!isIntervalDisabled"
 			class="intervalInput"
 			type="number"
 			min="1"
 			max="366"
 			:value="interval"
 			@input="changeInterval">
-		<RepeatFreqSelect
-			:freq="frequency"
+		<RepeatFreqSelect :freq="frequency"
 			:count="interval"
 			@change="changeFrequency" />
 	</div>
@@ -73,7 +71,7 @@ export default {
 	},
 	methods: {
 		changeFrequency(value) {
-			this.$emit('changeFrequency', value)
+			this.$emit('change-frequency', value)
 		},
 		/**
 		 *
@@ -85,7 +83,7 @@ export default {
 			const selectedValue = parseInt(event.target.value, 10)
 
 			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
-				this.$emit('changeInterval', selectedValue)
+				this.$emit('change-interval', selectedValue)
 			}
 		},
 	},

@@ -2,7 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -21,10 +21,9 @@
 
 <template>
 	<li class="settings-fieldset-interior-item settings-fieldset-interior-item--timezone">
-		<TimezoneSelect
-			:additional-timezones="additionalTimezones"
+		<TimezonePicker :additional-timezones="additionalTimezones"
 			:value="timezone"
-			@change="setTimezoneValue" />
+			@input="setTimezoneValue" />
 	</li>
 </template>
 
@@ -33,7 +32,7 @@ import {
 	mapState,
 } from 'vuex'
 
-import TimezoneSelect from '../../Shared/TimezoneSelect.vue'
+import { NcTimezonePicker as TimezonePicker } from '@nextcloud/vue'
 import { detectTimezone } from '../../../services/timezoneDetectionService.js'
 import {
 	showInfo,
@@ -42,7 +41,7 @@ import {
 export default {
 	name: 'SettingsTimezoneSelect',
 	components: {
-		TimezoneSelect,
+		TimezonePicker,
 	},
 	props: {
 		isDisabled: {
@@ -57,7 +56,7 @@ export default {
 		/**
 		 * Offer "Automatic" as an additional timezone
 		 *
-		 * @returns {Object[]}
+		 * @return {object[]}
 		 */
 		additionalTimezones() {
 			return [{
@@ -73,7 +72,7 @@ export default {
 		/**
 		 * Updates the timezone set by the user
 		 *
-		 * @param {String} timezoneId New timezoneId to save
+		 * @param {string} timezoneId New timezoneId to save
 		 */
 		setTimezoneValue(timezoneId) {
 			this.$store.dispatch('setTimezone', { timezoneId })

@@ -1,11 +1,13 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
+ *
  * @copyright Copyright (c) 2018 John Molakvoæ
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ *
  * @author John Molakvoæ <skjnldsv@protonmail.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -26,7 +28,7 @@ import moment from '@nextcloud/moment'
 
 /**
  *
- * @returns {Promise<string>}
+ * @return {Promise<string>}
  */
 export default async function loadMomentLocalization() {
 	const locale = getLocale().replace('_', '-').toLowerCase()
@@ -51,6 +53,10 @@ export default async function loadMomentLocalization() {
 			LL: moment.localeData(realLocale).longDateFormat('LL'),
 			LLL: moment.localeData(realLocale).longDateFormat('LLL'),
 			LLLL: moment.localeData(realLocale).longDateFormat('LLLL'),
+			l: moment.localeData(realLocale).longDateFormat('l'),
+			ll: moment.localeData(realLocale).longDateFormat('ll'),
+			lll: moment.localeData(realLocale).longDateFormat('lll'),
+			llll: moment.localeData(realLocale).longDateFormat('llll'),
 		},
 		week: {
 			dow: moment.localeData(realLocale).firstDayOfWeek(),
@@ -64,23 +70,29 @@ export default async function loadMomentLocalization() {
 /**
  * Dynamically loads the requested locale and returns the actually loaded locale
  *
- * @param {String} locale Name of locale to load
- * @returns {Promise<string>}
+ * @param {string} locale Name of locale to load
+ * @return {Promise<string>}
  */
 async function getLocaleFor(locale) {
+	// IMPORTANT: Keep each '/moment/local/...' string as is. Otherwise, webpack might not bundle
+	//            locale data because the contentRegExp fails to detect any files.
 	try {
-		// default load e.g. fr-fr
-		await import('moment/locale/' + locale)
+		// default load e.g. en-de
+		await import(`moment/locale/${locale}.js`)
 		return locale
 	} catch (error) {
+		const splitLocale = locale.split('-')
 		try {
-			// failure: fallback to fr
-			locale = locale.split('-')[0]
-			await import('moment/locale/' + locale)
+			// failure: fallback to first part of locale, which
+			// should be language
+			locale = splitLocale[0]
+			await import(`moment/locale/${locale}.js`)
 			return locale
 		} catch (e) {
 			// failure, fallback to english
 			console.debug('Fallback to locale', 'en')
+			// English is the default locale and doesn't need to imported.
+			// It is already included in moment.js.
 		}
 	}
 
@@ -90,19 +102,8 @@ async function getLocaleFor(locale) {
 /**
  * Get's the first day of a week based on a moment locale
  *
- * @param {String} momentLocale Id of moment locale
- * @returns {number}
+ * @return {number}
  */
-export function getFirstDayOfWeekFromMomentLocale(momentLocale) {
-	return moment.localeData(momentLocale).firstDayOfWeek()
-}
-
-/**
- * Get's the first day of a year based on a moment locale
- *
- * @param {String} momentLocale Id of moment locale
- * @returns {number}
- */
-export function getFirstDayOfYearFromMomentLocale(momentLocale) {
-	return moment.localeData(momentLocale).firstDayOfYear()
+export function getFirstDayOfWeekFromMomentLocale() {
+	return moment.localeData().firstDayOfWeek()
 }

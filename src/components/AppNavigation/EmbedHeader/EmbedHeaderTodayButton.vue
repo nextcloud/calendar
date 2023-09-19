@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -22,21 +22,24 @@
 
 <template>
 	<div class="today-button-section">
-		<button
-			:aria-label="title"
+		<NcButton :aria-label="title"
 			class="button"
 			:title="title"
 			@click="today()">
 			{{ $t('calendar', 'Today') }}
-		</button>
+		</NcButton>
 	</div>
 </template>
 
 <script>
 import moment from '@nextcloud/moment'
+import { NcButton } from '@nextcloud/vue'
 
 export default {
 	name: 'EmbedHeaderTodayButton',
+	components: {
+		NcButton,
+	},
 	computed: {
 		title() {
 			return moment().format('ll')

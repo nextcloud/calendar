@@ -1,0 +1,25 @@
+.property-text__input--linkify {
+	flex-basis: min-content;
+}
+
+.linkify-links {
+	border: 2px solid var(--color-border-maxcontrast);
+	border-radius: var(--border-radius-large);
+	cursor: text;
+	width: 100% !important;
+	box-sizing: border-box;
+	margin-top: 1px !important;
+	padding: 12px;
+	white-space: pre-line;
+	overflow: auto;
+	line-height: normal;
+	word-break: break-word;
+	display: inline-block;
+	vertical-align: top;
+	max-height: 16em;
+	max-height: calc(100vh - 500px);
+
+	a.linkified::after {
+		content: ' ↗';
+	}
+}

@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -26,8 +26,8 @@
  * TODO:
  *  - we should eventually support delegatedFrom and delegatedTo
  *
- * @param {Object} props The attendee properties already provided
- * @returns {Object}
+ * @param {object} props The attendee properties already provided
+ * @return {object}
  */
 const getDefaultAttendeeObject = (props = {}) => Object.assign({}, {
 	// The calendar-js attendee property
@@ -50,7 +50,7 @@ const getDefaultAttendeeObject = (props = {}) => Object.assign({}, {
  * Maps a calendar-js attendee property to our attendee object
  *
  * @param {AttendeeProperty} attendeeProperty The calendar-js attendeeProperty to turn into a attendee object
- * @returns {Object}
+ * @return {object}
  */
 const mapAttendeePropertyToAttendeeObject = (attendeeProperty) => {
 	return getDefaultAttendeeObject({

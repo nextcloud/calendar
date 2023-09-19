@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -24,29 +24,25 @@
 	<div class="repeat-option-set repeat-option-set--yearly">
 		<div class="repeat-option-set-section">
 			<div class="repeat-option-set-section__grid">
-				<button
-					v-for="option in options"
+				<NcButton v-for="option in options"
 					:key="option.value"
 					class="repeat-option-set-section-grid-item"
-					:class="{ primary: option.selected }"
+					:class="option.selected ? 'primary' : 'secondary'"
 					@click="toggleByMonth(option.value)">
 					{{ option.label }}
-				</button>
+				</NcButton>
 			</div>
 		</div>
 		<div class="repeat-option-set-section repeat-option-set-section--on-the-select">
-			<ActionCheckbox
-				class="repeat-option-set-section__title"
+			<ActionCheckbox class="repeat-option-set-section__title"
 				:checked="isBySetPositionEnabled"
 				@change="toggleBySetPosition">
 				{{ $t('calendar', 'On the') }}
 			</ActionCheckbox>
-			<RepeatFirstLastSelect
-				:by-set-position="bySetPosition"
+			<RepeatFirstLastSelect :by-set-position="bySetPosition"
 				:disabled="!isBySetPositionEnabled"
 				@change="changeBySetPosition" />
-			<RepeatOnTheSelect
-				:by-day="byDay"
+			<RepeatOnTheSelect :by-day="byDay"
 				:disabled="!isBySetPositionEnabled"
 				@change="changeByDay" />
 		</div>
@@ -54,7 +50,10 @@
 </template>
 
 <script>
-import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
+import {
+	NcActionCheckbox as ActionCheckbox,
+	NcButton,
+} from '@nextcloud/vue'
 import RepeatFirstLastSelect from './RepeatFirstLastSelect.vue'
 import RepeatOnTheSelect from './RepeatOnTheSelect.vue'
 
@@ -64,6 +63,7 @@ export default {
 	name: 'RepeatFreqYearlyOptions',
 	components: {
 		ActionCheckbox,
+		NcButton,
 		RepeatFirstLastSelect,
 		RepeatOnTheSelect,
 	},
@@ -149,7 +149,7 @@ export default {
 		/**
 		 *
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		isBySetPositionEnabled() {
 			return this.bySetPosition !== null
@@ -159,14 +159,14 @@ export default {
 
 		/**
 		 *
-		 * @param {String} byMonth The month to toggle
+		 * @param {string} byMonth The month to toggle
 		 */
 		toggleByMonth(byMonth) {
 			if (this.byMonth.indexOf(byMonth) === -1) {
-				this.$emit('addByMonth', byMonth)
+				this.$emit('add-by-month', byMonth)
 			} else {
 				if (this.byMonth.length > 1) {
-					this.$emit('removeByMonth', byMonth)
+					this.$emit('remove-by-month', byMonth)
 				}
 			}
 		},
@@ -175,16 +175,16 @@ export default {
 		 */
 		toggleBySetPosition() {
 			if (this.isBySetPositionEnabled) {
-				this.$emit('disableBySetPosition')
+				this.$emit('disable-by-set-position')
 			} else {
-				this.$emit('enableBySetPosition')
+				this.$emit('enable-by-set-position')
 			}
 		},
 		changeByDay(value) {
-			this.$emit('changeByDay', value)
+			this.$emit('change-by-day', value)
 		},
 		changeBySetPosition(value) {
-			this.$emit('changeBySetPosition', value)
+			this.$emit('change-by-set-position', value)
 		},
 	},
 }

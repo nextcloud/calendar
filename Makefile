@@ -4,7 +4,7 @@
 all: dev-setup lint build-js-production test test-php
 
 # Dev env management
-dev-setup: clean npm-init
+dev-setup: composer-install clean npm-init
 
 npm-init:
 	npm ci
@@ -12,6 +12,9 @@ npm-init:
 composer-init:
 	composer install --prefer-dist
 	composer update --prefer-dist
+
+composer-install:
+	composer install --prefer-dist
 
 npm-update:
 	npm update

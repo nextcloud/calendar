@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -28,8 +28,8 @@ import { getDateFromDateTimeValue } from '../utils/date.js'
 /**
  * Creates a complete alarm object based on given props
  *
- * @param {Object} props The alarm properties already provided
- * @returns {Object}
+ * @param {object} props The alarm properties already provided
+ * @return {object}
  */
 const getDefaultAlarmObject = (props = {}) => Object.assign({}, {
 	// The calendar-js alarm component
@@ -40,6 +40,8 @@ const getDefaultAlarmObject = (props = {}) => Object.assign({}, {
 	isRelative: false,
 	// Date object of an absolute alarm (if it's absolute, it must be DATE-TIME)
 	absoluteDate: null,
+	// The time zone id of for absolute alarms
+	absoluteTimezoneId: null,
 	// Whether or not the relative alarm is before the event,
 	relativeIsBefore: null,
 	// Whether or not the alarm is relative to the event's start
@@ -66,7 +68,7 @@ const getDefaultAlarmObject = (props = {}) => Object.assign({}, {
  * Map an alarm component to our alarm object
  *
  * @param {AlarmComponent} alarmComponent The calendar-js alarm-component to turn into an alarm object
- * @returns {Object}
+ * @return {object}
  */
 const mapAlarmComponentToAlarmObject = (alarmComponent) => {
 	if (alarmComponent.trigger.isRelative()) {
@@ -109,6 +111,7 @@ const mapAlarmComponentToAlarmObject = (alarmComponent) => {
 			type: alarmComponent.action,
 			isRelative: alarmComponent.trigger.isRelative(),
 			absoluteDate,
+			absoluteTimezoneId: alarmComponent.trigger.value.timezoneId,
 		})
 	}
 }

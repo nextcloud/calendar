@@ -30,18 +30,19 @@
 	.blocking-event-free-busy {
 		border-color: red;
 		border-style: solid;
-		border-left-width: 1px;
-		border-right-width: 1px;
-		background-color: transparent;
+		border-left-width: 2px;
+		border-right-width: 2px;
+		background-color: transparent !important;
+		opacity: 0.7 !important;
 		z-index: 2;
 	}
 
 	.blocking-event-free-busy.blocking-event-free-busy--first-row {
-		border-top-width: 1px;
+		border-top-width: 2px;
 	}
 
 	.blocking-event-free-busy.blocking-event-free-busy--last-row {
-		border-bottom-width: 1px;
+		border-bottom-width: 2px;
 	}
 
 	.loading-indicator {
@@ -54,7 +55,6 @@
 }
 
 .freebusy-caption {
-	display: flex;
 	margin-top: 10px;
 
 	&__calendar-user-types,
@@ -64,18 +64,19 @@
 	}
 
 	&__colors {
-		display: flex;
-		justify-content: space-between;
-
+		width: 100%;
+		display:flex;
+		flex-wrap: wrap;
 		.freebusy-caption-item {
 			display: flex;
 			align-items: center;
+			margin-right: 30px;
 
 			&__color {
 				height: 1em;
 				width: 2em;
 				display: block;
-				border: var(--color-border-dark);
+				border: 1px solid var(--color-border-dark);
 				opacity: 0.8;
 			}
 

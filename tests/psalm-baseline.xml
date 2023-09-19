@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
+  <file src="lib/AppInfo/Application.php">
+    <MissingDependency>
+      <code>CalendarWidgetV2</code>
+    </MissingDependency>
+    <UndefinedClass>
+      <code>IAPIWidgetV2</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Controller/AppointmentConfigController.php">
+    <RedundantCondition>
+      <code>$expectedDayKeys !== $actualDayKeys</code>
+      <code><![CDATA[$slotKeys !== ['end', 'start']]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="lib/Dashboard/CalendarWidgetV2.php">
+    <UndefinedClass>
+      <code>IAPIWidgetV2</code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Listener/AppointmentBookedListener.php">
+    <MissingTemplateParam>
+      <code>IEventListener</code>
+    </MissingTemplateParam>
+  </file>
+</files>

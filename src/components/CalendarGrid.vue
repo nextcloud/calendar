@@ -2,8 +2,9 @@
   - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -21,8 +22,7 @@
   -->
 
 <template>
-	<FullCalendar
-		ref="fullCalendar"
+	<FullCalendar ref="fullCalendar"
 		:options="options" />
 </template>
 
@@ -33,6 +33,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
 import timeGridPlugin from '@fullcalendar/timegrid'
+import multiMonthPlugin from '@fullcalendar/multimonth'
 
 // Import event sources
 import eventSource from '../fullcalendar/eventSources/eventSource.js'
@@ -49,7 +50,7 @@ import select from '../fullcalendar/interaction/select.js'
 // Import localization plugins
 import { getDateFormattingConfig } from '../fullcalendar/localization/dateFormattingConfig.js'
 import { getFullCalendarLocale } from '../fullcalendar/localization/localeProvider.js'
-import MomentPlugin from '../fullcalendar/localization/momentPlugin.js'
+import momentPluginFactory from '../fullcalendar/localization/momentPlugin.js'
 
 // Import rendering handlers
 import dayHeaderDidMount from '../fullcalendar/rendering/dayHeaderDidMount.js'
@@ -63,9 +64,7 @@ import VTimezoneNamedTimezone from '../fullcalendar/timezones/vtimezoneNamedTime
 // Import other dependencies
 import { mapGetters, mapState } from 'vuex'
 import debounce from 'debounce'
-import { getLocale } from '@nextcloud/l10n'
 import { getYYYYMMDDFromFirstdayParam } from '../utils/date.js'
-import { getFirstDayOfWeekFromMomentLocale } from '../utils/moment.js'
 
 export default {
 	name: 'CalendarGrid',
@@ -124,17 +123,18 @@ export default {
 				navLinks: true,
 				// Localization
 				...getDateFormattingConfig(),
-				locale: getFullCalendarLocale(getLocale(), this.locale),
-				firstDay: getFirstDayOfWeekFromMomentLocale(this.locale),
+				...getFullCalendarLocale(),
 				// Rendering
 				dayHeaderDidMount,
 				eventDidMount,
 				noEventsDidMount,
-				eventOrder: ['start', '-duration', 'allDay', eventOrder],
+				// FIXME: remove title if upstream is fixed (https://github.com/fullcalendar/fullcalendar/issues/6608#issuecomment-954241059)
+				eventOrder: (this.$route.params.view === 'timeGridWeek' ? ['title'] : []).concat(['start', '-duration', 'allDay', eventOrder]),
 				forceEventDuration: false,
 				headerToolbar: false,
 				height: '100%',
 				slotDuration: this.slotDuration,
+				expandRows: true,
 				weekNumbers: this.showWeekNumbers,
 				weekends: this.showWeekends,
 				dayMaxEventRows: this.eventLimit,
@@ -142,9 +142,11 @@ export default {
 				lazyFetching: false,
 				nowIndicator: true,
 				progressiveEventRendering: true,
-				unselectAuto: true,
+				unselectAuto: false,
 				// Timezones:
 				timeZone: this.timezoneId,
+				// Disable jumping in week view and day view when clicking on any event using the simple editor
+				scrollTimeReset: false,
 			}
 		},
 		eventSources() {
@@ -153,16 +155,17 @@ export default {
 		/**
 		 * FullCalendar Plugins
 		 *
-		 * @returns {(PluginDef)[]}
+		 * @return {(PluginDef)[]}
 		 */
 		plugins() {
 			return [
+				momentPluginFactory(this.$store),
+				VTimezoneNamedTimezone,
 				dayGridPlugin,
 				interactionPlugin,
 				listPlugin,
 				timeGridPlugin,
-				MomentPlugin,
-				VTimezoneNamedTimezone,
+				multiMonthPlugin,
 			]
 		},
 		isEditable() {
@@ -203,7 +206,7 @@ export default {
 			resizeObserver.observe(this.$refs.fullCalendar.$el)
 		}
 	},
-	created() {
+	async created() {
 		this.updateTodayJob = setInterval(() => {
 			const newDate = getYYYYMMDDFromFirstdayParam('now')
 
@@ -244,6 +247,22 @@ export default {
 
 			next()
 		})
+
+		// Trigger the select event programmatically on initial page load to show the new event
+		// in the grid. Wait for the next tick because the ref isn't available right away.
+		await this.$nextTick()
+		if (['NewPopoverView', 'NewSidebarView'].includes(this.$route.name)) {
+			const start = new Date(parseInt(this.$route.params.dtstart) * 1000)
+			const end = new Date(parseInt(this.$route.params.dtend) * 1000)
+			if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+				const calendarApi = this.$refs.fullCalendar.getApi()
+				calendarApi.select({
+					start,
+					end,
+					allDay: this.$route.params.allDay === '1',
+				})
+			}
+		}
 	},
 	methods: {
 		/**
@@ -260,15 +279,19 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../fonts/scss/iconfont-calendar-app';
-
 .calendar-grid-checkbox {
-	border-color: transparent;
-	@include iconfont('checkbox');
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 4px;
+	height: 16px;
+	width: 16px;
 }
 
 .calendar-grid-checkbox-checked {
-	border-color: transparent;
-	@include iconfont('checkbox-checked');
+	border-style: solid;
+	border-width: 8px;
+	border-radius: 4px;
+	height: 16px;
+	width: 16px;
 }
 </style>

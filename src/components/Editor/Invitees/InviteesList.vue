@@ -2,8 +2,9 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -22,41 +23,41 @@
 
 <template>
 	<div>
-		<InviteesListSearch
-			v-if="!isReadOnly && hasUserEmailAddress"
+		<InviteesListSearch v-if="!isReadOnly && !isSharedWithMe && hasUserEmailAddress"
 			:already-invited-emails="alreadyInvitedEmails"
-			@addAttendee="addAttendee" />
-		<OrganizerListItem
-			v-if="hasOrganizer"
-			:is-read-only="isReadOnly"
+			@add-attendee="addAttendee" />
+		<OrganizerListItem v-if="hasOrganizer"
+			:is-read-only="isReadOnly || isSharedWithMe"
 			:organizer="calendarObjectInstance.organizer" />
-		<InviteesListItem
-			v-for="invitee in inviteesWithoutOrganizer"
+		<InviteesListItem v-for="invitee in inviteesWithoutOrganizer"
 			:key="invitee.email"
 			:attendee="invitee"
-			:is-read-only="isReadOnly"
+			:is-read-only="isReadOnly || isSharedWithMe"
 			:organizer-display-name="organizerDisplayName"
-			@removeAttendee="removeAttendee" />
-		<NoInviteesView
-			v-if="isReadOnly && isListEmpty" />
-		<NoInviteesView
-			v-if="!isReadOnly && isListEmpty && hasUserEmailAddress" />
-		<OrganizerNoEmailError
-			v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
+			@remove-attendee="removeAttendee" />
+		<NoAttendeesView v-if="isReadOnly && isListEmpty"
+			:message="noInviteesMessage" />
+		<NoAttendeesView v-if="!isReadOnly && isListEmpty && hasUserEmailAddress"
+			:message="noInviteesMessage" />
+		<NoAttendeesView v-if="isSharedWithMe"
+			:message="noOwnerMessage" />
+		<OrganizerNoEmailError v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
 
 		<div class="invitees-list-button-group">
-			<button
-				v-if="isCreateTalkRoomButtonVisible"
+			<NcButton v-if="isCreateTalkRoomButtonVisible"
+				class="invitees-list-button-group__button"
 				:disabled="isCreateTalkRoomButtonDisabled"
 				@click="createTalkRoom">
 				{{ $t('calendar', 'Create Talk room for this event') }}
-			</button>
+			</NcButton>
 
-			<button v-if="!isReadOnly" :disabled="isListEmpty" @click="openFreeBusy">
+			<NcButton v-if="!isReadOnly"
+				class="invitees-list-button-group__button"
+				:disabled="isListEmpty || !isOrganizer"
+				@click="openFreeBusy">
 				{{ $t('calendar', 'Show busy times') }}
-			</button>
-			<FreeBusy
-				v-if="showFreeBusyModel"
+			</NcButton>
+			<FreeBusy v-if="showFreeBusyModel"
 				:attendees="calendarObjectInstance.attendees"
 				:organizer="calendarObjectInstance.organizer"
 				:start-date="calendarObjectInstance.startDate"
@@ -67,25 +68,28 @@
 </template>
 
 <script>
+import { NcButton } from '@nextcloud/vue'
 import { mapState } from 'vuex'
-import InviteesListSearch from './InviteesListSearch'
-import InviteesListItem from './InviteesListItem'
-import OrganizerListItem from './OrganizerListItem'
-import NoInviteesView from './NoInviteesView.vue'
-import OrganizerNoEmailError from './OrganizerNoEmailError.vue'
-import { createTalkRoom, doesDescriptionContainTalkLink } from '../../../services/talkService.js'
+import InviteesListSearch from './InviteesListSearch.vue'
+import InviteesListItem from './InviteesListItem.vue'
+import OrganizerListItem from './OrganizerListItem.vue'
+import NoAttendeesView from '../NoAttendeesView.vue'
+import OrganizerNoEmailError from '../OrganizerNoEmailError.vue'
+import { createTalkRoom, doesContainTalkLink } from '../../../services/talkService.js'
 import FreeBusy from '../FreeBusy/FreeBusy.vue'
 import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
+import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
 
 export default {
 	name: 'InviteesList',
 	components: {
+		NcButton,
 		FreeBusy,
 		OrganizerNoEmailError,
-		NoInviteesView,
+		NoAttendeesView,
 		InviteesListItem,
 		InviteesListSearch,
 		OrganizerListItem,
@@ -99,6 +103,10 @@ export default {
 			type: Object,
 			required: true,
 		},
+		isSharedWithMe: {
+			type: Boolean,
+			required: true,
+		},
 	},
 	data() {
 		return {
@@ -110,44 +118,42 @@ export default {
 		...mapState({
 			talkEnabled: state => state.settings.talkEnabled,
 		}),
+		noInviteesMessage() {
+			return this.$t('calendar', 'No attendees yet')
+		},
+		noOwnerMessage() {
+			return this.$t('calendar', 'You don\'t own this calendar, so you cannot add attendees to this event')
+		},
+		invitees() {
+			return this.calendarObjectInstance.attendees.filter(attendee => {
+				return !['RESOURCE', 'ROOM'].includes(attendee.attendeeProperty.userType)
+			})
+		},
 		inviteesWithoutOrganizer() {
 			if (!this.calendarObjectInstance.organizer) {
-				return this.calendarObjectInstance.attendees
+				return this.invitees
 			}
 
-			return this.calendarObjectInstance.attendees
+			return this.invitees
 				.filter(attendee => attendee.uri !== this.calendarObjectInstance.organizer.uri)
+		},
+		isOrganizer() {
+			return this.calendarObjectInstance.organizer !== null
+				&& this.$store.getters.getCurrentUserPrincipal !== null
+				&& removeMailtoPrefix(this.calendarObjectInstance.organizer.uri) === this.$store.getters.getCurrentUserPrincipal.emailAddress
 		},
 		hasOrganizer() {
 			return this.calendarObjectInstance.organizer !== null
 		},
+
 		organizerDisplayName() {
-			if (!this.calendarObjectInstance.organizer) {
-				return ''
-			}
-
-			if (this.calendarObjectInstance.organizer.commonName) {
-				return this.calendarObjectInstance.organizer.commonName
-			}
-
-			if (this.calendarObjectInstance.organizer.uri.startsWith('mailto:')) {
-				return this.calendarObjectInstance.organizer.uri.substr(7)
-			}
-
-			return this.calendarObjectInstance.organizer.uri
+			return organizerDisplayName(this.calendarObjectInstance.organizer)
 		},
 		isListEmpty() {
-			return this.calendarObjectInstance.organizer === null
-				&& this.calendarObjectInstance.attendees.length === 0
+			return !this.calendarObjectInstance.organizer && this.invitees.length === 0
 		},
 		alreadyInvitedEmails() {
-			const emails = this.calendarObjectInstance.attendees.map(attendee => {
-				if (attendee.uri.startsWith('mailto:')) {
-					return attendee.uri.substr(7)
-				}
-
-				return attendee.uri
-			})
+			const emails = this.invitees.map(attendee => removeMailtoPrefix(attendee.uri))
 
 			const principal = this.$store.getters.getCurrentUserPrincipal
 			if (principal) {
@@ -172,7 +178,10 @@ export default {
 				return true
 			}
 
-			if (doesDescriptionContainTalkLink(this.calendarObjectInstance.description)) {
+			if (doesContainTalkLink(this.calendarObjectInstance.location)) {
+				return true
+			}
+			if (doesContainTalkLink(this.calendarObjectInstance.description)) {
 				return true
 			}
 
@@ -191,20 +200,8 @@ export default {
 				rsvp: true,
 				language,
 				timezoneId,
+				organizer: this.$store.getters.getCurrentUserPrincipal,
 			})
-
-			if (!this.hasOrganizer) {
-				const principal = this.$store.getters.getCurrentUserPrincipal
-				if (!principal) {
-					return
-				}
-
-				this.$store.commit('setOrganizer', {
-					calendarObjectInstance: this.calendarObjectInstance,
-					commonName: principal.displayname,
-					email: principal.emailAddress,
-				})
-			}
 		},
 		removeAttendee(attendee) {
 			this.$store.commit('removeAttendee', {
@@ -222,21 +219,32 @@ export default {
 			const NEW_LINE = '\r\n'
 			try {
 				this.creatingTalkRoom = true
-				const url = await createTalkRoom(this.calendarObjectInstance.title)
+				const url = await createTalkRoom(
+					this.calendarObjectInstance.title,
+					this.calendarObjectInstance.description,
+				)
 
-				let newDescription
-				if (!this.calendarObjectInstance.description) {
-					newDescription = url + NEW_LINE
+				// Store in LOCATION property if it's missing/empty. Append to description otherwise.
+				if ((this.calendarObjectInstance.location ?? '').trim() === '') {
+					this.$store.commit('changeLocation', {
+						calendarObjectInstance: this.calendarObjectInstance,
+						location: url,
+					})
+					showSuccess(this.$t('calendar', 'Successfully appended link to talk room to location.'))
 				} else {
-					newDescription = this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + url + NEW_LINE
+					if (!this.calendarObjectInstance.description) {
+						this.$store.commit('changeDescription', {
+							calendarObjectInstance: this.calendarObjectInstance,
+							description: url,
+						})
+					} else {
+						this.$store.commit('changeDescription', {
+							calendarObjectInstance: this.calendarObjectInstance,
+							description: this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + url + NEW_LINE,
+						})
+					}
+					showSuccess(this.$t('calendar', 'Successfully appended link to talk room to description.'))
 				}
-
-				this.$store.commit('changeDescription', {
-					calendarObjectInstance: this.calendarObjectInstance,
-					description: newDescription,
-				})
-
-				showSuccess(this.$t('calendar', 'Successfully appended link to talk room to description.'))
 			} catch (error) {
 				showError(this.$t('calendar', 'Error creating Talk room'))
 			} finally {
@@ -246,3 +254,21 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.invitees-list-button-group {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+}
+
+.invitees-list-button-group__button {
+	flex: 1 0 200px;
+
+	::v-deep .button-vue__text {
+		white-space: unset !important;
+		overflow: unset !important;
+		text-overflow: unset !important;
+	}
+}
+</style>

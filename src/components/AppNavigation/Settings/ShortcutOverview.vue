@@ -2,7 +2,7 @@
   - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -19,40 +19,33 @@
   -
   -->
 <template>
-	<Modal
-		class="shortcut-overview-modal"
-		size="normal"
+	<Modal class="shortcut-overview-modal"
+		size="large"
 		:title="$t('calendar', 'Shortcut overview')"
 		@close="$emit('close')">
-		<section
-			v-for="category in shortcuts"
+		<section v-for="category in shortcuts"
 			:key="category.categoryId"
 			class="shortcut-section">
 			<h3 class="shortcut-section__header">
 				{{ category.categoryLabel }}
 			</h3>
-			<div
-				v-for="(shortcut, index) in category.shortcuts"
+			<div v-for="(shortcut, index) in category.shortcuts"
 				:key="`${category.categoryId}-${index}`"
 				class="shortcut-section-item">
 				<span class="shortcut-section-item__keys">
-					<template
-						v-for="(keyCombination, index2) of shortcut.keys"
-						class="shortcut-section-item__key-combination">
+					<template v-for="(keyCombination, index2) of shortcut.keys">
 						<template v-for="(key, index3) in keyCombination">
 							<kbd :key="`${category.categoryId}-${index}-${index2}-${index3}`">{{ key }}</kbd>
-							<span
-								v-if="index3 !== (keyCombination.length - 1)"
+							<span v-if="index3 !== (keyCombination.length - 1)"
 								:key="`${category.categoryId}-${index}-${index2}-${index3}`"
 								class="shortcut-section-item__spacer">
 								+
 							</span>
 						</template>
-						<span
-							v-if="index2 !== (shortcut.keys.length - 1)"
+						<span v-if="index2 !== (shortcut.keys.length - 1)"
 							:key="`${category.categoryId}-${index}-${index2}`"
 							class="shortcut-section-item__spacer">
-							{{ t('calendar', 'or') }}
+							{{ $t('calendar', 'or') }}
 						</span>
 					</template>
 				</span>
@@ -64,7 +57,7 @@
 
 <script>
 import { translate as t } from '@nextcloud/l10n'
-import Modal from '@nextcloud/vue/dist/Components/Modal'
+import { NcModal as Modal } from '@nextcloud/vue'
 
 export default {
 	components: {
@@ -97,6 +90,12 @@ export default {
 				}, {
 					keys: [['3'], ['m']],
 					label: t('calendar', 'Month view'),
+				}, {
+					keys: [['4'], ['y']],
+					label: t('calendar', 'Year view'),
+				}, {
+					keys: [['5'], ['l']],
+					label: t('calendar', 'List view'),
 				}],
 			}, {
 				categoryId: 'actions',
@@ -107,6 +106,22 @@ export default {
 				}, {
 					keys: [['h']],
 					label: t('calendar', 'Show shortcuts'),
+				}],
+			}, {
+				categoryId: 'editor',
+				categoryLabel: t('calendar', 'Editor'),
+				shortcuts: [{
+					keys: [['Escape']],
+					label: t('calendar', 'Close editor'),
+				}, {
+					keys: [['Ctrl+Enter']],
+					label: t('calendar', 'Save edited event'),
+				}, {
+					keys: [['Ctrl+Delete']],
+					label: t('calendar', 'Delete edited event'),
+				}, {
+					keys: [['Ctrl+d']],
+					label: t('calendar', 'Duplicate event'),
 				}],
 			}]
 		},

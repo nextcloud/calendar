@@ -1,0 +1,134 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"config:base",
+		"helpers:pinGitHubActionDigests",
+		":dependencyDashboard",
+		":semanticCommits",
+		":gitSignOff"
+	],
+	"timezone": "Europe/Vienna",
+	"schedule": [
+		"before 5am on wednesday"
+	],
+	"labels": [
+		"dependencies",
+		"3 - to review"
+	],
+	"commitMessageAction": "Bump",
+	"commitMessageTopic": "{{depName}}",
+	"commitMessageExtra": "from {{currentVersion}} to {{#if isPinDigest}}{{{newDigestShort}}}{{else}}{{#if isMajor}}{{prettyNewMajor}}{{else}}{{#if isSingleVersion}}{{prettyNewVersion}}{{else}}{{#if newValue}}{{{newValue}}}{{else}}{{{newDigestShort}}}{{/if}}{{/if}}{{/if}}{{/if}}",
+	"rangeStrategy": "bump",
+	"rebaseWhen": "conflicted",
+	"ignoreUnstable": false,
+	"baseBranches": [
+		"main",
+		"stable4.4",
+		"stable4.3"
+	],
+	"enabledManagers": [
+		"composer",
+		"github-actions",
+		"npm"
+	],
+	"ignoreDeps": [
+		"node",
+		"npm",
+		"php",
+		"postcss-loader"
+	],
+	"packageRules": [
+		{
+			"description": "Request JavaScript reviews",
+			"matchManagers": ["npm"],
+			"reviewers": [
+				"GretaD",
+				"st3iny"
+			]
+		},
+		{
+			"description": "Request PHP reviews",
+			"matchManagers": ["composer"],
+			"reviewers": [
+				"ChristophWurst",
+				"st3iny"
+			]
+		},
+		{
+			"description": "Bump Github actions monthly and request reviews",
+			"matchManagers": ["github-actions"],
+			"extends": ["schedule:monthly"],
+			"reviewers": [
+				"miaulalala",
+				"st3iny"
+			]
+		},
+		{
+			"matchUpdateTypes": ["minor", "patch"],
+			"matchCurrentVersion": "!/^0/",
+			"automerge": true,
+			"automergeType": "pr",
+			"platformAutomerge": true,
+			"labels": [
+				"dependencies",
+				"4 - to release"
+			],
+			"reviewers": []
+		},
+		{
+			"description": "Only automerge packages that follow semver",
+			"matchPackageNames": ["@nextcloud/vue", "friendsofphp/php-cs-fixer"],
+			"automerge": false,
+			"labels": [
+				"dependencies",
+				"3 - to review"
+			],
+			"reviewers": [
+				"GretaD",
+				"st3iny"
+			]
+		},
+		{
+			"enabled": false,
+			"matchBaseBranches": "/^stable(.)+/"
+		},
+		{
+			"matchBaseBranches": ["main"],
+			"matchDepTypes": ["devDependencies"],
+			"extends": ["schedule:monthly"]
+		},
+		{
+			"groupName": "FullCalendar family",
+			"matchPackageNames": [
+				"@fullcalendar/core",
+				"@fullcalendar/daygrid",
+				"@fullcalendar/interaction",
+				"@fullcalendar/list",
+				"@fullcalendar/resource",
+				"@fullcalendar/resource-timeline",
+				"@fullcalendar/timegrid",
+				"@fullcalendar/vue"
+			],
+			"rangeStrategy": "pin",
+			"automerge": false
+		},
+		{
+			"groupName": "Jest family",
+			"matchPackageNames": [
+				"jest",
+				"jest-environment-jsdom",
+				"babel-jest",
+				"@vue/vue2-jest"
+			],
+			"automerge": true
+		}
+	],
+	"vulnerabilityAlerts": {
+		"enabled": true,
+		"semanticCommitType": "fix",
+		"schedule": "before 7am every weekday",
+		"dependencyDashboardApproval": false,
+		"commitMessageSuffix": ""
+	},
+	"osvVulnerabilityAlerts": true
+}

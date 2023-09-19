@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -23,24 +23,34 @@
 /**
  * Returns the date-formatting config for FullCalendar
  *
- * @returns {Object}
+ * @return {object}
  */
 const getDateFormattingConfig = () => {
+	const defaultConfig = {
+		dayHeaderFormat: 'ddd l',
+		titleFormat: 'll',
+		slotLabelFormat: 'LT',
+	}
+
 	return {
 		// Date formatting:
 		eventTimeFormat: 'LT',
 		views: {
 			dayGridMonth: {
+				...defaultConfig,
 				dayHeaderFormat: 'ddd',
-				titleFormat: 'll',
 			},
-			timeGridDay: {
-				dayHeaderFormat: 'ddd l',
-				titleFormat: 'll',
+			multiMonthYear: {
+				...defaultConfig,
+				dayHeaderFormat: 'ddd',
+				multiMonthMaxColumns: 4,
 			},
-			timeGridWeek: {
-				dayHeaderFormat: 'ddd l',
-				titleFormat: 'll',
+			timeGridDay: defaultConfig,
+			timeGridWeek: defaultConfig,
+			listMonth: {
+				// Changes for the List View
+				listDayFormat: 'LL, dddd',
+				listDaySideFormat: false,
 			},
 		},
 	}

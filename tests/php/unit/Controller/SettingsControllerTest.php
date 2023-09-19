@@ -23,13 +23,12 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use ChristophWurst\Nextcloud\Testing\TestCase;
 use OCP\IConfig;
 use OCP\IRequest;
-use ChristophWurst\Nextcloud\Testing\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class SettingsControllerTest extends TestCase {
-
 	/** @var string */
 	private $appName;
 
@@ -64,7 +63,7 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider setViewWithAllowedViewDataProvider
 	 */
 	public function testSetViewWithAllowedView(string $view,
-											   int $expectedStatusCode):void {
+		int $expectedStatusCode):void {
 		if ($expectedStatusCode === 200) {
 			$this->config->expects($this->once())
 				->method('setUserValue')
@@ -112,7 +111,7 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider setPopoverWithAllowedValueDataProvider
 	 */
 	public function testSetPopoverWithAllowedValue(string $value,
-												   int $expectedStatusCode) {
+		int $expectedStatusCode) {
 		if ($expectedStatusCode === 200) {
 			$this->config->expects($this->once())
 				->method('setUserValue')
@@ -204,7 +203,7 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider setShowWeekendsWithAllowedValueDataProvider
 	 */
 	public function testSetShowWeekendsWithAllowedValue(string $value,
-														int $expectedStatusCode):void {
+		int $expectedStatusCode):void {
 		if ($expectedStatusCode === 200) {
 			$this->config->expects($this->once())
 				->method('setUserValue')
@@ -246,7 +245,7 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider setShowWeekNumbersWithAllowedValueDataProvider
 	 */
 	public function testSetShowWeekNumbersWithAllowedValue(string $value,
-														int $expectedStatusCode):void {
+		int $expectedStatusCode):void {
 		if ($expectedStatusCode === 200) {
 			$this->config->expects($this->once())
 				->method('setUserValue')
@@ -288,7 +287,7 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider setEventLimitWithAllowedValueDataProvider
 	 */
 	public function testSetEventLimitWithAllowedValue(string $value,
-														   int $expectedStatusCode):void {
+		int $expectedStatusCode):void {
 		if ($expectedStatusCode === 200) {
 			$this->config->expects($this->once())
 				->method('setUserValue')
@@ -330,7 +329,7 @@ class SettingsControllerTest extends TestCase {
 	 * @dataProvider setSlotDurationWithAllowedValueDataProvider
 	 */
 	public function testSetSlotDurationWithAllowedValue(string $value,
-													  int $expectedStatusCode):void {
+		int $expectedStatusCode):void {
 		if ($expectedStatusCode === 200) {
 			$this->config->expects($this->once())
 				->method('setUserValue')
@@ -364,6 +363,59 @@ class SettingsControllerTest extends TestCase {
 			->will($this->throwException(new \Exception));
 
 		$actual = $this->controller->setConfig('slotDuration', '00:30:00');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(500, $actual->getStatus());
+	}
+
+	/**
+	 * @param string $value
+	 * @param int $expectedStatusCode
+	 *
+	 * @dataProvider setDefaultReminderWithAllowedValueDataProvider
+	 */
+	public function testSetDefaultReminderWithAllowedValue(string $value,
+		int $expectedStatusCode):void {
+		if ($expectedStatusCode === 200) {
+			$this->config->expects($this->once())
+				->method('setUserValue')
+				->with('user123', $this->appName, 'defaultReminder', $value);
+		}
+
+		$actual = $this->controller->setConfig('defaultReminder', $value);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals($expectedStatusCode, $actual->getStatus());
+	}
+
+	public function setDefaultReminderWithAllowedValueDataProvider():array {
+		return [
+			['none', 200],
+			['-0', 200],
+			['0', 200],
+			['-300', 200],
+			['-600', 200],
+			['-900', 200],
+			['-1200', 200],
+			['-2400', 200],
+			['-2400', 200],
+			['not-none', 422],
+			['NaN', 422],
+			['0.1', 422],
+			['1', 422],
+			['300', 422],
+		];
+	}
+
+	public function testSetDefaultReminderWithException():void {
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('user123', $this->appName, 'defaultReminder', 'none')
+			->will($this->throwException(new \Exception));
+
+		$actual = $this->controller->setConfig('defaultReminder', 'none');
 
 		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
 		$this->assertEquals([], $actual->getData());

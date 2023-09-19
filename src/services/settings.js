@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -24,11 +24,11 @@ import { getLinkToConfig } from '../utils/settings.js'
 
 /**
  *
- * @param {String} key Config-key to set
- * @param {String|Number|Boolean} value Config-value to set
- * @returns {Promise<void>}
+ * @param {string} key Config-key to set
+ * @param {string | number | boolean} value Config-value to set
+ * @return {Promise<void>}
  */
-const setConfig = async(key, value) => {
+const setConfig = async (key, value) => {
 	await HttpClient.post(getLinkToConfig(key), { value })
 }
 

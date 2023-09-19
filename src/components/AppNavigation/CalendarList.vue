@@ -2,7 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -20,28 +20,26 @@
   -->
 
 <template>
-	<draggable
-		v-model="calendars"
+	<draggable v-model="calendars"
 		:disabled="disableDragging"
+		v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
 		draggable=".draggable-calendar-list-item"
 		@update="update">
 		<template v-if="!isPublic">
-			<CalendarListItem
-				v-for="calendar in calendars"
+			<CalendarListItem v-for="calendar in calendars"
 				:key="calendar.id"
 				class="draggable-calendar-list-item"
 				:calendar="calendar" />
 		</template>
 		<template v-else>
-			<PublicCalendarListItem
-				v-for="calendar in calendars"
+			<PublicCalendarListItem v-for="calendar in calendars"
 				:key="calendar.id"
 				:calendar="calendar" />
 		</template>
 		<!-- The header slot must be placed here, otherwise vuedraggable adds undefined as item to the array -->
-		<CalendarListItemLoadingPlaceholder
-			v-if="loadingCalendars"
-			#footer />
+		<template #footer>
+			<CalendarListItemLoadingPlaceholder v-if="loadingCalendars" />
+		</template>
 	</draggable>
 </template>
 

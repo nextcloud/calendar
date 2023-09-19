@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -21,68 +21,75 @@
   -->
 
 <template>
-	<DatetimePicker
-		:lang="lang"
+	<DatetimePicker :lang="lang"
 		:first-day-of-week="firstDay"
+		:format="'YYYY-MM-DD HH:mm'"
 		:formatter="formatter"
 		:value="date"
-		:type="type"
+		:type="actualType"
 		:clearable="false"
 		:minute-step="5"
-		:not-before="minimumDate"
-		:not-after="maximumDate"
+		:disabled-date="disabledDate"
 		:show-second="false"
 		:show-time-panel="showTimePanel"
 		:show-week-number="showWeekNumbers"
 		:use12h="showAmPm"
+		:append-to-body="appendToBody"
 		v-bind="$attrs"
+		confirm
 		v-on="$listeners"
 		@close="close"
 		@change="change"
 		@pick="pickDate">
-		<template
-			slot="icon-calendar">
-			<button
-				class="datetime-picker-inline-icon icon"
-				:class="{'icon-timezone': !isAllDay, 'icon-new-calendar': isAllDay, 'datetime-picker-inline-icon--highlighted': highlightTimezone}"
+		<template #icon-calendar>
+			<NcButton type="tertiary-no-background"
 				@click.stop.prevent="toggleTimezonePopover"
-				@mousedown.stop.prevent="() => {}" />
-			<Popover
-				:open.sync="showTimezonePopover"
+				@mousedown.stop.prevent="() => {}">
+				<template #icon>
+					<IconNewCalendar v-if="isAllDay"
+						:size="20" />
+					<IconTimezone v-else
+						:class="{ 'highlighted-timezone-icon': highlightTimezone }"
+						:size="20" />
+				</template>
+			</NcButton>
+			<Popover :shown.sync="showTimezonePopover"
 				open-class="timezone-popover-wrapper">
 				<div class="timezone-popover-wrapper__title">
 					<strong>
-						{{ $t('calendar', 'Please select a timezone:') }}
+						{{ $t('calendar', 'Please select a time zone:') }}
 					</strong>
 				</div>
-				<TimezoneSelect
-					class="timezone-popover-wrapper__timezone-select"
+				<TimezonePicker class="timezone-popover-wrapper__timezone-select"
 					:value="timezoneId"
-					@change="changeTimezone" />
+					@input="changeTimezone" />
 			</Popover>
 		</template>
-		<template
-			v-if="!isAllDay"
-			slot="footer">
-			<button
-				v-if="!showTimePanel"
+		<template v-if="!isAllDay"
+			#footer>
+			<NcButton v-if="!showTimePanel"
 				class="mx-btn mx-btn-text"
 				@click="toggleTimePanel">
 				{{ $t('calendar', 'Pick a time') }}
-			</button>
-			<button
-				v-else
+			</NcButton>
+			<NcButton v-else
 				class="mx-btn mx-btn-text"
 				@click="toggleTimePanel">
 				{{ $t('calendar', 'Pick a date') }}
-			</button>
+			</NcButton>
 		</template>
 	</DatetimePicker>
 </template>
 
 <script>
-import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
-import Popover from '@nextcloud/vue/dist/Components/Popover'
+import {
+	NcButton,
+	NcDatetimePicker as DatetimePicker,
+	NcPopover as Popover,
+	NcTimezonePicker as TimezonePicker,
+} from '@nextcloud/vue'
+import IconTimezone from 'vue-material-design-icons/Web.vue'
+import IconNewCalendar from 'vue-material-design-icons/CalendarBlankOutline.vue'
 import {
 	getFirstDay,
 } from '@nextcloud/l10n'
@@ -92,24 +99,22 @@ import {
 	showError,
 } from '@nextcloud/dialogs'
 
-import TimezoneSelect from './TimezoneSelect'
 import { getLangConfigForVue2DatePicker } from '../../utils/localization.js'
 
 export default {
 	name: 'DatePicker',
 	components: {
+		NcButton,
 		DatetimePicker,
 		Popover,
-		TimezoneSelect,
+		TimezonePicker,
+	  IconTimezone,
+	  IconNewCalendar,
 	},
 	props: {
 		date: {
 			type: Date,
 			required: true,
-		},
-		hasTimezone: {
-			type: Boolean,
-			default: false,
 		},
 		timezoneId: {
 			type: String,
@@ -135,6 +140,14 @@ export default {
 			type: Date,
 			default: null,
 		},
+		appendToBody: {
+			type: Boolean,
+			default: false,
+		},
+		type: {
+			type: String,
+			default: 'datetime',
+		},
 	},
 	data() {
 		return {
@@ -144,7 +157,7 @@ export default {
 				stringify: this.stringify,
 				parse: this.parse,
 			},
-			showTimePanel: false,
+			showTimePanel: true,
 		}
 	},
 	computed: {
@@ -155,7 +168,7 @@ export default {
 		/**
 		 * Returns the lang config for vue2-datepicker
 		 *
-		 * @returns {Object}
+		 * @return {object}
 		 */
 		lang() {
 			return getLangConfigForVue2DatePicker(this.locale)
@@ -165,7 +178,7 @@ export default {
 		 * The icon is highlighted when the selected timezone
 		 * does not equal the current user's timezone
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		highlightTimezone() {
 			if (this.isAllDay) {
@@ -178,19 +191,19 @@ export default {
 		 * Type of the DatePicker.
 		 * Ether date if allDay or datetime
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
-		type() {
-			if (this.isAllDay) {
+		actualType() {
+			if (this.type === 'datetime' && this.isAllDay) {
 				return 'date'
 			}
 
-			return 'datetime'
+			return this.type
 		},
 		/**
 		 * The earliest date a user is allowed to pick in the timezone
 		 *
-		 * @returns {Date}
+		 * @return {Date}
 		 */
 		minimumDate() {
 			return this.min || new Date(this.$store.state.davRestrictions.minimumDate)
@@ -198,7 +211,7 @@ export default {
 		/**
 		 * The latest date a user is allowed to pick in the timezone
 		 *
-		 * @returns {Date}
+		 * @return {Date}
 		 */
 		maximumDate() {
 			return this.max || new Date(this.$store.state.davRestrictions.maximumDate)
@@ -206,7 +219,7 @@ export default {
 		/**
 		 * Whether or not to offer am/pm in the timepicker
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		showAmPm() {
 			const localeData = moment().locale(this.locale).localeData()
@@ -229,7 +242,7 @@ export default {
 		 * when user picked a date and date-time-picker is not all-day
 		 *
 		 * @param {Date} date The selected Date object
-		 * @param {String} type The type of selected date (Date, Time, ...)
+		 * @param {string} type The type of selected date (Date, Time, ...)
 		 */
 		pickDate(date, type) {
 			if (!this.isAllDay && type === 'date') {
@@ -239,10 +252,10 @@ export default {
 		/**
 		 * Emits a change event for the Timezone
 		 *
-		 * @param {String} timezoneId The new timezoneId
+		 * @param {string} timezoneId The new timezoneId
 		 */
 		changeTimezone(timezoneId) {
-			this.$emit('changeTimezone', timezoneId)
+			this.$emit('change-timezone', timezoneId)
 		},
 		/**
 		 * Toggles the visibility of the timezone popover
@@ -255,10 +268,10 @@ export default {
 			this.showTimezonePopover = !this.showTimezonePopover
 		},
 		/**
-		 * Reset to date-panel on close of datepicker
+		 * Reset to time-panel on close of datepicker
 		 */
 		close() {
-			this.showTimePanel = false
+			this.showTimePanel = true
 			this.$emit('close')
 		},
 		/**
@@ -271,7 +284,7 @@ export default {
 		 * Formats the date string
 		 *
 		 * @param {Date} date The date for format
-		 * @returns {String}
+		 * @return {string}
 		 */
 		stringify(date) {
 			const formattedDate = moment(date).locale(this.locale).format('L')
@@ -310,8 +323,8 @@ export default {
 		/**
 		 * Parses the user input from the input field
 		 *
-		 * @param {String} value The user-input to be parsed
-		 * @returns {Date}
+		 * @param {string} value The user-input to be parsed
+		 * @return {Date}
 		 */
 		parse(value) {
 			if (this.isAllDay) {
@@ -397,6 +410,27 @@ export default {
 				return moment(dateMatches[1] + ' ' + timeMatches[1], 'L LT', this.locale).toDate()
 			}
 		},
+		/**
+		 * Whether or not the date is acceptable
+		 *
+		 * @param {Date} date The date to compare to
+		 * @return {boolean}
+		 */
+		disabledDate(date) {
+			return date < this.minimumDate || date > this.maximumDate
+		},
 	},
 }
 </script>
+<style lang="scss" scoped>
+.highlighted-timezone-icon {
+	opacity: .7;
+}
+::v-deep .mx-icon-calendar {
+	right: 0;
+}
+::v-deep .multiselect__content-wrapper {
+	border: none !important;
+	position: relative !important;
+}
+</style>

@@ -3,7 +3,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -21,8 +21,7 @@
   -->
 
 <template>
-	<DatetimePicker
-		:clearable="false"
+	<DatetimePicker :clearable="false"
 		:first-day-of-week="firstDay"
 		:format="format"
 		:lang="lang"
@@ -37,7 +36,7 @@
 </template>
 
 <script>
-import DatetimePicker from '@nextcloud/vue/dist/Components/DatetimePicker'
+import { NcDatetimePicker as DatetimePicker } from '@nextcloud/vue'
 import moment from '@nextcloud/moment'
 import { mapState } from 'vuex'
 import {
@@ -72,7 +71,7 @@ export default {
 		/**
 		 * Returns the lang config for vue2-datepicker
 		 *
-		 * @returns {Object}
+		 * @return {object}
 		 */
 		lang() {
 			return getLangConfigForVue2DatePicker(this.locale)
@@ -80,7 +79,7 @@ export default {
 		/**
 		 * Whether or not to offer am/pm in the timepicker
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		showAmPm() {
 			const localeData = moment().locale(this.locale).localeData()
@@ -102,7 +101,7 @@ export default {
 		 * Formats the date string
 		 *
 		 * @param {Date} date The date for format
-		 * @returns {String}
+		 * @return {string}
 		 */
 		stringify(date) {
 			return moment(date).locale(this.locale).format('LT')
@@ -110,8 +109,8 @@ export default {
 		/**
 		 * Parses the user input from the input field
 		 *
-		 * @param {String} value The user-input to be parsed
-		 * @returns {Date}
+		 * @param {string} value The user-input to be parsed
+		 * @return {Date}
 		 */
 		parse(value) {
 			return moment(value, 'LT', this.locale).toDate()

@@ -1,11 +1,13 @@
 /**
  * @copyright Copyright (c) 2019 Team Popcorn <teampopcornberlin@gmail.com>
+ *
  * @copyright Copyright (c) 2020 Georg Ehrke
  *
  * @author Team Popcorn <teampopcornberlin@gmail.com>
+ *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -35,14 +37,14 @@ const mutations = {
 	/**
 	 * Adds a file to the state
 	 *
-	 * @param {Object} state The vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {String} data.contents Contents of file
-	 * @param {Number} data.lastModified Timestamp of last modification
-	 * @param {String} data.name Name of file
+	 * @param {object} state The vuex state
+	 * @param {object} data The destructuring object
+	 * @param {string} data.contents Contents of file
+	 * @param {number} data.lastModified Timestamp of last modification
+	 * @param {string} data.name Name of file
 	 * @param {AbstractParser} data.parser The parser
-	 * @param {Number} data.size Size of file
-	 * @param {String} data.type mime-type of file
+	 * @param {number} data.size Size of file
+	 * @param {string} data.type mime-type of file
 	 */
 	addFile(state, { contents, lastModified, name, parser, size, type }) {
 		const file = {
@@ -62,10 +64,10 @@ const mutations = {
 	/**
 	 * Sets a calendar for the file
 	 *
-	 * @param {Object} state The vuex state
-	 * @param {Object} data The destructuring object
-	 * @param {Number} data.fileId Id of file to select calendar for
-	 * @param {String} data.calendarId Id of calendar to import file into
+	 * @param {object} state The vuex state
+	 * @param {object} data The destructuring object
+	 * @param {number} data.fileId Id of file to select calendar for
+	 * @param {string} data.calendarId Id of calendar to import file into
 	 */
 	setCalendarForFileId(state, { fileId, calendarId }) {
 		Vue.set(state.importCalendarRelation, fileId, calendarId)
@@ -74,7 +76,7 @@ const mutations = {
 	/**
 	 * Removes all files from state
 	 *
-	 * @param {Object} state The vuex state
+	 * @param {object} state The vuex state
 	 */
 	removeAllFiles(state) {
 		Vue.set(state, 'importFiles', [])

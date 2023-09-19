@@ -2,8 +2,9 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -21,12 +22,12 @@
   -->
 
 <template>
-	<div v-if="display" class="repeat-option-set repeat-option-set--summary">
-		<span class="repeat-option-set-summary__label">{{ $t('calendar', 'Summary') }}:</span>
-		<span class="repeat-option-set-summary__summary">
-			{{ recurrenceRule | formatRecurrenceRule(locale) }}
-		</span>
-	</div>
+	<span v-if="display">
+		{{ recurrenceRule | formatRecurrenceRule(locale) }}
+	</span>
+	<span v-else>
+		{{ $t('calendar', 'No recurrence') }}
+	</span>
 </template>
 
 <script>
@@ -55,7 +56,7 @@ export default {
 		 * Returns whether or not to display the summary.
 		 * We do not want to show it if it doesn't repeat
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		display() {
 			return this.recurrenceRule.frequency !== 'NONE'

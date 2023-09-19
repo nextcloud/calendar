@@ -2,8 +2,9 @@
  * @copyright Copyright (c) 2019 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -19,7 +20,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { getRFCProperties } from '../models/rfcProps'
+
+import { getRFCProperties } from '../models/rfcProps.js'
 import logger from '../utils/logger.js'
 import { getIllustrationForTitle } from '../utils/illustration.js'
 import { getPrefixedRoute } from '../utils/router.js'
@@ -30,6 +32,8 @@ import {
 	mapState,
 } from 'vuex'
 import { translate as t } from '@nextcloud/l10n'
+import { removeMailtoPrefix } from '../utils/attendee.js'
+import { loadState } from '@nextcloud/initial-state'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
@@ -74,79 +78,79 @@ export default {
 		/**
 		 * Returns the events title or an empty string if the event is still loading
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		title() {
-			return this.calendarObjectInstance?.title || ''
+			return this.calendarObjectInstance?.title ?? ''
 		},
 		/**
 		 * Returns the location or null if the event is still loading
 		 *
-		 * @returns {string|null}
+		 * @return {string|null}
 		 */
 		location() {
-			return this.calendarObjectInstance?.location || null
+			return this.calendarObjectInstance?.location ?? null
 		},
 		/**
 		 * Returns the description or null if the event is still loading
 		 *
-		 * @returns {string|null}
+		 * @return {string|null}
 		 */
 		description() {
-			return this.calendarObjectInstance?.description || null
+			return this.calendarObjectInstance?.description ?? null
 		},
 		/**
 		 * Returns the start-date (without timezone) or null if the event is still loading
 		 *
-		 * @returns {Date|null}
+		 * @return {Date|null}
 		 */
 		startDate() {
-			return this.calendarObjectInstance?.startDate || null
+			return this.calendarObjectInstance?.startDate ?? null
 		},
 		/**
 		 * Returns the timezone of the event's start-date or null if the event is still loading
 		 *
-		 * @returns {string|null}
+		 * @return {string|null}
 		 */
 		startTimezone() {
-			return this.calendarObjectInstance?.startTimezoneId || null
+			return this.calendarObjectInstance?.startTimezoneId ?? null
 		},
 		/**
 		 * Returns the end-date (without timezone) or null if the event is still loading
 		 *
-		 * @returns {Date|null}
+		 * @return {Date|null}
 		 */
 		endDate() {
-			return this.calendarObjectInstance?.endDate || null
+			return this.calendarObjectInstance?.endDate ?? null
 		},
 		/**
 		 * Returns the timezone of the event's end-date or null if the event is still loading
 		 *
-		 * @returns {string|null}
+		 * @return {string|null}
 		 */
 		endTimezone() {
-			return this.calendarObjectInstance?.endTimezoneId || null
+			return this.calendarObjectInstance?.endTimezoneId ?? null
 		},
 		/**
 		 * Returns whether or not the event is all-day or null if the event is still loading
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		isAllDay() {
-			return this.calendarObjectInstance?.isAllDay || false
+			return this.calendarObjectInstance?.isAllDay ?? false
 		},
 		/**
 		 * Returns whether or not the user is allowed to modify the all-day setting
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		canModifyAllDay() {
-			return this.calendarObjectInstance?.canModifyAllDay || null
+			return this.calendarObjectInstance?.canModifyAllDay ?? false
 		},
 		/**
 		 * Returns an illustration matching this event's title
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		backgroundImage() {
 			return getIllustrationForTitle(this.title)
@@ -154,7 +158,7 @@ export default {
 		/**
 		 * Returns the color the illustration should be colored in
 		 *
-		 * @returns {String}
+		 * @return {string}
 		 */
 		illustrationColor() {
 			return this.color || this.selectedCalendarColor
@@ -163,7 +167,7 @@ export default {
 		 * Returns the color of the calendar selected by the user
 		 * This is used to color illustration
 		 *
-		 * @returns {string|*}
+		 * @return {string|*}
 		 */
 		selectedCalendarColor() {
 			if (!this.selectedCalendar) {
@@ -180,15 +184,15 @@ export default {
 		/**
 		 * Returns the custom color of this event
 		 *
-		 * @returns {null|String}
+		 * @return {null | string}
 		 */
 		color() {
-			return this.calendarObjectInstance?.customColor || null
+			return this.calendarObjectInstance?.customColor ?? null
 		},
 		/**
 		 * Returns whether or not to display save buttons
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		showSaveButtons() {
 			return this.isReadOnly === false
@@ -196,7 +200,7 @@ export default {
 		/**
 		 * Returns whether or not to allow editing the event
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		isReadOnly() {
 			if (!this.calendarObject) {
@@ -210,10 +214,49 @@ export default {
 
 			return calendar.readOnly
 		},
+		isSharedWithMe() {
+			if (!this.calendarObject) {
+				return true
+			}
+
+			const calendar = this.$store.getters.getCalendarById(this.calendarObject.calendarId)
+			if (!calendar) {
+				return true
+			}
+
+			return calendar.isSharedWithMe
+		},
+		/**
+		 * Returns whether the user is an attendee of the event
+		 *
+		 * @return {boolean}
+		 */
+		isViewedByAttendee() {
+			return this.userAsAttendee !== null
+		},
+		/**
+		 * Returns the attendee property corresponding to the current user
+		 *
+		 * @return {?object}
+		 */
+		userAsAttendee() {
+			if (this.isReadOnly || !this.$store.getters.getCurrentUserPrincipalEmail || !this.calendarObjectInstance.organizer) {
+				return null
+			}
+
+			const principal = removeMailtoPrefix(this.$store.getters.getCurrentUserPrincipalEmail)
+			for (const attendee of this.calendarObjectInstance.attendees) {
+				if (removeMailtoPrefix(attendee.uri) === principal) {
+					return attendee
+				}
+			}
+
+			return null
+		},
 		/**
 		 * Returns all calendars selectable by the user
 		 *
-		 * @returns {Object[]}
+		 * @return {object[]}
 		 */
 		calendars() {
 			if (this.isReadOnly && this.calendarObject) {
@@ -227,7 +270,7 @@ export default {
 		/**
 		 * Returns the object of the selected calendar
 		 *
-		 * @returns {Object}
+		 * @return {object}
 		 */
 		selectedCalendar() {
 			return this.$store.getters.getCalendarById(this.calendarId)
@@ -235,7 +278,7 @@ export default {
 		/**
 		 * Returns whether or not to display the calendar-picker
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		showCalendarPicker() {
 			// Always show the calendar's name when we are in a read-only calendar
@@ -248,7 +291,7 @@ export default {
 		/**
 		 * Returns whether or not the user is allowed to delete this event
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		canDelete() {
 			if (!this.calendarObject) {
@@ -266,7 +309,7 @@ export default {
 		/**
 		 * Returns whether or not the user is allowed to create recurrence exceptions for this event
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		canCreateRecurrenceException() {
 			if (!this.eventComponent) {
@@ -279,15 +322,20 @@ export default {
 		 * Returns a an object with properties from RFCs including
 		 * their displayName, a description, options, etc.
 		 *
-		 * @returns {{geo, color, timeTransparency, description, resources, location, categories, accessClass, priority, status}}
+		 * @return {{geo, color, timeTransparency, description, resources, location, categories, accessClass, priority, status}}
 		 */
 		rfcProps() {
 			return getRFCProperties()
 		},
+		categoryOptions() {
+			const categories = { ...this.rfcProps.categories }
+			categories.options = loadState('calendar', 'categories', [])
+			return categories
+		},
 		/**
 		 * Returns whether or not this event can be downloaded from the server
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		hasDownloadURL() {
 			if (!this.calendarObject) {
@@ -302,7 +350,7 @@ export default {
 		/**
 		 * Returns the download url as a string or null if event is loading or does not exist on the server (yet)
 		 *
-		 * @returns {string|null}
+		 * @return {string|null}
 		 */
 		downloadURL() {
 			if (!this.calendarObject) {
@@ -318,7 +366,7 @@ export default {
 		/**
 		 * Returns whether or not this is a new event
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		isNew() {
 			if (!this.calendarObject) {
@@ -337,7 +385,7 @@ export default {
 		 * Changes the selected calendar
 		 * Does not move the calendar-object yet, that's done in save
 		 *
-		 * @param {Object} selectedCalendar The new calendar selected by the user
+		 * @param {object} selectedCalendar The new calendar selected by the user
 		 */
 		changeCalendar(selectedCalendar) {
 			this.calendarId = selectedCalendar.id
@@ -371,6 +419,14 @@ export default {
 			this.$store.commit('resetCalendarObjectInstanceObjectIdAndRecurrenceId')
 		},
 		/**
+		 * Closes the editor and returns to normal calendar-view without running any action.
+		 * This is useful if the calendar-object-instance has already been saved.
+		 */
+		closeEditorAndSkipAction() {
+			this.requiresActionOnRouteLeave = false
+			this.closeEditor()
+		},
+		/**
 		 * Resets the calendar-object back to it's original state and closes the editor
 		 */
 		async cancel() {
@@ -391,11 +447,34 @@ export default {
 			this.requiresActionOnRouteLeave = false
 			this.closeEditor()
 		},
+		keyboardCloseEditor(event) {
+			if (event.key === 'Escape') {
+				this.cancel()
+			}
+		},
+		keyboardSaveEvent(event) {
+			if (event.key === 'Enter' && event.ctrlKey === true && !this.isReadOnly && !this.canCreateRecurrenceException) {
+				this.saveAndLeave(false)
+			}
+		},
+		keyboardDeleteEvent(event) {
+			if (event.key === 'Delete' && event.ctrlKey === true && this.canDelete && !this.canCreateRecurrenceException) {
+				this.deleteAndLeave(false)
+			}
+		},
+		keyboardDuplicateEvent(event) {
+			if (event.key === 'd' && event.ctrlKey === true) {
+				event.preventDefault()
+				if (!this.isNew && !this.isReadOnly && !this.canCreateRecurrenceException) {
+					this.duplicateEvent()
+				}
+			}
+		},
 		/**
 		 * Saves a calendar-object
 		 *
-		 * @param {Boolean} thisAndAllFuture Whether to modify only this or this and all future occurrences
-		 * @returns {Promise<void>}
+		 * @param {boolean} thisAndAllFuture Whether to modify only this or this and all future occurrences
+		 * @return {Promise<void>}
 		 */
 		async save(thisAndAllFuture = false) {
 			if (!this.calendarObject) {
@@ -419,19 +498,29 @@ export default {
 		/**
 		 * Saves a calendar-object and closes the editor
 		 *
-		 * @param {Boolean} thisAndAllFuture Whether to modify only this or this and all future occurrences
-		 * @returns {Promise<void>}
+		 * @param {boolean} thisAndAllFuture Whether to modify only this or this and all future occurrences
+		 * @return {Promise<void>}
 		 */
 		async saveAndLeave(thisAndAllFuture = false) {
 			await this.save(thisAndAllFuture)
 			this.requiresActionOnRouteLeave = false
 			this.closeEditor()
 		},
+
+		/**
+		 * Duplicates a calendar-object and saves it
+		 *
+		 * @return {Promise<void>}
+		 */
+		async duplicateEvent() {
+			await this.$store.dispatch('duplicateCalendarObjectInstance')
+		},
+
 		/**
 		 * Deletes a calendar-object
 		 *
-		 * @param {Boolean} thisAndAllFuture Whether to delete only this or this and all future occurrences
-		 * @returns {Promise<void>}
+		 * @param {boolean} thisAndAllFuture Whether to delete only this or this and all future occurrences
+		 * @return {Promise<void>}
 		 */
 		async delete(thisAndAllFuture = false) {
 			if (!this.calendarObject) {
@@ -449,8 +538,8 @@ export default {
 		/**
 		 * Deletes a calendar-object and closes the editor
 		 *
-		 * @param {Boolean} thisAndAllFuture Whether to delete only this or this and all future occurrences
-		 * @returns {Promise<void>}
+		 * @param {boolean} thisAndAllFuture Whether to delete only this or this and all future occurrences
+		 * @return {Promise<void>}
 		 */
 		async deleteAndLeave(thisAndAllFuture = false) {
 			await this.delete(thisAndAllFuture)
@@ -460,7 +549,7 @@ export default {
 		/**
 		 * Updates the title of this event
 		 *
-		 * @param {String} title New title
+		 * @param {string} title New title
 		 */
 		updateTitle(title) {
 			if (title.trim() === '') {
@@ -475,7 +564,7 @@ export default {
 		/**
 		 * Updates the description of this event
 		 *
-		 * @param {String} description New description
+		 * @param {string} description New description
 		 */
 		updateDescription(description) {
 			this.$store.commit('changeDescription', {
@@ -486,7 +575,7 @@ export default {
 		/**
 		 * Updates the location of this event
 		 *
-		 * @param {String} location New location
+		 * @param {string} location New location
 		 */
 		updateLocation(location) {
 			this.$store.commit('changeLocation', {
@@ -508,7 +597,7 @@ export default {
 		/**
 		 * Updates the timezone of this event's start date
 		 *
-		 * @param {String} startTimezone New start timezone
+		 * @param {string} startTimezone New start timezone
 		 */
 		updateStartTimezone(startTimezone) {
 			if (!startTimezone) {
@@ -534,7 +623,7 @@ export default {
 		/**
 		 * Updates the timezone of this event's end date
 		 *
-		 * @param {String} endTimezone New end timezone
+		 * @param {string} endTimezone New end timezone
 		 */
 		updateEndTimezone(endTimezone) {
 			if (!endTimezone) {
@@ -571,7 +660,7 @@ export default {
 		 * This function returns a promise that resolves
 		 * once the calendars were fetched from the server
 		 *
-		 * @returns {Promise<void>}
+		 * @return {Promise<void>}
 		 */
 		loadingCalendars() {
 			if (this.initialCalendarsLoaded) {
@@ -589,8 +678,8 @@ export default {
 	/**
 	 * This is executed before entering the Editor routes
 	 *
-	 * @param {Object} to The route to navigate to
-	 * @param {Object} from The route coming from
+	 * @param {object} to The route to navigate to
+	 * @param {object} from The route coming from
 	 * @param {Function} next Function to be called when ready to load the next view
 	 */
 	async beforeRouteEnter(to, from, next) {
@@ -652,8 +741,8 @@ export default {
 	 * - Change of selected time-range when creating new event
 	 * - Navigating through the calendar-view
 	 *
-	 * @param {Object} to The route to navigate to
-	 * @param {Object} from The route coming from
+	 * @param {object} to The route to navigate to
+	 * @param {object} from The route coming from
 	 * @param {Function} next Function to be called when ready to load the next view
 	 */
 	async beforeRouteUpdate(to, from, next) {
@@ -727,8 +816,8 @@ export default {
 	/**
 	 * This route is called when the user leaves the editor
 	 *
-	 * @param {Object} to The route to navigate to
-	 * @param {Object} from The route coming from
+	 * @param {object} to The route to navigate to
+	 * @param {object} from The route coming from
 	 * @param {Function} next Function to be called when ready to load the next view
 	 */
 	async beforeRouteLeave(to, from, next) {
@@ -740,7 +829,10 @@ export default {
 		}
 
 		try {
-			await this.save()
+			if ((from.name !== 'NewPopoverView' || to.name !== 'EditPopoverView')
+			&& (from.name !== 'NewPopoverView' || to.name !== 'EditSideBarView')) {
+				await this.save()
+			}
 			next()
 		} catch (error) {
 			console.debug(error)

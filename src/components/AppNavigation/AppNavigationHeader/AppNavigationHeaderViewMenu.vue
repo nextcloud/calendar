@@ -2,7 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   - @author Georg Ehrke <oc.list@georgehrke.com>
   -
-  - @license GNU AGPL version 3 or any later version
+  - @license AGPL-3.0-or-later
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU Affero General Public License as
@@ -20,48 +20,70 @@
   -->
 
 <template>
-	<Actions
-		v-shortkey="shortKeyConf"
-		:default-icon="defaultIcon"
+	<Actions v-shortkey="shortKeyConf"
 		menu-align="right"
 		@shortkey.native="selectViewFromShortcut">
-		<ActionButton
-			v-for="view in views"
+		<template #icon>
+			<component :is="defaultIcon" :size="20" decorative />
+		</template>
+		<ActionButton v-for="view in views"
 			:key="view.id"
 			:icon="view.icon"
 			@click="selectView(view.id)">
+			<template #icon>
+				<component :is="view.icon" :size="20" decorative />
+			</template>
 			{{ view.label }}
 		</ActionButton>
 	</Actions>
 </template>
 
 <script>
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
+import {
+	NcActions as Actions,
+	NcActionButton as ActionButton,
+} from '@nextcloud/vue'
+
+import ViewDay from 'vue-material-design-icons/ViewDay.vue'
+import ViewGrid from 'vue-material-design-icons/ViewGrid.vue'
+import ViewList from 'vue-material-design-icons/ViewList.vue'
+import ViewModule from 'vue-material-design-icons/ViewModule.vue'
+import ViewWeek from 'vue-material-design-icons/ViewWeek.vue'
+import ViewComfy from 'vue-material-design-icons/ViewComfy.vue'
 
 export default {
 	name: 'AppNavigationHeaderViewMenu',
 	components: {
 		Actions,
 		ActionButton,
+		ViewDay,
+		ViewGrid,
+		ViewComfy,
+		ViewList,
+		ViewModule,
+		ViewWeek,
 	},
 	computed: {
 		views() {
 			return [{
 				id: 'timeGridDay',
-				icon: 'icon-view-day',
+				icon: 'ViewDay',
 				label: this.$t('calendar', 'Day'),
 			}, {
 				id: 'timeGridWeek',
-				icon: 'icon-view-week',
+				icon: 'ViewWeek',
 				label: this.$t('calendar', 'Week'),
 			}, {
 				id: 'dayGridMonth',
-				icon: 'icon-view-module',
+				icon: 'ViewModule',
 				label: this.$t('calendar', 'Month'),
 			}, {
+				id: 'multiMonthYear',
+				icon: 'ViewComfy',
+				label: this.$t('calendar', 'Year'),
+			}, {
 				id: 'listMonth',
-				icon: 'icon-view-list',
+				icon: 'ViewList',
 				label: this.$t('calendar', 'List'),
 			}]
 		},
@@ -73,6 +95,10 @@ export default {
 				timeGridWeek_Num: [2],
 				dayGridMonth: ['m'],
 				dayGridMonth_Num: [3],
+				multiMonthYear: ['y'],
+				multiMonthYear_Num: [4],
+				listMonth: ['l'],
+				listMonth_Num: [5],
 			}
 		},
 		defaultIcon() {
@@ -82,7 +108,7 @@ export default {
 				}
 			}
 
-			return 'icon-toggle-pictures'
+			return 'ViewGrid'
 		},
 	},
 	methods: {

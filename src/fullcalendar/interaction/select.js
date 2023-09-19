@@ -3,7 +3,7 @@
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  *
- * @license GNU AGPL version 3 or any later version
+ * @license AGPL-3.0-or-later
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -25,11 +25,11 @@
  * This will open the new event editor. Based on the user's preference,
  * either the popover or the sidebar.
  *
- * @param {Object} store The Vuex store
- * @param {Object} router The Vue router
- * @param {Object} route The Vue route
+ * @param {object} store The Vuex store
+ * @param {object} router The Vue router
+ * @param {object} route The Vue route
  * @param {Window} window The window object
- * @returns {Function}
+ * @return {Function}
  */
 export default function(store, router, route, window) {
 	return function({ start, end, allDay }) {
@@ -37,7 +37,9 @@ export default function(store, router, route, window) {
 			? 'NewSidebarView'
 			: 'NewPopoverView'
 
-		if (window.innerWidth <= 768 && name === 'NewPopoverView') {
+		// Don't show the popover if the window size is too small (less then its max width of 450 px + a bit)
+		// The mobile breakpoint of the reworked modals is 1024 px / 2 so simply use that.
+		if (window.innerWidth <= 1024 / 2 && name === 'NewPopoverView') {
 			name = 'NewSidebarView'
 		}
 
