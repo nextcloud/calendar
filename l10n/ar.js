@@ -407,6 +407,7 @@ OC.L10N.register(
     "Select date" : "إختر التاريخ",
     "Select slot" : "إختر الفُرضة الزمنية",
     "No slots available" : "لا توجد أي فُرَضةٍ slot مٌتاحةٍ",
+    "Could not fetch slots" : "تعذّر جلب الفٌرْضَة الزمنية slot",
     "The slot for your appointment has been confirmed" : "تمّ تأكيد الفُرَضَة solt المُخصّصة لموعدك",
     "Appointment Details:" : "تفاصيل الموعد:",
     "Time:" : "الوقت:",

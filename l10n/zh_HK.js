@@ -407,6 +407,7 @@ OC.L10N.register(
     "Select date" : "選擇日期",
     "Select slot" : "選擇時段",
     "No slots available" : "沒有可用的時段",
+    "Could not fetch slots" : "無法擷取時段",
     "The slot for your appointment has been confirmed" : "您預約的時間已確認",
     "Appointment Details:" : "預約細節：",
     "Time:" : "時間：",

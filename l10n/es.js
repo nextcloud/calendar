@@ -502,7 +502,7 @@ OC.L10N.register(
     "Search or add categories" : "Buscar o añadir categorías",
     "Add this as a new category" : "Añadir esto como categoría nueva",
     "Custom color" : "Colores personalizados",
-    "Special color of this event. Overrides the calendar-color." : "Color especial de este evento. Se superpone al color de calendario.",
+    "Special color of this event. Overrides the calendar-color." : "Color especial de este evento. Reemplazará al color de calendario.",
     "Error while sharing file" : "Error al compartir archivo",
     "Error while sharing file with user" : "Error al compartir el archivo con el usuario",
     "Attachment {fileName} already exists!" : "¡El adjunto {fileName} ya existe!",

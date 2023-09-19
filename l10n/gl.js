@@ -407,6 +407,7 @@ OC.L10N.register(
     "Select date" : "Seleccionar a data",
     "Select slot" : "Seleccionar franxa horaria",
     "No slots available" : "Non hai franxas horarias dispoñíbeis",
+    "Could not fetch slots" : "Non foi posíbel recuperar as franxas horarias",
     "The slot for your appointment has been confirmed" : "Confirmouse a franxa horaria para a súa cita",
     "Appointment Details:" : "Detalles da cita:",
     "Time:" : "Hora:",

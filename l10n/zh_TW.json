@@ -405,6 +405,7 @@
     "Select date" : "選取日期",
     "Select slot" : "選取時段",
     "No slots available" : "無可用時段",
+    "Could not fetch slots" : "無法擷取時段",
     "The slot for your appointment has been confirmed" : "您預約的時段已確認",
     "Appointment Details:" : "預約詳細資訊：",
     "Time:" : "時間：",

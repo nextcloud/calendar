@@ -407,6 +407,7 @@ OC.L10N.register(
     "Select date" : "Select date",
     "Select slot" : "Select slot",
     "No slots available" : "No slots available",
+    "Could not fetch slots" : "Could not fetch slots",
     "The slot for your appointment has been confirmed" : "The slot for your appointment has been confirmed",
     "Appointment Details:" : "Appointment Details:",
     "Time:" : "Time:",

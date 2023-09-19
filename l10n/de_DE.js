@@ -407,6 +407,7 @@ OC.L10N.register(
     "Select date" : "Datum auswählen",
     "Select slot" : "Zeitfenster auswählen",
     "No slots available" : "Keine Zeitfenster verfügbar",
+    "Could not fetch slots" : "Abruf der Slots fehlgeschlagen",
     "The slot for your appointment has been confirmed" : "Das Zeitfenster für Ihren Termin wurde bestätigt",
     "Appointment Details:" : "Termindetails:",
     "Time:" : "Zeit:",
