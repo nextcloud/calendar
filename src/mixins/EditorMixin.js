@@ -714,10 +714,19 @@ export default {
 					const closeToDate = dateFactory()
 					// TODO: can we replace this by simply returning the new route since we are inside next()
 					// Probably not though, because it's async
-					await vm.loadingCalendars()
-					const recurrenceId = await vm.$store.dispatch('resolveClosestRecurrenceIdForCalendarObject', { objectId, closeToDate })
-					const params = Object.assign({}, vm.$route.params, { recurrenceId })
-					vm.$router.replace({ name: vm.$route.name, params })
+					try {
+						await vm.loadingCalendars()
+						const recurrenceId = await vm.$store.dispatch('resolveClosestRecurrenceIdForCalendarObject', { objectId, closeToDate })
+						const params = Object.assign({}, vm.$route.params, { recurrenceId })
+						vm.$router.replace({ name: vm.$route.name, params })
+					} catch (error) {
+						console.debug(error)
+						vm.isError = true
+						vm.error = t('calendar', 'It might have been deleted, or there was a typo in a link')
+						return // if we cannot resolve next to an actual recurrenceId, return here to avoid further processing.
+					} finally {
+						vm.isLoading = false
+					}
 				}
 
 				try {
