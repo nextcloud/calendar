@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 4.5.1 - 2023-09-21
+### Fixed
+- Sidebar toggle overlay
+
 ## 4.5.0 - 2023-09-14
 ### Added
 - Year grid view
