@@ -203,7 +203,7 @@ OC.L10N.register(
     "Copy iOS/macOS CalDAV address" : "Copier l'adresse CalDAV pour iOS/macOS",
     "Personal availability settings" : "Paramètres de disponibilités personnelles",
     "Show keyboard shortcuts" : "Afficher les raccourcis clavier",
-    "Calendar settings" : "Paramètres de l'agenda",
+    "Calendar settings" : "Paramètres de Agenda",
     "No reminder" : "Aucun rappel",
     "CalDAV link copied to clipboard." : "Lien CalDAV copié dans le presse-papier.",
     "CalDAV link could not be copied to clipboard." : "Impossible de copier le lien CalDAV dans le presse-papier.",
