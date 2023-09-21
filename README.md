@@ -47,19 +47,17 @@ If you find bugs or have problems with the CalDAV-Backend, you should ask the te
 
 ## Build the app
 
-General build instructions for the app itself are the same for all options.
-
 To build you will need to have [Node.js](https://nodejs.org/en/) and
 [Composer](https://getcomposer.org/) installed.
 
-- Install PHP dependencies: `composer install --no-dev`
+- Install PHP dependencies: `composer install`
 - Install JS dependencies: `npm ci`
 - Build JavaScript for the frontend
-    - Development build `npm run dev`
-    - Watch for changes `npm run watch`
-    - Production build `npm run build`
+    - `npm run dev` development build
+    - `npm run watch` watch for changes
+    - `npm run build` production build 
 
-Read more about [necessary prerequisites](https://docs.nextcloud.com/server/latest/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation) for manual installs
+Read more about [necessary prerequisites](https://docs.nextcloud.com/server/latest/admin_manual/installation/source_installation.html#prerequisites-for-manual-installation) for manual installs.
 
 
 ## Running tests
