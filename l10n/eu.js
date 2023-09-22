@@ -1,6 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
+    "Provided email-address is too long" : "Emandako helbide elektronikoa luzeegia da",
     "User-Session unexpectedly expired" : "Erabiltzaile-saioa ustekabean iraungi da",
     "Provided email-address is not valid" : "Emandako helbide elektronikoa ez da baliozkoa",
     "%s has published the calendar »%s«" : "%s erabiltzaileak »%s« egutegia argitaratu du",
@@ -33,6 +34,7 @@ OC.L10N.register(
     "Dear %s, your booking has been accepted." : " %spreziatua, zure erreserba onartu da.",
     "Appointment for:" : "Hitzordua:",
     "Date:" : "Data:",
+    "You will receive a link with the confirmation email" : "Esteka bat jasoko duzu berrespen-mezu elektronikoarekin",
     "Where:" : "Non:",
     "Comment:" : "Iruzkina:",
     "You have a new appointment booking \"%s\" from %s" : "\"%s\" hitzordu berri bat duzu %s-tik",
@@ -219,6 +221,8 @@ OC.L10N.register(
     "Private – only accessible via secret link" : "Pribatua – esteka sekretu bidez soilik ikus daiteke",
     "Appointment name" : "Hitzorduaren izena:",
     "Location" : "Kokapena",
+    "Create a Talk room" : "Sortu Talk gela bat",
+    "A unique link will be generated for every booked appointment and sent via the confirmation email" : "Erreserbatutako hitzordu bakoitzeko esteka esklusibo bat sortuko da eta berrespen-mezu bidez bidaliko da",
     "Description" : "Deskribapena",
     "Visibility" : "Ikusgarritasuna",
     "Duration" : "Iraupena",
@@ -312,6 +316,7 @@ OC.L10N.register(
     "Create Talk room for this event" : "Sortu Talk gela gertaera honentzat",
     "Show busy times" : "Erakutsi denbora lanpetuta",
     "No attendees yet" : "Partaiderik ez oraindik",
+    "You don't own this calendar, so you cannot add attendees to this event" : "Ez zara egutegi honen jabea, beraz, ezin duzu parte-hartzailerik gehitu gertaera honetan",
     "Successfully appended link to talk room to description." : "Ondo erantsi zaio esteka hizketa gelaren deskribapenari.",
     "Error creating Talk room" : "Errorea Talk gela sortzean",
     "Send email" : "Bidali e-posta",
