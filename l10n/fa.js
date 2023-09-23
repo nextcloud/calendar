@@ -220,6 +220,7 @@ OC.L10N.register(
     "Private – only accessible via secret link" : "Private – only accessible via secret link",
     "Appointment name" : "Appointment name",
     "Location" : "محل",
+    "Create a Talk room" : "ایجاد اتاق گفتگو",
     "Description" : "توضیحات",
     "Visibility" : "Visibility",
     "Duration" : "مدت زمان",

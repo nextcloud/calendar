@@ -407,6 +407,7 @@ OC.L10N.register(
     "Select date" : "Selecionar data",
     "Select slot" : "Selecionar vaga",
     "No slots available" : "Nenhuma vaga disponível",
+    "Could not fetch slots" : "Não foi possível buscar slots",
     "The slot for your appointment has been confirmed" : "A vaga para o seu agendamento foi confirmada",
     "Appointment Details:" : "Detalhes do agendamento:",
     "Time:" : "Tempo:",

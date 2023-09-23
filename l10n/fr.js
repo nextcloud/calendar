@@ -407,6 +407,7 @@ OC.L10N.register(
     "Select date" : "Sélectionner la date",
     "Select slot" : "Sélectionnez le créneau",
     "No slots available" : "Aucun créneau disponible",
+    "Could not fetch slots" : "Impossible de récupérer les créneaux",
     "The slot for your appointment has been confirmed" : "Le créneau pour votre rendez-vous a été confirmé",
     "Appointment Details:" : "Détails du rendez-vous :",
     "Time:" : "Horaire :",
