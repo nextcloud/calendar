@@ -287,3 +287,7 @@
 .fc-timegrid-axis-cushion  {
 	margin-top: 44px;
 }
+// Additional workaround for Firefox
+.fc-timegrid-axis.fc-scrollgrid-shrink {
+	height: 65px;
+}
