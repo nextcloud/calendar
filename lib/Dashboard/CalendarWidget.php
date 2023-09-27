@@ -155,10 +155,23 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 		foreach ($calendars as $calendar) {
 			$searchResult = $calendar->search('', [], $options, $limit);
 			foreach ($searchResult as $calendarEvent) {
-				/** @var DateTimeImmutable $startDate */
-				$startDate = $calendarEvent['objects'][0]['DTSTART'][0];
+				// Find first recurrence in the future
+				$recurrence = null;
+				foreach ($calendarEvent['objects'] as $object) {
+					/** @var DateTimeImmutable $startDate */
+					$startDate = $object['DTSTART'][0];
+					if ($startDate->getTimestamp() >= $dateTime->getTimestamp()) {
+						$recurrence = $object;
+						break;
+					}
+				}
+
+				if ($recurrence === null) {
+					continue;
+				}
+
 				$widget = new WidgetItem(
-					$calendarEvent['objects'][0]['SUMMARY'][0] ?? 'New Event',
+					$recurrence['SUMMARY'][0] ?? 'New Event',
 					$this->dateTimeFormatter->formatTimeSpan(DateTime::createFromImmutable($startDate)),
 					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.index', ['objectId' => $calendarEvent['uid']])),
 					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.getCalendarDotSvg', ['color' => $calendar->getDisplayColor() ?? '#0082c9'])), // default NC blue fallback
@@ -167,6 +180,11 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 				$widgetItems[] = $widget;
 			}
 		}
+
+		usort($widgetItems, static function (WidgetItem $a, WidgetItem $b) {
+			return (int)$a->getSinceId() - (int)$b->getSinceId();
+		});
+
 		return $widgetItems;
 	}
 
