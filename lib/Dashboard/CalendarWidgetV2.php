@@ -43,10 +43,8 @@ class CalendarWidgetV2 extends CalendarWidget implements IAPIWidgetV2 {
 		$halfEmptyContentMessage = '';
 		if (!empty($widgetItems)) {
 			$startOfTomorrow = $this->timeFactory->getDateTime('tomorrow')->getTimestamp();
-			foreach ($widgetItems as $item) {
-				if ((int)$item->getSinceId() >= $startOfTomorrow) {
-					$halfEmptyContentMessage = $this->l10n->t('No more events today');
-				}
+			if ($widgetItems[0]->getSinceId() >= $startOfTomorrow) {
+				$halfEmptyContentMessage = $this->l10n->t('No more events today');
 			}
 		}
 
