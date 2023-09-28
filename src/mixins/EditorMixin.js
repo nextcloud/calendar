@@ -33,7 +33,6 @@ import {
 } from 'vuex'
 import { translate as t } from '@nextcloud/l10n'
 import { removeMailtoPrefix } from '../utils/attendee.js'
-import { loadState } from '@nextcloud/initial-state'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
@@ -314,11 +313,6 @@ export default {
 		 */
 		rfcProps() {
 			return getRFCProperties()
-		},
-		categoryOptions() {
-			const categories = { ...this.rfcProps.categories }
-			categories.options = loadState('calendar', 'categories', [])
-			return categories
 		},
 		/**
 		 * Returns whether or not this event can be downloaded from the server
