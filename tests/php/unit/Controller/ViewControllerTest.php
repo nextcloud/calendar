@@ -29,7 +29,6 @@ namespace OCA\Calendar\Controller;
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
-use OCA\Calendar\Service\CategoriesService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
@@ -54,9 +53,6 @@ class ViewControllerTest extends TestCase {
 	/** @var AppointmentConfigService|MockObject */
 	private $appointmentContfigService;
 
-	/** @var CategoriesService|MockObject */
-	private $categoriesService;
-
 	/** @var IInitialState|MockObject */
 	private $initialStateService;
 
@@ -75,7 +71,6 @@ class ViewControllerTest extends TestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->appointmentContfigService = $this->createMock(AppointmentConfigService::class);
-		$this->categoriesService = $this->createMock(CategoriesService::class);
 		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->userId = 'user123';
 		$this->appData = $this->createMock(IAppData::class);
@@ -85,7 +80,6 @@ class ViewControllerTest extends TestCase {
 			$this->request,
 			$this->config,
 			$this->appointmentContfigService,
-			$this->categoriesService,
 			$this->initialStateService,
 			$this->appManager,
 			$this->userId,
@@ -143,19 +137,7 @@ class ViewControllerTest extends TestCase {
 			->method('getAllAppointmentConfigurations')
 			->with($this->userId)
 			->willReturn([new AppointmentConfig()]);
-		$this->categoriesService->expects(self::once())
-			->method('getCategories')
-			->with('user123')
-			->willReturn([
-				[
-					'group' => 'Test',
-					'options' => [
-						'label' => 'hawaii',
-						'value' => 'pizza',
-					],
-				],
-			]);
-		$this->initialStateService->expects(self::exactly(22))
+		$this->initialStateService->expects(self::exactly(21))
 			->method('provideInitialState')
 			->withConsecutive(
 				['app_version', '1.0.0'],
@@ -178,15 +160,6 @@ class ViewControllerTest extends TestCase {
 				['appointmentConfigs', [new AppointmentConfig()]],
 				['disable_appointments', false],
 				['can_subscribe_link', false],
-				['categories', [
-					[
-						'group' => 'Test',
-						'options' => [
-							'label' => 'hawaii',
-							'value' => 'pizza',
-						],
-					],
-				]],
 				['show_resources', true],
 			);
 
@@ -254,19 +227,7 @@ class ViewControllerTest extends TestCase {
 			->method('getAllAppointmentConfigurations')
 			->with($this->userId)
 			->willReturn([new AppointmentConfig()]);
-		$this->categoriesService->expects(self::once())
-			->method('getCategories')
-			->with('user123')
-			->willReturn([
-				[
-					'group' => 'Test',
-					'options' => [
-						'label' => 'hawaii',
-						'value' => 'pizza',
-					],
-				],
-			]);
-		$this->initialStateService->expects(self::exactly(22))
+		$this->initialStateService->expects(self::exactly(21))
 			->method('provideInitialState')
 			->withConsecutive(
 				['app_version', '1.0.0'],
@@ -289,15 +250,6 @@ class ViewControllerTest extends TestCase {
 				['appointmentConfigs', [new AppointmentConfig()]],
 				['disable_appointments', false],
 				['can_subscribe_link', false],
-				['categories', [
-					[
-						'group' => 'Test',
-						'options' => [
-							'label' => 'hawaii',
-							'value' => 'pizza',
-						],
-					],
-				]],
 				['show_resources', true],
 			);
 

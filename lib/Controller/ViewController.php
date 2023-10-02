@@ -26,7 +26,6 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
-use OCA\Calendar\Service\CategoriesService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\FileDisplayResponse;
@@ -46,9 +45,6 @@ class ViewController extends Controller {
 	/** @var AppointmentConfigService */
 	private $appointmentConfigService;
 
-	/** @var CategoriesService */
-	private $categoriesService;
-
 	/** @var IInitialState */
 	private $initialStateService;
 
@@ -64,7 +60,6 @@ class ViewController extends Controller {
 		IRequest $request,
 		IConfig $config,
 		AppointmentConfigService $appointmentConfigService,
-		CategoriesService $categoriesService,
 		IInitialState $initialStateService,
 		IAppManager $appManager,
 		?string $userId,
@@ -72,7 +67,6 @@ class ViewController extends Controller {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->appointmentConfigService = $appointmentConfigService;
-		$this->categoriesService = $categoriesService;
 		$this->initialStateService = $initialStateService;
 		$this->appManager = $appManager;
 		$this->userId = $userId;
@@ -143,7 +137,6 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState('appointmentConfigs', $this->appointmentConfigService->getAllAppointmentConfigurations($this->userId));
 		$this->initialStateService->provideInitialState('disable_appointments', $disableAppointments);
 		$this->initialStateService->provideInitialState('can_subscribe_link', $canSubscribeLink);
-		$this->initialStateService->provideInitialState('categories', $this->categoriesService->getCategories($this->userId));
 		$this->initialStateService->provideInitialState('show_resources', $showResources);
 
 		return new TemplateResponse($this->appName, 'main');
