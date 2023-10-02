@@ -407,6 +407,7 @@ OC.L10N.register(
     "Select date" : "Vybrat datum",
     "Select slot" : "Vybrat slot",
     "No slots available" : "Nejsou k dispozici žádná časová okna",
+    "Could not fetch slots" : "Nepodařilo se získat sloty",
     "The slot for your appointment has been confirmed" : "Slož pro vaši schůzku byl potvrzen",
     "Appointment Details:" : "Podrobnosti o schůzce:",
     "Time:" : "Čas:",
