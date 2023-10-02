@@ -1,6 +1,13 @@
 
 # Changelog
 
+## 4.5.2 - 2023-10-02
+### Changed
+- Reverted persistent custom categories (for now)
+### Fixed
+- Sidebar toggle overlay for Firefox
+- Reocurring events on the dashboard
+
 ## 4.5.1 - 2023-09-21
 ### Fixed
 - Sidebar toggle overlay
