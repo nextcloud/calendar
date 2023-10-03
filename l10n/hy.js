@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cheers!" : "Չը՛խկ",
     "Calendar" : "Օրացույց",
-    "Personal" : "Անձնական",
     "Today" : "Այսօր",
     "Day" : "Օր",
     "Week" : "Շաբաթ",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "after" : "հետո",
     "More" : "Ավելի",
     "Global" : "Ընդհանուր",
+    "Personal" : "Անձնական",
     "Details" : "Մանրամասներ",
     "Attendees" : "Մասնակիցներ",
     "Close" : "Փակել",

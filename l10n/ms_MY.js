@@ -2,7 +2,6 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "Kalendar",
-    "Personal" : "Peribadi",
     "Today" : "Hari ini",
     "Day" : "Hari",
     "Week" : "Minggu",
@@ -35,6 +34,7 @@ OC.L10N.register(
     "Repeat" : "Ulang",
     "never" : "jangan",
     "More" : "Lanjutan",
+    "Personal" : "Peribadi",
     "Attendees" : "Jemputan",
     "Close" : "Tutup",
     "Daily" : "Setiap hari",

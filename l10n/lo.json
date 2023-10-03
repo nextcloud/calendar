@@ -1,7 +1,6 @@
 { "translations": {
     "Calendar" : "ປະຕິທິນ",
     "Confirm" : "ຢືນຢັນ",
-    "Personal" : "ສ່ວນບຸກຄົນ",
     "Today" : "ມື້ນີ້",
     "Copy link" : "ສຳເນົາລິງ",
     "Edit" : "ແກ້ໄຂ",
@@ -28,6 +27,7 @@
     "Send email" : "ສົ່ງອີເມວ",
     "never" : "ບໍ່ເຄີຍ",
     "More" : "ເພີ່ມເຕີມ",
+    "Personal" : "ສ່ວນບຸກຄົນ",
     "Details" : "ລາຍລະອຽດ",
     "Close" : "ປິດ",
     "Daily" : "ລາຍວັນ",

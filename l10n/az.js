@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cheers!" : "Şərəfə!",
     "Calendar" : "Təqvim",
-    "Personal" : "Şəxsi",
     "Today" : "Bu gün",
     "Day" : "Gün",
     "Week" : "Həftə",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Repeat" : "Təkrar",
     "never" : "heç vaxt",
     "More" : "Daha da",
+    "Personal" : "Şəxsi",
     "Details" : "Detallar",
     "Attendees" : "İştirakçılar",
     "Close" : "Bağla",

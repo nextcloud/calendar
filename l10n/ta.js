@@ -2,7 +2,6 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "நாட்காட்டி",
-    "Personal" : "தனிப்பட்ட",
     "Today" : "இன்று",
     "Week" : "வாரம்",
     "Month" : "மாதம்",
@@ -36,6 +35,7 @@ OC.L10N.register(
     "Repeat" : "மீண்டும்",
     "never" : "ஒருபோதும்",
     "More" : "மேலதிக",
+    "Personal" : "தனிப்பட்ட",
     "Details" : "விவரங்கள்",
     "Attendees" : "பங்கேற்பாளர்கள்",
     "Close" : "மூடுக",

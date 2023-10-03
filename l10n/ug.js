@@ -2,7 +2,6 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "يىلنامە",
-    "Personal" : "شەخسىي",
     "Today" : "بۈگۈن",
     "Week" : "ھەپتە",
     "Month" : "ئاي",
@@ -33,6 +32,7 @@ OC.L10N.register(
     "Repeat" : "قايتىلا",
     "never" : "ھەرگىز",
     "More" : "تېخىمۇ كۆپ",
+    "Personal" : "شەخسىي",
     "Attendees" : "قاتناشقۇچىلار",
     "Close" : "ياپ",
     "Other" : "باشقا",

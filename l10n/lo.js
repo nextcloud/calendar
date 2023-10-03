@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Calendar" : "ປະຕິທິນ",
     "Confirm" : "ຢືນຢັນ",
-    "Personal" : "ສ່ວນບຸກຄົນ",
     "Today" : "ມື້ນີ້",
     "Copy link" : "ສຳເນົາລິງ",
     "Edit" : "ແກ້ໄຂ",
@@ -30,6 +29,7 @@ OC.L10N.register(
     "Send email" : "ສົ່ງອີເມວ",
     "never" : "ບໍ່ເຄີຍ",
     "More" : "ເພີ່ມເຕີມ",
+    "Personal" : "ສ່ວນບຸກຄົນ",
     "Details" : "ລາຍລະອຽດ",
     "Close" : "ປິດ",
     "Daily" : "ລາຍວັນ",

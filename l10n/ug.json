@@ -1,6 +1,5 @@
 { "translations": {
     "Calendar" : "يىلنامە",
-    "Personal" : "شەخسىي",
     "Today" : "بۈگۈن",
     "Week" : "ھەپتە",
     "Month" : "ئاي",
@@ -31,6 +30,7 @@
     "Repeat" : "قايتىلا",
     "never" : "ھەرگىز",
     "More" : "تېخىمۇ كۆپ",
+    "Personal" : "شەخسىي",
     "Attendees" : "قاتناشقۇچىلار",
     "Close" : "ياپ",
     "Other" : "باشقا",

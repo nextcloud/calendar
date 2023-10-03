@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Cheers!" : "واہ!",
     "Calendar" : "کیلنڈر",
-    "Personal" : "شخصی",
     "Today" : "آج",
     "Week" : "ہفتہ",
     "Month" : "ماہ",
@@ -31,6 +30,7 @@ OC.L10N.register(
     "Repeat" : "دہرایں",
     "never" : "never",
     "More" : "مزید",
+    "Personal" : "شخصی",
     "Close" : "بند ",
     "Other" : "دیگر",
     "Birthday" : "سالگرہ"
