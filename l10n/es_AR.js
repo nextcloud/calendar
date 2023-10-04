@@ -19,6 +19,7 @@ OC.L10N.register(
     "Day" : "Día",
     "Week" : "Semana",
     "Month" : "Mes",
+    "Year" : "Año",
     "List" : "Lista",
     "Preview" : "Vista previa",
     "Copy link" : "Copiar enlace",
@@ -32,6 +33,7 @@ OC.L10N.register(
     "Deleted" : "Eliminado",
     "Restore" : "Restaurar",
     "Delete permanently" : "Borrar permanentemente",
+    "Empty trash bin" : "Vaciar la papelera",
     "Copy internal link" : "Copiar enlace interno",
     "Share link" : "Compartir link",
     "Copy public link" : "Copiar link publico",
@@ -95,6 +97,7 @@ OC.L10N.register(
     "Status" : "Estatus",
     "Confirmed" : "Confirmado",
     "Categories" : "Categoría",
+    "Talk" : "Hablar",
     "Movie" : "Película",
     "Mail" : "Correo Electrónico",
     "Birthday" : "Fecha de nacimiento"

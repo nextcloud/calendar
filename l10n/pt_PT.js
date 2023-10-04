@@ -43,6 +43,7 @@ OC.L10N.register(
     "Day" : "Dia",
     "Week" : "Semana",
     "Month" : "Mês",
+    "Year" : "Year",
     "List" : "Lista",
     "Preview" : "Pré-visualizar",
     "Copy link" : "Copiar hiperligação",
