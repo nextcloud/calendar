@@ -122,7 +122,7 @@ export default {
 			return this.$t('calendar', 'No attendees yet')
 		},
 		noOwnerMessage() {
-			return this.$t('calendar', 'You don\'t own this calendar, so you cannot add attendees to this event')
+			return this.$t('calendar', 'You do not own this calendar, so you cannot add attendees to this event')
 		},
 		invitees() {
 			return this.calendarObjectInstance.attendees.filter(attendee => {
