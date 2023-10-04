@@ -120,9 +120,11 @@ class MailServiceTest extends TestCase {
 		$this->userManager->expects(self::once())
 			->method('get')
 			->willReturn($this->createConfiguredMock(IUser::class, [
-				'getEmailAddress' => 'test@test.com',
-				'getDisplayName' => 'Test Test'
+				'getEmailAddress' => 'test@test.com'
 			]));
+		$this->userManager->expects(self::exactly(3))
+		->method('getDisplayName')
+		->willReturn('Test Test');
 		$mailMessage = $this->createMock(IMessage::class);
 		$this->mailer->expects(self::once())
 			->method('createMessage')
@@ -208,6 +210,9 @@ class MailServiceTest extends TestCase {
 				'getEmailAddress' => 'test@test.com',
 				'getDisplayName' => 'Test Test'
 			]));
+		$this->userManager->expects(self::exactly(3))
+		->method('getDisplayName')
+		->willReturn('Test Test');
 		$mailMessage = $this->createMock(IMessage::class);
 		$this->mailer->expects(self::once())
 			->method('createMessage')
@@ -275,9 +280,11 @@ class MailServiceTest extends TestCase {
 		$this->userManager->expects(self::once())
 			->method('get')
 			->willReturn($this->createConfiguredMock(IUser::class, [
-				'getEmailAddress' => 'test@test.com',
-				'getDisplayName' => 'Test Test'
+				'getEmailAddress' => 'test@test.com'
 			]));
+		$this->userManager->expects(self::exactly(3))
+		->method('getDisplayName')
+		->willReturn('Test Test');
 		$mailMessage = $this->createMock(IMessage::class);
 		$this->mailer->expects(self::once())
 			->method('createMessage')
@@ -349,9 +356,11 @@ class MailServiceTest extends TestCase {
 		$this->userManager->expects(self::once())
 			->method('get')
 			->willReturn($this->createConfiguredMock(IUser::class, [
-				'getEmailAddress' => 'test@test.com',
-				'getDisplayName' => 'Test Test'
+				'getEmailAddress' => 'test@test.com'
 			]));
+		$this->userManager->expects(self::exactly(3))
+		->method('getDisplayName')
+		->willReturn('Test Test');
 		$mailMessage = $this->createMock(IMessage::class);
 		$this->mailer->expects(self::once())
 			->method('createMessage')
@@ -422,9 +431,11 @@ class MailServiceTest extends TestCase {
 		$this->userManager->expects(self::once())
 			->method('get')
 			->willReturn($this->createConfiguredMock(IUser::class, [
-				'getEmailAddress' => 'test@test.com',
-				'getDisplayName' => 'Test Test'
+				'getEmailAddress' => 'test@test.com'
 			]));
+		$this->userManager->expects(self::exactly(3))
+		->method('getDisplayName')
+		->willReturn('Test Test');
 		$mailMessage = $this->createMock(IMessage::class);
 		$this->mailer->expects(self::once())
 			->method('createMessage')
