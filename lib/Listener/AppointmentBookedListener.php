@@ -91,7 +91,7 @@ class AppointmentBookedListener implements IEventListener {
 		$conversation = $this->broker->createConversation(
 			$conversationName,
 			[$organizer],
-			$this->broker->newConversationOptions(),
+			$this->broker->newConversationOptions()->setPublic(),
 		);
 		$event->getBooking()->setTalkUrl(
 			$conversation->getAbsoluteUrl(),
