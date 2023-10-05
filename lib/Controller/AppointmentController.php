@@ -88,7 +88,7 @@ class AppointmentController extends Controller {
 			'userInfo',
 			[
 				'uid' => $user->getUID(),
-				'displayName' => $user->getDisplayName(),
+				'displayName' => $this->userManager->getDisplayName($userId),
 			]
 		);
 		$this->initialState->provideInitialState(
@@ -133,7 +133,7 @@ class AppointmentController extends Controller {
 			'userInfo',
 			[
 				'uid' => $configOwner->getUID(),
-				'displayName' => $configOwner->getDisplayName(),
+				'displayName' => $this->userManager->getDisplayName($configOwner->getUID()),
 			]
 		);
 		$this->initialState->provideInitialState(
@@ -150,7 +150,7 @@ class AppointmentController extends Controller {
 			$this->initialState->provideInitialState(
 				'visitorInfo',
 				[
-					'displayName' => $currentUser->getDisplayName(),
+					'displayName' => $this->userManager->getDisplayName($this->userId),
 					'email' => $currentUser->getEMailAddress(),
 				]
 			);

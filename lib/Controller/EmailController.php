@@ -34,6 +34,7 @@ use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
@@ -63,6 +64,9 @@ class EmailController extends Controller {
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
+	/** @var IUserManager */
+	private $userManager;
+
 	/**
 	 * EmailController constructor.
 	 *
@@ -74,6 +78,7 @@ class EmailController extends Controller {
 	 * @param IL10N $l10N
 	 * @param Defaults $defaults
 	 * @param IURLGenerator $urlGenerator
+	 * @param IUserManager $userManager
 	 */
 	public function __construct(string $appName,
 		IRequest $request,
@@ -82,7 +87,8 @@ class EmailController extends Controller {
 		IMailer $mailer,
 		IL10N $l10N,
 		Defaults $defaults,
-		IURLGenerator $urlGenerator) {
+		IURLGenerator $urlGenerator,
+		IUserManager $userManager) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
@@ -90,6 +96,7 @@ class EmailController extends Controller {
 		$this->l10n = $l10N;
 		$this->defaults = $defaults;
 		$this->urlGenerator = $urlGenerator;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -125,7 +132,7 @@ class EmailController extends Controller {
 		}
 
 		$fromAddress = $this->getFromAddress();
-		$displayName = $user->getDisplayName();
+		$displayName = $this->userManager->getDisplayName($user->getUID());
 		$subject = $this->l10n->t('%s has published the calendar »%s«', [$displayName, $calendarName]);
 
 		$template = $this->createTemplate($subject, $displayName, $calendarName, $token);

@@ -103,8 +103,8 @@ class BookingCalendarWriter {
 		if (!($calendar instanceof ICreateFromString)) {
 			throw new RuntimeException('Could not find a public writable calendar for this principal');
 		}
-
-		$organizer = $this->userManager->get($config->getUserId());
+		$organizerId = $config->getUserId();
+		$organizer = $this->userManager->get($organizerId);
 		if ($organizer === null) {
 			throw new RuntimeException('Organizer not registered user for this instance');
 		}
@@ -129,7 +129,7 @@ class BookingCalendarWriter {
 			'ORGANIZER',
 			'mailto:' . $organizer->getEMailAddress(),
 			[
-				'CN' => $organizer->getDisplayName(),
+				'CN' => $this->userManager->getDisplayName($organizerId),
 				'CUTYPE' => 'INDIVIDUAL',
 				'PARTSTAT' => 'ACCEPTED'
 			]
@@ -139,7 +139,7 @@ class BookingCalendarWriter {
 			'ATTENDEE',
 			'mailto:' . $organizer->getEMailAddress(),
 			[
-				'CN' => $organizer->getDisplayName(),
+				'CN' => $this->userManager->getDisplayName($organizerId),
 				'CUTYPE' => 'INDIVIDUAL',
 				'RSVP' => 'TRUE',
 				'ROLE' => 'REQ-PARTICIPANT',

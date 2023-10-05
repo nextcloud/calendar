@@ -31,6 +31,7 @@ use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
@@ -65,6 +66,9 @@ class EmailControllerTest extends TestCase {
 	/** @var IUser|MockObject */
 	private $user;
 
+	/** @var IUserManager|MockObject */
+	private $userManager;
+
 	/** @var EmailController */
 	private $controller;
 
@@ -79,9 +83,11 @@ class EmailControllerTest extends TestCase {
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 
 		$this->user = $this->createMock(IUser::class);
-		$this->user->method('getDisplayName')->willReturn('User Displayname 123');
+		$this->user->method('getUID')->willReturn('123');
+		$this->userManager->method('getDisplayName')->willReturn('User Displayname 123');
 
 		$this->l10n->expects($this->any())
 			->method('t')
@@ -92,7 +98,8 @@ class EmailControllerTest extends TestCase {
 		$this->controller = new EmailController($this->appName,
 			$this->request, $this->userSession, $this->config,
 			$this->mailer, $this->l10n, $this->defaults,
-			$this->urlGenerator);
+			$this->urlGenerator,
+			$this->userManager);
 	}
 
 	public function testSendUserSessionExpired():void {
