@@ -298,7 +298,6 @@ OC.L10N.register(
     "Create Talk room for this event" : "Sortu Talk gela gertaera honentzat",
     "Show busy times" : "Erakutsi denbora lanpetuta",
     "No attendees yet" : "Partaiderik ez oraindik",
-    "You don't own this calendar, so you cannot add attendees to this event" : "Ez zara egutegi honen jabea, beraz, ezin duzu parte-hartzailerik gehitu gertaera honetan",
     "Successfully appended link to talk room to description." : "Ondo erantsi zaio esteka hizketa gelaren deskribapenari.",
     "Error creating Talk room" : "Errorea Talk gela sortzean",
     "Send email" : "Bidali e-posta",

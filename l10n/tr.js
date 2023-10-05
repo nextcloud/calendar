@@ -298,7 +298,6 @@ OC.L10N.register(
     "Create Talk room for this event" : "Bu etkinlik için Talk odası oluştur",
     "Show busy times" : "Meşgul zamanlar görüntülensin",
     "No attendees yet" : "Henüz bir katılımcı yok",
-    "You don't own this calendar, so you cannot add attendees to this event" : "Bu takvimin sahibi olmadığınız için bu etkinliğe katılımcı ekleyemezsiniz",
     "Successfully appended link to talk room to location." : "Bağlantı konumun Talk odasına eklendi.",
     "Successfully appended link to talk room to description." : "Bağlantı Talk odası açıklamasına eklendi.",
     "Error creating Talk room" : "Talk odası oluştururken sorun çıktı",

@@ -291,7 +291,6 @@ OC.L10N.register(
     "Create Talk room for this event" : "Luo Talk-huone tälle tapahtumalle",
     "Show busy times" : "Näytä varatut ajat",
     "No attendees yet" : "Ei vielä osallistujia",
-    "You don't own this calendar, so you cannot add attendees to this event" : "Et omista tätä kalenteria, joten et voi lisätä osallistujia tähän tapahtumaan",
     "Successfully appended link to talk room to description." : "Linkki Talk-huoneeseen lisättiin onnistuneesti kuvaukseen.",
     "Error creating Talk room" : "Virhe luotaessa Talk-huonetta",
     "Send email" : "Lähetä sähköposti",

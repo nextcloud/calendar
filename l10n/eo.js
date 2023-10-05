@@ -89,7 +89,6 @@ OC.L10N.register(
     "Decline" : "Malakcepti",
     "Tentative" : "Nekonfirmita",
     "Show busy times" : "Montri okupatajn tempojn",
-    "You don't own this calendar, so you cannot add attendees to this event" : "Vi ne posedas ĉi tiun kalendaron, do vi ne povas aldoni partoprenantojn al ĉi tiu evento.",
     "Send email" : "Sendi retpoŝtmesaĝon",
     "Required participant" : "Bezonata partoprenanto",
     "Optional participant" : "Laŭvola partoprenanto",
