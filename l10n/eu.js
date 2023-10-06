@@ -261,7 +261,7 @@ OC.L10N.register(
     "_week_::_weeks_" : ["aste","aste"],
     "No attachments" : "Eranskinik ez",
     "Add from Files" : "Gehitu Fitxategietatik",
-    "Upload from device" : "Kargatu gailutik",
+    "Upload from device" : "Igo gailutik",
     "Delete file" : "Ezabatu fitxategia",
     "Choose a file to add as attachment" : "Aukeratu fitxategia eranskin gisa gehitzeko",
     "Choose a file to share as a link" : "Aukeratu fitxategi bat esteka bezala partekatzeko",

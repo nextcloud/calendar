@@ -1,6 +1,6 @@
 { "translations": {
     "Provided email-address is too long" : "Наведена и-мејл адреса је предугачка",
-    "User-Session unexpectedly expired" : "Корисничка сесија се неочекивано истекла",
+    "User-Session unexpectedly expired" : "Корисничка сесија је неочекивано истекла",
     "Provided email-address is not valid" : "Наведена и-мејл адреса није исправна",
     "%s has published the calendar »%s«" : "%s је објавио календар »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Неочекивана грешка током слања и-мејла. Молимо вас да се обратите свом администратору.",
@@ -296,6 +296,7 @@
     "Create Talk room for this event" : "Креирај Talk собу за овај догађај",
     "Show busy times" : "Прикажи времена заузетости",
     "No attendees yet" : "Још увек нема учесника",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Ово није ваш календар, тако да немате права да додате учеснике у овај догађај",
     "Successfully appended link to talk room to location." : "У локацију је успешно додат линк на Talk собу.",
     "Successfully appended link to talk room to description." : "У опис је успешно додат линк на Talk собу.",
     "Error creating Talk room" : "Грешка приликом креирања Talk собе",
