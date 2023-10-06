@@ -91,8 +91,7 @@ class MailService {
 	 */
 	public function sendConfirmationEmail(Booking $booking, AppointmentConfig $config): void {
 
-		$userId = $config->getUserId();
-		$user = $this->userManager->get($userId);
+		$user = $this->userManager->get($config->getUserId());
 
 		if ($user === null) {
 			throw new ServiceException('Could not find organizer');
@@ -102,7 +101,7 @@ class MailService {
 		if ($fromEmail === null) {
 			throw new ServiceException('Organizer has no email set');
 		}
-		$fromName = $this->userManager->getDisplayName($userId);
+		$fromName = $user->getDisplayName();
 
 		$sys = $this->getSysEmail();
 		$message = $this->mailer->createMessage()
@@ -115,7 +114,7 @@ class MailService {
 		$template->addHeader();
 
 		//Subject
-		$subject = $this->l10n->t('Your appointment "%s" with %s needs confirmation', [$config->getName(), $this->userManager->getDisplayName($userId)]);
+		$subject = $this->l10n->t('Your appointment "%s" with %s needs confirmation', [$config->getName(),  $user->getDisplayName()]);
 		$template->setSubject($subject);
 
 		// Heading
@@ -125,7 +124,7 @@ class MailService {
 		$bookingUrl = $this->urlGenerator->linkToRouteAbsolute('calendar.booking.confirmBooking', ['token' => $booking->getToken()]);
 		$template->addBodyButton($this->l10n->t('Confirm'), $bookingUrl);
 
-		$template->addBodyListItem($this->userManager->getDisplayName($userId), 'Appointment with:');
+		$template->addBodyListItem($user->getDisplayName(), 'Appointment with:');
 		if (!empty($config->getDescription())) {
 			$template->addBodyListItem($config->getDescription(), 'Description:');
 		}
@@ -165,8 +164,7 @@ class MailService {
 	 * @throws ServiceException
 	 */
 	public function sendBookingInformationEmail(Booking $booking, AppointmentConfig $config, string $calendar): void {
-		$userId = $config->getUserId();
-		$user = $this->userManager->get($userId);
+		$user = $this->userManager->get($config->getUserId());
 
 		if ($user === null) {
 			throw new ServiceException('Could not find organizer');
@@ -176,7 +174,7 @@ class MailService {
 		if ($fromEmail === null) {
 			throw new ServiceException('Organizer has no email set');
 		}
-		$fromName = $this->userManager->getDisplayName($userId);
+		$fromName = $user->getDisplayName();
 
 		$sys = $this->getSysEmail();
 		$message = $this->mailer->createMessage()
@@ -189,14 +187,14 @@ class MailService {
 		$template->addHeader();
 
 		// Subject
-		$subject = $this->l10n->t('Your appointment "%s" with %s has been accepted', [$config->getName(), $this->userManager->getDisplayName($userId)]);
+		$subject = $this->l10n->t('Your appointment "%s" with %s has been accepted', [$config->getName(), $user->getDisplayName()]);
 		$template->setSubject($subject);
 
 		// Heading
 		$summary = $this->l10n->t('Dear %s, your booking has been accepted.', [$booking->getDisplayName()]);
 		$template->addHeading($summary);
 
-		$template->addBodyListItem($this->userManager->getDisplayName($userId), 'Appointment with:');
+		$template->addBodyListItem($user->getDisplayName(), 'Appointment with:');
 		if (!empty($config->getDescription())) {
 			$template->addBodyListItem($config->getDescription(), 'Description:');
 		}
@@ -275,10 +273,8 @@ class MailService {
 	}
 
 	public function sendOrganizerBookingInformationEmail(Booking $booking, AppointmentConfig $config, string $calendar) {
-		
-		$userId = $config->getUserId();
 		/** @var IUser $user */
-		$user = $this->userManager->get($userId);
+		$user = $this->userManager->get($config->getUserId());
 
 		if ($user === null) {
 			throw new ServiceException('Could not find organizer');
@@ -288,7 +284,7 @@ class MailService {
 		if ($toEmail === null) {
 			throw new ServiceException('Organizer has no email set');
 		}
-		$fromName = $this->userManager->getDisplayName($userId);
+		$fromName = $user->getDisplayName();
 
 		$sys = $this->getSysEmail();
 		$message = $this->mailer->createMessage()
@@ -304,7 +300,7 @@ class MailService {
 		$template->setSubject($subject);
 
 		// Heading
-		$summary = $this->l10n->t('Dear %s, %s (%s) booked an appointment with you.', [$this->userManager->getDisplayName($userId), $booking->getDisplayName(), $booking->getEmail()]);
+		$summary = $this->l10n->t('Dear %s, %s (%s) booked an appointment with you.', [$user->getDisplayName(), $booking->getDisplayName(), $booking->getEmail()]);
 		$template->addHeading($summary);
 
 		$template->addBodyListItem($booking->getDisplayName() . ' (' . $booking->getEmail() . ')', 'Appointment with:');
