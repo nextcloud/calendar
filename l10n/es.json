@@ -296,6 +296,7 @@
     "Create Talk room for this event" : "Crear sala de conversación para este evento",
     "Show busy times" : "Mostrar horarios ocupados",
     "No attendees yet" : "Aún no hay asistentes",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Ud. no es propietario de este calendario, así que no podrá añadir participantes a este evento",
     "Successfully appended link to talk room to location." : "Se ha añadido correctamente el enlace a la sala de conversación.",
     "Successfully appended link to talk room to description." : "Enlace agregado con éxito en la descripción a la sala de conversación.",
     "Error creating Talk room" : "Error al crear la sala de conversación",

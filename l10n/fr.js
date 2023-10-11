@@ -298,6 +298,7 @@ OC.L10N.register(
     "Create Talk room for this event" : "Créer une salle de discussion pour cet événement",
     "Show busy times" : "Afficher les périodes occupées",
     "No attendees yet" : "Aucun participant pour l'instant",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Vous n'êtes pas propriétaire de cet agenda, vous ne pouvez donc pas ajouter de participants à cet événement.",
     "Successfully appended link to talk room to location." : "Le lien vers la salle de réunion a été ajouté avec succès au lieu.",
     "Successfully appended link to talk room to description." : "Le lien vers la discussion a été ajouté à la description",
     "Error creating Talk room" : "Erreur lors de la création de la salle de discussion",

@@ -348,6 +348,7 @@ OC.L10N.register(
     "Delete this occurrence" : "Dileu'r digwyddiad hwn",
     "Delete this and all future" : "Dileu hwn a phob dyfodol",
     "Details" : "Manylion",
+    "Invite" : "Gwahoddiad",
     "Attendees" : "Mynychwyr",
     "Resources" : "Adnoddau",
     "Close" : "Cau",
