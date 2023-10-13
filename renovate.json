@@ -104,6 +104,7 @@
 				"@fullcalendar/daygrid",
 				"@fullcalendar/interaction",
 				"@fullcalendar/list",
+				"@fullcalendar/multimonth",
 				"@fullcalendar/resource",
 				"@fullcalendar/resource-timeline",
 				"@fullcalendar/timegrid",
