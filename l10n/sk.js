@@ -40,6 +40,7 @@ OC.L10N.register(
     "Next year" : "Nasledujúci rok",
     "Next month" : "Nasledujúci mesiac",
     "Event" : "Udalosť",
+    "Create new event" : "Vytvoriť novú udalosť",
     "Today" : "Dnes",
     "Day" : "Deň",
     "Week" : "Týždeň",
