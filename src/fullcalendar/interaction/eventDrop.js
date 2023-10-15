@@ -68,6 +68,19 @@ export default function(store, fcAPI) {
 			return
 		}
 
+		// Reset attendees participation state to NEEDS-ACTION, since eventDrop
+		// is always a signification change
+		// Partly a workaround for Sabre-DAV not respecting RFC 6638 3.2.8, see
+		// https://github.com/sabre-io/dav/issues/1282
+		if (eventComponent.organizer && eventComponent.hasProperty('ATTENDEE')) {
+			const organizer = eventComponent.getFirstProperty('ORGANIZER')
+			for (const attendee of eventComponent.getAttendeeIterator()) {
+				if (organizer.value !== attendee.value) {
+					attendee.participationStatus = 'NEEDS-ACTION'
+				}
+			}
+		}
+
 		try {
 			// shiftByDuration may throw exceptions in certain cases
 			eventComponent.shiftByDuration(deltaDuration, event.allDay, timezone, defaultAllDayDuration, defaultTimedDuration)
