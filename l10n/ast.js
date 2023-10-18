@@ -17,6 +17,7 @@ OC.L10N.register(
     "0 minutes" : "0 minutos",
     "Description" : "Descripción",
     "Duration" : "Duración",
+    "Add" : "Amestar",
     "Monday" : "Llunes",
     "Tuesday" : "Martes",
     "Wednesday" : "Miércoles",
