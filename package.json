@@ -89,8 +89,8 @@
     "npm": "^7.0.0 || ^8.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.1",
-    "@babel/preset-env": "^7.22.4",
+    "@babel/core": "^7.23.2",
+    "@babel/preset-env": "^7.23.2",
     "@nextcloud/babel-config": "^1.0.0",
     "@nextcloud/browserslist-config": "^2.3.0",
     "@nextcloud/eslint-config": "^8.2.1",
