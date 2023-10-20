@@ -350,6 +350,7 @@ OC.L10N.register(
     "Global" : "Globálne",
     "Subscribed" : "Prihlásený na odber",
     "Subscribe" : "Odoberať",
+    "Holidays in {region}" : "Sviatky v/na {region}",
     "Select date" : "Vybrať dátum",
     "Select slot" : "Vybrať slot",
     "No slots available" : "Žiadny slot nie je k dispozícii",
