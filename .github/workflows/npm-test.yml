@@ -7,11 +7,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16, 18]
-        npm-version: [8]
-        include:
-          - node-version: 14
-            npm-version: 7
+        node-version: [20]
+        npm-version: [9]
 
     name: node${{ matrix.node-version }}
 
