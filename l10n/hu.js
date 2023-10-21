@@ -388,6 +388,7 @@ OC.L10N.register(
     "Select date" : "Válasszon dátumot",
     "Select slot" : "Válasszon idősávot",
     "No slots available" : "Nincs elérhető idősáv",
+    "Could not fetch slots" : "Nem sikerült lekérni a helyeket",
     "The slot for your appointment has been confirmed" : "A találkozó idősávja megerősítésre került",
     "Appointment Details:" : "Találkozó részletei:",
     "Time:" : "Idő:",
