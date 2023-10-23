@@ -1,6 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
+    "Provided email-address is too long" : "Zadaná e-mailová adresa je príliš dlhá",
     "User-Session unexpectedly expired" : "Používateľská relácia sa neočakávane prerušila",
     "Provided email-address is not valid" : "Zadaná e-mailová adresa je neplatná",
     "%s has published the calendar »%s«" : "Používateľ %s zverejnil kalendár %s",
@@ -34,6 +35,7 @@ OC.L10N.register(
     "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Aplikácia Kalendár je užívateľské rozhranie pre server CalDAV spoločnosti Nextcloud. Jednoducho synchronizujte udalosti z rôznych zariadení s Nextcloud a upravujte ich online.\n\n* 🚀 **Integrácia s ďalšími aplikáciami Nextcloud! ** V súčasnosti Kontakty - prídu ďalšie.\n* 🌐 ** Podpora WebCal! ** Chcete vidieť zápasy svojho obľúbeného tímu v kalendári? Žiadny problém!\n* 🙋 ** Účastníci! ** Pozvite ľudí na vaše udalosti\n* ⌚️ ** Voľný/Zaneprázdený** Pozrite sa, kedy sa môžu vaši účastníci stretnúť\n* ⏰ ** Pripomienky! ** Získajte upozornenia na udalosti vo vašom prehliadači a prostredníctvom e-mailu.\n* 🙈 ** Nebudeme znovu objavovať koleso! ** Na základe vyborných knižníc [c-dav] (https://github.com/nextcloud/cdav-library), [ical.js] (https: // github. com / mozilla-comm / ical.js) a [fullcalendar] (https://github.com/fullcalendar/fullcalendar).",
     "Previous day" : "Predchádzajúci deň",
     "Previous week" : "Predchádzajúci týždeň",
+    "Previous year" : "Minulý rok",
     "Previous month" : "Predchádzajúci mesiac",
     "Next day" : "Nasledujúci deň",
     "Next week" : "Nasledujúci týždeň",
@@ -56,6 +58,8 @@ OC.L10N.register(
     "Add new" : "Pridať nový",
     "Untitled calendar" : "Kalendár bez názvu",
     "Shared with you by" : "Sprístupnené vám používateľom",
+    "Edit and share calendar" : "Upraviť a zdieľať kalendár",
+    "Edit calendar" : "Upraviť kalendár",
     "Disable calendar \"{calendar}\"" : "Zakázať kalendár „{calendar}“",
     "Disable untitled calendar" : "Zakázať nepomenovaný kalendár",
     "Enable calendar \"{calendar}\"" : "Povoliť kalendár „{calendar}“",
