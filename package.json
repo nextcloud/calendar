@@ -71,7 +71,7 @@
     "md5": "^2.3.0",
     "p-limit": "^4.0.0",
     "v-tooltip": "^2.1.3",
-    "vue": "^2.7.14",
+    "vue": "^2.7.15",
     "vue-click-outside": "^1.1.0",
     "vue-material-design-icons": "^5.2.0",
     "vue-router": "^3.6.5",
@@ -105,7 +105,7 @@
     "jest-environment-jsdom": "^29.5.0",
     "jest-serializer-vue": "^3.1.0",
     "resolve-url-loader": "^5.0.0",
-    "vue-template-compiler": "^2.7.14"
+    "vue-template-compiler": "^2.7.15"
   },
   "optionalDependencies": {
     "fsevents": "^2.3.3"
