@@ -76,6 +76,7 @@ OC.L10N.register(
     "Could not restore calendar or event" : "Không thể khôi phục lịch hoặc sự kiện",
     "Do you really want to empty the trash bin?" : "Bạn có chắc là muốn dọn sạch thùng rác hay không?",
     "Could not update calendar order." : "Không thể cập nhật thứ tự của lịch",
+    "Internal link" : "Liên kết nội bộ",
     "Share link" : "Liên kết chia sẽ",
     "Copy public link" : "Sao chép liên kết công khai",
     "Send link to calendar via email" : "Gửi liên kết đến lịch thông qua thư điện tử",
