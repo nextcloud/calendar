@@ -298,6 +298,7 @@ OC.L10N.register(
     "Create Talk room for this event" : "Створити віртуальну кімнату Talk для цієї події",
     "Show busy times" : "Показувати зайнятість",
     "No attendees yet" : "Поки жодного учасника",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Ви не є власником цього календаря та не можете додавати учасників цієї події",
     "Successfully appended link to talk room to location." : "Успішно додано посилання на розташування у кімнаті спілкування ",
     "Successfully appended link to talk room to description." : "Успішно додано посилання на віртуальну кімнату Talk до опису події.",
     "Error creating Talk room" : "Помилка при створенні віртуальної кімнати Talk",
