@@ -288,7 +288,7 @@ class AppointmentConfigControllerTest extends TestCase {
 			5 * 60
 		);
 
-		self::assertEquals(500, $response->getStatus());
+		self::assertEquals(404, $response->getStatus());
 	}
 
 	public function testUpdateDBException(): void {
@@ -319,6 +319,6 @@ class AppointmentConfigControllerTest extends TestCase {
 			5 * 60
 		);
 
-		self::assertEquals(403, $response->getStatus());
+		self::assertEquals(500, $response->getStatus());
 	}
 }
