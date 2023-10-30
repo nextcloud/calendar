@@ -199,7 +199,7 @@ class AppointmentConfigController extends Controller {
 			return JsonResponse::success($appointmentConfig);
 		} catch (ServiceException $e) {
 			$this->logger->error('Could not create new configuration', ['exception' => $e]);
-			return JsonResponse::errorFromThrowable($e);
+			return JsonResponse::fail($e->getMessage(), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -257,7 +257,7 @@ class AppointmentConfigController extends Controller {
 			$appointmentConfig = $this->appointmentConfigService->findByIdAndUser($id, $this->userId);
 		} catch (ClientException $e) {
 			$this->logger->error('Could not find configuration with id ' . $id, ['exception' => $e]);
-			return JsonResponse::errorFromThrowable($e);
+			return JsonResponse::fail($e->getMessage(), Http::STATUS_NOT_FOUND);
 		}
 
 		$appointmentConfig->setName($name);
@@ -284,7 +284,7 @@ class AppointmentConfigController extends Controller {
 			return JsonResponse::success($appointmentConfig);
 		} catch (ServiceException $e) {
 			$this->logger->error('Could not update configuration with id ' . $id, ['exception' => $e]);
-			return JsonResponse::errorFromThrowable($e, 403);
+			return JsonResponse::fail($e->getMessage(), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -303,7 +303,7 @@ class AppointmentConfigController extends Controller {
 			return JsonResponse::success();
 		} catch (ServiceException $e) {
 			$this->logger->error('Could not delete configuration with id ' . $id, ['exception' => $e]);
-			return JsonResponse::errorFromThrowable($e, 403);
+			return JsonResponse::fail($e->getMessage(), Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 	}
 }
