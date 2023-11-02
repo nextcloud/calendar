@@ -32,6 +32,7 @@ import logger from '../utils/logger.js'
  * @return {Promise<AppointmentConfig>} Full appointment config with an id
  */
 export async function createConfig(config) {
+	logger.debug('Creating appointment config', { config })
 	const url = generateUrl('/apps/calendar/v1/appointment_configs')
 
 	const response = await axios.post(url, config)
@@ -45,6 +46,7 @@ export async function createConfig(config) {
  * @return {Promise<void>}
  */
 export async function deleteConfig(id) {
+	logger.debug('Deleting appointment config', { id })
 	const url = generateUrl('/apps/calendar/v1/appointment_configs/{id}', {
 		id,
 	})
@@ -59,7 +61,7 @@ export async function deleteConfig(id) {
  * @return {Promise<AppointmentConfig>} Updated appointment config as stored in the backend
  */
 export async function updateConfig(config) {
-	logger.info('Deleting config', { config, id: config.id })
+	logger.debug('Updating appointment config', { config })
 	const url = generateUrl('/apps/calendar/v1/appointment_configs/{id}', {
 		id: config.id,
 	})
