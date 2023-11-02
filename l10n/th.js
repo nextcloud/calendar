@@ -66,6 +66,7 @@ OC.L10N.register(
     "Personal" : "ส่วนตัว",
     "Details" : "รายละเอียด",
     "Attendees" : "ผู้เข้าร่วมกิจกรรม",
+    "Resources" : "ทรัพยากร",
     "Close" : "ปิด",
     "Anniversary" : "วันครบรอบ",
     "Week {number} of {year}" : "สัปดาห์ที่ {number} ของปี {year}",
