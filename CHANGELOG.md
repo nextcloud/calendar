@@ -1,7 +1,35 @@
 
 # Changelog
 
-## 4.5.0 - unreleased
+## 4.6.0 - unreleased
+### Added
+- v2 for widget API
+- PHP8.3 support
+### Changed
+- Appointment UI error handling
+- Disable adding attendees on shared calendars
+- Appointment rooms are now public
+### Fixed
+- Recurring events on the dashboard
+- Event participation when event is updated
+- Timezone overlap (Firefox)
+- Recurrence error handling
+- Toggle overlap
+- Locale fallback
+- Leaked internal exceptions
+
+## 4.5.2 - 2023-10-02
+### Changed
+- Reverted persistent custom categories (for now)
+### Fixed
+- Sidebar toggle overlay for Firefox
+- Reocurring events on the dashboard
+
+## 4.5.1 - 2023-09-21
+### Fixed
+- Sidebar toggle overlay
+
+## 4.5.0 - 2023-09-14
 ### Added
 - Year grid view
 - Talk rooms for appointments are back
@@ -13,6 +41,11 @@
 - Categories extended to include system tags and already used categories
 ### Fixed
 - Categories for public calendars
+
+## 4.4.5 – 2023–09-07
+### Fixed
+- Avatars now use placeholders for attendees
+- FreeBusy disabled for attendees
 
 ## 4.4.4 – 2023–08-03
 ### Fixed
