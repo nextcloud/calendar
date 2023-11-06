@@ -1,8 +1,10 @@
 <!--
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
+  - @copyright Copyright (c) 2023 Jonas Heinrich <heinrich@synyx.net>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   - @author Richard Steinmetz <richard@steinmetz.cloud>
+  - @author Jonas Heinrich <heinrich@synyx.net>
   -
   - @license AGPL-3.0-or-later
   -
@@ -34,6 +36,7 @@
 			:attendee="invitee"
 			:is-read-only="isReadOnly || isSharedWithMe"
 			:organizer-display-name="organizerDisplayName"
+			:members="invitee.members"
 			@remove-attendee="removeAttendee" />
 		<NoAttendeesView v-if="isReadOnly && isListEmpty"
 			:message="noInviteesMessage" />
@@ -129,13 +132,51 @@ export default {
 				return !['RESOURCE', 'ROOM'].includes(attendee.attendeeProperty.userType)
 			})
 		},
+		groups() {
+			return this.calendarObjectInstance.attendees.filter(attendee => {
+				return attendee.attendeeProperty.userType === 'GROUP'
+			})
+		},
 		inviteesWithoutOrganizer() {
+
 			if (!this.calendarObjectInstance.organizer) {
 				return this.invitees
 			}
 
 			return this.invitees
-				.filter(attendee => attendee.uri !== this.calendarObjectInstance.organizer.uri)
+				.filter(attendee => {
+					// Filter attendees which are part of an invited group
+					let isMemberOfGroup = false
+					if (attendee.attendeeProperty.member) {
+						isMemberOfGroup = this.groups.some(function(group) {
+							return attendee.attendeeProperty.member.includes(group.uri)
+								&& attendee.attendeeProperty.userType === 'INDIVIDUAL'
+						})
+					}
+
+					// Add attendee to group member list
+					if (isMemberOfGroup) {
+						this.groups.forEach(group => {
+							if (attendee.member.includes(group.uri)) {
+								if (!group.members) {
+									group.members = []
+								}
+								group.members.push(attendee)
+							}
+						})
+					}
+
+					// Check if attendee is an empty group
+					let isEmptyGroup = attendee.attendeeProperty.userType === 'GROUP'
+					this.invitees.forEach(invitee => {
+						if (invitee.member && invitee.member.includes(attendee.uri)) {
+							isEmptyGroup = false
+						}
+					})
+
+					return attendee.uri !== this.calendarObjectInstance.organizer.uri
+						&& !isMemberOfGroup && !isEmptyGroup
+				})
 		},
 		isOrganizer() {
 			return this.calendarObjectInstance.organizer !== null
@@ -204,6 +245,19 @@ export default {
 			})
 		},
 		removeAttendee(attendee) {
+			// Remove attendee from participating group
+			if (attendee.member) {
+				this.groups.forEach(group => {
+					if (attendee.member.includes(group.uri)) {
+						group.members = group.members.filter(member => {
+							if (!attendee.member.includes(group.uri)) {
+								return true
+							}
+							return false
+						})
+					}
+				})
+			}
 			this.$store.commit('removeAttendee', {
 				calendarObjectInstance: this.calendarObjectInstance,
 				attendee,

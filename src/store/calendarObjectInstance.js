@@ -1,7 +1,9 @@
 /**
  * @copyright Copyright (c) 2019 Georg Ehrke
+ * @copyright Copyright (c) 2023 Jonas Heinrich
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Jonas Heinrich <heinrich@synyx.net>
  *
  * @license AGPL-3.0-or-later
  *
@@ -481,6 +483,17 @@ const mutations = {
 	 */
 	removeAttendee(state, { calendarObjectInstance, attendee }) {
 		calendarObjectInstance.eventComponent.removeAttendee(attendee.attendeeProperty)
+
+		// Also remove members if attendee is a group
+		if (attendee.attendeeProperty.userType === 'GROUP') {
+			attendee.members.forEach(function(member) {
+				calendarObjectInstance.eventComponent.removeAttendee(member.attendeeProperty)
+				const index = calendarObjectInstance.attendees.indexOf(member)
+				if (index !== -1) {
+					calendarObjectInstance.attendees.splice(index, 1)
+				}
+			})
+		}
 
 		const index = calendarObjectInstance.attendees.indexOf(attendee)
 		if (index !== -1) {
