@@ -55,16 +55,20 @@ class BookingCalendarWriter {
 	/** @var IL10N */
 	private $l10n;
 
+	private TimezoneGenerator $timezoneGenerator;
+
 	public function __construct(IConfig $config,
 		IManager $manager,
 		IUserManager $userManager,
 		ISecureRandom $random,
-		IL10N $l10n) {
+		IL10N $l10n,
+		TimezoneGenerator $timezoneGenerator) {
 		$this->config = $config;
 		$this->manager = $manager;
 		$this->userManager = $userManager;
 		$this->random = $random;
 		$this->l10n = $l10n;
+		$this->timezoneGenerator = $timezoneGenerator;
 	}
 
 	private function secondsToIso8601Duration(int $secs): string {
@@ -97,7 +101,7 @@ class BookingCalendarWriter {
 		DateTimeImmutable $start,
 		string $displayName,
 		string $email,
-		?string $description = null,
+		string $timezone, ?string $description = null,
 		?string $location = null) : string {
 		$calendar = current($this->manager->getCalendarsForPrincipal($config->getPrincipalUri(), [$config->getTargetCalendarUri()]));
 		if (!($calendar instanceof ICreateFromString)) {
@@ -119,6 +123,12 @@ class BookingCalendarWriter {
 				'DTEND' => $start->setTimestamp($start->getTimestamp() + ($config->getLength()))
 			]
 		]);
+
+		$end = $start->getTimestamp() + $config->getLength();
+		$tz = $this->timezoneGenerator->generateVTimezone($timezone, $start->getTimestamp(), $end);
+		if($tz) {
+			$vcalendar->add($tz);
+		}
 
 		if (!empty($description)) {
 			$vcalendar->VEVENT->add('DESCRIPTION', $description);
@@ -170,7 +180,6 @@ class BookingCalendarWriter {
 			$vcalendar->VEVENT->add($alarm);
 		}
 
-
 		if ($config->getLocation() !== null) {
 			$vcalendar->VEVENT->add('LOCATION', $config->getLocation());
 		}
@@ -198,6 +207,10 @@ class BookingCalendarWriter {
 					'DTEND' => $start
 				]
 			]);
+			$tz = $this->timezoneGenerator->generateVTimezone($timezone, $prepStart->getTimestamp(), $start->getTimestamp());
+			if($tz) {
+				$prepCalendar->add($tz);
+			}
 
 			$prepCalendar->VEVENT->add('RELATED-TO', $vcalendar->VEVENT->{'UID'});
 			$prepCalendar->VEVENT->add('RELTYPE', 'PARENT');
@@ -226,6 +239,11 @@ class BookingCalendarWriter {
 					'DTEND' => $followUpEnd
 				]
 			]);
+
+			$tz = $this->timezoneGenerator->generateVTimezone($timezone, $followupStart->getTimestamp(), $followUpEnd->getTimestamp());
+			if($tz) {
+				$followUpCalendar->add($tz);
+			}
 
 			$followUpCalendar->VEVENT->add('RELATED-TO', $vcalendar->VEVENT->{'UID'});
 			$followUpCalendar->VEVENT->add('RELTYPE', 'PARENT');
