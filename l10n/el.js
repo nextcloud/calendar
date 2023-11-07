@@ -307,6 +307,7 @@ OC.L10N.register(
     "Required participant" : "Απαιτείται συμμετοχή",
     "Optional participant" : "Προαιρετική συμμετοχή",
     "Non-participant" : "Μη-συμμετέχοντας",
+    "Remove group" : "Αφαίρεση ομάδας",
     "Remove attendee" : "Κατάργηση του συμμετέχοντα",
     "Search for emails, users or contacts" : "Αναζήτηση για ηλ. διευθύνσεις, χρήστες ή επαφές",
     "No match found" : "Δεν βρέθηκε αποτέλεσμα.",

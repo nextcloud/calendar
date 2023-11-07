@@ -240,6 +240,7 @@ OC.L10N.register(
     "Required participant" : "Būtinas dalyvis",
     "Optional participant" : "Nebūtinas dalyvis",
     "Non-participant" : "Ne dalyvis",
+    "Remove group" : "Šalinti grupę",
     "Remove attendee" : "Šalinti kviestinį",
     "Search for emails, users or contacts" : "Ieškoti el. pašto adresų, naudotojų ar adresatų",
     "No match found" : "Nerasta jokio atitikmens",

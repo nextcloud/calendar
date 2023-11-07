@@ -307,6 +307,7 @@ OC.L10N.register(
     "Required participant" : "Zorunlu katılımcı",
     "Optional participant" : "İsteğe bağlı katılımcı",
     "Non-participant" : "Katılımcı değil",
+    "Remove group" : "Grubu sil",
     "Remove attendee" : "Katılımcıyı çıkar",
     "Search for emails, users or contacts" : "E-posta, kullanıcı ya da kişi ara",
     "No match found" : "Herhangi bir sonuç bulunamadı",

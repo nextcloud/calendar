@@ -185,6 +185,7 @@ OC.L10N.register(
     "Required participant" : "Persone netzessària",
     "Optional participant" : "Persone optzionale",
     "Non-participant" : "No partetzipante",
+    "Remove group" : "Boga·nche grupu",
     "Remove attendee" : "Boga•nche partetzipante",
     "Search for emails, users or contacts" : "Chirca messàgios de posta, utentes o cuntatos",
     "No match found" : "Peruna currispondèntzia agatada",

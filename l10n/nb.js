@@ -286,6 +286,7 @@ OC.L10N.register(
     "Required participant" : "Påkrevd deltaker",
     "Optional participant" : "Valgfri deltaker",
     "Non-participant" : "Ikke-deltaker",
+    "Remove group" : "Fjern gruppe",
     "Remove attendee" : "Fjern deltaker",
     "Search for emails, users or contacts" : "Søk blant eposter, brukere eller kontaker",
     "No match found" : "Ingen treff",

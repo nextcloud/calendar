@@ -280,6 +280,7 @@ OC.L10N.register(
     "Required participant" : "Požadovaná účasť",
     "Optional participant" : "Nepovinná účasť",
     "Non-participant" : "Bez účasti",
+    "Remove group" : "Odstrániť skupinu",
     "Remove attendee" : "Odstrániť účastníka",
     "Search for emails, users or contacts" : "Vyhľadať emaily, užívateľov alebo kontakty",
     "No match found" : "Nenašla sa žiadna zhoda",

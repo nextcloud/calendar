@@ -175,6 +175,7 @@ OC.L10N.register(
     "Required participant" : "משתתף חובה",
     "Optional participant" : "משתתף אופציונלי",
     "Non-participant" : "לא משתתף",
+    "Remove group" : "הסרת קבוצה",
     "Remove attendee" : "הסר את המשתתף",
     "No match found" : "לא נמצאה התאמה",
     "(organizer)" : "(מארגן)",

@@ -306,6 +306,7 @@ OC.L10N.register(
     "Required participant" : "Participació obligatòria",
     "Optional participant" : "Participació opcional",
     "Non-participant" : "Sense participació",
+    "Remove group" : "Suprimir el grup",
     "Remove attendee" : "Suprimeix el participant",
     "Search for emails, users or contacts" : "Cerca correus electrònics, usuaris o contactes",
     "No match found" : "No s'ha trobat cap coincidència",

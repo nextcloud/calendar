@@ -306,6 +306,7 @@ OC.L10N.register(
     "Required participant" : "Kötelező résztvevő",
     "Optional participant" : "Opcionális résztvevő",
     "Non-participant" : "Nem résztvevő",
+    "Remove group" : "Csoport eltávolítása",
     "Remove attendee" : "Résztvevő eltávolítása",
     "Search for emails, users or contacts" : "E-mailek, felhasználók és névjegyek keresése",
     "No match found" : "Nem található egyezés",

@@ -307,6 +307,7 @@ OC.L10N.register(
     "Required participant" : "Obligatorisk deltagare",
     "Optional participant" : "Valfri deltagare",
     "Non-participant" : "Icke-deltagare",
+    "Remove group" : "Ta bort grupp",
     "Remove attendee" : "Ta bort deltagaren",
     "Search for emails, users or contacts" : "Sök efter e-postadresser, användare eller kontakter",
     "No match found" : "Ingen träff",

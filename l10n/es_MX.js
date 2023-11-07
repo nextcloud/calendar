@@ -67,6 +67,7 @@ OC.L10N.register(
     "Decline" : "Rechazar",
     "Tentative" : "Tentativo",
     "Send email" : "Enviar correo electrónico",
+    "Remove group" : "Eliminar grupo",
     "All day" : "Todo el día",
     "Repeat" : "Repetir",
     "never" : "nunca",

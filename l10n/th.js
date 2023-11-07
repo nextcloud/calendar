@@ -56,6 +56,7 @@ OC.L10N.register(
     "Decline" : "ปฏิเสธ",
     "Tentative" : "ชั่วคราว",
     "Send email" : "ส่งอีเมล",
+    "Remove group" : "ลบกลุ่ม",
     "Repeat" : "ทำซ้ำ",
     "never" : "ไม่ต้องเลย",
     "after" : "หลังจาก",

@@ -306,6 +306,7 @@ OC.L10N.register(
     "Required participant" : "Задолжителен учесник",
     "Optional participant" : "Незадолжителен учесник",
     "Non-participant" : "Не-учесник",
+    "Remove group" : "Отстрани група",
     "Remove attendee" : "Откажи присутност",
     "Search for emails, users or contacts" : "Пребарување на е-пошта адреси, корисници или контакти",
     "No match found" : "Нема совпаѓања",

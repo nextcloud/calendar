@@ -259,6 +259,7 @@ OC.L10N.register(
     "Required participant" : "Nauðsynlegur þátttakandi",
     "Optional participant" : "Aukaþátttakandi",
     "Non-participant" : "Ekki þátttakandi",
+    "Remove group" : "Fjarlægja hóp",
     "Remove attendee" : "Fjarlægja þátttakanda",
     "Search for emails, users or contacts" : "Leita að tölvupóstföngum, notendum eða tengiliðum",
     "No match found" : "Fann engar samsvaranir",

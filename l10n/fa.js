@@ -304,6 +304,7 @@ OC.L10N.register(
     "Required participant" : "شرکت کننده مورد نیاز",
     "Optional participant" : "شرکت کننده اختیاری",
     "Non-participant" : "غیر شرکت کننده",
+    "Remove group" : "برداشتن گروه",
     "Remove attendee" : "شرکت کننده را حذف کنید",
     "Search for emails, users or contacts" : "Search for emails, users or contacts",
     "No match found" : "هیچ تطبیقی یافت نشد",

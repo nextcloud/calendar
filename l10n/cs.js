@@ -307,6 +307,7 @@ OC.L10N.register(
     "Required participant" : "Povinný účastník",
     "Optional participant" : "Nepovinní účastníci",
     "Non-participant" : "Neúčastník",
+    "Remove group" : "Odebrat skupinu",
     "Remove attendee" : "Odebrat účastníka",
     "Search for emails, users or contacts" : "Hledat e-maily, uživatele či kontakty",
     "No match found" : "Nenalezena žádná shoda",

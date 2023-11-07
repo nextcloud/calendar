@@ -60,6 +60,7 @@ OC.L10N.register(
     "Decline" : "Refuzo",
     "Tentative" : "Tentativë",
     "Send email" : "Dërgo email",
+    "Remove group" : "Hiq grupin",
     "All day" : "Gjithë ditën",
     "Repeat" : "Përsërite",
     "never" : "kurrë",

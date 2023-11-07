@@ -103,6 +103,7 @@ OC.L10N.register(
     "Decline" : "Declinar",
     "Tentative" : "Provisòri",
     "Send email" : "Enviar email",
+    "Remove group" : "Suprimir grop",
     "Event title" : "Títol de l’eveniment",
     "All day" : "Tota la jornada",
     "Repeat" : "Repetir",

@@ -302,6 +302,7 @@ OC.L10N.register(
     "Required participant" : "Participante requerido",
     "Optional participant" : "Participante opcional",
     "Non-participant" : "No participante",
+    "Remove group" : "Eliminar grupo",
     "Remove attendee" : "Eliminar asistente",
     "Search for emails, users or contacts" : "Buscar correos electrónicos, usuarios o contactos",
     "No match found" : "No se encontraron coincidencias",

@@ -152,6 +152,7 @@ OC.L10N.register(
     "Required participant" : "Partisipan wajib",
     "Optional participant" : "Partisipan opsional",
     "Non-participant" : "Bukan partisipan",
+    "Remove group" : "Hapus grup",
     "Remove attendee" : "Hapus peserta",
     "No match found" : "Tidak ditemukan kecocokan",
     "(organizer)" : "(penyelenggara)",

@@ -307,6 +307,7 @@ OC.L10N.register(
     "Required participant" : "必要的参与者",
     "Optional participant" : "可选的参与者",
     "Non-participant" : "非参与者",
+    "Remove group" : "删除分组",
     "Remove attendee" : "移除与会者",
     "Search for emails, users or contacts" : "搜索电子邮件、用户或联系人",
     "No match found" : "未找到匹配项",

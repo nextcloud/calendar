@@ -299,6 +299,7 @@ OC.L10N.register(
     "Required participant" : "Vaadittu osallistuja",
     "Optional participant" : "Valinnainen osallistuja",
     "Non-participant" : "Osallistumaton",
+    "Remove group" : "Poista ryhmä",
     "Remove attendee" : "Poista osallistuja",
     "Search for emails, users or contacts" : "Etsi sähköpostiosoitteita, käyttäjiä tai yhteystietoja",
     "No match found" : "Ei tuloksia",

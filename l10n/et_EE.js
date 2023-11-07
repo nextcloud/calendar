@@ -115,6 +115,7 @@ OC.L10N.register(
     "Decline" : "Keeldu",
     "Tentative" : "Esialgne",
     "Send email" : "Saada kiri",
+    "Remove group" : "Eemalda grupp",
     "All day" : "Kogu päev",
     "Repeat" : "Korda",
     "never" : "mitte kunagi",

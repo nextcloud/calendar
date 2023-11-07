@@ -300,6 +300,7 @@ OC.L10N.register(
     "Required participant" : "Nujna udeležba",
     "Optional participant" : "Udeležba na željo",
     "Non-participant" : "Neudeležba",
+    "Remove group" : "Odstrani skupino",
     "Remove attendee" : "Odstrani udeleženca",
     "Search for emails, users or contacts" : "Poišči elektronske naslove, uporabnike in stike",
     "No match found" : "Ni najdenih zadetkov",

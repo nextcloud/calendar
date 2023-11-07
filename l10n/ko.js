@@ -187,6 +187,7 @@ OC.L10N.register(
     "Required participant" : "필수 참가자",
     "Optional participant" : "선택적 참가자",
     "Non-participant" : "미참가자",
+    "Remove group" : "그룹 지우기",
     "Remove attendee" : "참석자 삭제",
     "Search for emails, users or contacts" : "이메일, 사용자 혹은 연락처 검색",
     "No match found" : "일치하는 항목 없음",
