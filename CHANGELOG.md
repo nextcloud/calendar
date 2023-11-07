@@ -1,6 +1,14 @@
 
 # Changelog
 
+## 4.5.3 - 2023-10-07
+### Changed
+- Participtation status reset for changed events
+- Appointment rooms are now public by default
+### Fixed
+- Internal exception leak
+- Missing VTIMEZONE for Appointment ics
+
 ## 4.5.2 - 2023-10-02
 ### Changed
 - Reverted persistent custom categories (for now)
