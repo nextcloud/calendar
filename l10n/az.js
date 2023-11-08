@@ -39,6 +39,7 @@ OC.L10N.register(
     "Choose a file to add as attachment" : "Əlavə ediləcək faylı seçin",
     "Accept" : "Qəbul et",
     "Send email" : "Email yolla",
+    "Remove group" : "Qrupu sil",
     "Repeat" : "Təkrar",
     "never" : "heç vaxt",
     "More" : "Daha da",

@@ -309,6 +309,7 @@ OC.L10N.register(
     "Non-participant" : "Nicht-Teilnehmer",
     "Remove group" : "Gruppe entfernen",
     "Remove attendee" : "Teilnehmer entfernen",
+    "_%n member_::_%n members_" : ["%n Mitglied","%n Mitglieder"],
     "Search for emails, users or contacts" : "Suche nach E-Mails, Benutzern oder Kontakten",
     "No match found" : "Keine Übereinstimmung gefunden",
     "(organizer)" : "(Organisator)",

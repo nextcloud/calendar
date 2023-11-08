@@ -309,6 +309,7 @@ OC.L10N.register(
     "Non-participant" : "Особа која није учесник",
     "Remove group" : "Уклони групу",
     "Remove attendee" : "Уклони учесника",
+    "_%n member_::_%n members_" : ["%n члан","%n члана","%n чланова"],
     "Search for emails, users or contacts" : "Претражи и-мејлове, кориснике или контакте",
     "No match found" : "Нема подударања",
     "(organizer)" : "(организатор)",

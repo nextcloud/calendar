@@ -309,6 +309,7 @@ OC.L10N.register(
     "Non-participant" : "Non-participant",
     "Remove group" : "Remove group",
     "Remove attendee" : "Remove attendee",
+    "_%n member_::_%n members_" : ["%n member","%n members"],
     "Search for emails, users or contacts" : "Search for emails, users or contacts",
     "No match found" : "No match found",
     "(organizer)" : "(organiser)",

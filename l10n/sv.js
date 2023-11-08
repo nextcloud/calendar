@@ -309,6 +309,7 @@ OC.L10N.register(
     "Non-participant" : "Icke-deltagare",
     "Remove group" : "Ta bort grupp",
     "Remove attendee" : "Ta bort deltagaren",
+    "_%n member_::_%n members_" : ["%n medlem","%n medlemmar"],
     "Search for emails, users or contacts" : "Sök efter e-postadresser, användare eller kontakter",
     "No match found" : "Ingen träff",
     "(organizer)" : "(arrangör)",
