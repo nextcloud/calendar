@@ -309,6 +309,7 @@ OC.L10N.register(
     "Non-participant" : "Katılımcı değil",
     "Remove group" : "Grubu sil",
     "Remove attendee" : "Katılımcıyı çıkar",
+    "_%n member_::_%n members_" : ["%n üye","%n üye"],
     "Search for emails, users or contacts" : "E-posta, kullanıcı ya da kişi ara",
     "No match found" : "Herhangi bir sonuç bulunamadı",
     "(organizer)" : "(düzenleyen)",
