@@ -180,8 +180,8 @@ class BookingCalendarWriter {
 			$vcalendar->VEVENT->add($alarm);
 		}
 
-		if ($config->getLocation() !== null) {
-			$vcalendar->VEVENT->add('LOCATION', $config->getLocation());
+		if ($location !== null) {
+			$vcalendar->VEVENT->add('LOCATION', $location);
 		}
 
 		$vcalendar->VEVENT->add('X-NC-APPOINTMENT', $config->getToken());
