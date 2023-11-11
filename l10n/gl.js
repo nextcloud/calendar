@@ -304,7 +304,7 @@ OC.L10N.register(
     "Error creating Talk room" : "Produciuse un erro ao crear a sala de conversas",
     "Send email" : "Enviar o correo",
     "Chairperson" : "Presidente",
-    "Required participant" : "Precisase o participante",
+    "Required participant" : "Precísase do participante",
     "Optional participant" : "Participante opcional",
     "Non-participant" : "Non participantes",
     "Remove group" : "Retirar o grupo",

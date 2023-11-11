@@ -309,6 +309,7 @@ OC.L10N.register(
     "Non-participant" : "Neúčastník",
     "Remove group" : "Odebrat skupinu",
     "Remove attendee" : "Odebrat účastníka",
+    "_%n member_::_%n members_" : ["%n člen","%n členové","%n členů","%n členové"],
     "Search for emails, users or contacts" : "Hledat e-maily, uživatele či kontakty",
     "No match found" : "Nenalezena žádná shoda",
     "(organizer)" : "(organizátor(ka))",
