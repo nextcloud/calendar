@@ -59,6 +59,7 @@ describe('store/settings test suite', () => {
 			showWeekNumbers: null,
 			skipPopover: null,
 			slotDuration: null,
+			syncTimeout: null,
 			defaultReminder: null,
 			tasksEnabled: false,
 			timezone: 'automatic',
@@ -168,6 +169,7 @@ describe('store/settings test suite', () => {
 			showWeekNumbers: null,
 			skipPopover: null,
 			slotDuration: null,
+			syncTimeout: null,
 			defaultReminder: null,
 			tasksEnabled: false,
 			timezone: 'automatic',
@@ -190,6 +192,7 @@ describe('store/settings test suite', () => {
 			showWeekends: true,
 			skipPopover: true,
 			slotDuration: '00:30:00',
+			syncTimeout: 'PT1M',
 			defaultReminder: '-600',
 			talkEnabled: false,
 			tasksEnabled: true,
@@ -216,6 +219,7 @@ Initial settings:
 	- ShowWeekends: true
 	- SkipPopover: true
 	- SlotDuration: 00:30:00
+	- SyncTimeout: PT1M
 	- DefaultReminder: -600
 	- TalkEnabled: false
 	- TasksEnabled: true
@@ -236,6 +240,7 @@ Initial settings:
 			showWeekends: true,
 			skipPopover: true,
 			slotDuration: '00:30:00',
+			syncTimeout: 'PT1M',
 			defaultReminder: '-600',
 			talkEnabled: false,
 			tasksEnabled: true,
@@ -262,6 +267,7 @@ Initial settings:
 			showWeekNumbers: null,
 			skipPopover: null,
 			slotDuration: null,
+			syncTimeout: null,
 			tasksEnabled: false,
 			timezone: 'automatic',
 			momentLocale: 'en',
@@ -282,6 +288,7 @@ Initial settings:
 			showWeekNumbers: null,
 			skipPopover: null,
 			slotDuration: null,
+			syncTimeout: null,
 			tasksEnabled: false,
 			timezone: 'automatic',
 			momentLocale: 'de',
@@ -310,6 +317,31 @@ Initial settings:
 		expect(settingsStore.getters.getResolvedTimezone(state)).toEqual('Europe/Berlin')
 
 		expect(detectTimezone).toHaveBeenCalledTimes(0)
+	})
+
+	it('should provide a getter for the sync timeout in milliseconds', () => {
+		const state = {
+			syncTimeout: '00:01:00'
+		}
+
+		expect(settingsStore.getters.getSyncTimeout(state)).toEqual(60 * 1000)
+	})
+
+	it('can parse sync timeouts in ISO 8601 format', () => {
+		const state = {
+			syncTimeout: 'PT1M'
+		}
+
+		expect(settingsStore.getters.getSyncTimeout(state)).toEqual(60 * 1000)
+	})
+
+	it('should handle invalid sync timeout gracefully', () => {
+		const state = {
+			syncTimeout: 'not a timeout at all'
+		}
+
+		// Check from Calendar.vue which will disable the updates:
+		expect(settingsStore.getters.getSyncTimeout(state) > 1000).toBeFalsy()
 	})
 
 	it('should provide an action to toggle the birthday calendar - enabled to disabled', async () => {

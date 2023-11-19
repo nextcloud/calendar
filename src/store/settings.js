@@ -27,6 +27,7 @@ import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
 import { setConfig } from '../services/settings.js'
 import { logInfo } from '../utils/logger.js'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
+import moment from '@nextcloud/moment'
 
 const state = {
 	// env
@@ -42,6 +43,7 @@ const state = {
 	skipPopover: null,
 	slotDuration: null,
 	defaultReminder: null,
+	syncTimeout: null,
 	tasksEnabled: false,
 	timezone: 'automatic',
 	hideEventExport: false,
@@ -158,6 +160,7 @@ const mutations = {
 	 * @param {boolean} data.skipPopover Whether or not to skip the simple event popover
 	 * @param {string} data.slotDuration The duration of one slot in the agendaView
 	 * @param {string} data.defaultReminder The default reminder to set on newly created events
+	 * @param {String} data.syncTimeout The timeout between fetching updates from the server
 	 * @param {boolean} data.talkEnabled Whether or not the talk app is enabled
 	 * @param {boolean} data.tasksEnabled Whether ot not the tasks app is enabled
 	 * @param {string} data.timezone The timezone to view the calendar in. Either an Olsen timezone or "automatic"
@@ -168,7 +171,7 @@ const mutations = {
 	 * @param {string} data.attachmentsFolder Default user's attachments folder
 	 * @param {boolean} data.showResources Show or hide the resources tab
 	 */
-	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, canSubscribeLink, attachmentsFolder, showResources }) {
+	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, syncTimeout, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, canSubscribeLink, attachmentsFolder, showResources }) {
 		logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -180,6 +183,7 @@ Initial settings:
 	- SkipPopover: ${skipPopover}
 	- SlotDuration: ${slotDuration}
 	- DefaultReminder: ${defaultReminder}
+	- SyncTimeout: ${syncTimeout}
 	- TalkEnabled: ${talkEnabled}
 	- TasksEnabled: ${tasksEnabled}
 	- Timezone: ${timezone}
@@ -199,6 +203,7 @@ Initial settings:
 		state.showWeekends = showWeekends
 		state.skipPopover = skipPopover
 		state.slotDuration = slotDuration
+		state.syncTimeout = syncTimeout
 		state.defaultReminder = defaultReminder
 		state.talkEnabled = talkEnabled
 		state.tasksEnabled = tasksEnabled
@@ -240,6 +245,14 @@ const getters = {
 	getResolvedTimezone: (state) => state.timezone === 'automatic'
 		? detectTimezone()
 		: state.timezone,
+
+	/**
+	 * Gets the sync timeout in milliseconds.
+	 *
+	 * @param {Object} state The Vuex state
+	 * @returns {Integer}
+	 */
+	getSyncTimeout: (state) => moment.duration(state.syncTimeout).asMilliseconds(),
 
 	/**
 	 * Gets the resolved timezone object.

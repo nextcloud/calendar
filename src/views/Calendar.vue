@@ -129,6 +129,7 @@ export default {
 			loadingCalendars: true,
 			timeFrameCacheExpiryJob: null,
 			showEmptyCalendarScreen: false,
+			checkForUpdatesJob: null,
 		}
 	},
 	computed: {
@@ -205,6 +206,10 @@ export default {
 			}
 		}, 1000 * 60)
 	},
+	destroy() {
+		clearInterval(this.timeFrameCacheExpiryJob)
+		clearInterval(this.checkForUpdatesJob)
+	},
 	async beforeMount() {
 		this.$store.commit('loadSettingsFromServer', {
 			appVersion: loadState('calendar', 'app_version'),
@@ -219,6 +224,7 @@ export default {
 			tasksEnabled: loadState('calendar', 'tasks_enabled'),
 			timezone: loadState('calendar', 'timezone'),
 			showTasks: loadState('calendar', 'show_tasks'),
+			syncTimeout: loadState('calendar', 'sync_timeout'),
 			hideEventExport: loadState('calendar', 'hide_event_export'),
 			forceEventAlarmType: loadState('calendar', 'force_event_alarm_type', false),
 			disableAppointments: loadState('calendar', 'disable_appointments', false),
@@ -270,6 +276,16 @@ export default {
 			}
 
 			this.loadingCalendars = false
+		}
+		if (this.$store.getters.getSyncTimeout > 1000) {
+			this.checkForUpdatesJob = setInterval(async() => {
+				if (this.$route.name.startsWith('Public') || this.$route.name.startsWith('Embed')) {
+					const tokens = this.$route.params.tokens.split('-')
+					await this.$store.dispatch('syncPublicCalendars', { tokens })
+				} else {
+					await this.$store.dispatch('syncCalendars')
+				}
+			}, this.$store.getters.getSyncTimeout)
 		}
 	},
 	async mounted() {

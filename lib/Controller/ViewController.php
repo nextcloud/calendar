@@ -105,6 +105,7 @@ class ViewController extends Controller {
 		$defaultReminder = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminder', $defaultDefaultReminder);
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
 		$hideEventExport = $this->config->getAppValue($this->appName, 'hideEventExport', 'no') === 'yes';
+		$syncTimeout = $this->config->getAppValue($this->appName, 'syncTimeout', 'PT1M');
 		$disableAppointments = $this->config->getAppValue($this->appName, 'disableAppointments', 'no') === 'yes';
 		$forceEventAlarmType = $this->config->getAppValue($this->appName, 'forceEventAlarmType', '');
 		if (!in_array($forceEventAlarmType, ['DISPLAY', 'EMAIL'], true)) {
@@ -128,6 +129,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState('talk_api_version', $talkApiVersion);
 		$this->initialStateService->provideInitialState('timezone', $timezone);
 		$this->initialStateService->provideInitialState('attachments_folder', $attachmentsFolder);
+		$this->initialStateService->provideInitialState('sync_timeout', $syncTimeout);
 		$this->initialStateService->provideInitialState('slot_duration', $slotDuration);
 		$this->initialStateService->provideInitialState('default_reminder', $defaultReminder);
 		$this->initialStateService->provideInitialState('show_tasks', $showTasks);

@@ -65,7 +65,7 @@ class PublicViewControllerTest extends TestCase {
 	}
 
 	public function testPublicIndexWithBranding():void {
-		$this->config->expects(self::exactly(11))
+		$this->config->expects(self::exactly(12))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'no'],
@@ -77,6 +77,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'yes'],
+				['calendar', 'syncTimeout', 'PT1M', 'defaultSyncTimeout'],
 				['dav', 'allow_calendar_link_subscriptions', 'yes', 'defaultCanSubscribeLink'],
 				['calendar', 'installed_version', '', '1.0.0']
 			]);
@@ -103,7 +104,7 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService->expects(self::exactly(17))
+		$this->initialStateService->expects(self::exactly(18))
 			->method('provideInitialState')
 			->withConsecutive(
 				['calendar', 'app_version', '1.0.0'],
@@ -119,6 +120,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'slot_duration', 'defaultSlotDuration'],
 				['calendar', 'default_reminder', 'defaultDefaultReminder'],
 				['calendar', 'show_tasks', true],
+				['calendar', 'sync_timeout', 'defaultSyncTimeout'],
 				['calendar', 'tasks_enabled', false],
 				['calendar', 'hide_event_export', false],
 				['calendar', 'can_subscribe_link', 'defaultCanSubscribeLink'],
@@ -159,6 +161,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
+				['calendar', 'syncTimeout', 'PT1M', 'defaultSyncTimeout'],
 				['dav', 'allow_calendar_link_subscriptions', 'yes', 'defaultCanSubscribeLink'],
 				['calendar', 'installed_version', '', '1.0.0']
 			]);
@@ -200,6 +203,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'slot_duration', 'defaultSlotDuration'],
 				['calendar', 'default_reminder', 'defaultDefaultReminder'],
 				['calendar', 'show_tasks', false],
+				['calendar', 'sync_timeout', 'defaultSyncTimeout'],
 				['calendar', 'tasks_enabled', false],
 				['calendar', 'hide_event_export', false],
 				['calendar', 'can_subscribe_link', 'defaultCanSubscribeLink'],
