@@ -284,12 +284,12 @@ class MailService {
 		if ($toEmail === null) {
 			throw new ServiceException('Organizer has no email set');
 		}
-		$fromName = $user->getDisplayName();
+		$toName = $user->getDisplayName();
 
 		$sys = $this->getSysEmail();
 		$message = $this->mailer->createMessage()
-			->setFrom([$sys => $fromName])
-			->setTo([$toEmail => $booking->getDisplayName()]);
+			->setFrom([$sys => $booking->getDisplayName()])
+			->setTo([$toEmail => $toName]);
 
 
 		$template = $this->mailer->createEMailTemplate('calendar.confirmOrganizer');
