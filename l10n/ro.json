@@ -289,6 +289,7 @@
     "Attendees" : "Participanți",
     "Close" : "Închide",
     "Anniversary" : "Aniversare",
+    "Meeting" : "Videoconferință",
     "Vacation" : "Vacanță",
     "Midnight on the day the event starts" : "La miezul nopții în ziua în care evenimentul începe",
     "_%n day before the event at {formattedHourMinute}_::_%n days before the event at {formattedHourMinute}_" : [" %n zi înainte de evenimentul de la {formattedHourMinute}","%n zile înainte de evenimentul de la {formattedHourMinute}","%n de zile înainte de evenimentul de la {formattedHourMinute}"],
