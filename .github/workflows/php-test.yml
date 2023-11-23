@@ -27,7 +27,7 @@ jobs:
     - name: Checkout Nextcloud
       run: git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b ${{ matrix.nextcloud-versions }} nextcloud
     - name: Patch version check for nightly PHP
-      if: ${{ matrix.php-versions == '8.2' }}
+      if: ${{ matrix.php-versions == '8.3' }}
       run: echo "<?php" > nextcloud/lib/versioncheck.php
     - name: Install Nextcloud
       run: php -f nextcloud/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
@@ -76,7 +76,7 @@ jobs:
       - name: Checkout Nextcloud
         run: git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b ${{ matrix.nextcloud-versions }} nextcloud
       - name: Patch version check for nightly PHP
-        if: ${{ matrix.php-versions == '8.2' }}
+        if: ${{ matrix.php-versions == '8.3' }}
         run: echo "<?php" > nextcloud/lib/versioncheck.php
       - name: Install Nextcloud
         run: php -f nextcloud/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
