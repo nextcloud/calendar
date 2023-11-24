@@ -33,6 +33,7 @@ OC.L10N.register(
     "Deleted" : "Forigita",
     "Restore" : "Restaŭri",
     "Delete permanently" : "Forigi por ĉiam",
+    "Empty trash bin" : "Malpleni rubujon",
     "Internal link" : "Interna ligilo",
     "Share link" : "Kunhavigi ligilon",
     "Delete share link" : "Forigi kunhavo-ligilon",
