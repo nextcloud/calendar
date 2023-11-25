@@ -191,6 +191,7 @@ OC.L10N.register(
     "[Today]" : "[Hari ini]",
     "Details" : "Detail",
     "Attendees" : "Peserta",
+    "Resources" : "Sumber daya",
     "Close" : "Tutup",
     "Show more details" : "Tampilkan detail lain",
     "Subscribe to {name}" : "Berlangganan ke {name}",
