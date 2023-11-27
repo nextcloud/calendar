@@ -309,6 +309,7 @@ OC.L10N.register(
     "Non-participant" : "非參與者",
     "Remove group" : "移除群組",
     "Remove attendee" : "移除參與者",
+    "_%n member_::_%n members_" : ["%n 個成員"],
     "Search for emails, users or contacts" : "搜尋電郵地址、用戶或聯絡人",
     "No match found" : "找不到符合的項目",
     "(organizer)" : "（主辦人）",
