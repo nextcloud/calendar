@@ -1,7 +1,7 @@
 
 # Changelog
 
-## 4.6.0 - unreleased
+## 4.6.0 - 2023-11-30
 ### Added
 - v2 for widget API
 - PHP8.3 support
