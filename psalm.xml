@@ -27,6 +27,10 @@
 				<referencedClass name="Doctrine\DBAL\Types\Type" />
 				<referencedClass name="Doctrine\DBAL\Types\Types" />
 				<referencedClass name="OC\Security\CSP\ContentSecurityPolicyNonceManager" />
+				<referencedClass name="OC\App\CompareVersion" />
+				<referencedClass name="OCA\Circles\Api\v1\Circles" />
+				<referencedClass name="OCA\Circles\Exceptions\CircleNotFoundException" />
+				<referencedClass name="OCA\Calendar\Controller\Exception" />
 				<referencedClass name="Psr\Http\Client\ClientExceptionInterface" />
 				<referencedClass name="Sabre\VObject\Component\VCalendar" />
 				<referencedClass name="Sabre\VObject\Component\VTimezone" />
@@ -48,6 +52,9 @@
 				<referencedClass name="Doctrine\DBAL\Schema\Table" />
 				<referencedClass name="OC\Security\CSP\ContentSecurityPolicyNonceManager" />
 				<referencedClass name="Sabre\VObject\Component\VTimezone" />
+				<referencedClass name="OC\App\CompareVersion" />
+				<referencedClass name="OCA\Calendar\Controller\Exception" />
+				<referencedClass name="OCA\Circles\Api\v1\Circles" />
 				<referencedClass name="Symfony\Component\Console\Output\OutputInterface" />
 			</errorLevel>
 		</UndefinedDocblockClass>

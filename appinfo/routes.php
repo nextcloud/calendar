@@ -5,9 +5,12 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
- * @copyright 2018 Georg Ehrke <oc.list@georgehrke.com>
  * @author Thomas Müller
+ * @author Jonas Heinrich
+ *
+ * @copyright 2018 Georg Ehrke <oc.list@georgehrke.com>
  * @copyright 2016 Thomas Müller <thomas.mueller@tmit.eu>
+ * @copyright 2023 Jonas Heinrich <heinrich@synyx.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -54,6 +57,8 @@ return [
 		['name' => 'contact#searchAttendee', 'url' => '/v1/autocompletion/attendee', 'verb' => 'POST'],
 		['name' => 'contact#searchLocation', 'url' => '/v1/autocompletion/location', 'verb' => 'POST'],
 		['name' => 'contact#searchPhoto', 'url' => '/v1/autocompletion/photo', 'verb' => 'POST'],
+		// Circles
+		['name' => 'contact#getCircleMembers', 'url' => '/v1/circles/getmembers', 'verb' => 'GET'],
 		// Settings
 		['name' => 'settings#setConfig', 'url' => '/v1/config/{key}', 'verb' => 'POST'],
 		// Tools

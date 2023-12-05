@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use OC\App\CompareVersion;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\App\IAppManager;
@@ -65,6 +66,9 @@ class ViewControllerTest extends TestCase {
 	/** @var IAppData|MockObject */
 	private $appData;
 
+	/** @var CompareVersion|MockObject*/
+	private $compareVersion;
+
 	protected function setUp(): void {
 		$this->appName = 'calendar';
 		$this->request = $this->createMock(IRequest::class);
@@ -72,6 +76,7 @@ class ViewControllerTest extends TestCase {
 		$this->config = $this->createMock(IConfig::class);
 		$this->appointmentContfigService = $this->createMock(AppointmentConfigService::class);
 		$this->initialStateService = $this->createMock(IInitialState::class);
+		$this->compareVersion = $this->createMock(CompareVersion::class);
 		$this->userId = 'user123';
 		$this->appData = $this->createMock(IAppData::class);
 
@@ -82,6 +87,7 @@ class ViewControllerTest extends TestCase {
 			$this->appointmentContfigService,
 			$this->initialStateService,
 			$this->appManager,
+			$this->compareVersion,
 			$this->userId,
 			$this->appData,
 		);
@@ -122,22 +128,24 @@ class ViewControllerTest extends TestCase {
 				['user123', 'calendar', 'defaultReminder', 'defaultDefaultReminder', '00:10:00'],
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
 			]);
-		$this->appManager->expects(self::exactly(2))
+		$this->appManager->expects(self::exactly(3))
 			->method('isEnabledForUser')
 			->willReturnMap([
 				['spreed', null, true],
-				['tasks', null, true]
+				['tasks', null, true],
+				['circles', null, false],
 			]);
-		$this->appManager->expects(self::once())
+		$this->appManager->expects(self::exactly(2))
 			->method('getAppVersion')
 			->willReturnMap([
 				['spreed', true, '12.0.0'],
+				['circles', true, '22.0.0'],
 			]);
 		$this->appointmentContfigService->expects(self::once())
 			->method('getAllAppointmentConfigurations')
 			->with($this->userId)
 			->willReturn([new AppointmentConfig()]);
-		$this->initialStateService->expects(self::exactly(21))
+		$this->initialStateService->expects(self::exactly(22))
 			->method('provideInitialState')
 			->withConsecutive(
 				['app_version', '1.0.0'],
@@ -161,6 +169,7 @@ class ViewControllerTest extends TestCase {
 				['disable_appointments', false],
 				['can_subscribe_link', false],
 				['show_resources', true],
+				['isCirclesEnabled', false],
 			);
 
 		$response = $this->controller->index();
@@ -212,22 +221,24 @@ class ViewControllerTest extends TestCase {
 				['user123', 'calendar', 'defaultReminder', 'defaultDefaultReminder', '00:10:00'],
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
 			]);
-		$this->appManager->expects(self::exactly(2))
+		$this->appManager->expects(self::exactly(3))
 			->method('isEnabledForUser')
 			->willReturnMap([
 				['spreed', null, false],
-				['tasks', null, false]
+				['tasks', null, false],
+				['circles', null, false],
 			]);
-		$this->appManager->expects(self::once())
+		$this->appManager->expects(self::exactly(2))
 			->method('getAppVersion')
 			->willReturnMap([
 				['spreed', true, '11.3.0'],
+				['circles', true, '22.0.0'],
 			]);
 		$this->appointmentContfigService->expects(self::once())
 			->method('getAllAppointmentConfigurations')
 			->with($this->userId)
 			->willReturn([new AppointmentConfig()]);
-		$this->initialStateService->expects(self::exactly(21))
+		$this->initialStateService->expects(self::exactly(22))
 			->method('provideInitialState')
 			->withConsecutive(
 				['app_version', '1.0.0'],
@@ -251,6 +262,7 @@ class ViewControllerTest extends TestCase {
 				['disable_appointments', false],
 				['can_subscribe_link', false],
 				['show_resources', true],
+				['isCirclesEnabled', false],
 			);
 
 		$response = $this->controller->index();

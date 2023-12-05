@@ -1,8 +1,10 @@
 <!--
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
+  - @copyright Copyright (c) 2023 Jonas Heinrich <heinrich@synyx.net>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   - @author Richard Steinmetz <richard@steinmetz.cloud>
+  - @author Jonas Heinrich <heinrich@synyx.net>
   -
   - @license AGPL-3.0-or-later
   -
@@ -43,7 +45,12 @@
 					:key="option.uid"
 					:user="option.avatar"
 					:display-name="option.dropdownName" />
-				<Avatar v-else
+				<Avatar v-else-if="option.type === 'circle'">
+					<template #icon>
+						<GoogleCirclesCommunitiesIcon :size="20" />
+					</template>
+				</Avatar>
+				<Avatar v-if="!option.isUser && option.type !== 'circle'"
 					:key="option.uid"
 					:url="option.avatar"
 					:display-name="option.dropdownName" />
@@ -52,8 +59,11 @@
 					<div>
 						{{ option.dropdownName }}
 					</div>
-					<div v-if="option.email !== option.dropdownName">
+					<div v-if="option.email !== option.dropdownName && option.type !== 'circle'">
 						{{ option.email }}
+					</div>
+					<div v-if="option.type === 'circle'">
+						{{ option.subtitle }}
 					</div>
 				</div>
 			</div>
@@ -67,21 +77,33 @@ import {
 	NcMultiselect as Multiselect,
 } from '@nextcloud/vue'
 import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
+import isCirclesEnabled from '../../../services/isCirclesEnabled.js'
+import {
+	circleSearchByName,
+	circleGetMembers,
+} from '../../../services/circleService.js'
 import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
 import { linkTo } from '@nextcloud/router'
 import { randomId } from '../../../utils/randomId.js'
+import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCirclesCommunities.vue'
+import { showInfo } from '@nextcloud/dialogs'
 
 export default {
 	name: 'InviteesListSearch',
 	components: {
 		Avatar,
 		Multiselect,
+		GoogleCirclesCommunitiesIcon,
 	},
 	props: {
 		alreadyInvitedEmails: {
 			type: Array,
 			required: true,
+		},
+		organizer: {
+			type: Object,
+			required: false,
 		},
 	},
 	data() {
@@ -89,11 +111,12 @@ export default {
 			isLoading: false,
 			inputGiven: false,
 			matches: [],
+			isCirclesEnabled,
 		}
 	},
 	computed: {
 		placeholder() {
-			return this.$t('calendar', 'Search for emails, users or contacts')
+			return this.$t('calendar', 'Search for emails, users, contacts or groups')
 		},
 		noResult() {
 			return this.$t('calendar', 'No match found')
@@ -109,10 +132,16 @@ export default {
 					this.findAttendeesFromContactsAPI(query),
 					this.findAttendeesFromDAV(query),
 				]
+				if (isCirclesEnabled) {
+					promises.push(this.findAttendeesFromCircles(query))
+				}
 
-				const [contactsResults, davResults] = await Promise.all(promises)
+				const [contactsResults, davResults, circleResults] = await Promise.all(promises)
 				matches.push(...contactsResults)
 				matches.push(...davResults)
+				if (isCirclesEnabled) {
+					matches.push(...circleResults)
+				}
 
 				// Source of the Regex: https://stackoverflow.com/a/46181
 				// eslint-disable-next-line
@@ -149,7 +178,29 @@ export default {
 			this.matches = matches
 		}, 500),
 		addAttendee(selectedValue) {
+
+			if (selectedValue.type === 'circle') {
+				showInfo(this.$t('calendar', 'Note that members of circles get invited but are not synced yet.'))
+				this.resolveCircleMembers(selectedValue.id, selectedValue.email)
+			}
 			this.$emit('add-attendee', selectedValue)
+		},
+		async resolveCircleMembers(circleId, groupId) {
+			let results
+			try {
+				// Going to query custom backend to fetch Circle members since we're going to use
+				// mail addresses of local circle members. The Circles API doesn't expose member
+				// emails yet. Change approved by @miaulalala and @ChristophWurst.
+				results = await circleGetMembers(circleId)
+			} catch (error) {
+				console.debug(error)
+				return []
+			}
+			results.data.forEach((member) => {
+				if (!this.organizer || member.email !== this.organizer.uri) {
+					this.$emit('add-attendee', member)
+				}
+			})
 		},
 		async findAttendeesFromContactsAPI(query) {
 			let response
@@ -236,6 +287,30 @@ export default {
 					avatar: principal.userId,
 					hasMultipleEMails: false,
 					dropdownName: principal.displayname || principal.email,
+				}
+			})
+		},
+		async findAttendeesFromCircles(query) {
+			let results
+			try {
+				results = await circleSearchByName(query)
+			} catch (error) {
+				console.debug(error)
+				return []
+			}
+
+			return results.filter((circle) => {
+				return true
+			}).map((circle) => {
+				return {
+					commonName: circle.displayname,
+					calendarUserType: 'GROUP',
+					email: 'circle+' + circle.id + '@' + circle.instance,
+					isUser: false,
+					dropdownName: circle.displayname,
+					type: 'circle',
+					id: circle.id,
+					subtitle: this.$n('calendar', '%n member', '%n members', circle.population),
 				}
 			})
 		},
