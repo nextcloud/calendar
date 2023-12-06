@@ -304,7 +304,6 @@ OC.L10N.register(
     "Remove group" : "Poista ryhmä",
     "Remove attendee" : "Poista osallistuja",
     "_%n member_::_%n members_" : ["%n jäsen","%n jäsentä"],
-    "Search for emails, users or contacts" : "Etsi sähköpostiosoitteita, käyttäjiä tai yhteystietoja",
     "No match found" : "Ei tuloksia",
     "(organizer)" : "(järjestäjä)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "[linkopen]Lisää sähköpostiosoitteesi henkilökohtaisiin asetuksiisi[linkclose] lähettääksesi kutsuja ja hallitaksesi vastauksia.",

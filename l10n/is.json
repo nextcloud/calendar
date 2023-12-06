@@ -308,7 +308,6 @@
     "Remove group" : "Fjarlægja hóp",
     "Remove attendee" : "Fjarlægja þátttakanda",
     "_%n member_::_%n members_" : ["%n þátttakandi","%n þátttakendur"],
-    "Search for emails, users or contacts" : "Leita að tölvupóstföngum, notendum eða tengiliðum",
     "No match found" : "Fann engar samsvaranir",
     "(organizer)" : "(skipuleggjandi)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Til að senda út boð og meðhöndla svör, [linkopen]skaltu setja inn tölvupóstfangið þitt í einkastillingum þínum[linkclose].",

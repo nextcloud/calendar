@@ -310,7 +310,6 @@ OC.L10N.register(
     "Remove group" : "Вилучити групу",
     "Remove attendee" : "Вилучити учасника",
     "_%n member_::_%n members_" : ["%n учасник","%n учасника","%n учасників","%n учасників"],
-    "Search for emails, users or contacts" : "Ел.адреса, ім'я користувача або контакт",
     "No match found" : "Збігів не знайдено",
     "(organizer)" : "(організатор)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Для надсилання запрошень та отримання відповіді, [linkopen]додайте ел.адресу в особистих налаштуваннях[linkclose].",

@@ -309,7 +309,6 @@ OC.L10N.register(
     "Non-participant" : "Μη-συμμετέχοντας",
     "Remove group" : "Αφαίρεση ομάδας",
     "Remove attendee" : "Κατάργηση του συμμετέχοντα",
-    "Search for emails, users or contacts" : "Αναζήτηση για ηλ. διευθύνσεις, χρήστες ή επαφές",
     "No match found" : "Δεν βρέθηκε αποτέλεσμα.",
     "(organizer)" : "(organizer)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Για να στείλετε προσκλήσεις και να χειριστείτε τις απαντήσεις, [linkopen]προσθέστε το email σας στις προσωπικές ρυθμίσεις [linkclose].",

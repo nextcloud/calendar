@@ -94,7 +94,6 @@ OC.L10N.register(
     "Required participant" : "Bezonata partoprenanto",
     "Optional participant" : "Laŭvola partoprenanto",
     "Remove group" : "Forigi grupon",
-    "Search for emails, users or contacts" : "Serĉi por retpoŝtojn, uzantojn, aŭ kontaktojn",
     "All day" : "Tuttage",
     "Repeat" : "Ripeti",
     "never" : "neniam",

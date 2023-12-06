@@ -242,7 +242,6 @@ OC.L10N.register(
     "Non-participant" : "Ne dalyvis",
     "Remove group" : "Šalinti grupę",
     "Remove attendee" : "Šalinti kviestinį",
-    "Search for emails, users or contacts" : "Ieškoti el. pašto adresų, naudotojų ar adresatų",
     "No match found" : "Nerasta jokio atitikmens",
     "(organizer)" : "(organizatorius)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Norėdami siųsti pakvietimus ir apdoroti atsakymus, [linkopen]pridėkite į asmeninius nustatymus savo el. pašto adresą[linkclose].",

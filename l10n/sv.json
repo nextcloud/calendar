@@ -308,7 +308,6 @@
     "Remove group" : "Ta bort grupp",
     "Remove attendee" : "Ta bort deltagaren",
     "_%n member_::_%n members_" : ["%n medlem","%n medlemmar"],
-    "Search for emails, users or contacts" : "Sök efter e-postadresser, användare eller kontakter",
     "No match found" : "Ingen träff",
     "(organizer)" : "(arrangör)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "För att kunna skicka inbjudningar och hantera svar måste du [linkopen]lägga till din e-mailadress i inställningarna[linkclose].",

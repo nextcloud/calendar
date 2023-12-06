@@ -310,7 +310,6 @@ OC.L10N.register(
     "Remove group" : "Gruppe entfernen",
     "Remove attendee" : "Teilnehmer entfernen",
     "_%n member_::_%n members_" : ["%n Mitglied","%n Mitglieder"],
-    "Search for emails, users or contacts" : "Suche nach E-Mails, Benutzern oder Kontakten",
     "No match found" : "Keine Übereinstimmung gefunden",
     "(organizer)" : "(Organisator)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Um das Senden von Einladungen und deren Antworten zu ermöglichen, [linkopen] füge deine E-Mail-Adresse in den persönlichen Einstellungen hinzu.[linkclose].",

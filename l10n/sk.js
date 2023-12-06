@@ -282,7 +282,6 @@ OC.L10N.register(
     "Non-participant" : "Bez účasti",
     "Remove group" : "Odstrániť skupinu",
     "Remove attendee" : "Odstrániť účastníka",
-    "Search for emails, users or contacts" : "Vyhľadať emaily, užívateľov alebo kontakty",
     "No match found" : "Nenašla sa žiadna zhoda",
     "(organizer)" : "(organizátor)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Ak chcete posielať pozvánky a vybavovať odpovede, [linkopen] pridajte svoju e-mailovú adresu do osobných nastavení [linkclose].",

@@ -307,7 +307,6 @@ OC.L10N.register(
     "Remove group" : "برداشتن گروه",
     "Remove attendee" : "شرکت کننده را حذف کنید",
     "_%n member_::_%n members_" : ["%n عضو","%n عضو"],
-    "Search for emails, users or contacts" : "Search for emails, users or contacts",
     "No match found" : "هیچ تطبیقی یافت نشد",
     "(organizer)" : "(تنظیم کننده)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose].",

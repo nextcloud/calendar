@@ -308,7 +308,6 @@ OC.L10N.register(
     "Non-participant" : "Sense participació",
     "Remove group" : "Suprimir el grup",
     "Remove attendee" : "Suprimeix el participant",
-    "Search for emails, users or contacts" : "Cerca correus electrònics, usuaris o contactes",
     "No match found" : "No s'ha trobat cap coincidència",
     "(organizer)" : "(organitza l'esdeveniment)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Per enviar invitacions i atendre les respostes, cal que [linkopen]afegiu la vostra adreça de correu a la vostra configuració personal[linkclose].",

@@ -309,7 +309,6 @@ OC.L10N.register(
     "Non-participant" : "Ez da partaidea",
     "Remove group" : "Ezabatu taldea",
     "Remove attendee" : "Kendu partaidea",
-    "Search for emails, users or contacts" : "Bilatu mezu elektronikoak, erabiltzaileak edo kontaktuak",
     "No match found" : "Ez da emaitzarik aurkitu",
     "(organizer)" : "(antolatzailea)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Gonbidapenak bidali eta erantzunak kudeatzeko, [linkopen] gehitu zure posta helbidea ezarpen pertsonaletan[linkclose].",

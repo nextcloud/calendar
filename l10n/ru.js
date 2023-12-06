@@ -308,7 +308,6 @@ OC.L10N.register(
     "Non-participant" : "Не участвует",
     "Remove group" : "Удалить группу",
     "Remove attendee" : "Удалить участника",
-    "Search for emails, users or contacts" : "Поиск по адресам эл. почты, пользователям и контактам",
     "No match found" : "Соответствий не найдено",
     "(organizer)" : "(организатор)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Чтобы отправлять приглашения и обрабатывать ответы, [linkopen]добавьте свой адрес электронной почты в личные настройки[linkclose].",

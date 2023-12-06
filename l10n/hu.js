@@ -308,7 +308,6 @@ OC.L10N.register(
     "Non-participant" : "Nem résztvevő",
     "Remove group" : "Csoport eltávolítása",
     "Remove attendee" : "Résztvevő eltávolítása",
-    "Search for emails, users or contacts" : "E-mailek, felhasználók és névjegyek keresése",
     "No match found" : "Nem található egyezés",
     "(organizer)" : "(szervező)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Meghívók elküldéséhez és a válaszok kezeléséhez [linkopen]adja meg e-mail-címét a személyes beállításokban[linkclose].",

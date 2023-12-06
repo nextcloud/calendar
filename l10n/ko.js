@@ -189,7 +189,6 @@ OC.L10N.register(
     "Non-participant" : "미참가자",
     "Remove group" : "그룹 지우기",
     "Remove attendee" : "참석자 삭제",
-    "Search for emails, users or contacts" : "이메일, 사용자 혹은 연락처 검색",
     "No match found" : "일치하는 항목 없음",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "초대장을 보내거나 답장을 관리하려면, [linkopen] 개인 설정에서 이메일 주소를 추가하십시오[linkclose].",
     "Remove color" : "색깔 삭제",

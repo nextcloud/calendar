@@ -308,7 +308,6 @@
     "Remove group" : "Odebrat skupinu",
     "Remove attendee" : "Odebrat účastníka",
     "_%n member_::_%n members_" : ["%n člen","%n členové","%n členů","%n členové"],
-    "Search for emails, users or contacts" : "Hledat e-maily, uživatele či kontakty",
     "No match found" : "Nenalezena žádná shoda",
     "(organizer)" : "(organizátor(ka))",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Pro rozesílání pozvánek a práci s odpověďmi na ně [linkopen]přidejte svoji  e-mailovou adresu[linkclose] do osobních nastavení.",

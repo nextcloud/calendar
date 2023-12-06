@@ -308,7 +308,6 @@
     "Remove group" : "Grubu sil",
     "Remove attendee" : "Katılımcıyı çıkar",
     "_%n member_::_%n members_" : ["%n üye","%n üye"],
-    "Search for emails, users or contacts" : "E-posta, kullanıcı ya da kişi ara",
     "No match found" : "Herhangi bir sonuç bulunamadı",
     "(organizer)" : "(düzenleyen)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Çağrı göndermek ve yanıtları işlemek için, [linkopen]kişisel ayarlar bölümünden e-posta adresinizi ekleyin[linkclose].",

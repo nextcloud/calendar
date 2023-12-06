@@ -307,7 +307,6 @@ OC.L10N.register(
     "Remove group" : "Înlătură grupul",
     "Remove attendee" : "Elimină participant",
     "_%n member_::_%n members_" : ["%n membru","%n membri","%n membri"],
-    "Search for emails, users or contacts" : "Căutare emailuri, utilizatori sau contacte",
     "No match found" : "Nu s-a găsit nimic",
     "(organizer)" : "(organizator)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Pentru a trimite invitații și răspunsuri, [linkopen]adăugați adresa de mail în setările personale[linkclose].",

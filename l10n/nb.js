@@ -288,7 +288,6 @@ OC.L10N.register(
     "Non-participant" : "Ikke-deltaker",
     "Remove group" : "Fjern gruppe",
     "Remove attendee" : "Fjern deltaker",
-    "Search for emails, users or contacts" : "Søk blant eposter, brukere eller kontaker",
     "No match found" : "Ingen treff",
     "(organizer)" : "(organisator)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "For å sende ut invitasjoner og håndtere svar, [linkopen]legg til e-postadressen din i personlige innstillinger[linkclose].",

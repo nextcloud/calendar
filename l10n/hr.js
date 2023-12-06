@@ -193,7 +193,6 @@ OC.L10N.register(
     "Non-participant" : "Nije sudionik",
     "Remove group" : "Ukloni grupu",
     "Remove attendee" : "Ukloni sudionika",
-    "Search for emails, users or contacts" : "Potražite poruke e-pošte, korisnike ili kontakte",
     "No match found" : "Nema podudaranja",
     "(organizer)" : "(organizator)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "[linkopen]Dodajte svoju adresu e-pošte u osobne postavke[linkclose] za slanje pozivnica i upravljanje odgovorima.",

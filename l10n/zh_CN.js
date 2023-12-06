@@ -309,7 +309,6 @@ OC.L10N.register(
     "Non-participant" : "非参与者",
     "Remove group" : "删除分组",
     "Remove attendee" : "移除与会者",
-    "Search for emails, users or contacts" : "搜索电子邮件、用户或联系人",
     "No match found" : "未找到匹配项",
     "(organizer)" : "（组织者）",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "为发送邀请和处理回应，[linkopen] 将您的电子邮件地址添加到个人设置中 [linkclose] 。",

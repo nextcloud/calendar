@@ -306,7 +306,6 @@ OC.L10N.register(
     "Remove group" : "Odstrani skupino",
     "Remove attendee" : "Odstrani udeleženca",
     "_%n member_::_%n members_" : ["%n član","%n člana","%n člani","%n članov"],
-    "Search for emails, users or contacts" : "Poišči elektronske naslove, uporabnike in stike",
     "No match found" : "Ni najdenih zadetkov",
     "(organizer)" : " (skliče dogodek)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Za pošiljanje vabil in urejanje odzivov mora biti [linkopen]vaš elektronski naslov vpisan med osebnimi nastavitvami[linkclose].",

@@ -310,7 +310,6 @@ OC.L10N.register(
     "Remove group" : "Уклони групу",
     "Remove attendee" : "Уклони учесника",
     "_%n member_::_%n members_" : ["%n члан","%n члана","%n чланова"],
-    "Search for emails, users or contacts" : "Претражи и-мејлове, кориснике или контакте",
     "No match found" : "Нема подударања",
     "(organizer)" : "(организатор)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Да бисте слали позивнице и обрађивали одговоре, [linkopen]додајте своју и-мејл адресу у своја лична подешавања[linkclose].",
