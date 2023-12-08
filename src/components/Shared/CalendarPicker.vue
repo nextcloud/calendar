@@ -1,6 +1,6 @@
 <template>
-	<Multiselect label="displayName"
-		track-by="url"
+	<Select label="displayName"
+		input-id="url"
 		:disabled="isDisabled"
 		:options="calendars"
 		:value="value"
@@ -18,17 +18,17 @@
 				<CalendarPickerOption v-bind="option" />
 			</div>
 		</template>
-	</Multiselect>
+	</Select>
 </template>
 <script>
-import { NcMultiselect as Multiselect } from '@nextcloud/vue'
+import { NcSelect as Select } from '@nextcloud/vue'
 import CalendarPickerOption from './CalendarPickerOption.vue'
 
 export default {
 	name: 'CalendarPicker',
 	components: {
 		CalendarPickerOption,
-		Multiselect,
+		Select,
 	},
 	props: {
 		value: {

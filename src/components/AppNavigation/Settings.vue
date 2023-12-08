@@ -62,23 +62,21 @@
 			</ActionCheckbox>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--slotDuration">
 				<label for="slotDuration">{{ $t('calendar', 'Time increments') }}</label>
-				<Multiselect :id="slotDuration"
-					:allow-empty="false"
+				<Select :id="slotDuration"
 					:options="slotDurationOptions"
 					:value="selectedDurationOption"
 					:disabled="savingSlotDuration"
-					track-by="value"
+					input-id="value"
 					label="label"
 					@select="changeSlotDuration" />
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--defaultReminder">
 				<label for="defaultReminder">{{ $t('calendar', 'Default reminder') }}</label>
-				<Multiselect :id="defaultReminder"
-					:allow-empty="false"
+				<Select :id="defaultReminder"
 					:options="defaultReminderOptions"
 					:value="selectedDefaultReminderOption"
 					:disabled="savingDefaultReminder"
-					track-by="value"
+					input-id="value"
 					label="label"
 					@select="changeDefaultReminder" />
 			</li>
@@ -122,7 +120,7 @@ import {
 	NcActionCheckbox as ActionCheckbox,
 	NcActionLink as ActionLink,
 	NcAppNavigationSettings as AppNavigationSettings,
-	NcMultiselect as Multiselect,
+	NcSelect as Select,
 } from '@nextcloud/vue'
 import {
 	generateRemoteUrl,
@@ -164,7 +162,7 @@ export default {
 		ActionCheckbox,
 		ActionLink,
 		AppNavigationSettings,
-		Multiselect,
+		Select,
 		SettingsImportSection,
 		SettingsTimezoneSelect,
 		SettingsAttachmentsFolder,

@@ -1,5 +1,5 @@
 <template>
-	<Multiselect :value="selectedTimezone"
+	<Select :value="selectedTimezone"
 		:options="options"
 		:multiple="false"
 		:group-select="false"
@@ -14,7 +14,7 @@
 
 <script>
 import { getReadableTimezoneName, getSortedTimezoneList } from '@nextcloud/calendar-js'
-import { NcMultiselect as Multiselect } from '@nextcloud/vue'
+import { NcSelect as Select } from '@nextcloud/vue'
 import { translate as t } from '@nextcloud/l10n'
 
 import getTimezoneManager from '../../services/timezoneDataProviderService.js'
@@ -22,7 +22,7 @@ import getTimezoneManager from '../../services/timezoneDataProviderService.js'
 export default {
 	name: 'TimezoneSelect',
 	components: {
-		Multiselect,
+		Select,
 	},
 	props: {
 		additionalTimezones: {

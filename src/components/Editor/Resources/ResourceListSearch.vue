@@ -22,7 +22,7 @@
 
 <template>
 	<div class="resource-search">
-		<Multiselect class="resource-search__multiselect"
+		<Select class="resource-search__multiselect"
 			:options="matches"
 			:searchable="true"
 			:internal-search="false"
@@ -32,7 +32,7 @@
 			:placeholder="placeholder"
 			:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
 			open-direction="bottom"
-			track-by="email"
+			input-id="email"
 			label="displayName"
 			@search-change="findResources"
 			@select="addResource">
@@ -54,7 +54,7 @@
 					</div>
 				</div>
 			</template>
-		</Multiselect>
+		</Select>
 
 		<template>
 			<div class="resource-search__capacity">
@@ -85,7 +85,7 @@ import {
 	NcAvatar as Avatar,
 	NcActions as Actions,
 	NcActionCheckbox as ActionCheckbox,
-	NcMultiselect as Multiselect,
+	NcSelect as Select,
 } from '@nextcloud/vue'
 import { checkResourceAvailability } from '../../../services/freeBusyService.js'
 import debounce from 'debounce'
@@ -98,7 +98,7 @@ export default {
 	name: 'ResourceListSearch',
 	components: {
 		Avatar,
-		Multiselect,
+		Select,
 		ResourceSeatingCapacity,
 		Actions,
 		ActionCheckbox,

@@ -21,24 +21,24 @@
   -->
 
 <template>
-	<Multiselect :allow-empty="false"
+	<Select :allow-empty="false"
 		:options="options"
 		:value="selected"
 		:disabled="disabled"
 		:placeholder="$t('calendar', 'Monday')"
-		track-by="value"
+		input-id="value"
 		label="label"
 		@select="select" />
 </template>
 
 <script>
-import { NcMultiselect as Multiselect } from '@nextcloud/vue'
+import { NcSelect as Select } from '@nextcloud/vue'
 import { getDayNames } from '@nextcloud/l10n'
 
 export default {
 	name: 'RepeatOnTheSelect',
 	components: {
-		Multiselect,
+		Select,
 	},
 	props: {
 		/**

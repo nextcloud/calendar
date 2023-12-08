@@ -31,7 +31,7 @@
 
 		<div class="property-select-multiple__input"
 			:class="{ 'property-select-multiple__input--readonly': isReadOnly }">
-			<Multiselect v-if="!isReadOnly"
+			<Select v-if="!isReadOnly"
 				v-model="selectionData"
 				:options="options"
 				:searchable="true"
@@ -41,7 +41,7 @@
 				:title="readableName"
 				:multiple="true"
 				:taggable="true"
-				track-by="label"
+				input-id="label"
 				label="label"
 				@select="selectValue"
 				@tag="tag"
@@ -52,7 +52,7 @@
 				<template v-if="coloredOptions" #option="scope">
 					<PropertySelectMultipleColoredOption v-bind="scope" />
 				</template>
-			</Multiselect>
+			</Select>
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else class="property-select-multiple-colored-tag-wrapper">
 				<PropertySelectMultipleColoredTag v-for="singleValue in value"
@@ -72,7 +72,7 @@
 
 <script>
 import PropertyMixin from '../../../mixins/PropertyMixin.js'
-import { NcMultiselect as Multiselect } from '@nextcloud/vue'
+import { NcSelect as Select } from '@nextcloud/vue'
 import PropertySelectMultipleColoredTag from './PropertySelectMultipleColoredTag.vue'
 import PropertySelectMultipleColoredOption from './PropertySelectMultipleColoredOption.vue'
 import { getLocale } from '@nextcloud/l10n'
@@ -84,7 +84,7 @@ export default {
 	components: {
 		PropertySelectMultipleColoredOption,
 		PropertySelectMultipleColoredTag,
-		Multiselect,
+		Select,
 		InformationVariant,
 	},
 	mixins: [

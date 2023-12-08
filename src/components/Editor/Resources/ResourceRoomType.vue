@@ -23,28 +23,28 @@
 <template>
 	<div class="resource-room-type">
 		<div class="resource-room-type__input">
-			<Multiselect :value="getOption(value)"
+			<Select :value="getOption(value)"
 				:options="options"
 				:placeholder="placeholder"
-				track-by="value"
+				input-id="value"
 				label="label"
 				@update:value="changeValue">
 				<template #option="{ option }">
 					<div>{{ option.label }}</div>
 				</template>
-			</Multiselect>
+			</Select>
 		</div>
 	</div>
 </template>
 
 <script>
-import { NcMultiselect as Multiselect } from '@nextcloud/vue'
+import { NcSelect as Select } from '@nextcloud/vue'
 import { getAllRoomTypes } from '../../../models/resourceProps.js'
 
 export default {
 	name: 'ResourceRoomType',
 	components: {
-		Multiselect,
+		Select,
 	},
 	props: {
 		value: {

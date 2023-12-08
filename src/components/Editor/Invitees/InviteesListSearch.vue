@@ -24,7 +24,7 @@
   -->
 
 <template>
-	<Multiselect class="invitees-search__multiselect"
+	<Select class="invitees-search__multiselect"
 		:options="matches"
 		:searchable="true"
 		:internal-search="false"
@@ -34,7 +34,7 @@
 		:placeholder="placeholder"
 		:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
 		open-direction="bottom"
-		track-by="uid"
+		input-id="uid"
 		label="dropdownName"
 		@search-change="findAttendees"
 		@select="addAttendee">
@@ -68,13 +68,13 @@
 				</div>
 			</div>
 		</template>
-	</Multiselect>
+	</Select>
 </template>
 
 <script>
 import {
 	NcAvatar as Avatar,
-	NcMultiselect as Multiselect,
+	NcSelect as Select,
 } from '@nextcloud/vue'
 import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import isCirclesEnabled from '../../../services/isCirclesEnabled.js'
@@ -93,7 +93,7 @@ export default {
 	name: 'InviteesListSearch',
 	components: {
 		Avatar,
-		Multiselect,
+		Select,
 		GoogleCirclesCommunitiesIcon,
 	},
 	props: {

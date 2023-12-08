@@ -31,14 +31,14 @@
 
 		<div class="property-select__input"
 			:class="{ 'property-select__input--readonly': isReadOnly }">
-			<Multiselect v-if="!isReadOnly"
+			<Select v-if="!isReadOnly"
 				:options="options"
 				:searchable="false"
 				:allow-empty="false"
 				:title="readableName"
 				:value="selectedValue"
 				:placeholder="placeholder"
-				track-by="value"
+				input-id="value"
 				label="label"
 				@select="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
@@ -56,14 +56,14 @@
 
 <script>
 import PropertyMixin from '../../../mixins/PropertyMixin.js'
-import { NcMultiselect as Multiselect } from '@nextcloud/vue'
+import { NcSelect as Select } from '@nextcloud/vue'
 
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
 
 export default {
 	name: 'PropertySelect',
 	components: {
-		Multiselect,
+		Select,
 		InformationVariant,
 	},
 	mixins: [
