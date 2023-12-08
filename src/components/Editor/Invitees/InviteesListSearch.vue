@@ -24,21 +24,18 @@
   -->
 
 <template>
-	<Multiselect class="invitees-search__multiselect"
+	<NcSelect class="invitees-search__multiselect"
 		:options="matches"
 		:searchable="true"
-		:internal-search="false"
 		:max-height="600"
-		:show-no-results="true"
-		:show-no-options="false"
 		:placeholder="placeholder"
 		:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
-		open-direction="bottom"
-		track-by="uid"
+		:clearable="false"
+		input-id="uid"
 		label="dropdownName"
-		@search-change="findAttendees"
-		@select="addAttendee">
-		<template #option="{ option }">
+		@search="findAttendees"
+		@option:selected="addAttendee">
+		<template #option="option">
 			<div class="invitees-search-list-item">
 				<!-- We need to specify a unique key here for the avatar to be reactive. -->
 				<Avatar v-if="option.isUser"
@@ -68,13 +65,13 @@
 				</div>
 			</div>
 		</template>
-	</Multiselect>
+	</NcSelect>
 </template>
 
 <script>
 import {
 	NcAvatar as Avatar,
-	NcMultiselect as Multiselect,
+	NcSelect,
 } from '@nextcloud/vue'
 import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import isCirclesEnabled from '../../../services/isCirclesEnabled.js'
@@ -93,7 +90,7 @@ export default {
 	name: 'InviteesListSearch',
 	components: {
 		Avatar,
-		Multiselect,
+		NcSelect,
 		GoogleCirclesCommunitiesIcon,
 	},
 	props: {

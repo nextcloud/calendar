@@ -25,34 +25,33 @@
 	<div v-if="display" class="property-select-multiple">
 		<component :is="icon"
 			:size="20"
-			:title="readableName"
+			:name="readableName"
 			class="property-select-multiple__icon"
 			:class="{ 'property-select-multiple__icon--hidden': !showIcon }" />
 
 		<div class="property-select-multiple__input"
 			:class="{ 'property-select-multiple__input--readonly': isReadOnly }">
-			<Multiselect v-if="!isReadOnly"
-				v-model="selectionData"
+			<NcSelect v-if="!isReadOnly"
+				:value="selectionData"
 				:options="options"
 				:searchable="true"
 				:placeholder="placeholder"
-				:tag-placeholder="tagPlaceholder"
-				:allow-empty="true"
-				:title="readableName"
+				:name="readableName"
 				:multiple="true"
 				:taggable="true"
-				track-by="label"
+				:no-wrap="false"
+				:deselect-from-dropdown="true"
+				input-id="label"
 				label="label"
-				@select="selectValue"
-				@tag="tag"
-				@remove="unselectValue">
-				<template v-if="coloredOptions" #tag="scope">
-					<PropertySelectMultipleColoredTag v-bind="scope" />
-				</template>
+				@option:selecting="tag"
+				@option:deselected="unselectValue">
 				<template v-if="coloredOptions" #option="scope">
-					<PropertySelectMultipleColoredOption v-bind="scope" />
+					<PropertySelectMultipleColoredOption :option="scope" />
 				</template>
-			</Multiselect>
+				<template v-if="coloredOptions" #selected-option-container="scope">
+					<PropertySelectMultipleColoredOption :option="scope.option" :closeable="true" @deselect="unselectValue" />
+				</template>
+			</NcSelect>
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else class="property-select-multiple-colored-tag-wrapper">
 				<PropertySelectMultipleColoredTag v-for="singleValue in value"
@@ -72,7 +71,7 @@
 
 <script>
 import PropertyMixin from '../../../mixins/PropertyMixin.js'
-import { NcMultiselect as Multiselect } from '@nextcloud/vue'
+import { NcSelect } from '@nextcloud/vue'
 import PropertySelectMultipleColoredTag from './PropertySelectMultipleColoredTag.vue'
 import PropertySelectMultipleColoredOption from './PropertySelectMultipleColoredOption.vue'
 import { getLocale } from '@nextcloud/l10n'
@@ -84,7 +83,8 @@ export default {
 	components: {
 		PropertySelectMultipleColoredOption,
 		PropertySelectMultipleColoredTag,
-		Multiselect,
+		// eslint-disable-next-line vue/no-reserved-component-names
+		NcSelect,
 		InformationVariant,
 	},
 	mixins: [
@@ -124,8 +124,8 @@ export default {
 			}
 
 			for (const category of this.value) {
-				if (!options.find(option => option.value === category)) {
-					options.push({ value: category, label: category })
+				if (!options.find(option => option.value === category) && category !== undefined) {
+					options.splice(options.findIndex(options => options.value === category), 1)
 				}
 			}
 
@@ -156,19 +156,14 @@ export default {
 		}
 	},
 	methods: {
-		selectValue(value) {
-			if (!value) {
-				return
-			}
-
-			this.$emit('add-single-value', value.value)
-		},
 		unselectValue(value) {
 			if (!value) {
 				return
 			}
 
 			this.$emit('remove-single-value', value.value)
+
+			this.selectionData.splice(this.selectionData.findIndex(option => option.value === value.value), 1)
 
 			// store removed custom options to keep it in the option list
 			const options = this.propModel.options.slice()
@@ -184,7 +179,12 @@ export default {
 				return
 			}
 
-			this.selectionData.push({ value, label: value })
+			// budget deselectFromDropdown since the vue-select implementation doesn't work
+			if (this.selectionData.find(option => option.value === value.value)) {
+				this.selectionData.splice(this.selectionData.findIndex(option => option.value === value.value), 1)
+			}
+
+			this.selectionData.push(value)
 			this.$emit('add-single-value', value)
 		},
 	},

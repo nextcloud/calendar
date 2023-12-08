@@ -24,7 +24,7 @@
 <template>
 	<AppNavigationItem :loading="calendar.loading"
 		:aria-description="descriptionAppNavigationItem"
-		:title="calendar.displayName || $t('calendar', 'Untitled calendar')"
+		:name="calendar.displayName || $t('calendar', 'Untitled calendar')"
 		:class="{deleted: isBeingDeleted, disabled: !calendar.enabled}"
 		@click.prevent.stop="toggleEnabled"
 		@update:menuOpen="actionsMenuOpen = $event">
@@ -48,8 +48,8 @@
 		<template #actions>
 			<template v-if="!isBeingDeleted">
 				<template v-if="isSharedWithMe">
-					<NcActionCaption :title="$t('calendar', 'Shared with you by')" />
-					<NcActionText :title="ownerDisplayname">
+					<NcActionCaption :name="$t('calendar', 'Shared with you by')" />
+					<NcActionText :name="ownerDisplayname">
 						<template #icon>
 							<div class="actions-icon-avatar">
 								<NcAvatar :user="ownerUserId" :display-name="ownerDisplayname" :size="30" />

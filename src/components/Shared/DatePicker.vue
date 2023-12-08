@@ -21,13 +21,13 @@
   -->
 
 <template>
-	<DatetimePicker :lang="lang"
+	<DateTimePicker :lang="lang"
 		:first-day-of-week="firstDay"
 		:format="'YYYY-MM-DD HH:mm'"
 		:formatter="formatter"
 		:value="date"
 		:type="actualType"
-		:clearable="false"
+		::clearable="false"
 		:minute-step="5"
 		:disabled-date="disabledDate"
 		:show-second="false"
@@ -54,6 +54,7 @@
 				</template>
 			</NcButton>
 			<Popover :shown.sync="showTimezonePopover"
+				:focus-trap="false"
 				open-class="timezone-popover-wrapper">
 				<div class="timezone-popover-wrapper__title">
 					<strong>
@@ -78,13 +79,13 @@
 				{{ $t('calendar', 'Pick a date') }}
 			</NcButton>
 		</template>
-	</DatetimePicker>
+	</DateTimePicker>
 </template>
 
 <script>
 import {
 	NcButton,
-	NcDatetimePicker as DatetimePicker,
+	NcDateTimePicker as DateTimePicker,
 	NcPopover as Popover,
 	NcTimezonePicker as TimezonePicker,
 } from '@nextcloud/vue'
@@ -105,7 +106,7 @@ export default {
 	name: 'DatePicker',
 	components: {
 		NcButton,
-		DatetimePicker,
+		DateTimePicker,
 		Popover,
 		TimezonePicker,
 	  IconTimezone,

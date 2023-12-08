@@ -25,22 +25,22 @@
 	<div v-if="display" class="property-select">
 		<component :is="icon"
 			:size="20"
-			:title="readableName"
+			:name="readableName"
 			class="property-select__icon"
 			:class="{ 'property-select__icon--hidden': !showIcon }" />
 
 		<div class="property-select__input"
 			:class="{ 'property-select__input--readonly': isReadOnly }">
-			<Multiselect v-if="!isReadOnly"
+			<NcSelect v-if="!isReadOnly"
 				:options="options"
 				:searchable="false"
-				:allow-empty="false"
-				:title="readableName"
+				:name="readableName"
 				:value="selectedValue"
 				:placeholder="placeholder"
-				track-by="value"
+				:clearable="false"
+				input-id="value"
 				label="label"
-				@select="changeValue" />
+				@input="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else>{{ selectedValue.label }}</div>
 		</div>
@@ -56,14 +56,14 @@
 
 <script>
 import PropertyMixin from '../../../mixins/PropertyMixin.js'
-import { NcMultiselect as Multiselect } from '@nextcloud/vue'
+import { NcSelect } from '@nextcloud/vue'
 
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
 
 export default {
 	name: 'PropertySelect',
 	components: {
-		Multiselect,
+		NcSelect,
 		InformationVariant,
 	},
 	mixins: [

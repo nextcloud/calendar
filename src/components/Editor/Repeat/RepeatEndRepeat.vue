@@ -23,15 +23,15 @@
 <template>
 	<div class="repeat-option-set repeat-option-set--end">
 		<span class="repeat-option-end__label">{{ $t('calendar', 'End repeat') }}</span>
-		<Multiselect class="repeat-option-end__end-type-select"
+		<NcSelect class="repeat-option-end__end-type-select"
 			:options="options"
 			:searchable="false"
-			:allow-empty="false"
-			:title="$t('calendar', 'Select to end repeat')"
+			:name="$t('calendar', 'Select to end repeat')"
 			:value="selectedOption"
-			track-by="value"
+			:clearable="false"
+			input-id="value"
 			label="label"
-			@select="changeEndType" />
+			@input="changeEndType" />
 		<DatePicker v-if="isUntil"
 			class="repeat-option-end__until"
 			:min="minimumDate"
@@ -54,13 +54,13 @@
 
 <script>
 import DatePicker from '../../Shared/DatePicker.vue'
-import { NcMultiselect as Multiselect } from '@nextcloud/vue'
+import { NcSelect } from '@nextcloud/vue'
 
 export default {
 	name: 'RepeatEndRepeat',
 	components: {
 		DatePicker,
-		Multiselect,
+		NcSelect,
 	},
 	props: {
 		/**

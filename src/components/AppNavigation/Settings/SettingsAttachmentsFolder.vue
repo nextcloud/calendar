@@ -36,10 +36,11 @@
 </template>
 
 <script>
+/* eslint-disable-next-line n/no-missing-import */
+import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 import debounce from 'debounce'
 import { mapState } from 'vuex'
 import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'
-import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 
 export default {
 	name: 'SettingsAttachmentsFolder',

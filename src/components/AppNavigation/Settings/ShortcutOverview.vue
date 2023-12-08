@@ -21,7 +21,7 @@
 <template>
 	<Modal class="shortcut-overview-modal"
 		size="large"
-		:title="$t('calendar', 'Shortcut overview')"
+		:name="$t('calendar', 'Shortcut overview')"
 		@close="$emit('close')">
 		<section v-for="category in shortcuts"
 			:key="category.categoryId"

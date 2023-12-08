@@ -38,11 +38,9 @@
 	}
 
 	/** Hide the submit button for the title, because it does not trigger a save */
-	.app-sidebar-header__desc {
-		.app-sidebar-header__maintitle-form {
-			button {
-				display: none;
-			}
+	.app-sidebar-header__mainname-form {
+		button {
+			display: none;
 		}
 	}
 
@@ -141,7 +139,7 @@
 				display: flex;
 				align-items: center;
 
-				.multiselect {
+				.v-select {
 					width: 100%;
 					min-width: 100px !important; // Set a lower min-width
 				}
@@ -202,7 +200,7 @@
 				&__label,
 				&__end-type-select {
 					display: block;
-					min-width: 75px;
+					min-width: 160px;
 					width: 25%;
 				}
 
@@ -446,45 +444,6 @@
 		}
 	}
 
-	.resource-search__multiselect,
-	.invitees-search__multiselect {
-		width: 100%;
-
-		.resource-search-list-item,
-		.invitees-search-list-item {
-			display: flex;
-			align-items: center;
-			width: 100%;
-
-			// Account for avatar width (because it is position: relative)
-			padding-right: 32px;
-
-			&__label {
-				width: 100%;
-				padding: 0 8px;
-
-				&__availability {
-					color: var(--color-text-maxcontrast);
-				}
-
-				div {
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-				}
-
-				div:nth-child(1) {
-					color: var(--color-main-text)
-				}
-
-				div:nth-child(2) {
-					color: var(--color-text-lighter);
-					line-height: 1;
-				}
-			}
-		}
-	}
-
 	.resource-list-item,
 	.invitees-list-item {
 		display: flex;
@@ -585,6 +544,7 @@
 		}
 
 		&__icon {
+			flex-shrink: 0;
 			margin-left: -5px;
 			margin-right: 5px;
 		}
@@ -594,7 +554,7 @@
 
 			textarea,
 			input,
-			div.multiselect {
+			div.v-select {
 				width: 100%;
 			}
 
@@ -639,8 +599,14 @@
 
 	.property-select,
 	.property-select-multiple {
-		.multiselect {
+		align-items: center;
+
+		.v-select {
 			min-width: unset !important;
+		}
+
+		&__input {
+			width: 100%;
 		}
 	}
 
@@ -808,6 +774,7 @@
 .calendar-picker-option {
 	display: flex;
 	align-items: center;
+	overflow: hidden;
 
 	&__color-indicator {
 		width: 12px;
@@ -822,6 +789,7 @@
 	&__label {
 		overflow: hidden;
 		text-overflow: ellipsis;
+		white-space: nowrap;
 		flex-grow: 1;
 	}
 
@@ -843,6 +811,11 @@
 		border: none;
 		margin-right: 8px;
 	}
+
+	.icon {
+		margin-left: 4px;
+		scale: 0.8;
+	}
 }
 
 .resource-list-button-group,
@@ -852,4 +825,43 @@
 	justify-content: space-between;
 	align-items: center;
 	margin-top: 20px;
+}
+
+.resource-search-list-item,
+.invitees-search-list-item {
+	display: flex;
+	align-items: center;
+	width: 100%;
+
+	// Account for avatar width (because it is position: relative)
+	padding-right: 32px;
+
+	&__label {
+		width: 100%;
+		padding: 0 8px;
+
+		&__availability {
+			color: var(--color-text-maxcontrast);
+		}
+
+		div {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		div:nth-child(1) {
+			color: var(--color-main-text)
+		}
+
+		div:nth-child(2) {
+			color: var(--color-text-lighter);
+			line-height: 1;
+		}
+	}
+}
+
+.resource-search__multiselect,
+.invitees-search__multiselect {
+	width: 100%;
 }
