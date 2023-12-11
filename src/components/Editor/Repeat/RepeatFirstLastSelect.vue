@@ -28,7 +28,7 @@
 		:placeholder="$t('calendar', 'first')"
 		input-id="value"
 		label="label"
-		@select="select" />
+		@input="select" />
 </template>
 
 <script>

@@ -66,9 +66,9 @@
 					:options="slotDurationOptions"
 					:value="selectedDurationOption"
 					:disabled="savingSlotDuration"
-					input-id="value"
+					input-id="valude"
 					label="label"
-					@select="changeSlotDuration" />
+					@option:selected="changeSlotDuration" />
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--defaultReminder">
 				<label for="defaultReminder">{{ $t('calendar', 'Default reminder') }}</label>
@@ -78,7 +78,7 @@
 					:disabled="savingDefaultReminder"
 					input-id="value"
 					label="label"
-					@select="changeDefaultReminder" />
+					@option:selected="changeDefaultReminder" />
 			</li>
 			<SettingsTimezoneSelect :is-disabled="loadingCalendars" />
 			<SettingsAttachmentsFolder />

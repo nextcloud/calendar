@@ -37,7 +37,7 @@
 		input-id="uid"
 		label="dropdownName"
 		@search-change="findAttendees"
-		@select="addAttendee">
+		@input="addAttendee">
 		<template #option="{ option }">
 			<div class="invitees-search-list-item">
 				<!-- We need to specify a unique key here for the avatar to be reactive. -->

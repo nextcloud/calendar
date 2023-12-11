@@ -5,7 +5,7 @@
 		:options="calendars"
 		:value="value"
 		:multiple="multiple"
-		@select="change"
+		@input="change"
 		@remove="remove">
 		<template #singleLabel="{ option }">
 			<CalendarPickerOption v-bind="option" />

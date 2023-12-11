@@ -40,7 +40,7 @@
 				:placeholder="placeholder"
 				input-id="value"
 				label="label"
-				@select="changeValue" />
+				@input="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else>{{ selectedValue.label }}</div>
 		</div>

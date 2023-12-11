@@ -27,7 +27,7 @@
 		:disabled="disabled"
 		input-id="unit"
 		label="label"
-		@select="select" />
+		@input="select" />
 </template>
 
 <script>

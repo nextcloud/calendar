@@ -43,7 +43,7 @@
 				:taggable="true"
 				input-id="label"
 				label="label"
-				@select="selectValue"
+				@input="selectValue"
 				@tag="tag"
 				@remove="unselectValue">
 				<template v-if="coloredOptions" #tag="scope">

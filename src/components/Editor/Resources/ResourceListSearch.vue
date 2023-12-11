@@ -35,7 +35,7 @@
 			input-id="email"
 			label="displayName"
 			@search-change="findResources"
-			@select="addResource">
+			@input="addResource">
 			<template #option="{ option }">
 				<div class="resource-search-list-item">
 					<Avatar :disable-tooltip="true"

@@ -31,7 +31,7 @@
 			:value="selectedOption"
 			input-id="value"
 			label="label"
-			@select="changeEndType" />
+			@input="changeEndType" />
 		<DatePicker v-if="isUntil"
 			class="repeat-option-end__until"
 			:min="minimumDate"

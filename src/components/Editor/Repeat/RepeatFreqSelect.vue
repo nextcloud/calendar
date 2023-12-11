@@ -27,7 +27,7 @@
 		open-direction="bottom"
 		input-id="freq"
 		label="label"
-		@select="select" />
+		@input="select" />
 </template>
 
 <script>
