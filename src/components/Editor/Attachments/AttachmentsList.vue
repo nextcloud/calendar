@@ -65,10 +65,6 @@ import {
 	NcActionButton,
 } from '@nextcloud/vue'
 
-import {
-	mapState,
-} from 'vuex'
-
 import Upload from 'vue-material-design-icons/Upload.vue'
 import Close from 'vue-material-design-icons/Close.vue'
 import Folder from 'vue-material-design-icons/Folder.vue'
@@ -81,7 +77,6 @@ import logger from '../../../utils/logger.js'
 import {
 	uploadLocalAttachment,
 	getFileInfo,
-	createFolder,
 } from '../../../services/attachmentService.js'
 import { parseXML } from 'webdav'
 
@@ -110,7 +105,6 @@ export default {
 	data() {
 		return {
 			uploading: false,
-			folderCreated: false,
 		}
 	},
 	computed: {
@@ -120,9 +114,6 @@ export default {
 		attachments() {
 			return this.calendarObjectInstance.attachments
 		},
-		...mapState({
-			attachmentsFolder: state => state.settings.attachmentsFolder,
-		}),
 	},
 	methods: {
 		addAttachmentWithProperty(calendarObjectInstance, sharedData) {
@@ -143,7 +134,7 @@ export default {
 				const filename = await picker.pick(t('calendar', 'Choose a file to share as a link'))
 				if (!this.isDuplicateAttachment(filename)) {
 					// TODO do not share Move this to PHP
-					const data = await getFileInfo(filename, this.currentUser.dav)
+					const data = await getFileInfo(filename, this.currentUser.dav.userId)
 					const davRes = await parseXML(data)
 					const davRespObj = davRes?.multistatus?.response[0]?.propstat?.prop
 					davRespObj.fileName = filename
@@ -169,15 +160,12 @@ export default {
 			this.$refs.localAttachments.click()
 		},
 		async onLocalAttachmentSelected(e) {
-			if (!this.folderCreated) {
-				await createFolder(this.attachmentsFolder, this.currentUser.userId)
-				this.folderCreated = true
-			}
 			try {
-				const attachments = await uploadLocalAttachment(this.attachmentsFolder, Array.from(e.target.files), this.currentUser.dav, this.attachments)
+				const attachmentsFolder = await this.$store.dispatch('createAttachmentsFolder')
+				const attachments = await uploadLocalAttachment(attachmentsFolder, Array.from(e.target.files), this.currentUser.dav, this.attachments)
 				// TODO do not share file, move to PHP
 				attachments.map(async attachment => {
-					const data = await getFileInfo(`${this.attachmentsFolder}/${attachment.path}`, this.currentUser.dav)
+					const data = await getFileInfo(`${attachmentsFolder}/${attachment.path}`, this.currentUser.dav.userId)
 					const davRes = await parseXML(data)
 					const davRespObj = davRes?.multistatus?.response[0]?.propstat?.prop
 					davRespObj.fileName = attachment.path
