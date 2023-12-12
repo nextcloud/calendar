@@ -98,9 +98,19 @@
 					<Web :size="20" decorative />
 				</template>
 			</ActionButton>
+			<ActionButton v-if="hasPublicCalendars" @click="showPublicCalendarSubscriptionPicker = true">
+				{{ t('calendar', 'Add custom public calendar') }}
+				<template #icon>
+					<Web :size="20" decorative />
+				</template>
+			</ActionButton>
 		</template>
 		<template #extra>
-			<HolidaySubscriptionPicker v-if="showHolidaySubscriptionPicker" @close="showHolidaySubscriptionPicker = false" />
+			<PublicCalendarSubscriptionPicker v-if="showHolidaySubscriptionPicker"
+				:show-holidays="true"
+				@close="showHolidaySubscriptionPicker = false" />
+			<PublicCalendarSubscriptionPicker v-if="showPublicCalendarSubscriptionPicker"
+				@close="showPublicCalendarSubscriptionPicker = false" />
 		</template>
 	</AppNavigationItem>
 </template>
@@ -136,7 +146,7 @@ export default {
 		AppNavigationItem,
 		CalendarBlank,
 		CalendarCheck,
-		HolidaySubscriptionPicker: () => import(/* webpackChunkName: "holiday-subscription-picker" */ '../../Subscription/HolidaySubscriptionPicker.vue'),
+		PublicCalendarSubscriptionPicker: () => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '../../Subscription/PublicCalendarSubscriptionPicker.vue'),
 		LinkVariant,
 		Plus,
 		Web,
@@ -158,11 +168,13 @@ export default {
 			showCreateSubscriptionInput: false,
 			showCreateSubscriptionSaving: false,
 			showHolidaySubscriptionPicker: false,
+			showPublicCalendarSubscriptionPicker: false,
 		}
 	},
 	computed: {
 		...mapState({
 			canSubscribeLink: state => state.settings.canSubscribeLink,
+			hasPublicCalendars: state => Boolean(state.settings.publicCalendars),
 		}),
 	},
 	watch: {

@@ -120,6 +120,7 @@ class ViewController extends Controller {
 		}
 		$canSubscribeLink = $this->config->getAppValue('dav', 'allow_calendar_link_subscriptions', 'yes') === 'yes';
 		$showResources = $this->config->getAppValue($this->appName, 'showResources', 'yes') === 'yes';
+		$publicCalendars = $this->config->getAppValue($this->appName, 'publicCalendars', '');
 
 		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
 		$talkApiVersion = version_compare($this->appManager->getAppVersion('spreed'), '12.0.0', '>=') ? 'v4' : 'v1';
@@ -152,6 +153,7 @@ class ViewController extends Controller {
 		$this->initialStateService->provideInitialState('can_subscribe_link', $canSubscribeLink);
 		$this->initialStateService->provideInitialState('show_resources', $showResources);
 		$this->initialStateService->provideInitialState('isCirclesEnabled', $isCirclesEnabled && $isCircleVersionCompatible);
+		$this->initialStateService->provideInitialState('publicCalendars', $publicCalendars);
 
 		return new TemplateResponse($this->appName, 'main');
 	}

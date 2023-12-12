@@ -94,7 +94,7 @@ class ViewControllerTest extends TestCase {
 	}
 
 	public function testIndex(): void {
-		$this->config->expects(self::exactly(15))
+		$this->config->expects(self::exactly(16))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
@@ -112,6 +112,7 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'forceEventAlarmType', '', 'forceEventAlarmType'],
 				['dav', 'allow_calendar_link_subscriptions', 'yes', 'no'],
 				['calendar', 'showResources', 'yes', 'yes'],
+				['calendar', 'publicCalendars', ''],
 			]);
 		$this->config->expects(self::exactly(11))
 			->method('getUserValue')
@@ -145,7 +146,7 @@ class ViewControllerTest extends TestCase {
 			->method('getAllAppointmentConfigurations')
 			->with($this->userId)
 			->willReturn([new AppointmentConfig()]);
-		$this->initialStateService->expects(self::exactly(22))
+		$this->initialStateService->expects(self::exactly(23))
 			->method('provideInitialState')
 			->withConsecutive(
 				['app_version', '1.0.0'],
@@ -170,6 +171,7 @@ class ViewControllerTest extends TestCase {
 				['can_subscribe_link', false],
 				['show_resources', true],
 				['isCirclesEnabled', false],
+				['publicCalendars', null],
 			);
 
 		$response = $this->controller->index();
@@ -187,7 +189,7 @@ class ViewControllerTest extends TestCase {
 	 * @param string $expectedView
 	 */
 	public function testIndexViewFix(string $savedView, string $expectedView): void {
-		$this->config->expects(self::exactly(15))
+		$this->config->expects(self::exactly(16))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
@@ -205,6 +207,7 @@ class ViewControllerTest extends TestCase {
 				['calendar', 'forceEventAlarmType', '', 'forceEventAlarmType'],
 				['dav', 'allow_calendar_link_subscriptions', 'yes', 'no'],
 				['calendar', 'showResources', 'yes', 'yes'],
+				['calendar', 'publicCalendars', ''],
 			]);
 		$this->config->expects(self::exactly(11))
 			->method('getUserValue')
@@ -238,7 +241,7 @@ class ViewControllerTest extends TestCase {
 			->method('getAllAppointmentConfigurations')
 			->with($this->userId)
 			->willReturn([new AppointmentConfig()]);
-		$this->initialStateService->expects(self::exactly(22))
+		$this->initialStateService->expects(self::exactly(23))
 			->method('provideInitialState')
 			->withConsecutive(
 				['app_version', '1.0.0'],
@@ -263,6 +266,7 @@ class ViewControllerTest extends TestCase {
 				['can_subscribe_link', false],
 				['show_resources', true],
 				['isCirclesEnabled', false],
+				['publicCalendars', null],
 			);
 
 		$response = $this->controller->index();

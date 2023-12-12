@@ -21,22 +21,29 @@
 
 <template>
 	<NcModal @close="$emit('close', $event)">
-		<div class="holiday-subscription-picker">
-			<h2>{{ t('calendar', 'Public holiday calendars') }}</h2>
-			<p class="holiday-subscription-picker__attribution">
-				{{ t('calendar', 'Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}', { website: 'thunderbird.net' }) }}
+		<div class="public-calendar-subscription-picker">
+			<h2 v-if="showHolidays">
+				{{ t('calendar', 'Public holiday calendars') }}
+			</h2>
+			<h2 v-else>
+				{{ t('calendar', 'Public calendars') }}
+			</h2>
+			<p v-if="showHolidays" class="holiday-subscription-picker__attribution">
+				{{ t('calendar',
+					'Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}',
+					{ website: 'thunderbird.net' }) }}
 			</p>
-			<div v-for="calendar in calendars" :key="calendar.source" class="holiday-subscription-picker__region">
-				<div class="holiday-subscription-picker__region__name">
-					<h3>{{ calendar.country }}</h3>
-					<div class="holiday-subscription-picker__region__name__subline">
-						{{ calendar.datespan }}
+			<div v-for="calendar in calendars" :key="calendar.source" class="public-calendar-subscription-picker__region">
+				<div class="public-calendar-subscription-picker__region__name">
+					<h3>{{ calendar.name }}</h3>
+					<div v-if="calendar.description" class="public-calendar-subscription-picker__region__name__subline">
+						{{ calendar.description }}
 					</div>
-					<div class="holiday-subscription-picker__region__name__subline">
+					<div v-if="calendar.authors" class="public-calendar-subscription-picker__region__name__subline">
 						{{ t('calendar', 'By {authors}', { authors: calendar.authors }) }}
 					</div>
 				</div>
-				<div class="holiday-subscription-picker__region__subcribe">
+				<div class="public-calendar-subscription-picker__region__subcribe">
 					<NcButton :disabled="loading || subscribing[calendar.source] || subscribed[calendar.source]"
 						@click="subscribe(calendar)">
 						{{ subscribed[calendar.source] ? t('calendar', 'Subscribed') : t('calendar', 'Subscribe') }}
@@ -55,18 +62,38 @@ import { mapGetters } from 'vuex'
 import { findAllSubscriptions } from '../../services/caldavService.js'
 import holidayCalendars from '../../resources/holiday_calendars.json'
 import { uidToHexColor } from '../../utils/color.js'
+import { loadState } from '@nextcloud/initial-state'
 
 export default {
-	name: 'HolidaySubscriptionPicker',
+	name: 'PublicCalendarSubscriptionPicker',
 	components: {
 		NcButton,
 		NcModal,
 	},
+	props: {
+		showHolidays: Boolean,
+	},
 	data() {
-		const calendars = holidayCalendars.map(calendar => ({
-			...calendar,
-			source: 'https://www.thunderbird.net/media/caldata/' + calendar.filename,
-		}))
+		let calendars = []
+		if (this.showHolidays) {
+			calendars = holidayCalendars.map(calendar => ({
+				...calendar,
+				displayName: t('calendar', 'Holidays in {region}', {
+					region: calendar.country,
+				}),
+				name: calendar.country,
+				description: calendar.datespan,
+				source: 'https://www.thunderbird.net/media/caldata/' + calendar.filename,
+			}))
+		} else {
+			try {
+				const state = loadState('calendar', 'publicCalendars')
+				calendars = JSON.parse(state)
+			} catch (error) {
+				console.error('Could not read public calendars', error)
+				showError(this.$t('calendar', 'An error occurred, unable to read public calendars.'))
+			}
+		}
 		const subscribing = {}
 		const subscribed = {}
 		calendars.forEach(calendar => {
@@ -92,21 +119,19 @@ export default {
 		this.loading = false
 	},
 	methods: {
-	  async subscribe(calendar) {
+		async subscribe(calendar) {
 			try {
-			  this.subscribing[calendar.source] = true
+				this.subscribing[calendar.source] = true
 
 				await this.$store.dispatch('appendSubscription', {
-					displayName: t('calendar', 'Holidays in {region}', {
-					  region: calendar.country,
-					}),
+					displayName: calendar.displayName || calendar.name,
 					color: uidToHexColor(calendar.source),
 					source: calendar.source,
 				})
 				this.subscribed[calendar.source] = true
 			} catch (error) {
-				console.error('Could not add holiday subscription', error)
-				showError(this.$t('calendar', 'An error occurred, unable to create the public holiday calendar.'))
+				console.error('Could not add calendar subscription', error)
+				showError(this.$t('calendar', 'An error occurred, unable to subscribe to calendar.'))
 			} finally {
 				this.subscribing[calendar.source] = false
 			}
@@ -116,7 +141,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.holiday-subscription-picker {
+.public-calendar-subscription-picker {
 	padding: 20px;
 
 	&__attribution {

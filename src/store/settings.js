@@ -34,6 +34,7 @@ const state = {
 	firstRun: null,
 	talkEnabled: false,
 	disableAppointments: false,
+	publicCalendars: null,
 	// user-defined calendar settings
 	eventLimit: null,
 	showTasks: null,
@@ -167,8 +168,9 @@ const mutations = {
 	 * @param {boolean} data.canSubscribeLink
 	 * @param {string} data.attachmentsFolder Default user's attachments folder
 	 * @param {boolean} data.showResources Show or hide the resources tab
+	 * @param {string} data.publicCalendars
 	 */
-	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, canSubscribeLink, attachmentsFolder, showResources }) {
+	loadSettingsFromServer(state, { appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, canSubscribeLink, attachmentsFolder, showResources, publicCalendars }) {
 		logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -189,6 +191,7 @@ Initial settings:
 	- CanSubscribeLink: ${canSubscribeLink}
 	- attachmentsFolder: ${attachmentsFolder}
 	- ShowResources: ${showResources}
+	- PublicCalendars: ${publicCalendars}
 `)
 
 		state.appVersion = appVersion
@@ -209,6 +212,7 @@ Initial settings:
 		state.canSubscribeLink = canSubscribeLink
 		state.attachmentsFolder = attachmentsFolder
 		state.showResources = showResources
+		state.publicCalendars = publicCalendars
 	},
 
 	/**
