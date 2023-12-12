@@ -66,6 +66,7 @@ describe('store/settings test suite', () => {
 			disableAppointments: false,
 			canSubscribeLink: true,
 			attachmentsFolder: '/Calendar',
+			attachmentsFolderCreated: false,
 			showResources: true,
 			publicCalendars: null,
 		})
