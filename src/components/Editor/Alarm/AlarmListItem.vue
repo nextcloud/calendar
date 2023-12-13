@@ -82,7 +82,8 @@
 		</div>
 		<div v-if="!isReadOnly"
 			class="property-alarm-item__options">
-			<Actions>
+			<Actions :open="showMenu"
+				@update:open="(open) => showMenu = open">
 				<ActionRadio v-if="canChangeAlarmType || (!isAlarmTypeDisplay && forceEventAlarmType === 'DISPLAY')"
 					:name="alarmTypeName"
 					:checked="isAlarmTypeDisplay"
@@ -212,6 +213,7 @@ export default {
 	data() {
 		return {
 			isEditing: false,
+			showMenu: false,
 		}
 	},
 	computed: {
@@ -317,12 +319,17 @@ export default {
 		 */
 		toggleEditAlarm() {
 			this.isEditing = !this.isEditing
+
+			// Hide menu when starting to edit
+			if (this.isEditing) {
+				this.showMenu = false
+			}
 		},
 		/**
 		 * This method closes the editing mode again
 		 */
 		closeAlarmEditor() {
-			this.isEditing = false
+			this.showMenu = false
 		},
 		/**
 		 * Changes the type of the reminder
