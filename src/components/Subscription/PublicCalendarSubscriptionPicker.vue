@@ -33,6 +33,9 @@
 					'Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}',
 					{ website: 'thunderbird.net' }) }}
 			</p>
+			<p v-else class="holiday-subscription-picker__attribution">
+				{{ t('calendar', 'These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website.') }}
+			</p>
 			<div v-for="calendar in calendars" :key="calendar.source" class="public-calendar-subscription-picker__region">
 				<div class="public-calendar-subscription-picker__region__name">
 					<h3>{{ calendar.name }}</h3>
@@ -64,6 +67,17 @@ import holidayCalendars from '../../resources/holiday_calendars.json'
 import { uidToHexColor } from '../../utils/color.js'
 import { loadState } from '@nextcloud/initial-state'
 
+const isValidString = (str, allowNull = false) => {
+	return typeof str === 'string' || str instanceof String || (allowNull && !str)
+}
+const isValidURL = str => {
+	try {
+		return Boolean(new URL(str))
+	} catch {
+		return false
+	}
+}
+
 export default {
 	name: 'PublicCalendarSubscriptionPicker',
 	components: {
@@ -88,7 +102,17 @@ export default {
 		} else {
 			try {
 				const state = loadState('calendar', 'publicCalendars')
-				calendars = JSON.parse(state)
+				calendars = JSON.parse(state).filter(calendar => {
+					const isValid = isValidString(calendar.name)
+						&& isValidURL(calendar.source)
+						&& isValidString(calendar.displayName, true)
+						&& isValidString(calendar.description, true)
+						&& isValidString(calendar.authors, true)
+					if (!isValid) {
+						console.error('Invalid public calendar', calendar)
+					}
+					return isValid
+				})
 			} catch (error) {
 				console.error('Could not read public calendars', error)
 				showError(this.$t('calendar', 'An error occurred, unable to read public calendars.'))
@@ -160,13 +184,13 @@ export default {
 				font-weight: bold;
 				margin-bottom: initial;
 			}
+
 			&__subline {
 				color: var(--color-text-maxcontrast)
 			}
 		}
-		&__subscribe {
 
-		}
+		&__subscribe {}
 	}
 }
 </style>
