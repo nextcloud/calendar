@@ -28,7 +28,14 @@
 			<h2 v-else>
 				{{ t('calendar', 'Public calendars') }}
 			</h2>
-			<p v-if="showHolidays" class="holiday-subscription-picker__attribution">
+			<NcEmptyContent v-if="!calendars.length"
+				:title="$t('calendar', 'No valid public calendars configured')"
+				:description="$t('calendar', 'Speak to the server administrator to resolve this issue.' )">
+				<template #icon>
+					<CalendarBlank :size="20" decorative />
+				</template>
+			</NcEmptyContent>
+			<p v-else-if="showHolidays" class="holiday-subscription-picker__attribution">
 				{{ t('calendar',
 					'Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}',
 					{ website: 'thunderbird.net' }) }}
@@ -58,9 +65,10 @@
 </template>
 
 <script>
-import { NcButton, NcModal } from '@nextcloud/vue'
+import { NcButton, NcEmptyContent, NcModal } from '@nextcloud/vue'
 import { showError } from '@nextcloud/dialogs'
 import { mapGetters } from 'vuex'
+import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 
 import { findAllSubscriptions } from '../../services/caldavService.js'
 import holidayCalendars from '../../resources/holiday_calendars.json'
@@ -81,7 +89,9 @@ const isValidURL = str => {
 export default {
 	name: 'PublicCalendarSubscriptionPicker',
 	components: {
+		CalendarBlank,
 		NcButton,
+		NcEmptyContent,
 		NcModal,
 	},
 	props: {
