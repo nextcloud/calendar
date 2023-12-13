@@ -225,6 +225,7 @@ export default {
 			canSubscribeLink: loadState('calendar', 'can_subscribe_link', false),
 			attachmentsFolder: loadState('calendar', 'attachments_folder', false),
 			showResources: loadState('calendar', 'show_resources', true),
+			publicCalendars: loadState('calendar', 'publicCalendars'),
 		})
 		this.$store.dispatch('initializeCalendarJsConfig')
 

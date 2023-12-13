@@ -67,6 +67,7 @@ describe('store/settings test suite', () => {
 			canSubscribeLink: true,
 			attachmentsFolder: '/Calendar',
 			showResources: true,
+			publicCalendars: null,
 		})
 	})
 
@@ -179,6 +180,7 @@ describe('store/settings test suite', () => {
 			canSubscribeLink: true,
 			attachmentsFolder: '/Calendar',
 			showResources: true,
+			publicCalendars: null,
 		}
 
 		const settings = {
@@ -201,6 +203,7 @@ describe('store/settings test suite', () => {
 			canSubscribeLink: true,
 			attachmentsFolder: '/Attachments',
 			showResources: true,
+			publicCalendars: null,
 		}
 
 		settingsStore.mutations.loadSettingsFromServer(state, settings)
@@ -226,6 +229,7 @@ Initial settings:
 	- CanSubscribeLink: true
 	- attachmentsFolder: /Attachments
 	- ShowResources: true
+	- PublicCalendars: null
 `)
 		expect(state).toEqual({
 			appVersion: '2.1.0',
@@ -248,6 +252,7 @@ Initial settings:
 			canSubscribeLink: true,
 			attachmentsFolder: '/Attachments',
 			showResources: true,
+			publicCalendars: null,
 		})
 	})
 
