@@ -388,7 +388,6 @@ OC.L10N.register(
     "Subscribed" : "Abonné",
     "Subscribe" : "S'abonner",
     "Holidays in {region}" : "Jours fériés {region}",
-    "An error occurred, unable to create the public holiday calendar." : "Une erreur s'est produite, impossible de créer le calendrier des jours fériés.",
     "Select date" : "Sélectionner la date",
     "Select slot" : "Sélectionnez le créneau",
     "No slots available" : "Aucun créneau disponible",

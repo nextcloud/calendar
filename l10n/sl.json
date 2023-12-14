@@ -380,7 +380,6 @@
     "Subscribed" : "Naročeno",
     "Subscribe" : "Naročilo",
     "Holidays in {region}" : "Prazniki v regiji {region}",
-    "An error occurred, unable to create the public holiday calendar." : "Prišlo je do napake zato koledarja javnih praznikov ni mogoče ustvariti.",
     "Select date" : "Izbor datuma",
     "Select slot" : "Izbor časovnega termina",
     "No slots available" : "Ni razpoložljivih časovnih terminov",

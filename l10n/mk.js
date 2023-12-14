@@ -384,7 +384,6 @@ OC.L10N.register(
     "Subscribed" : "Претплатени",
     "Subscribe" : "Претплата",
     "Holidays in {region}" : "Празници во {region}",
-    "An error occurred, unable to create the public holiday calendar." : "Настана грешка, неможе да се креира календар за државни празници.",
     "Select date" : "Избери датум",
     "Select slot" : "Избери термин",
     "No slots available" : "Нема достапни термини",

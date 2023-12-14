@@ -388,7 +388,6 @@ OC.L10N.register(
     "Subscribed" : "Підписано",
     "Subscribe" : "Підписатися",
     "Holidays in {region}" : "Свята в {region}",
-    "An error occurred, unable to create the public holiday calendar." : "Помилка: неможливо створити календар публічних свят.",
     "Select date" : "Виберіть дату",
     "Select slot" : "Виберіть часовий проміжок",
     "No slots available" : "Відсутні доступні часові проміжки",

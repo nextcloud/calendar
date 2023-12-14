@@ -388,7 +388,6 @@ OC.L10N.register(
     "Subscribed" : "Prenumeration aktiverad",
     "Subscribe" : "Prenumerera",
     "Holidays in {region}" : "Helgdagar i {region}",
-    "An error occurred, unable to create the public holiday calendar." : "Ett fel uppstod, det gick inte att skapa helgdagskalendern.",
     "Select date" : "Välj datum",
     "Select slot" : "Välj tid",
     "No slots available" : "Inga tider tillgängliga",

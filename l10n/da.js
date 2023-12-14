@@ -385,7 +385,6 @@ OC.L10N.register(
     "Subscribed" : "Abonneret",
     "Subscribe" : "Tilmeld",
     "Holidays in {region}" : "Ferie i {region}",
-    "An error occurred, unable to create the public holiday calendar." : "Der opstod en fejl, helligdagskalenderen kunne ikke oprettes.",
     "Select date" : "Vælg dato",
     "Select slot" : "Vælg tidspunkt",
     "No slots available" : "Ingen ledige tidspunkter",

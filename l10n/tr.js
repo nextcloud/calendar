@@ -388,7 +388,6 @@ OC.L10N.register(
     "Subscribed" : "Abone olundu",
     "Subscribe" : "Abone ol",
     "Holidays in {region}" : "{region} tatilleri",
-    "An error occurred, unable to create the public holiday calendar." : "Bir sorun çıktı. Resmi tatil takvimi eklenemedi.",
     "Select date" : "Tarih seçin",
     "Select slot" : "Aralık seçin",
     "No slots available" : "Seçilebilecek bir aralık yok",

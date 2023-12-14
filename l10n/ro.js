@@ -383,7 +383,6 @@ OC.L10N.register(
     "Subscribed" : "Subscris",
     "Subscribe" : "Abonare",
     "Holidays in {region}" : "Sărbători în {region}",
-    "An error occurred, unable to create the public holiday calendar." : "A apărut o eroare la crearea calendarului de sărbători legale.",
     "Select date" : "Selectați data",
     "Select slot" : "Selectați intervalul",
     "No slots available" : "Nu sunt intervale disponibile",

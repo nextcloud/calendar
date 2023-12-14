@@ -386,7 +386,6 @@ OC.L10N.register(
     "Subscribed" : "Geabonneerd",
     "Subscribe" : "Abonneren",
     "Holidays in {region}" : "Vakanties in {regio}",
-    "An error occurred, unable to create the public holiday calendar." : "Er is een fout opgetreden, het is niet mogelijk om de feestdagenkalender te maken.",
     "Select date" : "Selecteer datum",
     "Select slot" : "Selecteer tijdslot",
     "No slots available" : "Geen tijdsloten beschikbaar",

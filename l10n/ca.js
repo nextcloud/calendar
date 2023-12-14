@@ -384,7 +384,6 @@ OC.L10N.register(
     "Subscribed" : "Subscrit",
     "Subscribe" : "Subscriu-m'hi",
     "Holidays in {region}" : "Festius a {region}",
-    "An error occurred, unable to create the public holiday calendar." : "S'ha produït un error, no s'ha pogut crear el calendari de festius.",
     "Select date" : "Seleccioneu una data",
     "Select slot" : "Seleccioneu unitat temporal",
     "No slots available" : "No hi han unitats temporals disponibles",

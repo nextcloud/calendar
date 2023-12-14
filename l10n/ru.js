@@ -384,7 +384,6 @@ OC.L10N.register(
     "Subscribed" : "Подписано",
     "Subscribe" : "Подписаться",
     "Holidays in {region}" : "Праздники в {region}",
-    "An error occurred, unable to create the public holiday calendar." : "Произошла ошибка, не удалось создать общий календарь праздников.",
     "Select date" : "Выбрать дату",
     "Select slot" : "Выбрать слот",
     "No slots available" : "Нет свободных мест",

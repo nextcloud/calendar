@@ -385,7 +385,6 @@ OC.L10N.register(
     "Subscribed" : "Εγγεγραμμένα",
     "Subscribe" : "Εγγραφή",
     "Holidays in {region}" : "Αργίες σε {region}",
-    "An error occurred, unable to create the public holiday calendar." : "Εμφανίστηκε σφάλμα, δεν ήταν δυνατή η δημιουργία του ημερολογίου δημόσιων αργιών.",
     "Select date" : "Επιλέξτε ημερομηνία",
     "Select slot" : "Επιλογή θέσης",
     "No slots available" : "Καμμια διαθέσιμη θέση",

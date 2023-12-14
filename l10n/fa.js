@@ -383,7 +383,6 @@ OC.L10N.register(
     "Subscribed" : "Subscribed",
     "Subscribe" : "اشتراک گذاری",
     "Holidays in {region}" : "Holidays in {region}",
-    "An error occurred, unable to create the public holiday calendar." : "An error occurred, unable to create the public holiday calendar.",
     "Select date" : "Select date",
     "Select slot" : "Select slot",
     "No slots available" : "No slots available",

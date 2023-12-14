@@ -388,7 +388,6 @@ OC.L10N.register(
     "Subscribed" : "Abonniert",
     "Subscribe" : "Abonnieren",
     "Holidays in {region}" : "Feiertage in {region}",
-    "An error occurred, unable to create the public holiday calendar." : "Es ist ein Fehler aufgetreten, der Feiertagskalender konnte nicht erstellt werden.",
     "Select date" : "Datum auswählen",
     "Select slot" : "Zeitfenster auswählen",
     "No slots available" : "Keine Zeitfenster verfügbar",

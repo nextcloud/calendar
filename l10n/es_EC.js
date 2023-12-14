@@ -380,7 +380,6 @@ OC.L10N.register(
     "Subscribed" : "Suscrito",
     "Subscribe" : "Suscribir",
     "Holidays in {region}" : "Vacaciones en {región}",
-    "An error occurred, unable to create the public holiday calendar." : "Ocurrió un error, no se pudo crear el calendario de días festivos públicos.",
     "Select date" : "Seleccionar fecha",
     "Select slot" : "Seleccionar intervalo",
     "No slots available" : "No hay intervalos disponibles",

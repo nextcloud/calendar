@@ -385,7 +385,6 @@ OC.L10N.register(
     "Subscribed" : "Harpidetua",
     "Subscribe" : "Harpidetu",
     "Holidays in {region}" : "Oporrak {region}(e)n",
-    "An error occurred, unable to create the public holiday calendar." : "Errore bat gertatu da, ezin da jaiegun egutegi publikoa sortu.",
     "Select date" : "Hautatu data",
     "Select slot" : "Hautatu tartea",
     "No slots available" : "Ez dago tarterik eskuragarri",

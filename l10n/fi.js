@@ -380,7 +380,6 @@ OC.L10N.register(
     "Subscribed" : "Tilattu",
     "Subscribe" : "Tilaa",
     "Holidays in {region}" : "Juhlapäivä alueella {region}",
-    "An error occurred, unable to create the public holiday calendar." : "Tapahtui virhe, juhlapäiväkalenteria ei voitu luoda.",
     "Select date" : "Valitse päivämäärä",
     "Select slot" : "Valitse aikarako",
     "No slots available" : "Aikarakoja ei ole saatavilla",

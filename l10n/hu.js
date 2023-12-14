@@ -384,7 +384,6 @@ OC.L10N.register(
     "Subscribed" : "Feliratkozott",
     "Subscribe" : "Feliratkozás",
     "Holidays in {region}" : "Ünnepnapok itt: {region}",
-    "An error occurred, unable to create the public holiday calendar." : "Hiba történt, nem hozható létre az ünnepnapok naptára.",
     "Select date" : "Válasszon dátumot",
     "Select slot" : "Válasszon idősávot",
     "No slots available" : "Nincs elérhető idősáv",
