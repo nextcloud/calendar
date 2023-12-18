@@ -385,6 +385,7 @@ OC.L10N.register(
     "Public holiday calendars" : "Feiertagskalender",
     "Speak to the server administrator to resolve this issue." : "Spreche bitte den Administrator an, um dieses Problem zu lösen.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Feiertagskalender werden von Thunderbird bereitgestellt. Kalenderdaten werden von {website} heruntergeladen.",
+    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Diese öffentlichen Kalender werden von dem Serveradministrator vorgeschlagen. Kalenderdaten werden von der entsprechenden Webseite heruntergeladen.",
     "By {authors}" : "Von {authors}",
     "Subscribed" : "Abonniert",
     "Subscribe" : "Abonnieren",

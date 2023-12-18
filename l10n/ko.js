@@ -14,6 +14,7 @@ OC.L10N.register(
     "No more events today" : "오늘 더 이상 일정이 없음",
     "No upcoming events" : "다가오는 일정 없음",
     "Calendar" : "달력",
+    "{display_name} ({email}) booked the appointment \"{config_display_name}\" on {date_time}." : "{display_name} ({email}) 이(가) \"{config_display_name}\"을(를) {date_time}에 예약했습니다.",
     "Appointments" : "일정들",
     "Confirm" : "확인",
     "Date:" : "날짜:",
