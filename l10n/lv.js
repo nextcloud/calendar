@@ -52,6 +52,7 @@ OC.L10N.register(
     "Cancel" : "Atcelt",
     "_Successfully imported %n event_::_Successfully imported %n events_" : ["Veiksmīgi importēti %n notikumi","Veiksmīgi importēts %n notikums","Veiksmīgi importēti %n notikumi"],
     "Automatic" : "Automātisks",
+    "or" : "vai",
     "List view" : "Saraksta izkārtojums",
     "Actions" : "Darbības",
     "Create event" : "Izveidot notikumu",
