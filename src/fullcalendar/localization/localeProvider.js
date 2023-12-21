@@ -19,7 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { translate as t } from '@nextcloud/l10n'
+import { translate as t, getLanguage } from '@nextcloud/l10n'
 import {
 	getFirstDayOfWeekFromMomentLocale,
 } from '../../utils/moment.js'
@@ -33,6 +33,7 @@ import {
 const getFullCalendarLocale = () => {
 	return {
 		firstDay: getFirstDayOfWeekFromMomentLocale(),
+		locale: getLanguage(),
 		// TRANSLATORS W is an abbreviation for Week
 		weekText: t('calendar', 'W'),
 		allDayText: t('calendar', 'All day'),
