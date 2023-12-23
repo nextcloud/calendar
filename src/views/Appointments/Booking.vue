@@ -42,7 +42,7 @@
 			<div class="booking__date-selection">
 				<h3>{{ $t('calendar', 'Select date') }}</h3>
 				<div class="booking__date">
-					<DatetimePicker v-model="selectedDate"
+					<DateTimePicker v-model="selectedDate"
 						:disabled-date="disabledDate"
 						type="date"
 						@change="fetchSlots" />
@@ -91,7 +91,7 @@ import '@nextcloud/dialogs/dist/index.css'
 
 import {
 	NcAvatar as Avatar,
-	NcDatetimePicker as DatetimePicker,
+	NcDateTimePicker as DateTimePicker,
 	NcTimezonePicker as TimezonePicker,
 	NcGuestContent,
 } from '@nextcloud/vue'
@@ -120,7 +120,7 @@ export default {
 	components: {
 		AppointmentSlot,
 		Avatar,
-		DatetimePicker,
+		DateTimePicker,
 		TimezonePicker,
 		AppointmentDetails,
 		AppointmentBookingConfirmation,

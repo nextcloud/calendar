@@ -25,7 +25,7 @@
 	<div v-if="display" class="property-select">
 		<component :is="icon"
 			:size="20"
-			:title="readableName"
+			:name="readableName"
 			class="property-select__icon"
 			:class="{ 'property-select__icon--hidden': !showIcon }" />
 
@@ -35,7 +35,7 @@
 				:options="options"
 				:searchable="false"
 				:allow-empty="false"
-				:title="readableName"
+				:name="readableName"
 				:value="selectedValue"
 				:placeholder="placeholder"
 				input-id="value"

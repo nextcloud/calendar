@@ -25,7 +25,7 @@
 	<div class="property-color">
 		<component :is="icon"
 			:size="20"
-			:title="readableName"
+			:name="readableName"
 			class="property-color__icon"
 			:class="{ 'property-color__icon--hidden': !showIcon }"
 			decorative />

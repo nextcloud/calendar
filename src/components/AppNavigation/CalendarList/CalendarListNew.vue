@@ -25,7 +25,7 @@
 <template>
 	<AppNavigationItem class="app-navigation-entry-new-calendar"
 		:class="{'app-navigation-entry-new-calendar--open': isOpen}"
-		:title="$t('calendar', 'New calendar')"
+		:name="$t('calendar', 'New calendar')"
 		:menu-open.sync="isOpen"
 		@click.prevent.stop="toggleDialog">
 		<template #icon>

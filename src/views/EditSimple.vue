@@ -46,7 +46,7 @@
 					</Actions>
 				</div>
 
-				<EmptyContent :title="$t('calendar', 'Event does not exist')" :description="error">
+				<EmptyContent :name="$t('calendar', 'Event does not exist')" :description="error">
 					<template #icon>
 						<CalendarBlank :size="20" decorative />
 					</template>

@@ -28,7 +28,7 @@
 	<div v-if="hasAtLeastOneCalendar"
 		class="appointment-config-list">
 		<AppNavigationCaption class="appointment-config-list__caption"
-			:title="t('calendar', 'Appointments')">
+			:name="t('calendar', 'Appointments')">
 			<template v-if="hasUserEmailAddress"
 				#actions>
 				<ActionButton :close-after-click="true"

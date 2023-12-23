@@ -21,7 +21,7 @@
 
 <template>
 	<AppNavigationItem :loading="calendar.loading"
-		:title="calendar.displayName || $t('calendar', 'Untitled calendar')"
+		:name="calendar.displayName || $t('calendar', 'Untitled calendar')"
 		:menu-open.sync="menuOpen"
 		@click.prevent.stop="toggleEnabled">
 		<AppNavigationIconBullet v-if="calendar.enabled"

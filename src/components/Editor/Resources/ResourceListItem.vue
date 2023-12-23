@@ -44,15 +44,15 @@
 			</actions>
 			<Actions v-else-if="isViewedByOrganizer">
 				<ActionCaption v-if="seatingCapacity"
-					:title="seatingCapacity" />
+					:name="seatingCapacity" />
 				<ActionCaption v-if="roomType"
-					:title="roomType" />
+					:name="roomType" />
 				<ActionCaption v-if="hasProjector"
-					:title="$t('calendar', 'Has a projector')" />
+					:name="$t('calendar', 'Has a projector')" />
 				<ActionCaption v-if="hasWhiteboard"
-					:title="$t('calendar', 'Has a whiteboard')" />
+					:name="$t('calendar', 'Has a whiteboard')" />
 				<ActionCaption v-if="isAccessible"
-					:title="$t('calendar', 'Wheelchair accessible')" />
+					:name="$t('calendar', 'Wheelchair accessible')" />
 				<ActionSeparator v-if="seatingCapacity || roomType || hasProjector || hasWhiteboard || isAccessible" />
 				<ActionButton @click="removeResource">
 					<template #icon>

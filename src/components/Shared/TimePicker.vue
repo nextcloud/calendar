@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<DatetimePicker :clearable="false"
+	<DateTimePicker :clearable="false"
 		:first-day-of-week="firstDay"
 		:format="format"
 		:lang="lang"
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { NcDatetimePicker as DatetimePicker } from '@nextcloud/vue'
+import { NcDateTimePicker as DateTimePicker } from '@nextcloud/vue'
 import moment from '@nextcloud/moment'
 import { mapState } from 'vuex'
 import {
@@ -47,7 +47,7 @@ import { getLangConfigForVue2DatePicker } from '../../utils/localization.js'
 export default {
 	name: 'TimePicker',
 	components: {
-		DatetimePicker,
+		DateTimePicker,
 	},
 	props: {
 		date: {

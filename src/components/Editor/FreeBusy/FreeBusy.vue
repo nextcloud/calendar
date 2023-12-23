@@ -22,7 +22,7 @@
 
 <template>
 	<Modal size="large"
-		:title="$t('calendar', 'Availability of attendees, resources and rooms')"
+		:name="$t('calendar', 'Availability of attendees, resources and rooms')"
 		@close="$emit('close')">
 		<div class="modal__content modal--scheduler">
 			<div v-if="loadingIndicator" class="loading-indicator">

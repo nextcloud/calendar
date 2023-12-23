@@ -28,7 +28,7 @@
 			<EmptyContent v-if="item.isEmptyItem"
 				id="calendar-widget-empty-content"
 				class="half-screen"
-				:title="t('calendar', 'No more events today')">
+				:name="t('calendar', 'No more events today')">
 				<template #icon>
 					<IconCheck :size="67" />
 				</template>
@@ -41,7 +41,7 @@
 					<div v-if="item.componentName === 'VEVENT'"
 						class="calendar-dot"
 						:style="{'background-color': item.calendarColor}"
-						:title="item.calendarDisplayName" />
+						:name="item.calendarDisplayName" />
 					<IconCheckbox v-else
 						:fill-color="item.calendarColor" />
 				</template>
@@ -49,7 +49,7 @@
 		</template>
 		<template #empty-content>
 			<EmptyContent id="calendar-widget-empty-content"
-				:title="t('calendar', 'No upcoming events')">
+				:name="t('calendar', 'No upcoming events')">
 				<template #icon>
 					<EmptyCalendar />
 				</template>

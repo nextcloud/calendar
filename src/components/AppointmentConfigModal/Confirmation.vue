@@ -22,7 +22,7 @@
 
 <template>
 	<div class="app-config-modal-confirmation">
-		<EmptyContent :title="title">
+		<EmptyContent :name="title">
 			<template #icon>
 				<CheckIcon />
 			</template>

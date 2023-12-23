@@ -24,7 +24,7 @@
 	<div class="today-button-section">
 		<NcButton :aria-label="title"
 			class="button"
-			:title="title"
+			:name="title"
 			@click="today()">
 			{{ $t('calendar', 'Today') }}
 		</NcButton>

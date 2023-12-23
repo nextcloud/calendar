@@ -27,7 +27,7 @@
 			:options="options"
 			:searchable="false"
 			:allow-empty="false"
-			:title="$t('calendar', 'Select to end repeat')"
+			:name="$t('calendar', 'Select to end repeat')"
 			:value="selectedOption"
 			input-id="value"
 			label="label"

@@ -39,7 +39,7 @@
 				<NcListItem v-for="attachment in attachments"
 					:key="attachment.path"
 					:force-display-actions="true"
-					:title="getBaseName(attachment.fileName)"
+					:name="getBaseName(attachment.fileName)"
 					@click="openFile(attachment.uri)">
 					<template #icon>
 						<img :src="getPreview(attachment)" class="attachment-icon">

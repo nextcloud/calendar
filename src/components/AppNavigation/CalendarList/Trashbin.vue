@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<AppNavigationItem :title="t('calendar', 'Trash bin')"
+	<AppNavigationItem :name="t('calendar', 'Trash bin')"
 		:pinned="true"
 		@click.prevent="onShow">
 		<template #icon>

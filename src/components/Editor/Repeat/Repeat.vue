@@ -25,7 +25,7 @@
 	<div class="property-repeat">
 		<div class="property-repeat__summary">
 			<RepeatIcon class="property-repeat__summary__icon"
-				:title="$t('calendar', 'Repeat')"
+				:name="$t('calendar', 'Repeat')"
 				:size="20" />
 			<RepeatSummary class="property-repeat__summary__content"
 				:recurrence-rule="recurrenceRule" />

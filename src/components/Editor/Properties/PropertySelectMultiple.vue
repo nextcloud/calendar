@@ -25,7 +25,7 @@
 	<div v-if="display" class="property-select-multiple">
 		<component :is="icon"
 			:size="20"
-			:title="readableName"
+			:name="readableName"
 			class="property-select-multiple__icon"
 			:class="{ 'property-select-multiple__icon--hidden': !showIcon }" />
 
@@ -38,7 +38,7 @@
 				:placeholder="placeholder"
 				:tag-placeholder="tagPlaceholder"
 				:allow-empty="true"
-				:title="readableName"
+				:name="readableName"
 				:multiple="true"
 				:taggable="true"
 				input-id="label"

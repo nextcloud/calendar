@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<DatetimePicker :lang="lang"
+	<DateTimePicker :lang="lang"
 		:first-day-of-week="firstDay"
 		:format="'YYYY-MM-DD HH:mm'"
 		:formatter="formatter"
@@ -78,13 +78,13 @@
 				{{ $t('calendar', 'Pick a date') }}
 			</NcButton>
 		</template>
-	</DatetimePicker>
+	</DateTimePicker>
 </template>
 
 <script>
 import {
 	NcButton,
-	NcDatetimePicker as DatetimePicker,
+	NcDateTimePicker as DateTimePicker,
 	NcPopover as Popover,
 	NcTimezonePicker as TimezonePicker,
 } from '@nextcloud/vue'
@@ -105,7 +105,7 @@ export default {
 	name: 'DatePicker',
 	components: {
 		NcButton,
-		DatetimePicker,
+		DateTimePicker,
 		Popover,
 		TimezonePicker,
 	  IconTimezone,

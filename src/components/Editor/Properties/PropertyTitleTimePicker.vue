@@ -51,7 +51,7 @@
 					{{ formattedStart }}
 				</div>
 				<IconTimezone v-if="!isAllDay"
-					:title="endTimezone"
+					:name="endTimezone"
 					:class="{ 'highlighted-timezone-icon': highlightStartTimezone }"
 					:size="20" />
 			</div>
@@ -60,7 +60,7 @@
 					{{ formattedEnd }}
 				</div>
 				<IconTimezone v-if="!isAllDay"
-					:title="endTimezone"
+					:name="endTimezone"
 					:class="{ 'highlighted-timezone-icon': highlightStartTimezone }"
 					:size="20" />
 			</div>

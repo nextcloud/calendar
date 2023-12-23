@@ -25,21 +25,21 @@
   -->
 
 <template>
-	<NcAppSidebar :title="title"
-		:title-editable="!isReadOnly && !isLoading"
-		:title-placeholder="$t('calendar', 'Event title')"
+	<NcAppSidebar :name="title"
+		:name-editable="!isReadOnly && !isLoading"
+		:name-placeholder="$t('calendar', 'Event title')"
 		:subtitle="subTitle"
 		:empty="isLoading || isError"
 		:force-menu="true"
 		@close="cancel"
-		@update:title="updateTitle">
+		@update:name="updateTitle">
 		<template v-if="isLoading">
 			<div class="app-sidebar__loading-indicator">
 				<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
 			</div>
 		</template>
 		<template v-else-if="isError">
-			<NcEmptyContent :title="$t('calendar', 'Event does not exist')" :description="error">
+			<NcEmptyContent :name="$t('calendar', 'Event does not exist')" :description="error">
 				<template #icon>
 					<CalendarBlank :size="20" decorative />
 				</template>
@@ -178,7 +178,7 @@
 					:is-read-only="isReadOnly" />
 
 				<NcModal v-if="showModal && !isPrivate()"
-					:title="t('calendar', 'Managing shared access')"
+					:name="t('calendar', 'Managing shared access')"
 					@close="closeAttachmentsModal">
 					<div class="modal-content">
 						<div v-if="showPreloader" class="modal-content-preloader">
@@ -191,7 +191,7 @@
 							<NcListItemIcon v-for="attendee in showModalUsers"
 								:key="attendee.uri"
 								class="user-list-item"
-								:title="attendee.commonName"
+								:name="attendee.commonName"
 								:subtitle="emailWithoutMailto(attendee.uri)"
 								:is-no-user="true" />
 						</div>
@@ -202,7 +202,7 @@
 							<NcListItemIcon v-for="attachment in showModalNewAttachments"
 								:key="attachment.xNcFileId"
 								class="attachment-list-item"
-								:title="getBaseName(attachment.fileName)"
+								:name="getBaseName(attachment.fileName)"
 								:url="getPreview(attachment)"
 								:force-display-actions="false" />
 						</div>

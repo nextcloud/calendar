@@ -25,7 +25,7 @@
 			{{ $t('calendar', 'Default attachments location') }}
 		</label>
 		<div class="form-group">
-			<NcInputField v-model="attachmentsFolder"
+			<InputField v-model="attachmentsFolder"
 				type="text"
 				@input="debounceSaveAttachmentsFolder(attachmentsFolder)"
 				@change="debounceSaveAttachmentsFolder(attachmentsFolder)"
@@ -37,15 +37,16 @@
 </template>
 
 <script>
+import { NcInputField as InputField } from '@nextcloud/vue'
+
 import debounce from 'debounce'
 import { mapState } from 'vuex'
 import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'
-import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 
 export default {
 	name: 'SettingsAttachmentsFolder',
 	components: {
-		NcInputField,
+		InputField,
 	},
 	computed: {
 		...mapState({

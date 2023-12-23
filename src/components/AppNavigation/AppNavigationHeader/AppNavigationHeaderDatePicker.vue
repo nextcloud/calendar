@@ -25,7 +25,7 @@
 		<NcButton v-shortkey="previousShortKeyConf"
 			:aria-label="previousLabel"
 			class="datepicker-button-section__previous button"
-			:title="previousLabel"
+			:name="previousLabel"
 			@click="navigateToPreviousTimeRange"
 			@shortkey="navigateToPreviousTimeRange">
 			<template #icon>
@@ -48,7 +48,7 @@
 		<NcButton v-shortkey="nextShortKeyConf"
 			:aria-label="nextLabel"
 			class="datepicker-button-section__next button"
-			:title="nextLabel"
+			:name="nextLabel"
 			@click="navigateToNextTimeRange"
 			@shortkey="navigateToNextTimeRange">
 			<template #icon>

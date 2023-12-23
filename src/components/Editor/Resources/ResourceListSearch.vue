@@ -48,7 +48,7 @@
 								({{ formatAvailability(option.isAvailable) }})
 							</span>
 						</div>
-						<div :title="option.subLine">
+						<div :name="option.subLine">
 							{{ option.subLine }}
 						</div>
 					</div>

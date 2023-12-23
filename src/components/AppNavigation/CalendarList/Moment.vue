@@ -1,5 +1,5 @@
 <template>
-	<span class="live-relative-timestamp" :data-timestamp="numericTimestamp * 1000" :title="title">{{ formatted }}</span>
+	<span class="live-relative-timestamp" :data-timestamp="numericTimestamp * 1000" :name="title">{{ formatted }}</span>
 </template>
 
 <script>
