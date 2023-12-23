@@ -54,6 +54,7 @@
 				</template>
 			</NcButton>
 			<Popover :shown.sync="showTimezonePopover"
+			  :focus-trap="false"
 				open-class="timezone-popover-wrapper">
 				<div class="timezone-popover-wrapper__title">
 					<strong>
