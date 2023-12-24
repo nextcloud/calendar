@@ -21,6 +21,7 @@ OC.L10N.register(
     "Day" : "Hari",
     "Week" : "Minggu",
     "Month" : "Bulan",
+    "Year" : "Tahun",
     "Preview" : "Pratinjau",
     "Copy link" : "Salin tautan",
     "Edit" : "Sunting",
@@ -134,6 +135,7 @@ OC.L10N.register(
     "_week_::_weeks_" : ["minggu"],
     "Delete file" : "Hapus berkas",
     "Choose a file to add as attachment" : "Pilih berkas untuk ditambahkan sebagai lampiran",
+    "Not available" : "Tidak tersedia",
     "Availability of attendees, resources and rooms" : "Ketersediaan peserta, sumber daya, dan ruangan",
     "Free" : "Luang",
     "Busy (tentative)" : "Sibuk (tentatif)",
@@ -255,6 +257,7 @@ OC.L10N.register(
     "Chat room for event" : "Ruang obrolan untuk acara",
     "An error occurred, unable to delete the calendar." : "Terjadi galat, tidak dapat menghapus kalender.",
     "Talk" : "Talk",
+    "Movie" : "Film",
     "Review" : "Tinjauan",
     "Mail" : "Surel",
     "Birthday" : "Tanggal lahir"

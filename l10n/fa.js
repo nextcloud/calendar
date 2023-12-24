@@ -201,7 +201,7 @@ OC.L10N.register(
     "Public – shown on the profile page" : "Public – shown on the profile page",
     "Private – only accessible via secret link" : "Private – only accessible via secret link",
     "Appointment name" : "Appointment name",
-    "Location" : "محل",
+    "Location" : "مکان",
     "Create a Talk room" : "ایجاد اتاق گفتگو",
     "Description" : "توضیحات",
     "Visibility" : "Visibility",
