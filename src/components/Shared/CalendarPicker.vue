@@ -7,16 +7,17 @@
 		:multiple="multiple"
 		@input="change"
 		@remove="remove">
-		<template #singleLabel="{ option }">
-			<CalendarPickerOption v-bind="option" />
+		<template #option="option">
+			<CalendarPickerOption :color="option.color"
+				:display-name="option.displayName"
+				:is-shared-with-me="option.isSharedWithMe"
+				:owner="option.owner" />
 		</template>
-		<template #option="{ option }">
-			<CalendarPickerOption v-bind="option" />
-		</template>
-		<template #tag="{ option }">
-			<div class="calendar-picker__tag">
-				<CalendarPickerOption v-bind="option" />
-			</div>
+		<template #selected-option="option">
+			<CalendarPickerOption :color="option.color"
+				:display-name="option.displayName"
+				:is-shared-with-me="option.isSharedWithMe"
+				:owner="option.owner" />
 		</template>
 	</Select>
 </template>
@@ -96,5 +97,11 @@ export default {
 
 .calendar-picker__tag + .calendar-picker__tag {
 	margin-left: 5px;
+}
+</style>
+
+<style>
+.vs__dropdown-menu {
+  z-index: 10000010 !important;
 }
 </style>
