@@ -46,11 +46,11 @@
 				@input="selectValue"
 				@tag="tag"
 				@remove="unselectValue">
-				<template v-if="coloredOptions" #tag="scope">
-					<PropertySelectMultipleColoredTag v-bind="scope" />
-				</template>
 				<template v-if="coloredOptions" #option="scope">
-					<PropertySelectMultipleColoredOption v-bind="scope" />
+					<PropertySelectMultipleColoredOption :option="scope" />
+				</template>
+				<template v-if="coloredOptions" #selected-option-container="scope">
+					<PropertySelectMultipleColoredOption :option="scope" />
 				</template>
 			</Select>
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
