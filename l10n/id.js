@@ -22,6 +22,7 @@ OC.L10N.register(
     "Week" : "Minggu",
     "Month" : "Bulan",
     "Year" : "Tahun",
+    "List" : "daftar",
     "Preview" : "Pratinjau",
     "Copy link" : "Salin tautan",
     "Edit" : "Sunting",
