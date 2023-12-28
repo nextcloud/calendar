@@ -115,6 +115,7 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "カレンダーの公開解除に失敗しました",
     "can edit" : "編集を許可",
     "Unshare with {displayName}" : "{displayName}との共有を解除",
+    "An error occurred while unsharing the calendar." : "カレンダーの共有解除中にエラーが発生しました",
     "An error occurred, unable to change the permission of the share." : "エラーが発生したため、共有の権限を変更できませんでした。",
     "Share with users or groups" : "ユーザーまたはグループと共有する",
     "No users or groups" : "ユーザーまたはグループはありません",
