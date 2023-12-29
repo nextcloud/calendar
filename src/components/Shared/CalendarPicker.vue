@@ -2,11 +2,11 @@
 	<Select label="displayName"
 		input-id="url"
 		:disabled="isDisabled"
-		:options="calendars"
-		:value="value"
+		:options="options"
+		:value="removeCircularStructure(value)"
 		:multiple="multiple"
 		@input="change"
-		@remove="remove">
+		@option:deselected="remove">
 		<template #option="option">
 			<CalendarPickerOption :color="option.color"
 				:display-name="option.displayName"
@@ -55,6 +55,9 @@ export default {
 			// for calendars where only one calendar can be selected, disable if there are < 2
 			return this.multiple ? this.calendars.length < 1 : this.calendars.length < 2
 		},
+		options() {
+			return this.calendars.map(this.removeCircularStructure)
+		}
 	},
 	methods: {
 		/**
@@ -79,6 +82,10 @@ export default {
 			if (this.multiple) {
 				this.$emit('remove-calendar', calendar)
 			}
+		},
+		removeCircularStructure(calendar) {
+			const { dav, ...rest } = calendar
+			return rest
 		},
 	},
 }
