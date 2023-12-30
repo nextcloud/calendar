@@ -42,6 +42,7 @@ OC.L10N.register(
     "Friday" : "Vienres",
     "Saturday" : "Sábadu",
     "Sunday" : "Domingu",
+    "Update" : "Anovar",
     "Notification" : "Avisu",
     "_second_::_seconds_" : ["segundu","segundos"],
     "_minute_::_minutes_" : ["minutu","minutos"],
