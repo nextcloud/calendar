@@ -77,6 +77,7 @@ OC.L10N.register(
     "_Every %n year_::_Every %n years_" : ["Cada %n añu","Cada %n años"],
     "%n more" : "%n más",
     "Status" : "Estáu",
+    "Categories" : "Categories",
     "Meditation" : "Meditación",
     "Dog" : "Perru",
     "Concert" : "Conciertu",
