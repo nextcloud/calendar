@@ -2,6 +2,7 @@
  * @copyright 2022 Mikhail Sazanov <m@sazanof.ru>
  *
  * @author 2022 Mikhail Sazanov <m@sazanof.ru>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0-or-later
  *
@@ -24,6 +25,7 @@ import axios from '@nextcloud/axios'
 import { generateOcsUrl, generateRemoteUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
+import { parseXML } from 'webdav'
 
 /**
  * Makes a share link for a given file or directory.
@@ -85,16 +87,44 @@ const shareFileWith = async function(path, sharedWith, permissions = 17) {
 
 const createFolder = async function(folderName, userId) {
 	const url = generateRemoteUrl(`dav/files/${userId}/${folderName}`)
-	await axios({
-		method: 'MKCOL',
-		url,
-	}).catch(e => {
-		if (e.response.status !== 405) {
+	try {
+		await axios({
+			method: 'MKCOL',
+			url,
+		})
+	} catch (e) {
+		if (e?.response?.status !== 405) {
 			showError(t('calendar', 'Error creating a folder {folder}', {
 				folder: folderName,
 			}))
+			// Maybe the actual upload succeeds -> keep going
+			return folderName
 		}
-	})
+
+		// Folder already exists
+		if (folderName !== '/') {
+			folderName = await findFirstOwnedFolder(folderName, userId)
+		}
+	}
+
+	return folderName
+}
+
+const findFirstOwnedFolder = async function(path, userId) {
+	const infoXml = await getFileInfo(path, userId)
+	const info = await parseXML(infoXml)
+	const mountType = info?.multistatus?.response[0]?.propstat?.prop?.['mount-type']
+	if (mountType !== 'shared') {
+		return path
+	}
+
+	const hierarchy = path.split('/')
+	hierarchy.pop()
+	if (hierarchy.length === 1) {
+		return '/'
+	}
+
+	return findFirstOwnedFolder(hierarchy.join('/'), userId)
 }
 
 const uploadLocalAttachment = async function(folder, files, dav, componentAttachments) {
@@ -139,8 +169,8 @@ const uploadLocalAttachment = async function(folder, files, dav, componentAttach
 }
 
 // TODO is shared or not @share-types@
-const getFileInfo = async function(path, dav) {
-	const url = generateRemoteUrl(`dav/files/${dav.userId}/${path}`)
+const getFileInfo = async function(path, userId) {
+	const url = generateRemoteUrl(`dav/files/${userId}/${path}`)
 	const res = await axios({
 		method: 'PROPFIND',
 		url,
@@ -155,6 +185,7 @@ const getFileInfo = async function(path, dav) {
 					<oc:fileid />
 					<oc:share-types />
 					<nc:has-preview />
+					<nc:mount-type />
 				</d:prop>
 			</d:propfind>`,
 	}).catch(() => {

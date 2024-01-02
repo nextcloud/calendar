@@ -3,6 +3,7 @@
  * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author Richard Steinmetz <richard@steinmetz.cloud>
  *
  * @license AGPL-3.0-or-later
  *
@@ -27,6 +28,7 @@ import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
 import { setConfig } from '../services/settings.js'
 import { logInfo } from '../utils/logger.js'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
+import * as AttachmentService from '../services/attachmentService.js'
 
 const state = {
 	// env
@@ -52,6 +54,7 @@ const state = {
 	// user-defined Nextcloud settings
 	momentLocale: 'en',
 	attachmentsFolder: '/Calendar',
+	attachmentsFolderCreated: false,
 }
 
 const mutations = {
@@ -143,6 +146,18 @@ const mutations = {
 	 */
 	setAttachmentsFolder(state, { attachmentsFolder }) {
 		state.attachmentsFolder = attachmentsFolder
+		state.attachmentsFolderCreated = false
+	},
+
+	/**
+	 * Update wheter the user's attachments folder has been created
+	 *
+	 * @param {object} state The Vuex state
+	 * @param {object} data The destructuring object
+	 * @param {boolean} data.attachmentsFolderCreated True if the folder has been created
+	 */
+	setAttachmentsFolderCreated(state, { attachmentsFolderCreated }) {
+		state.attachmentsFolderCreated = attachmentsFolderCreated
 	},
 
 	/**
@@ -452,6 +467,30 @@ const actions = {
 
 		await setConfig('attachmentsFolder', attachmentsFolder)
 		commit('setAttachmentsFolder', { attachmentsFolder })
+	},
+
+	/**
+	 * Create the user's attachment folder if it doesn't exist and return its path
+	 *
+	 * @param {object} vuex The Vuex destructuring object
+	 * @param {object} vuex.state The Vuex state
+	 * @param {Function} vuex.commit The Vuex commit Function
+	 * @param {Function} vuex.dispatch The Vuex commit function
+	 * @param {object} vuex.getters The Vuex getters object
+	 * @return {Promise<string>} The path of the user's attachments folder
+	 */
+	async createAttachmentsFolder({ state, commit, dispatch, getters }) {
+		if (state.attachmentsFolderCreated) {
+			return state.attachmentsFolder
+		}
+
+		const userId = getters.getCurrentUserPrincipal.dav.userId
+		const path = await AttachmentService.createFolder(state.attachmentsFolder, userId)
+		if (path !== state.attachmentsFolder) {
+			await dispatch('setAttachmentsFolder', { attachmentsFolder: path })
+		}
+		commit('setAttachmentsFolderCreated', { attachmentsFolderCreated: true })
+		return path
 	},
 
 	/**
