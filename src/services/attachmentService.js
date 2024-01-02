@@ -97,8 +97,7 @@ const createFolder = async function(folderName, userId) {
 	})
 }
 
-const uploadLocalAttachment = async function(folder, event, dav, componentAttachments) {
-	const files = event.target.files
+const uploadLocalAttachment = async function(folder, files, dav, componentAttachments) {
 	const attachments = []
 	const promises = []
 
