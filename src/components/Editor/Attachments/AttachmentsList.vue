@@ -77,6 +77,7 @@ import Plus from 'vue-material-design-icons/Plus.vue'
 
 import { generateUrl } from '@nextcloud/router'
 import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
+import logger from '../../../utils/logger.js'
 import {
 	uploadLocalAttachment,
 	getFileInfo,
@@ -172,20 +173,24 @@ export default {
 				await createFolder(this.attachmentsFolder, this.currentUser.userId)
 				this.folderCreated = true
 			}
-			const attachments = await uploadLocalAttachment(this.attachmentsFolder, e, this.currentUser.dav, this.attachments)
-			// TODO do not share file, move to PHP
-			attachments.map(async attachment => {
-				const data = await getFileInfo(`${this.attachmentsFolder}/${attachment.path}`, this.currentUser.dav)
-				const davRes = await parseXML(data)
-				const davRespObj = davRes?.multistatus?.response[0]?.propstat?.prop
-				davRespObj.fileName = attachment.path
-				davRespObj.url = generateUrl(`/f/${davRespObj.fileid}`)
-				davRespObj.value = davRespObj.url
-				this.addAttachmentWithProperty(this.calendarObjectInstance, davRespObj)
-			})
+			try {
+				const attachments = await uploadLocalAttachment(this.attachmentsFolder, Array.from(e.target.files), this.currentUser.dav, this.attachments)
+				// TODO do not share file, move to PHP
+				attachments.map(async attachment => {
+					const data = await getFileInfo(`${this.attachmentsFolder}/${attachment.path}`, this.currentUser.dav)
+					const davRes = await parseXML(data)
+					const davRespObj = davRes?.multistatus?.response[0]?.propstat?.prop
+					davRespObj.fileName = attachment.path
+					davRespObj.url = generateUrl(`/f/${davRespObj.fileid}`)
+					davRespObj.value = davRespObj.url
+					this.addAttachmentWithProperty(this.calendarObjectInstance, davRespObj)
+				})
 
-			e.target.value = ''
-
+				e.target.value = ''
+			} catch (error) {
+				logger.error('Could not upload attachment(s)', { error })
+				showError(t('calendar', 'Could not upload attachment(s)'))
+			}
 		},
 		getIcon(mime) {
 			return OC.MimeType.getIconUrl(mime)
