@@ -30,7 +30,6 @@
 				@input="debounceSaveAttachmentsFolder(attachmentsFolder)"
 				@change="debounceSaveAttachmentsFolder(attachmentsFolder)"
 				@click="selectCalendarFolder"
-				@focus.once="selectCalendarFolder"
 				@keyboard.enter="selectCalendarFolder" />
 		</div>
 	</li>
