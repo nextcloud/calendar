@@ -1,6 +1,10 @@
 
 # Changelog
 
+## 4.6.2 - 2024-01-03
+### Fixed
+- Uploading attachments in Firefox
+
 ## 4.6.1 - 2023-12-21
 ### Fixed
 - Localisation for month view
