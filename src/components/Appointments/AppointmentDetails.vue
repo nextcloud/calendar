@@ -53,10 +53,14 @@
 							:disabled="isLoading" />
 					</div>
 				</div>
-				<div v-if="showError"
-					class="booking-error">
+				<NcNoteCard v-if="showRateLimitingWarning"
+					type="warning">
+					{{ $t('calendar', 'It seems a rate limit has been reached. Please try again later.') }}
+				</NcNoteCard>
+				<NcNoteCard v-if="showError"
+					type="error">
 					{{ $t('calendar', 'Could not book the appointment. Please try again later or contact the organizer.') }}
-				</div>
+				</NcNoteCard>
 				<div class="buttons">
 					<NcLoadingIcon v-if="isLoading" :size="32" class="loading-icon" />
 					<NcButton type="primary" :disabled="isLoading" @click="save">
@@ -73,6 +77,7 @@ import {
 	NcButton,
 	NcLoadingIcon,
 	NcModal as Modal,
+	NcNoteCard,
 } from '@nextcloud/vue'
 import autosize from '../../directives/autosize.js'
 
@@ -85,6 +90,7 @@ export default {
 		NcButton,
 		NcLoadingIcon,
 		Modal,
+		NcNoteCard,
 	},
 	directives: {
 		autosize,
@@ -109,6 +115,10 @@ export default {
 		timeZoneId: {
 			required: true,
 			type: String,
+		},
+		showRateLimitingWarning: {
+			required: true,
+			type: Boolean,
 		},
 		showError: {
 			required: true,
