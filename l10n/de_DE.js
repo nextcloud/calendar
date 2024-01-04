@@ -267,6 +267,7 @@ OC.L10N.register(
     "Choose a file to add as attachment" : "Wählen Sie eine Datei, die als Anhang angefügt werden soll",
     "Choose a file to share as a link" : "Wählen Sie eine Datei, die als Link geteilt werden soll",
     "Attachment {name} already exist!" : "Anhang {name} existiert bereits",
+    "Could not upload attachment(s)" : "Anhänge konnten nicht hochgeladen werden",
     "_{count} attachment_::_{count} attachments_" : ["{count} Anhang","{count} Anhänge"],
     "Invitation accepted" : "Einladung angenommen",
     "Available" : "Verfügbar",

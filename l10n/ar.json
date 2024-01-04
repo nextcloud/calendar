@@ -265,6 +265,7 @@
     "Choose a file to add as attachment" : "إختر ملفّاً لإضافته كمرفق",
     "Choose a file to share as a link" : "إختر ملفاً لمشاركته كرابط",
     "Attachment {name} already exist!" : "المُرفَق {name} موجودٌ سلفاً!",
+    "Could not upload attachment(s)" : "يتعذّر رفع المرفقـ(ات)",
     "_{count} attachment_::_{count} attachments_" : ["{count} مرفقات","{count} مرفق","{count} مرفقات","{count} مرفقات","{count} مرفقات","{count} مرفقات"],
     "Invitation accepted" : "تمّ قبول الدعوة",
     "Available" : "مُتوفر",

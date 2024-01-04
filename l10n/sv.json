@@ -265,6 +265,7 @@
     "Choose a file to add as attachment" : "Välj en fil att lägga som bilaga",
     "Choose a file to share as a link" : "Välj en fil att dela som länk",
     "Attachment {name} already exist!" : "Bilagan {name} finns redan!",
+    "Could not upload attachment(s)" : "Det gick inte att ladda upp bilagor",
     "_{count} attachment_::_{count} attachments_" : ["{count} bilaga","{count} bilagor"],
     "Invitation accepted" : "Inbjudan accepterad",
     "Available" : "Tillgänglig",

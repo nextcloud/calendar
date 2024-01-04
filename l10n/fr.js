@@ -267,6 +267,7 @@ OC.L10N.register(
     "Choose a file to add as attachment" : "Choisissez un fichier à ajouter en pièce jointe",
     "Choose a file to share as a link" : "Sélectionnez un fichier à partager par lien",
     "Attachment {name} already exist!" : "La pièce jointe {name} existe déjà !",
+    "Could not upload attachment(s)" : "Impossible de téléverser la/les pièce(s) jointe(s)",
     "_{count} attachment_::_{count} attachments_" : ["{count} pièce jointe","{count} pièces jointes","{count}  pièces jointes"],
     "Invitation accepted" : "Invitation acceptée",
     "Available" : "Disponible",
