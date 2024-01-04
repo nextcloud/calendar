@@ -134,6 +134,10 @@
 						</div>
 					</fieldset>
 				</div>
+				<NcNoteCard v-if="rateLimitingReached"
+					type="warning">
+					{{ t('calendar', 'It seems a rate limit has been reached. Please try again later.') }}
+				</NcNoteCard>
 				<NcButton class="appointment-config-modal__submit-button"
 					type="primary"
 					:disabled="!editing.name || editing.length === 0"
@@ -147,7 +151,7 @@
 
 <script>
 import { CalendarAvailability } from '@nextcloud/calendar-availability-vue'
-import { NcModal as Modal, NcButton, NcCheckboxRadioSwitch } from '@nextcloud/vue'
+import { NcModal as Modal, NcButton, NcCheckboxRadioSwitch, NcNoteCard } from '@nextcloud/vue'
 import TextInput from './AppointmentConfigModal/TextInput.vue'
 import TextArea from './AppointmentConfigModal/TextArea.vue'
 import AppointmentConfig from '../models/appointmentConfig.js'
@@ -177,6 +181,7 @@ export default {
 		Confirmation,
 		NcButton,
 		NcCheckboxRadioSwitch,
+		NcNoteCard,
 	},
 	props: {
 		config: {
@@ -194,6 +199,7 @@ export default {
 			enablePreparationDuration: false,
 			enableFollowupDuration: false,
 			enableFutureLimit: false,
+			rateLimitingReached: false,
 			showConfirmation: false,
 		}
 	},
@@ -282,6 +288,8 @@ export default {
 			this.editing.calendarFreeBusyUris = this.editing.calendarFreeBusyUris.filter(uri => uri !== this.calendarUrlToUri(calendar.url))
 		},
 		async save() {
+			this.rateLimitingReached = false
+
 			if (!this.enablePreparationDuration) {
 				this.editing.preparationDuration = this.defaultConfig.preparationDuration
 			}
@@ -307,6 +315,9 @@ export default {
 				}
 				this.showConfirmation = true
 			} catch (error) {
+				if (error?.response?.status === 429) {
+					this.rateLimitingReached = true
+				}
 				logger.error('Failed to save config', { error, config, isNew: this.isNew })
 			}
 		},

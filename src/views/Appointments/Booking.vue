@@ -76,6 +76,7 @@
 					:visitor-info="visitorInfo"
 					:time-zone-id="timeZone"
 					:show-error="bookingError"
+					:show-rate-limiting-warning="bookingRateLimit"
 					:is-loading="bookingLoading"
 					@save="onSave"
 					@close="selectedSlot = undefined" />
@@ -172,6 +173,7 @@ export default {
 			bookingConfirmed: false,
 			bookingError: false,
 			bookingLoading: false,
+			bookingRateLimit: false,
 		}
 	},
 	watch: {
@@ -229,6 +231,7 @@ export default {
 			})
 
 			this.bookingError = false
+			this.bookingRateLimit = false
 			try {
 				await bookSlot(this.config, slot, displayName, email, description, timeZone)
 
@@ -238,7 +241,11 @@ export default {
 				this.bookingConfirmed = true
 			} catch (e) {
 				console.error('could not book appointment', e)
-				this.bookingError = true
+				if (e?.response?.status === 429) {
+					this.bookingRateLimit = true
+				} else {
+					this.bookingError = true
+				}
 			} finally {
 				this.bookingLoading = false
 			}
