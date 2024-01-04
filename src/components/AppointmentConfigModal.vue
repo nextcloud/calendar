@@ -127,7 +127,10 @@
 						</div>
 					</fieldset>
 				</div>
-				<button class="primary appointment-config-modal__submit-button"
+				<div v-if="rateLimitingReached">
+					{{ t('calendar', 'It seems a rate limit has been reached. Please try again later.') }}
+				</div>
+				<button class="appointment-config-modal__submit-button"
 					:disabled="!editing.name || editing.length === 0"
 					@click="save">
 					{{ saveButtonText }}
@@ -184,6 +187,7 @@ export default {
 			enablePreparationDuration: false,
 			enableFollowupDuration: false,
 			enableFutureLimit: false,
+			rateLimitingReached: false,
 			showConfirmation: false,
 		}
 	},
@@ -267,6 +271,8 @@ export default {
 			this.editing.calendarFreeBusyUris = this.editing.calendarFreeBusyUris.filter(uri => uri !== this.calendarUrlToUri(calendar.url))
 		},
 		async save() {
+			this.rateLimitingReached = false
+
 			if (!this.enablePreparationDuration) {
 				this.editing.preparationDuration = this.defaultConfig.preparationDuration
 			}
@@ -292,6 +298,9 @@ export default {
 				}
 				this.showConfirmation = true
 			} catch (error) {
+				if (error?.response?.status === 429) {
+					this.rateLimitingReached = true
+				}
 				logger.error('Failed to save config', { error, config, isNew: this.isNew })
 			}
 		},
