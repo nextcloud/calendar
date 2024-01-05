@@ -33,6 +33,7 @@
 			class="sharing-search__select"
 			:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
 			:user-select="true"
+			:filter-by="filterResults"
 			open-direction="above"
 			track-by="user"
 			label="displayName"
@@ -90,7 +91,16 @@ export default {
 				isCircle,
 			})
 		},
-
+		/**
+		 * Function to filter results in NcSelect
+		 *
+		 * @param {object} option
+		 * @param {string} label
+		 * @param {string} search
+		 */
+		filterResults(option, label, search) {
+			return true
+		},
 		/**
 		 * Use the cdav client call to find matches to the query from the existing Users & Groups
 		 *
