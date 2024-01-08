@@ -265,6 +265,7 @@
     "Choose a file to add as attachment" : "Ek dosya olarak eklenecek dosyayı seçin",
     "Choose a file to share as a link" : "Bağlantı olarak paylaşılacak bir dosya seçin",
     "Attachment {name} already exist!" : "{name} ek dosyası zaten var!",
+    "Could not upload attachment(s)" : "Ek dosyalar yüklenemedi",
     "_{count} attachment_::_{count} attachments_" : ["{count} ek dosya","{count} ek dosya"],
     "Invitation accepted" : "Çağrı onaylandı",
     "Available" : "Uygun",
