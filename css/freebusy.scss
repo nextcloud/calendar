@@ -28,7 +28,7 @@
 	}
 
 	.blocking-event-free-busy {
-		border-color: red;
+		border-color: var(--color-primary-element);
 		border-style: solid;
 		border-left-width: 2px;
 		border-right-width: 2px;
@@ -38,10 +38,12 @@
 	}
 
 	.blocking-event-free-busy.blocking-event-free-busy--first-row {
+		border-radius: var(--border-radius) var(--border-radius) 0 0;
 		border-top-width: 2px;
 	}
 
 	.blocking-event-free-busy.blocking-event-free-busy--last-row {
+		border-radius: 0 0 var(--border-radius) var(--border-radius) ;
 		border-bottom-width: 2px;
 	}
 
@@ -66,7 +68,8 @@
 	&__colors {
 		width: 100%;
 		display:flex;
-		flex-wrap: wrap;
+		flex-direction: column;
+		padding: 5px;
 		.freebusy-caption-item {
 			display: flex;
 			align-items: center;

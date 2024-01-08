@@ -15,7 +15,7 @@
 					{{ config.name }}
 				</h2>
 				<div class="booking__time">
-					{{date}} {{ startTime }} - {{ endTime }}
+					{{ date }} {{ startTime }} - {{ endTime }}
 				</div>
 				<!-- Description needs to stay inline due to its whitespace -->
 				<span class="booking__description">{{ config.description }}</span>
@@ -146,7 +146,7 @@ export default {
 		},
 		date() {
 			return timeStampToLocaleDate(this.timeSlot.start, this.timeZoneId)
-		}
+		},
 	},
 	methods: {
 		 save() {
