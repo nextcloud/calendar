@@ -28,12 +28,11 @@
 			</template>
 		</EmptyContent>
 		<div class="app-config-modal-confirmation__buttons">
-			<a :href="config.bookingUrl"
-				class="button"
-				rel="noopener noreferrer"
-				target="_blank">
+			<NcButton :href="config.bookingUrl"
+				target="_blank"
+				rel="noopener noreferrer">
 				{{ t('calendar', 'Preview') }}
-			</a>
+			</NcButton>
 			<NcButton v-if="showCopyLinkButton"
 				@click="copyLink">
 				{{ t('calendar', 'Copy link') }}
