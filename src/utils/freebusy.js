@@ -37,16 +37,16 @@ export function getColorForFBType(type = 'BUSY') {
 		return 'rgba(255,255,255,0)'
 
 	case 'BUSY-TENTATIVE':
-		return 'rgb(221,203,85)'
+		return 'rgba(184,129,0,0.3)'
 
 	case 'BUSY':
-		return 'rgb(201,136,121)'
+		return 'rgba(217,24,18,0.3)'
 
 	case 'BUSY-UNAVAILABLE':
-		return 'rgb(182,70,157)'
+		return 'rgba(219,219,219)'
 
 	default:
-		return 'rgb(0,130,201)'
+		return 'rgba(0,113,173,0.3)'
 	}
 }
 

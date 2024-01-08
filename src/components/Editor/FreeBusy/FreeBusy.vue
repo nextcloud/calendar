@@ -28,24 +28,94 @@
 			<div v-if="loadingIndicator" class="loading-indicator">
 				<div class="icon-loading" />
 			</div>
-			<FullCalendar ref="freeBusyFullCalendar"
-				:options="options" />
-			<div class="freebusy-caption">
-				<div class="freebusy-caption__calendar-user-types" />
-				<div class="freebusy-caption__colors">
-					<div v-for="color in colorCaption" :key="color.color" class="freebusy-caption-item">
-						<div class="freebusy-caption-item__color" :style="{ 'background-color': color.color }" />
-						<div class="freebusy-caption-item__label">
-							{{ color.label }}
-						</div>
-					</div>
+			<div class="modal__content__header">
+				<h2>{{ t('calendar', 'Find a time') }}</h2>
+				<h3>{{ eventTitle }}</h3>
+				<div class="modal__content__header__attendees">
+					{{ t('calendar', 'with') }}
+					<NcUserBubble :display-name="organizer.commonName" />
+					<NcUserBubble v-for="attendee in attendees"
+						:key="attendee.id"
+						class="modal__content__header__attendees__user-bubble"
+						:display-name="attendee.commonName">
+						<template #name>
+							<a href="#"
+								title="Remove user"
+								class="icon-close"
+								@click="removeAttendee(attendee)" />
+						</template>
+					</NcUserBubble>
 				</div>
 			</div>
+			<div class="modal__content__actions">
+				<InviteesListSearch class="modal__content__actions__select"
+					:already-invited-emails="alreadyInvitedEmails"
+					:organizer="organizer"
+					@add-attendee="addAttendee" />
+				<div class="modal__content__actions__date">
+					<NcButton type="secondary"
+						@click="handleActions('today')">
+						{{ $t('calendar', 'Today') }}
+					</NcButton>
+					<NcButton type="secondary"
+						@click="handleActions('left')">
+						<template #icon>
+							<ChevronLeftIcon :size="20" />
+						</template>
+					</NcButton>
+					<NcButton type="secondary"
+						@click="handleActions('right')">
+						<template #icon>
+							<ChevronRightIcon :size="20" />
+						</template>
+					</NcButton>
+
+					<NcDateTimePicker :value="currentDate"
+						confirm
+						@confirm="(date)=>handleActions('picker', date)" />
+					<NcPopover :focus-trap="false">
+						<template #trigger>
+							<NcButton type="tertiary-no-background">
+								<template #icon>
+									<HelpCircleIcon :size="20" />
+								</template>
+							</NcButton>
+						</template>
+						<template>
+							<div class="freebusy-caption">
+								<div class="freebusy-caption__calendar-user-types" />
+								<div class="freebusy-caption__colors">
+									<div v-for="color in colorCaption" :key="color.color" class="freebusy-caption-item">
+										<div class="freebusy-caption-item__color" :style="{ 'background-color': color.color }" />
+										<div class="freebusy-caption-item__label">
+											{{ color.label }}
+										</div>
+									</div>
+								</div>
+							</div>
+						</template>
+					</NcPopover>
+				</div>
+			</div>
+			<FullCalendar ref="freeBusyFullCalendar"
+				:options="options" />
+			<div class="modal__content__footer">
+				<div class="modal__content__footer__title">
+					<h3>
+						{{ formattedcurrentStart }}
+					</h3>
+					<p>{{ formattedCurrentTime }}<span class="modal__content__footer__title__timezone">{{ formattedTimeZoen }}</span></p>
+				</div>
+
+				<NcButton type="primary"
+					@click="save">
+					{{ $t('calendar', 'Done') }}
+					<template #icon>
+						<CheckIcon :size="20" />
+					</template>
+				</NcButton>
+			</div>
 		</div>
-		<DatePicker ref="datePicker"
-			:date="currentDate"
-			:is-all-day="true"
-			@change="setCurrentDate" />
 	</Modal>
 </template>
 
@@ -53,7 +123,9 @@
 // Import FullCalendar itself
 import FullCalendar from '@fullcalendar/vue'
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
+import interactionPlugin from '@fullcalendar/interaction'
 
+import { NcDateTimePicker, NcButton, NcPopover, NcUserBubble, NcModal as Modal } from '@nextcloud/vue'
 // Import event sources
 import freeBusyBlockedForAllEventSource from '../../../fullcalendar/eventSources/freeBusyBlockedForAllEventSource.js'
 import freeBusyFakeBlockingEventSource from '../../../fullcalendar/eventSources/freeBusyFakeBlockingEventSource.js'
@@ -71,16 +143,29 @@ import {
 	mapGetters,
 	mapState,
 } from 'vuex'
-import { NcModal as Modal } from '@nextcloud/vue'
-import DatePicker from '../../Shared/DatePicker.vue'
+import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
+import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import HelpCircleIcon from 'vue-material-design-icons/HelpCircle.vue'
+
+import InviteesListSearch from '../Invitees/InviteesListSearch.vue'
+
 import { getColorForFBType } from '../../../utils/freebusy.js'
 
 export default {
 	name: 'FreeBusy',
 	components: {
 		FullCalendar,
-		DatePicker,
+		InviteesListSearch,
+		NcDateTimePicker,
 		Modal,
+		NcButton,
+		NcPopover,
+		NcUserBubble,
+		ChevronRightIcon,
+		ChevronLeftIcon,
+		CheckIcon,
+		HelpCircleIcon,
 	},
 	props: {
 		/**
@@ -113,12 +198,29 @@ export default {
 			type: Date,
 			required: true,
 		},
+		eventTitle: {
+			type: String,
+			required: true,
+
+		},
+		alreadyInvitedEmails: {
+			type: Array,
+			required: true,
+		},
 	},
 	data() {
 		return {
 			loadingIndicator: true,
 			currentDate: this.startDate,
+			currentStart: this.startDate,
+			currentEnd: this.endDate,
+			lang: getFullCalendarLocale().locale,
+			formattingOptions: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
 		}
+	},
+	mounted() {
+		const calendar = this.$refs.freeBusyFullCalendar.getApi()
+		calendar.scrollToTime(this.scrollTime)
 	},
 	computed: {
 		...mapGetters({
@@ -139,7 +241,27 @@ export default {
 				resourceTimelinePlugin,
 				momentPluginFactory(this.$store),
 				VTimezoneNamedTimezone,
+				interactionPlugin,
 			]
+		},
+		formattedcurrentStart() {
+			return this.currentStart.toLocaleDateString(this.lang, this.formattingOptions)
+		},
+		formattedCurrentTime() {
+			const options = { hour: '2-digit', minute: '2-digit', hour12: true }
+
+			const startTime = this.currentStart.toLocaleTimeString(this.lang, options)
+			const endTime = this.currentEnd.toLocaleTimeString(this.lang, options)
+
+			return `${startTime} - ${endTime} `
+		},
+		scrollTime() {
+			const options = { hour: '2-digit', minute: '2-digit', seconds: '2-digit', hour12: false }
+
+			return this.currentDate.getHours() > 0 ? new Date(this.currentDate.getTime() - 60 * 60 * 1000).toLocaleTimeString(this.lang, options) : '10:00:00'
+		},
+		formattedTimeZoen() {
+			return this.timezoneId.replace('/', '-')
 		},
 		eventSources() {
 			return [
@@ -151,8 +273,8 @@ export default {
 				freeBusyFakeBlockingEventSource(
 					this._uid,
 					this.resources,
-					this.startDate,
-					this.endDate
+					this.currentStart,
+					this.currentEnd
 				),
 				freeBusyBlockedForAllEventSource(
 					this.organizer.attendeeProperty,
@@ -163,12 +285,22 @@ export default {
 		},
 		resources() {
 			const resources = []
-
+			const roles = {
+				CHAIR: this.$t('calendar', 'chairperson'),
+				'REQ-PARTICIPANT': this.$t('calendar', 'required participant'),
+				'NON-PARTICIPANT': this.$t('calendar', 'non-participant'),
+				'OPT-PARTICIPANT': this.$t('calendar', 'optional participant'),
+			}
 			for (const attendee of [this.organizer, ...this.attendees]) {
 				let title = attendee.commonName || attendee.uri.slice(7)
 				if (attendee === this.organizer) {
 					title = this.$t('calendar', '{organizer} (organizer)', {
 						organizer: title,
+					})
+				} else {
+					title = this.$t('calendar', '{attendee} ({role})', {
+						attendee: title,
+						role: roles[attendee.role],
 					})
 				}
 
@@ -224,22 +356,25 @@ export default {
 				// Data
 				eventSources: this.eventSources,
 				resources: this.resources,
-				// Events
-				datesSet: function({ start }) {
-				  // Keep the current date in sync
-					this.setCurrentDate(start, true)
-				}.bind(this),
 				// Plugins
 				plugins: this.plugins,
 				// Interaction:
 				editable: false,
-				selectable: false,
+				selectable: true,
+				select: this.handleSelect,
 				// Localization:
 				...getDateFormattingConfig(),
 				...getFullCalendarLocale(),
 				// Rendering
 				height: 'auto',
 				loading: this.loading,
+				headerToolbar: false,
+				resourceAreaColumns: [
+					{
+						field: 'title',
+						headerContent: 'Attendees',
+					},
+				],
 				// Timezones:
 				timeZone: this.timezoneId,
 				// Formatting of the title
@@ -254,39 +389,101 @@ export default {
 			}
 		},
 	},
-	mounted() {
-	  // Move file picker into the right header menu
-		// TODO: make this a slot once fullcalendar support it
-		//       ref https://github.com/fullcalendar/fullcalendar-vue/issues/14
-		//       ref https://github.com/fullcalendar/fullcalendar-vue/issues/126
-		const picker = this.$refs.datePicker
-		// Remove from original position
-		picker.$el.parentNode.removeChild(picker.$el)
-		// Insert into calendar
-		this.$el.querySelector('.fc-toolbar-chunk:last-child').appendChild(picker.$el)
-	},
 	methods: {
+		handleSelect(arg) {
+			this.currentStart = arg.start
+			this.currentEnd = arg.end
+		},
+		save() {
+			this.$emit('update-dates', { start: this.currentStart, end: this.currentEnd })
+		},
+		addAttendee(attendee) {
+			this.$emit('add-attendee', attendee)
+		},
+		removeAttendee(attendee) {
+			this.$emit('remove-attendee', attendee)
+		},
 		loading(isLoading) {
 			this.loadingIndicator = isLoading
 		},
-		setCurrentDate(date, updatedViaCalendar) {
-		  this.currentDate = date
-			if (!updatedViaCalendar) {
-				const calendar = this.$refs.freeBusyFullCalendar.getApi()
+		handleActions(action, date = null) {
+			const calendar = this.$refs.freeBusyFullCalendar.getApi()
+			switch (action) {
+			case 'today':
+				calendar.today()
+				break
+			case 'left':
+				calendar.prev()
+				break
+			case 'right':
+				calendar.next()
+				break
+			case 'picker':
 				calendar.gotoDate(date)
+				break
 			}
+			this.currentDate = calendar.getDate()
+			calendar.scrollToTime(this.scrollTime)
 		},
 	},
 }
 </script>
 
 <style lang='scss' scoped>
+.icon-close {
+	display: block;
+	height: 100%;
+}
 .modal__content {
 	padding: 50px;
 	//when the calendar is open, it's cut at the bottom, adding a margin fixes it
 	margin-bottom: 95px;
+	&__actions{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 20px;
+		&__select{
+			width: 260px;
+		}
+		&__date{
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			& > *{
+				margin-left: 5px;
+			}
+		}
+	}
+	&__header{
+		h3{
+			font-weight: 500;
+		}
+		margin-bottom: 20px;
+		&__attendees{
+			&__user-bubble{
+				margin-right: 5px;
+			}
+		}
+	}
+	&__footer{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 20px;
+		&__title{
+			h3{
+				font-weight: 500;
+			}
+			&__timezone{
+				color: var(--color-text-lighter);
+			}
+		}
+	}
 }
-
+:deep(.vs__search ) {
+	text-overflow: ellipsis;
+}
 ::v-deep .mx-input{
 	height: 38px !important;
 }
