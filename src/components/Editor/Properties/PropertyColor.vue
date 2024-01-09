@@ -22,7 +22,7 @@
   -->
 
 <template>
-	<div class="property-color">
+	<div class="property-color" :class="{ 'property-color--readonly': isReadOnly }">
 		<component :is="icon"
 			:size="20"
 			:name="readableName"

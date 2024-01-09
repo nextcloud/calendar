@@ -26,7 +26,7 @@
 		{{ recurrenceRule | formatRecurrenceRule(locale) }}
 	</span>
 	<span v-else>
-		{{ $t('calendar', 'No recurrence') }}
+		{{ $t('calendar', 'Does not repeat') }}
 	</span>
 </template>
 

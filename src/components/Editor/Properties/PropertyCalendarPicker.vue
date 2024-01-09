@@ -21,7 +21,9 @@
   -->
 
 <template>
-	<div v-if="display" class="property-select">
+	<div v-if="display"
+		class="property-select"
+		:class="{ 'property-select--readonly': isReadOnly }">
 		<div class="property-select__input"
 			:class="{ 'property-select__input--readonly-calendar-picker': isReadOnly }">
 			<CalendarPicker v-if="!isReadOnly"

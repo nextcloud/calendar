@@ -22,7 +22,9 @@
   -->
 
 <template>
-	<div v-if="display" class="property-select">
+	<div v-if="display"
+		class="property-select"
+		:class="{ 'property-select--readonly': isReadOnly }">
 		<component :is="icon"
 			:size="20"
 			:name="readableName"

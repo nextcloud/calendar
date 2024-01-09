@@ -23,7 +23,6 @@
 
 import { getRFCProperties } from '../models/rfcProps.js'
 import logger from '../utils/logger.js'
-import { getIllustrationForTitle } from '../utils/illustration.js'
 import { getPrefixedRoute } from '../utils/router.js'
 import { dateFactory } from '../utils/date.js'
 import { uidToHexColor } from '../utils/color.js'
@@ -33,6 +32,7 @@ import {
 } from 'vuex'
 import { translate as t } from '@nextcloud/l10n'
 import { removeMailtoPrefix } from '../utils/attendee.js'
+import { showError } from '@nextcloud/dialogs'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
@@ -43,8 +43,10 @@ import { removeMailtoPrefix } from '../utils/attendee.js'
 export default {
 	data() {
 		return {
-			// Indicator whether or not the event is currently loading
+			// Indicator whether or not the event is currently loading, saving or being deleted
 			isLoading: true,
+			// Indicator whether or not the event is currently saving
+			isSaving: false,
 			// Indicator whether or not loading the event failed
 			isError: false,
 			// Error message in case there was an error
@@ -145,14 +147,6 @@ export default {
 		 */
 		canModifyAllDay() {
 			return this.calendarObjectInstance?.canModifyAllDay ?? false
-		},
-		/**
-		 * Returns an illustration matching this event's title
-		 *
-		 * @return {string}
-		 */
-		backgroundImage() {
-			return getIllustrationForTitle(this.title)
 		},
 		/**
 		 * Returns the color the illustration should be colored in
@@ -275,19 +269,6 @@ export default {
 			return this.$store.getters.getCalendarById(this.calendarId)
 		},
 		/**
-		 * Returns whether or not to display the calendar-picker
-		 *
-		 * @return {boolean}
-		 */
-		showCalendarPicker() {
-			// Always show the calendar's name when we are in a read-only calendar
-			if (this.isReadOnly) {
-				return true
-			}
-
-			return this.$store.getters.sortedCalendars.length > 1
-		},
-		/**
 		 * Returns whether or not the user is allowed to delete this event
 		 *
 		 * @return {boolean}
@@ -316,6 +297,19 @@ export default {
 			}
 
 			return this.eventComponent.canCreateRecurrenceExceptions()
+		},
+		/**
+		 * Returns whether the calendar of the event can be modified
+		 *
+		 * @return {boolean}
+		 */
+		canModifyCalendar() {
+			const eventComponent = this.calendarObjectInstance.eventComponent
+			if (!eventComponent) {
+				return true
+			}
+
+			return !eventComponent.isPartOfRecurrenceSet() || eventComponent.isExactForkOfPrimary
 		},
 		/**
 		 * Returns a an object with properties from RFCs including
@@ -483,12 +477,23 @@ export default {
 			}
 
 			this.isLoading = true
-			await this.$store.dispatch('saveCalendarObjectInstance', {
-				thisAndAllFuture,
-				calendarId: this.calendarId,
-			})
-			this.isLoading = false
+			this.isSaving = true
+			try {
+				await this.$store.dispatch('saveCalendarObjectInstance', {
+					thisAndAllFuture,
+					calendarId: this.calendarId,
+				})
+			} catch (error) {
+				logger.error(`Failed to save event: ${error}`)
+				showError(t('calendar', 'Failed to save event'))
+				this.calendarObjectInstance.eventComponent.markDirty()
+				throw error
+			} finally {
+				this.isLoading = false
+				this.isSaving = false
+			}
 		},
+
 		/**
 		 * Saves a calendar-object and closes the editor
 		 *
@@ -642,6 +647,7 @@ export default {
 		 */
 		resetState() {
 			this.isLoading = true
+			this.isSaving = false
 			this.isError = false
 			this.error = null
 			this.calendarId = null

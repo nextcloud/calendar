@@ -25,14 +25,9 @@
   -->
 
 <template>
-	<NcAppSidebar :name="title"
-		:name-editable="!isReadOnly && !isLoading"
-		:name-placeholder="$t('calendar', 'Event title')"
-		:subtitle="subTitle"
-		:empty="isLoading || isError"
+	<NcAppSidebar :empty="isLoading || isError"
 		:force-menu="true"
-		@close="cancel"
-		@update:name="updateTitle">
+		@close="cancel">
 		<template v-if="isLoading">
 			<div class="app-sidebar__loading-indicator">
 				<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
@@ -44,10 +39,6 @@
 					<CalendarBlank :size="20" decorative />
 				</template>
 			</NcEmptyContent>
-		</template>
-
-		<template #header>
-			<IllustrationHeader :color="illustrationColor" :illustration-url="backgroundImage" />
 		</template>
 
 		<template v-if="!isLoading && !isError && !isNew"
@@ -87,11 +78,14 @@
 
 		<template v-if="!isLoading && !isError"
 			#description>
-			<PropertyCalendarPicker v-if="showCalendarPicker"
+			<CalendarPickerHeader :value="selectedCalendar"
 				:calendars="calendars"
-				:calendar="selectedCalendar"
 				:is-read-only="isReadOnly || !canModifyCalendar"
-				@select-calendar="changeCalendar" />
+				@update:value="changeCalendar" />
+
+			<PropertyTitle :value="title"
+				:is-read-only="isReadOnly"
+				@update:value="updateTitle" />
 
 			<PropertyTitleTimePicker :start-date="startDate"
 				:start-timezone="startTimezone"
@@ -108,10 +102,24 @@
 				@update-end-timezone="updateEndTimezone"
 				@toggle-all-day="toggleAllDay" />
 
+			<PropertyText class="property-location"
+				:is-read-only="isReadOnly"
+				:prop-model="rfcProps.location"
+				:value="location"
+				:linkify-links="true"
+				@update:value="updateLocation" />
+			<PropertyText class="property-description"
+				:is-read-only="isReadOnly"
+				:prop-model="rfcProps.description"
+				:value="description"
+				:linkify-links="true"
+				@update:value="updateDescription" />
+
 			<InvitationResponseButtons v-if="isViewedByAttendee"
 				:attendee="userAsAttendee"
 				:calendar-id="calendarId"
 				:narrow="true"
+				:grow-horizontally="true"
 				@close="closeEditorAndSkipAction" />
 		</template>
 
@@ -124,17 +132,6 @@
 				<InformationOutline :size="20" decorative />
 			</template>
 			<div class="app-sidebar-tab__content">
-				<PropertyText :is-read-only="isReadOnly"
-					:prop-model="rfcProps.location"
-					:value="location"
-					:linkify-links="true"
-					@update:value="updateLocation" />
-				<PropertyText :is-read-only="isReadOnly"
-					:prop-model="rfcProps.description"
-					:value="description"
-					:linkify-links="true"
-					@update:value="updateDescription" />
-
 				<PropertySelect :is-read-only="isReadOnly"
 					:prop-model="rfcProps.status"
 					:value="status"
@@ -290,7 +287,6 @@ import {
 	NcListItemIcon,
 	NcButton,
 	NcCheckboxRadioSwitch,
-
 } from '@nextcloud/vue'
 
 import { mapState } from 'vuex'
@@ -299,14 +295,13 @@ import { generateUrl } from '@nextcloud/router'
 import AlarmList from '../components/Editor/Alarm/AlarmList.vue'
 
 import InviteesList from '../components/Editor/Invitees/InviteesList.vue'
-import PropertyCalendarPicker from '../components/Editor/Properties/PropertyCalendarPicker.vue'
 import PropertySelect from '../components/Editor/Properties/PropertySelect.vue'
 import PropertyText from '../components/Editor/Properties/PropertyText.vue'
 import PropertyTitleTimePicker from '../components/Editor/Properties/PropertyTitleTimePicker.vue'
+import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'
 import Repeat from '../components/Editor/Repeat/Repeat.vue'
 
 import EditorMixin from '../mixins/EditorMixin.js'
-import IllustrationHeader from '../components/Editor/IllustrationHeader.vue'
 import moment from '@nextcloud/moment'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
 import PropertySelectMultiple from '../components/Editor/Properties/PropertySelectMultiple.vue'
@@ -314,6 +309,7 @@ import PropertyColor from '../components/Editor/Properties/PropertyColor.vue'
 import ResourceList from '../components/Editor/Resources/ResourceList.vue'
 import InvitationResponseButtons from '../components/Editor/InvitationResponseButtons.vue'
 import AttachmentsList from '../components/Editor/Attachments/AttachmentsList.vue'
+import CalendarPickerHeader from '../components/Editor/CalendarPickerHeader.vue'
 
 import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
@@ -335,7 +331,6 @@ export default {
 		PropertyColor,
 		PropertySelectMultiple,
 		SaveButtons,
-		IllustrationHeader,
 		AlarmList,
 		NcAppSidebar,
 		NcAppSidebarTab,
@@ -347,7 +342,6 @@ export default {
 		NcButton,
 		NcCheckboxRadioSwitch,
 		InviteesList,
-		PropertyCalendarPicker,
 		PropertySelect,
 		PropertyText,
 		PropertyTitleTimePicker,
@@ -361,6 +355,8 @@ export default {
 		MapMarker,
 		InvitationResponseButtons,
 		AttachmentsList,
+		CalendarPickerHeader,
+		PropertyTitle,
 	},
 	mixins: [
 		EditorMixin,
@@ -416,17 +412,6 @@ export default {
 		},
 		currentUser() {
 			return this.$store.getters.getCurrentUserPrincipal || null
-		},
-		/**
-		 * @return {boolean}
-		 */
-		canModifyCalendar() {
-			const eventComponent = this.calendarObjectInstance.eventComponent
-			if (!eventComponent) {
-				return true
-			}
-
-			return !eventComponent.isPartOfRecurrenceSet() || eventComponent.isExactForkOfPrimary
 		},
 	},
 	mounted() {
@@ -693,5 +678,14 @@ export default {
 }
 ::v-deep .app-sidebar-header__description {
 	flex-direction: column;
+}
+:deep(.app-sidebar-header__info) {
+	display: none !important;
+}
+.property-location {
+	margin-top: 10px;
+}
+.property-description {
+	margin-bottom: 10px;
 }
 </style>

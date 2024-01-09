@@ -8,7 +8,6 @@
 	cursor: text;
 	width: 100% !important;
 	box-sizing: border-box;
-	margin-top: 1px !important;
 	padding: 12px;
 	white-space: pre-line;
 	overflow: auto;
@@ -19,7 +18,14 @@
 	max-height: 16em;
 	max-height: calc(100vh - 500px);
 
-	a.linkified::after {
-		content: ' ↗';
+	a.linkified {
+		text-decoration: underline;
+
+		// Prevent misalignment when a linkified line starts with a link, e.g. in the location field
+		margin: 0;
+
+		&::after {
+			content: ' ↗';
+		}
 	}
 }

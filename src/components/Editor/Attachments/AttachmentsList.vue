@@ -8,15 +8,15 @@
 		<div class="attachments-summary">
 			<div class="attachments-summary-inner">
 				<Paperclip :size="20" />
-				<div v-if="attachments.length > 0">
+				<div v-if="attachments.length > 0" class="attachments-summary-inner-label">
 					{{ n('calendar', '{count} attachment', '{count} attachments', attachments.length, { count: attachments.length }) }}
 				</div>
-				<div v-else>
+				<div v-else class="attachments-summary-inner-label">
 					{{ t('calendar', 'No attachments') }}
 				</div>
 			</div>
 
-			<NcActions>
+			<NcActions v-if="!isReadOnly">
 				<template #icon>
 					<Plus :size="20" />
 				</template>
@@ -35,9 +35,10 @@
 			</NcActions>
 		</div>
 		<div v-if="attachments.length > 0">
-			<ul class="attachments-list-item">
+			<ul class="attachments-list">
 				<NcListItem v-for="attachment in attachments"
 					:key="attachment.path"
+					class="attachments-list-item"
 					:force-display-actions="true"
 					:name="getBaseName(attachment.fileName)"
 					@click="openFile(attachment.uri)">
@@ -45,7 +46,8 @@
 						<img :src="getPreview(attachment)" class="attachment-icon">
 					</template>
 					<template #actions>
-						<NcActionButton @click="deleteAttachmentFromEvent(attachment)">
+						<NcActionButton v-if="!isReadOnly"
+							@click="deleteAttachmentFromEvent(attachment)">
 							<template #icon>
 								<Close :size="20" />
 							</template>
@@ -217,13 +219,37 @@ export default {
 			width: 34px;
 			height: 34px;
 			margin-left: -10px;
-			margin-right: 10px;
+			margin-right: 5px;
+		}
+
+		.attachments-summary-inner-label {
+			padding: 0 7px;
+			font-weight: bold;
 		}
 	}
 }
 
-.attachments-list-item {
+.attachments-list {
 	margin: 0 -8px;
+
+	.attachments-list-item {
+		// Reduce height to 44px
+		:deep(.list-item) {
+			padding: 0 8px;
+		}
+		:deep(.list-item-content__wrapper) {
+			height: 44px;
+		}
+
+		:deep(.list-item-content) {
+			// Align text with other properties
+			padding-left: 18px;
+		}
+
+		:deep(.line-one__title) {
+			font-weight: unset;
+		}
+	}
 }
 
 #attachments .empty-content {
@@ -240,8 +266,8 @@ export default {
 	}
 }
 .attachment-icon {
-	width: 40px;
-    height: auto;
+	width: 24px;
+	height: 24px;
 	border-radius: var(--border-radius);
 }
 </style>

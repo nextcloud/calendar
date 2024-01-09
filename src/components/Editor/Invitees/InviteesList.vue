@@ -24,7 +24,13 @@
   -->
 
 <template>
-	<div>
+	<div v-if="!hideIfEmpty || !isListEmpty" class="invitees-list">
+		<div v-if="showHeader" class="invitees-list__header">
+			<AccountMultipleIcon :size="20" />
+			<b>{{ t('calendar', 'Attendees') }}</b>
+			{{ statusHeader }}
+		</div>
+
 		<InviteesListSearch v-if="!isReadOnly && !isSharedWithMe && hasUserEmailAddress"
 			:already-invited-emails="alreadyInvitedEmails"
 			:organizer="calendarObjectInstance.organizer"
@@ -32,22 +38,24 @@
 		<OrganizerListItem v-if="hasOrganizer"
 			:is-read-only="isReadOnly || isSharedWithMe"
 			:organizer="calendarObjectInstance.organizer" />
-		<InviteesListItem v-for="invitee in inviteesWithoutOrganizer"
+		<InviteesListItem v-for="invitee in limitedInviteesWithoutOrganizer"
 			:key="invitee.email"
 			:attendee="invitee"
 			:is-read-only="isReadOnly || isSharedWithMe"
 			:organizer-display-name="organizerDisplayName"
 			:members="invitee.members"
 			@remove-attendee="removeAttendee" />
-		<NoAttendeesView v-if="isReadOnly && isListEmpty"
-			:message="noInviteesMessage" />
-		<NoAttendeesView v-if="!isReadOnly && isListEmpty && hasUserEmailAddress"
-			:message="noInviteesMessage" />
-		<NoAttendeesView v-if="isSharedWithMe"
+		<div v-if="limit > 0 && inviteesWithoutOrganizer.length > limit"
+			class="invitees-list__more">
+			{{ n('calendar', '%n more guest', '%n more guests', inviteesWithoutOrganizer.length - limit) }}
+		</div>
+		<NoAttendeesView v-if="isReadOnly && isSharedWithMe && !hideErrors"
 			:message="noOwnerMessage" />
-		<OrganizerNoEmailError v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
+		<NoAttendeesView v-else-if="isReadOnly && isListEmpty && hasUserEmailAddress"
+			:message="noInviteesMessage" />
+		<OrganizerNoEmailError v-else-if="!isReadOnly && isListEmpty && !hasUserEmailAddress && !hideErrors" />
 
-		<div class="invitees-list-button-group">
+		<div v-if="!hideButtons" class="invitees-list-button-group">
 			<NcButton v-if="isCreateTalkRoomButtonVisible"
 				class="invitees-list-button-group__button"
 				:disabled="isCreateTalkRoomButtonDisabled"
@@ -86,6 +94,7 @@ import {
 	showError,
 } from '@nextcloud/dialogs'
 import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
+import AccountMultipleIcon from 'vue-material-design-icons/AccountMultiple.vue'
 
 export default {
 	name: 'InviteesList',
@@ -97,6 +106,7 @@ export default {
 		InviteesListItem,
 		InviteesListSearch,
 		OrganizerListItem,
+		AccountMultipleIcon,
 	},
 	props: {
 		isReadOnly: {
@@ -111,11 +121,32 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+		showHeader: {
+			type: Boolean,
+			required: true,
+		},
+		hideIfEmpty: {
+			type: Boolean,
+			default: false,
+		},
+		hideButtons: {
+			type: Boolean,
+			default: false,
+		},
+		hideErrors: {
+			type: Boolean,
+			default: false,
+		},
+		limit: {
+			type: Number,
+			default: 0,
+		},
 	},
 	data() {
 		return {
 			creatingTalkRoom: false,
 			showFreeBusyModel: false,
+			recentAttendees: [],
 		}
 	},
 	computed: {
@@ -146,8 +177,12 @@ export default {
 				return false
 			})
 		},
+		/**
+		 * All invitees except the organizer.
+		 *
+		 * @return {object[]}
+		 */
 		inviteesWithoutOrganizer() {
-
 			if (!this.calendarObjectInstance.organizer) {
 				return this.invitees
 			}
@@ -170,6 +205,25 @@ export default {
 
 					return attendee.uri !== this.calendarObjectInstance.organizer.uri
 				})
+		},
+		/**
+		 * All invitees except the organizer limited by the limit prop.
+		 * If the limit prop is 0 all invitees except the organizer are returned.
+		 *
+		 * @return {object[]}
+		 */
+		limitedInviteesWithoutOrganizer() {
+			const filteredInvitees = this.inviteesWithoutOrganizer
+
+			if (this.limit) {
+				const limit = this.hasOrganizer ? this.limit - 1 : this.limit
+				return filteredInvitees
+					// Push newly added attendees to the top of the list
+					.toSorted((a, b) => this.recentAttendees.indexOf(b.uri) - this.recentAttendees.indexOf(a.uri))
+					.slice(0, limit)
+			}
+
+			return filteredInvitees
 		},
 		isOrganizer() {
 			return this.calendarObjectInstance.organizer !== null
@@ -221,6 +275,18 @@ export default {
 
 			return false
 		},
+		statusHeader() {
+			if (!this.isReadOnly) {
+				return ''
+			}
+
+			return this.t('calendar', '{invitedCount} invited, {confirmedCount} confirmed', {
+				invitedCount: this.inviteesWithoutOrganizer.length,
+				confirmedCount: this.inviteesWithoutOrganizer
+					.filter((attendee) => attendee.participationStatus === 'ACCEPTED')
+					.length,
+			})
+		},
 	},
 	methods: {
 		addAttendee({ commonName, email, calendarUserType, language, timezoneId, member }) {
@@ -237,6 +303,7 @@ export default {
 				organizer: this.$store.getters.getCurrentUserPrincipal,
 				member,
 			})
+			this.recentAttendees.push(email)
 		},
 		removeAttendee(attendee) {
 			// Remove attendee from participating group
@@ -256,6 +323,7 @@ export default {
 				calendarObjectInstance: this.calendarObjectInstance,
 				attendee,
 			})
+			this.recentAttendees = this.recentAttendees.filter((a) => a.uri !== attendee.email)
 		},
 		openFreeBusy() {
 			this.showFreeBusyModel = true
@@ -304,19 +372,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.invitees-list-button-group {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 5px;
-}
+.invitees-list {
+	margin-top: 12px;
 
-.invitees-list-button-group__button {
-	flex: 1 0 200px;
+	&__header {
+		display: flex;
+		gap: 5px;
+		padding: 5px 5px 5px 6px;
+	}
 
-	::v-deep .button-vue__text {
-		white-space: unset !important;
-		overflow: unset !important;
-		text-overflow: unset !important;
+	&__more {
+		padding: 15px 0 0 46px;
+		font-weight: bold;
+		opacity: 0.75;
+	}
+
+	.invitees-list-button-group {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 5px;
+
+		&__button {
+			flex: 1 0 200px;
+
+			:deep(.button-vue__text) {
+				white-space: unset !important;
+				overflow: unset !important;
+				text-overflow: unset !important;
+			}
+		}
 	}
 }
 </style>
