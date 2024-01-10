@@ -1,5 +1,11 @@
-
 # Changelog
+
+## 4.6.3 - 2024-01-10
+### Fixed
+- Rate limit appointment booking and config creation
+- Apointment confirmation modal button style
+- Filtering in sharing search
+- Attachment folder picker opening twice
 
 ## 4.6.2 - 2024-01-03
 ### Fixed
