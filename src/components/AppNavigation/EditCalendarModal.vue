@@ -1,5 +1,6 @@
 <!--
   - @copyright Copyright (c) 2022 Richard Steinmetz <richard@steinmetz.cloud>
+  - @copyright Copyright (c) 2024 Informatyka Boguslawski sp. z o.o. sp.k., https://www.ib.pl/
   -
   - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
@@ -49,7 +50,7 @@
 
 				<div class="edit-calendar-modal__sharing">
 					<SharingSearch :calendar="calendar" />
-					<PublishCalendar :calendar="calendar" />
+					<PublishCalendar :calendar="calendar" v-if="canBePublished" />
 					<InternalLink :calendar="calendar" />
 					<ShareItem v-for="sharee in calendar.shares"
 						:key="sharee.uri"
@@ -133,6 +134,15 @@ export default {
 			}
 
 			return this.$store.getters.getCalendarById(id)
+		},
+
+		/**
+		 * Whether to show the publishing action.
+		 *
+		 * @return {boolean}
+		 */
+		canBePublished() {
+			return this.calendar.canBePublished
 		},
 
 		/**
