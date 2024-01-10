@@ -35,6 +35,7 @@ use OCA\Calendar\Http\JsonResponse;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\IRequest;
 use Psr\Log\LoggerInterface;
 use function array_keys;
@@ -148,7 +149,9 @@ class AppointmentConfigController extends Controller {
 	 * @param int|null $end
 	 * @param int|null $futureLimit
 	 * @return JsonResponse
+	 * @UserRateThrottle(limit=10, period=1200)
 	 */
+	#[UserRateLimit(limit: 10, period: 1200)]
 	public function create(
 		string $name,
 		string $description,

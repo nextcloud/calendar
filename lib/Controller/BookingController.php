@@ -38,6 +38,8 @@ use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCA\Calendar\Service\Appointments\BookingService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\AnonRateLimit;
+use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -163,7 +165,12 @@ class BookingController extends Controller {
 	 * @param string $description
 	 * @param string $timeZone
 	 * @return JsonResponse
+	 *
+	 * @AnonRateThrottle(limit=10, period=1200)
+	 * @UserRateThrottle(limit=10, period=300)
 	 */
+	#[AnonRateLimit(limit: 10, period: 1200)]
+	#[UserRateLimit(limit: 10, period: 300)]
 	public function bookSlot(int $appointmentConfigId,
 							 int $start,
 							 int $end,

@@ -50,6 +50,10 @@
 							autocomplete="off" />
 					</div>
 				</div>
+				<div v-if="showRateLimitingWarning"
+					class="booking-error">
+					{{ $t('calendar', 'It seems a rate limit has been reached. Please try again later.') }}
+				</div>
 				<div v-if="showError"
 					class="booking-error">
 					{{ $t('calendar', 'Could not book the appointment. Please try again later or contact the organizer.') }}
@@ -100,6 +104,10 @@ export default {
 		timeZoneId: {
 			required: true,
 			type: String,
+		},
+		showRateLimitingWarning: {
+			required: true,
+			type: Boolean,
 		},
 		showError: {
 			required: true,
