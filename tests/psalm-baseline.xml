@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.15.0@5c774aca4746caf3d239d9c8cadb9f882ca29352">
+<files psalm-version="5.19.0@06b71be009a6bd6d81b9811855d6629b9fe90e1b">
   <file src="lib/AppInfo/Application.php">
     <MissingDependency>
       <code>CalendarWidgetV2</code>
@@ -13,6 +13,15 @@
       <code>$expectedDayKeys !== $actualDayKeys</code>
       <code><![CDATA[$slotKeys !== ['end', 'start']]]></code>
     </RedundantCondition>
+    <UndefinedAttributeClass>
+      <code>UserRateLimit</code>
+    </UndefinedAttributeClass>
+  </file>
+  <file src="lib/Controller/BookingController.php">
+    <UndefinedAttributeClass>
+      <code>AnonRateLimit</code>
+      <code>UserRateLimit</code>
+    </UndefinedAttributeClass>
   </file>
   <file src="lib/Dashboard/CalendarWidgetV2.php">
     <UndefinedClass>
