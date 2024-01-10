@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.5.8 - 2023-01-10
+### Fixed
+- Rate limit appointment booking and config creation
+- Tooltip when importing ics with invalid attendees
+- "After the event" slot not being displayed on the appointment config modal
+
 ## 4.6.3 - 2024-01-10
 ### Fixed
 - Rate limit appointment booking and config creation
