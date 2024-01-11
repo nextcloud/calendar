@@ -9,7 +9,7 @@
 		<ul class="settings-fieldset-interior">
 			<SettingsImportSection :is-disabled="loadingCalendars" />
 			<ActionCheckbox class="settings-fieldset-interior-item"
-				:checked="birthdayCalendar"
+				:checked="hasBirthdayCalendar"
 				:disabled="isBirthdayCalendarDisabled"
 				@update:checked="toggleBirthdayEnabled">
 				{{ $t('calendar', 'Enable birthday calendar') }}
@@ -127,10 +127,11 @@ import {
 	generateRemoteUrl,
 	generateUrl,
 } from '@nextcloud/router'
-import {
-	mapGetters,
-	mapState,
-} from 'vuex'
+import { mapStores, mapState } from 'pinia'
+import useSettingsStore from '../../store/settings.js'
+import useCalendarsStore from '../../store/calendars.js'
+import useImportFilesStore from '../../store/importFiles.js'
+import usePrincipalsStore from '../../store/principals.js'
 import moment from '@nextcloud/moment'
 import {
 	showSuccess,
@@ -198,36 +199,39 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({
-			birthdayCalendar: 'hasBirthdayCalendar',
-			currentUserPrincipal: 'getCurrentUserPrincipal',
+		...mapStores(useSettingsStore, useCalendarsStore, useImportFilesStore, usePrincipalsStore),
+		...mapState(useSettingsStore, [
+			'eventLimit',
+			'showTasks',
+			'showPopover',
+			'showWeekends',
+			'showWeekNumbers',
+			'slotDuration',
+			'defaultReminder',
+		]),
+		...mapState(useSettingsStore, {
+			locale: store => store.momentLocale,
 		}),
-		...mapState({
-			eventLimit: state => state.settings.eventLimit,
-			showPopover: state => !state.settings.skipPopover,
-			showTasks: state => state.settings.showTasks,
-			showWeekends: state => state.settings.showWeekends,
-			showWeekNumbers: state => state.settings.showWeekNumbers,
-			slotDuration: state => state.settings.slotDuration,
-			defaultReminder: state => state.settings.defaultReminder,
-			timezone: state => state.settings.timezone,
-			locale: (state) => state.settings.momentLocale,
-			attachmentsFolder: (state) => state.settings.attachmentsFolder,
+		...mapState(usePrincipalsStore, {
+			currentUserPrincipal: 'getCurrentUserPrincipal',
 		}),
 		isBirthdayCalendarDisabled() {
 			return this.savingBirthdayCalendar || this.loadingCalendars
 		},
 		files() {
-			return this.$store.state.importFiles.importFiles
+			return this.importFilesStore.importFiles
+		},
+		hasBirthdayCalendar() {
+			return !!this.calendarsStore.getBirthdayCalendar
 		},
 		showUploadButton() {
-			return this.$store.state.importState.importState.stage === IMPORT_STAGE_DEFAULT
+			return this.importStateStore.importState.stage === IMPORT_STAGE_DEFAULT
 		},
 		showImportModal() {
-			return this.$store.state.importState.importState.stage === IMPORT_STAGE_PROCESSING
+			return this.importStateStore.importState.stage === IMPORT_STAGE_PROCESSING
 		},
 		showProgressBar() {
-			return this.$store.state.importState.importState.stage === IMPORT_STAGE_IMPORTING
+			return this.importStateStore.importState.stage === IMPORT_STAGE_IMPORTING
 		},
 		settingsTitle() {
 			return this.$t('calendar', 'Calendar settings')
@@ -279,7 +283,7 @@ export default {
 			return parseInt(OC.config.version.split('.')[0])
 		},
 		defaultCalendarOptions() {
-			return this.$store.state.calendars.calendars
+			return this.calendarsStore.calendars
 				.filter(calendar => !calendar.readOnly
 					&& !calendar.isSharedWithMe
 					&& calendar.supportsEvents)
@@ -308,7 +312,7 @@ export default {
 			// change to loading status
 			this.savingBirthdayCalendar = true
 			try {
-				await this.$store.dispatch('toggleBirthdayCalendarEnabled')
+				await this.settingsStore.toggleBirthdayCalendarEnabled()
 				this.savingBirthdayCalendar = false
 			} catch (error) {
 				console.error(error)
@@ -320,7 +324,7 @@ export default {
 			// change to loading status
 			this.savingEventLimit = true
 			try {
-				await this.$store.dispatch('toggleEventLimitEnabled')
+				await this.settingsStore.toggleEventLimitEnabled()
 				this.savingEventLimit = false
 			} catch (error) {
 				console.error(error)
@@ -332,7 +336,7 @@ export default {
 			// change to loading status
 			this.savingTasks = true
 			try {
-				await this.$store.dispatch('toggleTasksEnabled')
+				await this.settingsStore.toggleTasksEnabled()
 				this.savingTasks = false
 			} catch (error) {
 				console.error(error)
@@ -344,7 +348,7 @@ export default {
 			// change to loading status
 			this.savingPopover = true
 			try {
-				await this.$store.dispatch('togglePopoverEnabled')
+				await this.settingsStore.togglePopoverEnabled()
 				this.savingPopover = false
 			} catch (error) {
 				console.error(error)
@@ -356,7 +360,7 @@ export default {
 			// change to loading status
 			this.savingWeekend = true
 			try {
-				await this.$store.dispatch('toggleWeekendsEnabled')
+				await this.settingsStore.toggleWeekendsEnabled()
 				this.savingWeekend = false
 			} catch (error) {
 				console.error(error)
@@ -371,7 +375,7 @@ export default {
 			// change to loading status
 			this.savingWeekNumber = true
 			try {
-				await this.$store.dispatch('toggleWeekNumberEnabled')
+				await this.settingsStore.toggleWeekNumberEnabled()
 				this.savingWeekNumber = false
 			} catch (error) {
 				console.error(error)
@@ -393,9 +397,7 @@ export default {
 			this.savingSlotDuration = true
 
 			try {
-				await this.$store.dispatch('setSlotDuration', {
-					slotDuration: option.value,
-				})
+				await this.settingsStore.setSlotDuration({ slotDuration: option.value })
 				this.savingSlotDuration = false
 			} catch (error) {
 				console.error(error)
@@ -417,7 +419,7 @@ export default {
 			this.savingDefaultReminder = true
 
 			try {
-				await this.$store.dispatch('setDefaultReminder', {
+				await this.settingsStore.setDefaultReminder({
 					defaultReminder: option.value,
 				})
 				this.savingDefaultReminder = false
@@ -440,7 +442,7 @@ export default {
 			this.savingDefaultCalendar = true
 
 			try {
-				await this.$store.dispatch('changePrincipalScheduleDefaultCalendarUrl', {
+				await this.principalsStore.changePrincipalScheduleDefaultCalendarUrl({
 					principal: this.currentUserPrincipal,
 					scheduleDefaultCalendarUrl: selectedCalendar.url,
 				})

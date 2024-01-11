@@ -8,11 +8,15 @@ import { generateTextColorForHex } from '../../../../../src/utils/color.js'
 import getTimezoneManager from '../../../../../src/services/timezoneDataProviderService'
 import { getUnixTimestampFromDate } from '../../../../../src/utils/date.js'
 import { eventSourceFunction } from '../../../../../src/fullcalendar/eventSources/eventSourceFunction.js'
+import useFetchedTimeRangesStore from '../../../../../src/store/fetchedTimeRanges.js'
+import useCalendarsStore from '../../../../../src/store/calendars.js'
 
 jest.mock('../../../../../src/utils/color.js')
 jest.mock('../../../../../src/services/timezoneDataProviderService')
 jest.mock('../../../../../src/utils/date.js')
 jest.mock('../../../../../src/fullcalendar/eventSources/eventSourceFunction.js')
+jest.mock('../../../../../src/store/fetchedTimeRanges.js')
+jest.mock('../../../../../src/store/calendars.js')
 
 describe('fullcalendar/eventSource test suite', () => {
 
@@ -21,10 +25,15 @@ describe('fullcalendar/eventSource test suite', () => {
 		getTimezoneManager.mockClear()
 		getUnixTimestampFromDate.mockClear()
 		eventSourceFunction.mockClear()
+		useFetchedTimeRangesStore.mockClear()
+		useCalendarsStore.mockClear()
 	})
 
 	it('should provide an eventSource for a given calendar', () => {
-		const store = {}
+		const calendarsStore = {}
+		useCalendarsStore.mockReturnValue(calendarsStore)
+		const fetchedTimeRangesStore = {}
+		useFetchedTimeRangesStore.mockReturnValue(fetchedTimeRangesStore)
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
@@ -34,7 +43,7 @@ describe('fullcalendar/eventSource test suite', () => {
 		generateTextColorForHex
 			.mockReturnValue('#00ff00')
 
-		const eventSourceFunction = eventSource(store)
+		const eventSourceFunction = eventSource()
 		expect(eventSourceFunction(calendar)).toEqual({
 			id: 'calendar-id-123',
 			backgroundColor: '#ff00ff',
@@ -48,7 +57,10 @@ describe('fullcalendar/eventSource test suite', () => {
 	})
 
 	it('should provide an eventSource for a given read-only calendar', () => {
-		const store = {}
+		const calendarsStore = {}
+		useCalendarsStore.mockReturnValue(calendarsStore)
+		const fetchedTimeRangesStore = {}
+		useFetchedTimeRangesStore.mockReturnValue(fetchedTimeRangesStore)
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
@@ -58,7 +70,7 @@ describe('fullcalendar/eventSource test suite', () => {
 		generateTextColorForHex
 			.mockReturnValue('#00ff00')
 
-		const eventSourceFunction = eventSource(store)
+		const eventSourceFunction = eventSource()
 		expect(eventSourceFunction(calendar)).toEqual({
 			id: 'calendar-id-123',
 			backgroundColor: '#ff00ff',
@@ -73,16 +85,18 @@ describe('fullcalendar/eventSource test suite', () => {
 	})
 
 	it('should provide an eventSource function to provide events - fetch new timerange', async () => {
-		const store = {
-			dispatch: jest.fn()
-				.mockReturnValueOnce(42),
-			getters: {
-				getTimeRangeForCalendarCoveringRange: jest.fn()
-					.mockReturnValueOnce(false),
-				getCalendarObjectsByTimeRangeId: jest.fn()
-					.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }])
-			}
+		const calendarsStore = {
+			getEventsFromCalendarInTimeRange: jest.fn()
+				.mockResolvedValueOnce(42),
 		}
+		useCalendarsStore.mockReturnValue(calendarsStore)
+		const fetchedTimeRangesStore = {
+			getTimeRangeForCalendarCoveringRange: jest.fn()
+				.mockReturnValueOnce(false),
+			getCalendarObjectsByTimeRangeId: jest.fn()
+				.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }])
+		}
+		useFetchedTimeRangesStore.mockReturnValue(fetchedTimeRangesStore)
 
 		const calendar = {
 			id: 'calendar-id-123',
@@ -114,22 +128,22 @@ describe('fullcalendar/eventSource test suite', () => {
 		const successCallback = jest.fn()
 		const failureCallback = jest.fn()
 
-		const eventSourceFn = eventSource(store)
+		const eventSourceFn = eventSource()
 		const { events } = eventSourceFn(calendar)
 		await events({ start, end, timeZone }, successCallback, failureCallback)
 
-		expect(store.getters.getTimeRangeForCalendarCoveringRange).toHaveBeenCalledTimes(1)
-		expect(store.getters.getTimeRangeForCalendarCoveringRange).toHaveBeenNthCalledWith(1, 'calendar-id-123', 1234, 5678)
+		expect(fetchedTimeRangesStore.getTimeRangeForCalendarCoveringRange).toHaveBeenCalledTimes(1)
+		expect(fetchedTimeRangesStore.getTimeRangeForCalendarCoveringRange).toHaveBeenNthCalledWith(1, 'calendar-id-123', 1234, 5678)
 
-		expect(store.dispatch).toHaveBeenCalledTimes(1)
-		expect(store.dispatch).toHaveBeenNthCalledWith(1, 'getEventsFromCalendarInTimeRange', {
+		expect(calendarsStore.getEventsFromCalendarInTimeRange).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventsFromCalendarInTimeRange).toHaveBeenNthCalledWith(1, {
 			calendar,
 			from: start,
 			to: end
 		})
 
-		expect(store.getters.getCalendarObjectsByTimeRangeId).toHaveBeenCalledTimes(1)
-		expect(store.getters.getCalendarObjectsByTimeRangeId).toHaveBeenNthCalledWith(1, 42)
+		expect(fetchedTimeRangesStore.getCalendarObjectsByTimeRangeId).toHaveBeenCalledTimes(1)
+		expect(fetchedTimeRangesStore.getCalendarObjectsByTimeRangeId).toHaveBeenNthCalledWith(1, 42)
 
 		expect(eventSourceFunction).toHaveBeenCalledTimes(1)
 		expect(eventSourceFunction).toHaveBeenNthCalledWith(1, [{ calendarObjectId: 1 }, { calendarObjectId: 2 }], calendar, start, end, { calendarJsTimezone: true, tzid: 'America/New_York' })
@@ -141,18 +155,20 @@ describe('fullcalendar/eventSource test suite', () => {
 	})
 
 	it('should provide an eventSource function to provide events - existing timerange', async () => {
-		const store = {
-			dispatch: jest.fn()
-				.mockReturnValueOnce(42),
-			getters: {
-				getTimeRangeForCalendarCoveringRange: jest.fn()
-					.mockReturnValueOnce({
-						id: 42
-					}),
-				getCalendarObjectsByTimeRangeId: jest.fn()
-					.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }])
-			}
+		const calendarsStore = {
+			getEventsFromCalendarInTimeRange: jest.fn()
+				.mockResolvedValueOnce(42),
 		}
+		useCalendarsStore.mockReturnValue(calendarsStore)
+		const fetchedTimeRangesStore = {
+			getTimeRangeForCalendarCoveringRange: jest.fn()
+				.mockReturnValueOnce({
+					id: 42,
+				}),
+			getCalendarObjectsByTimeRangeId: jest.fn()
+				.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }])
+		}
+		useFetchedTimeRangesStore.mockReturnValue(fetchedTimeRangesStore)
 
 		const calendar = {
 			id: 'calendar-id-123',
@@ -184,17 +200,17 @@ describe('fullcalendar/eventSource test suite', () => {
 		const successCallback = jest.fn()
 		const failureCallback = jest.fn()
 
-		const eventSourceFn = eventSource(store)
+		const eventSourceFn = eventSource()
 		const { events } = eventSourceFn(calendar)
 		await events({ start, end, timeZone }, successCallback, failureCallback)
 
-		expect(store.getters.getTimeRangeForCalendarCoveringRange).toHaveBeenCalledTimes(1)
-		expect(store.getters.getTimeRangeForCalendarCoveringRange).toHaveBeenNthCalledWith(1, 'calendar-id-123', 1234, 5678)
+		expect(fetchedTimeRangesStore.getTimeRangeForCalendarCoveringRange).toHaveBeenCalledTimes(1)
+		expect(fetchedTimeRangesStore.getTimeRangeForCalendarCoveringRange).toHaveBeenNthCalledWith(1, 'calendar-id-123', 1234, 5678)
 
-		expect(store.dispatch).toHaveBeenCalledTimes(0)
+		expect(calendarsStore.getEventsFromCalendarInTimeRange).toHaveBeenCalledTimes(0)
 
-		expect(store.getters.getCalendarObjectsByTimeRangeId).toHaveBeenCalledTimes(1)
-		expect(store.getters.getCalendarObjectsByTimeRangeId).toHaveBeenNthCalledWith(1, 42)
+		expect(fetchedTimeRangesStore.getCalendarObjectsByTimeRangeId).toHaveBeenCalledTimes(1)
+		expect(fetchedTimeRangesStore.getCalendarObjectsByTimeRangeId).toHaveBeenNthCalledWith(1, 42)
 
 		expect(eventSourceFunction).toHaveBeenCalledTimes(1)
 		expect(eventSourceFunction).toHaveBeenNthCalledWith(1, [{ calendarObjectId: 1 }, { calendarObjectId: 2 }], calendar, start, end, { calendarJsTimezone: true, tzid: 'America/New_York' })
@@ -206,18 +222,20 @@ describe('fullcalendar/eventSource test suite', () => {
 	})
 
 	it('should provide an eventSource function to provide events - existing timerange - unknown timezone', async () => {
-		const store = {
-			dispatch: jest.fn()
-				.mockReturnValueOnce(42),
-			getters: {
-				getTimeRangeForCalendarCoveringRange: jest.fn()
-					.mockReturnValueOnce({
-						id: 42
-					}),
-				getCalendarObjectsByTimeRangeId: jest.fn()
-					.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }])
-			}
+		const calendarsStore = {
+			getEventsFromCalendarInTimeRange: jest.fn()
+				.mockResolvedValueOnce(42),
 		}
+		useCalendarsStore.mockReturnValue(calendarsStore)
+		const fetchedTimeRangesStore = {
+			getTimeRangeForCalendarCoveringRange: jest.fn()
+				.mockReturnValueOnce({
+					id: 42,
+				}),
+			getCalendarObjectsByTimeRangeId: jest.fn()
+				.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }])
+		}
+		useFetchedTimeRangesStore.mockReturnValue(fetchedTimeRangesStore)
 
 		const calendar = {
 			id: 'calendar-id-123',
@@ -250,7 +268,7 @@ describe('fullcalendar/eventSource test suite', () => {
 		const successCallback = jest.fn()
 		const failureCallback = jest.fn()
 
-		const eventSourceFn = eventSource(store)
+		const eventSourceFn = eventSource()
 		const { events } = eventSourceFn(calendar)
 		await events({ start, end, timeZone }, successCallback, failureCallback)
 
@@ -258,13 +276,13 @@ describe('fullcalendar/eventSource test suite', () => {
 		expect(getTimezoneForId).toHaveBeenNthCalledWith(1, 'America/New_York')
 		expect(getTimezoneForId).toHaveBeenNthCalledWith(2, 'UTC')
 
-		expect(store.getters.getTimeRangeForCalendarCoveringRange).toHaveBeenCalledTimes(1)
-		expect(store.getters.getTimeRangeForCalendarCoveringRange).toHaveBeenNthCalledWith(1, 'calendar-id-123', 1234, 5678)
+		expect(fetchedTimeRangesStore.getTimeRangeForCalendarCoveringRange).toHaveBeenCalledTimes(1)
+		expect(fetchedTimeRangesStore.getTimeRangeForCalendarCoveringRange).toHaveBeenNthCalledWith(1, 'calendar-id-123', 1234, 5678)
 
-		expect(store.dispatch).toHaveBeenCalledTimes(0)
+		expect(calendarsStore.getEventsFromCalendarInTimeRange).toHaveBeenCalledTimes(0)
 
-		expect(store.getters.getCalendarObjectsByTimeRangeId).toHaveBeenCalledTimes(1)
-		expect(store.getters.getCalendarObjectsByTimeRangeId).toHaveBeenNthCalledWith(1, 42)
+		expect(fetchedTimeRangesStore.getCalendarObjectsByTimeRangeId).toHaveBeenCalledTimes(1)
+		expect(fetchedTimeRangesStore.getCalendarObjectsByTimeRangeId).toHaveBeenNthCalledWith(1, 42)
 
 		expect(eventSourceFunction).toHaveBeenCalledTimes(1)
 		expect(eventSourceFunction).toHaveBeenNthCalledWith(1, [{ calendarObjectId: 1 }, { calendarObjectId: 2 }], calendar, start, end, { calendarJsTimezone: true, tzid: 'UTC' })
@@ -276,18 +294,18 @@ describe('fullcalendar/eventSource test suite', () => {
 	})
 
 	it('should provide an eventSource function that catches errors while fetching', async () => {
-		const store = {
-			dispatch: jest.fn()
-				.mockImplementationOnce(() => {
-					throw new Error()
-				}),
-			getters: {
-				getTimeRangeForCalendarCoveringRange: jest.fn()
-					.mockReturnValueOnce(false),
-				getCalendarObjectsByTimeRangeId: jest.fn()
-					.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }])
-			}
+		const calendarsStore = {
+			getEventsFromCalendarInTimeRange: jest.fn()
+				.mockRejectedValueOnce(new Error()),
 		}
+		useCalendarsStore.mockReturnValue(calendarsStore)
+		const fetchedTimeRangesStore = {
+			getTimeRangeForCalendarCoveringRange: jest.fn()
+				.mockReturnValueOnce(false),
+			getCalendarObjectsByTimeRangeId: jest.fn()
+				.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }])
+		}
+		useFetchedTimeRangesStore.mockReturnValue(fetchedTimeRangesStore)
 
 		const calendar = {
 			id: 'calendar-id-123',
@@ -319,21 +337,22 @@ describe('fullcalendar/eventSource test suite', () => {
 		const successCallback = jest.fn()
 		const failureCallback = jest.fn()
 
-		const eventSourceFn = eventSource(store)
+		const eventSourceFn = eventSource()
 		const { events } = eventSourceFn(calendar)
 		await events({ start, end, timeZone }, successCallback, failureCallback)
 
-		expect(store.getters.getTimeRangeForCalendarCoveringRange).toHaveBeenCalledTimes(1)
-		expect(store.getters.getTimeRangeForCalendarCoveringRange).toHaveBeenNthCalledWith(1, 'calendar-id-123', 1234, 5678)
+		expect(fetchedTimeRangesStore.getTimeRangeForCalendarCoveringRange).toHaveBeenCalledTimes(1)
+		expect(fetchedTimeRangesStore.getTimeRangeForCalendarCoveringRange).toHaveBeenNthCalledWith(1, 'calendar-id-123', 1234, 5678)
 
-		expect(store.dispatch).toHaveBeenCalledTimes(1)
-		expect(store.dispatch).toHaveBeenNthCalledWith(1, 'getEventsFromCalendarInTimeRange', {
+		expect(calendarsStore.getEventsFromCalendarInTimeRange).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventsFromCalendarInTimeRange).toHaveBeenNthCalledWith(1, {
 			calendar,
 			from: start,
 			to: end
 		})
 
-		expect(store.getters.getCalendarObjectsByTimeRangeId).toHaveBeenCalledTimes(0)
+		expect(fetchedTimeRangesStore.getCalendarObjectsByTimeRangeId).toHaveBeenCalledTimes(0)
+
 		expect(eventSourceFunction).toHaveBeenCalledTimes(0)
 		expect(successCallback).toHaveBeenCalledTimes(0)
 

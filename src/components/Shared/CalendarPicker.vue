@@ -32,6 +32,8 @@
 import { NcSelect } from '@nextcloud/vue'
 import CalendarPickerOption from './CalendarPickerOption.vue'
 import { randomId } from '../../utils/randomId.js'
+import { mapStores } from 'pinia'
+import useCalendarsStore from '../../store/calendars.js'
 
 export default {
 	name: 'CalendarPicker',
@@ -70,6 +72,7 @@ export default {
 		},
 	},
 	computed: {
+		...mapStores(useCalendarsStore),
 		isDisabled() {
 			// for pickers where multiple can be selected (zero or more) we don't want to disable the picker
 			// for calendars where only one calendar can be selected, disable if there are < 2
@@ -104,7 +107,7 @@ export default {
 			const newOption = Array.isArray(options) ? options[options.length - 1] : options
 			const newCalendar = this.getCalendarById(newOption.id)
 			if (this.showCalendarOnSelect && !newCalendar.enabled) {
-				this.$store.dispatch('toggleCalendarEnabled', {
+				this.calendarsStore.toggleCalendarEnabled({
 					calendar: newCalendar,
 				})
 			}

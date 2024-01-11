@@ -91,6 +91,10 @@ import {
 	getFileInfo,
 } from '../../../services/attachmentService.js'
 import { parseXML } from 'webdav'
+import usePrincipalsStore from '../../../store/principals.js'
+import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
+import useSettingsStore from '../../../store/settings.js'
+import { mapStores } from 'pinia'
 
 export default {
 	name: 'AttachmentsList',
@@ -124,8 +128,9 @@ export default {
 		}
 	},
 	computed: {
+		...mapStores(usePrincipalsStore, useSettingsStore, useCalendarObjectInstanceStore),
 		currentUser() {
-			return this.$store.getters.getCurrentUserPrincipal
+			return this.principalsStore.getCurrentUserPrincipal
 		},
 		attachments() {
 			return this.calendarObjectInstance.attachments
@@ -133,13 +138,13 @@ export default {
 	},
 	methods: {
 		addAttachmentWithProperty(calendarObjectInstance, sharedData) {
-			this.$store.commit('addAttachmentWithProperty', {
+			this.calendarObjectInstanceStore.addAttachmentWithProperty({
 				calendarObjectInstance,
 				sharedData,
 			})
 		},
 		deleteAttachmentFromEvent(attachment) {
-			this.$store.commit('deleteAttachment', {
+			this.calendarObjectInstanceStore.deleteAttachment({
 				calendarObjectInstance: this.calendarObjectInstance,
 				attachment,
 			})
@@ -177,7 +182,7 @@ export default {
 		},
 		async onLocalAttachmentSelected(e) {
 			try {
-				const attachmentsFolder = await this.$store.dispatch('createAttachmentsFolder')
+				const attachmentsFolder = await this.settingsStore.createAttachmentsFolder()
 				const attachments = await uploadLocalAttachment(attachmentsFolder, Array.from(e.target.files), this.currentUser.dav, this.attachments)
 				// TODO do not share file, move to PHP
 				attachments.map(async attachment => {

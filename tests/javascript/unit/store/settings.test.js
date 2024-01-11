@@ -2,13 +2,19 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import settingsStore from '../../../../src/store/settings.js'
+import useSettingsStore from '../../../../src/store/settings.js'
+import useCalendarObjectsStore from '../../../../src/store/calendarObjects.js'
+import useCalendarsStore from '../../../../src/store/calendars.js'
+import useFetchedTimeRangesStore from '../../../../src/store/fetchedTimeRanges.js'
+import { setActivePinia, createPinia } from 'pinia'
+
 import { enableBirthdayCalendar } from '../../../../src/services/caldavService.js'
-import { mapDavCollectionToCalendar } from '../../../../src/models/calendar.js'
+import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../../../../src/models/calendar.js'
 import { detectTimezone } from '../../../../src/services/timezoneDetectionService.js'
 import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
 import { setConfig } from '../../../../src/services/settings.js'
 import { logInfo } from '../../../../src/utils/logger.js'
+import { CALDAV_BIRTHDAY_CALENDAR } from '../../../../src/models/consts'
 
 jest.mock('../../../../src/services/caldavService.js')
 jest.mock('../../../../src/models/calendar.js')
@@ -26,10 +32,14 @@ describe('store/settings test suite', () => {
 		setCalendarJsConfig.mockClear()
 		setConfig.mockClear()
 		logInfo.mockClear()
+
+		setActivePinia(createPinia())
 	})
 
 	it('should provide a default state', () => {
-		expect(settingsStore.state).toEqual({
+		const settingsStore = useSettingsStore()
+
+		expect(settingsStore.$state).toEqual({
 			appVersion: null,
 			firstRun: null,
 			forceEventAlarmType: false,
@@ -54,94 +64,9 @@ describe('store/settings test suite', () => {
 		})
 	})
 
-	it('should provide a mutation to toggle the eventLimit setting', () => {
-		const state = {
-			eventLimit: false,
-		}
-
-		settingsStore.mutations.toggleEventLimitEnabled(state)
-		expect(state.eventLimit).toEqual(true)
-
-		settingsStore.mutations.toggleEventLimitEnabled(state)
-		expect(state.eventLimit).toEqual(false)
-	})
-
-	it('should provide a mutation to toggle the popover setting', () => {
-		const state = {
-			skipPopover: false,
-		}
-
-		settingsStore.mutations.togglePopoverEnabled(state)
-		expect(state.skipPopover).toEqual(true)
-
-		settingsStore.mutations.togglePopoverEnabled(state)
-		expect(state.skipPopover).toEqual(false)
-	})
-
-	it('should provide a mutation to toggle the task setting', () => {
-		const state = {
-			showTasks: false,
-		}
-
-		settingsStore.mutations.toggleTasksEnabled(state)
-		expect(state.showTasks).toEqual(true)
-
-		settingsStore.mutations.toggleTasksEnabled(state)
-		expect(state.showTasks).toEqual(false)
-	})
-
-	it('should provide a mutation to toggle the weekends setting', () => {
-		const state = {
-			showWeekends: false,
-		}
-
-		settingsStore.mutations.toggleWeekendsEnabled(state)
-		expect(state.showWeekends).toEqual(true)
-
-		settingsStore.mutations.toggleWeekendsEnabled(state)
-		expect(state.showWeekends).toEqual(false)
-	})
-
-	it('should provide a mutation to toggle the week-number setting', () => {
-		const state = {
-			showWeekNumbers: false,
-		}
-
-		settingsStore.mutations.toggleWeekNumberEnabled(state)
-		expect(state.showWeekNumbers).toEqual(true)
-
-		settingsStore.mutations.toggleWeekNumberEnabled(state)
-		expect(state.showWeekNumbers).toEqual(false)
-	})
-
-	it('should provide a mutation to set the slot duration setting', () => {
-		const state = {
-			slotDuration: 'previousValue',
-		}
-
-		settingsStore.mutations.setSlotDuration(state, { slotDuration: '00:30:00' })
-		expect(state.slotDuration).toEqual('00:30:00')
-	})
-
-	it('should provide a mutation to set the default reminder duration setting', () => {
-		const state = {
-			defaultReminder: 'previousValue',
-		}
-
-		settingsStore.mutations.setDefaultReminder(state, { defaultReminder: '-300' })
-		expect(state.defaultReminder).toEqual('-300')
-	})
-
-	it('should provide a mutation to set the timezone setting', () => {
-		const state = {
-			timezone: 'previousValue',
-		}
-
-		settingsStore.mutations.setTimezone(state, { timezoneId: 'Europe/Berlin' })
-		expect(state.timezone).toEqual('Europe/Berlin')
-	})
-
 	it('should provide a mutation to set the settings initially', () => {
+		const settingsStore = useSettingsStore()
+
 		const state = {
 			appVersion: null,
 			firstRun: null,
@@ -166,6 +91,8 @@ describe('store/settings test suite', () => {
 			publicCalendars: null,
 		}
 
+		settingsStore.$state = state
+
 		const settings = {
 			appVersion: '2.1.0',
 			eventLimit: false,
@@ -189,7 +116,7 @@ describe('store/settings test suite', () => {
 			publicCalendars: null,
 		}
 
-		settingsStore.mutations.loadSettingsFromServer(state, settings)
+		settingsStore.loadSettingsFromServer(settings)
 
 		expect(logInfo).toHaveBeenCalledTimes(1)
 		expect(logInfo).toHaveBeenNthCalledWith(1, `
@@ -214,7 +141,7 @@ Initial settings:
 	- ShowResources: true
 	- PublicCalendars: null
 `)
-		expect(state).toEqual({
+		expect(settingsStore.$state).toEqual({
 			appVersion: '2.1.0',
 			eventLimit: false,
 			firstRun: true,
@@ -234,410 +161,437 @@ Initial settings:
 			disableAppointments: false,
 			canSubscribeLink: true,
 			attachmentsFolder: '/Attachments',
+			attachmentsFolderCreated: false,
 			showResources: true,
 			publicCalendars: null,
 		})
 	})
 
 	it('should provide a mutation to set the resolved moment locale', () => {
+		const settingsStore = useSettingsStore()
+
 		const state = {
-			appVersion: null,
-			firstRun: null,
-			talkEnabled: false,
-			eventLimit: null,
-			showTasks: null,
-			showWeekends: null,
-			showWeekNumbers: null,
-			skipPopover: null,
-			slotDuration: null,
-			tasksEnabled: false,
-			timezone: 'automatic',
 			momentLocale: 'en',
-			otherProp: 'bar',
 		}
 
-		settingsStore.mutations.setMomentLocale(state, { locale: 'de' })
+		settingsStore.$state = state
+
+		settingsStore.setMomentLocale({ locale: 'de' })
 		expect(logInfo).toHaveBeenCalledTimes(1)
 		expect(logInfo).toHaveBeenNthCalledWith(1, 'Updated moment locale: de')
 
-		expect(state).toEqual({
-			appVersion: null,
-			firstRun: null,
-			talkEnabled: false,
-			eventLimit: null,
-			showTasks: null,
-			showWeekends: null,
-			showWeekNumbers: null,
-			skipPopover: null,
-			slotDuration: null,
-			tasksEnabled: false,
-			timezone: 'automatic',
-			momentLocale: 'de',
-			otherProp: 'bar',
-		})
+		expect(settingsStore.momentLocale).toEqual('de')
 	})
 
 	it('should provide a getter the get the resolved timezone - automatic', () => {
+		const settingsStore = useSettingsStore()
+
 		const state = {
 			timezone: 'automatic',
 		}
+
+		settingsStore.timezone = state.timezone
 
 		detectTimezone
 			.mockReturnValueOnce('Europe/Berlin')
 
-		expect(settingsStore.getters.getResolvedTimezone(state)).toEqual('Europe/Berlin')
+		expect(settingsStore.getResolvedTimezone).toEqual('Europe/Berlin')
 
 		expect(detectTimezone).toHaveBeenCalledTimes(1)
 	})
 
 	it('should provide a getter the get the resolved timezone - non-automatic', () => {
+		const settingsStore = useSettingsStore()
+
 		const state = {
 			timezone: 'Europe/Berlin',
 		}
 
-		expect(settingsStore.getters.getResolvedTimezone(state)).toEqual('Europe/Berlin')
+		settingsStore.timezone = state.timezone
+
+		expect(settingsStore.getResolvedTimezone).toEqual('Europe/Berlin')
 
 		expect(detectTimezone).toHaveBeenCalledTimes(0)
 	})
 
 	it('should provide an action to toggle the birthday calendar - enabled to disabled', async () => {
-		expect.assertions(3)
+		const settingsStore = useSettingsStore()
+		const calendarsStore = useCalendarsStore()
 
-		const getters = {
-			hasBirthdayCalendar: true,
-			getBirthdayCalendar: {
-				id: 'contact_birthdays',
+		const birthdayCalendar = {
+			id: 'bday',
+			url: `foo/bar/${CALDAV_BIRTHDAY_CALENDAR}/`,
+			dav: {
+				delete: jest.fn().mockResolvedValueOnce(),
 			},
 		}
-		const commit = jest.fn()
-		const dispatch = jest.fn()
 
-		dispatch.mockResolvedValueOnce()
+		expect.assertions(3)
 
-		await settingsStore.actions.toggleBirthdayCalendarEnabled({ getters, commit, dispatch })
+		mapDavCollectionToCalendar.mockImplementationOnce((collection) => collection)
+		getDefaultCalendarObject.mockImplementationOnce((obj) => obj)
 
-		expect(dispatch).toHaveBeenCalledTimes(1)
-		expect(dispatch).toHaveBeenNthCalledWith(1, 'deleteCalendar', { calendar: getters.getBirthdayCalendar })
-		expect(commit).toHaveBeenCalledTimes(0)
+		calendarsStore.addCalendarMutation({ calendar: birthdayCalendar })
+
+		expect(calendarsStore.getBirthdayCalendar).toEqual(birthdayCalendar)
+		await settingsStore.toggleBirthdayCalendarEnabled()
+		expect(calendarsStore.getBirthdayCalendar).toBeNull()
+
+		expect(birthdayCalendar.dav.delete).toHaveBeenCalledTimes(1)
 	})
 
 	it('should provide an action to toggle the birthday calendar - disabled to enabled', async () => {
-		expect.assertions(5)
+		const settingsStore = useSettingsStore()
+		const calendarsStore = useCalendarsStore()
 
-		const getters = {
-			hasBirthdayCalendar: false,
-			getBirthdayCalendar: null,
+		const birthdayCalendar = {
+			id: 'bday',
+			url: `foo/bar/${CALDAV_BIRTHDAY_CALENDAR}/`,
 		}
-		const commit = jest.fn()
-		const dispatch = jest.fn()
 
-		const davCalendar = {
-			davCalendar: true,
-		}
-		enableBirthdayCalendar.mockResolvedValueOnce(davCalendar)
+		expect.assertions(3)
 
-		const calendar = {
-			id: 'new-birthday-calendar',
-		}
-		mapDavCollectionToCalendar.mockReturnValueOnce(calendar)
+		enableBirthdayCalendar.mockResolvedValueOnce(birthdayCalendar)
+		mapDavCollectionToCalendar.mockImplementationOnce((collection) => collection)
+		getDefaultCalendarObject.mockImplementationOnce((obj) => obj)
 
-		await settingsStore.actions.toggleBirthdayCalendarEnabled({ getters, commit, dispatch })
+		expect(calendarsStore.getBirthdayCalendar).toBeNull()
+		await settingsStore.toggleBirthdayCalendarEnabled()
+		expect(calendarsStore.getBirthdayCalendar).toEqual(birthdayCalendar)
 
 		expect(enableBirthdayCalendar).toHaveBeenCalledTimes(1)
-		expect(mapDavCollectionToCalendar).toHaveBeenCalledTimes(1)
-		expect(mapDavCollectionToCalendar).toHaveBeenNthCalledWith(1, davCalendar)
-		expect(commit).toHaveBeenCalledTimes(1)
-		expect(commit).toHaveBeenNthCalledWith(1, 'addCalendar', { calendar })
-
 	})
 
 	it('should provide an action to toggle the event limit setting - false to true', async () => {
-		expect.assertions(4)
+		const settingsStore = useSettingsStore()
 
+		expect.assertions(3)
 		const state = {
 			eventLimit: false,
 		}
-		const commit = jest.fn()
 
+		settingsStore.eventLimit = state.eventLimit
 		setConfig.mockReturnValueOnce()
 
-		await settingsStore.actions.toggleEventLimitEnabled({ state, commit })
+		await settingsStore.toggleEventLimitEnabled()
+
 		expect(setConfig).toHaveBeenCalledTimes(1)
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'eventLimit', 'yes')
-		expect(commit).toHaveBeenCalledTimes(1)
-		expect(commit).toHaveBeenNthCalledWith(1, 'toggleEventLimitEnabled')
+
+		expect(settingsStore.eventLimit).toEqual(true)
 	})
 
 	it('should provide an action to toggle the event limit setting - true to false', async () => {
-		expect.assertions(4)
+		const settingsStore = useSettingsStore()
 
+		expect.assertions(3)
 		const state = {
 			eventLimit: true,
 		}
-		const commit = jest.fn()
 
+		settingsStore.eventLimit = state.eventLimit
 		setConfig.mockReturnValueOnce()
 
-		await settingsStore.actions.toggleEventLimitEnabled({ state, commit })
+		await settingsStore.toggleEventLimitEnabled()
 		expect(setConfig).toHaveBeenCalledTimes(1)
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'eventLimit', 'no')
-		expect(commit).toHaveBeenCalledTimes(1)
-		expect(commit).toHaveBeenNthCalledWith(1, 'toggleEventLimitEnabled')
 
+		expect(settingsStore.eventLimit).toEqual(false)
 	})
 
 	it('should provide an action to toggle the popover setting - false to true', async () => {
-		expect.assertions(4)
+		const settingsStore = useSettingsStore()
 
+		expect.assertions(3)
 		const state = {
 			skipPopover: false,
 		}
-		const commit = jest.fn()
 
+		settingsStore.skipPopover = state.skipPopover
 		setConfig.mockReturnValueOnce()
 
-		await settingsStore.actions.togglePopoverEnabled({ state, commit })
+		await settingsStore.togglePopoverEnabled()
 		expect(setConfig).toHaveBeenCalledTimes(1)
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'skipPopover', 'yes')
-		expect(commit).toHaveBeenCalledTimes(1)
-		expect(commit).toHaveBeenNthCalledWith(1, 'togglePopoverEnabled')
+
+		expect(settingsStore.skipPopover).toEqual(true)
 	})
 
 	it('should provide an action to toggle the popover setting - true to false', async () => {
-		expect.assertions(4)
+		const settingsStore = useSettingsStore()
 
+		expect.assertions(3)
 		const state = {
 			skipPopover: true,
 		}
-		const commit = jest.fn()
 
+		settingsStore.skipPopover = state.skipPopover
 		setConfig.mockReturnValueOnce()
 
-		await settingsStore.actions.togglePopoverEnabled({ state, commit })
+		await settingsStore.togglePopoverEnabled()
 		expect(setConfig).toHaveBeenCalledTimes(1)
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'skipPopover', 'no')
-		expect(commit).toHaveBeenCalledTimes(1)
-		expect(commit).toHaveBeenNthCalledWith(1, 'togglePopoverEnabled')
+
+		expect(settingsStore.skipPopover).toEqual(false)
 	})
 
 	it('should provide an action to toggle the weekends setting - false to true', async () => {
-		expect.assertions(4)
+		const settingsStore = useSettingsStore()
 
+		expect.assertions(3)
 		const state = {
 			showWeekends: false,
 		}
-		const commit = jest.fn()
 
+		settingsStore.showWeekends = state.showWeekends
 		setConfig.mockReturnValueOnce()
 
-		await settingsStore.actions.toggleWeekendsEnabled({ state, commit })
+		await settingsStore.toggleWeekendsEnabled()
 		expect(setConfig).toHaveBeenCalledTimes(1)
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'showWeekends', 'yes')
-		expect(commit).toHaveBeenCalledTimes(1)
-		expect(commit).toHaveBeenNthCalledWith(1, 'toggleWeekendsEnabled')
+
+		expect(settingsStore.showWeekends).toEqual(true)
 	})
 
 	it('should provide an action to toggle the weekends setting - true to false', async () => {
-		expect.assertions(4)
+		const settingsStore = useSettingsStore()
 
+		expect.assertions(3)
 		const state = {
 			showWeekends: true,
 		}
-		const commit = jest.fn()
 
+		settingsStore.showWeekends = state.showWeekends
 		setConfig.mockReturnValueOnce()
 
-		await settingsStore.actions.toggleWeekendsEnabled({ state, commit })
+		await settingsStore.toggleWeekendsEnabled()
 		expect(setConfig).toHaveBeenCalledTimes(1)
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'showWeekends', 'no')
-		expect(commit).toHaveBeenCalledTimes(1)
-		expect(commit).toHaveBeenNthCalledWith(1, 'toggleWeekendsEnabled')
+
+		expect(settingsStore.showWeekends).toEqual(false)
 	})
 
 	it('should provide an action to toggle the week-number setting - false to true', async () => {
-		expect.assertions(4)
+		const settingsStore = useSettingsStore()
 
+		expect.assertions(3)
 		const state = {
 			showWeekNumbers: false,
 		}
-		const commit = jest.fn()
 
+		settingsStore.showWeekNumbers = state.showWeekNumbers
 		setConfig.mockReturnValueOnce()
 
-		await settingsStore.actions.toggleWeekNumberEnabled({ state, commit })
+		await settingsStore.toggleWeekNumberEnabled()
 		expect(setConfig).toHaveBeenCalledTimes(1)
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'showWeekNr', 'yes')
-		expect(commit).toHaveBeenCalledTimes(1)
-		expect(commit).toHaveBeenNthCalledWith(1, 'toggleWeekNumberEnabled')
+
+		expect(settingsStore.showWeekNumbers).toEqual(true)
 	})
 
 	it('should provide an action to toggle the week-number setting - true to false', async () => {
-		expect.assertions(4)
+		const settingsStore = useSettingsStore()
 
+		expect.assertions(3)
 		const state = {
 			showWeekNumbers: true,
 		}
-		const commit = jest.fn()
 
+		settingsStore.showWeekNumbers = state.showWeekNumbers
 		setConfig.mockReturnValueOnce()
 
-		await settingsStore.actions.toggleWeekNumberEnabled({ state, commit })
+		await settingsStore.toggleWeekNumberEnabled()
 		expect(setConfig).toHaveBeenCalledTimes(1)
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'showWeekNr', 'no')
-		expect(commit).toHaveBeenCalledTimes(1)
-		expect(commit).toHaveBeenNthCalledWith(1, 'toggleWeekNumberEnabled')
+
+		expect(settingsStore.showWeekNumbers).toEqual(false)
 	})
 
 	it('should provide an action to toggle the tasks-enabled setting - false to true', async () => {
-		expect.assertions(6)
+		const settingsStore = useSettingsStore()
+		const calendarObjectsStore = useCalendarObjectsStore()
+		const fetchedTimeRangesStore = useFetchedTimeRangesStore()
 
-		const state = {
-			showTasks: false,
-		}
-		const commit = jest.fn()
+		expect.assertions(7)
 
-		setConfig.mockReturnValueOnce()
+		settingsStore.showTasks = false
+		calendarObjectsStore.modificationCount = 42
+		fetchedTimeRangesStore.lastTimeRangeInsertId = 20
+		fetchedTimeRangesStore.fetchedTimeRanges = ['foobar']
+		fetchedTimeRangesStore.fetchedTimeRangesById = { foobar: 'baz' }
 
-		await settingsStore.actions.toggleTasksEnabled({ state, commit })
+		setConfig.mockResolvedValueOnce()
+
+		await settingsStore.toggleTasksEnabled()
+
 		expect(setConfig).toHaveBeenCalledTimes(1)
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'showTasks', 'yes')
-		expect(commit).toHaveBeenCalledTimes(3)
-		expect(commit).toHaveBeenNthCalledWith(1, 'toggleTasksEnabled')
-		expect(commit).toHaveBeenNthCalledWith(2, 'clearFetchedTimeRanges')
-		expect(commit).toHaveBeenNthCalledWith(3, 'incrementModificationCount')
+
+		expect(settingsStore.showTasks).toEqual(true)
+		expect(calendarObjectsStore.modificationCount).toEqual(43)
+		expect(fetchedTimeRangesStore.lastTimeRangeInsertId).toEqual(-1)
+		expect(fetchedTimeRangesStore.fetchedTimeRanges).toEqual([])
+		expect(fetchedTimeRangesStore.fetchedTimeRangesById).toEqual({})
 	})
 
 	it('should provide an action to toggle the tasks-enabled setting - true to false', async () => {
-		expect.assertions(6)
+		const settingsStore = useSettingsStore()
+		const calendarObjectsStore = useCalendarObjectsStore()
+		const fetchedTimeRangesStore = useFetchedTimeRangesStore()
 
-		const state = {
-			showTasks: true,
-		}
-		const commit = jest.fn()
+		expect.assertions(7)
 
-		setConfig.mockReturnValueOnce()
+		settingsStore.showTasks = true
+		calendarObjectsStore.modificationCount = 42
+		fetchedTimeRangesStore.lastTimeRangeInsertId = 20
+		fetchedTimeRangesStore.fetchedTimeRanges = ['foobar']
+		fetchedTimeRangesStore.fetchedTimeRangesById = { foobar: 'baz' }
 
-		await settingsStore.actions.toggleTasksEnabled({ state, commit })
+		setConfig.mockResolvedValueOnce()
+
+		await settingsStore.toggleTasksEnabled()
+
 		expect(setConfig).toHaveBeenCalledTimes(1)
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'showTasks', 'no')
-		expect(commit).toHaveBeenCalledTimes(3)
-		expect(commit).toHaveBeenNthCalledWith(1, 'toggleTasksEnabled')
-		expect(commit).toHaveBeenNthCalledWith(2, 'clearFetchedTimeRanges')
-		expect(commit).toHaveBeenNthCalledWith(3, 'incrementModificationCount')
+
+		expect(settingsStore.showTasks).toEqual(false)
+		expect(calendarObjectsStore.modificationCount).toEqual(43)
+		expect(fetchedTimeRangesStore.lastTimeRangeInsertId).toEqual(-1)
+		expect(fetchedTimeRangesStore.fetchedTimeRanges).toEqual([])
+		expect(fetchedTimeRangesStore.fetchedTimeRangesById).toEqual({})
 	})
 
 	it('should provide an action to set the last used view', async () => {
+		const settingsStore = useSettingsStore()
+
 		expect.assertions(2)
 
 		setConfig.mockReturnValueOnce()
 
-		await settingsStore.actions.setInitialView({}, { initialView: 'agendaDay' })
+		await settingsStore.setInitialView({ initialView: 'agendaDay' })
 		expect(setConfig).toHaveBeenCalledTimes(1)
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'view', 'agendaDay')
 	})
 
 	it('should provide an action to set the slot duration setting - same value', async () => {
+		const settingsStore = useSettingsStore()
+
 		expect.assertions(2)
 
 		const state = {
 			slotDuration: '00:15:00',
 		}
-		const commit = jest.fn()
 
-		await settingsStore.actions.setSlotDuration({ state, commit }, { slotDuration: '00:15:00' })
+		settingsStore.slotDuration = state.slotDuration
+
+		await settingsStore.setSlotDuration({ slotDuration: '00:15:00' })
 
 		expect(setConfig).toHaveBeenCalledTimes(0)
-		expect(commit).toHaveBeenCalledTimes(0)
+		expect(settingsStore.slotDuration).toEqual(state.slotDuration)
 	})
 
 	it('should provide an action to set the slot duration setting - different value', async () => {
-		expect.assertions(4)
+		const settingsStore = useSettingsStore()
+
+		expect.assertions(3)
 
 		const state = {
 			slotDuration: '00:15:00',
 		}
-		const commit = jest.fn()
 
+		settingsStore.slotDuration = state.slotDuration
 		setConfig.mockResolvedValueOnce()
 
-		await settingsStore.actions.setSlotDuration({ state, commit }, { slotDuration: '00:30:00' })
+		await settingsStore.setSlotDuration({ slotDuration: '00:30:00' })
 
 		expect(setConfig).toHaveBeenCalledTimes(1)
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'slotDuration', '00:30:00')
-		expect(commit).toHaveBeenCalledTimes(1)
-		expect(commit).toHaveBeenNthCalledWith(1, 'setSlotDuration', { slotDuration: '00:30:00' })
+
+		expect(settingsStore.slotDuration).toEqual('00:30:00')
 	})
 
 	it('should provide an action to set the default reminder setting - same value', async () => {
+		const settingsStore = useSettingsStore()
+
 		expect.assertions(2)
 
 		const state = {
 			defaultReminder: 'none',
 		}
-		const commit = jest.fn()
 
-		await settingsStore.actions.setDefaultReminder({ state, commit }, { defaultReminder: 'none' })
+		settingsStore.defaultReminder = state.defaultReminder
+
+		await settingsStore.setDefaultReminder({ defaultReminder: 'none' })
 
 		expect(setConfig).toHaveBeenCalledTimes(0)
-		expect(commit).toHaveBeenCalledTimes(0)
+		expect(settingsStore.defaultReminder).toEqual(state.defaultReminder)
 	})
 
 	it('should provide an action to set the default reminder setting - different value', async () => {
-		expect.assertions(4)
+		const settingsStore = useSettingsStore()
+
+		expect.assertions(3)
 
 		const state = {
 			defaultReminder: 'none',
 		}
-		const commit = jest.fn()
 
+		settingsStore.defaultReminder = state.defaultReminder
 		setConfig.mockResolvedValueOnce()
 
-		await settingsStore.actions.setDefaultReminder({ state, commit }, { defaultReminder: '00:10:00' })
+		await settingsStore.setDefaultReminder({ defaultReminder: '00:10:00' })
 
 		expect(setConfig).toHaveBeenCalledTimes(1)
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'defaultReminder', '00:10:00')
-		expect(commit).toHaveBeenCalledTimes(1)
-		expect(commit).toHaveBeenNthCalledWith(1, 'setDefaultReminder', { defaultReminder: '00:10:00' })
+
+		expect(settingsStore.defaultReminder).toEqual('00:10:00')
 	})
 
 	it('should provide an action to set the timezone setting - same value', async () => {
+		const settingsStore = useSettingsStore()
+
 		expect.assertions(2)
 
 		const state = {
 			timezone: 'automatic',
 		}
-		const commit = jest.fn()
 
-		await settingsStore.actions.setTimezone({ state, commit }, { timezoneId: 'automatic' })
+		settingsStore.timezone = state.timezone
+		await settingsStore.setTimezone({ timezoneId: 'automatic' })
 
 		expect(setConfig).toHaveBeenCalledTimes(0)
-		expect(commit).toHaveBeenCalledTimes(0)
+		expect(settingsStore.timezone).toEqual(state.timezone)
 	})
 
 	it('should provide an action to set the timezone setting - different value', async () => {
-		expect.assertions(4)
+		const settingsStore = useSettingsStore()
+
+		expect.assertions(3)
 
 		const state = {
 			timezone: 'automatic',
 		}
-		const commit = jest.fn()
 
+		settingsStore.timezone = state.timezone
 		setConfig.mockResolvedValueOnce()
 
-		await settingsStore.actions.setTimezone({ state, commit }, { timezoneId: 'Europe/Berlin' })
+		await settingsStore.setTimezone({ timezoneId: 'Europe/Berlin' })
 
 		expect(setConfig).toHaveBeenCalledTimes(1)
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'timezone', 'Europe/Berlin')
-		expect(commit).toHaveBeenCalledTimes(1)
-		expect(commit).toHaveBeenNthCalledWith(1, 'setTimezone', { timezoneId: 'Europe/Berlin' })
+
+		expect(settingsStore.timezone).toEqual('Europe/Berlin')
 	})
 
 	it('should provide an action to initialize the calendar-js config', () => {
+		const settingsStore = useSettingsStore()
+
 		const state = {
 			appVersion: '2.3.4',
 		}
 
-		settingsStore.actions.initializeCalendarJsConfig({ state })
+		settingsStore.appVersion = state.appVersion
+		settingsStore.initializeCalendarJsConfig()
 
 		expect(setCalendarJsConfig).toHaveBeenCalledTimes(2)
 		expect(setCalendarJsConfig).toHaveBeenNthCalledWith(1, 'PRODID', '-//IDN nextcloud.com//Calendar app 2.3.4//EN')

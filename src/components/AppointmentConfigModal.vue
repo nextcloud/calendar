@@ -139,8 +139,7 @@ import { NcModal as Modal, NcButton, NcCheckboxRadioSwitch, NcNoteCard } from '@
 import TextInput from './AppointmentConfigModal/TextInput.vue'
 import TextArea from './AppointmentConfigModal/TextArea.vue'
 import AppointmentConfig from '../models/appointmentConfig.js'
-import { mapGetters } from 'vuex'
-import { mapStores } from 'pinia'
+import { mapStores, mapState } from 'pinia'
 import CalendarPicker from './Shared/CalendarPicker.vue'
 import DurationInput from './AppointmentConfigModal/DurationInput.vue'
 import NumberInput from './AppointmentConfigModal/NumberInput.vue'
@@ -149,7 +148,9 @@ import CheckedDurationSelect from './AppointmentConfigModal/CheckedDurationSelec
 import VisibilitySelect from './AppointmentConfigModal/VisibilitySelect.vue'
 import logger from '../utils/logger.js'
 import Confirmation from './AppointmentConfigModal/Confirmation.vue'
-import useAppointmentConfigStore from '../store/appointmentConfigs.js'
+import useAppointmentConfigsStore from '../store/appointmentConfigs.js'
+import useCalendarsStore from '../store/calendars.js'
+import useSettingsStore from '../store/settings.js'
 
 export default {
 	name: 'AppointmentConfigModal',
@@ -190,11 +191,11 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			'ownSortedCalendars',
-			'isTalkEnabled',
-		]),
-		...mapStores(useAppointmentConfigStore),
+		...mapState(useSettingsStore, {
+			isTalkEnabled: 'talkEnabled',
+		}),
+		...mapState(useCalendarsStore, ['ownSortedCalendars']),
+		...mapStores(useAppointmentConfigsStore, useCalendarsStore, useSettingsStore),
 		formTitle() {
 			if (this.isNew) {
 				return this.$t('calendar', 'Create appointment')
@@ -230,9 +231,9 @@ export default {
 		},
 		defaultConfig() {
 			return AppointmentConfig.createDefault(
-				this.calendarUrlToUri(this.$store.getters.ownSortedCalendars[0].url),
-				this.$store.getters.scheduleInbox,
-				this.$store.getters.getResolvedTimezone,
+				this.calendarUrlToUri(this.ownSortedCalendars[0].url),
+				this.calendarsStore.scheduleInbox,
+				this.settingsStore.getResolvedTimezone,
 			)
 		},
 	},
@@ -295,10 +296,10 @@ export default {
 			try {
 				if (this.isNew) {
 					logger.info('Creating new config', { config })
-					this.editing = await this.appointmentConfigStore.createConfig({ config })
+					this.editing = await this.appointmentConfigsStore.createConfig({ config })
 				} else {
 					logger.info('Saving config', { config })
-					this.editing = await this.appointmentConfigStore.updateConfig({ config })
+					this.editing = await this.appointmentConfigsStore.updateConfig({ config })
 				}
 				this.showConfirmation = true
 			} catch (error) {

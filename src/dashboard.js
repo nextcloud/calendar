@@ -17,7 +17,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		const { default: Vue } = await import(/* webpackChunkName: "dashboard-lazy" */'vue')
 		const { translate, translatePlural } = await import(/* webpackChunkName: "dashboard-lazy" */'@nextcloud/l10n')
 		const { default: Dashboard } = await import(/* webpackChunkName: "dashboard-lazy" */'./views/Dashboard.vue')
-		const { default: store } = await import(/* webpackChunkName: "dashboard-lazy" */'./store/index.js')
+		const { createPinia, PiniaVuePlugin } = await import(/* webpackChunkName: "dashboard-lazy" */'pinia')
+
+		Vue.use(PiniaVuePlugin)
+		const pinia = createPinia()
 
 		Vue.prototype.t = translate
 		Vue.prototype.n = translatePlural
@@ -26,8 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 		const View = Vue.extend(Dashboard)
 		new View({
-			store,
 			propsData: {},
+			pinia,
 		}).$mount(el)
 	})
 })

@@ -79,12 +79,14 @@ import {
 	getFirstDay,
 } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
-import { mapState } from 'vuex'
+import { mapStores, mapState } from 'pinia'
 import {
 	showError,
 } from '@nextcloud/dialogs'
 
 import { getLangConfigForVue2DatePicker } from '../../utils/localization.js'
+import useSettingsStore from '../../store/settings.js'
+import useDavRestrictionsStore from '../../store/davRestrictions.js'
 
 export default {
 	name: 'DatePicker',
@@ -146,9 +148,10 @@ export default {
 		}
 	},
 	computed: {
-		...mapState({
-			locale: (state) => state.settings.momentLocale,
-			showWeekNumbers: (state) => state.settings.showWeekNumbers,
+		...mapStores(useDavRestrictionsStore),
+		...mapState(useSettingsStore, {
+			locale: 'momentLocale',
+			showWeekNumbers: 'showWeekNumbers',
 		}),
 		/**
 		 * Returns the lang config for vue2-datepicker
@@ -191,7 +194,7 @@ export default {
 		 * @return {Date}
 		 */
 		minimumDate() {
-			return this.min || new Date(this.$store.state.davRestrictions.minimumDate)
+			return this.min || new Date(this.davRestrictionsStore.minimumDate)
 		},
 		/**
 		 * The latest date a user is allowed to pick in the timezone
@@ -199,7 +202,7 @@ export default {
 		 * @return {Date}
 		 */
 		maximumDate() {
-			return this.max || new Date(this.$store.state.davRestrictions.maximumDate)
+			return this.max || new Date(this.davRestrictionsStore.maximumDate)
 		},
 		/**
 		 * Whether or not to offer am/pm in the timepicker

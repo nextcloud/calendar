@@ -23,8 +23,10 @@
 /* eslint-disable-next-line n/no-missing-import */
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 import debounce from 'debounce'
-import { mapState } from 'vuex'
 import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'
+
+import useSettingsStore from '../../../store/settings.js'
+import { mapStores, mapState } from 'pinia'
 
 export default {
 	name: 'SettingsAttachmentsFolder',
@@ -32,8 +34,9 @@ export default {
 		NcInputField,
 	},
 	computed: {
-		...mapState({
-			attachmentsFolder: state => (state.settings.attachmentsFolder || '/'),
+		...mapStores(useSettingsStore),
+		...mapState(useSettingsStore, {
+			attachmentsFolder: store => store.attachmentsFolder || '/',
 		}),
 	},
 	methods: {
@@ -61,7 +64,7 @@ export default {
 				path = path.replace(/\/\//gi, '/')
 			}
 
-			this.$store.dispatch('setAttachmentsFolder', { attachmentsFolder: path })
+			this.settingsStore.setAttachmentsFolder({ attachmentsFolder: path })
 				.then(() => {
 					showSuccess(this.$t('calendar', 'Attachments folder successfully saved.'))
 				})

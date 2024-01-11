@@ -4,6 +4,7 @@
  */
 import dateRangeFormat from '../filters/dateRangeFormat.js'
 import { getDateFromFirstdayParam } from '../utils/date.js'
+import useSettingsStore from '../store/settings.js'
 
 const originalWindowTitle = document.title
 
@@ -12,9 +13,10 @@ const originalWindowTitle = document.title
  * automatically adjusts the title of the window
  *
  * @param {VueRouter} router The VueJS Router instance
- * @param {Store} store The vuex store
  */
-export default function(router, store) {
+export default function(router) {
+	const settingsStore = useSettingsStore()
+
 	/**
 	 * Updates the title of the window
 	 *
@@ -42,7 +44,7 @@ export default function(router, store) {
 
 		const date = getDateFromFirstdayParam(to.params.firstDay)
 		const view = to.params.view
-		const locale = store.state.settings.momentLocale
+		const locale = settingsStore.momentLocale
 
 		updateTitle(date, view, locale)
 
@@ -53,8 +55,12 @@ export default function(router, store) {
 	 * This listens to changes of the locale
 	 * and automatically updates it.
 	 */
-	store.subscribe(mutation => {
-		if (mutation.type !== 'setMomentLocale') {
+	settingsStore.$onAction(({
+		name,
+		store,
+		args,
+	}) => {
+		if (name !== 'setMomentLocale') {
 			return
 		}
 		if (!router.currentRoute.params?.firstDay) {
@@ -63,7 +69,7 @@ export default function(router, store) {
 
 		const date = getDateFromFirstdayParam(router.currentRoute.params.firstDay)
 		const view = router.currentRoute.params.view
-		const { locale } = mutation.payload
+		const { locale } = args[0] // JavaScript, I love it ...
 
 		updateTitle(date, view, locale)
 	})

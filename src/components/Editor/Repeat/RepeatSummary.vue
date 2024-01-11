@@ -13,7 +13,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from 'pinia'
+import useSettingsStore from '../../../store/settings.js'
 import formatRecurrenceRule from '../../../filters/recurrenceRuleFormat.js'
 
 export default {
@@ -31,8 +32,8 @@ export default {
 		},
 	},
 	computed: {
-		...mapState({
-			locale: (state) => state.settings.momentLocale,
+		...mapState(useSettingsStore, {
+			locale: 'momentLocale',
 		}),
 		/**
 		 * Returns whether or not to display the summary.

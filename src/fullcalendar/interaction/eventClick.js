@@ -10,12 +10,13 @@ import { generateUrl } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
 import { showInfo } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
+import useSettingsStore from '../../store/settings.js'
+import useWidgetStore from '../../store/widget.js'
 
 /**
  * Returns a function for click action on event. This will open the editor.
  * Either the popover or the sidebar, based on the user's preference.
  *
- * @param {object} store The Vuex store
  * @param {object} router The Vue router
  * @param {object} route The current Vue route
  * @param {Window} window The window object
@@ -23,19 +24,19 @@ import { emit } from '@nextcloud/event-bus'
  * @param {object} ref The ref object of CalendarGrid component
  * @return {Function}
  */
-export default function(store, router, route, window, isWidget = false, ref = undefined) {
-
+export default function(router, route, window, isWidget = false, ref = undefined) {
+	const widgetStore = useWidgetStore()
 	return function({ event }) {
 		if (isWidget) {
-			store.commit('setWidgetRef', { widgetRef: ref.fullCalendar.$el })
+			widgetStore.setWidgetRef({ widgetRef: ref.fullCalendar.$el })
 		}
 		switch (event.extendedProps.objectType) {
 		case 'VEVENT':
-			handleEventClick(event, store, router, route, window, isWidget)
+			handleEventClick(event, router, route, window, isWidget)
 			break
 
 		case 'VTODO':
-			handleToDoClick(event, store, route, window, isWidget)
+			handleToDoClick(event, route, window, isWidget)
 			break
 		}
 	}
@@ -45,18 +46,19 @@ export default function(store, router, route, window, isWidget = false, ref = un
  * Handle eventClick for VEVENT
  *
  * @param {EventDef} event FullCalendar event
- * @param {object} store The Vuex store
  * @param {object} router The Vue router
  * @param {object} route The current Vue route
  * @param {Window} window The window object
  * @param {boolean} isWidget Whether the calendar is embedded in a widget
  */
-function handleEventClick(event, store, router, route, window, isWidget = false) {
+function handleEventClick(event, router, route, window, isWidget = false) {
+	const settingsStore = useSettingsStore()
+	const widgetStore = useWidgetStore()
 	if (isWidget) {
-		store.commit('setSelectedEvent', { object: event.extendedProps.objectId, recurrenceId: event.extendedProps.recurrenceId })
+		widgetStore.setSelectedEvent({ object: event.extendedProps.objectId, recurrenceId: event.extendedProps.recurrenceId })
 		return
 	}
-	let desiredRoute = store.state.settings.skipPopover
+	let desiredRoute = settingsStore.skipPopover
 		? 'EditSidebarView'
 		: 'EditPopoverView'
 
@@ -86,12 +88,12 @@ function handleEventClick(event, store, router, route, window, isWidget = false)
  * Handle eventClick for VTODO
  *
  * @param {EventDef} event FullCalendar event
- * @param {object} store The Vuex store
  * @param {object} route The current Vue route
  * @param {Window} window The window object
  * @param isWidget
  */
-function handleToDoClick(event, store, route, window, isWidget = false) {
+function handleToDoClick(event, route, window, isWidget = false) {
+	const settingsStore = useSettingsStore()
 
 	if (isWidget || isPublicOrEmbeddedRoute(route.name)) {
 		return
@@ -103,7 +105,7 @@ function handleToDoClick(event, store, route, window, isWidget = false) {
 
 	emit('calendar:handle-todo-click', { calendarId, taskId })
 
-	if (!store.state.settings.tasksEnabled) {
+	if (!settingsStore.tasksEnabled) {
 		showInfo(t('calendar', 'Please ask your administrator to enable the Tasks App.'))
 		return
 	}

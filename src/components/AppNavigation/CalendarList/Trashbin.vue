@@ -104,9 +104,11 @@ import {
 import moment from '@nextcloud/moment'
 import logger from '../../../utils/logger.js'
 import { showError } from '@nextcloud/dialogs'
-import { mapGetters } from 'vuex'
 import Moment from './Moment.vue'
 import { uidToHexColor } from '../../../utils/color.js'
+import useCalendarsStore from '../../../store/calendars.js'
+import useSettingsStore from '../../../store/settings.js'
+import { mapStores, mapState } from 'pinia'
 
 import Delete from 'vue-material-design-icons/Delete.vue'
 
@@ -129,15 +131,15 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({
-			trashBin: 'trashBin',
+		...mapStores(useCalendarsStore),
+		...mapState(useSettingsStore, {
 			timezoneObject: 'getResolvedTimezoneObject',
 		}),
 		calendars() {
-			return this.$store.getters.sortedDeletedCalendars
+			return this.calendarsStore.sortedDeletedCalendars
 		},
 		objects() {
-			return this.$store.getters.deletedCalendarObjects
+			return this.calendarsStore.allDeletedCalendarObjects
 		},
 		items() {
 			const formattedCalendars = this.calendars.map(calendar => ({
@@ -185,7 +187,7 @@ export default {
 		},
 		retentionDuration() {
 			return Math.ceil(
-				this.trashBin.retentionDuration / (60 * 60 * 24),
+				this.calendarsStore.trashBin.retentionDuration / (60 * 60 * 24)
 			)
 		},
 	},
@@ -196,8 +198,8 @@ export default {
 			this.loading = true
 			try {
 				await Promise.all([
-					this.$store.dispatch('loadDeletedCalendars'),
-					this.$store.dispatch('loadDeletedCalendarObjects'),
+					this.calendarsStore.loadDeletedCalendars(),
+					this.calendarsStore.loadDeletedCalendarObjects(),
 				])
 
 				logger.debug('deleted calendars and objects loaded', {
@@ -218,10 +220,10 @@ export default {
 			try {
 				switch (item.type) {
 				case 'calendar':
-					await this.$store.dispatch('deleteCalendarPermanently', { calendar: item.calendar })
+					await this.calendarsStore.deleteCalendarPermanently({ calendar: item.calendar })
 					break
 				case 'object':
-					await this.$store.dispatch('deleteCalendarObjectPermanently', { vobject: item.vobject })
+					await this.calendarsStore.deleteCalendarObjectPermanently({ vobject: item.vobject })
 					break
 				}
 			} catch (error) {
@@ -235,11 +237,11 @@ export default {
 			try {
 				switch (item.type) {
 				case 'calendar':
-					await this.$store.dispatch('restoreCalendar', { calendar: item.calendar })
-					this.$store.dispatch('loadCollections')
+					await this.calendarsStore.restoreCalendar({ calendar: item.calendar })
+					await this.calendarsStore.loadCollections()
 					break
 				case 'object':
-					await this.$store.dispatch('restoreCalendarObject', { vobject: item.vobject })
+					await this.calendarsStore.restoreCalendarObject({ vobject: item.vobject })
 					break
 				}
 			} catch (error) {

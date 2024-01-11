@@ -37,7 +37,7 @@
 				</template>
 
 				<!-- Trashbin -->
-				<Trashbin v-if="hasTrashBin" />
+				<Trashbin v-if="calendarsStore.hasTrashBin" />
 			</template>
 			<!-- Settings and import -->
 			<template #footer>
@@ -89,10 +89,6 @@ import {
 } from '../utils/date.js'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import logger from '../utils/logger.js'
-import {
-	mapGetters,
-	mapState,
-} from 'vuex'
 import loadMomentLocalization from '../utils/moment.js'
 import { loadState } from '@nextcloud/initial-state'
 import {
@@ -101,6 +97,12 @@ import {
 import '@nextcloud/dialogs/style.css'
 import Trashbin from '../components/AppNavigation/CalendarList/Trashbin.vue'
 import AppointmentConfigList from '../components/AppNavigation/AppointmentConfigList.vue'
+import useFetchedTimeRangesStore from '../store/fetchedTimeRanges.js'
+import useCalendarsStore from '../store/calendars.js'
+import usePrincipalsStore from '../store/principals.js'
+import useSettingsStore from '../store/settings.js'
+import useWidgetStore from '../store/widget.js'
+import { mapStores, mapState } from 'pinia'
 
 export default {
 	name: 'Calendar',
@@ -151,25 +153,14 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({
+		...mapStores(useFetchedTimeRangesStore, useCalendarsStore, usePrincipalsStore, useSettingsStore, useWidgetStore),
+		...mapState(useSettingsStore, {
 			timezoneId: 'getResolvedTimezone',
-			hasTrashBin: 'hasTrashBin',
-			currentUserPrincipal: 'getCurrentUserPrincipal',
-		},
-		),
-		...mapState({
-			eventLimit: state => state.settings.eventLimit,
-			skipPopover: state => state.settings.skipPopover,
-			showWeekends: state => state.settings.showWeekends,
-			showWeekNumbers: state => state.settings.showWeekNumbers,
-			slotDuration: state => state.settings.slotDuration,
-			defaultReminder: state => state.settings.defaultReminder,
-			showTasks: state => state.settings.showTasks,
-			timezone: state => state.settings.timezone,
-			modificationCount: state => state.calendarObjects.modificationCount,
-			disableAppointments: state => state.settings.disableAppointments,
-			attachmentsFolder: state => state.settings.attachmentsFolder,
 		}),
+		...mapState(useSettingsStore, [
+			'timezone',
+			'disableAppointments',
+		]),
 		defaultDate() {
 			return getYYYYMMDDFromFirstdayParam(this.$route?.params?.firstDay ?? 'now')
 		},
@@ -200,7 +191,7 @@ export default {
 			return this.$route.name.startsWith('Embed')
 		},
 		showWidgetEventDetails() {
-			return this.$store.getters.widgetEventDetailsOpen && this.$refs.calendarGridWidget.$el === this.$store.getters.widgetRef
+			return this.widgetStore.widgetEventDetailsOpen && this.$refs.calendarGridWidget.$el === this.widgetStore.widgetRef
 		},
 		showHeader() {
 			return this.isPublicShare && this.isEmbedded && this.isWidget
@@ -219,13 +210,13 @@ export default {
 	created() {
 		this.timeFrameCacheExpiryJob = setInterval(() => {
 			const timestamp = (getUnixTimestampFromDate(dateFactory()) - 60 * 10)
-			const timeRanges = this.$store.getters.getAllTimeRangesOlderThan(timestamp)
+			const timeRanges = this.fetchedTimeRangesStore.getAllTimeRangesOlderThan(timestamp)
 
 			for (const timeRange of timeRanges) {
-				this.$store.commit('removeTimeRange', {
+				this.fetchedTimeRangesStore.removeTimeRange({
 					timeRangeId: timeRange.id,
 				})
-				this.$store.commit('deleteFetchedTimeRangeFromCalendar', {
+				this.calendarsStore.deleteFetchedTimeRangeFromCalendarMutation({
 					calendar: {
 						id: timeRange.calendarId,
 					},
@@ -235,7 +226,7 @@ export default {
 		}, 1000 * 60)
 	},
 	async beforeMount() {
-		this.$store.commit('loadSettingsFromServer', {
+		this.settingsStore.loadSettingsFromServer({
 			appVersion: loadState('calendar', 'app_version'),
 			eventLimit: loadState('calendar', 'event_limit'),
 			firstRun: loadState('calendar', 'first_run'),
@@ -256,12 +247,12 @@ export default {
 			showResources: loadState('calendar', 'show_resources', true),
 			publicCalendars: loadState('calendar', 'publicCalendars', []),
 		})
-		this.$store.dispatch('initializeCalendarJsConfig')
+		this.settingsStore.initializeCalendarJsConfig()
 
 		if (this.$route?.name.startsWith('Public') || this.$route?.name.startsWith('Embed') || this.isPublic) {
 			await initializeClientForPublicView()
 			const tokens = this.isWidget ? [this.referenceToken] : this.$route.params.tokens.split('-')
-			const calendars = await this.$store.dispatch('getPublicCalendars', { tokens })
+			const calendars = await this.calendarsStore.getPublicCalendars({ tokens })
 			this.loadingCalendars = false
 
 			if (calendars.length === 0) {
@@ -269,8 +260,8 @@ export default {
 			}
 		} else {
 			await initializeClientForUserView()
-			await this.$store.dispatch('fetchCurrentUserPrincipal')
-			const { calendars, trashBin } = await this.$store.dispatch('loadCollections')
+			await this.principalsStore.fetchCurrentUserPrincipal()
+			const { calendars, trashBin } = await this.calendarsStore.loadCollections()
 			logger.debug('calendars and trash bin loaded', { calendars, trashBin })
 			const owners = []
 			calendars.forEach((calendar) => {
@@ -279,9 +270,7 @@ export default {
 				}
 			})
 			owners.forEach((owner) => {
-				this.$store.dispatch('fetchPrincipalByUrl', {
-					url: owner,
-				})
+				this.principalsStore.fetchPrincipalByUrl({ url: owner })
 			})
 
 			const writeableCalendarIndex = calendars.findIndex((calendar) => {
@@ -292,7 +281,7 @@ export default {
 			if (writeableCalendarIndex === -1) {
 				logger.info('User has no writable calendar, a new personal calendar will be created')
 				this.loadingCalendars = true
-				await this.$store.dispatch('appendCalendar', {
+				await this.calendarsStore.appendCalendar({
 					displayName: this.$t('calendar', 'Personal'),
 					color: uidToHexColor(this.$t('calendar', 'Personal')),
 					order: 0,
@@ -326,7 +315,7 @@ export default {
 		 */
 		async loadMomentLocale() {
 			const locale = await loadMomentLocalization()
-			this.$store.commit('setMomentLocale', { locale })
+			this.settingsStore.setMomentLocale({ locale })
 		},
 	},
 }

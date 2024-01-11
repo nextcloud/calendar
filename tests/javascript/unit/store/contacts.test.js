@@ -2,21 +2,21 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import contactsStore from '../../../../src/store/contacts.js'
+import useContactsStore from '../../../../src/store/contacts.js'
+import { setActivePinia, createPinia } from 'pinia'
 
 describe('store/contacts test suite', () => {
 
+	setActivePinia(createPinia())
+
+	const contactsStore = useContactsStore()
+
 	it('should provide a default state', () => {
-		expect(contactsStore.state.contacts).toEqual([])
-		expect(contactsStore.state.contactByEMail).toEqual({})
+		expect(contactsStore.contacts).toEqual([])
+		expect(contactsStore.contactByEmail).toEqual({})
 	})
 
 	it('should provide a mutation to add a contact', () => {
-		const state = {
-			contacts: [],
-			contactByEMail: {},
-		}
-
 		const contact1 = {
 			name: 'John Doe',
 			emails: ['john.doe@example.com'],
@@ -33,20 +33,20 @@ describe('store/contacts test suite', () => {
 			],
 		}
 
-		contactsStore.mutations.appendContact(state, { contact: contact1 })
-		contactsStore.mutations.appendContact(state, { contact: contact2 })
-		contactsStore.mutations.appendContact(state, { contact: contact3 })
+		contactsStore.appendContact({ contact: contact1 })
+		contactsStore.appendContact({ contact: contact2 })
+		contactsStore.appendContact({ contact: contact3 })
 
 		// It should not add the same again:
-		contactsStore.mutations.appendContact(state, { contact: contact1 })
+		contactsStore.appendContact({ contact: contact1 })
 
-		expect(state.contacts).toEqual([
+		expect(contactsStore.contacts).toEqual([
 			contact1,
 			contact2,
 			contact3,
 		])
 
-		expect(state.contactByEMail).toEqual({
+		expect(contactsStore.contactByEmail).toEqual({
 			'john.doe@example.com': contact1,
 			'jane.doe@example.com': contact2,
 			'john.doe.doppelganger@example.com': contact3,
@@ -68,19 +68,22 @@ describe('store/contacts test suite', () => {
 				contact1,
 				contact2,
 			],
-			contactByEMail: {
+			contactByEmail: {
 				'john.doe@example.com': contact1,
 				'jane.doe@example.com': contact2,
 			},
 		}
 
-		contactsStore.mutations.removeContact(state, { contact: contact1 })
+		contactsStore.contacts = state.contacts
+		contactsStore.contactByEmail = state.contactByEmail
 
-		expect(state.contacts).toEqual([
+		contactsStore.removeContact({ contact: contact1 })
+
+		expect(contactsStore.contacts).toEqual([
 			contact2,
 		])
 
-		expect(state.contactByEMail).toEqual({
+		expect(contactsStore.contactByEmail).toEqual({
 			'jane.doe@example.com': contact2,
 		})
 	})
@@ -100,7 +103,7 @@ describe('store/contacts test suite', () => {
 				contact1,
 				contact2,
 			],
-			contactByEMail: {
+			contactByEmail: {
 				'john.doe@example.com': contact1,
 				'jane.doe@example.com': contact2,
 			},
@@ -111,14 +114,14 @@ describe('store/contacts test suite', () => {
 			emails: ['foo.bar@example.com'],
 		}
 
-		contactsStore.mutations.removeContact(state, { contact: unknownContact })
+		contactsStore.removeContact({ contact: unknownContact })
 
 		expect(state.contacts).toEqual([
 			contact1,
 			contact2,
 		])
 
-		expect(state.contactByEMail).toEqual({
+		expect(state.contactByEmail).toEqual({
 			'john.doe@example.com': contact1,
 			'jane.doe@example.com': contact2,
 		})

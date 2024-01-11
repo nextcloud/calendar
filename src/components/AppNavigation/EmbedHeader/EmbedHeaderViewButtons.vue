@@ -35,6 +35,8 @@
 
 <script>
 import { NcButton } from '@nextcloud/vue'
+import { mapStores } from 'pinia'
+import useWidgetStore from '../../../store/widget.js'
 
 export default {
 	name: 'EmbedHeaderViewButtons',
@@ -48,6 +50,7 @@ export default {
 		},
 	},
 	computed: {
+		...mapStores(useWidgetStore),
 		isAgendaDayViewSelected() {
 			return this.selectedView === 'timeGridDay'
 		},
@@ -65,7 +68,7 @@ export default {
 		},
 		selectedView() {
 			if (this.isWidget) {
-				return this.$store.getters.widgetView
+				return this.widgetStore.widgetView
 			}
 			return this.$route.params.view
 		},
@@ -73,7 +76,7 @@ export default {
 	methods: {
 		view(viewName) {
 			if (this.isWidget) {
-				this.$store.commit('setWidgetView', { viewName })
+				this.widgetStore.setWidgetView({ viewName })
 			} else {
 				const name = this.$route.name
 				const params = Object.assign({}, this.$route.params, {

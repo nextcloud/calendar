@@ -52,8 +52,11 @@ import AppointmentConfigModal from '../AppointmentConfigModal.vue'
 import AppointmentConfig from '../../models/appointmentConfig.js'
 import logger from '../../utils/logger.js'
 import NoEmailAddressWarning from '../AppointmentConfigModal/NoEmailAddressWarning.vue'
-import useAppointmentConfigStore from '../../store/appointmentConfigs.js'
-import { mapStores } from 'pinia'
+import useAppointmentConfigsStore from '../../store/appointmentConfigs.js'
+import usePrincipalsStore from '../../store/principals.js'
+import useCalendarsStore from '../../store/calendars.js'
+import useSettingsStore from '../../store/settings.js'
+import { mapStores, mapState } from 'pinia'
 
 export default {
 	name: 'AppointmentConfigList',
@@ -71,22 +74,22 @@ export default {
 		}
 	},
 	computed: {
-		...mapStores(useAppointmentConfigStore),
-		configs() {
-			return this.appointmentConfigStore.allConfigs
-		},
+		...mapStores(useAppointmentConfigsStore, usePrincipalsStore, useCalendarsStore, useSettingsStore),
+		...mapState(useAppointmentConfigsStore, {
+			configs: (state) => state.allConfigs,
+		}),
 		defaultConfig() {
 			return AppointmentConfig.createDefault(
-				this.calendarUrlToUri(this.$store.getters.ownSortedCalendars[0].url),
-				this.$store.getters.scheduleInbox,
-				this.$store.getters.getResolvedTimezone,
+				this.calendarUrlToUri(this.calendarsStore.ownSortedCalendars[0].url),
+				this.calendarsStore.scheduleInbox,
+				this.settingsStore.getResolvedTimezone,
 			)
 		},
 		hasAtLeastOneCalendar() {
-			return !!this.$store.getters.ownSortedCalendars[0]
+			return !!this.calendarsStore.ownSortedCalendars[0]
 		},
 		hasUserEmailAddress() {
-			const principal = this.$store.getters.getCurrentUserPrincipal
+			const principal = this.principalsStore.getCurrentUserPrincipal
 			if (!principal) {
 				return false
 			}
@@ -111,7 +114,7 @@ export default {
 			logger.info('Deleting config', { config })
 
 			try {
-				await this.appointmentConfigStore.deleteConfig({ id: config.id })
+				await this.appointmentConfigsStore.deleteConfig({ id: config.id })
 
 				logger.info('Config deleted', { config })
 			} catch (error) {

@@ -2,7 +2,6 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import Vue from 'vue'
 import {
 	findPrincipalByUrl,
 	getCurrentUserPrincipal,
@@ -12,159 +11,126 @@ import {
 	getDefaultPrincipalObject,
 	mapDavToPrincipal,
 } from '../models/principal.js'
+import { defineStore } from 'pinia'
+import Vue from 'vue'
 
-const state = {
-	principals: [],
-	principalsById: {},
-	currentUserPrincipal: null,
-}
-
-const mutations = {
-
-	/**
-	 * Adds a principal to the state
-	 *
-	 * @param {object} state The vuex state
-	 * @param {object} data The destructuring object
-	 * @param {object} data.principal The principal to add
-	 */
-	addPrincipal(state, { principal }) {
-		const object = getDefaultPrincipalObject(principal)
-
-		if (state.principalsById[object.id]) {
-			return
+export default defineStore('principals', {
+	state: () => {
+		return {
+			principals: [],
+			principalsById: {},
+			currentUserPrincipal: null,
 		}
-
-		state.principals.push(object)
-		Vue.set(state.principalsById, object.id, object)
 	},
+	getters: {
+		/**
+		 * Gets a principal object by its url
+		 *
+		 * @param {object} state the store data
+		 * @return {function({String}): {Object}}
+		 */
+		getPrincipalByUrl: (state) => (url) => state.principals.find((principal) => principal.url === url),
 
-	/**
-	 * Adds the current user principal to the state
-	 *
-	 * @param {object} state The vuex state
-	 * @param {object} data destructuring object
-	 * @param {string} data.principalId principalId of the current-user-principal
-	 */
-	setCurrentUserPrincipal(state, { principalId }) {
-		state.currentUserPrincipal = principalId
+		/**
+		 * Gets a principal object by its id
+		 *
+		 * @param {object} state the store data
+		 * @return {function({String}): {Object}}
+		 */
+		getPrincipalById: (state) => (id) => state.principalsById[id],
+
+		/**
+		 * Gets the principal object of the current-user-principal
+		 *
+		 * @param {object} state the store data
+		 * @return {{Object}}
+		 */
+		getCurrentUserPrincipal: (state) => state.principalsById[state.currentUserPrincipal],
+
+		/**
+		 * Gets the email-address of the current-user-principal
+		 *
+		 * @param {object} state the store data
+		 * @return {string|undefined}
+		 */
+		getCurrentUserPrincipalEmail: (state) => state.principalsById[state.currentUserPrincipal]?.emailAddress,
 	},
+	actions: {
+		/**
+		 * Fetches a principal from the DAV server and commits it to the state
+		 *
+		 * @param {string} url The URL of the principal
+		 * @return {Promise<void>}
+		 */
+		async fetchPrincipalByUrl({ url }) {
+			// Don't refetch principals we already have
+			if (this.getPrincipalByUrl(url)) {
+				return
+			}
 
-	/**
-	 * Changes the schedule-default-calendar-URL of a principal
-	 *
-	 * @param {object} state The vuex state
-	 * @param {object} data The destructuring object
-	 * @param {object} data.principal The principal to modify
-	 * @param {string} data.scheduleDefaultCalendarUrl The new schedule-default-calendar-URL
-	 */
-	changePrincipalScheduleDefaultCalendarUrl(state, { principal, scheduleDefaultCalendarUrl }) {
-		Vue.set(
-			state.principalsById[principal.id],
-			'scheduleDefaultCalendarUrl',
-			scheduleDefaultCalendarUrl,
-		)
+			const principal = await findPrincipalByUrl(url)
+			if (!principal) {
+				// TODO - handle error
+				return
+			}
+
+			this.addPrincipalMutation({ principal: mapDavToPrincipal(principal) })
+
+		},
+
+		/**
+		 * Fetches the current-user-principal
+		 *
+		 * @return {Promise<void>}
+		 */
+		async fetchCurrentUserPrincipal() {
+			const currentUserPrincipal = getCurrentUserPrincipal()
+			if (!currentUserPrincipal) {
+				// TODO - handle error
+				return
+			}
+
+			const principal = mapDavToPrincipal(currentUserPrincipal)
+			this.addPrincipalMutation({ principal })
+			this.currentUserPrincipal = principal.id
+			logger.debug(`Current user principal is ${principal.url}`)
+		},
+
+		/**
+		 * Adds a principal to the state
+		 *
+		 * @param {object} data The destructuring object
+		 * @param {object} data.principal The principal to add
+		 */
+		addPrincipalMutation({ principal }) {
+			const object = getDefaultPrincipalObject(principal)
+
+			if (this.principalsById[object.id]) {
+				return
+			}
+
+			this.principals.push(object)
+			/// TODO this.principalsById[object.id] = object
+			Vue.set(this.principalsById, object.id, object)
+		},
+
+		/**
+		 * Changes the schedule-default-calendar-URL of a principal
+		 *
+		 * @param {object} data The destructuring object
+		 * @param {object} data.principal The principal to modify
+		 * @param {string} data.scheduleDefaultCalendarUrl The new schedule-default-calendar-URL
+		 * @return {Promise<void>}
+		 */
+		async changePrincipalScheduleDefaultCalendarUrl({ principal, scheduleDefaultCalendarUrl }) {
+			principal.dav.scheduleDefaultCalendarUrl = scheduleDefaultCalendarUrl
+
+			await principal.dav.update()
+			Vue.set(
+				this.principalsById[principal.id],
+				'scheduleDefaultCalendarUrl',
+				scheduleDefaultCalendarUrl,
+			)
+		},
 	},
-}
-
-const getters = {
-
-	/**
-	 * Gets a principal object by its url
-	 *
-	 * @param {object} state the store data
-	 * @return {function({String}): {Object}}
-	 */
-	getPrincipalByUrl: (state) => (url) => state.principals.find((principal) => principal.url === url),
-
-	/**
-	 * Gets a principal object by its id
-	 *
-	 * @param {object} state the store data
-	 * @return {function({String}): {Object}}
-	 */
-	getPrincipalById: (state) => (id) => state.principalsById[id],
-
-	/**
-	 * Gets the principal object of the current-user-principal
-	 *
-	 * @param {object} state the store data
-	 * @return {{Object}}
-	 */
-	getCurrentUserPrincipal: (state) => state.principalsById[state.currentUserPrincipal],
-
-	/**
-	 * Gets the email-address of the current-user-principal
-	 *
-	 * @param {object} state the store data
-	 * @return {string|undefined}
-	 */
-	getCurrentUserPrincipalEmail: (state) => state.principalsById[state.currentUserPrincipal]?.emailAddress,
-}
-
-const actions = {
-
-	/**
-	 * Fetches a principal from the DAV server and commits it to the state
-	 *
-	 * @param {object} context The vuex context
-	 * @param {string} url The URL of the principal
-	 * @return {Promise<void>}
-	 */
-	async fetchPrincipalByUrl(context, { url }) {
-		// Don't refetch principals we already have
-		if (context.getters.getPrincipalByUrl(url)) {
-			return
-		}
-
-		const principal = await findPrincipalByUrl(url)
-		if (!principal) {
-			// TODO - handle error
-			return
-		}
-
-		context.commit('addPrincipal', {
-			principal: mapDavToPrincipal(principal),
-		})
-	},
-
-	/**
-	 * Fetches the current-user-principal
-	 *
-	 * @param {object} context The vuex context
-	 * @return {Promise<void>}
-	 */
-	async fetchCurrentUserPrincipal(context) {
-		const currentUserPrincipal = getCurrentUserPrincipal()
-		if (!currentUserPrincipal) {
-			// TODO - handle error
-			return
-		}
-
-		const principal = mapDavToPrincipal(currentUserPrincipal)
-		context.commit('addPrincipal', { principal })
-		context.commit('setCurrentUserPrincipal', { principalId: principal.id })
-		logger.debug(`Current user principal is ${principal.url}`)
-	},
-
-	/**
-	 * Change a principal's schedule-default-calendar-URL
-	 *
-	 * @param {object} context The vuex context
-	 * @param {object} data The destructuring object
-	 * @param {object} data.principal The principal to modify
-	 * @param {string} data.scheduleDefaultCalendarUrl The new schedule-default-calendar-URL
-	 * @return {Promise<void>}
-	 */
-	async changePrincipalScheduleDefaultCalendarUrl(context, { principal, scheduleDefaultCalendarUrl }) {
-		principal.dav.scheduleDefaultCalendarUrl = scheduleDefaultCalendarUrl
-
-		await principal.dav.update()
-		context.commit('changePrincipalScheduleDefaultCalendarUrl', {
-			principal,
-			scheduleDefaultCalendarUrl,
-		})
-	},
-}
-
-export default { state, mutations, getters, actions }
+})

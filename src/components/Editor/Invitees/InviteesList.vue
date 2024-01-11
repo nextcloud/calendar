@@ -67,7 +67,6 @@
 
 <script>
 import { NcButton } from '@nextcloud/vue'
-import { mapState } from 'vuex'
 import InviteesListSearch from './InviteesListSearch.vue'
 import InviteesListItem from './InviteesListItem.vue'
 import OrganizerListItem from './OrganizerListItem.vue'
@@ -81,6 +80,10 @@ import {
 } from '@nextcloud/dialogs'
 import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
 import AccountMultipleIcon from 'vue-material-design-icons/AccountMultiple.vue'
+import usePrincipalsStore from '../../../store/principals.js'
+import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
+import useSettingsStore from '../../../store/settings.js'
+import { mapStores, mapState } from 'pinia'
 
 export default {
 	name: 'InviteesList',
@@ -136,9 +139,8 @@ export default {
 		}
 	},
 	computed: {
-		...mapState({
-			talkEnabled: state => state.settings.talkEnabled,
-		}),
+		...mapStores(usePrincipalsStore, useCalendarObjectInstanceStore),
+		...mapState(useSettingsStore, ['talkEnabled']),
 		noInviteesMessage() {
 			return this.$t('calendar', 'No attendees yet')
 		},
@@ -213,8 +215,8 @@ export default {
 		},
 		isOrganizer() {
 			return this.calendarObjectInstance.organizer !== null
-				&& this.$store.getters.getCurrentUserPrincipal !== null
-				&& removeMailtoPrefix(this.calendarObjectInstance.organizer.uri) === this.$store.getters.getCurrentUserPrincipal.emailAddress
+				&& this.principalsStore.getCurrentUserPrincipal !== null
+				&& removeMailtoPrefix(this.calendarObjectInstance.organizer.uri) === this.principalsStore.getCurrentUserPrincipal.emailAddress
 		},
 		hasOrganizer() {
 			return this.calendarObjectInstance.organizer !== null
@@ -229,7 +231,7 @@ export default {
 		alreadyInvitedEmails() {
 			const emails = this.invitees.map(attendee => removeMailtoPrefix(attendee.uri))
 
-			const principal = this.$store.getters.getCurrentUserPrincipal
+			const principal = this.principalsStore.getCurrentUserPrincipal
 			if (principal) {
 				emails.push(principal.emailAddress)
 			}
@@ -237,7 +239,7 @@ export default {
 			return emails
 		},
 		hasUserEmailAddress() {
-			const principal = this.$store.getters.getCurrentUserPrincipal
+			const principal = this.principalsStore.getCurrentUserPrincipal
 			if (!principal) {
 				return false
 			}
@@ -276,7 +278,7 @@ export default {
 	},
 	methods: {
 		addAttendee({ commonName, email, calendarUserType, language, timezoneId, member }) {
-			this.$store.commit('addAttendee', {
+			this.calendarObjectInstanceStore.addAttendee({
 				calendarObjectInstance: this.calendarObjectInstance,
 				commonName,
 				uri: email,
@@ -286,7 +288,7 @@ export default {
 				rsvp: true,
 				language,
 				timezoneId,
-				organizer: this.$store.getters.getCurrentUserPrincipal,
+				organizer: this.principalsStore.getCurrentUserPrincipal,
 				member,
 			})
 			this.recentAttendees.push(email)
@@ -305,7 +307,7 @@ export default {
 					}
 				})
 			}
-			this.$store.commit('removeAttendee', {
+			this.calendarObjectInstanceStore.removeAttendee({
 				calendarObjectInstance: this.calendarObjectInstance,
 				attendee,
 			})
@@ -332,19 +334,19 @@ export default {
 
 				// Store in LOCATION property if it's missing/empty. Append to description otherwise.
 				if ((this.calendarObjectInstance.location ?? '').trim() === '') {
-					this.$store.commit('changeLocation', {
+					this.calendarObjectInstanceStore.changeLocation({
 						calendarObjectInstance: this.calendarObjectInstance,
 						location: url,
 					})
 					showSuccess(this.$t('calendar', 'Successfully appended link to talk room to location.'))
 				} else {
 					if (!this.calendarObjectInstance.description) {
-						this.$store.commit('changeDescription', {
+						this.calendarObjectInstanceStore.changeDescription({
 							calendarObjectInstance: this.calendarObjectInstance,
 							description: url,
 						})
 					} else {
-						this.$store.commit('changeDescription', {
+						this.calendarObjectInstanceStore.changeDescription({
 							calendarObjectInstance: this.calendarObjectInstance,
 							description: this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + url + NEW_LINE,
 						})

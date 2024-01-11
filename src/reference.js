@@ -14,14 +14,18 @@ __webpack_public_path__ = linkTo('calendar', 'js/') // eslint-disable-line
 registerWidget('calendar_widget', async (el, { richObjectType, richObject, accessible, interactive }) => {
 	const { default: Vue } = await import('vue')
 	const { default: Calendar } = await import('./views/Calendar.vue')
-	const { default: store } = await import('./store/index.js')
+	const { createPinia, PiniaVuePlugin } = await import('pinia')
+
+	Vue.use(PiniaVuePlugin)
+	const pinia = createPinia()
+
 	Vue.prototype.$t = translate
 	Vue.prototype.$n = translatePlural
 	Vue.mixin({ methods: { t, n } })
 
 	const Widget = Vue.extend(Calendar)
 	const vueElement = new Widget({
-		store,
+		pinia,
 		propsData: {
 			isWidget: true,
 			isPublic: richObject.isPublic,

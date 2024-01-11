@@ -2,7 +2,6 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import Vue from 'vue'
 import {
 	createCalendar,
 	createSubscription,
@@ -24,1185 +23,871 @@ import {
 	IMPORT_STAGE_PROCESSING,
 } from '../models/consts.js'
 import { showError } from '@nextcloud/dialogs'
-
-const state = {
-	calendars: [],
-	trashBin: undefined,
-	scheduleInbox: undefined,
-	deletedCalendars: [],
-	deletedCalendarObjects: [],
-	calendarsById: {},
-	initialCalendarsLoaded: false,
-	editCalendarModal: undefined,
-	widgetView: 'dayGridMonth',
-	widgetDate: 'now',
-	widgetEventDetailsOpen: false,
-	widgetEventDetails: {},
-	widgetRef: undefined,
-}
-
-const mutations = {
-
-	/**
-	 * Adds calendar into state
-	 *
-	 * @param {object} state the store data
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to add
-	 */
-	addCalendar(state, { calendar }) {
-		const object = getDefaultCalendarObject(calendar)
-
-		if (!state.calendars.some(existing => existing.id === object.id)) {
-			state.calendars.push(object)
-		}
-		Vue.set(state.calendarsById, object.id, object)
-	},
-
-	addTrashBin(state, { trashBin }) {
-		state.trashBin = trashBin
-	},
-
-	setWidgetView(state, { viewName }) {
-		state.widgetView = viewName
-	},
-
-	setWidgetDate(state, { widgetDate }) {
-		state.widgetDate = widgetDate
-	},
-
-	setWidgetRef(state, { widgetRef }) {
-		state.widgetRef = widgetRef
-	},
-
-	setSelectedEvent(state, { object, recurrenceId }) {
-		state.widgetEventDetailsOpen = true
-		state.widgetEventDetails = {
-			object,
-			recurrenceId,
-		}
-	},
-
-	closeWidgetEventDetails(state) {
-		state.widgetEventDetailsOpen = false
-	},
-
-	addScheduleInbox(state, { scheduleInbox }) {
-		state.scheduleInbox = scheduleInbox
-	},
-
-	/**
-	 * Adds deleted calendar into state
-	 *
-	 * @param {object} state the store data
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar calendar the calendar to add
-	 */
-	addDeletedCalendar(state, { calendar }) {
-		if (state.deletedCalendars.some(c => c.url === calendar.url)) {
-			// This calendar is already known
-			return
-		}
-		state.deletedCalendars.push(calendar)
-	},
-
-	/**
-	 * Removes a deleted calendar
-	 *
-	 * @param {object} state the store data
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the deleted calendar to remove
-	 */
-	removeDeletedCalendar(state, { calendar }) {
-		state.deletedCalendars = state.deletedCalendars.filter(c => c !== calendar)
-	},
-
-	/**
-	 * Removes a deleted calendar object
-	 *
-	 * @param {object} state the store data
-	 * @param {object} data destructuring object
-	 * @param {object} data.vobject the deleted calendar object to remove
-	 */
-	removeDeletedCalendarObject(state, { vobject }) {
-		state.deletedCalendarObjects = state.deletedCalendarObjects.filter(vo => vo.id !== vobject.id)
-	},
-
-	/**
-	 * Adds a deleted vobject into state
-	 *
-	 * @param {object} state the store data
-	 * @param {object} data destructuring object
-	 * @param {object} data.vobject the calendar vobject to add
-	 */
-	addDeletedCalendarObject(state, { vobject }) {
-		if (state.deletedCalendarObjects.some(c => c.uri === vobject.uri)) {
-			// This vobject is already known
-			return
-		}
-		state.deletedCalendarObjects.push(vobject)
-	},
-
-	/**
-	 * Deletes a calendar
-	 *
-	 * @param {object} state the store data
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to delete
-	 */
-	deleteCalendar(state, { calendar }) {
-		state.calendars.splice(state.calendars.indexOf(calendar), 1)
-		Vue.delete(state.calendarsById, calendar.id)
-	},
-
-	/**
-	 * Toggles a calendar's visibility
-	 *
-	 * @param {object} state the store mutations
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to toggle
-	 */
-	toggleCalendarEnabled(state, { calendar }) {
-		state.calendarsById[calendar.id].enabled = !state.calendarsById[calendar.id].enabled
-	},
-
-	/**
-	 * Renames a calendar
-	 *
-	 * @param {object} state the store mutations
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to rename
-	 * @param {string} data.newName the new name of the calendar
-	 */
-	renameCalendar(state, { calendar, newName }) {
-		state.calendarsById[calendar.id].displayName = newName
-	},
-
-	/**
-	 * Changes calendar's color
-	 *
-	 * @param {object} state the store mutations
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to rename
-	 * @param {string} data.newColor the new color of the calendar
-	 */
-	changeCalendarColor(state, { calendar, newColor }) {
-		state.calendarsById[calendar.id].color = newColor
-	},
-
-	/**
-	 * Changes calendar's order
-	 *
-	 * @param {object} state the store mutations
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to rename
-	 * @param {string} data.newOrder the new order of the calendar
-	 */
-	changeCalendarOrder(state, { calendar, newOrder }) {
-		state.calendarsById[calendar.id].order = newOrder
-	},
-
-	/**
-	 * Adds multiple calendar-objects to calendar
-	 *
-	 * @param {object} state the store mutations
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar The calendar to append objects to
-	 * @param {string[]} data.calendarObjectIds The calendar object ids to append
-	 */
-	appendCalendarObjectsToCalendar(state, { calendar, calendarObjectIds }) {
-		for (const calendarObjectId of calendarObjectIds) {
-			if (state.calendarsById[calendar.id].calendarObjects.indexOf(calendarObjectId) === -1) {
-				state.calendarsById[calendar.id].calendarObjects.push(calendarObjectId)
-			}
-		}
-	},
-
-	/**
-	 * Adds calendar-object to calendar
-	 *
-	 * @param {object} state the store mutations
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar The calendar to append objects to
-	 * @param {string} data.calendarObjectId The calendar object id to append
-	 */
-	addCalendarObjectToCalendar(state, { calendar, calendarObjectId }) {
-		if (state.calendarsById[calendar.id].calendarObjects.indexOf(calendarObjectId) === -1) {
-			state.calendarsById[calendar.id].calendarObjects.push(calendarObjectId)
-		}
-	},
-
-	/**
-	 * Removes calendar-object from calendar
-	 *
-	 * @param {object} state the store mutations
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar The calendar to delete objects from
-	 * @param {string} data.calendarObjectId The calendar object ids to delete
-	 */
-	deleteCalendarObjectFromCalendar(state, { calendar, calendarObjectId }) {
-		const index = state.calendarsById[calendar.id].calendarObjects.indexOf(calendarObjectId)
-
-		if (index !== -1) {
-			state.calendarsById[calendar.id].calendarObjects.slice(index, 1)
-		}
-	},
-
-	/**
-	 * Adds fetched time-range to calendar
-	 *
-	 * @param {object} state the store mutations
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar The calendar to append a time-range to
-	 * @param {number} data.fetchedTimeRangeId The time-range-id to append
-	 */
-	addFetchedTimeRangeToCalendar(state, { calendar, fetchedTimeRangeId }) {
-		state.calendarsById[calendar.id].fetchedTimeRanges.push(fetchedTimeRangeId)
-
-	},
-
-	/**
-	 * Removes fetched time-range from calendar
-	 *
-	 * @param {object} state the store mutations
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar The calendar to remove a time-range from
-	 * @param {number} data.fetchedTimeRangeId The time-range-id to remove
-	 */
-	deleteFetchedTimeRangeFromCalendar(state, { calendar, fetchedTimeRangeId }) {
-		const index = state.calendarsById[calendar.id].fetchedTimeRanges.indexOf(fetchedTimeRangeId)
-
-		if (index !== -1) {
-			state.calendarsById[calendar.id].fetchedTimeRanges.slice(index, 1)
-		}
-	},
-
-	/**
-	 * Shares calendar with a user or group
-	 *
-	 * @param {object} state the store data
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar
-	 * @param {string} data.user the userId
-	 * @param {string} data.displayName the displayName
-	 * @param {string} data.uri the sharing principalScheme uri
-	 * @param {boolean} data.isGroup is this a group?
-	 * @param {boolean} data.isCircle is this a circle?
-	 */
-	shareCalendar(state, { calendar, user, displayName, uri, isGroup, isCircle }) {
-		const newSharee = {
-			displayName,
-			id: user,
-			writeable: false,
-			isGroup,
-			isCircle,
-			uri,
-		}
-		state.calendarsById[calendar.id].shares.push(newSharee)
-	},
-
-	/**
-	 * Removes Sharee from calendar shares list
-	 *
-	 * @param {object} state the store data
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar
-	 * @param {string} data.uri the sharee uri
-	 */
-	unshareCalendar(state, { calendar, uri }) {
-		calendar = state.calendars.find(search => search.id === calendar.id)
-		const shareIndex = calendar.shares.findIndex(sharee => sharee.uri === uri)
-		calendar.shares.splice(shareIndex, 1)
-	},
-
-	/**
-	 * Toggles sharee's writable permission
-	 *
-	 * @param {object} state the store data
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar
-	 * @param {string} data.uri the sharee uri
-	 */
-	toggleCalendarShareWritable(state, { calendar, uri }) {
-		calendar = state.calendars.find(search => search.id === calendar.id)
-		const sharee = calendar.shares.find(sharee => sharee.uri === uri)
-		sharee.writeable = !sharee.writeable
-	},
-
-	/**
-	 * Publishes a calendar calendar
-	 *
-	 * @param {object} state the store data
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to publish
-	 * @param {string} data.publishURL published URL of calendar
-	 */
-	publishCalendar(state, { calendar, publishURL }) {
-		calendar = state.calendars.find(search => search.id === calendar.id)
-		calendar.publishURL = publishURL
-	},
-
-	/**
-	 * Unpublishes a calendar
-	 *
-	 * @param {object} state the store data
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to unpublish
-	 */
-	unpublishCalendar(state, { calendar }) {
-		calendar = state.calendars.find(search => search.id === calendar.id)
-		calendar.publishURL = null
-	},
-
-	/**
-	 * Marks initial loading of calendars as complete
-	 *
-	 * @param {object} state the store data
-	 */
-	initialCalendarsLoaded(state) {
-		state.initialCalendarsLoaded = true
-	},
-
-	/**
-	 * Marks a calendar as loading
-	 *
-	 * @param {object} state the store data
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to mark as loading
-	 */
-	markCalendarAsLoading(state, { calendar }) {
-		state.calendarsById[calendar.id].loading = true
-	},
-
-	/**
-	 * Marks a calendar as finished loading
-	 *
-	 * @param {object} state the store data
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to mark as finished loading
-	 */
-	markCalendarAsNotLoading(state, { calendar }) {
-		state.calendarsById[calendar.id].loading = false
-	},
-
-	showEditCalendarModal(state, { calendarId }) {
-		state.editCalendarModal = {
-			calendarId,
-		}
-	},
-
-	hideEditCalendarModal(state) {
-		state.editCalendarModal = undefined
-	},
-
-	setCalendarDeleteCountdown(state, { calendar, countdown }) {
-		Vue.set(state.calendarsById[calendar.id], 'countdown', countdown)
-	},
-
-	setCalendarDeleteHandles(state, { calendar, deleteTimeout, deleteInterval }) {
-		Vue.set(state.calendarsById[calendar.id], 'deleteTimeout', deleteTimeout)
-		Vue.set(state.calendarsById[calendar.id], 'deleteInterval', deleteInterval)
-	},
-}
-
-const getters = {
-
-	/**
-	 * List of sorted calendars and subscriptions
-	 *
-	 * @param {object} state the store data
-	 * @param {object} store the store
-	 * @param {object} rootState the rootState
-	 * @return {Array}
-	 */
-	sortedCalendarsSubscriptions(state, store, rootState) {
-		return state.calendars
-			.filter(calendar => calendar.supportsEvents || (rootState.settings.showTasks && calendar.supportsTasks))
-			.sort((a, b) => a.order - b.order)
-	},
-
-	/**
-	 * List of sorted calendars
-	 *
-	 * @param {object} state the store data
-	 * @return {Array}
-	 */
-	sortedCalendars(state) {
-		return state.calendars
-			.filter(calendar => calendar.supportsEvents)
-			.filter(calendar => !calendar.readOnly)
-			.sort((a, b) => a.order - b.order)
-	},
-
-	/**
-	 * List of sorted calendars owned by the principal
-	 *
-	 * @param {object} state the store data
-	 * @return {Array}
-	 */
-	ownSortedCalendars(state) {
-		return state.calendars
-			.filter(calendar => calendar.supportsEvents)
-			.filter(calendar => !calendar.readOnly)
-			.filter(calendar => !calendar.isSharedWithMe)
-			.sort((a, b) => a.order - b.order)
-	},
-
-	widgetView(state) {
-		return state.widgetView
-	},
-
-	widgetDate(state) {
-		return state.widgetDate
-	},
-
-	widgetEventDetailsOpen(state) {
-		return state.widgetEventDetailsOpen
-	},
-
-	widgetRef(state) {
-		return state.widgetRef
-	},
-
-	hasTrashBin(state) {
-		return state.trashBin !== undefined && state.trashBin.retentionDuration !== 0
-	},
-
-	trashBin(state) {
-		return state.trashBin
-	},
-
-	scheduleInbox: (state) => {
-		return state.scheduleInbox
-	},
-
-	/**
-	 * List of deleted sorted calendars
-	 *
-	 * @param {object} state the store data
-	 * @return {Array}
-	 */
-	sortedDeletedCalendars(state) {
-		return state.deletedCalendars
-			.sort((a, b) => a.deletedAt - b.deletedAt)
-	},
-
-	/**
-	 * List of deleted calendars objects
-	 *
-	 * @param {object} state the store data
-	 * @return {Array}
-	 */
-	deletedCalendarObjects(state) {
-		const calendarUriMap = {}
-		state.calendars.forEach(calendar => {
-			const withoutTrail = calendar.url.replace(/\/$/, '')
-			const uri = withoutTrail.slice(withoutTrail.lastIndexOf('/') + 1)
-			calendarUriMap[uri] = calendar
-		})
-
-		return state.deletedCalendarObjects.map(obj => ({
-			calendar: calendarUriMap[obj.dav._props['{http://nextcloud.com/ns}calendar-uri']],
-			...obj,
-		}))
-	},
-
-	/**
-	 * List of sorted subscriptions
-	 *
-	 * @param {object} state the store data
-	 * @return {Array}
-	 */
-	sortedSubscriptions(state) {
-		return state.calendars
-			.filter(calendar => calendar.supportsEvents)
-			.filter(calendar => calendar.readOnly)
-			.sort((a, b) => a.order - b.order)
-	},
-
-	/**
-	 * List of enabled calendars and subscriptions
-	 *
-	 * @param {object} state the store data
-	 * @param {object} store the store
-	 * @param {object} rootState the rootState
-	 * @return {Array}
-	 */
-	enabledCalendars(state, store, rootState) {
-		return state.calendars
-			.filter(calendar => calendar.supportsEvents || (rootState.settings.showTasks && calendar.supportsTasks))
-			.filter(calendar => calendar.enabled)
-	},
-
-	/**
-	 * Gets a calendar by it's Id
-	 *
-	 * @param {object} state the store data
-	 * @return {function({String}): {Object}}
-	 */
-	getCalendarById: (state) => (calendarId) => state.calendarsById[calendarId],
-
-	/**
-	 * Gets a calendar by its url
-	 *
-	 * @param {object} state the store data
-	 * @return {function({String}): {Object}}
-	 */
-	getCalendarByUrl: (state) => (url) => state.calendars.find((calendar) => calendar.url === url),
-
-	/**
-	 * Gets the contact's birthday calendar or null
-	 *
-	 * @param {object} state the store data
-	 * @return {object | null}
-	 */
-	getBirthdayCalendar: (state) => {
-		for (const calendar of state.calendars) {
-			const url = calendar.url.slice(0, -1)
-			const lastSlash = url.lastIndexOf('/')
-			const uri = url.slice(lastSlash + 1)
-
-			if (uri === CALDAV_BIRTHDAY_CALENDAR) {
-				return calendar
-			}
-		}
-
-		return null
-	},
-
-	/**
-	 * Whether or not a birthday calendar exists
-	 *
-	 * @param {object} state The Vuex state
-	 * @param {object} getters the vuex getters
-	 * @return {boolean}
-	 */
-	hasBirthdayCalendar: (state, getters) => {
-		return !!getters.getBirthdayCalendar
-	},
-
-	/**
-	 *
-	 * @param {object} state the store data
-	 * @param {object} getters the store getters
-	 * @return {function({Boolean}, {Boolean}, {Boolean}): {Object}[]}
-	 */
-	sortedCalendarFilteredByComponents: (state, getters) => (vevent, vjournal, vtodo) => {
-		return getters.sortedCalendars.filter((calendar) => {
-			if (vevent && !calendar.supportsEvents) {
-				return false
-			}
-
-			if (vjournal && !calendar.supportsJournals) {
-				return false
-			}
-
-			if (vtodo && !calendar.supportsTasks) {
-				return false
-			}
-
-			return true
-		})
-	},
-
-	editCalendarModal: (state) => state.editCalendarModal,
-}
-
-const actions = {
-
-	/**
-	 * Retrieve and commit calendars and other collections
-	 *
-	 * @param {object} context the store object
-	 * @param {object} context.commit the store mutations
-	 * @param {object} context.state the store state
-	 * @param {object} context.getters the store getters
-	 * @return {Promise<object>} the results
-	 */
-	async loadCollections({ commit, state, getters }) {
-		const { calendars, trashBins, scheduleInboxes, subscriptions } = await findAll()
-		console.info('calendar home scanned', calendars, trashBins, subscriptions)
-		calendars.map((calendar) => mapDavCollectionToCalendar(calendar, getters.getCurrentUserPrincipal)).forEach(calendar => {
-			commit('addCalendar', { calendar })
-		})
-		if (trashBins.length) {
-			commit('addTrashBin', { trashBin: trashBins[0] })
-		}
-		if (scheduleInboxes.length) {
-			commit('addScheduleInbox', { scheduleInbox: scheduleInboxes[0] })
-		}
-
-		commit('initialCalendarsLoaded')
+import useImportStateStore from './importState.js'
+import useImportFilesStore from './importFiles.js'
+import useSettingsStore from './settings.js'
+import useFetchedTimeRangesStore from './fetchedTimeRanges.js'
+import usePrincipalsStore from './principals.js'
+import useCalendarObjectsStore from './calendarObjects.js'
+
+import { defineStore } from 'pinia'
+import Vue from 'vue'
+
+export default defineStore('calendars', {
+	state: () => {
 		return {
-			calendars: state.calendars,
-			trashBin: state.trashBin,
+			calendars: [],
+			trashBin: undefined,
+			scheduleInbox: undefined,
+			deletedCalendars: [],
+			deletedCalendarObjects: [],
+			calendarsById: {},
+			initialCalendarsLoaded: false,
+			editCalendarModal: undefined,
 		}
 	},
+	getters: {
+		/**
+		 * List of sorted calendars and subscriptions
+		 *
+		 * @param {object} state the store data
+		 * @param {object} store the store
+		 * @return {Array}
+		 */
+		sortedCalendarsSubscriptions(state) {
+			const settingsStore = useSettingsStore()
 
-	/**
-	 * Retrieve and commit deleted calendars
-	 *
-	 * @param {object} context the store object
-	 * @param {object} context.commit the store mutations
-	 * @return {Promise<Array>} the calendars
-	 */
-	async loadDeletedCalendars({ commit }) {
-		const calendars = await findAllDeletedCalendars()
+			return state.calendars
+				.filter(calendar => calendar.supportsEvents || (settingsStore.showTasks && calendar.supportsTasks))
+				.sort((a, b) => a.order - b.order)
+		},
 
-		calendars.forEach(calendar => commit('addDeletedCalendar', { calendar }))
-	},
+		/**
+		 * List of sorted calendars
+		 *
+		 * @param {object} state the store data
+		 * @return {Array}
+		 */
+		sortedCalendars(state) {
+			return state.calendars
+				.filter(calendar => calendar.supportsEvents)
+				.filter(calendar => !calendar.readOnly)
+				.sort((a, b) => a.order - b.order)
+		},
 
-	/**
-	 * Retrieve and commit deleted calendar objects
-	 *
-	 * @param {object} context the store object
-	 * @param {object} context.commit the store mutations
-	 * @param {object} context.state the store state
-	 */
-	async loadDeletedCalendarObjects({ commit, state }) {
-		const vobjects = await state.trashBin.findDeletedObjects()
-		console.info('vobjects loaded', { vobjects })
+		/**
+		 * List of sorted calendars owned by the principal
+		 *
+		 * @param {object} state the store data
+		 * @return {Array}
+		 */
+		ownSortedCalendars(state) {
+			return state.calendars
+				.filter(calendar => calendar.supportsEvents)
+				.filter(calendar => !calendar.readOnly)
+				.filter(calendar => !calendar.isSharedWithMe)
+				.sort((a, b) => a.order - b.order)
+		},
 
-		vobjects.forEach(vobject => {
-			try {
-				const calendarObject = mapCDavObjectToCalendarObject(vobject, undefined)
-				commit('addDeletedCalendarObject', { vobject: calendarObject })
-			} catch (error) {
-				console.error('could not convert calendar object', vobject, error)
-			}
-		})
-	},
+		hasTrashBin(state) {
+			return state.trashBin !== undefined && state.trashBin.retentionDuration !== 0
+		},
 
-	/**
-	 *
-	 * @param {object} context the store object
-	 * @param {object} context.commit the store mutations
-	 * @param {object} data The data destructuring object
-	 * @param {string[]} data.tokens The tokens to load
-	 * @return {Promise<object[]>}
-	 */
-	async getPublicCalendars({ commit }, { tokens }) {
-		const calendars = await findPublicCalendarsByTokens(tokens)
-		const calendarObjects = []
-		for (const davCalendar of calendars) {
-			const calendar = mapDavCollectionToCalendar(davCalendar)
-			commit('addCalendar', { calendar })
-			calendarObjects.push(calendar)
-		}
+		/**
+		 * List of deleted sorted calendars
+		 *
+		 * @param {object} state the store data
+		 * @return {Array}
+		 */
+		sortedDeletedCalendars(state) {
+			return state.deletedCalendars
+				.sort((a, b) => a.deletedAt - b.deletedAt)
+		},
 
-		commit('initialCalendarsLoaded')
-		return calendarObjects
-	},
-
-	/**
-	 * Append a new calendar to array of existing calendars
-	 *
-	 * @param {object} context the store mutations
-	 * @param {object} data destructuring object
-	 * @param {object} data.displayName The name of the new calendar
-	 * @param {object} data.color The color of the new calendar
-	 * @param {object} data.order The order of the new calendar
-	 * @param {string[]} data.components The supported components of the calendar
-	 * @param {string=} data.timezone The timezoneId
-	 * @return {Promise}
-	 */
-	async appendCalendar(context, { displayName, color, order, components = ['VEVENT'], timezone = null }) {
-		if (timezone === null) {
-			timezone = context.getters.getResolvedTimezone
-		}
-
-		let timezoneIcs = null
-		const timezoneObject = getTimezoneManager().getTimezoneForId(timezone)
-		if (timezoneObject !== Timezone.utc && timezoneObject !== Timezone.floating) {
-			const calendar = CalendarComponent.fromEmpty()
-			calendar.addComponent(TimezoneComponent.fromICALJs(timezoneObject.toICALJs()))
-			timezoneIcs = calendar.toICS(false)
-		}
-
-		const response = await createCalendar(displayName, color, components, order, timezoneIcs)
-		const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
-		context.commit('addCalendar', { calendar })
-	},
-
-	/**
-	 * Append a new subscription to array of existing calendars
-	 *
-	 * @param {object} context the store mutations
-	 * @param {object} data destructuring object
-	 * @param {string} data.displayName Name of new subscription
-	 * @param {string} data.color Color of new subscription
-	 * @param {string} data.order Order of new subscription
-	 * @param {string} data.source Source of new subscription
-	 * @return {Promise}
-	 */
-	async appendSubscription(context, { displayName, color, order, source }) {
-		const response = await createSubscription(displayName, color, source, order)
-		const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
-		context.commit('addCalendar', { calendar })
-	},
-
-	/**
-	 * Delete a calendar
-	 *
-	 * @param {object} context the store mutations Current context
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to delete
-	 * @return {Promise}
-	 */
-	async deleteCalendar(context, { calendar }) {
-		await calendar.dav.delete()
-		context.commit('deleteCalendar', { calendar })
-	},
-
-	/**
-	 * Delete a calendar in the trash bin
-	 *
-	 * @param {object} context the store mutations Current context
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to delete
-	 * @return {Promise}
-	 */
-	async deleteCalendarPermanently(context, { calendar }) {
-		await calendar.delete({
-			'X-NC-CalDAV-No-Trashbin': 1,
-		})
-
-		context.commit('removeDeletedCalendar', { calendar })
-	},
-
-	deleteCalendarAfterTimeout(context, { calendar, countdown = 7 }) {
-		context.commit('setCalendarDeleteCountdown', { calendar, countdown })
-		const deleteInterval = setInterval(() => {
-			countdown--
-
-			if (countdown < 0) {
-				countdown = 0
-			}
-
-			context.commit('setCalendarDeleteCountdown', { calendar, countdown })
-		}, 1000)
-		const deleteTimeout = setTimeout(async () => {
-			try {
-				await context.dispatch('deleteCalendar', { calendar })
-			} catch (error) {
-				showError(t('calendar', 'An error occurred, unable to delete the calendar.'))
-				console.error(error)
-			} finally {
-				clearInterval(deleteInterval)
-			}
-		}, 7000)
-		context.commit('setCalendarDeleteHandles', {
-			calendar,
-			deleteInterval,
-			deleteTimeout,
-		})
-	},
-
-	cancelCalendarDeletion(context, { calendar }) {
-		if (calendar.deleteInterval) clearInterval(calendar.deleteInterval)
-		if (calendar.deleteTimeout) clearTimeout(calendar.deleteTimeout)
-		context.commit('setCalendarDeleteHandles', {
-			calendar,
-			deleteInterval: undefined,
-			deleteTimeout: undefined,
-		})
-	},
-
-	async restoreCalendar({ commit, state }, { calendar }) {
-		await state.trashBin.restore(calendar.url)
-
-		commit('removeDeletedCalendar', { calendar })
-	},
-
-	async restoreCalendarObject({ commit, state, getters }, { vobject }) {
-		await state.trashBin.restore(vobject.uri)
-
-		// Clean up the data locally
-		commit('removeDeletedCalendarObject', { vobject })
-
-		// Delete cached time range that includes the restored event
-		const calendarObject = mapCDavObjectToCalendarObject(vobject.dav, undefined)
-		const component = calendarObject.calendarComponent.getFirstComponent(vobject.objectType)
-		const timeRange = getters.getTimeRangeForCalendarCoveringRange(
-			vobject.calendar.id,
-			component.startDate?.unixTime,
-			component.endDate?.unixTime,
-		)
-		if (timeRange) {
-			commit('deleteFetchedTimeRangeFromCalendar', {
-				calendar: vobject.calendar,
-				fetchedTimeRangeId: timeRange.id,
+		/**
+		 * List of deleted calendars objects
+		 *
+		 * @param {object} state the store data
+		 * @return {Array}
+		 */
+		allDeletedCalendarObjects(state) {
+			const calendarUriMap = {}
+			state.calendars.forEach(calendar => {
+				const withoutTrail = calendar.url.replace(/\/$/, '')
+				const uri = withoutTrail.slice(withoutTrail.lastIndexOf('/') + 1)
+				calendarUriMap[uri] = calendar
 			})
-			commit('removeTimeRange', {
-				timeRangeId: timeRange.id,
+
+			return state.deletedCalendarObjects.map(obj => ({
+				calendar: calendarUriMap[obj.dav._props['{http://nextcloud.com/ns}calendar-uri']],
+				...obj,
+			}))
+		},
+
+		/**
+		 * List of sorted subscriptions
+		 *
+		 * @param {object} state the store data
+		 * @return {Array}
+		 */
+		sortedSubscriptions(state) {
+			return state.calendars
+				.filter(calendar => calendar.supportsEvents)
+				.filter(calendar => calendar.readOnly)
+				.sort((a, b) => a.order - b.order)
+		},
+
+		/**
+		 * List of enabled calendars and subscriptions
+		 *
+		 * @param {object} state the store data
+		 * @return {Array}
+		 */
+		enabledCalendars(state) {
+			const settingsStore = useSettingsStore()
+
+			return state.calendars
+				.filter(calendar => calendar.supportsEvents || (settingsStore.showTasks && calendar.supportsTasks))
+				.filter(calendar => calendar.enabled)
+		},
+
+		/**
+		 * Gets a calendar by its Id
+		 *
+		 * @param {object} state the store data
+		 * @return {function({String}): {Object}}
+		 */
+		getCalendarById: (state) => (calendarId) => state.calendarsById[calendarId],
+
+		/**
+		 * Gets a calendar by its url
+		 *
+		 * @param {object} state the store data
+		 * @return {function({String}): {Object}}
+		 */
+		getCalendarByUrl: (state) => (url) => state.calendars.find((calendar) => calendar.url === url),
+
+		/**
+		 * Gets the contact's birthday calendar or null
+		 *
+		 * @param {object} state the store data
+		 * @return {object | null}
+		 */
+		getBirthdayCalendar: (state) => {
+			for (const calendar of state.calendars) {
+				const url = calendar.url.slice(0, -1)
+				const lastSlash = url.lastIndexOf('/')
+				const uri = url.slice(lastSlash + 1)
+
+				if (uri === CALDAV_BIRTHDAY_CALENDAR) {
+					return calendar
+				}
+			}
+
+			return null
+		},
+
+		/**
+		 * @return {function({Boolean}, {Boolean}, {Boolean}): {Object}[]}
+		 */
+		sortedCalendarFilteredByComponents() {
+			return (vevent, vjournal, vtodo) => {
+				return this.sortedCalendars.filter((calendar) => {
+					if (vevent && !calendar.supportsEvents) {
+						return false
+					}
+
+					if (vjournal && !calendar.supportsJournals) {
+						return false
+					}
+
+					if (vtodo && !calendar.supportsTasks) {
+						return false
+					}
+
+					return true
+				})
+			}
+		},
+	},
+	actions: {
+		/**
+		 * Retrieve and commit calendars and other collections
+		 *
+		 * @return {Promise<object>} the results
+		 */
+		async loadCollections() {
+			const principalsStore = usePrincipalsStore()
+			const { calendars, trashBins, scheduleInboxes, subscriptions } = await findAll()
+			console.info('calendar home scanned', calendars, trashBins, subscriptions)
+			calendars.map((calendar) => mapDavCollectionToCalendar(calendar, principalsStore.getCurrentUserPrincipal)).forEach(calendar => {
+				this.addCalendarMutation({ calendar })
 			})
-		}
+			if (trashBins.length) {
+				this.trashBin = trashBins[0]
+			}
+			if (scheduleInboxes.length) {
+				this.scheduleInbox = scheduleInboxes[0]
+			}
 
-		// Trigger calendar refresh
-		commit('incrementModificationCount')
-	},
+			this.initialCalendarsLoaded = true
+			return {
+				calendars: this.calendars,
+				trashBin: this.trashBin,
+			}
+		},
 
-	/**
-	 * Deletes a calendar-object permanently
-	 *
-	 * @param {object} context the store mutations
-	 * @param {object} data destructuring object
-	 * @param {vobject} data.vobject Calendar-object to delete
-	 * @return {Promise<void>}
-	 */
-	async deleteCalendarObjectPermanently(context, { vobject }) {
-		await vobject.dav.delete({
-			'X-NC-CalDAV-No-Trashbin': 1,
-		})
+		/**
+		 * Retrieve and commit deleted calendars
+		 *
+		 * @return {Promise<Array>} the calendars
+		 */
+		async loadDeletedCalendars() {
+			const calendars = await findAllDeletedCalendars()
 
-		context.commit('removeDeletedCalendarObject', { vobject })
-	},
+			calendars.forEach(calendar => {
+				if (this.deletedCalendars.some(c => c.url === calendar.url)) {
+					// This calendar is already known
+					return
+				}
+				this.deletedCalendars.push(calendar)
+			})
+		},
 
-	/**
-	 * Toggle whether a calendar is enabled
-	 *
-	 * @param {object} context the store mutations Current context
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to modify
-	 * @return {Promise}
-	 */
-	async toggleCalendarEnabled(context, { calendar }) {
-		context.commit('markCalendarAsLoading', { calendar })
-		calendar.dav.enabled = !calendar.dav.enabled
+		/**
+		 * Retrieve and commit deleted calendar objects
+		 */
+		async loadDeletedCalendarObjects() {
+			const vobjects = await this.trashBin.findDeletedObjects() /// TODO what is this?
+			console.info('vobjects loaded', { vobjects })
 
-		try {
+			vobjects.forEach(vobject => {
+				try {
+					const calendarObject = mapCDavObjectToCalendarObject(vobject, undefined)
+
+					if (this.deletedCalendarObjects.some(c => c.uri === calendarObject.uri)) {
+						// This vobject is already known
+						return
+					}
+					this.deletedCalendarObjects.push(calendarObject)
+				} catch (error) {
+					console.error('could not convert calendar object', vobject, error)
+				}
+			})
+		},
+
+		/**
+		 * Retrieve and commit public calendars
+		 *
+		 * @param {object} data The data destructuring object
+		 * @param {string[]} data.tokens The tokens to load
+		 * @return {Promise<object[]>}
+		 */
+		async getPublicCalendars({ tokens }) {
+			const calendars = await findPublicCalendarsByTokens(tokens)
+			const calendarObjects = []
+			for (const davCalendar of calendars) {
+				const calendar = mapDavCollectionToCalendar(davCalendar)
+				this.addCalendarMutation({ calendar })
+				calendarObjects.push(calendar)
+			}
+
+			this.initialCalendarsLoaded = true
+			return calendarObjects
+		},
+
+		/**
+		 * Append a new calendar to array of existing calendars
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.displayName The name of the new calendar
+		 * @param {object} data.color The color of the new calendar
+		 * @param {object} data.order The order of the new calendar
+		 * @param {string[]} data.components The supported components of the calendar
+		 * @param {string=} data.timezone The timezoneId
+		 * @return {Promise}
+		 */
+		async appendCalendar({ displayName, color, order, components = ['VEVENT'], timezone = null }) {
+			const principalsStore = usePrincipalsStore()
+			const settingsStore = useSettingsStore()
+
+			if (timezone === null) {
+				timezone = settingsStore.getResolvedTimezone
+			}
+
+			let timezoneIcs = null
+			const timezoneObject = getTimezoneManager().getTimezoneForId(timezone)
+			if (timezoneObject !== Timezone.utc && timezoneObject !== Timezone.floating) {
+				const calendar = CalendarComponent.fromEmpty()
+				calendar.addComponent(TimezoneComponent.fromICALJs(timezoneObject.toICALJs()))
+				timezoneIcs = calendar.toICS(false)
+			}
+
+			const response = await createCalendar(displayName, color, components, order, timezoneIcs)
+			const calendar = mapDavCollectionToCalendar(response, principalsStore.getCurrentUserPrincipal)
+			this.addCalendarMutation({ calendar })
+		},
+
+		/**
+		 * Append a new subscription to array of existing calendars
+		 *
+		 * @param {object} data destructuring object
+		 * @param {string} data.displayName Name of new subscription
+		 * @param {string} data.color Color of new subscription
+		 * @param {string} data.order Order of new subscription
+		 * @param {string} data.source Source of new subscription
+		 * @return {Promise}
+		 */
+		async appendSubscription({ displayName, color, order, source }) {
+			const principalsStore = usePrincipalsStore()
+
+			const response = await createSubscription(displayName, color, source, order)
+			const calendar = mapDavCollectionToCalendar(response, principalsStore.getCurrentUserPrincipal)
+			this.addCalendarMutation({ calendar })
+		},
+
+		/**
+		 * Delete a calendar
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to delete
+		 * @return {Promise}
+		 */
+		async deleteCalendar({ calendar }) {
+			await calendar.dav.delete()
+
+			this.calendars.splice(this.calendars.indexOf(calendar), 1)
+			/// TODO this.calendarsById.delete(calendar.id)
+			Vue.delete(this.calendarsById, calendar.id)
+		},
+
+		/**
+		 * Delete a calendar in the trash bin
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to delete
+		 * @return {Promise}
+		 */
+		async deleteCalendarPermanently({ calendar }) {
+			await calendar.delete({
+				'X-NC-CalDAV-No-Trashbin': 1,
+			})
+
+			this.deletedCalendars = this.deletedCalendars.filter(c => c !== calendar)
+		},
+
+		deleteCalendarAfterTimeout({ calendar, countdown = 7 }) {
+			/// TODO this.calendarsById[calendar.id].countdown = countdown
+			Vue.set(this.calendarsById[calendar.id], 'countdown', countdown)
+
+			const deleteInterval = setInterval(() => {
+				countdown--
+
+				if (countdown < 0) {
+					countdown = 0
+				}
+
+				/// TODO this.calendarsById[calendar.id].countdown = countdown
+				Vue.set(this.calendarsById[calendar.id], 'countdown', countdown)
+			}, 1000)
+			const deleteTimeout = setTimeout(async () => {
+				try {
+					await this.deleteCalendar({ calendar })
+				} catch (error) {
+					showError(t('calendar', 'An error occurred, unable to delete the calendar.'))
+					console.error(error)
+				} finally {
+					clearInterval(deleteInterval)
+				}
+			}, 7000)
+			/// TODO this.calendarsById[calendar.id].deleteInterval = deleteInterval
+			/// TODO this.calendarsById[calendar.id].deleteTimeout = deleteTimeout
+			Vue.set(this.calendarsById[calendar.id], 'deleteInterval', deleteInterval)
+			Vue.set(this.calendarsById[calendar.id], 'deleteTimeout', deleteTimeout)
+		},
+
+		cancelCalendarDeletion({ calendar }) {
+			if (calendar.deleteInterval) clearInterval(calendar.deleteInterval)
+			if (calendar.deleteTimeout) clearTimeout(calendar.deleteTimeout)
+
+			this.calendarsById[calendar.id].deleteInterval = undefined
+			this.calendarsById[calendar.id].deleteTimeout = undefined
+		},
+
+		async restoreCalendar({ calendar }) {
+			await this.trashBin.restore(calendar.url)
+
+			this.deletedCalendars = this.deletedCalendars.filter(c => c !== calendar)
+		},
+
+		async restoreCalendarObject({ vobject }) {
+			const fetchedTimeRangesStore = useFetchedTimeRangesStore()
+			const calendarObjectsStore = useCalendarObjectsStore()
+			await this.trashBin.restore(vobject.uri)
+
+			// Clean up the data locally
+			this.deletedCalendarObjects = this.deletedCalendarObjects.filter(vo => vo.id !== vobject.id)
+
+			// Delete cached time range that includes the restored event
+			const calendarObject = mapCDavObjectToCalendarObject(vobject.dav, undefined)
+			const component = calendarObject.calendarComponent.getFirstComponent(vobject.objectType)
+			const timeRange = fetchedTimeRangesStore.getTimeRangeForCalendarCoveringRange(
+				vobject.calendar.id,
+				component.startDate?.unixTime,
+				component.endDate?.unixTime,
+			)
+			if (timeRange) {
+				this.deleteFetchedTimeRangeFromCalendarMutation({
+					calendar: vobject.calendar,
+					fetchedTimeRangeId: timeRange.id,
+				},
+				)
+				fetchedTimeRangesStore.removeTimeRange({
+					timeRangeId: timeRange.id,
+				})
+			}
+
+			// Trigger calendar refresh
+			calendarObjectsStore.modificationCount++
+		},
+
+		/**
+		 * Deletes a calendar-object permanently
+		 *
+		 * @param {object} data destructuring object
+		 * @param {vobject} data.vobject Calendar-object to delete
+		 * @return {Promise<void>}
+		 */
+		async deleteCalendarObjectPermanently({ vobject }) {
+			await vobject.dav.delete({
+				'X-NC-CalDAV-No-Trashbin': 1,
+			})
+
+			this.deletedCalendarObjects = this.deletedCalendarObjects.filter(vo => vo.id !== vobject.id)
+		},
+
+		/**
+		 * Toggle whether a calendar is enabled
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to modify
+		 * @param {boolean} data.updateDav whether to persist changes to the CalDAV backend (default: true)
+		 * @return {Promise}
+		 */
+		async toggleCalendarEnabled({ calendar, updateDav = true }) {
+			this.calendarsById[calendar.id].loading = true
+			calendar.dav.enabled = !calendar.dav.enabled
+
+			try {
+				if (updateDav) {
+					await calendar.dav.update()
+				}
+				this.calendarsById[calendar.id].loading = false
+				this.calendarsById[calendar.id].enabled = !this.calendarsById[calendar.id].enabled
+			} catch (error) {
+				this.calendarsById[calendar.id].loading = false
+				throw error
+			}
+		},
+
+		/**
+		 * Rename a calendar
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to modify
+		 * @param {string} data.newName the new name of the calendar
+		 * @return {Promise}
+		 */
+		async renameCalendar({ calendar, newName }) {
+			calendar.dav.displayname = newName
+
 			await calendar.dav.update()
-			context.commit('markCalendarAsNotLoading', { calendar })
-			context.commit('toggleCalendarEnabled', { calendar })
-		} catch (error) {
-			context.commit('markCalendarAsNotLoading', { calendar })
-			throw error
-		}
-	},
+			this.calendarsById[calendar.id].displayName = newName
+		},
 
-	/**
-	 * Rename a calendar
-	 *
-	 * @param {object} context the store mutations Current context
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to modify
-	 * @param {string} data.newName the new name of the calendar
-	 * @return {Promise}
-	 */
-	async renameCalendar(context, { calendar, newName }) {
-		calendar.dav.displayname = newName
+		/**
+		 * Change a calendar's color
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to modify
+		 * @param {string} data.newColor the new color of the calendar
+		 * @return {Promise}
+		 */
+		async changeCalendarColor({ calendar, newColor }) {
+			calendar.dav.color = newColor
 
-		await calendar.dav.update()
-		context.commit('renameCalendar', { calendar, newName })
-	},
+			await calendar.dav.update()
+			this.calendarsById[calendar.id].color = newColor
+		},
 
-	/**
-	 * Change a calendar's color
-	 *
-	 * @param {object} context the store mutations Current context
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to modify
-	 * @param {string} data.newColor the new color of the calendar
-	 * @return {Promise}
-	 */
-	async changeCalendarColor(context, { calendar, newColor }) {
-		calendar.dav.color = newColor
-
-		await calendar.dav.update()
-		context.commit('changeCalendarColor', { calendar, newColor })
-	},
-
-	/**
-	 * Share calendar with User or Group
-	 *
-	 * @param {object} context the store mutations Current context
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to share
-	 * @param {string} data.user the userId
-	 * @param {string} data.displayName the displayName
-	 * @param {string} data.uri the sharing principalScheme uri
-	 * @param {boolean} data.isGroup is this a group?
-	 * @param {boolean} data.isCircle is this a circle?
-	 */
-	async shareCalendar(context, { calendar, user, displayName, uri, isGroup, isCircle }) {
-		// Share calendar with entered group or user
-		await calendar.dav.share(uri)
-		context.commit('shareCalendar', { calendar, user, displayName, uri, isGroup, isCircle })
-	},
-
-	/**
-	 * Toggle permissions of calendar Sharees writeable rights
-	 *
-	 * @param {object} context the store mutations Current context
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to change
-	 * @param {string} data.uri the sharing principalScheme uri
-	 */
-	async toggleCalendarShareWritable(context, { calendar, uri }) {
-		const sharee = calendar.shares.find(sharee => sharee.uri === uri)
-		await calendar.dav.share(uri, !sharee.writeable)
-		context.commit('toggleCalendarShareWritable', { calendar, uri })
-	},
-
-	/**
-	 * Remove sharee from calendar
-	 *
-	 * @param {object} context the store mutations Current context
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to change
-	 * @param {string} data.uri the sharing principalScheme uri
-	 */
-	async unshareCalendar(context, { calendar, uri }) {
-		await calendar.dav.unshare(uri)
-		context.commit('unshareCalendar', { calendar, uri })
-	},
-
-	/**
-	 * Publish a calendar
-	 *
-	 * @param {object} context the store mutations Current context
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to change
-	 * @return {Promise<void>}
-	 */
-	async publishCalendar(context, { calendar }) {
-		await calendar.dav.publish()
-		const publishURL = calendar.dav.publishURL
-		context.commit('publishCalendar', { calendar, publishURL })
-	},
-
-	/**
-	 * Unpublish a calendar
-	 *
-	 * @param {object} context the store mutations Current context
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to change
-	 * @return {Promise<void>}
-	 */
-	async unpublishCalendar(context, { calendar }) {
-		await calendar.dav.unpublish()
-		context.commit('unpublishCalendar', { calendar })
-	},
-
-	/**
-	 * Retrieve the events of the specified calendar
-	 * and commit the results
-	 *
-	 * @param {object} context the store mutations
-	 * @param {object} data destructuring object
-	 * @param {object} data.calendar the calendar to get events from
-	 * @param {Date} data.from the date to start querying events from
-	 * @param {Date} data.to the last date to query events from
-	 * @return {Promise<void>}
-	 */
-	async getEventsFromCalendarInTimeRange(context, { calendar, from, to }) {
-		context.commit('markCalendarAsLoading', { calendar })
-		const response = await calendar.dav.findByTypeInTimeRange('VEVENT', from, to)
-		let responseTodo = []
-		if (context.rootState.settings.showTasks) {
-			responseTodo = await calendar.dav.findByTypeInTimeRange('VTODO', from, to)
-		}
-		context.commit('addTimeRange', {
-			calendarId: calendar.id,
-			from: getUnixTimestampFromDate(from),
-			to: getUnixTimestampFromDate(to),
-			lastFetched: getUnixTimestampFromDate(dateFactory()),
-			calendarObjectIds: [],
-		})
-		const insertId = context.getters.getLastTimeRangeInsertId
-		context.commit('addFetchedTimeRangeToCalendar', {
-			calendar,
-			fetchedTimeRangeId: insertId,
-		})
-
-		const calendarObjects = []
-		const calendarObjectIds = []
-		for (const r of response.concat(responseTodo)) {
-			try {
-				const calendarObject = mapCDavObjectToCalendarObject(r, calendar.id)
-				calendarObjects.push(calendarObject)
-				calendarObjectIds.push(calendarObject.id)
-			} catch (e) {
-				console.error(`could not convert calendar object of calendar ${calendar.id}`, e, {
-					response: r,
-				})
+		/**
+		 * Share calendar with User or Group
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to share
+		 * @param {string} data.user the userId
+		 * @param {string} data.displayName the displayName
+		 * @param {string} data.uri the sharing principalScheme uri
+		 * @param {boolean} data.isGroup is this a group?
+		 * @param {boolean} data.isCircle is this a circle?
+		 */
+		async shareCalendar({ calendar, user, displayName, uri, isGroup, isCircle }) {
+			// Share calendar with entered group or user
+			await calendar.dav.share(uri)
+			const newSharee = {
+				displayName,
+				id: user,
+				writeable: false,
+				isGroup,
+				isCircle,
+				uri,
 			}
-		}
+			this.calendarsById[calendar.id].shares.push(newSharee)
+		},
 
-		context.commit('appendCalendarObjects', { calendarObjects })
-		context.commit('appendCalendarObjectsToCalendar', { calendar, calendarObjectIds })
-		context.commit('appendCalendarObjectIdsToTimeFrame', {
-			timeRangeId: insertId,
-			calendarObjectIds,
-		})
+		/**
+		 * Toggle permissions of calendar Sharees writeable rights
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to change
+		 * @param {string} data.uri the sharing principalScheme uri
+		 */
+		async toggleCalendarShareWritable({ calendar, uri }) {
+			const sharee = calendar.shares.find(sharee => sharee.uri === uri)
+			await calendar.dav.share(uri, !sharee.writeable)
+			/// TODO test this not sure what it does
+			calendar = this.calendars.find(search => search.id === calendar.id)
+			sharee.writeable = !sharee.writeable
+		},
 
-		context.commit('markCalendarAsNotLoading', { calendar })
-		return context.rootState.fetchedTimeRanges.lastTimeRangeInsertId
-	},
+		/**
+		 * Remove sharee from calendar
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to change
+		 * @param {string} data.uri the sharing principalScheme uri
+		 */
+		async unshareCalendar({ calendar, uri }) {
+			await calendar.dav.unshare(uri)
 
-	/**
-	 * Retrieve one object
-	 *
-	 * @param {object} context the store mutations
-	 * @param {object} data destructuring object
-	 * @param {string} data.objectId Id of the object to fetch
-	 * @return {Promise<CalendarObject>}
-	 */
-	async getEventByObjectId(context, { objectId }) {
-		// TODO - we should still check if the calendar-object is up to date
-		//  - Just send head and compare etags
-		if (context.getters.getCalendarObjectById(objectId)) {
-			return Promise.resolve(context.getters.getCalendarObjectById(objectId))
-		}
+			calendar = this.calendars.find(search => search.id === calendar.id)
+			const shareIndex = calendar.shares.findIndex(sharee => sharee.uri === uri)
+			calendar.shares.splice(shareIndex, 1)
+		},
 
-		// This might throw an exception, but we will leave it up to the methods
-		// calling this action to properly handle it
-		const objectPath = atob(objectId)
-		const lastSlashIndex = objectPath.lastIndexOf('/')
-		const calendarPath = objectPath.slice(0, lastSlashIndex + 1)
-		const objectFileName = objectPath.slice(lastSlashIndex + 1)
+		/**
+		 * Publish a calendar
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to change
+		 * @return {Promise<void>}
+		 */
+		async publishCalendar({ calendar }) {
+			await calendar.dav.publish()
+			const publishURL = calendar.dav.publishURL
 
-		const calendarId = btoa(calendarPath)
-		if (!context.state.calendarsById[calendarId]) {
-			return Promise.reject(new Error(''))
-		}
+			calendar = this.calendars.find(search => search.id === calendar.id)
+			calendar.publishURL = publishURL
+		},
 
-		const calendar = context.state.calendarsById[calendarId]
-		const vObject = await calendar.dav.find(objectFileName)
-		const calendarObject = mapCDavObjectToCalendarObject(vObject, calendar.id)
-		context.commit('appendCalendarObject', { calendarObject })
-		context.commit('addCalendarObjectToCalendar', {
-			calendar: {
-				id: calendarId,
-			},
-			calendarObjectId: calendarObject.id,
-		})
+		/**
+		 * Unpublish a calendar
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to change
+		 * @return {Promise<void>}
+		 */
+		async unpublishCalendar({ calendar }) {
+			await calendar.dav.unpublish()
 
-		return calendarObject
-	},
+			calendar = this.calendars.find(search => search.id === calendar.id)
+			calendar.publishURL = null
+		},
 
-	/**
-	 * Import events into calendar
-	 *
-	 * @param {object} context the store mutations
-	 */
-	async importEventsIntoCalendar(context) {
-		context.commit('changeStage', IMPORT_STAGE_IMPORTING)
+		/**
+		 * Retrieve the events of the specified calendar
+		 * and commit the results
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to get events from
+		 * @param {Date} data.from the date to start querying events from
+		 * @param {Date} data.to the last date to query events from
+		 * @return {Promise<void>}
+		 */
+		async getEventsFromCalendarInTimeRange({ calendar, from, to }) {
+			const fetchedTimeRangesStore = useFetchedTimeRangesStore()
+			const settingsStore = useSettingsStore()
+			const calendarObjectsStore = useCalendarObjectsStore()
 
-		// Create a copy
-		const files = context.rootState.importFiles.importFiles.slice()
-
-		let totalCount = 0
-		for (const file of files) {
-			totalCount += file.parser.getItemCount()
-
-			const calendarId = context.rootState.importFiles.importCalendarRelation[file.id]
-			if (calendarId === 'new') {
-				const displayName = file.parser.getName() || t('calendar', 'Imported {filename}', {
-					filename: file.name,
-				})
-				const color = file.parser.getColor() || uidToHexColor(displayName)
-				const components = []
-				if (file.parser.containsVEvents()) {
-					components.push('VEVENT')
-				}
-				if (file.parser.containsVJournals()) {
-					components.push('VJOURNAL')
-				}
-				if (file.parser.containsVTodos()) {
-					components.push('VTODO')
-				}
-
-				const response = await createCalendar(displayName, color, components, 0)
-				const calendar = mapDavCollectionToCalendar(response, context.getters.getCurrentUserPrincipal)
-				context.commit('addCalendar', { calendar })
-				context.commit('setCalendarForFileId', {
-					fileId: file.id,
-					calendarId: calendar.id,
-				})
+			this.calendarsById[calendar.id].loading = true
+			const response = await calendar.dav.findByTypeInTimeRange('VEVENT', from, to)
+			let responseTodo = []
+			if (settingsStore.showTasks) {
+				responseTodo = await calendar.dav.findByTypeInTimeRange('VTODO', from, to)
 			}
-		}
+			fetchedTimeRangesStore.addTimeRange({
+				calendarId: calendar.id,
+				from: getUnixTimestampFromDate(from),
+				to: getUnixTimestampFromDate(to),
+				lastFetched: getUnixTimestampFromDate(dateFactory()),
+				calendarObjectIds: [],
+			})
+			const insertId = fetchedTimeRangesStore.lastTimeRangeInsertId
 
-		context.commit('setTotal', totalCount)
+			this.calendarsById[calendar.id].fetchedTimeRanges.push(insertId)
 
-		const limit = pLimit(3)
-		const requests = []
+			const calendarObjects = []
+			const calendarObjectIds = []
+			for (const r of response.concat(responseTodo)) {
+				try {
+					const calendarObject = mapCDavObjectToCalendarObject(r, calendar.id)
+					calendarObjects.push(calendarObject)
+					calendarObjectIds.push(calendarObject.id)
+				} catch (e) {
+					console.error(`could not convert calendar object of calendar ${calendar.id}`, e, {
+						response: r,
+					})
+				}
+			}
 
-		for (const file of files) {
-			const calendarId = context.rootState.importFiles.importCalendarRelation[file.id]
-			const calendar = context.getters.getCalendarById(calendarId)
+			calendarObjectsStore.appendCalendarObjectsMutation({ calendarObjects })
+			for (const calendarObjectId of calendarObjectIds) {
+				if (this.calendarsById[calendar.id].calendarObjects.indexOf(calendarObjectId) === -1) {
+					this.calendarsById[calendar.id].calendarObjects.push(calendarObjectId)
+				}
+			}
+			fetchedTimeRangesStore.appendCalendarObjectIdsToTimeFrame({
+				timeRangeId: insertId,
+				calendarObjectIds,
+			})
 
-			for (const item of file.parser.getItemIterator()) {
+			this.calendarsById[calendar.id].loading = false
+			return fetchedTimeRangesStore.lastTimeRangeInsertId
+		},
+
+		/**
+		 * Retrieve one object
+		 *
+		 * @param {object} data destructuring object
+		 * @param {string} data.objectId Id of the object to fetch
+		 * @return {Promise<CalendarObject>}
+		 */
+		async getEventByObjectId({ objectId }) {
+			const calendarObjectsStore = useCalendarObjectsStore()
+			// TODO - we should still check if the calendar-object is up to date
+			//  - Just send head and compare etags
+			if (calendarObjectsStore.getCalendarObjectById(objectId)) {
+				return Promise.resolve(calendarObjectsStore.getCalendarObjectById(objectId))
+			}
+
+			// This might throw an exception, but we will leave it up to the methods
+			// calling this action to properly handle it
+			const objectPath = atob(objectId)
+			const lastSlashIndex = objectPath.lastIndexOf('/')
+			const calendarPath = objectPath.slice(0, lastSlashIndex + 1)
+			const objectFileName = objectPath.slice(lastSlashIndex + 1)
+
+			const calendarId = btoa(calendarPath)
+			if (!this.calendarsById[calendarId]) {
+				return Promise.reject(new Error(''))
+			}
+
+			const calendar = this.calendarsById[calendarId]
+			const vObject = await calendar.dav.find(objectFileName)
+			const calendarObject = mapCDavObjectToCalendarObject(vObject, calendar.id)
+			calendarObjectsStore.appendCalendarObjectMutation({ calendarObject })
+			this.addCalendarObjectToCalendarMutation({
+				calendar: {
+					id: calendarId,
+				},
+				calendarObjectId: calendarObject.id,
+			})
+
+			return calendarObject
+		},
+
+		/**
+		 * Import events into calendar
+		 *
+		 */
+		async importEventsIntoCalendar() {
+			const importStateStore = useImportStateStore()
+			const importFilesStore = useImportFilesStore()
+			const principalsStore = usePrincipalsStore()
+			const fetchedTimeRangesStore = useFetchedTimeRangesStore()
+			const calendarObjectsStore = useCalendarObjectsStore()
+
+			importStateStore.stage = IMPORT_STAGE_IMPORTING
+
+			// Create a copy
+			const files = importFilesStore.importFiles.slice()
+
+			let totalCount = 0
+			for (const file of files) {
+				totalCount += file.parser.getItemCount()
+
+				const calendarId = importFilesStore.importCalendarRelation[file.id]
+				if (calendarId === 'new') {
+					const displayName = file.parser.getName() || t('calendar', 'Imported {filename}', {
+						filename: file.name,
+					})
+					const color = file.parser.getColor() || uidToHexColor(displayName)
+					const components = []
+					if (file.parser.containsVEvents()) {
+						components.push('VEVENT')
+					}
+					if (file.parser.containsVJournals()) {
+						components.push('VJOURNAL')
+					}
+					if (file.parser.containsVTodos()) {
+						components.push('VTODO')
+					}
+
+					const response = await createCalendar(displayName, color, components, 0)
+					const calendar = mapDavCollectionToCalendar(response, principalsStore.getCurrentUserPrincipal)
+					this.addCalendarMutation({ calendar })
+					importFilesStore.setCalendarForFileId({
+						fileId: file.id,
+						calendarId: calendar.id,
+					})
+				}
+			}
+
+			importStateStore.total = totalCount
+
+			const limit = pLimit(3)
+			const requests = []
+
+			for (const file of files) {
+				const calendarId = importFilesStore.importCalendarRelation[file.id]
+				const calendar = this.getCalendarById(calendarId)
+
+				for (const item of file.parser.getItemIterator()) {
+					requests.push(limit(async () => {
+						const ics = item.toICS()
+
+						let davObject
+						try {
+							davObject = await calendar.dav.createVObject(ics)
+						} catch (error) {
+							importStateStore.denied++
+							console.error(error)
+							return
+						}
+
+						const calendarObject = mapCDavObjectToCalendarObject(davObject, calendarId)
+						calendarObjectsStore.appendCalendarObjectMutation({ calendarObject })
+						this.addCalendarObjectToCalendarMutation({
+							calendar,
+							calendarObjectId: calendarObject.id,
+						})
+						fetchedTimeRangesStore.addCalendarObjectIdToAllTimeRangesOfCalendar({
+							calendarId: calendar.id,
+							calendarObjectId: calendarObject.id,
+						})
+						importStateStore.accepted++
+					}))
+				}
+			}
+
+			await Promise.all(requests)
+			importStateStore.stage = IMPORT_STAGE_PROCESSING
+		},
+		/**
+		 *
+		 * @param {object} data The data destructuring object
+		 * @param {object} data.newOrder The object containing String => Number with the new order
+		 * @return {Promise<void>}
+		 */
+		async updateCalendarListOrder({ newOrder }) {
+			// keep a record of the original order in case we need to do a rollback
+
+			const limit = pLimit(3)
+			const requests = []
+			const calendarsToUpdate = []
+
+			for (const key in newOrder) {
 				requests.push(limit(async () => {
-					const ics = item.toICS()
+					const calendar = this.calendarsById[key]
 
-					let davObject
-					try {
-						davObject = await calendar.dav.createVObject(ics)
-					} catch (error) {
-						context.commit('incrementDenied')
-						console.error(error)
+					// Do not update unless necessary
+					if (calendar.dav.order === newOrder[key]) {
 						return
 					}
 
-					const calendarObject = mapCDavObjectToCalendarObject(davObject, calendarId)
-					context.commit('appendCalendarObject', { calendarObject })
-					context.commit('addCalendarObjectToCalendar', {
-						calendar,
-						calendarObjectId: calendarObject.id,
-					})
-					context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
-						calendarId: calendar.id,
-						calendarObjectId: calendarObject.id,
-					})
-					context.commit('incrementAccepted')
+					calendar.dav.order = newOrder[key]
+
+					await calendar.dav.update()
+
+					calendarsToUpdate.push({ calendar, newOrder: newOrder[key] })
 				}))
 			}
-		}
 
-		await Promise.all(requests)
-		context.commit('changeStage', IMPORT_STAGE_PROCESSING)
+			await Promise.all(requests)
+
+			for (const { calendar, newOrder } of calendarsToUpdate) {
+				console.debug(calendar, newOrder)
+				this.calendarsById[calendar.id].order = newOrder
+			}
+		},
+
+		/**
+		 * Adds calendar into state
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to add
+		 */
+		addCalendarMutation({ calendar }) {
+			const object = getDefaultCalendarObject(calendar)
+			if (!this.calendars.some(existing => existing.id === object.id)) {
+				this.calendars.push(object)
+				Vue.set(this.calendars, 0, this.calendars[0]) /// TODO remove with vue 3
+			}
+			/// TODO this.calendarsById[object.id] = object
+			Vue.set(this.calendarsById, object.id, object)
+		},
+
+		/**
+		 * Removes fetched time-range from calendar
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar The calendar to remove a time-range from
+		 * @param {number} data.fetchedTimeRangeId The time-range-id to remove
+		 */
+		deleteFetchedTimeRangeFromCalendarMutation({ calendar, fetchedTimeRangeId }) {
+			const index = this.calendarsById[calendar.id]?.fetchedTimeRanges.indexOf(fetchedTimeRangeId)
+
+			if (index !== -1) {
+				this.calendarsById[calendar.id].fetchedTimeRanges.slice(index, 1)
+			}
+		},
+
+		/**
+		 * Adds calendar-object to calendar
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar The calendar to append objects to
+		 * @param {string} data.calendarObjectId The calendar object id to append
+		 */
+		addCalendarObjectToCalendarMutation({ calendar, calendarObjectId }) {
+			if (this.calendarsById[calendar.id].calendarObjects.indexOf(calendarObjectId) === -1) {
+				this.calendarsById[calendar.id].calendarObjects.push(calendarObjectId)
+			}
+		},
+
+		/**
+		 * Removes calendar-object from calendar
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar The calendar to delete objects from
+		 * @param {string} data.calendarObjectId The calendar object ids to delete
+		 */
+		deleteCalendarObjectFromCalendarMutation({ calendar, calendarObjectId }) {
+			const index = this.calendarsById[calendar.id].calendarObjects.indexOf(calendarObjectId)
+
+			if (index !== -1) {
+				this.calendarsById[calendar.id].calendarObjects.slice(index, 1)
+			}
+		},
 	},
-	/**
-	 *
-	 * @param {object} context the store object
-	 * @param {object} context.commit the store mutations
-	 * @param {object} context.state the store state
-	 * @param {object} data The data destructuring object
-	 * @param {object} data.newOrder The object containing String => Number with the new order
-	 * @return {Promise<void>}
-	 */
-	async updateCalendarListOrder({ state, commit }, { newOrder }) {
-		// keep a record of the original order in case we need to do a rollback
-
-		const limit = pLimit(3)
-		const requests = []
-		const calendarsToUpdate = []
-
-		for (const key in newOrder) {
-			requests.push(limit(async () => {
-				const calendar = state.calendarsById[key]
-
-				// Do not update unless necessary
-				if (calendar.dav.order === newOrder[key]) {
-					return
-				}
-
-				calendar.dav.order = newOrder[key]
-
-				await calendar.dav.update()
-
-				calendarsToUpdate.push({ calendar, newOrder: newOrder[key] })
-			}))
-		}
-
-		await Promise.all(requests)
-
-		for (const { calendar, newOrder } of calendarsToUpdate) {
-			console.debug(calendar, newOrder)
-			commit('changeCalendarOrder', { calendar, newOrder })
-		}
-	},
-}
-
-export default { state, mutations, getters, actions }
+})

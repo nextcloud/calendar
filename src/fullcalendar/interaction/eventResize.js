@@ -4,14 +4,18 @@
  */
 import { getDurationValueFromFullCalendarDuration } from '../duration.js'
 import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
+import useCalendarsStore from '../../store/calendars.js'
+import useCalendarObjectsStore from '../../store/calendarObjects.js'
 
 /**
  * Returns a function to resize an event
  *
- * @param {object} store The Vuex Store
  * @return {Function}
  */
-export default function(store) {
+export default function() {
+	const calendarsStore = useCalendarsStore()
+	const calendarObjectsStore = useCalendarObjectsStore()
+
 	return async function({ event, startDelta, endDelta, revert }) {
 		const startDeltaDuration = getDurationValueFromFullCalendarDuration(startDelta)
 		const endDeltaDuration = getDurationValueFromFullCalendarDuration(endDelta)
@@ -27,7 +31,7 @@ export default function(store) {
 
 		let calendarObject
 		try {
-			calendarObject = await store.dispatch('getEventByObjectId', { objectId })
+			calendarObject = await calendarsStore.getEventByObjectId({ objectId })
 		} catch (error) {
 			console.debug(error)
 			revert()
@@ -53,11 +57,11 @@ export default function(store) {
 		}
 
 		try {
-			await store.dispatch('updateCalendarObject', {
+			await calendarObjectsStore.updateCalendarObject({
 				calendarObject,
 			})
 		} catch (error) {
-			store.commit('resetCalendarObjectToDav', {
+			calendarObjectsStore.resetCalendarObjectToDavMutation({
 				calendarObject,
 			})
 			console.debug(error)
