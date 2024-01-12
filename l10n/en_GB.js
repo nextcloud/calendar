@@ -230,6 +230,7 @@ OC.L10N.register(
     "Minimum time before next available slot" : "Minimum time before next available slot",
     "Max slots per day" : "Max slots per day",
     "Limit how far in the future appointments can be booked" : "Limit how far in the future appointments can be booked",
+    "It seems a rate limit has been reached. Please try again later." : "It seems a rate limit has been reached. Please try again later.",
     "Create appointment" : "Create appointment",
     "Edit appointment" : "Edit appointment",
     "Update" : "Update",

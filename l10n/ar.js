@@ -230,6 +230,7 @@ OC.L10N.register(
     "Minimum time before next available slot" : "أقل زمن قبل الفُرْضَة الزمنية slot التالية",
     "Max slots per day" : "أقصى عدد من الفُرَض slots في اليوم",
     "Limit how far in the future appointments can be booked" : "تقييد أبعد تاريخ في المستقبل يمكن حجز مواعيد فيه ",
+    "It seems a rate limit has been reached. Please try again later." : "يبدو أن معدل قبول الوصول للنظام قد وصل حدّه الأقصى. يُرجى إعادة المحاولة في وقت لاحقٍ.",
     "Create appointment" : "إنشاء موعد",
     "Edit appointment" : "تعديل موعد",
     "Update" : "حدث",
