@@ -230,6 +230,7 @@ OC.L10N.register(
     "Minimum time before next available slot" : "Mindestzeit bis zum nächsten verfügbaren Zeitfenster",
     "Max slots per day" : "Maximale Zeitfenster pro Tag",
     "Limit how far in the future appointments can be booked" : "Begrenzung, wie weit in der Zukunft Termine gebucht werden können",
+    "It seems a rate limit has been reached. Please try again later." : "Es scheint, dass ein Limit erreicht wurde. Bitte versuche es später noch einmal.",
     "Create appointment" : "Termin erstellen",
     "Edit appointment" : "Termin bearbeiten",
     "Update" : "Aktualisieren",

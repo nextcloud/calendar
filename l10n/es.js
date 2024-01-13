@@ -230,6 +230,7 @@ OC.L10N.register(
     "Minimum time before next available slot" : "Intervalo de tiempo mínimo antes del siguiente hueco disponible",
     "Max slots per day" : "Cantidad de huecos máxima al día",
     "Limit how far in the future appointments can be booked" : "Limitar con cuánto adelanto se puede pedir una cita",
+    "It seems a rate limit has been reached. Please try again later." : "Parece haberse alcanzado un límite de solicitudes. Por favor, inténtelo de nuevo más tarde.",
     "Create appointment" : "Crear cita",
     "Edit appointment" : "Editar cita",
     "Update" : "Actualizar",
