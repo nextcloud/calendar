@@ -78,12 +78,14 @@ export async function updateTalkParticipants(eventComponent) {
 		return
 	}
 	try {
+		const { data: { ocs: { data: room } } } = await HTTPClient.get(generateOcsUrl('apps/spreed/api/' + apiVersion + '/', 2) + 'room/' + token)
 		const participantsResponse = await HTTPClient.get(generateOcsUrl('apps/spreed/api/' + apiVersion + '/', 2) + 'room/' + token + '/participants')
 		// Ignore if the actor isn't owner of the conversation
 		if (!participantsResponse.data.ocs.data.some(participant => participant.actorId === getCurrentUser().uid && participant.participantType <= 2)) {
 			logger.debug('Current user is not a moderator or owner', { currentUser: getCurrentUser().uid, conversation: participantsResponse.data.ocs.data })
 			return
 		}
+		console.info('room', room)
 
 		for (const attendee of eventComponent.getAttendeeIterator()) {
 			logger.debug('Processing attendee', { attendee })
@@ -91,30 +93,29 @@ export async function updateTalkParticipants(eventComponent) {
 				continue
 			}
 
-			let participantId = removeMailtoPrefix(attendee.email)
-			let attendeeSource = 'emails'
+			const participantId = removeMailtoPrefix(attendee.email)
 			try {
 				// Map attendee email to Nextcloud user uid
 				const searchResult = await HTTPClient.get(generateOcsUrl('core/autocomplete/', 2) + 'get?search=' + encodeURIComponent(participantId) + '&itemType=&itemId=%20&shareTypes[]=0&limit=2')
-				// Only map if there is exactly one result. Use email if there are none or more results.
-				if (searchResult.data.ocs.data.length === 1) {
-					participantId = searchResult.data.ocs.data[0].id
-					attendeeSource = 'users'
+				// Only map if there is exactly one result
+				if (searchResult.data.ocs.data.length === 1 && searchResult.data.ocs.data[0].id !== getCurrentUser().uid) {
+					await HTTPClient.post(generateOcsUrl('apps/spreed/api/' + apiVersion + '/', 2) + 'room/' + token + '/participants', {
+						newParticipant: searchResult.data.ocs.data[0].id,
+						source: 'users',
+					})
+				} else if (searchResult.data.ocs.data[0]?.id === getCurrentUser().uid) {
+					logger.debug('Skipping organizer ' + searchResult.data.ocs.data[0].id)
+				} else if (room.type === 3) {
+					await HTTPClient.post(generateOcsUrl('apps/spreed/api/' + apiVersion + '/', 2) + 'room/' + token + '/participants', {
+						newParticipant: participantId,
+						source: 'emails',
+					})
 				} else {
-					logger.debug('Attendee ' + participantId + ' is not a Nextcloud user')
+					logger.debug('Attendee ' + participantId + ' ignored as Talk participant')
 				}
 			} catch (error) {
-				logger.info('Could not find user data for attendee ' + participantId, { error })
+				logger.info('Could not add attendee ' + participantId + ' as Talk participant', { error })
 			}
-
-			if (attendeeSource === 'users' && participantId === getCurrentUser().uid) {
-				logger.debug('Skipping organizer')
-				continue
-			}
-			await HTTPClient.post(generateOcsUrl('apps/spreed/api/' + apiVersion + '/', 2) + 'room/' + token + '/participants', {
-				newParticipant: participantId,
-				source: attendeeSource,
-			})
 		}
 	} catch (error) {
 		logger.warn('Could not update Talk room attendees', { error })
