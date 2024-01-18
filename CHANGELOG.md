@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.6.4 - 2024-01-18
+### Fixed
+- Guests being added to talk rooms not open for guests
+
 ## 4.6.3 - 2024-01-10
 ### Fixed
 - Rate limit appointment booking and config creation
