@@ -30,23 +30,31 @@
 			<template #actions>
 				<ActionLink :href="config.bookingUrl"
 					target="_blank">
-					<OpenInNewIcon slot="icon" :size="20" decorative />
+					<template #icon>
+						<OpenInNewIcon :size="20" />
+					</template>
 					{{ t('calendar', 'Preview') }}
 				</ActionLink>
 				<ActionButton v-if="hasClipboard"
 					:close-after-click="true"
 					@click="copyLink">
-					<LinkVariantIcon slot="icon" :size="20" decorative />
+					<template #icon>
+						<LinkVariantIcon :size="20" />
+					</template>
 					{{ t('calendar', 'Copy link') }}
 				</ActionButton>
 				<ActionButton :close-after-click="true"
 					@click="showModal = true">
-					<PencilIcon slot="icon" :size="20" decorative />
+					<template #icon>
+						<PencilIcon :size="20" />
+					</template>
 					{{ t('calendar', 'Edit') }}
 				</ActionButton>
 				<ActionButton :close-after-click="true"
 					@click="$emit('delete', $event)">
-					<DeleteIcon slot="icon" :size="20" decorative />
+					<template #icon>
+						<DeleteIcon :size="20" />
+					</template>
 					{{ t('calendar', 'Delete') }}
 				</ActionButton>
 			</template>

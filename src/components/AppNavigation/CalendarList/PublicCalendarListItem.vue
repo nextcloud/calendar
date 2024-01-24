@@ -24,19 +24,20 @@
 		:title="calendar.displayName || $t('calendar', 'Untitled calendar')"
 		:menu-open.sync="menuOpen"
 		@click.prevent.stop="toggleEnabled">
-		<AppNavigationIconBullet v-if="calendar.enabled"
-			slot="icon"
-			:color="calendar.color"
-			@click.prevent.stop="toggleEnabled" />
+		<template #icon>
+			<AppNavigationIconBullet v-if="calendar.enabled"
+				:color="calendar.color"
+				@click.prevent.stop="toggleEnabled" />
+		</template>
 
-		<template slot="counter">
+		<template #counter>
 			<Avatar :user="owner"
 				:is-guest="true"
 				:disable-tooltip="true"
 				:disable-menu="true" />
 		</template>
 
-		<template slot="actions">
+		<template #actions>
 			<ActionButton v-if="showCopySubscriptionLinkLabel"
 				@click.prevent.stop="copySubscriptionLink">
 				<template #icon>
