@@ -230,6 +230,7 @@ OC.L10N.register(
     "Minimum time before next available slot" : "Sonraki uygun aralıktan önceki en az süre",
     "Max slots per day" : "Bir gündeki en fazla aralık",
     "Limit how far in the future appointments can be booked" : "Gelecekteki randevuların ne kadar uzağa alınabileceğini sınırlayın",
+    "It seems a rate limit has been reached. Please try again later." : "Sınıra ulaşıldı. Lütfen bir süre sonra yeniden deneyin.",
     "Create appointment" : "Randevu ekle",
     "Edit appointment" : "Randevuyu düzenle",
     "Update" : "Güncelle",
