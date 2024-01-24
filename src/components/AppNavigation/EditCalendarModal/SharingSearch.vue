@@ -39,7 +39,9 @@
 			label="displayName"
 			@search="findSharee"
 			@option:selected="shareCalendar">
-			<span slot="no-options">{{ $t('calendar', 'No users or groups') }}</span>
+			<template #no-options>
+				<span>{{ $t('calendar', 'No users or groups') }}</span>
+			</template>
 		</NcSelect>
 	</div>
 </template>
