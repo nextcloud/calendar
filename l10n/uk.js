@@ -320,7 +320,7 @@ OC.L10N.register(
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Для надсилання запрошень та отримання відповіді, [linkopen]додайте ел.адресу в особистих налаштуваннях[linkclose].",
     "Remove color" : "Вилучити колір",
     "Event title" : "Назва події",
-    "All day" : "Цілий день",
+    "All day" : "Весь день",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Не вдалося змінити цілодобове налаштування для подій, які є повторювальними подіями.",
     "from {startDate}" : "від {startDate}",
     "from {startDate} at {startTime}" : "до {startDate} о {startTime}",
