@@ -54,6 +54,10 @@ class EventConflictFilter {
 	 * @return Interval[]
 	 */
 	public function filter(AppointmentConfig $config, array $slots): array {
+		$this->logger->debug('Slots before event conflict filtering:' . count($slots), ['app' => 'calendar-appointments']);
+		if(empty($slots)) {
+			return [];
+		}
 		$query = $this->calendarManager->newQuery($config->getPrincipalUri());
 		foreach ($config->getCalendarFreebusyUrisAsArray() as $uri) {
 			$query->addSearchCalendar($uri);
@@ -63,7 +67,7 @@ class EventConflictFilter {
 		$query->addType('VEVENT');
 		$preparationDuration = DateInterval::createFromDateString($config->getPreparationDuration() . ' seconds');
 		$followUpDuration = DateInterval::createFromDateString($config->getFollowupDuration() . ' seconds');
-		return array_filter($slots, function (Interval $slot) use ($followUpDuration, $preparationDuration, $query, $config): bool {
+		$available = array_filter($slots, function (Interval $slot) use ($followUpDuration, $preparationDuration, $query, $config): bool {
 			$query->setTimerangeStart($slot->getStartAsObject()->sub($preparationDuration));
 			$query->setTimerangeEnd($slot->getEndAsObject()->add($followUpDuration));
 
@@ -81,7 +85,7 @@ class EventConflictFilter {
 
 			$this->logger->debug('Appointment config ' . $config->getToken() . ' is looking within {start} and {followup} in calendar {calendarUri}. Conflicting UIDs are {uids}', [
 				'start' => $slot->getStartAsObject()->sub($preparationDuration)->format(DateTimeInterface::ATOM),
-				'end' => $slot->getEndAsObject()->add($followUpDuration)->format(DateTimeInterface::ATOM),
+				'followup' => $slot->getEndAsObject()->add($followUpDuration)->format(DateTimeInterface::ATOM),
 				'calendarUri' => $config->getTargetCalendarUri(),
 				'uids' => implode(' : ', $uids)
 			]);
@@ -89,5 +93,8 @@ class EventConflictFilter {
 			// If there is at least one event at this time then the slot is taken
 			return empty($objects);
 		});
+
+		$this->logger->debug('Slots after event conflict filtering:' . count($available), ['app' => 'calendar-appointments']);
+		return $available;
 	}
 }
