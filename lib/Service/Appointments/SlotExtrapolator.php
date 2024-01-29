@@ -26,17 +26,28 @@ declare(strict_types=1);
 namespace OCA\Calendar\Service\Appointments;
 
 use OCA\Calendar\Db\AppointmentConfig;
+use Psr\Log\LoggerInterface;
 
 class SlotExtrapolator {
+
+	public function __construct(private LoggerInterface $logger) {
+
+	}
 	/**
 	 * @param AppointmentConfig $config
 	 * @param Interval[] $availabilityIntervals
-	 * @param int $to
 	 *
 	 * @return Interval[]
 	 */
 	public function extrapolate(AppointmentConfig $config,
 		array $availabilityIntervals): array {
+		$this->logger->debug('Intervals before extrapolating:' . count($availabilityIntervals), ['app' => 'calendar-appointments']);
+		if(empty($availabilityIntervals)) {
+			return [];
+		}
+		foreach ($availabilityIntervals as $availabilityInterval) {
+			$this->logger->debug('Interval start: ' . $availabilityInterval->getStart() . ', interval end: ' . $availabilityInterval->getEnd(), ['app' => 'calendar-appointments']);
+		}
 		$increment = $config->getIncrement();
 		$length = $config->getLength();
 		$slots = [];
@@ -50,6 +61,7 @@ class SlotExtrapolator {
 			}
 		}
 
+		$this->logger->debug('Slots after extrapolating:' . count($slots), ['app' => 'calendar-appointments']);
 		return $slots;
 	}
 }

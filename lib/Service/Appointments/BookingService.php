@@ -142,13 +142,13 @@ class BookingService {
 			$this->mailService->sendBookingInformationEmail($booking, $config, $calendar);
 			$this->mailService->sendOrganizerBookingInformationEmail($booking, $config, $calendar);
 		} catch (ServiceException $e) {
-			$this->logger->info('Could not send booking emails after confirmation from user ' . $booking->getEmail(), ['exception' => $e]);
+			$this->logger->info('Could not send booking emails after confirmation from user ' . $booking->getEmail(), ['exception' => $e, 'app' => 'calendar-appointments']);
 		}
 
 		try {
 			$this->mailService->sendOrganizerBookingInformationNotification($booking, $config);
 		} catch (\InvalidArgumentException $e) {
-			$this->logger->warning('Could not send booking information notification after confirmation by user ' . $booking->getEmail(), ['exception' => $e]);
+			$this->logger->warning('Could not send booking information notification after confirmation by user ' . $booking->getEmail(), ['exception' => $e, 'app' => 'calendar-appointments']);
 		}
 
 		return $booking;
@@ -203,10 +203,13 @@ class BookingService {
 		if ($config->getFutureLimit() !== null) {
 			/** @var int $maxEndTime */
 			$maxEndTime = time() + $config->getFutureLimit();
+			$this->logger->debug('Maximum end time: ' . $maxEndTime, ['app' => 'calendar-appointments']);
 			if ($startTime > $maxEndTime) {
+				$this->logger->debug('Start time is higher than maximum end time. Start time: ' . $startTime, ['app' => 'calendar-appointments']);
 				return [];
 			}
 			if ($endTime > $maxEndTime) {
+				$this->logger->debug('End time is higher than maximum end time. Setting end time to maximum end time. End time: ' . $endTime, ['app' => 'calendar-appointments']);
 				$endTime = $maxEndTime;
 			}
 		}
@@ -224,7 +227,8 @@ class BookingService {
 			'availabilityIntervals' => count($availabilityIntervals),
 			'allPossibleSlots' => count($allPossibleSlots),
 			'filteredByDailyLimit' => count($filteredByDailyLimit),
-			'available' => count($available)
+			'available' => count($available),
+			'app' => 'calendar-appointments',
 		]);
 
 		return $available;
