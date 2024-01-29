@@ -45,10 +45,6 @@ webpackRules.RULE_SCSS.use = [
 ]
 
 webpackConfig.plugins.push(
-	new webpack.IgnorePlugin({
-		resourceRegExp: /^\.\/locale$/,
-		contextRegExp: /moment$/,
-	}),
 	new webpack.ProvidePlugin({
 		// Shim ICAL to prevent using the global object (window.ICAL).
 		// The library ical.js heavily depends on instanceof checks which will
