@@ -137,7 +137,7 @@ OC.L10N.register(
     "Unshare from me" : "Quitter ce partage",
     "Save" : "Enregistrer",
     "Failed to save calendar name and color" : "Échec d'enregistrement du nom et de la couleur de l'agenda",
-    "Import calendars" : "Importer des calendriers",
+    "Import calendars" : "Importer des agendas",
     "Please select a calendar to import into …" : "Veuillez sélectionner un agenda dans lequel importer  …",
     "Filename" : "Nom du fichier",
     "Calendar to import into" : "Agenda dans lequel importer",
