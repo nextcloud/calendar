@@ -938,6 +938,22 @@ const actions = {
 	},
 
 	/**
+	 * Change a calendar's email
+	 *
+	 * @param {object} context the store mutations Current context
+	 * @param {object} data destructuring object
+	 * @param {object} data.calendar the calendar to modify
+	 * @param {string} data.newEmail the new email of the calendar
+	 * @return {Promise}
+	 */
+	async changeCalendarEmail(context, { calendar, newEmail }) {
+		calendar.dav.email = newEmail
+
+		await calendar.dav.update()
+		context.commit('changeCalendarEmail', { calendar, newEmail })
+	},
+
+	/**
 	 * Share calendar with User or Group
 	 *
 	 * @param {object} context the store mutations Current context
