@@ -5,13 +5,7 @@
 
 name: Lint php
 
-on:
-  pull_request:
-  push:
-    branches:
-      - main
-      - master
-      - stable*
+on: pull_request
 
 permissions:
   contents: read
@@ -25,18 +19,19 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ["8.0", "8.1", "8.2", "8.3" ]
+        php-versions: [ '8.0', '8.1', '8.2', '8.3' ]
 
     name: php-lint
 
     steps:
       - name: Checkout
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Set up php ${{ matrix.php-versions }}
         uses: shivammathur/setup-php@6d7209f44a25a59e904b1ee9f3b0c33ab2cd888d # v2
         with:
           php-version: ${{ matrix.php-versions }}
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
           coverage: none
           ini-file: development
         env:
@@ -48,7 +43,7 @@ jobs:
   summary:
     permissions:
       contents: none
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
     needs: php-lint
 
     if: always()
