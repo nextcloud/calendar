@@ -46,3 +46,16 @@ export function timeStampToLocaleTime(timeStamp, timeZoneId) {
 		minute: 'numeric',
 	})
 }
+
+/**
+ * Format a time stamp as local date
+ *
+ * @param timeStamp {Number} unix times stamp in seconds
+ * @param timeZoneId {string} IANA time zone identifier
+ * @return {string} the formatted date
+ */
+export function timeStampToLocaleDate(timeStamp, timeZoneId) {
+	return (new Date(timeStamp * 1000)).toLocaleDateString(locale, {
+		timeZone: timeZoneId,
+	})
+}
