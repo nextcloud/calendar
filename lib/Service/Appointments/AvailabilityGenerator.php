@@ -67,8 +67,8 @@ class AvailabilityGenerator {
 		// E.g. 5m slots should only be available at 10:20 and 10:25, not at 10:17
 		//      when the user opens the page at 10:17.
 		// But only do this when the time isn't already a "pretty" time
-		if ($earliestStart % $config->getIncrement() !== 0) {
-			$roundTo = (int)round(($config->getIncrement()) / 300) * 300;
+		if ($earliestStart % $config->getLength() !== 0) {
+			$roundTo = (int)round(($config->getLength()) / 300) * 300;
 			$earliestStart = (int)ceil($earliestStart / $roundTo) * $roundTo;
 		}
 
@@ -94,8 +94,7 @@ class AvailabilityGenerator {
 		$timeZone = $availabilityRule['timezoneId'];
 		$slots = $availabilityRule['slots'];
 
-		$applicableSlots = $this->filterDates($start, $slots, $timeZone);
-
+		$applicableSlots = $this->filterDates($start, $slots, $timeZone, $config->getLength());
 		$intervals = [];
 		foreach ($applicableSlots as $slot) {
 			if ($slot->getEnd() <= $earliestStart || $slot->getStart() >= $latestEnd) {
@@ -121,7 +120,7 @@ class AvailabilityGenerator {
 	 *
 	 * @return Interval[]
 	 */
-	private function filterDates(int $start, array $availabilityArray, string $timeZone): array {
+	private function filterDates(int $start, array $availabilityArray, string $timeZone, int $duration): array {
 		$tz = new DateTimeZone($timeZone);
 		// First, transform all timestamps to DateTime Objects
 		$availabilityRules = [];
@@ -131,9 +130,15 @@ class AvailabilityGenerator {
 				continue;
 			}
 			foreach ($availabilitySlots as $slot) {
+				// Fix "not-pretty" timeslots
+				// A slot from 10:10 to 10:40 could be generated but isn't bookable
+				// So we round them to the next highest time that is pretty for that slot
+				$roundTo = (int)round(($duration) / 300) * 300;
+				$prettyStart = (int)ceil($slot['start'] / $roundTo) * $roundTo;
+				$prettyEnd = (int)ceil($slot['end'] / $roundTo) * $roundTo;
 				$availabilityRules[$key][] = [
-					'start' => (new DateTimeImmutable())->setTimezone($tz)->setTimestamp($slot['start']),
-					'end' => (new DateTimeImmutable())->setTimezone($tz)->setTimestamp($slot['end'])
+					'start' => (new DateTimeImmutable())->setTimezone($tz)->setTimestamp($prettyStart),
+					'end' => (new DateTimeImmutable())->setTimezone($tz)->setTimestamp($prettyEnd)
 				];
 			}
 		}
