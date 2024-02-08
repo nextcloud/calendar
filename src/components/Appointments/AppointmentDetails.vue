@@ -15,7 +15,7 @@
 					{{ config.name }}
 				</h2>
 				<div class="booking__time">
-					{{ startTime }} - {{ endTime }}
+					{{date}} {{ startTime }} - {{ endTime }}
 				</div>
 				<!-- Description needs to stay inline due to its whitespace -->
 				<span class="booking__description">{{ config.description }}</span>
@@ -81,7 +81,7 @@ import {
 } from '@nextcloud/vue'
 import autosize from '../../directives/autosize.js'
 
-import { timeStampToLocaleTime } from '../../utils/localeTime.js'
+import { timeStampToLocaleTime, timeStampToLocaleDate } from '../../utils/localeTime.js'
 
 export default {
 	name: 'AppointmentDetails',
@@ -144,6 +144,9 @@ export default {
 		endTime() {
 			return timeStampToLocaleTime(this.timeSlot.end, this.timeZoneId)
 		},
+		date() {
+			return timeStampToLocaleDate(this.timeSlot.start, this.timeZoneId)
+		}
 	},
 	methods: {
 		 save() {
