@@ -28,6 +28,7 @@ namespace OCA\Calendar\Service\Appointments;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCP\Calendar\ICalendarQuery;
 use OCP\Calendar\IManager;
+use Psr\Log\LoggerInterface;
 use function array_filter;
 use function array_values;
 use function count;
@@ -36,7 +37,7 @@ class DailyLimitFilter {
 	/** @var IManager */
 	private $calendarManger;
 
-	public function __construct(IManager $calendarManger) {
+	public function __construct(IManager $calendarManger, private LoggerInterface $logger) {
 		$this->calendarManger = $calendarManger;
 	}
 
@@ -47,6 +48,10 @@ class DailyLimitFilter {
 	 * @return Interval[]
 	 */
 	public function filter(AppointmentConfig $config, array $slots): array {
+		$this->logger->debug('Slots before daily limit filtering:' . count($slots), ['app' => 'calendar-appointments']);
+		if(empty($slots)) {
+			return [];
+		}
 		// 0. If there is no limit then we don't have to filter anything
 		if ($config->getDailyMax() === null) {
 			return $slots;
@@ -90,10 +95,13 @@ class DailyLimitFilter {
 		}
 
 		// 3. Filter out the slots that are on an unavailable day
-		return array_values(array_filter($slots, function (Interval $slot) use ($available): bool {
+		$available = array_values(array_filter($slots, function (Interval $slot) use ($available): bool {
 			$startOfDay = $slot->getStartAsObject()->setTime(0, 0, 0, 0);
 			$ts = $startOfDay->getTimestamp();
 			return $available[$ts];
 		}));
+
+		$this->logger->debug('Slots after daily limit filtering:' . count($available), ['app' => 'calendar-appointments']);
+		return $available;
 	}
 }
