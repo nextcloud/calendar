@@ -66,6 +66,7 @@ OC.L10N.register(
     "Could not load deleted calendars and objects" : "No at fatu a carrigare is calendàrios e is ogetos cantzellados",
     "Could not restore calendar or event" : "No at fatu a recuperare su calendàriu o s'eventu",
     "Could not update calendar order." : "No at fatu a agiornare s'òrdne de su calendàriu.",
+    "Copy internal link" : "Còpia ligòngiu internu",
     "Share link" : "Cumpartzi ligòngiu",
     "Copy public link" : "Còpia ligòngiu pùblicu",
     "Send link to calendar via email" : "Imbia ligòngiu pro su calendàriu tràmite posta eletrònica",
