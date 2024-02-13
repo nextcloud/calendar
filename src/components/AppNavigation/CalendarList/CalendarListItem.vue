@@ -139,6 +139,12 @@ export default {
 		 * @return {boolean}
 		 */
 		canBeShared() {
+			// The backend falsely reports incoming editable shares as being shareable
+			// Ref https://github.com/nextcloud/calendar/issues/5755
+			if (this.calendar.isSharedWithMe) {
+				return false
+			}
+
 			return this.calendar.canBeShared || this.calendar.canBePublished
 		},
 		/**
