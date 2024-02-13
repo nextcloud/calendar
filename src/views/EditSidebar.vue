@@ -326,6 +326,7 @@ import MapMarker from 'vue-material-design-icons/MapMarker.vue'
 import { shareFile } from '../services/attachmentService.js'
 import { DateTimeValue, Parameter } from '@nextcloud/calendar-js'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
+import logger from '../utils/logger'
 
 export default {
 	name: 'EditSidebar',
@@ -401,6 +402,11 @@ export default {
 
 			const timezone = getTimezoneManager()
 				.getTimezoneForId(this.calendarObjectInstance.startTimezoneId)
+			if (!timezone) {
+				logger.warn(`Could not find timezone for id "${this.calendarObjectInstance.startTimezoneId}"`)
+				return ''
+			}
+
 			const startDateInTz = DateTimeValue
 				.fromJSDate(this.calendarObjectInstance.startDate)
 				.getInTimezone(timezone)
