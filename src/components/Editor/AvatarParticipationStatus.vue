@@ -119,7 +119,7 @@
 				<IconNoResponse class="avatar-participation-status__indicator"
 					:size="20" />
 				<div class="avatar-participation-status__text">
-					{{ t('calendar', 'Invitation sent') }}
+					{{ t('calendar', 'Awaiting response') }}
 				</div>
 			</template>
 			<template v-else>
