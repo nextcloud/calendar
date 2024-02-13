@@ -324,8 +324,9 @@ import InformationOutline from 'vue-material-design-icons/InformationOutline.vue
 import MapMarker from 'vue-material-design-icons/MapMarker.vue'
 
 import { shareFile } from '../services/attachmentService.js'
-import { DateTimeValue, Parameter } from '@nextcloud/calendar-js'
+import { Parameter } from '@nextcloud/calendar-js'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
+import logger from '../utils/logger.js'
 
 export default {
 	name: 'EditSidebar',
@@ -399,14 +400,16 @@ export default {
 				return ''
 			}
 
-			const timezone = getTimezoneManager()
-				.getTimezoneForId(this.calendarObjectInstance.startTimezoneId)
-			const startDateInTz = DateTimeValue
-				.fromJSDate(this.calendarObjectInstance.startDate)
-				.getInTimezone(timezone)
-				.jsDate
+			const userTimezone = getTimezoneManager().getTimezoneForId(this.currentUserTimezone)
+			if (!userTimezone) {
+				logger.warn(`User timezone not found: ${this.currentUserTimezone}`)
+				return ''
+			}
 
-			return moment(startDateInTz).locale(this.locale).fromNow()
+			const startDateInUserTz = this.calendarObjectInstance.eventComponent.startDate
+				.getInTimezone(userTimezone)
+				.jsDate
+			return moment(startDateInUserTz).locale(this.locale).fromNow()
 		},
 		attachments() {
 			return this.calendarObjectInstance?.attachments || null
