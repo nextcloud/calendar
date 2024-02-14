@@ -277,7 +277,6 @@
     "Declined {organizerName}'s invitation" : "Invitation de {organizerName} déclinée",
     "Invitation is delegated" : "L'invitation est déléguée",
     "Checking availability" : "Vérification de la disponiblité",
-    "Invitation sent" : "Invitation envoyée",
     "Has not responded to {organizerName}'s invitation yet" : "N'a pas encore répondu à l'invitation de {organizerName}",
     "Availability of attendees, resources and rooms" : "Disponibilités des participants, ressources et salles.",
     "{organizer} (organizer)" : "{organizer} (organizer)",

@@ -280,7 +280,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "Позивница коју је послао {organizerName} је одбијена",
     "Invitation is delegated" : "Позивница је прослеђена",
     "Checking availability" : "Провера доступности",
-    "Invitation sent" : "Позивница је послата",
     "Has not responded to {organizerName}'s invitation yet" : "Још увек није одговорено на позивницу коју је послао {organizerName}",
     "Availability of attendees, resources and rooms" : "Доступност учесника, ресурса и соба",
     "{organizer} (organizer)" : "{organizer} (организатор)",

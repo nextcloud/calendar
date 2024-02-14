@@ -278,7 +278,6 @@
     "Declined {organizerName}'s invitation" : "Відхилене від {organizerName} запрошення ",
     "Invitation is delegated" : "Запрошення делеговано",
     "Checking availability" : "Перевірка доступності",
-    "Invitation sent" : "Запрошення надіслано",
     "Has not responded to {organizerName}'s invitation yet" : "Ще не відповів на запрошення від {organizerName}",
     "Availability of attendees, resources and rooms" : "Доступність учасників, ресурсів і приміщень",
     "{organizer} (organizer)" : "{organizer} (організатор)",

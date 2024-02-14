@@ -272,7 +272,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "{organizerName}의 초대가 거절됨",
     "Invitation is delegated" : "초대가 위임됨",
     "Checking availability" : "시간 조율 설정 확인 중",
-    "Invitation sent" : "초대가 전송됨",
     "Has not responded to {organizerName}'s invitation yet" : "{organizerName}의 초대에 아직 응답하지 않음",
     "Availability of attendees, resources and rooms" : "참석 가능한 시간대 및 자원, 호실 사용 가능 여부 확인",
     "{organizer} (organizer)" : "{organizer} (주회자)",

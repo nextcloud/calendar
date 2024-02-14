@@ -277,7 +277,6 @@
     "Declined {organizerName}'s invitation" : "Avböjde inbjudan från {organizerName}",
     "Invitation is delegated" : "Inbjudan är delegerad",
     "Checking availability" : "Kontrollerar tillgänglighet",
-    "Invitation sent" : "Inbjudan skickad",
     "Has not responded to {organizerName}'s invitation yet" : "Har ej svarat på inbjudan från {organizerName} än",
     "Availability of attendees, resources and rooms" : "Deltagares tillgänglighet, resurser och lokaler",
     "{organizer} (organizer)" : "{organizer} (arrangör)",

@@ -272,7 +272,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "Kieltäytyi järjestäjän {organizerName} kutsusta",
     "Invitation is delegated" : "Kutsu on delegoitu",
     "Checking availability" : "Tarkistetaan saatavuutta",
-    "Invitation sent" : "Kutsu lähetetty",
     "Has not responded to {organizerName}'s invitation yet" : "Ei ole vielä vastanut järjestäjän {organizerName} kutsuun",
     "Availability of attendees, resources and rooms" : "Osallistujien, resurssien ja huoneiden saatavuus",
     "{organizer} (organizer)" : "{organizer} (järjestäjä)",

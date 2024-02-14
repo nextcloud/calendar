@@ -278,7 +278,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "Invito di {organizerName} rifiutato",
     "Invitation is delegated" : "Invito delegato",
     "Checking availability" : "Verifica disponibilità",
-    "Invitation sent" : "Invito spedito",
     "Has not responded to {organizerName}'s invitation yet" : "Non ha ancora risposto all'invito di {organizerName}",
     "Availability of attendees, resources and rooms" : "Disponibilità di partecipanti, risorse e stanze",
     "{organizer} (organizer)" : "{organizer} (organizzatore)",

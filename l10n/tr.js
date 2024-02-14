@@ -280,7 +280,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "{organizerName} tarafından yapılan çağrı reddedildi",
     "Invitation is delegated" : "Çağrı iletildi",
     "Checking availability" : "Uygunluk denetleniyor",
-    "Invitation sent" : "Çağrı gönderildi",
     "Has not responded to {organizerName}'s invitation yet" : "{organizerName} tarafından yapılan çağrıyı yanıtlamadı",
     "Availability of attendees, resources and rooms" : "Katılımcı, kaynak ve odaların kullanılabilirliği",
     "{organizer} (organizer)" : "{organizer} (organizer)",

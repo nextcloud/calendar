@@ -278,7 +278,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "{organizerName}'s ha declinat la invitació",
     "Invitation is delegated" : "La invitació és delegada",
     "Checking availability" : "Consultant disponibilitat",
-    "Invitation sent" : "Invitació enviada",
     "Has not responded to {organizerName}'s invitation yet" : "Encara no ha respost a la invitació de {organizerName}",
     "Availability of attendees, resources and rooms" : "Disponibilitat d'assistents, recursos i espais",
     "{organizer} (organizer)" : "{organizer} (organitzador)",

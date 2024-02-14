@@ -246,7 +246,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "Noraidīts {organizerName} uzaicinājums",
     "Invitation is delegated" : "Uzaicinājums ir deleģēts",
     "Checking availability" : "Pārbauda pieejamību",
-    "Invitation sent" : "Ielūgums nosūtīts",
     "Has not responded to {organizerName}'s invitation yet" : "Vēl nav atbildējis uz {organizerName} uzaicinājumu",
     "Availability of attendees, resources and rooms" : "Dalībnieku, resursu un telpu pieejamība",
     "Free" : "Brīvs",

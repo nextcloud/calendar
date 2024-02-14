@@ -272,7 +272,6 @@
     "Declined {organizerName}'s invitation" : "Zavrnjeno vabilo organizatorja: {organizerName}",
     "Invitation is delegated" : "Povabilo je dodeljeno",
     "Checking availability" : "Preverjanje razpoložljivosti",
-    "Invitation sent" : " Vabilo je poslano.",
     "Has not responded to {organizerName}'s invitation yet" : "Še ni odgovora na na vabilo organizatorja: {organizerName}",
     "Availability of attendees, resources and rooms" : "Razpoložljivost udeležencev, virov in sob",
     "{organizer} (organizer)" : "{organizer} (organizator)",

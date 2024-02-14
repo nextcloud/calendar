@@ -279,7 +279,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "{organizerName}(r)en gonbidapena ukatuta",
     "Invitation is delegated" : "Gonbidapena eskuordetuta dago",
     "Checking availability" : "Erabilgarritasuna egiaztatzen",
-    "Invitation sent" : "Gonbidapena bidalita",
     "Has not responded to {organizerName}'s invitation yet" : "Oraindik ez dio {organizerName} erabiltzailearen gonbidapenari erantzun",
     "Availability of attendees, resources and rooms" : "Partaide, baliabide eta gelen eskuragarritasuna",
     "{organizer} (organizer)" : "{organizer} (kudeatzailea)",

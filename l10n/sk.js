@@ -252,7 +252,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "Pozvánka od {organizerName} bola odmietnutá",
     "Invitation is delegated" : "Pozvánka je delegovaná",
     "Checking availability" : "Kontrolujem dostupnosť",
-    "Invitation sent" : "Pozvánka odoslaná",
     "Has not responded to {organizerName}'s invitation yet" : "Zatiaľ neodpovedal na pozvanie od {organizerName}",
     "Availability of attendees, resources and rooms" : "Dostupnosť účastníkov, zdrojov a miestností",
     "{organizer} (organizer)" : "{organizer} (organizátor)",

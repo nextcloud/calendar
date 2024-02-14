@@ -278,7 +278,6 @@
     "Declined {organizerName}'s invitation" : "{organizerName} の招待を辞退しました",
     "Invitation is delegated" : "招待は委任されました",
     "Checking availability" : "空き状況の確認",
-    "Invitation sent" : "招待が送信されました",
     "Has not responded to {organizerName}'s invitation yet" : "{organizerName} の招待にまだ応答していません",
     "Availability of attendees, resources and rooms" : "出席者、リソース、ルームの空き状況",
     "{organizer} (organizer)" : "{organizer} (organizer)",

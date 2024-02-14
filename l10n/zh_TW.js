@@ -280,7 +280,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "已拒絕 {organizerName} 的邀請",
     "Invitation is delegated" : "邀請已配送",
     "Checking availability" : "正在檢查可用性。",
-    "Invitation sent" : "邀請已傳送",
     "Has not responded to {organizerName}'s invitation yet" : "尚未回覆 {organizerName} 的邀請",
     "Availability of attendees, resources and rooms" : "參與者、資源和空間的可用性",
     "{organizer} (organizer)" : "{organizer} (organizer)",

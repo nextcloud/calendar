@@ -277,7 +277,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "Отклонено приглашение от {organizerName}",
     "Invitation is delegated" : "Приглашение делегировано",
     "Checking availability" : "Проверка доступности",
-    "Invitation sent" : "Приглашение отправлено",
     "Has not responded to {organizerName}'s invitation yet" : "Ответ на приглашение от {organizerName} ещё не отправлен",
     "Availability of attendees, resources and rooms" : "Доступность участников, ресурсов и комнат",
     "{organizer} (organizer)" : "{organizer} (организатор)",

@@ -221,7 +221,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "Gwrthodwyd gwahoddiad {organizerName}",
     "Invitation is delegated" : "Mae gwahoddiad yn cael ei ddirprwyo",
     "Checking availability" : "Gwirio argaeledd",
-    "Invitation sent" : "Anfonwyd gwahoddiad",
     "Has not responded to {organizerName}'s invitation yet" : "Nid yw wedi ymateb i wahoddiad {organizerName} eto",
     "Availability of attendees, resources and rooms" : "Argaeledd mynychwyr, adnoddau ac ystafelloedd",
     "{organizer} (organizer)" : "{organizer} (trefnydd)",

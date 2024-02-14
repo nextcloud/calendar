@@ -277,7 +277,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "Uitnodiging van {organizerName} geweigerd",
     "Invitation is delegated" : "Uitnodiging is gedelegeerd",
     "Checking availability" : "Beschikbaarheid controleren",
-    "Invitation sent" : "Uitnodiging verstuurd",
     "Has not responded to {organizerName}'s invitation yet" : "Er is nog niet gereageerd op de uitnodiging van {organizerName}.",
     "Availability of attendees, resources and rooms" : "Beschikbaarheid van aanwezigen, objecten en ruimtes",
     "{organizer} (organizer)" : "{organizer} (organizer)",

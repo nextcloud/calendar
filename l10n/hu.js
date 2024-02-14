@@ -280,7 +280,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "Elutasította {organizerName} meghívását",
     "Invitation is delegated" : "Meghívás átruházva",
     "Checking availability" : "Elérhetőség ellenőrzése",
-    "Invitation sent" : "Meghívó elküldve",
     "Has not responded to {organizerName}'s invitation yet" : "Még nem válaszolt {organizerName} meghívására",
     "Availability of attendees, resources and rooms" : "A résztvevők, az erőforrások és a szobák rendelkezésre állása",
     "{organizer} (organizer)" : "{organizer} (szervező)",

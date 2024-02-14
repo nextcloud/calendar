@@ -280,7 +280,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "رفض دعوة {organizerName}",
     "Invitation is delegated" : "الدعوة تمّ تفويضها",
     "Checking availability" : "تحقّق من التواجد",
-    "Invitation sent" : "تمّ إرسال الدعوة",
     "Has not responded to {organizerName}'s invitation yet" : "لم يَرُدَّ على دعوة {organizerName} بعدُ",
     "Availability of attendees, resources and rooms" : "توافر الحضور والموارد والغرف",
     "{organizer} (organizer)" : "{organizer} (مُنظِّم)",

@@ -280,7 +280,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "Odmítnuta pozvánka od {organizerName}",
     "Invitation is delegated" : "Pozvání postoupeno někomu dalšímu",
     "Checking availability" : "Zjišťuje se, zda je k dispozici",
-    "Invitation sent" : "Pozvánka odeslána",
     "Has not responded to {organizerName}'s invitation yet" : "Doposud neodpovězeno na pozvánku od {organizerName}",
     "Availability of attendees, resources and rooms" : "Dostupnost účastníků, prostředků a místností",
     "{organizer} (organizer)" : "{organizer} (organizátor/ka)",

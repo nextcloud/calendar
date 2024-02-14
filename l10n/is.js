@@ -277,7 +277,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "Hafnaði boði frá {organizerName}",
     "Invitation is delegated" : "Boðinu er framvísað",
     "Checking availability" : "Athuga hvað sé á lausu",
-    "Invitation sent" : "Boð sent",
     "Has not responded to {organizerName}'s invitation yet" : "Hefur ekki svarað boðinu frá {organizerName} ennþá",
     "Availability of attendees, resources and rooms" : "Framboð á þátttakendum, tilföngum og herbergjum",
     "{organizer} (organizer)" : "{organizer} (organizer)",

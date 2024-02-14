@@ -280,7 +280,6 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "Afviste {organizerName}s invitation",
     "Invitation is delegated" : "Invitation er uddelegeret",
     "Checking availability" : "Kontrol af tilgængelighed",
-    "Invitation sent" : "Invitation sendt",
     "Has not responded to {organizerName}'s invitation yet" : "Har endnu ikke svaret på {organizerName}s invitation",
     "Availability of attendees, resources and rooms" : "Tilgængelighed af deltagere, ressourcer og lokaler",
     "{organizer} (organizer)" : "{organizer} (arrangør)",
