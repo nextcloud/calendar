@@ -79,7 +79,7 @@ class AvailabilityGeneratorTest extends TestCase {
 
 		self::assertCount(1, $slots);
 		self::assertEquals(0, $slots[0]->getStart() % 900);
-		self::assertEquals(4500, $slots[0]->getStart());
+		self::assertEquals(5400, $slots[0]->getStart());
 	}
 
 	public function testNoAvailabilitySetRoundWithSpecificTimes(): void {
@@ -92,37 +92,50 @@ class AvailabilityGeneratorTest extends TestCase {
 
 		self::assertCount(1, $slots);
 		self::assertEquals(0, $slots[0]->getStart() % 900);
-		self::assertEquals(3600, ($slots[0]->getEnd() - $slots[0]->getStart()));
+		self::assertEquals(2700, ($slots[0]->getEnd() - $slots[0]->getStart()));
 		self::assertEquals(
-			[new Interval(1637837100, 1637840700)],
+			[new Interval(1637838000, 1637840700)],
 			$slots,
 		);
 	}
 
-	public function testNoAvailabilitySetRoundWithIncrement(): void {
+	public function testNoAvailabilitySetRoundWithIncrementForHalfHour(): void {
 		$config = new AppointmentConfig();
-		$config->setLength(5400);
+		$config->setLength(3600);
 		$config->setIncrement(3600);
 		$config->setAvailability(null);
 
-		$slots = $this->generator->generate($config, 1 * 5400, 2 * 5400);
+		$slots = $this->generator->generate($config, 1 * 1800, 3 * 3600);
 
 		self::assertCount(1, $slots);
 		self::assertEquals(0, $slots[0]->getStart() % 3600);
-		self::assertEquals(7200, $slots[0]->getStart());
+		self::assertEquals(3600, $slots[0]->getStart());
+	}
+
+	public function testNoAvailabilitySetRoundWithIncrementForFullHour(): void {
+		$config = new AppointmentConfig();
+		$config->setLength(3600);
+		$config->setIncrement(3600);
+		$config->setAvailability(null);
+
+		$slots = $this->generator->generate($config, 1 * 3600, 2 * 3600);
+
+		self::assertCount(1, $slots);
+		self::assertEquals(0, $slots[0]->getStart() % 3600);
+		self::assertEquals(3600, $slots[0]->getStart());
 	}
 
 	public function testNoAvailabilitySetRoundToPrettyNumbers(): void {
 		$config = new AppointmentConfig();
-		$config->setLength(5400);
+		$config->setLength(3550);
 		$config->setIncrement(300);
 		$config->setAvailability(null);
 
-		$slots = $this->generator->generate($config, 1 * 5400 + 1, 2 * 5400 + 1);
+		$slots = $this->generator->generate($config, 1 * 3550 + 1, 2 * 3550 + 1);
 
 		self::assertCount(1, $slots);
 		self::assertEquals(0, $slots[0]->getStart() % 300);
-		self::assertEquals(5700, $slots[0]->getStart());
+		self::assertEquals(3600, $slots[0]->getStart());
 	}
 
 	public function testNoAvailabilitySetRoundWithFourtyMinutes(): void {
@@ -148,7 +161,7 @@ class AvailabilityGeneratorTest extends TestCase {
 
 		self::assertCount(1, $slots);
 		self::assertEquals(0, $slots[0]->getStart() % 300);
-		self::assertEquals(2700, $slots[0]->getStart());
+		self::assertEquals(4800, $slots[0]->getStart());
 	}
 
 	public function testNoAvailabilityButEndDate(): void {
@@ -608,5 +621,65 @@ class AvailabilityGeneratorTest extends TestCase {
 
 		$slots = $this->generator->generate($config, $wednesdayMidnight->getTimestamp(), $thursdayMidnight->getTimestamp());
 		self::assertCount(0, $slots);
+	}
+
+	public function testViennaComplexRuleForBooking(): void {
+		$tz = new DateTimeZone('Europe/Vienna');
+		$dateTime = (new DateTimeImmutable())->setTimezone($tz)->setDate(2021, 11, 22);
+		$config = new AppointmentConfig();
+		$config->setLength(3600);
+		$config->setIncrement(3600);
+		$config->setAvailability(json_encode([
+			'timezoneId' => $tz->getName(),
+			'slots' => [
+				'MO' => [
+					[
+						'start' => $dateTime->setTime(8, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(12, 0)->getTimestamp(),
+					],
+					[
+						'start' => $dateTime->setTime(14, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(18, 0)->getTimestamp(),
+					]
+				],
+				'TU' => [
+					[
+						'start' => $dateTime->setTime(8, 30)->getTimestamp(),
+						'end' => $dateTime->setTime(11, 45)->getTimestamp(),
+					]
+				],
+				'WE' => [
+					[
+						'start' => $dateTime->setTime(13, 10)->getTimestamp(),
+						'end' => $dateTime->setTime(16, 0)->getTimestamp(),
+					]
+				],
+				'TH' => [
+					[
+						'start' => $dateTime->setTime(19, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(23, 59)->getTimestamp(),
+					]
+				],
+				'FR' => [
+					[
+						'start' => $dateTime->setTime(6, 0)->getTimestamp(),
+						'end' => $dateTime->setTime(8, 0)->getTimestamp(),
+					]
+				],
+				'SA' => [
+					[
+						'start' => $dateTime->setTime(1, 52)->getTimestamp(),
+						'end' => $dateTime->setTime(17, 0)->getTimestamp(),
+					]
+				],
+				'SU' => [],
+			]
+		], JSON_THROW_ON_ERROR));
+		$mondayMidnight = (new DateTimeImmutable())->setDate(2021, 11, 13)->setTime(13, 10);
+		$sundayMidnight = $mondayMidnight->modify('+1 hour');
+
+		$slots = $this->generator->generate($config, $mondayMidnight->getTimestamp(), $sundayMidnight->getTimestamp());
+
+		self::assertCount(1, $slots);
 	}
 }
