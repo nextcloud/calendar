@@ -5,13 +5,7 @@
 
 name: Static analysis
 
-on:
-  pull_request:
-  push:
-    branches:
-      - master
-      - main
-      - stable*
+on: pull_request
 
 concurrency:
   group: psalm-${{ github.head_ref || github.run_id }}
@@ -24,17 +18,18 @@ jobs:
       # do not stop on another job's failure
       fail-fast: false
       matrix:
-        ocp-version: [ 'dev-master', 'dev-stable27', 'dev-stable26', 'dev-stable25' ]
+        ocp-version: [ 'dev-master', 'dev-stable28', 'dev-stable27', 'dev-stable26' ]
 
-    name: Nextcloud ${{ matrix.ocp-version }}
+    name: static-psalm-analysis ${{ matrix.ocp-version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      - name: Set up php
+      - name: Set up php8.2
         uses: shivammathur/setup-php@6d7209f44a25a59e904b1ee9f3b0c33ab2cd888d # v2
         with:
-          php-version: 8.0
+          php-version: 8.2
+          extensions: bz2, ctype, curl, dom, fileinfo, gd, iconv, intl, json, libxml, mbstring, openssl, pcntl, posix, session, simplexml, xmlreader, xmlwriter, zip, zlib, sqlite, pdo_sqlite
           coverage: none
           ini-file: development
         env:
@@ -50,7 +45,7 @@ jobs:
         run: composer run psalm
 
   summary:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-low
     needs: static-analysis
 
     if: always()
