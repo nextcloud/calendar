@@ -114,7 +114,6 @@ OC.L10N.register(
     "Accept" : "Nõustu",
     "Decline" : "Keeldu",
     "Tentative" : "Esialgne",
-    "Send email" : "Saada kiri",
     "Remove group" : "Eemalda grupp",
     "All day" : "Kogu päev",
     "Repeat" : "Korda",

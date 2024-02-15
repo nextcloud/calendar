@@ -302,7 +302,6 @@
     "Successfully appended link to talk room to location." : "トークルームへのリンクをロケーションに追加しました。",
     "Successfully appended link to talk room to description." : "通話ルームへのリンクを説明文に追加しました",
     "Error creating Talk room" : "通話ルームの作成に失敗しました",
-    "Send email" : "メールを送信",
     "Chairperson" : "主宰者",
     "Required participant" : "参加必須",
     "Optional participant" : "任意参加",

@@ -243,7 +243,6 @@ OC.L10N.register(
     "No attendees yet" : "Dim mynychwyr eto",
     "Successfully appended link to talk room to description." : "Llwyddwyd i atodi dolen i'r ystafell siarad i'r disgrifiad.",
     "Error creating Talk room" : "Gwall wrth greu ystafell Siarad",
-    "Send email" : "Anfon e-bost",
     "Chairperson" : "Cadeirydd",
     "Required participant" : "Cyfranogwr gofynnol",
     "Optional participant" : "Cyfranogwr dewisol",

@@ -304,7 +304,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to location." : "Linket til talerum til placering er tilføjet til lokationen.",
     "Successfully appended link to talk room to description." : "Link til samtalerum blev tilføjet til beskrivelsen.",
     "Error creating Talk room" : "Fejl ved oprettelse af talerum",
-    "Send email" : "Send e-mail",
     "Chairperson" : "Formand",
     "Required participant" : "Nødvendig deltager",
     "Optional participant" : "Valgfri deltager",

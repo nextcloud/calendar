@@ -288,7 +288,6 @@ OC.L10N.register(
     "No attendees yet" : "Все още няма участващи",
     "Successfully appended link to talk room to description." : "Успешно добавена връзка към стаята за разговори от описанието.",
     "Error creating Talk room" : "Грешка при създаването на Стая за разговори",
-    "Send email" : "Изпрати е-мейл",
     "Chairperson" : "Председател",
     "Required participant" : "Необходим участник",
     "Optional participant" : " Участник по желание",

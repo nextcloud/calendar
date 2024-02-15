@@ -46,7 +46,6 @@ OC.L10N.register(
     "Accept" : "Acceptar",
     "Decline" : "Refusar",
     "Tentative" : "Tentative",
-    "Send email" : "Inviar message de e-posta",
     "Repeat" : "Repeter",
     "never" : "nunquam",
     "after" : "post",

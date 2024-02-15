@@ -303,7 +303,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to location." : "Le lien vers la salle de réunion a été ajouté avec succès au lieu.",
     "Successfully appended link to talk room to description." : "Le lien vers la discussion a été ajouté à la description",
     "Error creating Talk room" : "Erreur lors de la création de la salle de discussion",
-    "Send email" : "Envoyer un e-mail",
     "Chairperson" : "Président",
     "Required participant" : "Participant obligatoire",
     "Optional participant" : "Participant facultatif",

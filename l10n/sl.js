@@ -297,7 +297,6 @@ OC.L10N.register(
     "You do not own this calendar, so you cannot add attendees to this event" : "Ker niste lastnik koledarja, ne morete dodati udeležencev k temu dogodku.",
     "Successfully appended link to talk room to description." : "Povezava do sobe Talk je uspešno dodana v opis.",
     "Error creating Talk room" : "Prišlo je do napake med ustvarjanjem klepetalnice Talk",
-    "Send email" : "Pošlji elektronsko sporočilo",
     "Chairperson" : "Vodja dogodka",
     "Required participant" : "Nujna udeležba",
     "Optional participant" : "Udeležba na željo",

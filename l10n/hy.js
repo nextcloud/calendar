@@ -34,7 +34,6 @@ OC.L10N.register(
     "Notification" : "Ծանուցում",
     "Email" : "Էլ․փոստ",
     "Unknown" : "Անհայտ",
-    "Send email" : "Ուղարկել փոստը",
     "Repeat" : "Կրկնել",
     "never" : "երբեք",
     "after" : "հետո",

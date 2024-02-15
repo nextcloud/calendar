@@ -101,7 +101,6 @@ OC.L10N.register(
     "Unknown" : "Dianv",
     "Accept" : "Asantiñ",
     "Tentative" : "Taol-esae",
-    "Send email" : "Kas postel",
     "Remove group" : "Lemel strollad",
     "never" : "james",
     "after" : "goude",

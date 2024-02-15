@@ -298,7 +298,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to location." : "Successfully appended link to talk room to location.",
     "Successfully appended link to talk room to description." : "پیوند موفقیت آمیز پیوند به اتاق گفتگو به توضیحات.",
     "Error creating Talk room" : "خطا در ایجاد اتاق گفتگو",
-    "Send email" : "ارسال ایمیل",
     "Chairperson" : "رئیس",
     "Required participant" : "شرکت کننده مورد نیاز",
     "Optional participant" : "شرکت کننده اختیاری",

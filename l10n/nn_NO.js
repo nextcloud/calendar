@@ -46,7 +46,6 @@ OC.L10N.register(
     "Delete file" : "Slett fil",
     "Unknown" : "Ukjend",
     "Tentative" : "Førebels",
-    "Send email" : "Send e-post",
     "Repeat" : "Gjenta",
     "never" : "aldri",
     "after" : "etter",

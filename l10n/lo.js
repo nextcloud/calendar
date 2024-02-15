@@ -26,7 +26,6 @@ OC.L10N.register(
     "Available" : "ມີຢູ່",
     "Not available" : "ບໍ່ມີ",
     "Unknown" : "ບໍ່ຮູ້",
-    "Send email" : "ສົ່ງອີເມວ",
     "never" : "ບໍ່ເຄີຍ",
     "More" : "ເພີ່ມເຕີມ",
     "Personal" : "ສ່ວນບຸກຄົນ",

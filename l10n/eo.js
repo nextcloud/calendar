@@ -90,7 +90,6 @@ OC.L10N.register(
     "Decline" : "Malakcepti",
     "Tentative" : "Nekonfirmita",
     "Show busy times" : "Montri okupatajn tempojn",
-    "Send email" : "Sendi retpoŝtmesaĝon",
     "Required participant" : "Bezonata partoprenanto",
     "Optional participant" : "Laŭvola partoprenanto",
     "Remove group" : "Forigi grupon",

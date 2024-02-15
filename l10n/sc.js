@@ -181,7 +181,6 @@ OC.L10N.register(
     "No attendees yet" : "Ancora peruna persone pro partetzipare",
     "Successfully appended link to talk room to description." : "Ligòngiu apicadu in manera curreta in sa descritzione de s'aposentu de cunversatzione",
     "Error creating Talk room" : "Errore in sa creatzione de s'aposentu Talk",
-    "Send email" : "Imbia messàgiu de posta eletrònica",
     "Chairperson" : "Presidente",
     "Required participant" : "Persone netzessària",
     "Optional participant" : "Persone optzionale",

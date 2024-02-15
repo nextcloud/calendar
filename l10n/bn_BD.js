@@ -38,7 +38,6 @@ OC.L10N.register(
     "Email" : "ইমেইল",
     "Choose a file to add as attachment" : "সংযুক্তি দেয়ার জন্য একটি ফাইল নির্বাচন করুন",
     "Unknown" : "অজানা",
-    "Send email" : "ইমেইল পাঠান ",
     "Repeat" : "পূনঃসংঘটন",
     "never" : "কখনোই নয়",
     "More" : "বেশী",

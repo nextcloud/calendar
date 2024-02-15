@@ -302,7 +302,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to location." : "S'ha afegit correctament l'enllaç a la sala de conversa a la ubicació.",
     "Successfully appended link to talk room to description." : "S'ha afegit l'enllaç d'una nova sala de Talk a la descripció de l'esdeveniment.",
     "Error creating Talk room" : "Ha succeït un error tractant de crear la sala a Talk",
-    "Send email" : "Enviar correu",
     "Chairperson" : "Organització",
     "Required participant" : "Participació obligatòria",
     "Optional participant" : "Participació opcional",

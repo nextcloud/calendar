@@ -237,7 +237,6 @@ OC.L10N.register(
     "The invitation has been accepted successfully." : "O convite foi aceite com sucesso.",
     "Failed to accept the invitation." : "Falha ao aceitar o convite.",
     "The invitation has been declined successfully." : "O convite foi recusado com sucesso.",
-    "Send email" : "Enviar e-mail",
     "All day" : "Todo o dia",
     "Repeat" : "Repetir",
     "never" : "nunca",

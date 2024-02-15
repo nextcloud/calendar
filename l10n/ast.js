@@ -52,7 +52,6 @@ OC.L10N.register(
     "Out of office" : "Fuera de la oficina",
     "Accept" : "Aceptar",
     "Decline" : "Refugar",
-    "Send email" : "Unviar un corréu electrónicu",
     "_month_::_months_" : ["mes","meses"],
     "_year_::_years_" : ["añu","años"],
     "Suggestions" : "Suxerencies",

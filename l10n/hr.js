@@ -186,7 +186,6 @@ OC.L10N.register(
     "No attendees yet" : "Još nema sudionika",
     "Successfully appended link to talk room to description." : "Uspješno dodana poveznica na Talk sobu u opis.",
     "Error creating Talk room" : "Pogreška pri stvaranju Talk sobe",
-    "Send email" : "Pošalji poruku e-pošte",
     "Chairperson" : "Predsjednik",
     "Required participant" : "Obavezan sudionik",
     "Optional participant" : "Neobavezan sudionik",

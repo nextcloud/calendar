@@ -36,7 +36,6 @@ OC.L10N.register(
     "Unknown" : "Nepoznato",
     "Accept" : "Prihvati",
     "Decline" : "Odbij",
-    "Send email" : "Pošalji e-poštu",
     "Repeat" : "Ponovi",
     "never" : "nikad",
     "More" : "Više",

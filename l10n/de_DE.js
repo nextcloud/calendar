@@ -304,7 +304,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to location." : "Link des Talk-Raums zur Ortsangabe hinzugefügt.",
     "Successfully appended link to talk room to description." : "Link zur Beschreibung des Besprechungsraums hinzugefügt.",
     "Error creating Talk room" : "Fehler beim Erstellen des Besprechungsraumes",
-    "Send email" : "E-Mail senden",
     "Chairperson" : "Vorsitz",
     "Required participant" : "Benötigter Teilnehmer",
     "Optional participant" : "Optionaler Teilnehmer",

@@ -34,7 +34,6 @@ OC.L10N.register(
     "Update" : "ធ្វើ​បច្ចុប្បន្នភាព",
     "Your email address" : "អ៊ីម៉ែល​របស់​អ្នក",
     "Email" : "អ៊ីមែល",
-    "Send email" : "ផ្ញើ​អ៊ីមែល",
     "Repeat" : "ធ្វើម្ដងទៀត",
     "never" : "មិនដែរ",
     "first" : "ទីមួយ",

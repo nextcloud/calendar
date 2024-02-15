@@ -301,7 +301,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to location." : "Engadiuse satisfactoriamente a ligazón á localización da sala de conversas.",
     "Successfully appended link to talk room to description." : "Engadiuse satisfactoriamente unha ligazón á descrición da  sala de conversas.",
     "Error creating Talk room" : "Produciuse un erro ao crear a sala de conversas",
-    "Send email" : "Enviar o correo",
     "Chairperson" : "Presidente",
     "Required participant" : "Precísase do participante",
     "Optional participant" : "Participante opcional",

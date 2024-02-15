@@ -304,7 +304,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to location." : "Bağlantı konumun Talk odasına eklendi.",
     "Successfully appended link to talk room to description." : "Bağlantı Talk odası açıklamasına eklendi.",
     "Error creating Talk room" : "Talk odası oluştururken sorun çıktı",
-    "Send email" : "E-posta gönder",
     "Chairperson" : "Oturum başkanı",
     "Required participant" : "Zorunlu katılımcı",
     "Optional participant" : "İsteğe bağlı katılımcı",

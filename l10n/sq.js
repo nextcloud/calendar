@@ -59,7 +59,6 @@ OC.L10N.register(
     "Accept" : "Prano",
     "Decline" : "Refuzo",
     "Tentative" : "Tentativë",
-    "Send email" : "Dërgo email",
     "Remove group" : "Hiq grupin",
     "All day" : "Gjithë ditën",
     "Repeat" : "Përsërite",

@@ -170,7 +170,6 @@ OC.L10N.register(
     "No attendees yet" : "עדיין אין משתתפים",
     "Successfully appended link to talk room to description." : "הקישור צורף ל\"חדר השיחות\" לתיאור בהצלחה.",
     "Error creating Talk room" : "שגיאה ביצירת \"חדר השיחות\"",
-    "Send email" : "שליחת דואר אלקטרוני",
     "Chairperson" : "יושב ראש",
     "Required participant" : "משתתף חובה",
     "Optional participant" : "משתתף אופציונלי",

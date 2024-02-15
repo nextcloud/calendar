@@ -56,7 +56,6 @@ OC.L10N.register(
     "Accept" : "მიღება",
     "Decline" : "ურაყოფა",
     "Tentative" : "საცდელი",
-    "Send email" : "ელ-წერილის გაგზავნა",
     "All day" : "მთელი დღე",
     "Repeat" : "გამეორება",
     "never" : "არასდროს",

@@ -267,7 +267,6 @@ OC.L10N.register(
     "No attendees yet" : "Vēl nav dalībnieku",
     "You do not own this calendar, so you cannot add attendees to this event" : "Jums nav īpašnieka tiesības šim kalendāram, tāpēc jūs nevarat pievienot dalībniekus šim notikumam.",
     "Error creating Talk room" : "Notika kļūda, veidojot tērzēšanas istabu",
-    "Send email" : "Sūtīt e-pastu",
     "Chairperson" : "Priekšsēdētājs",
     "Required participant" : "Nepieciešams dalībnieks",
     "Optional participant" : "Papildu dalībnieks",

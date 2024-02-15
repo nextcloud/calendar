@@ -102,7 +102,6 @@ OC.L10N.register(
     "Accept" : "Acceptar",
     "Decline" : "Declinar",
     "Tentative" : "Provisòri",
-    "Send email" : "Enviar email",
     "Remove group" : "Suprimir lo grop",
     "Remove color" : "Suprimir la color",
     "Event title" : "Títol de l’eveniment",

@@ -56,7 +56,6 @@ OC.L10N.register(
     "Accept" : "Aceptar",
     "Decline" : "Declinar",
     "Tentative" : "Tentativo",
-    "Send email" : "Enviar correo electrónico",
     "All day" : "Todo el día",
     "Repeat" : "Repetir",
     "never" : "nunca",

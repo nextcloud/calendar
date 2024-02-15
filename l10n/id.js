@@ -151,7 +151,6 @@ OC.L10N.register(
     "No attendees yet" : "Belum ada peserta",
     "Successfully appended link to talk room to description." : "Berhasil menambahkan tautan ruang Talk pada deskripsi.",
     "Error creating Talk room" : "Galat membuat ruangan Talk",
-    "Send email" : "Kirim surel",
     "Required participant" : "Partisipan wajib",
     "Optional participant" : "Partisipan opsional",
     "Non-participant" : "Bukan partisipan",

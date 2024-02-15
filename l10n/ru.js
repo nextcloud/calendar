@@ -300,7 +300,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to location." : "Ссылка на переговорную комнату успешно добавлена.",
     "Successfully appended link to talk room to description." : "Ссылка на комнату приложения Talk добавлена в описание.",
     "Error creating Talk room" : "Не удалось создать комнату в приложении Talk.",
-    "Send email" : "Отправить сообщение",
     "Chairperson" : "Председатель",
     "Required participant" : "Обязательный участник",
     "Optional participant" : "Необязательный участник",

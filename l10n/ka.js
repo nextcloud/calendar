@@ -303,7 +303,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to location." : "Successfully appended link to talk room to location.",
     "Successfully appended link to talk room to description." : "Successfully appended link to talk room to description.",
     "Error creating Talk room" : "Error creating Talk room",
-    "Send email" : "Send email",
     "Chairperson" : "Chairperson",
     "Required participant" : "Required participant",
     "Optional participant" : "Optional participant",

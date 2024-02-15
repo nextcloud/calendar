@@ -300,7 +300,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to location." : "Успешно е додадена врска од собата за разговор во локација.",
     "Successfully appended link to talk room to description." : "Успешно додаден линк од собата за разговор во описот.",
     "Error creating Talk room" : "Грешка при креирање на соба за разговор",
-    "Send email" : "Испрати е-пошта",
     "Chairperson" : "Претседавач",
     "Required participant" : "Задолжителен учесник",
     "Optional participant" : "Незадолжителен учесник",

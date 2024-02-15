@@ -296,7 +296,6 @@ OC.L10N.register(
     "No attendees yet" : "Aún no hay asistentes",
     "Successfully appended link to talk room to description." : "Enlace a la sala de Talk se agregó correctamente a la descripción.",
     "Error creating Talk room" : "Error al crear la sala de Talk",
-    "Send email" : "Enviar correo electrónico",
     "Chairperson" : "Presidente",
     "Required participant" : "Participante requerido",
     "Optional participant" : "Participante opcional",
