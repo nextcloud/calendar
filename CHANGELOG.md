@@ -1,5 +1,13 @@
 # Changelog
 
+## 4.6.5 - 2024-02-15
+### Fixed
+- "Send Email" checkbox renamed to "Request reply"
+- "Invitation sent" rephrased to "Awaiting response"
+- Disabled resharing of incoming calendar shares
+- Booking date not displayed in appointment booking popover
+- Appointment slots not being bookable when the time doesn't fit into duration or increment
+
 ## 4.6.4 - 2024-01-18
 ### Fixed
 - Guests being added to talk rooms not open for guests
