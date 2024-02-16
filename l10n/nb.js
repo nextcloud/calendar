@@ -305,6 +305,7 @@ OC.L10N.register(
     "Successfully appended link to talk room to location." : "Lenke til talk-rom til plassering er lagt til.",
     "Successfully appended link to talk room to description." : "La til lenke til Talk-rom til beskrivelsen.",
     "Error creating Talk room" : "Feil ved opprettelse av Talk-rom",
+    "Request reply" : "Be om svar",
     "Chairperson" : "Ordstyrer",
     "Required participant" : "Påkrevd deltaker",
     "Optional participant" : "Valgfri deltaker",

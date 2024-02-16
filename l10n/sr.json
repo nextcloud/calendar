@@ -303,6 +303,7 @@
     "Successfully appended link to talk room to location." : "У локацију је успешно додат линк на Talk собу.",
     "Successfully appended link to talk room to description." : "У опис је успешно додат линк на Talk собу.",
     "Error creating Talk room" : "Грешка приликом креирања Talk собе",
+    "Request reply" : "Захтевај одговор",
     "Chairperson" : "Председавајући",
     "Required participant" : "Обавезни учесник",
     "Optional participant" : "Необавезни учесник",
