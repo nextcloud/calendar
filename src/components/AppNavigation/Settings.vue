@@ -21,7 +21,7 @@
 
 <template>
 	<AppNavigationSettings exclude-click-outside-classes="import-modal"
-		:title="settingsTitle">
+		:name="settingsTitle">
 		<ul class="settings-fieldset-interior">
 			<SettingsImportSection :is-disabled="loadingCalendars" />
 			<ActionCheckbox class="settings-fieldset-interior-item"
@@ -62,25 +62,25 @@
 			</ActionCheckbox>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--slotDuration">
 				<label for="slotDuration">{{ $t('calendar', 'Time increments') }}</label>
-				<Multiselect :id="slotDuration"
-					:allow-empty="false"
+				<NcSelect :id="slotDuration"
 					:options="slotDurationOptions"
 					:value="selectedDurationOption"
 					:disabled="savingSlotDuration"
-					track-by="value"
+					:clearable="false"
+					input-id="value"
 					label="label"
-					@select="changeSlotDuration" />
+					@option:selected="changeSlotDuration" />
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--defaultReminder">
 				<label for="defaultReminder">{{ $t('calendar', 'Default reminder') }}</label>
-				<Multiselect :id="defaultReminder"
-					:allow-empty="false"
+				<NcSelect :id="defaultReminder"
 					:options="defaultReminderOptions"
 					:value="selectedDefaultReminderOption"
 					:disabled="savingDefaultReminder"
-					track-by="value"
+					:clearable="false"
+					input-id="value"
 					label="label"
-					@select="changeDefaultReminder" />
+					@option:selected="changeDefaultReminder" />
 			</li>
 			<SettingsTimezoneSelect :is-disabled="loadingCalendars" />
 			<SettingsAttachmentsFolder />
@@ -122,7 +122,7 @@ import {
 	NcActionCheckbox as ActionCheckbox,
 	NcActionLink as ActionLink,
 	NcAppNavigationSettings as AppNavigationSettings,
-	NcMultiselect as Multiselect,
+	NcSelect,
 } from '@nextcloud/vue'
 import {
 	generateRemoteUrl,
@@ -164,7 +164,7 @@ export default {
 		ActionCheckbox,
 		ActionLink,
 		AppNavigationSettings,
-		Multiselect,
+		NcSelect,
 		SettingsImportSection,
 		SettingsTimezoneSelect,
 		SettingsAttachmentsFolder,

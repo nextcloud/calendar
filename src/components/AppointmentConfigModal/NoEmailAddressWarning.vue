@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<AppNavigationItem :title="title"
+	<AppNavigationItem :name="title"
 		@click="openUserSettings">
 		<template #icon>
 			<AlertCircleIcon :size="20" />

@@ -51,7 +51,7 @@
 				</div>
 			</template>
 			<div v-else>
-				<EmptyContent :title="$t('calendar', 'No public appointments found for {name}', { name: userInfo.displayName })">
+				<EmptyContent :name="$t('calendar', 'No public appointments found for {name}', { name: userInfo.displayName })">
 					<template #icon>
 						<CalendarBlankIcon decorative />
 					</template>

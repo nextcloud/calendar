@@ -34,6 +34,7 @@
 			:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
 			:user-select="true"
 			:filter-by="filterResults"
+			:clearable="false"
 			open-direction="above"
 			track-by="user"
 			label="displayName"

@@ -25,6 +25,7 @@
 	<span class="property-select-multiple-colored-tag">
 		<div class="property-select-multiple-colored-tag__color-indicator" :style="{ 'background-color': color}" />
 		<span class="property-select-multiple-colored-tag__label">{{ label }}</span>
+		<div v-if="closeable" class="icon icon-close" @click="deselect" />
 	</span>
 </template>
 
@@ -39,7 +40,12 @@ export default {
 			type: [String, Object],
 			required: true,
 		},
+		closeable: {
+			type: Boolean,
+			default: false,
+		},
 	},
+	emits: ['deselect'],
 	computed: {
 		label() {
 			const option = this.option
@@ -56,6 +62,11 @@ export default {
 		color() {
 			const color = this.colorObject
 			return `rgb(${color.r},${color.g},${color.b})`
+		},
+	},
+	methods: {
+		deselect() {
+			this.$emit('deselect', this.option)
 		},
 	},
 }

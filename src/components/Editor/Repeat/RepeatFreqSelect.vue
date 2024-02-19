@@ -21,22 +21,22 @@
   -->
 
 <template>
-	<Multiselect :allow-empty="false"
+	<NcSelect :allow-empty="false"
 		:options="options"
 		:value="selected"
-		open-direction="bottom"
-		track-by="freq"
+		:clearable="false"
+		input-id="freq"
 		label="label"
-		@select="select" />
+		@input="select" />
 </template>
 
 <script>
-import { NcMultiselect as Multiselect } from '@nextcloud/vue'
+import { NcSelect } from '@nextcloud/vue'
 
 export default {
 	name: 'RepeatFreqSelect',
 	components: {
-		Multiselect,
+		NcSelect,
 	},
 	props: {
 		freq: {

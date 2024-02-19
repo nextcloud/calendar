@@ -25,7 +25,7 @@
 	<div v-if="display" class="property-text">
 		<component :is="icon"
 			:size="20"
-			:title="readableName"
+			:name="readableName"
 			class="property-text__icon"
 			:class="{ 'property-text__icon--hidden': !showIcon }" />
 
@@ -35,7 +35,7 @@
 				v-autosize="true"
 				:placeholder="placeholder"
 				:rows="rows"
-				:title="readableName"
+				:name="readableName"
 				:value="value"
 				@focus="handleToggleTextareaFocus(true)"
 				@blur="handleToggleTextareaFocus(false)"

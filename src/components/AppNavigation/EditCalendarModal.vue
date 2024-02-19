@@ -50,7 +50,7 @@
 
 				<div class="edit-calendar-modal__sharing">
 					<SharingSearch :calendar="calendar" />
-					<PublishCalendar :calendar="calendar" v-if="canBePublished" />
+					<PublishCalendar v-if="canBePublished" :calendar="calendar" />
 					<InternalLink :calendar="calendar" />
 					<ShareItem v-for="sharee in calendar.shares"
 						:key="sharee.uri"

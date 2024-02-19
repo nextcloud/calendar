@@ -28,7 +28,7 @@
 		<div class="property-alarm-item__icon"
 			:class="{ 'property-alarm-item__icon--hidden': !showIcon }">
 			<Bell :size="20"
-				:title="t('calendar', 'Reminder')"
+				:name="t('calendar', 'Reminder')"
 				class="icon" />
 		</div>
 		<div v-if="!isEditing"

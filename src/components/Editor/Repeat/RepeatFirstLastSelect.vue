@@ -21,23 +21,24 @@
   -->
 
 <template>
-	<Multiselect :allow-empty="false"
+	<NcSelect :allow-empty="false"
 		:options="options"
 		:value="selected"
 		:disabled="disabled"
 		:placeholder="$t('calendar', 'first')"
-		track-by="value"
+		:clearable="false"
+		input-id="value"
 		label="label"
-		@select="select" />
+		@input="select" />
 </template>
 
 <script>
-import { NcMultiselect as Multiselect } from '@nextcloud/vue'
+import { NcSelect } from '@nextcloud/vue'
 
 export default {
 	name: 'RepeatFirstLastSelect',
 	components: {
-		Multiselect,
+		NcSelect,
 	},
 	props: {
 		/**

@@ -21,22 +21,23 @@
   -->
 
 <template>
-	<Multiselect :allow-empty="false"
+	<NcSelect :allow-empty="false"
 		:options="options"
 		:value="selected"
 		:disabled="disabled"
-		track-by="unit"
+		:clearable="false"
+		input-id="unit"
 		label="label"
-		@select="select" />
+		@input="select" />
 </template>
 
 <script>
-import { NcMultiselect as Multiselect } from '@nextcloud/vue'
+import { NcSelect } from '@nextcloud/vue'
 
 export default {
 	name: 'AlarmTimeUnitSelect',
 	components: {
-		Multiselect,
+		NcSelect,
 	},
 	props: {
 		unit: {

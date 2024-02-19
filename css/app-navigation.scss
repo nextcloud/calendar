@@ -151,7 +151,7 @@
 	}
 
 	.app-navigation-entry-wrapper.deleted {
-		.app-navigation-entry__title {
+		.app-navigation-entry__name {
 			text-decoration: line-through;
 		}
 	}
@@ -163,7 +163,7 @@
 	}
 
 	.app-navigation-entry-wrapper.disabled {
-		.app-navigation-entry__title {
+		.app-navigation-entry__name {
 			color: var(--color-text-lighter) !important;
 		}
 	}
@@ -208,13 +208,13 @@
 	}
 
 	.app-navigation-entry-new-calendar {
-		.app-navigation-entry__title {
+		.app-navigation-entry__name {
 			color: var(--color-text-maxcontrast) !important;
 		}
 
 		&:hover,
 		&--open {
-			.app-navigation-entry__title {
+			.app-navigation-entry__name{
 				color: var(--color-text-light) !important;
 			}
 		}
