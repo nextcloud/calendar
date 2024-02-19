@@ -93,6 +93,8 @@ import logger from '../../../utils/logger.js'
 import { advancedPrincipalPropertySearch } from '../../../services/caldavService.js'
 import ResourceSeatingCapacity from './ResourceSeatingCapacity.vue'
 import ResourceRoomType from './ResourceRoomType.vue'
+import usePrincipalsStore from '../../../store/principals.js'
+import { mapStores } from 'pinia'
 
 export default {
 	name: 'ResourceListSearch',
@@ -128,6 +130,7 @@ export default {
 		}
 	},
 	computed: {
+		...mapStores(usePrincipalsStore()),
 		placeholder() {
 			return this.$t('calendar', 'Search for resources or rooms')
 		},
@@ -223,7 +226,7 @@ export default {
 			// Check resource availability
 			await checkResourceAvailability(
 				options,
-				this.$store.getters.getCurrentUserPrincipalEmail,
+				this.principalsStore.getCurrentUserPrincipalEmail,
 				this.calendarObjectInstance.eventComponent.startDate,
 				this.calendarObjectInstance.eventComponent.endDate,
 			)

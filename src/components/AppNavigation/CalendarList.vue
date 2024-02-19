@@ -49,9 +49,10 @@ import PublicCalendarListItem from './CalendarList/PublicCalendarListItem.vue'
 import CalendarListItemLoadingPlaceholder from './CalendarList/CalendarListItemLoadingPlaceholder.vue'
 import draggable from 'vuedraggable'
 import debounce from 'debounce'
-import { mapGetters } from 'vuex'
 import { showError } from '@nextcloud/dialogs'
 import pLimit from 'p-limit'
+import { mapStores } from 'pinia'
+import useCalendarsStore from '../../store/calendars.js'
 
 const limit = pLimit(1)
 
@@ -80,8 +81,8 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({
-			serverCalendars: 'sortedCalendarsSubscriptions',
+		...mapStores({
+			useCalendarsStore,
 		}),
 		loadingKeyCalendars() {
 			return this._uid + '-loading-placeholder-calendars'
@@ -101,11 +102,11 @@ export default {
 			}, {})
 
 			try {
-				await limit(() => this.$store.dispatch('updateCalendarListOrder', { newOrder }))
+				await limit(() => this.calendarsStore.updateCalendarListOrder({ newOrder }))
 			} catch (err) {
 				showError(this.$t('calendar', 'Could not update calendar order.'))
 				// Reset calendar list order on error
-				this.calendars = this.serverCalendars
+				this.calendars = this.calendarsStore.sortedCalendarsSubscriptions()
 			} finally {
 				this.disableDragging = false
 			}

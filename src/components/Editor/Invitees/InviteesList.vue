@@ -86,6 +86,8 @@ import {
 	showError,
 } from '@nextcloud/dialogs'
 import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
+import usePrincipalsStore from '../../../store/principals.js'
+import { mapStores } from 'pinia'
 
 export default {
 	name: 'InviteesList',
@@ -119,6 +121,7 @@ export default {
 		}
 	},
 	computed: {
+		...mapStores(usePrincipalsStore()),
 		...mapState({
 			talkEnabled: state => state.settings.talkEnabled,
 		}),
@@ -173,8 +176,8 @@ export default {
 		},
 		isOrganizer() {
 			return this.calendarObjectInstance.organizer !== null
-				&& this.$store.getters.getCurrentUserPrincipal !== null
-				&& removeMailtoPrefix(this.calendarObjectInstance.organizer.uri) === this.$store.getters.getCurrentUserPrincipal.emailAddress
+				&& this.principalsStore.getCurrentUserPrincipal !== null
+				&& removeMailtoPrefix(this.calendarObjectInstance.organizer.uri) === this.principalsStore.getCurrentUserPrincipal.emailAddress
 		},
 		hasOrganizer() {
 			return this.calendarObjectInstance.organizer !== null
@@ -189,7 +192,7 @@ export default {
 		alreadyInvitedEmails() {
 			const emails = this.invitees.map(attendee => removeMailtoPrefix(attendee.uri))
 
-			const principal = this.$store.getters.getCurrentUserPrincipal
+			const principal = this.principalsStore.getCurrentUserPrincipal
 			if (principal) {
 				emails.push(principal.emailAddress)
 			}
@@ -197,7 +200,7 @@ export default {
 			return emails
 		},
 		hasUserEmailAddress() {
-			const principal = this.$store.getters.getCurrentUserPrincipal
+			const principal = this.principalsStore.getCurrentUserPrincipal
 			if (!principal) {
 				return false
 			}
@@ -234,7 +237,7 @@ export default {
 				rsvp: true,
 				language,
 				timezoneId,
-				organizer: this.$store.getters.getCurrentUserPrincipal,
+				organizer: this.principalsStore.getCurrentUserPrincipal,
 				member,
 			})
 		},

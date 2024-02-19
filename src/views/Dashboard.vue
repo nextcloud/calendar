@@ -79,6 +79,10 @@ import { eventSourceFunction } from '../fullcalendar/eventSources/eventSourceFun
 import loadMomentLocalization from '../utils/moment.js'
 import { DateTimeValue } from '@nextcloud/calendar-js'
 import { mapGetters } from 'vuex'
+import { mapStores } from 'pinia'
+import useSettingsStore from '../store/settings.js'
+import useCalendarsStore from '../store/calendars.js'
+import usePrincipalsStore from '../store/principals.js'
 
 export default {
 	name: 'Dashboard',
@@ -104,6 +108,7 @@ export default {
 		...mapGetters({
 			timezoneObject: 'getResolvedTimezoneObject',
 		}),
+		...mapStores(useSettingsStore, useCalendarsStore, usePrincipalsStore),
 		/**
 		 * Format loaded events
 		 *
@@ -160,8 +165,8 @@ export default {
 		 */
 		async initializeEnvironment() {
 			await initializeClientForUserView()
-			await this.$store.dispatch('fetchCurrentUserPrincipal')
-			await this.$store.dispatch('loadCollections')
+			await this.principalsStore.fetchCurrentUserPrincipal()
+			await this.calendarsStore.loadCollections()
 
 			const {
 				show_tasks: showTasks,
@@ -187,11 +192,11 @@ export default {
 		async fetchExpandedEvents(from, to) {
 			const limit = pLimit(10)
 			const fetchEventPromises = []
-			for (const calendar of this.$store.getters.enabledCalendars) {
+			for (const calendar of this.calendarsStore.enabledCalendars) {
 				fetchEventPromises.push(limit(async () => {
 					let timeRangeId
 					try {
-						timeRangeId = await this.$store.dispatch('getEventsFromCalendarInTimeRange', {
+						timeRangeId = await this.calendarsStore.getEventsFromCalendarInTimeRange({
 							calendar,
 							from,
 							to,
@@ -238,7 +243,7 @@ export default {
 		 * @return {string}
 		 */
 		formatSubtext(event) {
-			const locale = this.$store.state.settings.momentLocale
+			const locale = this.settingsStore.momentLocale
 
 			if (event.allDay) {
 				return moment(event.start).locale(locale).calendar(null, {

@@ -23,6 +23,8 @@
 <script>
 import { NcMultiselect as Multiselect } from '@nextcloud/vue'
 import CalendarPickerOption from './CalendarPickerOption.vue'
+import { mapStores } from 'pinia'
+import useCalendarsStore from '../../store/calendars.js'
 
 export default {
 	name: 'CalendarPicker',
@@ -54,6 +56,9 @@ export default {
 			// for calendars where only one calendar can be selected, disable if there are < 2
 			return this.multiple ? this.calendars.length < 1 : this.calendars.length < 2
 		},
+		...mapStores({
+			useCalendarsStore,
+		}),
 	},
 	methods: {
 		/**
@@ -67,7 +72,7 @@ export default {
 			}
 
 			if (this.showCalendarOnSelect && !newCalendar.enabled) {
-				this.$store.dispatch('toggleCalendarEnabled', {
+				this.calendarsStore.toggleCalendarEnabled({
 					calendar: newCalendar,
 				})
 			}

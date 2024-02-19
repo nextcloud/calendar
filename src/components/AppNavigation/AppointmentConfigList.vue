@@ -68,8 +68,11 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import AppointmentConfigModal from '../AppointmentConfigModal.vue'
 import AppointmentConfig from '../../models/appointmentConfig.js'
 import logger from '../../utils/logger.js'
-import { mapGetters } from 'vuex'
 import NoEmailAddressWarning from '../AppointmentConfigModal/NoEmailAddressWarning.vue'
+import useAppointmentConfigsStore from '../../store/appointmentConfigs.js'
+import usePrincipalsStore from '../../store/principals.js'
+import useCalendarsStore from '../../store/calendars.js'
+import { mapStores } from 'pinia'
 
 export default {
 	name: 'AppointmentConfigList',
@@ -87,21 +90,23 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({
-			configs: 'allConfigs',
-		}),
+		...mapStores(usePrincipalsStore, useCalendarsStore),
+		configs() {
+			const store = useAppointmentConfigsStore()
+			return store.allConfigs
+		},
 		defaultConfig() {
 			return AppointmentConfig.createDefault(
-				this.calendarUrlToUri(this.$store.getters.ownSortedCalendars[0].url),
-				this.$store.getters.scheduleInbox,
+				this.calendarUrlToUri(this.calendarsStore.ownSortedCalendars[0].url),
+				this.calendarsStore.scheduleInbox,
 				this.$store.getters.getResolvedTimezone,
 			)
 		},
 		hasAtLeastOneCalendar() {
-			return !!this.$store.getters.ownSortedCalendars[0]
+			return !!this.calendarsStore.ownSortedCalendars[0]
 		},
 		hasUserEmailAddress() {
-			const principal = this.$store.getters.getCurrentUserPrincipal
+			const principal = this.principalsStore.getCurrentUserPrincipal
 			if (!principal) {
 				return false
 			}

@@ -42,7 +42,7 @@
 				</template>
 
 				<!-- Trashbin -->
-				<Trashbin v-if="hasTrashBin" />
+				<Trashbin v-if="calendarsStore.hasTrashBin" />
 			</template>
 			<!-- Settings and import -->
 			<template #footer>
@@ -105,6 +105,11 @@ import {
 import '@nextcloud/dialogs/dist/index.css'
 import Trashbin from '../components/AppNavigation/CalendarList/Trashbin.vue'
 import AppointmentConfigList from '../components/AppNavigation/AppointmentConfigList.vue'
+import useFetchedTimeRangesStore from '../store/fetchedTimeRanges.js'
+import useCalendarsStore from '../store/calendars.js'
+import usePrincipalsStore from '../store/principals.js'
+import useSettingsStore from '../store/settings.js'
+import { mapStores } from 'pinia'
 
 export default {
 	name: 'Calendar',
@@ -132,10 +137,9 @@ export default {
 		}
 	},
 	computed: {
+		...mapStores(useFetchedTimeRangesStore, useCalendarsStore, usePrincipalsStore, useSettingsStore),
 		...mapGetters({
 			timezoneId: 'getResolvedTimezone',
-			hasTrashBin: 'hasTrashBin',
-			currentUserPrincipal: 'getCurrentUserPrincipal',
 		},
 		),
 		...mapState({
@@ -190,13 +194,13 @@ export default {
 	created() {
 		this.timeFrameCacheExpiryJob = setInterval(() => {
 			const timestamp = (getUnixTimestampFromDate(dateFactory()) - 60 * 10)
-			const timeRanges = this.$store.getters.getAllTimeRangesOlderThan(timestamp)
+			const timeRanges = this.fetchedTimeRangesStore.getAllTimeRangesOlderThan(timestamp)
 
 			for (const timeRange of timeRanges) {
-				this.$store.commit('removeTimeRange', {
+				this.fetchedTimeRangesStore.removeTimeRange({
 					timeRangeId: timeRange.id,
 				})
-				this.$store.commit('deleteFetchedTimeRangeFromCalendar', {
+				this.calendarsStore.deleteFetchedTimeRangeFromCalendarMutation({
 					calendar: {
 						id: timeRange.calendarId,
 					},
@@ -232,7 +236,7 @@ export default {
 		if (this.$route.name.startsWith('Public') || this.$route.name.startsWith('Embed')) {
 			await initializeClientForPublicView()
 			const tokens = this.$route.params.tokens.split('-')
-			const calendars = await this.$store.dispatch('getPublicCalendars', { tokens })
+			const calendars = await this.calendarsStore.getPublicCalendars({ tokens })
 			this.loadingCalendars = false
 
 			if (calendars.length === 0) {
@@ -240,8 +244,8 @@ export default {
 			}
 		} else {
 			await initializeClientForUserView()
-			await this.$store.dispatch('fetchCurrentUserPrincipal')
-			const { calendars, trashBin } = await this.$store.dispatch('loadCollections')
+			await this.principalsStore.fetchCurrentUserPrincipal()
+			const { calendars, trashBin } = await this.calendarsStore.loadCollections()
 			logger.debug('calendars and trash bin loaded', { calendars, trashBin })
 			const owners = []
 			calendars.forEach((calendar) => {
@@ -250,9 +254,7 @@ export default {
 				}
 			})
 			owners.forEach((owner) => {
-				this.$store.dispatch('fetchPrincipalByUrl', {
-					url: owner,
-				})
+				this.principalsStore.fetchPrincipalByUrl({ url: owner })
 			})
 
 			const writeableCalendarIndex = calendars.findIndex((calendar) => {
@@ -263,7 +265,7 @@ export default {
 			if (writeableCalendarIndex === -1) {
 				logger.info('User has no writable calendar, a new personal calendar will be created')
 				this.loadingCalendars = true
-				await this.$store.dispatch('appendCalendar', {
+				await this.calendarsStore.appendCalendar({
 					displayName: this.$t('calendar', 'Personal'),
 					color: uidToHexColor(this.$t('calendar', 'Personal')),
 					order: 0,
@@ -297,7 +299,7 @@ export default {
 		 */
 		async loadMomentLocale() {
 			const locale = await loadMomentLocalization()
-			this.$store.commit('setMomentLocale', { locale })
+			this.settingsStore.setMomentLocale({ locale })
 		},
 	},
 }

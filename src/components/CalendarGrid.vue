@@ -65,6 +65,8 @@ import VTimezoneNamedTimezone from '../fullcalendar/timezones/vtimezoneNamedTime
 import { mapGetters, mapState } from 'vuex'
 import debounce from 'debounce'
 import { getYYYYMMDDFromFirstdayParam } from '../utils/date.js'
+import useCalendarsStore from '../store/calendars.js'
+import { mapStores } from 'pinia'
 
 export default {
 	name: 'CalendarGrid',
@@ -89,6 +91,9 @@ export default {
 	computed: {
 		...mapGetters({
 			timezoneId: 'getResolvedTimezone',
+		}),
+		...mapStores({
+			useCalendarsStore,
 		}),
 		...mapState({
 			locale: (state) => state.settings.momentLocale,
@@ -150,7 +155,7 @@ export default {
 			}
 		},
 		eventSources() {
-			return this.$store.getters.enabledCalendars.map(eventSource(this.$store))
+			return this.calendarsStore.enabledCalendars.map(eventSource())
 		},
 		/**
 		 * FullCalendar Plugins

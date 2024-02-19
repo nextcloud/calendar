@@ -19,29 +19,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-const state = {
-	minimumDate: '1970-01-01T00:00:00Z',
-	maximumDate: '2037-12-31T23:59:59Z',
-}
 
-const mutations = {
+import { defineStore } from 'pinia'
 
-	/**
-	 * Initialize restrictions imposed by CalDAV server
-	 *
-	 * @param {object} state The Vuex state
-	 * @param {object} data The destructuring object
-	 * @param {string} data.minimumDate The minimum-date allowed by the CalDAV server
-	 * @param {string} data.maximumDate The maximum-date allowed by the CalDAV server
-	 */
-	loadDavRestrictionsFromServer(state, { minimumDate, maximumDate }) {
-		state.minimumDate = minimumDate
-		state.maximumDate = maximumDate
+export default defineStore('davRestrictions', {
+	state: () => {
+		return {
+			minimumDate: '1970-01-01T00:00:00Z',
+			maximumDate: '2037-12-31T23:59:59Z',
+		}
 	},
-}
-
-const getters = {}
-
-const actions = {}
-
-export default { state, mutations, getters, actions }
+	actions: {
+		loadDavRestrictionsFromServer({ minimumDate, maximumDate }) {
+			this.minimumDate = minimumDate
+			this.maximumDate = maximumDate
+		},
+	},
+})

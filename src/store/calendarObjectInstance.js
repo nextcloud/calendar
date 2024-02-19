@@ -51,6 +51,7 @@ import settings from './settings.js'
 import { getRFCProperties } from '../models/rfcProps.js'
 import { generateUrl } from '@nextcloud/router'
 import { updateTalkParticipants } from '../services/talkService.js'
+import useCalendarObjectsStore from './calendarObjects.js'
 
 const state = {
 	isNew: null,
@@ -1564,6 +1565,8 @@ const actions = {
 	 * @return {Promise<{calendarObject: object, calendarObjectInstance: object}>}
 	 */
 	async getCalendarObjectInstanceForNewEvent({ state, dispatch, commit }, { isAllDay, start, end, timezoneId }) {
+		const calendarObjectsStore = useCalendarObjectsStore()
+
 		if (state.isNew === true) {
 			return Promise.resolve({
 				calendarObject: state.calendarObject,
@@ -1571,7 +1574,7 @@ const actions = {
 			})
 		}
 
-		const calendarObject = await dispatch('createNewEvent', { start, end, isAllDay, timezoneId })
+		const calendarObject = await calendarObjectsStore.createNewEvent({ start, end, isAllDay, timezoneId })
 		const startDate = new Date(start * 1000)
 		const eventComponent = getObjectAtRecurrenceId(calendarObject, startDate)
 		const calendarObjectInstance = mapEventComponentToEventObject(eventComponent)
@@ -1622,7 +1625,9 @@ const actions = {
 	 * @return {Promise<{calendarObject: object, calendarObjectInstance: object}>}
 	 */
 	async updateCalendarObjectInstanceForNewEvent({ state, dispatch, commit }, { isAllDay, start, end, timezoneId }) {
-		await dispatch('updateTimeOfNewEvent', {
+		const calendarObjectsStore = useCalendarObjectsStore()
+
+		await calendarObjectsStore.updateTimeOfNewEvent({
 			calendarObjectInstance: state.calendarObjectInstance,
 			start,
 			end,
@@ -1653,6 +1658,8 @@ const actions = {
 	 * @return {Promise<void>}
 	 */
 	async saveCalendarObjectInstance({ state, dispatch, commit }, { thisAndAllFuture, calendarId }) {
+		const calendarObjectsStore = useCalendarObjectsStore()
+
 		const eventComponent = state.calendarObjectInstance.eventComponent
 		const calendarObject = state.calendarObject
 
@@ -1671,10 +1678,10 @@ const actions = {
 				[original, fork] = eventComponent.createRecurrenceException(thisAndAllFuture)
 			}
 
-			await dispatch('updateCalendarObject', { calendarObject })
+			await calendarObjectsStore.updateCalendarObject({ calendarObject })
 
 			if (original !== null && fork !== null && original.root !== fork.root) {
-				await dispatch('createCalendarObjectFromFork', {
+				await calendarObjectsStore.createCalendarObjectFromFork({
 					eventComponent: fork,
 					calendarId,
 				})
@@ -1682,7 +1689,7 @@ const actions = {
 		}
 
 		if (calendarId !== state.calendarObject.calendarId) {
-			await dispatch('moveCalendarObject', {
+			await calendarObjectsStore.moveCalendarObject({
 				calendarObject,
 				newCalendarId: calendarId,
 			})
@@ -1699,11 +1706,13 @@ const actions = {
 	 * @return {Promise<void>}
 	 */
 	async duplicateCalendarObjectInstance({ state, dispatch, commit }) {
+		const calendarObjectsStore = useCalendarObjectsStore()
+
 		const oldCalendarObjectInstance = state.calendarObjectInstance
 		const oldEventComponent = oldCalendarObjectInstance.eventComponent
 		const startDate = oldEventComponent.startDate.getInUTC()
 		const endDate = oldEventComponent.endDate.getInUTC()
-		const calendarObject = await dispatch('createNewEvent', {
+		const calendarObject = await calendarObjectsStore.createNewEvent({
 			start: startDate.unixTime,
 			end: endDate.unixTime,
 			timezoneId: oldEventComponent.startDate.timezoneId,
@@ -1728,14 +1737,16 @@ const actions = {
 	 * @return {Promise<void>}
 	 */
 	async deleteCalendarObjectInstance({ state, dispatch, commit }, { thisAndAllFuture }) {
+		const calendarObjectsStore = useCalendarObjectsStore()
+
 		const eventComponent = state.calendarObjectInstance.eventComponent
 		const isRecurrenceSetEmpty = eventComponent.removeThisOccurrence(thisAndAllFuture)
 		const calendarObject = state.calendarObject
 
 		if (isRecurrenceSetEmpty) {
-			await dispatch('deleteCalendarObject', { calendarObject })
+			await calendarObjectsStore.deleteCalendarObject({ calendarObject })
 		} else {
-			await dispatch('updateCalendarObject', { calendarObject })
+			await calendarObjectsStore.updateCalendarObject({ calendarObject })
 		}
 	},
 

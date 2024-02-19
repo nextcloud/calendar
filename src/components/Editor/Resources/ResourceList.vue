@@ -64,6 +64,8 @@ import ResourceListSearch from './ResourceListSearch.vue'
 import ResourceListItem from './ResourceListItem.vue'
 import OrganizerNoEmailError from '../OrganizerNoEmailError.vue'
 import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
+import usePrincipalsStore from '../../../store/principals.js'
+import { mapStores } from 'pinia'
 
 import MapMarker from 'vue-material-design-icons/MapMarker.vue'
 
@@ -92,6 +94,7 @@ export default {
 		}
 	},
 	computed: {
+		...mapStores(usePrincipalsStore()),
 		resources() {
 			return this.calendarObjectInstance.attendees.filter(attendee => {
 				return ['ROOM', 'RESOURCE'].includes(attendee.attendeeProperty.userType)
@@ -115,7 +118,7 @@ export default {
 			return organizerDisplayName(this.calendarObjectInstance.organizer)
 		},
 		hasUserEmailAddress() {
-			const emailAddress = this.$store.getters.getCurrentUserPrincipal?.emailAddress
+			const emailAddress = this.principalsStore.getCurrentUserPrincipal?.emailAddress
 			return !!emailAddress
 		},
 	},
@@ -139,7 +142,7 @@ export default {
 				rsvp: true,
 				language,
 				timezoneId,
-				organizer: this.$store.getters.getCurrentUserPrincipal,
+				organizer: this.principalsStore.getCurrentUserPrincipal,
 			})
 			this.updateLocation(roomAddress)
 		},
@@ -169,13 +172,13 @@ export default {
 						isAvailable: true,
 						roomAddress: principal.roomAddress,
 						uri: principal.email,
-						organizer: this.$store.getters.getCurrentUserPrincipal,
+						organizer: this.principalsStore.getCurrentUserPrincipal,
 					}
 				})
 
 				await checkResourceAvailability(
 					results,
-					this.$store.getters.getCurrentUserPrincipalEmail,
+					this.principalsStore.getCurrentUserPrincipalEmail,
 					this.calendarObjectInstance.eventComponent.startDate,
 					this.calendarObjectInstance.eventComponent.endDate,
 				)

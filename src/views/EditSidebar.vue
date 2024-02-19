@@ -328,6 +328,9 @@ import { Parameter } from '@nextcloud/calendar-js'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import logger from '../utils/logger.js'
 
+import usePrincipalsStore from '../store/principals.js'
+import { mapStores } from 'pinia'
+
 export default {
 	name: 'EditSidebar',
 	components: {
@@ -377,6 +380,7 @@ export default {
 		}
 	},
 	computed: {
+		...mapStores(usePrincipalsStore()),
 		...mapState({
 			locale: (state) => state.settings.momentLocale,
 			hideEventExport: (state) => state.settings.hideEventExport,
@@ -415,7 +419,7 @@ export default {
 			return this.calendarObjectInstance?.attachments || null
 		},
 		currentUser() {
-			return this.$store.getters.getCurrentUserPrincipal || null
+			return this.principalsStore.getCurrentUserPrincipal || null
 		},
 		/**
 		 * @return {boolean}

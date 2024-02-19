@@ -13,7 +13,7 @@
 				<template #icon>
 					<Download :size="20" decorative />
 				</template>
-				<ActionLink v-for="calendar in subscriptions"
+				<ActionLink v-for="calendar in calendarsStore.sortedSubscriptions"
 					:key="calendar.id"
 					target="_blank"
 					:href="calendar.url + '?export'">
@@ -27,7 +27,7 @@
 				<template #icon>
 					<CalendarBlank :size="20" decorative />
 				</template>
-				<ActionButton v-for="calendar in subscriptions"
+				<ActionButton v-for="calendar in calendarsStore.sortedSubscriptions"
 					:key="calendar.id"
 					@click.prevent.stop="copySubscriptionLink(calendar)">
 					<template #icon>
@@ -46,9 +46,6 @@ import {
 	NcActionButton as ActionButton,
 	NcActionLink as ActionLink,
 } from '@nextcloud/vue'
-import {
-	mapGetters,
-} from 'vuex'
 import { generateRemoteUrl } from '@nextcloud/router'
 import {
 	showSuccess,
@@ -61,6 +58,9 @@ import AppNavigationHeaderViewButtons from './EmbedHeader/EmbedHeaderViewButtons
 
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import Download from 'vue-material-design-icons/Download.vue'
+
+import { mapStores } from 'pinia'
+import useCalendarsStore from '../../store/calendars.js'
 
 export default {
 	name: 'EmbedTopNavigation',
@@ -75,8 +75,8 @@ export default {
 		Download,
 	},
 	computed: {
-		...mapGetters({
-			subscriptions: 'sortedSubscriptions',
+		...mapStores({
+			useCalendarsStore,
 		}),
 	},
 	methods: {

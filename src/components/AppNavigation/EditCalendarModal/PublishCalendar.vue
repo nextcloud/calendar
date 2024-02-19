@@ -159,6 +159,8 @@ import Delete from 'vue-material-design-icons/Delete.vue'
 import Email from 'vue-material-design-icons/Email.vue'
 import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import { mapStores } from 'pinia'
+import useCalendarsStore from '../../../store/calendars.js'
 
 export default {
 	name: 'PublishCalendar',
@@ -212,6 +214,9 @@ export default {
 		}
 	},
 	computed: {
+		...mapStores({
+			useCalendarsStore,
+		}),
 		isPublished() {
 			return this.calendar.publishURL !== null
 		},
@@ -221,7 +226,7 @@ export default {
 			this.publishingCalendar = true
 
 			try {
-				await this.$store.dispatch('publishCalendar', { calendar: this.calendar })
+				await this.calendarsStore.publishCalendar({ calendar: this.calendar })
 			} catch (error) {
 				console.debug(error)
 				showError(this.$t('calendar', 'An error occurred, unable to publish calendar.'))
@@ -363,7 +368,7 @@ export default {
 
 			const calendar = this.calendar
 			try {
-				await this.$store.dispatch('unpublishCalendar', { calendar })
+				await this.calendarsStore.unpublishCalendar({ calendar })
 				this.unpublishingCalendar = false
 			} catch (error) {
 				console.debug(error)

@@ -67,13 +67,14 @@
 <script>
 import { NcButton, NcEmptyContent, NcModal } from '@nextcloud/vue'
 import { showError } from '@nextcloud/dialogs'
-import { mapGetters } from 'vuex'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 
 import { findAllSubscriptions } from '../../services/caldavService.js'
 import holidayCalendars from '../../resources/holiday_calendars.json'
 import { uidToHexColor } from '../../utils/color.js'
 import { loadState } from '@nextcloud/initial-state'
+import { mapStores } from 'pinia'
+import useCalendarsStore from '../../store/calendars.js'
 
 const isValidString = (str, allowNull = false) => {
 	return typeof str === 'string' || str instanceof String || (allowNull && !str)
@@ -143,9 +144,9 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters([
-			'sortedCalendars',
-		]),
+		...mapStores({
+			useCalendarsStore,
+		}),
 	},
 	async mounted() {
 		this.subscriptions = await findAllSubscriptions()
@@ -157,7 +158,7 @@ export default {
 			try {
 				this.subscribing[calendar.source] = true
 
-				await this.$store.dispatch('appendSubscription', {
+				await this.calendarsStore.appendSubscription({
 					displayName: calendar.displayName || calendar.name,
 					color: uidToHexColor(calendar.source),
 					source: calendar.source,

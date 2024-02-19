@@ -33,16 +33,11 @@ import contacts from './contacts.js'
 import davRestrictions from './davRestrictions.js'
 import fetchedTimeRanges from './fetchedTimeRanges.js'
 import importFiles from './importFiles.js'
-import importState from './importState.js'
-import principals from './principals.js'
-import settings from './settings.js'
-import appointmentConfigs from './appointmentConfigs.js'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
 	modules: {
-		appointmentConfigs,
 		calendarObjectInstance,
 		calendarObjects,
 		calendars,
@@ -50,9 +45,6 @@ export default new Vuex.Store({
 		davRestrictions,
 		fetchedTimeRanges,
 		importFiles,
-		importState,
-		principals,
-		settings,
 	},
 	// // Throw errors when the state is edited outside of mutations
 	// strict: true

@@ -25,7 +25,7 @@
 		<ul class="settings-fieldset-interior">
 			<SettingsImportSection :is-disabled="loadingCalendars" />
 			<ActionCheckbox class="settings-fieldset-interior-item"
-				:checked="birthdayCalendar"
+				:checked="calendarsStore.hasBirthdayCalendar"
 				:disabled="isBirthdayCalendarDisabled"
 				@update:checked="toggleBirthdayEnabled">
 				{{ $t('calendar', 'Enable birthday calendar') }}
@@ -122,16 +122,14 @@ import {
 	NcActionCheckbox as ActionCheckbox,
 	NcActionLink as ActionLink,
 	NcAppNavigationSettings as AppNavigationSettings,
-	NcMultiselect as Multiselect,
 } from '@nextcloud/vue'
 import {
 	generateRemoteUrl,
 	generateUrl,
 } from '@nextcloud/router'
-import {
-	mapGetters,
-	mapState,
-} from 'vuex'
+import { mapStores } from 'pinia'
+import useSettingsStore from '../../store/settings.js'
+import useCalendarsStore from '../../store/calendars.js'
 import moment from '@nextcloud/moment'
 import {
 	showSuccess,
@@ -164,7 +162,6 @@ export default {
 		ActionCheckbox,
 		ActionLink,
 		AppNavigationSettings,
-		Multiselect,
 		SettingsImportSection,
 		SettingsTimezoneSelect,
 		SettingsAttachmentsFolder,
@@ -192,21 +189,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({
-			birthdayCalendar: 'hasBirthdayCalendar',
-		}),
-		...mapState({
-			eventLimit: state => state.settings.eventLimit,
-			showPopover: state => !state.settings.skipPopover,
-			showTasks: state => state.settings.showTasks,
-			showWeekends: state => state.settings.showWeekends,
-			showWeekNumbers: state => state.settings.showWeekNumbers,
-			slotDuration: state => state.settings.slotDuration,
-			defaultReminder: state => state.settings.defaultReminder,
-			timezone: state => state.settings.timezone,
-			locale: (state) => state.settings.momentLocale,
-			attachmentsFolder: (state) => state.settings.attachmentsFolder,
-		}),
+		...mapStores(useSettingsStore, useCalendarsStore),
 		isBirthdayCalendarDisabled() {
 			return this.savingBirthdayCalendar || this.loadingCalendars
 		},
@@ -278,7 +261,7 @@ export default {
 			// change to loading status
 			this.savingBirthdayCalendar = true
 			try {
-				await this.$store.dispatch('toggleBirthdayCalendarEnabled')
+				await this.settingStore.toggleBirthdayCalendarEnabled()
 				this.savingBirthdayCalendar = false
 			} catch (error) {
 				console.error(error)
@@ -290,7 +273,7 @@ export default {
 			// change to loading status
 			this.savingEventLimit = true
 			try {
-				await this.$store.dispatch('toggleEventLimitEnabled')
+				await this.settingsStore.toggleEventLimitEnabled()
 				this.savingEventLimit = false
 			} catch (error) {
 				console.error(error)
@@ -302,7 +285,7 @@ export default {
 			// change to loading status
 			this.savingTasks = true
 			try {
-				await this.$store.dispatch('toggleTasksEnabled')
+				await this.settingsStore.toggleTasksEnabled()
 				this.savingTasks = false
 			} catch (error) {
 				console.error(error)
@@ -314,7 +297,7 @@ export default {
 			// change to loading status
 			this.savingPopover = true
 			try {
-				await this.$store.dispatch('togglePopoverEnabled')
+				await this.settingsStore.togglePopoverEnabled()
 				this.savingPopover = false
 			} catch (error) {
 				console.error(error)
@@ -326,7 +309,7 @@ export default {
 			// change to loading status
 			this.savingWeekend = true
 			try {
-				await this.$store.dispatch('toggleWeekendsEnabled')
+				await this.settingsStore.toggleWeekendsEnabled()
 				this.savingWeekend = false
 			} catch (error) {
 				console.error(error)
@@ -341,7 +324,7 @@ export default {
 			// change to loading status
 			this.savingWeekNumber = true
 			try {
-				await this.$store.dispatch('toggleWeekNumberEnabled')
+				await this.settingsStore.toggleWeekNumberEnabled()
 				this.savingWeekNumber = false
 			} catch (error) {
 				console.error(error)
@@ -363,9 +346,7 @@ export default {
 			this.savingSlotDuration = true
 
 			try {
-				await this.$store.dispatch('setSlotDuration', {
-					slotDuration: option.value,
-				})
+				await this.settingsStore.setSlotDuration({ slotDuration: option.value })
 				this.savingSlotDuration = false
 			} catch (error) {
 				console.error(error)
@@ -387,7 +368,7 @@ export default {
 			this.savingDefaultReminder = true
 
 			try {
-				await this.$store.dispatch('setDefaultReminder', {
+				await this.settingsStore.setDefaultReminder({
 					defaultReminder: option.value,
 				})
 				this.savingDefaultReminder = false

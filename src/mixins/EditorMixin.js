@@ -33,6 +33,10 @@ import {
 } from 'vuex'
 import { translate as t } from '@nextcloud/l10n'
 import { removeMailtoPrefix } from '../utils/attendee.js'
+import usePrincipalsStore from '../store/principals.js'
+import useCalendarsStore from '../store/calendars.js'
+import useCalendarObjectsStore from '../store/calendarObjects.js'
+import { mapStores } from 'pinia'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
@@ -71,6 +75,7 @@ export default {
 			calendarObject: (state) => state.calendarObjectInstance.calendarObject,
 			calendarObjectInstance: (state) => state.calendarObjectInstance.calendarObjectInstance,
 		}),
+		...mapStores(useCalendarsStore, usePrincipalsStore, useCalendarObjectsStore),
 		eventComponent() {
 			return this.calendarObjectInstance?.eventComponent
 		},
@@ -170,7 +175,7 @@ export default {
 		 */
 		selectedCalendarColor() {
 			if (!this.selectedCalendar) {
-				const calendars = this.$store.getters.sortedCalendars
+				const calendars = this.calendarsStore.sortedCalendars
 				if (calendars.length > 0) {
 					return calendars[0].color
 				}
@@ -206,7 +211,7 @@ export default {
 				return true
 			}
 
-			const calendar = this.$store.getters.getCalendarById(this.calendarObject.calendarId)
+			const calendar = this.calendarsStore.getCalendarById(this.calendarObject.calendarId)
 			if (!calendar) {
 				return true
 			}
@@ -218,7 +223,7 @@ export default {
 				return true
 			}
 
-			const calendar = this.$store.getters.getCalendarById(this.calendarObject.calendarId)
+			const calendar = this.calendarsStore.getCalendarById(this.calendarObject.calendarId)
 			if (!calendar) {
 				return true
 			}
@@ -239,11 +244,11 @@ export default {
 		 * @return {?object}
 		 */
 		userAsAttendee() {
-			if (this.isReadOnly || !this.$store.getters.getCurrentUserPrincipalEmail || !this.calendarObjectInstance.organizer) {
+			if (this.isReadOnly || !this.principalsStore.getCurrentUserPrincipalEmail || !this.calendarObjectInstance.organizer) {
 				return null
 			}
 
-			const principal = removeMailtoPrefix(this.$store.getters.getCurrentUserPrincipalEmail)
+			const principal = removeMailtoPrefix(this.principalsStore.getCurrentUserPrincipalEmail)
 			for (const attendee of this.calendarObjectInstance.attendees) {
 				if (removeMailtoPrefix(attendee.uri) === principal) {
 					return attendee
@@ -260,11 +265,11 @@ export default {
 		calendars() {
 			if (this.isReadOnly && this.calendarObject) {
 				return [
-					this.$store.getters.getCalendarById(this.calendarObject.calendarId),
+					this.calendarsStore.getCalendarById(this.calendarObject.calendarId),
 				]
 			}
 
-			return this.$store.getters.sortedCalendars
+			return this.calendarsStore.sortedCalendars
 		},
 		/**
 		 * Returns the object of the selected calendar
@@ -272,7 +277,7 @@ export default {
 		 * @return {object}
 		 */
 		selectedCalendar() {
-			return this.$store.getters.getCalendarById(this.calendarId)
+			return this.calendarsStore.getCalendarById(this.calendarId)
 		},
 		/**
 		 * Returns whether or not to display the calendar-picker
@@ -285,7 +290,7 @@ export default {
 				return true
 			}
 
-			return this.$store.getters.sortedCalendars.length > 1
+			return this.calendarsStore.sortedCalendars.length > 1
 		},
 		/**
 		 * Returns whether or not the user is allowed to delete this event
@@ -434,7 +439,7 @@ export default {
 				return
 			}
 
-			this.$store.commit('resetCalendarObjectToDav', {
+			this.calendarObjectsStore.resetCalendarObjectToDavMutation({
 				calendarObject: this.calendarObject,
 			})
 

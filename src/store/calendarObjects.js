@@ -23,7 +23,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import Vue from 'vue'
 import { mapCalendarJsToCalendarObject } from '../models/calendarObject.js'
 import logger from '../utils/logger.js'
 import {
@@ -32,384 +31,350 @@ import {
 	getTimezoneManager,
 	DateTimeValue,
 } from '@nextcloud/calendar-js'
+import useFetchedTimeRangesStore from './fetchedTimeRanges.js'
+import useCalendarsStore from './calendars.js'
+import { defineStore } from 'pinia'
 
-const state = {
-	calendarObjects: {},
-	modificationCount: 0,
-}
-
-const mutations = {
-
-	/**
-	 * Adds an array of calendar-objects to the store
-	 *
-	 * @param {object} state The store data
-	 * @param {object} data The destructuring object
-	 * @param {object[]} data.calendarObjects Calendar-objects to add
-	 */
-	appendCalendarObjects(state, { calendarObjects = [] }) {
-		for (const calendarObject of calendarObjects) {
-			if (!state.calendarObjects[calendarObject.id]) {
-				Vue.set(state.calendarObjects, calendarObject.id, calendarObject)
+export default defineStore('calendarObjects', {
+	state: () => {
+		return {
+			calendarObjects: {},
+			modificationCount: 0,
+		}
+	},
+	getters: {
+		/**
+		 * Gets a calendar-object based on its id
+		 *
+		 * @param {object} state The store data
+		 * @return {function({String}): CalendarObject}
+		 */
+		getCalendarObjectById: (state) => (id) => state.calendarObjects[id],
+	},
+	actions: {
+		/**
+		 * Moves a calendar-object to a different calendar
+		 *
+		 * @param {object} data destructuring object
+		 * @param {CalendarObject} data.calendarObject Calendar-object to delete
+		 * @param {string} data.newCalendarId Calendar-Id of calendar to move this calendar-object to
+		 * @return {Promise<void>}
+		 */
+		async moveCalendarObject({ calendarObject, newCalendarId }) {
+			if (!calendarObject.existsOnServer) {
+				return
 			}
-		}
-	},
 
-	/**
-	 * Adds one calendar-object to the store
-	 *
-	 * @param {object} state The store data
-	 * @param {object} data The destructuring object
-	 * @param {object} data.calendarObject Calendar-object to add
-	 */
-	appendCalendarObject(state, { calendarObject }) {
-		if (!state.calendarObjects[calendarObject.id]) {
-			Vue.set(state.calendarObjects, calendarObject.id, calendarObject)
-		}
-	},
+			const fetchedTimeRangesStore = useFetchedTimeRangesStore()
+			const calendarsStore = useCalendarsStore()
 
-	/**
-	 * Updates a calendar-object id
-	 *
-	 * @param {object} state The store data
-	 * @param {object} data The destructuring object
-	 * @param {object} data.calendarObject Calendar-object to update
-	 */
-	updateCalendarObjectId(state, { calendarObject }) {
-		if (calendarObject.dav === null) {
-			calendarObject.id = null
-		} else {
-			calendarObject.id = btoa(calendarObject.dav.url)
-		}
-	},
+			const oldCalendarObjectId = calendarObject.id
+			const oldCalendarId = calendarObject.calendarId
 
-	/**
-	 * Updates a calendar-object's calendarId
-	 *
-	 * @param {object} state The store data
-	 * @param {object} data The destructuring object
-	 * @param {string} data.calendarObjectId Id of calendar-object to update
-	 * @param {string} data.calendarId New calendarId
-	 */
-	updateCalendarObjectIdCalendarId(state, { calendarObjectId, calendarId }) {
-		state.calendarObjects[calendarObjectId].calendarId = calendarId
-	},
+			if (oldCalendarId === newCalendarId) {
+				logger.error('Old calendar Id and new calendar Id are the same, nothing to move …')
+				return
+			}
 
-	/**
-	 * Resets a calendar-object to it's original server state
-	 *
-	 * @param {object} state The store data
-	 * @param {object} data The destructuring object
-	 * @param {object} data.calendarObject Calendar-object to reset
-	 */
-	resetCalendarObjectToDav(state, { calendarObject }) {
-		calendarObject = state.calendarObjects[calendarObject.id]
+			const newCalendar = calendarsStore.getCalendarById(newCalendarId)
+			if (!newCalendar) {
+				logger.error('Calendar to move to not found, aborting …')
+				return
+			}
 
-		// If this object does not exist on the server yet, there is nothing to do
-		if (!calendarObject || !calendarObject.existsOnServer) {
-			return
-		}
+			await calendarObject.dav.move(newCalendar.dav)
+			// Update calendarId in calendarObject manually as it is not stored in dav
+			this.calendarObjects[calendarObject.id].calendarId = newCalendarId
 
-		const parserManager = getParserManager()
-		const parser = parserManager.getParserForFileType('text/calendar')
-		parser.parse(calendarObject.dav.data)
 
-		const itemIterator = parser.getItemIterator()
-		const firstVCalendar = itemIterator.next().value
-		if (firstVCalendar) {
-			calendarObject.calendarComponent = firstVCalendar
-		}
-	},
+			calendarsStore.addCalendarObjectToCalendarMutation({
+				calendar: {
+					id: newCalendarId,
+				},
+				calendarObjectId: calendarObject.id,
+			})
+			fetchedTimeRangesStore.addCalendarObjectIdToAllTimeRangesOfCalendar({
+				calendarId: newCalendarId,
+				calendarObjectId: calendarObject.id,
+			})
 
-	/**
-	 * Removes a calendar-object from the store
-	 *
-	 * @param {object} state The store data
-	 * @param {object} data The destructuring object
-	 * @param {object} data.calendarObject Calendar-object to delete
-	 */
-	deleteCalendarObject(state, { calendarObject }) {
-		Vue.delete(state.calendarObjects, calendarObject.id)
-	},
+			calendarsStore.deleteCalendarObjectFromCalendarMutation({
+				calendar: {
+					id: oldCalendarId,
+				},
+				calendarObjectId: oldCalendarObjectId,
+			})
+			fetchedTimeRangesStore.removeCalendarObjectIdFromAllTimeRangesOfCalendar({
+				calendarId: oldCalendarId,
+				calendarObjectId: oldCalendarObjectId,
+			})
 
-	/**
-	 * Increments the modification count
-	 *
-	 * @param {object} state The store data
-	 */
-	incrementModificationCount(state) {
-		state.modificationCount++
-	},
-}
+			this.modificationCount++
+		},
 
-const getters = {
+		/**
+		 * Updates a calendar-object
+		 *
+		 * @param {object} data destructuring object
+		 * @param {CalendarObject} data.calendarObject Calendar-object to delete
+		 * @return {Promise<void>}
+		 */
+		async updateCalendarObject({ calendarObject }) {
+			const fetchedTimeRangesStore = useFetchedTimeRangesStore()
+			const calendarsStore = useCalendarsStore()
 
-	/**
-	 * Gets a calendar-object based on its id
-	 *
-	 * @param {object} state The store data
-	 * @return {function({String}): CalendarObject}
-	 */
-	getCalendarObjectById: (state) => (id) => state.calendarObjects[id],
-}
+			if (calendarObject.existsOnServer) {
+				calendarObject.dav.data = calendarObject.calendarComponent.toICS()
+				await calendarObject.dav.update()
 
-const actions = {
+				fetchedTimeRangesStore.addCalendarObjectIdToAllTimeRangesOfCalendar({
+					calendarId: calendarObject.calendarId,
+					calendarObjectId: calendarObject.id,
+				})
+				this.modificationCount++
 
-	/**
-	 * Moves a calendar-object to a different calendar
-	 *
-	 * @param {object} context the store mutations
-	 * @param {object} data destructuring object
-	 * @param {CalendarObject} data.calendarObject Calendar-object to delete
-	 * @param {string} data.newCalendarId Calendar-Id of calendar to move this calendar-object to
-	 * @return {Promise<void>}
-	 */
-	async moveCalendarObject(context, { calendarObject, newCalendarId }) {
-		if (!calendarObject.existsOnServer) {
-			return
-		}
+				return
 
-		const oldCalendarObjectId = calendarObject.id
-		const oldCalendarId = calendarObject.calendarId
+				// TODO - catch conflicts
+			}
 
-		if (oldCalendarId === newCalendarId) {
-			logger.error('Old calendar Id and new calendar Id are the same, nothing to move …')
-			return
-		}
+			const calendar = calendarsStore.getCalendarById(calendarObject.calendarId)
+			calendarObject.dav = await calendar.dav.createVObject(calendarObject.calendarComponent.toICS())
+			calendarObject.existsOnServer = true
+			this.updateCalendarObjectIdMutation({ calendarObject })
 
-		const newCalendar = context.getters.getCalendarById(newCalendarId)
-		if (!newCalendar) {
-			logger.error('Calendar to move to not found, aborting …')
-			return
-		}
-
-		await calendarObject.dav.move(newCalendar.dav)
-		// Update calendarId in calendarObject manually as it is not stored in dav
-		context.commit('updateCalendarObjectIdCalendarId', {
-			calendarObjectId: calendarObject.id,
-			calendarId: newCalendarId,
-		})
-
-		context.commit('addCalendarObjectToCalendar', {
-			calendar: {
-				id: newCalendarId,
-			},
-			calendarObjectId: calendarObject.id,
-		})
-		context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
-			calendarId: newCalendarId,
-			calendarObjectId: calendarObject.id,
-		})
-
-		context.commit('deleteCalendarObjectFromCalendar', {
-			calendar: {
-				id: oldCalendarId,
-			},
-			calendarObjectId: oldCalendarObjectId,
-		})
-		context.commit('removeCalendarObjectIdFromAllTimeRangesOfCalendar', {
-			calendarId: oldCalendarId,
-			calendarObjectId: oldCalendarObjectId,
-		})
-
-		context.commit('incrementModificationCount')
-	},
-
-	/**
-	 * Updates a calendar-object
-	 *
-	 * @param {object} context the store mutations
-	 * @param {object} data destructuring object
-	 * @param {CalendarObject} data.calendarObject Calendar-object to delete
-	 * @return {Promise<void>}
-	 */
-	async updateCalendarObject(context, { calendarObject }) {
-		if (calendarObject.existsOnServer) {
-			calendarObject.dav.data = calendarObject.calendarComponent.toICS()
-			await calendarObject.dav.update()
-
-			context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
+			this.appendCalendarObjectMutation({ calendarObject })
+			calendarsStore.addCalendarObjectToCalendarMutation({
+				calendar: {
+					id: calendarObject.calendarId,
+				},
+				calendarObjectId: calendarObject.id,
+			})
+			fetchedTimeRangesStore.addCalendarObjectIdToAllTimeRangesOfCalendar({
 				calendarId: calendarObject.calendarId,
 				calendarObjectId: calendarObject.id,
 			})
-			context.commit('incrementModificationCount')
+			this.resetCalendarObjectToDavMutation({ calendarObject })
+			this.modificationCount++
+		},
 
-			return
+		/**
+		 * Creates a new calendar-object from an recurrence-exception fork
+		 *
+		 * @param {object} data destructuring object
+		 * @param {EventComponent} data.eventComponent EventComponent to store
+		 * @param {string} data.calendarId The calendar-id to store it in
+		 * @return {Promise<void>}
+		 */
+		async createCalendarObjectFromFork({ eventComponent, calendarId }) {
+			const calendarsStore = useCalendarsStore()
+			const fetchedTimeRangesStore = useFetchedTimeRangesStore()
 
-			// TODO - catch conflicts
-		}
+			const calendar = calendarsStore.getCalendarById(calendarId)
+			const calendarObject = mapCalendarJsToCalendarObject(eventComponent.root, calendar.id)
 
-		const calendar = context.getters.getCalendarById(calendarObject.calendarId)
-		calendarObject.dav = await calendar.dav.createVObject(calendarObject.calendarComponent.toICS())
-		calendarObject.existsOnServer = true
-		context.commit('updateCalendarObjectId', { calendarObject })
+			calendarObject.dav = await calendar.dav.createVObject(calendarObject.calendarComponent.toICS())
+			calendarObject.existsOnServer = true
+			this.updateCalendarObjectIdMutation({ calendarObject })
 
-		context.commit('appendCalendarObject', { calendarObject })
-		context.commit('addCalendarObjectToCalendar', {
-			calendar: {
-				id: calendarObject.calendarId,
-			},
-			calendarObjectId: calendarObject.id,
-		})
-		context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
-			calendarId: calendarObject.calendarId,
-			calendarObjectId: calendarObject.id,
-		})
-		context.commit('resetCalendarObjectToDav', { calendarObject })
-		context.commit('incrementModificationCount')
-	},
-
-	/**
-	 * Creates a new calendar-object from an recurrence-exception fork
-	 *
-	 * @param {object} context The Vuex context
-	 * @param {object} data destructuring object
-	 * @param {EventComponent} data.eventComponent EventComponent to store
-	 * @param {string} data.calendarId The calendar-id to store it in
-	 * @return {Promise<void>}
-	 */
-	async createCalendarObjectFromFork(context, { eventComponent, calendarId }) {
-		const calendar = context.getters.getCalendarById(calendarId)
-		const calendarObject = mapCalendarJsToCalendarObject(eventComponent.root, calendar.id)
-		calendarObject.dav = await calendar.dav.createVObject(calendarObject.calendarComponent.toICS())
-		calendarObject.existsOnServer = true
-		context.commit('updateCalendarObjectId', { calendarObject })
-
-		context.commit('appendCalendarObject', { calendarObject })
-		context.commit('addCalendarObjectToCalendar', {
-			calendar: {
-				id: calendarObject.calendarId,
-			},
-			calendarObjectId: calendarObject.id,
-		})
-		context.commit('addCalendarObjectIdToAllTimeRangesOfCalendar', {
-			calendarId: calendar.id,
-			calendarObjectId: calendarObject.id,
-		})
-		context.commit('incrementModificationCount')
-	},
-
-	/**
-	 * Deletes a calendar-object
-	 *
-	 * @param {object} context the store mutations
-	 * @param {object} data destructuring object
-	 * @param {CalendarObject} data.calendarObject Calendar-object to delete
-	 * @return {Promise<void>}
-	 */
-	async deleteCalendarObject(context, { calendarObject }) {
-		// If this calendar-object was not created on the server yet,
-		// no need to send requests to the server
-		if (calendarObject.existsOnServer) {
-			await calendarObject.dav.delete()
-		}
-
-		context.commit('deleteCalendarObject', { calendarObject })
-		context.commit('deleteCalendarObjectFromCalendar', {
-			calendar: {
-				id: calendarObject.calendarId,
-			},
-			calendarObjectId: calendarObject.id,
-		})
-		context.commit('removeCalendarObjectIdFromAnyTimeRange', {
-			calendarObjectId: calendarObject.id,
-		})
-		context.commit('incrementModificationCount')
-	},
-
-	/**
-	 * Creates a new calendar object based on start, end, timezone and isAllDay
-	 *
-	 * @param {object} context the store mutations
-	 * @param {object} data destructuring object
-	 * @param {number} data.start Timestamp for start of new event
-	 * @param {number} data.end Timestamp for end of new event
-	 * @param {string} data.timezoneId asd
-	 * @param {boolean} data.isAllDay foo
-	 * @return {Promise<CalendarObject>}
-	 */
-	createNewEvent(context, { start, end, timezoneId, isAllDay }) {
-		const timezoneManager = getTimezoneManager()
-		const timezone = timezoneManager.getTimezoneForId(timezoneId)
-
-		const startDate = new Date(start * 1000)
-		const endDate = new Date(end * 1000)
-
-		const startDateTime = DateTimeValue
-			.fromJSDate(startDate, true)
-			.getInTimezone(timezone)
-		const endDateTime = DateTimeValue
-			.fromJSDate(endDate, true)
-			.getInTimezone(timezone)
-
-		if (isAllDay) {
-			startDateTime.isDate = true
-			endDateTime.isDate = true
-		}
-
-		const calendar = createEvent(startDateTime, endDateTime)
-		for (const vObject of calendar.getVObjectIterator()) {
-			vObject.undirtify()
-		}
-
-		const firstCalendar = context.getters.sortedCalendars[0].id
-		return Promise.resolve(mapCalendarJsToCalendarObject(calendar, firstCalendar))
-	},
-
-	/**
-	 * Updates the time of the new calendar object
-	 *
-	 * @param {object} data The destructuring object for Vuex
-	 * @param {Function} data.commit The Vuex commit function
-	 * @param {Function} data.dispatch The Vuex dispatch function
-	 * @param {object} data2 destructuring object
-	 * @param {CalendarObject} data2.calendarObjectInstance Calendar-object to
-	 * @param {number} data2.start Timestamp for start of new event
-	 * @param {number} data2.end Timestamp for end of new event
-	 * @param {string} data2.timezoneId asd
-	 * @param {boolean} data2.isAllDay foo
-	 */
-	updateTimeOfNewEvent({ commit, dispatch }, { calendarObjectInstance, start, end, timezoneId, isAllDay }) {
-		const isDirty = calendarObjectInstance.eventComponent.isDirty()
-		const startDate = new Date(start * 1000)
-		const endDate = new Date(end * 1000)
-
-		if (calendarObjectInstance.isAllDay !== isAllDay) {
-			commit('toggleAllDay', { calendarObjectInstance })
-		}
-
-		dispatch('changeStartTimezone', {
-			calendarObjectInstance,
-			startTimezone: timezoneId,
-		})
-		dispatch('changeEndTimezone', {
-			calendarObjectInstance,
-			endTimezone: timezoneId,
-		})
-
-		commit('changeStartDate', {
-			calendarObjectInstance,
-			startDate,
-		})
-
-		if (isAllDay) {
-			// The full-calendar end date is exclusive, but the end-date
-			// that changeEndDate expects is inclusive, so we have to deduct one day.
-			commit('changeEndDate', {
-				calendarObjectInstance,
-				endDate: new Date(endDate.getTime() - 24 * 60 * 60 * 1000),
+			this.appendCalendarObjectMutation({ calendarObject })
+			calendarsStore.addCalendarObjectToCalendarMutation({
+				calendar: {
+					id: calendarObject.calendarId,
+				},
+				calendarObjectId: calendarObject.id,
 			})
-		} else {
-			commit('changeEndDate', {
-				calendarObjectInstance,
-				endDate,
+			fetchedTimeRangesStore.addCalendarObjectIdToAllTimeRangesOfCalendar({
+				calendarId: calendar.id,
+				calendarObjectId: calendarObject.id,
 			})
-		}
+			this.modificationCount++
+		},
 
-		if (!isDirty) {
-			calendarObjectInstance.eventComponent.undirtify()
-		}
+		/**
+		 * Deletes a calendar-object
+		 *
+		 * @param {object} data destructuring object
+		 * @param {CalendarObject} data.calendarObject Calendar-object to delete
+		 * @return {Promise<void>}
+		 */
+		async deleteCalendarObject({ calendarObject }) {
+			const fetchedTimeRangesStore = useFetchedTimeRangesStore()
+			// If this calendar-object was not created on the server yet,
+			// no need to send requests to the server
+			if (calendarObject.existsOnServer) {
+				await calendarObject.dav.delete()
+			}
+
+			this.calendarObjects[calendarObject.id] = undefined
+			this.deleteCalendarObjectFromCalendarMutation({
+				calendar: {
+					id: calendarObject.calendarId,
+				},
+				calendarObjectId: calendarObject.id,
+			})
+			fetchedTimeRangesStore.removeCalendarObjectIdFromAnyTimeRange({
+				calendarObjectId: calendarObject.id,
+			})
+
+			this.modificationCount++
+		},
+
+		/**
+		 * Creates a new calendar object based on start, end, timezone and isAllDay
+		 *
+		 * @param {object} data destructuring object
+		 * @param {number} data.start Timestamp for start of new event
+		 * @param {number} data.end Timestamp for end of new event
+		 * @param {string} data.timezoneId asd
+		 * @param {boolean} data.isAllDay foo
+		 * @return {Promise<CalendarObject>}
+		 */
+		createNewEvent({ start, end, timezoneId, isAllDay }) {
+			const calendarsStore = useCalendarsStore()
+			const timezoneManager = getTimezoneManager()
+			const timezone = timezoneManager.getTimezoneForId(timezoneId)
+
+			const startDate = new Date(start * 1000)
+			const endDate = new Date(end * 1000)
+
+			const startDateTime = DateTimeValue
+				.fromJSDate(startDate, true)
+				.getInTimezone(timezone)
+			const endDateTime = DateTimeValue
+				.fromJSDate(endDate, true)
+				.getInTimezone(timezone)
+
+			if (isAllDay) {
+				startDateTime.isDate = true
+				endDateTime.isDate = true
+			}
+
+			const calendar = createEvent(startDateTime, endDateTime)
+			for (const vObject of calendar.getVObjectIterator()) {
+				vObject.undirtify()
+			}
+
+			const firstCalendar = calendarsStore.sortedCalendars[0].id
+			return Promise.resolve(mapCalendarJsToCalendarObject(calendar, firstCalendar))
+		},
+
+		/**
+		 * Updates the time of the new calendar object
+		 *
+		 * @param {object} data The destructuring object for Vuex
+		 * @param {object} data2 destructuring object
+		 * @param {CalendarObject} data2.calendarObjectInstance Calendar-object to
+		 * @param {number} data2.start Timestamp for start of new event
+		 * @param {number} data2.end Timestamp for end of new event
+		 * @param {string} data2.timezoneId asd
+		 * @param {boolean} data2.isAllDay foo
+		 */
+		updateTimeOfNewEvent({ calendarObjectInstance, start, end, timezoneId, isAllDay }) {
+			const isDirty = calendarObjectInstance.eventComponent.isDirty()
+			const startDate = new Date(start * 1000)
+			const endDate = new Date(end * 1000)
+
+			if (calendarObjectInstance.isAllDay !== isAllDay) {
+				commit('toggleAllDay', { calendarObjectInstance }) ///TODO with new calendarObjectInstance
+			}
+
+			dispatch('changeStartTimezone', { ///TODO with new calendarObjectInstance
+				calendarObjectInstance,
+				startTimezone: timezoneId,
+			})
+			dispatch('changeEndTimezone', { ///TODO with new calendarObjectInstance
+				calendarObjectInstance,
+				endTimezone: timezoneId,
+			})
+
+			commit('changeStartDate', { ///TODO with new calendarObjectInstance
+				calendarObjectInstance,
+				startDate,
+			})
+
+			if (isAllDay) {
+				// The full-calendar end date is exclusive, but the end-date
+				// that changeEndDate expects is inclusive, so we have to deduct one day.
+				commit('changeEndDate', { ///TODO with new calendarObjectInstance
+					calendarObjectInstance,
+					endDate: new Date(endDate.getTime() - 24 * 60 * 60 * 1000),
+				})
+			} else {
+				commit('changeEndDate', { ///TODO with new calendarObjectInstance
+					calendarObjectInstance,
+					endDate,
+				})
+			}
+
+			if (!isDirty) {
+				calendarObjectInstance.eventComponent.undirtify()
+			}
+		},
+
+		/**
+		 * Adds an array of calendar-objects to the store
+		 *
+		 * @param {object} data The destructuring object
+		 * @param {object[]} data.calendarObjects Calendar-objects to add
+		 */
+		appendCalendarObjectsMutation({ calendarObjects = [] }) {
+			for (const calendarObject of calendarObjects) {
+				if (!this.calendarObjects[calendarObject.id]) {
+					this.calendarObjects[calendarObject.id] = calendarObject
+				}
+			}
+		},
+
+		/**
+		 * Adds one calendar-object to the store
+		 *
+		 * @param {object} data The destructuring object
+		 * @param {object} data.calendarObject Calendar-object to add
+		 */
+		appendCalendarObjectMutation({ calendarObject }) {
+			if (!this.calendarObjects[calendarObject.id]) {
+				this.calendarObjects[calendarObject.id] = calendarObject
+			}
+		},
+
+		/**
+		 * Updates a calendar-object id
+		 *
+		 * @param {object} data The destructuring object
+		 * @param {object} data.calendarObject Calendar-object to update
+		 */
+		updateCalendarObjectIdMutation({ calendarObject }) {
+			if (calendarObject.dav === null) {
+				calendarObject.id = null
+			} else {
+				calendarObject.id = btoa(calendarObject.dav.url)
+			}
+		},
+
+		/**
+		 * Resets a calendar-object to its original server state
+		 *
+		 * @param {object} data The destructuring object
+		 * @param {object} data.calendarObject Calendar-object to reset
+		 */
+		resetCalendarObjectToDavMutation({ calendarObject }) {
+			calendarObject = this.calendarObjects[calendarObject.id]
+
+			// If this object does not exist on the server yet, there is nothing to do
+			if (!calendarObject || !calendarObject.existsOnServer) {
+				return
+			}
+
+			const parserManager = getParserManager()
+			const parser = parserManager.getParserForFileType('text/calendar')
+			parser.parse(calendarObject.dav.data)
+
+			const itemIterator = parser.getItemIterator()
+			const firstVCalendar = itemIterator.next().value
+			if (firstVCalendar) {
+				calendarObject.calendarComponent = firstVCalendar
+			}
+		},
 	},
-}
-
-export default { state, mutations, getters, actions }
+})

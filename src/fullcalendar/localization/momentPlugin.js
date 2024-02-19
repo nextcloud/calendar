@@ -22,17 +22,18 @@
  */
 import moment from '@nextcloud/moment'
 import { createPlugin } from '@fullcalendar/core'
+import useSettingsStore from '../../store/settings.js'
 
 /**
- * Creates a new moment object using the locale from the given Vuex store
+ * Creates a new moment object using the locale from the given Pinia store
  *
- * @param {object} $store The Vuex store
  * @param {object[]} data FullCalendar object containing the date etc.
  * @param {number[]} data.array Input data to initialize moment
- * @return {moment}
+ * @return {moment.Moment}
  */
-const momentFactory = ($store, { array }) => {
-	return moment(array).locale($store.state.settings.momentLocale)
+const momentFactory = ({ array }) => {
+	const settingsStore = useSettingsStore()
+	return moment(array).locale(settingsStore.momentLocale)
 }
 
 /**

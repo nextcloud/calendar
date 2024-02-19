@@ -79,6 +79,8 @@ import {
 	getFileInfo,
 } from '../../../services/attachmentService.js'
 import { parseXML } from 'webdav'
+import usePrincipalsStore from '../../../store/principals.js'
+import { mapStores } from 'pinia'
 
 export default {
 	name: 'AttachmentsList',
@@ -93,6 +95,7 @@ export default {
 		Plus,
 	},
 	props: {
+		...mapStores(usePrincipalsStore()),
 		calendarObjectInstance: {
 			type: Object,
 			required: true,
@@ -109,7 +112,7 @@ export default {
 	},
 	computed: {
 		currentUser() {
-			return this.$store.getters.getCurrentUserPrincipal
+			return this.principalsStore.getCurrentUserPrincipal
 		},
 		attachments() {
 			return this.calendarObjectInstance.attachments

@@ -41,6 +41,11 @@ import ClickOutside from 'vue-click-outside'
 import VTooltip from 'v-tooltip'
 import VueShortKey from 'vue-shortkey'
 import windowTitleService from './services/windowTitleService.js'
+import { createPinia, PiniaVuePlugin } from 'pinia'
+import useAppointmentConfigsStore from './store/appointmentConfigs.js'
+
+Vue.use(PiniaVuePlugin)
+const pinia = createPinia()
 
 // register global components
 Vue.directive('ClickOutside', ClickOutside)
@@ -69,14 +74,13 @@ Vue.prototype.n = translatePlural
 
 windowTitleService(router, store)
 
-store.commit(
-	'addInitialConfigs',
-	loadState('calendar', 'appointmentConfigs', []).map(config => new AppointmentConfig(config))
-)
-
 export default new Vue({
 	el: '#content',
 	router,
 	store,
 	render: h => h(App),
+	pinia,
 })
+
+const appointmentsConfigsStore = useAppointmentConfigsStore()
+appointmentsConfigsStore.addInitialConfigs(loadState('calendar', 'appointmentConfigs', []).map(config => new AppointmentConfig(config)))

@@ -156,6 +156,7 @@ import TextInput from './AppointmentConfigModal/TextInput.vue'
 import TextArea from './AppointmentConfigModal/TextArea.vue'
 import AppointmentConfig from '../models/appointmentConfig.js'
 import { mapGetters } from 'vuex'
+import { mapStores } from 'pinia'
 import CalendarPicker from './Shared/CalendarPicker.vue'
 import DurationInput from './AppointmentConfigModal/DurationInput.vue'
 import NumberInput from './AppointmentConfigModal/NumberInput.vue'
@@ -164,6 +165,8 @@ import CheckedDurationSelect from './AppointmentConfigModal/CheckedDurationSelec
 import VisibilitySelect from './AppointmentConfigModal/VisibilitySelect.vue'
 import logger from '../utils/logger.js'
 import Confirmation from './AppointmentConfigModal/Confirmation.vue'
+import useAppointmentConfigsStore from '../store/appointmentConfigs.js'
+import useCalendarsStore from '../store/calendars.js'
 
 export default {
 	name: 'AppointmentConfigModal',
@@ -205,9 +208,9 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'ownSortedCalendars',
 			'isTalkEnabled',
 		]),
+		...mapStores(useAppointmentConfigsStore, useCalendarsStore),
 		formTitle() {
 			if (this.isNew) {
 				return this.$t('calendar', 'Create appointment')
@@ -243,8 +246,8 @@ export default {
 		},
 		defaultConfig() {
 			return AppointmentConfig.createDefault(
-				this.calendarUrlToUri(this.$store.getters.ownSortedCalendars[0].url),
-				this.$store.getters.scheduleInbox,
+				this.calendarUrlToUri(this.calendarsStore.ownSortedCalendars[0].url),
+				this.calendarsStore.scheduleInbox,
 				this.$store.getters.getResolvedTimezone,
 			)
 		},
@@ -308,10 +311,10 @@ export default {
 			try {
 				if (this.isNew) {
 					logger.info('Creating new config', { config })
-					this.editing = await this.$store.dispatch('createConfig', { config })
+					this.editing = await this.apointmentConfigStore.createConfig({ config })
 				} else {
 					logger.info('Saving config', { config })
-					this.editing = await this.$store.dispatch('updateConfig', { config })
+					this.editing = await this.apointmentConfigStore.updateConfig({ config })
 				}
 				this.showConfirmation = true
 			} catch (error) {
