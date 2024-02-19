@@ -89,6 +89,7 @@
 								:l10n-delete-slot="t('calendar', 'Delete slot')"
 								:l10n-empty-day="t('calendar', 'No times set')"
 								:l10n-add-slot="t('calendar', 'Add')"
+								:l10n-week-day-list-label="$t('dav', 'Weekdays')"
 								:l10n-monday="t('calendar', 'Monday')"
 								:l10n-tuesday="t('calendar', 'Tuesday')"
 								:l10n-wednesday="t('calendar', 'Wednesday')"
