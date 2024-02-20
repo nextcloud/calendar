@@ -22,41 +22,58 @@
   -->
 
 <template>
-	<div class="save-buttons">
+	<div class="save-buttons" :class="{ 'save-buttons--grow': growHorizontally }">
 		<NcButton v-if="showMoreButton"
+			:type="moreButtonType"
+			:disabled="disabled"
 			@click="showMore">
-			{{ $t('calendar', 'More') }}
+			{{ $t('calendar', 'More details') }}
 		</NcButton>
 		<NcButton v-if="showSaveButton"
 			type="primary"
+			:disabled="disabled"
 			@click="saveThisOnly">
+			<template #icon>
+				<CheckIcon :size="20" />
+			</template>
 			{{ $t('calendar', 'Save') }}
 		</NcButton>
 		<NcButton v-if="showUpdateButton"
 			type="primary"
+			:disabled="disabled"
 			@click="saveThisOnly">
+			<template #icon>
+				<CheckIcon :size="20" />
+			</template>
 			{{ $t('calendar', 'Update') }}
 		</NcButton>
 		<NcButton v-if="showUpdateOnlyThisButton"
 			type="primary"
+			:disabled="disabled"
 			@click="saveThisOnly">
 			{{ $t('calendar', 'Update this occurrence') }}
 		</NcButton>
 		<NcButton v-if="showUpdateThisAndFutureButton"
 			:type="forceThisAndAllFuture ? 'primary' : 'secondary'"
+			:disabled="disabled"
 			@click="saveThisAndAllFuture">
 			{{ $t('calendar', 'Update this and all future') }}
 		</NcButton>
+
+		<!-- Allow additional buttons -->
+		<slot />
 	</div>
 </template>
 
 <script>
 import { NcButton } from '@nextcloud/vue'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
 
 export default {
 	name: 'SaveButtons',
 	components: {
 		NcButton,
+		CheckIcon,
 	},
 	props: {
 		canCreateRecurrenceException: {
@@ -64,6 +81,10 @@ export default {
 			required: true,
 		},
 		isNew: {
+			type: Boolean,
+			required: true,
+		},
+		isReadOnly: {
 			type: Boolean,
 			required: true,
 		},
@@ -75,19 +96,31 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		moreButtonType: {
+			type: String,
+			default: undefined,
+		},
+		growHorizontally: {
+			type: Boolean,
+			default: true,
+		},
+		disabled: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	computed: {
 		showSaveButton() {
-			return this.isNew && !this.canCreateRecurrenceException
+			return !this.isReadOnly && this.isNew && !this.canCreateRecurrenceException
 		},
 		showUpdateButton() {
-			return !this.isNew && !this.canCreateRecurrenceException
+			return !this.isReadOnly && !this.isNew && !this.canCreateRecurrenceException
 		},
 		showUpdateOnlyThisButton() {
-			return this.canCreateRecurrenceException && !this.forceThisAndAllFuture
+			return !this.isReadOnly && this.canCreateRecurrenceException && !this.forceThisAndAllFuture
 		},
 		showUpdateThisAndFutureButton() {
-			return this.canCreateRecurrenceException
+			return !this.isReadOnly && this.canCreateRecurrenceException
 		},
 	},
 	methods: {
@@ -107,11 +140,15 @@ export default {
 <style lang="scss" scoped>
 .save-buttons {
 	display: flex;
-	flex-wrap: wrap;
+	justify-content: end;
 	gap: 5px;
 
-	button {
-		flex: 1 fit-content;
+	&--grow {
+		flex-wrap: wrap;
+
+		button {
+			flex: 1 fit-content;
+		}
 	}
 }
 </style>

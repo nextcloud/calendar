@@ -30,7 +30,7 @@
 		popover-base-class="event-popover"
 		:triggers="[]">
 		<div class="event-popover__inner">
-			<template v-if="isLoading">
+			<template v-if="isLoading && !isSaving">
 				<PopoverLoadingIndicator />
 			</template>
 
@@ -55,14 +55,6 @@
 
 			<template v-else>
 				<div class="event-popover__top-right-actions">
-					<Actions v-if="isReadOnly">
-						<ActionButton @click="showMore">
-							<template #icon>
-								<ArrowExpand :size="20" decorative />
-							</template>
-							{{ $t('calendar', 'Show more details') }}
-						</ActionButton>
-					</Actions>
 					<Actions v-if="!isLoading && !isError && !isNew" :force-menu="true">
 						<ActionLink v-if="!hideEventExport && hasDownloadURL"
 							:href="downloadURL">
@@ -106,25 +98,21 @@
 					</Actions>
 				</div>
 
-				<IllustrationHeader :color="illustrationColor"
-					:illustration-url="backgroundImage" />
+				<CalendarPickerHeader :value="selectedCalendar"
+					:calendars="calendars"
+					:is-read-only="isReadOnlyOrViewing || !canModifyCalendar"
+					@update:value="changeCalendar" />
 
 				<PropertyTitle :value="title"
-					:is-read-only="isReadOnly"
+					:is-read-only="isReadOnlyOrViewing"
 					@update:value="updateTitle" />
-
-				<PropertyCalendarPicker v-if="showCalendarPicker"
-					:calendars="calendars"
-					:calendar="selectedCalendar"
-					:is-read-only="isReadOnly"
-					@select-calendar="changeCalendar" />
 
 				<PropertyTitleTimePicker :start-date="startDate"
 					:start-timezone="startTimezone"
 					:end-date="endDate"
 					:end-timezone="endTimezone"
 					:is-all-day="isAllDay"
-					:is-read-only="isReadOnly"
+					:is-read-only="isReadOnlyOrViewing"
 					:can-modify-all-day="canModifyAllDay"
 					:user-timezone="currentUserTimezone"
 					@update-start-date="updateStartDate"
@@ -133,31 +121,54 @@
 					@update-end-timezone="updateEndTimezone"
 					@toggle-all-day="toggleAllDay" />
 
-				<PropertyText :is-read-only="isReadOnly"
+				<PropertyText :is-read-only="isReadOnlyOrViewing"
 					:prop-model="rfcProps.location"
 					:value="location"
 					:linkify-links="true"
 					@update:value="updateLocation" />
-				<PropertyText :is-read-only="isReadOnly"
+				<PropertyText :is-read-only="isReadOnlyOrViewing"
 					:prop-model="rfcProps.description"
 					:value="description"
 					:linkify-links="true"
 					@update:value="updateDescription" />
 
-				<InvitationResponseButtons v-if="isViewedByAttendee"
+				<InviteesList class="event-popover__invitees"
+					:hide-if-empty="true"
+					:hide-buttons="true"
+					:hide-errors="true"
+					:show-header="true"
+					:is-read-only="isReadOnlyOrViewing"
+					:is-shared-with-me="isSharedWithMe"
+					:calendar-object-instance="calendarObjectInstance"
+					:limit="3" />
+
+				<InvitationResponseButtons v-if="isViewedByAttendee && isViewing"
+					class="event-popover__response-buttons"
 					:attendee="userAsAttendee"
 					:calendar-id="calendarId"
 					@close="closeEditorAndSkipAction" />
 
-				<SaveButtons v-if="!isReadOnly"
-					class="event-popover__buttons"
+				<SaveButtons class="event-popover__buttons"
 					:can-create-recurrence-exception="canCreateRecurrenceException"
 					:is-new="isNew"
+					:is-read-only="isReadOnlyOrViewing"
 					:force-this-and-all-future="forceThisAndAllFuture"
 					:show-more-button="true"
-					@save-this-only="saveAndLeave(false)"
-					@save-this-and-all-future="saveAndLeave(true)"
-					@show-more="showMore" />
+					:more-button-type="isViewing ? 'tertiary' : undefined"
+					:grow-horizontally="false"
+					:disabled="isSaving"
+					@save-this-only="saveAndView(false)"
+					@save-this-and-all-future="saveAndView(true)"
+					@show-more="showMore">
+					<NcButton v-if="!isReadOnly && isViewing"
+						:type="isViewedByAttendee ? 'tertiary' : undefined"
+						@click="isViewing = false">
+						<template #icon>
+							<EditIcon :size="20" />
+						</template>
+						{{ $t('calendar', 'Edit') }}
+					</NcButton>
+				</SaveButtons>
 			</template>
 		</div>
 	</Popover>
@@ -169,14 +180,12 @@ import {
 	NcActionLink as ActionLink,
 	NcEmptyContent as EmptyContent,
 	NcPopover as Popover,
+	NcButton,
 } from '@nextcloud/vue'
 import EditorMixin from '../mixins/EditorMixin.js'
-import IllustrationHeader from '../components/Editor/IllustrationHeader.vue'
 import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'
 import PropertyTitleTimePicker
 	from '../components/Editor/Properties/PropertyTitleTimePicker.vue'
-import PropertyCalendarPicker
-	from '../components/Editor/Properties/PropertyCalendarPicker.vue'
 import PropertyText from '../components/Editor/Properties/PropertyText.vue'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
 import PopoverLoadingIndicator
@@ -184,13 +193,15 @@ import PopoverLoadingIndicator
 import { getPrefixedRoute } from '../utils/router.js'
 import InvitationResponseButtons
 	from '../components/Editor/InvitationResponseButtons.vue'
+import CalendarPickerHeader from '../components/Editor/CalendarPickerHeader.vue'
+import InviteesList from '../components/Editor/Invitees/InviteesList.vue'
 
-import ArrowExpand from 'vue-material-design-icons/ArrowExpand.vue'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import Close from 'vue-material-design-icons/Close.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 import Download from 'vue-material-design-icons/Download.vue'
 import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
+import EditIcon from 'vue-material-design-icons/Pencil.vue'
 import { mapState } from 'vuex'
 
 export default {
@@ -199,31 +210,27 @@ export default {
 		PopoverLoadingIndicator,
 		SaveButtons,
 		PropertyText,
-		PropertyCalendarPicker,
 		PropertyTitleTimePicker,
 		PropertyTitle,
-		IllustrationHeader,
 		Popover,
 		Actions,
 		ActionButton,
 		ActionLink,
 		EmptyContent,
-		ArrowExpand,
 		CalendarBlank,
 		Close,
 		Download,
 		ContentDuplicate,
 		Delete,
 		InvitationResponseButtons,
+		CalendarPickerHeader,
+		InviteesList,
+		NcButton,
+		EditIcon,
 	},
 	mixins: [
 		EditorMixin,
 	],
-	computed: {
-	  ...mapState({
-		  hideEventExport: (state) => state.settings.hideEventExport,
-	  }),
-	},
 	data() {
 		return {
 			placement: 'auto',
@@ -231,7 +238,22 @@ export default {
 			hasDescription: false,
 			boundaryElement: document.querySelector('#app-content-vue > .fc'),
 			isVisible: true,
+			isViewing: true,
 		}
+	},
+	computed: {
+		...mapState({
+			hideEventExport: (state) => state.settings.hideEventExport,
+		}),
+
+		/**
+		 * Returns true if the current event is read only or the user is viewing the event
+		 *
+		 * @return {boolean}
+		 */
+		isReadOnlyOrViewing() {
+			return this.isReadOnly || this.isViewing
+		},
 	},
 	watch: {
 		$route(to, from) {
@@ -250,6 +272,13 @@ export default {
 			if (typeof this.calendarObjectInstance.description === 'string' && this.calendarObjectInstance.description.trim() !== '') {
 				this.hasDescription = true
 			}
+		},
+		isNew: {
+			immediate: true,
+			handler(isNew) {
+				// New events should be editable from the start
+				this.isViewing = !isNew
+			},
 		},
 	},
 	mounted() {
@@ -319,6 +348,21 @@ export default {
 		  this.$refs.popover.$children[0].$refs.reference = this.getDomElementForPopover(isNew, this.$route)
 		  this.$refs.popover.$children[0].$refs.popper.dispose()
 		  this.$refs.popover.$children[0].$refs.popper.init()
+		},
+		/**
+		 * Save changes and return to viewing mode or stay in editing mode if an error occurrs
+		 *
+		 * @param {boolean} thisAndAllFuture Modify this and all future events
+		 * @return {Promise<void>}
+		 */
+		async saveAndView(thisAndAllFuture) {
+			this.isViewing = true
+			try {
+				await this.save(thisAndAllFuture)
+				this.requiresActionOnRouteLeave = false
+			} catch (error) {
+				this.isViewing = false
+			}
 		},
 	},
 }

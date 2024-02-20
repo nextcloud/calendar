@@ -21,7 +21,8 @@
   -->
 
 <template>
-	<div class="invitation-response-buttons">
+	<div class="invitation-response-buttons"
+		:class="{ 'invitation-response-buttons--grow': growHorizontally }">
 		<NcButton v-if="!isAccepted"
 			type="primary"
 			class="invitation-response-buttons__button"
@@ -84,6 +85,10 @@ export default {
 			required: true,
 		},
 		narrow: {
+			type: Boolean,
+			default: false,
+		},
+		growHorizontally: {
 			type: Boolean,
 			default: false,
 		},
@@ -165,11 +170,16 @@ export default {
 <style lang="scss" scoped>
 .invitation-response-buttons {
 	display: flex;
-	width: 100%;
+	justify-content: flex-end;
 	gap: 5px;
+	margin-bottom: 8px;
 
-	&__button {
-		flex: 1 auto;
+	&--grow {
+		width: 100%;
+
+		.invitation-response-buttons__button {
+			flex: 1 auto;
+		}
 	}
 }
 </style>

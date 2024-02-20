@@ -37,11 +37,14 @@
 		}
 	}
 
-	/** Hide the submit button for the title, because it does not trigger a save */
-	.app-sidebar-header__mainname-form {
-		button {
-			display: none;
-		}
+	// We use our custom header layout for the sidebar editor
+	.app-sidebar-header__info {
+		display: none !important;
+	}
+
+	.app-sidebar-header__description {
+		// Close button should be aligned with calendar picker (header)
+		padding-top: 5px;
 	}
 
 	.editor-invitee-list-empty-message,
@@ -228,6 +231,18 @@
 	.property-title-time-picker {
 		width: 100%;
 
+		&--readonly {
+			display: flex;
+			align-items: center;
+		}
+
+		&__icon {
+			width: 34px;
+			height: 34px;
+			margin-left: -5px;
+			margin-right: 5px;
+		}
+
 		&__time-pickers,
 		&__all-day {
 			display: flex;
@@ -235,10 +250,12 @@
 		}
 
 		&__time-pickers {
+			flex-wrap: wrap;
 			justify-content: space-between;
+			gap: 5px;
 
 			.mx-datepicker {
-				width: 49%;
+				flex: 1 auto;
 
 				.mx-input-append {
 					background-color: transparent !important;
@@ -246,15 +263,23 @@
 			}
 
 			&--readonly {
+				justify-content: start;
+
 				.property-title-time-picker-read-only-wrapper {
 					display: flex;
 					align-items: center;
-					width: 50%;
-					margin: 3px 3px 3px 0;
 					padding: 8px 7px;
 					background-color: var(--color-main-background);
 					color: var(--color-main-text);
 					outline: none;
+
+					&--start-date {
+						padding-right: 0;
+					}
+
+					&--end-date {
+						padding-left: 0;
+					}
 
 					&__icon {
 						margin-left: 8px;
@@ -275,22 +300,14 @@
 			}
 		}
 
-		@media screen and (max-width: 1500px) {
-			&__time-pickers {
-				display: block;
-			}
-
-			.mx-datepicker {
-				width: 100%;
-			}
-
-			.property-title-time-picker-read-only-wrapper {
-				width: 100%;
-			}
-		}
-
 		&__all-day {
-			justify-content: flex-start;
+			padding-left: 3px;
+			margin-top: 5px;
+
+			// Reduce the height just a little bit (from 44px) to save some space
+			.checkbox-radio-switch__label {
+				min-height: 32px;
+			}
 		}
 
 		.datetime-picker-inline-icon {
@@ -421,7 +438,6 @@
 		&__summary {
 			display: flex;
 			align-items: center;
-			margin-bottom: 5px;
 
 			&__icon {
 				width: 34px;
@@ -432,7 +448,7 @@
 
 			&__content {
 				flex: 1 auto;
-				padding: 0 7px;
+				padding: 8px 7px;
 				overflow: hidden;
 				text-overflow: ellipsis;
 				white-space: nowrap;
@@ -519,7 +535,6 @@
 		display: flex;
 		width: 100%;
 		align-items: flex-start;
-		margin-bottom: 5px;
 
 		&__icon,
 		&__info {
@@ -536,6 +551,7 @@
 		&__info {
 			display: flex;
 			justify-content: center;
+			flex-shrink: 0;
 			opacity: .5;
 		}
 
@@ -568,7 +584,6 @@
 				div {
 					width: calc(100% - 8px); /* for typical (thin) scrollbar size */
 					white-space: pre-line;
-					margin: 3px 3px 3px 0;
 					padding: 8px 7px;
 					background-color: var(--color-main-background);
 					color: var(--color-main-text);
@@ -577,23 +592,28 @@
 					word-break: break-word; /* allows breaking on long URLs */
 					max-height: 30vh;
 				}
-
-				a.linkified {
-					text-decoration: underline;
-
-					&::after {
-						content: ' ↗';
-					}
-				}
 			}
 
 			&--readonly-calendar-picker {
-
 				div.calendar-picker-option {
-					margin: 3px 3px 3px 0;
 					padding: 8px 7px;
 				}
 			}
+		}
+	}
+
+	.property-text,
+	.property-select,
+	.property-color,
+	.property-select-multiple,
+	.property-title,
+	.property-repeat,
+	.resource-capacity,
+	.resource-room-type {
+		margin-bottom: 5px;
+
+		&--readonly {
+			margin-bottom: 0;
 		}
 	}
 
@@ -611,21 +631,46 @@
 	}
 
 	.property-color {
-
 		&__input {
 			display: flex;
+			gap: 5px;
+			margin-bottom: 5px;
+
+			&--readonly {
+				// Align with other (text based) fields
+				margin: 3px 0 3px 7px;
+			}
 		}
 
 		&__color-preview {
-			border-radius: var(--border-radius);
-			height: 34px !important;
-			width: 34px !important;
-			margin: 0;
+			$size: 44px;
+			width: $size !important;
+			height: $size !important;
+			border-radius: $size;
 		}
 	}
 
 	.property-text {
+		&__icon {
+			// Prevent icon misalignment on vertically growing inputs
+			height: unset;
+			align-self: flex-start;
+			padding-top: 12px;
+		}
+
+		&--readonly {
+			.property-text__icon {
+				padding-top: 10px;
+			}
+		}
+
 		&__input {
+			&--readonly {
+				// Reduce line height but still keep first row aligned to the icon
+				line-height: 1;
+				padding-top: calc(var(--default-line-height) / 2 - 0.5lh);
+			}
+
 			textarea {
 				resize: none;
 			}
@@ -655,12 +700,29 @@
 				}
 			}
 		}
+
+		// Fix weird height
+		&__input {
+			max-height: 44px;
+		}
 	}
 
 	.property-title {
-		&__input,
-		&__input input {
-			font-size: 20px;
+		&__input, input {
+			font-weight: bold;
+		}
+
+		&__input--readonly {
+			font-size: 18px;
+		}
+	}
+
+	// Normalize gaps between all properties. We use outer margins between each row so a padding
+	// around inputs (from core) is not required.
+	.property-title,
+	.property-title-time-picker {
+		input {
+			margin: 0;
 		}
 	}
 
@@ -668,16 +730,19 @@
 		margin-bottom: 5px;
 	}
 
-	.illustration-header {
-		max-height: 150px;
-		height: 150px;
-		width: 100%;
+}
+
+.event-popover .event-popover__inner {
+	.event-popover__response-buttons {
+		margin-top: 8px;
+		margin-bottom: 0;
 	}
 
-	.illustration-header svg {
-		width: 100%;
-		height: 150px;
-		padding: 8px 8px 0 8px;
+	.property-text,
+	.property-title-time-picker {
+		&__icon {
+			margin: 0 !important;
+		}
 	}
 }
 
@@ -705,27 +770,21 @@
 		text-align: left;
 		max-width: 480px;
 		width: 480px;
-		padding: 5px 8px;
+		padding: 5px 10px 10px 10px;
 
 		.empty-content {
 			margin-top: 0 !important;
 			padding: 50px 0;
 		}
 
-		.illustration-header {
-			height: 100px;
-			overflow: hidden;
-			margin-bottom: 5px;
-			background-color: var(--color-background-dark);
-			// There is probably a more elegant solution for this
-			margin: -5px 0 5px -8px;
-			width: 496px;
-			border-top-left-radius: var(--border-radius);
-			border-top-right-radius: var(--border-radius);
+		.property-title-time-picker:not(.property-title-time-picker--readonly) {
+			margin-bottom: 12px;
 		}
 
-		.property-title-time-picker {
-			margin-bottom: 12px;
+		.event-popover__invitees {
+			.avatar-participation-status__text {
+				bottom: 22px;
+			}
 		}
 
 		.event-popover__buttons {
@@ -824,7 +883,11 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	margin-top: 20px;
+
+	// Only apply the margin if at least one button is being rendered
+	&:not(:empty) {
+		margin-top: 20px;
+	}
 }
 
 .resource-search-list-item,

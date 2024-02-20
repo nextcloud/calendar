@@ -22,7 +22,7 @@
   -->
 
 <template>
-	<div class="property-repeat">
+	<div class="property-repeat" :class="{ 'property-repeat--readonly': isReadOnly }">
 		<div class="property-repeat__summary">
 			<RepeatIcon class="property-repeat__summary__icon"
 				:name="$t('calendar', 'Repeat')"

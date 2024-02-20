@@ -16,7 +16,8 @@ export default {
 				&& findLinks(this.value).length > 0
 		},
 		linkifyMinHeight() {
-			return this.rows > 1 ? '68px' : '48px'
+			// return this.rows > 1 ? '68px' : '48px'
+			return '0'
 		},
 	},
 	data() {

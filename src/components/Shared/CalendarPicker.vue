@@ -21,6 +21,7 @@
 		</template>
 	</NcSelect>
 </template>
+
 <script>
 import { NcSelect } from '@nextcloud/vue'
 import CalendarPickerOption from './CalendarPickerOption.vue'

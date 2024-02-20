@@ -21,7 +21,7 @@
   -->
 
 <template>
-	<div class="property-title">
+	<div class="property-title" :class="{ 'property-title--readonly': isReadOnly }">
 		<div class="property-title__input"
 			:class="{ 'property-title__input--readonly': isReadOnly }">
 			<input v-if="!isReadOnly"

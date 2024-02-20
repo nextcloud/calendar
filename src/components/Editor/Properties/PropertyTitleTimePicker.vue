@@ -4,6 +4,7 @@
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
   - @author Jakob Röhrl <jakob.roehrl@web.de>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license AGPL-3.0-or-later
   -
@@ -23,7 +24,12 @@
   -->
 
 <template>
-	<div class="property-title-time-picker">
+	<div class="property-title-time-picker"
+		:class="{ 'property-title-time-picker--readonly': isReadOnly }">
+		<CalendarIcon v-if="isReadOnly"
+			class="property-title-time-picker__icon"
+			:size="20" />
+
 		<div v-if="!isReadOnly"
 			class="property-title-time-picker__time-pickers">
 			<DatePicker :date="startDate"
@@ -46,7 +52,7 @@
 		</div>
 		<div v-if="isReadOnly"
 			class="property-title-time-picker__time-pickers property-title-time-picker__time-pickers--readonly">
-			<div class="property-title-time-picker-read-only-wrapper">
+			<div class="property-title-time-picker-read-only-wrapper property-title-time-picker-read-only-wrapper--start-date">
 				<div class="property-title-time-picker-read-only-wrapper__label">
 					{{ formattedStart }}
 				</div>
@@ -55,28 +61,26 @@
 					:class="{ 'highlighted-timezone-icon': highlightStartTimezone }"
 					:size="20" />
 			</div>
-			<div class="property-title-time-picker-read-only-wrapper">
-				<div class="property-title-time-picker-read-only-wrapper__label">
-					{{ formattedEnd }}
+			<template v-if="!isAllDayOneDayEvent">
+				<div>-</div>
+				<div class="property-title-time-picker-read-only-wrapper property-title-time-picker-read-only-wrapper--end-date">
+					<div class="property-title-time-picker-read-only-wrapper__label">
+						{{ formattedEnd }}
+					</div>
+					<IconTimezone v-if="!isAllDay"
+						:title="endTimezone"
+						:class="{ 'highlighted-timezone-icon': highlightStartTimezone }"
+						:size="20" />
 				</div>
-				<IconTimezone v-if="!isAllDay"
-					:name="endTimezone"
-					:class="{ 'highlighted-timezone-icon': highlightStartTimezone }"
-					:size="20" />
-			</div>
+			</template>
 		</div>
 
 		<div v-if="!isReadOnly" class="property-title-time-picker__all-day">
-			<input id="allDay"
-				:checked="isAllDay"
-				type="checkbox"
-				class="checkbox"
+			<NcCheckboxRadioSwitch :checked="isAllDay"
 				:disabled="!canModifyAllDay"
-				@change="toggleAllDay">
-			<label v-tooltip="allDayTooltip"
-				for="allDay">
+				@update:checked="toggleAllDay">
 				{{ $t('calendar', 'All day') }}
-			</label>
+			</NcCheckboxRadioSwitch>
 		</div>
 	</div>
 </template>
@@ -85,13 +89,17 @@
 import moment from '@nextcloud/moment'
 import DatePicker from '../../Shared/DatePicker.vue'
 import IconTimezone from 'vue-material-design-icons/Web.vue'
+import CalendarIcon from 'vue-material-design-icons/Calendar.vue'
 import { mapState } from 'vuex'
+import { NcCheckboxRadioSwitch } from '@nextcloud/vue'
 
 export default {
 	name: 'PropertyTitleTimePicker',
 	components: {
 		DatePicker,
 		IconTimezone,
+		CalendarIcon,
+		NcCheckboxRadioSwitch,
 	},
 	props: {
 		/**
@@ -195,16 +203,10 @@ export default {
 		 */
 		formattedStart() {
 			if (this.isAllDay) {
-				return this.$t('calendar', 'from {startDate}', {
-					startDate: moment(this.startDate).locale(this.locale).format('L'),
-					endDate: moment(this.endDate).locale(this.locale).format('L'),
-				})
+				return moment(this.startDate).locale(this.locale).format('ll')
 			}
 
-			return this.$t('calendar', 'from {startDate} at {startTime}', {
-				startDate: moment(this.startDate).locale(this.locale).format('L'),
-				startTime: moment(this.startDate).locale(this.locale).format('LT'),
-			})
+			return moment(this.startDate).locale(this.locale).format('lll')
 		},
 		/**
 		 *
@@ -212,15 +214,10 @@ export default {
 		 */
 		formattedEnd() {
 			if (this.isAllDay) {
-				return this.$t('calendar', 'to {endDate}', {
-					endDate: moment(this.endDate).locale(this.locale).format('L'),
-				})
+				return moment(this.endDate).locale(this.locale).format('ll')
 			}
 
-			return this.$t('calendar', 'to {endDate} at {endTime}', {
-				endDate: moment(this.endDate).locale(this.locale).format('L'),
-				endTime: moment(this.endDate).locale(this.locale).format('LT'),
-			})
+			return moment(this.endDate).locale(this.locale).format('lll')
 		},
 		/**
 		 * @return {boolean}
@@ -233,6 +230,17 @@ export default {
 		 */
 		highlightEndTimezone() {
 			return this.endTimezone !== this.userTimezone
+		},
+		/**
+		 * True if the event is an all day event, starts and ends on the same date
+		 *
+		 * @return {boolean}
+		 */
+		isAllDayOneDayEvent() {
+			return this.isAllDay
+				&& this.startDate.getDate() === this.endDate.getDate()
+				&& this.startDate.getMonth() === this.endDate.getMonth()
+				&& this.startDate.getFullYear() === this.endDate.getFullYear()
 		},
 	},
 	methods: {
