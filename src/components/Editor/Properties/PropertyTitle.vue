@@ -32,6 +32,7 @@
 				@input.prevent.stop="changeValue">
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else>{{ value }}</div>
+			<h2 class="hidden-visually">{{ value }}</h2>
 		</div>
 	</div>
 </template>
