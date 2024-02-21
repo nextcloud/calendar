@@ -48,7 +48,6 @@
     "Unknown" : "නොදන්නා",
     "Accept" : "පිළිගන්න",
     "Decline" : "ප්‍රතික්ෂේප",
-    "More" : "තව",
     "Time:" : "වේලාව:",
     "Personal" : "පුද්ගලික",
     "Details" : "විස්තර",
@@ -56,8 +55,6 @@
     "Anniversary" : "සංවත්සරය",
     "Daily" : "දිනපතා",
     "Weekly" : "සතිපතා",
-    "Other" : "වෙනත්",
-    "Mail" : "තැපෑල",
-    "Birthday" : "උපන් දිනය"
+    "Other" : "වෙනත්"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

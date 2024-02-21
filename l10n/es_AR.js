@@ -70,6 +70,7 @@ OC.L10N.register(
     "Accept" : "Aceptar",
     "Decline" : "Declinar",
     "Tentative" : "Tentativo",
+    "Attendees" : "Asistentes",
     "All day" : "Todo el día",
     "Repeat" : "Repetir",
     "never" : "nunca",
@@ -77,12 +78,10 @@ OC.L10N.register(
     "first" : "primero",
     "last" : "último",
     "available" : "disponible",
-    "More" : "Más",
     "Global" : "Global",
     "Subscribe" : "Suscribirse",
     "Personal" : "Personal",
     "Details" : "Detalles",
-    "Attendees" : "Asistentes",
     "Resources" : "Recursos",
     "Close" : "Cerrar",
     "Anniversary" : "Aniversario",
@@ -95,10 +94,6 @@ OC.L10N.register(
     "When shared hide this event" : "Al compartir, ocultar este evento ",
     "Status" : "Estatus",
     "Confirmed" : "Confirmado",
-    "Categories" : "Categoría",
-    "Talk" : "Hablar",
-    "Movie" : "Película",
-    "Mail" : "Correo Electrónico",
-    "Birthday" : "Fecha de nacimiento"
+    "Categories" : "Categoría"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

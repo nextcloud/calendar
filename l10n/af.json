@@ -55,17 +55,16 @@
     "Unknown" : "Onbekend",
     "Accept" : "Aanvaar",
     "Tentative" : "Tentatief",
+    "Attendees" : "Bywoners",
     "All day" : "Heeldag",
     "Repeat" : "Herhaal",
     "never" : "nooit",
     "after" : "na",
     "available" : "beskikbaar",
-    "More" : "Nog",
     "Global" : "Globaal",
     "Subscribe" : "Teken in",
     "Personal" : "Persoonlik",
     "Details" : "Details",
-    "Attendees" : "Bywoners",
     "Resources" : "Hulpbronne",
     "Close" : "Sluit",
     "Anniversary" : "Herdenking",
@@ -75,9 +74,6 @@
     "Other" : "Ander",
     "Status" : "Status",
     "Confirmed" : "Bevestig",
-    "Categories" : "Kategorieë",
-    "Commuting" : "In die verkeer",
-    "Mail" : "Pos",
-    "Birthday" : "Verjaardag"
+    "Categories" : "Kategorieë"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

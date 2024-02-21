@@ -27,13 +27,10 @@ OC.L10N.register(
     "Not available" : "ບໍ່ມີ",
     "Unknown" : "ບໍ່ຮູ້",
     "never" : "ບໍ່ເຄີຍ",
-    "More" : "ເພີ່ມເຕີມ",
     "Personal" : "ສ່ວນບຸກຄົນ",
     "Details" : "ລາຍລະອຽດ",
     "Close" : "ປິດ",
     "Daily" : "ລາຍວັນ",
-    "Weekly" : "ອາທິດ",
-    "Review" : "ເບິ່ງຄຶນ",
-    "Mail" : "ຈົດໝາຍ"
+    "Weekly" : "ອາທິດ"
 },
 "nplurals=1; plural=0;");

@@ -67,15 +67,14 @@ OC.L10N.register(
     "Accept" : "Хүлээн зөвшөөрөх",
     "Decline" : "Зөвшөөрөхгүй",
     "Tentative" : "Урьдчилсан тов",
+    "Attendees" : "Оролцогчид",
     "Repeat" : "Давтах",
     "never" : "хэзээ ч үгүй",
     "after" : "дараа",
-    "More" : "Дэлгэрэнгүй",
     "Global" : "Нийтийн",
     "Subscribe" : "Захиалга",
     "Personal" : "Хувийн",
     "Details" : "Дэлгэрэнгүй",
-    "Attendees" : "Оролцогчид",
     "Close" : "Хаах",
     "Week {number} of {year}" : "{year} оны {number}-р долоо хоног ",
     "Daily" : "Өдөр бүр",
@@ -86,8 +85,6 @@ OC.L10N.register(
     "When shared hide this event" : "Түгээсэн тохиолдолд энэ үйл явдлыг нуу",
     "Status" : "төлөв",
     "Confirmed" : "Баталгаажсан",
-    "Categories" : "төрөл",
-    "Mail" : "Цахим шуудан",
-    "Birthday" : "Төрсөн өдөр"
+    "Categories" : "төрөл"
 },
 "nplurals=2; plural=(n != 1);");

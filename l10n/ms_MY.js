@@ -31,16 +31,13 @@ OC.L10N.register(
     "Update" : "Kemaskini",
     "Your email address" : "Alamat emel anda",
     "Email" : "Email",
+    "Attendees" : "Jemputan",
     "Repeat" : "Ulang",
     "never" : "jangan",
-    "More" : "Lanjutan",
     "Personal" : "Peribadi",
-    "Attendees" : "Jemputan",
     "Close" : "Tutup",
     "Daily" : "Setiap hari",
     "Weekly" : "Setiap minggu",
-    "Other" : "Lain",
-    "Mail" : "Mel",
-    "Birthday" : "Hari lahir"
+    "Other" : "Lain"
 },
 "nplurals=1; plural=0;");

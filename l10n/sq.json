@@ -57,18 +57,17 @@
     "Accept" : "Prano",
     "Decline" : "Refuzo",
     "Tentative" : "Tentativë",
+    "Attendees" : "Pjesëmarrës",
     "Remove group" : "Hiq grupin",
     "All day" : "Gjithë ditën",
     "Repeat" : "Përsërite",
     "never" : "kurrë",
     "after" : "pas",
     "available" : "në gjëndje",
-    "More" : "Më tepër",
     "Global" : "Globale",
     "Subscribe" : "Abonohu",
     "Personal" : "Personale",
     "Details" : "Detajet",
-    "Attendees" : "Pjesëmarrës",
     "Resources" : "Burimet",
     "Close" : "Mbylle",
     "Anniversary" : "Përvjetor",
@@ -82,10 +81,6 @@
     "Status" : "Status",
     "Confirmed" : "E konfirmuar",
     "Canceled" : "Anuluar",
-    "Categories" : "Kategoritë",
-    "Presentation" : "Paraqitje",
-    "Office" : "Zyrë",
-    "Mail" : "Posta",
-    "Birthday" : "Datëlindje"
+    "Categories" : "Kategoritë"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

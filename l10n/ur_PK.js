@@ -29,10 +29,8 @@ OC.L10N.register(
     "Email" : "email",
     "Repeat" : "دہرایں",
     "never" : "never",
-    "More" : "مزید",
     "Personal" : "شخصی",
     "Close" : "بند ",
-    "Other" : "دیگر",
-    "Birthday" : "سالگرہ"
+    "Other" : "دیگر"
 },
 "nplurals=2; plural=(n != 1);");

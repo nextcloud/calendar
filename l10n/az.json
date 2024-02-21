@@ -39,22 +39,19 @@
     "Choose a file to add as attachment" : "Əlavə ediləcək faylı seçin",
     "Accept" : "Qəbul et",
     "Decline" : "İmtina",
+    "Attendees" : "İştirakçılar",
     "Remove group" : "Qrupu sil",
     "Repeat" : "Təkrar",
     "never" : "heç vaxt",
-    "More" : "Daha da",
     "Subscribe" : "Abunə",
     "Personal" : "Şəxsi",
     "Details" : "Detallar",
-    "Attendees" : "İştirakçılar",
     "Resources" : "Resurslar",
     "Close" : "Bağla",
     "Daily" : "Günlük",
     "Weekly" : "Həftəlik",
     "Other" : "Digər",
     "Status" : "Status",
-    "Categories" : "Kateqoriyalar",
-    "Mail" : "Məktub",
-    "Birthday" : "Ad günü"
+    "Categories" : "Kateqoriyalar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

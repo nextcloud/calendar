@@ -144,6 +144,7 @@
     "Accept" : "Terima",
     "Decline" : "Tolak",
     "Tentative" : "Tentatif",
+    "Attendees" : "Peserta",
     "Create Talk room for this event" : "Buat ruangan Talk untuk acara ini",
     "Show busy times" : "Tampilkan waktu sibuk",
     "No attendees yet" : "Belum ada peserta",
@@ -179,7 +180,6 @@
     "weekday" : "akhir pekan",
     "weekend day" : "akhir pekan",
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "Penentuan perulangan acara ini tidak sepenuhnya didukung oleh Nextcloud. Jika Anda mengedit opsi pengulangan, pengulangan tertentu mungkin hilang.",
-    "More" : "Lainnya",
     "Public calendar does not exist" : "Kalender publik tidak eksis",
     "Maybe the share was deleted or has expired?" : "Mungkin yang dibagikan terhapus atau kadaluwarsa?",
     "Pick a time" : "Pilih waktu",
@@ -190,10 +190,8 @@
     "Personal" : "Pribadi",
     "[Today]" : "[Hari ini]",
     "Details" : "Detail",
-    "Attendees" : "Peserta",
     "Resources" : "Sumber daya",
     "Close" : "Tutup",
-    "Show more details" : "Tampilkan detail lain",
     "Subscribe to {name}" : "Berlangganan ke {name}",
     "Anniversary" : "Hari jadi",
     "Appointment" : "Janji",
@@ -253,11 +251,6 @@
     "Custom color" : "Warna khusus",
     "Special color of this event. Overrides the calendar-color." : "Warna spesial dari acara ini. Mengganti warna kalender.",
     "Chat room for event" : "Ruang obrolan untuk acara",
-    "An error occurred, unable to delete the calendar." : "Terjadi galat, tidak dapat menghapus kalender.",
-    "Talk" : "Talk",
-    "Movie" : "Film",
-    "Review" : "Tinjauan",
-    "Mail" : "Surel",
-    "Birthday" : "Tanggal lahir"
+    "An error occurred, unable to delete the calendar." : "Terjadi galat, tidak dapat menghapus kalender."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

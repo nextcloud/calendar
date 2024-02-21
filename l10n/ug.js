@@ -29,13 +29,11 @@ OC.L10N.register(
     "Update" : "يېڭىلا",
     "Your email address" : "تورخەت ئادرېسىڭىز",
     "Email" : "تورخەت",
+    "Attendees" : "قاتناشقۇچىلار",
     "Repeat" : "قايتىلا",
     "never" : "ھەرگىز",
-    "More" : "تېخىمۇ كۆپ",
     "Personal" : "شەخسىي",
-    "Attendees" : "قاتناشقۇچىلار",
     "Close" : "ياپ",
-    "Other" : "باشقا",
-    "Birthday" : "تۇغۇلغان كۈن"
+    "Other" : "باشقا"
 },
 "nplurals=2; plural=(n != 1);");

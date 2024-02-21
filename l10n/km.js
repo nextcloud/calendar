@@ -34,19 +34,16 @@ OC.L10N.register(
     "Update" : "ធ្វើ​បច្ចុប្បន្នភាព",
     "Your email address" : "អ៊ីម៉ែល​របស់​អ្នក",
     "Email" : "អ៊ីមែល",
+    "Attendees" : "អ្នក​ចូលរួម",
     "Repeat" : "ធ្វើម្ដងទៀត",
     "never" : "មិនដែរ",
     "first" : "ទីមួយ",
     "last" : "ចុងក្រោយ",
-    "More" : "ច្រើន​ទៀត",
     "Personal" : "ផ្ទាល់​ខ្លួន",
     "Details" : "ព័ត៌មាន​លម្អិត",
-    "Attendees" : "អ្នក​ចូលរួម",
     "Close" : "បិទ",
     "Daily" : "រាល់ថ្ងៃ",
     "Weekly" : "រាល់​សប្ដាហ៍",
-    "Other" : "ផ្សេងៗ",
-    "Mail" : "សំបុត្រ",
-    "Birthday" : "ថ្ងៃ​កំណើត"
+    "Other" : "ផ្សេងៗ"
 },
 "nplurals=1; plural=0;");

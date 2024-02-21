@@ -44,16 +44,15 @@
     "Delete file" : "Slett fil",
     "Unknown" : "Ukjend",
     "Tentative" : "Førebels",
+    "Attendees" : "Deltakarar",
     "Repeat" : "Gjenta",
     "never" : "aldri",
     "after" : "etter",
     "last" : "siste",
     "Room type" : "Romtype",
-    "More" : "Meir",
     "Global" : "Global",
     "Personal" : "Personleg",
     "Details" : "Detaljar",
-    "Attendees" : "Deltakarar",
     "Close" : "Lukk",
     "Daily" : "Kvar dag",
     "Weekly" : "Kvar veke",
@@ -63,10 +62,6 @@
     "When shared show only busy" : "Når delt, vis berre oppteken",
     "When shared hide this event" : "Når delt, gøym denne hendinga",
     "Status" : "Status",
-    "Confirmed" : "Stadfesta",
-    "Money" : "Pengar",
-    "Talk" : "Prat",
-    "Mail" : "Post",
-    "Birthday" : "Bursdag"
+    "Confirmed" : "Stadfesta"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

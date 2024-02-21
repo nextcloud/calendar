@@ -36,18 +36,15 @@
     "Email" : "ইমেইল",
     "Choose a file to add as attachment" : "সংযুক্তি দেয়ার জন্য একটি ফাইল নির্বাচন করুন",
     "Unknown" : "অজানা",
+    "Attendees" : "অংশগ্রহণকারীবৃন্দ",
     "Repeat" : "পূনঃসংঘটন",
     "never" : "কখনোই নয়",
-    "More" : "বেশী",
     "Subscribe" : "গ্রাহক হোন",
     "Personal" : "ব্যক্তিগত",
     "Details" : "বিসতারিত",
-    "Attendees" : "অংশগ্রহণকারীবৃন্দ",
     "Close" : "বন্ধ",
     "Daily" : "দৈনিক",
     "Weekly" : "সাপ্তাহিক",
-    "Other" : "অন্যান্য",
-    "Mail" : "মেইল",
-    "Birthday" : "জন্মদিন"
+    "Other" : "অন্যান্য"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -32,14 +32,12 @@ OC.L10N.register(
     "Your email address" : "உங்களுடைய மின்னஞ்சல் முகவரி",
     "Email" : "மின்னஞ்சல்",
     "Unknown" : "தெரியாத",
+    "Attendees" : "பங்கேற்பாளர்கள்",
     "Repeat" : "மீண்டும்",
     "never" : "ஒருபோதும்",
-    "More" : "மேலதிக",
     "Personal" : "தனிப்பட்ட",
     "Details" : "விவரங்கள்",
-    "Attendees" : "பங்கேற்பாளர்கள்",
     "Close" : "மூடுக",
-    "Other" : "மற்றவை",
-    "Birthday" : "பிறந்த நாள்"
+    "Other" : "மற்றவை"
 },
 "nplurals=2; plural=(n != 1);");

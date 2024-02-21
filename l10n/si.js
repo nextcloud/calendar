@@ -50,7 +50,6 @@ OC.L10N.register(
     "Unknown" : "නොදන්නා",
     "Accept" : "පිළිගන්න",
     "Decline" : "ප්‍රතික්ෂේප",
-    "More" : "තව",
     "Time:" : "වේලාව:",
     "Personal" : "පුද්ගලික",
     "Details" : "විස්තර",
@@ -58,8 +57,6 @@ OC.L10N.register(
     "Anniversary" : "සංවත්සරය",
     "Daily" : "දිනපතා",
     "Weekly" : "සතිපතා",
-    "Other" : "වෙනත්",
-    "Mail" : "තැපෑල",
-    "Birthday" : "උපන් දිනය"
+    "Other" : "වෙනත්"
 },
 "nplurals=2; plural=(n != 1);");

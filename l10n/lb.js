@@ -38,15 +38,14 @@ OC.L10N.register(
     "Your email address" : "Deng Email Adress",
     "Email" : "Email",
     "Unknown" : "Onbekannt",
+    "Attendees" : "Participanten",
     "Repeat" : "Widderhuelen",
     "never" : "Ni",
     "after" : "No",
-    "More" : "Méi",
     "Global" : "Global",
     "Subscribe" : "Umellen",
     "Personal" : "Perséinlech",
     "Details" : "Detailer",
-    "Attendees" : "Participanten",
     "Close" : "Zoumaachen",
     "Week {number} of {year}" : "Woch {Nummer} vum {Joer}",
     "Daily" : "All Dag",
@@ -54,8 +53,6 @@ OC.L10N.register(
     "Other" : "Aner",
     "When shared show full event" : "Wann et gedeelt gouf, dann de ganzen Evenement uweisen",
     "When shared show only busy" : "Wann et gedeelt gouf, dann nëmmen als beschäftegt uweisen",
-    "When shared hide this event" : "Wann et gedeelt gouf, dann verstopp dëst Evenement",
-    "Mail" : "Mail",
-    "Birthday" : "Gebuertsdag"
+    "When shared hide this event" : "Wann et gedeelt gouf, dann verstopp dëst Evenement"
 },
 "nplurals=2; plural=(n != 1);");

@@ -54,17 +54,16 @@
     "Accept" : "Aceptar",
     "Decline" : "Declinar",
     "Tentative" : "Tentativo",
+    "Attendees" : "Asistentes",
     "All day" : "Todo el día",
     "Repeat" : "Repetir",
     "never" : "nunca",
     "after" : "después",
     "available" : "disponible",
-    "More" : "Más",
     "Global" : "Global",
     "Subscribe" : "Suscribir",
     "Personal" : "Personal",
     "Details" : "Detalles",
-    "Attendees" : "Asistentes",
     "Resources" : "Recursos",
     "Close" : "Cerrar",
     "Anniversary" : "Aniversario",
@@ -77,9 +76,6 @@
     "When shared hide this event" : "Al compartir, ocultar este evento ",
     "Status" : "Estatus",
     "Confirmed" : "Confirmado",
-    "Categories" : "Categorías",
-    "Talk" : "Hablar",
-    "Mail" : "Correo",
-    "Birthday" : "Fecha de nacimiento"
+    "Categories" : "Categorías"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

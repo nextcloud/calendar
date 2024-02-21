@@ -54,17 +54,16 @@
     "Accept" : "მიღება",
     "Decline" : "ურაყოფა",
     "Tentative" : "საცდელი",
+    "Attendees" : "დამსწრეები",
     "All day" : "მთელი დღე",
     "Repeat" : "გამეორება",
     "never" : "არასდროს",
     "after" : "შემდეგ",
     "available" : "ხელმისაწვდომი",
-    "More" : "უფრო მეტი",
     "Global" : "გლობალური",
     "Subscribe" : "გამოწერა",
     "Personal" : "პირადი",
     "Details" : "დეტლაები",
-    "Attendees" : "დამსწრეები",
     "Resources" : "რესურსები",
     "Close" : "დახურვა",
     "Anniversary" : "დაბადების დღე",
@@ -77,9 +76,6 @@
     "When shared hide this event" : "როდესაც გაზიარებულია არ გამოჩნდეს ეს მოვლენა",
     "Status" : "სტატუსი",
     "Confirmed" : "დადასტურებლია",
-    "Categories" : "კატეგორიები",
-    "Talk" : "საუბარი",
-    "Mail" : "ფოსტა",
-    "Birthday" : "დაბადების დრე"
+    "Categories" : "კატეგორიები"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

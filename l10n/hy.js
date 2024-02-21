@@ -34,20 +34,17 @@ OC.L10N.register(
     "Notification" : "Ծանուցում",
     "Email" : "Էլ․փոստ",
     "Unknown" : "Անհայտ",
+    "Attendees" : "Մասնակիցներ",
     "Repeat" : "Կրկնել",
     "never" : "երբեք",
     "after" : "հետո",
-    "More" : "Ավելի",
     "Global" : "Ընդհանուր",
     "Personal" : "Անձնական",
     "Details" : "Մանրամասներ",
-    "Attendees" : "Մասնակիցներ",
     "Close" : "Փակել",
     "Daily" : "Օրական",
     "Weekly" : "Շաբաթական",
     "Other" : "Այլ",
-    "Confirmed" : "Հաստատված",
-    "Mail" : "Փոստ",
-    "Birthday" : "Ծննդյան օր"
+    "Confirmed" : "Հաստատված"
 },
 "nplurals=2; plural=(n != 1);");
