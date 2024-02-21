@@ -128,6 +128,7 @@ import {
 } from '@nextcloud/dialogs'
 
 import { uidToHexColor } from '../../../utils/color.js'
+import PublicCalendarSubscriptionPicker from '../../Subscription/PublicCalendarSubscriptionPicker.vue'
 
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import CalendarCheck from 'vue-material-design-icons/CalendarCheck.vue'
@@ -146,7 +147,7 @@ export default {
 		AppNavigationItem,
 		CalendarBlank,
 		CalendarCheck,
-		PublicCalendarSubscriptionPicker: () => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '../../Subscription/PublicCalendarSubscriptionPicker.vue'),
+		PublicCalendarSubscriptionPicker,
 		LinkVariant,
 		Plus,
 		Web,
