@@ -700,11 +700,6 @@
 				}
 			}
 		}
-
-		// Fix weird height
-		&__input {
-			max-height: 44px;
-		}
 	}
 
 	.property-title {
@@ -869,6 +864,7 @@
 		border-radius: 50%;
 		border: none;
 		margin-right: 8px;
+		flex-shrink: 0;
 	}
 
 	.icon {
@@ -888,6 +884,12 @@
 	&:not(:empty) {
 		margin-top: 20px;
 	}
+}
+
+.vs__dropdown-option span {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 .resource-search-list-item,
