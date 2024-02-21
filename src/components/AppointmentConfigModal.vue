@@ -95,7 +95,8 @@
 								:l10n-thursday="t('calendar', 'Thursday')"
 								:l10n-friday="t('calendar', 'Friday')"
 								:l10n-saturday="t('calendar', 'Saturday')"
-								:l10n-sunday="t('calendar', 'Sunday')" />
+								:l10n-sunday="t('calendar', 'Sunday')"
+								:l10n-week-day-list-label="t('calendar', 'Weekdays')" />
 						</div>
 					</fieldset>
 
