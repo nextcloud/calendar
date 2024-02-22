@@ -58,7 +58,7 @@ export default function(organizer, attendees, resources) {
 			const endDateTime = DateTimeValue.fromJSDate(end, true)
 
 			const organizerAsAttendee = new AttendeeProperty('ATTENDEE', organizer.email)
-			const freeBusyIterator = await doFreeBusyRequest(
+			const freeBusyIterator = doFreeBusyRequest(
 				startDateTime,
 				endDateTime,
 				organizer,
@@ -66,7 +66,7 @@ export default function(organizer, attendees, resources) {
 			)
 
 			const slots = []
-			for (const [, freeBusyProperty] of freeBusyIterator) {
+			for await (const [, freeBusyProperty] of freeBusyIterator) {
 				slots.push({
 					start: freeBusyProperty.getFirstValue().start.getInTimezone(timezoneObject).jsDate,
 					end: freeBusyProperty.getFirstValue().end.getInTimezone(timezoneObject).jsDate,
