@@ -146,7 +146,7 @@ export default {
 		AppNavigationItem,
 		CalendarBlank,
 		CalendarCheck,
-		PublicCalendarSubscriptionPicker: () => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '../../Subscription/PublicCalendarSubscriptionPicker.vue'),
+		PublicCalendarSubscriptionPicker: () => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '../../Subscription/PublicCalendarSubscriptionPicker'),
 		LinkVariant,
 		Plus,
 		Web,
