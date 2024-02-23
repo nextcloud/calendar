@@ -223,6 +223,7 @@ OC.L10N.register(
     "Friday" : "週五",
     "Saturday" : "週六",
     "Sunday" : "週日",
+    "Weekdays" : "週間",
     "Add time before and after the event" : "新增活動前後的時間",
     "Before the event" : "活動前",
     "After the event" : "活動後",

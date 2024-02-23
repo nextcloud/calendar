@@ -48,6 +48,7 @@ OC.L10N.register(
     "0 minutes" : "0 minutos",
     "Location" : "Ubicación",
     "Description" : "Descripción",
+    "Visibility" : "Visibilidad",
     "Duration" : "Duración",
     "to" : "para",
     "Add" : "Agregar",

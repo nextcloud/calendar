@@ -223,6 +223,7 @@ OC.L10N.register(
     "Friday" : "Fredag",
     "Saturday" : "Lørdag",
     "Sunday" : "Søndag",
+    "Weekdays" : "Ukedager",
     "Add time before and after the event" : "Legg til tid før og etter hendelsen",
     "Before the event" : "Før hendelsen",
     "After the event" : "Etter hendelsen",

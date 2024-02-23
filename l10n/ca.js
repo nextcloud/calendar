@@ -223,6 +223,7 @@ OC.L10N.register(
     "Friday" : "Divendres",
     "Saturday" : "Dissabte",
     "Sunday" : "Diumenge",
+    "Weekdays" : "Dies de la setmana",
     "Add time before and after the event" : "Afegiu temps abans i després de l'esdeveniment",
     "Before the event" : "Abans de l'esdeveniment",
     "After the event" : "Després de l’esdeveniment",

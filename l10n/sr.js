@@ -223,6 +223,7 @@ OC.L10N.register(
     "Friday" : "Петак",
     "Saturday" : "Субота",
     "Sunday" : "Недеља",
+    "Weekdays" : "Дани у недељи",
     "Add time before and after the event" : "Додај време пре и након догађаја",
     "Before the event" : "Пре догађаја",
     "After the event" : "Након догађаја",

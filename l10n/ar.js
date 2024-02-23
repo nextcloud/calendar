@@ -223,6 +223,7 @@ OC.L10N.register(
     "Friday" : "الجمعة",
     "Saturday" : "السبت",
     "Sunday" : "الأحد",
+    "Weekdays" : "أيام الأسبوع",
     "Add time before and after the event" : "أضف مُهلة زمنية قبل وبعد الحدث",
     "Before the event" : "قبل الحدث",
     "After the event" : "بعد الحدث",
