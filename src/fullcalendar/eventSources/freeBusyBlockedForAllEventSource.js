@@ -66,7 +66,7 @@ export default function(organizer, attendees, resources) {
 			)
 
 			const slots = []
-			for (const [, freeBusyProperty] of freeBusyIterator) {
+			for await (const [, freeBusyProperty] of freeBusyIterator) {
 				slots.push({
 					start: freeBusyProperty.getFirstValue().start.getInTimezone(timezoneObject).jsDate,
 					end: freeBusyProperty.getFirstValue().end.getInTimezone(timezoneObject).jsDate,
