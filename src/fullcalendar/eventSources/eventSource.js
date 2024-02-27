@@ -41,6 +41,7 @@ export default function(store) {
 			backgroundColor: calendar.color,
 			borderColor: calendar.color,
 			textColor: generateTextColorForHex(calendar.color),
+			className: 'fc-event--dots',
 			// html foo
 			events: async ({ start, end, timeZone }, successCallback, failureCallback) => {
 				let timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)

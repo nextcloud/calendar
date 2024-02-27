@@ -187,6 +187,18 @@ const mutations = {
 	},
 
 	/**
+	 * Changes calendar's pattern
+	 *
+	 * @param {object} state the store mutations
+	 * @param {object} data destructuring object
+	 * @param {object} data.calendar the calendar to rename
+	 * @param {string} data.newPattern the new pattern of the calendar
+	 */
+	changeCalendarPattern(state, { calendar, newPattern }) {
+		state.calendarsById[calendar.id].pattern = newPattern
+	},
+
+	/**
 	 * Changes calendar's order
 	 *
 	 * @param {object} state the store mutations
@@ -882,6 +894,22 @@ const actions = {
 
 		await calendar.dav.update()
 		context.commit('changeCalendarColor', { calendar, newColor })
+	},
+
+	/**
+	 * Change a calendar's pattern
+	 *
+	 * @param {object} context the store mutations Current context
+	 * @param {object} data destructuring object
+	 * @param {object} data.calendar the calendar to modify
+	 * @param {string} data.newPattern the new pattern of the calendar
+	 * @return {Promise}
+	 */
+	async changeCalendarPattern(context, { calendar, newPattern }) {
+		calendar.dav.pattern = newPattern
+
+		await calendar.dav.update()
+		context.commit('changeCalendarPattern', { calendar, newPattern })
 	},
 
 	/**

@@ -225,6 +225,67 @@
 			display: none;
 		}
 	}
+	
+	&--diagonal-lines {
+		background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(0,0,0,.2) 5px, rgba(0,0,0,.2) 10px);
+  	}
+
+	&--horizontal-lines {
+		background-image: repeating-linear-gradient(to right, transparent, transparent 5px, rgba(0,0,0,.2) 5px, rgba(0,0,0,.2) 10px);
+	}
+	  
+	&--vertical-lines {
+		background-image: repeating-linear-gradient(to bottom, transparent, transparent 5px, rgba(0,0,0,.2) 5px, rgba(0,0,0,.2) 10px);
+	}
+	  
+	&--squares {
+		background-image: repeating-linear-gradient(45deg, transparent 10px, rgba(0,0,0,.2) 10px, rgba(0,0,0,.2) 20px, transparent 20px);
+	}
+	  
+	&--dots {
+		background-image: radial-gradient(circle, rgba(0,0,0,.2) 1px, transparent 1px);
+		background-size: 10px 10px;
+	}
+	  
+	&--dashed-line {
+		background-image: repeating-linear-gradient(to right, transparent 5px, rgba(0,0,0,.2) 2px, transparent 3px);
+	}
+	  
+	&--hatched {
+		background-image: repeating-linear-gradient(45deg, 
+		  transparent 2px, 
+		  rgba(0,0,0,.2) 2px, 
+		  rgba(0,0,0,.2) 4px, 
+		  transparent 4px);
+	}
+	  
+	&--crossed-lines {
+		background-image: repeating-linear-gradient(45deg, transparent 5px, rgba(0,0,0,.2) 5px), repeating-linear-gradient(to right, transparent 5px, rgba(0,0,0,.2) 5px);
+	}
+	  
+	&--hexagons {
+		background-image: repeating-linear-gradient(60deg, 
+		  transparent 10px, 
+		  rgba(0,0,0,.2) 10px, 
+		  rgba(0,0,0,.2) 20px, 
+		  transparent 20px, 
+		  transparent 30px, 
+		  rgba(0,0,0,.2) 30px, 
+		  rgba(0,0,0,.2) 40px, 
+		  transparent 40px);
+	}
+	  
+	&--waves {
+		background-image: repeating-linear-gradient(to bottom, 
+		  transparent 20px, 
+		  rgba(0,0,0,.2) 20px, 
+		  rgba(0,0,0,.2) 40px, 
+		  transparent 40px, 
+		  transparent 60px, 
+		  rgba(0,0,0,.2) 60px, 
+		  rgba(0,0,0,.2) 80px, 
+		  transparent 80px);
+	}
 }
 
 .fc-list-empty {

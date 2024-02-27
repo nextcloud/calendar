@@ -33,7 +33,18 @@
 						@update:value="calendarColorChanged = true">
 						<div class="edit-calendar-modal__name-and-color__color__dot"
 							:style="{'background-color': calendarColor}" />
-					</NcColorPicker>
+					</NcColorPicker>					
+				</div>
+
+				<div class="edit-calendar-modal__name-and-color__pattern">
+					<NcPatternPicker v-model="calendarPattern"
+						:advanced-fields="true"
+						@update:value="calendarPatternChanged = true">
+						<div class="edit-calendar-modal__name-and-color__pattern__dot"
+							:style="{'background-image': calendarPattern}" />
+					</NcPatternPicker>	
+					<!-- <div class="edit-calendar-modal__name-and-color__pattern__dot"
+						:style="{'background-image': 'repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(0,0,0,.2) 5px, rgba(0,0,0,.2) 10px)'}" /> -->
 				</div>
 
 				<input v-model="calendarName"
@@ -89,7 +100,7 @@
 </template>
 
 <script>
-import { NcModal, NcColorPicker, NcButton } from '@nextcloud/vue'
+import { NcModal, NcColorPicker, NcPatternPicker, NcButton } from '@nextcloud/vue'
 import PublishCalendar from './EditCalendarModal/PublishCalendar.vue'
 import SharingSearch from './EditCalendarModal/SharingSearch.vue'
 import ShareItem from './EditCalendarModal/ShareItem.vue'
@@ -106,6 +117,7 @@ export default {
 	name: 'EditCalendarModal',
 	components: {
 		NcModal,
+		NcPatternPicker,
 		NcColorPicker,
 		NcButton,
 		PublishCalendar,
@@ -121,6 +133,8 @@ export default {
 		return {
 			calendarColor: undefined,
 			calendarColorChanged: false,
+			calendarPattern: undefined,
+			calendarPatternChanged: false,
 			calendarName: undefined,
 			calendarNameChanged: false,
 		}
@@ -177,8 +191,10 @@ export default {
 
 			this.calendarName = this.calendar.displayName
 			this.calendarColor = this.calendar.color
+			this.calendarPattern = this.calendar.pattern
 			this.calendarNameChanged = false
 			this.calendarColorChanged = false
+			this.calendarPatternChanged = false
 		},
 	},
 	methods: {
@@ -202,6 +218,21 @@ export default {
 				logger.error('Failed to save calendar color', {
 					calendar: this.calendar,
 					newColor: this.calendarColor,
+				})
+				throw error
+			}
+		},
+
+		async savePattern() {
+			try {
+				await this.$store.dispatch('changeCalendarPattern', {
+					calendar: this.calendar,
+					newPattern: this.calendarPattern,
+				})
+			} catch (error) {
+				logger.error('Failed to save calendar pattern', {
+					calendar: this.calendar,
+					newPattern: this.calendarPattern,
 				})
 				throw error
 			}
@@ -238,7 +269,11 @@ export default {
 				if (this.calendarNameChanged) {
 					await this.saveName()
 				}
+				if (this.calendarPatternChanged) {
+					await this.savePattern()
+				}
 			} catch (error) {
+				// @todo change message error, add pattern
 				showError(this.$t('calendar', 'Failed to save calendar name and color'))
 			}
 
@@ -270,7 +305,7 @@ export default {
 		gap: 10px;
 		margin-bottom: 10px;
 
-		&__color {
+		&__color, &__pattern {
 			::v-deep &__dot {
 				width: 24px;
 				height: 24px;
