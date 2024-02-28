@@ -90,7 +90,7 @@ class AppointmentConfigMapper extends QBMapper {
 	 * @return AppointmentConfig[]
 	 * @throws DbException
 	 */
-	public function findAllForUser(string $userId, string $visibility = null): array {
+	public function findAllForUser(string $userId, ?string $visibility = null): array {
 		$qb = $this->db->getQueryBuilder();
 		$qb->select('*')
 			->from($this->getTableName())
