@@ -59,7 +59,7 @@ class AppointmentConfigService {
 	 * @return AppointmentConfig[]
 	 * @throws ServiceException
 	 */
-	public function getAllAppointmentConfigurations(string $userId, string $visibility = null): array {
+	public function getAllAppointmentConfigurations(string $userId, ?string $visibility = null): array {
 		try {
 			return $this->mapper->findAllForUser($userId, $visibility);
 		} catch (DbException $e) {

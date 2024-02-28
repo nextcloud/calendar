@@ -34,8 +34,8 @@ class ClientException extends Exception {
 
 	public function __construct($message = "",
 		$code = 0,
-		Throwable $previous = null,
-		int $httpCode = null) {
+		?Throwable $previous = null,
+		?int $httpCode = null) {
 		parent::__construct($message, $code, $previous);
 		$this->httpCode = $httpCode;
 	}
