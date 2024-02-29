@@ -65,6 +65,8 @@ const getDefaultPrincipalObject = (props) => Object.assign({}, {
 	isCalendarRoom: false,
 	// The id of the principal without prefix. e.g. userId / groupId / etc.
 	principalId: null,
+	// The url of the default calendar for invitations
+	scheduleDefaultCalendarUrl: null,
 }, props)
 
 /**
@@ -80,6 +82,7 @@ const mapDavToPrincipal = (dav) => {
 	const emailAddress = dav.email
 
 	const displayname = dav.displayname
+	const scheduleDefaultCalendarUrl = dav.scheduleDefaultCalendarUrl
 
 	const isUser = dav.principalScheme.startsWith(PRINCIPAL_PREFIX_USER)
 	const isGroup = dav.principalScheme.startsWith(PRINCIPAL_PREFIX_GROUP)
@@ -118,6 +121,7 @@ const mapDavToPrincipal = (dav) => {
 		isCalendarRoom,
 		principalId,
 		userId,
+		scheduleDefaultCalendarUrl,
 	})
 }
 

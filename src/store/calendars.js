@@ -523,6 +523,14 @@ const getters = {
 	getCalendarById: (state) => (calendarId) => state.calendarsById[calendarId],
 
 	/**
+	 * Gets a calendar by its url
+	 *
+	 * @param {object} state the store data
+	 * @return {function({String}): {Object}}
+	 */
+	getCalendarByUrl: (state) => (url) => state.calendars.find((calendar) => calendar.url === url),
+
+	/**
 	 * Gets the contact's birthday calendar or null
 	 *
 	 * @param {object} state the store data

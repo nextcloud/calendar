@@ -352,8 +352,13 @@ const actions = {
 			vObject.undirtify()
 		}
 
-		const firstCalendar = context.getters.sortedCalendars[0].id
-		return Promise.resolve(mapCalendarJsToCalendarObject(calendar, firstCalendar))
+		const defaultCalendarUrl = context.getters.getCurrentUserPrincipal.scheduleDefaultCalendarUrl
+		const defaultCalendar = context.getters.getCalendarByUrl(defaultCalendarUrl)
+
+		return Promise.resolve(mapCalendarJsToCalendarObject(
+			calendar,
+			defaultCalendar?.id ?? context.getters.sortedCalendars[0].id,
+		))
 	},
 
 	/**
