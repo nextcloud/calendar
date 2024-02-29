@@ -71,6 +71,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Ayeri]",
     "Event does not exist" : "L'eventu nun esiste",
     "Details" : "Detalles",
+    "Invite" : "Convidar",
     "Resources" : "Recursos",
     "Close" : "Zarrar",
     "Daily" : "Caldía",
