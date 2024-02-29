@@ -74,6 +74,11 @@
 				:organizer="calendarObjectInstance.organizer"
 				:start-date="calendarObjectInstance.startDate"
 				:end-date="calendarObjectInstance.endDate"
+				:event-title="calendarObjectInstance.title"
+				:already-invited-emails="alreadyInvitedEmails"
+				@remove-attendee="removeAttendee"
+				@add-attendee="addAttendee"
+				@update-dates="saveNewDate"
 				@close="closeFreeBusy" />
 		</div>
 	</div>
@@ -329,6 +334,10 @@ export default {
 			this.showFreeBusyModel = true
 		},
 		closeFreeBusy() {
+			this.showFreeBusyModel = false
+		},
+		saveNewDate(dates) {
+			this.$emit('update-dates', dates)
 			this.showFreeBusyModel = false
 		},
 		async createTalkRoom() {

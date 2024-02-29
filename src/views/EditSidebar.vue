@@ -243,7 +243,8 @@
 				<InviteesList v-if="!isLoading"
 					:calendar-object-instance="calendarObjectInstance"
 					:is-read-only="isReadOnly"
-					:is-shared-with-me="isSharedWithMe" />
+					:is-shared-with-me="isSharedWithMe"
+					@update-dates="updateDates" />
 			</div>
 			<SaveButtons v-if="showSaveButtons"
 				class="app-sidebar-tab__buttons"
@@ -427,6 +428,15 @@ export default {
 		window.removeEventListener('keydown', this.keyboardDuplicateEvent)
 	},
 	methods: {
+		/**
+		 * Update the start and end date of this event
+		 *
+		 * @param {object} dates The new start and end date
+		 */
+		updateDates(dates) {
+			this.updateStartDate(dates.start)
+			this.updateEndDate(dates.end)
+		},
 		/**
 		 * Updates the access-class of this event
 		 *

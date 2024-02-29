@@ -430,6 +430,7 @@ const mutations = {
 	 * @param {string=} data.language Preferred language of the attendee
 	 * @param {string=} data.timezoneId Preferred timezone of the attendee
 	 * @param {object=} data.organizer Principal of the organizer to be set if not present
+	 * @param data.member
 	 */
 	addAttendee(state, { calendarObjectInstance, commonName, uri, calendarUserType = null, participationStatus = null, role = null, rsvp = null, language = null, timezoneId = null, organizer = null, member = null }) {
 		const attendee = AttendeeProperty.fromNameAndEMail(commonName, uri)
