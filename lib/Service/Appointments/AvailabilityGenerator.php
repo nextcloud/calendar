@@ -64,12 +64,13 @@ class AvailabilityGenerator {
 			$now + $bufferBeforeStart,
 			($config->getStart() ?? $now) + $bufferBeforeStart
 		);
-		// Always round to "beautiful" slot starts according to slot length
+
+		// Always round to "beautiful" slot starts
 		// E.g. 5m slots should only be available at 10:20 and 10:25, not at 10:17
 		//      when the user opens the page at 10:17.
 		// But only do this when the time isn't already a "pretty" time
-		if ($earliestStart % $config->getLength() !== 0) {
-			$roundTo = (int)round(($config->getLength()) / 300) * 300;
+		if ($earliestStart % $config->getIncrement() !== 0) {
+			$roundTo = (int)round(($config->getIncrement()) / 300) * 300;
 			$earliestStart = (int)ceil($earliestStart / $roundTo) * $roundTo;
 		}
 
@@ -101,7 +102,7 @@ class AvailabilityGenerator {
 		$timeZone = $availabilityRule['timezoneId'];
 		$slots = $availabilityRule['slots'];
 
-		$applicableSlots = $this->filterDates($start, $slots, $timeZone, $config->getLength());
+		$applicableSlots = $this->filterDates($start, $slots, $timeZone, $config->getIncrement());
 		$this->logger->debug('Found ' . count($applicableSlots) . ' applicable slot(s) after date filtering', ['app' => 'calendar-appointments']);
 
 		$intervals = [];
