@@ -96,6 +96,7 @@ OC.L10N.register(
     "Delete file" : "Dilemel ar restr",
     "Available" : "Vak",
     "Not available" : "Divak",
+    "Done" : "Graet",
     "Free" : "Digoust",
     "Busy" : "O labourat",
     "Unknown" : "Dianv",

@@ -52,6 +52,7 @@ OC.L10N.register(
     "Email" : "ელ-ფოსტა",
     "Delete file" : "გაუქმდეს ფაილი",
     "Choose a file to add as attachment" : "დანართად დასამატებლად აირჩიეთ ფაილი",
+    "Done" : "დასრულდა",
     "Unknown" : "ამოუცნობი",
     "Accept" : "მიღება",
     "Decline" : "ურაყოფა",

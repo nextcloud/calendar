@@ -256,6 +256,7 @@ OC.L10N.register(
     "Checking availability" : "Kontrolujem dostupnosť",
     "Has not responded to {organizerName}'s invitation yet" : "Zatiaľ neodpovedal na pozvanie od {organizerName}",
     "Availability of attendees, resources and rooms" : "Dostupnosť účastníkov, zdrojov a miestností",
+    "Done" : "Hotovo",
     "{organizer} (organizer)" : "{organizer} (organizátor)",
     "Free" : "Voľný",
     "Busy (tentative)" : "Zaneprázdnený (predbežne)",

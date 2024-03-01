@@ -282,6 +282,7 @@ OC.L10N.register(
     "Checking availability" : "Zjišťuje se, zda je k dispozici",
     "Has not responded to {organizerName}'s invitation yet" : "Doposud neodpovězeno na pozvánku od {organizerName}",
     "Availability of attendees, resources and rooms" : "Dostupnost účastníků, prostředků a místností",
+    "Done" : "Dokončeno",
     "{organizer} (organizer)" : "{organizer} (organizátor/ka)",
     "Free" : "Volné",
     "Busy (tentative)" : "Zaneprázdněno (nezávazně)",

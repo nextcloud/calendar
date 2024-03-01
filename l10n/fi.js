@@ -274,6 +274,7 @@ OC.L10N.register(
     "Checking availability" : "Tarkistetaan saatavuutta",
     "Has not responded to {organizerName}'s invitation yet" : "Ei ole vielä vastanut järjestäjän {organizerName} kutsuun",
     "Availability of attendees, resources and rooms" : "Osallistujien, resurssien ja huoneiden saatavuus",
+    "Done" : "Valmis",
     "{organizer} (organizer)" : "{organizer} (järjestäjä)",
     "Free" : "Vapaa",
     "Busy (tentative)" : "Varattu (alustava)",

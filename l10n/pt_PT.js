@@ -227,6 +227,7 @@ OC.L10N.register(
     "Not available" : "Indisponível",
     "Invitation declined" : "Convite recusado",
     "Checking availability" : "A verificar disponibilidade",
+    "Done" : "Concluído",
     "Free" : "Livre",
     "Busy" : "Ocupado",
     "Out of office" : "Fora do escritório",

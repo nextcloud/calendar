@@ -279,6 +279,7 @@ OC.L10N.register(
     "Checking availability" : "Athuga hvað sé á lausu",
     "Has not responded to {organizerName}'s invitation yet" : "Hefur ekki svarað boðinu frá {organizerName} ennþá",
     "Availability of attendees, resources and rooms" : "Framboð á þátttakendum, tilföngum og herbergjum",
+    "Done" : "Lokið",
     "{organizer} (organizer)" : "{organizer} (organizer)",
     "Free" : "Laus",
     "Busy (tentative)" : "Upptekinn (með fyrirvara)",

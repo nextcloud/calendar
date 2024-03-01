@@ -282,6 +282,7 @@ OC.L10N.register(
     "Checking availability" : "Elérhetőség ellenőrzése",
     "Has not responded to {organizerName}'s invitation yet" : "Még nem válaszolt {organizerName} meghívására",
     "Availability of attendees, resources and rooms" : "A résztvevők, az erőforrások és a szobák rendelkezésre állása",
+    "Done" : "Kész",
     "{organizer} (organizer)" : "{organizer} (szervező)",
     "Free" : "Szabad",
     "Busy (tentative)" : "Foglalt (feltételes)",

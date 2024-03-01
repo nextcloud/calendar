@@ -28,6 +28,7 @@ OC.L10N.register(
     "Sunday" : "Nedelja",
     "Update" : "Ažuriraj",
     "Email" : "email",
+    "Done" : "Gotovo",
     "Unknown" : "Nepoznato",
     "never" : "never",
     "Details" : "Detalji",

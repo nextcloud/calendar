@@ -284,6 +284,7 @@ OC.L10N.register(
     "Awaiting response" : "Чека се одговор",
     "Has not responded to {organizerName}'s invitation yet" : "Још увек није одговорено на позивницу коју је послао {organizerName}",
     "Availability of attendees, resources and rooms" : "Доступност учесника, ресурса и соба",
+    "Done" : "Завршено",
     "{organizer} (organizer)" : "{organizer} (организатор)",
     "Free" : "Слободан",
     "Busy (tentative)" : "Заузет (несигурно)",

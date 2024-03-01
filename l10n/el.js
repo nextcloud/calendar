@@ -280,6 +280,7 @@ OC.L10N.register(
     "Checking availability" : "Έλεγχος διαθεσιμότητας",
     "Has not responded to {organizerName}'s invitation yet" : "Δεν έχετε απαντήσει ακόμα στην πρόσκληση του/της {organizerName}",
     "Availability of attendees, resources and rooms" : "Διαθεσιμότητα των συμμετεχόντων, των πόρων και των δωματίων",
+    "Done" : "Ολοκληρώθηκε",
     "{organizer} (organizer)" : "{organizer} (διοργανωτής)",
     "Free" : "Ελεύθερος",
     "Busy (tentative)" : "Απασχολημένος (με επιφύλαξη)",

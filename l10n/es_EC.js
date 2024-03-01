@@ -276,6 +276,7 @@ OC.L10N.register(
     "Checking availability" : "Verificando disponibilidad",
     "Has not responded to {organizerName}'s invitation yet" : "No ha respondido a la invitación de {organizerName} aún",
     "Availability of attendees, resources and rooms" : "Disponibilidad de asistentes, recursos y salas",
+    "Done" : "Hecho",
     "{organizer} (organizer)" : "{organizer} (organizador)",
     "Free" : "Disponible",
     "Busy (tentative)" : "Ocupado (tentativo)",

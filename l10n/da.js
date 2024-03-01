@@ -282,6 +282,7 @@ OC.L10N.register(
     "Checking availability" : "Kontrol af tilgængelighed",
     "Has not responded to {organizerName}'s invitation yet" : "Har endnu ikke svaret på {organizerName}s invitation",
     "Availability of attendees, resources and rooms" : "Tilgængelighed af deltagere, ressourcer og lokaler",
+    "Done" : "Færdig",
     "{organizer} (organizer)" : "{organizer} (arrangør)",
     "Free" : "Ledig",
     "Busy (tentative)" : "Optaget (foreløbig)",

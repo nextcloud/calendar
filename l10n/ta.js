@@ -31,6 +31,7 @@ OC.L10N.register(
     "Update" : "இற்றைப்படுத்தல்",
     "Your email address" : "உங்களுடைய மின்னஞ்சல் முகவரி",
     "Email" : "மின்னஞ்சல்",
+    "Done" : "Done",
     "Unknown" : "தெரியாத",
     "Attendees" : "பங்கேற்பாளர்கள்",
     "Repeat" : "மீண்டும்",

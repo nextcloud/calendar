@@ -281,6 +281,7 @@ OC.L10N.register(
     "Checking availability" : "Checking availability",
     "Has not responded to {organizerName}'s invitation yet" : "Has not responded to {organizerName}'s invitation yet",
     "Availability of attendees, resources and rooms" : "Availability of attendees, resources and rooms",
+    "Done" : "Done",
     "{organizer} (organizer)" : "{organizer} (organizer)",
     "Free" : "Free",
     "Busy (tentative)" : "Busy (tentative)",

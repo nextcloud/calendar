@@ -255,6 +255,7 @@ OC.L10N.register(
     "Awaiting response" : "Gaida atbildi",
     "Has not responded to {organizerName}'s invitation yet" : "Vēl nav atbildējis uz {organizerName} uzaicinājumu",
     "Availability of attendees, resources and rooms" : "Dalībnieku, resursu un telpu pieejamība",
+    "Done" : "Pabeigts",
     "Free" : "Brīvs",
     "Busy (tentative)" : "Aizņemts (nenoteikts)",
     "Busy" : "Aizņemts",

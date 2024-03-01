@@ -283,6 +283,7 @@ OC.L10N.register(
     "Awaiting response" : "Yanıt bekleniyor",
     "Has not responded to {organizerName}'s invitation yet" : "{organizerName} tarafından yapılan çağrıyı yanıtlamadı",
     "Availability of attendees, resources and rooms" : "Katılımcı, kaynak ve odaların kullanılabilirliği",
+    "Done" : "Tamamlandı",
     "{organizer} (organizer)" : "{organizer} (organizer)",
     "Free" : "Serbest",
     "Busy (tentative)" : "Meşgul (belirsiz)",

@@ -37,6 +37,7 @@ OC.L10N.register(
     "Notification" : "নোটিফিকেশন ",
     "Email" : "ইমেইল",
     "Choose a file to add as attachment" : "সংযুক্তি দেয়ার জন্য একটি ফাইল নির্বাচন করুন",
+    "Done" : "শেষ হলো",
     "Unknown" : "অজানা",
     "Attendees" : "অংশগ্রহণকারীবৃন্দ",
     "Repeat" : "পূনঃসংঘটন",
