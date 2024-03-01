@@ -284,6 +284,7 @@ OC.L10N.register(
     "Awaiting response" : "Venter på svar",
     "Has not responded to {organizerName}'s invitation yet" : "Har ikke svart på {organizerName} sin invitasjon ennå",
     "Availability of attendees, resources and rooms" : "Ledighet til deltagere, ressurser og rom",
+    "Done" : "Ferdig",
     "{organizer} (organizer)" : "{organizer} (organisator)",
     "Free" : "Ledig",
     "Busy (tentative)" : "Opptatt (foreløpig)",

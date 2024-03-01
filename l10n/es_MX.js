@@ -70,6 +70,7 @@ OC.L10N.register(
     "Available" : "Disponible",
     "Checking availability" : "Comprobando disponibilidad",
     "Availability of attendees, resources and rooms" : "Disponibilidad de asistentes, recursos y salas",
+    "Done" : "Terminado",
     "Unknown" : "Desconocido",
     "Accept" : "Aceptar",
     "Decline" : "Rechazar",

@@ -279,6 +279,7 @@ OC.L10N.register(
     "Checking availability" : "Beschikbaarheid controleren",
     "Has not responded to {organizerName}'s invitation yet" : "Er is nog niet gereageerd op de uitnodiging van {organizerName}.",
     "Availability of attendees, resources and rooms" : "Beschikbaarheid van aanwezigen, objecten en ruimtes",
+    "Done" : "Klaar",
     "{organizer} (organizer)" : "{organizer} (organizer)",
     "Free" : "Vrij",
     "Busy (tentative)" : "Bezig (voorlopig)",

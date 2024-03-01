@@ -282,6 +282,7 @@ OC.L10N.register(
     "Checking availability" : "空き状況の確認",
     "Has not responded to {organizerName}'s invitation yet" : "{organizerName} の招待にまだ応答していません",
     "Availability of attendees, resources and rooms" : "出席者、リソース、ルームの空き状況",
+    "Done" : "完了",
     "{organizer} (organizer)" : "{organizer} (organizer)",
     "Free" : "空き",
     "Busy (tentative)" : "ビジー (暫定)",

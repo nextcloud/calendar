@@ -282,6 +282,7 @@
     "Awaiting response" : "等待回應",
     "Has not responded to {organizerName}'s invitation yet" : "尚未回覆 {organizerName} 的邀請",
     "Availability of attendees, resources and rooms" : "參與者、資源和空間的可用性",
+    "Done" : "完成",
     "{organizer} (organizer)" : "{organizer} (organizer)",
     "Free" : "有空",
     "Busy (tentative)" : "忙碌（暫定）",

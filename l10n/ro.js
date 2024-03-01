@@ -277,6 +277,7 @@ OC.L10N.register(
     "Checking availability" : "Se verifică disponibilitatea",
     "Has not responded to {organizerName}'s invitation yet" : "Nu s-a răspuns încă invitației {organizerName}",
     "Availability of attendees, resources and rooms" : "Disponibilitatea participanților, resurse și camere",
+    "Done" : "Realizat",
     "{organizer} (organizer)" : "{organizer} (organizer)",
     "Free" : "Liber",
     "Busy (tentative)" : "Ocupat (tetentativ)",

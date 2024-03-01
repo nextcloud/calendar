@@ -279,6 +279,7 @@ OC.L10N.register(
     "Checking availability" : "正在检查可用性",
     "Has not responded to {organizerName}'s invitation yet" : "尚未回应 {organizerName} 的邀请",
     "Availability of attendees, resources and rooms" : "参与者、资源和会议室的可用性",
+    "Done" : "完成",
     "{organizer} (organizer)" : "{organizer} (organizer) ",
     "Free" : "空闲",
     "Busy (tentative)" : "忙碌（暂定）",

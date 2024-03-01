@@ -138,6 +138,7 @@ OC.L10N.register(
     "Choose a file to add as attachment" : "Pilih berkas untuk ditambahkan sebagai lampiran",
     "Not available" : "Tidak tersedia",
     "Availability of attendees, resources and rooms" : "Ketersediaan peserta, sumber daya, dan ruangan",
+    "Done" : "Selesai",
     "Free" : "Luang",
     "Busy (tentative)" : "Sibuk (tentatif)",
     "Busy" : "Sibuk",

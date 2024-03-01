@@ -157,6 +157,7 @@ OC.L10N.register(
     "Choose a file to share as a link" : "נא לבחור קובץ לשיתוף כקישור",
     "Available" : "זמינות",
     "Availability of attendees, resources and rooms" : "זמינות של משתתפים, משאבים וחדרים",
+    "Done" : "הסתיים",
     "Free" : "פנוי",
     "Busy (tentative)" : "תפוס (טנטטיבי)",
     "Busy" : "עסוק",

@@ -221,6 +221,7 @@ OC.L10N.register(
     "Available" : "Prieinamas",
     "Checking availability" : "Tikrinamas prieinamumas",
     "Availability of attendees, resources and rooms" : "Kviestinių, išteklių ir kambarių prieinamumas",
+    "Done" : "Atlikta",
     "{organizer} (organizer)" : "{organizer} (organizatorius)",
     "Free" : "Laisvas laikas",
     "Busy (tentative)" : "Užimtas laikas (preliminariai)",

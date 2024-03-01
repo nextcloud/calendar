@@ -281,6 +281,7 @@ OC.L10N.register(
     "Checking availability" : "Erabilgarritasuna egiaztatzen",
     "Has not responded to {organizerName}'s invitation yet" : "Oraindik ez dio {organizerName} erabiltzailearen gonbidapenari erantzun",
     "Availability of attendees, resources and rooms" : "Partaide, baliabide eta gelen eskuragarritasuna",
+    "Done" : "Egina",
     "{organizer} (organizer)" : "{organizer} (kudeatzailea)",
     "Free" : "Libre",
     "Busy (tentative)" : "Lanpetuta (behin-behinean)",

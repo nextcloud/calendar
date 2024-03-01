@@ -281,6 +281,7 @@ OC.L10N.register(
     "Checking availability" : "Consultant disponibilitat",
     "Has not responded to {organizerName}'s invitation yet" : "Encara no ha respost a la invitació de {organizerName}",
     "Availability of attendees, resources and rooms" : "Disponibilitat d'assistents, recursos i espais",
+    "Done" : "Desat",
     "{organizer} (organizer)" : "{organizer} (organitzador)",
     "Free" : "Disponible",
     "Busy (tentative)" : "Ocupat (provisional)",

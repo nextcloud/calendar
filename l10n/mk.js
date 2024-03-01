@@ -280,6 +280,7 @@ OC.L10N.register(
     "Checking availability" : "Проверување на достапност",
     "Has not responded to {organizerName}'s invitation yet" : "Сè уште не одговорил на поканата на {organizerName}",
     "Availability of attendees, resources and rooms" : "Достапност на присутните, ресурси и соби",
+    "Done" : "Готово",
     "{organizer} (organizer)" : "{organizer} (organizer)",
     "Free" : "Слободен",
     "Busy (tentative)" : "Зафатен (привремено)",

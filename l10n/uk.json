@@ -282,6 +282,7 @@
     "Awaiting response" : "Очікується відповідь",
     "Has not responded to {organizerName}'s invitation yet" : "Ще не відповів на запрошення від {organizerName}",
     "Availability of attendees, resources and rooms" : "Доступність учасників, ресурсів і приміщень",
+    "Done" : "Готово",
     "{organizer} (organizer)" : "{organizer} (організатор)",
     "Free" : "Вільно",
     "Busy (tentative)" : "Зайнято (попередньо)",

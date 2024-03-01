@@ -276,6 +276,7 @@ OC.L10N.register(
     "Checking availability" : "Preverjanje razpoložljivosti",
     "Has not responded to {organizerName}'s invitation yet" : "Še ni odgovora na na vabilo organizatorja: {organizerName}",
     "Availability of attendees, resources and rooms" : "Razpoložljivost udeležencev, virov in sob",
+    "Done" : "Končano",
     "{organizer} (organizer)" : "{organizer} (organizator)",
     "Free" : "Prosto",
     "Busy (tentative)" : "Načrtovano delo",

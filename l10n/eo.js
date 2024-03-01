@@ -83,6 +83,7 @@ OC.L10N.register(
     "Choose a file to add as attachment" : "Elektu dosieron aldonotan kiel kunsendaĵon",
     "Available" : "Disponeble",
     "Not available" : "Ne disponeble",
+    "Done" : "Farita",
     "Busy" : "Okupita",
     "Out of office" : "Ekstere oficejo",
     "Unknown" : "Nekonata",

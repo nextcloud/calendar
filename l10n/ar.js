@@ -284,6 +284,7 @@ OC.L10N.register(
     "Awaiting response" : "في انتظار الرّد",
     "Has not responded to {organizerName}'s invitation yet" : "لم يَرُدَّ على دعوة {organizerName} بعدُ",
     "Availability of attendees, resources and rooms" : "توافر الحضور والموارد والغرف",
+    "Done" : "تمّ",
     "{organizer} (organizer)" : "{organizer} (مُنظِّم)",
     "Free" : "مُتاحٌ",
     "Busy (tentative)" : "مشغولٌ (حاليّاً)",

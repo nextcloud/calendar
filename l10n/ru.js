@@ -279,6 +279,7 @@ OC.L10N.register(
     "Checking availability" : "Проверка доступности",
     "Has not responded to {organizerName}'s invitation yet" : "Ответ на приглашение от {organizerName} ещё не отправлен",
     "Availability of attendees, resources and rooms" : "Доступность участников, ресурсов и комнат",
+    "Done" : "Выполненные",
     "{organizer} (organizer)" : "{organizer} (организатор)",
     "Free" : "Свободен",
     "Busy (tentative)" : "Занят (под вопросом)",

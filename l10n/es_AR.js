@@ -66,6 +66,7 @@ OC.L10N.register(
     "Delete file" : "Borrar archivo",
     "Choose a file to add as attachment" : "Seleccione el archivo a agregar como adjunto",
     "Available" : "Disponible",
+    "Done" : "Terminado",
     "Unknown" : "Desconocido",
     "Accept" : "Aceptar",
     "Decline" : "Declinar",

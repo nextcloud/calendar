@@ -110,6 +110,7 @@ OC.L10N.register(
     "Choose a file to add as attachment" : "Vali fail, mida manustada",
     "Attachment {name} already exist!" : "Manus {name} on juba olemas!",
     "_{count} attachment_::_{count} attachments_" : ["{count} manus","{count} manust"],
+    "Done" : "Valmis",
     "Unknown" : "Teadmata",
     "Accept" : "Nõustu",
     "Decline" : "Keeldu",

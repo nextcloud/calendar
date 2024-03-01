@@ -277,6 +277,7 @@ OC.L10N.register(
     "Checking availability" : "Checking availability",
     "Has not responded to {organizerName}'s invitation yet" : "Has not responded to {organizerName}'s invitation yet",
     "Availability of attendees, resources and rooms" : "در دسترس بودن شرکت کنندگان ، منابع و اتاق ها",
+    "Done" : "Done",
     "{organizer} (organizer)" : "{organizer} (organizer)",
     "Free" : "رایگان",
     "Busy (tentative)" : "مشغول (آزمایشی)",
