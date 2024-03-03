@@ -87,6 +87,7 @@ OC.L10N.register(
     "_Every %n month_::_Every %n months_" : ["Cada %n mes","Cada %n meses"],
     "_Every %n year_::_Every %n years_" : ["Cada %n añu","Cada %n años"],
     "Untitled event" : "Eventu ensin títulu",
+    "Untitled task" : "Xera ensin títulu",
     "%n more" : "%n más",
     "Status" : "Estáu",
     "Categories" : "Categories"
