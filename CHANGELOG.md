@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.6.6 - 2024-03-04
+### Fixed
+- Outdated holiday calendars
+- FreeBusy - free for all blocks
+- Appointment rounding
+
 ## 4.6.5 - 2024-02-15
 ### Fixed
 - "Send Email" checkbox renamed to "Request reply"
