@@ -157,6 +157,7 @@ import TextInput from './AppointmentConfigModal/TextInput.vue'
 import TextArea from './AppointmentConfigModal/TextArea.vue'
 import AppointmentConfig from '../models/appointmentConfig.js'
 import { mapGetters } from 'vuex'
+import { mapStores } from 'pinia'
 import CalendarPicker from './Shared/CalendarPicker.vue'
 import DurationInput from './AppointmentConfigModal/DurationInput.vue'
 import NumberInput from './AppointmentConfigModal/NumberInput.vue'
@@ -165,6 +166,7 @@ import CheckedDurationSelect from './AppointmentConfigModal/CheckedDurationSelec
 import VisibilitySelect from './AppointmentConfigModal/VisibilitySelect.vue'
 import logger from '../utils/logger.js'
 import Confirmation from './AppointmentConfigModal/Confirmation.vue'
+import useAppointmentConfigStore from '../store/appointmentConfigs.js'
 
 export default {
 	name: 'AppointmentConfigModal',
@@ -209,6 +211,7 @@ export default {
 			'ownSortedCalendars',
 			'isTalkEnabled',
 		]),
+		...mapStores(useAppointmentConfigStore),
 		formTitle() {
 			if (this.isNew) {
 				return this.$t('calendar', 'Create appointment')
@@ -309,10 +312,10 @@ export default {
 			try {
 				if (this.isNew) {
 					logger.info('Creating new config', { config })
-					this.editing = await this.$store.dispatch('createConfig', { config })
+					this.editing = await this.appointmentConfigStore.createConfig({ config })
 				} else {
 					logger.info('Saving config', { config })
-					this.editing = await this.$store.dispatch('updateConfig', { config })
+					this.editing = await this.appointmentConfigStore.updateConfig({ config })
 				}
 				this.showConfirmation = true
 			} catch (error) {

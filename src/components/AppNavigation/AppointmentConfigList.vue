@@ -68,8 +68,9 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import AppointmentConfigModal from '../AppointmentConfigModal.vue'
 import AppointmentConfig from '../../models/appointmentConfig.js'
 import logger from '../../utils/logger.js'
-import { mapGetters } from 'vuex'
 import NoEmailAddressWarning from '../AppointmentConfigModal/NoEmailAddressWarning.vue'
+import useAppointmentConfigStore from '../../store/appointmentConfigs.js'
+import { mapStores } from 'pinia'
 
 export default {
 	name: 'AppointmentConfigList',
@@ -87,9 +88,10 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({
-			configs: 'allConfigs',
-		}),
+		...mapStores(useAppointmentConfigStore),
+		configs() {
+			return this.appointmentConfigStore.allConfigs
+		},
 		defaultConfig() {
 			return AppointmentConfig.createDefault(
 				this.calendarUrlToUri(this.$store.getters.ownSortedCalendars[0].url),
@@ -126,7 +128,7 @@ export default {
 			logger.info('Deleting config', { config })
 
 			try {
-				await this.$store.dispatch('deleteConfig', config)
+				await this.appointmentConfigStore.deleteConfig({ id: config.id })
 
 				logger.info('Config deleted', { config })
 			} catch (error) {
