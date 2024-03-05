@@ -200,6 +200,7 @@ OC.L10N.register(
     "Friday" : "Piatok",
     "Saturday" : "Sobota",
     "Sunday" : "Nedeľa",
+    "Weekdays" : "Pracovné dni",
     "Add time before and after the event" : "Pridajte čas pred a po udalosti",
     "Before the event" : "Pred udalosťou",
     "After the event" : "Po udalosti",
