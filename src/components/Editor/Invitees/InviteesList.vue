@@ -67,7 +67,7 @@
 				class="invitees-list-button-group__button"
 				:disabled="isListEmpty || !isOrganizer"
 				@click="openFreeBusy">
-				{{ $t('calendar', 'Show busy times') }}
+				{{ $t('calendar', 'Find a time') }}
 			</NcButton>
 			<FreeBusy v-if="showFreeBusyModel"
 				:attendees="calendarObjectInstance.attendees"
