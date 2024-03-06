@@ -12,6 +12,7 @@ OC.L10N.register(
     "Today" : "Güei",
     "Year" : "Añu",
     "Preview" : "Previsualizar",
+    "Copy link" : "Copiar l'enllaz",
     "Edit" : "Editar",
     "Delete" : "Desaniciar",
     "Untitled calendar" : "Calendariu ensin títulu",
