@@ -5,6 +5,8 @@
 		:options="options"
 		:value="valueIds"
 		:multiple="multiple"
+		:clearable="clearable"
+		:filterBy="selectFilterBy"
 		@option:selected="change"
 		@option:deselected="remove">
 		<template #option="{ id }">
@@ -54,6 +56,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		clearable: {
+			type: Boolean,
+			default: true,
+		},
 		inputId: {
 			type: String,
 			default: () => randomId(),
@@ -73,7 +79,10 @@ export default {
 			return this.value.id
 		},
 		options() {
-			return this.calendars.map((calendar) => ({ id: calendar.id }))
+			return this.calendars.map((calendar) => ({
+				id: calendar.id,
+				displayName: calendar.displayName,
+			}))
 		},
 	},
 	methods: {
@@ -111,6 +120,18 @@ export default {
 		getCalendarById(id) {
 			return this.calendars.find((cal) => cal.id === id)
 		},
+
+		/**
+		 * Decide whether the given option matches the given search term
+		 *
+		 * @param {object} option The calendar option
+		 * @param {string} label The label of the calendar option
+		 * @param {string} id The search term
+		 * @return {boolean} True if the search term matches
+		 */
+		selectFilterBy(option, label, search) {
+			return option.displayName.toLowerCase().indexOf(search) !== -1
+		}
 	},
 }
 </script>

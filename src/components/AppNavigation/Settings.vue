@@ -1,6 +1,7 @@
 <!--
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license AGPL-3.0-or-later
   -
@@ -81,6 +82,7 @@
 					:calendars="defaultCalendarOptions"
 					:disabled="savingDefaultCalendarId"
 					:input-id="defaultCalendarPickerId"
+					:clearable="false"
 					@select-calendar="changeDefaultCalendar" />
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--defaultReminder">
