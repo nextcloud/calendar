@@ -37,9 +37,16 @@
 		}
 	}
 
-	// We use our custom header layout for the sidebar editor
-	.app-sidebar-header__info {
-		display: none !important;
+	.app-sidebar-header__desc {
+		// We use our custom header layout for the sidebar editor
+		height: 0 !important;
+		padding: 0 !important;
+		margin: 0 !important;
+
+		// But keep the three-dot menu in the front
+		.app-sidebar-header__menu {
+			z-index: 1;
+		}
 	}
 
 	.app-sidebar-header__description {

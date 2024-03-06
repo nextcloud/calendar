@@ -689,9 +689,6 @@ export default {
 ::v-deep .app-sidebar-header__description {
 	flex-direction: column;
 }
-:deep(.app-sidebar-header__info) {
-	display: none !important;
-}
 .property-location {
 	margin-top: 10px;
 }
