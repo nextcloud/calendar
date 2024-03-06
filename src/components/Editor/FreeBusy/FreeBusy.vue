@@ -21,21 +21,22 @@
   -->
 
 <template>
-	<Modal size="large"
+	<NcDialog size="large"
 		:name="$t('calendar', 'Availability of attendees, resources and rooms')"
-		@close="$emit('close')">
+		@closing="$emit('close')">
 		<div class="modal__content modal--scheduler">
 			<div v-if="loadingIndicator" class="loading-indicator">
 				<div class="icon-loading" />
 			</div>
 			<div class="modal__content__header">
-				<h2>{{ t('calendar', 'Find a time') }}</h2>
+				<h2>{{ $t('calendar', 'Find a time') }}</h2>
 				<h3>{{ eventTitle }}</h3>
 				<div class="modal__content__header__attendees">
 					{{ t('calendar', 'with') }}
-					<NcUserBubble :display-name="organizer.commonName" />
+					<NcUserBubble size="24" :display-name="organizer.commonName" />
 					<NcUserBubble v-for="attendee in attendees"
 						:key="attendee.id"
+						size="24"
 						class="modal__content__header__attendees__user-bubble"
 						:display-name="attendee.commonName">
 						<template #name>
@@ -70,9 +71,9 @@
 						</template>
 					</NcButton>
 
-					<NcDateTimePicker :value="currentDate"
-						confirm
-						@confirm="(date)=>handleActions('picker', date)" />
+					<NcDateTimePickerNative :hide-label="true"
+						:value="currentDate"
+						@input="(date)=>handleActions('picker', date)" />
 					<NcPopover :focus-trap="false">
 						<template #trigger>
 							<NcButton type="tertiary-no-background">
@@ -116,7 +117,7 @@
 				</NcButton>
 			</div>
 		</div>
-	</Modal>
+	</NcDialog>
 </template>
 
 <script>
@@ -125,7 +126,7 @@ import FullCalendar from '@fullcalendar/vue'
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
 import interactionPlugin from '@fullcalendar/interaction'
 
-import { NcDateTimePicker, NcButton, NcPopover, NcUserBubble, NcModal as Modal } from '@nextcloud/vue'
+import { NcDateTimePickerNative, NcButton, NcPopover, NcUserBubble, NcDialog } from '@nextcloud/vue'
 // Import event sources
 import freeBusyBlockedForAllEventSource from '../../../fullcalendar/eventSources/freeBusyBlockedForAllEventSource.js'
 import freeBusyFakeBlockingEventSource from '../../../fullcalendar/eventSources/freeBusyFakeBlockingEventSource.js'
@@ -157,8 +158,8 @@ export default {
 	components: {
 		FullCalendar,
 		InviteesListSearch,
-		NcDateTimePicker,
-		Modal,
+		NcDateTimePickerNative,
+		NcDialog,
 		NcButton,
 		NcPopover,
 		NcUserBubble,
@@ -268,18 +269,18 @@ export default {
 				freeBusyResourceEventSource(
 					this._uid,
 					this.organizer.attendeeProperty,
-					this.attendees.map((a) => a.attendeeProperty)
+					this.attendees.map((a) => a.attendeeProperty),
 				),
 				freeBusyFakeBlockingEventSource(
 					this._uid,
 					this.resources,
 					this.currentStart,
-					this.currentEnd
+					this.currentEnd,
 				),
 				freeBusyBlockedForAllEventSource(
 					this.organizer.attendeeProperty,
 					this.attendees.map((a) => a.attendeeProperty),
-					this.resources
+					this.resources,
 				),
 			]
 		},
