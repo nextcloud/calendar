@@ -47,17 +47,17 @@
 			</template>
 			{{ $t('calendar', 'Update') }}
 		</NcButton>
-		<NcButton v-if="showUpdateOnlyThisButton"
-			type="primary"
-			:disabled="disabled"
-			@click="saveThisOnly">
-			{{ $t('calendar', 'Update this occurrence') }}
-		</NcButton>
 		<NcButton v-if="showUpdateThisAndFutureButton"
 			:type="forceThisAndAllFuture ? 'primary' : 'secondary'"
 			:disabled="disabled"
 			@click="saveThisAndAllFuture">
 			{{ $t('calendar', 'Update this and all future') }}
+		</NcButton>
+		<NcButton v-if="showUpdateOnlyThisButton"
+			type="primary"
+			:disabled="disabled"
+			@click="saveThisOnly">
+			{{ $t('calendar', 'Update this occurrence') }}
 		</NcButton>
 
 		<!-- Allow additional buttons -->
