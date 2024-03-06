@@ -59,6 +59,11 @@ const state = {
 	calendarsById: {},
 	initialCalendarsLoaded: false,
 	editCalendarModal: undefined,
+	widgetView: 'dayGridMonth',
+	widgetDate: 'now',
+	widgetEventDetailsOpen: false,
+	widgetEventDetails: {},
+	widgetRef: undefined,
 }
 
 const mutations = {
@@ -81,6 +86,30 @@ const mutations = {
 
 	addTrashBin(state, { trashBin }) {
 		state.trashBin = trashBin
+	},
+
+	setWidgetView(state, { viewName }) {
+		state.widgetView = viewName
+	},
+
+	setWidgetDate(state, { widgetDate }) {
+		state.widgetDate = widgetDate
+	},
+
+	setWidgetRef(state, { widgetRef }) {
+		state.widgetRef = widgetRef
+	},
+
+	setSelectedEvent(state, { object, recurrenceId }) {
+		state.widgetEventDetailsOpen = true
+		state.widgetEventDetails = {
+			object,
+			recurrenceId,
+		}
+	},
+
+	closeWidgetEventDetails(state) {
+		state.widgetEventDetailsOpen = false
 	},
 
 	addScheduleInbox(state, { scheduleInbox }) {
@@ -442,6 +471,22 @@ const getters = {
 			.filter(calendar => !calendar.readOnly)
 			.filter(calendar => !calendar.isSharedWithMe)
 			.sort((a, b) => a.order - b.order)
+	},
+
+	widgetView(state) {
+		return state.widgetView
+	},
+
+	widgetDate(state) {
+		return state.widgetDate
+	},
+
+	widgetEventDetailsOpen(state) {
+		return state.widgetEventDetailsOpen
+	},
+
+	widgetRef(state) {
+		return state.widgetRef
 	},
 
 	hasTrashBin(state) {

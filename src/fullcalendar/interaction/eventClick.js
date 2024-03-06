@@ -36,17 +36,23 @@ import { emit } from '@nextcloud/event-bus'
  * @param {object} router The Vue router
  * @param {object} route The current Vue route
  * @param {Window} window The window object
+ * @param {boolean} isWidget Whether the calendar is embedded in a widget
+ * @param {object} widgetRef
  * @return {Function}
  */
-export default function(store, router, route, window) {
+export default function(store, router, route, window, isWidget = false, widgetRef = undefined) {
+
 	return function({ event }) {
+		if (isWidget) {
+			store.commit('setWidgetRef', { widgetRef: widgetRef.$el })
+		}
 		switch (event.extendedProps.objectType) {
 		case 'VEVENT':
-			handleEventClick(event, store, router, route, window)
+			handleEventClick(event, store, router, route, window, isWidget)
 			break
 
 		case 'VTODO':
-			handleToDoClick(event, store, route, window)
+			handleToDoClick(event, store, route, window, isWidget)
 			break
 		}
 	}
@@ -60,8 +66,13 @@ export default function(store, router, route, window) {
  * @param {object} router The Vue router
  * @param {object} route The current Vue route
  * @param {Window} window The window object
+ * @param {boolean} isWidget Whether the calendar is embedded in a widget
  */
-function handleEventClick(event, store, router, route, window) {
+function handleEventClick(event, store, router, route, window, isWidget = false) {
+	if (isWidget) {
+		store.commit('setSelectedEvent', { object: event.extendedProps.objectId, recurrenceId: event.extendedProps.recurrenceId })
+		return
+	}
 	let desiredRoute = store.state.settings.skipPopover
 		? 'EditSidebarView'
 		: 'EditPopoverView'
@@ -95,10 +106,11 @@ function handleEventClick(event, store, router, route, window) {
  * @param {object} store The Vuex store
  * @param {object} route The current Vue route
  * @param {Window} window The window object
+ * @param isWidget
  */
-function handleToDoClick(event, store, route, window) {
+function handleToDoClick(event, store, route, window, isWidget = false) {
 
-	if (isPublicOrEmbeddedRoute(route.name)) {
+	if (isWidget || isPublicOrEmbeddedRoute(route.name)) {
 		return
 	}
 

@@ -8,6 +8,9 @@ const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-m
 // Add dashboard entry
 webpackConfig.entry.dashboard = path.join(__dirname, 'src', 'dashboard.js')
 
+//Add reference entry
+webpackConfig.entry['reference'] = path.join(__dirname, 'src', 'reference.js')
+
 // Add appointments entries
 webpackConfig.entry['appointments-booking'] = path.join(__dirname, 'src', 'appointments/main-booking.js')
 webpackConfig.entry['appointments-confirmation'] = path.join(__dirname, 'src', 'appointments/main-confirmation.js')

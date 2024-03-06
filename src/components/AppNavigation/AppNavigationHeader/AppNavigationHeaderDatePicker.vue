@@ -22,7 +22,8 @@
 
 <template>
 	<div class="datepicker-button-section">
-		<NcButton v-shortkey="previousShortKeyConf"
+		<NcButton v-if="!isWidget"
+			v-shortkey="previousShortKeyConf"
 			:aria-label="previousLabel"
 			class="datepicker-button-section__previous button"
 			:name="previousLabel"
@@ -32,20 +33,23 @@
 				<ChevronLeftIcon :size="22" />
 			</template>
 		</NcButton>
-		<NcButton class="datepicker-button-section__datepicker-label button datepicker-label"
+		<NcButton v-if="!isWidget"
+			class="datepicker-button-section__datepicker-label button datepicker-label"
 			@click.stop.prevent="toggleDatepicker"
 			@mousedown.stop.prevent="doNothing"
 			@mouseup.stop.prevent="doNothing">
 			{{ selectedDate | formatDateRange(view, locale) }}
 		</NcButton>
 		<DatePicker ref="datepicker"
-			class="datepicker-button-section__datepicker"
+			:class="isWidget ? 'datepicker-widget':'datepicker-button-section__datepicker'"
+			:append-to-body="isWidget"
 			:date="selectedDate"
 			:is-all-day="true"
 			:open.sync="isDatepickerOpen"
 			:type="view === 'multiMonthYear' ? 'year' : 'date'"
 			@change="navigateToDate" />
-		<NcButton v-shortkey="nextShortKeyConf"
+		<NcButton v-if="!isWidget"
+			v-shortkey="nextShortKeyConf"
 			:aria-label="nextLabel"
 			class="datepicker-button-section__next button"
 			:name="nextLabel"
@@ -82,6 +86,12 @@ export default {
 	filters: {
 		formatDateRange,
 	},
+	props: {
+		isWidget: {
+			type: Boolean,
+			default: false,
+		},
+	},
 	data() {
 		return {
 			isDatepickerOpen: false,
@@ -92,6 +102,9 @@ export default {
 			locale: (state) => state.settings.momentLocale,
 		}),
 		selectedDate() {
+			if (this.isWidget) {
+				return getDateFromFirstdayParam(this.$store.getters.widgetDate)
+			}
 			return getDateFromFirstdayParam(this.$route.params?.firstDay ?? 'now')
 		},
 		previousShortKeyConf() {
@@ -139,6 +152,9 @@ export default {
 			}
 		},
 		view() {
+			if (this.isWidget) {
+				return this.$store.getters.widgetView
+			}
 			return this.$route.params.view
 		},
 	},
@@ -190,17 +206,21 @@ export default {
 			this.navigateToDate(newDate)
 		},
 		navigateToDate(date) {
-			const name = this.$route.name
-			const params = Object.assign({}, this.$route.params, {
-				firstDay: getYYYYMMDDFromDate(date),
-			})
+			if (this.isWidget) {
+				this.$store.commit('setWidgetDate', { widgetDate: getYYYYMMDDFromDate(date) })
+			} else {
+				const name = this.$route.name
+				const params = Object.assign({}, this.$route.params, {
+					firstDay: getYYYYMMDDFromDate(date),
+				})
 
-			// Don't push new route when day didn't change
-			if (this.$route.params.firstDay === getYYYYMMDDFromDate(date)) {
-				return
+				// Don't push new route when day didn't change
+				if (this.$route.params.firstDay === getYYYYMMDDFromDate(date)) {
+					return
+				}
+
+				this.$router.push({ name, params })
 			}
-
-			this.$router.push({ name, params })
 		},
 		toggleDatepicker() {
 			this.isDatepickerOpen = !this.isDatepickerOpen
@@ -212,3 +232,9 @@ export default {
 	},
 }
 </script>
+<style lang="scss">
+.datepicker-widget{
+	width: 135px;
+    margin: 2px 5px 5px 5px;
+}
+</style>

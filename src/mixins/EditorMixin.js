@@ -41,6 +41,13 @@ import { showError } from '@nextcloud/dialogs'
  * See inline for more documentation
  */
 export default {
+	props: {
+		// Whether or not the calendar is embedded in a widget
+		isWidget: {
+			type: Boolean,
+			default: false,
+		},
+	},
 	data() {
 		return {
 			// Indicator whether or not the event is currently loading, saving or being deleted
@@ -396,6 +403,10 @@ export default {
 		 * Closes the editor and returns to normal calendar-view
 		 */
 		closeEditor() {
+			if (this.isWidget) {
+				this.$store.commit('closeWidgetEventDetails')
+				return
+			}
 			const params = Object.assign({}, this.$store.state.route.params)
 			delete params.object
 			delete params.recurrenceId

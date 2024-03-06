@@ -28,13 +28,16 @@ use OCA\Calendar\Dashboard\CalendarWidget;
 use OCA\Calendar\Dashboard\CalendarWidgetV2;
 use OCA\Calendar\Events\BeforeAppointmentBookedEvent;
 use OCA\Calendar\Listener\AppointmentBookedListener;
+use OCA\Calendar\Listener\CalendarReferenceListener;
 use OCA\Calendar\Listener\UserDeletedListener;
 use OCA\Calendar\Notification\Notifier;
 use OCA\Calendar\Profile\AppointmentsAction;
+use OCA\Calendar\Reference\ReferenceProvider;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\Dashboard\IAPIWidgetV2;
 use OCP\User\Events\UserDeletedEvent;
 use function method_exists;
@@ -65,9 +68,11 @@ class Application extends App implements IBootstrap {
 		if (method_exists($context, 'registerProfileLinkAction')) {
 			$context->registerProfileLinkAction(AppointmentsAction::class);
 		}
+		$context->registerReferenceProvider(ReferenceProvider::class);
 
 		$context->registerEventListener(BeforeAppointmentBookedEvent::class, AppointmentBookedListener::class);
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
+		$context->registerEventListener(RenderReferenceEvent::class, CalendarReferenceListener::class);
 
 		$context->registerNotifierService(Notifier::class);
 	}
