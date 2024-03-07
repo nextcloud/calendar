@@ -3,6 +3,7 @@
 ## 4.7.0 - Prerelease
 ### Added
 - Ability to invite circles to events
+- Custom public calendar subscriptions
 ### Changed
 - Editor redesign
 
