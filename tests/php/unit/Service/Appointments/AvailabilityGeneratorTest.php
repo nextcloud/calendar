@@ -119,6 +119,48 @@ class AvailabilityGeneratorTest extends TestCase {
 		);
 	}
 
+	public function testNoAvailabilityQuarterHourIncrementsFourtyFiveMinutesLenght(): void {
+		$config = new AppointmentConfig();
+		$config->setLength(2700); // 45 minutes
+		$config->setIncrement(900); // 15 minutes
+		$config->setAvailability(null);
+
+		$this->timeFactory->expects(self::once())
+			->method('getTime')
+			->willReturn(1709546400);
+
+		$sdate = new \DateTime('2024-03-04 10:00');
+		$edate = new \DateTime('2024-03-04 10:45');
+
+		$slots = $this->generator->generate($config, $sdate->getTimestamp(), $edate->getTimestamp());
+
+		self::assertCount(1, $slots);
+		self::assertEquals(0, ($slots[0]->getStart() % $config->getIncrement()));
+		self::assertEquals(45 * 60, ($slots[0]->getEnd() - $slots[0]->getStart()));
+		self::assertEquals(
+			[new Interval(1709546400, 1709549100)],
+			$slots,
+		);
+	}
+
+	public function testNoAvailabilityZeroTo2700QuarterHourIncrementsFourtyFiveMinutesLenght(): void {
+		$config = new AppointmentConfig();
+		$config->setLength(2700); // 45 minutes
+		$config->setIncrement(900); // 15 minutes
+		$config->setAvailability(null);
+
+		$slots = $this->generator->generate($config, 0, 2700);
+
+		self::assertCount(1, $slots);
+		self::assertEquals(0, $slots[0]->getStart() % 2700);
+		self::assertEquals(45 * 60, ($slots[0]->getEnd() - $slots[0]->getStart()));
+		self::assertEquals(
+			[new Interval(0, 45 * 60)],
+			$slots,
+		);
+	}
+
+
 	public function testNoAvailabilitySetRoundWithRealLifeTimesUgly(): void {
 		$config = new AppointmentConfig();
 		$config->setLength(900);
