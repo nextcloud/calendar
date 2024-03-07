@@ -91,7 +91,6 @@ OC.L10N.register(
     "Decline" : "Malakcepti",
     "Tentative" : "Nekonfirmita",
     "Attendees" : "Ĉeestontoj",
-    "Show busy times" : "Montri okupatajn tempojn",
     "Required participant" : "Bezonata partoprenanto",
     "Optional participant" : "Laŭvola partoprenanto",
     "Remove group" : "Forigi grupon",

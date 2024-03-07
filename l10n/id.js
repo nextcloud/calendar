@@ -149,7 +149,6 @@ OC.L10N.register(
     "Tentative" : "Tentatif",
     "Attendees" : "Peserta",
     "Create Talk room for this event" : "Buat ruangan Talk untuk acara ini",
-    "Show busy times" : "Tampilkan waktu sibuk",
     "No attendees yet" : "Belum ada peserta",
     "Successfully appended link to talk room to description." : "Berhasil menambahkan tautan ruang Talk pada deskripsi.",
     "Error creating Talk room" : "Galat membuat ruangan Talk",
