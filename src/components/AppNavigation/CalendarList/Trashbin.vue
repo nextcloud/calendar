@@ -296,7 +296,7 @@ export default {
 	}
 }
 
-::v-deep .modal-wrapper .modal-container {
+:deep(.modal-wrapper .modal-container) {
 	overflow-y: auto;
 	overflow-x: auto;
 }

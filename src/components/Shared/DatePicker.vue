@@ -427,10 +427,10 @@ export default {
 .highlighted-timezone-icon {
 	opacity: .7;
 }
-::v-deep .mx-icon-calendar {
+:deep(.mx-icon-calendar) {
 	right: 0;
 }
-::v-deep .multiselect__content-wrapper {
+:deep(.multiselect__content-wrapper) {
 	border: none !important;
 	position: relative !important;
 }
