@@ -485,7 +485,7 @@ export default {
 :deep(.vs__search ) {
 	text-overflow: ellipsis;
 }
-::v-deep .mx-input{
+:deep(.mx-input) {
 	height: 38px !important;
 }
 </style>

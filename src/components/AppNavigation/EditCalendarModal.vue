@@ -271,7 +271,7 @@ export default {
 		margin-bottom: 10px;
 
 		&__color {
-			::v-deep &__dot {
+			&__dot {
 				width: 24px;
 				height: 24px;
 				border-radius: 12px;

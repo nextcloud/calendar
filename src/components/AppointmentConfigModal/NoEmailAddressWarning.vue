@@ -55,14 +55,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep {
+:deep {
 	.app-navigation-entry-link {
 		align-items: center;
-		line-height: unset;
-		white-space: unset;
+		line-height: unset !important;
+		white-space: unset !important;
 	}
 
-	.app-navigation-entry__title {
+	.app-navigation-entry__name {
 		overflow: unset !important;
 		white-space: unset !important;
 		text-overflow: unset !important;

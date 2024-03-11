@@ -180,7 +180,7 @@ export default {
 		}
 	}
 
-	::v-deep .empty-content {
+	:deep(.empty-content) {
 		margin-top: 20px;
 	}
 }

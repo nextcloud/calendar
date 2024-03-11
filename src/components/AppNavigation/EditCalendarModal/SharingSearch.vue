@@ -253,11 +253,6 @@ export default {
 
 	&__select {
 		flex: 1 auto;
-
-		// Fix weird height of multiselect
-		::v-deep .multiselect__tags {
-			box-sizing: border-box;
-		}
 	}
 }
 </style>

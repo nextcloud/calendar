@@ -675,9 +675,6 @@ export default {
 	display: flex;
 	flex-wrap: wrap;
 }
-::v-deep .attachments .avatardiv img {
-	border-radius: 0;
-}
 .attachment-list-item, .user-list-item {
 	width: 50%
 }
@@ -686,7 +683,7 @@ export default {
 	height: auto;
 	border-radius: var(--border-radius);
 }
-::v-deep .app-sidebar-header__description {
+:deep(.app-sidebar-header__description) {
 	flex-direction: column;
 }
 .property-location {

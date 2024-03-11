@@ -261,7 +261,7 @@ export default {
 	}
 
 	// Hide avatars if list item is hovered
-	::v-deep .app-navigation-entry:hover .app-navigation-entry__counter-wrapper {
+	:deep(.app-navigation-entry:hover .app-navigation-entry__counter-wrapper) {
 		display: none;
 	}
 
