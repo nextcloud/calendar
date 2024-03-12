@@ -31,6 +31,7 @@
 		:placeholder="placeholder"
 		:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
 		:clearable="false"
+		:labelOutside="true"
 		input-id="uid"
 		label="dropdownName"
 		@search="findAttendees"
