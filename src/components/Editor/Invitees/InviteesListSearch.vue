@@ -225,7 +225,7 @@ export default {
 						name = email
 					}
 
-					if (this.alreadyInvitedEmails.includes(email)) {
+					if (email && this.alreadyInvitedEmails.includes(email)) {
 						return
 					}
 
