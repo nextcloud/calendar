@@ -4,6 +4,7 @@
 ### Added
 - Ability to invite circles to events
 - Custom public calendar subscriptions
+- Automatically find free slots for an event
 ### Changed
 - Editor redesign
 
