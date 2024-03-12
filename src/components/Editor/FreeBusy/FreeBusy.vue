@@ -102,10 +102,26 @@
 				:options="options" />
 			<div class="modal__content__footer">
 				<div class="modal__content__footer__title">
+					<p v-if="freeSlots">
+						{{ $t('calendar', 'Available times:') }}
+						<NcSelect class="available-slots__multiselect"
+							:options="freeSlots"
+							:placeholder="placeholder"
+							:clearable="false"
+							input-id="slot"
+							label="displayStart"
+							:label-outside="true"
+							:value="selectedSlot"
+							@option:selected="setSlotSuggestion">
+							<template #selected-option="{}">
+								{{ $t('calendar', 'Suggestion accepted') }}
+							</template>
+						</NcSelect>
+					</p>
 					<h3>
-						{{ formattedcurrentStart }}
+						{{ formattedCurrentStart }}
 					</h3>
-					<p>{{ formattedCurrentTime }}<span class="modal__content__footer__title__timezone">{{ formattedTimeZoen }}</span></p>
+					<p>{{ formattedCurrentTime }}<span class="modal__content__footer__title__timezone">{{ formattedTimeZone }}</span></p>
 				</div>
 
 				<NcButton type="primary"
@@ -126,7 +142,7 @@ import FullCalendar from '@fullcalendar/vue'
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
 import interactionPlugin from '@fullcalendar/interaction'
 
-import { NcDateTimePickerNative, NcButton, NcPopover, NcUserBubble, NcDialog } from '@nextcloud/vue'
+import { NcDateTimePickerNative, NcButton, NcPopover, NcUserBubble, NcDialog, NcSelect } from '@nextcloud/vue'
 // Import event sources
 import freeBusyBlockedForAllEventSource from '../../../fullcalendar/eventSources/freeBusyBlockedForAllEventSource.js'
 import freeBusyFakeBlockingEventSource from '../../../fullcalendar/eventSources/freeBusyFakeBlockingEventSource.js'
@@ -152,10 +168,13 @@ import HelpCircleIcon from 'vue-material-design-icons/HelpCircle.vue'
 import InviteesListSearch from '../Invitees/InviteesListSearch.vue'
 
 import { getColorForFBType } from '../../../utils/freebusy.js'
+import { getFirstFreeSlot } from '../../../services/freeBusySlotService.js'
+import dateFormat from '../../../filters/dateFormat.js'
 
 export default {
 	name: 'FreeBusy',
 	components: {
+		NcSelect,
 		FullCalendar,
 		InviteesListSearch,
 		NcDateTimePickerNative,
@@ -201,11 +220,14 @@ export default {
 		},
 		eventTitle: {
 			type: String,
-			required: true,
-
+			required: false,
 		},
 		alreadyInvitedEmails: {
 			type: Array,
+			required: true,
+		},
+		calendarObjectInstance: {
+			type: Object,
 			required: true,
 		},
 	},
@@ -217,11 +239,15 @@ export default {
 			currentEnd: this.endDate,
 			lang: getFullCalendarLocale().locale,
 			formattingOptions: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
+			freeSlots: [],
+			selectedSlot: null,
 		}
 	},
 	mounted() {
 		const calendar = this.$refs.freeBusyFullCalendar.getApi()
 		calendar.scrollToTime(this.scrollTime)
+
+		this.findFreeSlots()
 	},
 	computed: {
 		...mapGetters({
@@ -232,6 +258,9 @@ export default {
 			showWeekNumbers: state => state.settings.showWeekNumbers,
 			timezone: state => state.settings.timezone,
 		}),
+		placeholder() {
+			return this.$t('calendar', 'Select automatic slot')
+		},
 		/**
 		 * FullCalendar Plugins
 		 *
@@ -245,7 +274,7 @@ export default {
 				interactionPlugin,
 			]
 		},
-		formattedcurrentStart() {
+		formattedCurrentStart() {
 			return this.currentStart.toLocaleDateString(this.lang, this.formattingOptions)
 		},
 		formattedCurrentTime() {
@@ -261,7 +290,7 @@ export default {
 
 			return this.currentDate.getHours() > 0 ? new Date(this.currentDate.getTime() - 60 * 60 * 1000).toLocaleTimeString(this.lang, options) : '10:00:00'
 		},
-		formattedTimeZoen() {
+		formattedTimeZone() {
 			return this.timezoneId.replace('/', '-')
 		},
 		eventSources() {
@@ -352,7 +381,7 @@ export default {
 			return {
 				// Initialization:
 				initialView: 'resourceTimelineDay',
-				initialDate: this.startDate,
+				initialDate: this.currentStart,
 				schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
 				// Data
 				eventSources: this.eventSources,
@@ -387,6 +416,7 @@ export default {
 				  day: 'numeric',
 				  weekday: 'long',
 				},
+				dateClick: this.findFreeSlots(),
 			}
 		},
 	},
@@ -400,9 +430,11 @@ export default {
 		},
 		addAttendee(attendee) {
 			this.$emit('add-attendee', attendee)
+			this.findFreeSlots()
 		},
 		removeAttendee(attendee) {
 			this.$emit('remove-attendee', attendee)
+			this.findFreeSlots()
 		},
 		loading(isLoading) {
 			this.loadingIndicator = isLoading
@@ -425,6 +457,55 @@ export default {
 			}
 			this.currentDate = calendar.getDate()
 			calendar.scrollToTime(this.scrollTime)
+			this.findFreeSlots()
+		},
+		async findFreeSlots() {
+			// Doesn't make sense for multiple days
+			if (this.currentStart.getDate() !== this.currentEnd.getDate()) {
+				return
+			}
+
+			// Needed to update with full calendar widget changes
+			const startSearch = new Date(this.currentStart)
+			startSearch.setDate(this.currentDate.getDate())
+			startSearch.setMonth(this.currentDate.getMonth())
+			startSearch.setYear(this.currentDate.getFullYear())
+
+			const endSearch = new Date(this.currentEnd)
+			endSearch.setDate(this.currentDate.getDate())
+			endSearch.setMonth(this.currentDate.getMonth())
+			endSearch.setYear(this.currentDate.getFullYear())
+
+			try {
+				const freeSlots = await getFirstFreeSlot(
+					this.organizer.attendeeProperty,
+					this.attendees.map((a) => a.attendeeProperty),
+					startSearch,
+					endSearch,
+					this.timezoneId,
+				)
+
+				freeSlots.forEach((slot) => {
+					slot.displayStart = dateFormat(slot.start, false, getFullCalendarLocale().locale)
+				})
+
+				this.freeSlots = freeSlots
+			} catch (error) {
+				// Handle error here
+				console.error('Error occurred while finding free slots:', error)
+				throw error // Re-throwing the error to handle it in the caller
+			}
+		},
+		setSlotSuggestion(slot) {
+			this.selectedSlot = slot
+
+			const calendar = this.$refs.freeBusyFullCalendar.getApi()
+			calendar.gotoDate(slot.start)
+			calendar.scrollToTime(this.scrollTime)
+
+			// have to make these "selected" version of the props seeing as they can't be modified directly, and they aren't updated reactively when vuex is
+			this.currentStart = slot.start
+			this.currentEnd = slot.end
 		},
 	},
 }

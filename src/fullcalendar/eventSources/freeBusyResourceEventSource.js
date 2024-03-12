@@ -2,6 +2,7 @@
  * @copyright Copyright (c) 2019 Georg Ehrke
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
+ * @author 2024 Grigory Vodyanov <scratchx@gmx.com>
  *
  * @license AGPL-3.0-or-later
  *
@@ -19,11 +20,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import getTimezoneManager from '../../services/timezoneDataProviderService.js'
-import { createFreeBusyRequest, AttendeeProperty, DateTimeValue } from '@nextcloud/calendar-js'
-import { findSchedulingOutbox } from '../../services/caldavService.js'
-import freeBusyResourceEventSourceFunction from './freeBusyResourceEventSourceFunction.js'
-import logger from '../../utils/logger.js'
+import { AttendeeProperty } from '@nextcloud/calendar-js'
+import { getBusySlots } from '../../services/freeBusySlotService.js'
 
 /**
  * Returns an event source for free-busy
@@ -41,43 +39,12 @@ export default function(id, organizer, attendees) {
 		durationEditable: false,
 		resourceEditable: false,
 		events: async ({ start, end, timeZone }, successCallback, failureCallback) => {
-			console.debug(start, end, timeZone)
-
-			let timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
-			if (!timezoneObject) {
-				timezoneObject = getTimezoneManager().getTimezoneForId('UTC')
-				logger.error(`FreeBusyEventSource: Timezone ${timeZone} not found, falling back to UTC.`)
+			const result = await getBusySlots(organizer, attendees, start, end, timeZone)
+			if (result.error) {
+				failureCallback(result.error)
+			} else {
+				successCallback(result.events)
 			}
-
-			const startDateTime = DateTimeValue.fromJSDate(start, true)
-			const endDateTime = DateTimeValue.fromJSDate(end, true)
-
-			const organizerAsAttendee = new AttendeeProperty('ATTENDEE', organizer.email)
-			const freeBusyComponent = createFreeBusyRequest(startDateTime, endDateTime, organizer, [organizerAsAttendee, ...attendees])
-			const freeBusyICS = freeBusyComponent.toICS()
-
-			let outbox
-			try {
-				outbox = await findSchedulingOutbox()
-			} catch (error) {
-				failureCallback(error)
-				return
-			}
-
-			let freeBusyData
-			try {
-				freeBusyData = await outbox.freeBusyRequest(freeBusyICS)
-			} catch (error) {
-				failureCallback(error)
-				return
-			}
-			const events = []
-			for (const [uri, data] of Object.entries(freeBusyData)) {
-				events.push(...freeBusyResourceEventSourceFunction(uri, data.calendarData, data.success, startDateTime, endDateTime, timezoneObject))
-			}
-
-			console.debug(events)
-			successCallback(events)
 		},
 	}
 }
