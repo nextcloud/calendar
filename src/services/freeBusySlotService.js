@@ -33,7 +33,6 @@ import logger from '../utils/logger.js'
  * @param {AttendeeProperty[]} attendees Array of the event's attendees
  * @param {Date} start The start date and time of the event
  * @param {Date} end The end date and time of the event
- * @param timeZone Timezone of the user
  * @param timeZoneId
  * @return {Promise<>}
  */
@@ -74,66 +73,72 @@ export async function getBusySlots(organizer, attendees, start, end, timeZoneId)
 }
 
 /**
- * Get the first available slot for an event using freebusy API
+ * Get the first available slot for an event using the freebusy API
  *
- * @param {AttendeeProperty} organizer The organizer of the event
- * @param {AttendeeProperty[]} attendees Array of the event's attendees
+
  * @param {Date} start The start date and time of the event
  * @param {Date} end The end date and time of the event
- * @param timeZoneId TimezoneId of the user
- * @return {Promise<[]>}
+ * @param retrievedEvents Events found by the freebusy API
+ * @return []
  */
-export async function getFirstFreeSlot(organizer, attendees, start, end, timeZoneId) {
+export function getFirstFreeSlot(start, end, retrievedEvents) {
 	let duration = getDurationInSeconds(start, end)
 	if (duration === 0) {
 		duration = 86400 // one day
 	}
-
-	// for now search slots only in the first five days
 	const endSearchDate = new Date(start)
-	endSearchDate.setDate(start.getDate() + 5)
-	const eventResults = await getBusySlots(organizer, attendees, start, endSearchDate, timeZoneId)
+	endSearchDate.setDate(start.getDate() + 7)
 
-	if (eventResults.error) {
-		return [{ error: eventResults.error }]
+	if (retrievedEvents.error) {
+		return [{ error: retrievedEvents.error }]
 	}
 
-	const events = eventResults.events
+	const events = sortEvents(retrievedEvents)
 
 	let currentCheckedTime = start
 	const currentCheckedTimeEnd = new Date(currentCheckedTime)
 	currentCheckedTimeEnd.setSeconds(currentCheckedTime.getSeconds() + duration)
 	const foundSlots = []
+	let offset = 1
 
-	// more than 1 suggestions is too much
-	// todo: make it 5
-	for (let i = 0; (i < events.length + 1 && i < 1); i++) {
+	if (new Date(events[0]?.start) < currentCheckedTime) {
+		offset = 0
+	}
+
+	for (let i = 0; i < events.length + offset && i < 5; i++) {
 		foundSlots[i] = checkTimes(currentCheckedTime, duration, events)
 
-		if (foundSlots[i].nextEvent !== undefined && foundSlots[i].nextEvent !== null) currentCheckedTime = new Date(foundSlots[i].nextEvent.end)
+		if (foundSlots[i].nextEvent !== undefined && foundSlots[i].nextEvent !== null) {
+			currentCheckedTime = new Date(foundSlots[i].nextEvent.end)
+		}
 		// avoid repetitions caused by events blocking at first iteration of currentCheckedTime
-		if (foundSlots[i]?.start === foundSlots[i - 1]?.start) {
-			foundSlots.pop()
+		if (foundSlots[i]?.start === foundSlots[i - 1]?.start && foundSlots[i] !== undefined) {
+			foundSlots[i] = {}
 			break
 		}
 	}
 
-	foundSlots.forEach((slot, index) => {
-		const roundedTime = roundTime(slot.start, slot.end, slot.blockingEvent, duration)
+	const roundedSlots = []
 
-		foundSlots[index].start = roundedTime.start
-		foundSlots[index].end = roundedTime.end
-		// not needed anymore
-		foundSlots[index].nextEvent = undefined
+	foundSlots.forEach((slot) => {
+		const roundedTime = roundTime(slot.start, slot.end, slot.blockingEvent, slot.nextEvent, duration)
+
+		if (roundedTime !== null && roundedTime.start < endSearchDate) {
+			roundedSlots.push({
+				start: roundedTime.start,
+				end: roundedTime.end,
+			})
+		}
 	})
 
-	return foundSlots
+	return roundedSlots
 }
 
 /**
  *
  * @param start
  * @param end
+ * @return {number}
  */
 function getDurationInSeconds(start, end) {
 	// convert dates to UTC to account for daylight saving time
@@ -150,9 +155,11 @@ function getDurationInSeconds(start, end) {
  * @param currentCheckedTime
  * @param currentCheckedTimeEnd
  * @param blockingEvent
+ * @param nextEvent
  * @param duration
  */
-function roundTime(currentCheckedTime, currentCheckedTimeEnd, blockingEvent, duration) {
+function roundTime(currentCheckedTime, currentCheckedTimeEnd, blockingEvent, nextEvent, duration) {
+	if (currentCheckedTime === null) return null
 	if (!blockingEvent) return { start: currentCheckedTime, end: currentCheckedTimeEnd }
 
 	// make sure that difference between currentCheckedTime and blockingEvent.end is at least 15 minutes
@@ -176,6 +183,11 @@ function roundTime(currentCheckedTime, currentCheckedTimeEnd, blockingEvent, dur
 	// update currentCheckedTimeEnd again since currentCheckedTime was updated
 	currentCheckedTimeEnd = new Date(currentCheckedTime)
 	currentCheckedTimeEnd.setSeconds(currentCheckedTime.getSeconds() + duration)
+
+	// if the rounding of the event doesn't conflict with the start of the next one
+	if (currentCheckedTimeEnd > new Date(nextEvent?.start)) {
+		return null
+	}
 
 	return { start: currentCheckedTime, end: currentCheckedTimeEnd }
 }
@@ -244,4 +256,20 @@ function checkTimes(currentCheckedTime, duration, events) {
 	}
 
 	return { start: currentCheckedTime, end: currentCheckedTimeEnd, nextEvent, blockingEvent }
+}
+
+// make a function that sorts a list of objects by the "start" property
+function sortEvents(events) {
+	// remove events that have the same start and end time, if not done causes problems
+	const mappedEvents = new Map()
+
+	for (const obj of events) {
+		const key = obj.start.toString() + obj.end.toString()
+
+		if (!mappedEvents.has(key)) {
+			mappedEvents.set(key, obj)
+		}
+	}
+
+	return Array.from(mappedEvents.values()).sort((a, b) => new Date(a.start) - new Date(b.start))
 }
