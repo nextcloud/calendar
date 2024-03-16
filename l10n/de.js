@@ -378,7 +378,7 @@ OC.L10N.register(
     "Room type" : "Raum-Typ",
     "Any" : "Irgendein",
     "Minimum seating capacity" : "Mindestsitzplatzkapazität",
-    "More details" : "Weitere EInzelheiten",
+    "More details" : "Weitere Einzelheiten",
     "Update this and all future" : "Aktualisiere dieses und alle Künftigen",
     "Update this occurrence" : "Diese Wiederholung aktualisieren",
     "Public calendar does not exist" : "Öffentlicher Kalender existiert nicht",
