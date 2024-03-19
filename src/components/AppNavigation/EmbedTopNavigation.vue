@@ -1,14 +1,14 @@
 <template>
-	<header id="embed-header" role="banner">
-		<div class="embed-header__date-section">
-			<AppNavigationHeaderDatePicker />
-			<AppNavigationHeaderTodayButton />
+	<header :id="isWidget? 'widget-header' :'embed-header'" role="banner">
+		<div :class="isWidget?'widget-header__date-section' :'embed-header__date-section'">
+			<AppNavigationHeaderDatePicker :is-widget="isWidget" />
+			<AppNavigationHeaderTodayButton v-if="!isWidget" />
 		</div>
-		<div class="embed-header__views-section">
-			<AppNavigationHeaderViewButtons />
+		<div :class="isWidget?'widget-header__views-section' :'embed-header__views-section'">
+			<AppNavigationHeaderViewButtons :is-widget="isWidget" />
 		</div>
 		<!-- TODO have one button per calendar -->
-		<div class="embed-header__share-section">
+		<div v-if="!isWidget" class="widget-header__share-section">
 			<Actions>
 				<template #icon>
 					<Download :size="20" decorative />
@@ -74,6 +74,12 @@ export default {
 		CalendarBlank,
 		Download,
 	},
+	props: {
+		isWidget: {
+			type: Boolean,
+			default: false,
+		},
+	},
 	computed: {
 		...mapGetters({
 			subscriptions: 'sortedSubscriptions',
@@ -98,3 +104,34 @@ export default {
 	},
 }
 </script>
+<style lang="scss">
+#widget-header {
+	top: 0;
+	left: 0;
+	height: 50px;
+	width: 100%;
+	box-sizing: border-box;
+	background-color: var(--color-main-background);
+	border-bottom: 1px solid var(--color-border);
+	overflow: visible;
+	z-index: 2000;
+	display: flex;
+
+	.widget-header__date-section{
+		display: flex;
+		gap: 5px;
+	}
+
+	.view-button-section {
+		display: flex;
+
+	}
+
+	.datepicker-button-section {
+		display: flex;
+		&__datepicker-label {
+			min-width: 150px;
+		}
+	}
+}
+</style>

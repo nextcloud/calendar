@@ -23,7 +23,7 @@
 
 <template>
 	<Popover ref="popover"
-		:shown="isVisible"
+		:shown="showPopover"
 		:auto-hide="false"
 		:placement="placement"
 		:boundary="boundaryElement"
@@ -148,7 +148,8 @@
 					:calendar-id="calendarId"
 					@close="closeEditorAndSkipAction" />
 
-				<SaveButtons class="event-popover__buttons"
+				<SaveButtons v-if="!isWidget"
+					class="event-popover__buttons"
 					:can-create-recurrence-exception="canCreateRecurrenceException"
 					:is-new="isNew"
 					:is-read-only="isReadOnlyOrViewing"
@@ -236,7 +237,7 @@ export default {
 			placement: 'auto',
 			hasLocation: false,
 			hasDescription: false,
-			boundaryElement: document.querySelector('#app-content-vue > .fc'),
+			boundaryElement: null,
 			isVisible: true,
 			isViewing: true,
 		}
@@ -244,7 +245,14 @@ export default {
 	computed: {
 		...mapState({
 			hideEventExport: (state) => state.settings.hideEventExport,
+			widgetEventDetailsOpen: (state) => state.calendars.widgetEventDetailsOpen,
+			widgetEventDetails: (state) => state.calendars.widgetEventDetails,
+			widgetRef: (state) => state.calendars.widgetRef,
 		}),
+
+		showPopover() {
+			return this.isVisible || this.widgetEventDetailsOpen
+		},
 
 		/**
 		 * Returns true if the current event is read only or the user is viewing the event
@@ -252,7 +260,7 @@ export default {
 		 * @return {boolean}
 		 */
 		isReadOnlyOrViewing() {
-			return this.isReadOnly || this.isViewing
+			return this.isReadOnly || this.isViewing || this.isWidget
 		},
 	},
 	watch: {
@@ -260,7 +268,7 @@ export default {
 			this.repositionPopover()
 
 			// Hide popover when changing the view until the user selects a slot again
-			this.isVisible = to.params.view === from.params.view
+			this.isVisible = to?.params.view === from?.params.view
 		},
 		calendarObjectInstance() {
 			this.hasLocation = false
@@ -281,7 +289,15 @@ export default {
 			},
 		},
 	},
-	mounted() {
+	async mounted() {
+		if (this.isWidget) {
+			const objectId = this.widgetEventDetails.object
+			const recurrenceId = this.widgetEventDetails.recurrenceId
+			await this.$store.dispatch('getCalendarObjectInstanceByObjectIdAndRecurrenceId', { objectId, recurrenceId })
+			this.calendarId = this.calendarObject.calendarId
+			this.isLoading = false
+		}
+		this.boundaryElement = this.isWidget ? document.querySelector('.fc') : document.querySelector('#app-content-vue > .fc')
 		window.addEventListener('keydown', this.keyboardCloseEditor)
 		window.addEventListener('keydown', this.keyboardSaveEvent)
 		window.addEventListener('keydown', this.keyboardDeleteEvent)
@@ -314,8 +330,13 @@ export default {
 		},
 		getDomElementForPopover(isNew, route) {
 			let matchingDomObject
+			if (this.isWidget) {
+				const objectId = this.widgetEventDetails.object
+				const recurrenceId = this.widgetEventDetails.recurrenceId
 
-			if (isNew) {
+				matchingDomObject = this.widgetRef.querySelector(`.fc-event[data-object-id="${objectId}"][data-recurrence-id="${recurrenceId}"]`)
+				this.placement = 'auto'
+			} else if (isNew) {
 				matchingDomObject = document.querySelector('.fc-highlight')
 				this.placement = 'auto'
 
@@ -344,7 +365,7 @@ export default {
 			return matchingDomObject
 		},
 		repositionPopover() {
-		  const isNew = this.$route.name === 'NewPopoverView'
+		  const isNew = this.isWidget ? false : this.$route.name === 'NewPopoverView'
 		  this.$refs.popover.$children[0].$refs.reference = this.getDomElementForPopover(isNew, this.$route)
 		  this.$refs.popover.$children[0].$refs.popper.dispose()
 		  this.$refs.popover.$children[0].$refs.popper.init()

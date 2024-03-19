@@ -23,6 +23,7 @@
 
 <template>
 	<FullCalendar ref="fullCalendar"
+		:class="isWidget? 'fullcalendar-widget': ''"
 		:options="options" />
 </template>
 
@@ -72,6 +73,10 @@ export default {
 		FullCalendar,
 	},
 	props: {
+		isWidget: {
+			type: Boolean,
+			default: false,
+		},
 		/**
 		 * Whether or not the user is authenticated
 		 */
@@ -104,8 +109,8 @@ export default {
 		options() {
 			return {
 				// Initialization:
-				initialDate: getYYYYMMDDFromFirstdayParam(this.$route.params.firstDay),
-				initialView: this.$route.params.view,
+				initialDate: getYYYYMMDDFromFirstdayParam(this.$route?.params?.firstDay ?? 'now'),
+				initialView: this.$route?.params.view ?? 'dayGridMonth',
 				// Data
 				eventSources: this.eventSources,
 				// Plugins
@@ -114,12 +119,12 @@ export default {
 				editable: this.isEditable,
 				selectable: this.isAuthenticatedUser,
 				eventAllow,
-				eventClick: eventClick(this.$store, this.$router, this.$route, window),
-				eventDrop: (...args) => eventDrop(this.$store, this.$refs.fullCalendar.getApi())(...args),
-				eventResize: eventResize(this.$store),
-				navLinkDayClick: navLinkDayClick(this.$router, this.$route),
-				navLinkWeekClick: navLinkWeekClick(this.$router, this.$route),
-				select: select(this.$store, this.$router, this.$route, window),
+				eventClick: eventClick(this.$store, this.$router, this.$route, window, this.isWidget, this.$refs.fullCalendar),
+				eventDrop: this.isWidget ? false : (...args) => eventDrop(this.$store, this.$refs.fullCalendar.getApi())(...args),
+				eventResize: this.isWidget ? false : eventResize(this.$store),
+				navLinkDayClick: this.isWidget ? false : navLinkDayClick(this.$router, this.$route),
+				navLinkWeekClick: this.isWidget ? false : navLinkWeekClick(this.$router, this.$route),
+				select: this.isWidget ? false : select(this.$store, this.$router, this.$route, window),
 				navLinks: true,
 				// Localization
 				...getDateFormattingConfig(),
@@ -151,6 +156,12 @@ export default {
 		eventSources() {
 			return this.$store.getters.enabledCalendars.map(eventSource(this.$store))
 		},
+		widgetView() {
+			return this.$store.getters.widgetView
+		},
+		widgetDate() {
+			return this.$store.getters.widgetDate
+		},
 		/**
 		 * FullCalendar Plugins
 		 *
@@ -170,11 +181,19 @@ export default {
 		isEditable() {
 			// We do not allow drag and drop when the editor is open.
 			return this.isAuthenticatedUser
-				&& this.$route.name !== 'EditPopoverView'
-				&& this.$route.name !== 'EditSidebarView'
+				&& this.$route?.name !== 'EditPopoverView'
+				&& this.$route?.name !== 'EditSidebarView'
 		},
 	},
 	watch: {
+		widgetView(newView) {
+			const calendarApi = this.$refs.fullCalendar.getApi()
+			calendarApi.changeView(newView)
+		},
+		widgetDate(newDate) {
+			const calendarApi = this.$refs.fullCalendar.getApi()
+			calendarApi.gotoDate(getYYYYMMDDFromFirstdayParam(newDate))
+		},
 		modificationCount: debounce(function() {
 			const calendarApi = this.$refs.fullCalendar.getApi()
 			calendarApi.refetchEvents()
@@ -226,40 +245,42 @@ export default {
 		 * This view is not used as a router view,
 		 * hence we can't use beforeRouteUpdate directly.
 		 */
-		this.$router.beforeEach((to, from, next) => {
-			if (to.params.firstDay !== from.params.firstDay) {
-				const calendarApi = this.$refs.fullCalendar.getApi()
-				calendarApi.gotoDate(getYYYYMMDDFromFirstdayParam(to.params.firstDay))
-			}
-			if (to.params.view !== from.params.view) {
-				const calendarApi = this.$refs.fullCalendar.getApi()
-				calendarApi.changeView(to.params.view)
-				this.saveNewView(to.params.view)
-			}
+		if (!this.isWidget) {
+			this.$router.beforeEach((to, from, next) => {
+				if (to.params.firstDay !== from.params.firstDay) {
+					const calendarApi = this.$refs.fullCalendar.getApi()
+					calendarApi.gotoDate(getYYYYMMDDFromFirstdayParam(to.params.firstDay))
+				}
+				if (to.params.view !== from.params.view) {
+					const calendarApi = this.$refs.fullCalendar.getApi()
+					calendarApi.changeView(to.params.view)
+					this.saveNewView(to.params.view)
+				}
 
-			if ((from.name === 'NewPopoverView' || from.name === 'NewSidebarView')
+				if ((from.name === 'NewPopoverView' || from.name === 'NewSidebarView')
 				&& to.name !== 'NewPopoverView'
 				&& to.name !== 'NewSidebarView') {
-				const calendarApi = this.$refs.fullCalendar.getApi()
-				calendarApi.unselect()
-			}
+					const calendarApi = this.$refs.fullCalendar.getApi()
+					calendarApi.unselect()
+				}
 
-			next()
-		})
+				next()
+			})
 
-		// Trigger the select event programmatically on initial page load to show the new event
-		// in the grid. Wait for the next tick because the ref isn't available right away.
-		await this.$nextTick()
-		if (['NewPopoverView', 'NewSidebarView'].includes(this.$route.name)) {
-			const start = new Date(parseInt(this.$route.params.dtstart) * 1000)
-			const end = new Date(parseInt(this.$route.params.dtend) * 1000)
-			if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
-				const calendarApi = this.$refs.fullCalendar.getApi()
-				calendarApi.select({
-					start,
-					end,
-					allDay: this.$route.params.allDay === '1',
-				})
+			// Trigger the select event programmatically on initial page load to show the new event
+			// in the grid. Wait for the next tick because the ref isn't available right away.
+			await this.$nextTick()
+			if (['NewPopoverView', 'NewSidebarView'].includes(this.$route.name)) {
+				const start = new Date(parseInt(this.$route.params.dtstart) * 1000)
+				const end = new Date(parseInt(this.$route.params.dtend) * 1000)
+				if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+					const calendarApi = this.$refs.fullCalendar.getApi()
+					calendarApi.select({
+						start,
+						end,
+						allDay: this.$route.params.allDay === '1',
+					})
+				}
 			}
 		}
 	},
@@ -277,7 +298,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .calendar-grid-checkbox {
 	border-style: solid;
 	border-width: 2px;
@@ -292,5 +313,11 @@ export default {
 	border-radius: 4px;
 	height: 16px;
 	width: 16px;
+}
+.fullcalendar-widget{
+	min-height: 500px;
+	:deep(.fc-col-header-cell-cushion){
+		font-size: 9px;
+	}
 }
 </style>

@@ -21,8 +21,20 @@
   -->
 
 <template>
-	<NcContent app-name="calendar" :class="classNames">
-		<AppNavigation v-if="!isEmbedded && !showEmptyCalendarScreen">
+	<div v-if="isWidget" class="calendar-Widget">
+		<EmbedTopNavigation :is-widget="true" />
+
+		<CalendarGrid v-if="!showEmptyCalendarScreen"
+			ref="calendarGridWidget"
+			:is-widget="isWidget"
+			:is-authenticated-user="isAuthenticatedUser" />
+		<EmptyCalendar v-else />
+
+		<EditSimple v-if="showWidgetEventDetails" :is-widget="true" />
+	</div>
+
+	<NcContent v-else app-name="calendar" :class="classNames">
+		<AppNavigation v-if="!isWidget &&!isEmbedded && !showEmptyCalendarScreen">
 			<!-- Date Picker, View Buttons, Today Button -->
 			<AppNavigationHeader :is-public="!isAuthenticatedUser" />
 			<template #list>
@@ -77,6 +89,7 @@ import EmbedTopNavigation from '../components/AppNavigation/EmbedTopNavigation.v
 import EmptyCalendar from '../components/EmptyCalendar.vue'
 import CalendarGrid from '../components/CalendarGrid.vue'
 import EditCalendarModal from '../components/AppNavigation/EditCalendarModal.vue'
+import EditSimple from './EditSimple.vue'
 
 // Import CalDAV related methods
 import {
@@ -123,6 +136,17 @@ export default {
 		CalendarListNew,
 		Trashbin,
 		EditCalendarModal,
+		EditSimple,
+	},
+	props: {
+		isWidget: {
+			type: Boolean,
+			default: false,
+		},
+		referenceToken: {
+			type: String,
+			required: false,
+		},
 	},
 	data() {
 		return {
@@ -152,29 +176,39 @@ export default {
 			attachmentsFolder: state => state.settings.attachmentsFolder,
 		}),
 		defaultDate() {
-			return getYYYYMMDDFromFirstdayParam(this.$route.params?.firstDay ?? 'now')
+			return getYYYYMMDDFromFirstdayParam(this.$route?.params?.firstDay ?? 'now')
 		},
 		isEditable() {
 			// We do not allow drag and drop when the editor is open.
 			return !this.isPublicShare
 				&& !this.isEmbedded
-				&& this.$route.name !== 'EditPopoverView'
-				&& this.$route.name !== 'EditSidebarView'
+				&& !this.isWidget
+				&& this.$route?.name !== 'EditPopoverView'
+				&& this.$route?.name !== 'EditSidebarView'
 		},
 		isSelectable() {
-			return !this.isPublicShare && !this.isEmbedded
+			return !this.isPublicShare && !this.isEmbedded && !this.isWidget
 		},
 		isAuthenticatedUser() {
-			return !this.isPublicShare && !this.isEmbedded
+			return !this.isPublicShare && !this.isEmbedded && !this.isWidget
 		},
 		isPublicShare() {
+			if (this.isWidget) {
+				return false
+			}
 			return this.$route.name.startsWith('Public')
 		},
 		isEmbedded() {
+			if (this.isWidget) {
+				return false
+			}
 			return this.$route.name.startsWith('Embed')
 		},
+		showWidgetEventDetails() {
+			return this.$store.getters.widgetEventDetailsOpen && this.$refs.calendarGridWidget.$el === this.$store.getters.widgetRef
+		},
 		showHeader() {
-			return this.isPublicShare && this.isEmbedded
+			return this.isPublicShare && this.isEmbedded && this.isWidget
 		},
 		classNames() {
 			if (this.isEmbedded) {
@@ -229,9 +263,9 @@ export default {
 		})
 		this.$store.dispatch('initializeCalendarJsConfig')
 
-		if (this.$route.name.startsWith('Public') || this.$route.name.startsWith('Embed')) {
+		if (this.$route?.name.startsWith('Public') || this.$route?.name.startsWith('Embed') || this.isWidget) {
 			await initializeClientForPublicView()
-			const tokens = this.$route.params.tokens.split('-')
+			const tokens = this.isWidget ? [this.referenceToken] : this.$route.params.tokens.split('-')
 			const calendars = await this.$store.dispatch('getPublicCalendars', { tokens })
 			this.loadingCalendars = false
 
@@ -302,3 +336,9 @@ export default {
 	},
 }
 </script>
+<style lang="scss">
+.calendar-Widget {
+	width: 100%;
+}
+</style>
+```

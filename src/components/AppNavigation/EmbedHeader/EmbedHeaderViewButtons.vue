@@ -59,6 +59,12 @@ export default {
 	components: {
 		NcButton,
 	},
+	props: {
+		isWidget: {
+			type: Boolean,
+			default: false,
+		},
+	},
 	computed: {
 		isAgendaDayViewSelected() {
 			return this.selectedView === 'timeGridDay'
@@ -76,22 +82,30 @@ export default {
 			return this.selectedView === 'listMonth'
 		},
 		selectedView() {
+			if (this.isWidget) {
+				return this.$store.getters.widgetView
+			}
 			return this.$route.params.view
 		},
 	},
 	methods: {
 		view(viewName) {
-			const name = this.$route.name
-			const params = Object.assign({}, this.$route.params, {
-				view: viewName,
-			})
+			if (this.isWidget) {
+				this.$store.commit('setWidgetView', { viewName })
+			} else {
+				const name = this.$route.name
+				const params = Object.assign({}, this.$route.params, {
+					view: viewName,
+				})
 
-			// Don't push new route when view didn't change
-			if (this.$route.params.view === viewName) {
-				return
+				// Don't push new route when view didn't change
+				if (this.$route.params.view === viewName) {
+					return
+				}
+
+				this.$router.push({ name, params })
+
 			}
-
-			this.$router.push({ name, params })
 		},
 	},
 }
