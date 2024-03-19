@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.6.7 - 2024-03-19
+### Fixed
+- Missing events in week view
+
 ## 4.6.6 - 2024-03-04
 ### Fixed
 - Outdated holiday calendars
