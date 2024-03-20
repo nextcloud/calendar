@@ -23,37 +23,6 @@
 
 .app-sidebar,
 .event-popover .event-popover__inner {
-	.app-sidebar-header__figure {
-		height: unset !important;
-	}
-
-	.app-sidebar-header__action {
-		margin-top: 0 !important;
-		max-height: none !important;
-		flex-wrap: wrap;
-
-		div {
-			flex-shrink: 0;
-		}
-	}
-
-	.app-sidebar-header__desc {
-		// We use our custom header layout for the sidebar editor
-		height: 0 !important;
-		padding: 0 !important;
-		margin: 0 !important;
-
-		// But keep the three-dot menu in the front
-		.app-sidebar-header__menu {
-			z-index: 1;
-		}
-	}
-
-	.app-sidebar-header__description {
-		// Close button should be aligned with calendar picker (header)
-		padding-top: 5px;
-	}
-
 	.editor-invitee-list-empty-message,
 	.editor-reminders-list-empty-message,
 	.editor-invitee-list-no-email-configured-message {
