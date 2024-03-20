@@ -103,7 +103,7 @@
 					:is-read-only="isReadOnlyOrViewing || !canModifyCalendar"
 					@update:value="changeCalendar" />
 
-				<PropertyTitle :value="title"
+				<PropertyTitle :value="titleOrPlaceholder"
 					:is-read-only="isReadOnlyOrViewing"
 					@update:value="updateTitle" />
 
@@ -262,6 +262,19 @@ export default {
 		isReadOnlyOrViewing() {
 			return this.isReadOnly || this.isViewing || this.isWidget
 		},
+
+		/**
+		 * Return the event's title or a placeholder if it is empty
+		 *
+		 * @return {string}
+		 */
+		titleOrPlaceholder() {
+			if (this.title === '' && this.isReadOnlyOrViewing && !this.isLoading) {
+				return t('calendar', 'Untitled event')
+			}
+
+			return this.title
+		}
 	},
 	watch: {
 		$route(to, from) {
