@@ -384,12 +384,19 @@ export default {
 		  this.$refs.popover.$children[0].$refs.popper.init()
 		},
 		/**
-		 * Save changes and return to viewing mode or stay in editing mode if an error occurrs
+		 * Save changes and leave when creating a new event or return to viewing mode when editing
+		 * an existing event. Stay in editing mode if an error occurrs.
 		 *
 		 * @param {boolean} thisAndAllFuture Modify this and all future events
 		 * @return {Promise<void>}
 		 */
 		async saveAndView(thisAndAllFuture) {
+			// Transitioning from new to edit routes is not implemented for now
+			if (this.isNew) {
+				await this.saveAndLeave(thisAndAllFuture)
+				return
+			}
+
 			this.isViewing = true
 			try {
 				await this.save(thisAndAllFuture)
