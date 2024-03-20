@@ -37,14 +37,14 @@ import { emit } from '@nextcloud/event-bus'
  * @param {object} route The current Vue route
  * @param {Window} window The window object
  * @param {boolean} isWidget Whether the calendar is embedded in a widget
- * @param {object} widgetRef
+ * @param {object} ref The ref object of CalendarGrid component
  * @return {Function}
  */
-export default function(store, router, route, window, isWidget = false, widgetRef = undefined) {
+export default function(store, router, route, window, isWidget = false, ref = undefined) {
 
 	return function({ event }) {
 		if (isWidget) {
-			store.commit('setWidgetRef', { widgetRef: widgetRef.$el })
+			store.commit('setWidgetRef', { widgetRef: ref.fullCalendar.$el })
 		}
 		switch (event.extendedProps.objectType) {
 		case 'VEVENT':

@@ -119,7 +119,7 @@ export default {
 				editable: this.isEditable,
 				selectable: this.isAuthenticatedUser,
 				eventAllow,
-				eventClick: eventClick(this.$store, this.$router, this.$route, window, this.isWidget, this.$refs.fullCalendar),
+				eventClick: eventClick(this.$store, this.$router, this.$route, window, this.isWidget, this.$refs),
 				eventDrop: this.isWidget ? false : (...args) => eventDrop(this.$store, this.$refs.fullCalendar.getApi())(...args),
 				eventResize: this.isWidget ? false : eventResize(this.$store),
 				navLinkDayClick: this.isWidget ? false : navLinkDayClick(this.$router, this.$route),
