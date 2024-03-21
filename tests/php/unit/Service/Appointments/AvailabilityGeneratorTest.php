@@ -34,14 +34,12 @@ use OCA\Calendar\Service\Appointments\Interval;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\ICalendarQuery;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class AvailabilityGeneratorTest extends TestCase {
-	/** @var ITimeFactory|MockObject */
-	private $timeFactory;
-
-	/** @var AvailabilityGenerator */
-	private $generator;
-
+	private ITimeFactory|MockObject $timeFactory;
+	private MockObject|LoggerInterface $logger;
+	private AvailabilityGenerator $generator;
 	protected function setUp(): void {
 		parent::setUp();
 
@@ -50,9 +48,10 @@ class AvailabilityGeneratorTest extends TestCase {
 		}
 
 		$this->timeFactory = $this->createMock(ITimeFactory::class);
-
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->generator = new AvailabilityGenerator(
 			$this->timeFactory,
+			$this->logger,
 		);
 	}
 

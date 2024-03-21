@@ -146,14 +146,14 @@ class MailService {
 		try {
 			$failed = $this->mailer->send($message);
 			if (count($failed) > 0) {
-				$this->logger->warning('Mail delivery failed for some recipients.');
+				$this->logger->warning('Mail delivery failed for some recipients.', ['app' => 'calendar-appointments']);
 				foreach ($failed as $fail) {
-					$this->logger->debug('Failed to deliver email to ' . $fail);
+					$this->logger->debug('Failed to deliver email to ' . $fail, ['app' => 'calendar-appointments']);
 				}
 				throw new ServiceException('Could not send mail for recipient(s) ' . implode(', ', $failed));
 			}
 		} catch (Exception $ex) {
-			$this->logger->error($ex->getMessage(), ['exception' => $ex]);
+			$this->logger->error($ex->getMessage(), ['exception' => $ex, 'app' => 'calendar-appointments']);
 			throw new ServiceException('Could not send mail: ' . $ex->getMessage(), $ex->getCode(), $ex);
 		}
 	}
@@ -215,14 +215,14 @@ class MailService {
 		try {
 			$failed = $this->mailer->send($message);
 			if (count($failed) > 0) {
-				$this->logger->warning('Mail delivery failed for some recipients.');
+				$this->logger->warning('Mail delivery failed for some recipients.', ['app' => 'calendar-appointments']);
 				foreach ($failed as $fail) {
-					$this->logger->debug('Failed to deliver email to ' . $fail);
+					$this->logger->debug('Failed to deliver email to ' . $fail, ['app' => 'calendar-appointments']);
 				}
 				throw new ServiceException('Could not send mail for recipient(s) ' . implode(', ', $failed));
 			}
 		} catch (Exception $ex) {
-			$this->logger->error($ex->getMessage(), ['exception' => $ex]);
+			$this->logger->error($ex->getMessage(), ['exception' => $ex, 'app' => 'calendar-appointments']);
 			throw new ServiceException('Could not send mail: ' . $ex->getMessage(), $ex->getCode(), $ex);
 		}
 	}
@@ -320,14 +320,14 @@ class MailService {
 		try {
 			$failed = $this->mailer->send($message);
 			if (count($failed) > 0) {
-				$this->logger->warning('Mail delivery failed for some recipients.');
+				$this->logger->warning('Mail delivery failed for some recipients.', ['app' => 'calendar-appointments']);
 				foreach ($failed as $fail) {
-					$this->logger->debug('Failed to deliver email to ' . $fail);
+					$this->logger->debug('Failed to deliver email to ' . $fail, ['app' => 'calendar-appointments']);
 				}
 				throw new ServiceException('Could not send mail for recipient(s) ' . implode(', ', $failed));
 			}
 		} catch (Exception $ex) {
-			$this->logger->error('Could not send appointment organizer email: ' . $ex->getMessage(), ['exception' => $ex]);
+			$this->logger->error('Could not send appointment organizer email: ' . $ex->getMessage(), ['exception' => $ex, 'app' => 'calendar-appointments']);
 			throw new ServiceException('Could not send mail: ' . $ex->getMessage(), $ex->getCode(), $ex);
 		}
 	}

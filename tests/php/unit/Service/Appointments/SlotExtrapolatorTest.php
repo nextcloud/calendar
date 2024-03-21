@@ -30,10 +30,13 @@ use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Service\Appointments\Interval;
 use OCA\Calendar\Service\Appointments\SlotExtrapolator;
 use OCP\Calendar\ICalendarQuery;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerInterface\PHPUnit\Framework\MockObject\MockObject;
 
 class SlotExtrapolatorTest extends TestCase {
 	/** @var SlotExtrapolator */
 	private $extrapolator;
+	private MockObject|LoggerInterface $logger;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -42,7 +45,8 @@ class SlotExtrapolatorTest extends TestCase {
 			self::markTestIncomplete();
 		}
 
-		$this->extrapolator = new SlotExtrapolator();
+		$this->logger = $this->createMock(LoggerInterface::class);
+		$this->extrapolator = new SlotExtrapolator($this->logger);
 	}
 
 	public function testNoAvailability(): void {

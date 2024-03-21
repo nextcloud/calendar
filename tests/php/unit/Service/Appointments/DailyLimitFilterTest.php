@@ -32,16 +32,15 @@ use OCA\Calendar\Service\Appointments\Interval;
 use OCP\Calendar\ICalendarQuery;
 use OCP\Calendar\IManager;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 /**
  * @requires OCP\Calendar\ICalendarQuery::newQuery
  */
 class DailyLimitFilterTest extends TestCase {
-	/** @var IManager|MockObject */
-	private $manager;
-
-	/** @var DailyLimitFilter */
-	private $filter;
+	private IManager|MockObject $manager;
+	private MockObject|LoggerInterface $logger;
+	private DailyLimitFilter $filter;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -51,9 +50,11 @@ class DailyLimitFilterTest extends TestCase {
 		}
 
 		$this->manager = $this->createMock(IManager::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 
 		$this->filter = new DailyLimitFilter(
 			$this->manager,
+			$this->logger,
 		);
 	}
 

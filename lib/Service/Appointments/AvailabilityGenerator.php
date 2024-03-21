@@ -31,6 +31,7 @@ use DateTimeImmutable;
 use DateTimeZone;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCP\AppFramework\Utility\ITimeFactory;
+use Psr\Log\LoggerInterface;
 use function ceil;
 use function max;
 use function min;
@@ -39,7 +40,7 @@ class AvailabilityGenerator {
 	/** @var ITimeFactory */
 	private $timeFactory;
 
-	public function __construct(ITimeFactory $timeFactory) {
+	public function __construct(ITimeFactory $timeFactory, private LoggerInterface $logger) {
 		$this->timeFactory = $timeFactory;
 	}
 
@@ -80,11 +81,17 @@ class AvailabilityGenerator {
 
 		// If we reach this state then there are no available dates anymore
 		if ($latestEnd <= $earliestStart) {
+			$this->logger->debug('Appointment config ' . $config->getToken() . ' has {latestEnd} as latest end but {earliestStart} as earliest start. No slots available.', [
+				'latestEnd' => $latestEnd,
+				'earliestStart' => $earliestStart,
+				'app' => 'calendar-appointments'
+			]);
 			return [];
 		}
 
 		if (empty($config->getAvailability())) {
 			// No availability -> full time range is available
+			$this->logger->debug('Full time range available', ['app' => 'calendar-appointments']);
 			return [
 				new Interval($earliestStart, $latestEnd),
 			];
