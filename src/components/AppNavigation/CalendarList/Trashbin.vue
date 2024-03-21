@@ -202,7 +202,7 @@ export default {
 		},
 		retentionDuration() {
 			return Math.ceil(
-				this.trashBin.retentionDuration / (60 * 60 * 24)
+				this.trashBin.retentionDuration / (60 * 60 * 24),
 			)
 		},
 	},
@@ -270,7 +270,7 @@ export default {
 				t('calendar', 'Do you really want to empty the trash bin?'),
 				t('calendar', 'Empty trash bin'),
 				this.emptyTrashBin,
-				true
+				true,
 			)
 		},
 

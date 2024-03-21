@@ -6,7 +6,7 @@
 		:value="valueIds"
 		:multiple="multiple"
 		:clearable="clearable"
-		:filterBy="selectFilterBy"
+		:filter-by="selectFilterBy"
 		@option:selected="change"
 		@option:deselected="remove">
 		<template #option="{ id }">
@@ -127,11 +127,12 @@ export default {
 		 * @param {object} option The calendar option
 		 * @param {string} label The label of the calendar option
 		 * @param {string} id The search term
+		 * @param search
 		 * @return {boolean} True if the search term matches
 		 */
 		selectFilterBy(option, label, search) {
 			return option.displayName.toLowerCase().indexOf(search) !== -1
-		}
+		},
 	},
 }
 </script>

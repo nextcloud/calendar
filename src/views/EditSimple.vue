@@ -274,7 +274,7 @@ export default {
 			}
 
 			return this.title
-		}
+		},
 	},
 	watch: {
 		$route(to, from) {

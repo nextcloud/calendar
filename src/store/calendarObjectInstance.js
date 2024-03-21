@@ -1987,7 +1987,7 @@ const actions = {
 				calendarObjectInstance.startDate.getDate(),
 				23,
 				59,
-				59
+				59,
 			)
 			break
 
@@ -2000,7 +2000,7 @@ const actions = {
 				calendarObjectInstance.startDate.getDate(),
 				23,
 				59,
-				59
+				59,
 			)
 			break
 		}

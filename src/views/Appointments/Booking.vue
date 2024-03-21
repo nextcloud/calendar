@@ -151,7 +151,7 @@ export default {
 		const now = new Date()
 		const selectedDate = new Date(Math.max(
 			this.config.start ? this.config.start * 1000 : now,
-			now
+			now,
 		))
 		if (this.config.timeBeforeNextSlot) {
 			selectedDate.setSeconds(selectedDate.getSeconds() + this.config.timeBeforeNextSlot)

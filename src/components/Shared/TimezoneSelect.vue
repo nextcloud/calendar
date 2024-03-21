@@ -59,7 +59,7 @@ export default {
 				timezoneManager.listAllTimezones(),
 				this.additionalTimezones,
 				// TRANSLATORS This refers to global timezones in the timezone picker
-				t('calendar', 'Global')
+				t('calendar', 'Global'),
 			)
 		},
 	},

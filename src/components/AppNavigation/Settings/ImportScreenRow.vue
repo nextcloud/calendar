@@ -73,7 +73,7 @@ export default {
 			const calendars = this.$store.getters.sortedCalendarFilteredByComponents(
 				this.file.parser.containsVEvents(),
 				this.file.parser.containsVJournals(),
-				this.file.parser.containsVTodos()
+				this.file.parser.containsVTodos(),
 			)
 
 			calendars.push({
