@@ -108,7 +108,7 @@ export function getDateFromDateTimeValue(dateTimeValue) {
 		dateTimeValue.hour,
 		dateTimeValue.minute,
 		0,
-		0
+		0,
 	)
 }
 
