@@ -44,6 +44,7 @@ Vue.prototype.$n = translatePlural
 
 const config = loadState('calendar', 'config')
 const userInfo = loadState('calendar', 'userInfo')
+const calendarEmail = loadState('calendar', 'calendarEmail')
 const visitorInfo = loadState('calendar', 'visitorInfo', {
 	displayName: '',
 	email: '',
@@ -55,6 +56,7 @@ export default new Vue({
 		props: {
 			config,
 			userInfo,
+			calendarEmail,
 			visitorInfo,
 		},
 	}),
