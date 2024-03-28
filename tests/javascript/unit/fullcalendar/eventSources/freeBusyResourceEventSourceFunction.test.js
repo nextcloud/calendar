@@ -592,7 +592,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				recurrenceId: 123,
 			},
 			id: '1###1',
-			start: event1End,
+			start: event1Start,
 			title: 'Untitled task',
 		}, {
 			allDay: false,
@@ -613,7 +613,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				recurrenceId: 123,
 			},
 			id: '1###2',
-			start: event2End,
+			start: event2Start,
 			title: 'Untitled task',
 		}, {
 			allDay: false,
@@ -634,7 +634,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				recurrenceId: 123,
 			},
 			id: '1###3',
-			start: event3End,
+			start: event3Start,
 			title: 'Untitled task (99%)',
 		}, {
 			allDay: false,
@@ -655,7 +655,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				recurrenceId: 123,
 			},
 			id: '1###4',
-			start: event4End,
+			start: event4Start,
 			title: 'This task has a title',
 		}, {
 			allDay: false,
@@ -676,30 +676,30 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				recurrenceId: 123,
 			},
 			id: '1###5',
-			start: event5End,
+			start: event5Start,
 			title: 'This task has a title and percent (99%)',
 		}])
 
-		expect(eventComponentSet[0].startDate.getInTimezone).toHaveBeenCalledTimes(0)
-		expect(eventComponentSet[0].endDate.getInTimezone).toHaveBeenCalledTimes(2)
+		expect(eventComponentSet[0].startDate.getInTimezone).toHaveBeenCalledTimes(1)
+		expect(eventComponentSet[0].startDate.getInTimezone).toHaveBeenNthCalledWith(1, timezone)
+		expect(eventComponentSet[0].endDate.getInTimezone).toHaveBeenCalledTimes(1)
 		expect(eventComponentSet[0].endDate.getInTimezone).toHaveBeenNthCalledWith(1, timezone)
-		expect(eventComponentSet[0].endDate.getInTimezone).toHaveBeenNthCalledWith(2, timezone)
-		expect(eventComponentSet[1].startDate.getInTimezone).toHaveBeenCalledTimes(0)
-		expect(eventComponentSet[1].endDate.getInTimezone).toHaveBeenCalledTimes(2)
+		expect(eventComponentSet[1].startDate.getInTimezone).toHaveBeenCalledTimes(1)
+		expect(eventComponentSet[1].startDate.getInTimezone).toHaveBeenNthCalledWith(1, timezone)
+		expect(eventComponentSet[1].endDate.getInTimezone).toHaveBeenCalledTimes(1)
 		expect(eventComponentSet[1].endDate.getInTimezone).toHaveBeenNthCalledWith(1, timezone)
-		expect(eventComponentSet[1].endDate.getInTimezone).toHaveBeenNthCalledWith(2, timezone)
-		expect(eventComponentSet[2].startDate.getInTimezone).toHaveBeenCalledTimes(0)
-		expect(eventComponentSet[2].endDate.getInTimezone).toHaveBeenCalledTimes(2)
+		expect(eventComponentSet[2].startDate.getInTimezone).toHaveBeenCalledTimes(1)
+		expect(eventComponentSet[2].startDate.getInTimezone).toHaveBeenNthCalledWith(1, timezone)
+		expect(eventComponentSet[2].endDate.getInTimezone).toHaveBeenCalledTimes(1)
 		expect(eventComponentSet[2].endDate.getInTimezone).toHaveBeenNthCalledWith(1, timezone)
-		expect(eventComponentSet[2].endDate.getInTimezone).toHaveBeenNthCalledWith(2, timezone)
-		expect(eventComponentSet[3].startDate.getInTimezone).toHaveBeenCalledTimes(0)
-		expect(eventComponentSet[3].endDate.getInTimezone).toHaveBeenCalledTimes(2)
+		expect(eventComponentSet[3].startDate.getInTimezone).toHaveBeenCalledTimes(1)
+		expect(eventComponentSet[3].startDate.getInTimezone).toHaveBeenNthCalledWith(1, timezone)
+		expect(eventComponentSet[3].endDate.getInTimezone).toHaveBeenCalledTimes(1)
 		expect(eventComponentSet[3].endDate.getInTimezone).toHaveBeenNthCalledWith(1, timezone)
-		expect(eventComponentSet[3].endDate.getInTimezone).toHaveBeenNthCalledWith(2, timezone)
-		expect(eventComponentSet[4].startDate.getInTimezone).toHaveBeenCalledTimes(0)
-		expect(eventComponentSet[4].endDate.getInTimezone).toHaveBeenCalledTimes(2)
+		expect(eventComponentSet[4].startDate.getInTimezone).toHaveBeenCalledTimes(1)
+		expect(eventComponentSet[4].startDate.getInTimezone).toHaveBeenNthCalledWith(1, timezone)
+		expect(eventComponentSet[4].endDate.getInTimezone).toHaveBeenCalledTimes(1)
 		expect(eventComponentSet[4].endDate.getInTimezone).toHaveBeenNthCalledWith(1, timezone)
-		expect(eventComponentSet[4].endDate.getInTimezone).toHaveBeenNthCalledWith(2, timezone)
 
 		expect(translate).toHaveBeenCalledTimes(3)
 		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'Untitled task')
