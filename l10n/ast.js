@@ -54,6 +54,7 @@ OC.L10N.register(
     "Saturday" : "Sábadu",
     "Sunday" : "Domingu",
     "Update" : "Anovar",
+    "Your email address" : "La to direición de corréu electrónicu",
     "Notification" : "Avisu",
     "Email" : "Corréu electrónicu",
     "_second_::_seconds_" : ["segundu","segundos"],
