@@ -1,7 +1,7 @@
 {
   "name": "calendar",
   "description": "A calendar app for Nextcloud. Easily sync events from various devices, share and edit them online.",
-  "version": "4.7.0-beta4",
+  "version": "4.7.0-beta.4",
   "author": "Georg Ehrke <oc.list@georgehrke.com>",
   "contributors": [
     "Georg Ehrke <oc.list@georgehrke.com>",
