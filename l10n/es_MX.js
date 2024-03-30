@@ -39,6 +39,7 @@ OC.L10N.register(
     "Save" : "Guardar",
     "Filename" : "Nombre del archivo",
     "Cancel" : "Cancelar",
+    "Invalid location selected" : "Ubicación seleccionada inválida",
     "Automatic" : "Automático",
     "or" : "o",
     "List view" : "Vista de lista",
