@@ -45,6 +45,7 @@ OC.L10N.register(
     "Navigation" : "Navegación",
     "Actions" : "Aiciones",
     "Editor" : "Editor",
+    "Close editor" : "Zarrar l'editor",
     "Failed to save default calendar" : "Nun se pue guardar el calendariu predetermináu",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minutu","{duration} minutos"],
     "0 minutes" : "0 minutos",

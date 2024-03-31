@@ -278,6 +278,7 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "Απόρριψη της πρόσκλησης του {organizerName}",
     "Invitation is delegated" : "Η πρόσκληση παραπέμφθηκε",
     "Checking availability" : "Έλεγχος διαθεσιμότητας",
+    "Awaiting response" : "Αναμονή απάντησης",
     "Has not responded to {organizerName}'s invitation yet" : "Δεν έχετε απαντήσει ακόμα στην πρόσκληση του/της {organizerName}",
     "Availability of attendees, resources and rooms" : "Διαθεσιμότητα των συμμετεχόντων, των πόρων και των δωματίων",
     "Done" : "Ολοκληρώθηκε",
