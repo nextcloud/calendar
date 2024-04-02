@@ -27,6 +27,7 @@
 		<CalendarGrid v-if="!showEmptyCalendarScreen"
 			ref="calendarGridWidget"
 			:is-widget="isWidget"
+			:url="url"
 			:is-authenticated-user="isAuthenticatedUser" />
 		<EmptyCalendar v-else />
 
@@ -139,11 +140,23 @@ export default {
 		EditSimple,
 	},
 	props: {
+		// Is the calendar in a widget ?
 		isWidget: {
 			type: Boolean,
 			default: false,
 		},
+		// The reference token for the widget for public share calendars
 		referenceToken: {
+			type: String,
+			required: false,
+		},
+		// Is public share ?
+		isPublic: {
+			type: Boolean,
+			required: false,
+		},
+		// Url of private calendar
+		url: {
 			type: String,
 			required: false,
 		},
@@ -263,7 +276,7 @@ export default {
 		})
 		this.$store.dispatch('initializeCalendarJsConfig')
 
-		if (this.$route?.name.startsWith('Public') || this.$route?.name.startsWith('Embed') || this.isWidget) {
+		if (this.$route?.name.startsWith('Public') || this.$route?.name.startsWith('Embed') || this.isPublic) {
 			await initializeClientForPublicView()
 			const tokens = this.isWidget ? [this.referenceToken] : this.$route.params.tokens.split('-')
 			const calendars = await this.$store.dispatch('getPublicCalendars', { tokens })
