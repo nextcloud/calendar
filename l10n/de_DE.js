@@ -291,7 +291,7 @@ OC.L10N.register(
     "Available times:" : "Verfügbare Zeiten:",
     "Suggestion accepted" : "Vorschlag angenommen",
     "Done" : "Erledigt",
-    "Select automatic slot" : "Automatischen bereich wählen",
+    "Select automatic slot" : "Automatischen Bereich wählen",
     "chairperson" : "Vorsitz",
     "required participant" : "Benötigter Teilnehmer",
     "non-participant" : "Nicht-Teilnehmer",

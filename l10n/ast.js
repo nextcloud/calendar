@@ -122,6 +122,7 @@ OC.L10N.register(
     "Status" : "Estáu",
     "Categories" : "Categories",
     "Error while sharing file" : "Hebo un error mentanto se compartía'l ficheru",
-    "An error occurred, unable to delete the calendar." : "Prodúxose un error, nun ye posible desaniciar el calendariu"
+    "An error occurred, unable to delete the calendar." : "Prodúxose un error, nun ye posible desaniciar el calendariu",
+    "User not found" : "Nun s'atopó l'usuariu"
 },
 "nplurals=2; plural=(n != 1);");
