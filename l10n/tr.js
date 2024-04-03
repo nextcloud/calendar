@@ -317,7 +317,7 @@ OC.L10N.register(
     "_%n member_::_%n members_" : ["%n üye","%n üye"],
     "Search for emails, users, contacts or groups" : "E-posta, kullanıcı, kişi ya da grup arayın",
     "No match found" : "Herhangi bir sonuç bulunamadı",
-    "Note that members of circles get invited but are not synced yet." : "Çevre üyelerinin davet edildiğini ancak henüz eşitlenmediğini unutmayın.",
+    "Note that members of circles get invited but are not synced yet." : "Takım üyelerinin davet edildiğini ancak henüz eşitlenmediğini unutmayın.",
     "(organizer)" : "(düzenleyen)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Davet göndermek ve yanıtları işlemek için, [linkopen]kişisel ayarlar bölümünden e-posta adresinizi ekleyin[linkclose].",
     "Remove color" : "Rengi kaldır",
