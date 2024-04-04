@@ -21,8 +21,8 @@ use function in_array;
  * @package OCA\Calendar\Controller
  */
 class SettingsController extends Controller {
-	public function __construct(private string $appName,
-		private IRequest $request,
+	public function __construct(string $appName,
+		IRequest $request,
 		private IConfig $config,
 		private string $userId) {
 		parent::__construct($appName, $request);

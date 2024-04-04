@@ -20,7 +20,7 @@ use OCP\Security\ISecureRandom;
 
 class AppointmentConfigService {
 	public function __construct(private AppointmentConfigMapper $mapper,
-								private ISecureRandom $random) {
+		private ISecureRandom $random) {
 	}
 
 	/**

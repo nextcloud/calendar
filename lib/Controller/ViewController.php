@@ -20,8 +20,8 @@ use OCP\IConfig;
 use OCP\IRequest;
 
 class ViewController extends Controller {
-	public function __construct(private string $appName,
-		private IRequest $request,
+	public function __construct(string $appName,
+		IRequest $request,
 		private IConfig $config,
 		private ?string $userId,
 		private IAppData $appData,

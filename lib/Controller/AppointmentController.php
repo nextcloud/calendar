@@ -22,7 +22,7 @@ use OCP\IUserManager;
 use RuntimeException;
 
 class AppointmentController extends Controller {
-	public function __construct(private IRequest $request,
+	public function __construct(IRequest $request,
 								private IUserManager $userManager,
 								private AppointmentConfigService $configService,
 								private IInitialState $initialState,

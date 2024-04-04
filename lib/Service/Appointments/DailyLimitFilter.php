@@ -20,7 +20,6 @@ use function count;
 class DailyLimitFilter {
 	public function __construct(private IManager $calendarManger,
 		private LoggerInterface $logger) {
-		$this->calendarManger = $calendarManger;
 	}
 
 	/**
