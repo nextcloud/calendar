@@ -7,6 +7,7 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Dashboard;
 
+use OC\AppFramework\Services\InitialState;
 use DateTimeImmutable;
 use OCA\Calendar\Service\JSDataService;
 use OCA\DAV\CalDAV\CalendarImpl;
@@ -53,7 +54,7 @@ class CalendarWidgetTest extends TestCase {
 		}
 
 		$this->l10n = $this->createMock(IL10N::class);
-		$this->initialState = $this->createMock(IInitialState::class);
+		$this->initialState = $this->createMock(InitialState::class);
 		$this->service = $this->createMock(JSDataService::class);
 		$this->dateTimeFormatter = $this->createMock(IDateTimeFormatter::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
@@ -93,6 +94,17 @@ class CalendarWidgetTest extends TestCase {
 
 	public function testGetUrl(): void {
 		$this->assertNull($this->widget->getUrl());
+	}
+
+	public function testLoad(): void {
+		$this->initialState->expects($this->once())
+			->method('provideLazyInitialState')
+			->with('dashboard_data', $this->callback(function ($actual) {
+				$fnResult = $actual();
+				return $fnResult === $this->service;
+			}));
+
+		$this->widget->load();
 	}
 
 	public function testGetItems() : void {

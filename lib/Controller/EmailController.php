@@ -33,7 +33,7 @@ class EmailController extends Controller {
 		private IUserSession $userSession,
 		private IConfig $config,
 		private IMailer $mailer,
-		private IL10N $l10N,
+		private IL10N $l10n,
 		private Defaults $defaults,
 		private IURLGenerator $urlGenerator,
 		private IUserManager $userManager) {
