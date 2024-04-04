@@ -44,8 +44,8 @@ use function array_merge;
 use function array_values;
 
 class AppointmentConfigController extends Controller {
-	public function __construct(private IRequest $request,
-								private AppointmentConfigService $appointmentService,
+	public function __construct(IRequest $request,
+								private AppointmentConfigService $appointmentConfigService,
 								private LoggerInterface $logger,
 								private ?string $userId) {
 		parent::__construct(Application::APP_ID, $request);

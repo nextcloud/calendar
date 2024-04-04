@@ -35,8 +35,8 @@ use function array_values;
 use function count;
 
 class DailyLimitFilter {
-	public function __construct(private IManager $calendarManger) {
-		$this->calendarManger = $calendarManger;
+	public function __construct(private IManager $calendarManger,
+		private LoggerInterface $logger) {
 	}
 
 	/**

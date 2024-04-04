@@ -34,7 +34,7 @@ use Psr\Log\LoggerInterface;
 use function method_exists;
 
 class CleanUpOutdatedBookingsJob extends TimedJob {
-	public function __construct(private ITimeFactory $time,
+	public function __construct(protected ITimeFactory $time,
 								private BookingService $service,
 								private LoggerInterface $logger) {
 		parent::__construct($time);

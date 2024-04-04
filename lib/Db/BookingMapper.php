@@ -6,7 +6,6 @@ declare(strict_types=1);
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
- * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -37,7 +36,8 @@ use OCP\IDBConnection;
  * @template-extends QBMapper<Booking>
  */
 class BookingMapper extends QBMapper {
-	private ITimeFactory $time;
+	/** @var ITimeFactory */
+	private $time;
 
 	public function __construct(IDBConnection $db, ITimeFactory $time) {
 		parent::__construct($db, 'calendar_appt_bookings');

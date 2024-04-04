@@ -51,8 +51,8 @@ use OCP\Mail\IMailer;
 use Psr\Log\LoggerInterface;
 
 class BookingController extends Controller {
-	public function __construct(private string $appName,
-		private IRequest $request,
+	public function __construct(string $appName,
+		IRequest $request,
 		private ITimeFactory $timeFactory,
 		private IInitialState $initialState,
 		private BookingService $bookingService,

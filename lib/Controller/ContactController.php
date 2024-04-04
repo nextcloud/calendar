@@ -50,8 +50,8 @@ use function is_string;
  * @package OCA\Calendar\Controller
  */
 class ContactController extends Controller {
-	public function __construct(private string $appName,
-		private IRequest $request,
+	public function __construct(string $appName,
+		IRequest $request,
 		private IManager $contacts,
 		private IAppManager $appManager,
 		private IUserManager $userManager) {

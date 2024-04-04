@@ -43,8 +43,8 @@ use OCP\IURLGenerator;
  * @package OCA\Calendar\Controller
  */
 class PublicViewController extends Controller {
-	public function __construct(private string $appName,
-		private IRequest $request,
+	public function __construct(string $appName,
+		IRequest $request,
 		private IConfig $config,
 		private IInitialStateService $initialStateService,
 		private IURLGenerator $urlGenerator) {

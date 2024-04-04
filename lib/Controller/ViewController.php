@@ -44,8 +44,8 @@ use OCP\IRequest;
 use function in_array;
 
 class ViewController extends Controller {
-	public function __construct(private string $appName,
-		private IRequest $request,
+	public function __construct(string $appName,
+		IRequest $request,
 		private IConfig $config,
 		private AppointmentConfigService $appointmentConfigService,
 		private IInitialState $initialStateService,
@@ -54,8 +54,6 @@ class ViewController extends Controller {
 		private ?string $userId,
 		private IAppData $appData) {
 		parent::__construct($appName, $request);
-		$this->compareVersion = $compareVersion;
-		$this->appData = $appData;
 	}
 
 	/**

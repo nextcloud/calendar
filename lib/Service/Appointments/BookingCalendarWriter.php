@@ -43,11 +43,11 @@ use function abs;
 
 class BookingCalendarWriter {
 	public function __construct(private IConfig $config,
-								private IManager $manager,
-								private IUserManager $userManager,
-								private ISecureRandom $random,
-								private IL10N $l10n,
-								private TimezoneGenerator $timezoneGenerator) {
+		private IManager $manager,
+		private IUserManager $userManager,
+		private ISecureRandom $random,
+		private IL10N $l10n,
+		private TimezoneGenerator $timezoneGenerator) {
 	}
 
 	private function secondsToIso8601Duration(int $secs): string {

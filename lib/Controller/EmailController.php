@@ -47,8 +47,8 @@ use OCP\Mail\IMessage;
  * @package OCA\Calendar\Controller
  */
 class EmailController extends Controller {
-	public function __construct(private string $appName,
-		private IRequest $request,
+	public function __construct(string $appName,
+		IRequest $request,
 		private IUserSession $userSession,
 		private IConfig $config,
 		private IMailer $mailer,
