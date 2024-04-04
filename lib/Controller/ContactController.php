@@ -52,7 +52,7 @@ use function is_string;
 class ContactController extends Controller {
 	public function __construct(string $appName,
 		IRequest $request,
-		private IManager $contacts,
+		private IManager $contactsManager,
 		private IAppManager $appManager,
 		private IUserManager $userManager) {
 		parent::__construct($appName, $request);

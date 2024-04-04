@@ -25,6 +25,7 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Dashboard;
 
+use OC\AppFramework\Services\InitialState;
 use OCA\Calendar\Service\JSDataService;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCP\AppFramework\Services\IInitialState;
@@ -33,6 +34,7 @@ use OCP\Calendar\IManager;
 use OCP\Dashboard\IButtonWidget;
 use OCP\Dashboard\Model\WidgetItem;
 use OCP\IDateTimeFormatter;
+use OCP\IInitialStateService;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -71,7 +73,7 @@ class CalendarWidgetTest extends TestCase {
 		}
 
 		$this->l10n = $this->createMock(IL10N::class);
-		$this->initialState = $this->createMock(IInitialStateService::class);
+		$this->initialState = $this->createMock(InitialState::class);
 		$this->service = $this->createMock(JSDataService::class);
 		$this->dateTimeFormatter = $this->createMock(IDateTimeFormatter::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
