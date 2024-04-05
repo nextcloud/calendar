@@ -39,6 +39,7 @@ export default function(store) {
 			id: calendar.id,
 			// coloring
 			backgroundColor: calendar.color,
+			className: 'fc-event--'+calendar.pattern,
 			borderColor: calendar.color,
 			textColor: generateTextColorForHex(calendar.color),
 			// html foo

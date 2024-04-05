@@ -35,6 +35,8 @@ const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
 	displayName: '',
 	// Color of the calendar
 	color: uidToHexColor(''),
+	// Color of the calendar
+	pattern: '',
 	// Whether or not the calendar is visible in the grid
 	enabled: true,
 	// Whether or not the calendar is loading events at the moment
@@ -81,8 +83,13 @@ const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
  * @return {object}
  */
 const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
+	console.log(calendar.url)
+
 	const id = btoa(calendar.url)
 	const displayName = calendar.displayname || getCalendarUriFromUrl(calendar.url)
+
+	console.log('test:::::::')
+	console.log(calendar)
 
 	// calendar.color can be set to anything on the server,
 	// so make sure it's something that remotely looks like a color
@@ -90,6 +97,12 @@ const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
 	if (!color) {
 		// As fallback if we don't know what color that is supposed to be
 		color = uidToHexColor(displayName)
+	}
+
+	alert(calendar.pattern)
+	let pattern = calendar.pattern
+	if (!pattern) {
+		pattern = 'diagonal-lines'
 	}
 
 	const supportsEvents = calendar.components.includes('VEVENT')
@@ -143,6 +156,7 @@ const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
 		id,
 		displayName,
 		color,
+		pattern,
 		order,
 		url,
 		enabled,
