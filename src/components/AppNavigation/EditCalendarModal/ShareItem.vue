@@ -27,9 +27,12 @@
 		<AccountGroupIcon v-else-if="sharee.isCircle" :size="20" class="share-item__team-icon" />
 		<NcAvatar v-else :user="sharee.userId" :display-name="sharee.displayName" />
 
-		<p class="share-item__label">
-			{{ displayName }}
-		</p>
+		<div class="share-item__label">
+			{{ sharee.displayName }}
+			<p>
+				{{ shareeEmail }}
+			</p>
+		</div>
 
 		<input :id="`${id}-can-edit`"
 			:disabled="updatingSharee"
@@ -85,6 +88,7 @@ export default {
 		return {
 			id: randomId(),
 			updatingSharee: false,
+			shareeEmail: '',
 		}
 	},
 	computed: {
@@ -103,6 +107,9 @@ export default {
 
 			return this.sharee.displayName
 		}
+	},
+	mounted() {
+		this.updateShareeEmail()
 	},
 	methods: {
 		/**
@@ -145,6 +152,20 @@ export default {
 				this.updatingSharee = false
 			}
 		},
+
+		async updateShareeEmail() {
+			if (this.sharee.isGroup || this.sharee.isCircle) {
+				return
+			}
+
+			const shareeUrl = this.sharee.uri.replace('principal:', '/remote.php/dav/') + '/'
+
+			await this.$store.dispatch('fetchPrincipalByUrl', { url: shareeUrl })
+
+			const principal = this.$store.getters.getPrincipalByUrl(shareeUrl)
+
+			this.shareeEmail = principal.emailAddress
+		},
 	},
 }
 </script>
@@ -173,6 +194,12 @@ export default {
 
 	&__label {
 		flex: 1 auto;
+		flex-direction: column;
+
+		p {
+			color: var(--color-text-lighter);
+			line-height: 1;
+		}
 	}
 }
 </style>

@@ -43,21 +43,40 @@
 			<template #no-options>
 				<span>{{ $t('calendar', 'No users or groups') }}</span>
 			</template>
+			<template #option="sharee">
+				<div class="share-item">
+					<AccountMultiple v-if="sharee.isGroup" :size="20" class="share-item__group-icon" />
+					<AccountGroupIcon v-else-if="sharee.isCircle" :size="20" class="share-item__team-icon" />
+					<NcAvatar v-else :user="sharee.userId" :display-name="sharee.displayName" />
+
+					<div class="share-item__label">
+						{{ sharee.displayName }}
+						<p>
+							{{ sharee.email }}
+						</p>
+					</div>
+				</div>
+			</template>
 		</NcSelect>
 	</div>
 </template>
 
 <script>
-import { NcSelect } from '@nextcloud/vue'
+import { NcAvatar, NcSelect } from '@nextcloud/vue'
 import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
 import { generateOcsUrl } from '@nextcloud/router'
 import { urldecode } from '../../../utils/url.js'
+import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
+import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
 
 export default {
 	name: 'SharingSearch',
 	components: {
+		NcAvatar,
+		AccountGroupIcon,
+		AccountMultiple,
 		NcSelect,
 	},
 	props: {
@@ -141,6 +160,7 @@ export default {
 				this.inputGiven = false
 				this.isLoading = false
 			}
+
 		}, 500),
 		/**
 		 *
@@ -188,6 +208,7 @@ export default {
 					isCircle: false,
 					isNoUser: isGroup,
 					search: query,
+					email: result.email,
 				})
 				return list
 			}, [])
@@ -253,6 +274,32 @@ export default {
 
 	&__select {
 		flex: 1 auto;
+	}
+}
+
+.share-item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+
+&__group-icon,
+&__team-icon {
+		width: 32px;
+		height: 32px;
+		border-radius: 16px;
+		color: white;
+		background-color: var(--color-text-maxcontrast);
+	}
+
+	&__label {
+		flex: 1 auto;
+		flex-direction: column;
+
+		p {
+			color: var(--color-text-lighter);
+			line-height: 1;
+		}
 	}
 }
 </style>
