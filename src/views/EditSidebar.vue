@@ -26,7 +26,7 @@
 
 <template>
 	<NcAppSidebar :empty="isLoading || isError"
-		:force-menu="true"
+		:secondary-inline="5"
 		@close="cancel">
 		<template v-if="isLoading">
 			<div class="app-sidebar__loading-indicator">
