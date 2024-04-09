@@ -72,7 +72,7 @@
     "Enable untitled calendar" : "Увімкнути календар без назви",
     "An error occurred, unable to change visibility of the calendar." : "Помилка: неможливо змінити подання календаря.",
     "_Unsharing the calendar in {countdown} second_::_Unsharing the calendar in {countdown} seconds_" : ["Поширення календаря буде відмінено через {countdown} секунду","Поширення календаря буде відмінено через {countdown} секунд","Поширення календаря буде відмінено через {countdown} секунд","Календар буде від'єднано за {countdown} секунд"],
-    "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["Календар буде видалено через {countdown} секунду","Календар буде видалено через {countdown} секунд","Календар буде видалено через {countdown} секунд","Календар буде вилучено через {countdown} секунд"],
+    "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["Календар буде вилучено через {countdown} секунду","Календар буде вилучено через {countdown} секунди","Календар буде вилучено через {countdown} секунд","Календар буде вилучено через {countdown} секунд"],
     "New calendar" : "Додати календар",
     "Name for new calendar" : "Назва нового календаря",
     "Creating calendar …" : "Створення календаря...",
