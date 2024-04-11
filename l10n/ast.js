@@ -68,6 +68,8 @@ OC.L10N.register(
     "Description" : "Descripción",
     "Visibility" : "Visibilidá",
     "Duration" : "Duración",
+    "to" : "pa",
+    "Delete slot" : "Desaniciar la ralura",
     "Add" : "Amestar",
     "Monday" : "Llunes",
     "Tuesday" : "Martes",
