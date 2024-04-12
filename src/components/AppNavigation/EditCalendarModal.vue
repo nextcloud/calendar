@@ -42,10 +42,7 @@
 						@update:value="calendarPatternChanged = true">
 						<div class="edit-calendar-modal__name-and-color__pattern__dot" 
 							:class="'edit-calendar-modal__name-and-color__pattern__dot--'+calendarPattern" />
-							<!-- class="{'background-image': calendarPattern ?? 'repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(0,0,0,.2) 5px, rgba(0,0,0,.2) 10px)'}" /> -->
 					</NcPatternPicker> 
-					<!-- <div class="edit-calendar-modal__name-and-color__pattern__dot"
-						:style="{'background-image': 'repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(0,0,0,.2) 5px, rgba(0,0,0,.2) 10px)'}" /> -->
 				</div>
 
 				<input v-model="calendarName"
@@ -210,8 +207,6 @@ export default {
 		 * Save the calendar color.
 		 */
 		async saveColor() {
-			console.log(this.calendar)
-
 			try {
 				await this.$store.dispatch('changeCalendarColor', {
 					calendar: this.calendar,
@@ -230,8 +225,6 @@ export default {
 		 * Save the calendar pattern.
 		 */
 		 async savePattern() {
-			console.log(this.calendar)
-
 			try {
 				await this.$store.dispatch('changeCalendarPattern', {
 					calendar: this.calendar,
