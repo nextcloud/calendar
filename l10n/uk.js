@@ -255,7 +255,7 @@ OC.L10N.register(
     "Edit time" : "Редагувати час",
     "Save time" : "Зберегти час",
     "Remove reminder" : "Прибрати нагадування",
-    "on" : "у",
+    "on" : "о",
     "at" : "о",
     "+ Add reminder" : "+ Додати нагадування",
     "Add reminder" : "Додати нагадування",
