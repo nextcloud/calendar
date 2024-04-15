@@ -27,12 +27,13 @@ declare(strict_types=1);
 namespace OCA\Calendar\Dashboard;
 
 use OCP\Dashboard\IAPIWidgetV2;
+use OCP\Dashboard\IReloadableWidget;
 use OCP\Dashboard\Model\WidgetItems;
 
 /**
  * Requires Nextcloud >= 27.1.0
  */
-class CalendarWidgetV2 extends CalendarWidget implements IAPIWidgetV2 {
+class CalendarWidgetV2 extends CalendarWidget implements IAPIWidgetV2, IReloadableWidget {
 
 	/**
 	 * @inheritDoc
@@ -67,5 +68,12 @@ class CalendarWidgetV2 extends CalendarWidget implements IAPIWidgetV2 {
 	 */
 	public function getIconClass(): string {
 		return 'icon-calendar-dark';
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getReloadInterval(): int {
+		return 600;
 	}
 }
