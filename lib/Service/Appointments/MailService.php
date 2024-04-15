@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -26,6 +27,7 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Service\Appointments;
 
+use DateTimeZone;
 use Exception;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\Booking;
@@ -40,48 +42,21 @@ use OCP\L10N\IFactory;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Notification\IManager;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 use function htmlspecialchars;
 use function implode;
 
 class MailService {
-	/** @var IUserManager */
-	private $userManager;
-	/** @var IMailer */
-	private $mailer;
-	/** @var IL10N */
-	private $l10n;
-	/** @var Defaults */
-	private $defaults;
-	/** @var LoggerInterface */
-	private $logger;
-	/** @var IURLGenerator */
-	private $urlGenerator;
-	/** @var IDateTimeFormatter */
-	private $dateFormatter;
-	/** @var IFactory */
-	private $lFactory;
-
-	private IManager $notificationManager;
-
-	public function __construct(IMailer $mailer,
-		IUserManager $userManager,
-		IL10N $l10n,
-		Defaults $defaults,
-		LoggerInterface $logger,
-		IURLGenerator $urlGenerator,
-		IDateTimeFormatter $dateFormatter,
-		IFactory $lFactory,
-		IManager $notificationManager) {
-		$this->userManager = $userManager;
-		$this->mailer = $mailer;
-		$this->l10n = $l10n;
-		$this->defaults = $defaults;
-		$this->logger = $logger;
-		$this->urlGenerator = $urlGenerator;
-		$this->dateFormatter = $dateFormatter;
-		$this->lFactory = $lFactory;
-		$this->notificationManager = $notificationManager;
+	public function __construct(private IMailer $mailer,
+		private IUserManager $userManager,
+		private IL10N $l10n,
+		private Defaults $defaults,
+		private LoggerInterface $logger,
+		private IURLGenerator $urlGenerator,
+		private IDateTimeFormatter $dateFormatter,
+		private IFactory $lFactory,
+		private IManager $notificationManager) {
 	}
 
 	/**
@@ -90,7 +65,6 @@ class MailService {
 	 * @throws ServiceException
 	 */
 	public function sendConfirmationEmail(Booking $booking, AppointmentConfig $config): void {
-
 		$user = $this->userManager->get($config->getUserId());
 
 		if ($user === null) {
@@ -238,7 +212,7 @@ class MailService {
 			$booking->getStart(),
 			'long',
 			'short',
-			new \DateTimeZone($booking->getTimezone()),
+			new DateTimeZone($booking->getTimezone()),
 			$this->lFactory->get('calendar', $l)
 		);
 
@@ -268,8 +242,7 @@ class MailService {
 	 * @return string
 	 */
 	private function getSysEmail(): string {
-		$instanceName = $this->defaults->getName();
-		return \OCP\Util::getDefaultEmailAddress('appointments-noreply');
+		return Util::getDefaultEmailAddress('appointments-noreply');
 	}
 
 	public function sendOrganizerBookingInformationEmail(Booking $booking, AppointmentConfig $config, string $calendar) {

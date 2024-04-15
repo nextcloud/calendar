@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-/*
+/**
  * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -36,18 +37,9 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<Event|UserDeletedEvent>
  */
 class UserDeletedListener implements IEventListener {
-	/** @var AppointmentConfigService */
-	private $appointmentConfigService;
-
-	/** @var BookingService */
-	private $bookingService;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(AppointmentConfigService $appointmentConfigService,
-		BookingService $bookingService,
-		LoggerInterface $logger) {
+	public function __construct(private AppointmentConfigService $appointmentConfigService,
+		private BookingService $bookingService,
+		private LoggerInterface $logger) {
 		$this->appointmentConfigService = $appointmentConfigService;
 		$this->bookingService = $bookingService;
 		$this->logger = $logger;

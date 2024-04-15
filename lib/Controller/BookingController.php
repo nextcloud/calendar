@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -50,48 +51,17 @@ use OCP\Mail\IMailer;
 use Psr\Log\LoggerInterface;
 
 class BookingController extends Controller {
-	/** @var BookingService */
-	private $bookingService;
-
-	/** @var ITimeFactory */
-	private $timeFactory;
-
-	/** @var AppointmentConfigService */
-	private $appointmentConfigService;
-
-	/** @var IInitialState */
-	private $initialState;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var IMailer */
-	private $mailer;
-	private IConfig $systemConfig;
-
 	public function __construct(string $appName,
 		IRequest $request,
-		ITimeFactory $timeFactory,
-		IInitialState $initialState,
-		BookingService $bookingService,
-		AppointmentConfigService $appointmentConfigService,
-		IURLGenerator $urlGenerator,
-		LoggerInterface $logger,
-		IMailer $mailer,
-		IConfig $systemConfig) {
+		private ITimeFactory $timeFactory,
+		private IInitialState $initialState,
+		private BookingService $bookingService,
+		private AppointmentConfigService $appointmentConfigService,
+		private IURLGenerator $urlGenerator,
+		private LoggerInterface $logger,
+		private IMailer $mailer,
+		private IConfig $systemConfig) {
 		parent::__construct($appName, $request);
-
-		$this->bookingService = $bookingService;
-		$this->timeFactory = $timeFactory;
-		$this->appointmentConfigService = $appointmentConfigService;
-		$this->initialState = $initialState;
-		$this->urlGenerator = $urlGenerator;
-		$this->logger = $logger;
-		$this->mailer = $mailer;
-		$this->systemConfig = $systemConfig;
 	}
 
 	/**

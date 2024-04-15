@@ -5,6 +5,8 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * @author Richard Steinmetz <richard@steinmetz.cloud>
  * @author Jonas Heinrich <heinrich@synyx.net>
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
@@ -42,43 +44,16 @@ use OCP\IRequest;
 use function in_array;
 
 class ViewController extends Controller {
-	/** @var IConfig */
-	private $config;
-
-	/** @var AppointmentConfigService */
-	private $appointmentConfigService;
-
-	/** @var IInitialState */
-	private $initialStateService;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var CompareVersion */
-	private $compareVersion;
-
-	/** @var string */
-	private $userId;
-
-	private IAppData $appData;
-
 	public function __construct(string $appName,
 		IRequest $request,
-		IConfig $config,
-		AppointmentConfigService $appointmentConfigService,
-		IInitialState $initialStateService,
-		IAppManager $appManager,
-		CompareVersion $compareVersion,
-		?string $userId,
-		IAppData $appData) {
+		private IConfig $config,
+		private AppointmentConfigService $appointmentConfigService,
+		private IInitialState $initialStateService,
+		private IAppManager $appManager,
+		private CompareVersion $compareVersion,
+		private ?string $userId,
+		private IAppData $appData) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->appointmentConfigService = $appointmentConfigService;
-		$this->initialStateService = $initialStateService;
-		$this->appManager = $appManager;
-		$this->compareVersion = $compareVersion;
-		$this->userId = $userId;
-		$this->appData = $appData;
 	}
 
 	/**

@@ -5,6 +5,8 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * @author Richard Steinmetz
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  * @copyright Copyright (c) 2022 Informatyka Boguslawski sp. z o.o. sp.k., http://www.ib.pl/
@@ -28,6 +30,8 @@ namespace OCA\Calendar\Controller;
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\Template\PublicTemplateResponse;
+use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Services\IInitialState;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IRequest;
@@ -35,8 +39,7 @@ use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class PublicViewControllerTest extends TestCase {
-	/** @var string */
-	private $appName;
+	private string $appName;
 
 	/** @var IRequest|MockObject */
 	private $request;

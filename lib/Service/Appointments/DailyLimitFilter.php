@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-/*
+/**
  * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -34,11 +35,8 @@ use function array_values;
 use function count;
 
 class DailyLimitFilter {
-	/** @var IManager */
-	private $calendarManger;
-
-	public function __construct(IManager $calendarManger, private LoggerInterface $logger) {
-		$this->calendarManger = $calendarManger;
+	public function __construct(private IManager $calendarManger,
+		private LoggerInterface $logger) {
 	}
 
 	/**

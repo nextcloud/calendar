@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -33,15 +34,7 @@ use JsonSerializable;
  * @psalm-immutable
  */
 class Interval implements JsonSerializable {
-	/** @var int */
-	private $start;
-
-	/** @var int */
-	private $end;
-
-	public function __construct(int $start, int $end) {
-		$this->start = $start;
-		$this->end = $end;
+	public function __construct(private int $start, private int $end) {
 	}
 
 	public function getStart(): int {

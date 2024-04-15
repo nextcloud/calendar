@@ -7,6 +7,7 @@ declare(strict_types=1);
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -38,8 +39,7 @@ use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class AppointmentControllerVisitorTest extends TestCase {
-	/** @var string */
-	protected $appName;
+	protected string $appName;
 
 	/** @var IRequest|MockObject */
 	protected $request;
@@ -56,14 +56,12 @@ class AppointmentControllerVisitorTest extends TestCase {
 	/** @var AppointmentConfigService|MockObject */
 	protected $service;
 
-	/** @var AppointmentController */
-	protected $controller;
+	protected AppointmentController $controller;
 
 	/** @var IUserManager|MockObject */
 	private $userManager;
 
-	/** @var null */
-	private $userId;
+	private ?string $userId;
 
 	protected function setUp():void {
 		parent::setUp();

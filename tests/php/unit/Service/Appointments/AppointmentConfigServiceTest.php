@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-/*
+/**
  * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -31,8 +32,7 @@ use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\IUser;
 
 class AppointmentConfigServiceTest extends TestCase {
-	/** @var ServiceMockObject */
-	private $serviceMock;
+	private ServiceMockObject $serviceMock;
 
 	/** @var AppointmentConfigService */
 	private $service;

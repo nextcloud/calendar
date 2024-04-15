@@ -9,6 +9,7 @@ declare(strict_types=1);
  *
  * @author Anna Larch <anna.larch@gmx.net>
  * @author Richard Steinmetz <richard@steinmetz.cloud>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -43,23 +44,11 @@ use function array_merge;
 use function array_values;
 
 class AppointmentConfigController extends Controller {
-	/** @var AppointmentConfigService */
-	private $appointmentConfigService;
-
-	/** @var string|null */
-	private $userId;
-
-	/** @var LoggerInterface */
-	private $logger;
-
 	public function __construct(IRequest $request,
-		AppointmentConfigService $appointmentService,
-		LoggerInterface $logger,
-		?string $userId) {
+								private AppointmentConfigService $appointmentConfigService,
+								private LoggerInterface $logger,
+								private ?string $userId) {
 		parent::__construct(Application::APP_ID, $request);
-		$this->appointmentConfigService = $appointmentService;
-		$this->userId = $userId;
-		$this->logger = $logger;
 	}
 
 	/**

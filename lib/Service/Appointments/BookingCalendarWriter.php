@@ -8,6 +8,7 @@ declare(strict_types=1);
  * @copyright 2021 Anna Larch <anna.larch@gmx.net>
  *
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -41,34 +42,12 @@ use Sabre\VObject\Component\VCalendar;
 use function abs;
 
 class BookingCalendarWriter {
-	/** @var IConfig */
-	private $config;
-
-	/** @var IManager */
-	private $manager;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var ISecureRandom */
-	private $random;
-	/** @var IL10N */
-	private $l10n;
-
-	private TimezoneGenerator $timezoneGenerator;
-
-	public function __construct(IConfig $config,
-		IManager $manager,
-		IUserManager $userManager,
-		ISecureRandom $random,
-		IL10N $l10n,
-		TimezoneGenerator $timezoneGenerator) {
-		$this->config = $config;
-		$this->manager = $manager;
-		$this->userManager = $userManager;
-		$this->random = $random;
-		$this->l10n = $l10n;
-		$this->timezoneGenerator = $timezoneGenerator;
+	public function __construct(private IConfig $config,
+		private IManager $manager,
+		private IUserManager $userManager,
+		private ISecureRandom $random,
+		private IL10N $l10n,
+		private TimezoneGenerator $timezoneGenerator) {
 	}
 
 	private function secondsToIso8601Duration(int $secs): string {

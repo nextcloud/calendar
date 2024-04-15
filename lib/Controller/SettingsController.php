@@ -5,6 +5,8 @@ declare(strict_types=1);
  * Calendar App
  *
  * @author Georg Ehrke
+ * @author Thomas Citharel <nextcloud@tcit.fr>
+ *
  * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
  *
  * This library is free software; you can redistribute it and/or
@@ -23,11 +25,13 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use Exception;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IConfig;
 use OCP\IRequest;
+use function in_array;
 
 /**
  * Class SettingsController
@@ -35,27 +39,11 @@ use OCP\IRequest;
  * @package OCA\Calendar\Controller
  */
 class SettingsController extends Controller {
-	/** @var IConfig */
-	private $config;
-
-	/** @var string */
-	private $userId;
-
-	/**
-	 * SettingsController constructor.
-	 *
-	 * @param string $appName
-	 * @param IRequest $request
-	 * @param IConfig $config
-	 * @param string $userId
-	 */
 	public function __construct(string $appName,
 		IRequest $request,
-		IConfig $config,
-		string $userId) {
+		private IConfig $config,
+		private string $userId) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->userId = $userId;
 	}
 
 	/**
@@ -105,7 +93,7 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	private function setView(string $view):JSONResponse {
-		if (!\in_array($view, ['timeGridDay', 'timeGridWeek', 'dayGridMonth', 'multiMonthYear', 'listMonth'])) {
+		if (!in_array($view, ['timeGridDay', 'timeGridWeek', 'dayGridMonth', 'multiMonthYear', 'listMonth'])) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -116,7 +104,7 @@ class SettingsController extends Controller {
 				'currentView',
 				$view
 			);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -126,11 +114,11 @@ class SettingsController extends Controller {
 	/**
 	 * set if popover shall be skipped
 	 *
-	 * @param $value User-selected option whether or not to show simple event editor
+	 * @param $value string User-selected option whether or not to show simple event editor
 	 * @return JSONResponse
 	 */
 	private function setSkipPopover(string $value):JSONResponse {
-		if (!\in_array($value, ['yes', 'no'])) {
+		if (!in_array($value, ['yes', 'no'])) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -141,7 +129,7 @@ class SettingsController extends Controller {
 				'skipPopover',
 				$value
 			);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -151,11 +139,11 @@ class SettingsController extends Controller {
 	/**
 	 * set config value for showing tasks
 	 *
-	 * @param $value User-selected option whether or not to show tasks
+	 * @param $value string User-selected option whether or not to show tasks
 	 * @return JSONResponse
 	 */
 	private function setShowTasks(string $value):JSONResponse {
-		if (!\in_array($value, ['yes', 'no'])) {
+		if (!in_array($value, ['yes', 'no'])) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -166,7 +154,7 @@ class SettingsController extends Controller {
 				'showTasks',
 				$value
 			);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -197,11 +185,11 @@ class SettingsController extends Controller {
 	/**
 	 * set config value for showing week numbers
 	 *
-	 * @param $value User-selected option whether or not to show weekends
+	 * @param $value string User-selected option whether or not to show weekends
 	 * @return JSONResponse
 	 */
 	private function showWeekends(string $value):JSONResponse {
-		if (!\in_array($value, ['yes', 'no'])) {
+		if (!in_array($value, ['yes', 'no'])) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -212,7 +200,7 @@ class SettingsController extends Controller {
 				'showWeekends',
 				$value
 			);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -222,11 +210,11 @@ class SettingsController extends Controller {
 	/**
 	 * set config value for showing week numbers
 	 *
-	 * @param $value User-selected option whether or not to show week numbers
+	 * @param $value string User-selected option whether or not to show week numbers
 	 * @return JSONResponse
 	 */
 	private function setShowWeekNr(string $value):JSONResponse {
-		if (!\in_array($value, ['yes', 'no'])) {
+		if (!in_array($value, ['yes', 'no'])) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -237,7 +225,7 @@ class SettingsController extends Controller {
 				'showWeekNr',
 				$value
 			);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -257,7 +245,7 @@ class SettingsController extends Controller {
 				'firstRun',
 				'no'
 			);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -278,7 +266,7 @@ class SettingsController extends Controller {
 				'timezone',
 				$value
 			);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -292,7 +280,7 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	private function setEventLimit(string $value):JSONResponse {
-		if (!\in_array($value, ['yes', 'no'])) {
+		if (!in_array($value, ['yes', 'no'])) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -303,7 +291,7 @@ class SettingsController extends Controller {
 				'eventLimit',
 				$value
 			);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -317,7 +305,7 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	private function setSlotDuration(string $value):JSONResponse {
-		if (!\in_array($value, ['00:05:00', '00:10:00', '00:15:00', '00:20:00', '00:30:00', '01:00:00'])) {
+		if (!in_array($value, ['00:05:00', '00:10:00', '00:15:00', '00:20:00', '00:30:00', '01:00:00'])) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -328,7 +316,7 @@ class SettingsController extends Controller {
 				'slotDuration',
 				$value
 			);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 
@@ -355,7 +343,7 @@ class SettingsController extends Controller {
 				'defaultReminder',
 				$value
 			);
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
 		}
 

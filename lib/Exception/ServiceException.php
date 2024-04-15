@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 /**
  * @author Anna Larch <anna.larch@gmx.net>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * Calendar
  *
@@ -27,8 +28,7 @@ use Exception;
 use Throwable;
 
 class ServiceException extends Exception {
-	/** @var int|null */
-	private $httpCode;
+	private ?int $httpCode;
 
 	public function __construct($message = "",
 		$code = 0,

@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-/*
+/**
  * @copyright 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
  *
  * @author 2021 Christoph Wurst <christoph@winzerhof-wurst.at>
+ * @author Thomas Citharel <nextcloud@tcit.fr>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -38,8 +39,7 @@ class EventConflictFilterTest extends TestCase {
 	/** @var IManager|MockObject */
 	private $calendarManager;
 
-	/** @var EventConflictFilter */
-	private $filter;
+	private EventConflictFilter $filter;
 
 	/** @var mixed|MockObject|LoggerInterface */
 	private $logger;
