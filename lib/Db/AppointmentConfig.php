@@ -189,6 +189,10 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 		return $this;
 	}
 
+	public function getAvailabilityAsArray(): array {
+		return json_decode($this->getAvailability(), true);
+	}
+
 	#[ReturnTypeWillChange]
 	public function jsonSerialize() {
 		return [
