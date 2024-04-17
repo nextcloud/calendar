@@ -27,6 +27,7 @@ declare(strict_types=1);
 namespace OCA\Calendar\Tests\Unit\Service\Appointments;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use DateTimeImmutable;
 use Exception;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\Booking;
@@ -47,7 +48,6 @@ use OCP\IUser;
 use OCP\Security\ISecureRandom;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use Safe\DateTimeImmutable;
 
 class BookingServiceTest extends TestCase {
 	/** @var AvailabilityGenerator|MockObject */

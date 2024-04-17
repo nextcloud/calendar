@@ -23,6 +23,7 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Dashboard;
 
+use DateTimeImmutable;
 use OCA\Calendar\Service\JSDataService;
 use OCA\DAV\CalDAV\CalendarImpl;
 use OCP\AppFramework\Services\IInitialState;
@@ -34,7 +35,6 @@ use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
-use Safe\DateTimeImmutable;
 use Test\TestCase;
 
 class CalendarWidgetTest extends TestCase {
