@@ -25,6 +25,7 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use DateTimeImmutable;
 use DateTimeZone;
 use Exception;
 use InvalidArgumentException;
@@ -46,7 +47,6 @@ use OCP\IUser;
 use OCP\Mail\IMailer;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
-use Safe\DateTimeImmutable;
 
 class BookingControllerTest extends TestCase {
 	/** @var string */
