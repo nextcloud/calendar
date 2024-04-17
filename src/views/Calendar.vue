@@ -22,7 +22,7 @@
 
 <template>
 	<div v-if="isWidget" class="calendar-Widget">
-		<EmbedTopNavigation :is-widget="true" />
+		<EmbedTopNavigation v-if="!showEmptyCalendarScreen" :is-widget="true" />
 
 		<CalendarGrid v-if="!showEmptyCalendarScreen"
 			ref="calendarGridWidget"
