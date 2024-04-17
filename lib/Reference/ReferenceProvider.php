@@ -73,24 +73,55 @@ class ReferenceProvider extends ADiscoverableReferenceProvider {
 	public function matchReference(string $referenceText): bool {
 		$start = $this->urlGenerator->getAbsoluteURL('/apps/' . Application::APP_ID);
 		$startIndex = $this->urlGenerator->getAbsoluteURL('/index.php/apps/' . Application::APP_ID);
+		if (preg_match('/^' . preg_quote($start, '/') . '\/p\/[a-zA-Z0-9]+$/i', $referenceText) === 1 || preg_match('/^' . preg_quote($startIndex, '/') . '\/p\/[a-zA-Z0-9]+$/i', $referenceText) === 1) {
+			return true;
+		}
+		
+		$start = $this->urlGenerator->getAbsoluteURL('/remote.php/dav/calendars');
+		if (preg_match('/^' . preg_quote($start, '/') . '\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+\/$/i', $referenceText) === 1) {
+			return true;
+		}
 
-		return preg_match('/^' . preg_quote($start, '/') . '\/p\/[a-zA-Z0-9]+$/i', $referenceText) === 1 || preg_match('/^' . preg_quote($startIndex, '/') . '\/p\/[a-zA-Z0-9]+$/i', $referenceText) === 1;
+		return false;
 	}
 
 	public function resolveReference(string $referenceText): ?IReference {
 		if ($this->matchReference($referenceText)) {
-			$token = $this->getCalendarTokenFromLink($referenceText);
-
+			$type = $this->getType($referenceText);
 			$reference = new Reference($referenceText);
 			$reference->setTitle('calendar');
-			$reference->setDescription($token);
-			$reference->setRichObject(
-				'calendar_widget',
-				[
-					'title' => 'calendar',
-					'token' => $token,
-					'url' => $referenceText,]
-			);
+			$reference->setDescription('calendar widget');
+
+			switch ($type) {
+				case 'public':
+					$token = $this->getCalendarTokenFromLink($referenceText);
+					$url = $this->getUrlFromLink($token, 'public');
+					$reference->setRichObject(
+						'calendar_widget',
+						[
+							'title' => 'calendar',
+							'token' => $token,
+							'isPublic' => true,
+							'url' => $url,
+						]
+					);
+					break;
+				case 'private':
+					$url = $this->getUrlFromLink($referenceText, 'private');
+					$reference->setRichObject(
+						'calendar_widget',
+						[
+							'title' => 'calendar',
+							'isPublic' => false,
+							'url' => $url,
+						]
+					);
+					break;
+				default:
+					return null;
+			}
+
+		
 
 			return $reference;
 		}
@@ -99,13 +130,30 @@ class ReferenceProvider extends ADiscoverableReferenceProvider {
 	}
 
 	private function getCalendarTokenFromLink(string $url): ?string {
-
-
 		if (preg_match('/\/p\/([a-zA-Z0-9]+)/', $url, $output_array)) {
 			return $output_array[1];
 		}
-		return $url;
+		return null;
 
+	}
+	private function getUrlFromLink(string $data, string $type): ?string {
+		if ($type === 'public') {
+			return "{$this->urlGenerator->getWebroot()}/remote.php/dav/public-calendars/{$data}/";
+		} elseif ($type === 'private' && preg_match('/\/remote.php\/dav\/calendars\/([a-zA-Z0-9-]+)\/([a-zA-Z0-9-]+)\//', $data, $output_array)) {
+			return $this->urlGenerator->getWebroot().$output_array[0];
+		}
+		return null;
+
+	}
+
+	private function getType(string $url): string {
+		if (preg_match('/\/p\/([a-zA-Z0-9]+)/', $url) === 1) {
+			return 'public';
+		}
+		if (preg_match('/\/dav\/calendars\/([^\/]+)\/([^\/]+)/', $url) === 1) {
+			return 'private';
+		}
+		return 'unknown';
 	}
 
 	public function getCachePrefix(string $referenceId): string {

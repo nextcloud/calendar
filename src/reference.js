@@ -20,7 +20,9 @@ registerWidget('calendar_widget', async (el, { richObjectType, richObject, acces
 		store,
 		propsData: {
 			isWidget: true,
-			referenceToken: richObject.token,
+			isPublic: richObject.isPublic,
+			referenceToken: richObject?.token,
+			url: richObject.url,
 		},
 	}).$mount(el)
 	return new NcCustomPickerRenderResult(vueElement.$el, vueElement)
