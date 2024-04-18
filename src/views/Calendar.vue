@@ -116,7 +116,7 @@ import { loadState } from '@nextcloud/initial-state'
 import {
 	showWarning,
 } from '@nextcloud/dialogs'
-import '@nextcloud/dialogs/dist/index.css'
+import '@nextcloud/dialogs/style.css'
 import Trashbin from '../components/AppNavigation/CalendarList/Trashbin.vue'
 import AppointmentConfigList from '../components/AppNavigation/AppointmentConfigList.vue'
 
