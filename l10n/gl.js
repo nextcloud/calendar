@@ -222,6 +222,7 @@ OC.L10N.register(
     "Friday" : "venres",
     "Saturday" : "sábado",
     "Sunday" : "domingo",
+    "Weekdays" : "Días laborables",
     "Add time before and after the event" : "Engadir tempo antes e após o evento",
     "Before the event" : "Antes do evento",
     "After the event" : "Após o evento",
