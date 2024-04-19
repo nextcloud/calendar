@@ -64,7 +64,7 @@ export default defineStore('calendars', {
 		},
 
 		/**
-		 * List of sorted calendars
+		 * List of sorted writable calendars
 		 *
 		 * @param {object} state the store data
 		 * @return {Array}
@@ -77,7 +77,7 @@ export default defineStore('calendars', {
 		},
 
 		/**
-		 * List of sorted calendars owned by the principal
+		 * List of sorted writable calendars owned by the principal
 		 *
 		 * @param {object} state the store data
 		 * @return {Array}
@@ -87,6 +87,18 @@ export default defineStore('calendars', {
 				.filter(calendar => calendar.supportsEvents)
 				.filter(calendar => !calendar.readOnly)
 				.filter(calendar => !calendar.isSharedWithMe)
+				.sort((a, b) => a.order - b.order)
+		},
+
+		/**
+		 * List all sorted calendars, including readonly
+		 *
+		 * @param {object} state the store data
+		 * @return {Array}
+		 */
+		allSortedCalendars(state) {
+			return state.calendars
+				.filter(calendar => calendar.supportsEvents)
 				.sort((a, b) => a.order - b.order)
 		},
 
