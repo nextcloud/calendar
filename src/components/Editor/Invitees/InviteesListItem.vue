@@ -40,6 +40,9 @@
 				class="invitees-list-item__member-count">
 				({{ $n('calendar', '%n member', '%n members', members.length) }})
 			</span>
+			<span v-else class="invitees-list-item__member-count">
+				({{ attendeeEmail }})
+			</span>
 		</div>
 		<div class="invitees-list-item__actions">
 			<NcButton v-if="members.length"
