@@ -240,7 +240,7 @@ export default {
 				}
 			}
 
-			return [...contacts, ...this.buildEmailsFromContactData(response.data.contacts)]
+			return contacts
 		},
 		buildEmailsFromContactData(contactsData) {
 			return contactsData.reduce((arr, result) => {
