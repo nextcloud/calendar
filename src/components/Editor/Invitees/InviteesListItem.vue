@@ -239,6 +239,7 @@ export default {
 			return this.attendee.uri ? removeMailtoPrefix(this.attendee.uri) : ''
 		},
 
+
 		radioName() {
 			return this.$.uid + '-role-radio-input-group'
 		},
