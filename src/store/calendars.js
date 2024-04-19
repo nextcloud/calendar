@@ -447,6 +447,18 @@ const getters = {
 	},
 
 	/**
+	 * List all sorted calendars, including readonly
+	 *
+	 * @param {object} state the store data
+	 * @return {Array}
+	 */
+	allSortedCalendars(state) {
+		return state.calendars
+			.filter(calendar => calendar.supportsEvents)
+			.sort((a, b) => a.order - b.order)
+	},
+
+	/**
 	 * List of sorted calendars
 	 *
 	 * @param {object} state the store data
