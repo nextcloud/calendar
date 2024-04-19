@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license AGPL-3.0-or-later
   -
@@ -22,17 +23,16 @@
 
 <template>
 	<div class="repeat-option-set repeat-option-set--interval-freq">
-		<span class="repeat-option-set__label">
-			{{ repeatEveryLabel }}
-		</span>
-		<input v-if="!isIntervalDisabled"
-			class="intervalInput"
+		<NcTextField v-if="!isIntervalDisabled"
+			:label="repeatEveryLabel"
 			type="number"
+			class="repeat-option-set__interval"
 			min="1"
 			max="366"
 			:value="interval"
-			@input="changeInterval">
-		<RepeatFreqSelect :freq="frequency"
+			@input="changeInterval" />
+		<RepeatFreqSelect class="repeat-option-set__frequency"
+			:freq="frequency"
 			:count="interval"
 			@change="changeFrequency" />
 	</div>
@@ -40,11 +40,13 @@
 
 <script>
 import RepeatFreqSelect from './RepeatFreqSelect.vue'
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 export default {
 	name: 'RepeatFreqInterval',
 	components: {
 		RepeatFreqSelect,
+		NcTextField,
 	},
 	props: {
 		frequency: {
@@ -89,3 +91,16 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.repeat-option-set {
+	&__interval {
+		margin: 0 5px 0 0;
+	}
+
+	&__frequency {
+		min-width: unset !important;
+		padding-top: 7px;
+	}
+}
+</style>
