@@ -214,7 +214,7 @@ class BookingController extends Controller {
 			);
 		}
 
-		return JsonResponse::success($booking);
+		return JsonResponse::success();
 	}
 
 	/**
