@@ -209,7 +209,7 @@ export default {
 				return []
 			}
 			results.data.forEach((member) => {
-				if (!this.organizer || member.email !== this.organizer.uri) {
+				if (!this.alreadyInvitedEmails.includes(member.email) && (!this.organizer || member.email !== this.organizer.uri)) {
 					this.$emit('add-attendee', member)
 				}
 			})
@@ -234,7 +234,7 @@ export default {
 					contacts.push({
 						type: 'group',
 						dropdownName: groupName,
-						subtitle: this.$n('calendar', 'Contains %n contact', 'Contains %n contacts', processedGroupContacts.length),
+						subtitle: this.$n('calendar', 'Contains %n contact(s) with email addresses', 'Contains %n contact(s) with email addresses', processedGroupContacts.length),
 						contacts: processedGroupContacts,
 					})
 				}
@@ -247,6 +247,10 @@ export default {
 				const hasMultipleEMails = result.emails.length > 1
 
 				result.emails.forEach((email) => {
+					if(email === '') {
+						return
+					}
+
 					let name
 					if (result.name && !hasMultipleEMails) {
 						name = result.name

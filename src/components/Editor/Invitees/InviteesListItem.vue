@@ -198,6 +198,12 @@ export default {
 
 			return ''
 		},
+		attendeeEmail() {
+			if (this.attendee.uri) {
+				return removeMailtoPrefix(this.attendee.uri)
+			}
+			return ''
+		},
 		radioName() {
 			return this._uid + '-role-radio-input-group'
 		},
