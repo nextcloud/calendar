@@ -346,6 +346,20 @@ class MailServiceTest extends TestCase {
 		$config = new AppointmentConfig();
 		$config->setUserId('test');
 		$config->setLocation('Test');
+		$config->setAvailabilityAsArray(
+			[
+				"timezoneId" => "Europe/Berlin",
+				"slots" => [
+				  "MO" => [["start" => 1713153660, "end" => 1713239940]],
+				  "TU" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "WE" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "TH" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "FR" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "SA" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "SU" => [["start" => 1713153660, "end" => 1713239940]] 
+				] 
+			]
+		);
 		$this->userManager->expects(self::once())
 			->method('get')
 			->willReturn($this->createConfiguredMock(IUser::class, [
@@ -505,6 +519,104 @@ class MailServiceTest extends TestCase {
 		$config = new AppointmentConfig();
 		$config->setUserId('test');
 		$config->setLocation('Test');
+		$config->setAvailabilityAsArray(
+			[
+				"timezoneId" => "Europe/Berlin",
+				"slots" => [
+				  "MO" => [["start" => 1713153660, "end" => 1713239940]],
+				  "TU" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "WE" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "TH" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "FR" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "SA" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "SU" => [["start" => 1713153660, "end" => 1713239940]] 
+				] 
+			]
+		);
+		$this->userManager->expects(self::once())
+			->method('get')
+			->willReturn($this->createConfiguredMock(IUser::class, [
+				'getEmailAddress' => 'test@test.com',
+				'getDisplayName' => 'Test Test'
+			]));
+		$mailMessage = $this->createMock(IMessage::class);
+		$this->mailer->expects(self::once())
+			->method('createMessage')
+			->willReturn($mailMessage);
+		$mailMessage->expects(self::once())
+			->method('setFrom')
+			->willReturn($mailMessage);
+		$mailMessage->expects(self::once())
+			->method('setTo')
+			->willReturn($mailMessage);
+		$mailMessage->expects(self::once())
+			->method('useTemplate')
+			->willReturn($mailMessage);
+		$emailTemplate = $this->createMock(IEMailTemplate::class);
+		$this->mailer->expects(self::once())
+			->method('createEmailTemplate')
+			->willReturn($emailTemplate);
+		$emailTemplate->expects(self::once())
+			->method('addHeader');
+		$emailTemplate->expects(self::once())
+			->method('setSubject');
+		$emailTemplate->expects(self::once())
+			->method('addHeading');
+		$emailTemplate->expects(self::exactly(5))
+			->method('addBodyListItem');
+		$emailTemplate->expects(self::once())
+			->method('addFooter');
+		$this->mailer->expects(self::once())
+			->method('createEmailTemplate');
+		$this->mailer->expects(self::once())
+			->method('createAttachment');
+		$this->l10n->expects(self::exactly(6))
+			->method('t');
+		$this->lFactory->expects(self::once())
+			->method('findGenericLanguage')
+			->willReturn('en');
+		$this->lFactory->expects(self::once())
+			->method('get');
+		$this->dateFormatter->expects(self::once())
+			->method('formatDateTimeRelativeDay')
+			->willReturn('Test');
+		$this->mailer->expects(self::once())
+			->method('send')
+			->willReturn([]);
+		$this->logger->expects(self::never())
+			->method('warning');
+		$this->logger->expects(self::never())
+			->method('debug');
+
+		$this->mailService->sendOrganizerBookingInformationEmail($booking, $config, 'abc');
+	}
+
+	public function testSendOrganizerBookingInformationEmailDifferentTZ(): void {
+		$booking = new Booking();
+		$booking->setEmail('test@test.com');
+		$booking->setDisplayName('Test');
+		$booking->setStart(time());
+		$booking->setTimezone('America/Toronto');
+		$booking->setDescription('Test');
+		$config = new AppointmentConfig();
+		$config->setUserId('test');
+		$config->setLocation('Test');
+		$config->setAvailabilityAsArray(
+			[
+				"timezoneId" => "Europe/Berlin",
+				"slots" => [
+				  "MO" => [["start" => 1713153660, "end" => 1713239940]],
+				  "TU" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "WE" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "TH" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "FR" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "SA" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "SU" => [["start" => 1713153660, "end" => 1713239940]] 
+				] 
+			]
+		);
+
+
 		$this->userManager->expects(self::once())
 			->method('get')
 			->willReturn($this->createConfiguredMock(IUser::class, [
@@ -573,6 +685,20 @@ class MailServiceTest extends TestCase {
 		$config = new AppointmentConfig();
 		$config->setUserId('test');
 		$config->setLocation('Test');
+		$config->setAvailabilityAsArray(
+			[
+				"timezoneId" => "Europe/Berlin",
+				"slots" => [
+				  "MO" => [["start" => 1713153660, "end" => 1713239940]],
+				  "TU" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "WE" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "TH" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "FR" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "SA" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "SU" => [["start" => 1713153660, "end" => 1713239940]] 
+				] 
+			]
+		);
 		$this->userManager->expects(self::once())
 			->method('get')
 			->willReturn($this->createConfiguredMock(IUser::class, [
@@ -654,6 +780,20 @@ class MailServiceTest extends TestCase {
 		$config = new AppointmentConfig();
 		$config->setUserId('test');
 		$config->setLocation('Test');
+		$config->setAvailabilityAsArray(
+			[
+				"timezoneId" => "Europe/Berlin",
+				"slots" => [
+				  "MO" => [["start" => 1713153660, "end" => 1713239940]],
+				  "TU" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "WE" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "TH" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "FR" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "SA" => [["start" => 1713153660, "end" => 1713239940]], 
+				  "SU" => [["start" => 1713153660, "end" => 1713239940]] 
+				] 
+			]
+		);
 		$notification = $this->createMock(INotification::class);
 
 		$this->lFactory->expects(self::once())
