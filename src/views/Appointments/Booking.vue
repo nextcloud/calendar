@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import '@nextcloud/dialogs/dist/index.css'
+import '@nextcloud/dialogs/style.css'
 
 import {
 	NcAvatar as Avatar,
