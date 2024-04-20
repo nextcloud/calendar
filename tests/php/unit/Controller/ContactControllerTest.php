@@ -176,10 +176,10 @@ class ContactControllerTest extends TestCase {
 			->with()
 			->willReturn(true);
 
-		$this->manager->expects(self::once())
+		$this->manager->expects(self::exactly(2))
 			->method('search')
-			->with('search 123', ['FN', 'EMAIL'])
-			->willReturn([
+			->withConsecutive(['search 123', ['FN', 'EMAIL']], ['search 123', ['CATEGORIES']])
+			->willReturnOnConsecutiveCalls([
 				[
 					'FN' => 'Person 1',
 					'ADR' => [
@@ -222,29 +222,68 @@ class ContactControllerTest extends TestCase {
 					'TZ' => 'Australia/Adelaide',
 					'PHOTO' => 'VALUE:BINARY:4242424242'
 				],
+			], [
+				[
+					'FN' => 'Person 4',
+					'EMAIL' => 'foo4@example.com',
+					'CATEGORIES' => 'search 123,other'
+				],
+				[
+					'FN' => 'Person 5',
+					'CATEGORIES' => 'search 123'
+				],
+				[
+					'FN' => 'Person 6',
+					'EMAIL' => 'foo6@example.com',
+					'CATEGORIES' => 'search 123'
+				],
 			]);
 
 		$response = $this->controller->searchAttendee('search 123');
 
 		$this->assertInstanceOf(JSONResponse::class, $response);
 		$this->assertEquals([
-			[
-				'name' => 'Person 1',
-				'emails' => [
-					'foo1@example.com',
-					'foo2@example.com',
-				],
-				'lang' => 'de',
-				'tzid' => 'Europe/Berlin',
-				'photo' => 'http://foo.bar',
-			], [
-				'name' => 'Person 2',
-				'emails' => [
-					'foo3@example.com'
-				],
-				'lang' => null,
-				'tzid' => null,
-				'photo' => null,
+			'contacts' => [
+				[
+					'name' => 'Person 1',
+					'emails' => [
+						'foo1@example.com',
+						'foo2@example.com',
+					],
+					'lang' => 'de',
+					'tzid' => 'Europe/Berlin',
+					'photo' => 'http://foo.bar',
+				], [
+					'name' => 'Person 2',
+					'emails' => [
+						'foo3@example.com'
+					],
+					'lang' => null,
+					'tzid' => null,
+					'photo' => null,
+				]
+			],
+			'groups' => [
+				'search 123' => [
+					[
+						'name' => 'Person 4',
+						'emails' => [
+							'foo4@example.com'
+						],
+						'lang' => null,
+						'tzid' => null,
+						'photo' => null,
+					],
+					[
+						'name' => 'Person 6',
+						'emails' => [
+							'foo6@example.com'
+						],
+						'lang' => null,
+						'tzid' => null,
+						'photo' => null,
+					]
+				]
 			]
 		], $response->getData());
 		$this->assertEquals(200, $response->getStatus());
