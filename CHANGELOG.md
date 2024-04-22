@@ -1,6 +1,6 @@
 # Changelog
 
-## 4.7.0 - Prerelease
+## 4.7.0 - 2024-04-22
 ### Added
 - Ability to invite circles to events
 - Custom public calendar subscriptions
@@ -8,6 +8,9 @@
 - Calendar widget for publicly shared calendars
 ### Changed
 - Editor redesign
+### Fixed
+- Find attendees via email address
+- Misplaced empty content
 
 ## 4.6.5 - 2024-02-15
 ### Fixed
