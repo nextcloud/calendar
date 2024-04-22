@@ -51,13 +51,13 @@
 				<Avatar v-if="!option.isUser && option.type !== 'circle'"
 					:key="option.uid"
 					:url="option.avatar"
-					:display-name="option.dropdownName" />
+					:display-name="option.commonName" />
 
 				<div class="invitees-search-list-item__label">
 					<div>
-						{{ option.dropdownName }}
+						{{ option.commonName }}
 					</div>
-					<div v-if="option.email !== option.dropdownName && option.type !== 'circle'">
+					<div v-if="option.email !== option.commonName && option.type !== 'circle'">
 						{{ option.email }}
 					</div>
 					<div v-if="option.type === 'circle'">
@@ -282,9 +282,9 @@ export default {
 					email: principal.email,
 					language: principal.language,
 					isUser: principal.calendarUserType === 'INDIVIDUAL',
-					avatar: principal.userId,
+					avatar: decodeURIComponent(principal.userId),
 					hasMultipleEMails: false,
-					dropdownName: principal.displayname || principal.email,
+					dropdownName: principal.displayname ? [principal.displayname, principal.email].join(' ') : principal.email,
 				}
 			})
 		},
