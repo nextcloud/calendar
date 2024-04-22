@@ -719,5 +719,10 @@ export default {
 		// Close button should be aligned with calendar picker (header)
 		padding-top: 5px;
 	}
+
+  .empty-content {
+		height: 100vh;
+		padding: 0 20px;
+  }
 }
 </style>
