@@ -29,6 +29,7 @@ OC.L10N.register(
     "Update" : "Ažuriraj",
     "Email" : "email",
     "Done" : "Gotovo",
+    "Out of office" : "Van kancelarije",
     "Unknown" : "Nepoznato",
     "never" : "never",
     "Details" : "Detalji",
