@@ -22,19 +22,22 @@
 
 <template>
 	<div class="resource-capacity">
-		<div class="resource-capacity__input">
-			<input type="number"
-				min="0"
-				:placeholder="placeholder"
-				:value="value"
-				@input.prevent.stop="changeValue">
-		</div>
+		<NcTextField :label="placeholder"
+			type="number"
+			min="0"
+			:placeholder="placeholder"
+			:value="value"
+			@input="changeValue" />
 	</div>
 </template>
 
 <script>
+import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 export default {
 	name: 'ResourceSeatingCapacity',
+	components: {
+		NcTextField,
+	},
 	props: {
 		value: {
 			type: Number,
@@ -53,3 +56,9 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.resource-capacity {
+	padding-bottom: 2px;
+}
+</style>

@@ -250,9 +250,3 @@ export default {
 	},
 }
 </script>
-
-<style lang="scss" scoped>
-.resource-search__multiselect {
-	padding-bottom: 5px !important;
-}
-</style>
