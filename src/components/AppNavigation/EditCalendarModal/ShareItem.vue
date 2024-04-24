@@ -24,11 +24,11 @@
 <template>
 	<div class="share-item">
 		<AccountMultiple v-if="sharee.isGroup" :size="20" class="share-item__group-icon" />
-		<IconCircle v-else-if="sharee.isCircle" />
+		<AccountGroupIcon v-else-if="sharee.isCircle" :size="20" class="share-item__team-icon" />
 		<NcAvatar v-else :user="sharee.userId" :display-name="sharee.displayName" />
 
 		<p class="share-item__label">
-			{{ sharee.displayName }}
+			{{ displayName }}
 		</p>
 
 		<input :id="`${id}-can-edit`"
@@ -54,7 +54,7 @@
 <script>
 import { NcActions, NcActionButton, NcAvatar } from '@nextcloud/vue'
 import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
-import IconCircle from '../../Icons/IconCircles.vue'
+import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 import {
 	showInfo,
@@ -67,7 +67,7 @@ export default {
 		NcActions,
 		NcActionButton,
 		NcAvatar,
-	  IconCircle,
+		AccountGroupIcon,
 		AccountMultiple,
 		Delete,
 	},
@@ -91,6 +91,18 @@ export default {
 		uid() {
 			return this._uid
 		},
+		/**
+		 * @return {string}
+		 */
+		displayName() {
+			if (this.sharee.isCircle) {
+				return t('calendar', '{teamDisplayName} (Team)', {
+					teamDisplayName: this.sharee.displayName
+				})
+			}
+
+			return this.sharee.displayName
+		}
 	},
 	methods: {
 		/**
@@ -143,12 +155,20 @@ export default {
 	align-items: center;
 	gap: 10px;
 
-	&__group-icon {
+	&__group-icon,
+	&__team-icon {
 		width: 32px;
 		height: 32px;
 		border-radius: 16px;
 		color: white;
 		background-color: var(--color-text-maxcontrast);
+	}
+
+	&__team-icon {
+		// Upstream icon is slightly misaligned when centered using flex
+		:deep(svg) {
+			margin-bottom: 3px;
+		}
 	}
 
 	&__label {
