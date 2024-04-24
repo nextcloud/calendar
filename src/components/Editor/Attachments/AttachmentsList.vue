@@ -57,6 +57,11 @@
 				</NcListItem>
 			</ul>
 		</div>
+
+		<NcDialog :open.sync="showOpenConfirmation"
+			:name="t('calendar', 'Confirmation')"
+			:message="openConfirmationMessage"
+			:buttons="openConfirmationButtons" />
 	</div>
 </template>
 
@@ -65,6 +70,7 @@ import {
 	NcListItem,
 	NcActions,
 	NcActionButton,
+	NcDialog,
 } from '@nextcloud/vue'
 
 import Upload from 'vue-material-design-icons/Upload.vue'
@@ -73,7 +79,7 @@ import Folder from 'vue-material-design-icons/Folder.vue'
 import Paperclip from 'vue-material-design-icons/Paperclip.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
 
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import logger from '../../../utils/logger.js'
 import {
@@ -93,6 +99,7 @@ export default {
 		Folder,
 		Paperclip,
 		Plus,
+		NcDialog,
 	},
 	props: {
 		calendarObjectInstance: {
@@ -107,6 +114,9 @@ export default {
 	data() {
 		return {
 			uploading: false,
+			showOpenConfirmation: false,
+			openConfirmationMessage: '',
+			openConfirmationButtons: [],
 		}
 	},
 	computed: {
@@ -194,8 +204,42 @@ export default {
 		getBaseName(name) {
 			return name.split('/').pop()
 		},
-		openFile(url) {
-			window.open(url, '_blank', 'noopener noreferrer')
+		openFile(rawUrl) {
+			let url
+			try {
+				url = new URL(rawUrl, getBaseUrl())
+			} catch (error) {
+				logger.error(`Refusing to open invalid URL: ${rawUrl}`, { error })
+				return
+			}
+
+			const baseUrl = new URL(getBaseUrl())
+			if (url.href.startsWith(baseUrl.href)) {
+				// URL belongs to this instance and is safe
+				window.open(url.href, '_blank', 'noopener noreferrer')
+				return
+			}
+
+			// Otherwise, show a confirmation dialog
+			this.openConfirmationMessage = t('calendar', 'You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}', {
+				link: url.href,
+			})
+			this.openConfirmationButtons = [
+				{
+					label: t('calendar', 'Cancel'),
+					callback: () => {
+						this.showOpenConfirmation = false
+					},
+				},
+				{
+					label: t('calendar', 'Proceed'),
+					type: 'primary',
+					callback: () => {
+						window.open(url.href, '_blank', 'noopener noreferrer')
+					}
+				},
+			]
+			this.showOpenConfirmation = true
 		},
 	},
 }
