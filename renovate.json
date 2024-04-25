@@ -13,7 +13,7 @@
 	],
 	"labels": [
 		"dependencies",
-		"3 - to review"
+		"3. to review"
 	],
 	"commitMessageAction": "Bump",
 	"commitMessageTopic": "{{depName}}",
@@ -23,8 +23,7 @@
 	"ignoreUnstable": false,
 	"baseBranches": [
 		"main",
-		"stable4.4",
-		"stable4.3"
+		"stable4.7"
 	],
 	"enabledManagers": [
 		"composer",
@@ -71,7 +70,7 @@
 			"platformAutomerge": true,
 			"labels": [
 				"dependencies",
-				"4 - to release"
+				"4. to release"
 			],
 			"reviewers": []
 		},
@@ -81,7 +80,7 @@
 			"automerge": false,
 			"labels": [
 				"dependencies",
-				"3 - to review"
+				"3. to review"
 			],
 			"reviewers": [
 				"GretaD",
