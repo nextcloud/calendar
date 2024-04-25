@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.5.9 - 2024-04-25
+### Changed
+- Slot booking response
+
 ## 3.5.8 - 2023-01-10
 ### Fixed
 - Rate limit appointment booking and config creation
