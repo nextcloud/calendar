@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.7.1 - 2024-04-25
+### Changed
+- Slot booking response
+
 ## 4.7.0 - 2024-04-22
 ### Added
 - Ability to invite circles to events
