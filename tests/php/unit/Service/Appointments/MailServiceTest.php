@@ -616,7 +616,6 @@ class MailServiceTest extends TestCase {
 			]
 		);
 
-
 		$this->userManager->expects(self::once())
 			->method('get')
 			->willReturn($this->createConfiguredMock(IUser::class, [
@@ -663,6 +662,7 @@ class MailServiceTest extends TestCase {
 			->method('get');
 		$this->dateFormatter->expects(self::once())
 			->method('formatDateTimeRelativeDay')
+			->with(self::anything(), self::anything(), self::anything(), 'Europe/Berlin')
 			->willReturn('Test');
 		$this->mailer->expects(self::once())
 			->method('send')
