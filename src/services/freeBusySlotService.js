@@ -12,7 +12,7 @@ import logger from '../utils/logger.js'
 /**
  * Get the first available slot for an event using freebusy API
  *
- * @param {AttendeeProperty} organizer The organizer of the event
+ * @param {Principal} organizer The organizer of the event
  * @param {AttendeeProperty[]} attendees Array of the event's attendees
  * @param {Date} start The start date and time of the event
  * @param {Date} end The end date and time of the event
@@ -242,6 +242,10 @@ function checkTimes(currentCheckedTime, duration, events) {
 }
 
 // make a function that sorts a list of objects by the "start" property
+/**
+ *
+ * @param events
+ */
 function sortEvents(events) {
 	// remove events that have the same start and end time, if not done causes problems
 	const mappedEvents = new Map()
