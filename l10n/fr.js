@@ -128,6 +128,7 @@ OC.L10N.register(
     "Unpublishing calendar failed" : "Impossible de dé-publier l'agenda",
     "can edit" : "peut modifier",
     "Unshare with {displayName}" : "Ne plus partager avec {displayName}",
+    "{teamDisplayName} (Team)" : "{teamDisplayName} (Équipe)",
     "An error occurred while unsharing the calendar." : "Une erreur est survenue lors de l'annulation du partage de l'agenda.",
     "An error occurred, unable to change the permission of the share." : "Une erreur s’est produite, impossible de changer la permission du partage.",
     "Share with users or groups" : "Partager avec des utilisateurs ou des groupes",

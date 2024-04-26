@@ -126,6 +126,7 @@
     "Unpublishing calendar failed" : "محاولة إلغاء نشر التقويم أخفقت",
     "can edit" : "يمكن التحرير",
     "Unshare with {displayName}" : "إلغاء المشاركة مع {displayName}",
+    "{teamDisplayName} (Team)" : "{teamDisplayName} (فريق)",
     "An error occurred while unsharing the calendar." : "حدث خطأ أثناء إلغاء مشاركة التقويم",
     "An error occurred, unable to change the permission of the share." : "حدث خطأ، لا يمكن تعديل صلاحيات نشر التقويم.",
     "Share with users or groups" : "شارك مع مستخدمين او مجموعات",

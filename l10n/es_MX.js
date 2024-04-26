@@ -1,6 +1,9 @@
 OC.L10N.register(
     "calendar",
     {
+    "Provided email-address is too long" : "La dirección de correo electrónico proporcionada es demasiado larga",
+    "User-Session unexpectedly expired" : "La sesión de usuario expiró inesperadamente",
+    "Provided email-address is not valid" : "La dirección de correo electrónico proporcionada es inválida",
     "%s has published the calendar »%s«" : "%s ha publicado el calendario »%s«",
     "Hello," : "Hola,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Queremos informarte que %s ha publicado el calendario »%s«.",
@@ -8,6 +11,7 @@ OC.L10N.register(
     "Cheers!" : "¡Saludos!",
     "Upcoming events" : "Próximos eventos",
     "No upcoming events" : "No hay eventos próximos",
+    "%1$s with %2$s" : "%1$s con %2$s",
     "Calendar" : "Calendario",
     "Appointments" : "Citas",
     "Confirm" : "Confirmar",
