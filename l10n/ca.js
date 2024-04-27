@@ -262,7 +262,7 @@ OC.L10N.register(
     "_day_::_days_" : ["dia","dies"],
     "_week_::_weeks_" : ["setmana","setmanes"],
     "No attachments" : "Sense fitxers adjunts",
-    "Add from Files" : "Afegeix d'Arxius",
+    "Add from Files" : "Afegeix de Fitxers",
     "Upload from device" : "Pujada des del dispositiu",
     "Delete file" : "Suprimeix el fitxer",
     "Choose a file to add as attachment" : "Trieu un fitxer per afegir als adjunts",
