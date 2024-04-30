@@ -55,6 +55,24 @@
 				</NcListItem>
 			</ul>
 		</div>
+
+		<NcModal :show.sync="showOpenConfirmation"
+			size="small">
+			<div class="confirmation-modal">
+				<h2 class="confirmation-modal__title">
+					{{ t('calendar', 'Confirmation') }}
+				</h2>
+				<p>{{ openConfirmationMessage }}</p>
+				<div class="confirmation-modal__buttons">
+					<NcButton v-for="button in openConfirmationButtons"
+						:key="button.label"
+						:type="button.type"
+						@click="button.callback">
+						{{ button.label }}
+					</NcButton>
+				</div>
+			</div>
+		</NcModal>
 	</div>
 </template>
 
@@ -63,6 +81,8 @@ import {
 	NcListItem,
 	NcActions,
 	NcActionButton,
+	NcModal,
+	NcButton,
 } from '@nextcloud/vue'
 
 import Upload from 'vue-material-design-icons/Upload.vue'
@@ -71,7 +91,7 @@ import Folder from 'vue-material-design-icons/Folder.vue'
 import Paperclip from 'vue-material-design-icons/Paperclip.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
 
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, getRootUrl } from '@nextcloud/router'
 import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
 import logger from '../../../utils/logger.js'
 import {
@@ -91,6 +111,8 @@ export default {
 		Folder,
 		Paperclip,
 		Plus,
+		NcModal,
+		NcButton,
 	},
 	props: {
 		calendarObjectInstance: {
@@ -105,6 +127,9 @@ export default {
 	data() {
 		return {
 			uploading: false,
+			showOpenConfirmation: false,
+			openConfirmationMessage: '',
+			openConfirmationButtons: [],
 		}
 	},
 	computed: {
@@ -192,8 +217,48 @@ export default {
 		getBaseName(name) {
 			return name.split('/').pop()
 		},
-		openFile(url) {
-			window.open(url, '_blank', 'noopener noreferrer')
+		openFile(rawUrl) {
+			const getBaseUrl = () => window.location.protocol
+				+ '//'
+				+ window.location.host
+				+ getRootUrl()
+
+			let url
+			try {
+				url = new URL(rawUrl, getBaseUrl())
+			} catch (error) {
+				logger.error(`Refusing to open invalid URL: ${rawUrl}`, { error })
+				return
+			}
+
+			const baseUrl = new URL(getBaseUrl())
+			if (url.href.startsWith(baseUrl.href)) {
+				// URL belongs to this instance and is safe
+				window.open(url.href, '_blank', 'noopener noreferrer')
+				return
+			}
+
+			// Otherwise, show a confirmation dialog
+			this.openConfirmationMessage = t('calendar', 'You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}', {
+				link: url.href,
+			})
+			this.openConfirmationButtons = [
+				{
+					label: t('calendar', 'Cancel'),
+					callback: () => {
+						this.showOpenConfirmation = false
+					},
+				},
+				{
+					label: t('calendar', 'Proceed'),
+					type: 'primary',
+					callback: () => {
+						window.open(url.href, '_blank', 'noopener noreferrer')
+						this.showOpenConfirmation = false
+					}
+				},
+			]
+			this.showOpenConfirmation = true
 		},
 	},
 }
@@ -243,5 +308,22 @@ export default {
 	width: 40px;
     height: auto;
 	border-radius: var(--border-radius);
+}
+
+.confirmation-modal {
+	padding: 12px;
+
+	&__title {
+		width: 100%;
+		text-align: center;
+	}
+
+	&__buttons {
+		display: flex;
+		justify-content: flex-end;
+		gap: 5px;
+		width: 100%;
+		margin-top: 18px;
+	}
 }
 </style>
