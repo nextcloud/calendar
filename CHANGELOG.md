@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.7.2 - 2024-04-30
+### Fixed
+- Attachment links
+
 ## 4.7.1 - 2024-04-25
 ### Changed
 - Slot booking response
