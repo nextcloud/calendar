@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.6.8 - 2024-04-30
+### Fixed
+- Attachment links
+
 ## 4.6.7 - 2024-03-19
 ### Fixed
 - Missing events in week view
