@@ -283,8 +283,8 @@ export default {
 	gap: 10px;
 	width: 100%;
 
-&__group-icon,
-&__team-icon {
+	&__group-icon,
+	&__team-icon {
 		width: 32px;
 		height: 32px;
 		border-radius: 16px;

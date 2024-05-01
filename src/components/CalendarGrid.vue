@@ -345,6 +345,7 @@ export default {
 	height: 16px;
 	width: 16px;
 }
+
 .fullcalendar-widget{
 	min-height: 500px;
 	:deep(.fc-col-header-cell-cushion){

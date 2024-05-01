@@ -331,8 +331,8 @@ export default {
 
 <style lang="scss" scoped>
 .appointment-config-modal {
-		&__talk-room-description {
-			color: var(--color-text-maxcontrast);
-		}
+	&__talk-room-description {
+		color: var(--color-text-maxcontrast);
+	}
 }
 </style>

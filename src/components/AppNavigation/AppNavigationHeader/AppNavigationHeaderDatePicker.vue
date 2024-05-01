@@ -235,6 +235,6 @@ export default {
 <style lang="scss">
 .datepicker-widget{
 	width: 135px;
-    margin: 2px 5px 5px 5px;
+	margin: 2px 5px 5px 5px;
 }
 </style>

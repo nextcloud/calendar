@@ -188,11 +188,11 @@ export default {
 
 <style lang="scss">
 #content.app-calendar {
-  // Enable scrolling
-  overflow: auto;
+	// Enable scrolling
+	overflow: auto;
 
-  // Fix box being cutoff at the bottom
-  margin-bottom: 0;
-  height: calc(var(--body-height) + var(--body-container-margin));
+	// Fix box being cutoff at the bottom
+	margin-bottom: 0;
+	height: calc(var(--body-height) + var(--body-container-margin));
 }
 </style>

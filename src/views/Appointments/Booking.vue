@@ -292,7 +292,7 @@ export default {
 	}
 
 	&__time-zone {
-	max-width: 250px;
+		max-width: 250px;
 	}
 
 	&__slot-selection .material-design-icon.loading-icon.animation-rotate {

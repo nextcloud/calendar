@@ -648,16 +648,19 @@ export default {
 		}
 	}
 }
+
 .modal-subtitle {
 	font-weight: bold;
 	font-size: 16px;
 	margin-top: 16px;
 }
+
 .modal-h {
 	font-size: 24px;
 	font-weight: bold;
 	margin: 10px 0;
 }
+
 .modal-footer {
 	display: flex;
 	align-items: center;
@@ -671,21 +674,26 @@ export default {
 		}
 	}
 }
+
 .attachments, .users {
 	display: flex;
 	flex-wrap: wrap;
 }
+
 .attachment-list-item, .user-list-item {
 	width: 50%
 }
+
 .attachment-icon {
 	width: 40px;
 	height: auto;
 	border-radius: var(--border-radius);
 }
+
 .property-location {
 	margin-top: 10px;
 }
+
 .property-description {
 	margin-bottom: 10px;
 }
@@ -720,9 +728,9 @@ export default {
 		padding-top: 5px;
 	}
 
-  .empty-content {
+	.empty-content {
 		height: 100vh;
 		padding: 0 20px;
-  }
+	}
 }
 </style>
