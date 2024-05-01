@@ -269,6 +269,7 @@ OC.L10N.register(
     "Add from Files" : "Dosyalardan ekle",
     "Upload from device" : "Aygıttan yükle",
     "Delete file" : "Dosyayı sil",
+    "Confirmation" : "Onaylama",
     "Choose a file to add as attachment" : "Ek dosya olarak eklenecek dosyayı seçin",
     "Choose a file to share as a link" : "Bağlantı olarak paylaşılacak bir dosya seçin",
     "Attachment {name} already exist!" : "{name} ek dosyası zaten var!",

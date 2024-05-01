@@ -269,6 +269,7 @@ OC.L10N.register(
     "Add from Files" : "從檔案添加",
     "Upload from device" : "從裝置上傳",
     "Delete file" : "刪除檔案",
+    "Confirmation" : "確認",
     "Choose a file to add as attachment" : "選擇要作為附件的檔案",
     "Choose a file to share as a link" : "選擇要作為連結分享的檔案",
     "Attachment {name} already exist!" : "附件 {name} 已存在！",

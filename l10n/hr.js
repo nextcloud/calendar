@@ -169,6 +169,7 @@ OC.L10N.register(
     "Delete file" : "Izbriši datoteku",
     "Choose a file to add as attachment" : "Izaberi datoteku kao privitak",
     "Choose a file to share as a link" : "Izaberi datoteku za dijeljenje putem poveznice",
+    "Proceed" : "Nastavi",
     "Available" : "Dostupno",
     "Not available" : "Nije dostupno",
     "Availability of attendees, resources and rooms" : "Raspoloživost sudionika, resursa i soba",

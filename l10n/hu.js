@@ -265,6 +265,7 @@ OC.L10N.register(
     "Add from Files" : "Hozzáadás a Fájlokból",
     "Upload from device" : "Feltöltés az eszközről",
     "Delete file" : "Fájl törlése",
+    "Confirmation" : "Megerősítés",
     "Choose a file to add as attachment" : "Válasszon mellékletként hozzáadandó fájlt",
     "Choose a file to share as a link" : "Válasszon fájlt a hivatkozással történő megosztáshoz",
     "Attachment {name} already exist!" : "A(z) {name} melléklet már létezik.",

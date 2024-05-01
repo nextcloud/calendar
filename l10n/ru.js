@@ -263,6 +263,7 @@ OC.L10N.register(
     "Add from Files" : "Добавить из файлов",
     "Upload from device" : "Загрузить с устройства",
     "Delete file" : "Удалить файл",
+    "Confirmation" : "Подтверждение",
     "Choose a file to add as attachment" : "Выбрать файл для вложения",
     "Choose a file to share as a link" : "Выберите файл для публикации ссылкой",
     "Attachment {name} already exist!" : "Файл вложения «{name}» уже существует.",

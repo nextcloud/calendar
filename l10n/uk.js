@@ -268,6 +268,7 @@ OC.L10N.register(
     "Add from Files" : "Додати з файлів",
     "Upload from device" : "Завантажити з пристрою",
     "Delete file" : "Вилучити файл",
+    "Confirmation" : "Підтвердження",
     "Choose a file to add as attachment" : "Виберіть файл для вкладення",
     "Choose a file to share as a link" : "Виберіть файл, яким ви поділитеся через посилання",
     "Attachment {name} already exist!" : "Такий долучений файл {name} вже присутній!",

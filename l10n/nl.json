@@ -261,6 +261,7 @@
     "Add from Files" : "Toevoegen uit bestanden",
     "Upload from device" : "Uploaden vanaf apparaat",
     "Delete file" : "Verwijder bestand",
+    "Confirmation" : "Bevestiging",
     "Choose a file to add as attachment" : "Kies een bestand om als bijlage toe te voegen",
     "Choose a file to share as a link" : "Kies een bestand om als link te delen",
     "Attachment {name} already exist!" : "Bijlage {name} bestaat al!",

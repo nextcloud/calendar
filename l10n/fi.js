@@ -262,6 +262,7 @@ OC.L10N.register(
     "Add from Files" : "Lisää tiedostosovelluksesta",
     "Upload from device" : "Lähetä laitteelta",
     "Delete file" : "Poista tiedosto",
+    "Confirmation" : "Vahvistus",
     "Choose a file to add as attachment" : "Valitse liitteeksi lisättävä tiedosto",
     "Choose a file to share as a link" : "Valitse tiedosto, joka jaetaan linkkinä",
     "Attachment {name} already exist!" : "Liite {name} on jo olemassa!",

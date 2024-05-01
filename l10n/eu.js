@@ -265,6 +265,7 @@ OC.L10N.register(
     "Add from Files" : "Gehitu Fitxategietatik",
     "Upload from device" : "Igo gailutik",
     "Delete file" : "Ezabatu fitxategia",
+    "Confirmation" : "Berrespena",
     "Choose a file to add as attachment" : "Aukeratu fitxategia eranskin gisa gehitzeko",
     "Choose a file to share as a link" : "Aukeratu fitxategi bat esteka bezala partekatzeko",
     "Attachment {name} already exist!" : "Dagoeneko existitzen da {name} eranskina!",

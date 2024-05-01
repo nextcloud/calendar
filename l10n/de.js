@@ -268,6 +268,7 @@ OC.L10N.register(
     "Add from Files" : "Anhang hinzufügen",
     "Upload from device" : "Von Gerät hochladen",
     "Delete file" : "Datei löschen",
+    "Confirmation" : "Bestätigung",
     "Choose a file to add as attachment" : "Wähle eine Datei, die als Anhang angefügt werden soll",
     "Choose a file to share as a link" : "Datei auswählen welche als Link geteilt wird",
     "Attachment {name} already exist!" : "Anhang {name} existiert bereits",

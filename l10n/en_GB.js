@@ -269,6 +269,7 @@ OC.L10N.register(
     "Add from Files" : "Add from Files",
     "Upload from device" : "Upload from device",
     "Delete file" : "Delete file",
+    "Confirmation" : "Confirmation",
     "Choose a file to add as attachment" : "Choose a file to add as attachment",
     "Choose a file to share as a link" : "Choose a file to share as a link",
     "Attachment {name} already exist!" : "Attachment {name} already exist!",

@@ -269,6 +269,7 @@ OC.L10N.register(
     "Add from Files" : "Lägg till från Filer",
     "Upload from device" : "Ladda upp från enheten",
     "Delete file" : "Ta bort fil",
+    "Confirmation" : "Bekräftelse",
     "Choose a file to add as attachment" : "Välj en fil att lägga till som bilaga",
     "Choose a file to share as a link" : "Välj en fil att dela som länk",
     "Attachment {name} already exist!" : "Bilagan {name} finns redan!",

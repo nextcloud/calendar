@@ -268,6 +268,7 @@ OC.L10N.register(
     "Add from Files" : "Legg til fra filer",
     "Upload from device" : "Last opp fra enhet",
     "Delete file" : "Slett fil",
+    "Confirmation" : "Bekreftelse",
     "Choose a file to add as attachment" : "Velg en fil å legge til som vedlegg",
     "Choose a file to share as a link" : "Velg en fil du vil dele som en lenke",
     "Attachment {name} already exist!" : "Vedlegget {name} finnes allerede!",

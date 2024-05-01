@@ -263,6 +263,7 @@ OC.L10N.register(
     "Add from Files" : "Aggiungi da File",
     "Upload from device" : "Carica dal dispositivo",
     "Delete file" : "Elimina file",
+    "Confirmation" : "Conferma",
     "Choose a file to add as attachment" : "Scegli un file da aggiungere come allegato",
     "Choose a file to share as a link" : "Scegli un file da condividere come un collegamento",
     "Attachment {name} already exist!" : "L'allegato {name} esiste già!",

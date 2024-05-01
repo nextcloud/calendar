@@ -267,6 +267,7 @@
     "Add from Files" : "Ajouter depuis Fichiers",
     "Upload from device" : "Téléverser depuis l'appareil",
     "Delete file" : "Supprimer le fichier",
+    "Confirmation" : "Confirmation",
     "Choose a file to add as attachment" : "Choisissez un fichier à ajouter en pièce jointe",
     "Choose a file to share as a link" : "Sélectionnez un fichier à partager par lien",
     "Attachment {name} already exist!" : "La pièce jointe {name} existe déjà !",

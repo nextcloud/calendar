@@ -265,6 +265,7 @@ OC.L10N.register(
     "Add from Files" : "Přidat ze Souborů",
     "Upload from device" : "Nahrát ze zařízení",
     "Delete file" : "Smazat soubor",
+    "Confirmation" : "Potvrzení",
     "Choose a file to add as attachment" : "Vyberte soubor k přiložení",
     "Choose a file to share as a link" : "Zvolte soubor, který sdílet jako odkaz",
     "Attachment {name} already exist!" : "Příloha {name} už existuje!",

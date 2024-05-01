@@ -272,6 +272,7 @@ OC.L10N.register(
     "Choose a file to share as a link" : "选择要共享的文件作为链接",
     "Attachment {name} already exist!" : "附件{name}已存在！",
     "Could not upload attachment(s)" : "无法上传附件",
+    "Proceed" : "前进",
     "_{count} attachment_::_{count} attachments_" : ["{count} 附件"],
     "Invitation accepted" : "已接受邀请",
     "Available" : "可用",

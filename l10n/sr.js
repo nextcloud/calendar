@@ -269,6 +269,7 @@ OC.L10N.register(
     "Add from Files" : "Додај из Фајлова",
     "Upload from device" : "Отпреми са уређаја",
     "Delete file" : "Обриши фајл",
+    "Confirmation" : "Потврда",
     "Choose a file to add as attachment" : "Изаберите фајл за прилог",
     "Choose a file to share as a link" : "Одаберите фајл који желите да поделите као везу",
     "Attachment {name} already exist!" : "Прилог {name} веђ постоји!",

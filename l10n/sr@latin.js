@@ -28,6 +28,7 @@ OC.L10N.register(
     "Sunday" : "Nedelja",
     "Update" : "Ažuriraj",
     "Email" : "email",
+    "Proceed" : "Nastavi",
     "Done" : "Gotovo",
     "Out of office" : "Van kancelarije",
     "Unknown" : "Nepoznato",

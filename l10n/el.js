@@ -264,6 +264,7 @@ OC.L10N.register(
     "Add from Files" : "Προσθήκη από τα Αρχεία",
     "Upload from device" : "Μεταφόρτωση από συσκευή",
     "Delete file" : "Διαγραφή αρχείου",
+    "Confirmation" : "Επιβεβαίωση",
     "Choose a file to add as attachment" : "Επιλέξτε ένα αρχείο για να προσθέσετε ως συνημμένο",
     "Choose a file to share as a link" : "Επιλέξτε ένα αρχείο για κοινή χρήση ως σύνδεσμο",
     "Attachment {name} already exist!" : "Το συνημμένο {name} υπάρχει ήδη",

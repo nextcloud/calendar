@@ -155,6 +155,7 @@ OC.L10N.register(
     "Delete file" : "מחיקת קבצים",
     "Choose a file to add as attachment" : "בחירת קובץ להוספה כקובץ מצורף",
     "Choose a file to share as a link" : "נא לבחור קובץ לשיתוף כקישור",
+    "Proceed" : "להמשיך",
     "Available" : "זמינות",
     "Availability of attendees, resources and rooms" : "זמינות של משתתפים, משאבים וחדרים",
     "Done" : "הסתיים",
