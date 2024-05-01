@@ -23,6 +23,8 @@
 
 /** Override some FullCalendar CSS vars: */
 .fc {
+	font-family: var(--font-face) !important;
+
 	--fc-small-font-size: 0.875em;
 	--fc-page-bg-color: var(--color-main-background) !important;
 	--fc-neutral-bg-color: var(--color-background-dark) !important;
@@ -47,10 +49,6 @@
 	--fc-today-bg-color: var(--color-main-background) !important;
 	--fc-now-indicator-color: red;
 	--fc-list-event-hover-bg-color: var(--color-background-hover) !important;
-}
-
-.fc {
-	font-family: var(--font-face) !important;
 }
 
 // ### FullCalendar Grid adjustments
@@ -241,6 +239,9 @@
 .fc-col-header-cell {
 	word-break: break-word;
 	white-space: normal;
+
+	// Fix week button overlapping with the toggle
+	padding-top: 10px !important;
 }
 
 .fc-timeGridWeek-view {
@@ -279,11 +280,6 @@
 
 .fc-daygrid-day-events {
 	position:relative !important;
-}
-
-// Fix week button overlapping with the toggle
-.fc-col-header-cell {
-	padding-top: 10px !important;
 }
 
 .fc-timegrid-axis-cushion  {
