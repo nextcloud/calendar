@@ -19,7 +19,7 @@ jobs:
       XDEBUG_MODE: coverage
     steps:
     - name: Set up php${{ matrix.php-versions }}
-      uses: shivammathur/setup-php@a870b0a9be03fabbba4c6dbf1af1260c0e4d4893
+      uses: shivammathur/setup-php@868f02c3ff1a410930ea971284c9ea175e986284
       with:
         php-version: ${{ matrix.php-versions }}
         extensions: ctype, curl, dom, gd, gmp, iconv, intl, json, mbstring, openssl, pdo_sqlite, posix, sqlite, xml, zip
@@ -68,7 +68,7 @@ jobs:
       XDEBUG_MODE: coverage
     steps:
       - name: Set up php${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@a870b0a9be03fabbba4c6dbf1af1260c0e4d4893
+        uses: shivammathur/setup-php@868f02c3ff1a410930ea971284c9ea175e986284
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: ctype, curl, dom, gd, gmp, iconv, intl, json, mbstring, openssl, pdo_sqlite, posix, sqlite, xml, zip
