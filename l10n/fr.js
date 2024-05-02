@@ -274,6 +274,8 @@ OC.L10N.register(
     "Choose a file to share as a link" : "Sélectionnez un fichier à partager par lien",
     "Attachment {name} already exist!" : "La pièce jointe {name} existe déjà !",
     "Could not upload attachment(s)" : "Impossible de téléverser la/les pièce(s) jointe(s)",
+    "You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}" : "Vous êtes sur le point de vous rendre sur un lien externe non fiable. Êtes-vous sûr de vouloir continuer​ ? Lien : {link}",
+    "Proceed" : "Continuer",
     "_{count} attachment_::_{count} attachments_" : ["{count} pièce jointe","{count} pièces jointes","{count}  pièces jointes"],
     "Invitation accepted" : "Invitation acceptée",
     "Available" : "Disponible",

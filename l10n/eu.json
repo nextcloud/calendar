@@ -268,6 +268,7 @@
     "Choose a file to share as a link" : "Aukeratu fitxategi bat esteka bezala partekatzeko",
     "Attachment {name} already exist!" : "Dagoeneko existitzen da {name} eranskina!",
     "Could not upload attachment(s)" : "Ezinezkoa izan da eranskina(k) igotzea",
+    "Proceed" : "Jarraitu",
     "_{count} attachment_::_{count} attachments_" : ["Eranskin {count}","{count} eranskin"],
     "Invitation accepted" : "Gonbidapena onartuta",
     "Available" : "Erabilgarri",
