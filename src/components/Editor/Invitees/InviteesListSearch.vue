@@ -43,12 +43,12 @@
 					:key="option.uid"
 					:user="option.avatar"
 					:display-name="option.dropdownName" />
-				<Avatar v-else-if="option.type === 'circle'">
+				<Avatar v-else-if="option.type === 'team'">
 					<template #icon>
 						<GoogleCirclesCommunitiesIcon :size="20" />
 					</template>
 				</Avatar>
-				<Avatar v-if="!option.isUser && option.type !== 'circle'"
+				<Avatar v-if="!option.isUser && option.type !== 'team'"
 					:key="option.uid"
 					:url="option.avatar"
 					:display-name="option.commonName" />
@@ -57,10 +57,10 @@
 					<div>
 						{{ option.commonName }}
 					</div>
-					<div v-if="option.email !== option.commonName && option.type !== 'circle'">
+					<div v-if="option.email !== option.commonName && option.type !== 'team'">
 						{{ option.email }}
 					</div>
-					<div v-if="option.type === 'circle'">
+					<div v-if="option.type === 'team'">
 						{{ option.subtitle }}
 					</div>
 				</div>
@@ -77,9 +77,9 @@ import {
 import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import isCirclesEnabled from '../../../services/isCirclesEnabled.js'
 import {
-	circleSearchByName,
-	circleGetMembers,
-} from '../../../services/circleService.js'
+	teamSearchByName,
+	teamGetMembers,
+} from '../../../services/teamService.js'
 import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
 import { linkTo } from '@nextcloud/router'
@@ -131,14 +131,14 @@ export default {
 					this.findAttendeesFromDAV(query),
 				]
 				if (isCirclesEnabled) {
-					promises.push(this.findAttendeesFromCircles(query))
+					promises.push(this.findAttendeesFromTeams(query))
 				}
 
-				const [contactsResults, davResults, circleResults] = await Promise.all(promises)
+				const [contactsResults, davResults, teamResults] = await Promise.all(promises)
 				matches.push(...contactsResults)
 				matches.push(...davResults)
 				if (isCirclesEnabled) {
-					matches.push(...circleResults)
+					matches.push(...teamResults)
 				}
 
 				// Source of the Regex: https://stackoverflow.com/a/46181
@@ -177,19 +177,19 @@ export default {
 		}, 500),
 		addAttendee(selectedValue) {
 
-			if (selectedValue.type === 'circle') {
-				showInfo(this.$t('calendar', 'Note that members of circles get invited but are not synced yet.'))
-				this.resolveCircleMembers(selectedValue.id, selectedValue.email)
+			if (selectedValue.type === 'team') {
+				showInfo(this.$t('calendar', 'Note that members of teams get invited but are not synced yet.'))
+				this.resolveTeamMembers(selectedValue.id, selectedValue.email)
 			}
 			this.$emit('add-attendee', selectedValue)
 		},
-		async resolveCircleMembers(circleId, groupId) {
+		async resolveTeamMembers(circleId, groupId) {
 			let results
 			try {
-				// Going to query custom backend to fetch Circle members since we're going to use
-				// mail addresses of local circle members. The Circles API doesn't expose member
+				// Going to query custom backend to fetch team members since we're going to use
+				// mail addresses of local team members. The Circles API doesn't expose member
 				// emails yet. Change approved by @miaulalala and @ChristophWurst.
-				results = await circleGetMembers(circleId)
+				results = await teamGetMembers(circleId)
 			} catch (error) {
 				console.debug(error)
 				return []
@@ -288,27 +288,27 @@ export default {
 				}
 			})
 		},
-		async findAttendeesFromCircles(query) {
+		async findAttendeesFromTeams(query) {
 			let results
 			try {
-				results = await circleSearchByName(query)
+				results = await teamSearchByName(query)
 			} catch (error) {
 				console.debug(error)
 				return []
 			}
 
-			return results.filter((circle) => {
+			return results.filter((team) => {
 				return true
-			}).map((circle) => {
+			}).map((team) => {
 				return {
-					commonName: circle.displayname,
+					commonName: team.displayname,
 					calendarUserType: 'GROUP',
-					email: 'circle+' + circle.id + '@' + circle.instance,
+					email: 'team+' + team.id + '@' + team.instance,
 					isUser: false,
-					dropdownName: circle.displayname,
-					type: 'circle',
-					id: circle.id,
-					subtitle: this.$n('calendar', '%n member', '%n members', circle.population),
+					dropdownName: team.displayname,
+					type: 'team',
+					id: team.id,
+					subtitle: this.$n('calendar', '%n member', '%n members', team.population),
 				}
 			})
 		},

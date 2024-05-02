@@ -191,7 +191,7 @@ class ContactController extends Controller {
 	}
 
 	/**
-	 * Query members of a circle by circleId
+	 * Query members of a team by circleId
 	 *
 	 * @param string $circleId CircleId to query for members
 	 * @return JSONResponse
@@ -200,7 +200,7 @@ class ContactController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 */
-	public function getCircleMembers(string $circleId):JSONResponse {
+	public function getTeamMembers(string $circleId):JSONResponse {
 		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
 			return new JSONResponse();
 		}
@@ -209,39 +209,39 @@ class ContactController extends Controller {
 		}
 
 		try {
-			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($circleId, true);
+			$team = \OCA\Circles\Api\v1\Circles::detailsCircle($circleId, true);
 		} catch (QueryException $ex) {
 			return new JSONResponse();
 		} catch (CircleNotFoundException $ex) {
 			return new JSONResponse();
 		}
 
-		if (!$circle) {
+		if (!$team) {
 			return new JSONResponse();
 		}
 
-		$circleMembers = $circle->getInheritedMembers();
+		$teamMembers = $team->getInheritedMembers();
 
-		foreach ($circleMembers as $circleMember) {
-			if ($circleMember->isLocal()) {
+		foreach ($teamMembers as $teamMember) {
+			if ($teamMember->isLocal()) {
 
-				$circleMemberUserId = $circleMember->getUserId();
+				$teamMemberUserId = $teamMember->getUserId();
 
-				$user = $this->userManager->get($circleMemberUserId);
+				$user = $this->userManager->get($teamMemberUserId);
 
 				if ($user === null) {
 					throw new ServiceException('Could not find organizer');
 				}
 
 				$contacts[] = [
-					'commonName' => $circleMember->getDisplayName(),
+					'commonName' => $teamMember->getDisplayName(),
 					'calendarUserType' => 'INDIVIDUAL',
 					'email' => $user->getEMailAddress(),
 					'isUser' => true,
-					'avatar' => $circleMemberUserId,
+					'avatar' => $teamMemberUserId,
 					'hasMultipleEMails' => false,
-					'dropdownName' => $circleMember->getDisplayName(),
-					'member' => 'mailto:circle+' . $circleId . '@' . $circleMember->getInstance(),
+					'dropdownName' => $teamMember->getDisplayName(),
+					'member' => 'mailto:team+' . $teamId . '@' . $teamMember->getInstance(),
 				];
 			}
 		}
