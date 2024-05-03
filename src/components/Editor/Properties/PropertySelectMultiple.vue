@@ -185,7 +185,7 @@ export default {
 			}
 
 			this.selectionData.push(value)
-			this.$emit('add-single-value', value)
+			this.$emit('add-single-value', value.value)
 		},
 	},
 }
