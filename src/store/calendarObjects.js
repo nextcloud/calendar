@@ -352,8 +352,15 @@ const actions = {
 			vObject.undirtify()
 		}
 
-		const defaultCalendarUrl = context.getters.getCurrentUserPrincipal.scheduleDefaultCalendarUrl
-		const defaultCalendar = context.getters.getCalendarByUrl(defaultCalendarUrl)
+		// TODO: remove version check once Nextcloud 28 is not supported anymore
+		let defaultCalendar
+		const nextcloudVersion = parseInt(OC.config.version.split('.')[0])
+		if (nextcloudVersion >= 29) {
+			// Don't select the default calendar by default on Nextcloud < 29 as it can't be
+			// configured by the user and might lead to confusion
+			const defaultCalendarUrl = context.getters.getCurrentUserPrincipal.scheduleDefaultCalendarUrl
+			defaultCalendar = context.getters.getCalendarByUrl(defaultCalendarUrl)
+		}
 
 		return Promise.resolve(mapCalendarJsToCalendarObject(
 			calendar,
