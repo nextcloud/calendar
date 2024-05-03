@@ -25,7 +25,10 @@
 		:class="{ 'calendar-picker-header--readonly': isReadOnly }">
 		<NcActions type="tertiary"
 			class="calendar-picker-header__picker"
-			:class="{ 'calendar-picker-header__picker--fix-width': isReadOnly && value && value.isSharedWithMe }"
+			:class="{
+				'calendar-picker-header__picker--fix-width': isReadOnly && value && value.isSharedWithMe,
+				'calendar-picker-header__picker--has-menu': !isReadOnly && calendars.length > 1,
+			}"
 			:menu-name="value.displayName"
 			:force-name="true"
 			:disabled="isDisabled">
@@ -82,6 +85,12 @@ export default {
 			return this.isReadOnly || this.calendars.length < 2
 		},
 	},
+	mounted() {
+		// Taken from https://pictogrammers.com/library/mdi/icon/menu-down/
+		// Material Design icons by Google are available under the Apache 2.0 license
+		const menuDownIconUrl = 'url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTcsMTBMMTIsMTVMMTcsMTBIN1oiIC8+PC9zdmc+)'
+		this.$el.style.setProperty('--mdi-menu-down', menuDownIconUrl)
+	},
 }
 </script>
 
@@ -130,6 +139,21 @@ export default {
 
 	&__picker {
 		width: 100%;
+
+		&--has-menu {
+			// Inject menu down icon via CSS because only text can be specified in the template
+			:deep(.button-vue__text::after) {
+				content: "";
+				display: inline-block;
+				width: 20px;
+				height: 20px;
+				margin-left: 5px;
+				margin-bottom: 1px;
+				vertical-align: middle;
+				background-image: var(--mdi-menu-down);
+				filter: var(--background-invert-if-dark);
+			}
+		}
 
 		// For some reason the NcActions component behaves weirdly when a calendar is shared
 		// read-only with the user. This is an ugly workaround to fix the width of the button.
