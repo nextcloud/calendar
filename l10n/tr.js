@@ -274,6 +274,8 @@ OC.L10N.register(
     "Choose a file to share as a link" : "Bağlantı olarak paylaşılacak bir dosya seçin",
     "Attachment {name} already exist!" : "{name} ek dosyası zaten var!",
     "Could not upload attachment(s)" : "Ek dosyalar yüklenemedi",
+    "You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}" : "Güvenli olmayan bir dış bağlantıyı açmak üzeresiniz. İlerlemek istediğinize emin misiniz? Bağlantı: {bağlantı}",
+    "Proceed" : "İlerle",
     "_{count} attachment_::_{count} attachments_" : ["{count} ek dosya","{count} ek dosya"],
     "Invitation accepted" : "Davet kabul edildi",
     "Available" : "Uygun",
