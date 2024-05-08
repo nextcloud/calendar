@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.7.3 - 2024-05-08
+### Fixed
+- Default calendar not being used for new events
+
 ## 4.7.2 - 2024-04-30
 ### Fixed
 - Attachment links
