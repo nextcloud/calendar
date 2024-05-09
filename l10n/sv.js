@@ -274,6 +274,8 @@ OC.L10N.register(
     "Choose a file to share as a link" : "Välj en fil att dela som länk",
     "Attachment {name} already exist!" : "Bilagan {name} finns redan!",
     "Could not upload attachment(s)" : "Kunde inte ladda upp bilagor",
+    "You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}" : "Du är på väg att navigera till en opålitlig extern länk. Är du säker på att du vill fortsätta? Länk: {link}",
+    "Proceed" : "Fortsätt",
     "_{count} attachment_::_{count} attachments_" : ["{count} bilaga","{count} bilagor"],
     "Invitation accepted" : "Inbjudan accepterad",
     "Available" : "Tillgänglig",
