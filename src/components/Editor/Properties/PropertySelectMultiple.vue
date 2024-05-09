@@ -41,6 +41,7 @@
 				:taggable="true"
 				:no-wrap="false"
 				:deselect-from-dropdown="true"
+				:create-option="(label) => ({ value: label, label })"
 				input-id="label"
 				label="label"
 				@option:selecting="tag"
@@ -149,10 +150,10 @@ export default {
 	},
 	created() {
 		for (const category of this.value) {
+			// Create and select pseudo option if is not yet known
 			const option = this.options.find(option => option.value === category)
-			if (option) {
-				this.selectionData.push(option)
-			}
+				?? { label: category, value: category }
+			this.selectionData.push(option)
 		}
 	},
 	methods: {
