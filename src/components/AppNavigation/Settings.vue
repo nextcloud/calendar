@@ -76,7 +76,7 @@
 			<li v-if="currentUserPrincipal && defaultCalendarOptions.length > 1 && nextcloudVersion >= 29"
 				class="settings-fieldset-interior-item settings-fieldset-interior-item--default-calendar">
 				<label :for="defaultCalendarPickerId">
-					{{ $t('calendar', 'Default calendar for invitations and new events') }}
+					{{ $t('calendar', 'Default calendar for incoming invitations') }}
 				</label>
 				<CalendarPicker :value="defaultCalendar"
 					:calendars="defaultCalendarOptions"
@@ -300,7 +300,7 @@ export default {
 				.filter(calendar => !calendar.readOnly && !calendar.isSharedWithMe)
 		},
 		/**
-		 * The default calendar for new events and inivitations
+		 * The default calendar for incoming inivitations
 		 *
 		 * @return {object|undefined} The default calendar or undefined if none is available
 		 */
@@ -443,7 +443,7 @@ export default {
 			}
 		},
 		/**
-		 * Changes the default calendar for new events
+		 * Changes the default calendar for incoming invitations
 		 *
 		 * @param {object} selectedCalendar The new selected default calendar
 		 */
