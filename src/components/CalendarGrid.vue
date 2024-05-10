@@ -22,10 +22,10 @@
   -->
 
 <template>
-	<FullCalendar v-if="calendarOptions"
+	<FullCalendar v-if="options"
 		ref="fullCalendar"
 		:class="isWidget? 'fullcalendar-widget': ''"
-		:options="calendarOptions" />
+		:options="options" />
 </template>
 
 <script>
@@ -94,7 +94,6 @@ export default {
 		return {
 			updateTodayJob: null,
 			updateTodayJobPreviousDate: null,
-			calendarOptions: null,
 			fullCalendarReady: false,
 		}
 	},
@@ -208,28 +207,12 @@ export default {
 			const calendarApi = this.$refs.fullCalendar.getApi()
 			calendarApi.gotoDate(getYYYYMMDDFromFirstdayParam(newDate))
 		},
-		eventSources(sources, oldSources) {
-			const newSources = sources.filter(source => !oldSources.map(oldSource => oldSource.id).includes(source.id))
-			const removedSources = oldSources.filter(oldSource => !sources.map(source => source.id).includes(oldSource.id))
-
-			// Hackity hack! Unfortunately, calendarOptions.eventSources is not reactive ...
-			// Ref https://fullcalendar.io/docs/Calendar-addEventSource
-			// TODO: Find a better/safer way to prevent duplicated event sources
-			const calendarApi = this.$refs.fullCalendar.getApi()
-			for (const source of newSources) {
-				calendarApi.addEventSource(source)
-			}
-			const eventSources = calendarApi.getEventSources()
-			for (const source of removedSources) {
-				eventSources.find(x => x.id === source.id)?.remove()
-			}
-		},
 		modificationCount: debounce(function() {
 			const calendarApi = this.$refs.fullCalendar.getApi()
 			calendarApi.refetchEvents()
 		}, 50),
-		async calendarOptions(newOptions, oldOptions) {
-			if (!this.fullCalendarReady && newOptions && !oldOptions) {
+		async options(newOptions) {
+			if (!this.fullCalendarReady && newOptions) {
 				this.fullCalendarReady = true
 				// Wait until the component is mounted and the ref is available
 				await this.$nextTick()
@@ -238,8 +221,6 @@ export default {
 		},
 	},
 	async created() {
-		this.calendarOptions = await this.options
-
 		this.updateTodayJob = setInterval(() => {
 			const newDate = getYYYYMMDDFromFirstdayParam('now')
 
