@@ -186,6 +186,7 @@ OC.L10N.register(
     "_day_::_days_" : ["día","díes"],
     "_week_::_weeks_" : ["selmana","selmanes"],
     "Delete file" : "Desaniciar el ficheru",
+    "Confirmation" : "Confirmación",
     "Invitation accepted" : "Invitación aceptada",
     "Available" : "Disponible",
     "Not available" : "Nun ta disponible",

@@ -252,6 +252,7 @@ OC.L10N.register(
     "Add from Files" : "Добавяне от файлове",
     "Upload from device" : "Качване от устройство",
     "Delete file" : "Изтриване на файл",
+    "Confirmation" : "Потвърждение",
     "Choose a file to add as attachment" : "Избери файл за прикачване",
     "Choose a file to share as a link" : "Изберете файл, който да споделите като връзка",
     "Attachment {name} already exist!" : " Прикаченият файл {name} вече съществува!",

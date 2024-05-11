@@ -182,7 +182,6 @@ OC.L10N.register(
     "Show weekends" : "Прикажи викенде",
     "Show week numbers" : "Прикажи број седмице",
     "Time increments" : "Временски кораци",
-    "Default calendar for invitations and new events" : "Подразумевани календар за позивнице и нове догађаје",
     "Default reminder" : "Подразумевани подсетник",
     "Copy primary CalDAV address" : "Копирај примарну CalDAV адресу",
     "Copy iOS/macOS CalDAV address" : "Копирај iOS/macOS CalDAV адресу",

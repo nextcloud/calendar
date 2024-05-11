@@ -181,7 +181,6 @@ OC.L10N.register(
     "Show weekends" : "Показувати вихідні дні",
     "Show week numbers" : "Показувати номери тижнів",
     "Time increments" : "Крок",
-    "Default calendar for invitations and new events" : "Типовий календар для запрошень та нових подій",
     "Default reminder" : "Нагадування",
     "Copy primary CalDAV address" : "Копіювати основну адресу CalDAV",
     "Copy iOS/macOS CalDAV address" : "Копіювати адресу CalDAV для iOS/macOS ",

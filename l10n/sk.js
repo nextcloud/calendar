@@ -182,7 +182,6 @@ OC.L10N.register(
     "Show weekends" : "Zobraziť víkendy",
     "Show week numbers" : "Zobraziť čísla týždňov",
     "Time increments" : "Časové prírastky",
-    "Default calendar for invitations and new events" : "Predvolený kalendár pre pozvánky a nové udalosti",
     "Default reminder" : "Predvolená pripomienka",
     "Copy primary CalDAV address" : "Kopírovať primárnu CalDAV adresu",
     "Copy iOS/macOS CalDAV address" : "Kopírovať iOS/macOS CalDAV adresu",
