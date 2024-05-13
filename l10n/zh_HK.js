@@ -182,6 +182,7 @@ OC.L10N.register(
     "Show weekends" : "顯示週末",
     "Show week numbers" : "顯示週數",
     "Time increments" : "時間增量",
+    "Default calendar for incoming invitations" : "傳入邀請的默認日曆",
     "Default reminder" : "默認提醒",
     "Copy primary CalDAV address" : "複製主要的 CalDAV 位址",
     "Copy iOS/macOS CalDAV address" : "複製 iOS/macOS 的 CalDAV 位址",
