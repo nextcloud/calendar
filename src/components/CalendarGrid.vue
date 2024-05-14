@@ -22,10 +22,9 @@
   -->
 
 <template>
-	<FullCalendar v-if="calendarOptions"
-		ref="fullCalendar"
+	<FullCalendar ref="fullCalendar"
 		:class="isWidget? 'fullcalendar-widget': ''"
-		:options="calendarOptions" />
+		:options="options" />
 </template>
 
 <script>
@@ -94,8 +93,6 @@ export default {
 		return {
 			updateTodayJob: null,
 			updateTodayJobPreviousDate: null,
-			calendarOptions: null,
-			fullCalendarReady: false,
 		}
 	},
 	computed: {
@@ -208,38 +205,37 @@ export default {
 			const calendarApi = this.$refs.fullCalendar.getApi()
 			calendarApi.gotoDate(getYYYYMMDDFromFirstdayParam(newDate))
 		},
-		eventSources(sources, oldSources) {
-			const newSources = sources.filter(source => !oldSources.map(oldSource => oldSource.id).includes(source.id))
-			const removedSources = oldSources.filter(oldSource => !sources.map(source => source.id).includes(oldSource.id))
-
-			// Hackity hack! Unfortunately, calendarOptions.eventSources is not reactive ...
-			// Ref https://fullcalendar.io/docs/Calendar-addEventSource
-			// TODO: Find a better/safer way to prevent duplicated event sources
-			const calendarApi = this.$refs.fullCalendar.getApi()
-			for (const source of newSources) {
-				calendarApi.addEventSource(source)
-			}
-			const eventSources = calendarApi.getEventSources()
-			for (const source of removedSources) {
-				eventSources.find(x => x.id === source.id)?.remove()
-			}
-		},
 		modificationCount: debounce(function() {
 			const calendarApi = this.$refs.fullCalendar.getApi()
 			calendarApi.refetchEvents()
 		}, 50),
-		async calendarOptions(newOptions, oldOptions) {
-			if (!this.fullCalendarReady && newOptions && !oldOptions) {
-				this.fullCalendarReady = true
-				// Wait until the component is mounted and the ref is available
-				await this.$nextTick()
-				this.onFullCalendarReady()
-			}
-		},
+	},
+	/**
+	 * FullCalendar 5 is using calculated px values for the width
+	 * of its views.
+	 * Hence a simple `width: 100%` won't assure that the calendar-grid
+	 * is always using the full available width.
+	 *
+	 * Toggling the AppNavigation or AppSidebar will change the amount
+	 * of available space, but it will not be covered by the window
+	 * resize event, because the actual window size did not change.
+	 *
+	 * To make sure, that the calendar-grid is always using all space,
+	 * we have to register a resize-observer here, that will automatically
+	 * update the fullCalendar size, when the available space changes.
+	 */
+	 mounted() {
+		if (window.ResizeObserver) {
+			const resizeObserver = new ResizeObserver(debounce(() => {
+				this.$refs.fullCalendar
+					.getApi()
+					.updateSize()
+			}, 100))
+
+			resizeObserver.observe(this.$refs.fullCalendar.$el)
+		}
 	},
 	async created() {
-		this.calendarOptions = await this.options
-
 		this.updateTodayJob = setInterval(() => {
 			const newDate = getYYYYMMDDFromFirstdayParam('now')
 
@@ -309,36 +305,6 @@ export default {
 				this.$store.dispatch('setInitialView', { initialView })
 			}
 		}, 5000),
-
-		/**
-		 * Called once when FullCalendar is ready. This event is delayed until the component is
-		 * mounted and its ref is available.
-		 */
-		onFullCalendarReady() {
-			/**
-			 * FullCalendar 5 is using calculated px values for the width
-			 * of its views.
-			 * Hence a simple `width: 100%` won't assure that the calendar-grid
-			 * is always using the full available width.
-			 *
-			 * Toggling the AppNavigation or AppSidebar will change the amount
-			 * of available space, but it will not be covered by the window
-			 * resize event, because the actual window size did not change.
-			 *
-			 * To make sure, that the calendar-grid is always using all space,
-			 * we have to register a resize-observer here, that will automatically
-			 * update the fullCalendar size, when the available space changes.
-			 */
-			if (window.ResizeObserver) {
-				const resizeObserver = new ResizeObserver(debounce(() => {
-					this.$refs.fullCalendar
-						.getApi()
-						.updateSize()
-				}, 100))
-
-				resizeObserver.observe(this.$refs.fullCalendar.$el)
-			}
-		},
 	},
 }
 </script>
