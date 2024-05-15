@@ -38,7 +38,7 @@ import {
 	getAmountHoursMinutesAndUnitForAllDayEvents,
 	getTotalSecondsFromAmountAndUnitForTimedEvents,
 	getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents,
-	updateEmailAlarms,
+	updateAlarms,
 } from '../utils/alarms.js'
 import {
 	getClosestCSS3ColorNameForHex,
@@ -1657,7 +1657,7 @@ const actions = {
 		const eventComponent = state.calendarObjectInstance.eventComponent
 		const calendarObject = state.calendarObject
 
-		updateEmailAlarms(eventComponent)
+		updateAlarms(eventComponent)
 		updateTalkParticipants(eventComponent)
 
 		if (eventComponent.isDirty()) {
