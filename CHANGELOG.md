@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.7.4 - 2024-05-15
+### Fixed
+- DISPLAY Alarms not having a DESCRIPTION
+- Custom categories
+
 ## 4.7.3 - 2024-05-08
 ### Fixed
 - Default calendar not being used for new events
