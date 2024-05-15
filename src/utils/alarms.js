@@ -226,9 +226,9 @@ export function getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(amoun
  *
  * @param {AbstractRecurringComponent} eventComponent
  */
-export function updateEmailAlarms(eventComponent) {
+export function updateAlarms(eventComponent) {
 	for (const alarmComponent of eventComponent.getAlarmIterator()) {
-		if (alarmComponent.action !== 'EMAIL') {
+		if (alarmComponent.action !== 'EMAIL' && alarmComponent.action !== 'DISPLAY') {
 			continue
 		}
 
