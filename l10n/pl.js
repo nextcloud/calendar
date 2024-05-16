@@ -267,6 +267,7 @@ OC.L10N.register(
     "Choose a file to add as attachment" : "Wybierz plik, aby dodać jako załącznik",
     "Choose a file to share as a link" : "Wybierz plik do udostępnienia przez link",
     "Attachment {name} already exist!" : "Załącznik {name} już istnieje!",
+    "Could not upload attachment(s)" : "Nie można przesłać załącznika(ów)",
     "Proceed" : "Kontynuuj",
     "_{count} attachment_::_{count} attachments_" : ["{count} załącznik","{count} załączniki","{count} załączników","{count} załączników"],
     "Invitation accepted" : "Zaproszenie przyjęte",
