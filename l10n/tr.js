@@ -182,6 +182,7 @@ OC.L10N.register(
     "Show weekends" : "Hafta sonları görüntülensin",
     "Show week numbers" : "Hafta numaraları görüntülensin",
     "Time increments" : "Zaman artışı",
+    "Default calendar for incoming invitations" : "Gelen davetler için varsayılan takvim",
     "Default reminder" : "Varsayılan anımsatıcı",
     "Copy primary CalDAV address" : "Birincil CalDAV adresini kopyala",
     "Copy iOS/macOS CalDAV address" : "iOS/macOS CalDAV adresini kopyala",
