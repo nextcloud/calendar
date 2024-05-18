@@ -182,6 +182,7 @@ OC.L10N.register(
     "Show weekends" : "Afficher les week-ends",
     "Show week numbers" : "Afficher les numéros de semaine",
     "Time increments" : "Incréments de temps",
+    "Default calendar for incoming invitations" : "Agenda par défaut pour les invitations entrantes",
     "Default reminder" : "Rappel par défaut",
     "Copy primary CalDAV address" : "Copier l'adresse CalDAV principale",
     "Copy iOS/macOS CalDAV address" : "Copier l'adresse CalDAV pour iOS/macOS",
