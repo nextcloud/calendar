@@ -190,7 +190,7 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 	}
 
 	public function getAvailabilityAsArray(): array {
-		return json_decode($this->getAvailability(), true);
+		return json_decode($this->getAvailability(), true, 512, JSON_THROW_ON_ERROR);
 	}
 
 	#[ReturnTypeWillChange]
