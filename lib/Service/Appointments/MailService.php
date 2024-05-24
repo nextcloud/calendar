@@ -124,9 +124,9 @@ class MailService {
 		$bookingUrl = $this->urlGenerator->linkToRouteAbsolute('calendar.booking.confirmBooking', ['token' => $booking->getToken()]);
 		$template->addBodyButton($this->l10n->t('Confirm'), $bookingUrl);
 
-		$template->addBodyListItem($user->getDisplayName(), 'Appointment with:');
+		$template->addBodyListItem($user->getDisplayName(), $this->l10n->t('Appointment with:'));
 		if (!empty($config->getDescription())) {
-			$template->addBodyListItem($config->getDescription(), 'Description:');
+			$template->addBodyListItem($config->getDescription(), $this->l10n->t('Description:'));
 		}
 
 		// Create Booking overview
@@ -194,9 +194,9 @@ class MailService {
 		$summary = $this->l10n->t('Dear %s, your booking has been accepted.', [$booking->getDisplayName()]);
 		$template->addHeading($summary);
 
-		$template->addBodyListItem($user->getDisplayName(), 'Appointment with:');
+		$template->addBodyListItem($user->getDisplayName(), $this->l10n->t('Appointment with:'));
 		if (!empty($config->getDescription())) {
-			$template->addBodyListItem($config->getDescription(), 'Description:');
+			$template->addBodyListItem($config->getDescription(), $this->l10n->t('Description:'));
 		}
 
 		// Create Booking overview
@@ -309,9 +309,9 @@ class MailService {
 		$summary = $this->l10n->t('Dear %s, %s (%s) booked an appointment with you.', [$user->getDisplayName(), $booking->getDisplayName(), $booking->getEmail()]);
 		$template->addHeading($summary);
 
-		$template->addBodyListItem($booking->getDisplayName() . ' (' . $booking->getEmail() . ')', 'Appointment with:');
+		$template->addBodyListItem($booking->getDisplayName() . ' (' . $booking->getEmail() . ')', $this->l10n->t('Appointment with:'));
 		if (!empty($config->getDescription())) {
-			$template->addBodyListItem($config->getDescription(), 'Description:');
+			$template->addBodyListItem($config->getDescription(), $this->l10n->t('Description:'));
 		}
 
 		// Create Booking overview
