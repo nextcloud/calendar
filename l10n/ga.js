@@ -14,6 +14,7 @@ OC.L10N.register(
     "Location" : "Suíomh",
     "Description" : "Cur síos",
     "Visibility" : "Infheictheacht",
+    "to" : "chun",
     "Add" : "Cuir",
     "Update" : "Nuashonrú",
     "Your email address" : "Do sheoladh ríomhphoist",
