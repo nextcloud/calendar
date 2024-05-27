@@ -339,7 +339,6 @@ class MailService {
 	}
 
 	public function sendOrganizerBookingInformationNotification(Booking $booking, AppointmentConfig $config) {
-
 		$tzid = $config->getAvailabilityAsArray()['timezoneId']; // extract time zone from appointment configuration
 		$dtstart = new \DateTime("now", new \DateTimeZone($booking->getTimezone())); // generate DateTime with booking time zone
 		$dtstart->setTimestamp($booking->getStart()); // set booking time stamp
