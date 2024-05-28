@@ -254,6 +254,7 @@ export default {
 .invitees-list-item {
 	flex-wrap: wrap;
 }
+
 .invitees-list-item__actions {
 	display: flex;
 }

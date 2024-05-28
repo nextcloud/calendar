@@ -249,6 +249,7 @@ export default {
 .attachments-input {
 	display: none;
 }
+
 .attachments-summary {
 	display:flex;
 	align-items: center;
@@ -300,6 +301,7 @@ export default {
 	margin-top: 1rem;
 	text-align: center;
 }
+
 .button-group {
 	display: flex;
 	align-content: center;
@@ -309,6 +311,7 @@ export default {
 		margin-right: 6px;
 	}
 }
+
 .attachment-icon {
 	width: 24px;
 	height: 24px;

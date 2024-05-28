@@ -199,8 +199,6 @@ export default {
 				color: var(--color-text-maxcontrast)
 			}
 		}
-
-		&__subscribe {}
 	}
 }
 </style>

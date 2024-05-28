@@ -82,6 +82,6 @@ export default {
 
 <style scoped>
 :deep(#value) {
-  width: 0;
+	width: 0;
 }
 </style>

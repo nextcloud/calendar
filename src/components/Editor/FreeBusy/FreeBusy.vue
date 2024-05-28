@@ -527,6 +527,7 @@ export default {
 	display: block;
 	height: 100%;
 }
+
 .modal__content {
 	padding: 50px;
 	//when the calendar is open, it's cut at the bottom, adding a margin fixes it
@@ -574,9 +575,11 @@ export default {
 		}
 	}
 }
+
 :deep(.vs__search ) {
 	text-overflow: ellipsis;
 }
+
 :deep(.mx-input) {
 	height: 38px !important;
 }

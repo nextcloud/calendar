@@ -427,9 +427,11 @@ export default {
 .highlighted-timezone-icon {
 	opacity: .7;
 }
+
 :deep(.mx-icon-calendar) {
 	right: 0;
 }
+
 :deep(.multiselect__content-wrapper) {
 	border: none !important;
 	position: relative !important;
