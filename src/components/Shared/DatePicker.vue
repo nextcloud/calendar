@@ -2,6 +2,7 @@
   - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
   -
   - @author Georg Ehrke <oc.list@georgehrke.com>
+  - @author 2024 Richard Steinmetz <richard@steinmetz.cloud>
   -
   - @license AGPL-3.0-or-later
   -
@@ -54,16 +55,17 @@
 				</template>
 			</NcButton>
 			<Popover :shown.sync="showTimezonePopover"
-				:focus-trap="false"
 				open-class="timezone-popover-wrapper">
-				<div class="timezone-popover-wrapper__title">
-					<strong>
-						{{ $t('calendar', 'Please select a time zone:') }}
-					</strong>
-				</div>
-				<TimezonePicker class="timezone-popover-wrapper__timezone-select"
-					:value="timezoneId"
-					@input="changeTimezone" />
+				<template>
+					<div class="timezone-popover-wrapper__title">
+						<strong>
+							{{ $t('calendar', 'Please select a time zone:') }}
+						</strong>
+					</div>
+					<TimezonePicker class="timezone-popover-wrapper__timezone-select"
+						:value="timezoneId"
+						@input="changeTimezone" />
+				</template>
 			</Popover>
 		</template>
 		<template v-if="!isAllDay"
