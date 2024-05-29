@@ -25,6 +25,7 @@
     "Your appointment \"%s\" with %s needs confirmation" : "Sestanek »%s« z osebo %s zahteva potrditev",
     "Dear %s, please confirm your booking" : "%s, prosim potrdite rezervacijo",
     "Confirm" : "Potrdi",
+    "Description:" : "Opis:",
     "This confirmation link expires in %s hours." : "Potrditvena povezava poteče po %s urah.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Če vseeno želite preklicati sestanek, stopite v stik z organizatorjem z odgovorom na njegovo elektronsko sporočilo oziroma z obiskom strani profila.",
     "Your appointment \"%s\" with %s has been accepted" : "Sestanek »%s« z osebo %s je potrjen",

@@ -26,6 +26,7 @@
     "Your appointment \"%s\" with %s needs confirmation" : "\"%s\" randevunuzun (%s ile) onaylanması gerekiyor",
     "Dear %s, please confirm your booking" : "Sayın %s, lütfen randevunuzu onaylayın",
     "Confirm" : "Onayla",
+    "Description:" : "Açıklama:",
     "This confirmation link expires in %s hours." : "Bu onay bağlantısının geçerlilik süresi %s saat sonra dolacak.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Sonuçta randevuyu iptal etmek isterseniz, lütfen bu e-postayı yanıtlayarak ya da profil sayfasını ziyaret ederek düzenleyici ile görüşün.",
     "Your appointment \"%s\" with %s has been accepted" : "\"%s\" randevunuz (%s ile) onaylandı",

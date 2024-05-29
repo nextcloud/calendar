@@ -8,6 +8,7 @@ OC.L10N.register(
     "Calendar" : "Calendièr",
     "Appointments" : "Rendetz-vos",
     "Confirm" : "Confirmar",
+    "Description:" : "Descripcion :",
     "Date:" : "Data :",
     "Where:" : "Ont :",
     "A Calendar app for Nextcloud" : "Una aplicacion de calendièr per Nextcloud",

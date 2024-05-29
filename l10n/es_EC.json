@@ -26,6 +26,7 @@
     "Your appointment \"%s\" with %s needs confirmation" : "Tu cita \"%s\" con %s necesita confirmación",
     "Dear %s, please confirm your booking" : "Estimado/a %s, por favor confirma tu reserva",
     "Confirm" : "Confirmar",
+    "Description:" : "Descripción:",
     "This confirmation link expires in %s hours." : "Este enlace de confirmación caduca en %s horas.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Si deseas cancelar la cita, por favor contacta al organizador respondiendo a este correo electrónico o visitando su página de perfil.",
     "Your appointment \"%s\" with %s has been accepted" : "Tu cita \"%s\" con %s ha sido aceptada",

@@ -28,6 +28,7 @@ OC.L10N.register(
     "Your appointment \"%s\" with %s needs confirmation" : "Avtalen din \"%s\" med %s trenger bekreftelse",
     "Dear %s, please confirm your booking" : "Kjære %s, vennligst bekreft bestillingen din",
     "Confirm" : "Bekreft",
+    "Description:" : "Beskrivelse:",
     "This confirmation link expires in %s hours." : "Denne bekreftelseslinken utgår om %stimer.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Hvis du ønsker å avbryte avtalen, vennligst kontakt arrangøren din ved å svare på denne e-posten eller ved å besøke deres profilside.",
     "Your appointment \"%s\" with %s has been accepted" : "Avtalen din \"%s\" med %s har blitt akseptert",

@@ -28,6 +28,7 @@ OC.L10N.register(
     "Your appointment \"%s\" with %s needs confirmation" : "\"%s\" stefnumótið þitt við %s krefst staðfestingar",
     "Dear %s, please confirm your booking" : "Kæri/Kæra %s, staðfestu bókunina þína",
     "Confirm" : "Staðfesta",
+    "Description:" : "Lýsing:",
     "This confirmation link expires in %s hours." : "Þessi tengill til staðfestingar rennur út eftir %s klukkustundir.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Ef þú vilt aflýsa stefnumótinu eftir allt saman, skaltu hafa samband við skipuleggjendurna með því að svara þessum tölvupósti eða fara á síðuna með persónusniðinu þeirra.",
     "Your appointment \"%s\" with %s has been accepted" : "\"%s\" stefnumótið þitt við %s hefur verið samþykkt",

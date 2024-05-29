@@ -21,6 +21,7 @@ OC.L10N.register(
     "Follow up for %s" : "Dilyniant ar gyfer %s",
     "Dear %s, please confirm your booking" : "Annwyl %s, cadarnhewch eich archeb",
     "Confirm" : "Cadarnhau",
+    "Description:" : "Disgrifiad:",
     "This confirmation link expires in %s hours." : "Mae'r ddolen gadarnhau hon yn dod i ben ymhen %s awr.",
     "Date:" : "Dyddiad:",
     "Where:" : "Lle:",

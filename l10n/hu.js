@@ -28,6 +28,7 @@ OC.L10N.register(
     "Your appointment \"%s\" with %s needs confirmation" : "A(z) „%s” találkozójához (a következővel: %s) megerősítés szükséges",
     "Dear %s, please confirm your booking" : "Kedves %s, erősítse meg a foglalását",
     "Confirm" : "Megerősítés",
+    "Description:" : "Leírás:",
     "This confirmation link expires in %s hours." : "Ez a megerősítő hivatkozás %s óra múlva lejár.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Ha mégis le akarja mondani a találkozót, lépjen kapcsolatba a szervezővel úgy, hogy válaszol erre a levélre vagy felkeresi a profiloldalát.",
     "Your appointment \"%s\" with %s has been accepted" : "A(z) „%s” találkozóját (a következővel: %s) elfogadta",

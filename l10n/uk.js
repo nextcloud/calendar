@@ -28,6 +28,7 @@ OC.L10N.register(
     "Your appointment \"%s\" with %s needs confirmation" : "Вашу зустріч \"%s\" з %s потрібно підтвердити",
     "Dear %s, please confirm your booking" : "Шановний(а) %s, будь ласка, підтвердіть ваше резервування",
     "Confirm" : "Підтвердити",
+    "Description:" : "Опис:",
     "This confirmation link expires in %s hours." : "Термін дії посилання для підтвердженння спливає за %sгодин.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Якщо ви все ж бажаєте скасувати зустріч, будь ласка, сконтактуйте з організатором зустрічі, для цього надішліть відповідь на цей лист або відвідайте сторінку профілю.",
     "Your appointment \"%s\" with %s has been accepted" : "Вашу зустріч \"%s\" з %s було прийнято.",

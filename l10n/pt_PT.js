@@ -22,6 +22,7 @@ OC.L10N.register(
     "Your appointment \"%s\" with %s needs confirmation" : "O seu agendamento \"%s\" com %sprecisa de confirmação",
     "Dear %s, please confirm your booking" : "Caro %s, por favor confirme o seu agendamento",
     "Confirm" : "Confirmar",
+    "Description:" : "Descrição:",
     "This confirmation link expires in %s hours." : "Esta ligação de confirmação expira em %s horas.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Se deseja cancelar a sua marcação, deve contactar o seu coordenador respondendo a esta mensagem ou pode visitar a sua página de perfil.",
     "Your appointment \"%s\" with %s has been accepted" : "O seu agendamento \"%s\" com %s foi aceite.",

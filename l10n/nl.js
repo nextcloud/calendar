@@ -28,6 +28,7 @@ OC.L10N.register(
     "Your appointment \"%s\" with %s needs confirmation" : "Je afspraak \"%s\" met %s moet nog bevestigd worden",
     "Dear %s, please confirm your booking" : "Beste %s, bevestig alsjeblieft je boeking",
     "Confirm" : "Bevestigen",
+    "Description:" : "Omschrijving:",
     "This confirmation link expires in %s hours." : "Deze bevestigingslink verloopt over %s uur.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Als je de afspraak toch wilt annuleren, neem dan contact op met de organisator door te antwoorden op deze e-mail of door hun profielpagina te bezoeken.",
     "Your appointment \"%s\" with %s has been accepted" : "Je afspraak \"%s\" met %sis geaccepteerd",

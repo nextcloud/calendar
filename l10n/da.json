@@ -26,6 +26,7 @@
     "Your appointment \"%s\" with %s needs confirmation" : "Din aftale \"%s\" med %s skal bekræftes",
     "Dear %s, please confirm your booking" : "Kære %s, bekræft venligst din reservation",
     "Confirm" : "Bekræft",
+    "Description:" : "Beskrivelse:",
     "This confirmation link expires in %s hours." : "Dette bekræftelseslink udløber om %s timer.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Hvis du alligevel ønsker at aflyse aftalen, så kontakt venligst arrangøren ved at svare på denne mail, eller gennem dennes profil side. ",
     "Your appointment \"%s\" with %s has been accepted" : "Din aftale \"%s\" med %s er blevet accepteret",

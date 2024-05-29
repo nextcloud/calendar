@@ -7,6 +7,7 @@ OC.L10N.register(
     "Cheers!" : "ජයවේවා!",
     "Calendar" : "දින දර්ශනය",
     "Confirm" : "තහවුරු කරන්න",
+    "Description:" : "විස්තරය",
     "Date:" : "දිනය:",
     "Where:" : "කොහේද:",
     "A Calendar app for Nextcloud" : "නෙක්ස්ට් ක්ලවුඩ් සඳහා දින දර්ශන යෙදුමකි",

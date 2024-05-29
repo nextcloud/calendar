@@ -28,6 +28,7 @@ OC.L10N.register(
     "Your appointment \"%s\" with %s needs confirmation" : "Zure \"%s\" hitzorduak %s-(r)ekin berrespena behar du",
     "Dear %s, please confirm your booking" : " %s estimatua, berretsi zure erreserba",
     "Confirm" : "Berretsi",
+    "Description:" : "Deskribapena:",
     "This confirmation link expires in %s hours." : "Berrespen-esteka hau %s ordu barru iraungiko da.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Azken finean hitzordua bertan behera utzi nahi baduzu, jarri harremanetan antolatzailearekin, mezu elektroniko honi erantzunez edo bere profileko orria bisitatuz.",
     "Your appointment \"%s\" with %s has been accepted" : "Zure \"%s\" hitzordua %s-(r)ekin onartua izan da",

@@ -9,6 +9,7 @@ OC.L10N.register(
     "Calendar" : "Kalendar",
     "Appointments" : "Takime",
     "Confirm" : "Konfirmo",
+    "Description:" : "Përshkrimi:",
     "Where:" : "Ku:",
     "Today" : "Sot",
     "Day" : "Ditë",

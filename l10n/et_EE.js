@@ -12,6 +12,7 @@ OC.L10N.register(
     "No upcoming events" : "Tulekul sündmuseid pole",
     "Calendar" : "Kalender",
     "Confirm" : "Kinnita",
+    "Description:" : "Kirjeldus:",
     "Date:" : "Kuupäev:",
     "Where:" : "Kus:",
     "Comment:" : "Kommentaar:",

@@ -26,6 +26,7 @@ OC.L10N.register(
     "Your appointment \"%s\" with %s needs confirmation" : "Tapaaminen \"%s\"  henkilön %s kanssa vaatii vahvistamisen",
     "Dear %s, please confirm your booking" : "%s, ole hyvä ja vahvista varauksesi",
     "Confirm" : "Vahvista",
+    "Description:" : "Kuvaus:",
     "This confirmation link expires in %s hours." : "Tämä vahvistuslinkki umpeutuu %s tunnin kuluttua.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Jos kaikesta huolimatta haluat perua tapaamiseen, ota yhteys järjestäjään vastaamalla tähän viestiin tai käymällä hänen profiilisivullaan.",
     "Your appointment \"%s\" with %s has been accepted" : "Tapaaminen \"%s\" henkilön %s kanssa on hyväksytty",

@@ -24,6 +24,7 @@
     "Your appointment \"%s\" with %s needs confirmation" : "%s님과의 약속 \"%s\"에 대해 확인이 필요합니다",
     "Dear %s, please confirm your booking" : "%s님, 예약을 확인해 주십시오",
     "Confirm" : "확인",
+    "Description:" : "설명:",
     "This confirmation link expires in %s hours." : "이 확인 링크는 %s시간 후 만료됩니다.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "약속을 취소하고자 할 경우 이 이메일 또는 프로필 페이지를 통해 조직 관리자에게 문의하십시오.",
     "Your appointment \"%s\" with %s has been accepted" : "%s님과의 약속 \"%s\"이(가) 수락되었습니다",

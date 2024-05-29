@@ -13,6 +13,7 @@ OC.L10N.register(
     "Calendar" : "Kalendaro",
     "New booking {booking}" : "Nova rezervo {booking}",
     "Confirm" : "Konfirmi",
+    "Description:" : "Priskribo:",
     "Date:" : "Dato:",
     "Where:" : "Kie:",
     "Comment:" : "Komento:",

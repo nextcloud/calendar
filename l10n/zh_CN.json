@@ -26,6 +26,7 @@
     "Your appointment \"%s\" with %s needs confirmation" : "您与 %s 的预约“%s”需要确认",
     "Dear %s, please confirm your booking" : "亲爱的 %s，请确认你的登记",
     "Confirm" : "确认",
+    "Description:" : "描述：",
     "This confirmation link expires in %s hours." : "此确认链接将在 %s 小时内过期。",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "如果您想取消预约，请通过回复这封邮件或访问他们的个人资料页面与您的组织者联系。",
     "Your appointment \"%s\" with %s has been accepted" : "您与 %s 的预约“%s”已被接受",

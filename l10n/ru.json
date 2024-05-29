@@ -26,6 +26,7 @@
     "Your appointment \"%s\" with %s needs confirmation" : "Ваша встреча «%s» с %s требует подтверждения",
     "Dear %s, please confirm your booking" : "Уважаемый %s, подтвердите своё бронирование",
     "Confirm" : "Подтвердить",
+    "Description:" : "Описание:",
     "This confirmation link expires in %s hours." : "Срок действия этой ссылки для подтверждения истекает через %s часов.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Если вы всё равно хотите отменить встречу, свяжитесь с её организатором, ответив на это письмо или перейдите на страницу, указанную в профиле.",
     "Your appointment \"%s\" with %s has been accepted" : "Ваша встреча «%s» с %s была подтверждена",

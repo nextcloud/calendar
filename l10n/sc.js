@@ -16,6 +16,7 @@ OC.L10N.register(
     "Calendar" : "Calendàriu",
     "Appointments" : "Apuntamentos",
     "Confirm" : "Cunfirma",
+    "Description:" : "Descritzione:",
     "Date:" : "Data:",
     "Where:" : "Ue:",
     "A Calendar app for Nextcloud" : "Un'aplicatzione de calendàriu pro Nextcloud",

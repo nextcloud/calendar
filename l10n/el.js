@@ -28,6 +28,7 @@ OC.L10N.register(
     "Your appointment \"%s\" with %s needs confirmation" : "Το ραντεβού σας \"%s\" με %s χρειάζεται επιβεβαίωση",
     "Dear %s, please confirm your booking" : "Αγαπητέ/ή %s, παρακαλώ επιβεβαιώστε την κράτησή σας",
     "Confirm" : "Επιβεβαιώνω",
+    "Description:" : "Περιγραφή:",
     "This confirmation link expires in %s hours." : "Αυτός ο σύνδεσμος επιβεβαίωσης λήγει σε %s ώρες",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Εάν τελικά θέλετε να ακυρώσετε το ραντεβού, επικοινωνήστε με τον διοργανωτή απαντώντας σε αυτό το email ή μεταβαίνοντας στη σελίδα του προφίλ του.",
     "Your appointment \"%s\" with %s has been accepted" : "Το ραντεβού σας \"%s\" με %s χει γίνει αποδεκτό",

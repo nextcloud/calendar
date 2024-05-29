@@ -28,6 +28,7 @@ OC.L10N.register(
     "Your appointment \"%s\" with %s needs confirmation" : "K vaší schůzce „%s“ s %s je třeba potvrzení",
     "Dear %s, please confirm your booking" : "%s, prosíme potvrďte svou rezervaci",
     "Confirm" : "Potvrdit",
+    "Description:" : "Popis:",
     "This confirmation link expires in %s hours." : "Platnost tohoto odkazu pro potvrzení skončí za %s hodin.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Pokud si přejete schůzku přece jen zrušit, obraťte se na organizátora odpovědí na tento e-mail nebo navštívením jeho profilové stránky.",
     "Your appointment \"%s\" with %s has been accepted" : "Vaše schůzka „%s“ s %s byla přijata",

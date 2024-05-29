@@ -28,6 +28,7 @@ OC.L10N.register(
     "Your appointment \"%s\" with %s needs confirmation" : "あなたの \"%s\" との予定 %s には確認が必要",
     "Dear %s, please confirm your booking" : "%s様、予定を承認してください。",
     "Confirm" : "承認",
+    "Description:" : "説明:",
     "This confirmation link expires in %s hours." : "承認用リンクの有効期限は1%s時間です。",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "予定のキャンセルを希望される場合は、このメールに返信するか、主催者のプロフィールページを訪れ、主催者に連絡してください。",
     "Your appointment \"%s\" with %s has been accepted" : "あなたのアポイントメント \"%s\" が %s に受理されました。",

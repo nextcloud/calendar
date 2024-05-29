@@ -26,6 +26,7 @@
     "Your appointment \"%s\" with %s needs confirmation" : "Vaše stretnutie „%s“ s %s vyžaduje potvrdenie",
     "Dear %s, please confirm your booking" : "Vážený %s, potvrďte svoju rezerváciu",
     "Confirm" : "Potvrdiť",
+    "Description:" : "Popis:",
     "This confirmation link expires in %s hours." : "Platnosť tohto potvrdzovacieho odkazu vyprší o %s hodín.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Ak predsa len chcete stretnutie zrušiť, kontaktujte organizátora odpoveďou na tento e-mail alebo návštevou jeho profilovej stránky.",
     "Your appointment \"%s\" with %s has been accepted" : "Vaše stretnutie „%s“ s %s bolo potvrdené",

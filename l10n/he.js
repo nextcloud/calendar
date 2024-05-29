@@ -15,6 +15,7 @@ OC.L10N.register(
     "Calendar" : "יומן",
     "Appointments" : "פגישות",
     "Confirm" : "אימות",
+    "Description:" : "תיאור:",
     "Date:" : "תאריך:",
     "Where:" : "איפה:",
     "A Calendar app for Nextcloud" : "יישומון לוח שנה ל־Nextcloud",

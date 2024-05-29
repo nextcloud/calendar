@@ -27,6 +27,7 @@ OC.L10N.register(
     "Your appointment \"%s\" with %s needs confirmation" : "Întâlnirea \"%s\" cu %s necesită confirmare",
     "Dear %s, please confirm your booking" : "Dragă %s, te rog să confirmi rezervarea ta",
     "Confirm" : "Confirmă",
+    "Description:" : "Descriere:",
     "This confirmation link expires in %s hours." : "Acest link de confirmare expira în %s ore. ",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Dacă totuși doriți să anulați întâlnirea, contactați organizatorul răspunzându-i la acest mail sau vizitând pagina de profil a acestuia.",
     "Your appointment \"%s\" with %s has been accepted" : "Întâlnirea \"%s\" cu %s a fost acceptată",

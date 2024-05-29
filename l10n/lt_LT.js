@@ -17,6 +17,7 @@ OC.L10N.register(
     "Calendar" : "Kalendorius",
     "Appointments" : "Susitikimai",
     "Confirm" : "Patvirtinti",
+    "Description:" : "Aprašas:",
     "This confirmation link expires in %s hours." : "Ši patvirtinimo nuoroda baigia galioti po %s val.",
     "Date:" : "Data:",
     "Where:" : "Kur:",
