@@ -689,40 +689,4 @@ export default {
 .property-description {
 	margin-bottom: 10px;
 }
-
-:deep {
-	.app-sidebar-header__action {
-		margin-top: 0 !important;
-		max-height: none !important;
-		flex-wrap: wrap;
-
-		div {
-			flex-shrink: 0;
-		}
-	}
-
-	.app-sidebar-header__desc {
-		// We use our custom header layout for the sidebar editor
-		height: 0 !important;
-		padding: 0 !important;
-		margin: 0 !important;
-
-		// But keep the three-dot menu in the front
-		.app-sidebar-header__menu {
-			z-index: 1;
-		}
-	}
-
-	.app-sidebar-header__description {
-		flex-direction: column;
-
-		// Close button should be aligned with calendar picker (header)
-		padding-top: 5px;
-	}
-
-  .empty-content {
-		height: 100vh;
-		padding: 0 20px;
-  }
-}
 </style>
