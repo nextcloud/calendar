@@ -21,6 +21,7 @@ OC.L10N.register(
     "Appointments" : "Cites",
     "%1$s - %2$s" : "%1$s - %2$s",
     "Confirm" : "Confirmar",
+    "Description:" : "Descripción:",
     "Date:" : "Data:",
     "You will receive a link with the confirmation email" : "Vas recibir un enllaz col mensaxe de confirmación",
     "Where:" : "Ónde:",

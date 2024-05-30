@@ -28,6 +28,7 @@ OC.L10N.register(
     "Your appointment \"%s\" with %s needs confirmation" : "Потребна је потврда за ваш састанак „%s” са  %s",
     "Dear %s, please confirm your booking" : "Поштовани %s, молим вас да потврдите своју резервацију",
     "Confirm" : "Потврди",
+    "Appointment with:" : "Састанак са:",
     "Description:" : "Опис:",
     "This confirmation link expires in %s hours." : "Овај линк за потврду истиче за %s сати.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "Ако желите да откажете овај састанак, молимо вас да се обратите организатору одговором на овај и-мејл или посетом њихове странице профила.",

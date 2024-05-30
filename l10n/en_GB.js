@@ -28,6 +28,7 @@ OC.L10N.register(
     "Your appointment \"%s\" with %s needs confirmation" : "Your appointment \"%s\" with %s needs confirmation",
     "Dear %s, please confirm your booking" : "Dear %s, please confirm your booking",
     "Confirm" : "Confirm",
+    "Appointment with:" : "Appointment with:",
     "Description:" : "Description:",
     "This confirmation link expires in %s hours." : "This confirmation link expires in %s hours.",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "If you wish to cancel the appointment after all, please contact your organiser by replying to this email or by visiting their profile page.",

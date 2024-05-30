@@ -26,6 +26,8 @@
     "Your appointment \"%s\" with %s needs confirmation" : "موعدك \"%s\" مع %s يحتاج إلى توكيد.",
     "Dear %s, please confirm your booking" : "السيد/السيدة %s؛ رجاءً، قم بتأكيد حجز موعدك.",
     "Confirm" : "تأكيد",
+    "Appointment with:" : "موعد مع: ",
+    "Description:" : "الوصف:",
     "This confirmation link expires in %s hours." : "رابط التوكيد هذا تنتهي صلاحيته بعد%s ساعات..",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "إذا كنت ترغب في إلغاء الموعد، فيُرجى الاتصال بمُنظّم الحدث عن طريق الرّد على هذا البريد الإلكتروني أو عن طريق زيارة صفحة ملفه الشخصي.",
     "Your appointment \"%s\" with %s has been accepted" : "موعدك \"%s\" مع %s تمّ قبوله",

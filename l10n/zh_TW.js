@@ -28,6 +28,7 @@ OC.L10N.register(
     "Your appointment \"%s\" with %s needs confirmation" : "您的預約「%s」包含 %s 需要確認",
     "Dear %s, please confirm your booking" : "親愛的 %s，請確認您的預約",
     "Confirm" : "確認",
+    "Appointment with:" : "預約：",
     "Description:" : "描述：",
     "This confirmation link expires in %s hours." : "此確認連結將於 %s 小時後過期。",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "若您想要取消預約，請回覆此電子郵件或造訪他們的個人資料頁面與您的舉辦者聯絡。",
