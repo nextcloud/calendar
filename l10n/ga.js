@@ -21,6 +21,7 @@ OC.L10N.register(
     "Restore" : "Athchóirigh",
     "Delete permanently" : "Scrios go buan",
     "Empty trash bin" : "Bruscar folamh",
+    "Internal link" : "Nasc inmheánach",
     "Share link" : "Comhroinn nasc",
     "Save" : "Sábháil",
     "Filename" : "Ainm comhaid",
