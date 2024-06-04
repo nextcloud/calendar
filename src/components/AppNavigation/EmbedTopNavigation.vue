@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<header :id="isWidget? 'widget-header' :'embed-header'" role="banner">
 		<div :class="isWidget?'widget-header__date-section' :'embed-header__date-section'">

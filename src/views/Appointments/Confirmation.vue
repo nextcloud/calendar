@@ -1,3 +1,7 @@
+<!--
+  - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
 	<div class="update">
 		{{ $t('calendar', 'The slot for your appointment has been confirmed') }}

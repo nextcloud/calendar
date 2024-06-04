@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 import { registerWidget, NcCustomPickerRenderResult } from '@nextcloud/vue/dist/Functions/registerReference.js'
 import { linkTo } from '@nextcloud/router'
 import { getRequestToken } from '@nextcloud/auth'
