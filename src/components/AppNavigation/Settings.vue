@@ -297,7 +297,9 @@ export default {
 		},
 		defaultCalendarOptions() {
 			return this.$store.state.calendars.calendars
-				.filter(calendar => !calendar.readOnly && !calendar.isSharedWithMe)
+				.filter(calendar => !calendar.readOnly
+					&& !calendar.isSharedWithMe
+					&& calendar.supportsEvents)
 		},
 		/**
 		 * The default calendar for incoming inivitations
