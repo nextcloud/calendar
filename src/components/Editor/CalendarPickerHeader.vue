@@ -25,7 +25,6 @@
 		:class="{ 'calendar-picker-header--readonly': isReadOnly }">
 		<NcActions type="tertiary"
 			class="calendar-picker-header__picker"
-			:class="{ 'calendar-picker-header__picker--fix-width': isReadOnly && value && value.isSharedWithMe }"
 			:menu-name="value.displayName"
 			:force-name="true"
 			:disabled="isDisabled">
@@ -35,18 +34,20 @@
 						:style="{ 'background-color': value.color }" />
 				</div>
 			</template>
-			<NcActionButton v-for="calendar in calendars"
-				:key="calendar.id"
-				:close-after-click="true"
-				@click="$emit('update:value', calendar)">
-				<template #icon>
-					<div class="calendar-picker-header__icon">
-						<div class="calendar-picker-header__icon__dot"
-							:style="{ 'background-color': calendar.color }" />
-					</div>
-				</template>
-				{{ calendar.displayName }}
-			</NcActionButton>
+			<template>
+				<NcActionButton v-for="calendar in calendars"
+					:key="calendar.id"
+					:close-after-click="true"
+					@click="$emit('update:value', calendar)">
+					<template #icon>
+						<div class="calendar-picker-header__icon">
+							<div class="calendar-picker-header__icon__dot"
+								:style="{ 'background-color': calendar.color }" />
+						</div>
+					</template>
+					{{ calendar.displayName }}
+				</NcActionButton>
+			</template>
 		</NcActions>
 	</div>
 </template>
@@ -88,8 +89,6 @@ export default {
 <style lang="scss">
 .event-popover {
 	.calendar-picker-header {
-		width: calc(100% - 79px);
-
 		button {
 			margin-left: -9px;
 
@@ -106,8 +105,6 @@ export default {
 
 .app-sidebar {
 	.calendar-picker-header {
-		width: calc(100% - 30px);
-
 		button {
 			margin-left: -14px;
 
@@ -125,21 +122,21 @@ export default {
 
 <style lang="scss" scoped>
 .calendar-picker-header {
+	display: flex;
 	align-self: flex-start;
 	margin-bottom: 5px;
 
+	// Leave room for the three dot and close buttons
+	max-width: calc(100% - 79px);
+
 	&__picker {
-		width: 100%;
+		display: flex;
+		min-width: 0;
 
-		// For some reason the NcActions component behaves weirdly when a calendar is shared
-		// read-only with the user. This is an ugly workaround to fix the width of the button.
-		&--fix-width {
-			width: unset;
-			max-width: 100%;
-		}
-
-		:deep(button.button-vue) {
-			max-width: 100%;
+		// Fix long calendar name ellipsis
+		:deep(.v-popper) {
+			display: flex;
+			min-width: 0;
 		}
 
 		// Keep full opacity for disabled buttons
