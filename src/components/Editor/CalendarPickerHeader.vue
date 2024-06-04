@@ -129,6 +129,8 @@ export default {
 	margin-bottom: 5px;
 
 	&__picker {
+		width: 100%;
+
 		// For some reason the NcActions component behaves weirdly when a calendar is shared
 		// read-only with the user. This is an ugly workaround to fix the width of the button.
 		&--fix-width {
