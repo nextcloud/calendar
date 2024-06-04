@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.7.6 - 2024-06-04
+### Fixed
+- Default calendar not supporting VEVENTs
+- Width of disabled calendar picker, take two
+- Calendar picker always choosing default calendar
+
 ## 4.7.5 - 2024-06-04
 ### Fixed
 - File picker loading indefinitely
