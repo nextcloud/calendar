@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.7.5 - 2024-06-04
+### Fixed
+- File picker loading indefinitely
+- Width of disabled calendar picker
+- Simple editor time zone picker
+
 ## 4.7.4 - 2024-05-15
 ### Fixed
 - DISPLAY Alarms not having a DESCRIPTION
