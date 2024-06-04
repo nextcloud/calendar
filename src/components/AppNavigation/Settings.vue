@@ -300,7 +300,7 @@ export default {
 				.filter(calendar => !calendar.readOnly && !calendar.isSharedWithMe)
 		},
 		/**
-		 * The default calendar for new events and inivitations
+		 * The default calendar for incoming inivitations
 		 *
 		 * @return {object|undefined} The default calendar or undefined if none is available
 		 */
@@ -443,7 +443,7 @@ export default {
 			}
 		},
 		/**
-		 * Changes the default calendar for new events
+		 * Changes the default calendar for incoming invitations
 		 *
 		 * @param {object} selectedCalendar The new selected default calendar
 		 */
