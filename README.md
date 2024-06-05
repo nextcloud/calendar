@@ -1,5 +1,10 @@
+<!--
+  - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2015-2015 ownCloud, Inc.
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 # Nextcloud Calendar 
-
+[![REUSE status](https://api.reuse.software/badge/github.com/nextcloud/calendar)](https://api.reuse.software/info/github.com/nextcloud/calendar)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/nextcloud/calendar/Build)
 ![Codecov](https://img.shields.io/codecov/c/github/nextcloud/calendar)
 

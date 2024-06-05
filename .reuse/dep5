@@ -1,0 +1,48 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: calendar
+Upstream-Contact: Nextcloud <info@nextcloud.com>
+Source: https://github.com/nextcloud/calendar
+
+Files: l10n/*.js l10n/*.json js/*.js.map js/*.js
+Copyright: 2016 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: .tx/config package-lock.json package.json
+Copyright: 2018 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: composer.json composer.lock
+Copyright: 2014-2016 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: tests/assets/ics/alarms/absoluteAlarm.ics tests/assets/ics/alarms/relativeAlarmAfter.ics tests/assets/ics/alarms/relativeAlarmAfterWithin24hours.ics tests/assets/ics/alarms/relativeAlarmBefore.ics tests/assets/ics/alarms/relativeAlarmRelatedEnd.ics tests/assets/ics/alarms/relativeAlarmWeekBefore.ics tests/assets/ics/attendees/attendee1.ics tests/assets/ics/attendees/attendee2.ics tests/assets/ics/attendees/attendee3.ics tests/assets/ics/attendees/attendee4.ics tests/assets/ics/attendees/attendee5.ics tests/assets/ics/attendees/attendee6.ics tests/assets/ics/attendees/attendee7.ics tests/assets/ics/rrules/rrule-count-and-until.ics tests/assets/ics/rrules/rrule-count.ics tests/assets/ics/rrules/rrule-until.ics tests/assets/ics/rrules/rrules1.ics tests/assets/ics/rrules/rrules10.ics tests/assets/ics/rrules/rrules11.ics tests/assets/ics/rrules/rrules12.ics tests/assets/ics/rrules/rrules13.ics tests/assets/ics/rrules/rrules14.ics tests/assets/ics/rrules/rrules15.ics tests/assets/ics/rrules/rrules16.ics tests/assets/ics/rrules/rrules17.ics tests/assets/ics/rrules/rrules18.ics tests/assets/ics/rrules/rrules19.ics tests/assets/ics/rrules/rrules2.ics tests/assets/ics/rrules/rrules21.ics tests/assets/ics/rrules/rrules22.ics tests/assets/ics/rrules/rrules23.ics tests/assets/ics/rrules/rrules24.ics tests/assets/ics/rrules/rrules25.ics tests/assets/ics/rrules/rrules26.ics tests/assets/ics/rrules/rrules27.ics tests/assets/ics/rrules/rrules28.ics tests/assets/ics/rrules/rrules29.ics tests/assets/ics/rrules/rrules3.ics tests/assets/ics/rrules/rrules30.ics tests/assets/ics/rrules/rrules31.ics tests/assets/ics/rrules/rrules32.ics tests/assets/ics/rrules/rrules4.ics tests/assets/ics/rrules/rrules5.ics tests/assets/ics/rrules/rrules6.ics tests/assets/ics/rrules/rrules7.ics tests/assets/ics/rrules/rrules8.ics tests/assets/ics/rrules/rrules9.ics tests/assets/ics/vcalendars/vcalendar-empty.ics tests/assets/ics/vcalendars/vcalendar-event-alarms.ics tests/assets/ics/vcalendars/vcalendar-event-allday.ics tests/assets/ics/vcalendars/vcalendar-event-attendees.ics tests/assets/ics/vcalendars/vcalendar-event-categories.ics tests/assets/ics/vcalendars/vcalendar-event-custom-color.ics tests/assets/ics/vcalendars/vcalendar-event-floating-time.ics tests/assets/ics/vcalendars/vcalendar-event-multiple-rrules.ics tests/assets/ics/vcalendars/vcalendar-event-recurring-allday.ics tests/assets/ics/vcalendars/vcalendar-event-recurring.ics tests/assets/ics/vcalendars/vcalendar-event-timed.ics tests/assets/ics/vcalendars/vcalendar-event-utc-time.ics tests/assets/ics/vcalendars/vcalendar-journal.ics tests/assets/ics/vcalendars/vcalendar-todo.ics tests/assets/ics/vcalendars/vcalendar-without-vobjects.ics tests/assets/ics/vcalendars-scheduling/add.ics tests/assets/ics/vcalendars-scheduling/cancel.ics tests/assets/ics/vcalendars-scheduling/counter.ics tests/assets/ics/vcalendars-scheduling/declinecounter.ics tests/assets/ics/vcalendars-scheduling/freebusy-reply.ics tests/assets/ics/vcalendars-scheduling/freebusy-request.ics tests/assets/ics/vcalendars-scheduling/publish.ics tests/assets/ics/vcalendars-scheduling/refresh.ics tests/assets/ics/vcalendars-scheduling/reply.ics tests/assets/ics/vcalendars-scheduling/request.ics
+Copyright: 2020 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: screenshots/2.0/change-view.png screenshots/2.0/date-picker.png screenshots/2.0/edit-calendar-properties.png screenshots/2.0/event-editor-attendees.png screenshots/2.0/event-editor-details-categories.jpg screenshots/2.0/event-editor-details.png screenshots/2.0/event-editor-reminders.png screenshots/2.0/event-editor-repeat-day-of-month.png screenshots/2.0/event-editor-repeat-last-thursday.png screenshots/2.0/freebusy.png screenshots/2.0/month-view.png screenshots/2.0/new-calendar-selector.png screenshots/2.0/public-sharing-embed.png screenshots/2.0/public-sharing.png screenshots/2.0/share-calendar-publicly-embed-link.png screenshots/2.0/share-calendar-user.png screenshots/2.0/simple-event-popover.png screenshots/2.0/week-view.png
+Copyright: 2020 Nextcloud GmbH and Nextcloud contributors
+License: CC-BY-SA-4.0
+
+Files: screenshots/week_new_event.png screenshots/week_room_suggestion.png screenshots/week_sidebar.png
+Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
+License: CC-BY-SA-4.0
+
+Files: tests/assets/ics/alarms/absoluteAlarmWithTimezone.ics tests/assets/ics/freebusy/explicitFreeSlot.ics tests/assets/ics/freebusy/multipleAttendees.ics
+Copyright: 2021 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: src/resources/holiday_calendars.json vendor-bin/cs-fixer/composer.json vendor-bin/cs-fixer/composer.lock vendor-bin/phpunit/composer.json vendor-bin/phpunit/composer.lock vendor-bin/psalm/composer.json vendor-bin/psalm/composer.lock
+Copyright: 2023 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files: renovate.json
+Copyright: 2024 Nextcloud GmbH and Nextcloud contributors
+License: AGPL-3.0-or-later
+
+Files:  img/calendar-dark.svg img/calendar.png img/calendar.svg img/favicon-mask.svg img/favicon-touch.png img/favicon-touch.svg img/favicon.ico img/favicon.png img/favicon.svg
+Copyright: 2014 Austin Andrews, 2014-2026 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
+License: Apache-2.0
+
+Files: composer/autoload.php
+Copyright: Nils Adermann, Jordi Boggiano
+License: MIT

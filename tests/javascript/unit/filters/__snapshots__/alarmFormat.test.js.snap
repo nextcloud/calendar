@@ -1,4 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
+// SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+// SPDX-License-Identifier: AGPL-3.0-or-later
 
 exports[`format/alarmFormat test suite should format a relative trigger before the event ends 1`] = `"{time} before the event ends"`;
 
