@@ -7,7 +7,6 @@ import logger from '../utils/logger.js'
 import {
 	createEvent,
 	getParserManager,
-	getTimezoneManager,
 	DateTimeValue,
 } from '@nextcloud/calendar-js'
 import useFetchedTimeRangesStore from './fetchedTimeRanges.js'
@@ -15,6 +14,7 @@ import useCalendarsStore from './calendars.js'
 import { defineStore } from 'pinia'
 import useCalendarObjectInstanceStore from './calendarObjectInstance.js'
 import Vue from 'vue'
+import { getTimezoneManager } from '@nextcloud/timezones'
 
 export default defineStore('calendarObjects', {
 	state: () => {

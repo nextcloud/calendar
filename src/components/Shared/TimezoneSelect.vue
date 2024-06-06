@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { getReadableTimezoneName, getSortedTimezoneList } from '@nextcloud/calendar-js'
+import { getReadableTimezoneName, getSortedTimezoneList } from '@nextcloud/timezones'
 import { NcSelect } from '@nextcloud/vue'
 import { translate as t } from '@nextcloud/l10n'
 
