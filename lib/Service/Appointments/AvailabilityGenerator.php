@@ -63,6 +63,8 @@ class AvailabilityGenerator {
 			$config->getEnd() ?? $end
 		);
 
+		$this->logger->debug("Earliest start: $earliestStart, latest end: $latestEnd", ['app' => 'calendar-appointments']);
+
 		// If we reach this state then there are no available dates anymore
 		if ($latestEnd <= $earliestStart) {
 			$this->logger->debug('Appointment config ' . $config->getToken() . ' has {latestEnd} as latest end but {earliestStart} as earliest start. No slots available.', [
@@ -91,6 +93,7 @@ class AvailabilityGenerator {
 
 		$intervals = [];
 		foreach ($applicableSlots as $slot) {
+			$this->logger->debug('Slot start: ' . $slot->getStart() . ', slot end: ' . $slot->getEnd(), ['app' => 'calendar-appointments']);
 			if ($slot->getEnd() <= $earliestStart || $slot->getStart() >= $latestEnd) {
 				continue;
 			}
