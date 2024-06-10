@@ -18,6 +18,8 @@ const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
 	displayName: '',
 	// Color of the calendar
 	color: uidToHexColor(''),
+	// Pattern of the calendar
+	pattern: '',
 	// Whether or not the calendar is visible in the grid
 	enabled: true,
 	// Whether or not the calendar is loading events at the moment
@@ -75,6 +77,11 @@ const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
 		color = uidToHexColor(displayName)
 	}
 
+	let pattern = calendar.pattern
+	if (!pattern) {
+		pattern = 'diagonal-lines'
+	}
+
 	const supportsEvents = calendar.components.includes('VEVENT')
 	const supportsJournals = calendar.components.includes('VJOURNAL')
 	const supportsTasks = calendar.components.includes('VTODO')
@@ -126,6 +133,7 @@ const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
 		id,
 		displayName,
 		color,
+		pattern,
 		order,
 		url,
 		enabled,

@@ -18,6 +18,15 @@
 					</NcColorPicker>
 				</div>
 
+				<div class="edit-calendar-modal__name-and-color__pattern">
+					<NcPatternPicker v-model="calendarPattern"
+						:advanced-fields="true"
+						@update:value="calendarPatternChanged = true">
+						<div class="edit-calendar-modal__name-and-color__pattern__dot" 
+							:class="'edit-calendar-modal__name-and-color__pattern__dot--'+calendarPattern" />
+					</NcPatternPicker> 
+				</div>
+
 				<input v-model="calendarName"
 					class="edit-calendar-modal__name-and-color__name"
 					type="text"
@@ -71,7 +80,7 @@
 </template>
 
 <script>
-import { NcModal, NcColorPicker, NcButton } from '@nextcloud/vue'
+import { NcModal, NcColorPicker, NcPatternPicker, NcButton } from '@nextcloud/vue'
 import PublishCalendar from './EditCalendarModal/PublishCalendar.vue'
 import SharingSearch from './EditCalendarModal/SharingSearch.vue'
 import ShareItem from './EditCalendarModal/ShareItem.vue'
@@ -89,6 +98,7 @@ export default {
 	components: {
 		NcModal,
 		NcColorPicker,
+		NcPatternPicker,
 		NcButton,
 		PublishCalendar,
 		SharingSearch,
@@ -103,6 +113,8 @@ export default {
 		return {
 			calendarColor: undefined,
 			calendarColorChanged: false,
+			calendarPattern: undefined,
+			calendarPatternChanged: false,
 			calendarName: undefined,
 			calendarNameChanged: false,
 		}
@@ -159,8 +171,10 @@ export default {
 
 			this.calendarName = this.calendar.displayName
 			this.calendarColor = this.calendar.color
+			this.calendarPattern = this.calendar.pattern
 			this.calendarNameChanged = false
 			this.calendarColorChanged = false
+			this.calendarPatternChanged = false
 		},
 	},
 	methods: {
@@ -184,6 +198,24 @@ export default {
 				logger.error('Failed to save calendar color', {
 					calendar: this.calendar,
 					newColor: this.calendarColor,
+				})
+				throw error
+			}
+		},
+
+		/**
+		 * Save the calendar pattern.
+		 */
+		 async savePattern() {
+			try {
+				await this.$store.dispatch('changeCalendarPattern', {
+					calendar: this.calendar,
+					newPattern: this.calendarPattern,
+				})
+			} catch (error) {
+				logger.error('Failed to save calendar pattern', {
+					calendar: this.calendar,
+					newPattern: this.calendarPattern,
 				})
 				throw error
 			}
@@ -216,6 +248,9 @@ export default {
 			try {
 				if (this.calendarColorChanged) {
 					await this.saveColor()
+				}
+				if (this.calendarPatternChanged) {
+					await this.savePattern()
 				}
 				if (this.calendarNameChanged) {
 					await this.saveName()
@@ -258,6 +293,58 @@ export default {
 				height: 24px;
 				border-radius: 12px;
 			}
+		}
+
+		&__pattern {
+			::v-deep &__dot {
+				width: 24px;
+				height: 24px;
+				border-radius: 12px;
+
+				&--diagonal-lines {
+					background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(0,0,0,.2) 5px, rgba(0,0,0,.2) 10px);
+				}
+
+				&--horizontal-lines {
+					background-image: repeating-linear-gradient(to right, transparent, transparent 5px, rgba(0,0,0,.2) 5px, rgba(0,0,0,.2) 10px);
+				}
+
+				&--vertical-lines {
+					background-image: repeating-linear-gradient(to bottom, transparent, transparent 5px, rgba(0,0,0,.2) 5px, rgba(0,0,0,.2) 10px);
+				}
+
+				&--dots {
+					background-image: radial-gradient(circle, rgba(0,0,0,.2) 4px, transparent 4px); 
+					background-size: 14px 14px;
+				}
+
+				&--hexagons {
+					background-image: repeating-linear-gradient(45deg, 
+						transparent 10%, 
+						rgba(0, 0, 0, 0.2) 10%, 
+						rgba(0, 0, 0, 0.2) 20%, 
+						transparent 20%, 
+						transparent 30%, 
+						rgba(0, 0, 0, 0.2) 30%, 
+						rgba(0, 0, 0, 0.2) 50%, 
+						transparent 40%);
+				}
+				
+				&--triangles {
+					background-size: 15px 15px;
+					background-image: 
+						linear-gradient(45deg, transparent 50%, rgba(0, 0, 0, 0.2) 50%),
+						linear-gradient(-45deg, transparent 50%, rgba(0, 0, 0, 0.2) 50%);
+				}
+
+				&--checkered { 
+					background-image: 
+						linear-gradient(45deg, rgba(0, 0, 0, .2) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, .2) 75%, rgba(0, 0, 0, .2)),
+						linear-gradient(45deg, rgba(0, 0, 0, .2) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, .2) 75%, rgba(0, 0, 0, .2)); 
+					background-size: 20px 20px; 
+					background-position: 0 0, 10px 10px;
+				}
+			}	
 		}
 
 		&__name {
