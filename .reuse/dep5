@@ -39,8 +39,8 @@ Files: renovate.json
 Copyright: 2024 Nextcloud GmbH and Nextcloud contributors
 License: AGPL-3.0-or-later
 
-Files:  img/calendar-dark.svg img/calendar.png img/calendar.svg img/favicon-mask.svg img/favicon-touch.png img/favicon-touch.svg img/favicon.ico img/favicon.png img/favicon.svg
-Copyright: 2014 Austin Andrews, 2014-2026 ownCloud, Inc., 2016-2024 Nextcloud GmbH and Nextcloud contributors
+Files: img/calendar-dark.svg img/calendar.png img/calendar.svg img/favicon-mask.svg img/favicon-touch.png img/favicon-touch.svg img/favicon.ico img/favicon.png img/favicon.svg
+Copyright: 2018-2024 Google LLC, 2016-2024 Nextcloud GmbH and Nextcloud contributors
 License: Apache-2.0
 
 Files: composer/autoload.php
