@@ -75,6 +75,10 @@ composer.phar
 .kdev
 *.kdev4
 
+# VSCode / VSCodium
+.vscode/
+*.code-workspace
+
 build/
 js/
 node_modules/
