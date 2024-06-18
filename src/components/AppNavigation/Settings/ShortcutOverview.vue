@@ -18,9 +18,8 @@
 				class="shortcut-section-item">
 				<span class="shortcut-section-item__keys">
 					<template v-for="(keyCombination, index2) of shortcut.keys">
-						<template v-for="(key, index3) in keyCombination"
-							:key="`${category.categoryId}-${index}-${index2}-${index3}`">
-							<kbd>{{ key }}</kbd>
+						<template v-for="(key, index3) in keyCombination">
+							<kbd :key="`${category.categoryId}-${index}-${index2}-${index3}`">{{ key }}</kbd>
 							<span v-if="index3 !== (keyCombination.length - 1)"
 								:key="`${category.categoryId}-${index}-${index2}-${index3}`"
 								class="shortcut-section-item__spacer">

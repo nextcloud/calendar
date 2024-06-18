@@ -6,8 +6,6 @@
 // eslint-disable-next-line import/no-unresolved, n/no-missing-import
 import 'vite/modulepreload-polyfill'
 
-import 'core-js/stable/index.js'
-
 import './css/calendar.scss'
 
 import Vue from 'vue'
