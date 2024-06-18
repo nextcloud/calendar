@@ -4,3 +4,4 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 script('calendar', 'calendar-main');
+style('calendar', 'calendar-style');

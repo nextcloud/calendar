@@ -2,17 +2,19 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+// eslint-disable-next-line import/no-unresolved, n/no-missing-import
+import 'vite/modulepreload-polyfill'
+
 import 'core-js/stable/index.js'
 
-import '../css/calendar.scss'
+import './css/calendar.scss'
 
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router.js'
 import store from './store/index.js'
 import { sync } from 'vuex-router-sync'
-import { getRequestToken } from '@nextcloud/auth'
-import { linkTo } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import AppointmentConfig from './models/appointmentConfig.js'
@@ -30,17 +32,6 @@ const pinia = createPinia()
 Vue.directive('ClickOutside', ClickOutside)
 Vue.use(VTooltip)
 Vue.use(VueShortKey, { prevent: ['input', 'textarea'] })
-
-// CSP config for webpack dynamic chunk loading
-// eslint-disable-next-line
-__webpack_nonce__ = btoa(getRequestToken())
-
-// Correct the root of the app for chunk loading
-// OC.linkTo matches the apps folders
-// OC.generateUrl ensure the index.php (or not)
-// We do not want the index.php since we're loading files
-// eslint-disable-next-line
-__webpack_public_path__ = linkTo('calendar', 'js/')
 
 sync(store, router)
 

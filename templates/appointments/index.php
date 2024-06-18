@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 
 script(\OCA\Calendar\AppInfo\Application::APP_ID, 'calendar-appointments-overview');
+style(\OCA\Calendar\AppInfo\Application::APP_ID, 'calendar-style');
 
 ?>
 

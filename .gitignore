@@ -81,6 +81,7 @@ composer.phar
 
 build/
 js/
+/css
 node_modules/
 src/fonts
 *.clover

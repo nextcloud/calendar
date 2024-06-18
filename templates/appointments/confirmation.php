@@ -6,6 +6,7 @@ declare(strict_types=1);
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 script(\OCA\Calendar\AppInfo\Application::APP_ID, 'calendar-appointments-confirmation');
+style(\OCA\Calendar\AppInfo\Application::APP_ID, 'calendar-style');
 
 ?>
 
