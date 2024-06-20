@@ -8,21 +8,27 @@
 		<div class="edit-calendar-modal">
 			<h2>{{ $t('calendar', 'Edit calendar') }}</h2>
 
-			<div class="edit-calendar-modal__name-and-color">
-				<div class="edit-calendar-modal__name-and-color__color">
+			<div class="edit-calendar-modal__name-email-and-color">
+				<div class="edit-calendar-modal__name-email-and-color__color">
 					<NcColorPicker v-model="calendarColor"
 						:advanced-fields="true"
 						@update:value="calendarColorChanged = true">
-						<div class="edit-calendar-modal__name-and-color__color__dot"
+						<div class="edit-calendar-modal__name-email-and-color__color__dot"
 							:style="{'background-color': calendarColor}" />
 					</NcColorPicker>
 				</div>
 
 				<input v-model="calendarName"
-					class="edit-calendar-modal__name-and-color__name"
+					class="edit-calendar-modal__name-email-and-color__name"
 					type="text"
 					:placeholder="$t('calendar', 'Calendar name …')"
 					@input="calendarNameChanged = true">
+
+				<input v-model="calendarEmail"
+					class="edit-calendar-modal__name-email-and-color__name"
+					type="text"
+					:placeholder="$t('calendar', 'Calendar email …')"
+					@input="calendarEmailChanged = true">
 			</div>
 
 			<template v-if="canBeShared">
@@ -105,6 +111,8 @@ export default {
 			calendarColorChanged: false,
 			calendarName: undefined,
 			calendarNameChanged: false,
+			calendarEmail: undefined,
+			calendarEmailChanged: false,
 		}
 	},
 	computed: {
@@ -158,8 +166,10 @@ export default {
 			}
 
 			this.calendarName = this.calendar.displayName
+			this.calendarEmail = this.calendar.email
 			this.calendarColor = this.calendar.color
 			this.calendarNameChanged = false
+			this.calendarEmailChanged = false
 			this.calendarColorChanged = false
 		},
 	},
@@ -208,6 +218,24 @@ export default {
 		},
 
 		/**
+		 * Save the calendar email.
+		 */
+		async saveEmail() {
+			try {
+				await this.$store.dispatch('changeCalendarEmail', {
+					calendar: this.calendar,
+					newEmail: this.calendarEmail,
+				})
+			} catch (error) {
+				logger.error('Failed to save calendar email', {
+					calendar: this.calendar,
+					newEmail: this.calendarEmail,
+				})
+				throw error
+			}
+		},
+
+		/**
 		 * Save unsaved changes and close the modal.
 		 *
 		 * @return {Promise<void>}
@@ -220,8 +248,11 @@ export default {
 				if (this.calendarNameChanged) {
 					await this.saveName()
 				}
+				if (this.calendarEmailChanged) {
+					await this.saveEmail()
+				}
 			} catch (error) {
-				showError(this.$t('calendar', 'Failed to save calendar name and color'))
+				showError(this.$t('calendar', 'Failed to save calendar name, email, and color'))
 			}
 
 			this.closeModal()
