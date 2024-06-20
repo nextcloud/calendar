@@ -685,9 +685,19 @@ export default {
 				const end = parseInt(to.params.dtend, 10)
 				const timezoneId = vm.$store.getters.getResolvedTimezone
 
+				const component = {
+					isAllDay,
+					start,
+					end,
+					timezoneId,
+					title: to.query.title,
+					description: to.query.description,
+					alarms: to.query.alarms == null ? null : JSON.parse(to.query.alarms),
+				}
+
 				try {
 					await vm.loadingCalendars()
-					await vm.$store.dispatch('getCalendarObjectInstanceForNewEvent', { isAllDay, start, end, timezoneId })
+					await vm.$store.dispatch('getCalendarObjectInstanceForNewEvent', component)
 					vm.calendarId = vm.calendarObject.calendarId
 				} catch (error) {
 					console.debug(error)

@@ -1545,7 +1545,7 @@ const actions = {
 	 * @param {string} data.timezoneId The timezoneId of the new event
 	 * @return {Promise<{calendarObject: object, calendarObjectInstance: object}>}
 	 */
-	async getCalendarObjectInstanceForNewEvent({ state, dispatch, commit }, { isAllDay, start, end, timezoneId }) {
+	async getCalendarObjectInstanceForNewEvent({ state, dispatch, commit }, { isAllDay, start, end, timezoneId, title, description, alarms }) {
 		if (state.isNew === true) {
 			return Promise.resolve({
 				calendarObject: state.calendarObject,
@@ -1556,7 +1556,26 @@ const actions = {
 		const calendarObject = await dispatch('createNewEvent', { start, end, isAllDay, timezoneId })
 		const startDate = new Date(start * 1000)
 		const eventComponent = getObjectAtRecurrenceId(calendarObject, startDate)
+
+		if (title != null) {
+			eventComponent.title = title
+		}
+
+		if (description != null) {
+			eventComponent.description = description
+		}
+
 		const calendarObjectInstance = mapEventComponentToEventObject(eventComponent)
+		alarms.forEach(alarm => {
+			const type = ['DISPLAY', 'EMAIL', 'AUDIO'].includes(alarm.type) ? alarm.type : 'DISPLAY'
+			const totalSeconds = alarm.totalSeconds == null ? 0 : alarm.totalSeconds
+
+			commit('addAlarmToCalendarObjectInstance', {
+				calendarObjectInstance: calendarObjectInstance,
+				type,
+				totalSeconds,
+			})
+		})
 
 		// Add an alarm if the user set a default one in the settings. If
 		// not, defaultReminder will not be a number (rather the string "none").
