@@ -420,6 +420,7 @@ OC.L10N.register(
     "Education" : "교육",
     "Holiday" : "휴일",
     "Meeting" : "회의",
+    "Miscellaneous" : "기타",
     "Non-working hours" : "비번인 시간",
     "Not in office" : "자리에 없음",
     "Phone call" : "전화 연락",
