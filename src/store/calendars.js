@@ -17,7 +17,8 @@ import pLimit from 'p-limit'
 import { uidToHexColor } from '../utils/color.js'
 import { translate as t } from '@nextcloud/l10n'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
-import { CalendarComponent, Timezone, TimezoneComponent } from '@nextcloud/calendar-js'
+import { CalendarComponent, TimezoneComponent } from '@nextcloud/calendar-js'
+import { Timezone } from '@nextcloud/timezones'
 import {
 	CALDAV_BIRTHDAY_CALENDAR,
 	IMPORT_STAGE_IMPORTING,

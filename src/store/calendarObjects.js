@@ -8,9 +8,9 @@ import logger from '../utils/logger.js'
 import {
 	createEvent,
 	getParserManager,
-	getTimezoneManager,
 	DateTimeValue,
 } from '@nextcloud/calendar-js'
+import { getTimezoneManager } from '@nextcloud/timezones'
 
 const state = {
 	calendarObjects: {},

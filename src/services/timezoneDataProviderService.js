@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getTimezoneManager } from '@nextcloud/calendar-js'
+import { getTimezoneManager } from '@nextcloud/timezones'
 
 const timezoneManager = getTimezoneManager()
 let initialized = false
