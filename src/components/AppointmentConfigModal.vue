@@ -193,6 +193,7 @@ export default {
 		...mapGetters([
 			'ownSortedCalendars',
 			'isTalkEnabled',
+			'allSortedCalendars',
 		]),
 		...mapStores(useAppointmentConfigStore),
 		formTitle() {
@@ -220,7 +221,7 @@ export default {
 		},
 		selectableConflictCalendars() {
 			// The target calendar is always a conflict calendar, remove it from additional conflict calendars
-			return this.ownSortedCalendars.filter(calendar => calendar.url !== this.calendar.url)
+			return this.allSortedCalendars.filter(calendar => calendar.url !== this.calendar.url)
 		},
 		conflictCalendars() {
 			const freebusyUris = this.editing.calendarFreeBusyUris ?? []
