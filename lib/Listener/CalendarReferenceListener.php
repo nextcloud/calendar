@@ -36,7 +36,7 @@ class CalendarReferenceListener implements IEventListener {
 
 	/** @var IConfig */
 	private $config;
-	
+
 	/** @var CompareVersion */
 	private $compareVersion;
 
@@ -109,5 +109,6 @@ class CalendarReferenceListener implements IEventListener {
 		$this->initialStateService->provideInitialState('publicCalendars', $publicCalendars);
 
 		Util::addScript(Application::APP_ID, 'calendar-reference');
+		Util::addStyle(Application::APP_ID, 'calendar-style');
 	}
 }
