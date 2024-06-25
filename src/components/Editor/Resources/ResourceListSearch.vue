@@ -10,6 +10,7 @@
 			:searchable="true"
 			:max-height="600"
 			:placeholder="placeholder"
+			:label-outside="true"
 			:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
 			input-id="email"
 			label="displayName"
