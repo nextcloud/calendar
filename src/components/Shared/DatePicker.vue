@@ -10,7 +10,7 @@
 		:formatter="formatter"
 		:value="date"
 		:type="actualType"
-		::clearable="false"
+		:clearable="false"
 		:minute-step="5"
 		:disabled-date="disabledDate"
 		:show-second="false"
@@ -21,23 +21,24 @@
 		v-bind="$attrs"
 		confirm
 		v-on="$listeners"
+		class="date-time-picker"
 		@close="close"
 		@change="change"
 		@pick="pickDate">
 		<template #icon-calendar>
-			<NcButton type="tertiary-no-background"
-				@click.stop.prevent="toggleTimezonePopover"
-				@mousedown.stop.prevent="() => {}">
-				<template #icon>
-					<IconNewCalendar v-if="isAllDay"
-						:size="20" />
-					<IconTimezone v-else
-						:class="{ 'highlighted-timezone-icon': highlightTimezone }"
-						:size="20" />
+			<IconNewCalendar v-if="isAllDay" :size="20" class="date-time-picker__icon" />
+			<NcPopover v-else open-class="timezone-popover-wrapper">
+				<template #trigger>
+					<NcButton type="tertiary-no-background"
+						:aria-label="t('calendar', 'Select a time zone')"
+						@mousedown="(e) => e.stopPropagation()">
+						<template #icon>
+							<IconTimezone :size="20"
+								class="date-time-picker__icon"
+								:class="{ 'date-time-picker__icon--highlight': highlightTimezone }" />
+						</template>
+					</NcButton>
 				</template>
-			</NcButton>
-			<Popover :shown.sync="showTimezonePopover"
-				open-class="timezone-popover-wrapper">
 				<template>
 					<div class="timezone-popover-wrapper__title">
 						<strong>
@@ -48,7 +49,7 @@
 						:value="timezoneId"
 						@input="changeTimezone" />
 				</template>
-			</Popover>
+			</NcPopover>
 		</template>
 		<template v-if="!isAllDay"
 			#footer>
@@ -70,7 +71,7 @@
 import {
 	NcButton,
 	NcDateTimePicker as DateTimePicker,
-	NcPopover as Popover,
+	NcPopover,
 	NcTimezonePicker as TimezonePicker,
 } from '@nextcloud/vue'
 import IconTimezone from 'vue-material-design-icons/Web.vue'
@@ -93,7 +94,7 @@ export default {
 	components: {
 		NcButton,
 		DateTimePicker,
-		Popover,
+		NcPopover,
 		TimezonePicker,
 	  IconTimezone,
 	  IconNewCalendar,
@@ -139,7 +140,6 @@ export default {
 	data() {
 		return {
 			firstDay: getFirstDay() === 0 ? 7 : getFirstDay(),
-			showTimezonePopover: false,
 			formatter: {
 				stringify: this.stringify,
 				parse: this.parse,
@@ -244,16 +244,6 @@ export default {
 		 */
 		changeTimezone(timezoneId) {
 			this.$emit('change-timezone', timezoneId)
-		},
-		/**
-		 * Toggles the visibility of the timezone popover
-		 */
-		toggleTimezonePopover() {
-			if (this.isAllDay) {
-				return
-			}
-
-			this.showTimezonePopover = !this.showTimezonePopover
 		},
 		/**
 		 * Reset to time-panel on close of datepicker
@@ -410,15 +400,20 @@ export default {
 	},
 }
 </script>
+
 <style lang="scss" scoped>
-.highlighted-timezone-icon {
-	opacity: .7;
-}
-:deep(.mx-icon-calendar) {
-	right: 0;
-}
-:deep(.multiselect__content-wrapper) {
-	border: none !important;
-	position: relative !important;
+.date-time-picker {
+	&__icon {
+		opacity: 0.7;
+
+		&--highlight {
+			opacity: 1;
+		}
+	}
+
+	:deep(.multiselect__content-wrapper) {
+		border: none !important;
+		position: relative !important;
+	}
 }
 </style>

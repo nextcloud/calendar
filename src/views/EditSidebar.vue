@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<NcAppSidebar :empty="isLoading || isError"
+	<NcAppSidebar name=""
 		:force-menu="true"
 		@close="cancel">
 		<template v-if="isLoading">
@@ -206,6 +206,7 @@
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
+				:is-read-only="isReadOnly"
 				:force-this-and-all-future="forceThisAndAllFuture"
 				@save-this-only="prepareAccessForAttachments(false)"
 				@save-this-and-all-future="prepareAccessForAttachments(true)" />
@@ -223,12 +224,14 @@
 					:calendar-object-instance="calendarObjectInstance"
 					:is-read-only="isReadOnly"
 					:is-shared-with-me="isSharedWithMe"
+					:show-header="false"
 					@update-dates="updateDates" />
 			</div>
 			<SaveButtons v-if="showSaveButtons"
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
+				:is-read-only="isReadOnly"
 				:force-this-and-all-future="forceThisAndAllFuture"
 				@save-this-only="prepareAccessForAttachments(false)"
 				@save-this-and-all-future="prepareAccessForAttachments(true)" />
@@ -250,6 +253,7 @@
 				class="app-sidebar-tab__buttons"
 				:can-create-recurrence-exception="canCreateRecurrenceException"
 				:is-new="isNew"
+				:is-read-only="isReadOnly"
 				:force-this-and-all-future="forceThisAndAllFuture"
 				@save-this-only="prepareAccessForAttachments(false)"
 				@save-this-and-all-future="prepareAccessForAttachments(true)" />

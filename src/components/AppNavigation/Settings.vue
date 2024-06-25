@@ -45,12 +45,12 @@
 				{{ $t('calendar', 'Show week numbers') }}
 			</ActionCheckbox>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--slotDuration">
-				<label for="slotDuration">{{ $t('calendar', 'Time increments') }}</label>
 				<NcSelect :id="slotDuration"
 					:options="slotDurationOptions"
 					:value="selectedDurationOption"
 					:disabled="savingSlotDuration"
 					:clearable="false"
+					:input-label="$t('calendar', 'Time increments')"
 					input-id="value"
 					label="label"
 					@option:selected="changeSlotDuration" />
@@ -58,23 +58,19 @@
 			<!-- TODO: remove version check once Nextcloud 28 is not supported anymore -->
 			<li v-if="currentUserPrincipal && defaultCalendarOptions.length > 1 && nextcloudVersion >= 29"
 				class="settings-fieldset-interior-item settings-fieldset-interior-item--default-calendar">
-				<label :for="defaultCalendarPickerId">
-					{{ $t('calendar', 'Default calendar for incoming invitations') }}
-				</label>
 				<CalendarPicker :value="defaultCalendar"
 					:calendars="defaultCalendarOptions"
 					:disabled="savingDefaultCalendarId"
-					:input-id="defaultCalendarPickerId"
+					:input-label="$t('calendar', 'Default calendar for incoming invitations')"
 					:clearable="false"
 					@select-calendar="changeDefaultCalendar" />
 			</li>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--defaultReminder">
-				<label for="defaultReminder">{{ $t('calendar', 'Default reminder') }}</label>
-				<NcSelect :id="defaultReminder"
-					:options="defaultReminderOptions"
+				<NcSelect :options="defaultReminderOptions"
 					:value="selectedDefaultReminderOption"
 					:disabled="savingDefaultReminder"
 					:clearable="false"
+					:input-label="$t('calendar', 'Default reminder')"
 					input-id="value"
 					label="label"
 					@option:selected="changeDefaultReminder" />
@@ -157,7 +153,6 @@ import InformationVariant from 'vue-material-design-icons/InformationVariant.vue
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 
 import logger from '../../utils/logger.js'
-import { randomId } from '../../utils/randomId.js'
 
 export default {
 	name: 'Settings',
@@ -195,7 +190,6 @@ export default {
 			savingWeekNumber: false,
 			savingDefaultCalendar: false,
 			displayKeyboardShortcuts: false,
-			defaultCalendarPickerId: randomId(),
 		}
 	},
 	computed: {

@@ -5,12 +5,14 @@
 
 <template>
 	<li class="settings-fieldset-interior-item settings-fieldset-interior-item--folder">
-		<label for="attachmentsFolder">
+		<label :for="inputId">
 			{{ $t('calendar', 'Default attachments location') }}
 		</label>
 		<div class="form-group">
 			<NcInputField v-model="attachmentsFolder"
 				type="text"
+				:id="inputId"
+				:label-outside="true"
 				@input="debounceSaveAttachmentsFolder(attachmentsFolder)"
 				@change="debounceSaveAttachmentsFolder(attachmentsFolder)"
 				@click="selectCalendarFolder"
@@ -24,6 +26,7 @@
 import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 import debounce from 'debounce'
 import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'
+import { randomId } from '../../../utils/randomId.js'
 
 import useSettingsStore from '../../../store/settings.js'
 import { mapStores, mapState } from 'pinia'
@@ -38,6 +41,9 @@ export default {
 		...mapState(useSettingsStore, {
 			attachmentsFolder: store => store.attachmentsFolder || '/',
 		}),
+		inputId() {
+			return `input-${randomId()}`
+		},
 	},
 	methods: {
 		async selectCalendarFolder() {

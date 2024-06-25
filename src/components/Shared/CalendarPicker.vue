@@ -11,6 +11,8 @@
 		:multiple="multiple"
 		:clearable="clearable"
 		:filter-by="selectFilterBy"
+		:input-label="this.inputLabel"
+		:label-outside="this.inputLabel === ''"
 		@option:selected="change"
 		@option:deselected="remove">
 		<template #option="{ id }">
@@ -69,6 +71,10 @@ export default {
 		inputId: {
 			type: String,
 			default: () => randomId(),
+		},
+		inputLabel: {
+			type: String,
+			default: '',
 		},
 	},
 	computed: {
