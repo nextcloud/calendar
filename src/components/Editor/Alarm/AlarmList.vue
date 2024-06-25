@@ -23,7 +23,10 @@
 <script>
 import AlarmListNew from './AlarmListNew.vue'
 import AlarmListItem from './AlarmListItem.vue'
-import { mapState } from 'vuex'
+
+import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
+import useSettingsStore from '../../../store/settings.js'
+import { mapStores, mapState } from 'pinia'
 
 export default {
 	name: 'AlarmList',
@@ -42,9 +45,8 @@ export default {
 		},
 	},
 	computed: {
-	  ...mapState({
-		  forceEventAlarmType: (state) => state.settings.forceEventAlarmType,
-	  }),
+		...mapStores(useCalendarObjectInstanceStore),
+		...mapState(useSettingsStore, ['forceEventAlarmType']),
 		alarms() {
 			return this.calendarObjectInstance.alarms
 		},
@@ -56,7 +58,7 @@ export default {
 		 * @param {number} totalSeconds Amount of seconds for the alarm
 		 */
 		addAlarm(totalSeconds) {
-			this.$store.commit('addAlarmToCalendarObjectInstance', {
+			this.calendarObjectInstanceStore.addAlarmToCalendarObjectInstance({
 				calendarObjectInstance: this.calendarObjectInstance,
 				type: this.forceEventAlarmType || 'DISPLAY',
 				totalSeconds,
@@ -68,7 +70,7 @@ export default {
 		 * @param {object} alarm The alarm object
 		 */
 		removeAlarm(alarm) {
-			this.$store.commit('removeAlarmFromCalendarObjectInstance', {
+			this.calendarObjectInstanceStore.removeAlarmFromCalendarObjectInstance({
 				calendarObjectInstance: this.calendarObjectInstance,
 				alarm,
 			})

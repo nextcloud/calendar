@@ -4,26 +4,31 @@
  */
 import moment from '@nextcloud/moment'
 import { createPlugin } from '@fullcalendar/core'
+import useSettingsStore from '../../store/settings.js'
+
+// TODO: We don't really need to use a factory pattern here anymore. It was introduced to fix a
+//       reactivity bug with Vuex. Since we use Pinia now and don't need to pass the store all the
+//       way down it can be refactored/reverted.
+//       Ref commit 207b7a13655ae7f1e01ee0e7d40b5109a37c6174
 
 /**
- * Creates a new moment object using the locale from the given Vuex store
+ * Creates a new moment object using the locale from the given Pinia store
  *
- * @param {object} $store The Vuex store
  * @param {object[]} data FullCalendar object containing the date etc.
  * @param {number[]} data.array Input data to initialize moment
- * @return {moment}
+ * @return {moment.Moment}
  */
-const momentFactory = ($store, { array }) => {
-	return moment(array).locale($store.state.settings.momentLocale)
+const momentFactory = ({ array }) => {
+	const settingsStore = useSettingsStore()
+	return moment(array).locale(settingsStore.momentLocale)
 }
 
 /**
  * Construct a cmdFormatter that can be used to construct a FullCalendar plugin
  *
- * @param $store
  * @return {function(string, string):string} cmdFormatter function
  */
-const cmdFormatterFactory = ($store) => (cmdStr, arg) => {
+const cmdFormatterFactory = () => (cmdStr, arg) => {
 	// With our specific DateFormattingConfig,
 	// cmdStr will always be a moment parsable string
 	// like LT, etc.
@@ -35,8 +40,8 @@ const cmdFormatterFactory = ($store) => (cmdStr, arg) => {
 
 	// If arg.end is defined, this is a time-range
 	if (arg.end) {
-		const start = momentFactory($store, arg.start).format(cmdStr)
-		const end = momentFactory($store, arg.end).format(cmdStr)
+		const start = momentFactory(arg.start).format(cmdStr)
+		const end = momentFactory(arg.end).format(cmdStr)
 
 		if (start === end) {
 			return start
@@ -45,18 +50,17 @@ const cmdFormatterFactory = ($store) => (cmdStr, arg) => {
 		return start + arg.defaultSeparator + end
 	}
 
-	return momentFactory($store, arg.start).format(cmdStr)
+	return momentFactory(arg.start).format(cmdStr)
 }
 
 /**
  * Construct a moment plugin for FullCalendar using the locale from the given Vuex store
  *
- * @param {object} $store The Vuex store
  * @return {object} The FullCalendar plugin
  */
-export default function momentPluginFactory($store) {
+export default function momentPluginFactory() {
 	return createPlugin({
 		name: '@nextcloud/moment-plugin',
-		cmdFormatter: cmdFormatterFactory($store),
+		cmdFormatter: cmdFormatterFactory(),
 	})
 }

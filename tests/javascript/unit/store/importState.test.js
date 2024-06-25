@@ -2,18 +2,23 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import importStateStore from '../../../../src/store/importState.js'
+import useImportStateStore from '../../../../src/store/importState.js'
+import { setActivePinia, createPinia } from 'pinia'
+
 import {
 	IMPORT_STAGE_AWAITING_USER_SELECT,
 	IMPORT_STAGE_DEFAULT,
-	IMPORT_STAGE_IMPORTING,
-	IMPORT_STAGE_PROCESSING
 } from "../../../../src/models/consts.js";
 
 describe('store/importState test suite', () => {
+	beforeEach(() => {
+		setActivePinia(createPinia())
+	})
 
 	it('should provide a default state', () => {
-		expect(importStateStore.state).toEqual({
+		const importStateStore = useImportStateStore()
+
+		expect(importStateStore.$state).toEqual({
 			total: 0,
 			accepted: 0,
 			denied: 0,
@@ -21,55 +26,9 @@ describe('store/importState test suite', () => {
 		})
 	})
 
-	it('should provide a mutation to increment the amount of accepted imports', () => {
-		const state = {
-			accepted: 5,
-		}
-
-		importStateStore.mutations.incrementAccepted(state)
-
-		expect(state.accepted).toEqual(6)
-	})
-
-	it('should provide a mutation to increment the amount of rejected imports', () => {
-		const state = {
-			denied: 41,
-		}
-
-		importStateStore.mutations.incrementDenied(state)
-
-		expect(state.denied).toEqual(42)
-	})
-
-	it('should provide a mutation to increment the total amount of objects', () => {
-		const state = {
-			total: 5,
-		}
-
-		importStateStore.mutations.setTotal(state, 1337)
-
-		expect(state.total).toEqual(1337)
-	})
-
-	it('should provide a mutation to change the stage of the import', () => {
-		const state = {
-			stage: null,
-		}
-
-		importStateStore.mutations.changeStage(state, IMPORT_STAGE_DEFAULT)
-		expect(state.stage).toEqual(IMPORT_STAGE_DEFAULT)
-
-		importStateStore.mutations.changeStage(state, IMPORT_STAGE_PROCESSING)
-		expect(state.stage).toEqual(IMPORT_STAGE_PROCESSING)
-
-		importStateStore.mutations.changeStage(state, IMPORT_STAGE_IMPORTING)
-		expect(state.stage).toEqual(IMPORT_STAGE_IMPORTING)
-
-		importStateStore.mutations.changeStage(state, IMPORT_STAGE_AWAITING_USER_SELECT)
-		expect(state.stage).toEqual(IMPORT_STAGE_AWAITING_USER_SELECT)
-	})
-
 	it('should provide a mutation to reset the state', () => {
+		const importStateStore = useImportStateStore()
+
 		const state = {
 			stage: IMPORT_STAGE_AWAITING_USER_SELECT,
 			total: 1337,
@@ -77,9 +36,11 @@ describe('store/importState test suite', () => {
 			denied: 500,
 		}
 
-		importStateStore.mutations.resetState(state)
+		importStateStore.$state = state
 
-		expect(state).toEqual({
+		importStateStore.resetState()
+
+		expect(importStateStore.$state).toEqual({
 			total: 0,
 			accepted: 0,
 			denied: 0,

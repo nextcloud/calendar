@@ -8,13 +8,15 @@ import logger from '../utils/logger.js'
 import { getPrefixedRoute } from '../utils/router.js'
 import { dateFactory } from '../utils/date.js'
 import { uidToHexColor } from '../utils/color.js'
-import {
-	mapGetters,
-	mapState,
-} from 'vuex'
 import { translate as t } from '@nextcloud/l10n'
 import { removeMailtoPrefix } from '../utils/attendee.js'
 import { showError } from '@nextcloud/dialogs'
+import usePrincipalsStore from '../store/principals.js'
+import useSettingsStore from '../store/settings.js'
+import useCalendarsStore from '../store/calendars.js'
+import useCalendarObjectsStore from '../store/calendarObjects.js'
+import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
+import { mapStores, mapState } from 'pinia'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
@@ -54,14 +56,12 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({
+		...mapState(useSettingsStore, {
 			currentUserTimezone: 'getResolvedTimezone',
 		}),
-		...mapState({
-			initialCalendarsLoaded: (state) => state.calendars.initialCalendarsLoaded,
-			calendarObject: (state) => state.calendarObjectInstance.calendarObject,
-			calendarObjectInstance: (state) => state.calendarObjectInstance.calendarObjectInstance,
-		}),
+		...mapState(useCalendarsStore, ['initialCalendarsLoaded']),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObject', 'calendarObjectInstance']),
+		...mapStores(useCalendarsStore, usePrincipalsStore, useCalendarObjectsStore, useCalendarObjectInstanceStore, useSettingsStore),
 		eventComponent() {
 			return this.calendarObjectInstance?.eventComponent
 		},
@@ -153,7 +153,7 @@ export default {
 		 */
 		selectedCalendarColor() {
 			if (!this.selectedCalendar) {
-				const calendars = this.$store.getters.sortedCalendars
+				const calendars = this.calendarsStore.sortedCalendars
 				if (calendars.length > 0) {
 					return calendars[0].color
 				}
@@ -189,7 +189,7 @@ export default {
 				return true
 			}
 
-			const calendar = this.$store.getters.getCalendarById(this.calendarObject.calendarId)
+			const calendar = this.calendarsStore.getCalendarById(this.calendarObject.calendarId)
 			if (!calendar) {
 				return true
 			}
@@ -201,7 +201,7 @@ export default {
 				return true
 			}
 
-			const calendar = this.$store.getters.getCalendarById(this.calendarObject.calendarId)
+			const calendar = this.calendarsStore.getCalendarById(this.calendarObject.calendarId)
 			if (!calendar) {
 				return true
 			}
@@ -222,11 +222,11 @@ export default {
 		 * @return {?object}
 		 */
 		userAsAttendee() {
-			if (this.isReadOnly || !this.$store.getters.getCurrentUserPrincipalEmail || !this.calendarObjectInstance.organizer) {
+			if (this.isReadOnly || !this.principalsStore.getCurrentUserPrincipalEmail || !this.calendarObjectInstance.organizer) {
 				return null
 			}
 
-			const principal = removeMailtoPrefix(this.$store.getters.getCurrentUserPrincipalEmail)
+			const principal = removeMailtoPrefix(this.principalsStore.getCurrentUserPrincipalEmail)
 			for (const attendee of this.calendarObjectInstance.attendees) {
 				if (removeMailtoPrefix(attendee.uri) === principal) {
 					return attendee
@@ -243,11 +243,11 @@ export default {
 		calendars() {
 			if (this.isReadOnly && this.calendarObject) {
 				return [
-					this.$store.getters.getCalendarById(this.calendarObject.calendarId),
+					this.calendarsStore.getCalendarById(this.calendarObject.calendarId),
 				]
 			}
 
-			return this.$store.getters.sortedCalendars
+			return this.calendarsStore.sortedCalendars
 		},
 		/**
 		 * Returns the object of the selected calendar
@@ -255,7 +255,7 @@ export default {
 		 * @return {object}
 		 */
 		selectedCalendar() {
-			return this.$store.getters.getCalendarById(this.calendarId)
+			return this.calendarsStore.getCalendarById(this.calendarId)
 		},
 		/**
 		 * Returns whether or not the user is allowed to delete this event
@@ -386,18 +386,19 @@ export default {
 		 */
 		closeEditor() {
 			if (this.isWidget) {
-				this.$store.commit('closeWidgetEventDetails')
+				this.calendarsStore.closeWidgetEventDetails()
 				return
 			}
-			const params = Object.assign({}, this.$store.state.route.params)
+			const params = Object.assign({}, this.$route.params)
 			delete params.object
 			delete params.recurrenceId
 
 			this.$router.push({
-				name: getPrefixedRoute(this.$store.state.route.name, 'CalendarView'),
+				name: getPrefixedRoute(this.$route.name, 'CalendarView'),
 				params,
 			})
-			this.$store.commit('resetCalendarObjectInstanceObjectIdAndRecurrenceId')
+
+			this.calendarObjectInstanceStore.resetCalendarObjectInstanceObjectIdAndRecurrenceId()
 		},
 		/**
 		 * Closes the editor and returns to normal calendar-view without running any action.
@@ -408,7 +409,7 @@ export default {
 			this.closeEditor()
 		},
 		/**
-		 * Resets the calendar-object back to it's original state and closes the editor
+		 * Resets the calendar-object back to its original state and closes the editor
 		 */
 		async cancel() {
 			if (this.isLoading) {
@@ -421,7 +422,7 @@ export default {
 				return
 			}
 
-			this.$store.commit('resetCalendarObjectToDav', {
+			this.calendarObjectsStore.resetCalendarObjectToDavMutation({
 				calendarObject: this.calendarObject,
 			})
 
@@ -472,7 +473,7 @@ export default {
 			this.isLoading = true
 			this.isSaving = true
 			try {
-				await this.$store.dispatch('saveCalendarObjectInstance', {
+				await this.calendarObjectInstanceStore.saveCalendarObjectInstance({
 					thisAndAllFuture,
 					calendarId: this.calendarId,
 				})
@@ -505,7 +506,7 @@ export default {
 		 * @return {Promise<void>}
 		 */
 		async duplicateEvent() {
-			await this.$store.dispatch('duplicateCalendarObjectInstance')
+			await this.calendarObjectInstanceStore.duplicateCalendarObjectInstance()
 		},
 
 		/**
@@ -524,7 +525,7 @@ export default {
 			}
 
 			this.isLoading = true
-			await this.$store.dispatch('deleteCalendarObjectInstance', { thisAndAllFuture })
+			await this.calendarObjectInstanceStore.deleteCalendarObjectInstance({ thisAndAllFuture })
 			this.isLoading = false
 		},
 		/**
@@ -548,7 +549,7 @@ export default {
 				title = null
 			}
 
-			this.$store.commit('changeTitle', {
+			this.calendarObjectInstanceStore.changeTitle({
 				calendarObjectInstance: this.calendarObjectInstance,
 				title,
 			})
@@ -559,7 +560,7 @@ export default {
 		 * @param {string} description New description
 		 */
 		updateDescription(description) {
-			this.$store.commit('changeDescription', {
+			this.calendarObjectInstanceStore.changeDescription({
 				calendarObjectInstance: this.calendarObjectInstance,
 				description,
 			})
@@ -570,7 +571,7 @@ export default {
 		 * @param {string} location New location
 		 */
 		updateLocation(location) {
-			this.$store.commit('changeLocation', {
+			this.calendarObjectInstanceStore.changeLocation({
 				calendarObjectInstance: this.calendarObjectInstance,
 				location,
 			})
@@ -581,7 +582,7 @@ export default {
 		 * @param {Date} startDate New start date
 		 */
 		updateStartDate(startDate) {
-			this.$store.dispatch('changeStartDate', {
+			this.calendarObjectInstanceStore.changeStartDate({
 				calendarObjectInstance: this.calendarObjectInstance,
 				startDate,
 			})
@@ -596,7 +597,7 @@ export default {
 				return
 			}
 
-			this.$store.dispatch('changeStartTimezone', {
+			this.calendarObjectInstanceStore.changeStartTimezone({
 				calendarObjectInstance: this.calendarObjectInstance,
 				startTimezone,
 			})
@@ -607,7 +608,7 @@ export default {
 		 * @param {Date} endDate New end date
 		 */
 		updateEndDate(endDate) {
-			this.$store.commit('changeEndDate', {
+			this.calendarObjectInstanceStore.changeEndDateMutation({
 				calendarObjectInstance: this.calendarObjectInstance,
 				endDate,
 			})
@@ -622,7 +623,7 @@ export default {
 				return
 			}
 
-			this.$store.dispatch('changeEndTimezone', {
+			this.calendarObjectInstanceStore.changeEndTimezone({
 				calendarObjectInstance: this.calendarObjectInstance,
 				endTimezone,
 			})
@@ -631,7 +632,7 @@ export default {
 		 * Toggles the event between all-day and timed
 		 */
 		toggleAllDay() {
-			this.$store.dispatch('toggleAllDay', {
+			this.calendarObjectInstanceStore.toggleAllDay({
 				calendarObjectInstance: this.calendarObjectInstance,
 			})
 		},
@@ -683,11 +684,11 @@ export default {
 				const isAllDay = (to.params.allDay === '1')
 				const start = parseInt(to.params.dtstart, 10)
 				const end = parseInt(to.params.dtend, 10)
-				const timezoneId = vm.$store.getters.getResolvedTimezone
+				const timezoneId = vm.settingsStore.getResolvedTimezone
 
 				try {
 					await vm.loadingCalendars()
-					await vm.$store.dispatch('getCalendarObjectInstanceForNewEvent', { isAllDay, start, end, timezoneId })
+					await vm.calendarObjectInstanceStore.getCalendarObjectInstanceForNewEvent({ isAllDay, start, end, timezoneId })
 					vm.calendarId = vm.calendarObject.calendarId
 				} catch (error) {
 					console.debug(error)
@@ -709,7 +710,9 @@ export default {
 					// Probably not though, because it's async
 					try {
 						await vm.loadingCalendars()
-						const recurrenceId = await vm.$store.dispatch('resolveClosestRecurrenceIdForCalendarObject', { objectId, closeToDate })
+						const recurrenceId = await vm.calendarObjectInstanceStore.resolveClosestRecurrenceIdForCalendarObject({
+							objectId, closeToDate,
+						})
 						const params = Object.assign({}, vm.$route.params, { recurrenceId })
 						vm.$router.replace({ name: vm.$route.name, params })
 					} catch (error) {
@@ -724,7 +727,7 @@ export default {
 
 				try {
 					await vm.loadingCalendars()
-					await vm.$store.dispatch('getCalendarObjectInstanceByObjectIdAndRecurrenceId', { objectId, recurrenceId })
+					await vm.calendarObjectInstanceStore.getCalendarObjectInstanceByObjectIdAndRecurrenceId({ objectId, recurrenceId })
 					vm.calendarId = vm.calendarObject.calendarId
 					vm.isEditingMasterItem = vm.eventComponent.isMasterItem()
 					vm.isRecurrenceException = vm.eventComponent.isRecurrenceException()
@@ -762,10 +765,10 @@ export default {
 			const isAllDay = (to.params.allDay === '1')
 			const start = to.params.dtstart
 			const end = to.params.dtend
-			const timezoneId = this.$store.getters.getResolvedTimezone
+			const timezoneId = this.settingsStore.getResolvedTimezone
 
 			await this.loadingCalendars()
-			await this.$store.dispatch('updateCalendarObjectInstanceForNewEvent', { isAllDay, start, end, timezoneId })
+			await this.calendarObjectInstanceStore.updateCalendarObjectInstanceForNewEvent({ isAllDay, start, end, timezoneId })
 			next()
 		} else {
 			// If both the objectId and recurrenceId remained the same
@@ -793,7 +796,9 @@ export default {
 			if (recurrenceId === 'next') {
 				const closeToDate = dateFactory()
 				await this.loadingCalendars()
-				const recurrenceId = await this.$store.dispatch('resolveClosestRecurrenceIdForCalendarObject', { objectId, closeToDate })
+				const recurrenceId = await this.calendarObjectInstanceStore.resolveClosestRecurrenceIdForCalendarObject({
+					objectId, closeToDate,
+				})
 				const params = Object.assign({}, this.$route.params, { recurrenceId })
 				next({ name: this.$route.name, params })
 				return
@@ -801,7 +806,7 @@ export default {
 
 			try {
 				await this.loadingCalendars()
-				await this.$store.dispatch('getCalendarObjectInstanceByObjectIdAndRecurrenceId', { objectId, recurrenceId })
+				await this.calendarObjectInstanceStore.getCalendarObjectInstanceByObjectIdAndRecurrenceId({ objectId, recurrenceId })
 				this.calendarId = this.calendarObject.calendarId
 				this.isEditingMasterItem = this.eventComponent.isMasterItem()
 				this.isRecurrenceException = this.eventComponent.isRecurrenceException()

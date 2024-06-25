@@ -139,10 +139,6 @@ import momentPluginFactory from '../../../fullcalendar/localization/momentPlugin
 // Import timezone plugins
 import VTimezoneNamedTimezone from '../../../fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
 
-import {
-	mapGetters,
-	mapState,
-} from 'vuex'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
@@ -153,6 +149,8 @@ import InviteesListSearch from '../Invitees/InviteesListSearch.vue'
 import { getColorForFBType } from '../../../utils/freebusy.js'
 import { getFirstFreeSlot, getBusySlots } from '../../../services/freeBusySlotService.js'
 import dateFormat from '../../../filters/dateFormat.js'
+import { mapState } from 'pinia'
+import useSettingsStore from '../../../store/settings.js'
 
 export default {
 	name: 'FreeBusy',
@@ -233,14 +231,10 @@ export default {
 		this.findFreeSlots()
 	},
 	computed: {
-		...mapGetters({
+		...mapState(useSettingsStore, {
 			timezoneId: 'getResolvedTimezone',
 		}),
-		...mapState({
-			showWeekends: state => state.settings.showWeekends,
-			showWeekNumbers: state => state.settings.showWeekNumbers,
-			timezone: state => state.settings.timezone,
-		}),
+		...mapState(useSettingsStore, ['showWeekends', 'showWeekNumbers', 'timezone']),
 		placeholder() {
 			return this.$t('calendar', 'Select automatic slot')
 		},
@@ -252,7 +246,7 @@ export default {
 		plugins() {
 			return [
 				resourceTimelinePlugin,
-				momentPluginFactory(this.$store),
+				momentPluginFactory(),
 				VTimezoneNamedTimezone,
 				interactionPlugin,
 			]

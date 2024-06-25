@@ -95,8 +95,10 @@ import {
 import { removeMailtoPrefix } from '../../../utils/attendee.js'
 import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
 import ChevronUp from 'vue-material-design-icons/ChevronUp.vue'
-
 import Delete from 'vue-material-design-icons/Delete.vue'
+
+import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
+import { mapStores } from 'pinia'
 
 export default {
 	name: 'InviteesListItem',
@@ -136,11 +138,11 @@ export default {
 		}
 	},
 	computed: {
+		...mapStores(useCalendarObjectInstanceStore),
 		/**
 		 * @return {string}
 		 */
 		avatarLink() {
-			// return this.$store.getters.getAvatarForContact(this.uri) || this.commonName
 			return this.commonName
 		},
 		/**
@@ -197,7 +199,7 @@ export default {
 		 * Toggles the RSVP flag of the attendee
 		 */
 		toggleRSVP() {
-			this.$store.commit('toggleAttendeeRSVP', {
+			this.calendarObjectInstanceStore.toggleAttendeeRSVP({
 				attendee: this.attendee,
 			})
 		},
@@ -207,7 +209,7 @@ export default {
 		 * @param {string} role The new role of the attendee
 		 */
 		changeRole(role) {
-			this.$store.commit('changeAttendeesRole', {
+			this.calendarObjectInstanceStore.changeAttendeesRole({
 				attendee: this.attendee,
 				role,
 			})

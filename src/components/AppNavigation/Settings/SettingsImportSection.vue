@@ -31,9 +31,6 @@
 </template>
 
 <script>
-import {
-	mapState,
-} from 'vuex'
 import { getParserManager } from '@nextcloud/calendar-js'
 import ImportScreen from './ImportScreen.vue'
 import { readFileAsText } from '../../../services/readFileAsTextService.js'
@@ -50,6 +47,11 @@ import {
 } from '../../../models/consts.js'
 
 import Upload from 'vue-material-design-icons/Upload.vue'
+import useImportStateStore from '../../../store/importState.js'
+import useImportFilesStore from '../../../store/importFiles.js'
+import useCalendarsStore from '../../../store/calendars.js'
+import useCalendarObjectsStore from '../../../store/calendarObjects.js'
+import { mapStores, mapState } from 'pinia'
 
 export default {
 	name: 'SettingsImportSection',
@@ -64,12 +66,15 @@ export default {
 		},
 	},
 	computed: {
-		...mapState({
-			files: state => state.importFiles.importFiles,
-			stage: state => state.importState.stage,
-			total: state => state.importState.total,
-			accepted: state => state.importState.accepted,
-			denied: state => state.importState.denied,
+		...mapStores(useImportStateStore, useImportFilesStore, useCalendarsStore, useCalendarObjectsStore),
+		...mapState(useImportFilesStore, {
+			files: 'importFiles',
+		}),
+		...mapState(useImportStateStore, {
+			stage: 'stage',
+			total: 'total',
+			accepted: 'accepted',
+			denied: 'denied',
 		}),
 		/**
 		 * Total amount of processed calendar-objects, either accepted or failed
@@ -140,7 +145,7 @@ export default {
 		 * @param {Event} event The change-event of the input-field
 		 */
 		async processFiles(event) {
-			this.$store.commit('changeStage', IMPORT_STAGE_PROCESSING)
+			this.importStateStore.stage = IMPORT_STAGE_PROCESSING
 			let addedFiles = false
 
 			for (const file of event.target.files) {
@@ -187,7 +192,7 @@ export default {
 					continue
 				}
 
-				this.$store.commit('addFile', {
+				this.importFilesStore.addFile({
 					contents,
 					lastModified,
 					name,
@@ -200,19 +205,19 @@ export default {
 
 			if (!addedFiles) {
 				showError(this.$t('calendar', 'No valid files found, aborting import'))
-				this.$store.commit('removeAllFiles')
-				this.$store.commit('resetState')
+				this.importFilesStore.removeAllFiles()
+				this.importStateStore.resetState()
 				return
 			}
 
-			this.$store.commit('changeStage', IMPORT_STAGE_AWAITING_USER_SELECT)
+			this.importStateStore.stage = IMPORT_STAGE_AWAITING_USER_SELECT
 		},
 		/**
 		 * Import all events into the calendars
 		 * This will show
 		 */
 		async importCalendar() {
-			await this.$store.dispatch('importEventsIntoCalendar')
+			await this.calendarsStore.importEventsIntoCalendar()
 
 			if (this.total === this.accepted) {
 				showSuccess(this.$n('calendar', 'Successfully imported %n event', 'Successfully imported %n events', this.total))
@@ -222,11 +227,11 @@ export default {
 					total: this.total,
 				}))
 			}
-			this.$store.commit('removeAllFiles')
-			this.$store.commit('resetState')
+			this.importFilesStore.removeAllFiles()
+			this.importStateStore.resetState()
 
 			// Once we are done importing, reload the calendar view
-			this.$store.commit('incrementModificationCount')
+			this.calendarObjectsStore.modificationCount++
 
 			this.resetInput()
 		},
@@ -234,8 +239,8 @@ export default {
 		 * Resets the import sate
 		 */
 		cancelImport() {
-			this.$store.commit('removeAllFiles')
-			this.$store.commit('resetState')
+			this.importFilesStore.removeAllFiles()
+			this.importStateStore.resetState()
 			this.resetInput()
 		},
 		/**

@@ -8,9 +8,11 @@ import {
 	getPrefixedRoute,
 	isPublicOrEmbeddedRoute,
 } from '../../../../../src/utils/router.js'
+import useSettingsStore from '../../../../../src/store/settings.js'
 import { generateUrl } from '@nextcloud/router'
 import { translate } from '@nextcloud/l10n'
 import { showInfo } from '@nextcloud/dialogs'
+import { createPinia, setActivePinia } from "pinia";
 
 jest.mock("../../../../../src/utils/router.js");
 jest.mock("@nextcloud/router");
@@ -25,10 +27,14 @@ describe('fullcalendar/eventClick test suite', () => {
 		generateUrl.mockClear()
 		translate.mockClear()
 		showInfo.mockClear()
+
+		setActivePinia(createPinia())
 	})
 
 	it('should open the Popover on big screens', () => {
-		const store = { state: { settings: { skipPopover: false } } }
+		const settingsStore = useSettingsStore()
+		settingsStore.skipPopover = false
+
 		const router = { push: jest.fn() }
 		const route = { name: 'CalendarView', params: { otherParam: '456' } }
 		const window = { innerWidth: 1920 }
@@ -38,7 +44,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			.mockReturnValueOnce('EditPopoverView')
 			.mockReturnValueOnce('EditSidebarView')
 
-		const eventClickFunction = eventClick(store, router, route, window)
+		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
 			extendedProps: {
 				objectId: 'object123',
@@ -63,7 +69,9 @@ describe('fullcalendar/eventClick test suite', () => {
 	})
 
 	it('should open the Sidebar on big screens if the user wishes so', () => {
-		const store = { state: { settings: { skipPopover: true } } }
+		const settingsStore = useSettingsStore()
+		settingsStore.skipPopover = true
+
 		const router = { push: jest.fn() }
 		const route = { name: 'CalendarView', params: { otherParam: '456' } }
 		const window = { innerWidth: 1920 }
@@ -73,7 +81,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			.mockReturnValueOnce('EditPopoverView')
 			.mockReturnValueOnce('EditSidebarView')
 
-		const eventClickFunction = eventClick(store, router, route, window)
+		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
 			extendedProps: {
 				objectId: 'object123',
@@ -98,7 +106,9 @@ describe('fullcalendar/eventClick test suite', () => {
 	})
 
 	it('should open the Sidebar on smaller screens', () => {
-		const store = { state: { settings: { skipPopover: false } } }
+		const settingsStore = useSettingsStore()
+		settingsStore.skipPopover = false
+
 		const router = { push: jest.fn() }
 		const route = { name: 'CalendarView', params: { otherParam: '456' } }
 		const window = { innerWidth: 500 }
@@ -108,7 +118,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			.mockReturnValueOnce('EditPopoverView')
 			.mockReturnValueOnce('EditSidebarView')
 
-		const eventClickFunction = eventClick(store, router, route, window)
+		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
 			extendedProps: {
 				objectId: 'object123',
@@ -133,7 +143,9 @@ describe('fullcalendar/eventClick test suite', () => {
 	})
 
 	it('should keep the public prefix when viewed in public mode', () => {
-		const store = { state: { settings: { skipPopover: true } } }
+		const settingsStore = useSettingsStore()
+		settingsStore.skipPopover = true
+
 		const router = { push: jest.fn() }
 		const route = { name: 'PublicCalendarView', params: { otherParam: '456' } }
 		const window = { innerWidth: 1920 }
@@ -143,7 +155,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			.mockReturnValueOnce('PublicEditPopoverView')
 			.mockReturnValueOnce('PublicEditSidebarView')
 
-		const eventClickFunction = eventClick(store, router, route, window)
+		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
 				extendedProps: {
 					objectId: 'object123',
@@ -168,7 +180,9 @@ describe('fullcalendar/eventClick test suite', () => {
 	})
 
 	it('should keep the embed prefix when viewed in embedded mode', () => {
-		const store = { state: { settings: { skipPopover: true } } }
+		const settingsStore = useSettingsStore()
+		settingsStore.skipPopover = true
+
 		const router = { push: jest.fn() }
 		const route = { name: 'EmbedCalendarView', params: { otherParam: '456' } }
 		const window = { innerWidth: 1920 }
@@ -178,7 +192,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			.mockReturnValueOnce('EmbedEditPopoverView')
 			.mockReturnValueOnce('EmbedEditSidebarView')
 
-		const eventClickFunction = eventClick(store, router, route, window)
+		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
 				extendedProps: {
 					objectId: 'object123',
@@ -203,7 +217,9 @@ describe('fullcalendar/eventClick test suite', () => {
 	})
 
 	it('should not update the route when the same event and same occurrence is already viewed - same route', () => {
-		const store = { state: { settings: { skipPopover: true } } }
+		const settingsStore = useSettingsStore()
+		settingsStore.skipPopover = true
+
 		const router = { push: jest.fn() }
 		const route = {
 			name: 'EditSidebarView',
@@ -220,7 +236,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			.mockReturnValueOnce('EditPopoverView')
 			.mockReturnValueOnce('EditSidebarView')
 
-		const eventClickFunction = eventClick(store, router, route, window)
+		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
 				extendedProps: {
 					objectId: 'object123',
@@ -237,7 +253,9 @@ describe('fullcalendar/eventClick test suite', () => {
 	})
 
 	it('should not update the route when the same event and same occurrence is already viewed - Sidebar Route', () => {
-		const store = { state: { settings: { skipPopover: false } } }
+		const settingsStore = useSettingsStore()
+		settingsStore.skipPopover = false
+
 		const router = { push: jest.fn() }
 		const route = {
 			name: 'EditSidebarView',
@@ -254,7 +272,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			.mockReturnValueOnce('EditPopoverView')
 			.mockReturnValueOnce('EditSidebarView')
 
-		const eventClickFunction = eventClick(store, router, route, window)
+		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
 				extendedProps: {
 					objectId: 'object123',
@@ -271,7 +289,9 @@ describe('fullcalendar/eventClick test suite', () => {
 	})
 
 	it('should forward to the task app if enabled', () => {
-		const store = { state: { settings: { tasksEnabled: true } } }
+		const settingsStore = useSettingsStore()
+		settingsStore.tasksEnabled = true
+
 		const router = { push: jest.fn() }
 		const route = {
 			name: 'EditSidebarView',
@@ -292,7 +312,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		generateUrl
 			.mockReturnValueOnce('/generated-url')
 
-		const eventClickFunction = eventClick(store, router, route, window)
+		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
 				extendedProps: {
 					davUrl: '/remote.php/dav/calendars/admin/reminders/EAFB112A-4556-404A-B807-B1E040D0F7A0.ics',
@@ -309,7 +329,9 @@ describe('fullcalendar/eventClick test suite', () => {
 	})
 
 	it('should do nothing when tasks is disabled and route is public', () => {
-		const store = { state: { settings: { tasksEnabled: false } } }
+		const settingsStore = useSettingsStore()
+		settingsStore.tasksEnabled = false
+
 		const router = { push: jest.fn() }
 		const route = {
 			name: 'EditSidebarView',
@@ -331,7 +353,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		isPublicOrEmbeddedRoute
 			.mockReturnValueOnce(true)
 
-		const eventClickFunction = eventClick(store, router, route, window)
+		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
 				extendedProps: {
 					davUrl: '/remote.php/dav/calendars/admin/reminders/EAFB112A-4556-404A-B807-B1E040D0F7A0.ics',
@@ -349,7 +371,9 @@ describe('fullcalendar/eventClick test suite', () => {
 	})
 
 	it('should show a hint to enable tasks app, when disabled but not public', () => {
-		const store = { state: { settings: { tasksEnabled: false } } }
+		const settingsStore = useSettingsStore()
+		settingsStore.tasksEnabled = false
+
 		const router = { push: jest.fn() }
 		const route = {
 			name: 'EditSidebarView',
@@ -373,7 +397,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		translate
 			.mockReturnValue('translated hint')
 
-		const eventClickFunction = eventClick(store, router, route, window)
+		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
 				extendedProps: {
 					davUrl: '/remote.php/dav/calendars/admin/reminders/EAFB112A-4556-404A-B807-B1E040D0F7A0.ics',

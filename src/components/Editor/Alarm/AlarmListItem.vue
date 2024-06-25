@@ -141,7 +141,6 @@ import {
 	NcActionRadio as ActionRadio,
 	NcActionSeparator as ActionSeparator,
 } from '@nextcloud/vue'
-import { mapState } from 'vuex'
 import ClickOutside from 'vue-click-outside'
 import formatAlarm from '../../../filters/alarmFormat.js'
 import AlarmTimeUnitSelect from './AlarmTimeUnitSelect.vue'
@@ -152,6 +151,10 @@ import Bell from 'vue-material-design-icons/Bell.vue'
 import Check from 'vue-material-design-icons/Check.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
+
+import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
+import useSettingsStore from '../../../store/settings.js'
+import { mapStores, mapState } from 'pinia'
 
 export default {
 	name: 'AlarmListItem',
@@ -199,9 +202,10 @@ export default {
 		}
 	},
 	computed: {
-		...mapState({
-			locale: (state) => state.settings.momentLocale,
-			forceEventAlarmType: (state) => state.settings.forceEventAlarmType,
+		...mapStores(useCalendarObjectInstanceStore, useSettingsStore),
+		...mapState(useSettingsStore, {
+			locale: 'momentLocale',
+			forceEventAlarmType: 'forceEventAlarmType',
 		}),
 		canEdit() {
 			// You can always edit an alarm if it's absolute
@@ -264,7 +268,7 @@ export default {
 			return !this.isRelativeAlarm
 		},
 		currentUserTimezone() {
-			return this.$store.getters.getResolvedTimezone
+			return this.settingsStore.getResolvedTimezone
 		},
 		isAllDay() {
 			return this.calendarObjectInstance.isAllDay
@@ -319,8 +323,7 @@ export default {
 		 * @param {string} type The new type of the notification
 		 */
 		changeType(type) {
-			this.$store.commit('changeAlarmType', {
-				calendarObjectInstance: this.calendarObjectInstance,
+			this.calendarObjectInstanceStore.changeAlarmType({
 				alarm: this.alarm,
 				type,
 			})
@@ -333,7 +336,7 @@ export default {
 				return
 			}
 
-			this.$store.dispatch('changeAlarmFromAbsoluteToRelative', {
+			this.calendarObjectInstanceStore.changeAlarmFromAbsoluteToRelative({
 				calendarObjectInstance: this.calendarObjectInstance,
 				alarm: this.alarm,
 			})
@@ -346,7 +349,7 @@ export default {
 				return
 			}
 
-			this.$store.dispatch('changeAlarmFromRelativeToAbsolute', {
+			this.calendarObjectInstanceStore.changeAlarmFromRelativeToAbsolute({
 				calendarObjectInstance: this.calendarObjectInstance,
 				alarm: this.alarm,
 			})
@@ -368,8 +371,7 @@ export default {
 			const selectedValue = parseInt(event.target.value, 10)
 
 			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
-				this.$store.dispatch('changeAlarmAmountTimed', {
-					calendarObjectInstance: this.calendarObjectInstance,
+				this.calendarObjectInstanceStore.changeAlarmAmountTimed({
 					alarm: this.alarm,
 					amount: selectedValue,
 				})
@@ -381,8 +383,7 @@ export default {
 		 * @param {string} unit The new unit
 		 */
 		changeRelativeUnitTimed(unit) {
-			this.$store.dispatch('changeAlarmUnitTimed', {
-				calendarObjectInstance: this.calendarObjectInstance,
+			this.calendarObjectInstanceStore.changeAlarmUnitTimed({
 				alarm: this.alarm,
 				unit,
 			})
@@ -398,8 +399,7 @@ export default {
 			const selectedValue = parseInt(event.target.value, 10)
 
 			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
-				this.$store.dispatch('changeAlarmAmountAllDay', {
-					calendarObjectInstance: this.calendarObjectInstance,
+				this.calendarObjectInstanceStore.changeAlarmAmountAllDay({
 					alarm: this.alarm,
 					amount: selectedValue,
 				})
@@ -411,8 +411,7 @@ export default {
 		 * @param {string} unit The new unit
 		 */
 		changeRelativeUnitAllDay(unit) {
-			this.$store.dispatch('changeAlarmUnitAllDay', {
-				calendarObjectInstance: this.calendarObjectInstance,
+			this.calendarObjectInstanceStore.changeAlarmUnitAllDay({
 				alarm: this.alarm,
 				unit,
 			})
@@ -426,8 +425,7 @@ export default {
 			const hours = date.getHours()
 			const minutes = date.getMinutes()
 
-			this.$store.dispatch('changeAlarmHoursMinutesAllDay', {
-				calendarObjectInstance: this.calendarObjectInstance,
+			this.calendarObjectInstanceStore.changeAlarmHoursMinutesAllDay({
 				alarm: this.alarm,
 				hours,
 				minutes,
@@ -439,8 +437,7 @@ export default {
 		 * @param {Date} date The new date of the alarm
 		 */
 		changeAbsoluteDate(date) {
-			this.$store.commit('changeAlarmAbsoluteDate', {
-				calendarObjectInstance: this.calendarObjectInstance,
+			this.calendarObjectInstanceStore.changeAlarmAbsoluteDate({
 				alarm: this.alarm,
 				date,
 			})
@@ -451,8 +448,7 @@ export default {
 		 * @param {string} timezoneId The new time zone id of the alarm
 		 */
 		changeAbsoluteTimezoneId(timezoneId) {
-			this.$store.commit('changeAlarmAbsoluteTimezoneId', {
-				calendarObjectInstance: this.calendarObjectInstance,
+			this.calendarObjectInstanceStore.changeAlarmAbsoluteTimezoneId({
 				alarm: this.alarm,
 				timezoneId,
 			})

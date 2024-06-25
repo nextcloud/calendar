@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<NcModal v-if="!!editCalendarModal && calendar" size="normal" @close="closeModal">
+	<NcModal v-if="!!calendarsStore.editCalendarModal && calendar" size="normal" @close="closeModal">
 		<div class="edit-calendar-modal">
 			<h2>{{ $t('calendar', 'Edit calendar') }}</h2>
 
@@ -76,13 +76,14 @@ import PublishCalendar from './EditCalendarModal/PublishCalendar.vue'
 import SharingSearch from './EditCalendarModal/SharingSearch.vue'
 import ShareItem from './EditCalendarModal/ShareItem.vue'
 import InternalLink from './EditCalendarModal/InternalLink.vue'
-import { mapGetters } from 'vuex'
 import logger from '../../utils/logger.js'
 import DeleteIcon from 'vue-material-design-icons/Delete.vue'
 import DownloadIcon from 'vue-material-design-icons/Download.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import { showError } from '@nextcloud/dialogs'
+import useCalendarsStore from '../../store/calendars.js'
+import { mapStores } from 'pinia'
 
 export default {
 	name: 'EditCalendarModal',
@@ -108,14 +109,14 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['editCalendarModal']),
+		...mapStores(useCalendarsStore),
 		calendar() {
-			const id = this.editCalendarModal?.calendarId
+			const id = this.calendarsStore.editCalendarModal?.calendarId
 			if (!id) {
 				return undefined
 			}
 
-			return this.$store.getters.getCalendarById(id)
+			return this.calendarsStore.getCalendarById(id)
 		},
 
 		/**
@@ -152,13 +153,13 @@ export default {
 		},
 	},
 	watch: {
-		editCalendarModal(value) {
-			if (!value) {
+		calendar(calendar) {
+			if (!calendar) {
 				return
 			}
 
-			this.calendarName = this.calendar.displayName
-			this.calendarColor = this.calendar.color
+			this.calendarName = calendar.displayName
+			this.calendarColor = calendar.color
 			this.calendarNameChanged = false
 			this.calendarColorChanged = false
 		},
@@ -168,7 +169,7 @@ export default {
 		 * Close the modal (without saving).
 		 */
 		closeModal() {
-			this.$store.commit('hideEditCalendarModal')
+			this.calendarsStore.editCalendarModal = undefined
 		},
 
 		/**
@@ -176,7 +177,7 @@ export default {
 		 */
 		async saveColor() {
 			try {
-				await this.$store.dispatch('changeCalendarColor', {
+				await this.calendarsStore.changeCalendarColor({
 					calendar: this.calendar,
 					newColor: this.calendarColor,
 				})
@@ -194,7 +195,7 @@ export default {
 		 */
 		async saveName() {
 			try {
-				await this.$store.dispatch('renameCalendar', {
+				await this.calendarsStore.renameCalendar({
 					calendar: this.calendar,
 					newName: this.calendarName,
 				})
@@ -231,7 +232,7 @@ export default {
 		 * Deletes or unshares the calendar
 		 */
 		deleteCalendar() {
-			this.$store.dispatch('deleteCalendarAfterTimeout', {
+			this.calendarsStore.deleteCalendarAfterTimeout({
 				calendar: this.calendar,
 			})
 			this.closeModal()

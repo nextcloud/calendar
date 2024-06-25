@@ -45,9 +45,13 @@ import noEventsDidMount from '../fullcalendar/rendering/noEventsDidMount.js'
 import VTimezoneNamedTimezone from '../fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
 
 // Import other dependencies
-import { mapGetters, mapState } from 'vuex'
 import debounce from 'debounce'
 import { getYYYYMMDDFromFirstdayParam } from '../utils/date.js'
+import useCalendarsStore from '../store/calendars.js'
+import useSettingsStore from '../store/settings.js'
+import useCalendarObjectsStore from '../store/calendarObjects.js'
+import useWidgetStore from '../store/widget.js'
+import { mapStores, mapState } from 'pinia'
 
 export default {
 	name: 'CalendarGrid',
@@ -78,20 +82,22 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({
+		...mapStores(useCalendarsStore, useSettingsStore, useCalendarObjectsStore),
+		...mapState(useSettingsStore, {
+			locale: 'momentLocale',
 			timezoneId: 'getResolvedTimezone',
 		}),
-		...mapState({
-			locale: (state) => state.settings.momentLocale,
-			eventLimit: state => state.settings.eventLimit,
-			skipPopover: state => state.settings.skipPopover,
-			showWeekends: state => state.settings.showWeekends,
-			showWeekNumbers: state => state.settings.showWeekNumbers,
-			slotDuration: state => state.settings.slotDuration,
-			showTasks: state => state.settings.showTasks,
-			timezone: state => state.settings.timezone,
-			modificationCount: state => state.calendarObjects.modificationCount,
-		}),
+		...mapState(useSettingsStore, [
+			'eventLimit',
+			'showWeekends',
+			'showWeekNumbers',
+			'slotDuration',
+		]),
+		...mapState(useCalendarObjectsStore, ['modificationCount']),
+		...mapState(useWidgetStore, [
+			'widgetView',
+			'widgetDate',
+		]),
 		options() {
 			return {
 				// Initialization:
@@ -105,12 +111,12 @@ export default {
 				editable: this.isEditable,
 				selectable: this.isAuthenticatedUser,
 				eventAllow,
-				eventClick: eventClick(this.$store, this.$router, this.$route, window, this.isWidget, this.$refs),
-				eventDrop: this.isWidget ? false : (...args) => eventDrop(this.$store, this.$refs.fullCalendar.getApi())(...args),
-				eventResize: this.isWidget ? false : eventResize(this.$store),
+				eventClick: eventClick(this.$router, this.$route, window, this.isWidget, this.$refs),
+				eventDrop: this.isWidget ? false : (...args) => eventDrop(this.$refs.fullCalendar.getApi())(...args),
+				eventResize: this.isWidget ? false : eventResize(),
 				navLinkDayClick: this.isWidget ? false : navLinkDayClick(this.$router, this.$route),
 				navLinkWeekClick: this.isWidget ? false : navLinkWeekClick(this.$router, this.$route),
-				select: this.isWidget ? false : select(this.$store, this.$router, this.$route, window),
+				select: this.isWidget ? false : select(this.$router, this.$route, window),
 				navLinks: true,
 				// Localization
 				...getDateFormattingConfig(),
@@ -141,19 +147,13 @@ export default {
 		},
 		eventSources() {
 			if (this.isWidget) {
-				const calendar = this.$store.getters.getCalendarByUrl(this.url)
+				const calendar = this.calendarsStore.getCalendarByUrl(this.url)
 				if (!calendar) {
 					return []
 				}
-				return [calendar].map(eventSource(this.$store))
+				return [calendar].map(eventSource())
 			}
-			return this.$store.getters.enabledCalendars.map(eventSource(this.$store))
-		},
-		widgetView() {
-			return this.$store.getters.widgetView
-		},
-		widgetDate() {
-			return this.$store.getters.widgetDate
+			return this.calendarsStore.enabledCalendars.map(eventSource())
 		},
 		/**
 		 * FullCalendar Plugins
@@ -162,7 +162,7 @@ export default {
 		 */
 		plugins() {
 			return [
-				momentPluginFactory(this.$store),
+				momentPluginFactory(),
 				VTimezoneNamedTimezone,
 				dayGridPlugin,
 				interactionPlugin,
@@ -284,7 +284,7 @@ export default {
 		 */
 		saveNewView: debounce(function(initialView) {
 			if (this.isAuthenticatedUser) {
-				this.$store.dispatch('setInitialView', { initialView })
+				this.settingsStore.setInitialView({ initialView })
 			}
 		}, 5000),
 	},

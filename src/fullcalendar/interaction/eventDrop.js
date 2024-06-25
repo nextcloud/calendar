@@ -6,20 +6,25 @@ import { getDurationValueFromFullCalendarDuration } from '../duration.js'
 import getTimezoneManager from '../../services/timezoneDataProviderService.js'
 import logger from '../../utils/logger.js'
 import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
+import useCalendarsStore from '../../store/calendars.js'
+import useCalendarObjectsStore from '../../store/calendarObjects.js'
 
 /**
  * Returns a function to drop an event at a different position
  *
- * @param {object} store The Vuex store
  * @param {object} fcAPI The fullcalendar api
  * @return {Function}
  */
-export default function(store, fcAPI) {
+export default function(fcAPI) {
+	const calendarsStore = useCalendarsStore()
+	const calendarObjectsStore = useCalendarObjectsStore()
+
 	return async function({ event, delta, revert }) {
 		const deltaDuration = getDurationValueFromFullCalendarDuration(delta)
 		const defaultAllDayDuration = getDurationValueFromFullCalendarDuration(fcAPI.getOption('defaultAllDayEventDuration'))
 		const defaultTimedDuration = getDurationValueFromFullCalendarDuration(fcAPI.getOption('defaultTimedEventDuration'))
 		const timezoneId = fcAPI.getOption('timeZone')
+
 		let timezone = getTimezoneManager().getTimezoneForId(timezoneId)
 		if (!timezone) {
 			timezone = getTimezoneManager().getTimezoneForId('UTC')
@@ -37,7 +42,7 @@ export default function(store, fcAPI) {
 
 		let calendarObject
 		try {
-			calendarObject = await store.dispatch('getEventByObjectId', { objectId })
+			calendarObject = await calendarsStore.getEventByObjectId({ objectId })
 		} catch (error) {
 			console.debug(error)
 			revert()
@@ -68,7 +73,7 @@ export default function(store, fcAPI) {
 			// shiftByDuration may throw exceptions in certain cases
 			eventComponent.shiftByDuration(deltaDuration, event.allDay, timezone, defaultAllDayDuration, defaultTimedDuration)
 		} catch (error) {
-			store.commit('resetCalendarObjectToDav', {
+			calendarObjectsStore.resetCalendarObjectToDavMutation({
 				calendarObject,
 			})
 			console.debug(error)
@@ -81,11 +86,11 @@ export default function(store, fcAPI) {
 		}
 
 		try {
-			await store.dispatch('updateCalendarObject', {
+			await calendarObjectsStore.updateCalendarObject({
 				calendarObject,
 			})
 		} catch (error) {
-			store.commit('resetCalendarObjectToDav', {
+			calendarObjectsStore.resetCalendarObjectToDavMutation({
 				calendarObject,
 			})
 			console.debug(error)
