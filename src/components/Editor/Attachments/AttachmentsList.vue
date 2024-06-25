@@ -62,7 +62,8 @@
 			</ul>
 		</div>
 
-		<NcDialog :open.sync="showOpenConfirmation"
+		<NcDialog v-if="showOpenConfirmation"
+			:open.sync="showOpenConfirmation"
 			:name="t('calendar', 'Confirmation')"
 			:message="openConfirmationMessage"
 			:buttons="openConfirmationButtons" />
