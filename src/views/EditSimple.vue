@@ -4,17 +4,13 @@
 -->
 
 <template>
-	<NcPopover ref="popover"
+	<Popover ref="popover"
 		:shown="showPopover"
 		:auto-hide="false"
 		:placement="placement"
 		:boundary="boundaryElement"
 		popover-base-class="event-popover"
 		:triggers="[]">
-		<template #trigger="{ attrs }">
-			<!-- Dummy slot to silence vue warning regarding a custom trigger -->
-			<button v-bind="attrs" style="display: none" />
-		</template>
 		<div class="event-popover__inner">
 			<template v-if="isLoading && !isSaving">
 				<PopoverLoadingIndicator />
@@ -158,7 +154,7 @@
 				</SaveButtons>
 			</template>
 		</div>
-	</NcPopover>
+	</Popover>
 </template>
 <script>
 import {
@@ -166,7 +162,7 @@ import {
 	NcActionButton as ActionButton,
 	NcActionLink as ActionLink,
 	NcEmptyContent as EmptyContent,
-	NcPopover,
+	NcPopover as Popover,
 	NcButton,
 } from '@nextcloud/vue'
 import EditorMixin from '../mixins/EditorMixin.js'
@@ -199,7 +195,7 @@ export default {
 		PropertyText,
 		PropertyTitleTimePicker,
 		PropertyTitle,
-		NcPopover,
+		Popover,
 		Actions,
 		ActionButton,
 		ActionLink,
