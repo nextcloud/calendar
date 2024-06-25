@@ -18,7 +18,6 @@
 				:options="options"
 				:searchable="true"
 				:placeholder="placeholder"
-				:label-outside="true"
 				:name="readableName"
 				:multiple="true"
 				:taggable="true"
