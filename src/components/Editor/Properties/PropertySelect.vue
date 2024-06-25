@@ -21,6 +21,7 @@
 				:name="readableName"
 				:value="selectedValue"
 				:placeholder="placeholder"
+				:label-outside="true"
 				:clearable="false"
 				input-id="value"
 				label="label"

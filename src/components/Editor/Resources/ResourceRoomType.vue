@@ -10,6 +10,7 @@
 				:options="options"
 				:placeholder="placeholder"
 				:clearable="false"
+				:label-outside="true"
 				input-id="value"
 				label="label"
 				@option:selected="changeValue">
