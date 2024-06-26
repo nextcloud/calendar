@@ -48,7 +48,7 @@
     "@nextcloud/auth": "^2.3.0",
     "@nextcloud/axios": "^2.5.0",
     "@nextcloud/calendar-availability-vue": "^2.2.2",
-    "@nextcloud/calendar-js": "^7.0.0",
+    "@nextcloud/calendar-js": "^8.0.0",
     "@nextcloud/cdav-library": "^1.4.0",
     "@nextcloud/dialogs": "^5.3.4",
     "@nextcloud/event-bus": "^3.3.1",
