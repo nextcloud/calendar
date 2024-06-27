@@ -389,6 +389,7 @@ OC.L10N.register(
     "Update this occurrence" : "Dieses Vorkommen aktualisieren",
     "Public calendar does not exist" : "Öffentlicher Kalender existiert nicht",
     "Maybe the share was deleted or has expired?" : "Vielleicht wurde die Freigabe gelöscht oder ist abgelaufen?",
+    "Select a time zone" : "Eine Zeitzone auswählen",
     "Please select a time zone:" : "Bitte eine Zeitzone wählen:",
     "Pick a time" : "Zeit auswählen",
     "Pick a date" : "Datum auswählen",

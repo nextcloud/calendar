@@ -389,6 +389,7 @@ OC.L10N.register(
     "Update this occurrence" : "تحديث هذا الحدوث",
     "Public calendar does not exist" : "التقويم العام غير موجود",
     "Maybe the share was deleted or has expired?" : "لربما كانت المشاركة محذوفة أو منتهية الصلاحية؟",
+    "Select a time zone" : "إختَر المنطقة الزمنية",
     "Please select a time zone:" : "إختر المنطقة الزمنية من فضلك:",
     "Pick a time" : "إختر وقتاً",
     "Pick a date" : "إختر تاريخاً",

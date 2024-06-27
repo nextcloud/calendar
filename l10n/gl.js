@@ -389,6 +389,7 @@ OC.L10N.register(
     "Update this occurrence" : "Actualizar esta recorrencia",
     "Public calendar does not exist" : "O calendario público non existe",
     "Maybe the share was deleted or has expired?" : "Quizais a acción foi eliminada ou caducou.",
+    "Select a time zone" : "Seleccione un fuso horario",
     "Please select a time zone:" : "Seleccione un fuso horario:",
     "Pick a time" : "Escolla un momento",
     "Pick a date" : "Escolla unha data",
