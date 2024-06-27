@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.7.7 - 2024-06-27
+### Fixed
+- Appointments logging
+- Global styles scope
+
 ## 4.7.6 - 2024-06-04
 ### Fixed
 - Default calendar not supporting VEVENTs
