@@ -57,9 +57,7 @@
 	}
 
 	.app-sidebar-tab {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
+		// Make the whole sidebar scrollable instead of just the active tab
 		overflow: unset !important;
 		max-height: unset !important;
 		height: auto !important;
@@ -599,10 +597,6 @@
 
 		.v-select {
 			min-width: unset !important;
-		}
-
-		&__input {
-			width: 100%;
 		}
 	}
 
