@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.7.8 - 2024-06-28
+### Fixed
+- Broken sidebar styles
+
 ## 4.7.7 - 2024-06-27
 ### Fixed
 - Appointments logging
