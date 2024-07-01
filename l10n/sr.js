@@ -389,6 +389,7 @@ OC.L10N.register(
     "Update this occurrence" : "Ажурирај ово појављивање",
     "Public calendar does not exist" : "Јавни календар не постоји",
     "Maybe the share was deleted or has expired?" : "Можда је дељење обрисано или истекло?",
+    "Select a time zone" : "Изаберите временску зону",
     "Please select a time zone:" : "Молимо вас да изаберете временску зону:",
     "Pick a time" : "Изаберите време",
     "Pick a date" : "Изаберите датум",
