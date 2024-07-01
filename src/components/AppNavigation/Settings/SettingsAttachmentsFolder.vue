@@ -27,9 +27,9 @@ import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
 import debounce from 'debounce'
 import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'
 import { randomId } from '../../../utils/randomId.js'
-
 import useSettingsStore from '../../../store/settings.js'
 import { mapStores, mapState } from 'pinia'
+import logger from '../../../utils/logger.js'
 
 export default {
 	name: 'SettingsAttachmentsFolder',
@@ -49,8 +49,11 @@ export default {
 		async selectCalendarFolder() {
 			const picker = getFilePickerBuilder(t('calendar', 'Select the default location for attachments'))
 				.setMultiSelect(false)
-				.setModal(true)
-				.setType(1)
+				.addButton({
+					label: t('calendar', 'Pick'),
+					type: 'primary',
+					callback: (nodes) => logger.debug('Picked attachment folder', { nodes }),
+				})
 				.addMimeTypeFilter('httpd/unix-directory')
 				.allowDirectories()
 				.build()
