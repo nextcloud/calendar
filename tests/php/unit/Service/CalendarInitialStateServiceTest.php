@@ -2,29 +2,24 @@
 
 declare(strict_types=1);
 /**
- * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-namespace OCA\Calendar\Controller;
+namespace OCA\Calendar\Service;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use OC\App\CompareVersion;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\App\IAppManager;
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\Files\IAppData;
 use OCP\IConfig;
-use OCP\IRequest;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class ViewControllerTest extends TestCase {
+class CalendarInitialStateServiceTest extends TestCase {
+
 	/** @var string */
 	private $appName;
-
-	/** @var IRequest|MockObject */
-	private $request;
 
 	/** @var IAppManager|MockObject */
 	private $appManager;
@@ -41,36 +36,29 @@ class ViewControllerTest extends TestCase {
 	/** @var string */
 	private $userId;
 
-	/** @var ViewController */
-	private $controller;
-
-	/** @var IAppData|MockObject */
-	private $appData;
+	/** @var CalendarInitialStateService */
+	private $service;
 
 	/** @var CompareVersion|MockObject*/
 	private $compareVersion;
 
 	protected function setUp(): void {
 		$this->appName = 'calendar';
-		$this->request = $this->createMock(IRequest::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->config = $this->createMock(IConfig::class);
 		$this->appointmentContfigService = $this->createMock(AppointmentConfigService::class);
 		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->compareVersion = $this->createMock(CompareVersion::class);
 		$this->userId = 'user123';
-		$this->appData = $this->createMock(IAppData::class);
 
-		$this->controller = new ViewController(
+		$this->service = new CalendarInitialStateService(
 			$this->appName,
-			$this->request,
-			$this->config,
-			$this->appointmentContfigService,
 			$this->initialStateService,
 			$this->appManager,
+			$this->config,
+			$this->appointmentContfigService,
 			$this->compareVersion,
 			$this->userId,
-			$this->appData,
 		);
 	}
 
@@ -155,12 +143,7 @@ class ViewControllerTest extends TestCase {
 				['publicCalendars', null],
 			);
 
-		$response = $this->controller->index();
-
-		$this->assertInstanceOf(TemplateResponse::class, $response);
-		$this->assertEquals([], $response->getParams());
-		$this->assertEquals('user', $response->getRenderAs());
-		$this->assertEquals('main', $response->getTemplateName());
+		$this->service->run();
 	}
 
 	/**
@@ -250,12 +233,8 @@ class ViewControllerTest extends TestCase {
 				['publicCalendars', null],
 			);
 
-		$response = $this->controller->index();
+		$this->service->run();
 
-		$this->assertInstanceOf(TemplateResponse::class, $response);
-		$this->assertEquals([], $response->getParams());
-		$this->assertEquals('user', $response->getRenderAs());
-		$this->assertEquals('main', $response->getTemplateName());
 	}
 
 	/**
