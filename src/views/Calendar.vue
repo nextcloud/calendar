@@ -306,6 +306,12 @@ export default {
 		}
 
 		await this.loadMomentLocale()
+
+		await this.principalsStore.fetchRoomAndResourcePrincipals()
+		logger.debug('Fetched rooms and resources', {
+			rooms: this.principalsStore.getRoomPrincipals,
+			resources: this.principalsStore.getResourcePrincipals,
+		})
 	},
 	methods: {
 		/**

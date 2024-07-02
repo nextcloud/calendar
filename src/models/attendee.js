@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { AttendeeProperty } from '@nextcloud/calendar-js'
+
 /**
  * Creates a complete attendee object based on given props
  *
@@ -50,7 +52,25 @@ const mapAttendeePropertyToAttendeeObject = (attendeeProperty) => {
 	})
 }
 
+/**
+ * Maps a principal object to to our attendee object
+ *
+ * @param {object} principalObject An attendee object created by mapDavToPrincipal()
+ * @param {boolean} isOrganizer Should it be an attendee or an organizer?
+ * @return {AttendeeProperty}
+ */
+const mapPrincipalObjectToAttendeeObject = (principalObject, isOrganizer = false) => {
+	const attendeeProperty = AttendeeProperty.fromNameAndEMail(
+		principalObject.displayname,
+		principalObject.emailAddress,
+		isOrganizer,
+	)
+	attendeeProperty.userType = principalObject.calendarUserType
+	return mapAttendeePropertyToAttendeeObject(attendeeProperty)
+}
+
 export {
 	getDefaultAttendeeObject,
 	mapAttendeePropertyToAttendeeObject,
+	mapPrincipalObjectToAttendeeObject,
 }
