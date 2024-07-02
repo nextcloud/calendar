@@ -389,6 +389,7 @@ OC.L10N.register(
     "Update this occurrence" : "この出来事を更新する",
     "Public calendar does not exist" : "公開カレンダーは存在しません",
     "Maybe the share was deleted or has expired?" : "共有が削除されたか、期限切れの可能性があります",
+    "Select a time zone" : "タイムゾーンの選択",
     "Please select a time zone:" : "タイムゾーンを選択してください：",
     "Pick a time" : "時間を指定",
     "Pick a date" : "日付を指定",

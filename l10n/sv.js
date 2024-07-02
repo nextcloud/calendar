@@ -389,6 +389,7 @@ OC.L10N.register(
     "Update this occurrence" : "Uppdatera denna förekomst",
     "Public calendar does not exist" : "Publik kalender finns inte",
     "Maybe the share was deleted or has expired?" : "Kanske har delningen tagits bort eller har gått ut?",
+    "Select a time zone" : "Välj en tidszon",
     "Please select a time zone:" : "Välj en tidszon:",
     "Pick a time" : "Välj en tidpunkt",
     "Pick a date" : "Välj ett datum",
