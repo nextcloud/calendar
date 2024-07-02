@@ -17,6 +17,7 @@ use function in_array;
 class CalendarInitialStateService {
 
 	public function __construct(
+		private string $appName,
 		private IInitialState $initialStateService,
 		private IAppManager $appManager,
 		private IConfig $config,
@@ -24,6 +25,7 @@ class CalendarInitialStateService {
 		private CompareVersion $compareVersion,
 		private ?string $userId,
 	) {
+		$this->appName = $appName;
 		$this->config = $config;
 		$this->initialStateService = $initialStateService;
 		$this->appointmentConfigService = $appointmentConfigService;
@@ -33,14 +35,7 @@ class CalendarInitialStateService {
 
 	}
 
-	/**
-	 * Load the main calendar page
-	 *
-	 * @NoAdminRequired
-	 * @NoCSRFRequired
-	 *
-	 * @return TemplateResponse
-	 */
+
 	public function run(): void {
 		$defaultEventLimit = $this->config->getAppValue($this->appName, 'eventLimit', 'yes');
 		$defaultInitialView = $this->config->getAppValue($this->appName, 'currentView', 'dayGridMonth');

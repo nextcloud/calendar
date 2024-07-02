@@ -23,8 +23,6 @@ class ViewController extends Controller {
 	/** @var IConfig */
 	private $config;
 
-	/** @var IInitialState */
-	private $initialStateService;
 
 	/** @var IAppManager */
 	private $appManager;

@@ -22,15 +22,15 @@ use OCP\Util;
  */
 class CalendarReferenceListener implements IEventListener {
 	public function __construct(
-		private CalendarInitialStateService $initialStateService) {
-		$this->initialStateService = $initialStateService;
+		private CalendarInitialStateService $calendarinitialStateService) {
+		$this->calendarinitialStateService = $calendarinitialStateService;
 	}
 
 	public function handle(Event $event): void {
 		if (!$event instanceof RenderReferenceEvent) {
 			return;
 		}
-		$this->initialStateService->run();
+		$this->calendarinitialStateService->run();
 
 		Util::addScript(Application::APP_ID, 'calendar-reference');
 	}
