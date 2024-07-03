@@ -141,7 +141,7 @@
 				</NcNoteCard>
 				<NcButton class="appointment-config-modal__submit-button"
 					type="primary"
-					:disabled="!editing.name || editing.length === 0"
+					:disabled="!editing.name || editing.length === 0 || isLoading"
 					@click="save">
 					{{ saveButtonText }}
 				</NcButton>
@@ -198,6 +198,7 @@ export default {
 	},
 	data() {
 		return {
+			isLoading: false,
 			editing: undefined,
 			enablePreparationDuration: false,
 			enableFollowupDuration: false,
@@ -292,6 +293,7 @@ export default {
 			this.editing.calendarFreeBusyUris = this.editing.calendarFreeBusyUris.filter(uri => uri !== this.calendarUrlToUri(calendar.url))
 		},
 		async save() {
+			this.isLoading = true
 			this.rateLimitingReached = false
 
 			if (!this.enablePreparationDuration) {
@@ -323,6 +325,8 @@ export default {
 					this.rateLimitingReached = true
 				}
 				logger.error('Failed to save config', { error, config, isNew: this.isNew })
+			} finally {
+				this.isLoading = false
 			}
 		},
 	},
