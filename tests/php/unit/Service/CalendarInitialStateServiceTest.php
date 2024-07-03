@@ -24,7 +24,7 @@ declare(strict_types=1);
  *
  */
 
-namespace OCA\Calendar\Controller;
+namespace OCA\Calendar\Service;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use OC\App\CompareVersion;
