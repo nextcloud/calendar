@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.7.9 - 2024-07-03
+### Fixed
+- Broken initial state
+- Button state on appointment creation
+
 ## 4.7.8 - 2024-06-28
 ### Fixed
 - Broken sidebar styles
