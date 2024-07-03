@@ -93,7 +93,9 @@ class CalendarInitialStateService {
 		$this->initialStateService->provideInitialState('tasks_enabled', $tasksEnabled);
 		$this->initialStateService->provideInitialState('hide_event_export', $hideEventExport);
 		$this->initialStateService->provideInitialState('force_event_alarm_type', $forceEventAlarmType);
-		$this->initialStateService->provideInitialState('appointmentConfigs', $this->appointmentConfigService->getAllAppointmentConfigurations($this->userId));
+		if (!is_null($this->userId)) {
+			$this->initialStateService->provideInitialState('appointmentConfigs', $this->appointmentConfigService->getAllAppointmentConfigurations($this->userId));
+		}
 		$this->initialStateService->provideInitialState('disable_appointments', $disableAppointments);
 		$this->initialStateService->provideInitialState('can_subscribe_link', $canSubscribeLink);
 		$this->initialStateService->provideInitialState('show_resources', $showResources);
