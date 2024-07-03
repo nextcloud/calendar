@@ -146,6 +146,7 @@
     "_Import calendar_::_Import calendars_" : ["匯入日曆"],
     "Default attachments location" : "預設附件位置",
     "Select the default location for attachments" : "選取附件的預設位置",
+    "Pick" : "挑選",
     "Invalid location selected" : "選取無效的位置",
     "Attachments folder successfully saved." : "附件資料夾已成功儲存。",
     "Error on saving attachments folder." : "儲存附件資料夾時發生錯誤。",

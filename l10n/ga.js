@@ -148,6 +148,7 @@ OC.L10N.register(
     "_Import calendar_::_Import calendars_" : ["Iompórtáil féilire","Iompórtáil féilirí","Iompórtáil féilirí","Iompórtáil féilirí","Iompórtáil féilirí"],
     "Default attachments location" : "Default attachments location",
     "Select the default location for attachments" : "Roghnaigh an suíomh réamhshocraithe le haghaidh ceangaltán",
+    "Pick" : "Pioc",
     "Invalid location selected" : "Suíomh neamhbhailí roghnaithe",
     "Attachments folder successfully saved." : "D'éirigh le fillteán na gceangaltán a shábháil.",
     "Error on saving attachments folder." : "Earráid agus fillteán na gceangaltán á shábháil.",

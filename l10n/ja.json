@@ -146,6 +146,7 @@
     "_Import calendar_::_Import calendars_" : ["カレンダーのインポート"],
     "Default attachments location" : "添付ファイルのデフォルト位置",
     "Select the default location for attachments" : "添付ファイルのデフォルト位置を選択",
+    "Pick" : "選定",
     "Invalid location selected" : "選択した場所が無効",
     "Attachments folder successfully saved." : "添付ファイルフォルダーを保存しました",
     "Error on saving attachments folder." : "添付ファイルフォルダーの保存でエラーが発生しました",

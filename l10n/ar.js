@@ -148,6 +148,7 @@ OC.L10N.register(
     "_Import calendar_::_Import calendars_" : ["استيراد التقويم","استيراد التقويم","استيراد التقويم","استيراد التقويم","استيراد التقويم","استيراد التقويم"],
     "Default attachments location" : "موقع المُرفقات التلقائي",
     "Select the default location for attachments" : "عيّن موقع المُرفقات التلقائي",
+    "Pick" : "إختَر",
     "Invalid location selected" : "الموقع المُختار غير صحيح",
     "Attachments folder successfully saved." : "تمّ بنجاح حفظ مُجلّد المُرفقات",
     "Error on saving attachments folder." : "خطأ في حفظ مُجلّد المُرفقات",

@@ -148,6 +148,7 @@ OC.L10N.register(
     "_Import calendar_::_Import calendars_" : ["Import calendar","Import calendars"],
     "Default attachments location" : "Default attachments location",
     "Select the default location for attachments" : "Select the default location for attachments",
+    "Pick" : "Pick",
     "Invalid location selected" : "Invalid location selected",
     "Attachments folder successfully saved." : "Attachments folder successfully saved.",
     "Error on saving attachments folder." : "Error on saving attachments folder.",

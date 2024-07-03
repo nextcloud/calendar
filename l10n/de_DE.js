@@ -148,6 +148,7 @@ OC.L10N.register(
     "_Import calendar_::_Import calendars_" : ["Kalender importieren","Kalender importieren"],
     "Default attachments location" : "Standard-Speicherort für Anhänge",
     "Select the default location for attachments" : "Standard-Speicherort für Anhänge auswählen",
+    "Pick" : "Auswählen",
     "Invalid location selected" : "Ungültigen Speicherort ausgewählt",
     "Attachments folder successfully saved." : "Anhangsordner gespeichert.",
     "Error on saving attachments folder." : "Fehler beim Speichern des Anhangsordners.",
