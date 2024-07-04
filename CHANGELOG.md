@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.7.10 - 2024-07-04
+### Fixed
+- Broken file sharing
+
 ## 4.7.9 - 2024-07-03
 ### Fixed
 - Broken initial state
