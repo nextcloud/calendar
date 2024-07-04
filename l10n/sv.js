@@ -148,6 +148,7 @@ OC.L10N.register(
     "_Import calendar_::_Import calendars_" : ["Importera kalender","Importera kalendrar"],
     "Default attachments location" : "Standardplats för bilagor",
     "Select the default location for attachments" : "Välj standardplats för bilagor",
+    "Pick" : "Välj",
     "Invalid location selected" : "Ogiltig plats vald",
     "Attachments folder successfully saved." : "Mapp för bilagor har sparats ",
     "Error on saving attachments folder." : "Ett fel uppstod vid ändring av mapp för bilagor",

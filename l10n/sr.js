@@ -148,6 +148,7 @@ OC.L10N.register(
     "_Import calendar_::_Import calendars_" : ["Увези календар","Увези календара","Увези календаре"],
     "Default attachments location" : "Подразумевана локација прилога",
     "Select the default location for attachments" : "Изаберите подразумевану локацију за прилоге",
+    "Pick" : "Изаберите",
     "Invalid location selected" : "Изабрана је неисправна локација",
     "Attachments folder successfully saved." : "Фолдер за прилоге је успешно сачуван.",
     "Error on saving attachments folder." : "Грешка приликом чувања фолдера са додацима.",
