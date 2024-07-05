@@ -79,13 +79,13 @@
 			<SettingsAttachmentsFolder />
 			<ActionButton @click.prevent.stop="copyPrimaryCalDAV">
 				<template #icon>
-					<ClipboardArrowLeftOutline :size="20" decorative />
+					<ContentCopy :size="20" decorative />
 				</template>
 				{{ $t('calendar', 'Copy primary CalDAV address') }}
 			</ActionButton>
 			<ActionButton @click.prevent.stop="copyAppleCalDAV">
 				<template #icon>
-					<ClipboardArrowLeftOutline :size="20" decorative />
+					<ContentCopy :size="20" decorative />
 				</template>
 				{{ $t('calendar', 'Copy iOS/macOS CalDAV address') }}
 			</ActionButton>
@@ -148,7 +148,7 @@ import {
 
 import { getDefaultAlarms } from '../../defaults/defaultAlarmProvider.js'
 
-import ClipboardArrowLeftOutline from 'vue-material-design-icons/ClipboardArrowLeftOutline.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 
@@ -166,7 +166,7 @@ export default {
 		SettingsImportSection,
 		SettingsTimezoneSelect,
 		SettingsAttachmentsFolder,
-		ClipboardArrowLeftOutline,
+		ContentCopy,
 		InformationVariant,
 		OpenInNewIcon,
 		CalendarPicker,
