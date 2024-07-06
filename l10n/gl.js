@@ -482,7 +482,7 @@ OC.L10N.register(
     "on {time}" : "ás {time}",
     "on {time} ({timezoneId})" : "ás {time} ({timezoneId})",
     "Week {number} of {year}" : "Semana {number} de {year}",
-    "Daily" : "Cada día",
+    "Daily" : "A diario",
     "Weekly" : "Cada semana",
     "Monthly" : "Cada mes",
     "Yearly" : "Cada ano",
