@@ -9,17 +9,66 @@
 		v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
 		draggable=".draggable-calendar-list-item"
 		@update="update">
+		<CalendarListNew />
 		<template v-if="!isPublic">
-			<CalendarListItem v-for="calendar in calendars"
+			<CalendarListItem v-for="calendar in sortedCalendars.personal"
 				:key="calendar.id"
 				class="draggable-calendar-list-item"
 				:calendar="calendar" />
 		</template>
 		<template v-else>
-			<PublicCalendarListItem v-for="calendar in calendars"
+			<PublicCalendarListItem v-for="calendar in sortedCalendars.personal"
 				:key="calendar.id"
 				:calendar="calendar" />
 		</template>
+
+		<NcAppNavigationCaption v-if="sortedCalendars.shared.length" :name="$t('calendar', 'Shared calendars')" />
+		<template v-if="!isPublic">
+			<CalendarListItem v-for="calendar in sortedCalendars.shared"
+				:key="calendar.id"
+				class="draggable-calendar-list-item"
+				:calendar="calendar" />
+		</template>
+		<template v-else>
+			<PublicCalendarListItem v-for="calendar in sortedCalendars.shared"
+				:key="calendar.id"
+				:calendar="calendar" />
+		</template>
+
+		<NcAppNavigationCaption v-if="sortedCalendars.deck.length" :name="$t('calendar', 'Deck')" />
+		<template v-if="!isPublic">
+			<CalendarListItem v-for="calendar in sortedCalendars.deck"
+				:key="calendar.id"
+				class="draggable-calendar-list-item"
+				:calendar="calendar" />
+		</template>
+		<template v-else>
+			<PublicCalendarListItem v-for="calendar in sortedCalendars.deck"
+				:key="calendar.id"
+				:calendar="calendar" />
+		</template>
+
+		<NcAppNavigationSpacer />
+
+		<NcAppNavigationItem v-if="sortedCalendars.hidden.length" :name="$t('calendar', 'Hidden')" :allow-collapse="true">
+			<template #icon>
+				<CalendarMinus :size="20" />
+			</template>
+			<template>
+				<div v-if="!isPublic">
+					<CalendarListItem v-for="calendar in sortedCalendars.hidden"
+						:key="calendar.id"
+						class="draggable-calendar-list-item"
+						:calendar="calendar" />
+				</div>
+				<div v-else>
+					<PublicCalendarListItem v-for="calendar in sortedCalendars.hidden"
+						:key="calendar.id"
+						:calendar="calendar" />
+				</div>
+			</template>
+		</NcAppNavigationItem>
+
 		<!-- The header slot must be placed here, otherwise vuedraggable adds undefined as item to the array -->
 		<template #footer>
 			<CalendarListItemLoadingPlaceholder v-if="loadingCalendars" />
@@ -28,9 +77,12 @@
 </template>
 
 <script>
+import { NcAppNavigationCaption, NcAppNavigationItem, NcAppNavigationSpacer } from '@nextcloud/vue'
 import CalendarListItem from './CalendarList/CalendarListItem.vue'
+import CalendarListNew from './CalendarList/CalendarListNew.vue'
 import PublicCalendarListItem from './CalendarList/PublicCalendarListItem.vue'
 import CalendarListItemLoadingPlaceholder from './CalendarList/CalendarListItemLoadingPlaceholder.vue'
+import CalendarMinus from 'vue-material-design-icons/CalendarMinus.vue'
 import draggable from 'vuedraggable'
 import debounce from 'debounce'
 import { showError } from '@nextcloud/dialogs'
@@ -44,9 +96,14 @@ export default {
 	name: 'CalendarList',
 	components: {
 		CalendarListItem,
+		CalendarListNew,
 		CalendarListItemLoadingPlaceholder,
 		PublicCalendarListItem,
 		draggable,
+		NcAppNavigationCaption,
+		NcAppNavigationItem,
+		NcAppNavigationSpacer,
+		CalendarMinus,
 	},
 	props: {
 		isPublic: {
@@ -69,6 +126,40 @@ export default {
 		...mapState(useCalendarsStore, {
 			serverCalendars: 'sortedCalendarsSubscriptions',
 		}),
+		/**
+		 * Calendars sorted by personal, shared, deck, and hidden
+		 *
+		 * @return {Map}
+		 */
+		sortedCalendars() {
+			const sortedCalendars = {
+				personal: [],
+				shared: [],
+				deck: [],
+				hidden: [],
+			}
+
+			this.calendars.forEach((calendar) => {
+				if (calendar.isSharedWithMe) {
+					sortedCalendars.shared.push(calendar)
+					return
+				}
+
+				if (calendar.url.includes('app-generated--deck--board')) {
+					sortedCalendars.deck.push(calendar)
+					return
+				}
+
+				if (!calendar.enabled) {
+					sortedCalendars.hidden.push(calendar)
+					return
+				}
+
+				sortedCalendars.personal.push(calendar)
+			})
+
+			return sortedCalendars
+		},
 		loadingKeyCalendars() {
 			return this._uid + '-loading-placeholder-calendars'
 		},

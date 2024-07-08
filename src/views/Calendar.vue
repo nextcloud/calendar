@@ -26,8 +26,6 @@
 				<!-- Calendar / Subscription List -->
 				<CalendarList :is-public="!isAuthenticatedUser"
 					:loading-calendars="loadingCalendars" />
-				<CalendarListNew v-if="!loadingCalendars && isAuthenticatedUser"
-					:disabled="loadingCalendars" />
 				<EditCalendarModal />
 
 				<!-- Appointment Configuration List -->
@@ -67,7 +65,6 @@ import {
 import AppNavigationHeader from '../components/AppNavigation/AppNavigationHeader.vue'
 import CalendarList from '../components/AppNavigation/CalendarList.vue'
 import Settings from '../components/AppNavigation/Settings.vue'
-import CalendarListNew from '../components/AppNavigation/CalendarList/CalendarListNew.vue'
 import EmbedTopNavigation from '../components/AppNavigation/EmbedTopNavigation.vue'
 import EmptyCalendar from '../components/EmptyCalendar.vue'
 import CalendarGrid from '../components/CalendarGrid.vue'
@@ -118,7 +115,6 @@ export default {
 		AppContent,
 		AppNavigation,
 		AppNavigationSpacer,
-		CalendarListNew,
 		Trashbin,
 		EditCalendarModal,
 		EditSimple,
