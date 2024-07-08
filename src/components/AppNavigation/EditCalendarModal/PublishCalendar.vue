@@ -17,7 +17,7 @@
 			<NcActions>
 				<NcActionButton @click.prevent.stop="copyPublicLink">
 					<template #icon>
-						<ClipboardArrowLeftOutline :size="20" decorative />
+						<ContentCopy :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'Copy public link') }}
 				</NcActionButton>
@@ -135,7 +135,7 @@ import {
 import HttpClient from '@nextcloud/axios'
 
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
-import ClipboardArrowLeftOutline from 'vue-material-design-icons/ClipboardArrowLeftOutline.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import CodeBrackets from 'vue-material-design-icons/CodeBrackets.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 import Email from 'vue-material-design-icons/Email.vue'
@@ -152,7 +152,7 @@ export default {
 		NcActionInput,
 		NcActionText,
 		CalendarBlank,
-		ClipboardArrowLeftOutline,
+		ContentCopy,
 		CodeBrackets,
 		Delete,
 		Email,

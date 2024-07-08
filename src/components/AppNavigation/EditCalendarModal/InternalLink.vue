@@ -19,7 +19,7 @@
 		<NcActions>
 			<NcActionButton @click.prevent.stop="copyLink">
 				<template #icon>
-					<ClipboardArrowLeftOutline :size="20" />
+					<ContentCopy :size="20" />
 				</template>
 				{{ t('calendar', 'Copy internal link') }}
 			</NcActionButton>
@@ -32,7 +32,7 @@ import { NcActions, NcActionButton } from '@nextcloud/vue'
 import { generateRemoteUrl } from '@nextcloud/router'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
-import ClipboardArrowLeftOutline from 'vue-material-design-icons/ClipboardArrowLeftOutline.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 
 export default {
 	name: 'InternalLink',
@@ -40,7 +40,7 @@ export default {
 		NcActions,
 		NcActionButton,
 		OpenInNewIcon,
-		ClipboardArrowLeftOutline,
+		ContentCopy,
 	},
 	props: {
 		calendar: {
