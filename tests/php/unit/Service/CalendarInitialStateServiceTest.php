@@ -50,7 +50,9 @@ class CalendarInitialStateServiceTest extends TestCase {
 		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->compareVersion = $this->createMock(CompareVersion::class);
 		$this->userId = 'user123';
+	}
 
+	public function testRun(): void {
 		$this->service = new CalendarInitialStateService(
 			$this->appName,
 			$this->initialStateService,
@@ -60,9 +62,6 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->compareVersion,
 			$this->userId,
 		);
-	}
-
-	public function testIndex(): void {
 		$this->config->expects(self::exactly(16))
 			->method('getAppValue')
 			->willReturnMap([
@@ -146,6 +145,94 @@ class CalendarInitialStateServiceTest extends TestCase {
 		$this->service->run();
 	}
 
+	public function testRunAnonymously(): void {
+		$this->service = new CalendarInitialStateService(
+			$this->appName,
+			$this->initialStateService,
+			$this->appManager,
+			$this->config,
+			$this->appointmentContfigService,
+			$this->compareVersion,
+			null,
+		);
+		$this->config->expects(self::exactly(16))
+			->method('getAppValue')
+			->willReturnMap([
+				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
+				['calendar', 'currentView', 'dayGridMonth', 'defaultCurrentView'],
+				['calendar', 'showWeekends', 'yes', 'defaultShowWeekends'],
+				['calendar', 'showWeekNr', 'no', 'defaultShowWeekNr'],
+				['calendar', 'skipPopover', 'no', 'defaultSkipPopover'],
+				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
+				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
+				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
+				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
+				['calendar', 'installed_version', '', '1.0.0'],
+				['calendar', 'hideEventExport', 'no', 'yes'],
+				['calendar', 'disableAppointments', 'no', 'no'],
+				['calendar', 'forceEventAlarmType', '', 'forceEventAlarmType'],
+				['dav', 'allow_calendar_link_subscriptions', 'yes', 'no'],
+				['calendar', 'showResources', 'yes', 'yes'],
+				['calendar', 'publicCalendars', ''],
+			]);
+		$this->config->expects(self::exactly(11))
+			->method('getUserValue')
+			->willReturnMap([
+				[null, 'calendar', 'eventLimit', 'defaultEventLimit', 'yes'],
+				[null, 'calendar', 'firstRun', 'yes', 'yes'],
+				[null, 'calendar', 'currentView', 'defaultCurrentView', 'timeGridWeek'],
+				[null, 'calendar', 'showWeekends', 'defaultShowWeekends', 'yes'],
+				[null, 'calendar', 'showWeekNr', 'defaultShowWeekNr', 'yes'],
+				[null, 'calendar', 'skipPopover', 'defaultSkipPopover', 'yes'],
+				[null, 'calendar', 'timezone', 'defaultTimezone', 'Europe/Berlin'],
+				[null, 'dav', 'attachmentsFolder', '/Calendar', '/Calendar'],
+				[null, 'calendar', 'slotDuration', 'defaultSlotDuration', '00:15:00'],
+				[null, 'calendar', 'defaultReminder', 'defaultDefaultReminder', '00:10:00'],
+				[null, 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
+			]);
+		$this->appManager->expects(self::exactly(3))
+			->method('isEnabledForUser')
+			->willReturnMap([
+				['spreed', null, true],
+				['tasks', null, true],
+				['circles', null, false],
+			]);
+		$this->appManager->expects(self::exactly(2))
+			->method('getAppVersion')
+			->willReturnMap([
+				['spreed', true, '12.0.0'],
+				['circles', true, '22.0.0'],
+			]);
+		$this->initialStateService->expects(self::exactly(22))
+			->method('provideInitialState')
+			->withConsecutive(
+				['app_version', '1.0.0'],
+				['event_limit', true],
+				['first_run', true],
+				['initial_view', 'timeGridWeek'],
+				['show_weekends', true],
+				['show_week_numbers', true],
+				['skip_popover', true],
+				['talk_enabled', true],
+				['talk_api_version', 'v4'],
+				['timezone', 'Europe/Berlin'],
+				['attachments_folder', '/Calendar'],
+				['slot_duration', '00:15:00'],
+				['default_reminder', '00:10:00'],
+				['show_tasks', false],
+				['tasks_enabled', true],
+				['hide_event_export', true],
+				['force_event_alarm_type', null],
+				['disable_appointments', false],
+				['can_subscribe_link', false],
+				['show_resources', true],
+				['isCirclesEnabled', false],
+				['publicCalendars', null],
+			);
+
+		$this->service->run();
+	}
+
 	/**
 	 * @dataProvider viewFixDataProvider
 	 *
@@ -153,6 +240,15 @@ class CalendarInitialStateServiceTest extends TestCase {
 	 * @param string $expectedView
 	 */
 	public function testIndexViewFix(string $savedView, string $expectedView): void {
+		$this->service = new CalendarInitialStateService(
+			$this->appName,
+			$this->initialStateService,
+			$this->appManager,
+			$this->config,
+			$this->appointmentContfigService,
+			$this->compareVersion,
+			$this->userId,
+		);
 		$this->config->expects(self::exactly(16))
 			->method('getAppValue')
 			->willReturnMap([
