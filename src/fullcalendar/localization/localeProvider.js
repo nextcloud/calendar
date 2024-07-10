@@ -19,10 +19,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
-import { translate as t, getLanguage } from '@nextcloud/l10n'
-import {
-	getFirstDayOfWeekFromMomentLocale,
-} from '../../utils/moment.js'
+import { translate as t, getLanguage, getFirstDay } from '@nextcloud/l10n'
 
 /**
  * Returns localization settings for the FullCalender package.
@@ -32,7 +29,7 @@ import {
  */
 const getFullCalendarLocale = () => {
 	return {
-		firstDay: getFirstDayOfWeekFromMomentLocale(),
+		firstDay: getFirstDay(),
 		locale: getLanguage(),
 		// TRANSLATORS W is an abbreviation for Week
 		weekText: t('calendar', 'W'),
