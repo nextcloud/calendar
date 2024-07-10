@@ -148,6 +148,7 @@ OC.L10N.register(
     "_Import calendar_::_Import calendars_" : ["Importer kalender","Importer kalendere"],
     "Default attachments location" : "Standard plassering for vedlegg",
     "Select the default location for attachments" : "Velg standardplassering for vedlegg",
+    "Pick" : "Velg",
     "Invalid location selected" : "Invalid location selected",
     "Attachments folder successfully saved." : "Vedleggsmappen er lagret.",
     "Error on saving attachments folder." : "Feil ved lagring av vedleggsmappe.",
