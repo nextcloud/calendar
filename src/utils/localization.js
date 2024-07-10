@@ -7,6 +7,7 @@ import {
 	getDayNames,
 	getDayNamesMin,
 	getDayNamesShort,
+	getFirstDay,
 	getMonthNames,
 	getMonthNamesShort,
 } from '@nextcloud/l10n'
@@ -31,7 +32,7 @@ const getLangConfigForVue2DatePicker = (momentLocale) => {
 			weekdays: getDayNames(),
 			weekdaysShort: getDayNamesShort(),
 			weekdaysMin: getDayNamesMin(),
-			firstDayOfWeek: moment.localeData(momentLocale).firstDayOfWeek(),
+			firstDayOfWeek: getFirstDay(),
 			firstWeekContainsDate: moment.localeData(momentLocale).firstDayOfYear(),
 			meridiem: moment.localeData(momentLocale).meridiem,
 			meridiemParse: moment.localeData(momentLocale).meridiemParse,
