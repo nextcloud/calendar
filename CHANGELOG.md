@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.7.11 - 2024-07-11
+### Fixed
+- First day of the week
+
 ## 4.7.10 - 2024-07-04
 ### Fixed
 - Broken file sharing
