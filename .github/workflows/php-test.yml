@@ -50,7 +50,7 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: nextcloud/apps/calendar/clover.unit.xml
         flags: php
-        fail_ci_if_error: true
+        fail_ci_if_error: ${{ !github.event.pull_request.head.repo.fork }}
         verbose: true
 
   integration-tests:
