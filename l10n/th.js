@@ -14,6 +14,7 @@ OC.L10N.register(
     "Day" : "วัน",
     "Week" : "สัปดาห์",
     "Month" : "เดือน",
+    "Year" : "ปี",
     "Preview" : "ตัวอย่าง",
     "Copy link" : "คัดลอกลิงก์",
     "Edit" : "แก้ไข",

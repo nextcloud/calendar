@@ -318,7 +318,7 @@ OC.L10N.register(
     "The invitation has been declined successfully." : "O convite foi declinado correctamente.",
     "Failed to decline the invitation." : "Produciuse un erro ao declinar o convite.",
     "Your participation has been marked as tentative." : "A súa participación foi marcada como provisional.",
-    "Failed to set the participation status to tentative." : "Produciuse un fallo ao estabelecer o estado de participación como provisional.",
+    "Failed to set the participation status to tentative." : "Produciuse un fallo ao definir o estado de participación como provisional.",
     "Attendees" : "Asistentes",
     "Create Talk room for this event" : "Crear sala de conversa para este evento",
     "No attendees yet" : "Aínda non hai participantes",
