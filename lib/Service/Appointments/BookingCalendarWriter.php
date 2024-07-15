@@ -33,8 +33,8 @@ use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IManager;
 use OCP\IConfig;
-use OCP\IL10N;
 use OCP\IUserManager;
+use OCP\L10N\IFactory;
 use OCP\Security\ISecureRandom;
 use RuntimeException;
 use Sabre\VObject\Component\VCalendar;
@@ -52,8 +52,6 @@ class BookingCalendarWriter {
 
 	/** @var ISecureRandom */
 	private $random;
-	/** @var IL10N */
-	private $l10n;
 
 	private TimezoneGenerator $timezoneGenerator;
 
@@ -61,13 +59,12 @@ class BookingCalendarWriter {
 		IManager $manager,
 		IUserManager $userManager,
 		ISecureRandom $random,
-		IL10N $l10n,
-		TimezoneGenerator $timezoneGenerator) {
+		TimezoneGenerator $timezoneGenerator,
+		private IFactory $l10nFactory) {
 		$this->config = $config;
 		$this->manager = $manager;
 		$this->userManager = $userManager;
 		$this->random = $random;
-		$this->l10n = $l10n;
 		$this->timezoneGenerator = $timezoneGenerator;
 	}
 
@@ -112,12 +109,15 @@ class BookingCalendarWriter {
 			throw new RuntimeException('Organizer not registered user for this instance');
 		}
 
+		$lang = $this->config->getUserValue($organizer->getUID(), 'core', 'lang', null);
+		$l10n = $this->l10nFactory->get('calendar', $lang);
+
 		$vcalendar = new VCalendar([
 			'CALSCALE' => 'GREGORIAN',
 			'VERSION' => '2.0',
 			'VEVENT' => [
 				// TRANSLATORS Title for event appoinment, first the attendee name, then the appointment name
-				'SUMMARY' => $this->l10n->t('%1$s - %2$s', [$displayName, $config->getName()]),
+				'SUMMARY' => $l10n->t('%1$s - %2$s', [$displayName, $config->getName()]),
 				'STATUS' => 'CONFIRMED',
 				'DTSTART' => $start,
 				'DTEND' => $start->setTimestamp($start->getTimestamp() + ($config->getLength()))
@@ -195,7 +195,7 @@ class BookingCalendarWriter {
 		}
 
 		if ($config->getPreparationDuration() !== 0) {
-			$string = $this->l10n->t('Prepare for %s', [$config->getName()]);
+			$string = $l10n->t('Prepare for %s', [$config->getName()]);
 			$prepStart = $start->setTimestamp($start->getTimestamp() - $config->getPreparationDuration());
 			$prepCalendar = new VCalendar([
 				'CALSCALE' => 'GREGORIAN',
@@ -226,7 +226,7 @@ class BookingCalendarWriter {
 		}
 
 		if ($config->getFollowupDuration() !== 0) {
-			$string = $this->l10n->t('Follow up for %s', [$config->getName()]);
+			$string = $l10n->t('Follow up for %s', [$config->getName()]);
 			$followupStart = $start->setTimestamp($start->getTimestamp() + $config->getLength());
 			$followUpEnd = $followupStart->setTimestamp($followupStart->getTimestamp() + $config->getFollowupDuration());
 			$followUpCalendar = new VCalendar([
