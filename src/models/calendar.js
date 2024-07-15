@@ -54,6 +54,8 @@ const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
 	calendarObjects: [],
 	// Time-ranges that have already been fetched for this calendar
 	fetchedTimeRanges: [],
+	// Scheduling transparency
+	transparency: 'opaque',
 }, props)
 
 /**
@@ -86,6 +88,10 @@ const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
 	const url = calendar.url
 	const publishURL = calendar.publishURL || null
 	const timezone = calendar.timezone || null
+	// If this property is not present on a calendar collection,
+	// then the default value CALDAV:opaque MUST be assumed.
+	// https://datatracker.ietf.org/doc/html/rfc6638#section-9.1
+	const transparency = calendar.transparency || 'opaque'
 
 	let isSharedWithMe = false
 	if (!currentUserPrincipal) {
@@ -140,6 +146,7 @@ const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
 		canBePublished,
 		shares,
 		timezone,
+		transparency,
 		dav: calendar,
 	})
 }
