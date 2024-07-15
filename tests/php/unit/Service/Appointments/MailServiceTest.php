@@ -34,6 +34,7 @@ use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Service\Appointments\MailService;
 use OCP\Calendar\ICalendarQuery;
 use OCP\Defaults;
+use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IUser;
@@ -77,6 +78,7 @@ class MailServiceTest extends TestCase {
 
 	/** @var MailService */
 	private $mailService;
+	private IConfig|MockObject $userConfig;
 
 	protected function setUp(): void {
 		parent::setUp();
@@ -94,6 +96,7 @@ class MailServiceTest extends TestCase {
 		$this->dateFormatter = $this->createMock(IDateTimeFormatter::class);
 		$this->lFactory = $this->createMock(IFactory::class);
 		$this->notificationManager = $this->createMock(IManager::class);
+		$this->userConfig = $this->createMock(IConfig::class);
 		$this->mailService = new MailService(
 			$this->mailer,
 			$this->userManager,
@@ -104,6 +107,7 @@ class MailServiceTest extends TestCase {
 			$this->dateFormatter,
 			$this->lFactory,
 			$this->notificationManager,
+			$this->userConfig
 		);
 	}
 
@@ -528,6 +532,9 @@ class MailServiceTest extends TestCase {
 		$this->mailer->expects(self::once())
 			->method('createEmailTemplate')
 			->willReturn($emailTemplate);
+		$this->userConfig->expects(self::once())
+			->method('getUserValue')
+			->willReturn('en');
 		$emailTemplate->expects(self::once())
 			->method('addHeader');
 		$emailTemplate->expects(self::once())
@@ -547,8 +554,9 @@ class MailServiceTest extends TestCase {
 		$this->lFactory->expects(self::once())
 			->method('findGenericLanguage')
 			->willReturn('en');
-		$this->lFactory->expects(self::once())
-			->method('get');
+		$this->lFactory->expects(self::exactly(2))
+			->method('get')
+			->willReturn($this->l10n);
 		$this->dateFormatter->expects(self::once())
 			->method('formatDateTimeRelativeDay')
 			->willReturn('Test');
@@ -583,6 +591,9 @@ class MailServiceTest extends TestCase {
 		$this->mailer->expects(self::once())
 			->method('createMessage')
 			->willReturn($mailMessage);
+		$this->userConfig->expects(self::once())
+			->method('getUserValue')
+			->willReturn('en');
 		$mailMessage->expects(self::once())
 			->method('setFrom')
 			->willReturn($mailMessage);
@@ -615,8 +626,9 @@ class MailServiceTest extends TestCase {
 		$this->lFactory->expects(self::once())
 			->method('findGenericLanguage')
 			->willReturn('en');
-		$this->lFactory->expects(self::once())
-			->method('get');
+		$this->lFactory->expects(self::exactly(2))
+			->method('get')
+			->willReturn($this->l10n);
 		$this->dateFormatter->expects(self::once())
 			->method('formatDateTimeRelativeDay')
 			->willReturn('Test');
