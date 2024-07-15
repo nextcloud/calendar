@@ -40,6 +40,7 @@
 						:calendar="calendar" />
 				</div>
 			</template>
+			<NcAppNavigationSpacer />
 			<div class="edit-calendar-modal__actions">
 				<NcButton v-if="calendar.isSharedWithMe" type="tertiary" @click="deleteCalendar">
 					<template #icon>
@@ -71,7 +72,7 @@
 </template>
 
 <script>
-import { NcModal, NcColorPicker, NcButton } from '@nextcloud/vue'
+import { NcModal, NcColorPicker, NcButton, NcAppNavigationSpacer } from '@nextcloud/vue'
 import PublishCalendar from './EditCalendarModal/PublishCalendar.vue'
 import SharingSearch from './EditCalendarModal/SharingSearch.vue'
 import ShareItem from './EditCalendarModal/ShareItem.vue'
@@ -99,6 +100,7 @@ export default {
 		CloseIcon,
 		CheckIcon,
 		InternalLink,
+		NcAppNavigationSpacer,
 	},
 	data() {
 		return {
@@ -285,5 +287,9 @@ export default {
 		flex-direction: column;
 		gap: 5px;
 	}
+}
+
+.app-navigation-spacer {
+	list-style-type: none;
 }
 </style>
