@@ -4,12 +4,12 @@
 -->
 
 <template>
-	<AppNavigationItem class="app-navigation-entry-new-calendar"
+	<NcAppNavigationCaption class="app-navigation-entry-new-calendar"
 		:class="{'app-navigation-entry-new-calendar--open': isOpen}"
-		:name="$t('calendar', 'New calendar')"
+		:name="$t('calendar', 'Calendars')"
 		:menu-open.sync="isOpen"
 		@click.prevent.stop="toggleDialog">
-		<template #icon>
+		<template #actionsTriggerIcon>
 			<Plus :size="20" />
 		</template>
 		<template #actions>
@@ -93,7 +93,7 @@
 			<PublicCalendarSubscriptionPicker v-if="showPublicCalendarSubscriptionPicker"
 				@close="showPublicCalendarSubscriptionPicker = false" />
 		</template>
-	</AppNavigationItem>
+	</NcAppNavigationCaption>
 </template>
 
 <script>
@@ -102,7 +102,7 @@ import {
 	NcActionInput as ActionInput,
 	NcActionSeparator as ActionSeparator,
 	NcActionText as ActionText,
-	NcAppNavigationItem as AppNavigationItem,
+	NcAppNavigationCaption,
 } from '@nextcloud/vue'
 import {
 	showError,
@@ -126,7 +126,7 @@ export default {
 		ActionInput,
 		ActionSeparator,
 		ActionText,
-		AppNavigationItem,
+		NcAppNavigationCaption,
 		CalendarBlank,
 		CalendarCheck,
 		PublicCalendarSubscriptionPicker: () => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '../../Subscription/PublicCalendarSubscriptionPicker.vue'),
