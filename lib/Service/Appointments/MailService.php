@@ -12,6 +12,7 @@ use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\Booking;
 use OCA\Calendar\Exception\ServiceException;
 use OCP\Defaults;
+use OCP\IConfig;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -53,7 +54,8 @@ class MailService {
 		IURLGenerator $urlGenerator,
 		IDateTimeFormatter $dateFormatter,
 		IFactory $lFactory,
-		IManager $notificationManager) {
+		IManager $notificationManager,
+		private IConfig $userConfig) {
 		$this->userManager = $userManager;
 		$this->mailer = $mailer;
 		$this->l10n = $l10n;
@@ -212,7 +214,7 @@ class MailService {
 		IL10N $l10n,
 		Booking $booking,
 		AppointmentConfig $config,
-		bool $recipient):void {
+		bool $recipient): void {
 		$template->addBodyListItem($booking->getDisplayName(), $l10n->t('Appointment for:'));
 
 		// determain timezone depending on who is getting the message (Requestee/Requester)
@@ -259,10 +261,9 @@ class MailService {
 		return \OCP\Util::getDefaultEmailAddress('appointments-noreply');
 	}
 
-	public function sendOrganizerBookingInformationEmail(Booking $booking, AppointmentConfig $config, string $calendar) {
+	public function sendOrganizerBookingInformationEmail(Booking $booking, AppointmentConfig $config, string $calendar): void {
 		/** @var IUser $user */
 		$user = $this->userManager->get($config->getUserId());
-
 		if ($user === null) {
 			throw new ServiceException('Could not find organizer');
 		}
@@ -282,21 +283,23 @@ class MailService {
 		$template = $this->mailer->createEMailTemplate('calendar.confirmOrganizer');
 		$template->addHeader();
 
+		$lang = $this->userConfig->getUserValue($user->getUID(), 'core', 'lang', null);
+		$l10n = $this->lFactory->get('calendar', $lang);
 		// Subject
-		$subject = $this->l10n->t('You have a new appointment booking "%s" from %s', [$config->getName(), $booking->getDisplayName()]);
+		$subject = $l10n->t('You have a new appointment booking "%s" from %s', [$config->getName(), $booking->getDisplayName()]);
 		$template->setSubject($subject);
 
 		// Heading
-		$summary = $this->l10n->t('Dear %s, %s (%s) booked an appointment with you.', [$user->getDisplayName(), $booking->getDisplayName(), $booking->getEmail()]);
+		$summary = $l10n->t('Dear %s, %s (%s) booked an appointment with you.', [$user->getDisplayName(), $booking->getDisplayName(), $booking->getEmail()]);
 		$template->addHeading($summary);
 
-		$template->addBodyListItem($booking->getDisplayName() . ' (' . $booking->getEmail() . ')', $this->l10n->t('Appointment with:'));
+		$template->addBodyListItem($booking->getDisplayName() . ' (' . $booking->getEmail() . ')', $l10n->t('Appointment with:'));
 		if (!empty($config->getDescription())) {
-			$template->addBodyListItem($config->getDescription(), $this->l10n->t('Description:'));
+			$template->addBodyListItem($config->getDescription(), $l10n->t('Description:'));
 		}
 
 		// Create Booking overview
-		$this->addBulletList($template, $this->l10n, $booking, $config, true);
+		$this->addBulletList($template, $l10n, $booking, $config, true);
 		$template->addFooter();
 
 		$attachment = $this->mailer->createAttachment($calendar, 'appointment.ics', 'text/calendar');
@@ -319,7 +322,7 @@ class MailService {
 		}
 	}
 
-	public function sendOrganizerBookingInformationNotification(Booking $booking, AppointmentConfig $config) {
+	public function sendOrganizerBookingInformationNotification(Booking $booking, AppointmentConfig $config): void {
 		$tzid = $config->getAvailabilityAsArray()['timezoneId']; // extract time zone from appointment configuration
 		$dtstart = new \DateTime("now", new \DateTimeZone($booking->getTimezone())); // generate DateTime with booking time zone
 		$dtstart->setTimestamp($booking->getStart()); // set booking time stamp
