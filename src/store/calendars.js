@@ -44,6 +44,7 @@ export default defineStore('calendars', {
 			calendarsById: {},
 			initialCalendarsLoaded: false,
 			editCalendarModal: undefined,
+			syncTokens: new Map(),
 		}
 	},
 	getters: {
@@ -209,6 +210,21 @@ export default defineStore('calendars', {
 				})
 			}
 		},
+
+		/**
+		 * Get the current sync token of a calendar or undefined it the calendar is not present
+		 *
+		 * @param {object} state The pinia state object
+		 * @return {function({id: string}): string | undefined}
+		 */
+		getCalendarSyncToken: (state) => (calendar) => {
+			const existingCalendar = state.calendarsById[calendar.id]
+			if (!existingCalendar) {
+				return undefined
+			}
+
+			return state.syncTokens.get(calendar.id) ?? existingCalendar.dav.syncToken
+		},
 	},
 	actions: {
 		/**
@@ -359,6 +375,7 @@ export default defineStore('calendars', {
 			this.calendars.splice(this.calendars.indexOf(calendar), 1)
 			/// TODO this.calendarsById.delete(calendar.id)
 			Vue.delete(this.calendarsById, calendar.id)
+			this.syncTokens.delete(calendar.id)
 		},
 
 		/**
@@ -650,7 +667,7 @@ export default defineStore('calendars', {
 				}
 			}
 
-			calendarObjectsStore.appendCalendarObjectsMutation({ calendarObjects })
+			calendarObjectsStore.appendOrUpdateCalendarObjectsMutation({ calendarObjects })
 			for (const calendarObjectId of calendarObjectIds) {
 				if (this.calendarsById[calendar.id].calendarObjects.indexOf(calendarObjectId) === -1) {
 					this.calendarsById[calendar.id].calendarObjects.push(calendarObjectId)
@@ -858,7 +875,7 @@ export default defineStore('calendars', {
 			const index = this.calendarsById[calendar.id]?.fetchedTimeRanges.indexOf(fetchedTimeRangeId)
 
 			if (index !== -1) {
-				this.calendarsById[calendar.id].fetchedTimeRanges.slice(index, 1)
+				this.calendarsById[calendar.id].fetchedTimeRanges.splice(index, 1)
 			}
 		},
 
@@ -888,6 +905,21 @@ export default defineStore('calendars', {
 			if (index !== -1) {
 				this.calendarsById[calendar.id].calendarObjects.slice(index, 1)
 			}
+		},
+
+		/**
+		 * Update the sync token of a given calendar locally
+		 *
+		 * @param {object} data destructuring object
+		 * @param {{id: string}} data.calendar Calendar from the store
+		 * @param {string} data.syncToken New sync token value
+		 */
+		updateCalendarSyncToken({ calendar, syncToken }) {
+			if (!this.getCalendarById(calendar.id)) {
+				return
+			}
+
+			this.syncTokens.set(calendar.id, syncToken)
 		},
 	},
 })

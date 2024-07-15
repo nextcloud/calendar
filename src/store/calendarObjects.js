@@ -296,17 +296,15 @@ export default defineStore('calendarObjects', {
 		},
 
 		/**
-		 * Adds an array of calendar-objects to the store
+		 * Adds an array of calendar-objects to the store or update them if they already exist
 		 *
 		 * @param {object} data The destructuring object
 		 * @param {object[]} data.calendarObjects Calendar-objects to add
 		 */
-		appendCalendarObjectsMutation({ calendarObjects = [] }) {
+		appendOrUpdateCalendarObjectsMutation({ calendarObjects = [] }) {
 			for (const calendarObject of calendarObjects) {
-				if (!this.calendarObjects[calendarObject.id]) {
-					/// TODO this.calendarObjects[calendarObject.id] = calendarObject
-					Vue.set(this.calendarObjects, calendarObject.id, calendarObject)
-				}
+				/// TODO this.calendarObjects[calendarObject.id] = calendarObject
+				Vue.set(this.calendarObjects, calendarObject.id, calendarObject)
 			}
 		},
 

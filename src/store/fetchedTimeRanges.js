@@ -94,14 +94,9 @@ export default defineStore('fetchedTimeRanges', {
 		 * @param {number} data.timeRangeId Id of time-range to remove
 		 */
 		removeTimeRange({ timeRangeId }) {
-			const obj = this.fetchedTimeRangesById[timeRangeId]
-			const index = this.fetchedTimeRanges.indexOf(obj)
-
-			if (index !== -1) {
-				this.fetchedTimeRanges.splice(index, 1)
-				/// TODO this.fetchedTimeRangesById.splice(timeRangeId, 1)
-				Vue.delete(this.fetchedTimeRangesById, timeRangeId)
-			}
+			Vue.delete(this.fetchedTimeRangesById, timeRangeId)
+			this.fetchedTimeRanges = this.fetchedTimeRanges
+				.filter((timeRange) => timeRange.id !== timeRangeId)
 		},
 
 		/**
