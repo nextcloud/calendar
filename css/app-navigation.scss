@@ -18,11 +18,11 @@
 	}
 
 	.button:first-child:not(:only-of-type) {
-		border-radius: var(--border-radius-pill) 0 0 var(--border-radius-pill);
+		border-radius: var(--border-radius-element) 0 0 var(--border-radius-element);
 	}
 
 	.button:last-child:not(:only-of-type) {
-		border-radius: 0 var(--border-radius-pill) var(--border-radius-pill) 0;
+		border-radius: 0 var(--border-radius-element) var(--border-radius-element) 0;
 	}
 
 	.button:not(:only-of-type):not(:first-child):not(:last-child) {
