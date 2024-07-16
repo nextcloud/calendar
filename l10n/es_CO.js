@@ -28,6 +28,8 @@ OC.L10N.register(
     "Restore" : "Restaurar",
     "Delete permanently" : "Borrar permanentemente",
     "Empty trash bin" : "Vacíar la papelera",
+    "Deck" : "Deck",
+    "Hidden" : "Oculto",
     "Share link" : "Compartir enlace",
     "can edit" : "puede editar",
     "Share with users or groups" : "Compartir con otros usuarios o grupos",

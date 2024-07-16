@@ -39,6 +39,8 @@ OC.L10N.register(
     "Deleted" : "Устгагдсан",
     "Restore" : "Сэргээх",
     "Delete permanently" : "бүр мөсөн устгах",
+    "Deck" : "Ажлын талбар",
+    "Hidden" : "Далд",
     "Share link" : "Холбоос хуваалцах",
     "can edit" : "засаж чадна",
     "Share with users or groups" : "Бусад хэрэглэгч, бүлэгт хуваалцах",

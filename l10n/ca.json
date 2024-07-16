@@ -74,6 +74,7 @@
     "An error occurred, unable to change visibility of the calendar." : "S'ha produït un error. No s'ha canviat la visibilitat del calendari.",
     "_Unsharing the calendar in {countdown} second_::_Unsharing the calendar in {countdown} seconds_" : ["Deixant de compartir el calendari en {countdown} segons","S'està deixant de compartir el calendari en {countdown} segons"],
     "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["Eliminant el calendari en {countdown} segons","S'està suprimint el calendari en {countdown} segons"],
+    "Calendars" : "Calendaris",
     "New calendar" : "Calendari nou",
     "Name for new calendar" : "Nom per al nou calendari",
     "Creating calendar …" : "Creant el calendari …",

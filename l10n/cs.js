@@ -76,6 +76,7 @@ OC.L10N.register(
     "An error occurred, unable to change visibility of the calendar." : "Došlo k chybě, nedaří se změnit viditelnost kalendáře.",
     "_Unsharing the calendar in {countdown} second_::_Unsharing the calendar in {countdown} seconds_" : ["Kalendář přestane být sdílen za {countdown} sekundu","Kalendář přestane být sdílen za {countdown} sekundy","Kalendář přestane být sdílen za {countdown} sekund","Kalendář přestane být sdílen za {countdown} sekundy"],
     "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["Smazání kalendáře za {countdown} sekundu","Smazání kalendáře za {countdown} sekundy","Smazání kalendáře za {countdown} sekund","Smazání kalendáře za {countdown} sekundy"],
+    "Calendars" : "Kalendáře",
     "New calendar" : "Nový kalendář",
     "Name for new calendar" : "Název pro nový kalendář",
     "Creating calendar …" : "Vytváření kalendáře…",
