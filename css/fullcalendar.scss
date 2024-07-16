@@ -133,7 +133,6 @@
 	.fc-daygrid-day.fc-day-today,
 	.fc-timegrid-col.fc-day-today {
 		background-color: var(--color-primary-element-light) !important;
-		background-clip: padding-box;
 	}
 }
 
@@ -141,7 +140,6 @@
 .fc-daygrid-day.fc-day.fc-day-other,
 .fc .fc-daygrid-day.fc-day-today.fc-day-other {
 	background-color: var(--color-background-dark) !important;
-	background-clip: padding-box;
 	border: 1px solid var(--color-background-darker);
 	.fc-daygrid-day-top {
 		opacity: 0.6;
