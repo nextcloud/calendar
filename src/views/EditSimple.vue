@@ -134,6 +134,8 @@
 					:calendar-id="calendarId"
 					@close="closeEditorAndSkipAction" />
 
+				<NcAppNavigationSpacer />
+
 				<SaveButtons v-if="!isWidget"
 					class="event-popover__buttons"
 					:can-create-recurrence-exception="canCreateRecurrenceException"
@@ -167,6 +169,7 @@ import {
 	NcActionLink as ActionLink,
 	NcEmptyContent as EmptyContent,
 	NcPopover,
+	NcAppNavigationSpacer,
 	NcButton,
 } from '@nextcloud/vue'
 import EditorMixin from '../mixins/EditorMixin.js'
@@ -217,6 +220,7 @@ export default {
 		InviteesList,
 		NcButton,
 		EditIcon,
+		NcAppNavigationSpacer,
 	},
 	mixins: [
 		EditorMixin,
