@@ -10,7 +10,7 @@
 		:menu-open.sync="isOpen"
 		@click.prevent.stop="toggleDialog">
 		<template #actionsTriggerIcon>
-			<Plus :size="20" />
+			<Plus :size="20" :title="$t('calendar', 'Add new')" decorative />
 		</template>
 		<template #actions>
 			<ActionButton v-if="showCreateCalendarLabel"
@@ -326,3 +326,9 @@ export default {
 	},
 }
 </script>
+
+<style scoped>
+:deep(.action-item__menutoggle) {
+	opacity: 1 !important;
+}
+</style>
