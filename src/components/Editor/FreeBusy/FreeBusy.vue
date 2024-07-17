@@ -456,13 +456,13 @@ export default {
 			try {
 				// for now search slots only in the first week days
 				const endSearchDate = new Date(startSearch)
-				endSearchDate.setDate(startSearch.getDate() + 7)
+				endSearchDate.setDate(startSearch.getDate() + 8)
 				const eventResults = await getBusySlots(
 					this.organizer.attendeeProperty,
 					this.attendees.map((a) => a.attendeeProperty),
 					startSearch,
 					endSearchDate,
-					this.timeZoneId
+					this.timeZoneId,
 				)
 
 				const freeSlots = getFirstFreeSlot(
