@@ -21,8 +21,6 @@
 			<!-- Date Picker, View Buttons, Today Button -->
 			<AppNavigationHeader :is-public="!isAuthenticatedUser" />
 			<template #list>
-				<AppNavigationSpacer />
-
 				<!-- Calendar / Subscription List -->
 				<CalendarList :is-public="!isAuthenticatedUser"
 					:loading-calendars="loadingCalendars" />
@@ -30,7 +28,6 @@
 
 				<!-- Appointment Configuration List -->
 				<template v-if="!disableAppointments && isAuthenticatedUser">
-					<AppNavigationSpacer />
 					<AppointmentConfigList />
 				</template>
 
@@ -58,7 +55,6 @@
 // Import vue components
 import {
 	NcAppNavigation as AppNavigation,
-	NcAppNavigationSpacer as AppNavigationSpacer,
 	NcAppContent as AppContent,
 	NcContent,
 } from '@nextcloud/vue'
@@ -117,7 +113,6 @@ export default {
 		NcContent,
 		AppContent,
 		AppNavigation,
-		AppNavigationSpacer,
 		Trashbin,
 		EditCalendarModal,
 		EditSimple,
