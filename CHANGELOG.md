@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.7.12 - 2024-07-17
+### Fixed
+- Localisation for Appointments
+
 ## 4.7.11 - 2024-07-11
 ### Fixed
 - First day of the week
