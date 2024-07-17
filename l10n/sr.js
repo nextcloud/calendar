@@ -109,6 +109,7 @@ OC.L10N.register(
     "Could not restore calendar or event" : "Календар или догађај није могао да се обнови",
     "Do you really want to empty the trash bin?" : "Да ли заиста желите да испразните корпу за отпатке?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Ставке у корпи за отпатке се бришу након {numDays} дана","Ставке у корпи за отпатке се бришу након {numDays} дана","Ставке у корпи за отпатке се бришу након {numDays} дана"],
+    "Shared calendars" : "Дељени календари",
     "Deck" : "Deck",
     "Hidden" : "Сакривен",
     "Could not update calendar order." : "Није могао да се ажурира редослед календара.",

@@ -108,6 +108,8 @@ OC.L10N.register(
     "Could not restore calendar or event" : "No s'ha pogut restaurar el calendari o l'esdeveniment",
     "Do you really want to empty the trash bin?" : "Realment voleu buidar la paperera?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Els elements de la paperera se suprimeixen al cap de {numDays} dia","Els elements de la paperera se suprimeixen al cap de {numDays} dies"],
+    "Deck" : "Targetes",
+    "Hidden" : "Ocult",
     "Could not update calendar order." : "No s'ha pogut actualitzar l'ordre del calendari.",
     "Internal link" : "Enllaç intern",
     "A private link that can be used with external clients" : "Un enllaç privat que pot utilitzar-se amb clients externs",

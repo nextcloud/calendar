@@ -110,6 +110,7 @@ OC.L10N.register(
     "Do you really want to empty the trash bin?" : "Möchtest du wirklich den Papierkorb leeren?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Element im Papierkorb wird nach {numDays} Tagen gelöscht","Elemente im Papierkorb werden nach {numDays} Tagen gelöscht"],
     "Deck" : "Deck",
+    "Hidden" : "Versteckt",
     "Could not update calendar order." : "Kalenderreihenfolge konnte nicht aktualisiert werden.",
     "Internal link" : "Interner Link",
     "A private link that can be used with external clients" : "Ein privater Link, der mit externen Clients verwendet werden kann.",

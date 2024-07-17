@@ -109,6 +109,7 @@ OC.L10N.register(
     "Do you really want to empty the trash bin?" : "Vil du virkelig tømme papirkurven?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Emner i papirkurven slettes efter {numDays} dag","Emner i papirkurven slettes efter {numDays} dage"],
     "Deck" : "Deck",
+    "Hidden" : "Skjult",
     "Could not update calendar order." : "Kunne ikke opdatere kalenderrækkefølgen.",
     "Internal link" : "Internt link",
     "A private link that can be used with external clients" : "Et privat link der kan blive brugt mad eksterne klienter",

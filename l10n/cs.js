@@ -108,6 +108,8 @@ OC.L10N.register(
     "Could not restore calendar or event" : "Kalendář nebo událost se nepodařilo obnovit",
     "Do you really want to empty the trash bin?" : "Opravdu chcete koš vyprázdnit?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Položky v koši jsou smazány po uplynutí {numDays} dne","Prvky v koši jsou smazány po uplynutí {numDays} dnů","Položky v koši jsou smazány po uplynutí {numDays} dnů","Položky v koši jsou smazány po uplynutí {numDays} dnů"],
+    "Deck" : "Deck",
+    "Hidden" : "Skrytý",
     "Could not update calendar order." : "Pořadí kalendářů se nedaří aktualizovat.",
     "Internal link" : "Interní odkaz",
     "A private link that can be used with external clients" : "Soukromý odkaz, který je možné použít s externími klienty",

@@ -109,6 +109,7 @@ OC.L10N.register(
     "Could not restore calendar or event" : "無法復原日曆或活動",
     "Do you really want to empty the trash bin?" : "您真的想要清空回收桶嗎？",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["回收桶中的項目會在 {numDays} 天後被刪除"],
+    "Shared calendars" : "分享日曆",
     "Deck" : "Deck",
     "Hidden" : "隱藏",
     "Could not update calendar order." : "無法變更日曆順序",

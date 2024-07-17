@@ -24,6 +24,7 @@ OC.L10N.register(
     "Deleted" : "Geskrap",
     "Restore" : "Herstel",
     "Delete permanently" : "Skrap permanent",
+    "Hidden" : "Versteek",
     "Share link" : "Deel skakel",
     "can edit" : "kan wysig",
     "Share with users or groups" : "Deel met gebruikers of groepe",

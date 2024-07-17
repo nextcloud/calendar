@@ -109,6 +109,7 @@ OC.L10N.register(
     "Could not restore calendar or event" : "Could not restore calendar or event",
     "Do you really want to empty the trash bin?" : "Do you really want to empty the trash bin?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Items in the trash bin are deleted after {numDays} day","Items in the trash bin are deleted after {numDays} days"],
+    "Shared calendars" : "Shared calendars",
     "Deck" : "Deck",
     "Hidden" : "Hidden",
     "Could not update calendar order." : "Could not update calendar order.",
