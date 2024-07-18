@@ -109,6 +109,7 @@ OC.L10N.register(
     "Could not restore calendar or event" : "Não foi possível restaurar o calendário ou evento",
     "Do you really want to empty the trash bin?" : "Tem certeza de que deseja esvaziar a lixeira?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Os itens na lixeira são excluídos após {numDays} dias","Os itens na lixeira são excluídos após {numDays} dias","Os itens na lixeira são excluídos após {numDays} dias"],
+    "Shared calendars" : "Imprimir mensagem",
     "Deck" : "Deck",
     "Hidden" : "Oculto",
     "Could not update calendar order." : "Não foi possível atualizar o pedido da agenda.",

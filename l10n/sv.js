@@ -109,6 +109,7 @@ OC.L10N.register(
     "Could not restore calendar or event" : "Kunde inte återställa kalender eller händelse",
     "Do you really want to empty the trash bin?" : "Vill du verkligen tömma papperskorgen?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Objekt i papperskorgen tas bort efter {numDays} dag","Objekt i papperskorgen tas bort efter {numDays} dagar"],
+    "Shared calendars" : "Delade kalendrar",
     "Deck" : "Deck",
     "Hidden" : "Gömd",
     "Could not update calendar order." : "Det gick inte att uppdatera kalenderordningen.",
