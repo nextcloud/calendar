@@ -107,6 +107,7 @@
     "Could not restore calendar or event" : "Kunne ikke gjenopprette kalender eller hendelse",
     "Do you really want to empty the trash bin?" : "Vil du virkelig tømme papirkurven?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Items in the trash bin are deleted after {numDays} day","Elementer i papirkurven slettes etter {numDays} dager"],
+    "Shared calendars" : "Delte kalendere",
     "Deck" : "Stokk",
     "Hidden" : "Skjult",
     "Could not update calendar order." : "Kunne ikke oppdatere rekkefølgen på kalendere.",
