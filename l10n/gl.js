@@ -490,7 +490,7 @@ OC.L10N.register(
     "Weekly" : "Cada semana",
     "Monthly" : "Cada mes",
     "Yearly" : "Cada ano",
-    "_Every %n day_::_Every %n days_" : ["Cada día","Cada %n días"],
+    "_Every %n day_::_Every %n days_" : ["Todos os días","Cada %n días"],
     "_Every %n week_::_Every %n weeks_" : ["Cada semana","Cada %n semanas"],
     "_Every %n month_::_Every %n months_" : ["Cada mes","Cada %n meses"],
     "_Every %n year_::_Every %n years_" : ["Cada ano","Cada %n anos"],
