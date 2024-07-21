@@ -365,8 +365,6 @@ export default {
 
 <style lang="scss" scoped>
 .invitees-list {
-	margin-top: 12px;
-
 	&__header {
 		display: flex;
 		gap: 5px;

@@ -37,7 +37,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./coverage/coverage-final.json
           flags: javascript
-          fail_ci_if_error: true
+          fail_ci_if_error: ${{ !github.event.pull_request.head.repo.fork }}
 
   summary:
     runs-on: ubuntu-latest

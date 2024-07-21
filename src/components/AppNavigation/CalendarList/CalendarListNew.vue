@@ -4,13 +4,13 @@
 -->
 
 <template>
-	<AppNavigationItem class="app-navigation-entry-new-calendar"
+	<NcAppNavigationCaption class="app-navigation-entry-new-calendar"
 		:class="{'app-navigation-entry-new-calendar--open': isOpen}"
-		:name="$t('calendar', 'New calendar')"
+		:name="$t('calendar', 'Calendars')"
 		:menu-open.sync="isOpen"
 		@click.prevent.stop="toggleDialog">
-		<template #icon>
-			<Plus :size="20" />
+		<template #actionsTriggerIcon>
+			<Plus :size="20" :title="$t('calendar', 'Add new')" decorative />
 		</template>
 		<template #actions>
 			<ActionButton v-if="showCreateCalendarLabel"
@@ -93,7 +93,7 @@
 			<PublicCalendarSubscriptionPicker v-if="showPublicCalendarSubscriptionPicker"
 				@close="showPublicCalendarSubscriptionPicker = false" />
 		</template>
-	</AppNavigationItem>
+	</NcAppNavigationCaption>
 </template>
 
 <script>
@@ -102,7 +102,7 @@ import {
 	NcActionInput as ActionInput,
 	NcActionSeparator as ActionSeparator,
 	NcActionText as ActionText,
-	NcAppNavigationItem as AppNavigationItem,
+	NcAppNavigationCaption,
 } from '@nextcloud/vue'
 import {
 	showError,
@@ -126,7 +126,7 @@ export default {
 		ActionInput,
 		ActionSeparator,
 		ActionText,
-		AppNavigationItem,
+		NcAppNavigationCaption,
 		CalendarBlank,
 		CalendarCheck,
 		PublicCalendarSubscriptionPicker: () => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '../../Subscription/PublicCalendarSubscriptionPicker.vue'),
@@ -326,3 +326,9 @@ export default {
 	},
 }
 </script>
+
+<style scoped>
+:deep(.action-item__menutoggle) {
+	opacity: 1 !important;
+}
+</style>

@@ -18,6 +18,7 @@ OC.L10N.register(
     "Deleted" : "Silinib",
     "Restore" : "Geri qaytar",
     "Delete permanently" : "Həmişəlik sil",
+    "Hidden" : "Gizli",
     "Share link" : "Linki yayımla",
     "can edit" : "dəyişmək olar",
     "Save" : "Saxla",

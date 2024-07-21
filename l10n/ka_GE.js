@@ -25,6 +25,8 @@ OC.L10N.register(
     "Deleted" : "გაუქმდა",
     "Restore" : "აღდგენა",
     "Delete permanently" : "სამუდამოდ წაშლა",
+    "Deck" : "დასტა",
+    "Hidden" : "უჩინარი",
     "Share link" : "ბმულის გაზიარება",
     "can edit" : "შეგიძლია შეცვლა",
     "Share with users or groups" : "გაზიარება მოხმარებლებთან ან ჯგუფებთან",

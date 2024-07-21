@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getLanguage, getLocale } from '@nextcloud/l10n'
+import { getFirstDay, getLanguage, getLocale } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 
 /**
@@ -38,7 +38,7 @@ export default async function loadMomentLocalization() {
 			llll: moment.localeData(realLocale).longDateFormat('llll'),
 		},
 		week: {
-			dow: moment.localeData(realLocale).firstDayOfWeek(),
+			dow: getFirstDay(),
 			doy: moment.localeData(realLocale).firstDayOfYear(),
 		},
 	})
@@ -76,13 +76,4 @@ async function getLocaleFor(locale) {
 	}
 
 	return 'en'
-}
-
-/**
- * Get's the first day of a week based on a moment locale
- *
- * @return {number}
- */
-export function getFirstDayOfWeekFromMomentLocale() {
-	return moment.localeData().firstDayOfWeek()
 }

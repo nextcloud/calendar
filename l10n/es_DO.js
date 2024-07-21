@@ -25,6 +25,8 @@ OC.L10N.register(
     "Deleted" : "Borrado",
     "Restore" : "Restaurar",
     "Delete permanently" : "Borrar permanentemente",
+    "Deck" : "Deck",
+    "Hidden" : "Oculto",
     "Share link" : "Compartir liga",
     "can edit" : "puede editar",
     "Share with users or groups" : "Compartir con otros usuarios o grupos",

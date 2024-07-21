@@ -78,6 +78,15 @@ const findAll = () => {
 }
 
 /**
+ * Fetch all calendars in the calendar home from the server
+ *
+ * @return {Promise<Calendar[]>}
+ */
+const findAllCalendars = () => {
+	return getCalendarHome().findAllCalendars()
+}
+
+/**
  * Fetch all subscriptions in the calendar home from the server
  */
 export const findAllSubscriptions = async () => {
@@ -252,6 +261,7 @@ export {
 	initializeClientForUserView,
 	initializeClientForPublicView,
 	findAll,
+	findAllCalendars,
 	findAllDeletedCalendars,
 	findPublicCalendarsByTokens,
 	findSchedulingInbox,

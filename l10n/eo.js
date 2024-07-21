@@ -35,6 +35,8 @@ OC.L10N.register(
     "Restore" : "Restaŭri",
     "Delete permanently" : "Forigi por ĉiam",
     "Empty trash bin" : "Malpleni rubujon",
+    "Deck" : "Kartaro",
+    "Hidden" : "Nevidebla",
     "Internal link" : "Interna ligilo",
     "Share link" : "Kunhavigi ligilon",
     "Delete share link" : "Forigi kunhavo-ligilon",

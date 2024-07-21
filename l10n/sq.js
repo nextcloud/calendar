@@ -26,6 +26,8 @@ OC.L10N.register(
     "Deleted" : "E fshirë",
     "Restore" : "Rikthe",
     "Delete permanently" : "Fshije përgjithmonë",
+    "Deck" : "Shto paisjen U2F",
+    "Hidden" : "I fshehur",
     "Copy internal link" : "Kopjoni lidhjen e brendshme",
     "Share link" : "Ndani lidhjen",
     "can edit" : "mund të përpunojnë",
