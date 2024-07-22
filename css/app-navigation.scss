@@ -25,294 +25,296 @@
  *
  */
 
-.datepicker-button-section,
-.today-button-section,
-.view-button-section {
-	display: flex;
+.app-calendar {
+	.datepicker-button-section,
+	.today-button-section,
+	.view-button-section {
+		display: flex;
 
-	.button {
-		// this border-radius affects the button in the middle of the group
-		// for the rounded corner buttons on the sides, see further below
-		border-radius: 0;
-		font-weight: normal;
-		margin: 0 0 var(--default-grid-baseline) 0;
-		flex-grow: 1;
-	}
+		.button {
+			// this border-radius affects the button in the middle of the group
+			// for the rounded corner buttons on the sides, see further below
+			border-radius: 0;
+			font-weight: normal;
+			margin: 0 0 var(--default-grid-baseline) 0;
+			flex-grow: 1;
+		}
 
-	.button:first-child:not(:only-of-type) {
-		border-radius: var(--border-radius-pill) 0 0 var(--border-radius-pill);
-	}
+		.button:first-child:not(:only-of-type) {
+			border-radius: var(--border-radius-pill) 0 0 var(--border-radius-pill);
+		}
 
-	.button:last-child:not(:only-of-type) {
-		border-radius: 0 var(--border-radius-pill) var(--border-radius-pill) 0;
-	}
+		.button:last-child:not(:only-of-type) {
+			border-radius: 0 var(--border-radius-pill) var(--border-radius-pill) 0;
+		}
 
-	.button:not(:only-of-type):not(:first-child):not(:last-child) {
-		border-radius: 0;
-	}
+		.button:not(:only-of-type):not(:first-child):not(:last-child) {
+			border-radius: 0;
+		}
 
-	.button:only-child {
-		border-radius: var(--border-radius-pill);
-	}
+		.button:only-child {
+			border-radius: var(--border-radius-pill);
+		}
 
-	.button:hover,
-	.button:focus,
-	.button.active {
-		z-index: 50;
-	}
-}
-
-.datepicker-button-section {
-	&__datepicker-label {
-		flex-grow: 4 !important;
-		text-align: center;
-	}
-
-	&__datepicker {
-		margin-left: 26px;
-		margin-top: 48px;
-		position: absolute !important;
-		width: 0 !important;
-
-		.mx-input-wrapper {
-			display: none !important;
+		.button:hover,
+		.button:focus,
+		.button.active {
+			z-index: 50;
 		}
 	}
 
-	&__previous,
-	&__next {
-		background-size: 10px;
-		flex-grow: 0 !important;
-		width: 34px;
-		padding: 0 6px !important;
-	}
-}
-
-.app-navigation-header {
-	padding: calc(var(--default-grid-baseline, 4px) * 2);
-}
-
-.new-event-today-view-section {
-	display: flex;
-
-	// Fix margins from core
-	.button {
-		margin: 0 var(--default-grid-baseline) 0 0;
-	}
-
-	.new-event {
-		flex-grow: 5;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		overflow: hidden;
-	}
-
-	.today {
-		flex-grow: 1;
-		font-weight: normal !important;
-	}
-}
-
-// Add background to navigation toggle to fix overlap with calendar elements
-.app-navigation-toggle {
-	background-color: var(--color-main-background) !important;
-}
-
-.app-navigation {
-	button.icon-share {
-		opacity: 0.3 !important;
-	}
-
-	button.icon-shared,
-	button.icon-public {
-		opacity: 0.7 !important;
-	}
-
-	button.icon-share:active,
-	button.icon-share:focus,
-	button.icon-share:hover,
-	button.icon-shared:active,
-	button.icon-shared:focus,
-	button.icon-shared:hover,
-	button.icon-public:active,
-	button.icon-public:focus,
-	button.icon-public:hover {
-		opacity: 1 !important;
-	}
-
-	#calendars-list {
-		display: block !important;
-	}
-
-	li.app-navigation-loading-placeholder-entry {
-		div.icon.icon-loading {
-			min-height: 44px;
-		}
-	}
-
-	.app-navigation-entry-wrapper.deleted {
-		.app-navigation-entry__name {
-			text-decoration: line-through;
-		}
-	}
-
-	.app-navigation-entry-wrapper.open-sharing {
-		box-shadow: inset 4px 0 var(--color-primary-element) !important;
-		margin-left: -6px;
-		padding-left: 6px;
-	}
-
-	.app-navigation-entry-wrapper.disabled {
-		.app-navigation-entry__name {
-			color: var(--color-text-lighter) !important;
-		}
-	}
-
-	.app-navigation-entry-wrapper .app-navigation-entry__children .app-navigation-entry {
-		padding-left: 0 !important;
-
-		.avatar {
-			width: 32px;
-			height: 32px;
-			background-color: var(--color-border-dark);
-			background-size: 16px;
+	.datepicker-button-section {
+		&__datepicker-label {
+			flex-grow: 4 !important;
+			text-align: center;
 		}
 
-		.avatar.published {
-			background-color: var(--color-primary-element);
-			color: white;
-		}
-	}
+		&__datepicker {
+			margin-left: 26px;
+			margin-top: 48px;
+			position: absolute !important;
+			width: 0 !important;
 
-	.app-navigation-entry__multiselect {
-		padding: 0 8px;
-
-		.multiselect {
-			width: 100%;
-		  	border-radius: var(--border-radius-large);
-
-			&__content-wrapper {
-				z-index: 200 !important;
-			}
-		}
-	}
-
-	.app-navigation-entry__utils {
-		.action-checkbox__label {
-			padding-right: 0 !important;
-		}
-
-		.action-checkbox__label::before {
-			margin: 0 4px 0 !important;
-		}
-	}
-
-	.app-navigation-entry-new-calendar {
-		.app-navigation-entry__name {
-			color: var(--color-text-maxcontrast) !important;
-		}
-
-		&:hover,
-		&--open {
-			.app-navigation-entry__name{
-				color: var(--color-text-light) !important;
+			.mx-input-wrapper {
+				display: none !important;
 			}
 		}
 
-		.action-item:not(.action-item--open) {
-			.action-item__menutoggle:not(:hover):not(:focus):not(:active) {
-				opacity: .5;
+		&__previous,
+		&__next {
+			background-size: 10px;
+			flex-grow: 0 !important;
+			width: 34px;
+			padding: 0 6px !important;
+		}
+	}
+
+	.app-navigation-header {
+		padding: calc(var(--default-grid-baseline, 4px) * 2);
+	}
+
+	.new-event-today-view-section {
+		display: flex;
+
+		// Fix margins from core
+		.button {
+			margin: 0 var(--default-grid-baseline) 0 0;
+		}
+
+		.new-event {
+			flex-grow: 5;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+
+		.today {
+			flex-grow: 1;
+			font-weight: normal !important;
+		}
+	}
+
+	// Add background to navigation toggle to fix overlap with calendar elements
+	.app-navigation-toggle {
+		background-color: var(--color-main-background) !important;
+	}
+
+	.app-navigation {
+		button.icon-share {
+			opacity: 0.3 !important;
+		}
+
+		button.icon-shared,
+		button.icon-public {
+			opacity: 0.7 !important;
+		}
+
+		button.icon-share:active,
+		button.icon-share:focus,
+		button.icon-share:hover,
+		button.icon-shared:active,
+		button.icon-shared:focus,
+		button.icon-shared:hover,
+		button.icon-public:active,
+		button.icon-public:focus,
+		button.icon-public:hover {
+			opacity: 1 !important;
+		}
+
+		#calendars-list {
+			display: block !important;
+		}
+
+		li.app-navigation-loading-placeholder-entry {
+			div.icon.icon-loading {
+				min-height: 44px;
 			}
 		}
 
-	}
+		.app-navigation-entry-wrapper.deleted {
+			.app-navigation-entry__name {
+				text-decoration: line-through;
+			}
+		}
 
+		.app-navigation-entry-wrapper.open-sharing {
+			box-shadow: inset 4px 0 var(--color-primary-element) !important;
+			margin-left: -6px;
+			padding-left: 6px;
+		}
 
-	ul {
+		.app-navigation-entry-wrapper.disabled {
+			.app-navigation-entry__name {
+				color: var(--color-text-lighter) !important;
+			}
+		}
 
-		// Calendar list items / Subscription list items
-		> li.app-navigation-entry-wrapper {
+		.app-navigation-entry-wrapper .app-navigation-entry__children .app-navigation-entry {
+			padding-left: 0 !important;
 
-			div.sharing-section {
-				//box-shadow: inset 4px 0 var(--color-primary-element);
-				//padding-left: 12px;
-				//padding-right: 12px;
-				//width: 100%;
+			.avatar {
+				width: 32px;
+				height: 32px;
+				background-color: var(--color-border-dark);
+				background-size: 16px;
+			}
 
-				div.multiselect {
-					width: calc(100% - 14px);
-					max-width: none;
-					z-index: 105;
+			.avatar.published {
+				background-color: var(--color-primary-element);
+				color: white;
+			}
+		}
+
+		.app-navigation-entry__multiselect {
+			padding: 0 8px;
+
+			.multiselect {
+				width: 100%;
+				border-radius: var(--border-radius-large);
+
+				&__content-wrapper {
+					z-index: 200 !important;
 				}
+			}
+		}
 
-				.oneline {
-					white-space: nowrap;
-					position: relative;
+		.app-navigation-entry__utils {
+			.action-checkbox__label {
+				padding-right: 0 !important;
+			}
+
+			.action-checkbox__label::before {
+				margin: 0 4px 0 !important;
+			}
+		}
+
+		.app-navigation-entry-new-calendar {
+			.app-navigation-entry__name {
+				color: var(--color-text-maxcontrast) !important;
+			}
+
+			&:hover,
+			&--open {
+				.app-navigation-entry__name{
+					color: var(--color-text-light) !important;
 				}
+			}
 
-				.shareWithList {
-					list-style-type: none;
-					display: flex;
-					flex-direction: column;
+			.action-item:not(.action-item--open) {
+				.action-item__menutoggle:not(:hover):not(:focus):not(:active) {
+					opacity: .5;
+				}
+			}
 
-					> li {
-						height: 44px;
-						white-space: normal;
-						display: inline-flex;
-						align-items: center;
+		}
+
+
+		ul {
+
+			// Calendar list items / Subscription list items
+			> li.app-navigation-entry-wrapper {
+
+				div.sharing-section {
+					//box-shadow: inset 4px 0 var(--color-primary-element);
+					//padding-left: 12px;
+					//padding-right: 12px;
+					//width: 100%;
+
+					div.multiselect {
+						width: calc(100% - 14px);
+						max-width: none;
+						z-index: 105;
+					}
+
+					.oneline {
+						white-space: nowrap;
 						position: relative;
+					}
 
+					.shareWithList {
+						list-style-type: none;
+						display: flex;
+						flex-direction: column;
 
-
-						.username {
-							padding: 0 8px;
-							overflow: hidden;
-							white-space: nowrap;
-							text-overflow: ellipsis;
-						}
-
-						> .sharingOptionsGroup {
-							margin-left: auto;
-							display: flex;
+						> li {
+							height: 44px;
+							white-space: normal;
+							display: inline-flex;
 							align-items: center;
-							white-space: nowrap;
+							position: relative;
 
-							> a:hover,
-							> a:focus,
-							> .share-menu > a:hover,
-							> .share-menu > a:focus {
-								box-shadow: none !important;
-								opacity: 1 !important;
+
+
+							.username {
+								padding: 0 8px;
+								overflow: hidden;
+								white-space: nowrap;
+								text-overflow: ellipsis;
 							}
 
-							> .icon:not(.hidden),
-							> .share-menu .icon:not(.hidden){
-								padding: 14px;
-								height: 44px;
-								width: 44px;
-								opacity: 0.5;
-								display: block;
-								cursor: pointer;
-							}
+							> .sharingOptionsGroup {
+								margin-left: auto;
+								display: flex;
+								align-items: center;
+								white-space: nowrap;
 
-							> .share-menu {
-								position: relative;
-								display: block;
+								> a:hover,
+								> a:focus,
+								> .share-menu > a:hover,
+								> .share-menu > a:focus {
+									box-shadow: none !important;
+									opacity: 1 !important;
+								}
+
+								> .icon:not(.hidden),
+								> .share-menu .icon:not(.hidden){
+									padding: 14px;
+									height: 44px;
+									width: 44px;
+									opacity: 0.5;
+									display: block;
+									cursor: pointer;
+								}
+
+								> .share-menu {
+									position: relative;
+									display: block;
+								}
 							}
 						}
 					}
 				}
 			}
-		}
 
-		.appointment-config-list {
-			.app-navigation-caption {
-				margin-top: 22px;
-			}
+			.appointment-config-list {
+				.app-navigation-caption {
+					margin-top: 22px;
+				}
 
-			.app-navigation-entry-link,
-			.app-navigation-entry-link * {
-				cursor: default;
+				.app-navigation-entry-link,
+				.app-navigation-entry-link * {
+					cursor: default;
+				}
 			}
 		}
 	}
