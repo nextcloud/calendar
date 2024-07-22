@@ -41,6 +41,7 @@
 	<dependencies>
 		<php min-version="8.0" max-version="8.3" />
 		<nextcloud min-version="27" max-version="30" />
+		<backend>caldav</backend>
 	</dependencies>
 	<background-jobs>
 		<job>OCA\Calendar\BackgroundJob\CleanUpOutdatedBookingsJob</job>
