@@ -24,7 +24,11 @@
 					:placeholder="$t('calendar', 'Calendar name …')"
 					@input="calendarNameChanged = true">
 			</div>
-
+			<template v-if="canBeShared">
+				<NcCheckboxRadioSwitch :checked.sync="isTransparent">
+					{{ $t('calendar', 'Never show me as busy (set this calendar to transparent)') }}
+				</NcCheckboxRadioSwitch>
+			</template>
 			<template v-if="canBeShared">
 				<h2 class="edit-calendar-modal__sharing-header">
 					{{ $t('calendar', 'Share calendar') }}
@@ -72,7 +76,7 @@
 </template>
 
 <script>
-import { NcModal, NcColorPicker, NcButton, NcAppNavigationSpacer } from '@nextcloud/vue'
+import { NcModal, NcColorPicker, NcButton, NcCheckboxRadioSwitch, NcAppNavigationSpacer } from '@nextcloud/vue'
 import PublishCalendar from './EditCalendarModal/PublishCalendar.vue'
 import SharingSearch from './EditCalendarModal/SharingSearch.vue'
 import ShareItem from './EditCalendarModal/ShareItem.vue'
@@ -101,11 +105,13 @@ export default {
 		CheckIcon,
 		InternalLink,
 		NcAppNavigationSpacer,
+		NcCheckboxRadioSwitch,
 	},
 	data() {
 		return {
 			calendarColor: undefined,
 			calendarColorChanged: false,
+			isTransparent: false,
 			calendarName: undefined,
 			calendarNameChanged: false,
 		}
@@ -164,6 +170,7 @@ export default {
 			this.calendarColor = calendar.color
 			this.calendarNameChanged = false
 			this.calendarColorChanged = false
+			this.isTransparent = calendar.transparency === 'transparent'
 		},
 	},
 	methods: {
@@ -187,6 +194,24 @@ export default {
 				logger.error('Failed to save calendar color', {
 					calendar: this.calendar,
 					newColor: this.calendarColor,
+				})
+				throw error
+			}
+		},
+
+		/**
+		 * Save the calendar transparency.
+		 */
+		async saveTransparency() {
+			try {
+				await this.calendarsStore.changeCalendarTransparency({
+					calendar: this.calendar,
+					transparency: this.isTransparent ? 'transparent' : 'opaque',
+				})
+			} catch (error) {
+				logger.error('Failed to save calendar transparency', {
+					calendar: this.calendar,
+					transparency: this.isTransparent ? 'transparent' : 'opaque',
 				})
 				throw error
 			}
@@ -220,6 +245,7 @@ export default {
 				if (this.calendarColorChanged) {
 					await this.saveColor()
 				}
+				await this.saveTransparency()
 				if (this.calendarNameChanged) {
 					await this.saveName()
 				}
@@ -243,7 +269,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .edit-calendar-modal {
 	padding: 20px;
 	display: flex;
@@ -286,6 +312,10 @@ export default {
 		display: flex;
 		flex-direction: column;
 		gap: 5px;
+	}
+
+	.checkbox-content {
+		margin-left: 25px;
 	}
 }
 

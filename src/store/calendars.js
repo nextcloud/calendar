@@ -538,6 +538,25 @@ export default defineStore('calendars', {
 		},
 
 		/**
+		 * Change a calendars transparency
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to modify
+		 * @param {string} data.transparency the new transparency
+		 * @return {Promise}
+		 */
+		async changeCalendarTransparency({ calendar, transparency }) {
+			if (calendar.dav.transparency === transparency) {
+				return
+			}
+
+			calendar.dav.transparency = transparency
+
+			await calendar.dav.update()
+			this.calendarsById[calendar.id].transparency = transparency
+		},
+
+		/**
 		 * Share calendar with User or Group
 		 *
 		 * @param {object} data destructuring object
