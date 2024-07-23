@@ -5,6 +5,27 @@
 -->
 # Changelog
 
+## 5.0.0 - Unreleased
+### Added
+- Nextcloud 30 support
+- PHP8.1 minimum requirement
+- Rooms and resources overview
+- New sidebar organisation
+- Calendar-wide transparency settings
+- Calendar refresh on remote changes
+- Widget for private calendars
+- Caldav backend requirement
+### Changed
+- Dropped Nextcloud 29 support
+- Dropped support for PHP 8.0
+- New design: Material Symbols, general design overhaul
+- Reduced CSS opacity for past events
+- Circles renamed to Teams
+- Automatic widget reloading
+- More translations for appointments
+- ### Fixed
+- Teams missing from placeholder text
+
 ## 4.7.12 - 2024-07-17
 ### Fixed
 - Localisation for Appointments
