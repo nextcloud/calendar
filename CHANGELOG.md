@@ -5,7 +5,62 @@
 -->
 # Changelog
 
-## 4.7.0 - Prerelease
+## 4.7.12 - 2024-07-17
+### Fixed
+- Localisation for Appointments
+
+## 4.7.11 - 2024-07-11
+### Fixed
+- First day of the week
+
+## 4.7.10 - 2024-07-04
+### Fixed
+- Broken file sharing
+
+## 4.7.9 - 2024-07-03
+### Fixed
+- Broken initial state
+- Button state on appointment creation
+
+## 4.7.8 - 2024-06-28
+### Fixed
+- Broken sidebar styles
+
+## 4.7.7 - 2024-06-27
+### Fixed
+- Appointments logging
+- Global styles scope
+
+## 4.7.6 - 2024-06-04
+### Fixed
+- Default calendar not supporting VEVENTs
+- Width of disabled calendar picker, take two
+- Calendar picker always choosing default calendar
+
+## 4.7.5 - 2024-06-04
+### Fixed
+- File picker loading indefinitely
+- Width of disabled calendar picker
+- Simple editor time zone picker
+
+## 4.7.4 - 2024-05-15
+### Fixed
+- DISPLAY Alarms not having a DESCRIPTION
+- Custom categories
+
+## 4.7.3 - 2024-05-08
+### Fixed
+- Default calendar not being used for new events
+
+## 4.7.2 - 2024-04-30
+### Fixed
+- Attachment links
+
+## 4.7.1 - 2024-04-25
+### Changed
+- Slot booking response
+
+## 4.7.0 - 2024-04-22
 ### Added
 - Ability to invite circles to events
 - Custom public calendar subscriptions
@@ -13,6 +68,9 @@
 - Calendar widget for publicly shared calendars
 ### Changed
 - Editor redesign
+### Fixed
+- Find attendees via email address
+- Misplaced empty content
 
 ## 4.6.5 - 2024-02-15
 ### Fixed
