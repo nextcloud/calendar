@@ -67,8 +67,12 @@
 		}
 	}
 
-	.app-navigation-header {
-		padding: calc(var(--default-grid-baseline, 4px) * 2);
+	.app-navigation__body {
+		overflow-y: unset !important;
+
+		.app-navigation-header {
+			padding: calc(var(--default-grid-baseline, 4px) * 2);
+		}
 	}
 
 	.new-event-today-view-section {
