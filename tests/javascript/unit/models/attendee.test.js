@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import {getDefaultAttendeeObject, mapAttendeePropertyToAttendeeObject} from "../../../../src/models/attendee.js";
+import {getDefaultAttendeeObject, mapAttendeePropertyToAttendeeObject, mapPrincipalObjectToAttendeeObject} from "../../../../src/models/attendee.js";
+import { AttendeeProperty } from '@nextcloud/calendar-js'
 
 describe('Test suite: Attendee model (models/attendee.js)', () => {
 
@@ -147,5 +148,77 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 			rsvp: false,
 			uri: 'mailto:jdoe@example.com',
 		})
+	})
+
+	it('should map a principal object to an attendee object', () => {
+		const principalModel = {
+			id: 'L3JlbW90ZS5waHAvZGF2L3ByaW5jaXBhbHMvY2FsZW5kYXItcm9vbXMvcm9vbS0xMjMv',
+			dav: {},
+			calendarUserType: 'ROOM',
+			principalScheme: 'principal:principals/calendar-rooms/room-123',
+			emailAddress: 'room-123@example.com',
+			displayname: 'ROOM 123',
+			url: '/remote.php/dav/principals/calendar-rooms/room-123/',
+			isUser: false,
+			isGroup: false,
+			isCircle: false,
+			isCalendarResource: false,
+			isCalendarRoom: true,
+			principalId: 'room-123',
+			userId: null,
+		}
+
+		const attendeeProperty = new AttendeeProperty('ATTENDEE')
+		attendeeProperty.commonName = 'ROOM 123'
+		attendeeProperty.email = 'room-123@example.com'
+		attendeeProperty.userType = 'ROOM'
+
+		const actual = mapPrincipalObjectToAttendeeObject(principalModel)
+		expect(actual).toMatchObject({
+			commonName: 'ROOM 123',
+			member: null,
+			calendarUserType: 'ROOM',
+			participationStatus: 'NEEDS-ACTION',
+			role: 'REQ-PARTICIPANT',
+			rsvp: false,
+			uri: 'mailto:room-123@example.com',
+		})
+		expect(actual.attendeeProperty.toString()).toBe(attendeeProperty.toString())
+	})
+
+	it('should map a principal object to an attendee object (organizer)', () => {
+		const principalModel = {
+			id: 'L3JlbW90ZS5waHAvZGF2L3ByaW5jaXBhbHMvY2FsZW5kYXItcmVzb3VyY2VzL3Byb2plY3Rvci0xMjMv',
+			dav: {},
+			calendarUserType: 'RESOURCE',
+			principalScheme: 'principal:principals/calendar-resources/projector-123',
+			emailAddress: 'projector-123@example.com',
+			displayname: 'Projector 123',
+			url: '/remote.php/dav/principals/calendar-resources/projector-123/',
+			isUser: false,
+			isGroup: false,
+			isCircle: false,
+			isCalendarResource: true,
+			isCalendarRoom: false,
+			principalId: 'projector-123',
+			userId: null,
+		}
+
+		const attendeeProperty = new AttendeeProperty('ORGANIZER')
+		attendeeProperty.commonName = 'Projector 123'
+		attendeeProperty.email = 'projector-123@example.com'
+		attendeeProperty.userType = 'RESOURCE'
+
+		const actual = mapPrincipalObjectToAttendeeObject(principalModel, true)
+		expect(actual).toMatchObject({
+			commonName: 'Projector 123',
+			member: null,
+			calendarUserType: 'RESOURCE',
+			participationStatus: 'NEEDS-ACTION',
+			role: 'REQ-PARTICIPANT',
+			rsvp: false,
+			uri: 'mailto:projector-123@example.com',
+		})
+		expect(actual.attendeeProperty.toString()).toBe(attendeeProperty.toString())
 	})
 })

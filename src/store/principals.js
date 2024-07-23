@@ -5,6 +5,7 @@
 import {
 	findPrincipalByUrl,
 	getCurrentUserPrincipal,
+	findPrincipalsInCollection,
 } from '../services/caldavService.js'
 import logger from '../utils/logger.js'
 import {
@@ -13,6 +14,7 @@ import {
 } from '../models/principal.js'
 import { defineStore } from 'pinia'
 import Vue from 'vue'
+import { generateRemoteUrl } from '@nextcloud/router'
 
 export default defineStore('principals', {
 	state: () => {
@@ -54,6 +56,22 @@ export default defineStore('principals', {
 		 * @return {string|undefined}
 		 */
 		getCurrentUserPrincipalEmail: (state) => state.principalsById[state.currentUserPrincipal]?.emailAddress,
+
+		/**
+		 * Gets all room principals
+		 *
+		 * @param {object} state the store data
+		 * @return {object[]}
+		 */
+		getRoomPrincipals: (state) => state.principals.filter((principal) => principal.isCalendarRoom),
+
+		/**
+		 * Gets all resource principals
+		 *
+		 * @param {object} state the store data
+		 * @return {object[]}
+		 */
+		getResourcePrincipals: (state) => state.principals.filter((principal) => principal.isCalendarResource),
 	},
 	actions: {
 		/**
@@ -76,6 +94,34 @@ export default defineStore('principals', {
 
 			this.addPrincipalMutation({ principal: mapDavToPrincipal(principal) })
 
+		},
+
+		/**
+		 * Fetches all principals of all rooms and resources from the DAV server and commits it to the state
+		 *
+		 * @return {Promise<void>}
+		 */
+		async fetchRoomAndResourcePrincipals() {
+			const options = {
+				enableCalDAVResourceBooking: true,
+			}
+			const principalCollections = await Promise.all([
+				findPrincipalsInCollection(generateRemoteUrl('dav/principals/calendar-rooms/'), options),
+				findPrincipalsInCollection(generateRemoteUrl('dav/principals/calendar-resources/'), options),
+			])
+			for (const principals of principalCollections) {
+				if (!principals) {
+				// TODO - handle error
+					continue
+				}
+
+				logger.debug('Fetched principals', { principals })
+				for (const principal of principals) {
+					this.addPrincipalMutation({
+						principal: mapDavToPrincipal(principal),
+					})
+				}
+			}
 		},
 
 		/**
