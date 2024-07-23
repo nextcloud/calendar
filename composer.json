@@ -1,7 +1,7 @@
 {
     "config": {
         "platform": {
-            "php": "8.0"
+            "php": "8.1"
         },
         "sort-packages": true,
         "optimize-autoloader": true,
@@ -16,7 +16,7 @@
         }
     },
     "require": {
-        "php": ">= 8.0 <=8.3",
+        "php": ">= 8.1 <=8.3",
         "bamarni/composer-bin-plugin": "^1.8.2"
     },
     "scripts": {
