@@ -6,7 +6,9 @@
 <template>
 	<NcModal v-if="!!calendarsStore.editCalendarModal && calendar" size="normal" @close="closeModal">
 		<div class="edit-calendar-modal">
-			<h2>{{ $t('calendar', 'Edit calendar') }}</h2>
+			<h3 class="edit-calendar-modal__header">
+				{{ $t('calendar', 'Edit calendar') }}
+			</h3>
 
 			<div class="edit-calendar-modal__name-and-color">
 				<div class="edit-calendar-modal__name-and-color__color">
@@ -30,9 +32,9 @@
 				</NcCheckboxRadioSwitch>
 			</template>
 			<template v-if="canBeShared">
-				<h2 class="edit-calendar-modal__sharing-header">
+				<h3 class="edit-calendar-modal__sharing-header">
 					{{ $t('calendar', 'Share calendar') }}
-				</h2>
+				</h3>
 
 				<div class="edit-calendar-modal__sharing">
 					<SharingSearch :calendar="calendar" />
@@ -274,6 +276,16 @@ export default {
 	padding: 20px;
 	display: flex;
 	flex-direction: column;
+
+	&__header {
+		margin-top: 0;
+	}
+
+	&__header,
+	&__sharing-header {
+		// Same font size the header of NcDialog (no variable available a this point)
+		font-size: 21px;
+	}
 
 	&__name-and-color {
 		display: flex;
