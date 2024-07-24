@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.7.13- 2024-07-24
+### Fixed
+- White border around calendar cells
+
 ## 4.7.12 - 2024-07-17
 ### Fixed
 - Localisation for Appointments
