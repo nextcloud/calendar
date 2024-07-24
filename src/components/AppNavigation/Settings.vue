@@ -501,3 +501,9 @@ export default {
 	},
 }
 </script>
+
+<style scoped>
+.settings-fieldset-interior-item, :deep(.v-select.select) {
+	width: 100%;
+}
+</style>
