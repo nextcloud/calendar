@@ -317,7 +317,6 @@ OC.L10N.register(
     "Remove group" : "Odebrat skupinu",
     "Remove attendee" : "Odebrat účastníka",
     "_%n member_::_%n members_" : ["%n člen","%n členové","%n členů","%n členové"],
-    "Search for emails, users, contacts or groups" : "Hledat e-maily, uživatele, kontakty nebo skupiny",
     "No match found" : "Nenalezena žádná shoda",
     "Note that members of circles get invited but are not synced yet." : "Mějte na paměti, že členové okruhů budou pozváni, ale zatím ještě nejsou synchronizováni.",
     "(organizer)" : "(organizátor(ka))",

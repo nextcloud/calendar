@@ -340,7 +340,6 @@ OC.L10N.register(
     "Remove group" : "حذف مجموعة",
     "Remove attendee" : "إلغاء شخص من قائمة الحضور",
     "_%n member_::_%n members_" : ["%n عضواً","%n عضواً","%n عضواً","%n عضواً","%n عضواً","%n عضواً"],
-    "Search for emails, users, contacts or groups" : "البحث في رسائل البريد الإلكتروني، و المستخدِمين، و جهات الاتصال، و المجموعات",
     "No match found" : "لم يٌمكن إيجاد تطابق",
     "Note that members of circles get invited but are not synced yet." : "لاحظ أن أعضاء دوائر الاتصال تمّت دعوتهم لكن لم تتمّ مزامنتهم بعدُ.",
     "(organizer)" : "(مُنظِّم)",

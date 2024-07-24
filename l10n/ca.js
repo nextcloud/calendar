@@ -317,7 +317,6 @@ OC.L10N.register(
     "Remove group" : "Suprimir el grup",
     "Remove attendee" : "Suprimeix el participant",
     "_%n member_::_%n members_" : ["{n} membre","{n} membres"],
-    "Search for emails, users, contacts or groups" : "Cerca correus electrònics, usuaris, contactes o grups",
     "No match found" : "No s'ha trobat cap coincidència",
     "Note that members of circles get invited but are not synced yet." : "Tingueu en compte que els membres dels cercles són convidats però encara no es sincronitzen.",
     "(organizer)" : "(organitza l'esdeveniment)",

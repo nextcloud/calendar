@@ -237,6 +237,7 @@ OC.L10N.register(
     "Busy" : "Ocupado",
     "Out of office" : "Fora do escritório",
     "Unknown" : "Desconhecido",
+    "Room name" : "Nome da sala",
     "Accept" : "Aceitar",
     "Decline" : "Recusar",
     "Tentative" : "Tentativa",

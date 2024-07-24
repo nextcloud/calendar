@@ -232,6 +232,7 @@ OC.L10N.register(
     "Busy" : "Užimtas laikas",
     "Out of office" : "Ne darbo vietoje",
     "Unknown" : "Nežinoma",
+    "Room name" : "Kambario pavadinimas",
     "Accept" : "Priimti",
     "Decline" : "Atmesti",
     "Tentative" : "Preliminarus",

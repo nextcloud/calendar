@@ -57,6 +57,7 @@ OC.L10N.register(
     "Choose a file to add as attachment" : "დანართად დასამატებლად აირჩიეთ ფაილი",
     "Done" : "დასრულდა",
     "Unknown" : "ამოუცნობი",
+    "Room name" : "ოთახის სახელი",
     "Accept" : "მიღება",
     "Decline" : "ურაყოფა",
     "Tentative" : "საცდელი",

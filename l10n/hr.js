@@ -183,6 +183,7 @@ OC.L10N.register(
     "Busy" : "Zauzeto",
     "Out of office" : "Izvan ureda",
     "Unknown" : "Nepoznato",
+    "Room name" : "Naziv sobe",
     "Accept" : "Prihvati",
     "Decline" : "Odbij",
     "Tentative" : "Uvjetno",

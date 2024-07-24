@@ -60,6 +60,7 @@ OC.L10N.register(
     "Available" : "i disponueshëm",
     "Done" : "U bë",
     "Unknown" : "I/E panjohur",
+    "Room name" : "Emri i dhomës",
     "Accept" : "Prano",
     "Decline" : "Refuzo",
     "Tentative" : "Tentativë",

@@ -207,6 +207,7 @@ OC.L10N.register(
     "Busy" : "Sibuk",
     "Out of office" : "Keluar kantor",
     "Unknown" : "Tidak diketahui",
+    "Room name" : "Nama ruang",
     "Accept" : "Terima",
     "Decline" : "Tolak",
     "Tentative" : "Tentatif",

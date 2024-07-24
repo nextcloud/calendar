@@ -217,6 +217,7 @@ OC.L10N.register(
     "Busy" : "עסוק",
     "Out of office" : "מחוץ למשרד",
     "Unknown" : "לא ידוע",
+    "Room name" : "שם החדר",
     "Accept" : "אשר",
     "Decline" : "דחייה",
     "Tentative" : "טנטטיבית",

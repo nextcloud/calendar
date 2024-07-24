@@ -334,7 +334,6 @@ OC.L10N.register(
     "Remove group" : "Fjern gruppe",
     "Remove attendee" : "Fjern deltager",
     "_%n member_::_%n members_" : ["%n medlemer","%n medlemer"],
-    "Search for emails, users, contacts or groups" : "Søg efter e-mails, brugere, kontakter eller grupper",
     "No match found" : "Ingen match fundet",
     "Note that members of circles get invited but are not synced yet." : "Bemærk, at medlemmer af cirkler bliver inviteret, men er endnu ikke synkroniseret.",
     "(organizer)" : "(arrangør)",

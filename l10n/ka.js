@@ -315,7 +315,6 @@ OC.L10N.register(
     "Remove group" : "Remove group",
     "Remove attendee" : "Remove attendee",
     "_%n member_::_%n members_" : ["%n member","%n members"],
-    "Search for emails, users, contacts or groups" : "Search for emails, users, contacts or groups",
     "No match found" : "No match found",
     "Note that members of circles get invited but are not synced yet." : "Note that members of circles get invited but are not synced yet.",
     "(organizer)" : "(organizer)",

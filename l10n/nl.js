@@ -291,6 +291,7 @@ OC.L10N.register(
     "Busy" : "Bezet",
     "Out of office" : "Niet op kantoor",
     "Unknown" : "Onbekend",
+    "Room name" : "Kamernaam",
     "Accept" : "Accepteren",
     "Decline" : "Afwijzen",
     "Tentative" : "Voorlopig",

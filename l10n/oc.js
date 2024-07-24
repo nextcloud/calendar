@@ -102,6 +102,7 @@ OC.L10N.register(
     "Busy" : "Ocupat",
     "Out of office" : "Fòra del burèu",
     "Unknown" : "Desconegut",
+    "Room name" : "Nom de la sala",
     "Accept" : "Acceptar",
     "Decline" : "Declinar",
     "Tentative" : "Provisòri",

@@ -307,6 +307,7 @@ OC.L10N.register(
     "Busy" : "Zasedeno",
     "Out of office" : "Službena odsotnost",
     "Unknown" : "Neopredeljeno",
+    "Room name" : "Ime sobe",
     "Accept" : "Sprejmi",
     "Decline" : "Zavrni",
     "Tentative" : "V usklajevanju",

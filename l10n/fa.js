@@ -289,6 +289,7 @@ OC.L10N.register(
     "Busy" : "مشغول",
     "Out of office" : "بیرون از دفتر",
     "Unknown" : "نامشخص",
+    "Room name" : "Room name",
     "Accept" : "تایید",
     "Decline" : "کاهش می یابد",
     "Tentative" : "آزمایشی",

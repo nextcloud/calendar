@@ -235,6 +235,7 @@ OC.L10N.register(
     "Busy" : "Bận",
     "Out of office" : "Không ở văn phòng",
     "Unknown" : "Không xác định",
+    "Room name" : "Tên phòng",
     "Accept" : "Đồng ý",
     "Decline" : "Từ chối",
     "Tentative" : "Chưa chắc chắn",
