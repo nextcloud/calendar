@@ -223,7 +223,6 @@
 				<InviteesList v-if="!isLoading"
 					:calendar-object-instance="calendarObjectInstance"
 					:is-read-only="isReadOnly"
-					:is-shared-with-me="isSharedWithMe"
 					:show-header="false"
 					@update-dates="updateDates" />
 			</div>
