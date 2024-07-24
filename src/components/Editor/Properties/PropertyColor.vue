@@ -21,9 +21,9 @@
 		<div v-else
 			class="property-color__input">
 			<ColorPicker :value="selectedColor"
-				:open.sync="isColorPickerOpen"
+				:shown.sync="isColorPickerOpen"
 				:advanced-fields="true"
-				@input="changeColor">
+				@submit="changeColor">
 				<NcButton class="property-color__color-preview"
 					:style="{'background-color': selectedColor }" />
 			</ColorPicker>
@@ -47,7 +47,6 @@ import {
 	NcActionButton as ActionButton,
 	NcColorPicker as ColorPicker,
 } from '@nextcloud/vue'
-import debounce from 'debounce'
 
 import Undo from 'vue-material-design-icons/Undo.vue'
 
@@ -104,25 +103,12 @@ export default {
 	methods: {
 		/**
 		 * Changes / Sets the custom color of this event
-		 *
-		 * The problem we are facing here is that the
-		 * color-picker component uses normal hex colors,
-		 * but the RFC 7986 property COLOR requires
-		 * css-color-names.
-		 *
-		 * The color-space of css-color-names is smaller
-		 * than the one of hex colors. Hence the color-
-		 * picker (especially in the custom color-picker)
-		 * will jump after the color changed. To prevent
-		 * flickering, we only update the color after the
-		 * user stopped moving the color-picker and not
-		 * immediately.
-		 *
 		 * @param {string} newColor The new Color as HEX
 		 */
-		changeColor: debounce(function(newColor) {
+		changeColor(newColor) {
 			this.$emit('update:value', newColor)
-		}, 500),
+			this.isColorPickerOpen = false
+		},
 		/**
 		 * Removes the custom color from this event,
 		 * defaulting the color back to the calendar-color
