@@ -280,6 +280,7 @@ OC.L10N.register(
     "Busy" : "Зает",
     "Out of office" : "Извън офиса",
     "Unknown" : "Непознат",
+    "Room name" : "Име на стаята",
     "Accept" : "Приемам",
     "Decline" : "Отхвърляне",
     "Tentative" : "Несигурно",

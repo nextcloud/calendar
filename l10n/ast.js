@@ -205,6 +205,7 @@ OC.L10N.register(
     "Done" : "Fecho",
     "Busy" : "Ocupáu",
     "Out of office" : "Fuera de la oficina",
+    "Room name" : "Nome de la sala",
     "Accept" : "Aceptar",
     "Decline" : "Refugar",
     "Tentative" : "Provisional",
