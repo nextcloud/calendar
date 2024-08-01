@@ -24,7 +24,7 @@
 - Automatic widget reloading
 - More translations for appointments
 - ### Fixed
-- Teams missing from placeholder text
+- Teams missing from placeholder texts
 
 ## 4.7.12 - 2024-07-17
 ### Fixed
