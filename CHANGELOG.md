@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.7.14- 2024-008-01
+### Fixed
+- Attendees not showing when no email is set
+
 ## 4.7.13- 2024-07-24
 ### Fixed
 - White border around calendar cells
