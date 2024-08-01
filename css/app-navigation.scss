@@ -99,6 +99,7 @@
 	// Add background to navigation toggle to fix overlap with calendar elements
 	.app-navigation-toggle {
 		background-color: var(--color-main-background) !important;
+		border: 1px solid var(--color-background-dark) !important;
 	}
 
 	.app-navigation {
