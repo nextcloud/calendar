@@ -398,6 +398,7 @@ export default {
 		 */
 		setUntil(until) {
 			this.calendarObjectInstanceStore.changeRecurrenceUntil({
+				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 				until,
 			})
