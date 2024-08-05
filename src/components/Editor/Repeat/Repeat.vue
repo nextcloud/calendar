@@ -224,7 +224,8 @@ export default {
 		 * @param {string} frequency Allowed values: NONE, DAILY, WEEKLY, MONTHLY, YEARLY
 		 */
 		changeFrequency(frequency) {
-			this.calendarObjectInstanceStore.changeRecurrenceFrequencyMutation({
+			this.calendarObjectInstanceStore.changeRecurrenceFrequency({
+				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 				frequency,
 			})
