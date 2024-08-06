@@ -205,7 +205,7 @@ export default {
 .avatar-participation-status__text {
 	opacity: .45;
 	left: 63px;
-	bottom: 40px;
+	bottom: 21px;
 	white-space: nowrap;
 	position: relative;
 	min-width: 220px;
