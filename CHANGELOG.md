@@ -1,6 +1,11 @@
 # Changelog
 
-## 4.7.14- 2024-008-01
+## 4.7.14- 2024-08-06
+### Fixed
+- Attendee text overlapping with invitation status
+- Recurrence selection box
+
+## 4.7.14- 2024-08-01
 ### Fixed
 - Attendees not showing when no email is set
 
