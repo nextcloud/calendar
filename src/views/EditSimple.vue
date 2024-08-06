@@ -41,7 +41,7 @@
 
 			<template v-else>
 				<div class="event-popover__top-right-actions">
-					<Actions v-if="!isLoading && !isError && !isNew" :force-menu="true">
+					<Actions v-if="!isLoading && !isError && !isNew" :inline="5">
 						<ActionLink v-if="!hideEventExport && hasDownloadURL"
 							:href="downloadURL">
 							<template #icon>
