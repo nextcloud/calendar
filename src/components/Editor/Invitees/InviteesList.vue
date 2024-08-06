@@ -11,17 +11,17 @@
 			{{ statusHeader }}
 		</div>
 
-		<InviteesListSearch v-if="!isReadOnly && !isSharedWithMe && hasUserEmailAddress"
+		<InviteesListSearch v-if="!isReadOnly && hasUserEmailAddress"
 			:already-invited-emails="alreadyInvitedEmails"
 			:organizer="calendarObjectInstance.organizer"
 			@add-attendee="addAttendee" />
 		<OrganizerListItem v-if="hasOrganizer"
-			:is-read-only="isReadOnly || isSharedWithMe"
+			:is-read-only="isReadOnly"
 			:organizer="calendarObjectInstance.organizer" />
 		<InviteesListItem v-for="invitee in limitedInviteesWithoutOrganizer"
 			:key="invitee.email"
 			:attendee="invitee"
-			:is-read-only="isReadOnly || isSharedWithMe"
+			:is-read-only="isReadOnly"
 			:organizer-display-name="organizerDisplayName"
 			:members="invitee.members"
 			@remove-attendee="removeAttendee" />
@@ -29,7 +29,7 @@
 			class="invitees-list__more">
 			{{ n('calendar', '%n more guest', '%n more guests', inviteesWithoutOrganizer.length - limit) }}
 		</div>
-		<NoAttendeesView v-if="isReadOnly && isSharedWithMe && !hideErrors"
+		<NoAttendeesView v-if="isReadOnly && !hideErrors"
 			:message="noOwnerMessage" />
 		<NoAttendeesView v-else-if="isReadOnly && isListEmpty && hasUserEmailAddress"
 			:message="noInviteesMessage" />
@@ -106,10 +106,6 @@ export default {
 			type: Object,
 			required: true,
 		},
-		isSharedWithMe: {
-			type: Boolean,
-			required: true,
-		},
 		showHeader: {
 			type: Boolean,
 			required: true,
@@ -143,9 +139,6 @@ export default {
 		...mapState(useSettingsStore, ['talkEnabled']),
 		noInviteesMessage() {
 			return this.$t('calendar', 'No attendees yet')
-		},
-		noOwnerMessage() {
-			return this.$t('calendar', 'You do not own this calendar, so you cannot add attendees to this event')
 		},
 		invitees() {
 			return this.calendarObjectInstance.attendees.filter(attendee => {
