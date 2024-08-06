@@ -1824,6 +1824,7 @@ export default defineStore('calendarObjectInstance', {
 				recurrenceRule,
 			})
 			this.changeRecurrenceUntil({
+				calendarObjectInstance,
 				recurrenceRule,
 				until,
 			})
