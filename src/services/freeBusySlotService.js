@@ -70,7 +70,7 @@ export function getFirstFreeSlot(start, end, retrievedEvents) {
 		duration = 86400 // one day
 	}
 	const endSearchDate = new Date(start)
-	endSearchDate.setDate(start.getDate() + 7)
+	endSearchDate.setDate(start.getDate() + 1)
 
 	if (retrievedEvents.error) {
 		return [{ error: retrievedEvents.error }]
@@ -89,7 +89,11 @@ export function getFirstFreeSlot(start, end, retrievedEvents) {
 	}
 
 	for (let i = 0; i < events.length + offset && i < 5; i++) {
+		console.log('TIME THAT WE ARE CHECKING', currentCheckedTime)
 		foundSlots[i] = checkTimes(currentCheckedTime, duration, events)
+		console.log('BLOCKING EVENT', new Date(foundSlots[i].blockingEvent.start), new Date(foundSlots[i].blockingEvent.end))
+		console.log('CHECKED EVENT', foundSlots[i].start, foundSlots[i].end)
+		console.log('NEXT EVENT', new Date(foundSlots[i].nextEvent?.start), new Date(foundSlots[i].nextEvent?.end))
 
 		if (foundSlots[i].nextEvent !== undefined && foundSlots[i].nextEvent !== null) {
 			currentCheckedTime = new Date(foundSlots[i].nextEvent.end)
