@@ -87,7 +87,7 @@
 			padding: 0 !important;
 			background: var(--color-primary-element);
 			color: var(--color-primary-element-text);
-			border-radius: 50%;
+			border-radius: var(--border-radius-small);
 		}
 	}
 }
