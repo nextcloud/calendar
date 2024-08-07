@@ -323,7 +323,6 @@
     "Attendees" : "与会者",
     "Create Talk room for this event" : "为此事件创建聊天室",
     "No attendees yet" : "暂无与会者",
-    "You do not own this calendar, so you cannot add attendees to this event" : "您不拥有此日历，因此您无法将参加者添加到此活动",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} 已邀请， {confirmedCount} 已确认",
     "Successfully appended link to talk room to location." : "已成功将线上谈话室的链接附加了位置。",
     "Successfully appended link to talk room to description." : "成功将链接添加到聊天室的描述。",

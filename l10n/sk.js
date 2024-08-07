@@ -321,7 +321,6 @@ OC.L10N.register(
     "Attendees" : "Účastníci",
     "Create Talk room for this event" : "Vytvoriť pre túto udalosť miestnosť v Talk /Rozhovore/",
     "No attendees yet" : "Zatiaľ žiadni účastníci",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Nemáte vlastníctvo tohto kalendára, takže nemôžete pridať účastníkov do tejto udalosti.",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} pozvaných, {confirmedCount} potvrdených",
     "Successfully appended link to talk room to location." : "Do popisu bol úspešne pridaný odkaz na miestnosť v Talk /Rozhovore/.",
     "Successfully appended link to talk room to description." : "Do popisu bol úspešne pridaný odkaz na miestnosť v Talk /Rozhovore/",

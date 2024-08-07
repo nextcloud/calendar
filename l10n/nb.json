@@ -328,7 +328,6 @@
     "Attendees" : "Deltakere",
     "Create Talk room for this event" : "Opprett Talk-rom for denne hendelsen",
     "No attendees yet" : "Ingen deltakere enda",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Du eier ikke denne kalenderen, så du kan ikke legge til deltakere i dette arrangementet",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} invitert, {confirmedCount} bekreftet",
     "Successfully appended link to talk room to location." : "Lenke til talk-rom til plassering er lagt til.",
     "Successfully appended link to talk room to description." : "La til lenke til Talk-rom til beskrivelsen.",

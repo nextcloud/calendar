@@ -217,7 +217,6 @@ OC.L10N.register(
     "Failed to set the participation status to tentative." : "Nun se pudo afitar l'estáu de la participación a provisional",
     "Attendees" : "Asistentes",
     "No attendees yet" : "Nun hai nengún asistente",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Esti calendariu nun te pertenez, polo que nun pues amestar asistentes a esti eventu",
     "Error creating Talk room" : "Hebo un error al crear la sala de Talk",
     "_%n more guest_::_%n more guests_" : ["%n convidáu más","%n convidaos más"],
     "Remove group" : "Quitar el grupu",

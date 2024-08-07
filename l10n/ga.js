@@ -330,7 +330,6 @@ OC.L10N.register(
     "Attendees" : "Lucht freastail",
     "Create Talk room for this event" : "Cruthaigh seomra Caint don imeacht seo",
     "No attendees yet" : "Níl aon lucht freastail fós",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Ní leatsa an féilire seo, mar sin ní féidir leat lucht freastail a chur leis an imeacht seo",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} cuireadh, {confirmedCount} dearbhaithe",
     "Successfully appended link to talk room to location." : "D'éirigh le ceangal leis an seomra cainte a chur i gceangal le suíomh.",
     "Successfully appended link to talk room to description." : "D'éirigh le ceangal leis an seomra cainte a chur i gceangal leis an gcur síos.",

@@ -322,7 +322,6 @@ OC.L10N.register(
     "Attendees" : "Участники",
     "Create Talk room for this event" : "Создать комнату этого события в приложении «Talk»",
     "No attendees yet" : "Ещё нет участников",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Вы не являетесь владельцем этого календаря, поэтому вы не можете добавлять участников на это мероприятие",
     "{invitedCount} invited, {confirmedCount} confirmed" : "Приглашено: {invitedCount}, подтвердили участие: {confirmedCount}",
     "Successfully appended link to talk room to location." : "Ссылка на переговорную комнату успешно добавлена.",
     "Successfully appended link to talk room to description." : "Ссылка на комнату приложения Talk добавлена в описание.",

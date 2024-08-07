@@ -324,7 +324,6 @@
     "Attendees" : "参加者",
     "Create Talk room for this event" : "このイベントに通話ルームを作成する",
     "No attendees yet" : "出席者はまだいません",
-    "You do not own this calendar, so you cannot add attendees to this event" : "あなたはこのカレンダーを所有していないので、このイベントに出席者を追加することはできません。",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} 招待済み, {confirmedCount} 確定",
     "Successfully appended link to talk room to location." : "トークルームへのリンクをロケーションに追加しました。",
     "Successfully appended link to talk room to description." : "通話ルームへのリンクを説明文に追加しました",

@@ -316,7 +316,6 @@ OC.L10N.register(
     "Attendees" : "Συμμετέχοντες",
     "Create Talk room for this event" : "Δημιουργία δωματίου Talk για το γεγονός",
     "No attendees yet" : "Δεν υπάρχουν ακόμη συμμετέχοντες",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Δεν είστε κάτοχος αυτού του ημερολογίου, επομένως δεν μπορείτε να προσθέσετε συμμετέχοντες σε αυτό το συμβάν.",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} προσκεκλημένοι, {confirmedCount} επιβεβαιωμένοι",
     "Successfully appended link to talk room to location." : "Προσαρτήθηκε επιτυχώς στην τοποθεσία ο σύνδεσμος για το δωμάτιο συνομιλίας Talk",
     "Successfully appended link to talk room to description." : "Ο σύνδεσμος στο δωμάτιο Talk προστέθηκε με επιτυχία στην περιγραφή.",

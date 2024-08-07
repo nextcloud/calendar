@@ -325,7 +325,6 @@ OC.L10N.register(
     "Attendees" : "Partaideak",
     "Create Talk room for this event" : "Sortu Talk gela gertaera honentzat",
     "No attendees yet" : "Partaiderik ez oraindik",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Ez zara egutegi honen jabea, beraz, ezin duzu parte-hartzailerik gehitu gertaera honetan",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} gonbidatuta, {confirmedCount} berretsita",
     "Successfully appended link to talk room to location." : "Ondo erantsi zaio esteka hizketa-gelaren kokalekuari.",
     "Successfully appended link to talk room to description." : "Ondo erantsi zaio esteka hizketa gelaren deskribapenari.",

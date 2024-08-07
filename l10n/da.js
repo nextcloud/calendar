@@ -320,7 +320,6 @@ OC.L10N.register(
     "Attendees" : "Deltagere",
     "Create Talk room for this event" : "Opret Snak rum for denne begivenhed",
     "No attendees yet" : "Ingen deltagere endnu",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Du ejer ikke denne kalender, du kan derfor ikke tilføje deltagere til denne begivenhed",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} inviteret, {confirmedCount} bekræftet",
     "Successfully appended link to talk room to location." : "Linket til talerum til placering er tilføjet til lokationen.",
     "Successfully appended link to talk room to description." : "Link til samtalerum blev tilføjet til beskrivelsen.",

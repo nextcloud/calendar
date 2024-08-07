@@ -330,7 +330,6 @@ OC.L10N.register(
     "Attendees" : "Attendees",
     "Create Talk room for this event" : "Create Talk room for this event",
     "No attendees yet" : "No attendees yet",
-    "You do not own this calendar, so you cannot add attendees to this event" : "You do not own this calendar, so you cannot add attendees to this event",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} invited, {confirmedCount} confirmed",
     "Successfully appended link to talk room to location." : "Successfully appended link to talk room to location.",
     "Successfully appended link to talk room to description." : "Successfully appended link to talk room to description.",

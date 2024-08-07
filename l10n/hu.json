@@ -305,7 +305,6 @@
     "Attendees" : "Résztvevők",
     "Create Talk room for this event" : "Beszélgetés szoba létrehozása ehhez az eseményhez",
     "No attendees yet" : "Még nincs résztvevő",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Nem tulajdonosa ennek a naptárnak, ezért nem adhat hozzá meghívottakat az eseményhez",
     "Successfully appended link to talk room to location." : "A hely hivatkozásának beszélgetési szobához történő hozzáfűzése sikeres.",
     "Successfully appended link to talk room to description." : "Beszélgetés szoba hivatkozásának a leíráshoz csatolása sikeres.",
     "Error creating Talk room" : "Hiba a Beszélgetés szoba létrehozásakor",

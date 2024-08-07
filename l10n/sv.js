@@ -330,7 +330,6 @@ OC.L10N.register(
     "Attendees" : "Deltagare",
     "Create Talk room for this event" : "Skapa ett rum i Talk för denna händelse",
     "No attendees yet" : "Inga deltagare än",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Du äger inte den här kalendern, så du kan inte lägga till deltagare till denna händelse",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} inbjudna, {confirmedCount} bekräftade",
     "Successfully appended link to talk room to location." : "Länk till rum i Talk tillagd i plats.",
     "Successfully appended link to talk room to description." : "Länk till rum i Talk tillagd i beskrivningen.",

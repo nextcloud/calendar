@@ -323,7 +323,6 @@ OC.L10N.register(
     "Attendees" : "Uczestnicy",
     "Create Talk room for this event" : "Utwórz pokój w Talku dla tego wydarzenia",
     "No attendees yet" : "Brak uczestników",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Nie jesteś właścicielem tego kalendarza, więc nie możesz dodawać uczestników do tego wydarzenia",
     "Successfully appended link to talk room to location." : "Pomyślnie dodano link do pokoju rozmów do lokalizacji.",
     "Successfully appended link to talk room to description." : "Pomyślnie dołączono do opisu link do pokoju rozmów.",
     "Error creating Talk room" : "Błąd podczas tworzenia pokoju w Talku",

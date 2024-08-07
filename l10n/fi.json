@@ -311,7 +311,6 @@
     "Attendees" : "Osallistujat",
     "Create Talk room for this event" : "Luo Talk-huone tälle tapahtumalle",
     "No attendees yet" : "Ei vielä osallistujia",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Et omista tätä kalenteria, joten et voi lisätä osallistujia tähän tapahtumaan",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} kutsuttu, {confirmedCount} vahvistettu",
     "Successfully appended link to talk room to description." : "Linkki Talk-huoneeseen lisättiin onnistuneesti kuvaukseen.",
     "Error creating Talk room" : "Virhe luotaessa Talk-huonetta",

@@ -328,7 +328,6 @@
     "Attendees" : "Asistentes",
     "Create Talk room for this event" : "Crear sala de conversa para este evento",
     "No attendees yet" : "Aínda non hai participantes",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Vde. non é o propietario deste calendario, polo que non pode engadir asistentes a este evento",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} convites, {confirmedCount} confirmados",
     "Successfully appended link to talk room to location." : "Engadiuse satisfactoriamente a ligazón á localización da sala de conversa.",
     "Successfully appended link to talk room to description." : "Engadiuse satisfactoriamente unha ligazón á descrición da  sala de conversa.",

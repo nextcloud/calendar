@@ -327,7 +327,6 @@ OC.L10N.register(
     "Attendees" : "Присутни",
     "Create Talk room for this event" : "Креирај Talk собу за овај догађај",
     "No attendees yet" : "Још увек нема учесника",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Ово није ваш календар, тако да немате права да додате учеснике у овај догађај",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} позваних, {confirmedCount} потврдило",
     "Successfully appended link to talk room to location." : "У локацију је успешно додат линк на Talk собу.",
     "Successfully appended link to talk room to description." : "У опис је успешно додат линк на Talk собу.",

@@ -300,7 +300,6 @@ OC.L10N.register(
     "Attendees" : "참석자",
     "Create Talk room for this event" : "이 일정에 대한 대화방 만들기",
     "No attendees yet" : "아직 참석자가 없습니다.",
-    "You do not own this calendar, so you cannot add attendees to this event" : "이 달력의 소유자가 아니기 때문에 이 일정에 참석자를 추가할 수 없습니다",
     "Successfully appended link to talk room to location." : "위치에 대화방 링크를 성공적으로 추가함",
     "Successfully appended link to talk room to description." : "설명에 대화방 링크를 성공적으로 추가함",
     "Error creating Talk room" : "대화방 생성 오류",

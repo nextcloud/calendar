@@ -300,7 +300,6 @@
     "Attendees" : "Þátttakendur",
     "Create Talk room for this event" : "Búa til spjallsvæði fyrir þennan atburð",
     "No attendees yet" : "Engir þátttakendur ennþá",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Þú átt ekki þetta dagatal, þannig að þú getur ekki bætt þátttakendum við þennan atburð",
     "Successfully appended link to talk room to location." : "Tókst að bæta tengli á spjallsvæði við staðsetningu.",
     "Successfully appended link to talk room to description." : "Tókst að bæta tengli á spjallsvæði við lýsingu.",
     "Error creating Talk room" : "Villa við að búa til spjallsvæði.",

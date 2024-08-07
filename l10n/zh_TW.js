@@ -330,7 +330,6 @@ OC.L10N.register(
     "Attendees" : "參與者",
     "Create Talk room for this event" : "建立此活動的線上會議室",
     "No attendees yet" : "還沒有任何參與者",
-    "You do not own this calendar, so you cannot add attendees to this event" : "您並未擁有此行事曆，因此您無法新增參與者到此活動",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} 個已邀請，{confirmedCount} 個已確認",
     "Successfully appended link to talk room to location." : "成功將線上會議室的連結加至位置",
     "Successfully appended link to talk room to description." : "成功將線上會議室的連結加至活動細節",

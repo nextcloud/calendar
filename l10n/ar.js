@@ -330,7 +330,6 @@ OC.L10N.register(
     "Attendees" : "المشاركون",
     "Create Talk room for this event" : "إنشاء غرفة مُحادثة لهذا الحدث.",
     "No attendees yet" : "لا يوجد حضورٌ بعدُ",
-    "You do not own this calendar, so you cannot add attendees to this event" : "أنت لا تملك هذا التقويم؛ و لهذا لا يمكنك إضافة مَدعُوِّين إلى هذا الحدث.",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} مدعو, {confirmedCount} مؤكد",
     "Successfully appended link to talk room to location." : "تمّ إلحاق رابط غرفة المحادثة بالموقع بنجاح.",
     "Successfully appended link to talk room to description." : "تمّ إلحاق الرابط بوصف غرفة المحادثة بنجاح.",

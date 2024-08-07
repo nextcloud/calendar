@@ -297,7 +297,6 @@
     "Attendees" : "Participanți",
     "Create Talk room for this event" : "Creează o cameră Talk pentru acest eveniment",
     "No attendees yet" : "Nu exista participați încă",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Nu sunteți proprietarul acestui calendar și nu puteți adăuga participanți la acest eveniment",
     "Successfully appended link to talk room to location." : "S-a adăugat cu succes locației linkul la camera Talk.",
     "Successfully appended link to talk room to description." : "S-a adăugat cu succes descrierii linkul la camera Talk.",
     "Error creating Talk room" : "Camera Talk nu a putut fi creată",

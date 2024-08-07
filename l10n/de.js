@@ -330,7 +330,6 @@ OC.L10N.register(
     "Attendees" : "Teilnehmer",
     "Create Talk room for this event" : "Besprechungsraum für diesen Termin erstellen",
     "No attendees yet" : "Keine Teilnehmer bislang",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Du bist nicht Eigentümer dieses Kalenders und kannst daher dieser Veranstaltung keine Teilnehmer hinzufügen.",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} eingeladen, {confirmedCount} bestätigt",
     "Successfully appended link to talk room to location." : "Link des Talk-Raums zur Ortsangabe hinzugefügt.",
     "Successfully appended link to talk room to description." : "Link zur Beschreibung des Besprechungsraums hinzugefügt.",
