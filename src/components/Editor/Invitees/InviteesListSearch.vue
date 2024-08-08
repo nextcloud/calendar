@@ -295,3 +295,9 @@ export default {
 	},
 }
 </script>
+
+<style scoped>
+:deep(.avatardiv) {
+	overflow: visible !important;
+}
+</style>
