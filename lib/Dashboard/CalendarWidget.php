@@ -82,7 +82,7 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 	 * @inheritDoc
 	 */
 	public function getIconClass(): string {
-		return 'icon-calendar-dark';
+		return 'app-icon-calendar';
 	}
 
 	/**

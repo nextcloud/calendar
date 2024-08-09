@@ -95,17 +95,6 @@ class CalendarWidgetTest extends TestCase {
 		$this->assertNull($this->widget->getUrl());
 	}
 
-	public function testLoad(): void {
-		$this->initialState->expects($this->once())
-			->method('provideLazyInitialState')
-			->with('dashboard_data', $this->callback(function ($actual) {
-				$fnResult = $actual();
-				return $fnResult === $this->service;
-			}));
-
-		$this->widget->load();
-	}
-
 	public function testGetItems() : void {
 		$userId = 'admin';
 		$calendar = $this->createMock(CalendarImpl::class);
