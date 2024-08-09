@@ -9,9 +9,6 @@ const webpackConfig = require('@nextcloud/webpack-vue-config')
 const webpackRules = require('@nextcloud/webpack-vue-config/rules')
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 
-// Add dashboard entry
-webpackConfig.entry.dashboard = path.join(__dirname, 'src', 'dashboard.js')
-
 //Add reference entry
 webpackConfig.entry['reference'] = path.join(__dirname, 'src', 'reference.js')
 

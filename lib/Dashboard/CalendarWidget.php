@@ -16,18 +16,20 @@ use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\IManager;
 use OCP\Dashboard\IAPIWidget;
+use OCP\Dashboard\IAPIWidgetV2;
 use OCP\Dashboard\IButtonWidget;
 use OCP\Dashboard\IIconWidget;
 use OCP\Dashboard\IOptionWidget;
+use OCP\Dashboard\IReloadableWidget;
 use OCP\Dashboard\Model\WidgetButton;
 use OCP\Dashboard\Model\WidgetItem;
+use OCP\Dashboard\Model\WidgetItems;
 use OCP\Dashboard\Model\WidgetOptions;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use OCP\Util;
 
-class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionWidget {
+class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWidget, IOptionWidget, IReloadableWidget {
 	protected IL10N $l10n;
 	protected IInitialState $initialStateService;
 	protected JSDataService $dataService;
@@ -38,13 +40,6 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 
 	/**
 	 * CalendarWidget constructor.
-	 *
-	 * @param IL10N $l10n
-	 * @param IInitialState $initialStateService
-	 * @param JSDataService $dataService
-	 * @param IDateTimeFormatter $dateTimeFormatter
-	 * @param IURLGenerator $urlGenerator
-	 * @param IManager $calendarManager
 	 */
 	public function __construct(IL10N $l10n,
 		IInitialState $initialStateService,
@@ -110,12 +105,7 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 	 * @inheritDoc
 	 */
 	public function load(): void {
-		Util::addScript(Application::APP_ID, 'calendar-dashboard');
-		Util::addStyle(Application::APP_ID, 'dashboard');
-
-		$this->initialStateService->provideLazyInitialState('dashboard_data', function () {
-			return $this->dataService;
-		});
+		// No assets need to be loaded anymore as the widget is rendered from the API
 	}
 
 	public function getItems(string $userId, ?string $since = null, int $limit = 7): array {
@@ -172,6 +162,27 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 	/**
 	 * @inheritDoc
 	 */
+	public function getItemsV2(string $userId, ?string $since = null, int $limit = 7): WidgetItems {
+		$widgetItems = $this->getItems($userId, $since, $limit);
+
+		$halfEmptyContentMessage = '';
+		if (!empty($widgetItems)) {
+			$startOfTomorrow = $this->timeFactory->getDateTime('tomorrow')->getTimestamp();
+			if ($widgetItems[0]->getSinceId() >= $startOfTomorrow) {
+				$halfEmptyContentMessage = $this->l10n->t('No more events today');
+			}
+		}
+
+		return new WidgetItems(
+			$widgetItems,
+			empty($widgetItems) ? $this->l10n->t('No upcoming events') : '',
+			$halfEmptyContentMessage,
+		);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
 	public function getWidgetButtons(string $userId): array {
 		return [
 			new WidgetButton(
@@ -189,5 +200,12 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 	 */
 	public function getWidgetOptions(): WidgetOptions {
 		return new WidgetOptions(true);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getReloadInterval(): int {
+		return 600;
 	}
 }

@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace OCA\Calendar\AppInfo;
 
 use OCA\Calendar\Dashboard\CalendarWidget;
-use OCA\Calendar\Dashboard\CalendarWidgetV2;
 use OCA\Calendar\Events\BeforeAppointmentBookedEvent;
 use OCA\Calendar\Listener\AppointmentBookedListener;
 use OCA\Calendar\Listener\CalendarReferenceListener;
@@ -21,7 +20,6 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
-use OCP\Dashboard\IAPIWidgetV2;
 use OCP\User\Events\UserDeletedEvent;
 use function method_exists;
 
@@ -40,12 +38,7 @@ class Application extends App implements IBootstrap {
 	 * @inheritDoc
 	 */
 	public function register(IRegistrationContext $context): void {
-		// TODO: drop conditional code when the app is 27.1+
-		if (interface_exists(IAPIWidgetV2::class)) {
-			$context->registerDashboardWidget(CalendarWidgetV2::class);
-		} else {
-			$context->registerDashboardWidget(CalendarWidget::class);
-		}
+		$context->registerDashboardWidget(CalendarWidget::class);
 
 		// TODO: drop conditional code when the app is 23+
 		if (method_exists($context, 'registerProfileLinkAction')) {
