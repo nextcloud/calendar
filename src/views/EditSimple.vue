@@ -125,6 +125,7 @@
 					:show-header="true"
 					:is-read-only="isReadOnlyOrViewing"
 					:is-shared-with-me="isSharedWithMe"
+					:calendar="selectedCalendar"
 					:calendar-object-instance="calendarObjectInstance"
 					:limit="3" />
 

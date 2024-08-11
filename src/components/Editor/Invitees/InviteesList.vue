@@ -17,7 +17,10 @@
 			@add-attendee="addAttendee" />
 		<OrganizerListItem v-if="hasOrganizer"
 			:is-read-only="isReadOnly"
-			:organizer="calendarObjectInstance.organizer" />
+			:is-shared-with-me="isSharedWithMe"
+			:organizer="calendarObjectInstance.organizer"
+			:organizer-selection="organizerSelection"
+			@change-organizer="changeOrganizer" />
 		<InviteesListItem v-for="invitee in limitedInviteesWithoutOrganizer"
 			:key="invitee.email"
 			:attendee="invitee"
@@ -81,6 +84,7 @@ import {
 import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
 import AccountMultipleIcon from 'vue-material-design-icons/AccountMultiple.vue'
 import usePrincipalsStore from '../../../store/principals.js'
+import useCalendarsStore from '../../../store/calendars.js'
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
 import useSettingsStore from '../../../store/settings.js'
 import { mapStores, mapState } from 'pinia'
@@ -100,6 +104,14 @@ export default {
 	props: {
 		isReadOnly: {
 			type: Boolean,
+			required: true,
+		},
+		isSharedWithMe: {
+			type: Boolean,
+			required: true,
+		},
+		calendar: {
+			type: Object,
 			required: true,
 		},
 		calendarObjectInstance: {
@@ -135,7 +147,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapStores(usePrincipalsStore, useCalendarObjectInstanceStore),
+		...mapStores(usePrincipalsStore, useCalendarsStore, useCalendarObjectInstanceStore),
 		...mapState(useSettingsStore, ['talkEnabled']),
 		noInviteesMessage() {
 			return this.$t('calendar', 'No attendees yet')
@@ -214,9 +226,28 @@ export default {
 		hasOrganizer() {
 			return this.calendarObjectInstance.organizer !== null
 		},
-
 		organizerDisplayName() {
 			return organizerDisplayName(this.calendarObjectInstance.organizer)
+		},
+		organizerSelection() {
+			const organizers = []
+			const owner = this.principalsStore.getPrincipalByUrl(this.calendar.owner)
+			const principal = this.principalsStore.getCurrentUserPrincipal
+			if (owner) {
+				organizers.push({
+					id: owner.id,
+					label: owner.displayname,
+					address: owner.emailAddress
+				})
+			}
+			if (principal && owner.id !== principal.id) {
+				organizers.push({
+					id: principal.id,
+					label: principal.displayname,
+					address: principal.emailAddress
+				})
+			}
+			return organizers
 		},
 		isListEmpty() {
 			return !this.calendarObjectInstance.organizer && this.invitees.length === 0
@@ -268,8 +299,53 @@ export default {
 					.length,
 			})
 		},
+		selectedOrganizer() {
+			let organizer = null
+			if (this.calendarObjectInstance.organizer) {
+				const user = this.calendarObjectInstance.organizer
+				organizer = {
+					label: user.commonName,
+					address: removeMailtoPrefix(user.uri)
+				}
+			} else if (this.principalsStore.getCurrentUserPrincipal) {
+				const user = this.principalsStore.getCurrentUserPrincipal
+				organizer = {
+					label: user.displayname,
+					address: user.emailAddress
+				}
+			}
+			return organizer
+		},
 	},
 	methods: {
+		changeOrganizer({ id, address, label }, attend) {
+			// retrieve current organizer
+			const current = this.selectedOrganizer
+			// remove new organizer from attendees
+			this.calendarObjectInstance.attendees.forEach(function(attendee) {
+				if (removeMailtoPrefix(attendee.uri) === address || removeMailtoPrefix(attendee.uri) === current.address) {
+					this.removeAttendee(attendee)
+				}
+			}, this)
+			// determine if current organizer needs to be converted to a attendee
+			if (attend === true) {
+				this.addAttendee({
+					commonName: current.label,
+					email: current.address,
+					calendarUserType: 'INDIVIDUAL',
+					language: null,
+					timezoneId: null,
+					member: null,
+				})
+			}
+			// set new organizer
+			this.calendarObjectInstanceStore.setOrganizer({
+				calendarObjectInstance: this.calendarObjectInstance,
+				commonName: label,
+				email: address,
+			})
+			this.recentAttendees.push(address)
+		},
 		addAttendee({ commonName, email, calendarUserType, language, timezoneId, member }) {
 			this.calendarObjectInstanceStore.addAttendee({
 				calendarObjectInstance: this.calendarObjectInstance,

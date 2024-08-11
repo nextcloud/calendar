@@ -196,6 +196,18 @@ export default {
 
 			return calendar.readOnly
 		},
+		isSharedWithMe() {
+			if (!this.calendarObject) {
+				return true
+			}
+
+			const calendar = this.calendarsStore.getCalendarById(this.calendarObject.calendarId)
+			if (!calendar) {
+				return true
+			}
+
+			return calendar.isSharedWithMe
+		},
 		/**
 		 * Returns whether the user is an attendee of the event
 		 *

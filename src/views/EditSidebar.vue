@@ -221,8 +221,10 @@
 			</template>
 			<div class="app-sidebar-tab__content">
 				<InviteesList v-if="!isLoading"
+					:calendar="selectedCalendar"
 					:calendar-object-instance="calendarObjectInstance"
-					:is-read-only="isReadOnly"
+					:is-read-only="isReadOnlyOrViewing"
+					:is-shared-with-me="isSharedWithMe"
 					:show-header="false"
 					@update-dates="updateDates" />
 			</div>
