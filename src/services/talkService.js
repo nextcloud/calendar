@@ -72,7 +72,7 @@ export async function updateTalkParticipants(eventComponent) {
 		logger.debug('Event\'s conference/location is from another host', url)
 		return
 	}
-	const token = url.match(/\/call\/([a-z0-9]*)$/)[1]
+	const token = extractCallTokenFromUrl(url)
 	if (!token) {
 		logger.debug('URL ' + url + ' contains no call token')
 		return
@@ -147,4 +147,14 @@ export function doesContainTalkLink(text) {
  */
 function generateURLForToken(token = '') {
 	return window.location.protocol + '//' + window.location.host + generateUrl('/call/' + token)
+}
+
+/**
+ * Extract a spreed call token from the given URL
+ *
+ * @param {string} callUrl URL of the spreed call
+ * @return {string|undefined} Matched token or undefined if URL is invalid
+ */
+export function extractCallTokenFromUrl(callUrl) {
+	return callUrl.match(/\/call\/([a-z0-9]*)(\/|#.*)?$/)?.[1] ?? undefined
 }
