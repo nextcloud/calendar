@@ -10,10 +10,14 @@
 			:max="total" />
 	</li>
 	<li v-else class="settings-fieldset-interior-item">
-		<label class="settings-fieldset-interior-item__import-button button icon" :for="inputUid">
-			<Upload :size="20" decorative />
+		<NcButton :disabled="disableImport"
+			:wide="true"
+			@click="$refs.importInput.click()">
+			<template #icon>
+				<Upload :size="20" />
+			</template>
 			{{ $n('calendar', 'Import calendar', 'Import calendars', 1) }}
-		</label>
+		</NcButton>
 		<input :id="inputUid"
 			ref="importInput"
 			class="hidden"
@@ -52,12 +56,14 @@ import useImportFilesStore from '../../../store/importFiles.js'
 import useCalendarsStore from '../../../store/calendars.js'
 import useCalendarObjectsStore from '../../../store/calendarObjects.js'
 import { mapStores, mapState } from 'pinia'
+import { NcButton } from '@nextcloud/vue'
 
 export default {
 	name: 'SettingsImportSection',
 	components: {
 		ImportScreen,
 		Upload,
+		NcButton,
 	},
 	props: {
 		isDisabled: {

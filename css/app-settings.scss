@@ -33,17 +33,6 @@
 			}
 		}
 
-		&__import-button {
-			display: block;
-			text-align: center;
-			background-position-x: 8px;
-			position: relative;
-
-			.material-design-icon {
-				position: absolute;
-			}
-		}
-
 		&--slotDuration,
 		&--defaultReminder {
 			display: table;
