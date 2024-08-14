@@ -15,6 +15,7 @@
 - Calendar refresh on remote changes
 - Widget for private calendars
 - Caldav backend requirement
+- Attendees for shared calendars
 ### Changed
 - Dropped Nextcloud 29 support
 - Dropped support for PHP 8.0
@@ -25,6 +26,7 @@
 - More translations for appointments
 - ### Fixed
 - Teams missing from placeholder texts
+- Free/busy slot suggestion breaking with duplicate events
 
 ## 4.7.12 - 2024-07-17
 ### Fixed
