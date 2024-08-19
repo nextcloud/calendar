@@ -60,8 +60,11 @@
 
 		<NcDialog :open.sync="showOpenConfirmation"
 			:name="t('calendar', 'Confirmation')"
-			:message="openConfirmationMessage"
-			:buttons="openConfirmationButtons" />
+			:buttons="openConfirmationButtons">
+			<p class="external-link-message">
+				{{ openConfirmationMessage }}
+			</p>
+		</NcDialog>
 	</div>
 </template>
 
@@ -221,7 +224,8 @@ export default {
 			}
 
 			// Otherwise, show a confirmation dialog
-			this.openConfirmationMessage = t('calendar', 'You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}', {
+			this.openConfirmationMessage = t('calendar', 'You are about to navigate to {host}. Are you sure to proceed? Link: {link}', {
+				host: url.host,
 				link: url.href,
 			})
 			this.openConfirmationButtons = [
@@ -313,5 +317,9 @@ export default {
 	width: 24px;
 	height: 24px;
 	border-radius: var(--border-radius);
+}
+
+.external-link-message {
+	overflow-wrap: break-word;
 }
 </style>
