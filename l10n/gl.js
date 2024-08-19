@@ -153,7 +153,7 @@ OC.L10N.register(
     "_Import calendar_::_Import calendars_" : ["Importar calendario","Importar calendarios"],
     "Default attachments location" : "Localización predeterminada dos anexos",
     "Select the default location for attachments" : "Seleccione a localización predeterminada para os anexos",
-    "Pick" : "Escolla",
+    "Pick" : "Escoller",
     "Invalid location selected" : "Seleccionouse unha localización non válida",
     "Attachments folder successfully saved." : "O cartafol de anexos foi gardado correctamente.",
     "Error on saving attachments folder." : "Produciuse un erro ao gardar o cartafol de anexos.",
