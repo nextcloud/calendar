@@ -140,6 +140,11 @@ export default {
 			}
 
 			this.calendars.forEach((calendar) => {
+				if (!calendar.enabled) {
+					sortedCalendars.hidden.push(calendar)
+					return
+				}
+
 				if (calendar.isSharedWithMe) {
 					sortedCalendars.shared.push(calendar)
 					return
@@ -147,11 +152,6 @@ export default {
 
 				if (calendar.url.includes('app-generated--deck--board')) {
 					sortedCalendars.deck.push(calendar)
-					return
-				}
-
-				if (!calendar.enabled) {
-					sortedCalendars.hidden.push(calendar)
 					return
 				}
 
