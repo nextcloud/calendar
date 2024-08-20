@@ -269,6 +269,7 @@ OC.L10N.register(
     "Subscribe" : "Subscrever",
     "Personal" : "Pessoal",
     "Details" : "Detalhes",
+    "Invite" : "Convite",
     "Resources" : "Recursos",
     "Close" : "Fechar",
     "Anniversary" : "Aniversário",
