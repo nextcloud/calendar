@@ -1,6 +1,12 @@
 # Changelog
 
-## 4.7.14- 2024-08-06
+## 4.7.16- 2024-08-21
+### Fixed
+- Attachment layout
+- Call token extraction
+- Style scopes
+
+## 4.7.15- 2024-08-06
 ### Fixed
 - Attendee text overlapping with invitation status
 - Recurrence selection box
