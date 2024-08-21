@@ -24,7 +24,7 @@
 - Circles renamed to Teams
 - Automatic widget reloading
 - More translations for appointments
-- ### Fixed
+### Fixed
 - Teams missing from placeholder texts
 - Free/busy slot suggestion breaking with duplicate events
 
