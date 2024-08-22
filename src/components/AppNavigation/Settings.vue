@@ -89,8 +89,7 @@
 				</template>
 				{{ $t('calendar', 'Copy iOS/macOS CalDAV address') }}
 			</ActionButton>
-			<ActionLink :href="availabilitySettingsUrl"
-				target="_blank">
+			<ActionLink :href="availabilitySettingsUrl" target="_blank">
 				<template #icon>
 					<OpenInNewIcon :size="20" decorative />
 				</template>
@@ -256,8 +255,9 @@ export default {
 		},
 		defaultReminderOptions() {
 			const defaultAlarms = getDefaultAlarms().map(seconds => {
+				const label = seconds === 0 ? t('calendar', 'At event start') : moment.duration(Math.abs(seconds) * 1000).locale(this.locale).humanize()
 				return {
-					label: moment.duration(Math.abs(seconds) * 1000).locale(this.locale).humanize(),
+					label,
 					value: seconds.toString(),
 				}
 			})
@@ -503,7 +503,8 @@ export default {
 </script>
 
 <style scoped>
-.settings-fieldset-interior-item, :deep(.v-select.select) {
+.settings-fieldset-interior-item,
+:deep(.v-select.select) {
 	width: 100%;
 }
 </style>
