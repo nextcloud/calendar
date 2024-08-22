@@ -282,7 +282,6 @@ OC.L10N.register(
     "Choose a file to share as a link" : "Velg en fil du vil dele som en lenke",
     "Attachment {name} already exist!" : "Vedlegget {name} finnes allerede!",
     "Could not upload attachment(s)" : "Kunne ikke laste opp vedlegg",
-    "You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}" : "Du er i ferd med å navigere til en ikke-klarert ekstern lenke. Er du sikker på å fortsette? Lenke: {link}",
     "Proceed" : "Fortsett",
     "_{count} attachment_::_{count} attachments_" : ["{count} vedlegg","{count} vedlegg"],
     "Invitation accepted" : "Invitasjon akseptert",

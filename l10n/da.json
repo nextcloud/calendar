@@ -280,7 +280,6 @@
     "Choose a file to share as a link" : "Vælg en fil der skal deles som link",
     "Attachment {name} already exist!" : "Vedhæftet fil {name} findes allerede!",
     "Could not upload attachment(s)" : "Kunne ikke uploade vedhæftning(er)",
-    "You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}" : "Du er ved at navigere til et ikke sikkert eksternt link. Er du sikker på at du ønsker at fortsætte? Link: {link}",
     "Proceed" : "Fortsæt",
     "_{count} attachment_::_{count} attachments_" : ["{count} vedhæftet fil","{count} vedhæftede filer"],
     "Invitation accepted" : "Invitation accepteret",

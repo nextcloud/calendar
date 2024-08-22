@@ -280,7 +280,6 @@
     "Choose a file to share as a link" : "Виберіть файл, яким ви поділитеся через посилання",
     "Attachment {name} already exist!" : "Такий долучений файл {name} вже присутній!",
     "Could not upload attachment(s)" : "Не вдалося завантажити вкладення.",
-    "You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}" : "Ви переходите недовіреним зовнішнім посиланням. Продовжити? Посилання: {link}",
     "Proceed" : "Продовжити",
     "_{count} attachment_::_{count} attachments_" : ["{count} долучений файл","{count} долучені файли","{count} долучених файлів","{count} долучених файлів"],
     "Invitation accepted" : "Запрошення прийнято",

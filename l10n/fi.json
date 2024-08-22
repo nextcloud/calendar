@@ -268,7 +268,6 @@
     "Choose a file to add as attachment" : "Valitse liitteeksi lisättävä tiedosto",
     "Choose a file to share as a link" : "Valitse tiedosto, joka jaetaan linkkinä",
     "Attachment {name} already exist!" : "Liite {name} on jo olemassa!",
-    "You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}" : "Olet aikeissa siirtyä ulkoiseen linkkiin, joka ei ole luotettu. Haluatko jatkaa? Linkki: {link}",
     "Proceed" : "Jatka",
     "_{count} attachment_::_{count} attachments_" : ["{count} liite","{count} liitettä"],
     "Invitation accepted" : "Kutsu hyväksytty",

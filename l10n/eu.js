@@ -279,7 +279,6 @@ OC.L10N.register(
     "Choose a file to share as a link" : "Aukeratu fitxategi bat esteka bezala partekatzeko",
     "Attachment {name} already exist!" : "Dagoeneko existitzen da {name} eranskina!",
     "Could not upload attachment(s)" : "Ezinezkoa izan da eranskina(k) igotzea",
-    "You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}" : "Fidagarria ez den kanpoko esteka batera nabigatzera zoaz. Ziur aurrera egin nahi duzula? Esteka: {link}",
     "Proceed" : "Jarraitu",
     "_{count} attachment_::_{count} attachments_" : ["Eranskin {count}","{count} eranskin"],
     "Invitation accepted" : "Gonbidapena onartuta",

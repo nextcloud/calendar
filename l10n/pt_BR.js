@@ -282,7 +282,6 @@ OC.L10N.register(
     "Choose a file to share as a link" : "Escolher um arquivo para compartilhar como link",
     "Attachment {name} already exist!" : "Attachment {name} already exist!",
     "Could not upload attachment(s)" : "Não foi possível enviar anexo(s)",
-    "You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}" : "Você está prestes a navegar para um link externo não confiável. Tem certeza de que deseja prosseguir? Link: {link}",
     "Proceed" : "Prosseguir",
     "_{count} attachment_::_{count} attachments_" : ["{count} anexo","{count} anexos","{count} anexos"],
     "Invitation accepted" : "Convite aceito",

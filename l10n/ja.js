@@ -282,7 +282,6 @@ OC.L10N.register(
     "Choose a file to share as a link" : "共有リンクにして送信するファイルを選択",
     "Attachment {name} already exist!" : "添付ファイル {name} は既に存在します！",
     "Could not upload attachment(s)" : "添付ファイルをアップロードできませんでした",
-    "You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}" : "外部の信頼できないリンクに移動しようとしています。本当に進行しますか？リンク: {link}",
     "Proceed" : "続行する",
     "_{count} attachment_::_{count} attachments_" : ["{count} 個の添付ファイル"],
     "Invitation accepted" : "招待を受け付けました",

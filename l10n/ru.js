@@ -278,7 +278,6 @@ OC.L10N.register(
     "Choose a file to share as a link" : "Выберите файл для публикации ссылкой",
     "Attachment {name} already exist!" : "Файл вложения «{name}» уже существует.",
     "Could not upload attachment(s)" : "Не удалось загрузить вложение (вложения)",
-    "You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}" : "Вы переходите по непроверенной внешней ссылке ({link}). Подтвердите переход.",
     "Proceed" : "Перейти",
     "_{count} attachment_::_{count} attachments_" : ["{count} вложение","{count} вложения","{count} вложений","{count} вложений"],
     "Invitation accepted" : "Приглашение принято",

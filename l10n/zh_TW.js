@@ -282,7 +282,6 @@ OC.L10N.register(
     "Choose a file to share as a link" : "選擇要作為連結分享的檔案",
     "Attachment {name} already exist!" : "附件 {name} 已存在！",
     "Could not upload attachment(s)" : "無法上傳附件",
-    "You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}" : "您即將前往不受信任的外部連結。您確定要繼續嗎？連結：{link}",
     "Proceed" : "繼續",
     "_{count} attachment_::_{count} attachments_" : ["{count} 個附件"],
     "Invitation accepted" : "已接受邀請",

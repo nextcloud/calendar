@@ -280,7 +280,6 @@
     "Choose a file to share as a link" : "Одаберите фајл који желите да поделите као везу",
     "Attachment {name} already exist!" : "Прилог {name} веђ постоји!",
     "Could not upload attachment(s)" : "Не могу да се отпреме прилози",
-    "You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}" : "Управо ћете да посетите спољни линк којем се не верује. Да ли желите да наставите? Линк: {link}",
     "Proceed" : "Настави",
     "_{count} attachment_::_{count} attachments_" : ["{count} прилог","{count} прилога","{count} прилога"],
     "Invitation accepted" : "Позивница је прихваћена",

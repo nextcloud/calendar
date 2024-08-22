@@ -275,7 +275,6 @@ OC.L10N.register(
     "Choose a file to share as a link" : "Επιλέξτε ένα αρχείο για κοινή χρήση ως σύνδεσμο",
     "Attachment {name} already exist!" : "Το συνημμένο {name} υπάρχει ήδη",
     "Could not upload attachment(s)" : "Δεν ήταν δυνατή η μεταφόρτωση συνημμένου(-ων)",
-    "You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}" : "Πρόκειται να πλοηγηθείτε σε έναν μη αξιόπιστο εξωτερικό σύνδεσμο. Είστε σίγουροι ότι θέλετε να προχωρήσετε; Σύνδεσμος: {link}",
     "_{count} attachment_::_{count} attachments_" : ["{count} συνημμένo","{count} συνημμένα"],
     "Invitation accepted" : "Η πρόσκληση έγινε αποδεκτή.",
     "Available" : "Διαθέσιμα",
