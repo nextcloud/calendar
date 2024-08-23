@@ -282,6 +282,7 @@ OC.L10N.register(
     "Choose a file to share as a link" : "إختر ملفاً لمشاركته كرابط",
     "Attachment {name} already exist!" : "المُرفَق {name} موجودٌ سلفاً!",
     "Could not upload attachment(s)" : "يتعذّر رفع المرفقـ(ات)",
+    "You are about to navigate to {host}. Are you sure to proceed? Link: {link}" : "يمكنك الانتقال إلى {host}. هل أنت متأكد أنك ترغب في المتابعة؟ الرابط: {link}",
     "Proceed" : "مواصلة",
     "_{count} attachment_::_{count} attachments_" : ["{count} مرفقات","{count} مرفق","{count} مرفقات","{count} مرفقات","{count} مرفقات","{count} مرفقات"],
     "Invitation accepted" : "تمّ قبول الدعوة",

@@ -282,6 +282,7 @@ OC.L10N.register(
     "Choose a file to share as a link" : "Roghnaigh comhad le roinnt mar nasc",
     "Attachment {name} already exist!" : "Tá ceangaltán {name} ann cheana féin!",
     "Could not upload attachment(s)" : "Níorbh fhéidir ceangaltán(cheangail) a uaslódáil",
+    "You are about to navigate to {host}. Are you sure to proceed? Link: {link}" : "Tá tú ar tí nascleanúint a dhéanamh chuig {host}. An bhfuil tú cinnte leanúint ar aghaidh? Nasc: {link}",
     "Proceed" : "Lean ar aghaidh",
     "_{count} attachment_::_{count} attachments_" : ["{comhaireamh} ceangaltán","{comhaireamh} ceangaltán","{comhaireamh} ceangaltán","{comhaireamh} ceangaltán","{comhaireamh} ceangaltán"],
     "Invitation accepted" : "Glacadh le cuireadh",

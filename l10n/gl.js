@@ -282,6 +282,7 @@ OC.L10N.register(
     "Choose a file to share as a link" : "Escoller un ficheiro para compartir como ligazón",
     "Attachment {name} already exist!" : "O anexo {name} xa existe!",
     "Could not upload attachment(s)" : "Non foi posíbel enviar os anexos",
+    "You are about to navigate to {host}. Are you sure to proceed? Link: {link}" : "Está a piques de navegar a {host}. Confirma que quere continuar? Ligazón: {link}",
     "Proceed" : "Continuar",
     "_{count} attachment_::_{count} attachments_" : ["{count} anexo","{count} anexos"],
     "Invitation accepted" : "Aceptouse o convite",
