@@ -195,6 +195,7 @@
     "Personal availability settings" : "Dina tillgänglighetsinställningar",
     "Show keyboard shortcuts" : "Visa tangentbordsgenvägar",
     "Calendar settings" : "Kalenderinställningar",
+    "At event start" : "Vid händelsens start",
     "No reminder" : "Ingen påminnelse",
     "Failed to save default calendar" : "Det gick inte att spara standardkalendern",
     "CalDAV link copied to clipboard." : "CalDAV-länk kopierad till urklipp.",

@@ -197,6 +197,7 @@ OC.L10N.register(
     "Personal availability settings" : "Socruithe infhaighteachta pearsanta",
     "Show keyboard shortcuts" : "Taispeáin aicearraí méarchláir",
     "Calendar settings" : "Socruithe féilire",
+    "At event start" : "Ag tús na hócáide",
     "No reminder" : "Gan meabhrúchán",
     "Failed to save default calendar" : "Theip ar shábháil an fhéilire réamhshocraithe",
     "CalDAV link copied to clipboard." : "Nasc CalDAV cóipeáilte chuig an ngearrthaisce.",

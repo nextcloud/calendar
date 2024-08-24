@@ -197,6 +197,7 @@ OC.L10N.register(
     "Personal availability settings" : "Configuración persoal de dispoñibilidade",
     "Show keyboard shortcuts" : "Amosar os atallos de teclado",
     "Calendar settings" : "Axustes de Calendario",
+    "At event start" : "No inicio do evento",
     "No reminder" : "Non hai lembretes",
     "Failed to save default calendar" : "Produciuse un fallo ao gardar o calendario predeterminado",
     "CalDAV link copied to clipboard." : "Copiada a ligazón CalDAV ao portapapeis.",

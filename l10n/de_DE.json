@@ -195,6 +195,7 @@
     "Personal availability settings" : "Persönliche Verfügbarkeitseinstellungen",
     "Show keyboard shortcuts" : "Tastaturkürzel anzeigen",
     "Calendar settings" : "Kalender-Einstellungen",
+    "At event start" : "Zu Beginn des Termins",
     "No reminder" : "Keine Erinnerung",
     "Failed to save default calendar" : "Fehler beim Speichern des Standardkalenders",
     "CalDAV link copied to clipboard." : "CalDAV-Link in die Zwischenablage kopiert.",

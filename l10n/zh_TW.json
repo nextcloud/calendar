@@ -195,6 +195,7 @@
     "Personal availability settings" : "個人可用設定",
     "Show keyboard shortcuts" : "顯示快速鍵",
     "Calendar settings" : "行事曆設定",
+    "At event start" : "活動開始時",
     "No reminder" : "無提醒",
     "Failed to save default calendar" : "儲存預設日曆失敗",
     "CalDAV link copied to clipboard." : "已複製 CalDAV 連結至剪貼簿",

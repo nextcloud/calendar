@@ -197,6 +197,7 @@ OC.L10N.register(
     "Personal availability settings" : "إعدادات التواجد الشخصي",
     "Show keyboard shortcuts" : "اظهار اختصارات لوحة المفاتيح",
     "Calendar settings" : "إعدادات التقويم",
+    "At event start" : "في بداية الحدث",
     "No reminder" : "لا يوجد تذكير ",
     "Failed to save default calendar" : "تعذّر حفظ التقويم التلقائي",
     "CalDAV link copied to clipboard." : "تم نسخ CalDAV.",
