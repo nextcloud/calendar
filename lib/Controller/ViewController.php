@@ -77,7 +77,7 @@ class ViewController extends Controller {
 	 * @return FileDisplayResponse
 	 * @throws NotPermittedException
 	 */
-	public function getCalendarDotSvg(string $color = "#0082c9"): FileDisplayResponse {
+	public function getCalendarDotSvg(string $color = '#0082c9'): FileDisplayResponse {
 		$validColor = '#0082c9';
 		$color = trim(urldecode($color), '#');
 		if (preg_match('/^([0-9a-f]{3}|[0-9a-f]{6})$/i', $color)) {

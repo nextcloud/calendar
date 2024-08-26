@@ -44,7 +44,7 @@ class BookingControllerTest extends TestCase {
 	/** @var IInitialStateService|MockObject */
 	protected $initialState;
 
-	/** @var IUser|MockObject  */
+	/** @var IUser|MockObject */
 	protected $user;
 
 	/** @var AppointmentConfigService|MockObject */
@@ -71,7 +71,7 @@ class BookingControllerTest extends TestCase {
 	/** @var IMailer|MockObject */
 	private $mailer;
 
-	/** @var IConfig|MockObject  */
+	/** @var IConfig|MockObject */
 	private $systemConfig;
 
 	protected function setUp():void {

@@ -22,27 +22,27 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
 
 class CalendarWidgetTest extends TestCase {
-	/** @var IL10N|MockObject  */
+	/** @var IL10N|MockObject */
 	private $l10n;
 
-	/** @var IInitialState|MockObject  */
+	/** @var IInitialState|MockObject */
 	private $initialState;
 
-	/** @var JSDataService|MockObject  */
+	/** @var JSDataService|MockObject */
 	private $service;
 
 	private CalendarWidget $widget;
 
-	/** @var IDateTimeFormatter|MockObject  */
+	/** @var IDateTimeFormatter|MockObject */
 	private $dateTimeFormatter;
 
-	/** @var IURLGenerator|MockObject  */
+	/** @var IURLGenerator|MockObject */
 	private $urlGenerator;
 
-	/** @var IManager|MockObject  */
+	/** @var IManager|MockObject */
 	private $calendarManager;
 
-	/** @var ITimeFactory|MockObject  */
+	/** @var ITimeFactory|MockObject */
 	private $timeFactory;
 
 	protected function setUp(): void {
@@ -152,7 +152,7 @@ class CalendarWidgetTest extends TestCase {
 			'12345678',
 			'59d30b6c-5a31-4d28-b1d6-c8f928180e96',
 			'#ffffff',
-			(string) $start->getTimestamp(),
+			(string)$start->getTimestamp(),
 		);
 
 		$widgets = $this->widget->getItems($userId);

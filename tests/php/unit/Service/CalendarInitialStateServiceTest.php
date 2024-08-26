@@ -39,7 +39,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 	/** @var CalendarInitialStateService */
 	private $service;
 
-	/** @var CompareVersion|MockObject*/
+	/** @var CompareVersion|MockObject */
 	private $compareVersion;
 
 	protected function setUp(): void {

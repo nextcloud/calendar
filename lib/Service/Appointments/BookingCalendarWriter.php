@@ -156,7 +156,7 @@ class BookingCalendarWriter {
 		);
 		if ($defaultReminder !== 'none') {
 			$alarm = $vcalendar->createComponent('VALARM');
-			$alarm->add($vcalendar->createProperty('TRIGGER', '-' . $this->secondsToIso8601Duration(abs((int) $defaultReminder)), ['RELATED' => 'START']));
+			$alarm->add($vcalendar->createProperty('TRIGGER', '-' . $this->secondsToIso8601Duration(abs((int)$defaultReminder)), ['RELATED' => 'START']));
 			$alarm->add($vcalendar->createProperty('ACTION', 'DISPLAY'));
 			$vcalendar->VEVENT->add($alarm);
 		}

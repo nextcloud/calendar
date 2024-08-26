@@ -14,7 +14,7 @@ class ServiceException extends Exception {
 	/** @var int|null */
 	private $httpCode;
 
-	public function __construct($message = "",
+	public function __construct($message = '',
 		$code = 0,
 		?Throwable $previous = null,
 		?int $httpCode = null) {
