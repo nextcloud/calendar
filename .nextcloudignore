@@ -3,6 +3,7 @@
 .editorconfig
 .eslintrc.js
 .git
+.git-blame-ignore-revs
 .github
 .gitignore
 .gitlab-ci.yml
