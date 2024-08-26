@@ -138,7 +138,7 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 	 * Total length of one slot of the appointment config
 	 * in minutes
 	 *
-	 * @return int  Minutes of Appointment slot length
+	 * @return int Minutes of Appointment slot length
 	 */
 	public function getTotalLength(): int {
 		return $this->getLength() + $this->getPreparationDuration() + $this->getFollowupDuration();

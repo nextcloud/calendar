@@ -27,7 +27,7 @@ class TimezoneGenerator {
 	 * @psalm-suppress NoValue
 	 *
 	 * @return null|VTimeZone A Sabre\VObject\Component object representing a VTIMEZONE definition
-	 *               or null if no timezone information is available
+	 *                        or null if no timezone information is available
 	 */
 	public function generateVtimezone(string $timezone, int $from, int $to): ?VTimeZone {
 		try {

@@ -33,7 +33,7 @@ class AppointmentControllerVisitorTest extends TestCase {
 	/** @var InitialState|MockObject */
 	protected $initialState;
 
-	/** @var IUser|MockObject  */
+	/** @var IUser|MockObject */
 	protected $user;
 
 	/** @var AppointmentConfigService|MockObject */

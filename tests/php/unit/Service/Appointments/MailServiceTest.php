@@ -54,7 +54,7 @@ class MailServiceTest extends TestCase {
 	/** @var mixed|IFactory|MockObject */
 	private $lFactory;
 
-	/** @var IManager|MockObject  */
+	/** @var IManager|MockObject */
 	private $notificationManager;
 
 	/** @var MailService */
@@ -333,15 +333,15 @@ class MailServiceTest extends TestCase {
 		$config->setLocation('Test');
 		$config->setAvailabilityAsArray(
 			[
-				"timezoneId" => "Europe/Berlin",
-				"slots" => [
-					"MO" => [["start" => 1713153660, "end" => 1713239940]],
-					"TU" => [["start" => 1713153660, "end" => 1713239940]],
-					"WE" => [["start" => 1713153660, "end" => 1713239940]],
-					"TH" => [["start" => 1713153660, "end" => 1713239940]],
-					"FR" => [["start" => 1713153660, "end" => 1713239940]],
-					"SA" => [["start" => 1713153660, "end" => 1713239940]],
-					"SU" => [["start" => 1713153660, "end" => 1713239940]]
+				'timezoneId' => 'Europe/Berlin',
+				'slots' => [
+					'MO' => [['start' => 1713153660, 'end' => 1713239940]],
+					'TU' => [['start' => 1713153660, 'end' => 1713239940]],
+					'WE' => [['start' => 1713153660, 'end' => 1713239940]],
+					'TH' => [['start' => 1713153660, 'end' => 1713239940]],
+					'FR' => [['start' => 1713153660, 'end' => 1713239940]],
+					'SA' => [['start' => 1713153660, 'end' => 1713239940]],
+					'SU' => [['start' => 1713153660, 'end' => 1713239940]]
 				]
 			]
 		);
@@ -506,15 +506,15 @@ class MailServiceTest extends TestCase {
 		$config->setLocation('Test');
 		$config->setAvailabilityAsArray(
 			[
-				"timezoneId" => "Europe/Berlin",
-				"slots" => [
-					"MO" => [["start" => 1713153660, "end" => 1713239940]],
-					"TU" => [["start" => 1713153660, "end" => 1713239940]],
-					"WE" => [["start" => 1713153660, "end" => 1713239940]],
-					"TH" => [["start" => 1713153660, "end" => 1713239940]],
-					"FR" => [["start" => 1713153660, "end" => 1713239940]],
-					"SA" => [["start" => 1713153660, "end" => 1713239940]],
-					"SU" => [["start" => 1713153660, "end" => 1713239940]]
+				'timezoneId' => 'Europe/Berlin',
+				'slots' => [
+					'MO' => [['start' => 1713153660, 'end' => 1713239940]],
+					'TU' => [['start' => 1713153660, 'end' => 1713239940]],
+					'WE' => [['start' => 1713153660, 'end' => 1713239940]],
+					'TH' => [['start' => 1713153660, 'end' => 1713239940]],
+					'FR' => [['start' => 1713153660, 'end' => 1713239940]],
+					'SA' => [['start' => 1713153660, 'end' => 1713239940]],
+					'SU' => [['start' => 1713153660, 'end' => 1713239940]]
 				]
 			]
 		);
@@ -592,15 +592,15 @@ class MailServiceTest extends TestCase {
 		$config->setLocation('Test');
 		$config->setAvailabilityAsArray(
 			[
-				"timezoneId" => "Europe/Berlin",
-				"slots" => [
-					"MO" => [["start" => 1713153660, "end" => 1713239940]],
-					"TU" => [["start" => 1713153660, "end" => 1713239940]],
-					"WE" => [["start" => 1713153660, "end" => 1713239940]],
-					"TH" => [["start" => 1713153660, "end" => 1713239940]],
-					"FR" => [["start" => 1713153660, "end" => 1713239940]],
-					"SA" => [["start" => 1713153660, "end" => 1713239940]],
-					"SU" => [["start" => 1713153660, "end" => 1713239940]]
+				'timezoneId' => 'Europe/Berlin',
+				'slots' => [
+					'MO' => [['start' => 1713153660, 'end' => 1713239940]],
+					'TU' => [['start' => 1713153660, 'end' => 1713239940]],
+					'WE' => [['start' => 1713153660, 'end' => 1713239940]],
+					'TH' => [['start' => 1713153660, 'end' => 1713239940]],
+					'FR' => [['start' => 1713153660, 'end' => 1713239940]],
+					'SA' => [['start' => 1713153660, 'end' => 1713239940]],
+					'SU' => [['start' => 1713153660, 'end' => 1713239940]]
 				]
 			]
 		);
@@ -680,15 +680,15 @@ class MailServiceTest extends TestCase {
 		$config->setLocation('Test');
 		$config->setAvailabilityAsArray(
 			[
-				"timezoneId" => "Europe/Berlin",
-				"slots" => [
-					"MO" => [["start" => 1713153660, "end" => 1713239940]],
-					"TU" => [["start" => 1713153660, "end" => 1713239940]],
-					"WE" => [["start" => 1713153660, "end" => 1713239940]],
-					"TH" => [["start" => 1713153660, "end" => 1713239940]],
-					"FR" => [["start" => 1713153660, "end" => 1713239940]],
-					"SA" => [["start" => 1713153660, "end" => 1713239940]],
-					"SU" => [["start" => 1713153660, "end" => 1713239940]]
+				'timezoneId' => 'Europe/Berlin',
+				'slots' => [
+					'MO' => [['start' => 1713153660, 'end' => 1713239940]],
+					'TU' => [['start' => 1713153660, 'end' => 1713239940]],
+					'WE' => [['start' => 1713153660, 'end' => 1713239940]],
+					'TH' => [['start' => 1713153660, 'end' => 1713239940]],
+					'FR' => [['start' => 1713153660, 'end' => 1713239940]],
+					'SA' => [['start' => 1713153660, 'end' => 1713239940]],
+					'SU' => [['start' => 1713153660, 'end' => 1713239940]]
 				]
 			]
 		);
@@ -779,15 +779,15 @@ class MailServiceTest extends TestCase {
 		$config->setLocation('Test');
 		$config->setAvailabilityAsArray(
 			[
-				"timezoneId" => "Europe/Berlin",
-				"slots" => [
-					"MO" => [["start" => 1713153660, "end" => 1713239940]],
-					"TU" => [["start" => 1713153660, "end" => 1713239940]],
-					"WE" => [["start" => 1713153660, "end" => 1713239940]],
-					"TH" => [["start" => 1713153660, "end" => 1713239940]],
-					"FR" => [["start" => 1713153660, "end" => 1713239940]],
-					"SA" => [["start" => 1713153660, "end" => 1713239940]],
-					"SU" => [["start" => 1713153660, "end" => 1713239940]]
+				'timezoneId' => 'Europe/Berlin',
+				'slots' => [
+					'MO' => [['start' => 1713153660, 'end' => 1713239940]],
+					'TU' => [['start' => 1713153660, 'end' => 1713239940]],
+					'WE' => [['start' => 1713153660, 'end' => 1713239940]],
+					'TH' => [['start' => 1713153660, 'end' => 1713239940]],
+					'FR' => [['start' => 1713153660, 'end' => 1713239940]],
+					'SA' => [['start' => 1713153660, 'end' => 1713239940]],
+					'SU' => [['start' => 1713153660, 'end' => 1713239940]]
 				]
 			]
 		);

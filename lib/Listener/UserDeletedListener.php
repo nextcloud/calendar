@@ -45,6 +45,6 @@ class UserDeletedListener implements IEventListener {
 		$this->bookingService->deleteByUser($event->getUser());
 		$this->appointmentConfigService->deleteByUser($event->getUser());
 
-		$this->logger->info("Calendar appointments cleaned up for deleted user " . $event->getUser()->getUID());
+		$this->logger->info('Calendar appointments cleaned up for deleted user ' . $event->getUser()->getUID());
 	}
 }

@@ -146,7 +146,7 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 					$this->dateTimeFormatter->formatTimeSpan(DateTime::createFromImmutable($startDate)),
 					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.index', ['objectId' => $calendarEvent['uid']])),
 					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.getCalendarDotSvg', ['color' => $calendar->getDisplayColor() ?? '#0082c9'])), // default NC blue fallback
-					(string) $startDate->getTimestamp(),
+					(string)$startDate->getTimestamp(),
 				);
 				$widgetItems[] = $widget;
 			}
