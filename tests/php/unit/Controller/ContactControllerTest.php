@@ -14,6 +14,7 @@ use OCP\Contacts\IManager;
 use OCP\IRequest;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 
 class ContactControllerTest extends TestCase {
 	/** @var string */
@@ -42,8 +43,14 @@ class ContactControllerTest extends TestCase {
 		$this->manager = $this->createMock(IManager::class);
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->logger = $this->createMock(LoggerInterface::class);
 		$this->controller = new ContactController($this->appName,
-			$this->request, $this->manager, $this->appManager, $this->userManager);
+			$this->request,
+			$this->manager,
+			$this->appManager,
+			$this->userManager,
+			$this->logger,
+		);
 	}
 
 	public function testSearchLocationDisabled():void {
