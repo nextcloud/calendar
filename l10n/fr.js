@@ -197,6 +197,7 @@ OC.L10N.register(
     "Personal availability settings" : "Paramètres de disponibilités personnelles",
     "Show keyboard shortcuts" : "Afficher les raccourcis clavier",
     "Calendar settings" : "Paramètres de Agenda",
+    "At event start" : "Au début de l'événement",
     "No reminder" : "Aucun rappel",
     "Failed to save default calendar" : "Échec d'enregistrement de l'agenda par défaut",
     "CalDAV link copied to clipboard." : "Lien CalDAV copié dans le presse-papier.",
