@@ -27,6 +27,7 @@
 ### Fixed
 - Teams missing from placeholder texts
 - Free/busy slot suggestion breaking with duplicate events
+- Overlapping events
 
 ## 4.7.12 - 2024-07-17
 ### Fixed
