@@ -18,24 +18,62 @@
 		<div class="invitees-list-item__organizer-hint">
 			{{ $t('calendar', '(organizer)') }}
 		</div>
+		<div class="invitees-list-item__actions">
+			<NcActions v-if="!isReadOnly && isSharedWithMe">
+				<template v-for="person in organizerSelection">
+					<NcActionButton v-if="!selectedOrganizer(person.address)"
+						:key="person.address + '-1'"
+						:closeAfterClick = "true"
+						@click="changeOrganizer(person, false)">
+						<template #icon>
+							<Crown :size="20" />
+						</template>
+						{{ $t('calendar', 'Make {label} the organizer', {label: person.label}) }}
+					</NcActionButton>
+					<NcActionButton v-if="!selectedOrganizer(person.address)"
+						:key="person.address + '-2'"
+						:closeAfterClick = "true"
+						@click="changeOrganizer(person, true)">
+						<template #icon>
+							<Crown :size="20" />
+						</template>
+						{{ $t('calendar', 'Make {label} the organizer and attend', {label: person.label}) }}
+					</NcActionButton>
+				</template>
+			</NcActions>
+		</div>
 	</div>
 </template>
 
 <script>
 import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
+import Crown from 'vue-material-design-icons/Crown.vue'
 import { removeMailtoPrefix } from '../../../utils/attendee.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 
 export default {
 	name: 'OrganizerListItem',
 	components: {
 		AvatarParticipationStatus,
+		Crown,
+		NcActions,
+		NcActionButton,
 	},
 	props: {
 		organizer: {
 			type: Object,
 			required: true,
 		},
+		organizerSelection: {
+			type: Array,
+			required: true,
+		},
 		isReadOnly: {
+			type: Boolean,
+			required: true,
+		},
+		isSharedWithMe: {
 			type: Boolean,
 			required: true,
 		},
@@ -69,6 +107,17 @@ export default {
 		isResource() {
 			// The organizer does not have a tooltip
 			return false
+		},
+	},
+	methods: {
+		selectedOrganizer(address) {
+			if (removeMailtoPrefix(this.organizer.uri) === address) {
+				return true
+			}
+			return false
+		},
+		changeOrganizer(person, attend) {
+			this.$emit('change-organizer', person, attend)
 		},
 	},
 }
