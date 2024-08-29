@@ -1478,7 +1478,7 @@ export default defineStore('calendarObjectInstance', {
 				isAllDay: oldEventComponent.isAllDay(),
 			})
 			const eventComponent = getObjectAtRecurrenceId(calendarObject, startDate.jsDate)
-			copyCalendarObjectInstanceIntoEventComponent(oldCalendarObjectInstance, eventComponent)
+			copyCalendarObjectInstanceIntoEventComponent(oldCalendarObjectInstance, eventComponent, true)
 			const calendarObjectInstance = mapEventComponentToEventObject(eventComponent)
 
 			await this.setCalendarObjectInstanceForNewEvent({

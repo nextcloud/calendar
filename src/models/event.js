@@ -178,8 +178,9 @@ const mapEventComponentToEventObject = (eventComponent) => {
  *
  * @param {object} eventObject The calendar-object-instance object
  * @param {EventComponent} eventComponent The calendar-js EventComponent object
+ * @param {boolean} resetAttendeeStatus Whether or not to reset the attendee status
  */
-const copyCalendarObjectInstanceIntoEventComponent = (eventObject, eventComponent) => {
+const copyCalendarObjectInstanceIntoEventComponent = (eventObject, eventComponent, resetAttendeeStatus = false) => {
 	eventComponent.title = eventObject.title
 	eventComponent.location = eventObject.location
 	eventComponent.description = eventObject.description
@@ -206,6 +207,11 @@ const copyCalendarObjectInstanceIntoEventComponent = (eventObject, eventComponen
 	}
 
 	for (const attendee of eventObject.attendees) {
+		if (resetAttendeeStatus) {
+			attendee.attendeeProperty.participationStatus = 'NEEDS-ACTION'
+			attendee.attendeeProperty.rsvp = true
+		}
+
 		eventComponent.addProperty(attendee.attendeeProperty)
 	}
 
