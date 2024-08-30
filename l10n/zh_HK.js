@@ -348,6 +348,8 @@ OC.L10N.register(
     "No match found" : "找不到符合的項目",
     "Note that members of circles get invited but are not synced yet." : "請注意，社交圈子成員已收到邀請，但尚未同步。",
     "(organizer)" : "（主辦人）",
+    "Make {label} the organizer" : "讓 {label} 成為籌辦者",
+    "Make {label} the organizer and attend" : "讓 {label} 成為籌辦者並參與",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "若要送出邀請函並處理回覆，[linkopen] 請到個人設定頁加入您的電郵地址 [linkclose]",
     "Remove color" : "移除顏色",
     "Event title" : "活動標題",

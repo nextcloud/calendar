@@ -348,6 +348,8 @@ OC.L10N.register(
     "No match found" : "Níor aimsíodh aon mheaitseáil",
     "Note that members of circles get invited but are not synced yet." : "Tabhair faoi deara go bhfaigheann baill de chiorcail cuireadh ach nach bhfuil siad sioncronaithe fós.",
     "(organizer)" : "(eagraí)",
+    "Make {label} the organizer" : "Déan {label} an t-eagraí",
+    "Make {label} the organizer and attend" : "Déan {label} an t-eagraí agus freastal air",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Chun cuirí a sheoladh amach agus freagraí a láimhseáil, [linkopen]cuir do sheoladh ríomhphoist i socruithe pearsanta[linkclose].",
     "Remove color" : "Bain dath",
     "Event title" : "Teideal an imeachta",

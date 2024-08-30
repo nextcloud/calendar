@@ -348,6 +348,8 @@ OC.L10N.register(
     "No match found" : "Ingen träff",
     "Note that members of circles get invited but are not synced yet." : "Observera att medlemmar i cirklar blir inbjudna men är inte synkroniserade än.",
     "(organizer)" : "(arrangör)",
+    "Make {label} the organizer" : "Gör {label} till arrangör",
+    "Make {label} the organizer and attend" : "Gör {label} arrangör och delta",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "För att kunna skicka inbjudningar och hantera svar måste du [linkopen]lägga till din e-postadress i inställningarna[linkclose].",
     "Remove color" : "Ta bort färg",
     "Event title" : "Händelsens titel",
