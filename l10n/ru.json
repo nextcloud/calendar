@@ -331,6 +331,7 @@
     "Remove group" : "Удалить группу",
     "Remove attendee" : "Удалить участника",
     "_%n member_::_%n members_" : ["%n участник","%n участника","%n участников","%n участника"],
+    "Search for emails, users, contacts, teams or groups" : "Выполняйте поиск по электронной почте, пользователям, контактам, командам или группам",
     "No match found" : "Соответствий не найдено",
     "(organizer)" : "(организатор)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Чтобы отправлять приглашения и обрабатывать ответы, [linkopen]добавьте свой адрес электронной почты в личные настройки[linkclose].",

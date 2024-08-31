@@ -348,6 +348,8 @@ OC.L10N.register(
     "No match found" : "Non se atopou ningunha coincidencia",
     "Note that members of circles get invited but are not synced yet." : "Teña en conta que os membros dos círculos son convidados mais aínda non se sincronizan.",
     "(organizer)" : "(organizador)",
+    "Make {label} the organizer" : "Converter a {label} en organizador",
+    "Make {label} the organizer and attend" : "Converter a {label} en organizador e participante",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Para enviar convites e xestionar respostas, [linkopen]engada o seu enderezo de correo nos axustes persoais[linkclose].",
     "Remove color" : "Retirar a cor",
     "Event title" : "Título do evento",

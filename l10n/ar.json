@@ -346,6 +346,8 @@
     "No match found" : "لم يٌمكن إيجاد تطابق",
     "Note that members of circles get invited but are not synced yet." : "لاحظ أن أعضاء دوائر الاتصال تمّت دعوتهم لكن لم تتمّ مزامنتهم بعدُ.",
     "(organizer)" : "(مُنظِّم)",
+    "Make {label} the organizer" : "إجعَل {label} هو المُنظِّم",
+    "Make {label} the organizer and attend" : "إجغعَل {label} هو المنظم و أحد الحضور",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "لإرسال الدعوات والتعامل مع الاستجابات [linkopen]، أضف بريدك الالكتروني في الإعدادات الشخصية [linkclose].",
     "Remove color" : "حذف لون",
     "Event title" : "عنوان الحدث",
