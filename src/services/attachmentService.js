@@ -8,6 +8,7 @@ import { generateOcsUrl, generateRemoteUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { parseXML } from 'webdav'
+import { parseUploadError } from '../utils/propfindErrorParse.js'
 
 /**
  * Makes a share link for a given file or directory.
@@ -136,10 +137,17 @@ const uploadLocalAttachment = async function(folder, files, dav, componentAttach
 					}))
 					attachments.push(data)
 				}
-			}).catch(() => {
-				showError(t('calendar', 'An error occurred during uploading file {fileName}', {
-					fileName: file.name,
-				}))
+			}).catch(async (exception) => {
+				if (exception.response) {
+					const message = await parseUploadError(exception)
+					if (message) {
+						showError(message)
+					} else {
+						showError(t('calendar', 'An error occurred during uploading file {fileName}', {
+							fileName: file.name,
+						}))
+					}
+				}
 			})
 			promises.push(res)
 		}
