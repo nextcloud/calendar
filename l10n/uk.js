@@ -347,6 +347,8 @@ OC.L10N.register(
     "No match found" : "Збігів не знайдено",
     "Note that members of circles get invited but are not synced yet." : "Зверніть увагу, що учасники кіл отримують запрошення, але поки ще не синхронізовані.",
     "(organizer)" : "(організатор)",
+    "Make {label} the organizer" : "Зробити {label} організатором",
+    "Make {label} the organizer and attend" : "Зробити {label} організатором та взяти участь",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Для надсилання запрошень та отримання відповіді, [linkopen]додайте ел.адресу в особистих налаштуваннях[linkclose].",
     "Remove color" : "Вилучити колір",
     "Event title" : "Назва події",
