@@ -543,6 +543,7 @@
     "An error occurred, unable to delete the calendar." : "Es ist ein Fehler aufgetreten, Kalender konnte nicht gelöscht werden.",
     "Imported {filename}" : "{filename} importiert ",
     "This is an event reminder." : "Dies ist eine Terminerinnerung.",
+    "Error while parsing a PROPFIND error" : "Fehler beim Parsen eines PROPFIND-Fehlers",
     "Appointment not found" : "Termin nicht gefunden",
     "User not found" : "Benutzer nicht gefunden"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

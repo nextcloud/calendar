@@ -543,6 +543,7 @@
     "An error occurred, unable to delete the calendar." : "發生錯誤，無法刪除日曆",
     "Imported {filename}" : "匯入的 {filename}",
     "This is an event reminder." : "這是一個事件提醒。",
+    "Error while parsing a PROPFIND error" : "解析 PROFIND 錯誤時發生錯誤",
     "Appointment not found" : "找不到預約",
     "User not found" : "找不到使用者"
 },"pluralForm" :"nplurals=1; plural=0;"

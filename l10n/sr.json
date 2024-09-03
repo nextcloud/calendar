@@ -539,6 +539,7 @@
     "An error occurred, unable to delete the calendar." : "Догодила се грешка, не могу да обришем календар.",
     "Imported {filename}" : "Увезен {filename}",
     "This is an event reminder." : "Ово је подсетник за догађај.",
+    "Error while parsing a PROPFIND error" : "Грешка приликом парсирања PROPFIND грешке",
     "Appointment not found" : "Састанак није пронађен",
     "User not found" : "Корисник није нађен"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"

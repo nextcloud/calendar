@@ -543,6 +543,7 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Bir sorun çıktı. Takvim silinemedi.",
     "Imported {filename}" : "{filename} içe aktarıldı",
     "This is an event reminder." : "Bu bir etkinlik hatırlatıcısıdır.",
+    "Error while parsing a PROPFIND error" : "PROPFIND hatası işlenirken sorun çıktı",
     "Appointment not found" : "Randevu bulunamadı",
     "User not found" : "Kullanıcı bulunamadı"
 },

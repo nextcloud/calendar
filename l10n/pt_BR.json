@@ -539,6 +539,7 @@
     "An error occurred, unable to delete the calendar." : "Erro ao excluir o calendário.",
     "Imported {filename}" : "Importado {filename}",
     "This is an event reminder." : "Este é um lembrete de evento.",
+    "Error while parsing a PROPFIND error" : "Erro ao analisar um erro PROPFIND",
     "Appointment not found" : "Agendamento não encontrado",
     "User not found" : "Usuário não encontrado"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"

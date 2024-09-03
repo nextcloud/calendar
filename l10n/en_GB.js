@@ -545,6 +545,7 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "An error occurred, unable to delete the calendar.",
     "Imported {filename}" : "Imported {filename}",
     "This is an event reminder." : "This is an event reminder.",
+    "Error while parsing a PROPFIND error" : "Error while parsing a PROPFIND error",
     "Appointment not found" : "Appointment not found",
     "User not found" : "User not found"
 },

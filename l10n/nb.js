@@ -543,6 +543,7 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "En feil oppsto, kan ikke slette kalenderen. ",
     "Imported {filename}" : "Importerte {filename}",
     "This is an event reminder." : "Dette er en hendelsespåminnelse.",
+    "Error while parsing a PROPFIND error" : "Feil under analyse av en PROPFIND-feil",
     "Appointment not found" : "Avtale ikke funnet",
     "User not found" : "Fant ikke brukeren"
 },

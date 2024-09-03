@@ -541,6 +541,7 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Догодила се грешка, не могу да обришем календар.",
     "Imported {filename}" : "Увезен {filename}",
     "This is an event reminder." : "Ово је подсетник за догађај.",
+    "Error while parsing a PROPFIND error" : "Грешка приликом парсирања PROPFIND грешке",
     "Appointment not found" : "Састанак није пронађен",
     "User not found" : "Корисник није нађен"
 },

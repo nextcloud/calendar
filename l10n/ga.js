@@ -545,6 +545,7 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Tharla earráid, níorbh fhéidir an féilire a scriosadh.",
     "Imported {filename}" : "Iompórtáladh {filename}",
     "This is an event reminder." : "Is meabhrúchán imeachta é seo.",
+    "Error while parsing a PROPFIND error" : "Earráid agus earráid PROPFIND á parsáil",
     "Appointment not found" : "Níor aimsíodh an coinne",
     "User not found" : "Úsáideoir gan aimsiú"
 },
