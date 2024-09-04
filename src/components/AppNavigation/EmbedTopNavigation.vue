@@ -3,16 +3,16 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<header :id="isWidget? 'widget-header' :'embed-header'" role="banner">
-		<div :class="isWidget?'widget-header__date-section' :'embed-header__date-section'">
+	<header :id="isWidget ? 'widget-header' : 'embed-header'" role="banner">
+		<div :class="isWidget ? 'widget-header__date-section' : 'embed-header__date-section'">
 			<AppNavigationHeaderDatePicker :is-widget="isWidget" />
 			<AppNavigationHeaderTodayButton v-if="!isWidget" />
 		</div>
-		<div :class="isWidget?'widget-header__views-section' :'embed-header__views-section'">
+		<div :class="isWidget ? 'widget-header__views-section' : 'embed-header__views-section'">
 			<AppNavigationHeaderViewButtons :is-widget="isWidget" />
 		</div>
 		<!-- TODO have one button per calendar -->
-		<div v-if="!isWidget" class="widget-header__share-section">
+		<div v-if="!isWidget" class="embed-header__share-section">
 			<Actions>
 				<template #icon>
 					<Download :size="20" decorative />
