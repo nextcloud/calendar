@@ -12,36 +12,36 @@
 					:display-name="userInfo.displayName"
 					:disable-tooltip="true"
 					:disable-menu="true"
-					:size="180" />
+					:size="44" />
 				<div class="booking__display-name">
 					<strong>{{ userInfo.displayName }}</strong>
 				</div>
-				<h2 class="booking__name">
+				<h5 class="booking__name">
 					{{ config.name }}
-				</h2>
+				</h5>
 				<!-- Description needs to stay inline due to its whitespace -->
 				<span class="booking__description">{{ config.description }}</span>
 			</div>
 			<div class="booking__date-selection">
-				<h3>{{ $t('calendar', 'Select date') }}</h3>
+				<h5 class="booking__date-header">{{ $t('calendar', 'Select a date and a timeslot') }}</h5>
 				<div class="booking__date">
 					<DateTimePicker v-model="selectedDate"
 						:disabled-date="disabledDate"
 						type="date"
+						:open="true"
 						@change="fetchSlots" />
 				</div>
 				<div class="booking__time-zone">
+					<h5>{{ $t('calendar', 'Select the timezone') }}</h5>
 					<TimezonePicker v-model="timeZone" @change="fetchSlots" />
 				</div>
 			</div>
 			<div class="booking__slot-selection">
-				<h3>{{ $t('calendar', 'Select slot') }}</h3>
-
 				<div class="booking__slots">
 					<Loading v-if="loadingSlots" :size="24" />
-					<div v-else-if="slots.length === 0 && !loadingSlots">
-						{{ $t('calendar', 'No slots available') }}
-					</div>
+					<NcEmptyContent v-else-if="slots.length === 0 && !loadingSlots"
+						:title="$t('calendar', 'No slots available')"
+						:description="$t('calendar', 'No slots available')" />
 					<template v-else>
 						<AppointmentSlot v-for="slot in slots"
 							:key="slot.start"
@@ -78,6 +78,7 @@ import {
 	NcDateTimePicker as DateTimePicker,
 	NcTimezonePicker as TimezonePicker,
 	NcGuestContent,
+	NcEmptyContent,
 } from '@nextcloud/vue'
 import jstz from 'jstz'
 import MDILoading from 'vue-material-design-icons/Loading.vue'
@@ -110,6 +111,7 @@ export default {
 		AppointmentBookingConfirmation,
 		NcGuestContent,
 		Loading,
+		NcEmptyContent,
 	},
 	props: {
 		config: {
@@ -247,6 +249,7 @@ export default {
 	flex-direction: row;
 	flex-wrap: wrap;
 	max-width: 800px;
+	min-height: 500px;
 
 	&__date-selection {
 		display: flex;
@@ -276,6 +279,13 @@ export default {
 
 	&__time-zone {
 	max-width: 250px;
+	margin-top: 280px;
+	position: relative;
+	left: -56px;
+	}
+	&__date-header {
+		left: -56px;
+		position: relative;
 	}
 
 	&__slot-selection .material-design-icon.loading-icon.animation-rotate {
@@ -285,6 +295,14 @@ export default {
 	&__slots {
 		display: flex;
 		flex-direction: column;
+		max-height: 400px;
+		overflow-y: auto;
 	}
+}
+:deep(.mx-input-wrapper) {
+	display: none;
+}
+h2, h3, h4, h5 {
+	margin-top: 0;
 }
 </style>
