@@ -11,35 +11,40 @@
 					:display-name="userInfo.displayName"
 					:disable-tooltip="true"
 					:disable-menu="true"
-					:size="180" />
+					:size="44" />
 				<div class="booking__display-name">
 					<strong>{{ userInfo.displayName }}</strong>
 				</div>
-				<h2 class="booking__name">
+				<h5 class="booking__name">
 					{{ config.name }}
-				</h2>
+				</h5>
+				<!-- Description needs to stay inline due to its whitespace -->
 				<span class="booking__description">{{ config.description }}</span>
 			</div>
 			<div class="booking__date-selection">
-				<h3>{{ $t('calendar', 'Select date') }}</h3>
+				<h5 class="booking__date-header">
+					{{ $t('calendar', 'Select a date') }}
+				</h5>
 				<div class="booking__date">
 					<DateTimePicker v-model="selectedDate"
 						:disabled-date="disabledDate"
 						type="date"
+						:open="true"
 						@change="fetchSlots" />
 				</div>
 				<div class="booking__time-zone">
-					<TimezonePicker v-model="timeZone" @change="fetchSlots" />
+					<TimezonePicker v-model="timeZone"
+						:aria-label="$t('calendar', 'Select a date')"
+						@change="fetchSlots" />
 				</div>
 			</div>
 			<div class="booking__slot-selection">
-				<h3>{{ $t('calendar', 'Select slot') }}</h3>
-
+				<h5>{{ $t('calendar', 'Select slot') }}</h5>
 				<div class="booking__slots">
-					<Loading v-if="loadingSlots" :size="24" />
-					<div v-else-if="slots.length === 0 && !loadingSlots">
-						{{ $t('calendar', 'No slots available') }}
-					</div>
+					<Loading v-if="loadingSlots" class="loading" :size="24" />
+					<NcEmptyContent v-else-if="slots.length === 0 && !loadingSlots"
+						:title="$t('calendar', 'No slots available')"
+						:description="$t('calendar', 'No slots available')" />
 					<template v-else>
 						<AppointmentSlot v-for="slot in slots"
 							:key="slot.start"
@@ -78,6 +83,7 @@ import {
 	NcDateTimePicker as DateTimePicker,
 	NcTimezonePicker as TimezonePicker,
 	NcGuestContent,
+	NcEmptyContent,
 } from '@nextcloud/vue'
 import jstz from 'jstz'
 import MDILoading from 'vue-material-design-icons/Loading.vue'
@@ -110,6 +116,7 @@ export default {
 		AppointmentBookingConfirmation,
 		NcGuestContent,
 		Loading,
+		NcEmptyContent,
 	},
 	props: {
 		config: {
@@ -246,45 +253,69 @@ export default {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	max-width: 800px;
-
-	&__date-selection {
-		display: flex;
-		flex-direction: column;
-	}
-
-	&__description {
-		white-space: break-spaces;
-	}
-
-	&__config-user-info,
-	&__date-selection,
-	&__slot-selection {
-		padding: 10px;
-		flex-grow: 1;
-	}
-
-	&__config-user-info {
-		flex-grow: 1;
-		padding-right: 120px;
-	}
-
-	&__date-selection,
-	&__slot-selection {
-		flex-grow: 2;
-	}
-
-	&__time-zone {
-	max-width: 250px;
-	}
-
-	&__slot-selection .material-design-icon.loading-icon.animation-rotate {
-		animation: rotate var(--animation-duration, 0.8s) linear infinite;
-	}
-
-	&__slots {
-		display: flex;
-		flex-direction: column;
-	}
+	width: 900px;
+	min-height: 500px;
+	margin-bottom: 50px;
+	justify-content: space-between;
 }
+
+.booking > div {
+	flex-basis: 33.33%;
+	flex-grow: 1;
+}
+
+.booking__config-user-info {
+	flex-grow: 1;
+}
+
+.booking__date-selection {
+	display: flex;
+	flex-direction: column;
+}
+
+.booking__description {
+	white-space: break-spaces;
+}
+
+.booking__date-selection,
+.booking__slot-selection {
+	padding: 0 10px;
+}
+
+.booking__time-zone {
+	margin-top: 280px;
+	position: relative;
+}
+
+.booking__date-header {
+	position: relative;
+	margin-left: 16px;
+}
+
+.booking__slot-selection .material-design-icon.loading-icon.animation-rotate {
+	animation: rotate var(--animation-duration, 0.8s) linear infinite;
+}
+
+.booking__slots {
+	display: flex;
+	flex-direction: column;
+	max-height: 440px;
+	overflow-y: auto;
+}
+
+:deep(.mx-input-wrapper) {
+	display: none;
+}
+
+:deep(.mx-datepicker-main) {
+	border: 0;
+}
+
+h2, h3, h4, h5 {
+	margin-top: 0;
+}
+.booking__date {
+	margin-top: -25px;
+}
+
 </style>
