@@ -8,18 +8,19 @@
 }
 
 .content.app-calendar.app-calendar-public-embedded {
+	flex-direction: column;
+
 	#embed-header {
-		position: fixed;
-		top: 0;
-		left: 0;
 		height: 50px;
 		width: 100%;
+		padding: calc(var(--default-grid-baseline) * 2);
 		box-sizing: border-box;
 		background-color: var(--color-main-background);
 		border-bottom: 1px solid var(--color-border);
 		overflow: visible;
 		z-index: 2000;
 		display: flex;
+		align-items: center;
 		justify-content: space-between;
 
 		.embed-header__date-section,
@@ -39,16 +40,20 @@
 				min-width: 150px;
 			}
 		}
+
+		.datepicker-button-section,
+		.today-button-section,
+		.view-button-section {
+			button {
+				// Header has only one row so the built-in spacing is not needed
+				margin: 0;
+			}
+		}
 	}
 
 	.app-content {
-		margin-top: 44px;
-		//position: absolute !important;
-		//top: 44px;
-		//left: 0;
-		//right: 0;
-		//bottom: 0;
-		//min-height: unset !important;
+		// Expand to full height (need to overwrite this because a flex column layout is used here)
+		flex-basis: auto;
 	}
 }
 
