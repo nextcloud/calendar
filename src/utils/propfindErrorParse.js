@@ -19,7 +19,7 @@ async function parseUploadError(exception) {
 
 		return messageElement?.textContent
 	} catch (parseError) {
-		console.error(t('spreed', 'Error while parsing a PROPFIND error'), parseError)
+		console.error(t('calendar', 'Error while parsing a PROPFIND error'), parseError)
 	}
 }
 
