@@ -295,14 +295,44 @@ export default {
 	&__slots {
 		display: flex;
 		flex-direction: column;
-		max-height: 400px;
+		max-height: 480px;
 		overflow-y: auto;
 	}
 }
 :deep(.mx-input-wrapper) {
 	display: none;
 }
+:deep(.mx-datepicker-main) {
+	border: 0;
+}
 h2, h3, h4, h5 {
 	margin-top: 0;
+}
+:deep(.mx-datepicker-main .mx-table .cell.disabled) {
+	border-radius: var(--border-radius-small);
+	background-color: transparent;
+	color: var(--color-main-text);
+	opacity: 1;
+}
+:deep(.mx-datepicker-main .mx-table .cell) {
+	border-radius: var(--border-radius-small);
+	min-height: 30px;
+	opacity: 1;
+}
+:deep(.mx-calendar-header button) {
+	border-radius: var(--border-radius-small);
+	opacity: 1;
+	background-color: transparent;
+
+}
+:deep(.mx-table thead > tr > th) {
+	color: var(--color-text-maxcontrast);
+	opacity: 1;
+}
+:deep(.mx-datepicker-main .mx-table .cell.not-current-month) {
+	color: var(--color-text-maxcontrast);
+}
+:deep(.mx-datepicker-main .mx-table .cell.today) {
+	background-color: var(--color-primary-element);
 }
 </style>
