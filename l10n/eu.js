@@ -348,6 +348,8 @@ OC.L10N.register(
     "No match found" : "Ez da emaitzarik aurkitu",
     "Note that members of circles get invited but are not synced yet." : "Kontuan izan zirkuluetako kideek gonbidapena jasotzen dutela baina ez direla oraindik sinkronizatzen.",
     "(organizer)" : "(antolatzailea)",
+    "Make {label} the organizer" : "Egin {label} antolatzaile",
+    "Make {label} the organizer and attend" : "Egin {label} antolatzaile eta parte-hartzaile",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Gonbidapenak bidali eta erantzunak kudeatzeko, [linkopen] gehitu zure posta helbidea ezarpen pertsonaletan[linkclose].",
     "Remove color" : "Kendu kolorea",
     "Event title" : "Gertaeraren izenburua",
@@ -543,6 +545,7 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Errore bat gertatu da, ezin da egutegia ezabatu.",
     "Imported {filename}" : "{filename} inportatuta",
     "This is an event reminder." : "Hau gertaera baten gogorarazpena da.",
+    "Error while parsing a PROPFIND error" : "Errore bat gertatu da PROPFIND errore bat analizatzean",
     "Appointment not found" : "Ez da hitzordua aurkitu",
     "User not found" : "Ez da erabiltzailea aurkitu"
 },
