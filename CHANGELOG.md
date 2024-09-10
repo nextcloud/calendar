@@ -24,10 +24,14 @@
 - Circles renamed to Teams
 - Automatic widget reloading
 - More translations for appointments
+- Display an error when attached files are not compatible with Windows
 ### Fixed
 - Teams missing from placeholder texts
 - Free/busy slot suggestion breaking with duplicate events
 - Overlapping events
+- Clipping avatar status
+- Calendar header overlapping in embedded view
+- Reset attendee participation status after duplicating an event
 
 ## 4.7.12 - 2024-07-17
 ### Fixed
