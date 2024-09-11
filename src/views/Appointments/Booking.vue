@@ -23,7 +23,9 @@
 				<span class="booking__description">{{ config.description }}</span>
 			</div>
 			<div class="booking__date-selection">
-				<h5 class="booking__date-header">{{ $t('calendar', 'Select a date and a timeslot') }}</h5>
+				<h5 class="booking__date-header">
+					{{ $t('calendar', 'Select a date') }}
+				</h5>
 				<div class="booking__date">
 					<DateTimePicker v-model="selectedDate"
 						:disabled-date="disabledDate"
@@ -32,13 +34,15 @@
 						@change="fetchSlots" />
 				</div>
 				<div class="booking__time-zone">
-					<h5>{{ $t('calendar', 'Select the timezone') }}</h5>
-					<TimezonePicker v-model="timeZone" @change="fetchSlots" />
+					<TimezonePicker v-model="timeZone"
+						:aria-label="$t('calendar', 'Select a date')"
+						@change="fetchSlots" />
 				</div>
 			</div>
 			<div class="booking__slot-selection">
+				<h5>{{ $t('calendar', 'Select slot') }}</h5>
 				<div class="booking__slots">
-					<Loading v-if="loadingSlots" :size="24" />
+					<Loading v-if="loadingSlots" class="loading" :size="24" />
 					<NcEmptyContent v-else-if="slots.length === 0 && !loadingSlots"
 						:title="$t('calendar', 'No slots available')"
 						:description="$t('calendar', 'No slots available')" />
@@ -248,91 +252,69 @@ export default {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	max-width: 800px;
+	width: 900px;
 	min-height: 500px;
+	margin-bottom: 50px;
+	justify-content: space-between;
+}
 
-	&__date-selection {
-		display: flex;
-		flex-direction: column;
-	}
+.booking > div {
+	flex-basis: 33.33%;
+	flex-grow: 1;
+}
 
-	&__description {
-		white-space: break-spaces;
-	}
+.booking__config-user-info {
+	flex-grow: 1;
+}
 
-	&__config-user-info,
-	&__date-selection,
-	&__slot-selection {
-		padding: 10px;
-		flex-grow: 1;
-	}
+.booking__date-selection {
+	display: flex;
+	flex-direction: column;
+}
 
-	&__config-user-info {
-		flex-grow: 1;
-		padding-right: 120px;
-	}
+.booking__description {
+	white-space: break-spaces;
+}
 
-	&__date-selection,
-	&__slot-selection {
-		flex-grow: 2;
-	}
+.booking__date-selection,
+.booking__slot-selection {
+	padding: 0 10px;
+}
 
-	&__time-zone {
-	max-width: 250px;
+.booking__time-zone {
 	margin-top: 280px;
 	position: relative;
-	left: -56px;
-	}
-	&__date-header {
-		left: -56px;
-		position: relative;
-	}
-
-	&__slot-selection .material-design-icon.loading-icon.animation-rotate {
-		animation: rotate var(--animation-duration, 0.8s) linear infinite;
-	}
-
-	&__slots {
-		display: flex;
-		flex-direction: column;
-		max-height: 480px;
-		overflow-y: auto;
-	}
 }
+
+.booking__date-header {
+	position: relative;
+}
+
+.booking__slot-selection .material-design-icon.loading-icon.animation-rotate {
+	animation: rotate var(--animation-duration, 0.8s) linear infinite;
+}
+
+.booking__slots {
+	display: flex;
+	flex-direction: column;
+	max-height: 440px;
+	overflow-y: auto;
+}
+
 :deep(.mx-input-wrapper) {
 	display: none;
 }
+
 :deep(.mx-datepicker-main) {
 	border: 0;
+	left: -16px !important;
 }
+
 h2, h3, h4, h5 {
 	margin-top: 0;
 }
-:deep(.mx-datepicker-main .mx-table .cell.disabled) {
-	border-radius: var(--border-radius-small);
-	background-color: transparent;
-	color: var(--color-main-text);
-	opacity: 1;
+.booking__date {
+	margin-top: -25px;
 }
-:deep(.mx-datepicker-main .mx-table .cell) {
-	border-radius: var(--border-radius-small);
-	min-height: 30px;
-	opacity: 1;
-}
-:deep(.mx-calendar-header button) {
-	border-radius: var(--border-radius-small);
-	opacity: 1;
-	background-color: transparent;
 
-}
-:deep(.mx-table thead > tr > th) {
-	color: var(--color-text-maxcontrast);
-	opacity: 1;
-}
-:deep(.mx-datepicker-main .mx-table .cell.not-current-month) {
-	color: var(--color-text-maxcontrast);
-}
-:deep(.mx-datepicker-main .mx-table .cell.today) {
-	background-color: var(--color-primary-element);
-}
 </style>
