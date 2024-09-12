@@ -345,6 +345,7 @@
     "No match found" : "Соответствий не найдено",
     "Note that members of circles get invited but are not synced yet." : "Обратите внимание, что участники кругов получают приглашения, но еще не синхронизированы.",
     "(organizer)" : "(организатор)",
+    "Make {label} the organizer" : "Сделать {label} организатором",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Чтобы отправлять приглашения и обрабатывать ответы, [linkopen]добавьте свой адрес электронной почты в личные настройки[linkclose].",
     "Remove color" : "Убрать отметку цветом",
     "Event title" : "Название события",
