@@ -544,6 +544,7 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Помилка: неможливо вилучити календар.",
     "Imported {filename}" : "Імпортовано {filename}",
     "This is an event reminder." : "Це нагадування про подію.",
+    "Error while parsing a PROPFIND error" : "Помилка під час обробки помилки PROPFIND",
     "Appointment not found" : "Запрошення на зустріч не знайдено",
     "User not found" : "Користувача не знайдено"
 },
