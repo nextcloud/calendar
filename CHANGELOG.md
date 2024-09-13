@@ -5,7 +5,7 @@
 -->
 # Changelog
 
-## 5.0.0 - Unreleased
+## 5.0.0 - 2024-09-13
 ### Added
 - Nextcloud 30 support
 - PHP8.1 minimum requirement
