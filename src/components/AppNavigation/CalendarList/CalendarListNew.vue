@@ -4,96 +4,100 @@
 -->
 
 <template>
-	<NcAppNavigationCaption class="app-navigation-entry-new-calendar"
-		:class="{'app-navigation-entry-new-calendar--open': isOpen}"
-		:name="$t('calendar', 'Calendars')"
-		:menu-open.sync="isOpen"
-		@click.prevent.stop="toggleDialog">
-		<template #actionsTriggerIcon>
-			<Plus :size="20" :title="$t('calendar', 'Add new')" decorative />
-		</template>
-		<template #actions>
-			<ActionButton v-if="showCreateCalendarLabel"
-				@click.prevent.stop="openCreateCalendarInput">
-				<template #icon>
-					<CalendarBlank :size="20" decorative />
-				</template>
-				{{ $t('calendar', 'New calendar') }}
-			</ActionButton>
-			<ActionInput v-if="showCreateCalendarInput"
-				:aria-label="$t('calendar', 'Name for new calendar')"
-				@submit.prevent.stop="createNewCalendar">
-				<template #icon>
-					<CalendarBlank :size="20" decorative />
-				</template>
-			</ActionInput>
-			<ActionText v-if="showCreateCalendarSaving"
-				icon="icon-loading-small">
-				<!-- eslint-disable-next-line no-irregular-whitespace -->
-				{{ $t('calendar', 'Creating calendar …') }}
-			</ActionText>
+	<div>
+		<NcAppNavigationCaption class="app-navigation-entry-new-calendar"
+			:class="{'app-navigation-entry-new-calendar--open': isOpen}"
+			:name="$t('calendar', 'Calendars')"
+			:menu-open.sync="isOpen"
+			@click.prevent.stop="toggleDialog">
+			<template #actionsTriggerIcon>
+				<Plus :size="20" :title="$t('calendar', 'Add new')" decorative />
+			</template>
+			<template #actions>
+				<ActionButton v-if="showCreateCalendarLabel"
+					@click.prevent.stop="openCreateCalendarInput">
+					<template #icon>
+						<CalendarBlank :size="20" decorative />
+					</template>
+					{{ $t('calendar', 'New calendar') }}
+				</ActionButton>
+				<ActionInput v-if="showCreateCalendarInput"
+					:aria-label="$t('calendar', 'Name for new calendar')"
+					@submit.prevent.stop="createNewCalendar">
+					<template #icon>
+						<CalendarBlank :size="20" decorative />
+					</template>
+				</ActionInput>
+				<ActionText v-if="showCreateCalendarSaving"
+					icon="icon-loading-small">
+					<!-- eslint-disable-next-line no-irregular-whitespace -->
+					{{ $t('calendar', 'Creating calendar …') }}
+				</ActionText>
 
-			<ActionButton v-if="showCreateCalendarTaskListLabel"
-				@click.prevent.stop="openCreateCalendarTaskListInput">
-				<template #icon>
-					<CalendarCheck :size="20" decorative />
-				</template>
-				{{ $t('calendar', 'New calendar with task list') }}
-			</ActionButton>
-			<ActionInput v-if="showCreateCalendarTaskListInput"
-				:aria-label="$t('calendar', 'Name for new calendar')"
-				@submit.prevent.stop="createNewCalendarTaskList">
-				<template #icon>
-					<CalendarCheck :size="20" decorative />
-				</template>
-			</ActionInput>
-			<ActionText v-if="showCreateCalendarTaskListSaving"
-				icon="icon-loading-small">
-				<!-- eslint-disable-next-line no-irregular-whitespace -->
-				{{ $t('calendar', 'Creating calendar …') }}
-			</ActionText>
+				<ActionButton v-if="showCreateCalendarTaskListLabel"
+					@click.prevent.stop="openCreateCalendarTaskListInput">
+					<template #icon>
+						<CalendarCheck :size="20" decorative />
+					</template>
+					{{ $t('calendar', 'New calendar with task list') }}
+				</ActionButton>
+				<ActionInput v-if="showCreateCalendarTaskListInput"
+					:aria-label="$t('calendar', 'Name for new calendar')"
+					@submit.prevent.stop="createNewCalendarTaskList">
+					<template #icon>
+						<CalendarCheck :size="20" decorative />
+					</template>
+				</ActionInput>
+				<ActionText v-if="showCreateCalendarTaskListSaving"
+					icon="icon-loading-small">
+					<!-- eslint-disable-next-line no-irregular-whitespace -->
+					{{ $t('calendar', 'Creating calendar …') }}
+				</ActionText>
 
-			<ActionSeparator v-if="canSubscribeLink" />
-			<ActionButton v-if="showCreateSubscriptionLabel && canSubscribeLink"
-				@click.prevent.stop="openCreateSubscriptionInput">
-				<template #icon>
-					<LinkVariant :size="20" decorative />
-				</template>
-				{{ $t('calendar', 'New subscription from link (read-only)') }}
-			</ActionButton>
-			<ActionInput v-if="showCreateSubscriptionInput"
-				:aria-label="$t('calendar', 'Name for new calendar')"
-				@submit.prevent.stop="createNewSubscription">
-				<template #icon>
-					<LinkVariant :size="20" decorative />
-				</template>
-			</ActionInput>
-			<ActionText v-if="showCreateSubscriptionSaving"
-				icon="icon-loading-small">
-				<!-- eslint-disable-next-line no-irregular-whitespace -->
-				{{ $t('calendar', 'Creating subscription …') }}
-			</ActionText>
-			<ActionButton v-if="canSubscribeLink" @click="showHolidaySubscriptionPicker = true">
-				{{ t('calendar', 'Add public holiday calendar') }}
-				<template #icon>
-					<Web :size="20" decorative />
-				</template>
-			</ActionButton>
-			<ActionButton v-if="hasPublicCalendars" @click="showPublicCalendarSubscriptionPicker = true">
-				{{ t('calendar', 'Add custom public calendar') }}
-				<template #icon>
-					<Web :size="20" decorative />
-				</template>
-			</ActionButton>
-		</template>
-		<template #extra>
-			<PublicCalendarSubscriptionPicker v-if="showHolidaySubscriptionPicker"
-				:show-holidays="true"
-				@close="showHolidaySubscriptionPicker = false" />
-			<PublicCalendarSubscriptionPicker v-if="showPublicCalendarSubscriptionPicker"
-				@close="showPublicCalendarSubscriptionPicker = false" />
-		</template>
-	</NcAppNavigationCaption>
+				<ActionSeparator v-if="canSubscribeLink" />
+				<ActionButton v-if="showCreateSubscriptionLabel && canSubscribeLink"
+					@click.prevent.stop="openCreateSubscriptionInput">
+					<template #icon>
+						<LinkVariant :size="20" decorative />
+					</template>
+					{{ $t('calendar', 'New subscription from link (read-only)') }}
+				</ActionButton>
+				<ActionInput v-if="showCreateSubscriptionInput"
+					:aria-label="$t('calendar', 'Name for new calendar')"
+					@submit.prevent.stop="createNewSubscription">
+					<template #icon>
+						<LinkVariant :size="20" decorative />
+					</template>
+				</ActionInput>
+				<ActionText v-if="showCreateSubscriptionSaving"
+					icon="icon-loading-small">
+					<!-- eslint-disable-next-line no-irregular-whitespace -->
+					{{ $t('calendar', 'Creating subscription …') }}
+				</ActionText>
+				<ActionButton v-if="canSubscribeLink"
+					:close-after-click="true"
+					@click="showHolidaySubscriptionPicker = true">
+					{{ t('calendar', 'Add public holiday calendar') }}
+					<template #icon>
+						<Web :size="20" decorative />
+					</template>
+				</ActionButton>
+				<ActionButton v-if="hasPublicCalendars"
+					:close-after-click="true"
+					@click="showPublicCalendarSubscriptionPicker = true">
+					{{ t('calendar', 'Add custom public calendar') }}
+					<template #icon>
+						<Web :size="20" decorative />
+					</template>
+				</ActionButton>
+			</template>
+		</NcAppNavigationCaption>
+		<PublicCalendarSubscriptionPicker v-if="showHolidaySubscriptionPicker"
+			:show-holidays="true"
+			@close="showHolidaySubscriptionPicker = false" />
+		<PublicCalendarSubscriptionPicker v-if="showPublicCalendarSubscriptionPicker"
+			@close="showPublicCalendarSubscriptionPicker = false" />
+	</div>
 </template>
 
 <script>
