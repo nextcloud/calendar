@@ -19,8 +19,8 @@ describe('services/freeBusySlotService test suite', () => {
 
 		const result = getFirstFreeSlot(start, end, events)
 
-		expect(result[0].start).toEqual(new Date('2024-01-01T10:30:00Z'))
-		expect(result[0].end).toEqual(new Date('2024-01-01T11:30:00Z'))
+		expect(result[0].start).toEqual(new Date('2024-01-01T10:15:00Z'))
+		expect(result[0].end).toEqual(new Date('2024-01-01T11:15:00Z'))
 	})
 
 	it('should return the same amount of suggested slots as events plus one if first blocking event starts after searched time', () => {
@@ -47,8 +47,8 @@ describe('services/freeBusySlotService test suite', () => {
 
 		expect(result.length).toEqual(events.length + 1)
 
-		expect(result[3].start).toEqual(new Date('2024-01-02T19:30:00Z'))
-		expect(result[3].end).toEqual(new Date('2024-01-02T20:15:00Z'))
+		expect(result[3].start).toEqual(new Date('2024-01-02T19:15:00Z'))
+		expect(result[3].end).toEqual(new Date('2024-01-02T20:00:00Z'))
 	})
 
 	it('should return the same amount of suggested slots as events if first blocking event conflicts with searched time', () => {
@@ -75,8 +75,8 @@ describe('services/freeBusySlotService test suite', () => {
 
 		expect(result.length).toEqual(events.length)
 
-		expect(result[2].start).toEqual(new Date('2024-01-02T19:30:00Z'))
-		expect(result[2].end).toEqual(new Date('2024-01-02T20:15:00Z'))
+		expect(result[2].start).toEqual(new Date('2024-01-02T19:15:00Z'))
+		expect(result[2].end).toEqual(new Date('2024-01-02T20:00:00Z'))
 	})
 
 	it('should not give slots between events if the difference is smaller than the searched time duration', () => {
@@ -97,7 +97,7 @@ describe('services/freeBusySlotService test suite', () => {
 
 		const result = getFirstFreeSlot(start, end, events)
 
-		expect(result[0].start).toEqual(new Date('2024-01-01T16:30:00Z'))
+		expect(result[0].start).toEqual(new Date('2024-01-01T16:15:00Z'))
 	})
 
 })
