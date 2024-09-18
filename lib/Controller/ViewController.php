@@ -10,6 +10,7 @@ namespace OCA\Calendar\Controller;
 use OC\App\CompareVersion;
 use OCA\Calendar\Service\CalendarInitialStateService;
 use OCP\App\IAppManager;
+use OCA\Calendar\AppInfo\Application;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\FileDisplayResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -61,6 +62,8 @@ class ViewController extends Controller {
 	public function index():TemplateResponse {
 
 		$this->calendarInitialStateService->run();
+		\OCP\Util::addScript(Application::APP_ID, Application::APP_ID . '-main');
+		\OCP\Util::addStyle(Application::APP_ID, Application::APP_ID . '-main');
 		return new TemplateResponse($this->appName, 'main');
 	}
 

@@ -122,6 +122,7 @@ import Web from 'vue-material-design-icons/Web.vue'
 import { mapStores, mapState } from 'pinia'
 import useCalendarsStore from '../../../store/calendars.js'
 import useSettingsStore from '../../../store/settings.js'
+import PublicCalendarSubscriptionPicker from '../../Subscription/PublicCalendarSubscriptionPicker.vue'
 
 export default {
 	name: 'CalendarListNew',
@@ -133,7 +134,7 @@ export default {
 		NcAppNavigationCaption,
 		CalendarBlank,
 		CalendarCheck,
-		PublicCalendarSubscriptionPicker: () => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '../../Subscription/PublicCalendarSubscriptionPicker.vue'),
+		PublicCalendarSubscriptionPicker,
 		LinkVariant,
 		Plus,
 		Web,

@@ -81,6 +81,7 @@ composer.phar
 
 build/
 js/
+/css/
 node_modules/
 src/fonts
 *.clover
@@ -108,4 +109,3 @@ coverage/
 
 js/public
 css/public
-
