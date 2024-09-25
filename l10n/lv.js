@@ -102,7 +102,7 @@ OC.L10N.register(
     "Unknown calendar" : "Nezināms kalendārs",
     "Could not load deleted calendars and objects" : "Nevarēja ielādēt dzēstos kalendārus un objektus",
     "Could not restore calendar or event" : "Nevarēja atjaunot kalendāru vai notikumu",
-    "Do you really want to empty the trash bin?" : "Vai esat pārliecināts, ka vēlaties neatgriezeniski dzēst miskastes saturu?",
+    "Do you really want to empty the trash bin?" : "Vai tiešām iztukšot atkritni?",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Atkritnes vienumi tiek izdzēsti pēc {numDays} dienām","Atkritnes vienumi tiek izdzēsti pēc {numDays} dienas","Atkritnes vienumi tiek izdzēsti pēc {numDays} dienām"],
     "Hidden" : "Paslēpts",
     "Could not update calendar order." : "Nevarēja atjaunināt kalendāra pasūtījumu.",
