@@ -199,10 +199,10 @@ export default {
 		...mapStores(useAppointmentConfigsStore, useCalendarsStore, useSettingsStore),
 		formTitle() {
 			if (this.isNew) {
-				return this.$t('calendar', 'Create appointment')
+				return this.$t('calendar', 'Create appointment schedule')
 			}
 
-			return this.$t('calendar', 'Edit appointment')
+			return this.$t('calendar', 'Edit appointment schedule')
 		},
 		saveButtonText() {
 			if (this.isNew) {
