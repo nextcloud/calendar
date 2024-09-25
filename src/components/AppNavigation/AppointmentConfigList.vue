@@ -11,7 +11,7 @@
 	<div v-if="hasAtLeastOneCalendar"
 		class="appointment-config-list">
 		<AppNavigationCaption class="appointment-config-list__caption"
-			:name="t('calendar', 'Appointments')">
+			:name="t('calendar', 'Appointment schedules')">
 			<template v-if="hasUserEmailAddress"
 				#actions>
 				<ActionButton :close-after-click="true"
@@ -19,7 +19,7 @@
 					<template #icon>
 						<PlusIcon :size="20" decorative />
 					</template>
-					{{ t('calendar', 'Add new') }}
+					{{ t('calendar', 'Create new') }}
 				</ActionButton>
 			</template>
 		</AppNavigationCaption>

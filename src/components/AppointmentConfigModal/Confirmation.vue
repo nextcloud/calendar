@@ -49,10 +49,10 @@ export default {
 	computed: {
 		title() {
 			if (this.isNew) {
-				return this.$t('calendar', 'Appointment was created successfully')
+				return this.$t('calendar', 'Appointment schedule successfully created')
 			}
 
-			return this.$t('calendar', 'Appointment was updated successfully')
+			return this.$t('calendar', 'Appointment schedule successfully updated')
 		},
 		showCopyLinkButton() {
 			return navigator && navigator.clipboard
