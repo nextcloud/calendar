@@ -38,6 +38,7 @@ OC.L10N.register(
     "Copy link" : "Kopiraj poveznicu",
     "Edit" : "Uredi",
     "Delete" : "Izbriši",
+    "Create new" : "Stvori novi",
     "Untitled calendar" : "Kalendar bez naslova",
     "Shared with you by" : "S vama podijelio",
     "An error occurred, unable to change visibility of the calendar." : "Došlo je do pogreške, nije moguće promijeniti vidljivost kalendara.",

@@ -20,6 +20,7 @@ OC.L10N.register(
     "Copy link" : "Kopjo linkun",
     "Edit" : "Përpuno",
     "Delete" : "Fshije",
+    "Create new" : "Krijo të ri",
     "New calendar" : "Kalendar i ri",
     "Export" : "Eksport",
     "Name" : "Emri",

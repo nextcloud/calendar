@@ -21,6 +21,7 @@ OC.L10N.register(
     "Copy link" : "คัดลอกลิงก์",
     "Edit" : "แก้ไข",
     "Delete" : "ลบ",
+    "Create new" : "สร้างใหม่",
     "Calendars" : "ปฏิทิน",
     "New calendar" : "สร้างปฏิทินใหม่",
     "Export" : "ส่งออก",

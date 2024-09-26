@@ -26,6 +26,7 @@ OC.L10N.register(
     "Copy link" : "Kopii ligilon",
     "Edit" : "Modifi",
     "Delete" : "Forigi",
+    "Create new" : "Krei nove",
     "New calendar" : "Nova kalendaro",
     "Export" : "Eksporti",
     "Calendar link copied to clipboard." : "Kalendara ligilo kopiita al tondujo",

@@ -25,6 +25,7 @@ OC.L10N.register(
     "Copy link" : "Copiar enlace",
     "Edit" : "Editar",
     "Delete" : "Borrar",
+    "Create new" : "Crear nuevo",
     "Calendars" : "Calendarios",
     "New calendar" : "Nuevo calendario",
     "New calendar with task list" : "Nuevo calendario con listado de tareas",
