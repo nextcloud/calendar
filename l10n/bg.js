@@ -59,6 +59,7 @@ OC.L10N.register(
     "Delete" : "Изтриване",
     "Appointment link was copied to clipboard" : "Връзката за среща е копирана в клипборда",
     "Appointment link could not be copied to clipboard" : "Връзката за среща не можа да бъде копирана в клипборда",
+    "Create new" : "Създай нов",
     "Untitled calendar" : "Нов календар",
     "Shared with you by" : "Споделено с вас от",
     "Edit and share calendar" : "Редактиране и споделяне на календар",
