@@ -296,7 +296,7 @@ OC.L10N.register(
     "Awaiting response" : "En attente de la réponse",
     "Has not responded to {organizerName}'s invitation yet" : "N'a pas encore répondu à l'invitation de {organizerName}",
     "Availability of attendees, resources and rooms" : "Disponibilités des participants, ressources et salles.",
-    "Find a time" : "Trouver une heure",
+    "Find a time" : "Trouver un horaire",
     "with" : "avec",
     "Available times:" : "Horaires disponibles:",
     "Suggestion accepted" : "Suggestion acceptée",
