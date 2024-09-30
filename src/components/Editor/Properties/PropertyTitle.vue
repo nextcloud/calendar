@@ -10,6 +10,7 @@
 			<input v-if="!isReadOnly"
 				v-focus
 				type="text"
+				autocomplete="off"
 				:placeholder="t('calendar', 'Event title')"
 				:value="value"
 				@input.prevent.stop="changeValue">
