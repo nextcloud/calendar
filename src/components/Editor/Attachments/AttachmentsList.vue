@@ -154,7 +154,14 @@ export default {
 			})
 		},
 		async openFilesModal() {
-			const picker = getFilePickerBuilder(t('calendar', 'Choose a file to add as attachment')).setMultiSelect(false).build()
+			const picker = getFilePickerBuilder(t('calendar', 'Choose a file to add as attachment'))
+				.setMultiSelect(false)
+				.addButton({
+					label: t('calendar', 'Pick'),
+					type: 'primary',
+					callback: (nodes) => logger.debug('Picked attachment', { nodes }),
+				})
+				.build()
 			try {
 				const filename = await picker.pick(t('calendar', 'Choose a file to share as a link'))
 				if (!this.isDuplicateAttachment(filename)) {
