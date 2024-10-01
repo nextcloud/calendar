@@ -21,7 +21,8 @@ use OCP\Util;
  */
 class CalendarReferenceListener implements IEventListener {
 	public function __construct(
-		private CalendarInitialStateService $calendarinitialStateService) {
+		private CalendarInitialStateService $calendarinitialStateService,
+	) {
 		$this->calendarinitialStateService = $calendarinitialStateService;
 	}
 

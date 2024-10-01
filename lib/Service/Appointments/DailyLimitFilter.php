@@ -21,7 +21,10 @@ class DailyLimitFilter {
 	/** @var IManager */
 	private $calendarManger;
 
-	public function __construct(IManager $calendarManger, private LoggerInterface $logger) {
+	public function __construct(
+		IManager $calendarManger,
+		private LoggerInterface $logger,
+	) {
 		$this->calendarManger = $calendarManger;
 	}
 
@@ -33,7 +36,7 @@ class DailyLimitFilter {
 	 */
 	public function filter(AppointmentConfig $config, array $slots): array {
 		$this->logger->debug('Slots before daily limit filtering:' . count($slots), ['app' => 'calendar-appointments']);
-		if(empty($slots)) {
+		if (empty($slots)) {
 			return [];
 		}
 		// 0. If there is no limit then we don't have to filter anything

@@ -39,7 +39,7 @@ class EventConflictFilter {
 	 */
 	public function filter(AppointmentConfig $config, array $slots): array {
 		$this->logger->debug('Slots before event conflict filtering:' . count($slots), ['app' => 'calendar-appointments']);
-		if(empty($slots)) {
+		if (empty($slots)) {
 			return [];
 		}
 		$query = $this->calendarManager->newQuery($config->getPrincipalUri());
