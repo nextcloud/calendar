@@ -36,12 +36,14 @@ class BookingCalendarWriter {
 
 	private TimezoneGenerator $timezoneGenerator;
 
-	public function __construct(IConfig $config,
+	public function __construct(
+		IConfig $config,
 		IManager $manager,
 		IUserManager $userManager,
 		ISecureRandom $random,
 		TimezoneGenerator $timezoneGenerator,
-		private IFactory $l10nFactory) {
+		private IFactory $l10nFactory,
+	) {
 		$this->config = $config;
 		$this->manager = $manager;
 		$this->userManager = $userManager;
@@ -107,7 +109,7 @@ class BookingCalendarWriter {
 
 		$end = $start->getTimestamp() + $config->getLength();
 		$tz = $this->timezoneGenerator->generateVTimezone($timezone, $start->getTimestamp(), $end);
-		if($tz) {
+		if ($tz) {
 			$vcalendar->add($tz);
 		}
 
@@ -172,7 +174,7 @@ class BookingCalendarWriter {
 		try {
 			$calendar->createFromString($filename . '.ics', $vcalendar->serialize());
 		} catch (CalendarException $e) {
-			throw new RuntimeException('Could not write event  for appointment config id ' . $config->getId(). ' to calendar: ' . $e->getMessage(), 0, $e);
+			throw new RuntimeException('Could not write event  for appointment config id ' . $config->getId() . ' to calendar: ' . $e->getMessage(), 0, $e);
 		}
 
 		if ($config->getPreparationDuration() !== 0) {
@@ -189,7 +191,7 @@ class BookingCalendarWriter {
 				]
 			]);
 			$tz = $this->timezoneGenerator->generateVTimezone($timezone, $prepStart->getTimestamp(), $start->getTimestamp());
-			if($tz) {
+			if ($tz) {
 				$prepCalendar->add($tz);
 			}
 
@@ -202,7 +204,7 @@ class BookingCalendarWriter {
 			try {
 				$calendar->createFromString($prepFileName . '.ics', $prepCalendar->serialize());
 			} catch (CalendarException $e) {
-				throw new RuntimeException('Could not write event  for appointment config id ' . $config->getId(). ' to calendar: ' . $e->getMessage(), 0, $e);
+				throw new RuntimeException('Could not write event  for appointment config id ' . $config->getId() . ' to calendar: ' . $e->getMessage(), 0, $e);
 			}
 		}
 
@@ -222,7 +224,7 @@ class BookingCalendarWriter {
 			]);
 
 			$tz = $this->timezoneGenerator->generateVTimezone($timezone, $followupStart->getTimestamp(), $followUpEnd->getTimestamp());
-			if($tz) {
+			if ($tz) {
 				$followUpCalendar->add($tz);
 			}
 
@@ -235,7 +237,7 @@ class BookingCalendarWriter {
 			try {
 				$calendar->createFromString($followUpFilename . '.ics', $followUpCalendar->serialize());
 			} catch (CalendarException $e) {
-				throw new RuntimeException('Could not write event  for appointment config id ' . $config->getId(). ' to calendar: ' . $e->getMessage(), 0, $e);
+				throw new RuntimeException('Could not write event  for appointment config id ' . $config->getId() . ' to calendar: ' . $e->getMessage(), 0, $e);
 			}
 		}
 		return $vcalendar->serialize();

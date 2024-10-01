@@ -46,7 +46,8 @@ class MailService {
 
 	private IManager $notificationManager;
 
-	public function __construct(IMailer $mailer,
+	public function __construct(
+		IMailer $mailer,
 		IUserManager $userManager,
 		IL10N $l10n,
 		Defaults $defaults,
@@ -55,7 +56,8 @@ class MailService {
 		IDateTimeFormatter $dateFormatter,
 		IFactory $lFactory,
 		IManager $notificationManager,
-		private IConfig $userConfig) {
+		private IConfig $userConfig,
+	) {
 		$this->userManager = $userManager;
 		$this->mailer = $mailer;
 		$this->l10n = $l10n;

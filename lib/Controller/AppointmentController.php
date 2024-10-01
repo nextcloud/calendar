@@ -38,7 +38,7 @@ class AppointmentController extends Controller {
 		IUserManager $userManager,
 		AppointmentConfigService $configService,
 		IInitialState $initialState,
-		?string $userId
+		?string $userId,
 	) {
 		parent::__construct(Application::APP_ID, $request);
 

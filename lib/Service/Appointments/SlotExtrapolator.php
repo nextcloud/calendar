@@ -12,7 +12,9 @@ use Psr\Log\LoggerInterface;
 
 class SlotExtrapolator {
 
-	public function __construct(private LoggerInterface $logger) {
+	public function __construct(
+		private LoggerInterface $logger,
+	) {
 
 	}
 	/**
@@ -24,7 +26,7 @@ class SlotExtrapolator {
 	public function extrapolate(AppointmentConfig $config,
 		array $availabilityIntervals): array {
 		$this->logger->debug('Intervals before extrapolating:' . count($availabilityIntervals), ['app' => 'calendar-appointments']);
-		if(empty($availabilityIntervals)) {
+		if (empty($availabilityIntervals)) {
 			return [];
 		}
 		foreach ($availabilityIntervals as $availabilityInterval) {

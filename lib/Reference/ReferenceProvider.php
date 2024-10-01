@@ -124,7 +124,7 @@ class ReferenceProvider extends ADiscoverableReferenceProvider {
 		if ($type === 'public') {
 			return "{$this->urlGenerator->getWebroot()}/remote.php/dav/public-calendars/{$data}/";
 		} elseif ($type === 'private' && preg_match('/\/remote.php\/dav\/calendars\/([a-zA-Z0-9-]+)\/([a-zA-Z0-9-]+)\//', $data, $output_array)) {
-			return $this->urlGenerator->getWebroot().$output_array[0];
+			return $this->urlGenerator->getWebroot() . $output_array[0];
 		}
 		return null;
 
