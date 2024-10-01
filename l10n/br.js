@@ -28,6 +28,7 @@ OC.L10N.register(
     "Copy link" : "Kopiañ al liamm",
     "Edit" : "Cheñch",
     "Delete" : "Dilemel",
+    "Create new" : "Krouiñ unan nevez",
     "Untitled calendar" : "Deiziataer hep titl",
     "Shared with you by" : "Rannet deoc'h gant",
     "An error occurred, unable to change visibility of the calendar." : "C'hoarvezet ez eus ur fazi, ne c'halletr ket kemmañ gweluster an deiziataer.",

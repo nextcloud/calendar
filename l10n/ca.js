@@ -64,6 +64,7 @@ OC.L10N.register(
     "Delete" : "Suprimeix",
     "Appointment link was copied to clipboard" : "L'enllaç de la cita s'ha copiat al porta-retalls",
     "Appointment link could not be copied to clipboard" : "No s'ha pogut copiar l'enllaç de la cita al porta-retalls",
+    "Create new" : "Crear nou",
     "Untitled calendar" : "Calendari sense títol",
     "Shared with you by" : "Compartit amb tu per",
     "Edit and share calendar" : "Edició i comparteix el calendari",

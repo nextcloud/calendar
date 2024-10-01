@@ -64,6 +64,7 @@ OC.L10N.register(
     "Delete" : "Smazat",
     "Appointment link was copied to clipboard" : "Odkaz na schůzku byl zkopírován do schránky",
     "Appointment link could not be copied to clipboard" : "Odkaz na schůzku se nepodařilo zkopírovat do schránky",
+    "Create new" : "Vytvořit nové",
     "Untitled calendar" : "Nepojmenovaný kalendář",
     "Shared with you by" : "Nasdílel(a) vám",
     "Edit and share calendar" : "Upravit a nasdílet kalendář",
