@@ -370,10 +370,10 @@ export default {
 		}
 	}
 	&__header{
+		margin-bottom: 20px;
 		h3{
 			font-weight: 500;
 		}
-		margin-bottom: 20px;
 	}
 	&__footer{
 		display: flex;

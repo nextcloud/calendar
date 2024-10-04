@@ -140,10 +140,10 @@ export default {
 	}
 	&__header {
 		padding: 20px;
+		margin-bottom: 20px;
 		h3{
 			font-weight: 500;
 		}
-		margin-bottom: 20px;
 		&__attendees{
 			&__user-bubble{
 				margin-right: 5px;
