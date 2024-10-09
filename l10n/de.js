@@ -66,7 +66,7 @@ OC.L10N.register(
     "Appointment link was copied to clipboard" : "Link für den Termin wurde in die Zwischenablage kopiert",
     "Appointment link could not be copied to clipboard" : "Link für den Termin konnte nicht in die Zwischenablage kopiert werden",
     "Appointment schedules" : "Terminpläne",
-    "Create new" : "Benötigt keine Übersetzung. Hier wird nur die formelle Übersetzung verwendet (de_DE).",
+    "Create new" : "Neu erstellen",
     "Untitled calendar" : "Unbenannter Kalender",
     "Shared with you by" : "Geteilt mit dir von",
     "Edit and share calendar" : "Kalender bearbeiten und teilen",
