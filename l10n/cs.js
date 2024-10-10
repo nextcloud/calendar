@@ -226,6 +226,7 @@ OC.L10N.register(
     "Friday" : "pátek",
     "Saturday" : "sobota",
     "Sunday" : "neděle",
+    "Weekdays" : "Dny v týdnu",
     "Add time before and after the event" : "Přidat čas před a po události",
     "Before the event" : "Před událostí",
     "After the event" : "Po události",
