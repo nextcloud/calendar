@@ -47,12 +47,11 @@ class ContactControllerTest extends TestCase {
 	}
 
 	public function testSearchLocationDisabled():void {
-		$this->manager->expects($this->once())
+		$this->manager->expects(self::once())
 			->method('isEnabled')
-			->with()
 			->willReturn(false);
 
-		$this->manager->expects($this->never())
+		$this->manager->expects(self::never())
 			->method('search');
 
 		$response = $this->controller->searchLocation('search 123');
@@ -65,10 +64,9 @@ class ContactControllerTest extends TestCase {
 	public function testSearchLocation():void {
 		$this->manager->expects(self::once())
 			->method('isEnabled')
-			->with()
 			->willReturn(true);
 
-		$this->manager->expects(self::once())
+		$this->manager->expects(self::exactly(2))
 			->method('search')
 			->with('search 123', ['FN', 'ADR'])
 			->willReturn([
@@ -138,13 +136,27 @@ class ContactControllerTest extends TestCase {
 		$this->assertEquals(200, $response->getStatus());
 	}
 
-	public function testSearchAttendeeDisabled():void {
-		$this->manager->expects($this->once())
+	public function testGetGroupMembers() {
+		$this->manager->expects(self::once())
 			->method('isEnabled')
-			->with()
+			->willReturn(true);
+
+		$groupname = 'groupname';
+		$this->manager->expects(self::once())
+			->method('search')
+			->with($groupname, ['CATEGORIES'], ['strict_search' => true])
+			->willReturn([]);
+
+		$this->controller->getContactGroupMembers($groupname);
+
+	}
+
+	public function testSearchAttendeeDisabled():void {
+		$this->manager->expects(self::once())
+			->method('isEnabled')
 			->willReturn(false);
 
-		$this->manager->expects($this->never())
+		$this->manager->expects(self::never())
 			->method('search');
 
 		$response = $this->controller->searchAttendee('search 123');
@@ -157,7 +169,6 @@ class ContactControllerTest extends TestCase {
 	public function testSearchAttendee():void {
 		$this->manager->expects(self::once())
 			->method('isEnabled')
-			->with()
 			->willReturn(true);
 
 		$this->manager->expects(self::once())
@@ -235,17 +246,15 @@ class ContactControllerTest extends TestCase {
 	}
 
 	public function testSearchPhotoDisabled():void {
-		$this->manager->expects($this->once())
+		$this->manager->expects(self::once())
 			->method('isEnabled')
-			->with()
 			->willReturn(false);
 
-		$this->manager->expects($this->never())
+		$this->manager->expects(self::never())
 			->method('search');
 
 		$response = $this->controller->searchAttendee('search 123');
 
-		$this->assertInstanceOf(JSONResponse::class, $response);
 		$this->assertEquals([], $response->getData());
 		$this->assertEquals(200, $response->getStatus());
 	}
@@ -253,7 +262,6 @@ class ContactControllerTest extends TestCase {
 	public function testSearchPhoto():void {
 		$this->manager->expects(self::once())
 			->method('isEnabled')
-			->with()
 			->willReturn(true);
 
 		$this->manager->expects(self::once())

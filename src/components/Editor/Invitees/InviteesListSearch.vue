@@ -161,6 +161,11 @@ export default {
 				showInfo(this.$t('calendar', 'Note that members of circles get invited but are not synced yet.'))
 				this.resolveCircleMembers(selectedValue.id, selectedValue.email)
 			}
+			if (selectedValue.type === 'contactsgroup') {
+				showInfo(this.$t('calendar', 'Note that members of contact groups get invited but are not synced yet.'))
+				this.getContactGroupMembers(selectedValue.name)
+				return;
+			}
 			this.$emit('add-attendee', selectedValue)
 		},
 		async resolveCircleMembers(circleId, groupId) {
@@ -174,6 +179,23 @@ export default {
 				console.debug(error)
 				return []
 			}
+			results.data.forEach((member) => {
+				if (!this.organizer || member.email !== this.organizer.uri) {
+					this.$emit('add-attendee', member)
+				}
+			})
+		},
+		async getContactGroupMembers(groupName) {
+			let results
+			try {
+				response = await HttpClient.post(linkTo('calendar', 'index.php') + '/v1/autocompletion/groupmembers', {
+					search: query,
+				})
+			} catch (error) {
+				console.debug(error)
+				return []
+			}
+
 			results.data.forEach((member) => {
 				if (!this.organizer || member.email !== this.organizer.uri) {
 					this.$emit('add-attendee', member)
@@ -207,6 +229,22 @@ export default {
 					}
 
 					if (email && this.alreadyInvitedEmails.includes(email)) {
+						return
+					}
+
+					if(result.type === 'contactsgroup') {
+						arr.push({
+							calendarUserType: 'GROUP',
+							commonName: result.name,
+							email: this.$n('calendar', '%n member', '%n members', result.members),
+							isUser: false,
+							avatar: result.photo,
+							language: result.lang,
+							timezoneId: result.tzid,
+							hasMultipleEMails,
+							dropdownName: name,
+							type: 'contactsgroup',
+						})
 						return
 					}
 
