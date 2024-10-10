@@ -29,6 +29,7 @@ import useSettingsStore from './settings.js'
 import useFetchedTimeRangesStore from './fetchedTimeRanges.js'
 import usePrincipalsStore from './principals.js'
 import useCalendarObjectsStore from './calendarObjects.js'
+import logger from '../utils/logger.js'
 
 import { defineStore } from 'pinia'
 import Vue from 'vue'
@@ -939,6 +940,43 @@ export default defineStore('calendars', {
 			}
 
 			this.syncTokens.set(calendar.id, syncToken)
+		},
+
+		syncCalendar({ calendar, skipIfUnchangedSyncToken = false }) {
+			const fetchedTimeRangesStore = useFetchedTimeRangesStore()
+			const calendarObjectsStore = useCalendarObjectsStore()
+			const calendarsStore = this
+
+			const existingSyncToken = calendarsStore.getCalendarSyncToken(calendar)
+			if (!existingSyncToken && !calendarsStore.getCalendarById(calendar.id)) {
+				// New calendar!
+				logger.debug(`Adding new calendar ${calendar.url}`)
+				calendarsStore.addCalendarMutation({ calendar })
+				return
+			}
+
+			if (skipIfUnchangedSyncToken && calendar.dav.syncToken === existingSyncToken) {
+				return
+			}
+
+			logger.debug(`Refetching calendar ${calendar.url} (syncToken changed)`)
+			const fetchedTimeRanges = fetchedTimeRangesStore
+				.getAllTimeRangesForCalendar(calendar.id)
+			for (const timeRange of fetchedTimeRanges) {
+				fetchedTimeRangesStore.removeTimeRange({
+					timeRangeId: timeRange.id,
+				})
+				calendarsStore.deleteFetchedTimeRangeFromCalendarMutation({
+					calendar,
+					fetchedTimeRangeId: timeRange.id,
+				})
+			}
+
+			calendarsStore.updateCalendarSyncToken({
+				calendar,
+				syncToken: calendar.dav.syncToken,
+			})
+			calendarObjectsStore.modificationCount++
 		},
 	},
 })
