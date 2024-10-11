@@ -21,7 +21,7 @@
 			</template>
 
 			<template v-else-if="isError">
-				<div class="event-popover__top-right-actions">
+				<div :class="topActionsClass">
 					<Actions>
 						<ActionButton @click="cancel">
 							<template #icon>
@@ -40,7 +40,7 @@
 			</template>
 
 			<template v-else>
-				<div class="event-popover__top-right-actions">
+				<div :class="topActionsClass">
 					<Actions v-if="!isLoading && !isError && !isNew" :force-menu="true">
 						<ActionLink v-if="!hideEventExport && hasDownloadURL"
 							:href="downloadURL">
@@ -197,6 +197,7 @@ import { mapState, mapStores } from 'pinia'
 import useSettingsStore from '../store/settings.js'
 import useWidgetStore from '../store/widget.js'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
+import { getLanguage, isRTL } from '@nextcloud/l10n'
 
 export default {
 	name: 'EditSimple',
@@ -248,6 +249,14 @@ export default {
 
 		showPopover() {
 			return this.isVisible || this.widgetEventDetailsOpen
+		},
+
+		topActionsClass() {
+			return {
+				'event-popover__top-actions': true,
+				'event-popover__top-actions--right': !isRTL(getLanguage()),
+				'event-popover__top-actions--left': isRTL(getLanguage()),
+			}
 		},
 
 		/**
