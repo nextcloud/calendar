@@ -6,14 +6,15 @@
 <template>
 	<div class="datepicker-button-section">
 		<NcButton v-if="!isWidget"
-			v-shortkey="previousShortKeyConf"
-			:aria-label="previousLabel"
-			class="datepicker-button-section__previous button"
-			:name="previousLabel"
-			@click="navigateToPreviousTimeRange"
-			@shortkey="navigateToPreviousTimeRange">
+			v-shortkey="isRTL? nextShortKeyConf : previousShortKeyConf"
+			:aria-label="isRTL? nextLabel: previousLabel"
+			class="datepicker-button-section__left button"
+			:name="isRTL? nextLabel: previousLabel"
+			@click="navigateToLeftTimeRange"
+			@shortkey="navigateToLeftTimeRange">
 			<template #icon>
-				<ChevronLeftIcon :size="22" />
+				<ChevronRightIcon v-if="isRTL" :size="22" />
+				<ChevronLeftIcon v-else :size="22" />
 			</template>
 		</NcButton>
 		<NcButton v-if="!isWidget"
@@ -32,14 +33,15 @@
 			:type="view === 'multiMonthYear' ? 'year' : 'date'"
 			@change="navigateToDate" />
 		<NcButton v-if="!isWidget"
-			v-shortkey="nextShortKeyConf"
-			:aria-label="nextLabel"
-			class="datepicker-button-section__next button"
-			:name="nextLabel"
-			@click="navigateToNextTimeRange"
-			@shortkey="navigateToNextTimeRange">
+			v-shortkey="isRTL? previousShortKeyConf : nextShortKeyConf "
+			:aria-label="isRTL? previousLabel: nextLabel"
+			class="datepicker-button-section__right button"
+			:name="isRTL? previousLabel: nextLabel"
+			@click="navigateToRightTimeRange"
+			@shortkey="navigateToRightTimeRange">
 			<template #icon>
-				<ChevronRightIcon :size="22" />
+				<ChevronLeftIcon v-if="isRTL" :size="22" />
+				<ChevronRightIcon v-else :size="22" />
 			</template>
 		</NcButton>
 	</div>
@@ -59,6 +61,7 @@ import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import { NcButton } from '@nextcloud/vue'
 import useSettingsStore from '../../../store/settings.js'
 import useWidgetStore from '../../../store/widget.js'
+import { getLanguage, isRTL } from '@nextcloud/l10n'
 
 export default {
 	name: 'AppNavigationHeaderDatePicker',
@@ -87,6 +90,9 @@ export default {
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',
 		}),
+		isRTL() {
+			return isRTL(getLanguage())
+		},
 		selectedDate() {
 			if (this.isWidget) {
 				return getDateFromFirstdayParam(this.widgetStore.widgetDate)
@@ -145,11 +151,11 @@ export default {
 		},
 	},
 	methods: {
-		navigateToPreviousTimeRange() {
-			return this.navigateTimeRangeByFactor(-1)
+		navigateToLeftTimeRange() {
+			return this.navigateTimeRangeByFactor(this.isRTL ? 1 : -1)
 		},
-		navigateToNextTimeRange() {
-			return this.navigateTimeRangeByFactor(1)
+		navigateToRightTimeRange() {
+			return this.navigateTimeRangeByFactor(this.isRTL ? -1 : 1)
 		},
 		navigateTimeRangeByFactor(factor) {
 			let newDate
