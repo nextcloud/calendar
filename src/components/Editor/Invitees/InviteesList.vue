@@ -255,9 +255,8 @@ export default {
 		alreadyInvitedEmails() {
 			const emails = this.invitees.map(attendee => removeMailtoPrefix(attendee.uri))
 
-			const principal = this.principalsStore.getCurrentUserPrincipal
-			if (principal) {
-				emails.push(principal.emailAddress)
+			if (this.calendarObjectInstance.organizer.uri) {
+				emails.push(removeMailtoPrefix(this.calendarObjectInstance.organizer.uri))
 			}
 
 			return emails
