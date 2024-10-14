@@ -4,62 +4,54 @@
 -->
 
 <template>
-	<DateTimePicker ::clearable="false"
-		:first-day-of-week="firstDay"
-		:format="format"
-		:lang="lang"
-		:minute-step="5"
-		:show-second="false"
-		type="time"
-		:use12h="showAmPm"
-		:value="date"
-		v-bind="$attrs"
-		v-on="$listeners"
-		@change="change" />
+	<NcActions>
+		<template #icon>
+			<NcTextField :value.sync="date">
+				<template #trailing-button-icon>
+					<ClockOutline/>
+				</template>
+			</NcTextField>
+		</template>
+		<NcActionButton v-for="time in timeList" :key="time" @click="change(parse(time))">
+			<template #icon></template>
+			{{ time }}
+		</NcActionButton>
+	</NcActions>
 </template>
 
 <script>
-import { NcDateTimePicker as DateTimePicker } from '@nextcloud/vue'
+import { NcActions, NcTextField, NcActionButton } from '@nextcloud/vue'
+import ClockOutline from 'vue-material-design-icons/ClockOutline.vue'
 import moment from '@nextcloud/moment'
 import { mapState } from 'pinia'
-import {
-	getFirstDay,
-} from '@nextcloud/l10n'
-import { getLangConfigForVue2DatePicker } from '../../utils/localization.js'
 import useSettingsStore from '../../store/settings.js'
 
 export default {
 	name: 'TimePicker',
 	components: {
-		DateTimePicker,
+		NcActions,
+		NcTextField,
+		NcActionButton,
+		ClockOutline,
 	},
 	props: {
-		date: {
+		initialDate: {
 			type: Date,
 			required: true,
 		},
 	},
 	data() {
 		return {
-			firstDay: getFirstDay() === 0 ? 7 : getFirstDay(),
-			format: {
-				stringify: this.stringify,
-				parse: this.parse,
-			},
+			date: '',
 		}
+	},
+	mounted() {
+		this.date = this.stringify(this.initialDate)
 	},
 	computed: {
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',
 		}),
-		/**
-		 * Returns the lang config for vue2-datepicker
-		 *
-		 * @return {object}
-		 */
-		lang() {
-			return getLangConfigForVue2DatePicker(this.locale)
-		},
 		/**
 		 * Whether or not to offer am/pm in the timepicker
 		 *
@@ -71,6 +63,18 @@ export default {
 
 			return timeFormat.indexOf('a') !== -1
 		},
+
+		timeList() {
+			const times = []
+			let currentTime = moment(this.initialDate)
+
+			for (let i = 0; i < 10; i++) {
+				times.push(currentTime.format('LT'))
+				currentTime = currentTime.add(15, 'minutes')
+			}
+
+			return times
+		},
 	},
 	methods: {
 		/**
@@ -79,6 +83,7 @@ export default {
 		 * @param {Date} date The new Date object
 		 */
 		change(date) {
+			this.date = this.stringify(date)
 			this.$emit('change', date)
 		},
 		/**
