@@ -9,9 +9,9 @@
 			{{ $t('calendar', 'Default attachments location') }}
 		</label>
 		<div class="form-group">
-			<NcInputField v-model="attachmentsFolder"
+			<NcInputField :id="inputId"
+				v-model="attachmentsFolder"
 				type="text"
-				:id="inputId"
 				:label-outside="true"
 				@input="debounceSaveAttachmentsFolder(attachmentsFolder)"
 				@change="debounceSaveAttachmentsFolder(attachmentsFolder)"

@@ -11,8 +11,8 @@
 		:multiple="multiple"
 		:clearable="clearable"
 		:filter-by="selectFilterBy"
-		:input-label="this.inputLabel"
-		:label-outside="this.inputLabel === ''"
+		:input-label="inputLabel"
+		:label-outside="inputLabel === ''"
 		@option:selected="change"
 		@option:deselected="remove">
 		<template #option="{ id }">

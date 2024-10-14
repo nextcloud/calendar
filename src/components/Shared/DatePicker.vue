@@ -20,8 +20,8 @@
 		:append-to-body="appendToBody"
 		v-bind="$attrs"
 		confirm
-		v-on="$listeners"
 		class="date-time-picker"
+		v-on="$listeners"
 		@close="close"
 		@change="change"
 		@pick="pickDate">

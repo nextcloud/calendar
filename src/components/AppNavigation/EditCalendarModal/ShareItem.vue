@@ -87,12 +87,12 @@ export default {
 		displayName() {
 			if (this.sharee.isCircle) {
 				return t('calendar', '{teamDisplayName} (Team)', {
-					teamDisplayName: this.sharee.displayName
+					teamDisplayName: this.sharee.displayName,
 				})
 			}
 
 			return this.sharee.displayName
-		}
+		},
 	},
 	mounted() {
 		this.updateShareeEmail()

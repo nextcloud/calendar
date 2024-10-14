@@ -257,7 +257,7 @@ export default {
 					type: 'primary',
 					callback: () => {
 						window.open(url.href, '_blank', 'noopener noreferrer')
-					}
+					},
 				},
 			]
 			this.showOpenConfirmation = true
