@@ -237,14 +237,14 @@ export default {
 				organizers.push({
 					id: owner.id,
 					label: owner.displayname,
-					address: owner.emailAddress
+					address: owner.emailAddress,
 				})
 			}
 			if (principal && owner.id !== principal.id) {
 				organizers.push({
 					id: principal.id,
 					label: principal.displayname,
-					address: principal.emailAddress
+					address: principal.emailAddress,
 				})
 			}
 			return organizers
@@ -305,13 +305,13 @@ export default {
 				const user = this.calendarObjectInstance.organizer
 				organizer = {
 					label: user.commonName,
-					address: removeMailtoPrefix(user.uri)
+					address: removeMailtoPrefix(user.uri),
 				}
 			} else if (this.principalsStore.getCurrentUserPrincipal) {
 				const user = this.principalsStore.getCurrentUserPrincipal
 				organizer = {
 					label: user.displayname,
-					address: user.emailAddress
+					address: user.emailAddress,
 				}
 			}
 			return organizer

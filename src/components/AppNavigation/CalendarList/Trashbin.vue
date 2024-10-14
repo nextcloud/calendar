@@ -187,7 +187,7 @@ export default {
 		},
 		retentionDuration() {
 			return Math.ceil(
-				this.calendarsStore.trashBin.retentionDuration / (60 * 60 * 24)
+				this.calendarsStore.trashBin.retentionDuration / (60 * 60 * 24),
 			)
 		},
 	},

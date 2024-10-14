@@ -23,7 +23,7 @@
 				<template v-for="person in organizerSelection">
 					<NcActionButton v-if="!selectedOrganizer(person.address)"
 						:key="person.address + '-1'"
-						:closeAfterClick = "true"
+						:close-after-click="true"
 						@click="changeOrganizer(person, false)">
 						<template #icon>
 							<Crown :size="20" />
@@ -32,7 +32,7 @@
 					</NcActionButton>
 					<NcActionButton v-if="!selectedOrganizer(person.address)"
 						:key="person.address + '-2'"
-						:closeAfterClick = "true"
+						:close-after-click="true"
 						@click="changeOrganizer(person, true)">
 						<template #icon>
 							<Crown :size="20" />
