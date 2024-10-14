@@ -221,7 +221,7 @@ OC.L10N.register(
     "Create a Talk room" : "إنشاء غرفة محادثة",
     "A unique link will be generated for every booked appointment and sent via the confirmation email" : "سيتم إنشاء رابط خاص بكل موعد محجوز و سيتم إرساله عبر البريد الإلكتروني للتأكيد",
     "Description" : "الوصف",
-    "Visibility" : "الرؤية Visibility",
+    "Visibility" : "الرؤية",
     "Duration" : "المدة الزمنية",
     "Increments" : "الزيادات",
     "Additional calendars to check for conflicts" : "تقاويم إضافية للتحقّق من وجود تعارضات",
