@@ -5,6 +5,13 @@
 -->
 # Changelog
 
+## 5.0.1 - 2024-10-14
+## Changed
+- Holiday calendar source URLs
+## Fixed
+- Missing filepicker confirm for attachments
+- Subscription calendar modal
+
 ## 5.0.0 - 2024-09-13
 ### Added
 - Nextcloud 30 support
