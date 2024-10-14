@@ -17,7 +17,7 @@
 		@search="findAttendees"
 		@option:selected="addAttendee">
 		<template #option="option">
-			<div class="invitees-search-list-item">
+			<div :class="listItemClasses">
 				<!-- We need to specify a unique key here for the avatar to be reactive. -->
 				<Avatar v-if="option.isUser"
 					:key="option.uid"
@@ -66,6 +66,7 @@ import { linkTo } from '@nextcloud/router'
 import { randomId } from '../../../utils/randomId.js'
 import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCirclesCommunities.vue'
 import { showInfo } from '@nextcloud/dialogs'
+import { getLanguage, isRTL } from '@nextcloud/l10n'
 
 export default {
 	name: 'InviteesListSearch',
@@ -98,6 +99,13 @@ export default {
 		},
 		noResult() {
 			return this.$t('calendar', 'No match found')
+		},
+		listItemClasses() {
+			return {
+				'invitees-search-list-item': true,
+				'invitees-search-list-item--rtl': isRTL(getLanguage()),
+				'invitees-search-list-item--ltr': !isRTL(getLanguage()),
+			}
 		},
 	},
 	methods: {
