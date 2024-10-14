@@ -695,6 +695,9 @@
 	.property-title {
 		&__input, input {
 			font-weight: bold;
+			&__rtl{
+				text-align: right;
+			}
 		}
 
 		&__input--readonly {
@@ -776,15 +779,23 @@
 			margin-top: 8px;
 		}
 
-		.event-popover__top-right-actions {
+		.event-popover__top-actions {
 			display: flex;
 			gap: var(--default-grid-baseline);
 			position: absolute !important;
 			top: var(--default-grid-baseline) !important;
-			right: var(--default-grid-baseline) !important;
 			z-index: 100 !important;
 			opacity: .7 !important;
 			border-radius: 22px !important;
+			align-items: center;
+
+			&--right{
+				right: var(--default-grid-baseline) !important;
+			}
+
+			&--left{
+				left: var(--default-grid-baseline) !important;
+			}
 
 			.action-item.action-item--single {
 				width: 44px !important;

@@ -15,12 +15,13 @@
 				:value="value"
 				@input.prevent.stop="changeValue">
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
-			<div v-else>{{ value }}</div>
+			<div v-else :class="{'property-title__input__rtl':isRTL}">{{ value }}</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import { isRTL, getLanguage } from '@nextcloud/l10n'
 import focus from '../../../directives/focus.js'
 
 export default {
@@ -36,6 +37,11 @@ export default {
 		value: {
 			type: String,
 			default: '',
+		},
+	},
+	computed: {
+		isRTL() {
+			return isRTL(getLanguage())
 		},
 	},
 	methods: {
