@@ -227,7 +227,11 @@
 
 		&--readonly {
 			display: flex;
-			align-items: center;
+			align-items: flex-start;
+
+			& > *:not([align-self="center"]) {
+				align-self: flex-start !important;
+			}
 		}
 
 		&__icon {
@@ -258,21 +262,24 @@
 
 			&--readonly {
 				justify-content: start;
+				margin-top: var(--default-grid-baseline);
 
 				.property-title-time-picker-read-only-wrapper {
 					display: flex;
 					align-items: center;
-					padding: 8px 7px;
+					padding-left: 8px !important;
 					background-color: var(--color-main-background);
 					color: var(--color-main-text);
 					outline: none;
+					gap: var(--default-grid-baseline);
+					margin-bottom: var(--default-grid-baseline);
 
 					&--start-date {
-						padding-right: 0;
+						padding: 0;
 					}
 
 					&--end-date {
-						padding-left: 0;
+						padding: 0;
 					}
 
 					&__icon {
@@ -331,6 +338,14 @@
 		display: flex;
 		align-items: center;
 		min-height: 44px;
+
+		.v-select {
+			margin: 0;
+		}
+
+		.vs__dropdown-toggle {
+			width: 200px;
+		}
 
 		&__icon {
 			align-self: flex-start;
@@ -608,6 +623,11 @@
 
 		&--readonly {
 			margin-bottom: 0;
+			align-content: center;
+
+			& > *:not([align-self="flex-start"]) {
+				align-self: center !important;
+			}
 		}
 	}
 
@@ -650,7 +670,7 @@
 
 		&--readonly {
 			.property-text__icon {
-				padding-top: 10px;
+				padding-top: 0;
 			}
 		}
 
@@ -901,7 +921,7 @@
 	text-align: start;
 	// Account for avatar width (because it is position: relative)
 
-	padding-inline-end: 32px;	
+	padding-inline-end: 32px;
 
 	&__label {
 		width: 100%;

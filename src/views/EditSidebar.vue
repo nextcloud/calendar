@@ -76,8 +76,10 @@
 				:user-timezone="currentUserTimezone"
 				:append-to-body="true"
 				@update-start-date="updateStartDate"
+				@update-start-time="updateStartTime"
 				@update-start-timezone="updateStartTimezone"
 				@update-end-date="updateEndDate"
+				@update-end-time="updateEndTime"
 				@update-end-timezone="updateEndTimezone"
 				@toggle-all-day="toggleAllDay" />
 

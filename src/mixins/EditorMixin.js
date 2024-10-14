@@ -588,6 +588,18 @@ export default {
 			})
 		},
 		/**
+		 * Updates the start time of this event
+		 *
+		 * @param {Date} startDate New start time
+		 */
+		updateStartTime(startDate) {
+			this.calendarObjectInstanceStore.changeStartDate({
+				calendarObjectInstance: this.calendarObjectInstance,
+				startDate,
+				onlyTime: true,
+			})
+		},
+		/**
 		 * Updates the timezone of this event's start date
 		 *
 		 * @param {string} startTimezone New start timezone
@@ -608,9 +620,21 @@ export default {
 		 * @param {Date} endDate New end date
 		 */
 		updateEndDate(endDate) {
-			this.calendarObjectInstanceStore.changeEndDateMutation({
+			this.calendarObjectInstanceStore.changeEndDate({
 				calendarObjectInstance: this.calendarObjectInstance,
 				endDate,
+			})
+		},
+		/**
+		 * Updates the end time of this event
+		 *
+		 * @param {Date} endDate New end date
+		 */
+		updateEndTime(endDate) {
+			this.calendarObjectInstanceStore.changeEndDate({
+				calendarObjectInstance: this.calendarObjectInstance,
+				endDate,
+				onlyTime: true,
 			})
 		},
 		/**

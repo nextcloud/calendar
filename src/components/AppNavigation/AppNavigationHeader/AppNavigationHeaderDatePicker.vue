@@ -57,7 +57,7 @@ import {
 } from '../../../utils/date.js'
 import { mapState, mapStores } from 'pinia'
 import formatDateRange from '../../../filters/dateRangeFormat.js'
-import DatePicker from '../../Shared/DatePicker.vue'
+import DatePicker from '../../Shared/DatePickerOld.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import { NcButton } from '@nextcloud/vue'
