@@ -4,15 +4,15 @@
 -->
 
 <template>
-	<NcActions>
+	<NcActions :manual-open="true"
+		:open="isListOpen"
+		@click="isListOpen = !isListOpen">
 		<template #icon>
-			<NcTextField :value.sync="date">
-				<template #trailing-button-icon>
-					<ClockOutline/>
-				</template>
+			<NcTextField :value.sync="date" :error="isInvalidTime">
+				<ClockOutline/>
 			</NcTextField>
 		</template>
-		<NcActionButton v-for="time in timeList" :key="time" @click="change(parse(time))">
+		<NcActionButton v-for="time in timeList" :key="time" @click="changeFromList(parse(time))">
 			<template #icon></template>
 			{{ time }}
 		</NcActionButton>
@@ -43,10 +43,9 @@ export default {
 	data() {
 		return {
 			date: '',
+			isInvalidTime: false,
+			isListOpen: false,
 		}
-	},
-	mounted() {
-		this.date = this.stringify(this.initialDate)
 	},
 	computed: {
 		...mapState(useSettingsStore, {
@@ -76,13 +75,37 @@ export default {
 			return times
 		},
 	},
+	watch: {
+		date(value) {
+			let isValidTime = false
+			isValidTime = !isValidTime ? moment(value, 'LT', true).isValid() : isValidTime
+			isValidTime = !isValidTime ? moment(value, 'HH:mm', true).isValid() : isValidTime
+			isValidTime = !isValidTime ? moment(value, 'H:mm', true).isValid() : isValidTime
+
+			// Meaning it was changed through textfield
+			if (!(value instanceof Date) && isValidTime) {
+				this.isInvalidTime = false
+
+				const parsedDate = this.parse(value)
+				this.$emit('change', parsedDate)
+			} else if (!(value instanceof Date)) {
+				this.isInvalidTime = true
+			}
+		},
+	},
+	mounted() {
+		this.date = this.stringify(this.initialDate)
+	},
 	methods: {
 		/**
 		 * Emits a change event for the Date
 		 *
 		 * @param {Date} date The new Date object
 		 */
-		change(date) {
+		changeFromList(date) {
+			this.isInvalidTime = false
+			this.isListOpen = false
+
 			this.date = this.stringify(date)
 			this.$emit('change', date)
 		},
@@ -102,8 +125,26 @@ export default {
 		 * @return {Date}
 		 */
 		parse(value) {
-			return moment(value, 'LT', this.locale).toDate()
+			try {
+				return moment(value, 'LT', this.locale).toDate()
+			} catch (e) {
+				console.error(e)
+			}
 		},
 	},
 }
 </script>
+
+<style scoped>
+:deep(.action-button__icon) {
+	display: none;
+}
+
+:deep(.action-button__text) {
+	margin: 0 8px;
+}
+
+:deep(.input-field__icon--trailing) {
+	display: none;
+}
+</style>
