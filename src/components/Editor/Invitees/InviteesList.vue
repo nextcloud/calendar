@@ -255,8 +255,13 @@ export default {
 		alreadyInvitedEmails() {
 			const emails = this.invitees.map(attendee => removeMailtoPrefix(attendee.uri))
 
-			if (this.calendarObjectInstance.organizer.uri) {
-				emails.push(removeMailtoPrefix(this.calendarObjectInstance.organizer.uri))
+			// A user should be able to invite themselves if they are not the organizer
+			const principal = this.principalsStore.getCurrentUserPrincipal
+			const organizerUri = this.calendarObjectInstance.organizer?.uri
+			if (organizerUri) {
+				emails.push(removeMailtoPrefix(organizerUri))
+			} else if (principal) {
+				emails.push(principal.emailAddress)
 			}
 
 			return emails
