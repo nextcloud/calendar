@@ -522,7 +522,6 @@ export default {
 				this.showPreloader = true
 				if (!this.isPrivate()) {
 					this.showModalNewAttachments.map(async (attachment, i) => {
-						// console.log('Add share', attachment)
 						this.sharedProgress = Math.ceil(100 * (i + 1) / total)
 
 						// add share + change attachment
