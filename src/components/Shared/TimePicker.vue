@@ -4,62 +4,53 @@
 -->
 
 <template>
-	<DateTimePicker ::clearable="false"
-		:first-day-of-week="firstDay"
-		:format="format"
-		:lang="lang"
-		:minute-step="5"
-		:show-second="false"
-		type="time"
-		:use12h="showAmPm"
-		:value="date"
-		v-bind="$attrs"
-		v-on="$listeners"
-		@change="change" />
+	<NcActions :manual-open="true"
+		:open="isListOpen"
+		@click="isListOpen = !isListOpen">
+		<template #icon>
+			<NcTextField :value.sync="date" :error="isInvalidTime">
+				<ClockOutline/>
+			</NcTextField>
+		</template>
+		<NcActionButton v-for="time in timeList" :key="time" @click="changeFromList(parse(time))">
+			<template #icon></template>
+			{{ time }}
+		</NcActionButton>
+	</NcActions>
 </template>
 
 <script>
-import { NcDateTimePicker as DateTimePicker } from '@nextcloud/vue'
+import { NcActions, NcTextField, NcActionButton } from '@nextcloud/vue'
+import ClockOutline from 'vue-material-design-icons/ClockOutline.vue'
 import moment from '@nextcloud/moment'
 import { mapState } from 'pinia'
-import {
-	getFirstDay,
-} from '@nextcloud/l10n'
-import { getLangConfigForVue2DatePicker } from '../../utils/localization.js'
 import useSettingsStore from '../../store/settings.js'
 
 export default {
 	name: 'TimePicker',
 	components: {
-		DateTimePicker,
+		NcActions,
+		NcTextField,
+		NcActionButton,
+		ClockOutline,
 	},
 	props: {
-		date: {
+		initialDate: {
 			type: Date,
 			required: true,
 		},
 	},
 	data() {
 		return {
-			firstDay: getFirstDay() === 0 ? 7 : getFirstDay(),
-			format: {
-				stringify: this.stringify,
-				parse: this.parse,
-			},
+			date: '',
+			isInvalidTime: false,
+			isListOpen: false,
 		}
 	},
 	computed: {
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',
 		}),
-		/**
-		 * Returns the lang config for vue2-datepicker
-		 *
-		 * @return {object}
-		 */
-		lang() {
-			return getLangConfigForVue2DatePicker(this.locale)
-		},
 		/**
 		 * Whether or not to offer am/pm in the timepicker
 		 *
@@ -71,6 +62,39 @@ export default {
 
 			return timeFormat.indexOf('a') !== -1
 		},
+
+		timeList() {
+			const times = []
+			let currentTime = moment(this.initialDate)
+
+			for (let i = 0; i < 10; i++) {
+				times.push(currentTime.format('LT'))
+				currentTime = currentTime.add(15, 'minutes')
+			}
+
+			return times
+		},
+	},
+	watch: {
+		date(value) {
+			let isValidTime = false
+			isValidTime = !isValidTime ? moment(value, 'LT', true).isValid() : isValidTime
+			isValidTime = !isValidTime ? moment(value, 'HH:mm', true).isValid() : isValidTime
+			isValidTime = !isValidTime ? moment(value, 'H:mm', true).isValid() : isValidTime
+
+			// Meaning it was changed through textfield
+			if (!(value instanceof Date) && isValidTime) {
+				this.isInvalidTime = false
+
+				const parsedDate = this.parse(value)
+				this.$emit('change', parsedDate)
+			} else if (!(value instanceof Date)) {
+				this.isInvalidTime = true
+			}
+		},
+	},
+	mounted() {
+		this.date = this.stringify(this.initialDate)
 	},
 	methods: {
 		/**
@@ -78,7 +102,11 @@ export default {
 		 *
 		 * @param {Date} date The new Date object
 		 */
-		change(date) {
+		changeFromList(date) {
+			this.isInvalidTime = false
+			this.isListOpen = false
+
+			this.date = this.stringify(date)
 			this.$emit('change', date)
 		},
 		/**
@@ -97,8 +125,26 @@ export default {
 		 * @return {Date}
 		 */
 		parse(value) {
-			return moment(value, 'LT', this.locale).toDate()
+			try {
+				return moment(value, 'LT', this.locale).toDate()
+			} catch (e) {
+				console.error(e)
+			}
 		},
 	},
 }
 </script>
+
+<style scoped>
+:deep(.action-button__icon) {
+	display: none;
+}
+
+:deep(.action-button__text) {
+	margin: 0 8px;
+}
+
+:deep(.input-field__icon--trailing) {
+	display: none;
+}
+</style>

@@ -30,6 +30,7 @@
 				@change="changeEnd"
 				@change-timezone="changeEndTimezone" />
 		</div>
+		<TimePicker :initial-date="startDate" />
 		<div v-if="isReadOnly"
 			class="property-title-time-picker__time-pickers property-title-time-picker__time-pickers--readonly">
 			<div class="property-title-time-picker-read-only-wrapper property-title-time-picker-read-only-wrapper--start-date">
@@ -68,6 +69,7 @@
 <script>
 import moment from '@nextcloud/moment'
 import DatePicker from '../../Shared/DatePicker.vue'
+import TimePicker from '../../Shared/TimePicker.vue'
 import IconTimezone from 'vue-material-design-icons/Web.vue'
 import CalendarIcon from 'vue-material-design-icons/Calendar.vue'
 import { NcCheckboxRadioSwitch } from '@nextcloud/vue'
@@ -78,6 +80,7 @@ export default {
 	name: 'PropertyTitleTimePicker',
 	components: {
 		DatePicker,
+		TimePicker,
 		IconTimezone,
 		CalendarIcon,
 		NcCheckboxRadioSwitch,
@@ -280,3 +283,9 @@ export default {
 	},
 }
 </script>
+
+<style scoped>
+:deep(.button-vue--icon-only), :deep(.button-vue__icon) {
+	width: 7rem !important;
+}
+</style>
