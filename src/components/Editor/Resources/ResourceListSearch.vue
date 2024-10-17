@@ -27,7 +27,7 @@
 			@search="findResources"
 			@input="addResource">
 			<template #option="option">
-				<div class="resource-search-list-item">
+				<div :class="listItemClasses">
 					<Avatar :disable-tooltip="true"
 						:display-name="option.displayName" />
 					<div class="resource-search-list-item__label resource-search-list-item__label--single-email">
@@ -87,6 +87,7 @@ import ResourceRoomType from './ResourceRoomType.vue'
 import usePrincipalsStore from '../../../store/principals.js'
 import { mapStores } from 'pinia'
 import RoomAvailabilityList from '../FreeBusy/RoomAvailabilityList.vue'
+import { getLanguage, isRTL } from '@nextcloud/l10n'
 export default {
 	name: 'ResourceListSearch',
 	components: {
@@ -144,6 +145,13 @@ export default {
 				features.push('WHITEBOARD')
 			}
 			return features
+		},
+		listItemClasses() {
+			return {
+				'resource-search-list-item': true,
+				'resource-search-list-item--rtl': isRTL(getLanguage()),
+				'resource-search-list-item--ltr': !isRTL(getLanguage()),
+			}
 		},
 	},
 	methods: {
