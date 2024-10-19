@@ -11,6 +11,7 @@ namespace OCA\Calendar\Db;
 
 use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 use ReturnTypeWillChange;
 use function json_decode;
 use function json_encode;
@@ -122,16 +123,16 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 	public const VISIBILITY_PRIVATE = 'PRIVATE';
 
 	public function __construct() {
-		$this->addType('start', 'int');
-		$this->addType('end', 'int');
-		$this->addType('length', 'int');
-		$this->addType('increment', 'int');
-		$this->addType('preparationDuration', 'int');
-		$this->addType('followupDuration', 'int');
-		$this->addType('timeBeforeNextSlot', 'int');
-		$this->addType('dailyMax', 'int');
-		$this->addType('futureLimit', 'int');
-		$this->addType('createTalkRoom', 'boolean');
+		$this->addType('start', Types::INTEGER);
+		$this->addType('end', Types::INTEGER);
+		$this->addType('length', Types::INTEGER);
+		$this->addType('increment', Types::INTEGER);
+		$this->addType('preparationDuration', Types::INTEGER);
+		$this->addType('followupDuration', Types::INTEGER);
+		$this->addType('timeBeforeNextSlot', Types::INTEGER);
+		$this->addType('dailyMax', Types::INTEGER);
+		$this->addType('futureLimit', Types::INTEGER);
+		$this->addType('createTalkRoom', Types::BOOLEAN);
 	}
 
 	/**
