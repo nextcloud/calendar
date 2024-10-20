@@ -4,73 +4,20 @@
 -->
 
 <template>
-	<DateTimePicker :lang="lang"
-		:first-day-of-week="firstDay"
-		:format="'YYYY-MM-DD HH:mm'"
-		:formatter="formatter"
+	<DateTimePicker id="date-time-picker-input"
+		:min="min"
+		:max="max"
 		:value="date"
-		:type="actualType"
-		:clearable="false"
-		:minute-step="5"
-		:disabled-date="disabledDate"
-		:show-second="false"
-		:show-time-panel="showTimePanel"
-		:show-week-number="showWeekNumbers"
-		:use12h="showAmPm"
-		:append-to-body="appendToBody"
-		v-bind="$attrs"
-		confirm
+		type="date"
 		class="date-time-picker"
-		v-on="$listeners"
-		@close="close"
-		@change="change"
-		@pick="pickDate">
-		<template #icon-calendar>
-			<IconNewCalendar v-if="isAllDay" :size="20" class="date-time-picker__icon" />
-			<NcPopover v-else open-class="timezone-popover-wrapper">
-				<template #trigger>
-					<NcButton type="tertiary-no-background"
-						:aria-label="t('calendar', 'Select a time zone')"
-						@mousedown="(e) => e.stopPropagation()">
-						<template #icon>
-							<IconTimezone :size="20"
-								class="date-time-picker__icon"
-								:class="{ 'date-time-picker__icon--highlight': highlightTimezone }" />
-						</template>
-					</NcButton>
-				</template>
-				<template>
-					<div class="timezone-popover-wrapper__title">
-						<strong>
-							{{ $t('calendar', 'Please select a time zone:') }}
-						</strong>
-					</div>
-					<TimezonePicker class="timezone-popover-wrapper__timezone-select"
-						:value="timezoneId"
-						@input="changeTimezone" />
-				</template>
-			</NcPopover>
-		</template>
-		<template v-if="!isAllDay"
-			#footer>
-			<NcButton v-if="!showTimePanel"
-				class="mx-btn mx-btn-text"
-				@click="toggleTimePanel">
-				{{ $t('calendar', 'Pick a time') }}
-			</NcButton>
-			<NcButton v-else
-				class="mx-btn mx-btn-text"
-				@click="toggleTimePanel">
-				{{ $t('calendar', 'Pick a date') }}
-			</NcButton>
-		</template>
-	</DateTimePicker>
+		@input="change"
+		@pick="pickDate" />
 </template>
 
 <script>
 import {
 	NcButton,
-	NcDateTimePicker as DateTimePicker,
+	NcDateTimePickerNative as DateTimePicker,
 	NcPopover,
 	NcTimezonePicker as TimezonePicker,
 } from '@nextcloud/vue'
@@ -176,19 +123,6 @@ export default {
 			return this.timezoneId !== this.userTimezoneId
 		},
 		/**
-		 * Type of the DatePicker.
-		 * Ether date if allDay or datetime
-		 *
-		 * @return {string}
-		 */
-		actualType() {
-			if (this.type === 'datetime' && this.isAllDay) {
-				return 'date'
-			}
-
-			return this.type
-		},
-		/**
 		 * The earliest date a user is allowed to pick in the timezone
 		 *
 		 * @return {Date}
@@ -244,13 +178,6 @@ export default {
 		 */
 		changeTimezone(timezoneId) {
 			this.$emit('change-timezone', timezoneId)
-		},
-		/**
-		 * Reset to time-panel on close of datepicker
-		 */
-		close() {
-			this.showTimePanel = true
-			this.$emit('close')
 		},
 		/**
 		 * Toggles the time-picker
