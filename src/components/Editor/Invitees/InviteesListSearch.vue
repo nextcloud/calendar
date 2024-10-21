@@ -37,10 +37,10 @@
 					<div>
 						{{ option.commonName }}
 					</div>
-					<div v-if="option.email !== option.commonName && option.type !== 'circle'">
+					<div v-if="option.email !== option.commonName && option.type !== 'circle' && option.type !== 'contactsgroup'">
 						{{ option.email }}
 					</div>
-					<div v-if="option.type === 'circle'">
+					<div v-if="option.type === 'circle' || option.type === 'contactsgroup'">
 						{{ option.subtitle }}
 					</div>
 				</div>
@@ -161,6 +161,21 @@ export default {
 				showInfo(this.$t('calendar', 'Note that members of circles get invited but are not synced yet.'))
 				this.resolveCircleMembers(selectedValue.id, selectedValue.email)
 			}
+			if (selectedValue.type === 'contactsgroup') {
+				showInfo(this.$t('calendar', 'Note that members of contact groups get invited but are not synced yet.'))
+				this.getContactGroupMembers(selectedValue.commonName)
+				let group = {
+					calendarUserType: 'GROUP',
+					commonName: selectedValue.commonName,
+					dropdownName: selectedValue.dropdownName,
+					email: selectedValue.email,
+					isUser: false,
+					subtitle: selectedValue.subtitle,
+					type: 'contactsgroup',
+				}
+				this.$emit('add-attendee', group)
+				return
+			}
 			this.$emit('add-attendee', selectedValue)
 		},
 		async resolveCircleMembers(circleId, groupId) {
@@ -174,6 +189,23 @@ export default {
 				console.debug(error)
 				return []
 			}
+			results.data.forEach((member) => {
+				if (!this.organizer || member.email !== this.organizer.uri) {
+					this.$emit('add-attendee', member)
+				}
+			})
+		},
+		async getContactGroupMembers(groupName) {
+			let results
+			try {
+				results = await HttpClient.post(linkTo('calendar', 'index.php') + '/v1/autocompletion/groupmembers', {
+					groupName,
+				})
+			} catch (error) {
+				console.debug(error)
+				return []
+			}
+
 			results.data.forEach((member) => {
 				if (!this.organizer || member.email !== this.organizer.uri) {
 					this.$emit('add-attendee', member)
@@ -207,6 +239,24 @@ export default {
 					}
 
 					if (email && this.alreadyInvitedEmails.includes(email)) {
+						return
+					}
+
+					if(result.type === 'contactsgroup') {
+						arr.push({
+							calendarUserType: 'GROUP',
+							commonName: result.name,
+							subtitle: this.$n('calendar', '%n member', '%n members', result.members),
+							members: {length: result.members},
+							email,
+							isUser: false,
+							avatar: result.photo,
+							language: result.lang,
+							timezoneId: result.tzid,
+							hasMultipleEMails: false,
+							dropdownName: name,
+							type: 'contactsgroup',
+						})
 						return
 					}
 
@@ -246,7 +296,7 @@ export default {
 
 				// We do not support GROUPS for now
 				if (principal.calendarUserType === 'GROUP') {
-					return false
+					console.debug(principal)
 				}
 
 				// Do not include resources and rooms
