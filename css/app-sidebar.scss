@@ -899,8 +899,14 @@
 	align-items: center;
 	width: 100%;
 
+	&--rtl{
+		text-align: right;
+	}
 	// Account for avatar width (because it is position: relative)
-	padding-right: 32px;
+	&--ltr{
+		padding-right: 32px;
+	}
+	
 
 	&__label {
 		width: 100%;
