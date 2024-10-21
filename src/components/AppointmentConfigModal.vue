@@ -38,7 +38,7 @@
 								<label>{{ t('calendar', 'Calendar') }}</label>
 								<CalendarPicker v-if="calendar !== undefined"
 									:value="calendar"
-									:calendars="ownSortedCalendars"
+									:calendars="sortedCalendars"
 									:show-calendar-on-select="false"
 									@select-calendar="changeCalendar" />
 							</div>
@@ -195,7 +195,7 @@ export default {
 		...mapState(useSettingsStore, {
 			isTalkEnabled: 'talkEnabled',
 		}),
-		...mapState(useCalendarsStore, ['ownSortedCalendars']),
+		...mapState(useCalendarsStore, ['sortedCalendars']),
 		...mapStores(useAppointmentConfigsStore, useCalendarsStore, useSettingsStore),
 		formTitle() {
 			if (this.isNew) {
@@ -213,26 +213,26 @@ export default {
 		},
 		calendar() {
 			if (!this.editing.targetCalendarUri) {
-				return this.ownSortedCalendars[0]
+				return this.sortedCalendars[0]
 			}
 
 			const uri = this.editing.targetCalendarUri
-			const calendar = this.ownSortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
-			return calendar || this.ownSortedCalendars[0]
+			const calendar = this.sortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
+			return calendar || this.sortedCalendars[0]
 		},
 		selectableConflictCalendars() {
 			// The target calendar is always a conflict calendar, remove it from additional conflict calendars
-			return this.ownSortedCalendars.filter(calendar => calendar.url !== this.calendar.url)
+			return this.sortedCalendars.filter(calendar => calendar.url !== this.calendar.url)
 		},
 		conflictCalendars() {
 			const freebusyUris = this.editing.calendarFreeBusyUris ?? []
 			return freebusyUris.map(uri => {
-				return this.ownSortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
+				return this.sortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
 			})
 		},
 		defaultConfig() {
 			return AppointmentConfig.createDefault(
-				this.calendarUrlToUri(this.ownSortedCalendars[0].url),
+				this.calendarUrlToUri(this.sortedCalendars[0].url),
 				this.calendarsStore.scheduleInbox,
 				this.settingsStore.getResolvedTimezone,
 			)
