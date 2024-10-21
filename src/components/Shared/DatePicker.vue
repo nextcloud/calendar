@@ -5,65 +5,34 @@
 
 <template>
 	<DateTimePicker id="date-time-picker-input"
-		:min="min"
-		:max="max"
+		:min="minimumDate"
+		:max="maximumDate"
 		:value="date"
+		label=""
 		type="date"
 		class="date-time-picker"
-		@input="change"
-		@pick="pickDate" />
+		@input="change" />
 </template>
 
 <script>
 import {
-	NcButton,
 	NcDateTimePickerNative as DateTimePicker,
-	NcPopover,
-	NcTimezonePicker as TimezonePicker,
 } from '@nextcloud/vue'
-import IconTimezone from 'vue-material-design-icons/Web.vue'
-import IconNewCalendar from 'vue-material-design-icons/CalendarBlankOutline.vue'
-import {
-	getFirstDay,
-} from '@nextcloud/l10n'
-import moment from '@nextcloud/moment'
-import { mapStores, mapState } from 'pinia'
-import {
-	showError,
-} from '@nextcloud/dialogs'
+import { mapStores } from 'pinia'
 
-import { getLangConfigForVue2DatePicker } from '../../utils/localization.js'
-import useSettingsStore from '../../store/settings.js'
 import useDavRestrictionsStore from '../../store/davRestrictions.js'
 
 export default {
 	name: 'DatePicker',
 	components: {
-		NcButton,
 		DateTimePicker,
-		NcPopover,
-		TimezonePicker,
-	  IconTimezone,
-	  IconNewCalendar,
 	},
 	props: {
 		date: {
 			type: Date,
 			required: true,
 		},
-		timezoneId: {
-			type: String,
-			default: 'floating',
-		},
 		prefix: {
-			type: String,
-			default: null,
-		},
-		isAllDay: {
-			type: Boolean,
-			required: true,
-		},
-		userTimezoneId: {
 			type: String,
 			default: null,
 		},
@@ -75,53 +44,9 @@ export default {
 			type: Date,
 			default: null,
 		},
-		appendToBody: {
-			type: Boolean,
-			default: false,
-		},
-		type: {
-			type: String,
-			default: 'datetime',
-		},
-	},
-	data() {
-		return {
-			firstDay: getFirstDay() === 0 ? 7 : getFirstDay(),
-			formatter: {
-				stringify: this.stringify,
-				parse: this.parse,
-			},
-			showTimePanel: true,
-		}
 	},
 	computed: {
 		...mapStores(useDavRestrictionsStore),
-		...mapState(useSettingsStore, {
-			locale: 'momentLocale',
-			showWeekNumbers: 'showWeekNumbers',
-		}),
-		/**
-		 * Returns the lang config for vue2-datepicker
-		 *
-		 * @return {object}
-		 */
-		lang() {
-			return getLangConfigForVue2DatePicker(this.locale)
-		},
-		/**
-		 * Whether or not to highlight the timezone-icon.
-		 * The icon is highlighted when the selected timezone
-		 * does not equal the current user's timezone
-		 *
-		 * @return {boolean}
-		 */
-		highlightTimezone() {
-			if (this.isAllDay) {
-				return true
-			}
-
-			return this.timezoneId !== this.userTimezoneId
-		},
 		/**
 		 * The earliest date a user is allowed to pick in the timezone
 		 *
@@ -138,17 +63,6 @@ export default {
 		maximumDate() {
 			return this.max || new Date(this.davRestrictionsStore.maximumDate)
 		},
-		/**
-		 * Whether or not to offer am/pm in the timepicker
-		 *
-		 * @return {boolean}
-		 */
-		showAmPm() {
-			const localeData = moment().locale(this.locale).localeData()
-			const timeFormat = localeData.longDateFormat('LT').toLowerCase()
-
-			return timeFormat.indexOf('a') !== -1
-		},
 	},
 	methods: {
 		/**
@@ -157,163 +71,11 @@ export default {
 		 * @param {Date} date The new Date object
 		 */
 		change(date) {
+			if (this.disabledDate(date)) {
+				return
+			}
+
 			this.$emit('change', date)
-		},
-		/**
-		 * Changes the view to time-picker,
-		 * when user picked a date and date-time-picker is not all-day
-		 *
-		 * @param {Date} date The selected Date object
-		 * @param {string} type The type of selected date (Date, Time, ...)
-		 */
-		pickDate(date, type) {
-			if (!this.isAllDay && type === 'date') {
-				this.showTimePanel = true
-			}
-		},
-		/**
-		 * Emits a change event for the Timezone
-		 *
-		 * @param {string} timezoneId The new timezoneId
-		 */
-		changeTimezone(timezoneId) {
-			this.$emit('change-timezone', timezoneId)
-		},
-		/**
-		 * Toggles the time-picker
-		 */
-		toggleTimePanel() {
-			this.showTimePanel = !this.showTimePanel
-		},
-		/**
-		 * Formats the date string
-		 *
-		 * @param {Date} date The date for format
-		 * @return {string}
-		 */
-		stringify(date) {
-			const formattedDate = moment(date).locale(this.locale).format('L')
-			const formattedTime = moment(date).locale(this.locale).format('LT')
-
-			if (this.isAllDay) {
-				switch (this.prefix) {
-				case 'from':
-					return this.$t('calendar', 'from {formattedDate}', { formattedDate })
-
-				case 'to':
-					return this.$t('calendar', 'to {formattedDate}', { formattedDate })
-
-				case 'on':
-					return this.$t('calendar', 'on {formattedDate}', { formattedDate })
-
-				default:
-					return formattedDate
-				}
-			} else {
-				switch (this.prefix) {
-				case 'from':
-					return this.$t('calendar', 'from {formattedDate} at {formattedTime}', { formattedDate, formattedTime })
-
-				case 'to':
-					return this.$t('calendar', 'to {formattedDate} at {formattedTime}', { formattedDate, formattedTime })
-
-				case 'on':
-					return this.$t('calendar', 'on {formattedDate} at {formattedTime}', { formattedDate, formattedTime })
-
-				default:
-					return this.$t('calendar', '{formattedDate} at {formattedTime}', { formattedDate, formattedTime })
-				}
-			}
-		},
-		/**
-		 * Parses the user input from the input field
-		 *
-		 * @param {string} value The user-input to be parsed
-		 * @return {Date}
-		 */
-		parse(value) {
-			if (this.isAllDay) {
-				let format
-
-				switch (this.prefix) {
-				case 'from':
-					format = this.$t('calendar', 'from {formattedDate}')
-					break
-
-				case 'to':
-					format = this.$t('calendar', 'to {formattedDate}')
-					break
-
-				case 'on':
-					format = this.$t('calendar', 'on {formattedDate}')
-					break
-
-				default:
-					format = '{formattedDate}'
-					break
-				}
-
-				const regexString = format
-					.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
-					.replace(/(?:^|\\})([^{}]+)(?:$|\\{)/g, (fullMatch, groupMatch) => {
-						return fullMatch.replace(groupMatch, '(?:' + groupMatch + ')?')
-					})
-					.replace('\\{formattedDate\\}', '(.*)')
-				const regex = new RegExp(regexString)
-				const matches = value.match(regex)
-
-				if (!matches) {
-					showError(this.$t('calendar', 'Please enter a valid date'))
-					// Just return the previous date
-					return this.date
-				}
-
-				return moment(matches[1], 'L', this.locale).toDate()
-			} else {
-				let format
-
-				switch (this.prefix) {
-				case 'from':
-					format = this.$t('calendar', 'from {formattedDate} at {formattedTime}')
-					break
-
-				case 'to':
-					format = this.$t('calendar', 'to {formattedDate} at {formattedTime}')
-					break
-
-				case 'on':
-					format = this.$t('calendar', 'on {formattedDate} at {formattedTime}')
-					break
-
-				default:
-					format = this.$t('calendar', '{formattedDate} at {formattedTime}')
-					break
-				}
-
-				const escapedFormat = format
-					.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
-					.replace(/(?:^|\\})([^{}]+)(?:$|\\{)/g, (fullMatch, groupMatch) => {
-						return fullMatch.replace(groupMatch, '(?:' + groupMatch + ')?')
-					})
-				const dateRegexString = escapedFormat
-					.replace('\\{formattedDate\\}', '(.*)')
-					.replace('\\{formattedTime\\}', '.*')
-				const dateRegex = new RegExp(dateRegexString)
-				const timeRegexString = escapedFormat
-					.replace('\\{formattedDate\\}', '.*')
-					.replace('\\{formattedTime\\}', '(.*)')
-				const timeRegex = new RegExp(timeRegexString)
-				const dateMatches = value.match(dateRegex)
-				const timeMatches = value.match(timeRegex)
-
-				if (!dateMatches || !timeMatches) {
-					showError(this.$t('calendar', 'Please enter a valid date and time'))
-					// Just return the previous date
-					return this.date
-				}
-
-				return moment(dateMatches[1] + ' ' + timeMatches[1], 'L LT', this.locale).toDate()
-			}
 		},
 		/**
 		 * Whether or not the date is acceptable
@@ -327,20 +89,3 @@ export default {
 	},
 }
 </script>
-
-<style lang="scss" scoped>
-.date-time-picker {
-	&__icon {
-		opacity: 0.7;
-
-		&--highlight {
-			opacity: 1;
-		}
-	}
-
-	:deep(.multiselect__content-wrapper) {
-		border: none !important;
-		position: relative !important;
-	}
-}
-</style>
