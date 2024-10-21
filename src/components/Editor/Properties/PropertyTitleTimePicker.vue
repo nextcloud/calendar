@@ -12,24 +12,23 @@
 
 		<div v-if="!isReadOnly"
 			class="property-title-time-picker__time-pickers">
-			<DatePicker :date="startDate"
-				:timezone-id="startTimezone"
-				prefix="from"
-				:is-all-day="isAllDay"
-				:append-to-body="appendToBody"
-				:user-timezone-id="userTimezone"
-				@change="changeStart"
-				@change-timezone="changeStartTimezone" />
+			<div class="property-title-time-picker__time-pickers-from">
+				<DatePicker :date="startDate"
+					prefix="from"
+					@change="changeStart" />
+				<TimePicker :initial-date="startDate" />
+				<NcTimezonePicker :value="startTimezone" @input="changeStartTimezone" />
+			</div>
 
-			<DatePicker :date="endDate"
-				:timezone-id="endTimezone"
-				prefix="to"
-				:is-all-day="isAllDay"
-				:append-to-body="appendToBody"
-				:user-timezone-id="userTimezone"
-				@change="changeEnd"
-				@change-timezone="changeEndTimezone" />
+			<div class="property-title-time-picker__time-pickers-to">
+				<DatePicker :date="endDate"
+					prefix="from"
+					@change="changeEnd" />
+				<TimePicker :initial-date="endDate" />
+				<NcTimezonePicker :value="endTimezone" @input="changeEndTimezone" />
+			</div>
 		</div>
+		<TimePicker :initial-date="startDate" />
 		<div v-if="isReadOnly"
 			class="property-title-time-picker__time-pickers property-title-time-picker__time-pickers--readonly">
 			<div class="property-title-time-picker-read-only-wrapper property-title-time-picker-read-only-wrapper--start-date">
@@ -68,9 +67,10 @@
 <script>
 import moment from '@nextcloud/moment'
 import DatePicker from '../../Shared/DatePicker.vue'
+import TimePicker from '../../Shared/TimePicker.vue'
 import IconTimezone from 'vue-material-design-icons/Web.vue'
 import CalendarIcon from 'vue-material-design-icons/Calendar.vue'
-import { NcCheckboxRadioSwitch } from '@nextcloud/vue'
+import { NcCheckboxRadioSwitch, NcTimezonePicker } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import useSettingsStore from '../../../store/settings.js'
 
@@ -78,9 +78,11 @@ export default {
 	name: 'PropertyTitleTimePicker',
 	components: {
 		DatePicker,
+		TimePicker,
 		IconTimezone,
 		CalendarIcon,
 		NcCheckboxRadioSwitch,
+		NcTimezonePicker,
 	},
 	props: {
 		/**
@@ -280,3 +282,36 @@ export default {
 	},
 }
 </script>
+
+<style scoped>
+:deep(.button-vue--icon-only), :deep(.button-vue__icon) {
+	width: 7rem !important;
+}
+
+.property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--default-grid-baseline);
+
+	:deep(input) {
+		max-width: 10rem;
+	}
+
+	.native-datetime-picker {
+		display: inline-block;
+	}
+
+}
+
+/* Needed because the timezone picker has old styling */
+:deep(.vs__dropdown-toggle), :deep(.v-select) {
+	height: var(--default-clickable-area);
+	overflow-y: clip !important;
+	max-width: 200px;
+	min-width: 200px !important;
+}
+
+:deep(button.vs__open-indicator-button) {
+	padding: 0 !important;
+}
+</style>
