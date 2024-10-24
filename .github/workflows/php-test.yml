@@ -10,6 +10,9 @@ jobs:
       matrix:
         php-versions: [ '8.1', '8.2', '8.3' ]
         nextcloud-versions: [ 'master', 'stable30' ]
+        include:
+          - php-versions: '8.4'
+            nextcloud-versions: 'master'
     name: php${{ matrix.php-versions }} on ${{ matrix.nextcloud-versions }} unit tests
     env:
       CI: true
@@ -24,7 +27,7 @@ jobs:
     - name: Checkout Nextcloud
       run: git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b ${{ matrix.nextcloud-versions }} nextcloud
     - name: Patch version check for nightly PHP
-      if: ${{ matrix.php-versions == '8.2' }}
+      if: ${{ matrix.php-versions == '8.4' }}
       run: echo "<?php" > nextcloud/lib/versioncheck.php
     - name: Install Nextcloud
       run: php -f nextcloud/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
@@ -54,6 +57,9 @@ jobs:
       matrix:
         php-versions: [ '8.1', '8.2', '8.3' ]
         nextcloud-versions: [ 'master', 'stable30' ]
+        include:
+          - php-versions: '8.4'
+            nextcloud-versions: 'master'
     name: php${{ matrix.php-versions }} on ${{ matrix.nextcloud-versions }} integration tests
     env:
       CI: true
@@ -68,7 +74,7 @@ jobs:
       - name: Checkout Nextcloud
         run: git clone https://github.com/nextcloud/server.git --recursive --depth 1 -b ${{ matrix.nextcloud-versions }} nextcloud
       - name: Patch version check for nightly PHP
-        if: ${{ matrix.php-versions == '8.2' }}
+        if: ${{ matrix.php-versions == '8.4' }}
         run: echo "<?php" > nextcloud/lib/versioncheck.php
       - name: Install Nextcloud
         run: php -f nextcloud/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
