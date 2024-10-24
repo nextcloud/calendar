@@ -6,14 +6,16 @@
 <template>
 	<div class="datepicker-button-section">
 		<NcButton v-if="!isWidget"
-			v-shortkey="previousShortKeyConf"
-			:aria-label="previousLabel"
-			class="datepicker-button-section__previous button"
-			:name="previousLabel"
-			@click="navigateToPreviousTimeRange"
-			@shortkey="navigateToPreviousTimeRange">
+			v-shortkey="isRTL? nextShortKeyConf : previousShortKeyConf"
+			:aria-label="isRTL? nextLabel: previousLabel"
+			class="button"
+			:class="{'datepicker-button-section__right': isRTL , 'datepicker-button-section__left': !isRTL}"
+			:name="isRTL? nextLabel: previousLabel"
+			@click="navigateToLeftTimeRange"
+			@shortkey="navigateToLeftTimeRange">
 			<template #icon>
-				<ChevronLeftIcon :size="22" />
+				<ChevronRightIcon v-if="isRTL" :size="22" />
+				<ChevronLeftIcon v-else :size="22" />
 			</template>
 		</NcButton>
 		<NcButton v-if="!isWidget"
@@ -32,14 +34,16 @@
 			:type="view === 'multiMonthYear' ? 'year' : 'date'"
 			@change="navigateToDate" />
 		<NcButton v-if="!isWidget"
-			v-shortkey="nextShortKeyConf"
-			:aria-label="nextLabel"
-			class="datepicker-button-section__next button"
-			:name="nextLabel"
-			@click="navigateToNextTimeRange"
-			@shortkey="navigateToNextTimeRange">
+			v-shortkey="isRTL? previousShortKeyConf : nextShortKeyConf "
+			:aria-label="isRTL? previousLabel: nextLabel"
+			class="button"
+			:class="{'datepicker-button-section__right': !isRTL , 'datepicker-button-section__left': isRTL}"
+			:name="isRTL? previousLabel: nextLabel"
+			@click="navigateToRightTimeRange"
+			@shortkey="navigateToRightTimeRange">
 			<template #icon>
-				<ChevronRightIcon :size="22" />
+				<ChevronLeftIcon v-if="isRTL" :size="22" />
+				<ChevronRightIcon v-else :size="22" />
 			</template>
 		</NcButton>
 	</div>
@@ -59,6 +63,7 @@ import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import { NcButton } from '@nextcloud/vue'
 import useSettingsStore from '../../../store/settings.js'
 import useWidgetStore from '../../../store/widget.js'
+import { isRTL } from '@nextcloud/l10n'
 
 export default {
 	name: 'AppNavigationHeaderDatePicker',
@@ -87,6 +92,9 @@ export default {
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',
 		}),
+		isRTL() {
+			return isRTL()
+		},
 		selectedDate() {
 			if (this.isWidget) {
 				return getDateFromFirstdayParam(this.widgetStore.widgetDate)
@@ -145,10 +153,10 @@ export default {
 		},
 	},
 	methods: {
-		navigateToPreviousTimeRange() {
+		navigateToLeftTimeRange() {
 			return this.navigateTimeRangeByFactor(-1)
 		},
-		navigateToNextTimeRange() {
+		navigateToRightTimeRange() {
 			return this.navigateTimeRangeByFactor(1)
 		},
 		navigateTimeRangeByFactor(factor) {
