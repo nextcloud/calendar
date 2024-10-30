@@ -3,28 +3,38 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<Modal size="large"
-		@close="$emit('close')">
-		<div class="booking-appointment-details">
-			<div class="booking-details">
-				<Avatar :user="userInfo.uid"
-					:display-name="userInfo.displayName"
-					:disable-tooltip="true"
-					:disable-menu="true"
-					:size="128" />
-				<div class="booking__display-name">
-					<strong>{{ userInfo.displayName }}</strong>
-				</div>
-				<h2 class="booking__name">
-					{{ config.name }}
-				</h2>
-				<div class="booking__time">
-					{{ date }} {{ startTime }} - {{ endTime }}
-				</div>
-				<!-- Description needs to stay inline due to its whitespace -->
-				<span class="booking__description">{{ config.description }}</span>
+	<div class="booking-appointment-details">
+		<div class="booking-details">
+			<Avatar :user="userInfo.uid"
+				:display-name="userInfo.displayName"
+				:disable-tooltip="true"
+				:disable-menu="true"
+				:size="44" />
+			<div class="booking__display-name">
+				<strong>{{ userInfo.displayName }}</strong>
 			</div>
-			<div class="appointment-details">
+			<h3 class="booking__name">
+				{{ config.name }}
+			</h3>
+			<!-- Description needs to stay inline due to its whitespace -->
+			<div class="booking__description">
+				{{ config.description }}
+			</div>
+			<div class="booking__date">
+				<IconCalendar :size="16" />
+				{{ date }}
+			</div>
+			<div class="booking__time">
+				<IconTime :size="16" />
+				{{ startTime }} - {{ endTime }}
+			</div>
+			<div class="booking__time">
+				<IconTimezone :size="16" />
+				{{ timeZone }}
+			</div>
+		</div>
+		<div class="appointment-details">
+			<div class="name-details">
 				<div>
 					{{ $t('calendar', 'Your name') }}
 				</div>
@@ -34,6 +44,8 @@
 					class="no-close"
 					required
 					:disabled="isLoading">
+			</div>
+			<div class="email-details">
 				<div>
 					{{ $t('calendar', 'Your email address') }}
 				</div>
@@ -45,46 +57,58 @@
 					autocorrect="off"
 					:disabled="isLoading"
 					required>
-				<div class="meeting-info">
-					{{ $t('calendar', 'Please share anything that will help prepare for our meeting') }}
-					<div class="meeting-text">
-						<textarea id="biography"
-							v-model="description"
-							v-autosize="true"
-							rows="8"
-							autocapitalize="none"
-							autocomplete="off"
-							:disabled="isLoading" />
-					</div>
-				</div>
-				<NcNoteCard v-if="showRateLimitingWarning"
-					type="warning">
-					{{ $t('calendar', 'It seems a rate limit has been reached. Please try again later.') }}
-				</NcNoteCard>
-				<NcNoteCard v-if="showError"
-					type="error">
-					{{ $t('calendar', 'Could not book the appointment. Please try again later or contact the organizer.') }}
-				</NcNoteCard>
-				<div class="buttons">
-					<NcLoadingIcon v-if="isLoading" :size="32" class="loading-icon" />
-					<NcButton type="primary" :disabled="isLoading" @click="save">
-						{{ $t('calendar', 'Book the appointment') }}
-					</NcButton>
+			</div>
+			<div class="meeting-info">
+				{{ $t('calendar', 'Please share anything that will help prepare for our meeting') }}
+				<div class="meeting-text">
+					<textarea id="biography"
+						v-model="description"
+						v-autosize="true"
+						rows="8"
+						autocapitalize="none"
+						autocomplete="off"
+						:disabled="isLoading" />
 				</div>
 			</div>
+			<NcNoteCard v-if="showRateLimitingWarning"
+				type="warning">
+				{{ $t('calendar', 'It seems a rate limit has been reached. Please try again later.') }}
+			</NcNoteCard>
+			<NcNoteCard v-if="showError"
+				type="error">
+				{{ $t('calendar', 'Could not book the appointment. Please try again later or contact the organizer.') }}
+			</NcNoteCard>
 		</div>
-	</Modal>
+		<div class="buttons">
+			<NcButton type="tertiary" @click="$emit('go-back')">
+				<template #icon>
+					<IconBack :size="16" />
+				</template>
+				{{ $t('calendar', 'Back') }}
+			</NcButton>
+			<NcLoadingIcon v-if="isLoading" :size="32" class="loading-icon" />
+			<NcButton type="primary" :disabled="isLoading" @click="save">
+				<template #icon>
+					<IconCheck :size="16" />
+				</template>
+				{{ $t('calendar', 'Book appointment') }}
+			</NcButton>
+		</div>
+	</div>
 </template>
 <script>
 import {
 	NcAvatar as Avatar,
 	NcButton,
 	NcLoadingIcon,
-	NcModal as Modal,
 	NcNoteCard,
 } from '@nextcloud/vue'
 import autosize from '../../directives/autosize.js'
-
+import IconCheck from 'vue-material-design-icons/Check.vue'
+import IconCalendar from 'vue-material-design-icons/CalendarOutline.vue'
+import IconTime from 'vue-material-design-icons/ClockTimeFourOutline.vue'
+import IconTimezone from 'vue-material-design-icons/Web.vue'
+import IconBack from 'vue-material-design-icons/ArrowLeft.vue'
 import { timeStampToLocaleTime, timeStampToLocaleDate } from '../../utils/localeTime.js'
 
 export default {
@@ -93,8 +117,12 @@ export default {
 		Avatar,
 		NcButton,
 		NcLoadingIcon,
-		Modal,
 		NcNoteCard,
+		IconCheck,
+		IconTime,
+		IconCalendar,
+		IconBack,
+		IconTimezone,
 	},
 	directives: {
 		autosize,
@@ -168,26 +196,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-:deep(.modal-container) {
-	width: calc(100vw - 120px) !important;
-	max-width: 720px !important;
-	max-height: 500px !important;
-	overflow: auto !important;
+h3 {
+	margin-top: 0;
 }
-
+.booking__date, .booking__time {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	padding-top: 10px
+}
 .booking-appointment-details {
 	display: flex;
 	flex-direction: row;
-	padding: 30px;
+	padding: 10px;
 	flex-wrap: wrap;
+	width: calc(100vw - 120px);
+	max-width: 720px;
+	max-height: 500px;
+	overflow: auto;
 }
 
 .booking-details {
 	flex: 1 220px;
-}
-
-.booking__time {
-	margin-bottom: 12px;
 }
 
 .appointment-details {
@@ -208,14 +238,18 @@ export default {
 	color: var(--color-error);
 }
 
-.booking__description {
-	white-space: break-spaces;
+.booking__description,
+.name-details,
+.email-details {
+	padding-bottom: 10px
 }
 
 .buttons {
 	display: flex;
-	justify-content: end;
-	margin-top: 10px;
+	justify-content: space-between;
+	margin-top: auto;
+	width: 100%;
+	padding-top: 15px;
 
 	.button {
 		margin: 0;

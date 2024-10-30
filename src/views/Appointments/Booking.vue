@@ -5,8 +5,7 @@
 
 <template>
 	<NcGuestContent>
-		<div v-if="!bookingConfirmed"
-			class="booking">
+		<div v-if="!selectedSlot && !bookingConfirmed" class="booking">
 			<div class="booking__config-user-info">
 				<Avatar :user="userInfo.uid"
 					:display-name="userInfo.displayName"
@@ -19,7 +18,6 @@
 				<h2 class="booking__name">
 					{{ config.name }}
 				</h2>
-				<!-- Description needs to stay inline due to its whitespace -->
 				<span class="booking__description">{{ config.description }}</span>
 			</div>
 			<div class="booking__date-selection">
@@ -51,20 +49,22 @@
 							@click="onSlotClicked(slot)" />
 					</template>
 				</div>
-				<AppointmentDetails v-if="selectedSlot"
-					:key="selectedSlot.start"
-					:user-info="userInfo"
-					:config="config"
-					:time-slot="selectedSlot"
-					:visitor-info="visitorInfo"
-					:time-zone-id="timeZone"
-					:show-error="bookingError"
-					:show-rate-limiting-warning="bookingRateLimit"
-					:is-loading="bookingLoading"
-					@save="onSave"
-					@close="selectedSlot = undefined" />
 			</div>
 		</div>
+		<AppointmentDetails v-else-if="selectedSlot && !bookingConfirmed"
+			:key="selectedSlot.start"
+			:user-info="userInfo"
+			:config="config"
+			:time-slot="selectedSlot"
+			:visitor-info="visitorInfo"
+			:time-zone-id="timeZone"
+			:show-error="bookingError"
+			:show-rate-limiting-warning="bookingRateLimit"
+			:is-loading="bookingLoading"
+			@save="onSave"
+			@close="selectedSlot = undefined"
+			@go-back="selectedSlot = undefined" />
+
 		<AppointmentBookingConfirmation v-else
 			@close="bookingConfirmed = false" />
 	</NcGuestContent>
