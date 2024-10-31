@@ -58,12 +58,18 @@
 			}
 		}
 
-		&__previous,
-		&__next {
+		&__left,
+		&__right {
 			background-size: 10px;
 			flex-grow: 0 !important;
 			width: 34px;
 			padding: 0 6px !important;
+		}
+		&__left{
+			border-radius: var(--border-radius-element) 0 0 var(--border-radius-element) !important;
+		}
+		&__right{
+			border-radius: 0 var(--border-radius-element) var(--border-radius-element) 0 !important;
 		}
 	}
 

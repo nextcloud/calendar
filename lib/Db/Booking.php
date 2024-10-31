@@ -9,6 +9,7 @@ namespace OCA\Calendar\Db;
 
 use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
+use OCP\DB\Types;
 use ReturnTypeWillChange;
 
 /**
@@ -74,12 +75,12 @@ class Booking extends Entity implements JsonSerializable {
 	private $talkUrl;
 
 	public function __construct() {
-		$this->addType('id', 'integer');
-		$this->addType('apptConfigId', 'integer');
-		$this->addType('createdAt', 'integer');
-		$this->addType('start', 'integer');
-		$this->addType('end', 'integer');
-		$this->addType('confirmed', 'boolean');
+		$this->addType('id', Types::INTEGER);
+		$this->addType('apptConfigId', Types::INTEGER);
+		$this->addType('createdAt', Types::INTEGER);
+		$this->addType('start', Types::INTEGER);
+		$this->addType('end', Types::INTEGER);
+		$this->addType('confirmed', Types::BOOLEAN);
 	}
 
 	#[ReturnTypeWillChange]

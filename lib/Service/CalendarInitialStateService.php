@@ -25,13 +25,6 @@ class CalendarInitialStateService {
 		private CompareVersion $compareVersion,
 		private ?string $userId,
 	) {
-		$this->appName = $appName;
-		$this->config = $config;
-		$this->initialStateService = $initialStateService;
-		$this->appointmentConfigService = $appointmentConfigService;
-		$this->appManager = $appManager;
-		$this->compareVersion = $compareVersion;
-		$this->userId = $userId;
 	}
 
 	public function run(): void {
