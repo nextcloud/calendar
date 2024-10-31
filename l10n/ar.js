@@ -42,7 +42,7 @@ OC.L10N.register(
     "You have a new appointment booking \"%s\" from %s" : "لديك حجز موعدٍ جديدٍ \"%s\" من %s",
     "Dear %s, %s (%s) booked an appointment with you." : "السيد/السيدة %s, %s (%s) حجز موعداً معك.",
     "A Calendar app for Nextcloud" : "تطبيق التقويم لـ نكست كلاود",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "تطبيق \"التقويم\" Calendar هو واجهة مستخدم لخادوم CalDAV الخاص بنكست كلاود. يمكنك مزامنة الأحداث بسهولة بين مختلف الأجهزة مع نكست كلاود و تحريرها عبر الإنترنت. \n* 🚀 ** التكامل مع تطبيقات نكست كلاود الأخرى!  مع تطبيق جهات الاتصال حاليًا و المزيد في المستقبل. تريد وضع مواعيد مباريات فريقك المفضل في التقويم الخاص بك؟ لا مشكلة! \n* 🙋 ** الحضور! ** دعوة الأشخاص إلى الأحداث الخاصة بك. \n* ⌚️ ** متوفر / مشغول! ** انظر عندما يكون الحاضرين مُتاحين للقاء. \n* ⏰ ** التذكير! ** أحصل على إشعارات تذكير بالأحداث عبر متصفحك و عبر البريد الإلكتروني. \n* 🔍 ابحث! العثور على الأحداث الخاصة بك بسهولة. \n* ☑️ المهام! اطّلع على المهام التي حان وقت إنجازها مباشرةً في التقويم. \n* 🙈 ** نحن لا نعيد اختراع العجلة! ** استنادًا إلى [مكتبة c-dav] العظيمة. (https://github.com/nextcloud/cdav-library) مكتبات [ical.js] (https://github.com/mozilla-comm/ical.js) و [fullcalendar] (https://github.com/fullcalendar/fullcalendar).",
+    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "تطبيق \"التقويم\" Calendar هو واجهة مستخدم لخادم CalDAV الخاص بنكست كلاود. يمكنك مزامنة الأحداث بسهولة بين مختلف الأجهزة مع نكست كلاود و تحريرها عبر الإنترنت. \n* 🚀 ** التكامل مع تطبيقات نكست كلاود الأخرى!  مع تطبيق جهات الاتصال حاليًا و المزيد في المستقبل. تريد وضع مواعيد مباريات فريقك المفضل في التقويم الخاص بك؟ لا مشكلة! \n* 🙋 ** الحضور! ** دعوة الأشخاص إلى الأحداث الخاصة بك. \n* ⌚️ ** متوفر / مشغول! ** انظر عندما يكون الحاضرين مُتاحين للقاء. \n* ⏰ ** التذكير! ** أحصل على إشعارات تذكير بالأحداث عبر متصفحك و عبر البريد الإلكتروني. \n* 🔍 ابحث! العثور على الأحداث الخاصة بك بسهولة. \n* ☑️ المهام! اطّلع على المهام التي حان وقت إنجازها مباشرةً في التقويم. \n* 🙈 ** نحن لا نعيد اختراع العجلة! ** استنادًا إلى [مكتبة c-dav] العظيمة. (https://github.com/nextcloud/cdav-library) مكتبات [ical.js] (https://github.com/mozilla-comm/ical.js) و [fullcalendar] (https://github.com/fullcalendar/fullcalendar).",
     "Previous day" : "أمس",
     "Previous week" : "الأسبوع الماضي",
     "Previous year" : "العام الماضى",
@@ -127,7 +127,7 @@ OC.L10N.register(
     "Copying code …" : "نسخ الكود  …",
     "Copied code" : "تمّ نسخ الكود",
     "Could not copy code" : "تعذّر نسخ الكود",
-    "Delete share link" : "إحذف رابط المشاركة",
+    "Delete share link" : "حذف رابط المشاركة",
     "Deleting share link …" : "حذف رابط المشاركة  …",
     "An error occurred, unable to publish calendar." : "حدث خطأ، لا يمكن نشر التقويم",
     "An error occurred, unable to send email." : "حدث خطأ، لا يُمكن إرسال البريد.",
@@ -279,7 +279,7 @@ OC.L10N.register(
     "No attachments" : "لا توجد مُرفقات",
     "Add from Files" : "إضِف من الملفات",
     "Upload from device" : "إرفع من الجهاز",
-    "Delete file" : "إحذف الملف",
+    "Delete file" : "حذف الملف",
     "Confirmation" : "تأكيد",
     "Choose a file to add as attachment" : "إختر ملفّاً لإضافته كمرفق",
     "Choose a file to share as a link" : "إختر ملفاً لمشاركته كرابط",
@@ -346,7 +346,7 @@ OC.L10N.register(
     "Remove group" : "حذف مجموعة",
     "Remove attendee" : "إلغاء شخص من قائمة الحضور",
     "_%n member_::_%n members_" : ["%n عضواً","%n عضواً","%n عضواً","%n عضواً","%n عضواً","%n عضواً"],
-    "Search for emails, users, contacts, teams or groups" : "البحث عن إيميلات، أو مستخدِمين، أو جهات اتصال، أو فِرَق، أو مجموعات",
+    "Search for emails, users, contacts, teams or groups" : "البحث عن إيميلات، أو مستخدِمين، أو جهات اتصال، أو فرق، أو مجموعات",
     "No match found" : "لم يٌمكن إيجاد تطابق",
     "Note that members of circles get invited but are not synced yet." : "لاحظ أن أعضاء دوائر الاتصال تمّت دعوتهم لكن لم تتمّ مزامنتهم بعدُ.",
     "(organizer)" : "(مُنظِّم)",
@@ -421,9 +421,9 @@ OC.L10N.register(
     "Public holiday calendars" : "تقاويم العطلات العامة",
     "Public calendars" : "التقاويم العمومية",
     "No valid public calendars configured" : "لا توجد أيّ تقاويم عمومية مُهيّأة بالشكل الصحيح",
-    "Speak to the server administrator to resolve this issue." : "تحدّث مع مشرف الخادم لحل هذا الإشكال.",
+    "Speak to the server administrator to resolve this issue." : "تحدّث مع مسؤول النظام لحل هذا الإشكال.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "يتم توفير تقاويم العطلات العامة من موقع ثندربرد Thunderbird. سوف يتم تنزيل بيانات التقويم من {website}",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "هذه التقاويم العامة تمّ اقتراحها من قِبل مشرف الخادم. بيانات التقويم سيتم تحميلها من موقع الويب المعنِي.",
+    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "يتم اقتراح هذه التقويمات العامة بواسطة مسؤول القسم. سيتم تنزيل بيانات التقويم من موقع الويب المعني.",
     "By {authors}" : "من قِبَل {authors}",
     "Subscribed" : "مُشترِك subscribed",
     "Subscribe" : "إشترك subscribe",

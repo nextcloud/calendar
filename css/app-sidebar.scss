@@ -898,9 +898,10 @@
 	display: flex;
 	align-items: center;
 	width: 100%;
-
+	text-align: start;
 	// Account for avatar width (because it is position: relative)
-	padding-right: 32px;
+
+	padding-inline-end: 32px;	
 
 	&__label {
 		width: 100%;
