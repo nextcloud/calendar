@@ -86,7 +86,8 @@ export default {
 		},
 		valueIds() {
 			if (Array.isArray(this.value)) {
-				return this.value.map(({ id }) => id)
+				// filter out falsy values (e.g. null, undefined)
+				return this.value.filter(v => v).map(({ id }) => id)
 			}
 
 			return this.value.id

@@ -5,6 +5,7 @@
 
 <template>
 	<Modal size="large"
+		:name="formTitle"
 		@close="$emit('close')">
 		<!-- Wait for the config to become available before rendering the form. -->
 		<div v-if="editing" class="appointment-config-modal">
@@ -13,7 +14,6 @@
 				:config="editing"
 				@close="$emit('close')" />
 			<template v-else>
-				<h2>{{ formTitle }}</h2>
 				<div class="appointment-config-modal__form">
 					<fieldset>
 						<TextInput class="appointment-config-modal__form__row"
@@ -198,6 +198,9 @@ export default {
 		...mapState(useCalendarsStore, ['ownSortedCalendars']),
 		...mapStores(useAppointmentConfigsStore, useCalendarsStore, useSettingsStore),
 		formTitle() {
+			if (this.showConfirmation) {
+				return this.$t('calendar', 'Appointment schedule saved')
+			}
 			if (this.isNew) {
 				return this.$t('calendar', 'Create appointment schedule')
 			}
