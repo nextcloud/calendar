@@ -59,7 +59,7 @@ class TimezoneGeneratorTest extends TestCase {
 
 		$this->assertEquals($timezone, $generated->TZID->getValue());
 		$this->assertNull($generated->DAYLIGHT);
-		$this->assertNull($generated->STANDARD);
+		$this->assertNotNull($generated->STANDARD);
 		$this->assertEquals($generated->{'X-MICROSOFT-CDO-TZID'}->getValue(), $msTimezoneId);
 	}
 
@@ -73,17 +73,17 @@ class TimezoneGeneratorTest extends TestCase {
 	public function providerDaylightSaving(): array {
 		$microsoftExchangeMap = array_flip(TimeZoneUtil::$microsoftExchangeMap);
 		return [
-			['Europe/Berlin', 3, 3, $microsoftExchangeMap['Europe/Berlin']],
-			['Europe/London', 3, 3, $microsoftExchangeMap['Europe/London']],
-			['Australia/Adelaide', 3, 3, $microsoftExchangeMap['Australia/Adelaide']],
+			['Europe/Berlin', 3, 4, $microsoftExchangeMap['Europe/Berlin']],
+			['Europe/London', 3, 4, $microsoftExchangeMap['Europe/London']],
+			['Australia/Adelaide', 4, 3, $microsoftExchangeMap['Australia/Adelaide']],
 		];
 	}
 
 	public function providerNoDaylightSaving(): array {
 		$microsoftExchangeMap = array_flip(TimeZoneUtil::$microsoftExchangeMap);
 		return [
-			['Pacific/Midway', null, null, $microsoftExchangeMap['Pacific/Midway']],
-			['Asia/Singapore', null, null, $microsoftExchangeMap['Asia/Singapore']],
+			['Pacific/Midway', null, 1, $microsoftExchangeMap['Pacific/Midway']],
+			['Asia/Singapore', null, 1, $microsoftExchangeMap['Asia/Singapore']],
 		];
 	}
 

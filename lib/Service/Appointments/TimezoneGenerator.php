@@ -88,14 +88,6 @@ class TimezoneGenerator {
 		$standard = $daylightStart = null;
 		foreach ($transitions as $i => $trans) {
 			$component = null;
-
-			// skip the first entry...
-			if ($i === 0) {
-				// ... but remember the offset for the next TZOFFSETFROM value
-				$tzfrom = $trans['offset'] / 3600;
-				continue;
-			}
-
 			// daylight saving time definition
 			if ($trans['isdst']) {
 				$daylightDefinition = $trans['ts'];
@@ -110,9 +102,15 @@ class TimezoneGenerator {
 			}
 
 			if ($component) {
-				$date = new \DateTime($trans['time']);
-				$offset = $trans['offset'] / 3600;
-
+				if ($i === 0) {
+					$date = new \DateTime('19700101T000000');
+					$tzfrom = $trans['offset'] / 3600;
+					$offset = $tzfrom;
+				} else {
+					$date = new \DateTime($trans['time']);
+					$offset = $trans['offset'] / 3600;
+				}
+				
 				$component->DTSTART = $date->format('Ymd\THis');
 				$component->TZOFFSETFROM = sprintf('%s%02d%02d', $tzfrom >= 0 ? '+' : '-', abs(floor($tzfrom)), ($tzfrom - floor($tzfrom)) * 60);
 				$component->TZOFFSETTO = sprintf('%s%02d%02d', $offset >= 0 ? '+' : '-', abs(floor($offset)), ($offset - floor($offset)) * 60);
