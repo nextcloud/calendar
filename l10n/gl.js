@@ -246,6 +246,7 @@ OC.L10N.register(
     "Max slots per day" : "Máximo de franxas horarias por día",
     "Limit how far in the future appointments can be booked" : "Limita ata onde se poden reservar citas futuras",
     "It seems a rate limit has been reached. Please try again later." : "Semella que se acadou o límite da taxa. Tenteo de novo máis tarde.",
+    "Appointment schedule saved" : "Gardouse o calendario de citas",
     "Create appointment schedule" : "Crear o calendario de citas",
     "Edit appointment schedule" : "Editar o calendario de citas",
     "Update" : "Actualizar",

@@ -244,6 +244,7 @@
     "Max slots per day" : "Максимальна кількість часових проміжків на день",
     "Limit how far in the future appointments can be booked" : "Обмежити, наскільки далеко у майбутньому можна призначити зустріч",
     "It seems a rate limit has been reached. Please try again later." : "Схоже, що вичерпано максимальну кількість спроб. Спробуйте пізніше.",
+    "Appointment schedule saved" : "Запрошення призначено",
     "Create appointment schedule" : "Створити графік зустрічей",
     "Edit appointment schedule" : "Редагувати графік зустрічей",
     "Update" : "Оновити",

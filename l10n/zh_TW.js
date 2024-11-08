@@ -246,6 +246,7 @@ OC.L10N.register(
     "Max slots per day" : "每日最大時段數",
     "Limit how far in the future appointments can be booked" : "限制可以預訂未來多久的預約",
     "It seems a rate limit has been reached. Please try again later." : "似乎已達速率限制。請稍後再試。",
+    "Appointment schedule saved" : "已儲存預約時間表",
     "Create appointment schedule" : "建立預約時間表",
     "Edit appointment schedule" : "編輯預約時間表",
     "Update" : "更新",

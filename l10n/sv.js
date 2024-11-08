@@ -246,6 +246,7 @@ OC.L10N.register(
     "Max slots per day" : "Maximalt antal möten per dag",
     "Limit how far in the future appointments can be booked" : "Begränsa hur långt fram i tiden möten kan bokas",
     "It seems a rate limit has been reached. Please try again later." : "Det verkar som en hastighetsbegränsning har uppnåtts. Försök igen senare.",
+    "Appointment schedule saved" : "Mötesschema sparat",
     "Create appointment schedule" : "Skapa mötesschema",
     "Edit appointment schedule" : "Redigera mötesschema",
     "Update" : "Uppdatera",

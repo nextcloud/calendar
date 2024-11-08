@@ -244,6 +244,7 @@
     "Max slots per day" : "Sliotán uasta in aghaidh an lae",
     "Limit how far in the future appointments can be booked" : "Teorainn a chur le cé chomh fada sa todhchaí is féidir coinní a chur in áirithe",
     "It seems a rate limit has been reached. Please try again later." : "Is cosúil go bhfuil teorainn ráta bainte amach. Bain triail eile as ar ball le do thoil.",
+    "Appointment schedule saved" : "Sceideal coinní sábháilte",
     "Create appointment schedule" : "Cruthaigh sceideal coinne",
     "Edit appointment schedule" : "Cuir sceideal na gcoinní in eagar",
     "Update" : "Nuashonrú",
