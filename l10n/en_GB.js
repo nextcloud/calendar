@@ -246,6 +246,7 @@ OC.L10N.register(
     "Max slots per day" : "Max slots per day",
     "Limit how far in the future appointments can be booked" : "Limit how far in the future appointments can be booked",
     "It seems a rate limit has been reached. Please try again later." : "It seems a rate limit has been reached. Please try again later.",
+    "Appointment schedule saved" : "Appointment schedule saved",
     "Create appointment schedule" : "Create appointment schedule",
     "Edit appointment schedule" : "Edit appointment schedule",
     "Update" : "Update",
