@@ -219,21 +219,24 @@ class MailService {
 		bool $recipient): void {
 		$template->addBodyListItem($booking->getDisplayName(), $l10n->t('Appointment for:'));
 
-		// determain timezone depending on who is getting the message (Requestee/Requester)
+		// determine timezone depending on who is getting the message (Requestee/Requester)
 		$tzid = ($recipient) ? $config->getAvailabilityAsArray()['timezoneId'] : $booking->getTimezone();
 		$dtstart = new \DateTime('now', new \DateTimeZone($booking->getTimezone())); // generate DateTime with booking time zone
 		$dtstart->setTimestamp($booking->getStart()); // set booking time stamp
 
 		$l = $this->lFactory->findGenericLanguage();
+		$relativeTimezone = new \DateTimeZone($tzid);
 		$relativeDateTime = $this->dateFormatter->formatDateTimeRelativeDay(
 			$dtstart,
 			'long',
 			'short',
-			new \DateTimeZone($tzid),
+			$relativeTimezone,
 			$this->lFactory->get('calendar', $l)
 		);
 
-		$template->addBodyListItem($relativeDateTime, $l10n->t('Date:'));
+		$timestring = $relativeDateTime . ' (' . $relativeTimezone->getName() . ')';
+
+		$template->addBodyListItem($timestring, $l10n->t('Date:'));
 
 		if (!$booking->isConfirmed() && $config->getCreateTalkRoom()) {
 			$template->addBodyListItem($l10n->t('You will receive a link with the confirmation email'), $l10n->t('Where:'));
