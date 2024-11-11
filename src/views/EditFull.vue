@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<NcAppSidebar name=""
+	<NcModal name=""
 		:force-menu="true"
 		@close="cancel">
 		<template v-if="isLoading">
@@ -102,7 +102,7 @@
 				@close="closeEditorAndSkipAction" />
 		</template>
 
-		<NcAppSidebarTab v-if="!isLoading && !isError"
+		<div v-if="!isLoading && !isError"
 			id="app-sidebar-tab-details"
 			class="app-sidebar-tab"
 			:name="$t('calendar', 'Details')"
@@ -210,8 +210,8 @@
 				:force-this-and-all-future="forceThisAndAllFuture"
 				@save-this-only="prepareAccessForAttachments(false)"
 				@save-this-and-all-future="prepareAccessForAttachments(true)" />
-		</NcAppSidebarTab>
-		<NcAppSidebarTab v-if="!isLoading && !isError"
+		</div>
+		<div v-if="!isLoading && !isError"
 			id="app-sidebar-tab-attendees"
 			class="app-sidebar-tab"
 			:name="$t('calendar', 'Attendees')"
@@ -236,8 +236,8 @@
 				:force-this-and-all-future="forceThisAndAllFuture"
 				@save-this-only="prepareAccessForAttachments(false)"
 				@save-this-and-all-future="prepareAccessForAttachments(true)" />
-		</NcAppSidebarTab>
-		<NcAppSidebarTab v-if="!isLoading && !isError && showResources"
+		</div>
+		<div v-if="!isLoading && !isError && showResources"
 			id="app-sidebar-tab-resources"
 			class="app-sidebar-tab"
 			:name="$t('calendar', 'Resources')"
@@ -258,13 +258,11 @@
 				:force-this-and-all-future="forceThisAndAllFuture"
 				@save-this-only="prepareAccessForAttachments(false)"
 				@save-this-and-all-future="prepareAccessForAttachments(true)" />
-		</NcAppSidebarTab>
-	</NcAppSidebar>
+		</div>
+	</NcModal>
 </template>
 <script>
 import {
-	NcAppSidebar,
-	NcAppSidebarTab,
 	NcActionLink,
 	NcActionButton,
 	NcEmptyContent,
@@ -314,15 +312,13 @@ import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import { mapStores, mapState } from 'pinia'
 
 export default {
-	name: 'EditSidebar',
+	name: 'EditFull',
 	components: {
 		ResourceList,
 		PropertyColor,
 		PropertySelectMultiple,
 		SaveButtons,
 		AlarmList,
-		NcAppSidebar,
-		NcAppSidebarTab,
 		NcActionLink,
 		NcActionButton,
 		NcEmptyContent,

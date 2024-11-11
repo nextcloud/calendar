@@ -56,7 +56,7 @@ describe('fullcalendar/select test suite', () => {
 
 		expect(router.push).toHaveBeenCalledTimes(1)
 		expect(router.push).toHaveBeenNthCalledWith(1, {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '1',
@@ -83,7 +83,7 @@ describe('fullcalendar/select test suite', () => {
 
 		expect(router.push).toHaveBeenCalledTimes(1)
 		expect(router.push).toHaveBeenNthCalledWith(1, {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '1',
@@ -125,7 +125,7 @@ describe('fullcalendar/select test suite', () => {
 
 		const router = { push: jest.fn() }
 		const route = {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '1',
@@ -151,7 +151,7 @@ describe('fullcalendar/select test suite', () => {
 
 		const router = { push: jest.fn() }
 		const route = {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '1',
@@ -238,7 +238,7 @@ describe('fullcalendar/select test suite', () => {
 
 		const router = { push: jest.fn() }
 		const route = {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '1',
@@ -257,7 +257,7 @@ describe('fullcalendar/select test suite', () => {
 
 		expect(router.push).toHaveBeenCalledTimes(1)
 		expect(router.push).toHaveBeenNthCalledWith(1, {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '0',
