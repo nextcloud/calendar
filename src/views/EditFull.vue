@@ -4,9 +4,7 @@
 -->
 
 <template>
-	<NcModal name=""
-		:force-menu="true"
-		@close="cancel">
+	<NcModal @close="cancel">
 		<template v-if="isLoading">
 			<div class="app-sidebar__loading-indicator">
 				<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
@@ -20,47 +18,46 @@
 			</NcEmptyContent>
 		</template>
 
-		<template v-if="!isLoading && !isError && !isNew"
-			#secondary-actions>
-			<NcActionLink v-if="!hideEventExport && hasDownloadURL"
-				:href="downloadURL">
-				<template #icon>
-					<Download :size="20" decorative />
-				</template>
-				{{ $t('calendar', 'Export') }}
-			</NcActionLink>
-			<NcActionButton v-if="!canCreateRecurrenceException && !isReadOnly" @click="duplicateEvent()">
-				<template #icon>
-					<ContentDuplicate :size="20" decorative />
-				</template>
-				{{ $t('calendar', 'Duplicate') }}
-			</NcActionButton>
-			<NcActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave(false)">
-				<template #icon>
-					<Delete :size="20" decorative />
-				</template>
-				{{ $t('calendar', 'Delete') }}
-			</NcActionButton>
-			<NcActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(false)">
-				<template #icon>
-					<Delete :size="20" decorative />
-				</template>
-				{{ $t('calendar', 'Delete this occurrence') }}
-			</NcActionButton>
-			<NcActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(true)">
-				<template #icon>
-					<Delete :size="20" decorative />
-				</template>
-				{{ $t('calendar', 'Delete this and all future') }}
-			</NcActionButton>
-		</template>
+		<div v-if="!isLoading && !isError" class="top-wrapper">
+			<div class="top-actions-wrapper">
+				<CalendarPickerHeader :value="selectedCalendar"
+					:calendars="calendars"
+					:is-read-only="isReadOnly || !canModifyCalendar"
+					@update:value="changeCalendar" />
 
-		<template v-if="!isLoading && !isError"
-			#description>
-			<CalendarPickerHeader :value="selectedCalendar"
-				:calendars="calendars"
-				:is-read-only="isReadOnly || !canModifyCalendar"
-				@update:value="changeCalendar" />
+				<div v-if="!isLoading && !isError && !isNew" class="top-actions">
+					<NcActionLink v-if="!hideEventExport && hasDownloadURL" :href="downloadURL">
+						<template #icon>
+							<Download :size="20" decorative />
+						</template>
+						{{ $t('calendar', 'Export') }}
+					</NcActionLink>
+					<NcActionButton v-if="!canCreateRecurrenceException && !isReadOnly" @click="duplicateEvent()">
+						<template #icon>
+							<ContentDuplicate :size="20" decorative />
+						</template>
+						{{ $t('calendar', 'Duplicate') }}
+					</NcActionButton>
+					<NcActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave(false)">
+						<template #icon>
+							<Delete :size="20" decorative />
+						</template>
+						{{ $t('calendar', 'Delete') }}
+					</NcActionButton>
+					<NcActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(false)">
+						<template #icon>
+							<Delete :size="20" decorative />
+						</template>
+						{{ $t('calendar', 'Delete this occurrence') }}
+					</NcActionButton>
+					<NcActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(true)">
+						<template #icon>
+							<Delete :size="20" decorative />
+						</template>
+						{{ $t('calendar', 'Delete this and all future') }}
+					</NcActionButton>
+				</div>
+			</div>
 
 			<PropertyTitle :value="title"
 				:is-read-only="isReadOnly"
@@ -81,18 +78,20 @@
 				@update-end-timezone="updateEndTimezone"
 				@toggle-all-day="toggleAllDay" />
 
-			<PropertyText class="property-location"
-				:is-read-only="isReadOnly"
-				:prop-model="rfcProps.location"
-				:value="location"
-				:linkify-links="true"
-				@update:value="updateLocation" />
-			<PropertyText class="property-description"
-				:is-read-only="isReadOnly"
-				:prop-model="rfcProps.description"
-				:value="description"
-				:linkify-links="true"
-				@update:value="updateDescription" />
+			<div class="property-text-wrapper">
+				<PropertyText
+					:is-read-only="isReadOnly"
+					:prop-model="rfcProps.location"
+					:value="location"
+					:linkify-links="true"
+					@update:value="updateLocation" />
+				<PropertyText
+					:is-read-only="isReadOnly"
+					:prop-model="rfcProps.description"
+					:value="description"
+					:linkify-links="true"
+					@update:value="updateDescription" />
+			</div>
 
 			<InvitationResponseButtons v-if="isViewedByAttendee"
 				:attendee="userAsAttendee"
@@ -100,14 +99,14 @@
 				:narrow="true"
 				:grow-horizontally="true"
 				@close="closeEditorAndSkipAction" />
-		</template>
+		</div>
 
 		<div v-if="!isLoading && !isError"
 			id="app-sidebar-tab-details"
 			class="app-sidebar-tab"
 			:name="$t('calendar', 'Details')"
 			:order="0">
-			<template #icon>
+			<template>
 				<InformationOutline :size="20" decorative />
 			</template>
 			<div class="app-sidebar-tab__content">
@@ -216,7 +215,7 @@
 			class="app-sidebar-tab"
 			:name="$t('calendar', 'Attendees')"
 			:order="1">
-			<template #icon>
+			<template>
 				<AccountMultiple :size="20" decorative />
 			</template>
 			<div class="app-sidebar-tab__content">
@@ -242,7 +241,7 @@
 			class="app-sidebar-tab"
 			:name="$t('calendar', 'Resources')"
 			:order="3">
-			<template #icon>
+			<template>
 				<MapMarker :size="20" decorative />
 			</template>
 			<div class="app-sidebar-tab__content">
@@ -613,6 +612,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+:deep(.modal-container) {
+	width: 900px !important;
+}
+
+:deep(.modal-container__content) {
+	padding: calc(var(--default-grid-baseline) * 4);
+}
+
 .modal-content {
 	padding: 16px;
 	position: relative;
@@ -674,5 +681,59 @@ export default {
 }
 .property-description {
 	margin-bottom: 10px;
+}
+
+.top-actions {
+	display: flex;
+	list-style-type: none;
+	padding-right: calc(var(--default-grid-baseline) * 4);
+	margin-top: calc(var(--default-grid-baseline) * -3);
+
+	&-wrapper {
+		display: flex;
+		justify-content: space-between;
+	}
+}
+
+.full-edit-modal {
+	padding: calc(var(--default-grid-baseline) * 4);
+}
+
+.top-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 4);
+}
+
+.property-text {
+	display: flex;
+	gap: calc(var(--default-grid-baseline) * 4);
+	margin: 0;
+	flex-grow: 1;
+
+	&-wrapper {
+		display: flex;
+		gap: calc(var(--default-grid-baseline) * 4);
+		justify-content: stretch;
+	}
+
+	:deep(.property-text__input), :deep(textarea), input {
+		width: 100%;
+		height: 68px;
+	}
+}
+
+.property-title-time-picker {
+	display: flex;
+	justify-content: stretch;
+
+	.property-title-time-picker__time-pickers {
+		flex-grow: 1;
+		display: flex;
+
+		.date-time-picker {
+			flex-grow: 1;
+		}
+	}
 }
 </style>

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-.app-calendar .app-sidebar,
+.app-calendar,
 .event-popover .event-popover__inner {
 	.editor-invitee-list-empty-message,
 	.editor-reminders-list-empty-message,
@@ -38,71 +38,6 @@
 		background-position-x: 8px;
 	}
 
-	.app-sidebar-header {
-		&__action {
-			margin-top: 0 !important;
-			max-height: none !important;
-			flex-wrap: wrap;
-
-			div {
-				flex-shrink: 0;
-			}
-		}
-
-		&__desc {
-			// We use our custom header layout for the sidebar editor
-			height: 0 !important;
-			padding: 0 !important;
-			margin: 0 !important;
-
-			// But keep the three-dot menu in the front
-			.app-sidebar-header__menu {
-				z-index: 1;
-			}
-		}
-
-		&__description {
-			flex-direction: column;
-
-			// Close button should be aligned with calendar picker (header)
-			padding-top: 5px;
-		}
-	}
-
-	.app-sidebar-tab {
-		// Make the whole sidebar scrollable instead of just the active tab
-		overflow: unset !important;
-		max-height: unset !important;
-		height: auto !important;
-
-		&__buttons {
-			position: fixed;
-			bottom: var(--body-container-margin);;
-			z-index: 2;
-			width: calc(27vw - 11px);
-			min-width: 300px - 11px;
-			max-width: 500px - 11px;
-			background-color: var(--color-main-background);
-			border-radius: 0 0 var(--body-container-radius) 0;
-			padding: 0 8px 6px 0;
-
-			button {
-				width: 100%;
-				height: 44px;
-			}
-		}
-		&__content {
-			margin-bottom: 120px;
-		}
-	}
-
-	.app-sidebar-tabs {
-		// Fix empty content in case of invalid event URLs
-		.empty-content {
-			height: 100vh;
-			padding: 0 20px;
-		}
-	}
 
 	.property-title-time-picker-loading-placeholder {
 		width: 100%;
@@ -224,6 +159,8 @@
 
 	.property-title-time-picker {
 		width: 100%;
+		display: flex;
+		background-color: coral;
 
 		&--readonly {
 			display: flex;
@@ -518,206 +455,6 @@
 			background-color: grey;
 		}
 	}
-
-	.property-text,
-	.property-select,
-	.property-color,
-	.property-select-multiple,
-	.property-title,
-	.resource-capacity,
-	.resource-room-type {
-		display: flex;
-		width: 100%;
-		align-items: flex-start;
-
-		&__icon,
-		&__info {
-			height: 34px;
-			width: 34px;
-		}
-
-		&__icon {
-			&--hidden {
-				visibility: hidden;
-			}
-		}
-
-		&__info {
-			display: flex;
-			justify-content: center;
-			flex-shrink: 0;
-			opacity: .5;
-		}
-
-		&__info:hover {
-			opacity: 1;
-		}
-
-		&__icon {
-			flex-shrink: 0;
-			margin-left: -5px;
-			margin-right: 5px;
-		}
-
-		&__input {
-			flex-grow: 2;
-
-			textarea,
-			input,
-			div.v-select {
-				width: 100%;
-			}
-
-			textarea {
-				max-height: calc(100vh - 500px);
-				vertical-align: top;
-				margin: 0;
-			}
-
-			&--readonly {
-				div {
-					width: calc(100% - 8px); /* for typical (thin) scrollbar size */
-					white-space: pre-line;
-					padding: 8px 7px;
-					background-color: var(--color-main-background);
-					color: var(--color-main-text);
-					outline: none;
-					overflow-y: scroll;
-					word-break: break-word; /* allows breaking on long URLs */
-					max-height: 30vh;
-				}
-			}
-
-			&--readonly-calendar-picker {
-				div.calendar-picker-option {
-					padding: 8px 7px;
-				}
-			}
-		}
-	}
-
-	.property-text,
-	.property-select,
-	.property-color,
-	.property-select-multiple,
-	.property-title,
-	.property-repeat,
-	.resource-capacity,
-	.resource-room-type {
-		margin-bottom: 5px;
-
-		&--readonly {
-			margin-bottom: 0;
-		}
-	}
-
-	.property-select,
-	.property-select-multiple {
-		align-items: center;
-
-		.v-select {
-			min-width: unset !important;
-		}
-	}
-
-	.property-color {
-		&__input {
-			display: flex;
-			gap: 5px;
-			margin-bottom: 5px;
-
-			&--readonly {
-				// Align with other (text based) fields
-				margin: 3px 0 3px 7px;
-			}
-		}
-
-		&__color-preview {
-			$size: 44px;
-			width: $size !important;
-			height: $size !important;
-			border-radius: $size;
-		}
-	}
-
-	.property-text {
-		&__icon {
-			// Prevent icon misalignment on vertically growing inputs
-			height: unset;
-			align-self: flex-start;
-			padding-top: 12px;
-		}
-
-		&--readonly {
-			.property-text__icon {
-				padding-top: 10px;
-			}
-		}
-
-		&__input {
-			&--readonly {
-				// Reduce line height but still keep first row aligned to the icon
-				line-height: 1;
-				padding-top: calc(var(--default-line-height) / 2 - 0.5lh);
-			}
-
-			textarea {
-				resize: none;
-			}
-		}
-	}
-
-	.property-select-multiple {
-		.property-select-multiple__input.property-select-multiple__input--readonly {
-			width: 100%;
-
-			.property-select-multiple-colored-tag-wrapper {
-				align-items: center;
-				overflow: hidden;
-				max-width: 100%;
-				position: relative;
-				padding: 3px 5px;
-
-				.multiselect__tag {
-					line-height: 20px;
-					padding: 1px 5px;
-					background-image: none;
-					display: inline-flex;
-					align-items: center;
-					border-radius: 3px;
-					max-width: fit-content;
-					margin: 3px;
-				}
-			}
-		}
-	}
-
-	.property-title {
-		&__input, input {
-			font-weight: bold;
-			&__rtl{
-				text-align: right;
-			}
-		}
-
-		&__input--readonly {
-			font-size: 18px;
-		}
-	}
-
-	// Normalize gaps between all properties. We use outer margins between each row so a padding
-	// around inputs (from core) is not required.
-	.property-title,
-	.property-title-time-picker {
-		input {
-			margin: 0;
-		}
-	}
-
-	.resource-room-type {
-		margin-bottom: 5px;
-	}
-
 }
 
 .event-popover .event-popover__inner {
@@ -901,7 +638,7 @@
 	text-align: start;
 	// Account for avatar width (because it is position: relative)
 
-	padding-inline-end: 32px;	
+	padding-inline-end: 32px;
 
 	&__label {
 		width: 100%;
