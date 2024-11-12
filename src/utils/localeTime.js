@@ -40,5 +40,8 @@ export function timeStampToLocaleTime(timeStamp, timeZoneId) {
 export function timeStampToLocaleDate(timeStamp, timeZoneId) {
 	return (new Date(timeStamp * 1000)).toLocaleDateString(locale, {
 		timeZone: timeZoneId,
+		day: 'numeric',
+		month: 'long',
+		year: 'numeric',
 	})
 }
