@@ -188,6 +188,7 @@ OC.L10N.register(
     "Sunday" : "יום ראשון",
     "Update" : "עדכון",
     "Your email address" : "כתובת הדוא״ל שלך",
+    "Back" : "אחורה",
     "before at" : "לפני",
     "Notification" : "הוֹדָעָה",
     "Email" : "דוא״ל",

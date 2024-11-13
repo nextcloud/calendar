@@ -188,7 +188,6 @@ OC.L10N.register(
     "Your email address" : "Cyfeiriad E-bost",
     "Please share anything that will help prepare for our meeting" : "Rhannwch unrhyw beth a fydd yn helpu i baratoi ar gyfer ein cyfarfod",
     "Could not book the appointment. Please try again later or contact the organizer." : "Methu trefnu apwyntiad. Ceisiwch eto yn nes ymlaen neu cysylltwch â'r trefnydd.",
-    "Book the appointment" : "Archebwch yr apwyntiad",
     "Reminder" : "Atgoffwr",
     "before at" : "cyn am",
     "Notification" : "Hysbysiad",

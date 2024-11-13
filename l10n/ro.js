@@ -236,7 +236,7 @@ OC.L10N.register(
     "Your email address" : "Adresa ta de email",
     "Please share anything that will help prepare for our meeting" : "Te rugăm să împărtășești orice informație ce ne poate ajuta în pregătirea pentru ședința noastră.",
     "Could not book the appointment. Please try again later or contact the organizer." : "Nu s-a putut creea evenimentul. Vă rugăm să încercați mai târziu sau să contactați organizatorul.",
-    "Book the appointment" : "Creează programarea",
+    "Back" : "Înapoi",
     "Reminder" : "Memento",
     "before at" : "Înainte de la",
     "Notification" : "Notificări",

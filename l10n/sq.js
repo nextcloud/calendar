@@ -54,6 +54,7 @@ OC.L10N.register(
     "Sunday" : "E dielë",
     "Update" : "Përditësoje",
     "Your email address" : "Adresa juaj email",
+    "Back" : "Mbrapsht",
     "Notification" : "Njoftim",
     "Email" : "Emaili",
     "Delete file" : "Fshi skedarin",

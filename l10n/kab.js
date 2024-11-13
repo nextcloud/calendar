@@ -17,6 +17,7 @@ OC.L10N.register(
     "List view" : "Timeẓri n tebdart",
     "Location" : "Adig",
     "Add" : "Rnu",
+    "Back" : "Retour",
     "Notification" : "Alɣu",
     "Email" : "Imayl",
     "Proceed" : "Kemmel",

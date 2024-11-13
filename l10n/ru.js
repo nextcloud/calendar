@@ -250,7 +250,7 @@ OC.L10N.register(
     "Your email address" : "Ваш адрес электронной почты",
     "Please share anything that will help prepare for our meeting" : "Пожалуйста, поделитесь с нами тем, что поможет подготовиться к нашей встрече",
     "Could not book the appointment. Please try again later or contact the organizer." : "Не удалось забронировать встречу. Пожалуйста, повторите попытку позже или свяжитесь с организатором.",
-    "Book the appointment" : "Записаться на встречу",
+    "Back" : "Назад",
     "Reminder" : "Напоминание",
     "before at" : "ранее в",
     "Notification" : "Уведомление",

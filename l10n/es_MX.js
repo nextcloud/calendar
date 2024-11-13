@@ -249,7 +249,7 @@ OC.L10N.register(
     "Your email address" : "Tu dirección de correo electrónico",
     "Please share anything that will help prepare for our meeting" : "Por favor, comparta cualquier cosa que ayude a prepararnos para nuestra reunión.",
     "Could not book the appointment. Please try again later or contact the organizer." : "No se pudo reservar la cita. Por favor, intente de nuevo más tarde o contacte al organizador.",
-    "Book the appointment" : "Reservar la cita",
+    "Back" : "Atrás",
     "Reminder" : "Recordatorio",
     "before at" : "antes de las",
     "Notification" : "Notificación",

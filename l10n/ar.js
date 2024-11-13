@@ -256,7 +256,6 @@ OC.L10N.register(
     "Your email address" : "عنوان بريديك الإلكتروني",
     "Please share anything that will help prepare for our meeting" : "رجاءً، شارك ما يمكن أن يساعد في التحضير لاجتماعنا",
     "Could not book the appointment. Please try again later or contact the organizer." : "تعذّر حجز الموعد. حاول مرة أخرى في وقتٍ لاحق من فضلك أو اتصل بالمُنظِّم.",
-    "Book the appointment" : "إحجز الموعد",
     "Reminder" : "تذكير",
     "before at" : "قبل",
     "Notification" : "تنبيه",

@@ -255,7 +255,7 @@ OC.L10N.register(
     "Your email address" : "E-posta adresiniz",
     "Please share anything that will help prepare for our meeting" : "Lütfen görüşmeye hazırlanmak için yardımcı olabilecek şeyleri paylaşın",
     "Could not book the appointment. Please try again later or contact the organizer." : "Randevu alınamadı. Lütfen bir süre sonra yeniden deneyin ya da düzenleyici ile görüşün.",
-    "Book the appointment" : "Randevu al",
+    "Back" : "Geri",
     "Reminder" : "Anımsatıcı",
     "before at" : "şundan önce",
     "Notification" : "Bildirim",

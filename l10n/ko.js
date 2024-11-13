@@ -233,7 +233,7 @@ OC.L10N.register(
     "Your email address" : "내 이메일 주소",
     "Please share anything that will help prepare for our meeting" : "약속 준비에 필요한 모든 사항을 공유해 주십시오",
     "Could not book the appointment. Please try again later or contact the organizer." : "예약할 수 없음. 잠시 후 다시 시도하거나 중재자에게 문의하십시오.",
-    "Book the appointment" : "약속 잡기",
+    "Back" : "뒤로",
     "Reminder" : "알림",
     "before at" : "다음 이전에: ",
     "Notification" : "알림",

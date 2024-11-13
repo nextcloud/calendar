@@ -244,7 +244,7 @@ OC.L10N.register(
     "Your email address" : "Vaša e-mailová adresa",
     "Please share anything that will help prepare for our meeting" : "Zdieľajte čokoľvek, čo vám pomôže pripraviť sa na naše stretnutie",
     "Could not book the appointment. Please try again later or contact the organizer." : "Termín sa nepodarilo zarezervovať. Skúste to znova neskôr alebo kontaktujte organizátora.",
-    "Book the appointment" : "Rezervovať stretnutie",
+    "Back" : "Späť",
     "Reminder" : "Pripomienka",
     "before at" : "pred o",
     "Notification" : "Hlásenie",

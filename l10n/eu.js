@@ -250,7 +250,7 @@ OC.L10N.register(
     "Your email address" : "Zure e-posta",
     "Please share anything that will help prepare for our meeting" : "Mesedez, partekatu gure bilera prestatzen lagunduko duen edozer",
     "Could not book the appointment. Please try again later or contact the organizer." : "Ezin izan da hitzordua erreserbatu. Saiatu berriro geroago edo jarri harremanetan administratzalearekin.",
-    "Book the appointment" : "Erreserbatu hitzordua",
+    "Back" : "Itzuli",
     "Reminder" : "Gogorarazpena",
     "before at" : "lehenago hemen",
     "Notification" : "Jakinarazpena",

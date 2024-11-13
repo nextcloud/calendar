@@ -255,7 +255,7 @@ OC.L10N.register(
     "Your email address" : "Seu endereço de e-mail",
     "Please share anything that will help prepare for our meeting" : "Por favor, compartilhe qualquer coisa que ajude a se preparar para nosso encontro",
     "Could not book the appointment. Please try again later or contact the organizer." : "Não foi possível reservar o agendamento. Tente novamente mais tarde ou entre em contato com o organizador.",
-    "Book the appointment" : "Marcar o agendamento",
+    "Back" : "Voltar",
     "Reminder" : "Lembrete",
     "before at" : "antes das",
     "Notification" : "Notificação",

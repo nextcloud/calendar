@@ -235,7 +235,7 @@ OC.L10N.register(
     "Your name" : "اسم شما",
     "Your email address" : "پست الکترونیکی شما",
     "Could not book the appointment. Please try again later or contact the organizer." : "Could not book the appointment. Please try again later or contact the organizer.",
-    "Book the appointment" : "Book the appointment",
+    "Back" : "Back",
     "Reminder" : "Reminder",
     "before at" : "قبل از در",
     "Notification" : "اطلاع",

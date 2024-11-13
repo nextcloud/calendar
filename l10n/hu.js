@@ -244,7 +244,7 @@ OC.L10N.register(
     "Your email address" : "Az Ön e-mail-címe",
     "Please share anything that will help prepare for our meeting" : "Osszon meg mindent, amely segít a találkozóra felkészüléshez",
     "Could not book the appointment. Please try again later or contact the organizer." : "A találkozót nem sikerült lefoglalni. Próbálja újra, vagy lépjen kapcsolatba a szervezővel.",
-    "Book the appointment" : "Találkozó lefoglalása",
+    "Back" : "Vissza",
     "Reminder" : "Emlékeztető",
     "before at" : "előtt",
     "Notification" : "Értesítés",

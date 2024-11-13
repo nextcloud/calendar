@@ -244,7 +244,7 @@ OC.L10N.register(
     "Your email address" : "تورخەت ئادرېسىڭىز",
     "Please share anything that will help prepare for our meeting" : "ئۇچرىشىشىمىزغا تەييارلىق قىلىشقا ياردىمى بولىدىغان نەرسىلەرنى ئورتاقلىشىڭ",
     "Could not book the appointment. Please try again later or contact the organizer." : "ئۇچرىشىشنى زاكاز قىلالمىدى. كېيىن قايتا سىناڭ ياكى تەشكىللىگۈچى بىلەن ئالاقىلىشىڭ.",
-    "Book the appointment" : "ئۇچرىشىشنى زاكاس قىلىڭ",
+    "Back" : "قايتىش",
     "Reminder" : "ئەسكەرتىش",
     "before at" : "before at",
     "Notification" : "ئۇقتۇرۇش",

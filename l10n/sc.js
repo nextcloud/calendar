@@ -151,6 +151,7 @@ OC.L10N.register(
     "Sunday" : "Domìnigu",
     "Update" : "Agiorna",
     "Your email address" : "Indiritzu tuo de posta eletrònica",
+    "Back" : "In segus",
     "before at" : "antis de is",
     "Notification" : "Notìfica",
     "Email" : "Posta eletrònica",

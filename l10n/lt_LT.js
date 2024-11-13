@@ -198,6 +198,7 @@ OC.L10N.register(
     "Your name" : "Jūsų vardas",
     "Your email address" : "Jūsų el. pašto adresas",
     "Please share anything that will help prepare for our meeting" : "Pasidalinkite informacija, kuri padės mums pasiruošti šiam susitikimui",
+    "Back" : "Atgal",
     "Reminder" : "Priminimas",
     "before at" : "prieš įvykį, ties",
     "Notification" : "Pranešimas",

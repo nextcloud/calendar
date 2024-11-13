@@ -220,7 +220,6 @@ OC.L10N.register(
     "Your email address" : "Jūsu e-pasta adrese",
     "Please share anything that will help prepare for our meeting" : "Lūdzu, dalieties ar visu, kas palīdzēs sagatavoties mūsu sanāksmei",
     "Could not book the appointment. Please try again later or contact the organizer." : "Neizdevās rezervēt tikšanos. Lūdzu, mēģiniet vēlreiz vēlāk vai sazinieties ar organizatoru.",
-    "Book the appointment" : "Rezerevēt plānotu tikšanos",
     "Reminder" : "Atgādinājums",
     "before at" : "pirms ",
     "Notification" : "Paziņojums",

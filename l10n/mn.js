@@ -61,6 +61,7 @@ OC.L10N.register(
     "Saturday" : "бямба",
     "Sunday" : "ням гариг",
     "Update" : "Шинэчлэх",
+    "Back" : "Буцах",
     "Notification" : "Мэдэгдэл",
     "Email" : "Цахим шуудан",
     "Delete file" : "Файл устгах",

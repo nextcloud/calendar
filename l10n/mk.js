@@ -240,7 +240,7 @@ OC.L10N.register(
     "Your email address" : "Вашата адреса за е-пошта",
     "Please share anything that will help prepare for our meeting" : "Ве молиме споделете сè што ќе помогне да се подготвиме за нашиот состанок",
     "Could not book the appointment. Please try again later or contact the organizer." : "Не може да се резервира термин. Обидете се повторно подоцна или контактирајте со организаторот.",
-    "Book the appointment" : "Резервирај термин",
+    "Back" : "Назад",
     "Reminder" : "Потсетник",
     "before at" : "пред",
     "Notification" : "Известување",

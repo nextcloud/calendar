@@ -256,7 +256,7 @@ OC.L10N.register(
     "Your email address" : "Do sheoladh ríomhphoist",
     "Please share anything that will help prepare for our meeting" : "Roinnigí le bhur dtoil aon rud a chuideoidh linn ullmhú dár gcruinniú  le do thoil",
     "Could not book the appointment. Please try again later or contact the organizer." : "Níorbh fhéidir an coinne a chur in áirithe. Bain triail eile as ar ball le do thoil nó déan teagmháil leis an eagraí  le do thoil.",
-    "Book the appointment" : "Cuir an coinne in áirithe",
+    "Back" : "Ar ais",
     "Reminder" : "Meabhrúchán",
     "before at" : "roimh ag",
     "Notification" : "Fógra",

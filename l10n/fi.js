@@ -241,7 +241,7 @@ OC.L10N.register(
     "Your email address" : "Sähköpostiosoitteesi",
     "Please share anything that will help prepare for our meeting" : "Jaa mitä tahansa, mikä auttaa valmistautumaan kokoukseen",
     "Could not book the appointment. Please try again later or contact the organizer." : "Tapaamista ei voitu kirjata. Ole hyvä ja yritä myöhemmin uudelleen tai ota yhteyttä järjestäjään.",
-    "Book the appointment" : "Kirjaa tapaaminen",
+    "Back" : "Takaisin",
     "Reminder" : "Muistutus",
     "before at" : "ennen",
     "Notification" : "Ilmoitus",
