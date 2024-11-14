@@ -257,6 +257,7 @@ OC.L10N.register(
     "Please share anything that will help prepare for our meeting" : "Please share anything that will help prepare for our meeting",
     "Could not book the appointment. Please try again later or contact the organizer." : "Could not book the appointment. Please try again later or contact the organiser.",
     "Back" : "Back",
+    "Book appointment" : "Book appointment",
     "Reminder" : "Reminder",
     "before at" : "before at",
     "Notification" : "Notification",

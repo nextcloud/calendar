@@ -257,6 +257,7 @@ OC.L10N.register(
     "Please share anything that will help prepare for our meeting" : "Vänligen delge eventuella saker som hjälper att förbereda för vårt möte",
     "Could not book the appointment. Please try again later or contact the organizer." : "Kunde inte boka mötet. Vänligen försök igen senare eller kontakta arrangören.",
     "Back" : "Tillbaka",
+    "Book appointment" : "Boka möte",
     "Reminder" : "Påminnelse",
     "before at" : "innan",
     "Notification" : "Notifiering",

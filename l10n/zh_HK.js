@@ -257,6 +257,7 @@ OC.L10N.register(
     "Please share anything that will help prepare for our meeting" : "請分享任何有助於為我們的會議做準備的信息",
     "Could not book the appointment. Please try again later or contact the organizer." : "無法預約。 請稍後再試或聯絡組織者。",
     "Back" : "上星期",
+    "Book appointment" : "預約",
     "Reminder" : "提醒",
     "before at" : "之前於",
     "Notification" : "通告",

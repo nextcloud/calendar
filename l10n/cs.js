@@ -255,6 +255,7 @@ OC.L10N.register(
     "Your email address" : "Vaše e-mailová adresa",
     "Please share anything that will help prepare for our meeting" : "Nasílejte vše co pomůže pro přípravu na naši schůzku",
     "Could not book the appointment. Please try again later or contact the organizer." : "Schůzka nemohla být rezervována. Zkuste to znovu později nebo se obraťte na organizátora.",
+    "Back" : "Zpět",
     "Reminder" : "Připomínka",
     "before at" : "před v",
     "Notification" : "Upozornění",
