@@ -38,7 +38,7 @@
 								<label>{{ t('calendar', 'Calendar') }}</label>
 								<CalendarPicker v-if="calendar !== undefined"
 									:value="calendar"
-									:calendars="ownSortedCalendars"
+									:calendars="availableCalendars"
 									:show-calendar-on-select="false"
 									@select-calendar="changeCalendar" />
 							</div>
@@ -55,7 +55,7 @@
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--local">
 							<label>{{ t('calendar', 'Additional calendars to check for conflicts') }}</label>
-							<CalendarPicker :value="conflictCalendars"
+							<CalendarPicker :value="selectedConflictCalendars"
 								:calendars="selectableConflictCalendars"
 								:multiple="true"
 								:show-calendar-on-select="false"
@@ -195,7 +195,7 @@ export default {
 		...mapState(useSettingsStore, {
 			isTalkEnabled: 'talkEnabled',
 		}),
-		...mapState(useCalendarsStore, ['ownSortedCalendars']),
+		...mapState(useCalendarsStore, ['ownSortedCalendars', 'sortedCalendars']),
 		...mapStores(useAppointmentConfigsStore, useCalendarsStore, useSettingsStore),
 		formTitle() {
 			if (this.showConfirmation) {
@@ -216,26 +216,34 @@ export default {
 		},
 		calendar() {
 			if (!this.editing.targetCalendarUri) {
-				return this.ownSortedCalendars[0]
+				return this.availableCalendars[0]
 			}
 
 			const uri = this.editing.targetCalendarUri
-			const calendar = this.ownSortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
-			return calendar || this.ownSortedCalendars[0]
+			const calendar = this.availableCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
+			return calendar || this.availableCalendars[0]
+		},
+		// TODO: Can be removed after NC version 30 support is dropped
+		availableCalendars() {
+			const nextcloudMajorVersion = parseInt(window.OC.config.version.split('.')[0])
+			if (nextcloudMajorVersion >= 31) {
+				return this.sortedCalendars
+			}
+			return this.ownSortedCalendars
 		},
 		selectableConflictCalendars() {
 			// The target calendar is always a conflict calendar, remove it from additional conflict calendars
-			return this.ownSortedCalendars.filter(calendar => calendar.url !== this.calendar.url)
+			return this.availableCalendars.filter(calendar => calendar.url !== this.calendar.url)
 		},
-		conflictCalendars() {
+		selectedConflictCalendars() {
 			const freebusyUris = this.editing.calendarFreeBusyUris ?? []
 			return freebusyUris.map(uri => {
-				return this.ownSortedCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
-			})
+				return this.availableCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
+			}).filter(calendar => calendar !== undefined)
 		},
 		defaultConfig() {
 			return AppointmentConfig.createDefault(
-				this.calendarUrlToUri(this.ownSortedCalendars[0].url),
+				this.calendarUrlToUri(this.availableCalendars[0].url),
 				this.calendarsStore.scheduleInbox,
 				this.settingsStore.getResolvedTimezone,
 			)
