@@ -257,6 +257,7 @@ OC.L10N.register(
     "Please share anything that will help prepare for our meeting" : "Будь ласка, поділіться корисними матер'ялами, які допоможуть підготоуватися до нашої зустрічі",
     "Could not book the appointment. Please try again later or contact the organizer." : "Не вдалося зарезервувати зустріч. Спробуйте пізніше або сконтактуйте з організатором.",
     "Back" : "Назад",
+    "Book appointment" : "Зарезервувати зустріч",
     "Reminder" : "Нагадування",
     "before at" : "до о",
     "Notification" : "Сповіщення",
