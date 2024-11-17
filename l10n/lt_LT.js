@@ -1,6 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
+    "Provided email-address is too long" : "Pateiktas el. pašto adresas yra per ilgas",
     "User-Session unexpectedly expired" : "Netikėtai pasibaigė naudotojo seanso galiojimas",
     "Provided email-address is not valid" : "Pateiktas el. pašto adresas nėra teisingas",
     "%s has published the calendar »%s«" : "%s paskelbė kalendorių „%s“",
@@ -16,6 +17,7 @@ OC.L10N.register(
     "More events" : "Daugiau įvykių",
     "Calendar" : "Kalendorius",
     "Appointments" : "Susitikimai",
+    "%1$s - %2$s" : "%1$s – %2$s",
     "Confirm" : "Patvirtinti",
     "Description:" : "Aprašas:",
     "This confirmation link expires in %s hours." : "Ši patvirtinimo nuoroda baigia galioti po %s val.",
