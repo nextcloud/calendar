@@ -6,8 +6,8 @@
 <template>
 	<NcModal @close="cancel">
 		<template v-if="isLoading">
-			<div class="app-sidebar__loading-indicator">
-				<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
+			<div class="app-edit-full__loading-indicator">
+				<div class="icon icon-loading app-edit-full-tab-loading-indicator__icon" />
 			</div>
 		</template>
 		<template v-else-if="isError">
@@ -78,21 +78,6 @@
 				@update-end-timezone="updateEndTimezone"
 				@toggle-all-day="toggleAllDay" />
 
-			<div class="property-text-wrapper">
-				<PropertyText
-					:is-read-only="isReadOnly"
-					:prop-model="rfcProps.location"
-					:value="location"
-					:linkify-links="true"
-					@update:value="updateLocation" />
-				<PropertyText
-					:is-read-only="isReadOnly"
-					:prop-model="rfcProps.description"
-					:value="description"
-					:linkify-links="true"
-					@update:value="updateDescription" />
-			</div>
-
 			<InvitationResponseButtons v-if="isViewedByAttendee"
 				:attendee="userAsAttendee"
 				:calendar-id="calendarId"
@@ -102,162 +87,158 @@
 		</div>
 
 		<div v-if="!isLoading && !isError"
-			id="app-sidebar-tab-details"
-			class="app-sidebar-tab"
+			id="app-edit-full-tab-details"
+			class="app-edit-full-tab"
 			:name="$t('calendar', 'Details')"
 			:order="0">
-			<template>
-				<InformationOutline :size="20" decorative />
-			</template>
-			<div class="app-sidebar-tab__content">
-				<PropertySelect :is-read-only="isReadOnly"
-					:prop-model="rfcProps.status"
-					:value="status"
-					@update:value="updateStatus" />
-				<PropertySelect :is-read-only="isReadOnly"
-					:prop-model="rfcProps.accessClass"
-					:value="accessClass"
-					@update:value="updateAccessClass" />
-				<PropertySelect :is-read-only="isReadOnly"
-					:prop-model="rfcProps.timeTransparency"
-					:value="timeTransparency"
-					@update:value="updateTimeTransparency" />
+			<div class="app-edit-full-tab__content">
+				<div class="app-edit-full-tab__content-left">
+					<PropertyText :is-read-only="isReadOnly"
+						:prop-model="rfcProps.location"
+						:value="location"
+						:linkify-links="true"
+						@update:value="updateLocation" />
+					<PropertySelect :is-read-only="isReadOnly"
+						:prop-model="rfcProps.status"
+						:value="status"
+						@update:value="updateStatus" />
+					<PropertySelect :is-read-only="isReadOnly"
+						:prop-model="rfcProps.accessClass"
+						:value="accessClass"
+						@update:value="updateAccessClass" />
+					<PropertySelect :is-read-only="isReadOnly"
+						:prop-model="rfcProps.timeTransparency"
+						:value="timeTransparency"
+						@update:value="updateTimeTransparency" />
 
-				<PropertySelectMultiple :colored-options="true"
-					:is-read-only="isReadOnly"
-					:prop-model="rfcProps.categories"
-					:value="categories"
-					@add-single-value="addCategory"
-					@remove-single-value="removeCategory" />
+					<PropertySelectMultiple :colored-options="true"
+						:is-read-only="isReadOnly"
+						:prop-model="rfcProps.categories"
+						:value="categories"
+						@add-single-value="addCategory"
+						@remove-single-value="removeCategory" />
+				</div>
 
-				<PropertyColor :calendar-color="selectedCalendarColor"
-					:is-read-only="isReadOnly"
-					:prop-model="rfcProps.color"
-					:value="color"
-					@update:value="updateColor" />
+				<div class="app-edit-full-tab__content-right">
+					<PropertyText :is-read-only="isReadOnly"
+						:prop-model="rfcProps.description"
+						:value="description"
+						:linkify-links="true"
+						@update:value="updateDescription" />
+					<PropertyColor :calendar-color="selectedCalendarColor"
+						:is-read-only="isReadOnly"
+						:prop-model="rfcProps.color"
+						:value="color"
+						@update:value="updateColor" />
 
-				<AlarmList :calendar-object-instance="calendarObjectInstance"
-					:is-read-only="isReadOnly" />
+					<AlarmList :calendar-object-instance="calendarObjectInstance"
+						:is-read-only="isReadOnly" />
 
-				<!-- TODO: If not editing the master item, force updating this and all future   -->
-				<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
-				<Repeat :calendar-object-instance="calendarObjectInstance"
-					:recurrence-rule="calendarObjectInstance.recurrenceRule"
-					:is-read-only="isReadOnly"
-					:is-editing-master-item="isEditingMasterItem"
-					:is-recurrence-exception="isRecurrenceException"
-					@force-this-and-all-future="forceModifyingFuture" />
+					<!-- TODO: If not editing the master item, force updating this and all future   -->
+					<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
+					<Repeat :calendar-object-instance="calendarObjectInstance"
+						:recurrence-rule="calendarObjectInstance.recurrenceRule"
+						:is-read-only="isReadOnly"
+						:is-editing-master-item="isEditingMasterItem"
+						:is-recurrence-exception="isRecurrenceException"
+						@force-this-and-all-future="forceModifyingFuture" />
 
-				<AttachmentsList v-if="!isLoading"
-					:calendar-object-instance="calendarObjectInstance"
-					:is-read-only="isReadOnly" />
+					<AttachmentsList v-if="!isLoading"
+						:calendar-object-instance="calendarObjectInstance"
+						:is-read-only="isReadOnly" />
 
-				<NcModal v-if="showModal && !isPrivate()"
-					:name="t('calendar', 'Managing shared access')"
-					@close="closeAttachmentsModal">
-					<div class="modal-content">
-						<div v-if="showPreloader" class="modal-content-preloader">
-							<div :style="`width:${sharedProgress}%`" />
-						</div>
-						<div class="modal-h">
-							{{ n('calendar', 'User requires access to your file', 'Users require access to your file', showModalUsers.length) }}
-						</div>
-						<div class="users">
-							<NcListItemIcon v-for="attendee in showModalUsers"
-								:key="attendee.uri"
-								class="user-list-item"
-								:name="attendee.commonName"
-								:subtitle="emailWithoutMailto(attendee.uri)"
-								:is-no-user="true" />
-						</div>
-						<div class="modal-subtitle">
-							{{ n('calendar', 'Attachment requires shared access', 'Attachments requiring shared access', showModalNewAttachments.length) }}
-						</div>
-						<div class="attachments">
-							<NcListItemIcon v-for="attachment in showModalNewAttachments"
-								:key="attachment.xNcFileId"
-								class="attachment-list-item"
-								:name="getBaseName(attachment.fileName)"
-								:url="getPreview(attachment)"
-								:force-display-actions="false" />
-						</div>
-						<div class="modal-footer">
-							<div class="modal-footer-checkbox">
-								<NcCheckboxRadioSwitch v-if="!isPrivate()" :checked.sync="doNotShare">
-									{{ t('calendar', 'Deny access') }}
-								</NcCheckboxRadioSwitch>
+					<NcModal v-if="showModal && !isPrivate()"
+						:name="t('calendar', 'Managing shared access')"
+						@close="closeAttachmentsModal">
+						<div class="modal-content">
+							<div v-if="showPreloader" class="modal-content-preloader">
+								<div :style="`width:${sharedProgress}%`" />
 							</div>
-							<div class="modal-footer-buttons">
-								<NcButton @click="closeAttachmentsModal">
-									{{ t('calendar', 'Cancel') }}
-								</NcButton>
-								<NcButton type="primary"
-									:disabled="showPreloader"
-									@click="acceptAttachmentsModal(thisAndAllFuture)">
-									{{ t('calendar', 'Invite') }}
-								</NcButton>
+							<div class="modal-h">
+								{{ n('calendar', 'User requires access to your file', 'Users require access to your file', showModalUsers.length) }}
+							</div>
+							<div class="users">
+								<NcListItemIcon v-for="attendee in showModalUsers"
+									:key="attendee.uri"
+									class="user-list-item"
+									:name="attendee.commonName"
+									:subtitle="emailWithoutMailto(attendee.uri)"
+									:is-no-user="true" />
+							</div>
+							<div class="modal-subtitle">
+								{{ n('calendar', 'Attachment requires shared access', 'Attachments requiring shared access', showModalNewAttachments.length) }}
+							</div>
+							<div class="attachments">
+								<NcListItemIcon v-for="attachment in showModalNewAttachments"
+									:key="attachment.xNcFileId"
+									class="attachment-list-item"
+									:name="getBaseName(attachment.fileName)"
+									:url="getPreview(attachment)"
+									:force-display-actions="false" />
+							</div>
+							<div class="modal-footer">
+								<div class="modal-footer-checkbox">
+									<NcCheckboxRadioSwitch v-if="!isPrivate()" :checked.sync="doNotShare">
+										{{ t('calendar', 'Deny access') }}
+									</NcCheckboxRadioSwitch>
+								</div>
+								<div class="modal-footer-buttons">
+									<NcButton @click="closeAttachmentsModal">
+										{{ t('calendar', 'Cancel') }}
+									</NcButton>
+									<NcButton type="primary"
+										:disabled="showPreloader"
+										@click="acceptAttachmentsModal(thisAndAllFuture)">
+										{{ t('calendar', 'Invite') }}
+									</NcButton>
+								</div>
 							</div>
 						</div>
-					</div>
-				</NcModal>
+					</NcModal>
+				</div>
 			</div>
-			<SaveButtons v-if="showSaveButtons"
-				class="app-sidebar-tab__buttons"
-				:can-create-recurrence-exception="canCreateRecurrenceException"
-				:is-new="isNew"
-				:is-read-only="isReadOnly"
-				:force-this-and-all-future="forceThisAndAllFuture"
-				@save-this-only="prepareAccessForAttachments(false)"
-				@save-this-and-all-future="prepareAccessForAttachments(true)" />
 		</div>
-		<div v-if="!isLoading && !isError"
-			id="app-sidebar-tab-attendees"
-			class="app-sidebar-tab"
-			:name="$t('calendar', 'Attendees')"
-			:order="1">
-			<template>
-				<AccountMultiple :size="20" decorative />
-			</template>
-			<div class="app-sidebar-tab__content">
-				<InviteesList v-if="!isLoading"
-					:calendar="selectedCalendar"
-					:calendar-object-instance="calendarObjectInstance"
-					:is-read-only="isReadOnlyOrViewing"
-					:is-shared-with-me="isSharedWithMe"
-					:show-header="false"
-					@update-dates="updateDates" />
+		<hr>
+		<div class="app-edit-full-tab__lower">
+			<div v-if="!isLoading && !isError"
+				class="app-edit-full-tab-attendees"
+				:name="$t('calendar', 'Attendees')"
+				:order="1">
+				<div class="app-edit-full-tab-attendees__icon">
+					<AccountMultiple :size="20" decorative />
+				</div>
+				<div class="app-edit-full-tab-attendees__content">
+					<InviteesList v-if="!isLoading"
+						:calendar="selectedCalendar"
+						:calendar-object-instance="calendarObjectInstance"
+						:is-read-only="isReadOnlyOrViewing"
+						:is-shared-with-me="isSharedWithMe"
+						:show-header="false"
+						@update-dates="updateDates" />
+				</div>
 			</div>
-			<SaveButtons v-if="showSaveButtons"
-				class="app-sidebar-tab__buttons"
-				:can-create-recurrence-exception="canCreateRecurrenceException"
-				:is-new="isNew"
-				:is-read-only="isReadOnly"
-				:force-this-and-all-future="forceThisAndAllFuture"
-				@save-this-only="prepareAccessForAttachments(false)"
-				@save-this-and-all-future="prepareAccessForAttachments(true)" />
-		</div>
-		<div v-if="!isLoading && !isError && showResources"
-			id="app-sidebar-tab-resources"
-			class="app-sidebar-tab"
-			:name="$t('calendar', 'Resources')"
-			:order="3">
-			<template>
-				<MapMarker :size="20" decorative />
-			</template>
-			<div class="app-sidebar-tab__content">
-				<ResourceList v-if="!isLoading"
-					:calendar-object-instance="calendarObjectInstance"
-					:is-read-only="isReadOnly" />
+			<div v-if="!isLoading && !isError && showResources"
+				class="app-edit-full-tab-resources"
+				:name="$t('calendar', 'Resources')"
+				:order="3">
+				<div class="app-edit-full-tab-resources__icon">
+					<MapMarker :size="20" decorative />
+				</div>
+				<div class="app-edit-full-tab-resources__content">
+					<ResourceList v-if="!isLoading"
+						:calendar-object-instance="calendarObjectInstance"
+						:is-read-only="isReadOnly" />
+				</div>
 			</div>
-			<SaveButtons v-if="showSaveButtons"
-				class="app-sidebar-tab__buttons"
-				:can-create-recurrence-exception="canCreateRecurrenceException"
-				:is-new="isNew"
-				:is-read-only="isReadOnly"
-				:force-this-and-all-future="forceThisAndAllFuture"
-				@save-this-only="prepareAccessForAttachments(false)"
-				@save-this-and-all-future="prepareAccessForAttachments(true)" />
 		</div>
+		<SaveButtons v-if="showSaveButtons"
+			class="app-edit-full-tab__buttons"
+			:can-create-recurrence-exception="canCreateRecurrenceException"
+			:is-new="isNew"
+			:is-read-only="isReadOnly"
+			:force-this-and-all-future="forceThisAndAllFuture"
+			@save-this-only="prepareAccessForAttachments(false)"
+			@save-this-and-all-future="prepareAccessForAttachments(true)" />
 	</NcModal>
 </template>
 <script>
@@ -610,130 +591,3 @@ export default {
 	},
 }
 </script>
-
-<style lang="scss" scoped>
-:deep(.modal-container) {
-	width: 900px !important;
-}
-
-:deep(.modal-container__content) {
-	padding: calc(var(--default-grid-baseline) * 4);
-}
-
-.modal-content {
-	padding: 16px;
-	position: relative;
-
-	.modal-content-preloader {
-		position: absolute;
-		top:0;
-		left:0;
-		right:0;
-		height: 6px;
-
-		div {
-			position: absolute;
-			top:0;
-			left: 0;
-			background: var(--color-primary-element);
-			height: 6px;
-			transition: width 0.3s linear;
-		}
-	}
-}
-.modal-subtitle {
-	font-weight: bold;
-	font-size: 16px;
-	margin-top: 16px;
-}
-.modal-h {
-	font-size: 24px;
-	font-weight: bold;
-	margin: 10px 0;
-}
-.modal-footer {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-
-	.modal-footer-buttons {
-		display: flex;
-
-		:first-child {
-			margin-right: 6px;
-		}
-	}
-}
-.attachments, .users {
-	display: flex;
-	flex-wrap: wrap;
-}
-.attachment-list-item, .user-list-item {
-	width: 50%
-}
-.attachment-icon {
-	width: 40px;
-	height: auto;
-	border-radius: var(--border-radius);
-}
-.property-location {
-	margin-top: 10px;
-}
-.property-description {
-	margin-bottom: 10px;
-}
-
-.top-actions {
-	display: flex;
-	list-style-type: none;
-	padding-right: calc(var(--default-grid-baseline) * 4);
-	margin-top: calc(var(--default-grid-baseline) * -3);
-
-	&-wrapper {
-		display: flex;
-		justify-content: space-between;
-	}
-}
-
-.full-edit-modal {
-	padding: calc(var(--default-grid-baseline) * 4);
-}
-
-.top-wrapper {
-	display: flex;
-	flex-direction: column;
-	gap: calc(var(--default-grid-baseline) * 4);
-}
-
-.property-text {
-	display: flex;
-	gap: calc(var(--default-grid-baseline) * 4);
-	margin: 0;
-	flex-grow: 1;
-
-	&-wrapper {
-		display: flex;
-		gap: calc(var(--default-grid-baseline) * 4);
-		justify-content: stretch;
-	}
-
-	:deep(.property-text__input), :deep(textarea), input {
-		width: 100%;
-		height: 68px;
-	}
-}
-
-.property-title-time-picker {
-	display: flex;
-	justify-content: stretch;
-
-	.property-title-time-picker__time-pickers {
-		flex-grow: 1;
-		display: flex;
-
-		.date-time-picker {
-			flex-grow: 1;
-		}
-	}
-}
-</style>
