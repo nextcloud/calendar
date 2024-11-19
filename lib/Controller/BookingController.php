@@ -7,6 +7,7 @@ declare(strict_types=1);
  */
 namespace OCA\Calendar\Controller;
 
+use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
 use InvalidArgumentException;
@@ -89,22 +90,21 @@ class BookingController extends Controller {
 	public function getBookableSlots(int $appointmentConfigId,
 		int $startTime,
 		string $timeZone): JsonResponse {
-		// Convert the timestamps to the beginning and end of the respective day in the specified timezone
 		try {
 			$tz = new DateTimeZone($timeZone);
 		} catch (Exception $e) {
 			$this->logger->error('Timezone invalid', ['exception' => $e]);
 			return JsonResponse::fail('Invalid time zone', Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
-		$startTimeInTz = (new DateTimeImmutable())
-			->setTimestamp($startTime)
-			->setTimezone($tz)
-			->setTime(0, 0)
+		// UI sends epoch start of day adjusted for system users calendar
+		// E.g "Mon, 18 Nov 2024 05:00:00 +0000" (America/Toronto)
+		$startDate = (new DateTimeImmutable("@$startTime"));
+		// Convert start date to requesters selected timezone adjusted start and end of day in epoch
+		// E.g "Mon, 18 Nov 2024 06:00:00 +0000" (America/Mexico_City)
+		$startTimeInTz = (new DateTime($startDate->format('Y-m-d'), $tz))
 			->getTimestamp();
-		$endTimeInTz = (new DateTimeImmutable())
-			->setTimestamp($startTime)
-			->setTimezone($tz)
-			->setTime(23, 59, 59)
+		$endTimeInTz = (new DateTime($startDate->format('Y-m-d'), $tz))
+			->modify('+1 day')
 			->getTimestamp();
 
 		if ($startTimeInTz > $endTimeInTz) {

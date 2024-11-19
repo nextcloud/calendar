@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use DateTime;
 use DateTimeImmutable;
 use DateTimeZone;
 use Exception;
@@ -108,15 +109,11 @@ class BookingControllerTest extends TestCase {
 	public function testGetBookableSlots(): void {
 		$start = time();
 		$tz = new DateTimeZone('Europe/Berlin');
-		$sDT = (new DateTimeImmutable())
-			->setTimestamp($start)
-			->setTimezone($tz)
-			->setTime(0, 0)
+		$startDate = (new DateTimeImmutable("@$start"));
+		$sDT = (new DateTime($startDate->format('Y-m-d'), $tz))
 			->getTimestamp();
-		$eDT = (new DateTimeImmutable())
-			->setTimestamp($start)
-			->setTimezone($tz)
-			->setTime(23, 59, 59)
+		$eDT = (new DateTime($startDate->format('Y-m-d'), $tz))
+			->modify('+1 day')
 			->getTimestamp();
 
 		$apptConfg = new AppointmentConfig();
@@ -131,6 +128,25 @@ class BookingControllerTest extends TestCase {
 		$this->bookingService->expects(self::once())
 			->method('getAvailableSlots')
 			->with($apptConfg, $sDT, $eDT);
+
+		$this->controller->getBookableSlots($apptConfg->getId(), $start, 'Europe/Berlin');
+	}
+
+	public function testGetBookableSlotsDatesInPast(): void {
+		$start = time();
+		$fakeFutureTimestamp = time() + (100 * 24 * 60 * 60);
+		$apptConfg = new AppointmentConfig();
+		$apptConfg->setId(1);
+		$this->time->expects(self::once())
+			->method('getTime')
+			->willReturn($fakeFutureTimestamp);
+		$this->apptService->expects(self::never())
+			->method('findById')
+			->with(1);
+		$this->bookingService->expects(self::never())
+			->method('getAvailableSlots');
+		$this->logger->expects(self::once())
+			->method('warning');
 
 		$this->controller->getBookableSlots($apptConfg->getId(), $start, 'Europe/Berlin');
 	}
@@ -151,23 +167,96 @@ class BookingControllerTest extends TestCase {
 		$this->controller->getBookableSlots($apptConfg->getId(), $start, 'Hook/Neverland');
 	}
 
-	public function testGetBookableSlotsDatesInPast(): void {
-		$start = time();
-		$fakeFutureTimestamp = time() + (100 * 24 * 60 * 60);
+	public function testGetBookableSlotsTimezoneIdentical(): void {
+		$now = (new DateTime('2024-6-30 8:00:00'))->getTimestamp();
+		$start = (new DateTime('2024-7-1 04:00:00'))->getTimestamp(); // Start date with America/Toronto offset
+		$timezone = 'America/Toronto';
+		$sDT = (new DateTime('2024-7-1 04:00:00'))->getTimestamp();
+		$eDT = (new DateTime('2024-7-2 04:00:00'))->getTimestamp();
+
 		$apptConfg = new AppointmentConfig();
 		$apptConfg->setId(1);
 		$this->time->expects(self::once())
 			->method('getTime')
-			->willReturn($fakeFutureTimestamp);
-		$this->apptService->expects(self::never())
+			->willReturn($now);
+		$this->apptService->expects(self::once())
 			->method('findById')
-			->with(1);
-		$this->bookingService->expects(self::never())
-			->method('getAvailableSlots');
-		$this->logger->expects(self::once())
-			->method('warning');
+			->with(1)
+			->willReturn($apptConfg);
+		$this->bookingService->expects(self::once())
+			->method('getAvailableSlots')
+			->with($apptConfg, $sDT, $eDT);
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $start, 'Europe/Berlin');
+		$this->controller->getBookableSlots($apptConfg->getId(), $start, $timezone);
+	}
+
+	public function testGetBookableSlotsTimezoneMinus10(): void {
+		$now = (new DateTime('2024-6-30 8:00:00'))->getTimestamp();
+		$start = (new DateTime('2024-7-1 4:00:00'))->getTimestamp(); // Start date with America/Toronto offset
+		$timezone = 'Pacific/Pago_Pago';
+		$sDT = (new DateTime('2024-7-1 11:00:00'))->getTimestamp();
+		$eDT = (new DateTime('2024-7-2 11:00:00'))->getTimestamp();
+
+		$apptConfg = new AppointmentConfig();
+		$apptConfg->setId(1);
+		$this->time->expects(self::once())
+			->method('getTime')
+			->willReturn($now);
+		$this->apptService->expects(self::once())
+			->method('findById')
+			->with(1)
+			->willReturn($apptConfg);
+		$this->bookingService->expects(self::once())
+			->method('getAvailableSlots')
+			->with($apptConfg, $sDT, $eDT);
+
+		$this->controller->getBookableSlots($apptConfg->getId(), $start, $timezone);
+	}
+
+	public function testGetBookableSlotsTimezonePlus10(): void {
+		$now = (new DateTime('2024-6-30 8:00:00'))->getTimestamp();
+		$start = (new DateTime('2024-7-1 4:00:00'))->getTimestamp(); // Start date with America/Toronto offset
+		$timezone = 'Australia/Sydney';
+		$sDT = (new DateTime('2024-6-30 14:00:00'))->getTimestamp();
+		$eDT = (new DateTime('2024-7-1 14:00:00'))->getTimestamp();
+
+		$apptConfg = new AppointmentConfig();
+		$apptConfg->setId(1);
+		$this->time->expects(self::once())
+			->method('getTime')
+			->willReturn($now);
+		$this->apptService->expects(self::once())
+			->method('findById')
+			->with(1)
+			->willReturn($apptConfg);
+		$this->bookingService->expects(self::once())
+			->method('getAvailableSlots')
+			->with($apptConfg, $sDT, $eDT);
+
+		$this->controller->getBookableSlots($apptConfg->getId(), $start, $timezone);
+	}
+
+	public function testGetBookableSlotsTimezonePlus14(): void {
+		$now = (new DateTime('2024-6-30 8:00:00'))->getTimestamp();
+		$start = (new DateTime('2024-7-1 4:00:00'))->getTimestamp(); // Start date with America/Toronto offset
+		$timezone = 'Pacific/Kiritimati';
+		$sDT = (new DateTime('2024-6-30 10:00:00'))->getTimestamp();
+		$eDT = (new DateTime('2024-7-1 10:00:00'))->getTimestamp();
+
+		$apptConfg = new AppointmentConfig();
+		$apptConfg->setId(1);
+		$this->time->expects(self::once())
+			->method('getTime')
+			->willReturn($now);
+		$this->apptService->expects(self::once())
+			->method('findById')
+			->with(1)
+			->willReturn($apptConfg);
+		$this->bookingService->expects(self::once())
+			->method('getAvailableSlots')
+			->with($apptConfg, $sDT, $eDT);
+
+		$this->controller->getBookableSlots($apptConfg->getId(), $start, $timezone);
 	}
 
 	public function testBook(): void {
