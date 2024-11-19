@@ -1,0 +1,89 @@
+# SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: E2E tests
+on: pull_request
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: "20" # TODO: Extract automatically using another action
+
+jobs:
+  matrix:
+    runs-on: ubuntu-latest-low
+    outputs:
+      php-min: ${{ steps.versions.outputs.php-min }}
+      branches-min: ${{ steps.versions.outputs.branches-min }}
+    steps:
+      - name: Checkout app
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - name: Get version matrix
+        id: versions
+        uses: icewind1991/nextcloud-version-matrix@58becf3b4bb6dc6cef677b15e2fd8e7d48c0908f # v1.3.1
+
+  frontend-e2e-tests:
+    runs-on: ubuntu-latest
+    name: Front-end E2E tests
+    needs: matrix
+    steps:
+      - name: Set up Nextcloud env
+        uses: ChristophWurst/setup-nextcloud@fc0790385c175d97e88a7cb0933490de6e990374 # v0.3.2
+        with:
+          nextcloud-version: ${{ needs.matrix.outputs.branches-min }}
+          php-version: ${{ needs.matrix.outputs.php-min }}
+          node-version: ${{ env.NODE_VERSION }}
+          install: true
+      - name: Configure Nextcloud for testing
+        run: |
+          php -f nextcloud/occ config:system:set debug --type=bool --value=true
+          php -f nextcloud/occ config:system:set overwriteprotocol --value=https
+          php -f nextcloud/occ config:system:set overwritehost --value=localhost
+          php -f nextcloud/occ config:system:set overwrite.cli.url --value=https://localhost
+      - name: Check out the app
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+        with:
+          path: nextcloud/apps/calendar
+      - name: Install php dependencies
+        working-directory: nextcloud/apps/calendar
+        run: composer install
+      - name: Install the app
+        run: php -f nextcloud/occ app:enable calendar
+      - name: Set up node ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install npm dependencies
+        working-directory: nextcloud/apps/calendar
+        run: npm ci
+      - name: Build frontend
+        working-directory: nextcloud/apps/calendar
+        run: npm run build
+      - name: Install stunnel (tiny https proxy)
+        run: sudo apt-get install -y stunnel
+      - name: Start php server and https proxy
+        working-directory: nextcloud
+        run: |
+          openssl req -new -x509 -days 365 -nodes -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=localhost" -out stunnel.pem -keyout stunnel.pem
+          php -S 127.0.0.1:8080 &
+          sudo stunnel3 -p stunnel.pem -d 443 -r 8080
+      - name: Test https access
+        run: curl --insecure -Li https://localhost
+      - name: Install Playwright browsers
+        working-directory: nextcloud/apps/calendar
+        run: npx playwright install --with-deps chromium
+      - name: Run Playwright tests
+        working-directory: nextcloud/apps/calendar
+        run: DEBUG=pw:api npx playwright test
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: playwright-report-${{ github.event.number }}-nc${{ needs.matrix.outputs.branches-min }}-php${{ needs.matrix.outputs.php-min }}-node${{ env.NODE_VERSION }}
+          path: nextcloud/apps/calendar/playwright-report/
+          retention-days: 14
+      - name: Print server logs
+        if: always()
+        run: cat nextcloud/data/nextcloud.log*
+    env:
+      CI: true
