@@ -88,7 +88,7 @@ jobs:
         id: server-checkout
         run: |
           NCVERSION=${{ fromJSON(steps.appinfo.outputs.result).nextcloud.min-version }}
-          wget --quiet https://download.nextcloud.com/server/releases/latest-$NCVERSION.zip -o build/nextcloud.zip
+          wget https://download.nextcloud.com/server/releases/latest-$NCVERSION.zip -o build/nextcloud.zip
           unzip build/nextcloud.zip build/nextcloud
 
       - name: Checkout server master fallback
