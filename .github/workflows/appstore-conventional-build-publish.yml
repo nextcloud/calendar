@@ -106,8 +106,8 @@ jobs:
           tar -xvf ${{ env.APP_NAME }}.tar.gz
           cd ../../
           # Setting up keys
+          echo "${{ secrets.APP_CERT }}" > build/${{ env.APP_NAME }}.crt
           echo "${{ secrets.APP_PRIVATE_KEY }}" > build/${{ env.APP_NAME }}.key
-          wget --quiet "https://github.com/nextcloud/app-certificate-requests/raw/master/${{ env.APP_NAME }}/${{ env.APP_NAME }}.crt" -o build/${{ env.APP_NAME }}.crt
           pwd
           ls -l
           ls -l build
