@@ -25,7 +25,6 @@ jobs:
         run: |
           # Split and keep last
           echo "APP_NAME=${GITHUB_REPOSITORY##*/}" >> $GITHUB_ENV
-          echo "APP_VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
       - name: Checkout
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
@@ -81,7 +80,7 @@ jobs:
           wget https://github.com/ChristophWurst/krankerl/releases/download/v0.14.0/krankerl_0.14.0_amd64.deb
           sudo dpkg -i krankerl_0.14.0_amd64.deb
 
-      - name: Package ${{ env.APP_NAME }} ${{ env.APP_VERSION }} with krankerl
+      - name: Package ${{ env.APP_NAME }} ${{ steps.changelog.outputs.tag }} with krankerl
         run: krankerl package
 
       - name: Checkout server ${{ fromJSON(steps.appinfo.outputs.result).nextcloud.min-version }}
@@ -132,7 +131,7 @@ jobs:
           repo_token: ${{ secrets.RELEASE_PAT }}
           repo_name: nextcloud-releases/${{ env.APP_NAME }}
           file: build/artifacts/${{ env.APP_NAME }}.tar.gz
-          asset_name: ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.tar.gz
+          asset_name: ${{ env.APP_NAME }}-${{ steps.changelog.outputs.tag }}.tar.gz
           tag: ${{ steps.changelog.outputs.tag }}
           overwrite: true
 
