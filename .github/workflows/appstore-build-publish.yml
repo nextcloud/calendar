@@ -8,9 +8,7 @@
 
 name: Build and publish app release
 
-on:
-  release:
-    types: [published]
+on: workflow_dispatch
 
 jobs:
   build_and_publish:

@@ -1,0 +1,146 @@
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Build and publish app release conventionally
+
+on:
+  workflow_dispatch:
+    branches: stable*
+
+env:
+  PHP_VERSION: 8.2
+
+jobs:
+  build_and_publish:
+    runs-on: [ubuntu-latest, self-hosted]
+    environment: release
+
+    steps:
+      - name: Check actor permission
+        uses: skjnldsv/check-actor-permission@69e92a3c4711150929bca9fcf34448c5bf5526e7 # v3.0
+        with:
+          require: write
+
+      - name: Set app env
+        run: |
+          # Split and keep last
+          echo "APP_NAME=${GITHUB_REPOSITORY##*/}" >> $GITHUB_ENV
+          echo "APP_VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        with:
+          token: ${{ secrets.RELEASE_PAT }}
+          fetch-depth: 0
+
+      - name: Conventional Changelog Action
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@v3
+        with:
+          github-token: ${{ secrets.RELEASE_PAT }}
+          skip-git-pull: "true"
+          pre-commit: build/pre-commit.js
+          release-count: 0
+          version-file: "package.json, package-lock.json"
+
+      - name: Get appinfo data
+        id: appinfo
+        uses: skjnldsv/xpath-action@7e6a7c379d0e9abc8acaef43df403ab4fc4f770c # master
+        with:
+          filename: appinfo/info.xml
+          expression: "//info//dependencies//nextcloud/@min-version"
+
+      - name: Read package.json node and npm engines version
+        uses: skjnldsv/read-package-engines-version-actions@8205673bab74a63eb9b8093402fd9e0e018663a1 # v2.2
+        id: versions
+        # Continue if no package.json
+        continue-on-error: true
+        with:
+          path: ./
+          fallbackNode: '^20'
+          fallbackNpm: '^9'
+
+      - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
+        with:
+          node-version: ${{ steps.versions.outputs.nodeVersion }}
+
+      - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
+        run: npm i -g npm@"${{ steps.versions.outputs.npmVersion }}"
+
+      - name: Set up php ${{ env.PHP_VERSION }}
+        uses: shivammathur/setup-php@a4e22b60bbb9c1021113f2860347b0759f66fe5d # v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          coverage: none
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Krankerl
+        run: |
+          wget https://github.com/ChristophWurst/krankerl/releases/download/v0.14.0/krankerl_0.14.0_amd64.deb
+          sudo dpkg -i krankerl_0.14.0_amd64.deb
+
+      - name: Package ${{ env.APP_NAME }} ${{ env.APP_VERSION }} with krankerl
+        run: krankerl package
+
+      - name: Checkout server ${{ fromJSON(steps.appinfo.outputs.result).nextcloud.min-version }}
+        continue-on-error: true
+        id: server-checkout
+        run: |
+          NCVERSION=${{ fromJSON(steps.appinfo.outputs.result).nextcloud.min-version }}
+          wget --quiet https://download.nextcloud.com/server/releases/latest-$NCVERSION.zip -o build/nextcloud.zip
+          unzip build/nextcloud.zip build/nextcloud
+
+      - name: Checkout server master fallback
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        if: ${{ steps.changelog.outputs.skipped == 'false' && steps.server-checkout.outcome != 'success' }}
+        with:
+          submodules: true
+          repository: nextcloud/server
+          path: build/nextcloud
+
+      - name: Sign app
+        run: |
+          # Extracting release
+          cd build/artifacts
+          tar -xvf ${{ env.APP_NAME }}.tar.gz
+          cd ../../
+          # Setting up keys
+          echo "${{ secrets.APP_PRIVATE_KEY }}" > build/${{ env.APP_NAME }}.key
+          wget --quiet "https://github.com/nextcloud/app-certificate-requests/raw/master/${{ env.APP_NAME }}/${{ env.APP_NAME }}.crt" -o build/${{ env.APP_NAME }}.crt
+          pwd
+          ls -l
+          ls -l build
+          # Signing
+          php build/nextcloud/occ integrity:sign-app --privateKey=../${{ env.APP_NAME }}.key --certificate=../${{ env.APP_NAME }}.crt --path=../artifacts/${{ env.APP_NAME }}
+          # Rebuilding archive
+          cd build/artifacts
+          tar -zcvf ${{ env.APP_NAME }}.tar.gz ${{ env.APP_NAME }}
+
+      - name: Push tag to releases organization
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        run: |
+          git remote add release https://github.com/nextcloud-releases/${{ env.APP_NAME }}.git
+          git push release ${{ steps.changelog.outputs.tag }}
+
+      - name: Attach tarball to github release
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        uses: svenstaro/upload-release-action@04733e069f2d7f7f0b4aebc4fbdbce8613b03ccd # v2
+        id: attach_to_release
+        with:
+          repo_token: ${{ secrets.RELEASE_PAT }}
+          repo_name: nextcloud-releases/${{ env.APP_NAME }}
+          file: build/artifacts/${{ env.APP_NAME }}.tar.gz
+          asset_name: ${{ env.APP_NAME }}-${{ env.APP_VERSION }}.tar.gz
+          tag: ${{ steps.changelog.outputs.tag }}
+          overwrite: true
+
+      - name: Upload app to Nextcloud appstore
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        uses: nextcloud-releases/nextcloud-appstore-push-action@a011fe619bcf6e77ddebc96f9908e1af4071b9c1 # v1
+        with:
+          app_name: ${{ env.APP_NAME }}
+          appstore_token: ${{ secrets.APPSTORE_TOKEN }}
+          download_url: ${{ steps.attach_to_release.outputs.browser_download_url }}
+          app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
