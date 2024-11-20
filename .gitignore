@@ -79,7 +79,7 @@ composer.phar
 .vscode/
 *.code-workspace
 
-build/
+build/artifacts
 js/
 node_modules/
 src/fonts
