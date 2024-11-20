@@ -1,3 +1,13 @@
+## [5.0.3](https://github.com/nextcloud/calendar/compare/v5.0.2...v5.0.3) (2024-11-20)
+
+
+### Bug Fixes
+
+* **deps:** Update axios ([e3b439f](https://github.com/nextcloud/calendar/commit/e3b439f35d2d372e2ba2b454518d8146875c4936))
+* Packge version inconsistency ([c4c6216](https://github.com/nextcloud/calendar/commit/c4c621616b931d3439964fb296ce3ba385a5727b))
+
+
+
 ## [5.0.2](https://github.com/nextcloud/calendar/compare/v5.0.1...v5.0.2) (2024-11-20)
 
 
