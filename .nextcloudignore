@@ -1,5 +1,6 @@
 # SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
+__mocks__
 .editorconfig
 .eslintrc.js
 .git
@@ -28,12 +29,15 @@ package.json
 package-lock.json
 phpunit.unit.xml
 README.md
+phpunit*.xml
 /psalm.xml
+renovate.json
 screenshots
 src
 stylelint.config.js
 tests
 timezones
 /vendor/bin
+/vendor/bamarni/composer-bin-plugin/e2e
 /vendor-bin
 webpack.*
