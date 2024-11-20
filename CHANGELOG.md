@@ -1,3 +1,12 @@
+## [5.0.5](https://github.com/nextcloud/calendar/compare/v5.0.4...v5.0.5) (2024-11-20)
+
+
+### Bug Fixes
+
+* Release process ([acdca3b](https://github.com/nextcloud/calendar/commit/acdca3bf58eaf21c4f3334b1eee6c27972987acc))
+
+
+
 ## [5.0.4](https://github.com/nextcloud/calendar/compare/v5.0.3...v5.0.4) (2024-11-20)
 
 
