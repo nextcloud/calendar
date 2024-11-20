@@ -1,3 +1,12 @@
+## [5.0.4](https://github.com/nextcloud/calendar/compare/v5.0.3...v5.0.4) (2024-11-20)
+
+
+### Bug Fixes
+
+* **release:** App signature ([f40ec12](https://github.com/nextcloud/calendar/commit/f40ec1257d6801449ea9c3873efc743db04c99d2))
+
+
+
 ## [5.0.3](https://github.com/nextcloud/calendar/compare/v5.0.2...v5.0.3) (2024-11-20)
 
 
