@@ -9,7 +9,7 @@ import { getRootUrl, generateUrl } from '@nextcloud/router'
 
 import Calendar from './views/Calendar.vue'
 import EditSimple from './views/EditSimple.vue'
-import EditSidebar from './views/EditSidebar.vue'
+import EditFull from './views/EditFull.vue'
 import {
 	getDefaultEndDateForNewEvent,
 	getDefaultStartDateForNewEvent,
@@ -40,9 +40,9 @@ const router = new Router({
 					component: EditSimple,
 				},
 				{
-					path: '/p/:tokens/:view/:firstDay/view/sidebar/:object/:recurrenceId',
-					name: 'PublicEditSidebarView',
-					component: EditSidebar,
+					path: '/p/:tokens/:view/:firstDay/view/full/:object/:recurrenceId',
+					name: 'PublicEditFullView',
+					component: EditFull,
 				},
 			],
 		},
@@ -57,9 +57,9 @@ const router = new Router({
 					component: EditSimple,
 				},
 				{
-					path: '/embed/:tokens/:view/:firstDay/view/sidebar/:object/:recurrenceId',
-					name: 'EmbedEditSidebarView',
-					component: EditSidebar,
+					path: '/embed/:tokens/:view/:firstDay/view/full/:object/:recurrenceId',
+					name: 'EmbedEditFullView',
+					component: EditFull,
 				},
 			],
 		},
@@ -117,9 +117,9 @@ const router = new Router({
 					component: EditSimple,
 				},
 				{
-					path: '/:view/:firstDay/edit/sidebar/:object/:recurrenceId',
-					name: 'EditSidebarView',
-					component: EditSidebar,
+					path: '/:view/:firstDay/edit/full/:object/:recurrenceId',
+					name: 'EditFullView',
+					component: EditFull,
 				},
 				{
 					path: '/:view/:firstDay/new/popover/:allDay/:dtstart/:dtend',
@@ -127,9 +127,9 @@ const router = new Router({
 					component: EditSimple,
 				},
 				{
-					path: '/:view/:firstDay/new/sidebar/:allDay/:dtstart/:dtend',
-					name: 'NewSidebarView',
-					component: EditSidebar,
+					path: '/:view/:firstDay/new/full/:allDay/:dtstart/:dtend',
+					name: 'NewFullView',
+					component: EditFull,
 				},
 			],
 		},

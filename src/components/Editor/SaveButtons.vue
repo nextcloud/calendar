@@ -12,7 +12,7 @@
 			{{ $t('calendar', 'More details') }}
 		</NcButton>
 		<NcButton v-if="showSaveButton"
-			type="primary"
+			type="secondary"
 			:disabled="disabled"
 			@click="saveThisOnly">
 			<template #icon>
@@ -21,7 +21,7 @@
 			{{ $t('calendar', 'Save') }}
 		</NcButton>
 		<NcButton v-if="showUpdateButton"
-			type="primary"
+			type="secondary"
 			:disabled="disabled"
 			@click="saveThisOnly">
 			<template #icon>
@@ -36,7 +36,7 @@
 			{{ $t('calendar', 'Update this and all future') }}
 		</NcButton>
 		<NcButton v-if="showUpdateOnlyThisButton"
-			type="primary"
+			type="secondary"
 			:disabled="disabled"
 			@click="saveThisOnly">
 			{{ $t('calendar', 'Update this occurrence') }}
