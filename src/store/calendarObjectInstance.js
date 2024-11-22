@@ -1513,11 +1513,21 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object for data
 		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {Date} data.startDate The new start-date
+		 * @param {boolean} onlyTime Only update time
 		 */
 		changeStartDate({
 			calendarObjectInstance,
 			startDate,
+			onlyTime = false,
 		}) {
+			if (onlyTime) {
+				startDate.setFullYear(calendarObjectInstance.startDate.getFullYear(), calendarObjectInstance.startDate.getMonth(), calendarObjectInstance.startDate.getDate())
+			}
+
+			if (!onlyTime) {
+				startDate.setHours(calendarObjectInstance.startDate.getHours(), calendarObjectInstance.startDate.getMinutes(), calendarObjectInstance.startDate.getSeconds())
+			}
+
 			const difference = startDate.getTime() - calendarObjectInstance.startDate.getTime()
 			const endDate = new Date(calendarObjectInstance.endDate.getTime() + difference)
 
@@ -1552,6 +1562,32 @@ export default defineStore('calendarObjectInstance', {
 			this.changeStartDateMutation({
 				calendarObjectInstance,
 				startDate: calendarObjectInstance.startDate,
+			})
+		},
+
+		/**
+		 *
+		 * @param {object} data The destructuring object for data
+		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+		 * @param {Date} data.endDate The new end-date
+		 * @param {boolean} onlyTime Only update time
+		 */
+		changeEndDate({
+			calendarObjectInstance,
+			endDate,
+			onlyTime = false,
+		}) {
+			if (onlyTime) {
+				endDate.setFullYear(calendarObjectInstance.endDate.getFullYear(), calendarObjectInstance.endDate.getMonth(), calendarObjectInstance.endDate.getDate())
+			}
+
+			if (!onlyTime) {
+				endDate.setHours(calendarObjectInstance.endDate.getHours(), calendarObjectInstance.endDate.getMinutes(), calendarObjectInstance.endDate.getSeconds())
+			}
+
+			this.changeEndDateMutation({
+				calendarObjectInstance,
+				endDate,
 			})
 		},
 

@@ -19,7 +19,7 @@
 			class="repeat-option-end__until"
 			:min="minimumDate"
 			:date="until"
-			:is-all-day="true"
+			type="date"
 			@change="changeUntil" />
 		<input v-if="isCount"
 			class="repeat-option-end__count"

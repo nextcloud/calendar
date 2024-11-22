@@ -101,9 +101,12 @@
 					:is-read-only="isReadOnlyOrViewing"
 					:can-modify-all-day="canModifyAllDay"
 					:user-timezone="currentUserTimezone"
+					:wrap="false"
 					@update-start-date="updateStartDate"
+					@update-start-time="updateStartTime"
 					@update-start-timezone="updateStartTimezone"
 					@update-end-date="updateEndDate"
+					@update-end-time="updateEndTime"
 					@update-end-timezone="updateEndTimezone"
 					@toggle-all-day="toggleAllDay" />
 
@@ -413,3 +416,11 @@ export default {
 	},
 }
 </script>
+
+<style>
+.event-popover__inner {
+	width: unset !important;
+	max-width: unset !important;
+	min-width: 300px !important;
+}
+</style>

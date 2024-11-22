@@ -4,28 +4,16 @@
 -->
 
 <template>
-	<DateTimePicker ::clearable="false"
-		:first-day-of-week="firstDay"
-		:format="format"
-		:lang="lang"
-		:minute-step="5"
-		:show-second="false"
+	<DateTimePicker :value="date"
 		type="time"
-		:use12h="showAmPm"
-		:value="date"
+		:hide-label="true"
 		v-bind="$attrs"
-		v-on="$listeners"
-		@change="change" />
+		@input="change" />
 </template>
 
 <script>
-import { NcDateTimePicker as DateTimePicker } from '@nextcloud/vue'
-import moment from '@nextcloud/moment'
+import { NcDateTimePickerNative as DateTimePicker } from '@nextcloud/vue'
 import { mapState } from 'pinia'
-import {
-	getFirstDay,
-} from '@nextcloud/l10n'
-import { getLangConfigForVue2DatePicker } from '../../utils/localization.js'
 import useSettingsStore from '../../store/settings.js'
 
 export default {
@@ -41,36 +29,12 @@ export default {
 	},
 	data() {
 		return {
-			firstDay: getFirstDay() === 0 ? 7 : getFirstDay(),
-			format: {
-				stringify: this.stringify,
-				parse: this.parse,
-			},
 		}
 	},
 	computed: {
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',
 		}),
-		/**
-		 * Returns the lang config for vue2-datepicker
-		 *
-		 * @return {object}
-		 */
-		lang() {
-			return getLangConfigForVue2DatePicker(this.locale)
-		},
-		/**
-		 * Whether or not to offer am/pm in the timepicker
-		 *
-		 * @return {boolean}
-		 */
-		showAmPm() {
-			const localeData = moment().locale(this.locale).localeData()
-			const timeFormat = localeData.longDateFormat('LT').toLowerCase()
-
-			return timeFormat.indexOf('a') !== -1
-		},
 	},
 	methods: {
 		/**
@@ -80,24 +44,6 @@ export default {
 		 */
 		change(date) {
 			this.$emit('change', date)
-		},
-		/**
-		 * Formats the date string
-		 *
-		 * @param {Date} date The date for format
-		 * @return {string}
-		 */
-		stringify(date) {
-			return moment(date).locale(this.locale).format('LT')
-		},
-		/**
-		 * Parses the user input from the input field
-		 *
-		 * @param {string} value The user-input to be parsed
-		 * @return {Date}
-		 */
-		parse(value) {
-			return moment(value, 'LT', this.locale).toDate()
 		},
 	},
 }
