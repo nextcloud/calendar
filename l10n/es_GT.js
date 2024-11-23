@@ -62,6 +62,8 @@ OC.L10N.register(
     "Decline" : "Declinar",
     "Tentative" : "Tentativo",
     "Attendees" : "Asistentes",
+    "From" : "De",
+    "To" : "Para",
     "All day" : "Todo el día",
     "Repeat" : "Repetir",
     "never" : "nunca",

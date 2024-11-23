@@ -120,6 +120,8 @@ OC.L10N.register(
     "Tentative" : "Esialgne",
     "Attendees" : "Osalejad",
     "Remove group" : "Eemalda grupp",
+    "From" : "Saatja",
+    "To" : "Saaja",
     "All day" : "Kogu päev",
     "Repeat" : "Korda",
     "never" : "mitte kunagi",

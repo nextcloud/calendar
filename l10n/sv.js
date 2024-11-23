@@ -357,6 +357,8 @@ OC.L10N.register(
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "För att kunna skicka inbjudningar och hantera svar måste du [linkopen]lägga till din e-postadress i inställningarna[linkclose].",
     "Remove color" : "Ta bort färg",
     "Event title" : "Händelsens titel",
+    "From" : "Från",
+    "To" : "Till",
     "All day" : "Heldag",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Kan inte ändra inställning för heldag när händelsen är återkommande.",
     "Repeat" : "Upprepa",

@@ -239,6 +239,8 @@ OC.L10N.register(
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "כדי לשלוח הזמנות ולטפל בתגובות, [linkopen] הוסף את כתובת הדוא\"ל שלך בהגדרות האישיות [linkclose].",
     "Remove color" : "הסר צבע",
     "Event title" : "כותרת האירוע",
+    "From" : "מאת",
+    "To" : "אל",
     "All day" : "כל היום",
     "Repeat" : "חזרה",
     "End repeat" : "סיום חזרה",

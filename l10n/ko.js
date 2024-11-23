@@ -313,6 +313,8 @@ OC.L10N.register(
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "초대장을 보내거나 답장을 관리하려면, [linkopen] 개인 설정에서 이메일 주소를 추가하십시오[linkclose].",
     "Remove color" : "색깔 삭제",
     "Event title" : "일정 제목",
+    "From" : "보낸사람",
+    "To" : "받는사람",
     "All day" : "하루 종일",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "반복하는 이 일정의 \"하루 종일\" 여부를 수정할 수 없습니다.",
     "Repeat" : "반복",

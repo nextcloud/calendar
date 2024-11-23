@@ -336,6 +336,8 @@ OC.L10N.register(
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "تەكلىپنامە ئەۋەتىش ۋە جاۋابلارنى بىر تەرەپ قىلىش ئۈچۈن ، [linkopen] ئېلېكترونلۇق خەت ئادرېسىڭىزنى شەخسىي تەڭشەكلەرگە قوشۇڭ [linkclose].",
     "Remove color" : "رەڭنى ئۆچۈرۈڭ",
     "Event title" : "پائالىيەت ئىسمى",
+    "From" : "From",
+    "To" : "To",
     "All day" : "پۈتۈن كۈن",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "تەكرارلىنىشنىڭ بىر قىسمى بولغان ۋەقەلەرنىڭ پۈتۈن كۈنلۈك تەڭشىكىنى ئۆزگەرتەلمەيدۇ.",
     "Repeat" : "قايتىلا",

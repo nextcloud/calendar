@@ -340,6 +340,8 @@ OC.L10N.register(
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Ak chcete posielať pozvánky a vybavovať odpovede, [linkopen] pridajte svoju e-mailovú adresu do osobných nastavení [linkclose].",
     "Remove color" : "Odobrať farbu",
     "Event title" : "Názov udalosti",
+    "From" : "Od",
+    "To" : "Pre",
     "All day" : "Celý deň",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "U opakovaných udalostí nie je možné u jednotlivého výskytu zvlášť meniť, či je udalosť celodenná alebo ne.",
     "Repeat" : "Opakovať",

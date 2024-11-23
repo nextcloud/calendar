@@ -357,6 +357,8 @@ OC.L10N.register(
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "若要送出邀請函並處理回覆，[linkopen]請至個人設定頁加入您的電郵地址[linkclose]",
     "Remove color" : "移除顏色",
     "Event title" : "活動標題",
+    "From" : "從",
+    "To" : "至",
     "All day" : "全天",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "無法變更定期重複活動的全日設定。",
     "Repeat" : "重複",

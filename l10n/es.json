@@ -338,6 +338,8 @@
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Para enviar invitaciones y gestionar las respuestas,  [linkopen]añade tu dirección email en los ajustes personales[linkclose].",
     "Remove color" : "Quitar color",
     "Event title" : "Título del evento",
+    "From" : "De",
+    "To" : "A",
     "All day" : "Todo el día",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "No se puede modificar el ajuste de todo el día en eventos que son parte de una serie recurrente.",
     "Repeat" : "Repetir",

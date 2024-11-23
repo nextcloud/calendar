@@ -110,6 +110,7 @@ OC.L10N.register(
     "Remove group" : "Suprimir lo grop",
     "Remove color" : "Suprimir la color",
     "Event title" : "Títol de l’eveniment",
+    "From" : "De",
     "All day" : "Tota la jornada",
     "Repeat" : "Repetir",
     "never" : "pas jamai",

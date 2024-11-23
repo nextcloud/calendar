@@ -348,6 +348,8 @@
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Gonbidapenak bidali eta erantzunak kudeatzeko, [linkopen] gehitu zure posta helbidea ezarpen pertsonaletan[linkclose].",
     "Remove color" : "Kendu kolorea",
     "Event title" : "Gertaeraren izenburua",
+    "From" : "Nork",
+    "To" : "Nori",
     "All day" : "Egun osoa",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Ezin da egun osoko ezarpena aldatu errepikapen multzo baten parte diren gertaeretarako. ",
     "Repeat" : "Errepikatu",

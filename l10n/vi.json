@@ -250,6 +250,8 @@
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Để gửi lời mời và tiếp nhận các phản hồi, [linkopen] thêm địa chỉ email riêng của bạn trong phần cài đặt cá nhân[linkclose].",
     "Remove color" : "Gỡ màu",
     "Event title" : "Tiêu đề sự kiện",
+    "From" : "Từ",
+    "To" : "Tới",
     "All day" : "Cả ngày",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Không thể điều chỉnh thiết lập cả-ngày cho các sự kiện là một phần của sự kiện-lặp lại.",
     "Repeat" : "Lặp lại",

@@ -357,6 +357,8 @@ OC.L10N.register(
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Aby wysyłać zaproszenia i otrzymywać odpowiedzi, [linkopen]dodaj swój adres e-mail w ustawieniach osobistych[linkclose].",
     "Remove color" : "Usuń kolor",
     "Event title" : "Tytuł wydarzenia",
+    "From" : "Z",
+    "To" : "Na",
     "All day" : "Cały dzień",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Nie można zmodyfikować ustawienia całodziennego dla wydarzeń, które są częścią zestawu cyklicznego.",
     "Repeat" : "Powtarzaj",

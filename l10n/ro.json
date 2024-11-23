@@ -308,6 +308,8 @@
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Pentru a trimite invitații și răspunsuri, [linkopen]adăugați adresa de mail în setările personale[linkclose].",
     "Remove color" : "Șterge culoarea",
     "Event title" : "Titlul evenimentului",
+    "From" : "De la",
+    "To" : "Către",
     "All day" : "Toată ziua",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Nu se pot modifica setările zilnice pentru evenimentele care fac parte dintr-un set recurent.",
     "Repeat" : "Repetă",

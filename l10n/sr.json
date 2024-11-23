@@ -355,6 +355,8 @@
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Да бисте слали позивнице и обрађивали одговоре, [linkopen]додајте своју и-мејл адресу у своја лична подешавања[linkclose].",
     "Remove color" : "Уклони боју",
     "Event title" : "Назив догађаја",
+    "From" : "Од",
+    "To" : "За",
     "All day" : "Цео дан",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Подешавање трајања цео дан не може да се измени за догађаје који су део скупа догађаја који се понављају.",
     "Repeat" : "Понављај",

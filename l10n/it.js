@@ -355,6 +355,8 @@ OC.L10N.register(
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Per inviare inviti e gestire risposte, [linkopen]aggiungi il tuo indirizzo email nelle impostazioni personali[linkclose].",
     "Remove color" : "Rimuovi colore",
     "Event title" : "Titolo dell'evento",
+    "From" : "Da",
+    "To" : "A",
     "All day" : "Tutto il giorno",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Impossibile modificare le impostazioni di un giorno intero per gli eventi che sono parte di un insieme di ricorrenze.",
     "Repeat" : "Ripeti",

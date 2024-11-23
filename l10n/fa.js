@@ -312,6 +312,8 @@ OC.L10N.register(
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose].",
     "Remove color" : "Remove color",
     "Event title" : "عنوان رویداد",
+    "From" : "از",
+    "To" : "به",
     "All day" : "تمام روز",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Cannot modify all-day setting for events that are part of a recurrence-set.",
     "Repeat" : "تکرار",

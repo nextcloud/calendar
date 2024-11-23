@@ -355,6 +355,8 @@
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Um das Versenden von Einladungen und deren Antworten zu ermöglichen, [linkopen] fügen Sie Ihre E-Mail-Adresse in den persönlichen Einstellungen hinzu.[linkclose].",
     "Remove color" : "Farbe entfernen",
     "Event title" : "Titel des Termins",
+    "From" : "Von",
+    "To" : "An",
     "All day" : "Ganztägig",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Die Einstellung ganztägig kann für sich wiederholende Termine nicht geändert werden.",
     "Repeat" : "Wiederholen",

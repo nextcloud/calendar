@@ -332,6 +332,8 @@ OC.L10N.register(
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "[linkopen]Lisää sähköpostiosoitteesi henkilökohtaisiin asetuksiisi[linkclose] lähettääksesi kutsuja ja hallitaksesi vastauksia.",
     "Remove color" : "Poista väri",
     "Event title" : "Tapahtuman otsikko",
+    "From" : "Lähettäjä",
+    "To" : "Vastaanottaja",
     "All day" : "Koko päivä",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Koko päivän tapahtumia, jotka ovat osa toistuvaa tapahtumaa, ei voida muokata.",
     "Repeat" : "Toista",

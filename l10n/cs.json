@@ -355,6 +355,8 @@
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Pro rozesílání pozvánek a práci s odpověďmi na ně [linkopen]přidejte svoji  e-mailovou adresu[linkclose] do osobních nastavení.",
     "Remove color" : "Odebrat barvu",
     "Event title" : "Název události",
+    "From" : "Od",
+    "To" : "Pro",
     "All day" : "Celý den",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "U opakovaných událostí nelze u jednotlivého výskytu zvlášť měnit, zda je událost celodenní či ne.",
     "Repeat" : "Opakovat",

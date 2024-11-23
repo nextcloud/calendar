@@ -355,6 +355,8 @@
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Chun cuirí a sheoladh amach agus freagraí a láimhseáil, [linkopen]cuir do sheoladh ríomhphoist i socruithe pearsanta[linkclose].",
     "Remove color" : "Bain dath",
     "Event title" : "Teideal an imeachta",
+    "From" : "Ó",
+    "To" : "Chun",
     "All day" : "An lá ar fad",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Ní féidir an socrú lae a mhodhnú le haghaidh imeachtaí atá mar chuid de thacar atarlaithe.",
     "Repeat" : "Déan arís",

@@ -242,6 +242,8 @@ OC.L10N.register(
     "Failed to accept the invitation." : "Falha ao aceitar o convite.",
     "The invitation has been declined successfully." : "O convite foi recusado com sucesso.",
     "Attendees" : "Participantes",
+    "From" : "De",
+    "To" : "Para",
     "All day" : "Todo o dia",
     "Repeat" : "Repetir",
     "never" : "nunca",

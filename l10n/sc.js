@@ -204,6 +204,8 @@ OC.L10N.register(
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Pro imbiare invitos e gestire respostas, [linkopen]agiunghe s'indiritzu tuo de posta eletrònica in sa cunfiguratzione personale[linkclose].",
     "Remove color" : "Boga colore",
     "Event title" : "Tìtulu de s'eventu",
+    "From" : "Dae",
+    "To" : "A",
     "All day" : "Totu sa die",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "No faghet a modificare sa cunfiguratzione de totu sa die pro eventos chi sunt parte de una filera de atividades recurrentes",
     "Repeat" : "Repiti",

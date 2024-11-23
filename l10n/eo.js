@@ -98,6 +98,8 @@ OC.L10N.register(
     "Required participant" : "Bezonata partoprenanto",
     "Optional participant" : "Laŭvola partoprenanto",
     "Remove group" : "Forigi grupon",
+    "From" : "De",
+    "To" : "Al",
     "All day" : "Tuttage",
     "Repeat" : "Ripeti",
     "never" : "neniam",

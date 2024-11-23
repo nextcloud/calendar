@@ -314,6 +314,8 @@ OC.L10N.register(
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Til að senda út boð og meðhöndla svör, [linkopen]skaltu setja inn tölvupóstfangið þitt í einkastillingum þínum[linkclose].",
     "Remove color" : "Fjarlægja lit",
     "Event title" : "Titill atburðar",
+    "From" : "Frá",
+    "To" : "Til",
     "All day" : "Heilsdagsviðburður",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Get ekki breytt heils-dags-stillingu viðburða sem eru hluti af endurtekningasetti.",
     "Repeat" : "Endurtaka",

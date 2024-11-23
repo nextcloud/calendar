@@ -338,6 +338,8 @@
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "为发送邀请和处理回应，[linkopen] 将您的电子邮件地址添加到个人设置中 [linkclose] 。",
     "Remove color" : "移除颜色",
     "Event title" : "事件标题",
+    "From" : "来自",
+    "To" : "给",
     "All day" : "全天",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "无法修改属于重复活动事件的全天设置。 ",
     "Repeat" : "重复",

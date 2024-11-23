@@ -348,6 +348,8 @@ OC.L10N.register(
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "招待を送信して返信を受け取るには、[linkopen]個人設定にメールアドレスを追加[linkclose]してください。",
     "Remove color" : "色を削除",
     "Event title" : "イベントタイトル",
+    "From" : "差出人",
+    "To" : "宛先",
     "All day" : "終日",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "繰り返しの一部であるイベントの終日設定は変更できません。",
     "Repeat" : "繰り返し",

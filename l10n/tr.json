@@ -353,6 +353,8 @@
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "Davet göndermek ve yanıtları işlemek için, [linkopen]kişisel ayarlar bölümünden e-posta adresinizi ekleyin[linkclose].",
     "Remove color" : "Rengi kaldır",
     "Event title" : "Etkinlik başlığı",
+    "From" : "Kimden",
+    "To" : "Hedef dil",
     "All day" : "Tüm gün",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Bir yinelenme kümesinin ögesi olan etkinlikler tüm gün olarak ayarlanamaz.",
     "Repeat" : "Yineleme",
