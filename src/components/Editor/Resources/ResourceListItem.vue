@@ -11,6 +11,7 @@
 			:is-suggestion="isSuggestion"
 			:avatar-link="commonName"
 			:participation-status="participationStatus"
+			:schedule-status="resource.attendeeProperty.getParameterFirstValue('SCHEDULE-STATUS')"
 			:organizer-display-name="organizerDisplayName"
 			:common-name="commonName" />
 		<div class="resource-list-item__displayname">
@@ -92,6 +93,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		isViewedByOrganizer: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
@@ -109,10 +114,6 @@ export default {
 			}
 
 			return this.resource.uri
-		},
-		isViewedByOrganizer() {
-			// TODO: check if also viewed by organizer
-			return !this.isReadOnly
 		},
 		isAccessible() {
 			return this.hasFeature('WHEELCHAIR-ACCESSIBLE')
