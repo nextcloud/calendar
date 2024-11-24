@@ -225,6 +225,8 @@ OC.L10N.register(
     "No match found" : "Nun s'atopó nenguna coincidencia",
     "Remove color" : "Quitar el color",
     "Event title" : "Títulu del eventu",
+    "From" : "De",
+    "To" : "Pa",
     "All day" : "Tol día",
     "Repeat" : "Repitir",
     "never" : "enxamás",
