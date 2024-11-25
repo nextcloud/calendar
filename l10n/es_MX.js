@@ -65,6 +65,7 @@ OC.L10N.register(
     "Delete" : "Borrar",
     "Appointment link was copied to clipboard" : "El enlace de la cita se copió al portapapeles",
     "Appointment link could not be copied to clipboard" : "No se pudo copiar el enlace de la cita al portapapeles",
+    "Appointment schedules" : "Cronograma de citas",
     "Create new" : "Crear nuevo",
     "Untitled calendar" : "Calendario sin título",
     "Shared with you by" : "Compartido con Ud. por",
@@ -198,6 +199,7 @@ OC.L10N.register(
     "Personal availability settings" : "Configuración de disponibilidad personal",
     "Show keyboard shortcuts" : "Mostrar atajos de teclado",
     "Calendar settings" : "Configuración del calendario",
+    "At event start" : "Al comienzo del evento",
     "No reminder" : "Sin recordatorio",
     "Failed to save default calendar" : "No se pudo guardar el calendario predeterminado",
     "CalDAV link copied to clipboard." : "Enlace CalDAV copiado al portapapeles.",
@@ -538,6 +540,7 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Ocurrió un error, no se pudo eliminar el calendario.",
     "Imported {filename}" : "Importado {filename}",
     "This is an event reminder." : "Esto es un recordatorio del evento.",
+    "Error while parsing a PROPFIND error" : "Error al analizar un error PROPFIND",
     "Appointment not found" : "Cita no encontrada",
     "User not found" : "No se encontró el usuario"
 },
