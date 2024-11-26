@@ -5,8 +5,6 @@
 
 export default {
 	inserted(el) {
-		setTimeout(() => {
-			el.focus()
-		}, 500)
+		el.focus()
 	},
 }
