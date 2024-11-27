@@ -25,13 +25,13 @@ import { generateUrl } from '@nextcloud/router'
 
 /**
  * @param config {object} the appointment config object
- * @param start {Number} interval start time as unix timestamp
+ * @param date {string} selected availability date in yyyy-m-d format
  * @param timeZone {String} target time zone for the time stamps
  */
-export async function findSlots(config, start, timeZone) {
-	const url = generateUrl('/apps/calendar/appointment/{id}/slots?startTime={start}&timeZone={timeZone}', {
+export async function findSlots(config, date, timeZone) {
+	const url = generateUrl('/apps/calendar/appointment/{id}/slots?dateSelected={date}&timeZone={timeZone}', {
 		id: config.id,
-		start,
+		date,
 		timeZone,
 	})
 

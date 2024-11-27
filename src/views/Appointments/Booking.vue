@@ -205,12 +205,14 @@ export default {
 			this.slots = []
 			this.loadingSlots = true
 
-			const startOfDay = new Date(this.selectedDate.getTime())
+			const selectedDay = this.selectedDate.getFullYear().toString() + '-'
+								+ (this.selectedDate.getMonth() + 1).toString() + '-'
+								+ this.selectedDate.getDate().toString()
 
 			try {
 				this.slots = await findSlots(
 					this.config,
-					Math.round(startOfDay.getTime() / 1000),
+					selectedDay,
 					this.timeZone,
 				)
 			} catch (e) {
