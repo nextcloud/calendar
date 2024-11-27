@@ -1513,7 +1513,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object for data
 		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {Date} data.startDate The new start-date
-		 * @param {boolean} onlyTime Only update time
+		 * @param {boolean} data.onlyTime Only update time
 		 */
 		changeStartDate({
 			calendarObjectInstance,
@@ -1570,7 +1570,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object for data
 		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {Date} data.endDate The new end-date
-		 * @param {boolean} onlyTime Only update time
+		 * @param {boolean} data.onlyTime Only update time
 		 */
 		changeEndDate({
 			calendarObjectInstance,
