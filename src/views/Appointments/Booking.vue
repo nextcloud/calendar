@@ -87,7 +87,6 @@ import AppointmentSlot from '../../components/Appointments/AppointmentSlot.vue'
 import { bookSlot, findSlots } from '../../services/appointmentService.js'
 import AppointmentDetails from '../../components/Appointments/AppointmentDetails.vue'
 import AppointmentBookingConfirmation from '../../components/Appointments/AppointmentBookingConfirmation.vue'
-import { getYYYYMMDDFromDate } from '../../utils/date.js'
 
 const Loading = {
 	functional: true,
