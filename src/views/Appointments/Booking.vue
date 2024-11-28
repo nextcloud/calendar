@@ -87,6 +87,7 @@ import AppointmentSlot from '../../components/Appointments/AppointmentSlot.vue'
 import { bookSlot, findSlots } from '../../services/appointmentService.js'
 import AppointmentDetails from '../../components/Appointments/AppointmentDetails.vue'
 import AppointmentBookingConfirmation from '../../components/Appointments/AppointmentBookingConfirmation.vue'
+import { getYYYYMMDDFromDate } from '../../utils/date.js'
 
 const Loading = {
 	functional: true,
@@ -188,9 +189,9 @@ export default {
 			this.slots = []
 			this.loadingSlots = true
 
-			const selectedDay = this.selectedDate.getFullYear().toString() + '-' + 
-								(this.selectedDate.getMonth() + 1).toString() + '-' + 
-							    this.selectedDate.getDate().toString()
+			const selectedDay = this.selectedDate.getFullYear().toString() + '-'
+								+ (this.selectedDate.getMonth() + 1).toString() + '-'
+								+ this.selectedDate.getDate().toString()
 
 			try {
 				this.slots = await findSlots(
