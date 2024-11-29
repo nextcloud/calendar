@@ -156,6 +156,7 @@ export default {
 		async openFilesModal() {
 			const picker = getFilePickerBuilder(t('calendar', 'Choose a file to add as attachment'))
 				.setMultiSelect(false)
+				.allowDirectories(true)
 				.addButton({
 					label: t('calendar', 'Pick'),
 					type: 'primary',
