@@ -432,7 +432,7 @@
     "Holidays in {region}" : "Feriados em {region}",
     "An error occurred, unable to read public calendars." : "Ocorreu um erro: não foi possível ler calendários públicos.",
     "An error occurred, unable to subscribe to calendar." : "Ocorreu um erro, não foi possível assinar o calendário.",
-    "Select date" : "Selecionar data",
+    "Select a date" : "Selecione uma data",
     "Select slot" : "Selecionar vaga",
     "No slots available" : "Nenhuma vaga disponível",
     "Could not fetch slots" : "Não foi possível buscar slots",

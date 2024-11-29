@@ -402,7 +402,7 @@ OC.L10N.register(
     "Subscribed" : "Naročeno",
     "Subscribe" : "Naročilo",
     "Holidays in {region}" : "Prazniki v regiji {region}",
-    "Select date" : "Izbor datuma",
+    "Select a date" : "Izbor datuma",
     "Select slot" : "Izbor časovnega termina",
     "No slots available" : "Ni razpoložljivih časovnih terminov",
     "Could not fetch slots" : "Pridobivanje podatkov o časovnih terminih je spodletelo",

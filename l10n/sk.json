@@ -415,7 +415,7 @@
     "Holidays in {region}" : "Sviatky v/na {region}",
     "An error occurred, unable to read public calendars." : "Vyskytla sa chyba, nie je možné načítať verejné kalendáre.",
     "An error occurred, unable to subscribe to calendar." : "Vyskytla sa chyba, nie je možné prihlásiť sa ku kalendáru.",
-    "Select date" : "Vybrať dátum",
+    "Select a date" : "Vybrať dátum",
     "Select slot" : "Vybrať slot",
     "No slots available" : "Žiadny slot nie je k dispozícii",
     "Could not fetch slots" : "Nepodarilo sa získať sloty",

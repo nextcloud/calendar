@@ -425,7 +425,7 @@ OC.L10N.register(
     "Holidays in {region}" : "Праздники в {region}",
     "An error occurred, unable to read public calendars." : "Произошла ошибка, невозможно прочитать публичные календари.",
     "An error occurred, unable to subscribe to calendar." : "Произошла ошибка, не удалось подписаться на календарь.",
-    "Select date" : "Выбрать дату",
+    "Select a date" : "Выберите дату",
     "Select slot" : "Выбрать слот",
     "No slots available" : "Нет свободных мест",
     "Could not fetch slots" : "Не удалось получить слоты",

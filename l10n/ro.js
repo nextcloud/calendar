@@ -378,7 +378,6 @@ OC.L10N.register(
     "Subscribed" : "Subscris",
     "Subscribe" : "Abonare",
     "Holidays in {region}" : "Sărbători în {region}",
-    "Select date" : "Selectați data",
     "Select slot" : "Selectați intervalul",
     "No slots available" : "Nu sunt intervale disponibile",
     "Could not fetch slots" : "Nu se pot prelua intervalele",

@@ -402,7 +402,6 @@ OC.L10N.register(
     "Holidays in {region}" : "Ünnepnapok itt: {region}",
     "An error occurred, unable to read public calendars." : "Hiba történt, a nyilvános naptárak nem olvashatók.",
     "An error occurred, unable to subscribe to calendar." : "Hiba történt, nem lehet feliratkozni a naptárra.",
-    "Select date" : "Válasszon dátumot",
     "Select slot" : "Válasszon idősávot",
     "No slots available" : "Nincs elérhető idősáv",
     "Could not fetch slots" : "Nem sikerült lekérni a helyeket",

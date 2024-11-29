@@ -312,7 +312,6 @@ OC.L10N.register(
     "Type to search time zone" : "Teipiwch i chwilio'r gylchfa amser",
     "Global" : "Eang",
     "Subscribe" : "Tanysgrifio",
-    "Select date" : "Dewis dyddiad",
     "Select slot" : "Dewiswch slot",
     "No slots available" : "Dim slotiau ar gael",
     "The slot for your appointment has been confirmed" : "Mae'r slot ar gyfer eich apwyntiad wedi'i gadarnhau",

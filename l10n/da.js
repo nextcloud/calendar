@@ -431,7 +431,6 @@ OC.L10N.register(
     "Holidays in {region}" : "Ferie i {region}",
     "An error occurred, unable to read public calendars." : "Der opstod en fejl, og det var ikke muligt at læse offentlige kalendere.",
     "An error occurred, unable to subscribe to calendar." : "Der opstod en fejl, og der kunne ikke abonneres på kalenderen.",
-    "Select date" : "Vælg dato",
     "Select slot" : "Vælg tidspunkt",
     "No slots available" : "Ingen ledige tidspunkter",
     "Could not fetch slots" : "Kunne ikke hente pladser",

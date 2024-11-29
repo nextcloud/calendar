@@ -432,7 +432,7 @@
     "Holidays in {region}" : "Свята в {region}",
     "An error occurred, unable to read public calendars." : "Помилка: не вдалося прочитати публічні календарі.",
     "An error occurred, unable to subscribe to calendar." : "Помилка: не вдалося підписатися на календар.",
-    "Select date" : "Виберіть дату",
+    "Select a date" : "Виберіть дату",
     "Select slot" : "Виберіть часовий проміжок",
     "No slots available" : "Відсутні доступні часові проміжки",
     "Could not fetch slots" : "Не вдалося отримати часові проміжки",

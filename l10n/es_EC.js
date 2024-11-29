@@ -378,7 +378,6 @@ OC.L10N.register(
     "Subscribed" : "Suscrito",
     "Subscribe" : "Suscribir",
     "Holidays in {region}" : "Vacaciones en {región}",
-    "Select date" : "Seleccionar fecha",
     "Select slot" : "Seleccionar intervalo",
     "No slots available" : "No hay intervalos disponibles",
     "The slot for your appointment has been confirmed" : "El intervalo para tu cita ha sido confirmado",

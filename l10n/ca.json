@@ -430,7 +430,6 @@
     "Holidays in {region}" : "Festius a {region}",
     "An error occurred, unable to read public calendars." : "S'ha produït un error, no es poden llegir els calendaris públics.",
     "An error occurred, unable to subscribe to calendar." : "S'ha produït un error, no es pot subscriure al calendari.",
-    "Select date" : "Seleccioneu una data",
     "Select slot" : "Seleccioneu unitat temporal",
     "No slots available" : "No hi han unitats temporals disponibles",
     "Could not fetch slots" : "No s'han pogut obtenir les unitats temporals",

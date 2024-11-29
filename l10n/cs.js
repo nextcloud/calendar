@@ -434,7 +434,7 @@ OC.L10N.register(
     "Holidays in {region}" : "Svátky v {region}",
     "An error occurred, unable to read public calendars." : "Došlo k chybě –nepodařilo se načíst veřejné kalendáře.",
     "An error occurred, unable to subscribe to calendar." : "Došlo k chybě – nepodařilo se přihlásit k odběru kalendáře.",
-    "Select date" : "Vybrat datum",
+    "Select a date" : "Vybrat datum",
     "Select slot" : "Vybrat slot",
     "No slots available" : "Nejsou k dispozici žádná časová okna",
     "Could not fetch slots" : "Nepodařilo se získat sloty",

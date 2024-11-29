@@ -434,7 +434,7 @@ OC.L10N.register(
     "Holidays in {region}" : "Празници у {region}",
     "An error occurred, unable to read public calendars." : "Дошло је до грешке, не могу да се прочитају јавни календари.",
     "An error occurred, unable to subscribe to calendar." : "Дошло је до грешке, не може да се претплати на календар.",
-    "Select date" : "Изаберите датум",
+    "Select a date" : "Изаберите датум",
     "Select slot" : "Изаберите термин",
     "No slots available" : "Нема доступних термина",
     "Could not fetch slots" : "Не могу да се добаве термини",

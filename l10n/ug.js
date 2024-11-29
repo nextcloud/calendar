@@ -409,7 +409,7 @@ OC.L10N.register(
     "Holidays in {region}" : "{رايوندىكى دەم ئېلىش}",
     "An error occurred, unable to read public calendars." : "ئاممىۋى كالېندارنى ئوقۇيالماي خاتالىق كۆرۈلدى.",
     "An error occurred, unable to subscribe to calendar." : "كالېندارغا مۇشتەرى بولالمىغان خاتالىق كۆرۈلدى.",
-    "Select date" : "چېسلانى تاللاڭ",
+    "Select a date" : "چېسلانى تاللاڭ",
     "Select slot" : "ئورۇننى تاللاڭ",
     "No slots available" : "ئورۇن يوق",
     "Could not fetch slots" : "ئورۇن ئالالمىدى",

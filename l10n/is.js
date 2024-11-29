@@ -382,7 +382,6 @@ OC.L10N.register(
     "Subscribed" : "Í áskrift",
     "Subscribe" : "Gerast áskrifandi",
     "Holidays in {region}" : "Frídagar á {region}",
-    "Select date" : "Veldu dagsetningu",
     "Select slot" : "Veldu tímahólf",
     "No slots available" : "Engin tímahólf tiltæk",
     "Could not fetch slots" : "Gat ekki sótt tímahólf",

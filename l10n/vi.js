@@ -316,7 +316,6 @@ OC.L10N.register(
     "Global" : "Chung",
     "Subscribed" : "Đã đăng ký",
     "Subscribe" : "Theo dõi",
-    "Select date" : "Chọn ngày",
     "Select slot" : "Chọn suất",
     "No slots available" : "Không có suất trống",
     "The slot for your appointment has been confirmed" : "Suất cho cuộc hẹn của bạn đã được xác nhận",

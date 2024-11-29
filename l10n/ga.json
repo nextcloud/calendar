@@ -432,7 +432,7 @@
     "Holidays in {region}" : "Laethanta Saoire i {region}",
     "An error occurred, unable to read public calendars." : "Tharla earráid, níorbh fhéidir féilirí poiblí a léamh.",
     "An error occurred, unable to subscribe to calendar." : "Tharla earráid, ní féidir liostáil le féilire.",
-    "Select date" : "Roghnaigh dáta",
+    "Select a date" : "Roghnaigh dáta",
     "Select slot" : "Roghnaigh sliotán",
     "No slots available" : "Níl sliotáin ar fáil",
     "Could not fetch slots" : "Níorbh fhéidir sliotáin a fháil",

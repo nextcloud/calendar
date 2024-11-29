@@ -383,7 +383,6 @@ OC.L10N.register(
     "Subscribed" : "Geabonneerd",
     "Subscribe" : "Abonneren",
     "Holidays in {region}" : "Vakanties in {regio}",
-    "Select date" : "Selecteer datum",
     "Select slot" : "Selecteer tijdslot",
     "No slots available" : "Geen tijdsloten beschikbaar",
     "Could not fetch slots" : "Kon slots niet ophalen",

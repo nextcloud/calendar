@@ -434,7 +434,7 @@ OC.L10N.register(
     "Holidays in {region}" : "{region} 的節日",
     "An error occurred, unable to read public calendars." : "發生錯誤，無法讀取公開日曆。",
     "An error occurred, unable to subscribe to calendar." : "發生錯誤，無法訂閱日曆。",
-    "Select date" : "選取日期",
+    "Select a date" : "選取日期",
     "Select slot" : "選取時段",
     "No slots available" : "無可用時段",
     "Could not fetch slots" : "無法擷取時段",

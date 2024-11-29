@@ -432,7 +432,7 @@
     "Holidays in {region}" : "Święta w {region}",
     "An error occurred, unable to read public calendars." : "Wystąpił błąd, nie można odczytać publicznych kalendarzy.",
     "An error occurred, unable to subscribe to calendar." : "Wystąpił błąd, nie można subskrybować kalendarza.",
-    "Select date" : "Wybierz datę",
+    "Select a date" : "Wybierz datę",
     "Select slot" : "Wybierz przedział czasowy",
     "No slots available" : "Brak dostępnych terminów",
     "Could not fetch slots" : "Nie udało się pobrać przedziałów",

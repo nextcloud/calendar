@@ -427,7 +427,7 @@ OC.L10N.register(
     "Holidays in {region}" : "Helligdager i {region}",
     "An error occurred, unable to read public calendars." : "Det oppstod en feil, kan ikke lese offentlige kalendere.",
     "An error occurred, unable to subscribe to calendar." : "Det oppstod en feil, kan ikke abonnere på kalenderen.",
-    "Select date" : "Velg dato",
+    "Select a date" : "Velg en dato",
     "Select slot" : "Velg tidsrom",
     "No slots available" : "Ingen tidsrom ledig",
     "Could not fetch slots" : "Kunne ikke hente tidsluker",

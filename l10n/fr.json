@@ -432,7 +432,7 @@
     "Holidays in {region}" : "Jours fériés {region}",
     "An error occurred, unable to read public calendars." : "Une erreur est survenue, impossible de lire les agendas publics.",
     "An error occurred, unable to subscribe to calendar." : "Une erreur est survenue, impossible de s'abonner à l'agenda.",
-    "Select date" : "Sélectionner la date",
+    "Select a date" : "Sélectionner une date",
     "Select slot" : "Sélectionnez le créneau",
     "No slots available" : "Aucun créneau disponible",
     "Could not fetch slots" : "Impossible de récupérer les créneaux",

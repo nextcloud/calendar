@@ -432,7 +432,7 @@ OC.L10N.register(
     "Holidays in {region}" : "{region} tatilleri",
     "An error occurred, unable to read public calendars." : "Bir sorun çıktı. Herkese açık takvimler okunamadı.",
     "An error occurred, unable to subscribe to calendar." : "Bir sorun çıktı. Takvime abone olunamadı.",
-    "Select date" : "Tarih seçin",
+    "Select a date" : "Bir tarih seçin",
     "Select slot" : "Aralık seçin",
     "No slots available" : "Seçilebilecek bir aralık yok",
     "Could not fetch slots" : "Aralıklar alınamadı",

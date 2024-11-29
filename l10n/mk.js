@@ -382,7 +382,7 @@ OC.L10N.register(
     "Subscribed" : "Претплатени",
     "Subscribe" : "Претплата",
     "Holidays in {region}" : "Празници во {region}",
-    "Select date" : "Избери датум",
+    "Select a date" : "Избери датум",
     "Select slot" : "Избери термин",
     "No slots available" : "Нема достапни термини",
     "The slot for your appointment has been confirmed" : "Времето за вашиот термин е потврден",

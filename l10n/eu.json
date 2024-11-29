@@ -425,7 +425,7 @@
     "Holidays in {region}" : "Oporrak {region}(e)n",
     "An error occurred, unable to read public calendars." : "Errorea gertatu da, ezin izan dira egutegi publikoak irakurri.",
     "An error occurred, unable to subscribe to calendar." : "Errore bat gertatu da, ezin izan da egutegira harpidetu.",
-    "Select date" : "Hautatu data",
+    "Select a date" : "Hautatu data bat",
     "Select slot" : "Hautatu tartea",
     "No slots available" : "Ez dago tarterik eskuragarri",
     "Could not fetch slots" : "Ezin izan dira plazak eskuratu",

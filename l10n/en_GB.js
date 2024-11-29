@@ -434,7 +434,7 @@ OC.L10N.register(
     "Holidays in {region}" : "Holidays in {region}",
     "An error occurred, unable to read public calendars." : "An error occurred, unable to read public calendars.",
     "An error occurred, unable to subscribe to calendar." : "An error occurred, unable to subscribe to calendar.",
-    "Select date" : "Select date",
+    "Select a date" : "Select a date",
     "Select slot" : "Select slot",
     "No slots available" : "No slots available",
     "Could not fetch slots" : "Could not fetch slots",

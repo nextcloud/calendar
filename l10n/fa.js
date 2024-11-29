@@ -380,7 +380,6 @@ OC.L10N.register(
     "Subscribed" : "Subscribed",
     "Subscribe" : "اشتراک گذاری",
     "Holidays in {region}" : "Holidays in {region}",
-    "Select date" : "Select date",
     "Select slot" : "Select slot",
     "No slots available" : "No slots available",
     "The slot for your appointment has been confirmed" : "The slot for your appointment has been confirmed",

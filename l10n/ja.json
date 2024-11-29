@@ -423,7 +423,7 @@
     "Holidays in {region}" : "{region} の休日",
     "An error occurred, unable to read public calendars." : "エラーが発生しました、公開カレンダーを読み込むことができません。",
     "An error occurred, unable to subscribe to calendar." : "エラーが発生したため、カレンダーを登録できません。",
-    "Select date" : "日付を選択",
+    "Select a date" : "日付を選択",
     "Select slot" : "時間枠を選択",
     "No slots available" : "利用可能な時間枠がありません",
     "Could not fetch slots" : "スロットを取得できませんでした",

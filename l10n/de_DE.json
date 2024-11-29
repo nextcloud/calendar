@@ -432,7 +432,7 @@
     "Holidays in {region}" : "Feiertage in {region}",
     "An error occurred, unable to read public calendars." : "Es ist ein Fehler aufgetreten, öffentliche Kalender können nicht gelesen werden.",
     "An error occurred, unable to subscribe to calendar." : "Es ist ein Fehler aufgetreten, Kalender konnte nicht abonniert werden.",
-    "Select date" : "Datum auswählen",
+    "Select a date" : "Datum auswählen",
     "Select slot" : "Zeitfenster auswählen",
     "No slots available" : "Keine Zeitfenster verfügbar",
     "Could not fetch slots" : "Abruf der Zeitfenster fehlgeschlagen",

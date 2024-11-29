@@ -432,7 +432,7 @@
     "Holidays in {region}" : "Helgdagar i {region}",
     "An error occurred, unable to read public calendars." : "Ett fel inträffade, kan inte läsa publika kalendrar.",
     "An error occurred, unable to subscribe to calendar." : "Ett fel inträffade, det går inte att prenumerera på kalendern.",
-    "Select date" : "Välj datum",
+    "Select a date" : "Välj ett datum",
     "Select slot" : "Välj tid",
     "No slots available" : "Inga tider tillgängliga",
     "Could not fetch slots" : "Det gick inte att hämta platser",

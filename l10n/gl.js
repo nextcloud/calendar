@@ -434,7 +434,7 @@ OC.L10N.register(
     "Holidays in {region}" : "Festivos en {region}",
     "An error occurred, unable to read public calendars." : "Produciuse un erro, non é posíbel ler os calendarios públicos.",
     "An error occurred, unable to subscribe to calendar." : "Produciuse un erro, non é posíbel subscribirse ao calendario.",
-    "Select date" : "Seleccionar a data",
+    "Select a date" : "Seleccione unha data",
     "Select slot" : "Seleccionar franxa horaria",
     "No slots available" : "Non hai franxas horarias dispoñíbeis",
     "Could not fetch slots" : "Non foi posíbel recuperar as franxas horarias",

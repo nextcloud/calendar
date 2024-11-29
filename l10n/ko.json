@@ -380,7 +380,6 @@
     "Holidays in {region}" : "{region}의 휴일",
     "An error occurred, unable to read public calendars." : "오류가 발생하여 공개 달력을 읽을 수 엇습니다.",
     "An error occurred, unable to subscribe to calendar." : "오류가 발생하여 달력을 구독할 수 없습니다.",
-    "Select date" : "날짜 선택",
     "Select slot" : "슬롯 선택",
     "No slots available" : "사용 가능한 슬롯 없음",
     "Could not fetch slots" : "슬롯을 불러올 수 없음",

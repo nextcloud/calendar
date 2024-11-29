@@ -366,7 +366,6 @@ OC.L10N.register(
     "Global" : "Глобални",
     "Subscribed" : "Абониран",
     "Subscribe" : "Абониране",
-    "Select date" : "Избор на дата",
     "Select slot" : "Избор на слот",
     "No slots available" : "Няма налични слотове",
     "The slot for your appointment has been confirmed" : "Слотът за вашата среща е потвърден",

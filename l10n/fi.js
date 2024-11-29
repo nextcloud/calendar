@@ -405,7 +405,6 @@ OC.L10N.register(
     "Subscribed" : "Tilattu",
     "Subscribe" : "Tilaa",
     "Holidays in {region}" : "Juhlapäivä alueella {region}",
-    "Select date" : "Valitse päivämäärä",
     "Select slot" : "Valitse aikarako",
     "No slots available" : "Aikarakoja ei ole saatavilla",
     "The slot for your appointment has been confirmed" : "Aikarako tapaamiselle on vahvistettu",

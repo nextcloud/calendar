@@ -408,7 +408,6 @@ OC.L10N.register(
     "Holidays in {region}" : "Αργίες σε {region}",
     "An error occurred, unable to read public calendars." : "Παρουσιάστηκε ένα σφάλμα, αδυναμία ανάγνωσης δημόσιων ημερολογίων.",
     "An error occurred, unable to subscribe to calendar." : "Παρουσιάστηκε ένα σφάλμα, αδυναμία εγγραφής στο ημερολόγιο.",
-    "Select date" : "Επιλέξτε ημερομηνία",
     "Select slot" : "Επιλογή θέσης",
     "No slots available" : "Καμμια διαθέσιμη θέση",
     "The slot for your appointment has been confirmed" : "H θέση σας για το ραντεβού σας έχει επιβεβαιωθεί",

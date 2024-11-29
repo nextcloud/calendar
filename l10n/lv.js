@@ -345,7 +345,6 @@ OC.L10N.register(
     "Subscribe" : "Abonēt",
     "Holidays in {region}" : "Brīvdienas {region}",
     "An error occurred, unable to subscribe to calendar." : "Radās kļūda, neizdevās abonēt kalendāru.",
-    "Select date" : "Izvēlieties datumu",
     "Select slot" : "Izvēlieties laiku",
     "Appointment Details:" : "Plānotās tikšanās detaļas:",
     "Time:" : "Laiks:",
