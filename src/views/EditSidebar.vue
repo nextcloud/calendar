@@ -524,7 +524,9 @@ export default {
 			if (attachment.xNcHasPreview) {
 				return generateUrl(`/core/preview?fileId=${attachment.xNcFileId}&x=100&y=100&a=0`)
 			}
-			return attachment.formatType ? OC.MimeType.getIconUrl(attachment.formatType) : null
+			return attachment.formatType
+				? OC.MimeType.getIconUrl(attachment.formatType)
+				: OC.MimeType.getIconUrl('folder')
 		},
 		acceptAttachmentsModal() {
 			if (!this.doNotShare) {
