@@ -1,10 +1,10 @@
 OC.L10N.register(
     "calendar",
     {
-    "Provided email-address is too long" : "عنوان الإيميل المُعطَى طويل جداً",
+    "Provided email-address is too long" : "عنوان البريد طويل جداً",
     "User-Session unexpectedly expired" : "إنتهت صلاحية جلسة المستخدم بشكل غير متوقع",
-    "Provided email-address is not valid" : "عنوان البريد الإلكتروني المُقدّم غير صالح",
-    "%s has published the calendar »%s«" : "%s نَشَرَ التقويم »%s«",
+    "Provided email-address is not valid" : "عنوان البريد الإلكتروني غير صالح",
+    "%s has published the calendar »%s«" : "%s نشر التقويم »%s«",
     "Unexpected error sending email. Please contact your administrator." : "حدث خطأ اثناء إرسال البريد. تحقّق من إعدادات البريد او تواصل مع مسؤول النظام.",
     "Successfully sent email to %1$s" : "تم إرسال الإيميل إلى %1$s بنجاح.",
     "Hello," : "مرحباً،",
@@ -12,9 +12,9 @@ OC.L10N.register(
     "Open »%s«" : "فتح »%s«",
     "Cheers!" : "تحياتي!",
     "Upcoming events" : "الأحداث القادمة",
-    "More events" : "أحداث أخرى",
     "No more events today" : "لا يوجد المزيد من الفعاليات اليوم",
-    "No upcoming events" : "ليس هناك أحداث قادمة",
+    "No upcoming events" : "ليست هناك أحداث قادمة",
+    "More events" : "أحداث أخرى",
     "%1$s with %2$s" : "%1$s مع %2$s",
     "Calendar" : "التقويم",
     "New booking {booking}" : "حجز جديد {booking}",
@@ -24,13 +24,13 @@ OC.L10N.register(
     "Schedule an appointment" : "جدولة موعد",
     "%1$s - %2$s" : "%1$s - %2$s",
     "Prepare for %s" : "تحضير لـ %s",
-    "Follow up for %s" : "مُتابعة لـ %s",
+    "Follow up for %s" : "متابعة لـ %s",
     "Your appointment \"%s\" with %s needs confirmation" : "موعدك \"%s\" مع %s يحتاج إلى توكيد.",
     "Dear %s, please confirm your booking" : "السيد/السيدة %s؛ رجاءً، قم بتأكيد حجز موعدك.",
     "Confirm" : "تأكيد",
     "Appointment with:" : "موعد مع: ",
     "Description:" : "الوصف:",
-    "This confirmation link expires in %s hours." : "رابط التوكيد هذا تنتهي صلاحيته بعد%s ساعات..",
+    "This confirmation link expires in %s hours." : "رابط التأكيد هذا تنتهي صلاحيته بعد%s ساعات..",
     "If you wish to cancel the appointment after all, please contact your organizer by replying to this email or by visiting their profile page." : "إذا كنت ترغب في إلغاء الموعد، فيُرجى الاتصال بمُنظّم الحدث عن طريق الرّد على هذا البريد الإلكتروني أو عن طريق زيارة صفحة ملفه الشخصي.",
     "Your appointment \"%s\" with %s has been accepted" : "موعدك \"%s\" مع %s تمّ قبوله",
     "Dear %s, your booking has been accepted." : "السيد/السيدة %s, حجزك ثم قبوله.",
@@ -42,7 +42,7 @@ OC.L10N.register(
     "You have a new appointment booking \"%s\" from %s" : "لديك حجز موعدٍ جديدٍ \"%s\" من %s",
     "Dear %s, %s (%s) booked an appointment with you." : "السيد/السيدة %s, %s (%s) حجز موعداً معك.",
     "A Calendar app for Nextcloud" : "تطبيق التقويم لـ نكست كلاود",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "تطبيق \"التقويم\" Calendar هو واجهة مستخدم لخادوم CalDAV الخاص بنكست كلاود. يمكنك مزامنة الأحداث بسهولة بين مختلف الأجهزة مع نكست كلاود و تحريرها عبر الإنترنت. \n* 🚀 ** التكامل مع تطبيقات نكست كلاود الأخرى!  مع تطبيق جهات الاتصال حاليًا و المزيد في المستقبل. تريد وضع مواعيد مباريات فريقك المفضل في التقويم الخاص بك؟ لا مشكلة! \n* 🙋 ** الحضور! ** دعوة الأشخاص إلى الأحداث الخاصة بك. \n* ⌚️ ** متوفر / مشغول! ** انظر عندما يكون الحاضرين مُتاحين للقاء. \n* ⏰ ** التذكير! ** أحصل على إشعارات تذكير بالأحداث عبر متصفحك و عبر البريد الإلكتروني. \n* 🔍 ابحث! العثور على الأحداث الخاصة بك بسهولة. \n* ☑️ المهام! اطّلع على المهام التي حان وقت إنجازها مباشرةً في التقويم. \n* 🙈 ** نحن لا نعيد اختراع العجلة! ** استنادًا إلى [مكتبة c-dav] العظيمة. (https://github.com/nextcloud/cdav-library) مكتبات [ical.js] (https://github.com/mozilla-comm/ical.js) و [fullcalendar] (https://github.com/fullcalendar/fullcalendar).",
+    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "تطبيق \"التقويم\" Calendar هو واجهة مستخدم لخادم CalDAV الخاص بنكست كلاود. يمكنك مزامنة الأحداث بسهولة بين مختلف الأجهزة مع نكست كلاود و تحريرها عبر الإنترنت. \n* 🚀 ** التكامل مع تطبيقات نكست كلاود الأخرى!  مع تطبيق جهات الاتصال حاليًا و المزيد في المستقبل. تريد وضع مواعيد مباريات فريقك المفضل في التقويم الخاص بك؟ لا مشكلة! \n* 🙋 ** الحضور! ** دعوة الأشخاص إلى الأحداث الخاصة بك. \n* ⌚️ ** متوفر / مشغول! ** انظر عندما يكون الحاضرين مُتاحين للقاء. \n* ⏰ ** التذكير! ** أحصل على إشعارات تذكير بالأحداث عبر متصفحك و عبر البريد الإلكتروني. \n* 🔍 ابحث! العثور على الأحداث الخاصة بك بسهولة. \n* ☑️ المهام! اطّلع على المهام التي حان وقت إنجازها مباشرةً في التقويم. \n* 🙈 ** نحن لا نعيد اختراع العجلة! ** استنادًا إلى [مكتبة c-dav] العظيمة. (https://github.com/nextcloud/cdav-library) مكتبات [ical.js] (https://github.com/mozilla-comm/ical.js) و [fullcalendar] (https://github.com/fullcalendar/fullcalendar).",
     "Previous day" : "أمس",
     "Previous week" : "الأسبوع الماضي",
     "Previous year" : "العام الماضى",
@@ -52,24 +52,25 @@ OC.L10N.register(
     "Next year" : "العام القادم",
     "Next month" : "الشهر القادم",
     "Event" : "حدث",
-    "Create new event" : "أنشيء حدثاً جديداً",
+    "Create new event" : "إنشاء حدث جديد",
     "Today" : "اليوم",
     "Day" : "يوم",
     "Week" : "أسبوع",
     "Month" : "شهر",
-    "Year" : "السَّنة",
+    "Year" : "السنة",
     "List" : "قائمة",
-    "Preview" : "مُعاينة",
-    "Copy link" : "إنسخ الرابط",
+    "Preview" : "معاينة",
+    "Copy link" : "نسخ الرابط",
     "Edit" : "تعديل",
     "Delete" : "حذف ",
     "Appointment link was copied to clipboard" : "تمّ نسخ رابط الموعد في الحافظة",
     "Appointment link could not be copied to clipboard" : "تعذّر نسخ رابط الموعد في الحافظة",
-    "Add new" : "إضافة جديد",
+    "Appointment schedules" : "جداول المواعيد",
+    "Create new" : "إنشاء جديد",
     "Untitled calendar" : "تقويم بدون اسم",
     "Shared with you by" : "مشاركة معك من قِبَل",
-    "Edit and share calendar" : "عدّل و شارك التقويم",
-    "Edit calendar" : "عدّل التقويم",
+    "Edit and share calendar" : "تعديل ومشاركة التقويم",
+    "Edit calendar" : "تعديل التقويم",
     "Disable calendar \"{calendar}\"" : "إيقاف التقويم \"{calendar}\"",
     "Disable untitled calendar" : "إيقاف تقويم بدون اسم",
     "Enable calendar \"{calendar}\"" : "تمكين التقويم \"{calendar}\"",
@@ -78,14 +79,15 @@ OC.L10N.register(
     "_Unsharing the calendar in {countdown} second_::_Unsharing the calendar in {countdown} seconds_" : ["إلغاء مشاركة التقويم في {countdown} ثواني","إلغاء مشاركة التقويم في {countdown} ثانية","إلغاء مشاركة التقويم في {countdown} ثواني","إلغاء مشاركة التقويم في {countdown} ثواني","إلغاء مشاركة التقويم في {countdown} ثواني","إلغاء مشاركة التقويم في {countdown} ثواني"],
     "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["حذف التقويم في {countdown} ثواني","حذف التقويم في {countdown} ثانية","حذف التقويم في {countdown} ثواني","حذف التقويم في {countdown} ثواني","حذف التقويم في {countdown} ثواني","حذف التقويم في {countdown} ثواني"],
     "Calendars" : "التقاويم",
+    "Add new" : "إضافة جديد",
     "New calendar" : "تقويم جديد",
     "Name for new calendar" : "اسم التقويم الجديد",
-    "Creating calendar …" : "جارٍ إنشاء التقويم …",
+    "Creating calendar …" : "جارٍ إنشاء التقويم…",
     "New calendar with task list" : "تقويم جديد مع قائمة مهام",
     "New subscription from link (read-only)" : "إشتراك جديد عن طريق رابط (للقراءة فقط)",
-    "Creating subscription …" : "جارٍ إنشاء اشتراك …",
+    "Creating subscription …" : "جارٍ إنشاء اشتراك…",
     "Add public holiday calendar" : "أضف تقويم العطلات العامة",
-    "Add custom public calendar" : "أضِف تقويماً عمومياً مُخصّصاً",
+    "Add custom public calendar" : "إضافة تقويم عام مخصّص",
     "An error occurred, unable to create the calendar." : "حدث خطأ، يتعذّر إنشاء التقويم.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "يرجى ادخال رابطٍ صحيحٍ (يبدأ بـ https://, http://, webcals://, webcal://)",
     "Copy subscription link" : "نسخ رابط الاشتراك",
@@ -95,7 +97,7 @@ OC.L10N.register(
     "Export" : "تصدير",
     "Calendar link copied to clipboard." : "تم نسخ رابط التقويم إلى الحافظة.",
     "Calendar link could not be copied to clipboard." : "تعذّر نسخ رابط التقويم إلى الحافظة.",
-    "Trash bin" : "سلّة المُهملات",
+    "Trash bin" : "سلة المهملات",
     "Loading deleted items." : "تحميل العناصر المحذوفة",
     "You do not have any deleted items." : "لا توجد أي عناصر محذوفة",
     "Name" : "الاسم",
@@ -107,10 +109,10 @@ OC.L10N.register(
     "Unknown calendar" : "تقويم غير معروف",
     "Could not load deleted calendars and objects" : "تعذّر تحميل التقاويم و الأشياء المحذوفة ",
     "Could not restore calendar or event" : "تعذرت استعادة تقويم أو حدث",
-    "Do you really want to empty the trash bin?" : "هل ترغب حقّاً في تفريغ سلة المهملات؟",
+    "Do you really want to empty the trash bin?" : "هل ترغب بالفعل في تفريغ سلة المهملات؟",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["حذف العناصر الموجودة في سلة المهملات بعد {numDays} أيام","حذف العناصر الموجودة في سلة المهملات بعد {numDays} يوم","حذف العناصر الموجودة في سلة المهملات بعد {numDays} أيام","حذف العناصر الموجودة في سلة المهملات بعد {numDays} أيام","حذف العناصر الموجودة في سلة المهملات بعد {numDays} أيام","حذف العناصر الموجودة في سلة المهملات بعد {numDays} أيام"],
     "Shared calendars" : "تقاويم مشتركة",
-    "Deck" : "الرُّقعة Deck",
+    "Deck" : "البطاقات",
     "Hidden" : "مخفي",
     "Could not update calendar order." : "لا يمكن تعديل ترتيب التقويم.",
     "Internal link" : "رابط داخلي",
@@ -125,7 +127,7 @@ OC.L10N.register(
     "Copying code …" : "نسخ الكود  …",
     "Copied code" : "تمّ نسخ الكود",
     "Could not copy code" : "تعذّر نسخ الكود",
-    "Delete share link" : "إحذف رابط المشاركة",
+    "Delete share link" : "حذف رابط المشاركة",
     "Deleting share link …" : "حذف رابط المشاركة  …",
     "An error occurred, unable to publish calendar." : "حدث خطأ، لا يمكن نشر التقويم",
     "An error occurred, unable to send email." : "حدث خطأ، لا يُمكن إرسال البريد.",
@@ -153,7 +155,7 @@ OC.L10N.register(
     "_Import calendar_::_Import calendars_" : ["استيراد التقويم","استيراد التقويم","استيراد التقويم","استيراد التقويم","استيراد التقويم","استيراد التقويم"],
     "Default attachments location" : "موقع المُرفقات التلقائي",
     "Select the default location for attachments" : "عيّن موقع المُرفقات التلقائي",
-    "Pick" : "إختَر",
+    "Pick" : "إختر",
     "Invalid location selected" : "الموقع المُختار غير صحيح",
     "Attachments folder successfully saved." : "تمّ بنجاح حفظ مُجلّد المُرفقات",
     "Error on saving attachments folder." : "خطأ في حفظ مُجلّد المُرفقات",
@@ -178,31 +180,32 @@ OC.L10N.register(
     "Actions" : "الإجراءات",
     "Create event" : "انشاء فعالية",
     "Show shortcuts" : "انشاء اختصارات",
-    "Editor" : "مُحرِّر",
-    "Close editor" : "أغلِق المُحرِّر",
+    "Editor" : "المحرر",
+    "Close editor" : "إغلاق المحرر",
     "Save edited event" : "حفظ تعديلات الأحداث",
-    "Delete edited event" : "حذف الأحداث المُعدّلة",
+    "Delete edited event" : "حذف الأحداث المحررة",
     "Duplicate event" : "تكرار الحدث",
     "Enable birthday calendar" : "تفعيل تقويم عيد الميلاد",
-    "Show tasks in calendar" : "اظهار المهام في التقويم",
+    "Show tasks in calendar" : "إظهار المهام في التقويم",
     "Enable simplified editor" : "تفعيل المحرر البسيط",
     "Limit the number of events displayed in the monthly view" : "تقييد عدد الأحداث التي تُعرض في العرض الشهري",
-    "Show weekends" : "اظهار ايام نهاية الاسبوع",
-    "Show week numbers" : "اظهار ارقام الأسابيع",
-    "Time increments" : "زيادات الوقت time increments",
+    "Show weekends" : "إظهار أيام نهاية الاسبوع",
+    "Show week numbers" : "إظهار أرقام الأسابيع",
+    "Time increments" : "زيادات الوقت",
     "Default calendar for incoming invitations" : "التقويم التلقائي للدعوات الواردة",
     "Default reminder" : "التذكير الافتراضي",
     "Copy primary CalDAV address" : "نسخ عنوان CalDAV الرئيسي",
     "Copy iOS/macOS CalDAV address" : "نسخ عنوان CalDAV لأجهزة الماك/الأيفون",
     "Personal availability settings" : "إعدادات التواجد الشخصي",
-    "Show keyboard shortcuts" : "اظهار اختصارات لوحة المفاتيح",
+    "Show keyboard shortcuts" : "إظهار اختصارات لوحة المفاتيح",
     "Calendar settings" : "إعدادات التقويم",
+    "At event start" : "في بداية الحدث",
     "No reminder" : "لا يوجد تذكير ",
     "Failed to save default calendar" : "تعذّر حفظ التقويم التلقائي",
     "CalDAV link copied to clipboard." : "تم نسخ CalDAV.",
     "CalDAV link could not be copied to clipboard." : "لا يمكن نسخ CalDAV.",
-    "Appointment was created successfully" : "تمّ بنجاحٍ إنشاء الموعد",
-    "Appointment was updated successfully" : "تمّ بنجاحٍ تعديل الموعد",
+    "Appointment schedule successfully created" : "تمّ إنشاء جدول المواعيد بنجاح",
+    "Appointment schedule successfully updated" : "تمّ تحديث جدول المواعيد بنجاح",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} دقائق","{duration} دقيقة","{duration} دقائق","{duration} دقائق","{duration} دقائق","{duration} دقائق"],
     "0 minutes" : "0 دقيقة",
     "_{duration} hour_::_{duration} hours_" : ["{duration} ساعات","{duration} ساعة","{duration} ساعات","{duration} ساعات","{duration} ساعات","{duration} ساعات"],
@@ -215,16 +218,16 @@ OC.L10N.register(
     "Private – only accessible via secret link" : "خصوصي - يُمكن فقط الوصول إليه عن طريق رابط سرّي",
     "Appointment name" : "اسم الموعد",
     "Location" : "الموقع",
-    "Create a Talk room" : "أنشِيءْ غرفة محادثة",
+    "Create a Talk room" : "إنشاء غرفة محادثة",
     "A unique link will be generated for every booked appointment and sent via the confirmation email" : "سيتم إنشاء رابط خاص بكل موعد محجوز و سيتم إرساله عبر البريد الإلكتروني للتأكيد",
     "Description" : "الوصف",
-    "Visibility" : "الرؤية Visibility",
+    "Visibility" : "الرؤية",
     "Duration" : "المدة الزمنية",
     "Increments" : "الزيادات",
     "Additional calendars to check for conflicts" : "تقاويم إضافية للتحقّق من وجود تعارضات",
     "Pick time ranges where appointments are allowed" : "إختر النطاقات الزمنية التي يُسمح فيها بالمواعيد",
     "to" : "إلى",
-    "Delete slot" : "حذف فُرَضَةٍ slot زمنية",
+    "Delete slot" : "حذف الخانة الزمنية",
     "No times set" : "لم يتم تحديد أي أوقات",
     "Add" : "إضافة",
     "Monday" : "الإثنين",
@@ -239,20 +242,22 @@ OC.L10N.register(
     "Before the event" : "قبل الحدث",
     "After the event" : "بعد الحدث",
     "Planning restrictions" : "قيود التخطيط",
-    "Minimum time before next available slot" : "أقل زمن قبل الفُرْضَة الزمنية slot التالية",
-    "Max slots per day" : "أقصى عدد من الفُرَض slots في اليوم",
+    "Minimum time before next available slot" : "أقل مدة قبل الخانة الزمنية التالية",
+    "Max slots per day" : "أقصى عدد من الخانات الزمنية في اليوم",
     "Limit how far in the future appointments can be booked" : "تقييد أبعد تاريخ في المستقبل يمكن حجز مواعيد فيه ",
     "It seems a rate limit has been reached. Please try again later." : "يبدو أن معدل قبول الوصول للنظام قد وصل حدّه الأقصى. يُرجى إعادة المحاولة في وقت لاحقٍ.",
-    "Create appointment" : "إنشاء موعد",
-    "Edit appointment" : "تعديل موعد",
+    "Appointment schedule saved" : "تمّ حفظ جدول المواعيد",
+    "Create appointment schedule" : "إنشاء جدول مواعيد",
+    "Edit appointment schedule" : "تعديل جدول المواعيد",
     "Update" : "حدث",
-    "Please confirm your reservation" : "رجاءً، أكِّد حجزك",
+    "Please confirm your reservation" : "رجاء، قم بتأكيد حجزك",
     "We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now." : "لقد أرسلنا لك بريدًا إلكترونيًا يحتوي على التفاصيل. يرجى تأكيد موعدك باستخدام الرابط الموجود في البريد الإلكتروني. يمكنك إغلاق هذه الصفحة الآن.",
     "Your name" : "اسمك",
-    "Your email address" : "عنوان بريديك الإلكتروني",
+    "Your email address" : "عنوان البريد الإلكتروني الخاص بك",
     "Please share anything that will help prepare for our meeting" : "رجاءً، شارك ما يمكن أن يساعد في التحضير لاجتماعنا",
     "Could not book the appointment. Please try again later or contact the organizer." : "تعذّر حجز الموعد. حاول مرة أخرى في وقتٍ لاحق من فضلك أو اتصل بالمُنظِّم.",
-    "Book the appointment" : "إحجز الموعد",
+    "Back" : "عودة",
+    "Book appointment" : "إحجِز موعداً",
     "Reminder" : "تذكير",
     "before at" : "قبل",
     "Notification" : "تنبيه",
@@ -273,16 +278,16 @@ OC.L10N.register(
     "_hour_::_hours_" : ["ساعات","ساعة","ساعات","ساعات","ساعات","ساعات"],
     "_day_::_days_" : ["أيام","يوم","أيام","أيام","أيام","أيام"],
     "_week_::_weeks_" : ["أسابيع","أسبوع","أسابيع","أسابيع","أسابيع","أسابيع"],
-    "No attachments" : "لا توجد مُرفقات",
-    "Add from Files" : "إضِف من الملفات",
-    "Upload from device" : "إرفع من الجهاز",
-    "Delete file" : "إحذف الملف",
+    "No attachments" : "لا توجد مرفقات",
+    "Add from Files" : "إضافة من الملفات",
+    "Upload from device" : "رفع من الجهاز",
+    "Delete file" : "حذف الملف",
     "Confirmation" : "تأكيد",
     "Choose a file to add as attachment" : "إختر ملفّاً لإضافته كمرفق",
     "Choose a file to share as a link" : "إختر ملفاً لمشاركته كرابط",
     "Attachment {name} already exist!" : "المُرفَق {name} موجودٌ سلفاً!",
-    "Could not upload attachment(s)" : "يتعذّر رفع المرفقـ(ات)",
-    "You are about to navigate to an untrusted external link. Are you sure to proceed? Link: {link}" : "أنت على وشك الانتقال إلى رابط خارجي غير موثوق. هل ترغب بالاستمرار؟ الرابط: {link}",
+    "Could not upload attachment(s)" : "تعذر رفع المرفق/المرفقات",
+    "You are about to navigate to {host}. Are you sure to proceed? Link: {link}" : "يمكنك الانتقال إلى {host}. هل أنت متأكد أنك ترغب في المتابعة؟ الرابط: {link}",
     "Proceed" : "مواصلة",
     "_{count} attachment_::_{count} attachments_" : ["{count} مرفقات","{count} مرفق","{count} مرفقات","{count} مرفقات","{count} مرفقات","{count} مرفقات"],
     "Invitation accepted" : "تمّ قبول الدعوة",
@@ -320,16 +325,16 @@ OC.L10N.register(
     "Check room availability" : "تحقَّق من توافر الغرفة",
     "Accept" : "قبول",
     "Decline" : "رفض",
-    "Tentative" : "مُؤقّتاً",
+    "Tentative" : "مؤقت",
     "The invitation has been accepted successfully." : "تمّ قبول الدعوة بنجاح.",
-    "Failed to accept the invitation." : "إخفاق في قبول الدعوة.",
+    "Failed to accept the invitation." : "فشل في قبول الدعوة.",
     "The invitation has been declined successfully." : "تمّ رفض الدعوة بنجاح.",
-    "Failed to decline the invitation." : "إخفاق في رفض الدعوة.",
+    "Failed to decline the invitation." : "فشل في رفض الدعوة.",
     "Your participation has been marked as tentative." : "تمّ وضع علامة \"مبدئية\" على مشاركتك.",
-    "Failed to set the participation status to tentative." : "إخفاق في تعيين حالة المشاركة كمبدئية.",
+    "Failed to set the participation status to tentative." : "فشل في تعيين حالة المشاركة إلى مؤقتة.",
     "Attendees" : "المشاركون",
     "Create Talk room for this event" : "إنشاء غرفة مُحادثة لهذا الحدث.",
-    "No attendees yet" : "لا يوجد حضورٌ بعدُ",
+    "No attendees yet" : "لا يوجد حضور حتى الآن",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} مدعو, {confirmedCount} مؤكد",
     "Successfully appended link to talk room to location." : "تمّ إلحاق رابط غرفة المحادثة بالموقع بنجاح.",
     "Successfully appended link to talk room to description." : "تمّ إلحاق الرابط بوصف غرفة المحادثة بنجاح.",
@@ -343,24 +348,28 @@ OC.L10N.register(
     "Remove group" : "حذف مجموعة",
     "Remove attendee" : "إلغاء شخص من قائمة الحضور",
     "_%n member_::_%n members_" : ["%n عضواً","%n عضواً","%n عضواً","%n عضواً","%n عضواً","%n عضواً"],
-    "Search for emails, users, contacts, teams or groups" : "البحث عن إيميلات، أو مستخدِمين، أو جهات اتصال، أو فِرَق، أو مجموعات",
+    "Search for emails, users, contacts, teams or groups" : "البحث عن إيميلات، أو مستخدِمين، أو جهات اتصال، أو فرق، أو مجموعات",
     "No match found" : "لم يٌمكن إيجاد تطابق",
     "Note that members of circles get invited but are not synced yet." : "لاحظ أن أعضاء دوائر الاتصال تمّت دعوتهم لكن لم تتمّ مزامنتهم بعدُ.",
     "(organizer)" : "(مُنظِّم)",
+    "Make {label} the organizer" : "إجعَل {label} هو المُنظِّم",
+    "Make {label} the organizer and attend" : "إجغعَل {label} هو المنظم و أحد الحضور",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "لإرسال الدعوات والتعامل مع الاستجابات [linkopen]، أضف بريدك الالكتروني في الإعدادات الشخصية [linkclose].",
     "Remove color" : "حذف لون",
     "Event title" : "عنوان الحدث",
-    "All day" : "طوال اليوم",
+    "From" : "مِن :",
+    "To" : "إلى :",
+    "All day" : "كامل اليوم",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "لم يُمكن تغيير إعداد \"كامل اليوم\" بالنسبة للأحداث التي هي جزء من مجموعة تكرارية. ",
     "Repeat" : "كرّر",
     "End repeat" : "نهاية التكرار",
     "Select to end repeat" : "إختر نهاية التكرار",
-    "never" : "بتاتاً",
+    "never" : "أبداً",
     "on date" : "في تاريخ",
     "after" : "بعد",
     "_time_::_times_" : ["مرات","مرة","مرات","مرات","مرات","مرات"],
     "This event is the recurrence-exception of a recurrence-set. You cannot add a recurrence-rule to it." : "هذا الحدث هو استثناء من مجموعة التكرار. لا يمكنك إضافة شرط تكرار إليه.",
-    "first" : "أوّل",
+    "first" : "أول",
     "third" : "ثالث",
     "fourth" : "رابع",
     "fifth" : "خامس",
@@ -376,20 +385,20 @@ OC.L10N.register(
     "weekend day" : "يوم نهاية الاسبوع",
     "Does not repeat" : "لا يتكرر",
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "لا يدعم نكست كلاود تعريف التكرار لهذا الحدث بشكل كامل. إذا قمت بتحرير خيارات التكرار، فقد تفقد بعض التكرارات.",
-    "Suggestions" : "مُقترحات",
-    "No rooms or resources yet" : "لا توجد غرفٌ لحجزها بعدُ",
+    "Suggestions" : "مقترحات",
+    "No rooms or resources yet" : "لا توجد غرف يمكن حجزها حتى الآن",
     "Add resource" : "إضافة مورِد",
-    "Has a projector" : "فيها عارض ضوئي projector",
+    "Has a projector" : "لديه جهاز عرض",
     "Has a whiteboard" : "فيها لوحة whiteboard",
-    "Wheelchair accessible" : "مهيّأةٌ لكراسي المعاقين",
-    "Remove resource" : "إِلْغِ مورداً",
-    "_{seatingCapacity} seat_::_{seatingCapacity} seats_" : ["{seatCapacity} مقاعد","{seatCapacity} مقعد","{seatCapacity} مقاعد","{seatCapacity} مقاعد","{seatCapacity} مقاعد","{seatCapacity} مقاعد"],
+    "Wheelchair accessible" : "قابل للوصول بكراسي المعاقين",
+    "Remove resource" : "حذف مورد",
     "Show all rooms" : "إظهار كل الغرف",
     "Projector" : "عارض ضوئي projector",
     "Whiteboard" : "لوحة Whiteboard",
     "Search for resources or rooms" : "البحث عن موارد  أو غُرَف",
-    "available" : "مُتاحٌ",
-    "unavailable" : "غير مُتاحٍ",
+    "available" : "متاح",
+    "unavailable" : "غير متاح",
+    "_{seatingCapacity} seat_::_{seatingCapacity} seats_" : ["{seatCapacity} مقاعد","{seatCapacity} مقعد","{seatCapacity} مقاعد","{seatCapacity} مقاعد","{seatCapacity} مقاعد","{seatCapacity} مقاعد"],
     "Room type" : "نوع الغرفة",
     "Any" : "أيّ",
     "Minimum seating capacity" : "الحد الأدنى لسعة الجلوس",
@@ -398,7 +407,7 @@ OC.L10N.register(
     "Update this occurrence" : "تحديث هذا الحدوث",
     "Public calendar does not exist" : "التقويم العام غير موجود",
     "Maybe the share was deleted or has expired?" : "لربما كانت المشاركة محذوفة أو منتهية الصلاحية؟",
-    "Select a time zone" : "إختَر المنطقة الزمنية",
+    "Select a time zone" : "إختر المنطقة الزمنية",
     "Please select a time zone:" : "إختر المنطقة الزمنية من فضلك:",
     "Pick a time" : "إختر وقتاً",
     "Pick a date" : "إختر تاريخاً",
@@ -416,46 +425,41 @@ OC.L10N.register(
     "Public holiday calendars" : "تقاويم العطلات العامة",
     "Public calendars" : "التقاويم العمومية",
     "No valid public calendars configured" : "لا توجد أيّ تقاويم عمومية مُهيّأة بالشكل الصحيح",
-    "Speak to the server administrator to resolve this issue." : "تحدّث مع مشرف الخادوم لحل هذا الإشكال.",
+    "Speak to the server administrator to resolve this issue." : "تحدّث مع مسؤول النظام لحل هذا الإشكال.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "يتم توفير تقاويم العطلات العامة من موقع ثندربرد Thunderbird. سوف يتم تنزيل بيانات التقويم من {website}",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "هذه التقاويم العمومية تمّ اقتراحها من قِبل مشرف الخادوم. بيانات التقويم سيتم تحميلها من موقع الوب المعنِي.",
+    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "يتم اقتراح هذه التقويمات العامة بواسطة مسؤول القسم. سيتم تنزيل بيانات التقويم من موقع الويب المعني.",
     "By {authors}" : "من قِبَل {authors}",
-    "Subscribed" : "مُشترِك subscribed",
-    "Subscribe" : "إشترك subscribe",
+    "Subscribed" : "مشترك",
+    "Subscribe" : "إشترك",
     "Holidays in {region}" : "العطلات الرسمية في {region}",
     "An error occurred, unable to read public calendars." : "حدث خطأ؛ تعذّرت قراءة التقاويم العمومية.",
     "An error occurred, unable to subscribe to calendar." : "حدث خطأ؛ تعذّر الاشتراك في التقويم.",
-    "Select date" : "إختر التاريخ",
-    "Select slot" : "إختر الفُرضة الزمنية",
-    "No slots available" : "لا توجد أي فُرَضةٍ slot مٌتاحةٍ",
-    "Could not fetch slots" : "تعذّر جلب الفٌرْضَة الزمنية slot",
-    "The slot for your appointment has been confirmed" : "تمّ تأكيد الفُرَضَة solt المُخصّصة لموعدك",
+    "Select a date" : "إختر تاريخاً",
+    "Select slot" : "إختر الخانة الزمنية",
+    "No slots available" : "لا توجد خانة زمنية متاحة",
+    "Could not fetch slots" : "تعذر تحميل الخانات الزمنية",
+    "The slot for your appointment has been confirmed" : "تم تأكيد الموعد المحدد لك",
     "Appointment Details:" : "تفاصيل الموعد:",
     "Time:" : "الوقت:",
     "Booked for:" : "محجوز لـ :",
     "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "شكراً. حجزك من {startDate} إلى {endDate} تمّ تأكيده.",
     "Book another appointment:" : "إحجز موعداً آخر:",
-    "See all available slots" : "شاهد كل الفُرَض slots المتاحة",
-    "The slot for your appointment from {startDate} to {endDate} is not available any more." : "فُرَضة موعدك من {startDate} إلى {endDate} لم تعُد متاحةً.",
-    "Please book a different slot:" : "من فضلك، إختر فُرَضةً slot أخرى:",
+    "See all available slots" : "شاهد كل الخانات الزمنية المتاحة",
+    "The slot for your appointment from {startDate} to {endDate} is not available any more." : "موعدك من {startDate} إلى {endDate} غير متاح.",
+    "Please book a different slot:" : "من فضلك، إختر خانة زمنية أخرى:",
     "Book an appointment with {name}" : "إحجز موعداً مع {name}",
     "No public appointments found for {name}" : "لم يُمكن إيجاد أي مواعيد عامة لـ {name}",
     "Personal" : "شخصي",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "الاكتشاف التلقائي للمنطقة الزمنية يُحدّد منطقتك الزمنية بالنسبة للتوقيت العالمي المُوحّد UTC. هذا على الأرجح نتيجة للتدابير الأمنية لمتصفح الويب الخاص بك. يُرجى ضبط المنطقة الزمنية يدويًا في إعدادات التقويم.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "لم يتم العثور على منطقتك الزمنية التي تمّت تهيئتها ({timezoneId}). تمّ الرجوع إلى التوقيت العالمي المُوحّد UTC. يرجى تغيير منطقتك الزمنية في الإعدادات، والإبلاغ عن هذه المشكلة.",
-    "Create a new event" : "إنشاء حدث جديد",
-    "[Today]" : "[اليوم]",
-    "[Tomorrow]" : "[الغد]",
-    "[Yesterday]" : "[امس]",
-    "[Last] dddd" : "[اخر] dddd",
     "Event does not exist" : "الفعالية غير موجودة",
     "Duplicate" : "تكرار",
     "Delete this occurrence" : "حذف هذا الظهور",
     "Delete this and all future" : "حذف هذا الظهور والجميع في الستقبل",
     "Details" : "التفاصيل",
-    "Managing shared access" : "إدارة الوصول المُشترَك",
+    "Managing shared access" : "إدارة الوصول المشترك",
     "Deny access" : "منع الوصول",
-    "Invite" : "يدعو",
+    "Invite" : "دعوة",
     "Resources" : "الموارد",
     "_User requires access to your file_::_Users require access to your file_" : ["يحتاج المستخدمون إلى الوصول إلى ملفك","يحتاج المستخدم إلى الوصول إلى ملفك","يحتاج المستخدمون إلى الوصول إلى ملفك","يحتاج المستخدمون إلى الوصول إلى ملفك","يحتاج المستخدمون إلى الوصول إلى ملفك","يحتاج المستخدمون إلى الوصول إلى ملفك"],
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["تتطلب المرفقات وصولاً مشتركًا","يتطلب المرفق وصولاً مشتركًا","تتطلب المرفقات وصولاً مشتركًا","تتطلب المرفقات وصولاً مشتركًا","تتطلب المرفقات وصولاً مشتركًا","تتطلب المرفقات وصولاً مشتركًا"],
@@ -522,23 +526,23 @@ OC.L10N.register(
     "Other" : "آخَر",
     "When shared show" : "عندما تظهر المشاركة",
     "When shared show full event" : "عرض الحدث كاملاً عند مشاركته",
-    "When shared show only busy" : "عرض \"مشغول\" busy فقط عند مشاركته",
+    "When shared show only busy" : "عرض \"مشغول\" فقط عند مشاركته",
     "When shared hide this event" : "إخفاء هذا الحدث عند مشاركته",
     "The visibility of this event in shared calendars." : "ظهور الحدث في التقاويم المشتركة.",
     "Add a location" : "إضافة موقع",
     "Add a description" : "إضافة وصف",
     "Status" : "الحالة",
-    "Confirmed" : "مؤكَّد",
+    "Confirmed" : "مؤكد",
     "Canceled" : "ملغي",
-    "Confirmation about the overall status of the event." : "التأكيد بخصوص الحالة الكُلّية الحدث.",
+    "Confirmation about the overall status of the event." : "التأكيد بخصوص الحالة العامة للحدث.",
     "Show as" : "أظهر كـ",
     "Take this event into account when calculating free-busy information." : "ضع هذا الحدث في الاعتبار عند احتساب معلومة متوفر/ مشغول.",
     "Categories" : "التصنيفات",
     "Categories help you to structure and organize your events." : "التصنيفات تساعدك لهيكله وتنظيم أحداثك.",
     "Search or add categories" : "إبحث عن أو أضف تصنيفات",
     "Add this as a new category" : "أضفه كتصنيف جديد",
-    "Custom color" : "لون مُخصّص",
-    "Special color of this event. Overrides the calendar-color." : "اللون المُخصّص لهذا الحدث يطغى على لون التقويم.",
+    "Custom color" : "لون مخصص",
+    "Special color of this event. Overrides the calendar-color." : "اللون المخصص لهذا الحدث يغطي لون التقويم.",
     "Error while sharing file" : "خطأ اثناء مشاركة ملف",
     "Error while sharing file with user" : "حدث خطأ أثناء مُشاركة الملف مع مُستخدِم",
     "Attachment {fileName} already exists!" : "المُرفَق {fileName} موجودٌ سلفاً!",
@@ -546,7 +550,8 @@ OC.L10N.register(
     "Chat room for event" : "غرفة محادثة للحدث",
     "An error occurred, unable to delete the calendar." : "حدث خطأ، لا يمكن حذف التقويم.",
     "Imported {filename}" : "إستيراد {filename}",
-    "This is an event reminder." : "هذا تذكيرٌ بحدثٍ",
+    "This is an event reminder." : "هذا تذكير بحدث",
+    "Error while parsing a PROPFIND error" : "حدث خطأ أثناء تحليل PROFIND",
     "Appointment not found" : "الموعد غير موجود",
     "User not found" : "المستخدم غير موجود"
 },

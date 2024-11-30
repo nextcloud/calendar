@@ -45,6 +45,7 @@ OC.L10N.register(
     "Saturday" : "සෙනසුරාදා",
     "Sunday" : "ඉරිදා",
     "Update" : "යාවත්කාල",
+    "Back" : "ආපසු",
     "Email" : "විද්‍යුත් තැපෑල",
     "Available" : "ඇත",
     "Busy" : "කාර්යබහුලයි",

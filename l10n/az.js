@@ -38,6 +38,7 @@ OC.L10N.register(
     "Sunday" : "Bazar",
     "Update" : "Yenilənmə",
     "Your email address" : "Sizin email ünvanı",
+    "Back" : "Geri",
     "Email" : "Email",
     "Choose a file to add as attachment" : "Əlavə ediləcək faylı seçin",
     "Done" : "Edildi",

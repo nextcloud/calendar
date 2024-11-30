@@ -5,9 +5,9 @@
     "Open »%s«" : "Malfermi „%s“",
     "Cheers!" : "Ĝis!",
     "Upcoming events" : "Venontaj eventoj",
-    "More events" : "Pliaj eventoj",
     "No more events today" : "Ne plu eventoj hodiaŭ",
     "No upcoming events" : "Neniuj venontaj eventoj",
+    "More events" : "Pliaj eventoj",
     "Calendar" : "Kalendaro",
     "New booking {booking}" : "Nova rezervo {booking}",
     "Confirm" : "Konfirmi",
@@ -24,6 +24,7 @@
     "Copy link" : "Kopii ligilon",
     "Edit" : "Modifi",
     "Delete" : "Forigi",
+    "Create new" : "Krei nove",
     "New calendar" : "Nova kalendaro",
     "Export" : "Eksporti",
     "Calendar link copied to clipboard." : "Kalendara ligilo kopiita al tondujo",
@@ -95,6 +96,8 @@
     "Required participant" : "Bezonata partoprenanto",
     "Optional participant" : "Laŭvola partoprenanto",
     "Remove group" : "Forigi grupon",
+    "From" : "De",
+    "To" : "Al",
     "All day" : "Tuttage",
     "Repeat" : "Ripeti",
     "never" : "neniam",
@@ -115,9 +118,6 @@
     "Subscribe" : "Aboni",
     "Time:" : "Tempo:",
     "Personal" : "Persona",
-    "[Today]" : "[Hodiaŭ]",
-    "[Tomorrow]" : "[Morgaŭ]",
-    "[Yesterday]" : "[Hieraŭ]",
     "Details" : "Detaloj",
     "Resources" : "Rimedoj",
     "Close" : "Fermi",
@@ -135,6 +135,8 @@
     "Canceled" : "Nuligita",
     "Categories" : "Kategorioj",
     "Add this as a new category" : "Aldoni tion kiel novan kategorion",
-    "User not found" : "Netrovita uzanto"
+    "User not found" : "Netrovita uzanto",
+    "[Today]" : "[Hodiaŭ]",
+    "[Yesterday]" : "[Hieraŭ]"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
