@@ -286,6 +286,11 @@ OC.L10N.register(
     "Categories" : "Categorias",
     "Error while sharing file" : "Erro ao partilhar ficheiro",
     "An error occurred, unable to delete the calendar." : "Ocorreu um erro que impede que o calendário seja apagado",
-    "User not found" : "Utilizador não encontrado"
+    "User not found" : "Utilizador não encontrado",
+    "Appointment was created successfully" : "Reunião criada com sucesso",
+    "Appointment was updated successfully" : "Reunião atualizada com sucesso",
+    "Create appointment" : "Criar reunião",
+    "Edit appointment" : "Editar reunião",
+    "Book the appointment" : "Agendar a reunião"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

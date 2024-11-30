@@ -534,6 +534,20 @@ OC.L10N.register(
     "Imported {filename}" : "已导入 {filename}",
     "This is an event reminder." : "这是一个事件提醒。",
     "Appointment not found" : "未找到预约",
-    "User not found" : "未找到用户"
+    "User not found" : "未找到用户",
+    "Default calendar for invitations and new events" : "邀请以及新活动的默认日历",
+    "Appointment was created successfully" : "成功创建预约",
+    "Appointment was updated successfully" : "成功更新预约",
+    "Create appointment" : "创建预约",
+    "Edit appointment" : "编辑预约",
+    "Book the appointment" : "登记预约",
+    "You do not own this calendar, so you cannot add attendees to this event" : "您不拥有此日历，因此您无法将参加者添加到此活动",
+    "Search for emails, users, contacts or groups" : "查找电子邮件，用户，联系人或群组",
+    "Select date" : "选择日期",
+    "Create a new event" : "创建一个新的事件",
+    "[Today]" : "[今天]",
+    "[Tomorrow]" : "[明天]",
+    "[Yesterday]" : "[昨天]",
+    "[Last] dddd" : "[上一个] dddd"
 },
 "nplurals=1; plural=0;");

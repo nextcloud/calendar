@@ -551,6 +551,14 @@
     "This is an event reminder." : "This is an event reminder.",
     "Error while parsing a PROPFIND error" : "Error while parsing a PROPFIND error",
     "Appointment not found" : "Appointment not found",
-    "User not found" : "User not found"
+    "User not found" : "User not found",
+    "Appointment was updated successfully" : "Appointment was updated successfully",
+    "Edit appointment" : "Edit appointment",
+    "Book the appointment" : "Book the appointment",
+    "Select date" : "Select date",
+    "Create a new event" : "Create a new event",
+    "[Today]" : "[Today]",
+    "[Yesterday]" : "[Yesterday]",
+    "[Last] dddd" : "[Last] dddd"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

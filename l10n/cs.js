@@ -553,6 +553,10 @@ OC.L10N.register(
     "This is an event reminder." : "Toto je připomínka události.",
     "Error while parsing a PROPFIND error" : "Chyba při zpracovávání PROPFIND chyby",
     "Appointment not found" : "Schůzka nenalezena",
-    "User not found" : "Uživatel nenalezen"
+    "User not found" : "Uživatel nenalezen",
+    "Appointment was updated successfully" : "Schůzka byla úspěšně zaktualizována",
+    "Edit appointment" : "Upravit schůzku",
+    "Select date" : "Vybrat datum",
+    "Create a new event" : "Vytvořit novou událost"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

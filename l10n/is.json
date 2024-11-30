@@ -496,6 +496,18 @@
     "Imported {filename}" : "Flutti inn {filename}",
     "This is an event reminder." : "Þetta er áminning vegna atburðar.",
     "Appointment not found" : "Stefnumót fannst ekki",
-    "User not found" : "Notandi fannst ekki"
+    "User not found" : "Notandi fannst ekki",
+    "Appointment was created successfully" : "Tókst að búa til stefnumót",
+    "Appointment was updated successfully" : "Tókst að uppfæra stefnumót",
+    "Create appointment" : "Búa til stefnumót",
+    "Edit appointment" : "Breyta stefnumóti",
+    "Book the appointment" : "Bóka stefnumótið",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Þú átt ekki þetta dagatal, þannig að þú getur ekki bætt þátttakendum við þennan atburð",
+    "Select date" : "Veldu dagsetningu",
+    "Create a new event" : "Búa til nýjan atburð",
+    "[Today]" : "[Í dag]",
+    "[Tomorrow]" : "[Á morgun]",
+    "[Yesterday]" : "[Í gær]",
+    "[Last] dddd" : "[Síðasta] dddd"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

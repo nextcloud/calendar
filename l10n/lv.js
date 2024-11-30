@@ -432,6 +432,15 @@ OC.L10N.register(
     "Imported {filename}" : "Importēts {filename}",
     "This is an event reminder." : "Šis ir notikuma atgādinājums.",
     "Appointment not found" : "Tikšanās nav atrasta",
-    "User not found" : "Lietotājs nav atrasts"
+    "User not found" : "Lietotājs nav atrasts",
+    "Appointment was created successfully" : "Tikšanās veiksmīgi izveidota",
+    "Appointment was updated successfully" : "Tikšanās veiksmīgi atjaunināta",
+    "Create appointment" : "Izveidot plānotu tikšanos",
+    "Edit appointment" : "Labot norunātu tikšanos",
+    "Book the appointment" : "Rezerevēt plānotu tikšanos",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Jums nav īpašnieka tiesības šim kalendāram, tāpēc jūs nevarat pievienot dalībniekus šim notikumam.",
+    "Search for emails, users, contacts or groups" : "Meklēt e-pasta adreses, lietotājus, kontaktus vai grupas",
+    "Select date" : "Izvēlieties datumu",
+    "Create a new event" : "Izveidot jaunu notikumu"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

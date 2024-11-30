@@ -534,6 +534,20 @@
     "This is an event reminder." : "Toto je pripomienka udalosti.",
     "Error while parsing a PROPFIND error" : "Chyba pri parsovaní chyby PROPFIND",
     "Appointment not found" : "Stretnutie nebolo nájdené",
-    "User not found" : "Užívateľ nebol nájdený"
+    "User not found" : "Užívateľ nebol nájdený",
+    "Default calendar for invitations and new events" : "Predvolený kalendár pre pozvánky a nové udalosti",
+    "Appointment was created successfully" : "Stretnutie bolo úspešne vytvorené",
+    "Appointment was updated successfully" : "Stretnutie bolo úspešne aktualizované",
+    "Create appointment" : "Vytvorte stretnutie",
+    "Edit appointment" : "Upraviť stretnutie",
+    "Book the appointment" : "Rezervovať stretnutie",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Nemáte vlastníctvo tohto kalendára, takže nemôžete pridať účastníkov do tejto udalosti.",
+    "Search for emails, users, contacts or groups" : "Hľadať e-maily, užívateľov, kontakty alebo skupiny",
+    "Select date" : "Vybrať dátum",
+    "Create a new event" : "Vytvoriť novú udalosť",
+    "[Today]" : "[Dnes]",
+    "[Tomorrow]" : "[Zajtra]",
+    "[Yesterday]" : "[Včera]",
+    "[Last] dddd" : "[Posledné] dddd"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

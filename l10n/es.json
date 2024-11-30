@@ -531,6 +531,14 @@
     "Imported {filename}" : "Importado {filename}",
     "This is an event reminder." : "Esto es un recordatorio de evento.",
     "Appointment not found" : "Cita no encontrada",
-    "User not found" : "Usuario no encontrado"
+    "User not found" : "Usuario no encontrado",
+    "Appointment was updated successfully" : "Se ha actualizado la cita exitosamente",
+    "Edit appointment" : "Editar cita",
+    "Book the appointment" : "Reservar la cita",
+    "Select date" : "Seleccionar fecha",
+    "Create a new event" : "Crear un nuevo evento",
+    "[Today]" : "[Hoy]",
+    "[Yesterday]" : "[Ayer]",
+    "[Last] dddd" : "[Último] dddd"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

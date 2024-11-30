@@ -415,6 +415,10 @@
     "An error occurred, unable to delete the calendar." : "Bu gwall, ni fu modd dileu'r calendr.",
     "Imported {filename}" : "Mewnforiwyd {filename}",
     "Appointment not found" : "Apwyntiad heb ei ganfod",
-    "User not found" : "Defnyddiwr heb ei ganfod"
+    "User not found" : "Defnyddiwr heb ei ganfod",
+    "Appointment was updated successfully" : "Diweddarwyd yr apwyntiad yn llwyddiannus",
+    "Edit appointment" : "Golygu apwyntiad",
+    "Select date" : "Dewis dyddiad",
+    "Create a new event" : "Creu digwyddiad newydd"
 },"pluralForm" :"nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;"
 }

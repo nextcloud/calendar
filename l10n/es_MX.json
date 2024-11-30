@@ -551,6 +551,19 @@
     "This is an event reminder." : "Esto es un recordatorio del evento.",
     "Error while parsing a PROPFIND error" : "Error al analizar un error PROPFIND",
     "Appointment not found" : "Cita no encontrada",
-    "User not found" : "No se encontró el usuario"
+    "User not found" : "No se encontró el usuario",
+    "Appointment was created successfully" : "La cita se creó exitosamente",
+    "Appointment was updated successfully" : "La cita se actualizó exitosamente",
+    "Create appointment" : "Crear cita",
+    "Edit appointment" : "Editar cita",
+    "Book the appointment" : "Reservar la cita",
+    "You do not own this calendar, so you cannot add attendees to this event" : "No es propietario de este calendario, así que no puede añadir participantes a este evento",
+    "Search for emails, users, contacts or groups" : "Buscar correos electrónicos, usuarios, contactos o grupos",
+    "Select date" : "Seleccionar fecha",
+    "Create a new event" : "Crear un nuevo evento",
+    "[Today]" : "[Hoy]",
+    "[Tomorrow]" : "[Mañana]",
+    "[Yesterday]" : "[Ayer]",
+    "[Last] dddd" : "[Último] dddd"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

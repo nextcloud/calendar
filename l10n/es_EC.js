@@ -493,6 +493,17 @@ OC.L10N.register(
     "Imported {filename}" : "Importado {filename}",
     "This is an event reminder." : "Esto es un recordatorio de evento.",
     "Appointment not found" : "Cita no encontrada",
-    "User not found" : "No se encontró el usuario"
+    "User not found" : "No se encontró el usuario",
+    "Appointment was created successfully" : "La cita se creó correctamente",
+    "Appointment was updated successfully" : "La cita se actualizó correctamente",
+    "Create appointment" : "Crear cita",
+    "Edit appointment" : "Editar cita",
+    "Book the appointment" : "Reservar la cita",
+    "Select date" : "Seleccionar fecha",
+    "Create a new event" : "Crear un nuevo evento",
+    "[Today]" : "[Hoy]",
+    "[Tomorrow]" : "[Mañana]",
+    "[Yesterday]" : "[Ayer]",
+    "[Last] dddd" : "[Último] dddd"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

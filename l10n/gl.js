@@ -553,6 +553,19 @@ OC.L10N.register(
     "This is an event reminder." : "Este é un lembrete de eventos.",
     "Error while parsing a PROPFIND error" : "Produciuse un erro ao analizar un erro PROPFIND",
     "Appointment not found" : "Non se atopou a cita",
-    "User not found" : "Non se atopou o usuario"
+    "User not found" : "Non se atopou o usuario",
+    "Appointment was created successfully" : "A cita foi creada correctamente",
+    "Appointment was updated successfully" : "A cita foi actualizada correctamente",
+    "Create appointment" : "Crear cita",
+    "Edit appointment" : "Editar cita",
+    "Book the appointment" : "Reserva a cita",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Vde. non é o propietario deste calendario, polo que non pode engadir asistentes a este evento",
+    "Search for emails, users, contacts or groups" : "Buscar por correos, usuarios, contactos, ou grupos",
+    "Select date" : "Seleccionar a data",
+    "Create a new event" : "Crear un novo evento",
+    "[Today]" : "[Hoxe]",
+    "[Tomorrow]" : "[Mañá]",
+    "[Yesterday]" : "[Onte]",
+    "[Last] dddd" : "[Último] dddd"
 },
 "nplurals=2; plural=(n != 1);");

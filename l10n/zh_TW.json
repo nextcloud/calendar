@@ -551,6 +551,20 @@
     "This is an event reminder." : "這是一個事件提醒。",
     "Error while parsing a PROPFIND error" : "解析 PROFIND 錯誤時發生錯誤",
     "Appointment not found" : "找不到預約",
-    "User not found" : "找不到使用者"
+    "User not found" : "找不到使用者",
+    "Default calendar for invitations and new events" : "邀請與新事件的預設日曆",
+    "Appointment was created successfully" : "成功建立預約",
+    "Appointment was updated successfully" : "成功更新預約",
+    "Create appointment" : "建立預約",
+    "Edit appointment" : "編輯預約",
+    "Book the appointment" : "預約",
+    "You do not own this calendar, so you cannot add attendees to this event" : "您並未擁有此行事曆，因此您無法新增參與者到此活動",
+    "Search for emails, users, contacts or groups" : "搜尋電子郵件、使用者、聯絡人或群組",
+    "Select date" : "選取日期",
+    "Create a new event" : "建立新活動",
+    "[Today]" : "[今天]",
+    "[Tomorrow]" : "[明天]",
+    "[Yesterday]" : "[昨天]",
+    "[Last] dddd" : "[上] dddd"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

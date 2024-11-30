@@ -550,6 +550,9 @@ OC.L10N.register(
     "This is an event reminder." : "Això és un recordatori de l'esdeveniment.",
     "Error while parsing a PROPFIND error" : "S'ha produït un error en analitzar un error PROPFIND",
     "Appointment not found" : "No s'ha trobat la cita",
-    "User not found" : "No s'ha trobat l'usuari"
+    "User not found" : "No s'ha trobat l'usuari",
+    "Appointment was updated successfully" : "La cita s'ha actualitzat correctament",
+    "Select date" : "Seleccioneu una data",
+    "Create a new event" : "Crea un esdeveniment nou"
 },
 "nplurals=2; plural=(n != 1);");

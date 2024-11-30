@@ -553,6 +553,19 @@ OC.L10N.register(
     "This is an event reminder." : "Це нагадування про подію.",
     "Error while parsing a PROPFIND error" : "Помилка під час обробки помилки PROPFIND",
     "Appointment not found" : "Запрошення на зустріч не знайдено",
-    "User not found" : "Користувача не знайдено"
+    "User not found" : "Користувача не знайдено",
+    "Default calendar for invitations and new events" : "Типовий календар для запрошень та нових подій",
+    "Appointment was created successfully" : "Успішно створено зустріч",
+    "Appointment was updated successfully" : "Успішно оновлено зустріч",
+    "Create appointment" : "Створити зустріч",
+    "Edit appointment" : "Редагувати зустріч",
+    "Book the appointment" : "Зарезервувати зустріч",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Ви не є власником цього календаря та не можете додавати учасників цієї події",
+    "Search for emails, users, contacts or groups" : "Пошук імейлів, користувачів, контактів або груп",
+    "Select date" : "Виберіть дату",
+    "Create a new event" : "Створити нову подію",
+    "[Today]" : "[Сьогодні]",
+    "[Tomorrow]" : "[Завтра]",
+    "[Yesterday]" : "[Вчора]"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

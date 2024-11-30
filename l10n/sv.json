@@ -551,6 +551,20 @@
     "This is an event reminder." : "Detta är en händelsepåminnelse.",
     "Error while parsing a PROPFIND error" : "Fel vid analys av ett PROPFIND-fel",
     "Appointment not found" : "Mötet hittades inte",
-    "User not found" : "Användaren hittades inte"
+    "User not found" : "Användaren hittades inte",
+    "Default calendar for invitations and new events" : "Standardkalender för inbjudningar och nya händelser",
+    "Appointment was created successfully" : "Möte skapades",
+    "Appointment was updated successfully" : "Mötet uppdaterades",
+    "Create appointment" : "Skapa möte",
+    "Edit appointment" : "Redigera möte",
+    "Book the appointment" : "Boka mötet",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Du äger inte den här kalendern, så du kan inte lägga till deltagare till denna händelse",
+    "Search for emails, users, contacts or groups" : "Sök efter e-post, användare, kontakter eller grupper",
+    "Select date" : "Välj datum",
+    "Create a new event" : "Skapa en ny händelse",
+    "[Today]" : "[Idag]",
+    "[Tomorrow]" : "[Imorgon]",
+    "[Yesterday]" : "[Igår]",
+    "[Last] dddd" : "[Sista] dddd"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

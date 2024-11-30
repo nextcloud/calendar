@@ -549,6 +549,10 @@ OC.L10N.register(
     "This is an event reminder." : "Dette er en begivenhedspåmindelse.",
     "Error while parsing a PROPFIND error" : "Fejl under parsing af en PROPFIND-fejl",
     "Appointment not found" : "Aftale ikke fundet",
-    "User not found" : "Bruger ikke fundet"
+    "User not found" : "Bruger ikke fundet",
+    "Appointment was updated successfully" : "Aftalen blev opdateret",
+    "Edit appointment" : "Rediger aftale",
+    "Select date" : "Vælg dato",
+    "Create a new event" : "Opret en ny begivenhed"
 },
 "nplurals=2; plural=(n != 1);");

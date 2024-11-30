@@ -434,6 +434,7 @@ OC.L10N.register(
     "Holidays in {region}" : "العطلات الرسمية في {region}",
     "An error occurred, unable to read public calendars." : "حدث خطأ؛ تعذّرت قراءة التقاويم العمومية.",
     "An error occurred, unable to subscribe to calendar." : "حدث خطأ؛ تعذّر الاشتراك في التقويم.",
+    "Select a date" : "إختر تاريخاً",
     "Select slot" : "إختر الخانة الزمنية",
     "No slots available" : "لا توجد خانة زمنية متاحة",
     "Could not fetch slots" : "تعذر تحميل الخانات الزمنية",

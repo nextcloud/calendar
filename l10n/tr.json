@@ -549,6 +549,20 @@
     "This is an event reminder." : "Bu bir etkinlik hatırlatıcısıdır.",
     "Error while parsing a PROPFIND error" : "PROPFIND hatası işlenirken sorun çıktı",
     "Appointment not found" : "Randevu bulunamadı",
-    "User not found" : "Kullanıcı bulunamadı"
+    "User not found" : "Kullanıcı bulunamadı",
+    "Default calendar for invitations and new events" : "Davetler ve yeni etkinlikler için varsayılan takvim",
+    "Appointment was created successfully" : "Randevu oluşturuldu",
+    "Appointment was updated successfully" : "Randevu güncellendi",
+    "Create appointment" : "Randevu ekle",
+    "Edit appointment" : "Randevuyu düzenle",
+    "Book the appointment" : "Randevu al",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Bu takvimin sahibi olmadığınız için bu etkinliğe katılımcı ekleyemezsiniz",
+    "Search for emails, users, contacts or groups" : "E-posta, kullanıcı, kişi ya da grup arayın",
+    "Select date" : "Tarih seçin",
+    "Create a new event" : "Etkinlik ekle",
+    "[Today]" : "[Bugün]",
+    "[Tomorrow]" : "[Yarın]",
+    "[Yesterday]" : "[Dün]",
+    "[Last] dddd" : "[Son] dddd"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

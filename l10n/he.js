@@ -369,6 +369,11 @@ OC.L10N.register(
     "Chat room for event" : "חדר צ'ט לאירוע",
     "An error occurred, unable to delete the calendar." : "אירעה שגיאה, לא ניתן למחוק את היומן.",
     "Imported {filename}" : "יובא {filename} ",
-    "User not found" : "המשתמש לא נמצא"
+    "User not found" : "המשתמש לא נמצא",
+    "Create a new event" : "צור אירוע חדש",
+    "[Today]" : "[היום]",
+    "[Tomorrow]" : "[מחר]",
+    "[Yesterday]" : "[אתמול]",
+    "[Last] dddd" : "[Last] dddd"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

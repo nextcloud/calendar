@@ -546,6 +546,20 @@ OC.L10N.register(
     "This is an event reminder." : "Dette er en hendelsespåminnelse.",
     "Error while parsing a PROPFIND error" : "Feil under analyse av en PROPFIND-feil",
     "Appointment not found" : "Avtale ikke funnet",
-    "User not found" : "Fant ikke brukeren"
+    "User not found" : "Fant ikke brukeren",
+    "Default calendar for invitations and new events" : "Standard kalender for invitasjoner og nye hendelser",
+    "Appointment was created successfully" : "Appointment was created successfully",
+    "Appointment was updated successfully" : "Avtalen ble oppdatert",
+    "Create appointment" : "Opprett avtale",
+    "Edit appointment" : "Endre avtale",
+    "Book the appointment" : "Bestill avtalen",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Du eier ikke denne kalenderen, så du kan ikke legge til deltakere i dette arrangementet",
+    "Search for emails, users, contacts or groups" : "Søk etter e-poster, brukere, kontakter eller grupper",
+    "Select date" : "Velg dato",
+    "Create a new event" : "Opprett en ny hendelse",
+    "[Today]" : "[Today]",
+    "[Tomorrow]" : "[Tomorrow]",
+    "[Yesterday]" : "[Yesterday]",
+    "[Last] dddd" : "[Last] dddd"
 },
 "nplurals=2; plural=(n != 1);");

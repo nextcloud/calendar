@@ -551,6 +551,19 @@
     "This is an event reminder." : "Is meabhrúchán imeachta é seo.",
     "Error while parsing a PROPFIND error" : "Earráid agus earráid PROPFIND á parsáil",
     "Appointment not found" : "Níor aimsíodh an coinne",
-    "User not found" : "Úsáideoir gan aimsiú"
+    "User not found" : "Úsáideoir gan aimsiú",
+    "Appointment was created successfully" : "Cruthaíodh an ceapachán go rathúil",
+    "Appointment was updated successfully" : "D'éirigh leis an gceapachán a nuashonrú",
+    "Create appointment" : "Cruthaigh coinne",
+    "Edit appointment" : "Cuir coinne in eagar",
+    "Book the appointment" : "Cuir an coinne in áirithe",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Ní leatsa an féilire seo, mar sin ní féidir leat lucht freastail a chur leis an imeacht seo",
+    "Search for emails, users, contacts or groups" : "Déan cuardach do ríomhphoist, úsáideoirí, teagmhálaithe nó grúpaí",
+    "Select date" : "Roghnaigh dáta",
+    "Create a new event" : "Cruthaigh imeacht nua",
+    "[Today]" : "[Inniu]",
+    "[Tomorrow]" : "[Amárach]",
+    "[Yesterday]" : "[Inné]",
+    "[Last] dddd" : "[seo caite] dddd"
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

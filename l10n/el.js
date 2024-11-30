@@ -523,6 +523,12 @@ OC.L10N.register(
     "Imported {filename}" : "Εισηγμένο {filename}",
     "This is an event reminder." : "Αυτή είναι μια υπενθύμιση γεγονότος.",
     "Appointment not found" : "Το ραντεβού δεν βρέθηκε",
-    "User not found" : "Ο/Η χρήστης δεν βρέθηκε"
+    "User not found" : "Ο/Η χρήστης δεν βρέθηκε",
+    "Appointment was updated successfully" : "Το ραντεβού σας ενημερώθηκε επιτυχώς",
+    "Edit appointment" : "Επεξεργασία ραντεβού",
+    "Select date" : "Επιλέξτε ημερομηνία",
+    "Create a new event" : "Δημιουργία νέου γεγονότος",
+    "[Today]" : "[Σήμερα]",
+    "[Last] dddd" : "[Last] ηηηη"
 },
 "nplurals=2; plural=(n != 1);");

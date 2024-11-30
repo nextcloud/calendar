@@ -486,6 +486,18 @@ OC.L10N.register(
     "Imported {filename}" : "{filename} 가져옴",
     "This is an event reminder." : "일정에 대한 알림입니다.",
     "Appointment not found" : "약속을 찾을 수 없음",
-    "User not found" : "사용자를 찾을 수 없음"
+    "User not found" : "사용자를 찾을 수 없음",
+    "Appointment was created successfully" : "약속이 성공적으로 생성되었습니다",
+    "Appointment was updated successfully" : "약속이 성공적으로 갱신되었습니다",
+    "Create appointment" : "약속 만들기",
+    "Edit appointment" : "약속 편집",
+    "Book the appointment" : "약속 잡기",
+    "You do not own this calendar, so you cannot add attendees to this event" : "이 달력의 소유자가 아니기 때문에 이 일정에 참석자를 추가할 수 없습니다",
+    "Search for emails, users, contacts or groups" : "이메일, 사용자, 연락처 및 그룹 검색",
+    "Select date" : "날짜 선택",
+    "Create a new event" : "새 일정 만들기",
+    "[Today]" : "[오늘]",
+    "[Tomorrow]" : "[내일]",
+    "[Yesterday]" : "[어제]"
 },
 "nplurals=1; plural=0;");
