@@ -7,6 +7,7 @@ OC.L10N.register(
     "Copy link" : "ສຳເນົາລິງ",
     "Edit" : "ແກ້ໄຂ",
     "Delete" : "ລຶບ",
+    "Create new" : "ສ້າງໃຫມ່",
     "Shared with you by" : "ແບ່ງປັນໂດຍທ່ານ",
     "Name" : "ຊື່",
     "Deleted" : "ລືບ",

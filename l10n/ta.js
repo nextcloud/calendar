@@ -30,6 +30,7 @@ OC.L10N.register(
     "Sunday" : "ஞாயிற்றுக்கிழமை",
     "Update" : "இற்றைப்படுத்தல்",
     "Your email address" : "உங்களுடைய மின்னஞ்சல் முகவரி",
+    "Back" : "பின்னுக்கு",
     "Email" : "மின்னஞ்சல்",
     "Done" : "Done",
     "Unknown" : "தெரியாத",
