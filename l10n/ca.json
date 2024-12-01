@@ -430,7 +430,6 @@
     "Holidays in {region}" : "Festius a {region}",
     "An error occurred, unable to read public calendars." : "S'ha produït un error, no es poden llegir els calendaris públics.",
     "An error occurred, unable to subscribe to calendar." : "S'ha produït un error, no es pot subscriure al calendari.",
-    "Select date" : "Seleccioneu una data",
     "Select slot" : "Seleccioneu unitat temporal",
     "No slots available" : "No hi han unitats temporals disponibles",
     "Could not fetch slots" : "No s'han pogut obtenir les unitats temporals",
@@ -549,6 +548,19 @@
     "This is an event reminder." : "Això és un recordatori de l'esdeveniment.",
     "Error while parsing a PROPFIND error" : "S'ha produït un error en analitzar un error PROPFIND",
     "Appointment not found" : "No s'ha trobat la cita",
-    "User not found" : "No s'ha trobat l'usuari"
+    "User not found" : "No s'ha trobat l'usuari",
+    "Appointment was created successfully" : "La cita s'ha creat correctament",
+    "Appointment was updated successfully" : "La cita s'ha actualitzat correctament",
+    "Create appointment" : "Crear cita",
+    "Edit appointment" : "Edita la cita",
+    "Book the appointment" : "Reserva la cita",
+    "You do not own this calendar, so you cannot add attendees to this event" : "No sou el propietari d'aquest calendari, de manera que no podeu afegir assistents a aquest esdeveniment",
+    "Search for emails, users, contacts or groups" : "Cerca correus electrònics, usuaris, contactes o grups",
+    "Select date" : "Seleccioneu una data",
+    "Create a new event" : "Crea un esdeveniment nou",
+    "[Today]" : "[Avui]",
+    "[Tomorrow]" : "[Demà]",
+    "[Yesterday]" : "[Ahir]",
+    "[Last] dddd" : "[Últim] dddd"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

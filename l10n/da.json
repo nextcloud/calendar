@@ -429,7 +429,6 @@
     "Holidays in {region}" : "Ferie i {region}",
     "An error occurred, unable to read public calendars." : "Der opstod en fejl, og det var ikke muligt at læse offentlige kalendere.",
     "An error occurred, unable to subscribe to calendar." : "Der opstod en fejl, og der kunne ikke abonneres på kalenderen.",
-    "Select date" : "Vælg dato",
     "Select slot" : "Vælg tidspunkt",
     "No slots available" : "Ingen ledige tidspunkter",
     "Could not fetch slots" : "Kunne ikke hente pladser",
@@ -548,6 +547,20 @@
     "This is an event reminder." : "Dette er en begivenhedspåmindelse.",
     "Error while parsing a PROPFIND error" : "Fejl under parsing af en PROPFIND-fejl",
     "Appointment not found" : "Aftale ikke fundet",
-    "User not found" : "Bruger ikke fundet"
+    "User not found" : "Bruger ikke fundet",
+    "Default calendar for invitations and new events" : "Standard kalender for invitationer og nye begivenheder",
+    "Appointment was created successfully" : "Aftalen blev oprettet",
+    "Appointment was updated successfully" : "Aftalen blev opdateret",
+    "Create appointment" : "Opret aftale",
+    "Edit appointment" : "Rediger aftale",
+    "Book the appointment" : "Bestil tid",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Du ejer ikke denne kalender, du kan derfor ikke tilføje deltagere til denne begivenhed",
+    "Search for emails, users, contacts or groups" : "Søg efter e-mails, brugere, kontakter eller grupper",
+    "Select date" : "Vælg dato",
+    "Create a new event" : "Opret en ny begivenhed",
+    "[Today]" : "[i dag]",
+    "[Tomorrow]" : "[I morgen]",
+    "[Yesterday]" : "[Yesterday]",
+    "[Last] dddd" : "[Last] dddd"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

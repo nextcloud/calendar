@@ -344,6 +344,11 @@ OC.L10N.register(
     "Chat room for event" : "Aposentu pro is tzarradas de s'eventu",
     "An error occurred, unable to delete the calendar." : "B'at àpidu un'errore, no at fatu a cantzellare su calendàriu.",
     "Imported {filename}" : "Importadu {filename}",
-    "User not found" : "Utèntzia no agatada"
+    "User not found" : "Utèntzia no agatada",
+    "Create a new event" : "Crea un'eventu nou",
+    "[Today]" : "[Oe]",
+    "[Tomorrow]" : "[Cras]",
+    "[Yesterday]" : "[Eris]",
+    "[Last] dddd" : "[Ùrtimu] dddd"
 },
 "nplurals=2; plural=(n != 1);");

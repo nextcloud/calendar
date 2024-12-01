@@ -425,7 +425,7 @@
     "Holidays in {region}" : "Oporrak {region}(e)n",
     "An error occurred, unable to read public calendars." : "Errorea gertatu da, ezin izan dira egutegi publikoak irakurri.",
     "An error occurred, unable to subscribe to calendar." : "Errore bat gertatu da, ezin izan da egutegira harpidetu.",
-    "Select date" : "Hautatu data",
+    "Select a date" : "Hautatu data bat",
     "Select slot" : "Hautatu tartea",
     "No slots available" : "Ez dago tarterik eskuragarri",
     "Could not fetch slots" : "Ezin izan dira plazak eskuratu",
@@ -544,6 +544,19 @@
     "This is an event reminder." : "Hau gertaera baten gogorarazpena da.",
     "Error while parsing a PROPFIND error" : "Errore bat gertatu da PROPFIND errore bat analizatzean",
     "Appointment not found" : "Ez da hitzordua aurkitu",
-    "User not found" : "Ez da erabiltzailea aurkitu"
+    "User not found" : "Ez da erabiltzailea aurkitu",
+    "Appointment was created successfully" : "Hitzordua ondo sortu da",
+    "Appointment was updated successfully" : "Hitzordua ondo eguneratu da",
+    "Create appointment" : "Sortu hitzordua",
+    "Edit appointment" : "Editatu hitzordua",
+    "Book the appointment" : "Erreserbatu hitzordua",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Ez zara egutegi honen jabea, beraz, ezin duzu parte-hartzailerik gehitu gertaera honetan",
+    "Search for emails, users, contacts or groups" : "Bilatu email, erabiltzaile, kontaktu edo taldeak",
+    "Select date" : "Hautatu data",
+    "Create a new event" : "Sortu gertaera berri bat",
+    "[Today]" : "[Today]",
+    "[Tomorrow]" : "[Tomorrow]",
+    "[Yesterday]" : "[Yesterday]",
+    "[Last] dddd" : "[Last] dddd"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

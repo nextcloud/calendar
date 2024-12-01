@@ -432,7 +432,7 @@
     "Holidays in {region}" : "{region} 的假期",
     "An error occurred, unable to read public calendars." : "發生錯誤，無法讀取公共日曆。",
     "An error occurred, unable to subscribe to calendar." : "發生錯誤，無法訂閱日曆。",
-    "Select date" : "選擇日期",
+    "Select a date" : "選擇日期",
     "Select slot" : "選擇時段",
     "No slots available" : "沒有可用的時段",
     "Could not fetch slots" : "無法擷取時段",
@@ -551,6 +551,20 @@
     "This is an event reminder." : "這是一個活動提醒。",
     "Error while parsing a PROPFIND error" : "解析 PROPFIND 錯誤時發生錯誤",
     "Appointment not found" : "找不到預約",
-    "User not found" : "找不到用戶"
+    "User not found" : "找不到用戶",
+    "Default calendar for invitations and new events" : "用於邀請和新活動的默認日曆",
+    "Appointment was created successfully" : "成功創建了預約",
+    "Appointment was updated successfully" : "成功更新了預約",
+    "Create appointment" : "創建預約",
+    "Edit appointment" : "編輯預約",
+    "Book the appointment" : "預約",
+    "You do not own this calendar, so you cannot add attendees to this event" : "您並未擁有此日曆，因此您無法新增參與者到此活動",
+    "Search for emails, users, contacts or groups" : "搜尋電子郵件、用戶、聯絡人或群組",
+    "Select date" : "選擇日期",
+    "Create a new event" : "建立新活動",
+    "[Today]" : "[今日]",
+    "[Tomorrow]" : "[明日]",
+    "[Yesterday]" : "[昨日]",
+    "[Last] dddd" : "[上] dddd"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

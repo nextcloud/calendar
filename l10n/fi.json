@@ -403,7 +403,6 @@
     "Subscribed" : "Tilattu",
     "Subscribe" : "Tilaa",
     "Holidays in {region}" : "Juhlapäivä alueella {region}",
-    "Select date" : "Valitse päivämäärä",
     "Select slot" : "Valitse aikarako",
     "No slots available" : "Aikarakoja ei ole saatavilla",
     "The slot for your appointment has been confirmed" : "Aikarako tapaamiselle on vahvistettu",
@@ -518,6 +517,20 @@
     "Imported {filename}" : "Tuotiin {filename}",
     "This is an event reminder." : "Tämä on tapahtuman muistutus.",
     "Appointment not found" : "Tapaamista ei löydy",
-    "User not found" : "Käyttäjää ei löydy"
+    "User not found" : "Käyttäjää ei löydy",
+    "Default calendar for invitations and new events" : "Oletuskalenteri kutsuille ja uusille tapahtumille",
+    "Appointment was created successfully" : "Tapaaminen luotiin onnistuneesti",
+    "Appointment was updated successfully" : "Tapaaminen päivitettiin onnistuneesti",
+    "Create appointment" : "Luo tapaaminen",
+    "Edit appointment" : "Muokkaa tapaamista",
+    "Book the appointment" : "Kirjaa tapaaminen",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Et omista tätä kalenteria, joten et voi lisätä osallistujia tähän tapahtumaan",
+    "Search for emails, users, contacts or groups" : "Etsi sähköpostiosoitteita, käyttäjiä, yhteystietoja tai ryhmiä",
+    "Select date" : "Valitse päivämäärä",
+    "Create a new event" : "Luo uusi tapahtuma",
+    "[Today]" : "[Tänään]",
+    "[Tomorrow]" : "[Huomenna]",
+    "[Yesterday]" : "[Eilen]",
+    "[Last] dddd" : "[Viimeinen] dddd"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

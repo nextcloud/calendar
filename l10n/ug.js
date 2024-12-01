@@ -409,7 +409,7 @@ OC.L10N.register(
     "Holidays in {region}" : "{رايوندىكى دەم ئېلىش}",
     "An error occurred, unable to read public calendars." : "ئاممىۋى كالېندارنى ئوقۇيالماي خاتالىق كۆرۈلدى.",
     "An error occurred, unable to subscribe to calendar." : "كالېندارغا مۇشتەرى بولالمىغان خاتالىق كۆرۈلدى.",
-    "Select date" : "چېسلانى تاللاڭ",
+    "Select a date" : "چېسلانى تاللاڭ",
     "Select slot" : "ئورۇننى تاللاڭ",
     "No slots available" : "ئورۇن يوق",
     "Could not fetch slots" : "ئورۇن ئالالمىدى",
@@ -516,6 +516,11 @@ OC.L10N.register(
     "This is an event reminder." : "بۇ بىر ۋەقە ئەسكەرتىش.",
     "Error while parsing a PROPFIND error" : "PROPFIND خاتالىقىنى تەھلىل قىلغاندا خاتالىق",
     "Appointment not found" : "تەيىنلەنمىدى",
-    "User not found" : "ئىشلەتكۈچى تېپىلمىدى"
+    "User not found" : "ئىشلەتكۈچى تېپىلمىدى",
+    "Book the appointment" : "ئۇچرىشىشنى زاكاس قىلىڭ",
+    "Select date" : "چېسلانى تاللاڭ",
+    "[Today]" : "[بۈگۈن]",
+    "[Tomorrow]" : "[ئەتە]",
+    "[Yesterday]" : "[تۈنۈگۈن]"
 },
 "nplurals=2; plural=(n != 1);");

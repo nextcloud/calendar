@@ -380,7 +380,6 @@ OC.L10N.register(
     "Subscribed" : "Subscribed",
     "Subscribe" : "اشتراک گذاری",
     "Holidays in {region}" : "Holidays in {region}",
-    "Select date" : "Select date",
     "Select slot" : "Select slot",
     "No slots available" : "No slots available",
     "The slot for your appointment has been confirmed" : "The slot for your appointment has been confirmed",
@@ -496,6 +495,17 @@ OC.L10N.register(
     "Imported {filename}" : "وارد شده {نام پرونده}",
     "This is an event reminder." : "This is an event reminder.",
     "Appointment not found" : "Appointment not found",
-    "User not found" : "کاربر یافت نشد"
+    "User not found" : "کاربر یافت نشد",
+    "Appointment was created successfully" : "Appointment was created successfully",
+    "Appointment was updated successfully" : "Appointment was updated successfully",
+    "Create appointment" : "Create appointment",
+    "Edit appointment" : "Edit appointment",
+    "Book the appointment" : "Book the appointment",
+    "Select date" : "Select date",
+    "Create a new event" : "Create a new event",
+    "[Today]" : "[امروز]",
+    "[Tomorrow]" : "[فردا]",
+    "[Yesterday]" : "[دیروز]",
+    "[Last] dddd" : "[Last] dddd"
 },
 "nplurals=2; plural=(n > 1);");

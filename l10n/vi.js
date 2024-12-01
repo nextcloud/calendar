@@ -316,7 +316,6 @@ OC.L10N.register(
     "Global" : "Chung",
     "Subscribed" : "Đã đăng ký",
     "Subscribe" : "Theo dõi",
-    "Select date" : "Chọn ngày",
     "Select slot" : "Chọn suất",
     "No slots available" : "Không có suất trống",
     "The slot for your appointment has been confirmed" : "Suất cho cuộc hẹn của bạn đã được xác nhận",
@@ -422,6 +421,17 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Một lỗi đã xảy ra, không thể xóa lịch.",
     "Imported {filename}" : " {filename} đã được nhập",
     "Appointment not found" : "Không tìm thấy cuộc hẹn",
-    "User not found" : "Không tìm thấy người dùng"
+    "User not found" : "Không tìm thấy người dùng",
+    "Appointment was created successfully" : "Lịch hẹn đã được tạo thành công",
+    "Appointment was updated successfully" : "Lịch hẹn đã được cập nhập thành công",
+    "Create appointment" : "Tạo lịch hẹn",
+    "Edit appointment" : "Chỉnh sửa lịch hẹn",
+    "Book the appointment" : "Đặt lịch hẹn",
+    "Select date" : "Chọn ngày",
+    "Create a new event" : "Tạo một sự kiện mới",
+    "[Today]" : "[Hôm nay]",
+    "[Tomorrow]" : "[Ngày mai]",
+    "[Yesterday]" : "[Hôm qua]",
+    "[Last] dddd" : "[Trước] dddd"
 },
 "nplurals=1; plural=0;");

@@ -383,7 +383,6 @@ OC.L10N.register(
     "Subscribed" : "Geabonneerd",
     "Subscribe" : "Abonneren",
     "Holidays in {region}" : "Vakanties in {regio}",
-    "Select date" : "Selecteer datum",
     "Select slot" : "Selecteer tijdslot",
     "No slots available" : "Geen tijdsloten beschikbaar",
     "Could not fetch slots" : "Kon slots niet ophalen",
@@ -500,6 +499,18 @@ OC.L10N.register(
     "Imported {filename}" : "Geïmporteerd {filename}",
     "This is an event reminder." : "Dit is een herinnering aan een evenement.",
     "Appointment not found" : "Afspraak niet gevonden",
-    "User not found" : "Gebruiker niet gevonden"
+    "User not found" : "Gebruiker niet gevonden",
+    "Appointment was created successfully" : "Afspraak succesvol gecreëerd",
+    "Appointment was updated successfully" : "Afspraak succesvol geüpdatet",
+    "Create appointment" : "Creëer afspraak",
+    "Edit appointment" : "Bewerk afspraak",
+    "Book the appointment" : "Boek de afspraak",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Je bezit deze kalender niet, dus je kunt geen deelnemers toevoegen aan dit evenement.",
+    "Select date" : "Selecteer datum",
+    "Create a new event" : "Maak een nieuwe activiteit",
+    "[Today]" : "[Vandaag]",
+    "[Tomorrow]" : "[Morgen]",
+    "[Yesterday]" : "[Gisteren]",
+    "[Last] dddd" : "[Last] dddd"
 },
 "nplurals=2; plural=(n != 1);");

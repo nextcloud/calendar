@@ -391,7 +391,6 @@ OC.L10N.register(
     "Holidays in {region}" : "Holidays in {region}",
     "An error occurred, unable to read public calendars." : "An error occurred, unable to read public calendars.",
     "An error occurred, unable to subscribe to calendar." : "An error occurred, unable to subscribe to calendar.",
-    "Select date" : "Select date",
     "Select slot" : "Select slot",
     "No slots available" : "No slots available",
     "Could not fetch slots" : "Could not fetch slots",
@@ -508,6 +507,19 @@ OC.L10N.register(
     "Imported {filename}" : "Imported {filename}",
     "This is an event reminder." : "This is an event reminder.",
     "Appointment not found" : "Appointment not found",
-    "User not found" : "User not found"
+    "User not found" : "User not found",
+    "Appointment was created successfully" : "Appointment was created successfully",
+    "Appointment was updated successfully" : "Appointment was updated successfully",
+    "Create appointment" : "Create appointment",
+    "Edit appointment" : "Edit appointment",
+    "Book the appointment" : "Book the appointment",
+    "You do not own this calendar, so you cannot add attendees to this event" : "You do not own this calendar, so you cannot add attendees to this event",
+    "Search for emails, users, contacts or groups" : "Search for emails, users, contacts or groups",
+    "Select date" : "Select date",
+    "Create a new event" : "Create a new event",
+    "[Today]" : "[Today]",
+    "[Tomorrow]" : "[Tomorrow]",
+    "[Yesterday]" : "[Yesterday]",
+    "[Last] dddd" : "[Last] dddd"
 },
 "nplurals=2; plural=(n!=1);");

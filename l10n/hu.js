@@ -402,7 +402,6 @@ OC.L10N.register(
     "Holidays in {region}" : "Ünnepnapok itt: {region}",
     "An error occurred, unable to read public calendars." : "Hiba történt, a nyilvános naptárak nem olvashatók.",
     "An error occurred, unable to subscribe to calendar." : "Hiba történt, nem lehet feliratkozni a naptárra.",
-    "Select date" : "Válasszon dátumot",
     "Select slot" : "Válasszon idősávot",
     "No slots available" : "Nincs elérhető idősáv",
     "Could not fetch slots" : "Nem sikerült lekérni a helyeket",
@@ -519,6 +518,19 @@ OC.L10N.register(
     "Imported {filename}" : "{filename} importálva",
     "This is an event reminder." : "Ez egy eseményemlékeztető.",
     "Appointment not found" : "A találkozó nem található",
-    "User not found" : "A felhasználó nem található"
+    "User not found" : "A felhasználó nem található",
+    "Appointment was created successfully" : "A találkozó sikeresen létrehozva.",
+    "Appointment was updated successfully" : "A találkozó sikeresen frissítve.",
+    "Create appointment" : "Találkozó létrehozása",
+    "Edit appointment" : "Találkozó szerkesztése",
+    "Book the appointment" : "Találkozó lefoglalása",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Nem tulajdonosa ennek a naptárnak, ezért nem adhat hozzá meghívottakat az eseményhez",
+    "Search for emails, users, contacts or groups" : "E-mailek, felhasználók, névjegyek vagy csoportok keresése",
+    "Select date" : "Válasszon dátumot",
+    "Create a new event" : "Új esemény létrehozása",
+    "[Today]" : "[Ma]",
+    "[Tomorrow]" : "[Holnap]",
+    "[Yesterday]" : "[Tegnap]",
+    "[Last] dddd" : "[Múlt] dddd"
 },
 "nplurals=2; plural=(n != 1);");

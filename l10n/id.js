@@ -339,6 +339,7 @@ OC.L10N.register(
     "Special color of this event. Overrides the calendar-color." : "Warna spesial dari acara ini. Mengganti warna kalender.",
     "Chat room for event" : "Ruang obrolan untuk acara",
     "An error occurred, unable to delete the calendar." : "Terjadi galat, tidak dapat menghapus kalender.",
-    "This is an event reminder." : "Ini adalah pengingat acara."
+    "This is an event reminder." : "Ini adalah pengingat acara.",
+    "[Today]" : "[Hari ini]"
 },
 "nplurals=1; plural=0;");

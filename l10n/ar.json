@@ -432,7 +432,7 @@
     "Holidays in {region}" : "العطلات الرسمية في {region}",
     "An error occurred, unable to read public calendars." : "حدث خطأ؛ تعذّرت قراءة التقاويم العمومية.",
     "An error occurred, unable to subscribe to calendar." : "حدث خطأ؛ تعذّر الاشتراك في التقويم.",
-    "Select date" : "إختر التاريخ",
+    "Select a date" : "إختر تاريخاً",
     "Select slot" : "إختر الخانة الزمنية",
     "No slots available" : "لا توجد خانة زمنية متاحة",
     "Could not fetch slots" : "تعذر تحميل الخانات الزمنية",
@@ -551,6 +551,20 @@
     "This is an event reminder." : "هذا تذكير بحدث",
     "Error while parsing a PROPFIND error" : "حدث خطأ أثناء تحليل PROFIND",
     "Appointment not found" : "الموعد غير موجود",
-    "User not found" : "المستخدم غير موجود"
+    "User not found" : "المستخدم غير موجود",
+    "Default calendar for invitations and new events" : "التقويم التلقائي للدعوات و الأحداث الجديدة",
+    "Appointment was created successfully" : "تمّ بنجاحٍ إنشاء الموعد",
+    "Appointment was updated successfully" : "تمّ بنجاحٍ تعديل الموعد",
+    "Create appointment" : "إنشاء موعد",
+    "Edit appointment" : "تعديل موعد",
+    "Book the appointment" : "إحجز الموعد",
+    "You do not own this calendar, so you cannot add attendees to this event" : "أنت لا تملك هذا التقويم؛ و لهذا لا يمكنك إضافة مَدعُوِّين إلى هذا الحدث.",
+    "Search for emails, users, contacts or groups" : "البحث في رسائل البريد الإلكتروني، و المستخدِمين، و جهات الاتصال، و المجموعات",
+    "Select date" : "إختر التاريخ",
+    "Create a new event" : "إنشاء حدث جديد",
+    "[Today]" : "[اليوم]",
+    "[Tomorrow]" : "[الغد]",
+    "[Yesterday]" : "[امس]",
+    "[Last] dddd" : "[اخر] dddd"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

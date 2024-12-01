@@ -400,7 +400,7 @@
     "Subscribed" : "Naročeno",
     "Subscribe" : "Naročilo",
     "Holidays in {region}" : "Prazniki v regiji {region}",
-    "Select date" : "Izbor datuma",
+    "Select a date" : "Izbor datuma",
     "Select slot" : "Izbor časovnega termina",
     "No slots available" : "Ni razpoložljivih časovnih terminov",
     "Could not fetch slots" : "Pridobivanje podatkov o časovnih terminih je spodletelo",
@@ -515,6 +515,18 @@
     "Imported {filename}" : "Uvožena datoteka {filename}",
     "This is an event reminder." : "To je opomnik dogodka.",
     "Appointment not found" : "Sestanka ni mogoče najti",
-    "User not found" : "Uporabnika ni mogoče najti"
+    "User not found" : "Uporabnika ni mogoče najti",
+    "Appointment was created successfully" : "Sestanek je bil uspešno ustvarjen",
+    "Appointment was updated successfully" : "Sestanek je bil uspešno posodobljen",
+    "Create appointment" : "Ustvari sestanek",
+    "Edit appointment" : "Uredi sestanek",
+    "Book the appointment" : "Zabeležite si sestanek",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Ker niste lastnik koledarja, ne morete dodati udeležencev k temu dogodku.",
+    "Select date" : "Izbor datuma",
+    "Create a new event" : "Ustvari nov dogodek",
+    "[Today]" : "[Danes]",
+    "[Tomorrow]" : "[Jutri]",
+    "[Yesterday]" : "[Včeraj]",
+    "[Last] dddd" : "[Zadnji] dddd"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }
