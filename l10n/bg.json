@@ -479,6 +479,17 @@
     "Imported {filename}" : "Импортирано {filename}",
     "This is an event reminder." : "Това е напомняне за събитие.",
     "Appointment not found" : "Срещата не е намерена",
-    "User not found" : "Потребителят не е намерен "
+    "User not found" : "Потребителят не е намерен ",
+    "Appointment was created successfully" : "Срещата е създадена успешно",
+    "Appointment was updated successfully" : "Срещата е актуализирана успешно",
+    "Create appointment" : "Създаване на среща",
+    "Edit appointment" : "Редактиране на среща",
+    "Book the appointment" : "Резервиране на срещата",
+    "Select date" : "Избор на дата",
+    "Create a new event" : "Създай ново събитие",
+    "[Today]" : "[днес]",
+    "[Tomorrow]" : "[утре]",
+    "[Yesterday]" : "[вчера]",
+    "[Last] dddd" : "[Последен] dddd"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

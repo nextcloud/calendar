@@ -549,8 +549,18 @@
     "Error while parsing a PROPFIND error" : "S'ha produït un error en analitzar un error PROPFIND",
     "Appointment not found" : "No s'ha trobat la cita",
     "User not found" : "No s'ha trobat l'usuari",
+    "Appointment was created successfully" : "La cita s'ha creat correctament",
     "Appointment was updated successfully" : "La cita s'ha actualitzat correctament",
+    "Create appointment" : "Crear cita",
+    "Edit appointment" : "Edita la cita",
+    "Book the appointment" : "Reserva la cita",
+    "You do not own this calendar, so you cannot add attendees to this event" : "No sou el propietari d'aquest calendari, de manera que no podeu afegir assistents a aquest esdeveniment",
+    "Search for emails, users, contacts or groups" : "Cerca correus electrònics, usuaris, contactes o grups",
     "Select date" : "Seleccioneu una data",
-    "Create a new event" : "Crea un esdeveniment nou"
+    "Create a new event" : "Crea un esdeveniment nou",
+    "[Today]" : "[Avui]",
+    "[Tomorrow]" : "[Demà]",
+    "[Yesterday]" : "[Ahir]",
+    "[Last] dddd" : "[Últim] dddd"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -285,6 +285,10 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Prodúxose un error, nun ye posible desaniciar el calendariu",
     "Imported {filename}" : "Importóse «{filename}»",
     "This is an event reminder." : "Esto ye un recordatoriu del eventu.",
-    "User not found" : "Nun s'atopó l'usuariu"
+    "User not found" : "Nun s'atopó l'usuariu",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Esti calendariu nun te pertenez, polo que nun pues amestar asistentes a esti eventu",
+    "[Today]" : "[Güei]",
+    "[Tomorrow]" : "[Mañana]",
+    "[Yesterday]" : "[Ayeri]"
 },
 "nplurals=2; plural=(n != 1);");

@@ -550,9 +550,19 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "Fejl under parsing af en PROPFIND-fejl",
     "Appointment not found" : "Aftale ikke fundet",
     "User not found" : "Bruger ikke fundet",
+    "Default calendar for invitations and new events" : "Standard kalender for invitationer og nye begivenheder",
+    "Appointment was created successfully" : "Aftalen blev oprettet",
     "Appointment was updated successfully" : "Aftalen blev opdateret",
+    "Create appointment" : "Opret aftale",
     "Edit appointment" : "Rediger aftale",
+    "Book the appointment" : "Bestil tid",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Du ejer ikke denne kalender, du kan derfor ikke tilføje deltagere til denne begivenhed",
+    "Search for emails, users, contacts or groups" : "Søg efter e-mails, brugere, kontakter eller grupper",
     "Select date" : "Vælg dato",
-    "Create a new event" : "Opret en ny begivenhed"
+    "Create a new event" : "Opret en ny begivenhed",
+    "[Today]" : "[i dag]",
+    "[Tomorrow]" : "[I morgen]",
+    "[Yesterday]" : "[Yesterday]",
+    "[Last] dddd" : "[Last] dddd"
 },
 "nplurals=2; plural=(n != 1);");
