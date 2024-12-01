@@ -416,9 +416,16 @@
     "Imported {filename}" : "Mewnforiwyd {filename}",
     "Appointment not found" : "Apwyntiad heb ei ganfod",
     "User not found" : "Defnyddiwr heb ei ganfod",
+    "Appointment was created successfully" : "Llwyddwyd i greu apwyntiad",
     "Appointment was updated successfully" : "Diweddarwyd yr apwyntiad yn llwyddiannus",
+    "Create appointment" : "Creu apwyntiad",
     "Edit appointment" : "Golygu apwyntiad",
+    "Book the appointment" : "Archebwch yr apwyntiad",
     "Select date" : "Dewis dyddiad",
-    "Create a new event" : "Creu digwyddiad newydd"
+    "Create a new event" : "Creu digwyddiad newydd",
+    "[Today]" : "Heddiw",
+    "[Tomorrow]" : "[Yfory]",
+    "[Yesterday]" : "[Ddoe]",
+    "[Last] dddd" : "[Diwethaf] dddd"
 },"pluralForm" :"nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;"
 }

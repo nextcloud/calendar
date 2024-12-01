@@ -553,9 +553,19 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "Fehler beim Parsen eines PROPFIND-Fehlers",
     "Appointment not found" : "Termin nicht gefunden",
     "User not found" : "Benutzer nicht gefunden",
+    "Default calendar for invitations and new events" : "Standardkalender für Einladungen und neue Termine",
+    "Appointment was created successfully" : "Termin wurde erstellt",
     "Appointment was updated successfully" : "Termin wurde aktualisiert",
+    "Create appointment" : "Termin erstellen",
     "Edit appointment" : "Termin bearbeiten",
+    "Book the appointment" : "Den Termin buchen",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Du bist nicht Eigentümer dieses Kalenders und kannst daher dieser Veranstaltung keine Teilnehmer hinzufügen.",
+    "Search for emails, users, contacts or groups" : "Nach E-Mails, Benutzern, Kontakten oder Gruppen suchen",
     "Select date" : "Datum auswählen",
-    "Create a new event" : "Neuen Termin erstellen"
+    "Create a new event" : "Neuen Termin erstellen",
+    "[Today]" : "[Heute]",
+    "[Tomorrow]" : "[Morgen]",
+    "[Yesterday]" : "[Gestern]",
+    "[Last] dddd" : "[Letzten] dddd"
 },
 "nplurals=2; plural=(n != 1);");
