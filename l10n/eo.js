@@ -139,6 +139,7 @@ OC.L10N.register(
     "Add this as a new category" : "Aldoni tion kiel novan kategorion",
     "User not found" : "Netrovita uzanto",
     "[Today]" : "[Hodiaŭ]",
+    "[Tomorrow]" : "[Morgaŭ]",
     "[Yesterday]" : "[Hieraŭ]"
 },
 "nplurals=2; plural=(n != 1);");

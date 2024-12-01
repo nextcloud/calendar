@@ -524,11 +524,18 @@ OC.L10N.register(
     "This is an event reminder." : "Αυτή είναι μια υπενθύμιση γεγονότος.",
     "Appointment not found" : "Το ραντεβού δεν βρέθηκε",
     "User not found" : "Ο/Η χρήστης δεν βρέθηκε",
+    "Appointment was created successfully" : "Το ραντεβού σας δημιουργήθηκε επιτυχώς",
     "Appointment was updated successfully" : "Το ραντεβού σας ενημερώθηκε επιτυχώς",
+    "Create appointment" : "Δημιουργία ραντεβού",
     "Edit appointment" : "Επεξεργασία ραντεβού",
+    "Book the appointment" : "Κλείστε το ραντεβού",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Δεν είστε κάτοχος αυτού του ημερολογίου, επομένως δεν μπορείτε να προσθέσετε συμμετέχοντες σε αυτό το συμβάν.",
+    "Search for emails, users, contacts or groups" : "Αναζήτηση για emails, χρήστες, επαφές ή ομάδες",
     "Select date" : "Επιλέξτε ημερομηνία",
     "Create a new event" : "Δημιουργία νέου γεγονότος",
     "[Today]" : "[Σήμερα]",
+    "[Tomorrow]" : "[Αύριο]",
+    "[Yesterday]" : "[Χθες]",
     "[Last] dddd" : "[Last] ηηηη"
 },
 "nplurals=2; plural=(n != 1);");

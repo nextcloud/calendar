@@ -554,9 +554,18 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "Chyba při zpracovávání PROPFIND chyby",
     "Appointment not found" : "Schůzka nenalezena",
     "User not found" : "Uživatel nenalezen",
+    "Appointment was created successfully" : "Schůzka byla úspěšně vytvořena",
     "Appointment was updated successfully" : "Schůzka byla úspěšně zaktualizována",
+    "Create appointment" : "Vytvořit schůzku",
     "Edit appointment" : "Upravit schůzku",
+    "Book the appointment" : "Zarezervovat schůzku",
+    "You do not own this calendar, so you cannot add attendees to this event" : "Nevlastníte tento kalendář, takže nemůžete do této události přidávat účastníky",
+    "Search for emails, users, contacts or groups" : "Hledat e-maily, uživatele, kontakty nebo skupiny",
     "Select date" : "Vybrat datum",
-    "Create a new event" : "Vytvořit novou událost"
+    "Create a new event" : "Vytvořit novou událost",
+    "[Today]" : "[Dnes]",
+    "[Tomorrow]" : "[Zítra]",
+    "[Yesterday]" : "[Včera]",
+    "[Last] dddd" : "[Minul.] dddd"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
