@@ -11,6 +11,7 @@
 			:is-resource="isResource"
 			:common-name="commonName"
 			:organizer-display-name="commonName"
+			:schedule-status="organizer.attendeeProperty.getParameterFirstValue('SCHEDULE-STATUS')"
 			participation-status="ACCEPTED" />
 		<div class="invitees-list-item__displayname">
 			{{ commonName }}
@@ -77,6 +78,10 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+		isViewedByOrganizer: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	computed: {
 		/**
@@ -100,9 +105,6 @@ export default {
 			}
 
 			return ''
-		},
-		isViewedByOrganizer() {
-			return true
 		},
 		isResource() {
 			// The organizer does not have a tooltip
