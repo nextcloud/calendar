@@ -99,6 +99,7 @@ import useSettingsStore from '../store/settings.js'
 import useWidgetStore from '../store/widget.js'
 import { mapStores, mapState } from 'pinia'
 import { mapDavCollectionToCalendar } from '../models/calendar.js'
+import { registerNotifyPushSyncListener } from '../services/notifyService.js'
 
 export default {
 	name: 'Calendar',
@@ -210,41 +211,14 @@ export default {
 		},
 	},
 	created() {
+		registerNotifyPushSyncListener()
+		
 		this.backgroundSyncJob = setInterval(async () => {
 			const currentUserPrincipal = this.principalsStore.getCurrentUserPrincipal
 			const calendars = (await findAllCalendars())
 				.map((calendar) => mapDavCollectionToCalendar(calendar, currentUserPrincipal))
 			for (const calendar of calendars) {
-				const existingSyncToken = this.calendarsStore.getCalendarSyncToken(calendar)
-				if (!existingSyncToken && !this.calendarsStore.getCalendarById(calendar.id)) {
-					// New calendar!
-					logger.debug(`Adding new calendar ${calendar.url}`)
-					this.calendarsStore.addCalendarMutation({ calendar })
-					continue
-				}
-
-				if (calendar.dav.syncToken === existingSyncToken) {
-					continue
-				}
-
-				logger.debug(`Refetching calendar ${calendar.url} (syncToken changed)`)
-				const fetchedTimeRanges = this.fetchedTimeRangesStore
-					.getAllTimeRangesForCalendar(calendar.id)
-				for (const timeRange of fetchedTimeRanges) {
-					this.fetchedTimeRangesStore.removeTimeRange({
-						timeRangeId: timeRange.id,
-					})
-					this.calendarsStore.deleteFetchedTimeRangeFromCalendarMutation({
-						calendar,
-						fetchedTimeRangeId: timeRange.id,
-					})
-				}
-
-				this.calendarsStore.updateCalendarSyncToken({
-					calendar,
-					syncToken: calendar.dav.syncToken,
-				})
-				this.calendarObjectsStore.modificationCount++
+				this.calendarsStore.syncCalendar({ calendar, skipIfUnchangedSyncToken: true })
 			}
 		}, 1000 * 30)
 
