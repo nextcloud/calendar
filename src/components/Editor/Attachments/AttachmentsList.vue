@@ -144,7 +144,15 @@ export default {
 			})
 		},
 		async openFilesModal() {
-			const picker = getFilePickerBuilder(t('calendar', 'Choose a file to add as attachment')).setMultiSelect(false).build()
+			const picker = getFilePickerBuilder(t('calendar', 'Choose a file to add as attachment'))
+				.setMultiSelect(false)
+				.allowDirectories(true)
+				.addButton({
+					label: t('calendar', 'Pick'),
+					type: 'primary',
+					callback: (nodes) => logger.debug('Picked attachment', { nodes }),
+				})
+				.build()
 			try {
 				const filename = await picker.pick(t('calendar', 'Choose a file to share as a link'))
 				if (!this.isDuplicateAttachment(filename)) {
@@ -202,7 +210,9 @@ export default {
 			if (attachment.xNcHasPreview) {
 				return generateUrl(`/core/preview?fileId=${attachment.xNcFileId}&x=100&y=100&a=0`)
 			}
-			return attachment.formatType ? OC.MimeType.getIconUrl(attachment.formatType) : null
+			return attachment.formatType
+				? OC.MimeType.getIconUrl(attachment.formatType)
+				: OC.MimeType.getIconUrl('folder')
 		},
 		getBaseName(name) {
 			return name.split('/').pop()
