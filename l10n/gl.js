@@ -5,7 +5,7 @@ OC.L10N.register(
     "User-Session unexpectedly expired" : "A sesión de usuario caducou inesperadamente",
     "Provided email-address is not valid" : "O enderezo de correo-e indicado non é válido",
     "%s has published the calendar »%s«" : "%s publicou o calendario «%s»",
-    "Unexpected error sending email. Please contact your administrator." : "Produciuse un erro inesperado ao enviar correo. Póñase en contacto coa administración desta instancia.",
+    "Unexpected error sending email. Please contact your administrator." : "Produciuse un erro non agardado ao enviar correo. Póñase en contacto coa administración desta instancia.",
     "Successfully sent email to %1$s" : "O correo foi enviado satisfactoriamente %1$s",
     "Hello," : "Ola,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Queremos informarte de que %s publicou o calendario «%s»",
