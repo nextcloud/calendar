@@ -37,10 +37,10 @@
 					<div>
 						{{ option.commonName }}
 					</div>
-					<div v-if="option.email !== option.commonName && option.type !== 'circle'">
+					<div v-if="option.email !== option.commonName && option.type !== 'circle' && option.type !== 'contactsgroup'">
 						{{ option.email }}
 					</div>
-					<div v-if="option.type === 'circle'">
+					<div v-if="option.type === 'circle' || option.type === 'contactsgroup'">
 						{{ option.subtitle }}
 					</div>
 				</div>
@@ -66,6 +66,7 @@ import { linkTo } from '@nextcloud/router'
 import { randomId } from '../../../utils/randomId.js'
 import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCirclesCommunities.vue'
 import { showInfo } from '@nextcloud/dialogs'
+import { removeMailtoPrefix } from '../../../utils/attendee.js'
 
 export default {
 	name: 'InviteesListSearch',
@@ -161,6 +162,21 @@ export default {
 				showInfo(this.$t('calendar', 'Note that members of circles get invited but are not synced yet.'))
 				this.resolveCircleMembers(selectedValue.id, selectedValue.email)
 			}
+			if (selectedValue.type === 'contactsgroup') {
+				showInfo(this.$t('calendar', 'Note that members of contact groups get invited but are not synced yet.'))
+				this.getContactGroupMembers(selectedValue.commonName)
+				const group = {
+					calendarUserType: 'GROUP',
+					commonName: selectedValue.commonName,
+					dropdownName: selectedValue.dropdownName,
+					email: selectedValue.email,
+					isUser: false,
+					subtitle: selectedValue.subtitle,
+					type: 'contactsgroup',
+				}
+				this.$emit('add-attendee', group)
+				return
+			}
 			this.$emit('add-attendee', selectedValue)
 		},
 		async resolveCircleMembers(circleId, groupId) {
@@ -174,6 +190,23 @@ export default {
 				console.debug(error)
 				return []
 			}
+			results.data.forEach((member) => {
+				if (!this.organizer || member.email !== this.organizer.uri) {
+					this.$emit('add-attendee', member)
+				}
+			})
+		},
+		async getContactGroupMembers(groupName) {
+			let results
+			try {
+				results = await HttpClient.post(linkTo('calendar', 'index.php') + '/v1/autocompletion/groupmembers', {
+					groupName,
+				})
+			} catch (error) {
+				console.error('Failed to fetch contact group members', error)
+				return []
+			}
+
 			results.data.forEach((member) => {
 				if (!this.organizer || member.email !== this.organizer.uri) {
 					this.$emit('add-attendee', member)
@@ -206,7 +239,25 @@ export default {
 						name = email
 					}
 
-					if (email && this.alreadyInvitedEmails.includes(email)) {
+					if (email && this.alreadyInvitedEmails.includes(removeMailtoPrefix(email))) {
+						return
+					}
+
+					if (result.type === 'contactsgroup') {
+						arr.push({
+							calendarUserType: 'GROUP',
+							commonName: result.name,
+							subtitle: this.$n('calendar', '%n member', '%n members', result.members),
+							members: { length: result.members },
+							email,
+							isUser: false,
+							avatar: result.photo,
+							language: result.lang,
+							timezoneId: result.tzid,
+							hasMultipleEMails: false,
+							dropdownName: name,
+							type: 'contactsgroup',
+						})
 						return
 					}
 
@@ -241,11 +292,6 @@ export default {
 				}
 
 				if (this.alreadyInvitedEmails.includes(principal.email)) {
-					return false
-				}
-
-				// We do not support GROUPS for now
-				if (principal.calendarUserType === 'GROUP') {
 					return false
 				}
 

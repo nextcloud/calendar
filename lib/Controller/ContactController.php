@@ -8,12 +8,13 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use Exception;
+use OCA\Calendar\Service\ContactsService;
 use OCA\Calendar\Service\ServiceException;
-use OCA\Circles\Api\v1\Circles;
 use OCA\Circles\Exceptions\CircleNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\QueryException;
 use OCP\Contacts\IManager;
@@ -27,34 +28,22 @@ use Psr\Log\LoggerInterface;
  * @package OCA\Calendar\Controller
  */
 class ContactController extends Controller {
-	/** @var IManager */
-	private $contactsManager;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var IUserManager */
-	private $userManager;
-
 	/**
 	 * ContactController constructor.
 	 *
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param IManager $contacts
 	 */
 	public function __construct(
 		string $appName,
 		IRequest $request,
-		IManager $contacts,
-		IAppManager $appManager,
-		IUserManager $userManager,
+		private IManager $contactsManager,
+		private IAppManager $appManager,
+		private IUserManager $userManager,
+		private ContactsService $contactsService,
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
-		$this->contactsManager = $contacts;
-		$this->appManager = $appManager;
-		$this->userManager = $userManager;
 	}
 
 	/**
@@ -65,7 +54,7 @@ class ContactController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 */
-	public function searchLocation(string $search):JSONResponse {
+	public function searchLocation(string $search): JSONResponse {
 		if (!$this->contactsManager->isEnabled()) {
 			return new JSONResponse();
 		}
@@ -75,7 +64,7 @@ class ContactController extends Controller {
 		$contacts = [];
 		foreach ($result as $r) {
 			// Information about system users is fetched via DAV nowadays
-			if (isset($r['isLocalSystemBook']) && $r['isLocalSystemBook']) {
+			if ($this->contactsService->isSystemBook($r)) {
 				continue;
 			}
 
@@ -83,19 +72,9 @@ class ContactController extends Controller {
 				continue;
 			}
 
-			$name = $this->getNameFromContact($r);
-			if (\is_string($r['ADR'])) {
-				$r['ADR'] = [$r['ADR']];
-			}
-
-			$photo = isset($r['PHOTO'])
-				? $this->getPhotoUri($r['PHOTO'])
-				: null;
-
-			$addresses = [];
-			foreach ($r['ADR'] as $address) {
-				$addresses[] = trim(preg_replace("/\n+/", "\n", str_replace(';', "\n", $address)));
-			}
+			$name = $this->contactsService->getNameFromContact($r);
+			$photo = $this->contactsService->getPhotoUri($r);
+			$addresses = $this->contactsService->getAddress($r);
 
 			$contacts[] = [
 				'name' => $name,
@@ -125,51 +104,78 @@ class ContactController extends Controller {
 
 		$contacts = [];
 		foreach ($result as $r) {
-			// Information about system users is fetched via DAV nowadays
-			if (isset($r['isLocalSystemBook']) && $r['isLocalSystemBook']) {
+			if ($this->contactsService->isSystemBook($r) || !$this->contactsService->hasEmail($r)) {
 				continue;
 			}
-
-			if (!isset($r['EMAIL'])) {
-				continue;
-			}
-
-			$name = $this->getNameFromContact($r);
-			if (\is_string($r['EMAIL'])) {
-				$r['EMAIL'] = [$r['EMAIL']];
-			}
-
-			$photo = isset($r['PHOTO'])
-				? $this->getPhotoUri($r['PHOTO'])
-				: null;
-
-			$lang = null;
-			if (isset($r['LANG'])) {
-				if (\is_array($r['LANG'])) {
-					$lang = $r['LANG'][0];
-				} else {
-					$lang = $r['LANG'];
-				}
-			}
-
-			$timezoneId = null;
-			if (isset($r['TZ'])) {
-				if (\is_array($r['TZ'])) {
-					$timezoneId = $r['TZ'][0];
-				} else {
-					$timezoneId = $r['TZ'];
-				}
-			}
-
+			$name = $this->contactsService->getNameFromContact($r);
+			$email = $this->contactsService->getEmail($r);
+			$photo = $this->contactsService->getPhotoUri($r);
+			$timezoneId = $this->contactsService->getTimezoneId($r);
+			$lang = $this->contactsService->getLanguageId($r);
 			$contacts[] = [
 				'name' => $name,
-				'emails' => $r['EMAIL'],
+				'emails' => $email,
 				'lang' => $lang,
 				'tzid' => $timezoneId,
 				'photo' => $photo,
+				'type' => 'individual'
+			];
+		}
+		
+		$groups = $this->contactsManager->search($search, ['CATEGORIES']);
+		$groups = array_filter($groups, function ($group) {
+			return $this->contactsService->hasEmail($group);
+		});
+		$filtered = $this->contactsService->filterGroupsWithCount($groups, $search);
+		foreach ($filtered as $groupName => $count) {
+			if ($count === 0) {
+				continue;
+			}
+			$contacts[] = [
+				'name' => $groupName,
+				'emails' => ['mailto:' . urlencode($groupName) . '@group'],
+				'lang' => '',
+				'tzid' => '',
+				'photo' => '',
+				'type' => 'contactsgroup',
+				'members' => $count,
 			];
 		}
 
+		return new JSONResponse($contacts);
+	}
+
+	#[NoAdminRequired]
+	public function getContactGroupMembers(string $groupName): JSONResponse {
+		if (!$this->contactsManager->isEnabled()) {
+			return new JSONResponse();
+		}
+
+		$groupmembers = $this->contactsManager->search($groupName, ['CATEGORIES']);
+		$contacts = [];
+		foreach ($groupmembers as $r) {
+			if (!in_array($groupName, explode(',', $r['CATEGORIES']), true)) {
+				continue;
+			}
+			if (!$this->contactsService->hasEmail($r) || $this->contactsService->isSystemBook($r)) {
+				continue;
+			}
+			$name = $this->contactsService->getNameFromContact($r);
+			$email = $this->contactsService->getEmail($r);
+			$photo = $this->contactsService->getPhotoUri($r);
+			$timezoneId = $this->contactsService->getTimezoneId($r);
+			$lang = $this->contactsService->getLanguageId($r);
+			$contacts[] = [
+				'commonName' => $name,
+				'email' => $email[0],
+				'calendarUserType' => 'INDIVIDUAL',
+				'language' => $lang,
+				'timezoneId' => $timezoneId,
+				'avatar' => $photo,
+				'isUser' => false,
+				'member' => 'mailto:' . urlencode($groupName) . '@group',
+			];
+		}
 		return new JSONResponse($contacts);
 	}
 
@@ -179,32 +185,32 @@ class ContactController extends Controller {
 	 * @param string $circleId CircleId to query for members
 	 * @return JSONResponse
 	 * @throws Exception
+	 * @throws \OCP\AppFramework\QueryException
 	 *
 	 * @NoAdminRequired
 	 */
 	public function getCircleMembers(string $circleId):JSONResponse {
-		if (!class_exists('\OCA\Circles\Api\v1\Circles') || !$this->appManager->isEnabledForUser('circles')) {
-			$this->logger->debug('Circles not enabled');
+		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
 			return new JSONResponse();
 		}
 		if (!$this->contactsManager->isEnabled()) {
-			$this->logger->debug('Contacts not enabled');
 			return new JSONResponse();
 		}
 
 		try {
-			$circle = Circles::detailsCircle($circleId, true);
+			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($circleId, true);
 		} catch (QueryException $ex) {
-			$this->logger->error('Could not resolve circle details', ['exception' => $ex]);
 			return new JSONResponse();
 		} catch (CircleNotFoundException $ex) {
-			$this->logger->error('Could not find circle', ['exception' => $ex]);
+			return new JSONResponse();
+		}
+
+		if (!$circle) {
 			return new JSONResponse();
 		}
 
 		$circleMembers = $circle->getInheritedMembers();
 
-		$contacts = [];
 		foreach ($circleMembers as $circleMember) {
 			if ($circleMember->isLocal()) {
 
@@ -213,8 +219,7 @@ class ContactController extends Controller {
 				$user = $this->userManager->get($circleMemberUserId);
 
 				if ($user === null) {
-					$this->logger->error('Could not find user with user id' . $circleMemberUserId);
-					throw new ServiceException('Could not find circle member');
+					throw new ServiceException('Could not find organizer');
 				}
 
 				$contacts[] = [
@@ -250,17 +255,14 @@ class ContactController extends Controller {
 		$result = $this->contactsManager->search($search, ['EMAIL']);
 
 		foreach ($result as $r) {
-			if (!isset($r['EMAIL'])) {
+			if (!$this->contactsService->hasEmail($r) || $this->contactsService->isSystemBook($r)) {
 				continue;
 			}
-
-			if (\is_string($r['EMAIL'])) {
-				$r['EMAIL'] = [$r['EMAIL']];
-			}
+			$email = $this->contactsService->getEmail($r);
 
 			$match = false;
-			foreach ($r['EMAIL'] as $email) {
-				if ($email === $search) {
+			foreach ($email as $e) {
+				if ($e === $search) {
 					$match = true;
 				}
 			}
@@ -269,15 +271,12 @@ class ContactController extends Controller {
 				continue;
 			}
 
-			if (!isset($r['PHOTO'])) {
+			$photo = $this->contactsService->getPhotoUri($r);
+			if ($photo === null) {
 				continue;
 			}
 
-			$name = $this->getNameFromContact($r);
-			$photo = $this->getPhotoUri($r['PHOTO']);
-			if (!$photo) {
-				continue;
-			}
+			$name = $this->contactsService->getNameFromContact($r);
 
 			return new JSONResponse([
 				'name' => $name,
@@ -288,28 +287,4 @@ class ContactController extends Controller {
 		return new JSONResponse([], Http::STATUS_NOT_FOUND);
 	}
 
-	/**
-	 * Extract name from an array containing a contact's information
-	 *
-	 * @param array $r
-	 * @return string
-	 */
-	private function getNameFromContact(array $r):string {
-		return $r['FN'] ?? '';
-	}
-
-	/**
-	 * Get photo uri from contact
-	 *
-	 * @param string $raw
-	 * @return string|null
-	 */
-	private function getPhotoUri(string $raw):?string {
-		$uriPrefix = 'VALUE=uri:';
-		if (substr($raw, 0, strlen($uriPrefix)) === $uriPrefix) {
-			return substr($raw, strpos($raw, 'http'));
-		}
-
-		return null;
-	}
 }

@@ -39,6 +39,8 @@ return [
 		['name' => 'contact#searchPhoto', 'url' => '/v1/autocompletion/photo', 'verb' => 'POST'],
 		// Circles
 		['name' => 'contact#getCircleMembers', 'url' => '/v1/circles/getmembers', 'verb' => 'GET'],
+		// Contact Groups
+		['name' => 'contact#getContactGroupMembers', 'url' => '/v1/autocompletion/groupmembers', 'verb' => 'POST'],
 		// Settings
 		['name' => 'settings#setConfig', 'url' => '/v1/config/{key}', 'verb' => 'POST'],
 		// Tools
