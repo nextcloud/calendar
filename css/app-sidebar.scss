@@ -128,6 +128,14 @@
 	}
 
 	.repeat-option-set {
+
+		display: flex;
+		flex-direction: column;
+		.repeat-option-set__repeat {
+			display: flex;
+			align-items: center; // Vertically center items
+			gap: 10px;
+		}
 		.repeat-option-set-section {
 			&:not(:first-of-type) {
 				margin-top: 20px
@@ -135,7 +143,7 @@
 
 			&--on-the-select {
 				display: flex;
-				align-items: center;
+
 
 				.v-select {
 					width: 100%;
@@ -180,7 +188,6 @@
 
 		&--interval-freq {
 			display: flex;
-			align-items: center;
 
 			.multiselect {
 				min-width: 100px;
@@ -191,10 +198,17 @@
 		&--end {
 			margin-top: 20px;
 			display: flex;
-			align-items: center;
-
+			flex-direction: column;
+			align-items: flex-start;
 			.repeat-option-end {
-				&__label,
+				width: 100%;
+				display: flex;
+				flex-wrap: wrap;
+				&__label{
+					display: block;
+					min-width: 160px;
+					width: 100%;
+				}
 				&__end-type-select {
 					display: block;
 					min-width: 160px;
