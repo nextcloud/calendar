@@ -552,6 +552,7 @@
     "Error while parsing a PROPFIND error" : "Earráid agus earráid PROPFIND á parsáil",
     "Appointment not found" : "Níor aimsíodh an coinne",
     "User not found" : "Úsáideoir gan aimsiú",
+    "Default calendar for invitations and new events" : "Féilire réamhshocraithe le haghaidh cuirí agus imeachtaí nua",
     "Appointment was created successfully" : "Cruthaíodh an ceapachán go rathúil",
     "Appointment was updated successfully" : "D'éirigh leis an gceapachán a nuashonrú",
     "Create appointment" : "Cruthaigh coinne",
