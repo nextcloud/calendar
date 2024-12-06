@@ -26,9 +26,9 @@
     "Copy link" : "Copiar lo ligam",
     "Edit" : "Modificar",
     "Delete" : "Suprimir",
-    "Add new" : "Apondre novèl",
     "Untitled calendar" : "Calendièr sens nom",
     "Calendars" : "Calendièrs",
+    "Add new" : "Apondre novèl",
     "New calendar" : "Calendièr novèl",
     "Name for new calendar" : "Nom del calendièr novèl",
     "Creating calendar …" : "Creacion del calendièr…",
@@ -108,6 +108,7 @@
     "Remove group" : "Suprimir lo grop",
     "Remove color" : "Suprimir la color",
     "Event title" : "Títol de l’eveniment",
+    "From" : "De",
     "All day" : "Tota la jornada",
     "Repeat" : "Repetir",
     "never" : "pas jamai",
@@ -136,11 +137,6 @@
     "Global" : "Global",
     "Subscribe" : "S'abonar",
     "Personal" : "Personal",
-    "Create a new event" : "Crear un eveniment novèl",
-    "[Today]" : "[Uèi]",
-    "[Tomorrow]" : "[Deman]",
-    "[Yesterday]" : "[Ièr]",
-    "[Last] dddd" : "dddd [passat]",
     "Details" : "Detalhs",
     "Close" : "Tampar",
     "Untitled event" : "Eveniment sens nom",
@@ -171,6 +167,11 @@
     "Categories" : "Categorias",
     "Custom color" : "Color personalizada",
     "Error while sharing file" : "Error pendent lo partiment del fichièr",
-    "User not found" : "Utilizaire pas trobat"
+    "User not found" : "Utilizaire pas trobat",
+    "Create a new event" : "Crear un eveniment novèl",
+    "[Today]" : "[Uèi]",
+    "[Tomorrow]" : "[Deman]",
+    "[Yesterday]" : "[Ièr]",
+    "[Last] dddd" : "dddd [passat]"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

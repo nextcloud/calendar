@@ -59,6 +59,8 @@ OC.L10N.register(
     "Accept" : "Aanvaar",
     "Tentative" : "Tentatief",
     "Attendees" : "Bywoners",
+    "From" : "Van",
+    "To" : "Aan",
     "All day" : "Heeldag",
     "Repeat" : "Herhaal",
     "never" : "nooit",

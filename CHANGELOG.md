@@ -1,3 +1,13 @@
+## [5.0.6](https://github.com/nextcloud/calendar/compare/v5.0.5...v5.0.6) (2024-11-27)
+
+
+### Bug Fixes
+
+* **release:** Ignore unnecessary files ([14788f6](https://github.com/nextcloud/calendar/commit/14788f60b1b345b2b205db5e9fc7b9523ab36e73))
+* **release:** Specify committer for automated releases ([e46c159](https://github.com/nextcloud/calendar/commit/e46c1595982bdcbff1a6da77a89daa69b4d30d3f))
+
+
+
 ## [5.0.5](https://github.com/nextcloud/calendar/compare/v5.0.4...v5.0.5) (2024-11-20)
 
 
