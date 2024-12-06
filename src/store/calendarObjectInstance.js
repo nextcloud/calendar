@@ -421,7 +421,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {string=} data.language Preferred language of the attendee
 		 * @param {string=} data.timezoneId Preferred timezone of the attendee
 		 * @param {object=} data.organizer Principal of the organizer to be set if not present
-		 * @param data.member
+		 * @param {string|array} data.member Group membership(s)
 		 */
 		addAttendee({
 			calendarObjectInstance,
@@ -437,7 +437,6 @@ export default defineStore('calendarObjectInstance', {
 			member = null,
 		}) {
 			const attendee = AttendeeProperty.fromNameAndEMail(commonName, uri)
-
 			if (calendarUserType !== null) {
 				attendee.userType = calendarUserType
 			}
@@ -492,14 +491,25 @@ export default defineStore('calendarObjectInstance', {
 			attendee,
 		}) {
 			calendarObjectInstance.eventComponent.removeAttendee(attendee.attendeeProperty)
-
 			// Also remove members if attendee is a group
 			if (attendee.attendeeProperty.userType === 'GROUP') {
 				attendee.members.forEach(function(member) {
-					calendarObjectInstance.eventComponent.removeAttendee(member.attendeeProperty)
-					const index = calendarObjectInstance.attendees.indexOf(member)
-					if (index !== -1) {
-						calendarObjectInstance.attendees.splice(index, 1)
+					if (Array.isArray(member.attendeeProperty.member) && member.attendeeProperty.member.length > 1) {
+						const removeIndex = member.attendeeProperty.member.findIndex(function(groupname) {
+							if (groupname === attendee.uri) {
+								return true
+							}
+							return false
+						})
+						if (removeIndex !== -1) {
+							member.attendeeProperty.member.splice(removeIndex, 1)
+						}
+					} else {
+						calendarObjectInstance.eventComponent.removeAttendee(member.attendeeProperty)
+						const index = calendarObjectInstance.attendees.indexOf(member)
+						if (index !== -1) {
+							calendarObjectInstance.attendees.splice(index, 1)
+						}
 					}
 				})
 			}

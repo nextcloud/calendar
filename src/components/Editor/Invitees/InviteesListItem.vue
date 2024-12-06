@@ -35,27 +35,32 @@
 				</template>
 			</NcButton>
 			<Actions v-if="isViewedByOrganizer">
-				<ActionCheckbox :checked="attendee.rsvp"
+				<ActionCheckbox v-if="!members.length"
+					:checked="attendee.rsvp"
 					@change="toggleRSVP">
 					{{ $t('calendar', 'Request reply') }}
 				</ActionCheckbox>
 
-				<ActionRadio :name="radioName"
+				<ActionRadio v-if="!members.length"
+					:name="radioName"
 					:checked="isChair"
 					@change="changeRole('CHAIR')">
 					{{ $t('calendar', 'Chairperson') }}
 				</ActionRadio>
-				<ActionRadio :name="radioName"
+				<ActionRadio v-if="!members.length"
+					:name="radioName"
 					:checked="isRequiredParticipant"
 					@change="changeRole('REQ-PARTICIPANT')">
 					{{ $t('calendar', 'Required participant') }}
 				</ActionRadio>
-				<ActionRadio :name="radioName"
+				<ActionRadio v-if="!members.length"
+					:name="radioName"
 					:checked="isOptionalParticipant"
 					@change="changeRole('OPT-PARTICIPANT')">
 					{{ $t('calendar', 'Optional participant') }}
 				</ActionRadio>
-				<ActionRadio :name="radioName"
+				<ActionRadio v-if="!members.length"
+					:name="radioName"
 					:checked="isNonParticipant"
 					@change="changeRole('NON-PARTICIPANT')">
 					{{ $t('calendar', 'Non-participant') }}

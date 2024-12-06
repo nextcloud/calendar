@@ -351,6 +351,27 @@ export default {
 			this.recentAttendees.push(address)
 		},
 		addAttendee({ commonName, email, calendarUserType, language, timezoneId, member }) {
+			let modifiedMember = null
+			if (calendarUserType === 'INDIVIDUAL' && member) {
+				const modifiedMemberIndex = this.calendarObjectInstance.attendees.findIndex(function(attendee) {
+					if (attendee.uri === email) {
+						return true
+					}
+					return false
+				})
+				modifiedMember = this.calendarObjectInstance.attendees[modifiedMemberIndex]
+			}
+
+			if (modifiedMember) {
+				const group = modifiedMember.attendeeProperty.member
+				this.calendarObjectInstanceStore.removeAttendee({
+					calendarObjectInstance: this.calendarObjectInstance,
+					attendee: modifiedMember,
+				})
+				member = member.split(',')
+				member.push(group)
+			}
+
 			this.calendarObjectInstanceStore.addAttendee({
 				calendarObjectInstance: this.calendarObjectInstance,
 				commonName,
