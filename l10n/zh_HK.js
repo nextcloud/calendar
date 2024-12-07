@@ -351,6 +351,7 @@ OC.L10N.register(
     "Search for emails, users, contacts, teams or groups" : "搜尋電子郵件、用戶、聯絡人、團隊或群組",
     "No match found" : "找不到符合的項目",
     "Note that members of circles get invited but are not synced yet." : "請注意，社交圈子成員已收到邀請，但尚未同步。",
+    "Note that members of contact groups get invited but are not synced yet." : "請注意，聯絡人群組已收到邀請，但尚未同步。",
     "(organizer)" : "（主辦人）",
     "Make {label} the organizer" : "讓 {label} 成為籌辦者",
     "Make {label} the organizer and attend" : "讓 {label} 成為籌辦者並參與",

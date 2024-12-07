@@ -351,6 +351,7 @@ OC.L10N.register(
     "Search for emails, users, contacts, teams or groups" : "Search for emails, users, contacts, teams or groups",
     "No match found" : "No match found",
     "Note that members of circles get invited but are not synced yet." : "Note that members of circles get invited but are not synced yet.",
+    "Note that members of contact groups get invited but are not synced yet." : "Note that members of contact groups get invited but are not synced yet.",
     "(organizer)" : "(organiser)",
     "Make {label} the organizer" : "Make {label} the organiser",
     "Make {label} the organizer and attend" : "Make {label} the organiser and attend",
