@@ -349,6 +349,7 @@
     "Search for emails, users, contacts, teams or groups" : "Nach E-Mails, Benutzern, Kontakten, Teams oder Gruppen suchen",
     "No match found" : "Keine Übereinstimmung gefunden",
     "Note that members of circles get invited but are not synced yet." : "Beachten Sie, dass Mitglieder von Kreisen eingeladen werden, aber noch nicht synchronisiert sind.",
+    "Note that members of contact groups get invited but are not synced yet." : "Beachten Sie, dass Mitglieder von Kontaktgruppen eingeladen werden, aber noch nicht synchronisiert sind.",
     "(organizer)" : "(Organisator)",
     "Make {label} the organizer" : "{label} zum Organisator ernennen",
     "Make {label} the organizer and attend" : "{label} zum Organisator ernennen und teilnehmen",
