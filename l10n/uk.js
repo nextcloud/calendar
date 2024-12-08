@@ -351,6 +351,7 @@ OC.L10N.register(
     "Search for emails, users, contacts, teams or groups" : "Пошук серед ел.листів, користувачів, контактів, команд або груп",
     "No match found" : "Збігів не знайдено",
     "Note that members of circles get invited but are not synced yet." : "Зверніть увагу, що учасники кіл отримують запрошення, але поки ще не синхронізовані.",
+    "Note that members of contact groups get invited but are not synced yet." : "Учасників груп контактів було запрошено, але ще не синхронізовано.",
     "(organizer)" : "(організатор)",
     "Make {label} the organizer" : "Зробити {label} організатором",
     "Make {label} the organizer and attend" : "Зробити {label} організатором та взяти участь",
