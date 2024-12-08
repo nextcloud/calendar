@@ -59,7 +59,7 @@
 				:end-date="calendarObjectInstance.endDate"
 				:event-title="calendarObjectInstance.title"
 				:already-invited-emails="alreadyInvitedEmails"
-				:calendar-object-instance="calendarObjectInstance"
+				:show-done-button="true"
 				@remove-attendee="removeAttendee"
 				@add-attendee="addAttendee"
 				@update-dates="saveNewDate"
