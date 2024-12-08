@@ -128,14 +128,38 @@
 	}
 
 	.repeat-option-set {
+		flex-wrap: nowrap;
+		align-items: baseline;
+
+		.repeat-option-set__repeat {
+			flex-wrap: nowrap;
+			gap: 10px;
+		}
+		 .repeat-option-set__repeat-field {
+			flex: 1 1 150px;
+			min-width: 150px;
+    	}
+		.repeat-option-set__end-repeat {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 10px;
+
+			.repeat-option-set__end-repeat-field {
+				flex: 1 1 150px;
+				min-width: 350px;
+			}
+		}
 		.repeat-option-set-section {
 			&:not(:first-of-type) {
-				margin-top: 20px
+				margin-top: 10px;
+				display: flex;
+				flex-wrap: wrap;
 			}
 
 			&--on-the-select {
 				display: flex;
-				align-items: center;
+
 
 				.v-select {
 					width: 100%;
@@ -152,7 +176,8 @@
 				grid-gap: 0;
 
 				.repeat-option-set-section-grid-item {
-					padding: 8px;
+					padding: 5px;
+					width: 100%;
 					border: 1px solid var(--color-border-dark);
 					text-align: center;
 					margin: 0;
@@ -180,7 +205,6 @@
 
 		&--interval-freq {
 			display: flex;
-			align-items: center;
 
 			.multiselect {
 				min-width: 100px;
@@ -189,28 +213,46 @@
 		}
 
 		&--end {
-			margin-top: 20px;
-			display: flex;
-			align-items: center;
-
+			margin-top: 10px;
 			.repeat-option-end {
-				&__label,
-				&__end-type-select {
-					display: block;
-					min-width: 160px;
-					width: 25%;
-				}
+				width: 100%;
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+					&__label,
+					&__end-type-select,
+					&__until,
+					&__count {
+						flex: 1 1 auto;
+						min-width: 0;
+						margin-right: 10px;
+					}
+					&__label{
+						display: block;
+						min-width: 60px;
+					}
+					&__end-type-select {
+						min-width: 90px;
+						width: 100%;
+					}
 
-				&__until {
-					min-width: 75px;
-					width: 50%
-				}
+					&__until {
+						min-width: 90px;
+						width: 100%;
+						display: inline-block;
+					}
 
-				&__count {
-					min-width: 75px;
-					width: 25%;
-				}
+					&__count {
+						min-width: 90px;
+						width: 100%;
+					}
 			}
+		}
+		.end-repeat-container .end-repeat-dropdown,
+		.end-repeat-container .end-repeat-date {
+			flex: 0 1 auto;
+			min-width: 150px;
+			width: auto;
 		}
 
 		&__label {
