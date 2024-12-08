@@ -4,17 +4,19 @@
 -->
 
 <template>
-	<draggable v-model="calendars"
-		:disabled="disableDragging"
-		v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
-		draggable=".draggable-calendar-list-item"
-		@update="update">
+	<div class="calendar-list-wrapper">
 		<CalendarListNew />
 		<template v-if="!isPublic">
-			<CalendarListItem v-for="calendar in sortedCalendars.personal"
-				:key="calendar.id"
-				class="draggable-calendar-list-item"
-				:calendar="calendar" />
+			<draggable v-model="sortedCalendars.personal"
+				:disabled="disableDragging"
+				v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
+				draggable=".draggable-calendar-list-item"
+				@update="updateInput">
+				<CalendarListItem v-for="calendar in sortedCalendars.personal"
+					:key="calendar.id"
+					class="draggable-calendar-list-item"
+					:calendar="calendar" />
+			</draggable>
 		</template>
 		<template v-else>
 			<PublicCalendarListItem v-for="calendar in sortedCalendars.personal"
@@ -24,10 +26,16 @@
 
 		<NcAppNavigationCaption v-if="sortedCalendars.shared.length" :name="$t('calendar', 'Shared calendars')" />
 		<template v-if="!isPublic">
-			<CalendarListItem v-for="calendar in sortedCalendars.shared"
-				:key="calendar.id"
-				class="draggable-calendar-list-item"
-				:calendar="calendar" />
+			<draggable v-model="sortedCalendars.shared"
+				:disabled="disableDragging"
+				v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
+				draggable=".draggable-calendar-list-item"
+				@update="updateInput">
+				<CalendarListItem v-for="calendar in sortedCalendars.shared"
+					:key="calendar.id"
+					class="draggable-calendar-list-item"
+					:calendar="calendar" />
+			</draggable>
 		</template>
 		<template v-else>
 			<PublicCalendarListItem v-for="calendar in sortedCalendars.shared"
@@ -37,10 +45,16 @@
 
 		<NcAppNavigationCaption v-if="sortedCalendars.deck.length" :name="$t('calendar', 'Deck')" />
 		<template v-if="!isPublic">
-			<CalendarListItem v-for="calendar in sortedCalendars.deck"
-				:key="calendar.id"
-				class="draggable-calendar-list-item"
-				:calendar="calendar" />
+			<draggable v-model="sortedCalendars.deck"
+				:disabled="disableDragging"
+				v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
+				draggable=".draggable-calendar-list-item"
+				@update="updateInput">
+				<CalendarListItem v-for="calendar in sortedCalendars.deck"
+					:key="calendar.id"
+					class="draggable-calendar-list-item"
+					:calendar="calendar" />
+			</draggable>
 		</template>
 		<template v-else>
 			<PublicCalendarListItem v-for="calendar in sortedCalendars.deck"
@@ -56,10 +70,16 @@
 			</template>
 			<template>
 				<div v-if="!isPublic">
-					<CalendarListItem v-for="calendar in sortedCalendars.hidden"
-						:key="calendar.id"
-						class="draggable-calendar-list-item"
-						:calendar="calendar" />
+					<draggable v-model="sortedCalendars.hidden"
+						:disabled="disableDragging"
+						v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
+						draggable=".draggable-calendar-list-item"
+						@update="updateInput">
+						<CalendarListItem v-for="calendar in sortedCalendars.hidden"
+							:key="calendar.id"
+							class="draggable-calendar-list-item"
+							:calendar="calendar" />
+					</draggable>
 				</div>
 				<div v-else>
 					<PublicCalendarListItem v-for="calendar in sortedCalendars.hidden"
@@ -70,10 +90,10 @@
 		</NcAppNavigationItem>
 
 		<!-- The header slot must be placed here, otherwise vuedraggable adds undefined as item to the array -->
-		<template #footer>
+		<template>
 			<CalendarListItemLoadingPlaceholder v-if="loadingCalendars" />
 		</template>
-	</draggable>
+	</div>
 </template>
 
 <script>
@@ -99,11 +119,11 @@ export default {
 		CalendarListNew,
 		CalendarListItemLoadingPlaceholder,
 		PublicCalendarListItem,
-		draggable,
 		NcAppNavigationCaption,
 		NcAppNavigationItem,
 		NcAppNavigationSpacer,
 		CalendarMinus,
+		draggable,
 	},
 	props: {
 		isPublic: {
@@ -118,7 +138,17 @@ export default {
 	data() {
 		return {
 			calendars: [],
+			/**
+			 * Calendars sorted by personal, shared, deck, and hidden
+			 */
+			sortedCalendars: {
+				personal: [],
+				shared: [],
+				deck: [],
+				hidden: [],
+			},
 			disableDragging: false,
+			showOrderModal: false,
 		}
 	},
 	computed: {
@@ -126,40 +156,6 @@ export default {
 		...mapState(useCalendarsStore, {
 			serverCalendars: 'sortedCalendarsSubscriptions',
 		}),
-		/**
-		 * Calendars sorted by personal, shared, deck, and hidden
-		 *
-		 * @return {Map}
-		 */
-		sortedCalendars() {
-			const sortedCalendars = {
-				personal: [],
-				shared: [],
-				deck: [],
-				hidden: [],
-			}
-
-			this.calendars.forEach((calendar) => {
-				if (!calendar.enabled) {
-					sortedCalendars.hidden.push(calendar)
-					return
-				}
-
-				if (calendar.isSharedWithMe) {
-					sortedCalendars.shared.push(calendar)
-					return
-				}
-
-				if (calendar.url.includes('app-generated--deck--board')) {
-					sortedCalendars.deck.push(calendar)
-					return
-				}
-
-				sortedCalendars.personal.push(calendar)
-			})
-
-			return sortedCalendars
-		},
 		loadingKeyCalendars() {
 			return this._uid + '-loading-placeholder-calendars'
 		},
@@ -168,14 +164,67 @@ export default {
 		serverCalendars(val) {
 			this.calendars = val
 		},
+		calendars() {
+			this.sortCalendars()
+		},
+	},
+	mounted() {
+		this.calendarsStore.$onAction(({ name, args, after }) => {
+			if (name === 'toggleCalendarEnabled') {
+				after(() => {
+					const calendar = this.calendars.find((calendar) => calendar.id === args[0].calendar.id)
+					calendar.enabled = args[0].calendar.enabled
+					this.sortCalendars()
+					this.update()
+				})
+			}
+		})
 	},
 	methods: {
-		update: debounce(async function() {
+		sortCalendars() {
+			this.sortedCalendars = {
+				personal: [],
+				shared: [],
+				deck: [],
+				hidden: [],
+			}
+
+			this.calendars.forEach((calendar) => {
+				if (!calendar.enabled) {
+					this.sortedCalendars.hidden.push(calendar)
+					return
+				}
+
+				if (calendar.isSharedWithMe) {
+					this.sortedCalendars.shared.push(calendar)
+					return
+				}
+
+				if (calendar.url.includes('app-generated--deck--board')) {
+					this.sortedCalendars.deck.push(calendar)
+					return
+				}
+
+				this.sortedCalendars.personal.push(calendar)
+			})
+		},
+		updateInput: debounce(async function() {
+			await this.update()
+		}, 2500),
+		async update() {
 			this.disableDragging = true
-			const newOrder = this.calendars.reduce((newOrderObj, currentItem, currentIndex) => {
+			const currentCalendars = [
+				...this.sortedCalendars.personal,
+				...this.sortedCalendars.shared,
+				...this.sortedCalendars.deck,
+				...this.sortedCalendars.hidden,
+			]
+			const newOrder = currentCalendars.reduce((newOrderObj, currentItem, currentIndex) => {
 				newOrderObj[currentItem.id] = currentIndex
 				return newOrderObj
 			}, {})
+
+			this.calendars = currentCalendars
 
 			try {
 				await limit(() => this.calendarsStore.updateCalendarListOrder({ newOrder }))
@@ -186,7 +235,7 @@ export default {
 			} finally {
 				this.disableDragging = false
 			}
-		}, 2500),
+		},
 	},
 }
 </script>
