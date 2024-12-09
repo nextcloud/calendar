@@ -21,7 +21,7 @@
 				{{ $t('calendar', 'Show tasks in calendar') }}
 			</ActionCheckbox>
 			<ActionCheckbox class="settings-fieldset-interior-item"
-				:checked="showPopover"
+				:checked="!showPopover"
 				:disabled="savingPopover"
 				@update:checked="togglePopoverEnabled">
 				{{ $t('calendar', 'Enable simplified editor') }}
