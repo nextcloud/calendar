@@ -9,8 +9,6 @@ namespace OCA\Calendar\Controller;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use DateTime;
-use DateTimeImmutable;
-use DateTimeZone;
 use Exception;
 use InvalidArgumentException;
 use OC\URLGenerator;
@@ -107,20 +105,18 @@ class BookingControllerTest extends TestCase {
 	}
 
 	public function testGetBookableSlots(): void {
-		$start = time();
-		$tz = new DateTimeZone('Europe/Berlin');
-		$startDate = (new DateTimeImmutable("@$start"));
-		$sDT = (new DateTime($startDate->format('Y-m-d'), $tz))
-			->getTimestamp();
-		$eDT = (new DateTime($startDate->format('Y-m-d'), $tz))
-			->modify('+1 day')
-			->getTimestamp();
+		$currentDate = (new DateTime('2024-6-30'))->getTimestamp();
+		$selectedDate = '2024-7-1';
+		$selectedTz = 'Europe/Berlin';
+		//selected date start and end epoch in selected time zone
+		$sDT = (new DateTime('2024-6-30 22:00:00'))->getTimestamp();
+		$eDT = (new DateTime('2024-7-1 22:00:00'))->getTimestamp();
 
 		$apptConfg = new AppointmentConfig();
 		$apptConfg->setId(1);
 		$this->time->expects(self::once())
 			->method('getTime')
-			->willReturn($start);
+			->willReturn($currentDate);
 		$this->apptService->expects(self::once())
 			->method('findById')
 			->with(1)
@@ -129,17 +125,17 @@ class BookingControllerTest extends TestCase {
 			->method('getAvailableSlots')
 			->with($apptConfg, $sDT, $eDT);
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $start, 'Europe/Berlin');
+		$this->controller->getBookableSlots($apptConfg->getId(), $selectedDate, $selectedTz);
 	}
 
 	public function testGetBookableSlotsDatesInPast(): void {
-		$start = time();
-		$fakeFutureTimestamp = time() + (100 * 24 * 60 * 60);
+		$currentDate = (new DateTime('2024-7-2'))->getTimestamp();
+		$selectedDate = '2024-7-1';
 		$apptConfg = new AppointmentConfig();
 		$apptConfg->setId(1);
 		$this->time->expects(self::once())
 			->method('getTime')
-			->willReturn($fakeFutureTimestamp);
+			->willReturn($currentDate);
 		$this->apptService->expects(self::never())
 			->method('findById')
 			->with(1);
@@ -148,11 +144,11 @@ class BookingControllerTest extends TestCase {
 		$this->logger->expects(self::once())
 			->method('warning');
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $start, 'Europe/Berlin');
+		$this->controller->getBookableSlots($apptConfg->getId(), $selectedDate, 'Europe/Berlin');
 	}
 
 	public function testGetBookableSlotsInvalidTimezone(): void {
-		$start = time();
+		$selectedDate = '2024-7-1';
 		$apptConfg = new AppointmentConfig();
 		$apptConfg->setId(1);
 		$this->time->expects(self::never())
@@ -164,13 +160,14 @@ class BookingControllerTest extends TestCase {
 			->method('getAvailableSlots');
 		$this->expectException(Exception::class);
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $start, 'Hook/Neverland');
+		$this->controller->getBookableSlots($apptConfg->getId(), $selectedDate, 'Hook/Neverland');
 	}
 
 	public function testGetBookableSlotsTimezoneIdentical(): void {
-		$now = (new DateTime('2024-6-30 8:00:00'))->getTimestamp();
-		$start = (new DateTime('2024-7-1 04:00:00'))->getTimestamp(); // Start date with America/Toronto offset
-		$timezone = 'America/Toronto';
+		$currentDate = (new DateTime('2024-6-30'))->getTimestamp();
+		$selectedDate = '2024-7-1';
+		$selectedTz = 'America/Toronto';
+		//selected date start and end epoch in selected time zone
 		$sDT = (new DateTime('2024-7-1 04:00:00'))->getTimestamp();
 		$eDT = (new DateTime('2024-7-2 04:00:00'))->getTimestamp();
 
@@ -178,7 +175,7 @@ class BookingControllerTest extends TestCase {
 		$apptConfg->setId(1);
 		$this->time->expects(self::once())
 			->method('getTime')
-			->willReturn($now);
+			->willReturn($currentDate);
 		$this->apptService->expects(self::once())
 			->method('findById')
 			->with(1)
@@ -187,13 +184,14 @@ class BookingControllerTest extends TestCase {
 			->method('getAvailableSlots')
 			->with($apptConfg, $sDT, $eDT);
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $start, $timezone);
+		$this->controller->getBookableSlots($apptConfg->getId(), $selectedDate, $selectedTz);
 	}
 
 	public function testGetBookableSlotsTimezoneMinus10(): void {
-		$now = (new DateTime('2024-6-30 8:00:00'))->getTimestamp();
-		$start = (new DateTime('2024-7-1 4:00:00'))->getTimestamp(); // Start date with America/Toronto offset
+		$currentDate = (new DateTime('2024-6-30'))->getTimestamp();
+		$selectedDate = '2024-7-1';
 		$timezone = 'Pacific/Pago_Pago';
+		//selected date start and end epoch in selected time zone
 		$sDT = (new DateTime('2024-7-1 11:00:00'))->getTimestamp();
 		$eDT = (new DateTime('2024-7-2 11:00:00'))->getTimestamp();
 
@@ -201,7 +199,7 @@ class BookingControllerTest extends TestCase {
 		$apptConfg->setId(1);
 		$this->time->expects(self::once())
 			->method('getTime')
-			->willReturn($now);
+			->willReturn($currentDate);
 		$this->apptService->expects(self::once())
 			->method('findById')
 			->with(1)
@@ -210,13 +208,14 @@ class BookingControllerTest extends TestCase {
 			->method('getAvailableSlots')
 			->with($apptConfg, $sDT, $eDT);
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $start, $timezone);
+		$this->controller->getBookableSlots($apptConfg->getId(), $selectedDate, $timezone);
 	}
 
 	public function testGetBookableSlotsTimezonePlus10(): void {
-		$now = (new DateTime('2024-6-30 8:00:00'))->getTimestamp();
-		$start = (new DateTime('2024-7-1 4:00:00'))->getTimestamp(); // Start date with America/Toronto offset
+		$currentDate = (new DateTime('2024-6-30'))->getTimestamp();
+		$selectedDate = '2024-7-1';
 		$timezone = 'Australia/Sydney';
+		//selected date start and end epoch in selected time zone
 		$sDT = (new DateTime('2024-6-30 14:00:00'))->getTimestamp();
 		$eDT = (new DateTime('2024-7-1 14:00:00'))->getTimestamp();
 
@@ -224,7 +223,7 @@ class BookingControllerTest extends TestCase {
 		$apptConfg->setId(1);
 		$this->time->expects(self::once())
 			->method('getTime')
-			->willReturn($now);
+			->willReturn($currentDate);
 		$this->apptService->expects(self::once())
 			->method('findById')
 			->with(1)
@@ -233,13 +232,14 @@ class BookingControllerTest extends TestCase {
 			->method('getAvailableSlots')
 			->with($apptConfg, $sDT, $eDT);
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $start, $timezone);
+		$this->controller->getBookableSlots($apptConfg->getId(), $selectedDate, $timezone);
 	}
 
 	public function testGetBookableSlotsTimezonePlus14(): void {
-		$now = (new DateTime('2024-6-30 8:00:00'))->getTimestamp();
-		$start = (new DateTime('2024-7-1 4:00:00'))->getTimestamp(); // Start date with America/Toronto offset
+		$currentDate = (new DateTime('2024-6-30'))->getTimestamp();
+		$selectedDate = '2024-7-1';
 		$timezone = 'Pacific/Kiritimati';
+		//selected date start and end epoch in selected time zone
 		$sDT = (new DateTime('2024-6-30 10:00:00'))->getTimestamp();
 		$eDT = (new DateTime('2024-7-1 10:00:00'))->getTimestamp();
 
@@ -247,7 +247,7 @@ class BookingControllerTest extends TestCase {
 		$apptConfg->setId(1);
 		$this->time->expects(self::once())
 			->method('getTime')
-			->willReturn($now);
+			->willReturn($currentDate);
 		$this->apptService->expects(self::once())
 			->method('findById')
 			->with(1)
@@ -256,7 +256,7 @@ class BookingControllerTest extends TestCase {
 			->method('getAvailableSlots')
 			->with($apptConfg, $sDT, $eDT);
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $start, $timezone);
+		$this->controller->getBookableSlots($apptConfg->getId(), $selectedDate, $timezone);
 	}
 
 	public function testBook(): void {
