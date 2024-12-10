@@ -351,6 +351,7 @@ OC.L10N.register(
     "Search for emails, users, contacts, teams or groups" : "Претрага и-мејлова, корисника, контакта, тимова или група",
     "No match found" : "Нема подударања",
     "Note that members of circles get invited but are not synced yet." : "Чланови кругова се позивају али се још увек не синхронизују.",
+    "Note that members of contact groups get invited but are not synced yet." : "Чланови група контаката се позивају али се још увек не синхронизују.",
     "(organizer)" : "(организатор)",
     "Make {label} the organizer" : "Учини {label} организатором",
     "Make {label} the organizer and attend" : "Учини {label} организатором и учествуј",
