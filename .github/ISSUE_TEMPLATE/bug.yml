@@ -41,7 +41,7 @@ body:
   - type: textarea
     id: actual-behavior
     attributes:
-      label: Actual behaviour
+      label: Actual behavior
       description: |
         Tell us what happens instead
     validations:
