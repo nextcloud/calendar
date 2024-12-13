@@ -30,6 +30,7 @@ OC.L10N.register(
     "Sunday" : "Ahad",
     "Update" : "Kemaskini",
     "Your email address" : "Alamat emel anda",
+    "Notification" : "Pemberitahuan",
     "Email" : "Email",
     "Attendees" : "Jemputan",
     "Repeat" : "Ulang",
