@@ -358,6 +358,7 @@ OC.L10N.register(
     "Remove color" : "Farbe entfernen",
     "Event title" : "Titel des Termins",
     "From" : "Von",
+    "To" : "An",
     "All day" : "Ganztägig",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Die Einstellung ganztägig kann für sich wiederholende Termine nicht geändert werden.",
     "Repeat" : "Wiederholen",
