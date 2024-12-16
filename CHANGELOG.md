@@ -1,3 +1,14 @@
+## [5.0.7](https://github.com/nextcloud/calendar/compare/v5.0.6...v5.0.7) (2024-12-16)
+
+
+### Bug Fixes
+
+* enable directory selection in file picker ([d3d408e](https://github.com/nextcloud/calendar/commit/d3d408e0db71e0367c5ac4fa190e85bb9dda7259))
+* send date as sting instead of epoch ([dad9740](https://github.com/nextcloud/calendar/commit/dad974042bc389769b9a904004ea3adf42792109))
+* use folder icon as fallback ([459f41a](https://github.com/nextcloud/calendar/commit/459f41a2c99362cd6814f599f29e5451cdd2650f))
+
+
+
 ## [5.0.6](https://github.com/nextcloud/calendar/compare/v5.0.5...v5.0.6) (2024-11-27)
 
 
