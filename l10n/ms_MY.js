@@ -32,6 +32,7 @@ OC.L10N.register(
     "Your email address" : "Alamat emel anda",
     "Notification" : "Pemberitahuan",
     "Email" : "Email",
+    "Done" : "Selesai",
     "Attendees" : "Jemputan",
     "Repeat" : "Ulang",
     "never" : "jangan",
