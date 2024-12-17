@@ -1,3 +1,12 @@
+## [5.0.8](https://github.com/nextcloud/calendar/compare/v5.0.7...v5.0.8) (2024-12-17)
+
+
+### Bug Fixes
+
+* allow adding self to shared event ([1a68634](https://github.com/nextcloud/calendar/commit/1a6863462498718e2034fe369b707033033c0663))
+
+
+
 ## [5.0.7](https://github.com/nextcloud/calendar/compare/v5.0.6...v5.0.7) (2024-12-16)
 
 
