@@ -10,6 +10,7 @@
 			:is-resource="false"
 			:avatar-link="avatarLink"
 			:participation-status="attendee.participationStatus"
+			:schedule-status="attendee.attendeeProperty.getParameterFirstValue('SCHEDULE-STATUS')"
 			:organizer-display-name="organizerDisplayName"
 			:common-name="commonName"
 			:is-group="isGroup" />
@@ -136,6 +137,10 @@ export default {
 			default: () => [],
 			required: false,
 		},
+		isViewedByOrganizer: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
@@ -190,10 +195,6 @@ export default {
 		},
 		isNonParticipant() {
 			return this.attendee.role === 'NON-PARTICIPANT'
-		},
-		isViewedByOrganizer() {
-			// TODO: check if also viewed by organizer
-			return !this.isReadOnly
 		},
 		isGroup() {
 			return this.attendee.attendeeProperty.userType === 'GROUP'
