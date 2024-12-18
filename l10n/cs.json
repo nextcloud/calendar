@@ -552,6 +552,7 @@
     "Error while parsing a PROPFIND error" : "Chyba při zpracovávání PROPFIND chyby",
     "Appointment not found" : "Schůzka nenalezena",
     "User not found" : "Uživatel nenalezen",
+    "Default calendar for invitations and new events" : "Výchozí kalendář pro pozvánky a nové události",
     "Appointment was created successfully" : "Schůzka byla úspěšně vytvořena",
     "Appointment was updated successfully" : "Schůzka byla úspěšně zaktualizována",
     "Create appointment" : "Vytvořit schůzku",
