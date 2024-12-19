@@ -5,7 +5,7 @@
 
 <template>
 	<NcDialog size="large"
-		:name="$t('calendar', 'Availability of attendees, resources and rooms')"
+		:name="dialogName || $t('calendar', 'Availability of attendees, resources and rooms')"
 		@closing="$emit('close')">
 		<div class="modal__content modal--scheduler">
 			<div v-if="loadingIndicator" class="loading-indicator">
@@ -83,7 +83,7 @@
 			</div>
 			<FullCalendar ref="freeBusyFullCalendar"
 				:options="options" />
-			<div class="modal__content__footer">
+			<div v-if="!disableFindTime" class="modal__content__footer">
 				<div class="modal__content__footer__title">
 					<p v-if="freeSlots">
 						{{ $t('calendar', 'Available times:') }}
@@ -201,16 +201,20 @@ export default {
 		},
 		eventTitle: {
 			type: String,
-			required: false,
+			default: '',
 		},
 		alreadyInvitedEmails: {
 			type: Array,
-			required: true,
+			default: () => [],
 		},
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
+		dialogName: {
+			type: String,
+			required: false,
 		},
+		disableFindTime: {
+			type: Boolean,
+			default: false,
+		}
 	},
 	data() {
 		return {
