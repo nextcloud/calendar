@@ -109,6 +109,6 @@ function handleToDoClick(event, route, window, isWidget = false) {
 		showInfo(t('calendar', 'Please ask your administrator to enable the Tasks App.'))
 		return
 	}
-	const url = `apps/tasks/#/calendars/${calendarId}/tasks/${taskId}`
+	const url = `apps/tasks/calendars/${calendarId}/tasks/${taskId}`
 	window.location = window.location.protocol + '//' + window.location.host + generateUrl(url)
 }
