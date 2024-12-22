@@ -351,6 +351,7 @@ OC.L10N.register(
     "Search for emails, users, contacts, teams or groups" : "Prohledat e-maily, uživatele, kontakty, týmy nebo skupiny",
     "No match found" : "Nenalezena žádná shoda",
     "Note that members of circles get invited but are not synced yet." : "Mějte na paměti, že členové okruhů budou pozváni, ale zatím ještě nejsou synchronizováni.",
+    "Note that members of contact groups get invited but are not synced yet." : "Mějte na paměti, že členové skupin kontaktů budou pozváni, ale zatím ještě nejsou synchronizováni.",
     "(organizer)" : "(organizátor(ka))",
     "Make {label} the organizer" : "Udělat {label} organizátorem",
     "Make {label} the organizer and attend" : "Udělat {label}organizátorem a zúčastnit se",
