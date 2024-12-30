@@ -20,6 +20,7 @@
 			:is-shared-with-me="isSharedWithMe"
 			:organizer="calendarObjectInstance.organizer"
 			:organizer-selection="organizerSelection"
+			:is-viewed-by-organizer="isViewedByOrganizer"
 			@change-organizer="changeOrganizer" />
 		<InviteesListItem v-for="invitee in limitedInviteesWithoutOrganizer"
 			:key="invitee.email"
@@ -27,6 +28,7 @@
 			:is-read-only="isReadOnly"
 			:organizer-display-name="organizerDisplayName"
 			:members="invitee.members"
+			:is-viewed-by-organizer="isViewedByOrganizer"
 			@remove-attendee="removeAttendee" />
 		<div v-if="limit > 0 && inviteesWithoutOrganizer.length > limit"
 			class="invitees-list__more">
@@ -286,6 +288,10 @@ export default {
 			}
 
 			return false
+		},
+		isViewedByOrganizer() {
+			const organizerEmail = removeMailtoPrefix(this.calendarObjectInstance.organizer.uri)
+			return organizerEmail === this.principalsStore.getCurrentUserPrincipalEmail
 		},
 		statusHeader() {
 			if (!this.isReadOnly) {
