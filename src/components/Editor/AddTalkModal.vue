@@ -41,6 +41,10 @@ export default {
 			type: Object,
 			required: true,
 		},
+		conversations: {
+			type: Array,
+			required: true,
+		},
 	},
 	data() {
 		return {
