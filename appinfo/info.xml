@@ -47,6 +47,9 @@
 	<background-jobs>
 		<job>OCA\Calendar\BackgroundJob\CleanUpOutdatedBookingsJob</job>
 	</background-jobs>
+	<commands>
+		<command>OCA\Calendar\Command\Export</command>
+	</commands>
 	<navigations>
 		<navigation>
 			<id>calendar</id>
