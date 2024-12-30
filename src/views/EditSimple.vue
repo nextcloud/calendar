@@ -122,7 +122,6 @@
 					@update:value="updateDescription" />
 
 				<InviteesList class="event-popover__invitees"
-					:hide-if-empty="true"
 					:hide-buttons="true"
 					:hide-errors="true"
 					:show-header="true"
