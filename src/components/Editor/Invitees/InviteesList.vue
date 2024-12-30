@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<div v-if="!hideIfEmpty || !isListEmpty" class="invitees-list">
+	<div class="invitees-list">
 		<div v-if="showHeader" class="invitees-list__header">
 			<AccountMultipleIcon :size="20" />
 			<b>{{ t('calendar', 'Attendees') }}</b>
@@ -121,10 +121,6 @@ export default {
 		showHeader: {
 			type: Boolean,
 			required: true,
-		},
-		hideIfEmpty: {
-			type: Boolean,
-			default: false,
 		},
 		hideButtons: {
 			type: Boolean,
