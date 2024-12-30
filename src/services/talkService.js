@@ -126,7 +126,7 @@ export function doesContainTalkLink(text) {
  * @param {string} token The token to the call room
  * @return {string}
  */
-function generateURLForToken(token = '') {
+export function generateURLForToken(token = '') {
 	return window.location.protocol + '//' + window.location.host + generateUrl('/call/' + token)
 }
 
