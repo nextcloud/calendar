@@ -10,7 +10,12 @@
     </MissingDependency>
     <UndefinedClass>
       <code>IAPIWidgetV2</code>
+      <code><![CDATA[ServerVersion]]></code>
     </UndefinedClass>
+    <UndefinedDocblockClass>
+      <code><![CDATA[$serverVersion]]></code>
+      <code><![CDATA[$serverVersion]]></code>
+    </UndefinedDocblockClass>
   </file>
   <file src="lib/Controller/AppointmentConfigController.php">
     <RedundantCondition>
