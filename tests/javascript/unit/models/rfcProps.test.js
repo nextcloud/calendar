@@ -43,7 +43,11 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 
 		expect(rfcProps.description).toEqual(expect.any(Object))
 		expect(rfcProps.description.readableName).toEqual('Description')
-		expect(rfcProps.description.placeholder).toEqual('Add a description')
+		expect(rfcProps.description.placeholder).toEqual('Add a description\n'
+			+ '\n'
+			+ '- What is this meeting about\n'
+			+ '- Agenda items\n'
+			+ '- Anything participants need to prepare')
 		expect(rfcProps.description.icon).toEqual('TextBoxOutline')
 		expect(rfcProps.description.defaultNumberOfRows).toEqual(2)
 
@@ -96,7 +100,11 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 		expect(translate).toHaveBeenNthCalledWith(7, 'calendar', 'Add a location')
 
 		expect(translate).toHaveBeenNthCalledWith(8, 'calendar', 'Description')
-		expect(translate).toHaveBeenNthCalledWith(9, 'calendar', 'Add a description')
+		expect(translate).toHaveBeenNthCalledWith(9, 'calendar', 'Add a description\n'
+			+ '\n'
+			+ '- What is this meeting about\n'
+			+ '- Agenda items\n'
+			+ '- Anything participants need to prepare')
 
 		expect(translate).toHaveBeenNthCalledWith(10, 'calendar', 'Status')
 		expect(translate).toHaveBeenNthCalledWith(11, 'calendar', 'Confirmed')
