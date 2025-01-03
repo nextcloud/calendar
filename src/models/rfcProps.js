@@ -40,7 +40,11 @@ const getRFCProperties = () => {
 		 */
 		description: {
 			readableName: t('calendar', 'Description'),
-			placeholder: t('calendar', 'Add a description'),
+			placeholder: t('calendar', 'Add a description\n'
+				+ '\n'
+				+ '- What is this meeting about\n'
+				+ '- Agenda items\n'
+				+ '- Anything participants need to prepare'),
 			icon: 'TextBoxOutline',
 			defaultNumberOfRows: 2,
 		},
