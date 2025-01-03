@@ -82,13 +82,22 @@
 				@update-end-time="updateEndTime"
 				@update-end-timezone="updateEndTimezone"
 				@toggle-all-day="toggleAllDay" />
-
-			<PropertyText class="property-location"
-				:is-read-only="isReadOnly"
-				:prop-model="rfcProps.location"
-				:value="location"
-				:linkify-links="true"
-				@update:value="updateLocation" />
+			<div class="location-container">
+				<PropertyText class="property-location"
+					:is-read-only="isReadOnly"
+					:prop-model="rfcProps.location"
+					:value="location"
+					:linkify-links="true"
+					@update:value="updateLocation" />
+				<AddTalkModal v-if="isModalOpen"
+					:conversations="talkConversations"
+					@close="closeModal" />
+				<NcButton :disabled="isCreateTalkRoomButtonDisabled"
+					class="add-talk-button"
+					@click="openModal">
+					{{ t('calendar','Add Talk') }}
+				</NcButton>
+			</div>
 			<PropertyText class="property-description"
 				:is-read-only="isReadOnly"
 				:prop-model="rfcProps.description"
@@ -314,10 +323,14 @@ import usePrincipalsStore from '../store/principals.js'
 import useSettingsStore from '../store/settings.js'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import { mapStores, mapState } from 'pinia'
+import AddTalkModal from '../components/Editor/AddTalkModal.vue'
+import { createTalkRoom, doesContainTalkLink } from '../services/talkService.js'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 
 export default {
 	name: 'EditSidebar',
 	components: {
+		AddTalkModal,
 		ResourceList,
 		PropertyColor,
 		PropertySelectMultiple,
@@ -361,6 +374,10 @@ export default {
 			showModalUsers: [],
 			sharedProgress: 0,
 			showPreloader: false,
+			isModalOpen: false,
+			talkConversations: [],
+			selectedConversation: null,
+
 		}
 	},
 	computed: {
@@ -406,6 +423,21 @@ export default {
 		currentUser() {
 			return this.principalsStore.getCurrentUserPrincipal || null
 		},
+		isCreateTalkRoomButtonDisabled() {
+			if (this.creatingTalkRoom) {
+				return true
+			}
+
+			if (doesContainTalkLink(this.calendarObjectInstance.location)) {
+				return true
+			}
+			return doesContainTalkLink(this.calendarObjectInstance.description)
+
+		},
+		isCreateTalkRoomButtonVisible() {
+			return this.talkEnabled
+		},
+
 	},
 	mounted() {
 		window.addEventListener('keydown', this.keyboardCloseEditor)
@@ -420,6 +452,55 @@ export default {
 		window.removeEventListener('keydown', this.keyboardDuplicateEvent)
 	},
 	methods: {
+		selectConversation(conversation) {
+			this.selectedConversation = conversation
+			this.applyConversationToEvent(conversation)
+			this.closeModal()
+		},
+		openModal() {
+			this.isModalOpen = true
+		},
+
+		closeModal() {
+			this.isModalOpen = false
+		},
+
+		async createTalkRoom() {
+			const NEW_LINE = '\r\n'
+			try {
+				this.creatingTalkRoom = true
+				const url = await createTalkRoom(
+					this.calendarObjectInstance.title,
+					this.calendarObjectInstance.description,
+				)
+
+				// Store in LOCATION property if it's missing/empty. Append to description otherwise.
+				if ((this.calendarObjectInstance.location ?? '').trim() === '') {
+					this.calendarObjectInstanceStore.changeLocation({
+						calendarObjectInstance: this.calendarObjectInstance,
+						location: url,
+					})
+					showSuccess(this.$t('calendar', 'Successfully appended link to talk room to location.'))
+				} else {
+					if (!this.calendarObjectInstance.description) {
+						this.calendarObjectInstanceStore.changeDescription({
+							calendarObjectInstance: this.calendarObjectInstance,
+							description: url,
+						})
+					} else {
+						this.calendarObjectInstanceStore.changeDescription({
+							calendarObjectInstance: this.calendarObjectInstance,
+							description: this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + url + NEW_LINE,
+						})
+					}
+					showSuccess(this.$t('calendar', 'Successfully appended link to talk room to description.'))
+				}
+			} catch (error) {
+				showError(this.$t('calendar', 'Error creating Talk room'))
+			} finally {
+				this.creatingTalkRoom = false
+			}
+		},
 		/**
 		 * Update the start and end date of this event
 		 *
@@ -676,8 +757,18 @@ export default {
 	height: auto;
 	border-radius: var(--border-radius);
 }
+.location-container{
+	display: flex;
+	align-items: center;
+	gap: 4px;
+}
+.add-talk-button {
+	flex-shrink: 0;
+}
 .property-location {
 	margin-top: 10px;
+	margin-left: -43px;
+	flex-grow: 1;
 }
 .property-description {
 	margin-bottom: 10px;
