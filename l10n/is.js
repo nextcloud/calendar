@@ -476,7 +476,6 @@ OC.L10N.register(
     "When shared hide this event" : "Þegar er deilt, fela þennan atburð",
     "The visibility of this event in shared calendars." : "Sýnileiki þessa atburðar í sameiginlegum dagatölum",
     "Add a location" : "Bæta við staðsetningu",
-    "Add a description" : "Settu inn lýsingu",
     "Status" : "Staða",
     "Confirmed" : "Staðfest",
     "Canceled" : "Hætt við",
@@ -510,6 +509,7 @@ OC.L10N.register(
     "[Today]" : "[Í dag]",
     "[Tomorrow]" : "[Á morgun]",
     "[Yesterday]" : "[Í gær]",
-    "[Last] dddd" : "[Síðasta] dddd"
+    "[Last] dddd" : "[Síðasta] dddd",
+    "Add a description" : "Settu inn lýsingu"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

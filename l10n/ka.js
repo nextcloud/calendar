@@ -485,7 +485,6 @@ OC.L10N.register(
     "When shared hide this event" : "When shared hide this event",
     "The visibility of this event in shared calendars." : "The visibility of this event in shared calendars.",
     "Add a location" : "Add a location",
-    "Add a description" : "Add a description",
     "Status" : "Status",
     "Confirmed" : "Confirmed",
     "Canceled" : "Canceled",
@@ -520,6 +519,7 @@ OC.L10N.register(
     "[Today]" : "[Today]",
     "[Tomorrow]" : "[Tomorrow]",
     "[Yesterday]" : "[Yesterday]",
-    "[Last] dddd" : "[Last] dddd"
+    "[Last] dddd" : "[Last] dddd",
+    "Add a description" : "Add a description"
 },
 "nplurals=2; plural=(n!=1);");

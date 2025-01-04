@@ -497,7 +497,6 @@ OC.L10N.register(
     "When shared hide this event" : "Jaettaessa piilota tämä tapahtuma",
     "The visibility of this event in shared calendars." : "Tämän tapahtuman näkyvyys jaetuissa kalentereissa.",
     "Add a location" : "Lisää sijainti",
-    "Add a description" : "Lisää kuvaus",
     "Status" : "Tila",
     "Confirmed" : "Vahvistettu",
     "Canceled" : "Peruttu",
@@ -533,6 +532,7 @@ OC.L10N.register(
     "[Today]" : "[Tänään]",
     "[Tomorrow]" : "[Huomenna]",
     "[Yesterday]" : "[Eilen]",
-    "[Last] dddd" : "[Viimeinen] dddd"
+    "[Last] dddd" : "[Viimeinen] dddd",
+    "Add a description" : "Lisää kuvaus"
 },
 "nplurals=2; plural=(n != 1);");

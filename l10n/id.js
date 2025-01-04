@@ -325,7 +325,6 @@ OC.L10N.register(
     "Other" : "Lainnya",
     "The visibility of this event in shared calendars." : "Visibilitas acara ini di kalender yang dibagikan.",
     "Add a location" : "Tambah lokasi",
-    "Add a description" : "Tambah deskripsi",
     "Status" : "Status",
     "Confirmed" : "Terkonfirmasi",
     "Confirmation about the overall status of the event." : "Konfirmasi tentang status keseluruhan acara.",
@@ -340,6 +339,7 @@ OC.L10N.register(
     "Chat room for event" : "Ruang obrolan untuk acara",
     "An error occurred, unable to delete the calendar." : "Terjadi galat, tidak dapat menghapus kalender.",
     "This is an event reminder." : "Ini adalah pengingat acara.",
-    "[Today]" : "[Hari ini]"
+    "[Today]" : "[Hari ini]",
+    "Add a description" : "Tambah deskripsi"
 },
 "nplurals=1; plural=0;");

@@ -472,7 +472,6 @@ OC.L10N.register(
     "When shared hide this event" : "Ascunde evenimentul la partajare",
     "The visibility of this event in shared calendars." : "Vizibilitatea acestui eveniment în calendarele partajate.",
     "Add a location" : "Adaugă o locație",
-    "Add a description" : "Adauga o descripție",
     "Status" : "Stare",
     "Confirmed" : "Confirmat",
     "Canceled" : "Anulat",
@@ -506,6 +505,7 @@ OC.L10N.register(
     "[Today]" : "[Astăzi]",
     "[Tomorrow]" : "[Mâine]",
     "[Yesterday]" : "[Ieri]",
-    "[Last] dddd" : "[Ultima] dddd"
+    "[Last] dddd" : "[Ultima] dddd",
+    "Add a description" : "Adauga o descripție"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

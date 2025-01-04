@@ -400,7 +400,6 @@ OC.L10N.register(
     "When shared hide this event" : "Pan wedi ei rannu, yn cuddio'r digwyddiad hwn",
     "The visibility of this event in shared calendars." : "Gwelededd y digwyddiad hwn mewn calendrau a rennir.",
     "Add a location" : "Ychwanegu lleoliad",
-    "Add a description" : "Ychwanegu disgrifiad",
     "Status" : "Statws",
     "Confirmed" : "Cadarnhawyd",
     "Canceled" : "Wedi diddymu",
@@ -428,6 +427,7 @@ OC.L10N.register(
     "[Today]" : "Heddiw",
     "[Tomorrow]" : "[Yfory]",
     "[Yesterday]" : "[Ddoe]",
-    "[Last] dddd" : "[Diwethaf] dddd"
+    "[Last] dddd" : "[Diwethaf] dddd",
+    "Add a description" : "Ychwanegu disgrifiad"
 },
 "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;");

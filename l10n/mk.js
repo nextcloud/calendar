@@ -476,7 +476,6 @@ OC.L10N.register(
     "When shared hide this event" : "Кога е споделен, сокриј го настанот",
     "The visibility of this event in shared calendars." : "Видливост на овој настан во споделен календар.",
     "Add a location" : "Додади локација",
-    "Add a description" : "Додади опис",
     "Status" : "Статус",
     "Confirmed" : "Потврдено",
     "Canceled" : "Откажано",
@@ -509,6 +508,7 @@ OC.L10N.register(
     "[Today]" : "[Денес]",
     "[Tomorrow]" : "[Утре]",
     "[Yesterday]" : "[Вчера]",
-    "[Last] dddd" : "[Последна] dddd"
+    "[Last] dddd" : "[Последна] dddd",
+    "Add a description" : "Додади опис"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

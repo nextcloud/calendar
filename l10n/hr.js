@@ -343,7 +343,6 @@ OC.L10N.register(
     "When shared hide this event" : "Kada se dijeli, sakrij događaj",
     "The visibility of this event in shared calendars." : "Vidljivost ovog događaja u dijeljenim kalendarima.",
     "Add a location" : "Dodaj lokaciju",
-    "Add a description" : "Dodaj opis",
     "Status" : "Status",
     "Confirmed" : "Potvrđeno",
     "Canceled" : "Otkazano",
@@ -365,6 +364,7 @@ OC.L10N.register(
     "[Today]" : "[Danas]",
     "[Tomorrow]" : "[Sutra]",
     "[Yesterday]" : "[Jučer]",
-    "[Last] dddd" : "[Zadnji] dddd"
+    "[Last] dddd" : "[Zadnji] dddd",
+    "Add a description" : "Dodaj opis"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

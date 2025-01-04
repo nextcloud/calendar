@@ -327,7 +327,6 @@ OC.L10N.register(
     "When shared hide this event" : "Cando si cumpartzit, cua custu eventu",
     "The visibility of this event in shared calendars." : "Sa visibilidade de custu eventu in is calendàrios cumpartzidos",
     "Add a location" : "Agiunghe una positzione",
-    "Add a description" : "Agiunghe una descritzione",
     "Status" : "Istadu",
     "Confirmed" : "Cunfirmadu",
     "Canceled" : "Annulladu",
@@ -349,6 +348,7 @@ OC.L10N.register(
     "[Today]" : "[Oe]",
     "[Tomorrow]" : "[Cras]",
     "[Yesterday]" : "[Eris]",
-    "[Last] dddd" : "[Ùrtimu] dddd"
+    "[Last] dddd" : "[Ùrtimu] dddd",
+    "Add a description" : "Agiunghe una descritzione"
 },
 "nplurals=2; plural=(n != 1);");

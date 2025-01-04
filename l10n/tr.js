@@ -531,7 +531,6 @@ OC.L10N.register(
     "When shared hide this event" : "Paylaşıldığında bu etkinlik gizlensin",
     "The visibility of this event in shared calendars." : "Bu etkinliğin paylaşılmış takvimlerdeki görünümü.",
     "Add a location" : "Bir konum ekleyin",
-    "Add a description" : "Bir açıklama ekleyin",
     "Status" : "Durum",
     "Confirmed" : "Kabul edildi",
     "Canceled" : "İptal edildi",
@@ -568,6 +567,7 @@ OC.L10N.register(
     "[Today]" : "[Bugün]",
     "[Tomorrow]" : "[Yarın]",
     "[Yesterday]" : "[Dün]",
-    "[Last] dddd" : "[Son] dddd"
+    "[Last] dddd" : "[Son] dddd",
+    "Add a description" : "Bir açıklama ekleyin"
 },
 "nplurals=2; plural=(n > 1);");

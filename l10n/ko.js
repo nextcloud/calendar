@@ -467,7 +467,6 @@ OC.L10N.register(
     "When shared hide this event" : "일정 공유하지 않음",
     "The visibility of this event in shared calendars." : "공유 달력에서 이 일정의 표시 여부",
     "Add a location" : "위치 추가",
-    "Add a description" : "설명 추가",
     "Status" : "상태",
     "Confirmed" : "확인됨",
     "Canceled" : "취소됨",
@@ -500,6 +499,7 @@ OC.L10N.register(
     "Create a new event" : "새 일정 만들기",
     "[Today]" : "[오늘]",
     "[Tomorrow]" : "[내일]",
-    "[Yesterday]" : "[어제]"
+    "[Yesterday]" : "[어제]",
+    "Add a description" : "설명 추가"
 },
 "nplurals=1; plural=0;");
