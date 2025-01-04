@@ -403,7 +403,6 @@ OC.L10N.register(
     "When shared hide this event" : "Khi được chia sẻ thì ẩn sự kiện này đi",
     "The visibility of this event in shared calendars." : "Khả năng nhìn thấy của sự kiện này trong các lịch được chia sẻ",
     "Add a location" : "Thêm vào một địa điểm",
-    "Add a description" : "Thêm vào một mô tả",
     "Status" : "Trạng thái",
     "Confirmed" : "Đã xác nhận",
     "Canceled" : "Đã bị hủy",
@@ -432,6 +431,7 @@ OC.L10N.register(
     "[Today]" : "[Hôm nay]",
     "[Tomorrow]" : "[Ngày mai]",
     "[Yesterday]" : "[Hôm qua]",
-    "[Last] dddd" : "[Trước] dddd"
+    "[Last] dddd" : "[Trước] dddd",
+    "Add a description" : "Thêm vào một mô tả"
 },
 "nplurals=1; plural=0;");

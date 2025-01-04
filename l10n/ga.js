@@ -531,7 +531,6 @@ OC.L10N.register(
     "When shared hide this event" : "Nuair a bheidh tú roinnte cuir an t-imeacht seo i bhfolach",
     "The visibility of this event in shared calendars." : "Infheictheacht an imeachta seo i bhféilirí roinnte.",
     "Add a location" : "Cuir suíomh leis",
-    "Add a description" : "Cuir cur síos leis",
     "Status" : "Stádas",
     "Confirmed" : "Deimhnithe",
     "Canceled" : "Ar ceal",
@@ -568,6 +567,7 @@ OC.L10N.register(
     "[Today]" : "[Inniu]",
     "[Tomorrow]" : "[Amárach]",
     "[Yesterday]" : "[Inné]",
-    "[Last] dddd" : "[seo caite] dddd"
+    "[Last] dddd" : "[seo caite] dddd",
+    "Add a description" : "Cuir cur síos leis"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

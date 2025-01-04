@@ -496,7 +496,6 @@ OC.L10N.register(
     "When shared hide this event" : "Az esemény elrejtése megosztáskor",
     "The visibility of this event in shared calendars." : "Az esemény láthatósága a megosztott naptárakban.",
     "Add a location" : "Helyszín hozzáadása",
-    "Add a description" : "Leírás hozzáadása",
     "Status" : "Állapot",
     "Confirmed" : "Elfogadva",
     "Canceled" : "Lemondva",
@@ -531,6 +530,7 @@ OC.L10N.register(
     "[Today]" : "[Ma]",
     "[Tomorrow]" : "[Holnap]",
     "[Yesterday]" : "[Tegnap]",
-    "[Last] dddd" : "[Múlt] dddd"
+    "[Last] dddd" : "[Múlt] dddd",
+    "Add a description" : "Leírás hozzáadása"
 },
 "nplurals=2; plural=(n != 1);");

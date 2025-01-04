@@ -352,7 +352,6 @@ OC.L10N.register(
     "When shared hide this event" : "כאשר משותף מסתיר אירוע זה",
     "The visibility of this event in shared calendars." : "הנראות של אירוע זה בלוחות שנה משותפים.",
     "Add a location" : "הוסף מיקום",
-    "Add a description" : "הוסף תיאור",
     "Status" : "מצב",
     "Confirmed" : "מאושר",
     "Canceled" : "מבוטלת",
@@ -374,6 +373,7 @@ OC.L10N.register(
     "[Today]" : "[היום]",
     "[Tomorrow]" : "[מחר]",
     "[Yesterday]" : "[אתמול]",
-    "[Last] dddd" : "[Last] dddd"
+    "[Last] dddd" : "[Last] dddd",
+    "Add a description" : "הוסף תיאור"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

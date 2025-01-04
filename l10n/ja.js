@@ -521,7 +521,6 @@ OC.L10N.register(
     "When shared hide this event" : "共有時にこのイベントを隠す",
     "The visibility of this event in shared calendars." : "共有カレンダーでのこのイベントの表示。",
     "Add a location" : "住所を追加",
-    "Add a description" : "説明を追加",
     "Status" : "ステータス",
     "Confirmed" : "確認済み",
     "Canceled" : "キャンセル済み",
@@ -557,6 +556,7 @@ OC.L10N.register(
     "[Today]" : "[今日]",
     "[Tomorrow]" : "[明日]",
     "[Yesterday]" : "[昨日]",
-    "[Last] dddd" : "[Last]dddd"
+    "[Last] dddd" : "[Last]dddd",
+    "Add a description" : "説明を追加"
 },
 "nplurals=1; plural=0;");

@@ -531,7 +531,6 @@ OC.L10N.register(
     "When shared hide this event" : "Om delad, dölj denna händelse",
     "The visibility of this event in shared calendars." : "Synligheten för denna händelse i delade kalendrar.",
     "Add a location" : "Lägg till en plats",
-    "Add a description" : "Lägg till en beskrivning",
     "Status" : "Status",
     "Confirmed" : "Bekräftad",
     "Canceled" : "Avbruten",
@@ -568,6 +567,7 @@ OC.L10N.register(
     "[Today]" : "[Idag]",
     "[Tomorrow]" : "[Imorgon]",
     "[Yesterday]" : "[Igår]",
-    "[Last] dddd" : "[Sista] dddd"
+    "[Last] dddd" : "[Sista] dddd",
+    "Add a description" : "Lägg till en beskrivning"
 },
 "nplurals=2; plural=(n != 1);");

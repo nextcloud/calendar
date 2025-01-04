@@ -493,7 +493,6 @@ OC.L10N.register(
     "When shared hide this event" : "ئورتاقلاشقاندا بۇ پائالىيەتنى يوشۇرۇڭ",
     "The visibility of this event in shared calendars." : "ئورتاق كالېنداردا بۇ پائالىيەتنىڭ كۆرۈنۈشچانلىقى.",
     "Add a location" : "ئورۇن قوشۇڭ",
-    "Add a description" : "چۈشەندۈرۈش قوشۇڭ",
     "Status" : "ھالەت",
     "Confirmed" : "جەزملەشتۈرۈلدى",
     "Canceled" : "ئەمەلدىن قالدۇرۇلدى",
@@ -521,6 +520,7 @@ OC.L10N.register(
     "Select date" : "چېسلانى تاللاڭ",
     "[Today]" : "[بۈگۈن]",
     "[Tomorrow]" : "[ئەتە]",
-    "[Yesterday]" : "[تۈنۈگۈن]"
+    "[Yesterday]" : "[تۈنۈگۈن]",
+    "Add a description" : "چۈشەندۈرۈش قوشۇڭ"
 },
 "nplurals=2; plural=(n != 1);");

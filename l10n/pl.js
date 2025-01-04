@@ -351,6 +351,7 @@ OC.L10N.register(
     "Search for emails, users, contacts, teams or groups" : "Szukaj e-maili, użytkowników, kontaktów, zespołów lub grup",
     "No match found" : "Nie znaleziono pasujących",
     "Note that members of circles get invited but are not synced yet." : "Pamiętaj, że członkowie kręgów są zapraszani, ale nie są jeszcze synchronizowani.",
+    "Note that members of contact groups get invited but are not synced yet." : "Pamiętaj, że członkowie grup kontaktów są zapraszani, ale nie są jeszcze synchronizowani.",
     "(organizer)" : "(organizator)",
     "Make {label} the organizer" : "Mianuj {label} organizatorem",
     "Make {label} the organizer and attend" : "Mianuj {label} organizatorem i weź udział",
@@ -530,7 +531,6 @@ OC.L10N.register(
     "When shared hide this event" : "Gdy udostępniony ukryj to wydarzenie",
     "The visibility of this event in shared calendars." : "Widoczność tego wydarzenia w udostępnianych kalendarzach.",
     "Add a location" : "Dodaj lokalizację",
-    "Add a description" : "Dodaj opis",
     "Status" : "Status",
     "Confirmed" : "Potwierdzone",
     "Canceled" : "Anulowane",
@@ -554,6 +554,7 @@ OC.L10N.register(
     "Error while parsing a PROPFIND error" : "Wystąpił błąd podczas analizowania błędu PROPFIND",
     "Appointment not found" : "Nie znaleziono spotkania",
     "User not found" : "Nie znaleziono użytkownika",
+    "Default calendar for invitations and new events" : "Domyślny kalendarz zaproszeń i nowych wydarzeń",
     "Appointment was created successfully" : "Spotkanie zostało pomyślnie utworzone",
     "Appointment was updated successfully" : "Spotkanie zostało pomyślnie zaktualizowane",
     "Create appointment" : "Utwórz spotkanie",
@@ -566,6 +567,7 @@ OC.L10N.register(
     "[Today]" : "[Dzisiaj]",
     "[Tomorrow]" : "[Jutro]",
     "[Yesterday]" : "[Wczoraj]",
-    "[Last] dddd" : "[Ostatni] dddd"
+    "[Last] dddd" : "[Ostatni] dddd",
+    "Add a description" : "Dodaj opis"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

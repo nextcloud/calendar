@@ -526,7 +526,6 @@ OC.L10N.register(
     "When shared hide this event" : "Når delt, skjul denne begivenhed",
     "The visibility of this event in shared calendars." : "Synligheden af denne begivenhed i delte kalendere.",
     "Add a location" : "Tilføj en placering",
-    "Add a description" : "Tilføj en beskrivelse",
     "Status" : "Status",
     "Confirmed" : "Bekræftet",
     "Canceled" : "Annulleret",
@@ -563,6 +562,7 @@ OC.L10N.register(
     "[Today]" : "[i dag]",
     "[Tomorrow]" : "[I morgen]",
     "[Yesterday]" : "[Yesterday]",
-    "[Last] dddd" : "[Last] dddd"
+    "[Last] dddd" : "[Last] dddd",
+    "Add a description" : "Tilføj en beskrivelse"
 },
 "nplurals=2; plural=(n != 1);");

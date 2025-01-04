@@ -531,7 +531,6 @@ OC.L10N.register(
     "When shared hide this event" : "Pří sdílení tuto událost skrýt",
     "The visibility of this event in shared calendars." : "Viditelnost této události ve sdílených kalendářích.",
     "Add a location" : "Přidat umístění",
-    "Add a description" : "Přidat popis",
     "Status" : "Stav",
     "Confirmed" : "Potvrzeno",
     "Canceled" : "Zrušeno",
@@ -568,6 +567,7 @@ OC.L10N.register(
     "[Today]" : "[Dnes]",
     "[Tomorrow]" : "[Zítra]",
     "[Yesterday]" : "[Včera]",
-    "[Last] dddd" : "[Minul.] dddd"
+    "[Last] dddd" : "[Minul.] dddd",
+    "Add a description" : "Přidat popis"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

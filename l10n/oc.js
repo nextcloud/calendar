@@ -162,7 +162,6 @@ OC.L10N.register(
     "Untitled task" : "Prètzfach sens nom",
     "Other" : "Autre",
     "Add a location" : "Apondre un lòc",
-    "Add a description" : "Apondre una descripcion",
     "Status" : "Estat",
     "Confirmed" : "Confirmat",
     "Canceled" : "Anullat",
@@ -174,6 +173,7 @@ OC.L10N.register(
     "[Today]" : "[Uèi]",
     "[Tomorrow]" : "[Deman]",
     "[Yesterday]" : "[Ièr]",
-    "[Last] dddd" : "dddd [passat]"
+    "[Last] dddd" : "dddd [passat]",
+    "Add a description" : "Apondre una descripcion"
 },
 "nplurals=2; plural=(n > 1);");

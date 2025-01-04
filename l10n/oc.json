@@ -160,7 +160,6 @@
     "Untitled task" : "Prètzfach sens nom",
     "Other" : "Autre",
     "Add a location" : "Apondre un lòc",
-    "Add a description" : "Apondre una descripcion",
     "Status" : "Estat",
     "Confirmed" : "Confirmat",
     "Canceled" : "Anullat",
@@ -172,6 +171,7 @@
     "[Today]" : "[Uèi]",
     "[Tomorrow]" : "[Deman]",
     "[Yesterday]" : "[Ièr]",
-    "[Last] dddd" : "dddd [passat]"
+    "[Last] dddd" : "dddd [passat]",
+    "Add a description" : "Apondre una descripcion"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
