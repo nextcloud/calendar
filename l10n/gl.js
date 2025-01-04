@@ -531,7 +531,6 @@ OC.L10N.register(
     "When shared hide this event" : "Agochar este evento ao compartir",
     "The visibility of this event in shared calendars." : "A visibilidade deste evento nos calendarios compartidos.",
     "Add a location" : "Engadir unha localización",
-    "Add a description" : "Engadir unha descrición",
     "Status" : "Estado",
     "Confirmed" : "Confirmado",
     "Canceled" : "Cancelada",
@@ -568,6 +567,7 @@ OC.L10N.register(
     "[Today]" : "[Hoxe]",
     "[Tomorrow]" : "[Mañá]",
     "[Yesterday]" : "[Onte]",
-    "[Last] dddd" : "[Último] dddd"
+    "[Last] dddd" : "[Último] dddd",
+    "Add a description" : "Engadir unha descrición"
 },
 "nplurals=2; plural=(n != 1);");

@@ -513,7 +513,6 @@ OC.L10N.register(
     "When shared hide this event" : "Pri zdieľaní skryť udalosť",
     "The visibility of this event in shared calendars." : "Viditeľnosť tejto udalosti v zdieľaných kalendároch.",
     "Add a location" : "Zadajte umiestnenie",
-    "Add a description" : "Zadajte popis",
     "Status" : "Stav",
     "Confirmed" : "Potvrdené",
     "Canceled" : "Zrušené",
@@ -550,6 +549,7 @@ OC.L10N.register(
     "[Today]" : "[Dnes]",
     "[Tomorrow]" : "[Zajtra]",
     "[Yesterday]" : "[Včera]",
-    "[Last] dddd" : "[Posledné] dddd"
+    "[Last] dddd" : "[Posledné] dddd",
+    "Add a description" : "Zadajte popis"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

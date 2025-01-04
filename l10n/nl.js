@@ -529,7 +529,6 @@ OC.L10N.register(
     "When shared hide this event" : "Wanneer gedeeld, verberg deze afspraak",
     "The visibility of this event in shared calendars." : "De zichtbaarheid van deze afspraak in gedeelde agenda's.",
     "Add a location" : "Een locatie toevoegen",
-    "Add a description" : "Voeg een omschrijving toe",
     "Status" : "Status",
     "Confirmed" : "Bevestigd",
     "Canceled" : "Geannuleerd",
@@ -565,6 +564,7 @@ OC.L10N.register(
     "[Today]" : "[Vandaag]",
     "[Tomorrow]" : "[Morgen]",
     "[Yesterday]" : "[Gisteren]",
-    "[Last] dddd" : "[Last] dddd"
+    "[Last] dddd" : "[Last] dddd",
+    "Add a description" : "Voeg een omschrijving toe"
 },
 "nplurals=2; plural=(n != 1);");

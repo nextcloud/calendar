@@ -531,7 +531,6 @@ OC.L10N.register(
     "When shared hide this event" : "إخفاء هذا الحدث عند مشاركته",
     "The visibility of this event in shared calendars." : "ظهور الحدث في التقاويم المشتركة.",
     "Add a location" : "إضافة موقع",
-    "Add a description" : "إضافة وصف",
     "Status" : "الحالة",
     "Confirmed" : "مؤكد",
     "Canceled" : "ملغي",
@@ -568,6 +567,7 @@ OC.L10N.register(
     "[Today]" : "[اليوم]",
     "[Tomorrow]" : "[الغد]",
     "[Yesterday]" : "[امس]",
-    "[Last] dddd" : "[اخر] dddd"
+    "[Last] dddd" : "[اخر] dddd",
+    "Add a description" : "إضافة وصف"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

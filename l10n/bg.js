@@ -459,7 +459,6 @@ OC.L10N.register(
     "When shared hide this event" : "При споделяне, скривай това събитие",
     "The visibility of this event in shared calendars." : "Видимостта на това събитие в споделени календари.",
     "Add a location" : "Добавяне на местоположение",
-    "Add a description" : "Добави описание",
     "Status" : "Състояние",
     "Confirmed" : "Потвърдено",
     "Canceled" : "Отказано",
@@ -492,6 +491,7 @@ OC.L10N.register(
     "[Today]" : "[днес]",
     "[Tomorrow]" : "[утре]",
     "[Yesterday]" : "[вчера]",
-    "[Last] dddd" : "[Последен] dddd"
+    "[Last] dddd" : "[Последен] dddd",
+    "Add a description" : "Добави описание"
 },
 "nplurals=2; plural=(n != 1);");

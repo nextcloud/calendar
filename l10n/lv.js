@@ -410,7 +410,6 @@ OC.L10N.register(
     "When shared hide this event" : "Ja kopīgots, tad paslēpt šo notikumu",
     "The visibility of this event in shared calendars." : "Šī notikuma redzamība koplietotos kalendāros.",
     "Add a location" : "Pievienot atrašanās vietu",
-    "Add a description" : "Pievienot aprakstu",
     "Status" : "Status",
     "Confirmed" : "Apstiprināts",
     "Canceled" : "Atcelts",
@@ -441,6 +440,7 @@ OC.L10N.register(
     "You do not own this calendar, so you cannot add attendees to this event" : "Jums nav īpašnieka tiesības šim kalendāram, tāpēc jūs nevarat pievienot dalībniekus šim notikumam.",
     "Search for emails, users, contacts or groups" : "Meklēt e-pasta adreses, lietotājus, kontaktus vai grupas",
     "Select date" : "Izvēlieties datumu",
-    "Create a new event" : "Izveidot jaunu notikumu"
+    "Create a new event" : "Izveidot jaunu notikumu",
+    "Add a description" : "Pievienot aprakstu"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

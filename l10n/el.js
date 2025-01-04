@@ -501,7 +501,6 @@ OC.L10N.register(
     "When shared hide this event" : "Απόκρυψη αυτού του συμβάντος, όταν κοινοποιείται",
     "The visibility of this event in shared calendars." : "Η ορατότητα του γεγονότος στα ημερολόγια κοινής χρήσης.",
     "Add a location" : "Προσθήκη τοποθεσίας",
-    "Add a description" : "Προσθήκη περιγραφής",
     "Status" : "Κατάσταση",
     "Confirmed" : "Επιβεβαιώθηκε",
     "Canceled" : "Ακυρώθηκε",
@@ -536,6 +535,7 @@ OC.L10N.register(
     "[Today]" : "[Σήμερα]",
     "[Tomorrow]" : "[Αύριο]",
     "[Yesterday]" : "[Χθες]",
-    "[Last] dddd" : "[Last] ηηηη"
+    "[Last] dddd" : "[Last] ηηηη",
+    "Add a description" : "Προσθήκη περιγραφής"
 },
 "nplurals=2; plural=(n != 1);");

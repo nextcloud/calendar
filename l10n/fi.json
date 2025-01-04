@@ -495,7 +495,6 @@
     "When shared hide this event" : "Jaettaessa piilota tämä tapahtuma",
     "The visibility of this event in shared calendars." : "Tämän tapahtuman näkyvyys jaetuissa kalentereissa.",
     "Add a location" : "Lisää sijainti",
-    "Add a description" : "Lisää kuvaus",
     "Status" : "Tila",
     "Confirmed" : "Vahvistettu",
     "Canceled" : "Peruttu",
@@ -531,6 +530,7 @@
     "[Today]" : "[Tänään]",
     "[Tomorrow]" : "[Huomenna]",
     "[Yesterday]" : "[Eilen]",
-    "[Last] dddd" : "[Viimeinen] dddd"
+    "[Last] dddd" : "[Viimeinen] dddd",
+    "Add a description" : "Lisää kuvaus"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

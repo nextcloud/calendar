@@ -531,7 +531,6 @@ OC.L10N.register(
     "When shared hide this event" : "Приховати подію, якщо у спільному доступі",
     "The visibility of this event in shared calendars." : "Видимість цієї події у спільних календарях.",
     "Add a location" : "Додати розташування",
-    "Add a description" : "Додати опис",
     "Status" : "Статус",
     "Confirmed" : "Підтверджено",
     "Canceled" : "Скасовано",
@@ -567,6 +566,7 @@ OC.L10N.register(
     "Create a new event" : "Створити нову подію",
     "[Today]" : "[Сьогодні]",
     "[Tomorrow]" : "[Завтра]",
-    "[Yesterday]" : "[Вчора]"
+    "[Yesterday]" : "[Вчора]",
+    "Add a description" : "Додати опис"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

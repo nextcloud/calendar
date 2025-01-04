@@ -512,7 +512,6 @@ OC.L10N.register(
     "When shared hide this event" : "共享时隐藏此事项",
     "The visibility of this event in shared calendars." : "在共享日历中此事项的可见性。",
     "Add a location" : "添加地点",
-    "Add a description" : "添加描述",
     "Status" : "状态",
     "Confirmed" : "已确认",
     "Canceled" : "已取消",
@@ -548,6 +547,7 @@ OC.L10N.register(
     "[Today]" : "[今天]",
     "[Tomorrow]" : "[明天]",
     "[Yesterday]" : "[昨天]",
-    "[Last] dddd" : "[上一个] dddd"
+    "[Last] dddd" : "[上一个] dddd",
+    "Add a description" : "添加描述"
 },
 "nplurals=1; plural=0;");
