@@ -531,6 +531,7 @@ OC.L10N.register(
     "When shared hide this event" : "إخفاء هذا الحدث عند مشاركته",
     "The visibility of this event in shared calendars." : "ظهور الحدث في التقاويم المشتركة.",
     "Add a location" : "إضافة موقع",
+    "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "أضِف وصفاً:\n\n- ماهو موضوع الاجتماع\n- بنود الاجتماع\n- ما يحتاجه المشاركون إلى تحضيره للاجتماع",
     "Status" : "الحالة",
     "Confirmed" : "مؤكد",
     "Canceled" : "ملغي",

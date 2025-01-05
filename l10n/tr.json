@@ -529,6 +529,7 @@
     "When shared hide this event" : "Paylaşıldığında bu etkinlik gizlensin",
     "The visibility of this event in shared calendars." : "Bu etkinliğin paylaşılmış takvimlerdeki görünümü.",
     "Add a location" : "Bir konum ekleyin",
+    "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Bir açıklama yazın\n\n- Bu toplantı neyle ilgili\n- Gündem maddeleri\n- Katılımcıların hazırlaması gereken her şey",
     "Status" : "Durum",
     "Confirmed" : "Kabul edildi",
     "Canceled" : "İptal edildi",
