@@ -529,6 +529,7 @@
     "When shared hide this event" : "Om delad, dölj denna händelse",
     "The visibility of this event in shared calendars." : "Synligheten för denna händelse i delade kalendrar.",
     "Add a location" : "Lägg till en plats",
+    "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Lägg till en beskrivning\n\n- Vad handlar mötet om\n- Punkter på dagordningen\n- Något som deltagare behöver förbereda",
     "Status" : "Status",
     "Confirmed" : "Bekräftad",
     "Canceled" : "Avbruten",

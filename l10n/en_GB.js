@@ -531,6 +531,7 @@ OC.L10N.register(
     "When shared hide this event" : "When shared hide this event",
     "The visibility of this event in shared calendars." : "The visibility of this event in shared calendars.",
     "Add a location" : "Add a location",
+    "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare",
     "Status" : "Status",
     "Confirmed" : "Confirmed",
     "Canceled" : "Canceled",

@@ -529,6 +529,7 @@
     "When shared hide this event" : "Wenn geteilt, zeige diesen Termin nicht an",
     "The visibility of this event in shared calendars." : "Sichtbarkeit dieses Termins in geteilten Kalendern.",
     "Add a location" : "Ort hinzufügen",
+    "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Beschreibung hinzufügen\n\n- Thema des Treffens\n- Tagesordnungspunkte\n- Alles, was die Teilnehmer vorbereiten müssen",
     "Status" : "Status",
     "Confirmed" : "Bestätigt",
     "Canceled" : "Abgesagt",

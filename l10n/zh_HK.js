@@ -531,6 +531,7 @@ OC.L10N.register(
     "When shared hide this event" : "分享的時候隱藏這個活動",
     "The visibility of this event in shared calendars." : "此活動在分享的日曆可見程度。",
     "Add a location" : "加入地點",
+    "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "添加描述\n\n- 此會議的主題是什麼\n- 議程項目\n- 參與者需要準備的事項",
     "Status" : "狀態",
     "Confirmed" : "已確認",
     "Canceled" : "已取消",
