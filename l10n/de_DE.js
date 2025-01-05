@@ -531,6 +531,7 @@ OC.L10N.register(
     "When shared hide this event" : "Wenn geteilt, zeige diesen Termin nicht an",
     "The visibility of this event in shared calendars." : "Sichtbarkeit dieses Termins in geteilten Kalendern.",
     "Add a location" : "Ort hinzufügen",
+    "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Beschreibung hinzufügen\n\n- Worum geht es bei diesem Meeting?\n- Tagesordnungspunkte\n- Alles, was die Teilnehmer vorbereiten sollen",
     "Status" : "Status",
     "Confirmed" : "Bestätigt",
     "Canceled" : "Abgesagt",
