@@ -529,6 +529,7 @@
     "When shared hide this event" : "Nuair a bheidh tú roinnte cuir an t-imeacht seo i bhfolach",
     "The visibility of this event in shared calendars." : "Infheictheacht an imeachta seo i bhféilirí roinnte.",
     "Add a location" : "Cuir suíomh leis",
+    "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Cuir cur síos leis\n\n- Cad faoi atá an cruinniú seo?\n- Míreanna ar an gclár\n- Rud ar bith is gá do rannpháirtithe a ullmhú",
     "Status" : "Stádas",
     "Confirmed" : "Deimhnithe",
     "Canceled" : "Ar ceal",
