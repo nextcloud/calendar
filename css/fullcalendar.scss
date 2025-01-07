@@ -240,8 +240,6 @@
 }
 
 .fc-v-event {
-	min-height: 4em;
-
 	&.fc-timegrid-event-short {
 		min-height: 2em;
 	}
@@ -275,4 +273,9 @@
 // Additional workaround for Firefox
 .fc-timegrid-axis.fc-scrollgrid-shrink {
 	height: 65px;
+}
+
+.fc-timegrid-event-harness, .fc-timegrid-event {
+	// previously was 1px for no apparent reason
+	margin-bottom: 0;
 }
