@@ -529,6 +529,7 @@
     "When shared hide this event" : "Pří sdílení tuto událost skrýt",
     "The visibility of this event in shared calendars." : "Viditelnost této události ve sdílených kalendářích.",
     "Add a location" : "Přidat umístění",
+    "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Přidejte popis\n\n- O čem tato schůzka je\n- Body programu\n- Cokoli co je třeba, aby si účastnici připravili",
     "Status" : "Stav",
     "Confirmed" : "Potvrzeno",
     "Canceled" : "Zrušeno",
