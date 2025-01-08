@@ -287,6 +287,10 @@ export default {
 .booking__time-zone {
 	margin-top: 280px;
 	position: relative;
+
+	:deep(.v-select.select) {
+		max-width: 260px;
+	}
 }
 
 .booking__date-header {
@@ -312,7 +316,6 @@ export default {
 :deep(.mx-datepicker-main) {
 	border: 0;
 }
-
 h2, h3, h4, h5 {
 	margin-top: 0;
 }
