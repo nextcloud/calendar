@@ -177,7 +177,8 @@ export default {
 <style lang="scss" scoped>
 :deep(.avatar-participation-status__indicator) {
 	bottom: 2px !important;
-	left: 81px;
+	justify-self: unset !important;
+	left: 43px;
 	position: relative;
 	opacity: .8;
 }
