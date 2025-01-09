@@ -421,7 +421,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {string=} data.language Preferred language of the attendee
 		 * @param {string=} data.timezoneId Preferred timezone of the attendee
 		 * @param {object=} data.organizer Principal of the organizer to be set if not present
-		 * @param {string|array} data.member Group membership(s)
+		 * @param {string | Array} data.member Group membership(s)
 		 */
 		addAttendee({
 			calendarObjectInstance,

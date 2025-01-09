@@ -82,7 +82,23 @@
 				@update-end-time="updateEndTime"
 				@update-end-timezone="updateEndTimezone"
 				@toggle-all-day="toggleAllDay" />
-
+			<div v-if="isCreateTalkRoomButtonVisible"
+				class="property-text property-add-talk">
+				<AddTalkModal v-if="isModalOpen"
+					:conversations="talkConversations"
+					:calendar-object-instance="calendarObjectInstance"
+					@close="closeModal"
+					@update-location="updateLocation"
+					@update-description="updateDescription" />
+				<IconVideo :size="20"
+					class="property-text__icon property-add-talk__icon" />
+				<NcButton type="tertiary"
+					class="property-add-talk__button"
+					:disabled="isCreateTalkRoomButtonDisabled"
+					@click="openModal">
+					{{ t('calendar','Add Talk conversation') }}
+				</NcButton>
+			</div>
 			<PropertyText class="property-location"
 				:is-read-only="isReadOnly"
 				:prop-model="rfcProps.location"
@@ -314,10 +330,15 @@ import usePrincipalsStore from '../store/principals.js'
 import useSettingsStore from '../store/settings.js'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import { mapStores, mapState } from 'pinia'
+import AddTalkModal from '../components/Editor/AddTalkModal.vue'
+import { createTalkRoom, doesContainTalkLink } from '../services/talkService.js'
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import IconVideo from 'vue-material-design-icons/Video.vue'
 
 export default {
 	name: 'EditSidebar',
 	components: {
+		AddTalkModal,
 		ResourceList,
 		PropertyColor,
 		PropertySelectMultiple,
@@ -348,6 +369,7 @@ export default {
 		AttachmentsList,
 		CalendarPickerHeader,
 		PropertyTitle,
+		IconVideo,
 	},
 	mixins: [
 		EditorMixin,
@@ -361,6 +383,10 @@ export default {
 			showModalUsers: [],
 			sharedProgress: 0,
 			showPreloader: false,
+			isModalOpen: false,
+			talkConversations: [],
+			selectedConversation: null,
+
 		}
 	},
 	computed: {
@@ -372,6 +398,7 @@ export default {
 			showResources: 'showResources',
 		}),
 		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
+		...mapState(useSettingsStore, ['talkEnabled']),
 		accessClass() {
 			return this.calendarObjectInstance?.accessClass || null
 		},
@@ -406,6 +433,21 @@ export default {
 		currentUser() {
 			return this.principalsStore.getCurrentUserPrincipal || null
 		},
+		isCreateTalkRoomButtonDisabled() {
+			if (this.creatingTalkRoom) {
+				return true
+			}
+
+			if (doesContainTalkLink(this.calendarObjectInstance.location)) {
+				return true
+			}
+			return doesContainTalkLink(this.calendarObjectInstance.description)
+
+		},
+		isCreateTalkRoomButtonVisible() {
+			return this.talkEnabled
+		},
+
 	},
 	mounted() {
 		window.addEventListener('keydown', this.keyboardCloseEditor)
@@ -420,6 +462,56 @@ export default {
 		window.removeEventListener('keydown', this.keyboardDuplicateEvent)
 	},
 	methods: {
+		openModal() {
+			this.isModalOpen = true
+		},
+
+		updateLocation(url) {
+			this.calendarObjectInstance.location = url
+		},
+		updateDescription(description) {
+			this.calendarObjectInstance.description = description
+		},
+		closeModal() {
+			this.isModalOpen = false
+		},
+
+		async createTalkRoom() {
+			const NEW_LINE = '\r\n'
+			try {
+				this.creatingTalkRoom = true
+				const url = await createTalkRoom(
+					this.calendarObjectInstance.title,
+					this.calendarObjectInstance.description,
+				)
+
+				// Store in LOCATION property if it's missing/empty. Append to description otherwise.
+				if ((this.calendarObjectInstance.location ?? '').trim() === '') {
+					this.calendarObjectInstanceStore.changeLocation({
+						calendarObjectInstance: this.calendarObjectInstance,
+						location: url,
+					})
+					showSuccess(this.$t('calendar', 'Successfully appended link to talk room to location.'))
+				} else {
+					if (!this.calendarObjectInstance.description) {
+						this.calendarObjectInstanceStore.changeDescription({
+							calendarObjectInstance: this.calendarObjectInstance,
+							description: url,
+						})
+					} else {
+						this.calendarObjectInstanceStore.changeDescription({
+							calendarObjectInstance: this.calendarObjectInstance,
+							description: this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + url + NEW_LINE,
+						})
+					}
+					showSuccess(this.$t('calendar', 'Successfully appended link to talk room to description.'))
+				}
+			} catch (error) {
+				showError(this.$t('calendar', 'Error creating Talk room'))
+			} finally {
+				this.creatingTalkRoom = false
+			}
+		},
 		/**
 		 * Update the start and end date of this event
 		 *
@@ -676,8 +768,15 @@ export default {
 	height: auto;
 	border-radius: var(--border-radius);
 }
-.property-location {
-	margin-top: 10px;
+.property-add-talk {
+	&__icon {
+		padding-top: 8px !important;
+	}
+
+	&__button {
+		display: flex;
+		align-items: center;
+	}
 }
 .property-description {
 	margin-bottom: 10px;
