@@ -189,6 +189,7 @@ OC.L10N.register(
     "Update" : "עדכון",
     "Your email address" : "כתובת הדוא״ל שלך",
     "Back" : "אחורה",
+    "Select conversation" : "בחירת דיון",
     "before at" : "לפני",
     "Notification" : "הוֹדָעָה",
     "Email" : "דוא״ל",

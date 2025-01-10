@@ -258,6 +258,8 @@ OC.L10N.register(
     "Could not book the appointment. Please try again later or contact the organizer." : "Састанак није могао да се закаже. Молимо вас покушајте касније поново, или се обратите организатору.",
     "Back" : "Назад",
     "Book appointment" : "Закажи састанак",
+    "Create a new conversation" : "Креирај нови разговор",
+    "Select conversation" : "Одаберите разговор",
     "Reminder" : "Подсетник",
     "before at" : "раније у",
     "Notification" : "Обавештење",

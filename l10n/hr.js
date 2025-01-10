@@ -151,6 +151,7 @@ OC.L10N.register(
     "Sunday" : "Nedjelja",
     "Update" : "Ažuriraj",
     "Your email address" : "Vaša adresa e-pošte",
+    "Select conversation" : "Odaberi razgovor",
     "Reminder" : "Podsjetnik",
     "before at" : "prije u",
     "Notification" : "Obavijest",

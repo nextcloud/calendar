@@ -257,6 +257,8 @@ OC.L10N.register(
     "Could not book the appointment. Please try again later or contact the organizer." : "Kon afspraak niet boeken. Probeer later opnieuw of neem contact op met de organisator.",
     "Back" : "Terug",
     "Book appointment" : "Boek afspraak",
+    "Create a new conversation" : "Maak een nieuw gesprek",
+    "Select conversation" : "Selecteer een gesprek",
     "Reminder" : "Herinnering",
     "before at" : "ervoor om",
     "Notification" : "Melding",
