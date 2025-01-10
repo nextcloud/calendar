@@ -251,6 +251,8 @@ OC.L10N.register(
     "Please share anything that will help prepare for our meeting" : "Vennligst del alt som vil hjelpe deg med å forberede møtet vårt",
     "Could not book the appointment. Please try again later or contact the organizer." : "Kunne ikke bestille time. Prøv igjen senere eller kontakt arrangøren.",
     "Back" : "Tilbake",
+    "Create a new conversation" : "Opprett en ny samtale",
+    "Select conversation" : "Velg samtale",
     "Reminder" : "Påminnelse",
     "before at" : "før ved",
     "Notification" : "Varsel",

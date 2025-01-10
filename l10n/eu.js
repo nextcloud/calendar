@@ -258,6 +258,8 @@ OC.L10N.register(
     "Could not book the appointment. Please try again later or contact the organizer." : "Ezin izan da hitzordua erreserbatu. Saiatu berriro geroago edo jarri harremanetan administratzalearekin.",
     "Back" : "Itzuli",
     "Book appointment" : "Erreserbatu hitzordua",
+    "Create a new conversation" : "Sortu elkarrizketa berri bat",
+    "Select conversation" : "Hautatu elkarrizketa",
     "Reminder" : "Gogorarazpena",
     "before at" : "lehenago hemen",
     "Notification" : "Jakinarazpena",

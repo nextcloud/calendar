@@ -94,6 +94,7 @@ OC.L10N.register(
     "Monday" : "Lun",
     "Update" : "Hizivaat",
     "Your email address" : "O chom-lec'h postel",
+    "Select conversation" : "Choaz un diviz",
     "Notification" : "Kemennadenn",
     "Email" : "Postel",
     "Delete file" : "Dilemel ar restr",

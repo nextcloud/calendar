@@ -258,6 +258,8 @@ OC.L10N.register(
     "Could not book the appointment. Please try again later or contact the organizer." : "Níorbh fhéidir an coinne a chur in áirithe. Bain triail eile as ar ball le do thoil nó déan teagmháil leis an eagraí  le do thoil.",
     "Back" : "Ar ais",
     "Book appointment" : "Coinne leabhar",
+    "Create a new conversation" : "Cruthaigh comhrá nua",
+    "Select conversation" : "Roghnaigh comhrá",
     "Reminder" : "Meabhrúchán",
     "before at" : "roimh ag",
     "Notification" : "Fógra",

@@ -244,6 +244,8 @@ OC.L10N.register(
     "Your email address" : "Elektronski naslov",
     "Please share anything that will help prepare for our meeting" : "Pošljite vse predloge in dokumente, ki so pomembni pri pripravi na srečanje.",
     "Could not book the appointment. Please try again later or contact the organizer." : "Sestanka ni mogoče rezervirati. Poskusite znova kasneje oziroma stopite v stik z organizatorjem.",
+    "Create a new conversation" : "Ustvari nov pogovor",
+    "Select conversation" : "pogovora",
     "Reminder" : "Opomnik",
     "before at" : "prej ob",
     "Notification" : "Obvestilo",

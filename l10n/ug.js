@@ -245,6 +245,8 @@ OC.L10N.register(
     "Please share anything that will help prepare for our meeting" : "ئۇچرىشىشىمىزغا تەييارلىق قىلىشقا ياردىمى بولىدىغان نەرسىلەرنى ئورتاقلىشىڭ",
     "Could not book the appointment. Please try again later or contact the organizer." : "ئۇچرىشىشنى زاكاز قىلالمىدى. كېيىن قايتا سىناڭ ياكى تەشكىللىگۈچى بىلەن ئالاقىلىشىڭ.",
     "Back" : "قايتىش",
+    "Create a new conversation" : "يېڭى سۆھبەت قۇر",
+    "Select conversation" : "سۆھبەتنى تاللاڭ",
     "Reminder" : "ئەسكەرتىش",
     "before at" : "before at",
     "Notification" : "ئۇقتۇرۇش",

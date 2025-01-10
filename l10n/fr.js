@@ -258,6 +258,8 @@ OC.L10N.register(
     "Could not book the appointment. Please try again later or contact the organizer." : "Impossible de réserver le rendez-vous. Veuillez réessayer plus tard ou contacter l'organisateur.",
     "Back" : "Retour",
     "Book appointment" : "Prendre rendez-vous",
+    "Create a new conversation" : "Créer une nouvelle conversation",
+    "Select conversation" : "Sélectionnez une conversation",
     "Reminder" : "Rappel",
     "before at" : "avant",
     "Notification" : "Notification",

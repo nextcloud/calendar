@@ -240,6 +240,7 @@ OC.L10N.register(
     "Please share anything that will help prepare for our meeting" : "Deildu með okkur hverju því sem getur hjálpað við að undirbúa fundinn",
     "Could not book the appointment. Please try again later or contact the organizer." : "Gat ekki bókað stefnumótið. Reyndu aftur seinna eða hafðu samband við skipuleggjendurna.",
     "Back" : "Til baka",
+    "Select conversation" : "Veldu samtal",
     "Reminder" : "Áminning",
     "before at" : "á undan klukkan",
     "Notification" : "Tilkynning",

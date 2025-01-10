@@ -243,6 +243,7 @@ OC.L10N.register(
     "Please share anything that will help prepare for our meeting" : "Παρακαλούμε να μοιραστείτε οτιδήποτε θα βοηθούσε στην προετοιμασία της συνάντησης",
     "Could not book the appointment. Please try again later or contact the organizer." : "Δεν μπορέσαμε να κανουμε την κράτηση του ραντεβού. Παρακαλώ δοκιμάστε ξανά αργότερα ή επικοινωνήστε με τον διοργανωτή",
     "Back" : "Επιστροφή",
+    "Select conversation" : "Επιλέξτε συνομιλία",
     "Reminder" : "Υπενθύμιση",
     "before at" : "πριν από το",
     "Notification" : "Ειδοποίηση",

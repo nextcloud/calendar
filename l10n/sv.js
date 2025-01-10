@@ -258,6 +258,8 @@ OC.L10N.register(
     "Could not book the appointment. Please try again later or contact the organizer." : "Kunde inte boka mötet. Vänligen försök igen senare eller kontakta arrangören.",
     "Back" : "Tillbaka",
     "Book appointment" : "Boka möte",
+    "Create a new conversation" : "Skapa en ny konversation",
+    "Select conversation" : "Välj konversation",
     "Reminder" : "Påminnelse",
     "before at" : "innan",
     "Notification" : "Notifiering",
