@@ -241,6 +241,8 @@ OC.L10N.register(
     "Please share anything that will help prepare for our meeting" : "Ве молиме споделете сè што ќе помогне да се подготвиме за нашиот состанок",
     "Could not book the appointment. Please try again later or contact the organizer." : "Не може да се резервира термин. Обидете се повторно подоцна или контактирајте со организаторот.",
     "Back" : "Назад",
+    "Create a new conversation" : "Креирај нов разговор",
+    "Select conversation" : "Избери разговор",
     "Reminder" : "Потсетник",
     "before at" : "пред",
     "Notification" : "Известување",

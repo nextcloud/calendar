@@ -79,6 +79,8 @@ OC.L10N.register(
     "Update" : "Metre a jorn",
     "Your name" : "Vòstre nom",
     "Your email address" : "Vòstra adreça electronica",
+    "Create a new conversation" : "Crear una conversacion novèla",
+    "Select conversation" : "Seleccionar una conversacion",
     "Reminder" : "Recòrd",
     "Notification" : "Notificacion",
     "Email" : "Adreça corrièl",

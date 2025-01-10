@@ -258,6 +258,8 @@ OC.L10N.register(
     "Could not book the appointment. Please try again later or contact the organizer." : "Не удалось забронировать встречу. Пожалуйста, повторите попытку позже или свяжитесь с организатором.",
     "Back" : "Назад",
     "Book appointment" : "Записаться на прием",
+    "Create a new conversation" : "Создать новое обсуждение",
+    "Select conversation" : "Выберите обсуждение",
     "Reminder" : "Напоминание",
     "before at" : "ранее в",
     "Notification" : "Уведомление",

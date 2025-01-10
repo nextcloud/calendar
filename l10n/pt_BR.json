@@ -256,6 +256,8 @@
     "Could not book the appointment. Please try again later or contact the organizer." : "Não foi possível reservar o agendamento. Tente novamente mais tarde ou entre em contato com o organizador.",
     "Back" : "Voltar",
     "Book appointment" : "Marcar consulta",
+    "Create a new conversation" : "Criar uma nova conversa",
+    "Select conversation" : "Selecionar conversa",
     "Reminder" : "Lembrete",
     "before at" : "antes das",
     "Notification" : "Notificação",

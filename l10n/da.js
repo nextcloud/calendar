@@ -255,6 +255,7 @@ OC.L10N.register(
     "Your email address" : "Din email adresse",
     "Please share anything that will help prepare for our meeting" : "Del venligst alt, der kan hjælpe med at forberede vores møde",
     "Could not book the appointment. Please try again later or contact the organizer." : "Det var ikke muligt at bestille tid. Prøv venligst igen senere eller kontakt arrangøren.",
+    "Select conversation" : "Vælg samtale",
     "Reminder" : "Påmindelse",
     "before at" : "før kl",
     "Notification" : "Notifikation",

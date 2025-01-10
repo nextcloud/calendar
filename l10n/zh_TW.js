@@ -258,6 +258,8 @@ OC.L10N.register(
     "Could not book the appointment. Please try again later or contact the organizer." : "無法預約。請稍後再試或聯絡舉辦者。",
     "Back" : "返回",
     "Book appointment" : "預約",
+    "Create a new conversation" : "建立新對話",
+    "Select conversation" : "選擇對話",
     "Reminder" : "提醒",
     "before at" : "之前於",
     "Notification" : "通知",

@@ -258,6 +258,8 @@ OC.L10N.register(
     "Could not book the appointment. Please try again later or contact the organizer." : "Randevu alınamadı. Lütfen bir süre sonra yeniden deneyin ya da düzenleyici ile görüşün.",
     "Back" : "Geri",
     "Book appointment" : "Randevu al",
+    "Create a new conversation" : "Yeni bir görüşme oluştur",
+    "Select conversation" : "Görüşme seçin",
     "Reminder" : "Anımsatıcı",
     "before at" : "şundan önce",
     "Notification" : "Bildirim",
