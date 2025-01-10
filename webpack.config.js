@@ -9,8 +9,8 @@ const webpackConfig = require('@nextcloud/webpack-vue-config')
 const webpackRules = require('@nextcloud/webpack-vue-config/rules')
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 
-//Add reference entry
 webpackConfig.entry['reference'] = path.join(__dirname, 'src', 'reference.js')
+webpackConfig.entry['contacts-menu'] = path.join(__dirname, 'src', 'contactsMenu.js')
 
 // Add appointments entries
 webpackConfig.entry['appointments-booking'] = path.join(__dirname, 'src', 'appointments/main-booking.js')
