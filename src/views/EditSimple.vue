@@ -4,166 +4,178 @@
 -->
 
 <template>
-	<NcPopover ref="popover"
-		:shown="showPopover"
-		:auto-hide="false"
-		:placement="placement"
-		:boundary="boundaryElement"
-		popover-base-class="event-popover"
-		:triggers="[]">
-		<template #trigger="{ attrs }">
-			<!-- Dummy slot to silence vue warning regarding a custom trigger -->
-			<button v-bind="attrs" style="display: none" />
-		</template>
-		<div class="event-popover__inner">
-			<template v-if="isLoading && !isSaving">
-				<PopoverLoadingIndicator />
+	<div>
+		<div v-if="showPopover && !isViewing"
+			ref="mask"
+			class="modal-mask"
+			:class="{
+				'modal-mask--opaque': dark,
+				'modal-mask--light': lightBackdrop,
+			}"
+			role="dialog"
+			aria-modal="true"
+			tabindex="-1" />
+		<NcPopover ref="popover"
+			:shown="showPopover"
+			:auto-hide="false"
+			:placement="placement"
+			:boundary="boundaryElement"
+			popover-base-class="event-popover"
+			:triggers="[]">
+			<template #trigger="{ attrs }">
+				<!-- Dummy slot to silence vue warning regarding a custom trigger -->
+				<button v-bind="attrs" style="display: none" />
 			</template>
+			<div class="event-popover__inner">
+				<template v-if="isLoading && !isSaving">
+					<PopoverLoadingIndicator />
+				</template>
 
-			<template v-else-if="isError">
-				<div :class="topActionsClass">
-					<Actions>
-						<ActionButton @click="cancel">
-							<template #icon>
-								<Close :size="20" decorative />
-							</template>
-							{{ $t('calendar', 'Close') }}
-						</ActionButton>
-					</Actions>
-				</div>
+				<template v-else-if="isError">
+					<div :class="topActionsClass">
+						<Actions>
+							<ActionButton @click="cancel">
+								<template #icon>
+									<Close :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Close') }}
+							</ActionButton>
+						</Actions>
+					</div>
 
-				<EmptyContent :name="$t('calendar', 'Event does not exist')" :description="error">
-					<template #icon>
-						<CalendarBlank :size="20" decorative />
-					</template>
-				</EmptyContent>
-			</template>
-
-			<template v-else>
-				<div :class="topActionsClass">
-					<Actions v-if="!isLoading && !isError && !isNew" :force-menu="true">
-						<ActionLink v-if="!hideEventExport && hasDownloadURL"
-							:href="downloadURL">
-							<template #icon>
-								<Download :size="20" decorative />
-							</template>
-							{{ $t('calendar', 'Export') }}
-						</ActionLink>
-						<ActionButton v-if="!canCreateRecurrenceException && !isReadOnly" @click="duplicateEvent()">
-							<template #icon>
-								<ContentDuplicate :size="20" decorative />
-							</template>
-							{{ $t('calendar', 'Duplicate') }}
-						</ActionButton>
-						<ActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave(false)">
-							<template #icon>
-								<Delete :size="20" decorative />
-							</template>
-							{{ $t('calendar', 'Delete') }}
-						</ActionButton>
-						<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(false)">
-							<template #icon>
-								<Delete :size="20" decorative />
-							</template>
-							{{ $t('calendar', 'Delete this occurrence') }}
-						</ActionButton>
-						<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(true)">
-							<template #icon>
-								<Delete :size="20" decorative />
-							</template>
-							{{ $t('calendar', 'Delete this and all future') }}
-						</ActionButton>
-					</Actions>
-					<Actions>
-						<ActionButton @click="cancel">
-							<template #icon>
-								<Close :size="20" decorative />
-							</template>
-							{{ $t('calendar', 'Close') }}
-						</ActionButton>
-					</Actions>
-				</div>
-
-				<CalendarPickerHeader :value="selectedCalendar"
-					:calendars="calendars"
-					:is-read-only="isReadOnlyOrViewing || !canModifyCalendar"
-					@update:value="changeCalendar" />
-
-				<PropertyTitle :value="titleOrPlaceholder"
-					:is-read-only="isReadOnlyOrViewing"
-					@update:value="updateTitle" />
-
-				<PropertyTitleTimePicker :start-date="startDate"
-					:start-timezone="startTimezone"
-					:end-date="endDate"
-					:end-timezone="endTimezone"
-					:is-all-day="isAllDay"
-					:is-read-only="isReadOnlyOrViewing"
-					:can-modify-all-day="canModifyAllDay"
-					:user-timezone="currentUserTimezone"
-					:wrap="false"
-					@update-start-date="updateStartDate"
-					@update-start-time="updateStartTime"
-					@update-start-timezone="updateStartTimezone"
-					@update-end-date="updateEndDate"
-					@update-end-time="updateEndTime"
-					@update-end-timezone="updateEndTimezone"
-					@toggle-all-day="toggleAllDay" />
-
-				<PropertyText :is-read-only="isReadOnlyOrViewing"
-					:prop-model="rfcProps.location"
-					:value="location"
-					:linkify-links="true"
-					@update:value="updateLocation" />
-				<PropertyText :is-read-only="isReadOnlyOrViewing"
-					:prop-model="rfcProps.description"
-					:value="description"
-					:linkify-links="true"
-					@update:value="updateDescription" />
-
-				<InviteesList class="event-popover__invitees"
-					:hide-buttons="true"
-					:hide-errors="true"
-					:show-header="true"
-					:is-read-only="isReadOnlyOrViewing"
-					:is-shared-with-me="isSharedWithMe"
-					:calendar="selectedCalendar"
-					:calendar-object-instance="calendarObjectInstance"
-					:limit="3" />
-
-				<InvitationResponseButtons v-if="isViewedByAttendee && isViewing"
-					class="event-popover__response-buttons"
-					:attendee="userAsAttendee"
-					:calendar-id="calendarId"
-					@close="closeEditorAndSkipAction" />
-
-				<NcAppNavigationSpacer />
-
-				<SaveButtons v-if="!isWidget"
-					class="event-popover__buttons"
-					:can-create-recurrence-exception="canCreateRecurrenceException"
-					:is-new="isNew"
-					:is-read-only="isReadOnlyOrViewing"
-					:force-this-and-all-future="forceThisAndAllFuture"
-					:show-more-button="true"
-					:more-button-type="isViewing ? 'tertiary' : undefined"
-					:grow-horizontally="!isViewing && canCreateRecurrenceException"
-					:disabled="isSaving"
-					@save-this-only="saveAndView(false)"
-					@save-this-and-all-future="saveAndView(true)"
-					@show-more="showMore">
-					<NcButton v-if="!isReadOnly && isViewing"
-						:type="isViewedByAttendee ? 'tertiary' : undefined"
-						@click="isViewing = false">
+					<EmptyContent :name="$t('calendar', 'Event does not exist')" :description="error">
 						<template #icon>
-							<EditIcon :size="20" />
+							<CalendarBlank :size="20" decorative />
 						</template>
-						{{ $t('calendar', 'Edit') }}
-					</NcButton>
-				</SaveButtons>
-			</template>
-		</div>
-	</NcPopover>
+					</EmptyContent>
+				</template>
+
+				<template v-else>
+					<div :class="topActionsClass">
+						<Actions v-if="!isLoading && !isError && !isNew" :force-menu="true">
+							<ActionLink v-if="!hideEventExport && hasDownloadURL"
+								:href="downloadURL">
+								<template #icon>
+									<Download :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Export') }}
+							</ActionLink>
+							<ActionButton v-if="!canCreateRecurrenceException && !isReadOnly" @click="duplicateEvent()">
+								<template #icon>
+									<ContentDuplicate :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Duplicate') }}
+							</ActionButton>
+							<ActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave(false)">
+								<template #icon>
+									<Delete :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Delete') }}
+							</ActionButton>
+							<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(false)">
+								<template #icon>
+									<Delete :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Delete this occurrence') }}
+							</ActionButton>
+							<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(true)">
+								<template #icon>
+									<Delete :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Delete this and all future') }}
+							</ActionButton>
+						</Actions>
+						<Actions>
+							<ActionButton @click="cancel">
+								<template #icon>
+									<Close :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Close') }}
+							</ActionButton>
+						</Actions>
+					</div>
+
+					<CalendarPickerHeader :value="selectedCalendar"
+						:calendars="calendars"
+						:is-read-only="isReadOnlyOrViewing || !canModifyCalendar"
+						@update:value="changeCalendar" />
+
+					<PropertyTitle :value="titleOrPlaceholder"
+						:is-read-only="isReadOnlyOrViewing"
+						@update:value="updateTitle" />
+
+					<PropertyTitleTimePicker :start-date="startDate"
+						:start-timezone="startTimezone"
+						:end-date="endDate"
+						:end-timezone="endTimezone"
+						:is-all-day="isAllDay"
+						:is-read-only="isReadOnlyOrViewing"
+						:can-modify-all-day="canModifyAllDay"
+						:user-timezone="currentUserTimezone"
+						:wrap="false"
+						@update-start-date="updateStartDate"
+						@update-start-time="updateStartTime"
+						@update-start-timezone="updateStartTimezone"
+						@update-end-date="updateEndDate"
+						@update-end-time="updateEndTime"
+						@update-end-timezone="updateEndTimezone"
+						@toggle-all-day="toggleAllDay" />
+
+					<PropertyText :is-read-only="isReadOnlyOrViewing"
+						:prop-model="rfcProps.location"
+						:value="location"
+						:linkify-links="true"
+						@update:value="updateLocation" />
+					<PropertyText :is-read-only="isReadOnlyOrViewing"
+						:prop-model="rfcProps.description"
+						:value="description"
+						:linkify-links="true"
+						@update:value="updateDescription" />
+
+					<InviteesList class="event-popover__invitees"
+						:hide-buttons="true"
+						:hide-errors="true"
+						:show-header="true"
+						:is-read-only="isReadOnlyOrViewing"
+						:is-shared-with-me="isSharedWithMe"
+						:calendar="selectedCalendar"
+						:calendar-object-instance="calendarObjectInstance"
+						:limit="3" />
+
+					<InvitationResponseButtons v-if="isViewedByAttendee && isViewing"
+						class="event-popover__response-buttons"
+						:attendee="userAsAttendee"
+						:calendar-id="calendarId"
+						@close="closeEditorAndSkipAction" />
+
+					<NcAppNavigationSpacer />
+
+					<SaveButtons v-if="!isWidget"
+						class="event-popover__buttons"
+						:can-create-recurrence-exception="canCreateRecurrenceException"
+						:is-new="isNew"
+						:is-read-only="isReadOnlyOrViewing"
+						:force-this-and-all-future="forceThisAndAllFuture"
+						:show-more-button="true"
+						:more-button-type="isViewing ? 'tertiary' : undefined"
+						:grow-horizontally="!isViewing && canCreateRecurrenceException"
+						:disabled="isSaving"
+						@save-this-only="saveAndView(false)"
+						@save-this-and-all-future="saveAndView(true)"
+						@show-more="showMore">
+						<NcButton v-if="!isReadOnly && isViewing"
+							:type="isViewedByAttendee ? 'tertiary' : undefined"
+							@click="isViewing = false">
+							<template #icon>
+								<EditIcon :size="20" />
+							</template>
+							{{ $t('calendar', 'Edit') }}
+						</NcButton>
+					</SaveButtons>
+				</template>
+			</div>
+		</NcPopover>
+	</div>
 </template>
 <script>
 import {
@@ -229,6 +241,16 @@ export default {
 	mixins: [
 		EditorMixin,
 	],
+	props: {
+		dark: {
+			type: Boolean,
+			default: false,
+		},
+		lightBackdrop: {
+			type: Boolean,
+			default: false,
+		},
+	},
 	data() {
 		return {
 			placement: 'auto',
@@ -237,6 +259,7 @@ export default {
 			boundaryElement: null,
 			isVisible: true,
 			isViewing: true,
+			closeMask: false,
 		}
 	},
 	computed: {
@@ -334,6 +357,9 @@ export default {
 		window.removeEventListener('keydown', this.keyboardDuplicateEvent)
 	},
 	methods: {
+		closePopover() {
+			this.showMask = false
+		},
 		showMore() {
 			// Do not save yet
 			this.requiresActionOnRouteLeave = false
@@ -385,10 +411,10 @@ export default {
 			return matchingDomObject
 		},
 		repositionPopover() {
-		  const isNew = this.isWidget ? false : this.$route.name === 'NewPopoverView'
-		  this.$refs.popover.$children[0].$refs.reference = this.getDomElementForPopover(isNew, this.$route)
-		  this.$refs.popover.$children[0].$refs.popper.dispose()
-		  this.$refs.popover.$children[0].$refs.popper.init()
+			const isNew = this.isWidget ? false : this.$route.name === 'NewPopoverView'
+			this.$refs.popover.$children[0].$refs.reference = this.getDomElementForPopover(isNew, this.$route)
+			this.$refs.popover.$children[0].$refs.popper.dispose()
+			this.$refs.popover.$children[0].$refs.popper.init()
 		},
 		/**
 		 * Save changes and leave when creating a new event or return to viewing mode when editing
@@ -416,10 +442,28 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .event-popover__inner {
 	width: unset !important;
 	max-width: unset !important;
 	min-width: 300px !important;
+}
+.modal-mask {
+	position: fixed;
+	z-index: 9998;
+	//the height of header
+	top: 50px;
+	left: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	--backdrop-color: 0, 0, 0;
+	background-color: rgba(var(--backdrop-color), .5);
+	&--opaque {
+		background-color: rgba(var(--backdrop-color), .92);
+	}
+	&--light {
+		--backdrop-color: 255, 255, 255;
+	}
 }
 </style>
