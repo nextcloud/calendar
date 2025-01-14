@@ -1,3 +1,14 @@
+## [5.0.9](https://github.com/nextcloud/calendar/compare/v5.0.8...v5.0.9) (2025-01-14)
+
+
+### Bug Fixes
+
+* adjust event click test to changed task url ([4d5328f](https://github.com/nextcloud/calendar/commit/4d5328fcdf15e16d3862bd392859b390f4de6cf1))
+* adjust url for task links ([3ad438b](https://github.com/nextcloud/calendar/commit/3ad438beb118c1fa667f0aa5d5a9a93e5d984210))
+* **CalendarList:** dragging to order calendars ([7877628](https://github.com/nextcloud/calendar/commit/78776286c241808393c894cccec1b919a318ef76))
+
+
+
 ## [5.0.8](https://github.com/nextcloud/calendar/compare/v5.0.7...v5.0.8) (2024-12-17)
 
 
