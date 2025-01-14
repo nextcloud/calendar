@@ -419,7 +419,6 @@ export default {
 <style>
 .event-popover__inner {
 	width: unset !important;
-	max-width: unset !important;
 	min-width: 300px !important;
 }
 </style>
