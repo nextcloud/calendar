@@ -48,7 +48,7 @@
     "@mdi/svg": "^7.4.47",
     "@nextcloud/auth": "^2.4.0",
     "@nextcloud/axios": "^2.5.1",
-    "@nextcloud/calendar-availability-vue": "^2.2.4",
+    "@nextcloud/calendar-availability-vue": "^2.2.6",
     "@nextcloud/calendar-js": "^8.0.3",
     "@nextcloud/cdav-library": "^1.5.2",
     "@nextcloud/dialogs": "^6.0.1",
