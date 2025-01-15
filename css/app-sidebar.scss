@@ -695,10 +695,9 @@
 		}
 
 		&__color-preview {
-			$size: 44px;
-			width: $size !important;
-			height: $size !important;
-			border-radius: $size;
+			width:var(--default-clickable-area) !important;
+			height: var(--default-clickable-area) !important;
+			border-radius: var(--default-clickable-area);
 		}
 	}
 
