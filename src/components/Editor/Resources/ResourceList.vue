@@ -15,6 +15,7 @@
 			:resource="resource"
 			:is-read-only="isReadOnly"
 			:organizer-display-name="organizerDisplayName"
+			:is-viewed-by-organizer="isViewedByOrganizer"
 			@remove-resource="removeResource" />
 
 		<NoAttendeesView v-if="isListEmpty && hasUserEmailAddress"
@@ -34,6 +35,7 @@
 			:is-read-only="false"
 			:organizer-display-name="organizerDisplayName"
 			:is-suggestion="true"
+			:is-viewed-by-organizer="isViewedByOrganizer"
 			@add-suggestion="addResource" />
 	</div>
 </template>
@@ -104,6 +106,10 @@ export default {
 		hasUserEmailAddress() {
 			const emailAddress = this.principalsStore.getCurrentUserPrincipal?.emailAddress
 			return !!emailAddress
+		},
+		isViewedByOrganizer() {
+			const organizerEmail = removeMailtoPrefix(this.calendarObjectInstance.organizer.uri)
+			return organizerEmail === this.principalsStore.getCurrentUserPrincipalEmail
 		},
 	},
 	watch: {

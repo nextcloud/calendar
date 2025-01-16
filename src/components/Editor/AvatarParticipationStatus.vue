@@ -16,101 +16,13 @@
 			:display-name="commonName"
 			:is-no-user="true" />
 		<template v-if="!isGroup">
-			<template v-if="participationStatus === 'ACCEPTED' && isViewedByOrganizer">
-				<IconCheck class="avatar-participation-status__indicator"
-					fill-color="#32CD32"
-					:size="20" />
-				<div class="avatar-participation-status__text">
-					{{ t('calendar', 'Invitation accepted') }}
-				</div>
-			</template>
-			<template v-else-if="isResource && participationStatus === 'ACCEPTED'">
-				<IconCheck class="avatar-participation-status__indicator"
-					fill-color="#32CD32"
-					:size="20" />
-				<div class="avatar-participation-status__text">
-					{{ t('calendar', 'Available') }}
-				</div>
-			</template>
-			<template v-else-if="isSuggestion">
-				<IconCheck class="avatar-participation-status__indicator"
-					fill-color="#32CD32"
-					:size="20" />
-				<div class="avatar-participation-status__text">
-					{{ t('calendar', 'Suggested') }}
-				</div>
-			</template>
-			<template v-else-if="participationStatus === 'TENTATIVE'">
-				<IconCheck class="avatar-participation-status__indicator"
-					fill-color="#32CD32"
-					:size="20" />
-				<div class="avatar-participation-status__text">
-					{{ t('calendar', 'Participation marked as tentative') }}
-				</div>
-			</template>
-			<template v-else-if="participationStatus === 'ACCEPTED' && !isViewedByOrganizer">
-				<IconCheck class="avatar-participation-status__indicator"
-					fill-color="#32CD32"
-					:size="20" />
-				<div class="avatar-participation-status__text">
-					{{ t('calendar', 'Accepted {organizerName}\'s invitation', {
-						organizerName: organizerDisplayName,
-					}) }}
-				</div>
-			</template>
-			<template v-else-if="isResource && participationStatus === 'DECLINED'">
-				<IconClose class="avatar-participation-status__indicator"
-					:size="20" />
-				<div class="avatar-participation-status__text">
-					{{ t('calendar', 'Not available') }}
-				</div>
-			</template>
-			<template v-else-if="participationStatus === 'DECLINED' && isViewedByOrganizer">
-				<IconClose class="avatar-participation-status__indicator"
-					:size="20" />
-				<div class="avatar-participation-status__text">
-					{{ t('calendar', 'Invitation declined') }}
-				</div>
-			</template>
-			<template v-else-if="participationStatus === 'DECLINED' && !isViewedByOrganizer">
-				<IconClose class="avatar-participation-status__indicator"
-					:size="20" />
-				<div class="avatar-participation-status__text">
-					{{ t('calendar', 'Declined {organizerName}\'s invitation', {
-						organizerName: organizerDisplayName,
-					}) }}
-				</div>
-			</template>
-			<template v-else-if="participationStatus === 'DELEGATED'">
-				<IconDelegated class="avatar-participation-status__indicator"
-					:size="20" />
-				<div class="avatar-participation-status__text">
-					{{ t('calendar', 'Invitation is delegated') }}
-				</div>
-			</template>
-			<template v-else-if="isResource">
-				<IconNoResponse class="avatar-participation-status__indicator"
-					:size="20" />
-				<div class="avatar-participation-status__text">
-					{{ t('calendar', 'Checking availability') }}
-				</div>
-			</template>
-			<template v-else-if="isViewedByOrganizer">
-				<IconNoResponse class="avatar-participation-status__indicator"
-					:size="20" />
-				<div class="avatar-participation-status__text">
-					{{ t('calendar', 'Awaiting response') }}
-				</div>
-			</template>
-			<template v-else>
-				<IconNoResponse class="avatar-participation-status__indicator"
-					:size="20" />
-				<div class="avatar-participation-status__text">
-					{{ t('calendar', 'Has not responded to {organizerName}\'s invitation yet', {
-						organizerName: organizerDisplayName,
-					}) }}
-				</div>
-			</template>
+			<component :is="status.icon"
+				class="avatar-participation-status__indicator"
+				:fill-color="status.fillColor"
+				:size="20" />
+			<div class="avatar-participation-status__text">
+				{{ status.text }}
+			</div>
 		</template>
 	</div>
 </template>
@@ -132,7 +44,6 @@ export default {
 	  IconNoResponse,
 	  IconClose,
 	  IconDelegated,
-
 	},
 	props: {
 		avatarLink: {
@@ -142,6 +53,10 @@ export default {
 		participationStatus: {
 			type: String,
 			required: true,
+		},
+		scheduleStatus: {
+			type: String,
+			required: false,
 		},
 		commonName: {
 			type: String,
@@ -170,6 +85,145 @@ export default {
 		organizerDisplayName: {
 			type: String,
 			required: true,
+		},
+	},
+	computed: {
+		/**
+		 * @return {icon: object, fillColor: string|undefined, text: string}
+		 */
+		status() {
+			const acceptedIcon = {
+				icon: IconCheck,
+				fillColor: '#32CD32',
+			}
+			const declinedIcon = {
+				icon: IconClose,
+				fillColor: '#ff4402',
+			}
+
+			if (this.isSuggestion) {
+				return {
+					...acceptedIcon,
+					text: t('calendar', 'Suggested'),
+				}
+			}
+
+			// Try to use the participation status first
+			switch (this.participationStatus) {
+			case 'ACCEPTED':
+				if (this.isResource) {
+					return {
+						...acceptedIcon,
+						text: t('calendar', 'Available'),
+					}
+				}
+
+				if (this.attendeeIsOrganizer && !this.isViewedByOrganizer) {
+					return {
+						...acceptedIcon,
+						text: t('calendar', 'Invited you'),
+					}
+				}
+
+				if (this.isViewedByOrganizer) {
+					return {
+						...acceptedIcon,
+						text: t('calendar', 'Invitation accepted'),
+					}
+				}
+
+				return {
+					...acceptedIcon,
+					text: t('calendar', 'Accepted {organizerName}\'s invitation', {
+						organizerName: this.organizerDisplayName,
+					}),
+				}
+			case 'TENTATIVE':
+				return {
+					...acceptedIcon,
+					text: t('calendar', 'Participation marked as tentative'),
+				}
+			case 'DELEGATED':
+				return {
+					icon: IconDelegated,
+					text: t('calendar', 'Invitation is delegated'),
+				}
+			case 'DECLINED':
+				if (this.isResource) {
+					return {
+						...declinedIcon,
+						text: t('calendar', 'Not available'),
+					}
+				}
+
+				if (this.isViewedByOrganizer) {
+					return {
+						...declinedIcon,
+						text: t('calendar', 'Invitation declined'),
+					}
+				}
+
+				return {
+					...declinedIcon,
+					text: t('calendar', 'Declined {organizerName}\'s invitation', {
+						organizerName: this.organizerDisplayName,
+					}),
+				}
+			}
+
+			// Schedule status is only present on the original event of the organizer
+			// TODO: Is this a bug or compliant with RFCs?
+			if (this.isViewedByOrganizer) {
+				// No status or status 1.0 indicate that the invitation is pending
+				if (!this.scheduleStatus || this.scheduleStatus === '1.0') {
+					if (this.isResource) {
+						return {
+							icon: IconNoResponse,
+							text: t('calendar', 'Availability will be checked'),
+						}
+					}
+
+					return {
+						icon: IconNoResponse,
+						text: t('calendar', 'Invitation will be sent'),
+					}
+				}
+
+				// Status 3.7, 3.8, 5.1, 5.2 and 5.3 indicate delivery failures.
+				// Could be due to insufficient permissions or some temporary failure.
+				if (this.scheduleStatus[0] === '3' || this.scheduleStatus[0] === '5') {
+					if (this.isResource) {
+						return {
+							icon: IconNoResponse,
+							text: t('calendar', 'Failed to check availability'),
+						}
+					}
+
+					return {
+						icon: IconNoResponse,
+						text: t('calendar', 'Failed to deliver invitation'),
+					}
+				}
+
+				return {
+					icon: IconNoResponse,
+					text: t('calendar', 'Awaiting response'),
+				}
+			}
+
+			if (this.isResource) {
+				return {
+					icon: IconNoResponse,
+					text: t('calendar', 'Checking availability'),
+				}
+			}
+
+			return {
+				icon: IconNoResponse,
+				text: t('calendar', 'Has not responded to {organizerName}\'s invitation yet', {
+					organizerName: this.organizerDisplayName,
+				}),
+			}
 		},
 	},
 }
