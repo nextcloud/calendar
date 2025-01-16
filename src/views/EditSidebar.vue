@@ -466,11 +466,17 @@ export default {
 			this.isModalOpen = true
 		},
 
-		updateLocation(url) {
-			this.calendarObjectInstance.location = url
+		updateLocation(location) {
+			this.calendarObjectInstanceStore.changeLocation({
+				calendarObjectInstance: this.calendarObjectInstance,
+				location,
+			})
 		},
 		updateDescription(description) {
-			this.calendarObjectInstance.description = description
+			this.calendarObjectInstanceStore.changeDescription({
+				calendarObjectInstance: this.calendarObjectInstance,
+				description,
+			})
 		},
 		closeModal() {
 			this.isModalOpen = false
