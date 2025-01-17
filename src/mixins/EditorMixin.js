@@ -478,7 +478,9 @@ export default {
 					calendarId: this.calendarId,
 				})
 			} catch (error) {
-				logger.error(`Failed to save event: ${error}`)
+				logger.error(`Failed to save event: ${error}`, {
+					error,
+				})
 				showError(t('calendar', 'Failed to save event'))
 				this.calendarObjectInstance.eventComponent.markDirty()
 				throw error
