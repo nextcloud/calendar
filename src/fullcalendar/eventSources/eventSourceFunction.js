@@ -32,9 +32,29 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 			logger.error(error.message)
 			continue
 		}
-
 		for (const object of allObjectsInTimeRange) {
 			const classNames = []
+
+			// TODO check if organizer
+			// Check if all the attendees have declined the event
+			if (object.status && object._properties.size > 9) {
+				let didEveryoneDecline = true;
+				for (const [key, value] of object._properties.entries()) {
+					if (key === 'ATTENDEE') {
+						value.forEach((attendee) => {
+							for (const [key, value] of attendee._parameters.entries()) {
+								if (key === 'PARTSTAT') console.log('key', key, value._value)
+								if (key === 'PARTSTAT' && value._value !== 'DECLINED') {
+									didEveryoneDecline = false;
+								}
+							}
+						})
+					}
+				}
+				if (didEveryoneDecline) {
+					classNames.push('fc-event-nc-all-declined')
+				}
+			}
 
 			if (object.status === 'CANCELLED') {
 				classNames.push('fc-event-nc-cancelled')
