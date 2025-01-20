@@ -14,7 +14,7 @@
 				<NcEmptyContent v-if="loading"
 					icon="icon-loading"
 					class="modal__content__loading"
-					:description="t('calendar','Fetching Talk rooms...')" />
+					:description="t('calendar','Fetching Talk rooms…')" />
 				<NcEmptyContent v-else-if="talkConversations.length === 0"
 					:description="t('calendar','No Talk room available')" />
 				<ul v-else>
