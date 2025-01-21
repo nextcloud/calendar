@@ -260,7 +260,6 @@ OC.L10N.register(
     "Book appointment" : "إحجِز موعداً",
     "Select a Talk Room" : "إختَر غرفة المحادثة",
     "Add Talk conversation" : "إضِف محادثة Talk",
-    "Fetching Talk rooms..." : "جلب غُرَف المحادثة ...",
     "No Talk room available" : "لاتوجد غرف محادثة متاحة",
     "Create a new conversation" : "إنشاء محادثة جديدة",
     "Select conversation" : "اختر محادثة",

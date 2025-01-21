@@ -260,7 +260,6 @@ OC.L10N.register(
     "Book appointment" : "Prendre rendez-vous",
     "Select a Talk Room" : "Choisissez un salon de discussion Talk",
     "Add Talk conversation" : "Ajouter une conversation Talk",
-    "Fetching Talk rooms..." : "Listage des salons de discussion Talk...",
     "No Talk room available" : "Aucun salon de discussion Talk disponible",
     "Create a new conversation" : "Créer une nouvelle conversation",
     "Select conversation" : "Sélectionnez une conversation",
