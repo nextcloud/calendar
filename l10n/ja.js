@@ -83,7 +83,7 @@ OC.L10N.register(
     "Name for new calendar" : "新しいカレンダーの名前",
     "Creating calendar …" : "カレンダーを作成中 …",
     "New calendar with task list" : "タスクリスト付きの新しいカレンダー",
-    "New subscription from link (read-only)" : "リンクからの新規加入 (読み取り専用)",
+    "New subscription from link (read-only)" : "リンクから新規購読 (読み取り専用)",
     "Creating subscription …" : "購読を作成中 …",
     "Add public holiday calendar" : "祝日カレンダーを追加",
     "Add custom public calendar" : "カスタム公開カレンダーを追加する",

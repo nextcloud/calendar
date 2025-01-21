@@ -260,7 +260,6 @@ OC.L10N.register(
     "Book appointment" : "Randevu al",
     "Select a Talk Room" : "Bir Konuş odası seçin",
     "Add Talk conversation" : "Konuş görüşmesi ekle",
-    "Fetching Talk rooms..." : "Konuş odaları alınıyor...",
     "No Talk room available" : "Kullanılabilecek bir Konuş odası yok",
     "Create a new conversation" : "Yeni bir görüşme oluştur",
     "Select conversation" : "Görüşme seçin",
