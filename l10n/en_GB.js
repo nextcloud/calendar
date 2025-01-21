@@ -260,7 +260,6 @@ OC.L10N.register(
     "Book appointment" : "Book appointment",
     "Select a Talk Room" : "Select a Talk Room",
     "Add Talk conversation" : "Add Talk conversation",
-    "Fetching Talk rooms..." : "Fetching Talk rooms...",
     "No Talk room available" : "No Talk room available",
     "Create a new conversation" : "Create a new conversation",
     "Select conversation" : "Select conversation",

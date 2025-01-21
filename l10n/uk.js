@@ -260,7 +260,6 @@ OC.L10N.register(
     "Book appointment" : "Зарезервувати зустріч",
     "Select a Talk Room" : "Вибрати кімнату для розмов Talk",
     "Add Talk conversation" : "Додати розмову Talk",
-    "Fetching Talk rooms..." : "Отримання кімнат Talk...",
     "No Talk room available" : "Відсутні кімнати Talk",
     "Create a new conversation" : "Створити нову розмову",
     "Select conversation" : "Вибрати розмову",
