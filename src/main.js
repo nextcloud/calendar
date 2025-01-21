@@ -27,7 +27,7 @@ const pinia = createPinia()
 // register global components
 Vue.directive('ClickOutside', ClickOutside)
 Vue.use(VTooltip)
-Vue.use(VueShortKey, { prevent: ['input', 'textarea'] })
+Vue.use(VueShortKey, { prevent: ['input', 'textarea', '.rich-contenteditable__input'] })
 
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line
