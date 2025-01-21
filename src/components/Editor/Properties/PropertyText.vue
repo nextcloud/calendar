@@ -21,6 +21,7 @@
 				:rows="rows"
 				:name="readableName"
 				:value="value"
+				:class="{ 'textarea--description': isDescription }"
 				@focus="handleToggleTextareaFocus(true)"
 				@blur="handleToggleTextareaFocus(false)"
 				@input.prevent.stop="changeValue" />
@@ -60,6 +61,12 @@ export default {
 		PropertyMixin,
 		PropertyLinksMixin,
 	],
+	props: {
+		isDescription: {
+			type: Boolean,
+			default: false,
+		},
+	},
 	computed: {
 		display() {
 			if (this.isReadOnly) {
@@ -94,3 +101,9 @@ export default {
 	},
 }
 </script>
+<style lang="scss" scoped>
+.textarea--description {
+	height: 120px;
+	overflow-y: auto;
+}
+</style>
