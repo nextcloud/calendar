@@ -41,13 +41,6 @@
 		<OrganizerNoEmailError v-else-if="!isReadOnly && isListEmpty && !hasUserEmailAddress && !hideErrors" />
 
 		<div v-if="!hideButtons" class="invitees-list-button-group">
-			<NcButton v-if="isCreateTalkRoomButtonVisible"
-				class="invitees-list-button-group__button"
-				:disabled="isCreateTalkRoomButtonDisabled"
-				@click="createTalkRoom">
-				{{ $t('calendar', 'Create Talk room for this event') }}
-			</NcButton>
-
 			<NcButton v-if="!isReadOnly"
 				class="invitees-list-button-group__button"
 				:disabled="isListEmpty || !isOrganizer"
