@@ -260,6 +260,7 @@ OC.L10N.register(
     "Book appointment" : "Boka möte",
     "Select a Talk Room" : "Välj ett rum i Talk",
     "Add Talk conversation" : "Lägg till Talk-konversation",
+    "Fetching Talk rooms…" : "Hämtar Talk-rum...",
     "No Talk room available" : "Inget Talk-rum tillgängligt",
     "Create a new conversation" : "Skapa en ny konversation",
     "Select conversation" : "Välj konversation",
