@@ -260,6 +260,7 @@ OC.L10N.register(
     "Book appointment" : "預約",
     "Select a Talk Room" : "選取 Talk 聊天室",
     "Add Talk conversation" : "新增 Talk 對話",
+    "Fetching Talk rooms…" : "正在擷取 Talk 聊天室……",
     "No Talk room available" : "無可用的 Talk 聊天室",
     "Create a new conversation" : "建立新對話",
     "Select conversation" : "選擇對話",
