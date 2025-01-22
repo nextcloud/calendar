@@ -130,6 +130,7 @@
 						:prop-model="rfcProps.description"
 						:value="description"
 						:linkify-links="true"
+						:is-description="true"
 						@update:value="updateDescription" />
 
 					<InviteesList class="event-popover__invitees"
@@ -445,7 +446,7 @@ export default {
 <style lang="scss" scoped>
 .event-popover__inner {
 	width: unset !important;
-	min-width: 300px !important;
+	min-width: 500px !important;
 }
 .modal-mask {
 	position: fixed;
