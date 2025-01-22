@@ -11,6 +11,7 @@ use OCA\Calendar\Dashboard\CalendarWidget;
 use OCA\Calendar\Events\BeforeAppointmentBookedEvent;
 use OCA\Calendar\Listener\AppointmentBookedListener;
 use OCA\Calendar\Listener\CalendarReferenceListener;
+use OCA\Calendar\Listener\UserFirstLoginListener;
 use OCA\Calendar\Listener\UserDeletedListener;
 use OCA\Calendar\Notification\Notifier;
 use OCA\Calendar\Profile\AppointmentsAction;
@@ -22,6 +23,7 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\ServerVersion;
 use OCP\User\Events\UserDeletedEvent;
+use OCP\User\Events\UserFirstTimeLoggedInEvent;
 use OCP\Util;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -53,6 +55,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeAppointmentBookedEvent::class, AppointmentBookedListener::class);
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 		$context->registerEventListener(RenderReferenceEvent::class, CalendarReferenceListener::class);
+		$context->registerEventListener(UserFirstTimeLoggedInEvent::class, UserFirstLoginListener::class);
 
 		$context->registerNotifierService(Notifier::class);
 	}

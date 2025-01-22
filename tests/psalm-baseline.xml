@@ -42,4 +42,9 @@
       <code>IEventListener</code>
     </MissingTemplateParam>
   </file>
+  <file src="lib/Service/ExampleEventService.php">
+    <UndefinedClass>
+      <code><![CDATA[\Sabre\VObject\Reader]]></code>
+    </UndefinedClass>
+  </file>
 </files>

@@ -56,4 +56,7 @@
 			<order>5</order>
 		</navigation>
 	</navigations>
+	<settings>
+		<admin>OCA\Calendar\Settings\ExampleEventSettings</admin>
+	</settings>
 </info>
