@@ -219,7 +219,6 @@ OC.L10N.register(
     "Your participation has been marked as tentative." : "Partisipasi Anda telah ditandai sebagai belum pasti.",
     "Failed to set the participation status to tentative." : "Gagal menyetel status partisipasi menjadi belum pasti.",
     "Attendees" : "Peserta",
-    "Create Talk room for this event" : "Buat ruangan Talk untuk acara ini",
     "No attendees yet" : "Belum ada peserta",
     "Successfully appended link to talk room to description." : "Berhasil menambahkan tautan ruang Talk pada deskripsi.",
     "Error creating Talk room" : "Galat membuat ruangan Talk",
@@ -339,6 +338,7 @@ OC.L10N.register(
     "Chat room for event" : "Ruang obrolan untuk acara",
     "An error occurred, unable to delete the calendar." : "Terjadi galat, tidak dapat menghapus kalender.",
     "This is an event reminder." : "Ini adalah pengingat acara.",
+    "Create Talk room for this event" : "Buat ruangan Talk untuk acara ini",
     "[Today]" : "[Hari ini]",
     "Add a description" : "Tambah deskripsi"
 },
