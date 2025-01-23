@@ -170,11 +170,6 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				}
 			}
 
-			if (didEveryoneDecline && object.getFirstPropertyFirstValue('ORGANIZER') === `mailto:${principalsStore.getCurrentUserPrincipalEmail}`) {
-				fcEvent.backgroundColor = 'transparent'
-				fcEvent.title = '⚠ ' + fcEvent.title
-			}
-
 			fcEvents.push(fcEvent)
 		}
 	}

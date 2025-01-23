@@ -121,6 +121,19 @@ export default function({ event, el }) {
 		}
 	}
 
+	if (el.classList.contains('fc-event-nc-all-declined')) {
+		const titleElement = el.querySelector('.fc-event-title')
+
+		const svgString = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="m40-120 440-760 440 760H40Zm440-120q17 0 28.5-11.5T520-280q0-17-11.5-28.5T480-320q-17 0-28.5 11.5T440-280q0 17 11.5 28.5T480-240Zm-40-120h80v-200h-80v200Z"/></svg>'
+		titleElement.innerHTML = svgString + titleElement.innerHTML
+
+		const svgElement = titleElement.querySelector('svg')
+		svgElement.style.fill = el.style.borderColor
+		svgElement.style.width = '1.2em'
+		svgElement.style.paddingBottom = '0.2em'
+		svgElement.style.verticalAlign = 'middle'
+	}
+
 	if (el.classList.contains('fc-event-nc-tentative')) {
 		const dotElement = el.querySelector('.fc-daygrid-event-dot')
 
