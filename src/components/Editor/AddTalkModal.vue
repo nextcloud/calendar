@@ -145,7 +145,7 @@ export default {
 						calendarObjectInstance: this.calendarObjectInstance,
 						location: url,
 					})
-					showSuccess(this.$t('calendar', 'Successfully added Talk room link to location.'))
+					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to location.'))
 				} else {
 					const NEW_LINE = '\r\n'
 					const updatedDescription = this.calendarObjectInstance.description
@@ -156,7 +156,7 @@ export default {
 						calendarObjectInstance: this.calendarObjectInstance,
 						description: updatedDescription,
 					})
-					showSuccess(this.$t('calendar', 'Successfully added Talk room link to description.'))
+					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to description.'))
 				}
 
 				this.selectedConversation = conversation
@@ -183,18 +183,19 @@ export default {
 
 				if ((this.calendarObjectInstance.location ?? '').trim() === '') {
 					this.$emit('update-location', url)
-					showSuccess(this.$t('calendar', 'Successfully added Talk room link to location.'))
+					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to location.'))
 				} else {
 					const newDescription = this.calendarObjectInstance.description
 						? this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + url + NEW_LINE
 						: url
 
 					this.$emit('update-description', newDescription)
-					showSuccess(this.$t('calendar', 'Successfully added Talk room link to description.'))
+					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to description.'))
 				}
+				this.closeModal()
 			} catch (error) {
 				console.error('Error creating Talk room:', error)
-				showError(this.$t('calendar', 'Error creating Talk room.'))
+				showError(this.$t('calendar', 'Error creating Talk conversation'))
 			} finally {
 				this.creatingTalkRoom = false
 			}
@@ -238,6 +239,7 @@ export default {
 	padding: 16px;
 	text-align: right;
 	display: flex;
+	background-color: var(--color-main-background);
 }
 .talk_new-room {
 	margin-right: auto;

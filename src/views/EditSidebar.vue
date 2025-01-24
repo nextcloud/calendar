@@ -87,7 +87,7 @@
 				<AddTalkModal v-if="isModalOpen"
 					:conversations="talkConversations"
 					:calendar-object-instance="calendarObjectInstance"
-					@close="closeModal"
+					@close="isModalOpen = false"
 					@update-location="updateLocation"
 					@update-description="updateDescription" />
 				<IconVideo :size="20"
@@ -331,8 +331,7 @@ import useSettingsStore from '../store/settings.js'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import { mapStores, mapState } from 'pinia'
 import AddTalkModal from '../components/Editor/AddTalkModal.vue'
-import { createTalkRoom, doesContainTalkLink } from '../services/talkService.js'
-import { showError, showSuccess } from '@nextcloud/dialogs'
+import { doesContainTalkLink } from '../services/talkService.js'
 import IconVideo from 'vue-material-design-icons/Video.vue'
 
 export default {
@@ -477,46 +476,6 @@ export default {
 				calendarObjectInstance: this.calendarObjectInstance,
 				description,
 			})
-		},
-		closeModal() {
-			this.isModalOpen = false
-		},
-
-		async createTalkRoom() {
-			const NEW_LINE = '\r\n'
-			try {
-				this.creatingTalkRoom = true
-				const url = await createTalkRoom(
-					this.calendarObjectInstance.title,
-					this.calendarObjectInstance.description,
-				)
-
-				// Store in LOCATION property if it's missing/empty. Append to description otherwise.
-				if ((this.calendarObjectInstance.location ?? '').trim() === '') {
-					this.calendarObjectInstanceStore.changeLocation({
-						calendarObjectInstance: this.calendarObjectInstance,
-						location: url,
-					})
-					showSuccess(this.$t('calendar', 'Successfully appended link to talk room to location.'))
-				} else {
-					if (!this.calendarObjectInstance.description) {
-						this.calendarObjectInstanceStore.changeDescription({
-							calendarObjectInstance: this.calendarObjectInstance,
-							description: url,
-						})
-					} else {
-						this.calendarObjectInstanceStore.changeDescription({
-							calendarObjectInstance: this.calendarObjectInstance,
-							description: this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + url + NEW_LINE,
-						})
-					}
-					showSuccess(this.$t('calendar', 'Successfully appended link to talk room to description.'))
-				}
-			} catch (error) {
-				showError(this.$t('calendar', 'Error creating Talk room'))
-			} finally {
-				this.creatingTalkRoom = false
-			}
 		},
 		/**
 		 * Update the start and end date of this event
