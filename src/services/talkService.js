@@ -24,7 +24,7 @@ export async function createTalkRoom(eventTitle = null, eventDescription = null,
 	try {
 		const response = await HTTPClient.post(generateOcsUrl('apps/spreed/api/' + apiVersion + '/', 2) + 'room', {
 			roomType: 3,
-			roomName: eventTitle || t('calendar', 'Chat room for event'),
+			roomName: eventTitle || t('calendar', 'Talk conversation for event'),
 		})
 
 		const conversation = response.data.ocs.data
