@@ -260,6 +260,7 @@ OC.L10N.register(
     "Book appointment" : "Rezervovať stretnutie",
     "Select a Talk Room" : "Vybrať miestnosť pre rozhovor",
     "Add Talk conversation" : "Pridať konverzáciu v aplikacií Rozhovor/Talk",
+    "Fetching Talk rooms…" : "Získavam miestnosti pre Rozhovor...",
     "No Talk room available" : "Neboli nájdené žiadne miestnosti",
     "Create a new conversation" : "Vytvoriť novú konverzáciu",
     "Select conversation" : "Vybrať konveráciu",
