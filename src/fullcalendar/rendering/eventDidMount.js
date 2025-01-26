@@ -29,7 +29,7 @@ export default function({ event, el }) {
 			const dotElement = el.querySelector('.fc-list-event-dot')
 			dotElement.classList.remove('fc-list-event-dot')
 			dotElement.classList.add('fc-list-event-checkbox')
-			dotElement.style.color = dotElement.style.borderColor
+			dotElement.style.color = 'var(--color-main-text)'
 
 			if (event.extendedProps.percent === 100) {
 				dotElement.classList.add('calendar-grid-checkbox-checked')
@@ -41,7 +41,7 @@ export default function({ event, el }) {
 			const dotElement = el.querySelector('.fc-daygrid-event-dot')
 			dotElement.classList.remove('fc-daygrid-event-dot')
 			dotElement.classList.add('fc-daygrid-event-checkbox')
-			dotElement.style.color = dotElement.style.borderColor
+			dotElement.style.color = 'var(--color-main-text)'
 
 			if (event.extendedProps.percent === 100) {
 				dotElement.classList.add('calendar-grid-checkbox-checked')
@@ -106,9 +106,10 @@ export default function({ event, el }) {
 			dotElement.style.minWidth = '10px'
 			dotElement.style.minHeight = '10px'
 		}
-
-		titleElement.style.color = el.style.borderColor
+		
+		titleElement.style.color = 'var(--color-main-text)'
 		el.style.background = 'transparent'
+		el.style.borderWidth = '2px'
 		el.title = t('calendar', 'All participants declined')
 
 		if (el.classList.contains('fc-event-nc-needs-action')) {

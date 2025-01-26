@@ -75,6 +75,7 @@
 
 	.fc-event {
 		box-shadow: 0px 0px 0px 1px var(--color-primary-element-light) !important;
+		margin-top: 0px;
 	}
 
 	.fc-daygrid-day-top {
@@ -149,6 +150,7 @@
 
 	.fc-event-title {
 		text-overflow: ellipsis;
+		font-weight: 700;
 	}
 
 	// Reminder icon on events with alarms set
