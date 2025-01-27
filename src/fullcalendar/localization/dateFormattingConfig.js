@@ -52,6 +52,7 @@ const getDateFormattingConfig = () => {
 				listDayFormat: 'LL, dddd',
 				listDaySideFormat: false,
 			},
+			resourceTimelineDay: defaultConfig,
 		},
 	}
 }
