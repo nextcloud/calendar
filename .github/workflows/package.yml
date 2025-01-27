@@ -10,17 +10,30 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
-      - name: Set up Node
-        uses: actions/setup-node@7c12f8017d5436eb855f1ed4399f037a36fbd9e8 # v2
+      - name: Read package.json node and npm engines version
+        uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
+        id: versions
         with:
-          node-version: 15
-      - name: Set up php$
+          fallbackNode: '^20'
+          fallbackNpm: '^10'
+      - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          node-version: ${{ steps.versions.outputs.nodeVersion }}
+      - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
+        run: npm i -g 'npm@${{ steps.versions.outputs.npmVersion }}'
+      - name: Get php version
+        id: php-versions
+        uses: icewind1991/nextcloud-version-matrix@58becf3b4bb6dc6cef677b15e2fd8e7d48c0908f # v1.3.1
+      - name: Set up php ${{ steps.php-versions.outputs.php-min }}
         uses: shivammathur/setup-php@ce2f681d2257b1c64228aa701fefa22db84edf4b
         with:
-          php-version: 8.0
+          php-version: ${{ steps.php-versions.outputs.php-min }}
           tools: composer
           extensions: ctype,curl,dom,gd,iconv,intl,json,mbstring,openssl,posix,sqlite,xml,zip,gmp
           coverage: none
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install Krankerl
         run: |
           wget https://github.com/ChristophWurst/krankerl/releases/download/v0.14.0/krankerl_0.14.0_amd64.deb
