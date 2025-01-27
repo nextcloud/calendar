@@ -466,7 +466,7 @@ export default {
 					this.attendees.map((a) => a.attendeeProperty),
 					startSearch,
 					endSearchDate,
-					this.timeZoneId,
+					this.timezoneId,
 				)
 
 				const freeSlots = getFirstFreeSlot(
