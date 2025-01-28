@@ -266,10 +266,7 @@ OC.L10N.register(
     "Select conversation" : "Roghnaigh comhrá",
     "Error fetching Talk conversations." : "Earráid agus comhráite Talk á fháil.",
     "Conversation does not have a valid URL." : "Níl URL bailí ag an gcomhrá.",
-    "Successfully added Talk room link to location." : "D'éirigh leis an nasc Talk room a chur leis an suíomh.",
-    "Successfully added Talk room link to description." : "D'éirigh leis an nasc Talk room a chur leis an gcur síos.",
     "Failed to apply Talk room." : "Theip ar an seomra cainte a chur i bhfeidhm.",
-    "Error creating Talk room." : "Earráid agus an seomra cainte á chruthú.",
     "Reminder" : "Meabhrúchán",
     "before at" : "roimh ag",
     "Notification" : "Fógra",
@@ -566,7 +563,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Earráid agus an comhad á roinnt leis an úsáideoir",
     "Attachment {fileName} already exists!" : "Tá ceangaltán {fileName} ann cheana féin!",
     "An error occurred during getting file information" : "Tharla earráid agus faisnéis comhaid á fáil",
-    "Chat room for event" : "Seomra comhrá don imeacht",
     "An error occurred, unable to delete the calendar." : "Tharla earráid, níorbh fhéidir an féilire a scriosadh.",
     "Imported {filename}" : "Iompórtáladh {filename}",
     "This is an event reminder." : "Is meabhrúchán imeachta é seo.",
@@ -588,6 +584,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Amárach]",
     "[Yesterday]" : "[Inné]",
     "[Last] dddd" : "[seo caite] dddd",
-    "Add a description" : "Cuir cur síos leis"
+    "Add a description" : "Cuir cur síos leis",
+    "Chat room for event" : "Seomra comhrá don imeacht"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

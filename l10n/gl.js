@@ -266,10 +266,7 @@ OC.L10N.register(
     "Select conversation" : "Seleccionar conversa",
     "Error fetching Talk conversations." : "Produciuse un erro ao recuperar as conversas en Parlar",
     "Conversation does not have a valid URL." : "A conversa non ten un URL válido.",
-    "Successfully added Talk room link to location." : "Engadiuse correctamente a ligazón da sala de Parlar á localización.",
-    "Successfully added Talk room link to description." : "Engadiuse correctamente a ligazón da sala de Parlar á descrición.",
     "Failed to apply Talk room." : "Produciuse un fallo ao aplicar a sala de Parlar",
-    "Error creating Talk room." : "Produciuse un erro ao crear a sala de Parlar.",
     "Reminder" : "Lembrete",
     "before at" : "antes dás",
     "Notification" : "Notificación",
@@ -566,7 +563,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Produciuse un erro ao compartir o ficheiro co usuario",
     "Attachment {fileName} already exists!" : "O anexo {fileName} xa existe!",
     "An error occurred during getting file information" : "Produciuse un erro ao obter a información do ficheiro",
-    "Chat room for event" : "Sala de parolas para o evento",
     "An error occurred, unable to delete the calendar." : "Produciuse un erro, non é posíbel eliminar o calendario.",
     "Imported {filename}" : "{filename} foi importado",
     "This is an event reminder." : "Este é un lembrete de eventos.",
@@ -588,6 +584,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Mañá]",
     "[Yesterday]" : "[Onte]",
     "[Last] dddd" : "[Último] dddd",
-    "Add a description" : "Engadir unha descrición"
+    "Add a description" : "Engadir unha descrición",
+    "Chat room for event" : "Sala de parolas para o evento"
 },
 "nplurals=2; plural=(n != 1);");

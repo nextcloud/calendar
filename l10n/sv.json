@@ -264,10 +264,7 @@
     "Select conversation" : "Välj konversation",
     "Error fetching Talk conversations." : "Kunde inte hämta Talk-konversationer.",
     "Conversation does not have a valid URL." : "Konversationen har ingen giltig URL.",
-    "Successfully added Talk room link to location." : "Länk till rum i Talk tillagd i plats.",
-    "Successfully added Talk room link to description." : "Länk till rum i Talk tillagd i beskrivningen.",
     "Failed to apply Talk room." : "Kunde inte tillämpa rum i Talk.",
-    "Error creating Talk room." : "Kunde inte skapa rum i Talk.",
     "Reminder" : "Påminnelse",
     "before at" : "innan",
     "Notification" : "Notifiering",
@@ -564,7 +561,6 @@
     "Error while sharing file with user" : "Ett fel uppstod vid delning av fil med användare",
     "Attachment {fileName} already exists!" : "Bilagan {fileName} finns redan!",
     "An error occurred during getting file information" : "Ett fel uppstod vid hämtning av filinformation",
-    "Chat room for event" : "Chattrum för event",
     "An error occurred, unable to delete the calendar." : "Ett fel inträffade, kunde inte radera kalendern.",
     "Imported {filename}" : "Importerad {filename}",
     "This is an event reminder." : "Detta är en händelsepåminnelse.",
@@ -586,6 +582,7 @@
     "[Tomorrow]" : "[Imorgon]",
     "[Yesterday]" : "[Igår]",
     "[Last] dddd" : "[Sista] dddd",
-    "Add a description" : "Lägg till en beskrivning"
+    "Add a description" : "Lägg till en beskrivning",
+    "Chat room for event" : "Chattrum för event"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

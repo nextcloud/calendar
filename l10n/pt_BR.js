@@ -547,7 +547,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Erro ao compartilhar arquivo com o usuário",
     "Attachment {fileName} already exists!" : "O anexo {fileName} já existe!",
     "An error occurred during getting file information" : "Ocorreu um erro ao obter informações sobre o arquivo",
-    "Chat room for event" : "Sala de bato-papo para evento",
     "An error occurred, unable to delete the calendar." : "Erro ao excluir o calendário.",
     "Imported {filename}" : "Importado {filename}",
     "This is an event reminder." : "Este é um lembrete de evento.",
@@ -569,6 +568,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Amanhã]",
     "[Yesterday]" : "[Ontem]",
     "[Last] dddd" : "[Último] dddd",
-    "Add a description" : "Adicionar uma descrição"
+    "Add a description" : "Adicionar uma descrição",
+    "Chat room for event" : "Sala de bato-papo para evento"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

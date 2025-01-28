@@ -475,7 +475,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Грешка при споделянето на файл с потребител",
     "Attachment {fileName} already exists!" : " Прикаченият файл {fileName} вече съществува!",
     "An error occurred during getting file information" : "Възникна грешка при получаването на информация за файла",
-    "Chat room for event" : "Чат стая за събитие",
     "An error occurred, unable to delete the calendar." : "Възникна грешка, невъзможност да се изтрие календара.",
     "Imported {filename}" : "Импортирано {filename}",
     "This is an event reminder." : "Това е напомняне за събитие.",
@@ -493,6 +492,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[утре]",
     "[Yesterday]" : "[вчера]",
     "[Last] dddd" : "[Последен] dddd",
-    "Add a description" : "Добави описание"
+    "Add a description" : "Добави описание",
+    "Chat room for event" : "Чат стая за събитие"
 },
 "nplurals=2; plural=(n != 1);");

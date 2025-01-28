@@ -365,7 +365,6 @@ OC.L10N.register(
     "Custom color" : "צבע בהתאמה אישית",
     "Special color of this event. Overrides the calendar-color." : "צבע מיוחד עבור אירוע זה. דורס את הצבע של לוח השנה.",
     "Error while sharing file" : "שגיאה בשיתוף הקובץ",
-    "Chat room for event" : "חדר צ'ט לאירוע",
     "An error occurred, unable to delete the calendar." : "אירעה שגיאה, לא ניתן למחוק את היומן.",
     "Imported {filename}" : "יובא {filename} ",
     "User not found" : "המשתמש לא נמצא",
@@ -375,6 +374,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[מחר]",
     "[Yesterday]" : "[אתמול]",
     "[Last] dddd" : "[Last] dddd",
-    "Add a description" : "הוסף תיאור"
+    "Add a description" : "הוסף תיאור",
+    "Chat room for event" : "חדר צ'ט לאירוע"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

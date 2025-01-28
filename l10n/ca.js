@@ -544,7 +544,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "S'ha produït un error en compartir el fitxer amb l'usuari",
     "Attachment {fileName} already exists!" : "El fitxer adjunt {fileName} ja existeix!",
     "An error occurred during getting file information" : "S'ha produït un error en obtenir la informació del fitxer",
-    "Chat room for event" : "Sala de xat per a l'esdeveniment",
     "An error occurred, unable to delete the calendar." : "S'ha produït un error. No s'ha suprimit el calendari.",
     "Imported {filename}" : "{filename} importat",
     "This is an event reminder." : "Això és un recordatori de l'esdeveniment.",
@@ -565,6 +564,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Demà]",
     "[Yesterday]" : "[Ahir]",
     "[Last] dddd" : "[Últim] dddd",
-    "Add a description" : "Afegir una descripció"
+    "Add a description" : "Afegir una descripció",
+    "Chat room for event" : "Sala de xat per a l'esdeveniment"
 },
 "nplurals=2; plural=(n != 1);");

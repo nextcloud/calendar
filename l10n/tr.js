@@ -266,10 +266,7 @@ OC.L10N.register(
     "Select conversation" : "Görüşme seçin",
     "Error fetching Talk conversations." : "Konuş görüşmeleri alınırken sorun çıktı.",
     "Conversation does not have a valid URL." : "Görüşmenin geçerli bir adresi yok.",
-    "Successfully added Talk room link to location." : "Konuş odası bağlantısı konuma eklendi.",
-    "Successfully added Talk room link to description." : "Konuş odası bağlantısı açıklamaya eklendi.",
     "Failed to apply Talk room." : "Konuş odası uygulanamadı.",
-    "Error creating Talk room." : "Konuş odası oluşturulurken sorun çıktı.",
     "Reminder" : "Anımsatıcı",
     "before at" : "şundan önce",
     "Notification" : "Bildirim",
@@ -566,7 +563,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Dosya kullanıcı ile paylaşılırken sorun çıktı",
     "Attachment {fileName} already exists!" : "{fileName} ek dosyası zaten var!",
     "An error occurred during getting file information" : "Dosya bilgileri alınırken bir sorun çıktı",
-    "Chat room for event" : "Etkinliğin sohbet odası",
     "An error occurred, unable to delete the calendar." : "Bir sorun çıktı. Takvim silinemedi.",
     "Imported {filename}" : "{filename} içe aktarıldı",
     "This is an event reminder." : "Bu bir etkinlik hatırlatıcısıdır.",
@@ -588,6 +584,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Yarın]",
     "[Yesterday]" : "[Dün]",
     "[Last] dddd" : "[Son] dddd",
-    "Add a description" : "Bir açıklama ekleyin"
+    "Add a description" : "Bir açıklama ekleyin",
+    "Chat room for event" : "Etkinliğin sohbet odası"
 },
 "nplurals=2; plural=(n > 1);");

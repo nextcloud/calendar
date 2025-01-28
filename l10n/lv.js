@@ -426,7 +426,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Kļūda datnes kopīgošanā ar lietotāju",
     "Attachment {fileName} already exists!" : "Pielikums {fileName} jau pastāv.",
     "An error occurred during getting file information" : "Kļūda datnes informācijas iegūšanas laikā",
-    "Chat room for event" : "Tērzēšanas istaba notikumam",
     "An error occurred, unable to delete the calendar." : "Radās kļūda, neizdevās izdzēst kalendāru.",
     "Imported {filename}" : "Importēts {filename}",
     "This is an event reminder." : "Šis ir notikuma atgādinājums.",
@@ -442,6 +441,7 @@ OC.L10N.register(
     "Search for emails, users, contacts or groups" : "Meklēt e-pasta adreses, lietotājus, kontaktus vai grupas",
     "Select date" : "Izvēlieties datumu",
     "Create a new event" : "Izveidot jaunu notikumu",
-    "Add a description" : "Pievienot aprakstu"
+    "Add a description" : "Pievienot aprakstu",
+    "Chat room for event" : "Tērzēšanas istaba notikumam"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");
