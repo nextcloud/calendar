@@ -529,7 +529,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "与用户分享档案时发生错误",
     "Attachment {fileName} already exists!" : "附件{fileName}已存在！",
     "An error occurred during getting file information" : "获取文件信息时发生错误",
-    "Chat room for event" : "事件聊天室",
     "An error occurred, unable to delete the calendar." : "发生错误，无法删除日历。",
     "Imported {filename}" : "已导入 {filename}",
     "This is an event reminder." : "这是一个事件提醒。",
@@ -550,6 +549,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[明天]",
     "[Yesterday]" : "[昨天]",
     "[Last] dddd" : "[上一个] dddd",
-    "Add a description" : "添加描述"
+    "Add a description" : "添加描述",
+    "Chat room for event" : "事件聊天室"
 },
 "nplurals=1; plural=0;");

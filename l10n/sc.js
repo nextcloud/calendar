@@ -341,7 +341,6 @@ OC.L10N.register(
     "Custom color" : "Personaliza colore",
     "Special color of this event. Overrides the calendar-color." : "Colore ispetziale de custu eventu. Ignora su colore de su calendàriu.",
     "Error while sharing file" : "Errore in sa cumpartzidura de s'archìviu",
-    "Chat room for event" : "Aposentu pro is tzarradas de s'eventu",
     "An error occurred, unable to delete the calendar." : "B'at àpidu un'errore, no at fatu a cantzellare su calendàriu.",
     "Imported {filename}" : "Importadu {filename}",
     "User not found" : "Utèntzia no agatada",
@@ -351,6 +350,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Cras]",
     "[Yesterday]" : "[Eris]",
     "[Last] dddd" : "[Ùrtimu] dddd",
-    "Add a description" : "Agiunghe una descritzione"
+    "Add a description" : "Agiunghe una descritzione",
+    "Chat room for event" : "Aposentu pro is tzarradas de s'eventu"
 },
 "nplurals=2; plural=(n != 1);");

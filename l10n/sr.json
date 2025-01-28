@@ -264,10 +264,7 @@
     "Select conversation" : "Одаберите разговор",
     "Error fetching Talk conversations." : "Грешка приликом преузимања Talk разговора",
     "Conversation does not have a valid URL." : "Разговор нема исправну URL адресу.",
-    "Successfully added Talk room link to location." : "Линк на Talk собу је успешно додат у локацију.",
-    "Successfully added Talk room link to description." : "Линк на Talk собу је успешно додат у опис.",
     "Failed to apply Talk room." : "Није успело примењивање Talk собе.",
-    "Error creating Talk room." : "Грешка приликом креирања Talk собе.",
     "Reminder" : "Подсетник",
     "before at" : "раније у",
     "Notification" : "Обавештење",
@@ -564,7 +561,6 @@
     "Error while sharing file with user" : "Грешка приликом дељења фајла са корисником",
     "Attachment {fileName} already exists!" : "Прилог {fileName} већ постоји!",
     "An error occurred during getting file information" : "Дошло је до грешке током преузимања информација о фајлу",
-    "Chat room for event" : "Чет соба за догађај",
     "An error occurred, unable to delete the calendar." : "Догодила се грешка, не могу да обришем календар.",
     "Imported {filename}" : "Увезен {filename}",
     "This is an event reminder." : "Ово је подсетник за догађај.",
@@ -586,6 +582,7 @@
     "[Tomorrow]" : "[Сутра]",
     "[Yesterday]" : "[Јуче]",
     "[Last] dddd" : "[Последњи] dddd",
-    "Add a description" : "Додај опис"
+    "Add a description" : "Додај опис",
+    "Chat room for event" : "Чет соба за догађај"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

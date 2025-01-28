@@ -483,7 +483,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "사용자와 파일을 공유하는 중 오류 발생",
     "Attachment {fileName} already exists!" : "첨부파일 {name}은(는) 이미 존재합니다",
     "An error occurred during getting file information" : "정보를 불러오는 중 오류 발생",
-    "Chat room for event" : "일정에 대한 대화방",
     "An error occurred, unable to delete the calendar." : "오류가 발생하여 달력을 삭제할 수 없습니다.",
     "Imported {filename}" : "{filename} 가져옴",
     "This is an event reminder." : "일정에 대한 알림입니다.",
@@ -502,6 +501,7 @@ OC.L10N.register(
     "[Today]" : "[오늘]",
     "[Tomorrow]" : "[내일]",
     "[Yesterday]" : "[어제]",
-    "Add a description" : "설명 추가"
+    "Add a description" : "설명 추가",
+    "Chat room for event" : "일정에 대한 대화방"
 },
 "nplurals=1; plural=0;");

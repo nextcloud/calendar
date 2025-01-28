@@ -426,7 +426,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Klaida bendrinant failą su naudotoju",
     "Attachment {fileName} already exists!" : "Priedas „{fileName}“ jau yra!",
     "An error occurred during getting file information" : "Gaunant informaciją apie failą įvyko klaida",
-    "Chat room for event" : "Įvykio pokalbių kambarys",
     "An error occurred, unable to delete the calendar." : "Įvyko klaida, nepavyko ištrinti kalendorių.",
     "Imported {filename}" : "Importuotas {filename}",
     "This is an event reminder." : "Tai priminimas apie įvykį.",
@@ -442,6 +441,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Rytoj]",
     "[Yesterday]" : "[Vakar]",
     "[Last] dddd" : "[Paskutinis] dddd",
-    "Add a description" : "Pridėti aprašą"
+    "Add a description" : "Pridėti aprašą",
+    "Chat room for event" : "Įvykio pokalbių kambarys"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

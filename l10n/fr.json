@@ -264,10 +264,7 @@
     "Select conversation" : "Sélectionnez une conversation",
     "Error fetching Talk conversations." : "Erreur lors du listage des salons de discussion Talk.",
     "Conversation does not have a valid URL." : "L'URL de la conversation n'est pas valide",
-    "Successfully added Talk room link to location." : "Le lien du salon de discussion Talk a été ajouté à la localisation avec succès.",
-    "Successfully added Talk room link to description." : "Le lien du salon de discussion Talk a été ajouté à la description avec succès.",
     "Failed to apply Talk room." : "Impossible de modifier le salon de discussion Talk.",
-    "Error creating Talk room." : "Erreur lors de la création du salon de discussion.",
     "Reminder" : "Rappel",
     "before at" : "avant",
     "Notification" : "Notification",
@@ -564,7 +561,6 @@
     "Error while sharing file with user" : "Erreur lors du partage du fichier avec un utilisateur",
     "Attachment {fileName} already exists!" : "La pièce jointe {fileName} existe déjà !",
     "An error occurred during getting file information" : "Une erreur est survenue lors de la récupération des informations du fichier",
-    "Chat room for event" : "Salle de discussion de cet événement",
     "An error occurred, unable to delete the calendar." : "Une erreur est survenue, impossible de supprimer l'agenda.",
     "Imported {filename}" : "{filename} importé",
     "This is an event reminder." : "Ceci est un rappel d'événement.",
@@ -586,6 +582,7 @@
     "[Tomorrow]" : "[Demain]",
     "[Yesterday]" : "[Hier]",
     "[Last] dddd" : "dddd [dernier]",
-    "Add a description" : "Ajouter une description"
+    "Add a description" : "Ajouter une description",
+    "Chat room for event" : "Salle de discussion de cet événement"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

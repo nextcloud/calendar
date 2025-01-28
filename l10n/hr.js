@@ -356,7 +356,6 @@ OC.L10N.register(
     "Custom color" : "Prilagođena boja",
     "Special color of this event. Overrides the calendar-color." : "Posebna boja ovog događaja. Primjenjuje se umjesto boje kalendara.",
     "Error while sharing file" : "Pogreška pri dijeljenju datoteke",
-    "Chat room for event" : "Soba za razmjenu poruka za događaj",
     "An error occurred, unable to delete the calendar." : "Došlo je do pogreške, nije moguće izbrisati kalendar.",
     "Imported {filename}" : "Uvezena datoteka {filename}",
     "User not found" : "Korisnik nije pronađen",
@@ -366,6 +365,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Sutra]",
     "[Yesterday]" : "[Jučer]",
     "[Last] dddd" : "[Zadnji] dddd",
-    "Add a description" : "Dodaj opis"
+    "Add a description" : "Dodaj opis",
+    "Chat room for event" : "Soba za razmjenu poruka za događaj"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

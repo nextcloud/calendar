@@ -266,10 +266,7 @@ OC.L10N.register(
     "Select conversation" : "選擇對話",
     "Error fetching Talk conversations." : "擷取 Talk 對話時發生錯誤",
     "Conversation does not have a valid URL." : "對話沒有有效的 URL。",
-    "Successfully added Talk room link to location." : "成功在位置中新增 Talk 聊天室連結。",
-    "Successfully added Talk room link to description." : "成功在描述中新增 Talk 聊天室連結。",
     "Failed to apply Talk room." : "使用 Talk 聊天室失敗。",
-    "Error creating Talk room." : "建立 Talk 聊天室失敗。",
     "Reminder" : "提醒",
     "before at" : "之前於",
     "Notification" : "通告",
@@ -566,7 +563,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "與用戶分享檔案時發生錯誤",
     "Attachment {fileName} already exists!" : "附件 {fileName} 已存在！",
     "An error occurred during getting file information" : "取得檔案資訊時發生錯誤",
-    "Chat room for event" : "活動的聊天室",
     "An error occurred, unable to delete the calendar." : "發生錯誤，無法刪除日曆",
     "Imported {filename}" : "匯入的 {filename}",
     "This is an event reminder." : "這是一個活動提醒。",
@@ -588,6 +584,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[明日]",
     "[Yesterday]" : "[昨日]",
     "[Last] dddd" : "[上] dddd",
-    "Add a description" : "加入描述"
+    "Add a description" : "加入描述",
+    "Chat room for event" : "活動的聊天室"
 },
 "nplurals=1; plural=0;");

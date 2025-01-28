@@ -545,7 +545,6 @@
     "Error while sharing file with user" : "Ошибка при обмене файлом с пользователем",
     "Attachment {fileName} already exists!" : "Вложение {fileName} уже существует!",
     "An error occurred during getting file information" : "Произошла ошибка при получении информации о файле",
-    "Chat room for event" : "Комната в приложении Talk для этого события",
     "An error occurred, unable to delete the calendar." : "Произошла ошибка, не удалось удалить календарь.",
     "Imported {filename}" : "Файл {filename} импортирован",
     "This is an event reminder." : "Это напоминание о событии.",
@@ -567,6 +566,7 @@
     "[Tomorrow]" : "[Завтра]",
     "[Yesterday]" : "[Вчера]",
     "[Last] dddd" : "[Last] dddd",
-    "Add a description" : "Добавить описание"
+    "Add a description" : "Добавить описание",
+    "Chat room for event" : "Комната в приложении Talk для этого события"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

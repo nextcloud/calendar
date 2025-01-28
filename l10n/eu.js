@@ -548,7 +548,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Errorea fitxategia erabiltzailearekin partekatzean",
     "Attachment {fileName} already exists!" : "{fileName} eranskina dagoeneko badago!",
     "An error occurred during getting file information" : "Errore bat gertatu da fitxategiaren informazioa eskuratzean",
-    "Chat room for event" : "Txat gela gertaera honentzat",
     "An error occurred, unable to delete the calendar." : "Errore bat gertatu da, ezin da egutegia ezabatu.",
     "Imported {filename}" : "{filename} inportatuta",
     "This is an event reminder." : "Hau gertaera baten gogorarazpena da.",
@@ -570,6 +569,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Tomorrow]",
     "[Yesterday]" : "[Yesterday]",
     "[Last] dddd" : "[Last] dddd",
-    "Add a description" : "Gehitu deskribapena"
+    "Add a description" : "Gehitu deskribapena",
+    "Chat room for event" : "Txat gela gertaera honentzat"
 },
 "nplurals=2; plural=(n != 1);");

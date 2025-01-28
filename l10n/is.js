@@ -266,10 +266,7 @@ OC.L10N.register(
     "Select conversation" : "Veldu samtal",
     "Error fetching Talk conversations." : "Villa við að sækja samtöl af spjallsvæði.",
     "Conversation does not have a valid URL." : "Samtalið er ekki með gilda vefslóð.",
-    "Successfully added Talk room link to location." : "Tókst að bæta tengli á spjallsvæði við staðsetningu.",
-    "Successfully added Talk room link to description." : "Tókst að bæta tengli á spjallsvæði við lýsingu.",
     "Failed to apply Talk room." : "Mistókst að virkja spjallrás.",
-    "Error creating Talk room." : "Villa við að búa til spjallsvæði.",
     "Reminder" : "Áminning",
     "before at" : "á undan klukkan",
     "Notification" : "Tilkynning",
@@ -566,7 +563,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Villa við deilingu skráar með notanda",
     "Attachment {fileName} already exists!" : "Viðhengið {fileName} er þegar til staðar!",
     "An error occurred during getting file information" : "Villa kom upp við að sækja upplýsingar um skrá",
-    "Chat room for event" : "Spjallsvæði vegna atburðar",
     "An error occurred, unable to delete the calendar." : "Villa kom upp, gat ekki eytt dagatalinu.",
     "Imported {filename}" : "Flutti inn {filename}",
     "This is an event reminder." : "Þetta er áminning vegna atburðar.",
@@ -588,6 +584,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Á morgun]",
     "[Yesterday]" : "[Í gær]",
     "[Last] dddd" : "[Síðasta] dddd",
-    "Add a description" : "Settu inn lýsingu"
+    "Add a description" : "Settu inn lýsingu",
+    "Chat room for event" : "Spjallsvæði vegna atburðar"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

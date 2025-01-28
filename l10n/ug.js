@@ -510,7 +510,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "ئىشلەتكۈچى بىلەن ھۆججەتنى ھەمبەھىرلەشتە خاتالىق",
     "Attachment {fileName} already exists!" : "قوشۇمچە ھۆججەت {fileName} مەۋجۇت!",
     "An error occurred during getting file information" : "ھۆججەت ئۇچۇرىغا ئېرىشىش جەريانىدا خاتالىق كۆرۈلدى",
-    "Chat room for event" : "پائالىيەت ئۈچۈن پاراڭلىشىش ئۆيى",
     "An error occurred, unable to delete the calendar." : "كالېندارنى ئۆچۈرەلمەي خاتالىق كۆرۈلدى.",
     "Imported {filename}" : "ئىمپورت قىلىنغان {filename} ئىسمى}",
     "This is an event reminder." : "بۇ بىر ۋەقە ئەسكەرتىش.",
@@ -523,6 +522,7 @@ OC.L10N.register(
     "[Today]" : "[بۈگۈن]",
     "[Tomorrow]" : "[ئەتە]",
     "[Yesterday]" : "[تۈنۈگۈن]",
-    "Add a description" : "چۈشەندۈرۈش قوشۇڭ"
+    "Add a description" : "چۈشەندۈرۈش قوشۇڭ",
+    "Chat room for event" : "پائالىيەت ئۈچۈن پاراڭلىشىش ئۆيى"
 },
 "nplurals=2; plural=(n != 1);");

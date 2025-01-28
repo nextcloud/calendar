@@ -266,10 +266,7 @@ OC.L10N.register(
     "Select conversation" : "Select conversation",
     "Error fetching Talk conversations." : "Error fetching Talk conversations.",
     "Conversation does not have a valid URL." : "Conversation does not have a valid URL.",
-    "Successfully added Talk room link to location." : "Successfully added Talk room link to location.",
-    "Successfully added Talk room link to description." : "Successfully added Talk room link to description.",
     "Failed to apply Talk room." : "Failed to apply Talk room.",
-    "Error creating Talk room." : "Error creating Talk room.",
     "Reminder" : "Reminder",
     "before at" : "before at",
     "Notification" : "Notification",
@@ -566,7 +563,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Error while sharing file with user",
     "Attachment {fileName} already exists!" : "Attachment {fileName} already exists!",
     "An error occurred during getting file information" : "An error occurred during getting file information",
-    "Chat room for event" : "Chat room for event",
     "An error occurred, unable to delete the calendar." : "An error occurred, unable to delete the calendar.",
     "Imported {filename}" : "Imported {filename}",
     "This is an event reminder." : "This is an event reminder.",
@@ -588,6 +584,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Tomorrow]",
     "[Yesterday]" : "[Yesterday]",
     "[Last] dddd" : "[Last] dddd",
-    "Add a description" : "Add a description"
+    "Add a description" : "Add a description",
+    "Chat room for event" : "Chat room for event"
 },
 "nplurals=2; plural=(n != 1);");

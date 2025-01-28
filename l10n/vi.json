@@ -414,7 +414,6 @@
     "Custom color" : "Tùy chỉnh màu",
     "Special color of this event. Overrides the calendar-color." : "Dùng màu đặc biệt cho sự kiện này. Ghi đè lên màu hiện hành",
     "Error while sharing file" : "Lỗi khi chia sẻ tệp",
-    "Chat room for event" : "Phòng trò chuyện cho sự kiện",
     "An error occurred, unable to delete the calendar." : "Một lỗi đã xảy ra, không thể xóa lịch.",
     "Imported {filename}" : " {filename} đã được nhập",
     "Appointment not found" : "Không tìm thấy cuộc hẹn",
@@ -431,6 +430,7 @@
     "[Tomorrow]" : "[Ngày mai]",
     "[Yesterday]" : "[Hôm qua]",
     "[Last] dddd" : "[Trước] dddd",
-    "Add a description" : "Thêm vào một mô tả"
+    "Add a description" : "Thêm vào một mô tả",
+    "Chat room for event" : "Phòng trò chuyện cho sự kiện"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
