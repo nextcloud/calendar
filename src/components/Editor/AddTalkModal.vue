@@ -18,7 +18,7 @@
 				<NcEmptyContent v-else-if="talkConversations.length === 0"
 					:description="t('calendar','No Talk room available')" />
 				<ul v-else>
-					<li v-for="conversation in talkConversations"
+					<li v-for="conversation in sortedTalkConversations"
 						:key="conversation.id"
 						:class="{ selected: selectedRoom && selectedRoom.id === conversation.id }"
 						class="talk-room-list__item"
@@ -100,6 +100,12 @@ export default {
 	},
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
+		/**
+		 * @return {object[]} Talk conversations sorted by most recent activity
+		 */
+		sortedTalkConversations() {
+			return this.talkConversations.toSorted((a, b) => b.lastActivity - a.lastActivity)
+		},
 	},
 	async mounted() {
 		await this.fetchTalkConversations()
