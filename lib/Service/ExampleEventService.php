@@ -29,7 +29,7 @@ class ExampleEventService {
 
 	public function __construct(
 		private readonly ICalendarManager $calendarManager,
-		private readonly ISecureRandom  $random,
+		private readonly ISecureRandom $random,
 		private readonly ITimeFactory $time,
 		private readonly IAppData $appData,
 		private readonly IAppConfig $appConfig,
