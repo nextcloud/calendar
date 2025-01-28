@@ -513,7 +513,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Hiba a fájl felhasználóval történő megosztása során",
     "Attachment {fileName} already exists!" : "A(z) {fileName} melléklet már létezik.",
     "An error occurred during getting file information" : "Hiba történt a fájlinformációk lekérése során",
-    "Chat room for event" : "Csevegőszoba az eseményhez",
     "An error occurred, unable to delete the calendar." : "Hiba lépett fel, a naptárat nem lehet törölni.",
     "Imported {filename}" : "{filename} importálva",
     "This is an event reminder." : "Ez egy eseményemlékeztető.",
@@ -533,6 +532,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Holnap]",
     "[Yesterday]" : "[Tegnap]",
     "[Last] dddd" : "[Múlt] dddd",
-    "Add a description" : "Leírás hozzáadása"
+    "Add a description" : "Leírás hozzáadása",
+    "Chat room for event" : "Csevegőszoba az eseményhez"
 },
 "nplurals=2; plural=(n != 1);");

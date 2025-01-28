@@ -488,7 +488,6 @@
     "Error while sharing file with user" : "Error while sharing file with user",
     "Attachment {fileName} already exists!" : "Attachment {fileName} already exists!",
     "An error occurred during getting file information" : "An error occurred during getting file information",
-    "Chat room for event" : "اتاق گپ برای رویداد",
     "An error occurred, unable to delete the calendar." : "خطایی روی داد ، قادر به حذف تقویم نیست.",
     "Imported {filename}" : "وارد شده {نام پرونده}",
     "This is an event reminder." : "This is an event reminder.",
@@ -506,6 +505,7 @@
     "[Tomorrow]" : "[فردا]",
     "[Yesterday]" : "[دیروز]",
     "[Last] dddd" : "[Last] dddd",
-    "Add a description" : "یک توضیح بنویسید"
+    "Add a description" : "یک توضیح بنویسید",
+    "Chat room for event" : "اتاق گپ برای رویداد"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

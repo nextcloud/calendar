@@ -411,7 +411,6 @@ OC.L10N.register(
     "Add this as a new category" : "Ychwanegu hwn fel categori newydd",
     "Custom color" : "Lliw personol",
     "Special color of this event. Overrides the calendar-color." : "Lliw arbennig y digwyddiad hwn. Yn diystyru lliw y calendr.",
-    "Chat room for event" : "Ystafell sgwrsio ar gyfer digwyddiad",
     "An error occurred, unable to delete the calendar." : "Bu gwall, ni fu modd dileu'r calendr.",
     "Imported {filename}" : "Mewnforiwyd {filename}",
     "Appointment not found" : "Apwyntiad heb ei ganfod",
@@ -428,6 +427,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Yfory]",
     "[Yesterday]" : "[Ddoe]",
     "[Last] dddd" : "[Diwethaf] dddd",
-    "Add a description" : "Ychwanegu disgrifiad"
+    "Add a description" : "Ychwanegu disgrifiad",
+    "Chat room for event" : "Ystafell sgwrsio ar gyfer digwyddiad"
 },
 "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;");

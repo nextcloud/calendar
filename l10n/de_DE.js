@@ -266,10 +266,7 @@ OC.L10N.register(
     "Select conversation" : "Unterhaltung auswählen",
     "Error fetching Talk conversations." : "Fehler beim Abruf der Talk-Unterhaltungen.",
     "Conversation does not have a valid URL." : "Die Unterhaltung hat keine gültige URL.",
-    "Successfully added Talk room link to location." : "Link zum Talk-Raum wurde dem Standort hinzugefügt.",
-    "Successfully added Talk room link to description." : "Link zum Talk-Raum wurde der Beschreibung hinzugefügt.",
     "Failed to apply Talk room." : "Talk-Raum konnte nicht angewendet werden.",
-    "Error creating Talk room." : "Fehler beim Erstellen des Talk-Raums.",
     "Reminder" : "Erinnerung",
     "before at" : "vorher um",
     "Notification" : "Benachrichtigung",
@@ -566,7 +563,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Fehler beim Teilen der Datei mit Benutzer",
     "Attachment {fileName} already exists!" : "Anhang {fileName} existiert bereits",
     "An error occurred during getting file information" : "Es ist ein Fehler beim Abrufen von Dateiinformationen aufgetreten",
-    "Chat room for event" : "Chat-Raum für Termin",
     "An error occurred, unable to delete the calendar." : "Es ist ein Fehler aufgetreten, Kalender konnte nicht gelöscht werden.",
     "Imported {filename}" : "{filename} importiert ",
     "This is an event reminder." : "Dies ist eine Terminerinnerung.",
@@ -588,6 +584,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Morgen]",
     "[Yesterday]" : "[Gestern]",
     "[Last] dddd" : "[Letzten] dddd",
-    "Add a description" : "Beschreibung hinzufügen"
+    "Add a description" : "Beschreibung hinzufügen",
+    "Chat room for event" : "Chat-Raum für Termin"
 },
 "nplurals=2; plural=(n != 1);");

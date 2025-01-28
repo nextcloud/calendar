@@ -266,10 +266,7 @@ OC.L10N.register(
     "Select conversation" : "Vybrat konverzaci",
     "Error fetching Talk conversations." : "Chyba při získávání konverzací v Talk.",
     "Conversation does not have a valid URL." : "Konverzace nemá platný URL.",
-    "Successfully added Talk room link to location." : "Do místa konání úspěšně přidán odkaz na místnost v Talk.",
-    "Successfully added Talk room link to description." : "Do popisu úspěšně přidán odkaz na místnost v Talk.",
     "Failed to apply Talk room." : "Nepodařilo se uplatnit místnost v Talk.",
-    "Error creating Talk room." : "Chyba při vytváření místnosti v Talk.",
     "Reminder" : "Připomínka",
     "before at" : "před v",
     "Notification" : "Upozornění",
@@ -566,7 +563,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Chyba při sdílení souboru uživateli",
     "Attachment {fileName} already exists!" : "Příloha {fileName} už existuje!",
     "An error occurred during getting file information" : "Při získávání informací o souboru došlo k chybě",
-    "Chat room for event" : "Chat místnost pro událost",
     "An error occurred, unable to delete the calendar." : "Došlo k chybě, kalendář se nepodařilo smazat.",
     "Imported {filename}" : "Importováno {filename}",
     "This is an event reminder." : "Toto je připomínka události.",
@@ -588,6 +584,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Zítra]",
     "[Yesterday]" : "[Včera]",
     "[Last] dddd" : "[Minul.] dddd",
-    "Add a description" : "Přidat popis"
+    "Add a description" : "Přidat popis",
+    "Chat room for event" : "Chat místnost pro událost"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

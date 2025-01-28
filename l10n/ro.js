@@ -489,7 +489,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Eroare la partajarea fișierului cu utilizatorul",
     "Attachment {fileName} already exists!" : "Atașamentul {fileName} există!",
     "An error occurred during getting file information" : "Eroare la preluarea informațiilor despre fișier",
-    "Chat room for event" : "Camera de chat pentru eveniment",
     "An error occurred, unable to delete the calendar." : "A apărut o eroare, nu se poate șterge calendarul.",
     "Imported {filename}" : "S-a importat {filename}",
     "This is an event reminder." : "Acesta este un memento pentru eveniment.",
@@ -508,6 +507,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Mâine]",
     "[Yesterday]" : "[Ieri]",
     "[Last] dddd" : "[Ultima] dddd",
-    "Add a description" : "Adauga o descripție"
+    "Add a description" : "Adauga o descripție",
+    "Chat room for event" : "Camera de chat pentru eveniment"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

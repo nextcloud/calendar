@@ -514,7 +514,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Virhe tiedostoa jakaessa käyttäjän kanssa",
     "Attachment {fileName} already exists!" : "Liite {fileName} on jo olemassa!",
     "An error occurred during getting file information" : "Tiedostojen tietoja noutaessa tapahtui virhe",
-    "Chat room for event" : "Tapahtuman keskusteluhuone",
     "An error occurred, unable to delete the calendar." : "Tapahtui virhe, kalenteria ei voitu poistaa.",
     "Imported {filename}" : "Tuotiin {filename}",
     "This is an event reminder." : "Tämä on tapahtuman muistutus.",
@@ -535,6 +534,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Huomenna]",
     "[Yesterday]" : "[Eilen]",
     "[Last] dddd" : "[Viimeinen] dddd",
-    "Add a description" : "Lisää kuvaus"
+    "Add a description" : "Lisää kuvaus",
+    "Chat room for event" : "Tapahtuman keskusteluhuone"
 },
 "nplurals=2; plural=(n != 1);");

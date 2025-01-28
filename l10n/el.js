@@ -517,7 +517,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Σφάλμα κατά την κοινή χρήση του αρχείου με τον χρήστη",
     "Attachment {fileName} already exists!" : "Το συνημμένο {name} υπάρχει ήδη!",
     "An error occurred during getting file information" : "Εμφανίστηκε σφάλμα κατά τη λήψη πληροφοριών αρχείου",
-    "Chat room for event" : "Χώρος άμεσων μηνυμάτων για το γεγονός ",
     "An error occurred, unable to delete the calendar." : "Παρουσιάστηκε σφάλμα, δεν δύναται να διαγραφή το ημερολόγιο.",
     "Imported {filename}" : "Εισηγμένο {filename}",
     "This is an event reminder." : "Αυτή είναι μια υπενθύμιση γεγονότος.",
@@ -537,6 +536,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Αύριο]",
     "[Yesterday]" : "[Χθες]",
     "[Last] dddd" : "[Last] ηηηη",
-    "Add a description" : "Προσθήκη περιγραφής"
+    "Add a description" : "Προσθήκη περιγραφής",
+    "Chat room for event" : "Χώρος άμεσων μηνυμάτων για το γεγονός "
 },
 "nplurals=2; plural=(n != 1);");

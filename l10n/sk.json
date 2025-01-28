@@ -264,10 +264,7 @@
     "Select conversation" : "Vybrať konveráciu",
     "Error fetching Talk conversations." : "Chyba pri načítavaní konverzácií Talk.",
     "Conversation does not have a valid URL." : "Konverzácia nemá platné URL.",
-    "Successfully added Talk room link to location." : "Odkaz na miestnosť Talk hovoru bol úspešne pridaný.",
-    "Successfully added Talk room link to description." : "Odkaz na miestnosť Talk do popisu bol úspešne pridaný.",
     "Failed to apply Talk room." : "Nepodarilo sa aplikovať miestnost pre rozhovor.",
-    "Error creating Talk room." : "Chyba pri vytváraní miestnosti Talk/Rozhovoru",
     "Reminder" : "Pripomienka",
     "before at" : "pred o",
     "Notification" : "Hlásenie",
@@ -564,7 +561,6 @@
     "Error while sharing file with user" : "Chyba pri zdieľaní súboru používateľovi",
     "Attachment {fileName} already exists!" : "Príloha {fileName} už existuje!",
     "An error occurred during getting file information" : "Vyskytla sa chyba pri získavaní informácií o súbore.",
-    "Chat room for event" : "Chatová miestnosť pre udalosť",
     "An error occurred, unable to delete the calendar." : "Vyskytla sa chyba, nie je možné zmazať kalendár.",
     "Imported {filename}" : "Importované {filename}",
     "This is an event reminder." : "Toto je pripomienka udalosti.",
@@ -586,6 +582,7 @@
     "[Tomorrow]" : "[Zajtra]",
     "[Yesterday]" : "[Včera]",
     "[Last] dddd" : "[Posledné] dddd",
-    "Add a description" : "Zadajte popis"
+    "Add a description" : "Zadajte popis",
+    "Chat room for event" : "Chatová miestnosť pre udalosť"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

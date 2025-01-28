@@ -546,7 +546,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Fout bij het delen van het bestand met de gebruiker",
     "Attachment {fileName} already exists!" : "Bijlage {fileName} bestaat al!",
     "An error occurred during getting file information" : "Er is een fout opgetreden tijdens het ophalen van bestandsinformatie.",
-    "Chat room for event" : "Spreekkamer voor afspraak",
     "An error occurred, unable to delete the calendar." : "Er is een fout opgetreden waardoor de agenda niet kan worden verwijderd.",
     "Imported {filename}" : "Geïmporteerd {filename}",
     "This is an event reminder." : "Dit is een herinnering aan een evenement.",
@@ -567,6 +566,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Morgen]",
     "[Yesterday]" : "[Gisteren]",
     "[Last] dddd" : "[Last] dddd",
-    "Add a description" : "Voeg een omschrijving toe"
+    "Add a description" : "Voeg een omschrijving toe",
+    "Chat room for event" : "Spreekkamer voor afspraak"
 },
 "nplurals=2; plural=(n != 1);");
