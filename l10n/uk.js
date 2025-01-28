@@ -266,10 +266,7 @@ OC.L10N.register(
     "Select conversation" : "Вибрати розмову",
     "Error fetching Talk conversations." : "Помилка під час отримання розмов Talk.",
     "Conversation does not have a valid URL." : "Ця розмова Talk не містить дійсної адреси URL.",
-    "Successfully added Talk room link to location." : "Успішно додано посилання на кімнату Talk до місця розташування.",
-    "Successfully added Talk room link to description." : "Успішно додано посилання на кімнату Talk до опису.",
     "Failed to apply Talk room." : "Помилка під час застосування кімнати Talk.",
-    "Error creating Talk room." : "Помилка під час створення кімнати Talk.",
     "Reminder" : "Нагадування",
     "before at" : "до о",
     "Notification" : "Сповіщення",
@@ -566,7 +563,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Помилка під час надання доступу користувачеві",
     "Attachment {fileName} already exists!" : "Долучений файл {filename} вже присутній!",
     "An error occurred during getting file information" : "Помилка під час отримання інформації про файл",
-    "Chat room for event" : "Кімната чату для події",
     "An error occurred, unable to delete the calendar." : "Помилка: неможливо вилучити календар.",
     "Imported {filename}" : "Імпортовано {filename}",
     "This is an event reminder." : "Це нагадування про подію.",
@@ -587,6 +583,7 @@ OC.L10N.register(
     "[Today]" : "[Сьогодні]",
     "[Tomorrow]" : "[Завтра]",
     "[Yesterday]" : "[Вчора]",
-    "Add a description" : "Додати опис"
+    "Add a description" : "Додати опис",
+    "Chat room for event" : "Кімната чату для події"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

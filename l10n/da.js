@@ -542,7 +542,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Fejl under deling af fil med bruger",
     "Attachment {fileName} already exists!" : "Vedhæftet fil {fileName} findes allerede!",
     "An error occurred during getting file information" : "Der opstod en fejl under hentning af filoplysninger",
-    "Chat room for event" : "Chatrum til begivenhed",
     "An error occurred, unable to delete the calendar." : "Kalenderen kunne ikke slettes.",
     "Imported {filename}" : "Importerede {filename}",
     "This is an event reminder." : "Dette er en begivenhedspåmindelse.",
@@ -560,10 +559,11 @@ OC.L10N.register(
     "Search for emails, users, contacts or groups" : "Søg efter e-mails, brugere, kontakter eller grupper",
     "Select date" : "Vælg dato",
     "Create a new event" : "Opret en ny begivenhed",
-    "[Today]" : "[i dag]",
+    "[Today]" : "[I dag]",
     "[Tomorrow]" : "[I morgen]",
     "[Yesterday]" : "[Yesterday]",
-    "[Last] dddd" : "[Last] dddd",
-    "Add a description" : "Tilføj en beskrivelse"
+    "[Last] dddd" : "[Senest] dddd",
+    "Add a description" : "Tilføj en beskrivelse",
+    "Chat room for event" : "Chatrum til begivenhed"
 },
 "nplurals=2; plural=(n != 1);");

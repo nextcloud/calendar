@@ -264,10 +264,7 @@
     "Select conversation" : "اختر محادثة",
     "Error fetching Talk conversations." : "خطأ في جلب محادثات Talk.",
     "Conversation does not have a valid URL." : "عنوان URL للمحادثة غير صحيح.",
-    "Successfully added Talk room link to location." : "تمّت بنجاحٍ إضافة رابط غرفة محادثة للمكان.",
-    "Successfully added Talk room link to description." : "تمّت بنجاحٍ إضافة رابط غرفة محادثة للوصف.",
     "Failed to apply Talk room." : "تعذّر تطبيق غرفة المحادثة.",
-    "Error creating Talk room." : "تعذّر إنشاء غرفة المحادثة.",
     "Reminder" : "تذكير",
     "before at" : "قبل",
     "Notification" : "تنبيه",
@@ -564,7 +561,6 @@
     "Error while sharing file with user" : "حدث خطأ أثناء مُشاركة الملف مع مُستخدِم",
     "Attachment {fileName} already exists!" : "المُرفَق {fileName} موجودٌ سلفاً!",
     "An error occurred during getting file information" : "حدث خطأ أثناء جلب بيانات الملف",
-    "Chat room for event" : "غرفة محادثة للحدث",
     "An error occurred, unable to delete the calendar." : "حدث خطأ، لا يمكن حذف التقويم.",
     "Imported {filename}" : "إستيراد {filename}",
     "This is an event reminder." : "هذا تذكير بحدث",
@@ -586,6 +582,7 @@
     "[Tomorrow]" : "[الغد]",
     "[Yesterday]" : "[امس]",
     "[Last] dddd" : "[اخر] dddd",
-    "Add a description" : "إضافة وصف"
+    "Add a description" : "إضافة وصف",
+    "Chat room for event" : "غرفة محادثة للحدث"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

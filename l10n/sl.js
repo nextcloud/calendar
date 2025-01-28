@@ -512,7 +512,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Prišlo je do napake med souporabo datoteke z uporabnikom",
     "Attachment {fileName} already exists!" : "Priloga {fileName} že obstaja!",
     "An error occurred during getting file information" : "Prišlo je do napake med pridobivanjem podrobnosti datoteke",
-    "Chat room for event" : "Klepetalnica za dogodek",
     "An error occurred, unable to delete the calendar." : "Prišlo je do napake; ni mogoče izbrisati koledarja.",
     "Imported {filename}" : "Uvožena datoteka {filename}",
     "This is an event reminder." : "To je opomnik dogodka.",
@@ -531,6 +530,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Jutri]",
     "[Yesterday]" : "[Včeraj]",
     "[Last] dddd" : "[Zadnji] dddd",
-    "Add a description" : "Dodaj opis ..."
+    "Add a description" : "Dodaj opis ...",
+    "Chat room for event" : "Klepetalnica za dogodek"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

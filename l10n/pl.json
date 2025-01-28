@@ -546,7 +546,6 @@
     "Error while sharing file with user" : "Błąd podczas udostępniania pliku użytkownikowi",
     "Attachment {fileName} already exists!" : "Załącznik {fileName} już istnieje!",
     "An error occurred during getting file information" : "Błąd podczas pobierania informacji o pliku.",
-    "Chat room for event" : "Pokój rozmów dla wydarzenia",
     "An error occurred, unable to delete the calendar." : "Wystąpił błąd, nie można usunąć kalendarza.",
     "Imported {filename}" : "Zaimportowano {filename}",
     "This is an event reminder." : "Przypomnienie o wydarzeniu.",
@@ -568,6 +567,7 @@
     "[Tomorrow]" : "[Jutro]",
     "[Yesterday]" : "[Wczoraj]",
     "[Last] dddd" : "[Ostatni] dddd",
-    "Add a description" : "Dodaj opis"
+    "Add a description" : "Dodaj opis",
+    "Chat room for event" : "Pokój rozmów dla wydarzenia"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

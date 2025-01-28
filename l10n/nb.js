@@ -540,7 +540,6 @@ OC.L10N.register(
     "Error while sharing file with user" : "Feil under deling av fil med bruker",
     "Attachment {fileName} already exists!" : "Vedlegget {fileName} eksisterer allerede!",
     "An error occurred during getting file information" : "Det oppsto en feil under henting av filinformasjon",
-    "Chat room for event" : "Chatterom for hendelse",
     "An error occurred, unable to delete the calendar." : "En feil oppsto, kan ikke slette kalenderen. ",
     "Imported {filename}" : "Importerte {filename}",
     "This is an event reminder." : "Dette er en hendelsespåminnelse.",
@@ -562,6 +561,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Tomorrow]",
     "[Yesterday]" : "[Yesterday]",
     "[Last] dddd" : "[Last] dddd",
-    "Add a description" : "Legg til en beskrivelse"
+    "Add a description" : "Legg til en beskrivelse",
+    "Chat room for event" : "Chatterom for hendelse"
 },
 "nplurals=2; plural=(n != 1);");
