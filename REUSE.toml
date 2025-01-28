@@ -30,6 +30,12 @@ SPDX-FileCopyrightText = "2020 Nextcloud GmbH and Nextcloud contributors"
 SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
+path = ["tests/assets/ics/example-events/custom-event-expected.ics", "tests/assets/ics/example-events/custom-event.ics", "tests/assets/ics/example-events/custom-event-with-attendees.ics"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2025 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
 path = ["screenshots/2.0/change-view.png", "screenshots/2.0/date-picker.png", "screenshots/2.0/edit-calendar-properties.png", "screenshots/2.0/event-editor-attendees.png", "screenshots/2.0/event-editor-details-categories.jpg", "screenshots/2.0/event-editor-details.png", "screenshots/2.0/event-editor-reminders.png", "screenshots/2.0/event-editor-repeat-day-of-month.png", "screenshots/2.0/event-editor-repeat-last-thursday.png", "screenshots/2.0/freebusy.png", "screenshots/2.0/month-view.png", "screenshots/2.0/new-calendar-selector.png", "screenshots/2.0/public-sharing-embed.png", "screenshots/2.0/public-sharing.png", "screenshots/2.0/share-calendar-publicly-embed-link.png", "screenshots/2.0/share-calendar-user.png", "screenshots/2.0/simple-event-popover.png", "screenshots/2.0/week-view.png"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2020 Nextcloud GmbH and Nextcloud contributors"

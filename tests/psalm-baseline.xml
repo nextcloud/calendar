@@ -46,5 +46,17 @@
     <UndefinedClass>
       <code><![CDATA[\Sabre\VObject\Reader]]></code>
     </UndefinedClass>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[createEventBuilder]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/Listener/UserFirstLoginListener.php">
+    <UndefinedClass>
+      <code><![CDATA[ServerVersion]]></code>
+    </UndefinedClass>
+    <UndefinedDocblockClass>
+      <code><![CDATA[$serverVersion]]></code>
+      <code><![CDATA[$serverVersion]]></code>
+    </UndefinedDocblockClass>
   </file>
 </files>
