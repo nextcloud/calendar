@@ -50,7 +50,10 @@ export default {
 		},
 	},
 	data() {
-		const initialAttendee = AttendeeProperty.fromNameAndEMail(this.userId, this.userEmail)
+		const initialAttendee = AttendeeProperty.fromNameAndEMail(
+			this.userDisplayName,
+			this.userEmail,
+		)
 		const attendees = [mapAttendeePropertyToAttendeeObject(initialAttendee)]
 
 		return {
