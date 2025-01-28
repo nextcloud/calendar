@@ -34,6 +34,11 @@ class ExampleEventServiceTest extends TestCase {
 	private IAppConfig&MockObject $appConfig;
 
 	protected function setUp(): void {
+		if (!interface_exists(ICalendarEventBuilder::class)) {
+			$this->markTestSkipped('Feature is not available on this version of Nextcloud');
+			return;
+		}
+
 		$this->calendarManager = $this->createMock(ICalendarManager::class);
 		$this->random = $this->createMock(ISecureRandom::class);
 		$this->time = $this->createMock(ITimeFactory::class);
@@ -57,7 +62,7 @@ class ExampleEventServiceTest extends TestCase {
 	}
 
 	/** @dataProvider createExampleEventWithCustomEventDataProvider */
-	public function testCreateExampleEventWithCustomEvent($customEventIcs) {
+	public function testCreateExampleEventWithCustomEvent($customEventIcs): void {
 		$calendar = $this->createMock(ICreateFromString::class);
 		$this->calendarManager->expects(self::once())
 			->method('getCalendarsForPrincipal')
@@ -99,7 +104,7 @@ class ExampleEventServiceTest extends TestCase {
 		$this->service->createExampleEvent('user');
 	}
 
-	public function testCreateExampleEventWithDefaultEvent() {
+	public function testCreateExampleEventWithDefaultEvent(): void {
 		$calendar = $this->createMock(ICreateFromString::class);
 		$this->calendarManager->expects(self::once())
 			->method('getCalendarsForPrincipal')
@@ -141,7 +146,7 @@ class ExampleEventServiceTest extends TestCase {
 		$this->service->createExampleEvent('user');
 	}
 
-	public function testCreateExampleEventWithoutCalendars() {
+	public function testCreateExampleEventWithoutCalendars(): void {
 		$this->calendarManager->expects(self::once())
 			->method('getCalendarsForPrincipal')
 			->with('principals/users/invalid')
