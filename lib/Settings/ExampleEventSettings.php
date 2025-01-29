@@ -11,6 +11,7 @@ namespace OCA\Calendar\Settings;
 
 use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Service\ExampleEventService;
+use OCA\Calendar\Service\NextcloudVersionService;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Settings\ISettings;
@@ -19,6 +20,7 @@ class ExampleEventSettings implements ISettings {
 	public function __construct(
 		private readonly IInitialState $initialState,
 		private readonly ExampleEventService $exampleEventService,
+		private readonly NextcloudVersionService $versionService,
 	) {
 	}
 
@@ -35,6 +37,11 @@ class ExampleEventSettings implements ISettings {
 	}
 
 	public function getSection() {
+		// TODO: drop condition once we only support Nextcloud >= 31
+		if (!$this->versionService->is31OrAbove()) {
+			return null;
+		}
+
 		return 'groupware';
 	}
 

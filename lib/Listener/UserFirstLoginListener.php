@@ -11,36 +11,19 @@ namespace OCA\Calendar\Listener;
 
 use OCA\Calendar\Exception\ServiceException;
 use OCA\Calendar\Service\ExampleEventService;
+use OCA\Calendar\Service\NextcloudVersionService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
-use OCP\ServerVersion;
 use OCP\User\Events\UserFirstTimeLoggedInEvent;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
 /** @template-implements IEventListener<UserFirstTimeLoggedInEvent> */
 class UserFirstLoginListener implements IEventListener {
-	private bool $is31OrAbove;
-
 	public function __construct(
 		private readonly ExampleEventService $exampleEventService,
 		private readonly LoggerInterface $logger,
-		ContainerInterface $container,
+		private readonly NextcloudVersionService $versionService,
 	) {
-		$this->is31OrAbove = self::isNextcloud31OrAbove($container);
-	}
-
-	private static function isNextcloud31OrAbove(ContainerInterface $container): bool {
-		// ServerVersion was added in 31, but we don't care about older versions anyway
-		try {
-			/** @var ServerVersion $serverVersion */
-			$serverVersion = $container->get(ServerVersion::class);
-		} catch (ContainerExceptionInterface $e) {
-			return false;
-		}
-
-		return $serverVersion->getMajorVersion() >= 31;
 	}
 
 	public function handle(Event $event): void {
@@ -49,7 +32,7 @@ class UserFirstLoginListener implements IEventListener {
 		}
 
 		// TODO: drop condition once we only support Nextcloud >= 31
-		if (!$this->is31OrAbove) {
+		if (!$this->versionService->is31OrAbove()) {
 			return;
 		}
 
