@@ -50,13 +50,14 @@
       <code><![CDATA[createEventBuilder]]></code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/Listener/UserFirstLoginListener.php">
+  <file src="lib/Service/NextcloudVersionService.php">
     <UndefinedClass>
+      <code><![CDATA[?ServerVersion]]></code>
       <code><![CDATA[ServerVersion]]></code>
     </UndefinedClass>
     <UndefinedDocblockClass>
-      <code><![CDATA[$serverVersion]]></code>
-      <code><![CDATA[$serverVersion]]></code>
+      <code><![CDATA[$this->serverVersion]]></code>
+      <code><![CDATA[$this->serverVersion]]></code>
     </UndefinedDocblockClass>
   </file>
 </files>
