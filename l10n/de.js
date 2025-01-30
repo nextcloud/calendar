@@ -267,7 +267,7 @@ OC.L10N.register(
     "Error fetching Talk conversations." : "Fehler beim Abruf der Talk-Unterhaltungen.",
     "Conversation does not have a valid URL." : "Die Unterhaltung hat keine gültige URL.",
     "Successfully added Talk conversation link to location." : "Talk-Unterhaltungslink wurde erfolgreich zum Standort hinzugefügt.",
-    "Successfully added Talk conversation link to description." : "Der Talk-Unterhaltungslink wurde erfolgreich zur Beschreibung hinzugefügt.",
+    "Successfully added Talk conversation link to description." : "Talk-Unterhaltungslink wurde erfolgreich zur Beschreibung hinzugefügt.",
     "Failed to apply Talk room." : "Talk-Raum konnte nicht angewendet werden.",
     "Error creating Talk conversation" : "Fehler beim Erstellen der Talk-Unterhaltung",
     "Reminder" : "Erinnerung",
