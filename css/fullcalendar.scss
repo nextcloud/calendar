@@ -132,6 +132,7 @@
 // ### FullCalendar Event adjustments
 .fc-event {
 	padding-left: 3px;
+	border-width: 2px;
 
 	&.fc-event-nc-task-completed,
 	&.fc-event-nc-tentative,
@@ -200,6 +201,10 @@
 		-webkit-box-orient: vertical;
 		white-space: pre-wrap;
 		max-width: 25vw;
+	}
+
+	svg {
+		margin-right: 2px;
 	}
 
 	@media only screen and (max-width: 767px) {

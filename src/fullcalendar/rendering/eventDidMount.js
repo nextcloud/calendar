@@ -101,15 +101,14 @@ export default function({ event, el }) {
 		const dotElement = el.querySelector('.fc-daygrid-event-dot')
 
 		if (dotElement) {
-			dotElement.style.borderWidth = '0.1px'
+			dotElement.style.borderWidth = '2px'
 			dotElement.style.background = 'transparent'
 			dotElement.style.minWidth = '10px'
 			dotElement.style.minHeight = '10px'
 		}
-		
+
 		titleElement.style.color = 'var(--color-main-text)'
 		el.style.background = 'transparent'
-		el.style.borderWidth = '2px'
 		el.title = t('calendar', 'All participants declined')
 
 		if (el.classList.contains('fc-event-nc-needs-action')) {
@@ -130,8 +129,8 @@ export default function({ event, el }) {
 
 		const svgElement = titleElement.querySelector('svg')
 		svgElement.style.fill = el.style.borderColor
-		svgElement.style.width = '1.2em'
-		svgElement.style.paddingBottom = '0.2em'
+		svgElement.style.width = '1em'
+		svgElement.style.marginBottom = '0.2em'
 		svgElement.style.verticalAlign = 'middle'
 	}
 
@@ -144,9 +143,9 @@ export default function({ event, el }) {
 		let backgroundStyling = `repeating-linear-gradient(45deg, ${bgStripeColor}, ${bgStripeColor} 1px, ${bgColor} 1px, ${bgColor} 10px)`
 
 		if (dotElement) {
+			dotElement.style.borderWidth = '2px'
 			backgroundStyling = `repeating-linear-gradient(45deg, ${bgColor}, ${bgColor} 1px, transparent 1px, transparent 3.5px)`
 
-			dotElement.style.borderWidth = '0.1px'
 			dotElement.style.background = backgroundStyling
 			dotElement.style.minWidth = '10px'
 			dotElement.style.minHeight = '10px'
