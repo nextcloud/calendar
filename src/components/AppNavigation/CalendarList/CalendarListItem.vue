@@ -8,15 +8,16 @@
 		:aria-description="descriptionAppNavigationItem"
 		:name="calendarDisplayName || $t('calendar', 'Untitled calendar')"
 		:class="{deleted: isBeingDeleted, disabled: !calendar.enabled}"
-		@click.prevent.stop="toggleEnabled"
 		@update:menuOpen="actionsMenuOpen = $event">
 		<template #icon>
 			<CheckboxMarked v-if="calendar.enabled"
 				:size="20"
-				:fill-color="calendar.color" />
+				:fill-color="calendar.color"
+				@click.prevent.stop="toggleEnabled" />
 			<CheckboxBlank v-else
 				:size="20"
-				:fill-color="calendar.color" />
+				:fill-color="calendar.color"
+				@click.prevent.stop="toggleEnabled" />
 		</template>
 
 		<template #counter>
