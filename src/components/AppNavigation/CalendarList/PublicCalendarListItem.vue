@@ -6,12 +6,9 @@
 <template>
 	<AppNavigationItem :loading="calendar.loading"
 		:name="calendar.displayName || $t('calendar', 'Untitled calendar')"
-		:menu-open.sync="menuOpen"
-		@click.prevent.stop="toggleEnabled">
+		:menu-open.sync="menuOpen">
 		<template #icon>
-			<AppNavigationIconBullet v-if="calendar.enabled"
-				:color="calendar.color"
-				@click.prevent.stop="toggleEnabled" />
+			<AppNavigationIconBullet :color="calendar.color" />
 		</template>
 
 		<template #counter>
