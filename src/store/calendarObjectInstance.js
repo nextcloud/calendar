@@ -1529,13 +1529,10 @@ export default defineStore('calendarObjectInstance', {
 			calendarObjectInstance,
 			startDate,
 			onlyTime = false,
+			changeEndDate = true,
 		}) {
 			if (onlyTime) {
 				startDate.setFullYear(calendarObjectInstance.startDate.getFullYear(), calendarObjectInstance.startDate.getMonth(), calendarObjectInstance.startDate.getDate())
-			}
-
-			if (!onlyTime) {
-				startDate.setHours(calendarObjectInstance.startDate.getHours(), calendarObjectInstance.startDate.getMinutes(), calendarObjectInstance.startDate.getSeconds())
 			}
 
 			const difference = startDate.getTime() - calendarObjectInstance.startDate.getTime()
@@ -1545,10 +1542,13 @@ export default defineStore('calendarObjectInstance', {
 				calendarObjectInstance,
 				startDate,
 			})
-			this.changeEndDateMutation({
-				calendarObjectInstance,
-				endDate,
-			})
+
+			if (changeEndDate) {
+				this.changeEndDateMutation({
+					calendarObjectInstance,
+					endDate,
+				})
+			}
 		},
 
 		/**
@@ -1589,10 +1589,6 @@ export default defineStore('calendarObjectInstance', {
 		}) {
 			if (onlyTime) {
 				endDate.setFullYear(calendarObjectInstance.endDate.getFullYear(), calendarObjectInstance.endDate.getMonth(), calendarObjectInstance.endDate.getDate())
-			}
-
-			if (!onlyTime) {
-				endDate.setHours(calendarObjectInstance.endDate.getHours(), calendarObjectInstance.endDate.getMinutes(), calendarObjectInstance.endDate.getSeconds())
 			}
 
 			this.changeEndDateMutation({
