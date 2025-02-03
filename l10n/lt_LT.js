@@ -335,6 +335,7 @@ OC.L10N.register(
     "Subscribed" : "Prenumeruotas",
     "Subscribe" : "Prenumeruoti",
     "An error occurred, unable to subscribe to calendar." : "Įvyko klaida, nepavyko prenumeruoti kalendoriaus.",
+    "Select a date" : "Pasirinkti datą",
     "Time:" : "Laikas:",
     "Personal" : "Asmeniniai",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Automatinis laiko juostos aptikimas nustatė, kad jūsų laiko juosta yra UTC.\nTaip, greičiausiai, yra dėl jūsų saityno naršyklės saugos priemonių.\nKalendoriaus nustatymuose prašome rankiniu būdu nusistatyti laiko juostą.",
