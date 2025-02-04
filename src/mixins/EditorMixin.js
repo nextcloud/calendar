@@ -587,6 +587,8 @@ export default {
 			this.calendarObjectInstanceStore.changeStartDate({
 				calendarObjectInstance: this.calendarObjectInstance,
 				startDate,
+				onlyTime: false,
+				changeEndDate: false,
 			})
 		},
 		/**
