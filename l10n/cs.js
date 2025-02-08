@@ -266,6 +266,8 @@ OC.L10N.register(
     "Select conversation" : "Vybrat konverzaci",
     "Error fetching Talk conversations." : "Chyba při získávání konverzací v Talk.",
     "Conversation does not have a valid URL." : "Konverzace nemá platný URL.",
+    "Successfully added Talk conversation link to location." : "Do místa konání úspěšně přidán odkaz na konverzaci v Talk.",
+    "Successfully added Talk conversation link to description." : "Do popisu úspěšně přidán odkaz na konverzaci v Talk.",
     "Failed to apply Talk room." : "Nepodařilo se uplatnit místnost v Talk.",
     "Error creating Talk conversation" : "Chyba při vytváření konverzace v Talk",
     "Reminder" : "Připomínka",
