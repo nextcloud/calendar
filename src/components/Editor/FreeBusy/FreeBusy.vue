@@ -55,7 +55,7 @@
 					</NcButton>
 
 					<NcDateTimePickerNative :hide-label="true"
-						:value="currentDate"
+						:value="currentDateInUserTimezone.jsDate"
 						@input="(date)=>handleActions('picker', date)" />
 					<NcPopover :focus-trap="false">
 						<template #trigger>
@@ -85,7 +85,7 @@
 				:options="options" />
 			<div v-if="!disableFindTime" class="modal__content__footer">
 				<div class="modal__content__footer__title">
-					<p v-if="freeSlots">
+					<p v-if="freeSlots.length > 0">
 						{{ $t('calendar', 'Available times:') }}
 						<NcSelect class="available-slots__multiselect"
 							:options="freeSlots"
@@ -100,6 +100,9 @@
 								{{ $t('calendar', 'Suggestion accepted') }}
 							</template>
 						</NcSelect>
+					</p>
+					<p v-else-if="isAllDay">
+						{{ $t('calendar', 'Automatic slots are not available for all day events. Please select a time first.') }}
 					</p>
 					<h3>
 						{{ formattedCurrentStart }}
@@ -151,6 +154,9 @@ import { getFirstFreeSlot, getBusySlots } from '../../../services/freeBusySlotSe
 import dateFormat from '../../../filters/dateFormat.js'
 import { mapState } from 'pinia'
 import useSettingsStore from '../../../store/settings.js'
+import { DateTimeValue } from '@nextcloud/calendar-js'
+import getTimezoneManager from '../../../services/timezoneDataProviderService.js'
+import { getDateFromDateTimeValue } from '../../../utils/date.js'
 
 export default {
 	name: 'FreeBusy',
@@ -199,6 +205,13 @@ export default {
 			type: Date,
 			required: true,
 		},
+		/**
+		 * Is this an all day event?
+		 */
+		isAllDay: {
+			type: Boolean,
+			required: true,
+		},
 		eventTitle: {
 			type: String,
 			default: '',
@@ -219,9 +232,10 @@ export default {
 	data() {
 		return {
 			loadingIndicator: true,
-			currentDate: this.startDate,
-			currentStart: this.startDate,
-			currentEnd: this.endDate,
+			currentDate: this.startDate.clone(),
+			currentStart: this.startDate.clone(),
+			currentEnd: this.endDate.clone(),
+			didSelect: false,
 			lang: getFullCalendarLocale().locale,
 			formattingOptions: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
 			freeSlots: [],
@@ -255,21 +269,42 @@ export default {
 				interactionPlugin,
 			]
 		},
+		timezone() {
+			const timezone = getTimezoneManager().getTimezoneForId(this.timezoneId)
+			if (!timezone) {
+				throw new Error(`FreeBusy: Invalid time zone: ${this.timezoneId}`)
+			}
+
+			return timezone
+		},
+		currentDateInUserTimezone() {
+			return this.currentDate.getInTimezone(this.timezone)
+		},
+		currentStartInUserTimezone() {
+			return this.currentStart.getInTimezone(this.timezone)
+		},
+		currentEndInUserTimezone() {
+			return this.currentEnd.getInTimezone(this.timezone)
+		},
 		formattedCurrentStart() {
-			return this.currentDate.toLocaleDateString(this.lang, this.formattingOptions)
+			return getDateFromDateTimeValue(this.currentStartInUserTimezone)
+				.toLocaleDateString(this.lang, this.formattingOptions)
 		},
 		formattedCurrentTime() {
 			const options = { hour: '2-digit', minute: '2-digit', hour12: true }
 
-			const startTime = this.currentStart.toLocaleTimeString(this.lang, options)
-			const endTime = this.currentEnd.toLocaleTimeString(this.lang, options)
+			const startTime = getDateFromDateTimeValue(this.currentStartInUserTimezone)
+				.toLocaleTimeString(this.lang, options)
+			const endTime = getDateFromDateTimeValue(this.currentEndInUserTimezone)
+				.toLocaleTimeString(this.lang, options)
 
 			return `${startTime} - ${endTime} `
 		},
 		scrollTime() {
 			const options = { hour: '2-digit', minute: '2-digit', seconds: '2-digit', hour12: false }
 
-			return this.currentDate.getHours() > 0 ? new Date(this.currentDate.getTime() - 60 * 60 * 1000).toLocaleTimeString(this.lang, options) : '10:00:00'
+			const currentDate = this.currentStartInUserTimezone
+			return currentDate.hour > 0 ? new Date(currentDate.unixTime - 60 * 60 * 1000).toLocaleTimeString(this.lang, options) : '10:00:00'
 		},
 		formattedTimeZone() {
 			return this.timezoneId.replace('/', '-')
@@ -284,8 +319,8 @@ export default {
 				freeBusyFakeBlockingEventSource(
 					this._uid,
 					this.resources,
-					this.currentStart,
-					this.currentEnd,
+					this.currentStartInUserTimezone.jsDate,
+					this.currentEndInUserTimezone.jsDate,
 				),
 				freeBusyBlockedForAllEventSource(
 					this.organizer.attendeeProperty,
@@ -359,10 +394,12 @@ export default {
 		 * @return {object}
 		 */
 		options() {
+			const timezone = getTimezoneManager().getTimezoneForId(this.timezoneId)
+
 			return {
 				// Initialization:
 				initialView: 'resourceTimelineDay',
-				initialDate: this.currentStart,
+				initialDate: this.currentStart.getInTimezone(timezone).jsDate,
 				schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
 				// Data
 				eventSources: this.eventSources,
@@ -403,11 +440,22 @@ export default {
 	},
 	methods: {
 		handleSelect(arg) {
-			this.currentStart = arg.start
-			this.currentEnd = arg.end
+			this.currentStart = DateTimeValue.fromJSDate(arg.start, true)
+			this.currentEnd = DateTimeValue.fromJSDate(arg.end, true)
+			this.didSelect = true
 		},
 		save() {
-			this.$emit('update-dates', { start: this.currentStart, end: this.currentEnd })
+			// Can't fail as the time zones were already parsed
+			const tzManager = getTimezoneManager()
+			const startTz = tzManager.getTimezoneForId(this.startDate.timezoneId)
+			const endTz = tzManager.getTimezoneForId(this.endDate.timezoneId)
+
+			// Convert picked start and end date back to naive date object (pretending that it is
+			// in the event's time zone and not in the browser's time zone)
+			this.$emit('update-dates', {
+				start: getDateFromDateTimeValue(this.currentStart.getInTimezone(startTz)),
+				end: getDateFromDateTimeValue(this.currentEnd.getInTimezone(endTz)),
+			})
 		},
 		addAttendee(attendee) {
 			this.$emit('add-attendee', attendee)
@@ -436,26 +484,34 @@ export default {
 				calendar.gotoDate(date)
 				break
 			}
-			this.currentDate = calendar.getDate()
+			this.currentDate = DateTimeValue.fromJSDate(calendar.getDate(), true)
 			calendar.scrollToTime(this.scrollTime)
 			this.findFreeSlots()
 		},
 		async findFreeSlots() {
 			// Doesn't make sense for multiple days
-			if (this.currentStart.getDate() !== this.currentEnd.getDate()) {
+			if (this.currentStart.day !== this.currentEnd.day) {
 				return
 			}
 
-			// Needed to update with full calendar widget changes
-			const startSearch = new Date(this.currentStart)
-			startSearch.setDate(this.currentDate.getDate())
-			startSearch.setMonth(this.currentDate.getMonth())
-			startSearch.setYear(this.currentDate.getFullYear())
+			// Doesn't make sense for full day events (as long as the user didn't select a slot
+			// manually)
+			if (this.isAllDay && !this.didSelect) {
+				return
+			}
 
-			const endSearch = new Date(this.currentEnd)
-			endSearch.setDate(this.currentDate.getDate())
-			endSearch.setMonth(this.currentDate.getMonth())
-			endSearch.setYear(this.currentDate.getFullYear())
+			const currentDate = this.currentDateInUserTimezone.jsDate
+
+			// Needed to update with full calendar widget changes
+			const startSearch = this.currentStartInUserTimezone.jsDate
+			startSearch.setDate(currentDate.getDate())
+			startSearch.setMonth(currentDate.getMonth())
+			startSearch.setYear(currentDate.getFullYear())
+
+			const endSearch = this.currentEndInUserTimezone.jsDate
+			endSearch.setDate(currentDate.getDate())
+			endSearch.setMonth(currentDate.getMonth())
+			endSearch.setYear(currentDate.getFullYear())
 
 			try {
 				// for now search slots only in the first week days
@@ -476,7 +532,11 @@ export default {
 				)
 
 				freeSlots.forEach((slot) => {
-					slot.displayStart = dateFormat(slot.start, false, getFullCalendarLocale().locale)
+					const startDate = DateTimeValue
+						.fromJSDate(slot.start, true)
+						.getInTimezone(this.timezone)
+					const naiveStartDate = getDateFromDateTimeValue(startDate)
+					slot.displayStart = dateFormat(naiveStartDate, false, getFullCalendarLocale().locale)
 				})
 
 				this.freeSlots = freeSlots
@@ -494,10 +554,10 @@ export default {
 			calendar.scrollToTime(this.scrollTime)
 
 			// have to make these "selected" version of the props seeing as they can't be modified directly, and they aren't updated reactively when vuex is
-			this.currentStart = slot.start
-			this.currentEnd = slot.end
+			this.currentStart = DateTimeValue.fromJSDate(slot.start, true)
+			this.currentEnd = DateTimeValue.fromJSDate(slot.end, true)
 			const clonedDate = new Date(slot.start) // so as not to modify slot.start
-			this.currentDate = new Date(clonedDate.setHours(0, 0, 0, 0))
+			this.currentDate = DateTimeValue.from(new Date(clonedDate.setHours(0, 0, 0, 0), true))
 		},
 	},
 }

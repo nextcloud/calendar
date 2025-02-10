@@ -483,6 +483,14 @@ export default {
 		 * @param {object} dates The new start and end date
 		 */
 		updateDates(dates) {
+			if (this.isAllDay) {
+				if (!this.canModifyAllDay) {
+					throw new Error('Impossible to convert all day event to regular event')
+				}
+
+				this.toggleAllDay()
+			}
+
 			this.updateStartDate(dates.start)
 			this.updateEndDate(dates.end)
 		},
