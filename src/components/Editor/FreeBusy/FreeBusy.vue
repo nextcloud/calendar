@@ -394,12 +394,10 @@ export default {
 		 * @return {object}
 		 */
 		options() {
-			const timezone = getTimezoneManager().getTimezoneForId(this.timezoneId)
-
 			return {
 				// Initialization:
 				initialView: 'resourceTimelineDay',
-				initialDate: this.currentStart.getInTimezone(timezone).jsDate,
+				initialDate: this.currentStartInUserTimezone,
 				schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
 				// Data
 				eventSources: this.eventSources,
