@@ -91,6 +91,7 @@
 				:is-read-only="isReadOnly"
 				:prop-model="rfcProps.description"
 				:value="description"
+				:is-description="true"
 				:linkify-links="true"
 				@update:value="updateDescription" />
 
