@@ -1,7 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
-    "User-Session unexpectedly expired" : "Sessão do usuário expirou inesperadamente",
+    "User-Session unexpectedly expired" : "A sessão de utilizador expirou inesperadamente",
     "Provided email-address is not valid" : "O endereço de e-mail que inseriu não é válido",
     "%s has published the calendar »%s«" : "%s publicou o calendário »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Ocorreu um erro ao enviar o email. Por favor contacte o seu administrador",
