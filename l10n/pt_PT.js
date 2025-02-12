@@ -97,7 +97,7 @@ OC.L10N.register(
     "Copy internal link" : "Copiar ligação interna",
     "Share link" : "Partilhar hiperligação",
     "Copy public link" : "Copiar ligação publica",
-    "Send link to calendar via email" : "Enviar ligação por correio electrónico",
+    "Send link to calendar via email" : "Enviar ligação por correio eletrónico",
     "Enter one address" : "Introduza um endereço",
     "Sending email …" : "A enviar o email …",
     "Copy embedding code" : "Copiar código embebido",
