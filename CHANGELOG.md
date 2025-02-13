@@ -1,3 +1,17 @@
+## [5.0.10](https://github.com/nextcloud/calendar/compare/v5.0.9...v5.0.10) (2025-02-13)
+
+
+### Bug Fixes
+
+* avoid hotkeys in contenteditable ([6e689e2](https://github.com/nextcloud/calendar/commit/6e689e2d9284b4d9e799435f2851f880042f8190))
+* **calendar-list:** restrict calendar visibility toggle to checkbox only ([778c936](https://github.com/nextcloud/calendar/commit/778c93699a0fa9dab5aac26e275f0413f6236d4a)), closes [#3027](https://github.com/nextcloud/calendar/issues/3027)
+* force height for descr and location ([8e35cb2](https://github.com/nextcloud/calendar/commit/8e35cb2de64564f859956beaa2a6699379c965fe))
+* **freebusy:** free busy ignoring user's time zone ([7508abb](https://github.com/nextcloud/calendar/commit/7508abb097a8af57297c7fc1ba6fb60cd236e24b))
+* **freebusy:** slot header format not respecting user's locale ([673cafc](https://github.com/nextcloud/calendar/commit/673cafcd3c896e3fb2228bca1c790f1354ab64b7))
+* **public-calendar:** remove toggle functionality from public view ([d94ca1c](https://github.com/nextcloud/calendar/commit/d94ca1c39b0f16bf78a16bfdcbb7fe4f51e5f27a))
+
+
+
 ## [5.0.9](https://github.com/nextcloud/calendar/compare/v5.0.8...v5.0.9) (2025-01-14)
 
 
