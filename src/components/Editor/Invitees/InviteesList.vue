@@ -41,7 +41,7 @@
 		<OrganizerNoEmailError v-else-if="!isReadOnly && isListEmpty && !hasUserEmailAddress && !hideErrors" />
 
 		<div v-if="!hideButtons" class="invitees-list-button-group">
-			<NcButton v-if="!isReadOnly"
+			<NcButton v-if="!isReadOnly && !(calendarObjectInstance.isAllDay && !calendarObjectInstance.canModifyAllDay)"
 				class="invitees-list-button-group__button"
 				:disabled="isListEmpty || !isOrganizer"
 				@click="openFreeBusy">
@@ -50,8 +50,9 @@
 			<FreeBusy v-if="showFreeBusyModel"
 				:attendees="calendarObjectInstance.attendees"
 				:organizer="calendarObjectInstance.organizer"
-				:start-date="calendarObjectInstance.startDate"
-				:end-date="calendarObjectInstance.endDate"
+				:start-date="calendarObjectInstance.eventComponent.startDate"
+				:end-date="calendarObjectInstance.eventComponent.endDate"
+				:is-all-day="calendarObjectInstance.isAllDay"
 				:event-title="calendarObjectInstance.title"
 				:already-invited-emails="alreadyInvitedEmails"
 				:show-done-button="true"
