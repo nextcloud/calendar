@@ -12,7 +12,7 @@ import cssColors from 'css-color-names'
 import sortBy from 'lodash/sortBy.js'
 import pick from 'lodash/pick.js'
 import uniqBy from 'lodash/uniqBy.js'
-import { get } from 'color-string'
+import colorString from 'color-string'
 
 const uniqColorKeys = uniqBy(Object.keys(cssColors), c => cssColors[c])
 const filteredColors = pick(cssColors, uniqColorKeys)
@@ -73,8 +73,8 @@ export default function closestColor(hex, opt = {}) {
  * @return {number}
  */
 function proximity(s1, s2) {
-	const c1 = rgb2lab(get.rgb(s1))
-	const c2 = rgb2lab(get.rgb(s2))
+	const c1 = rgb2lab(colorString.get.rgb(s1))
+	const c2 = rgb2lab(colorString.get.rgb(s2))
 	return Math.sqrt(
 		Math.pow(c1[0] - c2[0], 2)
 		+ Math.pow(c1[1] - c2[1], 2)
