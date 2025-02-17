@@ -75,6 +75,7 @@
 
 	.fc-event {
 		box-shadow: 0px 0px 0px 1px var(--color-primary-element-light) !important;
+		margin-top: 0px;
 	}
 
 	.fc-daygrid-day-top {
@@ -131,6 +132,7 @@
 // ### FullCalendar Event adjustments
 .fc-event {
 	padding-left: 3px;
+	border-width: 2px;
 
 	&.fc-event-nc-task-completed,
 	&.fc-event-nc-tentative,
@@ -149,6 +151,7 @@
 
 	.fc-event-title {
 		text-overflow: ellipsis;
+		font-weight: 700;
 	}
 
 	// Reminder icon on events with alarms set
@@ -198,6 +201,10 @@
 		-webkit-box-orient: vertical;
 		white-space: pre-wrap;
 		max-width: 25vw;
+	}
+
+	svg {
+		margin-right: 2px;
 	}
 
 	@media only screen and (max-width: 767px) {
