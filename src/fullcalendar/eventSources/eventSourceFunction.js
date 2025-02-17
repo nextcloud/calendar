@@ -11,7 +11,7 @@ import {
 } from '../../utils/color.js'
 import logger from '../../utils/logger.js'
 import { getAllObjectsInTimeRange } from '../../utils/calendarObject.js'
-
+import usePrincipalsStore from '../../store/principals.js'
 /**
  * convert an array of calendar-objects to events
  *
@@ -23,6 +23,8 @@ import { getAllObjectsInTimeRange } from '../../utils/calendarObject.js'
  * @return {object}[]
  */
 export function eventSourceFunction(calendarObjects, calendar, start, end, timezone) {
+	const principalsStore = usePrincipalsStore()
+
 	const fcEvents = []
 	for (const calendarObject of calendarObjects) {
 		let allObjectsInTimeRange
@@ -32,14 +34,44 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 			logger.error(error.message)
 			continue
 		}
-
 		for (const object of allObjectsInTimeRange) {
 			const classNames = []
+			let didEveryoneDecline = false
+
+			// You are an organizer
+			if (object.getFirstPropertyFirstValue('ORGANIZER') === `mailto:${principalsStore.getCurrentUserPrincipalEmail}`) {
+				// Check if all the attendees have declined the event
+				if (object.hasProperty('ATTENDEE')) {
+					didEveryoneDecline = true
+					for (const attendeeProperty of object.getPropertyIterator('ATTENDEE')) {
+						const hasDeclined = attendeeProperty.participationStatus === 'DECLINED'
+						if (!hasDeclined) {
+							didEveryoneDecline = false
+						}
+					}
+					if (didEveryoneDecline) {
+						classNames.push('fc-event-nc-all-declined')
+					}
+				}
+			}
 
 			if (object.status === 'CANCELLED') {
 				classNames.push('fc-event-nc-cancelled')
 			} else if (object.status === 'TENTATIVE') {
 				classNames.push('fc-event-nc-tentative')
+			}
+
+			// You are invited
+			for (const attendeeProperty of object.getPropertyIterator('ATTENDEE')) {
+				if (attendeeProperty.email === `mailto:${principalsStore.getCurrentUserPrincipalEmail}`) {
+					if (attendeeProperty.participationStatus === 'DECLINED') {
+						classNames.push('fc-event-nc-declined')
+					} else if (attendeeProperty.participationStatus === 'TENTATIVE') {
+						classNames.push('fc-event-nc-tentative')
+					} else if (attendeeProperty.participationStatus === 'NEEDS-ACTION') {
+						classNames.push('fc-event-nc-needs-action')
+					}
+				}
 			}
 
 			if (object.hasComponent('VALARM')) {

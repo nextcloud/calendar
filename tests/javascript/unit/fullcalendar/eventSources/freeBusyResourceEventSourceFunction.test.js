@@ -11,6 +11,7 @@ import {
 } from '../../../../../src/utils/color.js'
 import { translate } from '@nextcloud/l10n'
 import {getAllObjectsInTimeRange} from "../../../../../src/utils/calendarObject.js";
+import { createPinia, setActivePinia } from 'pinia'
 jest.mock('@nextcloud/l10n')
 jest.mock('../../../../../src/utils/color.js')
 jest.mock("../../../../../src/utils/calendarObject.js")
@@ -22,6 +23,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 		getHexForColorName.mockClear()
 		generateTextColorForHex.mockClear()
 		getAllObjectsInTimeRange.mockClear()
+		setActivePinia(createPinia())
 	})
 
 	it('should provide fc-events', () => {
@@ -63,6 +65,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				})
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
+			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
+			getPropertyIterator: jest.fn().mockReturnValue([]),
 		}, {
 			name: 'VEVENT',
 			id: '1-2',
@@ -82,6 +86,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
 			title: 'Untitled\nmultiline\nevent',
+			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
+			getPropertyIterator: jest.fn().mockReturnValue([]),
 		}, {
 			name: 'VEVENT',
 			id: '1-3',
@@ -100,6 +106,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				})
 			},
 			hasComponent: jest.fn().mockReturnValue(true),
+			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
+			getPropertyIterator: jest.fn().mockReturnValue([]),
 		}]
 		const eventComponentSet2 = [{
 			name: 'VEVENT',
@@ -119,6 +127,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				})
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
+			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
+			getPropertyIterator: jest.fn().mockReturnValue([]),
 		}]
 		const eventComponentSet4 = [{
 			name: 'VEVENT',
@@ -139,6 +149,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
 			color: 'red',
+			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
+			getPropertyIterator: jest.fn().mockReturnValue([]),
 		}]
 
 		getAllObjectsInTimeRange
@@ -202,6 +214,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					davUrl: 'url1',
 					objectType: 'VEVENT',
 					percent: null,
+					description: undefined,
+					location: undefined,
 				}
 			},
 			{
@@ -222,6 +236,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					davUrl: 'url1',
 					objectType: 'VEVENT',
 					percent: null,
+					description: undefined,
+					location: undefined,
 				}
 			},
 			{
@@ -242,6 +258,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					davUrl: 'url1',
 					objectType: 'VEVENT',
 					percent: null,
+					description: undefined,
+					location: undefined,
 				}
 			},
 			{
@@ -262,6 +280,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					davUrl: 'url2',
 					objectType: 'VEVENT',
 					percent: null,
+					description: undefined,
+					location: undefined,
 				}
 			},
 			{
@@ -282,6 +302,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					davUrl: 'url4',
 					objectType: 'VEVENT',
 					percent: null,
+					description: undefined,
+					location: undefined,
 				},
 				backgroundColor: '#ff0000',
 				borderColor: '#ff0000',
@@ -445,6 +467,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
 			percent: null,
+			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
+			getPropertyIterator: jest.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '2',
@@ -464,6 +488,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
 			percent: null,
+			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
+			getPropertyIterator: jest.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '3',
@@ -483,6 +509,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			},
 			hasComponent: jest.fn().mockReturnValue(false),
 			percent: 99,
+			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
+			getPropertyIterator: jest.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '4',
@@ -503,6 +531,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			hasComponent: jest.fn().mockReturnValue(false),
 			title: 'This task has a title',
 			percent: null,
+			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
+			getPropertyIterator: jest.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '5',
@@ -523,6 +553,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			hasComponent: jest.fn().mockReturnValue(false),
 			title: 'This task has a title and percent',
 			percent: 99,
+			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
+			getPropertyIterator: jest.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '6',
@@ -535,6 +567,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			startDate: null,
 			endDate: null,
 			percent: null,
+			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
+			getPropertyIterator: jest.fn().mockReturnValue([]),
 		}]
 
 		getAllObjectsInTimeRange
@@ -573,6 +607,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				objectType: 'VTODO',
 				percent: null,
 				recurrenceId: 123,
+				description: undefined,
+				location: undefined,
 			},
 			id: '1###1',
 			start: event1End,
@@ -594,6 +630,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				objectType: 'VTODO',
 				percent: null,
 				recurrenceId: 123,
+				description: undefined,
+				location: undefined,
 			},
 			id: '1###2',
 			start: event2End,
@@ -615,6 +653,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				objectType: 'VTODO',
 				percent: 99,
 				recurrenceId: 123,
+				description: undefined,
+				location: undefined,
 			},
 			id: '1###3',
 			start: event3End,
@@ -636,6 +676,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				objectType: 'VTODO',
 				percent: null,
 				recurrenceId: 123,
+				description: undefined,
+				location: undefined,
 			},
 			id: '1###4',
 			start: event4End,
@@ -657,6 +699,8 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				objectType: 'VTODO',
 				percent: 99,
 				recurrenceId: 123,
+				description: undefined,
+				location: undefined,
 			},
 			id: '1###5',
 			start: event5End,
