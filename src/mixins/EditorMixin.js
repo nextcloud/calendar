@@ -584,8 +584,13 @@ export default {
 		 * @param {Date} startDate New start date
 		 */
 		updateStartDate(startDate) {
-			const oldStartDate = new Date(this.calendarObjectInstance.startDate)
-			const combinedStartDate = new Date(startDate.toDateString() + ' ' + oldStartDate.toTimeString())
+			const combinedStartDate = new Date(startDate)
+			combinedStartDate.setHours(
+				this.calendarObjectInstance.startDate.getHours(),
+				this.calendarObjectInstance.startDate.getMinutes(),
+				this.calendarObjectInstance.startDate.getSeconds(),
+				0,
+			)
 
 			this.calendarObjectInstanceStore.changeStartDate({
 				calendarObjectInstance: this.calendarObjectInstance,
@@ -627,8 +632,13 @@ export default {
 		 * @param {Date} endDate New end date
 		 */
 		updateEndDate(endDate) {
-			const oldEndDate = new Date(this.calendarObjectInstance.endDate)
-			const combinedEndDate = new Date(endDate.toDateString() + ' ' + oldEndDate.toTimeString())
+			const combinedEndDate = new Date(endDate)
+			combinedEndDate.setHours(
+				this.calendarObjectInstance.endDate.getHours(),
+				this.calendarObjectInstance.endDate.getMinutes(),
+				this.calendarObjectInstance.endDate.getSeconds(),
+				0,
+			)
 
 			this.calendarObjectInstanceStore.changeEndDate({
 				calendarObjectInstance: this.calendarObjectInstance,
