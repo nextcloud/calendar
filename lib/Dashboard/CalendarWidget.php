@@ -153,6 +153,9 @@ class CalendarWidget implements IAPIWidget, IButtonWidget, IIconWidget, IOptionW
 		];
 		$widgetItems = [];
 		foreach ($calendars as $calendar) {
+			if ($calendar->isDeleted()) {
+				continue;
+			}
 			$searchResult = $calendar->search('', [], $options, $limit);
 			foreach ($searchResult as $calendarEvent) {
 				// Find first recurrence in the future
