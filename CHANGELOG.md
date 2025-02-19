@@ -5,6 +5,80 @@
 -->
 # Changelog
 
+## 5.1.0 - 2025-02-19
+### Added
+- Support for Nextcloud 31
+- Support for PHP 8.4
+- Add availability action to the contacts menu
+- Add organizer selection
+- Add overlay between calendar and open simple editor
+- Add timezone to all emails
+- Allow adding attendees in simple editor
+- Allow inviting contact groups
+- Allow shared calendars as appointment conflict calendars
+- Disable autocompletion for event property field
+- Fix dragging to order calendars
+- Improve attendee and resource status display
+- Improve the description text
+- Select existing talk roomfor convesations
+- Use native date and time picker
+### Fixed
+- Add an error message for when a file is not compatible for windows
+- Add missing file picker confirm
+- Adjust event click test to changed task url
+- Adjust url for task links
+- Align event title
+- Allow adding self to shared event
+- Appointment slots start and end time
+- Avatar status icon text misalignment
+- Avoid hotkeys in contenteditable
+- Calendar header overlapping and adjust to compact design
+- Close modal after creating conversation
+- Color picker size
+- Console-log errors thrown when saving an event
+- Date selector resetting time
+- Default reminder ui bug
+- Do not show items from deleted calendars in widget
+- Dragging to order calendars
+- EditSideBar bug
+- Enable directory selection in file picker
+- Entity parameter types
+- Events with overlapping time visually overlap
+- Firefox avatar icon styling inconsistency
+- Fix npm audit
+- Force height for descr and location
+- Free busy ignoring user's time zone
+- Free busy not updating date
+- Handle timezones with no transitions properly
+- Ignore unnecessary files
+- Improve layout
+- Improve suggested slots
+- Invert edit simple checkbox
+- Invitees list
+- Keyboard shortcut modal not being responsive
+- Location and description not being saved
+- Make avatar status not clip
+- Make events in weekly view have the correct width
+- Max-width for long timezones names
+- Navigation buttons
+- Notifier::prepare() threw \InvalidArgumentException which is deprecated
+- Public Calendar Modal Opening
+- Remove create talk room from attendees tab
+- Remove toggle functionality from public view
+- Reset attendee participation status on duplication of an event
+- Resolve undefined variable error and add logging
+- Restrict calendar visibility toggle to checkbox only
+- Send date as sting instead of epoch
+- Show display name instead of user id in availability integration
+- Simple calendar view width
+- Simple editor size and jumping
+- Slot header format not respecting user's locale
+- Sort talk conversations by most recent activity
+- Specify committer for automated releases
+- Undefined calendar
+- Update axios
+- Use folder icon as fallback
+
 ## 5.0.0 - Unreleased
 ### Added
 - Nextcloud 30 support
