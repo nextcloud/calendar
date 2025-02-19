@@ -159,4 +159,51 @@ class CalendarWidgetTest extends TestCase {
 		$this->assertCount(1, $widgets);
 		$this->assertEquals($widgets[0], $widget);
 	}
+
+	public function testGetItemsWithDeletedCalendar() {
+		$userId = 'admin';
+		$calendar = $this->createMock(CalendarImpl::class);
+		$calendars = [$calendar];
+		$time = 1665550936;
+		$start = (new DateTimeImmutable())->setTimestamp($time);
+		$twoWeeks = $start->add(new \DateInterval('P14D'));
+		$options = [
+			'timerange' => [
+				'start' => $start,
+				'end' => $twoWeeks,
+			]
+		];
+		$limit = 7;
+		$result = [
+			'id' => '3599',
+			'uid' => '59d30b6c-5a31-4d28-b1d6-c8f928180e96',
+			'uri' => '60EE4FCB-2144-4811-BBD3-FFEA44739F40.ics',
+			'objects' => [
+				[
+					'DTSTART' => [
+						$start
+					],
+					'SUMMARY' => [
+						'Test',
+					]
+				]
+			]
+		];
+
+		$this->calendarManager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->with('principals/users/' . $userId)
+			->willReturn($calendars);
+		$this->timeFactory->expects(self::once())
+			->method('getTime')
+			->willReturn($time);
+		$calendar->expects(self::once())
+			->method('isDeleted')
+			->willReturn(true);
+		$calendar->expects(self::never())
+			->method('search');
+
+		$widgets = $this->widget->getItems($userId);
+		$this->assertCount(0, $widgets);
+	}
 }
