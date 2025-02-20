@@ -34,6 +34,7 @@
 
 <script>
 import { NcSelect } from '@nextcloud/vue'
+import { getTranslatedOrdinalNumber } from '../../../filters/recurrenceRuleFormat.js'
 
 export default {
 	name: 'RepeatFirstLastSelect',
@@ -58,28 +59,10 @@ export default {
 	},
 	computed: {
 		options() {
-			return [{
-				label: this.$t('calendar', 'first'),
-				value: 1,
-			}, {
-				label: this.$t('calendar', 'second'),
-				value: 2,
-			}, {
-				label: this.$t('calendar', 'third'),
-				value: 3,
-			}, {
-				label: this.$t('calendar', 'fourth'),
-				value: 4,
-			}, {
-				label: this.$t('calendar', 'fifth'),
-				value: 5,
-			}, {
-				label: this.$t('calendar', 'second to last'),
-				value: -2,
-			}, {
-				label: this.$t('calendar', 'last'),
-				value: -1,
-			}]
+			return [1, 2, 3, 4, 5, -2, -1].map((ordinal) => ({
+				label: getTranslatedOrdinalNumber(ordinal),
+				value: ordinal,
+			}))
 		},
 		selected() {
 			return this.options.find(option => option.value === this.bySetPosition)
