@@ -53,6 +53,8 @@ OC.L10N.register(
     "Your email address" : "თქვენი ელ-ფოსტის მისამართი",
     "Notification" : "შეტყობინება",
     "Email" : "ელ-ფოსტა",
+    "days" : "დღე",
+    "weeks" : "კვირა",
     "Delete file" : "გაუქმდეს ფაილი",
     "Choose a file to add as attachment" : "დანართად დასამატებლად აირჩიეთ ფაილი",
     "Done" : "დასრულდა",
