@@ -34,6 +34,7 @@ OC.L10N.register(
     "Out of office" : "Van kancelarije",
     "Unknown" : "Nepoznato",
     "never" : "never",
+    "second" : "sekund",
     "Details" : "Detalji",
     "Close" : "Zatvori",
     "Daily" : "дневно",

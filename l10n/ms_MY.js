@@ -71,6 +71,7 @@ OC.L10N.register(
     "Attendees" : "Jemputan",
     "Repeat" : "Ulang",
     "never" : "jangan",
+    "second" : "kedua",
     "Personal" : "Peribadi",
     "Close" : "Tutup",
     "Daily" : "Setiap hari",
