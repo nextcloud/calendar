@@ -202,12 +202,13 @@ function getTranslatedMonths(byMonthList) {
  * @param {number} bySetPositionNum The by-set-position number to get the translation of
  * @return {string}
  */
-function getTranslatedOrdinalNumber(bySetPositionNum) {
+export function getTranslatedOrdinalNumber(bySetPositionNum) {
 	switch (bySetPositionNum) {
 	case 1:
 		return t('calendar', 'first')
 
 	case 2:
+		// TRANSLATORS This refers to the second item in a series, not to the unit of time
 		return t('calendar', 'second')
 
 	case 3:
