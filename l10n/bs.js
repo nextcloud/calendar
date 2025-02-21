@@ -32,6 +32,7 @@ OC.L10N.register(
     "Update" : "Ažuriraj",
     "Your email address" : "Vaša adresa e-pošte",
     "Email" : "E-pošta",
+    "weeks" : "sedmica",
     "Busy" : "Zauzet",
     "Unknown" : "Nepoznato",
     "Accept" : "Prihvati",
