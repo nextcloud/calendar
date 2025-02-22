@@ -71,11 +71,11 @@ OC.L10N.register(
     "Attendees" : "Jemputan",
     "Repeat" : "Ulang",
     "never" : "jangan",
-    "second" : "kedua",
     "Personal" : "Peribadi",
     "Close" : "Tutup",
     "Daily" : "Setiap hari",
     "Weekly" : "Setiap minggu",
+    "second" : "kedua",
     "Other" : "Lain"
 },
 "nplurals=1; plural=0;");

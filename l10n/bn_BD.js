@@ -37,6 +37,10 @@ OC.L10N.register(
     "Your email address" : "আপনার ই-মেইল ঠিকানা",
     "Notification" : "নোটিফিকেশন ",
     "Email" : "ইমেইল",
+    "seconds" : "সেকেন্ড",
+    "minutes" : "মিনিটসমূহ",
+    "hours" : "ঘন্টাসমূহ",
+    "days" : "দিনগুলি",
     "weeks" : "সপ্তাহসমূহ",
     "Choose a file to add as attachment" : "সংযুক্তি দেয়ার জন্য একটি ফাইল নির্বাচন করুন",
     "Done" : "শেষ হলো",
@@ -50,6 +54,7 @@ OC.L10N.register(
     "Close" : "বন্ধ",
     "Daily" : "দৈনিক",
     "Weekly" : "সাপ্তাহিক",
+    "second" : "সেকেন্ড",
     "Other" : "অন্যান্য"
 },
 "nplurals=2; plural=(n != 1);");
