@@ -32,6 +32,10 @@ OC.L10N.register(
     "Update" : "Ažuriraj",
     "Your email address" : "Vaša adresa e-pošte",
     "Email" : "E-pošta",
+    "seconds" : "sekundi",
+    "minutes" : "minuta",
+    "hours" : "sati",
+    "days" : "dana",
     "weeks" : "sedmica",
     "Busy" : "Zauzet",
     "Unknown" : "Nepoznato",
@@ -44,6 +48,7 @@ OC.L10N.register(
     "Close" : "Zatvori",
     "Daily" : "Dnevno",
     "Weekly" : "Sedmično",
+    "second" : "drugi",
     "Other" : "Ostali",
     "Status" : "Status"
 },

@@ -38,13 +38,13 @@ OC.L10N.register(
     "Repeat" : "ធ្វើម្ដងទៀត",
     "never" : "មិនដែរ",
     "first" : "ទីមួយ",
-    "second" : "ទីពីរ",
-    "last" : "ចុងក្រោយ",
     "Personal" : "ផ្ទាល់​ខ្លួន",
     "Details" : "ព័ត៌មាន​លម្អិត",
     "Close" : "បិទ",
     "Daily" : "រាល់ថ្ងៃ",
     "Weekly" : "រាល់​សប្ដាហ៍",
+    "second" : "ទីពីរ",
+    "last" : "ចុងក្រោយ",
     "Other" : "ផ្សេងៗ"
 },
 "nplurals=1; plural=0;");
