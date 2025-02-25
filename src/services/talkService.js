@@ -9,6 +9,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { getCurrentUser } from '@nextcloud/auth'
 import logger from '../utils/logger.js'
 import { removeMailtoPrefix } from '../utils/attendee.js'
+import md5 from 'md5'
 
 /**
  * Creates a new public talk room
@@ -25,6 +26,8 @@ export async function createTalkRoom(eventTitle = null, eventDescription = null,
 		const response = await HTTPClient.post(generateOcsUrl('apps/spreed/api/' + apiVersion + '/', 2) + 'room', {
 			roomType: 3,
 			roomName: eventTitle || t('calendar', 'Talk conversation for event'),
+			objectType: 'event',
+			objectId: md5(new Date()),
 		})
 
 		const conversation = response.data.ocs.data
