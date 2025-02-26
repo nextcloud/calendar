@@ -1,3 +1,12 @@
+## [5.1.2](https://github.com/nextcloud/calendar/compare/v5.1.1...v5.1.2) (2025-02-26)
+
+
+### Bug Fixes
+
+* Release automation ([03a4630](https://github.com/nextcloud/calendar/commit/03a4630be00c1f435c314bb57964f1908ca1e341))
+
+
+
 ## [5.1.1](https://github.com/nextcloud/calendar/compare/v5.1.0...v5.1.1) (2025-02-26)
 
 
