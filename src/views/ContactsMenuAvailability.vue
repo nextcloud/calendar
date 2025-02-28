@@ -8,6 +8,7 @@
 		:dialog-name="dialogName"
 		:start-date="startDate"
 		:end-date="endDate"
+		:is-all-day="false"
 		:organizer="organizer"
 		:attendees="attendees"
 		:disable-find-time="true"
@@ -28,7 +29,7 @@ import loadMomentLocalization from '../utils/moment.js'
 import { initializeClientForUserView } from '../services/caldavService.js'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import FreeBusy from '../components/Editor/FreeBusy/FreeBusy.vue'
-import { AttendeeProperty } from '@nextcloud/calendar-js'
+import { AttendeeProperty, DateTimeValue } from '@nextcloud/calendar-js'
 
 export default {
 	name: 'ContactsMenuAvailability',
@@ -69,13 +70,13 @@ export default {
 			})
 		},
 		startDate() {
-			return new Date()
+			return DateTimeValue.fromJSDate(new Date(), false)
 		},
 		endDate() {
 			// Let's assign a slot of one hour as a default for now
-			const date = new Date(this.startDate)
+			const date = this.startDate.jsDate
 			date.setHours(date.getHours() + 1)
-			return date
+			return DateTimeValue.fromJS(date, false)
 		},
 		organizer() {
 			if (!this.principalsStore.getCurrentUserPrincipal) {
