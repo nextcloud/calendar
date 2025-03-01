@@ -406,9 +406,15 @@ export default {
 .property-title-time-picker__time-pickers--all-day {
 	display: flex;
 	flex-direction: row;
+	flex-wrap: wrap;
 	align-items: center;
 	width: 100%;
 	gap: calc(var(--default-grid-baseline) * 2);
+
+	.property-title-time-picker__time-pickers-from,
+	.property-title-time-picker__time-pickers-to {
+		flex: 1 150px;
+	}
 }
 
 :deep(button.vs__open-indicator-button) {
