@@ -8,7 +8,10 @@ import logger from '../../utils/logger.js'
 import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
 import useCalendarsStore from '../../store/calendars.js'
 import useCalendarObjectsStore from '../../store/calendarObjects.js'
-
+import usePrincipalsStore from '../../store/principals.js'
+import { isOrganizer } from '../../utils/attendee.js'
+import { showWarning } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
 /**
  * Returns a function to drop an event at a different position
  *
@@ -18,6 +21,7 @@ import useCalendarObjectsStore from '../../store/calendarObjects.js'
 export default function(fcAPI) {
 	const calendarsStore = useCalendarsStore()
 	const calendarObjectsStore = useCalendarObjectsStore()
+	const principalsStore = usePrincipalsStore()
 
 	return async function({ event, delta, revert }) {
 		const deltaDuration = getDurationValueFromFullCalendarDuration(delta)
@@ -53,6 +57,12 @@ export default function(fcAPI) {
 		if (!eventComponent) {
 			console.debug('Recurrence-id not found')
 			revert()
+			return
+		}
+
+		if (!isOrganizer(principalsStore.getCurrentUserPrincipalEmail, eventComponent.organizer)) {
+			revert()
+			showWarning(t('calendar', 'You are not allowed to edit this event as an attendee.'))
 			return
 		}
 
