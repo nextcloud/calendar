@@ -56,3 +56,18 @@ export function organizerDisplayName(organizer) {
 
 	return removeMailtoPrefix(organizer.uri)
 }
+
+/**
+ * Check if the current user is an attendee
+ *
+ * @param {string} currentUserPrincipalEmail Email address of the current user
+ * @param {string} organizer Email address of the organizer with prefix
+ * @return {boolean} True if the current user is an attendee
+ */
+export function isOrganizer(currentUserPrincipalEmail, organizer) {
+	if (!organizer || !currentUserPrincipalEmail) {
+		return true
+	}
+
+	return removeMailtoPrefix(organizer) === currentUserPrincipalEmail
+}

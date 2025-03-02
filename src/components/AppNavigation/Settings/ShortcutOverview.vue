@@ -5,7 +5,7 @@
 <template>
 	<NcDialog size="large"
 		:name="$t('calendar', 'Shortcut overview')"
-		:closeOnClickOutside="true"
+		:close-on-click-outside="true"
 		@update:open="onUpdateOpen">
 		<div class="shortcut-overview-modal">
 			<section v-for="category in shortcuts"
@@ -117,7 +117,7 @@ export default {
 			if (!open) {
 				this.$emit('close')
 			}
-		}
+		},
 	},
 }
 </script>
