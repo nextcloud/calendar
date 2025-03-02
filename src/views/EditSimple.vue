@@ -51,7 +51,21 @@
 				</template>
 
 				<template v-else>
-					<div :class="topActionsClass">
+					<div class="event-popover__top-actions">
+						<NcPopover v-if="isViewedByAttendee" :focus-trap="false">
+							<template #trigger>
+								<NcButton type="tertiary-no-background">
+									<template #icon>
+										<HelpCircleIcon :size="20" />
+									</template>
+								</NcButton>
+							</template>
+							<template #default>
+								<p class="warning-text">
+									{{ $t('calendar', 'Modifications wont get propagated to the organizer and other attendees') }}
+								</p>
+							</template>
+						</NcPopover>
 						<Actions v-if="!isLoading && !isError && !isNew" :force-menu="true">
 							<ActionLink v-if="!hideEventExport && hasDownloadURL"
 								:href="downloadURL">
@@ -98,10 +112,11 @@
 					<CalendarPickerHeader :value="selectedCalendar"
 						:calendars="calendars"
 						:is-read-only="isReadOnlyOrViewing || !canModifyCalendar"
+						:is-viewed-by-attendee="isViewedByAttendee"
 						@update:value="changeCalendar" />
 
 					<PropertyTitle :value="titleOrPlaceholder"
-						:is-read-only="isReadOnlyOrViewing"
+						:is-read-only="isReadOnlyOrViewing || isViewedByAttendee"
 						@update:value="updateTitle" />
 
 					<PropertyTitleTimePicker :start-date="startDate"
@@ -109,7 +124,7 @@
 						:end-date="endDate"
 						:end-timezone="endTimezone"
 						:is-all-day="isAllDay"
-						:is-read-only="isReadOnlyOrViewing"
+						:is-read-only="isReadOnlyOrViewing || isViewedByAttendee"
 						:can-modify-all-day="canModifyAllDay"
 						:user-timezone="currentUserTimezone"
 						:wrap="false"
@@ -121,7 +136,7 @@
 						@update-end-timezone="updateEndTimezone"
 						@toggle-all-day="toggleAllDay" />
 
-					<PropertyText :is-read-only="isReadOnlyOrViewing"
+					<PropertyText :is-read-only="isReadOnlyOrViewing || isViewedByAttendee"
 						:prop-model="rfcProps.location"
 						:value="location"
 						:linkify-links="true"
@@ -137,7 +152,7 @@
 						:hide-buttons="true"
 						:hide-errors="true"
 						:show-header="true"
-						:is-read-only="isReadOnlyOrViewing"
+						:is-read-only="isReadOnlyOrViewing || isViewedByAttendee"
 						:is-shared-with-me="isSharedWithMe"
 						:calendar="selectedCalendar"
 						:calendar-object-instance="calendarObjectInstance"
@@ -208,11 +223,11 @@ import Delete from 'vue-material-design-icons/Delete.vue'
 import Download from 'vue-material-design-icons/Download.vue'
 import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
 import EditIcon from 'vue-material-design-icons/Pencil.vue'
+import HelpCircleIcon from 'vue-material-design-icons/HelpCircle.vue'
 import { mapState, mapStores } from 'pinia'
 import useSettingsStore from '../store/settings.js'
 import useWidgetStore from '../store/widget.js'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
-import { getLanguage, isRTL } from '@nextcloud/l10n'
 
 export default {
 	name: 'EditSimple',
@@ -237,6 +252,7 @@ export default {
 		InviteesList,
 		NcButton,
 		EditIcon,
+		HelpCircleIcon,
 		NcAppNavigationSpacer,
 	},
 	mixins: [
@@ -275,14 +291,6 @@ export default {
 
 		showPopover() {
 			return this.isVisible || this.widgetEventDetailsOpen
-		},
-
-		topActionsClass() {
-			return {
-				'event-popover__top-actions': true,
-				'event-popover__top-actions--right': !isRTL(getLanguage()),
-				'event-popover__top-actions--left': isRTL(getLanguage()),
-			}
 		},
 
 		/**

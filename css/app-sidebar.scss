@@ -32,6 +32,11 @@
 			user-select: none;
 		}
 	}
+	
+	&__header {
+		display: flex;
+		width: 100%;
+	}
 
 	.editor-reminders-list-new-button {
 		width: 100%;
@@ -809,6 +814,10 @@
 	}
 }
 
+.warning-text{
+	padding: 5px;
+}
+
 .event-popover {
 	// Don't cut popovers above popovers (e.g. date time picker)
 	.v-popper__inner {
@@ -849,14 +858,8 @@
 			opacity: .7 !important;
 			border-radius: 22px !important;
 			align-items: center;
-
-			&--right{
-				right: var(--default-grid-baseline) !important;
-			}
-
-			&--left{
-				left: var(--default-grid-baseline) !important;
-			}
+			inset-inline-end : var(--default-grid-baseline) !important;
+		
 
 			.action-item.action-item--single {
 				width: 44px !important;

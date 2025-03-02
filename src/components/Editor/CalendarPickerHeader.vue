@@ -4,7 +4,10 @@
 -->
 <template>
 	<div class="calendar-picker-header"
-		:class="{ 'calendar-picker-header--readonly': isReadOnly }">
+		:class="{
+			'calendar-picker-header--readonly': isReadOnly,
+			'calendar-picker-header--has-warning': isViewedByAttendee,
+		}">
 		<NcActions type="tertiary"
 			class="calendar-picker-header__picker"
 			:class="{
@@ -56,6 +59,10 @@ export default {
 			required: true,
 		},
 		isReadOnly: {
+			type: Boolean,
+			required: true,
+		},
+		isViewedByAttendee: {
 			type: Boolean,
 			required: true,
 		},
@@ -119,6 +126,11 @@ export default {
 
 	// Leave room for the three dot and close buttons
 	max-width: calc(100% - 79px);
+
+	&--has-warning {
+		// Leave room for the immutable warning, three dot menu and close button
+		max-width: calc(100% - 79px - 34px);
+	}
 
 	&__picker {
 		display: flex;

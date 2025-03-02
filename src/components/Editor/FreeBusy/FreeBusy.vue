@@ -214,7 +214,7 @@ export default {
 		disableFindTime: {
 			type: Boolean,
 			default: false,
-		}
+		},
 	},
 	data() {
 		return {
