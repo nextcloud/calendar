@@ -1524,6 +1524,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {Date} data.startDate The new start-date
 		 * @param {boolean} data.onlyTime Only update time
+		 * @param data.changeEndDate
 		 */
 		changeStartDate({
 			calendarObjectInstance,

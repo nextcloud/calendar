@@ -109,7 +109,7 @@ export default {
 		},
 		addAttendee({ commonName, email }) {
 			this.attendees.push(mapAttendeePropertyToAttendeeObject(
-				AttendeeProperty.fromNameAndEMail(commonName, email)
+				AttendeeProperty.fromNameAndEMail(commonName, email),
 			))
 		},
 		removeAttendee({ email }) {
