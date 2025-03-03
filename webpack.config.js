@@ -11,6 +11,7 @@ const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-m
 
 webpackConfig.entry['reference'] = path.join(__dirname, 'src', 'reference.js')
 webpackConfig.entry['contacts-menu'] = path.join(__dirname, 'src', 'contactsMenu.js')
+webpackConfig.entry['settings-admin-groupware'] = path.join(__dirname, 'src', 'settingsAdminGroupware.js')
 
 // Add appointments entries
 webpackConfig.entry['appointments-booking'] = path.join(__dirname, 'src', 'appointments/main-booking.js')
