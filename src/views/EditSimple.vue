@@ -62,7 +62,7 @@
 							</template>
 							<template #default>
 								<p class="warning-text">
-									{{ $t('calendar', 'Modifications wont get propagated to the organizer and other attendees') }}
+									{{ $t('calendar', 'Modifications will not get propagated to the organizer and other attendees') }}
 								</p>
 							</template>
 						</NcPopover>
