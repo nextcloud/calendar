@@ -57,13 +57,30 @@
 
 		<template v-if="!isLoading && !isError"
 			#description>
-			<CalendarPickerHeader :value="selectedCalendar"
-				:calendars="calendars"
-				:is-read-only="isReadOnly || !canModifyCalendar"
-				@update:value="changeCalendar" />
+			<div class="app-sidebar__header">
+				<CalendarPickerHeader :value="selectedCalendar"
+					:calendars="calendars"
+					:is-read-only="isReadOnly || !canModifyCalendar"
+					:is-viewed-by-attendee="isViewedByAttendee"
+					@update:value="changeCalendar" />
+				<NcPopover v-if="isViewedByAttendee" :focus-trap="false">
+					<template #trigger>
+						<NcButton type="tertiary-no-background">
+							<template #icon>
+								<HelpCircleIcon :size="20" />
+							</template>
+						</NcButton>
+					</template>
+					<template #default>
+						<p class="warning-text">
+							{{ $t('calendar', 'Modifications wont get propagated to the organizer and other attendees') }}
+						</p>
+					</template>
+				</NcPopover>
+			</div>
 
 			<PropertyTitle :value="title"
-				:is-read-only="isReadOnly"
+				:is-read-only="isReadOnly || isViewedByAttendee"
 				@update:value="updateTitle" />
 
 			<PropertyTitleTimePicker :start-date="startDate"
@@ -71,7 +88,7 @@
 				:end-date="endDate"
 				:end-timezone="endTimezone"
 				:is-all-day="isAllDay"
-				:is-read-only="isReadOnly"
+				:is-read-only="isReadOnly || isViewedByAttendee"
 				:can-modify-all-day="canModifyAllDay"
 				:user-timezone="currentUserTimezone"
 				:append-to-body="true"
@@ -100,7 +117,7 @@
 				</NcButton>
 			</div>
 			<PropertyText class="property-location"
-				:is-read-only="isReadOnly"
+				:is-read-only="isReadOnly || isViewedByAttendee"
 				:prop-model="rfcProps.location"
 				:value="location"
 				:linkify-links="true"
@@ -133,7 +150,7 @@
 					:prop-model="rfcProps.status"
 					:value="status"
 					@update:value="updateStatus" />
-				<PropertySelect :is-read-only="isReadOnly"
+				<PropertySelect :is-read-only="isReadOnly || isViewedByAttendee"
 					:prop-model="rfcProps.accessClass"
 					:value="accessClass"
 					@update:value="updateAccessClass" />
@@ -162,7 +179,7 @@
 				<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
 				<Repeat :calendar-object-instance="calendarObjectInstance"
 					:recurrence-rule="calendarObjectInstance.recurrenceRule"
-					:is-read-only="isReadOnly"
+					:is-read-only="isReadOnly || isViewedByAttendee"
 					:is-editing-master-item="isEditingMasterItem"
 					:is-recurrence-exception="isRecurrenceException"
 					@force-this-and-all-future="forceModifyingFuture" />
@@ -241,7 +258,7 @@
 				<InviteesList v-if="!isLoading"
 					:calendar="selectedCalendar"
 					:calendar-object-instance="calendarObjectInstance"
-					:is-read-only="isReadOnly"
+					:is-read-only="isReadOnly || isViewedByAttendee"
 					:is-shared-with-me="isSharedWithMe"
 					:show-header="false"
 					@update-dates="updateDates" />
@@ -266,7 +283,7 @@
 			<div class="app-sidebar-tab__content">
 				<ResourceList v-if="!isLoading"
 					:calendar-object-instance="calendarObjectInstance"
-					:is-read-only="isReadOnly" />
+					:is-read-only="isReadOnly || isViewedByAttendee" />
 			</div>
 			<SaveButtons v-if="showSaveButtons"
 				class="app-sidebar-tab__buttons"
@@ -290,6 +307,7 @@ import {
 	NcListItemIcon,
 	NcButton,
 	NcCheckboxRadioSwitch,
+	NcPopover,
 } from '@nextcloud/vue'
 
 import { generateUrl } from '@nextcloud/router'
@@ -333,6 +351,7 @@ import { mapStores, mapState } from 'pinia'
 import AddTalkModal from '../components/Editor/AddTalkModal.vue'
 import { doesContainTalkLink } from '../services/talkService.js'
 import IconVideo from 'vue-material-design-icons/Video.vue'
+import HelpCircleIcon from 'vue-material-design-icons/HelpCircle.vue'
 
 export default {
 	name: 'EditSidebar',
@@ -352,6 +371,7 @@ export default {
 		NcListItemIcon,
 		NcButton,
 		NcCheckboxRadioSwitch,
+		NcPopover,
 		InviteesList,
 		PropertySelect,
 		PropertyText,
@@ -369,6 +389,7 @@ export default {
 		CalendarPickerHeader,
 		PropertyTitle,
 		IconVideo,
+		HelpCircleIcon,
 	},
 	mixins: [
 		EditorMixin,
@@ -444,7 +465,7 @@ export default {
 
 		},
 		isCreateTalkRoomButtonVisible() {
-			return this.talkEnabled
+			return this.talkEnabled && !this.isViewedByAttendee
 		},
 
 	},
