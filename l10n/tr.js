@@ -471,6 +471,7 @@ OC.L10N.register(
     "Duplicate" : "Çoğalt",
     "Delete this occurrence" : "Bu etkinliği sil",
     "Delete this and all future" : "Bu ve sonraki etkinlikleri sil",
+    "Modifications wont get propagated to the organizer and other attendees" : "Değişiklikler düzenleyiciye ve diğer katılımcılara iletilmeyecek",
     "Details" : "Ayrıntılar",
     "Managing shared access" : "Paylaşılmış erişim yönetimi",
     "Deny access" : "Erişimi reddet",
