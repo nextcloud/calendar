@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        branches: ['main', 'stable5.1', 'stable4.7']
+        branches: ['main', 'stable5.2', 'stable5.1', 'stable4.7']
 
     name: npm-audit-fix-${{ matrix.branches }}
 
