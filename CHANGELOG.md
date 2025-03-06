@@ -1,3 +1,12 @@
+## [5.1.3](https://github.com/nextcloud/calendar/compare/v5.1.2...v5.1.3) (2025-03-06)
+
+
+### Bug Fixes
+
+* restrict attendees edit priveleges in the frontend ([a623ced](https://github.com/nextcloud/calendar/commit/a623ced26baf9c3e191418bee0b0bb09c507490a))
+
+
+
 ## [5.1.2](https://github.com/nextcloud/calendar/compare/v5.1.1...v5.1.2) (2025-02-26)
 
 
