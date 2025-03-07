@@ -479,6 +479,7 @@
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["Anhang erfordert geteilten Zugriff","Anhänge erfordern geteilten Zugriff"],
     "Untitled event" : "Unbenannter Termin",
     "Close" : "Schließen",
+    "Modifications will not get propagated to the organizer and other attendees" : "Änderungen werden nicht an den Organisator und andere Teilnehmer weitergegeben",
     "Subscribe to {name}" : "{name} abonnieren",
     "Export {name}" : "{name} exportieren",
     "Show availability" : "Verfügbarkeit anzeigen",
