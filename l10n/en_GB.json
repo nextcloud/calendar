@@ -479,6 +479,7 @@
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["Attachment requires shared access","Attachments requiring shared access"],
     "Untitled event" : "Untitled event",
     "Close" : "Close",
+    "Modifications will not get propagated to the organizer and other attendees" : "Modifications will not get propagated to the organizer and other attendees",
     "Subscribe to {name}" : "Subscribe to {name}",
     "Export {name}" : "Export {name}",
     "Show availability" : "Show availability",

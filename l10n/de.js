@@ -481,6 +481,7 @@ OC.L10N.register(
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["Anhang erfordert geteilten Zugriff","Anhänge, die einen gemeinsamen Zugriff erfordern"],
     "Untitled event" : "Unbenannter Termin",
     "Close" : "Schließen",
+    "Modifications will not get propagated to the organizer and other attendees" : "Änderungen werden nicht an den Organisator und andere Teilnehmer weitergegeben",
     "Subscribe to {name}" : "{name} abonnieren",
     "Export {name}" : "Exportiere {name}",
     "Show availability" : "Verfügbarkeit anzeigen",
