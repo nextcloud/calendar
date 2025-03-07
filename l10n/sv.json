@@ -479,6 +479,7 @@
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["Bilaga i behov av delat åtkomst","Bilagor i behov av delad åtkomst"],
     "Untitled event" : "Namnlös händelse",
     "Close" : "Stäng",
+    "Modifications will not get propagated to the organizer and other attendees" : "Ändringar kommer inte att skickas till organisatören eller andra deltagare",
     "Subscribe to {name}" : "Prenumerera på {name}",
     "Export {name}" : "Exportera {name}",
     "Show availability" : "Visa tillgänglighet",
