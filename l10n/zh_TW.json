@@ -479,6 +479,7 @@
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["需要分享存取權限的附件"],
     "Untitled event" : "未命名活動",
     "Close" : " 關閉",
+    "Modifications will not get propagated to the organizer and other attendees" : "修改將不會傳達給主辦人與其他參與者",
     "Subscribe to {name}" : "訂閱 {name}",
     "Export {name}" : "匯出 {name}",
     "Show availability" : "顯示可用性",

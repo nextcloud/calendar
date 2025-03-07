@@ -481,6 +481,7 @@ OC.L10N.register(
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["需要分享访问权限的附件"],
     "Untitled event" : "未命名事件",
     "Close" : "关闭",
+    "Modifications will not get propagated to the organizer and other attendees" : "修改不会传播给组织者和其他参加者",
     "Subscribe to {name}" : "订阅 {name}",
     "Export {name}" : "导出 {name}",
     "Show availability" : "显示可用性",

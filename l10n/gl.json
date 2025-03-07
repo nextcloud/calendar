@@ -479,6 +479,7 @@
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["O anexo precisa acceso compartido","Anexos que precisan acceso compartido"],
     "Untitled event" : "Evento sen título",
     "Close" : "Pechar",
+    "Modifications will not get propagated to the organizer and other attendees" : "As modificacións non van ser propagadas ao organizador e a outros asistentes",
     "Subscribe to {name}" : "Subscribirse a {name}",
     "Export {name}" : "Exportar {name}",
     "Show availability" : "Amosar a dispoñibilidade",

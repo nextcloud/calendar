@@ -481,6 +481,7 @@ OC.L10N.register(
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["Для доступу до застосунку потрібний спільний доступ.","Для доступу до застосунків потрібний спільний доступ.","Для доступу до застосунків потрібний спільний доступ.","Для доступу до застосунків потрібний спільний доступ."],
     "Untitled event" : "Подія без назви",
     "Close" : "Закрити",
+    "Modifications will not get propagated to the organizer and other attendees" : "Зміни не буде надіслано організаторові та іншим учасникам",
     "Subscribe to {name}" : "Підписатися на {name}",
     "Export {name}" : "Експортувати {name}",
     "Show availability" : "Показати доступність",
