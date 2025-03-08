@@ -481,6 +481,7 @@ OC.L10N.register(
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["Teastaíonn rochtain roinnte ón gceangaltán","Ceangaltáin óna dteastaíonn rochtain roinnte","Ceangaltáin óna dteastaíonn rochtain roinnte","Ceangaltáin óna dteastaíonn rochtain roinnte","Ceangaltáin óna dteastaíonn rochtain roinnte"],
     "Untitled event" : "Imeacht gan teideal",
     "Close" : "Dún",
+    "Modifications will not get propagated to the organizer and other attendees" : "Ní dhéanfar na modhnuithe a fhorleathadh chuig an eagraí agus chuig lucht freastail eile",
     "Subscribe to {name}" : "Liostáil le {name}",
     "Export {name}" : "Easpórtáil {name}",
     "Show availability" : "Taispeáin infhaighteacht",
