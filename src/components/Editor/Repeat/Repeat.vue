@@ -47,13 +47,16 @@
 			<RepeatFreqYearlyOptions v-if="isFreqYearly && !isRecurrenceException && !isReadOnly"
 				:by-day="recurrenceRule.byDay"
 				:by-month="recurrenceRule.byMonth"
+				:by-month-day="recurrenceRule.byMonthDay"
 				:by-set-position="recurrenceRule.bySetPosition"
-				@change-by-day="setByDay"
-				@change-by-set-position="setBySetPosition"
 				@add-by-month="addByMonth"
 				@remove-by-month="removeByMonth"
-				@enable-by-set-position="enableBySetPositionYearly"
-				@disable-by-set-position="disableBySetPositionYearly" />
+				@add-by-month-day="addByMonthDay"
+				@remove-by-month-day="removeByMonthDay"
+				@change-by-day="setByDay"
+				@change-by-set-position="setBySetPosition"
+				@change-to-by-set-position="changeToBySetPositionYearly"
+				@change-to-by-month-day="changeToByDayYearly" />
 			<RepeatEndRepeat v-if="isRepeating && !isRecurrenceException && !isReadOnly"
 				:calendar-object-instance="calendarObjectInstance"
 				:until="recurrenceRule.until"
@@ -352,20 +355,23 @@ export default {
 			this.modified()
 		},
 		/**
-		 * Enables the setting of a relative position within the month in the yearly recurrence-editor
+		 * Changes the yearly recurrence-editor from the selection of monthdays
+		 * to the selection of a relative position within the month
 		 */
-		enableBySetPositionYearly() {
-			this.calendarObjectInstanceStore.enableYearlyRecurrenceBySetPosition({
+		 changeToBySetPositionYearly() {
+			this.calendarObjectInstanceStore.changeYearlyRecurrenceFromByDayToBySetPosition({
 				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
 		},
 		/**
-		 * Disables the setting of a relative position within the month in the yearly recurrence-editor
+		 * Changes the yearly recurrence-editor from the relative position within a month
+		 * to the selection of monthdays
 		 */
-		disableBySetPositionYearly() {
-			this.calendarObjectInstanceStore.disableYearlyRecurrenceBySetPosition({
+		changeToByDayYearly() {
+			this.calendarObjectInstanceStore.changeYearlyRecurrenceFromBySetPositionToByDay({
+				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()

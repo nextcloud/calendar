@@ -83,9 +83,12 @@ export default (recurrenceRule, locale) => {
 	} else if (recurrenceRule.frequency === 'YEARLY') {
 		const monthNames = getTranslatedMonths(recurrenceRule.byMonth)
 
-		if (recurrenceRule.byDay.length === 0) {
-			limitPart = t('calendar', 'in {monthNames}', {
+		if (recurrenceRule.byMonthDay.length !== 0) {
+			const dayOfMonthList = recurrenceRule.byMonthDay.join(', ')
+
+			limitPart = t('calendar', 'in {monthNames} on the {dayOfMonthList}', {
 				monthNames,
+				dayOfMonthList,
 			})
 		} else {
 			const ordinalNumber = getTranslatedOrdinalNumber(recurrenceRule.bySetPosition)
