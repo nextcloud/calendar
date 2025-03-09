@@ -774,6 +774,32 @@ export default defineStore('calendarObjectInstance', {
 		},
 
 		/**
+		 *
+		 * @param {object} data The destructuring object
+		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
+		 */
+		setDefaultRecurrenceByPartsForYearlyBySetPosition({
+			calendarObjectInstance,
+			recurrenceRule,
+		}) {
+			if (recurrenceRule.recurrenceRuleValue) {
+				const byMonth = calendarObjectInstance.startDate.getMonth() + 1
+				const { byDay, bySetPosition } = getBySetPositionAndBySetFromDate(calendarObjectInstance.startDate)
+
+				recurrenceRule.recurrenceRuleValue.setComponent('BYMONTH', [byMonth])
+				recurrenceRule.recurrenceRuleValue.setComponent('BYDAY', [byDay])
+				recurrenceRule.recurrenceRuleValue.setComponent('BYSETPOS', [bySetPosition])
+
+				recurrenceRule.byMonth.push(byMonth)
+				recurrenceRule.byDay.push(byDay)
+				recurrenceRule.bySetPosition = bySetPosition
+
+				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+			}
+		},
+
+		/**
 		 * Change the until limit of the recurrence-rule
 		 *
 		 * @param {object} data The destructuring object
@@ -1733,6 +1759,10 @@ export default defineStore('calendarObjectInstance', {
 					recurrenceRule.recurrenceRuleValue.setComponent('BYMONTH', [byMonth])
 					recurrenceRule.byMonth.push(byMonth)
 
+					const byMonthDay = calendarObjectInstance.startDate.getDate()
+					recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', [byMonthDay])
+					recurrenceRule.byMonthDay.push(byMonthDay)
+
 					console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 				}
 				break
@@ -1785,11 +1815,12 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 */
-		enableYearlyRecurrenceBySetPosition({
+		changeYearlyRecurrenceFromByDayToBySetPosition({
 			calendarObjectInstance,
 			recurrenceRule,
 		}) {
-			this.setDefaultRecurrenceByPartsForMonthlyBySetPosition({
+			this.resetRecurrenceByParts({ recurrenceRule })
+			this.setDefaultRecurrenceByPartsForYearlyBySetPosition({
 				calendarObjectInstance,
 				recurrenceRule,
 			})
@@ -1798,20 +1829,23 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 *
 		 * @param {object} data The destructuring object for data
+		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 */
-		disableYearlyRecurrenceBySetPosition({ recurrenceRule }) {
-			this.changeRecurrenceByDay({
-				recurrenceRule,
-				byDay: [],
-			})
+		changeYearlyRecurrenceFromBySetPositionToByDay({
+			calendarObjectInstance,
+			recurrenceRule,
+		}) {
+			this.resetRecurrenceByParts({ recurrenceRule })
 
 			if (recurrenceRule.recurrenceRuleValue) {
-				recurrenceRule.recurrenceRuleValue.setComponent('BYSETPOS', [])
-				/// TODO recurrenceRule.bySetPosition = null
-				Vue.set(recurrenceRule, 'bySetPosition', null)
+				const byMonth = calendarObjectInstance.startDate.getMonth() + 1 // Javascript months are zero-based
+				recurrenceRule.recurrenceRuleValue.setComponent('BYMONTH', [byMonth])
+				recurrenceRule.byMonth.push(byMonth)
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				const byMonthDay = calendarObjectInstance.startDate.getDate()
+				recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', [byMonthDay])
+				recurrenceRule.byMonthDay.push(byMonthDay)
 			}
 		},
 

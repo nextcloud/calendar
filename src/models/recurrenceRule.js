@@ -96,7 +96,6 @@ const FORBIDDEN_BY_PARTS_YEARLY = [
 	'BYSECOND',
 	'BYMINUTE',
 	'BYHOUR',
-	'BYMONTHDAY',
 	'BYYEARDAY',
 	'BYWEEKNO',
 ]
@@ -314,20 +313,43 @@ const mapYearlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate)
 	let byDay = []
 	let bySetPosition = null
 	let byMonth = []
+	let byMonthDay = []
 
 	if (containsRecurrenceComponent(recurrenceRuleValue, ['BYMONTH'])) {
-		const containsInvalidByMonthDay = recurrenceRuleValue.getComponent('BYMONTH')
+		// This handles the first case, where we have a BYMONTH rule
+
+		const containsInvalidByMonth = recurrenceRuleValue.getComponent('BYMONTH')
 			.some((month) => !SUPPORTED_BY_MONTH_YEARLY.includes(month))
-		isUnsupported = isUnsupported || containsInvalidByMonthDay
+		isUnsupported = isUnsupported || containsInvalidByMonth
 
 		byMonth = recurrenceRuleValue.getComponent('BYMONTH')
 			.filter((month) => SUPPORTED_BY_MONTH_YEARLY.includes(month))
 			.map((month) => month)
+
 	} else {
+		// This is a fallback where we just default BYMONTH to the start date of the event
+
 		byMonth.push(baseDate.month)
 	}
 
-	if (containsRecurrenceComponent(recurrenceRuleValue, ['BYDAY']) && containsRecurrenceComponent(recurrenceRuleValue, ['BYSETPOS'])) {
+	if (containsRecurrenceComponent(recurrenceRuleValue, ['BYMONTHDAY'])) {
+		// This handles the first case, where we have a BYMONTHDAY rule
+
+		// verify there is no BYDAY or BYSETPOS at the same time
+		if (containsRecurrenceComponent(recurrenceRuleValue, ['BYDAY', 'BYSETPOS'])) {
+			isUnsupported = true
+		}
+
+		const containsInvalidByMonthDay = recurrenceRuleValue.getComponent('BYMONTHDAY')
+			.some((monthDay) => !SUPPORTED_BY_MONTHDAY_MONTHLY.includes(monthDay))
+		isUnsupported = isUnsupported || containsInvalidByMonthDay
+
+		byMonthDay = recurrenceRuleValue.getComponent('BYMONTHDAY')
+			.filter((monthDay) => SUPPORTED_BY_MONTHDAY_MONTHLY.includes(monthDay))
+			.map((monthDay) => monthDay)
+
+	} else if (containsRecurrenceComponent(recurrenceRuleValue, ['BYDAY']) && containsRecurrenceComponent(recurrenceRuleValue, ['BYSETPOS'])) {
+		// This handles cases where we have both BYDAY and BYSETPOS
 
 		if (isAllowedByDay(recurrenceRuleValue.getComponent('BYDAY'))) {
 			byDay = recurrenceRuleValue.getComponent('BYDAY')
@@ -343,11 +365,13 @@ const mapYearlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate)
 			bySetPosition = 1
 			isUnsupported = true
 		}
-
 	} else if (containsRecurrenceComponent(recurrenceRuleValue, ['BYDAY'])) {
+		// This handles cases where we only have a BYDAY
 
 		const byDayArray = recurrenceRuleValue.getComponent('BYDAY')
+
 		if (byDayArray.length > 1) {
+			byMonthDay.push(baseDate.day)
 			isUnsupported = true
 		} else {
 			const firstElement = byDayArray[0]
@@ -366,15 +390,20 @@ const mapYearlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate)
 					isUnsupported = true
 				}
 			} else {
+				byMonthDay.push(baseDate.day)
 				isUnsupported = true
 			}
 		}
+	} else {
+		// This is a fallback where we just default BYMONTHDAY to the start date of the event
+		byMonthDay.push(baseDate.day)
 	}
 
 	return getDefaultRecurrenceRuleObjectForRecurrenceValue(recurrenceRuleValue, {
 		byDay,
 		bySetPosition,
 		byMonth,
+		byMonthDay,
 		isUnsupported,
 	})
 }

@@ -479,7 +479,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			until: null,
 			byDay: [],
 			byMonth: [3],
-			byMonthDay: [],
+			byMonthDay: [15],
 			bySetPosition: null,
 			isUnsupported: false,
 		})
@@ -503,7 +503,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			until: null,
 			byDay: [],
 			byMonth: [1, 2, 3],
-			byMonthDay: [],
+			byMonthDay: [15],
 			bySetPosition: null,
 			isUnsupported: false,
 		})
@@ -725,7 +725,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			until: null,
 			byDay: [],
 			byMonth: [3],
-			byMonthDay: [],
+			byMonthDay: [15],
 			bySetPosition: null,
 			isUnsupported: true,
 		})
@@ -797,7 +797,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			until: null,
 			byDay: [],
 			byMonth: [3],
-			byMonthDay: [],
+			byMonthDay: [15],
 			bySetPosition: null,
 			isUnsupported: true,
 		})
