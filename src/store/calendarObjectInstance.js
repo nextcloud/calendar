@@ -1719,7 +1719,7 @@ export default defineStore('calendarObjectInstance', {
 
 			case 'MONTHLY':
 				if (recurrenceRule.recurrenceRuleValue) {
-					const byMonthDay = calendarObjectInstance.startDate.getDate().toString()
+					const byMonthDay = calendarObjectInstance.startDate.getDate()
 					recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', [byMonthDay])
 					recurrenceRule.byMonthDay.push(byMonthDay)
 
@@ -1771,7 +1771,7 @@ export default defineStore('calendarObjectInstance', {
 			this.resetRecurrenceByParts({ recurrenceRule })
 
 			if (recurrenceRule.recurrenceRuleValue) {
-				const byMonthDay = calendarObjectInstance.startDate.getDate().toString()
+				const byMonthDay = calendarObjectInstance.startDate.getDate()
 				recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', [byMonthDay])
 				recurrenceRule.byMonthDay.push(byMonthDay)
 
