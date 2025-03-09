@@ -53,6 +53,38 @@ describe('format/recurrenceRuleFormat test suite', () => {
 		}, 'de')).toMatchSnapshot()
 	})
 
+	it('should format a recurrence-rule that is recurring every day until a certain date', () => {
+		const date = new Date(2019, 0, 1, 0, 0, 0, 0)
+
+		expect(recurrenceRuleFormat({
+			frequency: 'DAILY',
+			interval: 1,
+			count: null,
+			until: date,
+			byDay: [],
+			byMonth: [],
+			byMonthDay: [],
+			bySetPosition: null,
+			isUnsupported: false,
+			recurrenceRuleValue: null,
+		}, 'de')).toMatchSnapshot()
+	})
+
+	it('should format a recurrence-rule that is recurring every day exactly 10 times', () => {
+		expect(recurrenceRuleFormat({
+			frequency: 'DAILY',
+			interval: 1,
+			count: 42,
+			until: null,
+			byDay: [],
+			byMonth: [],
+			byMonthDay: [],
+			bySetPosition: null,
+			isUnsupported: false,
+			recurrenceRuleValue: null,
+		}, 'de')).toMatchSnapshot()
+	})
+
 	it('should format a recurrence-rule that is recurring infinitely every week on Tuesday', () => {
 		expect(recurrenceRuleFormat({
 			frequency: 'WEEKLY',
@@ -91,7 +123,7 @@ describe('format/recurrenceRuleFormat test suite', () => {
 			until: null,
 			byDay: [],
 			byMonth: [],
-			byMonthDay: ['15'],
+			byMonthDay: [15],
 			bySetPosition: null,
 			isUnsupported: false,
 			recurrenceRuleValue: null,
@@ -106,7 +138,7 @@ describe('format/recurrenceRuleFormat test suite', () => {
 			until: null,
 			byDay: [],
 			byMonth: [],
-			byMonthDay: ['15', '16', '17', '18'],
+			byMonthDay: [15, 16, 17, 18],
 			bySetPosition: null,
 			isUnsupported: false,
 			recurrenceRuleValue: null,
@@ -150,7 +182,7 @@ describe('format/recurrenceRuleFormat test suite', () => {
 			count: null,
 			until: null,
 			byDay: [],
-			byMonth: ['5'],
+			byMonth: [5],
 			byMonthDay: [],
 			bySetPosition: null,
 			isUnsupported: false,
@@ -158,15 +190,15 @@ describe('format/recurrenceRuleFormat test suite', () => {
 		}, 'de')).toMatchSnapshot()
 	})
 
-	it('should format a recurrence-rule that is recurring infinitely every year in May, July, October', () => {
+	it('should format a recurrence-rule that is recurring infinitely every year in May, July, October on the 15th', () => {
 		expect(recurrenceRuleFormat({
 			frequency: 'YEARLY',
 			interval: 1,
 			count: null,
 			until: null,
 			byDay: [],
-			byMonth: ['5', '7', '10'],
-			byMonthDay: [],
+			byMonth: [5, 7, 10],
+			byMonthDay: [15],
 			bySetPosition: null,
 			isUnsupported: false,
 			recurrenceRuleValue: null,
@@ -180,7 +212,7 @@ describe('format/recurrenceRuleFormat test suite', () => {
 			count: null,
 			until: null,
 			byDay: ['TH'],
-			byMonth: ['5', '7', '10'],
+			byMonth: [5, 7, 10],
 			byMonthDay: [],
 			bySetPosition: 3,
 			isUnsupported: false,
@@ -188,35 +220,4 @@ describe('format/recurrenceRuleFormat test suite', () => {
 		}, 'de')).toMatchSnapshot()
 	})
 
-	it('should format a recurrence-rule that is recurring every day until a certain date', () => {
-		const date = new Date(2019, 0, 1, 0, 0, 0, 0)
-
-		expect(recurrenceRuleFormat({
-			frequency: 'DAILY',
-			interval: 1,
-			count: null,
-			until: date,
-			byDay: [],
-			byMonth: [],
-			byMonthDay: [],
-			bySetPosition: null,
-			isUnsupported: false,
-			recurrenceRuleValue: null,
-		}, 'de')).toMatchSnapshot()
-	})
-
-	it('should format a recurrence-rule that is recurring every day exactly 10 times', () => {
-		expect(recurrenceRuleFormat({
-			frequency: 'DAILY',
-			interval: 1,
-			count: 42,
-			until: null,
-			byDay: [],
-			byMonth: [],
-			byMonthDay: [],
-			bySetPosition: null,
-			isUnsupported: false,
-			recurrenceRuleValue: null,
-		}, 'de')).toMatchSnapshot()
-	})
 })
