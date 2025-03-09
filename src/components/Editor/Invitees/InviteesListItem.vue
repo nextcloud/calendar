@@ -34,7 +34,7 @@
 						:size="20" />
 				</template>
 			</NcButton>
-			<Actions v-if="isViewedByOrganizer">
+			<Actions v-if="!isReadOnly && isViewedByOrganizer">
 				<ActionCheckbox :checked="attendee.rsvp"
 					@change="toggleRSVP">
 					{{ $t('calendar', 'Request reply') }}
