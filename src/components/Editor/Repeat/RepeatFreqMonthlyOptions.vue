@@ -6,12 +6,14 @@
 <template>
 	<div class="repeat-option-set repeat-option-set--monthly">
 		<div class="repeat-option-set-section">
-			<ActionRadio class="repeat-option-set-section__title"
+			<NcCheckboxRadioSwitch class="repeat-option-set-section__title"
+				type="radio"
 				:name="radioInputId"
-				:checked="byMonthDayEnabled"
-				@change="enableByMonthDay">
+				:modelValue="byMonthDayEnabled"
+				@update:modelValue="enableByMonthDay"
+				@update:model-value="enableByMonthDay">
 				{{ $t('calendar', 'By day of the month') }}
-			</ActionRadio>
+			</NcCheckboxRadioSwitch>
 			<div class="repeat-option-set-section__grid">
 				<NcButton v-for="option in byMonthDayOptions"
 					:key="option.value"
@@ -24,12 +26,14 @@
 			</div>
 		</div>
 		<div class="repeat-option-set-section repeat-option-set-section--on-the-select">
-			<ActionRadio class="repeat-option-set-section__title"
+			<NcCheckboxRadioSwitch class="repeat-option-set-section__title"
+				type="radio"
 				:name="radioInputId"
-				:checked="!byMonthDayEnabled"
-				@change="enableBySetPosition">
+				:modelValue="!byMonthDayEnabled"
+				@update:modelValue="enableBySetPosition"
+				@update:model-value="enableBySetPosition">
 				{{ $t('calendar', 'On the') }}
-			</ActionRadio>
+			</NcCheckboxRadioSwitch>
 			<RepeatFirstLastSelect :by-set-position="bySetPosition"
 				:disabled="byMonthDayEnabled"
 				@change="changeBySetPosition" />
@@ -43,7 +47,7 @@
 <script>
 import {
 	NcButton,
-	NcActionRadio as ActionRadio,
+	NcCheckboxRadioSwitch,
 } from '@nextcloud/vue'
 import RepeatFirstLastSelect from './RepeatFirstLastSelect.vue'
 import RepeatOnTheSelect from './RepeatOnTheSelect.vue'
@@ -52,9 +56,9 @@ export default {
 	name: 'RepeatFreqMonthlyOptions',
 	components: {
 		NcButton,
+		NcCheckboxRadioSwitch,
 		RepeatOnTheSelect,
 		RepeatFirstLastSelect,
-		ActionRadio,
 	},
 	props: {
 		/**
@@ -89,8 +93,8 @@ export default {
 			for (let i = 1; i <= 31; i++) {
 				options.push({
 					label: i,
-					value: String(i),
-					selected: this.byMonthDay.indexOf(String(i)) !== -1,
+					value: i,
+					selected: this.byMonthDay.indexOf(i) !== -1,
 				})
 			}
 
@@ -128,7 +132,7 @@ export default {
 				return
 			}
 
-			this.$emit('change-to-by-day')
+			this.$emit('change-to-by-month-day')
 		},
 		enableBySetPosition() {
 			if (!this.byMonthDayEnabled) {

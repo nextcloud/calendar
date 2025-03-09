@@ -111,28 +111,13 @@ const SUPPORTED_BY_DAY_WEEKLY = [
 	'SA',
 ]
 
-/**
- * Get all numbers between start and end as strings
- *
- * @param {number} start Lower end of range
- * @param {number} end Upper end of range
- * @return {string[]}
- */
-const getRangeAsStrings = (start, end) => {
-	return Array
-		.apply(null, Array((end - start) + 1))
-		.map((_, n) => n + start)
-		.map((s) => s.toString())
-}
+const SUPPORTED_BY_MONTHDAY_MONTHLY = [...Array(31).keys().map(i => i + 1)]
 
-const SUPPORTED_BY_MONTHDAY_MONTHLY = getRangeAsStrings(1, 31)
-
-const SUPPORTED_BY_MONTH_YEARLY = getRangeAsStrings(1, 12)
+const SUPPORTED_BY_MONTH_YEARLY = [...Array(12).keys().map(i => i + 1)]
 
 /**
  * Maps a daily calendar-js recurrence-rule-value to an recurrence-rule-object
  *
- * @param {RecurValue} recurrenceRuleValue The calendar-js recurrence rule value
  * @return {object}
  */
 const mapDailyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue) => {
@@ -230,12 +215,12 @@ const mapMonthlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate
 		}
 
 		const containsInvalidByMonthDay = recurrenceRuleValue.getComponent('BYMONTHDAY')
-			.some((monthDay) => !SUPPORTED_BY_MONTHDAY_MONTHLY.includes(monthDay.toString()))
+			.some((monthDay) => !SUPPORTED_BY_MONTHDAY_MONTHLY.includes(monthDay))
 		isUnsupported = isUnsupported || containsInvalidByMonthDay
 
 		byMonthDay = recurrenceRuleValue.getComponent('BYMONTHDAY')
-			.filter((monthDay) => SUPPORTED_BY_MONTHDAY_MONTHLY.includes(monthDay.toString()))
-			.map((monthDay) => monthDay.toString())
+			.filter((monthDay) => SUPPORTED_BY_MONTHDAY_MONTHLY.includes(monthDay))
+			.map((monthDay) => monthDay)
 
 		// This handles cases where we have both BYDAY and BYSETPOS
 	} else if (containsRecurrenceComponent(recurrenceRuleValue, ['BYDAY']) && containsRecurrenceComponent(recurrenceRuleValue, ['BYSETPOS'])) {
@@ -261,7 +246,7 @@ const mapMonthlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate
 		const byDayArray = recurrenceRuleValue.getComponent('BYDAY')
 
 		if (byDayArray.length > 1) {
-			byMonthDay.push(baseDate.day.toString())
+			byMonthDay.push(baseDate.day)
 			isUnsupported = true
 		} else {
 			const firstElement = byDayArray[0]
@@ -280,14 +265,14 @@ const mapMonthlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate
 					isUnsupported = true
 				}
 			} else {
-				byMonthDay.push(baseDate.day.toString())
+				byMonthDay.push(baseDate.day)
 				isUnsupported = true
 			}
 		}
 
 		// This is a fallback where we just default BYMONTHDAY to the start date of the event
 	} else {
-		byMonthDay.push(baseDate.day.toString())
+		byMonthDay.push(baseDate.day)
 	}
 
 	return getDefaultRecurrenceRuleObjectForRecurrenceValue(recurrenceRuleValue, {
@@ -332,14 +317,14 @@ const mapYearlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate)
 
 	if (containsRecurrenceComponent(recurrenceRuleValue, ['BYMONTH'])) {
 		const containsInvalidByMonthDay = recurrenceRuleValue.getComponent('BYMONTH')
-			.some((month) => !SUPPORTED_BY_MONTH_YEARLY.includes(month.toString()))
+			.some((month) => !SUPPORTED_BY_MONTH_YEARLY.includes(month))
 		isUnsupported = isUnsupported || containsInvalidByMonthDay
 
 		byMonth = recurrenceRuleValue.getComponent('BYMONTH')
-			.filter((monthDay) => SUPPORTED_BY_MONTH_YEARLY.includes(monthDay.toString()))
-			.map((month) => month.toString())
+			.filter((month) => SUPPORTED_BY_MONTH_YEARLY.includes(month))
+			.map((month) => month)
 	} else {
-		byMonth.push(baseDate.month.toString())
+		byMonth.push(baseDate.month)
 	}
 
 	if (containsRecurrenceComponent(recurrenceRuleValue, ['BYDAY']) && containsRecurrenceComponent(recurrenceRuleValue, ['BYSETPOS'])) {

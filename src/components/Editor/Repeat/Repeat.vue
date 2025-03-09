@@ -43,7 +43,7 @@
 				@change-by-day="setByDay"
 				@change-by-set-position="setBySetPosition"
 				@change-to-by-set-position="changeToBySetPositionMonthly"
-				@change-to-by-day="changeToByDayMonthly" />
+				@change-to-by-month-day="changeToByDayMonthly" />
 			<RepeatFreqYearlyOptions v-if="isFreqYearly && !isRecurrenceException && !isReadOnly"
 				:by-day="recurrenceRule.byDay"
 				:by-month="recurrenceRule.byMonth"
