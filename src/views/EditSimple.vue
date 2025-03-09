@@ -148,7 +148,8 @@
 						:is-description="true"
 						@update:value="updateDescription" />
 
-					<InviteesList class="event-popover__invitees"
+					<InviteesList v-if="!isViewing || (isViewing && hasAttendees)"
+						class="event-popover__invitees"
 						:hide-buttons="true"
 						:hide-errors="true"
 						:show-header="true"
@@ -273,6 +274,7 @@ export default {
 			placement: 'auto',
 			hasLocation: false,
 			hasDescription: false,
+			hasAttendees: false,
 			boundaryElement: null,
 			isVisible: true,
 			isViewing: true,
@@ -325,12 +327,16 @@ export default {
 		calendarObjectInstance() {
 			this.hasLocation = false
 			this.hasDescription = false
+			this.hasAttendees = false
 
 			if (typeof this.calendarObjectInstance.location === 'string' && this.calendarObjectInstance.location.trim() !== '') {
 				this.hasLocation = true
 			}
 			if (typeof this.calendarObjectInstance.description === 'string' && this.calendarObjectInstance.description.trim() !== '') {
 				this.hasDescription = true
+			}
+			if (Array.isArray(this.calendarObjectInstance.attendees) && this.calendarObjectInstance.attendees.length > 0) {
+				this.hasAttendees = true
 			}
 		},
 		isNew: {
