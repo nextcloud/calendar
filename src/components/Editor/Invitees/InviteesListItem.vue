@@ -35,7 +35,7 @@
 						:size="20" />
 				</template>
 			</NcButton>
-			<Actions v-if="isViewedByOrganizer">
+			<Actions v-if="!isReadOnly && isViewedByOrganizer">
 				<ActionCheckbox v-if="!members.length"
 					:checked="attendee.rsvp"
 					@change="toggleRSVP">
