@@ -479,6 +479,7 @@
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["Прилог тражи дељени приступ","Прилога траже дељени приступ","Прилога тражи дељени приступ"],
     "Untitled event" : "Неименовани догађај",
     "Close" : "Затвори",
+    "Modifications will not get propagated to the organizer and other attendees" : "Измене неће отићи организатору и осталим учесницима",
     "Subscribe to {name}" : "Претплати се на {name}",
     "Export {name}" : "Извези {name}",
     "Show availability" : "Прикажи доступност",
