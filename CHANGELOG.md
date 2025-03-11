@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.2.0 - unreleased
+### Added
+* Conditional styling for participation status
+* Object type for Talk rooms
+
 ## 5.0.0 - Unreleased
 ### Added
 - Nextcloud 30 support
