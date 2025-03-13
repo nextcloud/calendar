@@ -217,6 +217,20 @@ export default {
 			return this.userAsAttendee !== null
 		},
 		/**
+		 * Returns whether the user is an attendee of the event
+		 *
+		 * @return {boolean|null}
+		 */
+		isViewedByOrganizer() {
+			if (this.isReadOnly || !this.principalsStore.getCurrentUserPrincipalEmail || !this.calendarObjectInstance.organizer) {
+				return null
+			}
+
+			const principal = removeMailtoPrefix(this.principalsStore.getCurrentUserPrincipalEmail)
+			const organizer = this.calendarObjectInstance.organizer
+			return removeMailtoPrefix(organizer.uri) === principal
+		},
+		/**
 		 * Returns the attendee property corresponding to the current user
 		 *
 		 * @return {?object}
