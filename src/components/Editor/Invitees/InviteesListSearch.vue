@@ -95,7 +95,7 @@ export default {
 	},
 	computed: {
 		placeholder() {
-			return this.$t('calendar', 'Search for emails, users, contacts, teams or groups')
+			return this.$t('calendar', 'Search for emails, users, contacts, contact groups or teams')
 		},
 		noResult() {
 			return this.$t('calendar', 'No match found')
