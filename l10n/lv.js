@@ -101,7 +101,7 @@ OC.L10N.register(
     "Loading deleted items." : "Ielādē izdzēstos vienumus.",
     "You do not have any deleted items." : "Jums nav neviena dzēsta vienuma.",
     "Name" : "Nosaukums",
-    "Deleted" : "Dzēstie",
+    "Deleted" : "Izdzēsts",
     "Restore" : "Atjaunot",
     "Delete permanently" : "Dzēst pavisam",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Atkritnes vienumi tiek izdzēsti pēc {numDays} dienām","Atkritnes vienumi tiek izdzēsti pēc {numDays} dienas","Atkritnes vienumi tiek izdzēsti pēc {numDays} dienām"],
