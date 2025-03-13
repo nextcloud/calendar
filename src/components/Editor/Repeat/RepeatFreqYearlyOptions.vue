@@ -10,7 +10,7 @@
 				<NcButton v-for="option in options"
 					:key="option.value"
 					class="repeat-option-set-section-grid-item"
-					:class="option.selected ? 'primary' : 'secondary'"
+					:type="option.selected ? 'primary' : 'secondary'"
 					@click="toggleByMonth(option.value)">
 					{{ option.label }}
 				</NcButton>
@@ -76,58 +76,12 @@ export default {
 	computed: {
 		options() {
 			const monthNamesShort = getMonthNamesShort()
-
 			console.debug(this.byMonth)
-
-			return [{
-				label: monthNamesShort[0],
-				value: 1,
-				selected: this.byMonth.includes(1),
-			}, {
-				label: monthNamesShort[1],
-				value: 2,
-				selected: this.byMonth.includes(2),
-			}, {
-				label: monthNamesShort[2],
-				value: 3,
-				selected: this.byMonth.includes(3),
-			}, {
-				label: monthNamesShort[3],
-				value: 4,
-				selected: this.byMonth.includes(4),
-			}, {
-				label: monthNamesShort[4],
-				value: 5,
-				selected: this.byMonth.includes(5),
-			}, {
-				label: monthNamesShort[5],
-				value: 6,
-				selected: this.byMonth.includes(6),
-			}, {
-				label: monthNamesShort[6],
-				value: 7,
-				selected: this.byMonth.includes(7),
-			}, {
-				label: monthNamesShort[7],
-				value: 8,
-				selected: this.byMonth.includes(8),
-			}, {
-				label: monthNamesShort[8],
-				value: 9,
-				selected: this.byMonth.includes(9),
-			}, {
-				label: monthNamesShort[9],
-				value: 10,
-				selected: this.byMonth.includes(10),
-			}, {
-				label: monthNamesShort[10],
-				value: 11,
-				selected: this.byMonth.includes(11),
-			}, {
-				label: monthNamesShort[11],
-				value: 12,
-				selected: this.byMonth.includes(12),
-			}]
+			return monthNamesShort.map((monthName, index) => ({
+				label: monthName,
+				value: index + 1,
+				selected: this.byMonth.includes(index + 1),
+			}))
 		},
 		/**
 		 *
