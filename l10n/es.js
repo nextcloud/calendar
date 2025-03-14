@@ -361,7 +361,6 @@ OC.L10N.register(
     "Optional participant" : "Participante opcional",
     "Non-participant" : "No participa",
     "_%n member_::_%n members_" : ["%n miembro","%n miembros","%n miembros"],
-    "Search for emails, users, contacts, teams or groups" : "Busca correos, usuarios, contactos, equipos o grupos",
     "No match found" : "No se ha encontrado ningún resultado",
     "Note that members of circles get invited but are not synced yet." : "Tenga en cuenta que los miembros de los círculos serán invitados pero aún no están sincronizados.",
     "Note that members of contact groups get invited but are not synced yet." : "Ten en cuenta que los miembros de los grupos de contactos son invitados pero aún no están sincronizados.",

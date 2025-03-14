@@ -327,7 +327,6 @@ OC.L10N.register(
     "Optional participant" : "Valinnainen osallistuja",
     "Non-participant" : "Osallistumaton",
     "_%n member_::_%n members_" : ["%n jäsen","%n jäsentä"],
-    "Search for emails, users, contacts, teams or groups" : "Etsi sähköposteja, käyttäjiä, yhteystietoja, tiimejä tai ryhmiä",
     "No match found" : "Ei tuloksia",
     "(organizer)" : "(järjestäjä)",
     "To send out invitations and handle responses, [linkopen]add your email address in personal settings[linkclose]." : "[linkopen]Lisää sähköpostiosoitteesi henkilökohtaisiin asetuksiisi[linkclose] lähettääksesi kutsuja ja hallitaksesi vastauksia.",

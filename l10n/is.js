@@ -364,7 +364,6 @@ OC.L10N.register(
     "Optional participant" : "Aukaþátttakandi",
     "Non-participant" : "Ekki þátttakandi",
     "_%n member_::_%n members_" : ["%n þátttakandi","%n þátttakendur"],
-    "Search for emails, users, contacts, teams or groups" : "Leita að tölvupóstföngum, notendum, tengiliðum, teymum eða hópum",
     "No match found" : "Fann engar samsvaranir",
     "Note that members of circles get invited but are not synced yet." : "Athugaðu að meðlimum hringja verður boðið en er enn ekki búnir að samstillast.",
     "Note that members of contact groups get invited but are not synced yet." : "Athugaðu að meðlimum tengiliðahópa verður boðið en er enn ekki búnir að samstillast.",

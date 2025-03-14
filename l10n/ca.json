@@ -362,7 +362,6 @@
     "Optional participant" : "Participació opcional",
     "Non-participant" : "Sense participació",
     "_%n member_::_%n members_" : ["{n} membre","{n} membres"],
-    "Search for emails, users, contacts, teams or groups" : "Cerca correus electrònics, usuaris, contactes, equips o grups",
     "No match found" : "No s'ha trobat cap coincidència",
     "Note that members of circles get invited but are not synced yet." : "Tingueu en compte que els membres dels cercles són convidats però encara no es sincronitzen.",
     "Note that members of contact groups get invited but are not synced yet." : "Tingueu en compte que els membres dels grups de contacte són convidats, però encara no es sincronitzen.",

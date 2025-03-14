@@ -333,7 +333,6 @@ OC.L10N.register(
     "Required participant" : "تەلەپچان قاتناشقۇچى",
     "Optional participant" : "ئىختىيارى قاتناشقۇچى",
     "Non-participant" : "قاتناشمىغان",
-    "Search for emails, users, contacts, teams or groups" : "ئېلېكترونلۇق خەت ، ئىشلەتكۈچى ، ئالاقىداش ، گۇرۇپپا ياكى گۇرۇپپىلارنى ئىزدەڭ",
     "No match found" : "ماس كەلمىدى",
     "Note that members of circles get invited but are not synced yet." : "چەمبىرەك ئەزالىرىنىڭ تەكلىپ قىلىنغانلىقىغا دىققەت قىلىڭ ، ئەمما تېخى ماسلاشمىدى.",
     "(organizer)" : "(تەشكىللىگۈچى)",

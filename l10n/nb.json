@@ -340,7 +340,6 @@
     "Optional participant" : "Valgfri deltaker",
     "Non-participant" : "Ikke-deltaker",
     "_%n member_::_%n members_" : ["%n medlem","%n medlemmer"],
-    "Search for emails, users, contacts, teams or groups" : "Søk etter e-poster, brukere, kontakter, lag eller grupper",
     "No match found" : "Ingen treff",
     "Note that members of circles get invited but are not synced yet." : "Merk at medlemmer av sirkler blir invitert, men ikke synkronisert enda.",
     "(organizer)" : "(organisator)",

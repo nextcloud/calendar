@@ -364,7 +364,6 @@ OC.L10N.register(
     "Optional participant" : "可选的参与者",
     "Non-participant" : "非参与者",
     "_%n member_::_%n members_" : ["%n 个成员"],
-    "Search for emails, users, contacts, teams or groups" : "搜索电子邮件、用户、联系人、团队或群组",
     "No match found" : "未找到匹配项",
     "Note that members of circles get invited but are not synced yet." : "请注意，圈内成员已收到邀请但尚未同步。",
     "Note that members of contact groups get invited but are not synced yet." : "请注意，联系人群组的成员已邀请，但尚未同步。",
