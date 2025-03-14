@@ -364,7 +364,6 @@ OC.L10N.register(
     "Optional participant" : "İsteğe bağlı katılımcı",
     "Non-participant" : "Katılımcı değil",
     "_%n member_::_%n members_" : ["%n üye","%n üye"],
-    "Search for emails, users, contacts, teams or groups" : "E-posta, kullanıcı, kişi, takım ya da grup arayın",
     "No match found" : "Herhangi bir sonuç bulunamadı",
     "Note that members of circles get invited but are not synced yet." : "Takım üyelerinin davet edildiğini ancak henüz eşitlenmediğini unutmayın.",
     "Note that members of contact groups get invited but are not synced yet." : "Kişi gruplarının üyelerinin davet edildiğini ancak henüz eşitlenmediğini unutmayın.",

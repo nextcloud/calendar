@@ -342,7 +342,6 @@ OC.L10N.register(
     "Optional participant" : "任意参加",
     "Non-participant" : "非参加",
     "_%n member_::_%n members_" : ["%n メンバー"],
-    "Search for emails, users, contacts, teams or groups" : "メール、ユーザー、連絡先、チームまたはグループを検索",
     "No match found" : "一致するものが見つかりません",
     "Note that members of circles get invited but are not synced yet." : "サークルのメンバーは招待さ れますが、まだ同期されていないことに注意してください。",
     "(organizer)" : "（主催者）",

@@ -362,7 +362,6 @@
     "Optional participant" : "Nepovinná účasť",
     "Non-participant" : "Bez účasti",
     "_%n member_::_%n members_" : ["%n člen","%n členovia","%n členov","%n členov"],
-    "Search for emails, users, contacts, teams or groups" : "Hľadať e-maily, užívateľov, kontakty, tímy alebo skupiny",
     "No match found" : "Nenašla sa žiadna zhoda",
     "Note that members of circles get invited but are not synced yet." : "Všimnite si, že členovia kruhov dostávajú pozvánky, ale ešte nie sú synchronizovaní.",
     "Note that members of contact groups get invited but are not synced yet." : "Upozorňujeme, že členovia skupín kontaktov sú pozvaní, ale ešte nie sú synchronizovaní.",

@@ -345,7 +345,6 @@
     "Optional participant" : "Optionele deelnemer",
     "Non-participant" : "Geen deelnemer",
     "_%n member_::_%n members_" : ["%n leden","1%n leden"],
-    "Search for emails, users, contacts, teams or groups" : "Zoek naar e-mails, gebruikers, contacten, teams of groepen",
     "No match found" : "Geen overeenkomst gevonden",
     "Note that members of circles get invited but are not synced yet." : "Bedenk dat deenemers aan cirkels uitgenodigd, maar niet gesynchroniseerd worden.",
     "Note that members of contact groups get invited but are not synced yet." : "Bedenk dat deenemers van contactgroepen uitgenodigd, maar niet gesynchroniseerd worden.",

@@ -349,7 +349,6 @@ OC.L10N.register(
     "Optional participant" : "Hautazko partaidea",
     "Non-participant" : "Ez da partaidea",
     "_%n member_::_%n members_" : ["kide %n","%n kide"],
-    "Search for emails, users, contacts, teams or groups" : "Bilatu mezu elektronikoak, erabiltzaileak, kontaktuak; lantaldeak edo taldeak",
     "No match found" : "Ez da emaitzarik aurkitu",
     "Note that members of circles get invited but are not synced yet." : "Kontuan izan zirkuluetako kideek gonbidapena jasotzen dutela baina ez direla oraindik sinkronizatzen.",
     "Note that members of contact groups get invited but are not synced yet." : "Kontuan izan kontaktu taldeetako kideek gonbidapena jasotzen dutela baina ez direla oraindik sinkronizatzen.",

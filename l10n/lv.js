@@ -215,7 +215,7 @@ OC.L10N.register(
     "Planning restrictions" : "Plānošanas ierobežojumi",
     "Limit how far in the future appointments can be booked" : "Ierobežot, cik tālu nākotnē var rezervēt plānotu tikšanos.",
     "Please confirm your reservation" : "Lūgums apstiprināt savu rezervāciju",
-    "We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now." : "Mēs nosūtījām Jums e-pastu ar detalizētu informāciju. Lūdzu, apstipriniet savu tikšanos, izmantojot saiti e-pastā. Tagad varat aizvērt šo lapu.",
+    "We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now." : "Mēs nosūtījām e-pasta ziņojumu ar informāciju. Lūgums apstiprināt savu tikšanos ar e-pasta ziņojumā esošo saiti. Šo lapu tagad var aizvērt.",
     "Your name" : "Tavs vārds",
     "Your email address" : "Jūsu e-pasta adrese",
     "Please share anything that will help prepare for our meeting" : "Lūdzu, dalieties ar visu, kas palīdzēs sagatavoties mūsu sanāksmei",
