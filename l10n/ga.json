@@ -362,7 +362,6 @@
     "Optional participant" : "Rannpháirtí roghnach",
     "Non-participant" : "Neamh-rannpháirtí",
     "_%n member_::_%n members_" : ["%n bhall","%n members","%n members","%n members","%n members"],
-    "Search for emails, users, contacts, teams or groups" : "Déan cuardach do ríomhphoist, úsáideoirí, teagmhálaithe, foirne nó grúpaí",
     "No match found" : "Níor aimsíodh aon mheaitseáil",
     "Note that members of circles get invited but are not synced yet." : "Tabhair faoi deara go bhfaigheann baill de chiorcail cuireadh ach nach bhfuil siad sioncronaithe fós.",
     "Note that members of contact groups get invited but are not synced yet." : "Tabhair faoi deara go bhfaigheann baill de ghrúpaí teagmhála cuireadh ach nach bhfuil siad sioncronaithe fós.",

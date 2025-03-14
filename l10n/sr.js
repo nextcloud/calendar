@@ -364,7 +364,6 @@ OC.L10N.register(
     "Optional participant" : "Необавезни учесник",
     "Non-participant" : "Особа која није учесник",
     "_%n member_::_%n members_" : ["%n члан","%n члана","%n чланова"],
-    "Search for emails, users, contacts, teams or groups" : "Претрага и-мејлова, корисника, контакта, тимова или група",
     "No match found" : "Нема подударања",
     "Note that members of circles get invited but are not synced yet." : "Чланови кругова се позивају али се још увек не синхронизују.",
     "Note that members of contact groups get invited but are not synced yet." : "Чланови група контаката се позивају али се још увек не синхронизују.",
