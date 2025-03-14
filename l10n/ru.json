@@ -349,7 +349,6 @@
     "Optional participant" : "Необязательный участник",
     "Non-participant" : "Не участвует",
     "_%n member_::_%n members_" : ["%n участник","%n участника","%n участников","%n участника"],
-    "Search for emails, users, contacts, teams or groups" : "Выполняйте поиск по электронной почте, пользователям, контактам, командам или группам",
     "No match found" : "Соответствий не найдено",
     "Note that members of circles get invited but are not synced yet." : "Обратите внимание, что участники кругов получают приглашения, но еще не синхронизированы.",
     "Note that members of contact groups get invited but are not synced yet." : "Обратите внимание, что члены контактных групп приглашаются, но еще не синхронизированы.",

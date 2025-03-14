@@ -364,7 +364,6 @@ OC.L10N.register(
     "Optional participant" : "Frivillig deltagare",
     "Non-participant" : "Icke-deltagare",
     "_%n member_::_%n members_" : ["%n medlem","%n medlemmar"],
-    "Search for emails, users, contacts, teams or groups" : "Sök efter e-post, användare, kontakter, team eller grupper",
     "No match found" : "Ingen träff",
     "Note that members of circles get invited but are not synced yet." : "Observera att medlemmar i cirklar blir inbjudna men är inte synkroniserade än.",
     "Note that members of contact groups get invited but are not synced yet." : "Observera att medlemmar i kontaktgrupper blir inbjudna men är inte synkroniserade än.",
