@@ -71,7 +71,6 @@ export async function getBusySlots(organizer, attendees, start, end, timeZoneId)
  * @return []
  */
 export function getFirstFreeSlot(start, end, retrievedEvents) {
-
 	// Here we are trying to understand the duration of the event, this is needed to check that the start and end points of a theoretical slot are free
 	let duration = getDurationInSeconds(start, end)
 	if (duration === 0) {
@@ -96,20 +95,23 @@ export function getFirstFreeSlot(start, end, retrievedEvents) {
 	const totalSlots = []
 
 	// Check times after every event
-	for (let i = 0; i < events.length; i++) {
-		const foundSlots = checkTime(new Date(events[i].end), duration, events)
+	for (const event of events) {
+		const foundSlots = checkTime(new Date(event.end), duration, events, totalSlots)
 
 		if (foundSlots) totalSlots.push(foundSlots)
 	}
 
 	// Check current time
-	const foundSlots = checkTime(new Date(start), duration, events, false, false)
+	const foundSlots = checkTime(new Date(start), duration, events, totalSlots, false, false)
 
 	if (foundSlots) {
 		totalSlots.unshift(foundSlots)
 	}
 
-	return totalSlots
+	// Prevent invalid slots that exceed the search range from being suggested. There might be
+	// false positive as truncated events are not included in the free busy response, e.g. long
+	// events that start before endSearchDate but end after it.
+	return totalSlots.filter((slot) => slot.start < endSearchDate)
 }
 
 /**
@@ -134,11 +136,8 @@ function getDurationInSeconds(start, end) {
  * @param duration
  * @param events
  * @param toRound
- * @parma toRound
  */
-function checkTime(currentCheckedTime, duration, events, toRound = true) {
-	let timeValid = true
-
+function checkTime(currentCheckedTime, duration, events, foundSlots, toRound = true) {
 	// We sometimes don't want to round, like when using the current time
 	if (toRound) {
 		currentCheckedTime = roundToNearestQuarter(currentCheckedTime)
@@ -147,31 +146,35 @@ function checkTime(currentCheckedTime, duration, events, toRound = true) {
 	const currentCheckedTimeEnd = new Date(currentCheckedTime)
 	currentCheckedTimeEnd.setSeconds(currentCheckedTime.getSeconds() + duration)
 
-	events.every(
+	const timeValid = events.every(
 		(event) => {
 			const eventStart = new Date(event.start)
 			const eventEnd = new Date(event.end)
 
 			// Start of event is within the range that we are checking
 			if (eventStart >= currentCheckedTime && eventStart <= currentCheckedTimeEnd) {
-				timeValid = false
 				return false
 			}
 
 			// End of event is within range that we are checking
 			if (eventEnd >= currentCheckedTime && eventEnd <= currentCheckedTimeEnd) {
-				timeValid = false
 				return false
 			}
 
 			// Range that we are checking is within ends of event
 			if (eventStart <= currentCheckedTime && eventEnd >= currentCheckedTimeEnd) {
-				timeValid = false
 				return false
 			}
 			return true
 		},
 	)
+
+	for (const slot of foundSlots) {
+		// The current slot is already fully contained in another found slot
+		if (currentCheckedTime >= slot.start && currentCheckedTimeEnd <= slot.end) {
+			return false
+		}
+	}
 
 	if (timeValid) {
 		return { start: currentCheckedTime, end: currentCheckedTimeEnd }
