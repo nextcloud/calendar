@@ -32,7 +32,7 @@
 			user-select: none;
 		}
 	}
-	
+
 	&__header {
 		display: flex;
 		width: 100%;
@@ -160,6 +160,8 @@
 				margin-top: 10px;
 				display: flex;
 				flex-wrap: wrap;
+				flex-direction: column;
+				gap: calc(var(--default-grid-baseline) * 2);
 			}
 
 			&--on-the-select {
@@ -203,7 +205,7 @@
 		&--yearly {
 			.repeat-option-set-section {
 				&__grid {
-					grid-template-columns: repeat(4, auto);
+					grid-template-columns: repeat(7, auto);
 				}
 			}
 		}
@@ -859,7 +861,7 @@
 			border-radius: 22px !important;
 			align-items: center;
 			inset-inline-end : var(--default-grid-baseline) !important;
-		
+
 
 			.action-item.action-item--single {
 				width: 44px !important;

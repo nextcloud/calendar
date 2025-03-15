@@ -22,8 +22,8 @@ exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule 
 
 exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring infinitely every week on Tuesday 1`] = `"Weekly on {weekdays}"`;
 
-exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring infinitely every year in May 1`] = `"Yearly in {monthNames}"`;
+exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring infinitely every year in May 1`] = `"Yearly in {monthNames} on the {ordinalNumber} {byDaySet}"`;
 
-exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring infinitely every year in May, July, October 1`] = `"Yearly in {monthNames}"`;
+exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring infinitely every year in May, July, October on the 15th 1`] = `"Yearly in {monthNames} on the {dayOfMonthList}"`;
 
 exports[`format/recurrenceRuleFormat test suite should format a recurrence-rule that is recurring infinitely every year in May, July, October on third Thursday 1`] = `"Yearly in {monthNames} on the {ordinalNumber} {byDaySet}"`;
