@@ -364,6 +364,7 @@ OC.L10N.register(
     "Optional participant" : "可不出席的參與者",
     "Non-participant" : "非參與者",
     "_%n member_::_%n members_" : ["%n 個成員"],
+    "Search for emails, users, contacts, contact groups or teams" : "搜尋電子郵件、用戶、聯絡人、聯絡人群組或團隊",
     "No match found" : "找不到符合的項目",
     "Note that members of circles get invited but are not synced yet." : "請注意，社交圈子成員已收到邀請，但尚未同步。",
     "Note that members of contact groups get invited but are not synced yet." : "請注意，聯絡人群組已收到邀請，但尚未同步。",
