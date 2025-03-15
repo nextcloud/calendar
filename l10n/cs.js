@@ -364,6 +364,7 @@ OC.L10N.register(
     "Optional participant" : "Nepovinní účastníci",
     "Non-participant" : "Neúčastník",
     "_%n member_::_%n members_" : ["%n člen","%n členové","%n členů","%n členové"],
+    "Search for emails, users, contacts, contact groups or teams" : "Hledat e-maily, uživatele, kontakty, skupiny kontaktů či týmy",
     "No match found" : "Nenalezena žádná shoda",
     "Note that members of circles get invited but are not synced yet." : "Mějte na paměti, že členové okruhů budou pozváni, ale zatím ještě nejsou synchronizováni.",
     "Note that members of contact groups get invited but are not synced yet." : "Mějte na paměti, že členové skupin kontaktů budou pozváni, ale zatím ještě nejsou synchronizováni.",

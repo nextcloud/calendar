@@ -364,6 +364,7 @@ OC.L10N.register(
     "Optional participant" : "Ixtiyoriy ishtirokchi",
     "Non-participant" : "Qatnashmaydigan",
     "_%n member_::_%n members_" : ["%n a'zolari"],
+    "Search for emails, users, contacts, contact groups or teams" : "Elektron pochta, foydalanuvchilar, kontaktlar, aloqa guruhlari yoki jamoalarni qidiring",
     "No match found" : "Hech qanday moslik topilmadi",
     "Note that members of circles get invited but are not synced yet." : "Esda tutingki, davra a’zolari taklif qilinadi, lekin hali sinxronlanmagan.",
     "Note that members of contact groups get invited but are not synced yet." : "E'tibor bering, kontakt guruhlari a'zolari taklif qilinadi, lekin hali sinxronlanmagan.",
