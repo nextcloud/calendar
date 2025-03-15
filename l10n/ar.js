@@ -364,6 +364,7 @@ OC.L10N.register(
     "Optional participant" : "مشارك اختياري",
     "Non-participant" : "غير مشارك",
     "_%n member_::_%n members_" : ["%n عضواً","%n عضواً","%n عضواً","%n عضواً","%n عضواً","%n عضواً"],
+    "Search for emails, users, contacts, contact groups or teams" : "البحث عن إيميلات، أو مستخدِمين، أو جهات اتصال، أو مجموعات، أو فِرَق",
     "No match found" : "لم يٌمكن إيجاد تطابق",
     "Note that members of circles get invited but are not synced yet." : "لاحظ أن أعضاء دوائر الاتصال تمّت دعوتهم لكن لم تتمّ مزامنتهم بعدُ.",
     "Note that members of contact groups get invited but are not synced yet." : "لاحظ أن أعضاء مجموعات الاتصال تتم تدعوتهم لكن لا تمكن مزامنهم بعدُ.",
