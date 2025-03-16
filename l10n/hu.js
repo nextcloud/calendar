@@ -470,7 +470,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["ezen a napon: {weekdays}","ezen a napon: {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["a hónap ezen napjain: {dayOfMonthList}","a hónap ezen napjain: {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "ekkor: {ordinalNumber}. {byDaySet}",
-    "in {monthNames}" : "{monthNames} hónapban",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "{monthNames} hónapban ekkor: {ordinalNumber}. {byDaySet}",
     "until {untilDate}" : "eddig: {untilDate}",
     "_%n time_::_%n times_" : ["%n alkalommal","%n alkalommal"],
@@ -535,6 +534,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Tegnap]",
     "[Last] dddd" : "[Múlt] dddd",
     "Create a new event" : "Új esemény létrehozása",
+    "in {monthNames}" : "{monthNames} hónapban",
     "Add a description" : "Leírás hozzáadása",
     "Chat room for event" : "Csevegőszoba az eseményhez"
 },

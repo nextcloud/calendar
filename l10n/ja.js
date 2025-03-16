@@ -493,7 +493,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["on {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["on days {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "on the {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "in {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "in {monthNames} on the {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "{untilDate} まで",
     "_%n time_::_%n times_" : ["%n回"],
@@ -560,6 +559,7 @@ OC.L10N.register(
     "[Yesterday]" : "[昨日]",
     "[Last] dddd" : "[Last]dddd",
     "Create a new event" : "新しいイベントを作成",
+    "in {monthNames}" : "in {monthNames}",
     "Add a description" : "説明を追加",
     "Chat room for event" : "イベントのチャットルーム"
 },

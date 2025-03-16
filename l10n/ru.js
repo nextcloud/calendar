@@ -505,7 +505,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["по {weekday}","по {weekday}","по {weekday}","по {weekday}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : [" {dayOfMonthList}"," {dayOfMonthList}"," {dayOfMonthList}"," {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "по {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "по {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "в {monthNames} по {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "до {untilDate}",
     "_%n time_::_%n times_" : ["%n раз","%n раза","%n раз","%n раза"],
@@ -573,6 +572,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Вчера]",
     "[Last] dddd" : "[Last] dddd",
     "Create a new event" : "Создать событие",
+    "in {monthNames}" : "по {monthNames}",
     "Add a description" : "Добавить описание",
     "Chat room for event" : "Комната в приложении Talk для этого события"
 },

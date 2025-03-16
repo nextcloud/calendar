@@ -372,7 +372,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["ar {weekday}","ar {weekdays}","ar {weekdays}","ar {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["ar ddiwrnod {dayOfMonthList}","ar ddiwrnodau {dayOfMonthList}","ar ddiwrnodau {dayOfMonthList}","ar ddiwrnodau {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "ar y {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "yn {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "yn {monthNames} ar y {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "tan {untilDate}",
     "_%n time_::_%n times_" : ["%n waith","%n o weithiau","%n o weithiau","%n o weithiau"],
@@ -430,6 +429,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Ddoe]",
     "[Last] dddd" : "[Diwethaf] dddd",
     "Create a new event" : "Creu digwyddiad newydd",
+    "in {monthNames}" : "yn {monthNames}",
     "Add a description" : "Ychwanegu disgrifiad",
     "Chat room for event" : "Ystafell sgwrsio ar gyfer digwyddiad"
 },

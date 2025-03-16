@@ -473,7 +473,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["σε {weekday}","σε {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["σε ημέρα {dayOfMonthList}","σε ημέρες {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "την {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "τον {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "τον {monthNames} στις {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "έως {untilDate}",
     "_%n time_::_%n times_" : ["%n φορά","%n φορές"],
@@ -538,6 +537,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Χθες]",
     "[Last] dddd" : "[Last] ηηηη",
     "Create a new event" : "Δημιουργία νέου γεγονότος",
+    "in {monthNames}" : "τον {monthNames}",
     "Add a description" : "Προσθήκη περιγραφής",
     "Chat room for event" : "Χώρος άμεσων μηνυμάτων για το γεγονός "
 },

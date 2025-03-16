@@ -469,7 +469,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["{weekday}na","viikonpäivinä {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["päivänä {dayOfMonthList}","päivinä {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "{ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "kuukausina {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "{monthNames}ssa {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "{untilDate} asti",
     "_%n time_::_%n times_" : ["%n kerran","%n kertaa"],
@@ -536,6 +535,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Eilen]",
     "[Last] dddd" : "[Viimeinen] dddd",
     "Create a new event" : "Luo uusi tapahtuma",
+    "in {monthNames}" : "kuukausina {monthNames}",
     "Add a description" : "Lisää kuvaus",
     "Chat room for event" : "Tapahtuman keskusteluhuone"
 },

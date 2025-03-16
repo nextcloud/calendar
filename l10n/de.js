@@ -523,7 +523,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["am {weekday}","am {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["am Tag {dayOfMonthList}","an den Tagen {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "am {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "im {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "im {monthNames} am {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "bis {untilDate}",
     "_%n time_::_%n times_" : ["%n mal","%n mal"],
@@ -598,6 +597,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Gestern]",
     "[Last] dddd" : "[Letzten] dddd",
     "Create a new event" : "Neuen Termin erstellen",
+    "in {monthNames}" : "im {monthNames}",
     "Add a description" : "Beschreibung hinzufügen",
     "Chat room for event" : "Chat-Raum für Termin"
 },

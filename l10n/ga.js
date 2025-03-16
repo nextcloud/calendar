@@ -364,6 +364,7 @@ OC.L10N.register(
     "Optional participant" : "Rannpháirtí roghnach",
     "Non-participant" : "Neamh-rannpháirtí",
     "_%n member_::_%n members_" : ["%n bhall","%n members","%n members","%n members","%n members"],
+    "Search for emails, users, contacts, contact groups or teams" : "Déan cuardach do ríomhphoist, úsáideoirí, teagmhálaithe, grúpaí teagmhála nó foirne",
     "No match found" : "Níor aimsíodh aon mheaitseáil",
     "Note that members of circles get invited but are not synced yet." : "Tabhair faoi deara go bhfaigheann baill de chiorcail cuireadh ach nach bhfuil siad sioncronaithe fós.",
     "Note that members of contact groups get invited but are not synced yet." : "Tabhair faoi deara go bhfaigheann baill de ghrúpaí teagmhála cuireadh ach nach bhfuil siad sioncronaithe fós.",
@@ -522,7 +523,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["ar {weekday}","ar {weekdays}","ar {weekdays}","ar {weekdays}","ar {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["ar lá {dayOfMonthList}","ar laethanta {dayOfMonthList}","ar laethanta {dayOfMonthList}","ar laethanta {dayOfMonthList}","ar laethanta {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "ar an {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "in {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "in {monthNames} ar an {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "go dtí {untilDate}",
     "_%n time_::_%n times_" : ["%n am","%n uair","%n uair","%n uair","%n uair"],
@@ -597,6 +597,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Inné]",
     "[Last] dddd" : "[seo caite] dddd",
     "Create a new event" : "Cruthaigh imeacht nua",
+    "in {monthNames}" : "in {monthNames}",
     "Add a description" : "Cuir cur síos leis",
     "Chat room for event" : "Seomra comhrá don imeacht"
 },

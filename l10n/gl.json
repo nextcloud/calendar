@@ -520,7 +520,6 @@
     "_on {weekday}_::_on {weekdays}_" : ["o {weekday}","os {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["o día {dayOfMonthList}","os días {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "o {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "en {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "en {monthNames} o {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "ata {untilDate}",
     "_%n time_::_%n times_" : ["%n vez","%n veces"],
@@ -595,6 +594,7 @@
     "[Yesterday]" : "[Onte]",
     "[Last] dddd" : "[Último] dddd",
     "Create a new event" : "Crear un novo evento",
+    "in {monthNames}" : "en {monthNames}",
     "Add a description" : "Engadir unha descrición",
     "Chat room for event" : "Sala de parolas para o evento"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
