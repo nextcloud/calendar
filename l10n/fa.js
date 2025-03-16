@@ -447,7 +447,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["در {weekday}","در {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["در روز {dayOfMonthList}","در روزها {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "روی {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "درون {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "در {monthNames} در {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "تا زمان {untilDate}",
     "_%n time_::_%n times_" : ["%n بار","%n بارها"],
@@ -510,6 +509,7 @@ OC.L10N.register(
     "[Yesterday]" : "[دیروز]",
     "[Last] dddd" : "[Last] dddd",
     "Create a new event" : "Create a new event",
+    "in {monthNames}" : "درون {monthNames}",
     "Add a description" : "یک توضیح بنویسید",
     "Chat room for event" : "اتاق گپ برای رویداد"
 },

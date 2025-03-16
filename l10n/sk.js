@@ -520,7 +520,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["v {weekday}","v {weekday}","v {weekday}","v {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["v dni {dayOfMonthList}","v dňoch {dayOfMonthList}","v dňoch {dayOfMonthList}","v dňoch {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "každý mesiac {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "v {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "v {monthNames} v {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "do {untilDate}",
     "_%n time_::_%n times_" : ["%n raz","%n raz","%n raz","%n raz"],
@@ -594,6 +593,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Včera]",
     "[Last] dddd" : "[Posledné] dddd",
     "Create a new event" : "Vytvoriť novú udalosť",
+    "in {monthNames}" : "v {monthNames}",
     "Add a description" : "Zadajte popis",
     "Chat room for event" : "Chatová miestnosť pre udalosť"
 },

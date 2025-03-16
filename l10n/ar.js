@@ -523,7 +523,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["في {weekdays}","في {weekday}","في {weekdays}","في {weekdays}","في {weekdays}","في {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["في أيام {dayOfMonthList}","في يوم {dayOfMonthList}","في أيام {dayOfMonthList}","في أيام {dayOfMonthList}","في أيام {dayOfMonthList}","في أيام {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "في الـ {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "في {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "في {monthNames} في الـ {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "حتى {untilDate}",
     "_%n time_::_%n times_" : ["%n مرات","%n مرة","%n مرات","%n مرات","%n مرات","%n مرات"],
@@ -598,6 +597,7 @@ OC.L10N.register(
     "[Yesterday]" : "[امس]",
     "[Last] dddd" : "[اخر] dddd",
     "Create a new event" : "إنشاء حدث جديد",
+    "in {monthNames}" : "في {monthNames}",
     "Add a description" : "إضافة وصف",
     "Chat room for event" : "غرفة محادثة للحدث"
 },

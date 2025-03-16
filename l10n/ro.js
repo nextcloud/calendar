@@ -446,7 +446,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["în {weekdays}","în {weekdays}","în {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["în ziua de {dayOfMonthList}","în zilele de {dayOfMonthList}","în zilele de {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "pe {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "în {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "în {monthNames} pe {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "până {untilDate}",
     "_%n time_::_%n times_" : ["%n zi","%n zile","%n de zile"],
@@ -510,6 +509,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Ieri]",
     "[Last] dddd" : "[Ultima] dddd",
     "Create a new event" : "Creează un nou eveniment",
+    "in {monthNames}" : "în {monthNames}",
     "Add a description" : "Adauga o descripție",
     "Chat room for event" : "Camera de chat pentru eveniment"
 },
