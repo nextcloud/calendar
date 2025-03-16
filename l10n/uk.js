@@ -522,7 +522,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["у {weekdays}","у {weekdays}","у {weekdays}","у {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["у наступний день {dayOfMonthList}","у наступні дні {dayOfMonthList}","у наступні дні {dayOfMonthList}","у наступні дні {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "у {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "у {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "у {monthNames} у {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "до {untilDate}",
     "_%n time_::_%n times_" : ["%n раз","%n разів","%n разів","%n рази"],
@@ -596,6 +595,7 @@ OC.L10N.register(
     "[Tomorrow]" : "[Завтра]",
     "[Yesterday]" : "[Вчора]",
     "Create a new event" : "Створити нову подію",
+    "in {monthNames}" : "у {monthNames}",
     "Add a description" : "Додати опис",
     "Chat room for event" : "Кімната чату для події"
 },

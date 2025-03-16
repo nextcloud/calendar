@@ -495,7 +495,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["på {weekday}","på {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["på dag {dayOfMonthList}","på dager {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "den {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "i {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "i {monthNames} den {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "til {untilDate}",
     "_%n time_::_%n times_" : ["%n gang","%n ganger"],
@@ -563,6 +562,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Yesterday]",
     "[Last] dddd" : "[Last] dddd",
     "Create a new event" : "Opprett en ny hendelse",
+    "in {monthNames}" : "i {monthNames}",
     "Add a description" : "Legg til en beskrivelse",
     "Chat room for event" : "Chatterom for hendelse"
 },

@@ -328,7 +328,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["ב-{weekday}","ב-{weekday}","ב-{weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["בימים {dayOfMonthList}","בימים {dayOfMonthList}","בימים {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "ב- {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "ב- {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "ב- {monthNames} ב- {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "עד {untilDate}",
     "_%n time_::_%n times_" : ["פעם אחת","פעמיים","%n פעמים"],
@@ -377,6 +376,7 @@ OC.L10N.register(
     "[Yesterday]" : "[אתמול]",
     "[Last] dddd" : "[Last] dddd",
     "Create a new event" : "צור אירוע חדש",
+    "in {monthNames}" : "ב- {monthNames}",
     "Add a description" : "הוסף תיאור",
     "Chat room for event" : "חדר צ'ט לאירוע"
 },

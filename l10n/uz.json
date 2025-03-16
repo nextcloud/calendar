@@ -521,7 +521,6 @@
     "_on {weekday}_::_on {weekdays}_" : [" {weekdays}da"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : [" {dayOfMonthList}kunda"],
     "on the {ordinalNumber} {byDaySet}" : "{ordinalNumber} {byDaySet}da",
-    "in {monthNames}" : " {monthNames} da",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : " {monthNames} ichida {ordinalNumber} {byDaySet}da",
     "until {untilDate}" : " {untilDate}gacha",
     "_%n time_::_%n times_" : ["%n vaqt"],
@@ -596,6 +595,7 @@
     "[Yesterday]" : "[Kecha]",
     "[Last] dddd" : "[Oxirgi] dddd",
     "Create a new event" : "Yangi tadbirni yarating",
+    "in {monthNames}" : " {monthNames} da",
     "Add a description" : "Tavsif qo'shing",
     "Chat room for event" : "Tadbir uchun suhbat xonasi"
 },"pluralForm" :"nplurals=1; plural=0;"

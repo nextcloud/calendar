@@ -470,7 +470,6 @@ OC.L10N.register(
     "Monthly" : "ئايلىق",
     "Yearly" : "يىللىق",
     "on the {ordinalNumber} {byDaySet}" : "on {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "in nameNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "{monthNames} دا {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "تاكى DateDate}",
     "second" : "ئىككىنچى",
@@ -527,6 +526,7 @@ OC.L10N.register(
     "[Today]" : "[بۈگۈن]",
     "[Tomorrow]" : "[ئەتە]",
     "[Yesterday]" : "[تۈنۈگۈن]",
+    "in {monthNames}" : "in nameNames}",
     "Add a description" : "چۈشەندۈرۈش قوشۇڭ",
     "Chat room for event" : "پائالىيەت ئۈچۈن پاراڭلىشىش ئۆيى"
 },

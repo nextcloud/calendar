@@ -522,7 +522,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["på {weekday}","på {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["på dag {dayOfMonthList}","på dagar {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "på den {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "i {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "i {monthNames} på den {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "till {untilDate}",
     "_%n time_::_%n times_" : ["%n gång","%n gånger"],
@@ -597,6 +596,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Igår]",
     "[Last] dddd" : "[Sista] dddd",
     "Create a new event" : "Skapa en ny händelse",
+    "in {monthNames}" : "i {monthNames}",
     "Add a description" : "Lägg till en beskrivning",
     "Chat room for event" : "Chattrum för event"
 },

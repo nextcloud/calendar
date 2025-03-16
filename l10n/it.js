@@ -515,7 +515,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["il {weekday}","i {weekdays}","i {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["il giorno {dayOfMonthList}","nei giorni {dayOfMonthList}","nei giorni {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "il {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "in {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "in {monthNames} il {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "fino al {untilDate}",
     "_%n time_::_%n times_" : ["%n volta","%n volte","%n volte"],
@@ -589,6 +588,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Ieri]",
     "[Last] dddd" : "[Ultimo] dddd",
     "Create a new event" : "Crea un nuovo evento",
+    "in {monthNames}" : "in {monthNames}",
     "Add a description" : "Aggiungi una descrizione",
     "Chat room for event" : "Stanza di chat per evento"
 },

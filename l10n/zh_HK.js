@@ -523,7 +523,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["於 {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["在 {dayOfMonthList} 天"],
     "on the {ordinalNumber} {byDaySet}" : "在 {ordinalNumber} {byDaySet} 上",
-    "in {monthNames}" : "於 {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "在 {ordinalNumber} {byDaySet} 於 {monthNames}",
     "until {untilDate}" : "到 {untilDate}",
     "_%n time_::_%n times_" : ["%n 次"],
@@ -598,6 +597,7 @@ OC.L10N.register(
     "[Yesterday]" : "[昨日]",
     "[Last] dddd" : "[上] dddd",
     "Create a new event" : "建立新活動",
+    "in {monthNames}" : "於 {monthNames}",
     "Add a description" : "加入描述",
     "Chat room for event" : "活動的聊天室"
 },

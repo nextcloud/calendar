@@ -501,7 +501,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["op {weekday}","op {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["op dag {dayOfMonthList}","op de dagen {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "op de {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "in {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "in {monthNames} op de {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "tot {untilDate}",
     "_%n time_::_%n times_" : ["%n keer","%n keer"],
@@ -568,6 +567,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Gisteren]",
     "[Last] dddd" : "[Last] dddd",
     "Create a new event" : "Maak een nieuwe activiteit",
+    "in {monthNames}" : "in {monthNames}",
     "Add a description" : "Voeg een omschrijving toe",
     "Chat room for event" : "Spreekkamer voor afspraak"
 },

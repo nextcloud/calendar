@@ -503,7 +503,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["{weekday}","{weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["{dayOfMonthList} egunean","{dayOfMonthList} egunetan"],
     "on the {ordinalNumber} {byDaySet}" : "{ordinalNumber}. {byDaySet}an",
-    "in {monthNames}" : "{monthNames}an",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "{monthNames}ko {ordinalNumber}. {byDaySet}an",
     "until {untilDate}" : "{untilDate} arte",
     "_%n time_::_%n times_" : ["%n","%naldiz"],
@@ -571,6 +570,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Yesterday]",
     "[Last] dddd" : "[Last] dddd",
     "Create a new event" : "Sortu gertaera berri bat",
+    "in {monthNames}" : "{monthNames}an",
     "Add a description" : "Gehitu deskribapena",
     "Chat room for event" : "Txat gela gertaera honentzat"
 },
