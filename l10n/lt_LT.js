@@ -385,7 +385,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["ties {weekday}","ties {weekdays}","ties {weekdays}","ties {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["šiomis dienomis: {dayOfMonthList}","šiomis dienomis: {dayOfMonthList}","šiomis dienomis: {dayOfMonthList}","šiomis dienomis: {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "ties {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "ties {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "ties {monthNames}, ties {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "iki {untilDate}",
     "_%n time_::_%n times_" : ["%n kartą","%n kartus","%n kartų","%n kartą"],
@@ -445,6 +444,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Vakar]",
     "[Last] dddd" : "[Paskutinis] dddd",
     "Create a new event" : "Sukurti naują įvykį",
+    "in {monthNames}" : "ties {monthNames}",
     "Add a description" : "Pridėti aprašą",
     "Chat room for event" : "Įvykio pokalbių kambarys"
 },

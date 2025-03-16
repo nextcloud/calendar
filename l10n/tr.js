@@ -522,7 +522,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["{weekday} gününde","{weekdays} günlerinde"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["{dayOfMonthList} gününde","{dayOfMonthList} günlerinde"],
     "on the {ordinalNumber} {byDaySet}" : "{ordinalNumber} {byDaySet} gününde",
-    "in {monthNames}" : "{monthNames} aylarında",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "{monthNames} aylarında {ordinalNumber} {byDaySet} gününde",
     "until {untilDate}" : "{untilDate} tarihine kadar",
     "_%n time_::_%n times_" : ["%n kez","%n kez"],
@@ -597,6 +596,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Dün]",
     "[Last] dddd" : "[Son] dddd",
     "Create a new event" : "Etkinlik ekle",
+    "in {monthNames}" : "{monthNames} aylarında",
     "Add a description" : "Bir açıklama ekleyin",
     "Chat room for event" : "Etkinliğin sohbet odası"
 },

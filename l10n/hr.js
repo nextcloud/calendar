@@ -316,7 +316,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["{weekday}","{weekdays}","{weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["na dan {dayOfMonthList}","na dane {dayOfMonthList}","na dane {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "{ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "u {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "u {monthNames} {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "do {untilDate}",
     "_%n time_::_%n times_" : ["%n put","%n puta","%n puta"],
@@ -368,6 +367,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Jučer]",
     "[Last] dddd" : "[Zadnji] dddd",
     "Create a new event" : "Stvorite novi događaj",
+    "in {monthNames}" : "u {monthNames}",
     "Add a description" : "Dodaj opis",
     "Chat room for event" : "Soba za razmjenu poruka za događaj"
 },

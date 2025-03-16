@@ -520,7 +520,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["á {weekday}","á {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["daginn {dayOfMonthList}","dagana {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "þann {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "í {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "í {monthNames} þann {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "þangað til {untilDate}",
     "_%n time_::_%n times_" : ["%n sinni","%n sinnum"],
@@ -590,6 +589,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Í gær]",
     "[Last] dddd" : "[Síðasta] dddd",
     "Create a new event" : "Búa til nýjan atburð",
+    "in {monthNames}" : "í {monthNames}",
     "Add a description" : "Settu inn lýsingu",
     "Chat room for event" : "Spjallsvæði vegna atburðar"
 },

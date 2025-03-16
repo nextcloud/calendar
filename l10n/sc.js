@@ -304,7 +304,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["su {weekday}","su {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["sa die {dayOfMonthList}","is dies {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "su {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "in {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "in {monthNames} su {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "finas a {untilDate}",
     "_%n time_::_%n times_" : ["%n borta","%n bortas"],
@@ -353,6 +352,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Eris]",
     "[Last] dddd" : "[Ùrtimu] dddd",
     "Create a new event" : "Crea un'eventu nou",
+    "in {monthNames}" : "in {monthNames}",
     "Add a description" : "Agiunghe una descritzione",
     "Chat room for event" : "Aposentu pro is tzarradas de s'eventu"
 },

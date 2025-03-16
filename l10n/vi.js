@@ -376,7 +376,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["vào  {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["vào các ngày {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "vào {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "trong {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "trong {monthNames} trên {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "cho đến {untilDate}",
     "_%n time_::_%n times_" : ["%n lần"],
@@ -435,6 +434,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Hôm qua]",
     "[Last] dddd" : "[Trước] dddd",
     "Create a new event" : "Tạo một sự kiện mới",
+    "in {monthNames}" : "trong {monthNames}",
     "Add a description" : "Thêm vào một mô tả",
     "Chat room for event" : "Phòng trò chuyện cho sự kiện"
 },

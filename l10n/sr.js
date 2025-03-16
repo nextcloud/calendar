@@ -523,7 +523,6 @@ OC.L10N.register(
     "_on {weekday}_::_on {weekdays}_" : ["у {weekday}","у {weekdays}","у {weekdays}"],
     "_on day {dayOfMonthList}_::_on days {dayOfMonthList}_" : ["на дан {dayOfMonthList}","на дане {dayOfMonthList}","на дане {dayOfMonthList}"],
     "on the {ordinalNumber} {byDaySet}" : "на {ordinalNumber} {byDaySet}",
-    "in {monthNames}" : "у {monthNames}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "у {monthNames} на {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "до {untilDate}",
     "_%n time_::_%n times_" : ["%n пут","%n пута","%n пута"],
@@ -598,6 +597,7 @@ OC.L10N.register(
     "[Yesterday]" : "[Јуче]",
     "[Last] dddd" : "[Последњи] dddd",
     "Create a new event" : "Креирај нови догађај",
+    "in {monthNames}" : "у {monthNames}",
     "Add a description" : "Додај опис",
     "Chat room for event" : "Чет соба за догађај"
 },
