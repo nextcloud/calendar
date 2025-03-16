@@ -283,6 +283,6 @@
 }
 
 .fc-timegrid-event-harness, .fc-timegrid-event {
-	// previously was 1px for no apparent reason
-	margin-bottom: 0;
+	margin-bottom: 1px;
+	overflow-y: hidden;
 }

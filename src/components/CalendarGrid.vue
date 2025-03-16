@@ -277,6 +277,81 @@ export default {
 			}
 		}
 	},
+	updated() {
+		 /**
+			 * This is needed to prevent text from overlapping when the event is transparent (in the past).
+			 * There are no CSS selectors for past events, or overlapping events.
+			 * Therefore to see what is overlapping, we first need to wait for the events to be rendered,
+			 * then take the events inside the same column with the same vertical position.
+			 * All the events except the last one on top will have half of their inner content clipped.
+			 */
+		 setTimeout(() => {
+			const columns = document.querySelectorAll('.fc-timegrid-col')
+
+			columns.forEach(column => {
+				const elements = column.querySelectorAll('.fc-timegrid-event-harness')
+				const elementsGroupedByTop = {}
+
+				elements.forEach(element => {
+					const insetTop = window.getComputedStyle(element).top
+
+					if (!elementsGroupedByTop[insetTop]) {
+						elementsGroupedByTop[insetTop] = []
+					}
+					elementsGroupedByTop[insetTop].push(element)
+				})
+
+				Object.keys(elementsGroupedByTop).forEach(insetTop => {
+					if (elementsGroupedByTop[insetTop].length > 1) {
+						const elementsWithTheSameTop = elementsGroupedByTop[insetTop]
+
+						elementsWithTheSameTop.pop()
+
+						elementsWithTheSameTop.forEach(element => {
+							const fcEventElement = element.querySelector('.fc-event-main')
+
+							fcEventElement.style.clipPath = 'polygon(0 0, 47% 0, 47% 100%, 0 100%)'
+						})
+					}
+				})
+			})
+
+			// columns.forEach(column => {
+			//  const events = column.querySelectorAll('.fc-timegrid-event-harness')
+			//
+			//  const eventsArray = Array.from(events)
+			//
+			//  // Sort events by their top position in the column
+			//  eventsArray.sort((a, b) => {
+			// 	 const aTop = parseFloat(a.style.top) || 0
+			// 	 const bTop = parseFloat(b.style.top) || 0
+			// 	 return aTop - bTop
+			//  })
+			//
+			//  // Loop through the sorted events
+			//  for (let i = 0; i < eventsArray.length - 1; i++) {
+			// 	 const currentEvent = eventsArray[i]
+			// 	 const nextEvent = eventsArray[i + 1]
+			//
+			// 	 // Get the top and height of the current event
+			// 	 const currentTop = parseFloat(currentEvent.style.top) || 0
+			// 	 const currentHeight = parseFloat(currentEvent.style.height) || 0
+			//
+			// 	 // Get the top of the next event
+			// 	 const nextTop = parseFloat(nextEvent.style.top) || 0
+			//
+			// 	 // Check if the current event overlaps with the next event
+			// 	 if (currentTop + currentHeight > nextTop) {
+			// 		 // Calculate the new height for the current event to avoid overlap
+			// 		 const newHeight = nextTop - currentTop - 5
+			//
+			// 		 // Clip the current event by setting its height
+			// 		 currentEvent.style.height = `${newHeight}px`
+			// 	 }
+			//  }
+			// })
+		}, 500)
+	},
 	methods: {
 		/**
 		 * When a user changes the view, remember it and
