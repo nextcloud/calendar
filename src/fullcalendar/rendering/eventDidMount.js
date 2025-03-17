@@ -98,6 +98,7 @@ export default function({ event, el }) {
 		|| el.classList.contains('fc-event-nc-declined')
 	) {
 		const titleElement = el.querySelector('.fc-event-title')
+		const timeElement = el.querySelector('.fc-event-time')
 		const dotElement = el.querySelector('.fc-daygrid-event-dot')
 
 		if (dotElement) {
@@ -108,6 +109,10 @@ export default function({ event, el }) {
 		}
 
 		titleElement.style.color = 'var(--color-main-text)'
+		if (timeElement) {
+			timeElement.style.color = 'var(--color-main-text)'
+		}
+
 		el.style.background = 'transparent'
 		el.title = t('calendar', 'All participants declined')
 
