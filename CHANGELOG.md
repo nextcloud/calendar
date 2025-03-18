@@ -1,9 +1,32 @@
 # Changelog
 
-## 5.2.0 - unreleased
+## 5.2.0 - 2025-03-18
 ### Added
-* Conditional styling for participation status
-* Object type for Talk rooms
+- Conditional styling for participation status
+- Object type for Talk rooms
+### Fixed
+- Always show alarm unit in pural
+- Close modal after creating conversation
+- Date selector resetting time
+- Do not show attendee actions in viewing mode
+- Do not show attendee list when there are no attendees in viewing mode
+- Do not show items from deleted calendars in widget
+- EditSideBar bug
+- Force height for descr and location
+- Free busy ignoring user's time zone
+- Free busy not updating date
+- Keyboard shortcut modal not being responsive
+- Monthly recurrance type and bymonthday selection
+- Remove toggle functionality from public view
+- Rephraze ambiguous "group" invites
+- Restrict attendees edit priveleges in the frontend
+- Restrict calendar visibility toggle to checkbox only
+- Show display name instead of user id in availability integration
+- Show generic participation status for the organizer
+- Slot header format not respecting user's locale
+- Sort talk conversations by most recent activity
+- Update vulnerable dependencies
+- Yearly recurrance options - month selection
 
 ## 5.0.0 - Unreleased
 ### Added
