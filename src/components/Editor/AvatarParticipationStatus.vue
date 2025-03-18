@@ -118,14 +118,7 @@ export default {
 					}
 				}
 
-				if (this.attendeeIsOrganizer && !this.isViewedByOrganizer) {
-					return {
-						...acceptedIcon,
-						text: t('calendar', 'Invited you'),
-					}
-				}
-
-				if (this.isViewedByOrganizer) {
+				if (this.attendeeIsOrganizer) {
 					return {
 						...acceptedIcon,
 						text: t('calendar', 'Invitation accepted'),
