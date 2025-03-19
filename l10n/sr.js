@@ -304,7 +304,6 @@ OC.L10N.register(
     "_{count} attachment_::_{count} attachments_" : ["{count} прилог","{count} прилога","{count} прилога"],
     "Suggested" : "Предложени",
     "Available" : "Доступно",
-    "Invited you" : "Вас је позвао",
     "Invitation accepted" : "Позивница је прихваћена",
     "Accepted {organizerName}'s invitation" : "Позивница коју је послао {organizerName} је прихваћена",
     "Participation marked as tentative" : "Пристуство је обележено као несигурно",

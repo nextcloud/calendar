@@ -302,7 +302,6 @@
     "_{count} attachment_::_{count} attachments_" : ["{count} مرفقات","{count} مرفق","{count} مرفقات","{count} مرفقات","{count} مرفقات","{count} مرفقات"],
     "Suggested" : "مُقترح",
     "Available" : "مُتوفر",
-    "Invited you" : "دَعَاكَ",
     "Invitation accepted" : "تمّ قبول الدعوة",
     "Accepted {organizerName}'s invitation" : "قَبِلَ دعوة {organizerName}",
     "Participation marked as tentative" : "المُشاركة مبدئية",

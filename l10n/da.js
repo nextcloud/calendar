@@ -304,7 +304,6 @@ OC.L10N.register(
     "_{count} attachment_::_{count} attachments_" : ["{count} vedhæftet fil","{count} vedhæftede filer"],
     "Suggested" : "Foreslået",
     "Available" : "Tilgængelig",
-    "Invited you" : "Inviterede dig",
     "Invitation accepted" : "Invitation accepteret",
     "Accepted {organizerName}'s invitation" : "Accepterede invitationen fra {organizerName}",
     "Participation marked as tentative" : "Deltagelse markeret som foreløbig",
