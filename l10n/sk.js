@@ -304,7 +304,6 @@ OC.L10N.register(
     "_{count} attachment_::_{count} attachments_" : ["{count} príloha","{count} prílohy","{count} príloh","{count} prílohy"],
     "Suggested" : "Navrhované",
     "Available" : "Dostupné",
-    "Invited you" : "Vás pozval",
     "Invitation accepted" : "Pozvánka prijatá",
     "Accepted {organizerName}'s invitation" : "Prijaté pozvanie od {organizerName}",
     "Participation marked as tentative" : "Účasť označená ako predbežná",

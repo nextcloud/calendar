@@ -304,7 +304,6 @@ OC.L10N.register(
     "_{count} attachment_::_{count} attachments_" : ["{count} bilaga","{count} bilagor"],
     "Suggested" : "Föreslagen",
     "Available" : "Tillgänglig",
-    "Invited you" : "Bjöd in dig",
     "Invitation accepted" : "Inbjudan accepterad",
     "Accepted {organizerName}'s invitation" : "Accepterade inbjudan från {organizerName}",
     "Participation marked as tentative" : "Deltagande markerat som preliminärt",

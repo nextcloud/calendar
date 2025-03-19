@@ -304,7 +304,6 @@ OC.L10N.register(
     "_{count} attachment_::_{count} attachments_" : ["{count} 個附件"],
     "Suggested" : "建議",
     "Available" : "可用",
-    "Invited you" : "邀請您",
     "Invitation accepted" : "已接受邀請",
     "Accepted {organizerName}'s invitation" : "已接受 {organizerName} 的邀請",
     "Participation marked as tentative" : "將參與標記為暫定",

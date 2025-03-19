@@ -304,7 +304,6 @@ OC.L10N.register(
     "_{count} attachment_::_{count} attachments_" : ["{count} ek dosya","{count} ek dosya"],
     "Suggested" : "Önerildi",
     "Available" : "Uygun",
-    "Invited you" : "Sizi davet etti",
     "Invitation accepted" : "Davet kabul edildi",
     "Accepted {organizerName}'s invitation" : "{organizerName} tarafından yapılan davet kabul edildi",
     "Participation marked as tentative" : "Katılım belirsiz olarak işaretlendi",

@@ -304,7 +304,6 @@ OC.L10N.register(
     "_{count} attachment_::_{count} attachments_" : ["{count} qo'shimchalar"],
     "Suggested" : "Tavsiya etilgan",
     "Available" : "Mavjud",
-    "Invited you" : "Sizni taklif qildi",
     "Invitation accepted" : "Taklif qabul qilindi",
     "Accepted {organizerName}'s invitation" : "Qabul qilingan {organizerName}ning taklifnomasi",
     "Participation marked as tentative" : "Ishtirok etish taxminiy deb belgilandi",
