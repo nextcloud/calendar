@@ -304,7 +304,6 @@ OC.L10N.register(
     "_{count} attachment_::_{count} attachments_" : ["{count} Anhang","{count} Anhänge"],
     "Suggested" : "Vorgeschlagen",
     "Available" : "Verfügbar",
-    "Invited you" : "Hat Sie eingeladen",
     "Invitation accepted" : "Einladung angenommen",
     "Accepted {organizerName}'s invitation" : "Einladung von {organizerName} angenommen",
     "Participation marked as tentative" : "Teilnahme als vorläufig markiert",
