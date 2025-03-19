@@ -304,7 +304,6 @@ OC.L10N.register(
     "_{count} attachment_::_{count} attachments_" : ["{comhaireamh} ceangaltán","{comhaireamh} ceangaltán","{comhaireamh} ceangaltán","{comhaireamh} ceangaltán","{comhaireamh} ceangaltán"],
     "Suggested" : "Molta",
     "Available" : "Ar fáil",
-    "Invited you" : "Tugadh cuireadh duit",
     "Invitation accepted" : "Glacadh le cuireadh",
     "Accepted {organizerName}'s invitation" : "Glacadh le cuireadh {organizerName}",
     "Participation marked as tentative" : "Rannpháirtíocht marcáilte mar thrialach",

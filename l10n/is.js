@@ -304,7 +304,6 @@ OC.L10N.register(
     "_{count} attachment_::_{count} attachments_" : ["{count} viðhengi","{count} viðhengi"],
     "Suggested" : "Stungið upp á",
     "Available" : "Tiltækt",
-    "Invited you" : "Bauð þér",
     "Invitation accepted" : "Boð samþykkt",
     "Accepted {organizerName}'s invitation" : "Samþykkti boð frá {organizerName}",
     "Participation marked as tentative" : "Þátttaka merkt með fyrirvara",

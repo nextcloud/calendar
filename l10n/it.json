@@ -295,7 +295,6 @@
     "_{count} attachment_::_{count} attachments_" : ["{count} allegato","{count} allegati","{count} allegati"],
     "Suggested" : "Suggerito",
     "Available" : "Disponibile",
-    "Invited you" : "Ti ha invitato",
     "Invitation accepted" : "Invito accettato",
     "Accepted {organizerName}'s invitation" : "Invito di {organizerName} accettato",
     "Participation marked as tentative" : "Partecipazione contrassegnata come provvisoria",

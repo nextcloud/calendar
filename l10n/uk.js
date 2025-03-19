@@ -304,7 +304,6 @@ OC.L10N.register(
     "_{count} attachment_::_{count} attachments_" : ["{count} долучений файл","{count} долучені файли","{count} долучених файлів","{count} долучених файлів"],
     "Suggested" : "Запропоновано",
     "Available" : "Доступно",
-    "Invited you" : "Запросили вас",
     "Invitation accepted" : "Запрошення прийнято",
     "Accepted {organizerName}'s invitation" : "Прийнято запрошення від {organizerName}",
     "Participation marked as tentative" : "Участь можлива",
