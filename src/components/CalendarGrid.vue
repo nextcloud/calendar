@@ -51,7 +51,7 @@ import useCalendarsStore from '../store/calendars.js'
 import useSettingsStore from '../store/settings.js'
 import useCalendarObjectsStore from '../store/calendarObjects.js'
 import useWidgetStore from '../store/widget.js'
-import { mapStores, mapState } from 'pinia'
+import { mapState, mapStores } from 'pinia'
 
 export default {
 	name: 'CalendarGrid',
@@ -319,14 +319,30 @@ export default {
 
 					Object.keys(elementsGroupedByTop).forEach(insetTop => {
 						if (elementsGroupedByTop[insetTop].length > 1) {
-							const elementsWithTheSameTop = elementsGroupedByTop[insetTop]
+							const elementsWithTheSameTop = [...elementsGroupedByTop[insetTop]]
 
 							elementsWithTheSameTop.pop()
 
-							elementsWithTheSameTop.forEach(element => {
-								const fcEventElement = element.querySelector('.fc-event-main')
+							elementsWithTheSameTop.forEach((element, index) => {
+								const eventWrapper = element.querySelector('.fc-event')
+								const style = window.getComputedStyle(elementsGroupedByTop[insetTop][index + 1])
+								eventWrapper.style.clipPath = `polygon(
+									0 0,               /* Top-left corner */
+									100% 0,            /* Top-right corner */
+									100% 100%,         /* Bottom-right corner */
+									0 100%,            /* Bottom-left corner */
+									0 0,               /* Close the shape */
 
-								fcEventElement.style.clipPath = 'polygon(0 0, 47% 0, 47% 100%, 0 100%)'
+									100% 0,            /* Start of the cut-out (original polygon) */
+									49% 0,             /* Top-middle */
+									49% ${style.height}, /* Bottom-middle */
+									100% ${style.height}, /* Bottom-right */
+									100% 0              /* Close the cut-out */
+								)`
+
+								const fcEventMainElement = element.querySelector('.fc-event-main')
+
+								fcEventMainElement.style.clipPath = 'polygon(0 0, 47% 0, 47% 100%, 0 100%)'
 							})
 						}
 					})
