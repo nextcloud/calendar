@@ -154,7 +154,7 @@ OC.L10N.register(
     "Cancel" : "Отмена",
     "_Import calendar_::_Import calendars_" : ["Импорт календаря","Импорт календарей","Импорт календарей","Импорт календарей"],
     "Select the default location for attachments" : "Выберите расположение для сохранения вложений по умолчанию",
-    "Pick" : "Выбирать",
+    "Pick" : "Выбрать",
     "Invalid location selected" : "Указано недействительное расположение",
     "Attachments folder successfully saved." : "Параметры расположения вложений сохранены.",
     "Error on saving attachments folder." : "Не удалось задать папку для хранения вложений.",
