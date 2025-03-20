@@ -67,6 +67,7 @@ import { mapStores } from 'pinia'
 const CONVERSATION_TYPE_GROUP = 2
 const CONVERSATION_TYPE_PUBLIC = 3
 const CONVERSATION_OBJECT_TYPE_VIDEO_VERIFICATION = 'share:password'
+const CONVERSATION_OBJECT_TYPE_EVENT = 'event'
 const PARTICIPANT_TYPE_OWNER = 1
 const PARTICIPANT_TYPE_MODERATOR = 2
 
@@ -124,7 +125,8 @@ export default {
 						|| conversation.participantType === PARTICIPANT_TYPE_MODERATOR)
 					&& (conversation.type === CONVERSATION_TYPE_GROUP
 						|| (conversation.type === CONVERSATION_TYPE_PUBLIC
-							&& conversation.objectType !== CONVERSATION_OBJECT_TYPE_VIDEO_VERIFICATION)),
+							&& conversation.objectType !== CONVERSATION_OBJECT_TYPE_VIDEO_VERIFICATION))
+					&& conversation.objectType !== CONVERSATION_OBJECT_TYPE_EVENT
 				)
 			} catch (error) {
 				console.error('Error fetching Talk conversations:', error)
