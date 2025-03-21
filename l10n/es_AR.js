@@ -83,6 +83,7 @@ OC.L10N.register(
     "Decline" : "Declinar",
     "Tentative" : "Tentativo",
     "Attendees" : "Asistentes",
+    "Remove group" : "Eliminar grupo",
     "All day" : "Todo el día",
     "Repeat" : "Repetir",
     "never" : "nunca",
