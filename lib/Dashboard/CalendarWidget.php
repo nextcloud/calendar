@@ -14,6 +14,7 @@ use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Service\JSDataService;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Calendar\ICalendarIsEnabled;
 use OCP\Calendar\IManager;
 use OCP\Dashboard\IAPIWidget;
 use OCP\Dashboard\IAPIWidgetV2;
@@ -124,6 +125,9 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 		];
 		$widgetItems = [];
 		foreach ($calendars as $calendar) {
+			if (interface_exists(ICalendarIsEnabled::class) && $calendar instanceof ICalendarIsEnabled && $calendar->isEnabled() === false) {
+				continue;
+			}
 			if ($calendar->isDeleted()) {
 				continue;
 			}
