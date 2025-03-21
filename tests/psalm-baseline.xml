@@ -42,4 +42,22 @@
       <code>IEventListener</code>
     </MissingTemplateParam>
   </file>
+  <file src="lib/Service/ExampleEventService.php">
+    <UndefinedClass>
+      <code><![CDATA[\Sabre\VObject\Reader]]></code>
+    </UndefinedClass>
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[createEventBuilder]]></code>
+    </UndefinedInterfaceMethod>
+  </file>
+  <file src="lib/Service/NextcloudVersionService.php">
+    <UndefinedClass>
+      <code><![CDATA[?ServerVersion]]></code>
+      <code><![CDATA[ServerVersion]]></code>
+    </UndefinedClass>
+    <UndefinedDocblockClass>
+      <code><![CDATA[$this->serverVersion]]></code>
+      <code><![CDATA[$this->serverVersion]]></code>
+    </UndefinedDocblockClass>
+  </file>
 </files>
