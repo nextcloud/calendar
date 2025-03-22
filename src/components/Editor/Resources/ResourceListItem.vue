@@ -11,7 +11,7 @@
 			:is-suggestion="isSuggestion"
 			:avatar-link="commonName"
 			:participation-status="participationStatus"
-			:schedule-status="resource.attendeeProperty.getParameterFirstValue('SCHEDULE-STATUS')"
+			:schedule-status="scheduleStatus"
 			:organizer-display-name="organizerDisplayName"
 			:common-name="commonName" />
 		<div class="resource-list-item__displayname">
@@ -148,6 +148,9 @@ export default {
 			}
 
 			return this.resource.participationStatus
+		},
+		scheduleStatus() {
+			return this.resource.attendeeProperty?.getParameterFirstValue('SCHEDULE-STATUS') ?? ''
 		},
 	},
 	watch: {
