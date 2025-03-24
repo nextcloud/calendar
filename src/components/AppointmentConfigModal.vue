@@ -195,7 +195,7 @@ export default {
 		...mapState(useSettingsStore, {
 			isTalkEnabled: 'talkEnabled',
 		}),
-		...mapState(useCalendarsStore, ['ownSortedCalendars', 'sortedCalendars']),
+		...mapState(useCalendarsStore, ['ownSortedCalendars', 'sortedCalendars', 'sortedCalendarsAll']),
 		...mapStores(useAppointmentConfigsStore, useCalendarsStore, useSettingsStore),
 		formTitle() {
 			if (this.showConfirmation) {
@@ -233,12 +233,12 @@ export default {
 		},
 		selectableConflictCalendars() {
 			// The target calendar is always a conflict calendar, remove it from additional conflict calendars
-			return this.availableCalendars.filter(calendar => calendar.url !== this.calendar.url)
+			return this.sortedCalendarsAll.filter(calendar => calendar.url !== this.calendar.url)
 		},
 		selectedConflictCalendars() {
 			const freebusyUris = this.editing.calendarFreeBusyUris ?? []
 			return freebusyUris.map(uri => {
-				return this.availableCalendars.find(cal => this.calendarUrlToUri(cal.url) === uri)
+				return this.sortedCalendarsAll.find(cal => this.calendarUrlToUri(cal.url) === uri)
 			}).filter(calendar => calendar !== undefined)
 		},
 		defaultConfig() {
