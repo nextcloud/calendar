@@ -65,7 +65,7 @@ export default defineStore('calendars', {
 		},
 
 		/**
-		 * List of sorted calendars
+		 * List of sorted writable calendars
 		 *
 		 * @param {object} state the store data
 		 * @return {Array}
@@ -74,6 +74,18 @@ export default defineStore('calendars', {
 			return state.calendars
 				.filter(calendar => calendar.supportsEvents)
 				.filter(calendar => !calendar.readOnly)
+				.sort((a, b) => a.order - b.order)
+		},
+
+		/**
+		 * List of sorted all calendars
+		 *
+		 * @param {object} state the store data
+		 * @return {Array}
+		 */
+		sortedCalendarsAll(state) {
+			return state.calendars
+				.filter(calendar => calendar.supportsEvents)
 				.sort((a, b) => a.order - b.order)
 		},
 
