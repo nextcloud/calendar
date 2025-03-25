@@ -55,6 +55,7 @@ OC.L10N.register(
     "Update" : "Actualizar",
     "Location" : "Ubicación",
     "Description" : "Descripción",
+    "Visibility" : "Visibilidad",
     "to" : "para",
     "Add" : "Añadir",
     "Monday" : "Lunes",
