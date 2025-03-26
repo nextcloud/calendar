@@ -12,14 +12,12 @@
 				<div class="icon-loading" />
 			</div>
 			<div class="modal__content__header">
-				<h2>{{ $t('calendar', 'Find a time') }}</h2>
-				<h3>{{ eventTitle }}</h3>
 				<div class="modal__content__header__attendees">
-					{{ t('calendar', 'with') }}
-					<NcUserBubble size="24" :display-name="organizer.commonName" />
+					{{ `${eventTitle ?? ''} ${t('calendar', 'with')}` }}
+					<NcUserBubble :size="24" :display-name="organizer.commonName" />
 					<NcUserBubble v-for="attendee in attendees"
 						:key="attendee.id"
-						size="24"
+						:size="24"
 						class="modal__content__header__attendees__user-bubble"
 						:display-name="attendee.commonName">
 						<template #name>
@@ -84,38 +82,37 @@
 			<FullCalendar ref="freeBusyFullCalendar"
 				:options="options" />
 			<div v-if="!disableFindTime" class="modal__content__footer">
-				<div class="modal__content__footer__title">
-					<p v-if="freeSlots">
-						{{ $t('calendar', 'Available times:') }}
-						<NcSelect class="available-slots__multiselect"
-							:options="freeSlots"
-							:placeholder="placeholder"
-							:clearable="false"
-							input-id="slot"
-							label="displayStart"
-							:label-outside="true"
-							:value="selectedSlot"
-							@option:selected="setSlotSuggestion">
-							<template #selected-option="{}">
-								{{ $t('calendar', 'Suggestion accepted') }}
-							</template>
-						</NcSelect>
-					</p>
-					<h3>
-						{{ formattedCurrentStart }}
-					</h3>
-					<p>{{ formattedCurrentTime }}<span class="modal__content__footer__title__timezone">{{ formattedTimeZone }}</span></p>
-				</div>
-
-				<NcButton type="primary"
-					@click="save">
-					{{ $t('calendar', 'Done') }}
-					<template #icon>
-						<CheckIcon :size="20" />
-					</template>
-				</NcButton>
+				<p v-if="freeSlots">
+					{{ $t('calendar', 'Available times:') }}
+					<NcSelect class="available-slots__multiselect"
+						:options="freeSlots"
+						:placeholder="placeholder"
+						:clearable="false"
+						input-id="slot"
+						label="displayStart"
+						:label-outside="true"
+						:value="selectedSlot"
+						@option:selected="setSlotSuggestion">
+						<template #selected-option="{}">
+							{{ $t('calendar', 'Suggestion accepted') }}
+						</template>
+					</NcSelect>
+				</p>
+				<p class="modal__content__footer__date">
+					{{ formattedCurrentStart }}
+				</p>
+				<p>{{ formattedCurrentTime }}<span class="modal__content__footer__timezone">{{ formattedTimeZone }}</span></p>
 			</div>
 		</div>
+		<template #actions>
+			<NcButton type="primary"
+				@click="save">
+				{{ $t('calendar', 'Done') }}
+				<template #icon>
+					<CheckIcon :size="20" />
+				</template>
+			</NcButton>
+		</template>
 	</NcDialog>
 </template>
 
@@ -227,12 +224,6 @@ export default {
 			freeSlots: [],
 			selectedSlot: null,
 		}
-	},
-	mounted() {
-		const calendar = this.$refs.freeBusyFullCalendar.getApi()
-		calendar.scrollToTime(this.scrollTime)
-
-		this.findFreeSlots()
 	},
 	computed: {
 		...mapState(useSettingsStore, {
@@ -401,6 +392,12 @@ export default {
 			}
 		},
 	},
+	mounted() {
+		const calendar = this.$refs.freeBusyFullCalendar.getApi()
+		calendar.scrollToTime(this.scrollTime)
+
+		this.findFreeSlots()
+	},
 	methods: {
 		handleSelect(arg) {
 			this.currentStart = arg.start
@@ -509,14 +506,13 @@ export default {
 	height: 100%;
 }
 .modal__content {
-	padding: 50px;
-	//when the calendar is open, it's cut at the bottom, adding a margin fixes it
-	margin-bottom: 95px;
+	padding: 0 calc(var(--default-grid-baseline)*4);
 	&__actions{
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom: 20px;
+		margin-bottom: calc(var(--default-grid-baseline)*4);
+		;
 		&__select{
 			width: 260px;
 		}
@@ -525,34 +521,30 @@ export default {
 			justify-content: space-between;
 			align-items: center;
 			& > *{
-				margin-left: 5px;
+				margin-left: var(--default-grid-baseline);
 			}
 		}
 	}
 	&__header{
-		margin-bottom: 20px;
+		margin: calc(var(--default-grid-baseline)*4) 0;
 		h3{
 			font-weight: 500;
 		}
 		&__attendees{
 			&__user-bubble{
-				margin-right: 5px;
+				margin-right: var(--default-grid-baseline);
 			}
 		}
 	}
 	&__footer{
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-top: 20px;
-		&__title{
-			h3{
-				font-weight: 500;
-			}
-			&__timezone{
+		margin-top: calc(var(--default-grid-baseline)*4);
+		&__date{
+			margin-top: calc(var(--default-grid-baseline)*4);
+			font-weight: 600;
+		}
+		&__timezone{
 				color: var(--color-text-lighter);
 			}
-		}
 	}
 }
 :deep(.vs__search ) {
