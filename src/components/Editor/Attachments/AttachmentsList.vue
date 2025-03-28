@@ -307,7 +307,7 @@ export default {
 		span {
 			width: 34px;
 			height: 34px;
-			margin-left: -10px;
+			margin-left: -13px;
 			margin-right: 5px;
 		}
 

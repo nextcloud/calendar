@@ -23,52 +23,54 @@
 			</Actions>
 		</div>
 
-		<div v-if="showOptions"
-			class="property-repeat__options">
-			<RepeatFreqInterval v-if="!isRecurrenceException && !isReadOnly"
-				:frequency="recurrenceRule.frequency"
-				:interval="recurrenceRule.interval"
-				@change-interval="changeInterval"
-				@change-frequency="changeFrequency" />
-			<RepeatFreqWeeklyOptions v-if="isFreqWeekly && !isRecurrenceException && !isReadOnly"
-				:by-day="recurrenceRule.byDay"
-				@add-by-day="addByDay"
-				@remove-by-day="removeByDay" />
-			<RepeatFreqMonthlyOptions v-if="isFreqMonthly && !isRecurrenceException && !isReadOnly"
-				:by-day="recurrenceRule.byDay"
-				:by-month-day="recurrenceRule.byMonthDay"
-				:by-set-position="recurrenceRule.bySetPosition"
-				@add-by-month-day="addByMonthDay"
-				@remove-by-month-day="removeByMonthDay"
-				@change-by-day="setByDay"
-				@change-by-set-position="setBySetPosition"
-				@change-to-by-set-position="changeToBySetPositionMonthly"
-				@change-to-by-month-day="changeToByDayMonthly" />
-			<RepeatFreqYearlyOptions v-if="isFreqYearly && !isRecurrenceException && !isReadOnly"
-				:by-day="recurrenceRule.byDay"
-				:by-month="recurrenceRule.byMonth"
-				:by-month-day="recurrenceRule.byMonthDay"
-				:by-set-position="recurrenceRule.bySetPosition"
-				@add-by-month="addByMonth"
-				@remove-by-month="removeByMonth"
-				@add-by-month-day="addByMonthDay"
-				@remove-by-month-day="removeByMonthDay"
-				@change-by-day="setByDay"
-				@change-by-set-position="setBySetPosition"
-				@change-to-by-set-position="changeToBySetPositionYearly"
-				@change-to-by-month-day="changeToByDayYearly" />
-			<RepeatEndRepeat v-if="isRepeating && !isRecurrenceException && !isReadOnly"
-				:calendar-object-instance="calendarObjectInstance"
-				:until="recurrenceRule.until"
-				:count="recurrenceRule.count"
-				@set-infinite="setInfinite"
-				@set-until="setUntil"
-				@set-count="setCount"
-				@change-to-count="changeToCount"
-				@change-to-until="changeToUntil" />
-			<RepeatUnsupportedWarning v-if="recurrenceRule.isUnsupported && !isRecurrenceException" />
-			<RepeatExceptionWarning v-if="isRecurrenceException" />
-		</div>
+		<NcModal :show.sync="showOptions">
+			<div class="property-repeat__options">
+				<h2>{{ $t('calendar', 'Repeat event') }}</h2>
+				<RepeatFreqInterval v-if="!isRecurrenceException && !isReadOnly"
+					:frequency="recurrenceRule.frequency"
+					:interval="recurrenceRule.interval"
+					@change-interval="changeInterval"
+					@change-frequency="changeFrequency" />
+				<RepeatFreqWeeklyOptions v-if="isFreqWeekly && !isRecurrenceException && !isReadOnly"
+					:by-day="recurrenceRule.byDay"
+					@add-by-day="addByDay"
+					@remove-by-day="removeByDay" />
+				<RepeatFreqMonthlyOptions v-if="isFreqMonthly && !isRecurrenceException && !isReadOnly"
+					:by-day="recurrenceRule.byDay"
+					:by-month-day="recurrenceRule.byMonthDay"
+					:by-set-position="recurrenceRule.bySetPosition"
+					@add-by-month-day="addByMonthDay"
+					@remove-by-month-day="removeByMonthDay"
+					@change-by-day="setByDay"
+					@change-by-set-position="setBySetPosition"
+					@change-to-by-set-position="changeToBySetPositionMonthly"
+					@change-to-by-month-day="changeToByDayMonthly" />
+				<RepeatFreqYearlyOptions v-if="isFreqYearly && !isRecurrenceException && !isReadOnly"
+					:by-day="recurrenceRule.byDay"
+					:by-month="recurrenceRule.byMonth"
+					:by-month-day="recurrenceRule.byMonthDay"
+					:by-set-position="recurrenceRule.bySetPosition"
+					@add-by-month="addByMonth"
+					@remove-by-month="removeByMonth"
+					@add-by-month-day="addByMonthDay"
+					@remove-by-month-day="removeByMonthDay"
+					@change-by-day="setByDay"
+					@change-by-set-position="setBySetPosition"
+					@change-to-by-set-position="changeToBySetPositionYearly"
+					@change-to-by-month-day="changeToByDayYearly" />
+				<RepeatEndRepeat v-if="isRepeating && !isRecurrenceException && !isReadOnly"
+					:calendar-object-instance="calendarObjectInstance"
+					:until="recurrenceRule.until"
+					:count="recurrenceRule.count"
+					@set-infinite="setInfinite"
+					@set-until="setUntil"
+					@set-count="setCount"
+					@change-to-count="changeToCount"
+					@change-to-until="changeToUntil" />
+				<RepeatUnsupportedWarning v-if="recurrenceRule.isUnsupported && !isRecurrenceException" />
+				<RepeatExceptionWarning v-if="isRecurrenceException" />
+			</div>
+		</NcModal>
 	</div>
 </template>
 
@@ -84,7 +86,7 @@ import RepeatSummary from './RepeatSummary.vue'
 import RepeatIcon from 'vue-material-design-icons/Repeat.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
 import Check from 'vue-material-design-icons/Check.vue'
-import { NcActions as Actions, NcActionButton as ActionButton } from '@nextcloud/vue'
+import { NcActions as Actions, NcActionButton as ActionButton, NcModal } from '@nextcloud/vue'
 
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
 import { mapStores } from 'pinia'
@@ -105,6 +107,7 @@ export default {
 		Check,
 		Actions,
 		ActionButton,
+		NcModal,
 	},
 	props: {
 		/**
@@ -454,3 +457,12 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.property-repeat__options {
+	padding: calc(var(--default-grid-baseline) * 4);
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 2);
+}
+</style>
