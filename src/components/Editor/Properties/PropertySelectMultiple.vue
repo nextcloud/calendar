@@ -9,6 +9,7 @@
 			:size="20"
 			:name="readableName"
 			class="property-select-multiple__icon"
+			v-tooltip="info"
 			:class="{ 'property-select-multiple__icon--hidden': !showIcon }" />
 
 		<div class="property-select-multiple__input"
@@ -42,13 +43,6 @@
 					:key="singleValue.value"
 					:option="singleValue" />
 			</div>
-		</div>
-
-		<div v-if="hasInfo"
-			v-tooltip="info"
-			class="property-select__info">
-			<InformationVariant :size="20"
-				decorative />
 		</div>
 	</div>
 </template>

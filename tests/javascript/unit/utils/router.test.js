@@ -39,7 +39,7 @@ describe('utils/router test suite', () => {
 			.mockReturnValueOnce(false)
 			.mockImplementationOnce(() => { throw new Error() })
 
-		expect(getPreferredEditorRoute()).toEqual('sidebar')
+		expect(getPreferredEditorRoute()).toEqual('full')
 		expect(getPreferredEditorRoute()).toEqual('popover')
 		expect(getPreferredEditorRoute()).toEqual('popover')
 
@@ -57,9 +57,9 @@ describe('utils/router test suite', () => {
 			.mockReturnValueOnce(false)
 			.mockImplementationOnce(() => { throw new Error() })
 
-		expect(getPreferredEditorRoute()).toEqual('sidebar')
-		expect(getPreferredEditorRoute()).toEqual('sidebar')
-		expect(getPreferredEditorRoute()).toEqual('sidebar')
+		expect(getPreferredEditorRoute()).toEqual('full')
+		expect(getPreferredEditorRoute()).toEqual('full')
+		expect(getPreferredEditorRoute()).toEqual('full')
 
 		expect(loadState).toHaveBeenCalledTimes(3)
 		expect(loadState).toHaveBeenNthCalledWith(1, 'calendar', 'skip_popover')

@@ -172,7 +172,7 @@ export default {
 				&& !this.isEmbedded
 				&& !this.isWidget
 				&& this.$route?.name !== 'EditPopoverView'
-				&& this.$route?.name !== 'EditSidebarView'
+				&& this.$route?.name !== 'EditFullView'
 		},
 		isSelectable() {
 			return !this.isPublicShare && !this.isEmbedded && !this.isWidget
