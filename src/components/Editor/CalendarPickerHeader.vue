@@ -100,22 +100,6 @@ export default {
 		margin-left: 2px;
 	}
 }
-
-.app-sidebar {
-	.calendar-picker-header {
-		button {
-			margin-left: -14px;
-
-			.button-vue__text {
-				margin-left: 0;
-			}
-		}
-	}
-
-	.calendar-picker-header--readonly button .button-vue__text {
-		margin-left: 6px;
-	}
-}
 </style>
 
 <style lang="scss" scoped>
@@ -123,14 +107,6 @@ export default {
 	display: flex;
 	align-self: flex-start;
 	margin-bottom: 5px;
-
-	// Leave room for the three dot and close buttons
-	max-width: calc(100% - 79px);
-
-	&--has-warning {
-		// Leave room for the immutable warning, three dot menu and close button
-		max-width: calc(100% - 79px - 34px);
-	}
 
 	&__picker {
 		display: flex;

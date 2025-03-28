@@ -20,7 +20,7 @@ import { mapStores, mapState } from 'pinia'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
- * required both in the popover as well as the sidebar.
+ * required both in the popover as well as the full page editor.
  *
  * See inline for more documentation
  */
@@ -721,7 +721,7 @@ export default {
 	 * @param {Function} next Function to be called when ready to load the next view
 	 */
 	async beforeRouteEnter(to, from, next) {
-		if (to.name === 'NewSidebarView' || to.name === 'NewPopoverView') {
+		if (to.name === 'NewFullView' || to.name === 'NewPopoverView') {
 			next(async vm => {
 				vm.resetState()
 
@@ -796,7 +796,7 @@ export default {
 	 */
 	async beforeRouteUpdate(to, from, next) {
 		// If we are in the New Event dialog, we want to update the selected time
-		if (to.name === 'NewSidebarView' || to.name === 'NewPopoverView') {
+		if (to.name === 'NewFullView' || to.name === 'NewPopoverView') {
 			// If allDay, dtstart and dtend are the same there is no need to update.
 			// This is usally the case when navigating through the calendar while the editor is open
 			if (to.params.allDay === from.params.allDay
@@ -881,7 +881,7 @@ export default {
 
 		try {
 			if ((from.name !== 'NewPopoverView' || to.name !== 'EditPopoverView')
-			&& (from.name !== 'NewPopoverView' || to.name !== 'EditSideBarView')) {
+			&& (from.name !== 'NewPopoverView' || to.name !== 'EditFullView')) {
 				await this.save()
 			}
 			next()

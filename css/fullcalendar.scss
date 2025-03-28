@@ -64,7 +64,9 @@
 // Today highlighting
 .fc-day-today {
 	&.fc-col-header-cell {
-		a, span {
+
+		a,
+		span {
 			padding: 2px 6px;
 			font-weight: bold;
 			background-color: var(--color-primary-element);
@@ -100,7 +102,7 @@
 }
 
 // Prevent events overlapping over day header
-.fc .fc-list-sticky .fc-list-day > * {
+.fc .fc-list-sticky .fc-list-day>* {
 	z-index: 1;
 }
 
@@ -112,6 +114,7 @@
 // highlight current day (exclude day view)
 .fc-timeGridWeek-view,
 .fc-dayGridMonth-view {
+
 	.fc-col-header-cell.fc-day-today,
 	.fc-daygrid-day.fc-day-today,
 	.fc-timegrid-col.fc-day-today {
@@ -124,6 +127,7 @@
 .fc .fc-daygrid-day.fc-day-today.fc-day-other {
 	background-color: var(--color-background-dark) !important;
 	border: 1px solid var(--color-background-darker);
+
 	.fc-daygrid-day-top {
 		opacity: 0.6;
 	}
@@ -143,6 +147,7 @@
 
 	&.fc-event-nc-task-completed,
 	&.fc-event-nc-cancelled {
+
 		.fc-event-title,
 		.fc-list-event-title {
 			text-decoration: line-through !important;
@@ -162,9 +167,11 @@
 			position: absolute;
 			top: 0;
 			right: 0;
+
 			&--light {
 				background-image: var(--icon-calendar-reminder-fffffe)
 			}
+
 			&--dark {
 				background-image: var(--icon-calendar-reminder-000001)
 			}
@@ -208,6 +215,7 @@
 	}
 
 	@media only screen and (max-width: 767px) {
+
 		.fc-list-event-location,
 		.fc-list-event-description {
 			display: none;
@@ -242,7 +250,7 @@
 	}
 }
 
-.fc-timegrid-col-events{
+.fc-timegrid-col-events {
 	margin: 0 !important;
 }
 
@@ -262,27 +270,32 @@
 		word-break: break-word;
 		white-space: normal;
 	}
+
 	.fc-daygrid-day-frame {
 		min-height: 150px !important;
 	}
 }
+
 .fc-daygrid-day-events {
-	position:relative !important;
+	position: relative !important;
 }
 
 // Fix week button overlapping with the toggle
 .fc-col-header-cell {
-    padding-top: 10px !important;
+	padding-top: 10px !important;
 }
-.fc-timegrid-axis-cushion  {
+
+.fc-timegrid-axis-cushion {
 	margin-top: 44px;
 }
+
 // Additional workaround for Firefox
 .fc-timegrid-axis.fc-scrollgrid-shrink {
 	height: 65px;
 }
 
-.fc-timegrid-event-harness, .fc-timegrid-event {
+.fc-timegrid-event-harness,
+.fc-timegrid-event {
 	// previously was 1px for no apparent reason
 	margin-bottom: 0;
 }

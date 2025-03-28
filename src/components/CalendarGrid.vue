@@ -175,7 +175,7 @@ export default {
 			// We do not allow drag and drop when the editor is open.
 			return this.isAuthenticatedUser
 				&& this.$route?.name !== 'EditPopoverView'
-				&& this.$route?.name !== 'EditSidebarView'
+				&& this.$route?.name !== 'EditFullView'
 		},
 	},
 	watch: {
@@ -198,7 +198,7 @@ export default {
 	 * Hence a simple `width: 100%` won't assure that the calendar-grid
 	 * is always using the full available width.
 	 *
-	 * Toggling the AppNavigation or AppSidebar will change the amount
+	 * Toggling the AppNavigation or AppFull will change the amount
 	 * of available space, but it will not be covered by the window
 	 * resize event, because the actual window size did not change.
 	 *
@@ -250,9 +250,9 @@ export default {
 					this.saveNewView(to.params.view)
 				}
 
-				if ((from.name === 'NewPopoverView' || from.name === 'NewSidebarView')
+				if ((from.name === 'NewPopoverView' || from.name === 'NewFullView')
 				&& to.name !== 'NewPopoverView'
-				&& to.name !== 'NewSidebarView') {
+				&& to.name !== 'NewFullView') {
 					const calendarApi = this.$refs.fullCalendar.getApi()
 					calendarApi.unselect()
 				}
@@ -263,7 +263,7 @@ export default {
 			// Trigger the select event programmatically on initial page load to show the new event
 			// in the grid. Wait for the next tick because the ref isn't available right away.
 			await this.$nextTick()
-			if (['NewPopoverView', 'NewSidebarView'].includes(this.$route.name)) {
+			if (['NewPopoverView', 'NewFullView'].includes(this.$route.name)) {
 				const start = new Date(parseInt(this.$route.params.dtstart) * 1000)
 				const end = new Date(parseInt(this.$route.params.dtend) * 1000)
 				if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {

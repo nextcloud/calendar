@@ -381,10 +381,10 @@ export default {
 
 			const params = Object.assign({}, this.$route.params)
 			if (this.isNew) {
-				this.$router.push({ name: 'NewSidebarView', params })
+				this.$router.push({ name: 'NewFullView', params })
 			} else {
 				this.$router.push({
-					name: getPrefixedRoute(this.$route.name, 'EditSidebarView'),
+					name: getPrefixedRoute(this.$route.name, 'EditFullView'),
 					params,
 				})
 			}

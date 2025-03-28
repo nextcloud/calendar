@@ -18,12 +18,6 @@
 			:is-viewed-by-organizer="isViewedByOrganizer"
 			@remove-resource="removeResource" />
 
-		<NoAttendeesView v-if="isListEmpty && hasUserEmailAddress"
-			:message="noResourcesMessage">
-			<template #icon>
-				<MapMarker :size="50" decorative />
-			</template>
-		</NoAttendeesView>
 		<OrganizerNoEmailError v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
 
 		<h3 v-if="suggestedRooms.length">
