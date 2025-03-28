@@ -11,6 +11,7 @@
 			:size="20"
 			:name="readableName"
 			class="property-select__icon"
+			v-tooltip="info"
 			:class="{ 'property-select__icon--hidden': !showIcon }" />
 
 		<div class="property-select__input"
@@ -28,13 +29,6 @@
 				@input="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else>{{ selectedValue.label }}</div>
-		</div>
-
-		<div v-if="hasInfo"
-			v-tooltip="info"
-			class="property-select__info">
-			<InformationVariant :size="20"
-				decorative />
 		</div>
 	</div>
 </template>
