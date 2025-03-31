@@ -286,3 +286,19 @@
 	// previously was 1px for no apparent reason
 	margin-bottom: 0;
 }
+
+// Leave some space for dragging
+.fc-timeGridDay-view, .fc-timeGridWeek-view {
+	.fc-event-draggable, .fc-event-mirror {
+		width: 90%;
+	}
+
+	.fc-event-mirror {
+		border: none !important;
+	}
+
+	.fc-highlight {
+		background: none !important;
+	}
+
+}
