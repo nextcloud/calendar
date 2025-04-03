@@ -15,6 +15,7 @@
 			<div :class="{ 'property-title-time-picker__time-pickers--all-day': isAllDay}"
 				class="property-title-time-picker__time-pickers__inner">
 				<div class="property-title-time-picker__time-pickers-from">
+					<!-- TRANSLATORS Start of an event -->
 					<span>{{ $t('calendar', 'From') }}</span>
 					<div class="property-title-time-picker__time-pickers-from-inner">
 						<DatePicker :date="startDate"
@@ -29,6 +30,7 @@
 				</div>
 
 				<div class="property-title-time-picker__time-pickers-to">
+					<!-- TRANSLATORS End of an event -->
 					<span>{{ $t('calendar', 'To') }}</span>
 					<div class="property-title-time-picker__time-pickers-to-inner">
 						<DatePicker :date="endDate"
