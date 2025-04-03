@@ -323,4 +323,8 @@ h2, h3, h4, h5 {
 	margin-top: -25px;
 }
 
+:deep(.cell.disabled){
+	background-color: var(--color-background-darker);
+}
+
 </style>
