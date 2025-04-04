@@ -222,6 +222,10 @@ export default {
 		 * @return {boolean|null}
 		 */
 		isViewedByOrganizer() {
+			if (!this.calendarObjectInstance.attendees.length) {
+				return true
+			}
+
 			if (this.isReadOnly || !this.principalsStore.getCurrentUserPrincipalEmail || !this.calendarObjectInstance.organizer) {
 				return null
 			}
