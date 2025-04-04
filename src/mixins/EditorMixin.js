@@ -223,7 +223,7 @@ export default {
 		 */
 		isViewedByOrganizer() {
 			if (!this.calendarObjectInstance.attendees.length) {
-				return true
+				return null
 			}
 
 			if (this.isReadOnly || !this.principalsStore.getCurrentUserPrincipalEmail || !this.calendarObjectInstance.organizer) {

@@ -52,7 +52,7 @@
 
 				<template v-else>
 					<div class="event-popover__top-actions">
-						<NcPopover v-if="isViewedByOrganizer !== true" :focus-trap="false">
+						<NcPopover v-if="isViewedByOrganizer === false" :focus-trap="false">
 							<template #trigger>
 								<NcButton type="tertiary-no-background">
 									<template #icon>
@@ -112,11 +112,11 @@
 					<CalendarPickerHeader :value="selectedCalendar"
 						:calendars="calendars"
 						:is-read-only="isReadOnlyOrViewing || !canModifyCalendar"
-						:is-viewed-by-attendee="isViewedByOrganizer !== true"
+						:is-viewed-by-attendee="isViewedByOrganizer === false"
 						@update:value="changeCalendar" />
 
 					<PropertyTitle :value="titleOrPlaceholder"
-						:is-read-only="isReadOnlyOrViewing || isViewedByOrganizer !== true"
+						:is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
 						@update:value="updateTitle" />
 
 					<PropertyTitleTimePicker :start-date="startDate"
@@ -124,7 +124,7 @@
 						:end-date="endDate"
 						:end-timezone="endTimezone"
 						:is-all-day="isAllDay"
-						:is-read-only="isReadOnlyOrViewing || isViewedByOrganizer !== true"
+						:is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
 						:can-modify-all-day="canModifyAllDay"
 						:user-timezone="currentUserTimezone"
 						:wrap="false"
@@ -136,7 +136,7 @@
 						@update-end-timezone="updateEndTimezone"
 						@toggle-all-day="toggleAllDay" />
 
-					<PropertyText :is-read-only="isReadOnlyOrViewing || isViewedByOrganizer !== true"
+					<PropertyText :is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
 						:prop-model="rfcProps.location"
 						:value="location"
 						:linkify-links="true"
@@ -153,7 +153,7 @@
 						:hide-buttons="true"
 						:hide-errors="true"
 						:show-header="true"
-						:is-read-only="isReadOnlyOrViewing || isViewedByOrganizer !== true"
+						:is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
 						:is-shared-with-me="isSharedWithMe"
 						:calendar="selectedCalendar"
 						:calendar-object-instance="calendarObjectInstance"
