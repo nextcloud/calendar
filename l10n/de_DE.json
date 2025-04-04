@@ -373,7 +373,7 @@
     "Event title" : "Titel des Termins",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Die Einstellung ganztägig kann für sich wiederholende Termine nicht geändert werden.",
     "From" : "Von",
-    "To" : "An",
+    "To" : "Bis",
     "All day" : "Ganztägig",
     "Repeat" : "Wiederholen",
     "_time_::_times_" : ["Mal","Mal"],

@@ -143,6 +143,7 @@ OC.L10N.register(
     "Upload from device" : "Laadi üles seadmest",
     "Delete file" : "Kustuta fail",
     "_{count} attachment_::_{count} attachments_" : ["{count} manus","{count} manust"],
+    "Not available" : "Pole saadaval",
     "Out of office" : "Kontorist väljas",
     "Unknown" : "Teadmata",
     "Done" : "Valmis",
