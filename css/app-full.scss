@@ -6,7 +6,6 @@
 	--total-width: 900px;
 	--column-gap: calc(var(--default-grid-baseline) * 4);
 	max-width: calc(var(--total-width) + var(--default-grid-baseline) * 4);
-	height: 100%;
 	padding: calc(var(--default-grid-baseline) * 2);
 	margin: calc(var(--default-grid-baseline) * 16) auto auto;
 }
@@ -89,6 +88,10 @@
 			&-close-icon {
 				visibility: visible;
 			}
+		}
+
+		.calendar-edit-full__default-close {
+			visibility: hidden;
 		}
 
 		.modal-container__close {
