@@ -295,6 +295,10 @@
 				@save-this-only="prepareAccessForAttachments(false)"
 				@save-this-and-all-future="prepareAccessForAttachments(true)" />
 		</NcAppSidebarTab>
+		<NcDialog v-model:open="showCancelDialog"
+			:name="t('calendar', 'Delete?')"
+			:message="t('calendar', 'Are you sure you want to discard the event?')"
+			:buttons="cancelButtons" />
 	</NcAppSidebar>
 </template>
 <script>
@@ -309,6 +313,7 @@ import {
 	NcButton,
 	NcCheckboxRadioSwitch,
 	NcPopover,
+	NcDialog,
 } from '@nextcloud/vue'
 
 import { generateUrl } from '@nextcloud/router'
@@ -352,6 +357,7 @@ import { mapStores, mapState } from 'pinia'
 import AddTalkModal from '../components/Editor/AddTalkModal.vue'
 import { doesContainTalkLink } from '../services/talkService.js'
 import IconVideo from 'vue-material-design-icons/Video.vue'
+import Cancel from 'vue-material-design-icons/Cancel.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircle.vue'
 
 export default {
@@ -373,6 +379,7 @@ export default {
 		NcButton,
 		NcCheckboxRadioSwitch,
 		NcPopover,
+		NcDialog,
 		InviteesList,
 		PropertySelect,
 		PropertyText,
@@ -407,7 +414,20 @@ export default {
 			isModalOpen: false,
 			talkConversations: [],
 			selectedConversation: null,
-
+			cancelButtons: [
+				{
+					label: 'Discard event',
+					icon: Delete,
+					callback: () => { this.cancel(true) },
+				},
+				{
+					label: 'Cancel',
+					type: 'primary',
+					icon: Cancel,
+					callback: () => { },
+				}
+			],
+			showCancelDialog: false,
 		}
 	},
 	computed: {
