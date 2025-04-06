@@ -44,6 +44,7 @@ export default defineStore('calendarObjectInstance', {
 				objectId: null,
 				recurrenceId: null,
 			},
+			emptyCalendarObjectInstance: null,
 		}
 	},
 	actions: {
@@ -1407,6 +1408,8 @@ export default defineStore('calendarObjectInstance', {
 				calendarObject,
 				calendarObjectInstance,
 			})
+
+			this.emptyCalendarObjectInstance = { ...calendarObjectInstance }
 
 			return {
 				calendarObject,

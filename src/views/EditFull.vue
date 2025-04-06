@@ -11,7 +11,13 @@
 		label-id="edit-full-modal"
 		:name="t('calendar', 'Edit event')"
 		:dark="false"
-		@close="cancel">
+		:no-close="true"
+		@close="cancel(false)">
+		<NcButton class="calendar-edit-full__default-close" type="tertiary" @click="cancel(false)">
+			<template #icon>
+				<Close :size="20" />
+			</template>
+		</NcButton>
 		<div :class="['app-full', { 'app-full-readonly': isViewedByOrganizer === false }]">
 			<template v-if="isLoading">
 				<div class="app-full__loading-indicator">
@@ -30,7 +36,7 @@
 				<div class="app-full__header__top">
 					<div class="app-full__header__top__first">
 						<div class="app-full__header__top-close-icon">
-							<Close :size="20" @click="cancel" />
+							<Close :size="20" @click="cancel(false)" />
 						</div>
 
 						<PropertyTitle :value="title"
@@ -288,6 +294,10 @@
 				</div>
 			</div>
 		</div>
+		<NcDialog :open="showCancelDialog"
+			:name="t('calendar', 'Discard changes?')"
+			:message="t('calendar', 'Are you sure you want to discard the changes made to this event?')"
+			:buttons="cancelButtons" />
 	</NcModal>
 </template>
 <script>
@@ -301,6 +311,7 @@ import {
 	NcCheckboxRadioSwitch,
 	NcPopover,
 	NcActions,
+	NcDialog,
 } from '@nextcloud/vue'
 
 import { generateUrl } from '@nextcloud/router'
@@ -344,6 +355,9 @@ import IconVideo from 'vue-material-design-icons/VideoOutline.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
 import Close from 'vue-material-design-icons/Close.vue'
 
+import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
+import IconDelete from '@mdi/svg/svg/delete.svg?raw'
+
 export default {
 	name: 'EditFull',
 	components: {
@@ -361,6 +375,7 @@ export default {
 		NcButton,
 		NcCheckboxRadioSwitch,
 		NcPopover,
+		NcDialog,
 		InviteesList,
 		PropertySelect,
 		PropertyText,
@@ -394,6 +409,20 @@ export default {
 			isModalOpen: false,
 			talkConversations: [],
 			selectedConversation: null,
+			cancelButtons: [
+				{
+					label: t('calendar', 'Discard event'),
+					icon: atob(IconDelete.split(',')[1]),
+					callback: () => { this.cancel(true) },
+				},
+				{
+					label: t('calendar', 'Cancel'),
+					type: 'primary',
+					icon: atob(IconCancel.split(',')[1]),
+					callback: () => { this.showCancelDialog = false },
+				},
+			],
+			showCancelDialog: false,
 			showFullModal: true,
 		}
 	},
@@ -767,5 +796,12 @@ export default {
 	width: 40px;
 	height: auto;
 	border-radius: var(--border-radius);
+}
+
+.calendar-edit-full__default-close {
+	z-index: 1;
+	position: absolute !important;
+	top: var(--default-grid-baseline);
+	inset-inline-end: var(--default-grid-baseline);
 }
 </style>
