@@ -1562,20 +1562,21 @@ export default defineStore('calendarObjectInstance', {
 				startDate.setFullYear(calendarObjectInstance.startDate.getFullYear(), calendarObjectInstance.startDate.getMonth(), calendarObjectInstance.startDate.getDate())
 			}
 
-			const difference = startDate.getTime() - calendarObjectInstance.startDate.getTime()
-			const endDate = new Date(calendarObjectInstance.endDate.getTime() + difference)
-
-			this.changeStartDateMutation({
-				calendarObjectInstance,
-				startDate,
-			})
-
+			// Changing the end date first is needed to not have the start date be after the end date
 			if (changeEndDate) {
+				const difference = startDate.getTime() - calendarObjectInstance.startDate.getTime()
+				const endDate = new Date(calendarObjectInstance.endDate.getTime() + difference)
+
 				this.changeEndDateMutation({
 					calendarObjectInstance,
 					endDate,
 				})
 			}
+
+			this.changeStartDateMutation({
+				calendarObjectInstance,
+				startDate,
+			})
 		},
 
 		/**

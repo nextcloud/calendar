@@ -614,7 +614,7 @@ export default {
 				calendarObjectInstance: this.calendarObjectInstance,
 				startDate: combinedStartDate,
 				onlyTime: false,
-				changeEndDate: false,
+				changeEndDate: true,
 			})
 		},
 		/**
@@ -627,6 +627,7 @@ export default {
 				calendarObjectInstance: this.calendarObjectInstance,
 				startDate,
 				onlyTime: true,
+				changeEndDate: false,
 			})
 		},
 		/**
