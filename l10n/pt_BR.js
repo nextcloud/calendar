@@ -397,7 +397,7 @@ OC.L10N.register(
     "On specific day" : "Em um dia específico",
     "weekday" : "Dia da semana",
     "weekend day" : "dia da semana",
-    "Does not repeat" : "Não repetir",
+    "Does not repeat" : "Não se repete",
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "A definição de recorrência deste evento não é totalmente suportada pelo Nextcloud. Se você editar as opções de recorrência, determinadas recorrências poderão ser perdidas.",
     "No rooms or resources yet" : "Ainda não há salas ou recursos",
     "Suggestions" : "Sugestões",
