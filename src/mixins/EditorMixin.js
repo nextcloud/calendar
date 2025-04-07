@@ -217,7 +217,7 @@ export default {
 			return this.userAsAttendee !== null
 		},
 		/**
-		 * Returns whether the user is an attendee of the event
+		 * Returns whether the user is the organizer of the event or null if the user can't be an organizer
 		 *
 		 * @return {boolean|null}
 		 */
