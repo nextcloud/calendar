@@ -295,9 +295,9 @@
 				@save-this-only="prepareAccessForAttachments(false)"
 				@save-this-and-all-future="prepareAccessForAttachments(true)" />
 		</NcAppSidebarTab>
-		<NcDialog v-model:open="showCancelDialog"
-			:name="t('calendar', 'Delete?')"
-			:message="t('calendar', 'Are you sure you want to discard the event?')"
+		<NcDialog :open="showCancelDialog"
+			:name="t('calendar', 'Discard changes?')"
+			:message="t('calendar', 'Are you sure you want to discard the changes made to this event?')"
 			:buttons="cancelButtons" />
 	</NcAppSidebar>
 </template>
@@ -357,8 +357,10 @@ import { mapStores, mapState } from 'pinia'
 import AddTalkModal from '../components/Editor/AddTalkModal.vue'
 import { doesContainTalkLink } from '../services/talkService.js'
 import IconVideo from 'vue-material-design-icons/Video.vue'
-import Cancel from 'vue-material-design-icons/Cancel.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircle.vue'
+
+import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
+import IconDelete from '@mdi/svg/svg/delete.svg?raw'
 
 export default {
 	name: 'EditSidebar',
@@ -416,16 +418,16 @@ export default {
 			selectedConversation: null,
 			cancelButtons: [
 				{
-					label: 'Discard event',
-					icon: Delete,
+					label: t('calendar', 'Discard event'),
+					icon: atob(IconDelete.split(',')[1]),
 					callback: () => { this.cancel(true) },
 				},
 				{
-					label: 'Cancel',
+					label: t('calendar', 'Cancel'),
 					type: 'primary',
-					icon: Cancel,
-					callback: () => { },
-				}
+					icon: atob(IconCancel.split(',')[1]),
+					callback: () => { this.showCancelDialog = false },
+				},
 			],
 			showCancelDialog: false,
 		}

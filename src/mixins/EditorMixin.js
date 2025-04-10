@@ -446,7 +446,6 @@ export default {
 				|| this.compareCalendarObjects(this.calendarObjectInstanceStore.calendarObjectInstance, this.calendarObjectInstanceStore.emptyCalendarObjectInstance)
 				|| force
 			) {
-				console.log('same stuff')
 				this.calendarObjectsStore.resetCalendarObjectToDavMutation({
 					calendarObject: this.calendarObject,
 				})
@@ -454,7 +453,6 @@ export default {
 				this.requiresActionOnRouteLeave = false
 				this.closeEditor()
 			} else {
-				console.log('changed')
 				this.showCancelDialog = true
 			}
 		},
@@ -472,6 +470,7 @@ export default {
 		},
 		keyboardCloseEditor(event) {
 			if (event.key === 'Escape') {
+				console.log('YOU PRESSED ESCAPE')
 				this.cancel()
 			}
 		},
