@@ -191,6 +191,10 @@
 					</SaveButtons>
 				</template>
 			</div>
+			<NcDialog :open="showCancelDialog"
+				:name="t('calendar', 'Discard changes?')"
+				:message="t('calendar', 'Are you sure you want to discard the changes made to this event?')"
+				:buttons="cancelButtons" />
 		</NcPopover>
 	</div>
 </template>
@@ -203,6 +207,7 @@ import {
 	NcPopover,
 	NcAppNavigationSpacer,
 	NcButton,
+	NcDialog,
 } from '@nextcloud/vue'
 import EditorMixin from '../mixins/EditorMixin.js'
 import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'
@@ -230,6 +235,9 @@ import useSettingsStore from '../store/settings.js'
 import useWidgetStore from '../store/widget.js'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 
+import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
+import IconDelete from '@mdi/svg/svg/delete.svg?raw'
+
 export default {
 	name: 'EditSimple',
 	components: {
@@ -255,6 +263,7 @@ export default {
 		EditIcon,
 		HelpCircleIcon,
 		NcAppNavigationSpacer,
+		NcDialog,
 	},
 	mixins: [
 		EditorMixin,
@@ -279,6 +288,20 @@ export default {
 			isVisible: true,
 			isViewing: true,
 			closeMask: false,
+			cancelButtons: [
+				{
+					label: t('calendar', 'Discard event'),
+					icon: atob(IconDelete.split(',')[1]),
+					callback: () => { this.cancel(true) },
+				},
+				{
+					label: t('calendar', 'Cancel'),
+					type: 'primary',
+					icon: atob(IconCancel.split(',')[1]),
+					callback: () => { this.showCancelDialog = false },
+				},
+			],
+			showCancelDialog: false,
 		}
 	},
 	computed: {
