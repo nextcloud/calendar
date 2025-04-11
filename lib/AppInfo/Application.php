@@ -41,6 +41,7 @@ class Application extends App implements IBootstrap {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function register(IRegistrationContext $context): void {
 		$context->registerDashboardWidget(CalendarWidget::class);
 
@@ -60,6 +61,7 @@ class Application extends App implements IBootstrap {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function boot(IBootContext $context): void {
 		$this->addContactsMenuScript($context->getServerContainer());
 	}

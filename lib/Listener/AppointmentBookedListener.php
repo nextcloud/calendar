@@ -40,6 +40,7 @@ class AppointmentBookedListener implements IEventListener {
 		$this->logger = $logger;
 	}
 
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!($event instanceof BeforeAppointmentBookedEvent)) {
 			// Don't care

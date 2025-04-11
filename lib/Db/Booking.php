@@ -83,6 +83,7 @@ class Booking extends Entity implements JsonSerializable {
 		$this->addType('confirmed', Types::BOOLEAN);
 	}
 
+	#[\Override]
 	#[ReturnTypeWillChange]
 	public function jsonSerialize() {
 		return [

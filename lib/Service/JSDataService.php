@@ -34,6 +34,7 @@ class JSDataService implements \JsonSerializable {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	#[ReturnTypeWillChange]
 	public function jsonSerialize() {
 		$user = $this->userSession->getUser();

@@ -37,6 +37,7 @@ class CleanUpOutdatedBookingsJob extends TimedJob {
 	}
 
 
+	#[\Override]
 	protected function run($argument): void {
 		$outdated = $this->service->deleteOutdated();
 		$this->logger->info('Found and deleted ' . $outdated . ' outdated booking confirmations.');
