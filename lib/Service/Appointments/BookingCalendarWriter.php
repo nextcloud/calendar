@@ -56,13 +56,13 @@ class BookingCalendarWriter {
 		$hour = 60 * 60;
 		$minute = 60;
 		if ($secs % $day === 0) {
-			return 'PT' . $secs / $day . 'S';
+			return 'PT' . (int)($secs / $day) . 'S';
 		}
 		if ($secs % $hour === 0) {
-			return 'PT' . $secs / $hour . 'H';
+			return 'PT' . (int)($secs / $hour) . 'H';
 		}
 		if ($secs % $minute === 0) {
-			return 'PT' . $secs / $minute . 'M';
+			return 'PT' . (int)($secs / $minute) . 'M';
 		}
 		return 'PT' . $secs . 'S';
 	}

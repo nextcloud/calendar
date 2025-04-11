@@ -41,6 +41,7 @@ class Interval implements JsonSerializable {
 		return (new DateTimeImmutable())->setTimestamp($this->end);
 	}
 
+	#[\Override]
 	public function jsonSerialize(): array {
 		return [
 			'start' => $this->start,

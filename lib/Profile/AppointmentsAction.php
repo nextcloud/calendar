@@ -48,6 +48,7 @@ class AppointmentsAction implements ILinkAction {
 		$this->urlGenerator = $urlGenerator;
 	}
 
+	#[\Override]
 	public function preload(IUser $targetUser): void {
 		$this->targetUser = $targetUser;
 
@@ -57,18 +58,22 @@ class AppointmentsAction implements ILinkAction {
 		);
 	}
 
+	#[\Override]
 	public function getAppId(): string {
 		return Application::APP_ID;
 	}
 
+	#[\Override]
 	public function getId(): string {
 		return 'appointments';
 	}
 
+	#[\Override]
 	public function getDisplayId(): string {
 		return $this->l10n->t('Appointments');
 	}
 
+	#[\Override]
 	public function getTitle(): string {
 		if (count($this->configs) === 1) {
 			return $this->l10n->t('Schedule appointment "%s"', [
@@ -79,14 +84,17 @@ class AppointmentsAction implements ILinkAction {
 		return $this->l10n->t('Schedule an appointment');
 	}
 
+	#[\Override]
 	public function getPriority(): int {
 		return 50;
 	}
 
+	#[\Override]
 	public function getIcon(): string {
 		return $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'places/calendar.svg'));
 	}
 
+	#[\Override]
 	public function getTarget(): ?string {
 		if ($this->configs === []) {
 			return null;

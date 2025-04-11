@@ -177,6 +177,7 @@ class AppointmentConfig extends Entity implements JsonSerializable {
 		return json_decode($this->getAvailability(), true, 512, JSON_THROW_ON_ERROR);
 	}
 
+	#[\Override]
 	#[ReturnTypeWillChange]
 	public function jsonSerialize() {
 		return [
