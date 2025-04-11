@@ -293,7 +293,7 @@ OC.L10N.register(
     "Choose a file to add as attachment" : "Виберіть файл для вкладення",
     "Choose a file to share as a link" : "Виберіть файл, яким ви поділитеся через посилання",
     "Attachment {name} already exist!" : "Такий долучений файл {name} вже присутній!",
-    "Could not upload attachment(s)" : "Не вдалося завантажити вкладення.",
+    "Could not upload attachment(s)" : "Не вдалося завантажити вкладення",
     "You are about to navigate to {host}. Are you sure to proceed? Link: {link}" : "Ви збираєтеся перейти на сайт {host}. Продовжити? Посилання: {link}",
     "Proceed" : "Продовжити",
     "No attachments" : "Без вкладень",
