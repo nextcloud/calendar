@@ -34,7 +34,7 @@
 				<template v-else-if="isError">
 					<div :class="topActionsClass">
 						<Actions>
-							<ActionButton @click="cancel">
+							<ActionButton @click="cancel(false)">
 								<template #icon>
 									<Close :size="20" decorative />
 								</template>
@@ -100,7 +100,7 @@
 							</ActionButton>
 						</Actions>
 						<Actions>
-							<ActionButton @click="cancel">
+							<ActionButton @click="cancel(false)">
 								<template #icon>
 									<Close :size="20" decorative />
 								</template>
@@ -292,7 +292,12 @@ export default {
 				{
 					label: t('calendar', 'Discard event'),
 					icon: atob(IconDelete.split(',')[1]),
-					callback: () => { this.cancel(true) },
+					callback: () => {
+						this.showCancelDialog = false
+						setTimeout(() => {
+							this.cancel(true)
+						}, 100)
+					},
 				},
 				{
 					label: t('calendar', 'Cancel'),

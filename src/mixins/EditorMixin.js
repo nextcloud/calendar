@@ -470,8 +470,7 @@ export default {
 		},
 		keyboardCloseEditor(event) {
 			if (event.key === 'Escape') {
-				console.log('YOU PRESSED ESCAPE')
-				this.cancel()
+				this.cancel(false)
 			}
 		},
 		keyboardSaveEvent(event) {

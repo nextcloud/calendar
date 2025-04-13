@@ -6,7 +6,7 @@
 <template>
 	<NcAppSidebar name=""
 		:force-menu="true"
-		@close="cancel">
+		@close="cancel(false)">
 		<template v-if="isLoading">
 			<div class="app-sidebar__loading-indicator">
 				<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
