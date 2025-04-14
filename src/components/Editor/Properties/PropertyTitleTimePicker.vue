@@ -14,6 +14,9 @@
 			class="property-title-time-picker__time-pickers">
 			<div :class="{ 'property-title-time-picker__time-pickers--all-day': isAllDay}"
 				class="property-title-time-picker__time-pickers__inner">
+				<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay && isMobile"
+					:value="startTimezone"
+					@input="changeStartTimezone" />
 				<div class="property-title-time-picker__time-pickers-from">
 					<span>{{ $t('calendar', 'From') }}</span>
 					<div class="property-title-time-picker__time-pickers-from-inner">
@@ -27,7 +30,9 @@
 								@change="changeStartTime" />
 						</div>
 						<div class="property-title-time-picker__time-pickers-from-inner__timezone">
-							<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay" :value="startTimezone" @input="changeStartTimezone" />
+							<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay && !isMobile"
+								:value="startTimezone"
+								@input="changeStartTimezone" />
 							<NcButton v-if="!showTimezoneSelect && !isAllDay"
 								type="tertiary"
 								@click="showTimezoneSelect = !showTimezoneSelect">
@@ -182,6 +187,7 @@ export default {
 			 * Whether to show the timezone selector
 			 */
 			showTimezoneSelect: false,
+			windowWidth: window.innerWidth,
 		}
 	},
 	computed: {
@@ -244,11 +250,18 @@ export default {
 				&& this.startDate.getMonth() === this.endDate.getMonth()
 				&& this.startDate.getFullYear() === this.endDate.getFullYear()
 		},
+		isMobile() {
+			return this.windowWidth <= 768
+		},
 	},
 	mounted() {
 		if (this.startTimezone !== this.endTimezone) {
 			this.showTimezoneSelect = true
 		}
+		window.addEventListener('resize', this.updateWindowWidth)
+	},
+	beforeDestroy() {
+		window.removeEventListener('resize', this.updateWindowWidth)
 	},
 	methods: {
 		/**
@@ -309,6 +322,9 @@ export default {
 			}
 
 			this.$emit('update-end-timezone', value)
+		},
+		updateWindowWidth() {
+			this.windowWidth = window.innerWidth
 		},
 	},
 }
@@ -424,5 +440,20 @@ export default {
 
 .property-title-time-picker__time-pickers-from-inner__timezone, .property-title-time-picker__time-pickers-to-inner__timezone {
 	width: var(--navigation-width);
+}
+
+@media (max-width: 768px) {
+  .property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {
+		flex-wrap: wrap;
+
+		span {
+			text-align: left;
+		}
+
+		&-inner__timezone {
+			width: 100%;
+			flex-basis: 100%;
+		}
+	}
 }
 </style>
