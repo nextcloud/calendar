@@ -161,6 +161,7 @@ OC.L10N.register(
     "[Today]" : "[Hiziv]",
     "[Tomorrow]" : "[Warc'hoazh]",
     "[Yesterday]" : "[Dec'h]",
+    "in {monthNames}" : "e {monthNames}",
     "Add a description" : "Ouzhpennañ un deskrivadur",
     "Chat room for event" : "Sal-flapiñ evit un darvoud"
 },
