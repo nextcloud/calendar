@@ -466,7 +466,7 @@ export default {
 
 		},
 		isCreateTalkRoomButtonVisible() {
-			return this.talkEnabled && !this.isViewedByOrganizer === false
+			return this.talkEnabled && this.isViewedByOrganizer !== false
 		},
 
 	},
