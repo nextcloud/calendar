@@ -69,10 +69,10 @@ class TimezoneGenerator {
 					$date = new \DateTime($trans['time']);
 					$offset = $trans['offset'] / 3600;
 				}
-				
+
 				$component->DTSTART = $date->format('Ymd\THis');
-				$component->TZOFFSETFROM = sprintf('%s%02d%02d', $tzfrom >= 0 ? '+' : '-', abs(floor($tzfrom)), ($tzfrom - floor($tzfrom)) * 60);
-				$component->TZOFFSETTO = sprintf('%s%02d%02d', $offset >= 0 ? '+' : '-', abs(floor($offset)), ($offset - floor($offset)) * 60);
+				$component->TZOFFSETFROM = sprintf('%s%02d%02d', $tzfrom >= 0 ? '+' : '-', abs(floor($tzfrom)), ((float)$tzfrom - floor($tzfrom)) * 60.0);
+				$component->TZOFFSETTO = sprintf('%s%02d%02d', $offset >= 0 ? '+' : '-', abs(floor($offset)), ((float)$offset - floor($offset)) * 60.0);
 
 				// add abbreviated timezone name if available
 				if (!empty($trans['abbr'])) {

@@ -27,6 +27,7 @@ class ReferenceProvider extends ADiscoverableReferenceProvider {
 	}
 
 
+	#[\Override]
 	public function getId(): string {
 		return 'calendar';
 	}
@@ -34,6 +35,7 @@ class ReferenceProvider extends ADiscoverableReferenceProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getTitle(): string {
 		return 'Calendar';
 	}
@@ -41,6 +43,7 @@ class ReferenceProvider extends ADiscoverableReferenceProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getOrder(): int {
 		return 20;
 	}
@@ -48,12 +51,14 @@ class ReferenceProvider extends ADiscoverableReferenceProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getIconUrl(): string {
 		return $this->urlGenerator->getAbsoluteURL(
 			$this->urlGenerator->imagePath(Application::APP_ID, 'calendar-dark.svg')
 		);
 	}
 
+	#[\Override]
 	public function matchReference(string $referenceText): bool {
 		$start = $this->urlGenerator->getAbsoluteURL('/apps/' . Application::APP_ID);
 		$startIndex = $this->urlGenerator->getAbsoluteURL('/index.php/apps/' . Application::APP_ID);
@@ -69,6 +74,7 @@ class ReferenceProvider extends ADiscoverableReferenceProvider {
 		return false;
 	}
 
+	#[\Override]
 	public function resolveReference(string $referenceText): ?IReference {
 		if ($this->matchReference($referenceText)) {
 			$type = $this->getType($referenceText);
@@ -140,6 +146,7 @@ class ReferenceProvider extends ADiscoverableReferenceProvider {
 		return 'unknown';
 	}
 
+	#[\Override]
 	public function getCachePrefix(string $referenceId): string {
 		return '';
 	}
@@ -147,6 +154,7 @@ class ReferenceProvider extends ADiscoverableReferenceProvider {
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
 	public function getCacheKey(string $referenceId): ?string {
 		return $referenceId;
 	}
