@@ -370,3 +370,127 @@
 .modal-header__name {
 	display: none !important;
 }
+
+.invitees-list {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 2);
+}
+
+.resource-list-item,
+.invitees-list-item {
+	display: flex;
+	align-items: center;
+	min-height: 44px;
+
+	&__displayname {
+		margin-left: calc(var(--default-grid-baseline) * 2);
+	}
+
+	&__actions {
+		margin-left: auto;
+	}
+
+	&__organizer-hint {
+		color: var(--color-text-maxcontrast);
+		font-weight: 300;
+		margin-left: var(--default-grid-baseline);
+	}
+}
+
+
+.resource-search-list-item,
+.invitees-search-list-item {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	text-align: start;
+	// Account for avatar width (because it is position: relative)
+
+	&__label {
+		width: 100%;
+		padding: 0 calc(var(--default-grid-baseline) * 2);
+
+		&__availability {
+			color: var(--color-text-maxcontrast);
+		}
+
+		div {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		div:nth-child(1) {
+			color: var(--color-main-text)
+		}
+
+		div:nth-child(2) {
+			color: var(--color-text-lighter);
+			line-height: 1;
+		}
+	}
+}
+
+.resource-search {
+	&__capacity {
+		display: flex;
+		align-items: center;
+
+		&__actions {
+			margin-left: 5px;
+		}
+	}
+}
+
+.avatar-participation-status {
+	position: relative;
+	height: 38px;
+	width: 38px;
+
+	&__indicator {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		background-size: 10px;
+		height: 15px;
+		width: 15px;
+		border-radius: 50%;
+	}
+
+	&__indicator.accepted {
+		background-color: #2fb130;
+	}
+
+	&__indicator.declined {
+		background-color: #ff0000;
+	}
+
+	&__indicator.tentative {
+		background-color: #ffa704;
+	}
+
+	&__indicator.delegated,
+	&__indicator.no-response {
+		background-color: grey;
+	}
+}
+
+@media (max-width: 768px) {
+	.property-title {
+		flex-grow: 1;
+	}
+
+	.property-title__input input {
+		width: 100%;
+	}
+
+	.app-full__actions {
+		flex-wrap: wrap;
+		margin: calc(var(--default-grid-baseline) * 2);
+	}
+
+	.app-full__header {
+		padding: calc(var(--default-grid-baseline) * 2);
+	}
+}
