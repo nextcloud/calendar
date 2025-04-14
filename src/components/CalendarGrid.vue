@@ -33,7 +33,7 @@ import select from '../fullcalendar/interaction/select.js'
 // Import localization plugins
 import { getDateFormattingConfig } from '../fullcalendar/localization/dateFormattingConfig.js'
 import { getFullCalendarLocale } from '../fullcalendar/localization/localeProvider.js'
-import momentPluginFactory from '../fullcalendar/localization/momentPlugin.js'
+import momentPlugin from '../fullcalendar/localization/momentPlugin.js'
 
 // Import rendering handlers
 import dayHeaderDidMount from '../fullcalendar/rendering/dayHeaderDidMount.js'
@@ -162,7 +162,7 @@ export default {
 		 */
 		plugins() {
 			return [
-				momentPluginFactory(),
+				momentPlugin,
 				VTimezoneNamedTimezone,
 				dayGridPlugin,
 				interactionPlugin,
