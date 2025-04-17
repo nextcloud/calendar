@@ -22,27 +22,38 @@ import md5 from 'md5'
  */
 export async function createTalkRoom(eventTitle = null, eventDescription = null, attendees = []) {
 	const apiVersion = loadState('calendar', 'talk_api_version')
+	let response
+	let token
+	let conversation
+
 	try {
-		const response = await HTTPClient.post(generateOcsUrl('apps/spreed/api/' + apiVersion + '/', 2) + 'room', {
+		response = await HTTPClient.post(generateOcsUrl('apps/spreed/api/' + apiVersion + '/', 2) + 'room', {
 			roomType: 3,
 			roomName: eventTitle || t('calendar', 'Talk conversation for event'),
 			objectType: 'event',
 			objectId: md5(new Date()),
 		})
+		conversation = response.data.ocs.data
+		token = conversation.token
+	} catch (error) {
+		console.debug(error)
+		throw error
+	}
 
-		const conversation = response.data.ocs.data
-		const token = conversation.token
+	try {
+		// Keep until Calendar supports 31+
 		if (eventDescription) {
 			await HTTPClient.put(generateOcsUrl('apps/spreed/api/' + apiVersion + '/', 2) + 'room/' + token + '/description', {
 				description: eventDescription,
 			})
 		}
-
-		return generateURLForToken(token)
 	} catch (error) {
 		console.debug(error)
-		throw error
+		if (error.response?.data?.ocs?.data?.error !== 'event') {
+			throw error
+		}
 	}
+	return generateURLForToken(token)
 }
 
 /**
