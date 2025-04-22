@@ -1,3 +1,19 @@
+## [5.2.2](https://github.com/nextcloud/calendar/compare/v5.2.1...v5.2.2) (2025-04-22)
+
+
+### Bug Fixes
+
+* **deps:** bump @nextcloud/vue to ^8.25.1 ([c2fab28](https://github.com/nextcloud/calendar/commit/c2fab28b37c191725d7a99580e395020598a3e37))
+* **deps:** Fix npm audit ([581c70a](https://github.com/nextcloud/calendar/commit/581c70a141c974dc30fe278a86c50f2ac1e653a5))
+* **editor:** show add talk button if there are no attendees yet ([2770f80](https://github.com/nextcloud/calendar/commit/2770f80a9c63f020c5cfd70155cec9977c66885f))
+* freebusy ui visual improvements ([dc76010](https://github.com/nextcloud/calendar/commit/dc76010154e40dbf765b6dd8f7a25ddaada81e40))
+* **l10n:** Update translations from Transifex ([b35903c](https://github.com/nextcloud/calendar/commit/b35903ca2cf7c0f84cc188ff5d98581dabea7513))
+* **l10n:** Update translations from Transifex ([da3a6d0](https://github.com/nextcloud/calendar/commit/da3a6d00510bddd9dd63c0b33d4e14c25e313951))
+* **talkintegration:** allow room creation with description ([2c28127](https://github.com/nextcloud/calendar/commit/2c2812718d0c27890a06c5fb4bebd6ad01b4d3c3))
+* update app store description ([41c0c4d](https://github.com/nextcloud/calendar/commit/41c0c4d4e7511d7f4c3931598882b69d76ad979f))
+
+
+
 ## [5.2.1](https://github.com/nextcloud/calendar/compare/v5.2.0...v5.2.1) (2025-04-07)
 
 
