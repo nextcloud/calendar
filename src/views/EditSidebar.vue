@@ -506,7 +506,9 @@ export default {
 		 */
 		updateDates(dates) {
 			this.updateStartDate(dates.start)
+			this.updateStartTime(dates.start)
 			this.updateEndDate(dates.end)
+			this.updateEndTime(dates.end)
 		},
 		/**
 		 * Updates the access-class of this event
