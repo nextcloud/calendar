@@ -14,9 +14,16 @@
 			class="property-title-time-picker__time-pickers">
 			<div :class="{ 'property-title-time-picker__time-pickers--all-day': isAllDay}"
 				class="property-title-time-picker__time-pickers__inner">
-				<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay && isMobile"
-					:value="startTimezone"
-					@input="changeStartTimezone" />
+				<NcButton v-if="!showTimezoneSelect && !isAllDay && isMobile"
+					type="tertiary"
+					@click="showTimezoneSelect = !showTimezoneSelect">
+					<template>
+						<span class="property-title-time-picker__button">
+							<IconTimezone :size="20" />
+							{{ startTimezone }}
+						</span>
+					</template>
+				</NcButton>
 				<div class="property-title-time-picker__time-pickers-from">
 					<!-- TRANSLATORS Start of an event -->
 					<span>{{ $t('calendar', 'From') }}</span>
@@ -31,10 +38,10 @@
 								@change="changeStartTime" />
 						</div>
 						<div class="property-title-time-picker__time-pickers-from-inner__timezone">
-							<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay && !isMobile"
+							<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay"
 								:value="startTimezone"
 								@input="changeStartTimezone" />
-							<NcButton v-if="!showTimezoneSelect && !isAllDay"
+							<NcButton v-if="!showTimezoneSelect && !isAllDay && !isMobile"
 								type="tertiary"
 								@click="showTimezoneSelect = !showTimezoneSelect">
 								<template>
@@ -116,7 +123,6 @@ export default {
 		IconTimezone,
 		CalendarIcon,
 		NcButton,
-		NcCheckboxRadioSwitch,
 		NcTimezonePicker,
 	},
 	props: {
@@ -253,13 +259,14 @@ export default {
 				&& this.startDate.getFullYear() === this.endDate.getFullYear()
 		},
 		isMobile() {
-			return this.windowWidth <= 768
+			return this.windowWidth <= 840
 		},
 	},
 	mounted() {
 		if (this.startTimezone !== this.endTimezone) {
 			this.showTimezoneSelect = true
 		}
+
 		window.addEventListener('resize', this.updateWindowWidth)
 	},
 	beforeDestroy() {
