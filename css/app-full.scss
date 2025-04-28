@@ -149,7 +149,8 @@
 	flex-direction: row;
 	gap: calc(var(--default-grid-baseline) * 8);
 	justify-content: space-between;
-	margin: calc(var(--default-grid-baseline) * 8) 0;
+	margin: calc(var(--default-grid-baseline) * 8) var(--default-grid-baseline);
+	flex-wrap: wrap;
 
 	&__right {
 		width: 300px;
@@ -167,6 +168,16 @@
 		display: flex;
 		flex-direction: column;
 		gap: calc(var(--default-grid-baseline) * 4);
+	}
+}
+
+@media screen and (max-width: 840px) {
+	.app-full-body__right {
+		width: 500px !important;
+
+		.property-select__input {
+			max-width: 100% !important;
+		}
 	}
 }
 
@@ -346,7 +357,8 @@
 	flex-direction: row;
 	gap: calc(var(--default-grid-baseline) * 8);
 	justify-content: space-between;
-	margin-top: calc(var(--default-grid-baseline) * 12);
+	margin: calc(var(--default-grid-baseline) * 12) var(--default-grid-baseline) 0 var(--default-grid-baseline);
+	flex-wrap: wrap;
 
 	&__right {
 		width: 300px;
@@ -362,6 +374,17 @@
 		gap: calc(var(--default-grid-baseline) * 4);
 	}
 }
+
+@media screen and (max-width: 840px) {
+	.app-full-footer__right {
+		width: 500px !important;
+
+		.property-select__input {
+			max-width: 100% !important;
+		}
+	}
+}
+
 
 .modal-mask {
 	background-color: unset !important;
