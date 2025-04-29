@@ -330,6 +330,7 @@ OC.L10N.register(
     "Canceled" : "Tühistatud",
     "Categories" : "Kategooriad",
     "Error while sharing file" : "Viga faili jagamisel",
+    "Talk conversation for event" : "Talki vestlus ürituse jaoks",
     "Appointment not found" : "Kokkulepitud kohtumist ei leidu",
     "User not found" : "Kasutajat ei leitud",
     "[Today]" : "[Täna]",
