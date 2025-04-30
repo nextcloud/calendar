@@ -273,6 +273,7 @@ OC.L10N.register(
     "Any" : "Kõik",
     "Minimum seating capacity" : "Väikseim kohtade arv",
     "on {formattedDate}" : "asukohas {formattedDate}",
+    "from {formattedDate} at {formattedTime}" : "kasutajalt {formattedDate}, {formattedTime}",
     "Please enter a valid date" : "Palun sisesta korrektne kuupäev",
     "Please enter a valid date and time" : "Palun sisesta korrektne kuupäev ja aeg",
     "Please select a time zone:" : "Palun vali ajavöönd:",
