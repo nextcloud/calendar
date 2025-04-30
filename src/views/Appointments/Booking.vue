@@ -255,7 +255,6 @@ export default {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	width: 900px;
 	min-height: 500px;
 	margin-bottom: 50px;
 	justify-content: space-between;
