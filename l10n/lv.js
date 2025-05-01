@@ -38,7 +38,7 @@ OC.L10N.register(
     "Comment:" : "Piebilde:",
     "You have a new appointment booking \"%s\" from %s" : "Jums ir jauna tikšanās rezervācija \"%s\" no %s",
     "Dear %s, %s (%s) booked an appointment with you." : " %s, %s (%s) rezervēja tikšanos ar Jums.",
-    "A Calendar app for Nextcloud" : "Kalendāra lietotne priekš Nextcloud",
+    "A Calendar app for Nextcloud" : "Nextcloud kalendāra lietotne",
     "Previous day" : "Iepriekšējā diena",
     "Previous week" : "Iepriekšējā nedēļa",
     "Previous year" : "Iepriekšējais gads",
