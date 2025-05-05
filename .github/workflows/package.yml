@@ -26,7 +26,7 @@ jobs:
         id: php-versions
         uses: icewind1991/nextcloud-version-matrix@58becf3b4bb6dc6cef677b15e2fd8e7d48c0908f # v1.3.1
       - name: Set up php ${{ steps.php-versions.outputs.php-min }}
-        uses: shivammathur/setup-php@297b3cde3c3c3202e03cd5e9b679a74c06f72214
+        uses: shivammathur/setup-php@cf4cade2721270509d5b1c766ab3549210a39a2a
         with:
           php-version: ${{ steps.php-versions.outputs.php-min }}
           tools: composer
