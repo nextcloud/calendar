@@ -432,6 +432,8 @@ export default {
 
 .property-title-time-picker__wrap {
 	.property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {
+		flex-shrink: 0;
+
 		&-inner {
 			flex-wrap: wrap;
 			justify-content: space-between;
@@ -452,6 +454,7 @@ export default {
 @media (max-width: 768px) {
   .property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {
 		flex-wrap: wrap;
+		flex-shrink: 0;
 
 		span {
 			text-align: left;

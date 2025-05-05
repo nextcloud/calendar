@@ -4,9 +4,11 @@
 -->
 
 <template>
-	<NcModal size="full"
+	<NcModal v-model="showFullModal"
+		size="full"
 		:name="t('calendar', 'Edit event')"
-		:dark="false">
+		:dark="false"
+		@close="cancel">
 		<div class="app-full">
 			<template v-if="isLoading">
 				<div class="app-full__loading-indicator">
@@ -21,33 +23,33 @@
 				</NcEmptyContent>
 			</template>
 
-			<div v-if="!isLoading && !isError && !isNew" class="app-full__actions">
+			<div v-if="!isLoading && !isError" class="app-full__actions">
 				<div class="app-full__actions__inner">
-					<NcButton v-if="!hideEventExport && hasDownloadURL" type="tertiary" :href="downloadURL">
+					<NcButton v-if="!hideEventExport && hasDownloadURL && !isNew" type="tertiary" :href="downloadURL">
 						<template #icon>
 							<Download :size="20" decorative />
 						</template>
 						{{ $t('calendar', 'Export') }}
 					</NcButton>
-					<NcButton v-if="!canCreateRecurrenceException && !isReadOnly" type="tertiary" @click="duplicateEvent()">
+					<NcButton v-if="!canCreateRecurrenceException && !isReadOnly && !isNew" type="tertiary" @click="duplicateEvent()">
 						<template #icon>
 							<ContentDuplicate :size="20" decorative />
 						</template>
 						{{ $t('calendar', 'Duplicate') }}
 					</NcButton>
-					<NcButton v-if="canDelete && !canCreateRecurrenceException" type="tertiary" @click="deleteAndLeave(false)">
+					<NcButton v-if="canDelete && !canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(false)">
 						<template #icon>
 							<Delete :size="20" decorative />
 						</template>
 						{{ $t('calendar', 'Delete') }}
 					</NcButton>
-					<NcButton v-if="canDelete && canCreateRecurrenceException" type="tertiary" @click="deleteAndLeave(false)">
+					<NcButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(false)">
 						<template #icon>
 							<Delete :size="20" decorative />
 						</template>
 						{{ $t('calendar', 'Delete this occurrence') }}
 					</NcButton>
-					<NcButton v-if="canDelete && canCreateRecurrenceException" type="tertiary" @click="deleteAndLeave(true)">
+					<NcButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(true)">
 						<template #icon>
 							<Delete :size="20" decorative />
 						</template>
@@ -383,7 +385,7 @@ export default {
 			isModalOpen: false,
 			talkConversations: [],
 			selectedConversation: null,
-
+			showFullModal: true,
 		}
 	},
 	computed: {
