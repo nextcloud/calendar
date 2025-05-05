@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<NcGuestContent>
+	<NcGuestContent class="booking-wrapper">
 		<div v-if="!selectedSlot && !bookingConfirmed" class="booking">
 			<div class="booking__config-user-info">
 				<Avatar :user="userInfo.uid"
@@ -251,8 +251,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.booking-wrapper {
+	display: flex;
+}
+
 .booking {
 	display: flex;
+	flex: 1 auto;
 	flex-direction: row;
 	flex-wrap: wrap;
 	width: 900px;
