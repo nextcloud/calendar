@@ -95,6 +95,7 @@ OC.L10N.register(
     "Untitled item" : "Elemento sin título",
     "Unknown calendar" : "Calendario desconocido",
     "Could not load deleted calendars and objects" : "No se pudieron cargar los calendarios y objetos eliminados",
+    "Could not delete calendar or event" : "No se pudo eliminar el calendario o el evento",
     "Could not restore calendar or event" : "No se pudo restaurar el calendario o evento",
     "Do you really want to empty the trash bin?" : "¿Realmente deseas vaciar la papelera?",
     "Empty trash bin" : "Eliminar papelera de reciclaje",

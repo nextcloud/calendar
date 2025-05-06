@@ -95,6 +95,7 @@
     "Untitled item" : "Στοιχείο χωρίς όνομα",
     "Unknown calendar" : "Άγνωστο ημερολόγιο",
     "Could not load deleted calendars and objects" : "Δεν ήταν δυνατή η φόρτωση διαγραμμένων ημερολογίων και αντικειμένων",
+    "Could not delete calendar or event" : "Δεν ήταν δυνατή η διαγραφή ημερολογίου ή συμβάντος",
     "Could not restore calendar or event" : "Δεν ήταν δυνατή η επαναφορά ημερολογίου ή συμβάντος",
     "Do you really want to empty the trash bin?" : "Θέλετε να αδειάσετε τον κάδο απορριμμάτων;",
     "Empty trash bin" : "Άδειασμα κάδου",

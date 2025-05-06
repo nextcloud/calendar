@@ -99,6 +99,7 @@ OC.L10N.register(
     "Untitled item" : "Položka bez názvu",
     "Unknown calendar" : "Neznámy kalendár",
     "Could not load deleted calendars and objects" : "Nie je možné načítať zmazané kalendáre a objekty",
+    "Could not delete calendar or event" : "Nie je možné vymazať kalendár alebo udalosť",
     "Could not restore calendar or event" : "Nie je možné obnoviť kalendár alebo udalosť",
     "Do you really want to empty the trash bin?" : "Naozaj chcete vyprázdniť kôš?",
     "Empty trash bin" : "Vyprázdniť kôš",

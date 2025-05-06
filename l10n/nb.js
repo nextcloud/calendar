@@ -98,6 +98,7 @@ OC.L10N.register(
     "Untitled item" : "Element uten navn",
     "Unknown calendar" : "Ukjent kalender",
     "Could not load deleted calendars and objects" : "Kunne ikke laste slettede kalendere og objekter",
+    "Could not delete calendar or event" : "Kunne ikke slette kalender eller hendelse",
     "Could not restore calendar or event" : "Kunne ikke gjenopprette kalender eller hendelse",
     "Do you really want to empty the trash bin?" : "Vil du virkelig tømme papirkurven?",
     "Empty trash bin" : "Tøm papirkurv",
