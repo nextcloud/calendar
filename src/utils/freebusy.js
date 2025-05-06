@@ -5,6 +5,7 @@
 
 import { createFreeBusyRequest, getParserManager } from '@nextcloud/calendar-js'
 import { findSchedulingOutbox } from '../services/caldavService.js'
+import useCalendarsStore from '../store/calendars.js'
 
 /**
  * Gets the corresponding color for a given Free/Busy type
@@ -13,6 +14,7 @@ import { findSchedulingOutbox } from '../services/caldavService.js'
  * @return {string}
  */
 export function getColorForFBType(type = 'BUSY') {
+	const calendarsStore = useCalendarsStore()
 	switch (type) {
 	case 'FREE':
 		return 'rgba(255,255,255,0)'
@@ -21,7 +23,7 @@ export function getColorForFBType(type = 'BUSY') {
 		return 'rgba(184,129,0,0.3)'
 
 	case 'BUSY':
-		return 'rgba(217,24,18,0.3)'
+		return calendarsStore.getPersonalCalendarColor ?? 'rgba(217,24,18,0.3)'
 
 	case 'BUSY-UNAVAILABLE':
 		return 'rgba(219,219,219)'

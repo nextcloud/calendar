@@ -357,7 +357,6 @@ export default {
 				schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
 				// Data
 				eventSources: this.eventSources,
-				resources: this.resources,
 				// Plugins
 				plugins: this.plugins,
 				// Interaction:
@@ -371,6 +370,7 @@ export default {
 				height: 'auto',
 				loading: this.loading,
 				headerToolbar: {
+					left: false,
 					center: 'title',
 					right: 'timeGridWeek,timeGridDay', // user can switch between the two
 				},
@@ -556,6 +556,10 @@ export default {
 :deep(.mx-input) {
 	height: 38px !important;
 }
+:deep(.fc-event) {
+	margin-right: 0 !important;
+}
+
 </style>
 
 <style lang="scss">
