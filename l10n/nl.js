@@ -99,6 +99,7 @@ OC.L10N.register(
     "Untitled item" : "Object zonder titel",
     "Unknown calendar" : "Onbekende kalender",
     "Could not load deleted calendars and objects" : "Kon de verwijderde agenda en objecten niet herstellen",
+    "Could not delete calendar or event" : "Kon kalender of afspraak niet verwijderen",
     "Could not restore calendar or event" : "Kon de agenda en objecten niet herstellen",
     "Do you really want to empty the trash bin?" : "Wil je de prullenbak echt leegmaken?",
     "Empty trash bin" : "Prullenbak legen",

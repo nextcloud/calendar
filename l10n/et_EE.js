@@ -208,6 +208,7 @@ OC.L10N.register(
     "Visibility" : "Nähtavus",
     "Duration" : "Kestus",
     "to" : "saaja",
+    "Delete slot" : "Kustuta ajavahemik",
     "Add" : "Lisa",
     "Monday" : "Esmaspäev",
     "Tuesday" : "Teisipäev",

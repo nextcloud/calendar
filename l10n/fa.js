@@ -94,6 +94,7 @@ OC.L10N.register(
     "Untitled item" : "مورد بدون عنوان",
     "Unknown calendar" : "تقویم ناشناخته",
     "Could not load deleted calendars and objects" : "تقویم و اشیاء حذف شده بارگیری نشد",
+    "Could not delete calendar or event" : "تقویم یا رویداد حذف نشد",
     "Could not restore calendar or event" : "تقویم یا رویداد بازیابی نشد",
     "Do you really want to empty the trash bin?" : "آیا واقعاً می خواهید سطل زباله را خالی کنید؟",
     "Empty trash bin" : "خالی کردن سطل زباله",

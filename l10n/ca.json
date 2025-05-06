@@ -97,6 +97,7 @@
     "Untitled item" : "Element sense títol",
     "Unknown calendar" : "Calendari desconegut",
     "Could not load deleted calendars and objects" : "No s'han pogut carregar els calendaris i els objectes suprimits",
+    "Could not delete calendar or event" : "No s'ha pogut suprimir el calendari o l'esdeveniment",
     "Could not restore calendar or event" : "No s'ha pogut restaurar el calendari o l'esdeveniment",
     "Do you really want to empty the trash bin?" : "Realment voleu buidar la paperera?",
     "Empty trash bin" : "Buida la paperera",

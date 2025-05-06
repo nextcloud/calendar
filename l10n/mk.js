@@ -96,6 +96,7 @@ OC.L10N.register(
     "Untitled item" : "Неименуваи работи",
     "Unknown calendar" : "Непознат календар",
     "Could not load deleted calendars and objects" : "Неможат да се вчитаат избришаните календари и елементи",
+    "Could not delete calendar or event" : "Неможе да избришете календар или настан",
     "Could not restore calendar or event" : "Неможе да се врати календар или настан",
     "Do you really want to empty the trash bin?" : "Дали навистина сакате да ја испразните kорпаta за отпадоци?",
     "Empty trash bin" : "Испразни ја корпата со отпадоци",

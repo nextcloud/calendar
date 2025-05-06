@@ -95,6 +95,7 @@ OC.L10N.register(
     "Untitled item" : "Nimetön kohde",
     "Unknown calendar" : "Tuntematon kalenteri",
     "Could not load deleted calendars and objects" : "Poistettuja kalentereita tai objekteja ei voitu ladata",
+    "Could not delete calendar or event" : "Kalenteria tai tapahtumaa ei voitu poistaa",
     "Could not restore calendar or event" : "Kalenteria tai tapahtumaa ei voitu palauttaa",
     "Do you really want to empty the trash bin?" : "Haluatko varmasti tyhjentää roskakorin?",
     "Empty trash bin" : "Tyhjennä roskakori",

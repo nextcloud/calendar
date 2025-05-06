@@ -97,6 +97,7 @@ OC.L10N.register(
     "Untitled item" : "نامسىز تۈر",
     "Unknown calendar" : "نامەلۇم كالېندار",
     "Could not load deleted calendars and objects" : "ئۆچۈرۈلگەن كالېندار ۋە ئوبيېكتلارنى يۈكلىيەلمىدى",
+    "Could not delete calendar or event" : "كالېندار ياكى ۋەقەنى ئۆچۈرەلمىدى",
     "Could not restore calendar or event" : "كالېندار ياكى ھادىسىنى ئەسلىگە كەلتۈرەلمىدى",
     "Do you really want to empty the trash bin?" : "ئەخلەت ساندۇقىنى بوشاتماقچىمۇ؟",
     "Empty trash bin" : "ئەخلەت ساندۇقى",

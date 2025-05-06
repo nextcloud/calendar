@@ -97,6 +97,7 @@
     "Untitled item" : "Nepojmenovaná položka",
     "Unknown calendar" : "Neznámý kalendář",
     "Could not load deleted calendars and objects" : "Nedaří se načíst smazané kalendáře a objekty",
+    "Could not delete calendar or event" : "Kalendář či událost se nepodařilo smazat",
     "Could not restore calendar or event" : "Kalendář nebo událost se nepodařilo obnovit",
     "Do you really want to empty the trash bin?" : "Opravdu chcete koš vyprázdnit?",
     "Empty trash bin" : "Vyprázdnit koš",
