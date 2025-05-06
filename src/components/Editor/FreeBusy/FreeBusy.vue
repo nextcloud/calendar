@@ -126,7 +126,6 @@ import interactionPlugin from '@fullcalendar/interaction'
 
 import { NcDateTimePickerNative, NcButton, NcPopover, NcUserBubble, NcDialog, NcSelect } from '@nextcloud/vue'
 // Import event sources
-import freeBusyBlockedForAllEventSource from '../../../fullcalendar/eventSources/freeBusyBlockedForAllEventSource.js'
 import freeBusyFakeBlockingEventSource from '../../../fullcalendar/eventSources/freeBusyFakeBlockingEventSource.js'
 import freeBusyResourceEventSource from '../../../fullcalendar/eventSources/freeBusyResourceEventSource.js'
 
@@ -279,11 +278,6 @@ export default {
 					this.resources,
 					this.currentStart,
 					this.currentEnd,
-				),
-				freeBusyBlockedForAllEventSource(
-					this.organizer.attendeeProperty,
-					this.attendees.map((a) => a.attendeeProperty),
-					this.resources,
 				),
 			]
 		},
