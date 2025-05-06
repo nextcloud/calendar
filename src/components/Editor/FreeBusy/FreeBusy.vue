@@ -119,7 +119,7 @@
 <script>
 // Import FullCalendar itself
 import FullCalendar from '@fullcalendar/vue'
-import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
+import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 
 import { NcDateTimePickerNative, NcButton, NcPopover, NcUserBubble, NcDialog, NcSelect } from '@nextcloud/vue'
@@ -240,7 +240,7 @@ export default {
 		 */
 		plugins() {
 			return [
-				resourceTimelinePlugin,
+				timeGridPlugin,
 				momentPluginFactory(),
 				VTimezoneNamedTimezone,
 				interactionPlugin,
@@ -352,7 +352,7 @@ export default {
 		options() {
 			return {
 				// Initialization:
-				initialView: 'resourceTimelineDay',
+				initialView: 'timeGridWeek',
 				initialDate: this.currentStart,
 				schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
 				// Data
@@ -370,7 +370,10 @@ export default {
 				// Rendering
 				height: 'auto',
 				loading: this.loading,
-				headerToolbar: false,
+				headerToolbar: {
+					center: 'title',
+					right: 'timeGridWeek,timeGridDay', // user can switch between the two
+				},
 				resourceAreaColumns: [
 					{
 						field: 'title',
