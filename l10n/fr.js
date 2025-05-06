@@ -99,6 +99,7 @@ OC.L10N.register(
     "Untitled item" : "Élément sans titre",
     "Unknown calendar" : "Agenda inconnu",
     "Could not load deleted calendars and objects" : "Impossible de charger les agendas et objets supprimés",
+    "Could not delete calendar or event" : "Impossible de supprimer le calendrier ou l'événement",
     "Could not restore calendar or event" : "Impossible de restaurer l'agenda ou l'événement",
     "Do you really want to empty the trash bin?" : "Voulez-vous vraiment vider la corbeille ?",
     "Empty trash bin" : "Vider la corbeille",

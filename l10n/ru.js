@@ -99,6 +99,7 @@ OC.L10N.register(
     "Untitled item" : "Объект без названия",
     "Unknown calendar" : "Неизвестный календарь",
     "Could not load deleted calendars and objects" : "Не удалось загрузить удалённые календари и объекты",
+    "Could not delete calendar or event" : "Не удалось удалить календарь или событие",
     "Could not restore calendar or event" : "Не удалось восстановить календарь или событие",
     "Do you really want to empty the trash bin?" : "Вы действительно хотите очистить корзину ?",
     "Empty trash bin" : "Очистить корзину",

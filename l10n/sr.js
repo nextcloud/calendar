@@ -100,6 +100,7 @@ OC.L10N.register(
     "Untitled item" : "Неименована ставка",
     "Unknown calendar" : "Непознати календар",
     "Could not load deleted calendars and objects" : "Обрисани календари и објекти не могу да се учитају.",
+    "Could not delete calendar or event" : "Календар или догађај није могао да се обрише",
     "Could not restore calendar or event" : "Календар или догађај није могао да се обнови",
     "Do you really want to empty the trash bin?" : "Да ли заиста желите да испразните корпу за отпатке?",
     "Empty trash bin" : "Испразни корпу за отпатке",

@@ -98,6 +98,7 @@
     "Untitled item" : "未命名项",
     "Unknown calendar" : "未知日历",
     "Could not load deleted calendars and objects" : "无法加载已删除的日历和对象",
+    "Could not delete calendar or event" : "无法删除日历或事件",
     "Could not restore calendar or event" : "无法还原日历或事件",
     "Do you really want to empty the trash bin?" : "您真的想要清空回收站吗？",
     "Empty trash bin" : "清空回收站",

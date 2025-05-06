@@ -99,6 +99,7 @@ OC.L10N.register(
     "Untitled item" : "無題項目",
     "Unknown calendar" : "日曆不詳",
     "Could not load deleted calendars and objects" : "無法加載已刪除日曆或物體",
+    "Could not delete calendar or event" : "無法刪除日曆或活動",
     "Could not restore calendar or event" : "無法復原日曆或活動",
     "Do you really want to empty the trash bin?" : "您真的想要清空回收桶嗎？",
     "Empty trash bin" : "清空回收桶",

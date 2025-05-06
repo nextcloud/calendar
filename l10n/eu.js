@@ -99,6 +99,7 @@ OC.L10N.register(
     "Untitled item" : "Izen gabeko elementua",
     "Unknown calendar" : "Egutegi ezezaguna",
     "Could not load deleted calendars and objects" : "Ezin izan dira ezabatutako egutegi eta elementuak kargatu",
+    "Could not delete calendar or event" : "Ezin izan da egutegi edo gertaera ezabatu",
     "Could not restore calendar or event" : "Ezin izan da egutegia edo gertaera berezarri",
     "Do you really want to empty the trash bin?" : "Ziur zaude zakarrontzia hustu nahi duzula?",
     "Empty trash bin" : "Hustu zakarrontzia",
