@@ -68,8 +68,10 @@
 								<div class="freebusy-caption__calendar-user-types" />
 								<div class="freebusy-caption__colors">
 									<div v-for="color in colorCaption" :key="color.color" class="freebusy-caption-item">
-										<div class="freebusy-caption-item__color" :style="{ 'background-color': color.color }" />
-										<div class="freebusy-caption-item__label">
+										<div class="freebusy-caption-item__color"
+											:style="color.label === $t('calendar', 'Out of office') ? { 'background': 'repeating-linear-gradient(45deg, #dbdbdb, #dbdbdb 1px, transparent 1px, transparent 3.5px)'} : { 'background-color': color.color } " />
+										<div class="
+											freebusy-caption-item__label">
 											{{ color.label }}
 										</div>
 									</div>
@@ -363,6 +365,7 @@ export default {
 				editable: false,
 				selectable: true,
 				select: this.handleSelect,
+				eventDidMount: this.eventDidMount,
 				// Localization:
 				...getDateFormattingConfig(),
 				...getFullCalendarLocale(),
@@ -405,6 +408,12 @@ export default {
 		handleSelect(arg) {
 			this.currentStart = arg.start
 			this.currentEnd = arg.end
+		},
+		eventDidMount(e) {
+			const eventElement = e.el
+			if (eventElement.classList.contains('free-busy-busy-unavailable')) {
+				eventElement.style.background = 'repeating-linear-gradient(45deg, #dbdbdb, #dbdbdb 1px, transparent 1px, transparent 3.5px)'
+			}
 		},
 		save() {
 			this.$emit('update-dates', { start: this.currentStart, end: this.currentEnd })
