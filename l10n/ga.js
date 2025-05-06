@@ -100,6 +100,7 @@ OC.L10N.register(
     "Untitled item" : "Mír gan teideal",
     "Unknown calendar" : "Féilire anaithnid",
     "Could not load deleted calendars and objects" : "Níorbh fhéidir féilirí agus oibiachtaí scriosta a lódáil",
+    "Could not delete calendar or event" : "Níorbh fhéidir féilire nó imeacht a scriosadh",
     "Could not restore calendar or event" : "Níorbh fhéidir féilire nó imeacht a chur ar ais",
     "Do you really want to empty the trash bin?" : "Ar mhaith leat an bosca bruscair a fholmhú?",
     "Empty trash bin" : "Bruscar folamh",

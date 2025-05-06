@@ -95,6 +95,7 @@
     "Untitled item" : "Untitled item",
     "Unknown calendar" : "Unknown calendar",
     "Could not load deleted calendars and objects" : "Could not load deleted calendars and objects",
+    "Could not delete calendar or event" : "Could not delete calendar or event",
     "Could not restore calendar or event" : "Could not restore calendar or event",
     "Do you really want to empty the trash bin?" : "Do you really want to empty the trash bin?",
     "Empty trash bin" : "Empty trash bin",

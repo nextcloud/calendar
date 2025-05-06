@@ -98,6 +98,7 @@ OC.L10N.register(
     "Untitled item" : "Névtelen elem",
     "Unknown calendar" : "Ismeretlen naptár",
     "Could not load deleted calendars and objects" : "A törölt naptárak és objektumok nem tölthetők be",
+    "Could not delete calendar or event" : "A naptár vagy esemény nem törölhető",
     "Could not restore calendar or event" : "A naptár vagy esemény nem állítható helyre",
     "Do you really want to empty the trash bin?" : "Biztos, hogy üríti a kukát?",
     "Empty trash bin" : "Kuka ürítése",

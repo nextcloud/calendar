@@ -98,6 +98,7 @@
     "Untitled item" : "Adlandırılmamış öge",
     "Unknown calendar" : "Bilinmeyen takvim",
     "Could not load deleted calendars and objects" : "Silinmiş takvim ve nesneler yüklenemedi",
+    "Could not delete calendar or event" : "Takvim ya da etkinlik silinemedi",
     "Could not restore calendar or event" : "Takvim ya da etkinlik geri yüklenemedi",
     "Do you really want to empty the trash bin?" : "Çöp kutusunu boşaltmak istediğinize emin misiniz?",
     "Empty trash bin" : "Çöp kutusunu boşalt",
