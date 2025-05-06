@@ -12,20 +12,20 @@ import logger from '../utils/logger.js'
 const daysToSearch = 7
 
 /**
- * Get the first available slot for an event using freebusy API
+ * Get busy slots for organizer and/or attendee/s
  *
  * @param {Principal} organizer The organizer of the event
  * @param {AttendeeProperty[]} attendees Array of the event's attendees
  * @param {Date} start The start date and time of the event
  * @param {Date} end The end date and time of the event
  * @param timeZoneId
+ * @param {boolean} bulk fetch all attendees in one request
  * @return {Promise<>}
  */
-export async function getBusySlots(organizer, attendees, start, end, timeZoneId) {
+export async function getBusySlots(organizer, attendees, start, end, timeZoneId, bulk = true) {
 	// We start searching a day earlier because if we don't availability events get cut off in weird ways
 	const clonedStart = new Date(start.getTime())
 	clonedStart.setDate(clonedStart.getDate() - 1)
-
 	let timezoneObject = getTimezoneManager().getTimezoneForId(timeZoneId)
 	if (!timezoneObject) {
 		timezoneObject = getTimezoneManager().getTimezoneForId('UTC')
@@ -34,11 +34,16 @@ export async function getBusySlots(organizer, attendees, start, end, timeZoneId)
 
 	const startDateTime = DateTimeValue.fromJSDate(clonedStart, true)
 	const endDateTime = DateTimeValue.fromJSDate(end, true)
-
-	const organizerAsAttendee = new AttendeeProperty('ATTENDEE', organizer.email)
-	const freeBusyComponent = createFreeBusyRequest(startDateTime, endDateTime, organizer, [organizerAsAttendee, ...attendees])
+	let freeBusyComponent
+	let isOrganizer = false
+	if (bulk) {
+		const organizerAsAttendee = new AttendeeProperty('ATTENDEE', organizer.email)
+		freeBusyComponent = createFreeBusyRequest(startDateTime, endDateTime, organizer, [organizerAsAttendee, ...attendees])
+	} else {
+		freeBusyComponent = createFreeBusyRequest(startDateTime, endDateTime, organizer, attendees)
+		isOrganizer = attendees[0].email === organizer.email
+	}
 	const freeBusyICS = freeBusyComponent.toICS()
-
 	let outbox
 	try {
 		outbox = await findSchedulingOutbox()
@@ -52,12 +57,14 @@ export async function getBusySlots(organizer, attendees, start, end, timeZoneId)
 	} catch (error) {
 		return { error }
 	}
-
 	const events = []
 	for (const [uri, data] of Object.entries(freeBusyData)) {
-		events.push(...freeBusyResourceEventSourceFunction(uri, data.calendarData, data.success, startDateTime, endDateTime, timezoneObject))
+		if (bulk) {
+			events.push(...freeBusyResourceEventSourceFunction(uri, data.calendarData, data.success, startDateTime, endDateTime, timezoneObject))
+		} else {
+			events.push(...freeBusyResourceEventSourceFunction(uri, data.calendarData, data.success, startDateTime, endDateTime, timezoneObject, attendees[0].commonName, isOrganizer))
+		}
 	}
-
 	return { events }
 }
 
