@@ -1,3 +1,29 @@
+## [5.2.3](https://github.com/nextcloud/calendar/compare/v5.2.2...v5.2.3) (2025-05-07)
+
+
+### Bug Fixes
+
+* **appointments:** mobile booking view not being responsive ([f17c636](https://github.com/nextcloud/calendar/commit/f17c63692525b09eb3666183cd897a7a6b1da03f))
+* **deps:** Fix npm audit ([84003b0](https://github.com/nextcloud/calendar/commit/84003b02ba21f96746695238660fe4581217afbf))
+* **EditSidebar:** free busy not updating time ([3c4511b](https://github.com/nextcloud/calendar/commit/3c4511b5c1cd9f9e1b3798d6b03e87515e417286))
+* **l10n:** Update translations from Transifex ([655267b](https://github.com/nextcloud/calendar/commit/655267b10f41fbcf95a0708a3444c3fa3a1c720d))
+* **l10n:** Update translations from Transifex ([d642cf0](https://github.com/nextcloud/calendar/commit/d642cf0a826344f9be71414c639359df01a36be3))
+* **l10n:** Update translations from Transifex ([9781b6a](https://github.com/nextcloud/calendar/commit/9781b6a186fd9eb54b55465702dedaf4f4719b62))
+* **l10n:** Update translations from Transifex ([a29cffe](https://github.com/nextcloud/calendar/commit/a29cffeac9b942e6f4515cd394140b500f6bc1db))
+* **l10n:** Update translations from Transifex ([1551258](https://github.com/nextcloud/calendar/commit/1551258a5ca95b4301b3fb7a4dd9f45f9f43a7b6))
+* **l10n:** Update translations from Transifex ([b9a2d06](https://github.com/nextcloud/calendar/commit/b9a2d0676d389bead4681551aa25856c5a4396ea))
+* **l10n:** Update translations from Transifex ([f53117b](https://github.com/nextcloud/calendar/commit/f53117bce5d03d2edbc135b7e00aa9f99e7110c9))
+* **l10n:** Update translations from Transifex ([3b4f1b4](https://github.com/nextcloud/calendar/commit/3b4f1b4893faecd7a6822ad88f239c27a1a1bcaf))
+* **l10n:** Update translations from Transifex ([bf03f53](https://github.com/nextcloud/calendar/commit/bf03f5345133ef1f6c629a8fb1b9372a5a77c75f))
+* **l10n:** Update translations from Transifex ([8d0be4e](https://github.com/nextcloud/calendar/commit/8d0be4ed378a82e7188ac132c2d171b9c137ee06))
+* **l10n:** Update translations from Transifex ([aae108f](https://github.com/nextcloud/calendar/commit/aae108f4b739225a9b03fe90e8166ffe44ebb4b8))
+* **l10n:** Update translations from Transifex ([bac7590](https://github.com/nextcloud/calendar/commit/bac75902bbc892eea2d4785cd76c5ef0abb8e978))
+* **l10n:** Update translations from Transifex ([d39b1c3](https://github.com/nextcloud/calendar/commit/d39b1c31aeff46fd7463c58806c39730314b12b1))
+* margin when dragging on selected events ([1659416](https://github.com/nextcloud/calendar/commit/1659416b4b10ac2b65928a823b202c56a585e971))
+* trashbin error toast wording when deleting items ([b3a078a](https://github.com/nextcloud/calendar/commit/b3a078aa0c1ca4c60e8e7a39e9e9353a6c071ea8))
+
+
+
 ## [5.2.2](https://github.com/nextcloud/calendar/compare/v5.2.1...v5.2.2) (2025-04-22)
 
 
