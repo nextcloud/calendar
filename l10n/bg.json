@@ -88,6 +88,7 @@
     "Untitled item" : "Неозаглавен елемент",
     "Unknown calendar" : "Неизвестен календар",
     "Could not load deleted calendars and objects" : "Не можаха да се заредят изтритите календари и обекти",
+    "Could not delete calendar or event" : "Не можа да се изтрие календар или събитие",
     "Could not restore calendar or event" : "Не можа да се възстанови календар или събитие",
     "Do you really want to empty the trash bin?" : "Наистина ли искате да изпразните кошчето за боклук?",
     "Empty trash bin" : "Изпразване на кошчето за боклук",
