@@ -72,6 +72,7 @@ OC.L10N.register(
     "Untitled item" : "Elementu ensin nome",
     "Unknown calendar" : "Calendariu desconocíu",
     "Could not load deleted calendars and objects" : "Nun se pudieron desaniciar los calendarios y los oxetos",
+    "Could not delete calendar or event" : "Nun se pudo desaniciar el calendariu o l'eventu",
     "Could not restore calendar or event" : "Nun se pudo restaurar el calendariu o l'eventu",
     "Do you really want to empty the trash bin?" : "¿De xuru que quies balerar la papelera de reciclaxe?",
     "Empty trash bin" : "Balerar la papelera",
