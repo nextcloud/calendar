@@ -113,7 +113,7 @@
 						@update-end-timezone="updateEndTimezone" />
 
 					<div v-if="!isReadOnly" class="app-full__header__time-details">
-						<NcCheckboxRadioSwitch :checked="isAllDay"
+						<NcCheckboxRadioSwitch v-if="!isReadOnly && !isViewedByAttendee" :checked="isAllDay"
 							:disabled="!canModifyAllDay"
 							@update:checked="toggleAllDayPreliminary">
 							{{ $t('calendar', 'All day') }}

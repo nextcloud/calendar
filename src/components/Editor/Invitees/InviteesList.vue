@@ -456,8 +456,7 @@ export default {
 .invitees-list {
 	&__header {
 		display: flex;
-		gap: 5px;
-		padding: 5px 5px 5px 6px;
+		gap: calc(var(--default-grid-baseline) * 4);
 	}
 
 	&__more {

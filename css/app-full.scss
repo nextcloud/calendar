@@ -114,7 +114,7 @@
 }
 
 .property-repeat__summary {
-	gap: calc(var(--default-grid-baseline) * 2);
+	gap: calc(var(--default-grid-baseline) * 4);
 }
 
 .app-edit-full-tab-attendees, .app-edit-full-tab-resources {
@@ -385,6 +385,11 @@
 	}
 }
 
+.invitation-response-buttons--grow {
+	width: unset;
+	max-width: 500px;
+}
+
 
 .modal-mask {
 	background-color: unset !important;
@@ -517,3 +522,4 @@
 		padding: calc(var(--default-grid-baseline) * 2);
 	}
 }
+
