@@ -627,7 +627,7 @@ export default {
 				calendarObjectInstance: this.calendarObjectInstance,
 				startDate,
 				onlyTime: true,
-				changeEndDate: false,
+				changeEndDate: true,
 			})
 		},
 		/**
