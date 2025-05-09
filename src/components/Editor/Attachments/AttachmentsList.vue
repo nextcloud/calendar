@@ -228,16 +228,37 @@ export default {
 
 			const baseUrl = new URL(getBaseUrl())
 			if (url.href.startsWith(baseUrl.href)) {
+				if (url.pathname.endsWith('/download') || url.pathname.endsWith('/download/')) {
+					// Show a confirmation to warn users of direct downloads
+					this.showConfirmationDialog(
+						t('calendar', 'You are about to download a file. Please check the file name before opening it. Are you sure to proceed?'),
+						url,
+					)
+					return
+				}
+
 				// URL belongs to this instance and is safe
 				window.open(url.href, '_blank', 'noopener noreferrer')
 				return
 			}
 
-			// Otherwise, show a confirmation dialog
-			this.openConfirmationMessage = t('calendar', 'You are about to navigate to {host}. Are you sure to proceed? Link: {link}', {
-				host: url.host,
-				link: url.href,
-			})
+			// Otherwise, show a confirmation dialog for external links
+			this.showConfirmationDialog(
+				t('calendar', 'You are about to navigate to {host}. Are you sure to proceed? Link: {link}', {
+					host: url.host,
+					link: url.href,
+				}),
+				url,
+			)
+		},
+		/**
+		 * Open the confirmation dialog for suspicious or external attachments.
+		 *
+		 * @param {string} message The confirmation message to show.
+		 * @param {URL} url The URL to navigate to after getting the user's confirmation.
+		 */
+		showConfirmationDialog(message, url) {
+			this.openConfirmationMessage = message
 			this.openConfirmationButtons = [
 				{
 					label: t('calendar', 'Cancel'),
