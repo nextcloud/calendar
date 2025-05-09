@@ -68,8 +68,10 @@
 								<div class="freebusy-caption__calendar-user-types" />
 								<div class="freebusy-caption__colors">
 									<div v-for="color in colorCaption" :key="color.color" class="freebusy-caption-item">
-										<div class="freebusy-caption-item__color" :style="{ 'background-color': color.color }" />
-										<div class="freebusy-caption-item__label">
+										<div class="freebusy-caption-item__color"
+											:style="color.label === $t('calendar', 'Out of office') ? { 'background': 'repeating-linear-gradient(45deg, #dbdbdb, #dbdbdb 1px, transparent 1px, transparent 3.5px)'} : { 'background-color': color.color } " />
+										<div class="
+											freebusy-caption-item__label">
 											{{ color.label }}
 										</div>
 									</div>
@@ -119,12 +121,11 @@
 <script>
 // Import FullCalendar itself
 import FullCalendar from '@fullcalendar/vue'
-import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
+import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 
 import { NcDateTimePickerNative, NcButton, NcPopover, NcUserBubble, NcDialog, NcSelect } from '@nextcloud/vue'
 // Import event sources
-import freeBusyBlockedForAllEventSource from '../../../fullcalendar/eventSources/freeBusyBlockedForAllEventSource.js'
 import freeBusyFakeBlockingEventSource from '../../../fullcalendar/eventSources/freeBusyFakeBlockingEventSource.js'
 import freeBusyResourceEventSource from '../../../fullcalendar/eventSources/freeBusyResourceEventSource.js'
 
@@ -240,7 +241,7 @@ export default {
 		 */
 		plugins() {
 			return [
-				resourceTimelinePlugin,
+				timeGridPlugin,
 				momentPluginFactory(),
 				VTimezoneNamedTimezone,
 				interactionPlugin,
@@ -277,11 +278,6 @@ export default {
 					this.resources,
 					this.currentStart,
 					this.currentEnd,
-				),
-				freeBusyBlockedForAllEventSource(
-					this.organizer.attendeeProperty,
-					this.attendees.map((a) => a.attendeeProperty),
-					this.resources,
 				),
 			]
 		},
@@ -352,25 +348,29 @@ export default {
 		options() {
 			return {
 				// Initialization:
-				initialView: 'resourceTimelineDay',
+				initialView: 'timeGridWeek',
 				initialDate: this.currentStart,
 				schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
 				// Data
 				eventSources: this.eventSources,
-				resources: this.resources,
 				// Plugins
 				plugins: this.plugins,
 				// Interaction:
 				editable: false,
 				selectable: true,
 				select: this.handleSelect,
+				eventDidMount: this.eventDidMount,
 				// Localization:
 				...getDateFormattingConfig(),
 				...getFullCalendarLocale(),
 				// Rendering
 				height: 'auto',
 				loading: this.loading,
-				headerToolbar: false,
+				headerToolbar: {
+					left: false,
+					center: 'title',
+					right: 'timeGridWeek,timeGridDay', // user can switch between the two
+				},
 				resourceAreaColumns: [
 					{
 						field: 'title',
@@ -402,6 +402,12 @@ export default {
 		handleSelect(arg) {
 			this.currentStart = arg.start
 			this.currentEnd = arg.end
+		},
+		eventDidMount(e) {
+			const eventElement = e.el
+			if (eventElement.classList.contains('free-busy-busy-unavailable')) {
+				eventElement.style.background = 'repeating-linear-gradient(45deg, #dbdbdb, #dbdbdb 1px, transparent 1px, transparent 3.5px)'
+			}
 		},
 		save() {
 			this.$emit('update-dates', { start: this.currentStart, end: this.currentEnd })
@@ -553,6 +559,10 @@ export default {
 :deep(.mx-input) {
 	height: 38px !important;
 }
+:deep(.fc-event) {
+	margin-right: 0 !important;
+}
+
 </style>
 
 <style lang="scss">
