@@ -266,6 +266,7 @@ OC.L10N.register(
     "Attendees" : "Osalejad",
     "Remove group" : "Eemalda grupp",
     "Search for emails, users, contacts, contact groups or teams" : "Otsi e-posti aadresse, kasutajaid, kontakte, gruppe või tiime",
+    "(organizer)" : "(korraldaja)",
     "Remove color" : "Eemalda värv",
     "From" : "Saatja",
     "To" : "Saaja",
