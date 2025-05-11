@@ -13,6 +13,7 @@ OC.L10N.register(
     "Upcoming events" : "Eventos abarrados",
     "No more events today" : "No b'at àteros eventos oe",
     "No upcoming events" : "Perunu eventu abarradu",
+    "More events" : "Àteros eventos",
     "Calendar" : "Calendàriu",
     "Appointments" : "Apuntamentos",
     "Confirm" : "Cunfirma",
