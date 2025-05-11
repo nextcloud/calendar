@@ -322,6 +322,7 @@ export default {
 	margin: 0 -8px;
 
 	.attachments-list-item {
+		padding: 0;
 		// Reduce height to 44px
 		:deep(.list-item) {
 			padding: 0 8px;

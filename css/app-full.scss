@@ -5,13 +5,14 @@
 .app-full {
 	max-width: 1000px;
 	margin: auto;
+	height: 100%;
 }
 
 .app-full__actions {
 	display: flex;
 	list-style-type: none;
 	gap: calc(var(--default-grid-baseline) * 2);
-	padding: calc(var(--default-grid-baseline) * 4) 0;
+	padding: calc(var(--default-grid-baseline) * 8) 0 calc(var(--default-grid-baseline) * 4) 0;
 	justify-content: space-between;
 
 	&__inner {
@@ -50,6 +51,11 @@
 		justify-content: space-between;
 		max-width: 500px;
 	}
+}
+
+.modal-wrapper--full > .modal-container {
+	height: 100% !important;
+	top: 0 !important;
 }
 
 .property-text {
@@ -114,6 +120,23 @@
 }
 
 .property-repeat__summary {
+	gap: calc(var(--default-grid-baseline) * 4);
+}
+
+.property-categories .property-select-multiple-colored-tag {
+	display: flex;
+	align-content: center;
+	align-items: center;
+	gap: var(--default-grid-baseline);
+}
+
+.property-color__input {
+	display: flex;
+}
+
+.property-alarm-item {
+	display: flex;
+	align-items: center;
 	gap: calc(var(--default-grid-baseline) * 4);
 }
 
@@ -220,7 +243,7 @@
 
 	.repeat-option-set__repeat {
 		flex-wrap: nowrap;
-		gap: 10px;
+		gap: calc(var(--default-grid-baseline) * 2);
 	}
 	.repeat-option-set__repeat-field {
 		flex: 1 1 150px;
@@ -230,7 +253,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		gap: 10px;
+		gap: calc(var(--default-grid-baseline) * 2);
 
 		.repeat-option-set__end-repeat-field {
 			flex: 1 1 150px;
@@ -264,9 +287,9 @@
 			grid-gap: 0;
 
 			.repeat-option-set-section-grid-item {
-				padding: 5px;
+				padding: var(--default-grid-baseline);
 				width: 100%;
-				border: 1px solid var(--color-border-dark);
+				border: var(--border-width-input) solid var(--color-border-dark);
 				text-align: center;
 				margin: 0;
 				border-radius: 0;
@@ -301,7 +324,7 @@
 	}
 
 	&--end {
-		margin-top: 10px;
+		margin-top: calc(var(--default-grid-baseline) * 2);
 		.repeat-option-end {
 			width: 100%;
 			display: flex;
@@ -313,7 +336,7 @@
 			&__count {
 				flex: 1 1 auto;
 				min-width: 0;
-				margin-right: 10px;
+				margin-right: calc(var(--default-grid-baseline) * 2);
 			}
 			&__label{
 				display: block;
@@ -358,6 +381,7 @@
 	gap: calc(var(--default-grid-baseline) * 8);
 	justify-content: space-between;
 	margin: calc(var(--default-grid-baseline) * 12) var(--default-grid-baseline) 0 var(--default-grid-baseline);
+	padding-bottom: calc(var(--default-grid-baseline) * 8);
 	flex-wrap: wrap;
 
 	&__right {
@@ -523,3 +547,11 @@
 	}
 }
 
+.app-full__loading-indicator {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+	flex-direction: column;
+}

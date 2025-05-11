@@ -6,6 +6,7 @@
 <template>
 	<NcModal v-model="showFullModal"
 		size="full"
+		label-id="edit-full-modal"
 		:name="t('calendar', 'Edit event')"
 		:dark="false"
 		@close="cancel">
@@ -152,7 +153,8 @@
 							:is-description="true"
 							:linkify-links="true"
 							@update:value="updateDescription" />
-						<PropertySelectMultiple :colored-options="true"
+						<PropertySelectMultiple class="property-categories"
+							:colored-options="true"
 							:is-read-only="isReadOnly"
 							:prop-model="rfcProps.categories"
 							:value="categories"
@@ -687,6 +689,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.modal-mask {
+	height: calc(100vh - var(--header-height));
+	top: var(--header-height);
+}
+
 .modal-content {
 	padding: 16px;
 	position: relative;
