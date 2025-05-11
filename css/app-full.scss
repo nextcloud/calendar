@@ -58,6 +58,10 @@
 	top: 0 !important;
 }
 
+.modal-header {
+	height: 0 !important;
+}
+
 .property-text {
 	display: flex;
 	gap: calc(var(--default-grid-baseline) * 4);
@@ -412,11 +416,6 @@
 .invitation-response-buttons--grow {
 	width: unset;
 	max-width: 500px;
-}
-
-
-.modal-mask {
-	background-color: unset !important;
 }
 
 .modal-header__name {
