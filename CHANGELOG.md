@@ -1,3 +1,18 @@
+## [5.2.4](https://github.com/nextcloud/calendar/compare/v5.2.3...v5.2.4) (2025-05-13)
+
+
+### Bug Fixes
+
+* **attachments:** improve confirmation dialog message ([6f45274](https://github.com/nextcloud/calendar/commit/6f45274d384d354cdd5802be3a1a359c98383abf))
+* **EditorMixin:** timepicker not adjusting end date ([f8ad79b](https://github.com/nextcloud/calendar/commit/f8ad79b493a70bc09a079b47cb790e7bb8a242eb))
+* **l10n:** Update translations from Transifex ([5898aae](https://github.com/nextcloud/calendar/commit/5898aae0ff0b9482998463dd1b3e75032debd980))
+* **l10n:** Update translations from Transifex ([15ff33b](https://github.com/nextcloud/calendar/commit/15ff33b8b5cab5c65b9294882f6cddde3a19fbd5))
+* **l10n:** Update translations from Transifex ([c781a41](https://github.com/nextcloud/calendar/commit/c781a414e929d5625cc8a8b3f49e326e15a7259b))
+* **l10n:** Update translations from Transifex ([d1416f7](https://github.com/nextcloud/calendar/commit/d1416f7d24eba8ea78ff5bb1219d72b58ac345b2))
+* **l10n:** Update translations from Transifex ([fd1763e](https://github.com/nextcloud/calendar/commit/fd1763ee55ba98aecf516f07f39922acdb2e927b))
+
+
+
 ## [5.2.3](https://github.com/nextcloud/calendar/compare/v5.2.2...v5.2.3) (2025-05-07)
 
 
