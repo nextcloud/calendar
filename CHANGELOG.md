@@ -1,5 +1,23 @@
 # Changelog
 
+## 4.7.17 - 2025-05-13
+### Fixed
+- Always show alarm unit in pural
+- Appointment slots start and end time
+- Improve confirmation dialog message
+- Undefined calendar
+- Fix npm audit
+- Do not show attendee actions in viewing mode
+- Do not show attendee list when there are no attendees in viewing mode
+- Do not show items from deleted calendars in widget
+- Enable directory selection in file picker
+- Free busy ignoring user's time zone
+- Slot header format not respecting user's locale
+- Handle timezones with no transitions properly
+- Keyboard shortcut modal not being responsive
+- Resolve undefined variable error and add logging
+- Use folder icon as fallback
+
 ## 4.7.16- 2024-08-21
 ### Fixed
 - Attachment layout
