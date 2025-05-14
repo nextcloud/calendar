@@ -70,3 +70,9 @@ path = "composer/autoload.php"
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Nils Adermann, Jordi Boggiano"
 SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["tests/psalm-baseline.xml"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2023 Nextcloud GmbH and Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"

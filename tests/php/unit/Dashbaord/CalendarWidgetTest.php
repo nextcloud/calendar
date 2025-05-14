@@ -9,9 +9,10 @@ namespace OCA\Calendar\Dashboard;
 
 use DateTimeImmutable;
 use OCA\Calendar\Service\JSDataService;
-use OCA\DAV\CalDAV\CalendarImpl;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarIsEnabled;
 use OCP\Calendar\IManager;
 use OCP\Dashboard\IButtonWidget;
 use OCP\Dashboard\Model\WidgetItem;
@@ -20,6 +21,11 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use Test\TestCase;
+
+interface ITestCalendar extends ICalendar, ICalendarIsEnabled {
+	// workaround for creating mock class with multiple interfaces
+	// TODO: remove after phpUnit 10 is supported.
+}
 
 class CalendarWidgetTest extends TestCase {
 	/** @var IL10N|MockObject */
@@ -97,7 +103,7 @@ class CalendarWidgetTest extends TestCase {
 
 	public function testGetItems() : void {
 		$userId = 'admin';
-		$calendar = $this->createMock(CalendarImpl::class);
+		$calendar = $this->createMock(ITestCalendar::class);
 		self::invokePrivate($calendar, 'calendarInfo', [['{http://apple.com/ns/ical/}calendar-color' => '#ffffff']]);
 		$calendars = [$calendar];
 		$time = 1665550936;
@@ -134,6 +140,12 @@ class CalendarWidgetTest extends TestCase {
 			->method('getTime')
 			->willReturn($time);
 		$calendar->expects(self::once())
+			->method('isEnabled')
+			->willReturn(true);
+		$calendar->expects(self::once())
+			->method('isDeleted')
+			->willReturn(false);
+		$calendar->expects(self::once())
 			->method('search')
 			->with('', [], $options, $limit)
 			->willReturn([$result]);
@@ -160,9 +172,9 @@ class CalendarWidgetTest extends TestCase {
 		$this->assertEquals($widgets[0], $widget);
 	}
 
-	public function testGetItemsWithDeletedCalendar() {
+	public function testGetItemsWithDisabledCalendar() {
 		$userId = 'admin';
-		$calendar = $this->createMock(CalendarImpl::class);
+		$calendar = $this->createMock(ITestCalendar::class);
 		$calendars = [$calendar];
 		$time = 1665550936;
 		$start = (new DateTimeImmutable())->setTimestamp($time);
@@ -197,6 +209,56 @@ class CalendarWidgetTest extends TestCase {
 		$this->timeFactory->expects(self::once())
 			->method('getTime')
 			->willReturn($time);
+		$calendar->expects(self::once())
+			->method('isEnabled')
+			->willReturn(false);
+		$calendar->expects(self::never())
+			->method('isDeleted');
+
+		$widgets = $this->widget->getItems($userId);
+		$this->assertCount(0, $widgets);
+	}
+
+	public function testGetItemsWithDeletedCalendar() {
+		$userId = 'admin';
+		$calendar = $this->createMock(ITestCalendar::class);
+		$calendars = [$calendar];
+		$time = 1665550936;
+		$start = (new DateTimeImmutable())->setTimestamp($time);
+		$twoWeeks = $start->add(new \DateInterval('P14D'));
+		$options = [
+			'timerange' => [
+				'start' => $start,
+				'end' => $twoWeeks,
+			]
+		];
+		$limit = 7;
+		$result = [
+			'id' => '3599',
+			'uid' => '59d30b6c-5a31-4d28-b1d6-c8f928180e96',
+			'uri' => '60EE4FCB-2144-4811-BBD3-FFEA44739F40.ics',
+			'objects' => [
+				[
+					'DTSTART' => [
+						$start
+					],
+					'SUMMARY' => [
+						'Test',
+					]
+				]
+			]
+		];
+
+		$this->calendarManager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->with('principals/users/' . $userId)
+			->willReturn($calendars);
+		$this->timeFactory->expects(self::once())
+			->method('getTime')
+			->willReturn($time);
+		$calendar->expects(self::once())
+			->method('isEnabled')
+			->willReturn(true);
 		$calendar->expects(self::once())
 			->method('isDeleted')
 			->willReturn(true);
