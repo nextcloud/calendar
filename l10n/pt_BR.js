@@ -274,7 +274,7 @@ OC.L10N.register(
     "on" : "ligado",
     "at" : "em",
     "Reminder" : "Lembrete",
-    "before at" : "antes das",
+    "before at" : "antes às",
     "Notification" : "Notificação",
     "Email" : "E-mail",
     "Audio notification" : "Notificação de áudio",
