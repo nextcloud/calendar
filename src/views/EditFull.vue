@@ -71,16 +71,16 @@
 				<div class="app-full__header">
 					<div class="app-full__header__top">
 						<PropertyTitle :value="title"
-							:is-read-only="isReadOnly || isViewedByAttendee"
+							:is-read-only="isReadOnly || isViewedByOrganizer === false"
 							@update:value="updateTitle" />
 
 						<div class="app-full__header__top__calendars">
 							<CalendarPickerHeader :value="selectedCalendar"
 								:calendars="calendars"
 								:is-read-only="isReadOnly || !canModifyCalendar"
-								:is-viewed-by-attendee="isViewedByAttendee"
+								:is-viewed-by-attendee="isViewedByOrganizer === false"
 								@update:value="changeCalendar" />
-							<NcPopover v-if="isViewedByAttendee" :focus-trap="false">
+							<NcPopover v-if="isViewedByOrganizer === false" :focus-trap="false">
 								<template #trigger>
 									<NcButton type="tertiary-no-background">
 										<template #icon>
@@ -102,7 +102,7 @@
 						:end-date="endDate"
 						:end-timezone="endTimezone"
 						:is-all-day="isAllDay"
-						:is-read-only="isReadOnly || isViewedByAttendee"
+						:is-read-only="isReadOnly || isViewedByOrganizer === false"
 						:can-modify-all-day="canModifyAllDay"
 						:user-timezone="currentUserTimezone"
 						:append-to-body="true"
@@ -124,7 +124,7 @@
 						<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
 						<Repeat :calendar-object-instance="calendarObjectInstance"
 							:recurrence-rule="calendarObjectInstance.recurrenceRule"
-							:is-read-only="isReadOnly || isViewedByAttendee"
+							:is-read-only="isReadOnly || isViewedByOrganizer === false"
 							:is-editing-master-item="isEditingMasterItem"
 							:is-recurrence-exception="isRecurrenceException"
 							@force-this-and-all-future="forceModifyingFuture" />
@@ -141,7 +141,7 @@
 				<div class="app-full-body">
 					<div class="app-full-body__left">
 						<PropertyText class="property-location"
-							:is-read-only="isReadOnly || isViewedByAttendee"
+							:is-read-only="isReadOnly || isViewedByOrganizer === false"
 							:prop-model="rfcProps.location"
 							:value="location"
 							:linkify-links="true"
@@ -193,7 +193,7 @@
 							:prop-model="rfcProps.status"
 							:value="status"
 							@update:value="updateStatus" />
-						<PropertySelect :is-read-only="isReadOnly || isViewedByAttendee"
+						<PropertySelect :is-read-only="isReadOnly || isViewedByOrganizer === false"
 							:prop-model="rfcProps.accessClass"
 							:value="accessClass"
 							@update:value="updateAccessClass" />
@@ -264,7 +264,7 @@
 						<InviteesList v-if="!isLoading"
 							:calendar="selectedCalendar"
 							:calendar-object-instance="calendarObjectInstance"
-							:is-read-only="isReadOnly || isViewedByAttendee"
+							:is-read-only="isReadOnly || isViewedByOrganizer === false"
 							:is-shared-with-me="isSharedWithMe"
 							:show-header="false"
 							@update-dates="updateDates" />
@@ -274,7 +274,7 @@
 						<span class="app-full-subtitle"> <MapMarker :size="20" /> {{ t('calendar', 'Resources') }}</span>
 						<ResourceList v-if="!isLoading"
 							:calendar-object-instance="calendarObjectInstance"
-							:is-read-only="isReadOnly || isViewedByAttendee" />
+							:is-read-only="isReadOnly || isViewedByOrganizer === false" />
 					</div>
 				</div>
 			</div>
@@ -446,7 +446,7 @@ export default {
 
 		},
 		isCreateTalkRoomButtonVisible() {
-			return this.talkEnabled && !this.isViewedByAttendee
+			return this.talkEnabled && this.isViewedByOrganizer !== false
 		},
 
 	},
@@ -486,7 +486,9 @@ export default {
 		 */
 		updateDates(dates) {
 			this.updateStartDate(dates.start)
+			this.updateStartTime(dates.start)
 			this.updateEndDate(dates.end)
+			this.updateEndTime(dates.end)
 		},
 		/**
 		 * Updates the access-class of this event
