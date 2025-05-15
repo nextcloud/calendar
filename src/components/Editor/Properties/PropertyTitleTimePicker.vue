@@ -388,7 +388,7 @@ export default {
 	}
 
 	&-inner__selectors {
-		width: calc(500px - var(--clickable-area-large));
+		width: calc(var(--total-width) * 2/3 - var(--column-gap) / 2 - var(--clickable-area-large));
 		display: flex;
 		justify-content: stretch;
 		gap: var(--default-grid-baseline);
@@ -450,7 +450,7 @@ export default {
 }
 
 .property-title-time-picker__time-pickers-from-inner__timezone, .property-title-time-picker__time-pickers-to-inner__timezone {
-	width: var(--navigation-width);
+	width: calc(var(--total-width) * 1/3 - var(--column-gap) / 2);
 }
 
 @media (max-width: 768px) {
