@@ -295,6 +295,7 @@ OC.L10N.register(
     "Choose a file to share as a link" : "选择要共享的文件作为链接",
     "Attachment {name} already exist!" : "附件{name}已存在！",
     "Could not upload attachment(s)" : "无法上传附件",
+    "You are about to download a file. Please check the file name before opening it. Are you sure to proceed?" : "您即将下载一个文件。请在打开文件之前检查文件名。是否确定要继续？",
     "You are about to navigate to {host}. Are you sure to proceed? Link: {link}" : "您将要导航到 {host}。是否确定要继续？链接：{link}",
     "Proceed" : "前进",
     "No attachments" : "无附件",
