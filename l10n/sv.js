@@ -294,6 +294,7 @@ OC.L10N.register(
     "Choose a file to share as a link" : "Välj en fil att dela som länk",
     "Attachment {name} already exist!" : "Bilagan {name} finns redan!",
     "Could not upload attachment(s)" : "Kunde inte ladda upp bilagor",
+    "You are about to download a file. Please check the file name before opening it. Are you sure to proceed?" : "Du håller på att ladda ner en fil. Kontrollera filnamnet innan du öppnar den. Är du säker på att du vill fortsätta?",
     "You are about to navigate to {host}. Are you sure to proceed? Link: {link}" : "Du är på väg att navigera till {host}. Är du säker på att du vill fortsätta? Länk: {link}",
     "Proceed" : "Fortsätt",
     "No attachments" : "Inga bilagor",
