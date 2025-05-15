@@ -518,6 +518,11 @@ export default defineStore('calendarObjectInstance', {
 			if (index !== -1) {
 				calendarObjectInstance.attendees.splice(index, 1)
 			}
+
+			if (calendarObjectInstance.attendees.length === 0) {
+				calendarObjectInstance.organizer = null
+				calendarObjectInstance.eventComponent.deleteAllProperties('ORGANIZER')
+			}
 		},
 
 		/**
