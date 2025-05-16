@@ -91,9 +91,12 @@ export async function updateTalkParticipants(eventComponent) {
 			const participantId = removeMailtoPrefix(attendee.email)
 			try {
 				// Map attendee email to Nextcloud user uid
-				const searchResult = await HTTPClient.get(generateOcsUrl('core/autocomplete/', 2) + 'get?search=' + encodeURIComponent(participantId) + '&itemType=&itemId=%20&shareTypes[]=0&limit=2')
+				const searchResult = await HTTPClient.get(generateOcsUrl('core/autocomplete/', 2) + 'get?search=' + encodeURIComponent(attendee.commonName ?? participantId) + '&itemType=&itemId=%20&shareTypes[]=0&limit=2')
 				// Only map if there is exactly one result
-				if (searchResult.data.ocs.data.length === 1 && searchResult.data.ocs.data[0].id !== getCurrentUser().uid) {
+				if (searchResult.data.ocs.data.length === 1
+					&& searchResult.data.ocs.data[0].id !== getCurrentUser().uid
+					&& searchResult.data.ocs.data[0].shareWithDisplayNameUnique === participantId
+				) {
 					await HTTPClient.post(generateOcsUrl('apps/spreed/api/' + apiVersion + '/', 2) + 'room/' + token + '/participants', {
 						newParticipant: searchResult.data.ocs.data[0].id,
 						source: 'users',
