@@ -46,7 +46,7 @@
     "@fullcalendar/timegrid": "6.1.17",
     "@fullcalendar/vue": "6.1.17",
     "@mdi/svg": "^7.4.47",
-    "@nextcloud/auth": "^2.4.0",
+    "@nextcloud/auth": "^2.5.1",
     "@nextcloud/axios": "^2.5.1",
     "@nextcloud/calendar-availability-vue": "^2.2.6",
     "@nextcloud/calendar-js": "^8.1.1",
