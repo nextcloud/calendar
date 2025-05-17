@@ -24,49 +24,6 @@
 				</NcEmptyContent>
 			</template>
 
-			<div v-if="!isLoading && !isError" class="app-full__actions">
-				<div class="app-full__actions__inner">
-					<NcButton v-if="!hideEventExport && hasDownloadURL && !isNew" type="tertiary" :href="downloadURL">
-						<template #icon>
-							<Download :size="20" decorative />
-						</template>
-						{{ $t('calendar', 'Export') }}
-					</NcButton>
-					<NcButton v-if="!canCreateRecurrenceException && !isReadOnly && !isNew" type="tertiary" @click="duplicateEvent()">
-						<template #icon>
-							<ContentDuplicate :size="20" decorative />
-						</template>
-						{{ $t('calendar', 'Duplicate') }}
-					</NcButton>
-					<NcButton v-if="canDelete && !canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(false)">
-						<template #icon>
-							<Delete :size="20" decorative />
-						</template>
-						{{ $t('calendar', 'Delete') }}
-					</NcButton>
-					<NcButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(false)">
-						<template #icon>
-							<Delete :size="20" decorative />
-						</template>
-						{{ $t('calendar', 'Delete this occurrence') }}
-					</NcButton>
-					<NcButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(true)">
-						<template #icon>
-							<Delete :size="20" decorative />
-						</template>
-						{{ $t('calendar', 'Delete this and all future') }}
-					</NcButton>
-				</div>
-				<SaveButtons v-if="showSaveButtons"
-					class="app-full-tab__buttons"
-					:can-create-recurrence-exception="canCreateRecurrenceException"
-					:is-new="isNew"
-					:is-read-only="isReadOnly"
-					:force-this-and-all-future="forceThisAndAllFuture"
-					@save-this-only="prepareAccessForAttachments(false)"
-					@save-this-and-all-future="prepareAccessForAttachments(true)" />
-			</div>
-
 			<div v-if="!isLoading && !isError">
 				<div class="app-full__header">
 					<div class="app-full__header__top">
@@ -74,7 +31,88 @@
 							:is-read-only="isReadOnly || isViewedByOrganizer === false"
 							@update:value="updateTitle" />
 
-						<div class="app-full__header__top__calendars">
+						<div v-if="!isLoading && !isError" class="app-full__actions">
+							<SaveButtons v-if="showSaveButtons"
+								class="app-full-tab__buttons"
+								:can-create-recurrence-exception="canCreateRecurrenceException"
+								:is-new="isNew"
+								:is-read-only="isReadOnly"
+								:force-this-and-all-future="forceThisAndAllFuture"
+								@save-this-only="prepareAccessForAttachments(false)"
+								@save-this-and-all-future="prepareAccessForAttachments(true)" />
+							<div class="app-full__actions__inner">
+								<NcActions>
+									<NcActionButton v-if="!hideEventExport && hasDownloadURL && !isNew" type="tertiary" :href="downloadURL">
+										<template #icon>
+											<Download :size="20" decorative />
+										</template>
+										{{ $t('calendar', 'Export') }}
+									</NcActionButton>
+									<NcActionButton v-if="!canCreateRecurrenceException && !isReadOnly && !isNew" type="tertiary" @click="duplicateEvent()">
+										<template #icon>
+											<ContentDuplicate :size="20" decorative />
+										</template>
+										{{ $t('calendar', 'Duplicate') }}
+									</NcActionButton>
+									<NcActionButton v-if="canDelete && !canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(false)">
+										<template #icon>
+											<Delete :size="20" decorative />
+										</template>
+										{{ $t('calendar', 'Delete') }}
+									</NcActionButton>
+									<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(false)">
+										<template #icon>
+											<Delete :size="20" decorative />
+										</template>
+										{{ $t('calendar', 'Delete this occurrence') }}
+									</NcActionButton>
+									<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(true)">
+										<template #icon>
+											<Delete :size="20" decorative />
+										</template>
+										{{ $t('calendar', 'Delete this and all future') }}
+									</NcActionButton>
+								</NcActions>
+							</div>
+						</div>
+					</div>
+
+					<PropertyTitleTimePicker :start-date="startDate"
+						:start-timezone="startTimezone"
+						:end-date="endDate"
+						:end-timezone="endTimezone"
+						:is-all-day="isAllDay"
+						:is-read-only="isReadOnly || isViewedByOrganizer === false"
+						:can-modify-all-day="canModifyAllDay"
+						:user-timezone="currentUserTimezone"
+						:append-to-body="true"
+						@update-start-date="updateStartDate"
+						@update-start-time="updateStartTime"
+						@update-start-timezone="updateStartTimezone"
+						@update-end-date="updateEndDate"
+						@update-end-time="updateEndTime"
+						@update-end-timezone="updateEndTimezone" />
+
+					<div v-if="!isReadOnly" class="app-full__header__details">
+						<div class="app-full__header__details-time">
+							<NcCheckboxRadioSwitch v-if="!isReadOnly && !isViewedByAttendee"
+								:checked="isAllDay"
+								:disabled="!canModifyAllDay"
+								@update:checked="toggleAllDayPreliminary">
+								{{ $t('calendar', 'All day') }}
+							</NcCheckboxRadioSwitch>
+
+							<!-- TODO: If not editing the master item, force updating this and all future   -->
+							<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
+							<Repeat :calendar-object-instance="calendarObjectInstance"
+								:recurrence-rule="calendarObjectInstance.recurrenceRule"
+								:is-read-only="isReadOnly || isViewedByOrganizer === false"
+								:is-editing-master-item="isEditingMasterItem"
+								:is-recurrence-exception="isRecurrenceException"
+								@force-this-and-all-future="forceModifyingFuture" />
+						</div>
+
+						<div class="app-full__header__details-calendar">
 							<CalendarPickerHeader :value="selectedCalendar"
 								:calendars="calendars"
 								:is-read-only="isReadOnly || !canModifyCalendar"
@@ -95,39 +133,6 @@
 								</template>
 							</NcPopover>
 						</div>
-					</div>
-
-					<PropertyTitleTimePicker :start-date="startDate"
-						:start-timezone="startTimezone"
-						:end-date="endDate"
-						:end-timezone="endTimezone"
-						:is-all-day="isAllDay"
-						:is-read-only="isReadOnly || isViewedByOrganizer === false"
-						:can-modify-all-day="canModifyAllDay"
-						:user-timezone="currentUserTimezone"
-						:append-to-body="true"
-						@update-start-date="updateStartDate"
-						@update-start-time="updateStartTime"
-						@update-start-timezone="updateStartTimezone"
-						@update-end-date="updateEndDate"
-						@update-end-time="updateEndTime"
-						@update-end-timezone="updateEndTimezone" />
-
-					<div v-if="!isReadOnly" class="app-full__header__time-details">
-						<NcCheckboxRadioSwitch v-if="!isReadOnly && !isViewedByAttendee" :checked="isAllDay"
-							:disabled="!canModifyAllDay"
-							@update:checked="toggleAllDayPreliminary">
-							{{ $t('calendar', 'All day') }}
-						</NcCheckboxRadioSwitch>
-
-						<!-- TODO: If not editing the master item, force updating this and all future   -->
-						<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
-						<Repeat :calendar-object-instance="calendarObjectInstance"
-							:recurrence-rule="calendarObjectInstance.recurrenceRule"
-							:is-read-only="isReadOnly || isViewedByOrganizer === false"
-							:is-editing-master-item="isEditingMasterItem"
-							:is-recurrence-exception="isRecurrenceException"
-							@force-this-and-all-future="forceModifyingFuture" />
 					</div>
 
 					<InvitationResponseButtons v-if="isViewedByAttendee"
@@ -153,13 +158,6 @@
 							:is-description="true"
 							:linkify-links="true"
 							@update:value="updateDescription" />
-						<PropertySelectMultiple class="property-categories"
-							:colored-options="true"
-							:is-read-only="isReadOnly"
-							:prop-model="rfcProps.categories"
-							:value="categories"
-							@add-single-value="addCategory"
-							@remove-single-value="removeCategory" />
 
 						<AlarmList :calendar-object-instance="calendarObjectInstance"
 							:is-read-only="isReadOnly" />
@@ -201,6 +199,13 @@
 							:prop-model="rfcProps.timeTransparency"
 							:value="timeTransparency"
 							@update:value="updateTimeTransparency" />
+						<PropertySelectMultiple class="property-categories"
+																		:colored-options="true"
+																		:is-read-only="isReadOnly"
+																		:prop-model="rfcProps.categories"
+																		:value="categories"
+																		@add-single-value="addCategory"
+																		@remove-single-value="removeCategory" />
 						<PropertyColor :calendar-color="selectedCalendarColor"
 							:is-read-only="isReadOnly"
 							:prop-model="rfcProps.color"
@@ -291,6 +296,7 @@ import {
 	NcButton,
 	NcCheckboxRadioSwitch,
 	NcPopover,
+	NcActions,
 } from '@nextcloud/vue'
 
 import { generateUrl } from '@nextcloud/router'
@@ -371,6 +377,7 @@ export default {
 		PropertyTitle,
 		IconVideo,
 		HelpCircleIcon,
+		NcActions,
 	},
 	mixins: [
 		EditorMixin,

@@ -388,7 +388,7 @@ export default {
 	}
 
 	&-inner__selectors {
-		width: calc(var(--total-width) * 2/3 - var(--column-gap) / 2 - var(--clickable-area-large));
+		flex-basis: calc(var(--total-width) * 2/3 - var(--column-gap) / 2 - (20px + var(--default-grid-baseline) * 5));
 		display: flex;
 		justify-content: stretch;
 		gap: var(--default-grid-baseline);
@@ -412,9 +412,10 @@ export default {
 	}
 
 	span {
-		width: var(--clickable-area-large);
+		width: calc(var(--default-grid-baseline) * 4 + 20px);
 		padding-right: var(--default-grid-baseline);
 		text-align: right;
+		direction: rtl;
 	}
 
 	.property-title-time-picker__time-pickers-from-inner__timezone span {
@@ -451,6 +452,12 @@ export default {
 
 .property-title-time-picker__time-pickers-from-inner__timezone, .property-title-time-picker__time-pickers-to-inner__timezone {
 	width: calc(var(--total-width) * 1/3 - var(--column-gap) / 2);
+}
+
+.app-full .property-title-time-picker__time-pickers-from-inner__timezone, .app-full .property-title-time-picker__time-pickers-to-inner__timezone {
+	.button-vue {
+		margin-left: calc(var(--default-grid-baseline) * -2);
+	}
 }
 
 @media (max-width: 768px) {

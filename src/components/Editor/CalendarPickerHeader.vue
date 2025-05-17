@@ -105,8 +105,7 @@ export default {
 <style lang="scss" scoped>
 .calendar-picker-header {
 	display: flex;
-	align-self: flex-start;
-	margin-bottom: 5px;
+	margin-left: -10px; // Needed to align the color circle image
 
 	&__picker {
 		display: flex;
