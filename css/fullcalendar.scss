@@ -262,27 +262,32 @@
 		word-break: break-word;
 		white-space: normal;
 	}
+
 	.fc-daygrid-day-frame {
 		min-height: 150px !important;
 	}
 }
+
 .fc-daygrid-day-events {
-	position:relative !important;
+	position: relative !important;
 }
 
 // Fix week button overlapping with the toggle
 .fc-col-header-cell {
-    padding-top: 10px !important;
+	padding-top: 10px !important;
 }
-.fc-timegrid-axis-cushion  {
+
+.fc-timegrid-axis-cushion {
 	margin-top: 44px;
 }
+
 // Additional workaround for Firefox
 .fc-timegrid-axis.fc-scrollgrid-shrink {
 	height: 65px;
 }
 
-.fc-timegrid-event-harness, .fc-timegrid-event {
+.fc-timegrid-event-harness,
+.fc-timegrid-event {
 	// previously was 1px for no apparent reason
 	margin-bottom: 0;
 }
