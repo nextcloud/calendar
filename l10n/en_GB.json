@@ -293,6 +293,7 @@
     "Choose a file to share as a link" : "Choose a file to share as a link",
     "Attachment {name} already exist!" : "Attachment {name} already exist!",
     "Could not upload attachment(s)" : "Could not upload attachment(s)",
+    "You are about to download a file. Please check the file name before opening it. Are you sure to proceed?" : "You are about to download a file. Please check the file name before opening it. Are you sure to proceed?",
     "You are about to navigate to {host}. Are you sure to proceed? Link: {link}" : "You are about to navigate to {host}. Are you sure to proceed? Link: {link}",
     "Proceed" : "Proceed",
     "No attachments" : "No attachments",
