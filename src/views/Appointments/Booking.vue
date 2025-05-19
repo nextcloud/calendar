@@ -328,4 +328,13 @@ h2, h3, h4, h5 {
 	margin-top: -25px;
 }
 
+:deep(.cell.disabled) {
+		background-color: var(--color-background-dark);
+		color: var(--color-main-text);
+}
+
+:deep(.cell.not-current-month) {
+	background-color: unset;
+}
+
 </style>
