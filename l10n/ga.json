@@ -293,6 +293,7 @@
     "Choose a file to share as a link" : "Roghnaigh comhad le roinnt mar nasc",
     "Attachment {name} already exist!" : "Tá ceangaltán {name} ann cheana féin!",
     "Could not upload attachment(s)" : "Níorbh fhéidir ceangaltán(cheangail) a uaslódáil",
+    "You are about to download a file. Please check the file name before opening it. Are you sure to proceed?" : "Tá tú ar tí comhad a íoslódáil. Seiceáil ainm an chomhaid sula n-osclaíonn tú é. An bhfuil tú cinnte go leanfaidh tú ar aghaidh?",
     "You are about to navigate to {host}. Are you sure to proceed? Link: {link}" : "Tá tú ar tí nascleanúint a dhéanamh chuig {host}. An bhfuil tú cinnte leanúint ar aghaidh? Nasc: {link}",
     "Proceed" : "Lean ar aghaidh",
     "No attachments" : "Gan ceangaltáin",
