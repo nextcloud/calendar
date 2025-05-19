@@ -6,9 +6,32 @@
 <template>
 	<div class="invitees-list">
 		<div v-if="showHeader" class="invitees-list__header">
-			<AccountMultipleIcon :size="20" />
-			<b>{{ t('calendar', 'Attendees') }}</b>
-			{{ statusHeader }}
+			<div class="invitees-list__header__title">
+				<AccountMultipleIcon :size="20" />
+				{{ t('calendar', 'Attendees') }}
+				{{ statusHeader }}
+			</div>
+
+			<div v-if="!hideButtons" class="invitees-list-button-group">
+				<NcButton v-if="!isReadOnly"
+					class="invitees-list-button-group__button"
+					:disabled="isListEmpty || !isOrganizer"
+					@click="openFreeBusy">
+					{{ $t('calendar', 'Find a time') }}
+				</NcButton>
+				<FreeBusy v-if="showFreeBusyModel"
+					:attendees="calendarObjectInstance.attendees"
+					:organizer="calendarObjectInstance.organizer"
+					:start-date="calendarObjectInstance.startDate"
+					:end-date="calendarObjectInstance.endDate"
+					:event-title="calendarObjectInstance.title"
+					:already-invited-emails="alreadyInvitedEmails"
+					:show-done-button="true"
+					@remove-attendee="removeAttendee"
+					@add-attendee="addAttendee"
+					@update-dates="saveNewDate"
+					@close="closeFreeBusy" />
+			</div>
 		</div>
 
 		<InviteesListSearch v-if="!isReadOnly && hasUserEmailAddress"
@@ -39,27 +62,6 @@
 		<NoAttendeesView v-else-if="isReadOnly && isListEmpty && hasUserEmailAddress"
 			:message="noInviteesMessage" />
 		<OrganizerNoEmailError v-else-if="!isReadOnly && isListEmpty && !hasUserEmailAddress && !hideErrors" />
-
-		<div v-if="!hideButtons" class="invitees-list-button-group">
-			<NcButton v-if="!isReadOnly"
-				class="invitees-list-button-group__button"
-				:disabled="isListEmpty || !isOrganizer"
-				@click="openFreeBusy">
-				{{ $t('calendar', 'Find a time') }}
-			</NcButton>
-			<FreeBusy v-if="showFreeBusyModel"
-				:attendees="calendarObjectInstance.attendees"
-				:organizer="calendarObjectInstance.organizer"
-				:start-date="calendarObjectInstance.startDate"
-				:end-date="calendarObjectInstance.endDate"
-				:event-title="calendarObjectInstance.title"
-				:already-invited-emails="alreadyInvitedEmails"
-				:show-done-button="true"
-				@remove-attendee="removeAttendee"
-				@add-attendee="addAttendee"
-				@update-dates="saveNewDate"
-				@close="closeFreeBusy" />
-		</div>
 	</div>
 </template>
 
@@ -456,7 +458,15 @@ export default {
 .invitees-list {
 	&__header {
 		display: flex;
-		gap: calc(var(--default-grid-baseline) * 4);
+		gap: calc(var(--default-grid-baseline) * 6);
+		align-items: center;
+
+		&__title {
+			display: flex;
+			gap: calc(var(--default-grid-baseline) * 4);
+			font-size: calc(var(--default-font-size) * 1.2);
+			align-items: center;
+		}
 	}
 
 	&__more {
@@ -471,7 +481,7 @@ export default {
 		gap: 5px;
 
 		&__button {
-			flex: 1 0 200px;
+			flex: 1 0 100px;
 
 			:deep(.button-vue__text) {
 				white-space: unset !important;

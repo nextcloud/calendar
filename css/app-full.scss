@@ -164,6 +164,11 @@
 	gap: calc(var(--default-grid-baseline) * 4);
 }
 
+.property-add-talk {
+	display: flex;
+	gap: calc(var(--default-grid-baseline) * 4);
+}
+
 .app-edit-full-tab-attendees, .app-edit-full-tab-resources {
 	display: flex;
 	flex-direction: row;
@@ -581,4 +586,22 @@
 	height: 100%;
 	width: 100%;
 	flex-direction: column;
+}
+
+// Override outdated server styling
+input:not(
+	[type='range'],
+	.input-field__input,
+	[type='submit'],
+	[type='button'],
+	[type='reset'],
+	.multiselect__input,
+	.select2-input,
+	.action-input__input,
+	[class^="vs__"]
+),
+select,
+div[contenteditable=true],
+textarea {
+	border: var(--border-width-input) solid var(--color-border-maxcontrast);
 }

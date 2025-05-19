@@ -170,6 +170,7 @@
 					<div class="app-full-body__right">
 						<div v-if="isCreateTalkRoomButtonVisible"
 							class="property-add-talk">
+							<IconVideo :size="20" class="property-text__icon property-add-talk__icon" />
 							<AddTalkModal v-if="isModalOpen"
 								:conversations="talkConversations"
 								:calendar-object-instance="calendarObjectInstance"
@@ -180,10 +181,6 @@
 								:disabled="isCreateTalkRoomButtonDisabled"
 								style="width: 100%"
 								@click="openModal">
-								<template #icon>
-									<IconVideo :size="20"
-										class="property-text__icon property-add-talk__icon" />
-								</template>
 								{{ t('calendar','Add Talk conversation') }}
 							</NcButton>
 						</div>
@@ -200,12 +197,12 @@
 							:value="timeTransparency"
 							@update:value="updateTimeTransparency" />
 						<PropertySelectMultiple class="property-categories"
-																		:colored-options="true"
-																		:is-read-only="isReadOnly"
-																		:prop-model="rfcProps.categories"
-																		:value="categories"
-																		@add-single-value="addCategory"
-																		@remove-single-value="removeCategory" />
+							:colored-options="true"
+							:is-read-only="isReadOnly"
+							:prop-model="rfcProps.categories"
+							:value="categories"
+							@add-single-value="addCategory"
+							@remove-single-value="removeCategory" />
 						<PropertyColor :calendar-color="selectedCalendarColor"
 							:is-read-only="isReadOnly"
 							:prop-model="rfcProps.color"
@@ -265,13 +262,12 @@
 
 				<div class="app-full-footer">
 					<div class="app-full-footer__left">
-						<span class="app-full-subtitle"> <AccountMultiple :size="20" /> {{ t('calendar', 'Attendees') }}</span>
 						<InviteesList v-if="!isLoading"
 							:calendar="selectedCalendar"
 							:calendar-object-instance="calendarObjectInstance"
 							:is-read-only="isReadOnly || isViewedByOrganizer === false"
 							:is-shared-with-me="isSharedWithMe"
-							:show-header="false"
+							:show-header="true"
 							@update-dates="updateDates" />
 					</div>
 
@@ -351,7 +347,6 @@ export default {
 		PropertySelectMultiple,
 		SaveButtons,
 		AlarmList,
-		NcActionLink,
 		NcActionButton,
 		NcEmptyContent,
 		NcModal,
@@ -364,12 +359,10 @@ export default {
 		PropertyText,
 		PropertyTitleTimePicker,
 		Repeat,
-		AccountMultiple,
 		CalendarBlank,
 		Delete,
 		Download,
 		ContentDuplicate,
-		InformationOutline,
 		MapMarker,
 		InvitationResponseButtons,
 		AttachmentsList,

@@ -388,7 +388,7 @@ export default {
 	}
 
 	&-inner__selectors {
-		flex-basis: calc(var(--total-width) * 2/3 - var(--column-gap) / 2 - (20px + var(--default-grid-baseline) * 5));
+		flex-basis: calc(var(--total-width) * 2/3 - var(--column-gap) / 2 - (20px + var(--default-grid-baseline) * 4) - 2px);
 		display: flex;
 		justify-content: stretch;
 		gap: var(--default-grid-baseline);
@@ -412,7 +412,7 @@ export default {
 	}
 
 	span {
-		width: calc(var(--default-grid-baseline) * 4 + 20px);
+		width: calc(var(--default-grid-baseline) * 4 + 20px - 2px);
 		padding-right: var(--default-grid-baseline);
 		text-align: right;
 		direction: rtl;

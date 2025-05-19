@@ -20,17 +20,16 @@
 
 		<OrganizerNoEmailError v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
 
-		<h3 v-if="suggestedRooms.length">
-			{{ $t('calendar', 'Suggestions') }}
-		</h3>
-		<ResourceListItem v-for="room in suggestedRooms"
-			:key="room.email + '-suggested'"
-			:resource="room"
-			:is-read-only="false"
-			:organizer-display-name="organizerDisplayName"
-			:is-suggestion="true"
-			:is-viewed-by-organizer="isViewedByOrganizer"
-			@add-suggestion="addResource" />
+		<div class="resource-list-suggested">
+			<ResourceListItem v-for="room in suggestedRooms"
+				:key="room.email + '-suggested'"
+				:resource="room"
+				:is-read-only="false"
+				:organizer-display-name="organizerDisplayName"
+				:is-suggestion="true"
+				:is-viewed-by-organizer="isViewedByOrganizer"
+				@add-suggestion="addResource" />
+		</div>
 	</div>
 </template>
 
@@ -53,10 +52,8 @@ export default {
 	name: 'ResourceList',
 	components: {
 		ResourceListItem,
-		NoAttendeesView,
 		ResourceListSearch,
 		OrganizerNoEmailError,
-		MapMarker,
 	},
 	props: {
 		isReadOnly: {
@@ -198,3 +195,9 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.resource-list-suggested {
+		margin-top: calc(var(--default-grid-baseline) * 4);
+}
+</style>
