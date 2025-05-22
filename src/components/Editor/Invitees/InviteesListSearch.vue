@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<NcSelect class="invitees-search__multiselect"
+	<NcSelect class="invitees-search__vselect"
 		:options="matches"
 		:searchable="true"
 		:max-height="600"
@@ -345,5 +345,9 @@ export default {
 <style scoped>
 :deep(.avatardiv) {
 	overflow: visible !important;
+}
+
+.invitees-search__vselect {
+	margin-left: calc(var(--default-grid-baseline) * 4 + 20px);
 }
 </style>
