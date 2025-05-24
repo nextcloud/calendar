@@ -133,11 +133,13 @@ export default {
 			if (query.length > 0) {
 				const davPromise = this.findShareesFromDav(query, hiddenPrincipalSchemes, hiddenUrls)
 				const ocsPromise = this.findShareesFromCircles(query, hiddenPrincipalSchemes, hiddenUrls)
+				const remotePromise = this.findRemoteSharees(query)
 
-				const [davResults, ocsResults] = await Promise.all([davPromise, ocsPromise])
+				const [davResults, ocsResults, remoteResults] = await Promise.all([davPromise, ocsPromise, remotePromise])
 				this.usersOrGroups = [
 					...davResults,
 					...ocsResults,
+					...remoteResults,
 				]
 
 				this.isLoading = false
@@ -246,6 +248,53 @@ export default {
 				uri: 'principal:principals/circles/' + circle.value.shareWith,
 				isGroup: false,
 				isCircle: true,
+				isNoUser: true,
+				search: query,
+			}))
+		},
+		/**
+		 *
+		 * @param {string} query The search query
+		 * @return {Promise<object[]>}
+		 */
+		async findRemoteSharees(query) {
+			let results
+			try {
+				results = await HttpClient.get(generateOcsUrl('apps/files_sharing/api/v1/') + 'sharees', {
+					params: {
+						format: 'json',
+						search: query,
+						perPage: 200,
+						itemType: 'calendar',
+						shareType: [4, 6, 9],
+						lookup: false,
+					},
+				})
+			} catch (error) {
+				return []
+			}
+
+			if (results.data.ocs.meta.status === 'failure') {
+				return []
+			}
+
+			let remoteUsers = []
+			if (Array.isArray(results.data.ocs.data.remotes)) {
+				remoteUsers.push(...results.data.ocs.data.remotes)
+			}
+			if (Array.isArray(results.data.ocs.data.exact.remotes)) {
+				remoteUsers.push(...results.data.ocs.data.exact.remotes)
+			}
+
+			console.log('findRemoteSharees', remoteUsers)
+
+			return remoteUsers.map((user) => ({
+				user: user.uuid,
+				displayName: user.label,
+				icon: 'icon-circle',
+				uri: `principal:principals/remote-users/${btoa(user.value.shareWith)}`,
+				isGroup: false,
+				isCircle: false,
 				isNoUser: true,
 				search: query,
 			}))
