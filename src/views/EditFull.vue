@@ -25,58 +25,58 @@
 			</template>
 
 			<div v-if="!isLoading && !isError">
-				<div class="app-full__header">
-					<div class="app-full__header__top">
-						<PropertyTitle :value="title"
-							:is-read-only="isReadOnly || isViewedByOrganizer === false"
-							@update:value="updateTitle" />
+				<div class="app-full__header__top">
+					<PropertyTitle :value="title"
+						:is-read-only="isReadOnly || isViewedByOrganizer === false"
+						@update:value="updateTitle" />
 
-						<div v-if="!isLoading && !isError" class="app-full__actions">
-							<SaveButtons v-if="showSaveButtons"
-								class="app-full-tab__buttons"
-								:can-create-recurrence-exception="canCreateRecurrenceException"
-								:is-new="isNew"
-								:is-read-only="isReadOnly"
-								:force-this-and-all-future="forceThisAndAllFuture"
-								@save-this-only="prepareAccessForAttachments(false)"
-								@save-this-and-all-future="prepareAccessForAttachments(true)" />
-							<div class="app-full__actions__inner">
-								<NcActions>
-									<NcActionButton v-if="!hideEventExport && hasDownloadURL && !isNew" type="tertiary" :href="downloadURL">
-										<template #icon>
-											<Download :size="20" decorative />
-										</template>
-										{{ $t('calendar', 'Export') }}
-									</NcActionButton>
-									<NcActionButton v-if="!canCreateRecurrenceException && !isReadOnly && !isNew" type="tertiary" @click="duplicateEvent()">
-										<template #icon>
-											<ContentDuplicate :size="20" decorative />
-										</template>
-										{{ $t('calendar', 'Duplicate') }}
-									</NcActionButton>
-									<NcActionButton v-if="canDelete && !canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(false)">
-										<template #icon>
-											<Delete :size="20" decorative />
-										</template>
-										{{ $t('calendar', 'Delete') }}
-									</NcActionButton>
-									<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(false)">
-										<template #icon>
-											<Delete :size="20" decorative />
-										</template>
-										{{ $t('calendar', 'Delete this occurrence') }}
-									</NcActionButton>
-									<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(true)">
-										<template #icon>
-											<Delete :size="20" decorative />
-										</template>
-										{{ $t('calendar', 'Delete this and all future') }}
-									</NcActionButton>
-								</NcActions>
-							</div>
+					<div v-if="!isLoading && !isError" class="app-full__actions">
+						<SaveButtons v-if="showSaveButtons"
+							class="app-full-tab__buttons"
+							:can-create-recurrence-exception="canCreateRecurrenceException"
+							:is-new="isNew"
+							:is-read-only="isReadOnly"
+							:force-this-and-all-future="forceThisAndAllFuture"
+							@save-this-only="prepareAccessForAttachments(false)"
+							@save-this-and-all-future="prepareAccessForAttachments(true)" />
+						<div class="app-full__actions__inner">
+							<NcActions>
+								<NcActionButton v-if="!hideEventExport && hasDownloadURL && !isNew" type="tertiary" :href="downloadURL">
+									<template #icon>
+										<Download :size="20" decorative />
+									</template>
+									{{ $t('calendar', 'Export') }}
+								</NcActionButton>
+								<NcActionButton v-if="!canCreateRecurrenceException && !isReadOnly && !isNew" type="tertiary" @click="duplicateEvent()">
+									<template #icon>
+										<ContentDuplicate :size="20" decorative />
+									</template>
+									{{ $t('calendar', 'Duplicate') }}
+								</NcActionButton>
+								<NcActionButton v-if="canDelete && !canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(false)">
+									<template #icon>
+										<Delete :size="20" decorative />
+									</template>
+									{{ $t('calendar', 'Delete') }}
+								</NcActionButton>
+								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(false)">
+									<template #icon>
+										<Delete :size="20" decorative />
+									</template>
+									{{ $t('calendar', 'Delete this occurrence') }}
+								</NcActionButton>
+								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(true)">
+									<template #icon>
+										<Delete :size="20" decorative />
+									</template>
+									{{ $t('calendar', 'Delete this and all future') }}
+								</NcActionButton>
+							</NcActions>
 						</div>
 					</div>
+				</div>
 
+				<div class="app-full__header">
 					<PropertyTitleTimePicker :start-date="startDate"
 						:start-timezone="startTimezone"
 						:end-date="endDate"
@@ -272,7 +272,7 @@
 					</div>
 
 					<div class="app-full-footer__right">
-						<span class="app-full-subtitle"> <MapMarker :size="20" /> {{ t('calendar', 'Resources') }}</span>
+						<span v-if="!(isReadOnly && !resources.length)" class="app-full-subtitle"> <MapMarker :size="20" /> {{ t('calendar', 'Resources') }}</span>
 						<ResourceList v-if="!isLoading"
 							:calendar-object-instance="calendarObjectInstance"
 							:is-read-only="isReadOnly || isViewedByOrganizer === false" />
@@ -448,7 +448,11 @@ export default {
 		isCreateTalkRoomButtonVisible() {
 			return this.talkEnabled && this.isViewedByOrganizer !== false
 		},
-
+		resources() {
+			return this.calendarObjectInstance.attendees.filter(attendee => {
+				return ['ROOM', 'RESOURCE'].includes(attendee.attendeeProperty.userType)
+			})
+		},
 	},
 	mounted() {
 		window.addEventListener('keydown', this.keyboardCloseEditor)

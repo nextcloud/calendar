@@ -26,7 +26,9 @@
 				</NcButton>
 				<div class="property-title-time-picker__time-pickers-from">
 					<!-- TRANSLATORS Start of an event -->
-					<span>{{ $t('calendar', 'From') }}</span>
+					<div class="datepicker-label">
+						{{ $t('calendar', 'From') }}
+					</div>
 					<div class="property-title-time-picker__time-pickers-from-inner">
 						<div class="property-title-time-picker__time-pickers-from-inner__selectors">
 							<DatePicker :date="startDate"
@@ -37,7 +39,7 @@
 								type="time"
 								@change="changeStartTime" />
 						</div>
-						<div class="property-title-time-picker__time-pickers-from-inner__timezone">
+						<div v-if="showTimezoneSelect && !isAllDay" class="property-title-time-picker__time-pickers-from-inner__timezone">
 							<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay"
 								:value="startTimezone"
 								@input="changeStartTimezone" />
@@ -57,7 +59,9 @@
 
 				<div class="property-title-time-picker__time-pickers-to">
 					<!-- TRANSLATORS End of an event -->
-					<span>{{ $t('calendar', 'To') }}</span>
+					<div class="datepicker-label">
+						{{ $t('calendar', 'To') }}
+					</div>
 					<div class="property-title-time-picker__time-pickers-to-inner">
 						<div class="property-title-time-picker__time-pickers-from-inner__selectors">
 							<DatePicker :date="endDate"
@@ -68,7 +72,7 @@
 								type="time"
 								@change="changeEndTime" />
 						</div>
-						<div class="property-title-time-picker__time-pickers-to-inner__timezone">
+						<div v-if="showTimezoneSelect && !isAllDay" class="property-title-time-picker__time-pickers-to-inner__timezone">
 							<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay" :value="endTimezone" @input="changeEndTimezone" />
 						</div>
 					</div>
@@ -411,9 +415,9 @@ export default {
 		flex-grow: 1;
 	}
 
-	span {
-		width: calc(var(--default-grid-baseline) * 4 + 20px - 2px);
-		padding-right: var(--default-grid-baseline);
+	.datepicker-label {
+		width: calc(var(--default-grid-baseline) * 3 + 20px - 2px);
+		padding-right: calc(var(--default-grid-baseline) * 2);
 		text-align: right;
 		direction: rtl;
 	}
@@ -460,19 +464,30 @@ export default {
 	}
 }
 
-@media (max-width: 768px) {
-  .property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {
+@media (max-width: 1000px) {
+	.property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {
 		flex-wrap: wrap;
-		flex-shrink: 0;
+	}
 
-		span {
-			text-align: left;
+	.datepicker-label {
+		width: unset !important;
+		padding-right: 0 !important;
+		text-align: left !important;
+		direction: ltr !important;
+	}
+
+	.app-full {
+		.property-title-time-picker__time-pickers-from,
+		.property-title-time-picker__time-pickers-to,
+		.property-title-time-picker__time-pickers__inner button {
+			padding-left: calc(20px + var(--default-grid-baseline) * 4);
 		}
 
-		&-inner__timezone {
-			width: 100%;
-			flex-basis: 100%;
+		.property-title-time-picker__time-pickers-from,
+		.property-title-time-picker__time-pickers-to {
+			width: unset !important;
 		}
 	}
+
 }
 </style>

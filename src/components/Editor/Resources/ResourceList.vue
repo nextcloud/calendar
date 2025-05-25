@@ -10,17 +10,17 @@
 			:calendar-object-instance="calendarObjectInstance"
 			@add-resource="addResource" />
 
-		<ResourceListItem v-for="resource in resources"
-			:key="resource.email"
-			:resource="resource"
-			:is-read-only="isReadOnly"
-			:organizer-display-name="organizerDisplayName"
-			:is-viewed-by-organizer="isViewedByOrganizer"
-			@remove-resource="removeResource" />
-
 		<OrganizerNoEmailError v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
 
-		<div class="resource-list-suggested">
+		<div class="resource-list">
+			<ResourceListItem v-for="resource in resources"
+				:key="resource.email"
+				:resource="resource"
+				:is-read-only="isReadOnly"
+				:organizer-display-name="organizerDisplayName"
+				:is-viewed-by-organizer="isViewedByOrganizer"
+				@remove-resource="removeResource" />
+
 			<ResourceListItem v-for="room in suggestedRooms"
 				:key="room.email + '-suggested'"
 				:resource="room"
@@ -197,7 +197,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.resource-list-suggested {
+.resource-list {
 		margin-top: calc(var(--default-grid-baseline) * 4);
 }
 </style>

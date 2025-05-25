@@ -57,7 +57,7 @@
 			class="invitees-list__more">
 			{{ n('calendar', '%n more guest', '%n more guests', inviteesWithoutOrganizer.length - limit) }}
 		</div>
-		<NoAttendeesView v-if="isReadOnly && !hideErrors"
+		<NoAttendeesView v-if="isReadOnly && !hideErrors && isListEmpty"
 			:message="noOwnerMessage" />
 		<NoAttendeesView v-else-if="isReadOnly && isListEmpty && hasUserEmailAddress"
 			:message="noInviteesMessage" />

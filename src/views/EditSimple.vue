@@ -136,6 +136,16 @@
 						@update-end-timezone="updateEndTimezone"
 						@toggle-all-day="toggleAllDay" />
 
+					<div v-if="!isReadOnlyOrViewing" class="app-full__header__details">
+						<div class="app-full__header__details-time">
+							<NcCheckboxRadioSwitch :checked="isAllDay"
+								:disabled="!canModifyAllDay"
+								@update:checked="toggleAllDayPreliminary">
+								{{ $t('calendar', 'All day') }}
+							</NcCheckboxRadioSwitch>
+						</div>
+					</div>
+
 					<PropertyText :is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
 						:prop-model="rfcProps.location"
 						:value="location"
@@ -191,6 +201,10 @@
 					</SaveButtons>
 				</template>
 			</div>
+		</ncpopover>
+	</div>
+</template>
+			</div>
 		</NcPopover>
 	</div>
 </template>
@@ -202,7 +216,7 @@ import {
 	NcEmptyContent as EmptyContent,
 	NcPopover,
 	NcAppNavigationSpacer,
-	NcButton,
+	NcButton, NcCheckboxRadioSwitch,
 } from '@nextcloud/vue'
 import EditorMixin from '../mixins/EditorMixin.js'
 import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'
@@ -229,10 +243,13 @@ import { mapState, mapStores } from 'pinia'
 import useSettingsStore from '../store/settings.js'
 import useWidgetStore from '../store/widget.js'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
+import Repeat from '../components/Editor/Repeat/Repeat.vue'
 
 export default {
 	name: 'EditSimple',
 	components: {
+		Repeat,
+		NcCheckboxRadioSwitch,
 		PopoverLoadingIndicator,
 		SaveButtons,
 		PropertyText,
@@ -452,6 +469,16 @@ export default {
 			} catch (error) {
 				this.isViewing = false
 			}
+		},
+		/**
+		 * Toggles the all-day state of an event
+		 */
+		toggleAllDayPreliminary() {
+			if (!this.canModifyAllDay) {
+				return
+			}
+
+			this.toggleAllDay()
 		},
 	},
 }

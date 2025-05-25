@@ -85,14 +85,19 @@
 	.property-title-time-picker__time-pickers {
 		flex-grow: 0 !important;
 		flex-shrink: 1;
+		margin-left: calc(var(--default-grid-baseline) * 2);
 	}
 
 	.property-title-time-picker__time-pickers-from-inner__selectors, .property-title-time-picker__time-pickers-to-inner__selectors {
-		width: unset !important;
+		width: 100% !important;
 	}
 
 	.property-title-time-picker__time-pickers-from-inner__timezone, .property-title-time-picker__time-pickers-to-inner__timezone {
 		width: unset !important;
+	}
+
+	.calendar-picker-header {
+		margin-left: 0 !important;
 	}
  }
 
