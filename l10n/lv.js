@@ -473,6 +473,7 @@ OC.L10N.register(
     "[Today]" : "[Šodien]",
     "[Tomorrow]" : "[Rīt]",
     "Create a new event" : "Izveidot jaunu notikumu",
+    "in {monthNames}" : "{monthNames}",
     "Add a description" : "Pievienot aprakstu",
     "Chat room for event" : "Tērzēšanas istaba notikumam"
 },
