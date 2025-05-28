@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.3.0 - 2025-05-28
+### Added
+- filter out event type rooms from suggestions
+
 ## 5.0.0 - Unreleased
 ### Added
 - Nextcloud 30 support
