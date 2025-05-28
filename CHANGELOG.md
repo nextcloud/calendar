@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.7.18 - 2025-05-26
+### Fixed
+- send date as sting instead of epoch from appointment selector
+
 ## 4.7.17 - 2025-05-13
 ### Fixed
 - Always show alarm unit in pural
