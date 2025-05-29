@@ -175,7 +175,7 @@ export default class AppointmentConfig {
 	 * @return {string} Absolute URL
 	 */
 	get bookingUrl() {
-		const baseUrl = `${window.location.protocol}//${window.location.hostname}`
+		const baseUrl = `${window.location.protocol}//${window.location.host}`
 		const relativeUrl = generateUrl('/apps/calendar/appointment/{token}', {
 			token: this.token,
 		})
