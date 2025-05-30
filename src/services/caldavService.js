@@ -4,7 +4,6 @@
  */
 import DavClient from '@nextcloud/cdav-library'
 import { generateRemoteUrl } from '@nextcloud/router'
-import { getRequestToken } from '@nextcloud/auth'
 import { CALDAV_BIRTHDAY_CALENDAR } from '../models/consts.js'
 
 const clients = {}
@@ -19,28 +18,9 @@ const getClient = (headers = {}) => {
 
 	clients[clientKey] = new DavClient({
 		rootUrl: generateRemoteUrl('dav'),
-	}, () => {
-		const mergedHeaders = {
-			'X-Requested-With': 'XMLHttpRequest',
-			requesttoken: getRequestToken(),
+		defaultHeaders: {
 			'X-NC-CalDAV-Webcal-Caching': 'On',
-			...headers,
 		}
-		const xhr = new XMLHttpRequest()
-		const oldOpen = xhr.open
-
-		// override open() method to add headers
-		xhr.open = function() {
-			const result = oldOpen.apply(this, arguments)
-			for (const name in mergedHeaders) {
-				xhr.setRequestHeader(name, mergedHeaders[name])
-			}
-
-			return result
-		}
-
-		OC.registerXHRForErrorProcessing(xhr) // eslint-disable-line no-undef
-		return xhr
 	})
 
 	return clients[clientKey]
