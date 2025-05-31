@@ -123,7 +123,7 @@ export default {
 .save-buttons {
 	display: flex;
 	justify-content: end;
-	gap: 5px;
+	gap: var(--default-grid-baseline);
 
 	&--grow {
 		flex-wrap: wrap;

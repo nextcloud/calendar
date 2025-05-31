@@ -10,33 +10,26 @@
 			:calendar-object-instance="calendarObjectInstance"
 			@add-resource="addResource" />
 
-		<ResourceListItem v-for="resource in resources"
-			:key="resource.email"
-			:resource="resource"
-			:is-read-only="isReadOnly"
-			:organizer-display-name="organizerDisplayName"
-			:is-viewed-by-organizer="isViewedByOrganizer"
-			@remove-resource="removeResource" />
-
-		<NoAttendeesView v-if="isListEmpty && hasUserEmailAddress"
-			:message="noResourcesMessage">
-			<template #icon>
-				<MapMarker :size="50" decorative />
-			</template>
-		</NoAttendeesView>
 		<OrganizerNoEmailError v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
 
-		<h3 v-if="suggestedRooms.length">
-			{{ $t('calendar', 'Suggestions') }}
-		</h3>
-		<ResourceListItem v-for="room in suggestedRooms"
-			:key="room.email + '-suggested'"
-			:resource="room"
-			:is-read-only="false"
-			:organizer-display-name="organizerDisplayName"
-			:is-suggestion="true"
-			:is-viewed-by-organizer="isViewedByOrganizer"
-			@add-suggestion="addResource" />
+		<div class="resource-list">
+			<ResourceListItem v-for="resource in resources"
+				:key="resource.email"
+				:resource="resource"
+				:is-read-only="isReadOnly"
+				:organizer-display-name="organizerDisplayName"
+				:is-viewed-by-organizer="isViewedByOrganizer"
+				@remove-resource="removeResource" />
+
+			<ResourceListItem v-for="room in suggestedRooms"
+				:key="room.email + '-suggested'"
+				:resource="room"
+				:is-read-only="false"
+				:organizer-display-name="organizerDisplayName"
+				:is-suggestion="true"
+				:is-viewed-by-organizer="isViewedByOrganizer"
+				@add-suggestion="addResource" />
+		</div>
 	</div>
 </template>
 
@@ -59,10 +52,8 @@ export default {
 	name: 'ResourceList',
 	components: {
 		ResourceListItem,
-		NoAttendeesView,
 		ResourceListSearch,
 		OrganizerNoEmailError,
-		MapMarker,
 	},
 	props: {
 		isReadOnly: {
@@ -204,3 +195,9 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.resource-list {
+		margin-top: calc(var(--default-grid-baseline) * 4);
+}
+</style>
