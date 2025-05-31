@@ -471,6 +471,7 @@
     "[Today]" : "[Šodien]",
     "[Tomorrow]" : "[Rīt]",
     "Create a new event" : "Izveidot jaunu notikumu",
+    "in {monthNames}" : "{monthNames}",
     "Add a description" : "Pievienot aprakstu",
     "Chat room for event" : "Tērzēšanas istaba notikumam"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"

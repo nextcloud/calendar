@@ -293,6 +293,7 @@
     "Choose a file to share as a link" : "Одаберите фајл који желите да поделите као везу",
     "Attachment {name} already exist!" : "Прилог {name} веђ постоји!",
     "Could not upload attachment(s)" : "Не могу да се отпреме прилози",
+    "You are about to download a file. Please check the file name before opening it. Are you sure to proceed?" : "Управо ћете да преузмете фајл. Молимо вас да пре отварања проверите име фајла. Да ли заиста желите да наставите?",
     "You are about to navigate to {host}. Are you sure to proceed? Link: {link}" : "Управо ћете да посетите {host}. Да ли желите да наставите? Линк: {link}",
     "Proceed" : "Настави",
     "No attachments" : "Без прилога",
