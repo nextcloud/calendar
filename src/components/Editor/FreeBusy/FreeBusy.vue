@@ -550,6 +550,8 @@ export default {
 }
 :deep(.fc-event) {
 	margin-right: 0 !important;
+	border-radius: 6px !important;
+	border: 2px solid transparent !important;
 }
 
 </style>
