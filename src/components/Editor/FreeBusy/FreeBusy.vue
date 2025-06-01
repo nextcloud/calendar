@@ -126,9 +126,9 @@ import interactionPlugin from '@fullcalendar/interaction'
 
 import { NcDateTimePickerNative, NcButton, NcPopover, NcUserBubble, NcDialog, NcSelect } from '@nextcloud/vue'
 // Import event sources
-import freeBusyFakeBlockingEventSource from '../../../fullcalendar/eventSources/freeBusyFakeBlockingEventSource.js'
-import freeBusyResourceEventSource from '../../../fullcalendar/eventSources/freeBusyResourceEventSource.js'
+import freeBusyEventSource from '../../../fullcalendar/eventSources/freeBusyEventSource.js'
 
+import { AttendeeProperty } from '@nextcloud/calendar-js'
 // Import localization plugins
 import { getDateFormattingConfig } from '../../../fullcalendar/localization/dateFormattingConfig.js'
 import { getFullCalendarLocale } from '../../../fullcalendar/localization/localeProvider.js'
@@ -145,7 +145,7 @@ import HelpCircleIcon from 'vue-material-design-icons/HelpCircle.vue'
 import InviteesListSearch from '../Invitees/InviteesListSearch.vue'
 
 import { getColorForFBType } from '../../../utils/freebusy.js'
-import { getFirstFreeSlot, getBusySlots } from '../../../services/freeBusySlotService.js'
+import { getFirstFreeSlot, getBusySlotsForAttendee } from '../../../services/freeBusySlotService.js'
 import dateFormat from '../../../filters/dateFormat.js'
 import { mapState } from 'pinia'
 import useSettingsStore from '../../../store/settings.js'
@@ -267,19 +267,15 @@ export default {
 			return this.timezoneId.replace('/', '-')
 		},
 		eventSources() {
-			return [
-				freeBusyResourceEventSource(
-					this._uid,
-					this.organizer.attendeeProperty,
-					this.attendees.map((a) => a.attendeeProperty),
-				),
-				freeBusyFakeBlockingEventSource(
-					this._uid,
-					this.resources,
-					this.currentStart,
-					this.currentEnd,
-				),
-			]
+			const attendees = this.attendees.map((a) => a.attendeeProperty)
+			const organizer = new AttendeeProperty('ATTENDEE', this.organizer.attendeeProperty.email)
+			organizer.commonName = this.organizer.attendeeProperty.commonName
+			return [...attendees, organizer].map((a) => freeBusyEventSource(
+				this._uid,
+				this.organizer.attendeeProperty,
+				a,
+			))
+
 		},
 		resources() {
 			const resources = []
@@ -350,7 +346,6 @@ export default {
 				// Initialization:
 				initialView: 'timeGridWeek',
 				initialDate: this.currentStart,
-				schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
 				// Data
 				eventSources: this.eventSources,
 				// Plugins
@@ -371,12 +366,6 @@ export default {
 					center: 'title',
 					right: 'timeGridWeek,timeGridDay', // user can switch between the two
 				},
-				resourceAreaColumns: [
-					{
-						field: 'title',
-						headerContent: 'Attendees',
-					},
-				],
 				// Timezones:
 				timeZone: this.timezoneId,
 				// Formatting of the title
@@ -464,7 +453,7 @@ export default {
 				// for now search slots only in the first week days
 				const endSearchDate = new Date(startSearch)
 				endSearchDate.setDate(startSearch.getDate() + 8)
-				const eventResults = await getBusySlots(
+				const eventResults = await getBusySlotsForAttendee(
 					this.organizer.attendeeProperty,
 					this.attendees.map((a) => a.attendeeProperty),
 					startSearch,
