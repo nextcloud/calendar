@@ -293,7 +293,7 @@
     "Choose a file to share as a link" : "Datei auswählen welche als Link geteilt wird",
     "Attachment {name} already exist!" : "Anhang {name} existiert bereits",
     "Could not upload attachment(s)" : "Anhänge konnten nicht hochgeladen werden.",
-    "You are about to download a file. Please check the file name before opening it. Are you sure to proceed?" : "Sie sind dabei, eine Datei herunterzuladen. Bitte den Dateinamen vor dem Öffnen prüfen. Möchten Sie fortfahren?",
+    "You are about to download a file. Please check the file name before opening it. Are you sure to proceed?" : "Du bist dabei, eine Datei herunterzuladen. Bitte den Dateinamen vor dem Öffnen prüfen. Möchtest du fortfahren?",
     "You are about to navigate to {host}. Are you sure to proceed? Link: {link}" : "Du bist dabei, zu {host} zu navigieren. Möchtest du wirklich fortfahren? Link: {link}",
     "Proceed" : "Fortsetzen",
     "No attachments" : "Keine Anhänge",
