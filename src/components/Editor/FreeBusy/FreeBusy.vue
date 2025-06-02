@@ -347,7 +347,7 @@ export default {
 		options() {
 			return {
 				// Initialization:
-				initialView: 'timeGridWeek',
+				initialView: this.attendees.length > 4 ? 'timeGridDay' : 'timeGridWeek',
 				initialDate: this.currentStart,
 				// Data
 				eventSources: this.eventSources,
