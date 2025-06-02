@@ -48,10 +48,11 @@ export default function(uri, calendarData, success, start, end, timezone, color 
 		/** @member {FreeBusyProperty} freeBusyProperty */
 		events.push({
 			id: Math.random().toString(36).substring(7),
-			start: freeBusyProperty.getFirstValue().start.getInTimezone(timezone).jsDate.toISOString(),
-			end: freeBusyProperty.getFirstValue().end.getInTimezone(timezone).jsDate.toISOString(),
+			start: freeBusyProperty.getFirstValue().start.getInTimezone(timezone).jsDate,
+			end: freeBusyProperty.getFirstValue().end.getInTimezone(timezone).jsDate,
+			allDay: (freeBusyProperty.getFirstValue().end.unixTime - freeBusyProperty.getFirstValue().start.unixTime) >= 24 * 60 * 60,
 			resourceId: uri,
-			display: 'background',
+			display: 'auto',
 			classNames: [
 				'free-busy-block',
 				'free-busy-' + freeBusyProperty.type.toLowerCase(),

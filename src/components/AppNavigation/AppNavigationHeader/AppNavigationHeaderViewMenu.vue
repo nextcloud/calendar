@@ -47,8 +47,25 @@ export default {
 		ViewModule,
 		ViewWeek,
 	},
+	props: {
+		isFreeBusy: {
+			type: Boolean,
+			default: false,
+		},
+	},
 	computed: {
 		views() {
+			if (this.isFreeBusy) {
+				return [{
+					id: 'timeGridDay',
+					icon: 'ViewDay',
+					label: this.$t('calendar', 'Day'),
+				}, {
+					id: 'timeGridWeek',
+					icon: 'ViewWeek',
+					label: this.$t('calendar', 'Week'),
+				}]
+			}
 			return [{
 				id: 'timeGridDay',
 				icon: 'ViewDay',
@@ -97,6 +114,10 @@ export default {
 	},
 	methods: {
 		selectView(viewName) {
+			if (this.isFreeBusy) {
+				this.$emit('update:view', viewName)
+				return
+			}
 			const name = this.$route.name
 			const params = Object.assign({}, this.$route.params, {
 				view: viewName,

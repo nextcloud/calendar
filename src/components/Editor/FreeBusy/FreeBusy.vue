@@ -55,6 +55,7 @@
 					<NcDateTimePickerNative :hide-label="true"
 						:value="currentDate"
 						@input="(date)=>handleActions('picker', date)" />
+					<AppNavigationHeaderViewMenu :is-free-busy="true" @update:view="updateView" />
 					<NcPopover :focus-trap="false">
 						<template #trigger>
 							<NcButton type="tertiary-no-background">
@@ -67,12 +68,12 @@
 							<div class="freebusy-caption">
 								<div class="freebusy-caption__calendar-user-types" />
 								<div class="freebusy-caption__colors">
-									<div v-for="color in colorCaption" :key="color.color" class="freebusy-caption-item">
+									<div class="freebusy-caption-item">
 										<div class="freebusy-caption-item__color"
-											:style="color.label === $t('calendar', 'Out of office') ? { 'background': 'repeating-linear-gradient(45deg, #dbdbdb, #dbdbdb 1px, transparent 1px, transparent 3.5px)'} : { 'background-color': color.color } " />
+											:style=" { 'background': 'repeating-linear-gradient(45deg, #dbdbdb, #dbdbdb 1px, transparent 1px, transparent 3.5px)'}" />
 										<div class="
 											freebusy-caption-item__label">
-											{{ color.label }}
+											{{ $t('calendar', 'Out of office') }}
 										</div>
 									</div>
 								</div>
@@ -143,6 +144,7 @@ import CheckIcon from 'vue-material-design-icons/Check.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircle.vue'
 
 import InviteesListSearch from '../Invitees/InviteesListSearch.vue'
+import AppNavigationHeaderViewMenu from '../../AppNavigation/AppNavigationHeader/AppNavigationHeaderViewMenu.vue'
 
 import { getColorForFBType } from '../../../utils/freebusy.js'
 import { getFirstFreeSlot, getBusySlotsForAttendee } from '../../../services/freeBusySlotService.js'
@@ -156,6 +158,7 @@ export default {
 		NcSelect,
 		FullCalendar,
 		InviteesListSearch,
+		AppNavigationHeaderViewMenu,
 		NcDateTimePickerNative,
 		NcDialog,
 		NcButton,
@@ -361,11 +364,7 @@ export default {
 				// Rendering
 				height: 'auto',
 				loading: this.loading,
-				headerToolbar: {
-					left: false,
-					center: 'title',
-					right: 'timeGridWeek,timeGridDay', // user can switch between the two
-				},
+				headerToolbar: false,
 				// Timezones:
 				timeZone: this.timezoneId,
 				// Formatting of the title
@@ -388,6 +387,10 @@ export default {
 		this.findFreeSlots()
 	},
 	methods: {
+		updateView(view) {
+			const calendar = this.$refs.freeBusyFullCalendar.getApi()
+			calendar.changeView(view)
+		},
 		handleSelect(arg) {
 			this.currentStart = arg.start
 			this.currentEnd = arg.end
@@ -552,6 +555,9 @@ export default {
 	margin-right: 0 !important;
 	border-radius: 6px !important;
 	border: 2px solid transparent !important;
+}
+:deep(.fc-event-time){
+	display: none !important;
 }
 
 </style>
