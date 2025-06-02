@@ -118,6 +118,7 @@ export default {
 				navLinkWeekClick: this.isWidget ? false : navLinkWeekClick(this.$router, this.$route),
 				select: this.isWidget ? false : select(this.$router, this.$route, window),
 				navLinks: true,
+				selectLongPressDelay: 500,
 				// Localization
 				...getDateFormattingConfig(),
 				...getFullCalendarLocale(),
