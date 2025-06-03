@@ -31,7 +31,10 @@
 				</ul>
 			</div>
 			<div class="sticky-footer">
-				<NcButton class="talk_new-room" :disabled="creatingTalkRoom" @click="createTalkRoom">
+				<NcButton v-if="canCreateConversations"
+					class="talk_new-room"
+					:disabled="creatingTalkRoom"
+					@click="createTalkRoom">
 					<template #icon>
 						<IconAdd :size="20" />
 					</template>
@@ -56,6 +59,7 @@ import {
 	NcEmptyContent,
 } from '@nextcloud/vue'
 import axios from '@nextcloud/axios'
+import { loadState } from '@nextcloud/initial-state'
 import { createTalkRoom, generateURLForToken } from '../../services/talkService.js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { generateOcsUrl } from '@nextcloud/router'
@@ -70,6 +74,8 @@ const CONVERSATION_OBJECT_TYPE_VIDEO_VERIFICATION = 'share:password'
 const CONVERSATION_OBJECT_TYPE_EVENT = 'event'
 const PARTICIPANT_TYPE_OWNER = 1
 const PARTICIPANT_TYPE_MODERATOR = 2
+
+const canCreateConversations = loadState('core', 'capabilities')?.spreed?.config?.conversations?.['can-create'] ?? false
 
 export default {
 	name: 'AddTalkModal',
@@ -89,6 +95,11 @@ export default {
 			type: Array,
 			required: true,
 		},
+	},
+	setup() {
+		return {
+			canCreateConversations,
+		}
 	},
 	data() {
 		return {
@@ -248,6 +259,7 @@ export default {
 	text-align: right;
 	display: flex;
 	background-color: var(--color-main-background);
+	border-radius: var(--border-radius-large);
 }
 .talk_new-room {
 	margin-right: auto;
