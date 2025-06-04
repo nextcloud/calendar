@@ -226,7 +226,6 @@ export default {
 	bottom: 2px !important;
 	justify-self: unset !important;
 	left: 43px;
-	position: relative;
 	opacity: .8;
 }
 
