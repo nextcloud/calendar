@@ -392,6 +392,13 @@ export default {
 			}
 		},
 	},
+	watch: {
+		attendees(newVal) {
+			if (newVal.length === 0) {
+				this.$emit('close:no-attendees')
+			}
+		},
+	},
 	mounted() {
 		const calendar = this.$refs.freeBusyFullCalendar.getApi()
 		calendar.scrollToTime(this.scrollTime)
