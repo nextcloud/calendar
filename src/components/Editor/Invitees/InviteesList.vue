@@ -58,6 +58,7 @@
 				@remove-attendee="removeAttendee"
 				@add-attendee="addAttendee"
 				@update-dates="saveNewDate"
+				@close:no-attendees="closeFreeBusy(true)"
 				@close="closeFreeBusy" />
 		</div>
 	</div>
@@ -75,6 +76,7 @@ import FreeBusy from '../FreeBusy/FreeBusy.vue'
 import {
 	showSuccess,
 	showError,
+	showWarning,
 } from '@nextcloud/dialogs'
 import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
 import AccountMultipleIcon from 'vue-material-design-icons/AccountMultiple.vue'
@@ -405,7 +407,10 @@ export default {
 		openFreeBusy() {
 			this.showFreeBusyModel = true
 		},
-		closeFreeBusy() {
+		closeFreeBusy(showNoAttendeesToast = false) {
+			if (showNoAttendeesToast) {
+				showWarning(this.$t('calendar', 'Please add at least one attendee to use the "Find a time" feature.'))
+			}
 			this.showFreeBusyModel = false
 		},
 		saveNewDate(dates) {
