@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<NcDialog size="large"
+	<NcDialog size="full"
 		:name="dialogName || $t('calendar', 'Availability of attendees, resources and rooms')"
 		@closing="$emit('close')">
 		<div class="modal__content modal--scheduler">
