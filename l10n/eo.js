@@ -140,9 +140,6 @@ OC.L10N.register(
     "Canceled" : "Nuligita",
     "Categories" : "Kategorioj",
     "Add this as a new category" : "Aldoni tion kiel novan kategorion",
-    "User not found" : "Netrovita uzanto",
-    "[Today]" : "[Hodiaŭ]",
-    "[Tomorrow]" : "[Morgaŭ]",
-    "[Yesterday]" : "[Hieraŭ]"
+    "User not found" : "Netrovita uzanto"
 },
 "nplurals=2; plural=(n != 1);");

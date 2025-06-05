@@ -577,25 +577,6 @@
     "This is an event reminder." : "Bu tadbir eslatmasi.",
     "Error while parsing a PROPFIND error" : "PROPFIND xatosini tahlil qilishda xatolik yuz berdi",
     "Appointment not found" : "Uchrashuv topilmadi",
-    "User not found" : "Foydalanuvchi topilmadi",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Taqvim ilovasi Nextcloud’ning CalDAV serveri uchun foydalanuvchi interfeysidir. Turli qurilmalardagi voqealarni Nextcloud bilan osongina sinxronlang va ularni onlayn tahrirlang.\n\n* 🚀 **Boshqa Nextcloud ilovalari bilan integratsiya!** Hozirda kontaktlar – oldinda.\n* 🌐 **WebCal Support!** Sevimli jamoangizning o‘yin kunlarini taqvimingizda ko‘rishni xohlaysizmi? Hammasi joyida!\n* 🙋 **Ishtirokchilar!** Tadbirlaringizga odamlarni taklif qiling\n* ⌚️ **Erkin/Band!** Ishtirokchilaringiz qachon uchrashishga tayyorligini ko‘ring\n* ⏰ **Eslatmalar!** Brauzeringiz ichida va elektron pochta orqali hodisalar uchun signallarni oling\n* 🔍 Qidiring! Tadbirlaringizni osongina toping\n* ☑️ Vazifalar! To'g'ridan-to'g'ri taqvimda tugash sanasi bo'lgan vazifalarni ko'ring\n* 🙈 **Biz g‘ildirakni qaytadan ixtiro qilmayapmiz!** Ajoyib [c-dav kutubxonasi](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) va [fullcalendar](https://github.com/mozilla-comm/ical.js) asosida (https://fulllendar) kutubxonalar.",
-    "Default calendar for invitations and new events" : "Taklifnomalar va yangi tadbirlar uchun birlamchi taqvim",
-    "Appointment was created successfully" : "Uchrashuv muvaffaqiyatli yaratildi",
-    "Appointment was updated successfully" : "Uchrashuv muvaffaqiyatli yangilandi",
-    "Create appointment" : "Uchrashuv yaratish",
-    "Edit appointment" : "Uchrashuvni tahrirlash",
-    "Book the appointment" : "Uchrashuvni bronlash",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Siz ushbu taqvimga ega emassiz, shuning uchun siz ushbu tadbirga ishtirokchilarni qo'sha olmaysiz",
-    "Create Talk room for this event" : "Ushbu tadbir uchun suhbat xonasi yarating",
-    "Search for emails, users, contacts or groups" : "Elektron pochta, foydalanuvchilar, kontaktlar yoki guruhlarni qidiring",
-    "Select date" : "Sanani tanlang",
-    "[Today]" : "[Bugun]",
-    "[Tomorrow]" : "[Ertaga]",
-    "[Yesterday]" : "[Kecha]",
-    "[Last] dddd" : "[Oxirgi] dddd",
-    "Create a new event" : "Yangi tadbirni yarating",
-    "in {monthNames}" : " {monthNames} da",
-    "Add a description" : "Tavsif qo'shing",
-    "Chat room for event" : "Tadbir uchun suhbat xonasi"
+    "User not found" : "Foydalanuvchi topilmadi"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -570,25 +570,6 @@
     "This is an event reminder." : "Þetta er áminning vegna atburðar.",
     "Error while parsing a PROPFIND error" : "Villa við þáttun á PROPFIND-villu",
     "Appointment not found" : "Stefnumót fannst ekki",
-    "User not found" : "Notandi fannst ekki",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Dagatalsforritið (Calendar) er notandaviðmót fyrir CalDAV-þjón Nextcloud. Samstilltu á einfaldan máta atburði af ýmsum tækjum við Nextcloud tölvuskýið og breyttu þeim á netinu.\n\n* 🚀 **Samþætting við önnur Nextcloud forrit!** Nú þegar við Tengiliði (Contacts) - fleira er í bígerð.\n* 🌐 **Stuðningur við WebCal!** Viltu sjá leikdegi í boltanum í dagatalinu þínu? Ekki vandamál!\n* 🙋 **Þátttakendur!** Bjóddu fólki á kynningar og fundi.\n* ⌚️ **Laus/Upptekinn!** Sjáðu hvenær þátttakendurnir geta mætt.\n* ⏰ **Áminningar!** Fáðu áminningar fyrir atburði inni í vafra og í tölvupósti.\n* 🔍 Leita! Finndu atburðina þina á einfaldan hátt.\n* ☑️ Verkefni! Sjáðu verkefni og skiladag þeirra beint í dagatalinu.\n* 🙈 **Við erum ekki að finna upp hjólið!** Byggist á hinum frábæru [c-dav](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) og [fullcalendar](https://github.com/fullcalendar/fullcalendar) aðgerðasöfnum.",
-    "Default calendar for invitations and new events" : "Sjálfgefið dagatal fyrir boð og nýja atburði",
-    "Appointment was created successfully" : "Tókst að búa til stefnumót",
-    "Appointment was updated successfully" : "Tókst að uppfæra stefnumót",
-    "Create appointment" : "Búa til stefnumót",
-    "Edit appointment" : "Breyta stefnumóti",
-    "Book the appointment" : "Bóka stefnumótið",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Þú átt ekki þetta dagatal, þannig að þú getur ekki bætt þátttakendum við þennan atburð",
-    "Create Talk room for this event" : "Búa til spjallsvæði fyrir þennan atburð",
-    "Search for emails, users, contacts or groups" : "Leita að tölvupóstföngum, notendum, tengiliðum eða hópum",
-    "Select date" : "Veldu dagsetningu",
-    "[Today]" : "[Í dag]",
-    "[Tomorrow]" : "[Á morgun]",
-    "[Yesterday]" : "[Í gær]",
-    "[Last] dddd" : "[Síðasta] dddd",
-    "Create a new event" : "Búa til nýjan atburð",
-    "in {monthNames}" : "í {monthNames}",
-    "Add a description" : "Settu inn lýsingu",
-    "Chat room for event" : "Spjallsvæði vegna atburðar"
+    "User not found" : "Notandi fannst ekki"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

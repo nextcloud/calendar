@@ -580,25 +580,6 @@
     "This is an event reminder." : "هذا تذكير بحدث",
     "Error while parsing a PROPFIND error" : "حدث خطأ أثناء تحليل PROFIND",
     "Appointment not found" : "الموعد غير موجود",
-    "User not found" : "المستخدم غير موجود",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "تطبيق \"التقويم\" Calendar هو واجهة مستخدم لخادم CalDAV الخاص بنكست كلاود. يمكنك مزامنة الأحداث بسهولة بين مختلف الأجهزة مع نكست كلاود و تحريرها عبر الإنترنت. \n* 🚀 ** التكامل مع تطبيقات نكست كلاود الأخرى!  مع تطبيق جهات الاتصال حاليًا و المزيد في المستقبل. تريد وضع مواعيد مباريات فريقك المفضل في التقويم الخاص بك؟ لا مشكلة! \n* 🙋 ** الحضور! ** دعوة الأشخاص إلى الأحداث الخاصة بك. \n* ⌚️ ** متوفر / مشغول! ** انظر عندما يكون الحاضرين مُتاحين للقاء. \n* ⏰ ** التذكير! ** أحصل على إشعارات تذكير بالأحداث عبر متصفحك و عبر البريد الإلكتروني. \n* 🔍 ابحث! العثور على الأحداث الخاصة بك بسهولة. \n* ☑️ المهام! اطّلع على المهام التي حان وقت إنجازها مباشرةً في التقويم. \n* 🙈 ** نحن لا نعيد اختراع العجلة! ** استنادًا إلى [مكتبة c-dav] العظيمة. (https://github.com/nextcloud/cdav-library) مكتبات [ical.js] (https://github.com/mozilla-comm/ical.js) و [fullcalendar] (https://github.com/fullcalendar/fullcalendar).",
-    "Default calendar for invitations and new events" : "التقويم التلقائي للدعوات و الأحداث الجديدة",
-    "Appointment was created successfully" : "تمّ بنجاحٍ إنشاء الموعد",
-    "Appointment was updated successfully" : "تمّ بنجاحٍ تعديل الموعد",
-    "Create appointment" : "إنشاء موعد",
-    "Edit appointment" : "تعديل موعد",
-    "Book the appointment" : "إحجز الموعد",
-    "You do not own this calendar, so you cannot add attendees to this event" : "أنت لا تملك هذا التقويم؛ و لهذا لا يمكنك إضافة مَدعُوِّين إلى هذا الحدث.",
-    "Create Talk room for this event" : "إنشاء غرفة مُحادثة لهذا الحدث.",
-    "Search for emails, users, contacts or groups" : "البحث في رسائل البريد الإلكتروني، و المستخدِمين، و جهات الاتصال، و المجموعات",
-    "Select date" : "إختر التاريخ",
-    "[Today]" : "[اليوم]",
-    "[Tomorrow]" : "[الغد]",
-    "[Yesterday]" : "[امس]",
-    "[Last] dddd" : "[اخر] dddd",
-    "Create a new event" : "إنشاء حدث جديد",
-    "in {monthNames}" : "في {monthNames}",
-    "Add a description" : "إضافة وصف",
-    "Chat room for event" : "غرفة محادثة للحدث"
+    "User not found" : "المستخدم غير موجود"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

@@ -359,16 +359,6 @@ OC.L10N.register(
     "Error while sharing file" : "Pogreška pri dijeljenju datoteke",
     "An error occurred, unable to delete the calendar." : "Došlo je do pogreške, nije moguće izbrisati kalendar.",
     "Imported {filename}" : "Uvezena datoteka {filename}",
-    "User not found" : "Korisnik nije pronađen",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Aplikacija Kalendar je korisničko sučelje za Nextcloudov CalDAV poslužitelj. Jednostavno sinkronizirajte događaje s raznih uređaja s Nextcloudom i uređujte ih na mreži.\n\n* 🚀 **Integracija s drugim Nextcloudovim aplikacijama!** Trenutno kontakti – i još puno toga.\n* 🌐 **Podrška za WebCal!** Želite li u kalendaru vidjeti važne dane svojeg omiljenog tima? Nema problema!\n* 🙋 **Sudionici!** Pozovite ljude na svoje događaje.\n* ⌚️ **Slobodni/zauzeti!** Provjerite kada su sudionici slobodni\n* ⏰ **Podsjetnici!** Primite upozorenja o događajima u svojem pregledniku ili putem e-pošte.\n* 🔍 Pretraživanje! S lakoćom pronađite svoje događaje\n* ☑️ Zadaci! Pregledajte zadatke s datumom izvršenja izravno u kalendaru\n* 🙈 **Ne izmišljamo toplu vodu!** Na temelju odličnih [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) i [fullcalendar](https://github.com/fullcalendar/fullcalendar) biblioteka.",
-    "Create Talk room for this event" : "Stvori Talk sobu za ovaj događaj",
-    "[Today]" : "[Danas]",
-    "[Tomorrow]" : "[Sutra]",
-    "[Yesterday]" : "[Jučer]",
-    "[Last] dddd" : "[Zadnji] dddd",
-    "Create a new event" : "Stvorite novi događaj",
-    "in {monthNames}" : "u {monthNames}",
-    "Add a description" : "Dodaj opis",
-    "Chat room for event" : "Soba za razmjenu poruka za događaj"
+    "User not found" : "Korisnik nije pronađen"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

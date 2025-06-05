@@ -578,25 +578,6 @@
     "This is an event reminder." : "Это напоминание о событии.",
     "Error while parsing a PROPFIND error" : "Ошибка при анализе ошибки PROPFIND",
     "Appointment not found" : "Встреча не найдена",
-    "User not found" : "Пользователь не найден",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Приложение «Календарь» обеспечивает работу с календарями с использованием протокола CalDAV. Сервер Nextcloud позволяет синхронизировать  календарей между различными устройствами, а это приложение служит для работы из браузера. \n\n*🚀 **Интеграция с другими приложениями Nextcloud** В настоящее время поддерживается интеграция с приложением Контакты, готовится интеграция с другими приложениями;\n* 🌐 **Поддержка протокола WebCal** Возможно настроить синхронизацию и показ дней игр своей любимой команды в календаре;\n* 🙋 **Отправка приглашений участникам** Пригласите участников на свои мероприятия;\n* ⌚️ **Поддержка статусов занятого и свободного времени** позволяет назначать встречи в удобное время\n* ⏰ **Напоминания** Получение уведомлений в браузере и по электронной почте\n* 🔍 **Поиск** позволяет находить нужные события \n* ☑️  **Задачи** просмотр задач с датой выполнения прямо в календаре\n* 🙈 **Мы не изобретаем колесо** Приложение основано на отличных библиотеках [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) и [fullcalendar](https://github.com/fullcalendar/fullcalendar).",
-    "Default calendar for invitations and new events" : "Календарь по умолчанию для приглашений и новых событий",
-    "Appointment was created successfully" : "Встреча была создана успешно",
-    "Appointment was updated successfully" : "Встреча была успешно обновлена",
-    "Create appointment" : "Создать мероприятие",
-    "Edit appointment" : "Редактировать встречу",
-    "Book the appointment" : "Записаться на встречу",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Вы не являетесь владельцем этого календаря, поэтому вы не можете добавлять участников на это мероприятие",
-    "Create Talk room for this event" : "Создать комнату этого события в приложении «Talk»",
-    "Search for emails, users, contacts or groups" : "Поиск адресов эл.почты, пользователей, контактов и групп",
-    "Select date" : "Выбрать дату",
-    "[Today]" : "[Сегодня]",
-    "[Tomorrow]" : "[Завтра]",
-    "[Yesterday]" : "[Вчера]",
-    "[Last] dddd" : "[Last] dddd",
-    "Create a new event" : "Создать событие",
-    "in {monthNames}" : "по {monthNames}",
-    "Add a description" : "Добавить описание",
-    "Chat room for event" : "Комната в приложении Talk для этого события"
+    "User not found" : "Пользователь не найден"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }
