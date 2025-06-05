@@ -173,12 +173,6 @@ OC.L10N.register(
     "Categories" : "Categorias",
     "Custom color" : "Color personalizada",
     "Error while sharing file" : "Error pendent lo partiment del fichièr",
-    "User not found" : "Utilizaire pas trobat",
-    "[Today]" : "[Uèi]",
-    "[Tomorrow]" : "[Deman]",
-    "[Yesterday]" : "[Ièr]",
-    "[Last] dddd" : "dddd [passat]",
-    "Create a new event" : "Crear un eveniment novèl",
-    "Add a description" : "Apondre una descripcion"
+    "User not found" : "Utilizaire pas trobat"
 },
 "nplurals=2; plural=(n > 1);");

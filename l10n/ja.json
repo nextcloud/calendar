@@ -545,25 +545,6 @@
     "Imported {filename}" : "インポートされた {filename}",
     "This is an event reminder." : "これはイベントのリマインダーです。",
     "Appointment not found" : "予定が見つかりません",
-    "User not found" : "ユーザーが見つかりません",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "カレンダーアプリは、NextcloudのCalDAVサーバーのユーザーインターフェイスです。様々なデバイスからNextcloudにイベントを簡単に同期し、オンラインで編集することができます。\n\n* 🚀  **他のNextcloudアプリとの統合！ ** 現在、連絡先 - 今後も追加予定です。\n* 🌐 **WebCal サポート！ ** お気に入りのチームの試合日をカレンダーで見たいですか？問題ありません!\n* 🙋 **出席者！ **イベントに人を招待する\n* ⌚️ **空き時間/忙しい時間！ ** 出席者がいつ会うことができるかを確認します。\n* ⏰  **リマインダー！ ** ブラウザ内や電子メールでイベントのアラームを取得します。\n* 🔍 検索! 簡単にイベントを見つける\n* ☑️ タスク! 期限付きのタスクをカレンダーで直接確認できる\n* 🙈 **我々は「車輪の再発明」をしない！**偉大な[c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js)と [fullcalendar](https://github.com/fullcalendar/fullcalendar) ライブラリをベースにしたものです。",
-    "Default calendar for invitations and new events" : "招待と新規イベントのデフォルトカレンダー",
-    "Appointment was created successfully" : "予定の作成に成功しました。",
-    "Appointment was updated successfully" : "予定は正常に更新されました。",
-    "Create appointment" : "予定を作成",
-    "Edit appointment" : "予定を編集",
-    "Book the appointment" : "予約をする",
-    "You do not own this calendar, so you cannot add attendees to this event" : "あなたはこのカレンダーを所有していないので、このイベントに出席者を追加することはできません。",
-    "Create Talk room for this event" : "このイベントに通話ルームを作成する",
-    "Search for emails, users, contacts or groups" : "メール、ユーザー、連絡先、またはグループを検索",
-    "Select date" : "日付を選択",
-    "[Today]" : "[今日]",
-    "[Tomorrow]" : "[明日]",
-    "[Yesterday]" : "[昨日]",
-    "[Last] dddd" : "[Last]dddd",
-    "Create a new event" : "新しいイベントを作成",
-    "in {monthNames}" : "in {monthNames}",
-    "Add a description" : "説明を追加",
-    "Chat room for event" : "イベントのチャットルーム"
+    "User not found" : "ユーザーが見つかりません"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

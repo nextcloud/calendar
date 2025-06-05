@@ -582,25 +582,6 @@
     "This is an event reminder." : "Este é um lembrete de evento.",
     "Error while parsing a PROPFIND error" : "Erro ao analisar um erro PROPFIND",
     "Appointment not found" : "Compromisso não encontrado",
-    "User not found" : "Usuário não encontrado",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "O aplicativo Calendário é uma interface de usuário para o servidor CalDAV do Nextcloud. Sincronize facilmente eventos de vários dispositivos com o Nextcloud e edite-os on-line.\n\n* 🚀 **Integração com outros aplicativos Nextcloud!** Atualmente Contatos - mais por vir.\n* 🌐 **Suporte WebCal!** Deseja ver as partidas do seu time no calendário? Sem problemas!\n* 🙋 **Participantes!** Convide pessoas para seus eventos\n* ⌚️ **Disponibilidade:** Veja quando seus participantes estarão disponíveis para atender\n* ⏰ **Lembretes!** Receba alarmes para eventos no seu navegador e via e-mail.\n* 🔍 Pesquise! Encontre seus eventos facilmente\n* ☑️ Tarefas! Veja as tarefas com a data de entrega diretamente no calendário\n* 🙈 **Não estamos reinventando a roda!** Baseado nas excelentes bibliotecas [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) e [fullcalendar](https://github.com/fullcalendar/fullcalendar).",
-    "Default calendar for invitations and new events" : "Calendário padrão para convites e novos eventos",
-    "Appointment was created successfully" : "Compromisso foi criado com sucesso",
-    "Appointment was updated successfully" : "Compromisso foi atualizado com sucesso",
-    "Create appointment" : "Criar compromisso",
-    "Edit appointment" : "Editar compromisso",
-    "Book the appointment" : "Marcar o agendamento",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Você não é o proprietário deste calendário, portanto, não pode adicionar participantes a este evento",
-    "Create Talk room for this event" : "Criar sala no Talk para este evento",
-    "Search for emails, users, contacts or groups" : "Pesquise e-mails, usuários, contatos ou grupos",
-    "Select date" : "Selecione data",
-    "[Today]" : "[Hoje]",
-    "[Tomorrow]" : "[Amanhã]",
-    "[Yesterday]" : "[Ontem]",
-    "[Last] dddd" : "[Último(a)] dddd",
-    "Create a new event" : "Criar um novo evento",
-    "in {monthNames}" : "em {monthNames}",
-    "Add a description" : "Adicionar uma descrição",
-    "Chat room for event" : "Sala de bato-papo para evento"
+    "User not found" : "Usuário não encontrado"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

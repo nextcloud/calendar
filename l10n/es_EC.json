@@ -491,22 +491,6 @@
     "Imported {filename}" : "Importado {filename}",
     "This is an event reminder." : "Esto es un recordatorio de evento.",
     "Appointment not found" : "Cita no encontrada",
-    "User not found" : "No se encontró el usuario",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "La aplicación de calendario es una interfaz de usuario para el servidor CalDAV de Nextcloud. Sincroniza fácilmente eventos desde varios dispositivos con tu Nextcloud y edítalos en línea.\n      \n      * 🚀 **Integración con otras aplicaciones de Nextcloud** ¡Actualmente con Contactos y más por venir!\n      * 🌐 **Soporte para WebCal** ¿Quieres ver los días de los partidos de tu equipo favorito en tu calendario? ¡No hay problema!\n      * 🙋 **Asistentes** Invita a personas a tus eventos\n      * ⌚️ **Disponibilidad** Mira cuándo están disponibles tus asistentes para reunirse\n      * ⏰ **Recordatorios** Recibe alarmas para eventos en tu navegador y por correo electrónico\n      * 🔍 Búsqueda: Encuentra tus eventos fácilmente\n      * ☑️ Tareas: Ve las tareas con fecha de vencimiento directamente en el calendario\n      * 🙈 **No estamos reinventando la rueda** Basado en las excelentes bibliotecas [c-dav](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) y [fullcalendar](https://github.com/fullcalendar/fullcalendar).",
-    "Appointment was created successfully" : "La cita se creó correctamente",
-    "Appointment was updated successfully" : "La cita se actualizó correctamente",
-    "Create appointment" : "Crear cita",
-    "Edit appointment" : "Editar cita",
-    "Book the appointment" : "Reservar la cita",
-    "Create Talk room for this event" : "Crear sala de Talk para este evento",
-    "Select date" : "Seleccionar fecha",
-    "[Today]" : "[Hoy]",
-    "[Tomorrow]" : "[Mañana]",
-    "[Yesterday]" : "[Ayer]",
-    "[Last] dddd" : "[Último] dddd",
-    "Create a new event" : "Crear un nuevo evento",
-    "in {monthNames}" : "en {monthNames}",
-    "Add a description" : "Agregar una descripción",
-    "Chat room for event" : "Sala de chat para el evento"
+    "User not found" : "No se encontró el usuario"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -368,16 +368,6 @@ OC.L10N.register(
     "Error while sharing file" : "שגיאה בשיתוף הקובץ",
     "An error occurred, unable to delete the calendar." : "אירעה שגיאה, לא ניתן למחוק את היומן.",
     "Imported {filename}" : "יובא {filename} ",
-    "User not found" : "המשתמש לא נמצא",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "אפליקציית לוח השנה היא ממשק משתמש לשרת CalDAV של Nextcloud. סנכרן בקלות אירועים ממכשירים שונים עם Nextcloud שלך, וערוך אותם באופן מקוון.\n\n* 🚀 **אינטגרציה עם אפליקציות Nextcloud אחרות!** כרגע אנשי קשר - עוד יבוא.\n* 🌐 **תמיכה ב- WebCal!** רוצה לראות את ימי המשחק של הקבוצה האהובה עליך ביומן שלך? אין בעיה!\n* 🙋 **משתתפים!** הזמן אנשים לאירועים שלך\n* ⌚️ **חינם/עסוק!** ראה מתי המשתתפים שלך זמינים להיפגש\n* ⏰ **תזכורות!** קבל אזעקות לאירועים בתוך הדפדפן שלך ודרך אי-מייל\n* 🔍 חפש! מצא את האירועים שלך בנחת\n* ☑️ משימות! ראה משימות עם תאריך יעד ישירות בלוח השנה\n* 🙈 **אנחנו לא ממציאים את הגלגל מחדש!** בהתבסס על [ספריית c-dav] הנהדרת, וספריות \n(https://github.com/nextcloud/cdav-library), [ical.js] (https: // github.com/mozilla-comm/ical.js) ו- [fullcalendar] (https://github.com/fullcalendar/fullcalendar).",
-    "Create Talk room for this event" : "צור חדר שיחות לאירוע זה",
-    "[Today]" : "[היום]",
-    "[Tomorrow]" : "[מחר]",
-    "[Yesterday]" : "[אתמול]",
-    "[Last] dddd" : "[Last] dddd",
-    "Create a new event" : "צור אירוע חדש",
-    "in {monthNames}" : "ב- {monthNames}",
-    "Add a description" : "הוסף תיאור",
-    "Chat room for event" : "חדר צ'ט לאירוע"
+    "User not found" : "המשתמש לא נמצא"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

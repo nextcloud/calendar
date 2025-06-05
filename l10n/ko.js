@@ -509,22 +509,6 @@ OC.L10N.register(
     "Imported {filename}" : "{filename} 가져옴",
     "This is an event reminder." : "일정에 대한 알림입니다.",
     "Appointment not found" : "약속을 찾을 수 없음",
-    "User not found" : "사용자를 찾을 수 없음",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "캘린더 앱은 Nextcloud의 CalDAV 서버용 사용자 인터페이스입니다. 다양한 장치의 일정을 Nextcloud와 쉽게 동기화하고 온라인으로 편집하세요. \n* 🚀 ** 다른 Nextcloud 앱과 통합! ** 현재 연락처 - 추가 예정 \n* 🌐 ** WebCal 지원! ** 캘린더에서 좋아하는 팀의 경기 일정을 보고 싶으세요? 문제 없어요! \n* 🙋 ** 모여라! ** 내 일정에 사람들 초대합니다\n* ⌚️ ** 한가함 / 바쁨! ** 언제 미팅이 가능할지 확인할 수 있습니다\n* ⏰ ** 알림! ** 브라우저나 이메일로 일정에 대한 알람을 받을 수 있습니다 \n* 🔍 검색! 쉽게 일정 찾기\n* ☑️ 작업! 마감일이있는 작업을 캘린더에서 바로 확인할 수 있습니다 \n* 🙈 ** 우리는 바퀴를 새로 만들지 않습니다! ** 위대한  [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js] (https : // github.com/mozilla-comm/ical.js) 그리고 [fullcalendar] (https://github.com/fullcalendar/fullcalendar) 라이브러리를 기반으로 합니다.",
-    "Appointment was created successfully" : "약속이 성공적으로 생성되었습니다",
-    "Appointment was updated successfully" : "약속이 성공적으로 갱신되었습니다",
-    "Create appointment" : "약속 만들기",
-    "Edit appointment" : "약속 편집",
-    "Book the appointment" : "약속 잡기",
-    "You do not own this calendar, so you cannot add attendees to this event" : "이 달력의 소유자가 아니기 때문에 이 일정에 참석자를 추가할 수 없습니다",
-    "Create Talk room for this event" : "이 일정에 대한 대화방 만들기",
-    "Search for emails, users, contacts or groups" : "이메일, 사용자, 연락처 및 그룹 검색",
-    "Select date" : "날짜 선택",
-    "[Today]" : "[오늘]",
-    "[Tomorrow]" : "[내일]",
-    "[Yesterday]" : "[어제]",
-    "Create a new event" : "새 일정 만들기",
-    "Add a description" : "설명 추가",
-    "Chat room for event" : "일정에 대한 대화방"
+    "User not found" : "사용자를 찾을 수 없음"
 },
 "nplurals=1; plural=0;");

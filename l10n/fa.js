@@ -498,22 +498,6 @@ OC.L10N.register(
     "Imported {filename}" : "وارد شده {نام پرونده}",
     "This is an event reminder." : "This is an event reminder.",
     "Appointment not found" : "Appointment not found",
-    "User not found" : "کاربر یافت نشد",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.",
-    "Appointment was created successfully" : "Appointment was created successfully",
-    "Appointment was updated successfully" : "Appointment was updated successfully",
-    "Create appointment" : "Create appointment",
-    "Edit appointment" : "Edit appointment",
-    "Book the appointment" : "Book the appointment",
-    "Create Talk room for this event" : "اتاق گفتگو را برای این رویداد ایجاد کنید",
-    "Select date" : "Select date",
-    "[Today]" : "[امروز]",
-    "[Tomorrow]" : "[فردا]",
-    "[Yesterday]" : "[دیروز]",
-    "[Last] dddd" : "[Last] dddd",
-    "Create a new event" : "Create a new event",
-    "in {monthNames}" : "درون {monthNames}",
-    "Add a description" : "یک توضیح بنویسید",
-    "Chat room for event" : "اتاق گپ برای رویداد"
+    "User not found" : "کاربر یافت نشد"
 },
 "nplurals=2; plural=(n > 1);");

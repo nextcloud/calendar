@@ -517,24 +517,6 @@
     "Imported {filename}" : "{filename} importálva",
     "This is an event reminder." : "Ez egy eseményemlékeztető.",
     "Appointment not found" : "A találkozó nem található",
-    "User not found" : "A felhasználó nem található",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "A Naptár alkalmazás egy felhasználói felület a Nextcloud CalDAV kiszolgálójához. Könnyen szinkronizálhatja a különböző eszközökről származó eseményeket a Nextcloud segítségével, és szerkesztheti azokat online.\n\n* 🚀 ** Integráció más nextcloudos alkalmazásokkal. ** Jelenleg a Névjegyekkel – de még több várható.\n* 🌐 ** WebCal támogatás. ** Szeretné megnézni kedvenc csapata mérkőzéseit a naptárában? Nem probléma.\n* 🙋 ** Résztvevők. ** Hívjon meg embereket az eseményeire\n* ⌚️ ** Szabad/elfoglalt. ** Nézze meg, mikor állnak rendelkezésre a résztvevők\n* ⏰ ** Emlékeztetők! ** Riasztásokat kaphat az eseményekről a böngészőben és e-mailben\n* 🔍 Keresés. Keresse meg eseményeit egyszerűen\n* ☑️ Feladatok. Az esedékes dátummal rendelkező feladatokat közvetlenül a naptárban láthatja\n* 🙈 ** Nem találjuk fel újra a kereket. ** A nagyszerű [c-dav](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) és [fullcalendar](https://github.com/fullcalendar/fullcalendar) programkönyvtárak használatával.",
-    "Appointment was created successfully" : "A találkozó sikeresen létrehozva.",
-    "Appointment was updated successfully" : "A találkozó sikeresen frissítve.",
-    "Create appointment" : "Találkozó létrehozása",
-    "Edit appointment" : "Találkozó szerkesztése",
-    "Book the appointment" : "Találkozó lefoglalása",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Nem tulajdonosa ennek a naptárnak, ezért nem adhat hozzá meghívottakat az eseményhez",
-    "Create Talk room for this event" : "Beszélgetés szoba létrehozása ehhez az eseményhez",
-    "Search for emails, users, contacts or groups" : "E-mailek, felhasználók, névjegyek vagy csoportok keresése",
-    "Select date" : "Válasszon dátumot",
-    "[Today]" : "[Ma]",
-    "[Tomorrow]" : "[Holnap]",
-    "[Yesterday]" : "[Tegnap]",
-    "[Last] dddd" : "[Múlt] dddd",
-    "Create a new event" : "Új esemény létrehozása",
-    "in {monthNames}" : "{monthNames} hónapban",
-    "Add a description" : "Leírás hozzáadása",
-    "Chat room for event" : "Csevegőszoba az eseményhez"
+    "User not found" : "A felhasználó nem található"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

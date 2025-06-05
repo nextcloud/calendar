@@ -552,25 +552,6 @@
     "This is an event reminder." : "Przypomnienie o wydarzeniu.",
     "Error while parsing a PROPFIND error" : "Wystąpił błąd podczas analizowania błędu PROPFIND",
     "Appointment not found" : "Nie znaleziono spotkania",
-    "User not found" : "Nie znaleziono użytkownika",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Aplikacja Kalendarz to interfejs użytkownika CalDAV dla serwera Nextcloud. Z łatwością synchronizuj wydarzenia z różnych urządzeń z Nextcloud i edytuj je online.\n\n* 🚀 **Integracja z innymi aplikacjami Nextcloud!** Obecnie Kontakty - więcej w przyszłości.\n* 🌐 **Wsparcie WebCal!** Chcesz widzieć mecze swojej ulubionej drużyny w swoim kalendarzu? Nie ma problemu!\n* 🙋 **Uczestnicy!** Zapraszaj ludzi na swoje wydarzenia\n* ⌚️ **Wolny/Zajęty!** Zobacz, kiedy Twoi uczestnicy są dostępni\n* ⏰ **Przypomnienia!** Otrzymuj alarmy o wydarzeniach w przeglądarce i e-mailem\n* 🔍 **Szukaj!** Łatwo znajdź swoje wydarzenia\n* ☑️ **Zadania!** Zobacz zadania z terminem bezpośrednio w kalendarzu\n* 🙈 **Nie wymyślamy na nowo koła!** Na podstawie wspaniałej [biblioteki c-dav](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) i [fullcalendar](https://github.com/fullcalendar/fullcalendar).",
-    "Default calendar for invitations and new events" : "Domyślny kalendarz zaproszeń i nowych wydarzeń",
-    "Appointment was created successfully" : "Spotkanie zostało pomyślnie utworzone",
-    "Appointment was updated successfully" : "Spotkanie zostało pomyślnie zaktualizowane",
-    "Create appointment" : "Utwórz spotkanie",
-    "Edit appointment" : "Edytuj spotkanie",
-    "Book the appointment" : "Zarezerwuj spotkanie",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Nie jesteś właścicielem tego kalendarza, więc nie możesz dodawać uczestników do tego wydarzenia",
-    "Create Talk room for this event" : "Utwórz pokój w Talku dla tego wydarzenia",
-    "Search for emails, users, contacts or groups" : "Wyszukaj e-maile, użytkowników, kontakty lub grupy",
-    "Select date" : "Wybierz datę",
-    "[Today]" : "[Dzisiaj]",
-    "[Tomorrow]" : "[Jutro]",
-    "[Yesterday]" : "[Wczoraj]",
-    "[Last] dddd" : "[Ostatni] dddd",
-    "Create a new event" : "Utwórz nowe wydarzenie",
-    "in {monthNames}" : "za {monthNames}",
-    "Add a description" : "Dodaj opis",
-    "Chat room for event" : "Pokój rozmów dla wydarzenia"
+    "User not found" : "Nie znaleziono użytkownika"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

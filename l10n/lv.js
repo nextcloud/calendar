@@ -459,22 +459,6 @@ OC.L10N.register(
     "Imported {filename}" : "Importēts {filename}",
     "This is an event reminder." : "Šis ir notikuma atgādinājums.",
     "Appointment not found" : "Tikšanās nav atrasta",
-    "User not found" : "Lietotājs nav atrasts",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Kalendāra lietotne ir lietotāja saskarne Nextcloud CalDAV serverim. Vienkārša notikumus sinhronizēšana dažādās ierīcēs ar savu Nextcloud un to labošana tiešsaistē.\n\n* 🚀 **Iekļaušana ar citām Nextcloud lietotnēm.** Pašlaik Kontaktpersonas - vairāk nākotnē.\n* 🌐 **WebCal atbalsts.** Vai vēlies redzēt savas mīļākās komandas spēļu dienas kalendārā? Bez sarežģijumiem.\n* 🙋 **Dalībnieki.** Uzaicini cilvēkus uz saviem notikumiem.\n* ⌚️ **Brīvs/Aizņemts.** Redzi, kad dalībniekiem ir pieejams brīvs laiks.\n* ⏰ **Atgādinājumi.** Saņem savā pārlūkprogrammā un e-pastā paziņojumus par notikumiem!\n* 🔍 Meklēšana. Viegli atrodi savus notikumus!\n* ☑️ Uzdevumi. Redzi uzdevumus ar beigu datumu tieši kalendārā!\n* 🙈 **Mēs neizgudrojam jaunu riteni!** Balstīts uz lielisko [c-dav bibliotēku](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) un [fullcalendar](https://github.com/fullcalendar/fullcalendar) bibliotēku.",
-    "Appointment was created successfully" : "Tikšanās veiksmīgi izveidota",
-    "Appointment was updated successfully" : "Tikšanās veiksmīgi atjaunināta",
-    "Create appointment" : "Izveidot plānotu tikšanos",
-    "Edit appointment" : "Labot norunātu tikšanos",
-    "Book the appointment" : "Rezerevēt plānotu tikšanos",
-    "You do not own this calendar, so you cannot add attendees to this event" : "Tev nepieder šis kalendārs, tāpēc Tu nevari šim notikumam pievienot dalībniekus.",
-    "Create Talk room for this event" : "Izveidojiet sarunu telpu šim notikumam",
-    "Search for emails, users, contacts or groups" : "Meklēt e-pasta adreses, lietotājus, kontaktpersonas vai kopas",
-    "Select date" : "Izvēlieties datumu",
-    "[Today]" : "[Šodien]",
-    "[Tomorrow]" : "[Rīt]",
-    "Create a new event" : "Izveidot jaunu notikumu",
-    "in {monthNames}" : "{monthNames}",
-    "Add a description" : "Pievienot aprakstu",
-    "Chat room for event" : "Tērzēšanas istaba notikumam"
+    "User not found" : "Lietotājs nav atrasts"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

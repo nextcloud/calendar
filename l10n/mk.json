@@ -497,22 +497,6 @@
     "Imported {filename}" : "Импортирано {filename}",
     "This is an event reminder." : "Ова е потсетник за настан.",
     "Appointment not found" : "Терминот не е пронајден",
-    "User not found" : "Корисникот не е пронајден",
-    "The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.\n\n* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.\n* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!\n* 🙋 **Attendees!** Invite people to your events\n* ⌚️ **Free/Busy!** See when your attendees are available to meet\n* ⏰ **Reminders!** Get alarms for events inside your browser and via email\n* 🔍 Search! Find your events at ease\n* ☑️ Tasks! See tasks with a due date directly in the calendar\n* 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries." : "Апликацијата Calendar е кориснички интерфејс за серверот CalDAV на Nextcloud. Лесно синхронизирајте настани од различни уреди со вашиот Nextcloud и уредувајте ги онлајн.\n\n* 🚀 **Интеграција со други апликации Nextcloud!** Моментално Контакти - претстојат повеќе.\n* 🌐 **WebCal поддршка!** Сакате да ги видите натпреварите на вашиот омилен тим во вашиот календар? Нема проблем!\n* 🙋 **Присутни!** Поканете луѓе на вашите настани\n* ⌚️ **Слободно/Зафатено!** Погледнете кога вашите присутни се достапни за средба\n* ⏰ **Потсетници!** Добијте аларми за настани во вашиот прелистувач и преку е-пошта\n* 🔍 Барај! Најдете ги вашите настани лесно\n* ☑️ Задачи! Погледнете ги задачите со датум на доспевање директно во календарот\n* 🙈 **Ние не го измислуваме повторно тркалото!** Врз основа на одличната [c-dav библиотека](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/ mozilla-comm/ical.js) и библиотеки [fullcalendar](https://github.com/fullcalendar/fullcalendar).",
-    "Appointment was created successfully" : "Состанокот е успешно креиран",
-    "Appointment was updated successfully" : "Состанокот е успешно ажуриран",
-    "Create appointment" : "Креирај термин",
-    "Edit appointment" : "Уреди термин",
-    "Book the appointment" : "Резервирај термин",
-    "Create Talk room for this event" : "Креирај соба за разговор за овој настан",
-    "Select date" : "Избери датум",
-    "[Today]" : "[Денес]",
-    "[Tomorrow]" : "[Утре]",
-    "[Yesterday]" : "[Вчера]",
-    "[Last] dddd" : "[Последна] dddd",
-    "Create a new event" : "Креирајте нов настан",
-    "in {monthNames}" : "во {monthNames}",
-    "Add a description" : "Додади опис",
-    "Chat room for event" : "Соба за разговор за настанот"
+    "User not found" : "Корисникот не е пронајден"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }
