@@ -51,7 +51,7 @@ import useCalendarsStore from '../store/calendars.js'
 import useSettingsStore from '../store/settings.js'
 import useCalendarObjectsStore from '../store/calendarObjects.js'
 import useWidgetStore from '../store/widget.js'
-import { mapStores, mapState } from 'pinia'
+import { mapState, mapStores } from 'pinia'
 
 export default {
 	name: 'CalendarGrid',
@@ -217,6 +217,8 @@ export default {
 
 			resizeObserver.observe(this.$refs.fullCalendar.$el)
 		}
+
+		this.adjustEventOverlapping()
 	},
 	async created() {
 		this.updateTodayJob = setInterval(() => {
@@ -278,6 +280,9 @@ export default {
 			}
 		}
 	},
+	updated() {
+		this.adjustEventOverlapping()
+	},
 	methods: {
 		/**
 		 * When a user changes the view, remember it and
@@ -288,6 +293,63 @@ export default {
 				this.settingsStore.setInitialView({ initialView })
 			}
 		}, 5000),
+
+		adjustEventOverlapping() {
+			/**
+			 * This is needed to prevent text from overlapping when the event is transparent (in the past).
+			 * There are no CSS selectors for past events, or overlapping events.
+			 * Therefore to see what is overlapping, we first need to wait for the events to be rendered,
+			 * then take the events inside the same column with the same vertical position.
+			 * All the events except the last one on top will have half of their inner content clipped.
+			 */
+			setTimeout(() => {
+				const columns = document.querySelectorAll('.fc-timegrid-col')
+
+				columns.forEach(column => {
+					const elements = column.querySelectorAll('.fc-timegrid-event-harness')
+					const elementsGroupedByTop = {}
+
+					elements.forEach(element => {
+						const insetTop = window.getComputedStyle(element).top
+
+						if (!elementsGroupedByTop[insetTop]) {
+							elementsGroupedByTop[insetTop] = []
+						}
+						elementsGroupedByTop[insetTop].push(element)
+					})
+
+					Object.keys(elementsGroupedByTop).forEach(insetTop => {
+						if (elementsGroupedByTop[insetTop].length > 1) {
+							const elementsWithTheSameTop = [...elementsGroupedByTop[insetTop]]
+
+							elementsWithTheSameTop.pop()
+
+							elementsWithTheSameTop.forEach((element, index) => {
+								const eventWrapper = element.querySelector('.fc-event')
+								const style = window.getComputedStyle(elementsGroupedByTop[insetTop][index + 1])
+								eventWrapper.style.clipPath = `polygon(
+									0 0,               /* Top-left corner */
+									100% 0,            /* Top-right corner */
+									100% 100%,         /* Bottom-right corner */
+									0 100%,            /* Bottom-left corner */
+									0 0,               /* Close the shape */
+
+									100% 0,            /* Start of the cut-out (original polygon) */
+									49% 0,             /* Top-middle */
+									49% ${style.height}, /* Bottom-middle */
+									100% ${style.height}, /* Bottom-right */
+									100% 0              /* Close the cut-out */
+								)`
+
+								const fcEventMainElement = element.querySelector('.fc-event-main')
+
+								fcEventMainElement.style.clipPath = 'polygon(0 0, 47% 0, 47% 100%, 0 100%)'
+							})
+						}
+					})
+				})
+			}, 500)
+		},
 	},
 }
 </script>
