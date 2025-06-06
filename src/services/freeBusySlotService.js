@@ -8,11 +8,12 @@ import { findSchedulingOutbox } from './caldavService.js'
 import freeBusyResourceEventSourceFunction from '../fullcalendar/eventSources/freeBusyResourceEventSourceFunction.js'
 import getTimezoneManager from './timezoneDataProviderService.js'
 import logger from '../utils/logger.js'
+import { uidToHexColor } from '../utils/color.js'
 
 const daysToSearch = 7
 
 /**
- * Get the first available slot for an event using freebusy API
+ * Get busy slots for organizer and attendees
  *
  * @param {Principal} organizer The organizer of the event
  * @param {AttendeeProperty[]} attendees Array of the event's attendees
@@ -58,6 +59,53 @@ export async function getBusySlots(organizer, attendees, start, end, timeZoneId)
 		events.push(...freeBusyResourceEventSourceFunction(uri, data.calendarData, data.success, startDateTime, endDateTime, timezoneObject))
 	}
 
+	return { events }
+}
+
+/**
+ * Get busy slots an attendee or an organizer
+ *
+ * @param {Principal} organizer The organizer of the event
+ * @param {AttendeeProperty} attendee Array of the event's attendees
+ * @param {Date} start The start date and time of the event
+ * @param {Date} end The end date and time of the event
+ * @param timeZoneId
+ * @return {Promise<>}
+ */
+export async function getBusySlotsForAttendee(organizer, attendee, start, end, timeZoneId) {
+	// We start searching a day earlier because if we don't availability events get cut off in weird ways
+	const clonedStart = new Date(start.getTime())
+	clonedStart.setDate(clonedStart.getDate() - 1)
+	let timezoneObject = getTimezoneManager().getTimezoneForId(timeZoneId)
+	if (!timezoneObject) {
+		timezoneObject = getTimezoneManager().getTimezoneForId('UTC')
+		logger.error(`FreeBusyEventSource: Timezone ${timeZoneId} not found, falling back to UTC.`)
+	}
+
+	const startDateTime = DateTimeValue.fromJSDate(clonedStart, true)
+	const endDateTime = DateTimeValue.fromJSDate(end, true)
+
+	const freeBusyComponent = createFreeBusyRequest(startDateTime, endDateTime, organizer, [attendee])
+	const freeBusyICS = freeBusyComponent.toICS()
+
+	let outbox
+	try {
+		outbox = await findSchedulingOutbox()
+	} catch (error) {
+		return { error }
+	}
+
+	let freeBusyData
+	try {
+		freeBusyData = await outbox.freeBusyRequest(freeBusyICS)
+	} catch (error) {
+		return { error }
+	}
+	const color = uidToHexColor(attendee.commonName)
+	const events = []
+	for (const [uri, data] of Object.entries(freeBusyData)) {
+		events.push(...freeBusyResourceEventSourceFunction(uri, data.calendarData, data.success, startDateTime, endDateTime, timezoneObject, color))
+	}
 	return { events }
 }
 

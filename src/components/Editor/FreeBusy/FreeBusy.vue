@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<NcDialog size="large"
+	<NcDialog size="full"
 		:name="dialogName || $t('calendar', 'Availability of attendees, resources and rooms')"
 		@closing="$emit('close')">
 		<div class="modal__content modal--scheduler">
@@ -55,6 +55,7 @@
 					<NcDateTimePickerNative :hide-label="true"
 						:value="currentDate"
 						@input="(date)=>handleActions('picker', date)" />
+					<AppNavigationHeaderViewMenu :is-free-busy="true" @update:view="updateView" />
 					<NcPopover :focus-trap="false">
 						<template #trigger>
 							<NcButton type="tertiary-no-background">
@@ -67,10 +68,12 @@
 							<div class="freebusy-caption">
 								<div class="freebusy-caption__calendar-user-types" />
 								<div class="freebusy-caption__colors">
-									<div v-for="color in colorCaption" :key="color.color" class="freebusy-caption-item">
-										<div class="freebusy-caption-item__color" :style="{ 'background-color': color.color }" />
-										<div class="freebusy-caption-item__label">
-											{{ color.label }}
+									<div class="freebusy-caption-item">
+										<div class="freebusy-caption-item__color"
+											:style=" { 'background': 'repeating-linear-gradient(45deg, #dbdbdb, #dbdbdb 1px, transparent 1px, transparent 3.5px)'}" />
+										<div class="
+											freebusy-caption-item__label">
+											{{ $t('calendar', 'Out of office') }}
 										</div>
 									</div>
 								</div>
@@ -119,15 +122,14 @@
 <script>
 // Import FullCalendar itself
 import FullCalendar from '@fullcalendar/vue'
-import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
+import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 
 import { NcDateTimePickerNative, NcButton, NcPopover, NcUserBubble, NcDialog, NcSelect } from '@nextcloud/vue'
 // Import event sources
-import freeBusyBlockedForAllEventSource from '../../../fullcalendar/eventSources/freeBusyBlockedForAllEventSource.js'
-import freeBusyFakeBlockingEventSource from '../../../fullcalendar/eventSources/freeBusyFakeBlockingEventSource.js'
-import freeBusyResourceEventSource from '../../../fullcalendar/eventSources/freeBusyResourceEventSource.js'
+import freeBusyEventSource from '../../../fullcalendar/eventSources/freeBusyEventSource.js'
 
+import { AttendeeProperty } from '@nextcloud/calendar-js'
 // Import localization plugins
 import { getDateFormattingConfig } from '../../../fullcalendar/localization/dateFormattingConfig.js'
 import { getFullCalendarLocale } from '../../../fullcalendar/localization/localeProvider.js'
@@ -142,9 +144,10 @@ import CheckIcon from 'vue-material-design-icons/Check.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircle.vue'
 
 import InviteesListSearch from '../Invitees/InviteesListSearch.vue'
+import AppNavigationHeaderViewMenu from '../../AppNavigation/AppNavigationHeader/AppNavigationHeaderViewMenu.vue'
 
 import { getColorForFBType } from '../../../utils/freebusy.js'
-import { getFirstFreeSlot, getBusySlots } from '../../../services/freeBusySlotService.js'
+import { getFirstFreeSlot, getBusySlotsForAttendee } from '../../../services/freeBusySlotService.js'
 import dateFormat from '../../../filters/dateFormat.js'
 import { mapState } from 'pinia'
 import useSettingsStore from '../../../store/settings.js'
@@ -155,6 +158,7 @@ export default {
 		NcSelect,
 		FullCalendar,
 		InviteesListSearch,
+		AppNavigationHeaderViewMenu,
 		NcDateTimePickerNative,
 		NcDialog,
 		NcButton,
@@ -240,7 +244,7 @@ export default {
 		 */
 		plugins() {
 			return [
-				resourceTimelinePlugin,
+				timeGridPlugin,
 				momentPluginFactory(),
 				VTimezoneNamedTimezone,
 				interactionPlugin,
@@ -266,24 +270,15 @@ export default {
 			return this.timezoneId.replace('/', '-')
 		},
 		eventSources() {
-			return [
-				freeBusyResourceEventSource(
-					this._uid,
-					this.organizer.attendeeProperty,
-					this.attendees.map((a) => a.attendeeProperty),
-				),
-				freeBusyFakeBlockingEventSource(
-					this._uid,
-					this.resources,
-					this.currentStart,
-					this.currentEnd,
-				),
-				freeBusyBlockedForAllEventSource(
-					this.organizer.attendeeProperty,
-					this.attendees.map((a) => a.attendeeProperty),
-					this.resources,
-				),
-			]
+			const attendees = this.attendees.map((a) => a.attendeeProperty)
+			const organizer = new AttendeeProperty('ATTENDEE', this.organizer.attendeeProperty.email)
+			organizer.commonName = this.organizer.attendeeProperty.commonName
+			return [...attendees, organizer].map((a) => freeBusyEventSource(
+				this._uid,
+				this.organizer.attendeeProperty,
+				a,
+			))
+
 		},
 		resources() {
 			const resources = []
@@ -352,18 +347,17 @@ export default {
 		options() {
 			return {
 				// Initialization:
-				initialView: 'resourceTimelineDay',
+				initialView: this.attendees.length > 4 ? 'timeGridDay' : 'timeGridWeek',
 				initialDate: this.currentStart,
-				schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
 				// Data
 				eventSources: this.eventSources,
-				resources: this.resources,
 				// Plugins
 				plugins: this.plugins,
 				// Interaction:
 				editable: false,
 				selectable: true,
 				select: this.handleSelect,
+				eventDidMount: this.eventDidMount,
 				// Localization:
 				...getDateFormattingConfig(),
 				...getFullCalendarLocale(),
@@ -371,12 +365,6 @@ export default {
 				height: 'auto',
 				loading: this.loading,
 				headerToolbar: false,
-				resourceAreaColumns: [
-					{
-						field: 'title',
-						headerContent: 'Attendees',
-					},
-				],
 				// Timezones:
 				timeZone: this.timezoneId,
 				// Formatting of the title
@@ -406,9 +394,19 @@ export default {
 		this.findFreeSlots()
 	},
 	methods: {
+		updateView(view) {
+			const calendar = this.$refs.freeBusyFullCalendar.getApi()
+			calendar.changeView(view)
+		},
 		handleSelect(arg) {
 			this.currentStart = arg.start
 			this.currentEnd = arg.end
+		},
+		eventDidMount(e) {
+			const eventElement = e.el
+			if (eventElement.classList.contains('free-busy-busy-unavailable')) {
+				eventElement.style.background = 'repeating-linear-gradient(45deg, #dbdbdb, #dbdbdb 1px, transparent 1px, transparent 3.5px)'
+			}
 		},
 		save() {
 			this.$emit('update-dates', { start: this.currentStart, end: this.currentEnd })
@@ -465,7 +463,7 @@ export default {
 				// for now search slots only in the first week days
 				const endSearchDate = new Date(startSearch)
 				endSearchDate.setDate(startSearch.getDate() + 8)
-				const eventResults = await getBusySlots(
+				const eventResults = await getBusySlotsForAttendee(
 					this.organizer.attendeeProperty,
 					this.attendees.map((a) => a.attendeeProperty),
 					startSearch,
@@ -560,6 +558,15 @@ export default {
 :deep(.mx-input) {
 	height: 38px !important;
 }
+:deep(.fc-event) {
+	margin-right: 0 !important;
+	border-radius: 6px !important;
+	border: 2px solid transparent !important;
+}
+:deep(.fc-event-time){
+	display: none !important;
+}
+
 </style>
 
 <style lang="scss">
