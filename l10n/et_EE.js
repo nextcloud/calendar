@@ -352,6 +352,7 @@ OC.L10N.register(
     "Tentative" : "Esialgne",
     "No attendees yet" : "Osalejaid veel pole",
     "{invitedCount} invited, {confirmedCount} confirmed" : "Kutseid saadetud: {invitedCount}, kinnitusi on {confirmedCount}",
+    "Please add at least one attendee to use the \"Find a time\" feature." : "Et „Otsi aega“ toimiks lisa palun vähemalt üks osaleja.",
     "Successfully appended link to talk room to location." : "Kõnerakenduse jututoa lingi lisamine asukohale õnnestus.",
     "Successfully appended link to talk room to description." : "Kõnerakenduse jututoa lingi lisamine kirjeldusele õnnestus.",
     "Error creating Talk room" : "Viga Kõnerakenduse jututoa loomisel",

@@ -352,6 +352,7 @@ OC.L10N.register(
     "Tentative" : "Tentative",
     "No attendees yet" : "No attendees yet",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} invited, {confirmedCount} confirmed",
+    "Please add at least one attendee to use the \"Find a time\" feature." : "Please add at least one attendee to use the \"Find a time\" feature.",
     "Successfully appended link to talk room to location." : "Successfully appended link to talk room to location.",
     "Successfully appended link to talk room to description." : "Successfully appended link to talk room to description.",
     "Error creating Talk room" : "Error creating Talk room",

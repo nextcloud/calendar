@@ -350,6 +350,7 @@
     "Tentative" : "暫定",
     "No attendees yet" : "還沒有任何參與者",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} 個已邀請，{confirmedCount} 個已確認",
+    "Please add at least one attendee to use the \"Find a time\" feature." : "請至少添加一位與會者以使用「尋找時間」功能。",
     "Successfully appended link to talk room to location." : "成功將線上會議室的連結加至位置。",
     "Successfully appended link to talk room to description." : "成功將線上會議室的連結加至活動細節",
     "Error creating Talk room" : "建立線上會議室發生錯誤",

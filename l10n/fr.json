@@ -350,6 +350,7 @@
     "Tentative" : "Provisoire",
     "No attendees yet" : "Aucun participant pour l'instant",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} invité(s), {confirmedCount} confirmé(s)",
+    "Please add at least one attendee to use the \"Find a time\" feature." : "Veuillez ajouter au moins un participant pour utiliser la fonction « Trouver un horaire ».",
     "Successfully appended link to talk room to location." : "Le lien vers la salle de réunion a été ajouté avec succès au lieu.",
     "Successfully appended link to talk room to description." : "Le lien vers la discussion a été ajouté à la description",
     "Error creating Talk room" : "Erreur lors de la création de la salle de discussion",
