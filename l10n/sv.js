@@ -351,6 +351,7 @@ OC.L10N.register(
     "Tentative" : "Preliminärt",
     "No attendees yet" : "Inga deltagare än",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} inbjudna, {confirmedCount} bekräftade",
+    "Please add at least one attendee to use the \"Find a time\" feature." : "Lägg till minst en deltagare för att använda funktionen “Hitta en tid”.",
     "Successfully appended link to talk room to location." : "Länk till rum i Talk tillagd i plats.",
     "Successfully appended link to talk room to description." : "Länk till rum i Talk tillagd i beskrivningen.",
     "Error creating Talk room" : "Kunde inte skapa rum i Talk",

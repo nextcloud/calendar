@@ -352,6 +352,7 @@ OC.L10N.register(
     "Tentative" : "Nezávazně",
     "No attendees yet" : "Zatím žádní účastníci",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} pozváno, od {confirmedCount} potvrzeno",
+    "Please add at least one attendee to use the \"Find a time\" feature." : "Aby bylo možné použít funkci „Najít čas“, je třeba přidat alespoň jednoho účastníka.",
     "Successfully appended link to talk room to location." : "Do popisu úspěšně přidán odkaz na umístění v Talk",
     "Successfully appended link to talk room to description." : "Do popisu úspěšně přidán odkaz na místnost v Talk",
     "Error creating Talk room" : "Chyba při vytváření místnosti v Talk",

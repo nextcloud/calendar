@@ -352,6 +352,7 @@ OC.L10N.register(
     "Tentative" : "Vorläufig",
     "No attendees yet" : "Keine Teilnehmer bislang",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} eingeladen, {confirmedCount} bestätigt",
+    "Please add at least one attendee to use the \"Find a time\" feature." : "Zum Verwenden der Funktion \"Zeit finden\", bitte mindestens einen Teilnehmer hinzufügen.",
     "Successfully appended link to talk room to location." : "Link des Talk-Raums zur Ortsangabe hinzugefügt.",
     "Successfully appended link to talk room to description." : "Link zur Beschreibung des Besprechungsraums hinzugefügt.",
     "Error creating Talk room" : "Fehler beim Erstellen des Besprechungsraumes",
