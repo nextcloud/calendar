@@ -352,6 +352,7 @@ OC.L10N.register(
     "Tentative" : "Sealadach",
     "No attendees yet" : "Níl aon lucht freastail fós",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} cuireadh, {confirmedCount} dearbhaithe",
+    "Please add at least one attendee to use the \"Find a time\" feature." : "Cuir freastalaí amháin ar a laghad leis le go n-úsáidfidh tú an ghné \"Aimsigh am\".",
     "Successfully appended link to talk room to location." : "D'éirigh le ceangal leis an seomra cainte a chur i gceangal le suíomh.",
     "Successfully appended link to talk room to description." : "D'éirigh le ceangal leis an seomra cainte a chur i gceangal leis an gcur síos.",
     "Error creating Talk room" : "Earráid agus an seomra cainte á chruthú",
