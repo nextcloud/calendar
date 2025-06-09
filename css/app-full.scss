@@ -18,27 +18,47 @@
 	display: flex;
 	flex-wrap: wrap-reverse;
 	gap: calc(var(--column-gap) + var(--default-grid-baseline) * 5);
-	margin: calc(var(--default-grid-baseline) * 2) 0;
+	padding: calc(var(--default-grid-baseline) * 2) 0;
 	background-color: var(--color-main-background);
 	align-items: center;
 	z-index: 10000;
-	padding-left: calc(var(--default-grid-baseline) * 4 + 20px);
 
-	.property-title {
-		max-width: calc(var(--total-width) * 2/3 - var(--column-gap) / 2 - (var(--default-grid-baseline) * 4 + 20px));
+	.app-full__header__top__first {
+		display: flex;
 		flex-grow: 1;
+		max-width: calc(var(--total-width) * 2/3 - var(--column-gap) / 2 - (var(--default-grid-baseline) * 4 + 22px) + var(--default-grid-baseline) * 4 + 22px);
+
+		.property-title {
+			max-width: calc(var(--total-width) * 2/3 - var(--column-gap) / 2 - (var(--default-grid-baseline) * 4 + 22px));
+			flex-grow: 1;
+		}
 	}
 
-	.app-full__actions {
+	& .app-full__actions {
 		display: flex;
 		gap: calc(var(--default-grid-baseline) * 2);
 		align-items: center;
+	}
+
+	&-close-icon {
+		width: calc(var(--default-grid-baseline) * 4 + 22px);
+		display: flex;
+		justify-content: flex-start;
+		visibility: hidden;
 	}
 }
 
 @media screen and (max-width: 785px) {
 	.app-full__header__top {
 		gap: calc(var(--default-grid-baseline) * 2) !important;
+
+		&-close-icon {
+			visibility: visible;
+		}
+	}
+
+	.modal-container__close {
+		visibility: hidden;
 	}
 }
 
@@ -86,6 +106,7 @@
 	gap: calc(var(--default-grid-baseline) * 4);
 	margin: 0;
 	flex-grow: 1;
+	align-items: flex-start;
 
 	&-wrapper {
 		display: flex;
@@ -95,6 +116,13 @@
 
 	.property-text__input, textarea, input {
 		width: 100%;
+	}
+}
+
+.property-description {
+	span {
+		align-self: flex-start;
+		padding-top: var(--default-grid-baseline);
 	}
 }
 
@@ -167,9 +195,14 @@
 }
 
 .property-alarm-item {
+	justify-content: space-between;
 	display: flex;
 	align-items: center;
 	gap: calc(var(--default-grid-baseline) * 4);
+
+	&__front {
+		margin-left: calc(var(--default-grid-baseline) * 4);
+	}
 }
 
 .property-add-talk {
@@ -581,6 +614,20 @@
 	flex-direction: column;
 }
 
+.app-full-readonly {
+	.app-full__header__details {
+		padding-left: 0;
+	}
+
+	.does-not-repeat {
+		display: none;
+	}
+
+	.invitation-response-buttons {
+		margin-left: calc(var(--default-grid-baseline) * 4 + 20px);
+	}
+}
+
 // Override outdated server styling
 input:not(
 	[type='range'],
@@ -597,4 +644,8 @@ select,
 div[contenteditable=true],
 textarea {
 	border: var(--border-width-input) solid var(--color-border-maxcontrast);
+}
+
+textarea {
+	padding: 5px 12px !important;
 }

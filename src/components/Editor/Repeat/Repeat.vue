@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<div class="property-repeat" :class="{ 'property-repeat--readonly': isReadOnly }">
+	<div class="property-repeat" :class="{ 'property-repeat--readonly': isReadOnly, 'does-not-repeat': recurrenceRule.frequency === 'NONE' }">
 		<div class="property-repeat__summary">
 			<RepeatIcon class="property-repeat__summary__icon"
 				:name="$t('calendar', 'Repeat')"

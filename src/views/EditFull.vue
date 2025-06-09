@@ -10,7 +10,7 @@
 		:name="t('calendar', 'Edit event')"
 		:dark="false"
 		@close="cancel">
-		<div class="app-full">
+		<div :class="['app-full', { 'app-full-readonly': isViewedByOrganizer === false }]">
 			<template v-if="isLoading">
 				<div class="app-full__loading-indicator">
 					<div class="icon icon-loading app-full-tab-loading-indicator__icon" />
@@ -26,9 +26,15 @@
 
 			<div v-if="!isLoading && !isError">
 				<div class="app-full__header__top">
-					<PropertyTitle :value="title"
-						:is-read-only="isReadOnly || isViewedByOrganizer === false"
-						@update:value="updateTitle" />
+					<div class="app-full__header__top__first">
+						<div class="app-full__header__top-close-icon">
+							<Close :size="20" @click="cancel" />
+						</div>
+
+						<PropertyTitle :value="title"
+							:is-read-only="isReadOnly || isViewedByOrganizer === false"
+							@update:value="updateTitle" />
+					</div>
 
 					<div v-if="!isLoading && !isError" class="app-full__actions">
 						<SaveButtons v-if="showSaveButtons"
@@ -337,6 +343,7 @@ import AddTalkModal from '../components/Editor/AddTalkModal.vue'
 import { doesContainTalkLink } from '../services/talkService.js'
 import IconVideo from 'vue-material-design-icons/Video.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircle.vue'
+import Close from 'vue-material-design-icons/Close.vue'
 
 export default {
 	name: 'EditFull',
@@ -371,6 +378,7 @@ export default {
 		IconVideo,
 		HelpCircleIcon,
 		NcActions,
+		Close,
 	},
 	mixins: [
 		EditorMixin,

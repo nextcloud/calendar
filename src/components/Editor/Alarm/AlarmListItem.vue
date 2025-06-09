@@ -7,12 +7,13 @@
 	<!-- Yes, technically an alarm is a component, not a property, but for the matter of CSS names it really doesn't matter -->
 	<div v-click-outside="closeAlarmEditor"
 		class="property-alarm-item">
-		<div class="property-alarm-item__icon"
-			:class="{ 'property-alarm-item__icon--hidden': !showIcon }">
-		</div>
-		<div v-if="!isEditing"
-			class="property-alarm-item__label">
-			{{ alarm | formatAlarm(isAllDay, currentUserTimezone, locale) }}
+		<div class="property-alarm-item__front">
+			<div class="property-alarm-item__icon"
+				:class="{ 'property-alarm-item__icon--hidden': !showIcon }" />
+			<div v-if="!isEditing"
+				class="property-alarm-item__label">
+				{{ alarm | formatAlarm(isAllDay, currentUserTimezone, locale) }}
+			</div>
 		</div>
 		<div v-if="isEditing && isRelativeAlarm && !isAllDay"
 			class="property-alarm-item__edit property-alarm-item__edit--timed">
