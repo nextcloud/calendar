@@ -493,7 +493,8 @@
 
 .invitation-response-buttons--grow {
 	width: unset;
-	max-width: calc(var(--total-width) * 2/3 - var(--column-gap) / 2);
+	max-width: calc(var(--total-width) * 2/3 - var(--column-gap) / 2 - 26px);
+	margin-left: calc(var(--default-grid-baseline) * 4 + 22px);
 }
 
 .modal-header__name {
@@ -621,10 +622,6 @@
 
 	.does-not-repeat {
 		display: none;
-	}
-
-	.invitation-response-buttons {
-		margin-left: calc(var(--default-grid-baseline) * 4 + 20px);
 	}
 }
 
