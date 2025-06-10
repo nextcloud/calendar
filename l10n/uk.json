@@ -349,6 +349,7 @@
     "Tentative" : "Можливо так",
     "No attendees yet" : "Поки жодного учасника",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} запрошено, {confirmedCount} підтверджено",
+    "Please add at least one attendee to use the \"Find a time\" feature." : "Додайте принаймні одного учасника, щоби скористатися функціональністю \"Визначити час\"",
     "Successfully appended link to talk room to location." : "Успішно додано посилання на розташування у кімнаті спілкування ",
     "Successfully appended link to talk room to description." : "Успішно додано посилання на віртуальну кімнату Talk до опису події.",
     "Error creating Talk room" : "Помилка при створенні віртуальної кімнати Talk",
