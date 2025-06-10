@@ -1,3 +1,19 @@
+## [5.3.2](https://github.com/nextcloud/calendar/compare/v5.3.1...v5.3.2) (2025-06-10)
+
+
+### Bug Fixes
+
+* **deps:** Fix npm audit ([3822521](https://github.com/nextcloud/calendar/commit/38225213191092807fccfe37a4898d17624c778d))
+* **free-busy:** close modal when all attendees removed ([159ddfd](https://github.com/nextcloud/calendar/commit/159ddfd31bc2daed928e8f703835046a581c7adc))
+* **l10n:** Update translations from Transifex ([6007fe1](https://github.com/nextcloud/calendar/commit/6007fe1762a08891de4467b7c92984c6aeb10615))
+* **l10n:** Update translations from Transifex ([160810c](https://github.com/nextcloud/calendar/commit/160810c119582093d681e1f139c428c7883ce9ce))
+* **l10n:** Update translations from Transifex ([eca7f3c](https://github.com/nextcloud/calendar/commit/eca7f3cc44464ccfb5a935708e5140f8e91727ef))
+* **l10n:** Update translations from Transifex ([dd8c0cf](https://github.com/nextcloud/calendar/commit/dd8c0cfbd0fe903287a207c1bc5773c06c19598a))
+* **l10n:** Update translations from Transifex ([06184f6](https://github.com/nextcloud/calendar/commit/06184f62ccce1676449e41a126e771a0655b5e01))
+* respect Talk config when creating a new conversation for an event ([c038286](https://github.com/nextcloud/calendar/commit/c038286e96631644032c2ccbb09dd41d5c914cd4))
+
+
+
 ## [5.3.1](https://github.com/nextcloud/calendar/compare/v5.3.0...v5.3.1) (2025-06-03)
 
 
