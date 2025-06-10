@@ -352,6 +352,7 @@ OC.L10N.register(
     "Tentative" : "Условна потврда",
     "No attendees yet" : "Још увек нема учесника",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} позваних, {confirmedCount} потврдило",
+    "Please add at least one attendee to use the \"Find a time\" feature." : "Молимо вас да додате барем једног учесника како бисте могли користити функцију „Пронађи време”.",
     "Successfully appended link to talk room to location." : "У локацију је успешно додат линк на Talk собу.",
     "Successfully appended link to talk room to description." : "У опис је успешно додат линк на Talk собу.",
     "Error creating Talk room" : "Грешка приликом креирања Talk собе",
