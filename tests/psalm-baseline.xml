@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
-  - SPDX-License-Identifier: AGPL-3.0-or-later
--->
-<files psalm-version="5.19.0@06b71be009a6bd6d81b9811855d6629b9fe90e1b">
+<files psalm-version="6.10.3@90b5b9f5e7c8e441b191d3c82c58214753d7c7c1">
   <file src="lib/AppInfo/Application.php">
-    <MissingDependency>
-      <code>CalendarWidgetV2</code>
-    </MissingDependency>
     <UndefinedClass>
-      <code>IAPIWidgetV2</code>
       <code><![CDATA[ServerVersion]]></code>
     </UndefinedClass>
     <UndefinedDocblockClass>
@@ -19,27 +11,18 @@
   </file>
   <file src="lib/Controller/AppointmentConfigController.php">
     <RedundantCondition>
-      <code>$expectedDayKeys !== $actualDayKeys</code>
+      <code><![CDATA[$expectedDayKeys !== $actualDayKeys]]></code>
       <code><![CDATA[$slotKeys !== ['end', 'start']]]></code>
     </RedundantCondition>
-    <UndefinedAttributeClass>
-      <code>UserRateLimit</code>
-    </UndefinedAttributeClass>
   </file>
-  <file src="lib/Controller/BookingController.php">
-    <UndefinedAttributeClass>
-      <code>AnonRateLimit</code>
-      <code>UserRateLimit</code>
-    </UndefinedAttributeClass>
-  </file>
-  <file src="lib/Dashboard/CalendarWidgetV2.php">
-    <UndefinedClass>
-      <code>IAPIWidgetV2</code>
-    </UndefinedClass>
+  <file src="lib/Dashboard/CalendarWidget.php">
+    <UndefinedInterfaceMethod>
+      <code><![CDATA[isEnabled]]></code>
+    </UndefinedInterfaceMethod>
   </file>
   <file src="lib/Listener/AppointmentBookedListener.php">
     <MissingTemplateParam>
-      <code>IEventListener</code>
+      <code><![CDATA[IEventListener]]></code>
     </MissingTemplateParam>
   </file>
 </files>
