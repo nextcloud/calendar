@@ -15,9 +15,10 @@ import { getParserManager } from '@nextcloud/calendar-js'
  * @param {DateTimeValue} start The start of the fetched time-range
  * @param {DateTimeValue} end The end of the fetched time-range
  * @param {Timezone} timezone Timezone of user viewing data
+ * @param color
  * @return {object[]}
  */
-export default function(uri, calendarData, success, start, end, timezone) {
+export default function(uri, calendarData, success, start, end, timezone, color = null) {
 	if (!success) {
 		return [{
 			id: Math.random().toString(36).substring(7),
@@ -26,8 +27,8 @@ export default function(uri, calendarData, success, start, end, timezone) {
 			resourceId: uri,
 			display: 'background',
 			allDay: false,
-			backgroundColor: getColorForFBType('UNKNOWN'),
-			borderColor: getColorForFBType('UNKNOWN'),
+			backgroundColor: color ?? getColorForFBType('UNKNOWN'),
+			borderColor: color ?? getColorForFBType('UNKNOWN'),
 		}]
 	}
 
@@ -47,15 +48,16 @@ export default function(uri, calendarData, success, start, end, timezone) {
 		/** @member {FreeBusyProperty} freeBusyProperty */
 		events.push({
 			id: Math.random().toString(36).substring(7),
-			start: freeBusyProperty.getFirstValue().start.getInTimezone(timezone).jsDate.toISOString(),
-			end: freeBusyProperty.getFirstValue().end.getInTimezone(timezone).jsDate.toISOString(),
+			start: freeBusyProperty.getFirstValue().start.getInTimezone(timezone).jsDate,
+			end: freeBusyProperty.getFirstValue().end.getInTimezone(timezone).jsDate,
+			allDay: (freeBusyProperty.getFirstValue().end.unixTime - freeBusyProperty.getFirstValue().start.unixTime) >= 24 * 60 * 60,
 			resourceId: uri,
-			display: 'background',
+			display: 'auto',
 			classNames: [
 				'free-busy-block',
 				'free-busy-' + freeBusyProperty.type.toLowerCase(),
 			],
-			backgroundColor: getColorForFBType(freeBusyProperty.type),
+			backgroundColor: color ?? getColorForFBType(freeBusyProperty.type),
 		})
 	}
 
