@@ -512,6 +512,7 @@ OC.L10N.register(
     "Create a new event or change the visible time-range" : "Tengeneza tukio jipya au badili masafa ya wakati yanayoonekana",
     "It might have been deleted, or there was a typo in a link" : "Huenda ilifutwa au kulikuwa na makosa ya uandishi katika kiungio",
     "It might have been deleted, or there was a typo in the link" : "Huenda ilifutwa au kulikuwa na makosa ya uandishi katika kiungio",
+    "Other" : "Mengine",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Ongeza maelezo\n\nMkutano huu unahusu nini\nVipengele vya ajenda- kitu chochote mshiriki anahitaji kuandaa",
     "Categories" : "Vipengele",
     "Categories help you to structure and organize your events." : "Vipengele vinakusaidia kuunda na kupanga matukio yako",
