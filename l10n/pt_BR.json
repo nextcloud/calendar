@@ -457,7 +457,7 @@
     "Appointment Details:" : "Detalhes do Compromisso:",
     "Time:" : "Tempo:",
     "Booked for:" : "Reservado para:",
-    "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "Obrigada. Sua reserva de {startDate} a {endDate} foi confirmada.",
+    "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "Obrigado. Sua reserva de {startDate} a {endDate} foi confirmada.",
     "Book another appointment:" : "Marcar outro compromisso:",
     "See all available slots" : "Ver todas as vagas disponíveis",
     "The slot for your appointment from {startDate} to {endDate} is not available any more." : "A vaga de seu compromisso, de {startDate} a {endDate}, não está mais disponível.",
