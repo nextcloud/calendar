@@ -110,6 +110,7 @@
 .property-title-time-picker--readonly {
 	flex-direction: row !important;
 	gap: calc(var(--default-grid-baseline) * 4);
+	justify-content: flex-start !important;
 
 	.property-title-time-picker__icon {
 		align-self: start;

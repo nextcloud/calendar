@@ -278,7 +278,6 @@
 					</div>
 
 					<div class="app-full-footer__right">
-						<span v-if="!(isReadOnly && !resources.length)" class="app-full-subtitle"> <MapMarker :size="20" /> {{ t('calendar', 'Resources') }}</span>
 						<ResourceList v-if="!isLoading"
 							:calendar-object-instance="calendarObjectInstance"
 							:is-read-only="isReadOnly || isViewedByOrganizer === false" />
@@ -322,13 +321,10 @@ import InvitationResponseButtons from '../components/Editor/InvitationResponseBu
 import AttachmentsList from '../components/Editor/Attachments/AttachmentsList.vue'
 import CalendarPickerHeader from '../components/Editor/CalendarPickerHeader.vue'
 
-import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 import Download from 'vue-material-design-icons/Download.vue'
 import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
-import InformationOutline from 'vue-material-design-icons/InformationOutline.vue'
-import MapMarker from 'vue-material-design-icons/MapMarker.vue'
 
 import { shareFile } from '../services/attachmentService.js'
 import { Parameter } from '@nextcloud/calendar-js'
@@ -370,7 +366,6 @@ export default {
 		Delete,
 		Download,
 		ContentDuplicate,
-		MapMarker,
 		InvitationResponseButtons,
 		AttachmentsList,
 		CalendarPickerHeader,
@@ -763,10 +758,5 @@ export default {
 	width: 40px;
 	height: auto;
 	border-radius: var(--border-radius);
-}
-.app-full-subtitle {
-	font-size: calc(var(--default-font-size) * 1.2);
-	display: flex;
-	gap: calc(var(--default-grid-baseline) * 4);
 }
 </style>

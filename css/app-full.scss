@@ -641,8 +641,13 @@ select,
 div[contenteditable=true],
 textarea {
 	border: var(--border-width-input) solid var(--color-border-maxcontrast);
+	padding: 1px;
 }
 
 textarea {
 	padding: 5px 12px !important;
+}
+
+.property-select__input {
+	height: 34px;
 }

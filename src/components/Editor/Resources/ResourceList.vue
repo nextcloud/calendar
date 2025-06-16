@@ -5,6 +5,8 @@
 
 <template>
 	<div>
+		<span v-if="!(!isViewedByOrganizer && !resources.length && !suggestedRooms.length)" class="app-full-subtitle"> <MapMarker :size="20" /> {{ t('calendar', 'Resources') }}</span>
+
 		<ResourceListSearch v-if="!isReadOnly && hasUserEmailAddress"
 			:already-invited-emails="alreadyInvitedEmails"
 			:calendar-object-instance="calendarObjectInstance"
@@ -45,7 +47,6 @@ import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attende
 import usePrincipalsStore from '../../../store/principals.js'
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
 import { mapStores } from 'pinia'
-
 import MapMarker from 'vue-material-design-icons/MapMarker.vue'
 
 export default {
@@ -54,6 +55,7 @@ export default {
 		ResourceListItem,
 		ResourceListSearch,
 		OrganizerNoEmailError,
+		MapMarker,
 	},
 	props: {
 		isReadOnly: {
@@ -105,11 +107,15 @@ export default {
 	},
 	watch: {
 		resources() {
-			this.loadRoomSuggestions()
+			if (this.isViewedByOrganizer) {
+				this.loadRoomSuggestions()
+			}
 		},
 	},
 	async mounted() {
-		await this.loadRoomSuggestions()
+		if (this.isViewedByOrganizer) {
+			await this.loadRoomSuggestions()
+		}
 	},
 	methods: {
 		addResource({ commonName, email, calendarUserType, language, timezoneId, roomAddress }) {
@@ -199,5 +205,11 @@ export default {
 <style lang="scss" scoped>
 .resource-list {
 		margin-top: calc(var(--default-grid-baseline) * 4);
+}
+
+.app-full-subtitle {
+	font-size: calc(var(--default-font-size) * 1.2);
+	display: flex;
+	gap: calc(var(--default-grid-baseline) * 4);
 }
 </style>
