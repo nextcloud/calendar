@@ -247,7 +247,7 @@ OC.L10N.register(
     "seconds" : "секунди",
     "minutes" : "минути",
     "hours" : "часове",
-    "days" : "дена",
+    "days" : "дни",
     "weeks" : "седмици",
     "Choose a file to add as attachment" : "Избери файл за прикачване",
     "Choose a file to share as a link" : "Изберете файл, който да споделите като връзка",
