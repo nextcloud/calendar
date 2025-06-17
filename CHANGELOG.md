@@ -1,3 +1,16 @@
+## [5.3.3](https://github.com/nextcloud/calendar/compare/v5.3.2...v5.3.3) (2025-06-17)
+
+
+### Bug Fixes
+
+* do not show hidden calendars ([d2087a3](https://github.com/nextcloud/calendar/commit/d2087a3502a0acea5ae4b3bf1b4054abaff671f1))
+* **l10n:** Update translations from Transifex ([cced69c](https://github.com/nextcloud/calendar/commit/cced69c6802117763e66bd0a618a29e47d4710e2))
+* **l10n:** Update translations from Transifex ([a8000e3](https://github.com/nextcloud/calendar/commit/a8000e304755e72b4bf256201d12f6e2124bc55b))
+* **l10n:** Update translations from Transifex ([99439b8](https://github.com/nextcloud/calendar/commit/99439b85da84250f911d2d3e065ce49f2fea074b))
+* **l10n:** Update translations from Transifex ([03a0292](https://github.com/nextcloud/calendar/commit/03a029250a466e1f71a5d7bc6d7637a5a1b55546))
+
+
+
 ## [5.3.2](https://github.com/nextcloud/calendar/compare/v5.3.1...v5.3.2) (2025-06-10)
 
 
