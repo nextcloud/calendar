@@ -1,0 +1,51 @@
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+import { ProposalParticipantStatus, ProposalParticipantRealm, ProposalDateVote } from './proposalEnums'
+
+export interface ProposalParticipantInterface {
+  id: number | null
+  name: string | null
+  address: string
+  status: ProposalParticipantStatus
+  realm: ProposalParticipantRealm
+  toJson(): Record<string, unknown>
+  fromJson(data: Record<string, unknown>): void
+}
+
+export interface ProposalDateInterface {
+  id: number | null
+  date: Date | null
+  votedYes: number
+  votedNo: number
+  votedMaybe: number
+  toJson(): Record<string, unknown>
+  fromJson(data: Record<string, unknown>): void
+}
+
+export interface ProposalInterface {
+  id: number | null
+  uuid: string | null
+  title: string | null
+  description: string | null
+  duration: number | null
+  participants: ProposalParticipantInterface[]
+  dates: ProposalDateInterface[]
+  toJson(): Record<string, unknown>
+  fromJson(data: Record<string, unknown>): void
+}
+
+export interface ProposalResponseDateInterface {
+  id: number
+  date: Date
+  vote: ProposalDateVote
+  toJson(): Record<string, unknown>
+}
+
+export interface ProposalResponseInterface {
+  token: string
+  dates: Record<number, ProposalResponseDateInterface>
+  toJson(): Record<string, unknown>
+}
