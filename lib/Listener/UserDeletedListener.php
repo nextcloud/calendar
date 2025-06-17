@@ -11,6 +11,7 @@ namespace OCA\Calendar\Listener;
 
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCA\Calendar\Service\Appointments\BookingService;
+use OCA\Calendar\Service\Proposal\ProposalService;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\User\Events\UserDeletedEvent;
@@ -20,21 +21,13 @@ use Psr\Log\LoggerInterface;
  * @template-implements IEventListener<Event|UserDeletedEvent>
  */
 class UserDeletedListener implements IEventListener {
-	/** @var AppointmentConfigService */
-	private $appointmentConfigService;
 
-	/** @var BookingService */
-	private $bookingService;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(AppointmentConfigService $appointmentConfigService,
-		BookingService $bookingService,
-		LoggerInterface $logger) {
-		$this->appointmentConfigService = $appointmentConfigService;
-		$this->bookingService = $bookingService;
-		$this->logger = $logger;
+	public function __construct(
+		private LoggerInterface $logger,
+		private AppointmentConfigService $appointmentConfigService,
+		private BookingService $bookingService,
+		private ProposalService $proposalService,
+	) {
 	}
 
 	#[\Override]
@@ -45,6 +38,7 @@ class UserDeletedListener implements IEventListener {
 
 		$this->bookingService->deleteByUser($event->getUser());
 		$this->appointmentConfigService->deleteByUser($event->getUser());
+		$this->proposalService->deleteProposalsByUser($event->getUser()->getUID());
 
 		$this->logger->info('Calendar appointments cleaned up for deleted user ' . $event->getUser()->getUID());
 	}
