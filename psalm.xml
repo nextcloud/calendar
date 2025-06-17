@@ -39,6 +39,7 @@
 				<referencedClass name="OCA\Calendar\Controller\Exception" />
 				<referencedClass name="Psr\Http\Client\ClientExceptionInterface" />
 				<referencedClass name="Sabre\VObject\Component\VCalendar" />
+				<referencedClass name="Sabre\VObject\Component\VEvent" />
 				<referencedClass name="Sabre\VObject\Component\VTimezone" />
 				<referencedClass name="Sabre\VObject\TimeZoneUtil" />
 				<referencedClass name="Symfony\Component\HttpFoundation\IpUtils" />
@@ -47,6 +48,7 @@
 				<referencedClass name="Symfony\Component\Console\Input\InputInterface" />
 				<referencedClass name="Symfony\Component\Console\Input\InputOption" />
 				<referencedClass name="Symfony\Component\Console\Output\OutputInterface" />
+				<referencedClass name="Symfony\Component\Uid\Uuid" />
 			</errorLevel>
 		</UndefinedClass>
 		<UndefinedDocblockClass>
@@ -57,6 +59,7 @@
 				<referencedClass name="Doctrine\DBAL\Schema\SchemaException" />
 				<referencedClass name="Doctrine\DBAL\Schema\Table" />
 				<referencedClass name="OC\Security\CSP\ContentSecurityPolicyNonceManager" />
+				<referencedClass name="Sabre\VObject\Component\VEvent" />
 				<referencedClass name="Sabre\VObject\Component\VTimezone" />
 				<referencedClass name="OC\App\CompareVersion" />
 				<referencedClass name="OCA\Calendar\Controller\Exception" />
