@@ -132,6 +132,7 @@
     "Could not copy code" : "Kan code niet kopiëren",
     "Delete share link" : "Verwijder deellink",
     "Deleting share link …" : "Verwijderen deellink ...",
+    "{teamDisplayName} (Team)" : "{teamDisplayName}(Team)",
     "An error occurred while unsharing the calendar." : "Er is een fout opgetreden bij het delen van de kalender.",
     "An error occurred, unable to change the permission of the share." : "Er is een fout opgetreden, het is niet mogelijk om de machtiging van de share te wijzigen",
     "can edit" : "kan wijzigen",
