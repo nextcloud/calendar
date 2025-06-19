@@ -6,7 +6,7 @@
 <template>
 	<NcAppSidebar name=""
 		:force-menu="true"
-		@close="cancel">
+		@close="cancel(false)">
 		<template v-if="isLoading">
 			<div class="app-sidebar__loading-indicator">
 				<div class="icon icon-loading app-sidebar-tab-loading-indicator__icon" />
@@ -295,6 +295,10 @@
 				@save-this-only="prepareAccessForAttachments(false)"
 				@save-this-and-all-future="prepareAccessForAttachments(true)" />
 		</NcAppSidebarTab>
+		<NcDialog :open="showCancelDialog"
+			:name="t('calendar', 'Discard changes?')"
+			:message="t('calendar', 'Are you sure you want to discard the changes made to this event?')"
+			:buttons="cancelButtons" />
 	</NcAppSidebar>
 </template>
 <script>
@@ -309,6 +313,7 @@ import {
 	NcButton,
 	NcCheckboxRadioSwitch,
 	NcPopover,
+	NcDialog,
 } from '@nextcloud/vue'
 
 import { generateUrl } from '@nextcloud/router'
@@ -354,6 +359,9 @@ import { doesContainTalkLink } from '../services/talkService.js'
 import IconVideo from 'vue-material-design-icons/Video.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircle.vue'
 
+import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
+import IconDelete from '@mdi/svg/svg/delete.svg?raw'
+
 export default {
 	name: 'EditSidebar',
 	components: {
@@ -373,6 +381,7 @@ export default {
 		NcButton,
 		NcCheckboxRadioSwitch,
 		NcPopover,
+		NcDialog,
 		InviteesList,
 		PropertySelect,
 		PropertyText,
@@ -407,7 +416,20 @@ export default {
 			isModalOpen: false,
 			talkConversations: [],
 			selectedConversation: null,
-
+			cancelButtons: [
+				{
+					label: t('calendar', 'Discard event'),
+					icon: atob(IconDelete.split(',')[1]),
+					callback: () => { this.cancel(true) },
+				},
+				{
+					label: t('calendar', 'Cancel'),
+					type: 'primary',
+					icon: atob(IconCancel.split(',')[1]),
+					callback: () => { this.showCancelDialog = false },
+				},
+			],
+			showCancelDialog: false,
 		}
 	},
 	computed: {
