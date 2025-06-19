@@ -108,6 +108,10 @@ export default {
 			return !!emailAddress
 		},
 		isViewedByOrganizer() {
+			if (!this.calendarObjectInstance.organizer) {
+				return true
+			}
+
 			const organizerEmail = removeMailtoPrefix(this.calendarObjectInstance.organizer.uri)
 			return organizerEmail === this.principalsStore.getCurrentUserPrincipalEmail
 		},
