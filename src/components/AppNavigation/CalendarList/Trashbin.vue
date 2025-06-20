@@ -4,29 +4,29 @@
 -->
 
 <template>
-	<AppNavigationItem :name="t('calendar', 'Trash bin')"
+	<NcAppNavigationItem :name="t('calendar', 'Trash bin')"
 		:pinned="true"
 		@click.prevent="onShow">
 		<template #icon>
-			<Delete :size="20" decorative />
+			<IconDelete :size="20" decorative />
 		</template>
 		<template #extra>
-			<Modal v-if="showModal"
+			<NcModal v-if="showModal"
 				size="large"
 				@close="showModal = false">
 				<div class="modal__content">
 					<h2>{{ t('calendar', 'Trash bin') }}</h2>
-					<EmptyContent v-if="loading"
+					<NcEmptyContent v-if="loading"
 						icon="icon-loading"
 						class="modal__content__loading"
 						:description="t('calendar', 'Loading deleted items.')" />
-					<EmptyContent v-else-if="!items.length"
+					<NcEmptyContent v-else-if="!items.length"
 						class="modal__content__empty"
 						:description="t('calendar', 'You do not have any deleted items.')">
 						<template #icon>
 							<Delete :size="20" decorative />
 						</template>
-					</EmptyContent>
+					</NcEmptyContent>
 					<template v-else>
 						<table>
 							<tr>
@@ -57,7 +57,7 @@
 									</div>
 								</td>
 								<td class="deletedAt">
-									<Moment class="timestamp" :timestamp="item.deletedAt" />
+									<NcDateTime class="timestamp" :timestamp="item.deletedAt" />
 								</td>
 								<td>
 									<div class="item-actions">
@@ -65,14 +65,14 @@
 											{{ t('calendar','Restore') }}
 										</NcButton>
 
-										<Actions :force-menu="true">
-											<ActionButton @click="onDeletePermanently(item)">
+										<NcActions :force-menu="true">
+											<NcActionButton @click="onDeletePermanently(item)">
 												<template #icon>
 													<Delete :size="20" decorative />
 												</template>
 												{{ t('calendar','Delete permanently') }}
-											</ActionButton>
-										</Actions>
+											</NcActionButton>
+										</NcActions>
 									</div>
 								</td>
 							</tr>
@@ -87,42 +87,42 @@
 						</div>
 					</template>
 				</div>
-			</Modal>
+			</NcModal>
 		</template>
-	</AppNavigationItem>
+	</NcAppNavigationItem>
 </template>
 
 <script>
 import {
-	NcAppNavigationItem as AppNavigationItem,
-	NcActions as Actions,
-	NcActionButton as ActionButton,
-	NcModal as Modal,
-	NcEmptyContent as EmptyContent,
+	NcAppNavigationItem,
+	NcActions,
+	NcActionButton,
+	NcModal,
+	NcEmptyContent,
 	NcButton,
+	NcDateTime,
 } from '@nextcloud/vue'
 import moment from '@nextcloud/moment'
 import logger from '../../../utils/logger.js'
 import { showError } from '@nextcloud/dialogs'
-import Moment from './Moment.vue'
 import { uidToHexColor } from '../../../utils/color.js'
 import useCalendarsStore from '../../../store/calendars.js'
 import useSettingsStore from '../../../store/settings.js'
 import { mapStores, mapState } from 'pinia'
 
-import Delete from 'vue-material-design-icons/Delete.vue'
+import IconDelete from 'vue-material-design-icons/Delete.vue'
 
 export default {
 	name: 'Trashbin',
 	components: {
-		AppNavigationItem,
-		EmptyContent,
-		Modal,
-		Moment,
-		Actions,
-		ActionButton,
-		Delete,
+		NcActions,
+		NcActionButton,
+		NcAppNavigationItem,
 		NcButton,
+		NcDateTime,
+		NcEmptyContent,
+		NcModal,
+		IconDelete,
 	},
 	data() {
 		return {
