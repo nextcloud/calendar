@@ -6,6 +6,6 @@
         "sort-packages": true
     },
     "require-dev": {
-        "nextcloud/coding-standard": "^1.3.2"
+        "nextcloud/coding-standard": "^1.4.0"
     }
 }
