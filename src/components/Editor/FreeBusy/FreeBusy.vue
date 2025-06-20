@@ -5,7 +5,7 @@
 
 <template>
 	<NcModal size="full"
-		:name="dialogName || $t('calendar', 'Availability of attendees')"
+		:name="dialogName || $t('calendar', 'Availability of attendees, resources and rooms')"
 		@close="$emit('close')">
 		<div class="modal__content modal--scheduler">
 			<div v-if="loadingIndicator" class="loading-indicator">
