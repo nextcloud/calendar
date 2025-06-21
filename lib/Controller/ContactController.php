@@ -121,7 +121,7 @@ class ContactController extends Controller {
 				'type' => 'individual'
 			];
 		}
-		
+
 		$groups = $this->contactsManager->search($search, ['CATEGORIES']);
 		$groups = array_filter($groups, function ($group) {
 			return $this->contactsService->hasEmail($group);

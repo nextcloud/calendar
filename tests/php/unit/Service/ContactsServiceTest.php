@@ -89,7 +89,7 @@ class ContactsServiceTest extends TestCase {
 		$contact = ['FN' => 'test'];
 		$this->assertEquals('test', $this->service->getNameFromContact($contact));
 	}
-	
+
 	public function testGetNameFromContactNoName(): void {
 		$this->assertEquals('', $this->service->getNameFromContact([]));
 	}

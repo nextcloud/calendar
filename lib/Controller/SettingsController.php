@@ -326,8 +326,8 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	private function setDefaultReminder(string $value):JSONResponse {
-		if ($value !== 'none' &&
-			filter_var($value, FILTER_VALIDATE_INT,
+		if ($value !== 'none'
+			&& filter_var($value, FILTER_VALIDATE_INT,
 				['options' => ['max_range' => 0]]) === false) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
