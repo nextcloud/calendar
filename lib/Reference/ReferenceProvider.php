@@ -65,7 +65,7 @@ class ReferenceProvider extends ADiscoverableReferenceProvider {
 		if (preg_match('/^' . preg_quote($start, '/') . '\/p\/[a-zA-Z0-9]+$/i', $referenceText) === 1 || preg_match('/^' . preg_quote($startIndex, '/') . '\/p\/[a-zA-Z0-9]+$/i', $referenceText) === 1) {
 			return true;
 		}
-		
+
 		$start = $this->urlGenerator->getAbsoluteURL('/remote.php/dav/calendars');
 		if (preg_match('/^' . preg_quote($start, '/') . '\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+\/$/i', $referenceText) === 1) {
 			return true;
@@ -111,7 +111,7 @@ class ReferenceProvider extends ADiscoverableReferenceProvider {
 					return null;
 			}
 
-		
+
 
 			return $reference;
 		}
