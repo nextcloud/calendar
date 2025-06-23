@@ -690,7 +690,7 @@ export default {
 		padding: 0 calc(var(--default-grid-baseline)*4);
 		display: flex;
 		flex-direction: column;
-		overflow: hidden; /* Prevent content scrolling */
+		overflow: hidden;
 		&__actions{
 			display: flex;
 			flex-direction: column;
@@ -768,12 +768,12 @@ export default {
 		&__body{
 			display: flex;
 			width: 100%;
-			overflow: hidden; /* Prevent body from scrolling */
-			position: relative; /* Set position context for absolute positioning */
+			overflow: hidden;
+			position: relative;
 			&__sidebar{
 				margin-top: var(--default-grid-baseline);
-				width: 260px; /* Fixed width for sidebar */
-				flex-shrink: 0; /* Prevents sidebar from shrinking */
+				width: 260px;
+				flex-shrink: 0;
 				margin-inline-end: calc(2 * var(--default-grid-baseline));
 				&__attendees{
 					display: flex;
@@ -793,7 +793,7 @@ export default {
 			position: absolute;
 			bottom: 0;
 			align-items: flex-end;
-			box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.05); /* Add subtle shadow for visual separation */
+			box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.05);
 			&__date{
 				margin-top: calc(var(--default-grid-baseline)*4);
 				font-weight: 600;
