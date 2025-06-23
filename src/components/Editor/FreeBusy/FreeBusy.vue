@@ -7,223 +7,225 @@
 	<NcModal size="full"
 		:name="dialogName || $t('calendar', 'Availability of attendees, resources and rooms')"
 		@close="$emit('close')">
-		<div class="modal__content modal--scheduler">
-			<div v-if="loadingIndicator" class="loading-indicator">
-				<div class="icon-loading" />
-			</div>
-			<p v-if="isMobile && freeSlots && !disableFindTime">
-				{{ $t('calendar', 'Available times:') }}
-				<NcSelect class="available-slots__multiselect"
-					:options="freeSlots"
-					:placeholder="placeholder"
-					:clearable="false"
-					input-id="slot"
-					label="displayStart"
-					:label-outside="true"
-					:value="selectedSlot"
-					@option:selected="setSlotSuggestion">
-					<template #selected-option="{}">
-						{{ $t('calendar', 'Suggestion accepted') }}
-					</template>
-				</NcSelect>
-			</p>
-			<div class="modal__content__header">
-				<div v-if="isMobile" class="modal__content__header__attendees">
-					{{ `${eventTitle ?? ''} ${t('calendar', 'with')}` }}
-					<NcUserBubble :size="24" :display-name="organizer.commonName" />
-					<NcUserBubble v-for="attendee in attendees"
-						:key="attendee.id"
-						:size="24"
-						class="modal__content__header__attendees__user-bubble"
-						:display-name="attendee.commonName">
-						<template #name>
-							<a href="#"
-								title="Remove user"
-								class="icon-close"
-								@click="removeAttendee(attendee)" />
-						</template>
-					</NcUserBubble>
+		<div class="modal">
+			<div class="modal__content">
+				<div v-if="loadingIndicator" class="loading-indicator">
+					<div class="icon-loading" />
 				</div>
-			</div>
-			<p v-if="!isMobile && freeSlots && !disableFindTime">
-				{{ $t('calendar', 'Available times:') }}
-				<NcSelect class="available-slots__multiselect"
-					:options="freeSlots"
-					:placeholder="placeholder"
-					:clearable="false"
-					input-id="slot"
-					label="displayStart"
-					:label-outside="true"
-					:value="selectedSlot"
-					@option:selected="setSlotSuggestion">
-					<template #selected-option="{}">
-						{{ $t('calendar', 'Suggestion accepted') }}
-					</template>
-				</NcSelect>
-			</p>
-			<div class="modal__content__actions">
-				<InviteesListSearch v-if="isMobile"
-					class="modal__content__actions__select"
-					:already-invited-emails="alreadyInvitedEmails"
-					:organizer="organizer"
-					@add-attendee="addAttendee" />
-				<div v-if="isMobile" class="modal__content__actions__date">
-					<NcButton type="secondary"
-						:aria-label="t('calendar', 'Today')"
-						@click="handleActions('today')">
-						{{ $t('calendar', 'Today') }}
-					</NcButton>
-					<NcButton type="secondary"
-						:aria-label="isRTL? t('calendar', 'Previous date') : t('calendar', 'Next date')"
-						@click="handleActions(isRTL ? 'next' : 'prev')">
-						<template #icon>
-							<ChevronRightIcon v-if="isRTL" :size="22" />
-							<ChevronLeftIcon v-else :size="22" />
-						</template>
-					</NcButton>
-					<NcDateTimePickerNative :hide-label="true"
-						:value="currentStart"
-						@input="(date)=>handleActions('picker', date)" />
-					<NcButton type="secondary"
-						:aria-label="isRTL? t('calendar', 'Next date') : t('calendar', 'Previous date')"
-						@click="handleActions(isRTL ? 'prev' : 'next')">
-						<template #icon>
-							<ChevronLeftIcon v-if="isRTL" :size="22" />
-							<ChevronRightIcon v-else :size="22" />
-						</template>
-					</NcButton>
-					<NcPopover :focus-trap="false">
-						<template #trigger>
-							<NcButton type="tertiary-no-background"
-								:aria-label="t('calendar', 'Legend')">
-								<template #icon>
-									<HelpCircleIcon :size="20" />
-								</template>
-							</NcButton>
-						</template>
-						<template #default>
-							<div class="freebusy-caption">
-								<div class="freebusy-caption__calendar-user-types" />
-								<div class="freebusy-caption__colors">
-									<div class="freebusy-caption-item">
-										<div class="freebusy-caption-item__color"
-											:style=" { 'background': 'repeating-linear-gradient(45deg, #dbdbdb, #dbdbdb 1px, transparent 1px, transparent 3.5px)'}" />
-										<div class="
+				<div class="modal__content__header">
+					<p v-if="isMobile && freeSlots && !disableFindTime">
+						<NcSelect class="modal__content__header__available-slots"
+							:options="freeSlots"
+							:placeholder="placeholder"
+							:clearable="false"
+							input-id="slot"
+							label="displayStart"
+							:label-outside="true"
+							:value="selectedSlot"
+							@option:selected="setSlotSuggestion">
+							<template #selected-option="{}">
+								{{ $t('calendar', 'Suggestion accepted') }}
+							</template>
+						</NcSelect>
+					</p>
+					<div v-if="isMobile" class="modal__content__header__attendees">
+						<InviteesListSearch v-if="isMobile"
+							class="modal__content__header__attendees__search"
+							:already-invited-emails="alreadyInvitedEmails"
+							:organizer="organizer"
+							@add-attendee="addAttendee" />
+						<NcUserBubble :size="24" :display-name="organizer.commonName" />
+						<NcUserBubble v-for="attendee in attendees"
+							:key="attendee.id"
+							:size="24"
+							class="modal__content__header__attendees__user-bubble"
+							:display-name="attendee.commonName">
+							<template #name>
+								<a href="#"
+									title="Remove user"
+									class="icon-close"
+									@click="removeAttendee(attendee)" />
+							</template>
+						</NcUserBubble>
+					</div>
+				</div>
+				<div class="modal__content__actions" :class="{'modal__content__actions--mobile': isMobile}">
+					<div v-if="isMobile" class="modal__content__actions__date">
+						<NcButton type="secondary"
+							:aria-label="t('calendar', 'Today')"
+							@click="handleActions('today')">
+							{{ $t('calendar', 'Today') }}
+						</NcButton>
+						<NcButton type="secondary"
+							:aria-label="isRTL? t('calendar', 'Previous date') : t('calendar', 'Next date')"
+							@click="handleActions(isRTL ? 'next' : 'prev')">
+							<template #icon>
+								<ChevronRightIcon v-if="isRTL" :size="22" />
+								<ChevronLeftIcon v-else :size="22" />
+							</template>
+						</NcButton>
+						<NcDateTimePickerNative :hide-label="true"
+							:value="currentStart"
+							@input="(date)=>handleActions('picker', date)" />
+						<NcButton type="secondary"
+							:aria-label="isRTL? t('calendar', 'Next date') : t('calendar', 'Previous date')"
+							@click="handleActions(isRTL ? 'prev' : 'next')">
+							<template #icon>
+								<ChevronLeftIcon v-if="isRTL" :size="22" />
+								<ChevronRightIcon v-else :size="22" />
+							</template>
+						</NcButton>
+						<NcPopover :focus-trap="false">
+							<template #trigger>
+								<NcButton type="tertiary-no-background"
+									:aria-label="t('calendar', 'Legend')">
+									<template #icon>
+										<HelpCircleIcon :size="20" />
+									</template>
+								</NcButton>
+							</template>
+							<template #default>
+								<div class="freebusy-caption">
+									<div class="freebusy-caption__calendar-user-types" />
+									<div class="freebusy-caption__colors">
+										<div class="freebusy-caption-item">
+											<div class="freebusy-caption-item__color"
+												:style=" { 'background': 'repeating-linear-gradient(45deg, #dbdbdb, #dbdbdb 1px, transparent 1px, transparent 3.5px)'}" />
+											<div class="
 											freebusy-caption-item__label">
-											{{ $t('calendar', 'Out of office') }}
+												{{ $t('calendar', 'Out of office') }}
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						</template>
-					</NcPopover>
+							</template>
+						</NcPopover>
+					</div>
 				</div>
-			</div>
-			<div class="modal__content__title">
-				<div v-if="!isMobile" class="modal__content__actions__title__date">
-					<NcButton type="secondary"
-						:aria-label="t('calendar', 'Today')"
-						@click="handleActions('today')">
-						{{ $t('calendar', 'Today') }}
-					</NcButton>
-					<NcButton type="secondary"
-						:aria-label="isRTL? t('calendar', 'Previous date') : t('calendar', 'Next date')"
-						@click="handleActions(isRTL ? 'next' : 'prev')">
-						<template #icon>
-							<ChevronRightIcon v-if="isRTL" :size="22" />
-							<ChevronLeftIcon v-else :size="22" />
-						</template>
-					</NcButton>
-					<NcDateTimePickerNative :hide-label="true"
-						:value="currentStart"
-						@input="(date)=>handleActions('picker', date)" />
-					<NcButton type="secondary"
-						:aria-label="isRTL? t('calendar', 'Next date') : t('calendar', 'Previous date')"
-						@click="handleActions(isRTL ? 'prev' : 'next')">
-						<template #icon>
-							<ChevronLeftIcon v-if="isRTL" :size="22" />
-							<ChevronRightIcon v-else :size="22" />
-						</template>
-					</NcButton>
-					<NcPopover :focus-trap="false">
-						<template #trigger>
-							<NcButton type="tertiary-no-background">
-								<template #icon>
-									<HelpCircleIcon :size="20" />
-								</template>
-							</NcButton>
-						</template>
-						<template #default>
-							<div class="freebusy-caption">
-								<div class="freebusy-caption__calendar-user-types" />
-								<div class="freebusy-caption__colors">
-									<div class="freebusy-caption-item">
-										<div class="freebusy-caption-item__color"
-											:style=" { 'background': 'repeating-linear-gradient(45deg, #dbdbdb, #dbdbdb 1px, transparent 1px, transparent 3.5px)'}" />
-										<div class="
+				<div class="modal__content__title" :class="{'modal__content__title--mobile': isMobile}">
+					<div v-if="!isMobile" class="modal__content__actions__title__date">
+						<NcButton type="secondary"
+							:aria-label="t('calendar', 'Today')"
+							@click="handleActions('today')">
+							{{ $t('calendar', 'Today') }}
+						</NcButton>
+						<NcButton type="secondary"
+							:aria-label="isRTL? t('calendar', 'Previous date') : t('calendar', 'Next date')"
+							@click="handleActions(isRTL ? 'next' : 'prev')">
+							<template #icon>
+								<ChevronRightIcon v-if="isRTL" :size="22" />
+								<ChevronLeftIcon v-else :size="22" />
+							</template>
+						</NcButton>
+						<NcDateTimePickerNative :hide-label="true"
+							:value="currentStart"
+							@input="(date)=>handleActions('picker', date)" />
+						<NcButton type="secondary"
+							:aria-label="isRTL? t('calendar', 'Next date') : t('calendar', 'Previous date')"
+							@click="handleActions(isRTL ? 'prev' : 'next')">
+							<template #icon>
+								<ChevronLeftIcon v-if="isRTL" :size="22" />
+								<ChevronRightIcon v-else :size="22" />
+							</template>
+						</NcButton>
+						<NcPopover :focus-trap="false">
+							<template #trigger>
+								<NcButton type="tertiary-no-background">
+									<template #icon>
+										<HelpCircleIcon :size="20" />
+									</template>
+								</NcButton>
+							</template>
+							<template #default>
+								<div class="freebusy-caption">
+									<div class="freebusy-caption__calendar-user-types" />
+									<div class="freebusy-caption__colors">
+										<div class="freebusy-caption-item">
+											<div class="freebusy-caption-item__color"
+												:style=" { 'background': 'repeating-linear-gradient(45deg, #dbdbdb, #dbdbdb 1px, transparent 1px, transparent 3.5px)'}" />
+											<div class="
 											freebusy-caption-item__label">
-											{{ $t('calendar', 'Out of office') }}
+												{{ $t('calendar', 'Out of office') }}
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						</template>
-					</NcPopover>
+							</template>
+						</NcPopover>
+					</div>
+					<h2>{{ weekNumber }}</h2>
+					<div class="modal__content__title__buttons">
+						<NcButton :type="view === 'timeGridWeek' ? 'secondary' : 'tertiary'"
+							:disabled="view === 'timeGridWeek'"
+							@click="updateView('timeGridWeek')">
+							{{ t('calendar','Week') }}
+						</NcButton>
+						<NcButton :type="view === 'timeGridDay' ? 'secondary' : 'tertiary'"
+							:disabled="view === 'timeGridDay'"
+							@click="updateView('timeGridDay')">
+							{{ t('calendar','Day') }}
+						</NcButton>
+					</div>
 				</div>
-				<h2>{{ $t('calendar', 'Week #{weekNumber}', { weekNumber: weekNumber }) }}</h2>
-				<div class="modal__content__title__buttons">
-					<NcButton :type="view === 'timeGridWeek' ? 'secondary' : 'tertiary'"
-						:disabled="view === 'timeGridWeek'"
-						@click="updateView('timeGridWeek')">
-						{{ t('calendar','Week') }}
-					</NcButton>
-					<NcButton :type="view === 'timeGridDay' ? 'secondary' : 'tertiary'"
-						:disabled="view === 'timeGridDay'"
-						@click="updateView('timeGridDay')">
-						{{ t('calendar','Day') }}
-					</NcButton>
-				</div>
-			</div>
-			<div class="modal__content__body">
-				<div v-if="!isMobile" class="modal__content__body__attendees">
-					<InviteesListSearch class="modal__content__actions__select"
-						:already-invited-emails="alreadyInvitedEmails"
-						:organizer="organizer"
-						@add-attendee="addAttendee" />
-					<NcListItemIcon :name="organizer.commonName"
-						class="modal__content__body__attendees__item" />
-					<NcListItemIcon v-for="attendee in attendees"
-						:key="attendee.id"
-						:name="attendee.commonName"
-						class="modal__content__body__attendees__item">
-						<NcActions>
-							<NcActionButton @click="removeAttendee(attendee)">
-								<template #icon>
-									<Delete :size="20" />
+				<div class="modal__content__body">
+					<div v-if="!isMobile" class="modal__content__body__sidebar">
+						<p v-if="freeSlots && !disableFindTime">
+							<NcSelect class="available-slots__multiselect"
+								:options="freeSlots"
+								:placeholder="placeholder"
+								:clearable="false"
+								input-id="slot"
+								label="displayStart"
+								:label-outside="true"
+								:value="selectedSlot"
+								@option:selected="setSlotSuggestion">
+								<template #selected-option="{}">
+									{{ $t('calendar', 'Suggestion accepted') }}
 								</template>
-								Delete
-							</NcActionButton>
-						</NcActions>
-					</NcListItemIcon>
+							</NcSelect>
+						</p>
+						<div class="modal__content__body__sidebar__attendees">
+							{{ $t('calendar', 'Attendees:') }}
+							<InviteesListSearch class="modal__content__actions__select"
+								:already-invited-emails="alreadyInvitedEmails"
+								:organizer="organizer"
+								@add-attendee="addAttendee" />
+							<NcListItemIcon :name="organizer.commonName"
+								class="modal__content__body__sidebar__attendees__item" />
+							<NcListItemIcon v-for="attendee in attendees"
+								:key="attendee.id"
+								:name="attendee.commonName"
+								class="modal__content__body__sidebar__attendees__item">
+								<NcActions>
+									<NcActionButton @click="removeAttendee(attendee)">
+										<template #icon>
+											<Close :size="20" />
+										</template>
+										Delete
+									</NcActionButton>
+								</NcActions>
+							</NcListItemIcon>
+						</div>
+					</div>
+					<FullCalendar ref="freeBusyFullCalendar"
+						:options="options" />
 				</div>
-				<FullCalendar ref="freeBusyFullCalendar"
-					:options="options" />
 			</div>
-		</div>
-		<div class="modal__content__footer">
-			<div>
-				<p class="modal__content__footer__date">
-					{{ formattedCurrentStart }}
-				</p>
-				<p>{{ formattedCurrentTime }}<span class="modal__content__footer__timezone">{{ formattedTimeZone }}</span></p>
+			<div class="modal__content__footer">
+				<div>
+					<p class="modal__content__footer__date">
+						{{ formattedCurrentStart }}
+					</p>
+					<p>{{ formattedCurrentTime }}<span class="modal__content__footer__timezone">{{ formattedTimeZone }}</span></p>
+				</div>
+				<NcButton type="primary"
+					@click="save">
+					{{ $t('calendar', 'Done') }}
+					<template #icon>
+						<CheckIcon :size="20" />
+					</template>
+				</NcButton>
 			</div>
-			<NcButton type="primary"
-				@click="save">
-				{{ $t('calendar', 'Done') }}
-				<template #icon>
-					<CheckIcon :size="20" />
-				</template>
-			</NcButton>
 		</div>
 	</NcModal>
 </template>
@@ -253,7 +255,7 @@ import { isRTL } from '@nextcloud/l10n'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
-import Delete from 'vue-material-design-icons/Delete.vue'
+import Close from 'vue-material-design-icons/Close.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircle.vue'
 
 import InviteesListSearch from '../Invitees/InviteesListSearch.vue'
@@ -264,6 +266,7 @@ import { mapState } from 'pinia'
 import useSettingsStore from '../../../store/settings.js'
 import useCalendarsStore from '../../../store/calendars.js'
 import { uidToHexColor } from '../../../utils/color.js'
+import formatDateRange from '../../../filters/dateRangeFormat.js'
 
 export default {
 	name: 'FreeBusy',
@@ -283,7 +286,7 @@ export default {
 		ChevronLeftIcon,
 		CheckIcon,
 		HelpCircleIcon,
-		Delete,
+		Close,
 	},
 	mixins: [isMobile],
 	props: {
@@ -358,6 +361,9 @@ export default {
 		...mapState(useSettingsStore, {
 			timezoneId: 'getResolvedTimezone',
 		}),
+		...mapState(useSettingsStore, {
+			locale: 'momentLocale',
+		}),
 		...mapState(useSettingsStore, ['showWeekends', 'showWeekNumbers', 'timezone']),
 		...mapState(useCalendarsStore, {
 			personalCalendarColor: 'getPersonalCalendarColor',
@@ -365,8 +371,11 @@ export default {
 		isRTL() {
 			return isRTL()
 		},
+		weekNumber() {
+			return formatDateRange(this.currentStart, this.view, this.locale)
+		},
 		placeholder() {
-			return this.$t('calendar', 'Select automatic slot')
+			return this.$t('calendar', 'Suggested times')
 		},
 		/**
 		 * FullCalendar Plugins
@@ -388,12 +397,6 @@ export default {
 					+ this.currentEnd.toLocaleDateString(this.lang, this.formattingOptions)
 			}
 			return this.currentStart.toLocaleDateString(this.lang, this.formattingOptions)
-		},
-		weekNumber() {
-			  const date = new Date(this.currentStart)
-			  date.setDate(date.getDate() + 4 - (date.getDay() || 7))
-			  const yearStart = new Date(date.getFullYear(), 0, 1)
-			  return Math.ceil(((date - yearStart) / 86400000 + 1) / 7)
 		},
 		formattedCurrentTime() {
 			const options = { hour: '2-digit', minute: '2-digit', hour12: true }
@@ -508,7 +511,7 @@ export default {
 		const calendar = this.$refs.freeBusyFullCalendar.getApi()
 		this.view = this.attendees.length > 4 || this.isMobile ? 'timeGridDay' : 'timeGridWeek'
 		if (this.allDay) {
-			this.currentEnd.setDate(this.currentEnd.getDate() + 1)
+			this.currentEnd.setDate(this.currentStart.getDate() + 1)
 		}
 		calendar.addEvent({
 			id: 'selected-event-slot',
@@ -663,6 +666,8 @@ export default {
 			// have to make these "selected" version of the props seeing as they can't be modified directly, and they aren't updated reactively when vuex is
 			this.currentStart = slot.start
 			this.currentEnd = slot.end
+			calendar.getEventById('selected-event-slot').setStart(this.currentStart)
+			calendar.getEventById('selected-event-slot').setEnd(this.currentEnd)
 		},
 	},
 }
@@ -673,27 +678,29 @@ export default {
 	display: block;
 	height: 100%;
 }
-.modal__content {
-	padding: 0 calc(var(--default-grid-baseline)*4);
-	&__actions{
+.modal{
+	display: flex !important;
+	justify-content: center;
+
+	&__content {
+		max-width: 1200px;
+		width: 100%;
+		padding: 0 calc(var(--default-grid-baseline)*4);
 		display: flex;
 		flex-direction: column;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: calc(var(--default-grid-baseline)*4);
-		;
-		&__select{
-			width: 260px;
-		}
-		&__date{
+		&__actions{
 			display: flex;
+			flex-direction: column;
 			justify-content: space-between;
 			align-items: center;
-			& > *{
-				margin-inline-start: var(--default-grid-baseline);
+			margin-bottom: calc(var(--default-grid-baseline)*4);
+			&--mobile{
+				align-items: flex-start;
 			}
-		}
-		&__title{
+			;
+			&__select{
+				width: 260px;
+			}
 			&__date{
 				display: flex;
 				justify-content: space-between;
@@ -702,59 +709,93 @@ export default {
 					margin-inline-start: var(--default-grid-baseline);
 				}
 			}
+			&__title{
+				&__date{
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					& > *{
+						margin-inline-start: var(--default-grid-baseline);
+					}
+				}
+			}
 		}
-	}
-	&__title{
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: calc(var(--default-grid-baseline)*4);
-		h2{
-			font-weight: 500;
-			margin: 0;
-		}
-		&__buttons{
+		&__title{
+			&--mobile{
+				width: 100%;
+				margin: 0;
+			}
 			display: flex;
-			justify-content: flex-end;
+			justify-content: space-between;
 			align-items: center;
-		}
-	}
-	&__header{
-		margin: calc(var(--default-grid-baseline)*4) 0;
-		h3{
-			font-weight: 500;
-		}
-		&__attendees{
-			&__user-bubble{
-				margin-inline-end: var(--default-grid-baseline);
+			margin-bottom: calc(var(--default-grid-baseline)*4);
+			width: calc(100% - 260px);
+			margin-left: 260px;
+			h2{
+				font-weight: 500;
+				margin: 0;
+			}
+			&__buttons{
+				display: flex;
+				justify-content: flex-end;
+				align-items: center;
 			}
 		}
-	}
-	&__body{
-		display: flex;
-		&__attendees{
+		&__header{
+			margin: calc(var(--default-grid-baseline)*4) 0;
+			h3{
+				font-weight: 500;
+			}
+			&__available-slots{
+				margin: var(--default-grid-baseline) 0;
+				width: 100%;
+				margin-top: calc(4 * var(--default-grid-baseline)) !important;
+				margin-bottom: calc(2 * var(--default-grid-baseline)) !important;
+			}
+			&__attendees{
+				&__search{
+					width: 100%;
+					margin-bottom: calc(2 * var(--default-grid-baseline)) !important;
+				}
+				&__user-bubble{
+					margin-inline-end: var(--default-grid-baseline);
+				}
+			}
+		}
+		&__body{
 			display: flex;
-			flex-direction: column;
-			margin-inline-end: calc(2 * var(--default-grid-baseline));
-		}
-	}
-	&__footer{
-		z-index: 9998;
-		width: calc(100% - 24px);
-		padding: 0 12px;
-		right: 0;
-		display: flex;
-		justify-content: space-between;
-		position: absolute;
-		bottom: 10px;
-		align-items: flex-end;
-		&__date{
-			margin-top: calc(var(--default-grid-baseline)*4);
-			font-weight: 600;
-		}
-		&__timezone{
-				color: var(--color-text-lighter);
+			width: 100%;
+			&__sidebar{
+				margin-top: var(--default-grid-baseline);
+				width: 260px; /* Fixed width for sidebar */
+				flex-shrink: 0; /* Prevents sidebar from shrinking */
+				margin-inline-end: calc(2 * var(--default-grid-baseline));
+				&__attendees{
+					display: flex;
+					flex-direction: column;
+				}
 			}
+		}
+		&__footer{
+			background-color: var(--color-main-background);
+			padding-bottom: 10px;
+			z-index: 9998;
+			width: calc(100% - 24px);
+			padding: 0 12px;
+			right: 0;
+			display: flex;
+			justify-content: space-between;
+			position: absolute;
+			bottom: 0;
+			align-items: flex-end;
+			&__date{
+				margin-top: calc(var(--default-grid-baseline)*4);
+				font-weight: 600;
+			}
+			&__timezone{
+					color: var(--color-text-lighter);
+				}
+		}
 	}
 }
 :deep(.vs__search ) {
@@ -762,6 +803,10 @@ export default {
 }
 :deep(.mx-input) {
 	height: 38px !important;
+}
+:deep(.fc) {
+	flex: 1;
+	min-width: 0;
 }
 :deep(.fc-event) {
 	margin-inline-end: 0 !important;
