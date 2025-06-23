@@ -681,6 +681,8 @@ export default {
 .modal{
 	display: flex !important;
 	justify-content: center;
+	height: 100%;
+	overflow: hidden;
 
 	&__content {
 		max-width: 1200px;
@@ -688,6 +690,7 @@ export default {
 		padding: 0 calc(var(--default-grid-baseline)*4);
 		display: flex;
 		flex-direction: column;
+		overflow: hidden; /* Prevent content scrolling */
 		&__actions{
 			display: flex;
 			flex-direction: column;
@@ -765,6 +768,8 @@ export default {
 		&__body{
 			display: flex;
 			width: 100%;
+			overflow: hidden; /* Prevent body from scrolling */
+			position: relative; /* Set position context for absolute positioning */
 			&__sidebar{
 				margin-top: var(--default-grid-baseline);
 				width: 260px; /* Fixed width for sidebar */
@@ -778,16 +783,17 @@ export default {
 		}
 		&__footer{
 			background-color: var(--color-main-background);
-			padding-bottom: 10px;
+			padding: 10px 12px;
+			height: 60px;
 			z-index: 9998;
 			width: calc(100% - 24px);
-			padding: 0 12px;
 			right: 0;
 			display: flex;
 			justify-content: space-between;
 			position: absolute;
 			bottom: 0;
 			align-items: flex-end;
+			box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.05); /* Add subtle shadow for visual separation */
 			&__date{
 				margin-top: calc(var(--default-grid-baseline)*4);
 				font-weight: 600;
@@ -807,6 +813,8 @@ export default {
 :deep(.fc) {
 	flex: 1;
 	min-width: 0;
+	overflow-y: auto;
+	padding-bottom: 100px;
 }
 :deep(.fc-event) {
 	margin-inline-end: 0 !important;
