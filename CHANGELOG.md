@@ -1,3 +1,19 @@
+## [5.3.4](https://github.com/nextcloud/calendar/compare/v5.3.3...v5.3.4) (2025-06-26)
+
+
+### Bug Fixes
+
+* **deps:** Fix npm audit ([af77abe](https://github.com/nextcloud/calendar/commit/af77abe4a3408d13da9b2d27c7c48175fd85378c))
+* **deps:** Fix npm audit ([486fe79](https://github.com/nextcloud/calendar/commit/486fe79d195f69c6324715516aa7bad5db8c4913))
+* handle missing organizer gracefully when fetching room suggestions ([5829ddb](https://github.com/nextcloud/calendar/commit/5829ddbcf72103a8c5336518568174713a384bda))
+* **l10n:** Update translations from Transifex ([750fc74](https://github.com/nextcloud/calendar/commit/750fc744e5ce4e8ca03bf8b2fd0a58f54fa29d2a))
+* **l10n:** Update translations from Transifex ([36f2b51](https://github.com/nextcloud/calendar/commit/36f2b51ad52f0332bf104b9cab8a696218ad3624))
+* **l10n:** Update translations from Transifex ([2c0a9ef](https://github.com/nextcloud/calendar/commit/2c0a9ef37fd569966a91cb0e41c575bc92d354a3))
+* **l10n:** Update translations from Transifex ([62265e4](https://github.com/nextcloud/calendar/commit/62265e4292e57689a674a459ed7a656c4ca30932))
+* **l10n:** Update translations from Transifex ([7fde774](https://github.com/nextcloud/calendar/commit/7fde774fca47f7cd76f431b729cb6ab3330513d6))
+
+
+
 ## [5.3.3](https://github.com/nextcloud/calendar/compare/v5.3.2...v5.3.3) (2025-06-17)
 
 
