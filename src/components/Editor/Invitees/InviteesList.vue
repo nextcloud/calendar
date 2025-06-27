@@ -53,6 +53,7 @@
 				:start-date="calendarObjectInstance.startDate"
 				:end-date="calendarObjectInstance.endDate"
 				:event-title="calendarObjectInstance.title"
+				:all-day="calendarObjectInstance.eventComponent.isAllDay()"
 				:already-invited-emails="alreadyInvitedEmails"
 				:show-done-button="true"
 				@remove-attendee="removeAttendee"
