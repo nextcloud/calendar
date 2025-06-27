@@ -103,6 +103,7 @@ import CalendarIcon from 'vue-material-design-icons/Calendar.vue'
 import { NcCheckboxRadioSwitch, NcTimezonePicker, NcButton } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import useSettingsStore from '../../../store/settings.js'
+import { debounce } from 'lodash'
 
 export default {
 	name: 'PropertyTitleTimePicker',
@@ -258,17 +259,17 @@ export default {
 		 *
 		 * @param {Date} value The new start date
 		 */
-		changeStartDate(value) {
+		changeStartDate: debounce(function(value) {
 			this.$emit('update-start-date', value)
-		},
+		}, 500),
 		/**
 		 * Update the start time
 		 *
 		 * @param {Date} value The new start time
 		 */
-		changeStartTime(value) {
+		changeStartTime: debounce(function(value) {
 			this.$emit('update-start-time', value)
-		},
+		}, 500),
 		/**
 		 * Updates the timezone of the start date
 		 *
@@ -288,17 +289,17 @@ export default {
 		 *
 		 * @param {Date} value The new end date
 		 */
-		changeEndDate(value) {
+		changeEndDate: debounce(function(value) {
 			this.$emit('update-end-date', value)
-		},
+		}, 500),
 		/**
 		 * Update the end time
 		 *
 		 * @param {Date} value The new end time
 		 */
-		changeEndTime(value) {
+		changeEndTime: debounce(function(value) {
 			this.$emit('update-end-time', value)
-		},
+		}, 500),
 		/**
 		 * Updates the timezone of the end date
 		 *
