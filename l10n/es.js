@@ -561,6 +561,7 @@ OC.L10N.register(
     "Special color of this event. Overrides the calendar-color." : "Color especial de este evento. Reemplazará al color de calendario.",
     "Error while sharing file" : "Error al compartir archivo",
     "Error while sharing file with user" : "Error al compartir el archivo con el usuario",
+    "Error creating a folder {folder}" : "Error creando la carpeta {folder}",
     "Attachment {fileName} already exists!" : "¡El adjunto {fileName} ya existe!",
     "An error occurred during getting file information" : "Ocurrió un error al obtener la información del archivo",
     "Talk conversation for event" : "Conversación de Talk para el evento",

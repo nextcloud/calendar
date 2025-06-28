@@ -538,6 +538,7 @@ OC.L10N.register(
     "Special color of this event. Overrides the calendar-color." : "Tämän tapahtuman erikoisväri. Ylittää kalenterin väriarvon.",
     "Error while sharing file" : "Virhe tiedostoa jakaessa",
     "Error while sharing file with user" : "Virhe tiedostoa jakaessa käyttäjän kanssa",
+    "Error creating a folder {folder}" : "Virhe luotaessa kansiota {folder}",
     "Attachment {fileName} already exists!" : "Liite {fileName} on jo olemassa!",
     "An error occurred during getting file information" : "Tiedostojen tietoja noutaessa tapahtui virhe",
     "Talk conversation for event" : "Tapahtuman Talk-keskustelu",
