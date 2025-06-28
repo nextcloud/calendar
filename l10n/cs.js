@@ -577,6 +577,7 @@ OC.L10N.register(
     "Special color of this event. Overrides the calendar-color." : "Speciální barva této události. Přebíjí barvu kalendáře.",
     "Error while sharing file" : "Chyba při sdílení souboru",
     "Error while sharing file with user" : "Chyba při sdílení souboru uživateli",
+    "Error creating a folder {folder}" : "Chyba při vytváření složky {folder}",
     "Attachment {fileName} already exists!" : "Příloha {fileName} už existuje!",
     "An error occurred during getting file information" : "Při získávání informací o souboru došlo k chybě",
     "Talk conversation for event" : "Konverzace v Talk pro událost",
