@@ -8,7 +8,7 @@ import useSettingsStore from '../../store/settings.js'
 /**
  * Provides a function to select a time-range in the calendar-grid.
  * This will open the new event editor. Based on the user's preference,
- * either the popover or the sidebar.
+ * either the popover or the full.
  *
  * @param {object} router The Vue router
  * @param {object} route The Vue route
@@ -20,17 +20,17 @@ export default function(router, route, window) {
 
 	return function({ start, end, allDay }) {
 		let name = settingsStore.skipPopover
-			? 'NewSidebarView'
+			? 'NewFullView'
 			: 'NewPopoverView'
 
 		// Don't show the popover if the window size is too small (less then its max width of 450 px + a bit)
 		// The mobile breakpoint of the reworked modals is 1024 px / 2 so simply use that.
 		if (window.innerWidth <= 1024 / 2 && name === 'NewPopoverView') {
-			name = 'NewSidebarView'
+			name = 'NewFullView'
 		}
 
 		// If we are already in a new event view, don't change it
-		if (['NewSidebarView', 'NewPopoverView'].includes(route.name)) {
+		if (['NewFullView', 'NewPopoverView'].includes(route.name)) {
 			name = route.name
 		}
 
