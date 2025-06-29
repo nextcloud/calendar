@@ -577,6 +577,8 @@
     "Error while sharing file with user" : "Erreur lors du partage du fichier avec un utilisateur",
     "Error creating a folder {folder}" : "Erreur lors de la création d'un dossier {folder}",
     "Attachment {fileName} already exists!" : "La pièce jointe {fileName} existe déjà !",
+    "Attachment {fileName} added!" : "Pièce jointe {fileName} ajoutée !",
+    "An error occurred during uploading file {fileName}" : "Une erreur s'est produite lors de l'envoi du fichier {fileName}",
     "An error occurred during getting file information" : "Une erreur est survenue lors de la récupération des informations du fichier",
     "Talk conversation for event" : "Conversation Talk pour l'événement",
     "An error occurred, unable to delete the calendar." : "Une erreur est survenue, impossible de supprimer l'agenda.",

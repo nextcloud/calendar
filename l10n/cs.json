@@ -577,6 +577,8 @@
     "Error while sharing file with user" : "Chyba při sdílení souboru uživateli",
     "Error creating a folder {folder}" : "Chyba při vytváření složky {folder}",
     "Attachment {fileName} already exists!" : "Příloha {fileName} už existuje!",
+    "Attachment {fileName} added!" : "Příloha {fileName} přidána!",
+    "An error occurred during uploading file {fileName}" : "Při nahrávání souboru {fileName} došlo k chybě",
     "An error occurred during getting file information" : "Při získávání informací o souboru došlo k chybě",
     "Talk conversation for event" : "Konverzace v Talk pro událost",
     "An error occurred, unable to delete the calendar." : "Došlo k chybě, kalendář se nepodařilo smazat.",
