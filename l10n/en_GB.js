@@ -579,6 +579,8 @@ OC.L10N.register(
     "Error while sharing file with user" : "Error while sharing file with user",
     "Error creating a folder {folder}" : "Error creating a folder {folder}",
     "Attachment {fileName} already exists!" : "Attachment {fileName} already exists!",
+    "Attachment {fileName} added!" : "Attachment {fileName} added!",
+    "An error occurred during uploading file {fileName}" : "An error occurred during uploading file {fileName}",
     "An error occurred during getting file information" : "An error occurred during getting file information",
     "Talk conversation for event" : "Talk conversation for event",
     "An error occurred, unable to delete the calendar." : "An error occurred, unable to delete the calendar.",

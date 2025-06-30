@@ -579,6 +579,8 @@ OC.L10N.register(
     "Error while sharing file with user" : "與用戶分享檔案時發生錯誤",
     "Error creating a folder {folder}" : "建立資料夾 {folder} 時發生錯誤",
     "Attachment {fileName} already exists!" : "附件 {fileName} 已存在！",
+    "Attachment {fileName} added!" : "附件 {fileName} 已添加！",
+    "An error occurred during uploading file {fileName}" : "上傳檔案 {fileName} 時發生錯誤",
     "An error occurred during getting file information" : "取得檔案資訊時發生錯誤",
     "Talk conversation for event" : "活動 Talk 對話",
     "An error occurred, unable to delete the calendar." : "發生錯誤，無法刪除日曆",
