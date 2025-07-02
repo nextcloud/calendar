@@ -18,6 +18,14 @@ webpackConfig.entry['appointments-confirmation'] = path.join(__dirname, 'src', '
 webpackConfig.entry['appointments-conflict'] = path.join(__dirname, 'src', 'appointments/main-conflict.js')
 webpackConfig.entry['appointments-overview'] = path.join(__dirname, 'src', 'appointments/main-overview.js')
 
+webpackConfig.resolve = {
+	...webpackConfig.resolve,
+	alias: {
+		...webpackConfig.resolve.alias,
+		'@': path.resolve(__dirname, 'src'),
+	}
+}
+
 // Edit JS rule
 webpackRules.RULE_JS.test = /\.m?js$/
 webpackRules.RULE_JS.exclude = BabelLoaderExcludeNodeModulesExcept([
@@ -27,6 +35,16 @@ webpackRules.RULE_JS.exclude = BabelLoaderExcludeNodeModulesExcept([
 	'p-try',
 	'yocto-queue',
 ])
+// Add TypeScript rule
+webpackRules.RULE_TS.use = [
+	'babel-loader',
+	{
+		loader: 'ts-loader',
+		options: {
+			transpileOnly: true,
+		},
+	},
+]
 
 // Edit SCSS rule
 webpackRules.RULE_SCSS.use = [
