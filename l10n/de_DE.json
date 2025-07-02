@@ -578,7 +578,7 @@
     "Error creating a folder {folder}" : "Fehler beim Erstellen des Ordners {folder}",
     "Attachment {fileName} already exists!" : "Anhang {fileName} existiert bereits",
     "Attachment {fileName} added!" : "Anhang {fileName} hinzugefügt!",
-    "An error occurred during uploading file {fileName}" : "Fehler beim Hochladen der Datei {fileName}",
+    "An error occurred during uploading file {fileName}" : "Es ist ein Fehler beim Hochladen der Datei {fileName} aufgetreten",
     "An error occurred during getting file information" : "Es ist ein Fehler beim Abrufen von Dateiinformationen aufgetreten",
     "Talk conversation for event" : "Talk-Unterhaltung für ein Ereignis",
     "An error occurred, unable to delete the calendar." : "Es ist ein Fehler aufgetreten, Kalender konnte nicht gelöscht werden.",
