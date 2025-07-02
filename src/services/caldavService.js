@@ -20,7 +20,7 @@ const getClient = (headers = {}) => {
 		rootUrl: generateRemoteUrl('dav'),
 		defaultHeaders: {
 			'X-NC-CalDAV-Webcal-Caching': 'On',
-		}
+		},
 	})
 
 	return clients[clientKey]

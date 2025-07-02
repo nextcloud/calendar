@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getColorForFBType } from '../../utils/freebusy.js'
 import { getParserManager } from '@nextcloud/calendar-js'
 
 /**
@@ -12,12 +11,14 @@ import { getParserManager } from '@nextcloud/calendar-js'
  * @param {string} uri URI of the resource
  * @param {string} calendarData Calendar-data containing free-busy data
  * @param {boolean} success Whether or not the free-busy request was successful
- * @param {DateTimeValue} start The start of the fetched time-range
- * @param {DateTimeValue} end The end of the fetched time-range
- * @param {Timezone} timezone Timezone of user viewing data
+ * @param {Date} start The start of the fetched time-range
+ * @param {Date} end The end of the fetched time-range
+ * @param {string} timezone Timezone of user viewing data
+ * @param {string} attendeeName name of the attendee, used as title for the event
+ * @param {boolean} isOrganizer Whether or not the user is the organizer of the event
  * @return {object[]}
  */
-export default function(uri, calendarData, success, start, end, timezone) {
+export default function(uri, calendarData, success, start, end, timezone, attendeeName, isOrganizer = false) {
 	if (!success) {
 		return [{
 			id: Math.random().toString(36).substring(7),
@@ -26,8 +27,8 @@ export default function(uri, calendarData, success, start, end, timezone) {
 			resourceId: uri,
 			display: 'background',
 			allDay: false,
-			backgroundColor: getColorForFBType('UNKNOWN'),
-			borderColor: getColorForFBType('UNKNOWN'),
+			title: attendeeName,
+			textColor: '#FFFFFF',
 		}]
 	}
 
@@ -47,15 +48,18 @@ export default function(uri, calendarData, success, start, end, timezone) {
 		/** @member {FreeBusyProperty} freeBusyProperty */
 		events.push({
 			id: Math.random().toString(36).substring(7),
-			start: freeBusyProperty.getFirstValue().start.getInTimezone(timezone).jsDate.toISOString(),
-			end: freeBusyProperty.getFirstValue().end.getInTimezone(timezone).jsDate.toISOString(),
+			start: freeBusyProperty.getFirstValue().start.getInTimezone(timezone).jsDate,
+			end: freeBusyProperty.getFirstValue().end.getInTimezone(timezone).jsDate,
+			allDay: (freeBusyProperty.getFirstValue().end.unixTime - freeBusyProperty.getFirstValue().start.unixTime) >= 24 * 60 * 60,
 			resourceId: uri,
-			display: 'background',
+			display: 'auto',
 			classNames: [
 				'free-busy-block',
 				'free-busy-' + freeBusyProperty.type.toLowerCase(),
+				isOrganizer && freeBusyProperty.type === 'BUSY-UNAVAILABLE' ? 'free-busy-busy-unavailable--organizer' : '',
 			],
-			backgroundColor: getColorForFBType(freeBusyProperty.type),
+			title: attendeeName,
+			textColor: '#FFFFFF',
 		})
 	}
 

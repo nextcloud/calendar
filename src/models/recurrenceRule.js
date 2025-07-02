@@ -117,6 +117,7 @@ const SUPPORTED_BY_MONTH_YEARLY = [...Array(12).keys().map(i => i + 1)]
 /**
  * Maps a daily calendar-js recurrence-rule-value to an recurrence-rule-object
  *
+ * @param recurrenceRuleValue
  * @return {object}
  */
 const mapDailyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue) => {

@@ -20,6 +20,7 @@ import { CalendarComponent, TimezoneComponent } from '@nextcloud/calendar-js'
 import { Timezone } from '@nextcloud/timezones'
 import {
 	CALDAV_BIRTHDAY_CALENDAR,
+	CALDAV_PERSONAL_CALENDAR,
 	IMPORT_STAGE_IMPORTING,
 	IMPORT_STAGE_PROCESSING,
 } from '../models/consts.js'
@@ -195,6 +196,25 @@ export default defineStore('calendars', {
 
 				if (uri === CALDAV_BIRTHDAY_CALENDAR) {
 					return calendar
+				}
+			}
+
+			return null
+		},
+
+		/**
+		 * Gets the personal calendar's color or null
+		 *
+		 * @param {object} state the store data
+		 * @return {object | null}
+		 */
+		getPersonalCalendarColor: (state) => {
+			for (const calendar of state.calendars) {
+				const url = calendar.url.slice(0, -1)
+				const lastSlash = url.lastIndexOf('/')
+				const uri = url.slice(lastSlash + 1)
+				if (uri === CALDAV_PERSONAL_CALENDAR) {
+					return calendar.color
 				}
 			}
 
