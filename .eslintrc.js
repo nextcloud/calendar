@@ -6,4 +6,15 @@ module.exports = {
 	extends: [
 		'@nextcloud',
 	],
+	overrides: [
+		{
+			files: ['**/*.ts', '**/*.tsx'],
+			extends: [
+				'@nextcloud',
+				'@nextcloud/eslint-config/typescript',
+			],
+			parser: '@typescript-eslint/parser',
+			plugins: ['@typescript-eslint'],
+		},
+	],
 }

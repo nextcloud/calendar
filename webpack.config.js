@@ -27,6 +27,16 @@ webpackRules.RULE_JS.exclude = BabelLoaderExcludeNodeModulesExcept([
 	'p-try',
 	'yocto-queue',
 ])
+// Add TypeScript rule
+webpackRules.RULE_TS.use = [
+	'babel-loader',
+	{
+		loader: 'ts-loader',
+		options: {
+			transpileOnly: true,
+		},
+	},
+]
 
 // Edit SCSS rule
 webpackRules.RULE_SCSS.use = [
