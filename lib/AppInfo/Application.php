@@ -20,6 +20,7 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
+use OCP\IUserSession;
 use OCP\ServerVersion;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
