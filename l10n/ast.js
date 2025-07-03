@@ -200,13 +200,11 @@ OC.L10N.register(
     "Awaiting response" : "Esperando pola rempuesta",
     "Checking availability" : "Comprobando la disponibilidá",
     "Has not responded to {organizerName}'s invitation yet" : "Nun respondió a la invitación de: {organizerName}",
-    "Busy" : "Ocupáu",
-    "Out of office" : "Fuera de la oficina",
-    "with" : "con",
-    "Available times:" : "Hores disponibles:",
     "Suggestion accepted" : "Suxerencia aceptada",
+    "Out of office" : "Fuera de la oficina",
     "Done" : "Fecho",
     "Room name" : "Nome de la sala",
+    "Busy" : "Ocupáu",
     "Find a time" : "Atopar una hora",
     "The invitation has been accepted successfully." : "La invitación aceptóse correutamente.",
     "Failed to accept the invitation." : "Nun se pue aceptar la invitación",
@@ -288,6 +286,8 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Prodúxose un error, nun ye posible desaniciar el calendariu",
     "Imported {filename}" : "Importóse «{filename}»",
     "This is an event reminder." : "Esto ye un recordatoriu del eventu.",
-    "User not found" : "Nun s'atopó l'usuariu"
+    "User not found" : "Nun s'atopó l'usuariu",
+    "with" : "con",
+    "Available times:" : "Hores disponibles:"
 },
 "nplurals=2; plural=(n != 1);");
