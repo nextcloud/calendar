@@ -283,8 +283,8 @@
 }
 
 .fc-timegrid-event-harness, .fc-timegrid-event {
-	// previously was 1px for no apparent reason
-	margin-bottom: 0;
+	border-radius: 3px;
+	overflow-y: hidden;
 }
 
 // Leave some space for dragging
