@@ -13,7 +13,7 @@ use OCP\AppFramework\Db\Entity;
  * @method int getId()
  * @method void setId(int $value)
  * @method ?string getUid()
- * @method void setUis(string $value)
+ * @method void setUid(string $value)
  * @method ?string getTitle()
  * @method void setTitle(?string $value)
  * @method ?string getDescription()

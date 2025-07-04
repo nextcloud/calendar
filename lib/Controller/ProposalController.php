@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Controller;
 
+use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Objects\Proposal\ProposalObject;
 use OCA\Calendar\Objects\Proposal\ProposalResponseObject;
 use OCA\Calendar\Service\Proposal\ProposalService;
-use OCA\ContactsService\AppInfo\Application;
 use OCP\AppFramework\ApiController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
@@ -56,6 +56,9 @@ class ProposalController extends ApiController {
 			$user = $this->userManager->get($userId);
 		} else {
 			$user = $this->userSession->getUser();
+		}
+		if ($user === null) {
+			return new JSONResponse(['error' => 'user not found'], Http::STATUS_BAD_REQUEST);
 		}
 		return $user;
 	}
