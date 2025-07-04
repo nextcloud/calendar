@@ -28,11 +28,11 @@ use OCP\AppFramework\Db\Entity;
  * @method void setToken(string $value)
  */
 class ProposalParticipantEntry extends Entity {
-    protected ?string $uid = null;
-    protected ?int $pid = null;
-    protected ?string $name = null;
-    protected ?string $address = null;
-    protected ?string $status = null;
-    protected ?string $realm = null;
-    protected ?string $token = null;
+	protected ?string $uid = null;
+	protected ?int $pid = null;
+	protected ?string $name = null;
+	protected ?string $address = null;
+	protected ?string $status = null;
+	protected ?string $realm = null;
+	protected ?string $token = null;
 }

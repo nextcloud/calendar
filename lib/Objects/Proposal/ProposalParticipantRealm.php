@@ -11,5 +11,5 @@ namespace OCA\Calendar\Objects\Proposal;
 
 enum ProposalParticipantRealm: string {
 	case Internal = 'I';
-    case External = 'E';
+	case External = 'E';
 }

@@ -13,44 +13,44 @@ use DateTimeImmutable;
 
 class ProposalResponseDateObject {
 
-    private int $id;
-    private DateTimeImmutable $date;
-    private string $vote;
+	private int $id;
+	private DateTimeImmutable $date;
+	private string $vote;
 
-    public function fromJson(array $data): void {
-        foreach ($data as $key => $value) {
-            if (property_exists($this, $key)) {
-                if ($key === 'date' && is_string($value)) {
-                    $this->date = new DateTimeImmutable($value);
-                } else {
-                    $this->{$key} = $value;
-                }
-            }
-        }
-    }
+	public function fromJson(array $data): void {
+		foreach ($data as $key => $value) {
+			if (property_exists($this, $key)) {
+				if ($key === 'date' && is_string($value)) {
+					$this->date = new DateTimeImmutable($value);
+				} else {
+					$this->{$key} = $value;
+				}
+			}
+		}
+	}
 
-    public function getId(): int {
-        return $this->id;
-    }
-    
-    public function setId(int $value): void {
-        $this->id = $value;
-    }
+	public function getId(): int {
+		return $this->id;
+	}
+	
+	public function setId(int $value): void {
+		$this->id = $value;
+	}
 
-    public function getDate(): DateTimeImmutable {
-        return $this->date;
-    }
+	public function getDate(): DateTimeImmutable {
+		return $this->date;
+	}
 
-    public function setDate(DateTimeImmutable $value): void {
-        $this->date = $value;
-    }
+	public function setDate(DateTimeImmutable $value): void {
+		$this->date = $value;
+	}
 
-    public function getVote(): string {
-        return $this->vote;
-    }
+	public function getVote(): string {
+		return $this->vote;
+	}
 
-    public function setVote(string $value): void {
-        $this->vote = $value;
-    }
-        
+	public function setVote(string $value): void {
+		$this->vote = $value;
+	}
+
 }

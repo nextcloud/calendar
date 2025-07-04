@@ -62,7 +62,7 @@ class ProposalController extends ApiController {
 
 	/**
 	 * Retrieve list of available proposals
-	 */	
+	 */
 	#[ApiRoute(verb: 'POST', url: '/proposal/list', root: '/calendar')]
 	#[NoAdminRequired]
 	#[UserRateLimit(limit: 10, period: 60)]
@@ -101,7 +101,7 @@ class ProposalController extends ApiController {
 
 	/**
 	 * Create a new proposal
-	 */	
+	 */
 	#[ApiRoute(verb: 'POST', url: '/proposal/create', root: '/calendar')]
 	#[NoAdminRequired]
 	#[UserRateLimit(limit: 10, period: 60)]

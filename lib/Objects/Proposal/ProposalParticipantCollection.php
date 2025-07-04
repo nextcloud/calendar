@@ -49,5 +49,5 @@ class ProposalParticipantCollection extends BaseCollection {
 			$this->append($participant);
 		}
 	}
-	
+
 }

@@ -48,5 +48,5 @@ class ProposalDateCollection extends BaseCollection {
 			$this->append($date);
 		}
 	}
-	
+
 }

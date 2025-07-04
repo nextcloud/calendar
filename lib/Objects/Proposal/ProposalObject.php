@@ -13,123 +13,123 @@ use OCA\Calendar\Db\ProposalDetailsEntry;
 
 class ProposalObject implements \JsonSerializable {
 
-    private ?int $id = null;
-    private ?string $title = null;
-    private ?string $description = null;
-    private ?string $location = null;
-    private ?int $duration = null;
-    private ProposalParticipantCollection $participants;
-    private ProposalDateCollection $dates;
+	private ?int $id = null;
+	private ?string $title = null;
+	private ?string $description = null;
+	private ?string $location = null;
+	private ?int $duration = null;
+	private ProposalParticipantCollection $participants;
+	private ProposalDateCollection $dates;
 
-    public function __construct() {
-        $this->participants = new ProposalParticipantCollection();
-        $this->dates = new ProposalDateCollection();
-    }
+	public function __construct() {
+		$this->participants = new ProposalParticipantCollection();
+		$this->dates = new ProposalDateCollection();
+	}
 
-    public function jsonSerialize(): mixed {
-        return $this->toJson();
-    }
+	public function jsonSerialize(): mixed {
+		return $this->toJson();
+	}
 
-    public function toJson(): array {
-        $data = [
-            "@type" => "MeetingProposal",
-            'id' => $this->id,
-            'title' => $this->title,
-            'description' => $this->description,
-            'location' => $this->location,
-            'duration' => $this->duration,
-            'participants' => $this->participants->toJson(),
-            'dates' => $this->dates->toJson(),
-        ];
-        return $data;
-    }
+	public function toJson(): array {
+		$data = [
+			'@type' => 'MeetingProposal',
+			'id' => $this->id,
+			'title' => $this->title,
+			'description' => $this->description,
+			'location' => $this->location,
+			'duration' => $this->duration,
+			'participants' => $this->participants->toJson(),
+			'dates' => $this->dates->toJson(),
+		];
+		return $data;
+	}
 
-    public function fromJson(array $data): void {
-        foreach ($data as $key => $value) {
-            if (property_exists($this, $key)) {
-                if ($key === 'participants' && is_array($value)) {
-                    $this->participants->fromJson($value);
-                } elseif ($key === 'dates' && is_array($value)) {
-                    $this->dates->fromJson($value);
-                } else {
-                    $this->{$key} = $value;
-                }
-            }
-        }
-    }
+	public function fromJson(array $data): void {
+		foreach ($data as $key => $value) {
+			if (property_exists($this, $key)) {
+				if ($key === 'participants' && is_array($value)) {
+					$this->participants->fromJson($value);
+				} elseif ($key === 'dates' && is_array($value)) {
+					$this->dates->fromJson($value);
+				} else {
+					$this->{$key} = $value;
+				}
+			}
+		}
+	}
 
-    public function toStore(): ProposalDetailsEntry {
-        $entry = new ProposalDetailsEntry();
-        $entry->setId($this->id);
-        $entry->setTitle($this->title);
-        $entry->setDescription($this->description);
-        $entry->setLocation($this->location);
-        $entry->setDuration($this->duration);
-        return $entry;
-    }
+	public function toStore(): ProposalDetailsEntry {
+		$entry = new ProposalDetailsEntry();
+		$entry->setId($this->id);
+		$entry->setTitle($this->title);
+		$entry->setDescription($this->description);
+		$entry->setLocation($this->location);
+		$entry->setDuration($this->duration);
+		return $entry;
+	}
 
-    public function fromStore(ProposalDetailsEntry $entry): void {
-        $this->id = $entry->getId();
-        $this->title = $entry->getTitle();
-        $this->description = $entry->getDescription();
-        $this->location = $entry->getLocation();
-        $this->duration = $entry->getDuration();
-    }
+	public function fromStore(ProposalDetailsEntry $entry): void {
+		$this->id = $entry->getId();
+		$this->title = $entry->getTitle();
+		$this->description = $entry->getDescription();
+		$this->location = $entry->getLocation();
+		$this->duration = $entry->getDuration();
+	}
 
-    public function getId(): ?int {
-        return $this->id;
-    }
-    
-    public function setId(?int $value): void {
-        $this->id = $value;
-    }
-    
-    public function getTitle(): ?string {
-        return $this->title;
-    }
-    
-    public function setTitle(?string $value): void {
-        $this->title = $value;
-    }
-    
-    public function getDescription(): ?string {
-        return $this->description;
-    }
-    
-    public function setDescription(?string $value): void {
-        $this->description = $value;
-    }
-    
-    public function getLocation(): ?string {
-        return $this->location;
-    }
-    
-    public function setLocation(?string $value): void {
-        $this->location = $value;
-    }
-    
-    public function getDuration(): ?int {
-        return $this->duration;
-    }
-    
-    public function setDuration(?int $value): void {
-        $this->duration = $value;
-    }
-    
-    public function getParticipants(): ProposalParticipantCollection {
-        return $this->participants;
-    }
-    
-    public function setParticipants(ProposalParticipantCollection $value): void {
-        $this->participants = $value;
-    }
-    
-    public function getDates(): ProposalDateCollection {
-        return $this->dates;
-    }
+	public function getId(): ?int {
+		return $this->id;
+	}
+	
+	public function setId(?int $value): void {
+		$this->id = $value;
+	}
+	
+	public function getTitle(): ?string {
+		return $this->title;
+	}
+	
+	public function setTitle(?string $value): void {
+		$this->title = $value;
+	}
+	
+	public function getDescription(): ?string {
+		return $this->description;
+	}
+	
+	public function setDescription(?string $value): void {
+		$this->description = $value;
+	}
+	
+	public function getLocation(): ?string {
+		return $this->location;
+	}
+	
+	public function setLocation(?string $value): void {
+		$this->location = $value;
+	}
+	
+	public function getDuration(): ?int {
+		return $this->duration;
+	}
+	
+	public function setDuration(?int $value): void {
+		$this->duration = $value;
+	}
+	
+	public function getParticipants(): ProposalParticipantCollection {
+		return $this->participants;
+	}
+	
+	public function setParticipants(ProposalParticipantCollection $value): void {
+		$this->participants = $value;
+	}
+	
+	public function getDates(): ProposalDateCollection {
+		return $this->dates;
+	}
 
-    public function setDates(ProposalDateCollection $value): void {
-        $this->dates = $value;
-    }
+	public function setDates(ProposalDateCollection $value): void {
+		$this->dates = $value;
+	}
 
 }

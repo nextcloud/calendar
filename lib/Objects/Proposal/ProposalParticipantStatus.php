@@ -10,6 +10,6 @@ declare(strict_types=1);
 namespace OCA\Calendar\Objects\Proposal;
 
 enum ProposalParticipantStatus: string {
-    case Pending = 'P';
-    case Responded = 'R';
+	case Pending = 'P';
+	case Responded = 'R';
 }

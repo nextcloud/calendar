@@ -25,5 +25,5 @@ class ProposalResponseDateCollection extends BaseCollection {
 		}
 		return $this;
 	}
-	
+
 }

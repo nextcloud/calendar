@@ -24,9 +24,9 @@ use OCP\AppFramework\Db\Entity;
  * @method void setDuration(int $value)
  */
 class ProposalDetailsEntry extends Entity {
-    protected ?string $uid = null;
-    protected ?string $title = null;
-    protected ?string $description = null;
-    protected ?string $location = null;
-    protected int $duration = 0;
+	protected ?string $uid = null;
+	protected ?string $title = null;
+	protected ?string $description = null;
+	protected ?string $location = null;
+	protected int $duration = 0;
 }

@@ -26,10 +26,10 @@ use OCP\AppFramework\Db\Entity;
  * @method void setVotedMaybe(int $value)
  */
 class ProposalDateEntry extends Entity {
-    protected ?string $uid = null;
-    protected ?int $pid = null;
-    protected ?int $date = null;
-    protected int $votedYes = 0;
-    protected int $votedNo = 0;
-    protected int $votedMaybe = 0;
+	protected ?string $uid = null;
+	protected ?int $pid = null;
+	protected ?int $date = null;
+	protected int $votedYes = 0;
+	protected int $votedNo = 0;
+	protected int $votedMaybe = 0;
 }

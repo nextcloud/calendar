@@ -19,7 +19,7 @@ use OCP\IDBConnection;
 class ProposalDateMapper extends QBMapper {
 
 	public function __construct(
-		IDBConnection $db
+		IDBConnection $db,
 	) {
 		$this->tableName = 'calendar_proposal_dats';
 		parent::__construct($db, $this->tableName, ProposalDateEntry::class);

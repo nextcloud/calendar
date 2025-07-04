@@ -27,7 +27,8 @@ class UserDeletedListener implements IEventListener {
 		private AppointmentConfigService $appointmentConfigService,
 		private BookingService $bookingService,
 		private ProposalService $proposalService,
-	) {}
+	) {
+	}
 
 	#[\Override]
 	public function handle(Event $event): void {
