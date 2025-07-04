@@ -20,9 +20,7 @@ export class Proposal implements ProposalInterface {
 	public participants: ProposalParticipant[] = []
 	public dates: ProposalDate[] = []
 
-	constructor() {}
-
-	public toJson(): any {
+	public toJson(): Record<string, unknown> {
 		return {
 			'@type': 'MeetingProposal',
 			id: this.id,
@@ -34,7 +32,7 @@ export class Proposal implements ProposalInterface {
 		}
 	}
 
-	public fromJson(data: any): void {
+	public fromJson(data: Record<string, unknown>): void {
 		this.id = data.id ?? null
 		this.title = data.title ?? null
 		this.description = data.description ?? null
@@ -61,9 +59,7 @@ export class ProposalParticipant implements ProposalParticipantInterface {
 	public status: ProposalParticipantStatus = ProposalParticipantStatus.Pending
 	public realm: ProposalParticipantRealm = ProposalParticipantRealm.Internal
 
-	constructor() {}
-
-	public toJson(): any {
+	public toJson(): Record<string, unknown> {
 		return {
 			'@type': 'MeetingProposalParticipant',
 			id: this.id,
@@ -74,7 +70,7 @@ export class ProposalParticipant implements ProposalParticipantInterface {
 		}
 	}
 
-	public fromJson(data: any): void {
+	public fromJson(data: Record<string, unknown>): void {
 		this.id = data.id ?? null
 		this.name = data.name ?? null
 		this.address = data.address ?? ''
@@ -92,9 +88,7 @@ export class ProposalDate implements ProposalDateInterface {
 	public votedNo: number = 0
 	public votedMaybe: number = 0
 
-	constructor() {}
-
-	public toJson(): any {
+	public toJson(): Record<string, unknown> {
 		return {
 			'@type': 'MeetingProposalDate',
 			id: this.id,
@@ -103,7 +97,7 @@ export class ProposalDate implements ProposalDateInterface {
 		}
 	}
 
-	public fromJson(data: any): void {
+	public fromJson(data: Record<string, unknown>): void {
 		this.id = data.id ?? null
 		this.date = data.date ? new Date(data.date) : null
 		this.votedYes = data.votedYes ?? 0
@@ -118,9 +112,7 @@ export class ProposalResponse implements ProposalResponseInterface {
 	public token: string = ''
 	public dates: Record<number, ProposalResponseDate> = {}
 
-	constructor() {}
-
-	public toJson(): any {
+	public toJson(): Record<string, unknown> {
 		return {
 			'@type': 'MeetingProposalResponse',
 			token: this.token,
@@ -136,9 +128,7 @@ export class ProposalResponseDate implements ProposalResponseDateInterface {
 	public date: Date = new Date()
 	public vote: ProposalDateVote = ProposalDateVote.No
 
-	constructor() {}
-
-	public toJson(): any {
+	public toJson(): Record<string, unknown> {
 		return {
 			'@type': 'MeetingProposalResponseDate',
 			id: this.id,
