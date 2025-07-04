@@ -67,7 +67,7 @@ class ProposalParticipantObject {
 		$this->realm = ProposalParticipantRealm::from($entry->getRealm());
 		$this->token = $entry->getToken();
 	}
-	
+
 	public function getId(): ?int {
 		return $this->id;
 	}

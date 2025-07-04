@@ -32,7 +32,7 @@ class ProposalPublicController extends Controller {
 	) {
 		parent::__construct(Application::APP_ID, $request);
 	}
-	
+
 	#[FrontpageRoute(verb: 'GET', url: '/proposal/{token}', root: '/calendar')]
 	#[PublicPage]
 	#[NoCSRFRequired]

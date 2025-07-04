@@ -39,15 +39,15 @@ class ProposalController extends ApiController {
 	) {
 		parent::__construct(Application::APP_ID, $request);
 	}
-	
+
 	private function authorize(?string $userId = null): JSONResponse|IUser {
 		// evaluate if user is logged in and has permissions
 		if (!$this->userSession->isLoggedIn()) {
 			return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
 		}
 		if ($userId !== null) {
-			if ($this->userSession->getUser()->getUID() !== $userId &&
-				$this->groupManager->isAdmin($this->userSession->getUser()->getUID()) === false) {
+			if ($this->userSession->getUser()->getUID() !== $userId
+				&& $this->groupManager->isAdmin($this->userSession->getUser()->getUID()) === false) {
 				return new JSONResponse([], Http::STATUS_UNAUTHORIZED);
 			}
 			if (!$this->userManager->userExists($userId)) {

@@ -26,7 +26,7 @@ class ProposalResponseObject {
 			}
 		}
 	}
-	
+
 	public function getToken(): string {
 		return $this->token;
 	}

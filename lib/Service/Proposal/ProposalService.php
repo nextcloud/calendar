@@ -87,7 +87,7 @@ class ProposalService {
 			// add the proposal to the list
 			$proposals[] = $proposal;
 		}
-		
+
 		return $proposals;
 	}
 
@@ -349,7 +349,7 @@ class ProposalService {
 	}
 
 	private function generateNotifications(IUser $user, ProposalObject $proposal, string $reason): void {
-		
+
 		foreach ($proposal->getParticipants() as $participant) {
 			if ($participant->getRealm() === ProposalParticipantRealm::External) {
 				$this->sendEmailNotifications($user, $participant, $reason);
@@ -391,7 +391,7 @@ class ProposalService {
 		$template->addHeading(
 			$this->l10n->t('Dear %s, please confirm your booking', [$recipientName])
 		);
-		
+
 		$testLink = $this->urlGenerator->linkToRouteAbsolute('Calendar.ProposalPublic.index', ['token' => $recipientToken]);
 
 		$template->addBodyButton(

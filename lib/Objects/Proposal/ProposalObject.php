@@ -79,51 +79,51 @@ class ProposalObject implements \JsonSerializable {
 	public function getId(): ?int {
 		return $this->id;
 	}
-	
+
 	public function setId(?int $value): void {
 		$this->id = $value;
 	}
-	
+
 	public function getTitle(): ?string {
 		return $this->title;
 	}
-	
+
 	public function setTitle(?string $value): void {
 		$this->title = $value;
 	}
-	
+
 	public function getDescription(): ?string {
 		return $this->description;
 	}
-	
+
 	public function setDescription(?string $value): void {
 		$this->description = $value;
 	}
-	
+
 	public function getLocation(): ?string {
 		return $this->location;
 	}
-	
+
 	public function setLocation(?string $value): void {
 		$this->location = $value;
 	}
-	
+
 	public function getDuration(): ?int {
 		return $this->duration;
 	}
-	
+
 	public function setDuration(?int $value): void {
 		$this->duration = $value;
 	}
-	
+
 	public function getParticipants(): ProposalParticipantCollection {
 		return $this->participants;
 	}
-	
+
 	public function setParticipants(ProposalParticipantCollection $value): void {
 		$this->participants = $value;
 	}
-	
+
 	public function getDates(): ProposalDateCollection {
 		return $this->dates;
 	}

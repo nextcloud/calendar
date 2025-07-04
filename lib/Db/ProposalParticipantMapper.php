@@ -76,7 +76,7 @@ class ProposalParticipantMapper extends QBMapper {
 			);
 		$qb->executeStatement();
 	}
-	
+
 	public function deleteByUserId(string $userId): void {
 		$qb = $this->db->getQueryBuilder();
 		$qb->delete($this->tableName)

@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace OCA\Calendar\Objects;
 
 class BaseCollection extends \ArrayObject {
-	
+
 	private $type;
 
 	public function __construct($type, $data = []) {

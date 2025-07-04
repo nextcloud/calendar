@@ -61,7 +61,7 @@ class ProposalDateObject {
 		$this->votedNo = $entry->getVotedNo();
 		$this->VotedMaybe = $entry->getVotedMaybe();
 	}
-	
+
 	public function getId(): ?int {
 		return $this->id;
 	}
