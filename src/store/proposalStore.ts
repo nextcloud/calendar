@@ -7,19 +7,28 @@ import { proposalService } from '../services/proposalService'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { Proposal } from '../models/proposals/proposals'
-import type {ProposalInterface, ProposalResponseInterface } from '../types/proposals/proposalInterfaces'
+import type { ProposalInterface, ProposalResponseInterface } from '../types/proposals/proposalInterfaces'
 
 export default defineStore('proposal', () => {
 	const modalVisible = ref(false)
 
+	/**
+	 *
+	 */
 	function showModal() {
 		modalVisible.value = true
 	}
 
+	/**
+	 *
+	 */
 	function hideModal() {
 		modalVisible.value = false
 	}
 
+	/**
+	 *
+	 */
 	async function listProposals(): Promise<Proposal[]> {
 		const response = await proposalService.listProposals()
 		const proposals = response.map((json: any) => {
@@ -30,6 +39,10 @@ export default defineStore('proposal', () => {
 		return proposals
 	}
 
+	/**
+	 *
+	 * @param token
+	 */
 	async function fetchProposalByToken(token: string): Promise<Proposal> {
 		const response = await proposalService.fetchProposalByToken(token)
 		const proposal = new Proposal()
@@ -37,6 +50,10 @@ export default defineStore('proposal', () => {
 		return proposal
 	}
 
+	/**
+	 *
+	 * @param proposal
+	 */
 	async function storeProposal(proposal: ProposalInterface): Promise<Proposal> {
 		if (proposal.id === null) {
 			return proposalService.createProposal(proposal)
@@ -45,10 +62,18 @@ export default defineStore('proposal', () => {
 		}
 	}
 
+	/**
+	 *
+	 * @param proposal
+	 */
 	async function destroyProposal(proposal: ProposalInterface): Promise<void> {
 		await proposalService.destroyProposal(proposal)
 	}
 
+	/**
+	 *
+	 * @param response
+	 */
 	async function storeResponse(response: ProposalResponseInterface): Promise<void> {
 		return proposalService.storeResponse(response)
 	}

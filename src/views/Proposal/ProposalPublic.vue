@@ -1,14 +1,14 @@
 <template>
 	<div class="proposal-public__content">
-		<NcGuestContent class="proposal-public__content-empty"
-			v-if="contentView === 'loading' || contentView === 'notfound'">
+		<NcGuestContent v-if="contentView === 'loading' || contentView === 'notfound'"
+			class="proposal-public__content-empty">
 			<NcEmptyContent :name="blankViewLabel" :description="blankViewDescription">
 				<template #icon>
 					<BallotIcon />
 				</template>
 			</NcEmptyContent>
 		</NcGuestContent>
-		<NcGuestContent class="proposal-public__content-details" v-else-if="contentView === 'loaded'">
+		<NcGuestContent v-else-if="contentView === 'loaded'" class="proposal-public__content-details">
 			<!-- Row 1: Title -->
 			<div class="proposal-public__row proposal-public__row-title">
 				<h2>{{ storedProposal?.title || t('calendar', 'No Title') }}</h2>
@@ -30,44 +30,44 @@
 				<div class="proposal-public__column-right">
 					<div class="proposal-public__dates-list">
 						<div v-if="storedProposal?.dates.length">
-							<div v-for="date in storedProposal.dates" :key="date.id"
+							<div v-for="date in storedProposal.dates"
+								:key="date.id"
 								class="proposal-public__date-row">
 								<span class="proposal-public__date-time">{{ date.date ? new
 									Date(date.date).toLocaleString() : '-' }}</span>
 								<div class="proposal-public__date-actions">
-									<NcCheckboxRadioSwitch
-										v-model="response.dates[date.id].response"
+									<NcCheckboxRadioSwitch v-model="response.dates[date.id].response"
 										:value="ProposalDateVote.Yes"
 										:name="'vote-' + date.id"
 										type="radio">
 										{{ t('calendar','Yes') }}
 									</NcCheckboxRadioSwitch>
-									<NcCheckboxRadioSwitch
-										v-model="response.dates[date.id].response"
+									<NcCheckboxRadioSwitch v-model="response.dates[date.id].response"
 										:value="ProposalDateVote.No"
 										:name="'vote-' + date.id"
 										type="radio">
 										{{ t('calendar', 'No') }}
 									</NcCheckboxRadioSwitch>
-									<NcCheckboxRadioSwitch
-										v-model="response.dates[date.id].response"
+									<NcCheckboxRadioSwitch v-model="response.dates[date.id].response"
 										:value="ProposalDateVote.Maybe"
 										:name="'vote-' + date.id"
 										type="radio">
-									{{ t('calendar', 'Maybe') }}
+										{{ t('calendar', 'Maybe') }}
 									</NcCheckboxRadioSwitch>
 								</div>
 							</div>
 						</div>
-					<div v-else class="proposal-public__no-dates">
-						{{ t('calendar', 'No proposed dates') }}
-					</div>
+						<div v-else class="proposal-public__no-dates">
+							{{ t('calendar', 'No proposed dates') }}
+						</div>
 					</div>
 				</div>
 			</div>
 			<!-- Row 3: Submit Button -->
 			<div class="proposal-public__row proposal-public__row-submit">
-				<NcButton type="primary" @click="onSubmit">{{ t('calendar', 'Submit') }}</NcButton>
+				<NcButton type="primary" @click="onSubmit">
+					{{ t('calendar', 'Submit') }}
+				</NcButton>
 			</div>
 		</NcGuestContent>
 	</div>
@@ -95,9 +95,9 @@ export default {
 		NcEmptyContent,
 		NcButton,
 		NcCheckboxRadioSwitch,
-		BallotIcon
+		BallotIcon,
 	},
-	
+
 	data() {
 	   return {
 		   proposalStore: useProposalStore(),
@@ -106,36 +106,10 @@ export default {
 		   storedProposal: null,
 		   votes: {},
 		   response: new ProposalResponse(),
-		   ProposalDateVote: ProposalDateVote,
+		   ProposalDateVote,
 	   }
 	},
 
-	mounted() {
-		var pathParts = window.location.pathname.split('/')
-		this.contentView = 'loading'
-		this.token = pathParts[pathParts.length - 1]
-		this.proposalStore.fetchProposalByToken(this.token)
-		.then((proposal) => {
-			this.storedProposal = proposal
-			this.response.token = this.token
-			// Initialize response state for each date
-		   if (proposal && proposal.dates) {
-			   proposal.dates.forEach((date) => {
-				   if (date.id !== null) {
-					   this.response.dates[date.id] = new ProposalResponseDate()
-					   this.response.dates[date.id].id = date.id
-					   this.response.dates[date.id].date = new Date(date.date)
-					   this.response.dates[date.id].vote = ProposalDateVote.No
-				   }
-			   })
-		   }
-			this.contentView = 'loaded'
-		})
-		.catch(() => {
-			this.contentView = 'notfound'
-		})
-	},
-	
 	computed: {
 		blankViewLabel() {
 			if (this.contentView === 'loading') {
@@ -154,7 +128,33 @@ export default {
 		},
 	},
 
-   methods: {
+	mounted() {
+		const pathParts = window.location.pathname.split('/')
+		this.contentView = 'loading'
+		this.token = pathParts[pathParts.length - 1]
+		this.proposalStore.fetchProposalByToken(this.token)
+			.then((proposal) => {
+				this.storedProposal = proposal
+				this.response.token = this.token
+				// Initialize response state for each date
+		   if (proposal && proposal.dates) {
+			   proposal.dates.forEach((date) => {
+				   if (date.id !== null) {
+					   this.response.dates[date.id] = new ProposalResponseDate()
+					   this.response.dates[date.id].id = date.id
+					   this.response.dates[date.id].date = new Date(date.date)
+					   this.response.dates[date.id].vote = ProposalDateVote.No
+				   }
+			   })
+		   }
+				this.contentView = 'loaded'
+			})
+			.catch(() => {
+				this.contentView = 'notfound'
+			})
+	},
+
+	methods: {
 		t,
 
 		async onSubmit() {
@@ -165,7 +165,7 @@ export default {
 				console.error('Failed to store proposal response', e)
 			}
 		},
-   },
+	},
 }
 </script>
 

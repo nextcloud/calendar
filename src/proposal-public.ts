@@ -15,8 +15,8 @@ Vue.use(PiniaVuePlugin)
 const pinia = createPinia()
 
 window.addEventListener('DOMContentLoaded', () => {
-  new Vue({
-	pinia,
-	render: h => h(ProposalPublic),
-  }).$mount('#calendar-content')
+	new Vue({
+		pinia,
+		render: h => h(ProposalPublic),
+	}).$mount('#calendar-content')
 })
