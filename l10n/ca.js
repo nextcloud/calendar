@@ -328,6 +328,7 @@ OC.L10N.register(
     "Suggestion accepted" : "S'ha acceptat el suggeriment",
     "Legend" : "Llegenda",
     "Out of office" : "Fora de l'oficina",
+    "Attendees:" : "Assistents:",
     "Done" : "Fet",
     "Search room" : "Cerca sala",
     "Room name" : "Nom de la sala",
