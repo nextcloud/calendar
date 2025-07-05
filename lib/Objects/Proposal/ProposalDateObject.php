@@ -19,7 +19,7 @@ class ProposalDateObject {
 	private int $votedYes = 0;
 	private int $votedNo = 0;
 	private int $VotedMaybe = 0;
-
+	
 	public function toJson(): array {
 		$data = [
 			'@type' => 'MeetingProposalDate',

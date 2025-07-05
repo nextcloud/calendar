@@ -35,6 +35,7 @@ class BaseCollection extends \ArrayObject {
 		};
 	}
 
+	#[\Override]
 	public function append($value): void {
 		// ensure that the value is of the specified type before appending
 		if (!$this->validate($value)) {
@@ -43,6 +44,7 @@ class BaseCollection extends \ArrayObject {
 		parent::append($value);
 	}
 
+	#[\Override]
 	public function offsetSet($key, $value): void {
 		// ensure that the value is of the specified type before setting
 		if (!$this->validate($value)) {

@@ -31,7 +31,7 @@ export default defineStore('proposal', () => {
 	 */
 	async function listProposals(): Promise<Proposal[]> {
 		const response = await proposalService.listProposals()
-		const proposals = response.map((json: any) => {
+		const proposals = response.map((json: Record<string, unknown>) => {
 			const proposal = new Proposal()
 			proposal.fromJson(json)
 			return proposal

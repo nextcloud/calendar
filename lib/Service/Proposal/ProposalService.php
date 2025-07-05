@@ -27,6 +27,7 @@ use OCP\Mail\IMailer;
 use OCP\Mail\Provider\Address;
 use OCP\Mail\Provider\IManager as IMailManager;
 use OCP\Mail\Provider\IMessageSend;
+use OCP\Utile\UUID;
 use Psr\Log\LoggerInterface;
 
 class ProposalService {
@@ -116,9 +117,6 @@ class ProposalService {
 
 	/**
 	 * Fetch a proposal by a participant's unique token
-	 *
-	 * @param string $token
-	 * @return ProposalObject|null
 	 */
 	public function fetchByToken(string $token): ?ProposalObject {
 		// Fetch the participant by token
@@ -153,10 +151,6 @@ class ProposalService {
 
 	/**
 	 * Create a new proposal
-	 *
-	 * @param IUser $user
-	 * @param ProposalObject $proposal
-	 * @return ProposalObject
 	 */
 	public function createProposal(IUser $user, ProposalObject $proposal): ProposalObject {
 		// determine if the proposal ID is null, as it should be for a new proposal
@@ -166,6 +160,7 @@ class ProposalService {
 		// convert the proposal object to a storage format
 		$proposalEntry = $proposal->toStore();
 		$proposalEntry->setUid($user->getUID());
+		$proposalEntry->setUuid(UUID::v4());
 		$proposalParticipantEntries = $proposal->getParticipants()->toStore();
 		$proposalDateEntries = $proposal->getDates()->toStore();
 		// create the proposal entry in store
@@ -203,10 +198,6 @@ class ProposalService {
 
 	/**
 	 * Modify an existing proposal
-	 *
-	 * @param ProposalObject $proposal
-	 *
-	 * @return ProposalObject
 	 */
 	public function modifyProposal(IUser $user, ProposalObject $proposal): ProposalObject {
 		// determine if the proposal ID is set, as it should be for a modification
@@ -288,9 +279,6 @@ class ProposalService {
 
 	/**
 	 * Destroy a proposal
-	 *
-	 * @param ProposalObject $proposal
-	 * @return void
 	 */
 	public function destroyProposal(IUser $user, ProposalObject $proposal): void {
 		if ($proposal->getId() === null) {
@@ -438,6 +426,10 @@ class ProposalService {
 			$this->logger->error($ex->getMessage(), ['exception' => $ex, 'app' => 'calendar-proposal']);
 		}
 
+	}
+
+	private function generateiTip(IUser $user, ProposalObject $proposal, string $reason): void {
+		
 	}
 
 }

@@ -5,25 +5,14 @@
 
 import { ProposalParticipantStatus, ProposalParticipantRealm, ProposalDateVote } from './proposalEnums'
 
-export interface ProposalInterface {
-  id: number | null
-  title: string | null
-  description: string | null
-  duration: number | null
-  participants: ProposalParticipantInterface[]
-  dates: ProposalDateInterface[]
-  toJson(): any
-  fromJson(data: any): void
-}
-
 export interface ProposalParticipantInterface {
   id: number | null
   name: string | null
   address: string
   status: ProposalParticipantStatus
   realm: ProposalParticipantRealm
-  toJson(): any
-  fromJson(data: any): void
+  toJson(): Record<string, unknown>
+  fromJson(data: Record<string, unknown>): void
 }
 
 export interface ProposalDateInterface {
@@ -32,19 +21,31 @@ export interface ProposalDateInterface {
   votedYes: number
   votedNo: number
   votedMaybe: number
-  toJson(): any
-  fromJson(data: any): void
+  toJson(): Record<string, unknown>
+  fromJson(data: Record<string, unknown>): void
 }
 
-export interface ProposalResponseInterface {
-  token: string
-  dates: Record<number, ProposalResponseDateInterface>
-  toJson(): any
+export interface ProposalInterface {
+  id: number | null
+  uuid: string | null
+  title: string | null
+  description: string | null
+  duration: number | null
+  participants: ProposalParticipantInterface[]
+  dates: ProposalDateInterface[]
+  toJson(): Record<string, unknown>
+  fromJson(data: Record<string, unknown>): void
 }
 
 export interface ProposalResponseDateInterface {
   id: number
   date: Date
   vote: ProposalDateVote
-  toJson(): any
+  toJson(): Record<string, unknown>
+}
+
+export interface ProposalResponseInterface {
+  token: string
+  dates: Record<number, ProposalResponseDateInterface>
+  toJson(): Record<string, unknown>
 }

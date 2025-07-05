@@ -10,10 +10,12 @@ namespace OCA\Calendar\Db;
 use OCP\AppFramework\Db\Entity;
 
 /**
- * @method int getId()
+ * @method ?int getId()
  * @method void setId(int $value)
  * @method ?string getUid()
  * @method void setUid(string $value)
+ * @method ?string getUuid()
+ * @method void setUuid(string $value)
  * @method ?string getTitle()
  * @method void setTitle(?string $value)
  * @method ?string getDescription()
@@ -25,6 +27,7 @@ use OCP\AppFramework\Db\Entity;
  */
 class ProposalDetailsEntry extends Entity {
 	protected ?string $uid = null;
+	protected ?string $uuid = null;
 	protected ?string $title = null;
 	protected ?string $description = null;
 	protected ?string $location = null;

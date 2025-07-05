@@ -11,9 +11,10 @@ namespace OCA\Calendar\Objects\Proposal;
 
 use OCA\Calendar\Db\ProposalDetailsEntry;
 
-class ProposalObject {
+class ProposalObject implements \JsonSerializable {
 
 	private ?int $id = null;
+	private ?string $uuid = null;
 	private ?string $title = null;
 	private ?string $description = null;
 	private ?string $location = null;
@@ -26,7 +27,7 @@ class ProposalObject {
 		$this->dates = new ProposalDateCollection();
 	}
 
-	public function __serialize(): array{
+	public function jsonSerialize(): array {
 		return $this->toJson();
 	}
 
@@ -34,6 +35,7 @@ class ProposalObject {
 		$data = [
 			'@type' => 'MeetingProposal',
 			'id' => $this->id,
+			'uuid' => $this->uuid,
 			'title' => $this->title,
 			'description' => $this->description,
 			'location' => $this->location,
@@ -61,6 +63,7 @@ class ProposalObject {
 	public function toStore(): ProposalDetailsEntry {
 		$entry = new ProposalDetailsEntry();
 		$entry->setId($this->id);
+		$entry->setUuid($this->uuid);
 		$entry->setTitle($this->title);
 		$entry->setDescription($this->description);
 		$entry->setLocation($this->location);
@@ -70,6 +73,7 @@ class ProposalObject {
 
 	public function fromStore(ProposalDetailsEntry $entry): void {
 		$this->id = $entry->getId();
+		$this->uuid = $entry->getUuid();
 		$this->title = $entry->getTitle();
 		$this->description = $entry->getDescription();
 		$this->location = $entry->getLocation();
@@ -82,6 +86,14 @@ class ProposalObject {
 
 	public function setId(?int $value): void {
 		$this->id = $value;
+	}
+
+	public function getUuid(): ?string {
+		return $this->uuid;
+	}
+	
+	public function setUuid(?string $value): void {
+		$this->uuid = $value;
 	}
 
 	public function getTitle(): ?string {
