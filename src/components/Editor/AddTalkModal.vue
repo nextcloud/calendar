@@ -256,17 +256,18 @@ export default {
 	position: sticky;
 	bottom: 0;
 	padding: 16px;
-	text-align: right;
+	text-align: end;
 	display: flex;
 	background-color: var(--color-main-background);
 	border-radius: var(--border-radius-large);
 }
+
 .talk_new-room {
-	margin-right: auto;
+	margin-inline-end: auto;
 }
 
 .talk_select-room {
-	margin-left: auto;
+	margin-inline-start: auto;
 }
 
 h2 {

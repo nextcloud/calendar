@@ -143,7 +143,7 @@ export default {
 				width: 100%;
 
 				.material-design-icon {
-					margin-right: 5px;
+					margin-inline-end: 5px;
 				}
 
 				.name {

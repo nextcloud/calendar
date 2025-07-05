@@ -199,12 +199,14 @@ export default {
 h3 {
 	margin-top: 0;
 }
+
 .booking__date, .booking__time {
 	display: flex;
 	align-items: center;
 	gap: 4px;
 	padding-top: 10px
 }
+
 .booking-appointment-details {
 	display: flex;
 	flex-direction: row;
@@ -223,7 +225,7 @@ h3 {
 .appointment-details {
 	max-width: 360px;
 	flex: 1 auto;
-	padding-left: 30px;
+	padding-inline-start: 30px;
 
 	input {
 		width: 100%;
@@ -231,7 +233,7 @@ h3 {
 }
 
 .buttons .loading-icon {
-	margin-right:5px
+	margin-inline-end:5px
 }
 
 .booking-error {

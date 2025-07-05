@@ -317,7 +317,7 @@ th {
 }
 
 .deletedAt {
-	text-align: right;
+	text-align: end;
 }
 
 .footer {
@@ -337,7 +337,7 @@ th {
 	vertical-align: middle;
 	width: 14px;
 	height: 14px;
-	margin-right: 14px;
+	margin-inline-end: 14px;
 	border: none;
 	border-radius: 50%;
 }

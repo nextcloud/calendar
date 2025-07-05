@@ -232,7 +232,7 @@
 					&__count {
 						flex: 1 1 auto;
 						min-width: 0;
-						margin-right: 10px;
+						margin-inline-end: 10px;
 					}
 					&__label{
 						display: block;
@@ -263,7 +263,7 @@
 		}
 
 		&__label {
-			margin-right: auto;
+			margin-inline-end: auto;
 		}
 	}
 
@@ -286,8 +286,7 @@
 		&__icon {
 			width: 34px;
 			height: 34px;
-			margin-left: -5px;
-			margin-right: 5px;
+			margin-inline: -5px 5px;
 		}
 
 		&__time-pickers,
@@ -316,7 +315,7 @@
 				.property-title-time-picker-read-only-wrapper {
 					display: flex;
 					align-items: center;
-					padding-left: 8px !important;
+					padding-inline-start: 8px !important;
 					background-color: var(--color-main-background);
 					color: var(--color-main-text);
 					outline: none;
@@ -332,7 +331,7 @@
 					}
 
 					&__icon {
-						margin-left: 8px;
+						margin-inline-start: 8px;
 						height: 16px;
 						width: 16px;
 						opacity: .3;
@@ -351,7 +350,7 @@
 		}
 
 		&__all-day {
-			padding-left: 3px;
+			padding-inline-start: 3px;
 			margin-top: 5px;
 
 			// Reduce the height just a little bit (from 44px) to save some space
@@ -406,8 +405,7 @@
 			.icon {
 				width: 34px;
 				height: 44px;
-				margin-left: -5px;
-				margin-right: 5px;
+				margin-inline: -5px 5px;
 				// TODO: enable me again if the other icons on the details tab have an opacity too
 				// opacity: .7;
 			}
@@ -422,7 +420,7 @@
 		}
 
 		&__options {
-			margin-left: auto;
+			margin-inline-start: auto;
 			display: flex;
 			align-items: center;
 			white-space: nowrap;
@@ -433,7 +431,7 @@
 			align-items: center;
 			width: 100%;
 			min-width: 0;
-			padding-right: 8px;
+			padding-inline-end: 8px;
 
 			input[type=number] {
 				width: 4em;
@@ -447,9 +445,6 @@
 
 			.mx-datepicker {
 				flex: 1 auto;
-			}
-
-			&--timed {
 			}
 
 			&--all-day {
@@ -473,7 +468,7 @@
 				&__time {
 					&__before-at-label {
 						flex: 0 0 auto;
-						margin-right: 5px;
+						margin-inline-end: 5px;
 					}
 
 					.mx-datepicker {
@@ -500,8 +495,7 @@
 			&__icon {
 				width: 34px;
 				height: 34px;
-				margin-left: -5px;
-				margin-right: 5px;
+				margin-inline: -5px 5px;
 			}
 
 			&__content {
@@ -525,17 +519,17 @@
 		min-height: 44px;
 
 		&__displayname {
-			margin-left: 8px;
+			margin-inline-start: 8px;
 		}
 
 		&__actions {
-			margin-left: auto;
+			margin-inline-start: auto;
 		}
 
 		&__organizer-hint {
 			color: var(--color-text-maxcontrast);
 			font-weight: 300;
-			margin-left: 5px;
+			margin-inline-start: 5px;
 		}
 	}
 
@@ -545,7 +539,7 @@
 			align-items: center;
 
 			&__actions {
-				margin-left: 5px;
+				margin-inline-start: 5px;
 			}
 		}
 	}
@@ -558,7 +552,7 @@
 		&__indicator {
 			position: absolute;
 			bottom: 0;
-			right: 0;
+			inset-inline-end: 0;
 			background-size: 10px;
 			height: 15px;
 			width: 15px;
@@ -601,6 +595,8 @@
 		}
 
 		&__icon {
+			flex-shrink: 0;
+			margin-inline: -5px 5px;
 			&--hidden {
 				visibility: hidden;
 			}
@@ -615,12 +611,6 @@
 
 		&__info:hover {
 			opacity: 1;
-		}
-
-		&__icon {
-			flex-shrink: 0;
-			margin-left: -5px;
-			margin-right: 5px;
 		}
 
 		&__input {
@@ -647,6 +637,8 @@
 					color: var(--color-main-text);
 					outline: none;
 					overflow-y: scroll;
+					/* https://developer.mozilla.org/en-US/docs/Web/CSS/word-break */
+					/* stylelint-disable-next-line declaration-property-value-keyword-no-deprecated */
 					word-break: break-word; /* allows breaking on long URLs */
 					max-height: 30vh;
 				}
@@ -764,7 +756,7 @@
 		&__input, input {
 			font-weight: bold;
 			&__rtl{
-				text-align: right;
+				text-align: end;
 			}
 		}
 
@@ -786,20 +778,6 @@
 		margin-bottom: 5px;
 	}
 
-}
-
-.event-popover .event-popover__inner {
-	.event-popover__response-buttons {
-		margin-top: 8px;
-		margin-bottom: 0;
-	}
-
-	.property-text,
-	.property-title-time-picker {
-		&__icon {
-			margin: 0 !important;
-		}
-	}
 }
 
 .timezone-popover-wrapper {
@@ -824,10 +802,22 @@
 	// Don't cut popovers above popovers (e.g. date time picker)
 	.v-popper__inner {
 		overflow: unset !important;
+
+	.event-popover__response-buttons {
+		margin-top: 8px;
+		margin-bottom: 0;
+	}
+
+	.property-text,
+	.property-title-time-picker {
+		&__icon {
+			margin: 0 !important;
+		}
+	}
 	}
 
 	.event-popover__inner {
-		text-align: left;
+		text-align: start;
 		max-width: 480px;
 		width: 480px;
 		padding: 5px 10px 10px 10px;
@@ -902,7 +892,7 @@
 		height: 12px;
 		border-radius: 50%;
 		border: none;
-		margin-right: 8px;
+		margin-inline-end: 8px;
 		flex-basis: 12px;
 		flex-shrink: 0;
 	}
@@ -930,12 +920,12 @@
 		height: 12px;
 		border-radius: 50%;
 		border: none;
-		margin-right: 8px;
+		margin-inline-end: 8px;
 		flex-shrink: 0;
 	}
 
 	.icon {
-		margin-left: 4px;
+		margin-inline-start: 4px;
 		scale: 0.8;
 	}
 }
@@ -966,7 +956,6 @@
 	width: 100%;
 	text-align: start;
 	// Account for avatar width (because it is position: relative)
-
 	padding-inline-end: 32px;
 
 	&__label {
