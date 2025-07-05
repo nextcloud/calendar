@@ -19,16 +19,19 @@ use OCA\Calendar\Objects\Proposal\ProposalParticipantCollection;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantObject;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantRealm;
 use OCA\Calendar\Objects\Proposal\ProposalResponseObject;
+use OCP\Calendar\IManager;
 use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Mail\Provider\Address;
 use OCP\Mail\Provider\IManager as IMailManager;
 use OCP\Mail\Provider\IMessageSend;
-use OCP\Utile\UUID;
 use Psr\Log\LoggerInterface;
+use Sabre\VObject\Component\VCalendar;
+use Symfony\Component\Uid\Uuid;
 
 class ProposalService {
 
@@ -40,8 +43,10 @@ class ProposalService {
 		private ProposalDateMapper $proposalDateMapper,
 		private IL10N $l10n,
 		private IURLGenerator $urlGenerator,
+		private IUserManager $userManager,
 		private IMailer $systemMailManager,
 		private IMailManager $userMailManager,
+		private IManager $calendarManager,
 	) {
 	}
 
@@ -160,7 +165,7 @@ class ProposalService {
 		// convert the proposal object to a storage format
 		$proposalEntry = $proposal->toStore();
 		$proposalEntry->setUid($user->getUID());
-		$proposalEntry->setUuid(UUID::v4());
+		$proposalEntry->setUuid(Uuid::v4()->toRfc4122());
 		$proposalParticipantEntries = $proposal->getParticipants()->toStore();
 		$proposalDateEntries = $proposal->getDates()->toStore();
 		// create the proposal entry in store
@@ -190,8 +195,11 @@ class ProposalService {
 		unset($proposalEntry, $proposalParticipantEntries, $proposalDateEntries);
 		unset($proposalParticipants, $proposalDates);
 
-		// send email notifications to participants
+		// generate notifications for internal and external participants
 		$this->generateNotifications($user, $proposal, 'C');
+
+		// generate iTip for internal participants
+		$this->generateITip($user, $proposal, 'C');
 
 		return $proposal;
 	}
@@ -271,8 +279,11 @@ class ProposalService {
 			unset($currentProposalDateEntries[$currentDateKey]);
 		}
 
-		// send email notifications to participants
+		// generate notifications for internal and external participants
 		$this->generateNotifications($user, $proposal, 'M');
+
+		// generate iTip for internal participants
+		$this->generateITip($user, $proposal, 'M');
 
 		return $proposal;
 	}
@@ -289,8 +300,11 @@ class ProposalService {
 		$this->proposalDateMapper->deleteByProposalId($user->getUID(), $proposal->getId());
 		$this->proposalMapper->deleteById($user->getUID(), $proposal->getId());
 
-		// send email notifications to participants
+		// generate notifications for internal and external participants
 		$this->generateNotifications($user, $proposal, 'D');
+
+		// generate iTip for internal participants
+		$this->generateITip($user, $proposal, 'D');
 
 	}
 
@@ -428,8 +442,47 @@ class ProposalService {
 
 	}
 
-	private function generateiTip(IUser $user, ProposalObject $proposal, string $reason): void {
-		
+	private function generateITip(IUser $user, ProposalObject $proposal, string $reason): void {
+
+		// construct calendar object
+		$template = new VCalendar();
+		$template->add('METHOD', $reason !== 'D' ? 'PUBLISH' : 'CANCEL');
+		/** @var VEvent $vEvent */
+		$vEvent = $template->add('VEVENT', []);
+		$vEvent->UID->setValue($proposal->getUuid());
+		$vEvent->add('SUMMARY', $proposal->getTitle());
+		$vEvent->add('DESCRIPTION', $proposal->getDescription());
+		$vEvent->add('ORGANIZER', 'mailto:' . $user->getPrimaryEMailAddress(), ['CN' => $user->getDisplayName()]);
+
+		foreach ($proposal->getParticipants() as $participant) {
+			// TODO: this is stupid, we send the internal users email address from the UI then convert it back to a user name
+			// should probably be sent from the UI as a user name, or send and store both the user name and email address
+			// maybe send the address as a special schema "local:{user name}/{email address}", this would allow us to later extend this to federated users
+			// with a different special schema like "federated:{user name}@{server}/{email address}"
+			$participantUsers = $this->userManager->getByEmail($participant->getAddress());
+			if ($participantUsers === []) {
+				continue;
+			}
+			$participantUser = $participantUsers[0];
+			// add the participant to the calendar object
+			if ($participant->getRealm() === ProposalParticipantRealm::Internal) {
+				$message = clone $template;
+				$message->VEVENT->add('ATTENDEE', 'mailto:' . $participant->getAddress(), [
+					'CN' => $participant->getName(),
+					'CUTYPE' => 'INDIVIDUAL',
+					'PARTSTAT' => 'NEEDS-ACTION',
+					'ROLE' => 'REQ-PARTICIPANT',
+					'RSVP' => 'TRUE'
+				]);
+
+				$this->calendarManager->handleIMip(
+					$participantUser->getUID(),
+					$message->serialize(),
+					['absent' => $reason !== 'D' ? 'create' : 'ignore']
+				);
+			}
+		}
+
 	}
 
 }

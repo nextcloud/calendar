@@ -91,7 +91,7 @@ class ProposalObject implements \JsonSerializable {
 	public function getUuid(): ?string {
 		return $this->uuid;
 	}
-	
+
 	public function setUuid(?string $value): void {
 		$this->uuid = $value;
 	}
