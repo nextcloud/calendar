@@ -683,6 +683,7 @@ export default {
 		background: repeating-linear-gradient(45deg, #dbdbdb, #dbdbdb 1px, transparent 1px, transparent 3.5px) !important;
 	}
 }
+
 .modal{
 	display: flex !important;
 	justify-content: center;
@@ -705,7 +706,7 @@ export default {
 	&__content {
 		max-width: 1200px;
 		width: 100%;
-		padding: 0 calc(var(--default-grid-baseline)*4);
+		padding: 0 calc(var(--default-grid-baseline) * 4);
 		display: flex;
 		flex-direction: column;
 		overflow: hidden;
@@ -714,7 +715,7 @@ export default {
 			flex-direction: column;
 			justify-content: space-between;
 			align-items: center;
-			margin-bottom: calc(var(--default-grid-baseline)*4);
+			margin-bottom: calc(var(--default-grid-baseline) * 4);
 			&--mobile{
 				align-items: flex-start;
 			}
@@ -731,9 +732,9 @@ export default {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-			margin-bottom: calc(var(--default-grid-baseline)*4);
+			margin-bottom: calc(var(--default-grid-baseline) * 4);
 			width: calc(100% - 260px);
-			margin-left: 260px;
+			margin-inline-start: 260px;
 			h2{
 				font-weight: 500;
 				margin: 0;
@@ -745,7 +746,7 @@ export default {
 			}
 		}
 		&__header{
-			margin: calc(var(--default-grid-baseline)*4) 0;
+			margin: calc(var(--default-grid-baseline) * 4) 0;
 			h3{
 				font-weight: 500;
 			}
@@ -787,7 +788,7 @@ export default {
 			height: 60px;
 			z-index: 9998;
 			width: calc(100% - 24px);
-			right: 0;
+			inset-inline-end: 0;
 			display: flex;
 			justify-content: center;
 			position: absolute;
@@ -799,7 +800,7 @@ export default {
 				align-items: flex-end;
 				width: 1200px;
 				&__date{
-					margin-top: calc(var(--default-grid-baseline)*4);
+					margin-top: calc(var(--default-grid-baseline) * 4);
 					font-weight: 600;
 				}
 				&__timezone{
@@ -809,23 +810,28 @@ export default {
 		}
 	}
 }
+
 :deep(.vs__search ) {
 	text-overflow: ellipsis;
 }
+
 :deep(.mx-input) {
 	height: 38px !important;
 }
+
 :deep(.fc) {
 	flex: 1;
 	min-width: 0;
 	overflow-y: auto;
 	padding-bottom: 100px;
 }
+
 :deep(.fc-event) {
 	margin-inline-end: 0 !important;
 	border-radius: 6px !important;
 	border: 2px solid transparent !important;
 }
+
 :deep(.fc-event-time){
 	display: none !important;
 }

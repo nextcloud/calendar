@@ -16,6 +16,8 @@
 	white-space: pre-line;
 	overflow: auto;
 	line-height: normal;
+	/* https://developer.mozilla.org/en-US/docs/Web/CSS/word-break */
+	/* stylelint-disable-next-line declaration-property-value-keyword-no-deprecated */
 	word-break: break-word;
 	display: inline-block;
 	vertical-align: top;

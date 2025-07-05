@@ -359,6 +359,7 @@ export default {
 	margin: 0;
 	min-width: unset;
 }
+
 :deep(.v-select.select) {
 	min-width: 180px !important;
 }
@@ -393,7 +394,7 @@ export default {
 	}
 
 	&-inner__selectors {
-		flex-basis: calc(var(--total-width) * 2/3 - var(--column-gap) / 2 - (20px + var(--default-grid-baseline) * 4) - 2px);
+		flex-basis: calc(var(--total-width) * 2 / 3 - var(--column-gap) / 2 - (20px + var(--default-grid-baseline) * 4) - 2px);
 		display: flex;
 		justify-content: stretch;
 		gap: var(--default-grid-baseline);
@@ -418,8 +419,8 @@ export default {
 
 	.datepicker-label {
 		width: calc(var(--default-grid-baseline) * 3 + 20px - 2px);
-		padding-right: calc(var(--default-grid-baseline) * 2);
-		text-align: right;
+		padding-inline-end: calc(var(--default-grid-baseline) * 2);
+		text-align: end;
 		direction: rtl;
 	}
 
@@ -456,12 +457,12 @@ export default {
 }
 
 .property-title-time-picker__time-pickers-from-inner__timezone, .property-title-time-picker__time-pickers-to-inner__timezone {
-	width: calc(var(--total-width) * 1/3 - var(--column-gap) / 2);
+	width: calc(var(--total-width) * 1 / 3 - var(--column-gap) / 2);
 }
 
 .app-full .property-title-time-picker__time-pickers-from-inner__timezone, .app-full .property-title-time-picker__time-pickers-to-inner__timezone {
 	.button-vue {
-		margin-left: calc(var(--default-grid-baseline) * -2);
+		margin-inline-start: calc(var(--default-grid-baseline) * -2);
 	}
 }
 
@@ -472,8 +473,8 @@ export default {
 
 	.datepicker-label {
 		width: unset !important;
-		padding-right: 0 !important;
-		text-align: left !important;
+		padding-inline-end: 0 !important;
+		text-align: start !important;
 		direction: ltr !important;
 	}
 
@@ -481,7 +482,7 @@ export default {
 		.property-title-time-picker__time-pickers-from,
 		.property-title-time-picker__time-pickers-to,
 		.property-title-time-picker__time-pickers__inner button {
-			padding-left: calc(20px + var(--default-grid-baseline) * 4);
+			padding-inline-start: calc(20px + var(--default-grid-baseline) * 4);
 		}
 
 		.property-title-time-picker__time-pickers-from,

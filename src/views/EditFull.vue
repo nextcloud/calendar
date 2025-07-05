@@ -709,30 +709,32 @@ export default {
 	.modal-content-preloader {
 		position: absolute;
 		top:0;
-		left:0;
-		right:0;
+		inset-inline:0;
 		height: 6px;
 
 		div {
 			position: absolute;
 			top:0;
-			left: 0;
+			inset-inline-start: 0;
 			background: var(--color-primary-element);
 			height: 6px;
 			transition: width 0.3s linear;
 		}
 	}
 }
+
 .modal-subtitle {
 	font-weight: bold;
 	font-size: 16px;
 	margin-top: 16px;
 }
+
 .modal-h {
 	font-size: 24px;
 	font-weight: bold;
 	margin: 10px 0;
 }
+
 .modal-footer {
 	display: flex;
 	align-items: center;
@@ -742,17 +744,20 @@ export default {
 		display: flex;
 
 		:first-child {
-			margin-right: 6px;
+			margin-inline-end: 6px;
 		}
 	}
 }
+
 .attachments, .users {
 	display: flex;
 	flex-wrap: wrap;
 }
+
 .attachment-list-item, .user-list-item {
 	width: 50%
 }
+
 .attachment-icon {
 	width: 40px;
 	height: auto;

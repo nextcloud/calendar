@@ -300,7 +300,7 @@ export default {
 
 .booking__date-header {
 	position: relative;
-	margin-left: 16px;
+	margin-inline-start: 16px;
 }
 
 .booking__slot-selection .material-design-icon.loading-icon.animation-rotate {
@@ -321,9 +321,11 @@ export default {
 :deep(.mx-datepicker-main) {
 	border: 0;
 }
+
 h2, h3, h4, h5 {
 	margin-top: 0;
 }
+
 .booking__date {
 	margin-top: -25px;
 }
