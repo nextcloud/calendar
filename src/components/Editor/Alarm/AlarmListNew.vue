@@ -60,7 +60,7 @@ export default {
 			return {
 				options: this.options,
 				icon: 'Bell',
-				placeholder: this.$t('calendar', '+ Add reminder'),
+				placeholder: this.$t('calendar', 'Add reminder'),
 				readableName: this.$t('calendar', 'Add reminder'),
 			}
 		},

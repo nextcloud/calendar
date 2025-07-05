@@ -6,6 +6,10 @@
 <template>
 	<div class="property-alarm-list">
 		<!-- TODO: probably not use index here for the key -->
+		<AlarmListNew v-if="!isReadOnly"
+			:is-all-day="calendarObjectInstance.isAllDay"
+			:show-icon="alarms.length === 0"
+			@add-alarm="addAlarm" />
 		<AlarmListItem v-for="(alarm, index) in alarms"
 			:key="index"
 			:alarm="alarm"
@@ -13,10 +17,6 @@
 			:is-read-only="isReadOnly"
 			:show-icon="index === 0"
 			@remove-alarm="removeAlarm" />
-		<AlarmListNew v-if="!isReadOnly"
-			:is-all-day="calendarObjectInstance.isAllDay"
-			:show-icon="alarms.length === 0"
-			@add-alarm="addAlarm" />
 	</div>
 </template>
 

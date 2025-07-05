@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<NcSelect class="invitees-search__multiselect"
+	<NcSelect class="invitees-search__vselect"
 		:options="matches"
 		:searchable="true"
 		:max-height="600"

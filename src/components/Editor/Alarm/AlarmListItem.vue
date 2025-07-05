@@ -7,15 +7,13 @@
 	<!-- Yes, technically an alarm is a component, not a property, but for the matter of CSS names it really doesn't matter -->
 	<div v-click-outside="closeAlarmEditor"
 		class="property-alarm-item">
-		<div class="property-alarm-item__icon"
-			:class="{ 'property-alarm-item__icon--hidden': !showIcon }">
-			<Bell :size="20"
-				:name="t('calendar', 'Reminder')"
-				class="icon" />
-		</div>
-		<div v-if="!isEditing"
-			class="property-alarm-item__label">
-			{{ alarm | formatAlarm(isAllDay, currentUserTimezone, locale) }}
+		<div class="property-alarm-item__front">
+			<div class="property-alarm-item__icon"
+				:class="{ 'property-alarm-item__icon--hidden': !showIcon }" />
+			<div v-if="!isEditing"
+				class="property-alarm-item__label">
+				{{ alarm | formatAlarm(isAllDay, currentUserTimezone, locale) }}
+			</div>
 		</div>
 		<div v-if="isEditing && isRelativeAlarm && !isAllDay"
 			class="property-alarm-item__edit property-alarm-item__edit--timed">
@@ -147,7 +145,6 @@ import AlarmTimeUnitSelect from './AlarmTimeUnitSelect.vue'
 import moment from '@nextcloud/moment'
 import TimePicker from '../../Shared/TimePicker.vue'
 import DatePicker from '../../Shared/DatePicker.vue'
-import Bell from 'vue-material-design-icons/Bell.vue'
 import Check from 'vue-material-design-icons/Check.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
@@ -166,7 +163,6 @@ export default {
 		ActionButton,
 		ActionRadio,
 		ActionSeparator,
-		Bell,
 		Check,
 		Delete,
 		Pencil,
