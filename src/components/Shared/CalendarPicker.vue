@@ -152,7 +152,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .multiselect__tags {
+:deep(.multiselect__tags) {
 	margin: 3px 0;
 }
 
@@ -163,7 +163,7 @@ export default {
 }
 
 .calendar-picker__tag + .calendar-picker__tag {
-	margin-left: 5px;
+	margin-inline-start: 5px;
 }
 </style>
 

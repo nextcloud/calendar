@@ -117,6 +117,7 @@ export default {
 	display: block;
 	height: 100%;
 }
+
 .modal__content {
 	padding: 50px;
 	//when the calendar is open, it's cut at the bottom, adding a margin fixes it
@@ -134,7 +135,7 @@ export default {
 			justify-content: space-between;
 			align-items: center;
 			& > *{
-				margin-left: 5px;
+				margin-inline-start: 5px;
 			}
 		}
 	}
@@ -146,7 +147,7 @@ export default {
 		}
 		&__attendees{
 			&__user-bubble{
-				margin-right: 5px;
+				margin-inline-end: 5px;
 			}
 		}
 	}
@@ -165,9 +166,11 @@ export default {
 		}
 	}
 }
+
 :deep(.vs__search ) {
 	text-overflow: ellipsis;
 }
+
 :deep(.mx-input) {
 	height: 38px !important;
 }
@@ -181,11 +184,13 @@ export default {
 .free-busy-block {
 	opacity: 0.7 !important;
 }
+
 .rooms {
-		 &__availability {
-			 margin-bottom: 10px;
-		 }
+	&__availability {
+		margin: 10px 0;
+	}
 }
+
 h6 {
 	margin-top: 10px;
 }
@@ -196,10 +201,6 @@ h6 {
 
 .item-actions {
 	text-align: center;
-}
-
-.rooms__availability {
-	margin: 10px 0;
 }
 
 .name {

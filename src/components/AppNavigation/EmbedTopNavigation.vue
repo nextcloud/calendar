@@ -109,7 +109,7 @@ export default {
 <style lang="scss">
 #widget-header {
 	top: 0;
-	left: 0;
+	inset-inline-start: 0;
 	height: 50px;
 	width: 100%;
 	box-sizing: border-box;

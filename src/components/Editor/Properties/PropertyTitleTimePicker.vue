@@ -342,6 +342,7 @@ export default {
 	margin: 0;
 	min-width: unset;
 }
+
 :deep(.v-select.select) {
 	min-width: 180px !important;
 }
@@ -395,8 +396,8 @@ export default {
 
 	span {
 		width: 3rem;
-		padding-right: var(--default-grid-baseline);
-		text-align: right;
+		padding-inline-end: var(--default-grid-baseline);
+		text-align: end;
 	}
 }
 
