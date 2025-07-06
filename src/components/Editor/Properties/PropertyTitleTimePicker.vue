@@ -14,46 +14,70 @@
 			class="property-title-time-picker__time-pickers">
 			<div :class="{ 'property-title-time-picker__time-pickers--all-day': isAllDay}"
 				class="property-title-time-picker__time-pickers__inner">
+				<NcButton v-if="!showTimezoneSelect && !isAllDay && isMobile"
+					type="tertiary"
+					@click="showTimezoneSelect = !showTimezoneSelect">
+					<template>
+						<span class="property-title-time-picker__button">
+							<IconTimezone :size="20" />
+							{{ startTimezone }}
+						</span>
+					</template>
+				</NcButton>
 				<div class="property-title-time-picker__time-pickers-from">
 					<!-- TRANSLATORS Start of an event -->
-					<span>{{ $t('calendar', 'From') }}</span>
+					<div class="datepicker-label">
+						{{ $t('calendar', 'From') }}
+					</div>
 					<div class="property-title-time-picker__time-pickers-from-inner">
-						<DatePicker :date="startDate"
-							prefix="from"
-							@change="changeStartDate" />
-						<DatePicker v-if="!isAllDay"
-							:date="startDate"
-							type="time"
-							@change="changeStartTime" />
-						<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay" :value="startTimezone" @input="changeStartTimezone" />
+						<div class="property-title-time-picker__time-pickers-from-inner__selectors">
+							<DatePicker :date="startDate"
+								prefix="from"
+								@change="changeStartDate" />
+							<DatePicker v-if="!isAllDay"
+								:date="startDate"
+								type="time"
+								@change="changeStartTime" />
+						</div>
+						<div v-if="showTimezoneSelect && !isAllDay" class="property-title-time-picker__time-pickers-from-inner__timezone">
+							<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay"
+								:value="startTimezone"
+								@input="changeStartTimezone" />
+							<NcButton v-if="!showTimezoneSelect && !isAllDay && !isMobile"
+								type="tertiary"
+								@click="showTimezoneSelect = !showTimezoneSelect">
+								<template>
+									<span class="property-title-time-picker__button">
+										<IconTimezone :size="20" />
+										{{ startTimezone }}
+									</span>
+								</template>
+							</NcButton>
+						</div>
 					</div>
 				</div>
 
 				<div class="property-title-time-picker__time-pickers-to">
 					<!-- TRANSLATORS End of an event -->
-					<span>{{ $t('calendar', 'To') }}</span>
+					<div class="datepicker-label">
+						{{ $t('calendar', 'To') }}
+					</div>
 					<div class="property-title-time-picker__time-pickers-to-inner">
-						<DatePicker :date="endDate"
-							prefix="to"
-							@change="changeEndDate" />
-						<DatePicker v-if="!isAllDay"
-							:date="endDate"
-							type="time"
-							@change="changeEndTime" />
-						<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay" :value="endTimezone" @input="changeEndTimezone" />
+						<div class="property-title-time-picker__time-pickers-from-inner__selectors">
+							<DatePicker :date="endDate"
+								prefix="to"
+								@change="changeEndDate" />
+							<DatePicker v-if="!isAllDay"
+								:date="endDate"
+								type="time"
+								@change="changeEndTime" />
+						</div>
+						<div v-if="showTimezoneSelect && !isAllDay" class="property-title-time-picker__time-pickers-to-inner__timezone">
+							<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay" :value="endTimezone" @input="changeEndTimezone" />
+						</div>
 					</div>
 				</div>
 			</div>
-			<NcButton v-if="!showTimezoneSelect && !isAllDay"
-				type="tertiary"
-				@click="showTimezoneSelect = !showTimezoneSelect">
-				<template>
-					<span class="property-title-time-picker__button">
-						<IconTimezone :size="20" />
-						{{ startTimezone }}
-					</span>
-				</template>
-			</NcButton>
 		</div>
 		<div v-if="isReadOnly"
 			class="property-title-time-picker__time-pickers property-title-time-picker__time-pickers--readonly">
@@ -84,14 +108,6 @@
 				</div>
 			</template>
 		</div>
-
-		<div v-if="!isReadOnly" class="property-title-time-picker__all-day">
-			<NcCheckboxRadioSwitch :checked="isAllDay"
-				:disabled="!canModifyAllDay"
-				@update:checked="toggleAllDay">
-				{{ $t('calendar', 'All day') }}
-			</NcCheckboxRadioSwitch>
-		</div>
 	</div>
 </template>
 
@@ -100,7 +116,7 @@ import moment from '@nextcloud/moment'
 import DatePicker from '../../Shared/DatePicker.vue'
 import IconTimezone from 'vue-material-design-icons/Web.vue'
 import CalendarIcon from 'vue-material-design-icons/Calendar.vue'
-import { NcCheckboxRadioSwitch, NcTimezonePicker, NcButton } from '@nextcloud/vue'
+import { NcTimezonePicker, NcButton } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import useSettingsStore from '../../../store/settings.js'
 import { debounce } from 'lodash'
@@ -112,7 +128,6 @@ export default {
 		IconTimezone,
 		CalendarIcon,
 		NcButton,
-		NcCheckboxRadioSwitch,
 		NcTimezonePicker,
 	},
 	props: {
@@ -185,6 +200,7 @@ export default {
 			 * Whether to show the timezone selector
 			 */
 			showTimezoneSelect: false,
+			windowWidth: window.innerWidth,
 		}
 	},
 	computed: {
@@ -247,11 +263,19 @@ export default {
 				&& this.startDate.getMonth() === this.endDate.getMonth()
 				&& this.startDate.getFullYear() === this.endDate.getFullYear()
 		},
+		isMobile() {
+			return this.windowWidth <= 840
+		},
 	},
 	mounted() {
 		if (this.startTimezone !== this.endTimezone) {
 			this.showTimezoneSelect = true
 		}
+
+		window.addEventListener('resize', this.updateWindowWidth)
+	},
+	beforeDestroy() {
+		window.removeEventListener('resize', this.updateWindowWidth)
 	},
 	methods: {
 		/**
@@ -313,15 +337,8 @@ export default {
 
 			this.$emit('update-end-timezone', value)
 		},
-		/**
-		 * Toggles the all-day state of an event
-		 */
-		toggleAllDay() {
-			if (!this.canModifyAllDay) {
-				return
-			}
-
-			this.$emit('toggle-all-day')
+		updateWindowWidth() {
+			this.windowWidth = window.innerWidth
 		},
 	},
 }
@@ -362,7 +379,6 @@ export default {
 .property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {
 	display: flex;
 	flex-wrap: nowrap;
-	gap: var(--default-grid-baseline);
 	justify-content: flex-start;
 	width: 100%;
 	align-items: center;
@@ -374,6 +390,13 @@ export default {
 		align-items: stretch;
 		justify-content: stretch;
 		width: 100%;
+	}
+
+	&-inner__selectors {
+		flex-basis: calc(var(--total-width) * 2/3 - var(--column-gap) / 2 - (20px + var(--default-grid-baseline) * 4) - 2px);
+		display: flex;
+		justify-content: stretch;
+		gap: var(--default-grid-baseline);
 	}
 
 	:deep(input) {
@@ -393,10 +416,15 @@ export default {
 		flex-grow: 1;
 	}
 
-	span {
-		width: 3rem;
-		padding-right: var(--default-grid-baseline);
+	.datepicker-label {
+		width: calc(var(--default-grid-baseline) * 3 + 20px - 2px);
+		padding-right: calc(var(--default-grid-baseline) * 2);
 		text-align: right;
+		direction: rtl;
+	}
+
+	.property-title-time-picker__time-pickers-from-inner__timezone span {
+		width: unset;
 	}
 }
 
@@ -406,28 +434,17 @@ export default {
 	font-weight: normal;
 }
 
-.property-title-time-picker__time-pickers--all-day {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	align-items: center;
-	width: 100%;
-	gap: calc(var(--default-grid-baseline) * 2);
-
-	.property-title-time-picker__time-pickers-from,
-	.property-title-time-picker__time-pickers-to {
-		flex: 1 150px;
-	}
-}
-
 :deep(button.vs__open-indicator-button) {
 	padding: 0 !important;
 }
 
 .property-title-time-picker__wrap {
 	.property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {
+		flex-shrink: 0;
+
 		&-inner {
 			flex-wrap: wrap;
+			justify-content: space-between;
 		}
 	}
 
@@ -436,5 +453,42 @@ export default {
 		display: flex;
 		flex-basis: 200px;
 	}
+}
+
+.property-title-time-picker__time-pickers-from-inner__timezone, .property-title-time-picker__time-pickers-to-inner__timezone {
+	width: calc(var(--total-width) * 1/3 - var(--column-gap) / 2);
+}
+
+.app-full .property-title-time-picker__time-pickers-from-inner__timezone, .app-full .property-title-time-picker__time-pickers-to-inner__timezone {
+	.button-vue {
+		margin-left: calc(var(--default-grid-baseline) * -2);
+	}
+}
+
+@media (max-width: 1000px) {
+	.property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {
+		flex-wrap: wrap;
+	}
+
+	.datepicker-label {
+		width: unset !important;
+		padding-right: 0 !important;
+		text-align: left !important;
+		direction: ltr !important;
+	}
+
+	.app-full {
+		.property-title-time-picker__time-pickers-from,
+		.property-title-time-picker__time-pickers-to,
+		.property-title-time-picker__time-pickers__inner button {
+			padding-left: calc(20px + var(--default-grid-baseline) * 4);
+		}
+
+		.property-title-time-picker__time-pickers-from,
+		.property-title-time-picker__time-pickers-to {
+			width: unset !important;
+		}
+	}
+
 }
 </style>

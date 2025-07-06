@@ -307,7 +307,7 @@ export default {
 		span {
 			width: 34px;
 			height: 34px;
-			margin-left: -10px;
+			margin-left: -13px;
 			margin-right: 5px;
 		}
 
@@ -322,6 +322,7 @@ export default {
 	margin: 0 -8px;
 
 	.attachments-list-item {
+		padding: 0;
 		// Reduce height to 44px
 		:deep(.list-item) {
 			padding: 0 8px;

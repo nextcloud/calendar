@@ -42,6 +42,7 @@ export default {
 
 <style lang="scss" scoped>
 .resource-capacity {
+	width: 300px;
 	padding-bottom: 2px;
 }
 </style>

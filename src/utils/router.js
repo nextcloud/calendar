@@ -24,7 +24,7 @@ export function getInitialView() {
 /**
  * Gets the preferred editor view
  *
- * @return {string} Either popover or sidebar
+ * @return {string} Either popover or full
  */
 export function getPreferredEditorRoute() {
 	let skipPopover
@@ -41,7 +41,7 @@ export function getPreferredEditorRoute() {
 	}
 
 	return skipPopover
-		? 'sidebar'
+		? 'full'
 		: 'popover'
 }
 
