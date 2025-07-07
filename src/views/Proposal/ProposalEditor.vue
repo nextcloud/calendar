@@ -8,12 +8,12 @@
 			<!-- Show proposal list view -->
 			<div v-if="!modalView" class="proposal-listview__content">
 				<!-- Row 1: Title -->
-				<div class="proposal-listview__row proposal-listview__row-title">
+				<div class="proposal-listview__row-title">
 					<h2>{{ t('calendar', 'Meeting Proposal List') }}</h2>
 				</div>
 				<!-- Row 2: List -->
-				<div class="proposal-listview__row proposal-listview__row-list">
-					<div v-if="storedProposals.length === 0" class="proposal-listview__proposal-content">
+				<div class="proposal-listview__row-list">
+					<div v-if="storedProposals.length === 0" class="proposal-listview__list-content">
 						<NcEmptyContent  name="No proposals found">
 							<template #icon>
 								<PollIcon />
@@ -23,45 +23,49 @@
 							</template>
 						</NcEmptyContent>
 					</div>
-					<div v-if="storedProposals.length > 0" class="proposal-listview__proposal-content">
-						<div v-for="proposal in storedProposals" :key="proposal.id" class="proposal-listview__proposal-item proposal-listview__proposal-item--horizontal">
-							<div class="proposal-listview__proposal-overview">
-								<div class="proposal-listview__proposal-title">{{ proposal.title }}</div>
-								<div class="proposal-listview__proposal-participants">
-									{{ proposal.participants.filter(p => p.status === ProposalParticipantStatus.Responded).length }} / {{ proposal.participants.length }} responded
-								</div>
-								<div class="proposal-listview__proposal-actions">
-									<NcButton size="small" variant="secondary" @click="onProposalModify(proposal)">
-										{{ t('calendar', 'Modify') }}
-									</NcButton>
-									<NcButton size="small" variant="tertiary" @click="onProposalDestroy(proposal)">
-										{{ t('calendar', 'Delete') }}
-									</NcButton>
-								</div>
-							</div>
-							<div class="proposal-listview__proposal-dates">
-								<template v-for="entry in proposal.dates">
-									<div class="proposal-listview__proposal-date">
-										<span class="proposal-listview__proposal-date-time">
-											{{ 
-												// TODO: localize and make this more readable
-												entry.date.toLocaleString() 	
-											}}
-										</span>
-										<span class="proposal-listview__proposal-vote-yes">
-											{{ entry.votedYes }}
-											<CheckIcon />
-										</span>
-										<span class="proposal-listview__proposal-vote-no">
-											{{ entry.votedNo }}
-											<CloseIcon />
-										</span>
-										<span class="proposal-listview__proposal-vote-no">
-											{{ entry.votedMaybe }}
-											<HelpIcon />
-										</span>
+					<div v-if="storedProposals.length > 0" class="proposal-listview__list-content">
+						<div v-for="proposal in storedProposals" :key="proposal.id" class="proposal-listview__list-item">
+							<div class="proposal-listview__list-item-details">
+								<div class="proposal-listview__list-item-overview">
+									<div class="proposal-listview__list-item-title">
+										<h3>{{ proposal.title }}</h3>
 									</div>
-								</template>
+									<div class="proposal-listview__list-item-responses">
+										{{ proposal.participants.filter(p => p.status === ProposalParticipantStatus.Responded).length }} / {{ proposal.participants.length }} responded
+									</div>
+									<div class="proposal-listview__list-item-actions">
+										<NcButton size="small" variant="secondary" @click="onProposalModify(proposal)">
+											{{ t('calendar', 'Modify') }}
+										</NcButton>
+										<NcButton size="small" variant="tertiary" @click="onProposalDestroy(proposal)">
+											{{ t('calendar', 'Delete') }}
+										</NcButton>
+									</div>
+								</div>
+								<div class="proposal-listview__list-item-dates">
+									<template v-for="entry in proposal.dates">
+										<div class="proposal-listview__list-item-date">
+											<span class="proposal-listview__list-item-date-time">
+												{{ 
+													// TODO: localize and make this more readable
+													entry.date.toLocaleString() 	
+												}}
+											</span>
+											<span class="proposal-listview__list-item-vote-yes">
+												{{ entry.votedYes }}
+												<CheckIcon />
+											</span>
+											<span class="proposal-listview__list-item-vote-no">
+												{{ entry.votedNo }}
+												<CloseIcon />
+											</span>
+											<span class="proposal-listview__list-item-vote-maybe">
+												{{ entry.votedMaybe }}
+												<HelpIcon />
+											</span>
+										</div>
+									</template>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -73,54 +77,36 @@
 				</div>
 			</div>
 			<!-- Show proposal edit view -->
-			<div v-else class="proposal-editview__content">
-				<!-- Only render form if selectedProposal is not null -->
-				<div v-if="selectedProposal">
-					<!-- Row 1: Title -->
-					<div class="proposal-editview__row proposal-editview__row-title">
-						<h2>{{ modalEditLabel }}</h2>
-					</div>
-					<!-- Row 2: Basic Details -->
-					<div class="proposal-editview__row proposal-editview__row-fields">
-						<div class="proposal-editview__column-left">
-							<NcTextField class="proposal-editview__title"
-								:label="t('calendar', 'Title')"
-								:value.sync="selectedProposal.title" />
-							<NcTextField class="proposal-editview__duration"
-								:label="t('calendar', 'Duration')"
-								:value.sync="selectedProposal.duration"
-								type="number"
-								min="1"
-								step="1"
-								@input="onProposalDurationChange($event)" />
-							<InviteesListSearch class="proposal-editview__participants-selector"
-								:already-invited-emails="existingParticipantAddressess"
-								@add-attendee="onProposalParticipantAdd" />
-						</div>
-						<div class="proposal-editview__column-right">
-							<NcTextArea class="proposal-editview__description"
-								:label="t('calendar', 'Description')"
-								:value.sync="selectedProposal.description" />
-						</div>
-					</div>
-					<!-- Row 3: Availability -->
-					<div class="proposal-editview__row proposal-editview__row-availability proposal-editview__row-availability--fullwidth">
-						<FullCalendar ref="proposalFullCalendar"
-							:options="calendarConfiguration" class="proposal-editview__fullcalendar" />
-					</div>
-					<!-- Row 4: Actions -->
-					<div class="proposal-editview__row modal__row-actions">
-						<div v-if="selectedProposal.dates.length > 0" class="proposal-editview__column-action-proposed-dates">
-							<!-- TODO: localize and make this more readable -->
-							<NcChip v-for="(entry, idx) in selectedProposal.dates"
-								class="proposal-editview__proposed-date-chip"
-								:key="idx"
-								:text="entry.date.toLocaleString()"
-								@close="onProposalDateRemove(idx)" />
-						</div>
-						<div v-if="selectedProposal.participants.length > 0" class="proposal-editview__column-action-proposed-participants">
+			<div v-if="selectedProposal" class="proposal-editview__content">
+				<!-- Row 1: Title -->
+				<div class="proposal-editview__row-title">
+					<h2>{{ modalEditLabel }}</h2>
+				</div>
+				<!-- Row 2: Details -->
+				<div class="proposal-editview__row-details">
+					<div class="proposal-editview__column-details-left">
+						<NcTextField class="proposal-editview__proposal-title"
+							:label="t('calendar', 'Title')"
+							:value.sync="selectedProposal.title" />
+						<NcTextArea class="proposal-editview__proposal-description"
+							:label="t('calendar', 'Description')"
+							:value.sync="selectedProposal.description" />
+						<NcTextField class="proposal-editview__proposal-location"
+							:label="t('calendar', 'Location')"
+							:value.sync="selectedProposal.location" />
+						<NcTextField class="proposal-editview__proposal-duration"
+							:label="t('calendar', 'Duration')"
+							:value.sync="selectedProposal.duration"
+							type="number"
+							min="1"
+							step="1"
+							@input="onProposalDurationChange($event)" />
+						<InviteesListSearch class="proposal-editview__proposal-participants-selector"
+							:already-invited-emails="existingParticipantAddressess"
+							@add-attendee="onProposalParticipantAdd" />
+						<div v-if="selectedProposal.participants.length > 0" class="proposal-editview__proposal-participants">
 							<NcUserBubble v-for="entry in selectedProposal.participants"
-								class="proposal-editview__proposed-participant-chip"
+								class="proposal-editview__proposal-participant-chip"
 								:key="entry.address"
 								:display-name="entry.name"
 								:title="entry.address">
@@ -132,13 +118,26 @@
 								</template>
 							</NcUserBubble>
 						</div>
-						<div class="proposal-editview__column-action-buttons">
-							<NcButton variant="primary" :disabled="!modalEditSaveState" @click="onProposalSave()">{{ modalEditSaveLabel }}</NcButton>
-							<NcButton variant="secondary" :disabled="modalEditDestroyState" @click="onProposalDestroy(selectedProposal)">{{ 'Delete Proposal' }}</NcButton>
-							<NcButton variant="secondary" @click="onEditClose()">{{ t('calendar', 'Cancel') }}</NcButton>
-							<NcButton variant="secondary" @click="onModalClose()">{{ t('calendar', 'Close') }}</NcButton>
+						<div v-if="selectedProposal.dates.length > 0" class="proposal-editview__column-action-proposed-dates">
+							<!-- TODO: localize and make this more readable -->
+							<NcChip v-for="(entry, idx) in selectedProposal.dates"
+								class="proposal-editview__proposed-date-chip"
+								:key="idx"
+								:text="entry.date.toLocaleString()"
+								@close="onProposalDateRemove(idx)" />
 						</div>
 					</div>
+					<div class="proposal-editview__column-details-right">
+						<FullCalendar ref="proposalFullCalendar"
+						:options="calendarConfiguration" class="proposal-editview__calendar" />
+					</div>
+				</div>
+				<!-- Row 3: Actions -->
+				<div class="proposal-editview__row-actions">
+					<NcButton variant="primary" :disabled="!modalEditSaveState" @click="onProposalSave()">{{ modalEditSaveLabel }}</NcButton>
+					<NcButton variant="secondary" :disabled="modalEditDestroyState" @click="onProposalDestroy(selectedProposal)">{{ 'Delete Proposal' }}</NcButton>
+					<NcButton variant="secondary" @click="onEditClose()">{{ t('calendar', 'Cancel') }}</NcButton>
+					<NcButton variant="secondary" @click="onModalClose()">{{ t('calendar', 'Close') }}</NcButton>
 				</div>
 			</div>
 		</NcModal>
@@ -692,239 +691,157 @@ export default {
 <style lang="scss" scoped>
 .icon-close {
 	display: block;
+}
+
+.proposal-modal__content {
+}
+
+.proposal-listview__content {
+	padding-bottom: calc(var(--default-grid-baseline) * 4);
+	padding-left: calc(var(--default-grid-baseline) * 4);
+	padding-right: calc(var(--default-grid-baseline) * 4);
+	display: flex;
+	flex-direction: column;
 	height: 100%;
 }
-.proposal-listview__content {
-  margin: 30px 50px 20px 50px;
-  border-radius: 8px;
-  padding: 1.5rem 1rem 1rem 1rem;
-}
-.proposal-listview__row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-.proposal-listview__row-title h2 {
-  font-size: 1.3em;
-  font-weight: 600;
-  margin: 0 auto;
-  text-align: center;
-  width: 100%;
-}
-.proposal-listview__proposal-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 100%;
-  box-sizing: border-box;
+
+.proposal-listview__row-title {
+	flex-shrink: 0;
 }
 
-.proposal-listview__proposal-item {
-  width: 100%;
-  border-bottom: 1px solid var(--color-border, #e5e5e5);
-  padding-bottom: 1rem;
-  margin-bottom: 1rem;
-}
-.proposal-listview__proposal-item--horizontal {
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-  align-items: flex-start;
-}
-.proposal-listview__proposal-overview {
-  width: 40%;
-  min-width: 220px;
-  box-sizing: border-box;
-}
-.proposal-listview__proposal-dates {
-  width: 60%;
-  box-sizing: border-box;
-}
-
-.proposal-listview__proposal-row-flex {
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-  align-items: flex-start;
-  width: 100%;
-}
-.proposal-listview__proposal-overview {
-  width: 40%;
-  min-width: 220px;
-  box-sizing: border-box;
-}
-.proposal-listview__proposal-dates {
-  width: 60%;
-  box-sizing: border-box;
-}
-.proposal-listview__proposal-title {
-  flex: 2 1 40%;
-  font-weight: 500;
-  font-size: 1.05em;
-  color: var(--color-main-text, #222);
-  word-break: break-word;
-}
-.proposal-listview__proposal-participants {
-  flex: 1 1 20%;
-  font-size: 0.98em;
-}
-.proposal-listview__proposal-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-.proposal-listview__proposal-empty {
-  padding: 1rem;
-  text-align: center;
-}
 .proposal-listview__row-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-.proposal-modal__content {
-  margin: calc(var(--default-grid-baseline) * 12);
-}
-.proposal-editview__content {
-  margin: 30px 50px 20px 50px;
-  border-radius: 8px;
-  padding: 1.5rem 1rem 1rem 1rem;
-}
-.proposal-editview__row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-.proposal-editview__row-title h2 {
-  font-size: 1.3em;
-  font-weight: 600;
-  margin: 0 auto;
-  text-align: center;
-  width: 100%;
-}
-.proposal-editview__row-fields {
-  display: flex;
-  gap: 2rem;
-  align-items: stretch;
-  margin-bottom: 0;
-}
-.proposal-editview__column-left {
-  flex: 1 1 48%;
-  max-width: 48%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.proposal-editview__column-right {
-  flex: 1 1 48%;
-  max-width: 48%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  height: 100%;
-}
-.proposal-editview__row-availability {
-  display: flex;
-  gap: 2rem;
-  align-items: flex-start;
-}
-.proposal-editview__participants-selector {
-  margin-right: 2rem;
-  min-width: 260px;
-  align-self: flex-start;
-}
-.proposal-editview__column-action-proposed-dates,
-.proposal-editview__column-action-proposed-participants,
-.proposal-editview__column-action-buttons {
-  min-width: 0;
-  flex-shrink: 1;
-  flex-grow: 1;
-}
-.proposal-editview__column-action-buttons {
-  min-width: 180px;
-  flex-basis: 180px;
-  max-width: 100%;
-  justify-content: flex-end;
-  align-items: flex-start;
-  gap: 0.5rem;
-  display: flex;
-  flex-direction: row;
-}
-.proposal-editview__proposed-date-chip {
-  display: inline-flex;
-  align-items: center;
-  border-radius: 16px;
-  padding: 0.25rem 0.75rem 0.25rem 0.75rem;
-  font-size: 0.95em;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
-  min-width: 0;
-  word-break: break-word;
-  max-width: 100%;
-}
-@media (max-width: 800px) {
-  .proposal-editview__row-fields,
-  .proposal-editview__row-availability {
-	flex-direction: column;
-  }
-  .proposal-editview__column-left,
-  .proposal-editview__column-right {
-	flex: 1 1 100%;
-	max-width: 100%;
-  }
-  .proposal-editview__participants-selector {
-	margin-right: 0;
-	margin-bottom: 1rem;
-	min-width: 0;
-  }
-  .proposal-editview__column-action-proposed-dates,
-  .proposal-editview__column-action-proposed-participants,
-  .proposal-editview__column-action-buttons {
-	flex: 1 1 100%;
-	max-width: 100%;
-	justify-content: flex-start;
-  }
-  .proposal-editview__column-action-buttons {
-	justify-content: flex-start;
-  }
-}
-/* Make FullCalendar full width in proposal editor */
-.proposal-editview__row-availability--fullwidth {
-  width: 100%;
-  max-width: 100%;
-  padding: 0;
-}
-.proposal-editview__fullcalendar {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0;
-}
-.proposal-listview__proposal-overview {
-  width: 100%;
-  box-sizing: border-box;
-}
-.proposal-listview__proposal-dates {
-  width: 100%;
-  box-sizing: border-box;
-}
-.proposal-listview__proposal-date {
-  display: flex;
-  align-items: center;
-  gap: 1.5em;
-  margin-bottom: 0.25em;
-  width: 100%;
-  flex-wrap: nowrap;
-}
-.proposal-listview__proposal-date > span {
-  display: inline-flex;
-  align-items: center;
-}
-.proposal-listview__proposal-date-time {
-  white-space: nowrap;
+	flex: 1;
+	overflow-y: auto;
+	margin-bottom: calc(var(--default-grid-baseline) * 4);
 }
 
 .proposal-listview__row-actions {
-	position: sticky;
-	bottom: calc(var(--default-grid-baseline) * 4);
+	display: flex;
+	gap: calc(var(--default-grid-baseline) * 2);
 	background-color: var(--color-main-background);
+	flex-shrink: 0;
+	padding-top: calc(var(--default-grid-baseline) * 2);
+}
+
+.proposal-listview__list-content {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 4);
+}
+
+.proposal-listview__list-item {
+	transition: background-color 0.2s ease;
+
+	&:hover {
+		background-color: var(--color-background-hover);
+	}
+}
+
+.proposal-listview__list-item-details {
+	display: flex;
+	gap: calc(var(--default-grid-baseline) * 4);
+	align-items: flex-start;
+	padding: calc(var(--default-grid-baseline) * 2);
+}
+
+.proposal-listview__list-item-overview {
+	flex: 1;
+	min-width: calc(var(--default-grid-baseline) * 100);
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 2);
+}
+
+.proposal-listview__list-item-title {
+	h3 {
+		margin-top: 0;
+		margin-bottom: calc(var(--default-grid-baseline) * 1);
+	}
+}
+
+.proposal-listview__list-item-actions {
+	display: flex;
+	gap: calc(var(--default-grid-baseline) * 2);
+}
+
+.proposal-listview__list-item-dates {
+	flex: 1;
+	min-width: calc(var(--default-grid-baseline) * 100);
+}
+
+.proposal-listview__list-item-date {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--default-grid-baseline) * 4);
+}
+
+.proposal-listview__list-item-date-time {
+	flex: 1;
+	min-width: 0;
+}
+
+.proposal-listview__list-item-vote-yes,
+.proposal-listview__list-item-vote-no,
+.proposal-listview__list-item-vote-maybe {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--default-grid-baseline) * 4);
+	white-space: nowrap;
+}
+
+.proposal-editview__content {
+	padding-bottom: calc(var(--default-grid-baseline) * 4);
+	padding-left: calc(var(--default-grid-baseline) * 4);
+	padding-right: calc(var(--default-grid-baseline) * 4);
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.proposal-editview__row-title {
+	flex-shrink: 0;
+	margin-bottom: calc(var(--default-grid-baseline) * 2);
+}
+
+.proposal-editview__row-details {
+	display: flex;
+	gap: calc(var(--default-grid-baseline) * 4);
+	align-items: flex-start;
+	flex: 1;
+	margin-bottom: calc(var(--default-grid-baseline) * 2);
+	min-height: 0;
+}
+
+.proposal-editview__row-actions {
+	display: flex;
+	gap: calc(var(--default-grid-baseline) * 2);
+	background-color: var(--color-main-background);
+	flex-shrink: 0;
+	padding-top: calc(var(--default-grid-baseline) * 2);
+}
+
+.proposal-editview__column-details-left {
+	flex: 1;
+	min-width: calc(var(--default-grid-baseline) * 100);
+	max-width: calc(var(--default-grid-baseline) * 100);
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 2);
+	overflow-y: auto;
+	max-height: 100%;
+}
+
+.proposal-editview__column-details-right {
+	flex: 1;
+	min-width: calc(var(--default-grid-baseline) * 100);
+	max-width: 100%;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.proposal-editview__calendar {
+	flex: 1;
+	min-height: 0;
 }
 </style>
