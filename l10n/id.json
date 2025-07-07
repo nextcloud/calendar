@@ -192,7 +192,6 @@
     "Edit time" : "Edit waktu",
     "Save time" : "Simpan waktu",
     "Remove reminder" : "Buang pengingat",
-    "+ Add reminder" : "+ Tambah pengingat",
     "seconds" : "detik",
     "minutes" : "menit",
     "hours" : "jam",
@@ -234,7 +233,6 @@
     "Remove color" : "Hapus warna",
     "Event title" : "Judul acara",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Tidak dapat mengubah pengaturan sehari penuh untuk acara yang merupakan bagian dari set pengulangan.",
-    "All day" : "Sepanjang hari",
     "Repeat" : "Ulang",
     "never" : "tidak pernah",
     "on date" : "pada tanggal",
@@ -254,6 +252,7 @@
     "weekday" : "akhir pekan",
     "weekend day" : "akhir pekan",
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "Penentuan perulangan acara ini tidak sepenuhnya didukung oleh Nextcloud. Jika Anda mengedit opsi pengulangan, pengulangan tertentu mungkin hilang.",
+    "Resources" : "Sumber daya",
     "Public calendar does not exist" : "Kalender publik tidak eksis",
     "Maybe the share was deleted or has expired?" : "Mungkin yang dibagikan terhapus atau kadaluwarsa?",
     "on {formattedDate}" : "dalam {formattedDate}",
@@ -272,8 +271,8 @@
     "Personal" : "Pribadi",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Deteksi zona waktu otomatis menetapkan UTC sebagai zona waktu Anda. Hal ini kemungkinan besar disebabkan oleh langkah keamanan peramban web Anda. Harap setel zona waktu Anda secara manual di pengaturan kalender.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Zona waktu Anda yang terkonfigurasi ({timezoneId}) tidak ditemukan. Kembali ke UTC.\nHarap ubah zona waktu Anda di pengaturan dan laporkan masalah ini.",
-    "Details" : "Detail",
-    "Resources" : "Sumber daya",
+    "Edit event" : "Sunting agenda",
+    "All day" : "Sepanjang hari",
     "Untitled event" : "Acara tanpa judul",
     "Close" : "Tutup",
     "Subscribe to {name}" : "Berlangganan ke {name}",
@@ -340,6 +339,8 @@
     "Custom color" : "Warna khusus",
     "Special color of this event. Overrides the calendar-color." : "Warna spesial dari acara ini. Mengganti warna kalender.",
     "An error occurred, unable to delete the calendar." : "Terjadi galat, tidak dapat menghapus kalender.",
-    "This is an event reminder." : "Ini adalah pengingat acara."
+    "This is an event reminder." : "Ini adalah pengingat acara.",
+    "+ Add reminder" : "+ Tambah pengingat",
+    "Details" : "Detail"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -64,16 +64,16 @@ OC.L10N.register(
     "Decline" : "ურაყოფა",
     "Tentative" : "საცდელი",
     "Attendees" : "დამსწრეები",
-    "All day" : "მთელი დღე",
     "Repeat" : "გამეორება",
     "never" : "არასდროს",
     "after" : "შემდეგ",
+    "Resources" : "რესურსები",
     "available" : "ხელმისაწვდომი",
     "Global" : "გლობალური",
     "Subscribe" : "გამოწერა",
     "Personal" : "პირადი",
-    "Details" : "დეტლაები",
-    "Resources" : "რესურსები",
+    "Edit event" : "მოვლენის ცვლილება",
+    "All day" : "მთელი დღე",
     "Close" : "დახურვა",
     "Anniversary" : "დაბადების დღე",
     "Week {number} of {year}" : "კვირა {number} {year}-დან",
@@ -85,6 +85,7 @@ OC.L10N.register(
     "When shared hide this event" : "როდესაც გაზიარებულია არ გამოჩნდეს ეს მოვლენა",
     "Status" : "სტატუსი",
     "Confirmed" : "დადასტურებლია",
-    "Categories" : "კატეგორიები"
+    "Categories" : "კატეგორიები",
+    "Details" : "დეტლაები"
 },
 "nplurals=2; plural=(n!=1);");

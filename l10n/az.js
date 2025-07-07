@@ -53,16 +53,16 @@ OC.L10N.register(
     "Remove group" : "Qrupu sil",
     "Repeat" : "Təkrar",
     "never" : "heç vaxt",
+    "Resources" : "Resurslar",
     "Subscribe" : "Abunə",
     "Personal" : "Şəxsi",
-    "Details" : "Detallar",
-    "Resources" : "Resurslar",
     "Close" : "Bağla",
     "Daily" : "Günlük",
     "Weekly" : "Həftəlik",
     "second" : "saniyə",
     "Other" : "Digər",
     "Status" : "Status",
-    "Categories" : "Kateqoriyalar"
+    "Categories" : "Kateqoriyalar",
+    "Details" : "Detallar"
 },
 "nplurals=2; plural=(n != 1);");

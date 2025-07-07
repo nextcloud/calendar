@@ -25,11 +25,11 @@ OC.L10N.register(
     "Done" : "Immed",
     "Unknown" : "Arussin",
     "Personal" : "Udmawan",
-    "Details" : "Talqayt",
     "Close" : "Mdel",
     "Daily" : "S wass",
     "Weekly" : "S umalas",
     "Other" : "Wayeḍ",
-    "Status" : "État"
+    "Status" : "État",
+    "Details" : "Talqayt"
 },
 "nplurals=2; plural=(n != 1);");

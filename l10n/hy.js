@@ -44,12 +44,13 @@ OC.L10N.register(
     "after" : "հետո",
     "Global" : "Ընդհանուր",
     "Personal" : "Անձնական",
-    "Details" : "Մանրամասներ",
+    "Edit event" : "Խմբագրել դեպքը",
     "Close" : "Փակել",
     "Daily" : "Օրական",
     "Weekly" : "Շաբաթական",
     "second" : "երկրորդ",
     "Other" : "Այլ",
-    "Confirmed" : "Հաստատված"
+    "Confirmed" : "Հաստատված",
+    "Details" : "Մանրամասներ"
 },
 "nplurals=2; plural=(n != 1);");

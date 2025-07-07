@@ -52,7 +52,7 @@
     "Room type" : "Romtype",
     "Global" : "Global",
     "Personal" : "Personleg",
-    "Details" : "Detaljar",
+    "Edit event" : "Rediger hending",
     "Close" : "Lukk",
     "Daily" : "Kvar dag",
     "Weekly" : "Kvar veke",
@@ -64,6 +64,7 @@
     "When shared show only busy" : "Når delt, vis berre oppteken",
     "When shared hide this event" : "Når delt, gøym denne hendinga",
     "Status" : "Status",
-    "Confirmed" : "Stadfesta"
+    "Confirmed" : "Stadfesta",
+    "Details" : "Detaljar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
