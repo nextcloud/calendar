@@ -225,13 +225,13 @@ export default {
 :deep(.avatar-participation-status__indicator) {
 	bottom: 2px !important;
 	justify-self: unset !important;
-	left: 43px;
+	inset-inline-start: 43px;
 	opacity: .8;
 }
 
 .avatar-participation-status__text {
 	opacity: .45;
-	left: 63px;
+	inset-inline-start: 63px;
 	bottom: 21px;
 	white-space: nowrap;
 	position: relative;

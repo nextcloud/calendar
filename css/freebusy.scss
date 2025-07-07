@@ -13,8 +13,8 @@
 	.blocking-event-free-busy {
 		border-color: var(--color-primary-element);
 		border-style: solid;
-		border-left-width: 2px;
-		border-right-width: 2px;
+		border-inline-start-width: 2px;
+		border-inline-end-width: 2px;
 		background-color: transparent !important;
 		opacity: 0.7 !important;
 		z-index: 2;
@@ -56,7 +56,7 @@
 		.freebusy-caption-item {
 			display: flex;
 			align-items: center;
-			margin-right: 30px;
+			margin-inline-end: 30px;
 
 			&__color {
 				height: 1em;
@@ -67,7 +67,7 @@
 			}
 
 			&__label {
-				margin-left: 5px;
+				margin-inline-start: 5px;
 			}
 		}
 	}

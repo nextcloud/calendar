@@ -147,12 +147,12 @@ export default {
 
 			&__keys {
 				display: block;
-				text-align: right;
+				text-align: end;
 			}
 
 			&__label {
 				display: block;
-				text-align: left;
+				text-align: start;
 				padding-top: 5px;
 			}
 

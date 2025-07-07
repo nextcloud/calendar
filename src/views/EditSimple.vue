@@ -483,12 +483,13 @@ export default {
 	width: unset !important;
 	min-width: 500px !important;
 }
+
 .modal-mask {
 	position: fixed;
 	z-index: 9998;
 	//the height of header
 	top: 50px;
-	left: 0;
+	inset-inline-start: 0;
 	display: block;
 	width: 100%;
 	height: 100%;
