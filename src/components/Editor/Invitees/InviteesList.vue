@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<div class="invitees-list">
+	<div v-if="!(invitees.length === 0 && isReadOnly)" class="invitees-list">
 		<div v-if="showHeader" class="invitees-list__header">
 			<div class="invitees-list__header__title">
 				<AccountMultipleIcon :size="20" />
@@ -58,10 +58,6 @@
 			class="invitees-list__more">
 			{{ n('calendar', '%n more guest', '%n more guests', inviteesWithoutOrganizer.length - limit) }}
 		</div>
-		<NoAttendeesView v-if="isReadOnly && !hideErrors && isListEmpty"
-			:message="noOwnerMessage" />
-		<NoAttendeesView v-else-if="isReadOnly && isListEmpty && hasUserEmailAddress"
-			:message="noInviteesMessage" />
 		<OrganizerNoEmailError v-else-if="!isReadOnly && isListEmpty && !hasUserEmailAddress && !hideErrors" />
 	</div>
 </template>
@@ -71,7 +67,6 @@ import { NcButton } from '@nextcloud/vue'
 import InviteesListSearch from './InviteesListSearch.vue'
 import InviteesListItem from './InviteesListItem.vue'
 import OrganizerListItem from './OrganizerListItem.vue'
-import NoAttendeesView from '../NoAttendeesView.vue'
 import OrganizerNoEmailError from '../OrganizerNoEmailError.vue'
 import { createTalkRoom, doesContainTalkLink } from '../../../services/talkService.js'
 import FreeBusy from '../FreeBusy/FreeBusy.vue'
@@ -94,7 +89,6 @@ export default {
 		NcButton,
 		FreeBusy,
 		OrganizerNoEmailError,
-		NoAttendeesView,
 		InviteesListItem,
 		InviteesListSearch,
 		OrganizerListItem,

@@ -45,7 +45,7 @@
 							:force-this-and-all-future="forceThisAndAllFuture"
 							@save-this-only="prepareAccessForAttachments(false)"
 							@save-this-and-all-future="prepareAccessForAttachments(true)" />
-						<div class="app-full__actions__inner">
+						<div :class="['app-full__actions__inner', { 'app-full__actions__inner__readonly': isReadOnly }]">
 							<NcActions>
 								<NcActionButton v-if="!hideEventExport && hasDownloadURL && !isNew" type="tertiary" :href="downloadURL">
 									<template #icon>
@@ -210,6 +210,7 @@
 							@add-single-value="addCategory"
 							@remove-single-value="removeCategory" />
 						<PropertyColor :calendar-color="selectedCalendarColor"
+							:show-icon="!(isReadOnly && color === null)"
 							:is-read-only="isReadOnly"
 							:prop-model="rfcProps.color"
 							:value="color"
@@ -448,7 +449,7 @@ export default {
 
 		},
 		isCreateTalkRoomButtonVisible() {
-			return this.talkEnabled && this.isViewedByOrganizer !== false
+			return this.talkEnabled && this.isViewedByOrganizer !== false && this.isReadOnly !== true
 		},
 		resources() {
 			return this.calendarObjectInstance.attendees.filter(attendee => {
