@@ -5,7 +5,7 @@
 
 <template>
 	<div>
-		<span v-if="!(!isViewedByOrganizer && !resources.length && !suggestedRooms.length)" class="app-full-subtitle"> <MapMarker :size="20" /> {{ t('calendar', 'Resources') }}</span>
+		<span v-if="!(!resources.length && !suggestedRooms.length)" class="app-full-subtitle"> <MapMarker :size="20" /> {{ t('calendar', 'Resources') }}</span>
 
 		<ResourceListSearch v-if="!isReadOnly && hasUserEmailAddress"
 			:already-invited-emails="alreadyInvitedEmails"
