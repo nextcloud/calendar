@@ -66,16 +66,15 @@ OC.L10N.register(
     "Attendees" : "Bywoners",
     "From" : "Van",
     "To" : "Aan",
-    "All day" : "Heeldag",
     "Repeat" : "Herhaal",
     "never" : "nooit",
     "after" : "na",
+    "Resources" : "Hulpbronne",
     "available" : "beskikbaar",
     "Global" : "Globaal",
     "Subscribe" : "Teken in",
     "Personal" : "Persoonlik",
-    "Details" : "Details",
-    "Resources" : "Hulpbronne",
+    "All day" : "Heeldag",
     "Close" : "Sluit",
     "Anniversary" : "Herdenking",
     "Week {number} of {year}" : "Week {number} van {year}",
@@ -85,6 +84,7 @@ OC.L10N.register(
     "Other" : "Ander",
     "Status" : "Status",
     "Confirmed" : "Bevestig",
-    "Categories" : "Kategorieë"
+    "Categories" : "Kategorieë",
+    "Details" : "Details"
 },
 "nplurals=2; plural=(n != 1);");

@@ -48,11 +48,11 @@
     "never" : "কখনোই নয়",
     "Subscribe" : "গ্রাহক হোন",
     "Personal" : "ব্যক্তিগত",
-    "Details" : "বিসতারিত",
     "Close" : "বন্ধ",
     "Daily" : "দৈনিক",
     "Weekly" : "সাপ্তাহিক",
     "second" : "সেকেন্ড",
-    "Other" : "অন্যান্য"
+    "Other" : "অন্যান্য",
+    "Details" : "বিসতারিত"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

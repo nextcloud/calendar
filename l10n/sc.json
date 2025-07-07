@@ -164,7 +164,6 @@
     "Edit time" : "Modìfica ora",
     "Save time" : "Sarva ora",
     "Remove reminder" : "Boga•nche promemòria",
-    "+ Add reminder" : "+ Agiunghe promemòria",
     "seconds" : "segundos",
     "minutes" : "minutos",
     "hours" : "oras",
@@ -207,7 +206,6 @@
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "No faghet a modificare sa cunfiguratzione de totu sa die pro eventos chi sunt parte de una filera de atividades recurrentes",
     "From" : "Dae",
     "To" : "A",
-    "All day" : "Totu sa die",
     "Repeat" : "Repiti",
     "_time_::_times_" : ["borta","bortas"],
     "never" : "mai",
@@ -230,6 +228,7 @@
     "Does not repeat" : "No se repitit",
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "Sa definitzione de recurrèntzia de custu eventu no est suportada dae Nextcloud in manera totale. Si modìficas is optziones de recurrèntzia, calecuna recurrèntzia s'at a pòdere pèrdere.",
     "No rooms or resources yet" : "Ancora peruna istantza o risorsa",
+    "Resources" : "Risorsas",
     "Remove resource" : "Boga·nche risorsa",
     "Search for resources or rooms" : "Chirca risorsas o istantzas",
     "Update this and all future" : "Agiorna custa e is àteras imbenientes",
@@ -259,9 +258,8 @@
     "Event does not exist" : "S'eventu no esistit",
     "Delete this occurrence" : "Cantzella custa ocurrèntzia",
     "Delete this and all future" : "Cantzella custa e is àteras imbenientes",
-    "Details" : "Detàllios",
+    "All day" : "Totu sa die",
     "Invite" : "Invita",
-    "Resources" : "Risorsas",
     "Untitled event" : "Eventu chene tìtulu",
     "Close" : "Serra",
     "Subscribe to {name}" : "Sutaiscrie a {name}",
@@ -344,6 +342,8 @@
     "Error while sharing file" : "Errore in sa cumpartzidura de s'archìviu",
     "An error occurred, unable to delete the calendar." : "B'at àpidu un'errore, no at fatu a cantzellare su calendàriu.",
     "Imported {filename}" : "Importadu {filename}",
-    "User not found" : "Utèntzia no agatada"
+    "User not found" : "Utèntzia no agatada",
+    "+ Add reminder" : "+ Agiunghe promemòria",
+    "Details" : "Detàllios"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

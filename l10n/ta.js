@@ -38,8 +38,8 @@ OC.L10N.register(
     "Repeat" : "மீண்டும்",
     "never" : "ஒருபோதும்",
     "Personal" : "தனிப்பட்ட",
-    "Details" : "விவரங்கள்",
     "Close" : "மூடுக",
-    "Other" : "மற்றவை"
+    "Other" : "மற்றவை",
+    "Details" : "விவரங்கள்"
 },
 "nplurals=2; plural=(n != 1);");

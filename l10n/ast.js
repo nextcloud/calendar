@@ -228,7 +228,6 @@ OC.L10N.register(
     "Event title" : "Títulu del eventu",
     "From" : "De",
     "To" : "Pa",
-    "All day" : "Tol día",
     "Repeat" : "Repitir",
     "never" : "enxamás",
     "first" : "primer",
@@ -236,7 +235,7 @@ OC.L10N.register(
     "_week_::_weeks_" : ["selmana","selmanes"],
     "_month_::_months_" : ["mes","meses"],
     "_year_::_years_" : ["añu","años"],
-    "Suggestions" : "Suxerencies",
+    "Resources" : "Recursos",
     "_{seatingCapacity} seat_::_{seatingCapacity} seats_" : ["{seatingCapacity} asientu","{seatingCapacity} asientos"],
     "Has a projector" : "Tien proyeutor",
     "Has a whiteboard" : "Tien pizarra",
@@ -252,9 +251,8 @@ OC.L10N.register(
     "Time:" : "Hora:",
     "Personal" : "Personal",
     "Event does not exist" : "L'eventu nun esiste",
-    "Details" : "Detalles",
+    "All day" : "Tol día",
     "Invite" : "Convidar",
-    "Resources" : "Recursos",
     "Untitled event" : "Eventu ensin títulu",
     "Close" : "Zarrar",
     "Miscellaneous" : "Miscelanea",
@@ -290,6 +288,8 @@ OC.L10N.register(
     "This is an event reminder." : "Esto ye un recordatoriu del eventu.",
     "User not found" : "Nun s'atopó l'usuariu",
     "with" : "con",
-    "Available times:" : "Hores disponibles:"
+    "Available times:" : "Hores disponibles:",
+    "Suggestions" : "Suxerencies",
+    "Details" : "Detalles"
 },
 "nplurals=2; plural=(n != 1);");

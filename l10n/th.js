@@ -73,12 +73,12 @@ OC.L10N.register(
     "Repeat" : "ทำซ้ำ",
     "never" : "ไม่ต้องเลย",
     "after" : "หลังจาก",
+    "Resources" : "ทรัพยากร",
     "Pick a date" : "เลือกวันที่",
     "Global" : "ทั่วไป",
     "Subscribe" : "สมัครรับข้อมูล",
     "Personal" : "ส่วนตัว",
-    "Details" : "รายละเอียด",
-    "Resources" : "ทรัพยากร",
+    "Edit event" : "แก้ไขกิจกรรม",
     "Close" : "ปิด",
     "Anniversary" : "วันครบรอบ",
     "Week {number} of {year}" : "สัปดาห์ที่ {number} ของปี {year}",
@@ -93,6 +93,7 @@ OC.L10N.register(
     "When shared hide this event" : "เมื่อแชร์จะซ่อนกิจกรรมนี้",
     "Status" : "สถานะ",
     "Confirmed" : "ยืนยันแล้ว",
-    "Categories" : "หมวดหมู่"
+    "Categories" : "หมวดหมู่",
+    "Details" : "รายละเอียด"
 },
 "nplurals=1; plural=0;");

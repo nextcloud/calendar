@@ -100,7 +100,6 @@ OC.L10N.register(
     "Optional participant" : "Laŭvola partoprenanto",
     "From" : "De",
     "To" : "Al",
-    "All day" : "Tuttage",
     "Repeat" : "Ripeti",
     "never" : "neniam",
     "after" : "post",
@@ -113,13 +112,14 @@ OC.L10N.register(
     "_year_::_years_" : ["Jaro","Jaroj"],
     "weekday" : "Semajntago",
     "weekend day" : "Semajnfintago",
+    "Resources" : "Rimedoj",
     "on {formattedDate}" : "je la {formattedDate}",
     "Global" : "Monda",
     "Subscribe" : "Aboni",
     "Time:" : "Tempo:",
     "Personal" : "Persona",
-    "Details" : "Detaloj",
-    "Resources" : "Rimedoj",
+    "Edit event" : "Redakti okazaĵon",
+    "All day" : "Tuttage",
     "Untitled event" : "Sentitola okazaĵo",
     "Close" : "Fermi",
     "Anniversary" : "Datreveno",
@@ -140,6 +140,7 @@ OC.L10N.register(
     "Canceled" : "Nuligita",
     "Categories" : "Kategorioj",
     "Add this as a new category" : "Aldoni tion kiel novan kategorion",
-    "User not found" : "Netrovita uzanto"
+    "User not found" : "Netrovita uzanto",
+    "Details" : "Detaloj"
 },
 "nplurals=2; plural=(n != 1);");

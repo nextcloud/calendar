@@ -80,7 +80,7 @@ OC.L10N.register(
     "Global" : "Нийтийн",
     "Subscribe" : "Захиалга",
     "Personal" : "Хувийн",
-    "Details" : "Дэлгэрэнгүй",
+    "Edit event" : "Үйл явдлыг засварлах",
     "Close" : "Хаах",
     "Week {number} of {year}" : "{year} оны {number}-р долоо хоног ",
     "Daily" : "Өдөр бүр",
@@ -91,6 +91,7 @@ OC.L10N.register(
     "When shared hide this event" : "Түгээсэн тохиолдолд энэ үйл явдлыг нуу",
     "Status" : "төлөв",
     "Confirmed" : "Баталгаажсан",
-    "Categories" : "төрөл"
+    "Categories" : "төрөл",
+    "Details" : "Дэлгэрэнгүй"
 },
 "nplurals=2; plural=(n != 1);");

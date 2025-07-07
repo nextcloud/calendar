@@ -37,12 +37,13 @@
     "never" : "មិនដែរ",
     "first" : "ទីមួយ",
     "Personal" : "ផ្ទាល់​ខ្លួន",
-    "Details" : "ព័ត៌មាន​លម្អិត",
+    "Edit event" : "កែ​ព្រឹត្តិការណ៍",
     "Close" : "បិទ",
     "Daily" : "រាល់ថ្ងៃ",
     "Weekly" : "រាល់​សប្ដាហ៍",
     "second" : "ទីពីរ",
     "last" : "ចុងក្រោយ",
-    "Other" : "ផ្សេងៗ"
+    "Other" : "ផ្សេងៗ",
+    "Details" : "ព័ត៌មាន​លម្អិត"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

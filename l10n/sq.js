@@ -73,16 +73,16 @@ OC.L10N.register(
     "Tentative" : "Tentativë",
     "Attendees" : "Pjesëmarrës",
     "Remove group" : "Hiq grupin",
-    "All day" : "Gjithë ditën",
     "Repeat" : "Përsërite",
     "never" : "kurrë",
     "after" : "pas",
+    "Resources" : "Burimet",
     "available" : "në gjëndje",
     "Global" : "Globale",
     "Subscribe" : "Abonohu",
     "Personal" : "Personale",
-    "Details" : "Detajet",
-    "Resources" : "Burimet",
+    "Edit event" : "Përpunoni veprimtarinë",
+    "All day" : "Gjithë ditën",
     "Close" : "Mbylle",
     "Anniversary" : "Përvjetor",
     "Week {number} of {year}" : "Java e {number} e {year}",
@@ -96,6 +96,7 @@ OC.L10N.register(
     "Status" : "Status",
     "Confirmed" : "E konfirmuar",
     "Canceled" : "Anuluar",
-    "Categories" : "Kategoritë"
+    "Categories" : "Kategoritë",
+    "Details" : "Detajet"
 },
 "nplurals=2; plural=(n != 1);");
