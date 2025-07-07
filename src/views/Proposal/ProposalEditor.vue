@@ -1,148 +1,145 @@
 <template>
 	<div>
 	   <NcModal v-if="modalVisible"
-		   :name="modalTitle"
-		   size="large"
+		   :title="modalTitle"
+	   	   class="proposal-modal__content"
+		   size="full"
 		   @close="onModalClose()">
-
-			<div class="proposal-modal__content">
-				<!-- Show proposal list view -->
-				<div v-if="!modalView" class="proposal-listview__content">
+			<!-- Show proposal list view -->
+			<div v-if="!modalView" class="proposal-listview__content">
+				<!-- Row 1: Title -->
+				<div class="proposal-listview__row proposal-listview__row-title">
+					<h2>{{ t('calendar', 'Meeting Proposal List') }}</h2>
+				</div>
+				<!-- Row 2: List -->
+				<div class="proposal-listview__row proposal-listview__row-list">
+					<div v-if="storedProposals.length === 0" class="proposal-listview__proposal-content">
+						<NcEmptyContent  name="No proposals found">
+							<template #icon>
+								<PollIcon />
+							</template>
+							<template #description>
+								{{ t('calendar', 'Create a new proposal to get started.') }}
+							</template>
+						</NcEmptyContent>
+					</div>
+					<div v-if="storedProposals.length > 0" class="proposal-listview__proposal-content">
+						<div v-for="proposal in storedProposals" :key="proposal.id" class="proposal-listview__proposal-item proposal-listview__proposal-item--horizontal">
+							<div class="proposal-listview__proposal-overview">
+								<div class="proposal-listview__proposal-title">{{ proposal.title }}</div>
+								<div class="proposal-listview__proposal-participants">
+									{{ proposal.participants.filter(p => p.status === ProposalParticipantStatus.Responded).length }} / {{ proposal.participants.length }} responded
+								</div>
+								<div class="proposal-listview__proposal-actions">
+									<NcButton size="small" variant="secondary" @click="onProposalModify(proposal)">
+										{{ t('calendar', 'Modify') }}
+									</NcButton>
+									<NcButton size="small" variant="tertiary" @click="onProposalDestroy(proposal)">
+										{{ t('calendar', 'Delete') }}
+									</NcButton>
+								</div>
+							</div>
+							<div class="proposal-listview__proposal-dates">
+								<template v-for="entry in proposal.dates">
+									<div class="proposal-listview__proposal-date">
+										<span class="proposal-listview__proposal-date-time">
+											{{ 
+												// TODO: localize and make this more readable
+												entry.date.toLocaleString() 	
+											}}
+										</span>
+										<span class="proposal-listview__proposal-vote-yes">
+											{{ entry.votedYes }}
+											<CheckIcon />
+										</span>
+										<span class="proposal-listview__proposal-vote-no">
+											{{ entry.votedNo }}
+											<CloseIcon />
+										</span>
+										<span class="proposal-listview__proposal-vote-no">
+											{{ entry.votedMaybe }}
+											<HelpIcon />
+										</span>
+									</div>
+								</template>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Row 3: Actions -->
+				<div class="proposal-listview__row-actions">
+					<NcButton variant="primary" @click="onProposalCreate()">{{ t('calendar', 'Create') }}</NcButton>
+					<NcButton variant="secondary" @click="onModalClose()">{{ t('calendar', 'Close') }}</NcButton>
+				</div>
+			</div>
+			<!-- Show proposal edit view -->
+			<div v-else class="proposal-editview__content">
+				<!-- Only render form if selectedProposal is not null -->
+				<div v-if="selectedProposal">
 					<!-- Row 1: Title -->
-					<div class="proposal-listview__row proposal-listview__row-title">
-						<h2>{{ t('calendar', 'Meeting Proposal List') }}</h2>
+					<div class="proposal-editview__row proposal-editview__row-title">
+						<h2>{{ modalEditLabel }}</h2>
 					</div>
-					<!-- Row 2: List -->
-					<div class="proposal-listview__row proposal-listview__row-list">
-						<div v-if="storedProposals.length === 0" class="proposal-listview__proposal-content">
-							<NcEmptyContent  name="No proposals found">
-								<template #icon>
-									<PollIcon />
+					<!-- Row 2: Basic Details -->
+					<div class="proposal-editview__row proposal-editview__row-fields">
+						<div class="proposal-editview__column-left">
+							<NcTextField class="proposal-editview__title"
+								:label="t('calendar', 'Title')"
+								:value.sync="selectedProposal.title" />
+							<NcTextField class="proposal-editview__duration"
+								:label="t('calendar', 'Duration')"
+								:value.sync="selectedProposal.duration"
+								type="number"
+								min="1"
+								step="1"
+								@input="onProposalDurationChange($event)" />
+							<InviteesListSearch class="proposal-editview__participants-selector"
+								:already-invited-emails="existingParticipantAddressess"
+								@add-attendee="onProposalParticipantAdd" />
+						</div>
+						<div class="proposal-editview__column-right">
+							<NcTextArea class="proposal-editview__description"
+								:label="t('calendar', 'Description')"
+								:value.sync="selectedProposal.description" />
+						</div>
+					</div>
+					<!-- Row 3: Availability -->
+					<div class="proposal-editview__row proposal-editview__row-availability proposal-editview__row-availability--fullwidth">
+						<FullCalendar ref="proposalFullCalendar"
+							:options="calendarConfiguration" class="proposal-editview__fullcalendar" />
+					</div>
+					<!-- Row 4: Actions -->
+					<div class="proposal-editview__row modal__row-actions">
+						<div v-if="selectedProposal.dates.length > 0" class="proposal-editview__column-action-proposed-dates">
+							<!-- TODO: localize and make this more readable -->
+							<NcChip v-for="(entry, idx) in selectedProposal.dates"
+								class="proposal-editview__proposed-date-chip"
+								:key="idx"
+								:text="entry.date.toLocaleString()"
+								@close="onProposalDateRemove(idx)" />
+						</div>
+						<div v-if="selectedProposal.participants.length > 0" class="proposal-editview__column-action-proposed-participants">
+							<NcUserBubble v-for="entry in selectedProposal.participants"
+								class="proposal-editview__proposed-participant-chip"
+								:key="entry.address"
+								:display-name="entry.name"
+								:title="entry.address">
+								<template #name>
+									<a href="#"
+										title="Remove Participant"
+										class="icon-close"
+										@click="onProposalParticipantRemove(entry.address)" />
 								</template>
-								<template #description>
-									{{ t('calendar', 'Create a new proposal to get started.') }}
-								</template>
-							</NcEmptyContent>
+							</NcUserBubble>
 						</div>
-						<div v-if="storedProposals.length > 0" class="proposal-listview__proposal-content">
-							<div v-for="proposal in storedProposals" :key="proposal.id" class="proposal-listview__proposal-item proposal-listview__proposal-item--horizontal">
-								<div class="proposal-listview__proposal-overview">
-									<div class="proposal-listview__proposal-title">{{ proposal.title }}</div>
-									<div class="proposal-listview__proposal-participants">
-										{{ proposal.participants.filter(p => p.status === ProposalParticipantStatus.Responded).length }} / {{ proposal.participants.length }} responded
-									</div>
-									<div class="proposal-listview__proposal-actions">
-										<NcButton size="small" variant="secondary" @click="onProposalModify(proposal)">
-											{{ t('calendar', 'Modify') }}
-										</NcButton>
-										<NcButton size="small" variant="tertiary" @click="onProposalDestroy(proposal)">
-											{{ t('calendar', 'Delete') }}
-										</NcButton>
-									</div>
-								</div>
-								<div class="proposal-listview__proposal-dates">
-									<template v-for="entry in proposal.dates">
-										<div class="proposal-listview__proposal-date">
-											<span class="proposal-listview__proposal-date-time">
-												{{ 
-													// TODO: localize and make this more readable
-													entry.date.toLocaleString() 	
-												}}
-											</span>
-											<span class="proposal-listview__proposal-vote-yes">
-												{{ entry.votedYes }}
-												<CheckIcon />
-											</span>
-											<span class="proposal-listview__proposal-vote-no">
-												{{ entry.votedNo }}
-												<CloseIcon />
-											</span>
-											<span class="proposal-listview__proposal-vote-no">
-												{{ entry.votedMaybe }}
-												<HelpIcon />
-											</span>
-										</div>
-									</template>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- Row 3: Actions -->
-					<div class="proposal-listview__row proposal-listview__row-actions">
-						<NcButton variant="primary" @click="onProposalCreate()">{{ t('calendar', 'Create') }}</NcButton>
-						<NcButton variant="secondary" @click="onModalClose()">{{ t('calendar', 'Close') }}</NcButton>
-					</div>
-				</div>
-				<!-- Show proposal edit view -->
-				<div v-else class="proposal-editview__content">
-					<!-- Only render form if selectedProposal is not null -->
-					<div v-if="selectedProposal">
-						<!-- Row 1: Title -->
-						<div class="proposal-editview__row proposal-editview__row-title">
-							<h2>{{ modalEditLabel }}</h2>
-						</div>
-						<!-- Row 2: Basic Details -->
-						<div class="proposal-editview__row proposal-editview__row-fields">
-							<div class="proposal-editview__column-left">
-								<NcTextField class="proposal-editview__title"
-									:label="t('calendar', 'Title')"
-									:value.sync="selectedProposal.title" />
-								<NcTextField class="proposal-editview__duration"
-									:label="t('calendar', 'Duration')"
-									:value.sync="selectedProposal.duration"
-									type="number"
-									min="1"
-									step="1"
-									@input="onProposalDurationChange($event)" />
-								<InviteesListSearch class="proposal-editview__participants-selector"
-									:already-invited-emails="existingParticipantAddressess"
-									@add-attendee="onProposalParticipantAdd" />
-							</div>
-							<div class="proposal-editview__column-right">
-								<NcTextArea class="proposal-editview__description"
-									:label="t('calendar', 'Description')"
-									:value.sync="selectedProposal.description" />
-							</div>
-						</div>
-						<!-- Row 3: Availability -->
-						<div class="proposal-editview__row proposal-editview__row-availability proposal-editview__row-availability--fullwidth">
-							<FullCalendar ref="proposalFullCalendar"
-								:options="calendarConfiguration" class="proposal-editview__fullcalendar" />
-						</div>
-						<!-- Row 4: Actions -->
-						<div class="proposal-editview__row modal__row-actions">
-							<div v-if="selectedProposal.dates.length > 0" class="proposal-editview__column-action-proposed-dates">
-								<!-- TODO: localize and make this more readable -->
-								<NcChip v-for="(entry, idx) in selectedProposal.dates"
-									class="proposal-editview__proposed-date-chip"
-									:key="idx"
-									:text="entry.date.toLocaleString()"
-									@close="onProposalDateRemove(idx)" />
-							</div>
-							<div v-if="selectedProposal.participants.length > 0" class="proposal-editview__column-action-proposed-participants">
-								<NcUserBubble v-for="entry in selectedProposal.participants"
-									class="proposal-editview__proposed-participant-chip"
-									:key="entry.address"
-									:display-name="entry.name"
-									:title="entry.address">
-									<template #name>
-										<a href="#"
-											title="Remove Participant"
-											class="icon-close"
-											@click="onProposalParticipantRemove(entry.address)" />
-									</template>
-								</NcUserBubble>
-							</div>
-							<div class="proposal-editview__column-action-buttons">
-								<NcButton variant="primary" :disabled="!modalEditSaveState" @click="onProposalSave()">{{ modalEditSaveLabel }}</NcButton>
-								<NcButton variant="secondary" :disabled="modalEditDestroyState" @click="onProposalDestroy(selectedProposal)">{{ 'Delete Proposal' }}</NcButton>
-								<NcButton variant="secondary" @click="onEditClose()">{{ t('calendar', 'Cancel') }}</NcButton>
-								<NcButton variant="secondary" @click="onModalClose()">{{ t('calendar', 'Close') }}</NcButton>
-							</div>
+						<div class="proposal-editview__column-action-buttons">
+							<NcButton variant="primary" :disabled="!modalEditSaveState" @click="onProposalSave()">{{ modalEditSaveLabel }}</NcButton>
+							<NcButton variant="secondary" :disabled="modalEditDestroyState" @click="onProposalDestroy(selectedProposal)">{{ 'Delete Proposal' }}</NcButton>
+							<NcButton variant="secondary" @click="onEditClose()">{{ t('calendar', 'Cancel') }}</NcButton>
+							<NcButton variant="secondary" @click="onModalClose()">{{ t('calendar', 'Close') }}</NcButton>
 						</div>
 					</div>
 				</div>
-				
 			</div>
 		</NcModal>
 	</div>
@@ -785,7 +782,7 @@ export default {
   gap: 0;
 }
 .proposal-modal__content {
-  margin: 50px;
+  margin: calc(var(--default-grid-baseline) * 12);
 }
 .proposal-editview__content {
   margin: 30px 50px 20px 50px;
@@ -923,5 +920,11 @@ export default {
 }
 .proposal-listview__proposal-date-time {
   white-space: nowrap;
+}
+
+.proposal-listview__row-actions {
+	position: sticky;
+	bottom: calc(var(--default-grid-baseline) * 4);
+	background-color: var(--color-main-background);
 }
 </style>
