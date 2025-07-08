@@ -68,26 +68,30 @@
 				@update:open="(open) => showMenu = open">
 				<ActionRadio v-if="canChangeAlarmType || (!isAlarmTypeDisplay && forceEventAlarmType === 'DISPLAY')"
 					:name="alarmTypeName"
-					:checked="isAlarmTypeDisplay"
-					@change="changeType('DISPLAY')">
+					value="DISPLAY"
+					:modelValue="alarmType"
+					@update:modelValue="changeType('DISPLAY')">
 					{{ $t('calendar', 'Notification') }}
 				</ActionRadio>
 				<ActionRadio v-if="canChangeAlarmType || (!isAlarmTypeEmail && forceEventAlarmType === 'EMAIL')"
 					:name="alarmTypeName"
-					:checked="isAlarmTypeEmail"
-					@change="changeType('EMAIL')">
+					value="EMAIL"
+					:modelValue="alarmType"
+					@update:modelValue="changeType('EMAIL')">
 					{{ $t('calendar', 'Email') }}
 				</ActionRadio>
 				<ActionRadio v-if="canChangeAlarmType && isAlarmTypeAudio"
 					:name="alarmTypeName"
-					:checked="isAlarmTypeAudio"
-					@change="changeType('AUDIO')">
+					value="AUDIO"
+					:modelValue="alarmType"
+					@update:modelValue="changeType('AUDIO')">
 					{{ $t('calendar', 'Audio notification') }}
 				</ActionRadio>
 				<ActionRadio v-if="canChangeAlarmType && isAlarmTypeOther"
 					:name="alarmTypeName"
-					:checked="isAlarmTypeOther"
-					@change="changeType(alarm.type)">
+					:value="isAlarmTypeOther ?? alarmType"
+					:modelValue="alarmType"
+					@update:modelValue="changeType(alarmType)">
 					{{ $t('calendar', 'Other notification') }}
 				</ActionRadio>
 
@@ -95,14 +99,16 @@
 
 				<ActionRadio v-if="!isRecurring"
 					:name="alarmTriggerName"
-					:checked="isRelativeAlarm"
-					@change="switchToRelativeAlarm">
+					value="RELATIVE"
+					:modelValue="alarmRelationType"
+					@update:modelValue="switchToRelativeAlarm">
 					{{ $t('calendar', 'Relative to event') }}
 				</ActionRadio>
 				<ActionRadio v-if="!isRecurring"
 					:name="alarmTriggerName"
-					:checked="isAbsoluteAlarm"
-					@change="switchToAbsoluteAlarm">
+					value="ABSOLUTE"
+					:modelValue="alarmRelationType"
+					@update:modelValue="switchToAbsoluteAlarm">
 					{{ $t('calendar', 'On date') }}
 				</ActionRadio>
 
@@ -243,11 +249,17 @@ export default {
 		canChangeAlarmType() {
 			return this.alarm.type !== this.forceEventAlarmType
 		},
+		alarmType() {
+			return this.alarm.type || 'DISPLAY'
+		},
 		alarmTypeName() {
 			return this._uid + '-radio-type-name'
 		},
 		alarmTriggerName() {
 			return this._uid + '-radio-trigger-name'
+		},
+		alarmRelationType() {
+			return this.isRelativeAlarm ? 'RELATIVE' : 'ABSOLUTE'
 		},
 		isAlarmTypeDisplay() {
 			return this.alarm.type === 'DISPLAY'
