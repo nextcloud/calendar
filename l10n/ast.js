@@ -250,6 +250,7 @@ OC.L10N.register(
     "Subscribe" : "Soscribise",
     "Time:" : "Hora:",
     "Personal" : "Personal",
+    "Edit event" : "Editar eventu",
     "Event does not exist" : "L'eventu nun esiste",
     "All day" : "Tol día",
     "Invite" : "Convidar",

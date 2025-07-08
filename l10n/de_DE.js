@@ -380,6 +380,7 @@ OC.L10N.register(
     "From" : "Von",
     "To" : "Bis",
     "Repeat" : "Wiederholen",
+    "Repeat event" : "Termin wiederholen",
     "_time_::_times_" : ["Mal","Mal"],
     "never" : "Niemals",
     "on date" : "zum Datum",

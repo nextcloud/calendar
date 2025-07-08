@@ -45,6 +45,7 @@ OC.L10N.register(
     "Repeat" : "Ponovi",
     "never" : "nikad",
     "Personal" : "Osobno",
+    "Edit event" : "Izmjeni događaj",
     "Close" : "Zatvori",
     "Daily" : "Dnevno",
     "Weekly" : "Sedmično",

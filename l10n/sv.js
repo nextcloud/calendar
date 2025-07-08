@@ -379,6 +379,7 @@ OC.L10N.register(
     "From" : "Från",
     "To" : "Till",
     "Repeat" : "Upprepa",
+    "Repeat event" : "Upprepa händelse",
     "_time_::_times_" : ["gång","gånger"],
     "never" : "aldrig",
     "on date" : "på datum",
