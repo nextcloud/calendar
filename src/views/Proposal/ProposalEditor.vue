@@ -46,10 +46,7 @@
 									<template v-for="entry in proposal.dates">
 										<div class="proposal-listview__list-item-date">
 											<span class="proposal-listview__list-item-date-time">
-												{{ 
-													// TODO: localize and make this more readable
-													entry.date.toLocaleString() 	
-												}}
+												{{ formatProposalDate(entry.date) }}
 											</span>
 											<span class="proposal-listview__list-item-vote-yes">
 												{{ entry.votedYes }}
@@ -105,26 +102,16 @@
 							:already-invited-emails="existingParticipantAddressess"
 							@add-attendee="onProposalParticipantAdd" />
 						<div v-if="selectedProposal.participants.length > 0" class="proposal-editview__proposal-participants">
-							<NcUserBubble v-for="entry in selectedProposal.participants"
-								class="proposal-editview__proposal-participant-chip"
-								:key="entry.address"
-								:display-name="entry.name"
-								:title="entry.address">
-								<template #name>
-									<a href="#"
-										title="Remove Participant"
-										class="icon-close"
-										@click="onProposalParticipantRemove(entry.address)" />
-								</template>
-							</NcUserBubble>
+							<ProposalParticipantItem v-for="(participant, idx) in selectedProposal.participants"
+								:key="idx"
+								:proposal-participant="participant"
+								@remove-participant="onProposalParticipantRemove(participant.address)" />
 						</div>
 						<div v-if="selectedProposal.dates.length > 0" class="proposal-editview__column-action-proposed-dates">
-							<!-- TODO: localize and make this more readable -->
-							<NcChip v-for="(entry, idx) in selectedProposal.dates"
-								class="proposal-editview__proposed-date-chip"
+							<ProposalDateItem v-for="(entry, idx) in selectedProposal.dates"
 								:key="idx"
-								:text="entry.date.toLocaleString()"
-								@close="onProposalDateRemove(idx)" />
+								:proposal-date="entry"
+								@remove-date="onProposalDateRemove(idx)" />
 						</div>
 					</div>
 					<div class="proposal-editview__column-details-right">
@@ -135,7 +122,7 @@
 				<!-- Row 3: Actions -->
 				<div class="proposal-editview__row-actions">
 					<NcButton variant="primary" :disabled="!modalEditSaveState" @click="onProposalSave()">{{ modalEditSaveLabel }}</NcButton>
-					<NcButton variant="secondary" :disabled="modalEditDestroyState" @click="onProposalDestroy(selectedProposal)">{{ 'Delete Proposal' }}</NcButton>
+					<NcButton variant="secondary" :disabled="modalEditDestroyState" @click="onProposalDestroy(selectedProposal)">{{ 'Delete proposal' }}</NcButton>
 					<NcButton variant="secondary" @click="onEditClose()">{{ t('calendar', 'Cancel') }}</NcButton>
 					<NcButton variant="secondary" @click="onModalClose()">{{ t('calendar', 'Close') }}</NcButton>
 				</div>
@@ -149,8 +136,8 @@
 import useProposalStore from '@/store/proposalStore'
 import usePrincipalStore from '@/store/principals'
 /// functions
-import { defineComponent } from 'vue'
 import { t } from '@nextcloud/l10n'
+import moment from '@nextcloud/moment'
 import { Proposal, ProposalParticipant, ProposalDate } from '@/models/proposals/proposals'
 import { ProposalParticipantRealm, ProposalParticipantStatus } from '@/types/proposals/proposalEnums'
 import { showError, showSuccess } from '@nextcloud/dialogs'
@@ -167,14 +154,14 @@ import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 import FullCalendar from '@fullcalendar/vue'
 import FullCalendarTimeGrid from '@fullcalendar/timegrid'
 import FullCalendarInteraction from '@fullcalendar/interaction'; // for selectable
-import InviteesListSearch from '@/components/Editor/Invitees/InviteesListSearch'
-import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
+import InviteesListSearch from '@/components/Editor/Invitees/InviteesListSearch.vue'
+import ProposalParticipantItem from '@/components/Proposal/ProposalParticipantItem.vue'
+import ProposalDateItem from '@/components/Proposal/ProposalDateItem.vue'
 // icons
-import PollIcon from 'vue-material-design-icons/Poll.vue'
+import PollIcon from 'vue-material-design-icons/Poll'
 import CheckIcon from 'vue-material-design-icons/Check'
 import CloseIcon from 'vue-material-design-icons/Close'
 import HelpIcon from 'vue-material-design-icons/Help'
-
 
 export default {
 	name: 'ProposalEditor',
@@ -189,7 +176,8 @@ export default {
 		NcTextArea,
 		FullCalendar,
 		InviteesListSearch,
-		NcUserBubble,
+		ProposalParticipantItem,
+		ProposalDateItem,
 		PollIcon,
 		CheckIcon,
 		CloseIcon,
@@ -232,20 +220,20 @@ export default {
 		},
 		modalTitle(): string {
 			if (this.modalView === false) {
-				return t('calendar', 'Meeting Proposals')
+				return t('calendar', 'Meeting proposals')
 			} else { 
 				if (this.selectedProposal?.id) {
-					return t('calendar', 'Edit Meeting Proposal')
+					return t('calendar', 'Edit meeting proposal')
 				} else {
-					return t('calendar', 'Create Meeting Proposal')
+					return t('calendar', 'Create meeting proposal')
 				}
 			}
 		},
 		modalEditLabel(): string {
-			return !this.selectedProposal || this.selectedProposal.id ? t('calendar', 'Update Meeting Proposal') : t('calendar', 'Create Meeting Proposal')
+			return !this.selectedProposal || this.selectedProposal.id ? t('calendar', 'Update meeting proposal') : t('calendar', 'Create meeting proposal')
 		},
 		modalEditSaveLabel(): string {
-			return !this.selectedProposal || this.selectedProposal.id ? t('calendar', 'Update Proposal') : t('calendar', 'Create Proposal')
+			return !this.selectedProposal || this.selectedProposal.id ? t('calendar', 'Update proposal') : t('calendar', 'Create proposal')
 		},
 		modalEditSaveState(): boolean {
 			if (!this.selectedProposal) return false // disable if no proposal selected
@@ -347,6 +335,19 @@ export default {
 	methods: {
 		t,
 		
+		/**
+		 * Format a proposal date using the shortest, most localized format
+		 * @param {Date} date The date to format
+		 * @return {string} Formatted date string
+		 */
+		formatProposalDate(date: Date | null): string {
+			if (!date) {
+				return ''
+			}
+			// Examples: "Mon, Jul 8" (en), "Mon, 8 Jul" (en-GB), "Mo, 8. Jul" (de)
+			return moment(date).format('dddd, MMMM D')
+		},
+		
 		onModalOpen() {
 			this.fetchProposals();
 			if (this.storedProposals.length === 0) {
@@ -384,13 +385,16 @@ export default {
 					console.log('Proposal deleted successfully:', proposal)
 				} catch (error) {
 					showError(t('calendar', 'Failed to delete proposal'))
-					console.error('Failed to save proposal:', error)
+					console.error('Failed to delete proposal:', error)
 				}
 			}
 		},
 
 		async onProposalSave() {
 			try {
+				if (!this.selectedProposal) {
+					return console.error('No proposal selected for this operation')
+				}
 				await this.proposalStore.storeProposal(this.selectedProposal)
 				this.unselectProposal()
 				this.fetchProposals()
@@ -413,9 +417,6 @@ export default {
 		},
 
 		onProposalParticipantAdd(participant: any): void {
-			if (!participant) {
-				return
-			}
 			if (participant.calendarUserType === 'INDIVIDUAL') {
 				return (this as any).addParticipant(participant)
 			}
@@ -425,14 +426,10 @@ export default {
 		},
 		
 		onProposalParticipantRemove(address: string): void {
-			// remove the participant's availability data
-			if (this.participantAvailabilityIndividual[address]) {
-				delete this.participantAvailabilityIndividual[address]
+			if (!this.selectedProposal) {
+				return console.error('No proposal selected for this operation')
 			}
-			// remove the participant from the proposal
-			this.selectedProposal.participants = this.selectedProposal.participants.filter((p: ProposalParticipant) => p.address !== address)
-			// update the calendar availability
-			this.combineParticipantAvailability()
+			this.removeParticipant(address)
 		},
 
 		onProposalDateAdd(info: any): void {
@@ -465,6 +462,9 @@ export default {
 		},
 
 		onProposalDateRemove(index: number): void {
+			if (!this.selectedProposal) {
+				return console.error('No proposal selected for this operation')
+			}
 			if (this.selectedProposal.dates[index] === undefined) {
 				return console.error('Can not remove proposed date, index value is invalid: ', index)
 			}
@@ -505,6 +505,9 @@ export default {
 		},
 		
 		addParticipant(participant: any): void {
+			if (!this.selectedProposal) {
+				return console.error('No proposal selected for this operation')
+			}
 			if (!participant.email) {
 				return
 			}
@@ -517,12 +520,29 @@ export default {
 			// retrieve availability for the new participant
 			this.fetchParticipantAvailability(newParticipant)
 		},
+
+		removeParticipant(address: string): void {
+			if (!this.selectedProposal) {
+				return console.error('No proposal selected for this operation')
+			}
+			// remove the participant's availability data
+			if (this.participantAvailabilityIndividual[address]) {
+				delete this.participantAvailabilityIndividual[address]
+			}
+			// remove the participant from the proposal
+			this.selectedProposal.participants = this.selectedProposal.participants.filter((p: ProposalParticipant) => p.address !== address)
+			// update the calendar availability
+			this.combineParticipantAvailability()
+		},
 		
 		addGroup(participant: any): void {
+			if (!this.selectedProposal) {
+				return console.error('No proposal selected for this operation')
+			}
 			if (!participant.email) {
 				return
 			}
-			
+			// add the group as a participant
 			const newParticipant = new ProposalParticipant()
 			newParticipant.address = participant.email
 			newParticipant.name = participant.commonName || participant.email
@@ -532,6 +552,9 @@ export default {
 		},
 
 		addProposedDate(date: Date): void {
+			if (!this.selectedProposal) {
+				return console.error('No proposal selected for this operation')
+			}
 			const newProposalDate = new ProposalDate()
 			newProposalDate.date = date
 			this.selectedProposal.dates.push(newProposalDate)
@@ -543,6 +566,9 @@ export default {
 		},
 
 		changeProposedDate(index: number, date: Date): void {
+			if (!this.selectedProposal) {
+				return console.error('No proposal selected for this operation')
+			}
 			if (this.selectedProposal.dates[index] === undefined) {
 				return console.error('Can not change proposed date, index value is invalid: ', index)
 			}
