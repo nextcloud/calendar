@@ -50,6 +50,7 @@ OC.L10N.register(
     "never" : "কখনোই নয়",
     "Subscribe" : "গ্রাহক হোন",
     "Personal" : "ব্যক্তিগত",
+    "Edit event" : "ইভেন্ট সম্পাদনা করুন",
     "Close" : "বন্ধ",
     "Daily" : "দৈনিক",
     "Weekly" : "সাপ্তাহিক",

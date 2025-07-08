@@ -380,6 +380,7 @@ OC.L10N.register(
     "From" : "De",
     "To" : "Para",
     "Repeat" : "Repetir",
+    "Repeat event" : "Repetir evento",
     "_time_::_times_" : ["vez","vezes","vezes"],
     "never" : "nunca",
     "on date" : "na data",

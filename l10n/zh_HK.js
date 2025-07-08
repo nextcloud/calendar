@@ -380,6 +380,7 @@ OC.L10N.register(
     "From" : "從",
     "To" : "至",
     "Repeat" : "重複",
+    "Repeat event" : "重複活動",
     "_time_::_times_" : ["次"],
     "never" : "永不",
     "on date" : "在特定日期",

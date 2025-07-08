@@ -380,6 +380,7 @@ OC.L10N.register(
     "From" : "Saatja",
     "To" : "Saaja",
     "Repeat" : "Korda",
+    "Repeat event" : "Korda sündmust",
     "_time_::_times_" : ["kord","korda"],
     "never" : "mitte kunagi",
     "on date" : "kuupäeval",

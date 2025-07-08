@@ -56,6 +56,7 @@ OC.L10N.register(
     "Resources" : "Resurslar",
     "Subscribe" : "Abunə",
     "Personal" : "Şəxsi",
+    "Edit event" : "Hadisəni dəyişdir",
     "Close" : "Bağla",
     "Daily" : "Günlük",
     "Weekly" : "Həftəlik",
