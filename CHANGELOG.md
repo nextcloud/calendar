@@ -1,3 +1,25 @@
+## [5.3.5](https://github.com/nextcloud/calendar/compare/v5.3.4...v5.3.5) (2025-07-08)
+
+
+### Bug Fixes
+
+* **l10n:** Update translations from Transifex ([a3cd706](https://github.com/nextcloud/calendar/commit/a3cd706bede469cc4490969287ee2811ebaa13fd))
+* **l10n:** Update translations from Transifex ([d18594f](https://github.com/nextcloud/calendar/commit/d18594f686dbecc70fb022dfe394d7cde42d8d70))
+* **l10n:** Update translations from Transifex ([0c2c2d3](https://github.com/nextcloud/calendar/commit/0c2c2d35ed87aaa8d6443c1a67bb64908a72f042))
+* **l10n:** Update translations from Transifex ([81d2f8a](https://github.com/nextcloud/calendar/commit/81d2f8ab84c5ebba48278550bdfed06885d3c51c))
+* **l10n:** Update translations from Transifex ([8b33cdb](https://github.com/nextcloud/calendar/commit/8b33cdbaa0d9d3329ac92d13400fc97171fc019d))
+* **l10n:** Update translations from Transifex ([0a1022d](https://github.com/nextcloud/calendar/commit/0a1022d27a04d33dc193a561d02b05752534a2f0))
+* **l10n:** Update translations from Transifex ([685e81b](https://github.com/nextcloud/calendar/commit/685e81b0a15d53d5b59940265cf46ba3cd8b92a7))
+* **l10n:** Update translations from Transifex ([73b6268](https://github.com/nextcloud/calendar/commit/73b62684cfa217145ecd16b2dc0b8dc2d691ed14))
+* **l10n:** Update translations from Transifex ([6fbf559](https://github.com/nextcloud/calendar/commit/6fbf559fae31a9a4217ff3c3e3f0a42b8112ffce))
+* **l10n:** Update translations from Transifex ([bfb0b6f](https://github.com/nextcloud/calendar/commit/bfb0b6f6b42242275e1d5f0460e2f931916a1558))
+* **l10n:** Update translations from Transifex ([d193c04](https://github.com/nextcloud/calendar/commit/d193c044647ed2c36fc5daba83c28836631bad58))
+* **l10n:** Update translations from Transifex ([7290ca9](https://github.com/nextcloud/calendar/commit/7290ca94bdd2da889398d19da74d4d033b1f9ea2))
+* **l10n:** Update translations from Transifex ([493a884](https://github.com/nextcloud/calendar/commit/493a884cf8da9eb4402c5d18bffc8798dd5a7e29))
+* **PropertyTitleTimePicker:** debounce date time picker ([e0f31d0](https://github.com/nextcloud/calendar/commit/e0f31d049cc336fd988610338caa35ff92a72276))
+
+
+
 ## [5.3.4](https://github.com/nextcloud/calendar/compare/v5.3.3...v5.3.4) (2025-06-26)
 
 
