@@ -291,7 +291,7 @@ OC.L10N.register(
     "No attendees yet" : "Vēl nav dalībnieku",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} uzaicināti, {confirmedCount} apstiprinājuši",
     "Error creating Talk room" : "Notika kļūda, veidojot tērzēšanas istabu",
-    "Attendees" : "Apmeklētāji",
+    "Attendees" : "Dalībnieki",
     "Remove group" : "Noņemt grupu",
     "Remove attendee" : "Noņemt dalībnieku",
     "Request reply" : "Pieprasīt atbildi",
