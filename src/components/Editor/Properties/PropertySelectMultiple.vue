@@ -6,10 +6,10 @@
 <template>
 	<div v-if="display" class="property-select-multiple">
 		<component :is="icon"
+			v-tooltip="info"
 			:size="20"
 			:name="readableName"
 			class="property-select-multiple__icon"
-			v-tooltip="info"
 			:class="{ 'property-select-multiple__icon--hidden': !showIcon }" />
 
 		<div class="property-select-multiple__input"

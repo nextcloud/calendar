@@ -8,10 +8,10 @@
 		class="property-select"
 		:class="{ 'property-select--readonly': isReadOnly }">
 		<component :is="icon"
+			v-tooltip="info"
 			:size="20"
 			:name="readableName"
 			class="property-select__icon"
-			v-tooltip="info"
 			:class="{ 'property-select__icon--hidden': !showIcon }" />
 
 		<div class="property-select__input"
