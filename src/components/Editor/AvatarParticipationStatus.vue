@@ -235,7 +235,7 @@ export default {
 	bottom: 21px;
 	white-space: nowrap;
 	position: relative;
-	min-width: 220px;
+	min-width: 420px;
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
