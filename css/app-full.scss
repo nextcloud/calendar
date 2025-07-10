@@ -661,3 +661,10 @@ textarea {
 .property-select__input {
 	height: 34px;
 }
+
+.app-full .avatar-participation-status__text {
+	bottom: -1px !important;
+	position: absolute !important;
+	max-width: min(calc(100vw - 130px), 500px) !important;
+	min-width: unset !important;
+}
