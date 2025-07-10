@@ -580,6 +580,7 @@ OC.L10N.register(
     "Error creating a folder {folder}" : "Грешка при креирању фолдера {folder}",
     "Attachment {fileName} already exists!" : "Прилог {fileName} већ постоји!",
     "Attachment {fileName} added!" : "Додат је прилог {fileName}!",
+    "An error occurred during uploading file {fileName}" : "Дошло је до грешке приликом отпремања фајла {fileName}",
     "An error occurred during getting file information" : "Дошло је до грешке током преузимања информација о фајлу",
     "Talk conversation for event" : "Talk разговор за догађај",
     "An error occurred, unable to delete the calendar." : "Догодила се грешка, не могу да обришем календар.",

@@ -380,6 +380,7 @@ OC.L10N.register(
     "From" : "Od",
     "To" : "Do",
     "Repeat" : "Opakovat",
+    "Repeat event" : "Zopakovat událost",
     "_time_::_times_" : ["krát","krát","krát","krát"],
     "never" : "nikdy",
     "on date" : "dne",
