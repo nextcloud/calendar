@@ -84,16 +84,16 @@
 					<div class="proposal-editview__row-details">
 						<NcTextField class="proposal-editview__proposal-title"
 							:label="t('calendar', 'Title')"
-							:value.sync="selectedProposal.title" />
+							v-model="selectedProposal.title" />
 						<NcTextArea class="proposal-editview__proposal-description"
 							:label="t('calendar', 'Description')"
-							:value.sync="selectedProposal.description" />
+							v-model="selectedProposal.description" />
 						<NcTextField class="proposal-editview__proposal-location"
 							:label="t('calendar', 'Location')"
-							:value.sync="selectedProposal.location" />
+							v-model="selectedProposal.location" />
 						<NcTextField class="proposal-editview__proposal-duration"
 							:label="t('calendar', 'Duration')"
-							:value.sync="selectedProposal.duration"
+							v-model="selectedProposal.duration"
 							type="number"
 							min="1"
 							step="1"
@@ -117,7 +117,7 @@
 					<!-- Row 3: Actions -->
 					<div class="proposal-editview__row-actions">
 						<NcButton variant="primary" :disabled="!modalEditSaveState" @click="onProposalSave()">{{ modalEditSaveLabel }}</NcButton>
-						<NcButton variant="secondary" :disabled="modalEditDestroyState" @click="onProposalDestroy(selectedProposal)">{{ 'Delete proposal' }}</NcButton>
+						<NcButton variant="secondary" :disabled="!modalEditDestroyState" @click="onProposalDestroy(selectedProposal)">{{ 'Delete' }}</NcButton>
 						<NcButton variant="secondary" @click="onEditClose()">{{ t('calendar', 'Cancel') }}</NcButton>
 						<NcButton variant="secondary" @click="onModalClose()">{{ t('calendar', 'Close') }}</NcButton>
 					</div>
@@ -198,30 +198,10 @@ import CloseIcon from 'vue-material-design-icons/Close'
 import HelpIcon from 'vue-material-design-icons/Help'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight'
-import { co } from 'node_modules/@fullcalendar/core/internal-common'
+import type RepeatUnsupportedWarning from '@/components/Editor/Repeat/RepeatUnsupportedWarning.vue'
 
 export default {
 	name: 'ProposalEditor',
-
-	components: {
-		NcEmptyContent,
-		NcButton,
-		NcChip,
-		NcModal,
-		NcTextField,
-		NcSelect,
-		NcTextArea,
-		FullCalendar,
-		InviteesListSearch,
-		ProposalParticipantItem,
-		ProposalDateItem,
-		PollIcon,
-		CheckIcon,
-		CloseIcon,
-		HelpIcon,
-		ChevronLeftIcon,
-		ChevronRightIcon,
-	},
 
 	data() {
 		const principalStore = usePrincipalStore()
@@ -243,6 +223,35 @@ export default {
 		}
 	},
 
+	mounted() {
+		window.addEventListener('resize', this.onWindowResize)
+		this.calendarSpanDays = this.optimalSpanDays
+	},
+
+	beforeDestroy() {
+		window.removeEventListener('resize', this.onWindowResize)
+	},
+
+	components: {
+		NcEmptyContent,
+		NcButton,
+		NcChip,
+		NcModal,
+		NcTextField,
+		NcSelect,
+		NcTextArea,
+		FullCalendar,
+		InviteesListSearch,
+		ProposalParticipantItem,
+		ProposalDateItem,
+		PollIcon,
+		CheckIcon,
+		CloseIcon,
+		HelpIcon,
+		ChevronLeftIcon,
+		ChevronRightIcon,
+	},
+
 	props: {
 	},
 
@@ -258,15 +267,16 @@ export default {
 		optimalSpanDays(newVal) {
 			// Only update calendar view when optimal span days changes if user hasn't manually overridden
 			if (this.calendarApi && newVal !== this.calendarSpanDays && !this.calendarSpanOverride) {
-				this.calendarSpanDays = newVal
-				this.calendarApi.setOption('views', {
-					timeGridSpan: {
-						type: 'timeGrid',
-						duration: { days: newVal }
-					}
-				})
-				this.calendarApi.changeView('timeGridSpan')
+				return
 			}
+			this.calendarSpanDays = newVal
+			this.calendarApi.setOption('views', {
+				timeGridSpan: {
+					type: 'timeGrid',
+					duration: { days: newVal }
+				}
+			})
+			this.calendarApi.changeView('timeGridSpan')
 		},
 	},
 
@@ -289,7 +299,7 @@ export default {
 			return !this.selectedProposal || this.selectedProposal.id ? t('calendar', 'Update meeting proposal') : t('calendar', 'Create meeting proposal')
 		},
 		modalEditSaveLabel(): string {
-			return !this.selectedProposal || this.selectedProposal.id ? t('calendar', 'Update proposal') : t('calendar', 'Create proposal')
+			return !this.selectedProposal || this.selectedProposal.id ? t('calendar', 'Update') : t('calendar', 'Create')
 		},
 		modalEditSaveState(): boolean {
 			if (!this.selectedProposal) return false // disable if no proposal selected
@@ -301,7 +311,7 @@ export default {
 			)
 		},
 		modalEditDestroyState(): boolean {
-			return !this.selectedProposal || this.selectedProposal.id === null
+			return !this.selectedProposal || this.selectedProposal.id !== null
 		},
 		/**
 		* Configuration options for FullCalendar
@@ -416,15 +426,6 @@ export default {
 	
 	methods: {
 		t,
-
-		mounted() {
-			window.addEventListener('resize', this.onWindowResize)
-			this.calendarSpanDays = this.optimalSpanDays
-		},
-
-		beforeDestroy() {
-			window.removeEventListener('resize', this.onWindowResize)
-		},
 		
 		onWindowResize(): void {
 			const oldWidth = this.screenWidth
