@@ -12,7 +12,7 @@
 			{{ formattedDate }}
 		</div>
 		<div class="proposal-date__action">
-			<IconDelete 
+			<CloseIcon 
 				:title="t('calendar', 'Remove date')"
 				@click="$emit('remove-date')" />
 		</div>
@@ -25,14 +25,14 @@ import moment from '@nextcloud/moment'
 import type { ProposalDate } from '@/models/proposals/proposals'
 // icons
 import IconCalendar from 'vue-material-design-icons/Calendar'
-import IconDelete from 'vue-material-design-icons/Delete'
+import CloseIcon from 'vue-material-design-icons/Close'
 
 export default {
 	name: 'ProposalDateItem',
 
 	components: {
 		IconCalendar,
-		IconDelete,
+		CloseIcon,
 	},
 	
 	props: {
