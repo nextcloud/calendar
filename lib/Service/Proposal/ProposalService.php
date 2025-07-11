@@ -9,10 +9,7 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Service\Proposal;
 
-use DateInterval;
-use DatePeriod;
 use Exception;
-use OC\AppFramework\Utility\TimeFactory;
 use OCA\Calendar\Db\ProposalDateMapper;
 use OCA\Calendar\Db\ProposalMapper;
 use OCA\Calendar\Db\ProposalParticipantMapper;
