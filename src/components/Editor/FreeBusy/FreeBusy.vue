@@ -176,6 +176,8 @@
 								label="displayStart"
 								:label-outside="true"
 								:value="selectedSlot"
+								:loading="loadingIndicator"
+								:disabled="loadingIndicator"
 								@option:selected="setSlotSuggestion">
 								<template #selected-option="{}">
 									{{ $t('calendar', 'Suggestion accepted') }}
@@ -657,6 +659,7 @@ export default {
 			}
 		},
 		setSlotSuggestion(slot) {
+			this.loading(true)
 			this.selectedSlot = slot
 
 			const calendar = this.$refs.freeBusyFullCalendar.getApi()
@@ -667,6 +670,15 @@ export default {
 			this.currentEnd = slot.end
 			calendar.getEventById('selected-event-slot').setStart(this.currentStart)
 			calendar.getEventById('selected-event-slot').setEnd(this.currentEnd)
+
+			const checkCondition = () => {
+				if (calendar.getDate() === slot.start) {
+					this.loading(false)
+					return
+				}
+				setTimeout(checkCondition, 100)
+			}
+			checkCondition()
 		},
 	},
 }
