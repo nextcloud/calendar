@@ -50,9 +50,8 @@ export default {
 			if (!this.proposalDate.date) {
 				return ''
 			}
-			// Format with day name and short date, without year
-			// Examples: "Mon, Jul 8" (en), "Mon, 8 Jul" (en-GB), "Mo, 8. Jul" (de)
-			return moment(this.proposalDate.date).format('dddd, MMMM D')
+			// Examples: "Mon, Jul 8, 2:30 PM" (en), "Mon, 8 Jul, 14:30" (en-GB), "Mo, 8. Jul, 14:30" (de)
+			return moment(this.proposalDate.date).format('dddd, MMMM D, LT')
 		},
 	},
 	

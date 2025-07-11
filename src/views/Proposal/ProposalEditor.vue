@@ -75,13 +75,13 @@
 			</div>
 			<!-- Show proposal edit view -->
 			<div v-if="selectedProposal" class="proposal-editview__content">
-				<!-- Row 1: Title -->
-				<div class="proposal-editview__row-title">
-					<h2>{{ modalEditLabel }}</h2>
-				</div>
-				<!-- Row 2: Details -->
-				<div class="proposal-editview__row-details">
-					<div class="proposal-editview__column-details-left">
+				<div class="proposal-editview__column-left">
+					<!-- Row 1: Title -->
+					<div class="proposal-editview__row-title">
+						<h2>{{ modalEditLabel }}</h2>
+					</div>
+					<!-- Row 2: Details -->
+					<div class="proposal-editview__row-details">
 						<NcTextField class="proposal-editview__proposal-title"
 							:label="t('calendar', 'Title')"
 							:value.sync="selectedProposal.title" />
@@ -107,24 +107,58 @@
 								:proposal-participant="participant"
 								@remove-participant="onProposalParticipantRemove(participant.address)" />
 						</div>
-						<div v-if="selectedProposal.dates.length > 0" class="proposal-editview__column-action-proposed-dates">
+						<div v-if="selectedProposal.dates.length > 0" class="proposal-editview__proposed-dates">
 							<ProposalDateItem v-for="(entry, idx) in selectedProposal.dates"
 								:key="idx"
 								:proposal-date="entry"
 								@remove-date="onProposalDateRemove(idx)" />
 						</div>
 					</div>
-					<div class="proposal-editview__column-details-right">
-						<FullCalendar ref="proposalFullCalendar"
-						:options="calendarConfiguration" class="proposal-editview__calendar" />
+					<!-- Row 3: Actions -->
+					<div class="proposal-editview__row-actions">
+						<NcButton variant="primary" :disabled="!modalEditSaveState" @click="onProposalSave()">{{ modalEditSaveLabel }}</NcButton>
+						<NcButton variant="secondary" :disabled="modalEditDestroyState" @click="onProposalDestroy(selectedProposal)">{{ 'Delete proposal' }}</NcButton>
+						<NcButton variant="secondary" @click="onEditClose()">{{ t('calendar', 'Cancel') }}</NcButton>
+						<NcButton variant="secondary" @click="onModalClose()">{{ t('calendar', 'Close') }}</NcButton>
 					</div>
 				</div>
-				<!-- Row 3: Actions -->
-				<div class="proposal-editview__row-actions">
-					<NcButton variant="primary" :disabled="!modalEditSaveState" @click="onProposalSave()">{{ modalEditSaveLabel }}</NcButton>
-					<NcButton variant="secondary" :disabled="modalEditDestroyState" @click="onProposalDestroy(selectedProposal)">{{ 'Delete proposal' }}</NcButton>
-					<NcButton variant="secondary" @click="onEditClose()">{{ t('calendar', 'Cancel') }}</NcButton>
-					<NcButton variant="secondary" @click="onModalClose()">{{ t('calendar', 'Close') }}</NcButton>
+				<div class="proposal-editview__column-right">
+					<div class="proposal-editview__calendar-actions">
+						<NcButton variant="secondary" @click="onCalendarFocusToday()">
+							{{ t('calendar', 'Today') }}
+						</NcButton>
+						<NcButton type="secondary"
+							:aria-label="t('calendar', 'Previous span')"
+							@click="onCalendarSpanPrevious()">
+							<template #icon>
+								<ChevronLeftIcon />
+							</template>
+						</NcButton>
+						<NcButton type="secondary"
+							:aria-label="t('calendar', 'Next span')"
+							@click="onCalendarSpanNext()">
+							<template #icon>
+								<ChevronRightIcon />
+							</template>
+						</NcButton>
+						<h2>{{ calendarDateRange }}</h2>
+						<NcButton type="secondary"
+							:aria-label="t('calendar', 'Less days')"
+							@click="onCalendarSpanDecrease()">
+							<template #icon>
+								<ChevronLeftIcon />
+							</template>
+						</NcButton>
+						<NcButton type="secondary"
+							:aria-label="t('calendar', 'More days')"
+							@click="onCalendarSpanIncrease()">
+							<template #icon>
+								<ChevronRightIcon />
+							</template>
+						</NcButton>
+					</div>
+					<FullCalendar ref="proposalFullCalendar"
+					:options="calendarConfiguration" class="proposal-editview__calendar" />
 				</div>
 			</div>
 		</NcModal>
@@ -162,6 +196,9 @@ import PollIcon from 'vue-material-design-icons/Poll'
 import CheckIcon from 'vue-material-design-icons/Check'
 import CloseIcon from 'vue-material-design-icons/Close'
 import HelpIcon from 'vue-material-design-icons/Help'
+import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft'
+import ChevronRightIcon from 'vue-material-design-icons/ChevronRight'
+import { co } from 'node_modules/@fullcalendar/core/internal-common'
 
 export default {
 	name: 'ProposalEditor',
@@ -182,6 +219,8 @@ export default {
 		CheckIcon,
 		CloseIcon,
 		HelpIcon,
+		ChevronLeftIcon,
+		ChevronRightIcon,
 	},
 
 	data() {
@@ -197,7 +236,10 @@ export default {
 			selectedProposal: null as Proposal | null,
 			participantAvailabilityIndividual: {} as Record<string, Record<string, any>>,
 			participantAvailabilityCombined: [] as Array<{ start: Date, end: Date }>, // Store available slots
-			currentSlotIndex: 1, // default to 30 min
+			calendarSlotPrecision: 1, // default to 30 min
+			calendarSpanDays: 7, // Track current span duration
+			calendarSpanOverride: false, // Track if user manually changed span
+			screenWidth: window.innerWidth, // Track screen width
 		}
 	},
 
@@ -210,6 +252,20 @@ export default {
 				this.$nextTick(() => {
 					this.onModalOpen()
 				});
+			}
+		},
+		
+		optimalSpanDays(newVal) {
+			// Only update calendar view when optimal span days changes if user hasn't manually overridden
+			if (this.calendarApi && newVal !== this.calendarSpanDays && !this.calendarSpanOverride) {
+				this.calendarSpanDays = newVal
+				this.calendarApi.setOption('views', {
+					timeGridSpan: {
+						type: 'timeGrid',
+						duration: { days: newVal }
+					}
+				})
+				this.calendarApi.changeView('timeGridSpan')
 			}
 		},
 	},
@@ -266,48 +322,31 @@ export default {
 				{ label: '1 hour', value: '01:00:00' }
 			]
 
-			if (this.currentSlotIndex === undefined) {
-				this.currentSlotIndex = 2 // default to 15 min
+			if (this.calendarSlotPrecision === undefined) {
+				this.calendarSlotPrecision = 2 // default to 15 min
 			}
 
 			return {
+				schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
 				plugins: [FullCalendarTimeGrid, FullCalendarInteraction],
-				headerToolbar: {
-					left: 'prev,next today',
-					center: 'title',
-					right: 'zoomIn,zoomOut timeGridWeek,timeGridDay',
-				},
-				customButtons: {
-					zoomIn: {
-						text: '+',
-						click: () => {
-							if (this.currentSlotIndex > 0) {
-								this.currentSlotIndex--;
-								this.calendarApi?.setOption('slotDuration', slotDurations[this.currentSlotIndex].value);
-							}
-						}
-					},
-					zoomOut: {
-						text: '-',
-						click: () => {
-							if (this.currentSlotIndex < slotDurations.length - 1) {
-								this.currentSlotIndex++;
-								this.calendarApi?.setOption('slotDuration', slotDurations[this.currentSlotIndex].value);
-							}
-						}
+				headerToolbar: false,
+				initialView: 'timeGridSpan',
+				views: {
+					timeGridSpan: {
+						type: 'timeGrid',
+						duration: { days: this.calendarSpanDays }
 					}
 				},
-				initialView: 'timeGridWeek',
 				allDaySlot: false,
 				slotMinTime: '08:00:00',
 				slotMaxTime: '18:00:00',
-				slotDuration: slotDurations[this.currentSlotIndex].value,
+				slotDuration: slotDurations[this.calendarSlotPrecision].value,
 				validRange: {
 					start: today,
 				},
 				nowIndicator: true,
 				editable: true,
-				eventOverlap: true,
+				eventOverlap: false,
 				selectable: true,
 				selectMirror: true,
 				select: (info: any) => this.onProposalDateAdd(info),
@@ -324,28 +363,77 @@ export default {
 					if (!this.modalVisible) return
 					if (!this.calendarApi) return
 					this.fetchParticipantAvailability()
+					// Force reactivity update for the date range display
+					this.$forceUpdate()
 				},
 			}
 		},
 		existingParticipantAddressess(): string[] {
 			return this.selectedProposal ? this.selectedProposal.participants.map((p: ProposalParticipant) => p.address) : []
 		},
+		
+		optimalSpanDays(): number {
+			// Get the available width for the calendar (roughly half the screen minus padding)
+			const availableWidth = this.screenWidth - 400 // Account for left column and padding
+			const minDayWidth = 140 // Minimum width per day column in pixels
+			const maxDays = 28 // Maximum reasonable span
+			const minDays = 1 // Minimum span
+			
+			const calculatedDays = Math.floor(availableWidth / minDayWidth)
+			return Math.max(minDays, Math.min(maxDays, calculatedDays))
+		},
+		
+		/**
+		 * Get the formatted date range currently shown in the calendar
+		 * @return {string} Formatted date range like "July 11 to 24"
+		 */
+		calendarDateRange(): string {
+			if (!this.calendarApi) {
+				return ''
+			}
+			
+			const view = this.calendarApi.view
+			const start = view.activeStart
+			const end = new Date(view.activeEnd.getTime() - 1) // Subtract 1ms to get the last day shown
+			
+			// Format start date
+			const startFormatted = moment(start).format('MMMM D')
+			
+			// If same month, just show day number for end
+			if (start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()) {
+				return `${startFormatted} to ${end.getDate()}`
+			}
+			
+			// Different months or years, show full format for both
+			const endFormatted = moment(end).format('MMMM D')
+			if (start.getFullYear() !== end.getFullYear()) {
+				return `${moment(start).format('MMMM D, YYYY')} to ${moment(end).format('MMMM D, YYYY')}`
+			}
+			
+			return `${startFormatted} to ${endFormatted}`
+		},
 	},
 	
 	methods: {
 		t,
+
+		mounted() {
+			window.addEventListener('resize', this.onWindowResize)
+			this.calendarSpanDays = this.optimalSpanDays
+		},
+
+		beforeDestroy() {
+			window.removeEventListener('resize', this.onWindowResize)
+		},
 		
-		/**
-		 * Format a proposal date using the shortest, most localized format
-		 * @param {Date} date The date to format
-		 * @return {string} Formatted date string
-		 */
-		formatProposalDate(date: Date | null): string {
-			if (!date) {
-				return ''
+		onWindowResize(): void {
+			const oldWidth = this.screenWidth
+			this.screenWidth = window.innerWidth
+			
+			// Reset manual override if window size changed significantly (more than 200px)
+			if (Math.abs(oldWidth - this.screenWidth) > 200) {
+				this.calendarSpanOverride = false
 			}
-			// Examples: "Mon, Jul 8" (en), "Mon, 8 Jul" (en-GB), "Mo, 8. Jul" (de)
-			return moment(date).format('dddd, MMMM D')
 		},
 		
 		onModalOpen() {
@@ -470,6 +558,64 @@ export default {
 			}
 			this.selectedProposal.dates.splice(index, 1)
 			this.renderParticipantAvailability()
+		},
+
+		onCalendarFocusToday(): void {
+			if (!this.calendarApi) {
+				return console.error('Calendar API not initialized')
+			}
+			this.calendarApi.today()
+			// Reset manual override when going to today
+			this.calendarSpanOverride = false
+		},
+
+		onCalendarSpanPrevious(): void {
+			if (!this.calendarApi) {
+				return console.error('Calendar API not initialized')
+			}
+			this.calendarApi.prev()
+		},
+
+		onCalendarSpanNext(): void {
+			if (!this.calendarApi) {
+				return console.error('Calendar API not initialized')
+			}
+			this.calendarApi.next()
+		},
+
+		onCalendarSpanDecrease(): void {
+			if (!this.calendarApi) {
+				return console.error('Calendar API not initialized')
+			}
+			// Decrease the span duration (fewer days) from current optimal
+			const newDays = Math.max(1, this.calendarSpanDays - 1) // Minimum 1 day
+			this.calendarSpanDays = newDays
+			this.calendarSpanOverride = true // Mark as manually overridden
+			this.calendarApi.setOption('views', {
+				timeGridSpan: {
+					type: 'timeGrid',
+					duration: { days: newDays }
+				}
+			})
+			this.calendarApi.changeView('timeGridSpan')
+		},
+
+		onCalendarSpanIncrease(): void {
+			if (!this.calendarApi) {
+				return console.error('Calendar API not initialized')
+			}
+			// Increase the span duration (more days) from current optimal
+			const newDays = Math.min(28, this.calendarSpanDays + 1) // Maximum 28 days
+			this.calendarSpanDays = newDays
+			this.calendarSpanOverride = true // Mark as manually overridden
+			this.calendarApi.setOption('views', {
+				timeGridSpan: {
+					type: 'timeGrid',
+					duration: { days: newDays }
+				}
+			})
+			this.calendarApi.changeView('timeGridSpan')
+		
 		},
 
 		async fetchProposals() {
@@ -710,6 +856,15 @@ export default {
 				});
 			});
 		},
+
+		formatProposalDate(date: Date | null): string {
+			if (!date) {
+				return ''
+			}
+			// Examples: "Mon, Jul 8, 2:30 PM" (en), "Mon, 8 Jul, 14:30" (en-GB), "Mo, 8. Jul, 14:30" (de)
+			return moment(date).format('dddd, MMMM D, LT')
+		},
+
 	},
 }
 </script>
@@ -720,6 +875,8 @@ export default {
 }
 
 .proposal-modal__content {
+	height: 100vh;
+	overflow: hidden;
 }
 
 .proposal-listview__content {
@@ -820,8 +977,27 @@ export default {
 	padding-left: calc(var(--default-grid-baseline) * 4);
 	padding-right: calc(var(--default-grid-baseline) * 4);
 	display: flex;
+	gap: calc(var(--default-grid-baseline) * 4);
+	height: calc(100% - calc(var(--default-grid-baseline) * 4));
+	overflow: hidden;
+}
+
+.proposal-editview__column-left {
+	flex: 1;
+	min-width: calc(var(--default-grid-baseline) * 100);
+	max-width: calc(var(--default-grid-baseline) * 100);
+	display: flex;
 	flex-direction: column;
 	height: 100%;
+}
+
+.proposal-editview__column-right {
+	flex: 1;
+	min-width: calc(var(--default-grid-baseline) * 100);
+	display: flex;
+	flex-direction: column;
+	height: calc(100% - calc(var(--default-grid-baseline) * 8));
+	margin-top: calc(var(--default-grid-baseline) * 8);
 }
 
 .proposal-editview__row-title {
@@ -830,10 +1006,11 @@ export default {
 }
 
 .proposal-editview__row-details {
-	display: flex;
-	gap: calc(var(--default-grid-baseline) * 4);
-	align-items: flex-start;
 	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 2);
+	overflow-y: auto;
 	margin-bottom: calc(var(--default-grid-baseline) * 2);
 	min-height: 0;
 }
@@ -846,28 +1023,23 @@ export default {
 	padding-top: calc(var(--default-grid-baseline) * 2);
 }
 
-.proposal-editview__column-details-left {
-	flex: 1;
-	min-width: calc(var(--default-grid-baseline) * 100);
-	max-width: calc(var(--default-grid-baseline) * 100);
-	display: flex;
-	flex-direction: column;
-	gap: calc(var(--default-grid-baseline) * 2);
-	overflow-y: auto;
-	max-height: 100%;
-}
-
-.proposal-editview__column-details-right {
-	flex: 1;
-	min-width: calc(var(--default-grid-baseline) * 100);
-	max-width: 100%;
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-}
-
 .proposal-editview__calendar {
 	flex: 1;
 	min-height: 0;
+}
+
+.proposal-editview__calendar-actions {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--default-grid-baseline) * 2);
+	margin-bottom: calc(var(--default-grid-baseline) * 2);
+	flex-wrap: wrap;
+	width: 100%;
+	
+	h2 {
+		flex: 1;
+		text-align: center;
+		margin: 0;
+	}
 }
 </style>
