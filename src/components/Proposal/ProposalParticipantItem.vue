@@ -22,7 +22,7 @@
 			{{ participantName }}
 		</div>
 		<div class="proposal-participant__action">
-			<IconDelete 
+			<CloseIcon 
 				:title="t('calendar', 'Remove participant')"
 				@click="$emit('remove-participant')" />
 		</div>
@@ -39,7 +39,7 @@ import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
 // icons
 import IconCheck from 'vue-material-design-icons/Check.vue'
 import IconNoResponse from 'vue-material-design-icons/Help.vue'
-import IconDelete from 'vue-material-design-icons/Delete.vue'
+import CloseIcon from 'vue-material-design-icons/Close.vue'
 
 export default {
 	name: 'ProposalParticipantItem',
@@ -55,7 +55,7 @@ export default {
 		NcAvatar,
 		IconCheck,
 		IconNoResponse,
-		IconDelete,
+		CloseIcon,
 	},
 	
 	props: {
