@@ -88,9 +88,17 @@
 						<NcTextArea class="proposal-editview__proposal-description"
 							:label="t('calendar', 'Description')"
 							v-model="selectedProposal.description" />
-						<NcTextField class="proposal-editview__proposal-location"
-							:label="t('calendar', 'Location')"
-							v-model="selectedProposal.location" />
+						<div class="proposal-editview__proposal-location-container">
+							<NcTextField class="proposal-editview__proposal-location"
+								:label="t('calendar', 'Location')"
+								:value="selectedProposal.location"
+								@input="onProposalLocationInput($event)" />
+							<NcButton class="proposal-editview__proposal-location-selector"
+								variant="secondary"
+								@click="onProposalLocationTypeToggle">
+								{{ modalEditLocationButtonLabel }}
+							</NcButton>
+						</div>
 						<NcTextField class="proposal-editview__proposal-duration"
 							:label="t('calendar', 'Duration')"
 							v-model="selectedProposal.duration"
@@ -117,7 +125,7 @@
 					<!-- Row 3: Actions -->
 					<div class="proposal-editview__row-actions">
 						<NcButton variant="primary" :disabled="!modalEditSaveState" @click="onProposalSave()">{{ modalEditSaveLabel }}</NcButton>
-						<NcButton variant="secondary" :disabled="!modalEditDestroyState" @click="onProposalDestroy(selectedProposal)">{{ 'Delete' }}</NcButton>
+						<NcButton variant="secondary" v-if="modalEditDestroyState" @click="onProposalDestroy(selectedProposal)">{{ 'Delete' }}</NcButton>
 						<NcButton variant="secondary" @click="onEditClose()">{{ t('calendar', 'Cancel') }}</NcButton>
 						<NcButton variant="secondary" @click="onModalClose()">{{ t('calendar', 'Close') }}</NcButton>
 					</div>
@@ -181,6 +189,7 @@ import { AttendeeProperty } from '@nextcloud/calendar-js'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcChip from '@nextcloud/vue/components/NcChip'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
@@ -236,6 +245,7 @@ export default {
 		NcEmptyContent,
 		NcButton,
 		NcChip,
+		NcCheckboxRadioSwitch,
 		NcModal,
 		NcTextField,
 		NcSelect,
@@ -313,6 +323,15 @@ export default {
 		modalEditDestroyState(): boolean {
 			return !this.selectedProposal || this.selectedProposal.id !== null
 		},
+		
+		modalEditLocationButtonLabel() {
+			if (!this.selectedProposal) return 'Talk'
+			if (this.selectedProposal.location === 'Talk Room') {
+				return t('calendar', 'Physical')
+			} else {
+				return t('calendar', 'Virtual')
+			}
+		},
 		/**
 		* Configuration options for FullCalendar
 		* Please see https://fullcalendar.io/docs#toc for details
@@ -347,6 +366,7 @@ export default {
 						duration: { days: this.calendarSpanDays }
 					}
 				},
+				dayHeaderFormat: { weekday: 'short', day: 'numeric' },
 				allDaySlot: false,
 				slotMinTime: '08:00:00',
 				slotMaxTime: '18:00:00',
@@ -356,19 +376,14 @@ export default {
 				},
 				nowIndicator: true,
 				editable: true,
-				eventOverlap: false,
+				eventOverlap: true,
 				selectable: true,
 				selectMirror: true,
+				droppable: true,
+				eventStartEditable: true,
+				eventDurationEditable: false,
 				select: (info: any) => this.onProposalDateAdd(info),
 				eventDrop: (info: any) => this.onProposalDateMove(info),
-				// Only switch view when clicking the column header date
-				dayHeaderDidMount: (arg: any) => {
-					arg.el.style.cursor = 'pointer';
-					arg.el.addEventListener('click', () => {
-						const calendarApi = (this.$refs.proposalFullCalendar as any)?.getApi?.();
-						calendarApi?.changeView('timeGridDay', arg.date);
-					});
-				},
 				datesSet: () => {
 					if (!this.modalVisible) return
 					if (!this.calendarApi) return
@@ -496,12 +511,38 @@ export default {
 		},
 
 		onProposalDurationChange(event: Event) {
-			const value = (event.target as HTMLInputElement).value;
+			const value = (event.target as HTMLInputElement).value
 			// Only allow positive integers
 			if (!/^[\d]+$/.test(value)) {
-				if (this.selectedProposal) this.selectedProposal.duration = 0;
+				if (this.selectedProposal) this.selectedProposal.duration = 0
 			} else {
-				if (this.selectedProposal) this.selectedProposal.duration = parseInt(value, 10);
+				if (this.selectedProposal) this.selectedProposal.duration = parseInt(value, 10)
+			}
+		},
+
+		onProposalLocationInput(event: Event) {
+			const value = (event.target as HTMLInputElement).value
+			if (!this.selectedProposal) {
+				return console.error('No proposal selected for this operation')
+			}
+			if (this.selectedProposal.location !== 'Talk Room') {
+				this.selectedProposal.location = value
+			} else {
+				// Prevent the input change when location is 'Talk Room'
+				event.preventDefault();
+				(event.target as HTMLInputElement).value = 'Talk Room';
+				return false;
+			}
+		},
+
+		onProposalLocationTypeToggle(): void {
+			if (!this.selectedProposal) {
+				return
+			}
+			if (this.selectedProposal.location === 'Talk Room') {
+				this.selectedProposal.location = ''
+			} else {
+				this.selectedProposal.location = 'Talk Room'
 			}
 		},
 
@@ -545,7 +586,20 @@ export default {
 		onProposalDateMove(info: any): void {
 			// Only handle drag for proposed dates
 			if (info.event.extendedProps && info.event.extendedProps.proposedDate) {
-				// @ts-ignore
+				// Validate that the new time slot is available
+				const newStart = info.event.start;
+				const newEnd = info.event.end;
+				const isAvailable = this.participantAvailabilityCombined.some(e =>
+					newStart >= e.start && newEnd <= e.end
+				);
+				
+				if (!isAvailable) {
+					// Revert the drag operation
+					info.revert();
+					showError(t('calendar', 'Selected time slot is not available. Please choose a different time.'));
+					return;
+				}
+				
 				this.changeProposedDate(info.event.extendedProps.proposedDateId, info.event.start);
 			}
 		},
@@ -834,8 +888,7 @@ export default {
 					title: 'Available',
 					start: slot.start,
 					end: slot.end,
-					backgroundColor: '#5cb85c',
-					borderColor: '#5cb85c',
+					classNames: ['proposal-editview__calendar-availability'],
 					allDay: false,
 					display: 'background',
 				})
@@ -845,15 +898,20 @@ export default {
 			this.selectedProposal?.dates.forEach((proposalDate, index) => {
 				if (!proposalDate.date) return
 				this.calendarApi.addEvent({
+					id: `proposed-date-${index}`,
 					title: t('calendar', 'Selected'),
 					start: proposalDate.date,
 					end: new Date(proposalDate.date.getTime() + duration * 60000),
 					backgroundColor: '#0073e6',
 					borderColor: '#0073e6',
 					allDay: false,
-					editable: true, // ensure draggable
-					proposedDate: true, // custom property to identify proposed date
-					proposedDateId: index, // custom property to identify proposed date id
+					editable: true,
+					startEditable: true,
+					durationEditable: false,
+					extendedProps: {
+						proposedDate: true,
+						proposedDateId: index,
+					}
 				});
 			});
 		},
@@ -1042,5 +1100,19 @@ export default {
 		text-align: center;
 		margin: 0;
 	}
+}
+
+.proposal-editview__proposal-location-container {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--default-grid-baseline) * 2);
+}
+
+.proposal-editview__proposal-location {
+	flex: 1;
+}
+
+:deep(.proposal-editview__calendar-availability) {
+	background: repeating-linear-gradient(45deg, transparent 0px, transparent 10px, var(--color-primary) 10px, var(--color-primary) 15px) !important;
 }
 </style>
