@@ -17,13 +17,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
 import { t } from '@nextcloud/l10n'
-import useProposalStore from '@/store/proposalStore'
+import useProposalStore from '../../../store/proposalStore'
 import Poll from 'vue-material-design-icons/Poll.vue'
 import NcButton from '@nextcloud/vue/components/NcButton'
 
-export default defineComponent({
+export default {
 	name: 'AppNavigationHeaderNewProposal',
 
 	components: {
@@ -45,7 +44,7 @@ export default defineComponent({
 			proposalStore.showModal()
 		},
 	},
-})
+}
 </script>
 
 <style lang="scss" scoped>
