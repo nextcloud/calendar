@@ -482,7 +482,7 @@ OC.L10N.register(
     "Close" : "Zamknij",
     "Modifications will not get propagated to the organizer and other attendees" : "Zmiany nie zostaną przekazane do osoby organizującej ani innych uczestniczących.",
     "Subscribe to {name}" : "Subskrybuj dla {name}",
-    "Export {name}" : "Eksportuj {nazwa}",
+    "Export {name}" : "Eksportuj {name}",
     "Show availability" : "Pokaż dostępność",
     "Anniversary" : "Rocznica",
     "Appointment" : "Spotkanie",
