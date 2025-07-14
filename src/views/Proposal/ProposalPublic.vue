@@ -73,7 +73,7 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 // stores and services
 import useProposalStore from '@/store/proposalStore'
 import { t } from '@nextcloud/l10n'
