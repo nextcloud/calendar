@@ -37,6 +37,7 @@ class CalendarInitialStateService {
 		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
 		$defaultDefaultReminder = $this->config->getAppValue($this->appName, 'defaultReminder', 'none');
 		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
+		$defaultTasksSidebar = $this->config->getAppValue($this->appName, 'tasksSidebar', 'yes');
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version', '');
 		$eventLimit = $this->config->getUserValue($this->userId, $this->appName, 'eventLimit', $defaultEventLimit) === 'yes';
@@ -50,6 +51,7 @@ class CalendarInitialStateService {
 		$slotDuration = $this->config->getUserValue($this->userId, $this->appName, 'slotDuration', $defaultSlotDuration);
 		$defaultReminder = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminder', $defaultDefaultReminder);
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
+		$tasksSidebar = $this->config->getUserValue($this->userId, $this->appName, 'tasksSidebar', $defaultTasksSidebar) === 'yes';
 		$hideEventExport = $this->config->getAppValue($this->appName, 'hideEventExport', 'no') === 'yes';
 		$disableAppointments = $this->config->getAppValue($this->appName, 'disableAppointments', 'no') === 'yes';
 		$forceEventAlarmType = $this->config->getAppValue($this->appName, 'forceEventAlarmType', '');
@@ -83,6 +85,7 @@ class CalendarInitialStateService {
 		$this->initialStateService->provideInitialState('slot_duration', $slotDuration);
 		$this->initialStateService->provideInitialState('default_reminder', $defaultReminder);
 		$this->initialStateService->provideInitialState('show_tasks', $showTasks);
+		$this->initialStateService->provideInitialState('tasks_sidebar', $tasksSidebar);
 		$this->initialStateService->provideInitialState('tasks_enabled', $tasksEnabled);
 		$this->initialStateService->provideInitialState('hide_event_export', $hideEventExport);
 		$this->initialStateService->provideInitialState('force_event_alarm_type', $forceEventAlarmType);

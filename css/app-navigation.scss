@@ -3,6 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+%prevent-overlap {
+	background-color: var(--color-main-background) !important;
+	border: 1px solid var(--color-background-dark) !important;
+}
+
+.app-navigation-toggle--prevent-overlap {
+	@extend %prevent-overlap;
+}
+
 .app-calendar {
 	.datepicker-button-section,
 	.today-button-section,
@@ -104,8 +113,7 @@
 
 	// Add background to navigation toggle to fix overlap with calendar elements
 	.app-navigation-toggle {
-		background-color: var(--color-main-background) !important;
-		border: 1px solid var(--color-background-dark) !important;
+		@extend %prevent-overlap;
 	}
 
 	.app-navigation {

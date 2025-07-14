@@ -10,6 +10,7 @@
 </template>
 
 <script>
+
 // Import FullCalendar itself
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
@@ -50,8 +51,12 @@ import { getYYYYMMDDFromFirstdayParam } from '../utils/date.js'
 import useCalendarsStore from '../store/calendars.js'
 import useSettingsStore from '../store/settings.js'
 import useCalendarObjectsStore from '../store/calendarObjects.js'
+import useFetchedTimeRangesStore from '../store/fetchedTimeRanges.js'
 import useWidgetStore from '../store/widget.js'
 import { mapStores, mapState } from 'pinia'
+
+import { DateTimeValue } from '@nextcloud/calendar-js'
+import { getAllObjectsInTimeRange } from '../utils/calendarObject.js'
 
 export default {
 	name: 'CalendarGrid',
@@ -82,7 +87,10 @@ export default {
 		}
 	},
 	computed: {
-		...mapStores(useCalendarsStore, useSettingsStore, useCalendarObjectsStore),
+		...mapStores(useCalendarsStore,
+					 useSettingsStore,
+					 useCalendarObjectsStore,
+					 useFetchedTimeRangesStore),
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',
 			timezoneId: 'getResolvedTimezone',
@@ -146,6 +154,9 @@ export default {
 				scrollTimeReset: false,
 				// There is a custom resize observer
 				handleWindowResize: false,
+				// Dropping Tasks
+				droppable: true,
+				eventReceive: this.handleEventReceive,
 			}
 		},
 		eventSources() {
@@ -290,6 +301,68 @@ export default {
 				this.settingsStore.setInitialView({ initialView })
 			}
 		}, 5000),
+
+		/**
+		 * Add a todo task without end date to the calendar
+		 * @param info
+		 */
+		async handleEventReceive(info) {
+
+			const { event } = info
+			const { objectId, vobjectId, calendarId } = event.extendedProps
+
+			// 1. Get the calenderobject by ID
+			const calendarObject = this.calendarObjectsStore.getCalendarObjectById(objectId)
+
+			// 2. Create the due date
+			event.setEnd(event.start)
+			const dueDate = DateTimeValue.fromJSDate(event.start, false)
+
+			// 3. Update the 'DUE' property for the vtodo object
+			const allObjectsInTimeRange = getAllObjectsInTimeRange(calendarObject, event.start, event.start)
+			const vtodo = allObjectsInTimeRange.find(el => el.id === vobjectId)
+
+			// 3.1 Set to Date only value if view is month or year and start date is null or date only value
+			const view = this.$route?.params.view
+			const isDateOnlyView = view === 'dayGridMonth' || view === 'multiMonthYear'
+
+			if (isDateOnlyView && (!vtodo.hasProperty('dtstart') || vtodo.startDate.isDate)) {
+				dueDate.isDate = true
+			}
+
+			// 3.2 Now do the actual update
+			vtodo.deleteAllProperties('due') // Clean old one
+			vtodo.updatePropertyWithValue('due', dueDate)
+
+			// 4. Check if start date is before due date and fix it then
+			if (vtodo.hasProperty('dtstart') && vtodo.startDate.compare(dueDate) >= 0) {
+				const dtStart = dueDate.clone()
+				vtodo.updatePropertyWithValue('dtstart', dtStart)
+			}
+
+			vtodo.undirtify()
+
+			// 5. Update the calendarobject
+			await this.calendarObjectsStore.updateCalendarObject({ calendarObject })
+
+			// 6. Update the affected calendar (maybe unnecessary)
+			const calendar = this.calendarsStore.getCalendarById(calendarId)
+
+			const fetchedTimeRanges = this.fetchedTimeRangesStore
+				.getAllTimeRangesForCalendar(calendar.id)
+			for (const timeRange of fetchedTimeRanges) {
+				this.fetchedTimeRangesStore.removeTimeRange({
+					timeRangeId: timeRange.id,
+				})
+				this.calendarsStore.deleteFetchedTimeRangeFromCalendarMutation({
+					calendar,
+					fetchedTimeRangeId: timeRange.id,
+				})
+			}
+
+			// 7. Remove the event that was created by full calendar
+			event.remove()
+		},
 	},
 }
 </script>
