@@ -1,3 +1,17 @@
+## [5.3.6](https://github.com/nextcloud/calendar/compare/v5.3.5...v5.3.6) (2025-07-15)
+
+
+### Bug Fixes
+
+* alarm type not binding properly ([04a747b](https://github.com/nextcloud/calendar/commit/04a747b03b2a6864e56d2c4208d77525ce050403))
+* **deps:** bump @nextcloud/calendar-js to ^8.1.3 and @nextcloud/timezones to ^0.2.0 ([158969d](https://github.com/nextcloud/calendar/commit/158969dd491f76d2abf4f80a0f93f6695e2660cf))
+* **l10n:** Update translations from Transifex ([958e3b4](https://github.com/nextcloud/calendar/commit/958e3b4d820cfdf6eb8322c45742d70bee96aad5))
+* **l10n:** Update translations from Transifex ([f9f3871](https://github.com/nextcloud/calendar/commit/f9f38713f718ec746e0b7d7a656de1591fd1332a))
+* **l10n:** Update translations from Transifex ([f3a0255](https://github.com/nextcloud/calendar/commit/f3a02550ee65ef627b3fc12a808ec3dd2690b306))
+* **l10n:** Update translations from Transifex ([b9732e8](https://github.com/nextcloud/calendar/commit/b9732e828c345193c4d4e2b5b94dd1b86f0a657f))
+
+
+
 ## [5.3.5](https://github.com/nextcloud/calendar/compare/v5.3.4...v5.3.5) (2025-07-08)
 
 
