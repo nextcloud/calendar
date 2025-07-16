@@ -8,7 +8,6 @@
 		<AppNavigationHeaderDatePicker />
 		<div class="new-event-today-view-section">
 			<AppNavigationHeaderNewEvent v-if="!isPublic" />
-			<AppNavigationHeaderNewProposal v-if="!isPublic" />
 			<AppNavigationHeaderTodayButton />
 			<AppNavigationHeaderViewMenu />
 		</div>
@@ -19,7 +18,6 @@
 import AppNavigationHeaderDatePicker from './AppNavigationHeader/AppNavigationHeaderDatePicker.vue'
 import AppNavigationHeaderTodayButton from './AppNavigationHeader/AppNavigationHeaderTodayButton.vue'
 import AppNavigationHeaderNewEvent from './AppNavigationHeader/AppNavigationHeaderNewEvent.vue'
-import AppNavigationHeaderNewProposal from './AppNavigationHeader/AppNavigationHeaderNewProposal.vue'
 import AppNavigationHeaderViewMenu from './AppNavigationHeader/AppNavigationHeaderViewMenu.vue'
 
 export default {
@@ -28,7 +26,6 @@ export default {
 		AppNavigationHeaderDatePicker,
 		AppNavigationHeaderTodayButton,
 		AppNavigationHeaderNewEvent,
-		AppNavigationHeaderNewProposal,
 		AppNavigationHeaderViewMenu,
 	},
 	props: {
