@@ -20,7 +20,6 @@
 		<AppNavigation v-if="!isWidget &&!isEmbedded && !showEmptyCalendarScreen">
 			<!-- Date Picker, View Buttons, Today Button -->
 			<AppNavigationHeader :is-public="!isAuthenticatedUser" />
-			<ProposalEditor />
 			<template #list>
 				<!-- Calendar / Subscription List -->
 				<CalendarList :is-public="!isAuthenticatedUser"
@@ -32,6 +31,11 @@
 					<AppointmentConfigList />
 				</template>
 
+				<!-- Proposals -->
+				<template v-if="isAuthenticatedUser">
+					<ProposalEditor />
+					<ProposalList />
+				</template>
 				<!-- Trashbin -->
 				<Trashbin v-if="calendarsStore.hasTrashBin" />
 			</template>
@@ -68,6 +72,7 @@ import CalendarGrid from '../components/CalendarGrid.vue'
 import EditCalendarModal from '../components/AppNavigation/EditCalendarModal.vue'
 import EditSimple from './EditSimple.vue'
 import ProposalEditor from './Proposal/ProposalEditor.vue'
+import ProposalList from '../components/AppNavigation/Proposal/ProposalList.vue'
 
 // Import CalDAV related methods
 import {
@@ -119,6 +124,7 @@ export default {
 		EditCalendarModal,
 		EditSimple,
 		ProposalEditor,
+		ProposalList,
 	},
 	props: {
 		// Is the calendar in a widget ?

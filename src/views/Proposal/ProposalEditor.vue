@@ -1,12 +1,13 @@
 <template>
 	<div>
 	   <NcModal v-if="modalVisible"
+		   class="proposal-modal__content"
+		   name="proposal-modal"
 		   :title="modalTitle"
-	   	   class="proposal-modal__content"
-		   size="full"
+		   :size="modalSize"
 		   @close="onModalClose()">
 			<!-- Show proposal list view -->
-			<div v-if="!modalView" class="proposal-listview__content">
+			<div v-if="modalMode === 'view'" class="proposal-listview__content">
 				<!-- Row 1: Title -->
 				<div class="proposal-listview__row-title">
 					<h2>{{ t('calendar', 'Meeting Proposal List') }}</h2>
@@ -74,7 +75,7 @@
 				</div>
 			</div>
 			<!-- Show proposal edit view -->
-			<div v-if="selectedProposal" class="proposal-editview__content">
+			<div v-if="modalMode === 'create' || modalMode === 'modify'" class="proposal-editview__content">
 				<div class="proposal-editview__column-left">
 					<!-- Row 1: Title -->
 					<div class="proposal-editview__row-title">
@@ -126,7 +127,6 @@
 					<div class="proposal-editview__row-actions">
 						<NcButton variant="primary" :disabled="!modalEditSaveState" @click="onProposalSave()">{{ modalEditSaveLabel }}</NcButton>
 						<NcButton variant="secondary" v-if="modalEditDestroyState" @click="onProposalDestroy(selectedProposal)">{{ 'Delete' }}</NcButton>
-						<NcButton variant="secondary" @click="onEditClose()">{{ t('calendar', 'Cancel') }}</NcButton>
 						<NcButton variant="secondary" @click="onModalClose()">{{ t('calendar', 'Close') }}</NcButton>
 					</div>
 				</div>
@@ -174,10 +174,9 @@
 </template>
 
 <script lang="ts">
-// stores and services
+// types, object and stores
 import useProposalStore from '@/store/proposalStore'
 import usePrincipalStore from '@/store/principals'
-/// functions
 import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import { Proposal, ProposalParticipant, ProposalDate } from '@/models/proposals/proposals'
@@ -207,7 +206,6 @@ import CloseIcon from 'vue-material-design-icons/Close'
 import HelpIcon from 'vue-material-design-icons/Help'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight'
-import type RepeatUnsupportedWarning from '@/components/Editor/Repeat/RepeatUnsupportedWarning.vue'
 
 export default {
 	name: 'ProposalEditor',
@@ -219,7 +217,7 @@ export default {
 			principalStore,
 			proposalStore,
 			ProposalParticipantStatus,
-			modalView: false, // Toggle between list and edit view
+			modalMode: 'view',
 			calendarApi: null as any, // FullCalendar API instance
 			storedProposals: [] as Array<Proposal>,
 			selectedProposal: null as Proposal | null,
@@ -294,11 +292,18 @@ export default {
 		modalVisible(): boolean {
 			return this.proposalStore.modalVisible
 		},
+		modalSize(): string {
+			if (this.modalMode === 'view') {
+				return 'large'
+			} else {
+				return 'full'
+			}
+		},
 		modalTitle(): string {
 			if (this.modalView === false) {
 				return t('calendar', 'Meeting proposals')
 			} else { 
-				if (this.selectedProposal?.id) {
+				if (this.modalMode === 'modify') {
 					return t('calendar', 'Edit meeting proposal')
 				} else {
 					return t('calendar', 'Create meeting proposal')
@@ -453,24 +458,20 @@ export default {
 		},
 		
 		onModalOpen() {
-			this.fetchProposals();
-			if (this.storedProposals.length === 0) {
-				this.selectProposal(new Proposal())
-			}
+			this.modalMode = this.proposalStore.modalMode
+			this.selectedProposal = this.proposalStore.modalProposal
 		},
 
 		onModalClose() {
-			this.storedProposals = []
 			this.proposalStore.hideModal()
-			this.unselectProposal()
-		},
-
-		onEditClose() {
-			this.unselectProposal()
-		},
-
-		onProposalCreate() {
-			this.selectProposal(new Proposal())
+			this.selectedProposal = null
+			this.modalView = 'view'
+			this.participantAvailabilityIndividual = {}
+			this.participantAvailabilityCombined = []
+			if (this.calendarApi) {
+				this.calendarApi.removeAllEvents()
+				this.calendarApi.unselect()
+			}
 		},
 
 		onProposalModify(proposal: Proposal) {
@@ -679,29 +680,6 @@ export default {
 			} catch (error) {
 				showError(t('calendar', 'Failed to fetch proposals'))
 				console.error('Failed to fetch proposals:', error)
-			}
-		},
-
-		selectProposal(proposal: Proposal): void {
-			this.modalView = true
-			this.selectedProposal = proposal
-			this.$nextTick(() => {
-				const calendarRef = this.$refs.proposalFullCalendar as any;
-				if (calendarRef && typeof calendarRef.getApi === 'function') {
-					this.calendarApi = calendarRef.getApi();
-					this.fetchParticipantAvailability()
-				}
-			});
-		},
-
-		unselectProposal(): void {
-			this.selectedProposal = null
-			this.modalView = false
-			this.participantAvailabilityIndividual = {}
-			this.participantAvailabilityCombined = []
-			if (this.calendarApi) {
-				this.calendarApi.removeAllEvents()
-				this.calendarApi.unselect()
 			}
 		},
 		
