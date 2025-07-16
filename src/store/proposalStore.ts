@@ -8,15 +8,29 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { Proposal } from '@/models/proposals/proposals'
 import type { ProposalInterface, ProposalResponseInterface } from '@/types/proposals/proposalInterfaces'
+import { co } from 'node_modules/@fullcalendar/core/internal-common'
 
 export default defineStore('proposal', () => {
 	const modalVisible = ref(false)
-
+	const modalMode = ref<'view' | 'create' | 'modify'>('view')
+	const modalProposal = ref<ProposalInterface | null>(null)
 	/**
 	 *
 	 */
-	function showModal() {
+	function showModal(mode: 'view' | 'create' | 'modify', proposal: ProposalInterface|null = null) {
 		modalVisible.value = true
+		modalMode.value = mode
+		if (mode === 'view' || mode === 'modify') {
+			if (proposal) {
+				modalProposal.value = proposal
+			} else {
+				throw new Error('Proposal is required for view or modify mode')
+			}
+		} else if (mode === 'create') {
+			modalProposal.value = new Proposal()
+		} else {
+			throw new Error('Invalid view mode')
+		}
 	}
 
 	/**
@@ -24,6 +38,8 @@ export default defineStore('proposal', () => {
 	 */
 	function hideModal() {
 		modalVisible.value = false
+		modalMode.value = 'view'
+		modalProposal.value = null
 	}
 
 	/**
@@ -80,6 +96,8 @@ export default defineStore('proposal', () => {
 
 	return {
 		modalVisible,
+		modalMode,
+		modalProposal,
 		showModal,
 		hideModal,
 		listProposals,
