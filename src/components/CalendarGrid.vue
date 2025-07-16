@@ -144,6 +144,8 @@ export default {
 				timeZone: this.timezoneId,
 				// Disable jumping in week view and day view when clicking on any event using the simple editor
 				scrollTimeReset: false,
+				// There is a custom resize observer
+				handleWindowResize: false,
 			}
 		},
 		eventSources() {
