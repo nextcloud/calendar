@@ -61,6 +61,7 @@
     "@nextcloud/router": "^3.0.1",
     "@nextcloud/timezones": "^0.2.0",
     "@nextcloud/vue": "^8.28.0",
+    "@simolation/vue-hotkey": "^2.1.0",
     "autosize": "^6.0.1",
     "color-convert": "^3.1.0",
     "color-string": "^2.0.1",
@@ -76,7 +77,6 @@
     "vue": "^2.7.16",
     "vue-material-design-icons": "^5.3.1",
     "vue-router": "^3.6.5",
-    "vue-shortkey": "^3.1.7",
     "vuedraggable": "^2.24.3",
     "webdav": "^5.8.0"
   },

@@ -5,14 +5,16 @@
 
 <template>
 	<div class="datepicker-button-section">
+		<Hotkey :keys="['n']" @hotkey="navigateTimeRangeForward" />
+		<Hotkey :keys="['j']" @hotkey="navigateTimeRangeForward" />
+		<Hotkey :keys="['p']" @hotkey="navigateTimeRangeBackward" />
+		<Hotkey :keys="['k']" @hotkey="navigateTimeRangeBackward" />
 		<NcButton v-if="!isWidget"
-			v-shortkey="isRTL? nextShortKeyConf : previousShortKeyConf"
 			:aria-label="isRTL? nextLabel: previousLabel"
 			class="button"
 			:class="{'datepicker-button-section__right': isRTL , 'datepicker-button-section__left': !isRTL}"
 			:name="isRTL? nextLabel: previousLabel"
-			@click="navigateToLeftTimeRange"
-			@shortkey="navigateToLeftTimeRange">
+			@click="navigateTimeRangeBackward">
 			<template #icon>
 				<ChevronRightIcon v-if="isRTL" :size="22" />
 				<ChevronLeftIcon v-else :size="22" />
@@ -34,13 +36,11 @@
 			:type="view === 'multiMonthYear' ? 'year' : 'date'"
 			@change="navigateToDate" />
 		<NcButton v-if="!isWidget"
-			v-shortkey="isRTL? previousShortKeyConf : nextShortKeyConf "
 			:aria-label="isRTL? previousLabel: nextLabel"
 			class="button"
 			:class="{'datepicker-button-section__right': !isRTL , 'datepicker-button-section__left': isRTL}"
 			:name="isRTL? previousLabel: nextLabel"
-			@click="navigateToRightTimeRange"
-			@shortkey="navigateToRightTimeRange">
+			@click="navigateTimeRangeForward">
 			<template #icon>
 				<ChevronLeftIcon v-if="isRTL" :size="22" />
 				<ChevronRightIcon v-else :size="22" />
@@ -61,6 +61,7 @@ import DatePicker from '../../Shared/DatePickerOld.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import { NcButton } from '@nextcloud/vue'
+import { Hotkey } from '@simolation/vue-hotkey'
 import useSettingsStore from '../../../store/settings.js'
 import useWidgetStore from '../../../store/widget.js'
 import { isRTL } from '@nextcloud/l10n'
@@ -72,6 +73,7 @@ export default {
 		ChevronLeftIcon,
 		ChevronRightIcon,
 		NcButton,
+		Hotkey,
 	},
 	filters: {
 		formatDateRange,
@@ -101,12 +103,6 @@ export default {
 			}
 			return getDateFromFirstdayParam(this.$route.params?.firstDay ?? 'now')
 		},
-		previousShortKeyConf() {
-			return {
-				previous_p: ['p'],
-				previous_k: ['k'],
-			}
-		},
 		previousLabel() {
 			switch (this.view) {
 			case 'timeGridDay':
@@ -121,12 +117,6 @@ export default {
 			case 'dayGridMonth':
 			default:
 				return this.$t('calendar', 'Previous month')
-			}
-		},
-		nextShortKeyConf() {
-			return {
-				next_j: ['j'],
-				next_n: ['n'],
 			}
 		},
 		nextLabel() {
@@ -153,11 +143,11 @@ export default {
 		},
 	},
 	methods: {
-		navigateToLeftTimeRange() {
-			return this.navigateTimeRangeByFactor(-1)
-		},
-		navigateToRightTimeRange() {
+		navigateTimeRangeForward() {
 			return this.navigateTimeRangeByFactor(1)
+		},
+		navigateTimeRangeBackward() {
+			return this.navigateTimeRangeByFactor(-1)
 		},
 		navigateTimeRangeByFactor(factor) {
 			let newDate

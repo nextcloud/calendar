@@ -4,28 +4,30 @@
 -->
 
 <template>
-	<NcButton v-shortkey="['c']"
-		:aria-label="newEventButtonAriaLabel"
-		class="button new-event"
-		type="primary"
-		@click="newEvent"
-		@shortkey="newEvent">
-		<template #icon>
-			<Plus :size="20" />
-		</template>
-		{{ $t('calendar', 'Event') }}
-	</NcButton>
+	<Hotkey :keys="['c']" @hotkey="newEvent">
+		<NcButton class="button new-event"
+			type="primary"
+			:aria-label="newEventButtonAriaLabel"
+			@click="newEvent">
+			<template #icon>
+				<Plus :size="20" />
+			</template>
+			{{ $t('calendar', 'Event') }}
+		</NcButton>
+	</Hotkey>
 </template>
 
 <script>
 import Plus from 'vue-material-design-icons/Plus.vue'
 import { NcButton } from '@nextcloud/vue'
+import { Hotkey } from '@simolation/vue-hotkey'
 
 export default {
 	name: 'AppNavigationHeaderNewEvent',
 	components: {
 		Plus,
 		NcButton,
+		Hotkey,
 	},
 	computed: {
 		newEventButtonAriaLabel() {
