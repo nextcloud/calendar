@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.4.0-rc.1 - unreleased
+### Added
+- Add full page event editor
+- Refactor freebusy modal
+
 ## 5.0.0 - Unreleased
 ### Added
 - Nextcloud 30 support
