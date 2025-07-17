@@ -92,6 +92,8 @@
 						label="displayStart"
 						:label-outside="true"
 						:value="selectedSlot"
+						:loading="loadingIndicator"
+						:disabled="loadingIndicator"
 						@option:selected="setSlotSuggestion">
 						<template #selected-option="{}">
 							{{ $t('calendar', 'Suggestion accepted') }}
@@ -491,12 +493,20 @@ export default {
 			}
 		},
 		setSlotSuggestion(slot) {
+			this.loading(true)
 			this.selectedSlot = slot
 
 			const calendar = this.$refs.freeBusyFullCalendar.getApi()
 			calendar.gotoDate(slot.start)
 			calendar.scrollToTime(this.scrollTime)
-
+			const checkCondition = () => {
+				if (calendar.getDate() === slot.start) {
+					this.loading(false)
+					return
+				}
+				setTimeout(checkCondition, 100)
+			}
+			checkCondition()
 			// have to make these "selected" version of the props seeing as they can't be modified directly, and they aren't updated reactively when vuex is
 			this.currentStart = slot.start
 			this.currentEnd = slot.end
