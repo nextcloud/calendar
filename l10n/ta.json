@@ -30,14 +30,14 @@
     "Your email address" : "உங்களுடைய மின்னஞ்சல் முகவரி",
     "Back" : "பின்னுக்கு",
     "Email" : "மின்னஞ்சல்",
-    "Unknown" : "தெரியாத",
     "Done" : "Done",
+    "Unknown" : "தெரியாத",
     "Attendees" : "பங்கேற்பாளர்கள்",
     "Repeat" : "மீண்டும்",
     "never" : "ஒருபோதும்",
     "Personal" : "தனிப்பட்ட",
-    "Details" : "விவரங்கள்",
     "Close" : "மூடுக",
-    "Other" : "மற்றவை"
+    "Other" : "மற்றவை",
+    "Details" : "விவரங்கள்"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

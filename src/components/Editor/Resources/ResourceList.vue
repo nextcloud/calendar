@@ -5,38 +5,33 @@
 
 <template>
 	<div>
+		<span v-if="!(!resources.length && !suggestedRooms.length)" class="app-full-subtitle"> <MapMarker :size="20" /> {{ t('calendar', 'Resources') }}</span>
+
 		<ResourceListSearch v-if="!isReadOnly && hasUserEmailAddress"
 			:already-invited-emails="alreadyInvitedEmails"
 			:calendar-object-instance="calendarObjectInstance"
 			@add-resource="addResource" />
 
-		<ResourceListItem v-for="resource in resources"
-			:key="resource.email"
-			:resource="resource"
-			:is-read-only="isReadOnly"
-			:organizer-display-name="organizerDisplayName"
-			:is-viewed-by-organizer="isViewedByOrganizer"
-			@remove-resource="removeResource" />
-
-		<NoAttendeesView v-if="isListEmpty && hasUserEmailAddress"
-			:message="noResourcesMessage">
-			<template #icon>
-				<MapMarker :size="50" decorative />
-			</template>
-		</NoAttendeesView>
 		<OrganizerNoEmailError v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
 
-		<h3 v-if="suggestedRooms.length">
-			{{ $t('calendar', 'Suggestions') }}
-		</h3>
-		<ResourceListItem v-for="room in suggestedRooms"
-			:key="room.email + '-suggested'"
-			:resource="room"
-			:is-read-only="false"
-			:organizer-display-name="organizerDisplayName"
-			:is-suggestion="true"
-			:is-viewed-by-organizer="isViewedByOrganizer"
-			@add-suggestion="addResource" />
+		<div class="resource-list">
+			<ResourceListItem v-for="resource in resources"
+				:key="resource.email"
+				:resource="resource"
+				:is-read-only="isReadOnly"
+				:organizer-display-name="organizerDisplayName"
+				:is-viewed-by-organizer="isViewedByOrganizer"
+				@remove-resource="removeResource" />
+
+			<ResourceListItem v-for="room in suggestedRooms"
+				:key="room.email + '-suggested'"
+				:resource="room"
+				:is-read-only="false"
+				:organizer-display-name="organizerDisplayName"
+				:is-suggestion="true"
+				:is-viewed-by-organizer="isViewedByOrganizer"
+				@add-suggestion="addResource" />
+		</div>
 	</div>
 </template>
 
@@ -44,7 +39,6 @@
 import { advancedPrincipalPropertySearch } from '../../../services/caldavService.js'
 import { checkResourceAvailability } from '../../../services/freeBusyService.js'
 import logger from '../../../utils/logger.js'
-import NoAttendeesView from '../NoAttendeesView.vue'
 import ResourceListSearch from './ResourceListSearch.vue'
 import ResourceListItem from './ResourceListItem.vue'
 import OrganizerNoEmailError from '../OrganizerNoEmailError.vue'
@@ -52,14 +46,12 @@ import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attende
 import usePrincipalsStore from '../../../store/principals.js'
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
 import { mapStores } from 'pinia'
-
 import MapMarker from 'vue-material-design-icons/MapMarker.vue'
 
 export default {
 	name: 'ResourceList',
 	components: {
 		ResourceListItem,
-		NoAttendeesView,
 		ResourceListSearch,
 		OrganizerNoEmailError,
 		MapMarker,
@@ -118,11 +110,15 @@ export default {
 	},
 	watch: {
 		resources() {
-			this.loadRoomSuggestions()
+			if (this.isViewedByOrganizer) {
+				this.loadRoomSuggestions()
+			}
 		},
 	},
 	async mounted() {
-		await this.loadRoomSuggestions()
+		if (this.isViewedByOrganizer) {
+			await this.loadRoomSuggestions()
+		}
 	},
 	methods: {
 		addResource({ commonName, email, calendarUserType, language, timezoneId, roomAddress }) {
@@ -208,3 +204,15 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.resource-list {
+		margin-top: calc(var(--default-grid-baseline) * 4);
+}
+
+.app-full-subtitle {
+	font-size: calc(var(--default-font-size) * 1.2);
+	display: flex;
+	gap: calc(var(--default-grid-baseline) * 4);
+}
+</style>

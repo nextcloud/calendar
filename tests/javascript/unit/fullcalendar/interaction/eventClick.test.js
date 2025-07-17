@@ -42,7 +42,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		getPrefixedRoute
 			.mockReturnValueOnce('EditPopoverView')
 			.mockReturnValueOnce('EditPopoverView')
-			.mockReturnValueOnce('EditSidebarView')
+			.mockReturnValueOnce('EditFullView')
 
 		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
@@ -55,7 +55,7 @@ describe('fullcalendar/eventClick test suite', () => {
 
 		expect(getPrefixedRoute).toHaveBeenNthCalledWith(1, 'CalendarView', 'EditPopoverView')
 		expect(getPrefixedRoute).toHaveBeenNthCalledWith(2, 'CalendarView', 'EditPopoverView')
-		expect(getPrefixedRoute).toHaveBeenNthCalledWith(3, 'CalendarView', 'EditSidebarView')
+		expect(getPrefixedRoute).toHaveBeenNthCalledWith(3, 'CalendarView', 'EditFullView')
 
 		expect(router.push.mock.calls.length).toEqual(1)
 		expect(router.push.mock.calls[0][0]).toEqual({
@@ -68,7 +68,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		})
 	})
 
-	it('should open the Sidebar on big screens if the user wishes so', () => {
+	it('should open the Full on big screens if the user wishes so', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = true
 
@@ -77,9 +77,9 @@ describe('fullcalendar/eventClick test suite', () => {
 		const window = { innerWidth: 1920 }
 
 		getPrefixedRoute
-			.mockReturnValueOnce('EditSidebarView')
+			.mockReturnValueOnce('EditFullView')
 			.mockReturnValueOnce('EditPopoverView')
-			.mockReturnValueOnce('EditSidebarView')
+			.mockReturnValueOnce('EditFullView')
 
 		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
@@ -90,13 +90,13 @@ describe('fullcalendar/eventClick test suite', () => {
 			}
 		}})
 
-		expect(getPrefixedRoute).toHaveBeenNthCalledWith(1, 'CalendarView', 'EditSidebarView')
+		expect(getPrefixedRoute).toHaveBeenNthCalledWith(1, 'CalendarView', 'EditFullView')
 		expect(getPrefixedRoute).toHaveBeenNthCalledWith(2, 'CalendarView', 'EditPopoverView')
-		expect(getPrefixedRoute).toHaveBeenNthCalledWith(3, 'CalendarView', 'EditSidebarView')
+		expect(getPrefixedRoute).toHaveBeenNthCalledWith(3, 'CalendarView', 'EditFullView')
 
 		expect(router.push.mock.calls.length).toEqual(1)
 		expect(router.push.mock.calls[0][0]).toEqual({
-			name: 'EditSidebarView',
+			name: 'EditFullView',
 			params: {
 				object: 'object123',
 				otherParam: '456',
@@ -105,7 +105,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		})
 	})
 
-	it('should open the Sidebar on smaller screens', () => {
+	it('should open the Full on smaller screens', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = false
 
@@ -114,9 +114,9 @@ describe('fullcalendar/eventClick test suite', () => {
 		const window = { innerWidth: 500 }
 
 		getPrefixedRoute
-			.mockReturnValueOnce('EditSidebarView')
+			.mockReturnValueOnce('EditFullView')
 			.mockReturnValueOnce('EditPopoverView')
-			.mockReturnValueOnce('EditSidebarView')
+			.mockReturnValueOnce('EditFullView')
 
 		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
@@ -127,13 +127,13 @@ describe('fullcalendar/eventClick test suite', () => {
 			}
 		}})
 
-		expect(getPrefixedRoute).toHaveBeenNthCalledWith(1, 'CalendarView', 'EditSidebarView')
+		expect(getPrefixedRoute).toHaveBeenNthCalledWith(1, 'CalendarView', 'EditFullView')
 		expect(getPrefixedRoute).toHaveBeenNthCalledWith(2, 'CalendarView', 'EditPopoverView')
-		expect(getPrefixedRoute).toHaveBeenNthCalledWith(3, 'CalendarView', 'EditSidebarView')
+		expect(getPrefixedRoute).toHaveBeenNthCalledWith(3, 'CalendarView', 'EditFullView')
 
 		expect(router.push.mock.calls.length).toEqual(1)
 		expect(router.push.mock.calls[0][0]).toEqual({
-			name: 'EditSidebarView',
+			name: 'EditFullView',
 			params: {
 				object: 'object123',
 				otherParam: '456',
@@ -151,9 +151,9 @@ describe('fullcalendar/eventClick test suite', () => {
 		const window = { innerWidth: 1920 }
 
 		getPrefixedRoute
-			.mockReturnValueOnce('PublicEditSidebarView')
+			.mockReturnValueOnce('PublicEditFullView')
 			.mockReturnValueOnce('PublicEditPopoverView')
-			.mockReturnValueOnce('PublicEditSidebarView')
+			.mockReturnValueOnce('PublicEditFullView')
 
 		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
@@ -164,13 +164,13 @@ describe('fullcalendar/eventClick test suite', () => {
 				}
 			}})
 
-		expect(getPrefixedRoute).toHaveBeenNthCalledWith(1, 'PublicCalendarView', 'EditSidebarView')
+		expect(getPrefixedRoute).toHaveBeenNthCalledWith(1, 'PublicCalendarView', 'EditFullView')
 		expect(getPrefixedRoute).toHaveBeenNthCalledWith(2, 'PublicCalendarView', 'EditPopoverView')
-		expect(getPrefixedRoute).toHaveBeenNthCalledWith(3, 'PublicCalendarView', 'EditSidebarView')
+		expect(getPrefixedRoute).toHaveBeenNthCalledWith(3, 'PublicCalendarView', 'EditFullView')
 
 		expect(router.push.mock.calls.length).toEqual(1)
 		expect(router.push.mock.calls[0][0]).toEqual({
-			name: 'PublicEditSidebarView',
+			name: 'PublicEditFullView',
 			params: {
 				object: 'object123',
 				otherParam: '456',
@@ -188,9 +188,9 @@ describe('fullcalendar/eventClick test suite', () => {
 		const window = { innerWidth: 1920 }
 
 		getPrefixedRoute
-			.mockReturnValueOnce('EmbedEditSidebarView')
+			.mockReturnValueOnce('EmbedEditFullView')
 			.mockReturnValueOnce('EmbedEditPopoverView')
-			.mockReturnValueOnce('EmbedEditSidebarView')
+			.mockReturnValueOnce('EmbedEditFullView')
 
 		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
@@ -201,13 +201,13 @@ describe('fullcalendar/eventClick test suite', () => {
 				}
 			}})
 
-		expect(getPrefixedRoute).toHaveBeenNthCalledWith(1, 'EmbedCalendarView', 'EditSidebarView')
+		expect(getPrefixedRoute).toHaveBeenNthCalledWith(1, 'EmbedCalendarView', 'EditFullView')
 		expect(getPrefixedRoute).toHaveBeenNthCalledWith(2, 'EmbedCalendarView', 'EditPopoverView')
-		expect(getPrefixedRoute).toHaveBeenNthCalledWith(3, 'EmbedCalendarView', 'EditSidebarView')
+		expect(getPrefixedRoute).toHaveBeenNthCalledWith(3, 'EmbedCalendarView', 'EditFullView')
 
 		expect(router.push.mock.calls.length).toEqual(1)
 		expect(router.push.mock.calls[0][0]).toEqual({
-			name: 'EmbedEditSidebarView',
+			name: 'EmbedEditFullView',
 			params: {
 				object: 'object123',
 				otherParam: '456',
@@ -222,7 +222,7 @@ describe('fullcalendar/eventClick test suite', () => {
 
 		const router = { push: jest.fn() }
 		const route = {
-			name: 'EditSidebarView',
+			name: 'EditFullView',
 			params: {
 				object: 'object123',
 				otherParam: '456',
@@ -232,9 +232,9 @@ describe('fullcalendar/eventClick test suite', () => {
 		const window = { innerWidth: 1920 }
 
 		getPrefixedRoute
-			.mockReturnValueOnce('EditSidebarView')
+			.mockReturnValueOnce('EditFullView')
 			.mockReturnValueOnce('EditPopoverView')
-			.mockReturnValueOnce('EditSidebarView')
+			.mockReturnValueOnce('EditFullView')
 
 		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
@@ -245,20 +245,20 @@ describe('fullcalendar/eventClick test suite', () => {
 				}
 			}})
 
-		expect(getPrefixedRoute).toHaveBeenNthCalledWith(1, 'EditSidebarView', 'EditSidebarView')
-		expect(getPrefixedRoute).toHaveBeenNthCalledWith(2, 'EditSidebarView', 'EditPopoverView')
-		expect(getPrefixedRoute).toHaveBeenNthCalledWith(3, 'EditSidebarView', 'EditSidebarView')
+		expect(getPrefixedRoute).toHaveBeenNthCalledWith(1, 'EditFullView', 'EditFullView')
+		expect(getPrefixedRoute).toHaveBeenNthCalledWith(2, 'EditFullView', 'EditPopoverView')
+		expect(getPrefixedRoute).toHaveBeenNthCalledWith(3, 'EditFullView', 'EditFullView')
 
 		expect(router.push.mock.calls.length).toEqual(0)
 	})
 
-	it('should not update the route when the same event and same occurrence is already viewed - Sidebar Route', () => {
+	it('should not update the route when the same event and same occurrence is already viewed - Full Route', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = false
 
 		const router = { push: jest.fn() }
 		const route = {
-			name: 'EditSidebarView',
+			name: 'EditFullView',
 			params: {
 				object: 'object123',
 				otherParam: '456',
@@ -270,7 +270,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		getPrefixedRoute
 			.mockReturnValueOnce('EditPopoverView')
 			.mockReturnValueOnce('EditPopoverView')
-			.mockReturnValueOnce('EditSidebarView')
+			.mockReturnValueOnce('EditFullView')
 
 		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
@@ -281,9 +281,9 @@ describe('fullcalendar/eventClick test suite', () => {
 				}
 			}})
 
-		expect(getPrefixedRoute).toHaveBeenNthCalledWith(1, 'EditSidebarView', 'EditPopoverView')
-		expect(getPrefixedRoute).toHaveBeenNthCalledWith(2, 'EditSidebarView', 'EditPopoverView')
-		expect(getPrefixedRoute).toHaveBeenNthCalledWith(3, 'EditSidebarView', 'EditSidebarView')
+		expect(getPrefixedRoute).toHaveBeenNthCalledWith(1, 'EditFullView', 'EditPopoverView')
+		expect(getPrefixedRoute).toHaveBeenNthCalledWith(2, 'EditFullView', 'EditPopoverView')
+		expect(getPrefixedRoute).toHaveBeenNthCalledWith(3, 'EditFullView', 'EditFullView')
 
 		expect(router.push.mock.calls.length).toEqual(0)
 	})
@@ -294,7 +294,7 @@ describe('fullcalendar/eventClick test suite', () => {
 
 		const router = { push: jest.fn() }
 		const route = {
-			name: 'EditSidebarView',
+			name: 'EditFullView',
 			params: {
 				object: 'object123',
 				otherParam: '456',
@@ -334,7 +334,7 @@ describe('fullcalendar/eventClick test suite', () => {
 
 		const router = { push: jest.fn() }
 		const route = {
-			name: 'EditSidebarView',
+			name: 'EditFullView',
 			params: {
 				object: 'object123',
 				otherParam: '456',
@@ -364,7 +364,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			}})
 
 		expect(isPublicOrEmbeddedRoute).toHaveBeenCalledTimes(1)
-		expect(isPublicOrEmbeddedRoute).toHaveBeenNthCalledWith(1, 'EditSidebarView')
+		expect(isPublicOrEmbeddedRoute).toHaveBeenNthCalledWith(1, 'EditFullView')
 
 		expect(generateUrl).toHaveBeenCalledTimes(0)
 		expect(window.location).toEqual(oldLocation)
@@ -376,7 +376,7 @@ describe('fullcalendar/eventClick test suite', () => {
 
 		const router = { push: jest.fn() }
 		const route = {
-			name: 'EditSidebarView',
+			name: 'EditFullView',
 			params: {
 				object: 'object123',
 				otherParam: '456',
@@ -414,7 +414,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		expect(showInfo).toHaveBeenNthCalledWith(1, 'translated hint')
 
 		expect(isPublicOrEmbeddedRoute).toHaveBeenCalledTimes(1)
-		expect(isPublicOrEmbeddedRoute).toHaveBeenNthCalledWith(1, 'EditSidebarView')
+		expect(isPublicOrEmbeddedRoute).toHaveBeenNthCalledWith(1, 'EditFullView')
 
 		expect(generateUrl).toHaveBeenCalledTimes(0)
 		expect(window.location).toEqual(oldLocation)
@@ -445,7 +445,7 @@ describe('fullcalendar/eventClick test suite', () => {
 
 	it('should not save the event when new side bar view is open and then clicked in a saved event', () => {
 		const fromRoute = {
-			name: 'NewSideBarView',
+			name: 'NewFullView',
 			params: {
 				object: 'object123',
 				otherParam: '456',
@@ -453,7 +453,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			}
 		}
 		const toRoute = {
-			name: 'EditSideBarView',
+			name: 'EditFullView',
 			params: {
 				object: 'object123',
 				otherParam: '456',
@@ -489,7 +489,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		EditorMixin.beforeRouteLeave(toRoute, fromRoute, next)
 	})
 
-	it('should not save the event when new popover view is open and then clicked in a saved event in sidebar view', () => {
+	it('should not save the event when new popover view is open and then clicked in a saved event in Full view', () => {
 		const fromRoute = {
 			name: 'NewPopoverView',
 			params: {
@@ -499,7 +499,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			}
 		}
 		const toRoute = {
-			name: 'EditSideBarView',
+			name: 'EditFullView',
 			params: {
 				object: 'object123',
 				otherParam: '456',
@@ -537,7 +537,7 @@ describe('fullcalendar/eventClick test suite', () => {
 
 	it('show save event', () => {
 		const fromRoute = {
-			name: 'EditSideBarView',
+			name: 'EditFullView',
 			params: {
 				object: 'object123',
 				otherParam: '456',
@@ -545,7 +545,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			}
 		}
 		const toRoute = {
-			name: 'NewSideBarView',
+			name: 'NewFullView',
 			params: {
 				object: 'object123',
 				otherParam: '456',

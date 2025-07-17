@@ -43,18 +43,19 @@ OC.L10N.register(
     "days" : "দিনগুলি",
     "weeks" : "সপ্তাহসমূহ",
     "Choose a file to add as attachment" : "সংযুক্তি দেয়ার জন্য একটি ফাইল নির্বাচন করুন",
-    "Unknown" : "অজানা",
     "Done" : "শেষ হলো",
+    "Unknown" : "অজানা",
     "Attendees" : "অংশগ্রহণকারীবৃন্দ",
     "Repeat" : "পূনঃসংঘটন",
     "never" : "কখনোই নয়",
     "Subscribe" : "গ্রাহক হোন",
     "Personal" : "ব্যক্তিগত",
-    "Details" : "বিসতারিত",
+    "Edit event" : "ইভেন্ট সম্পাদনা করুন",
     "Close" : "বন্ধ",
     "Daily" : "দৈনিক",
     "Weekly" : "সাপ্তাহিক",
     "second" : "সেকেন্ড",
-    "Other" : "অন্যান্য"
+    "Other" : "অন্যান্য",
+    "Details" : "বিসতারিত"
 },
 "nplurals=2; plural=(n != 1);");

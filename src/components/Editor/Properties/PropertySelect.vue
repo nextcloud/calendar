@@ -8,6 +8,7 @@
 		class="property-select"
 		:class="{ 'property-select--readonly': isReadOnly }">
 		<component :is="icon"
+			v-tooltip="info"
 			:size="20"
 			:name="readableName"
 			class="property-select__icon"
@@ -28,13 +29,6 @@
 				@input="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else>{{ selectedValue.label }}</div>
-		</div>
-
-		<div v-if="hasInfo"
-			v-tooltip="info"
-			class="property-select__info">
-			<InformationVariant :size="20"
-				decorative />
 		</div>
 	</div>
 </template>

@@ -136,6 +136,16 @@
 						@update-end-timezone="updateEndTimezone"
 						@toggle-all-day="toggleAllDay" />
 
+					<div v-if="!isReadOnlyOrViewing" class="app-full__header__details">
+						<div class="app-full__header__details-time">
+							<NcCheckboxRadioSwitch :checked="isAllDay"
+								:disabled="!canModifyAllDay"
+								@update:checked="toggleAllDayPreliminary">
+								{{ $t('calendar', 'All day') }}
+							</NcCheckboxRadioSwitch>
+						</div>
+					</div>
+
 					<PropertyText :is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
 						:prop-model="rfcProps.location"
 						:value="location"
@@ -191,7 +201,7 @@
 					</SaveButtons>
 				</template>
 			</div>
-		</NcPopover>
+		</ncpopover>
 	</div>
 </template>
 <script>
@@ -202,7 +212,7 @@ import {
 	NcEmptyContent as EmptyContent,
 	NcPopover,
 	NcAppNavigationSpacer,
-	NcButton,
+	NcButton, NcCheckboxRadioSwitch,
 } from '@nextcloud/vue'
 import EditorMixin from '../mixins/EditorMixin.js'
 import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'
@@ -233,6 +243,7 @@ import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 export default {
 	name: 'EditSimple',
 	components: {
+		NcCheckboxRadioSwitch,
 		PopoverLoadingIndicator,
 		SaveButtons,
 		PropertyText,
@@ -381,10 +392,10 @@ export default {
 
 			const params = Object.assign({}, this.$route.params)
 			if (this.isNew) {
-				this.$router.push({ name: 'NewSidebarView', params })
+				this.$router.push({ name: 'NewFullView', params })
 			} else {
 				this.$router.push({
-					name: getPrefixedRoute(this.$route.name, 'EditSidebarView'),
+					name: getPrefixedRoute(this.$route.name, 'EditFullView'),
 					params,
 				})
 			}
@@ -453,6 +464,16 @@ export default {
 				this.isViewing = false
 			}
 		},
+		/**
+		 * Toggles the all-day state of an event
+		 */
+		toggleAllDayPreliminary() {
+			if (!this.canModifyAllDay) {
+				return
+			}
+
+			this.toggleAllDay()
+		},
 	},
 }
 </script>
@@ -462,12 +483,13 @@ export default {
 	width: unset !important;
 	min-width: 500px !important;
 }
+
 .modal-mask {
 	position: fixed;
 	z-index: 9998;
 	//the height of header
 	top: 50px;
-	left: 0;
+	inset-inline-start: 0;
 	display: block;
 	width: 100%;
 	height: 100%;

@@ -29,9 +29,9 @@ OC.L10N.register(
     "Unknown" : "ບໍ່ຮູ້",
     "never" : "ບໍ່ເຄີຍ",
     "Personal" : "ສ່ວນບຸກຄົນ",
-    "Details" : "ລາຍລະອຽດ",
     "Close" : "ປິດ",
     "Daily" : "ລາຍວັນ",
-    "Weekly" : "ອາທິດ"
+    "Weekly" : "ອາທິດ",
+    "Details" : "ລາຍລະອຽດ"
 },
 "nplurals=1; plural=0;");

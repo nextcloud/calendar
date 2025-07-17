@@ -72,6 +72,7 @@ OC.L10N.register(
     "Repeat" : "Ulang",
     "never" : "jangan",
     "Personal" : "Peribadi",
+    "Edit event" : "Ubah peristiwa",
     "Close" : "Tutup",
     "Daily" : "Setiap hari",
     "Weekly" : "Setiap minggu",

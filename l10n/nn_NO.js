@@ -54,7 +54,7 @@ OC.L10N.register(
     "Room type" : "Romtype",
     "Global" : "Global",
     "Personal" : "Personleg",
-    "Details" : "Detaljar",
+    "Edit event" : "Rediger hending",
     "Close" : "Lukk",
     "Daily" : "Kvar dag",
     "Weekly" : "Kvar veke",
@@ -66,6 +66,7 @@ OC.L10N.register(
     "When shared show only busy" : "Når delt, vis berre oppteken",
     "When shared hide this event" : "Når delt, gøym denne hendinga",
     "Status" : "Status",
-    "Confirmed" : "Stadfesta"
+    "Confirmed" : "Stadfesta",
+    "Details" : "Detaljar"
 },
 "nplurals=2; plural=(n != 1);");

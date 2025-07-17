@@ -39,7 +39,7 @@ describe('fullcalendar/select test suite', () => {
 		})
 	})
 
-	it('should open the Sidebar on big screens if the user wishes so', () => {
+	it('should open the full editor on big screens if the user wishes so', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = true
 
@@ -56,7 +56,7 @@ describe('fullcalendar/select test suite', () => {
 
 		expect(router.push).toHaveBeenCalledTimes(1)
 		expect(router.push).toHaveBeenNthCalledWith(1, {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '1',
@@ -66,7 +66,7 @@ describe('fullcalendar/select test suite', () => {
 		})
 	})
 
-	it('should open the Sidebar on smaller screens', () => {
+	it('should open the full editor on smaller screens', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = false
 
@@ -83,7 +83,7 @@ describe('fullcalendar/select test suite', () => {
 
 		expect(router.push).toHaveBeenCalledTimes(1)
 		expect(router.push).toHaveBeenNthCalledWith(1, {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '1',
@@ -119,13 +119,13 @@ describe('fullcalendar/select test suite', () => {
 		expect(router.push).toHaveBeenCalledTimes(0)
 	})
 
-	it('should not update the route if the exact time-range is already open - Sidebar to Popover', () => {
+	it('should not update the route if the exact time-range is already open - Full to Popover', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = false
 
 		const router = { push: jest.fn() }
 		const route = {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '1',
@@ -145,13 +145,13 @@ describe('fullcalendar/select test suite', () => {
 		expect(router.push).toHaveBeenCalledTimes(0)
 	})
 
-	it('should not update the route if the exact time-range is already open - Sidebar to Sidebar', () => {
+	it('should not update the route if the exact time-range is already open - Full to Full', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = true
 
 		const router = { push: jest.fn() }
 		const route = {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '1',
@@ -171,7 +171,7 @@ describe('fullcalendar/select test suite', () => {
 		expect(router.push).toHaveBeenCalledTimes(0)
 	})
 
-	it('should not update the route if the exact time-range is already open - Popover to Sidebar', () => {
+	it('should not update the route if the exact time-range is already open - Popover to Full', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = true
 
@@ -197,7 +197,7 @@ describe('fullcalendar/select test suite', () => {
 		expect(router.push).toHaveBeenCalledTimes(0)
 	})
 
-	it('should not the popover when a new event sidebar is already open - Popover', () => {
+	it('should not the popover when a new event full editor is already open - Popover', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = false
 
@@ -232,13 +232,13 @@ describe('fullcalendar/select test suite', () => {
 		})
 	})
 
-	it('should not the popover when a new event sidebar is already open - Sidebar', () => {
+	it('should not the popover when a new event full editor is already open - Full', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = false
 
 		const router = { push: jest.fn() }
 		const route = {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '1',
@@ -257,7 +257,7 @@ describe('fullcalendar/select test suite', () => {
 
 		expect(router.push).toHaveBeenCalledTimes(1)
 		expect(router.push).toHaveBeenNthCalledWith(1, {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '0',

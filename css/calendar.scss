@@ -2,14 +2,15 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-@import 'app-navigation.scss';
-@import 'app-sidebar.scss';
-@import 'app-settings.scss';
-@import 'app-modal.scss';
-@import 'freebusy.scss';
-@import 'fullcalendar.scss';
-@import 'global.scss';
-@import 'import.scss';
-@import 'print.scss';
-@import 'public.scss';
-@import 'props-linkify-links.scss';
+@import 'app-navigation';
+@import 'app-full';
+@import 'app-settings';
+@import 'app-modal';
+@import 'edit-simple';
+@import 'freebusy';
+@import 'fullcalendar';
+@import 'global';
+@import 'import';
+@import 'print';
+@import 'public';
+@import 'props-linkify-links';

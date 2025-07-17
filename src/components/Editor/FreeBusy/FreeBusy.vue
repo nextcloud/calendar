@@ -4,129 +4,242 @@
 -->
 
 <template>
-	<NcDialog size="large"
+	<NcModal size="full"
 		:name="dialogName || $t('calendar', 'Availability of attendees, resources and rooms')"
-		@closing="$emit('close')">
-		<div class="modal__content modal--scheduler">
-			<div v-if="loadingIndicator" class="loading-indicator">
-				<div class="icon-loading" />
-			</div>
-			<div class="modal__content__header">
-				<div class="modal__content__header__attendees">
-					{{ `${eventTitle ?? ''} ${t('calendar', 'with')}` }}
-					<NcUserBubble :size="24" :display-name="organizer.commonName" />
-					<NcUserBubble v-for="attendee in attendees"
-						:key="attendee.id"
-						:size="24"
-						class="modal__content__header__attendees__user-bubble"
-						:display-name="attendee.commonName">
-						<template #name>
-							<a href="#"
-								title="Remove user"
-								class="icon-close"
-								@click="removeAttendee(attendee)" />
-						</template>
-					</NcUserBubble>
+		@close="$emit('close')">
+		<div class="modal">
+			<div class="modal__content">
+				<div v-if="loadingIndicator" class="loading-indicator">
+					<div class="icon-loading" />
 				</div>
-			</div>
-			<div class="modal__content__actions">
-				<InviteesListSearch class="modal__content__actions__select"
-					:already-invited-emails="alreadyInvitedEmails"
-					:organizer="organizer"
-					@add-attendee="addAttendee" />
-				<div class="modal__content__actions__date">
-					<NcButton type="secondary"
-						@click="handleActions('today')">
-						{{ $t('calendar', 'Today') }}
-					</NcButton>
-					<NcButton type="secondary"
-						@click="handleActions('left')">
-						<template #icon>
-							<ChevronLeftIcon :size="20" />
-						</template>
-					</NcButton>
-					<NcButton type="secondary"
-						@click="handleActions('right')">
-						<template #icon>
-							<ChevronRightIcon :size="20" />
-						</template>
-					</NcButton>
-
-					<NcDateTimePickerNative :hide-label="true"
-						:value="currentDate"
-						@input="(date)=>handleActions('picker', date)" />
-					<NcPopover :focus-trap="false">
-						<template #trigger>
-							<NcButton type="tertiary-no-background">
-								<template #icon>
-									<HelpCircleIcon :size="20" />
-								</template>
-							</NcButton>
-						</template>
-						<template>
-							<div class="freebusy-caption">
-								<div class="freebusy-caption__calendar-user-types" />
-								<div class="freebusy-caption__colors">
-									<div v-for="color in colorCaption" :key="color.color" class="freebusy-caption-item">
-										<div class="freebusy-caption-item__color" :style="{ 'background-color': color.color }" />
-										<div class="freebusy-caption-item__label">
-											{{ color.label }}
+				<div class="modal__content__header">
+					<p v-if="isMobile && freeSlots && !disableFindTime">
+						<NcSelect class="modal__content__header__available-slots"
+							:options="freeSlots"
+							:placeholder="placeholder"
+							:clearable="false"
+							input-id="slot"
+							label="displayStart"
+							:label-outside="true"
+							:value="selectedSlot"
+							@option:selected="setSlotSuggestion">
+							<template #selected-option="{}">
+								{{ $t('calendar', 'Suggestion accepted') }}
+							</template>
+						</NcSelect>
+					</p>
+					<div v-if="isMobile" class="modal__content__header__attendees">
+						<InviteesListSearch v-if="isMobile"
+							class="modal__content__header__attendees__search"
+							:already-invited-emails="alreadyInvitedEmails"
+							:organizer="organizer"
+							@add-attendee="addAttendee" />
+						<NcUserBubble :size="24" :display-name="organizer.commonName" />
+						<NcUserBubble v-for="attendee in attendees"
+							:key="attendee.id"
+							:size="24"
+							class="modal__content__header__attendees__user-bubble"
+							:display-name="attendee.commonName">
+							<template #name>
+								<a href="#"
+									title="Remove user"
+									class="icon-close"
+									@click="removeAttendee(attendee)" />
+							</template>
+						</NcUserBubble>
+					</div>
+				</div>
+				<div class="modal__content__actions" :class="{'modal__content__actions--mobile': isMobile}">
+					<div v-if="isMobile" class="modal__content__actions__date date-navigation">
+						<NcButton type="secondary"
+							:aria-label="t('calendar', 'Today')"
+							@click="handleActions('today')">
+							{{ $t('calendar', 'Today') }}
+						</NcButton>
+						<NcButton type="secondary"
+							:aria-label="isRTL? t('calendar', 'Previous date') : t('calendar', 'Next date')"
+							@click="handleActions(isRTL ? 'next' : 'prev')">
+							<template #icon>
+								<ChevronRightIcon v-if="isRTL" :size="22" />
+								<ChevronLeftIcon v-else :size="22" />
+							</template>
+						</NcButton>
+						<NcDateTimePickerNative :hide-label="true"
+							:value="currentStart"
+							@input="(date)=>handleActions('picker', date)" />
+						<NcButton type="secondary"
+							:aria-label="isRTL? t('calendar', 'Next date') : t('calendar', 'Previous date')"
+							@click="handleActions(isRTL ? 'prev' : 'next')">
+							<template #icon>
+								<ChevronLeftIcon v-if="isRTL" :size="22" />
+								<ChevronRightIcon v-else :size="22" />
+							</template>
+						</NcButton>
+						<NcPopover :focus-trap="false">
+							<template #trigger>
+								<NcButton type="tertiary-no-background"
+									:aria-label="t('calendar', 'Legend')">
+									<template #icon>
+										<HelpCircleIcon :size="20" />
+									</template>
+								</NcButton>
+							</template>
+							<template #default>
+								<div class="freebusy-caption">
+									<div class="freebusy-caption__calendar-user-types" />
+									<div class="freebusy-caption__colors">
+										<div class="freebusy-caption-item">
+											<div class="freebusy-caption-item__color" />
+											<div class="
+											freebusy-caption-item__label">
+												{{ $t('calendar', 'Out of office') }}
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
-						</template>
-					</NcPopover>
+							</template>
+						</NcPopover>
+					</div>
+				</div>
+				<div class="modal__content__title" :class="{'modal__content__title--mobile': isMobile}">
+					<div v-if="!isMobile" class="modal__content__actions__title__date date-navigation">
+						<NcButton type="secondary"
+							:aria-label="t('calendar', 'Today')"
+							@click="handleActions('today')">
+							{{ $t('calendar', 'Today') }}
+						</NcButton>
+						<NcButton type="secondary"
+							:aria-label="isRTL? t('calendar', 'Previous date') : t('calendar', 'Next date')"
+							@click="handleActions(isRTL ? 'next' : 'prev')">
+							<template #icon>
+								<ChevronRightIcon v-if="isRTL" :size="22" />
+								<ChevronLeftIcon v-else :size="22" />
+							</template>
+						</NcButton>
+						<NcDateTimePickerNative :hide-label="true"
+							:value="currentStart"
+							@input="(date)=>handleActions('picker', date)" />
+						<NcButton type="secondary"
+							:aria-label="isRTL? t('calendar', 'Next date') : t('calendar', 'Previous date')"
+							@click="handleActions(isRTL ? 'prev' : 'next')">
+							<template #icon>
+								<ChevronLeftIcon v-if="isRTL" :size="22" />
+								<ChevronRightIcon v-else :size="22" />
+							</template>
+						</NcButton>
+						<NcPopover :focus-trap="false">
+							<template #trigger>
+								<NcButton type="tertiary-no-background">
+									<template #icon>
+										<HelpCircleIcon :size="20" />
+									</template>
+								</NcButton>
+							</template>
+							<template #default>
+								<div class="freebusy-caption">
+									<div class="freebusy-caption__calendar-user-types" />
+									<div class="freebusy-caption__colors">
+										<div class="freebusy-caption-item">
+											<div class="freebusy-caption-item__color" />
+											<div class="
+											freebusy-caption-item__label">
+												{{ $t('calendar', 'Out of office') }}
+											</div>
+										</div>
+									</div>
+								</div>
+							</template>
+						</NcPopover>
+					</div>
+					<h2>{{ weekNumber }}</h2>
+					<div class="modal__content__title__buttons">
+						<NcButton :type="view === 'timeGridWeek' ? 'secondary' : 'tertiary'"
+							:disabled="view === 'timeGridWeek'"
+							@click="updateView('timeGridWeek')">
+							{{ t('calendar','Week') }}
+						</NcButton>
+						<NcButton :type="view === 'timeGridDay' ? 'secondary' : 'tertiary'"
+							:disabled="view === 'timeGridDay'"
+							@click="updateView('timeGridDay')">
+							{{ t('calendar','Day') }}
+						</NcButton>
+					</div>
+				</div>
+				<div class="modal__content__body">
+					<div v-if="!isMobile" class="modal__content__body__sidebar">
+						<p v-if="freeSlots && !disableFindTime">
+							<NcSelect class="available-slots__multiselect"
+								:options="freeSlots"
+								:placeholder="placeholder"
+								:clearable="false"
+								input-id="slot"
+								label="displayStart"
+								:label-outside="true"
+								:value="selectedSlot"
+								:loading="loadingIndicator"
+								:disabled="loadingIndicator"
+								@option:selected="setSlotSuggestion">
+								<template #selected-option="{}">
+									{{ $t('calendar', 'Suggestion accepted') }}
+								</template>
+							</NcSelect>
+						</p>
+						<div class="modal__content__body__sidebar__attendees">
+							{{ $t('calendar', 'Attendees:') }}
+							<InviteesListSearch class="modal__content__actions__select"
+								:already-invited-emails="alreadyInvitedEmails"
+								:organizer="organizer"
+								@add-attendee="addAttendee" />
+							<NcListItemIcon :name="organizer.commonName"
+								class="modal__content__body__sidebar__attendees__item" />
+							<NcListItemIcon v-for="attendee in attendees"
+								:key="attendee.id"
+								:name="attendee.commonName"
+								class="modal__content__body__sidebar__attendees__item">
+								<NcActions>
+									<NcActionButton @click="removeAttendee(attendee)">
+										<template #icon>
+											<Close :size="20" />
+										</template>
+										{{ t('calendar','Delete') }}
+									</NcActionButton>
+								</NcActions>
+							</NcListItemIcon>
+						</div>
+					</div>
+					<FullCalendar ref="freeBusyFullCalendar"
+						:options="options" />
 				</div>
 			</div>
-			<FullCalendar ref="freeBusyFullCalendar"
-				:options="options" />
-			<div v-if="!disableFindTime" class="modal__content__footer">
-				<p v-if="freeSlots">
-					{{ $t('calendar', 'Available times:') }}
-					<NcSelect class="available-slots__multiselect"
-						:options="freeSlots"
-						:placeholder="placeholder"
-						:clearable="false"
-						input-id="slot"
-						label="displayStart"
-						:label-outside="true"
-						:value="selectedSlot"
-						@option:selected="setSlotSuggestion">
-						<template #selected-option="{}">
-							{{ $t('calendar', 'Suggestion accepted') }}
+			<div class="modal__content__footer">
+				<div class="modal__content__footer__content">
+					<div>
+						<p class="modal__content__footer__content__date">
+							{{ formattedCurrentStart }}
+						</p>
+						<p>{{ formattedCurrentTime }}<span class="modal__content__footer__content__timezone">{{ formattedTimeZone }}</span></p>
+					</div>
+					<NcButton type="primary"
+						@click="save">
+						{{ $t('calendar', 'Done') }}
+						<template #icon>
+							<CheckIcon :size="20" />
 						</template>
-					</NcSelect>
-				</p>
-				<p class="modal__content__footer__date">
-					{{ formattedCurrentStart }}
-				</p>
-				<p>{{ formattedCurrentTime }}<span class="modal__content__footer__timezone">{{ formattedTimeZone }}</span></p>
+					</NcButton>
+				</div>
 			</div>
 		</div>
-		<template #actions>
-			<NcButton type="primary"
-				@click="save">
-				{{ $t('calendar', 'Done') }}
-				<template #icon>
-					<CheckIcon :size="20" />
-				</template>
-			</NcButton>
-		</template>
-	</NcDialog>
+	</NcModal>
 </template>
 
 <script>
 // Import FullCalendar itself
 import FullCalendar from '@fullcalendar/vue'
-import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
+import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 
-import { NcDateTimePickerNative, NcButton, NcPopover, NcUserBubble, NcDialog, NcSelect } from '@nextcloud/vue'
 // Import event sources
-import freeBusyBlockedForAllEventSource from '../../../fullcalendar/eventSources/freeBusyBlockedForAllEventSource.js'
-import freeBusyFakeBlockingEventSource from '../../../fullcalendar/eventSources/freeBusyFakeBlockingEventSource.js'
-import freeBusyResourceEventSource from '../../../fullcalendar/eventSources/freeBusyResourceEventSource.js'
+import freeBusyEventSource from '../../../fullcalendar/eventSources/freeBusyEventSource.js'
 
 // Import localization plugins
 import { getDateFormattingConfig } from '../../../fullcalendar/localization/dateFormattingConfig.js'
@@ -136,18 +249,26 @@ import momentPluginFactory from '../../../fullcalendar/localization/momentPlugin
 // Import timezone plugins
 import VTimezoneNamedTimezone from '../../../fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
 
+import { NcDateTimePickerNative, NcButton, NcPopover, NcUserBubble, NcModal, NcSelect, NcListItemIcon, NcActions, NcActionButton } from '@nextcloud/vue'
+import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
+import { AttendeeProperty } from '@nextcloud/calendar-js'
+import { isRTL } from '@nextcloud/l10n'
+
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
+import Close from 'vue-material-design-icons/Close.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircle.vue'
 
 import InviteesListSearch from '../Invitees/InviteesListSearch.vue'
 
-import { getColorForFBType } from '../../../utils/freebusy.js'
 import { getFirstFreeSlot, getBusySlots } from '../../../services/freeBusySlotService.js'
 import dateFormat from '../../../filters/dateFormat.js'
 import { mapState } from 'pinia'
 import useSettingsStore from '../../../store/settings.js'
+import useCalendarsStore from '../../../store/calendars.js'
+import { uidToHexColor } from '../../../utils/color.js'
+import formatDateRange from '../../../filters/dateRangeFormat.js'
 
 export default {
 	name: 'FreeBusy',
@@ -155,16 +276,21 @@ export default {
 		NcSelect,
 		FullCalendar,
 		InviteesListSearch,
+		NcActions,
+		NcActionButton,
 		NcDateTimePickerNative,
-		NcDialog,
+		NcModal,
 		NcButton,
 		NcPopover,
 		NcUserBubble,
+		NcListItemIcon,
 		ChevronRightIcon,
 		ChevronLeftIcon,
 		CheckIcon,
 		HelpCircleIcon,
+		Close,
 	},
+	mixins: [isMobile],
 	props: {
 		/**
 		 * The organizer object.
@@ -196,6 +322,10 @@ export default {
 			type: Date,
 			required: true,
 		},
+		allDay: {
+			type: Boolean,
+			default: false,
+		},
 		eventTitle: {
 			type: String,
 			default: '',
@@ -207,6 +337,7 @@ export default {
 		dialogName: {
 			type: String,
 			required: false,
+			default: null,
 		},
 		disableFindTime: {
 			type: Boolean,
@@ -216,22 +347,37 @@ export default {
 	data() {
 		return {
 			loadingIndicator: true,
-			currentDate: this.startDate,
+			currentIsAllDay: this.allDay,
 			currentStart: this.startDate,
 			currentEnd: this.endDate,
 			lang: getFullCalendarLocale().locale,
 			formattingOptions: { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
 			freeSlots: [],
 			selectedSlot: null,
+			view: 'timeGridWeek',
+			// used to avoid double update of start and end date
+			navigatingWithButtons: false,
 		}
 	},
 	computed: {
 		...mapState(useSettingsStore, {
 			timezoneId: 'getResolvedTimezone',
 		}),
+		...mapState(useSettingsStore, {
+			locale: 'momentLocale',
+		}),
 		...mapState(useSettingsStore, ['showWeekends', 'showWeekNumbers', 'timezone']),
+		...mapState(useCalendarsStore, {
+			personalCalendarColor: 'getPersonalCalendarColor',
+		}),
+		isRTL() {
+			return isRTL()
+		},
+		weekNumber() {
+			return formatDateRange(this.currentStart, this.view, this.locale)
+		},
 		placeholder() {
-			return this.$t('calendar', 'Select automatic slot')
+			return this.$t('calendar', 'Suggested times')
 		},
 		/**
 		 * FullCalendar Plugins
@@ -240,50 +386,40 @@ export default {
 		 */
 		plugins() {
 			return [
-				resourceTimelinePlugin,
+				timeGridPlugin,
 				momentPluginFactory(),
 				VTimezoneNamedTimezone,
 				interactionPlugin,
 			]
 		},
 		formattedCurrentStart() {
-			return this.currentDate.toLocaleDateString(this.lang, this.formattingOptions)
+			// Check if the event spawns over multiple days
+			if (this.currentStart.getDate() !== this.currentEnd.getDate()) {
+				return this.currentStart.toLocaleDateString(this.lang, this.formattingOptions) + ' - '
+					+ this.currentEnd.toLocaleDateString(this.lang, this.formattingOptions)
+			}
+			return this.currentStart.toLocaleDateString(this.lang, this.formattingOptions)
 		},
 		formattedCurrentTime() {
 			const options = { hour: '2-digit', minute: '2-digit', hour12: true }
 
 			const startTime = this.currentStart.toLocaleTimeString(this.lang, options)
-			const endTime = this.currentEnd.toLocaleTimeString(this.lang, options)
+			const endTime = this.currentEnd?.toLocaleTimeString(this.lang, options)
 
 			return `${startTime} - ${endTime} `
-		},
-		scrollTime() {
-			const options = { hour: '2-digit', minute: '2-digit', seconds: '2-digit', hour12: false }
-
-			return this.currentDate.getHours() > 0 ? new Date(this.currentDate.getTime() - 60 * 60 * 1000).toLocaleTimeString(this.lang, options) : '10:00:00'
 		},
 		formattedTimeZone() {
 			return this.timezoneId.replace('/', '-')
 		},
 		eventSources() {
-			return [
-				freeBusyResourceEventSource(
-					this._uid,
-					this.organizer.attendeeProperty,
-					this.attendees.map((a) => a.attendeeProperty),
-				),
-				freeBusyFakeBlockingEventSource(
-					this._uid,
-					this.resources,
-					this.currentStart,
-					this.currentEnd,
-				),
-				freeBusyBlockedForAllEventSource(
-					this.organizer.attendeeProperty,
-					this.attendees.map((a) => a.attendeeProperty),
-					this.resources,
-				),
-			]
+			const attendees = this.attendees.map((a) => a.attendeeProperty)
+			const organizer = new AttendeeProperty('ATTENDEE', this.organizer.attendeeProperty.email)
+			organizer.commonName = this.organizer.attendeeProperty.commonName
+			return [...attendees, organizer].map((a) => freeBusyEventSource(
+				this._uid,
+				this.organizer.attendeeProperty,
+				a,
+			))
 		},
 		resources() {
 			const resources = []
@@ -319,31 +455,6 @@ export default {
 			return resources
 		},
 		/**
-		 * List of possible Free-Busy values.
-		 * This is used as legend.
-		 *
-		 * @return {({color: string, label: string})[]}
-		 */
-		colorCaption() {
-			return [{
-				// TRANSLATORS: free as in available
-				label: this.$t('calendar', 'Free'),
-				color: getColorForFBType('FREE'),
-			}, {
-				label: this.$t('calendar', 'Busy (tentative)'),
-				color: getColorForFBType('BUSY-TENTATIVE'),
-			}, {
-				label: this.$t('calendar', 'Busy'),
-				color: getColorForFBType('BUSY'),
-			}, {
-				label: this.$t('calendar', 'Out of office'),
-				color: getColorForFBType('BUSY-UNAVAILABLE'),
-			}, {
-				label: this.$t('calendar', 'Unknown'),
-				color: getColorForFBType('UNKNOWN'),
-			}]
-		},
-		/**
 		 * Configuration options for FullCalendar
 		 * Please see https://fullcalendar.io/docs#toc for details
 		 *
@@ -352,18 +463,19 @@ export default {
 		options() {
 			return {
 				// Initialization:
-				initialView: 'resourceTimelineDay',
+				initialView: this.view,
 				initialDate: this.currentStart,
 				schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
 				// Data
 				eventSources: this.eventSources,
-				resources: this.resources,
 				// Plugins
 				plugins: this.plugins,
 				// Interaction:
 				editable: false,
 				selectable: true,
 				select: this.handleSelect,
+				eventDidMount: this.eventDidMount,
+				eventChange: this.handleChange,
 				// Localization:
 				...getDateFormattingConfig(),
 				...getFullCalendarLocale(),
@@ -371,12 +483,6 @@ export default {
 				height: 'auto',
 				loading: this.loading,
 				headerToolbar: false,
-				resourceAreaColumns: [
-					{
-						field: 'title',
-						headerContent: 'Attendees',
-					},
-				],
 				// Timezones:
 				timeZone: this.timezoneId,
 				// Formatting of the title
@@ -393,6 +499,10 @@ export default {
 		},
 	},
 	watch: {
+		view(newView) {
+			const calendar = this.$refs.freeBusyFullCalendar.getApi()
+			calendar.changeView(newView)
+		},
 		attendees(newVal) {
 			if (newVal.length === 0) {
 				this.$emit('close:no-attendees')
@@ -401,14 +511,60 @@ export default {
 	},
 	mounted() {
 		const calendar = this.$refs.freeBusyFullCalendar.getApi()
-		calendar.scrollToTime(this.scrollTime)
+		this.view = this.attendees.length > 4 || this.isMobile ? 'timeGridDay' : 'timeGridWeek'
+		if (this.allDay) {
+			this.currentEnd.setDate(this.currentStart.getDate() + 1)
+		}
+		calendar.addEvent({
+			id: 'selected-event-slot',
+			title: 'Selected slot',
+			start: this.currentStart,
+			end: this.currentEnd,
+			textColor: '#fff',
+			backgroundColor: 'rgba(0, 0, 0, 0)',
+			editable: true,
+			overlap: true,
+			allDay: this.allDay,
+		})
 
 		this.findFreeSlots()
 	},
 	methods: {
+		updateView(view) {
+			const calendar = this.$refs.freeBusyFullCalendar.getApi()
+			calendar.changeView(view)
+			this.view = view
+		},
 		handleSelect(arg) {
+			const calendar = this.$refs.freeBusyFullCalendar.getApi()
 			this.currentStart = arg.start
 			this.currentEnd = arg.end
+			this.currentIsAllDay = arg.allDay
+			calendar.getEventById('selected-event-slot').setDates(arg.start, arg.end)
+		},
+		handleChange(e) {
+			if (this.navigatingWithButtons) {
+				this.navigatingWithButtons = false
+				return
+			}
+			// Selected slot is the only editable event
+			if (e.event.id === 'selected-event-slot') {
+				this.currentStart = e.event.start
+				this.currentEnd = e.event.end
+			}
+
+		},
+		eventDidMount(e) {
+			const eventElement = e.el
+			if (e.event.id === 'selected-event-slot') {
+				eventElement.style.setProperty('border', `2px solid ${this.personalCalendarColor}`, 'important')
+				return
+			}
+			if (e.el.classList.contains('free-busy-busy-unavailable--organizer')) {
+				return
+			}
+			const color = uidToHexColor(e.event.title)
+			eventElement.style.background = `repeating-linear-gradient(45deg, ${color}, ${color} 1px, transparent 1px, transparent 3.5px)`
 		},
 		save() {
 			this.$emit('update-dates', { start: this.currentStart, end: this.currentEnd })
@@ -425,23 +581,41 @@ export default {
 			this.loadingIndicator = isLoading
 		},
 		handleActions(action, date = null) {
+			this.navigatingWithButtons = true
 			const calendar = this.$refs.freeBusyFullCalendar.getApi()
 			switch (action) {
 			case 'today':
 				calendar.today()
 				break
-			case 'left':
+			case 'prev':
 				calendar.prev()
 				break
-			case 'right':
+			case 'next':
 				calendar.next()
 				break
 			case 'picker':
 				calendar.gotoDate(date)
 				break
 			}
-			this.currentDate = calendar.getDate()
-			calendar.scrollToTime(this.scrollTime)
+
+			const newStart = calendar.getDate()
+			const oldStart = new Date(this.currentStart)
+			const oldEnd = new Date(this.currentEnd)
+
+			// we want to preserve hh:mm as actions are only for changing the date
+			oldStart.setDate(newStart.getDate())
+			oldStart.setMonth(newStart.getMonth())
+			oldStart.setFullYear(newStart.getFullYear())
+
+			oldEnd.setDate(this.currentIsAllDay ? newStart.getDate() + 1 : newStart.getDate())
+			oldEnd.setMonth(newStart.getMonth())
+			oldEnd.setFullYear(newStart.getFullYear())
+
+			this.currentStart = oldStart
+			this.currentEnd = oldEnd
+
+			calendar.getEventById('selected-event-slot').setStart(this.currentStart)
+			calendar.getEventById('selected-event-slot').setEnd(this.currentEnd)
 			this.findFreeSlots()
 		},
 		async findFreeSlots() {
@@ -452,14 +626,8 @@ export default {
 
 			// Needed to update with full calendar widget changes
 			const startSearch = new Date(this.currentStart)
-			startSearch.setDate(this.currentDate.getDate())
-			startSearch.setMonth(this.currentDate.getMonth())
-			startSearch.setYear(this.currentDate.getFullYear())
 
 			const endSearch = new Date(this.currentEnd)
-			endSearch.setDate(this.currentDate.getDate())
-			endSearch.setMonth(this.currentDate.getMonth())
-			endSearch.setYear(this.currentDate.getFullYear())
 
 			try {
 				// for now search slots only in the first week days
@@ -491,17 +659,26 @@ export default {
 			}
 		},
 		setSlotSuggestion(slot) {
+			this.loading(true)
 			this.selectedSlot = slot
 
 			const calendar = this.$refs.freeBusyFullCalendar.getApi()
 			calendar.gotoDate(slot.start)
-			calendar.scrollToTime(this.scrollTime)
 
 			// have to make these "selected" version of the props seeing as they can't be modified directly, and they aren't updated reactively when vuex is
 			this.currentStart = slot.start
 			this.currentEnd = slot.end
-			const clonedDate = new Date(slot.start) // so as not to modify slot.start
-			this.currentDate = new Date(clonedDate.setHours(0, 0, 0, 0))
+			calendar.getEventById('selected-event-slot').setStart(this.currentStart)
+			calendar.getEventById('selected-event-slot').setEnd(this.currentEnd)
+
+			const checkCondition = () => {
+				if (calendar.getDate() === slot.start) {
+					this.loading(false)
+					return
+				}
+				setTimeout(checkCondition, 100)
+			}
+			checkCondition()
 		},
 	},
 }
@@ -512,54 +689,165 @@ export default {
 	display: block;
 	height: 100%;
 }
-.modal__content {
-	padding: 0 calc(var(--default-grid-baseline)*4);
-	&__actions{
+
+.freebusy-caption-item{
+	&__color{
+		background: repeating-linear-gradient(45deg, #dbdbdb, #dbdbdb 1px, transparent 1px, transparent 3.5px) !important;
+	}
+}
+
+.modal{
+	display: flex !important;
+	justify-content: center;
+	height: 100%;
+	overflow: hidden;
+
+	:deep(.free-busy-busy-unavailable--organizer){
+		background: repeating-linear-gradient(45deg, #dbdbdb, #dbdbdb 1px, transparent 1px, transparent 3.5px) !important;
+	}
+
+	.date-navigation{
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom: calc(var(--default-grid-baseline)*4);
-		;
-		&__select{
-			width: 260px;
+		& > *{
+			margin-inline-start: var(--default-grid-baseline);
 		}
-		&__date{
+	}
+
+	&__content {
+		max-width: 1200px;
+		width: 100%;
+		padding: 0 calc(var(--default-grid-baseline) * 4);
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		&__actions{
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: calc(var(--default-grid-baseline) * 4);
+			&--mobile{
+				align-items: flex-start;
+			}
+			;
+			&__select{
+				width: 260px;
+			}
+		}
+		&__title{
+			&--mobile{
+				width: 100%;
+				margin: 0;
+			}
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
-			& > *{
-				margin-left: var(--default-grid-baseline);
+			margin-bottom: calc(var(--default-grid-baseline) * 4);
+			width: calc(100% - 260px);
+			margin-inline-start: 260px;
+			h2{
+				font-weight: 500;
+				margin: 0;
+			}
+			&__buttons{
+				display: flex;
+				justify-content: flex-end;
+				align-items: center;
 			}
 		}
-	}
-	&__header{
-		margin: calc(var(--default-grid-baseline)*4) 0;
-		h3{
-			font-weight: 500;
-		}
-		&__attendees{
-			&__user-bubble{
-				margin-right: var(--default-grid-baseline);
+		&__header{
+			margin: calc(var(--default-grid-baseline) * 4) 0;
+			h3{
+				font-weight: 500;
+			}
+			&__available-slots{
+				margin: var(--default-grid-baseline) 0;
+				width: 100%;
+				margin-top: calc(4 * var(--default-grid-baseline)) !important;
+				margin-bottom: calc(2 * var(--default-grid-baseline)) !important;
+			}
+			&__attendees{
+				&__search{
+					width: 100%;
+					margin-bottom: calc(2 * var(--default-grid-baseline)) !important;
+				}
+				&__user-bubble{
+					margin-inline-end: var(--default-grid-baseline);
+				}
 			}
 		}
-	}
-	&__footer{
-		margin-top: calc(var(--default-grid-baseline)*4);
-		&__date{
-			margin-top: calc(var(--default-grid-baseline)*4);
-			font-weight: 600;
-		}
-		&__timezone{
-				color: var(--color-text-lighter);
+		&__body{
+			display: flex;
+			width: 100%;
+			overflow: hidden;
+			position: relative;
+			&__sidebar{
+				margin-top: var(--default-grid-baseline);
+				width: 260px;
+				flex-shrink: 0;
+				margin-inline-end: calc(2 * var(--default-grid-baseline));
+				&__attendees{
+					display: flex;
+					flex-direction: column;
+				}
 			}
+		}
+		&__footer{
+			background-color: var(--color-main-background);
+			padding: 10px 12px;
+			height: 60px;
+			z-index: 9998;
+			width: calc(100% - 24px);
+			inset-inline-end: 0;
+			display: flex;
+			justify-content: center;
+			position: absolute;
+			bottom: 0;
+			box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.05);
+			&__content{
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-end;
+				width: 1200px;
+				&__date{
+					margin-top: calc(var(--default-grid-baseline) * 4);
+					font-weight: 600;
+				}
+				&__timezone{
+						color: var(--color-text-lighter);
+					}
+			}
+		}
 	}
 }
+
 :deep(.vs__search ) {
 	text-overflow: ellipsis;
 }
+
 :deep(.mx-input) {
 	height: 38px !important;
 }
+
+:deep(.fc) {
+	flex: 1;
+	min-width: 0;
+	overflow-y: auto;
+	padding-bottom: 100px;
+}
+
+:deep(.fc-event) {
+	margin-inline-end: 0 !important;
+	border-radius: 6px !important;
+	border: 2px solid transparent !important;
+}
+
+:deep(.fc-event-time){
+	display: none !important;
+}
+
 </style>
 
 <style lang="scss">

@@ -6,6 +6,7 @@
 <template>
 	<div v-if="display" class="property-select-multiple">
 		<component :is="icon"
+			v-tooltip="info"
 			:size="20"
 			:name="readableName"
 			class="property-select-multiple__icon"
@@ -42,13 +43,6 @@
 					:key="singleValue.value"
 					:option="singleValue" />
 			</div>
-		</div>
-
-		<div v-if="hasInfo"
-			v-tooltip="info"
-			class="property-select__info">
-			<InformationVariant :size="20"
-				decorative />
 		</div>
 	</div>
 </template>

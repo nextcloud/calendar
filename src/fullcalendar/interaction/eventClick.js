@@ -15,7 +15,7 @@ import useWidgetStore from '../../store/widget.js'
 
 /**
  * Returns a function for click action on event. This will open the editor.
- * Either the popover or the sidebar, based on the user's preference.
+ * Either the popover or the full, based on the user's preference.
  *
  * @param {object} router The Vue router
  * @param {object} route The current Vue route
@@ -59,13 +59,13 @@ function handleEventClick(event, router, route, window, isWidget = false) {
 		return
 	}
 	let desiredRoute = settingsStore.skipPopover
-		? 'EditSidebarView'
+		? 'EditFullView'
 		: 'EditPopoverView'
 
 	// Don't show the popover if the window size is too small (less then its max width of 450 px + a bit)
 	// The mobile breakpoint of the reworked modals is 1024 px / 2 so simply use that.
 	if (window.innerWidth <= 1024 / 2 && desiredRoute === 'EditPopoverView') {
-		desiredRoute = 'EditSidebarView'
+		desiredRoute = 'EditFullView'
 	}
 
 	const name = getPrefixedRoute(route.name, desiredRoute)
@@ -75,7 +75,7 @@ function handleEventClick(event, router, route, window, isWidget = false) {
 	})
 
 	// Don't push new route when day didn't change
-	if ((getPrefixedRoute(route.name, 'EditPopoverView') === route.name || getPrefixedRoute(route.name, 'EditSidebarView') === route.name)
+	if ((getPrefixedRoute(route.name, 'EditPopoverView') === route.name || getPrefixedRoute(route.name, 'EditFullView') === route.name)
 		&& params.object === route.params.object
 		&& params.recurrenceId === route.params.recurrenceId) {
 		return

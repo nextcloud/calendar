@@ -48,7 +48,7 @@
 		}
 
 		&__datepicker {
-			margin-left: 26px;
+			margin-inline-start: 26px;
 			margin-top: 48px;
 			position: absolute !important;
 			width: 0 !important;
@@ -148,8 +148,8 @@
 
 		.app-navigation-entry-wrapper.open-sharing {
 			box-shadow: inset 4px 0 var(--color-primary-element) !important;
-			margin-left: -6px;
-			padding-left: 6px;
+			margin-inline-start: -6px;
+			padding-inline-start: 6px;
 		}
 
 		.app-navigation-entry-wrapper.disabled {
@@ -159,7 +159,7 @@
 		}
 
 		.app-navigation-entry-wrapper .app-navigation-entry__children .app-navigation-entry {
-			padding-left: 0 !important;
+			padding-inline-start: 0 !important;
 
 			.avatar {
 				width: 32px;
@@ -189,7 +189,7 @@
 
 		.app-navigation-entry__utils {
 			.action-checkbox__label {
-				padding-right: 0 !important;
+				padding-inline-end: 0 !important;
 			}
 
 			.action-checkbox__label::before {
@@ -262,7 +262,7 @@
 							}
 
 							> .sharingOptionsGroup {
-								margin-left: auto;
+								margin-inline-start: auto;
 								display: flex;
 								align-items: center;
 								white-space: nowrap;

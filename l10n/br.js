@@ -108,10 +108,10 @@ OC.L10N.register(
     "Delete file" : "Dilemel ar restr",
     "Available" : "Vak",
     "Not available" : "Divak",
+    "Done" : "Graet",
     "Free" : "Digoust",
     "Busy" : "O labourat",
     "Unknown" : "Dianv",
-    "Done" : "Graet",
     "Accept" : "Asantiñ",
     "Tentative" : "Taol-esae",
     "Remove group" : "Lemel strollad",
@@ -120,7 +120,6 @@ OC.L10N.register(
     "first" : "kentañ",
     "Global" : "Hollek",
     "Personal" : "Personel",
-    "Details" : "Munudoù",
     "Close" : "Serriñ",
     "Daily" : "Pemdeziek",
     "Weekly" : "Sizhuniek",
@@ -157,6 +156,7 @@ OC.L10N.register(
     "Special color of this event. Overrides the calendar-color." : "Liv dibar evit an darvoud-mañ. Diverkañ liv an deiziataer",
     "Error while sharing file" : "Ur fazi a zo bet en ur rannañ ar restr",
     "An error occurred, unable to delete the calendar." : "C'hoarvezet ez eus ur fazi, ne c'haller ket dilemel an deiziataer.",
-    "Imported {filename}" : "Enporzhiet {filename}"
+    "Imported {filename}" : "Enporzhiet {filename}",
+    "Details" : "Munudoù"
 },
 "nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");

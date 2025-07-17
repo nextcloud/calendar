@@ -4,11 +4,35 @@
 -->
 
 <template>
-	<div class="invitees-list">
+	<div v-if="!(invitees.length === 0 && isReadOnly)" class="invitees-list">
 		<div v-if="showHeader" class="invitees-list__header">
-			<AccountMultipleIcon :size="20" />
-			<b>{{ t('calendar', 'Attendees') }}</b>
-			{{ statusHeader }}
+			<div class="invitees-list__header__title">
+				<AccountMultipleIcon :size="20" />
+				{{ t('calendar', 'Attendees') }}
+				{{ statusHeader }}
+			</div>
+
+			<div v-if="!hideButtons" class="invitees-list-button-group">
+				<NcButton v-if="!isReadOnly"
+					class="invitees-list-button-group__button"
+					:disabled="isListEmpty || !isOrganizer"
+					@click="openFreeBusy">
+					{{ $t('calendar', 'Find a time') }}
+				</NcButton>
+				<FreeBusy v-if="showFreeBusyModel"
+					:attendees="calendarObjectInstance.attendees"
+					:organizer="calendarObjectInstance.organizer"
+					:start-date="calendarObjectInstance.startDate"
+					:end-date="calendarObjectInstance.endDate"
+					:event-title="calendarObjectInstance.title"
+					:already-invited-emails="alreadyInvitedEmails"
+					:show-done-button="true"
+					:all-day="calendarObjectInstance.eventComponent.isAllDay()"
+					@remove-attendee="removeAttendee"
+					@add-attendee="addAttendee"
+					@update-dates="saveNewDate"
+					@close="closeFreeBusy" />
+			</div>
 		</div>
 
 		<InviteesListSearch v-if="!isReadOnly && hasUserEmailAddress"
@@ -34,33 +58,7 @@
 			class="invitees-list__more">
 			{{ n('calendar', '%n more guest', '%n more guests', inviteesWithoutOrganizer.length - limit) }}
 		</div>
-		<NoAttendeesView v-if="isReadOnly && !hideErrors"
-			:message="noOwnerMessage" />
-		<NoAttendeesView v-else-if="isReadOnly && isListEmpty && hasUserEmailAddress"
-			:message="noInviteesMessage" />
 		<OrganizerNoEmailError v-else-if="!isReadOnly && isListEmpty && !hasUserEmailAddress && !hideErrors" />
-
-		<div v-if="!hideButtons" class="invitees-list-button-group">
-			<NcButton v-if="!isReadOnly"
-				class="invitees-list-button-group__button"
-				:disabled="isListEmpty || !isOrganizer"
-				@click="openFreeBusy">
-				{{ $t('calendar', 'Find a time') }}
-			</NcButton>
-			<FreeBusy v-if="showFreeBusyModel"
-				:attendees="calendarObjectInstance.attendees"
-				:organizer="calendarObjectInstance.organizer"
-				:start-date="calendarObjectInstance.startDate"
-				:end-date="calendarObjectInstance.endDate"
-				:event-title="calendarObjectInstance.title"
-				:already-invited-emails="alreadyInvitedEmails"
-				:show-done-button="true"
-				@remove-attendee="removeAttendee"
-				@add-attendee="addAttendee"
-				@update-dates="saveNewDate"
-				@close:no-attendees="closeFreeBusy(true)"
-				@close="closeFreeBusy" />
-		</div>
 	</div>
 </template>
 
@@ -69,7 +67,6 @@ import { NcButton } from '@nextcloud/vue'
 import InviteesListSearch from './InviteesListSearch.vue'
 import InviteesListItem from './InviteesListItem.vue'
 import OrganizerListItem from './OrganizerListItem.vue'
-import NoAttendeesView from '../NoAttendeesView.vue'
 import OrganizerNoEmailError from '../OrganizerNoEmailError.vue'
 import { createTalkRoom, doesContainTalkLink } from '../../../services/talkService.js'
 import FreeBusy from '../FreeBusy/FreeBusy.vue'
@@ -92,7 +89,6 @@ export default {
 		NcButton,
 		FreeBusy,
 		OrganizerNoEmailError,
-		NoAttendeesView,
 		InviteesListItem,
 		InviteesListSearch,
 		OrganizerListItem,
@@ -461,8 +457,15 @@ export default {
 .invitees-list {
 	&__header {
 		display: flex;
-		gap: 5px;
-		padding: 5px 5px 5px 6px;
+		gap: calc(var(--default-grid-baseline) * 6);
+		align-items: center;
+
+		&__title {
+			display: flex;
+			gap: calc(var(--default-grid-baseline) * 4);
+			font-size: calc(var(--default-font-size) * 1.2);
+			align-items: center;
+		}
 	}
 
 	&__more {
@@ -477,7 +480,7 @@ export default {
 		gap: 5px;
 
 		&__button {
-			flex: 1 0 200px;
+			flex: 1 0 100px;
 
 			:deep(.button-vue__text) {
 				white-space: unset !important;

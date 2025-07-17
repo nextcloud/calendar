@@ -8,6 +8,7 @@
 		class="property-text"
 		:class="{ 'property-text--readonly': isReadOnly }">
 		<component :is="icon"
+			v-tooltip="info"
 			:size="20"
 			:name="readableName"
 			class="property-text__icon"
@@ -31,13 +32,6 @@
 				:class="{ 'linkify-links': linkifyLinks && !isReadOnly }"
 				:style="{ 'min-height': linkifyMinHeight }"
 				@click="handleShowTextarea" />
-		</div>
-
-		<div v-if="hasInfo"
-			v-tooltip="info"
-			class="property-select__info">
-			<InformationVariant :size="20"
-				decorative />
 		</div>
 	</div>
 </template>
@@ -105,5 +99,11 @@ export default {
 .textarea--description {
 	height: 120px;
 	overflow-y: auto;
+}
+
+textarea {
+	margin: 0 !important;
+	margin-bottom: -8px !important;
+	resize: none;
 }
 </style>

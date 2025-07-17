@@ -1,0 +1,113 @@
+/*!
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+.event-popover .event-popover__inner {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 4);
+	text-align: start;
+	max-width: 480px;
+	width: 480px;
+	padding: calc(var(--default-grid-baseline) * 2);
+	padding-top: var(--default-grid-baseline);
+	.empty-content {
+		margin-top: 0 !important;
+		padding: calc(var(--default-grid-baseline) * 12);
+	}
+	.event-popover__invitees {
+	 	.avatar-participation-status__text {
+		 bottom: 22px;
+		}
+	}
+	.event-popover__buttons {
+		 margin-top: calc(var(--default-grid-baseline) * 2);
+	}
+	.event-popover__top-actions {
+	display: flex;
+	gap: var(--default-grid-baseline);
+	position: absolute !important;
+	top: var(--default-grid-baseline) !important;
+	z-index: 100 !important;
+	opacity: .7 !important;
+	border-radius: 22px !important;
+	align-items: center;
+	inset-inline-end : var(--default-grid-baseline) !important;
+		.action-item.action-item--single {
+			width: 44px !important;
+			height: 44px !important;
+		}
+	}
+	.popover-loading-indicator {
+		width: 100%;
+		&__icon {
+			margin: 0 auto;
+			height: 62px;
+			width: 62px;
+			background-size: 62px;
+		}
+	}
+
+	.event-popover__response-buttons {
+		margin-top: calc(var(--default-grid-baseline) * 2);
+		margin-bottom: 0;
+	}
+	.property-text,
+	.property-title-time-picker {
+		&__icon {
+			margin: 0 !important;
+		}
+	}
+}
+
+.event-popover {
+	 // Don't cut popovers above popovers (e.g. date time picker)
+	 .v-popper__inner {
+		 overflow: unset !important;
+	 }
+
+	 &[x-out-of-boundaries] {
+		 margin-top: 75px;
+	 }
+
+	.property-title-time-picker__time-pickers {
+		flex-grow: 0 !important;
+		flex-shrink: 1;
+		margin-inline-start: calc(var(--default-grid-baseline) * 2);
+	}
+
+	.property-title-time-picker__time-pickers-from-inner__selectors, .property-title-time-picker__time-pickers-to-inner__selectors {
+		width: 100% !important;
+	}
+
+	.property-title-time-picker__time-pickers-from-inner__timezone, .property-title-time-picker__time-pickers-to-inner__timezone {
+		width: unset !important;
+	}
+
+	.calendar-picker-header {
+		margin-inline-start: 0 !important;
+	}
+ }
+
+.event-popover[x-placement^='bottom'] {
+	.popover__arrow {
+		border-bottom-color: var(--color-background-dark);
+	}
+}
+
+.property-title-time-picker--readonly {
+	flex-direction: row !important;
+	gap: calc(var(--default-grid-baseline) * 4);
+	justify-content: flex-start !important;
+
+	.property-title-time-picker__icon {
+		align-self: start;
+		padding-top: calc(var(--default-grid-baseline) / 2);
+	}
+}
+
+.property-title-time-picker-read-only-wrapper {
+	display: flex;
+	gap: calc(var(--default-grid-baseline) * 2);
+}

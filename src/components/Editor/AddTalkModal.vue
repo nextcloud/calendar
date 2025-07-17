@@ -137,7 +137,7 @@ export default {
 					&& (conversation.type === CONVERSATION_TYPE_GROUP
 						|| (conversation.type === CONVERSATION_TYPE_PUBLIC
 							&& conversation.objectType !== CONVERSATION_OBJECT_TYPE_VIDEO_VERIFICATION))
-					&& conversation.objectType !== CONVERSATION_OBJECT_TYPE_EVENT
+					&& conversation.objectType !== CONVERSATION_OBJECT_TYPE_EVENT,
 				)
 			} catch (error) {
 				console.error('Error fetching Talk conversations:', error)
@@ -256,17 +256,18 @@ export default {
 	position: sticky;
 	bottom: 0;
 	padding: 16px;
-	text-align: right;
+	text-align: end;
 	display: flex;
 	background-color: var(--color-main-background);
 	border-radius: var(--border-radius-large);
 }
+
 .talk_new-room {
-	margin-right: auto;
+	margin-inline-end: auto;
 }
 
 .talk_select-room {
-	margin-left: auto;
+	margin-inline-start: auto;
 }
 
 h2 {

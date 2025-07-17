@@ -312,7 +312,7 @@ export default {
 		margin-top: 10px;
 
 		button:last-of-type {
-			margin-left: auto;
+			margin-inline-start: auto;
 		}
 	}
 
@@ -327,7 +327,7 @@ export default {
 	}
 
 	.checkbox-content {
-		margin-left: 25px;
+		margin-inline-start: 25px;
 	}
 }
 

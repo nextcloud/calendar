@@ -7,15 +7,13 @@
 	<!-- Yes, technically an alarm is a component, not a property, but for the matter of CSS names it really doesn't matter -->
 	<div v-click-outside="closeAlarmEditor"
 		class="property-alarm-item">
-		<div class="property-alarm-item__icon"
-			:class="{ 'property-alarm-item__icon--hidden': !showIcon }">
-			<Bell :size="20"
-				:name="t('calendar', 'Reminder')"
-				class="icon" />
-		</div>
-		<div v-if="!isEditing"
-			class="property-alarm-item__label">
-			{{ alarm | formatAlarm(isAllDay, currentUserTimezone, locale) }}
+		<div class="property-alarm-item__front">
+			<div class="property-alarm-item__icon"
+				:class="{ 'property-alarm-item__icon--hidden': !showIcon }" />
+			<div v-if="!isEditing"
+				class="property-alarm-item__label">
+				{{ alarm | formatAlarm(isAllDay, currentUserTimezone, locale) }}
+			</div>
 		</div>
 		<div v-if="isEditing && isRelativeAlarm && !isAllDay"
 			class="property-alarm-item__edit property-alarm-item__edit--timed">
@@ -68,26 +66,30 @@
 				@update:open="(open) => showMenu = open">
 				<ActionRadio v-if="canChangeAlarmType || (!isAlarmTypeDisplay && forceEventAlarmType === 'DISPLAY')"
 					:name="alarmTypeName"
-					:checked="isAlarmTypeDisplay"
-					@change="changeType('DISPLAY')">
+					value="DISPLAY"
+					:modelValue="alarmType"
+					@update:modelValue="changeType('DISPLAY')">
 					{{ $t('calendar', 'Notification') }}
 				</ActionRadio>
 				<ActionRadio v-if="canChangeAlarmType || (!isAlarmTypeEmail && forceEventAlarmType === 'EMAIL')"
 					:name="alarmTypeName"
-					:checked="isAlarmTypeEmail"
-					@change="changeType('EMAIL')">
+					value="EMAIL"
+					:modelValue="alarmType"
+					@update:modelValue="changeType('EMAIL')">
 					{{ $t('calendar', 'Email') }}
 				</ActionRadio>
 				<ActionRadio v-if="canChangeAlarmType && isAlarmTypeAudio"
 					:name="alarmTypeName"
-					:checked="isAlarmTypeAudio"
-					@change="changeType('AUDIO')">
+					value="AUDIO"
+					:modelValue="alarmType"
+					@update:modelValue="changeType('AUDIO')">
 					{{ $t('calendar', 'Audio notification') }}
 				</ActionRadio>
 				<ActionRadio v-if="canChangeAlarmType && isAlarmTypeOther"
 					:name="alarmTypeName"
-					:checked="isAlarmTypeOther"
-					@change="changeType(alarm.type)">
+					:value="isAlarmTypeOther ?? alarmType"
+					:modelValue="alarmType"
+					@update:modelValue="changeType(alarmType)">
 					{{ $t('calendar', 'Other notification') }}
 				</ActionRadio>
 
@@ -95,14 +97,16 @@
 
 				<ActionRadio v-if="!isRecurring"
 					:name="alarmTriggerName"
-					:checked="isRelativeAlarm"
-					@change="switchToRelativeAlarm">
+					value="RELATIVE"
+					:modelValue="alarmRelationType"
+					@update:modelValue="switchToRelativeAlarm">
 					{{ $t('calendar', 'Relative to event') }}
 				</ActionRadio>
 				<ActionRadio v-if="!isRecurring"
 					:name="alarmTriggerName"
-					:checked="isAbsoluteAlarm"
-					@change="switchToAbsoluteAlarm">
+					value="ABSOLUTE"
+					:modelValue="alarmRelationType"
+					@update:modelValue="switchToAbsoluteAlarm">
 					{{ $t('calendar', 'On date') }}
 				</ActionRadio>
 
@@ -147,7 +151,6 @@ import AlarmTimeUnitSelect from './AlarmTimeUnitSelect.vue'
 import moment from '@nextcloud/moment'
 import TimePicker from '../../Shared/TimePicker.vue'
 import DatePicker from '../../Shared/DatePicker.vue'
-import Bell from 'vue-material-design-icons/Bell.vue'
 import Check from 'vue-material-design-icons/Check.vue'
 import Delete from 'vue-material-design-icons/Delete.vue'
 import Pencil from 'vue-material-design-icons/Pencil.vue'
@@ -166,7 +169,6 @@ export default {
 		ActionButton,
 		ActionRadio,
 		ActionSeparator,
-		Bell,
 		Check,
 		Delete,
 		Pencil,
@@ -243,11 +245,17 @@ export default {
 		canChangeAlarmType() {
 			return this.alarm.type !== this.forceEventAlarmType
 		},
+		alarmType() {
+			return this.alarm.type || 'DISPLAY'
+		},
 		alarmTypeName() {
 			return this._uid + '-radio-type-name'
 		},
 		alarmTriggerName() {
 			return this._uid + '-radio-trigger-name'
+		},
+		alarmRelationType() {
+			return this.isRelativeAlarm ? 'RELATIVE' : 'ABSOLUTE'
 		},
 		isAlarmTypeDisplay() {
 			return this.alarm.type === 'DISPLAY'

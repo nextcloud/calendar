@@ -88,32 +88,16 @@ export default {
 .event-popover {
 	.calendar-picker-header {
 		button {
-			margin-left: -9px;
+			margin-inline-start: -9px;
 
 			.button-vue__text {
-				margin-left: 0;
+				margin-inline-start: 0;
 			}
 		}
 	}
 
 	.calendar-picker-header--readonly button .button-vue__text {
-		margin-left: 2px;
-	}
-}
-
-.app-sidebar {
-	.calendar-picker-header {
-		button {
-			margin-left: -14px;
-
-			.button-vue__text {
-				margin-left: 0;
-			}
-		}
-	}
-
-	.calendar-picker-header--readonly button .button-vue__text {
-		margin-left: 6px;
+		margin-inline-start: 2px;
 	}
 }
 </style>
@@ -121,16 +105,7 @@ export default {
 <style lang="scss" scoped>
 .calendar-picker-header {
 	display: flex;
-	align-self: flex-start;
-	margin-bottom: 5px;
-
-	// Leave room for the three dot and close buttons
-	max-width: calc(100% - 79px);
-
-	&--has-warning {
-		// Leave room for the immutable warning, three dot menu and close button
-		max-width: calc(100% - 79px - 34px);
-	}
+	margin-inline-start: -10px; // Needed to align the color circle image
 
 	&__picker {
 		display: flex;
@@ -143,7 +118,7 @@ export default {
 				display: inline-block;
 				width: 20px;
 				height: 20px;
-				margin-left: 5px;
+				margin-inline-start: 5px;
 				margin-bottom: 1px;
 				vertical-align: middle;
 				background-image: var(--mdi-menu-down);

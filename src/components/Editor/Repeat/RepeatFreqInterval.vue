@@ -75,14 +75,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.repeat-option-set {
-	&__interval {
-		margin: 0 5px 0 0;
-	}
-
-	&__frequency {
-		min-width: unset !important;
-		padding-top: 7px;
-	}
+.repeat-option-set--interval-freq {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 2);
 }
 </style>

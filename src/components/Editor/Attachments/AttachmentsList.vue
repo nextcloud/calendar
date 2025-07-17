@@ -294,11 +294,12 @@ export default {
 .attachments-input {
 	display: none;
 }
+
 .attachments-summary {
 	display:flex;
 	align-items: center;
 	justify-content: space-between;
-	padding-left: 6px;
+	padding-inline-start: 6px;
 
 	.attachments-summary-inner {
 		display:flex;
@@ -307,8 +308,7 @@ export default {
 		span {
 			width: 34px;
 			height: 34px;
-			margin-left: -10px;
-			margin-right: 5px;
+			margin-inline: -13px 5px;
 		}
 
 		.attachments-summary-inner-label {
@@ -322,6 +322,7 @@ export default {
 	margin: 0 -8px;
 
 	.attachments-list-item {
+		padding: 0;
 		// Reduce height to 44px
 		:deep(.list-item) {
 			padding: 0 8px;
@@ -332,7 +333,7 @@ export default {
 
 		:deep(.list-item-content) {
 			// Align text with other properties
-			padding-left: 18px;
+			padding-inline-start: 18px;
 		}
 
 		:deep(.line-one__title) {
@@ -345,15 +346,17 @@ export default {
 	margin-top: 1rem;
 	text-align: center;
 }
+
 .button-group {
 	display: flex;
 	align-content: center;
 	justify-content: center;
 
 	button:first-child {
-		margin-right: 6px;
+		margin-inline-end: 6px;
 	}
 }
+
 .attachment-icon {
 	width: 24px;
 	height: 24px;
