@@ -38,7 +38,7 @@
 					<template #icon>
 						<IconAdd :size="20" />
 					</template>
-					{{ t('calendar', 'Create a new conversation') }}
+					{{ t('calendar', 'Create a new public conversation') }}
 				</NcButton>
 				<NcButton type="primary"
 					class="talk_select-room"
