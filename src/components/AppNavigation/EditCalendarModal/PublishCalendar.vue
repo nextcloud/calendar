@@ -122,7 +122,6 @@
 
 <script>
 import { NcActions, NcActionButton, NcActionInput, NcActionText } from '@nextcloud/vue'
-import ClickOutside from 'vue-click-outside'
 import {
 	generateRemoteUrl,
 	generateUrl,
@@ -158,9 +157,6 @@ export default {
 		Email,
 		LinkIcon,
 		PlusIcon,
-	},
-	directives: {
-		ClickOutside,
 	},
 	props: {
 		calendar: {

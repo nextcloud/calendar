@@ -14,7 +14,6 @@ import { linkTo } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import AppointmentConfig from './models/appointmentConfig.js'
-import ClickOutside from 'vue-click-outside'
 import VTooltip from 'v-tooltip'
 import VueShortKey from 'vue-shortkey'
 import windowTitleService from './services/windowTitleService.js'
@@ -25,7 +24,6 @@ Vue.use(PiniaVuePlugin)
 const pinia = createPinia()
 
 // register global components
-Vue.directive('ClickOutside', ClickOutside)
 Vue.use(VTooltip)
 Vue.use(VueShortKey, { prevent: ['input', 'textarea', '.rich-contenteditable__input'] })
 

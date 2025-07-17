@@ -35,9 +35,3 @@ declare module 'vue-shortkey' {
   const content: any
   export = content
 }
-
-declare module 'vue-click-outside' {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const content: any
-  export = content
-}
