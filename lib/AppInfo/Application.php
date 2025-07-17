@@ -20,6 +20,7 @@ use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
+use OCP\IUserSession;
 use OCP\ServerVersion;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
@@ -78,7 +79,11 @@ class Application extends App implements IBootstrap {
 		// TODO: drop condition once we only support Nextcloud >= 31
 		if ($serverVersion->getMajorVersion() >= 31) {
 			// The contacts menu/avatar is potentially shown everywhere so an event based loading
-			// mechanism doesn't make sense here
+			// mechanism doesn't make sense here - well, maybe not when not logged in yet :-)
+			$userSession = $container->get(IUserSession::class);
+			if (!$userSession->isLoggedIn()) {
+				return;
+			}
 			Util::addScript(self::APP_ID, 'calendar-contacts-menu');
 		}
 	}
