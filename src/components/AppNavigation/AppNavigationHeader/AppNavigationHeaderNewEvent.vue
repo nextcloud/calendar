@@ -13,6 +13,7 @@
 		<template #icon>
 			<Plus :size="20" />
 		</template>
+		{{ t('calendar', 'Event') }}
 	</NcButton>
 </template>
 
