@@ -8,7 +8,7 @@
 		class="property-text"
 		:class="{ 'property-text--readonly': isReadOnly }">
 		<component :is="icon"
-			v-tooltip="info"
+			:title="info"
 			:size="20"
 			:name="readableName"
 			class="property-text__icon"
