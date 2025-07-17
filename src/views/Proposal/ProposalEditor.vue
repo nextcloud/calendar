@@ -6,117 +6,81 @@
 		   :title="modalTitle"
 		   :size="modalSize"
 		   @close="onModalClose()">
-			<!-- Show proposal list view -->
-			<div v-if="modalMode === 'view'" class="proposal-listview__content">
+			<!-- Show proposal viewer -->
+			<div v-if="modalMode === 'view'" class="proposal-viewer__content">
 				<!-- Row 1: Title -->
-				<div class="proposal-listview__row-title">
-					<h2>{{ t('calendar', 'Meeting Proposal List') }}</h2>
+				<div class="proposal-viewer__row-title">
+					<h2>{{ selectedProposal?.title }}</h2>
 				</div>
 				<!-- Row 2: List -->
-				<div class="proposal-listview__row-list">
-					<div v-if="storedProposals.length === 0" class="proposal-listview__list-content">
-						<NcEmptyContent  name="No proposals found">
-							<template #icon>
-								<PollIcon />
-							</template>
-							<template #description>
-								{{ t('calendar', 'Create a new proposal to get started.') }}
-							</template>
-						</NcEmptyContent>
+				<div class="proposal-viewer__row-details">
+					<!-- Left Column: Description and Duration -->
+					<div class="proposal-viewer__column-left">
+						<div class="proposal-viewer__field">
+							<strong>{{ t('calendar', 'Description') }}:</strong>
+							<div>{{ selectedProposal?.description || t('calendar', 'No Description') }}</div>
+						</div>
+						<div class="proposal-viewer__field">
+							<strong>{{ t('calendar', 'Duration') }}:</strong>
+							<div>{{ selectedProposal?.duration ? selectedProposal.duration + ' min' : '-' }}</div>
+						</div>
 					</div>
-					<div v-if="storedProposals.length > 0" class="proposal-listview__list-content">
-						<div v-for="proposal in storedProposals" :key="proposal.id" class="proposal-listview__list-item">
-							<div class="proposal-listview__list-item-details">
-								<div class="proposal-listview__list-item-overview">
-									<div class="proposal-listview__list-item-title">
-										<h3>{{ proposal.title }}</h3>
-									</div>
-									<div class="proposal-listview__list-item-responses">
-										{{ proposal.participants.filter(p => p.status === ProposalParticipantStatus.Responded).length }} / {{ proposal.participants.length }} responded
-									</div>
-									<div class="proposal-listview__list-item-actions">
-										<NcButton size="small" variant="secondary" @click="onProposalModify(proposal)">
-											{{ t('calendar', 'Modify') }}
-										</NcButton>
-										<NcButton size="small" variant="tertiary" @click="onProposalDestroy(proposal)">
-											{{ t('calendar', 'Delete') }}
-										</NcButton>
-									</div>
-								</div>
-								<div class="proposal-listview__list-item-dates">
-									<template v-for="entry in proposal.dates">
-										<div class="proposal-listview__list-item-date">
-											<span class="proposal-listview__list-item-date-time">
-												{{ formatProposalDate(entry.date) }}
-											</span>
-											<span class="proposal-listview__list-item-vote-yes">
-												{{ entry.votedYes }}
-												<CheckIcon />
-											</span>
-											<span class="proposal-listview__list-item-vote-no">
-												{{ entry.votedNo }}
-												<CloseIcon />
-											</span>
-											<span class="proposal-listview__list-item-vote-maybe">
-												{{ entry.votedMaybe }}
-												<HelpIcon />
-											</span>
-										</div>
-									</template>
-								</div>
-							</div>
+					<!-- Right Column: Dates with action buttons -->
+					<div class="proposal-public__viewer-right">
+						<div class="proposal-public__matrix">
+							
 						</div>
 					</div>
 				</div>
 				<!-- Row 3: Actions -->
-				<div class="proposal-listview__row-actions">
-					<NcButton variant="primary" @click="onProposalCreate()">{{ t('calendar', 'Create') }}</NcButton>
+				<div class="proposal-viewer__row-actions">
+					<NcButton variant="primary" @click="onProposalModify(selectedProposal)">{{ t('calendar', 'Edit') }}</NcButton>
 					<NcButton variant="secondary" @click="onModalClose()">{{ t('calendar', 'Close') }}</NcButton>
 				</div>
 			</div>
-			<!-- Show proposal edit view -->
-			<div v-if="modalMode === 'create' || modalMode === 'modify'" class="proposal-editview__content">
-				<div class="proposal-editview__column-left">
+			<!-- Show proposal editor -->
+			<div v-if="modalMode === 'create' || modalMode === 'modify'" class="proposal-editor__content">
+				<div class="proposal-editor__column-left">
 					<!-- Row 1: Title -->
-					<div class="proposal-editview__row-title">
+					<div class="proposal-editor__row-title">
 						<h2>{{ modalEditLabel }}</h2>
 					</div>
 					<!-- Row 2: Details -->
-					<div class="proposal-editview__row-details">
-						<NcTextField class="proposal-editview__proposal-title"
+					<div class="proposal-editor__row-details">
+						<NcTextField class="proposal-editor__proposal-title"
 							:label="t('calendar', 'Title')"
 							v-model="selectedProposal.title" />
-						<NcTextArea class="proposal-editview__proposal-description"
+						<NcTextArea class="proposal-editor__proposal-description"
 							:label="t('calendar', 'Description')"
 							v-model="selectedProposal.description" />
-						<div class="proposal-editview__proposal-location-container">
-							<NcTextField class="proposal-editview__proposal-location"
+						<div class="proposal-editor__proposal-location-container">
+							<NcTextField class="proposal-editor__proposal-location"
 								:label="t('calendar', 'Location')"
 								:value="selectedProposal.location"
 								@input="onProposalLocationInput($event)" />
-							<NcButton class="proposal-editview__proposal-location-selector"
+							<NcButton class="proposal-editor__proposal-location-selector"
 								variant="secondary"
 								@click="onProposalLocationTypeToggle">
 								{{ modalEditLocationButtonLabel }}
 							</NcButton>
 						</div>
-						<NcTextField class="proposal-editview__proposal-duration"
+						<NcTextField class="proposal-editor__proposal-duration"
 							:label="t('calendar', 'Duration')"
 							v-model="selectedProposal.duration"
 							type="number"
 							min="1"
 							step="1"
 							@input="onProposalDurationChange($event)" />
-						<InviteesListSearch class="proposal-editview__proposal-participants-selector"
+						<InviteesListSearch class="proposal-editor__proposal-participants-selector"
 							:already-invited-emails="existingParticipantAddressess"
 							@add-attendee="onProposalParticipantAdd" />
-						<div v-if="selectedProposal.participants.length > 0" class="proposal-editview__proposal-participants">
+						<div v-if="selectedProposal.participants.length > 0" class="proposal-editor__proposal-participants">
 							<ProposalParticipantItem v-for="(participant, idx) in selectedProposal.participants"
 								:key="idx"
 								:proposal-participant="participant"
 								@remove-participant="onProposalParticipantRemove(participant.address)" />
 						</div>
-						<div v-if="selectedProposal.dates.length > 0" class="proposal-editview__proposed-dates">
+						<div v-if="selectedProposal.dates.length > 0" class="proposal-editor__proposed-dates">
 							<ProposalDateItem v-for="(entry, idx) in selectedProposal.dates"
 								:key="idx"
 								:proposal-date="entry"
@@ -124,14 +88,14 @@
 						</div>
 					</div>
 					<!-- Row 3: Actions -->
-					<div class="proposal-editview__row-actions">
+					<div class="proposal-editor__row-actions">
 						<NcButton variant="primary" :disabled="!modalEditSaveState" @click="onProposalSave()">{{ modalEditSaveLabel }}</NcButton>
 						<NcButton variant="secondary" v-if="modalEditDestroyState" @click="onProposalDestroy(selectedProposal)">{{ 'Delete' }}</NcButton>
 						<NcButton variant="secondary" @click="onModalClose()">{{ t('calendar', 'Close') }}</NcButton>
 					</div>
 				</div>
-				<div class="proposal-editview__column-right">
-					<div class="proposal-editview__calendar-actions">
+				<div class="proposal-editor__column-right">
+					<div class="proposal-editor__calendar-actions">
 						<NcButton variant="secondary" @click="onCalendarFocusToday()">
 							{{ t('calendar', 'Today') }}
 						</NcButton>
@@ -166,7 +130,7 @@
 						</NcButton>
 					</div>
 					<FullCalendar ref="proposalFullCalendar"
-					:options="calendarConfiguration" class="proposal-editview__calendar" />
+					:options="calendarConfiguration" class="proposal-editor__calendar" />
 				</div>
 			</div>
 		</NcModal>
@@ -866,7 +830,7 @@ export default {
 					title: 'Available',
 					start: slot.start,
 					end: slot.end,
-					classNames: ['proposal-editview__calendar-availability'],
+					classNames: ['proposal-editor__calendar-availability'],
 					allDay: false,
 					display: 'background',
 				})
@@ -916,7 +880,7 @@ export default {
 	overflow: hidden;
 }
 
-.proposal-listview__content {
+.proposal-viewer__content {
 	padding-bottom: calc(var(--default-grid-baseline) * 4);
 	padding-left: calc(var(--default-grid-baseline) * 4);
 	padding-right: calc(var(--default-grid-baseline) * 4);
@@ -925,17 +889,17 @@ export default {
 	height: 100%;
 }
 
-.proposal-listview__row-title {
+.proposal-viewer__row-title {
 	flex-shrink: 0;
 }
 
-.proposal-listview__row-list {
+.proposal-viewer__row-list {
 	flex: 1;
 	overflow-y: auto;
 	margin-bottom: calc(var(--default-grid-baseline) * 4);
 }
 
-.proposal-listview__row-actions {
+.proposal-viewer__row-actions {
 	display: flex;
 	gap: calc(var(--default-grid-baseline) * 2);
 	background-color: var(--color-main-background);
@@ -943,13 +907,13 @@ export default {
 	padding-top: calc(var(--default-grid-baseline) * 2);
 }
 
-.proposal-listview__list-content {
+.proposal-viewer__list-content {
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--default-grid-baseline) * 4);
 }
 
-.proposal-listview__list-item {
+.proposal-viewer__list-item {
 	transition: background-color 0.2s ease;
 
 	&:hover {
@@ -957,14 +921,14 @@ export default {
 	}
 }
 
-.proposal-listview__list-item-details {
+.proposal-viewer__list-item-details {
 	display: flex;
 	gap: calc(var(--default-grid-baseline) * 4);
 	align-items: flex-start;
 	padding: calc(var(--default-grid-baseline) * 2);
 }
 
-.proposal-listview__list-item-overview {
+.proposal-viewer__list-item-overview {
 	flex: 1;
 	min-width: calc(var(--default-grid-baseline) * 100);
 	display: flex;
@@ -972,44 +936,44 @@ export default {
 	gap: calc(var(--default-grid-baseline) * 2);
 }
 
-.proposal-listview__list-item-title {
+.proposal-viewer__list-item-title {
 	h3 {
 		margin-top: 0;
 		margin-bottom: calc(var(--default-grid-baseline) * 1);
 	}
 }
 
-.proposal-listview__list-item-actions {
+.proposal-viewer__list-item-actions {
 	display: flex;
 	gap: calc(var(--default-grid-baseline) * 2);
 }
 
-.proposal-listview__list-item-dates {
+.proposal-viewer__list-item-dates {
 	flex: 1;
 	min-width: calc(var(--default-grid-baseline) * 100);
 }
 
-.proposal-listview__list-item-date {
+.proposal-viewer__list-item-date {
 	display: flex;
 	align-items: center;
 	gap: calc(var(--default-grid-baseline) * 4);
 }
 
-.proposal-listview__list-item-date-time {
+.proposal-viewer__list-item-date-time {
 	flex: 1;
 	min-width: 0;
 }
 
-.proposal-listview__list-item-vote-yes,
-.proposal-listview__list-item-vote-no,
-.proposal-listview__list-item-vote-maybe {
+.proposal-viewer__list-item-vote-yes,
+.proposal-viewer__list-item-vote-no,
+.proposal-viewer__list-item-vote-maybe {
 	display: flex;
 	align-items: center;
 	gap: calc(var(--default-grid-baseline) * 4);
 	white-space: nowrap;
 }
 
-.proposal-editview__content {
+.proposal-editor__content {
 	padding-bottom: calc(var(--default-grid-baseline) * 4);
 	padding-left: calc(var(--default-grid-baseline) * 4);
 	padding-right: calc(var(--default-grid-baseline) * 4);
@@ -1019,7 +983,7 @@ export default {
 	overflow: hidden;
 }
 
-.proposal-editview__column-left {
+.proposal-editor__column-left {
 	flex: 1;
 	min-width: calc(var(--default-grid-baseline) * 100);
 	max-width: calc(var(--default-grid-baseline) * 100);
@@ -1028,7 +992,7 @@ export default {
 	height: 100%;
 }
 
-.proposal-editview__column-right {
+.proposal-editor__column-right {
 	flex: 1;
 	min-width: calc(var(--default-grid-baseline) * 100);
 	display: flex;
@@ -1037,12 +1001,12 @@ export default {
 	margin-top: calc(var(--default-grid-baseline) * 8);
 }
 
-.proposal-editview__row-title {
+.proposal-editor__row-title {
 	flex-shrink: 0;
 	margin-bottom: calc(var(--default-grid-baseline) * 2);
 }
 
-.proposal-editview__row-details {
+.proposal-editor__row-details {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
@@ -1052,7 +1016,7 @@ export default {
 	min-height: 0;
 }
 
-.proposal-editview__row-actions {
+.proposal-editor__row-actions {
 	display: flex;
 	gap: calc(var(--default-grid-baseline) * 2);
 	background-color: var(--color-main-background);
@@ -1060,12 +1024,12 @@ export default {
 	padding-top: calc(var(--default-grid-baseline) * 2);
 }
 
-.proposal-editview__calendar {
+.proposal-editor__calendar {
 	flex: 1;
 	min-height: 0;
 }
 
-.proposal-editview__calendar-actions {
+.proposal-editor__calendar-actions {
 	display: flex;
 	align-items: center;
 	gap: calc(var(--default-grid-baseline) * 2);
@@ -1080,17 +1044,17 @@ export default {
 	}
 }
 
-.proposal-editview__proposal-location-container {
+.proposal-editor__proposal-location-container {
 	display: flex;
 	align-items: center;
 	gap: calc(var(--default-grid-baseline) * 2);
 }
 
-.proposal-editview__proposal-location {
+.proposal-editor__proposal-location {
 	flex: 1;
 }
 
-:deep(.proposal-editview__calendar-availability) {
+:deep(.proposal-editor__calendar-availability) {
 	background: repeating-linear-gradient(45deg, transparent 0px, transparent 10px, var(--color-primary) 10px, var(--color-primary) 15px) !important;
 }
 </style>
