@@ -1,6 +1,7 @@
 OC.L10N.register(
     "calendar",
     {
+    "Unscheduled Tasks" : "Ungeplante Aufgaben",
     "Provided email-address is too long" : "Die eingegebene Adresse ist zu lang.",
     "User-Session unexpectedly expired" : "Sitzung unerwartet abgelaufen",
     "Provided email-address is not valid" : "Angegebene E-Mail-Adresse ist ungültig",

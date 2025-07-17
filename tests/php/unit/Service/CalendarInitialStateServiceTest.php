@@ -62,7 +62,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->compareVersion,
 			$this->userId,
 		);
-		$this->config->expects(self::exactly(16))
+		$this->config->expects(self::exactly(17))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
@@ -74,6 +74,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
+				['calendar', 'tasksSidebar', 'yes', 'defaultTasksSidebar'],
 				['calendar', 'installed_version', '', '1.0.0'],
 				['calendar', 'hideEventExport', 'no', 'yes'],
 				['calendar', 'disableAppointments', 'no', 'no'],
@@ -82,7 +83,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['calendar', 'showResources', 'yes', 'yes'],
 				['calendar', 'publicCalendars', ''],
 			]);
-		$this->config->expects(self::exactly(11))
+		$this->config->expects(self::exactly(12))
 			->method('getUserValue')
 			->willReturnMap([
 				['user123', 'calendar', 'eventLimit', 'defaultEventLimit', 'yes'],
@@ -96,6 +97,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['user123', 'calendar', 'slotDuration', 'defaultSlotDuration', '00:15:00'],
 				['user123', 'calendar', 'defaultReminder', 'defaultDefaultReminder', '00:10:00'],
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
+				['user123', 'calendar', 'tasksSidebar', 'defaultTasksSidebar', 'yes'],
 			]);
 		$this->appManager->expects(self::exactly(3))
 			->method('isEnabledForUser')
@@ -114,7 +116,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			->method('getAllAppointmentConfigurations')
 			->with($this->userId)
 			->willReturn([new AppointmentConfig()]);
-		$this->initialStateService->expects(self::exactly(23))
+		$this->initialStateService->expects(self::exactly(24))
 			->method('provideInitialState')
 			->withConsecutive(
 				['app_version', '1.0.0'],
@@ -131,6 +133,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['slot_duration', '00:15:00'],
 				['default_reminder', '00:10:00'],
 				['show_tasks', false],
+				['tasks_sidebar', true],
 				['tasks_enabled', true],
 				['hide_event_export', true],
 				['force_event_alarm_type', null],
@@ -155,7 +158,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->compareVersion,
 			null,
 		);
-		$this->config->expects(self::exactly(16))
+		$this->config->expects(self::exactly(17))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
@@ -167,6 +170,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
+				['calendar', 'tasksSidebar', 'yes', 'defaulttasksSidebar'],
 				['calendar', 'installed_version', '', '1.0.0'],
 				['calendar', 'hideEventExport', 'no', 'yes'],
 				['calendar', 'disableAppointments', 'no', 'no'],
@@ -175,7 +179,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['calendar', 'showResources', 'yes', 'yes'],
 				['calendar', 'publicCalendars', ''],
 			]);
-		$this->config->expects(self::exactly(11))
+		$this->config->expects(self::exactly(12))
 			->method('getUserValue')
 			->willReturnMap([
 				[null, 'calendar', 'eventLimit', 'defaultEventLimit', 'yes'],
@@ -189,6 +193,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				[null, 'calendar', 'slotDuration', 'defaultSlotDuration', '00:15:00'],
 				[null, 'calendar', 'defaultReminder', 'defaultDefaultReminder', '00:10:00'],
 				[null, 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
+				[null, 'calendar', 'tasksSidebar', 'defaultTasksSidebar', 'yes'],
 			]);
 		$this->appManager->expects(self::exactly(3))
 			->method('isEnabledForUser')
@@ -203,7 +208,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['spreed', true, '12.0.0'],
 				['circles', true, '22.0.0'],
 			]);
-		$this->initialStateService->expects(self::exactly(22))
+		$this->initialStateService->expects(self::exactly(23))
 			->method('provideInitialState')
 			->withConsecutive(
 				['app_version', '1.0.0'],
@@ -220,6 +225,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['slot_duration', '00:15:00'],
 				['default_reminder', '00:10:00'],
 				['show_tasks', false],
+				['tasks_sidebar', false],
 				['tasks_enabled', true],
 				['hide_event_export', true],
 				['force_event_alarm_type', null],
@@ -249,7 +255,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->compareVersion,
 			$this->userId,
 		);
-		$this->config->expects(self::exactly(16))
+		$this->config->expects(self::exactly(17))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
@@ -261,6 +267,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
+				['calendar', 'tasksSidebar', 'yes', 'defaulttasksSidebar'],
 				['calendar', 'installed_version', '', '1.0.0'],
 				['calendar', 'hideEventExport', 'no', 'yes'],
 				['calendar', 'disableAppointments', 'no', 'no'],
@@ -269,7 +276,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['calendar', 'showResources', 'yes', 'yes'],
 				['calendar', 'publicCalendars', ''],
 			]);
-		$this->config->expects(self::exactly(11))
+		$this->config->expects(self::exactly(12))
 			->method('getUserValue')
 			->willReturnMap([
 				['user123', 'calendar', 'eventLimit', 'defaultEventLimit', 'yes'],
@@ -283,6 +290,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['user123', 'calendar', 'slotDuration', 'defaultSlotDuration', '00:15:00'],
 				['user123', 'calendar', 'defaultReminder', 'defaultDefaultReminder', '00:10:00'],
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
+				['user123', 'calendar', 'tasksSidebar', 'defaultTasksSidebar', 'yes'],
 			]);
 		$this->appManager->expects(self::exactly(3))
 			->method('isEnabledForUser')
@@ -301,7 +309,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			->method('getAllAppointmentConfigurations')
 			->with($this->userId)
 			->willReturn([new AppointmentConfig()]);
-		$this->initialStateService->expects(self::exactly(23))
+		$this->initialStateService->expects(self::exactly(24))
 			->method('provideInitialState')
 			->withConsecutive(
 				['app_version', '1.0.0'],
@@ -318,6 +326,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['slot_duration', '00:15:00'],
 				['default_reminder', '00:10:00'],
 				['show_tasks', false],
+				['tasks_sidebar', false],
 				['tasks_enabled', false],
 				['hide_event_export', true],
 				['force_event_alarm_type', null],

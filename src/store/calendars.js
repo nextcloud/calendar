@@ -692,7 +692,7 @@ export default defineStore('calendars', {
 			const response = await calendar.dav.findByTypeInTimeRange('VEVENT', from, to)
 			let responseTodo = []
 			if (settingsStore.showTasks) {
-				responseTodo = await calendar.dav.findByTypeInTimeRange('VTODO', from, to)
+				responseTodo = await calendar.dav.findByType('VTODO')
 			}
 			fetchedTimeRangesStore.addTimeRange({
 				calendarId: calendar.id,

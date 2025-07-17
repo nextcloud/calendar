@@ -47,7 +47,7 @@ class PublicViewControllerTest extends TestCase {
 	}
 
 	public function testPublicIndexWithBranding():void {
-		$this->config->expects(self::exactly(11))
+		$this->config->expects(self::exactly(12))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'no'],
@@ -59,6 +59,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'yes'],
+				['calendar', 'tasksSidebar', 'yes', 'yes'],
 				['dav', 'allow_calendar_link_subscriptions', 'yes', 'defaultCanSubscribeLink'],
 				['calendar', 'installed_version', '', '1.0.0']
 			]);
@@ -85,7 +86,7 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService->expects(self::exactly(17))
+		$this->initialStateService->expects(self::exactly(18))
 			->method('provideInitialState')
 			->withConsecutive(
 				['calendar', 'app_version', '1.0.0'],
@@ -101,6 +102,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'slot_duration', 'defaultSlotDuration'],
 				['calendar', 'default_reminder', 'defaultDefaultReminder'],
 				['calendar', 'show_tasks', true],
+				['calendar', 'tasks_sidebar', true],
 				['calendar', 'tasks_enabled', false],
 				['calendar', 'hide_event_export', false],
 				['calendar', 'can_subscribe_link', 'defaultCanSubscribeLink'],
@@ -129,7 +131,7 @@ class PublicViewControllerTest extends TestCase {
 	}
 
 	public function testPublicIndexForEmbedding():void {
-		$this->config->expects(self::exactly(11))
+		$this->config->expects(self::exactly(12))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'yes'],
@@ -141,6 +143,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
+				['calendar', 'tasksSidebar', 'yes', 'defaulttasksSidebar'],
 				['dav', 'allow_calendar_link_subscriptions', 'yes', 'defaultCanSubscribeLink'],
 				['calendar', 'installed_version', '', '1.0.0']
 			]);
@@ -166,7 +169,7 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService->expects(self::exactly(18))
+		$this->initialStateService->expects(self::exactly(19))
 			->method('provideInitialState')
 			->withConsecutive(
 				['calendar', 'app_version', '1.0.0'],
@@ -182,6 +185,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'slot_duration', 'defaultSlotDuration'],
 				['calendar', 'default_reminder', 'defaultDefaultReminder'],
 				['calendar', 'show_tasks', false],
+				['calendar', 'tasks_sidebar', false],
 				['calendar', 'tasks_enabled', false],
 				['calendar', 'hide_event_export', false],
 				['calendar', 'can_subscribe_link', 'defaultCanSubscribeLink'],

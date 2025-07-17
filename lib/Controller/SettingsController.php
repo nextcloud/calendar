@@ -74,6 +74,8 @@ class SettingsController extends Controller {
 				return $this->setDefaultReminder($value);
 			case 'showTasks':
 				return $this->setShowTasks($value);
+			case 'tasksSidebar':
+				return $this->setTasksSidebar($value);
 			case 'attachmentsFolder':
 				return $this->setAttachmentsFolder($value);
 			default:
@@ -148,6 +150,31 @@ class SettingsController extends Controller {
 				$this->userId,
 				$this->appName,
 				'showTasks',
+				$value
+			);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * set config value for enabling the sidebar for unscheduled tasks by default
+	 *
+	 * @param $value User-selected option whether or not to show the sidebar
+	 * @return JSONResponse
+	 */
+	private function setTasksSidebar(string $value):JSONResponse {
+		if (!\in_array($value, ['yes', 'no'])) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'tasksSidebar',
 				$value
 			);
 		} catch (\Exception $e) {

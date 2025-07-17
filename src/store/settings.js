@@ -14,6 +14,7 @@ import * as AttachmentService from '../services/attachmentService.js'
 import usePrincipalsStore from './principals.js'
 import useFetchedTimeRangesStore from './fetchedTimeRanges.js'
 import useCalendarsStore from './calendars.js'
+import useTasksStore from './unscheduledtasks.js'
 import useCalendarObjectsStore from './calendarObjects.js'
 
 export default defineStore('settings', {
@@ -24,6 +25,7 @@ export default defineStore('settings', {
 			firstRun: null,
 			talkEnabled: false,
 			disableAppointments: false,
+			tasksSidebar: true,
 			publicCalendars: null,
 			// user-defined calendar settings
 			eventLimit: null,
@@ -140,6 +142,7 @@ export default defineStore('settings', {
 		async toggleTasksEnabled() {
 			const fetchedTimeRangesStore = useFetchedTimeRangesStore()
 			const calendarObjectsStore = useCalendarObjectsStore()
+			const tasksStore = useTasksStore()
 			const newState = !this.showTasks
 			const value = newState ? 'yes' : 'no'
 
@@ -147,6 +150,19 @@ export default defineStore('settings', {
 			this.showTasks = !this.showTasks
 			fetchedTimeRangesStore.clearFetchedTimeRanges()
 			calendarObjectsStore.modificationCount++
+			tasksStore.empty()
+		},
+
+
+		/**
+		 * Updates the user's setting for visibility of the tasks sidebar for unscheduled tasks
+		 *
+		 * @return {Promise<void>}
+		 */
+		async toggleTasksSidebar() {
+			this.tasksSidebar = !this.tasksSidebar
+			const value = this.tasksSidebar ? 'yes' : 'no'
+			await setConfig('tasksSidebar', value)
 		},
 
 		/**
@@ -289,12 +305,13 @@ export default defineStore('settings', {
 		 * @param {boolean} data.hideEventExport
 		 * @param {string} data.forceEventAlarmType
 		 * @param {boolean} data.disableAppointments Allow to disable the appointments feature
+		 * @param {boolean} data.tasksSidebar Enable the tasks sidebar for unscheduled tasks
 		 * @param {boolean} data.canSubscribeLink
 		 * @param {string} data.attachmentsFolder Default user's attachments folder
 		 * @param {boolean} data.showResources Show or hide the resources tab
 		 * @param {string} data.publicCalendars
 		 */
-		loadSettingsFromServer({ appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, canSubscribeLink, attachmentsFolder, showResources, publicCalendars }) {
+		loadSettingsFromServer({ appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, tasksSidebar, canSubscribeLink, attachmentsFolder, showResources, publicCalendars }) {
 			logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -312,6 +329,7 @@ Initial settings:
 	- HideEventExport: ${hideEventExport}
 	- ForceEventAlarmType: ${forceEventAlarmType}
 	- disableAppointments: ${disableAppointments}
+	- tasksSidebar: ${tasksSidebar}
 	- CanSubscribeLink: ${canSubscribeLink}
 	- attachmentsFolder: ${attachmentsFolder}
 	- ShowResources: ${showResources}
@@ -333,6 +351,7 @@ Initial settings:
 			this.hideEventExport = hideEventExport
 			this.forceEventAlarmType = forceEventAlarmType
 			this.disableAppointments = disableAppointments
+			this.tasksSidebar = tasksSidebar
 			this.canSubscribeLink = canSubscribeLink
 			this.attachmentsFolder = attachmentsFolder
 			this.showResources = showResources
