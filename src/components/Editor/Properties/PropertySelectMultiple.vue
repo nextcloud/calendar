@@ -6,7 +6,7 @@
 <template>
 	<div v-if="display" class="property-select-multiple">
 		<component :is="icon"
-			v-tooltip="info"
+			:title="info"
 			:size="20"
 			:name="readableName"
 			class="property-select-multiple__icon"

@@ -19,12 +19,6 @@ declare module 'vue-material-design-icons/*' {
   export default Vue
 }
 
-declare module 'v-tooltip' {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const content: any
-  export = content
-}
-
 declare module 'vuedraggable' {
   import Vue from 'vue'
   export default Vue

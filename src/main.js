@@ -14,7 +14,6 @@ import { linkTo } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import AppointmentConfig from './models/appointmentConfig.js'
-import VTooltip from 'v-tooltip'
 import VueShortKey from 'vue-shortkey'
 import windowTitleService from './services/windowTitleService.js'
 import { createPinia, PiniaVuePlugin } from 'pinia'
@@ -24,7 +23,6 @@ Vue.use(PiniaVuePlugin)
 const pinia = createPinia()
 
 // register global components
-Vue.use(VTooltip)
 Vue.use(VueShortKey, { prevent: ['input', 'textarea', '.rich-contenteditable__input'] })
 
 // CSP config for webpack dynamic chunk loading
