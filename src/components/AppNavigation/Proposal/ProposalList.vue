@@ -20,7 +20,7 @@
 
 		<template v-if="userHasEmailAddress">
 			<template v-for="proposal in storedProposals" class="proposal-list__item">
-				<NcAppNavigationItem :name="proposal.title" @click.prevent>
+				<NcAppNavigationItem :name="proposal.title" @click="onProposalView(proposal)">
 					<template v-if="proposalParticipantsTotal(proposal) === proposalParticipantsResponded(proposal)" #icon>
 						<CompleteIcon :size="20" decorative />
 					</template>
@@ -45,7 +45,7 @@
 							<template #icon>
 								<ModifyIcon :size="20" />
 							</template>
-							{{ t('calendar', 'Modify') }}
+							{{ t('calendar', 'Edit') }}
 						</NcActionButton>
 						<NcActionButton :close-after-click="true"
 							@click="onProposalDelete(proposal)">
@@ -86,12 +86,12 @@ import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
 // icons
 import WarningIcon from 'vue-material-design-icons/AlertCircleOutline'
-import PendingIcon from 'vue-material-design-icons/ClockAlertOutline'
+import PendingIcon from 'vue-material-design-icons/ProgressClock'
 import CompleteIcon from 'vue-material-design-icons/CheckCircleOutline'
 import ViewIcon from 'vue-material-design-icons/CalendarMultiselect'
 import CreateIcon from 'vue-material-design-icons/Plus'
 import ModifyIcon from 'vue-material-design-icons/Pencil'
-import DestroyIcon from 'vue-material-design-icons/Close'
+import DestroyIcon from 'vue-material-design-icons/TrashCanOutline'
 
 export default {
 	name: 'ProposalList',
