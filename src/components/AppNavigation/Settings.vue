@@ -95,14 +95,14 @@
 				</template>
 				{{ $t('calendar', 'Personal availability settings') }}
 			</ActionLink>
-			<ActionButton v-shortkey.propagate="['h']"
-				@click.prevent.stop="showKeyboardShortcuts"
-				@shortkey.native="toggleKeyboardShortcuts">
-				<template #icon>
-					<InformationVariant :size="20" decorative />
-				</template>
-				{{ $t('calendar', 'Show keyboard shortcuts') }}
-			</ActionButton>
+			<Hotkey :keys="['h']" propagate @hotkey="toggleKeyboardShortcuts">
+				<ActionButton @click.prevent.stop="showKeyboardShortcuts">
+					<template #icon>
+						<InformationVariant :size="20" decorative />
+					</template>
+					{{ $t('calendar', 'Show keyboard shortcuts') }}
+				</ActionButton>
+			</Hotkey>
 			<ShortcutOverview v-if="displayKeyboardShortcuts" @close="hideKeyboardShortcuts" />
 		</ul>
 	</AppNavigationSettings>
@@ -132,6 +132,7 @@ import {
 	showSuccess,
 	showError,
 } from '@nextcloud/dialogs'
+import { Hotkey } from '@simolation/vue-hotkey'
 
 import SettingsImportSection from './Settings/SettingsImportSection.vue'
 import SettingsTimezoneSelect from './Settings/SettingsTimezoneSelect.vue'
@@ -162,6 +163,7 @@ export default {
 		ActionLink,
 		AppNavigationSettings,
 		NcSelect,
+		Hotkey,
 		SettingsImportSection,
 		SettingsTimezoneSelect,
 		SettingsAttachmentsFolder,

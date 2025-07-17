@@ -35,7 +35,6 @@ registerContactsMenuAction({
 	callback: async (args) => {
 		const { default: Vue } = await import('vue')
 		const { default: ContactsMenuAvailability } = await import('./views/ContactsMenuAvailability.vue')
-		const { default: VueShortKey } = await import('vue-shortkey')
 		const { createPinia, PiniaVuePlugin } = await import('pinia')
 		const { translatePlural } = await import('@nextcloud/l10n')
 
@@ -43,8 +42,6 @@ registerContactsMenuAction({
 		const pinia = createPinia()
 
 		// Register global components
-		Vue.use(VueShortKey, { prevent: ['input', 'textarea'] })
-
 		Vue.prototype.$t = t
 		Vue.prototype.$n = translatePlural
 

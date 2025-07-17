@@ -14,16 +14,12 @@ import { linkTo } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import AppointmentConfig from './models/appointmentConfig.js'
-import VueShortKey from 'vue-shortkey'
 import windowTitleService from './services/windowTitleService.js'
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import useAppointmentConfigsStore from './store/appointmentConfigs.js'
 
 Vue.use(PiniaVuePlugin)
 const pinia = createPinia()
-
-// register global components
-Vue.use(VueShortKey, { prevent: ['input', 'textarea', '.rich-contenteditable__input'] })
 
 // CSP config for webpack dynamic chunk loading
 // eslint-disable-next-line

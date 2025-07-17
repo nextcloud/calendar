@@ -4,21 +4,23 @@
 -->
 
 <template>
-	<NcButton v-shortkey="['t']"
-		class="button today"
-		@shortkey="today"
-		@click="today">
-		{{ $t('calendar', 'Today') }}
-	</NcButton>
+	<Hotkey :keys="['t']" @hotkey="today">
+		<NcButton class="button today"
+			@click="today">
+			{{ $t('calendar', 'Today') }}
+		</NcButton>
+	</Hotkey>
 </template>
 
 <script>
 import { NcButton } from '@nextcloud/vue'
+import { Hotkey } from '@simolation/vue-hotkey'
 
 export default {
 	name: 'AppNavigationHeaderTodayButton',
 	components: {
 		NcButton,
+		Hotkey,
 	},
 	methods: {
 		today() {
