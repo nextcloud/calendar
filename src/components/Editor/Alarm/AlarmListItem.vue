@@ -5,8 +5,7 @@
 
 <template>
 	<!-- Yes, technically an alarm is a component, not a property, but for the matter of CSS names it really doesn't matter -->
-	<div v-click-outside="closeAlarmEditor"
-		class="property-alarm-item">
+	<div class="property-alarm-item">
 		<div class="property-alarm-item__front">
 			<div class="property-alarm-item__icon"
 				:class="{ 'property-alarm-item__icon--hidden': !showIcon }" />
@@ -145,7 +144,6 @@ import {
 	NcActionRadio as ActionRadio,
 	NcActionSeparator as ActionSeparator,
 } from '@nextcloud/vue'
-import ClickOutside from 'vue-click-outside'
 import formatAlarm from '../../../filters/alarmFormat.js'
 import AlarmTimeUnitSelect from './AlarmTimeUnitSelect.vue'
 import moment from '@nextcloud/moment'
@@ -172,9 +170,6 @@ export default {
 		Check,
 		Delete,
 		Pencil,
-	},
-	directives: {
-		ClickOutside,
 	},
 	filters: {
 		formatAlarm,
@@ -318,12 +313,6 @@ export default {
 			if (this.isEditing) {
 				this.showMenu = false
 			}
-		},
-		/**
-		 * This method closes the editing mode again
-		 */
-		closeAlarmEditor() {
-			this.showMenu = false
 		},
 		/**
 		 * Changes the type of the reminder

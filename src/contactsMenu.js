@@ -35,7 +35,6 @@ registerContactsMenuAction({
 	callback: async (args) => {
 		const { default: Vue } = await import('vue')
 		const { default: ContactsMenuAvailability } = await import('./views/ContactsMenuAvailability.vue')
-		const { default: ClickOutside } = await import('vue-click-outside')
 		const { default: VTooltip } = await import('v-tooltip')
 		const { default: VueShortKey } = await import('vue-shortkey')
 		const { createPinia, PiniaVuePlugin } = await import('pinia')
@@ -45,7 +44,6 @@ registerContactsMenuAction({
 		const pinia = createPinia()
 
 		// Register global components
-		Vue.directive('ClickOutside', ClickOutside)
 		Vue.use(VTooltip)
 		Vue.use(VueShortKey, { prevent: ['input', 'textarea'] })
 
