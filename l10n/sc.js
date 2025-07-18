@@ -152,7 +152,6 @@ OC.L10N.register(
     "Sunday" : "Domìnigu",
     "Your email address" : "Indiritzu tuo de posta eletrònica",
     "Back" : "In segus",
-    "Create a new conversation" : "Crea una resonada noa",
     "Select conversation" : "Seletziona resonada",
     "on" : "allutu",
     "at" : "a",
@@ -345,6 +344,7 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "B'at àpidu un'errore, no at fatu a cantzellare su calendàriu.",
     "Imported {filename}" : "Importadu {filename}",
     "User not found" : "Utèntzia no agatada",
+    "Create a new conversation" : "Crea una resonada noa",
     "+ Add reminder" : "+ Agiunghe promemòria",
     "Details" : "Detàllios"
 },
