@@ -204,7 +204,6 @@ OC.L10N.register(
     "Please share anything that will help prepare for our meeting" : "Por favor partilhe qualquer coisa que ajude na preparação da nossa reunião",
     "Could not book the appointment. Please try again later or contact the organizer." : "Não foi possível agendar a reunião. Tente novamente mais tarde ou entre em contacto com o organizador.",
     "Back" : "Voltar",
-    "Create a new conversation" : "Criar nova conversa",
     "on" : "em",
     "at" : "às",
     "before at" : "antes em",
@@ -298,6 +297,7 @@ OC.L10N.register(
     "Error while sharing file" : "Erro ao partilhar ficheiro",
     "An error occurred, unable to delete the calendar." : "Ocorreu um erro que impede que o calendário seja apagado",
     "User not found" : "Utilizador não encontrado",
+    "Create a new conversation" : "Criar nova conversa",
     "Reminder" : "Lembrete",
     "+ Add reminder" : "+ Adicionar lembrete",
     "Details" : "Detalhes"
