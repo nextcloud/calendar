@@ -95,13 +95,15 @@
 	}
 }
 
-.modal-wrapper--full > .modal-container {
-	height: 100% !important;
-	top: 0 !important;
-}
+.calendar-edit-full {
+	.modal-wrapper--full > .modal-container {
+		height: 100% !important;
+		top: 0 !important;
+	}
 
-.modal-header {
-	height: 0 !important;
+	.modal-header {
+		height: 0 !important;
+	}
 }
 
 .property-text {

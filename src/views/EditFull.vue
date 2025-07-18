@@ -6,6 +6,7 @@
 <template>
 	<NcModal v-if="calendarObjectInstance"
 		v-model="showFullModal"
+		class="calendar-edit-full"
 		size="full"
 		label-id="edit-full-modal"
 		:name="t('calendar', 'Edit event')"
