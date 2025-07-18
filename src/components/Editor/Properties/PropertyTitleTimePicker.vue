@@ -14,7 +14,7 @@
 			class="property-title-time-picker__time-pickers">
 			<div :class="{ 'property-title-time-picker__time-pickers--all-day': isAllDay}"
 				class="property-title-time-picker__time-pickers__inner">
-				<NcButton v-if="!showTimezoneSelect && !isAllDay && isMobile"
+				<NcButton v-if="!showTimezoneSelect && (!isAllDay || isMobile)"
 					type="tertiary"
 					@click="showTimezoneSelect = !showTimezoneSelect">
 					<template>
