@@ -269,6 +269,7 @@ OC.L10N.register(
     "Add Talk conversation" : "Talk-Unterhaltung hinzufügen",
     "Fetching Talk rooms…" : "Talk-Räume abrufen…",
     "No Talk room available" : "Kein Talk-Raum verfügbar",
+    "Create a new public conversation" : "Neue öffentliche Unterhaltung erstellen",
     "Select conversation" : "Unterhaltung auswählen",
     "on" : "am",
     "at" : "um",

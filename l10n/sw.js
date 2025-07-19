@@ -269,6 +269,7 @@ OC.L10N.register(
     "Add Talk conversation" : "Ongeza mazungumzo ya Talk",
     "Fetching Talk rooms…" : "Inaleta vyumba vya Talk",
     "No Talk room available" : "Hakuna vyumba vya Talk vinavyopatikana",
+    "Create a new public conversation" : "Unda mazungumzo mapya ya umma",
     "Select conversation" : "Chagua mazungumzo",
     "on" : "Juu ya",
     "at" : "Katika",
