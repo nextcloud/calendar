@@ -269,6 +269,7 @@ OC.L10N.register(
     "Add Talk conversation" : "Lisa Kõnerakenduse vestlus",
     "Fetching Talk rooms…" : "Laadin Kõnerakenduse jututube…",
     "No Talk room available" : "Ühtegi Kõnerakenduse jututuba pole saadaval",
+    "Create a new public conversation" : "Loo uus avalik vestlus",
     "Select conversation" : "Vali vestlus",
     "on" : "ajal",
     "at" : "asukohas",
