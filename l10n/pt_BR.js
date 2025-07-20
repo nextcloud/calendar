@@ -269,6 +269,7 @@ OC.L10N.register(
     "Add Talk conversation" : "Adicionar conversa do Talk",
     "Fetching Talk rooms…" : "Buscando salas do Talk…",
     "No Talk room available" : "Nenhuma sala do Talk disponível",
+    "Create a new public conversation" : "Criar uma nova conversa pública",
     "Select conversation" : "Selecione conversa",
     "on" : "ligado",
     "at" : "em",
