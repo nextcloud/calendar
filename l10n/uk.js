@@ -268,6 +268,7 @@ OC.L10N.register(
     "Add Talk conversation" : "Додати розмову Talk",
     "Fetching Talk rooms…" : "Отримання кімнат Talk...",
     "No Talk room available" : "Відсутні кімнати Talk",
+    "Create a new public conversation" : "Створити нову публічну розмову",
     "Select conversation" : "Вибрати розмову",
     "on" : "о",
     "at" : "о",
