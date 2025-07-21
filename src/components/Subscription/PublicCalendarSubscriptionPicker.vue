@@ -25,7 +25,7 @@
 					{ website: 'thunderbird.net' }) }}
 			</p>
 			<p v-else class="holiday-subscription-picker__attribution">
-				{{ t('calendar', 'These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website.') }}
+				{{ t('calendar', 'These public calendars are suggested by the server administrator. Calendar data will be downloaded from the respective website.') }}
 			</p>
 			<div v-for="calendar in calendars" :key="calendar.source" class="public-calendar-subscription-picker__region">
 				<div class="public-calendar-subscription-picker__region__name">
