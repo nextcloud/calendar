@@ -49,12 +49,12 @@
 							@save-this-and-all-future="prepareAccessForAttachments(true)" />
 						<div :class="['app-full__actions__inner', { 'app-full__actions__inner__readonly': isReadOnly }]">
 							<NcActions>
-								<NcActionButton v-if="!hideEventExport && hasDownloadURL && !isNew" type="tertiary" :href="downloadURL">
+								<NcActionLink v-if="!hideEventExport && hasDownloadURL && !isNew" :href="downloadURL">
 									<template #icon>
 										<Download :size="20" decorative />
 									</template>
 									{{ $t('calendar', 'Export') }}
-								</NcActionButton>
+								</NcActionLink>
 								<NcActionButton v-if="!canCreateRecurrenceException && !isReadOnly && !isNew" type="tertiary" @click="duplicateEvent()">
 									<template #icon>
 										<ContentDuplicate :size="20" decorative />
@@ -293,6 +293,7 @@
 <script>
 import {
 	NcActionButton,
+	NcActionLink,
 	NcEmptyContent,
 	NcModal,
 	NcListItemIcon,
@@ -353,6 +354,7 @@ export default {
 		SaveButtons,
 		AlarmList,
 		NcActionButton,
+		NcActionLink,
 		NcEmptyContent,
 		NcModal,
 		NcListItemIcon,
