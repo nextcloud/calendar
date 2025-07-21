@@ -9,39 +9,39 @@
 		<ul class="settings-fieldset-interior">
 			<SettingsImportSection :is-disabled="loadingCalendars" />
 			<ActionCheckbox class="settings-fieldset-interior-item"
-				:checked="hasBirthdayCalendar"
+				:model-value="hasBirthdayCalendar"
 				:disabled="isBirthdayCalendarDisabled"
-				@update:checked="toggleBirthdayEnabled">
+				@change="toggleBirthdayEnabled">
 				{{ $t('calendar', 'Enable birthday calendar') }}
 			</ActionCheckbox>
 			<ActionCheckbox class="settings-fieldset-interior-item"
-				:checked="showTasks"
+				:model-value="showTasks"
 				:disabled="savingTasks"
-				@update:checked="toggleTasksEnabled">
+				@change="toggleTasksEnabled">
 				{{ $t('calendar', 'Show tasks in calendar') }}
 			</ActionCheckbox>
 			<ActionCheckbox class="settings-fieldset-interior-item"
-				:checked="!showPopover"
+				:model-value="!skipPopover"
 				:disabled="savingPopover"
-				@update:checked="togglePopoverEnabled">
+				@change="togglePopoverEnabled">
 				{{ $t('calendar', 'Enable simplified editor') }}
 			</ActionCheckbox>
 			<ActionCheckbox class="settings-fieldset-interior-item"
-				:checked="eventLimit"
+				:model-value="eventLimit"
 				:disabled="savingEventLimit"
-				@update:checked="toggleEventLimitEnabled">
+				@change="toggleEventLimitEnabled">
 				{{ $t('calendar', 'Limit the number of events displayed in the monthly view') }}
 			</ActionCheckbox>
 			<ActionCheckbox class="settings-fieldset-interior-item"
-				:checked="showWeekends"
+				:model-value="showWeekends"
 				:disabled="savingWeekend"
-				@update:checked="toggleWeekendsEnabled">
+				@change="toggleWeekendsEnabled">
 				{{ $t('calendar', 'Show weekends') }}
 			</ActionCheckbox>
 			<ActionCheckbox class="settings-fieldset-interior-item"
-				:checked="showWeekNumbers"
+				:model-value="showWeekNumbers"
 				:disabled="savingWeekNumber"
-				@update:checked="toggleWeekNumberEnabled">
+				@change="toggleWeekNumberEnabled">
 				{{ $t('calendar', 'Show week numbers') }}
 			</ActionCheckbox>
 			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--slotDuration">
@@ -196,7 +196,7 @@ export default {
 		...mapState(useSettingsStore, [
 			'eventLimit',
 			'showTasks',
-			'showPopover',
+			'skipPopover',
 			'showWeekends',
 			'showWeekNumbers',
 			'slotDuration',
