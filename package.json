@@ -140,6 +140,7 @@
     "collectCoverage": true,
     "collectCoverageFrom": [
       "<rootDir>/src/**/*.{js,ts,vue}",
+      "!<rootDir>/src/**/*.d.ts",
       "!**/node_modules/**"
     ],
     "coverageReporters": [
