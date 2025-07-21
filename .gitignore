@@ -109,3 +109,5 @@ coverage/
 js/public
 css/public
 
+/playwright-report
+/test-results
