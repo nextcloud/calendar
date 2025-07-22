@@ -266,7 +266,6 @@ OC.L10N.register(
     "An error occurred, unable to subscribe to calendar." : "Terjadi kesalahan, tidak dapat berlangganan kalender.",
     "Speak to the server administrator to resolve this issue." : "Hubungi administrator server untuk menyelesaikan masalah ini.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Kalender hari libur nasional disediakan oleh Thunderbird. Data kalender akan diunduh dari {website}",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Kalender-kalender umum ini disarankan oleh administrator server. data Kalender akan diunduh dari situs web masing-masing.",
     "Subscribe" : "Berlangganan",
     "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "Terima kasih. Pemesanan Anda dari {startDate} hingga  {endDate} telah dikonfirmasi.",
     "The slot for your appointment from {startDate} to {endDate} is not available any more." : "Slot untuk janji temu Anda dari {startDate} hingga {endDate} tidak lagi tersedia.",
