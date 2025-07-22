@@ -74,7 +74,7 @@
 </template>
 
 <script lang="ts">
-// stores and services
+// types, object and stores
 import useProposalStore from '@/store/proposalStore'
 import { t } from '@nextcloud/l10n'
 import { ProposalResponse, ProposalResponseDate } from '@/models/proposals/proposals'
@@ -85,7 +85,7 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 // icons
-import BallotIcon from 'vue-material-design-icons/BallotOutline.vue'
+import BallotIcon from 'vue-material-design-icons/BallotOutline'
 
 export default {
 	name: 'ProposalPublic',

@@ -20,9 +20,10 @@
 </template>
 
 <script lang="ts">
+// types, object and stores
 import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
-import type { ProposalDate } from '@/models/proposals/proposals'
+import type { ProposalDateInterface } from '@/types/proposals/proposalInterfaces'
 // icons
 import ItemIcon from 'vue-material-design-icons/Calendar'
 import DestroyIcon from 'vue-material-design-icons/TrashCanOutline'
@@ -37,7 +38,7 @@ export default {
 	
 	props: {
 		proposalDate: {
-			type: Object as () => ProposalDate,
+			type: Object as () => ProposalDateInterface,
 			required: true,
 			default: null,
 		},

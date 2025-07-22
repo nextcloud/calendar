@@ -16,6 +16,8 @@ export default defineStore('proposal', () => {
 	const modalProposal = ref<ProposalInterface | null>(null)
 	/**
 	 *
+	 * @param mode
+	 * @param proposal
 	 */
 	function showModal(mode: 'view' | 'create' | 'modify', proposal: ProposalInterface|null = null) {
 		if (mode === 'view' || mode === 'modify') {
