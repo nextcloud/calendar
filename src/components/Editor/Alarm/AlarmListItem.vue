@@ -66,28 +66,28 @@
 				<ActionRadio v-if="canChangeAlarmType || (!isAlarmTypeDisplay && forceEventAlarmType === 'DISPLAY')"
 					:name="alarmTypeName"
 					value="DISPLAY"
-					:modelValue="alarmType"
+					:model-value="alarmType"
 					@update:modelValue="changeType('DISPLAY')">
 					{{ $t('calendar', 'Notification') }}
 				</ActionRadio>
 				<ActionRadio v-if="canChangeAlarmType || (!isAlarmTypeEmail && forceEventAlarmType === 'EMAIL')"
 					:name="alarmTypeName"
 					value="EMAIL"
-					:modelValue="alarmType"
+					:model-value="alarmType"
 					@update:modelValue="changeType('EMAIL')">
 					{{ $t('calendar', 'Email') }}
 				</ActionRadio>
 				<ActionRadio v-if="canChangeAlarmType && isAlarmTypeAudio"
 					:name="alarmTypeName"
 					value="AUDIO"
-					:modelValue="alarmType"
+					:model-value="alarmType"
 					@update:modelValue="changeType('AUDIO')">
 					{{ $t('calendar', 'Audio notification') }}
 				</ActionRadio>
 				<ActionRadio v-if="canChangeAlarmType && isAlarmTypeOther"
 					:name="alarmTypeName"
 					:value="isAlarmTypeOther ?? alarmType"
-					:modelValue="alarmType"
+					:model-value="alarmType"
 					@update:modelValue="changeType(alarmType)">
 					{{ $t('calendar', 'Other notification') }}
 				</ActionRadio>
@@ -97,14 +97,14 @@
 				<ActionRadio v-if="!isRecurring"
 					:name="alarmTriggerName"
 					value="RELATIVE"
-					:modelValue="alarmRelationType"
+					:model-value="alarmRelationType"
 					@update:modelValue="switchToRelativeAlarm">
 					{{ $t('calendar', 'Relative to event') }}
 				</ActionRadio>
 				<ActionRadio v-if="!isRecurring"
 					:name="alarmTriggerName"
 					value="ABSOLUTE"
-					:modelValue="alarmRelationType"
+					:model-value="alarmRelationType"
 					@update:modelValue="switchToAbsoluteAlarm">
 					{{ $t('calendar', 'On date') }}
 				</ActionRadio>

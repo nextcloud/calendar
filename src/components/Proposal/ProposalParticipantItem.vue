@@ -39,18 +39,18 @@
 </template>
 
 <script lang="ts">
-/// types, enums and models
+// types, object and stores
 import { t } from '@nextcloud/l10n'
 import type { ProposalParticipantInterface } from '@/types/proposals/proposalInterfaces'
 import { ProposalParticipantAttendance, ProposalParticipantRealm } from '@/types/proposals/proposalEnums'
 // components
-import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
-import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
-import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 // icons
-import RequiredIcon from 'vue-material-design-icons/AccountStarOutline.vue'
-import OptionalIcon from 'vue-material-design-icons/AccountQuestionOutline.vue'
-import DestroyIcon from 'vue-material-design-icons/TrashCanOutline.vue'
+import RequiredIcon from 'vue-material-design-icons/AccountStarOutline'
+import OptionalIcon from 'vue-material-design-icons/AccountQuestionOutline'
+import DestroyIcon from 'vue-material-design-icons/TrashCanOutline'
 
 export default {
 	name: 'ProposalParticipantItem',
