@@ -435,7 +435,6 @@
     "No valid public calendars configured" : "Non se configurou ningún calendario público válido",
     "Speak to the server administrator to resolve this issue." : "Fale coa administración do servidor para resolver este incidente.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Os calendarios de festivos son fornecidos porThunderbird . Os datos do calendario descargaranse de {website}",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Estes calendarios públicos son suxeridos pola administración do servidor. Os datos do calendario descargaranse da páxina web correspondente.",
     "By {authors}" : "Por {authors}",
     "Subscribed" : "Subscrito",
     "Subscribe" : "Subscribirse",

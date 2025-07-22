@@ -386,7 +386,6 @@
     "No valid public calendars configured" : "설정된 유효한 달력 없음",
     "Speak to the server administrator to resolve this issue." : "이 문제를 해결하기 위해 서버 관리자에게 문의하십시오",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "공개 휴일 달력은 Thunderbird에서 제공합니다. 달력의 데이터는 {website}(으)로부터 다운로드합니다",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "이 공개 달력은 서버 관리자의 추천입니다. 달력 데이터는 각각의 웹사이트로부터 다운로드됩니다.",
     "By {authors}" : "{authors} 작성",
     "Subscribed" : "구독함",
     "Subscribe" : "구독",

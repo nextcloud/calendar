@@ -432,7 +432,6 @@
     "No valid public calendars configured" : "No hay calendarios públicos válidos configurados",
     "Speak to the server administrator to resolve this issue." : "Converse con el administrador del servidor para resolver el problema",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Los calendarios de días feriados públicos son provistos por Thunderbird. Los datos del calendario serán descargados desde {website}",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Estos calendarios públicos son sugeridos por el administrador del servidor. Los datos del calendario se descargarán desde el sitio web correspondiente.",
     "By {authors}" : "Por {authors}",
     "Subscribed" : "Suscrito",
     "Subscribe" : "Suscribirse",

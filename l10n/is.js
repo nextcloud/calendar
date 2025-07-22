@@ -436,7 +436,6 @@ OC.L10N.register(
     "No valid public calendars configured" : "Engin gild opinber dagatöl stillt",
     "Speak to the server administrator to resolve this issue." : "Hafðu samband við kerfisstjóra netþjónsins til að leysa þetta.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Dagatöl með opinberum frídögum koma frá Thunderbird. Dagatalsgögnin eru sótt frá {website}",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Þessar tillögur að opinberum dagatölum koma frá stjórnanda netþjónsins. Gögn dagatalanna verða sótt inn á viðkomandi vefsvæði.",
     "By {authors}" : "Frá {authors}",
     "Subscribed" : "Í áskrift",
     "Subscribe" : "Gerast áskrifandi",

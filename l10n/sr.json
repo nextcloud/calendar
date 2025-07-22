@@ -444,7 +444,6 @@
     "No valid public calendars configured" : "Није подешен ниједан исправан јавни календар",
     "Speak to the server administrator to resolve this issue." : "Да бисте решили овај проблем, разговарајте са администратором сервера.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Календаре државних празника обезбеђује Thunderbird. Подаци за календар ће да се преузму са {website}",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Администратор сервера предлаже ове јавне календаре. Подаци за календар ће се преузети са одговарајућег веб сајта.",
     "By {authors}" : "Урадили {authors}",
     "Subscribed" : "Претплаћен",
     "Subscribe" : "Претплати се",

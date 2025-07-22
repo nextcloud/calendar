@@ -446,7 +446,6 @@ OC.L10N.register(
     "No valid public calendars configured" : "Не настроено ни одного допустимого публичного календаря.",
     "Speak to the server administrator to resolve this issue." : "Обратитесь к администратору сервера для решения этой проблемы.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Общие календари праздников предоставляются Thunderbird. Данные календаря будут загружены с {website}",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Эти публичные календари предлагаются администратором сервера. Данные календаря будут загружены с соответствующего веб-сайта.",
     "By {authors}" : "{authors}",
     "Subscribed" : "Подписано",
     "Subscribe" : "Подписаться",

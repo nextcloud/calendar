@@ -439,7 +439,6 @@ OC.L10N.register(
     "No valid public calendars configured" : "لا توجد أيّ تقاويم عمومية مُهيّأة بالشكل الصحيح",
     "Speak to the server administrator to resolve this issue." : "تحدّث مع مسؤول النظام لحل هذا الإشكال.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "يتم توفير تقاويم العطلات العامة من موقع ثندربرد Thunderbird. سوف يتم تنزيل بيانات التقويم من {website}",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "يتم اقتراح هذه التقويمات العامة بواسطة مسؤول القسم. سيتم تنزيل بيانات التقويم من موقع الويب المعني.",
     "By {authors}" : "من قِبَل {authors}",
     "Subscribed" : "مشترك",
     "Subscribe" : "إشترك",

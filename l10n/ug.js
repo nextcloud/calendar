@@ -400,7 +400,6 @@ OC.L10N.register(
     "No valid public calendars configured" : "ئىناۋەتلىك ئاممىۋى كالېندار سەپلەنمىدى",
     "Speak to the server administrator to resolve this issue." : "بۇ مەسىلىنى ھەل قىلىش ئۈچۈن مۇلازىمېتىر باشقۇرغۇچىغا سۆزلەڭ.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "ئاممىۋى دەم ئېلىش كالېندارىنى Thunderbird تەمىنلەيدۇ. كالېندار سانلىق مەلۇماتلىرى {website} بېكىتى} دىن چۈشۈرۈلىدۇ",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "بۇ ئاممىۋى كالېندارلارنى كەسمە باشقۇرغۇچى تەۋسىيە قىلىدۇ. كالېندار سانلىق مەلۇماتلىرى مۇناسىۋەتلىك تور بەتتىن چۈشۈرۈلىدۇ.",
     "By {authors}" : "{authors}",
     "Subscribed" : "مۇشتەرى بولدى",
     "Subscribe" : "مۇشتەرى بولۇش",

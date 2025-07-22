@@ -366,7 +366,7 @@ OC.L10N.register(
     "Book another appointment:" : "Rezervēt vēl vienu plānotu tikšanos",
     "Book an appointment with {name}" : "Rezervējiet plānotu tikšanos ar {name}",
     "Personal" : "Personīgs",
-    "Edit event" : "Rediģēt notikumu",
+    "Edit event" : "Labot notikumu",
     "Event does not exist" : "Notikums nepastāv",
     "Duplicate" : "Pavairot",
     "Delete this occurrence" : "Izdzēst šo notikumu",
