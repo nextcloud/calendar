@@ -4,10 +4,10 @@
  */
 
 import {
-  ProposalParticipantStatus,
-  ProposalParticipantAttendance,
-  ProposalParticipantRealm,
-  ProposalDateVote
+	ProposalParticipantStatus,
+	ProposalParticipantAttendance,
+	ProposalParticipantRealm,
+	ProposalDateVote,
 } from './proposalEnums'
 
 export interface ProposalParticipantInterface {

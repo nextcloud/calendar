@@ -167,7 +167,7 @@ import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 import FullCalendar from '@fullcalendar/vue'
 import FullCalendarTimeGrid from '@fullcalendar/timegrid'
-import FullCalendarInteraction from '@fullcalendar/interaction'; // for selectable
+import FullCalendarInteraction from '@fullcalendar/interaction';
 import InviteesListSearch from '@/components/Editor/Invitees/InviteesListSearch.vue'
 import ProposalParticipantItem from '@/components/Proposal/ProposalParticipantItem.vue'
 import ProposalDateItem from '@/components/Proposal/ProposalDateItem.vue'
@@ -183,11 +183,9 @@ export default {
 	name: 'ProposalEditor',
 
 	data() {
-		const principalStore = usePrincipalStore()
-		const proposalStore = useProposalStore()
 		return {
-			principalStore,
-			proposalStore,
+			principalStore: usePrincipalStore(),
+			proposalStore: useProposalStore(),
 			ProposalParticipantStatus,
 			modalMode: 'view',
 			calendarApi: null as any, // FullCalendar API instance
