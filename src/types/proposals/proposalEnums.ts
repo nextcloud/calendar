@@ -13,6 +13,11 @@ export enum ProposalParticipantRealm {
   External = 'E',
 }
 
+export enum ProposalParticipantAttendance {
+  Required = 'R',
+  Optional = 'O',
+}
+
 export enum ProposalDateVote {
   Yes = 'Y',
   No = 'N',

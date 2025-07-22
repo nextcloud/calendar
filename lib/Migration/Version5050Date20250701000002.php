@@ -52,6 +52,10 @@ class Version5050Date20250701000002 extends SimpleMigrationStep {
 			'notnull' => true,
 			'length' => 320
 		]);
+		$table->addColumn('attendance', Types::STRING, [
+			'notnull' => false,
+			'length' => 8
+		]);
 		$table->addColumn('status', Types::STRING, [
 			'notnull' => false,
 			'length' => 8

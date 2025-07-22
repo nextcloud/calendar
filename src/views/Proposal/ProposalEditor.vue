@@ -21,6 +21,10 @@
 							<div>{{ selectedProposal?.description || t('calendar', 'No Description') }}</div>
 						</div>
 						<div class="proposal-viewer__field">
+							<strong>{{ t('calendar', 'Location') }}:</strong>
+							<div>{{ selectedProposal?.location || t('calendar', 'No Location') }}</div>
+						</div>
+						<div class="proposal-viewer__field">
 							<strong>{{ t('calendar', 'Duration') }}:</strong>
 							<div>{{ selectedProposal?.duration ? selectedProposal.duration + ' min' : '-' }}</div>
 						</div>
@@ -75,16 +79,20 @@
 							:already-invited-emails="existingParticipantAddressess"
 							@add-attendee="onProposalParticipantAdd" />
 						<div v-if="selectedProposal.participants.length > 0" class="proposal-editor__proposal-participants">
+							<h6>{{ t('calendar', 'Participants') }}</h6>
 							<ProposalParticipantItem v-for="(participant, idx) in selectedProposal.participants"
 								:key="idx"
 								:proposal-participant="participant"
-								@remove-participant="onProposalParticipantRemove(participant.address)" />
+								@participant-attendance="onProposalParticipantAttendance(participant.address, participant.attendance)"	
+								@participant-remove="onProposalParticipantRemove(participant.address)" />
 						</div>
 						<div v-if="selectedProposal.dates.length > 0" class="proposal-editor__proposed-dates">
+							<h6>{{ t('calendar', 'Dates') }}</h6>
 							<ProposalDateItem v-for="(entry, idx) in selectedProposal.dates"
 								:key="idx"
 								:proposal-date="entry"
-								@remove-date="onProposalDateRemove(idx)" />
+								@date-focus="onProposalDateFocus(entry)"
+								@date-remove="onProposalDateRemove(idx)" />
 						</div>
 					</div>
 					<!-- Row 3: Actions -->
@@ -183,7 +191,6 @@ export default {
 			ProposalParticipantStatus,
 			modalMode: 'view',
 			calendarApi: null as any, // FullCalendar API instance
-			storedProposals: [] as Array<Proposal>,
 			selectedProposal: null as Proposal | null,
 			participantAvailabilityIndividual: {} as Record<string, Record<string, any>>,
 			participantAvailabilityCombined: [] as Array<{ start: Date, end: Date }>, // Store available slots
@@ -325,7 +332,6 @@ export default {
 			}
 
 			return {
-				schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
 				plugins: [FullCalendarTimeGrid, FullCalendarInteraction],
 				headerToolbar: false,
 				initialView: 'timeGridSpan',
@@ -355,6 +361,8 @@ export default {
 				eventDrop: (info: any) => this.onProposalDateMove(info),
 				datesSet: () => {
 					if (!this.modalVisible) return
+					// Initialize calendar API when the calendar view is ready
+					this.initializeCalendarApi()
 					if (!this.calendarApi) return
 					this.fetchParticipantAvailability()
 					// Force reactivity update for the date range display
@@ -414,7 +422,6 @@ export default {
 		onWindowResize(): void {
 			const oldWidth = this.screenWidth
 			this.screenWidth = window.innerWidth
-			
 			// Reset manual override if window size changed significantly (more than 200px)
 			if (Math.abs(oldWidth - this.screenWidth) > 200) {
 				this.calendarSpanOverride = false
@@ -422,8 +429,28 @@ export default {
 		},
 		
 		onModalOpen() {
-			this.modalMode = this.proposalStore.modalMode
 			this.selectedProposal = this.proposalStore.modalProposal
+			this.modalMode = this.proposalStore.modalMode
+			// Wait for the FullCalendar component to be mounted before trying to initialize API
+			this.$nextTick(() => {
+				this.initializeCalendarApi()
+				// Calendar not ready yet, try again after a short delay
+				if (!this.calendarApi) {
+					setTimeout(() => {
+						this.initializeCalendarApi()
+					}, 100)
+				}
+			})
+		},
+
+		initializeCalendarApi() {
+			// Initialize the calendar API from the FullCalendar component reference
+			if (this.$refs.proposalFullCalendar && !this.calendarApi) {
+				const fullCalendarComponent = this.$refs.proposalFullCalendar as any
+				if (fullCalendarComponent && typeof fullCalendarComponent.getApi === 'function') {
+					this.calendarApi = fullCalendarComponent.getApi()
+				}
+			}
 		},
 
 		onModalClose() {
@@ -435,11 +462,12 @@ export default {
 			if (this.calendarApi) {
 				this.calendarApi.removeAllEvents()
 				this.calendarApi.unselect()
+				this.calendarApi = null
 			}
 		},
 
 		onProposalModify(proposal: Proposal) {
-			this.selectProposal(proposal)
+			this.modalMode = 'modify'
 		},
 
 		async onProposalDestroy(proposal: Proposal) {
@@ -527,6 +555,18 @@ export default {
 			this.removeParticipant(address)
 		},
 
+		onProposalParticipantAttendance(address: string, attendance: ProposalParticipantStatus): void {
+			if (!this.selectedProposal) {
+				return console.error('No proposal selected for this operation')
+			}
+			const participant = this.selectedProposal.participants.find(p => p.address === address)
+			if (participant) {
+				participant.status = attendance
+			} else {
+				console.error('Participant not found:', address)
+			}
+		},
+
 		onProposalDateAdd(info: any): void {
 			// validate selection
 			const isAvailable = this.participantAvailabilityCombined.some(e =>
@@ -578,6 +618,14 @@ export default {
 			}
 			this.selectedProposal.dates.splice(index, 1)
 			this.renderParticipantAvailability()
+		},
+
+		onProposalDateFocus(date: ProposalDate): void {
+			if (!this.calendarApi || !date) {
+				return console.warn('Calendar API not available or invalid date')
+			}
+			// Focus the calendar on the specific date
+			this.calendarApi.gotoDate(date.date)
 		},
 
 		onCalendarFocusToday(): void {
@@ -722,6 +770,12 @@ export default {
 		},
 
 		async fetchParticipantAvailability(participant: ProposalParticipant | null = null): Promise<void> {
+			// Check if calendar API is available
+			if (!this.calendarApi) {
+				console.warn('Calendar API not yet initialized, skipping availability fetch')
+				return
+			}
+			
 			// Get start and end from FullCalendar's current view
 			const view = this.calendarApi.view
 			let start = view.activeStart
