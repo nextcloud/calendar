@@ -55,6 +55,7 @@ export default function(uri, calendarData, success, start, end, timezone, attend
 			display: 'auto',
 			classNames: [
 				'free-busy-block',
+				isOrganizer ? 'free-busy-organizer' : '',
 				'free-busy-' + freeBusyProperty.type.toLowerCase(),
 				isOrganizer && freeBusyProperty.type === 'BUSY-UNAVAILABLE' ? 'free-busy-busy-unavailable--organizer' : '',
 			],
