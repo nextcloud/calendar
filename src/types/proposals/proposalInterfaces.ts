@@ -3,12 +3,18 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { ProposalParticipantStatus, ProposalParticipantRealm, ProposalDateVote } from './proposalEnums'
+import {
+  ProposalParticipantStatus,
+  ProposalParticipantAttendance,
+  ProposalParticipantRealm,
+  ProposalDateVote
+} from './proposalEnums'
 
 export interface ProposalParticipantInterface {
   id: number | null
   name: string | null
   address: string
+  attendance: ProposalParticipantAttendance
   status: ProposalParticipantStatus
   realm: ProposalParticipantRealm
   toJson(): Record<string, unknown>

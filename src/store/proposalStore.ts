@@ -18,16 +18,18 @@ export default defineStore('proposal', () => {
 	 *
 	 */
 	function showModal(mode: 'view' | 'create' | 'modify', proposal: ProposalInterface|null = null) {
-		modalVisible.value = true
-		modalMode.value = mode
 		if (mode === 'view' || mode === 'modify') {
 			if (proposal) {
 				modalProposal.value = proposal
+				modalVisible.value = true
+				modalMode.value = mode
 			} else {
 				throw new Error('Proposal is required for view or modify mode')
 			}
 		} else if (mode === 'create') {
 			modalProposal.value = new Proposal()
+			modalVisible.value = true
+			modalMode.value = mode
 		} else {
 			throw new Error('Invalid view mode')
 		}

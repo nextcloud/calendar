@@ -20,6 +20,8 @@ use OCP\AppFramework\Db\Entity;
  * @method void setName(string $value)
  * @method ?string getAddress()
  * @method void setAddress(string $value)
+ * @method ?string getAttendance()
+ * @method void setAttendance(string $value)
  * @method ?string getStatus()
  * @method void setStatus(string $value)
  * @method ?string getRealm()
@@ -32,6 +34,7 @@ class ProposalParticipantEntry extends Entity {
 	protected ?int $pid = null;
 	protected ?string $name = null;
 	protected ?string $address = null;
+	protected ?string $attendance = null;
 	protected ?string $status = null;
 	protected ?string $realm = null;
 	protected ?string $token = null;

@@ -6,15 +6,15 @@
 <template>
 	<div class="proposal-date__item">
 		<div class="proposal-date__icon">
-			<IconCalendar />
+			<ItemIcon />
 		</div>
-		<div class="proposal-date__content">
+		<div class="proposal-date__content" @click="$emit('date-focus')">
 			{{ formattedDate }}
 		</div>
 		<div class="proposal-date__action">
-			<CloseIcon 
+			<DestroyIcon 
 				:title="t('calendar', 'Remove date')"
-				@click="$emit('remove-date')" />
+				@click="$emit('date-remove')" />
 		</div>
 	</div>
 </template>
@@ -24,15 +24,15 @@ import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import type { ProposalDate } from '@/models/proposals/proposals'
 // icons
-import IconCalendar from 'vue-material-design-icons/Calendar'
-import CloseIcon from 'vue-material-design-icons/Close'
+import ItemIcon from 'vue-material-design-icons/Calendar'
+import DestroyIcon from 'vue-material-design-icons/TrashCanOutline'
 
 export default {
 	name: 'ProposalDateItem',
 
 	components: {
-		IconCalendar,
-		CloseIcon,
+		ItemIcon,
+		DestroyIcon,
 	},
 	
 	props: {
@@ -43,7 +43,7 @@ export default {
 		},
 	},
 	
-	emits: ['remove-date'],
+	emits: ['remove-date', 'click-date'],
 	
 	computed: {
 		formattedDate(): string {
@@ -68,7 +68,7 @@ export default {
 	gap: calc(var(--default-grid-baseline) * 4);
 	padding: var(--default-grid-baseline);
     transition: background-color 0.2s ease;
-
+	
 	&:hover {
 		background-color: var(--color-background-hover);
 	}
@@ -84,13 +84,10 @@ export default {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	cursor: pointer;
 }
 
 .proposal-date__action {
 	flex-shrink: 0;
-	
-	&:hover {
-		color: var(--color-error);
-	}
 }
 </style>

@@ -17,6 +17,7 @@ class ProposalParticipantObject {
 	private ?string $name = null;
 	private ?string $address = null;
 	private ?string $token = null;
+	private ProposalParticipantAttendance $attendance;
 	private ProposalParticipantStatus $status;
 	private ProposalParticipantRealm $realm;
 
@@ -27,6 +28,7 @@ class ProposalParticipantObject {
 			'name' => $this->name,
 			'address' => $this->address,
 			'status' => $this->status->value,
+			'attendance' => $this->attendance->value,
 			'realm' => $this->realm->value,
 			'token' => $this->token,
 		];
@@ -36,7 +38,9 @@ class ProposalParticipantObject {
 	public function fromJson(array $data): self {
 		foreach ($data as $key => $value) {
 			if (property_exists($this, $key)) {
-				if ($key === 'status' && is_string($value)) {
+				if ($key === 'attendance' && is_string($value)) {
+					$this->attendance = ProposalParticipantAttendance::from($value);
+				} elseif ($key === 'status' && is_string($value)) {
 					$this->status = ProposalParticipantStatus::from($value);
 				} elseif ($key === 'realm' && is_string($value)) {
 					$this->realm = ProposalParticipantRealm::from($value);
@@ -53,6 +57,7 @@ class ProposalParticipantObject {
 		$entry->setId($this->id);
 		$entry->setName($this->name);
 		$entry->setAddress($this->address);
+		$entry->setAttendance($this->attendance->value);
 		$entry->setStatus($this->status->value);
 		$entry->setRealm($this->realm->value);
 		$entry->setToken($this->token);
@@ -63,8 +68,9 @@ class ProposalParticipantObject {
 		$this->id = $entry->getId();
 		$this->name = $entry->getName();
 		$this->address = $entry->getAddress();
-		$this->status = ProposalParticipantStatus::from($entry->getStatus());
-		$this->realm = ProposalParticipantRealm::from($entry->getRealm());
+		$this->attendance = $entry->getAttendance() ? ProposalParticipantAttendance::from($entry->getAttendance()) : ProposalParticipantAttendance::Required;
+		$this->status = $entry->getStatus() ? ProposalParticipantStatus::from($entry->getStatus()) : ProposalParticipantStatus::Pending;
+		$this->realm = $entry->getRealm() ? ProposalParticipantRealm::from($entry->getRealm()) : ProposalParticipantRealm::Internal;
 		$this->token = $entry->getToken();
 	}
 
@@ -90,6 +96,14 @@ class ProposalParticipantObject {
 
 	public function setAddress(string $value): void {
 		$this->address = $value;
+	}
+
+	public function getAttendance(): ProposalParticipantAttendance {
+		return $this->attendance;
+	}
+
+	public function setAttendance(ProposalParticipantAttendance $value): void {
+		$this->attendance = $value;
 	}
 
 	public function getStatus(): ProposalParticipantStatus {
