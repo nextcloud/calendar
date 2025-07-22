@@ -437,7 +437,6 @@
     "No valid public calendars configured" : "Ingen gyldige offentlige kalendere konfigureret",
     "Speak to the server administrator to resolve this issue." : "Kontakt venligst serveradministratoren for at løse dette problem.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Helligdagskalendere leveres af Thunderbird. Kalenderdata vil blive downloadet fra {website}",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Disse offentlige kalendere er foreslået af serveradministratoren. Kalenderdata vil blive downloadet fra de respektive hjemmesider.",
     "By {authors}" : "Af {authors}",
     "Subscribed" : "Abonneret",
     "Subscribe" : "Tilmeld",

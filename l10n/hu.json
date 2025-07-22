@@ -392,7 +392,6 @@
     "No valid public calendars configured" : "Nincsenek érvényes naptárak beállítva",
     "Speak to the server administrator to resolve this issue." : "A probléma megoldásához beszéljen a rendszergazdával.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Az ünnepnapok naptárát a Thunderbird biztosítja. A naptáradatok innen lesznek letöltve: {website}.",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Ezeket a nyilvános naptárakat a kiszolgáló rendszergazdája javasolta. A naptáradatok a megfelelő weboldalról lesznek letöltve.",
     "By {authors}" : "Szerzők: {authors}",
     "Subscribed" : "Feliratkozva",
     "Subscribe" : "Feliratkozás",

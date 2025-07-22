@@ -415,7 +415,6 @@ OC.L10N.register(
     "No valid public calendars configured" : "Ingen gyldige offentlige kalendere er konfigurert",
     "Speak to the server administrator to resolve this issue." : "Snakk med serveradministratoren for å løse dette problemet.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Helligdagskalendere er levert av Thunderbird. Kalenderdata vil bli lastet ned fra {website}.",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Disse offentlige kalenderne er foreslått av serveradministratoren. Kalenderdata vil bli lastet ned fra den respektive nettsiden.",
     "By {authors}" : "Av {authors}",
     "Subscribed" : "Abonnerer",
     "Subscribe" : "Abonner",

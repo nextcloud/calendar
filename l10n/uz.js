@@ -436,7 +436,6 @@ OC.L10N.register(
     "No valid public calendars configured" : "Yaroqli umumiy taqvim sozlanmagan",
     "Speak to the server administrator to resolve this issue." : "Ushbu muammoni hal qilish uchun server administratoriga murojaat qiling.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Davlat bayramlari kalendarlari Thunderbird tomonidan taqdim etiladi. Taqvim maʼlumotlari {website}dan yuklab olinadi",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Ushbu ommaviy taqvimlar server administratori tomonidan taklif qilinadi. Taqvim ma'lumotlari tegishli veb-saytdan yuklab olinadi.",
     "By {authors}" : " {authors}tomonidan",
     "Subscribed" : "Obuna boʻlgan",
     "Subscribe" : "Obuna boʻlish",

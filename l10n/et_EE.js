@@ -447,7 +447,6 @@ OC.L10N.register(
     "No valid public calendars configured" : "Kehtivaid avalikke kalendreid pole seadistatud",
     "Speak to the server administrator to resolve this issue." : "Selle vea lahendamiseks palun suhtle oma serveri haldajaga.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Avalikud riigipühade kalendrid on koostanud Thunderbird. Kalendriandmed laaditakse alla siit: {website}",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Neid avalikke kalendreis on soovitanud serveri haldaja. Kalendrite andmed laaditakse alla vastavast veebisaidist.",
     "By {authors}" : "Koostajalt {authors}",
     "Subscribed" : "Tellitud",
     "Subscribe" : "Telli",

@@ -440,7 +440,6 @@
     "No valid public calendars configured" : "Nie skonfigurowano żadnych prawidłowych kalendarzy publicznych",
     "Speak to the server administrator to resolve this issue." : "Poproś administrację serwera o rozwiązanie problemu.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Kalendarze świąt państwowych są dostarczane przez Thunderbirda. Dane kalendarza zostaną pobrane z witryny {website}",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Te publiczne kalendarze są sugerowane przez administrację serwera. Dane kalendarza zostaną pobrane z odpowiedniej strony internetowej.",
     "By {authors}" : "Autorstwa {authors}",
     "Subscribed" : "Zasubskrybowano",
     "Subscribe" : "Subskrybuj",

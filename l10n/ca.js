@@ -439,7 +439,6 @@ OC.L10N.register(
     "No valid public calendars configured" : "No s'han configurat calendaris públics vàlids",
     "Speak to the server administrator to resolve this issue." : "Parleu amb l'administrador del servidor per resoldre aquest problema.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Thunderbird proporciona els calendaris de festius. Les dades del calendari es baixaran de {website}",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Aquests calendaris públics els suggereix l'administrador del servidor. Les dades del calendari es descarregaran del lloc web corresponent.",
     "By {authors}" : "Per {authors}",
     "Subscribed" : "Subscrit",
     "Subscribe" : "Subscriu-m'hi",

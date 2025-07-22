@@ -395,7 +395,6 @@
     "No valid public calendars configured" : "Δεν έχουν διαμορφωθεί έγκυρα δημόσια ημερολόγια",
     "Speak to the server administrator to resolve this issue." : "Μιλήστε με τον διαχειριστή του διακομιστή για να επιλυθεί αυτό το πρόβλημα.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Τα ημερολόγια δημόσιων αργιών παρέχονται από το Thunderbird. Τα δεδομένα του ημερολογίου θα ληφθούν από το {website}",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Αυτά τα δημόσια ημερολόγια προτείνονται από τους διαχειριστές του διακομιστή. Τα δεδομένα του ημερολογίου θα ληφθούν από την αντίστοιχη ιστοσελίδα.",
     "By {authors}" : "Από {authors}",
     "Subscribed" : "Εγγεγραμμένα",
     "Subscribe" : "Εγγραφή",

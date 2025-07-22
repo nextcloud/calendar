@@ -415,7 +415,6 @@ OC.L10N.register(
     "No valid public calendars configured" : "有効な公開カレンダーが設定されていない",
     "Speak to the server administrator to resolve this issue." : "この問題を解決するには、サーバー管理者にご相談ください。",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "公開祝祭日カレンダーは Thunderbird によって提供されています。カレンダーデータは {website} からダウンロードされます",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "これらの公開カレンダーは、サーバー管理者によって提供されます。カレンダーのデータはそれぞれのウェブサイトからダウンロードされます。",
     "By {authors}" : "{author} 記載",
     "Subscribed" : "購読",
     "Subscribe" : "購読",

@@ -422,7 +422,6 @@ OC.L10N.register(
     "No valid public calendars configured" : "Geen juiste openbare agenda's ingesteld",
     "Speak to the server administrator to resolve this issue." : "Vraag je beheerder om dit probleem op te lossen.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Openbare feestdagenkalenders worden verstrekt door Thunderbird. Kalendergegevens worden gedownload van {website}.",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Deze openbare agenda's zijn voorgesteld door de beheerder van de server. Agandagegevens worden gedownload van de respectievelijke website.",
     "By {authors}" : "Door {authors}",
     "Subscribed" : "Geabonneerd",
     "Subscribe" : "Abonneren",

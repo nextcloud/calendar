@@ -443,7 +443,6 @@
     "No valid public calendars configured" : "Inga giltiga publika kalendrar konfigurerade",
     "Speak to the server administrator to resolve this issue." : "Kontakta serveradministratören för att lösa detta problem.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Helgdagskalendrar tillhandahålls av Thunderbird. Kalenderdata kommer att laddas ner från {website}",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Dessa publika kalendrar föreslås av serveradministratören. Kalenderdata kommer att hämtas från respektive webbplats.",
     "By {authors}" : "Av {authors}",
     "Subscribed" : "Prenumeration aktiverad",
     "Subscribe" : "Prenumerera",

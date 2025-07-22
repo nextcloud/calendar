@@ -444,7 +444,6 @@
     "No valid public calendars configured" : "没有设置有效的日历",
     "Speak to the server administrator to resolve this issue." : "请联系服务器管理人员以解决该问题。",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "公众节假日日历由Thunderbird提供。将从{website}下载日历数据。",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "公开日历由服务器管理员推荐使用。日历数据将从对应的网站进行下载。",
     "By {authors}" : "作者为{authors}",
     "Subscribed" : "已订阅",
     "Subscribe" : "订阅",

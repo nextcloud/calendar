@@ -423,7 +423,6 @@ OC.L10N.register(
     "No valid public calendars configured" : "Ez dago baliozko egutegi publikorik konfiguratuta",
     "Speak to the server administrator to resolve this issue." : "Hitz egin zerbitzariko administratzailearekin arazo hau konpontzeko.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Jaiegun egutegi publikoak Thunderbird-ek hornitzen ditu. Egutegiaren datuak {website}(e)tik deskargatuko dira.",
-    "These public calendars are suggested by the sever administrator. Calendar data will be downloaded from the respective website." : "Egutegi publiko hauek zerbitzariko administratzaileak proposatzen ditu. Egutegien datuak dagokien webgunetik deskargatuko dira.",
     "By {authors}" : "{authors} egina",
     "Subscribed" : "Harpidetua",
     "Subscribe" : "Harpidetu",
