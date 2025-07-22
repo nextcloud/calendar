@@ -5,26 +5,35 @@
 
 <template>
 	<div class="proposal-participant__item">
-		<div class="proposal-participant__status">
-			<IconCheck v-if="participantStatus === ProposalParticipantStatus.Responded"
-				:title="t('calendar', 'Participant has responded')" />
-			<IconNoResponse v-else-if="participantStatus === ProposalParticipantStatus.Pending"
-				:title="t('calendar', 'Participant response pending')" />
-		</div>
 		<div class="proposal-participant__avatar">
 			<NcAvatar 
 				:user="participantName"
 				:display-name="participantName"
 				:disable-tooltip="true"
-				:is-no-user="ProposalParticipantRealm.External" />
+				:is-no-user="!ProposalParticipantRealm.Internal" />
 		</div>
 		<div class="proposal-participant__name">
 			{{ participantName }}
 		</div>
 		<div class="proposal-participant__action">
-			<CloseIcon 
-				:title="t('calendar', 'Remove participant')"
-				@click="$emit('remove-participant')" />
+			<RequiredIcon v-if="participantAttendance"/>
+			<NcActions>
+				<NcActionButton :close-after-click="true"
+					@click="onParticipantAttendance">
+					<template #icon>
+						<RequiredIcon v-if="!participantAttendance"/>
+						<OptionalIcon v-else/>
+					</template>
+					{{ !participantAttendance ? t('calendar', 'Attendance Required') : t('calendar', 'Attendance Optional') }}
+				</NcActionButton>
+				<NcActionButton :close-after-click="true"
+					@click="onParticipantRemove">
+					<template #icon>
+						<DestroyIcon />
+					</template>
+					{{ t('calendar', 'Delete') }}
+				</NcActionButton>
+			</NcActions>
 		</div>
 	</div>
 </template>
@@ -33,29 +42,33 @@
 /// types, enums and models
 import { t } from '@nextcloud/l10n'
 import type { ProposalParticipantInterface } from '@/types/proposals/proposalInterfaces'
-import { ProposalParticipantRealm, ProposalParticipantStatus } from '@/types/proposals/proposalEnums'
+import { ProposalParticipantAttendance, ProposalParticipantRealm } from '@/types/proposals/proposalEnums'
 // components
 import NcAvatar from '@nextcloud/vue/dist/Components/NcAvatar.js'
+import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
+import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'
 // icons
-import IconCheck from 'vue-material-design-icons/Check.vue'
-import IconNoResponse from 'vue-material-design-icons/Help.vue'
-import CloseIcon from 'vue-material-design-icons/Close.vue'
+import RequiredIcon from 'vue-material-design-icons/AccountStarOutline.vue'
+import OptionalIcon from 'vue-material-design-icons/AccountQuestionOutline.vue'
+import DestroyIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 
 export default {
 	name: 'ProposalParticipantItem',
 	
 	data() {
 		return {
+			ProposalParticipantAttendance,
 			ProposalParticipantRealm,
-			ProposalParticipantStatus,
 		}
 	},
 
 	components: {
 		NcAvatar,
-		IconCheck,
-		IconNoResponse,
-		CloseIcon,
+		NcActions,
+		NcActionButton,
+		RequiredIcon,
+		OptionalIcon,
+		DestroyIcon,
 	},
 	
 	props: {
@@ -72,13 +85,27 @@ export default {
 		participantName(): string {
 			return this.proposalParticipant.name || this.proposalParticipant.address
 		},
-		participantStatus(): ProposalParticipantStatus {
-			return this.proposalParticipant.status || ProposalParticipantStatus.Pending
+
+		participantAttendance(): boolean {
+			return this.proposalParticipant.attendance === ProposalParticipantAttendance.Required
 		},
 	},
 	
 	methods: {
-		t,		
+		t,
+
+		onParticipantRemove() {
+			this.$emit('participant-remove', this.proposalParticipant.address)
+		},
+
+		onParticipantAttendance() {
+			if (this.proposalParticipant.attendance === ProposalParticipantAttendance.Required) {
+				this.proposalParticipant.attendance = ProposalParticipantAttendance.Optional
+			} else {
+				this.proposalParticipant.attendance = ProposalParticipantAttendance.Required
+			}
+			//this.$emit('participant-attendance', this.proposalParticipant.attendance)
+		},
 	},
 }
 </script>
@@ -113,9 +140,8 @@ export default {
 
 .proposal-participant__action {
 	flex-shrink: 0;
-	
-	&:hover {
-		color: var(--color-error);
-	}
+	display: flex;
+	align-items: center;
+	gap: var(--default-grid-baseline);
 }
 </style>

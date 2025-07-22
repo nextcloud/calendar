@@ -2,6 +2,7 @@ import {
 	ProposalParticipantStatus,
 	ProposalParticipantRealm,
 	ProposalDateVote,
+	ProposalParticipantAttendance,
 } from '@/types/proposals/proposalEnums'
 import type {
 	ProposalInterface,
@@ -16,6 +17,7 @@ export class ProposalParticipant implements ProposalParticipantInterface {
 	public id: number | null = null
 	public name: string | null = null
 	public address: string = ''
+	public attendance: ProposalParticipantAttendance = ProposalParticipantAttendance.Required
 	public status: ProposalParticipantStatus = ProposalParticipantStatus.Pending
 	public realm: ProposalParticipantRealm = ProposalParticipantRealm.Internal
 
@@ -25,6 +27,7 @@ export class ProposalParticipant implements ProposalParticipantInterface {
 			id: this.id,
 			name: this.name,
 			address: this.address,
+			attendance: this.attendance,
 			status: this.status,
 			realm: this.realm,
 		}
@@ -34,6 +37,11 @@ export class ProposalParticipant implements ProposalParticipantInterface {
 		this.id = typeof data.id === 'number' ? data.id : null
 		this.name = typeof data.name === 'string' ? data.name : null
 		this.address = typeof data.address === 'string' ? data.address : ''
+		if (typeof data.attendance === 'string' && Object.values(ProposalParticipantAttendance).includes(data.attendance as ProposalParticipantAttendance)) {
+			this.attendance = data.attendance as ProposalParticipantAttendance
+		} else {
+			this.attendance = ProposalParticipantAttendance.Required
+		}
 		if (typeof data.status === 'string' && Object.values(ProposalParticipantStatus).includes(data.status as ProposalParticipantStatus)) {
 			this.status = data.status as ProposalParticipantStatus
 		} else {
