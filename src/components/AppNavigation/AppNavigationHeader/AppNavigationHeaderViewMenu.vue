@@ -4,22 +4,33 @@
 -->
 
 <template>
-	<Actions v-shortkey="shortKeyConf"
-		menu-align="right"
-		@shortkey.native="selectViewFromShortcut">
-		<template #icon>
-			<component :is="defaultIcon" :size="20" decorative />
-		</template>
-		<ActionButton v-for="view in views"
-			:key="view.id"
-			:icon="view.icon"
-			@click="selectView(view.id)">
+	<div>
+		<Hotkey :keys="['d']" @hotkey="selectView('timeGridDay')" />
+		<Hotkey :keys="['1']" @hotkey="selectView('timeGridDay')" />
+		<Hotkey :keys="['w']" @hotkey="selectView('timeGridWeek')" />
+		<Hotkey :keys="['2']" @hotkey="selectView('timeGridWeek')" />
+		<Hotkey :keys="['m']" @hotkey="selectView('dayGridMonth')" />
+		<Hotkey :keys="['3']" @hotkey="selectView('dayGridMonth')" />
+		<Hotkey :keys="['y']" @hotkey="selectView('multiMonthYear')" />
+		<Hotkey :keys="['4']" @hotkey="selectView('multiMonthYear')" />
+		<Hotkey :keys="['l']" @hotkey="selectView('listMonth')" />
+		<Hotkey :keys="['5']" @hotkey="selectView('listMonth')" />
+
+		<Actions menu-align="right">
 			<template #icon>
-				<component :is="view.icon" :size="20" decorative />
+				<component :is="defaultIcon" :size="20" decorative />
 			</template>
-			{{ view.label }}
-		</ActionButton>
-	</Actions>
+			<ActionButton v-for="view in views"
+				:key="view.id"
+				:icon="view.icon"
+				@click="selectView(view.id)">
+				<template #icon>
+					<component :is="view.icon" :size="20" decorative />
+				</template>
+				{{ view.label }}
+			</ActionButton>
+		</Actions>
+	</div>
 </template>
 
 <script>
@@ -27,6 +38,7 @@ import {
 	NcActions as Actions,
 	NcActionButton as ActionButton,
 } from '@nextcloud/vue'
+import { Hotkey } from '@simolation/vue-hotkey'
 
 import ViewDay from 'vue-material-design-icons/ViewDay.vue'
 import ViewGrid from 'vue-material-design-icons/ViewGrid.vue'
@@ -40,6 +52,7 @@ export default {
 	components: {
 		Actions,
 		ActionButton,
+		Hotkey,
 		ViewDay,
 		ViewGrid,
 		ViewComfy,
@@ -71,20 +84,6 @@ export default {
 				label: this.$t('calendar', 'List'),
 			}]
 		},
-		shortKeyConf() {
-			return {
-				timeGridDay: ['d'],
-				timeGridDay_Num: [1],
-				timeGridWeek: ['w'],
-				timeGridWeek_Num: [2],
-				dayGridMonth: ['m'],
-				dayGridMonth_Num: [3],
-				multiMonthYear: ['y'],
-				multiMonthYear_Num: [4],
-				listMonth: ['l'],
-				listMonth_Num: [5],
-			}
-		},
 		defaultIcon() {
 			for (const view of this.views) {
 				if (view.id === this.$route.params.view) {
@@ -108,9 +107,6 @@ export default {
 			}
 
 			this.$router.push({ name, params })
-		},
-		selectViewFromShortcut(event) {
-			this.selectView(event.srcKey.split('_')[0])
 		},
 	},
 }
