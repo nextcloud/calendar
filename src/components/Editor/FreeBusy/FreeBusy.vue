@@ -839,6 +839,7 @@ export default {
 }
 
 :deep(.fc-event) {
+	pointer-events: none;
 	margin-inline-end: 0 !important;
 	border-radius: 6px !important;
 	border: 2px solid transparent !important;
