@@ -563,6 +563,10 @@ export default {
 			if (e.el.classList.contains('free-busy-busy-unavailable--organizer')) {
 				return
 			}
+			if (e.el.classList.contains('free-busy-organizer')) {
+				eventElement.style.background = `repeating-linear-gradient(45deg, ${this.personalCalendarColor}, ${this.personalCalendarColor} 1px, transparent 1px, transparent 3.5px)`
+				return
+			}
 			const color = uidToHexColor(e.event.title)
 			eventElement.style.background = `repeating-linear-gradient(45deg, ${color}, ${color} 1px, transparent 1px, transparent 3.5px)`
 		},
