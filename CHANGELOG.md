@@ -1,3 +1,15 @@
+# [5.4.0-rc.3](https://github.com/nextcloud/calendar/compare/v5.4.0-rc.2...v5.4.0-rc.3) (2025-07-22)
+
+
+### Bug Fixes
+
+* **editor:** export button in full page editor not working ([04f50dc](https://github.com/nextcloud/calendar/commit/04f50dc2b7f913b5ae274885bdb7bde67212e046))
+* **l10n:** fix typo in server administrator ([937b17e](https://github.com/nextcloud/calendar/commit/937b17e47ad40e258675e870732ab0c72857229c))
+* **l10n:** Update translations from Transifex ([063df2d](https://github.com/nextcloud/calendar/commit/063df2d0523e55c5772d7b8662493f45f84998c2))
+* **settings:** forward compatibility of all checkboxes ([c4b15d0](https://github.com/nextcloud/calendar/commit/c4b15d059737fce59aeda7e3899147495c79263d))
+
+
+
 # [5.4.0-rc.2](https://github.com/nextcloud/calendar/compare/v5.4.0-rc.1...v5.4.0-rc.2) (2025-07-20)
 
 

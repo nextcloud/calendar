@@ -1,7 +1,7 @@
 {
   "name": "calendar",
   "description": "A calendar app for Nextcloud. Easily sync events from various devices, share and edit them online.",
-  "version": "5.4.0-rc.2",
+  "version": "5.4.0-rc.3",
   "author": "Georg Ehrke <oc.list@georgehrke.com>",
   "contributors": [
     "Georg Ehrke <oc.list@georgehrke.com>",
@@ -160,6 +160,8 @@
       "./tests/assets/loadAsset.js"
     ],
     "testEnvironment": "jsdom",
-    "testPathIgnorePatterns": ["tests/javascript/e2e"]
+    "testPathIgnorePatterns": [
+      "tests/javascript/e2e"
+    ]
   }
 }
