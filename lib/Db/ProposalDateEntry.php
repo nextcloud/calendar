@@ -18,18 +18,9 @@ use OCP\AppFramework\Db\Entity;
  * @method void setPid(int $value)
  * @method ?int getDate()
  * @method void setDate(int $value)
- * @method int getVotedYes()
- * @method void setVotedYes(int $value)
- * @method int getVotedNo()
- * @method void setVotedNo(int $value)
- * @method int getVotedMaybe()
- * @method void setVotedMaybe(int $value)
  */
 class ProposalDateEntry extends Entity {
 	protected ?string $uid = null;
 	protected ?int $pid = null;
 	protected ?int $date = null;
-	protected int $votedYes = 0;
-	protected int $votedNo = 0;
-	protected int $votedMaybe = 0;
 }

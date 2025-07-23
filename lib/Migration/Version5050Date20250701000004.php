@@ -15,7 +15,7 @@ use OCP\DB\Types;
 use OCP\Migration\IOutput;
 use OCP\Migration\SimpleMigrationStep;
 
-class Version5050Date20250701000003 extends SimpleMigrationStep {
+class Version5050Date20250701000004 extends SimpleMigrationStep {
 	/**
 	 * @param IOutput $output
 	 * @param Closure $schemaClosure The `\Closure` returns a `ISchemaWrapper`
@@ -26,11 +26,11 @@ class Version5050Date20250701000003 extends SimpleMigrationStep {
 	public function changeSchema(IOutput $output, Closure $schemaClosure, array $options): ?ISchemaWrapper {
 		$schema = $schemaClosure();
 
-		if ($schema->hasTable('calendar_proposal_dats')) {
+		if ($schema->hasTable('calendar_proposal_vts')) {
 			return $schema;
 		}
 
-		$table = $schema->createTable('calendar_proposal_dats');
+		$table = $schema->createTable('calendar_proposal_vts');
 		$table->addColumn('id', Types::BIGINT, [
 			'autoincrement' => true,
 			'notnull' => true,
@@ -42,11 +42,22 @@ class Version5050Date20250701000003 extends SimpleMigrationStep {
 		]);
 		$table->addColumn('pid', Types::BIGINT, [
 			'notnull' => true,
+			'unsigned' => true,
+			'default' => 0
+		]);
+		$table->addColumn('participant_id', Types::BIGINT, [
+			'notnull' => true,
 			'unsigned' => true
 		]);
-		$table->addColumn('date', Types::INTEGER, [
+		$table->addColumn('date_id', Types::BIGINT, [
 			'notnull' => true,
+			'unsigned' => true
 		]);
+		$table->addColumn('vote', Types::STRING, [
+			'notnull' => true,
+			'length' => 8
+		]);
+
 		$table->setPrimaryKey(['id']);
 
 		return $schema;

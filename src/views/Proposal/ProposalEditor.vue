@@ -17,22 +17,73 @@
 					<!-- Left Column: Description and Duration -->
 					<div class="proposal-viewer__column-left">
 						<div class="proposal-viewer__field">
-							<strong>{{ t('calendar', 'Description') }}:</strong>
+							<h6>{{ t('calendar', 'Description') }}</h6>
 							<div>{{ selectedProposal?.description || t('calendar', 'No Description') }}</div>
 						</div>
 						<div class="proposal-viewer__field">
-							<strong>{{ t('calendar', 'Location') }}:</strong>
+							<h6>{{ t('calendar', 'Location') }}</h6>
 							<div>{{ selectedProposal?.location || t('calendar', 'No Location') }}</div>
 						</div>
 						<div class="proposal-viewer__field">
-							<strong>{{ t('calendar', 'Duration') }}:</strong>
+							<h6>{{ t('calendar', 'Duration') }}</h6>
 							<div>{{ selectedProposal?.duration ? selectedProposal.duration + ' min' : '-' }}</div>
 						</div>
 					</div>
 					<!-- Right Column: Dates with action buttons -->
-					<div class="proposal-public__viewer-right">
+					<div class="proposal-viewer__column-right">
 						<div class="proposal-public__matrix">
-							
+							<div v-if="selectedProposal?.participants.length && selectedProposal?.dates.length" class="proposal-matrix">
+								<h6>{{ t('calendar', 'Responses') }}</h6>
+								<div class="proposal-matrix__table">
+									<!-- Header row with dates -->
+									<div class="proposal-matrix__header">
+										<div class="proposal-matrix__cell proposal-matrix__cell--participant-header">
+											{{ t('calendar', 'Participant') }}
+										</div>
+										<div v-for="date in selectedProposal.dates"
+											:key="date.id"
+											class="proposal-matrix__cell proposal-matrix__cell--date-header">
+											{{ formatProposalDateCompact(date.date) }}
+										</div>
+									</div>
+									<!-- Data rows with participants and votes -->
+									<div v-for="participant in selectedProposal.participants"
+										:key="participant.id"
+										class="proposal-matrix__row">
+										<div class="proposal-matrix__cell proposal-matrix__cell--participant">
+											{{ participant.name || participant.address }}
+										</div>
+										<div v-for="date in selectedProposal.dates"
+											:key="date.id"
+											class="proposal-matrix__cell proposal-matrix__cell--vote">
+											<component 
+												:is="voteIcon(participant.id, date.id)"
+												:title="voteLabel(participant.id, date.id)"
+												class="proposal-matrix__vote-icon" />
+										</div>
+									</div>
+									<!-- Footer row with convert to meeting buttons -->
+									<div class="proposal-matrix__footer">
+										<div class="proposal-matrix__cell proposal-matrix__cell--footer-label">
+											&nbsp;
+										</div>
+										<div v-for="date in selectedProposal.dates"
+											:key="'action-' + date.id"
+											class="proposal-matrix__cell proposal-matrix__cell--action">
+											<NcButton 
+												variant="tertiary"
+												size="small"
+												:title="t('calendar', 'Convert to meeting')"
+												@click="onConvertToMeeting(date)">
+												{{ t('calendar', 'Create') }}
+											</NcButton>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div v-else class="proposal-matrix__empty">
+								{{ t('calendar', 'No participants or dates available') }}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -152,7 +203,7 @@ import usePrincipalStore from '@/store/principals'
 import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import { Proposal, ProposalParticipant, ProposalDate } from '@/models/proposals/proposals'
-import { ProposalParticipantRealm, ProposalParticipantStatus } from '@/types/proposals/proposalEnums'
+import { ProposalParticipantRealm, ProposalParticipantStatus, ProposalDateVote } from '@/types/proposals/proposalEnums'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { getBusySlots } from '../../services/freeBusySlotService'
 import { AttendeeProperty } from '@nextcloud/calendar-js'
@@ -187,6 +238,7 @@ export default {
 			principalStore: usePrincipalStore(),
 			proposalStore: useProposalStore(),
 			ProposalParticipantStatus,
+			ProposalDateVote,
 			modalMode: 'view',
 			calendarApi: null as any, // FullCalendar API instance
 			selectedProposal: null as Proposal | null,
@@ -918,6 +970,83 @@ export default {
 			return moment(date).format('dddd, MMMM D, LT')
 		},
 
+		formatProposalDateCompact(date: Date | null): string {
+			if (!date) {
+				return ''
+			}
+			// Very compact format for matrix headers: "7/8 2PM"
+			return moment(date).format('M/D LT').replace(':00', '').replace(' ', ' ')
+		},
+
+		voteIcon(participantId: number | null, dateId: number | null): string {
+			const vote = this.participantVote(participantId, dateId)
+			switch (vote) {
+				case ProposalDateVote.Yes:
+					return 'CheckIcon'
+				case ProposalDateVote.No:
+					return 'CloseIcon'
+				case ProposalDateVote.Maybe:
+				default:
+					return 'HelpIcon'
+			}
+		},
+
+		voteLabel(participantId: number | null, dateId: number | null): string {
+			const vote = this.participantVote(participantId, dateId)
+			switch (vote) {
+				case ProposalDateVote.Yes:
+					return t('calendar', 'Yes')
+				case ProposalDateVote.No:
+					return t('calendar', 'No')
+				case ProposalDateVote.Maybe:
+				default:
+					return t('calendar', 'Maybe')
+			}
+		},
+
+		participantVote(participantId: number | null, dateId: number | null): ProposalDateVote {
+			if (!this.selectedProposal || !participantId || !dateId) {
+				return ProposalDateVote.Maybe // Default to Maybe
+			}
+			
+			// Find the vote for this participant and date combination
+			const vote = this.selectedProposal.votes.find(v => 
+				v.participant === participantId && v.date === dateId
+			)
+			
+			return vote ? vote.vote as ProposalDateVote : ProposalDateVote.Maybe // Default to Maybe if no vote found
+		},
+
+		onConvertToMeeting(date: ProposalDate): void {
+			if (!this.selectedProposal || !date.date) {
+				return console.error('No proposal selected or invalid date for meeting conversion')
+			}
+			
+			// Confirm the action with the user
+			const dateString = this.formatProposalDate(date.date)
+			if (!confirm(t('calendar', 'Convert proposal date "{date}" to a meeting? This will create a calendar event with all participants.', { date: dateString }))) {
+				return
+			}
+			
+			try {
+				// TODO: Implement the actual meeting creation logic
+				console.log('Converting proposal date to meeting:', {
+					title: this.selectedProposal.title,
+					description: this.selectedProposal.description,
+					location: this.selectedProposal.location,
+					startTime: date.date,
+					duration: this.selectedProposal.duration,
+					participants: this.selectedProposal.participants
+				})
+				
+				showSuccess(t('calendar', 'Meeting creation started for {date}', { date: dateString }))
+				
+			} catch (error) {
+				showError(t('calendar', 'Failed to convert proposal to meeting'))
+				console.error('Failed to convert proposal to meeting:', error)
+			}
+		},
+
 	},
 }
 </script>
@@ -943,6 +1072,44 @@ export default {
 
 .proposal-viewer__row-title {
 	flex-shrink: 0;
+}
+
+.proposal-viewer__row-details {
+	display: flex;
+	gap: calc(var(--default-grid-baseline) * 3);
+	align-items: flex-start;
+	flex: 1;
+	overflow: hidden;
+}
+
+.proposal-viewer__column-left {
+	flex: 0 0 250px;
+	min-width: 200px;
+	max-width: 300px;
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 2);
+}
+
+.proposal-viewer__field {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 1);
+}
+
+.proposal-viewer__column-right {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.proposal-public__matrix {
+	flex: 1;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
 }
 
 .proposal-viewer__row-list {
@@ -1108,5 +1275,132 @@ export default {
 
 :deep(.proposal-editor__calendar-availability) {
 	background: repeating-linear-gradient(45deg, transparent 0px, transparent 10px, var(--color-primary) 10px, var(--color-primary) 15px) !important;
+}
+
+/* Proposal Matrix Styles */
+.proposal-matrix {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 2);
+	flex: 1;
+	overflow: hidden;
+}
+
+.proposal-matrix h6 {
+	margin: 0;
+	font-weight: 600;
+	flex-shrink: 0;
+}
+
+.proposal-matrix__table {
+	display: flex;
+	flex-direction: column;
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius);
+	overflow: hidden;
+	flex: 1;
+	min-height: 0;
+}
+
+.proposal-matrix__header,
+.proposal-matrix__row {
+	display: flex;
+	border-bottom: 1px solid var(--color-border);
+	flex-shrink: 0;
+}
+
+.proposal-matrix__header:last-child,
+.proposal-matrix__row:last-child {
+	border-bottom: none;
+}
+
+.proposal-matrix__cell {
+	padding: calc(var(--default-grid-baseline) * 1.5);
+	border-right: 1px solid var(--color-border);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+	font-size: 0.9em;
+}
+
+.proposal-matrix__cell:last-child {
+	border-right: none;
+}
+
+.proposal-matrix__cell--participant-header,
+.proposal-matrix__cell--participant {
+	flex: 0 0 auto;
+	min-width: 120px;
+	max-width: 180px;
+	width: 150px;
+	justify-content: flex-start;
+	font-weight: 600;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	padding-right: calc(var(--default-grid-baseline) * 1);
+}
+
+.proposal-matrix__cell--date-header {
+	background-color: var(--color-background-hover);
+	font-weight: 600;
+	font-size: 0.8em;
+	text-align: center;
+	flex: 0 0 auto;
+	min-width: 80px;
+	width: 80px;
+	writing-mode: horizontal-tb;
+}
+
+.proposal-matrix__cell--vote {
+	background-color: var(--color-main-background);
+	justify-content: center;
+	flex: 0 0 auto;
+	min-width: 80px;
+	width: 80px;
+}
+
+.proposal-matrix__vote-icon {
+	width: 20px;
+	height: 20px;
+}
+
+.proposal-matrix__vote-icon.check-icon {
+	color: var(--color-success);
+}
+
+.proposal-matrix__vote-icon.close-icon {
+	color: var(--color-error);
+}
+
+.proposal-matrix__vote-icon.help-icon {
+	color: var(--color-warning);
+}
+
+.proposal-matrix__footer {
+	display: flex;
+}
+
+.proposal-matrix__cell--footer-label {
+	justify-content: flex-start;
+	flex: 0 0 auto;
+	min-width: 120px;
+	max-width: 180px;
+	width: 150px;
+	padding-right: calc(var(--default-grid-baseline) * 1);
+}
+
+.proposal-matrix__cell--action {
+	justify-content: center;
+	flex: 0 0 auto;
+	min-width: 80px;
+	width: 80px;
+	padding: calc(var(--default-grid-baseline) * 1);
+}
+
+.proposal-matrix__empty {
+	text-align: center;
+	padding: calc(var(--default-grid-baseline) * 4);
+	color: var(--color-text-maxcontrast);
 }
 </style>
