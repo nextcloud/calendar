@@ -13,12 +13,15 @@ use Exception;
 use OCA\Calendar\Db\ProposalDateMapper;
 use OCA\Calendar\Db\ProposalMapper;
 use OCA\Calendar\Db\ProposalParticipantMapper;
+use OCA\Calendar\Db\ProposalVoteMapper;
 use OCA\Calendar\Objects\Proposal\ProposalDateCollection;
 use OCA\Calendar\Objects\Proposal\ProposalObject;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantCollection;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantObject;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantRealm;
+use OCA\Calendar\Objects\Proposal\ProposalParticipantStatus;
 use OCA\Calendar\Objects\Proposal\ProposalResponseObject;
+use OCA\Calendar\Objects\Proposal\ProposalVoteCollection;
 use OCP\Calendar\IManager;
 use OCP\IAppConfig;
 use OCP\IL10N;
@@ -41,6 +44,7 @@ class ProposalService {
 		private ProposalMapper $proposalMapper,
 		private ProposalParticipantMapper $proposalParticipantMapper,
 		private ProposalDateMapper $proposalDateMapper,
+		private ProposalVoteMapper $proposalVoteMapper,
 		private IL10N $l10n,
 		private IURLGenerator $urlGenerator,
 		private IUserManager $userManager,
@@ -51,10 +55,11 @@ class ProposalService {
 	}
 
 	public function listProposals(IUser $user): array {
-		// retrieve all proposals, participants, and dates for the user
+		// retrieve all proposals, participants, dates, and votes for the user
 		$proposalEntries = $this->proposalMapper->fetchByUserId($user->getUID());
 		$proposalParticipantEntries = $this->proposalParticipantMapper->fetchByUserId($user->getUID());
 		$proposalDateEntries = $this->proposalDateMapper->fetchByUserId($user->getUID());
+		$proposalVoteEntries = $this->proposalVoteMapper->fetchByUserId($user->getUID());
 		// organize the participant entries by proposal ID ['pid' => [participant, ...]]
 		$proposalParticipantEntries = array_reduce(
 			$proposalParticipantEntries,
@@ -68,6 +73,16 @@ class ProposalService {
 		// organize the date entries by proposal ID ['pid' => [date, ...]]
 		$proposalDateEntries = array_reduce(
 			$proposalDateEntries,
+			function ($carry, $entry) {
+				$pid = $entry->getPid();
+				$carry[$pid][] = $entry;
+				return $carry;
+			},
+			[]
+		);
+		// organize the vote entries by proposal ID ['pid' => [vote, ...]]
+		$proposalVoteEntries = array_reduce(
+			$proposalVoteEntries,
 			function ($carry, $entry) {
 				$pid = $entry->getPid();
 				$carry[$pid][] = $entry;
@@ -90,6 +105,10 @@ class ProposalService {
 			if (isset($proposalDateEntries[$proposalEntry->getId()])) {
 				$proposalDates->fromStore($proposalDateEntries[$proposalEntry->getId()]);
 			}
+			$proposalVotes = $proposal->getVotes();
+			if (isset($proposalVoteEntries[$proposalEntry->getId()])) {
+				$proposalVotes->fromStore($proposalVoteEntries[$proposalEntry->getId()]);
+			}
 			// add the proposal to the list
 			$proposals[] = $proposal;
 		}
@@ -103,19 +122,23 @@ class ProposalService {
 		if ($proposalEntry === null) {
 			return null;
 		}
-		// retrieve the participants and dates for this proposal
+		// retrieve the participants, dates, and votes for this proposal
 		$proposalParticipantEntries = $this->proposalParticipantMapper->fetchByProposalId($user->getUID(), $id);
 		$proposalDateEntries = $this->proposalDateMapper->fetchByProposalId($user->getUID(), $id);
+		$proposalVoteEntries = $this->proposalVoteMapper->fetchByProposalId($user->getUID(), $id);
 		// convert the store entries to objects
 		$proposalParticipants = new ProposalParticipantCollection();
 		$proposalParticipants->fromStore($proposalParticipantEntries);
 		$proposalDates = new ProposalDateCollection();
 		$proposalDates->fromStore($proposalDateEntries);
+		$proposalVotes = new ProposalVoteCollection();
+		$proposalVotes->fromStore($proposalVoteEntries);
 		// convert the proposal entry to a proposal object
 		$proposal = new ProposalObject();
 		$proposal->fromStore($proposalEntry);
 		$proposal->setParticipants($proposalParticipants);
 		$proposal->setDates($proposalDates);
+		$proposal->setVotes($proposalVotes);
 
 		return $proposal;
 	}
@@ -136,20 +159,24 @@ class ProposalService {
 		if ($proposalEntry === null) {
 			return null;
 		}
-		// retrieve the participants and dates for this proposal
+		// retrieve the participants, dates, and votes for this proposal
 		$proposalParticipantEntries = $this->proposalParticipantMapper->fetchByProposalId($uid, $pid);
 		$proposalDateEntries = $this->proposalDateMapper->fetchByProposalId($uid, $pid);
+		$proposalVoteEntries = $this->proposalVoteMapper->fetchByProposalId($uid, $pid);
 		// convert the store entries to objects
 		$proposalParticipants = new ProposalParticipantCollection();
 		$proposalParticipants->fromStore($proposalParticipantEntries);
 		$proposalDates = new ProposalDateCollection();
 		$proposalDates->fromStore($proposalDateEntries);
+		$proposalVotes = new ProposalVoteCollection();
+		$proposalVotes->fromStore($proposalVoteEntries);
 		// convert the proposal entry to a proposal object
 		$proposal = new ProposalObject();
 		$proposal->fromStore($proposalEntry);
-		// set the participants and dates
+		// set the participants, dates, and votes
 		$proposal->setParticipants($proposalParticipants);
 		$proposal->setDates($proposalDates);
+		$proposal->setVotes($proposalVotes);
 
 		return $proposal;
 	}
@@ -296,6 +323,7 @@ class ProposalService {
 			throw new \InvalidArgumentException('Proposal ID cannot be null');
 		}
 		// destroy the proposal entry
+		$this->proposalVoteMapper->deleteByProposalId($user->getUID(), $proposal->getId());
 		$this->proposalParticipantMapper->deleteByProposalId($user->getUID(), $proposal->getId());
 		$this->proposalDateMapper->deleteByProposalId($user->getUID(), $proposal->getId());
 		$this->proposalMapper->deleteById($user->getUID(), $proposal->getId());
@@ -309,13 +337,14 @@ class ProposalService {
 	}
 
 	public function deleteProposalsByUser(string $user): void {
+		$this->proposalVoteMapper->deleteByUserId($user);
 		$this->proposalParticipantMapper->deleteByUserId($user);
 		$this->proposalDateMapper->deleteByUserId($user);
 		$this->proposalMapper->deleteByUserId($user);
 	}
 
 	public function storeResponse(ProposalResponseObject $response): void {
-		// retrieve the participant entry by token
+		// retrieve the participant entry
 		$participantEntry = $this->proposalParticipantMapper->fetchByToken($response->getToken());
 		if ($participantEntry === null) {
 			throw new \InvalidArgumentException('Participant not found for token: ' . $response->getToken());
@@ -327,7 +356,11 @@ class ProposalService {
 		}
 		// retrieve proposal dates
 		$proposalDateEntries = $this->proposalDateMapper->fetchByProposalId($participantEntry->getUid(), $participantEntry->getPid());
-		// find response dates that match the proposal dates and update their votes
+
+		// first, delete any existing votes for this participant
+		$this->proposalVoteMapper->deleteByParticipantId($participantEntry->getUid(), $participantEntry->getId());
+
+		// find response dates that match the proposal dates and store votes
 		$responseDates = $response->getDates();
 		foreach ($responseDates as $responseDate) {
 			$dateId = $responseDate->getId();
@@ -339,15 +372,20 @@ class ProposalService {
 				}
 			}
 			if ($foundDateEntry !== null) {
-				// update the votes for the date entry
-				match ($responseDate->getVote()) {
-					'Y' => $foundDateEntry->setVotedYes($foundDateEntry->getVotedYes() + 1),
-					'N' => $foundDateEntry->setVotedNo($foundDateEntry->getVotedNo() + 1),
-					'M' => $foundDateEntry->setVotedMaybe($foundDateEntry->getVotedMaybe() + 1),
-				};
-				$this->proposalDateMapper->update($foundDateEntry);
+				// create and save vote entry directly
+				$voteEntry = new \OCA\Calendar\Db\ProposalVoteEntry();
+				$voteEntry->setUid($participantEntry->getUid());
+				$voteEntry->setPid($participantEntry->getPid());
+				$voteEntry->setParticipantId($participantEntry->getId());
+				$voteEntry->setDateId($foundDateEntry->getId());
+				$voteEntry->setVote($responseDate->getVote());
+				$this->proposalVoteMapper->insert($voteEntry);
 			}
 		}
+
+		// update participant status to responded
+		$participantEntry->setStatus(ProposalParticipantStatus::Responded->value);
+		$this->proposalParticipantMapper->update($participantEntry);
 	}
 
 	private function generateNotifications(IUser $user, ProposalObject $proposal, string $reason): void {

@@ -24,10 +24,15 @@ export interface ProposalParticipantInterface {
 export interface ProposalDateInterface {
   id: number | null
   date: Date | null
-  votedYes: number
-  votedNo: number
-  votedMaybe: number
   toJson(): Record<string, unknown>
+  fromJson(data: Record<string, unknown>): void
+}
+
+export interface ProposalVoteInterface {
+  id: number | null
+  date: number | null
+  participant: number | null
+  vote: ProposalDateVote
   fromJson(data: Record<string, unknown>): void
 }
 
@@ -36,9 +41,11 @@ export interface ProposalInterface {
   uuid: string | null
   title: string | null
   description: string | null
+  location: string | null
   duration: number | null
   participants: ProposalParticipantInterface[]
   dates: ProposalDateInterface[]
+  votes: ProposalVoteInterface[]
   toJson(): Record<string, unknown>
   fromJson(data: Record<string, unknown>): void
 }
