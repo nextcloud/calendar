@@ -14,6 +14,8 @@ use OCA\Calendar\Db\ProposalDetailsEntry;
 class ProposalObject implements \JsonSerializable {
 
 	private ?int $id = null;
+	private ?string $uid = null;
+	private ?string $uname = null;
 	private ?string $uuid = null;
 	private ?string $title = null;
 	private ?string $description = null;
@@ -37,6 +39,8 @@ class ProposalObject implements \JsonSerializable {
 		$data = [
 			'@type' => 'MeetingProposal',
 			'id' => $this->id,
+			'uid' => $this->uid,
+			'uname' => $this->uname,
 			'uuid' => $this->uuid,
 			'title' => $this->title,
 			'description' => $this->description,
@@ -66,6 +70,7 @@ class ProposalObject implements \JsonSerializable {
 	public function toStore(): ProposalDetailsEntry {
 		$entry = new ProposalDetailsEntry();
 		$entry->setId($this->id);
+		$entry->setUid($this->uid);
 		$entry->setUuid($this->uuid);
 		$entry->setTitle($this->title);
 		$entry->setDescription($this->description);
@@ -76,6 +81,7 @@ class ProposalObject implements \JsonSerializable {
 
 	public function fromStore(ProposalDetailsEntry $entry): void {
 		$this->id = $entry->getId();
+		$this->uid = $entry->getUid();
 		$this->uuid = $entry->getUuid();
 		$this->title = $entry->getTitle();
 		$this->description = $entry->getDescription();
@@ -89,6 +95,22 @@ class ProposalObject implements \JsonSerializable {
 
 	public function setId(?int $value): void {
 		$this->id = $value;
+	}
+
+	public function getUid(): ?string {
+		return $this->uid;
+	}
+
+	public function setUid(?string $value): void {
+		$this->uid = $value;
+	}
+
+	public function getUname(): ?string {
+		return $this->uname;
+	}
+
+	public function setUname(?string $value): void {
+		$this->uname = $value;
 	}
 
 	public function getUuid(): ?string {
