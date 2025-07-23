@@ -121,6 +121,14 @@ const router = new Router({
 					name: 'EditFullView',
 					component: EditFull,
 				},
+				// Redirect the old sidebar route until Calendar drops support for Nextcloud < 32
+				// Ref https://github.com/nextcloud/server/pull/52410
+				{
+					path: '/:view/:firstDay/edit/sidebar/:object/:recurrenceId',
+					redirect: {
+						name: 'EditFullView',
+					},
+				},
 				{
 					path: '/:view/:firstDay/new/popover/:allDay/:dtstart/:dtend',
 					name: 'NewPopoverView',
