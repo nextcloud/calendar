@@ -447,6 +447,7 @@ OC.L10N.register(
     "No valid public calendars configured" : "未設定有效的公共日曆",
     "Speak to the server administrator to resolve this issue." : "請與伺服器管理員聯絡以解決此問題。",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "公眾假期日曆由 Thunderbird 提供。將從 {website} 下載日曆數據",
+    "These public calendars are suggested by the server administrator. Calendar data will be downloaded from the respective website." : "這些公開日曆是伺服器管理員建議的。日曆資料將從對應的網站下載。",
     "By {authors}" : "作者 {authors}",
     "Subscribed" : "已訂閱",
     "Subscribe" : "訂閱",
