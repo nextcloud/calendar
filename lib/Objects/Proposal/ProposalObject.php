@@ -21,10 +21,12 @@ class ProposalObject implements \JsonSerializable {
 	private ?int $duration = null;
 	private ProposalParticipantCollection $participants;
 	private ProposalDateCollection $dates;
+	private ProposalVoteCollection $votes;
 
 	public function __construct() {
 		$this->participants = new ProposalParticipantCollection();
 		$this->dates = new ProposalDateCollection();
+		$this->votes = new ProposalVoteCollection();
 	}
 
 	public function jsonSerialize(): array {
@@ -42,6 +44,7 @@ class ProposalObject implements \JsonSerializable {
 			'duration' => $this->duration,
 			'participants' => $this->participants->toJson(),
 			'dates' => $this->dates->toJson(),
+			'votes' => $this->votes->toJson(),
 		];
 		return $data;
 	}
@@ -142,6 +145,14 @@ class ProposalObject implements \JsonSerializable {
 
 	public function setDates(ProposalDateCollection $value): void {
 		$this->dates = $value;
+	}
+
+	public function getVotes(): ProposalVoteCollection {
+		return $this->votes;
+	}
+
+	public function setVotes(ProposalVoteCollection $value): void {
+		$this->votes = $value;
 	}
 
 }

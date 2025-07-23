@@ -10,6 +10,7 @@ import type {
 	ProposalDateInterface,
 	ProposalResponseInterface,
 	ProposalResponseDateInterface,
+	ProposalVoteInterface,
 } from '@/types/proposals/proposalInterfaces'
 
 export class ProposalParticipant implements ProposalParticipantInterface {
@@ -60,25 +61,38 @@ export class ProposalDate implements ProposalDateInterface {
 
 	public id: number | null = null
 	public date: Date | null = null
-	public votedYes: number = 0
-	public votedNo: number = 0
-	public votedMaybe: number = 0
 
 	public toJson(): Record<string, unknown> {
 		return {
 			'@type': 'MeetingProposalDate',
 			id: this.id,
 			date: this.date ? this.date.toISOString() : null,
-			// we omit the votes as they should not be changed by the client directly
 		}
 	}
 
 	public fromJson(data: Record<string, unknown>): void {
 		this.id = typeof data.id === 'number' ? data.id : null
 		this.date = data.date ? new Date(data.date as string) : null
-		this.votedYes = typeof data.votedYes === 'number' ? data.votedYes : 0
-		this.votedNo = typeof data.votedNo === 'number' ? data.votedNo : 0
-		this.votedMaybe = typeof data.votedMaybe === 'number' ? data.votedMaybe : 0
+	}
+
+}
+
+export class ProposalVote implements ProposalVoteInterface {
+
+	public id: number | null = null
+	public date: number | null = null
+	public participant: number | null = null
+	public vote: ProposalDateVote = ProposalDateVote.Maybe
+
+	public fromJson(data: Record<string, unknown>): void {
+		this.id = typeof data.id === 'number' ? data.id : null
+		this.date = typeof data.date === 'number' ? data.date : null
+		this.participant = typeof data.participant === 'number' ? data.participant : null
+		if (typeof data.vote === 'string' && Object.values(ProposalDateVote).includes(data.vote as ProposalDateVote)) {
+			this.vote = data.vote as ProposalDateVote
+		} else {
+			this.vote = ProposalDateVote.Maybe
+		}
 	}
 
 }
@@ -93,6 +107,7 @@ export class Proposal implements ProposalInterface {
 	public duration: number = 0
 	public participants: ProposalParticipant[] = []
 	public dates: ProposalDate[] = []
+	public votes: ProposalVote[] = []
 
 	public toJson(): Record<string, unknown> {
 		return {
@@ -127,6 +142,13 @@ export class Proposal implements ProposalInterface {
 				const participant = new ProposalParticipant()
 				participant.fromJson(p)
 				return participant
+			})
+			: []
+		this.votes = Array.isArray(data.votes)
+			? data.votes.map((v: Record<string, unknown>) => {
+				const vote = new ProposalVote()
+				vote.fromJson(v)
+				return vote
 			})
 			: []
 	}
