@@ -4,81 +4,87 @@
 			class="proposal-public__content-empty">
 			<NcEmptyContent :name="blankViewLabel" :description="blankViewDescription">
 				<template #icon>
-					<BallotIcon />
+					<ProposalIcon />
 				</template>
 			</NcEmptyContent>
 		</NcGuestContent>
 		<NcGuestContent v-else-if="contentView === 'responded'" class="proposal-public__content-empty">
-			<NcEmptyContent :name="t('calendar', 'Response Submitted')" :description="t('calendar', 'Thank you for your response! Your vote has been recorded.')">
+			<NcEmptyContent :name="respondedViewLabel" :description="respondedViewDescription">
 				<template #icon>
-					<CheckIcon />
+					<RespondedIcon />
 				</template>
 			</NcEmptyContent>
 		</NcGuestContent>
 		<NcGuestContent v-else-if="contentView === 'loaded'" class="proposal-public__content-details">
-			<!-- Row 1: Title -->
-			<div class="proposal-public__row proposal-public__row-title">
-				<h2>{{ storedProposal?.title || t('calendar', 'No Title') }}</h2>
-			</div>
-			<!-- Row 2: Details Columns -->
-			<div class="proposal-public__row proposal-public__row-fields">
-				<!-- Left Column: Description and Duration -->
-				<div class="proposal-public__column-left">
-					<div class="proposal-public__field">
-						<strong>{{ t('calendar', 'Description') }}</strong>
-						<div>{{ storedProposal?.description || t('calendar', 'No Description') }}</div>
+			<div class="proposal-public__row-details">
+				<div class="proposal-public__content-column-left">
+					<div class="proposal-public__content-organizer">
+						<NcAvatar :user="storedProposal?.uid" :display-name="storedProposal?.uname" />
+						{{ storedProposal?.uname || t('calendar', 'Unknown User') }}
 					</div>
-					<div class="proposal-public__field">
-						<strong>{{ t('calendar', 'Location') }}</strong>
-						<div>{{ storedProposal?.location || t('calendar', 'No Location') }}</div>
+					<h4>{{ storedProposal?.title || t('calendar', 'No Title') }}</h4>
+					<div class="proposal-public__content-description">
+						{{ storedProposal?.description || t('calendar', 'No Description') }}
 					</div>
-					<div class="proposal-public__field">
-						<strong>{{ t('calendar', 'Duration') }}</strong>
-						<div>{{ storedProposal?.duration ? storedProposal.duration + ' min' : t('calendar', 'No Duration') }}</div>
+					<div class="proposal-public__content-location">
+						<LocationIcon />
+						{{ storedProposal?.location || t('calendar', 'No Location') }}
+					</div>
+					<div class="proposal-public__content-duration">
+						<DurationIcon />
+						{{ storedProposal?.duration ? storedProposal.duration + ' min' : t('calendar', 'No Duration') }}
 					</div>
 				</div>
-				<!-- Right Column: Dates with action buttons -->
-				<div class="proposal-public__column-right">
-					<div class="proposal-public__dates-list">
-						<div v-if="storedProposal?.dates.length">
-							<div v-for="date in storedProposal.dates"
-								:key="date.id"
-								class="proposal-public__date-row">
-								<span class="proposal-public__date-time">
-									{{ new Date(date.date).toLocaleString() }}</span>
-								<div class="proposal-public__date-actions">
-									<NcCheckboxRadioSwitch type="radio"
-										:name="'vote-' + date.id"
-										:value="ProposalDateVote.Yes"
-										:modelValue="response.dates[date.id].vote"
-										@update:modelValue="response.dates[date.id].vote = ProposalDateVote.Yes" >
-										{{ t('calendar','Yes') }}
-									</NcCheckboxRadioSwitch>
-									<NcCheckboxRadioSwitch type="radio"
-										:name="'vote-' + date.id"
-										:value="ProposalDateVote.No"
-										:modelValue="response.dates[date.id].vote"
-										@update:modelValue="response.dates[date.id].vote = ProposalDateVote.No" >
-										{{ t('calendar','No') }}
-									</NcCheckboxRadioSwitch>
-									<NcCheckboxRadioSwitch type="radio"
-										:name="'vote-' + date.id"
-										:value="ProposalDateVote.Maybe"
-										:modelValue="response.dates[date.id].vote"
-										@update:modelValue="response.dates[date.id].vote = ProposalDateVote.Maybe" >
-										{{ t('calendar','Maybe') }}
-									</NcCheckboxRadioSwitch>
-								</div>
+				<div class="proposal-public__content-column-right">
+					<h6>
+						{{ t('calendar', 'Please select your meeting availability') }}
+					</h6>
+					<div v-if="storedProposal?.dates.length">
+						<div v-for="date in storedProposal.dates"
+							:key="date.id"
+							class="proposal-public__content-date-list">
+							<span class="proposal-public__content-date-time">
+								{{ new Date(date.date).toLocaleString() }}</span>
+							<div class="proposal-public__content-date-actions">
+								<NcCheckboxRadioSwitch type="radio"
+									:button-variant="true"
+									button-variant-grouped="horizontal"
+									:name="'vote-' + date.id"
+									:value="ProposalDateVote.Yes"
+									:modelValue="response.dates[date.id].vote"
+									@update:modelValue="response.dates[date.id].vote = ProposalDateVote.Yes" >
+									<YesIcon />
+									{{ t('calendar','Yes') }}
+								</NcCheckboxRadioSwitch>
+								<NcCheckboxRadioSwitch type="radio"
+									:button-variant="true"
+									button-variant-grouped="horizontal"
+									:name="'vote-' + date.id"
+									:value="ProposalDateVote.No"
+									:modelValue="response.dates[date.id].vote"
+									@update:modelValue="response.dates[date.id].vote = ProposalDateVote.No" >
+									<NoIcon />
+									{{ t('calendar','No') }}
+								</NcCheckboxRadioSwitch>
+								<NcCheckboxRadioSwitch type="radio"
+									:button-variant="true"
+									button-variant-grouped="horizontal"
+									:name="'vote-' + date.id"
+									:value="ProposalDateVote.Maybe"
+									:modelValue="response.dates[date.id].vote"
+									@update:modelValue="response.dates[date.id].vote = ProposalDateVote.Maybe" >
+									<MaybeIcon />
+									{{ t('calendar','Maybe') }}
+								</NcCheckboxRadioSwitch>
 							</div>
 						</div>
-						<div v-else class="proposal-public__no-dates">
-							{{ t('calendar', 'No proposed dates') }}
-						</div>
+					</div>
+					<div v-else class="proposal-public__content-date-empty">
+						{{ t('calendar', 'No proposed dates') }}
 					</div>
 				</div>
 			</div>
-			<!-- Row 3: Submit Button -->
-			<div class="proposal-public__row proposal-public__row-submit">
+			<div class="proposal-public__row-actions">
 				<NcButton type="primary" @click="onSubmit">
 					{{ t('calendar', 'Submit') }}
 				</NcButton>
@@ -96,11 +102,17 @@ import { ProposalDateVote } from '@/types/proposals/proposalEnums'
 // components
 import NcGuestContent from '@nextcloud/vue/components/NcGuestContent'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 // icons
-import BallotIcon from 'vue-material-design-icons/BallotOutline'
-import CheckIcon from 'vue-material-design-icons/Check'
+import ProposalIcon from 'vue-material-design-icons/BallotOutline'
+import RespondedIcon from 'vue-material-design-icons/Check'
+import LocationIcon from 'vue-material-design-icons/MapMarkerOutline'
+import DurationIcon from 'vue-material-design-icons/ClockOutline'
+import YesIcon from 'vue-material-design-icons/Check'
+import NoIcon from 'vue-material-design-icons/Close'
+import MaybeIcon from 'vue-material-design-icons/Help'
 
 export default {
 	name: 'ProposalPublic',
@@ -108,10 +120,16 @@ export default {
 	components: {
 		NcGuestContent,
 		NcEmptyContent,
+		NcAvatar,
 		NcButton,
 		NcCheckboxRadioSwitch,
-		BallotIcon,
-		CheckIcon,
+		ProposalIcon,
+		RespondedIcon,
+		LocationIcon,
+		DurationIcon,
+		YesIcon,
+		NoIcon,
+		MaybeIcon,
 	},
 
 	data() {
@@ -140,6 +158,14 @@ export default {
 			} else {
 				return t('calendar', 'The link you followed may be broken, or the meeting proposal may no longer exist.')
 			}
+		},
+
+		respondedViewLabel() {
+			return t('calendar', 'Thank you for your response!')
+		},
+
+		respondedViewDescription() {
+			return t('calendar', 'Your vote has been recorded. Thank you for participating!')
 		},
 	},
 
@@ -193,7 +219,7 @@ export default {
   min-height: 80vh;
   width: 100%;
 }
-/* Proposal Public Details View Styles */
+
 .proposal-public__content-details {
   width: 100%;
   max-width: 800px;
@@ -202,72 +228,83 @@ export default {
   flex-direction: column;
   gap: 2rem;
 }
-.proposal-public__row {
-  width: 100%;
-  margin-bottom: 0.5rem;
-}
-.proposal-public__row-title h2 {
-  font-size: 1.5em;
-  font-weight: 600;
-  margin: 0 auto;
-  text-align: center;
-}
-.proposal-public__row-fields {
+
+.proposal-public__row-details {
   display: flex;
   gap: 2rem;
-  align-items: stretch;
-  margin-bottom: 0;
+  align-items: flex-start;
 }
-.proposal-public__column-left {
-  flex: 1 1 40%;
-  max-width: 40%;
+
+.proposal-public__content-column-left {
+  flex: 0 0 30%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-.proposal-public__column-right {
-  flex: 1 1 48%;
-  max-width: 48%;
+
+.proposal-public__content-column-right {
+  flex: 1 1 70%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  height: 100%;
 }
-.proposal-public__dates-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-.proposal-public__date-row {
+
+.proposal-public__content-organizer {
   display: flex;
   align-items: center;
-  gap: 1.5em;
-  margin-bottom: 0.25em;
-  width: 100%;
-  flex-wrap: nowrap;
-  box-sizing: border-box;
-  min-width: 0;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
-.proposal-public__date-time {
+
+h4 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+h6 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.proposal-public__content-location {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.proposal-public__content-duration {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.proposal-public__content-date-list {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.proposal-public__content-date-time {
   white-space: nowrap;
   min-width: 0;
   flex: 0 1 auto;
-  flex-shrink: 1;
 }
-.proposal-public__date-actions {
+
+.proposal-public__content-date-actions {
   display: flex;
-  gap: 0.5rem;
-  flex-wrap: nowrap;
-  min-width: 0;
+  gap: 0;
   flex: 1 1 0;
-  flex-shrink: 1;
 }
-.proposal-public__row-submit {
+
+.proposal-public__content-date-empty {
+  font-style: italic;
+  color: var(--color-text-lighter);
+}
+
+.proposal-public__row-actions {
   display: flex;
   justify-content: flex-end;
   margin-top: 1.5rem;
-}
-.proposal-public__no-dates {
-  font-style: italic;
 }
 </style>

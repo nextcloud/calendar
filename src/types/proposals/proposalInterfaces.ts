@@ -38,6 +38,8 @@ export interface ProposalVoteInterface {
 
 export interface ProposalInterface {
   id: number | null
+  uid: string | null
+  uname: string | null
   uuid: string | null
   title: string | null
   description: string | null

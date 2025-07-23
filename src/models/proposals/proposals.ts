@@ -100,8 +100,10 @@ export class ProposalVote implements ProposalVoteInterface {
 export class Proposal implements ProposalInterface {
 
 	public id: number | null = null
-	public title: string | null = null
+	public uid: string | null = null
+	public uname: string | null = null
 	public uuid: string | null = null
+	public title: string | null = null
 	public description: string | null = null
 	public location: string | null = null
 	public duration: number = 0
@@ -113,8 +115,10 @@ export class Proposal implements ProposalInterface {
 		return {
 			'@type': 'MeetingProposal',
 			id: this.id,
-			title: this.title,
+			uid: this.uid,
+			uname: this.uname,
 			uuid: this.uuid,
+			title: this.title,
 			description: this.description,
 			location: this.location,
 			duration: this.duration,
@@ -125,8 +129,10 @@ export class Proposal implements ProposalInterface {
 
 	public fromJson(data: Record<string, unknown>): void {
 		this.id = typeof data.id === 'number' ? data.id : null
-		this.title = typeof data.title === 'string' ? data.title : null
+		this.uid = typeof data.uid === 'string' ? data.uid : null
+		this.uname = typeof data.uname === 'string' ? data.uname : null
 		this.uuid = typeof data.uuid === 'string' ? data.uuid : null
+		this.title = typeof data.title === 'string' ? data.title : null
 		this.description = typeof data.description === 'string' ? data.description : null
 		this.location = typeof data.location === 'string' ? data.location : null
 		this.duration = typeof data.duration === 'number' ? data.duration : 0

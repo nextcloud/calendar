@@ -99,6 +99,12 @@ class ProposalController extends ApiController {
 		if ($proposal === null) {
 			return new JSONResponse(['error' => 'Proposal not found'], HTTP::STATUS_NOT_FOUND);
 		}
+		// enrich proposal with user information
+		// as this is most likely a public request from the voting page
+		$user = $this->userManager->get($proposal->getUid());
+		if ($user !== null) {
+			$proposal->setUname($user->getDisplayName());
+		}
 		return new JSONResponse($proposal, Http::STATUS_OK);
 	}
 
