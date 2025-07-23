@@ -1,3 +1,30 @@
+## [5.3.7](https://github.com/nextcloud/calendar/compare/v5.3.6...v5.3.7) (2025-07-23)
+
+
+### Bug Fixes
+
+* **deps:** bump @nextcloud/calendar-js to ^8.1.4 ([ffb36ec](https://github.com/nextcloud/calendar/commit/ffb36ec6d231fe3a2c5720d1f3a9149461a28c57))
+* **deps:** Fix npm audit ([98cf500](https://github.com/nextcloud/calendar/commit/98cf500032b6257bc9b381d05958a9e2572c550d))
+* fix nextcloud limit ([78aab80](https://github.com/nextcloud/calendar/commit/78aab80196edb9e81aeb0d14fc7235b37e5ce132))
+* **freebusy:** disable set free slot while previous slot is being set ([8f54f1d](https://github.com/nextcloud/calendar/commit/8f54f1d67c4993df7eef8d19294e63e96124b605))
+* **fullcalendar:** freezing year view ([dfe6711](https://github.com/nextcloud/calendar/commit/dfe6711b3cf6a2fd9704bc29791224fd56336ccd))
+* **l10n:** fix typo in server administrator ([a331570](https://github.com/nextcloud/calendar/commit/a33157002283fb49a24110747d9b3bf4d52aa426))
+* **l10n:** Update translations from Transifex ([1a4d20b](https://github.com/nextcloud/calendar/commit/1a4d20bea7f77b1452fca9a035ac3d9df8ca82de))
+* **l10n:** Update translations from Transifex ([5e6911f](https://github.com/nextcloud/calendar/commit/5e6911f00a37c43f8f5e00005bdec56cec929d81))
+* **l10n:** Update translations from Transifex ([e7e1877](https://github.com/nextcloud/calendar/commit/e7e187782d7e58964743b8163780c42b2abe1563))
+* **l10n:** Update translations from Transifex ([1a80c95](https://github.com/nextcloud/calendar/commit/1a80c955524926852af7f2a2af67254bd3ac8dd1))
+* **l10n:** Update translations from Transifex ([07e1cca](https://github.com/nextcloud/calendar/commit/07e1cca3426a8a18f68c32b2991b95f12815ab60))
+* **l10n:** Update translations from Transifex ([c9f2eee](https://github.com/nextcloud/calendar/commit/c9f2eee52c4c35534cf62434b68ec3f4e6af2e81))
+* **l10n:** Update translations from Transifex ([97775eb](https://github.com/nextcloud/calendar/commit/97775ebb8029089424acfee4b589971162fefa47))
+* **settings:** forward compatibility of all checkboxes ([2fe42c0](https://github.com/nextcloud/calendar/commit/2fe42c0e89f23340dfd4370c80768c44c8b54561))
+
+
+### Performance Improvements
+
+* don't load ContactsMenuScript when not logged in ([aba5efb](https://github.com/nextcloud/calendar/commit/aba5efb10029ab799ebee4424b42adf76a13b6a6))
+
+
+
 ## [5.3.6](https://github.com/nextcloud/calendar/compare/v5.3.5...v5.3.6) (2025-07-15)
 
 
