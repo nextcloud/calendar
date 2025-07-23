@@ -198,8 +198,8 @@
 
 <script lang="ts">
 // types, object and stores
-import useProposalStore from '@/store/proposalStore'
 import usePrincipalStore from '@/store/principals'
+import useProposalStore from '@/store/proposalStore'
 import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import { Proposal, ProposalParticipant, ProposalDate } from '@/models/proposals/proposals'
