@@ -741,16 +741,16 @@ export default {
 			}
 		}
 		&__title{
-			&--mobile{
-				width: 100%;
-				margin: 0;
-			}
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
 			margin-bottom: calc(var(--default-grid-baseline) * 4);
 			width: calc(100% - 260px);
 			margin-inline-start: 260px;
+			&--mobile{
+				width: 100%;
+				margin: 0;
+			}
 			h2{
 				font-weight: 500;
 				margin: 0;
