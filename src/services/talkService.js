@@ -4,7 +4,7 @@
  */
 import HTTPClient from '@nextcloud/axios'
 import { translate as t } from '@nextcloud/l10n'
-import { generateUrl, generateOcsUrl } from '@nextcloud/router'
+import { generateUrl, generateOcsUrl, getBaseUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
 import { getCurrentUser } from '@nextcloud/auth'
 import logger from '../utils/logger.js'
@@ -144,7 +144,9 @@ export function doesContainTalkLink(text) {
  * @return {string}
  */
 export function generateURLForToken(token = '') {
-	return window.location.protocol + '//' + window.location.host + generateUrl('/call/' + token)
+	return generateUrl('/call/' + token, {}, {
+		baseURL: getBaseUrl(),
+	})
 }
 
 /**
