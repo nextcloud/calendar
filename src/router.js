@@ -107,7 +107,7 @@ const router = new Router({
 		 * It has to be last, so that other routes starting with /p/, etc. match first
 		 */
 		{
-			path: '/:view/:firstDay',
+			path: '/:view([a-zA-Z]+)/:firstDay(now|[0-9]+-[0-9]{2}-[0-9]{2})',
 			component: Calendar,
 			name: 'CalendarView',
 			children: [
