@@ -325,7 +325,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		expect(generateUrl).toHaveBeenCalledTimes(1)
 		expect(generateUrl).toHaveBeenNthCalledWith(1, 'apps/tasks/calendars/reminders/tasks/EAFB112A-4556-404A-B807-B1E040D0F7A0.ics')
 
-		expect(window.location).toEqual('http://nextcloud.testing/generated-url')
+		expect(window.location.href).toEqual('/generated-url')
 	})
 
 	it('should do nothing when tasks is disabled and route is public', () => {
