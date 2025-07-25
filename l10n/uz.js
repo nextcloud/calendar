@@ -63,7 +63,7 @@ OC.L10N.register(
     "Preview" : "Ko‘rib chiqish",
     "Copy link" : "Havolani nusxalash",
     "Edit" : "Tahrirlash",
-    "Delete" : "Oʻchirish",
+    "Delete" : "O'chirish",
     "Appointment schedules" : "Uchrashuvlar taqvimi",
     "Create new" : "Yangi yaratish",
     "Disable calendar \"{calendar}\"" : "Taqvimni o'chirib qo'yish \"{calendar}\"",
