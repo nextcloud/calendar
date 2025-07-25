@@ -110,5 +110,5 @@ function handleToDoClick(event, route, window, isWidget = false) {
 		return
 	}
 	const url = `apps/tasks/calendars/${calendarId}/tasks/${taskId}`
-	window.location = window.location.protocol + '//' + window.location.host + generateUrl(url)
+	window.location.href = generateUrl(url)
 }

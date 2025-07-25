@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { generateUrl } from '@nextcloud/router'
+import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import {
 	getEmptySlots,
 	vavailabilityToSlots,
@@ -175,11 +175,11 @@ export default class AppointmentConfig {
 	 * @return {string} Absolute URL
 	 */
 	get bookingUrl() {
-		const baseUrl = `${window.location.protocol}//${window.location.hostname}`
-		const relativeUrl = generateUrl('/apps/calendar/appointment/{token}', {
+		return generateUrl('/apps/calendar/appointment/{token}', {
 			token: this.token,
+		}, {
+			baseURL: getBaseUrl(),
 		})
-		return baseUrl + relativeUrl
 	}
 
 }
