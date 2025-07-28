@@ -520,7 +520,7 @@ export default {
 			title: 'Selected slot',
 			start: this.currentStart,
 			end: this.currentEnd,
-			textColor: '#fff',
+			textColor: 'var(--color-main-text)',
 			backgroundColor: 'rgba(0, 0, 0, 0)',
 			editable: true,
 			overlap: true,
