@@ -53,6 +53,7 @@ describe('store/settings test suite', () => {
 			slotDuration: null,
 			defaultReminder: null,
 			tasksEnabled: false,
+			tasksSidebar: true,
 			timezone: 'automatic',
 			momentLocale: 'en',
 			disableAppointments: false,
@@ -79,6 +80,7 @@ describe('store/settings test suite', () => {
 			slotDuration: null,
 			defaultReminder: null,
 			tasksEnabled: false,
+			tasksSidebar: true,
 			timezone: 'automatic',
 			momentLocale: 'en',
 			otherProp: 'bar',
@@ -105,6 +107,7 @@ describe('store/settings test suite', () => {
 			defaultReminder: '-600',
 			talkEnabled: false,
 			tasksEnabled: true,
+			tasksSidebar: false,
 			timezone: 'Europe/Berlin',
 			otherUnknownSetting: 'foo',
 			hideEventExport: false,
@@ -132,6 +135,7 @@ Initial settings:
 	- DefaultReminder: -600
 	- TalkEnabled: false
 	- TasksEnabled: true
+	- TasksSidebar: false
 	- Timezone: Europe/Berlin
 	- HideEventExport: false
 	- ForceEventAlarmType: false
@@ -153,6 +157,7 @@ Initial settings:
 			defaultReminder: '-600',
 			talkEnabled: false,
 			tasksEnabled: true,
+			tasksSidebar: false,
 			timezone: 'Europe/Berlin',
 			momentLocale: 'en',
 			otherProp: 'bar',
@@ -432,6 +437,25 @@ Initial settings:
 		expect(fetchedTimeRangesStore.lastTimeRangeInsertId).toEqual(-1)
 		expect(fetchedTimeRangesStore.fetchedTimeRanges).toEqual([])
 		expect(fetchedTimeRangesStore.fetchedTimeRangesById).toEqual({})
+	})
+
+	it('should provide an action to toggle the task sidebar - false to true', async () => {
+		const settingsStore = useSettingsStore()
+		const calendarObjectsStore = useCalendarObjectsStore()
+		const fetchedTimeRangesStore = useFetchedTimeRangesStore()
+
+		expect.assertions(3)
+
+		settingsStore.tasksSidebar = false
+
+		setConfig.mockResolvedValueOnce()
+
+		await settingsStore.toggleTasksSidebar()
+
+		expect(setConfig).toHaveBeenCalledTimes(1)
+		expect(setConfig).toHaveBeenNthCalledWith(1, 'tasksSidebar', 'yes')
+
+		expect(settingsStore.tasksSidebar).toEqual(true)
 	})
 
 	it('should provide an action to toggle the tasks-enabled setting - true to false', async () => {

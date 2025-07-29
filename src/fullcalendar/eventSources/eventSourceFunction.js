@@ -12,6 +12,7 @@ import {
 import logger from '../../utils/logger.js'
 import { getAllObjectsInTimeRange } from '../../utils/calendarObject.js'
 import usePrincipalsStore from '../../store/principals.js'
+import useTasksStore from '../../store/unscheduledTasks.js'
 /**
  * convert an array of calendar-objects to events
  *
@@ -24,6 +25,8 @@ import usePrincipalsStore from '../../store/principals.js'
  */
 export function eventSourceFunction(calendarObjects, calendar, start, end, timezone) {
 	const principalsStore = usePrincipalsStore()
+	const tasksStore = useTasksStore()
+	tasksStore.emptyCalendar(calendar.id)
 
 	const fcEvents = []
 	for (const calendarObject of calendarObjects) {
@@ -78,11 +81,6 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				classNames.push('fc-event-nc-alarms')
 			}
 
-			// For now, we only display
-			if (object.name === 'VTODO' && object.endDate === null) {
-				continue
-			}
-
 			let jsStart, jsEnd
 			if (object.name === 'VEVENT') {
 				jsStart = object.startDate.getInTimezone(timezone).jsDate
@@ -90,8 +88,16 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 			} else if (object.name === 'VTODO') {
 				// For tasks, we only want to display when it is due,
 				// not for how long it has been in progress already
-				jsStart = object.endDate.getInTimezone(timezone).jsDate
-				jsEnd = object.endDate.getInTimezone(timezone).jsDate
+				// if there is no due date, we store the task in the
+				// tasksstore, so user can add it to the calendar if
+				// he wants
+				if (object.endDate === null) {
+					jsStart = null
+					jsEnd = null
+				} else {
+					jsStart = object.endDate.getInTimezone(timezone).jsDate
+					jsEnd = object.endDate.getInTimezone(timezone).jsDate
+				}
 			} else {
 				// We do not want to display anything that's neither
 				// an event nor a task
@@ -104,7 +110,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 			// If the event's start is equal to it's end, fullcalendar is giving
 			// the event a default length of one hour. We are preventing that by
 			// adding one second to the end in that case.
-			if (jsStart.getTime() === jsEnd.getTime()) {
+			if (jsStart && jsEnd && jsStart.getTime() === jsEnd.getTime()) {
 				jsEnd.setSeconds(jsEnd.getSeconds() + 1)
 			}
 
@@ -145,6 +151,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				classNames,
 				extendedProps: {
 					objectId: calendarObject.id,
+					vobjectId: object.id,
 					recurrenceId: object.getReferenceRecurrenceId()
 						? object.getReferenceRecurrenceId().unixTime
 						: null,
@@ -169,9 +176,14 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 					fcEvent.textColor = generateTextColorForHex(customColor)
 				}
 			}
-
-			fcEvents.push(fcEvent)
+			if (object.name === 'VTODO' && object.endDate === null && object.percent !== 100 && object.status !== 'COMPLETED') {
+				fcEvent.create = true
+				tasksStore.appendTask(calendar.id, fcEvent)
+			} else {
+				fcEvents.push(fcEvent)
+			}
 		}
+		tasksStore.finishCalendar(calendar.id)
 	}
 
 	return fcEvents
