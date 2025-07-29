@@ -51,20 +51,6 @@
 	}
 }
 
-@media screen and (max-width: 785px) {
-	.app-full__header__top {
-		gap: calc(var(--default-grid-baseline) * 2) !important;
-
-		&-close-icon {
-			visibility: visible;
-		}
-	}
-
-	.modal-container__close {
-		visibility: hidden;
-	}
-}
-
 .app-full__header {
 	display: flex;
 	flex-direction: column;
@@ -96,6 +82,20 @@
 }
 
 .calendar-edit-full {
+	@media screen and (max-width: 785px) {
+		.app-full__header__top {
+			gap: calc(var(--default-grid-baseline) * 2) !important;
+
+			&-close-icon {
+				visibility: visible;
+			}
+		}
+
+		.modal-container__close {
+			visibility: hidden;
+		}
+	}
+
 	.modal-wrapper--full > .modal-container {
 		height: 100% !important;
 		top: 0 !important;
