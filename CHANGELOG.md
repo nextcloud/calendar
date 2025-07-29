@@ -1,3 +1,17 @@
+## [5.3.8](https://github.com/nextcloud/calendar/compare/v5.3.7...v5.3.8) (2025-07-29)
+
+
+### Bug Fixes
+
+* **l10n:** Update translations from Transifex ([0c2a3bd](https://github.com/nextcloud/calendar/commit/0c2a3bdaa6b8b8a5738c2fc32e4e99a7adc6b93e))
+* **l10n:** Update translations from Transifex ([2758aad](https://github.com/nextcloud/calendar/commit/2758aadeff3865943da815a8d8688d7197812b81))
+* **l10n:** Update translations from Transifex ([f5e3a1b](https://github.com/nextcloud/calendar/commit/f5e3a1bee792c1682c3f7bceb77d7ddfcdc0c832))
+* **l10n:** Update translations from Transifex ([b239da5](https://github.com/nextcloud/calendar/commit/b239da52faea8234d85586d3aea16131bcb26914))
+* make absolute URL generation more robust ([2af45e7](https://github.com/nextcloud/calendar/commit/2af45e7ff99771579ad2c12da470703cb3a45d86))
+* match main route more strictly to prevent conflicts in the contacts menu ([d733e0d](https://github.com/nextcloud/calendar/commit/d733e0d59f21748d77585cbec46e9acbad41d769))
+
+
+
 ## [5.3.7](https://github.com/nextcloud/calendar/compare/v5.3.6...v5.3.7) (2025-07-23)
 
 
