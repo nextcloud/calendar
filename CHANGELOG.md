@@ -1,3 +1,25 @@
+# [5.4.0-rc.4](https://github.com/nextcloud/calendar/compare/v5.4.0-rc.3...v5.4.0-rc.4) (2025-07-29)
+
+
+### Bug Fixes
+
+* **deps:** Fix npm audit ([c10c520](https://github.com/nextcloud/calendar/commit/c10c52017cb92e605c3c59beea512cde2f2fb8b4))
+* fix compiler SCSS warning ([647a677](https://github.com/nextcloud/calendar/commit/647a67734fdde42c6224aeb268dcf7008283d9b3))
+* **free-busy:** adjust event title color to nextcloud theme ([1985f1c](https://github.com/nextcloud/calendar/commit/1985f1cfc5856b033680a8daf69801bd0bc1936f))
+* **free-busy:** allow selection on top of busy blocks ([3252cbc](https://github.com/nextcloud/calendar/commit/3252cbce82020c35e334a917550a603f520d1451))
+* **free-busy:** use own calendar color for organiser busy blocks ([0176af6](https://github.com/nextcloud/calendar/commit/0176af699b91847efaa2cfda36a5e0810ca4827a))
+* **l10n:** Update translations from Transifex ([a33dbda](https://github.com/nextcloud/calendar/commit/a33dbda697a29b0d59fdb63c3f459f29861e896a))
+* **l10n:** Update translations from Transifex ([9059aeb](https://github.com/nextcloud/calendar/commit/9059aeb9c9db556eb99fb8ab81d5455a9e0777bd))
+* **l10n:** Update translations from Transifex ([9ed632f](https://github.com/nextcloud/calendar/commit/9ed632f8241486390d7c5f9d5a66925dc624db47))
+* **l10n:** Update translations from Transifex ([7740803](https://github.com/nextcloud/calendar/commit/7740803dd52c03c44630e6d93b9861b15eafed91))
+* **l10n:** Update translations from Transifex ([05bb729](https://github.com/nextcloud/calendar/commit/05bb7290aa202076d6a482e59815ecc55f443d45))
+* make absolute URL generation more robust ([aacbbca](https://github.com/nextcloud/calendar/commit/aacbbcae7f1a6684722bd680d0ae99c3e9b4d802))
+* match main route more strictly to prevent conflicts in the contacts menu ([0632eb4](https://github.com/nextcloud/calendar/commit/0632eb4fea4be3bfcfc8a58ec6475e267a360072))
+* redirect sidebar editor route for activity deep links ([d1a0987](https://github.com/nextcloud/calendar/commit/d1a098794b0b451d803b0c5481d5455126eba114))
+* **ui:** scope mobile css rules for full editor ([404f9f1](https://github.com/nextcloud/calendar/commit/404f9f1154817983d05516674ad79b2e13777cd8))
+
+
+
 # [5.4.0-rc.3](https://github.com/nextcloud/calendar/compare/v5.4.0-rc.2...v5.4.0-rc.3) (2025-07-22)
 
 
