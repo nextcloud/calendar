@@ -60,7 +60,7 @@ export default function(uri, calendarData, success, start, end, timezone, attend
 				isOrganizer && freeBusyProperty.type === 'BUSY-UNAVAILABLE' ? 'free-busy-busy-unavailable--organizer' : '',
 			],
 			title: attendeeName,
-			textColor: '#FFFFFF',
+			textColor: 'var(--color-main-text)',
 		})
 	}
 
