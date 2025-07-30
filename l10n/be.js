@@ -7,6 +7,7 @@ OC.L10N.register(
     "Date:" : "Дата:",
     "Where:" : "Дзе:",
     "Today" : "Сёння",
+    "Edit" : "Рэдагаваць",
     "Delete" : "Выдаліць",
     "Untitled calendar" : "Каляндар без назвы",
     "Name" : "Назва",
