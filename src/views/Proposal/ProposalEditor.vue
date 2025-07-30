@@ -119,13 +119,35 @@
 								{{ modalEditLocationButtonLabel }}
 							</NcButton>
 						</div>
-						<NcTextField class="proposal-editor__proposal-duration"
-							:label="t('calendar', 'Duration')"
-							v-model="selectedProposal.duration"
-							type="number"
-							min="1"
-							step="1"
-							@input="onProposalDurationChange($event)" />
+						<div class="proposal-editor__proposal-duration-container">
+							<NcTextField class="proposal-editor__proposal-duration"
+								:label="t('calendar', 'Duration')"
+								v-model="selectedProposal.duration"
+								type="number"
+								min="1"
+								step="1"
+								@input="onProposalDurationChange($event)" />
+							<NcButton class="proposal-editor__proposal-duration-helper"
+								variant="secondary"
+								@click="selectedProposal.duration = 15">
+								{{ t('calendar', '15 min') }}
+							</NcButton>
+							<NcButton class="proposal-editor__proposal-duration-helper"
+								variant="secondary"
+								@click="selectedProposal.duration = 30">
+								{{ t('calendar', '30 min') }}
+							</NcButton>
+							<NcButton class="proposal-editor__proposal-duration-helper"
+								variant="secondary"
+								@click="selectedProposal.duration = 60">
+								{{ t('calendar', '60 min') }}
+							</NcButton>
+							<NcButton class="proposal-editor__proposal-duration-helper"
+								variant="secondary"
+								@click="selectedProposal.duration = 90">
+								{{ t('calendar', '90 min') }}
+							</NcButton>
+						</div>
 						<InviteesListSearch class="proposal-editor__proposal-participants-selector"
 							:already-invited-emails="existingParticipantAddressess"
 							@add-attendee="onProposalParticipantAdd" />
@@ -427,7 +449,7 @@ export default {
 		optimalSpanDays(): number {
 			// Get the available width for the calendar (roughly half the screen minus padding)
 			const availableWidth = this.screenWidth - 400 // Account for left column and padding
-			const minDayWidth = 140 // Minimum width per day column in pixels
+			const minDayWidth = 120 // Minimum width per day column in pixels
 			const maxDays = 28 // Maximum reasonable span
 			const minDays = 1 // Minimum span
 			
@@ -1270,6 +1292,16 @@ export default {
 }
 
 .proposal-editor__proposal-location {
+	flex: 1;
+}
+
+.proposal-editor__proposal-duration-container {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--default-grid-baseline) * 2);
+}
+
+.proposal-editor__proposal-duration {
 	flex: 1;
 }
 

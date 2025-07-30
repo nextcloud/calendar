@@ -39,6 +39,10 @@
 					<h6>
 						{{ t('calendar', 'Please select your meeting availability') }}
 					</h6>
+					<div>
+						<NcTimezonePicker v-model="timezoneId" 
+							:aria-label="t('calendar', 'Select a different time zone')" />
+					</div>
 					<div v-if="storedProposal?.dates.length">
 						<div v-for="(dates, dayHeading) in proposalDatesGrouped"
 							:key="dayHeading"
@@ -48,7 +52,7 @@
 								:key="date.id"
 								class="proposal-public__content-date-list">
 								<span class="proposal-public__content-date-time">
-									{{ formatTimeSpan(date.date, storedProposal.duration) }}
+									{{ dateTimeSpan(date.date, storedProposal.duration) }}
 								</span>
 								<div class="proposal-public__content-date-actions">
 									<NcCheckboxRadioSwitch type="radio"
@@ -58,8 +62,16 @@
 										:value="ProposalDateVote.Yes"
 										:modelValue="response.dates[date.id].vote"
 										@update:modelValue="response.dates[date.id].vote = ProposalDateVote.Yes" >
-										<YesIcon />
-										{{ t('calendar','Yes') }}
+										<div class="vote-option">
+											<div class="vote-option__content">
+												<YesIcon />
+												{{ t('calendar','Yes') }}
+											</div>
+											<div class="vote-option__count">
+												<PeopleIcon />
+												{{ dateVoteCount(date.id, ProposalDateVote.Yes) }}
+											</div>
+										</div>
 									</NcCheckboxRadioSwitch>
 									<NcCheckboxRadioSwitch type="radio"
 										:button-variant="true"
@@ -68,8 +80,16 @@
 										:value="ProposalDateVote.No"
 										:modelValue="response.dates[date.id].vote"
 										@update:modelValue="response.dates[date.id].vote = ProposalDateVote.No" >
-										<NoIcon />
-										{{ t('calendar','No') }}
+										<div class="vote-option">
+											<div class="vote-option__content">
+												<NoIcon />
+												{{ t('calendar','No') }}
+											</div>
+											<div class="vote-option__count">
+												<PeopleIcon />
+												{{ dateVoteCount(date.id, ProposalDateVote.No) }}
+											</div>
+										</div>
 									</NcCheckboxRadioSwitch>
 									<NcCheckboxRadioSwitch type="radio"
 										:button-variant="true"
@@ -78,8 +98,16 @@
 										:value="ProposalDateVote.Maybe"
 										:modelValue="response.dates[date.id].vote"
 										@update:modelValue="response.dates[date.id].vote = ProposalDateVote.Maybe" >
-										<MaybeIcon />
-										{{ t('calendar','Maybe') }}
+										<div class="vote-option">
+											<div class="vote-option__content">
+												<MaybeIcon />
+												{{ t('calendar','Maybe') }}
+											</div>
+											<div class="vote-option__count">
+												<PeopleIcon />
+												{{ dateVoteCount(date.id, ProposalDateVote.Maybe) }}
+											</div>
+										</div>
 									</NcCheckboxRadioSwitch>
 								</div>
 							</div>
@@ -104,7 +132,7 @@
 import useProposalStore from '@/store/proposalStore'
 import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
-import type { ProposalDateInterface } from '@/types/proposals/proposalInterfaces'
+import type { ProposalDateInterface, ProposalVoteInterface } from '@/types/proposals/proposalInterfaces'
 import { ProposalResponse, ProposalResponseDate } from '@/models/proposals/proposals'
 import { ProposalDateVote } from '@/types/proposals/proposalEnums'
 // components
@@ -113,6 +141,7 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcTimezonePicker from '@nextcloud/vue/components/NcTimezonePicker'
 // icons
 import ProposalIcon from 'vue-material-design-icons/BallotOutline'
 import RespondedIcon from 'vue-material-design-icons/Check'
@@ -121,6 +150,7 @@ import DurationIcon from 'vue-material-design-icons/ClockOutline'
 import YesIcon from 'vue-material-design-icons/Check'
 import NoIcon from 'vue-material-design-icons/Close'
 import MaybeIcon from 'vue-material-design-icons/Help'
+import PeopleIcon from 'vue-material-design-icons/AccountSupervisorOutline'
 
 export default {
 	name: 'ProposalPublic',
@@ -131,6 +161,7 @@ export default {
 		NcAvatar,
 		NcButton,
 		NcCheckboxRadioSwitch,
+		NcTimezonePicker,
 		ProposalIcon,
 		RespondedIcon,
 		LocationIcon,
@@ -138,6 +169,7 @@ export default {
 		YesIcon,
 		NoIcon,
 		MaybeIcon,
+		PeopleIcon,
 	},
 
 	data() {
@@ -148,7 +180,40 @@ export default {
 		   storedProposal: null,
 		   response: new ProposalResponse(),
 		   ProposalDateVote,
+		   timezoneId: 'UTC',
+		   timezoneOffset: 0,
 	   }
+	},
+
+	mounted() {
+		// determine initial timezone and offset
+		this.timezoneId = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
+		this.timezoneOffset = this.calculateTimezoneOffset(this.timezoneId)
+
+		const pathParts = window.location.pathname.split('/')
+		this.contentView = 'loading'
+		this.token = pathParts[pathParts.length - 1]
+		this.proposalStore.fetchProposalByToken(this.token)
+			.then((proposal) => {
+				this.storedProposal = proposal
+				this.response.token = this.token
+				// Initialize response state for each date
+				if (proposal && proposal.dates) {
+					proposal.dates.forEach((date) => {
+						if (date.id !== null) {
+							const responseDate = new ProposalResponseDate()
+							responseDate.id = date.id
+							responseDate.date = new Date(date.date)
+							responseDate.vote = ProposalDateVote.Maybe
+							this.$set(this.response.dates, date.id, responseDate)
+						}
+					})
+				}
+				this.contentView = 'loaded'
+			})
+			.catch(() => {
+				this.contentView = 'notfound'
+			})
 	},
 
 	computed: {
@@ -186,8 +251,8 @@ export default {
 				if (!date.date) {
 					return
 				}
-				const groupLabel = moment(date.date).format('dddd, MMMM Do')
-				
+				const groupLabel: string = moment(date.date).utcOffset(this.timezoneOffset).format('dddd, MMMM Do')
+
 				if (!groups[groupLabel]) {
 					groups[groupLabel] = []
 				}
@@ -207,39 +272,41 @@ export default {
 		},
 	},
 
-	mounted() {
-		const pathParts = window.location.pathname.split('/')
-		this.contentView = 'loading'
-		this.token = pathParts[pathParts.length - 1]
-		this.proposalStore.fetchProposalByToken(this.token)
-			.then((proposal) => {
-				this.storedProposal = proposal
-				this.response.token = this.token
-				// Initialize response state for each date
-				if (proposal && proposal.dates) {
-					proposal.dates.forEach((date) => {
-						if (date.id !== null) {
-							const responseDate = new ProposalResponseDate()
-							responseDate.id = date.id
-							responseDate.date = new Date(date.date)
-							responseDate.vote = ProposalDateVote.Maybe
-							this.$set(this.response.dates, date.id, responseDate)
-						}
-					})
-				}
-				this.contentView = 'loaded'
-			})
-			.catch(() => {
-				this.contentView = 'notfound'
-			})
+	watch: {
+		timezoneId(newValue: string, oldValue: string) {
+			this.timezoneOffset = this.calculateTimezoneOffset(newValue)
+		},
 	},
 
 	methods: {
 		t,
 
-		formatTimeSpan(date: Date, duration: number) {
-			const startDate = moment(date)
-			const endDate = moment(date).add(duration, 'minutes')
+		calculateTimezoneOffset(timezoneId: string): number {
+			// Get the timezone offset in minutes
+			try {
+				const now = new Date()
+				const utcDate = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }))
+				const targetDate = new Date(now.toLocaleString('en-US', { timeZone: timezoneId }))
+				return (utcDate.getTime() - targetDate.getTime()) / (1000 * 60)
+			} catch (e) {
+				// Fallback to UTC if timezone is invalid
+				return 0
+			}
+		},
+
+		dateVoteCount(dateId: number, voteType: ProposalDateVote): number {
+			if (!this.storedProposal?.votes) {
+				return 0
+			}
+			
+			return this.storedProposal.votes.filter((vote: ProposalVoteInterface) => {
+				return vote.date === dateId && vote.vote === voteType
+			}).length
+		},
+
+		dateTimeSpan(date: Date, duration: number) {
+			const startDate = moment(date).utcOffset(this.timezoneOffset)
+			const endDate = moment(date).utcOffset(this.timezoneOffset).add(duration, 'minutes')
 
 			const startTime = startDate.format('LT')
 			const endTime = endDate.format('LT')
@@ -264,7 +331,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
   width: 100%;
 }
 
@@ -321,8 +387,6 @@ h6 {
 .proposal-public__content-day-heading {
   margin: 0 0 0.75rem 0;
   font-weight: 600;
-  color: var(--color-main-text);
-  border-bottom: 1px solid var(--color-border);
   padding-bottom: 0.25rem;
 }
 
@@ -354,8 +418,35 @@ h6 {
 
 .proposal-public__content-date-actions {
   display: flex;
-  gap: 0;
+  gap: calc(var(--default-grid-baseline) * 4);
   flex: 1 1 0;
+  
+  // Deep CSS to remove default borders from radio switches
+  :deep(.checkbox-radio-switch) {
+    border: none !important;
+  }
+}
+
+.vote-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.vote-option__content {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.vote-option__count {
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
 }
 
 .proposal-public__content-date-empty {
