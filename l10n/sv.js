@@ -468,6 +468,8 @@ OC.L10N.register(
     "Personal" : "Privat",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Den automatiska tidszon-detekteringen fastställde din tidszon till UTC.\nDetta är troligtvis resultatet av säkerhetsinställningar i din webbläsare.\nVänligen ställ in din tidszon manuellt i kalenderinställningarna.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Din tidszon ({timezoneId}) hittades inte. Återgår till UTC.\nVänligen ändra din tidszon i inställningarna och rapportera detta problem.",
+    "Show unscheduled tasks" : "Visa ej schemalagda uppgifter",
+    "Unscheduled tasks" : "Ej schemalagda uppgifter",
     "Availability of {displayName}" : "Tillgänglighet för {displayName}",
     "Edit event" : "Redigera händelse",
     "Event does not exist" : "Händelsen existerar inte",

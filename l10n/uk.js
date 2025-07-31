@@ -469,6 +469,8 @@ OC.L10N.register(
     "Personal" : "Особисте",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Вашу часову зону автоматично встановлено як UTC.\nСкоріш за все це зумовлено безпековими обмеженнями вашого бравзера.\nБудь ласка, налаштуйте вашу часову зону  вручну у налаштуваннях календаря.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Не знайдено налаштування вашої часової зони ({timezoneId}). Не вдалося встановити типову часову зону UTC.\nБудь ласка, змініть вашу часову зону у налаштуваннях та надішліть звіт про помилку.",
+    "Show unscheduled tasks" : "Показати незаплановані завдання",
+    "Unscheduled tasks" : "Незаплановані завдання",
     "Availability of {displayName}" : "Доступність {displayName}",
     "Edit event" : "Редагувати подію",
     "Event does not exist" : "Подія відсутня",
