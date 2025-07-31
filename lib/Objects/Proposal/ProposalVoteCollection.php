@@ -25,6 +25,15 @@ class ProposalVoteCollection extends BaseCollection {
 		return $data;
 	}
 
+	public function fromJson(array $votes): self {
+		foreach ($votes as $entry) {
+			$vote = new ProposalVoteObject();
+			$vote->fromJson($entry);
+			$this->append($vote);
+		}
+		return $this;
+	}
+
 	public function toStore(): array {
 		$data = [];
 		foreach ($this as $vote) {

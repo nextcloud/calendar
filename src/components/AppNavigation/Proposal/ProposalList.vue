@@ -19,44 +19,46 @@
 		</NcAppNavigationCaption>
 
 		<template v-if="userHasEmailAddress">
-			<template v-for="proposal in storedProposals" class="proposal-list__item">
-				<NcAppNavigationItem :name="proposal.title" @click="onProposalView(proposal)">
-					<template v-if="proposalParticipantsTotal(proposal) === proposalParticipantsResponded(proposal)" #icon>
-						<CompleteIcon :size="20" decorative />
-					</template>
-					<template v-else #icon>
-						<PendingIcon :size="20" decorative />
-					</template>
-					<template #counter>
-						<NcCounterBubble>
-							{{ proposalParticipantsResponded(proposal) + '/' + proposalParticipantsTotal(proposal) }}
-						</NcCounterBubble>
-					</template>
-					<template #actions>
-						<NcActionButton :close-after-click="true"
-							@click="onProposalView(proposal)">
-							<template #icon>
-								<ViewIcon :size="20" />
-							</template>
-							{{ t('calendar', 'View') }}
-						</NcActionButton>
-						<NcActionButton :close-after-click="true"
-							@click="onProposalModify(proposal)">
-							<template #icon>
-								<ModifyIcon :size="20" />
-							</template>
-							{{ t('calendar', 'Edit') }}
-						</NcActionButton>
-						<NcActionButton :close-after-click="true"
-							@click="onProposalDelete(proposal)">
-							<template #icon>
-								<DestroyIcon :size="20" />
-							</template>
-							{{ t('calendar', 'Delete') }}
-						</NcActionButton>
-					</template>
-				</NcAppNavigationItem>
-			</template>
+			<NcAppNavigationItem v-for="proposal in storedProposals" 
+				:key="proposal.id"
+				:name="proposal.title" 
+				class="proposal-list__item"
+				@click="onProposalView(proposal)">
+				<template v-if="proposalParticipantsTotal(proposal) === proposalParticipantsResponded(proposal)" #icon>
+					<CompleteIcon :size="20" decorative />
+				</template>
+				<template v-else #icon>
+					<PendingIcon :size="20" decorative />
+				</template>
+				<template #counter>
+					<NcCounterBubble>
+						{{ proposalParticipantsResponded(proposal) + '/' + proposalParticipantsTotal(proposal) }}
+					</NcCounterBubble>
+				</template>
+				<template #actions>
+					<NcActionButton :close-after-click="true"
+						@click="onProposalView(proposal)">
+						<template #icon>
+							<ViewIcon :size="20" />
+						</template>
+						{{ t('calendar', 'View') }}
+					</NcActionButton>
+					<NcActionButton :close-after-click="true"
+						@click="onProposalModify(proposal)">
+						<template #icon>
+							<ModifyIcon :size="20" />
+						</template>
+						{{ t('calendar', 'Edit') }}
+					</NcActionButton>
+					<NcActionButton :close-after-click="true"
+						@click="onProposalDestroy(proposal)">
+						<template #icon>
+							<DestroyIcon :size="20" />
+						</template>
+						{{ t('calendar', 'Delete') }}
+					</NcActionButton>
+				</template>
+			</NcAppNavigationItem>
 		</template>
 		<template v-if="!userHasEmailAddress">
 			<NcAppNavigationItem
@@ -108,6 +110,15 @@ export default {
 
 	mounted() {
 		this.fetchProposals()
+	},
+
+	watch: {
+		'proposalStore.modalVisible'(newValue: boolean, oldValue: boolean) {
+			// Refresh the list when the modal closes (was true, now false)
+			if (oldValue === true && newValue === false) {
+				this.fetchProposals()
+			}
+		},
 	},
 
 	components: {

@@ -33,6 +33,18 @@ class ProposalVoteObject {
 		return $data;
 	}
 
+	public function fromJson(array $data): void {
+		foreach ($data as $key => $value) {
+			if (property_exists($this, $key)) {
+				if ($key === 'vote') {
+					$this->vote = ProposalDateVote::from($value);
+				} else {
+					$this->{$key} = $value;
+				}
+			}
+		}
+	}
+
 	public function toStore(): ProposalVoteEntry {
 		$entry = new ProposalVoteEntry();
 		$entry->setId($this->id);

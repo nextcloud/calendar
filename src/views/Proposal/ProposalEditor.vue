@@ -546,10 +546,7 @@ export default {
 			if (confirm(t('calendar', 'Are you sure you want to delete this proposal?'))) {
 				try {
 					await this.proposalStore.destroyProposal(proposal)
-					this.fetchProposals()
-					if (this.selectedProposal && this.selectedProposal.id === proposal.id) {
-						this.unselectProposal()
-					}
+					this.onModalClose()
 					showSuccess(t('calendar', 'Proposal deleted successfully'))
 					console.log('Proposal deleted successfully:', proposal)
 				} catch (error) {
@@ -565,8 +562,7 @@ export default {
 					return console.error('No proposal selected for this operation')
 				}
 				await this.proposalStore.storeProposal(this.selectedProposal)
-				this.unselectProposal()
-				this.fetchProposals()
+				this.onModalClose()
 				showSuccess(t('calendar', 'Proposal saved successfully'))
 				console.log('Proposal saved successfully:', this.selectedProposal)
 			} catch (error) {

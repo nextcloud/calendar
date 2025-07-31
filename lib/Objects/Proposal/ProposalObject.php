@@ -60,6 +60,8 @@ class ProposalObject implements \JsonSerializable {
 					$this->participants->fromJson($value);
 				} elseif ($key === 'dates' && is_array($value)) {
 					$this->dates->fromJson($value);
+				} elseif ($key === 'votes' && is_array($value)) {
+					$this->votes->fromJson($value);
 				} else {
 					$this->{$key} = $value;
 				}
