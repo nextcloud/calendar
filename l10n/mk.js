@@ -182,7 +182,7 @@ OC.L10N.register(
     "Close editor" : "Затвори го уредникот",
     "Save edited event" : "Зачувај го изменетиот настан",
     "Delete edited event" : "Избриши го изменетиот настан",
-    "Duplicate event" : "Дуплицирај настај",
+    "Duplicate event" : "Дуплирај настај",
     "Shortcut overview" : "Преглед на кратенки преку тастатура",
     "or" : "или",
     "Calendar settings" : "Параметри за календар",

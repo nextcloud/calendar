@@ -469,6 +469,8 @@ OC.L10N.register(
     "Personal" : "Osobní",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Automatickým zjištěním časové zóny bylo určeno, že vaše zóna je UTC.\nTo je nejspíš kvůli bezpečnostním opatřením vámi používaného webového prohlížeče.\nV nastavení kalendáře zadejte časovou zónu ručně.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Vámi nastavené časové pásmo ({timezoneId}) nenalezeno. Náhradou bude použit UTC čas.\nZměňte své časové pásmo v nastaveních a nahlaste tento problém vývojářům, děkujeme.",
+    "Show unscheduled tasks" : "Zobrazit nenaplánované úkoly",
+    "Unscheduled tasks" : "Nenaplánované úkoly",
     "Availability of {displayName}" : "Dostupnost {displayName}",
     "Edit event" : "Upravit událost",
     "Event does not exist" : "Událost neexistuje",
