@@ -487,6 +487,10 @@ class ProposalService {
 
 	private function generateIMip(IUser $user, ProposalObject $proposal, string $reason): void {
 
+		// if the calendar manager does not have a handleIMip method, we cannot generate iTip messages
+		if (!method_exists($this->calendarManager, 'handleIMip')) {
+			return;
+		}
 		// if the proposal has no dates or participants, we cannot generate any iTip messages
 		if ($proposal->getDates()->count() === 0 || $proposal->getParticipants()->count() === 0) {
 			return;
