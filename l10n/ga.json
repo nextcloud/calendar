@@ -467,6 +467,8 @@
     "Personal" : "Pearsanta",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Chinn an bhrath uathoibríoch crios ama gurb é UTC do chrios ama.\nIs dócha gurb é seo an toradh ar bhearta slándála do bhrabhsálaí gréasáin.\nSocraigh do chrios ama de láimh sna socruithe féilire le do thoil.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Níor aimsíodh do chrios ama cumraithe ({timezoneId}). Ag titim ar ais go UTC.\nAthraigh do chrios ama sna socruithe agus cuir in iúl don fhadhb seo le do thoil.",
+    "Show unscheduled tasks" : "Taispeáin tascanna neamhsceidealaithe",
+    "Unscheduled tasks" : "Tascanna neamhsceidealaithe",
     "Availability of {displayName}" : "Infhaighteacht na{displayName}",
     "Edit event" : "Cuir an t-imeacht in eagar",
     "Event does not exist" : "Níl imeacht ann",

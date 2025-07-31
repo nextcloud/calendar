@@ -469,6 +469,8 @@ OC.L10N.register(
     "Personal" : "Persönlich",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Die automatische Erkennung der Zeitzone hat als Ergebnis UTC ermittelt.\nDies ist meist das Ergebnis von Sicherheitsmaßnahmen Ihres Webbrowsers.\nBitte stellen Sie Ihre Zeitzone manuell in den Kalendereinstellungen ein.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Die konfigurierte Zeitzone ({timezoneId}) wurde nicht gefunden. Rückfall auf UTC.\nBitte die Zeitzone in den Einstellungen ändern und melden dieses Problem.",
+    "Show unscheduled tasks" : "Ungeplante Aufgaben anzeigen",
+    "Unscheduled tasks" : "Ungeplante Aufgaben",
     "Availability of {displayName}" : "Verfügbarkeit von {displayName}",
     "Edit event" : "Ereignis bearbeiten",
     "Event does not exist" : "Der Termin existiert nicht",

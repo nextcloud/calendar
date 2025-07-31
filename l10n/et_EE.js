@@ -469,6 +469,8 @@ OC.L10N.register(
     "Personal" : "Isiklik",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Automaatne ajavööndikontroll tuvastas, et kasutad UTC/GMT ajavööndit.\nSuure tõenäosusega on tegemist sinu veebibrauseri trurvameetmega.\nKui see pole nii, siis saad kalendri seadistustest määrata õige ajavööndi.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Sinu seadistatud ajavööndit ({timezoneId}) ei leidu. Kasutame varuvariandina UTC/GMT valikut.\nKalendri seadistustest määrata õige ajavööndi ning kui tegemist on veaga, siis palun anna meile sellest teada..",
+    "Show unscheduled tasks" : "Näita ajastamata ülesandeid",
+    "Unscheduled tasks" : "Ajastamata ülesanded",
     "Availability of {displayName}" : "{displayName} saadavus",
     "Edit event" : "Muuda sündmust",
     "Event does not exist" : "Sündmust pole olemas",
