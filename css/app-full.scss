@@ -206,7 +206,7 @@
 	align-items: center;
 	gap: calc(var(--default-grid-baseline) * 4);
 
-	&__front {
+	&__front, &__edit {
 		margin-inline-start: calc(var(--default-grid-baseline) * 4);
 	}
 }
