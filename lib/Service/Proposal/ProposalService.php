@@ -116,7 +116,7 @@ class ProposalService {
 		return $proposals;
 	}
 
-	public function fetch(IUser $user, int $id): ?ProposalObject {
+	public function fetchProposal(IUser $user, int $id): ?ProposalObject {
 		// fetch the proposal entry by id
 		$proposalEntry = $this->proposalMapper->fetchById($user->getUID(), $id);
 		if ($proposalEntry === null) {
@@ -159,24 +159,9 @@ class ProposalService {
 		if ($proposalEntry === null) {
 			return null;
 		}
-		// retrieve the participants, dates, and votes for this proposal
-		$proposalParticipantEntries = $this->proposalParticipantMapper->fetchByProposalId($uid, $pid);
-		$proposalDateEntries = $this->proposalDateMapper->fetchByProposalId($uid, $pid);
-		$proposalVoteEntries = $this->proposalVoteMapper->fetchByProposalId($uid, $pid);
-		// convert the store entries to objects
-		$proposalParticipants = new ProposalParticipantCollection();
-		$proposalParticipants->fromStore($proposalParticipantEntries);
-		$proposalDates = new ProposalDateCollection();
-		$proposalDates->fromStore($proposalDateEntries);
-		$proposalVotes = new ProposalVoteCollection();
-		$proposalVotes->fromStore($proposalVoteEntries);
-		// convert the proposal entry to a proposal object
-		$proposal = new ProposalObject();
-		$proposal->fromStore($proposalEntry);
-		// set the participants, dates, and votes
-		$proposal->setParticipants($proposalParticipants);
-		$proposal->setDates($proposalDates);
-		$proposal->setVotes($proposalVotes);
+
+		// retrieve full proposal with participants, dates, and votes
+		$proposal = $this->fetchProposal($participantEntry->getUser(), $participantEntry->getPid());
 
 		return $proposal;
 	}
@@ -202,25 +187,20 @@ class ProposalService {
 			$entry->setUid($user->getUID());
 			$entry->setPid($proposalEntry->getId());
 			$entry->setToken(md5($proposalEntry->getId() . $entry->getAddress()));
-			$proposalParticipantEntries[$key] = $this->proposalParticipantMapper->insert($entry);
+			$this->proposalParticipantMapper->insert($entry);
 		}
 		// create the dates entries in store
 		foreach ($proposalDateEntries as $key => $entry) {
 			$entry->setUid($user->getUID());
 			$entry->setPid($proposalEntry->getId());
-			$proposalDateEntries[$key] = $this->proposalDateMapper->insert($entry);
+			$this->proposalDateMapper->insert($entry);
 		}
-		// convert updated store entries to ProposalObject
-		$proposalParticipants = new ProposalParticipantCollection();
-		$proposalParticipants->fromStore($proposalParticipantEntries);
-		$proposalDates = new ProposalDateCollection();
-		$proposalDates->fromStore($proposalDateEntries);
-		$proposal->fromStore($proposalEntry);
-		$proposal->setParticipants($proposalParticipants);
-		$proposal->setDates($proposalDates);
 
 		unset($proposalEntry, $proposalParticipantEntries, $proposalDateEntries);
 		unset($proposalParticipants, $proposalDates);
+
+		// retrieve full proposal with participants, dates, and votes
+		$proposal = $this->fetchProposal($user, $proposal->getId());
 
 		// generate notifications for internal and external participants
 		$this->generateNotifications($user, $proposal, 'C');
@@ -267,16 +247,16 @@ class ProposalService {
 				}
 			}
 			// create or modify the participant entry
-			if ($foundParticipantEntry) {
-				$mutatedProposalParticipantEntries[$mutatedParticipantKey] = $this->proposalParticipantMapper->update($mutatedParticipantEntry);
-			} else {
+			if (!$foundParticipantEntry) {
 				$mutatedParticipantEntry->setUid($user->getUID());
 				$mutatedParticipantEntry->setPid($mutatedProposalEntry->getId());
-				$mutatedProposalParticipantEntries[$mutatedParticipantKey] = $this->proposalParticipantMapper->insert($mutatedParticipantEntry);
+				$mutatedParticipantEntry->setToken(md5($mutatedProposalEntry->getId() . $mutatedParticipantEntry->getAddress()));
+				$this->proposalParticipantMapper->insert($mutatedParticipantEntry);
 			}
 		}
 		// delete remaining participants entries that were not modified
 		foreach ($currentProposalParticipantEntries as $currentParticipantKey => $currentParticipantEntry) {
+			$this->proposalVoteMapper->deleteByParticipantId($user->getUID(), $currentParticipantEntry->getId());
 			$this->proposalParticipantMapper->deleteById($user->getUID(), $currentParticipantEntry->getId());
 			unset($currentProposalParticipantEntries[$currentParticipantKey]);
 		}
@@ -302,9 +282,16 @@ class ProposalService {
 		}
 		// delete remaining date entries that were not modified
 		foreach ($currentProposalDateEntries as $currentDateKey => $currentDateEntry) {
+			$this->proposalVoteMapper->deleteByDateId($user->getUID(), $currentDateEntry->getId());
 			$this->proposalDateMapper->deleteById($user->getUID(), $currentDateEntry->getId());
 			unset($currentProposalDateEntries[$currentDateKey]);
 		}
+
+		// retrieve full proposal with participants, dates, and votes
+		$proposal = $this->fetchProposal($user, $mutatedProposalEntry->getId());
+
+		unset($currentProposalEntry, $currentProposalParticipantEntries, $currentProposalDateEntries);
+		unset($mutatedProposalEntry, $mutatedProposalParticipantEntries, $mutatedProposalDateEntries);
 
 		// generate notifications for internal and external participants
 		$this->generateNotifications($user, $proposal, 'M');
@@ -318,9 +305,11 @@ class ProposalService {
 	/**
 	 * Destroy a proposal
 	 */
-	public function destroyProposal(IUser $user, ProposalObject $proposal): void {
-		if ($proposal->getId() === null) {
-			throw new \InvalidArgumentException('Proposal ID cannot be null');
+	public function destroyProposal(IUser $user, int $identifier): void {
+		// retrieve full proposal with participants, dates, and votes
+		$proposal = $this->fetchProposal($user, $identifier);
+		if ($proposal === null) {
+			throw new \InvalidArgumentException('Proposal not found');
 		}
 		// destroy the proposal entry
 		$this->proposalVoteMapper->deleteByProposalId($user->getUID(), $proposal->getId());
@@ -397,19 +386,16 @@ class ProposalService {
 
 		foreach ($proposal->getParticipants() as $participant) {
 			if ($participant->getRealm() === ProposalParticipantRealm::External) {
-				$this->sendEmailNotifications($user, $participant, $reason);
+				$this->sendEmailNotifications($user, $proposal, $participant, $reason);
 			} else {
-				$this->sendEmailNotifications($user, $participant, $reason);
+				$this->sendEmailNotifications($user, $proposal, $participant, $reason);
 				// TODO: Should we also send internal notifications?
 				// $this->sendPushNotifications($user, $proposal);
 			}
 		}
 	}
 
-	private function sendEmailNotifications(IUser $user, ProposalParticipantObject $participant, string $reason): void {
-
-		// disabled for testing purposes
-		//return;
+	private function sendEmailNotifications(IUser $user, ProposalObject $proposal, ProposalParticipantObject $participant, string $reason): void {
 
 		// if the user has no configured email address, we cannot send notifications
 		if (empty($user->getEMailAddress())) {
@@ -428,16 +414,51 @@ class ProposalService {
 
 		$template = $this->systemMailManager->createEMailTemplate('calendar.proposal.notification');
 		$template->addHeader();
-		$template->setSubject(
-			$this->l10n->t('%s has proposed a meeting', [$senderName])
-		);
-
-		// Heading
-		$template->addHeading(
-			$this->l10n->t('Dear %s, please confirm your booking', [$recipientName])
-		);
-
-		$testLink = $this->urlGenerator->linkToRouteAbsolute('Calendar.ProposalPublic.index', ['token' => $recipientToken]);
+		
+		// subject
+		match ($reason) {
+			'C' => $template->setSubject(
+				$this->l10n->t('%s has proposed a meeting', [$senderName])
+			),
+			'M' => $template->setSubject(
+				$this->l10n->t('%s has updated a proposed meeting', [$senderName])
+			),
+			'D' => $template->setSubject(
+				$this->l10n->t('%s has canceled a proposed meeting', [$senderName])
+			)
+		};
+		// heading
+		match ($reason) {
+			'C' => $template->addHeading(
+				$this->l10n->t('Dear %s, a new meeting has been proposed', [$recipientName])
+			),
+			'M' => $template->addHeading(
+				$this->l10n->t('Dear %s, a proposed meeting has been updated', [$recipientName])
+			),
+			'D' => $template->addHeading(
+				$this->l10n->t('Dear %s, a proposed meeting has been canceled', [$recipientName])
+			)
+		};
+		// description
+		if(!empty($proposal->getDescription())) {
+			$template->addBodyListItem($proposal->getDescription(), $this->l10n->t('Description:'));
+		}
+		// location
+		if(!empty($proposal->getLocation())) {
+			$template->addBodyListItem($proposal->getLocation(), $this->l10n->t('Location:'));
+		}
+		// duration
+		if($proposal->getDuration() > 0) {
+			$template->addBodyListItem((string)$proposal->getDuration() . ' minutes', $this->l10n->t('Duration:'));
+		}
+		// dates
+		$template->addBodyListItem('', $this->l10n->t('Dates:'));
+		foreach ($proposal->getDates()->sortByDate() as $date) {
+			$template->addBodyListItem(
+				$this->l10n->l('date', $date->getDate(), ['width' => 'full'])
+				, '', '', '', '', 1
+			);
+		}
 
 		$template->addBodyButton(
 			$this->l10n->t('Respond'),
