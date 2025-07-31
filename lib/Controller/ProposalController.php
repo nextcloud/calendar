@@ -147,7 +147,11 @@ class ProposalController extends ApiController {
 		$proposalObject = new ProposalObject();
 		$proposalObject->fromJson($proposal);
 		// handle the modification of the proposal
-		$this->proposalService->modifyProposal($userObject, $proposalObject);
+		try {
+			$this->proposalService->modifyProposal($userObject, $proposalObject);
+		} catch (\InvalidArgumentException $e) {
+			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_NOT_FOUND);
+		}
 
 		return new JSONResponse([], Http::STATUS_OK);
 	}
@@ -165,13 +169,12 @@ class ProposalController extends ApiController {
 			return $authorization;
 		}
 		$userObject = $authorization;
-		// retrieve the proposal by ID
-		$proposal = $this->proposalService->fetch($userObject, $id);
-		if ($proposal === null) {
+		// handle the destruction of the proposal
+		try {
+			$this->proposalService->destroyProposal($userObject, $id);
+		} catch (\InvalidArgumentException $e) {
 			return new JSONResponse(['error' => 'Proposal not found'], Http::STATUS_NOT_FOUND);
 		}
-		// handle the destruction of the proposal
-		$this->proposalService->destroyProposal($userObject, $proposal);
 
 		return new JSONResponse([], Http::STATUS_OK);
 	}
