@@ -20,6 +20,7 @@ const PRINCIPAL_PREFIX_GROUP = 'principal:principals/groups/'
 const PRINCIPAL_PREFIX_CIRCLE = 'principal:principals/circles/'
 const PRINCIPAL_PREFIX_CALENDAR_RESOURCE = 'principal:principals/calendar-resources/'
 const PRINCIPAL_PREFIX_CALENDAR_ROOM = 'principal:principals/calendar-rooms/'
+const PRINCIPAL_PREFIX_REMOTE_USER = 'principal:principals/remote-users/'
 
 const CALDAV_BIRTHDAY_CALENDAR = 'contact_birthdays'
 const CALDAV_PERSONAL_CALENDAR = 'personal'
@@ -46,6 +47,7 @@ export {
 	PRINCIPAL_PREFIX_CIRCLE,
 	PRINCIPAL_PREFIX_CALENDAR_RESOURCE,
 	PRINCIPAL_PREFIX_CALENDAR_ROOM,
+	PRINCIPAL_PREFIX_REMOTE_USER,
 	CALDAV_BIRTHDAY_CALENDAR,
 	CALDAV_PERSONAL_CALENDAR,
 	IMPORT_STAGE_DEFAULT,
