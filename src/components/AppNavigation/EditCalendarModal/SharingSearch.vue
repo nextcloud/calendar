@@ -88,8 +88,9 @@ export default {
 		 * @param {string} data.uri the sharing principalScheme uri
 		 * @param {boolean} data.isGroup is this a group ?
 		 * @param {boolean} data.isCircle is this a circle-group ?
+		 * @param {boolean} data.isRemoteUser is this a remote user (on a federated instance)?
 		 */
-		shareCalendar({ user, displayName, uri, isGroup, isCircle }) {
+		shareCalendar({ user, displayName, uri, isGroup, isCircle, isRemoteUser }) {
 			this.calendarsStore.shareCalendar({
 				calendar: this.calendar,
 				user,
@@ -97,6 +98,7 @@ export default {
 				uri,
 				isGroup,
 				isCircle,
+				isRemoteUser,
 			})
 		},
 		/**
@@ -194,6 +196,7 @@ export default {
 					uri: decodedPrincipalScheme,
 					isGroup,
 					isCircle: false,
+					isRemoteUser: false,
 					isNoUser: isGroup,
 					search: query,
 					email: result.email,
@@ -248,6 +251,7 @@ export default {
 				uri: 'principal:principals/circles/' + circle.value.shareWith,
 				isGroup: false,
 				isCircle: true,
+				isRemoteUser: false,
 				isNoUser: true,
 				search: query,
 			}))
@@ -287,12 +291,13 @@ export default {
 			}
 			return remoteUsers.map((user) => ({
 				user: user.uuid,
-				displayName: user.label,
+				displayName: `${user.name}\@${user.value.server}`,
 				icon: 'icon-circle',
 				uri: `principal:principals/remote-users/${btoa(user.value.shareWith)}`,
 				isGroup: false,
 				isCircle: false,
-				isNoUser: true,
+				isRemoteUser: true,
+				isNoUser: false,
 				search: query,
 			}))
 		},
