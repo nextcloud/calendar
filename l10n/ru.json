@@ -465,6 +465,8 @@
     "Personal" : "Личный",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Автоматическое определение часового пояса определило ваш часовой пояс как UTC. Скорее всего, это результат мер безопасности вашего веб-браузера. Пожалуйста, установите часовой пояс вручную в настройках календаря.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Настроенный вами часовой пояс ({timezoneId}) не найден. Возвращение к UTC. Пожалуйста, измените свой часовой пояс в настройках и сообщите об этой проблеме.",
+    "Show unscheduled tasks" : "Показать незапланированные задачи",
+    "Unscheduled tasks" : "Незапланированные задачи",
     "Availability of {displayName}" : "Доступность {displayName}",
     "Edit event" : "Редактировать событие",
     "Event does not exist" : "Событие не существует",
