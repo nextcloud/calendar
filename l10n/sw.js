@@ -469,6 +469,8 @@ OC.L10N.register(
     "Personal" : "Binafsi",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Ugunduzi wa moja kwa moja wa saa za eneo uliamua muda wa eneo lako kuwa UTC\nHii inawezekana zaidi haya ni matokeo ya hatua za usalama za kivinjari chako cha wavuti",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Muda wako wa eneo uliosanidiwa ({timezoneId}) haukupatikana. Kuangukia nyuma kwa UTC\nTafadhali badili muda wako wa eneo katika mipangilio na toa taarifa ya jambo hili.",
+    "Show unscheduled tasks" : "Onyesha kazi ambazo hazijaratibiwa",
+    "Unscheduled tasks" : "Kazi ambazo hazijaratibiwa",
     "Availability of {displayName}" : "Upatikanaji wa {displayName}",
     "Edit event" : "Hariri tukio",
     "Event does not exist" : "Tukio halipatikani",
