@@ -224,7 +224,7 @@ OC.L10N.register(
     "Your name" : "Tavs vārds",
     "Your email address" : "Jūsu e-pasta adrese",
     "Please share anything that will help prepare for our meeting" : "Lūdzu, dalieties ar visu, kas palīdzēs sagatavoties mūsu sanāksmei",
-    "Could not book the appointment. Please try again later or contact the organizer." : "Neizdevās rezervēt tikšanos. Lūdzu, mēģiniet vēlreiz vēlāk vai sazinieties ar organizatoru.",
+    "Could not book the appointment. Please try again later or contact the organizer." : "Neizdevās pieteikt tikšanos. Lūgums vēlāk mēģināt vēlreiz vai sazināties ar rīkotāju.",
     "Successfully added Talk conversation link to location." : "Talk sarunas saite sekmīgi pievienota atrašanās vietai.",
     "Successfully added Talk conversation link to description." : "Talk sarunas saite sekmīgi pievienota aprakstam.",
     "Failed to apply Talk room." : "Neizdevās pielietot Talk istabu.",
