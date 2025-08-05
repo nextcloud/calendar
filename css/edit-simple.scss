@@ -92,7 +92,7 @@
 
 .event-popover[x-placement^='bottom'] {
 	.popover__arrow {
-		border-bottom-color: var(--color-background-dark);
+		border-block-end-color: var(--color-background-dark);
 	}
 }
 
