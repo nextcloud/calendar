@@ -441,7 +441,7 @@ export default {
 .toggle-button {
 	position: absolute;
 	top: 2px;
-	right: 50px;
+	inset-inline-end: 50px;
 	z-index: 1000;
 }
 

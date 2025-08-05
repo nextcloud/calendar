@@ -22,12 +22,12 @@
 
 	.blocking-event-free-busy.blocking-event-free-busy--first-row {
 		border-radius: var(--border-radius) var(--border-radius) 0 0;
-		border-top-width: 2px;
+		border-block-start-width: 2px;
 	}
 
 	.blocking-event-free-busy.blocking-event-free-busy--last-row {
 		border-radius: 0 0 var(--border-radius) var(--border-radius) ;
-		border-bottom-width: 2px;
+		border-block-end-width: 2px;
 	}
 
 	.loading-indicator {
