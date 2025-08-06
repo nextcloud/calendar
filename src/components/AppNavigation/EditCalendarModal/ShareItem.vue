@@ -16,13 +16,15 @@
 			</p>
 		</div>
 
-		<input :id="`${id}-can-edit`"
-			:disabled="updatingSharee"
-			:checked="sharee.writeable"
-			type="checkbox"
-			class="checkbox"
-			@change="updatePermission">
-		<label :for="`${id}-can-edit`">{{ $t('calendar', 'can edit') }}</label>
+		<template v-if="canBeSharedWritable">
+			<input :id="`${id}-can-edit`"
+				:disabled="updatingSharee"
+				:checked="sharee.writeable"
+				type="checkbox"
+				class="checkbox"
+				@change="updatePermission">
+			<label :for="`${id}-can-edit`">{{ $t('calendar', 'can edit') }}</label>
+		</template>
 
 		<NcActions>
 			<NcActionButton :disabled="updatingSharee"
@@ -93,6 +95,13 @@ export default {
 
 			return this.sharee.displayName
 		},
+		/**
+		 * @return {boolean}
+		 */
+		canBeSharedWritable() {
+			// TODO: read-write sharing is not implemented for federated calendars yet
+			return !this.sharee.isRemoteUser
+		}
 	},
 	mounted() {
 		this.updateShareeEmail()
