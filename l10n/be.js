@@ -59,6 +59,7 @@ OC.L10N.register(
     "Untitled task" : "Задача без назвы",
     "%n more" : "%n яшчэ",
     "_+%n more_::_+%n more_" : ["+%n яшчэ","+%n яшчэ","+%n яшчэ","+%n яшчэ"],
+    "Status" : "Стан",
     "Confirmed" : "Пацверджана",
     "Canceled" : "Скасавана",
     "Categories" : "Катэгорыі"
