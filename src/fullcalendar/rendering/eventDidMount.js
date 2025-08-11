@@ -103,9 +103,11 @@ export default function({ event, el }) {
 
 		if (dotElement) {
 			dotElement.style.borderWidth = '2px'
-			dotElement.style.background = 'transparent'
+			dotElement.style.background = 'var(--fc-page-bg-color)'
 			dotElement.style.minWidth = '10px'
 			dotElement.style.minHeight = '10px'
+		} else {
+			el.style.background = 'var(--fc-page-bg-color)'
 		}
 
 		titleElement.style.color = 'var(--color-main-text)'
@@ -113,7 +115,6 @@ export default function({ event, el }) {
 			timeElement.style.color = 'var(--color-main-text)'
 		}
 
-		el.style.background = 'transparent'
 		el.title = t('calendar', 'All participants declined')
 
 		if (el.classList.contains('fc-event-nc-needs-action')) {
@@ -149,7 +150,7 @@ export default function({ event, el }) {
 
 		if (dotElement) {
 			dotElement.style.borderWidth = '2px'
-			backgroundStyling = `repeating-linear-gradient(45deg, ${bgColor}, ${bgColor} 1px, transparent 1px, transparent 3.5px)`
+			backgroundStyling = `repeating-linear-gradient(45deg, ${bgColor}, ${bgColor} 1px, var(--fc-page-bg-color) 1px, var(--fc-page-bg-color) 3.5px)`
 
 			dotElement.style.background = backgroundStyling
 			dotElement.style.minWidth = '10px'
