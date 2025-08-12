@@ -48,7 +48,7 @@
 
 <script>
 import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
-import Crown from 'vue-material-design-icons/Crown.vue'
+import Crown from 'vue-material-design-icons/CrownOutline.vue'
 import { removeMailtoPrefix } from '../../../utils/attendee.js'
 import NcActions from '@nextcloud/vue/dist/Components/NcActions.js'
 import NcActionButton from '@nextcloud/vue/dist/Components/NcActionButton.js'

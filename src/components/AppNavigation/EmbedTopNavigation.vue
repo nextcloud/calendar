@@ -60,8 +60,8 @@ import AppNavigationHeaderDatePicker from './AppNavigationHeader/AppNavigationHe
 import AppNavigationHeaderTodayButton from './EmbedHeader/EmbedHeaderTodayButton.vue'
 import AppNavigationHeaderViewButtons from './EmbedHeader/EmbedHeaderViewButtons.vue'
 
-import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
-import Download from 'vue-material-design-icons/Download.vue'
+import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
+import Download from 'vue-material-design-icons/DownloadOutline.vue'
 
 import { mapStores } from 'pinia'
 import useCalendarsStore from '../../store/calendars.js'

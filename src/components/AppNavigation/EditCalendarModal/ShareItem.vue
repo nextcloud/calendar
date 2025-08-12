@@ -38,9 +38,9 @@
 
 <script>
 import { NcActions, NcActionButton, NcAvatar } from '@nextcloud/vue'
-import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
-import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
-import Delete from 'vue-material-design-icons/Delete.vue'
+import AccountMultiple from 'vue-material-design-icons/AccountMultipleOutline.vue'
+import AccountGroupIcon from 'vue-material-design-icons/AccountGroupOutline.vue'
+import Delete from 'vue-material-design-icons/DeleteOutline.vue'
 import {
 	showInfo,
 } from '@nextcloud/dialogs'

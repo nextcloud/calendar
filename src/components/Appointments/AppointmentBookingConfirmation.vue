@@ -15,7 +15,7 @@
 
 <script>
 import { NcEmptyContent as EmptyContent } from '@nextcloud/vue'
-import EmailIcon from 'vue-material-design-icons/Email.vue'
+import EmailIcon from 'vue-material-design-icons/EmailOutline.vue'
 
 export default {
 	name: 'AppointmentBookingConfirmation',

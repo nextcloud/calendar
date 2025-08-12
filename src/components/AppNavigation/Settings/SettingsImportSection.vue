@@ -50,7 +50,7 @@ import {
 	IMPORT_STAGE_PROCESSING,
 } from '../../../models/consts.js'
 
-import Upload from 'vue-material-design-icons/Upload.vue'
+import Upload from 'vue-material-design-icons/UploadOutline.vue'
 import useImportStateStore from '../../../store/importState.js'
 import useImportFilesStore from '../../../store/importFiles.js'
 import useCalendarsStore from '../../../store/calendars.js'

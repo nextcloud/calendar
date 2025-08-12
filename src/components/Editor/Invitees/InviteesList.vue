@@ -76,7 +76,7 @@ import {
 	showWarning,
 } from '@nextcloud/dialogs'
 import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
-import AccountMultipleIcon from 'vue-material-design-icons/AccountMultiple.vue'
+import AccountMultipleIcon from 'vue-material-design-icons/AccountMultipleOutline.vue'
 import usePrincipalsStore from '../../../store/principals.js'
 import useCalendarsStore from '../../../store/calendars.js'
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'

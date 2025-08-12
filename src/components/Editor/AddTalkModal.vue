@@ -63,7 +63,7 @@ import { loadState } from '@nextcloud/initial-state'
 import { createTalkRoom, generateURLForToken } from '../../services/talkService.js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { generateOcsUrl } from '@nextcloud/router'
-import IconAdd from 'vue-material-design-icons/Plus.vue'
+import IconAdd from 'vue-material-design-icons/PlusOutline.vue'
 import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
 import { mapStores } from 'pinia'
 

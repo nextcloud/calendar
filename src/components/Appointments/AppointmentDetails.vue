@@ -104,7 +104,7 @@ import {
 	NcNoteCard,
 } from '@nextcloud/vue'
 import autosize from '../../directives/autosize.js'
-import IconCheck from 'vue-material-design-icons/Check.vue'
+import IconCheck from 'vue-material-design-icons/CheckOutline.vue'
 import IconCalendar from 'vue-material-design-icons/CalendarOutline.vue'
 import IconTime from 'vue-material-design-icons/ClockTimeFourOutline.vue'
 import IconTimezone from 'vue-material-design-icons/Web.vue'
