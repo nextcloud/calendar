@@ -291,7 +291,7 @@ export default {
 			}
 			return remoteUsers.map((user) => ({
 				user: user.uuid,
-				displayName: `${user.name}\@${user.value.server}`,
+				displayName: `${user.name}@${user.value.server}`,
 				icon: 'icon-circle',
 				uri: `principal:principals/remote-users/${btoa(user.value.shareWith)}`,
 				isGroup: false,
