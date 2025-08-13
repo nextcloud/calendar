@@ -207,8 +207,10 @@
 							</NcListItemIcon>
 						</div>
 					</div>
-					<FullCalendar ref="freeBusyFullCalendar"
-						:options="options" />
+					<div class="modal__content__body__calendar">
+						<FullCalendar ref="freeBusyFullCalendar"
+							:options="options" />
+					</div>
 				</div>
 			</div>
 			<div class="modal__content__footer">
@@ -480,7 +482,7 @@ export default {
 				...getDateFormattingConfig(),
 				...getFullCalendarLocale(),
 				// Rendering
-				height: 'auto',
+				height: 'parent',
 				loading: this.loading,
 				headerToolbar: false,
 				// Timezones:
@@ -528,6 +530,8 @@ export default {
 		})
 
 		this.findFreeSlots()
+
+		this.$nextTick(() => calendar.updateSize())
 	},
 	methods: {
 		updateView(view) {
@@ -703,6 +707,8 @@ export default {
 .modal{
 	display: flex !important;
 	justify-content: center;
+	align-items: stretch;
+	width: 100%;
 	height: 100%;
 	overflow: hidden;
 
@@ -722,10 +728,10 @@ export default {
 	&__content {
 		max-width: 1200px;
 		width: 100%;
+		height: 100%;
 		padding: 0 calc(var(--default-grid-baseline) * 4);
 		display: flex;
 		flex-direction: column;
-		overflow: hidden;
 		&__actions{
 			display: flex;
 			flex-direction: column;
@@ -785,8 +791,10 @@ export default {
 		&__body{
 			display: flex;
 			width: 100%;
+			flex: 1 1 auto;
 			overflow: hidden;
 			position: relative;
+			padding-bottom: 80px;
 			&__sidebar{
 				margin-top: var(--default-grid-baseline);
 				width: 260px;
@@ -796,6 +804,9 @@ export default {
 					display: flex;
 					flex-direction: column;
 				}
+			}
+			&__calendar{
+				flex: 1 1 0%;
 			}
 		}
 		&__footer{
@@ -835,13 +846,6 @@ export default {
 	height: 38px !important;
 }
 
-:deep(.fc) {
-	flex: 1;
-	min-width: 0;
-	overflow-y: auto;
-	padding-bottom: 100px;
-}
-
 :deep(.fc-event) {
 	pointer-events: none;
 	margin-inline-end: 0 !important;
@@ -851,6 +855,15 @@ export default {
 
 :deep(.fc-event-time){
 	display: none !important;
+}
+
+:deep(.fc) {
+	height: 100% !important;
+	width: 100%;
+}
+
+:deep(.fc-scroller) {
+	overflow-y: auto !important;
 }
 
 </style>
