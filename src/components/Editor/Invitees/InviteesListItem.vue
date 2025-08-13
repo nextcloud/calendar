@@ -101,7 +101,7 @@ import {
 import { removeMailtoPrefix } from '../../../utils/attendee.js'
 import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
 import ChevronUp from 'vue-material-design-icons/ChevronUp.vue'
-import Delete from 'vue-material-design-icons/Delete.vue'
+import Delete from 'vue-material-design-icons/DeleteOutline.vue'
 
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
 import { mapStores } from 'pinia'

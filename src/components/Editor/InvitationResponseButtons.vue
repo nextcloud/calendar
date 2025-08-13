@@ -46,7 +46,7 @@ import {
 	NcActionButton as ActionButton,
 	NcButton,
 } from '@nextcloud/vue'
-import CalendarQuestionIcon from 'vue-material-design-icons/CalendarQuestion.vue'
+import CalendarQuestionIcon from 'vue-material-design-icons/CalendarQuestionOutline.vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import logger from '../../utils/logger.js'
 import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'

@@ -114,10 +114,10 @@ import {
 
 import { uidToHexColor } from '../../../utils/color.js'
 
-import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
-import CalendarCheck from 'vue-material-design-icons/CalendarCheck.vue'
+import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
+import CalendarCheck from 'vue-material-design-icons/CalendarCheckOutline.vue'
 import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'
-import Plus from 'vue-material-design-icons/Plus.vue'
+import Plus from 'vue-material-design-icons/PlusOutline.vue'
 import Web from 'vue-material-design-icons/Web.vue'
 import { mapStores, mapState } from 'pinia'
 import useCalendarsStore from '../../../store/calendars.js'

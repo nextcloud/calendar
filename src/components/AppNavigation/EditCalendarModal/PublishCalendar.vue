@@ -133,13 +133,13 @@ import {
 } from '@nextcloud/dialogs'
 import HttpClient from '@nextcloud/axios'
 
-import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
+import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import CodeBrackets from 'vue-material-design-icons/CodeBrackets.vue'
-import Delete from 'vue-material-design-icons/Delete.vue'
-import Email from 'vue-material-design-icons/Email.vue'
+import Delete from 'vue-material-design-icons/DeleteOutline.vue'
+import Email from 'vue-material-design-icons/EmailOutline.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
-import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import PlusIcon from 'vue-material-design-icons/PlusOutline.vue'
 import { mapStores } from 'pinia'
 import useCalendarsStore from '../../../store/calendars.js'
 

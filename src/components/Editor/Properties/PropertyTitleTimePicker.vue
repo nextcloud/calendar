@@ -115,7 +115,7 @@
 import moment from '@nextcloud/moment'
 import DatePicker from '../../Shared/DatePicker.vue'
 import IconTimezone from 'vue-material-design-icons/Web.vue'
-import CalendarIcon from 'vue-material-design-icons/Calendar.vue'
+import CalendarIcon from 'vue-material-design-icons/CalendarOutline.vue'
 import { NcTimezonePicker, NcButton } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import useSettingsStore from '../../../store/settings.js'

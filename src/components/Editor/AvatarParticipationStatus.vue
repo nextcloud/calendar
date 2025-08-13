@@ -29,11 +29,11 @@
 
 <script>
 import { NcAvatar as Avatar } from '@nextcloud/vue'
-import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
-import IconCheck from 'vue-material-design-icons/CheckCircle.vue'
-import IconNoResponse from 'vue-material-design-icons/HelpCircle.vue'
-import IconClose from 'vue-material-design-icons/CloseCircle.vue'
-import IconDelegated from 'vue-material-design-icons/ArrowRightDropCircle.vue'
+import AccountMultiple from 'vue-material-design-icons/AccountMultipleOutline.vue'
+import IconCheck from 'vue-material-design-icons/CheckCircleOutline.vue'
+import IconNoResponse from 'vue-material-design-icons/HelpCircleOutline.vue'
+import IconClose from 'vue-material-design-icons/CloseCircleOutline.vue'
+import IconDelegated from 'vue-material-design-icons/ArrowRightDropCircleOutline.vue'
 
 export default {
 	name: 'AvatarParticipationStatus',

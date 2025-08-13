@@ -72,7 +72,7 @@ import {
 	showError,
 } from '@nextcloud/dialogs'
 
-import Download from 'vue-material-design-icons/Download.vue'
+import Download from 'vue-material-design-icons/DownloadOutline.vue'
 import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'
 
 export default {

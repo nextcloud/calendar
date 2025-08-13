@@ -340,9 +340,9 @@ import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import { mapStores, mapState } from 'pinia'
 import AddTalkModal from '../components/Editor/AddTalkModal.vue'
 import { doesContainTalkLink } from '../services/talkService.js'
-import IconVideo from 'vue-material-design-icons/Video.vue'
-import HelpCircleIcon from 'vue-material-design-icons/HelpCircle.vue'
-import Close from 'vue-material-design-icons/Close.vue'
+import IconVideo from 'vue-material-design-icons/VideoOutline.vue'
+import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
+import Close from 'vue-material-design-icons/CloseOutline.vue'
 
 export default {
 	name: 'EditFull',

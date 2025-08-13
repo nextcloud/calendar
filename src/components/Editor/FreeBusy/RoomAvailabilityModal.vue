@@ -77,7 +77,7 @@ import VTimezoneNamedTimezone from '../../../fullcalendar/timezones/vtimezoneNam
 import interactionPlugin from '@fullcalendar/interaction'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
-import HelpCircleIcon from 'vue-material-design-icons/HelpCircle.vue'
+import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
 import freeBusyBlockedForAllEventSource from '../../../fullcalendar/eventSources/freeBusyBlockedForAllEventSource.js'
 import freeBusyFakeBlockingEventSource from '../../../fullcalendar/eventSources/freeBusyFakeBlockingEventSource.js'
 import freeBusyResourceEventSource from '../../../fullcalendar/eventSources/freeBusyResourceEventSource.js'
