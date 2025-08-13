@@ -25,6 +25,8 @@
     "_{duration} day_::_{duration} days_" : ["{duration} дзень","{duration} дні","{duration} дзён","{duration} дзён"],
     "_{duration} month_::_{duration} months_" : ["{duration} месяц","{duration} месяцы","{duration} месяцаў","{duration} месяцаў"],
     "_{duration} year_::_{duration} years_" : ["{duration} год","{duration} гады","{duration} гадоў","{duration} гадоў"],
+    "Update" : "Абнавіць",
+    "Description" : "Апісанне",
     "Add" : "Дадаць",
     "Monday" : "Панядзелак",
     "Tuesday" : "Аўторак",
