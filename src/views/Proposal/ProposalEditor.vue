@@ -26,11 +26,15 @@
 						</div>
 						<div class="proposal-viewer__content-actions">
 							<NcButton variant="tertiary" @click="onProposalModify(selectedProposal)">
-								<EditIcon />
+								<template #icon>
+									<EditIcon />
+								</template>
 								{{ t('calendar', 'Edit proposal') }}
 							</NcButton>
 							<NcButton variant="tertiary" @click="onProposalDestroy(selectedProposal)">
-								<DeleteIcon />
+								<template #icon>
+									<DeleteIcon />
+								</template>
 								{{ t('calendar', 'Delete') }}
 							</NcButton>
 						</div>
