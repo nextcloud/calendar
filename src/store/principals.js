@@ -45,7 +45,7 @@ export default defineStore('principals', {
 		 * Gets the principal object of the current-user-principal
 		 *
 		 * @param {object} state the store data
-		 * @return {{Object}}
+		 * @return {object}
 		 */
 		getCurrentUserPrincipal: (state) => state.principalsById[state.currentUserPrincipal],
 
