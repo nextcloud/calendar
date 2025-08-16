@@ -482,6 +482,8 @@ export default {
 .event-popover__inner {
 	width: unset !important;
 	min-width: 500px !important;
+	max-height: 100vh !important;
+	overflow-y: auto !important;
 }
 
 .modal-mask {
