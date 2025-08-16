@@ -8,89 +8,40 @@
 		   @close="onModalClose()">
 			<!-- Show proposal viewer -->
 			<div v-if="modalMode === 'view'" class="proposal-viewer__content">
-				<!-- Row 1: Title -->
-				<div class="proposal-viewer__row-title">
-					<h2>{{ selectedProposal?.title }}</h2>
+				<h4 class="proposal-viewer__content-title">
+					{{ selectedProposal?.title }}
+				</h4>
+				<div class="proposal-viewer__content-description">
+					{{ selectedProposal?.description || t('calendar', 'No Description') }}
 				</div>
-				<!-- Row 2: List -->
-				<div class="proposal-viewer__row-details">
-					<!-- Left Column: Description and Duration -->
-					<div class="proposal-viewer__column-left">
-						<div class="proposal-viewer__field">
-							<h6>{{ t('calendar', 'Description') }}</h6>
-							<div>{{ selectedProposal?.description || t('calendar', 'No Description') }}</div>
+				<div class="proposal-viewer__content-location">
+					<LocationIcon />
+					{{ selectedProposal?.location || t('calendar', 'No Location') }}
+				</div>
+				<div class="proposal-viewer__content-details">
+					<div class="proposal-viewer__content-duration-and-actions">
+						<div class="proposal-viewer__content-duration">
+							<DurationIcon />
+							{{ selectedProposal?.duration ? selectedProposal.duration + ' min' : '-' }}
 						</div>
-						<div class="proposal-viewer__field">
-							<h6>{{ t('calendar', 'Location') }}</h6>
-							<div>{{ selectedProposal?.location || t('calendar', 'No Location') }}</div>
-						</div>
-						<div class="proposal-viewer__field">
-							<h6>{{ t('calendar', 'Duration') }}</h6>
-							<div>{{ selectedProposal?.duration ? selectedProposal.duration + ' min' : '-' }}</div>
-						</div>
-					</div>
-					<!-- Right Column: Dates with action buttons -->
-					<div class="proposal-viewer__column-right">
-						<div class="proposal-public__matrix">
-							<div v-if="selectedProposal?.participants.length && selectedProposal?.dates.length" class="proposal-matrix">
-								<h6>{{ t('calendar', 'Responses') }}</h6>
-								<div class="proposal-matrix__table">
-									<!-- Header row with dates -->
-									<div class="proposal-matrix__header">
-										<div class="proposal-matrix__cell proposal-matrix__cell--participant-header">
-											{{ t('calendar', 'Participant') }}
-										</div>
-										<div v-for="date in selectedProposal.dates"
-											:key="date.id"
-											class="proposal-matrix__cell proposal-matrix__cell--date-header">
-											{{ formatProposalDateCompact(date.date) }}
-										</div>
-									</div>
-									<!-- Data rows with participants and votes -->
-									<div v-for="participant in selectedProposal.participants"
-										:key="participant.id"
-										class="proposal-matrix__row">
-										<div class="proposal-matrix__cell proposal-matrix__cell--participant">
-											{{ participant.name || participant.address }}
-										</div>
-										<div v-for="date in selectedProposal.dates"
-											:key="date.id"
-											class="proposal-matrix__cell proposal-matrix__cell--vote">
-											<component 
-												:is="voteIcon(participant.id, date.id)"
-												:title="voteLabel(participant.id, date.id)"
-												class="proposal-matrix__vote-icon" />
-										</div>
-									</div>
-									<!-- Footer row with convert to meeting buttons -->
-									<div class="proposal-matrix__footer">
-										<div class="proposal-matrix__cell proposal-matrix__cell--footer-label">
-											&nbsp;
-										</div>
-										<div v-for="date in selectedProposal.dates"
-											:key="'action-' + date.id"
-											class="proposal-matrix__cell proposal-matrix__cell--action">
-											<NcButton 
-												variant="tertiary"
-												size="small"
-												:title="t('calendar', 'Convert to meeting')"
-												@click="onConvertToMeeting(date)">
-												{{ t('calendar', 'Create') }}
-											</NcButton>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div v-else class="proposal-matrix__empty">
-								{{ t('calendar', 'No participants or dates available') }}
-							</div>
+						<div class="proposal-viewer__content-actions">
+							<NcButton variant="tertiary" @click="onProposalModify(selectedProposal)">
+								<EditIcon />
+								{{ t('calendar', 'Edit proposal') }}
+							</NcButton>
+							<NcButton variant="tertiary" @click="onProposalDestroy(selectedProposal)">
+								<DeleteIcon />
+								{{ t('calendar', 'Delete') }}
+							</NcButton>
 						</div>
 					</div>
 				</div>
-				<!-- Row 3: Actions -->
-				<div class="proposal-viewer__row-actions">
-					<NcButton variant="primary" @click="onProposalModify(selectedProposal)">{{ t('calendar', 'Edit') }}</NcButton>
-					<NcButton variant="secondary" @click="onModalClose()">{{ t('calendar', 'Close') }}</NcButton>
+				<!-- Responses Matrix Row -->
+				<div class="proposal-viewer__content-matrix">
+					<ProposalResponseMatrix 
+						:mode="'organizer'"
+						:proposal="selectedProposal"
+						@dateCreate="onMeetingCreate" />
 				</div>
 			</div>
 			<!-- Show proposal editor -->
@@ -109,15 +60,17 @@
 							:label="t('calendar', 'Description')"
 							v-model="selectedProposal.description" />
 						<div class="proposal-editor__proposal-location-container">
-							<NcTextField class="proposal-editor__proposal-location"
+							<NcTextField v-if="!modalEditLocationState"
+								class="proposal-editor__proposal-location"
 								:label="t('calendar', 'Location')"
 								:value="selectedProposal.location"
 								@input="onProposalLocationInput($event)" />
-							<NcButton class="proposal-editor__proposal-location-selector"
+							<NcCheckboxRadioSwitch class="proposal-editor__proposal-location-selector"
 								variant="secondary"
-								@click="onProposalLocationTypeToggle">
-								{{ modalEditLocationButtonLabel }}
-							</NcButton>
+								:modelValue="modalEditLocationState"
+								@update:modelValue="onProposalLocationTypeToggle">
+								{{ t('calendar', 'Add Talk conversation') }}
+							</NcCheckboxRadioSwitch>
 						</div>
 						<div class="proposal-editor__proposal-duration-container">
 							<NcTextField class="proposal-editor__proposal-duration"
@@ -127,26 +80,48 @@
 								min="1"
 								step="1"
 								@input="onProposalDurationChange($event)" />
-							<NcButton class="proposal-editor__proposal-duration-helper"
-								variant="secondary"
-								@click="selectedProposal.duration = 15">
-								{{ t('calendar', '15 min') }}
-							</NcButton>
-							<NcButton class="proposal-editor__proposal-duration-helper"
-								variant="secondary"
-								@click="selectedProposal.duration = 30">
-								{{ t('calendar', '30 min') }}
-							</NcButton>
-							<NcButton class="proposal-editor__proposal-duration-helper"
-								variant="secondary"
-								@click="selectedProposal.duration = 60">
-								{{ t('calendar', '60 min') }}
-							</NcButton>
-							<NcButton class="proposal-editor__proposal-duration-helper"
-								variant="secondary"
-								@click="selectedProposal.duration = 90">
-								{{ t('calendar', '90 min') }}
-							</NcButton>
+							<div class="proposal-editor__proposal-duration-helpers">
+								<NcCheckboxRadioSwitch type="radio"
+									class="proposal-editor__proposal-duration-helper"
+									:button-variant="true"
+									button-variant-grouped="horizontal"
+									name="duration-helper"
+									value="15"
+									:modelValue="String(selectedProposal.duration)"
+									@update:modelValue="changeDuration(15)">
+									{{ t('calendar', '15 min') }}
+								</NcCheckboxRadioSwitch>
+								<NcCheckboxRadioSwitch type="radio"
+									class="proposal-editor__proposal-duration-helper"
+									:button-variant="true"
+									button-variant-grouped="horizontal"
+									name="duration-helper"
+									value="30"
+									:modelValue="String(selectedProposal.duration)"
+									@update:modelValue="changeDuration(30)">
+									{{ t('calendar', '30 min') }}
+								</NcCheckboxRadioSwitch>
+								<NcCheckboxRadioSwitch type="radio"
+									class="proposal-editor__proposal-duration-helper"
+									:button-variant="true"
+									button-variant-grouped="horizontal"
+									name="duration-helper"
+									value="60"
+									:modelValue="String(selectedProposal.duration)"
+									@update:modelValue="changeDuration(60)">
+									{{ t('calendar', '60 min') }}
+								</NcCheckboxRadioSwitch>
+								<NcCheckboxRadioSwitch type="radio"
+									class="proposal-editor__proposal-duration-helper"
+									:button-variant="true"
+									button-variant-grouped="horizontal"
+									name="duration-helper"
+									value="90"
+									:modelValue="String(selectedProposal.duration)"
+									@update:modelValue="changeDuration(90)">
+									{{ t('calendar', '90 min') }}
+								</NcCheckboxRadioSwitch>
+							</div>
 						</div>
 						<InviteesListSearch class="proposal-editor__proposal-participants-selector"
 							:already-invited-emails="existingParticipantAddressess"
@@ -172,7 +147,6 @@
 					<div class="proposal-editor__row-actions">
 						<NcButton variant="primary" :disabled="!modalEditSaveState" @click="onProposalSave()">{{ modalEditSaveLabel }}</NcButton>
 						<NcButton variant="secondary" v-if="modalEditDestroyState" @click="onProposalDestroy(selectedProposal)">{{ 'Delete' }}</NcButton>
-						<NcButton variant="secondary" @click="onModalClose()">{{ t('calendar', 'Close') }}</NcButton>
 					</div>
 				</div>
 				<div class="proposal-editor__column-right">
@@ -184,14 +158,14 @@
 							:aria-label="t('calendar', 'Previous span')"
 							@click="onCalendarSpanPrevious()">
 							<template #icon>
-								<ChevronLeftIcon />
+								<PreviousSpanIcon />
 							</template>
 						</NcButton>
 						<NcButton type="secondary"
 							:aria-label="t('calendar', 'Next span')"
 							@click="onCalendarSpanNext()">
 							<template #icon>
-								<ChevronRightIcon />
+								<NextSpanIcon />
 							</template>
 						</NcButton>
 						<h2>{{ calendarDateRange }}</h2>
@@ -199,14 +173,14 @@
 							:aria-label="t('calendar', 'Less days')"
 							@click="onCalendarSpanDecrease()">
 							<template #icon>
-								<ChevronLeftIcon />
+								<ZoomInIcon />
 							</template>
 						</NcButton>
 						<NcButton type="secondary"
 							:aria-label="t('calendar', 'More days')"
 							@click="onCalendarSpanIncrease()">
 							<template #icon>
-								<ChevronRightIcon />
+								<ZoomOutIcon />
 							</template>
 						</NcButton>
 					</div>
@@ -244,13 +218,17 @@ import FullCalendarInteraction from '@fullcalendar/interaction';
 import InviteesListSearch from '@/components/Editor/Invitees/InviteesListSearch.vue'
 import ProposalParticipantItem from '@/components/Proposal/ProposalParticipantItem.vue'
 import ProposalDateItem from '@/components/Proposal/ProposalDateItem.vue'
+import ProposalResponseMatrix from '@/components/Proposal/ProposalResponseMatrix.vue'
 // icons
+import ZoomInIcon from 'vue-material-design-icons/MagnifyPlusOutline'
+import ZoomOutIcon from 'vue-material-design-icons/MagnifyMinusOutline'
+import PreviousSpanIcon from 'vue-material-design-icons/ChevronLeft'
+import NextSpanIcon from 'vue-material-design-icons/ChevronRight'
 import PollIcon from 'vue-material-design-icons/Poll'
-import CheckIcon from 'vue-material-design-icons/Check'
-import CloseIcon from 'vue-material-design-icons/Close'
-import HelpIcon from 'vue-material-design-icons/Help'
-import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft'
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight'
+import EditIcon from 'vue-material-design-icons/PencilOutline'
+import DeleteIcon from 'vue-material-design-icons/TrashCanOutline'
+import LocationIcon from 'vue-material-design-icons/MapMarkerOutline'
+import DurationIcon from 'vue-material-design-icons/ClockOutline'
 
 export default {
 	name: 'ProposalEditor',
@@ -264,9 +242,8 @@ export default {
 			modalMode: 'view',
 			calendarApi: null as any, // FullCalendar API instance
 			selectedProposal: null as Proposal | null,
-			participantAvailabilityIndividual: {} as Record<string, Record<string, any>>,
-			participantAvailabilityCombined: [] as Array<{ start: Date, end: Date }>, // Store available slots
-			calendarSlotPrecision: 1, // default to 30 min
+			participantAvailability: {} as Record<string, Record<string, any>>,
+			participantColors: {} as Record<string, string>,
 			calendarSpanDays: 7, // Track current span duration
 			calendarSpanOverride: false, // Track if user manually changed span
 			screenWidth: window.innerWidth, // Track screen width
@@ -295,12 +272,16 @@ export default {
 		InviteesListSearch,
 		ProposalParticipantItem,
 		ProposalDateItem,
+		ProposalResponseMatrix,
+		ZoomInIcon,
+		ZoomOutIcon,
+		PreviousSpanIcon,
+		NextSpanIcon,
 		PollIcon,
-		CheckIcon,
-		CloseIcon,
-		HelpIcon,
-		ChevronLeftIcon,
-		ChevronRightIcon,
+		EditIcon,
+		DeleteIcon,
+		LocationIcon,
+		DurationIcon,
 	},
 
 	props: {
@@ -372,12 +353,12 @@ export default {
 			return !this.selectedProposal || this.selectedProposal.id !== null
 		},
 		
-		modalEditLocationButtonLabel() {
-			if (!this.selectedProposal) return 'Talk'
-			if (this.selectedProposal.location === 'Talk Room') {
-				return t('calendar', 'Physical')
+		modalEditLocationState(): boolean {
+			if (!this.selectedProposal) return false
+			if (this.selectedProposal.location === 'Talk conversation') {
+				return true
 			} else {
-				return t('calendar', 'Virtual')
+				return false
 			}
 		},
 		/**
@@ -389,19 +370,6 @@ export default {
 		calendarConfiguration() {
 			const today = new Date()
 			today.setHours(0, 0, 0, 0)
-
-			// Slot durations and current index for zoom controls
-			const slotDurations = [
-				{ label: '5 min', value: '00:05:00' },
-				{ label: '10 min', value: '00:10:00' },
-				{ label: '15 min', value: '00:15:00' },
-				{ label: '30 min', value: '00:30:00' },
-				{ label: '1 hour', value: '01:00:00' }
-			]
-
-			if (this.calendarSlotPrecision === undefined) {
-				this.calendarSlotPrecision = 2 // default to 15 min
-			}
 
 			return {
 				plugins: [FullCalendarTimeGrid, FullCalendarInteraction],
@@ -417,13 +385,16 @@ export default {
 				allDaySlot: false,
 				slotMinTime: '08:00:00',
 				slotMaxTime: '18:00:00',
-				slotDuration: slotDurations[this.calendarSlotPrecision].value,
+				slotDuration: "00:15:00",
 				validRange: {
 					start: today,
 				},
 				nowIndicator: true,
 				editable: true,
 				eventOverlap: true,
+				eventConstraint: false,
+				eventOrderStrict: true,
+				eventOrder: 'duration,title',
 				selectable: true,
 				selectMirror: true,
 				droppable: true,
@@ -529,8 +500,7 @@ export default {
 			this.proposalStore.hideModal()
 			this.selectedProposal = null
 			this.modalView = 'view'
-			this.participantAvailabilityIndividual = {}
-			this.participantAvailabilityCombined = []
+			this.participantAvailability = {}
 			if (this.calendarApi) {
 				this.calendarApi.removeAllEvents()
 				this.calendarApi.unselect()
@@ -573,12 +543,8 @@ export default {
 
 		onProposalDurationChange(event: Event) {
 			const value = (event.target as HTMLInputElement).value
-			// Only allow positive integers
-			if (!/^[\d]+$/.test(value)) {
-				if (this.selectedProposal) this.selectedProposal.duration = 0
-			} else {
-				if (this.selectedProposal) this.selectedProposal.duration = parseInt(value, 10)
-			}
+			const duration = parseInt(value, 10)
+			this.changeDuration(duration)
 		},
 
 		onProposalLocationInput(event: Event) {
@@ -586,12 +552,12 @@ export default {
 			if (!this.selectedProposal) {
 				return console.error('No proposal selected for this operation')
 			}
-			if (this.selectedProposal.location !== 'Talk Room') {
+			if (this.selectedProposal.location !== 'Talk conversation') {
 				this.selectedProposal.location = value
 			} else {
-				// Prevent the input change when location is 'Talk Room'
+				// Prevent the input change when location is 'Talk conversation'
 				event.preventDefault();
-				(event.target as HTMLInputElement).value = 'Talk Room';
+				(event.target as HTMLInputElement).value = 'Talk conversation';
 				return false;
 			}
 		},
@@ -600,10 +566,10 @@ export default {
 			if (!this.selectedProposal) {
 				return
 			}
-			if (this.selectedProposal.location === 'Talk Room') {
+			if (this.selectedProposal.location === 'Talk conversation') {
 				this.selectedProposal.location = ''
 			} else {
-				this.selectedProposal.location = 'Talk Room'
+				this.selectedProposal.location = 'Talk conversation'
 			}
 		},
 
@@ -636,14 +602,6 @@ export default {
 		},
 
 		onProposalDateAdd(info: any): void {
-			// validate selection
-			const isAvailable = this.participantAvailabilityCombined.some(e =>
-				info.start >= e.start && info.end <= e.end
-			)
-			if (!isAvailable) {
-				showError(t('calendar', 'Selected time slot is not available. Please choose a different time.'));
-				return;
-			}
 			// validate duration
 			let duration = parseInt(String(this.selectedProposal?.duration ?? ''), 10);
 			if (isNaN(duration) || duration <= 0) {
@@ -659,20 +617,6 @@ export default {
 		onProposalDateMove(info: any): void {
 			// Only handle drag for proposed dates
 			if (info.event.extendedProps && info.event.extendedProps.proposedDate) {
-				// Validate that the new time slot is available
-				const newStart = info.event.start;
-				const newEnd = info.event.end;
-				const isAvailable = this.participantAvailabilityCombined.some(e =>
-					newStart >= e.start && newEnd <= e.end
-				);
-				
-				if (!isAvailable) {
-					// Revert the drag operation
-					info.revert();
-					showError(t('calendar', 'Selected time slot is not available. Please choose a different time.'));
-					return;
-				}
-				
 				this.changeProposedDate(info.event.extendedProps.proposedDateId, info.event.start);
 			}
 		},
@@ -762,6 +706,20 @@ export default {
 				console.error('Failed to fetch proposals:', error)
 			}
 		},
+
+		changeDuration(duration: number): void {
+			if (!this.selectedProposal) {
+				return console.error('No proposal selected for this operation')
+			}
+			// Validate duration value
+			if (isNaN(duration) || duration <= 0) {
+				this.selectedProposal.duration = 0
+				return console.error('Invalid duration value:', duration)
+			}
+			this.selectedProposal.duration = duration
+			// Refresh calendar view
+			this.renderParticipantAvailability()
+		},
 		
 		addParticipant(participant: any): void {
 			if (!this.selectedProposal) {
@@ -776,6 +734,8 @@ export default {
 			newParticipant.name = participant.commonName || participant.email
 			newParticipant.realm = participant.isUser ? ProposalParticipantRealm.Internal : ProposalParticipantRealm.External
 			this.selectedProposal.participants.push(newParticipant)
+			// generate a unique color for the participant
+			this.participantColors[newParticipant.address] = this.generateParticipantColor(newParticipant.address)
 			// retrieve availability for the new participant
 			this.fetchParticipantAvailability(newParticipant)
 		},
@@ -785,13 +745,13 @@ export default {
 				return console.error('No proposal selected for this operation')
 			}
 			// remove the participant's availability data
-			if (this.participantAvailabilityIndividual[address]) {
-				delete this.participantAvailabilityIndividual[address]
+			if (this.participantAvailability[address]) {
+				delete this.participantAvailability[address]
 			}
 			// remove the participant from the proposal
 			this.selectedProposal.participants = this.selectedProposal.participants.filter((p: ProposalParticipant) => p.address !== address)
 			// update the calendar availability
-			this.combineParticipantAvailability()
+			this.renderParticipantAvailability()
 		},
 		
 		addGroup(participant: any): void {
@@ -821,6 +781,7 @@ export default {
 				if (!a.date || !b.date) return 0
 				return a.date.getTime() - b.date.getTime()
 			})
+			// Refresh calendar view
 			this.renderParticipantAvailability()
 		},
 
@@ -834,6 +795,7 @@ export default {
 			this.selectedProposal.dates[index].date = date
 			// Force Vue to recognize the change for reactivity
 			this.selectedProposal.dates = [...this.selectedProposal.dates]
+			
 			this.renderParticipantAvailability()
 		},
 
@@ -879,86 +841,68 @@ export default {
 				showError(t('calendar', 'Failed to fetch free/busy data'))
 				return
 			}
+			this.participantAvailability = {}
+			// Separate availability data per participant
 			events.forEach((event: any) => {
 				let resourceId = event.resourceId
 				if (resourceId.startsWith('mailto:')) {
 					resourceId = resourceId.replace('mailto:', '')
 				}
-				if (!this.participantAvailabilityIndividual[resourceId]) {
-					this.participantAvailabilityIndividual[resourceId] = {}
+				if (!this.participantAvailability[resourceId]) {
+					this.participantAvailability[resourceId] = {}
 				}
-				this.participantAvailabilityIndividual[resourceId][event.id] = event
+				this.participantAvailability[resourceId][event.id] = event
 			})
 			// @ts-ignore
-			this.combineParticipantAvailability()
-		},
-		
-		combineParticipantAvailability(): void {
-			// gather all busy slots for all participants
-			const busySlots: Array<{ start: Date, end: Date }> = []
-			Object.values(this.participantAvailabilityIndividual).forEach(eventsObj => {
-				Object.values(eventsObj).forEach((event: any) => {
-					busySlots.push({ start: new Date(event.start), end: new Date(event.end) })
-				})
-			})
-
-			// find available slots between busy slots
-			const view = this.calendarApi.view
-			const start = view.activeStart
-			const end = view.activeEnd
-
-			const workingStartHour = 8
-			const workingEndHour = 18
-			const dayMs = 24 * 60 * 60 * 1000
-			this.participantAvailabilityCombined = []
-			for (let d = new Date(start); d < end; d = new Date(d.getTime() + dayMs)) {
-				const dayStart = new Date(d)
-				dayStart.setHours(workingStartHour, 0, 0, 0)
-				const dayEnd = new Date(d)
-				dayEnd.setHours(workingEndHour, 0, 0, 0)
-
-				// Find all busy slots for this day
-				const dayBusy = busySlots
-					.filter(slot => (slot.start < dayEnd && slot.end > dayStart))
-					.sort((a, b) => a.start.getTime() - b.start.getTime())
-
-				let lastEnd = new Date(dayStart)
-				for (let i = 0; i < dayBusy.length; i++) {
-					const slot = dayBusy[i]
-					// If there's a gap between lastEnd and the start of this busy slot, it's available
-					if (slot.start > lastEnd) {
-						this.participantAvailabilityCombined.push({ start: new Date(lastEnd), end: new Date(slot.start) })
-					}
-					// Move lastEnd forward if this busy slot ends later
-					if (slot.end > lastEnd) {
-						lastEnd = new Date(slot.end)
-					}
-				}
-				// After all busy slots, if there's time left in the working day, add it as available
-				if (lastEnd < dayEnd) {
-					this.participantAvailabilityCombined.push({ start: new Date(lastEnd), end: new Date(dayEnd) })
-				}
-			}
-
 			this.renderParticipantAvailability()
 		},
 		
 		renderParticipantAvailability(): void {
-			// Clear existing events
+			// Check if calendar API is available
+			if (!this.calendarApi) {
+				console.warn('Calendar API not available, skipping render')
+				return
+			}
+			
+			// Clear all existing events
 			this.calendarApi.removeAllEvents()
-			// Add participant availability
-			this.participantAvailabilityCombined.forEach(slot => {
-				this.calendarApi.addEvent({
-					title: 'Available',
-					start: slot.start,
-					end: slot.end,
-					classNames: ['proposal-editor__calendar-availability'],
-					allDay: false,
-					display: 'background',
+			
+			// Render individual participant busy slots
+			Object.entries(this.participantAvailability).forEach(([participantId, eventsObj]) => {
+				const participantColor = this.participantColors[participantId] || this.generateParticipantColor(participantId)
+
+				// Clean up the participant ID for display (remove mailto: prefix if present)
+				let displayId = participantId
+				if (displayId.startsWith('mailto:')) {
+					displayId = displayId.replace('mailto:', '')
+				}
+				
+				// Add each busy slot as an individual event with participant-specific styling
+				Object.values(eventsObj as Record<string, any>).forEach((event: any) => {
+					const eventDuration = new Date(event.end).getTime() - new Date(event.start).getTime()
+					const zIndex = Math.max(1, 1000 - Math.floor(eventDuration / 60000)) // Longer events get lower z-index
+					
+					this.calendarApi.addEvent({
+						title: displayId.split('@')[0], // Show just the name part of email
+						start: new Date(event.start),
+						end: new Date(event.end),
+						allDay: false,
+						display: 'background',
+						backgroundColor: participantColor,
+						borderColor: 'transparent',
+						textColor: '#fff',
+						zIndex: zIndex,
+						classNames: [`participant-busy-${participantId.replace(/[^a-zA-Z0-9]/g, '-')}`],
+						extendedProps: {
+							participantBusy: true,
+							participantId: participantId
+						}
+					})
 				})
 			})
+			
 			// Add proposed dates
-			let duration = parseInt(String(this.selectedProposal?.duration ?? ''), 10);
+			let duration = this.selectedProposal?.duration ?? 10
 			this.selectedProposal?.dates.forEach((proposalDate, index) => {
 				if (!proposalDate.date) return
 				this.calendarApi.addEvent({
@@ -980,6 +924,15 @@ export default {
 			});
 		},
 
+		generateParticipantColor(participantId) {
+			let hash = 0
+			for (let i = 0; i < participantId.length; i++) {
+				hash = participantId.charCodeAt(i) + ((hash << 5) - hash)
+			}
+			const hue = Math.abs(hash) % 360
+			return `hsl(${hue}, 70%, 50%)`
+		},
+
 		formatProposalDate(date: Date | null): string {
 			if (!date) {
 				return ''
@@ -988,54 +941,7 @@ export default {
 			return moment(date).format('dddd, MMMM D, LT')
 		},
 
-		formatProposalDateCompact(date: Date | null): string {
-			if (!date) {
-				return ''
-			}
-			// Very compact format for matrix headers: "7/8 2PM"
-			return moment(date).format('M/D LT').replace(':00', '').replace(' ', ' ')
-		},
-
-		voteIcon(participantId: number | null, dateId: number | null): string {
-			const vote = this.participantVote(participantId, dateId)
-			switch (vote) {
-				case ProposalDateVote.Yes:
-					return 'CheckIcon'
-				case ProposalDateVote.No:
-					return 'CloseIcon'
-				case ProposalDateVote.Maybe:
-				default:
-					return 'HelpIcon'
-			}
-		},
-
-		voteLabel(participantId: number | null, dateId: number | null): string {
-			const vote = this.participantVote(participantId, dateId)
-			switch (vote) {
-				case ProposalDateVote.Yes:
-					return t('calendar', 'Yes')
-				case ProposalDateVote.No:
-					return t('calendar', 'No')
-				case ProposalDateVote.Maybe:
-				default:
-					return t('calendar', 'Maybe')
-			}
-		},
-
-		participantVote(participantId: number | null, dateId: number | null): ProposalDateVote {
-			if (!this.selectedProposal || !participantId || !dateId) {
-				return ProposalDateVote.Maybe // Default to Maybe
-			}
-			
-			// Find the vote for this participant and date combination
-			const vote = this.selectedProposal.votes.find(v => 
-				v.participant === participantId && v.date === dateId
-			)
-			
-			return vote ? vote.vote as ProposalDateVote : ProposalDateVote.Maybe // Default to Maybe if no vote found
-		},
-
-		onConvertToMeeting(date: ProposalDate): void {
+		onMeetingCreate(date: ProposalDate): void {
 			if (!this.selectedProposal || !date.date) {
 				return console.error('No proposal selected or invalid date for meeting conversion')
 			}
@@ -1080,60 +986,43 @@ export default {
 }
 
 .proposal-viewer__content {
-	padding-bottom: calc(var(--default-grid-baseline) * 4);
-	padding-left: calc(var(--default-grid-baseline) * 4);
-	padding-right: calc(var(--default-grid-baseline) * 4);
+	padding-top: calc(var(--default-grid-baseline) * 8);
+	padding-bottom: calc(var(--default-grid-baseline) * 8);
+	padding-left: calc(var(--default-grid-baseline) * 8);
+	padding-right: calc(var(--default-grid-baseline) * 8);
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-}
-
-.proposal-viewer__row-title {
-	flex-shrink: 0;
-}
-
-.proposal-viewer__row-details {
-	display: flex;
 	gap: calc(var(--default-grid-baseline) * 3);
-	align-items: flex-start;
-	flex: 1;
-	overflow: hidden;
 }
 
-.proposal-viewer__column-left {
-	flex: 0 0 250px;
-	min-width: 200px;
-	max-width: 300px;
+.proposal-viewer__content-title {
+	margin: 0;
+}
+
+.proposal-viewer__content-details {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--default-grid-baseline) * 2);
 }
 
-.proposal-viewer__field {
+.proposal-viewer__content-duration-and-actions {
 	display: flex;
-	flex-direction: column;
-	gap: calc(var(--default-grid-baseline) * 1);
+	justify-content: space-between;
+	align-items: center;
 }
 
-.proposal-viewer__column-right {
-	flex: 1;
-	min-width: 0;
+.proposal-viewer__content-location,
+.proposal-viewer__content-duration {
 	display: flex;
-	flex-direction: column;
-	overflow: hidden;
+	align-items: center;
+	gap: 0.5em;
 }
 
-.proposal-public__matrix {
-	flex: 1;
-	overflow: hidden;
+.proposal-viewer__content-actions {
 	display: flex;
-	flex-direction: column;
-}
-
-.proposal-viewer__row-list {
-	flex: 1;
-	overflow-y: auto;
-	margin-bottom: calc(var(--default-grid-baseline) * 4);
+	gap: calc(var(--default-grid-baseline) * 2);
 }
 
 .proposal-viewer__row-actions {
@@ -1142,72 +1031,6 @@ export default {
 	background-color: var(--color-main-background);
 	flex-shrink: 0;
 	padding-top: calc(var(--default-grid-baseline) * 2);
-}
-
-.proposal-viewer__list-content {
-	display: flex;
-	flex-direction: column;
-	gap: calc(var(--default-grid-baseline) * 4);
-}
-
-.proposal-viewer__list-item {
-	transition: background-color 0.2s ease;
-
-	&:hover {
-		background-color: var(--color-background-hover);
-	}
-}
-
-.proposal-viewer__list-item-details {
-	display: flex;
-	gap: calc(var(--default-grid-baseline) * 4);
-	align-items: flex-start;
-	padding: calc(var(--default-grid-baseline) * 2);
-}
-
-.proposal-viewer__list-item-overview {
-	flex: 1;
-	min-width: calc(var(--default-grid-baseline) * 100);
-	display: flex;
-	flex-direction: column;
-	gap: calc(var(--default-grid-baseline) * 2);
-}
-
-.proposal-viewer__list-item-title {
-	h3 {
-		margin-top: 0;
-		margin-bottom: calc(var(--default-grid-baseline) * 1);
-	}
-}
-
-.proposal-viewer__list-item-actions {
-	display: flex;
-	gap: calc(var(--default-grid-baseline) * 2);
-}
-
-.proposal-viewer__list-item-dates {
-	flex: 1;
-	min-width: calc(var(--default-grid-baseline) * 100);
-}
-
-.proposal-viewer__list-item-date {
-	display: flex;
-	align-items: center;
-	gap: calc(var(--default-grid-baseline) * 4);
-}
-
-.proposal-viewer__list-item-date-time {
-	flex: 1;
-	min-width: 0;
-}
-
-.proposal-viewer__list-item-vote-yes,
-.proposal-viewer__list-item-vote-no,
-.proposal-viewer__list-item-vote-maybe {
-	display: flex;
-	align-items: center;
-	gap: calc(var(--default-grid-baseline) * 4);
-	white-space: nowrap;
 }
 
 .proposal-editor__content {
@@ -1283,7 +1106,8 @@ export default {
 
 .proposal-editor__proposal-location-container {
 	display: flex;
-	align-items: center;
+	flex-direction: column;
+	align-items: stretch;
 	gap: calc(var(--default-grid-baseline) * 2);
 }
 
@@ -1301,134 +1125,41 @@ export default {
 	flex: 1;
 }
 
-:deep(.proposal-editor__calendar-availability) {
-	background: repeating-linear-gradient(45deg, transparent 0px, transparent 10px, var(--color-primary) 10px, var(--color-primary) 15px) !important;
-}
-
-/* Proposal Matrix Styles */
-.proposal-matrix {
+.proposal-editor__proposal-duration-helpers {
 	display: flex;
-	flex-direction: column;
-	gap: calc(var(--default-grid-baseline) * 2);
-	flex: 1;
-	overflow: hidden;
+	gap: 0;
+	
+	// Deep CSS to remove default borders from radio switches and match secondary button styling
+	:deep(.checkbox-radio-switch) {
+		border: none !important;
+		
+		// Match NcButton secondary variant colors
+		.checkbox-radio-switch__content {
+			background-color: var(--color-background-hover);
+			color: var(--color-text-primary);
+			
+			&:hover {
+				background-color: var(--color-primary-element-light);
+			}
+		}
+		
+		// Selected state styling
+		&.checkbox-radio-switch--checked .checkbox-radio-switch__content {
+			background-color: var(--color-primary-element);
+			color: var(--color-primary-element-text);
+			
+			&:hover {
+				background-color: var(--color-primary-element-hover);
+			}
+		}
+	}
 }
 
-.proposal-matrix h6 {
-	margin: 0;
-	font-weight: 600;
-	flex-shrink: 0;
-}
-
-.proposal-matrix__table {
-	display: flex;
-	flex-direction: column;
-	border: 1px solid var(--color-border);
-	border-radius: var(--border-radius);
-	overflow: hidden;
-	flex: 1;
-	min-height: 0;
-}
-
-.proposal-matrix__header,
-.proposal-matrix__row {
-	display: flex;
-	border-bottom: 1px solid var(--color-border);
-	flex-shrink: 0;
-}
-
-.proposal-matrix__header:last-child,
-.proposal-matrix__row:last-child {
-	border-bottom: none;
-}
-
-.proposal-matrix__cell {
-	padding: calc(var(--default-grid-baseline) * 1.5);
-	border-right: 1px solid var(--color-border);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	white-space: nowrap;
-	font-size: 0.9em;
-}
-
-.proposal-matrix__cell:last-child {
-	border-right: none;
-}
-
-.proposal-matrix__cell--participant-header,
-.proposal-matrix__cell--participant {
-	flex: 0 0 auto;
-	min-width: 120px;
-	max-width: 180px;
-	width: 150px;
-	justify-content: flex-start;
-	font-weight: 600;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	padding-right: calc(var(--default-grid-baseline) * 1);
-}
-
-.proposal-matrix__cell--date-header {
-	background-color: var(--color-background-hover);
-	font-weight: 600;
-	font-size: 0.8em;
-	text-align: center;
-	flex: 0 0 auto;
-	min-width: 80px;
-	width: 80px;
-	writing-mode: horizontal-tb;
-}
-
-.proposal-matrix__cell--vote {
-	background-color: var(--color-main-background);
-	justify-content: center;
-	flex: 0 0 auto;
-	min-width: 80px;
-	width: 80px;
-}
-
-.proposal-matrix__vote-icon {
-	width: 20px;
-	height: 20px;
-}
-
-.proposal-matrix__vote-icon.check-icon {
-	color: var(--color-success);
-}
-
-.proposal-matrix__vote-icon.close-icon {
-	color: var(--color-error);
-}
-
-.proposal-matrix__vote-icon.help-icon {
-	color: var(--color-warning);
-}
-
-.proposal-matrix__footer {
-	display: flex;
-}
-
-.proposal-matrix__cell--footer-label {
-	justify-content: flex-start;
-	flex: 0 0 auto;
-	min-width: 120px;
-	max-width: 180px;
-	width: 150px;
-	padding-right: calc(var(--default-grid-baseline) * 1);
-}
-
-.proposal-matrix__cell--action {
-	justify-content: center;
-	flex: 0 0 auto;
-	min-width: 80px;
-	width: 80px;
-	padding: calc(var(--default-grid-baseline) * 1);
-}
-
-.proposal-matrix__empty {
-	text-align: center;
-	padding: calc(var(--default-grid-baseline) * 4);
-	color: var(--color-text-maxcontrast);
+:deep([class*="participant-busy-"]) {
+	opacity: 0.7 !important;
+	border-radius: 4px !important;
+	
+	/* Override background with striped pattern for better visibility */
+	background-image: repeating-linear-gradient(45deg, transparent 0px, transparent calc(var(--default-grid-baseline) * 1), var(--color-background-hover) calc(var(--default-grid-baseline) * 1), var(--color-background-hover) calc(var(--default-grid-baseline) * 4)) !important;
 }
 </style>

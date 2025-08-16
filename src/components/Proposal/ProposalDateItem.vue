@@ -26,7 +26,7 @@ import moment from '@nextcloud/moment'
 import type { ProposalDateInterface } from '@/types/proposals/proposalInterfaces'
 // icons
 import ItemIcon from 'vue-material-design-icons/Calendar'
-import DestroyIcon from 'vue-material-design-icons/TrashCanOutline'
+import DestroyIcon from 'vue-material-design-icons/Close'
 
 export default {
 	name: 'ProposalDateItem',

@@ -16,7 +16,7 @@
 			{{ participantName }}
 		</div>
 		<div class="proposal-participant__action">
-			<RequiredIcon v-if="participantAttendance"/>
+			<OptionalIcon v-if="!participantAttendance"/>
 			<NcActions>
 				<NcActionButton :close-after-click="true"
 					@click="onParticipantAttendance">

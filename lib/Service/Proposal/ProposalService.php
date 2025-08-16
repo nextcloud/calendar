@@ -152,16 +152,9 @@ class ProposalService {
 		if ($participantEntry === null) {
 			return null;
 		}
-		$pid = $participantEntry->getPid();
-		$uid = $participantEntry->getUid();
-		// Fetch the proposal entry by pid and uid
-		$proposalEntry = $this->proposalMapper->fetchById($uid, $pid);
-		if ($proposalEntry === null) {
-			return null;
-		}
-
+		$user = $this->userManager->get($participantEntry->getUid());
 		// retrieve full proposal with participants, dates, and votes
-		$proposal = $this->fetchProposal($participantEntry->getUser(), $participantEntry->getPid());
+		$proposal = $this->fetchProposal($user, $participantEntry->getPid());
 
 		return $proposal;
 	}
@@ -196,11 +189,11 @@ class ProposalService {
 			$this->proposalDateMapper->insert($entry);
 		}
 
+		// retrieve full proposal with participants, dates, and votes
+		$proposal = $this->fetchProposal($user, $proposalEntry->getId());
+
 		unset($proposalEntry, $proposalParticipantEntries, $proposalDateEntries);
 		unset($proposalParticipants, $proposalDates);
-
-		// retrieve full proposal with participants, dates, and votes
-		$proposal = $this->fetchProposal($user, $proposal->getId());
 
 		// generate notifications for internal and external participants
 		$this->generateNotifications($user, $proposal, 'C');
@@ -500,8 +493,8 @@ class ProposalService {
 				$message->useTemplate($template);
 				$failed = $this->systemMailManager->send($message);
 			}
-		} catch (Exception $ex) {
-			$this->logger->error($ex->getMessage(), ['exception' => $ex, 'app' => 'calendar-proposal']);
+		} catch (Exception $e) {
+			$this->logger->error($e->getMessage(), ['app' => 'calendar', 'exception' => $e]);
 		}
 
 	}
@@ -559,11 +552,15 @@ class ProposalService {
 				continue;
 			}
 			$participantUser = $participantUsers[0];
-			$this->calendarManager->handleIMip(
-				$participantUser->getUID(),
-				$template->serialize(),
-				['absent' => $reason !== 'D' ? 'create' : 'ignore']
-			);
+			try {
+				$this->calendarManager->handleIMip(
+					$participantUser->getUID(),
+					$template->serialize(),
+					['absent' => $reason !== 'D' ? 'create' : 'ignore']
+				);
+			} catch (Exception $e) {
+				$this->logger->error($e->getMessage(), ['app' => 'calendar', 'exception' => $e]);
+			}
 		}
 
 	}

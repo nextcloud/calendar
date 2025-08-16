@@ -26,16 +26,17 @@
 					:loading-calendars="loadingCalendars" />
 				<EditCalendarModal />
 
-				<!-- Appointment Configuration List -->
-				<template v-if="!disableAppointments && isAuthenticatedUser">
-					<AppointmentConfigList />
-				</template>
-
 				<!-- Proposals -->
 				<template v-if="isAuthenticatedUser">
 					<ProposalEditor />
 					<ProposalList />
 				</template>
+
+				<!-- Appointment Configuration List -->
+				<template v-if="!disableAppointments && isAuthenticatedUser">
+					<AppointmentConfigList />
+				</template>
+				
 				<!-- Trashbin -->
 				<Trashbin v-if="calendarsStore.hasTrashBin" />
 			</template>

@@ -9,7 +9,7 @@
 		<NcAppNavigationCaption class="proposal-list__caption"
 			:name="t('calendar', 'Meeting proposals')">
 			<template #actions>
-				<NcActionButton @click="onProposalCreate">
+				<NcActionButton @click="onProposalCreate()">
 					<template #icon>
 						<CreateIcon :size="20" decorative />
 					</template>
@@ -18,7 +18,25 @@
 			</template>
 		</NcAppNavigationCaption>
 
+		<template v-if="!userHasEmailAddress">
+			<NcAppNavigationItem
+				:name="t('calendar', 'A configured email address is required to use meeting proposals')"
+				@click="window.open(generateUrl('settings/user'), '_blank').focus()">
+				<template #icon>
+					<WarningIcon :size="20" />
+				</template>
+			</NcAppNavigationItem>
+		</template>
+
 		<template v-if="userHasEmailAddress">
+			<NcAppNavigationItem v-if="storedProposals.length === 0"
+				:name="t('calendar', 'No active meeting proposals')"
+				@click="onProposalCreate()">
+				<template #icon>
+					<VotingIcon :size="20" />
+				</template>
+			</NcAppNavigationItem>
+
 			<NcAppNavigationItem v-for="proposal in storedProposals" 
 				:key="proposal.id"
 				:name="proposal.title" 
@@ -60,15 +78,6 @@
 				</template>
 			</NcAppNavigationItem>
 		</template>
-		<template v-if="!userHasEmailAddress">
-			<NcAppNavigationItem
-				:name="t('calendar', 'A configured email address is required to use meeting proposals')"
-				@click="window.open(generateUrl('settings/user'), '_blank').focus()">
-				<template #icon>
-					<WarningIcon :size="20" />
-				</template>
-			</NcAppNavigationItem>
-		</template>
 	</div>
 </template>
 
@@ -90,6 +99,7 @@ import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
 import WarningIcon from 'vue-material-design-icons/AlertCircleOutline'
 import PendingIcon from 'vue-material-design-icons/ProgressClock'
 import CompleteIcon from 'vue-material-design-icons/CheckCircleOutline'
+import VotingIcon from 'vue-material-design-icons/Poll'
 import ViewIcon from 'vue-material-design-icons/CalendarMultiselect'
 import CreateIcon from 'vue-material-design-icons/Plus'
 import ModifyIcon from 'vue-material-design-icons/Pencil'
@@ -129,6 +139,7 @@ export default {
 		WarningIcon,
 		PendingIcon,
 		CompleteIcon,
+		VotingIcon,
 		ViewIcon,
 		CreateIcon,
 		ModifyIcon,
