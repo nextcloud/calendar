@@ -13,9 +13,9 @@
 			@close="onModalClose()">
 			<!-- Show proposal viewer -->
 			<div v-if="modalMode === 'view'" class="proposal-viewer__content">
-				<h4 class="proposal-viewer__content-title">
+				<div class="proposal-viewer__content-title">
 					{{ selectedProposal?.title }}
-				</h4>
+				</div>
 				<div class="proposal-viewer__content-description">
 					{{ selectedProposal?.description || t('calendar', 'No Description') }}
 				</div>
@@ -30,13 +30,17 @@
 							{{ selectedProposal?.duration ? selectedProposal.duration + ' min' : '-' }}
 						</div>
 						<div class="proposal-viewer__content-actions">
-							<NcButton variant="tertiary" @click="onProposalModify(selectedProposal)">
+							<NcButton variant="tertiary"
+								:title="t('calendar', 'Edit this meeting proposal')"
+								@click="onProposalModify(selectedProposal)">
 								<template #icon>
 									<EditIcon />
 								</template>
-								{{ t('calendar', 'Edit proposal') }}
+								{{ t('calendar', 'Edit') }}
 							</NcButton>
-							<NcButton variant="tertiary" @click="onProposalDestroy(selectedProposal)">
+							<NcButton variant="tertiary"
+								:title="t('calendar', 'Delete this meeting proposal')"
+								@click="onProposalDestroy(selectedProposal)">
 								<template #icon>
 									<DeleteIcon />
 								</template>
@@ -286,14 +290,20 @@ export default {
 		},
 		modalSize(): string {
 			if (this.modalMode === 'view') {
-				return 'large'
+				if (this.selectedProposal?.participants && this.selectedProposal.participants.length > 12) {
+					return 'full'
+				} else if (this.selectedProposal?.participants && this.selectedProposal.participants.length > 3) {
+					return 'large'
+				} else {
+					return 'normal'
+				}
 			} else {
 				return 'full'
 			}
 		},
 		modalTitle(): string {
 			if (this.modalView === false) {
-				return t('calendar', 'Meeting proposals')
+				return t('calendar', 'Meeting proposals overview')
 			} else {
 				if (this.modalMode === 'modify') {
 					return t('calendar', 'Edit meeting proposal')
@@ -476,6 +486,7 @@ export default {
 		onModalOpen() {
 			this.selectedProposal = this.proposalStore.modalProposal
 			this.modalMode = this.proposalStore.modalMode
+
 			// Wait for the FullCalendar component to be mounted before trying to initialize API
 			this.$nextTick(() => {
 				this.initializeCalendarApi()
@@ -966,13 +977,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.icon-close {
-	display: block;
-}
-
 .proposal-modal__content {
-	height: 100vh;
-	overflow: hidden;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .proposal-viewer__content {
@@ -981,12 +992,15 @@ export default {
 	padding-inline: calc(var(--default-grid-baseline) * 8);
 	display: flex;
 	flex-direction: column;
-	height: 100%;
 	gap: calc(var(--default-grid-baseline) * 3);
 }
 
 .proposal-viewer__content-title {
-	margin: 0;
+	font-size: calc(var(--default-grid-baseline) * 6);
+	font-weight: bold;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	hyphens: auto;
 }
 
 .proposal-viewer__content-details {
@@ -1006,7 +1020,7 @@ export default {
 .proposal-viewer__content-duration {
 	display: flex;
 	align-items: center;
-	gap: 0.5em;
+	gap: calc(var(--default-grid-baseline) * 2);
 }
 
 .proposal-viewer__content-actions {

@@ -47,7 +47,7 @@
 					:proposal="storedProposal"
 					:response="response"
 					:timezone-id="timezoneId"
-					@dateVote="onDateVote" />
+					@date-vote="onDateVote" />
 			</div>
 			<div class="proposal-public__content-row-actions">
 				<NcButton type="primary" @click="onSubmit">
@@ -223,7 +223,7 @@ export default {
 }
 
 .proposal-public__content-title {
-  font-size: calc(var(--default-grid-baseline) * 8);
+  font-size: calc(var(--default-grid-baseline) * 6);
   font-weight: bold;
   word-wrap: break-word;
   overflow-wrap: break-word;

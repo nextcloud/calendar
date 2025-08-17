@@ -96,8 +96,11 @@
 							</td>
 							<td v-if="mode === 'organizer'" class="proposal-matrix__table-actions-organizer">
 								<NcButton variant="tertiary"
-									:title="t('calendar', 'Convert to meeting')"
-									@click="$emit('convert-to-meeting', date)">
+									:title="t('calendar', 'Create a meeting for this date and time')"
+									@click="$emit('create-meeting', date)">
+									<template #icon>
+										<CreateIcon />
+									</template>
 									{{ t('calendar', 'Create') }}
 								</NcButton>
 							</td>
@@ -123,6 +126,7 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwit
 import VoteYesIcon from 'vue-material-design-icons/Check'
 import VoteNoIcon from 'vue-material-design-icons/Close'
 import VoteMaybeIcon from 'vue-material-design-icons/Help'
+import CreateIcon from 'vue-material-design-icons/CalendarOutline'
 
 export default {
 	name: 'ProposalResponseMatrix',
@@ -134,6 +138,7 @@ export default {
 		VoteYesIcon,
 		VoteNoIcon,
 		VoteMaybeIcon,
+		CreateIcon,
 	},
 
 	props: {
@@ -299,12 +304,11 @@ export default {
 <style lang="scss" scoped>
 
 .proposal-matrix__details {
-	max-height: 60vh;
+	max-height: 50vh;
 	overflow-y: auto;
 }
 
 .proposal-matrix__table {
-	width: 100%;
 	border-collapse: separate;
 	border-spacing: 0;
 
@@ -330,7 +334,7 @@ export default {
 .proposal-matrix__table-participant-header {
 	text-align: center;
 	padding-inline: calc(var(--default-grid-baseline) * 2);
-	max-width: calc(var(--default-grid-baseline) * 32);
+	width: calc(var(--default-grid-baseline) * 24);
 }
 
 .proposal-matrix__table-participant-header-avatar {
@@ -345,7 +349,7 @@ export default {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	max-width: calc(var(--default-grid-baseline) * 24);
+	max-width: calc(var(--default-grid-baseline) * 22);
 }
 
 .proposal-matrix__table-row-label {
@@ -358,7 +362,7 @@ export default {
 
 .proposal-matrix__table-day-label {
 	font-weight: 600;
-	font-size: calc(var(--default-grid-baseline) * 5);
+	font-size: calc(var(--default-grid-baseline) * 4);
 	color: var(--color-text-primary);
 }
 
@@ -371,6 +375,11 @@ export default {
 .proposal-matrix__table-actions-participant {
 	padding: calc(var(--default-grid-baseline) * 1);
 	min-width: 250px;
+}
+
+.proposal-matrix__table-action-header {
+	width: auto;
+	white-space: nowrap;
 }
 
 .voting-options-container {
@@ -403,6 +412,33 @@ export default {
 .vote-option svg {
 	width: 16px;
 	height: 16px;
+}
+
+.proposal-matrix__table-votes {
+	text-align: center;
+	padding-inline: calc(var(--default-grid-baseline) * 1);
+	padding-block: calc(var(--default-grid-baseline) * 2);
+
+	:deep(.material-design-icon.check-icon) {
+		color: var(--color-success);
+		background-color: rgba(var(--color-success-rgb), 0.1);
+		padding: calc(var(--default-grid-baseline) * 2);
+		border-radius: calc(var(--default-grid-baseline) * 1);
+	}
+
+	:deep(.material-design-icon.close-icon) {
+		color: var(--color-error);
+		background-color: rgba(var(--color-error-rgb), 0.1);
+		padding: calc(var(--default-grid-baseline) * 2);
+		border-radius: calc(var(--default-grid-baseline) * 1);
+	}
+
+	:deep(.material-design-icon.help-icon) {
+		color: rgba(var(--color-info-rgb), 0.3);
+		background-color: rgba(var(--color-info-rgb), 0.03);
+		padding: calc(var(--default-grid-baseline) * 2);
+		border-radius: calc(var(--default-grid-baseline) * 1);
+	}
 }
 
 </style>
