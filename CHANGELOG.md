@@ -1,3 +1,25 @@
+## [5.3.9](https://github.com/nextcloud/calendar/compare/v5.3.8...v5.3.9) (2025-08-18)
+
+
+### Bug Fixes
+
+* **deps:** Fix npm audit ([d44516e](https://github.com/nextcloud/calendar/commit/d44516ec11a225400086c1d5f42e3dc71bdd1c04))
+* **EventDidMount:** make transparent events be background color instead of transparent to prevent overlapping issues ([4fa1d7d](https://github.com/nextcloud/calendar/commit/4fa1d7d023678cbfd1953537215c49381ee34ce9))
+* **l10n:** Update translations from Transifex ([9eefc10](https://github.com/nextcloud/calendar/commit/9eefc10105fd70d0615be12161f5bb539e28cb24))
+* **l10n:** Update translations from Transifex ([5afd006](https://github.com/nextcloud/calendar/commit/5afd0068c0aa7af36c07a68aa141f03d9e1c3104))
+* **l10n:** Update translations from Transifex ([28c57a0](https://github.com/nextcloud/calendar/commit/28c57a0e54b6b282f159cee3a36193afdf2fc5e6))
+* **l10n:** Update translations from Transifex ([3a1e092](https://github.com/nextcloud/calendar/commit/3a1e092ccc1faf7fcfebf213a49c58dc9caf2064))
+* **l10n:** Update translations from Transifex ([dc7cc1a](https://github.com/nextcloud/calendar/commit/dc7cc1aae57242c09f7f093c20e6964e8e93baba))
+* **l10n:** Update translations from Transifex ([ee3e2cc](https://github.com/nextcloud/calendar/commit/ee3e2cc0e5d0ff077fabc060b6dc0f998d0e305e))
+* **l10n:** Update translations from Transifex ([fd2b687](https://github.com/nextcloud/calendar/commit/fd2b687c698e49041d10fac8ee5f992ee204a044))
+* **l10n:** Update translations from Transifex ([e777e2b](https://github.com/nextcloud/calendar/commit/e777e2bd7c9bd407b9a8c492a4adb6d8a54c8e08))
+* **l10n:** Update translations from Transifex ([0d1a9cc](https://github.com/nextcloud/calendar/commit/0d1a9ccb08a862a106f728b10b36ffaa435023c3))
+* **l10n:** Update translations from Transifex ([f3bba2d](https://github.com/nextcloud/calendar/commit/f3bba2d8bda09e44773369eb1d19fbeedac89cba))
+* **l10n:** Update translations from Transifex ([93ac598](https://github.com/nextcloud/calendar/commit/93ac5983a57a2b924f1d8a6716966b64cfdf59bc))
+* **l10n:** Update translations from Transifex ([b4760fa](https://github.com/nextcloud/calendar/commit/b4760fa2be3d87064d3fa3f731a55926ec107bb1))
+
+
+
 ## [5.3.8](https://github.com/nextcloud/calendar/compare/v5.3.7...v5.3.8) (2025-07-29)
 
 
