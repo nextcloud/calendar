@@ -6,7 +6,7 @@
 <template>
 	<div class="editor-invitee-list-no-email-configured-message">
 		<div class="editor-invitee-list-no-email-configured-message__icon">
-			@
+			<EmailAlertOutline :size="20" />
 		</div>
 		<!-- Using v-html won't cause any XSS here, -->
 		<!-- because: -->
@@ -19,9 +19,13 @@
 
 <script>
 import { generateUrl } from '@nextcloud/router'
+import EmailAlertOutline from 'vue-material-design-icons/EmailAlertOutline.vue'
 
 export default {
 	name: 'OrganizerNoEmailError',
+	components: {
+		EmailAlertOutline,
+	},
 	computed: {
 		/**
 		 * This returns the caption of the warning message, including a link to the personal settings
@@ -36,3 +40,10 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.editor-invitee-list-no-email-configured-message {
+	display: flex;
+	gap: calc(var(--default-grid-baseline) * 4);
+}
+</style>
