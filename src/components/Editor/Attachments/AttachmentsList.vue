@@ -85,7 +85,7 @@ import Upload from 'vue-material-design-icons/UploadOutline.vue'
 import Close from 'vue-material-design-icons/CloseOutline.vue'
 import Folder from 'vue-material-design-icons/FolderOutline.vue'
 import Paperclip from 'vue-material-design-icons/Paperclip.vue'
-import Plus from 'vue-material-design-icons/PlusOutline.vue'
+import Plus from 'vue-material-design-icons/Plus.vue'
 
 import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
