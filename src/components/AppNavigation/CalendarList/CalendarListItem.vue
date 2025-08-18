@@ -83,8 +83,8 @@ import {
 	NcActionCaption,
 } from '@nextcloud/vue'
 import { showError } from '@nextcloud/dialogs'
-import CheckboxMarked from 'vue-material-design-icons/CheckboxMarkedOutline.vue'
-import CheckboxBlank from 'vue-material-design-icons/CheckboxBlankOutline.vue'
+import CheckboxMarked from 'vue-material-design-icons/CheckboxMarked.vue'
+import CheckboxBlank from 'vue-material-design-icons/CheckboxBlank.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
 import Undo from 'vue-material-design-icons/Undo.vue'
 import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'

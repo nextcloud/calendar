@@ -47,7 +47,7 @@ import {
 	NcAppNavigationCaption as AppNavigationCaption,
 	NcActionButton as ActionButton,
 } from '@nextcloud/vue'
-import PlusIcon from 'vue-material-design-icons/PlusOutline.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import AppointmentConfigModal from '../AppointmentConfigModal.vue'
 import AppointmentConfig from '../../models/appointmentConfig.js'
 import logger from '../../utils/logger.js'
