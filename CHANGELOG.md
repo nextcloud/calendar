@@ -1,3 +1,29 @@
+# [5.4.0-rc.5](https://github.com/nextcloud/calendar/compare/v5.4.0-rc.4...v5.4.0-rc.5) (2025-08-18)
+
+
+### Bug Fixes
+
+* alarm styling ([db8b804](https://github.com/nextcloud/calendar/commit/db8b804e408758621f6548d5bf080e2762971271))
+* **deps:** Fix npm audit ([0c04e46](https://github.com/nextcloud/calendar/commit/0c04e466172a4f271e8f67d00e52a8a0d412438a))
+* event modal overflow ([ddb62f9](https://github.com/nextcloud/calendar/commit/ddb62f97aaf3714b4e0601d91349fd68c98e8402))
+* **EventDidMount:** make transparent events be background color instead of transparent to prevent overlapping issues ([7b10062](https://github.com/nextcloud/calendar/commit/7b100623f9840ebaf2eafe602bf9da79be286e9c))
+* **free-busy-modal:** Pin all day events on scroll ([6042127](https://github.com/nextcloud/calendar/commit/6042127e09eea3fd0a9549a4d7ead9d070fdb99d))
+* **l10n:** Update translations from Transifex ([38f2f1b](https://github.com/nextcloud/calendar/commit/38f2f1b6876454aa8380dfbd6b0155a4bbf638a3))
+* **l10n:** Update translations from Transifex ([8d7bfbb](https://github.com/nextcloud/calendar/commit/8d7bfbbc4bfea88064b9320b1b3c4484c4af8929))
+* **l10n:** Update translations from Transifex ([20b8e07](https://github.com/nextcloud/calendar/commit/20b8e07cf3212228d4aca42c360167618b3db310))
+* **l10n:** Update translations from Transifex ([128c531](https://github.com/nextcloud/calendar/commit/128c53142e27c0662e58cf9a7b42a2c0fceeb325))
+* **l10n:** Update translations from Transifex ([d724343](https://github.com/nextcloud/calendar/commit/d724343ac2ceb5ccbc73a74e8e434acb5b202f1f))
+* **l10n:** Update translations from Transifex ([9a6d627](https://github.com/nextcloud/calendar/commit/9a6d6276fc419009e13a2b29c898f3f8927e8a17))
+* **l10n:** Update translations from Transifex ([fd7a225](https://github.com/nextcloud/calendar/commit/fd7a2256dd48c71f127b7ccdb79af968c5de20f1))
+* **l10n:** Update translations from Transifex ([aa01106](https://github.com/nextcloud/calendar/commit/aa011069258ab8a5d1f510ec68dbc8794a3ad907))
+* **l10n:** Update translations from Transifex ([a6dc515](https://github.com/nextcloud/calendar/commit/a6dc515aec80020d59b7b861b856e0296c17f86e))
+* **l10n:** Update translations from Transifex ([ef2ca79](https://github.com/nextcloud/calendar/commit/ef2ca79a614a58996f3e780f8299b11a69872487))
+* **l10n:** Update translations from Transifex ([8d78d93](https://github.com/nextcloud/calendar/commit/8d78d93115d7b3bf9f9be6cee7b477eb127e2e3c))
+* **l10n:** Update translations from Transifex ([8c42f80](https://github.com/nextcloud/calendar/commit/8c42f8035e6fe1c0f97f53c42aef01f02c71407f))
+* **OrganizerNoEmailError:** update styling ([9c8b8f9](https://github.com/nextcloud/calendar/commit/9c8b8f9f5579f511892def75e28b0d3090eb26d6))
+
+
+
 # [5.4.0-rc.4](https://github.com/nextcloud/calendar/compare/v5.4.0-rc.3...v5.4.0-rc.4) (2025-07-29)
 
 
