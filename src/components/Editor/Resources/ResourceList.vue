@@ -12,8 +12,6 @@
 			:calendar-object-instance="calendarObjectInstance"
 			@add-resource="addResource" />
 
-		<OrganizerNoEmailError v-if="!isReadOnly && isListEmpty && !hasUserEmailAddress" />
-
 		<div class="resource-list">
 			<ResourceListItem v-for="resource in resources"
 				:key="resource.email"
@@ -41,7 +39,6 @@ import { checkResourceAvailability } from '../../../services/freeBusyService.js'
 import logger from '../../../utils/logger.js'
 import ResourceListSearch from './ResourceListSearch.vue'
 import ResourceListItem from './ResourceListItem.vue'
-import OrganizerNoEmailError from '../OrganizerNoEmailError.vue'
 import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
 import usePrincipalsStore from '../../../store/principals.js'
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
@@ -53,7 +50,6 @@ export default {
 	components: {
 		ResourceListItem,
 		ResourceListSearch,
-		OrganizerNoEmailError,
 		MapMarker,
 	},
 	props: {
