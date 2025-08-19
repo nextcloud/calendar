@@ -38,8 +38,6 @@
 				<div class="proposal-public__content-duration">
 					<DurationIcon />
 					{{ storedProposal?.duration ? storedProposal.duration + ' min' : t('calendar', 'No Duration') }}
-				</div>
-				<div class="proposal-public__content-timezone">
 					<NcTimezonePicker v-model="timezoneId"
 						:aria-label="t('calendar', 'Select a different time zone')" />
 				</div>

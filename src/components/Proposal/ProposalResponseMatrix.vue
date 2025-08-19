@@ -315,8 +315,11 @@ export default {
 	thead {
 		position: sticky;
 		top: 0;
-		z-index: 10;
+		z-index: 100;
 		background-color: var(--color-main-background);
+	}
+
+	thead th {
 		padding-bottom: calc(var(--default-grid-baseline) * 2);
 	}
 
@@ -329,6 +332,7 @@ export default {
 	vertical-align: bottom;
 	text-align: start;
 	font-weight: 600;
+	font-size: calc(var(--default-grid-baseline) * 5);
 }
 
 .proposal-matrix__table-participant-header {
@@ -421,20 +425,20 @@ export default {
 
 	:deep(.material-design-icon.check-icon) {
 		color: var(--color-success);
-		background-color: rgba(var(--color-success-rgb), 0.1);
+		background-color: rgba(var(--color-success-rgb), 0.08);
 		padding: calc(var(--default-grid-baseline) * 2);
 		border-radius: calc(var(--default-grid-baseline) * 1);
 	}
 
 	:deep(.material-design-icon.close-icon) {
 		color: var(--color-error);
-		background-color: rgba(var(--color-error-rgb), 0.1);
+		background-color: rgba(var(--color-error-rgb), 0.08);
 		padding: calc(var(--default-grid-baseline) * 2);
 		border-radius: calc(var(--default-grid-baseline) * 1);
 	}
 
 	:deep(.material-design-icon.help-icon) {
-		color: rgba(var(--color-info-rgb), 0.3);
+		color: rgba(var(--color-info-rgb), 0.75);
 		background-color: rgba(var(--color-info-rgb), 0.03);
 		padding: calc(var(--default-grid-baseline) * 2);
 		border-radius: calc(var(--default-grid-baseline) * 1);
