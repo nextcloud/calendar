@@ -172,7 +172,7 @@ class BookingCalendarWriter {
 		$filename = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
 
 		try {
-			$calendar->createFromString($filename . '.ics', $vcalendar->serialize());
+			$this->createFromString($calendar, $filename . '.ics', $vcalendar->serialize());
 		} catch (CalendarException $e) {
 			throw new RuntimeException('Could not write event  for appointment config id ' . $config->getId() . ' to calendar: ' . $e->getMessage(), 0, $e);
 		}
@@ -202,7 +202,7 @@ class BookingCalendarWriter {
 			$prepFileName = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
 
 			try {
-				$calendar->createFromString($prepFileName . '.ics', $prepCalendar->serialize());
+				$this->createFromString($calendar, $prepFileName . '.ics', $prepCalendar->serialize());
 			} catch (CalendarException $e) {
 				throw new RuntimeException('Could not write event  for appointment config id ' . $config->getId() . ' to calendar: ' . $e->getMessage(), 0, $e);
 			}
@@ -235,11 +235,32 @@ class BookingCalendarWriter {
 			$followUpFilename = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
 
 			try {
-				$calendar->createFromString($followUpFilename . '.ics', $followUpCalendar->serialize());
+				$this->createFromString($calendar, $followUpFilename . '.ics', $followUpCalendar->serialize());
 			} catch (CalendarException $e) {
 				throw new RuntimeException('Could not write event  for appointment config id ' . $config->getId() . ' to calendar: ' . $e->getMessage(), 0, $e);
 			}
 		}
 		return $vcalendar->serialize();
+	}
+
+	/**
+	 * Compatibility adapter for Nextcloud >= 32 for the ICreateFromString interface in OCP.
+	 *
+	 * @throws CalendarException
+	 */
+	private function createFromString(
+		ICreateFromString $calendar,
+		string $fileName,
+		string $ics,
+	): void {
+		// TODO: drop condition once we only support Nextcloud >= 32
+		// Need to use the new minimal method here since the original one was fixed starting
+		// from Nextcloud 32. The behavior differs a bit. The old, unpatched one and the minimal
+		// one are not sending email invitations which we want to leverage here.
+		if (method_exists($calendar, 'createFromStringMinimal')) {
+			$calendar->createFromStringMinimal($fileName . '.ics', $ics);
+		} else {
+			$calendar->createFromString($fileName . '.ics', $ics);
+		}
 	}
 }
