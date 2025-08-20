@@ -34,6 +34,10 @@ class ProposalVoteObject {
 	}
 
 	public function fromJson(array $data): void {
+		if (isset($data['@type']) && $data['@type'] !== 'MeetingProposalVote') {
+			throw new \InvalidArgumentException('Invalid type for Proposal Vote Object');
+		}
+		
 		foreach ($data as $key => $value) {
 			if (property_exists($this, $key)) {
 				if ($key === 'vote') {

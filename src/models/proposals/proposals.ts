@@ -40,6 +40,10 @@ export class ProposalParticipant implements ProposalParticipantInterface {
 	}
 
 	public fromJson(data: Record<string, unknown>): void {
+		if (typeof data['@type'] === 'string' && data['@type'] !== 'MeetingProposalParticipant') {
+			throw new Error('Invalid type for Proposal Participant');
+		}
+
 		this.id = typeof data.id === 'number' ? data.id : null
 		this.name = typeof data.name === 'string' ? data.name : null
 		this.address = typeof data.address === 'string' ? data.address : ''
@@ -76,6 +80,10 @@ export class ProposalDate implements ProposalDateInterface {
 	}
 
 	public fromJson(data: Record<string, unknown>): void {
+		if (typeof data['@type'] === 'string' && data['@type'] !== 'MeetingProposalDate') {
+			throw new Error('Invalid type for Proposal Date');
+		}
+
 		this.id = typeof data.id === 'number' ? data.id : null
 		this.date = data.date ? new Date(data.date as string) : null
 	}
@@ -90,6 +98,10 @@ export class ProposalVote implements ProposalVoteInterface {
 	public vote: ProposalDateVote = ProposalDateVote.Maybe
 
 	public fromJson(data: Record<string, unknown>): void {
+		if (typeof data['@type'] === 'string' && data['@type'] !== 'MeetingProposalVote') {
+			throw new Error('Invalid type for Proposal Vote');
+		}
+
 		this.id = typeof data.id === 'number' ? data.id : null
 		this.date = typeof data.date === 'number' ? data.date : null
 		this.participant = typeof data.participant === 'number' ? data.participant : null
@@ -133,6 +145,10 @@ export class Proposal implements ProposalInterface {
 	}
 
 	public fromJson(data: Record<string, unknown>): void {
+		if (typeof data['@type'] === 'string' && data['@type'] !== 'MeetingProposal') {
+			throw new Error('Invalid type for Proposal');
+		}
+
 		this.id = typeof data.id === 'number' ? data.id : null
 		this.uid = typeof data.uid === 'string' ? data.uid : null
 		this.uname = typeof data.uname === 'string' ? data.uname : null
@@ -174,7 +190,7 @@ export class ProposalResponseDate implements ProposalResponseDateInterface {
 
 	public toJson(): Record<string, unknown> {
 		return {
-			'@type': 'MeetingProposalResponseVote',
+			'@type': 'MeetingProposalResponseDate',
 			id: this.id,
 			date: this.date.toISOString(),
 			vote: this.vote,

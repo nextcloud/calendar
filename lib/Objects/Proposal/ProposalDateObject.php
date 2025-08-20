@@ -27,6 +27,10 @@ class ProposalDateObject {
 	}
 
 	public function fromJson(array $data): void {
+		if (isset($data['@type']) && $data['@type'] !== 'MeetingProposalDate') {
+			throw new \InvalidArgumentException('Invalid type for Proposal Date Object');
+		}
+
 		foreach ($data as $key => $value) {
 			if (property_exists($this, $key)) {
 				if ($key === 'date' && is_string($value)) {

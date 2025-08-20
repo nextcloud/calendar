@@ -51,6 +51,10 @@ class ProposalObject implements \JsonSerializable {
 	}
 
 	public function fromJson(array $data): void {
+		if (isset($data['@type']) && $data['@type'] !== 'MeetingProposal') {
+			throw new \InvalidArgumentException('Invalid type for Proposal Object');
+		}
+
 		foreach ($data as $key => $value) {
 			if (property_exists($this, $key)) {
 				if ($key === 'participants' && is_array($value)) {
