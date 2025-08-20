@@ -1036,6 +1036,11 @@ export default {
 	padding-top: calc(var(--default-grid-baseline) * 2);
 }
 
+.proposal-viewer__content-matrix {
+	border-top: 2px solid var(--color-border);
+	border-bottom: 2px solid var(--color-border);
+}
+
 .proposal-editor__content {
 	padding-bottom: calc(var(--default-grid-baseline) * 4);
 	padding-inline: calc(var(--default-grid-baseline) * 4);

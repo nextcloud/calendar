@@ -320,6 +320,7 @@ export default {
 	}
 
 	thead th {
+		padding-top: calc(var(--default-grid-baseline) * 4);
 		padding-bottom: calc(var(--default-grid-baseline) * 2);
 	}
 
@@ -425,21 +426,21 @@ export default {
 
 	:deep(.material-design-icon.check-icon) {
 		color: var(--color-success);
-		background-color: rgba(var(--color-success-rgb), 0.08);
+		background-color: rgba(var(--color-success-rgb), 0.1);
 		padding: calc(var(--default-grid-baseline) * 2);
 		border-radius: calc(var(--default-grid-baseline) * 1);
 	}
 
 	:deep(.material-design-icon.close-icon) {
 		color: var(--color-error);
-		background-color: rgba(var(--color-error-rgb), 0.08);
+		background-color: rgba(var(--color-error-rgb), 0.1);
 		padding: calc(var(--default-grid-baseline) * 2);
 		border-radius: calc(var(--default-grid-baseline) * 1);
 	}
 
 	:deep(.material-design-icon.help-icon) {
 		color: rgba(var(--color-info-rgb), 0.75);
-		background-color: rgba(var(--color-info-rgb), 0.03);
+		background-color: rgba(var(--color-info-rgb), 0.075);
 		padding: calc(var(--default-grid-baseline) * 2);
 		border-radius: calc(var(--default-grid-baseline) * 1);
 	}
