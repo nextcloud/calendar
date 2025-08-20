@@ -187,7 +187,7 @@ class ProposalController extends ApiController {
 			// construct proposal response object from the provided data
 			$proposalResponse = new ProposalResponseObject();
 			$proposalResponse->fromJson($response);
-			// store the response
+			// handle the response
 			$this->proposalService->storeResponse($proposalResponse);
 			return new JSONResponse([], Http::STATUS_OK);
 		} catch (\Exception $e) {
