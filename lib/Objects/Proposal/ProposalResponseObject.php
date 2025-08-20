@@ -18,7 +18,7 @@ class ProposalResponseObject {
 		if (isset($data['@type']) && $data['@type'] !== 'MeetingProposalResponse') {
 			throw new \InvalidArgumentException('Invalid type for Proposal Response Object');
 		}
-		
+
 		foreach ($data as $key => $value) {
 			if (property_exists($this, $key)) {
 				if ($key === 'dates' && is_array($value)) {

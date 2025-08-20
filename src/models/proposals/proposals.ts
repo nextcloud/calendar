@@ -41,7 +41,7 @@ export class ProposalParticipant implements ProposalParticipantInterface {
 
 	public fromJson(data: Record<string, unknown>): void {
 		if (typeof data['@type'] === 'string' && data['@type'] !== 'MeetingProposalParticipant') {
-			throw new Error('Invalid type for Proposal Participant');
+			throw new Error('Invalid type for Proposal Participant')
 		}
 
 		this.id = typeof data.id === 'number' ? data.id : null
@@ -81,7 +81,7 @@ export class ProposalDate implements ProposalDateInterface {
 
 	public fromJson(data: Record<string, unknown>): void {
 		if (typeof data['@type'] === 'string' && data['@type'] !== 'MeetingProposalDate') {
-			throw new Error('Invalid type for Proposal Date');
+			throw new Error('Invalid type for Proposal Date')
 		}
 
 		this.id = typeof data.id === 'number' ? data.id : null
@@ -99,7 +99,7 @@ export class ProposalVote implements ProposalVoteInterface {
 
 	public fromJson(data: Record<string, unknown>): void {
 		if (typeof data['@type'] === 'string' && data['@type'] !== 'MeetingProposalVote') {
-			throw new Error('Invalid type for Proposal Vote');
+			throw new Error('Invalid type for Proposal Vote')
 		}
 
 		this.id = typeof data.id === 'number' ? data.id : null
@@ -146,7 +146,7 @@ export class Proposal implements ProposalInterface {
 
 	public fromJson(data: Record<string, unknown>): void {
 		if (typeof data['@type'] === 'string' && data['@type'] !== 'MeetingProposal') {
-			throw new Error('Invalid type for Proposal');
+			throw new Error('Invalid type for Proposal')
 		}
 
 		this.id = typeof data.id === 'number' ? data.id : null
