@@ -39,7 +39,7 @@ class ProposalParticipantObject {
 		if (isset($data['@type']) && $data['@type'] !== 'MeetingProposalParticipant') {
 			throw new \InvalidArgumentException('Invalid type for Proposal Participant Object');
 		}
-		
+
 		foreach ($data as $key => $value) {
 			if (property_exists($this, $key)) {
 				if ($key === 'attendance' && is_string($value)) {
