@@ -33,10 +33,6 @@ class ProposalObject implements \JsonSerializable {
 
 	#[\Override]
 	public function jsonSerialize(): array {
-		return $this->toJson();
-	}
-
-	public function toJson(): array {
 		$data = [
 			'@type' => 'MeetingProposal',
 			'id' => $this->id,
