@@ -41,7 +41,8 @@
 					<NcTimezonePicker v-model="timezoneId"
 						:aria-label="t('calendar', 'Select a different time zone')" />
 				</div>
-				<ProposalResponseMatrix mode="participant"
+				<ProposalResponseMatrix class="proposal-public__content-matrix"
+					mode="participant"
 					:proposal="storedProposal"
 					:response="response"
 					:timezone-id="timezoneId"
