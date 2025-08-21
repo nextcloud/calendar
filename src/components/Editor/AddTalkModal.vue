@@ -276,4 +276,8 @@ h2 {
 	text-align: center;
 	height: 30px;
 }
+
+.modal-content {
+	margin-top: calc(var(--default-grid-baseline) * 8);
+}
 </style>
