@@ -278,6 +278,9 @@ export default {
 			selectedProposal: null as Proposal | null,
 			participantAvailability: {} as Record<string, Record<string, any>>,
 			participantColors: {} as Record<string, string>,
+			calendarDayWidth: 120, // Track current span width
+			calendarSpanMax: 28, // Maximum reasonable span
+			calendarSpanMin: 1, // Minimum reasonable span
 			calendarSpanDays: 7, // Track current span duration
 			calendarSpanOverride: false, // Track if user manually changed span
 			screenWidth: window.innerWidth, // Track screen width
@@ -290,13 +293,7 @@ export default {
 		},
 		modalSize(): string {
 			if (this.modalMode === 'view') {
-				if (this.selectedProposal?.participants && this.selectedProposal.participants.length > 12) {
-					return 'full'
-				} else if (this.selectedProposal?.participants && this.selectedProposal.participants.length > 3) {
-					return 'large'
-				} else {
-					return 'normal'
-				}
+				return 'normal'
 			} else {
 				return 'full'
 			}
@@ -383,7 +380,7 @@ export default {
 				datesSet: () => {
 					if (!this.modalVisible) return
 					// Initialize calendar API when the calendar view is ready
-					this.initializeCalendarApi()
+					this.initializeCalendar()
 					if (!this.calendarApi) return
 					this.fetchParticipantAvailability()
 					// Force reactivity update for the date range display
@@ -395,15 +392,12 @@ export default {
 			return this.selectedProposal ? this.selectedProposal.participants.map((p: ProposalParticipant) => p.address) : []
 		},
 
-		optimalSpanDays(): number {
+		calendarSpanAutomatic(): number {
 			// Get the available width for the calendar (roughly half the screen minus padding)
 			const availableWidth = this.screenWidth - 400 // Account for left column and padding
-			const minDayWidth = 120 // Minimum width per day column in pixels
-			const maxDays = 28 // Maximum reasonable span
-			const minDays = 1 // Minimum span
+			const calculatedDays = Math.floor(availableWidth / this.calendarDayWidth)
 
-			const calculatedDays = Math.floor(availableWidth / minDayWidth)
-			return Math.max(minDays, Math.min(maxDays, calculatedDays))
+			return Math.max(this.calendarSpanMin, Math.min(this.calendarSpanMax, calculatedDays))
 		},
 
 		/**
@@ -446,12 +440,10 @@ export default {
 			}
 		},
 
-		optimalSpanDays(newVal) {
-			// Only update calendar view when optimal span days changes if user hasn't manually overridden
-			if (this.calendarApi && newVal !== this.calendarSpanDays && !this.calendarSpanOverride) {
-				return
+		calendarSpanDays(newVal) {
+			if (!this.calendarApi) {
+				return console.error('Calendar API not initialized')
 			}
-			this.calendarSpanDays = newVal
 			this.calendarApi.setOption('views', {
 				timeGridSpan: {
 					type: 'timeGrid',
@@ -460,11 +452,19 @@ export default {
 			})
 			this.calendarApi.changeView('timeGridSpan')
 		},
+
+		calendarSpanAutomatic(newVal) {
+			// Update the calendar view to the optimal span when not manually overridden
+			if (newVal === this.calendarSpanDays || this.calendarSpanOverride) {
+				return
+			}
+			this.calendarSpanDays = newVal
+		},
 	},
 
 	mounted() {
 		window.addEventListener('resize', this.onWindowResize)
-		this.calendarSpanDays = this.optimalSpanDays
+		this.calendarSpanDays = this.calendarSpanAutomatic
 	},
 
 	beforeDestroy() {
@@ -477,8 +477,8 @@ export default {
 		onWindowResize(): void {
 			const oldWidth = this.screenWidth
 			this.screenWidth = window.innerWidth
-			// Reset manual override if window size changed significantly (more than 200px)
-			if (Math.abs(oldWidth - this.screenWidth) > 200) {
+			// Reset manual override if window size changed significantly
+			if (Math.abs(oldWidth - this.screenWidth) > this.calendarDayWidth * 4) {
 				this.calendarSpanOverride = false
 			}
 		},
@@ -489,24 +489,14 @@ export default {
 
 			// Wait for the FullCalendar component to be mounted before trying to initialize API
 			this.$nextTick(() => {
-				this.initializeCalendarApi()
+				this.initializeCalendar()
 				// Calendar not ready yet, try again after a short delay
 				if (!this.calendarApi) {
 					setTimeout(() => {
-						this.initializeCalendarApi()
+						this.initializeCalendar()
 					}, 100)
 				}
 			})
-		},
-
-		initializeCalendarApi() {
-			// Initialize the calendar API from the FullCalendar component reference
-			if (this.$refs.proposalFullCalendar && !this.calendarApi) {
-				const fullCalendarComponent = this.$refs.proposalFullCalendar as any
-				if (fullCalendarComponent && typeof fullCalendarComponent.getApi === 'function') {
-					this.calendarApi = fullCalendarComponent.getApi()
-				}
-			}
 		},
 
 		onModalClose() {
@@ -675,38 +665,27 @@ export default {
 		},
 
 		onCalendarSpanDecrease(): void {
-			if (!this.calendarApi) {
-				return console.error('Calendar API not initialized')
-			}
 			// Decrease the span duration (fewer days) from current optimal
-			const newDays = Math.max(1, this.calendarSpanDays - 1) // Minimum 1 day
-			this.calendarSpanDays = newDays
+			const newSpan = Math.max(1, this.calendarSpanDays - 1) // Minimum 1 day
+			this.calendarSpanDays = newSpan
 			this.calendarSpanOverride = true // Mark as manually overridden
-			this.calendarApi.setOption('views', {
-				timeGridSpan: {
-					type: 'timeGrid',
-					duration: { days: newDays },
-				},
-			})
-			this.calendarApi.changeView('timeGridSpan')
 		},
 
 		onCalendarSpanIncrease(): void {
-			if (!this.calendarApi) {
-				return console.error('Calendar API not initialized')
-			}
 			// Increase the span duration (more days) from current optimal
-			const newDays = Math.min(28, this.calendarSpanDays + 1) // Maximum 28 days
-			this.calendarSpanDays = newDays
+			const newSpan = Math.min(28, this.calendarSpanDays + 1) // Maximum 28 days
+			this.calendarSpanDays = newSpan
 			this.calendarSpanOverride = true // Mark as manually overridden
-			this.calendarApi.setOption('views', {
-				timeGridSpan: {
-					type: 'timeGrid',
-					duration: { days: newDays },
-				},
-			})
-			this.calendarApi.changeView('timeGridSpan')
+		},
 
+		initializeCalendar() {
+			// Initialize the calendar API from the FullCalendar component reference
+			if (this.$refs.proposalFullCalendar && !this.calendarApi) {
+				const fullCalendarComponent = this.$refs.proposalFullCalendar as any
+				if (fullCalendarComponent && typeof fullCalendarComponent.getApi === 'function') {
+					this.calendarApi = fullCalendarComponent.getApi()
+				}
+			}
 		},
 
 		async fetchProposals() {
@@ -978,12 +957,16 @@ export default {
 
 <style lang="scss" scoped>
 .proposal-modal__content {
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+	display: flex;
+	width: 100%;
+	height: 100vh;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	:deep(.modal-wrapper--normal .modal-container) {
+		width: unset !important;
+	}
 }
 
 .proposal-viewer__content {
