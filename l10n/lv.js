@@ -364,7 +364,7 @@ OC.L10N.register(
     "Time:" : "Laiks:",
     "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "Paldies! Rezervācija no {startDate} līdz {endDate} tika apstiprināta.",
     "Book another appointment:" : "Rezervēt vēl vienu plānotu tikšanos",
-    "Book an appointment with {name}" : "Rezervējiet plānotu tikšanos ar {name}",
+    "Book an appointment with {name}" : "Pieteikt tikšanos ar {name}",
     "Personal" : "Personīgs",
     "Edit event" : "Labot notikumu",
     "Event does not exist" : "Notikums nepastāv",
