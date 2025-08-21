@@ -300,7 +300,7 @@ export default {
 				return 'full'
 			}
 		},
-		
+
 		modalTitle(): string {
 			if (this.modalView === false) {
 				return t('calendar', 'Meeting proposals overview')
@@ -312,15 +312,15 @@ export default {
 				}
 			}
 		},
-		
+
 		modalEditLabel(): string {
 			return !this.selectedProposal || this.selectedProposal.id ? t('calendar', 'Update meeting proposal') : t('calendar', 'Create meeting proposal')
 		},
-		
+
 		modalEditSaveLabel(): string {
 			return !this.selectedProposal || this.selectedProposal.id ? t('calendar', 'Update') : t('calendar', 'Create')
 		},
-		
+
 		modalEditSaveState(): boolean {
 			if (!this.selectedProposal) return false // disable if no proposal selected
 			return (
@@ -330,7 +330,7 @@ export default {
 				&& this.selectedProposal.dates.length > 0
 			)
 		},
-		
+
 		modalEditDestroyState(): boolean {
 			return !this.selectedProposal || this.selectedProposal.id !== null
 		},
@@ -343,7 +343,7 @@ export default {
 				return false
 			}
 		},
-		
+
 		/**
 		 * Configuration options for FullCalendar
 		 * Please see https://fullcalendar.io/docs#toc for details
