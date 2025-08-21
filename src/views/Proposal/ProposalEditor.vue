@@ -53,7 +53,7 @@
 				<div class="proposal-viewer__content-matrix">
 					<ProposalResponseMatrix :mode="'organizer'"
 						:proposal="selectedProposal"
-						@dateCreate="onMeetingCreate" />
+						@dateCreate="onProposalConvert" />
 				</div>
 			</div>
 			<!-- Show proposal editor -->
@@ -187,14 +187,14 @@
 						<h2>{{ calendarDateRange }}</h2>
 						<NcButton type="secondary"
 							:aria-label="t('calendar', 'Less days')"
-							@click="onCalendarSpanDecrease()">
+							@click="onCalendarSpanIncrease()">
 							<template #icon>
 								<ZoomInIcon />
 							</template>
 						</NcButton>
 						<NcButton type="secondary"
 							:aria-label="t('calendar', 'More days')"
-							@click="onCalendarSpanIncrease()">
+							@click="onCalendarSpanDecrease()">
 							<template #icon>
 								<ZoomOutIcon />
 							</template>
@@ -278,11 +278,12 @@ export default {
 			selectedProposal: null as Proposal | null,
 			participantAvailability: {} as Record<string, Record<string, any>>,
 			participantColors: {} as Record<string, string>,
-			calendarDayWidth: 120, // Track current span width
-			calendarSpanMax: 28, // Maximum reasonable span
-			calendarSpanMin: 1, // Minimum reasonable span
-			calendarSpanDays: 7, // Track current span duration
-			calendarSpanOverride: false, // Track if user manually changed span
+			calendarColumnWidth: 120, // Current pixel width allocated per day column
+			calendarColumnWidthMin: 120, // Minimum day column width
+			calendarColumnWidthStep: 40, // Pixel change per zoom action
+			calendarSpanMax: 28, // Maximum days that can be shown
+			calendarSpanMin: 1, // Minimum days that can be shown
+			calendarSpanDays: 7, // Currently applied span (derived)
 			screenWidth: window.innerWidth, // Track screen width
 		}
 	},
@@ -291,6 +292,7 @@ export default {
 		modalVisible(): boolean {
 			return this.proposalStore.modalVisible
 		},
+
 		modalSize(): string {
 			if (this.modalMode === 'view') {
 				return 'normal'
@@ -298,6 +300,7 @@ export default {
 				return 'full'
 			}
 		},
+		
 		modalTitle(): string {
 			if (this.modalView === false) {
 				return t('calendar', 'Meeting proposals overview')
@@ -309,12 +312,15 @@ export default {
 				}
 			}
 		},
+		
 		modalEditLabel(): string {
 			return !this.selectedProposal || this.selectedProposal.id ? t('calendar', 'Update meeting proposal') : t('calendar', 'Create meeting proposal')
 		},
+		
 		modalEditSaveLabel(): string {
 			return !this.selectedProposal || this.selectedProposal.id ? t('calendar', 'Update') : t('calendar', 'Create')
 		},
+		
 		modalEditSaveState(): boolean {
 			if (!this.selectedProposal) return false // disable if no proposal selected
 			return (
@@ -324,6 +330,7 @@ export default {
 				&& this.selectedProposal.dates.length > 0
 			)
 		},
+		
 		modalEditDestroyState(): boolean {
 			return !this.selectedProposal || this.selectedProposal.id !== null
 		},
@@ -336,6 +343,7 @@ export default {
 				return false
 			}
 		},
+		
 		/**
 		 * Configuration options for FullCalendar
 		 * Please see https://fullcalendar.io/docs#toc for details
@@ -388,22 +396,18 @@ export default {
 				},
 			}
 		},
+
 		existingParticipantAddressess(): string[] {
 			return this.selectedProposal ? this.selectedProposal.participants.map((p: ProposalParticipant) => p.address) : []
 		},
 
-		calendarSpanAutomatic(): number {
-			// Get the available width for the calendar (roughly half the screen minus padding)
-			const availableWidth = this.screenWidth - 400 // Account for left column and padding
-			const calculatedDays = Math.floor(availableWidth / this.calendarDayWidth)
-
+		calendarDateSpan(): number {
+			// Approximate available width (screen minus left column/gutters)
+			const availableWidth = Math.max(0, this.screenWidth - 400)
+			const calculatedDays = Math.floor(availableWidth / this.calendarColumnWidth)
 			return Math.max(this.calendarSpanMin, Math.min(this.calendarSpanMax, calculatedDays))
 		},
 
-		/**
-		 * Get the formatted date range currently shown in the calendar
-		 * @return {string} Formatted date range like "July 11 to 24"
-		 */
 		calendarDateRange(): string {
 			if (!this.calendarApi) {
 				return ''
@@ -440,6 +444,12 @@ export default {
 			}
 		},
 
+		calendarDateSpan(newVal) {
+			if (newVal !== this.calendarSpanDays) {
+				this.calendarSpanDays = newVal
+			}
+		},
+
 		calendarSpanDays(newVal) {
 			if (!this.calendarApi) {
 				return console.error('Calendar API not initialized')
@@ -452,19 +462,11 @@ export default {
 			})
 			this.calendarApi.changeView('timeGridSpan')
 		},
-
-		calendarSpanAutomatic(newVal) {
-			// Update the calendar view to the optimal span when not manually overridden
-			if (newVal === this.calendarSpanDays || this.calendarSpanOverride) {
-				return
-			}
-			this.calendarSpanDays = newVal
-		},
 	},
 
 	mounted() {
 		window.addEventListener('resize', this.onWindowResize)
-		this.calendarSpanDays = this.calendarSpanAutomatic
+		this.calendarSpanDays = this.calendarDateSpan
 	},
 
 	beforeDestroy() {
@@ -475,12 +477,7 @@ export default {
 		t,
 
 		onWindowResize(): void {
-			const oldWidth = this.screenWidth
 			this.screenWidth = window.innerWidth
-			// Reset manual override if window size changed significantly
-			if (Math.abs(oldWidth - this.screenWidth) > this.calendarDayWidth * 4) {
-				this.calendarSpanOverride = false
-			}
 		},
 
 		onModalOpen() {
@@ -539,6 +536,26 @@ export default {
 			} catch (error) {
 				showError(t('calendar', 'Failed to save proposal'))
 				console.error('Failed to save proposal:', error)
+			}
+		},
+
+		onProposalConvert(date: ProposalDate): void {
+			if (!this.selectedProposal || !date.date) {
+				return console.error('No proposal selected or invalid date for meeting conversion')
+			}
+
+			// Confirm the action with the user
+			const dateString = this.formatProposalDate(date.date)
+			if (!confirm(t('calendar', 'Convert proposal date "{date}" to a meeting? This will create a calendar event with all participants.', { date: dateString }))) {
+				return
+			}
+
+			try {
+				// TODO: Implement the actual meeting creation logic
+				showSuccess(t('calendar', 'Meeting creation started for {date}', { date: dateString }))
+			} catch (error) {
+				showError(t('calendar', 'Failed to convert proposal to meeting'))
+				console.error('Failed to convert proposal to meeting:', error)
 			}
 		},
 
@@ -646,8 +663,6 @@ export default {
 				return console.error('Calendar API not initialized')
 			}
 			this.calendarApi.today()
-			// Reset manual override when going to today
-			this.calendarSpanOverride = false
 		},
 
 		onCalendarSpanPrevious(): void {
@@ -665,17 +680,11 @@ export default {
 		},
 
 		onCalendarSpanDecrease(): void {
-			// Decrease the span duration (fewer days) from current optimal
-			const newSpan = Math.max(1, this.calendarSpanDays - 1) // Minimum 1 day
-			this.calendarSpanDays = newSpan
-			this.calendarSpanOverride = true // Mark as manually overridden
+			this.calendarColumnWidth = Math.max(this.calendarColumnWidthMin, this.calendarColumnWidth - this.calendarColumnWidthStep)
 		},
 
 		onCalendarSpanIncrease(): void {
-			// Increase the span duration (more days) from current optimal
-			const newSpan = Math.min(28, this.calendarSpanDays + 1) // Maximum 28 days
-			this.calendarSpanDays = newSpan
-			this.calendarSpanOverride = true // Mark as manually overridden
+			this.calendarColumnWidth = this.calendarColumnWidth + this.calendarColumnWidthStep
 		},
 
 		initializeCalendar() {
@@ -792,7 +801,7 @@ export default {
 		async fetchParticipantAvailability(participant: ProposalParticipant | null = null): Promise<void> {
 			// Check if calendar API is available
 			if (!this.calendarApi) {
-				console.warn('Calendar API not yet initialized, skipping availability fetch')
+				console.warn('Calendar API not available, skipping availability fetch')
 				return
 			}
 
@@ -929,26 +938,6 @@ export default {
 			}
 			// Examples: "Mon, Jul 8, 2:30 PM" (en), "Mon, 8 Jul, 14:30" (en-GB), "Mo, 8. Jul, 14:30" (de)
 			return moment(date).format('dddd, MMMM D, LT')
-		},
-
-		onMeetingCreate(date: ProposalDate): void {
-			if (!this.selectedProposal || !date.date) {
-				return console.error('No proposal selected or invalid date for meeting conversion')
-			}
-
-			// Confirm the action with the user
-			const dateString = this.formatProposalDate(date.date)
-			if (!confirm(t('calendar', 'Convert proposal date "{date}" to a meeting? This will create a calendar event with all participants.', { date: dateString }))) {
-				return
-			}
-
-			try {
-				// TODO: Implement the actual meeting creation logic
-				showSuccess(t('calendar', 'Meeting creation started for {date}', { date: dateString }))
-			} catch (error) {
-				showError(t('calendar', 'Failed to convert proposal to meeting'))
-				console.error('Failed to convert proposal to meeting:', error)
-			}
 		},
 
 	},
