@@ -85,7 +85,7 @@ import RepeatExceptionWarning from './RepeatExceptionWarning.vue'
 import RepeatSummary from './RepeatSummary.vue'
 import RepeatIcon from 'vue-material-design-icons/Repeat.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
-import Check from 'vue-material-design-icons/CheckOutline.vue'
+import Check from 'vue-material-design-icons/Check.vue'
 import { NcActions as Actions, NcActionButton as ActionButton, NcModal } from '@nextcloud/vue'
 
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
