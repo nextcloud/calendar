@@ -69,7 +69,7 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcTimezonePicker from '@nextcloud/vue/components/NcTimezonePicker'
-import ProposalResponseMatrix from '@/components/Proposal/ProposalResponseMatrix.vue'
+import ProposalResponseMatrix from '@/components/Proposal/ProposalResponseMatrix'
 // icons
 import ProposalIcon from 'vue-material-design-icons/BallotOutline'
 import RespondedIcon from 'vue-material-design-icons/Check'
