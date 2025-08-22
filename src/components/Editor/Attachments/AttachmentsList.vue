@@ -82,7 +82,7 @@ import {
 } from '@nextcloud/vue'
 
 import Upload from 'vue-material-design-icons/UploadOutline.vue'
-import Close from 'vue-material-design-icons/CloseOutline.vue'
+import Close from 'vue-material-design-icons/Close.vue'
 import Folder from 'vue-material-design-icons/FolderOutline.vue'
 import Paperclip from 'vue-material-design-icons/Paperclip.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'

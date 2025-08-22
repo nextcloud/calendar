@@ -258,8 +258,8 @@ import { isRTL } from '@nextcloud/l10n'
 
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
-import CheckIcon from 'vue-material-design-icons/CheckOutline.vue'
-import Close from 'vue-material-design-icons/CloseOutline.vue'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import Close from 'vue-material-design-icons/Close.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
 
 import InviteesListSearch from '../Invitees/InviteesListSearch.vue'
