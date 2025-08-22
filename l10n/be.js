@@ -50,6 +50,7 @@ OC.L10N.register(
     "Accept" : "Прыняць",
     "Decline" : "Адхіліць",
     "never" : "ніколі",
+    "Global" : "Глабальны",
     "Invite" : "Запрасіць",
     "Close" : "Закрыць",
     "Daily" : "Штодня",
