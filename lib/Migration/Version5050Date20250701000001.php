@@ -40,6 +40,10 @@ class Version5050Date20250701000001 extends SimpleMigrationStep {
 			'notnull' => true,
 			'length' => 255
 		]);
+		$table->addColumn('uuid', Types::STRING, [
+			'notnull' => true,
+			'length' => 36
+		]);
 		$table->addColumn('title', Types::TEXT, [
 			'notnull' => false,
 			'length' => 65535
