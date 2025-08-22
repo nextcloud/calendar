@@ -325,8 +325,8 @@ import AttachmentsList from '../components/Editor/Attachments/AttachmentsList.vu
 import CalendarPickerHeader from '../components/Editor/CalendarPickerHeader.vue'
 
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
-import Delete from 'vue-material-design-icons/Delete.vue'
-import Download from 'vue-material-design-icons/Download.vue'
+import Delete from 'vue-material-design-icons/DeleteOutline.vue'
+import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
 
 import { shareFile } from '../services/attachmentService.js'
@@ -342,7 +342,7 @@ import AddTalkModal from '../components/Editor/AddTalkModal.vue'
 import { doesContainTalkLink } from '../services/talkService.js'
 import IconVideo from 'vue-material-design-icons/VideoOutline.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
-import Close from 'vue-material-design-icons/CloseOutline.vue'
+import Close from 'vue-material-design-icons/Close.vue'
 
 export default {
 	name: 'EditFull',

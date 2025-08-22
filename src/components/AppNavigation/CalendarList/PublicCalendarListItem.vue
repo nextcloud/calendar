@@ -33,13 +33,13 @@
 			</ActionText>
 			<ActionText v-if="showCopySubscriptionLinkSuccess">
 				<template #icon>
-					<LinkVariant :size="20" decorative />
+					<LinkIcon :size="20" decorative />
 				</template>
 				{{ $t('calendar', 'Copied link') }}
 			</ActionText>
 			<ActionText v-if="showCopySubscriptionLinkError">
 				<template #icon>
-					<LinkVariant :size="20" decorative />
+					<LinkIcon :size="20" decorative />
 				</template>
 				{{ $t('calendar', 'Could not copy link') }}
 			</ActionText>
@@ -72,8 +72,8 @@ import {
 	showError,
 } from '@nextcloud/dialogs'
 
-import Download from 'vue-material-design-icons/DownloadOutline.vue'
-import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'
+import Download from 'vue-material-design-icons/TrayArrowDown.vue'
+import LinkIcon from 'vue-material-design-icons/Link.vue'
 
 export default {
 	name: 'PublicCalendarListItem',
@@ -85,7 +85,7 @@ export default {
 		AppNavigationIconBullet,
 		AppNavigationItem,
 		Download,
-		LinkVariant,
+		LinkIcon,
 	},
 	props: {
 		calendar: {

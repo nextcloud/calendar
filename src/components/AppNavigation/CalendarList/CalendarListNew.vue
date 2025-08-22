@@ -58,7 +58,7 @@
 				<ActionButton v-if="showCreateSubscriptionLabel && canSubscribeLink"
 					@click.prevent.stop="openCreateSubscriptionInput">
 					<template #icon>
-						<LinkVariant :size="20" decorative />
+						<LinkIcon :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'New subscription from link (read-only)') }}
 				</ActionButton>
@@ -66,7 +66,7 @@
 					:aria-label="$t('calendar', 'Name for new calendar')"
 					@submit.prevent.stop="createNewSubscription">
 					<template #icon>
-						<LinkVariant :size="20" decorative />
+						<LinkIcon :size="20" decorative />
 					</template>
 				</ActionInput>
 				<ActionText v-if="showCreateSubscriptionSaving"
@@ -116,7 +116,7 @@ import { uidToHexColor } from '../../../utils/color.js'
 
 import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
 import CalendarCheck from 'vue-material-design-icons/CalendarCheckOutline.vue'
-import LinkVariant from 'vue-material-design-icons/LinkVariant.vue'
+import LinkIcon from 'vue-material-design-icons/Link.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
 import Web from 'vue-material-design-icons/Web.vue'
 import { mapStores, mapState } from 'pinia'
@@ -134,7 +134,7 @@ export default {
 		CalendarBlank,
 		CalendarCheck,
 		PublicCalendarSubscriptionPicker: () => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '../../Subscription/PublicCalendarSubscriptionPicker.vue'),
-		LinkVariant,
+		LinkIcon,
 		Plus,
 		Web,
 	},
