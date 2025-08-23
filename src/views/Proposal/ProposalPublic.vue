@@ -22,7 +22,7 @@
 		<NcGuestContent v-else-if="contentView === 'loaded'">
 			<div class="proposal-public__content-row-details">
 				<div class="proposal-public__content-organizer">
-					<NcAvatar :user="storedProposal?.uid" :display-name="storedProposal?.uname" />
+					<NcAvatar :user="storedProposal?.uid" :display-name="storedProposal?.uname" :is-no-user="true" />
 					{{ storedProposal?.uname || t('calendar', 'Unknown User') }}
 				</div>
 				<h1 class="proposal-public__content-title">
@@ -36,17 +36,23 @@
 					{{ storedProposal?.location || t('calendar', 'No Location') }}
 				</div>
 				<div class="proposal-public__content-duration">
-					<DurationIcon />
-					{{ storedProposal?.duration ? storedProposal.duration + ' min' : t('calendar', 'No Duration') }}
-					<NcTimezonePicker v-model="timezoneId"
-						:aria-label="t('calendar', 'Select a different time zone')" />
+					<div class="proposal-public__content-duration-left">
+						<DurationIcon />
+						{{ storedProposal?.duration ? storedProposal.duration + ' min' : t('calendar', 'No Duration') }}
+					</div>
+					<div class="proposal-public__content-duration-right">
+						<NcTimezonePicker v-model="timezone"
+							:aria-label="t('calendar', 'Select a different time zone')" />
+					</div>
 				</div>
-				<ProposalResponseMatrix class="proposal-public__content-matrix"
-					mode="participant"
-					:proposal="storedProposal"
-					:response="response"
-					:timezone-id="timezoneId"
-					@date-vote="onDateVote" />
+				<div class="proposal-public__content-matrix">
+					<ProposalResponseMatrix
+						mode="participant"
+						:proposal="storedProposal"
+						:response="response"
+						:timezone-id="timezone"
+						@date-vote="onDateVote" />
+				</div>
 			</div>
 			<div class="proposal-public__content-row-actions">
 				<NcButton type="primary" @click="onSubmit">
@@ -133,7 +139,7 @@ export default {
 
 	mounted() {
 		// determine initial timezone and offset
-		this.timezoneId = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
+		this.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
 
 		const pathParts = window.location.pathname.split('/')
 		this.contentView = 'loading'
@@ -229,17 +235,39 @@ export default {
   hyphens: auto;
 }
 
-.proposal-public__content-location,
+.proposal-public__content-location {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
 .proposal-public__content-duration {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	gap: 1rem;
+}
+.proposal-public__content-duration-left {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+.proposal-public__content-duration-right {
+	margin-left: auto;
 }
 
 .proposal-public__content-timezone {
   display: flex;
   flex-direction: column;
   gap: calc(var(--default-grid-baseline) * 1);
+}
+
+.proposal-public__content-matrix {
+	padding-top: calc(var(--default-grid-baseline) * 4);
+	padding-bottom: calc(var(--default-grid-baseline) * 2);
+	border-top: 2px solid var(--color-border);
+	border-bottom: 2px solid var(--color-border);
 }
 
 .proposal-public__content-date-empty {
