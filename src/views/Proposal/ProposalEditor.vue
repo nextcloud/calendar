@@ -53,7 +53,7 @@
 				<div class="proposal-viewer__content-matrix">
 					<ProposalResponseMatrix :mode="'organizer'"
 						:proposal="selectedProposal"
-						@dateCreate="onProposalConvert" />
+						@date-convert="onProposalConvert" />
 				</div>
 			</div>
 			<!-- Show proposal editor -->
@@ -556,8 +556,9 @@ export default {
 			}
 
 			try {
-				// TODO: Implement the actual meeting creation logic
-				showSuccess(t('calendar', 'Meeting creation started for {date}', { date: dateString }))
+				this.proposalStore.convertProposal(this.selectedProposal, date)
+				this.onModalClose()
+				showSuccess(t('calendar', 'Created meeting for {date}', { date: dateString }))
 			} catch (error) {
 				showError(t('calendar', 'Failed to convert proposal to meeting'))
 				console.error('Failed to convert proposal to meeting:', error)

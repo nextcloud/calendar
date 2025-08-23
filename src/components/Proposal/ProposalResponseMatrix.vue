@@ -98,7 +98,7 @@
 							<td v-if="mode === 'organizer'" class="proposal-matrix__table-actions-organizer">
 								<NcButton variant="tertiary"
 									:title="t('calendar', 'Create a meeting for this date and time')"
-									@click="$emit('create-meeting', date)">
+									@click="$emit('date-convert', date)">
 									<template #icon>
 										<CreateIcon />
 									</template>
