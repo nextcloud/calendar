@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<li class="settings-fieldset-interior-item settings-fieldset-interior-item--folder">
+	<div class="settings-fieldset-interior-item settings-fieldset-interior-item--folder">
 		<label :for="inputId">
 			{{ $t('calendar', 'Default attachments location') }}
 		</label>
@@ -18,7 +18,7 @@
 				@click="selectCalendarFolder"
 				@keyboard.enter="selectCalendarFolder" />
 		</div>
-	</li>
+	</div>
 </template>
 
 <script>
