@@ -95,7 +95,7 @@
     "@nextcloud/eslint-config": "^8.4.1",
     "@nextcloud/stylelint-config": "^3.1.0",
     "@nextcloud/typings": "^1.9.1",
-    "@nextcloud/webpack-vue-config": "^6.2.0",
+    "@nextcloud/webpack-vue-config": "^6.3.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^20.8.0",
     "@types/webpack": "^5.28.5",
