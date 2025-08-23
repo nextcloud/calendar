@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { ProposalDateInterface, ProposalInterface, ProposalResponseInterface } from '@/types/proposals/proposalInterfaces'
-import { data } from 'jquery'
+import type { ProposalInterface, ProposalDateInterface, ProposalResponseInterface } from '@/types/proposals/proposalInterfaces'
 
 class ProposalService {
 

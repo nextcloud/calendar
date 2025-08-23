@@ -9,7 +9,7 @@
 			<NcAvatar :user="participantName"
 				:display-name="participantName"
 				:disable-tooltip="true"
-				:is-no-user="!ProposalParticipantRealm.Internal" />
+				:is-no-user="true" />
 		</div>
 		<div class="proposal-participant__name">
 			{{ participantName }}
