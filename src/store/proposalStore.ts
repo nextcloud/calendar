@@ -7,7 +7,7 @@ import { proposalService } from '@/services/proposalService'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { Proposal } from '@/models/proposals/proposals'
-import type { ProposalInterface, ProposalResponseInterface } from '@/types/proposals/proposalInterfaces'
+import type { ProposalInterface, ProposalDateInterface, ProposalResponseInterface } from '@/types/proposals/proposalInterfaces'
 
 export default defineStore('proposal', () => {
 	const modalVisible = ref(false)
@@ -94,6 +94,16 @@ export default defineStore('proposal', () => {
 	}
 
 	/**
+	 * Convert a proposal to a meeting
+	 *
+	 * @param proposal - The proposal to convert.
+	 * @param date - The proposed date to convert to a meeting.
+	 */
+	async function convertProposal(proposal: ProposalInterface, date: ProposalDateInterface): Promise<void> {
+		await proposalService.convertProposal(proposal, date)
+	}
+
+	/**
 	 * Store a participant's response (votes/availability) for a proposal.
 	 *
 	 * @param response - The response payload to store for the proposal.
@@ -112,6 +122,7 @@ export default defineStore('proposal', () => {
 		fetchProposalByToken,
 		storeProposal,
 		destroyProposal,
+		convertProposal,
 		storeResponse,
 	}
 })

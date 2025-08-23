@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { ProposalInterface, ProposalResponseInterface } from '@/types/proposals/proposalInterfaces'
+import type { ProposalDateInterface, ProposalInterface, ProposalResponseInterface } from '@/types/proposals/proposalInterfaces'
+import { data } from 'jquery'
 
 class ProposalService {
 
@@ -83,6 +84,20 @@ class ProposalService {
 		})
 		if (!response.ok) {
 			throw new Error('Failed to destroy proposal')
+		}
+	}
+
+	async convertProposal(proposal: ProposalInterface, date: ProposalDateInterface) {
+		const response = await fetch('/ocs/v2.php/calendar/proposal/convert', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'OCS-APIRequest': 'true',
+			},
+			body: JSON.stringify({ proposalId: proposal.id, dateId: date.id }),
+		})
+		if (!response.ok) {
+			throw new Error('Failed to convert proposal')
 		}
 	}
 

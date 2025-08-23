@@ -176,6 +176,32 @@ class ProposalController extends ApiController {
 		return new JSONResponse([], Http::STATUS_OK);
 	}
 
+	/** 
+	 * Convert a proposed date to a meeting
+	 */
+	#[ApiRoute(verb: 'POST', url: '/proposal/convert', root: '/calendar')]
+	#[NoAdminRequired]
+	#[UserRateLimit(limit: 10, period: 60)]
+	public function convert(int $proposalId, int $dateId, ?string $user = null): JSONResponse {
+		// authorize request
+		$authorization = $this->authorize($user);
+		if ($authorization instanceof JSONResponse) {
+			return $authorization;
+		}
+		$userObject = $authorization;
+		// handle the conversion
+		try {
+			$this->proposalService->convertProposal($userObject, $proposalId, $dateId);
+		} catch (\InvalidArgumentException $e) {
+			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_NOT_FOUND);
+		}
+
+		return new JSONResponse([], Http::STATUS_OK);
+	}
+
+	/**
+	 * Public view proposal response/vote
+	 */
 	#[ApiRoute(verb: 'POST', url: '/proposal/response', root: '/calendar')]
 	#[PublicPage]
 	#[NoCSRFRequired]

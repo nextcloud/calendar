@@ -289,6 +289,85 @@ class ProposalService {
 
 	}
 
+	/**
+	 * Convert a selected proposal date into a calendar meeting.
+	 */
+	public function convertProposal(IUser $user, int $proposalId, int $dateId): void {
+		// retrieve full proposal with participants, dates, and votes
+		$proposal = $this->fetchProposal($user, $proposalId);
+		if ($proposal === null) {
+			throw new \InvalidArgumentException('Proposal not found');
+		}
+		// Locate selected date
+		$selectedDate = null;
+		foreach ($proposal->getDates() as $date) {
+			if ($date->getId() === $dateId) {
+				$selectedDate = $date;
+				break;
+			}
+		}
+		if ($selectedDate === null) {
+			throw new \InvalidArgumentException('Date not found for proposal');
+		}
+
+		// If calendar manager can't handle iMIP, abort gracefully for now (future: direct creation API when available)
+		if (!method_exists($this->calendarManager, 'handleIMip')) {
+			$this->logger->warning('convertProposal: calendarManager cannot handle iMIP; skipping conversion dispatch', ['app' => 'calendar']);
+			return;
+		}
+
+		// build a VCalendar with single definitive event
+		$calendar = new VCalendar();
+		$calendar->add('METHOD', 'REQUEST');
+		/** @var VEvent $vEvent */
+		$vEvent = $calendar->add('VEVENT', []);
+		$vEvent->add('UID', $proposal->getUuid() ?? \Symfony\Component\Uid\Uuid::v4()->toRfc4122());
+		$vEvent->add('DTSTART', $selectedDate->getDate());
+		$vEvent->add('DURATION', 'PT' . $proposal->getDuration() . 'M');
+		$vEvent->add('SUMMARY', $proposal->getTitle());
+		$vEvent->add('DESCRIPTION', $proposal->getDescription());
+		if (!empty($proposal->getLocation())) {
+			$vEvent->add('LOCATION', $proposal->getLocation());
+		}
+		$vEvent->add('ORGANIZER', 'mailto:' . $user->getEMailAddress(), ['CN' => $user->getDisplayName()]);
+		foreach ($proposal->getParticipants() as $participant) {
+			if ($participant->getAddress() === null) {
+				continue;
+			}
+			$vEvent->add('ATTENDEE', 'mailto:' . $participant->getAddress(), [
+				'CN' => $participant->getName(),
+				'CUTYPE' => 'INDIVIDUAL',
+				'PARTSTAT' => 'NEEDS-ACTION',
+				'ROLE' => 'REQ-PARTICIPANT'
+			]);
+		}
+
+		// Dispatch to internal participants
+		foreach ($proposal->getParticipants()->filterByRealm(ProposalParticipantRealm::Internal) as $participant) {
+			$users = $this->userManager->getByEmail($participant->getAddress());
+			if ($users === []) {
+				continue;
+			}
+			$participantUser = $users[0];
+			try {
+				$this->calendarManager->handleIMip(
+					$participantUser->getUID(),
+					$calendar->serialize(),
+					['absent' => 'create']
+				);
+			} catch (Exception $e) {
+				$this->logger->error('convertProposal iMIP dispatch failed: ' . $e->getMessage(), ['app' => 'calendar', 'exception' => $e]);
+			}
+		}
+
+		// destroy the proposal entry
+		$this->proposalVoteMapper->deleteByProposalId($user->getUID(), $proposal->getId());
+		$this->proposalParticipantMapper->deleteByProposalId($user->getUID(), $proposal->getId());
+		$this->proposalDateMapper->deleteByProposalId($user->getUID(), $proposal->getId());
+		$this->proposalMapper->deleteById($user->getUID(), $proposal->getId());
+
+	}
+
 	public function deleteProposalsByUser(string $user): void {
 		$this->proposalVoteMapper->deleteByUserId($user);
 		$this->proposalParticipantMapper->deleteByUserId($user);
@@ -509,7 +588,7 @@ class ProposalService {
 			$vEvent->add('DURATION', "PT{$proposal->getDuration()}M");
 			$vEvent->add('SUMMARY', $proposal->getTitle());
 			$vEvent->add('DESCRIPTION', $proposal->getDescription());
-			$vEvent->add('ORGANIZER', 'mailto:' . $user->getPrimaryEMailAddress(), ['CN' => $user->getDisplayName()]);
+			$vEvent->add('ORGANIZER', 'mailto:' . $user->getEMailAddress(), ['CN' => $user->getDisplayName()]);
 			// add the participant to the event
 			foreach ($proposal->getParticipants() as $participant) {
 				$vEvent->add('ATTENDEE', 'mailto:' . $participant->getAddress(), [
