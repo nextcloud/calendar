@@ -176,7 +176,7 @@ class ProposalController extends ApiController {
 		return new JSONResponse([], Http::STATUS_OK);
 	}
 
-	/** 
+	/**
 	 * Convert a proposed date to a meeting
 	 */
 	#[ApiRoute(verb: 'POST', url: '/proposal/convert', root: '/calendar')]

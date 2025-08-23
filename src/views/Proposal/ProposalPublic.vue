@@ -46,8 +46,7 @@
 					</div>
 				</div>
 				<div class="proposal-public__content-matrix">
-					<ProposalResponseMatrix
-						mode="participant"
+					<ProposalResponseMatrix mode="participant"
 						:proposal="storedProposal"
 						:response="response"
 						:timezone-id="timezone"
@@ -75,7 +74,7 @@ import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcTimezonePicker from '@nextcloud/vue/components/NcTimezonePicker'
-import ProposalResponseMatrix from '@/components/Proposal/ProposalResponseMatrix'
+import ProposalResponseMatrix from '@/components/Proposal/ProposalResponseMatrix.vue'
 // icons
 import ProposalIcon from 'vue-material-design-icons/BallotOutline'
 import RespondedIcon from 'vue-material-design-icons/Check'
@@ -223,8 +222,6 @@ export default {
 .proposal-public__content-organizer {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
 }
 
 .proposal-public__content-title {
@@ -246,15 +243,15 @@ export default {
 	align-items: center;
 	justify-content: space-between;
 	width: 100%;
-	gap: 1rem;
 }
+
 .proposal-public__content-duration-left {
 	display: flex;
 	align-items: center;
-	gap: 0.5rem;
 }
+
 .proposal-public__content-duration-right {
-	margin-left: auto;
+	margin-inline-start: auto;
 }
 
 .proposal-public__content-timezone {
