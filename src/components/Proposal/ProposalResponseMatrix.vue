@@ -26,6 +26,7 @@
 								<NcAvatar :user="participant.name || participant.address"
 									:display-name="participant.name || participant.address"
 									:disable-tooltip="false"
+									:is-no-user="true"
 									:size="32" />
 								<div class="proposal-matrix__table-participant-header-name">
 									{{ participant.name || participant.address }}
@@ -320,7 +321,6 @@ export default {
 	}
 
 	thead th {
-		padding-top: calc(var(--default-grid-baseline) * 4);
 		padding-bottom: calc(var(--default-grid-baseline) * 2);
 	}
 

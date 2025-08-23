@@ -421,12 +421,16 @@ class ProposalService {
 			$template->addBodyListItem((string)$proposal->getDuration() . ' minutes', $this->l10n->t('Duration:'));
 		}
 		// dates
-		$template->addBodyListItem('', $this->l10n->t('Dates:'));
+		$temporaryText = '';
 		foreach ($proposal->getDates()->sortByDate() as $date) {
-			$template->addBodyListItem(
-				$this->l10n->l('date', $date->getDate(), ['width' => 'full']), '', '', '', '', 1
-			);
+			$dtStart = \DateTime::createFromImmutable($date->getDate());
+			$dtEnd = (clone $dtStart)->add(new \DateInterval('PT' . $proposal->getDuration() . 'M'));
+			$textDate = $this->l10n->l('date', $dtStart, ['width' => 'long']);
+			$textStart = $this->l10n->l('time', $dtStart, ['width' => 'short']);
+			$textEnd = $this->l10n->l('time', $dtEnd, ['width' => 'short']);
+			$temporaryText .= $this->l10n->t('%1$s from %2$s to %3$s', [$textDate, $textStart, $textEnd]) . "\n";
 		}
+		$template->addBodyListItem($temporaryText, $this->l10n->t('Dates:'));
 
 		$template->addBodyButton(
 			$this->l10n->t('Respond'),

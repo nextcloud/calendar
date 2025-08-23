@@ -147,7 +147,7 @@
 								@participant-remove="onProposalParticipantRemove(participant.address)" />
 						</div>
 						<div v-if="selectedProposal.dates.length > 0" class="proposal-editor__proposed-dates">
-							<h6>{{ t('calendar', 'Dates') }}</h6>
+							<h6>{{ t('calendar', 'Selected times') }}</h6>
 							<ProposalDateItem v-for="(entry, idx) in selectedProposal.dates"
 								:key="idx"
 								:proposal-date="entry"
@@ -157,10 +157,15 @@
 					</div>
 					<!-- Row 3: Actions -->
 					<div class="proposal-editor__row-actions">
-						<NcButton variant="primary" :disabled="!modalEditSaveState" @click="onProposalSave()">
+						<NcButton class="proposal-editor__save-button"
+							variant="primary"
+							:disabled="!modalEditSaveState"
+							@click="onProposalSave()">
 							{{ modalEditSaveLabel }}
 						</NcButton>
-						<NcButton v-if="modalEditDestroyState" variant="secondary" @click="onProposalDestroy(selectedProposal)">
+						<NcButton v-if="modalEditDestroyState"
+							variant="secondary"
+							@click="onProposalDestroy(selectedProposal)">
 							{{ 'Delete' }}
 						</NcButton>
 					</div>
@@ -1009,6 +1014,8 @@ export default {
 }
 
 .proposal-viewer__content-matrix {
+	padding-top: calc(var(--default-grid-baseline) * 4);
+	padding-bottom: calc(var(--default-grid-baseline) * 2);
 	border-top: 2px solid var(--color-border);
 	border-bottom: 2px solid var(--color-border);
 }
@@ -1061,6 +1068,10 @@ export default {
 	background-color: var(--color-main-background);
 	flex-shrink: 0;
 	padding-top: calc(var(--default-grid-baseline) * 2);
+}
+
+.proposal-editor__save-button {
+	width: 100%;
 }
 
 .proposal-editor__calendar {
