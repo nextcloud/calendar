@@ -5,7 +5,11 @@
 
 <template>
 	<li class="settings-fieldset-interior-item settings-fieldset-interior-item--timezone">
-		<TimezonePicker :additional-timezones="additionalTimezones"
+		<label :for="inputId">
+			{{ $t('calendar', 'Timezone') }}
+		</label>
+		<TimezonePicker :uid="inputId"
+			:additional-timezones="additionalTimezones"
 			:value="timezone"
 			@input="setTimezoneValue" />
 	</li>
@@ -14,6 +18,7 @@
 <script>
 import { NcTimezonePicker as TimezonePicker } from '@nextcloud/vue'
 import { detectTimezone } from '../../../services/timezoneDetectionService.js'
+import { randomId } from '../../../utils/randomId.js'
 import {
 	showInfo,
 } from '@nextcloud/dialogs'
@@ -36,6 +41,9 @@ export default {
 		...mapState(useSettingsStore, {
 			timezone: store => store.timezone || 'automatic',
 		}),
+		inputId() {
+			return `input-${randomId()}`
+		},
 		/**
 		 * Offer "Automatic" as an additional timezone
 		 *
@@ -67,3 +75,12 @@ export default {
 	},
 }
 </script>
+
+<style scoped>
+/* Ensure the label sits on top of the timezone picker rather than inline */
+.settings-fieldset-interior-item--timezone {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+</style>
