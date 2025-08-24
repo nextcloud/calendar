@@ -41,7 +41,7 @@
 						{{ storedProposal?.duration ? storedProposal.duration + ' min' : t('calendar', 'No Duration') }}
 					</div>
 					<div class="proposal-public__content-duration-right">
-						<NcTimezonePicker v-model="timezone"
+						<NcTimezonePicker v-model="userTimezone"
 							:aria-label="t('calendar', 'Select a different time zone')" />
 					</div>
 				</div>
@@ -49,7 +49,7 @@
 					<ProposalResponseMatrix mode="participant"
 						:proposal="storedProposal"
 						:response="response"
-						:timezone-id="timezone"
+						:timezone-id="userTimezone"
 						@date-vote="onDateVote" />
 				</div>
 			</div>
@@ -105,7 +105,7 @@ export default {
 		   storedProposal: null,
 		   response: new ProposalResponse(),
 		   ProposalDateVote,
-		   timezone: 'UTC',
+		   userTimezone: 'UTC',
 	   }
 	},
 
@@ -137,8 +137,8 @@ export default {
 	},
 
 	mounted() {
-		// determine initial timezone and offset
-		this.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
+		// determine initial timezone
+		this.userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
 
 		const pathParts = window.location.pathname.split('/')
 		this.contentView = 'loading'

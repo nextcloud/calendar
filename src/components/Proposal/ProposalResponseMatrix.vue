@@ -161,7 +161,7 @@ export default {
 	},
 
 	emits: [
-		'convert-to-meeting',
+		'date-convert',
 		'date-vote',
 	],
 
@@ -211,7 +211,6 @@ export default {
 	},
 
 	created() {
-		// Initialize timezone offset
 		if (this.timezoneId) {
 			this.timezoneOffset = this.calculateTimezoneOffset(this.timezoneId)
 		}
@@ -226,7 +225,7 @@ export default {
 				const now = new Date()
 				const utcDate = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }))
 				const targetDate = new Date(now.toLocaleString('en-US', { timeZone: timezoneId }))
-				return (utcDate.getTime() - targetDate.getTime()) / (1000 * 60)
+				return ((utcDate.getTime() - targetDate.getTime()) / (1000 * 60)) * -1
 			} catch (e) {
 				// Fallback to UTC if timezone is invalid
 				return 0
@@ -425,22 +424,22 @@ export default {
 	padding-block: calc(var(--default-grid-baseline) * 2);
 
 	:deep(.material-design-icon.check-icon) {
-		color: var(--color-success);
-		background-color: rgba(var(--color-success-rgb), 0.1);
+		color: #099f05;
+		background-color: rgba(9, 159, 5, 0.1);
 		padding: calc(var(--default-grid-baseline) * 2);
 		border-radius: calc(var(--default-grid-baseline) * 1);
 	}
 
 	:deep(.material-design-icon.close-icon) {
-		color: var(--color-error);
-		background-color: rgba(var(--color-error-rgb), 0.1);
+		color: #8A0000;
+		background-color: rgba(138, 0, 0, 0.1);
 		padding: calc(var(--default-grid-baseline) * 2);
 		border-radius: calc(var(--default-grid-baseline) * 1);
 	}
 
 	:deep(.material-design-icon.help-icon) {
-		color: rgba(var(--color-info-rgb), 0.75);
-		background-color: rgba(var(--color-info-rgb), 0.075);
+		color: #0066AC;
+		background-color: rgba(0, 102, 172, 0.1);
 		padding: calc(var(--default-grid-baseline) * 2);
 		border-radius: calc(var(--default-grid-baseline) * 1);
 	}

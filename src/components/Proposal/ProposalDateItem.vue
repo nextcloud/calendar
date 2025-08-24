@@ -41,17 +41,32 @@ export default {
 			required: true,
 			default: null,
 		},
+		timezoneId: {
+			type: String,
+			default: 'UTC',
+		},
 	},
 
-	emits: ['remove-date', 'click-date'],
+	emits: ['date-remove', 'date-focus'],
 
 	computed: {
 		formattedDate(): string {
 			if (!this.proposalDate.date) {
 				return ''
 			}
+			// Get the timezone offset in minutes
+			let timezoneOffset = 0
+			try {
+				const now = new Date()
+				const utcDate = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }))
+				const targetDate = new Date(now.toLocaleString('en-US', { timeZone: this.timezoneId }))
+				timezoneOffset = ((utcDate.getTime() - targetDate.getTime()) / (1000 * 60)) * -1
+			} catch (e) {
+				timezoneOffset = 0
+			}
+			const m = moment(this.proposalDate.date).utcOffset(timezoneOffset)
 			// Examples: "Mon, Jul 8, 2:30 PM" (en), "Mon, 8 Jul, 14:30" (en-GB), "Mo, 8. Jul, 14:30" (de)
-			return moment(this.proposalDate.date).format('dddd, MMMM D, LT')
+			return m.format('dddd, MMMM D, LT')
 		},
 	},
 
