@@ -41,7 +41,7 @@
 				class="proposal-list__item"
 				@click="onProposalView(proposal)">
 				<template v-if="proposalParticipantsTotal(proposal) === proposalParticipantsResponded(proposal)" #icon>
-					<CompleteIcon :size="20" decorative />
+					<CompleteIcon :size="20" decorative class="proposal-list__icon--complete" />
 				</template>
 				<template v-else #icon>
 					<PendingIcon :size="20" decorative />
@@ -197,3 +197,9 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.proposal-list__icon--complete {
+	color: #009f05;
+}
+</style>

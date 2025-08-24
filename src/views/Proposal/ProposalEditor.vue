@@ -53,6 +53,7 @@
 				<div class="proposal-viewer__content-matrix">
 					<ProposalResponseMatrix :mode="'organizer'"
 						:proposal="selectedProposal"
+						:timezone-id="userTimezone"
 						@date-convert="onProposalConvert" />
 				</div>
 			</div>
@@ -151,6 +152,7 @@
 							<ProposalDateItem v-for="(entry, idx) in selectedProposal.dates"
 								:key="idx"
 								:proposal-date="entry"
+								:timezone-id="userTimezone"
 								@date-focus="onProposalDateFocus(entry)"
 								@date-remove="onProposalDateRemove(idx)" />
 						</div>
@@ -217,6 +219,7 @@
 <script lang="ts">
 // types, object and stores
 import usePrincipalStore from '@/store/principals'
+import useSettingsStore from '@/store/settings'
 import useProposalStore from '@/store/proposalStore'
 import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
@@ -234,6 +237,8 @@ import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 import FullCalendar from '@fullcalendar/vue'
 import FullCalendarTimeGrid from '@fullcalendar/timegrid'
 import FullCalendarInteraction from '@fullcalendar/interaction'
+import FullCalendarMoment from '@/fullcalendar/localization/momentPlugin.js'
+import FullCalendarTimezones from '@/fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
 import InviteesListSearch from '@/components/Editor/Invitees/InviteesListSearch.vue'
 import ProposalParticipantItem from '@/components/Proposal/ProposalParticipantItem.vue'
 import ProposalDateItem from '@/components/Proposal/ProposalDateItem.vue'
@@ -292,13 +297,14 @@ export default {
 	data() {
 		return {
 			principalStore: usePrincipalStore(),
+			settingsStore: useSettingsStore(),
 			proposalStore: useProposalStore(),
 			ProposalParticipantStatus,
 			ProposalDateVote,
 			modalMode: 'view',
 			calendarApi: null as unknown, // FullCalendar API instance
 			selectedProposal: null as Proposal | null,
-			participantAvailability: {} as Record<string, Record<string, any>>,
+			participantAvailability: {} as Record<string, Record<string, ParticipantBusySlotInterface[]>>, // availability per participant
 			participantColors: {} as Record<string, string>,
 			calendarColumnWidth: 120, // Current pixel width allocated per day column
 			calendarColumnWidthMin: 120, // Minimum day column width
@@ -311,6 +317,10 @@ export default {
 	},
 
 	computed: {
+		userTimezone(): string {
+			return this.settingsStore?.getResolvedTimezone || Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
+		},
+
 		modalVisible(): boolean {
 			return this.proposalStore.modalVisible
 		},
@@ -377,7 +387,12 @@ export default {
 			today.setHours(0, 0, 0, 0)
 
 			return {
-				plugins: [FullCalendarTimeGrid, FullCalendarInteraction],
+				plugins: [
+					FullCalendarTimeGrid,
+					FullCalendarInteraction,
+					FullCalendarMoment(),
+					FullCalendarTimezones,
+				],
 				headerToolbar: false,
 				initialView: 'timeGridSpan',
 				views: {
@@ -388,23 +403,17 @@ export default {
 				},
 				dayHeaderFormat: { weekday: 'short', day: 'numeric' },
 				allDaySlot: false,
-				slotMinTime: '08:00:00',
-				slotMaxTime: '18:00:00',
+				timeZone: this.userTimezone,
 				slotDuration: '00:15:00',
 				validRange: {
 					start: today,
 				},
 				nowIndicator: true,
-				editable: true,
 				eventOverlap: true,
-				eventConstraint: false,
 				eventOrderStrict: true,
 				eventOrder: 'duration,title',
 				selectable: true,
 				selectMirror: true,
-				droppable: true,
-				eventStartEditable: true,
-				eventDurationEditable: false,
 				select: (info: unknown) => this.onProposalDateAdd(info),
 				eventDrop: (info: unknown) => this.onProposalDateMove(info),
 				datesSet: () => {
@@ -933,9 +942,7 @@ export default {
 					backgroundColor: '#0073e6',
 					borderColor: '#0073e6',
 					allDay: false,
-					editable: true,
 					startEditable: true,
-					durationEditable: false,
 					extendedProps: {
 						proposedDate: true,
 						proposedDateId: index,
