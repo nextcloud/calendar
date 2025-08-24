@@ -1,3 +1,19 @@
+## [5.3.10](https://github.com/nextcloud/calendar/compare/v5.3.9...v5.3.10) (2025-08-24)
+
+
+### Bug Fixes
+
+* **AddTalkModal:** styling ([823e5ee](https://github.com/nextcloud/calendar/commit/823e5eef22fc09e88fb20813466a25d23709cfc2))
+* **deps:** Fix npm audit ([33b093a](https://github.com/nextcloud/calendar/commit/33b093a697baaf35b33eb57bbaa78ecb285c6759))
+* **l10n:** Update translations from Transifex ([981e17b](https://github.com/nextcloud/calendar/commit/981e17b2673f09b52f94b1a0c59538a2e5f9c3e0))
+* **l10n:** Update translations from Transifex ([85b7a64](https://github.com/nextcloud/calendar/commit/85b7a64001f16a7015d9f9d3b8f560e1bb0eb835))
+* **l10n:** Update translations from Transifex ([e83191a](https://github.com/nextcloud/calendar/commit/e83191a9a6c7e97580fb2c9df05a6f75b97123c1))
+* **l10n:** Update translations from Transifex ([86c297f](https://github.com/nextcloud/calendar/commit/86c297fd0e46544922ff632af2bcd10a0d8a3f0e))
+* **l10n:** Update translations from Transifex ([65a6933](https://github.com/nextcloud/calendar/commit/65a69337c53057cc7b064ffbd89dbdffe09fa228))
+* **l10n:** Update translations from Transifex ([a4d69a3](https://github.com/nextcloud/calendar/commit/a4d69a337dbadb76ff0f0aead1d3cddc1dc16d75))
+
+
+
 ## [5.3.9](https://github.com/nextcloud/calendar/compare/v5.3.8...v5.3.9) (2025-08-18)
 
 
