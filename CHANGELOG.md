@@ -1,3 +1,25 @@
+# [5.5.0](https://github.com/nextcloud/calendar/compare/v5.4.0-rc.5...v5.5.0) (2025-08-24)
+
+
+### Bug Fixes
+
+* **AddTalkModal:** styling ([6467bb5](https://github.com/nextcloud/calendar/commit/6467bb529c7757dd573b79dfe46998a1f82f9bb5))
+* **deps:** Fix npm audit ([d367a44](https://github.com/nextcloud/calendar/commit/d367a44b097598c4324a91f4ee54e7937b63bef1))
+* **l10n:** Update translations from Transifex ([f45c97b](https://github.com/nextcloud/calendar/commit/f45c97b76199ee76976af4637618f87e75db47eb))
+* **l10n:** Update translations from Transifex ([9f5335c](https://github.com/nextcloud/calendar/commit/9f5335c7fefd4eb11159668b1da20af63db86560))
+* **l10n:** Update translations from Transifex ([487709a](https://github.com/nextcloud/calendar/commit/487709a5ae92a41ec82f968aea55965a54a0fc55))
+* **l10n:** Update translations from Transifex ([a634739](https://github.com/nextcloud/calendar/commit/a63473996f61dff2b341c917a67cc373f9abef47))
+* **l10n:** Update translations from Transifex ([0cd9b07](https://github.com/nextcloud/calendar/commit/0cd9b070fbf58a7bc32a66d738c5272e7ff23fa2))
+* **l10n:** Update translations from Transifex ([91f8c53](https://github.com/nextcloud/calendar/commit/91f8c53409ee03afc1b19d1a914282ceceb21dcc))
+* use createFromStringMinimal() instead of createFromString() ([62d2282](https://github.com/nextcloud/calendar/commit/62d2282399f791b899fde3b250474856f1887b28))
+
+
+### Features
+
+* add support for nextcloud 32 ([b9405f6](https://github.com/nextcloud/calendar/commit/b9405f65f5c19fd46020bc481fa84409b0f7b2b6))
+
+
+
 # [5.4.0-rc.5](https://github.com/nextcloud/calendar/compare/v5.4.0-rc.4...v5.4.0-rc.5) (2025-08-18)
 
 
