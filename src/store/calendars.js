@@ -599,8 +599,9 @@ export default defineStore('calendars', {
 		 * @param {string} data.uri the sharing principalScheme uri
 		 * @param {boolean} data.isGroup is this a group?
 		 * @param {boolean} data.isCircle is this a circle?
+		 * @param {boolean} data.isRemoteUser is this a remote user (on a federated instance)?
 		 */
-		async shareCalendar({ calendar, user, displayName, uri, isGroup, isCircle }) {
+		async shareCalendar({ calendar, user, displayName, uri, isGroup, isCircle, isRemoteUser }) {
 			// Share calendar with entered group or user
 			await calendar.dav.share(uri)
 			const newSharee = {
@@ -609,6 +610,7 @@ export default defineStore('calendars', {
 				writeable: false,
 				isGroup,
 				isCircle,
+				isRemoteUser,
 				uri,
 			}
 			this.calendarsById[calendar.id].shares.push(newSharee)

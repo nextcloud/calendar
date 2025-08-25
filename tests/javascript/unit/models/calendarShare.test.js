@@ -18,6 +18,7 @@ describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
 			isUser: false,
 			isGroup: false,
 			isCircle: false,
+			isRemoteUser: false,
 			uri: null,
 		})
 	})
@@ -33,6 +34,7 @@ describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
 			isUser: false,
 			isGroup: false,
 			isCircle: false,
+			isRemoteUser: false,
 			uri: null,
 			otherProp: 'foo',
 		})
@@ -55,6 +57,7 @@ describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
 			isUser: true,
 			isGroup: false,
 			isCircle: false,
+			isRemoteUser: false,
 			uri: 'principal:principals/users/user4',
 		})
 	})
@@ -76,6 +79,7 @@ describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
 			isUser: true,
 			isGroup: false,
 			isCircle: false,
+			isRemoteUser: false,
 			uri: 'principal:principals/users/user4',
 		})
 	})
@@ -97,6 +101,7 @@ describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
 			isUser: false,
 			isGroup: true,
 			isCircle: false,
+			isRemoteUser: false,
 			uri: 'principal:principals/groups/admin',
 		})
 	})
@@ -118,6 +123,7 @@ describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
 			isUser: false,
 			isGroup: false,
 			isCircle: true,
+			isRemoteUser: false,
 			uri: 'principal:principals/circles/c479c14bd82415',
 		})
 	})
@@ -141,7 +147,54 @@ describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
 			isUser: false,
 			isGroup: false,
 			isCircle: true,
+			isRemoteUser: false,
 			uri: 'principal:principals/circles/c479c14bd82415',
+		})
+	})
+
+	it('should map a dav sharee to a calendar share object - remote user', () => {
+		const davSharee = {
+			// Decoded cloud id: marcus@federated.cloud.com
+			'href': 'principal:principals/remote-users/bWFyY3VzQGZlZGVyYXRlZC5jbG91ZC5jb20=',
+			'common-name': 'Marcus Beehler@federated.cloud.com',
+			'invite-accepted': true,
+			'access': [
+				'{http://owncloud.org/ns}read'
+			]
+		}
+
+		expect(mapDavShareeToCalendarShareObject(davSharee)).toEqual({
+			id: 'cHJpbmNpcGFsOnByaW5jaXBhbHMvcmVtb3RlLXVzZXJzL2JXRnlZM1Z6UUdabFpHVnlZWFJsWkM1amJHOTFaQzVqYjIwPQ==',
+			displayName: 'Marcus Beehler@federated.cloud.com',
+			writeable: false,
+			isUser: false,
+			isGroup: false,
+			isCircle: false,
+			isRemoteUser: true,
+			uri: 'principal:principals/remote-users/bWFyY3VzQGZlZGVyYXRlZC5jbG91ZC5jb20=',
+		})
+	})
+
+	it('should map a dav sharee to a calendar share object - remote user without displayname', () => {
+		const davSharee = {
+			// Decoded cloud id: marcus@federated.cloud.com
+			'href': 'principal:principals/remote-users/bWFyY3VzQGZlZGVyYXRlZC5jbG91ZC5jb20=',
+			'common-name': '',
+			'invite-accepted': true,
+			'access': [
+				'{http://owncloud.org/ns}read'
+			]
+		}
+
+		expect(mapDavShareeToCalendarShareObject(davSharee)).toEqual({
+			id: 'cHJpbmNpcGFsOnByaW5jaXBhbHMvcmVtb3RlLXVzZXJzL2JXRnlZM1Z6UUdabFpHVnlZWFJsWkM1amJHOTFaQzVqYjIwPQ==',
+			displayName: 'marcus@federated.cloud.com',
+			writeable: false,
+			isUser: false,
+			isGroup: false,
+			isCircle: false,
+			isRemoteUser: true,
+			uri: 'principal:principals/remote-users/bWFyY3VzQGZlZGVyYXRlZC5jbG91ZC5jb20=',
 		})
 	})
 
@@ -162,8 +215,8 @@ describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
 			isUser: false,
 			isGroup: true,
 			isCircle: false,
+			isRemoteUser: false,
 			uri: 'principal:principals/groups/מַזָּל טוֹב',
 		})
 	})
-
 })
