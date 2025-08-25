@@ -1,3 +1,12 @@
+# [5.5.1](https://github.com/nextcloud/calendar/compare/v5.5.0...v5.5.1) (2025-08-25)
+
+
+### Bug fixes
+
+* Bump version to fix missing app store release
+
+
+
 # [5.5.0](https://github.com/nextcloud/calendar/compare/v5.4.0-rc.5...v5.5.0) (2025-08-24)
 
 
