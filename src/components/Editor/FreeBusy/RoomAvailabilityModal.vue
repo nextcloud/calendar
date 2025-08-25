@@ -72,7 +72,7 @@ import { getBusySlots, getFirstFreeSlot } from '../../../services/freeBusySlotSe
 import dateFormat from '../../../filters/dateFormat.js'
 import { getColorForFBType } from '../../../utils/freebusy.js'
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
-import momentPluginFactory from '../../../fullcalendar/localization/momentPlugin.js'
+import momentPlugin from '../../../fullcalendar/localization/momentPlugin.js'
 import VTimezoneNamedTimezone from '../../../fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
 import interactionPlugin from '@fullcalendar/interaction'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
@@ -189,7 +189,7 @@ export default {
 		plugins() {
 			return [
 				resourceTimelinePlugin,
-				momentPluginFactory(),
+				momentPlugin,
 				VTimezoneNamedTimezone,
 				interactionPlugin,
 			]
