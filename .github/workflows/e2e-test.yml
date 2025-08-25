@@ -8,7 +8,7 @@ permissions:
   contents: read
 
 env:
-  NODE_VERSION: "20" # TODO: Extract automatically using another action
+  NODE_VERSION: "22" # TODO: Extract automatically using another action
 
 jobs:
   matrix:
