@@ -21,7 +21,7 @@
 	"rangeStrategy": "bump",
 	"rebaseWhen": "conflicted",
 	"ignoreUnstable": false,
-	"baseBranches": [
+	"baseBranchPatterns": [
 		"main",
 		"stable5.0",
 		"stable4.7"
@@ -40,14 +40,18 @@
 	"packageRules": [
 		{
 			"description": "Request JavaScript reviews",
-			"matchManagers": ["npm"],
+			"matchManagers": [
+				"npm"
+			],
 			"reviewers": [
 				"st3iny"
 			]
 		},
 		{
 			"description": "Request PHP reviews",
-			"matchManagers": ["composer"],
+			"matchManagers": [
+				"composer"
+			],
 			"reviewers": [
 				"SebastianKrupinski",
 				"st3iny"
@@ -55,15 +59,22 @@
 		},
 		{
 			"description": "Bump Github actions monthly and request reviews",
-			"matchManagers": ["github-actions"],
-			"extends": ["schedule:monthly"],
+			"matchManagers": [
+				"github-actions"
+			],
+			"extends": [
+				"schedule:monthly"
+			],
 			"reviewers": [
 				"SebastianKrupinski",
 				"st3iny"
 			]
 		},
 		{
-			"matchUpdateTypes": ["minor", "patch"],
+			"matchUpdateTypes": [
+				"minor",
+				"patch"
+			],
 			"matchCurrentVersion": "!/^0/",
 			"automerge": true,
 			"automergeType": "pr",
@@ -76,7 +87,10 @@
 		},
 		{
 			"description": "Only automerge packages that follow semver",
-			"matchPackageNames": ["@nextcloud/vue", "friendsofphp/php-cs-fixer"],
+			"matchPackageNames": [
+				"@nextcloud/vue",
+				"friendsofphp/php-cs-fixer"
+			],
 			"automerge": false,
 			"labels": [
 				"dependencies",
@@ -92,9 +106,15 @@
 			"matchBaseBranches": "/^stable(.)+/"
 		},
 		{
-			"matchBaseBranches": ["main"],
-			"matchDepTypes": ["devDependencies"],
-			"extends": ["schedule:monthly"]
+			"matchBaseBranches": [
+				"main"
+			],
+			"matchDepTypes": [
+				"devDependencies"
+			],
+			"extends": [
+				"schedule:monthly"
+			]
 		},
 		{
 			"groupName": "FullCalendar family",
