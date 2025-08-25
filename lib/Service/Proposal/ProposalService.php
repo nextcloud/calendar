@@ -22,6 +22,7 @@ use OCA\Calendar\Objects\Proposal\ProposalParticipantRealm;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantStatus;
 use OCA\Calendar\Objects\Proposal\ProposalResponseObject;
 use OCA\Calendar\Objects\Proposal\ProposalVoteCollection;
+use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IManager;
 use OCP\IAppConfig;
 use OCP\IL10N;
@@ -298,7 +299,7 @@ class ProposalService {
 		if ($proposal === null) {
 			throw new \InvalidArgumentException('Proposal not found');
 		}
-		// Locate selected date
+		// locate selected date
 		$selectedDate = null;
 		foreach ($proposal->getDates() as $date) {
 			if ($date->getId() === $dateId) {
@@ -310,20 +311,35 @@ class ProposalService {
 			throw new \InvalidArgumentException('Date not found for proposal');
 		}
 
-		// If calendar manager can't handle iMIP, abort gracefully for now (future: direct creation API when available)
-		if (!method_exists($this->calendarManager, 'handleIMip')) {
-			$this->logger->warning('convertProposal: calendarManager cannot handle iMIP; skipping conversion dispatch', ['app' => 'calendar']);
-			return;
+		// retrieve the primary calendar for the user
+		/** @var ICalendar&ICreateFromString|null $userCalendar */
+		$userCalendar = $this->calendarManager->getPrimaryCalendar($user->getUID());
+		if ($userCalendar !== null && (!$userCalendar instanceof ICreateFromString || $userCalendar->isDeleted())) {
+			$userCalendar = null;
+		}
+		// if no primary calendar is set, use the first useable calendar
+		if ($userCalendar === null) {
+			$userCalendars = $this->calendarManager->getCalendarsForPrincipal('principals/users/' . $user->getUID());
+			foreach ($userCalendars as $userCalendar) {
+				if (!$userCalendar instanceof ICreateFromString || !$userCalendar->isDeleted()) {
+					$userCalendar = $userCalendar;
+					break;
+				}
+			}
+		}
+		if ($userCalendar === null) {
+			throw new \RuntimeException('Could not find a useable calendar to create a meeting from the selected proposal');
 		}
 
 		// build a VCalendar with single definitive event
-		$calendar = new VCalendar();
-		$calendar->add('METHOD', 'REQUEST');
+		$vObject = new VCalendar();
 		/** @var VEvent $vEvent */
-		$vEvent = $calendar->add('VEVENT', []);
-		$vEvent->add('UID', $proposal->getUuid() ?? \Symfony\Component\Uid\Uuid::v4()->toRfc4122());
+		$vEvent = $vObject->add('VEVENT', []);
+		$vEvent->UID->setValue($proposal->getUuid() ?? Uuid::v4()->toRfc4122());
 		$vEvent->add('DTSTART', $selectedDate->getDate());
 		$vEvent->add('DURATION', 'PT' . $proposal->getDuration() . 'M');
+		$vEvent->add('STATUS', 'CONFIRMED');
+		$vEvent->add('SEQUENCE', 1);
 		$vEvent->add('SUMMARY', $proposal->getTitle());
 		$vEvent->add('DESCRIPTION', $proposal->getDescription());
 		if (!empty($proposal->getLocation())) {
@@ -342,23 +358,11 @@ class ProposalService {
 			]);
 		}
 
-		// Dispatch to internal participants
-		foreach ($proposal->getParticipants()->filterByRealm(ProposalParticipantRealm::Internal) as $participant) {
-			$users = $this->userManager->getByEmail($participant->getAddress());
-			if ($users === []) {
-				continue;
-			}
-			$participantUser = $users[0];
-			try {
-				$this->calendarManager->handleIMip(
-					$participantUser->getUID(),
-					$calendar->serialize(),
-					['absent' => 'create']
-				);
-			} catch (Exception $e) {
-				$this->logger->error('convertProposal iMIP dispatch failed: ' . $e->getMessage(), ['app' => 'calendar', 'exception' => $e]);
-			}
-		}
+		// store the calendar object
+		$userCalendar->createFromString(
+			Uuid::v4()->toRfc4122() . '.ics',
+			$vObject->serialize()
+		);
 
 		// destroy the proposal entry
 		$this->proposalVoteMapper->deleteByProposalId($user->getUID(), $proposal->getId());
