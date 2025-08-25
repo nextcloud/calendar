@@ -21,10 +21,9 @@
 	"rangeStrategy": "bump",
 	"rebaseWhen": "conflicted",
 	"ignoreUnstable": false,
-	"baseBranches": [
+	"baseBranchPatterns": [
 		"main",
-		"stable5.0",
-		"stable4.7"
+		"stable5.5"
 	],
 	"enabledManagers": [
 		"composer",
