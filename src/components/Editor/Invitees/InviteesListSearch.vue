@@ -160,7 +160,7 @@ export default {
 
 			if (selectedValue.type === 'circle') {
 				showInfo(this.$t('calendar', 'Note that members of circles get invited but are not synced yet.'))
-				this.resolveCircleMembers(selectedValue.id, selectedValue.email)
+				this.resolveCircleMembers(selectedValue.id)
 			}
 			if (selectedValue.type === 'contactsgroup') {
 				showInfo(this.$t('calendar', 'Note that members of contact groups get invited but are not synced yet.'))
@@ -179,7 +179,7 @@ export default {
 			}
 			this.$emit('add-attendee', selectedValue)
 		},
-		async resolveCircleMembers(circleId, groupId) {
+		async resolveCircleMembers(circleId) {
 			let results
 			try {
 				// Going to query custom backend to fetch Circle members since we're going to use
@@ -323,9 +323,7 @@ export default {
 				return []
 			}
 
-			return results.filter((circle) => {
-				return true
-			}).map((circle) => {
+			return results.map((circle) => {
 				return {
 					commonName: circle.displayname,
 					calendarUserType: 'GROUP',

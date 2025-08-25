@@ -315,7 +315,7 @@ export default {
 		},
 	},
 	methods: {
-		changeOrganizer({ id, address, label }, attend) {
+		changeOrganizer({ address, label }, attend) {
 			// retrieve current organizer
 			const current = this.selectedOrganizer
 			// remove new organizer from attendees
@@ -385,12 +385,8 @@ export default {
 			if (attendee.member) {
 				this.groups.forEach(group => {
 					if (attendee.member.includes(group.uri)) {
-						group.members = group.members.filter(member => {
-							if (!attendee.member.includes(group.uri)) {
-								return true
-							}
-							return false
-						})
+						// Keep all members except the one being removed
+						group.members = group.members.filter(m => m.uri !== attendee.uri)
 					}
 				})
 			}
