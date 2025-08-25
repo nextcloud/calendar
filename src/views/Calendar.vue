@@ -26,6 +26,12 @@
 					:loading-calendars="loadingCalendars" />
 				<EditCalendarModal />
 
+				<!-- Proposals -->
+				<template v-if="isAuthenticatedUser">
+					<ProposalEditor />
+					<ProposalList />
+				</template>
+
 				<!-- Appointment Configuration List -->
 				<template v-if="!disableAppointments && isAuthenticatedUser">
 					<AppointmentConfigList />
@@ -97,8 +103,10 @@ import EmptyCalendar from '../components/EmptyCalendar.vue'
 import CalendarGrid from '../components/CalendarGrid.vue'
 import EditCalendarModal from '../components/AppNavigation/EditCalendarModal.vue'
 import EditSimple from './EditSimple.vue'
+import ProposalEditor from './Proposal/ProposalEditor.vue'
 import eventClick from '../fullcalendar/interaction/eventClick.js'
 import PlaylistCheckIcon from 'vue-material-design-icons/PlaylistCheck.vue'
+import ProposalList from '../components/AppNavigation/Proposal/ProposalList.vue'
 
 // Import CalDAV related methods
 import {
@@ -156,6 +164,8 @@ export default {
 		PlaylistCheckIcon,
 		NcAppSidebar,
 		NcAppSidebarTab,
+		ProposalEditor,
+		ProposalList,
 	},
 	props: {
 		// Is the calendar in a widget ?
