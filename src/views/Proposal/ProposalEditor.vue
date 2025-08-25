@@ -390,7 +390,7 @@ export default {
 				plugins: [
 					FullCalendarTimeGrid,
 					FullCalendarInteraction,
-					FullCalendarMoment(),
+					FullCalendarMoment,
 					FullCalendarTimezones,
 				],
 				headerToolbar: false,
@@ -544,15 +544,17 @@ export default {
 		},
 
 		async onProposalDestroy(proposal: Proposal) {
-			if (confirm(t('calendar', 'Are you sure you want to delete this proposal?'))) {
-				try {
-					await this.proposalStore.destroyProposal(proposal)
-					this.onModalClose()
-					showSuccess(t('calendar', 'Proposal deleted successfully'))
-				} catch (error) {
-					showError(t('calendar', 'Failed to delete proposal'))
-					console.error('Failed to delete proposal:', error)
-				}
+			if (!confirm(t('calendar', 'Are you sure you want to delete "{title}"?', { title: proposal.title ?? t('calendar', 'No title') }))) {
+				return
+			}
+			try {
+				showSuccess(t('calendar', 'Deleting proposal "{title}"', { title: proposal.title ?? t('calendar', 'No title') }))
+				await this.proposalStore.destroyProposal(proposal)
+				showSuccess(t('calendar', 'Successfully deleted proposal'))
+				this.onModalClose()
+			} catch (error) {
+				showError(t('calendar', 'Failed to delete proposal'))
+				console.error('Failed to delete proposal:', error)
 			}
 		},
 
@@ -561,33 +563,35 @@ export default {
 				if (!this.selectedProposal) {
 					return console.error('No proposal selected for this operation')
 				}
+				showSuccess(t('calendar', 'Saving proposal "{title}"', { title: this.selectedProposal.title ?? t('calendar', 'No title') }))
 				await this.proposalStore.storeProposal(this.selectedProposal)
+				showSuccess(t('calendar', 'Successfully saved proposal'))
 				this.onModalClose()
-				showSuccess(t('calendar', 'Proposal saved successfully'))
 			} catch (error) {
 				showError(t('calendar', 'Failed to save proposal'))
 				console.error('Failed to save proposal:', error)
 			}
 		},
 
-		onProposalConvert(date: ProposalDate): void {
+		async onProposalConvert(date: ProposalDate) {
 			if (!this.selectedProposal || !date.date) {
 				return console.error('No proposal selected or invalid date for meeting conversion')
 			}
 
 			// Confirm the action with the user
 			const dateString = this.formatProposalDate(date.date)
-			if (!confirm(t('calendar', 'Convert proposal date "{date}" to a meeting? This will create a calendar event with all participants.', { date: dateString }))) {
+			if (!confirm(t('calendar', 'Create a meeting for "{date}"? This will create a calendar event with all participants.', { date: dateString }))) {
 				return
 			}
 
 			try {
-				this.proposalStore.convertProposal(this.selectedProposal, date)
+				showSuccess(t('calendar', 'Creating meeting for {date}', { date: dateString }))
+				await this.proposalStore.convertProposal(this.selectedProposal, date)
+				showSuccess(t('calendar', 'Successfully created meeting for {date}', { date: dateString }))
 				this.onModalClose()
-				showSuccess(t('calendar', 'Created meeting for {date}', { date: dateString }))
 			} catch (error) {
-				showError(t('calendar', 'Failed to convert proposal to meeting'))
-				console.error('Failed to convert proposal to meeting:', error)
+				showError(t('calendar', 'Failed to create a meeting for {date}', { date: dateString }))
+				console.error('Failed to create a meeting:', error)
 			}
 		},
 

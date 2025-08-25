@@ -168,14 +168,16 @@ export default {
 		},
 
 		async onProposalDestroy(proposal: Proposal) {
-			if (confirm(t('calendar', 'Are you sure you want to delete this proposal?'))) {
-				try {
-					await this.proposalStore.destroyProposal(proposal)
-					this.fetchProposals()
-					showSuccess(t('calendar', 'Proposal deleted successfully'))
-				} catch (error) {
-					showError(t('calendar', 'Failed to delete proposal'))
-				}
+			if (!confirm(t('calendar', 'Are you sure you want to delete "{title}"?', { title: proposal.title ?? t('calendar', 'No title') }))) {
+				return
+			}
+			try {
+				showSuccess(t('calendar', 'Deleting proposal "{title}"', { title: proposal.title ?? t('calendar', 'No title') }))
+				await this.proposalStore.destroyProposal(proposal)
+				showSuccess(t('calendar', 'Successfully deleted proposal'))
+				this.fetchProposals()
+			} catch (error) {
+				showError(t('calendar', 'Failed to delete proposal'))
 			}
 		},
 
