@@ -4,108 +4,122 @@
 -->
 
 <template>
-	<AppNavigationSettings :exclude-click-outside-selectors="['.vs__dropdown-menu', '.modal-wrapper']"
-		:name="settingsTitle">
-		<ul class="settings-fieldset-interior">
-			<SettingsImportSection :is-disabled="loadingCalendars" />
-			<ActionCheckbox class="settings-fieldset-interior-item"
-				:model-value="hasBirthdayCalendar"
-				:disabled="isBirthdayCalendarDisabled"
-				@change="toggleBirthdayEnabled">
-				{{ $t('calendar', 'Enable birthday calendar') }}
-			</ActionCheckbox>
-			<ActionCheckbox class="settings-fieldset-interior-item"
-				:model-value="showTasks"
-				:disabled="savingTasks"
-				@change="toggleTasksEnabled">
-				{{ $t('calendar', 'Show tasks in calendar') }}
-			</ActionCheckbox>
-			<ActionCheckbox class="settings-fieldset-interior-item"
-				:model-value="!skipPopover"
-				:disabled="savingPopover"
-				@change="togglePopoverEnabled">
-				{{ $t('calendar', 'Enable simplified editor') }}
-			</ActionCheckbox>
-			<ActionCheckbox class="settings-fieldset-interior-item"
-				:model-value="eventLimit"
-				:disabled="savingEventLimit"
-				@change="toggleEventLimitEnabled">
-				{{ $t('calendar', 'Limit the number of events displayed in the monthly view') }}
-			</ActionCheckbox>
-			<ActionCheckbox class="settings-fieldset-interior-item"
-				:model-value="showWeekends"
-				:disabled="savingWeekend"
-				@change="toggleWeekendsEnabled">
-				{{ $t('calendar', 'Show weekends') }}
-			</ActionCheckbox>
-			<ActionCheckbox class="settings-fieldset-interior-item"
-				:model-value="showWeekNumbers"
-				:disabled="savingWeekNumber"
-				@change="toggleWeekNumberEnabled">
-				{{ $t('calendar', 'Show week numbers') }}
-			</ActionCheckbox>
-			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--slotDuration">
-				<NcSelect :id="slotDuration"
-					:options="slotDurationOptions"
-					:value="selectedDurationOption"
-					:disabled="savingSlotDuration"
-					:clearable="false"
-					:input-label="$t('calendar', 'Time increments')"
-					input-id="value"
-					label="label"
-					@option:selected="changeSlotDuration" />
-			</li>
-			<!-- TODO: remove version check once Nextcloud 28 is not supported anymore -->
-			<li v-if="currentUserPrincipal && defaultCalendarOptions.length > 1 && nextcloudVersion >= 29"
-				class="settings-fieldset-interior-item settings-fieldset-interior-item--default-calendar">
-				<CalendarPicker :value="defaultCalendar"
-					:calendars="defaultCalendarOptions"
-					:disabled="savingDefaultCalendarId"
-					:input-label="$t('calendar', 'Default calendar for incoming invitations')"
-					:clearable="false"
-					@select-calendar="changeDefaultCalendar" />
-			</li>
-			<li class="settings-fieldset-interior-item settings-fieldset-interior-item--defaultReminder">
-				<NcSelect :options="defaultReminderOptions"
-					:value="selectedDefaultReminderOption"
-					:disabled="savingDefaultReminder"
-					:clearable="false"
-					:input-label="$t('calendar', 'Default reminder')"
-					input-id="value"
-					label="label"
-					@option:selected="changeDefaultReminder" />
-			</li>
-			<SettingsTimezoneSelect :is-disabled="loadingCalendars" />
-			<SettingsAttachmentsFolder />
-			<ActionButton @click.prevent.stop="copyPrimaryCalDAV">
-				<template #icon>
-					<ContentCopy :size="20" decorative />
-				</template>
-				{{ $t('calendar', 'Copy primary CalDAV address') }}
-			</ActionButton>
-			<ActionButton @click.prevent.stop="copyAppleCalDAV">
-				<template #icon>
-					<ContentCopy :size="20" decorative />
-				</template>
-				{{ $t('calendar', 'Copy iOS/macOS CalDAV address') }}
-			</ActionButton>
-			<ActionLink :href="availabilitySettingsUrl" target="_blank">
-				<template #icon>
-					<OpenInNewIcon :size="20" decorative />
-				</template>
-				{{ $t('calendar', 'Personal availability settings') }}
-			</ActionLink>
-			<Hotkey :keys="['h']" propagate @hotkey="toggleKeyboardShortcuts">
-				<ActionButton @click.prevent.stop="showKeyboardShortcuts">
-					<template #icon>
-						<InformationVariant :size="20" decorative />
-					</template>
-					{{ $t('calendar', 'Show keyboard shortcuts') }}
-				</ActionButton>
-			</Hotkey>
-			<ShortcutOverview v-if="displayKeyboardShortcuts" @close="hideKeyboardShortcuts" />
-		</ul>
-	</AppNavigationSettings>
+	<NcAppNavigationItem class="navigation-calendar-settings"
+		:name="settingsTitle"
+		:pinned="true"
+		@click.prevent="onShow">
+		<template #icon>
+			<IconCog :size="20" decorative />
+		</template>
+		<template #extra>
+			<NcModal v-if="showModal"
+				size="small"
+				@close="showModal = false">
+				<div class="modal__content">
+					<h2>{{ settingsTitle }}</h2>
+					<ul class="settings-fieldset-interior">
+						<SettingsImportSection :is-disabled="loadingCalendars" />
+						<ActionCheckbox class="settings-fieldset-interior-item"
+							:model-value="hasBirthdayCalendar"
+							:disabled="isBirthdayCalendarDisabled"
+							@change="toggleBirthdayEnabled">
+							{{ $t('calendar', 'Enable birthday calendar') }}
+						</ActionCheckbox>
+						<ActionCheckbox class="settings-fieldset-interior-item"
+							:model-value="showTasks"
+							:disabled="savingTasks"
+							@change="toggleTasksEnabled">
+							{{ $t('calendar', 'Show tasks in calendar') }}
+						</ActionCheckbox>
+						<ActionCheckbox class="settings-fieldset-interior-item"
+							:model-value="!skipPopover"
+							:disabled="savingPopover"
+							@change="togglePopoverEnabled">
+							{{ $t('calendar', 'Enable simplified editor') }}
+						</ActionCheckbox>
+						<ActionCheckbox class="settings-fieldset-interior-item"
+							:model-value="eventLimit"
+							:disabled="savingEventLimit"
+							@change="toggleEventLimitEnabled">
+							{{ $t('calendar', 'Limit the number of events displayed in the monthly view') }}
+						</ActionCheckbox>
+						<ActionCheckbox class="settings-fieldset-interior-item"
+							:model-value="showWeekends"
+							:disabled="savingWeekend"
+							@change="toggleWeekendsEnabled">
+							{{ $t('calendar', 'Show weekends') }}
+						</ActionCheckbox>
+						<ActionCheckbox class="settings-fieldset-interior-item"
+							:model-value="showWeekNumbers"
+							:disabled="savingWeekNumber"
+							@change="toggleWeekNumberEnabled">
+							{{ $t('calendar', 'Show week numbers') }}
+						</ActionCheckbox>
+						<li class="settings-fieldset-interior-item settings-fieldset-interior-item--slotDuration">
+							<NcSelect :id="slotDuration"
+								:options="slotDurationOptions"
+								:value="selectedDurationOption"
+								:disabled="savingSlotDuration"
+								:clearable="false"
+								:input-label="$t('calendar', 'Time increments')"
+								input-id="value"
+								label="label"
+								@option:selected="changeSlotDuration" />
+						</li>
+						<!-- TODO: remove version check once Nextcloud 28 is not supported anymore -->
+						<li v-if="currentUserPrincipal && defaultCalendarOptions.length > 1 && nextcloudVersion >= 29"
+							class="settings-fieldset-interior-item settings-fieldset-interior-item--default-calendar">
+							<CalendarPicker :value="defaultCalendar"
+								:calendars="defaultCalendarOptions"
+								:disabled="savingDefaultCalendarId"
+								:input-label="$t('calendar', 'Default calendar for incoming invitations')"
+								:clearable="false"
+								@select-calendar="changeDefaultCalendar" />
+						</li>
+						<li class="settings-fieldset-interior-item settings-fieldset-interior-item--defaultReminder">
+							<NcSelect :options="defaultReminderOptions"
+								:value="selectedDefaultReminderOption"
+								:disabled="savingDefaultReminder"
+								:clearable="false"
+								:input-label="$t('calendar', 'Default reminder')"
+								input-id="value"
+								label="label"
+								@option:selected="changeDefaultReminder" />
+						</li>
+						<SettingsTimezoneSelect :is-disabled="loadingCalendars" />
+						<SettingsAttachmentsFolder />
+						<ActionButton @click.prevent.stop="copyPrimaryCalDAV">
+							<template #icon>
+								<ContentCopy :size="20" decorative />
+							</template>
+							{{ $t('calendar', 'Copy primary CalDAV address') }}
+						</ActionButton>
+						<ActionButton @click.prevent.stop="copyAppleCalDAV">
+							<template #icon>
+								<ContentCopy :size="20" decorative />
+							</template>
+							{{ $t('calendar', 'Copy iOS/macOS CalDAV address') }}
+						</ActionButton>
+						<ActionLink :href="availabilitySettingsUrl" target="_blank">
+							<template #icon>
+								<OpenInNewIcon :size="20" decorative />
+							</template>
+							{{ $t('calendar', 'Personal availability settings') }}
+						</ActionLink>
+						<Hotkey :keys="['h']" propagate @hotkey="toggleKeyboardShortcuts">
+							<ActionButton @click.prevent.stop="showKeyboardShortcuts">
+								<template #icon>
+									<InformationVariant :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Show keyboard shortcuts') }}
+							</ActionButton>
+						</Hotkey>
+						<ShortcutOverview v-if="displayKeyboardShortcuts" @close="hideKeyboardShortcuts" />
+					</ul>
+				</div>
+			</NcModal>
+		</template>
+	</NcAppNavigationItem>
 </template>
 
 <script>
@@ -113,7 +127,8 @@ import {
 	NcActionButton as ActionButton,
 	NcActionCheckbox as ActionCheckbox,
 	NcActionLink as ActionLink,
-	NcAppNavigationSettings as AppNavigationSettings,
+	NcAppNavigationItem,
+	NcModal,
 	NcSelect,
 } from '@nextcloud/vue'
 import CalendarPicker from '../Shared/CalendarPicker.vue'
@@ -151,6 +166,7 @@ import { getDefaultAlarms } from '../../defaults/defaultAlarmProvider.js'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
+import IconCog from 'vue-material-design-icons/CogOutline.vue'
 
 import logger from '../../utils/logger.js'
 
@@ -161,7 +177,8 @@ export default {
 		ActionButton,
 		ActionCheckbox,
 		ActionLink,
-		AppNavigationSettings,
+		NcAppNavigationItem,
+		NcModal,
 		NcSelect,
 		Hotkey,
 		SettingsImportSection,
@@ -171,6 +188,7 @@ export default {
 		InformationVariant,
 		OpenInNewIcon,
 		CalendarPicker,
+		IconCog,
 	},
 	props: {
 		loadingCalendars: {
@@ -180,6 +198,7 @@ export default {
 	},
 	data() {
 		return {
+			showModal: false,
 			savingBirthdayCalendar: false,
 			savingEventLimit: false,
 			savingTasks: false,
@@ -304,6 +323,9 @@ export default {
 		},
 	},
 	methods: {
+		onShow() {
+			this.showModal = true
+		},
 		async toggleBirthdayEnabled() {
 			// change to loading status
 			this.savingBirthdayCalendar = true
@@ -508,5 +530,14 @@ export default {
 .settings-fieldset-interior-item,
 :deep(.v-select.select) {
 	width: 100%;
+}
+
+.navigation-calendar-settings{
+	padding-inline: calc(var(--default-grid-baseline) * 2);
+	padding-bottom: calc(var(--default-grid-baseline) * 2);
+}
+
+.modal__content {
+	padding: calc(var(--default-grid-baseline) * 4);
 }
 </style>
