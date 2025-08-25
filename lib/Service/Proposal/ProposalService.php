@@ -22,6 +22,7 @@ use OCA\Calendar\Objects\Proposal\ProposalParticipantRealm;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantStatus;
 use OCA\Calendar\Objects\Proposal\ProposalResponseObject;
 use OCA\Calendar\Objects\Proposal\ProposalVoteCollection;
+use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IManager;
 use OCP\IAppConfig;
@@ -312,8 +313,11 @@ class ProposalService {
 		}
 
 		// retrieve the primary calendar for the user
-		/** @var ICalendar&ICreateFromString|null $userCalendar */
-		$userCalendar = $this->calendarManager->getPrimaryCalendar($user->getUID());
+		// this condition is just to make psalm happy
+		if (method_exists($this->calendarManager, 'getPrimaryCalendar')) {
+			/** @var ICalendar&ICreateFromString|null $userCalendar */
+			$userCalendar = $this->calendarManager->getPrimaryCalendar($user->getUID());
+		}
 		if ($userCalendar !== null && (!$userCalendar instanceof ICreateFromString || $userCalendar->isDeleted())) {
 			$userCalendar = null;
 		}
@@ -333,11 +337,11 @@ class ProposalService {
 
 		// build a VCalendar with single definitive event
 		$vObject = new VCalendar();
-		/** @var VEvent $vEvent */
+		/** @var \Sabre\VObject\Component\VEvent $vEvent */
 		$vEvent = $vObject->add('VEVENT', []);
 		$vEvent->UID->setValue($proposal->getUuid() ?? Uuid::v4()->toRfc4122());
 		$vEvent->add('DTSTART', $selectedDate->getDate());
-		$vEvent->add('DURATION', 'PT' . $proposal->getDuration() . 'M');
+		$vEvent->add('DURATION', "PT{$proposal->getDuration()}M");
 		$vEvent->add('STATUS', 'CONFIRMED');
 		$vEvent->add('SEQUENCE', 1);
 		$vEvent->add('SUMMARY', $proposal->getTitle());
@@ -507,7 +511,7 @@ class ProposalService {
 		$temporaryText = '';
 		foreach ($proposal->getDates()->sortByDate() as $date) {
 			$dtStart = \DateTime::createFromImmutable($date->getDate());
-			$dtEnd = (clone $dtStart)->add(new \DateInterval('PT' . $proposal->getDuration() . 'M'));
+			$dtEnd = (clone $dtStart)->add(new \DateInterval("PT{$proposal->getDuration()}M"));
 			$textDate = $this->l10n->l('date', $dtStart, ['width' => 'long']);
 			$textStart = $this->l10n->l('time', $dtStart, ['width' => 'short']);
 			$textEnd = $this->l10n->l('time', $dtEnd, ['width' => 'short']);
@@ -530,6 +534,10 @@ class ProposalService {
 			// evaluate if a mail service was found and has sending capabilities
 			if ($mailService !== null && $mailService instanceof IMessageSend) {
 				// construct mail message and set required parameters
+				// this condition is just to make psalm happy
+				if (!method_exists($mailService, 'initiateMessage')) {
+					throw new \RuntimeException('Mail service does not support message initiation');
+				}
 				$message = $mailService->initiateMessage();
 				$message->setFrom(
 					(new Address($senderAddress, $senderName))
