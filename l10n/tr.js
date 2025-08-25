@@ -469,6 +469,8 @@ OC.L10N.register(
     "Personal" : "Kişisel",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Otomatik saat dilimi algılaması saat diliminizi UTC olarak belirledi.\nBu durum genellikle tarayıcınızın sağladığı bir güvenlik önleminden kaynaklanır.\nLütfen takvim ayarları bölümünden saat diliminizi el ile ayarlayın.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Yapılandırılmış saat diliminiz {{timezoneId}} bulunamadı. UTC dilimine dönülüyor.\nLütfen ayarlardan saat diliminizi değiştirin ve bu sorunu bildirin.",
+    "Show unscheduled tasks" : "Zamanlanmamış görevleri görüntüle",
+    "Unscheduled tasks" : "Zamanlanmamış görevler",
     "Availability of {displayName}" : "{displayName} uygunluğu",
     "Edit event" : "Etkinliği düzenle",
     "Event does not exist" : "Etkinlik bulunamadı",
