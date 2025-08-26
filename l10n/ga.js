@@ -590,14 +590,6 @@ OC.L10N.register(
     "This is an event reminder." : "Is meabhrúchán imeachta é seo.",
     "Error while parsing a PROPFIND error" : "Earráid agus earráid PROPFIND á parsáil",
     "Appointment not found" : "Níor aimsíodh an coinne",
-    "User not found" : "Úsáideoir gan aimsiú",
-    "Create a new conversation" : "Cruthaigh comhrá nua",
-    "Reminder" : "Meabhrúchán",
-    "+ Add reminder" : "+ Cuir meabhrúchán leis",
-    "Select automatic slot" : "Roghnaigh sliotán uathoibríoch",
-    "with" : "le",
-    "Available times:" : "Amanna ar fáil:",
-    "Suggestions" : "Moltaí",
-    "Details" : "Sonraí"
+    "User not found" : "Úsáideoir gan aimsiú"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

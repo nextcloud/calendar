@@ -58,7 +58,6 @@ OC.L10N.register(
     "Anniversary" : "සංවත්සරය",
     "Daily" : "දිනපතා",
     "Weekly" : "සතිපතා",
-    "Other" : "වෙනත්",
-    "Details" : "විස්තර"
+    "Other" : "වෙනත්"
 },
 "nplurals=2; plural=(n != 1);");

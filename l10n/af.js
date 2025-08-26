@@ -84,7 +84,6 @@ OC.L10N.register(
     "Other" : "Ander",
     "Status" : "Status",
     "Confirmed" : "Bevestig",
-    "Categories" : "Kategorieë",
-    "Details" : "Details"
+    "Categories" : "Kategorieë"
 },
 "nplurals=2; plural=(n != 1);");

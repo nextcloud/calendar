@@ -39,7 +39,6 @@ OC.L10N.register(
     "never" : "ஒருபோதும்",
     "Personal" : "தனிப்பட்ட",
     "Close" : "மூடுக",
-    "Other" : "மற்றவை",
-    "Details" : "விவரங்கள்"
+    "Other" : "மற்றவை"
 },
 "nplurals=2; plural=(n != 1);");

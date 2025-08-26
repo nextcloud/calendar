@@ -343,9 +343,6 @@ OC.L10N.register(
     "Error while sharing file" : "Errore in sa cumpartzidura de s'archìviu",
     "An error occurred, unable to delete the calendar." : "B'at àpidu un'errore, no at fatu a cantzellare su calendàriu.",
     "Imported {filename}" : "Importadu {filename}",
-    "User not found" : "Utèntzia no agatada",
-    "Create a new conversation" : "Crea una resonada noa",
-    "+ Add reminder" : "+ Agiunghe promemòria",
-    "Details" : "Detàllios"
+    "User not found" : "Utèntzia no agatada"
 },
 "nplurals=2; plural=(n != 1);");

@@ -31,7 +31,6 @@ OC.L10N.register(
     "Personal" : "ສ່ວນບຸກຄົນ",
     "Close" : "ປິດ",
     "Daily" : "ລາຍວັນ",
-    "Weekly" : "ອາທິດ",
-    "Details" : "ລາຍລະອຽດ"
+    "Weekly" : "ອາທິດ"
 },
 "nplurals=1; plural=0;");

@@ -542,13 +542,6 @@ OC.L10N.register(
     "Imported {filename}" : "Tuotiin {filename}",
     "This is an event reminder." : "Tämä on tapahtuman muistutus.",
     "Appointment not found" : "Tapaamista ei löydy",
-    "User not found" : "Käyttäjää ei löydy",
-    "Create a new conversation" : "Luo uusi keskustelu",
-    "Reminder" : "Muistutus",
-    "+ Add reminder" : "+ Lisää muistutus",
-    "with" : "kanssa",
-    "Available times:" : "Saatavilla olevat ajat:",
-    "Suggestions" : "Ehdotukset",
-    "Details" : "Tiedot"
+    "User not found" : "Käyttäjää ei löydy"
 },
 "nplurals=2; plural=(n != 1);");

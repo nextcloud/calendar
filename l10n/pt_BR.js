@@ -590,14 +590,6 @@ OC.L10N.register(
     "This is an event reminder." : "Este é um lembrete de evento.",
     "Error while parsing a PROPFIND error" : "Erro ao analisar um erro PROPFIND",
     "Appointment not found" : "Compromisso não encontrado",
-    "User not found" : "Usuário não encontrado",
-    "Create a new conversation" : "Criar uma nova conversa",
-    "Reminder" : "Lembrete",
-    "+ Add reminder" : "+ Adicionar lembrete",
-    "Select automatic slot" : "Selecione vaga automática",
-    "with" : "com",
-    "Available times:" : "Horários disponíveis:",
-    "Suggestions" : "Sugestões",
-    "Details" : "Detalhes"
+    "User not found" : "Usuário não encontrado"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

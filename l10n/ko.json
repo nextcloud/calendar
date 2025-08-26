@@ -503,11 +503,6 @@
     "Imported {filename}" : "{filename} 가져옴",
     "This is an event reminder." : "일정에 대한 알림입니다.",
     "Appointment not found" : "약속을 찾을 수 없음",
-    "User not found" : "사용자를 찾을 수 없음",
-    "Create a new conversation" : "새 대화 만들기",
-    "Reminder" : "알림",
-    "+ Add reminder" : "+ 알림 생성",
-    "Suggestions" : "제안",
-    "Details" : "자세한 정보"
+    "User not found" : "사용자를 찾을 수 없음"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

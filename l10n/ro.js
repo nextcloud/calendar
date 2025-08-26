@@ -490,11 +490,6 @@ OC.L10N.register(
     "Imported {filename}" : "S-a importat {filename}",
     "This is an event reminder." : "Acesta este un memento pentru eveniment.",
     "Appointment not found" : "Programarea nu a fost găsită",
-    "User not found" : "Utilizatorul nu a fost găsit",
-    "Create a new conversation" : "Creează o nouă conversație",
-    "Reminder" : "Memento",
-    "+ Add reminder" : "+ Adaugă memento",
-    "Suggestions" : "Sugestii",
-    "Details" : "Detalii"
+    "User not found" : "Utilizatorul nu a fost găsit"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

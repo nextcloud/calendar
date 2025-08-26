@@ -456,10 +456,6 @@ OC.L10N.register(
     "Imported {filename}" : "Ievietota {filename}",
     "This is an event reminder." : "Šis ir notikuma atgādinājums.",
     "Appointment not found" : "Tikšanās nav atrasta",
-    "User not found" : "Lietotājs nav atrasts",
-    "Reminder" : "Atgādinājums",
-    "+ Add reminder" : "Pievienot atgādinājumu",
-    "Suggestions" : "Ieteikumi",
-    "Details" : "Informācija"
+    "User not found" : "Lietotājs nav atrasts"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -590,14 +590,6 @@ OC.L10N.register(
     "This is an event reminder." : "這是一個活動提醒。",
     "Error while parsing a PROPFIND error" : "解析 PROPFIND 錯誤時發生錯誤",
     "Appointment not found" : "找不到預約",
-    "User not found" : "找不到用戶",
-    "Create a new conversation" : "創建新對話",
-    "Reminder" : "提醒",
-    "+ Add reminder" : "+ 加入提醒",
-    "Select automatic slot" : "選取自動時段",
-    "with" : "與",
-    "Available times:" : "可用時間：",
-    "Suggestions" : "建議",
-    "Details" : "詳細資料"
+    "User not found" : "找不到用戶"
 },
 "nplurals=1; plural=0;");

@@ -93,7 +93,6 @@ OC.L10N.register(
     "When shared hide this event" : "เมื่อแชร์จะซ่อนกิจกรรมนี้",
     "Status" : "สถานะ",
     "Confirmed" : "ยืนยันแล้ว",
-    "Categories" : "หมวดหมู่",
-    "Details" : "รายละเอียด"
+    "Categories" : "หมวดหมู่"
 },
 "nplurals=1; plural=0;");

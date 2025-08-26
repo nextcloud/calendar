@@ -91,7 +91,6 @@ OC.L10N.register(
     "When shared hide this event" : "Түгээсэн тохиолдолд энэ үйл явдлыг нуу",
     "Status" : "төлөв",
     "Confirmed" : "Баталгаажсан",
-    "Categories" : "төрөл",
-    "Details" : "Дэлгэрэнгүй"
+    "Categories" : "төрөл"
 },
 "nplurals=2; plural=(n != 1);");

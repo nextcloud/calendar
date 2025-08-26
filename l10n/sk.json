@@ -575,14 +575,6 @@
     "This is an event reminder." : "Toto je pripomienka udalosti.",
     "Error while parsing a PROPFIND error" : "Chyba pri parsovaní chyby PROPFIND",
     "Appointment not found" : "Stretnutie nebolo nájdené",
-    "User not found" : "Užívateľ nebol nájdený",
-    "Create a new conversation" : "Vytvoriť novú konverzáciu",
-    "Reminder" : "Pripomienka",
-    "+ Add reminder" : "+ Pridať pripomienku",
-    "Select automatic slot" : "Vybrať automatický slot",
-    "with" : "s",
-    "Available times:" : "Dostupné termíny:",
-    "Suggestions" : "Návrhy",
-    "Details" : "Podrobnosti"
+    "User not found" : "Užívateľ nebol nájdený"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

@@ -66,7 +66,6 @@ OC.L10N.register(
     "When shared show only busy" : "Når delt, vis berre oppteken",
     "When shared hide this event" : "Når delt, gøym denne hendinga",
     "Status" : "Status",
-    "Confirmed" : "Stadfesta",
-    "Details" : "Detaljar"
+    "Confirmed" : "Stadfesta"
 },
 "nplurals=2; plural=(n != 1);");

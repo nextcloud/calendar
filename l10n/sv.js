@@ -589,14 +589,6 @@ OC.L10N.register(
     "This is an event reminder." : "Detta är en händelsepåminnelse.",
     "Error while parsing a PROPFIND error" : "Fel vid analys av ett PROPFIND-fel",
     "Appointment not found" : "Mötet hittades inte",
-    "User not found" : "Användaren hittades inte",
-    "Create a new conversation" : "Skapa en ny konversation",
-    "Reminder" : "Påminnelse",
-    "+ Add reminder" : "+ Lägg till påminnelse",
-    "Select automatic slot" : "Välj automatisk lucka",
-    "with" : "med",
-    "Available times:" : "Tillgängliga tider:",
-    "Suggestions" : "Rekommendationer",
-    "Details" : "Detaljer"
+    "User not found" : "Användaren hittades inte"
 },
 "nplurals=2; plural=(n != 1);");

@@ -518,12 +518,6 @@ OC.L10N.register(
     "Imported {filename}" : "Εισηγμένο {filename}",
     "This is an event reminder." : "Αυτή είναι μια υπενθύμιση γεγονότος.",
     "Appointment not found" : "Το ραντεβού δεν βρέθηκε",
-    "User not found" : "Ο/Η χρήστης δεν βρέθηκε",
-    "Create a new conversation" : "Δημιουργία νέας συνομιλίας",
-    "Reminder" : "Υπενθύμιση",
-    "+ Add reminder" : "+ Προσθήκη υπενθύμισης",
-    "Available times:" : "Διαθέσιμες ώρες:",
-    "Suggestions" : "Προτάσεις",
-    "Details" : "Λεπτομέρειες"
+    "User not found" : "Ο/Η χρήστης δεν βρέθηκε"
 },
 "nplurals=2; plural=(n != 1);");

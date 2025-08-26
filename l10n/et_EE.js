@@ -590,14 +590,6 @@ OC.L10N.register(
     "This is an event reminder." : "See on sündmuse meeldetuletus.",
     "Error while parsing a PROPFIND error" : "Viga PROPFIND-meetodi vea töötlemisel",
     "Appointment not found" : "Kokkulepitud kohtumist ei leidu",
-    "User not found" : "Kasutajat ei leitud",
-    "Create a new conversation" : "Loo uus vestlus",
-    "Reminder" : "Meeldetuletused",
-    "+ Add reminder" : "+ Lisa meeldetuletus",
-    "Select automatic slot" : "Vali automaatselt soovitatud ajavahemik",
-    "with" : "koos",
-    "Available times:" : "Saadaolevad ajad:",
-    "Suggestions" : "Soovitused",
-    "Details" : "Üksikasjad"
+    "User not found" : "Kasutajat ei leitud"
 },
 "nplurals=2; plural=(n != 1);");

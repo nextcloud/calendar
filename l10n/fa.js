@@ -496,11 +496,6 @@ OC.L10N.register(
     "Imported {filename}" : "وارد شده {نام پرونده}",
     "This is an event reminder." : "This is an event reminder.",
     "Appointment not found" : "Appointment not found",
-    "User not found" : "کاربر یافت نشد",
-    "Create a new conversation" : "Create a new conversation",
-    "Reminder" : "Reminder",
-    "+ Add reminder" : "+ اضافه کردن یادآوری",
-    "Suggestions" : "Suggestions",
-    "Details" : "جزئیات"
+    "User not found" : "کاربر یافت نشد"
 },
 "nplurals=2; plural=(n > 1);");

@@ -588,14 +588,6 @@
     "This is an event reminder." : "这是一个事件提醒。",
     "Error while parsing a PROPFIND error" : "解析 PROPFIND 错误时出错",
     "Appointment not found" : "未找到预约",
-    "User not found" : "未找到用户",
-    "Create a new conversation" : "创建新对话",
-    "Reminder" : "提醒",
-    "+ Add reminder" : "+ 添加提醒",
-    "Select automatic slot" : "选择自动化槽位",
-    "with" : "与",
-    "Available times:" : "可用时间：",
-    "Suggestions" : "建议",
-    "Details" : "详情"
+    "User not found" : "未找到用户"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

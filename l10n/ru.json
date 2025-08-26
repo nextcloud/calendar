@@ -588,14 +588,6 @@
     "This is an event reminder." : "Это напоминание о событии.",
     "Error while parsing a PROPFIND error" : "Ошибка при анализе ошибки PROPFIND",
     "Appointment not found" : "Встреча не найдена",
-    "User not found" : "Пользователь не найден",
-    "Create a new conversation" : "Создать новое обсуждение",
-    "Reminder" : "Напоминание",
-    "+ Add reminder" : "+ Создать напоминание",
-    "Select automatic slot" : "Выбрать интервал автоматически",
-    "with" : "с",
-    "Available times:" : "Доступные варианты:",
-    "Suggestions" : "Предложения",
-    "Details" : "Подробности"
+    "User not found" : "Пользователь не найден"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

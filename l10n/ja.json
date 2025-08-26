@@ -538,14 +538,6 @@
     "Imported {filename}" : "インポートされた {filename}",
     "This is an event reminder." : "これはイベントのリマインダーです。",
     "Appointment not found" : "予定が見つかりません",
-    "User not found" : "ユーザーが見つかりません",
-    "Create a new conversation" : "新しい会話を作成する",
-    "Reminder" : "リマインダー",
-    "+ Add reminder" : "+ リマインダーを追加",
-    "Select automatic slot" : "自動スロット選択",
-    "with" : "とともに",
-    "Available times:" : "利用可能な時間帯:",
-    "Suggestions" : "提案",
-    "Details" : "詳細"
+    "User not found" : "ユーザーが見つかりません"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

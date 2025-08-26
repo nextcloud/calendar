@@ -503,11 +503,6 @@ OC.L10N.register(
     "Imported {filename}" : "Imported {filename}",
     "This is an event reminder." : "This is an event reminder.",
     "Appointment not found" : "Appointment not found",
-    "User not found" : "User not found",
-    "Create a new conversation" : "Create a new conversation",
-    "Reminder" : "Reminder",
-    "+ Add reminder" : "+ Add reminder",
-    "Suggestions" : "Suggestions",
-    "Details" : "Details"
+    "User not found" : "User not found"
 },
 "nplurals=2; plural=(n!=1);");

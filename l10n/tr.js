@@ -590,14 +590,6 @@ OC.L10N.register(
     "This is an event reminder." : "Bu bir etkinlik hatırlatıcısıdır.",
     "Error while parsing a PROPFIND error" : "PROPFIND hatası işlenirken sorun çıktı",
     "Appointment not found" : "Randevu bulunamadı",
-    "User not found" : "Kullanıcı bulunamadı",
-    "Create a new conversation" : "Yeni bir görüşme oluştur",
-    "Reminder" : "Anımsatıcı",
-    "+ Add reminder" : "+ Anımsatıcı ekle",
-    "Select automatic slot" : "Aralık otomatik seçilsin",
-    "with" : "şu kişi ile",
-    "Available times:" : "Uygun zamanlar:",
-    "Suggestions" : "Öneriler",
-    "Details" : "Ayrıntılar"
+    "User not found" : "Kullanıcı bulunamadı"
 },
 "nplurals=2; plural=(n > 1);");

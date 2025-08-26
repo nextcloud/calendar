@@ -590,14 +590,6 @@ OC.L10N.register(
     "This is an event reminder." : "Toto je připomínka události.",
     "Error while parsing a PROPFIND error" : "Chyba při zpracovávání PROPFIND chyby",
     "Appointment not found" : "Schůzka nenalezena",
-    "User not found" : "Uživatel nenalezen",
-    "Create a new conversation" : "Vytvořit novou konverzaci",
-    "Reminder" : "Připomínka",
-    "+ Add reminder" : "+ Přidat připomínku",
-    "Select automatic slot" : "Vybrat automatický slot",
-    "with" : "s",
-    "Available times:" : "Časy k dispozici:",
-    "Suggestions" : "Doporučení",
-    "Details" : "Podrobnosti"
+    "User not found" : "Uživatel nenalezen"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

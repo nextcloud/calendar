@@ -565,14 +565,6 @@ OC.L10N.register(
     "This is an event reminder." : "Þetta er áminning vegna atburðar.",
     "Error while parsing a PROPFIND error" : "Villa við þáttun á PROPFIND-villu",
     "Appointment not found" : "Stefnumót fannst ekki",
-    "User not found" : "Notandi fannst ekki",
-    "Create a new conversation" : "Hefja nýtt samtal",
-    "Reminder" : "Áminning",
-    "+ Add reminder" : "+ Bæta við áminningu",
-    "Select automatic slot" : "Velja sjálfvirkt tímahólf",
-    "with" : "með",
-    "Available times:" : "Lausir tímar:",
-    "Suggestions" : "Tillögur",
-    "Details" : "Nánar"
+    "User not found" : "Notandi fannst ekki"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

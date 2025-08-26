@@ -547,14 +547,6 @@
     "This is an event reminder." : "Hau gertaera baten gogorarazpena da.",
     "Error while parsing a PROPFIND error" : "Errore bat gertatu da PROPFIND errore bat analizatzean",
     "Appointment not found" : "Ez da hitzordua aurkitu",
-    "User not found" : "Ez da erabiltzailea aurkitu",
-    "Create a new conversation" : "Sortu elkarrizketa berri bat",
-    "Reminder" : "Gogorarazpena",
-    "+ Add reminder" : "+ Gehitu gogorarazpena",
-    "Select automatic slot" : "Hautatu tartea automatikoki",
-    "with" : "honekin",
-    "Available times:" : "Denbora eskuragarriak:",
-    "Suggestions" : "Iradokizunak",
-    "Details" : "Xehetasunak"
+    "User not found" : "Ez da erabiltzailea aurkitu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

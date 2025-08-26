@@ -482,10 +482,6 @@ OC.L10N.register(
     "Imported {filename}" : "Импортирано {filename}",
     "This is an event reminder." : "Това е напомняне за събитие.",
     "Appointment not found" : "Срещата не е намерена",
-    "User not found" : "Потребителят не е намерен ",
-    "Reminder" : "Напомняне",
-    "+ Add reminder" : "+ Добави напомняне",
-    "Suggestions" : "Препоръки",
-    "Details" : "Подробности"
+    "User not found" : "Потребителят не е намерен "
 },
 "nplurals=2; plural=(n != 1);");

@@ -55,7 +55,6 @@ OC.L10N.register(
     "Daily" : "দৈনিক",
     "Weekly" : "সাপ্তাহিক",
     "second" : "সেকেন্ড",
-    "Other" : "অন্যান্য",
-    "Details" : "বিসতারিত"
+    "Other" : "অন্যান্য"
 },
 "nplurals=2; plural=(n != 1);");
