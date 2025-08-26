@@ -102,12 +102,20 @@ export default {
 		/**
 		 * Function to filter results in NcSelect
 		 *
-		 * @param {object} option
-		 * @param {string} label
-		 * @param {string} search
+		 * @param {object} option The option object returned by the remote search
+		 * @param {string} label The label value (displayName) for the option
+		 * @param {string} search The current search string entered by the user
 		 */
 		filterResults(option, label, search) {
-			return true
+			// Allow all when no search text (NcSelect already restricts remote query)
+			if (!search) {
+				return true
+			}
+			const term = search.toLowerCase()
+			// Match against provided label, email, or user identifier
+			return (label && label.toLowerCase().includes(term))
+				|| (option.email && option.email.toLowerCase().includes(term))
+				|| (option.user && option.user.toLowerCase().includes(term))
 		},
 		/**
 		 * Use the cdav client call to find matches to the query from the existing Users & Groups
@@ -132,7 +140,7 @@ export default {
 
 			if (query.length > 0) {
 				const davPromise = this.findShareesFromDav(query, hiddenPrincipalSchemes, hiddenUrls)
-				const ocsPromise = this.findShareesFromCircles(query, hiddenPrincipalSchemes, hiddenUrls)
+				const ocsPromise = this.findShareesFromCircles(query, hiddenPrincipalSchemes)
 
 				const [davResults, ocsResults] = await Promise.all([davPromise, ocsPromise])
 				this.usersOrGroups = [
@@ -200,13 +208,13 @@ export default {
 			}, [])
 		},
 		/**
+		 * Search for circles (teams) matching the query.
 		 *
 		 * @param {string} query The search query
 		 * @param {string[]} hiddenPrincipals A list of principals to exclude from search results
-		 * @param {string[]} hiddenUrls A list of urls to exclude from search results
 		 * @return {Promise<object[]>}
 		 */
-		async findShareesFromCircles(query, hiddenPrincipals, hiddenUrls) {
+		async findShareesFromCircles(query, hiddenPrincipals) {
 			let results
 			try {
 				results = await HttpClient.get(generateOcsUrl('apps/files_sharing/api/v1/') + 'sharees', {
