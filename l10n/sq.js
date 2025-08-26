@@ -96,7 +96,6 @@ OC.L10N.register(
     "Status" : "Status",
     "Confirmed" : "E konfirmuar",
     "Canceled" : "Anuluar",
-    "Categories" : "Kategoritë",
-    "Details" : "Detajet"
+    "Categories" : "Kategoritë"
 },
 "nplurals=2; plural=(n != 1);");

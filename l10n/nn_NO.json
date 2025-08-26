@@ -64,7 +64,6 @@
     "When shared show only busy" : "Når delt, vis berre oppteken",
     "When shared hide this event" : "Når delt, gøym denne hendinga",
     "Status" : "Status",
-    "Confirmed" : "Stadfesta",
-    "Details" : "Detaljar"
+    "Confirmed" : "Stadfesta"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

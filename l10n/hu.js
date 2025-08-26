@@ -590,14 +590,6 @@ OC.L10N.register(
     "This is an event reminder." : "Ez egy eseményemlékeztető.",
     "Error while parsing a PROPFIND error" : "Hiba történt a PROPFIND hiba feldolgozása során",
     "Appointment not found" : "A találkozó nem található",
-    "User not found" : "A felhasználó nem található",
-    "Create a new conversation" : "Új beszélgetés létrehozása",
-    "Reminder" : "Emlékeztető",
-    "+ Add reminder" : "+ Emlékeztető hozzáadása",
-    "Select automatic slot" : "Automatikus idősáv kiválasztása",
-    "with" : "a következőkkel:",
-    "Available times:" : "Elérhető időszakok:",
-    "Suggestions" : "Javaslatok",
-    "Details" : "Részletek"
+    "User not found" : "A felhasználó nem található"
 },
 "nplurals=2; plural=(n != 1);");

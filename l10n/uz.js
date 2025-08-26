@@ -571,14 +571,6 @@ OC.L10N.register(
     "This is an event reminder." : "Bu tadbir eslatmasi.",
     "Error while parsing a PROPFIND error" : "PROPFIND xatosini tahlil qilishda xatolik yuz berdi",
     "Appointment not found" : "Uchrashuv topilmadi",
-    "User not found" : "Foydalanuvchi topilmadi",
-    "Create a new conversation" : "Yangi suhbat yarating",
-    "Reminder" : "Eslatma",
-    "+ Add reminder" : "+ Eslatma qo'shish",
-    "Select automatic slot" : "Avtomatik slotni tanlang",
-    "with" : "bilan",
-    "Available times:" : "Bo`sh vaqtlar:",
-    "Suggestions" : "Takliflar",
-    "Details" : "Tafsilotlar"
+    "User not found" : "Foydalanuvchi topilmadi"
 },
 "nplurals=1; plural=0;");

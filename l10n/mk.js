@@ -557,13 +557,6 @@ OC.L10N.register(
     "Imported {filename}" : "Импортирано {filename}",
     "This is an event reminder." : "Ова е потсетник за настан.",
     "Appointment not found" : "Терминот не е пронајден",
-    "User not found" : "Корисникот не е пронајден",
-    "Create a new conversation" : "Креирај нов разговор",
-    "Reminder" : "Потсетник",
-    "+ Add reminder" : "+ Додади потсетник",
-    "with" : "со",
-    "Available times:" : "Достапни термини:",
-    "Suggestions" : "Предлози",
-    "Details" : "Детали"
+    "User not found" : "Корисникот не е пронајден"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

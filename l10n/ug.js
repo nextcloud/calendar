@@ -512,14 +512,6 @@ OC.L10N.register(
     "This is an event reminder." : "بۇ بىر ۋەقە ئەسكەرتىش.",
     "Error while parsing a PROPFIND error" : "PROPFIND خاتالىقىنى تەھلىل قىلغاندا خاتالىق",
     "Appointment not found" : "تەيىنلەنمىدى",
-    "User not found" : "ئىشلەتكۈچى تېپىلمىدى",
-    "Create a new conversation" : "يېڭى سۆھبەت قۇر",
-    "Reminder" : "ئەسكەرتىش",
-    "+ Add reminder" : "+ ئەسكەرتىش قوشۇڭ",
-    "Select automatic slot" : "ئاپتوماتىك ئورۇننى تاللاڭ",
-    "with" : "with",
-    "Available times:" : "ئىشلەتكىلى بولىدىغان ۋاقىت:",
-    "Suggestions" : "تەكلىپ",
-    "Details" : "تەپسىلاتى"
+    "User not found" : "ئىشلەتكۈچى تېپىلمىدى"
 },
 "nplurals=2; plural=(n != 1);");

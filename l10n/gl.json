@@ -571,14 +571,6 @@
     "This is an event reminder." : "Este é un lembrete de eventos.",
     "Error while parsing a PROPFIND error" : "Produciuse un erro ao analizar un erro PROPFIND",
     "Appointment not found" : "Non se atopou a cita",
-    "User not found" : "Non se atopou o usuario",
-    "Create a new conversation" : "Crear unha nova conversa",
-    "Reminder" : "Lembrete",
-    "+ Add reminder" : "+ Engadir lembrete",
-    "Select automatic slot" : "Seleccionar a franxa automática",
-    "with" : "con",
-    "Available times:" : "Horarios dispoñíbeis",
-    "Suggestions" : "Suxestións",
-    "Details" : "Detalles"
+    "User not found" : "Non se atopou o usuario"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -429,12 +429,6 @@ OC.L10N.register(
     "Imported {filename}" : "Importuotas {filename}",
     "This is an event reminder." : "Tai priminimas apie įvykį.",
     "Appointment not found" : "Susitikimas nerastas",
-    "User not found" : "Naudotojas nerastas",
-    "Create a new conversation" : "Sukurti naują pokalbį",
-    "Reminder" : "Priminimas",
-    "+ Add reminder" : "+ Pridėti priminimą",
-    "Available times:" : "Prieinami laikai:",
-    "Suggestions" : "Pasiūlymai",
-    "Details" : "Išsamiau"
+    "User not found" : "Naudotojas nerastas"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

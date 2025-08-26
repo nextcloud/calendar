@@ -590,14 +590,6 @@ OC.L10N.register(
     "This is an event reminder." : "Hiki ni kikumbishi cha tukio",
     "Error while parsing a PROPFIND error" : "Hitilafu wakati wa kuchanganua hitilafu ya PROPFIND",
     "Appointment not found" : "Muadi haupatikani",
-    "User not found" : "Mtumiaji hapatikani",
-    "Create a new conversation" : "Tengeneza mazungumzo mapya",
-    "Reminder" : "Kikumbushio",
-    "+ Add reminder" : "+ Ongeza kikumbushio",
-    "Select automatic slot" : "Chagua slot ya moja kwa moja",
-    "with" : "na",
-    "Available times:" : "Muda unaopatikana",
-    "Suggestions" : "Mapendekezo",
-    "Details" : "Maelezo ya kina"
+    "User not found" : "Mtumiaji hapatikani"
 },
 "nplurals=2; plural=(n != 1);");

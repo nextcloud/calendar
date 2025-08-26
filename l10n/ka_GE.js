@@ -85,7 +85,6 @@ OC.L10N.register(
     "When shared hide this event" : "როდესაც გაზიარებულია არ გამოჩნდეს ეს მოვლენა",
     "Status" : "სტატუსი",
     "Confirmed" : "დადასტურებლია",
-    "Categories" : "კატეგორიები",
-    "Details" : "დეტლაები"
+    "Categories" : "კატეგორიები"
 },
 "nplurals=2; plural=(n!=1);");

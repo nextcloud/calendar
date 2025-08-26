@@ -584,14 +584,6 @@
     "This is an event reminder." : "Ово је подсетник за догађај.",
     "Error while parsing a PROPFIND error" : "Грешка приликом парсирања PROPFIND грешке",
     "Appointment not found" : "Састанак није пронађен",
-    "User not found" : "Корисник није нађен",
-    "Create a new conversation" : "Креирај нови разговор",
-    "Reminder" : "Подсетник",
-    "+ Add reminder" : "+ Додај подсетник",
-    "Select automatic slot" : "Изабери аутоматски термин",
-    "with" : "са",
-    "Available times:" : "Времена доступности:",
-    "Suggestions" : "Предлози",
-    "Details" : "Детаљи"
+    "User not found" : "Корисник није нађен"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

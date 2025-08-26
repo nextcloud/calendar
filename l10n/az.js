@@ -63,7 +63,6 @@ OC.L10N.register(
     "second" : "saniyə",
     "Other" : "Digər",
     "Status" : "Status",
-    "Categories" : "Kateqoriyalar",
-    "Details" : "Detallar"
+    "Categories" : "Kateqoriyalar"
 },
 "nplurals=2; plural=(n != 1);");

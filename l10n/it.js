@@ -569,14 +569,6 @@ OC.L10N.register(
     "This is an event reminder." : "Questo è un promemoria dell'evento.",
     "Error while parsing a PROPFIND error" : "Errore durante l'elaborazione di un errore PROPFIND",
     "Appointment not found" : "Appuntamento non trovato",
-    "User not found" : "Utente non trovato",
-    "Create a new conversation" : "Crea una nuova conversazione",
-    "Reminder" : "Promemoria",
-    "+ Add reminder" : "+ Aggiungi promemoria",
-    "Select automatic slot" : "Selezione automatica degli slot",
-    "with" : "con",
-    "Available times:" : "Orari disponibili:",
-    "Suggestions" : "Consigli",
-    "Details" : "Dettagli"
+    "User not found" : "Utente non trovato"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -29,7 +29,6 @@ OC.L10N.register(
     "Daily" : "S wass",
     "Weekly" : "S umalas",
     "Other" : "Wayeḍ",
-    "Status" : "État",
-    "Details" : "Talqayt"
+    "Status" : "État"
 },
 "nplurals=2; plural=(n != 1);");

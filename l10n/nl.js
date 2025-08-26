@@ -546,14 +546,6 @@ OC.L10N.register(
     "Imported {filename}" : "Geïmporteerd {filename}",
     "This is an event reminder." : "Dit is een herinnering aan een evenement.",
     "Appointment not found" : "Afspraak niet gevonden",
-    "User not found" : "Gebruiker niet gevonden",
-    "Create a new conversation" : "Maak een nieuw gesprek",
-    "Reminder" : "Herinnering",
-    "+ Add reminder" : "+ Toevoegen herinnering",
-    "Select automatic slot" : "Selecteer automatisch tijdsblok",
-    "with" : "met",
-    "Available times:" : "Beschikbare tijden:",
-    "Suggestions" : "Suggesties",
-    "Details" : "Details"
+    "User not found" : "Gebruiker niet gevonden"
 },
 "nplurals=2; plural=(n != 1);");
