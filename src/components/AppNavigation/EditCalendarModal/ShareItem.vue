@@ -40,7 +40,7 @@
 import { NcActions, NcActionButton, NcAvatar } from '@nextcloud/vue'
 import AccountMultiple from 'vue-material-design-icons/AccountMultipleOutline.vue'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroupOutline.vue'
-import Delete from 'vue-material-design-icons/DeleteOutline.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import {
 	showInfo,
 } from '@nextcloud/dialogs'

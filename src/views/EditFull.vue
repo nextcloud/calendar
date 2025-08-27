@@ -325,7 +325,7 @@ import AttachmentsList from '../components/Editor/Attachments/AttachmentsList.vu
 import CalendarPickerHeader from '../components/Editor/CalendarPickerHeader.vue'
 
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
-import Delete from 'vue-material-design-icons/DeleteOutline.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
 

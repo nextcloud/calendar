@@ -230,7 +230,7 @@ import InviteesList from '../components/Editor/Invitees/InviteesList.vue'
 
 import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
 import Close from 'vue-material-design-icons/Close.vue'
-import Delete from 'vue-material-design-icons/DeleteOutline.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
 import EditIcon from 'vue-material-design-icons/PencilOutline.vue'

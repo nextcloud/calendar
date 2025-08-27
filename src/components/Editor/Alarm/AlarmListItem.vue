@@ -147,7 +147,7 @@ import moment from '@nextcloud/moment'
 import TimePicker from '../../Shared/TimePicker.vue'
 import DatePicker from '../../Shared/DatePicker.vue'
 import Check from 'vue-material-design-icons/CheckOutline.vue'
-import Delete from 'vue-material-design-icons/DeleteOutline.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
 
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'

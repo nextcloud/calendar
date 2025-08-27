@@ -110,7 +110,7 @@ import useCalendarsStore from '../../../store/calendars.js'
 import useSettingsStore from '../../../store/settings.js'
 import { mapStores, mapState } from 'pinia'
 
-import IconDelete from 'vue-material-design-icons/DeleteOutline.vue'
+import IconDelete from 'vue-material-design-icons/TrashCanOutline.vue'
 
 export default {
 	name: 'Trashbin',
