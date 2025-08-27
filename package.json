@@ -72,7 +72,7 @@
     "linkifyjs": "^4.3.2",
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
-    "p-limit": "^6.2.0",
+    "p-limit": "^7.1.0",
     "pinia": "^2.3.1",
     "vue": "^2.7.16",
     "vue-material-design-icons": "^5.3.1",
