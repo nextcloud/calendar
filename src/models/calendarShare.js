@@ -5,6 +5,7 @@
 import {
 	PRINCIPAL_PREFIX_CIRCLE,
 	PRINCIPAL_PREFIX_GROUP,
+	PRINCIPAL_PREFIX_REMOTE_USER,
 	PRINCIPAL_PREFIX_USER,
 } from './consts.js'
 
@@ -27,6 +28,8 @@ const getDefaultCalendarShareObject = (props = {}) => Object.assign({}, {
 	isGroup: false,
 	// Whether or not sharee is a user-defined group
 	isCircle: false,
+	// Whether or not sharee is a remote user (on a federated instance)
+	isRemoteUser: false,
 	// Uri necessary for deleting / updating share
 	uri: null,
 }, props)
@@ -48,6 +51,8 @@ const mapDavShareeToCalendarShareObject = (sharee) => {
 		displayName = decodeURIComponent(sharee.href.slice(28))
 	} else if (sharee.href.startsWith(PRINCIPAL_PREFIX_USER)) {
 		displayName = decodeURIComponent(sharee.href.slice(27))
+	} else if (sharee.href.startsWith(PRINCIPAL_PREFIX_REMOTE_USER)) {
+		displayName = atob(sharee.href.slice(34))
 	} else {
 		displayName = sharee.href
 	}
@@ -56,6 +61,7 @@ const mapDavShareeToCalendarShareObject = (sharee) => {
 	const isUser = sharee.href.startsWith(PRINCIPAL_PREFIX_USER)
 	const isGroup = sharee.href.startsWith(PRINCIPAL_PREFIX_GROUP)
 	const isCircle = sharee.href.startsWith(PRINCIPAL_PREFIX_CIRCLE)
+	const isRemoteUser = sharee.href.startsWith(PRINCIPAL_PREFIX_REMOTE_USER)
 	const uri = sharee.href
 
 	return getDefaultCalendarShareObject({
@@ -65,6 +71,7 @@ const mapDavShareeToCalendarShareObject = (sharee) => {
 		isUser,
 		isGroup,
 		isCircle,
+		isRemoteUser,
 		uri,
 	})
 }
