@@ -328,6 +328,8 @@ export default {
 
 			if (isDateOnlyView && (!vtodo.hasProperty('dtstart') || vtodo.startDate.isDate)) {
 				dueDate.isDate = true
+			} else if (!isDateOnlyView && vtodo.startDate?.isDate) {
+				vtodo.startDate.isDate = false
 			}
 
 			// 3.2 Now do the actual update
