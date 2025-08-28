@@ -100,7 +100,7 @@ class ContactController extends Controller {
 			return new JSONResponse();
 		}
 
-		$result = $this->contactsManager->search($search, ['FN', 'EMAIL']);
+		$result = $this->contactsManager->search($search, ['FN', 'EMAIL'], ['enumeration' => false]);
 
 		$contacts = [];
 		foreach ($result as $r) {
