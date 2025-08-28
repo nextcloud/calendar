@@ -150,7 +150,7 @@ class ContactControllerTest extends TestCase {
 			]);
 		$this->manager->expects(self::once())
 			->method('search')
-			->with('search 123', ['FN', 'ADR'])
+			->with('search 123', ['FN', 'ADR'], ['enumeration' => false])
 			->willReturn([
 				$user1,
 				$user2,
@@ -391,7 +391,7 @@ class ContactControllerTest extends TestCase {
 		$this->manager->expects(self::exactly(2))
 			->method('search')
 			->willReturnMap([
-				['search 123', ['FN', 'EMAIL'], [], [$user1, $user2, $user3, $user4]],
+				['search 123', ['FN', 'EMAIL'], ['enumeration' => false], [$user1, $user2, $user3, $user4]],
 				['search 123', ['CATEGORIES'], [], [$user4]]
 			]);
 
