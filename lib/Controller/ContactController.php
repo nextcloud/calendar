@@ -59,7 +59,7 @@ class ContactController extends Controller {
 			return new JSONResponse();
 		}
 
-		$result = $this->contactsManager->search($search, ['FN', 'ADR']);
+		$result = $this->contactsManager->search($search, ['FN', 'ADR'], ['enumeration' => false]);
 
 		$contacts = [];
 		foreach ($result as $r) {
@@ -122,7 +122,7 @@ class ContactController extends Controller {
 			];
 		}
 
-		$groups = $this->contactsManager->search($search, ['CATEGORIES']);
+		$groups = $this->contactsManager->search($search, ['CATEGORIES'], ['enumeration' => false]);
 		$groups = array_filter($groups, function ($group) {
 			return $this->contactsService->hasEmail($group);
 		});
@@ -151,7 +151,7 @@ class ContactController extends Controller {
 			return new JSONResponse();
 		}
 
-		$groupmembers = $this->contactsManager->search($groupName, ['CATEGORIES']);
+		$groupmembers = $this->contactsManager->search($groupName, ['CATEGORIES'], ['enumeration' => false]);
 		$contacts = [];
 		foreach ($groupmembers as $r) {
 			if (!in_array($groupName, explode(',', $r['CATEGORIES']), true)) {
@@ -252,7 +252,7 @@ class ContactController extends Controller {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		$result = $this->contactsManager->search($search, ['EMAIL']);
+		$result = $this->contactsManager->search($search, ['EMAIL'], ['enumeration' => false]);
 
 		foreach ($result as $r) {
 			if (!$this->contactsService->hasEmail($r) || $this->contactsService->isSystemBook($r)) {
