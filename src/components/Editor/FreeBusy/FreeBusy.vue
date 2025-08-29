@@ -571,7 +571,8 @@ export default {
 				eventElement.style.background = `repeating-linear-gradient(45deg, ${this.personalCalendarColor}, ${this.personalCalendarColor} 1px, transparent 1px, transparent 3.5px)`
 				return
 			}
-			eventElement.style.background = uidToHexColor(e.event.title)
+			const color = uidToHexColor(e.event.title)
+			eventElement.style.background = `repeating-linear-gradient(45deg, ${color}, ${color} 1px, transparent 1px, transparent 3.5px)`
 		},
 		save() {
 			this.$emit('update-dates', { start: this.currentStart, end: this.currentEnd })
