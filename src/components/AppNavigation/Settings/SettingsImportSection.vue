@@ -4,12 +4,12 @@
 -->
 
 <template>
-	<li v-if="showProgressBar" class="settings-fieldset-interior-item">
-		<progress class="settings-fieldset-interior-item__progressbar"
+	<div v-if="showProgressBar" class="settings-fieldset-interior-item settings-fieldset-interior-item--import-progress">
+		<progress class="settings-fieldset-interior-item__import-progress-bar"
 			:value="imported"
 			:max="total" />
-	</li>
-	<li v-else class="settings-fieldset-interior-item">
+	</div>
+	<div v-else class="settings-fieldset-interior-item settings-fieldset-interior-item--import-action">
 		<NcButton :disabled="disableImport"
 			:wide="true"
 			@click="$refs.importInput.click()">
@@ -31,7 +31,7 @@
 			:files="files"
 			@cancel-import="cancelImport"
 			@import-calendar="importCalendar" />
-	</li>
+	</div>
 </template>
 
 <script>
