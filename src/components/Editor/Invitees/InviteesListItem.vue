@@ -13,6 +13,7 @@
 			:schedule-status="attendee.attendeeProperty.getParameterFirstValue('SCHEDULE-STATUS')"
 			:organizer-display-name="organizerDisplayName"
 			:common-name="commonName"
+			:timezone="timezone"
 			:is-group="isGroup" />
 		<div class="invitees-list-item__displayname"
 			:class="{ 'invitees-list-item__groupname':members.length }">
@@ -105,6 +106,7 @@ import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
 import { mapStores } from 'pinia'
+import { getAttendeeDetails } from '@/services/attendeeDetails'
 
 export default {
 	name: 'InviteesListItem',
@@ -145,6 +147,7 @@ export default {
 	data() {
 		return {
 			memberListExpaneded: false,
+			timezone: null,
 		}
 	},
 	computed: {
@@ -199,6 +202,11 @@ export default {
 		isGroup() {
 			return this.attendee.attendeeProperty.userType === 'GROUP'
 		},
+	},
+	mounted() {
+		getAttendeeDetails(this.attendee.uri).then((res) => {
+			this.timezone = res?.timezone
+		})
 	},
 	methods: {
 		/**
