@@ -22,6 +22,9 @@
 				:size="20" />
 			<div class="avatar-participation-status__text">
 				{{ status.text }}
+				<span v-if="adjustedTime" class="avatar-participation-status__text__time">
+					, {{ adjustedTime }} local time
+				</span>
 			</div>
 		</template>
 	</div>
@@ -34,6 +37,9 @@ import IconCheck from 'vue-material-design-icons/CheckCircleOutline.vue'
 import IconNoResponse from 'vue-material-design-icons/HelpCircleOutline.vue'
 import IconClose from 'vue-material-design-icons/CloseCircleOutline.vue'
 import IconDelegated from 'vue-material-design-icons/ArrowRightDropCircleOutline.vue'
+
+import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
+import { mapStores } from 'pinia'
 
 export default {
 	name: 'AvatarParticipationStatus',
@@ -86,8 +92,14 @@ export default {
 			type: String,
 			required: true,
 		},
+		timezone: {
+			type: String,
+			required: false,
+			default: null,
+		},
 	},
 	computed: {
+		...mapStores(useCalendarObjectInstanceStore),
 		/**
 		 * @return {icon: object, fillColor: string|undefined, text: string}
 		 */
@@ -217,6 +229,43 @@ export default {
 					organizerName: this.organizerDisplayName,
 				}),
 			}
+		},
+		adjustedTime() {
+			if (!this.timezone) {
+				return false
+			}
+
+			const startDate = this.calendarObjectInstanceStore.calendarObjectInstance.startDate
+
+			if (!startDate) {
+				return false
+			}
+
+			const date = new Date(startDate)
+
+			// Format in target timezone
+			const options = {
+				timeZone: this.timezone,
+				hour: '2-digit',
+				minute: '2-digit',
+				hour12: false
+			}
+
+			const formatter = new Intl.DateTimeFormat('en-GB', options)
+			const formatted = formatter.format(date)
+
+			const localDay = date.getUTCDate()
+			const tzDay = new Intl.DateTimeFormat('en-GB', { timeZone: this.timezone, day: '2-digit' }).format(date)
+			const tzDayNum = parseInt(tzDay, 10)
+
+			let dayOffset = ''
+			if (tzDayNum > localDay) {
+				dayOffset = ' (+1 ' + t('calendar', 'day') + ')'
+			} else if (tzDayNum < localDay) {
+				dayOffset = ' (-1 ' + t('calendar', 'day') + ')'
+			}
+
+			return `${formatted}${dayOffset}`
 		},
 	},
 }

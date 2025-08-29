@@ -217,9 +217,14 @@ export default {
 			let response
 
 			try {
+				console.log('link', linkTo('calendar', 'index.php') + '/v1/autocompletion/attendee')
+
 				response = await HttpClient.post(linkTo('calendar', 'index.php') + '/v1/autocompletion/attendee', {
 					search: query,
+					includeSystemAddressbook: true,
 				})
+
+				console.log('response', response)
 			} catch (error) {
 				console.debug(error)
 				return []
@@ -285,6 +290,8 @@ export default {
 				console.debug(error)
 				return []
 			}
+
+			console.log('results here', results)
 
 			return results.filter((principal) => {
 				if (!principal.email) {
