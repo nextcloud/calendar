@@ -37,12 +37,19 @@ class UserDeletedListenerTest extends TestCase {
 		$this->serviceMock->getParameter('bookingService')
 			->expects(self::never())
 			->method('deleteByUser');
+		$this->serviceMock->getParameter('proposalService')
+			->expects(self::never())
+			->method('deleteProposalsByUser');
 
 		$this->listener->handle($event);
 	}
 
 	public function testHandle(): void {
 		$user = $this->createMock(IUser::class);
+		$user->expects(self::atLeastOnce())
+			->method('getUID')
+			->willReturn('test-user-id');
+
 		$event = new UserDeletedEvent($user);
 		$this->serviceMock->getParameter('appointmentConfigService')
 			->expects(self::once())
@@ -52,6 +59,10 @@ class UserDeletedListenerTest extends TestCase {
 			->expects(self::once())
 			->method('deleteByUser')
 			->with($user);
+		$this->serviceMock->getParameter('proposalService')
+			->expects(self::once())
+			->method('deleteProposalsByUser')
+			->with('test-user-id');
 
 		$this->listener->handle($event);
 	}
