@@ -56,7 +56,7 @@ import {
 	NcActionLink as ActionLink,
 } from '@nextcloud/vue'
 import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
-import DeleteIcon from 'vue-material-design-icons/Delete.vue'
+import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import PencilIcon from 'vue-material-design-icons/Pencil.vue'
 import AppointmentConfig from '../../../models/appointmentConfig.js'
