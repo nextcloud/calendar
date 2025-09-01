@@ -447,6 +447,8 @@ export default {
 			if (!this.isEditingMasterItem) {
 				this.$emit('force-this-and-all-future')
 			}
+
+			this.calendarObjectInstanceStore.calendarObjectInstance.canModifyAllDay = this.calendarObjectInstanceStore.calendarObjectInstance.eventComponent.canModifyAllDay()
 		},
 		/**
 		 * Toggle visibility of the options
