@@ -62,7 +62,7 @@ import logger from '../../../utils/logger.js'
 import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import { formatRoomType } from '../../../models/resourceProps.js'
 
-import Delete from 'vue-material-design-icons/Delete.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
 
 export default {
