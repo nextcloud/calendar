@@ -472,7 +472,7 @@ class ProposalService {
 				$this->l10n->t('Dear %s, a proposed meeting has been updated', [$recipientName])
 			),
 			'D' => $template->addHeading(
-				$this->l10n->t('Dear %s, a proposed meeting has been canceled', [$recipientName])
+				$this->l10n->t('Dear %s, a proposed meeting has been cancelled', [$recipientName])
 			)
 		};
 		// description
