@@ -144,7 +144,7 @@
 							<ProposalParticipantItem v-for="(participant, idx) in selectedProposal.participants"
 								:key="idx"
 								:proposal-participant="participant"
-								@participant-attendance="onProposalParticipantAttendance(participant.address, participant.attendance)"
+								@participant-attendance="onProposalParticipantAttendance(participant.address, $event)"
 								@participant-remove="onProposalParticipantRemove(participant.address)" />
 						</div>
 						<div v-if="selectedProposal.dates.length > 0" class="proposal-editor__proposed-dates">
@@ -224,7 +224,7 @@ import useProposalStore from '@/store/proposalStore'
 import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import { Proposal, ProposalParticipant, ProposalDate } from '@/models/proposals/proposals'
-import { ProposalParticipantRealm, ProposalParticipantStatus, ProposalDateVote } from '@/types/proposals/proposalEnums'
+import { ProposalParticipantRealm, ProposalParticipantAttendance, ProposalParticipantStatus, ProposalDateVote } from '@/types/proposals/proposalEnums'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { getBusySlots } from '../../services/freeBusySlotService'
 import { AttendeeProperty } from '@nextcloud/calendar-js'
@@ -299,6 +299,7 @@ export default {
 			principalStore: usePrincipalStore(),
 			settingsStore: useSettingsStore(),
 			proposalStore: useProposalStore(),
+			ProposalParticipantAttendance,
 			ProposalParticipantStatus,
 			ProposalDateVote,
 			modalMode: 'view',
@@ -307,7 +308,7 @@ export default {
 			participantAvailability: {} as Record<string, Record<string, ParticipantBusySlotInterface[]>>, // availability per participant
 			participantColors: {} as Record<string, string>,
 			calendarColumnWidth: 120, // Current pixel width allocated per day column
-			calendarColumnWidthMin: 120, // Minimum day column width
+			calendarColumnWidthMin: 80, // Minimum day column width
 			calendarColumnWidthStep: 40, // Pixel change per zoom action
 			calendarSpanMax: 28, // Maximum days that can be shown
 			calendarSpanMin: 1, // Minimum days that can be shown
@@ -643,13 +644,13 @@ export default {
 			this.removeParticipant(address)
 		},
 
-		onProposalParticipantAttendance(address: string, attendance: ProposalParticipantStatus): void {
+		onProposalParticipantAttendance(address: string, attendance: ProposalParticipantAttendance): void {
 			if (!this.selectedProposal) {
 				return console.error('No proposal selected for this operation')
 			}
 			const participant = this.selectedProposal.participants.find(p => p.address === address)
 			if (participant) {
-				participant.status = attendance
+				participant.attendance = attendance
 			} else {
 				console.error('Participant not found:', address)
 			}
@@ -844,7 +845,7 @@ export default {
 			const view = this.calendarApi.view
 			const start = view.activeStart
 			const end = view.activeEnd
-			const timeZoneId = Intl.DateTimeFormat().resolvedOptions().timeZone
+			const timeZoneId = this.userTimezone
 			// Use current user for organizer
 			const principal = this.principalStore.getCurrentUserPrincipal
 			if (!principal) {
@@ -875,7 +876,12 @@ export default {
 				showError(t('calendar', 'Failed to fetch free/busy data'))
 				return
 			}
-			this.participantAvailability = {}
+			// Remove existing availability data for the organizer and participant(s)
+			// This is necessary to avoid duplicate entries as busy slots are returned with a different event id every time
+			attendees.forEach((attendee) => {
+				delete this.participantAvailability[attendee.email]
+			})
+			delete this.participantAvailability[organizer.email]
 			// Separate availability data per participant
 			events.forEach((event) => {
 				let resourceId = event.resourceId
