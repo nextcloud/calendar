@@ -148,6 +148,7 @@ OC.L10N.register(
     "Share calendar" : "Nasdílet kalendář",
     "Unshare from me" : "Přestat sdílet",
     "Save" : "Uložit",
+    "View" : "Zobrazit",
     "Import calendars" : "Importovat kalendáře",
     "Please select a calendar to import into …" : "Vyberte kalendář do kterého importovat…",
     "Filename" : "Soubor",

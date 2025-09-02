@@ -24,6 +24,7 @@ OC.L10N.register(
     "can edit" : "pote modificar",
     "Share with users or groups" : "Compartir con usatores o gruppos",
     "Save" : "Salveguardar",
+    "View" : "Vider",
     "Cancel" : "Cancellar",
     "Automatic" : "Automatic",
     "Actions" : "Actiones",

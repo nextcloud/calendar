@@ -4,6 +4,7 @@ OC.L10N.register(
     "Cheers!" : "Prost!",
     "Calendar" : "Kalenner",
     "Confirm" : "Konfirméieren",
+    "Location:" : "Uert:",
     "Today" : "Haut",
     "Day" : "Dag",
     "Week" : "Woch",

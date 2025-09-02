@@ -148,6 +148,7 @@ OC.L10N.register(
     "Share calendar" : "Compartir calendario",
     "Unshare from me" : "Dejar de compartir conmigo",
     "Save" : "Guardar",
+    "View" : "Vista",
     "Import calendars" : "Importar calendarios",
     "Please select a calendar to import into …" : "Por favor, selecciona un calendario al que importar…",
     "Filename" : "Nombre de archivo",

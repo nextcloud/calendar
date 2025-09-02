@@ -78,6 +78,7 @@ OC.L10N.register(
     "Edit event" : "Editar evento",
     "All day" : "Todo el día",
     "Close" : "Cerrar",
+    "Participants" : "Participantes",
     "Anniversary" : "Aniversario",
     "Week {number} of {year}" : "Semana {number} de {year}",
     "Daily" : "Diariamente",

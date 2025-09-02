@@ -101,6 +101,7 @@ OC.L10N.register(
     "No users or groups" : "Dim defnyddwyr na grwpiau",
     "Unshare from me" : "Dadrannwch oddi wrthyf",
     "Save" : "Cadw",
+    "View" : "Golwg",
     "Import calendars" : "Mewnforio calendrau",
     "Please select a calendar to import into …" : "Dewiswch galendr i fewnforio iddo …",
     "Filename" : "Enw ffeil",

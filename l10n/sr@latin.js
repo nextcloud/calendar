@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Cheers!" : "U zdravlje!",
+    "Location:" : "Lokacija:",
     "Today" : "Today",
     "Preview" : "Pregled",
     "Copy link" : "Kopiraj vezu",
@@ -34,7 +35,9 @@ OC.L10N.register(
     "Done" : "Gotovo",
     "Unknown" : "Nepoznato",
     "never" : "never",
+    "Yes" : "Da",
     "Close" : "Zatvori",
+    "Participants" : "Učesnici",
     "Daily" : "дневно",
     "Weekly" : "недељно",
     "second" : "sekund",

@@ -147,6 +147,7 @@ OC.L10N.register(
     "Share calendar" : "Del kalender",
     "Unshare from me" : "Fjern deling fra mig",
     "Save" : "Gem",
+    "View" : "Vis",
     "Import calendars" : "Importer kalendere",
     "Please select a calendar to import into …" : "Vælg venligst en kalender, der skal importeres til...",
     "Filename" : "Filnavn",
