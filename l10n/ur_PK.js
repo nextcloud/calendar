@@ -29,6 +29,8 @@ OC.L10N.register(
     "Email" : "email",
     "Repeat" : "دہرایں",
     "never" : "never",
+    "Yes" : "ہاں",
+    "No" : "نہیں",
     "Personal" : "شخصی",
     "Close" : "بند ",
     "Other" : "دیگر"

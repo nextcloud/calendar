@@ -2,6 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Calendar" : "ប្រតិទិន",
+    "Location:" : "ទីតាំងៈ",
     "Today" : "ថ្ងៃ​នេះ",
     "Day" : "ថ្ងៃ",
     "Week" : "សប្ដាហ៍",

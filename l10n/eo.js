@@ -45,6 +45,7 @@ OC.L10N.register(
     "Share with users or groups" : "Kunhavigi kun uzantoj aŭ grupoj",
     "No users or groups" : "Neniu uzanto aŭ grupo",
     "Save" : "Konservi",
+    "View" : "Vidi",
     "Filename" : "Dosiernomo",
     "Cancel" : "Nuligi",
     "Automatic" : "Aŭtomata",

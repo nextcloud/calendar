@@ -143,6 +143,7 @@ OC.L10N.register(
     "Share calendar" : "Κοινή χρήση ημερολογίου",
     "Unshare from me" : "Διακοπή διαμοιρασμού με εμένα",
     "Save" : "Αποθήκευση",
+    "View" : "Προβολή",
     "Import calendars" : "Εισαγωγή ημερολογίων",
     "Please select a calendar to import into …" : "Παρακαλώ επιλέξτε ημερολόγιο για εισαγωγή σε  ...",
     "Filename" : "Όνομα αρχείου",
