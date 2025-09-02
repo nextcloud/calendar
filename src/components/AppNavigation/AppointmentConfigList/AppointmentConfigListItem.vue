@@ -58,10 +58,10 @@ import {
 import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
 import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
-import PencilIcon from 'vue-material-design-icons/Pencil.vue'
+import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
 import AppointmentConfig from '../../../models/appointmentConfig.js'
 import AppointmentConfigModal from '../../AppointmentConfigModal.vue'
-import LinkVariantIcon from 'vue-material-design-icons/LinkVariant.vue'
+import LinkVariantIcon from 'vue-material-design-icons/Link.vue'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import logger from '../../../utils/logger.js'
 
