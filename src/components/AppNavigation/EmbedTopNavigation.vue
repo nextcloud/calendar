@@ -61,7 +61,7 @@ import AppNavigationHeaderTodayButton from './EmbedHeader/EmbedHeaderTodayButton
 import AppNavigationHeaderViewButtons from './EmbedHeader/EmbedHeaderViewButtons.vue'
 
 import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
-import Download from 'vue-material-design-icons/DownloadOutline.vue'
+import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 
 import { mapStores } from 'pinia'
 import useCalendarsStore from '../../store/calendars.js'
