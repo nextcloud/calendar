@@ -1,5 +1,14 @@
 # Changelog
 
+## 6.0.0 - 2025-09-02
+### Added
+ - add support for nextcloud 32
+ - drop support for nextcloud 31 and 30
+ - Meeting Proposals
+ - federated calendar sharing
+ - change calendar icons into outline ones
+ - Task scheduling for tasks without end date
+
 ## 5.0.0 - Unreleased
 ### Added
 - Nextcloud 30 support
