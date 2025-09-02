@@ -1,9 +1,18 @@
-# [5.5.1](https://github.com/nextcloud/calendar/compare/v5.5.0...v5.5.1) (2025-08-25)
+## [5.5.2](https://github.com/nextcloud/calendar/compare/v5.5.1...v5.5.2) (2025-09-02)
 
 
-### Bug fixes
+### Bug Fixes
 
-* Bump version to fix missing app store release
+* **deps:** Fix npm audit ([b9c339e](https://github.com/nextcloud/calendar/commit/b9c339ebd57b94ce416584d0d55c8173c4dd7cac))
+* **free-busy:** make backgound solid for attendees' slots ([c976750](https://github.com/nextcloud/calendar/commit/c9767508237b705fa5e7f6e7522d5600f3f39a34))
+* **l10n:** Update translations from Transifex ([269a3c4](https://github.com/nextcloud/calendar/commit/269a3c4bc3302f477d9e8da2ddc871f0ec410232))
+* **l10n:** Update translations from Transifex ([27dc55a](https://github.com/nextcloud/calendar/commit/27dc55a8ce5d1800d9cc487f21d147e713515683))
+* **l10n:** Update translations from Transifex ([21ba8a0](https://github.com/nextcloud/calendar/commit/21ba8a05a74d1a8dd909d8fec4ecc9e742c4a005))
+* **l10n:** Update translations from Transifex ([361ce08](https://github.com/nextcloud/calendar/commit/361ce081ba62ab1d4a373081cd57bccbfcd0f19c))
+* **l10n:** Update translations from Transifex ([2774339](https://github.com/nextcloud/calendar/commit/2774339e635c95c93a2dfa8331d70d926b7d0de9))
+* **l10n:** Update translations from Transifex ([9046cbe](https://github.com/nextcloud/calendar/commit/9046cbe60375209ac48756e130905f3740c72fee))
+* **l10n:** Update translations from Transifex ([0be7c55](https://github.com/nextcloud/calendar/commit/0be7c55cee94157394799ba0c838325ec8e6b6ea))
+* **Repeat:** change all day is visually disabled when recurrence is set ([daa5d3e](https://github.com/nextcloud/calendar/commit/daa5d3e7ed63546c30869dab73609875409c32af))
 
 
 
