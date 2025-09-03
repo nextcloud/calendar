@@ -84,6 +84,7 @@ OC.L10N.register(
     "Personal" : "Хувийн",
     "Edit event" : "Үйл явдлыг засварлах",
     "Close" : "Хаах",
+    "Submit" : "мэдэгдэх",
     "Week {number} of {year}" : "{year} оны {number}-р долоо хоног ",
     "Daily" : "Өдөр бүр",
     "Weekly" : "Долоо хоног бүр",

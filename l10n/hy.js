@@ -42,6 +42,8 @@ OC.L10N.register(
     "Repeat" : "Կրկնել",
     "never" : "երբեք",
     "after" : "հետո",
+    "Yes" : "Այո",
+    "No" : "Ոչ",
     "Global" : "Ընդհանուր",
     "Personal" : "Անձնական",
     "Edit event" : "Խմբագրել դեպքը",

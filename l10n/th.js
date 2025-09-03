@@ -86,6 +86,7 @@ OC.L10N.register(
     "Edit event" : "แก้ไขกิจกรรม",
     "Close" : "ปิด",
     "Selected" : "เลือกอยู่",
+    "Submit" : "ส่ง",
     "Anniversary" : "วันครบรอบ",
     "Week {number} of {year}" : "สัปดาห์ที่ {number} ของปี {year}",
     "Daily" : "รายวัน",

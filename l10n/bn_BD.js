@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Cheers!" : "শুভেচ্ছা!",
     "Calendar" : "দিনপঞ্জী",
+    "Location:" : "অবস্থান:",
     "Today" : "আজ",
     "Day" : "দিবস",
     "Week" : "সপ্তাহ",
@@ -48,6 +49,8 @@ OC.L10N.register(
     "Attendees" : "অংশগ্রহণকারীবৃন্দ",
     "Repeat" : "পূনঃসংঘটন",
     "never" : "কখনোই নয়",
+    "Yes" : "হ্যাঁ",
+    "No" : "না",
     "Subscribe" : "গ্রাহক হোন",
     "Personal" : "ব্যক্তিগত",
     "Edit event" : "ইভেন্ট সম্পাদনা করুন",

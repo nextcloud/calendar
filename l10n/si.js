@@ -53,6 +53,7 @@ OC.L10N.register(
     "Unknown" : "නොදන්නා",
     "Accept" : "පිළිගන්න",
     "Decline" : "ප්‍රතික්ෂේප",
+    "No" : "නැහැ",
     "Create" : "සාදන්න",
     "Time:" : "වේලාව:",
     "Personal" : "පුද්ගලික",
