@@ -53,6 +53,8 @@ OC.L10N.register(
     "Repeat" : "Widderhuelen",
     "never" : "Ni",
     "after" : "No",
+    "Yes" : "Jo",
+    "No" : "Nee",
     "Global" : "Global",
     "Subscribe" : "Umellen",
     "Personal" : "Perséinlech",

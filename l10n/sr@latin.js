@@ -36,6 +36,7 @@ OC.L10N.register(
     "Unknown" : "Nepoznato",
     "never" : "never",
     "Yes" : "Da",
+    "No" : "Ne",
     "Close" : "Zatvori",
     "Participants" : "Učesnici",
     "Daily" : "дневно",

@@ -475,6 +475,7 @@ OC.L10N.register(
     "Untitled event" : "Ónefndur atburður",
     "Close" : "Loka",
     "Participants" : "Þátttakendur",
+    "Submit" : "Senda inn",
     "Subscribe to {name}" : "Panta áskrift að {name}",
     "Export {name}" : "Flytja út {name}",
     "Show availability" : "Sýna lausa tíma",
