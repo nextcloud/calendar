@@ -112,9 +112,9 @@ export default {
 	computed: {
 		blankViewLabel() {
 			if (this.contentView === 'loading') {
-				return t('calendar', 'Loading meetings proposal')
+				return t('calendar', 'Loading meeting proposal')
 			} else {
-				return t('calendar', 'No meetings proposal found')
+				return t('calendar', 'No meeting proposal found')
 			}
 		},
 
