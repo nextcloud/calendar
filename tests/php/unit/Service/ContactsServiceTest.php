@@ -63,6 +63,8 @@ class ContactsServiceTest extends TestCase {
 		$contact = [
 			['CATEGORIES' => 'The Proclaimers,I\'m gonna be,When I go out,I would walk 500 Miles,I would walk 500 more'],
 			['CATEGORIES' => 'The Proclaimers,When I\'m lonely,I would walk 500 Miles,I would walk 500 more'],
+			['CATEGORIES' => ''],
+			[],
 		];
 
 		$searchterm = 'walk';
