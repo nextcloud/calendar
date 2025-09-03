@@ -64,7 +64,7 @@
     "@simolation/vue-hotkey": "^2.1.2",
     "autosize": "^6.0.1",
     "color-convert": "^3.1.0",
-    "color-string": "^2.0.1",
+    "color-string": "^2.1.0",
     "core-js": "^3.45.1",
     "css-color-names": "^1.0.1",
     "debounce": "^2.2.0",
