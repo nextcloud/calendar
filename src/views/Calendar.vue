@@ -114,6 +114,7 @@ import {
 	initializeClientForPublicView,
 	initializeClientForUserView,
 } from '../services/caldavService.js'
+import { registerSyncListener } from '../services/pushService.js'
 
 // Import others
 import { uidToHexColor } from '../utils/color.js'
@@ -262,6 +263,8 @@ export default {
 		},
 	},
 	created() {
+		registerSyncListener()
+
 		this.backgroundSyncJob = setInterval(async () => {
 			const currentUserPrincipal = this.principalsStore.getCurrentUserPrincipal
 			const calendars = (await findAllCalendars())
