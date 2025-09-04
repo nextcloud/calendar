@@ -3,57 +3,21 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-#app-settings {
+#app-settings-modal {
 	.settings-fieldset-interior-item {
+		max-width: calc(var(--default-grid-baseline) * 68);
+		align-items: stretch;
 		padding: 5px 0;
+	}
 
-		.action-checkbox {
-			line-height: unset !important;
-			white-space: unset !important;
+	.button-content-with-icon {
+		display: flex;
+		align-items: center;
+		gap: calc(var(--default-grid-baseline) * 2);
+	}
 
-			&__label::before {
-				margin: 0 6px 3px 3px !important;
-				flex-shrink: 0;
-			}
-		}
-
-		.action-button {
-			min-height: unset !important;
-
-			&__icon {
-				margin: 0 6px 3px 3px !important;
-				height: 14px !important;
-				width: 14px !important;
-				background-position: unset !important;
-			}
-
-			&__longtext {
-				width: unset !important;
-				padding: 0 !important;
-			}
-		}
-
-		&--slotDuration,
-		&--defaultReminder {
-			display: table;
-
-			label {
-				display: block;
-			}
-
-			.multiselect {
-				display: block;
-			}
-		}
-
-		&--timezone,
-		&--default-calendar {
-			width: 100%;
-		
-			.multiselect {
-				width: 100%;
-			}
-		}
+	.no-wrap-label {
+		white-space: nowrap;
 	}
 }
 
