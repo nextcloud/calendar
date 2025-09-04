@@ -548,8 +548,6 @@ OC.L10N.register(
     "Next span" : "Next span",
     "Less days" : "Less days",
     "More days" : "More days",
-    "Loading meetings proposal" : "Loading meetings proposal",
-    "No meetings proposal found" : "No meetings proposal found",
     "Please wait while we load the meeting proposal." : "Please wait while we load the meeting proposal.",
     "The link you followed may be broken, or the meeting proposal may no longer exist." : "The link you followed may be broken, or the meeting proposal may no longer exist.",
     "Thank you for your response!" : "Thank you for your response!",

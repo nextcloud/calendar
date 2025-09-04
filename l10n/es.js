@@ -548,8 +548,6 @@ OC.L10N.register(
     "Next span" : "Próxima franja horaria",
     "Less days" : "Menos días",
     "More days" : "Más días",
-    "Loading meetings proposal" : "Cargando propuestas de reunión",
-    "No meetings proposal found" : "No se encontraron propuestas de reunión",
     "Please wait while we load the meeting proposal." : "Por favor, espere mientras cargamos la propuesta de reunión.",
     "The link you followed may be broken, or the meeting proposal may no longer exist." : "El enlace que siguió puede estar roto, o, la propuesta de reunión podría ya no existir.",
     "Thank you for your response!" : "¡Gracias por su respuesta!",

@@ -548,8 +548,6 @@ OC.L10N.register(
     "Next span" : "Järgmine vahemik",
     "Less days" : "Vähem päevi",
     "More days" : "Enam päevi",
-    "Loading meetings proposal" : "Laadin kohtumise ettepanekut",
-    "No meetings proposal found" : "Ühtegi ettepanekut kohtumiseks ei leidunud",
     "Please wait while we load the meeting proposal." : "Palun oota, kuni laadime ettepanekut kohtumiseks.",
     "The link you followed may be broken, or the meeting proposal may no longer exist." : "Link, mida kasutasid võib olla katki läinud või sellist ettepanekut kohtumiseks enam pole olemas.",
     "Thank you for your response!" : "Suur tänu vastamise eest!",
