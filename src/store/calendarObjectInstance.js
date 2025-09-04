@@ -260,7 +260,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 */
 		toggleAllDayMutation({ calendarObjectInstance }) {
-			if (!calendarObjectInstance.eventComponent.canModifyAllDay()) {
+			if (!calendarObjectInstance.eventComponent.canModifyAllDay() && this.calendarObject.existsOnServer) {
 				return
 			}
 
