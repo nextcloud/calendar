@@ -71,6 +71,8 @@ OC.L10N.register(
     "Attendees" : "Jemputan",
     "Repeat" : "Ulang",
     "never" : "jangan",
+    "Yes" : "Ya",
+    "No" : "Tidak",
     "Personal" : "Peribadi",
     "Edit event" : "Ubah peristiwa",
     "Close" : "Tutup",

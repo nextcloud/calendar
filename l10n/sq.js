@@ -89,6 +89,7 @@ OC.L10N.register(
     "All day" : "Gjithë ditën",
     "Close" : "Mbylle",
     "Title" : "Titulli",
+    "Submit" : "Dërgo",
     "Anniversary" : "Përvjetor",
     "Week {number} of {year}" : "Java e {number} e {year}",
     "Daily" : "Përditë",

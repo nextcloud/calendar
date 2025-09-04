@@ -355,6 +355,7 @@ OC.L10N.register(
     "Close" : "Đóng",
     "Title" : "Tên",
     "Participants" : "Người tham gia",
+    "Submit" : "Gửi",
     "Subscribe to {name}" : "Dõi theo {name}",
     "Export {name}" : "Xuất dữ liệu bảng {name}",
     "Anniversary" : "Ngày kỷ niệm",

@@ -291,6 +291,7 @@ OC.L10N.register(
     "Untitled event" : "אירוע ללא כותרת",
     "Close" : "סגירה",
     "Participants" : "משתתפים",
+    "Submit" : "שליחה",
     "Subscribe to {name}" : "הרשמה אל {name}",
     "Anniversary" : "יום השנה",
     "Appointment" : "פגישה",

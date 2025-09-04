@@ -476,6 +476,7 @@ OC.L10N.register(
     "Close" : "Yopish",
     "Modifications will not get propagated to the organizer and other attendees" : "O'zgartirishlar tashkilotchiga va boshqa ishtirokchilarga targ'ib qilinmaydi",
     "Title" : "Sarlavha",
+    "30 min" : "30 daqiqa",
     "Subscribe to {name}" : " {name}ga obuna bo'ling",
     "Export {name}" : " {name}eksporti",
     "Show availability" : "Mavjudligini ko'rsatish",
