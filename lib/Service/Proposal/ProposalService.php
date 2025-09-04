@@ -512,7 +512,7 @@ class ProposalService {
 				$mailService = $this->userMailManager->findServiceByAddress($user->getUID(), $senderAddress);
 			}
 			// evaluate if a mail service was found and has sending capabilities
-			if ($mailService !== null && $mailService instanceof IMessageSend) {
+			if (isset($mailService) && $mailService instanceof IMessageSend) {
 				// construct mail message and set required parameters
 				// this condition is just to make psalm happy
 				if (!method_exists($mailService, 'initiateMessage')) {
