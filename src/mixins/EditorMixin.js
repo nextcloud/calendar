@@ -135,7 +135,7 @@ export default {
 		 * @return {boolean}
 		 */
 		canModifyAllDay() {
-			return this.calendarObjectInstance?.canModifyAllDay ?? false
+			return (this.calendarObjectInstance?.canModifyAllDay ?? false) || !this.calendarObject.existsOnServer
 		},
 		/**
 		 * Returns the color the illustration should be colored in
