@@ -394,7 +394,7 @@ export default {
 	}
 
 	&-inner__selectors {
-		flex-basis: calc(var(--total-width) * 2 / 3 - var(--column-gap) / 2 - (20px + var(--default-grid-baseline) * 4) - 2px);
+		flex-basis: calc(var(--total-width) * 2 / 3 - var(--column-gap) / 2 - (20px + var(--default-grid-baseline) * 4));
 		display: flex;
 		justify-content: stretch;
 		gap: var(--default-grid-baseline);
@@ -418,10 +418,15 @@ export default {
 	}
 
 	.datepicker-label {
-		width: calc(var(--default-grid-baseline) * 3 + 20px - 2px);
-		padding-inline-end: calc(var(--default-grid-baseline) * 2);
+		flex: 0 0 calc(var(--default-grid-baseline) * 6);
+		width: calc(var(--default-grid-baseline) * 6);
+		max-width: calc(var(--default-grid-baseline) * 6);
+		display: flex;
+		justify-content: flex-end;
 		text-align: end;
-		direction: rtl;
+		padding-inline-end: calc(var(--default-grid-baseline) * 2);
+		white-space: nowrap;
+		overflow: visible;
 	}
 
 	.property-title-time-picker__time-pickers-from-inner__timezone span {
@@ -433,6 +438,10 @@ export default {
 	display: flex;
 	gap: var(--default-grid-baseline);
 	font-weight: normal;
+}
+
+.property-title-time-picker__time-pickers-from-inner__selectors {
+	padding-inline-start: calc(var(--default-grid-baseline) * 1);
 }
 
 :deep(button.vs__open-indicator-button) {
@@ -472,10 +481,12 @@ export default {
 	}
 
 	.datepicker-label {
-		width: unset !important;
-		padding-inline-end: 0 !important;
+		flex: 0 0 auto !important;
+		width: auto !important;
+		max-width: 100% !important;
+		padding-inline-end: var(--default-grid-baseline) !important;
+		justify-content: flex-start !important;
 		text-align: start !important;
-		direction: ltr !important;
 	}
 
 	.app-full {
