@@ -52,6 +52,7 @@ OC.L10N.register(
     "can edit" : "boleh mengubah",
     "Save" : "Simpan",
     "Cancel" : "Batal",
+    "General" : "Umum",
     "Update" : "Kemaskini",
     "Location" : "Lokasi",
     "Description" : "Keterangan",

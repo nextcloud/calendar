@@ -21,6 +21,7 @@ OC.L10N.register(
     "can edit" : "អាច​កែប្រែ",
     "Save" : "រក្សាទុក",
     "Cancel" : "បោះបង់",
+    "General" : "ទូទៅ",
     "Update" : "ធ្វើ​បច្ចុប្បន្នភាព",
     "Location" : "ទីតាំង",
     "Description" : "ការ​អធិប្បាយ",

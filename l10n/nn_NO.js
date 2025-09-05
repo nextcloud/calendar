@@ -30,6 +30,8 @@ OC.L10N.register(
     "Cancel" : "Avbryt",
     "List view" : "Liste visning",
     "Actions" : "Handlingar",
+    "General" : "Generelt",
+    "Keyboard shortcuts" : "Tastatursnarvegar",
     "Update" : "Oppdater",
     "Location" : "Stad",
     "Description" : "Skildring",
