@@ -98,9 +98,14 @@ export default defineStore('proposal', () => {
 	 *
 	 * @param proposal - The proposal to convert.
 	 * @param date - The proposed date to convert to a meeting.
+	 * @param timezone - The timezone to use for the meeting.
 	 */
-	async function convertProposal(proposal: ProposalInterface, date: ProposalDateInterface): Promise<void> {
-		await proposalService.convertProposal(proposal, date)
+	async function convertProposal(proposal: ProposalInterface, date: ProposalDateInterface, timezone: string): Promise<void> {
+		const options = {
+			timezone,
+			attendancePreset: true,
+		}
+		await proposalService.convertProposal(proposal, date, options)
 	}
 
 	/**
