@@ -19,6 +19,8 @@ OC.L10N.register(
     "Save" : "சேமிக்க ",
     "Cancel" : "இரத்து செய்க",
     "Actions" : "செயல்கள்",
+    "General" : "பொதுவான",
+    "Keyboard shortcuts" : "விசைப்பலகை குறுக்குவழிகள்",
     "Update" : "இற்றைப்படுத்தல்",
     "Location" : "இடம்",
     "Description" : "விவரிப்பு",

@@ -29,6 +29,7 @@ OC.L10N.register(
     "Automatic" : "Automatesch",
     "List view" : "Lëscht Vue",
     "Actions" : "Aktiounen",
+    "General" : "Allgemeng",
     "Update" : "Update",
     "Location" : "Uert",
     "Description" : "Beschreiwung",
