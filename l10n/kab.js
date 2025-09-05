@@ -36,6 +36,7 @@ OC.L10N.register(
     "Editor" : "Amaẓrag",
     "Close editor" : "Mdel amaẓrag",
     "or" : "neɣ",
+    "General" : "Amatu",
     "Location" : "Adig",
     "Add" : "Rnu",
     "Monday" : "Arim",

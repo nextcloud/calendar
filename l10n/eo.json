@@ -48,18 +48,19 @@
     "Filename" : "Dosiernomo",
     "Cancel" : "Nuligi",
     "Automatic" : "Aŭtomata",
+    "Timezone" : "Horzono",
     "Previous period" : "Antaŭa periodo",
     "List view" : "Lista vido",
     "Actions" : "Agoj",
     "Editor" : "Redaktilo",
     "Close editor" : "Fermi redaktilon",
     "or" : "aŭ",
+    "General" : "Ĝenerala",
     "Enable birthday calendar" : "Ebligi naskiĝtaga kalendaro",
     "Show tasks in calendar" : "Montri taskojn en la kalendaro",
-    "Enable simplified editor" : "Ebligi simpligitan redaktilon",
     "Show weekends" : "Montri semajnfinojn",
     "Show week numbers" : "Montri numerojn de semajno",
-    "Show keyboard shortcuts" : "Montri klavarajn ŝparvojojn",
+    "Keyboard shortcuts" : "Fulmoklavoj",
     "Update" : "Ĝisdatigi",
     "Location" : "Loko",
     "Description" : "Priskribo",
@@ -143,6 +144,8 @@
     "Canceled" : "Nuligita",
     "Categories" : "Kategorioj",
     "Add this as a new category" : "Aldoni tion kiel novan kategorion",
-    "User not found" : "Netrovita uzanto"
+    "User not found" : "Netrovita uzanto",
+    "Enable simplified editor" : "Ebligi simpligitan redaktilon",
+    "Show keyboard shortcuts" : "Montri klavarajn ŝparvojojn"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

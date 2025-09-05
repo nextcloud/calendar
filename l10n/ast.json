@@ -142,17 +142,14 @@
     "Failed to save default calendar" : "Nun se pue guardar el calendariu predetermináu",
     "CalDAV link copied to clipboard." : "L'enllaz CalDAV copióse nel cartafueyu.",
     "CalDAV link could not be copied to clipboard." : "L'enllaz CalDAV nun se pudo copiar nel cartafueyu.",
+    "Personal availability settings" : "Configuración de la disponibilidá personal",
+    "Copy primary CalDAV address" : "Copiar la direición CalDAV primaria",
+    "Copy iOS/macOS CalDAV address" : "Copiar la direición CalDAV d'iOS/macOS",
     "Enable birthday calendar" : "Activar el calendariu de los cumpleaños",
     "Show tasks in calendar" : "Amosar les xeres nel calendariu",
-    "Enable simplified editor" : "Activar l'editor simplificáu",
-    "Limit the number of events displayed in the monthly view" : "Llendar el númberu d'eventos amosaos na vista de meses",
     "Show weekends" : "Amosar les fines de selmana",
     "Show week numbers" : "Amosar los númberos de selmana",
     "Default reminder" : "Recordatoriu predetermináu",
-    "Copy primary CalDAV address" : "Copiar la direición CalDAV primaria",
-    "Copy iOS/macOS CalDAV address" : "Copiar la direición CalDAV d'iOS/macOS",
-    "Personal availability settings" : "Configuración de la disponibilidá personal",
-    "Show keyboard shortcuts" : "Amosar los atayos del tecáu",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minutu","{duration} minutos"],
     "0 minutes" : "0 minutos",
     "_{duration} hour_::_{duration} hours_" : ["{duration} hora","{duration} hores"],
@@ -293,6 +290,9 @@
     "An error occurred, unable to delete the calendar." : "Prodúxose un error, nun ye posible desaniciar el calendariu",
     "Imported {filename}" : "Importóse «{filename}»",
     "This is an event reminder." : "Esto ye un recordatoriu del eventu.",
-    "User not found" : "Nun s'atopó l'usuariu"
+    "User not found" : "Nun s'atopó l'usuariu",
+    "Enable simplified editor" : "Activar l'editor simplificáu",
+    "Limit the number of events displayed in the monthly view" : "Llendar el númberu d'eventos amosaos na vista de meses",
+    "Show keyboard shortcuts" : "Amosar los atayos del tecáu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -34,7 +34,6 @@ OC.L10N.register(
     "Actions" : "Дзеянні",
     "Close editor" : "Закрыць рэдактар",
     "Enable birthday calendar" : "Уключыць каляндар дзён нараджэння",
-    "Show keyboard shortcuts" : "Паказаць спалучэнні клавіш",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} хвіліна","{duration} хвіліны","{duration} хвілін","{duration} хвілін"],
     "_{duration} hour_::_{duration} hours_" : ["{duration} гадзіна","{duration} гадзіны","{duration} гадзін","{duration} гадзін"],
     "_{duration} day_::_{duration} days_" : ["{duration} дзень","{duration} дні","{duration} дзён","{duration} дзён"],
@@ -104,6 +103,7 @@ OC.L10N.register(
     "Confirmed" : "Пацверджана",
     "Canceled" : "Скасавана",
     "Categories" : "Катэгорыі",
-    "User not found" : "Карыстальнік не знойдзены"
+    "User not found" : "Карыстальнік не знойдзены",
+    "Show keyboard shortcuts" : "Паказаць спалучэнні клавіш"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

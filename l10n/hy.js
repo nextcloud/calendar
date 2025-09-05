@@ -20,6 +20,7 @@ OC.L10N.register(
     "Share with users or groups" : "Կիսվել օգտատերերի կամ խմբերի հետ",
     "Save" : "Պահպանել",
     "Cancel" : "Չեղարկել",
+    "General" : "Ընդհանուր",
     "Update" : "Թարմացնել",
     "Location" : "Տեղակայություն",
     "Description" : "Նկարագրություն",

@@ -35,11 +35,13 @@ OC.L10N.register(
     "Filename" : "Nombre del archivo",
     "Cancel" : "Cancelar",
     "Automatic" : "Automático",
+    "Timezone" : "Zona horaria",
     "List view" : "Vista de lista",
     "Actions" : "Acciones",
     "or" : "o",
+    "General" : "General",
     "Show week numbers" : "Mostrar número de semana",
-    "Show keyboard shortcuts" : "Mostrar atajos de teclado",
+    "Keyboard shortcuts" : "Atajos del teclado",
     "Update" : "Actualizar",
     "Location" : "Ubicación",
     "Description" : "Descripción",
@@ -92,6 +94,7 @@ OC.L10N.register(
     "Status" : "Estatus",
     "Confirmed" : "Confirmado",
     "Categories" : "Categorías",
-    "User not found" : "No se encontró el usuario"
+    "User not found" : "No se encontró el usuario",
+    "Show keyboard shortcuts" : "Mostrar atajos de teclado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

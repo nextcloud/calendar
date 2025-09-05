@@ -49,6 +49,7 @@ OC.L10N.register(
     "Filename" : "Файлын нэр",
     "Cancel" : "Цуцлах",
     "Actions" : "Үйл ажиллагаа",
+    "General" : "ерөнхий",
     "Show week numbers" : "7 хоногийн дугаарыг харуулах",
     "Update" : "Шинэчлэх",
     "Location" : "Байршил",
