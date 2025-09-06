@@ -26,6 +26,7 @@ OC.L10N.register(
     "Cancel" : "Dayandır",
     "Automatic" : "Avtomatik",
     "Actions" : "İşlər",
+    "General" : "Ümumi",
     "Update" : "Yenilənmə",
     "Location" : "Yerləşdiyiniz ünvan",
     "Description" : "Açıqlanma",
