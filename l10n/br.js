@@ -93,6 +93,7 @@ OC.L10N.register(
     "Automatic" : "Otomatek",
     "List view" : "Gwelidik listenn",
     "Actions" : "Oberoù",
+    "General" : "Hollek",
     "Update" : "Hizivaat",
     "Location" : "Lec'hiadur",
     "Description" : "Deskrivadur",
