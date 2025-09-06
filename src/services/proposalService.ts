@@ -86,14 +86,14 @@ class ProposalService {
 		}
 	}
 
-	async convertProposal(proposal: ProposalInterface, date: ProposalDateInterface) {
+	async convertProposal(proposal: ProposalInterface, date: ProposalDateInterface, options: Record<string, unknown>) {
 		const response = await fetch('/ocs/v2.php/calendar/proposal/convert', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				'OCS-APIRequest': 'true',
 			},
-			body: JSON.stringify({ proposalId: proposal.id, dateId: date.id }),
+			body: JSON.stringify({ proposalId: proposal.id, dateId: date.id, options }),
 		})
 		if (!response.ok) {
 			throw new Error('Failed to convert proposal')

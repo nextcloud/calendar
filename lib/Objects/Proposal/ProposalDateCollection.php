@@ -99,4 +99,13 @@ class ProposalDateCollection extends BaseCollection {
 		];
 	}
 
+	public function findById(?int $id): ?ProposalDateObject {
+		foreach ($this as $date) {
+			if ($date->getId() === $id) {
+				return $date;
+			}
+		}
+		return null;
+	}
+
 }

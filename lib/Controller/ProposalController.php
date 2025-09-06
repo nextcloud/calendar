@@ -182,7 +182,7 @@ class ProposalController extends ApiController {
 	#[ApiRoute(verb: 'POST', url: '/proposal/convert', root: '/calendar')]
 	#[NoAdminRequired]
 	#[UserRateLimit(limit: 10, period: 60)]
-	public function convert(int $proposalId, int $dateId, ?string $user = null): JSONResponse {
+	public function convert(int $proposalId, int $dateId, array $options = [], ?string $user = null): JSONResponse {
 		// authorize request
 		$authorization = $this->authorize($user);
 		if ($authorization instanceof JSONResponse) {
@@ -191,7 +191,7 @@ class ProposalController extends ApiController {
 		$userObject = $authorization;
 		// handle the conversion
 		try {
-			$this->proposalService->convertProposal($userObject, $proposalId, $dateId);
+			$this->proposalService->convertProposal($userObject, $proposalId, $dateId, $options);
 		} catch (\InvalidArgumentException $e) {
 			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_NOT_FOUND);
 		}

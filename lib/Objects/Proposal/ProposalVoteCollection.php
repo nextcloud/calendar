@@ -53,4 +53,13 @@ class ProposalVoteCollection extends BaseCollection {
 		}
 	}
 
+	public function findByDateAndParticipant(?int $dateId, ?int $participantId): ?ProposalVoteObject {
+		foreach ($this as $vote) {
+			if ($vote->getDateId() === $dateId && $vote->getParticipantId() === $participantId) {
+				return $vote;
+			}
+		}
+		return null;
+	}
+
 }
