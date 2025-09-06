@@ -10,7 +10,6 @@ import { setActivePinia, createPinia } from 'pinia'
 
 import { enableBirthdayCalendar } from '../../../../src/services/caldavService.js'
 import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../../../../src/models/calendar.js'
-import { detectTimezone } from '../../../../src/services/timezoneDetectionService.js'
 import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
 import { setConfig } from '../../../../src/services/settings.js'
 import { logInfo } from '../../../../src/utils/logger.js'
@@ -18,7 +17,6 @@ import { CALDAV_BIRTHDAY_CALENDAR } from '../../../../src/models/consts'
 
 jest.mock('../../../../src/services/caldavService.js')
 jest.mock('../../../../src/models/calendar.js')
-jest.mock('../../../../src/services/timezoneDetectionService.js')
 jest.mock('@nextcloud/calendar-js')
 jest.mock('../../../../src/services/settings.js')
 jest.mock('../../../../src/utils/logger.js')
@@ -28,7 +26,6 @@ describe('store/settings test suite', () => {
 	beforeEach(() => {
 		enableBirthdayCalendar.mockClear()
 		mapDavCollectionToCalendar.mockClear()
-		detectTimezone.mockClear()
 		setCalendarJsConfig.mockClear()
 		setConfig.mockClear()
 		logInfo.mockClear()
@@ -197,12 +194,8 @@ Initial settings:
 
 		settingsStore.timezone = state.timezone
 
-		detectTimezone
-			.mockReturnValueOnce('Europe/Berlin')
-
-		expect(settingsStore.getResolvedTimezone).toEqual('Europe/Berlin')
-
-		expect(detectTimezone).toHaveBeenCalledTimes(1)
+		const expected = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
+		expect(settingsStore.getResolvedTimezone).toEqual(expected)
 	})
 
 	it('should provide a getter the get the resolved timezone - non-automatic', () => {
@@ -215,8 +208,6 @@ Initial settings:
 		settingsStore.timezone = state.timezone
 
 		expect(settingsStore.getResolvedTimezone).toEqual('Europe/Berlin')
-
-		expect(detectTimezone).toHaveBeenCalledTimes(0)
 	})
 
 	it('should provide an action to toggle the birthday calendar - enabled to disabled', async () => {

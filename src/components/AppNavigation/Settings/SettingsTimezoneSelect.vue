@@ -17,7 +17,6 @@
 
 <script>
 import { NcTimezonePicker as TimezonePicker } from '@nextcloud/vue'
-import { detectTimezone } from '../../../services/timezoneDetectionService.js'
 import { randomId } from '../../../utils/randomId.js'
 import {
 	showInfo,
@@ -50,12 +49,11 @@ export default {
 		 * @return {object[]}
 		 */
 		additionalTimezones() {
+			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
 			return [{
 				continent: this.$t('calendar', 'Automatic'),
 				timezoneId: 'automatic',
-				label: this.$t('calendar', 'Automatic ({detected})', {
-					detected: detectTimezone(),
-				}),
+				label: this.$t('calendar', 'Automatic ({timezone})', { timezone }),
 			}]
 		},
 	},
