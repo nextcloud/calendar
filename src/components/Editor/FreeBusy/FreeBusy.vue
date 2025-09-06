@@ -195,6 +195,9 @@
 							<NcListItemIcon v-for="attendee in attendees"
 								:key="attendee.id"
 								:name="attendee.commonName"
+								:subname="attendeeDetails[attendee.uri]?.localTime
+									? attendeeDetails[attendee.uri]?.localTime + ' ' + t('calendar', 'local time')
+									: ''"
 								class="modal__content__body__sidebar__attendees__item">
 								<NcActions>
 									<NcActionButton @click="removeAttendee(attendee)">
@@ -271,6 +274,7 @@ import useSettingsStore from '../../../store/settings.js'
 import useCalendarsStore from '../../../store/calendars.js'
 import { uidToHexColor } from '../../../utils/color.js'
 import formatDateRange from '../../../filters/dateRangeFormat.js'
+import { adjustAttendeeTime, getAttendeeDetails } from '@/services/attendeeDetails'
 
 export default {
 	name: 'FreeBusy',
@@ -359,6 +363,7 @@ export default {
 			view: 'timeGridWeek',
 			// used to avoid double update of start and end date
 			navigatingWithButtons: false,
+			attendeeDetails: {},
 		}
 	},
 	computed: {
@@ -506,6 +511,8 @@ export default {
 			calendar.changeView(newView)
 		},
 		attendees(newVal) {
+			this.updateAttendeeDetails(newVal)
+
 			if (newVal.length === 0) {
 				this.$emit('close:no-attendees')
 			}
@@ -530,6 +537,8 @@ export default {
 		})
 
 		this.findFreeSlots()
+
+		this.updateAttendeeDetails(this.attendees)
 
 		this.$nextTick(() => calendar.updateSize())
 	},
@@ -687,6 +696,15 @@ export default {
 			}
 			checkCondition()
 		},
+		updateAttendeeDetails(attendees) {
+			attendees.forEach((attendee) => {
+				getAttendeeDetails(attendee.uri).then((res) => {
+					this.attendeeDetails[attendee.uri] = {
+						localTime: adjustAttendeeTime(this.startDate, res?.timezone),
+					}
+				})
+			})
+		}
 	},
 }
 </script>

@@ -13,6 +13,7 @@
 			:schedule-status="attendee.attendeeProperty.getParameterFirstValue('SCHEDULE-STATUS')"
 			:organizer-display-name="organizerDisplayName"
 			:common-name="commonName"
+			:timezone="timezone"
 			:is-group="isGroup" />
 		<div class="invitees-list-item__displayname"
 			:class="{ 'invitees-list-item__groupname':members.length }">
@@ -104,7 +105,8 @@ import ChevronUp from 'vue-material-design-icons/ChevronUp.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
-import { mapStores } from 'pinia'
+import { mapState, mapStores } from 'pinia'
+import { getAttendeeDetails } from '../../../services/attendeeDetails.js'
 
 export default {
 	name: 'InviteesListItem',
@@ -145,10 +147,12 @@ export default {
 	data() {
 		return {
 			memberListExpaneded: false,
+			timezone: null,
 		}
 	},
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
 		/**
 		 * @return {string}
 		 */
@@ -199,6 +203,24 @@ export default {
 		isGroup() {
 			return this.attendee.attendeeProperty.userType === 'GROUP'
 		},
+	},
+	watch: {
+		'calendarObjectInstance.isAllDay'(newVal) {
+			if (!newVal) {
+				getAttendeeDetails(this.attendee.uri).then((res) => {
+					this.timezone = res?.timezone
+				})
+			} else {
+				this.timezone = null
+			}
+		},
+	},
+	mounted() {
+		if (!this.calendarObjectInstance.isAllDay) {
+			getAttendeeDetails(this.attendee.uri).then((res) => {
+				this.timezone = res?.timezone
+			})
+		}
 	},
 	methods: {
 		/**
