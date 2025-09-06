@@ -556,7 +556,7 @@ OC.L10N.register(
     "in {monthNames} on the {dayOfMonthList}" : "во {monthNames} на {dayOfMonthList}",
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "во {monthNames} на {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "до {untilDate}",
-    "_%n time_::_%n times_" : ["уште еднаш","%n пати"],
+    "_%n time_::_%n times_" : ["%n пат","%n пати"],
     "second" : "втор",
     "third" : "трети",
     "fourth" : "четврти",

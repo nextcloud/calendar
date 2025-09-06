@@ -23,6 +23,8 @@ OC.L10N.register(
     "Cancel" : "বাতিল",
     "Automatic" : "স্বয়ংক্রিয়",
     "Actions" : "পদক্ষেপসমূহ",
+    "General" : "সাধারণ",
+    "Keyboard shortcuts" : "কী-বোর্ড শর্টকাট",
     "Update" : "পরিবর্ধন",
     "Location" : "অবস্থান",
     "Description" : "বিবরণ",
