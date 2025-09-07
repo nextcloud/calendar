@@ -97,7 +97,7 @@
     "@nextcloud/typings": "^1.9.1",
     "@nextcloud/webpack-vue-config": "^6.3.0",
     "@types/jest": "^30.0.0",
-    "@types/node": "^24.3.0",
+    "@types/node": "^24.3.1",
     "@types/webpack": "^5.28.5",
     "@playwright/test": "^1.55.0",
     "@vue/test-utils": "^2.4.6",
