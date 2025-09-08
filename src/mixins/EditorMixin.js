@@ -428,8 +428,9 @@ export default {
 		},
 		/**
 		 * Resets the calendar-object back to its original state and closes the editor
+		 * @param force whether to not show a confirmation modal before executing
 		 */
-		async cancel() {
+		async cancel(force = false) {
 			if (this.isLoading) {
 				return
 			}
@@ -440,16 +441,37 @@ export default {
 				return
 			}
 
-			this.calendarObjectsStore.resetCalendarObjectToDavMutation({
-				calendarObject: this.calendarObject,
-			})
+			if (
+				(!this.calendarObjectInstanceStore.calendarObjectInstance.eventComponent.isDirty()
+				&& !this.calendarObjectInstanceStore.calendarObjectInstance.isNew)
+				|| this.compareCalendarObjects(this.calendarObjectInstanceStore.calendarObjectInstance, this.calendarObjectInstanceStore.emptyCalendarObjectInstance)
+				|| force
+			) {
+				this.calendarObjectsStore.resetCalendarObjectToDavMutation({
+					calendarObject: this.calendarObject,
+				})
 
-			this.requiresActionOnRouteLeave = false
-			this.closeEditor()
+				this.requiresActionOnRouteLeave = false
+				this.closeEditor()
+			} else {
+				this.showCancelDialog = true
+			}
+		},
+		compareCalendarObjects(obj1, obj2) {
+			const keys1 = Object.keys(obj1)
+			const keys2 = Object.keys(obj2)
+
+			if (keys1.length !== keys2.length) {
+				return false
+			}
+
+			return keys1.every(key => {
+				return keys2.includes(key) && obj1[key] === obj2[key]
+			})
 		},
 		keyboardCloseEditor(event) {
 			if (event.key === 'Escape') {
-				this.cancel()
+				this.cancel(false)
 			}
 		},
 		keyboardSaveEvent(event) {
