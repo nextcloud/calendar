@@ -444,7 +444,7 @@ OC.L10N.register(
     "{time} after the event ends" : "{زمان} پس از پایان این رویداد",
     "on {time}" : "به {موقع}",
     "on {time} ({timezoneId})" : "در {time} ({timezoneId})",
-    "Week {number} of {year}" : "هفته {number} از {year}",
+    "Week {number} of {year}" : "هفتهٔ {number} از {year}",
     "Daily" : "روزانه",
     "Weekly" : "هفته گی",
     "Monthly" : "ماهانه",
