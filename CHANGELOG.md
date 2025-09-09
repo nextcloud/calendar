@@ -1,3 +1,22 @@
+## [5.5.3](https://github.com/nextcloud/calendar/compare/v5.5.2...v5.5.3) (2025-09-09)
+
+
+### Bug Fixes
+
+* **deps:** Fix npm audit ([277401c](https://github.com/nextcloud/calendar/commit/277401c0f6b3ade7b7cd1114c7b10cc6bee2057e))
+* **EditorMixin:** allow toggling all day when repeating if the event isn't yet saved on server ([195642c](https://github.com/nextcloud/calendar/commit/195642cd5a12a6d884b565cbcc95402ebcdd8704))
+* from alignment ([78205c7](https://github.com/nextcloud/calendar/commit/78205c7d185125844a4af558b72c6516e3ed0db5))
+* harden group attendee search ([83d75cc](https://github.com/nextcloud/calendar/commit/83d75cc59340d23008a1280174e87e6c0ab98968))
+* **l10n:** Update translations from Transifex ([21174c3](https://github.com/nextcloud/calendar/commit/21174c3ccff246866a5b257b2db253ec2b8b65da))
+* **l10n:** Update translations from Transifex ([178b5a8](https://github.com/nextcloud/calendar/commit/178b5a856a6afb8179c042b0e651f7ad37993061))
+* **l10n:** Update translations from Transifex ([95e0d55](https://github.com/nextcloud/calendar/commit/95e0d5520d9622b2e5f614f099a5502c2ad1a81f))
+* **l10n:** Update translations from Transifex ([3a98891](https://github.com/nextcloud/calendar/commit/3a98891cc210553a032a025829ae930bcb555ef7))
+* **l10n:** Update translations from Transifex ([7b5144e](https://github.com/nextcloud/calendar/commit/7b5144ee654213d2893040046aa7104fa3ac003f))
+* **l10n:** Update translations from Transifex ([ba9b704](https://github.com/nextcloud/calendar/commit/ba9b704a24d82551fdfe0b52e5f533c232536b1e))
+* **l10n:** Update translations from Transifex ([e585ef9](https://github.com/nextcloud/calendar/commit/e585ef9ba8298a5c21024c64828e32170dd73b51))
+
+
+
 ## [5.5.2](https://github.com/nextcloud/calendar/compare/v5.5.1...v5.5.2) (2025-09-02)
 
 
