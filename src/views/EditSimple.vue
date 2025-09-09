@@ -34,7 +34,7 @@
 				<template v-else-if="isError">
 					<div :class="topActionsClass">
 						<Actions>
-							<ActionButton @click="cancel">
+							<ActionButton @click="cancel(false)">
 								<template #icon>
 									<Close :size="20" decorative />
 								</template>
@@ -100,7 +100,7 @@
 							</ActionButton>
 						</Actions>
 						<Actions>
-							<ActionButton @click="cancel">
+							<ActionButton @click="cancel(false)">
 								<template #icon>
 									<Close :size="20" decorative />
 								</template>
@@ -202,6 +202,11 @@
 				</template>
 			</div>
 		</ncpopover>
+		<NcDialog :open="showCancelDialog"
+			class="cancel-confirmation-dialog"
+			:name="t('calendar', 'Discard changes?')"
+			:message="t('calendar', 'Are you sure you want to discard the changes made to this event?')"
+			:buttons="cancelButtons" />
 	</div>
 </template>
 <script>
@@ -213,6 +218,7 @@ import {
 	NcPopover,
 	NcAppNavigationSpacer,
 	NcButton, NcCheckboxRadioSwitch,
+	NcDialog,
 } from '@nextcloud/vue'
 import EditorMixin from '../mixins/EditorMixin.js'
 import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'
@@ -240,6 +246,9 @@ import useSettingsStore from '../store/settings.js'
 import useWidgetStore from '../store/widget.js'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 
+import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
+import IconDelete from '@mdi/svg/svg/delete.svg?raw'
+
 export default {
 	name: 'EditSimple',
 	components: {
@@ -266,6 +275,7 @@ export default {
 		EditIcon,
 		HelpCircleIcon,
 		NcAppNavigationSpacer,
+		NcDialog,
 	},
 	mixins: [
 		EditorMixin,
@@ -290,6 +300,20 @@ export default {
 			isVisible: true,
 			isViewing: true,
 			closeMask: false,
+			showCancelDialog: false,
+			cancelButtons: [
+				{
+					label: t('calendar', 'Discard event'),
+					icon: atob(IconDelete.split(',')[1]),
+					callback: () => { this.cancel(true) },
+				},
+				{
+					label: t('calendar', 'Cancel'),
+					type: 'primary',
+					icon: atob(IconCancel.split(',')[1]),
+					callback: () => { this.showCancelDialog = false },
+				},
+			],
 		}
 	},
 	computed: {
@@ -503,5 +527,9 @@ export default {
 	&--light {
 		--backdrop-color: 255, 255, 255;
 	}
+}
+
+.cancel-confirmation-dialog {
+	z-index: 1000000 !important;
 }
 </style>
