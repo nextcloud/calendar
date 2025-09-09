@@ -18,6 +18,7 @@ OC.L10N.register(
     "Save" : "Spremi",
     "Cancel" : "Odustani",
     "Actions" : "Radnje",
+    "Keyboard shortcuts" : "Tipkovni prečaci",
     "Update" : "Ažuriraj",
     "Location" : "Lokacija",
     "Description" : "Opis",

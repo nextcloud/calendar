@@ -204,6 +204,7 @@ OC.L10N.register(
     "Failed to save default calendar" : "Nepodařilo se uložit výchozí kalendář",
     "CalDAV link copied to clipboard." : "CalDAV odkaz zkopírován do schránky.",
     "CalDAV link could not be copied to clipboard." : "CalDAV odkaz se nepodařilo zkopírovat do schránky.",
+    "General" : "Obecné",
     "Personal availability settings" : "Nastavení osobní dostupnosti",
     "Copy primary CalDAV address" : "Zkopírovat hlavní CalDAV adresu",
     "Copy iOS/macOS CalDAV address" : "Zkopírovat CalDAV adresu pro iOS/macOS",
