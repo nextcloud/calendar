@@ -136,6 +136,7 @@ OC.L10N.register(
     "No reminder" : "Dim nodyn atgoffa",
     "CalDAV link copied to clipboard." : "Dolen CalDAV wedi'i chopïo i'r clipfwrdd.",
     "CalDAV link could not be copied to clipboard." : "Nid oedd modd copïo dolen CalDAV i'r clipfwrdd.",
+    "General" : "Cyffredinol",
     "Personal availability settings" : "Gosodiadau argaeledd personol",
     "Copy primary CalDAV address" : "Copïo prig gyfeiriad CalDAV",
     "Copy iOS/macOS CalDAV address" : "Copïo cyfeiriad CalDAV iOS/macOS",
