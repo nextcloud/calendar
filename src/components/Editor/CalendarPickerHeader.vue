@@ -25,6 +25,7 @@
 			<template>
 				<NcActionButton v-for="calendar in calendars"
 					:key="calendar.id"
+					class="calendar-picker-header__picker__option"
 					:close-after-click="true"
 					@click="$emit('update:value', calendar)">
 					<template #icon>
@@ -126,10 +127,21 @@ export default {
 			}
 		}
 
+		&__option {
+			:deep(button) {
+				align-items: center !important;
+			}
+		}
+
 		// Fix long calendar name ellipsis
 		:deep(.v-popper) {
 			display: flex;
 			min-width: 0;
+		}
+
+		:deep(.button-vue__text) {
+			display: flex;
+			align-items: center;
 		}
 
 		// Keep full opacity for disabled buttons
