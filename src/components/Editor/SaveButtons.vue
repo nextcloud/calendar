@@ -29,18 +29,36 @@
 			</template>
 			{{ $t('calendar', 'Update') }}
 		</NcButton>
-		<NcButton v-if="showUpdateThisAndFutureButton"
-			:type="forceThisAndAllFuture ? 'primary' : 'secondary'"
+		<NcButton v-if="showUpdateThisAndFutureButton && !showUpdateOnlyThisButton"
+			:type="primary"
 			:disabled="disabled"
 			@click="saveThisAndAllFuture">
 			{{ $t('calendar', 'Update this and all future') }}
 		</NcButton>
-		<NcButton v-if="showUpdateOnlyThisButton"
+		<NcButton v-if="showUpdateOnlyThisButton && !showUpdateThisAndFutureButton"
 			type="primary"
 			:disabled="disabled"
 			@click="saveThisOnly">
 			{{ $t('calendar', 'Update this occurrence') }}
 		</NcButton>
+
+		<NcActions v-if="showUpdateThisAndFutureButton && showUpdateOnlyThisButton" :primary="true" :menu-name="t('calendar', 'Update')">
+			<template #icon>
+				<CheckIcon :size="20" />
+			</template>
+			<NcActionButton @click="saveThisAndAllFuture">
+				<template #icon>
+					<CheckIcon :size="20" />
+				</template>
+				{{ $t('calendar', 'Update this and all future') }}
+			</NcActionButton>
+			<NcActionButton @click="saveThisOnly">
+				<template #icon>
+					<CheckIcon :size="20" />
+				</template>
+				{{ $t('calendar', 'Update this occurrence') }}
+			</NcActionButton>
+		</NcActions>
 
 		<!-- Allow additional buttons -->
 		<slot />
@@ -48,7 +66,7 @@
 </template>
 
 <script>
-import { NcButton } from '@nextcloud/vue'
+import { NcButton, NcActions, NcActionButton } from '@nextcloud/vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 
 export default {
@@ -56,6 +74,8 @@ export default {
 	components: {
 		NcButton,
 		CheckIcon,
+		NcActions,
+		NcActionButton,
 	},
 	props: {
 		canCreateRecurrenceException: {
