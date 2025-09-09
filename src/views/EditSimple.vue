@@ -185,7 +185,6 @@
 						:force-this-and-all-future="forceThisAndAllFuture"
 						:show-more-button="true"
 						:more-button-type="isViewing ? 'tertiary' : undefined"
-						:grow-horizontally="!isViewing && canCreateRecurrenceException"
 						:disabled="isSaving"
 						@save-this-only="saveAndView(false)"
 						@save-this-and-all-future="saveAndView(true)"
