@@ -13,7 +13,6 @@ use OCA\Calendar\BackgroundJob\CleanUpOutdatedBookingsJob;
 use OCA\Calendar\Service\Appointments\BookingService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\ICalendarQuery;
-use OCP\ILogger;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -58,9 +57,6 @@ class CleanupOutdatedBookingJobTest extends TestCase {
 		$this->logger->expects(self::once())
 			->method('info');
 		$this->job->setLastRun(0);
-		$this->job->execute(
-			$this->createMock(JobList::class),
-			$this->createMock(ILogger::class)
-		);
+		$this->job->start($this->createMock(JobList::class));
 	}
 }
