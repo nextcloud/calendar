@@ -40,7 +40,7 @@ jobs:
       run: composer install
     - name: Run tests
       working-directory: nextcloud/apps/calendar
-      run: composer run test
+      run: composer run test:unit
     - name: Upload coverage to Codecov
       if: ${{ matrix.nextcloud-versions == 'master' }}
       uses: codecov/codecov-action@b9fd7d16f6d7d1b5d2bec1a2887e65ceed900238 # v4
