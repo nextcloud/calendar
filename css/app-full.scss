@@ -113,33 +113,6 @@
 	gap: calc(var(--default-grid-baseline) * 4);
 }
 
-.app-edit-full-tab-attendees, .app-edit-full-tab-resources {
-	display: flex;
-	flex-direction: row;
-	gap: calc(var(--default-grid-baseline) * 4);
-	flex-grow: 1;
-	align-content: flex-start;
-	align-items: flex-start;
-
-	&__icon {
-		& > *:not([align-self="center"]) {
-			align-self: flex-start !important;
-
-			svg {
-				margin-top: calc(var(--default-grid-baseline) * 2);
-			}
-		}
-	}
-
-	&__content {
-		display: flex;
-		flex-direction: column;
-		gap: calc(var(--default-grid-baseline) * 2);
-		height: 100%;
-		flex-grow: 1;
-	}
-}
-
 .invitees-list {
 	display: flex;
 	flex-direction: column;
