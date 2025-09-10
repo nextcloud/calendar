@@ -702,6 +702,234 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.calendar-edit-full {
+	@media screen and (max-width: 785px) {
+		.app-full__header__top {
+			gap: calc(var(--default-grid-baseline) * 2) !important;
+
+			&-close-icon {
+				visibility: visible;
+			}
+		}
+
+		:deep(.modal-container__close) {
+			visibility: hidden;
+		}
+	}
+
+	:deep() {
+		.modal-wrapper--full > .modal-container {
+			height: 100% !important;
+			top: 0 !important;
+		}
+
+		.modal-header {
+			height: 0 !important;
+		}
+	}
+}
+
+.app-full {
+	--total-width: 900px;
+	--column-gap: calc(var(--default-grid-baseline) * 4);
+	max-width: calc(var(--total-width) + var(--default-grid-baseline) * 4);
+	height: 100%;
+	padding: calc(var(--default-grid-baseline) * 2);
+	margin: calc(var(--default-grid-baseline) * 16) auto auto;
+
+	:deep(.avatar-participation-status__text) {
+		bottom: -1px !important;
+		position: absolute !important;
+		max-width: min(calc(100vw - 130px), 500px) !important;
+		min-width: unset !important;
+	}
+
+	&__header {
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--default-grid-baseline) * 2);
+		padding-bottom: calc(var(--default-grid-baseline) * 2);
+		z-index: 10;
+		margin-top: calc(var(--default-grid-baseline) * 2);
+
+		&__top {
+			top: 0;
+			position: sticky;
+			display: flex;
+			flex-wrap: wrap-reverse;
+			gap: calc(var(--column-gap) + var(--default-grid-baseline) * 5);
+			padding: calc(var(--default-grid-baseline) * 2) 0;
+			background-color: var(--color-main-background);
+			align-items: center;
+			z-index: 10000;
+
+			.app-full__header__top__first {
+				display: flex;
+				flex-grow: 1;
+				max-width: calc(var(--total-width) * 2 / 3 - var(--column-gap) / 2 - (var(--default-grid-baseline) * 4 + 22px) + var(--default-grid-baseline) * 4 + 22px);
+
+				.property-title {
+					max-width: calc(var(--total-width) * 2 / 3 - var(--column-gap) / 2 - (var(--default-grid-baseline) * 4 + 22px));
+					flex-grow: 1;
+				}
+			}
+
+			& .app-full__actions {
+				display: flex;
+				gap: calc(var(--default-grid-baseline) * 2);
+				align-items: center;
+
+				&__inner__readonly {
+					margin-left: -10px;
+				}
+			}
+
+			&-close-icon {
+				width: calc(var(--default-grid-baseline) * 4 + 22px);
+				display: flex;
+				justify-content: flex-start;
+				visibility: hidden;
+			}
+		}
+
+		&__details {
+			display: flex;
+			flex-wrap: wrap;
+			gap: var(--column-gap);
+			justify-content: space-between;
+			padding-inline-start: calc(var(--default-grid-baseline) * 8);
+
+			&-time {
+				display: flex;
+				justify-content: space-between;
+				flex-basis: calc(var(--total-width) * 2 / 3 - var(--column-gap) / 2 - var(--default-grid-baseline) * 8);
+				flex-shrink: 1;
+			}
+
+			&-calendar {
+				display: flex;
+				flex-direction: row;
+				width: calc(var(--total-width) * 1 / 3 - var(--column-gap) / 2);
+			}
+		}
+	}
+
+	&__loading-indicator {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		width: 100%;
+		flex-direction: column;
+	}
+}
+
+.app-full-readonly {
+	.app-full__header__details {
+		padding-inline-start: 0;
+	}
+
+	:deep(.does-not-repeat) {
+		display: none;
+	}
+}
+
+.app-full-body {
+	display: flex;
+	flex-direction: row;
+	gap: var(--column-gap);
+	justify-content: space-between;
+	flex-wrap: wrap;
+
+	&__right {
+		width: calc(var(--total-width) * 1 / 3 - var(--column-gap) / 2);
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--default-grid-baseline) * 4);
+
+		.property-select__input {
+			max-width: calc(var(--total-width) * 1 / 3 - var(--column-gap) / 2 - 36px);
+			display: flex;
+			align-items: center;
+		}
+
+		.multiselect__tag {
+			padding: var(--default-grid-baseline);
+			border-radius: var(--border-radius-element);
+		}
+
+		.property-select-multiple-colored-tag__color-indicator {
+			width: 12px;
+			height: 12px;
+			border-radius: 50%;
+		}
+
+		.property-color__icon--hidden {
+			visibility: hidden;
+		}
+	}
+
+	&__left {
+		width: calc(var(--total-width) * 2 / 3 - var(--column-gap) / 2);
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--default-grid-baseline) * 4);
+	}
+
+	.v-select.select {
+		min-width: unset !important;
+	}
+
+	.property-alarm-item {
+		margin-inline-start: calc(var(--default-grid-baseline) * 5);
+	}
+}
+
+// One column layout for smaller screens
+@media screen and (max-width: 915px) {
+	.app-full-body__right {
+		width: calc(var(--total-width) * 2 / 3 - var(--column-gap) / 2) !important;
+
+		.property-select__input {
+			max-width: 100% !important;
+		}
+	}
+}
+
+.app-full-footer {
+	display: flex;
+	flex-direction: row;
+	gap: calc(var(--default-grid-baseline) * 4);
+	justify-content: space-between;
+	margin-top: calc(var(--default-grid-baseline) * 12);
+	padding-bottom: calc(var(--default-grid-baseline) * 8);
+	flex-wrap: wrap;
+
+	&__right {
+		width: calc(var(--total-width) * 1 / 3 - var(--column-gap) / 2);
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--default-grid-baseline) * 4);
+	}
+
+	&__left {
+		width: calc(var(--total-width) * 2 / 3 - var(--column-gap) / 2);
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--default-grid-baseline) * 4);
+	}
+}
+
+@media screen and (max-width: 840px) {
+	.app-full-footer__right {
+		width: calc(var(--total-width) * 2 / 3 - var(--column-gap) / 2) !important;
+
+		.property-select__input {
+			max-width: 100% !important;
+		}
+	}
+}
+
 .modal-mask {
 	height: calc(100vh - var(--header-height));
 	top: var(--header-height);
