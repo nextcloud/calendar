@@ -221,22 +221,52 @@ export default {
 	},
 }
 </script>
-<style lang="scss" scoped>
-:deep(.avatar-participation-status__indicator) {
-	bottom: 2px !important;
-	justify-self: unset !important;
-	inset-inline-start: 43px;
-	opacity: .8;
-}
 
-.avatar-participation-status__text {
-	opacity: .45;
-	inset-inline-start: 63px;
-	bottom: 21px;
-	white-space: nowrap;
+<style lang="scss" scoped>
+.avatar-participation-status {
 	position: relative;
-	min-width: 420px;
-	text-overflow: ellipsis;
-	overflow: hidden;
+	height: 38px;
+	width: 38px;
+
+	&__indicator {
+		position: absolute;
+		bottom: 2px !important;
+		inset-inline-start: 43px;
+		inset-inline-end: 0;
+		background-size: 10px;
+		height: 15px;
+		width: 15px;
+		border-radius: 50%;
+		opacity: .8;
+		justify-self: unset !important;
+	}
+
+	&__indicator.accepted {
+		background-color: #2fb130;
+	}
+
+	&__indicator.declined {
+		background-color: #ff0000;
+	}
+
+	&__indicator.tentative {
+		background-color: #ffa704;
+	}
+
+	&__indicator.delegated,
+	&__indicator.no-response {
+		background-color: grey;
+	}
+
+	&__text {
+		opacity: .45;
+		inset-inline-start: 63px;
+		bottom: 21px;
+		white-space: nowrap;
+		position: relative;
+		min-width: 420px;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
 }
 </style>

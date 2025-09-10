@@ -354,39 +354,6 @@
 	}
 }
 
-.avatar-participation-status {
-	position: relative;
-	height: 38px;
-	width: 38px;
-
-	&__indicator {
-		position: absolute;
-		bottom: 0;
-		inset-inline-end: 0;
-		background-size: 10px;
-		height: 15px;
-		width: 15px;
-		border-radius: 50%;
-	}
-
-	&__indicator.accepted {
-		background-color: #2fb130;
-	}
-
-	&__indicator.declined {
-		background-color: #ff0000;
-	}
-
-	&__indicator.tentative {
-		background-color: #ffa704;
-	}
-
-	&__indicator.delegated,
-	&__indicator.no-response {
-		background-color: grey;
-	}
-}
-
 // Override outdated server styling
 input:not(
 	[type='range'],
