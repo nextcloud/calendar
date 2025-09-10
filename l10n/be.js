@@ -84,6 +84,8 @@ OC.L10N.register(
     "Global" : "Глабальны",
     "Public calendars" : "Публічныя календары",
     "Invite" : "Запрасіць",
+    "Discard changes?" : "Адхіліць змены?",
+    "Untitled event" : "Падзея без назвы",
     "Close" : "Закрыць",
     "Selected" : "Выбрана",
     "Title" : "Загаловак",
