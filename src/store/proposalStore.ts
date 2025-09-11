@@ -4,6 +4,7 @@
  */
 
 import { proposalService } from '@/services/proposalService'
+import { createTalkRoomFromProposal, generateURLForToken } from '@/services/talkService'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { Proposal } from '@/models/proposals/proposals'
@@ -100,11 +101,19 @@ export default defineStore('proposal', () => {
 	 * @param date - The proposed date to convert to a meeting.
 	 * @param timezone - The timezone to use for the meeting.
 	 */
-	async function convertProposal(proposal: ProposalInterface, date: ProposalDateInterface, timezone: string): Promise<void> {
+	async function convertProposal(proposal: ProposalInterface, date: ProposalDateInterface, timezone: string|null = null): Promise<void> {
+
 		const options = {
 			timezone,
 			attendancePreset: true,
+			talkRoomUri: null as string|null,
 		}
+
+		if (proposal.location === 'Talk conversation') {
+			const talkRoom = await createTalkRoomFromProposal(proposal)
+			options.talkRoomUri = generateURLForToken(talkRoom.token)
+		}
+
 		await proposalService.convertProposal(proposal, date, options)
 	}
 
