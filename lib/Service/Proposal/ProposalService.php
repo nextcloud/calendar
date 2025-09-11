@@ -324,7 +324,9 @@ class ProposalService {
 		// timezone option
 		$eventTimezone = null;
 		if (isset($options['timezone']) && is_string($options['timezone']) && in_array($options['timezone'], DateTimeZone::listIdentifiers(), true)) {
-			$eventTimezone = new DateTimeZone($options['timezone']);
+			if (!empty($options['timezone'])) {
+				$eventTimezone = new DateTimeZone($options['timezone']);
+			}
 		}
 		// participant attendance option
 		$eventAttendancePreset = false;
