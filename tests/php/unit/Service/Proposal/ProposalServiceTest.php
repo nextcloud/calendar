@@ -10,15 +10,26 @@ declare(strict_types=1);
 namespace OCA\Calendar\Service\Proposal;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use OC\Calendar\Manager;
+use OCA\Calendar\Db\ProposalDateEntry;
 use OCA\Calendar\Db\ProposalDateMapper;
 use OCA\Calendar\Db\ProposalDetailsEntry;
 use OCA\Calendar\Db\ProposalMapper;
 use OCA\Calendar\Db\ProposalParticipantEntry;
 use OCA\Calendar\Db\ProposalParticipantMapper;
+use OCA\Calendar\Db\ProposalVoteEntry;
 use OCA\Calendar\Db\ProposalVoteMapper;
+use OCA\Calendar\Objects\Proposal\ProposalDateObject;
+use OCA\Calendar\Objects\Proposal\ProposalDateVote;
 use OCA\Calendar\Objects\Proposal\ProposalObject;
+use OCA\Calendar\Objects\Proposal\ProposalParticipantAttendance;
+use OCA\Calendar\Objects\Proposal\ProposalParticipantObject;
+use OCA\Calendar\Objects\Proposal\ProposalParticipantRealm;
+use OCA\Calendar\Objects\Proposal\ProposalParticipantStatus;
 use OCA\Calendar\Objects\Proposal\ProposalResponseDateCollection;
 use OCA\Calendar\Objects\Proposal\ProposalResponseObject;
+use OCA\Calendar\Objects\Proposal\ProposalVoteCollection;
+use OCA\Calendar\Objects\Proposal\ProposalVoteObject;
 use OCP\Calendar\IManager;
 use OCP\IAppConfig;
 use OCP\IL10N;
@@ -61,7 +72,7 @@ class ProposalServiceTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->systemMailManager = $this->createMock(IMailer::class);
 		$this->userMailManager = $this->createMock(IMailManager::class);
-		$this->calendarManager = $this->createMock(IManager::class);
+		$this->calendarManager = $this->createMock(Manager::class);
 		$this->user = $this->createMock(IUser::class);
 
 		$this->user->method('getUID')->willReturn('testuser');
@@ -457,6 +468,198 @@ class ProposalServiceTest extends TestCase {
 		$this->expectExceptionMessage('Participant not found for token: invalid_token');
 
 		$this->service->storeResponse($response);
+	}
+
+	public function testConvertProposalSuccess(): void {
+		// mock objects
+		// proposal entry
+		$proposalEntry = $this->createProposalEntry(1, 'Convert Proposal');
+		$proposalEntry->setDuration(60);
+		$proposalEntry->setUuid('uuid-123');
+		// date entry
+		$dateEntry = new ProposalDateEntry();
+		$dateEntry->setId(10);
+		$dateEntry->setPid(1);
+		$dateEntry->setUid('testuser');
+		$dateEntry->setDate((new \DateTimeImmutable('+1 day'))->getTimestamp());
+		// participant entry
+		$participantEntry = new ProposalParticipantEntry();
+		$participantEntry->setId(20);
+		$participantEntry->setPid(1);
+		$participantEntry->setUid('testuser');
+		$participantEntry->setName('Alice');
+		$participantEntry->setAddress('alice@example.com');
+		$participantEntry->setAttendance('R');
+		$participantEntry->setStatus('P');
+		$participantEntry->setRealm('I');
+		$participantEntry->setToken('tok20');
+		// vote entry
+		$voteEntry = new ProposalVoteEntry();
+		$voteEntry->setId(30);
+		$voteEntry->setUid('testuser');
+		$voteEntry->setPid(1);
+		$voteEntry->setParticipantId(20);
+		$voteEntry->setDateId(10);
+		$voteEntry->setVote('Y');
+
+		// mock methods
+		// user
+		$this->user->method('getEMailAddress')->willReturn('organizer@example.com');
+		$this->user->method('getDisplayName')->willReturn('Organizer');
+		// mappers
+		$this->proposalMapper->expects($this->once())
+			->method('fetchById')
+			->with('testuser', 1)
+			->willReturn($proposalEntry);
+		$this->proposalParticipantMapper->expects($this->once())
+			->method('fetchByProposalId')
+			->with('testuser', 1)
+			->willReturn([$participantEntry]);
+		$this->proposalDateMapper->expects($this->once())
+			->method('fetchByProposalId')
+			->with('testuser', 1)
+			->willReturn([$dateEntry]);
+		$this->proposalVoteMapper->expects($this->once())
+			->method('fetchByProposalId')
+			->with('testuser', 1)
+			->willReturn([$voteEntry]);
+		// calendar manager
+		$calendar = $this->createMock(\OCP\Calendar\ICalendar::class);
+		if (interface_exists(\OCP\Calendar\ICreateFromString::class)) {
+			$calendar = $this->createMock(\OCP\Calendar\ICreateFromString::class);
+			$calendar->method('isDeleted')->willReturn(false);
+			$calendar->expects($this->once())
+				->method('createFromString')
+				->with($this->callback(fn ($name) => str_ends_with($name, '.ics')),
+					$this->callback(fn ($data) => str_contains($data, 'SUMMARY:Convert Proposal')));
+		}
+		$this->calendarManager->method('getPrimaryCalendar')->with('testuser')->willReturn($calendar);
+
+		// expectations
+		$this->proposalVoteMapper->expects($this->once())
+			->method('deleteByProposalId')
+			->with('testuser', 1);
+		$this->proposalParticipantMapper->expects($this->once())
+			->method('deleteByProposalId')
+			->with('testuser', 1);
+		$this->proposalDateMapper->expects($this->once())
+			->method('deleteByProposalId')
+			->with('testuser', 1);
+		$this->proposalMapper->expects($this->once())
+			->method('deleteById')
+			->with('testuser', 1);
+
+		// test and assertions
+		$this->service->convertProposal($this->user, 1, 10, ['attendancePreset' => true]);
+		$this->addToAssertionCount(1); // If we reached this point, the test is successfully completed
+	}
+
+	public function testConvertProposalDateNotFound(): void {
+		// mock objects
+		// proposal entry
+		$proposalEntry = $this->createProposalEntry(1, 'Convert Proposal');
+
+		// mock methods
+		// mappers
+		$this->proposalMapper->expects($this->once())
+			->method('fetchById')
+			->with('testuser', 1)
+			->willReturn($proposalEntry);
+		$this->proposalParticipantMapper->expects($this->once())
+			->method('fetchByProposalId')
+			->with('testuser', 1)
+			->willReturn([]);
+		$this->proposalDateMapper->expects($this->once())
+			->method('fetchByProposalId')
+			->with('testuser', 1)
+			->willReturn([]);
+		$this->proposalVoteMapper->expects($this->once())
+			->method('fetchByProposalId')
+			->with('testuser', 1)
+			->willReturn([]);
+
+		// test and assertions
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('Date not found for proposal');
+		$this->service->convertProposal($this->user, 1, 999);
+	}
+
+	public function testConvertProposalCalendarNotFound(): void {
+		// mock objects
+		// proposal entry
+		$proposalEntry = $this->createProposalEntry(1, 'Convert Proposal');
+		$proposalEntry->setDuration(30);
+		// date entry
+		$dateEntry = new \OCA\Calendar\Db\ProposalDateEntry();
+		$dateEntry->setId(10);
+		$dateEntry->setPid(1);
+		$dateEntry->setUid('testuser');
+		$dateEntry->setDate((new \DateTimeImmutable('+1 day'))->getTimestamp());
+
+		// mock methods
+		// mappers
+		$this->proposalMapper->expects($this->once())
+			->method('fetchById')
+			->with('testuser', 1)
+			->willReturn($proposalEntry);
+		$this->proposalParticipantMapper->expects($this->once())
+			->method('fetchByProposalId')
+			->with('testuser', 1)
+			->willReturn([]);
+		$this->proposalDateMapper->expects($this->once())
+			->method('fetchByProposalId')
+			->with('testuser', 1)
+			->willReturn([$dateEntry]);
+		$this->proposalVoteMapper->expects($this->once())
+			->method('fetchByProposalId')
+			->with('testuser', 1)
+			->willReturn([]);
+
+		// mock methods
+		// calendar manager
+		$this->calendarManager->method('getPrimaryCalendar')->with('testuser')->willReturn(null);
+		$this->calendarManager->method('getCalendarsForPrincipal')->with('principals/users/testuser')->willReturn([]);
+
+		// test and assertions
+		$this->expectException(\RuntimeException::class);
+		$this->expectExceptionMessage('Could not find a useable calendar');
+		$this->service->convertProposal($this->user, 1, 10);
+	}
+
+	public function testConvertProposalAttendeeAttendanceMapping(): void {
+		// mock objects
+		// date object
+		$dateObj = new ProposalDateObject();
+		$dateObj->setId(10);
+		$dateObj->setDate(new \DateTimeImmutable('+1 day'));
+		// participant object
+		$participantObj = new ProposalParticipantObject();
+		$participantObj->setId(20);
+		$participantObj->setName('Alice');
+		$participantObj->setAddress('alice@example.com');
+		$participantObj->setAttendance(ProposalParticipantAttendance::Required);
+		$participantObj->setStatus(ProposalParticipantStatus::Pending);
+		$participantObj->setRealm(ProposalParticipantRealm::Internal);
+		// votes collection
+		$votes = new ProposalVoteCollection();
+		$voteYes = new ProposalVoteObject();
+		$voteYes->setDateId(10);
+		$voteYes->setParticipantId(20);
+		$voteYes->setVote(ProposalDateVote::Yes);
+		$votes->append($voteYes);
+
+		// test and assertions
+		// Test mapping with YES vote
+		$this->assertSame('ACCEPTED', $this->service->convertProposalAttendeeAttendance($dateObj, $participantObj, $votes));
+		// test mapping with NO vote
+		$voteYes->setVote(ProposalDateVote::No);
+		$this->assertSame('DECLINED', $this->service->convertProposalAttendeeAttendance($dateObj, $participantObj, $votes));
+		// test mapping with MAYBE vote
+		$voteYes->setVote(ProposalDateVote::Maybe);
+		$this->assertSame('TENTATIVE', $this->service->convertProposalAttendeeAttendance($dateObj, $participantObj, $votes));
+		// test mapping with no vote
+		$votes = new ProposalVoteCollection();
+		$this->assertSame('NEEDS-ACTION', $this->service->convertProposalAttendeeAttendance($dateObj, $participantObj, $votes));
 	}
 
 	private function createProposalEntry(int $id, string $title): ProposalDetailsEntry {
