@@ -1,3 +1,20 @@
+# [6.0.0-rc.3](https://github.com/nextcloud/calendar/compare/v6.0.0-rc.2...v6.0.0-rc.3) (2025-09-11)
+
+
+### Bug Fixes
+
+* **CalendarPickerHeader:** fix alignment ([2d58196](https://github.com/nextcloud/calendar/commit/2d58196e91118d0954172b4bbbe278572222dddc))
+* **deps:** Fix npm audit ([f7fc0cc](https://github.com/nextcloud/calendar/commit/f7fc0ccdec695a5f084287dc220c153cce158952))
+* **l10n:** Update translations from Transifex ([babcc55](https://github.com/nextcloud/calendar/commit/babcc55832c30d32e3acb510743284a5495dfaac))
+* **l10n:** Update translations from Transifex ([5df1ce6](https://github.com/nextcloud/calendar/commit/5df1ce667d03f743f900a8781de8ce7c02f522f6))
+* **l10n:** Update translations from Transifex ([9eb589b](https://github.com/nextcloud/calendar/commit/9eb589b178ba2cab2aded10cd1431aae21025379))
+* **l10n:** Update translations from Transifex ([dd248fd](https://github.com/nextcloud/calendar/commit/dd248fd47fb1518c0bd09fb03883a0f10fa274d0))
+* **l10n:** Update translations from Transifex ([4728711](https://github.com/nextcloud/calendar/commit/4728711e74d305f8bda332b5cdb186153585283d))
+* **l10n:** Update translations from Transifex ([6aa7f32](https://github.com/nextcloud/calendar/commit/6aa7f321e35a6163dbdb1569d54408f0acf41cae))
+* merge global full page editor styles into the SFC ([4b1fdaa](https://github.com/nextcloud/calendar/commit/4b1fdaa2705b55c442f6f1bb26937c4014126abf))
+
+
+
 # [6.0.0-rc.2](https://github.com/nextcloud/calendar/compare/v6.0.0-rc.1...v6.0.0-rc.2) (2025-09-05)
 
 
