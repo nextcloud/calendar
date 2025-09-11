@@ -41,3 +41,6 @@ timezones
 /vendor/bamarni/composer-bin-plugin/e2e
 /vendor-bin
 webpack.*
+playwright.config.js
+tsconfig.json
+tsconfig.json.license
