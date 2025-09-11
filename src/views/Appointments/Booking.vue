@@ -85,7 +85,6 @@ import {
 	NcGuestContent,
 	NcEmptyContent,
 } from '@nextcloud/vue'
-import jstz from 'jstz'
 import MDILoading from 'vue-material-design-icons/Loading.vue'
 import { showError } from '@nextcloud/dialogs'
 
@@ -134,8 +133,7 @@ export default {
 	},
 	data() {
 		// Try to determine the current timezone, and fall back to UTC otherwise
-		const defaultTimezone = jstz.determine()
-		const defaultTimeZoneId = defaultTimezone ? defaultTimezone.name() : 'UTC'
+		const defaultTimeZoneId = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
 
 		// Build the real first possible date and time
 		const now = new Date()

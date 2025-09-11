@@ -4,7 +4,6 @@
  */
 import { enableBirthdayCalendar } from '../services/caldavService.js'
 import { mapDavCollectionToCalendar } from '../models/calendar.js'
-import { detectTimezone } from '../services/timezoneDetectionService.js'
 import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
 import { setConfig } from '../services/settings.js'
 import { logInfo } from '../utils/logger.js'
@@ -56,9 +55,12 @@ export default defineStore('settings', {
 		 * @param {object} state The pinia state
 		 * @return {string}
 		 */
-		getResolvedTimezone: (state) => state.timezone === 'automatic'
-			? detectTimezone()
-			: state.timezone,
+		getResolvedTimezone: (state) => {
+			if (state.timezone !== 'automatic') {
+				return state.timezone
+			}
+			return Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
+		},
 
 		/**
 		 * Gets the resolved timezone object.
