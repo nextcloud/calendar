@@ -72,12 +72,12 @@
 							class="proposal-editor__proposal-description"
 							:label="t('calendar', 'Description')" />
 						<div class="proposal-editor__proposal-location-container">
-							<NcTextField v-if="!modalEditLocationState"
+							<NcTextField v-if="!settingsStore.talkEnabled || !modalEditLocationState"
 								class="proposal-editor__proposal-location"
 								:label="t('calendar', 'Location')"
-								:value="selectedProposal.location"
-								@input="onProposalLocationInput($event)" />
-							<NcCheckboxRadioSwitch class="proposal-editor__proposal-location-selector"
+								:value="selectedProposal.location" />
+							<NcCheckboxRadioSwitch v-if="settingsStore.talkEnabled"
+								class="proposal-editor__proposal-location-selector"
 								variant="secondary"
 								:model-value="modalEditLocationState"
 								@update:modelValue="onProposalLocationTypeToggle">
@@ -598,21 +598,6 @@ export default {
 			const value = (event.target as HTMLInputElement).value
 			const duration = parseInt(value, 10)
 			this.changeDuration(duration)
-		},
-
-		onProposalLocationInput(event: Event) {
-			const value = (event.target as HTMLInputElement).value
-			if (!this.selectedProposal) {
-				return console.error('No proposal selected for this operation')
-			}
-			if (this.selectedProposal.location !== 'Talk conversation') {
-				this.selectedProposal.location = value
-			} else {
-				// Prevent the input change when location is 'Talk conversation'
-				event.preventDefault();
-				(event.target as HTMLInputElement).value = 'Talk conversation'
-				return false
-			}
 		},
 
 		onProposalLocationTypeToggle(): void {
