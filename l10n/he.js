@@ -149,7 +149,7 @@ OC.L10N.register(
     "No valid files found, aborting import" : "לא נמצאו קבצים תקפים, הייבוא מבוטל",
     "Import partially failed. Imported {accepted} out of {total}." : "הייבוא נכשל חלקית. מיובא {accepted} מתוך {total}.",
     "Automatic" : "אוטומטי",
-    "Automatic ({detected})" : "אוטומטי ({detected})",
+    "Automatic ({timezone})" : "אוטומטי ({timezone})",
     "New setting was not saved successfully." : "ההגדרה החדשה לא נשמרה בהצלחה.",
     "Timezone" : "אזור זמן",
     "Navigation" : "ניווט",
@@ -373,6 +373,7 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "אירעה שגיאה, לא ניתן למחוק את היומן.",
     "Imported {filename}" : "יובא {filename} ",
     "User not found" : "המשתמש לא נמצא",
+    "Automatic ({detected})" : "אוטומטי ({detected})",
     "Shortcut overview" : "סקירת קיצור דרך",
     "Enable simplified editor" : "אפשר עורך פשוט",
     "Show keyboard shortcuts" : "הצגת קיצורי מקלדת"

@@ -28,6 +28,7 @@ OC.L10N.register(
     "can edit" : "kan endra",
     "Save" : "Lagre",
     "Cancel" : "Avbryt",
+    "Automatic ({timezone})" : "Automatisk ({tidssone})",
     "List view" : "Liste visning",
     "Actions" : "Handlingar",
     "General" : "Generelt",

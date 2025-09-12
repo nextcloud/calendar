@@ -142,7 +142,7 @@ OC.L10N.register(
     "No valid files found, aborting import" : "Berkas valid tidak ditemukan, impor dibatalkan",
     "Import partially failed. Imported {accepted} out of {total}." : "Sebagian impor gagal. Dari {total} hanya {accepted} berhasil impor.",
     "Automatic" : "Otomatis",
-    "Automatic ({detected})" : "Otomatis ({detected})",
+    "Automatic ({timezone})" : "Otomatis ({timezone})",
     "New setting was not saved successfully." : "Setelan baru tidak berhasil tersimpan.",
     "Navigation" : "Navigasi",
     "Previous period" : "Periode sebelum",
@@ -344,6 +344,7 @@ OC.L10N.register(
     "Special color of this event. Overrides the calendar-color." : "Warna spesial dari acara ini. Mengganti warna kalender.",
     "An error occurred, unable to delete the calendar." : "Terjadi galat, tidak dapat menghapus kalender.",
     "This is an event reminder." : "Ini adalah pengingat acara.",
+    "Automatic ({detected})" : "Otomatis ({detected})",
     "Shortcut overview" : "Ikhtisar pintasan",
     "Enable simplified editor" : "Aktifkan editor serderhana",
     "Show keyboard shortcuts" : "Tampilkan pintasan papan kunci"
