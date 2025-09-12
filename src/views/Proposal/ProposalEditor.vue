@@ -77,7 +77,8 @@
 								class="proposal-editor__proposal-location"
 								:label="t('calendar', 'Location')"
 								:value="selectedProposal.location" />
-							<NcCheckboxRadioSwitch v-if="settingsStore.talkEnabled" class="proposal-editor__proposal-location-selector"
+							<NcCheckboxRadioSwitch v-if="settingsStore.talkEnabled"
+								class="proposal-editor__proposal-location-selector"
 								variant="secondary"
 								:model-value="modalEditLocationState"
 								@update:modelValue="onProposalLocationTypeToggle">
