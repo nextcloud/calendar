@@ -39,6 +39,7 @@ OC.L10N.register(
     "Filename" : "Emri i skedarit",
     "Cancel" : "Anuloje",
     "Automatic" : "Automatike",
+    "Automatic ({timezone})" : "Automatike ({zona kohore})",
     "List view" : "Pamje listë",
     "Actions" : "Veprimet",
     "General" : "Të përgjithshme",

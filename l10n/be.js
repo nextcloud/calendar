@@ -64,6 +64,7 @@ OC.L10N.register(
     "Notification" : "Апавяшчэнне",
     "Email" : "Электронная пошта",
     "seconds" : "с",
+    "Proceed" : "Працягнуць",
     "Upload from device" : "Запампаваць з прылады",
     "Delete file" : "Выдаліць файл",
     "{attendee} ({role})" : "{attendee} ({role})",

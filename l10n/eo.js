@@ -50,6 +50,7 @@ OC.L10N.register(
     "Filename" : "Dosiernomo",
     "Cancel" : "Nuligi",
     "Automatic" : "Aŭtomata",
+    "Automatic ({timezone})" : "Aŭtomate ({timezone})",
     "Timezone" : "Horzono",
     "Previous period" : "Antaŭa periodo",
     "List view" : "Lista vido",

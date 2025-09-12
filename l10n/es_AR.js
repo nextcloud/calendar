@@ -51,6 +51,7 @@ OC.L10N.register(
     "Filename" : "Nombre de archivo",
     "Cancel" : "Cancelar",
     "Automatic" : "Automático",
+    "Automatic ({timezone})" : "Automático ({timezone})",
     "Timezone" : "Zona horaria",
     "List view" : "Vista de lista",
     "Actions" : "Acciones",
