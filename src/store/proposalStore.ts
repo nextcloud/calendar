@@ -7,6 +7,7 @@ import { proposalService } from '@/services/proposalService'
 import { createTalkRoomFromProposal, generateURLForToken } from '@/services/talkService'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import useSettingsStore from '@/store/settings'
 import { Proposal } from '@/models/proposals/proposals'
 import type { ProposalInterface, ProposalDateInterface, ProposalResponseInterface } from '@/types/proposals/proposalInterfaces'
 
@@ -14,6 +15,7 @@ export default defineStore('proposal', () => {
 	const modalVisible = ref(false)
 	const modalMode = ref<'view' | 'create' | 'modify'>('view')
 	const modalProposal = ref<ProposalInterface | null>(null)
+
 	/**
 	 * Show the proposal modal dialog.
 	 *
@@ -102,14 +104,14 @@ export default defineStore('proposal', () => {
 	 * @param timezone - The timezone to use for the meeting.
 	 */
 	async function convertProposal(proposal: ProposalInterface, date: ProposalDateInterface, timezone: string|null = null): Promise<void> {
-
+		const settingsStore = useSettingsStore()
 		const options = {
 			timezone,
 			attendancePreset: true,
 			talkRoomUri: null as string|null,
 		}
 
-		if (proposal.location === 'Talk conversation') {
+		if (settingsStore.talkEnabled && proposal.location === 'Talk conversation') {
 			const talkRoom = await createTalkRoomFromProposal(proposal)
 			options.talkRoomUri = generateURLForToken(talkRoom.token)
 		}
