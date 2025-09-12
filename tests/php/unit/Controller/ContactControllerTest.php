@@ -15,6 +15,7 @@ use OCP\Contacts\IManager;
 use OCP\IRequest;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
 class ContactControllerTest extends TestCase {
@@ -36,6 +37,8 @@ class ContactControllerTest extends TestCase {
 
 	/** @var ContactController */
 	protected $controller;
+
+	private LoggerInterface&MockObject $logger;
 
 	protected function setUp():void {
 		parent::setUp();
