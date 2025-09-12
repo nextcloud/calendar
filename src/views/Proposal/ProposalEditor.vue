@@ -7,7 +7,6 @@
 	<div>
 		<NcModal v-if="modalVisible"
 			class="proposal-modal__content"
-			name="proposal-modal"
 			:title="modalTitle"
 			:size="modalSize"
 			@close="onModalClose()">
@@ -335,14 +334,13 @@ export default {
 		},
 
 		modalTitle(): string {
-			if (this.modalView === false) {
+			switch (this.modalMode) {
+			case 'view':
 				return t('calendar', 'Meeting proposals overview')
-			} else {
-				if (this.modalMode === 'modify') {
-					return t('calendar', 'Edit meeting proposal')
-				} else {
-					return t('calendar', 'Create meeting proposal')
-				}
+			case 'modify':
+				return t('calendar', 'Edit meeting proposal')
+			default:
+				return t('calendar', 'Create meeting proposal')
 			}
 		},
 
