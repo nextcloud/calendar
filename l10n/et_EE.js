@@ -356,6 +356,7 @@ OC.L10N.register(
     "Legend" : "Legend",
     "Out of office" : "Kontorist väljas",
     "Attendees:" : "Osalejad:",
+    "local time" : "kohalik aeg",
     "Done" : "Valmis",
     "Search room" : "Otsi koosolekuruumi",
     "Room name" : "Koosolekuruumi nimi",

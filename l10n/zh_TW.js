@@ -356,6 +356,7 @@ OC.L10N.register(
     "Legend" : "圖例",
     "Out of office" : "不在辦公室",
     "Attendees:" : "參與者：",
+    "local time" : "當地時間",
     "Done" : "完成",
     "Search room" : "搜尋房間",
     "Room name" : "空間名稱",

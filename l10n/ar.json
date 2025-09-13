@@ -166,6 +166,7 @@
     "_Successfully imported %n event_::_Successfully imported %n events_" : ["تم استيراد %n أحداث بنجاح","تم استيراد %n حدث بنجاح","تم استيراد %n أحداث بنجاح","تم استيراد %n أحداث بنجاح","تم استيراد %n أحداث بنجاح","تم استيراد %n أحداث بنجاح"],
     "Import partially failed. Imported {accepted} out of {total}." : "الاستيراد فشل جزئيّاً. تمّ استيراد {accepted} من مجموع {total}.",
     "Automatic" : "تلقائي",
+    "Automatic ({timezone})" : "تلقائي ({timezone})",
     "New setting was not saved successfully." : "لم يتم حفظ الاعدادات الجديدة.",
     "Timezone" : "المنطقة الزمنية",
     "Navigation" : "التنقل",
