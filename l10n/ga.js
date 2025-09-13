@@ -356,6 +356,7 @@ OC.L10N.register(
     "Legend" : "Finscéal",
     "Out of office" : "As oifig",
     "Attendees:" : "Lucht freastail:",
+    "local time" : "am áitiúil",
     "Done" : "Déanta",
     "Search room" : "Seomra cuardaigh",
     "Room name" : "Ainm an tseomra",

@@ -2,7 +2,7 @@ OC.L10N.register(
     "calendar",
     {
     "Provided email-address is too long" : "Norādītā e-pasta adrese ir pārāk gara",
-    "User-Session unexpectedly expired" : "Lietotāja sesija ir negaidīti beigusies",
+    "User-Session unexpectedly expired" : "Lietotāja sesija negaidīti beidzās",
     "Provided email-address is not valid" : "Norādītā e-pasta adrese nav derīga",
     "%s has published the calendar »%s«" : "%s dalījās ar kalendāru »%s«",
     "Unexpected error sending email. Please contact your administrator." : "E-pasta ziņojuma nosūtīšanas laikā bija neparedzēta kļūda. Lūgums sazināties ar savu pārvaldītāju.",

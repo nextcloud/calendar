@@ -356,6 +356,7 @@ OC.L10N.register(
     "Legend" : "Legende",
     "Out of office" : "Nicht im Büro",
     "Attendees:" : "Teilnehmer:",
+    "local time" : "Lokale Zeit",
     "Done" : "Erledigt",
     "Search room" : "Raum suchen",
     "Room name" : "Raumname",
