@@ -35,6 +35,7 @@ OC.L10N.register(
     "Filename" : "Lêernaam",
     "Cancel" : "Kanselleer",
     "Automatic" : "Outomaties",
+    "Automatic ({timezone})" : "Outomaties ({timezone})",
     "Timezone" : "Tydsone",
     "List view" : "Lysaansig",
     "Actions" : "Aksies",

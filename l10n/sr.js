@@ -356,6 +356,7 @@ OC.L10N.register(
     "Legend" : "Легенда",
     "Out of office" : "Ван канцеларије",
     "Attendees:" : "Присутни:",
+    "local time" : "локално време",
     "Done" : "Завршено",
     "Search room" : "Претражи собу",
     "Room name" : "Име собе",
