@@ -62,6 +62,7 @@ OC.L10N.register(
     "Your name" : "Ваша імя",
     "Back" : "Назад",
     "Select conversation" : "Выберыце размову",
+    "on" : "укл.",
     "Notification" : "Апавяшчэнне",
     "Email" : "Электронная пошта",
     "seconds" : "с",
