@@ -644,7 +644,7 @@ OC.L10N.register(
     "When shared hide this event" : "Agochar este evento ao compartir",
     "The visibility of this event in shared calendars." : "A visibilidade deste evento nos calendarios compartidos.",
     "Add a location" : "Engadir unha localización",
-    "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Engadir unha descrición\n\n– De que trata esta xuntanza\n– Puntos da orde do día\n– Todo o que teñan que preparar os participantes",
+    "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Engadir unha descrición\n\n- De que trata esta xuntanza\n- Puntos da orde do día\n- Todo o que teñan que preparar os participantes",
     "Status" : "Estado",
     "Confirmed" : "Confirmado",
     "Canceled" : "Cancelada",
