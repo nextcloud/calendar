@@ -503,4 +503,42 @@ export default {
 	}
 
 }
+
+.edit-simple {
+	.property-title-time-picker__time-pickers {
+		flex-grow: 0 !important;
+		flex-shrink: 1;
+		margin-inline-start: calc(var(--default-grid-baseline) * 2);
+	}
+
+	.property-title-time-picker__time-pickers-from-inner__selectors, .property-title-time-picker__time-pickers-to-inner__selectors {
+		width: 100% !important;
+	}
+
+	.property-title-time-picker__time-pickers-from-inner__timezone, .property-title-time-picker__time-pickers-to-inner__timezone {
+		width: unset !important;
+	}
+
+	.property-title-time-picker--readonly {
+		flex-direction: row !important;
+		gap: calc(var(--default-grid-baseline) * 4);
+		justify-content: flex-start !important;
+
+		.property-title-time-picker__icon {
+			align-self: start;
+			padding-top: calc(var(--default-grid-baseline) / 2);
+		}
+	}
+
+	.property-title-time-picker-read-only-wrapper {
+		display: flex;
+		gap: calc(var(--default-grid-baseline) * 2);
+	}
+
+	.property-title-time-picker {
+		&__icon {
+			margin: 0 !important;
+		}
+	}
+}
 </style>

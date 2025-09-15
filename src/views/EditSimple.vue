@@ -26,7 +26,7 @@
 				<!-- Dummy slot to silence vue warning regarding a custom trigger -->
 				<button v-bind="attrs" style="display: none" />
 			</template>
-			<div class="event-popover__inner">
+			<div class="event-popover__inner edit-simple">
 				<template v-if="isLoading && !isSaving">
 					<PopoverLoadingIndicator />
 				</template>
@@ -531,5 +531,83 @@ export default {
 
 .cancel-confirmation-dialog {
 	z-index: 1000000 !important;
+}
+
+.event-popover .event-popover__inner {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 4);
+	text-align: start;
+	max-width: 480px;
+	width: 480px;
+	padding: calc(var(--default-grid-baseline) * 2);
+	padding-top: var(--default-grid-baseline);
+	.empty-content {
+		margin-top: 0 !important;
+		padding: calc(var(--default-grid-baseline) * 12);
+	}
+	.event-popover__invitees {
+		.avatar-participation-status__text {
+			bottom: 22px;
+		}
+	}
+	.event-popover__buttons {
+		margin-top: calc(var(--default-grid-baseline) * 2);
+	}
+	.event-popover__top-actions {
+		display: flex;
+		gap: var(--default-grid-baseline);
+		position: absolute !important;
+		top: var(--default-grid-baseline) !important;
+		z-index: 100 !important;
+		opacity: .7 !important;
+		border-radius: 22px !important;
+		align-items: center;
+		inset-inline-end : var(--default-grid-baseline) !important;
+		.action-item.action-item--single {
+			width: 44px !important;
+			height: 44px !important;
+		}
+	}
+	.popover-loading-indicator {
+		width: 100%;
+		&__icon {
+			margin: 0 auto;
+			height: 62px;
+			width: 62px;
+			background-size: 62px;
+		}
+	}
+
+	.event-popover__response-buttons {
+		margin-top: calc(var(--default-grid-baseline) * 2);
+		margin-bottom: 0;
+	}
+	.property-text {
+		&__icon {
+			margin: 0 !important;
+		}
+	}
+}
+
+.event-popover {
+	// Don't cut popovers above popovers (e.g. date time picker)
+	.v-popper__inner {
+		overflow: unset !important;
+	}
+
+	&[x-out-of-boundaries] {
+		margin-top: 75px;
+	}
+
+	.calendar-picker-header {
+		margin-inline-start: 0 !important;
+	}
+}
+
+.event-popover[x-placement^='bottom'] {
+	.popover__arrow {
+		border-block-end-color: var(--color-background-dark);
+	}
 }
 </style>
