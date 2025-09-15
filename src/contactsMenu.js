@@ -10,7 +10,7 @@ import '../css/calendar.scss'
 import { getRequestToken } from '@nextcloud/auth'
 import { linkTo } from '@nextcloud/router'
 import { translate as t } from '@nextcloud/l10n'
-import { registerContactsMenuAction } from '@nextcloud/vue'
+import { registerContactsMenuAction } from '@nextcloud/vue/dist/Functions/contactsMenu.js'
 import CalendarBlankSvg from '@mdi/svg/svg/calendar-blank.svg'
 
 // CSP config for webpack dynamic chunk loading
