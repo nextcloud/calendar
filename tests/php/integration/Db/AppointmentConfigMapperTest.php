@@ -36,7 +36,7 @@ class AppointmentConfigMapperTest extends TestCase {
 		$qb = $this->db->getQueryBuilder();
 
 		$delete = $qb->delete($this->mapper->getTableName());
-		$delete->execute();
+		$delete->executeStatement();
 	}
 
 	public function testFindByIdNoData() {
