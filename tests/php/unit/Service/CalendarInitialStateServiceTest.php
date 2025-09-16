@@ -118,7 +118,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			->willReturn([new AppointmentConfig()]);
 		$this->initialStateService->expects(self::exactly(24))
 			->method('provideInitialState')
-			->withConsecutive(
+			->willReturnMap([
 				['app_version', '1.0.0'],
 				['event_limit', true],
 				['first_run', true],
@@ -143,7 +143,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['show_resources', true],
 				['isCirclesEnabled', false],
 				['publicCalendars', null],
-			);
+			]);
 
 		$this->service->run();
 	}
@@ -210,7 +210,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			]);
 		$this->initialStateService->expects(self::exactly(23))
 			->method('provideInitialState')
-			->withConsecutive(
+			->willReturnMap([
 				['app_version', '1.0.0'],
 				['event_limit', true],
 				['first_run', true],
@@ -234,7 +234,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['show_resources', true],
 				['isCirclesEnabled', false],
 				['publicCalendars', null],
-			);
+			]);
 
 		$this->service->run();
 	}
@@ -311,7 +311,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			->willReturn([new AppointmentConfig()]);
 		$this->initialStateService->expects(self::exactly(24))
 			->method('provideInitialState')
-			->withConsecutive(
+			->willReturnMap([
 				['app_version', '1.0.0'],
 				['event_limit', true],
 				['first_run', true],
@@ -336,7 +336,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['show_resources', true],
 				['isCirclesEnabled', false],
 				['publicCalendars', null],
-			);
+			]);
 
 		$this->service->run();
 
