@@ -62,9 +62,11 @@ function handleEventClick(event, router, route, window, isWidget = false) {
 		? 'EditFullView'
 		: 'EditPopoverView'
 
-	// Don't show the popover if the window size is too small (less then its max width of 450 px + a bit)
-	// The mobile breakpoint of the reworked modals is 1024 px / 2 so simply use that.
-	if (window.innerWidth <= 1024 / 2 && desiredRoute === 'EditPopoverView') {
+	// Don't show the popover if the window size is too small (less than its max width of 516 px + a bit)
+	// The sidebar is 300px, so we check 850px (300 + 516 + some margin)
+
+	// The popover also becomes uncomfortable to use on short screens
+	if ((window.innerWidth <= 850 || window.innerHeight <= 400) && desiredRoute === 'EditPopoverView') {
 		desiredRoute = 'EditFullView'
 	}
 
