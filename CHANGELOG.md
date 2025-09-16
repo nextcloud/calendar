@@ -1,3 +1,22 @@
+# [6.0.0-rc.4](https://github.com/nextcloud/calendar/compare/v6.0.0-rc.3...v6.0.0-rc.4) (2025-09-16)
+
+
+### Bug Fixes
+
+* **l10n:** Update translations from Transifex ([1a79e3b](https://github.com/nextcloud/calendar/commit/1a79e3bc8ae6700331cb9a2c54b736da7b9ed08e))
+* **l10n:** Update translations from Transifex ([c7f2f55](https://github.com/nextcloud/calendar/commit/c7f2f5557dd771c006eca574393b041ebec3f49a))
+* **l10n:** Update translations from Transifex ([d89af33](https://github.com/nextcloud/calendar/commit/d89af33a946e1aaa4df1f109f40acca58a1d9374))
+* **l10n:** Update translations from Transifex ([47a79de](https://github.com/nextcloud/calendar/commit/47a79de7e9cf55d02aa1c971c432a6214b13710e))
+* **l10n:** Update translations from Transifex ([118675b](https://github.com/nextcloud/calendar/commit/118675bc3dca03de3237d9d3439af859bfbda26b))
+* use outlined checkbox for disabled/hidden calendars ([a5e7287](https://github.com/nextcloud/calendar/commit/a5e72873579a6b3d5ccadf91d0fbb6da96141b92))
+
+
+### Performance Improvements
+
+* reduce contacts menu entrypoint bundle size ([8faeec6](https://github.com/nextcloud/calendar/commit/8faeec6013645e745fff507433cee0e3b65b6928))
+
+
+
 # [6.0.0-rc.3](https://github.com/nextcloud/calendar/compare/v6.0.0-rc.2...v6.0.0-rc.3) (2025-09-11)
 
 
