@@ -21,6 +21,7 @@ use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub\ReturnSelf;
 
 class EmailControllerTest extends TestCase {
 	/** @var string */
@@ -173,12 +174,11 @@ class EmailControllerTest extends TestCase {
 			->willReturn($template);
 		$template->expects(self::exactly(3))
 			->method('addBodyText')
-			->withConsecutive(
-				['TRANSLATED: Hello,'],
-				['TRANSLATED: We wanted to inform you that User Displayname 123 has published the calendar »calendar name 456«.'],
-				['TRANSLATED: Cheers!']
-			)
-			->willReturnSelf();
+			->willReturnMap([
+				['TRANSLATED: Hello,', new ReturnSelf()],
+				['TRANSLATED: We wanted to inform you that User Displayname 123 has published the calendar »calendar name 456«.', new ReturnSelf()],
+				['TRANSLATED: Cheers!', new ReturnSelf()],
+			]);
 		$template->expects(self::once())
 			->method('addBodyButton')
 			->with('TRANSLATED: Open »calendar name 456«', 'http://publicURL123')

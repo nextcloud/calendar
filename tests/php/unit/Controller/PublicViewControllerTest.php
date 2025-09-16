@@ -88,7 +88,7 @@ class PublicViewControllerTest extends TestCase {
 
 		$this->initialStateService->expects(self::exactly(18))
 			->method('provideInitialState')
-			->withConsecutive(
+			->willReturnMap([
 				['calendar', 'app_version', '1.0.0'],
 				['calendar', 'event_limit', false],
 				['calendar', 'first_run', false],
@@ -107,7 +107,7 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'hide_event_export', false],
 				['calendar', 'can_subscribe_link', 'defaultCanSubscribeLink'],
 				['calendar', 'show_resources', false],
-			);
+			]);
 
 		$response = $this->controller->publicIndexWithBranding('');
 
