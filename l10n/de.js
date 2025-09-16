@@ -612,7 +612,7 @@ OC.L10N.register(
     "in {monthNames} on the {ordinalNumber} {byDaySet}" : "im {monthNames} am {ordinalNumber} {byDaySet}",
     "until {untilDate}" : "bis {untilDate}",
     "_%n time_::_%n times_" : ["%n mal","%n mal"],
-    "second" : "Sekunde",
+    "second" : "zweiten",
     "third" : "dritten",
     "fourth" : "vierten",
     "fifth" : "fünften",

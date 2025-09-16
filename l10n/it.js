@@ -575,6 +575,7 @@ OC.L10N.register(
     "Error while sharing file with user" : "Errore durante la condivisione del file con l'utente",
     "Attachment {fileName} already exists!" : "L'allegato {fileName} esiste già!",
     "An error occurred during getting file information" : "Si è verificato un errore durante l'ottenimento delle informazioni sul file.",
+    "Talk conversation for event" : "Conversazione di Talk per un evento",
     "An error occurred, unable to delete the calendar." : "Si è verificato un errore, impossibile eliminare il calendario.",
     "Imported {filename}" : "Importato {filename}",
     "This is an event reminder." : "Questo è un promemoria dell'evento.",
