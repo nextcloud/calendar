@@ -49,7 +49,7 @@ OC.L10N.register(
     "Dear %s, a proposed meeting has been cancelled" : "Olá %s, uma proposta de reunião foi cancelada",
     "Location:" : "Localização:",
     "Duration:" : "Duração:",
-    "%1$s from %2$s to %3$s" : "%1$s de %2$s para %3$s",
+    "%1$s from %2$s to %3$s" : "%1$s de %2$s a %3$s",
     "Dates:" : "Datas:",
     "Respond" : "Responder",
     "A Calendar app for Nextcloud" : "Um aplicativo de Calendário para Nextcloud",
