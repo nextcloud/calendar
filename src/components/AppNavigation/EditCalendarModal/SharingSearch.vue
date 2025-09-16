@@ -53,6 +53,7 @@ import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
 import usePrincipalsStore from '../../../store/principals.js'
 import useCalendarsStore from '../../../store/calendars.js'
 import { mapStores } from 'pinia'
+import { loadState } from '@nextcloud/initial-state'
 
 export default {
 	name: 'SharingSearch',
@@ -79,13 +80,12 @@ export default {
 		...mapStores(usePrincipalsStore, useCalendarsStore),
 
 		/**
-		 * True, if the Nextcloud server supports read-only federated calendar shares.
+		 * True, if federated calendar shares are enabled on this server.
 		 *
 		 * @return {boolean}
 		 */
 		supportsFederatedCalendars() {
-			const nextcloudMajorVersion = parseInt(window.OC.config.version.split('.')[0])
-			return nextcloudMajorVersion >= 32
+			return loadState('calendar', 'calendar_federation_enabled')
 		},
 	},
 	methods: {
