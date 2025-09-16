@@ -1,3 +1,24 @@
+## [5.5.4](https://github.com/nextcloud/calendar/compare/v5.5.3...v5.5.4) (2025-09-16)
+
+
+### Bug Fixes
+
+* **l10n:** Update translations from Transifex ([a503193](https://github.com/nextcloud/calendar/commit/a503193d66a482a0ba2b6c409e4829c1af6db8a6))
+* **l10n:** Update translations from Transifex ([69aa9c0](https://github.com/nextcloud/calendar/commit/69aa9c071b00cd3e05a4de7510b4d53e69690f62))
+* **l10n:** Update translations from Transifex ([eac3ef8](https://github.com/nextcloud/calendar/commit/eac3ef8e4fa184ee7bb30421ed77eb8b720ceaf9))
+* **l10n:** Update translations from Transifex ([0954483](https://github.com/nextcloud/calendar/commit/095448338ca59af9afaf939bb794801377f20334))
+* **l10n:** Update translations from Transifex ([5ac1973](https://github.com/nextcloud/calendar/commit/5ac1973074b659628db56acec283492e43b3c29b))
+* **l10n:** Update translations from Transifex ([1627050](https://github.com/nextcloud/calendar/commit/1627050a15990b6e99fb8b3aaf1aec48ebd31add))
+* **l10n:** Update translations from Transifex ([bd4882a](https://github.com/nextcloud/calendar/commit/bd4882a17d34bfb0de83d5fdfe205534a3d6d912))
+* merge global full page editor styles into the SFC ([0fd5d80](https://github.com/nextcloud/calendar/commit/0fd5d80a2cae8206764bb7ebcf710da7f8682fad))
+
+
+### Performance Improvements
+
+* reduce contacts menu entrypoint bundle size ([3223565](https://github.com/nextcloud/calendar/commit/32235650dce0b85e99662e9e49a672b051fc8e4a))
+
+
+
 ## [5.5.3](https://github.com/nextcloud/calendar/compare/v5.5.2...v5.5.3) (2025-09-09)
 
 
