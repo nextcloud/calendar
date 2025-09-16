@@ -11,6 +11,7 @@ use OC\App\CompareVersion;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use function in_array;
 
@@ -21,6 +22,7 @@ class CalendarInitialStateService {
 		private IInitialState $initialStateService,
 		private IAppManager $appManager,
 		private IConfig $config,
+		private IAppConfig $appConfig,
 		private AppointmentConfigService $appointmentConfigService,
 		private CompareVersion $compareVersion,
 		private ?string $userId,
@@ -71,6 +73,12 @@ class CalendarInitialStateService {
 		// if circles is not installed, we use 0.0.0
 		$isCircleVersionCompatible = $this->compareVersion->isCompatible($circleVersion ? $circleVersion : '0.0.0', '22');
 
+		$calendarFederationEnabled = $this->appConfig->getValueBool(
+			'dav',
+			'enableCalendarFederation',
+			true,
+		);
+
 		$this->initialStateService->provideInitialState('app_version', $appVersion);
 		$this->initialStateService->provideInitialState('event_limit', $eventLimit);
 		$this->initialStateService->provideInitialState('first_run', $firstRun);
@@ -97,6 +105,10 @@ class CalendarInitialStateService {
 		$this->initialStateService->provideInitialState('show_resources', $showResources);
 		$this->initialStateService->provideInitialState('isCirclesEnabled', $isCirclesEnabled && $isCircleVersionCompatible);
 		$this->initialStateService->provideInitialState('publicCalendars', $publicCalendars);
+		$this->initialStateService->provideInitialState(
+			'calendar_federation_enabled',
+			$calendarFederationEnabled,
+		);
 	}
 
 	/**

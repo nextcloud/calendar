@@ -13,6 +13,7 @@ use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\IAppConfig;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -42,10 +43,13 @@ class CalendarInitialStateServiceTest extends TestCase {
 	/** @var CompareVersion|MockObject */
 	private $compareVersion;
 
+	private IAppConfig&MockObject $appConfig;
+
 	protected function setUp(): void {
 		$this->appName = 'calendar';
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->config = $this->createMock(IConfig::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->appointmentContfigService = $this->createMock(AppointmentConfigService::class);
 		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->compareVersion = $this->createMock(CompareVersion::class);
@@ -58,6 +62,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->initialStateService,
 			$this->appManager,
 			$this->config,
+			$this->appConfig,
 			$this->appointmentContfigService,
 			$this->compareVersion,
 			$this->userId,
@@ -99,6 +104,11 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
 				['user123', 'calendar', 'tasksSidebar', 'defaultTasksSidebar', 'yes'],
 			]);
+		$this->appConfig->expects(self::once())
+			->method('getValueBool')
+			->willReturnMap([
+				['dav', 'enableCalendarFederation', true, false, true],
+			]);
 		$this->appManager->expects(self::exactly(3))
 			->method('isEnabledForUser')
 			->willReturnMap([
@@ -116,7 +126,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			->method('getAllAppointmentConfigurations')
 			->with($this->userId)
 			->willReturn([new AppointmentConfig()]);
-		$this->initialStateService->expects(self::exactly(24))
+		$this->initialStateService->expects(self::exactly(25))
 			->method('provideInitialState')
 			->withConsecutive(
 				['app_version', '1.0.0'],
@@ -143,6 +153,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['show_resources', true],
 				['isCirclesEnabled', false],
 				['publicCalendars', null],
+				['calendar_federation_enabled', true],
 			);
 
 		$this->service->run();
@@ -154,6 +165,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->initialStateService,
 			$this->appManager,
 			$this->config,
+			$this->appConfig,
 			$this->appointmentContfigService,
 			$this->compareVersion,
 			null,
@@ -178,6 +190,12 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['dav', 'allow_calendar_link_subscriptions', 'yes', 'no'],
 				['calendar', 'showResources', 'yes', 'yes'],
 				['calendar', 'publicCalendars', ''],
+				['calendar', 'publicCalendars', ''],
+			]);
+		$this->appConfig->expects(self::once())
+			->method('getValueBool')
+			->willReturnMap([
+				['dav', 'enableCalendarFederation', true, false, false],
 			]);
 		$this->config->expects(self::exactly(12))
 			->method('getUserValue')
@@ -208,7 +226,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['spreed', true, '12.0.0'],
 				['circles', true, '22.0.0'],
 			]);
-		$this->initialStateService->expects(self::exactly(23))
+		$this->initialStateService->expects(self::exactly(24))
 			->method('provideInitialState')
 			->withConsecutive(
 				['app_version', '1.0.0'],
@@ -234,6 +252,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['show_resources', true],
 				['isCirclesEnabled', false],
 				['publicCalendars', null],
+				['calendar_federation_enabled', false],
 			);
 
 		$this->service->run();
@@ -251,6 +270,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->initialStateService,
 			$this->appManager,
 			$this->config,
+			$this->appConfig,
 			$this->appointmentContfigService,
 			$this->compareVersion,
 			$this->userId,
@@ -292,6 +312,11 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
 				['user123', 'calendar', 'tasksSidebar', 'defaultTasksSidebar', 'yes'],
 			]);
+		$this->appConfig->expects(self::once())
+			->method('getValueBool')
+			->willReturnMap([
+				['dav', 'enableCalendarFederation', true, false, true],
+			]);
 		$this->appManager->expects(self::exactly(3))
 			->method('isEnabledForUser')
 			->willReturnMap([
@@ -309,7 +334,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			->method('getAllAppointmentConfigurations')
 			->with($this->userId)
 			->willReturn([new AppointmentConfig()]);
-		$this->initialStateService->expects(self::exactly(24))
+		$this->initialStateService->expects(self::exactly(25))
 			->method('provideInitialState')
 			->withConsecutive(
 				['app_version', '1.0.0'],
@@ -336,6 +361,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['show_resources', true],
 				['isCirclesEnabled', false],
 				['publicCalendars', null],
+				['calendar_federation_enabled', true],
 			);
 
 		$this->service->run();
