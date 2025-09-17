@@ -148,6 +148,7 @@
     "_Successfully imported %n event_::_Successfully imported %n events_" : ["Успешно импортиране на %n събития","Успешно импортиране на %n събития"],
     "Import partially failed. Imported {accepted} out of {total}." : "Импортирането е частично неуспешно. Импортирани {accepted} от {total}.",
     "Automatic" : "Автоматично",
+    "Automatic ({timezone})" : "Автоматично ({timezone})",
     "New setting was not saved successfully." : " Неуспешно запазване на новата настройка.",
     "Timezone" : "Часови пояс",
     "Navigation" : "Навигация",
