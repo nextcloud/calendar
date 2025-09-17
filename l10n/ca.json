@@ -164,6 +164,7 @@
     "_Successfully imported %n event_::_Successfully imported %n events_" : ["S'ha importat correctament %n esdeveniment","S'ha importat correctament %n esdeveniments"],
     "Import partially failed. Imported {accepted} out of {total}." : "La importació ha fallat parcialment. S'han importat {accepted} d'un total de {total}.",
     "Automatic" : "Automàtic",
+    "Automatic ({timezone})" : "Automàtic ({timezone})",
     "New setting was not saved successfully." : "No s'ha desat correctament els nous paràmetres.",
     "Timezone" : "Fus horari",
     "Navigation" : "Navegació",
