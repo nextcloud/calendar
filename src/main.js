@@ -17,6 +17,7 @@ import AppointmentConfig from './models/appointmentConfig.js'
 import windowTitleService from './services/windowTitleService.js'
 import { createPinia, PiniaVuePlugin } from 'pinia'
 import useAppointmentConfigsStore from './store/appointmentConfigs.js'
+import logger from './utils/logger.js'
 
 Vue.use(PiniaVuePlugin)
 const pinia = createPinia()
@@ -38,6 +39,16 @@ Vue.prototype.$n = translatePlural
 // The nextcloud-vue package does currently rely on t and n
 Vue.prototype.t = translate
 Vue.prototype.n = translatePlural
+
+// Redirect Vue errors to Sentry
+Vue.config.errorHandler = async function(error, vm, info) {
+	logger.error(`[Vue error]: Error in ${info}: ${error}`, {
+		error,
+		vm,
+		info,
+	})
+	window.onerror?.(error)
+}
 
 export default new Vue({
 	el: '#content',
