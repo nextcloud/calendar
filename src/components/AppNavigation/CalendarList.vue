@@ -64,31 +64,6 @@
 
 		<NcAppNavigationSpacer />
 
-		<NcAppNavigationItem v-if="sortedCalendars.hidden.length" :name="$t('calendar', 'Hidden')" :allow-collapse="true">
-			<template #icon>
-				<CalendarMinus :size="20" />
-			</template>
-			<template>
-				<div v-if="!isPublic">
-					<draggable v-model="sortedCalendars.hidden"
-						:disabled="disableDragging"
-						v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
-						draggable=".draggable-calendar-list-item"
-						@update="updateInput">
-						<CalendarListItem v-for="calendar in sortedCalendars.hidden"
-							:key="calendar.id"
-							class="draggable-calendar-list-item"
-							:calendar="calendar" />
-					</draggable>
-				</div>
-				<div v-else>
-					<PublicCalendarListItem v-for="calendar in sortedCalendars.hidden"
-						:key="calendar.id"
-						:calendar="calendar" />
-				</div>
-			</template>
-		</NcAppNavigationItem>
-
 		<!-- The header slot must be placed here, otherwise vuedraggable adds undefined as item to the array -->
 		<template>
 			<CalendarListItemLoadingPlaceholder v-if="loadingCalendars" />
@@ -97,12 +72,11 @@
 </template>
 
 <script>
-import { NcAppNavigationCaption, NcAppNavigationItem, NcAppNavigationSpacer } from '@nextcloud/vue'
+import { NcAppNavigationCaption, NcAppNavigationSpacer } from '@nextcloud/vue'
 import CalendarListItem from './CalendarList/CalendarListItem.vue'
 import CalendarListNew from './CalendarList/CalendarListNew.vue'
 import PublicCalendarListItem from './CalendarList/PublicCalendarListItem.vue'
 import CalendarListItemLoadingPlaceholder from './CalendarList/CalendarListItemLoadingPlaceholder.vue'
-import CalendarMinus from 'vue-material-design-icons/CalendarMinusOutline.vue'
 import draggable from 'vuedraggable'
 import debounce from 'debounce'
 import { showError } from '@nextcloud/dialogs'
@@ -120,9 +94,7 @@ export default {
 		CalendarListItemLoadingPlaceholder,
 		PublicCalendarListItem,
 		NcAppNavigationCaption,
-		NcAppNavigationItem,
 		NcAppNavigationSpacer,
-		CalendarMinus,
 		draggable,
 	},
 	props: {
@@ -139,13 +111,12 @@ export default {
 		return {
 			calendars: [],
 			/**
-			 * Calendars sorted by personal, shared, deck, and hidden
+			 * Calendars sorted by personal, shared, and deck
 			 */
 			sortedCalendars: {
 				personal: [],
 				shared: [],
 				deck: [],
-				hidden: [],
 			},
 			disableDragging: false,
 			showOrderModal: false,
@@ -186,15 +157,9 @@ export default {
 				personal: [],
 				shared: [],
 				deck: [],
-				hidden: [],
 			}
 
 			this.calendars.forEach((calendar) => {
-				if (!calendar.enabled) {
-					this.sortedCalendars.hidden.push(calendar)
-					return
-				}
-
 				if (calendar.isSharedWithMe) {
 					this.sortedCalendars.shared.push(calendar)
 					return
@@ -217,7 +182,6 @@ export default {
 				...this.sortedCalendars.personal,
 				...this.sortedCalendars.shared,
 				...this.sortedCalendars.deck,
-				...this.sortedCalendars.hidden,
 			]
 			const newOrder = currentCalendars.reduce((newOrderObj, currentItem, currentIndex) => {
 				newOrderObj[currentItem.id] = currentIndex
