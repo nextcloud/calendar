@@ -27,6 +27,13 @@ webpackConfig.resolve = {
 	}
 }
 
+webpackConfig.plugins.push(
+	new webpack.ProvidePlugin({
+		// Intercept all errors and enrich them with extra data for Sentry
+		Error: [path.resolve(__dirname, 'src/utils/sentryError.js'), 'default'],
+	})
+)
+
 // Edit JS rule
 webpackRules.RULE_JS.test = /\.m?js$/
 webpackRules.RULE_JS.exclude = BabelLoaderExcludeNodeModulesExcept([
