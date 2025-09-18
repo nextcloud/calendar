@@ -29,6 +29,7 @@
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else
 				v-linkify="{ text: value, linkify: true }"
+				class="property-text__readonly-value"
 				:class="{ 'linkify-links': linkifyLinks && !isReadOnly }"
 				:style="{ 'min-height': linkifyMinHeight }"
 				@click="handleShowTextarea" />
@@ -96,6 +97,24 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.property-text {
+	position: relative;
+}
+
+.property-text__icon {
+	position: absolute;
+	top: calc(var(--default-grid-baseline) * 1);
+}
+
+.property-text__input {
+	padding-inline-start: calc(var(--default-grid-baseline) * 11);
+}
+
+.property-text__readonly-value {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
 .textarea--description {
 	height: 120px;
 	overflow-y: auto;
