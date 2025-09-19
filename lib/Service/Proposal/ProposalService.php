@@ -345,8 +345,7 @@ class ProposalService {
 		$vEvent = $vObject->add('VEVENT', []);
 		$vEvent->UID->setValue($proposal->getUuid() ?? Uuid::v4()->toRfc4122());
 		$vEvent->add('DTSTART', $eventTimezone ? $selectedDate->getDate()->setTimezone($eventTimezone) : $selectedDate->getDate());
-		$vEvent->add('DURATION', "PT{$proposal->getDuration()}M");
-		$vEvent->add('STATUS', 'CONFIRMED');
+		$vEvent->add('DTEND', (clone $vEvent->DTSTART->getDateTime())->add(new \DateInterval("PT{$proposal->getDuration()}M")));
 		$vEvent->add('SEQUENCE', 1);
 		$vEvent->add('SUMMARY', $proposal->getTitle());
 		$vEvent->add('DESCRIPTION', $proposal->getDescription());
