@@ -14,7 +14,8 @@
 			}"
 			role="dialog"
 			aria-modal="true"
-			tabindex="-1" />
+			tabindex="-1"
+			@click.self="cancel(false)" />
 		<NcPopover ref="popover"
 			:shown="showPopover"
 			:auto-hide="false"
