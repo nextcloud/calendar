@@ -86,7 +86,6 @@ OC.L10N.register(
     "Delete permanently" : "Desaniciar permanentemente",
     "Could not update calendar order." : "Nun se pudo anovar l'orde del calendariu.",
     "Deck" : "Tarxeteru",
-    "Hidden" : "Anubrióse",
     "Internal link" : "Enllaz internu",
     "A private link that can be used with external clients" : "Un enllaz priváu que se pue usar con veceros esternos",
     "Copy internal link" : "Copiar l'enllaz internu",
@@ -295,6 +294,7 @@ OC.L10N.register(
     "Imported {filename}" : "Importóse «{filename}»",
     "This is an event reminder." : "Esto ye un recordatoriu del eventu.",
     "User not found" : "Nun s'atopó l'usuariu",
+    "Hidden" : "Anubrióse",
     "Enable simplified editor" : "Activar l'editor simplificáu",
     "Limit the number of events displayed in the monthly view" : "Llendar el númberu d'eventos amosaos na vista de meses",
     "Show keyboard shortcuts" : "Amosar los atayos del tecáu"

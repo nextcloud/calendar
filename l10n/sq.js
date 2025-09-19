@@ -29,7 +29,6 @@ OC.L10N.register(
     "Restore" : "Rikthe",
     "Delete permanently" : "Fshije përgjithmonë",
     "Deck" : "Shto paisjen U2F",
-    "Hidden" : "I fshehur",
     "Copy internal link" : "Kopjoni lidhjen e brendshme",
     "Share link" : "Ndani lidhjen",
     "can edit" : "mund të përpunojnë",
@@ -105,6 +104,7 @@ OC.L10N.register(
     "Status" : "Status",
     "Confirmed" : "E konfirmuar",
     "Canceled" : "Anuluar",
-    "Categories" : "Kategoritë"
+    "Categories" : "Kategoritë",
+    "Hidden" : "I fshehur"
 },
 "nplurals=2; plural=(n != 1);");
