@@ -38,7 +38,6 @@ OC.L10N.register(
     "Restore" : "Restaŭri",
     "Delete permanently" : "Forigi por ĉiam",
     "Deck" : "Kartaro",
-    "Hidden" : "Nevidebla",
     "Internal link" : "Interna ligilo",
     "Share link" : "Kunhavigi ligilon",
     "Delete share link" : "Forigi kunhavo-ligilon",
@@ -148,6 +147,7 @@ OC.L10N.register(
     "Categories" : "Kategorioj",
     "Add this as a new category" : "Aldoni tion kiel novan kategorion",
     "User not found" : "Netrovita uzanto",
+    "Hidden" : "Nevidebla",
     "Enable simplified editor" : "Ebligi simpligitan redaktilon",
     "Show keyboard shortcuts" : "Montri klavarajn ŝparvojojn"
 },
