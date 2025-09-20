@@ -93,7 +93,7 @@ OC.L10N.register(
     "Yes" : "Так",
     "No" : "Не",
     "Create" : "Ствараць",
-    "from {formattedDate} at {formattedTime}" : "ад {formattedDate} у {formattedTime}",
+    "from {formattedDate} at {formattedTime}" : "ад {formattedDate} да {formattedTime}",
     "Global" : "Глабальны",
     "Public calendars" : "Публічныя календары",
     "Invite" : "Запрасіць",
