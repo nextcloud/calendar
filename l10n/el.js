@@ -405,6 +405,7 @@ OC.L10N.register(
     "By {authors}" : "Από {authors}",
     "Subscribed" : "Εγγεγραμμένα",
     "Subscribe" : "Εγγραφή",
+    "Select a date" : "Επιλέξτε μια ημερομηνία",
     "Select slot" : "Επιλογή θέσης",
     "No slots available" : "Καμμια διαθέσιμη θέση",
     "The slot for your appointment has been confirmed" : "H θέση σας για το ραντεβού σας έχει επιβεβαιωθεί",
