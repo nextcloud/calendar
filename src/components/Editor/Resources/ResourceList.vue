@@ -7,7 +7,7 @@
 	<div>
 		<span v-if="!(!resources.length && !suggestedRooms.length)" class="app-full-subtitle"> <MapMarker :size="20" /> {{ t('calendar', 'Resources') }}</span>
 
-		<ResourceListSearch v-if="!isReadOnly && hasUserEmailAddress"
+		<ResourceListSearch v-if="!isReadOnly && hasUserEmailAddress && resourceBookingEnabled"
 			:already-invited-emails="alreadyInvitedEmails"
 			:calendar-object-instance="calendarObjectInstance"
 			@add-resource="addResource" />
@@ -44,6 +44,7 @@ import usePrincipalsStore from '../../../store/principals.js'
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
 import { mapStores } from 'pinia'
 import MapMarker from 'vue-material-design-icons/MapMarker.vue'
+import { loadState } from '@nextcloud/initial-state'
 
 export default {
 	name: 'ResourceList',
@@ -103,6 +104,9 @@ export default {
 			const organizerEmail = removeMailtoPrefix(this.calendarObjectInstance.organizer.uri)
 			return organizerEmail === this.principalsStore.getCurrentUserPrincipalEmail
 		},
+		resourceBookingEnabled() {
+			return loadState('calendar', 'resource_booking_enabled')
+		}
 	},
 	watch: {
 		resources() {
@@ -139,6 +143,10 @@ export default {
 			})
 		},
 		async loadRoomSuggestions() {
+			if (!this.resourceBookingEnabled) {
+				return
+			}
+
 			if (this.resources.length > 0) {
 				this.suggestedRooms = []
 				return

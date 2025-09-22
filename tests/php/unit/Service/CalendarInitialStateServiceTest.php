@@ -13,6 +13,10 @@ use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Calendar\Resource\IBackend as IResourceBackend;
+use OCP\Calendar\Resource\IManager as IResourceManager;
+use OCP\Calendar\Room\IBackend as IRoomBackend;
+use OCP\Calendar\Room\IManager as IRoomManager;
 use OCP\IConfig;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -42,6 +46,9 @@ class CalendarInitialStateServiceTest extends TestCase {
 	/** @var CompareVersion|MockObject */
 	private $compareVersion;
 
+	private IResourceManager&MockObject $resourceManager;
+	private IRoomManager&MockObject $roomManager;
+
 	protected function setUp(): void {
 		$this->appName = 'calendar';
 		$this->appManager = $this->createMock(IAppManager::class);
@@ -50,6 +57,8 @@ class CalendarInitialStateServiceTest extends TestCase {
 		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->compareVersion = $this->createMock(CompareVersion::class);
 		$this->userId = 'user123';
+		$this->resourceManager = $this->createMock(IResourceManager::class);
+		$this->roomManager = $this->createMock(IRoomManager::class);
 	}
 
 	public function testRun(): void {
@@ -61,6 +70,8 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->appointmentContfigService,
 			$this->compareVersion,
 			$this->userId,
+			$this->resourceManager,
+			$this->roomManager,
 		);
 		$this->config->expects(self::exactly(16))
 			->method('getAppValue')
@@ -114,7 +125,12 @@ class CalendarInitialStateServiceTest extends TestCase {
 			->method('getAllAppointmentConfigurations')
 			->with($this->userId)
 			->willReturn([new AppointmentConfig()]);
-		$this->initialStateService->expects(self::exactly(23))
+		$this->resourceManager->expects(self::once())
+			->method('getBackends')
+			->willReturn([$this->createMock(IResourceBackend::class)]);
+		$this->roomManager->expects(self::never())
+			->method('getBackends');
+		$this->initialStateService->expects(self::exactly(24))
 			->method('provideInitialState')
 			->withConsecutive(
 				['app_version', '1.0.0'],
@@ -140,6 +156,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['show_resources', true],
 				['isCirclesEnabled', false],
 				['publicCalendars', null],
+				['resource_booking_enabled', true],
 			);
 
 		$this->service->run();
@@ -154,6 +171,8 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->appointmentContfigService,
 			$this->compareVersion,
 			null,
+			$this->resourceManager,
+			$this->roomManager,
 		);
 		$this->config->expects(self::exactly(16))
 			->method('getAppValue')
@@ -203,7 +222,13 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['spreed', true, '12.0.0'],
 				['circles', true, '22.0.0'],
 			]);
-		$this->initialStateService->expects(self::exactly(22))
+		$this->resourceManager->expects(self::once())
+			->method('getBackends')
+			->willReturn([]);
+		$this->roomManager->expects(self::once())
+			->method('getBackends')
+			->willReturn([]);
+		$this->initialStateService->expects(self::exactly(23))
 			->method('provideInitialState')
 			->withConsecutive(
 				['app_version', '1.0.0'],
@@ -228,6 +253,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['show_resources', true],
 				['isCirclesEnabled', false],
 				['publicCalendars', null],
+				['resource_booking_enabled', false],
 			);
 
 		$this->service->run();
@@ -248,6 +274,8 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->appointmentContfigService,
 			$this->compareVersion,
 			$this->userId,
+			$this->resourceManager,
+			$this->roomManager,
 		);
 		$this->config->expects(self::exactly(16))
 			->method('getAppValue')
@@ -301,7 +329,13 @@ class CalendarInitialStateServiceTest extends TestCase {
 			->method('getAllAppointmentConfigurations')
 			->with($this->userId)
 			->willReturn([new AppointmentConfig()]);
-		$this->initialStateService->expects(self::exactly(23))
+		$this->resourceManager->expects(self::once())
+			->method('getBackends')
+			->willReturn([]);
+		$this->roomManager->expects(self::once())
+			->method('getBackends')
+			->willReturn([$this->createMock(IRoomBackend::class)]);
+		$this->initialStateService->expects(self::exactly(24))
 			->method('provideInitialState')
 			->withConsecutive(
 				['app_version', '1.0.0'],
@@ -327,6 +361,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['show_resources', true],
 				['isCirclesEnabled', false],
 				['publicCalendars', null],
+				['resource_booking_enabled', true],
 			);
 
 		$this->service->run();
