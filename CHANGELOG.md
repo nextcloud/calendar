@@ -1,3 +1,23 @@
+# [6.0.0-rc.5](https://github.com/nextcloud/calendar/compare/v6.0.0-rc.4...v6.0.0-rc.5) (2025-09-22)
+
+
+### Bug Fixes
+
+* adjust tentative status icon colour ([ebcd62b](https://github.com/nextcloud/calendar/commit/ebcd62b966209287e97c6509dfedb76102b68409))
+* **deps:** Fix npm audit ([a5fc050](https://github.com/nextcloud/calendar/commit/a5fc050af1a4ef00a0e09c74712765881036b61c))
+* description text wrapping ([81c18a2](https://github.com/nextcloud/calendar/commit/81c18a2aa59148b1cea8282634a1634401e9f51a))
+* disable federated calendar shares if disabled by admins ([10ff703](https://github.com/nextcloud/calendar/commit/10ff703d34c807c86c66b6a79ef1437314092a35))
+* **EditSimple:** a11y on small screens ([b21b9d7](https://github.com/nextcloud/calendar/commit/b21b9d7733f6315e9c9b624f5fb749e02ce19640))
+* **l10n:** Update translations from Transifex ([c78ffb8](https://github.com/nextcloud/calendar/commit/c78ffb8611e7f7723431e135d60046576892290f))
+* **l10n:** Update translations from Transifex ([10f9b73](https://github.com/nextcloud/calendar/commit/10f9b7398bb05c55792fb4aeb238716908ff201f))
+* **l10n:** Update translations from Transifex ([6cb73a1](https://github.com/nextcloud/calendar/commit/6cb73a12cfed14a3bf04ba4ed421751f55b4d17f))
+* **l10n:** Update translations from Transifex ([a4f800f](https://github.com/nextcloud/calendar/commit/a4f800f0db738f2e1ca6316ce01bcbeebde2425f))
+* **l10n:** Update translations from Transifex ([6b8625c](https://github.com/nextcloud/calendar/commit/6b8625caea43bac1c44e1435c0d90b3332a95713))
+* meeting proposal system mailer from address ([977d46d](https://github.com/nextcloud/calendar/commit/977d46d711a24f9813696c1d2c15a9f42a4d98ee))
+* meeting proposals participant no reponse ([ae0bcba](https://github.com/nextcloud/calendar/commit/ae0bcba14659996b28c8b208efeddfc93b66fd57))
+
+
+
 # [6.0.0-rc.4](https://github.com/nextcloud/calendar/compare/v6.0.0-rc.3...v6.0.0-rc.4) (2025-09-16)
 
 
