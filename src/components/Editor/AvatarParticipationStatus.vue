@@ -30,9 +30,10 @@
 <script>
 import { NcAvatar as Avatar } from '@nextcloud/vue'
 import AccountMultiple from 'vue-material-design-icons/AccountMultipleOutline.vue'
-import IconCheck from 'vue-material-design-icons/CheckCircleOutline.vue'
-import IconNoResponse from 'vue-material-design-icons/HelpCircleOutline.vue'
-import IconClose from 'vue-material-design-icons/CloseCircleOutline.vue'
+import IconAccepted from 'vue-material-design-icons/CheckCircleOutline.vue'
+import IconTentative from 'vue-material-design-icons/HelpCircleOutline.vue'
+import IconNoResponse from 'vue-material-design-icons/MinusCircleOutline.vue'
+import IconDeclined from 'vue-material-design-icons/CloseCircleOutline.vue'
 import IconDelegated from 'vue-material-design-icons/ArrowRightDropCircleOutline.vue'
 
 export default {
@@ -40,9 +41,10 @@ export default {
 	components: {
 	  Avatar,
 	  AccountMultiple,
-	  IconCheck,
+	  IconAccepted,
+	  IconTentative,
 	  IconNoResponse,
-	  IconClose,
+	  IconDeclined,
 	  IconDelegated,
 	},
 	props: {
@@ -93,12 +95,16 @@ export default {
 		 */
 		status() {
 			const acceptedIcon = {
-				icon: IconCheck,
+				icon: IconAccepted,
 				fillColor: '#32CD32',
 			}
 			const declinedIcon = {
-				icon: IconClose,
+				icon: IconDeclined,
 				fillColor: '#ff4402',
+			}
+			const tentativeIcon = {
+				icon: IconTentative,
+				fillColor: '#ffc107',
 			}
 
 			if (this.isSuggestion) {
@@ -133,7 +139,7 @@ export default {
 				}
 			case 'TENTATIVE':
 				return {
-					...acceptedIcon,
+					...tentativeIcon,
 					text: t('calendar', 'Participation marked as tentative'),
 				}
 			case 'DELEGATED':
