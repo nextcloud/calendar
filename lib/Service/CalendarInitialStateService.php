@@ -11,6 +11,8 @@ use OC\App\CompareVersion;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Calendar\Resource\IManager as IResourceManager;
+use OCP\Calendar\Room\IManager as IRoomManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use function in_array;
@@ -26,6 +28,8 @@ class CalendarInitialStateService {
 		private AppointmentConfigService $appointmentConfigService,
 		private CompareVersion $compareVersion,
 		private ?string $userId,
+		private IResourceManager $resourceManager,
+		private IRoomManager $roomManager,
 	) {
 	}
 
@@ -79,6 +83,9 @@ class CalendarInitialStateService {
 			true,
 		);
 
+		$enableResourceBooking = !empty($this->resourceManager->getBackends())
+			|| !empty($this->roomManager->getBackends());
+
 		$this->initialStateService->provideInitialState('app_version', $appVersion);
 		$this->initialStateService->provideInitialState('event_limit', $eventLimit);
 		$this->initialStateService->provideInitialState('first_run', $firstRun);
@@ -108,6 +115,10 @@ class CalendarInitialStateService {
 		$this->initialStateService->provideInitialState(
 			'calendar_federation_enabled',
 			$calendarFederationEnabled,
+		);
+		$this->initialStateService->provideInitialState(
+			'resource_booking_enabled',
+			$enableResourceBooking,
 		);
 	}
 
