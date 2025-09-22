@@ -704,7 +704,7 @@ export default {
 					}
 				})
 			})
-		}
+		},
 	},
 }
 </script>

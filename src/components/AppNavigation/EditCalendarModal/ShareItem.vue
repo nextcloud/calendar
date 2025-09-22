@@ -101,7 +101,7 @@ export default {
 		canBeSharedWritable() {
 			// TODO: read-write sharing is not implemented for federated calendars yet
 			return !this.sharee.isRemoteUser
-		}
+		},
 	},
 	mounted() {
 		this.updateShareeEmail()
