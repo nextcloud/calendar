@@ -127,6 +127,7 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwit
 import VoteYesIcon from 'vue-material-design-icons/Check'
 import VoteNoIcon from 'vue-material-design-icons/Close'
 import VoteMaybeIcon from 'vue-material-design-icons/Help'
+import VoteNoneIcon from 'vue-material-design-icons/Minus'
 import CreateIcon from 'vue-material-design-icons/CalendarOutline'
 
 export default {
@@ -139,6 +140,7 @@ export default {
 		VoteYesIcon,
 		VoteNoIcon,
 		VoteMaybeIcon,
+		VoteNoneIcon,
 		CreateIcon,
 	},
 
@@ -267,8 +269,9 @@ export default {
 			case ProposalDateVote.No:
 				return 'VoteNoIcon'
 			case ProposalDateVote.Maybe:
-			default:
 				return 'VoteMaybeIcon'
+			default:
+				return 'VoteNoneIcon'
 			}
 		},
 
@@ -280,14 +283,15 @@ export default {
 			case ProposalDateVote.No:
 				return t('calendar', 'No')
 			case ProposalDateVote.Maybe:
-			default:
 				return t('calendar', 'Maybe')
+			default:
+				return t('calendar', 'None')
 			}
 		},
 
 		participantVote(participantId, dateId) {
 			if (!this.proposal || !participantId || !dateId) {
-				return ProposalDateVote.Maybe // Default to Maybe
+				return null // No response / unknown
 			}
 
 			// Find the vote for this participant and date combination
@@ -295,7 +299,7 @@ export default {
 				v.participant === participantId && v.date === dateId,
 			)
 
-			return vote ? vote.vote : ProposalDateVote.Maybe // Default to Maybe if no vote found
+			return vote ? vote.vote : null // null indicates no response
 		},
 	},
 }
@@ -411,6 +415,17 @@ export default {
 	justify-content: center;
 	gap: calc(var(--default-grid-baseline) * 1);
 	white-space: nowrap;
+
+	:deep(.material-design-icon.check-icon svg),
+	:deep(.material-design-icon.close-icon svg),
+	:deep(.material-design-icon.help-icon svg) {
+		stroke: currentColor;
+		stroke-width: 1px;
+	}
+
+	:deep(.material-design-icon.help-icon svg) {
+		height: 18px;
+	}
 }
 
 .vote-option svg {
@@ -424,24 +439,46 @@ export default {
 	padding-block: calc(var(--default-grid-baseline) * 2);
 
 	:deep(.material-design-icon.check-icon) {
-		color: #099f05;
-		background-color: rgba(9, 159, 5, 0.1);
+		color: #32CD32;
+		background-color: rgba(90, 90, 90, 0.1);
 		padding: calc(var(--default-grid-baseline) * 2);
 		border-radius: calc(var(--default-grid-baseline) * 1);
 	}
 
 	:deep(.material-design-icon.close-icon) {
-		color: #8A0000;
-		background-color: rgba(138, 0, 0, 0.1);
+		color: #ff4402;
+		background-color: rgba(90, 90, 90, 0.1);
 		padding: calc(var(--default-grid-baseline) * 2);
 		border-radius: calc(var(--default-grid-baseline) * 1);
 	}
 
 	:deep(.material-design-icon.help-icon) {
-		color: #0066AC;
-		background-color: rgba(0, 102, 172, 0.1);
+		color: #ffc107;
+		background-color: rgba(90, 90, 90, 0.1);
 		padding: calc(var(--default-grid-baseline) * 2);
 		border-radius: calc(var(--default-grid-baseline) * 1);
+	}
+
+	:deep(.material-design-icon.minus-icon) {
+		color: #6B6B6B;
+		background-color: rgba(90, 90, 90, 0.1);
+		padding: calc(var(--default-grid-baseline) * 2);
+		border-radius: calc(var(--default-grid-baseline) * 1);
+	}
+
+	:deep(.material-design-icon.check-icon svg),
+	:deep(.material-design-icon.close-icon svg),
+	:deep(.material-design-icon.help-icon svg),
+	:deep(.material-design-icon.minus-icon svg) {
+		stroke: currentColor;
+		stroke-width: 1.6px;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		paint-order: stroke fill;
+	}
+
+	:deep(.material-design-icon.help-icon svg) {
+		height: 18px;
 	}
 }
 
