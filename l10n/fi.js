@@ -427,6 +427,7 @@ OC.L10N.register(
     "Yes" : "Kyllä",
     "No" : "Ei",
     "Maybe" : "Ehkä",
+    "None" : "Ei mitään",
     "Create a meeting for this date and time" : "Luo kokous tälle päivälle ja ajankohdalle",
     "Create" : "Luo",
     "from {formattedDate}" : "alkaen {formattedDate}",

@@ -453,6 +453,7 @@ OC.L10N.register(
     "Yes" : "Ja",
     "No" : "Nej",
     "Maybe" : "Kanske",
+    "None" : "Ingen",
     "Select your meeting availability" : "Välj din tillgänglighet",
     "Create a meeting for this date and time" : "Skapa ett möte för detta datum och tid",
     "Create" : "Skapa",

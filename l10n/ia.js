@@ -59,6 +59,7 @@ OC.L10N.register(
     "Repeat" : "Repeter",
     "never" : "nunquam",
     "after" : "post",
+    "None" : "Nulle",
     "Global" : "Global",
     "Subscribe" : "Subscribe",
     "Personal" : "Personal",

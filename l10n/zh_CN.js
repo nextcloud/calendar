@@ -455,6 +455,7 @@ OC.L10N.register(
     "Yes" : "是",
     "No" : "否",
     "Maybe" : "可能",
+    "None" : "无",
     "Select your meeting availability" : "选择您的会议可用性",
     "Create a meeting for this date and time" : "为此日期和时间创建会议",
     "Create" : "创建",

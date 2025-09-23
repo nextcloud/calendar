@@ -455,6 +455,7 @@ OC.L10N.register(
     "Yes" : "Jah",
     "No" : "Ei",
     "Maybe" : "Võib-olla",
+    "None" : "Pole kasutusel",
     "Select your meeting availability" : "Vali selle kohtumise jaoks saadavus",
     "Create a meeting for this date and time" : "Lisa kohtumine selleks kuupäevaks ja kellaajaks",
     "Create" : "Lisa",

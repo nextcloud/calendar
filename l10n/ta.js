@@ -42,6 +42,7 @@ OC.L10N.register(
     "never" : "ஒருபோதும்",
     "Yes" : "ஆம்",
     "No" : "இல்லை",
+    "None" : "ஒன்றுமில்லை",
     "Personal" : "தனிப்பட்ட",
     "Close" : "மூடுக",
     "Selected" : "Selected",

@@ -361,6 +361,7 @@ OC.L10N.register(
     "Yes" : "بله",
     "No" : "خیر",
     "Maybe" : "Maybe",
+    "None" : "هیچ‌کدام",
     "Create" : "ایجاد",
     "from {formattedDate}" : "از {formattedDate}",
     "to {formattedDate}" : "به {formattedDate}",

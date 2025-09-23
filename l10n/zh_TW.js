@@ -455,6 +455,7 @@ OC.L10N.register(
     "Yes" : "是",
     "No" : "否",
     "Maybe" : "也許",
+    "None" : "無",
     "Select your meeting availability" : "選取您的會議可出席時間",
     "Create a meeting for this date and time" : "為此日期與時間建立會議",
     "Create" : "建立",

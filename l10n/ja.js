@@ -396,6 +396,7 @@ OC.L10N.register(
     "Yes" : "はい",
     "No" : "いいえ",
     "Maybe" : "たぶん",
+    "None" : "なし",
     "Create" : "作成",
     "from {formattedDate}" : "{formattedDate}から",
     "to {formattedDate}" : "{formattedDate}まで",

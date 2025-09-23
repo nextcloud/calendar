@@ -55,6 +55,7 @@ OC.L10N.register(
     "after" : "No",
     "Yes" : "Jo",
     "No" : "Nee",
+    "None" : "Keng",
     "Global" : "Global",
     "Subscribe" : "Umellen",
     "Personal" : "Perséinlech",

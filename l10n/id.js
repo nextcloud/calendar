@@ -258,6 +258,7 @@ OC.L10N.register(
     "Resources" : "Sumber daya",
     "Public calendar does not exist" : "Kalender publik tidak eksis",
     "Maybe the share was deleted or has expired?" : "Mungkin yang dibagikan terhapus atau kadaluwarsa?",
+    "None" : "Tidak ada",
     "Create" : "Buat",
     "on {formattedDate}" : "dalam {formattedDate}",
     "Please enter a valid date" : "Silakan isi tanggal valid",

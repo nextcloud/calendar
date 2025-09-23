@@ -420,6 +420,7 @@ OC.L10N.register(
     "Yes" : "Sí",
     "No" : "No",
     "Maybe" : "Potser",
+    "None" : "Només una vegada",
     "Create" : "Crea",
     "from {formattedDate}" : "de {formattedDate}",
     "to {formattedDate}" : "a {formattedDate}",

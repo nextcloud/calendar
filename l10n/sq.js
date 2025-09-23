@@ -83,6 +83,7 @@ OC.L10N.register(
     "Resources" : "Burimet",
     "available" : "në gjëndje",
     "Yes" : "Po",
+    "None" : "Asnjë",
     "Create" : "Krijo",
     "Global" : "Globale",
     "Subscribe" : "Abonohu",

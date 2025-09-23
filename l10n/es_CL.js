@@ -75,6 +75,7 @@ OC.L10N.register(
     "Resources" : "Recursos",
     "available" : "disponible",
     "Yes" : "Si",
+    "None" : "Ninguno",
     "Global" : "Global",
     "Subscribe" : "Suscribir",
     "Personal" : "Personal",
