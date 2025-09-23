@@ -362,6 +362,7 @@ OC.L10N.register(
     "Remove participant" : "Remove participant",
     "Yes" : "კი",
     "No" : "არა",
+    "None" : "None",
     "Create" : "Create",
     "from {formattedDate}" : "from {formattedDate}",
     "to {formattedDate}" : "to {formattedDate}",

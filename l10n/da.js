@@ -449,6 +449,7 @@ OC.L10N.register(
     "Yes" : "Ja",
     "No" : "Nej",
     "Maybe" : "Måske",
+    "None" : "Ingen",
     "Select your meeting availability" : "Vælg din møde tilgængelighed",
     "Create a meeting for this date and time" : "Opret et møde for denne dato og tidspunkt",
     "Create" : "Opret",

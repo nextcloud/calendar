@@ -455,6 +455,7 @@ OC.L10N.register(
     "Yes" : "Ha",
     "No" : "Yo`q",
     "Maybe" : "Balki",
+    "None" : "Yo'q",
     "Select your meeting availability" : "Uchrashuvning mavjudligini tanlang",
     "Create a meeting for this date and time" : "Ushbu sana va vaqt uchun uchrashuv yarating",
     "Create" : "Yaratish",

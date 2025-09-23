@@ -396,6 +396,7 @@ OC.L10N.register(
     "Yes" : "Ja",
     "No" : "Nei",
     "Maybe" : "Kanskje",
+    "None" : "Ingen",
     "Create" : "Opprett",
     "from {formattedDate}" : "fra {formattedDate}",
     "to {formattedDate}" : "til {formattedDate}",

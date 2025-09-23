@@ -380,6 +380,7 @@ OC.L10N.register(
     "Yes" : "ھەئە",
     "No" : "ياق",
     "Maybe" : "مۇمكىن",
+    "None" : "يوق",
     "Create" : "قۇر",
     "from {formattedDate}" : "from {formattedDate}",
     "to {formattedDate}" : "to {formattedDate}",

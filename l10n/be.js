@@ -39,6 +39,7 @@ OC.L10N.register(
     "Close editor" : "Закрыць рэдактар",
     "General" : "Агульныя",
     "Enable birthday calendar" : "Уключыць каляндар дзён нараджэння",
+    "Show weekends" : "Паказаць уік-энды",
     "Keyboard shortcuts" : "Спалучэнні клавіш",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} хвіліна","{duration} хвіліны","{duration} хвілін","{duration} хвілін"],
     "_{duration} hour_::_{duration} hours_" : ["{duration} гадзіна","{duration} гадзіны","{duration} гадзін","{duration} гадзін"],

@@ -99,6 +99,7 @@ OC.L10N.register(
     "Resources" : "Recursos",
     "available" : "disponible",
     "Yes" : "Sí",
+    "None" : "Ninguno",
     "Global" : "Global",
     "Subscribe" : "Suscribirse",
     "Select a date" : "Elija una fecha",

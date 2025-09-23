@@ -133,6 +133,7 @@ OC.L10N.register(
     "Remove participant" : "Tirar participant",
     "Yes" : "Òc",
     "No" : "Non",
+    "None" : "Cap",
     "Create" : "Crear",
     "from {formattedDate}" : "a partir de {formattedDate}",
     "to {formattedDate}" : "cap a {formattedDate}",

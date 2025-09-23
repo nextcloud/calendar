@@ -413,6 +413,7 @@ OC.L10N.register(
     "Update this occurrence" : "Uppfæra þetta tilviki",
     "Public calendar does not exist" : "Opinbert dagatal er ekki til",
     "Maybe the share was deleted or has expired?" : "Hugsanlega hefur sameigninni verið eytt eða hún sé útrunnin?",
+    "None" : "Ekkert",
     "Create" : "Búa til",
     "from {formattedDate}" : "frá {formattedDate}",
     "to {formattedDate}" : "til {formattedDate}",

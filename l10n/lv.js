@@ -342,6 +342,7 @@ OC.L10N.register(
     "Maybe the share was deleted or has expired?" : "Varbūt kopīgojums tika izdzēsts, vai arī ir beidzies tā derīgums?",
     "Yes" : "Jā",
     "No" : "Nē",
+    "None" : "Nekas",
     "from {formattedDate}" : "no {formattedDate}",
     "to {formattedDate}" : "līdz {formattedDate}",
     "from {formattedDate} at {formattedTime}" : "no {formattedDate} plkst. {formattedTime}",

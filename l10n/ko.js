@@ -370,6 +370,7 @@ OC.L10N.register(
     "Yes" : "예",
     "No" : "아니오",
     "Maybe" : "아마도",
+    "None" : "없음",
     "Create" : "생성",
     "from {formattedDate}" : "{formattedDate} 부터",
     "to {formattedDate}" : "{formattedDate} 까지",

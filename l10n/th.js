@@ -80,6 +80,7 @@ OC.L10N.register(
     "Resources" : "ทรัพยากร",
     "Yes" : "ใช่",
     "No" : "ไม่ตกลง",
+    "None" : "ไม่มี",
     "Create" : "สร้าง",
     "Pick a date" : "เลือกวันที่",
     "Global" : "ทั่วไป",

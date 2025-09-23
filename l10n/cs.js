@@ -455,6 +455,7 @@ OC.L10N.register(
     "Yes" : "Ano",
     "No" : "Ne",
     "Maybe" : "Možná",
+    "None" : "Žádná",
     "Select your meeting availability" : "Vyberte vaši dostupnost pro schůzku",
     "Create a meeting for this date and time" : "Vytvořit schůzku pro toto datum a čas",
     "Create" : "Vytvářet",

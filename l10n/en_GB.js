@@ -455,6 +455,7 @@ OC.L10N.register(
     "Yes" : "Yes",
     "No" : "No",
     "Maybe" : "Maybe",
+    "None" : "None",
     "Select your meeting availability" : "Select your meeting availability",
     "Create a meeting for this date and time" : "Create a meeting for this date and time",
     "Create" : "Create",

@@ -57,6 +57,7 @@ OC.L10N.register(
     "Unknown" : "Arussin",
     "Yes" : "Ih",
     "No" : "Uhu",
+    "None" : "Ula d yiwen",
     "Create" : "Snulfu-d",
     "Personal" : "Udmawan",
     "Close" : "Mdel",

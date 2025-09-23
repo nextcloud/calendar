@@ -70,6 +70,7 @@ OC.L10N.register(
     "after" : "después",
     "Resources" : "Recursos",
     "available" : "disponible",
+    "None" : "Ninguno",
     "Global" : "Global",
     "Subscribe" : "Suscribir",
     "Personal" : "Personal",

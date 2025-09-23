@@ -250,6 +250,7 @@ OC.L10N.register(
     "Maybe the share was deleted or has expired?" : "Možda je dijeljenje izbrisano ili je isteklo?",
     "Yes" : "Da",
     "No" : "Ne",
+    "None" : "Nema",
     "Create" : "Stvori",
     "from {formattedDate}" : "od {formattedDate}",
     "to {formattedDate}" : "do {formattedDate}",
