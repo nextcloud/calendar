@@ -1,3 +1,20 @@
+## [5.5.5](https://github.com/nextcloud/calendar/compare/v5.5.4...v5.5.5) (2025-09-23)
+
+
+### Bug Fixes
+
+* **deps:** Fix npm audit ([28ec1ef](https://github.com/nextcloud/calendar/commit/28ec1efff06f73c792434f95ce3c694110cb9234))
+* description text wrapping ([f563a2b](https://github.com/nextcloud/calendar/commit/f563a2b9fdbcb8ebf7bff0c3fb29e1bfa701a269))
+* **EditSimple:** a11y on small screens ([ee2d7ff](https://github.com/nextcloud/calendar/commit/ee2d7ff03724584df2fd9c63ef9771f04cd259e5))
+* **l10n:** Update translations from Transifex ([4523a15](https://github.com/nextcloud/calendar/commit/4523a155839e407fd27e7a075fe00d7682652349))
+* **l10n:** Update translations from Transifex ([3893e58](https://github.com/nextcloud/calendar/commit/3893e58186240ce3fa5d25f6702b610507255648))
+* **l10n:** Update translations from Transifex ([f730b6a](https://github.com/nextcloud/calendar/commit/f730b6a9c667993ec875f8447ffa16eb800df20f))
+* **l10n:** Update translations from Transifex ([743fb9c](https://github.com/nextcloud/calendar/commit/743fb9cda98e68734348abccb61cd603ce17f786))
+* **l10n:** Update translations from Transifex ([21e2bef](https://github.com/nextcloud/calendar/commit/21e2befd0d0334d45a3e0ba903b25ac6ea6dbf74))
+* **l10n:** Update translations from Transifex ([18914de](https://github.com/nextcloud/calendar/commit/18914de6645609ee542a4edb27b815f08e8cabd7))
+
+
+
 ## [5.5.4](https://github.com/nextcloud/calendar/compare/v5.5.3...v5.5.4) (2025-09-16)
 
 
