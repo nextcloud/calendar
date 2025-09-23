@@ -399,6 +399,7 @@ OC.L10N.register(
     "Public calendar does not exist" : "El calendario público no existe",
     "Maybe the share was deleted or has expired?" : "¿Quizá el recurso compartido fue eliminado o caducó?",
     "Maybe" : "Tal vez",
+    "None" : "Ninguno",
     "Create" : "Crear",
     "from {formattedDate}" : "desde {formattedDate}",
     "to {formattedDate}" : "hasta {formattedDate}",

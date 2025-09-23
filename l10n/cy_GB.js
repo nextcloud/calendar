@@ -291,6 +291,7 @@ OC.L10N.register(
     "Maybe the share was deleted or has expired?" : "Efallai bod y gyfran wedi'i dileu neu wedi dod i ben?",
     "Yes" : "Ie",
     "No" : "Na",
+    "None" : "Dim",
     "from {formattedDate}" : "o {formattedDate}",
     "to {formattedDate}" : "i {formattedDate}",
     "on {formattedDate}" : "ar {formattedDate}",

@@ -455,6 +455,7 @@ OC.L10N.register(
     "Yes" : "Да",
     "No" : "Не",
     "Maybe" : "Можда",
+    "None" : "Ништа",
     "Select your meeting availability" : "Изаберите своју доступност за овај састанак",
     "Create a meeting for this date and time" : "Креирај састанак за овај датум и време",
     "Create" : "Креирање",

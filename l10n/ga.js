@@ -455,6 +455,7 @@ OC.L10N.register(
     "Yes" : "Tá",
     "No" : "Níl",
     "Maybe" : "B'fhéidir",
+    "None" : "aon cheann",
     "Select your meeting availability" : "Roghnaigh infhaighteacht do chruinnithe",
     "Create a meeting for this date and time" : "Cruigh cruinniú don dáta agus am seo",
     "Create" : "Cruthaigh",

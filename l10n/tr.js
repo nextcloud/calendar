@@ -455,6 +455,7 @@ OC.L10N.register(
     "Yes" : "Evet",
     "No" : "Hayır",
     "Maybe" : "Belki",
+    "None" : "Yok",
     "Select your meeting availability" : "Toplantınızın uygunluğunu seçin",
     "Create a meeting for this date and time" : "Bu tarih ve saatte bir toplantı oluştur",
     "Create" : "Oluştur",

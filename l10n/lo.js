@@ -31,6 +31,7 @@ OC.L10N.register(
     "Unknown" : "ບໍ່ຮູ້",
     "never" : "ບໍ່ເຄີຍ",
     "No" : "ບໍ່",
+    "None" : "ບໍ່ມີ",
     "Create" : "ສ້າງ",
     "Personal" : "ສ່ວນບຸກຄົນ",
     "Close" : "ປິດ",

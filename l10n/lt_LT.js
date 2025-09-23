@@ -316,6 +316,7 @@ OC.L10N.register(
     "Yes" : "Taip",
     "No" : "Ne",
     "Maybe" : "Galbūt",
+    "None" : "Nėra",
     "Create" : "Sukurti",
     "from {formattedDate}" : "nuo {formattedDate}",
     "to {formattedDate}" : "iki {formattedDate}",

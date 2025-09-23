@@ -238,6 +238,7 @@ OC.L10N.register(
     "Remove participant" : " Boga·nche partetzipante",
     "Yes" : "Si",
     "No" : "No",
+    "None" : "Perunu",
     "Create" : "Crea",
     "from {formattedDate}" : "dae {formattedDate}",
     "to {formattedDate}" : "a {formattedDate}",

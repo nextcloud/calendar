@@ -78,6 +78,7 @@ OC.L10N.register(
     "Repeat" : "Давтах",
     "never" : "хэзээ ч үгүй",
     "after" : "дараа",
+    "None" : "юу ч үгүй",
     "Create" : "үүсгэх",
     "Global" : "Нийтийн",
     "Subscribe" : "Захиалга",

@@ -353,6 +353,7 @@ OC.L10N.register(
     "Remove participant" : "Elimină participant",
     "Yes" : "Da",
     "No" : "Nu",
+    "None" : "Niciuna",
     "Create" : "Crează",
     "from {formattedDate}" : "începând cu {formattedDate}",
     "to {formattedDate}" : "până la {formattedDate}",

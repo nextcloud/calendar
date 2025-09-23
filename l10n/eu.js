@@ -406,6 +406,7 @@ OC.L10N.register(
     "Yes" : "Bai",
     "No" : "Ez",
     "Maybe" : "Agian",
+    "None" : "Bat ere ez",
     "Create" : "Sortu",
     "from {formattedDate}" : "{formattedDate}tik ",
     "to {formattedDate}" : "{formattedDate} arte ",

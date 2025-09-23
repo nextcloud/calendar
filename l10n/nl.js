@@ -403,6 +403,7 @@ OC.L10N.register(
     "Maybe the share was deleted or has expired?" : "Mogelijk is het gedeelde item verwijderd of verlopen?",
     "Yes" : "Ja",
     "No" : "Nee",
+    "None" : "Geen",
     "Create" : "Creëer",
     "from {formattedDate}" : "van {formattedDate}",
     "to {formattedDate}" : "tot {formattedDate}",

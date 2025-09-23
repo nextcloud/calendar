@@ -380,6 +380,7 @@ OC.L10N.register(
     "Yes" : "Da",
     "No" : "Ne",
     "Maybe" : "Morda",
+    "None" : "Brez",
     "Create" : "Ustvari",
     "from {formattedDate}" : "od {formattedDate}",
     "to {formattedDate}" : "do {formattedDate}",

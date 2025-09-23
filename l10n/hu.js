@@ -429,6 +429,7 @@ OC.L10N.register(
     "Yes" : "Igen",
     "No" : "Nem",
     "Maybe" : "Talán",
+    "None" : "Egyik sem",
     "Create" : "Létrehozás",
     "from {formattedDate}" : "ettől: {formattedDate}",
     "to {formattedDate}" : "eddig: {formattedDate}",

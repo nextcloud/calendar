@@ -422,6 +422,7 @@ OC.L10N.register(
     "Yes" : "Áno",
     "No" : "Nie",
     "Maybe" : "Možno",
+    "None" : "Žiadne",
     "Create" : "Vytvoriť",
     "from {formattedDate}" : "od {formattedDate}",
     "to {formattedDate}" : "do {formattedDate}",

@@ -311,6 +311,7 @@ OC.L10N.register(
     "Maybe the share was deleted or has expired?" : "Có lẽ chia sẽ đã bị xóa hoặc hết hạn ? ",
     "Yes" : "Có",
     "No" : "Không",
+    "None" : "Không có",
     "Create" : "Tạo",
     "from {formattedDate}" : "từ {formattedDate}",
     "to {formattedDate}" : "đến {formattedDate}",

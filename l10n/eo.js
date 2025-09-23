@@ -118,6 +118,7 @@ OC.L10N.register(
     "Resources" : "Rimedoj",
     "Yes" : "Jes",
     "No" : "Ne",
+    "None" : "Nenio",
     "on {formattedDate}" : "je la {formattedDate}",
     "Global" : "Monda",
     "Subscribe" : "Aboni",

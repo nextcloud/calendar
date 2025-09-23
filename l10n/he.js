@@ -266,6 +266,7 @@ OC.L10N.register(
     "Update this occurrence" : "עדכון המופע הזה",
     "Public calendar does not exist" : "לוח השנה הציבורי אינו קיים",
     "Maybe the share was deleted or has expired?" : "אולי השיתוף נמחק או פג תוקפו?",
+    "None" : "ללא",
     "from {formattedDate}" : "מ- {formattedDate}",
     "to {formattedDate}" : "אל {formattedDate}",
     "on {formattedDate}" : "בתאריך {formattedDate}",

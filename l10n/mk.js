@@ -424,6 +424,7 @@ OC.L10N.register(
     "Yes" : "Да",
     "No" : "Не",
     "Maybe" : "Можеби",
+    "None" : "Ништо",
     "Create" : "Креирај",
     "from {formattedDate}" : "од {formattedDate}",
     "to {formattedDate}" : "до {formattedDate}",
