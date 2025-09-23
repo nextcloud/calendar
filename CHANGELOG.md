@@ -1,3 +1,14 @@
+# [6.0.0-rc.6](https://github.com/nextcloud/calendar/compare/v6.0.0-rc.5...v6.0.0-rc.6) (2025-09-23)
+
+
+### Bug Fixes
+
+* exit event edit popover without click on X ([6fb9c21](https://github.com/nextcloud/calendar/commit/6fb9c21ed705d745f985491cbdf0d9b75359b13f))
+* hide resource booking if no backend available ([0fa82c9](https://github.com/nextcloud/calendar/commit/0fa82c9028123e5c822c8dc3e330c75c9b0a522c))
+* **l10n:** Update translations from Transifex ([b5b6518](https://github.com/nextcloud/calendar/commit/b5b65181ae8907fad597b8159207aada50994d67))
+
+
+
 # [6.0.0-rc.5](https://github.com/nextcloud/calendar/compare/v6.0.0-rc.4...v6.0.0-rc.5) (2025-09-22)
 
 
