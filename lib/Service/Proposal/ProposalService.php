@@ -636,11 +636,16 @@ class ProposalService {
 		}
 
 		foreach ($proposal->getParticipants()->filterByRealm(ProposalParticipantRealm::Internal) as $participant) {
+			$participantAddress = $participant->getAddress();
+			if ($participantAddress === null) {
+				continue;
+			}
+
 			// TODO: this is stupid, we send the internal users email address from the UI then convert it back to a user name
 			// should probably be sent from the UI as a user name, or send and store both the user name and email address
 			// maybe send the address as a special schema "local:{user name}/{email address}", this would allow us to later extend this to federated users
 			// with a different special schema like "federated:{user name}@{server}/{email address}"
-			$participantUsers = $this->userManager->getByEmail($participant->getAddress());
+			$participantUsers = $this->userManager->getByEmail($participantAddress);
 			if ($participantUsers === []) {
 				continue;
 			}
