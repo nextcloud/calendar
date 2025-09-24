@@ -75,6 +75,7 @@ OC.L10N.register(
     "after" : "na",
     "Resources" : "Hulpbronne",
     "available" : "beskikbaar",
+    "None" : "Geen",
     "Global" : "Globaal",
     "Subscribe" : "Teken in",
     "Personal" : "Persoonlik",
