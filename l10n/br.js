@@ -122,6 +122,7 @@ OC.L10N.register(
     "first" : "kentañ",
     "Remove participant" : "Disachañ an den",
     "No" : "Ket",
+    "None" : "Hini ebet",
     "Global" : "Hollek",
     "Personal" : "Personel",
     "Close" : "Serriñ",

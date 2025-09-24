@@ -244,6 +244,7 @@ OC.L10N.register(
     "More details" : "Mas detalles",
     "Yes" : "Sí",
     "No" : "Non",
+    "None" : "Nada",
     "Create" : "Crear",
     "Please enter a valid date" : "Introduz una data válida",
     "Pick a date" : "Escueyi una data",

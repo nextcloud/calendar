@@ -57,6 +57,7 @@ OC.L10N.register(
     "Resources" : "Resurslar",
     "Yes" : "Bəli",
     "No" : "Xeyir",
+    "None" : "Heç bir",
     "Subscribe" : "Abunə",
     "Personal" : "Şəxsi",
     "Edit event" : "Hadisəni dəyişdir",

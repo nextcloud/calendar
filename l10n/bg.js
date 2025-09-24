@@ -351,6 +351,7 @@ OC.L10N.register(
     "Yes" : "Да",
     "No" : "Не",
     "Maybe" : "Може би",
+    "None" : "Няма",
     "Create" : "Създаване",
     "from {formattedDate}" : "от {formattedDate}",
     "to {formattedDate}" : "до {formattedDate}",
