@@ -82,6 +82,7 @@ useHotKey(['l', '5'], () => selectView('listMonth'))
 			<NcActionButton v-for="view in views"
 				:key="view.id"
 				:icon="view.icon"
+				:close-after-click="true"
 				@click="selectView(view.id)">
 				<template #icon>
 					<component :is="view.icon" :size="20" />
