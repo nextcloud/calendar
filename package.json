@@ -48,7 +48,7 @@
     "@fullcalendar/vue": "6.1.19",
     "@mdi/svg": "^7.4.47",
     "@nextcloud/auth": "^2.5.2",
-    "@nextcloud/axios": "^2.5.1",
+    "@nextcloud/axios": "^2.5.2",
     "@nextcloud/calendar-availability-vue": "^2.2.11",
     "@nextcloud/calendar-js": "^8.1.6",
     "@nextcloud/cdav-library": "^2.1.1",
