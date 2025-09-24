@@ -52,6 +52,7 @@ OC.L10N.register(
     "never" : "কখনোই নয়",
     "Yes" : "হ্যাঁ",
     "No" : "না",
+    "None" : "কোনটিই নয়",
     "Subscribe" : "গ্রাহক হোন",
     "Personal" : "ব্যক্তিগত",
     "Edit event" : "ইভেন্ট সম্পাদনা করুন",

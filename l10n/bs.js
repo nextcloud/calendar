@@ -47,6 +47,7 @@ OC.L10N.register(
     "never" : "nikad",
     "Yes" : "Da",
     "No" : "Ne",
+    "None" : "Ništa",
     "Create" : "Kreiraj",
     "Personal" : "Osobno",
     "Edit event" : "Izmjeni događaj",

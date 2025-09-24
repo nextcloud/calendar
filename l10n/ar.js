@@ -421,6 +421,7 @@ OC.L10N.register(
     "Yes" : "نعم",
     "No" : "لا",
     "Maybe" : "ربما",
+    "None" : "لا شيء",
     "Create" : "إنشاء",
     "from {formattedDate}" : "من {formattedDate}",
     "to {formattedDate}" : "إلى {formattedDate}",
