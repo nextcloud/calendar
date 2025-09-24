@@ -2,7 +2,11 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import eventOrder from '../../../../../src/fullcalendar/rendering/eventOrder.js'
+import {
+	eventOrder,
+	eventStartOrder,
+	eventDurationOrderDesc,
+} from '../../../../../src/fullcalendar/rendering/eventOrder.js'
 
 describe('fullcalendar/eventOrder test suite', () => {
 
@@ -116,4 +120,65 @@ describe('fullcalendar/eventOrder test suite', () => {
 		expect(eventOrder(secondEvent, firstEvent)).toEqual(0)
 	})
 
+	it('should sort events by start (ascending)', () => {
+		const firstEvent = {
+			title: 'Title 123',
+			start: 1000,
+		}
+		const secondEvent = {
+			title: 'Title 123',
+			start: 1001,
+		}
+
+		expect(eventStartOrder(firstEvent, secondEvent)).toBeLessThan(0)
+		expect(eventStartOrder(secondEvent, firstEvent)).toBeGreaterThan(0)
+		expect(eventStartOrder(firstEvent, firstEvent)).toBe(0)
+	})
+
+	it('should sort events by start - skip all-day', () => {
+		const firstEvent = {
+			title: 'Title 123',
+			start: 1000,
+			allDay: 1,
+		}
+		const secondEvent = {
+			title: 'Title 123',
+			start: 1001,
+			allDay: 1,
+		}
+
+		expect(eventStartOrder(firstEvent, secondEvent)).toBe(0)
+		expect(eventStartOrder(secondEvent, firstEvent)).toBe(0)
+	})
+
+	it('should sort events by duration (descending)', () => {
+		const firstEvent = {
+			title: 'Title 123',
+			duration: 1000,
+		}
+		const secondEvent = {
+			title: 'Title 123',
+			duration: 1001,
+		}
+
+		expect(eventDurationOrderDesc(firstEvent, secondEvent)).toBeGreaterThan(0)
+		expect(eventDurationOrderDesc(secondEvent, firstEvent)).toBeLessThan(0)
+		expect(eventDurationOrderDesc(firstEvent, firstEvent)).toBe(0)
+	})
+
+	it('should sort events by duration - skip all-day', () => {
+		const firstEvent = {
+			title: 'Title 123',
+			duration: 1000,
+			allDay: 1,
+		}
+		const secondEvent = {
+			title: 'Title 123',
+			duration: 1001,
+			allDay: 1,
+		}
+
+		expect(eventDurationOrderDesc(firstEvent, secondEvent)).toBe(0)
+		expect(eventDurationOrderDesc(secondEvent, firstEvent)).toBe(0)
+	})
 })

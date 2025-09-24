@@ -39,7 +39,11 @@ import momentPlugin from '../fullcalendar/localization/momentPlugin.js'
 // Import rendering handlers
 import dayHeaderDidMount from '../fullcalendar/rendering/dayHeaderDidMount.js'
 import eventDidMount from '../fullcalendar/rendering/eventDidMount.js'
-import eventOrder from '../fullcalendar/rendering/eventOrder.js'
+import {
+	eventOrder,
+	eventDurationOrderDesc,
+	eventStartOrder,
+} from '../fullcalendar/rendering/eventOrder.js'
 import noEventsDidMount from '../fullcalendar/rendering/noEventsDidMount.js'
 
 // Import timezone plugins
@@ -134,7 +138,7 @@ export default {
 				dayHeaderDidMount,
 				eventDidMount,
 				noEventsDidMount,
-				eventOrder: ['start', '-duration', 'allDay', eventOrder],
+				eventOrder: [eventStartOrder, eventDurationOrderDesc, 'allDay', eventOrder],
 				forceEventDuration: false,
 				headerToolbar: false,
 				height: '100%',
