@@ -11,6 +11,8 @@ use OC\App\CompareVersion;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IInitialState;
+use OCP\Calendar\Resource\IManager as IResourceManager;
+use OCP\Calendar\Room\IManager as IRoomManager;
 use OCP\IConfig;
 use function in_array;
 
@@ -24,6 +26,8 @@ class CalendarInitialStateService {
 		private AppointmentConfigService $appointmentConfigService,
 		private CompareVersion $compareVersion,
 		private ?string $userId,
+		private IResourceManager $resourceManager,
+		private IRoomManager $roomManager,
 	) {
 	}
 
@@ -69,6 +73,9 @@ class CalendarInitialStateService {
 		// if circles is not installed, we use 0.0.0
 		$isCircleVersionCompatible = $this->compareVersion->isCompatible($circleVersion ? $circleVersion : '0.0.0', '22');
 
+		$enableResourceBooking = !empty($this->resourceManager->getBackends())
+			|| !empty($this->roomManager->getBackends());
+
 		$this->initialStateService->provideInitialState('app_version', $appVersion);
 		$this->initialStateService->provideInitialState('event_limit', $eventLimit);
 		$this->initialStateService->provideInitialState('first_run', $firstRun);
@@ -94,6 +101,10 @@ class CalendarInitialStateService {
 		$this->initialStateService->provideInitialState('show_resources', $showResources);
 		$this->initialStateService->provideInitialState('isCirclesEnabled', $isCirclesEnabled && $isCircleVersionCompatible);
 		$this->initialStateService->provideInitialState('publicCalendars', $publicCalendars);
+		$this->initialStateService->provideInitialState(
+			'resource_booking_enabled',
+			$enableResourceBooking,
+		);
 	}
 
 	/**
