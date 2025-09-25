@@ -18,11 +18,11 @@ export default defineStore('tasks', {
 			const tasks = []
 			const ordered = Object.keys(this.map).sort().reduce(
 				(obj, key) => {
-				  obj[key] = this.map[key]
-				  return obj
+					obj[key] = this.map[key]
+					return obj
 				},
 				{},
-			  )
+			)
 			for (const calendarId in ordered) {
 				const calendar = calendarsStore.getCalendarById(calendarId)
 				if (calendar.enabled) {

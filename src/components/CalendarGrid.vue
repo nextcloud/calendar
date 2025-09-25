@@ -91,10 +91,12 @@ export default {
 		}
 	},
 	computed: {
-		...mapStores(useCalendarsStore,
-					 useSettingsStore,
-					 useCalendarObjectsStore,
-					 useFetchedTimeRangesStore),
+		...mapStores(
+			useCalendarsStore,
+			useSettingsStore,
+			useCalendarObjectsStore,
+			useFetchedTimeRangesStore,
+		),
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',
 			timezoneId: 'getResolvedTimezone',
@@ -224,7 +226,7 @@ export default {
 	 * we have to register a resize-observer here, that will automatically
 	 * update the fullCalendar size, when the available space changes.
 	 */
-	 mounted() {
+	mounted() {
 		if (window.ResizeObserver) {
 			const resizeObserver = new ResizeObserver(debounce(() => {
 				this.$refs.fullCalendar

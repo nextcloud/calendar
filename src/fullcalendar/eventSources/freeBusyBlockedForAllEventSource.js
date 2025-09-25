@@ -24,11 +24,15 @@ export default function(organizer, attendees, resources) {
 		startEditable: false,
 		durationEditable: false,
 		resourceEditable: false,
-		events: async ({
-						   start,
-						   end,
-						   timeZone,
-					   }, successCallback, failureCallback) => {
+		events: async (
+			{
+				start,
+				end,
+				timeZone,
+			},
+			successCallback,
+			failureCallback,
+		) => {
 			console.debug('freeBusyBlockedForAllEventSource', start, end, timeZone)
 
 			let timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)

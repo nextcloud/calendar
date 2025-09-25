@@ -89,7 +89,7 @@ export default {
 		/**
 		 *
 		 */
-		 byMonthDay: {
+		byMonthDay: {
 			type: Array,
 			required: true,
 		},
@@ -117,7 +117,7 @@ export default {
 		/**
 		 * @return {object[]}
 		 */
-		 byMonthDayOptions() {
+		byMonthDayOptions() {
 			const options = []
 			for (let i = 1; i <= 31; i++) {
 				options.push({
@@ -131,7 +131,7 @@ export default {
 		/**
 		 * @return {boolean}
 		 */
-		 byMonthDayEnabled() {
+		byMonthDayEnabled() {
 			return this.byMonthDay.length > 0
 		},
 		/**
@@ -159,7 +159,7 @@ export default {
 		 *
 		 * @param {string} byMonthDay The month-day to toggle
 		 */
-		 toggleByMonthDay(byMonthDay) {
+		toggleByMonthDay(byMonthDay) {
 			if (this.byMonthDay.indexOf(byMonthDay) === -1) {
 				this.$emit('add-by-month-day', byMonthDay)
 			} else {

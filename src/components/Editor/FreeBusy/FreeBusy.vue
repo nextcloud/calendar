@@ -496,10 +496,10 @@ export default {
 				// will produce something like "Tuesday, September 18, 2018"
 				// ref https://fullcalendar.io/docs/date-formatting
 				titleFormat: {
-				  month: 'long',
-				  year: 'numeric',
-				  day: 'numeric',
-				  weekday: 'long',
+					month: 'long',
+					year: 'numeric',
+					day: 'numeric',
+					weekday: 'long',
 				},
 				dateClick: this.findFreeSlots(),
 			}

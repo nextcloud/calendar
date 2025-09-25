@@ -98,15 +98,15 @@ export default {
 	},
 
 	data() {
-	   return {
-		   proposalStore: useProposalStore(),
-		   token: null,
-		   contentView: 'loading',
-		   storedProposal: null,
-		   response: new ProposalResponse(),
-		   ProposalDateVote,
-		   userTimezone: 'UTC',
-	   }
+		return {
+			proposalStore: useProposalStore(),
+			token: null,
+			contentView: 'loading',
+			storedProposal: null,
+			response: new ProposalResponse(),
+			ProposalDateVote,
+			userTimezone: 'UTC',
+		}
 	},
 
 	computed: {

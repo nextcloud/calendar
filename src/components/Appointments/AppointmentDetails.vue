@@ -181,7 +181,7 @@ export default {
 		},
 	},
 	methods: {
-		 save() {
+		save() {
 			this.$emit('save', {
 				slot: this.timeSlot,
 				description: this.description,

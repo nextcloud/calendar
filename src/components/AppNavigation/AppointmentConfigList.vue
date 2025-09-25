@@ -5,8 +5,8 @@
 
 <template>
 	<!--
-	 The appointments feature requires at least one calendar in the vuex store.
-	 Trying to use it before calendars are loaded will result in an error.
+	The appointments feature requires at least one calendar in the vuex store.
+	Trying to use it before calendars are loaded will result in an error.
 	-->
 	<div v-if="hasAtLeastOneCalendar"
 		class="appointment-config-list">

@@ -361,7 +361,7 @@ export default {
 		 * Changes the yearly recurrence-editor from the selection of monthdays
 		 * to the selection of a relative position within the month
 		 */
-		 changeToBySetPositionYearly() {
+		changeToBySetPositionYearly() {
 			this.calendarObjectInstanceStore.changeYearlyRecurrenceFromByDayToBySetPosition({
 				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,

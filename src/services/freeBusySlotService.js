@@ -97,7 +97,7 @@ export function getFirstFreeSlot(start, end, retrievedEvents) {
 	let events = sortEvents(retrievedEvents)
 
 	events = events.filter(function(event) {
-	    return new Date(start) < new Date(event.end)
+		return new Date(start) < new Date(event.end)
 	})
 
 	const totalSlots = []

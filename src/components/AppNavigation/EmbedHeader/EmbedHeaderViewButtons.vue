@@ -61,7 +61,7 @@ export default {
 			return this.selectedView === 'dayGridMonth'
 		},
 		isYearViewSelected() {
-		  return this.selectedView === 'multiMonthYear'
+			return this.selectedView === 'multiMonthYear'
 		},
 		isMonthListViewSelected() {
 			return this.selectedView === 'listMonth'

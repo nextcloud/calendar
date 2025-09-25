@@ -43,13 +43,13 @@ import { adjustAttendeeTime } from '@/services/attendeeDetails'
 export default {
 	name: 'AvatarParticipationStatus',
 	components: {
-	  Avatar,
-	  AccountMultiple,
-	  IconAccepted,
-	  IconTentative,
-	  IconNoResponse,
-	  IconDeclined,
-	  IconDelegated,
+		Avatar,
+		AccountMultiple,
+		IconAccepted,
+		IconTentative,
+		IconNoResponse,
+		IconDeclined,
+		IconDelegated,
 	},
 	props: {
 		avatarLink: {

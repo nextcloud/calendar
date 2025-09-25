@@ -44,10 +44,10 @@ export default {
 			required: true,
 			type: Number,
 		},
-	  end: {
-		  required: true,
-		  type: Number,
-	  },
+		end: {
+			required: true,
+			type: Number,
+		},
 	},
 	computed: {
 		startDate() {
