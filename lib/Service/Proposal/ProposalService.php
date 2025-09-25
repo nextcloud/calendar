@@ -26,6 +26,7 @@ use OCA\Calendar\Objects\Proposal\ProposalParticipantStatus;
 use OCA\Calendar\Objects\Proposal\ProposalResponseObject;
 use OCA\Calendar\Objects\Proposal\ProposalVoteCollection;
 use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IManager;
 use OCP\IAppConfig;
@@ -320,9 +321,9 @@ class ProposalService {
 		// if no primary calendar is set, use the first useable calendar
 		if ($userCalendar === null) {
 			$userCalendars = $this->calendarManager->getCalendarsForPrincipal('principals/users/' . $user->getUID());
-			foreach ($userCalendars as $userCalendar) {
-				if (!$userCalendar instanceof ICreateFromString || !$userCalendar->isDeleted()) {
-					$userCalendar = $userCalendar;
+			foreach ($userCalendars as $calendar) {
+				if ($calendar instanceof ICreateFromString && $calendar instanceof ICalendarIsWritable && $calendar->isWritable() && !$calendar->isDeleted()) {
+					$userCalendar = $calendar;
 					break;
 				}
 			}
@@ -356,8 +357,7 @@ class ProposalService {
 		$vEvent = $vObject->add('VEVENT', []);
 		$vEvent->UID->setValue($proposal->getUuid() ?? Uuid::v4()->toRfc4122());
 		$vEvent->add('DTSTART', $eventTimezone ? $selectedDate->getDate()->setTimezone($eventTimezone) : $selectedDate->getDate());
-		$vEvent->add('DURATION', "PT{$proposal->getDuration()}M");
-		$vEvent->add('STATUS', 'CONFIRMED');
+		$vEvent->add('DTEND', (clone $vEvent->DTSTART->getDateTime())->add(new \DateInterval("PT{$proposal->getDuration()}M")));
 		$vEvent->add('SEQUENCE', 1);
 		$vEvent->add('SUMMARY', $proposal->getTitle());
 		$vEvent->add('DESCRIPTION', $proposal->getDescription());
