@@ -67,39 +67,6 @@
 								</p>
 							</template>
 						</NcPopover>
-						<Actions v-if="!isLoading && !isError && !isNew" :force-menu="true">
-							<ActionLink v-if="!hideEventExport && hasDownloadURL"
-								:href="downloadURL">
-								<template #icon>
-									<Download :size="20" decorative />
-								</template>
-								{{ $t('calendar', 'Export') }}
-							</ActionLink>
-							<ActionButton v-if="!canCreateRecurrenceException && !isReadOnly" @click="duplicateEvent()">
-								<template #icon>
-									<ContentDuplicate :size="20" decorative />
-								</template>
-								{{ $t('calendar', 'Duplicate') }}
-							</ActionButton>
-							<ActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave(false)">
-								<template #icon>
-									<Delete :size="20" decorative />
-								</template>
-								{{ $t('calendar', 'Delete') }}
-							</ActionButton>
-							<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(false)">
-								<template #icon>
-									<Delete :size="20" decorative />
-								</template>
-								{{ $t('calendar', 'Delete this occurrence') }}
-							</ActionButton>
-							<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(true)">
-								<template #icon>
-									<Delete :size="20" decorative />
-								</template>
-								{{ $t('calendar', 'Delete this and all future') }}
-							</ActionButton>
-						</Actions>
 						<Actions>
 							<ActionButton @click="cancel(false)">
 								<template #icon>
@@ -176,29 +143,67 @@
 						:calendar-id="calendarId"
 						@close="closeEditorAndSkipAction" />
 
-					<NcAppNavigationSpacer />
-
-					<SaveButtons v-if="!isWidget"
-						class="event-popover__buttons"
-						:can-create-recurrence-exception="canCreateRecurrenceException"
-						:is-new="isNew"
-						:is-read-only="isReadOnlyOrViewing"
-						:force-this-and-all-future="forceThisAndAllFuture"
-						:show-more-button="true"
-						:more-button-type="isViewing ? 'tertiary' : undefined"
-						:disabled="isSaving"
-						@save-this-only="saveAndView(false)"
-						@save-this-and-all-future="saveAndView(true)"
-						@show-more="showMore">
-						<NcButton v-if="!isReadOnly && isViewing"
-							:type="isViewedByAttendee ? 'tertiary' : undefined"
-							@click="isViewing = false">
-							<template #icon>
-								<EditIcon :size="20" />
-							</template>
-							{{ $t('calendar', 'Edit') }}
+					<div class="event-popover__bottom-actions">
+						<NcButton :type="isViewing ? 'tertiary' : undefined"
+							@click="showMore">
+							{{ $t('calendar', 'More details') }}
 						</NcButton>
-					</SaveButtons>
+
+						<div class="event-popover__bottom-actions__pull-right">
+							<Actions v-if="!isLoading && !isError && !isNew">
+								<ActionLink v-if="!hideEventExport && hasDownloadURL"
+									:href="downloadURL">
+									<template #icon>
+										<Download :size="20" decorative />
+									</template>
+									{{ $t('calendar', 'Export') }}
+								</ActionLink>
+								<ActionButton v-if="!canCreateRecurrenceException && !isReadOnly" @click="duplicateEvent()">
+									<template #icon>
+										<ContentDuplicate :size="20" decorative />
+									</template>
+									{{ $t('calendar', 'Duplicate') }}
+								</ActionButton>
+								<ActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave(false)">
+									<template #icon>
+										<Delete :size="20" decorative />
+									</template>
+									{{ $t('calendar', 'Delete') }}
+								</ActionButton>
+								<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(false)">
+									<template #icon>
+										<Delete :size="20" decorative />
+									</template>
+									{{ $t('calendar', 'Delete this occurrence') }}
+								</ActionButton>
+								<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(true)">
+									<template #icon>
+										<Delete :size="20" decorative />
+									</template>
+									{{ $t('calendar', 'Delete this and all future') }}
+								</ActionButton>
+							</Actions>
+
+							<SaveButtons v-if="!isWidget"
+								:can-create-recurrence-exception="canCreateRecurrenceException"
+								:is-new="isNew"
+								:is-read-only="isReadOnlyOrViewing"
+								:force-this-and-all-future="forceThisAndAllFuture"
+								:show-more-button="false"
+								:disabled="isSaving"
+								@save-this-only="saveAndView(false)"
+								@save-this-and-all-future="saveAndView(true)">
+								<NcButton v-if="!isReadOnly && isViewing"
+									:type="isViewedByAttendee ? 'tertiary' : undefined"
+									@click="isViewing = false">
+									<template #icon>
+										<EditIcon :size="20" />
+									</template>
+									{{ $t('calendar', 'Edit') }}
+								</NcButton>
+							</SaveButtons>
+						</div>
+					</div>
 				</template>
 			</div>
 		</ncpopover>
@@ -503,6 +508,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.event-popover {
+	&__bottom-actions {
+		display: flex;
+		align-items: center;
+		margin-block-start: 20px;
+
+		&__pull-right {
+			display: flex;
+			flex: 1 auto;
+			justify-content: flex-end;
+			align-items: center;
+			gap: calc(var(--default-grid-baseline) * 2);
+		}
+	}
+}
+
 .event-popover__inner {
 	width: unset !important;
 	min-width: 500px !important;
@@ -550,9 +571,6 @@ export default {
 		.avatar-participation-status__text {
 			bottom: 22px;
 		}
-	}
-	.event-popover__buttons {
-		margin-top: calc(var(--default-grid-baseline) * 2);
 	}
 	.event-popover__top-actions {
 		display: flex;
