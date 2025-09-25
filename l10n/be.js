@@ -130,6 +130,7 @@ OC.L10N.register(
     "Confirmed" : "Пацверджана",
     "Canceled" : "Скасавана",
     "Categories" : "Катэгорыі",
+    "Error while sharing file" : "Памылка пры абагульванні файла",
     "User not found" : "Карыстальнік не знойдзены",
     "Show keyboard shortcuts" : "Паказаць спалучэнні клавіш"
 },
