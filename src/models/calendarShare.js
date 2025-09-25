@@ -15,24 +15,26 @@ import {
  * @param {object} props Calendar-share-props already provided
  * @return {object}
  */
-const getDefaultCalendarShareObject = (props = {}) => Object.assign({}, {
-	// Unique identifier
-	id: null,
-	// Displayname of the sharee
-	displayName: null,
-	// Whether or not share is writable
-	writeable: false,
-	// Whether or not sharee is an individual user
-	isUser: false,
-	// Whether or not sharee is an admin-defined group
-	isGroup: false,
-	// Whether or not sharee is a user-defined group
-	isCircle: false,
-	// Whether or not sharee is a remote user (on a federated instance)
-	isRemoteUser: false,
-	// Uri necessary for deleting / updating share
-	uri: null,
-}, props)
+function getDefaultCalendarShareObject(props = {}) {
+	return { // Unique identifier
+		id: null,
+		// Displayname of the sharee
+		displayName: null,
+		// Whether or not share is writable
+		writeable: false,
+		// Whether or not sharee is an individual user
+		isUser: false,
+		// Whether or not sharee is an admin-defined group
+		isGroup: false,
+		// Whether or not sharee is a user-defined group
+		isCircle: false,
+		// Whether or not sharee is a remote user (on a federated instance)
+		isRemoteUser: false,
+		// Uri necessary for deleting / updating share
+		uri: null,
+		...props,
+	}
+}
 
 /**
  * Map a dav collection to our calendar object model
@@ -40,7 +42,7 @@ const getDefaultCalendarShareObject = (props = {}) => Object.assign({}, {
  * @param {object} sharee The sharee object from the cdav library shares
  * @return {object}
  */
-const mapDavShareeToCalendarShareObject = (sharee) => {
+function mapDavShareeToCalendarShareObject(sharee) {
 	// sharee.href might contain non-latin characters, so let's uri encode it first
 	const id = btoa(encodeURI(sharee.href))
 

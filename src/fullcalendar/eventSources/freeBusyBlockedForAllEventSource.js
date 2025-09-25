@@ -1,11 +1,11 @@
+import { AttendeeProperty, DateTimeValue } from '@nextcloud/calendar-js'
 /**
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import getTimezoneManager from '../../services/timezoneDataProviderService.js'
-import { AttendeeProperty, DateTimeValue } from '@nextcloud/calendar-js'
-import logger from '../../utils/logger.js'
 import { doFreeBusyRequest } from '../../utils/freebusy.js'
+import logger from '../../utils/logger.js'
 
 /**
  * Returns an event source for free-busy
@@ -24,11 +24,16 @@ export default function(organizer, attendees, resources) {
 		startEditable: false,
 		durationEditable: false,
 		resourceEditable: false,
-		events: async ({
-						   start,
-						   end,
-						   timeZone,
-					   }, successCallback, failureCallback) => {
+		events: async (
+			{
+				start,
+				end,
+				timeZone,
+			},
+			successCallback,
+			// eslint-disable-next-line no-unused-vars
+			failureCallback,
+		) => {
 			console.debug('freeBusyBlockedForAllEventSource', start, end, timeZone)
 
 			let timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
@@ -67,7 +72,7 @@ export default function(organizer, attendees, resources) {
 			const slotsWithoutOverlap = []
 			if (slots.length) {
 				let currentSlotStart = slots[0].start
-				slots.forEach(slot => {
+				slots.forEach((slot) => {
 					const combined = findNextCombinedSlot(slots, currentSlotStart) ?? slot
 					if (combined.start < currentSlotStart) {
 						// This slot has already been combined with a former slot
@@ -80,7 +85,7 @@ export default function(organizer, attendees, resources) {
 			}
 			console.debug('deduplicated slots', slots, slotsWithoutOverlap)
 
-			const events = slotsWithoutOverlap.map(slot => {
+			const events = slotsWithoutOverlap.map((slot) => {
 				return {
 					groupId: 'free-busy-blocked-for-all',
 					start: slot.start.toISOString(),
@@ -106,7 +111,7 @@ export default function(organizer, attendees, resources) {
  */
 function findNextCombinedSlot(slots, start) {
 	const slot = slots
-		.filter(slot => slot.start >= start)
+		.filter((slot) => slot.start >= start)
 		.reduce((combined, slot) => {
 			if (slot.start < combined.start) {
 				// This slot starts too early

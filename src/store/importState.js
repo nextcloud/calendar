@@ -1,9 +1,9 @@
+import { defineStore } from 'pinia'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { IMPORT_STAGE_DEFAULT } from '../models/consts.js'
-import { defineStore } from 'pinia'
 
 export default defineStore('importState', {
 	state: () => {

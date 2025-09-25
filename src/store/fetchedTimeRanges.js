@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { defineStore } from 'pinia'
-import useCalendarObjectsStore from './calendarObjects.js'
 import Vue from 'vue'
+import useCalendarObjectsStore from './calendarObjects.js'
 
 export default defineStore('fetchedTimeRanges', {
 	state: () => {
@@ -21,8 +21,7 @@ export default defineStore('fetchedTimeRanges', {
 		 * @param {object} state The Pinia state
 		 * @return {function({String}): {Object}[]}
 		 */
-		getAllTimeRangesForCalendar: (state) => (calendarId) =>
-			state.fetchedTimeRanges.filter(f => (f.calendarId === calendarId)),
+		getAllTimeRangesForCalendar: (state) => (calendarId) => state.fetchedTimeRanges.filter((f) => (f.calendarId === calendarId)),
 
 		/**
 		 * Get time-range covering
@@ -31,7 +30,7 @@ export default defineStore('fetchedTimeRanges', {
 		 * @return {function({Number}, {Number}, {Number}): {Object}|false}
 		 */
 		getTimeRangeForCalendarCoveringRange: (state) => (calendarId, requestedFrom, requestedTo) => {
-			return state.fetchedTimeRanges.find(f => {
+			return state.fetchedTimeRanges.find((f) => {
 				return f.calendarId === calendarId && f.from <= requestedFrom && f.to >= requestedTo
 			})
 		},
@@ -42,8 +41,7 @@ export default defineStore('fetchedTimeRanges', {
 		 * @param {object} state The Pinia state
 		 * @return {function({Number}): {Object}[]}
 		 */
-		getAllTimeRangesOlderThan: (state) => (olderThan) =>
-			state.fetchedTimeRanges.filter(f => (f.lastFetched <= olderThan)),
+		getAllTimeRangesOlderThan: (state) => (olderThan) => state.fetchedTimeRanges.filter((f) => (f.lastFetched <= olderThan)),
 
 		/**
 		 *

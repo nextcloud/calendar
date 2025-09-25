@@ -14,25 +14,25 @@ import { findSchedulingOutbox } from '../services/caldavService.js'
  */
 export function getColorForFBType(type = 'BUSY') {
 	switch (type) {
-	case 'FREE':
-		return 'rgba(255,255,255,0)'
+		case 'FREE':
+			return 'rgba(255,255,255,0)'
 
-	case 'BUSY-TENTATIVE':
-		return 'rgba(184,129,0,0.3)'
+		case 'BUSY-TENTATIVE':
+			return 'rgba(184,129,0,0.3)'
 
-	case 'BUSY':
-		return 'rgba(217,24,18,0.3)'
+		case 'BUSY':
+			return 'rgba(217,24,18,0.3)'
 
-	case 'BUSY-UNAVAILABLE':
-		return 'rgba(219,219,219)'
+		case 'BUSY-UNAVAILABLE':
+			return 'rgba(219,219,219)'
 
-	default:
-		return 'rgba(0,113,173,0.3)'
+		default:
+			return 'rgba(0,113,173,0.3)'
 	}
 }
 
 // TODO: Tuple types (mixed array) will be added in jsdoc 4
-/* eslint-disable jsdoc/valid-types */
+
 /**
  * Generator that yields tuples of an attendee property and the corresponding free busy property
  * Only yields tuples where the attendee is actually blocked
@@ -45,7 +45,7 @@ export function getColorForFBType(type = 'BUSY') {
  * @yields {[AttendeeProperty, FreeBusyProperty]} Tuples of attendee property and free busy property where the attendee is blocked
  * @return {AsyncGenerator<[AttendeeProperty, FreeBusyProperty], void, void>} Generator that yields tuples of attendee property and free busy property where the attendee is blocked
  */
-export async function * doFreeBusyRequest(start, end, organizer, attendees) {
+export async function* doFreeBusyRequest(start, end, organizer, attendees) {
 	const freeBusyComponent = createFreeBusyRequest(start, end, organizer, attendees)
 	const freeBusyICS = freeBusyComponent.toICS()
 
@@ -80,4 +80,3 @@ export async function * doFreeBusyRequest(start, end, organizer, attendees) {
 		}
 	}
 }
-/* eslint-disable jsdoc/valid-types */

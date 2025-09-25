@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<PropertySelect :prop-model="propModel"
+	<PropertySelect
+		:prop-model="propModel"
 		:is-read-only="false"
 		:value="null"
 		:show-icon="showIcon"
@@ -13,39 +14,44 @@
 </template>
 
 <script>
-import { mapStores, mapState } from 'pinia'
+import { mapState, mapStores } from 'pinia'
+import PropertySelect from '../Properties/PropertySelect.vue'
 import { getDefaultAlarms } from '../../../defaults/defaultAlarmProvider.js'
+import alarmFormat from '../../../filters/alarmFormat.js'
+import useSettingsStore from '../../../store/settings.js'
 import {
 	getAmountAndUnitForTimedEvents,
 	getAmountHoursMinutesAndUnitForAllDayEvents,
 } from '../../../utils/alarms.js'
-import alarmFormat from '../../../filters/alarmFormat.js'
-import PropertySelect from '../Properties/PropertySelect.vue'
-import useSettingsStore from '../../../store/settings.js'
 
 export default {
 	name: 'AlarmListNew',
 	components: {
 		PropertySelect,
 	},
+
 	props: {
 		isAllDay: {
 			type: Boolean,
 			required: true,
 		},
+
 		showIcon: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
 	computed: {
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',
 		}),
+
 		...mapStores(useSettingsStore),
 		currentUserTimezone() {
 			return this.settingsStore.getResolvedTimezone
 		},
+
 		options() {
 			return getDefaultAlarms(this.isAllDay).map((defaultAlarm) => {
 				const alarmObject = this.getAlarmObjectFromTriggerTime(defaultAlarm)
@@ -56,6 +62,7 @@ export default {
 				}
 			})
 		},
+
 		propModel() {
 			return {
 				options: this.options,
@@ -65,6 +72,7 @@ export default {
 			}
 		},
 	},
+
 	methods: {
 		/**
 		 * This emits the add alarm event
@@ -74,6 +82,7 @@ export default {
 		addReminderFromSelect(value) {
 			this.$emit('add-alarm', value)
 		},
+
 		/**
 		 *
 		 * @param {number} time Total amount of seconds for the trigger

@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { generateOcsUrl } from '@nextcloud/router'
 import type { AutocompleteEntry } from '@/types/autocomplete'
 import type { OcsEnvelope } from '@/types/ocs'
+
+import { generateOcsUrl } from '@nextcloud/router'
 
 export type AutocompleteResponse = OcsEnvelope<AutocompleteEntry[] | AutocompleteEntry>
 
@@ -21,7 +22,7 @@ export type AutocompleteOptions = {
 /**
  * search for users, groups, contacts, ...
  *
- * @param {AutocompleteOptions} search search options
+ * @param search search options
  */
 export async function autocomplete(search: AutocompleteOptions): Promise<AutocompleteEntry[]> {
 	// construct query parameters

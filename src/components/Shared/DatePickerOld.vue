@@ -4,9 +4,10 @@
 -->
 
 <template>
-	<DateTimePicker :lang="lang"
+	<DateTimePicker
+		:lang="lang"
 		:first-day-of-week="firstDay"
-		:format="'YYYY-MM-DD HH:mm'"
+		format="YYYY-MM-DD HH:mm"
 		:formatter="formatter"
 		:value="date"
 		:type="actualType"
@@ -29,11 +30,13 @@
 			<IconNewCalendar v-if="isAllDay" :size="20" class="date-time-picker__icon" />
 			<NcPopover v-else open-class="timezone-popover-wrapper">
 				<template #trigger>
-					<NcButton type="tertiary-no-background"
+					<NcButton
+						variant="tertiary-no-background"
 						:aria-label="t('calendar', 'Select a time zone')"
 						@mousedown="(e) => e.stopPropagation()">
 						<template #icon>
-							<IconTimezone :size="20"
+							<IconTimezone
+								:size="20"
 								class="date-time-picker__icon"
 								:class="{ 'date-time-picker__icon--highlight': highlightTimezone }" />
 						</template>
@@ -45,20 +48,24 @@
 							{{ $t('calendar', 'Please select a time zone:') }}
 						</strong>
 					</div>
-					<TimezonePicker class="timezone-popover-wrapper__timezone-select"
+					<TimezonePicker
+						class="timezone-popover-wrapper__timezone-select"
 						:value="timezoneId"
 						@input="changeTimezone" />
 				</template>
 			</NcPopover>
 		</template>
-		<template v-if="!isAllDay"
+		<template
+			v-if="!isAllDay"
 			#footer>
-			<NcButton v-if="!showTimePanel"
+			<NcButton
+				v-if="!showTimePanel"
 				class="mx-btn mx-btn-text"
 				@click="toggleTimePanel">
 				{{ $t('calendar', 'Pick a time') }}
 			</NcButton>
-			<NcButton v-else
+			<NcButton
+				v-else
 				class="mx-btn mx-btn-text"
 				@click="toggleTimePanel">
 				{{ $t('calendar', 'Pick a date') }}
@@ -69,25 +76,24 @@
 
 <script>
 import {
-	NcButton,
-	NcDateTimePicker as DateTimePicker,
-	NcPopover,
-	NcTimezonePicker as TimezonePicker,
-} from '@nextcloud/vue'
-import IconTimezone from 'vue-material-design-icons/Web.vue'
-import IconNewCalendar from 'vue-material-design-icons/CalendarBlankOutline.vue'
+	showError,
+} from '@nextcloud/dialogs'
 import {
 	getFirstDay,
 } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
-import { mapStores, mapState } from 'pinia'
 import {
-	showError,
-} from '@nextcloud/dialogs'
-
-import { getLangConfigForVue2DatePicker } from '../../utils/localization.js'
-import useSettingsStore from '../../store/settings.js'
+	NcDateTimePicker as DateTimePicker,
+	NcButton,
+	NcPopover,
+	NcTimezonePicker as TimezonePicker,
+} from '@nextcloud/vue'
+import { mapState, mapStores } from 'pinia'
+import IconNewCalendar from 'vue-material-design-icons/CalendarBlankOutline.vue'
+import IconTimezone from 'vue-material-design-icons/Web.vue'
 import useDavRestrictionsStore from '../../store/davRestrictions.js'
+import useSettingsStore from '../../store/settings.js'
+import { getLangConfigForVue2DatePicker } from '../../utils/localization.js'
 
 export default {
 	name: 'DatePickerOld',
@@ -99,44 +105,54 @@ export default {
 		IconTimezone,
 		IconNewCalendar,
 	},
+
 	props: {
 		date: {
 			type: Date,
 			required: true,
 		},
+
 		timezoneId: {
 			type: String,
 			default: 'floating',
 		},
+
 		prefix: {
 			type: String,
 			default: null,
 		},
+
 		isAllDay: {
 			type: Boolean,
 			required: true,
 		},
+
 		userTimezoneId: {
 			type: String,
 			default: null,
 		},
+
 		min: {
 			type: Date,
 			default: null,
 		},
+
 		max: {
 			type: Date,
 			default: null,
 		},
+
 		appendToBody: {
 			type: Boolean,
 			default: false,
 		},
+
 		type: {
 			type: String,
 			default: 'datetime',
 		},
 	},
+
 	data() {
 		return {
 			firstDay: getFirstDay() === 0 ? 7 : getFirstDay(),
@@ -144,15 +160,18 @@ export default {
 				stringify: this.stringify,
 				parse: this.parse,
 			},
+
 			showTimePanel: true,
 		}
 	},
+
 	computed: {
 		...mapStores(useDavRestrictionsStore),
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',
 			showWeekNumbers: 'showWeekNumbers',
 		}),
+
 		/**
 		 * Returns the lang config for vue2-datepicker
 		 *
@@ -161,6 +180,7 @@ export default {
 		lang() {
 			return getLangConfigForVue2DatePicker(this.locale)
 		},
+
 		/**
 		 * Whether or not to highlight the timezone-icon.
 		 * The icon is highlighted when the selected timezone
@@ -175,6 +195,7 @@ export default {
 
 			return this.timezoneId !== this.userTimezoneId
 		},
+
 		/**
 		 * Type of the DatePicker.
 		 * Ether date if allDay or datetime
@@ -188,6 +209,7 @@ export default {
 
 			return this.type
 		},
+
 		/**
 		 * The earliest date a user is allowed to pick in the timezone
 		 *
@@ -196,6 +218,7 @@ export default {
 		minimumDate() {
 			return this.min || new Date(this.davRestrictionsStore.minimumDate)
 		},
+
 		/**
 		 * The latest date a user is allowed to pick in the timezone
 		 *
@@ -204,6 +227,7 @@ export default {
 		maximumDate() {
 			return this.max || new Date(this.davRestrictionsStore.maximumDate)
 		},
+
 		/**
 		 * Whether or not to offer am/pm in the timepicker
 		 *
@@ -216,6 +240,7 @@ export default {
 			return timeFormat.indexOf('a') !== -1
 		},
 	},
+
 	methods: {
 		/**
 		 * Emits a change event for the Date
@@ -225,6 +250,7 @@ export default {
 		change(date) {
 			this.$emit('change', date)
 		},
+
 		/**
 		 * Changes the view to time-picker,
 		 * when user picked a date and date-time-picker is not all-day
@@ -237,6 +263,7 @@ export default {
 				this.showTimePanel = true
 			}
 		},
+
 		/**
 		 * Emits a change event for the Timezone
 		 *
@@ -245,6 +272,7 @@ export default {
 		changeTimezone(timezoneId) {
 			this.$emit('change-timezone', timezoneId)
 		},
+
 		/**
 		 * Reset to time-panel on close of datepicker
 		 */
@@ -252,12 +280,14 @@ export default {
 			this.showTimePanel = true
 			this.$emit('close')
 		},
+
 		/**
 		 * Toggles the time-picker
 		 */
 		toggleTimePanel() {
 			this.showTimePanel = !this.showTimePanel
 		},
+
 		/**
 		 * Formats the date string
 		 *
@@ -270,34 +300,35 @@ export default {
 
 			if (this.isAllDay) {
 				switch (this.prefix) {
-				case 'from':
-					return this.$t('calendar', 'from {formattedDate}', { formattedDate })
+					case 'from':
+						return this.$t('calendar', 'from {formattedDate}', { formattedDate })
 
-				case 'to':
-					return this.$t('calendar', 'to {formattedDate}', { formattedDate })
+					case 'to':
+						return this.$t('calendar', 'to {formattedDate}', { formattedDate })
 
-				case 'on':
-					return this.$t('calendar', 'on {formattedDate}', { formattedDate })
+					case 'on':
+						return this.$t('calendar', 'on {formattedDate}', { formattedDate })
 
-				default:
-					return formattedDate
+					default:
+						return formattedDate
 				}
 			} else {
 				switch (this.prefix) {
-				case 'from':
-					return this.$t('calendar', 'from {formattedDate} at {formattedTime}', { formattedDate, formattedTime })
+					case 'from':
+						return this.$t('calendar', 'from {formattedDate} at {formattedTime}', { formattedDate, formattedTime })
 
-				case 'to':
-					return this.$t('calendar', 'to {formattedDate} at {formattedTime}', { formattedDate, formattedTime })
+					case 'to':
+						return this.$t('calendar', 'to {formattedDate} at {formattedTime}', { formattedDate, formattedTime })
 
-				case 'on':
-					return this.$t('calendar', 'on {formattedDate} at {formattedTime}', { formattedDate, formattedTime })
+					case 'on':
+						return this.$t('calendar', 'on {formattedDate} at {formattedTime}', { formattedDate, formattedTime })
 
-				default:
-					return this.$t('calendar', '{formattedDate} at {formattedTime}', { formattedDate, formattedTime })
+					default:
+						return this.$t('calendar', '{formattedDate} at {formattedTime}', { formattedDate, formattedTime })
 				}
 			}
 		},
+
 		/**
 		 * Parses the user input from the input field
 		 *
@@ -309,21 +340,21 @@ export default {
 				let format
 
 				switch (this.prefix) {
-				case 'from':
-					format = this.$t('calendar', 'from {formattedDate}')
-					break
+					case 'from':
+						format = this.$t('calendar', 'from {formattedDate}')
+						break
 
-				case 'to':
-					format = this.$t('calendar', 'to {formattedDate}')
-					break
+					case 'to':
+						format = this.$t('calendar', 'to {formattedDate}')
+						break
 
-				case 'on':
-					format = this.$t('calendar', 'on {formattedDate}')
-					break
+					case 'on':
+						format = this.$t('calendar', 'on {formattedDate}')
+						break
 
-				default:
-					format = '{formattedDate}'
-					break
+					default:
+						format = '{formattedDate}'
+						break
 				}
 
 				const regexString = format
@@ -346,21 +377,21 @@ export default {
 				let format
 
 				switch (this.prefix) {
-				case 'from':
-					format = this.$t('calendar', 'from {formattedDate} at {formattedTime}')
-					break
+					case 'from':
+						format = this.$t('calendar', 'from {formattedDate} at {formattedTime}')
+						break
 
-				case 'to':
-					format = this.$t('calendar', 'to {formattedDate} at {formattedTime}')
-					break
+					case 'to':
+						format = this.$t('calendar', 'to {formattedDate} at {formattedTime}')
+						break
 
-				case 'on':
-					format = this.$t('calendar', 'on {formattedDate} at {formattedTime}')
-					break
+					case 'on':
+						format = this.$t('calendar', 'on {formattedDate} at {formattedTime}')
+						break
 
-				default:
-					format = this.$t('calendar', '{formattedDate} at {formattedTime}')
-					break
+					default:
+						format = this.$t('calendar', '{formattedDate} at {formattedTime}')
+						break
 				}
 
 				const escapedFormat = format
@@ -388,6 +419,7 @@ export default {
 				return moment(dateMatches[1] + ' ' + timeMatches[1], 'L LT', this.locale).toDate()
 			}
 		},
+
 		/**
 		 * Whether or not the date is acceptable
 		 *

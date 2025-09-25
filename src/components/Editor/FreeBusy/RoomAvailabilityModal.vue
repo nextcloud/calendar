@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcModal size="large"
+	<NcModal
+		size="large"
 		:show="show"
 		:name="$t('calendar', 'Check room availability')"
 		@update:show="(e) => $emit('update:show', e)">
@@ -13,30 +14,34 @@
 			</div>
 			<div class="modal__content__actions">
 				<div class="modal__content__actions__date">
-					<NcButton type="secondary"
+					<NcButton
+						variant="secondary"
 						@click="handleActions('today')">
 						{{ $t('calendar', 'Today') }}
 					</NcButton>
-					<NcButton type="secondary"
+					<NcButton
+						variant="secondary"
 						@click="handleActions('left')">
 						<template #icon>
 							<ChevronLeftIcon :size="20" />
 						</template>
 					</NcButton>
-					<NcButton type="secondary"
+					<NcButton
+						variant="secondary"
 						@click="handleActions('right')">
 						<template #icon>
 							<ChevronRightIcon :size="20" />
 						</template>
 					</NcButton>
 
-					<NcDateTimePickerNative :id="datePickerInputId"
+					<NcDateTimePickerNative
+						:id="datePickerInputId"
 						:hide-label="true"
 						:value="currentDate"
-						@input="(date)=>handleActions('picker', date)" />
-					<NcPopover :focus-trap="false">
+						@input="(date) => handleActions('picker', date)" />
+					<NcPopover :no-focus-trap="true">
 						<template #trigger>
-							<NcButton type="tertiary-no-background">
+							<NcButton variant="tertiary-no-background">
 								<template #icon>
 									<HelpCircleIcon :size="20" />
 								</template>
@@ -58,32 +63,34 @@
 					</NcPopover>
 				</div>
 			</div>
-			<FullCalendar ref="freeBusyFullCalendar"
+			<FullCalendar
+				ref="freeBusyFullCalendar"
 				:options="options" />
 		</div>
 	</NcModal>
 </template>
+
 <script>
-import { NcButton, NcDateTimePickerNative, NcModal, NcPopover } from '@nextcloud/vue'
-import { getFullCalendarLocale } from '../../../fullcalendar/localization/localeProvider.js'
-import FullCalendar from '@fullcalendar/vue'
-import { getDateFormattingConfig } from '../../../fullcalendar/localization/dateFormattingConfig.js'
-import { getBusySlots, getFirstFreeSlot } from '../../../services/freeBusySlotService.js'
-import dateFormat from '../../../filters/dateFormat.js'
-import { getColorForFBType } from '../../../utils/freebusy.js'
-import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
-import momentPlugin from '../../../fullcalendar/localization/momentPlugin.js'
-import VTimezoneNamedTimezone from '../../../fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
 import interactionPlugin from '@fullcalendar/interaction'
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
+import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
+import FullCalendar from '@fullcalendar/vue'
+import { NcButton, NcDateTimePickerNative, NcModal, NcPopover } from '@nextcloud/vue'
+import { mapState } from 'pinia'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
+import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
+import dateFormat from '../../../filters/dateFormat.js'
 import freeBusyBlockedForAllEventSource from '../../../fullcalendar/eventSources/freeBusyBlockedForAllEventSource.js'
 import freeBusyFakeBlockingEventSource from '../../../fullcalendar/eventSources/freeBusyFakeBlockingEventSource.js'
 import freeBusyResourceEventSource from '../../../fullcalendar/eventSources/freeBusyResourceEventSource.js'
+import { getDateFormattingConfig } from '../../../fullcalendar/localization/dateFormattingConfig.js'
+import { getFullCalendarLocale } from '../../../fullcalendar/localization/localeProvider.js'
+import momentPlugin from '../../../fullcalendar/localization/momentPlugin.js'
+import VTimezoneNamedTimezone from '../../../fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
 import { mapPrincipalObjectToAttendeeObject } from '../../../models/attendee.js'
-import { mapState } from 'pinia'
+import { getBusySlots, getFirstFreeSlot } from '../../../services/freeBusySlotService.js'
 import useSettingsStore from '../../../store/settings.js'
+import { getColorForFBType } from '../../../utils/freebusy.js'
 import { randomId } from '../../../utils/randomId.js'
 
 export default {
@@ -98,32 +105,39 @@ export default {
 		NcDateTimePickerNative,
 		NcButton,
 	},
+
 	props: {
 		show: {
 			type: Boolean,
 			required: true,
 		},
+
 		startDate: {
 			type: Date,
 			required: true,
 		},
+
 		endDate: {
 			type: Date,
 			required: true,
 		},
+
 		calendarObjectInstance: {
 			type: Object,
 			required: true,
 		},
+
 		organizer: {
 			type: Object,
 			required: true,
 		},
+
 		rooms: {
 			type: Array,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			currentDate: this.startDate,
@@ -133,10 +147,12 @@ export default {
 			freeSlots: [],
 		}
 	},
+
 	computed: {
 		...mapState(useSettingsStore, {
 			timezoneId: 'getResolvedTimezone',
 		}),
+
 		/**
 		 * Map all given rooms to attendee properties.
 		 *
@@ -145,6 +161,7 @@ export default {
 		attendees() {
 			return this.rooms.map((room) => mapPrincipalObjectToAttendeeObject(room))
 		},
+
 		resources() {
 			const resources = []
 			for (const attendee of this.attendees) {
@@ -161,6 +178,7 @@ export default {
 
 			return resources
 		},
+
 		eventSources() {
 			return [
 				freeBusyResourceEventSource(
@@ -181,6 +199,7 @@ export default {
 				),
 			]
 		},
+
 		/**
 		 * FullCalendar Plugins
 		 *
@@ -194,11 +213,13 @@ export default {
 				interactionPlugin,
 			]
 		},
+
 		scrollTime() {
 			const options = { hour: '2-digit', minute: '2-digit', seconds: '2-digit', hour12: false }
 
 			return this.currentDate.getHours() > 0 ? new Date(this.currentDate.getTime() - 60 * 60 * 1000).toLocaleTimeString(this.lang, options) : '10:00:00'
 		},
+
 		/**
 		 * List of possible Free-Busy values.
 		 * This is used as legend.
@@ -224,6 +245,7 @@ export default {
 				color: getColorForFBType('UNKNOWN'),
 			}]
 		},
+
 		options() {
 			return {
 				// Initialization:
@@ -252,6 +274,7 @@ export default {
 						headerContent: 'Room',
 					},
 				],
+
 				// Timezones:
 				timeZone: this.timezoneId,
 				// Formatting of the title
@@ -263,9 +286,11 @@ export default {
 					day: 'numeric',
 					weekday: 'long',
 				},
+
 				dateClick: this.findFreeSlots(),
 			}
 		},
+
 		/**
 		 * @return {string}
 		 */
@@ -273,27 +298,29 @@ export default {
 			return randomId()
 		},
 	},
+
 	methods: {
 		handleActions(action, date = null) {
 			const calendar = this.$refs.freeBusyFullCalendar.getApi()
 			switch (action) {
-			case 'today':
-				calendar.today()
-				break
-			case 'left':
-				calendar.prev()
-				break
-			case 'right':
-				calendar.next()
-				break
-			case 'picker':
-				calendar.gotoDate(date)
-				break
+				case 'today':
+					calendar.today()
+					break
+				case 'left':
+					calendar.prev()
+					break
+				case 'right':
+					calendar.next()
+					break
+				case 'picker':
+					calendar.gotoDate(date)
+					break
 			}
 			this.currentDate = calendar.getDate()
 			calendar.scrollToTime(this.scrollTime)
 			this.findFreeSlots()
 		},
+
 		async findFreeSlots() {
 			// Doesn't make sense for multiple days
 			if (this.currentStart.getDate() !== this.currentEnd.getDate()) {
@@ -343,6 +370,7 @@ export default {
 	},
 }
 </script>
+
 <style scoped lang="scss">
 .icon-close {
 	display: block;
@@ -400,6 +428,7 @@ export default {
 	height: 38px !important;
 }
 </style>
+
 <style lang="scss">
 .blocking-event-free-busy {
 	// Show the blocking event above any other blocks, especially the *blocked for all* one

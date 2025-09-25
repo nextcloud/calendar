@@ -5,7 +5,8 @@
 
 <template>
 	<div>
-		<NcModal v-if="modalVisible"
+		<NcModal
+			v-if="modalVisible"
 			class="proposal-modal__content"
 			:title="modalTitle"
 			:size="modalSize"
@@ -29,7 +30,8 @@
 							{{ selectedProposal?.duration ? selectedProposal.duration + ' min' : '-' }}
 						</div>
 						<div class="proposal-viewer__content-actions">
-							<NcButton variant="tertiary"
+							<NcButton
+								variant="tertiary"
 								:title="t('calendar', 'Edit this meeting proposal')"
 								@click="onProposalModify()">
 								<template #icon>
@@ -37,7 +39,8 @@
 								</template>
 								{{ t('calendar', 'Edit') }}
 							</NcButton>
-							<NcButton variant="tertiary"
+							<NcButton
+								variant="tertiary"
 								:title="t('calendar', 'Delete this meeting proposal')"
 								@click="onProposalDestroy(selectedProposal)">
 								<template #icon>
@@ -50,7 +53,8 @@
 				</div>
 				<!-- Responses Matrix Row -->
 				<div class="proposal-viewer__content-matrix">
-					<ProposalResponseMatrix :mode="'organizer'"
+					<ProposalResponseMatrix
+						mode="organizer"
 						:proposal="selectedProposal"
 						:timezone-id="userTimezone"
 						@date-convert="onProposalConvert" />
@@ -65,18 +69,22 @@
 					</div>
 					<!-- Row 2: Details -->
 					<div class="proposal-editor__row-details">
-						<NcTextField v-model="selectedProposal.title"
+						<NcTextField
+							v-model="selectedProposal.title"
 							class="proposal-editor__proposal-title"
 							:label="t('calendar', 'Title')" />
-						<NcTextArea v-model="selectedProposal.description"
+						<NcTextArea
+							v-model="selectedProposal.description"
 							class="proposal-editor__proposal-description"
 							:label="t('calendar', 'Description')" />
 						<div class="proposal-editor__proposal-location-container">
-							<NcTextField v-if="!settingsStore.talkEnabled || !modalEditLocationState"
+							<NcTextField
+								v-if="!settingsStore.talkEnabled || !modalEditLocationState"
 								class="proposal-editor__proposal-location"
 								:label="t('calendar', 'Location')"
 								:value="selectedProposal.location" />
-							<NcCheckboxRadioSwitch v-if="settingsStore.talkEnabled"
+							<NcCheckboxRadioSwitch
+								v-if="settingsStore.talkEnabled"
 								class="proposal-editor__proposal-location-selector"
 								variant="secondary"
 								:model-value="modalEditLocationState"
@@ -85,7 +93,8 @@
 							</NcCheckboxRadioSwitch>
 						</div>
 						<div class="proposal-editor__proposal-duration-container">
-							<NcTextField v-model="selectedProposal.duration"
+							<NcTextField
+								v-model="selectedProposal.duration"
 								class="proposal-editor__proposal-duration"
 								:label="t('calendar', 'Duration')"
 								type="number"
@@ -93,7 +102,8 @@
 								step="1"
 								@input="onProposalDurationChange($event)" />
 							<div class="proposal-editor__proposal-duration-helpers">
-								<NcCheckboxRadioSwitch type="radio"
+								<NcCheckboxRadioSwitch
+									type="radio"
 									class="proposal-editor__proposal-duration-helper"
 									:button-variant="true"
 									button-variant-grouped="horizontal"
@@ -103,7 +113,8 @@
 									@update:modelValue="changeDuration(15)">
 									{{ t('calendar', '15 min') }}
 								</NcCheckboxRadioSwitch>
-								<NcCheckboxRadioSwitch type="radio"
+								<NcCheckboxRadioSwitch
+									type="radio"
 									class="proposal-editor__proposal-duration-helper"
 									:button-variant="true"
 									button-variant-grouped="horizontal"
@@ -113,7 +124,8 @@
 									@update:modelValue="changeDuration(30)">
 									{{ t('calendar', '30 min') }}
 								</NcCheckboxRadioSwitch>
-								<NcCheckboxRadioSwitch type="radio"
+								<NcCheckboxRadioSwitch
+									type="radio"
 									class="proposal-editor__proposal-duration-helper"
 									:button-variant="true"
 									button-variant-grouped="horizontal"
@@ -123,7 +135,8 @@
 									@update:modelValue="changeDuration(60)">
 									{{ t('calendar', '60 min') }}
 								</NcCheckboxRadioSwitch>
-								<NcCheckboxRadioSwitch type="radio"
+								<NcCheckboxRadioSwitch
+									type="radio"
 									class="proposal-editor__proposal-duration-helper"
 									:button-variant="true"
 									button-variant-grouped="horizontal"
@@ -135,12 +148,14 @@
 								</NcCheckboxRadioSwitch>
 							</div>
 						</div>
-						<InviteesListSearch class="proposal-editor__proposal-participants-selector"
+						<InviteesListSearch
+							class="proposal-editor__proposal-participants-selector"
 							:already-invited-emails="existingParticipantAddressess"
 							@add-attendee="onProposalParticipantAdd" />
 						<div v-if="selectedProposal.participants.length > 0" class="proposal-editor__proposal-participants">
 							<h6>{{ t('calendar', 'Participants') }}</h6>
-							<ProposalParticipantItem v-for="(participant, idx) in selectedProposal.participants"
+							<ProposalParticipantItem
+								v-for="(participant, idx) in selectedProposal.participants"
 								:key="idx"
 								:proposal-participant="participant"
 								@participant-attendance="onProposalParticipantAttendance(participant.address, $event)"
@@ -148,7 +163,8 @@
 						</div>
 						<div v-if="selectedProposal.dates.length > 0" class="proposal-editor__proposed-dates">
 							<h6>{{ t('calendar', 'Selected times') }}</h6>
-							<ProposalDateItem v-for="(entry, idx) in selectedProposal.dates"
+							<ProposalDateItem
+								v-for="(entry, idx) in selectedProposal.dates"
 								:key="idx"
 								:proposal-date="entry"
 								:timezone-id="userTimezone"
@@ -158,16 +174,18 @@
 					</div>
 					<!-- Row 3: Actions -->
 					<div class="proposal-editor__row-actions">
-						<NcButton class="proposal-editor__save-button"
+						<NcButton
+							class="proposal-editor__save-button"
 							variant="primary"
 							:disabled="!modalEditSaveState"
 							@click="onProposalSave()">
 							{{ modalEditSaveLabel }}
 						</NcButton>
-						<NcButton v-if="modalEditDestroyState"
+						<NcButton
+							v-if="modalEditDestroyState"
 							variant="secondary"
 							@click="onProposalDestroy(selectedProposal)">
-							{{ 'Delete' }}
+							Delete
 						</NcButton>
 					</div>
 				</div>
@@ -176,14 +194,16 @@
 						<NcButton variant="secondary" @click="onCalendarFocusToday()">
 							{{ t('calendar', 'Today') }}
 						</NcButton>
-						<NcButton type="secondary"
+						<NcButton
+							variant="secondary"
 							:aria-label="t('calendar', 'Previous span')"
 							@click="onCalendarSpanPrevious()">
 							<template #icon>
 								<PreviousSpanIcon />
 							</template>
 						</NcButton>
-						<NcButton type="secondary"
+						<NcButton
+							variant="secondary"
 							:aria-label="t('calendar', 'Next span')"
 							@click="onCalendarSpanNext()">
 							<template #icon>
@@ -191,14 +211,16 @@
 							</template>
 						</NcButton>
 						<h2>{{ calendarDateRange }}</h2>
-						<NcButton type="secondary"
+						<NcButton
+							variant="secondary"
 							:aria-label="t('calendar', 'Less days')"
 							@click="onCalendarSpanIncrease()">
 							<template #icon>
 								<ZoomInIcon />
 							</template>
 						</NcButton>
-						<NcButton type="secondary"
+						<NcButton
+							variant="secondary"
 							:aria-label="t('calendar', 'More days')"
 							@click="onCalendarSpanDecrease()">
 							<template #icon>
@@ -206,7 +228,8 @@
 							</template>
 						</NcButton>
 					</div>
-					<FullCalendar ref="proposalFullCalendar"
+					<FullCalendar
+						ref="proposalFullCalendar"
 						:options="calendarConfiguration"
 						class="proposal-editor__calendar" />
 				</div>
@@ -216,48 +239,50 @@
 </template>
 
 <script lang="ts">
-// types, object and stores
-import usePrincipalStore from '@/store/principals'
-import useSettingsStore from '@/store/settings'
-import useProposalStore from '@/store/proposalStore'
+import type { Proposal } from '@/models/proposals/proposals'
+
+import FullCalendarInteraction from '@fullcalendar/interaction'
+import FullCalendarTimeGrid from '@fullcalendar/timegrid'
+import FullCalendar from '@fullcalendar/vue'
+import { AttendeeProperty } from '@nextcloud/calendar-js'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
-import { Proposal, ProposalParticipant, ProposalDate } from '@/models/proposals/proposals'
-import { ProposalParticipantRealm, ProposalParticipantAttendance, ProposalParticipantStatus, ProposalDateVote } from '@/types/proposals/proposalEnums'
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import { getBusySlots } from '../../services/freeBusySlotService'
-import { AttendeeProperty } from '@nextcloud/calendar-js'
+import PreviousSpanIcon from 'vue-material-design-icons/ChevronLeft'
+import NextSpanIcon from 'vue-material-design-icons/ChevronRight'
+import DurationIcon from 'vue-material-design-icons/ClockOutline'
+import ZoomOutIcon from 'vue-material-design-icons/MagnifyMinusOutline'
+// icons
+import ZoomInIcon from 'vue-material-design-icons/MagnifyPlusOutline'
+import LocationIcon from 'vue-material-design-icons/MapMarkerOutline'
+import EditIcon from 'vue-material-design-icons/PencilOutline'
+import DeleteIcon from 'vue-material-design-icons/TrashCanOutline'
 // components
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcModal from '@nextcloud/vue/components/NcModal'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
 import NcTextArea from '@nextcloud/vue/components/NcTextArea'
-import FullCalendar from '@fullcalendar/vue'
-import FullCalendarTimeGrid from '@fullcalendar/timegrid'
-import FullCalendarInteraction from '@fullcalendar/interaction'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import InviteesListSearch from '@/components/Editor/Invitees/InviteesListSearch.vue'
+import ProposalDateItem from '@/components/Proposal/ProposalDateItem.vue'
+import ProposalParticipantItem from '@/components/Proposal/ProposalParticipantItem.vue'
+import ProposalResponseMatrix from '@/components/Proposal/ProposalResponseMatrix.vue'
+import { getBusySlots } from '../../services/freeBusySlotService.js'
 import FullCalendarMoment from '@/fullcalendar/localization/momentPlugin.js'
 import FullCalendarTimezones from '@/fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
-import InviteesListSearch from '@/components/Editor/Invitees/InviteesListSearch.vue'
-import ProposalParticipantItem from '@/components/Proposal/ProposalParticipantItem.vue'
-import ProposalDateItem from '@/components/Proposal/ProposalDateItem.vue'
-import ProposalResponseMatrix from '@/components/Proposal/ProposalResponseMatrix.vue'
-// icons
-import ZoomInIcon from 'vue-material-design-icons/MagnifyPlusOutline'
-import ZoomOutIcon from 'vue-material-design-icons/MagnifyMinusOutline'
-import PreviousSpanIcon from 'vue-material-design-icons/ChevronLeft'
-import NextSpanIcon from 'vue-material-design-icons/ChevronRight'
-import EditIcon from 'vue-material-design-icons/PencilOutline'
-import DeleteIcon from 'vue-material-design-icons/TrashCanOutline'
-import LocationIcon from 'vue-material-design-icons/MapMarkerOutline'
-import DurationIcon from 'vue-material-design-icons/ClockOutline'
+import { ProposalDate, ProposalParticipant } from '@/models/proposals/proposals'
+// types, object and stores
+import usePrincipalStore from '@/store/principals.js'
+import useProposalStore from '@/store/proposalStore'
+import useSettingsStore from '@/store/settings.js'
+import { ProposalDateVote, ProposalParticipantAttendance, ProposalParticipantRealm, ProposalParticipantStatus } from '@/types/proposals/proposalEnums'
 
 // Helper interface for participants emitted by InviteesListSearch
 interface ParticipantSearchInterface {
-    calendarUserType: 'INDIVIDUAL' | 'GROUP'
-    email: string
-    commonName?: string
-    isUser?: boolean
+	calendarUserType: 'INDIVIDUAL' | 'GROUP'
+	email: string
+	commonName?: string
+	isUser?: boolean
 }
 
 // Helper interface for busy slots of a participant generated by getBusySlots
@@ -335,12 +360,12 @@ export default {
 
 		modalTitle(): string {
 			switch (this.modalMode) {
-			case 'view':
-				return t('calendar', 'Meeting proposals overview')
-			case 'modify':
-				return t('calendar', 'Edit meeting proposal')
-			default:
-				return t('calendar', 'Create meeting proposal')
+				case 'view':
+					return t('calendar', 'Meeting proposals overview')
+				case 'modify':
+					return t('calendar', 'Edit meeting proposal')
+				default:
+					return t('calendar', 'Create meeting proposal')
 			}
 		},
 
@@ -353,7 +378,10 @@ export default {
 		},
 
 		modalEditSaveState(): boolean {
-			if (!this.selectedProposal) return false // disable if no proposal selected
+			if (!this.selectedProposal) {
+				// disable if no proposal selected
+				return false
+			}
 			return (
 				this.selectedProposal.title !== null
 				&& this.selectedProposal.duration > 0
@@ -367,7 +395,9 @@ export default {
 		},
 
 		modalEditLocationState(): boolean {
-			if (!this.selectedProposal) return false
+			if (!this.selectedProposal) {
+				return false
+			}
 			if (this.selectedProposal.location === 'Talk conversation') {
 				return true
 			} else {
@@ -379,7 +409,7 @@ export default {
 		 * Configuration options for FullCalendar
 		 * Please see https://fullcalendar.io/docs#toc for details
 		 *
-		 * @return {object}
+		 * @return
 		 */
 		calendarConfiguration() {
 			const today = new Date()
@@ -392,6 +422,7 @@ export default {
 					FullCalendarMoment,
 					FullCalendarTimezones,
 				],
+
 				headerToolbar: false,
 				initialView: 'timeGridSpan',
 				views: {
@@ -400,6 +431,7 @@ export default {
 						duration: { days: this.calendarSpanDays },
 					},
 				},
+
 				dayHeaderFormat: { weekday: 'short', day: 'numeric' },
 				allDaySlot: false,
 				timeZone: this.userTimezone,
@@ -407,6 +439,7 @@ export default {
 				validRange: {
 					start: today,
 				},
+
 				nowIndicator: true,
 				eventOverlap: true,
 				eventOrderStrict: true,
@@ -416,10 +449,14 @@ export default {
 				select: (info: unknown) => this.onProposalDateAdd(info),
 				eventDrop: (info: unknown) => this.onProposalDateMove(info),
 				datesSet: () => {
-					if (!this.modalVisible) return
+					if (!this.modalVisible) {
+						return
+					}
 					// Initialize calendar API when the calendar view is ready
 					this.initializeCalendar()
-					if (!this.calendarApi) return
+					if (!this.calendarApi) {
+						return
+					}
 					this.fetchParticipantAvailability()
 					// Force reactivity update for the date range display
 					this.$forceUpdate()
@@ -631,7 +668,7 @@ export default {
 			if (!this.selectedProposal) {
 				return console.error('No proposal selected for this operation')
 			}
-			const participant = this.selectedProposal.participants.find(p => p.address === address)
+			const participant = this.selectedProposal.participants.find((p) => p.address === address)
 			if (participant) {
 				participant.attendance = attendance
 			} else {
@@ -796,7 +833,9 @@ export default {
 			newProposalDate.date = date
 			this.selectedProposal.dates.push(newProposalDate)
 			this.selectedProposal.dates.sort((a, b) => {
-				if (!a.date || !b.date) return 0
+				if (!a.date || !b.date) {
+					return 0
+				}
 				return a.date.getTime() - b.date.getTime()
 			})
 			// Refresh calendar view
@@ -926,7 +965,9 @@ export default {
 			// Add proposed dates
 			const duration = this.selectedProposal?.duration ?? 10
 			this.selectedProposal?.dates.forEach((proposalDate, index) => {
-				if (!proposalDate.date) return
+				if (!proposalDate.date) {
+					return
+				}
 				this.calendarApi.addEvent({
 					id: `proposed-date-${index}`,
 					title: t('calendar', 'Selected'),

@@ -12,7 +12,7 @@ import { DateTimeValue } from '@nextcloud/calendar-js'
  * @param {Date} end End of time-range
  * @return {Array}
  */
-const getAllObjectsInTimeRange = (calendarObject, start, end) => {
+function getAllObjectsInTimeRange(calendarObject, start, end) {
 	const iterator = calendarObject.calendarComponent.getVObjectIterator()
 	const firstVObject = iterator.next().value
 	if (!firstVObject) {
@@ -31,7 +31,7 @@ const getAllObjectsInTimeRange = (calendarObject, start, end) => {
  * @param {Date} recurrenceId RecurrenceId to retrieve
  * @return {AbstractRecurringComponent|null}
  */
-const getObjectAtRecurrenceId = (calendarObject, recurrenceId) => {
+function getObjectAtRecurrenceId(calendarObject, recurrenceId) {
 	const iterator = calendarObject.calendarComponent.getVObjectIterator()
 	const firstVObject = iterator.next().value
 	if (!firstVObject) {

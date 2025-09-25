@@ -12,9 +12,10 @@
 			<h2 v-else>
 				{{ t('calendar', 'Public calendars') }}
 			</h2>
-			<NcEmptyContent v-if="!calendars.length"
+			<NcEmptyContent
+				v-if="!calendars.length"
 				:title="$t('calendar', 'No valid public calendars configured')"
-				:description="$t('calendar', 'Speak to the server administrator to resolve this issue.' )">
+				:description="$t('calendar', 'Speak to the server administrator to resolve this issue.')">
 				<template #icon>
 					<CalendarBlank :size="20" decorative />
 				</template>
@@ -38,7 +39,8 @@
 					</div>
 				</div>
 				<div class="public-calendar-subscription-picker__region__subcribe">
-					<NcButton :disabled="loading || subscribing[calendar.source] || subscribed[calendar.source]"
+					<NcButton
+						:disabled="loading || subscribing[calendar.source] || subscribed[calendar.source]"
 						@click="subscribe(calendar)">
 						{{ subscribed[calendar.source] ? t('calendar', 'Subscribed') : t('calendar', 'Subscribe') }}
 					</NcButton>
@@ -49,21 +51,20 @@
 </template>
 
 <script>
-import { NcButton, NcEmptyContent, NcModal } from '@nextcloud/vue'
 import { showError } from '@nextcloud/dialogs'
-import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
-
-import { findAllSubscriptions } from '../../services/caldavService.js'
-import holidayCalendars from '../../resources/holiday_calendars.json'
-import { uidToHexColor } from '../../utils/color.js'
 import { loadState } from '@nextcloud/initial-state'
+import { NcButton, NcEmptyContent, NcModal } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
+import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
+import holidayCalendars from '../../resources/holiday_calendars.json'
+import { findAllSubscriptions } from '../../services/caldavService.js'
 import useCalendarsStore from '../../store/calendars.js'
+import { uidToHexColor } from '../../utils/color.js'
 
-const isValidString = (str, allowNull = false) => {
+function isValidString(str, allowNull = false) {
 	return typeof str === 'string' || str instanceof String || (allowNull && !str)
 }
-const isValidURL = str => {
+function isValidURL(str) {
 	try {
 		return Boolean(new URL(str))
 	} catch {
@@ -79,13 +80,15 @@ export default {
 		NcEmptyContent,
 		NcModal,
 	},
+
 	props: {
 		showHolidays: Boolean,
 	},
+
 	data() {
 		let calendars = []
 		if (this.showHolidays) {
-			calendars = holidayCalendars.map(calendar => ({
+			calendars = holidayCalendars.map((calendar) => ({
 				...calendar,
 				displayName: t('calendar', 'Holidays in {region}', {
 					region: calendar.country,
@@ -97,7 +100,7 @@ export default {
 		} else {
 			try {
 				const state = loadState('calendar', 'publicCalendars')
-				calendars = JSON.parse(state).filter(calendar => {
+				calendars = JSON.parse(state).filter((calendar) => {
 					const isValid = isValidString(calendar.name)
 						&& isValidURL(calendar.source)
 						&& isValidString(calendar.displayName, true)
@@ -115,7 +118,7 @@ export default {
 		}
 		const subscribing = {}
 		const subscribed = {}
-		calendars.forEach(calendar => {
+		calendars.forEach((calendar) => {
 			subscribing[calendar.source] = false
 			subscribed[calendar.source] = false
 		})
@@ -127,14 +130,17 @@ export default {
 			subscriptions: [],
 		}
 	},
+
 	computed: {
 		...mapStores(useCalendarsStore),
 	},
+
 	async mounted() {
 		this.subscriptions = await findAllSubscriptions()
-		this.subscriptions.map(sub => (this.subscribed[sub.source] = true))
+		this.subscriptions.map((sub) => (this.subscribed[sub.source] = true))
 		this.loading = false
 	},
+
 	methods: {
 		async subscribe(calendar) {
 			try {

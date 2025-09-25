@@ -3,7 +3,8 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<NcSelect :value="selectedTimezone"
+	<NcSelect
+		:value="selectedTimezone"
 		:options="options"
 		:multiple="false"
 		:group-select="false"
@@ -18,10 +19,9 @@
 </template>
 
 <script>
+import { translate as t } from '@nextcloud/l10n'
 import { getReadableTimezoneName, getSortedTimezoneList } from '@nextcloud/timezones'
 import { NcSelect } from '@nextcloud/vue'
-import { translate as t } from '@nextcloud/l10n'
-
 import getTimezoneManager from '../../services/timezoneDataProviderService.js'
 
 export default {
@@ -29,20 +29,24 @@ export default {
 	components: {
 		NcSelect,
 	},
+
 	props: {
 		additionalTimezones: {
 			type: Array,
 			default: () => [],
 		},
+
 		value: {
 			type: String,
 			default: 'floating',
 		},
 	},
+
 	computed: {
 		placeholder() {
 			return this.$t('calendar', 'Type to search time zone')
 		},
+
 		selectedTimezone: {
 			get() {
 				for (const additionalTimezone of this.additionalTimezones) {
@@ -57,6 +61,7 @@ export default {
 				}
 			},
 		},
+
 		options() {
 			const timezoneManager = getTimezoneManager()
 			return getSortedTimezoneList(
@@ -67,6 +72,7 @@ export default {
 			)
 		},
 	},
+
 	methods: {
 		change(newValue) {
 			if (!newValue) {

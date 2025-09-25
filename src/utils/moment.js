@@ -59,7 +59,7 @@ async function getLocaleFor(locale) {
 		// default load e.g. en-de
 		await import(`moment/locale/${locale}.js`)
 		return locale
-	} catch (error) {
+	} catch {
 		const splitLocale = locale.split('-')
 		try {
 			// failure: fallback to first part of locale, which
@@ -67,7 +67,7 @@ async function getLocaleFor(locale) {
 			locale = splitLocale[0]
 			await import(`moment/locale/${locale}.js`)
 			return locale
-		} catch (e) {
+		} catch {
 			// failure, fallback to english
 			console.debug('Fallback to locale', 'en')
 			// English is the default locale and doesn't need to imported.

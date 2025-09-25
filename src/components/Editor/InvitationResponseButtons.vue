@@ -4,31 +4,36 @@
 -->
 
 <template>
-	<div class="invitation-response-buttons"
+	<div
+		class="invitation-response-buttons"
 		:class="{ 'invitation-response-buttons--grow': growHorizontally }">
-		<NcButton v-if="!isAccepted"
-			type="primary"
+		<NcButton
+			v-if="!isAccepted"
+			variant="primary"
 			class="invitation-response-buttons__button"
 			:disabled="loading"
 			@click="accept">
 			{{ t('calendar', 'Accept') }}
 		</NcButton>
-		<NcButton v-if="!isDeclined"
-			type="error"
+		<NcButton
+			v-if="!isDeclined"
+			variant="error"
 			class="invitation-response-buttons__button"
 			:disabled="loading"
 			@click="decline">
 			{{ t('calendar', 'Decline') }}
 		</NcButton>
 		<template v-if="!isTentative">
-			<NcButton v-if="!narrow"
+			<NcButton
+				v-if="!narrow"
 				class="invitation-response-buttons__button"
 				:disabled="loading"
 				@click="tentative">
 				{{ t('calendar', 'Tentative') }}
 			</NcButton>
 			<Actions v-else>
-				<ActionButton :disabled="loading"
+				<ActionButton
+					:disabled="loading"
 					@click="tentative">
 					<template #icon>
 						<CalendarQuestionIcon :size="20" />
@@ -41,16 +46,16 @@
 </template>
 
 <script>
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import {
-	NcActions as Actions,
 	NcActionButton as ActionButton,
+	NcActions as Actions,
 	NcButton,
 } from '@nextcloud/vue'
-import CalendarQuestionIcon from 'vue-material-design-icons/CalendarQuestionOutline.vue'
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import logger from '../../utils/logger.js'
-import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
 import { mapStores } from 'pinia'
+import CalendarQuestionIcon from 'vue-material-design-icons/CalendarQuestionOutline.vue'
+import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
+import logger from '../../utils/logger.js'
 
 export default {
 	name: 'InvitationResponseButtons',
@@ -60,41 +65,50 @@ export default {
 		NcButton,
 		CalendarQuestionIcon,
 	},
+
 	props: {
 		attendee: {
 			type: Object,
 			required: true,
 		},
+
 		calendarId: {
 			type: String,
 			required: true,
 		},
+
 		narrow: {
 			type: Boolean,
 			default: false,
 		},
+
 		growHorizontally: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	data() {
 		return {
 			loading: false,
 		}
 	},
+
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore),
 		isAccepted() {
 			return this.attendee.participationStatus === 'ACCEPTED'
 		},
+
 		isDeclined() {
 			return this.attendee.participationStatus === 'DECLINED'
 		},
+
 		isTentative() {
 			return this.attendee.participationStatus === 'TENTATIVE'
 		},
 	},
+
 	methods: {
 		async accept() {
 			try {
@@ -105,6 +119,7 @@ export default {
 				showError(this.t('calendar', 'Failed to accept the invitation.'))
 			}
 		},
+
 		async decline() {
 			try {
 				await this.setParticipationStatus('DECLINED')
@@ -114,6 +129,7 @@ export default {
 				showError(this.t('calendar', 'Failed to decline the invitation.'))
 			}
 		},
+
 		async tentative() {
 			try {
 				await this.setParticipationStatus('TENTATIVE')
@@ -123,6 +139,7 @@ export default {
 				showError(this.t('calendar', 'Failed to set the participation status to tentative.'))
 			}
 		},
+
 		/**
 		 * Set the participation status and save the event
 		 *

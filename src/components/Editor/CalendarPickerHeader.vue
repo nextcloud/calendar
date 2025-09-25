@@ -3,12 +3,14 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div class="calendar-picker-header"
+	<div
+		class="calendar-picker-header"
 		:class="{
 			'calendar-picker-header--readonly': isReadOnly,
 			'calendar-picker-header--has-warning': isViewedByAttendee,
 		}">
-		<NcActions type="tertiary"
+		<NcActions
+			variant="tertiary"
 			class="calendar-picker-header__picker"
 			:class="{
 				'calendar-picker-header__picker--has-menu': !isReadOnly && calendars.length > 1,
@@ -18,19 +20,22 @@
 			:disabled="isDisabled">
 			<template #icon>
 				<div class="calendar-picker-header__icon">
-					<div class="calendar-picker-header__icon__dot"
+					<div
+						class="calendar-picker-header__icon__dot"
 						:style="{ 'background-color': value.color }" />
 				</div>
 			</template>
 			<template>
-				<NcActionButton v-for="calendar in calendars"
+				<NcActionButton
+					v-for="calendar in calendars"
 					:key="calendar.id"
 					class="calendar-picker-header__picker__option"
 					:close-after-click="true"
 					@click="$emit('update:value', calendar)">
 					<template #icon>
 						<div class="calendar-picker-header__icon">
-							<div class="calendar-picker-header__icon__dot"
+							<div
+								class="calendar-picker-header__icon__dot"
 								:style="{ 'background-color': calendar.color }" />
 						</div>
 					</template>
@@ -42,7 +47,7 @@
 </template>
 
 <script>
-import { NcActions, NcActionButton } from '@nextcloud/vue'
+import { NcActionButton, NcActions } from '@nextcloud/vue'
 
 export default {
 	name: 'CalendarPickerHeader',
@@ -50,24 +55,29 @@ export default {
 		NcActions,
 		NcActionButton,
 	},
+
 	props: {
 		value: {
 			type: Object,
 			required: true,
 		},
+
 		calendars: {
 			type: Array,
 			required: true,
 		},
+
 		isReadOnly: {
 			type: Boolean,
 			required: true,
 		},
+
 		isViewedByAttendee: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
 	computed: {
 		/**
 		 * @return {boolean}
@@ -76,6 +86,7 @@ export default {
 			return this.isReadOnly || this.calendars.length < 2
 		},
 	},
+
 	mounted() {
 		// Taken from https://pictogrammers.com/library/mdi/icon/menu-down/
 		// Material Design icons by Google are available under the Apache 2.0 license

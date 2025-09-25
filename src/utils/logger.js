@@ -15,7 +15,7 @@ const logger = getLoggerBuilder()
  * @param {string} message The message to log
  * @param {object=} context Additional context if needed
  */
-const logDebug = (message, context = {}) => {
+function logDebug(message, context = {}) {
 	logger.debug(message, context)
 }
 
@@ -25,7 +25,7 @@ const logDebug = (message, context = {}) => {
  * @param {string} message The message to log
  * @param {object=} context Additional context if needed
  */
-const logError = (message, context = {}) => {
+function logError(message, context = {}) {
 	logger.error(message, context)
 }
 
@@ -35,7 +35,7 @@ const logError = (message, context = {}) => {
  * @param {string} message The message to log
  * @param {object=} context Additional context if needed
  */
-const logFatal = (message, context = {}) => {
+function logFatal(message, context = {}) {
 	logger.fatal(message, context)
 }
 
@@ -45,7 +45,7 @@ const logFatal = (message, context = {}) => {
  * @param {string} message The message to log
  * @param {object=} context Additional context if needed
  */
-const logInfo = (message, context = {}) => {
+function logInfo(message, context = {}) {
 	logger.info(message, context)
 }
 
@@ -55,7 +55,7 @@ const logInfo = (message, context = {}) => {
  * @param {string} message The message to log
  * @param {object=} context Additional context if needed
  */
-const logWarn = (message, context = {}) => {
+function logWarn(message, context = {}) {
 	logger.warn(message, context)
 }
 

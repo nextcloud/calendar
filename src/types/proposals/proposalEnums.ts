@@ -4,22 +4,22 @@
  */
 
 export enum ProposalParticipantStatus {
-  Pending = 'P',
-  Responded = 'R',
+	Pending = 'P',
+	Responded = 'R',
 }
 
 export enum ProposalParticipantRealm {
-  Internal = 'I',
-  External = 'E',
+	Internal = 'I',
+	External = 'E',
 }
 
 export enum ProposalParticipantAttendance {
-  Required = 'R',
-  Optional = 'O',
+	Required = 'R',
+	Optional = 'O',
 }
 
 export enum ProposalDateVote {
-  Yes = 'Y',
-  No = 'N',
-  Maybe = 'M',
+	Yes = 'Y',
+	No = 'N',
+	Maybe = 'M',
 }

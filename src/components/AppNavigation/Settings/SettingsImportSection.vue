@@ -5,12 +5,14 @@
 
 <template>
 	<div v-if="showProgressBar" class="settings-fieldset-interior-item settings-fieldset-interior-item--import-progress">
-		<progress class="settings-fieldset-interior-item__import-progress-bar"
+		<progress
+			class="settings-fieldset-interior-item__import-progress-bar"
 			:value="imported"
 			:max="total" />
 	</div>
 	<div v-else class="settings-fieldset-interior-item settings-fieldset-interior-item--import-action">
-		<NcButton :disabled="disableImport"
+		<NcButton
+			:disabled="disableImport"
 			:wide="true"
 			@click="$refs.importInput.click()">
 			<template #icon>
@@ -18,7 +20,8 @@
 			</template>
 			{{ $n('calendar', 'Import calendar', 'Import calendars', 1) }}
 		</NcButton>
-		<input :id="inputUid"
+		<input
+			:id="inputUid"
 			ref="importInput"
 			class="hidden"
 			type="file"
@@ -27,7 +30,8 @@
 			multiple
 			@change="processFiles">
 
-		<ImportScreen v-if="showImportModal"
+		<ImportScreen
+			v-if="showImportModal"
 			:files="files"
 			@cancel-import="cancelImport"
 			@import-calendar="importCalendar" />
@@ -36,27 +40,26 @@
 
 <script>
 import { getParserManager } from '@nextcloud/calendar-js'
-import ImportScreen from './ImportScreen.vue'
-import { readFileAsText } from '../../../services/readFileAsTextService.js'
 import {
+	showError,
 	showSuccess,
 	showWarning,
-	showError,
 } from '@nextcloud/dialogs'
+import { NcButton } from '@nextcloud/vue'
+import { mapState, mapStores } from 'pinia'
+import Upload from 'vue-material-design-icons/TrayArrowUp.vue'
+import ImportScreen from './ImportScreen.vue'
 import {
 	IMPORT_STAGE_AWAITING_USER_SELECT,
 	IMPORT_STAGE_DEFAULT,
 	IMPORT_STAGE_IMPORTING,
 	IMPORT_STAGE_PROCESSING,
 } from '../../../models/consts.js'
-
-import Upload from 'vue-material-design-icons/TrayArrowUp.vue'
-import useImportStateStore from '../../../store/importState.js'
-import useImportFilesStore from '../../../store/importFiles.js'
-import useCalendarsStore from '../../../store/calendars.js'
+import { readFileAsText } from '../../../services/readFileAsTextService.js'
 import useCalendarObjectsStore from '../../../store/calendarObjects.js'
-import { mapStores, mapState } from 'pinia'
-import { NcButton } from '@nextcloud/vue'
+import useCalendarsStore from '../../../store/calendars.js'
+import useImportFilesStore from '../../../store/importFiles.js'
+import useImportStateStore from '../../../store/importState.js'
 
 export default {
 	name: 'SettingsImportSection',
@@ -65,23 +68,27 @@ export default {
 		Upload,
 		NcButton,
 	},
+
 	props: {
 		isDisabled: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
 	computed: {
 		...mapStores(useImportStateStore, useImportFilesStore, useCalendarsStore, useCalendarObjectsStore),
 		...mapState(useImportFilesStore, {
 			files: 'importFiles',
 		}),
+
 		...mapState(useImportStateStore, {
 			stage: 'stage',
 			total: 'total',
 			accepted: 'accepted',
 			denied: 'denied',
 		}),
+
 		/**
 		 * Total amount of processed calendar-objects, either accepted or failed
 		 *
@@ -90,6 +97,7 @@ export default {
 		imported() {
 			return this.accepted + this.denied
 		},
+
 		/**
 		 * Whether or not to display the upload button
 		 *
@@ -98,6 +106,7 @@ export default {
 		allowUploadOfFiles() {
 			return this.stage === IMPORT_STAGE_DEFAULT
 		},
+
 		/**
 		 * Whether or not to display the import modal
 		 *
@@ -106,6 +115,7 @@ export default {
 		showImportModal() {
 			return this.stage === IMPORT_STAGE_AWAITING_USER_SELECT
 		},
+
 		/**
 		 * Whether or not to display progress bar
 		 *
@@ -114,6 +124,7 @@ export default {
 		showProgressBar() {
 			return this.stage === IMPORT_STAGE_IMPORTING
 		},
+
 		/**
 		 * Unique identifier for the input field.
 		 * Needed for the label
@@ -123,6 +134,7 @@ export default {
 		inputUid() {
 			return this._uid + '-import-input'
 		},
+
 		/**
 		 * Get a list of supported file-types for the file-picker
 		 *
@@ -135,6 +147,7 @@ export default {
 		supportedFileTypes() {
 			return getParserManager().getAllSupportedFileTypes()
 		},
+
 		/**
 		 * Whether or not the import button is disabled
 		 *
@@ -144,6 +157,7 @@ export default {
 			return this.isDisabled || !this.allowUploadOfFiles
 		},
 	},
+
 	methods: {
 		/**
 		 * Process all files submitted from the user
@@ -218,6 +232,7 @@ export default {
 
 			this.importStateStore.stage = IMPORT_STAGE_AWAITING_USER_SELECT
 		},
+
 		/**
 		 * Import all events into the calendars
 		 * This will show
@@ -241,6 +256,7 @@ export default {
 
 			this.resetInput()
 		},
+
 		/**
 		 * Resets the import sate
 		 */
@@ -249,6 +265,7 @@ export default {
 			this.importStateStore.resetState()
 			this.resetInput()
 		},
+
 		/**
 		 * Manually reset the file-input, because when you try to upload
 		 * the exact same files again, it won't trigger the change event

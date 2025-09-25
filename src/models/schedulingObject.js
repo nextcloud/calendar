@@ -21,40 +21,42 @@ import {
  * @param {object} props Scheduling-object-props already provided
  * @return {object}
  */
-const getDefaultSchedulingObject = (props = {}) => Object.assign({}, {
-	// Id of the scheduling-object
-	id: null,
-	// The cdav-library object storing the scheduling-object
-	dav: null,
-	// The parsed calendar-js object
-	calendarComponent: null,
-	// The uid of the scheduling-object
-	uid: null,
-	// Recurrence-id of the scheduling-object
-	recurrenceId: null,
-	// The uri of the scheduling-object
-	uri: null,
-	// The scheduling method
-	method: null,
-	// Whether or not the method is PUBLISH
-	isPublish: false,
-	// Whether or not the method is REQUEST
-	isRequest: false,
-	// Whether or not the method is REPLY
-	isReply: false,
-	// Whether or not the method is ADD
-	isAdd: false,
-	// Whether or not the method is CANCEL
-	isCancel: false,
-	// Whether or not the method is REFRESH
-	isRefresh: false,
-	// Whether or not the method is COUNTER
-	isCounter: false,
-	// Whether or not the method is DECLINECOUNTER
-	isDeclineCounter: false,
-	// Whether or not the scheduling-object exists on the server
-	existsOnServer: false,
-}, props)
+function getDefaultSchedulingObject(props = {}) {
+	return { // Id of the scheduling-object
+		id: null,
+		// The cdav-library object storing the scheduling-object
+		dav: null,
+		// The parsed calendar-js object
+		calendarComponent: null,
+		// The uid of the scheduling-object
+		uid: null,
+		// Recurrence-id of the scheduling-object
+		recurrenceId: null,
+		// The uri of the scheduling-object
+		uri: null,
+		// The scheduling method
+		method: null,
+		// Whether or not the method is PUBLISH
+		isPublish: false,
+		// Whether or not the method is REQUEST
+		isRequest: false,
+		// Whether or not the method is REPLY
+		isReply: false,
+		// Whether or not the method is ADD
+		isAdd: false,
+		// Whether or not the method is CANCEL
+		isCancel: false,
+		// Whether or not the method is REFRESH
+		isRefresh: false,
+		// Whether or not the method is COUNTER
+		isCounter: false,
+		// Whether or not the method is DECLINECOUNTER
+		isDeclineCounter: false,
+		// Whether or not the scheduling-object exists on the server
+		existsOnServer: false,
+		...props,
+	}
+}
 
 /**
  * Maps a calendar-object from c-dav to our calendar-object object
@@ -62,7 +64,7 @@ const getDefaultSchedulingObject = (props = {}) => Object.assign({}, {
  * @param {VObject} dav The c-dav VObject
  * @return {object}
  */
-const mapCDavObjectToSchedulingObject = (dav) => {
+function mapCDavObjectToSchedulingObject(dav) {
 	const parserManager = getParserManager()
 	const parser = parserManager.getParserForFileType('text/calendar', {
 		preserveMethod: true,
@@ -118,7 +120,7 @@ const mapCDavObjectToSchedulingObject = (dav) => {
  * @param {CalendarComponent} calendarComponent The calendarComponent to create the calendarObject from
  * @return {object}
  */
-const mapCalendarJsToSchedulingObject = (calendarComponent) => {
+function mapCalendarJsToSchedulingObject(calendarComponent) {
 	const firstVObject = getFirstObjectFromCalendarComponent(calendarComponent)
 
 	let recurrenceId = null
@@ -152,7 +154,7 @@ const mapCalendarJsToSchedulingObject = (calendarComponent) => {
  * @param {CalendarComponent} calendarComponent The calendar-component
  * @return {any} First VEvent / VJournal / VTodo / VFreeBusy
  */
-const getFirstObjectFromCalendarComponent = (calendarComponent) => {
+function getFirstObjectFromCalendarComponent(calendarComponent) {
 	const vObjectIterator = calendarComponent.getVObjectIterator()
 	const firstVObject = vObjectIterator.next().value
 	if (firstVObject) {
@@ -165,6 +167,6 @@ const getFirstObjectFromCalendarComponent = (calendarComponent) => {
 
 export {
 	getDefaultSchedulingObject,
-	mapCDavObjectToSchedulingObject,
 	mapCalendarJsToSchedulingObject,
+	mapCDavObjectToSchedulingObject,
 }

@@ -6,7 +6,8 @@
 <template>
 	<div class="proposal-participant__item">
 		<div class="proposal-participant__avatar">
-			<NcAvatar :user="participantName"
+			<NcAvatar
+				:user="participantName"
 				:display-name="participantName"
 				:disable-tooltip="true"
 				:is-no-user="true" />
@@ -17,7 +18,8 @@
 		<div class="proposal-participant__action">
 			<OptionalIcon v-if="!participantAttendance" />
 			<NcActions>
-				<NcActionButton :close-after-click="true"
+				<NcActionButton
+					:close-after-click="true"
 					@click="onParticipantAttendance">
 					<template #icon>
 						<RequiredIcon v-if="!participantAttendance" />
@@ -25,7 +27,8 @@
 					</template>
 					{{ !participantAttendance ? t('calendar', 'Attendance required') : t('calendar', 'Attendance optional') }}
 				</NcActionButton>
-				<NcActionButton :close-after-click="true"
+				<NcActionButton
+					:close-after-click="true"
 					@click="onParticipantRemove">
 					<template #icon>
 						<DestroyIcon />
@@ -38,18 +41,19 @@
 </template>
 
 <script lang="ts">
+import type { ProposalParticipantInterface } from '@/types/proposals/proposalInterfaces'
+
 // types, object and stores
 import { t } from '@nextcloud/l10n'
-import type { ProposalParticipantInterface } from '@/types/proposals/proposalInterfaces'
-import { ProposalParticipantAttendance, ProposalParticipantRealm } from '@/types/proposals/proposalEnums'
-// components
-import NcAvatar from '@nextcloud/vue/components/NcAvatar'
-import NcActions from '@nextcloud/vue/components/NcActions'
-import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import OptionalIcon from 'vue-material-design-icons/AccountQuestionOutline'
 // icons
 import RequiredIcon from 'vue-material-design-icons/AccountStarOutline'
-import OptionalIcon from 'vue-material-design-icons/AccountQuestionOutline'
 import DestroyIcon from 'vue-material-design-icons/TrashCanOutline'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+// components
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import { ProposalParticipantAttendance, ProposalParticipantRealm } from '@/types/proposals/proposalEnums'
 
 export default {
 	name: 'ProposalParticipantItem',
@@ -67,7 +71,6 @@ export default {
 		proposalParticipant: {
 			type: Object as () => ProposalParticipantInterface,
 			required: true,
-			default: null,
 		},
 	},
 

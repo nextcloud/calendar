@@ -5,14 +5,13 @@
 
 import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
+import { translate, translatePlural } from '@nextcloud/l10n'
 import { linkTo } from '@nextcloud/router'
 import Vue from 'vue'
-import { translate, translatePlural } from '@nextcloud/l10n'
-
 import Overview from '../views/Appointments/Overview.vue'
 
 // CSP config for webpack dynamic chunk loading
-// eslint-disable-next-line
+
 __webpack_nonce__ = btoa(getRequestToken())
 
 // Correct the root of the app for chunk loading
@@ -30,7 +29,7 @@ Vue.prototype.$n = translatePlural
 
 export default new Vue({
 	el: '#appointments-overview',
-	render: h => h(Overview, {
+	render: (h) => h(Overview, {
 		props: {
 			configs,
 			userInfo,

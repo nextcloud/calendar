@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<NcSelect :allow-empty="false"
+	<NcSelect
+		:allow-empty="false"
 		:options="options"
 		:value="selected"
 		:disabled="disabled"
@@ -24,6 +25,7 @@ export default {
 	components: {
 		NcSelect,
 	},
+
 	props: {
 		/**
 		 *
@@ -32,6 +34,7 @@ export default {
 			type: Number,
 			default: null,
 		},
+
 		/**
 		 *
 		 */
@@ -40,6 +43,7 @@ export default {
 			required: true,
 		},
 	},
+
 	computed: {
 		options() {
 			return [1, 2, 3, 4, 5, -2, -1].map((ordinal) => ({
@@ -47,10 +51,12 @@ export default {
 				value: ordinal,
 			}))
 		},
+
 		selected() {
-			return this.options.find(option => option.value === this.bySetPosition)
+			return this.options.find((option) => option.value === this.bySetPosition)
 		},
 	},
+
 	methods: {
 		select(value) {
 			if (!value) {

@@ -9,7 +9,8 @@
 			{{ $t('calendar', 'Default attachments location') }}
 		</label>
 		<div class="form-group">
-			<NcInputField :id="inputId"
+			<NcInputField
+				:id="inputId"
 				v-model="attachmentsFolder"
 				type="text"
 				:label-outside="true"
@@ -22,29 +23,31 @@
 </template>
 
 <script>
-/* eslint-disable-next-line n/no-missing-import */
-import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
-import debounce from 'debounce'
 import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'
-import { randomId } from '../../../utils/randomId.js'
+import debounce from 'debounce'
+import { mapState, mapStores } from 'pinia'
+import NcInputField from '@nextcloud/vue/components/NcInputField'
 import useSettingsStore from '../../../store/settings.js'
-import { mapStores, mapState } from 'pinia'
 import logger from '../../../utils/logger.js'
+import { randomId } from '../../../utils/randomId.js'
 
 export default {
 	name: 'SettingsAttachmentsFolder',
 	components: {
 		NcInputField,
 	},
+
 	computed: {
 		...mapStores(useSettingsStore),
 		...mapState(useSettingsStore, {
-			attachmentsFolder: store => store.attachmentsFolder || '/',
+			attachmentsFolder: (store) => store.attachmentsFolder || '/',
 		}),
+
 		inputId() {
 			return `input-${randomId()}`
 		},
 	},
+
 	methods: {
 		async selectCalendarFolder() {
 			const picker = getFilePickerBuilder(t('calendar', 'Select the default location for attachments'))
@@ -60,9 +63,11 @@ export default {
 			const path = await picker.pick()
 			this.saveAttachmentsFolder(path)
 		},
+
 		debounceSaveAttachmentsFolder: debounce(function(...args) {
 			this.saveAttachmentsFolder(...args)
 		}, 300),
+
 		saveAttachmentsFolder(path) {
 			if (typeof path !== 'string' || path.trim() === '' || !path.startsWith('/')) {
 				showError(t('calendar', 'Invalid location selected'))

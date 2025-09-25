@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<NcSelect :allow-empty="false"
+	<NcSelect
+		:allow-empty="false"
 		:options="options"
 		:value="selected"
 		:disabled="disabled"
@@ -22,24 +23,29 @@ export default {
 	components: {
 		NcSelect,
 	},
+
 	props: {
 		unit: {
 			type: String,
 			required: true,
 		},
+
 		isAllDay: {
 			type: Boolean,
 			required: true,
 		},
+
 		count: {
 			type: Number,
 			required: true,
 		},
+
 		disabled: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
 	computed: {
 		/**
 		 * This returns a list of options for the unit select.
@@ -81,15 +87,17 @@ export default {
 
 			return options
 		},
+
 		/**
 		 * This is the selected option
 		 *
 		 * @return {object}
 		 */
 		selected() {
-			return this.options.find(o => o.unit === this.unit)
+			return this.options.find((o) => o.unit === this.unit)
 		},
 	},
+
 	methods: {
 		/**
 		 * This triggers the change event when the user selected a new unit

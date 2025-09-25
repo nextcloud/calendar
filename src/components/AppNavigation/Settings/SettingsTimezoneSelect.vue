@@ -8,7 +8,8 @@
 		<label :for="inputId">
 			{{ $t('calendar', 'Timezone') }}
 		</label>
-		<TimezonePicker :uid="inputId"
+		<TimezonePicker
+			:uid="inputId"
 			:additional-timezones="additionalTimezones"
 			:value="timezone"
 			@input="setTimezoneValue" />
@@ -16,33 +17,37 @@
 </template>
 
 <script>
-import { NcTimezonePicker as TimezonePicker } from '@nextcloud/vue'
-import { randomId } from '../../../utils/randomId.js'
 import {
 	showInfo,
 } from '@nextcloud/dialogs'
+import { NcTimezonePicker as TimezonePicker } from '@nextcloud/vue'
+import { mapState, mapStores } from 'pinia'
 import useSettingsStore from '../../../store/settings.js'
-import { mapStores, mapState } from 'pinia'
+import { randomId } from '../../../utils/randomId.js'
 
 export default {
 	name: 'SettingsTimezoneSelect',
 	components: {
 		TimezonePicker,
 	},
+
 	props: {
 		isDisabled: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
 	computed: {
 		...mapStores(useSettingsStore),
 		...mapState(useSettingsStore, {
-			timezone: store => store.timezone || 'automatic',
+			timezone: (store) => store.timezone || 'automatic',
 		}),
+
 		inputId() {
 			return `input-${randomId()}`
 		},
+
 		/**
 		 * Offer "Automatic" as an additional timezone
 		 *
@@ -57,6 +62,7 @@ export default {
 			}]
 		},
 	},
+
 	methods: {
 		/**
 		 * Updates the timezone set by the user

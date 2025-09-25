@@ -11,28 +11,34 @@
 				{{ alarm | formatAlarm(isAllDay, currentUserTimezone, locale) }}
 			</div>
 		</div>
-		<div v-if="isEditing && isRelativeAlarm && !isAllDay"
+		<div
+			v-if="isEditing && isRelativeAlarm && !isAllDay"
 			class="property-alarm-item__edit property-alarm-item__edit--timed">
-			<input type="number"
+			<input
+				type="number"
 				min="0"
 				max="3600"
 				:value="alarm.relativeAmountTimed"
 				@input="changeRelativeAmountTimed">
-			<AlarmTimeUnitSelect :is-all-day="isAllDay"
+			<AlarmTimeUnitSelect
+				:is-all-day="isAllDay"
 				:count="alarm.relativeAmountTimed"
 				:unit="alarm.relativeUnitTimed"
 				:disabled="false"
 				@change="changeRelativeUnitTimed" />
 		</div>
-		<div v-if="isEditing && isRelativeAlarm && isAllDay"
+		<div
+			v-if="isEditing && isRelativeAlarm && isAllDay"
 			class="property-alarm-item__edit property-alarm-item__edit--all-day">
 			<div class="property-alarm-item__edit--all-day__distance">
-				<input type="number"
+				<input
+					type="number"
 					min="0"
 					max="3600"
 					:value="alarm.relativeAmountAllDay"
 					@input="changeRelativeAmountAllDay">
-				<AlarmTimeUnitSelect :is-all-day="isAllDay"
+				<AlarmTimeUnitSelect
+					:is-all-day="isAllDay"
 					:count="alarm.relativeAmountAllDay"
 					:unit="alarm.relativeUnitAllDay"
 					:disabled="false"
@@ -43,45 +49,54 @@
 				<span class="property-alarm-item__edit--all-day__time__before-at-label">
 					{{ $t('calendar', 'before at') }}
 				</span>
-				<TimePicker :date="relativeAllDayDate"
+				<TimePicker
+					:date="relativeAllDayDate"
 					@change="changeRelativeHourMinuteAllDay" />
 			</div>
 		</div>
-		<div v-if="isEditing && isAbsoluteAlarm"
+		<div
+			v-if="isEditing && isAbsoluteAlarm"
 			class="property-alarm-item__edit property-alarm-item__edit--absolute">
-			<DatePicker prefix="on"
+			<DatePicker
+				prefix="on"
 				:date="alarm.absoluteDate"
 				:timezone-id="alarm.absoluteTimezoneId"
 				:is-all-day="false"
 				@change="changeAbsoluteDate"
 				@change-timezone="changeAbsoluteTimezoneId" />
 		</div>
-		<div v-if="!isReadOnly"
+		<div
+			v-if="!isReadOnly"
 			class="property-alarm-item__options">
-			<Actions :open="showMenu"
+			<Actions
+				:open="showMenu"
 				@update:open="(open) => showMenu = open">
-				<ActionRadio v-if="canChangeAlarmType || (!isAlarmTypeDisplay && forceEventAlarmType === 'DISPLAY')"
+				<ActionRadio
+					v-if="canChangeAlarmType || (!isAlarmTypeDisplay && forceEventAlarmType === 'DISPLAY')"
 					:name="alarmTypeName"
 					value="DISPLAY"
 					:model-value="alarmType"
 					@update:modelValue="changeType('DISPLAY')">
 					{{ $t('calendar', 'Notification') }}
 				</ActionRadio>
-				<ActionRadio v-if="canChangeAlarmType || (!isAlarmTypeEmail && forceEventAlarmType === 'EMAIL')"
+				<ActionRadio
+					v-if="canChangeAlarmType || (!isAlarmTypeEmail && forceEventAlarmType === 'EMAIL')"
 					:name="alarmTypeName"
 					value="EMAIL"
 					:model-value="alarmType"
 					@update:modelValue="changeType('EMAIL')">
 					{{ $t('calendar', 'Email') }}
 				</ActionRadio>
-				<ActionRadio v-if="canChangeAlarmType && isAlarmTypeAudio"
+				<ActionRadio
+					v-if="canChangeAlarmType && isAlarmTypeAudio"
 					:name="alarmTypeName"
 					value="AUDIO"
 					:model-value="alarmType"
 					@update:modelValue="changeType('AUDIO')">
 					{{ $t('calendar', 'Audio notification') }}
 				</ActionRadio>
-				<ActionRadio v-if="canChangeAlarmType && isAlarmTypeOther"
+				<ActionRadio
+					v-if="canChangeAlarmType && isAlarmTypeOther"
 					:name="alarmTypeName"
 					:value="isAlarmTypeOther ?? alarmType"
 					:model-value="alarmType"
@@ -91,14 +106,16 @@
 
 				<ActionSeparator v-if="canChangeAlarmType && !isRecurring" />
 
-				<ActionRadio v-if="!isRecurring"
+				<ActionRadio
+					v-if="!isRecurring"
 					:name="alarmTriggerName"
 					value="RELATIVE"
 					:model-value="alarmRelationType"
 					@update:modelValue="switchToRelativeAlarm">
 					{{ $t('calendar', 'Relative to event') }}
 				</ActionRadio>
-				<ActionRadio v-if="!isRecurring"
+				<ActionRadio
+					v-if="!isRecurring"
 					:name="alarmTriggerName"
 					value="ABSOLUTE"
 					:model-value="alarmRelationType"
@@ -108,14 +125,16 @@
 
 				<ActionSeparator />
 
-				<ActionButton v-if="canEdit && !isEditing"
+				<ActionButton
+					v-if="canEdit && !isEditing"
 					@click.stop="toggleEditAlarm">
 					<template #icon>
 						<Pencil :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'Edit time') }}
 				</ActionButton>
-				<ActionButton v-if="canEdit && isEditing"
+				<ActionButton
+					v-if="canEdit && isEditing"
 					@click="toggleEditAlarm">
 					<template #icon>
 						<Check :size="20" decorative />
@@ -135,24 +154,23 @@
 </template>
 
 <script>
+import moment from '@nextcloud/moment'
 import {
-	NcActions as Actions,
 	NcActionButton as ActionButton,
 	NcActionRadio as ActionRadio,
+	NcActions as Actions,
 	NcActionSeparator as ActionSeparator,
 } from '@nextcloud/vue'
-import formatAlarm from '../../../filters/alarmFormat.js'
-import AlarmTimeUnitSelect from './AlarmTimeUnitSelect.vue'
-import moment from '@nextcloud/moment'
-import TimePicker from '../../Shared/TimePicker.vue'
-import DatePicker from '../../Shared/DatePicker.vue'
+import { mapState, mapStores } from 'pinia'
 import Check from 'vue-material-design-icons/CheckOutline.vue'
-import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
-
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
+import DatePicker from '../../Shared/DatePicker.vue'
+import TimePicker from '../../Shared/TimePicker.vue'
+import AlarmTimeUnitSelect from './AlarmTimeUnitSelect.vue'
+import formatAlarm from '../../../filters/alarmFormat.js'
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
 import useSettingsStore from '../../../store/settings.js'
-import { mapStores, mapState } from 'pinia'
 
 export default {
 	name: 'AlarmListItem',
@@ -168,39 +186,47 @@ export default {
 		Delete,
 		Pencil,
 	},
+
 	filters: {
 		formatAlarm,
 	},
+
 	props: {
 		alarm: {
 			type: Object,
 			required: true,
 		},
+
 		calendarObjectInstance: {
 			type: Object,
 			required: true,
 		},
+
 		isReadOnly: {
 			type: Boolean,
 			required: true,
 		},
+
 		showIcon: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			isEditing: false,
 			showMenu: false,
 		}
 	},
+
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore, useSettingsStore),
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',
 			forceEventAlarmType: 'forceEventAlarmType',
 		}),
+
 		canEdit() {
 			// You can always edit an alarm if it's absolute
 			if (!this.isRelative) {
@@ -227,6 +253,7 @@ export default {
 
 			return true
 		},
+
 		/**
 		 * Changing the alarm type is allowed if the alarm type does
 		 * not match the forceEventAlarmType (yet).
@@ -237,45 +264,59 @@ export default {
 		canChangeAlarmType() {
 			return this.alarm.type !== this.forceEventAlarmType
 		},
+
 		alarmType() {
 			return this.alarm.type || 'DISPLAY'
 		},
+
 		alarmTypeName() {
 			return this._uid + '-radio-type-name'
 		},
+
 		alarmTriggerName() {
 			return this._uid + '-radio-trigger-name'
 		},
+
 		alarmRelationType() {
 			return this.isRelativeAlarm ? 'RELATIVE' : 'ABSOLUTE'
 		},
+
 		isAlarmTypeDisplay() {
 			return this.alarm.type === 'DISPLAY'
 		},
+
 		isAlarmTypeEmail() {
 			return this.alarm.type === 'EMAIL'
 		},
+
 		isAlarmTypeAudio() {
 			return this.alarm.type === 'AUDIO'
 		},
+
 		isAlarmTypeOther() {
 			return !['AUDIO', 'DISPLAY', 'EMAIL'].includes(this.alarm.type)
 		},
+
 		isRelativeAlarm() {
 			return this.alarm.relativeTrigger !== null
 		},
+
 		isAbsoluteAlarm() {
 			return !this.isRelativeAlarm
 		},
+
 		currentUserTimezone() {
 			return this.settingsStore.getResolvedTimezone
 		},
+
 		isAllDay() {
 			return this.calendarObjectInstance.isAllDay
 		},
+
 		isRecurring() {
 			return this.calendarObjectInstance.recurrenceRule.frequency !== 'NONE'
 		},
+
 		relativeAllDayDate() {
 			const date = new Date()
 			date.setHours(this.alarm.relativeHoursAllDay)
@@ -283,9 +324,11 @@ export default {
 
 			return date
 		},
+
 		timeFormat() {
 			return moment.localeData().longDateFormat('LT')
 		},
+
 		absoluteDateFormat() {
 			return [
 				'[',
@@ -299,6 +342,7 @@ export default {
 			].join('')
 		},
 	},
+
 	methods: {
 		/**
 		 * This method enables the editing mode
@@ -311,6 +355,7 @@ export default {
 				this.showMenu = false
 			}
 		},
+
 		/**
 		 * Changes the type of the reminder
 		 *
@@ -322,6 +367,7 @@ export default {
 				type,
 			})
 		},
+
 		/**
 		 * Switches from absolute to relative alarm
 		 */
@@ -335,6 +381,7 @@ export default {
 				alarm: this.alarm,
 			})
 		},
+
 		/**
 		 * Switches from relative to absolute alarm
 		 */
@@ -348,12 +395,14 @@ export default {
 				alarm: this.alarm,
 			})
 		},
+
 		/**
 		 * This method emits the removeAlarm event
 		 */
 		removeAlarm() {
 			this.$emit('remove-alarm', this.alarm)
 		},
+
 		/**
 		 * changes the relative amount entered in timed mode
 		 *
@@ -371,6 +420,7 @@ export default {
 				})
 			}
 		},
+
 		/**
 		 * changes the relative unit entered in timed mode
 		 *
@@ -382,6 +432,7 @@ export default {
 				unit,
 			})
 		},
+
 		/**
 		 * changes the relative amount entered in all-day
 		 *
@@ -399,6 +450,7 @@ export default {
 				})
 			}
 		},
+
 		/**
 		 * changes the relative unit entered in all-day mode
 		 *
@@ -410,6 +462,7 @@ export default {
 				unit,
 			})
 		},
+
 		/**
 		 * Changes the time entered in all-day mode
 		 *
@@ -425,6 +478,7 @@ export default {
 				minutes,
 			})
 		},
+
 		/**
 		 * Changes the date of the absolute alarm
 		 *
@@ -436,6 +490,7 @@ export default {
 				date,
 			})
 		},
+
 		/**
 		 * Changes the time zone of the absolute alarm
 		 *

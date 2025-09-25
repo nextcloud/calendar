@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { translatePlural as n, translate as t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 
 /**
@@ -32,19 +32,25 @@ export default (alarm, isAllDay, currentUserTimezone, locale) => {
 
 			if (alarm.relativeTrigger < 0) {
 				if (alarm.relativeUnitAllDay === 'days') {
-					return n('calendar',
+					return n(
+						'calendar',
 						'%n day before the event at {formattedHourMinute}',
 						'%n days before the event at {formattedHourMinute}',
-						alarm.relativeAmountAllDay, {
+						alarm.relativeAmountAllDay,
+						{
 							formattedHourMinute,
-						})
+						},
+					)
 				} else {
-					return n('calendar',
+					return n(
+						'calendar',
 						'%n week before the event at {formattedHourMinute}',
 						'%n weeks before the event at {formattedHourMinute}',
-						alarm.relativeAmountAllDay, {
+						alarm.relativeAmountAllDay,
+						{
 							formattedHourMinute,
-						})
+						},
+					)
 				}
 			}
 			return t('calendar', 'on the day of the event at {formattedHourMinute}', {

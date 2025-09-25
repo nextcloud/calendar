@@ -7,14 +7,16 @@
 	<div class="checked-duration-select">
 		<div class="checked-duration-select__checkbox-row">
 			<div class="checked-duration-select__checkbox-row__input-wrapper">
-				<input :id="id"
+				<input
+					:id="id"
 					:checked="enabled"
 					type="checkbox"
 					@input="$emit('update:enabled', $event.target.checked)">
 			</div>
 			<label :for="id">{{ label }}</label>
 		</div>
-		<DurationSelect class="checked-duration-select__duration"
+		<DurationSelect
+			class="checked-duration-select__duration"
 			:allow-zero="defaultValue === 0"
 			:disabled="!enabled"
 			:value="valueOrDefault"
@@ -33,37 +35,45 @@ export default {
 	components: {
 		DurationSelect,
 	},
+
 	props: {
 		label: {
 			type: String,
 			required: true,
 		},
+
 		value: {
 			type: Number,
 			default: 0,
 		},
+
 		defaultValue: {
 			type: Number,
 			default: 0,
 		},
+
 		enabled: {
 			type: Boolean,
 			required: true,
 		},
+
 		min: {
 			type: Number,
 			default: 0,
 		},
+
 		max: {
 			type: [Number, null, undefined],
 			default: 60 * 60,
 		},
 	},
+
 	data() {
 		return {
 			id: randomId(),
 		}
 	},
+
 	computed: {
 		valueOrDefault() {
 			return this.value ?? this.defaultValue

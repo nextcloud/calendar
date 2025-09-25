@@ -11,7 +11,6 @@ import logger from '../../utils/logger.js'
  * Our own FullCalendar Timezone implementation based on the VTimezones we ship
  */
 class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
-
 	/**
 	 * gets UTC offset for given date of this timezone
 	 *
@@ -51,7 +50,6 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 
 		return timestampArray
 	}
-
 }
 
 export default createPlugin({

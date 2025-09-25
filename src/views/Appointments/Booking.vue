@@ -7,7 +7,8 @@
 	<NcGuestContent class="booking-wrapper">
 		<div v-if="!selectedSlot && !bookingConfirmed" class="booking">
 			<div class="booking__config-user-info">
-				<Avatar :user="userInfo.uid"
+				<Avatar
+					:user="userInfo.uid"
 					:display-name="userInfo.displayName"
 					:disable-tooltip="true"
 					:disable-menu="true"
@@ -26,14 +27,16 @@
 					{{ $t('calendar', 'Select a date') }}
 				</h5>
 				<div class="booking__date">
-					<DateTimePicker v-model="selectedDate"
+					<DateTimePicker
+						v-model="selectedDate"
 						:disabled-date="disabledDate"
 						type="date"
 						:open="true"
 						@change="fetchSlots" />
 				</div>
 				<div class="booking__time-zone">
-					<TimezonePicker v-model="timeZone"
+					<TimezonePicker
+						v-model="timeZone"
 						:aria-label="$t('calendar', 'Select a date')"
 						@change="fetchSlots" />
 				</div>
@@ -42,11 +45,13 @@
 				<h5>{{ $t('calendar', 'Select slot') }}</h5>
 				<div class="booking__slots">
 					<Loading v-if="loadingSlots" class="loading" :size="24" />
-					<NcEmptyContent v-else-if="slots.length === 0 && !loadingSlots"
+					<NcEmptyContent
+						v-else-if="slots.length === 0 && !loadingSlots"
 						:title="$t('calendar', 'No slots available')"
 						:description="$t('calendar', 'No slots available')" />
 					<template v-else>
-						<AppointmentSlot v-for="slot in slots"
+						<AppointmentSlot
+							v-for="slot in slots"
 							:key="slot.start"
 							:start="slot.start"
 							:end="slot.end"
@@ -56,7 +61,8 @@
 				</div>
 			</div>
 		</div>
-		<AppointmentDetails v-else-if="selectedSlot && !bookingConfirmed"
+		<AppointmentDetails
+			v-else-if="selectedSlot && !bookingConfirmed"
 			:key="selectedSlot.start"
 			:user-info="userInfo"
 			:config="config"
@@ -70,28 +76,28 @@
 			@close="selectedSlot = undefined"
 			@go-back="selectedSlot = undefined" />
 
-		<AppointmentBookingConfirmation v-else
+		<AppointmentBookingConfirmation
+			v-else
 			@close="bookingConfirmed = false" />
 	</NcGuestContent>
 </template>
 
 <script>
-import '@nextcloud/dialogs/style.css'
-
+import { showError } from '@nextcloud/dialogs'
 import {
 	NcAvatar as Avatar,
 	NcDateTimePicker as DateTimePicker,
-	NcTimezonePicker as TimezonePicker,
-	NcGuestContent,
 	NcEmptyContent,
+	NcGuestContent,
+	NcTimezonePicker as TimezonePicker,
 } from '@nextcloud/vue'
 import MDILoading from 'vue-material-design-icons/Loading.vue'
-import { showError } from '@nextcloud/dialogs'
-
+import AppointmentBookingConfirmation from '../../components/Appointments/AppointmentBookingConfirmation.vue'
+import AppointmentDetails from '../../components/Appointments/AppointmentDetails.vue'
 import AppointmentSlot from '../../components/Appointments/AppointmentSlot.vue'
 import { bookSlot, findSlots } from '../../services/appointmentService.js'
-import AppointmentDetails from '../../components/Appointments/AppointmentDetails.vue'
-import AppointmentBookingConfirmation from '../../components/Appointments/AppointmentBookingConfirmation.vue'
+
+import '@nextcloud/dialogs/style.css'
 
 const Loading = {
 	functional: true,
@@ -117,20 +123,24 @@ export default {
 		Loading,
 		NcEmptyContent,
 	},
+
 	props: {
 		config: {
 			required: true,
 			type: Object,
 		},
+
 		userInfo: {
 			required: true,
 			type: Object,
 		},
+
 		visitorInfo: {
 			required: true,
 			type: Object,
 		},
 	},
+
 	data() {
 		// Try to determine the current timezone, and fall back to UTC otherwise
 		const defaultTimeZoneId = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
@@ -164,18 +174,22 @@ export default {
 			bookingRateLimit: false,
 		}
 	},
+
 	watch: {
 		timeZone() {
 			// TODO: fix the @nextcloud/vue component to emit @change
 			this.fetchSlots()
 		},
+
 		selectedSlot() {
 			this.bookingError = false
 		},
 	},
+
 	async mounted() {
 		await this.fetchSlots()
 	},
+
 	methods: {
 		/**
 		 * Whether the date is acceptable
@@ -189,13 +203,14 @@ export default {
 			}
 			return this.endDate && this.endDate < date
 		},
+
 		async fetchSlots() {
 			this.slots = []
 			this.loadingSlots = true
 
 			const selectedDay = this.selectedDate.getFullYear().toString() + '-'
-								+ (this.selectedDate.getMonth() + 1).toString() + '-'
-								+ this.selectedDate.getDate().toString()
+				+ (this.selectedDate.getMonth() + 1).toString() + '-'
+				+ this.selectedDate.getDate().toString()
 
 			try {
 				this.slots = await findSlots(
@@ -210,6 +225,7 @@ export default {
 				this.loadingSlots = false
 			}
 		},
+
 		async onSave({ slot, displayName, email, description, timeZone }) {
 			this.bookingLoading = true
 			console.info('slot will be booked', {
@@ -239,8 +255,8 @@ export default {
 			} finally {
 				this.bookingLoading = false
 			}
-
 		},
+
 		onSlotClicked(slot) {
 			this.selectedSlot = slot
 		},

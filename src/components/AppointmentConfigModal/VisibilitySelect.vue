@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<SelectWrapper :label="label"
+	<SelectWrapper
+		:label="label"
 		:value="value"
 		:disabled="disabled"
 		:options="options"
@@ -19,20 +20,24 @@ export default {
 	components: {
 		SelectWrapper,
 	},
+
 	props: {
 		label: {
 			type: String,
 			default: '',
 		},
+
 		value: {
 			type: String,
 			default: 'PUBLIC',
 		},
+
 		disabled: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	data() {
 		return {
 			options: [

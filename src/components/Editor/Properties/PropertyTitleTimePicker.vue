@@ -4,18 +4,23 @@
 -->
 
 <template>
-	<div class="property-title-time-picker"
+	<div
+		class="property-title-time-picker"
 		:class="{ 'property-title-time-picker--readonly': isReadOnly, 'property-title-time-picker__wrap': wrap }">
-		<CalendarIcon v-if="isReadOnly"
+		<CalendarIcon
+			v-if="isReadOnly"
 			class="property-title-time-picker__icon"
 			:size="20" />
 
-		<div v-if="!isReadOnly"
+		<div
+			v-if="!isReadOnly"
 			class="property-title-time-picker__time-pickers">
-			<div :class="{ 'property-title-time-picker__time-pickers--all-day': isAllDay}"
+			<div
+				:class="{ 'property-title-time-picker__time-pickers--all-day': isAllDay }"
 				class="property-title-time-picker__time-pickers__inner">
-				<NcButton v-if="!showTimezoneSelect && (!isAllDay || isMobile)"
-					type="tertiary"
+				<NcButton
+					v-if="!showTimezoneSelect && (!isAllDay || isMobile)"
+					variant="tertiary"
 					@click="showTimezoneSelect = !showTimezoneSelect">
 					<template>
 						<span class="property-title-time-picker__button">
@@ -31,20 +36,24 @@
 					</div>
 					<div class="property-title-time-picker__time-pickers-from-inner">
 						<div class="property-title-time-picker__time-pickers-from-inner__selectors">
-							<DatePicker :date="startDate"
+							<DatePicker
+								:date="startDate"
 								prefix="from"
 								@change="changeStartDate" />
-							<DatePicker v-if="!isAllDay"
+							<DatePicker
+								v-if="!isAllDay"
 								:date="startDate"
 								type="time"
 								@change="changeStartTime" />
 						</div>
 						<div v-if="showTimezoneSelect && !isAllDay" class="property-title-time-picker__time-pickers-from-inner__timezone">
-							<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay"
+							<NcTimezonePicker
+								v-if="showTimezoneSelect && !isAllDay"
 								:value="startTimezone"
 								@input="changeStartTimezone" />
-							<NcButton v-if="!showTimezoneSelect && !isAllDay && !isMobile"
-								type="tertiary"
+							<NcButton
+								v-if="!showTimezoneSelect && !isAllDay && !isMobile"
+								variant="tertiary"
 								@click="showTimezoneSelect = !showTimezoneSelect">
 								<template>
 									<span class="property-title-time-picker__button">
@@ -64,10 +73,12 @@
 					</div>
 					<div class="property-title-time-picker__time-pickers-to-inner">
 						<div class="property-title-time-picker__time-pickers-from-inner__selectors">
-							<DatePicker :date="endDate"
+							<DatePicker
+								:date="endDate"
 								prefix="to"
 								@change="changeEndDate" />
-							<DatePicker v-if="!isAllDay"
+							<DatePicker
+								v-if="!isAllDay"
 								:date="endDate"
 								type="time"
 								@change="changeEndTime" />
@@ -79,13 +90,15 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="isReadOnly"
+		<div
+			v-if="isReadOnly"
 			class="property-title-time-picker__time-pickers property-title-time-picker__time-pickers--readonly">
 			<div class="property-title-time-picker-read-only-wrapper property-title-time-picker-read-only-wrapper--start-date">
 				<div class="property-title-time-picker-read-only-wrapper__label">
 					{{ formattedStart }}
 				</div>
-				<IconTimezone v-if="!isAllDay"
+				<IconTimezone
+					v-if="!isAllDay"
 					:title="startTimezone"
 					:class="{ 'highlighted-timezone-icon': highlightTimezones }"
 					:size="20" />
@@ -98,7 +111,8 @@
 					<div class="property-title-time-picker-read-only-wrapper__label">
 						{{ formattedEnd }}
 					</div>
-					<IconTimezone v-if="!isAllDay"
+					<IconTimezone
+						v-if="!isAllDay"
 						:title="endTimezone"
 						:class="{ 'highlighted-timezone-icon': highlightTimezones }"
 						:size="20" />
@@ -113,13 +127,13 @@
 
 <script>
 import moment from '@nextcloud/moment'
-import DatePicker from '../../Shared/DatePicker.vue'
-import IconTimezone from 'vue-material-design-icons/Web.vue'
-import CalendarIcon from 'vue-material-design-icons/CalendarOutline.vue'
-import { NcTimezonePicker, NcButton } from '@nextcloud/vue'
-import { mapState } from 'pinia'
-import useSettingsStore from '../../../store/settings.js'
+import { NcButton, NcTimezonePicker } from '@nextcloud/vue'
 import { debounce } from 'lodash'
+import { mapState } from 'pinia'
+import CalendarIcon from 'vue-material-design-icons/CalendarOutline.vue'
+import IconTimezone from 'vue-material-design-icons/Web.vue'
+import DatePicker from '../../Shared/DatePicker.vue'
+import useSettingsStore from '../../../store/settings.js'
 
 export default {
 	name: 'PropertyTitleTimePicker',
@@ -130,6 +144,7 @@ export default {
 		NcButton,
 		NcTimezonePicker,
 	},
+
 	props: {
 		/**
 		 * Whether or not the editor is viewed in read-only
@@ -138,6 +153,7 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+
 		/**
 		 * Start date of the event
 		 */
@@ -145,6 +161,7 @@ export default {
 			type: Date,
 			required: true,
 		},
+
 		/**
 		 * Timezone of the start date
 		 */
@@ -152,6 +169,7 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		/**
 		 * End date of the event
 		 */
@@ -159,6 +177,7 @@ export default {
 			type: Date,
 			required: true,
 		},
+
 		/**
 		 * Timezone of the end date
 		 */
@@ -166,6 +185,7 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		/**
 		 * Whether or not the event is all-day
 		 */
@@ -173,6 +193,7 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+
 		/**
 		 * Whether or not the user can toggle the all-day property
 		 * This is set to false, whenever this event is part of a recurrence-set
@@ -181,6 +202,7 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+
 		/**
 		 * The current timezone of the user
 		 * This is used to highlight if the event is in a different timezone
@@ -189,11 +211,13 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		wrap: {
 			type: Boolean,
 			default: true,
 		},
 	},
+
 	data() {
 		return {
 			/**
@@ -203,10 +227,12 @@ export default {
 			windowWidth: window.innerWidth,
 		}
 	},
+
 	computed: {
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',
 		}),
+
 		/**
 		 * Tooltip for the All-day checkbox.
 		 * If the all-day checkbox is disabled, this tooltip gives an explanation to the user
@@ -224,6 +250,7 @@ export default {
 
 			return this.$t('calendar', 'Cannot modify all-day setting for events that are part of a recurrence-set.')
 		},
+
 		/**
 		 *
 		 * @return {string}
@@ -235,6 +262,7 @@ export default {
 
 			return moment(this.startDate).locale(this.locale).format('lll')
 		},
+
 		/**
 		 *
 		 * @return {string}
@@ -246,12 +274,14 @@ export default {
 
 			return moment(this.endDate).locale(this.locale).format('lll')
 		},
+
 		/**
 		 * @return {boolean}
 		 */
 		highlightTimezones() {
 			return this.startTimezone !== this.userTimezone || this.endTimezone !== this.userTimezone
 		},
+
 		/**
 		 * True if the event is an all day event, starts and ends on the same date
 		 *
@@ -263,10 +293,12 @@ export default {
 				&& this.startDate.getMonth() === this.endDate.getMonth()
 				&& this.startDate.getFullYear() === this.endDate.getFullYear()
 		},
+
 		isMobile() {
 			return this.windowWidth <= 840
 		},
 	},
+
 	mounted() {
 		if (this.startTimezone !== this.endTimezone) {
 			this.showTimezoneSelect = true
@@ -274,9 +306,11 @@ export default {
 
 		window.addEventListener('resize', this.updateWindowWidth)
 	},
+
 	beforeDestroy() {
 		window.removeEventListener('resize', this.updateWindowWidth)
 	},
+
 	methods: {
 		/**
 		 * Update the start date
@@ -286,6 +320,7 @@ export default {
 		changeStartDate: debounce(function(value) {
 			this.$emit('update-start-date', value)
 		}, 500),
+
 		/**
 		 * Update the start time
 		 *
@@ -294,6 +329,7 @@ export default {
 		changeStartTime: debounce(function(value) {
 			this.$emit('update-start-time', value)
 		}, 500),
+
 		/**
 		 * Updates the timezone of the start date
 		 *
@@ -308,6 +344,7 @@ export default {
 			this.$emit('update-start-timezone', value)
 			this.$emit('update-end-timezone', value)
 		},
+
 		/**
 		 * Update the end date
 		 *
@@ -316,6 +353,7 @@ export default {
 		changeEndDate: debounce(function(value) {
 			this.$emit('update-end-date', value)
 		}, 500),
+
 		/**
 		 * Update the end time
 		 *
@@ -324,6 +362,7 @@ export default {
 		changeEndTime: debounce(function(value) {
 			this.$emit('update-end-time', value)
 		}, 500),
+
 		/**
 		 * Updates the timezone of the end date
 		 *
@@ -337,6 +376,7 @@ export default {
 
 			this.$emit('update-end-timezone', value)
 		},
+
 		updateWindowWidth() {
 			this.windowWidth = window.innerWidth
 		},

@@ -5,14 +5,16 @@
 
 <template>
 	<div class="save-buttons">
-		<NcButton v-if="showMoreButton"
+		<NcButton
+			v-if="showMoreButton"
 			:type="moreButtonType"
 			:disabled="disabled"
 			@click="showMore">
 			{{ $t('calendar', 'More details') }}
 		</NcButton>
-		<NcButton v-if="showSaveButton"
-			type="primary"
+		<NcButton
+			v-if="showSaveButton"
+			variant="primary"
 			:disabled="disabled"
 			@click="saveThisOnly">
 			<template #icon>
@@ -20,8 +22,9 @@
 			</template>
 			{{ $t('calendar', 'Save') }}
 		</NcButton>
-		<NcButton v-if="showUpdateButton"
-			type="primary"
+		<NcButton
+			v-if="showUpdateButton"
+			variant="primary"
 			:disabled="disabled"
 			@click="saveThisOnly">
 			<template #icon>
@@ -29,14 +32,16 @@
 			</template>
 			{{ $t('calendar', 'Update') }}
 		</NcButton>
-		<NcButton v-if="showUpdateThisAndFutureButton && !showUpdateOnlyThisButton"
+		<NcButton
+			v-if="showUpdateThisAndFutureButton && !showUpdateOnlyThisButton"
 			:type="primary"
 			:disabled="disabled"
 			@click="saveThisAndAllFuture">
 			{{ $t('calendar', 'Update this and all future') }}
 		</NcButton>
-		<NcButton v-if="showUpdateOnlyThisButton && !showUpdateThisAndFutureButton"
-			type="primary"
+		<NcButton
+			v-if="showUpdateOnlyThisButton && !showUpdateThisAndFutureButton"
+			variant="primary"
 			:disabled="disabled"
 			@click="saveThisOnly">
 			{{ $t('calendar', 'Update this occurrence') }}
@@ -66,7 +71,7 @@
 </template>
 
 <script>
-import { NcButton, NcActions, NcActionButton } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcButton } from '@nextcloud/vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 
 export default {
@@ -77,57 +82,71 @@ export default {
 		NcActions,
 		NcActionButton,
 	},
+
 	props: {
 		canCreateRecurrenceException: {
 			type: Boolean,
 			required: true,
 		},
+
 		isNew: {
 			type: Boolean,
 			required: true,
 		},
+
 		isReadOnly: {
 			type: Boolean,
 			required: true,
 		},
+
 		forceThisAndAllFuture: {
 			type: Boolean,
 			required: true,
 		},
+
 		showMoreButton: {
 			type: Boolean,
 			default: false,
 		},
+
 		moreButtonType: {
 			type: String,
 			default: undefined,
 		},
+
 		disabled: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	computed: {
 		showSaveButton() {
 			return !this.isReadOnly && this.isNew && !this.canCreateRecurrenceException
 		},
+
 		showUpdateButton() {
 			return !this.isReadOnly && !this.isNew && !this.canCreateRecurrenceException
 		},
+
 		showUpdateOnlyThisButton() {
 			return !this.isReadOnly && this.canCreateRecurrenceException && !this.forceThisAndAllFuture
 		},
+
 		showUpdateThisAndFutureButton() {
 			return !this.isReadOnly && this.canCreateRecurrenceException
 		},
 	},
+
 	methods: {
 		saveThisOnly() {
 			this.$emit('save-this-only')
 		},
+
 		saveThisAndAllFuture() {
 			this.$emit('save-this-and-all-future')
 		},
+
 		showMore() {
 			this.$emit('show-more')
 		},

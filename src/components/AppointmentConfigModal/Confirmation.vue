@@ -11,12 +11,14 @@
 			</template>
 		</EmptyContent>
 		<div class="app-config-modal-confirmation__buttons">
-			<NcButton :href="config.bookingUrl"
+			<NcButton
+				:href="config.bookingUrl"
 				target="_blank"
 				rel="noopener noreferrer">
 				{{ t('calendar', 'Preview') }}
 			</NcButton>
-			<NcButton v-if="showCopyLinkButton"
+			<NcButton
+				v-if="showCopyLinkButton"
 				@click="copyLink">
 				{{ t('calendar', 'Copy link') }}
 			</NcButton>
@@ -25,7 +27,7 @@
 </template>
 
 <script>
-import { NcButton, NcEmptyContent as EmptyContent } from '@nextcloud/vue'
+import { NcEmptyContent as EmptyContent, NcButton } from '@nextcloud/vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import AppointmentConfig from '../../models/appointmentConfig.js'
 
@@ -36,16 +38,19 @@ export default {
 		EmptyContent,
 		CheckIcon,
 	},
+
 	props: {
 		config: {
 			type: AppointmentConfig,
 			required: true,
 		},
+
 		isNew: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
 	computed: {
 		title() {
 			if (this.isNew) {
@@ -54,10 +59,12 @@ export default {
 
 			return this.$t('calendar', 'Appointment schedule successfully updated')
 		},
+
 		showCopyLinkButton() {
 			return navigator && navigator.clipboard
 		},
 	},
+
 	methods: {
 		copyLink() {
 			navigator.clipboard.writeText(this.config.bookingUrl)

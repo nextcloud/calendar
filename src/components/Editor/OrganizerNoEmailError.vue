@@ -26,6 +26,7 @@ export default {
 	components: {
 		EmailAlertOutline,
 	},
+
 	computed: {
 		/**
 		 * This returns the caption of the warning message, including a link to the personal settings

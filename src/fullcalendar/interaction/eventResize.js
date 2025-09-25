@@ -1,11 +1,11 @@
+import useCalendarObjectsStore from '../../store/calendarObjects.js'
+import useCalendarsStore from '../../store/calendars.js'
+import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { getDurationValueFromFullCalendarDuration } from '../duration.js'
-import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
-import useCalendarsStore from '../../store/calendars.js'
-import useCalendarObjectsStore from '../../store/calendarObjects.js'
 
 /**
  * Returns a function to resize an event

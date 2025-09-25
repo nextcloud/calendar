@@ -4,19 +4,23 @@
 -->
 
 <template>
-	<div v-if="display"
+	<div
+		v-if="display"
 		class="property-text"
 		:class="{ 'property-text--readonly': isReadOnly }">
-		<component :is="icon"
+		<component
+			:is="icon"
 			:title="info"
 			:size="20"
 			:name="readableName"
 			class="property-text__icon"
 			:class="{ 'property-text__icon--hidden': !showIcon }" />
 
-		<div class="property-text__input"
+		<div
+			class="property-text__input"
 			:class="{ 'property-text__input--readonly': isReadOnly, 'property-text__input--linkify': showLinksClickable }">
-			<textarea v-if="!isReadOnly && !showLinksClickable"
+			<textarea
+				v-if="!isReadOnly && !showLinksClickable"
 				v-autosize="true"
 				:placeholder="placeholder"
 				:rows="rows"
@@ -27,7 +31,8 @@
 				@blur="handleToggleTextareaFocus(false)"
 				@input.prevent.stop="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
-			<div v-else
+			<div
+				v-else
 				v-linkify="{ text: value, linkify: true }"
 				class="property-text__readonly-value"
 				:class="{ 'linkify-links': linkifyLinks && !isReadOnly }"
@@ -38,12 +43,11 @@
 </template>
 
 <script>
-import autosize from '../../../directives/autosize.js'
-import PropertyMixin from '../../../mixins/PropertyMixin.js'
 import { Linkify } from '@nextcloud/vue'
-
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
+import autosize from '../../../directives/autosize.js'
 import PropertyLinksMixin from '../../../mixins/PropertyLinksMixin.js'
+import PropertyMixin from '../../../mixins/PropertyMixin.js'
 
 export default {
 	name: 'PropertyText',
@@ -52,16 +56,19 @@ export default {
 		Linkify,
 		InformationVariant,
 	},
+
 	mixins: [
 		PropertyMixin,
 		PropertyLinksMixin,
 	],
+
 	props: {
 		isDescription: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	computed: {
 		display() {
 			if (this.isReadOnly) {
@@ -75,6 +82,7 @@ export default {
 
 			return true
 		},
+
 		/**
 		 * Returns the default number of rows for a textarea.
 		 * This is used to give the description field an automatic size 2 rows
@@ -85,6 +93,7 @@ export default {
 			return this.propModel.defaultNumberOfRows || 1
 		},
 	},
+
 	methods: {
 		changeValue(event) {
 			if (event.target.value.trim() === '') {
@@ -96,6 +105,7 @@ export default {
 	},
 }
 </script>
+
 <style lang="scss" scoped>
 .property-text {
 	position: relative;

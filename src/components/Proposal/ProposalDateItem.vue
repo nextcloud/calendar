@@ -12,17 +12,19 @@
 			{{ formattedDate }}
 		</div>
 		<div class="proposal-date__action">
-			<DestroyIcon :title="t('calendar', 'Remove date')"
+			<DestroyIcon
+				:title="t('calendar', 'Remove date')"
 				@click="$emit('date-remove')" />
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
+import type { ProposalDateInterface } from '@/types/proposals/proposalInterfaces'
+
 // types, object and stores
 import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
-import type { ProposalDateInterface } from '@/types/proposals/proposalInterfaces'
 // icons
 import ItemIcon from 'vue-material-design-icons/Calendar'
 import DestroyIcon from 'vue-material-design-icons/Close'
@@ -39,8 +41,8 @@ export default {
 		proposalDate: {
 			type: Object as () => ProposalDateInterface,
 			required: true,
-			default: null,
 		},
+
 		timezoneId: {
 			type: String,
 			default: 'UTC',

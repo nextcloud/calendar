@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<NcSelect :allow-empty="false"
+	<NcSelect
+		:allow-empty="false"
 		:options="options"
 		:value="selected"
 		:clearable="false"
@@ -21,16 +22,19 @@ export default {
 	components: {
 		NcSelect,
 	},
+
 	props: {
 		freq: {
 			type: String,
 			required: true,
 		},
+
 		count: {
 			type: Number,
 			required: true,
 		},
 	},
+
 	computed: {
 		options() {
 			return [{
@@ -50,10 +54,12 @@ export default {
 				freq: 'YEARLY',
 			}]
 		},
+
 		selected() {
-			return this.options.find(o => o.freq === this.freq)
+			return this.options.find((o) => o.freq === this.freq)
 		},
 	},
+
 	methods: {
 		select(value) {
 			if (!value) {

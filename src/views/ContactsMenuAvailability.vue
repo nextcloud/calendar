@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<FreeBusy v-if="initialized"
+	<FreeBusy
+		v-if="initialized"
 		:dialog-name="dialogName"
 		:start-date="startDate"
 		:end-date="endDate"
@@ -17,38 +18,42 @@
 </template>
 
 <script>
+import { AttendeeProperty } from '@nextcloud/calendar-js'
 import { mapStores } from 'pinia'
-import usePrincipalsStore from '../store/principals.js'
-import useSettingsStore from '../store/settings.js'
+import FreeBusy from '../components/Editor/FreeBusy/FreeBusy.vue'
 import {
 	mapAttendeePropertyToAttendeeObject,
 	mapPrincipalObjectToAttendeeObject,
 } from '../models/attendee.js'
-import loadMomentLocalization from '../utils/moment.js'
 import { initializeClientForUserView } from '../services/caldavService.js'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
-import FreeBusy from '../components/Editor/FreeBusy/FreeBusy.vue'
-import { AttendeeProperty } from '@nextcloud/calendar-js'
+import usePrincipalsStore from '../store/principals.js'
+import useSettingsStore from '../store/settings.js'
+import loadMomentLocalization from '../utils/moment.js'
 
 export default {
 	name: 'ContactsMenuAvailability',
 	components: {
 		FreeBusy,
 	},
+
 	props: {
 		userId: {
 			type: String,
 			required: true,
 		},
+
 		userDisplayName: {
 			type: String,
 			required: true,
 		},
+
 		userEmail: {
 			type: String,
 			required: true,
 		},
 	},
+
 	data() {
 		const initialAttendee = AttendeeProperty.fromNameAndEMail(
 			this.userDisplayName,
@@ -61,6 +66,7 @@ export default {
 			attendees,
 		}
 	},
+
 	computed: {
 		...mapStores(usePrincipalsStore, useSettingsStore),
 		dialogName() {
@@ -68,15 +74,18 @@ export default {
 				displayName: this.userDisplayName,
 			})
 		},
+
 		startDate() {
 			return new Date()
 		},
+
 		endDate() {
 			// Let's assign a slot of one hour as a default for now
 			const date = new Date(this.startDate)
 			date.setHours(date.getHours() + 1)
 			return date
 		},
+
 		organizer() {
 			if (!this.principalsStore.getCurrentUserPrincipal) {
 				throw new Error('No principal available for current user')
@@ -88,6 +97,7 @@ export default {
 			)
 		},
 	},
+
 	async created() {
 		this.initSettings()
 		await initializeClientForUserView()
@@ -96,6 +106,7 @@ export default {
 		await this.loadMomentLocale()
 		this.initialized = true
 	},
+
 	methods: {
 		initSettings() {
 			this.settingsStore.loadSettingsFromServer({
@@ -103,18 +114,20 @@ export default {
 			})
 			this.settingsStore.initializeCalendarJsConfig()
 		},
+
 		async loadMomentLocale() {
 			const locale = await loadMomentLocalization()
 			this.settingsStore.setMomentLocale({ locale })
 		},
+
 		addAttendee({ commonName, email }) {
-			this.attendees.push(mapAttendeePropertyToAttendeeObject(
-				AttendeeProperty.fromNameAndEMail(commonName, email),
-			))
+			this.attendees.push(mapAttendeePropertyToAttendeeObject(AttendeeProperty.fromNameAndEMail(commonName, email)))
 		},
+
 		removeAttendee({ email }) {
 			this.attendees = this.attendees.filter((att) => att.uri !== email)
 		},
+
 		close() {
 			this.$destroy()
 		},

@@ -17,7 +17,8 @@
 		</div>
 
 		<template v-if="canBeSharedWritable">
-			<input :id="`${id}-can-edit`"
+			<input
+				:id="`${id}-can-edit`"
 				:disabled="updatingSharee"
 				:checked="sharee.writeable"
 				type="checkbox"
@@ -27,7 +28,8 @@
 		</template>
 
 		<NcActions>
-			<NcActionButton :disabled="updatingSharee"
+			<NcActionButton
+				:disabled="updatingSharee"
 				@click.prevent.stop="unshare">
 				<template #icon>
 					<Delete :size="20" decorative />
@@ -39,17 +41,17 @@
 </template>
 
 <script>
-import { NcActions, NcActionButton, NcAvatar } from '@nextcloud/vue'
-import AccountMultiple from 'vue-material-design-icons/AccountMultipleOutline.vue'
-import AccountGroupIcon from 'vue-material-design-icons/AccountGroupOutline.vue'
-import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import {
 	showInfo,
 } from '@nextcloud/dialogs'
-import { randomId } from '../../../utils/randomId.js'
+import { NcActionButton, NcActions, NcAvatar } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
+import AccountGroupIcon from 'vue-material-design-icons/AccountGroupOutline.vue'
+import AccountMultiple from 'vue-material-design-icons/AccountMultipleOutline.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import useCalendarsStore from '../../../store/calendars.js'
 import usePrincipalsStore from '../../../store/principals.js'
+import { randomId } from '../../../utils/randomId.js'
 
 export default {
 	name: 'ShareItem',
@@ -61,16 +63,19 @@ export default {
 		AccountMultiple,
 		Delete,
 	},
+
 	props: {
 		calendar: {
 			type: Object,
 			required: true,
 		},
+
 		sharee: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			id: randomId(),
@@ -78,11 +83,13 @@ export default {
 			shareeEmail: '',
 		}
 	},
+
 	computed: {
 		...mapStores(useCalendarsStore, usePrincipalsStore),
 		uid() {
 			return this._uid
 		},
+
 		/**
 		 * @return {string}
 		 */
@@ -95,6 +102,7 @@ export default {
 
 			return this.sharee.displayName
 		},
+
 		/**
 		 * @return {boolean}
 		 */
@@ -103,9 +111,11 @@ export default {
 			return !this.sharee.isRemoteUser
 		},
 	},
+
 	mounted() {
 		this.updateShareeEmail()
 	},
+
 	methods: {
 		/**
 		 * Unshares the calendar from the given sharee
@@ -127,6 +137,7 @@ export default {
 				this.updatingSharee = false
 			}
 		},
+
 		/**
 		 * Toggles the write-permission of the share
 		 *

@@ -5,14 +5,13 @@
 
 import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
-import { linkTo } from '@nextcloud/router'
 import { translate, translatePlural } from '@nextcloud/l10n'
+import { linkTo } from '@nextcloud/router'
 import Vue from 'vue'
-
 import Conflict from '../views/Appointments/Conflict.vue'
 
 // CSP config for webpack dynamic chunk loading
-// eslint-disable-next-line
+
 __webpack_nonce__ = btoa(getRequestToken())
 
 // Correct the root of the app for chunk loading
@@ -30,7 +29,7 @@ const booking = loadState('calendar', 'booking')
 
 export default new Vue({
 	el: '#appointment-conflict',
-	render: h => h(Conflict, {
+	render: (h) => h(Conflict, {
 		props: {
 			link,
 			confirmed: booking.confirmed,

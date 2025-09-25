@@ -14,10 +14,11 @@ import { getYYYYMMDDFromDate } from '../../utils/date.js'
 export default function(router, route) {
 	return function(date) {
 		const name = route.name
-		const params = Object.assign({}, route.params, {
+		const params = {
+			...route.params,
 			firstDay: getYYYYMMDDFromDate(date),
 			view: 'timeGridDay',
-		})
+		}
 
 		// Don't push new route when day and view didn't change
 		if (route.params.firstDay === params.firstDay && route.params.view === params.view) {

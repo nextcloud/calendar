@@ -16,8 +16,8 @@
 
 <script>
 import AppNavigationHeaderDatePicker from './AppNavigationHeader/AppNavigationHeaderDatePicker.vue'
-import AppNavigationHeaderTodayButton from './AppNavigationHeader/AppNavigationHeaderTodayButton.vue'
 import AppNavigationHeaderNewEvent from './AppNavigationHeader/AppNavigationHeaderNewEvent.vue'
+import AppNavigationHeaderTodayButton from './AppNavigationHeader/AppNavigationHeaderTodayButton.vue'
 import AppNavigationHeaderViewMenu from './AppNavigationHeader/AppNavigationHeaderViewMenu.vue'
 
 export default {
@@ -28,6 +28,7 @@ export default {
 		AppNavigationHeaderNewEvent,
 		AppNavigationHeaderViewMenu,
 	},
+
 	props: {
 		isPublic: {
 			type: Boolean,

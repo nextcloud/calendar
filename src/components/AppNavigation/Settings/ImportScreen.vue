@@ -27,7 +27,7 @@
 
 		<div class="import-modal__actions">
 			<NcButton @click="cancelImport">
-				{{ $t('calendar', 'Cancel' ) }}
+				{{ $t('calendar', 'Cancel') }}
 			</NcButton>
 			<NcButton class="primary" @click="importCalendar">
 				{{ $n('calendar', 'Import calendar', 'Import calendars', files.length) }}
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { NcButton, NcModal as Modal } from '@nextcloud/vue'
+import { NcModal as Modal, NcButton } from '@nextcloud/vue'
 import ImportScreenRow from './ImportScreenRow.vue'
 
 export default {
@@ -47,21 +47,25 @@ export default {
 		ImportScreenRow,
 		Modal,
 	},
+
 	props: {
 		files: {
 			type: Array,
 			required: true,
 		},
 	},
+
 	computed: {
 		headerRowKey() {
 			return this._uid + '-header-row'
 		},
 	},
+
 	methods: {
 		importCalendar() {
 			this.$emit('import-calendar')
 		},
+
 		cancelImport() {
 			this.$emit('cancel-import')
 		},

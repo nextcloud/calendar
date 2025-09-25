@@ -4,25 +4,25 @@
 -->
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import {
-	getYYYYMMDDFromDate,
-	getDateFromFirstdayParam,
-	modifyDate,
-} from '../../../utils/date.js'
-import formatDateRange from '../../../filters/dateRangeFormat.js'
-import DatePicker from '../../Shared/DatePickerOld.vue'
-import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
+import { isRTL as isRTLFn, t } from '@nextcloud/l10n'
 import { NcButton } from '@nextcloud/vue'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+import { computed, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router/composables'
+import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
+import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
+import DatePicker from '../../Shared/DatePickerOld.vue'
+import formatDateRange from '../../../filters/dateRangeFormat.js'
 import useSettingsStore from '../../../store/settings.js'
 import useWidgetStore from '../../../store/widget.js'
-import { isRTL as isRTLFn, t } from '@nextcloud/l10n'
-import { useRoute, useRouter } from 'vue-router/composables'
+import {
+	getDateFromFirstdayParam,
+	getYYYYMMDDFromDate,
+	modifyDate,
+} from '../../../utils/date.js'
 
 const props = defineProps<{
-	isWidget?: boolean,
+	isWidget?: boolean
 }>()
 
 const route = useRoute()
@@ -41,10 +41,6 @@ const selectedDate = computed<Date>(() => {
 	return getDateFromFirstdayParam(route.params?.firstDay ?? 'now')
 })
 
-const formattedSelectedDate = computed<string>(
-	() => formatDateRange(selectedDate.value, view.value, settingsStore.momentLocale),
-)
-
 const view = computed<string>(() => {
 	if (props.isWidget) {
 		return widgetStore.widgetView
@@ -52,37 +48,39 @@ const view = computed<string>(() => {
 	return route.params.view
 })
 
+const formattedSelectedDate = computed<string>(() => formatDateRange(selectedDate.value, view.value, settingsStore.momentLocale))
+
 const previousLabel = computed(() => {
 	switch (view.value) {
-	case 'timeGridDay':
-		return t('calendar', 'Previous day')
+		case 'timeGridDay':
+			return t('calendar', 'Previous day')
 
-	case 'timeGridWeek':
-		return t('calendar', 'Previous week')
+		case 'timeGridWeek':
+			return t('calendar', 'Previous week')
 
-	case 'multiMonthYear':
-		return t('calendar', 'Previous year')
+		case 'multiMonthYear':
+			return t('calendar', 'Previous year')
 
-	case 'dayGridMonth':
-	default:
-		return t('calendar', 'Previous month')
+		case 'dayGridMonth':
+		default:
+			return t('calendar', 'Previous month')
 	}
 })
 
 const nextLabel = computed(() => {
 	switch (view.value) {
-	case 'timeGridDay':
-		return t('calendar', 'Next day')
+		case 'timeGridDay':
+			return t('calendar', 'Next day')
 
-	case 'timeGridWeek':
-		return t('calendar', 'Next week')
+		case 'timeGridWeek':
+			return t('calendar', 'Next week')
 
-	case 'multiMonthYear':
-		return t('calendar', 'Next year')
+		case 'multiMonthYear':
+			return t('calendar', 'Next year')
 
-	case 'dayGridMonth':
-	default:
-		return t('calendar', 'Next month')
+		case 'dayGridMonth':
+		default:
+			return t('calendar', 'Next month')
 	}
 })
 
@@ -98,38 +96,38 @@ function navigateTimeRangeByFactor(factor: number): void {
 	let newDate: Date | undefined
 
 	switch (route.params.view) {
-	case 'timeGridDay':
-		newDate = modifyDate(selectedDate.value, {
-			day: factor,
-		})
-		break
+		case 'timeGridDay':
+			newDate = modifyDate(selectedDate.value, {
+				day: factor,
+			})
+			break
 
-	case 'timeGridWeek':
-		newDate = modifyDate(selectedDate.value, {
-			week: factor,
-		})
-		break
+		case 'timeGridWeek':
+			newDate = modifyDate(selectedDate.value, {
+				week: factor,
+			})
+			break
 
-	case 'multiMonthYear':
-		newDate = modifyDate(selectedDate.value, {
-			year: factor,
-		})
-		break
+		case 'multiMonthYear':
+			newDate = modifyDate(selectedDate.value, {
+				year: factor,
+			})
+			break
 
-	case 'dayGridMonth':
-	case 'listMonth':
-	default: {
+		case 'dayGridMonth':
+		case 'listMonth':
+		default: {
 		// modifyDate is just adding one month, so we have to manually
 		// set the date of month to 1. Otherwise if your date is set to
 		// January 30th and you add one month, February 30th doesn't exist
 		// and it automatically changes to March 1st. Same happens on March 31st.
-		const firstDayOfCurrentMonth = new Date(selectedDate.value.getTime())
-		firstDayOfCurrentMonth.setDate(1)
-		newDate = modifyDate(firstDayOfCurrentMonth, {
-			month: factor,
-		})
-		break
-	}
+			const firstDayOfCurrentMonth = new Date(selectedDate.value.getTime())
+			firstDayOfCurrentMonth.setDate(1)
+			newDate = modifyDate(firstDayOfCurrentMonth, {
+				month: factor,
+			})
+			break
+		}
 	}
 
 	// newDate is always set at this point
@@ -166,37 +164,41 @@ useHotKey(['p', 'k'], () => navigateTimeRangeBackward())
 
 <template>
 	<div class="datepicker-button-section">
-		<NcButton v-if="!props.isWidget"
-			:aria-label="isRTL? nextLabel: previousLabel"
+		<NcButton
+			v-if="!props.isWidget"
+			:aria-label="isRTL ? nextLabel : previousLabel"
 			class="button"
-			:class="{'datepicker-button-section__right': isRTL , 'datepicker-button-section__left': !isRTL}"
-			:name="isRTL? nextLabel: previousLabel"
+			:class="{ 'datepicker-button-section__right': isRTL, 'datepicker-button-section__left': !isRTL }"
+			:name="isRTL ? nextLabel : previousLabel"
 			@click="navigateTimeRangeBackward">
 			<template #icon>
 				<ChevronRightIcon v-if="isRTL" :size="22" />
 				<ChevronLeftIcon v-else :size="22" />
 			</template>
 		</NcButton>
-		<NcButton v-if="!props.isWidget"
+		<NcButton
+			v-if="!props.isWidget"
 			class="datepicker-button-section__datepicker-label button datepicker-label"
 			@click.stop.prevent="toggleDatepicker"
 			@mousedown.stop.prevent="() => {}"
 			@mouseup.stop.prevent="() => {}">
 			{{ formattedSelectedDate }}
 		</NcButton>
-		<DatePicker ref="datepicker"
-			:class="props.isWidget ? 'datepicker-widget':'datepicker-button-section__datepicker'"
+		<DatePicker
+			ref="datepicker"
+			:class="props.isWidget ? 'datepicker-widget' : 'datepicker-button-section__datepicker'"
 			:append-to-body="props.isWidget"
 			:date="selectedDate"
 			:is-all-day="true"
 			:open.sync="isDatepickerOpen"
 			:type="view === 'multiMonthYear' ? 'year' : 'date'"
 			@change="navigateToDate" />
-		<NcButton v-if="!props.isWidget"
-			:aria-label="isRTL? previousLabel: nextLabel"
+		<NcButton
+			v-if="!props.isWidget"
+			:aria-label="isRTL ? previousLabel : nextLabel"
 			class="button"
-			:class="{'datepicker-button-section__right': !isRTL , 'datepicker-button-section__left': isRTL}"
-			:name="isRTL? previousLabel: nextLabel"
+			:class="{ 'datepicker-button-section__right': !isRTL, 'datepicker-button-section__left': isRTL }"
+			:name="isRTL ? previousLabel : nextLabel"
 			@click="navigateTimeRangeForward">
 			<template #icon>
 				<ChevronLeftIcon v-if="isRTL" :size="22" />

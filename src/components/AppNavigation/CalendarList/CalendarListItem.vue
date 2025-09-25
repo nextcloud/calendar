@@ -4,17 +4,20 @@
 -->
 
 <template>
-	<AppNavigationItem :loading="calendar.loading"
+	<AppNavigationItem
+		:loading="calendar.loading"
 		:aria-description="descriptionAppNavigationItem"
 		:name="calendarDisplayName || $t('calendar', 'Untitled calendar')"
-		:class="{deleted: isBeingDeleted, disabled: !calendar.enabled}"
+		:class="{ deleted: isBeingDeleted, disabled: !calendar.enabled }"
 		@update:menuOpen="actionsMenuOpen = $event">
 		<template #icon>
-			<CheckboxMarked v-if="calendar.enabled"
+			<CheckboxMarked
+				v-if="calendar.enabled"
 				:size="20"
 				:fill-color="calendar.color"
 				@click.prevent.stop="toggleEnabled" />
-			<CheckboxBlank v-else
+			<CheckboxBlank
+				v-else
 				:size="20"
 				:fill-color="calendar.color"
 				@click.prevent.stop="toggleEnabled" />
@@ -22,7 +25,8 @@
 
 		<template #counter>
 			<LinkVariant v-if="isSharedByMe" :size="20" />
-			<NcAvatar v-else-if="isSharedWithMe && loadedOwnerPrincipal && !actionsMenuOpen"
+			<NcAvatar
+				v-else-if="isSharedWithMe && loadedOwnerPrincipal && !actionsMenuOpen"
 				:user="ownerUserId"
 				:display-name="ownerDisplayname" />
 			<div v-else-if="isSharedWithMe && !loadedOwnerPrincipal" class="icon icon-loading" />
@@ -54,14 +58,16 @@
 				</ActionButton>
 			</template>
 			<template v-else>
-				<ActionButton v-if="calendar.isSharedWithMe"
+				<ActionButton
+					v-if="calendar.isSharedWithMe"
 					@click.prevent.stop="cancelDeleteCalendar">
 					<template #icon>
 						<Undo :size="20" decorative />
 					</template>
 					{{ $n('calendar', 'Unsharing the calendar in {countdown} second', 'Unsharing the calendar in {countdown} seconds', countdown, { countdown }) }}
 				</ActionButton>
-				<ActionButton v-else
+				<ActionButton
+					v-else
 					@click.prevent.stop="cancelDeleteCalendar">
 					<template #icon>
 						<Undo :size="20" decorative />
@@ -74,23 +80,23 @@
 </template>
 
 <script>
+import { showError } from '@nextcloud/dialogs'
 import {
-	NcAvatar,
 	NcActionButton as ActionButton,
 	NcAppNavigationItem as AppNavigationItem,
-	NcActionText,
-	NcActionSeparator,
 	NcActionCaption,
+	NcActionSeparator,
+	NcActionText,
+	NcAvatar,
 } from '@nextcloud/vue'
-import { showError } from '@nextcloud/dialogs'
-import CheckboxMarked from 'vue-material-design-icons/CheckboxMarked.vue'
+import { mapStores } from 'pinia'
 import CheckboxBlank from 'vue-material-design-icons/CheckboxBlankOutline.vue'
+import CheckboxMarked from 'vue-material-design-icons/CheckboxMarked.vue'
+import LinkVariant from 'vue-material-design-icons/Link.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
 import Undo from 'vue-material-design-icons/Undo.vue'
-import LinkVariant from 'vue-material-design-icons/Link.vue'
-import usePrincipalsStore from '../../../store/principals.js'
 import useCalendarsStore from '../../../store/calendars.js'
-import { mapStores } from 'pinia'
+import usePrincipalsStore from '../../../store/principals.js'
 
 export default {
 	name: 'CalendarListItem',
@@ -107,17 +113,20 @@ export default {
 		NcActionSeparator,
 		NcActionCaption,
 	},
+
 	props: {
 		calendar: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			actionsMenuOpen: false,
 		}
 	},
+
 	computed: {
 		...mapStores(usePrincipalsStore, useCalendarsStore),
 		/**
@@ -134,6 +143,7 @@ export default {
 
 			return this.calendar.canBeShared || this.calendar.canBePublished
 		},
+
 		/**
 		 * Is the calendar shared with me?
 		 *
@@ -142,6 +152,7 @@ export default {
 		isSharedWithMe() {
 			return this.calendar.isSharedWithMe
 		},
+
 		/**
 		 * Is the calendar shared by me or published via a link?
 		 *
@@ -150,6 +161,7 @@ export default {
 		isSharedByMe() {
 			return this.calendar.shares.length > 0 || this.calendar.publishURL !== null
 		},
+
 		/**
 		 * Whether or not the information about the owner principal was loaded
 		 *
@@ -158,6 +170,7 @@ export default {
 		loadedOwnerPrincipal() {
 			return this.principalsStore.getPrincipalByUrl(this.calendar.owner) !== undefined
 		},
+
 		ownerUserId() {
 			const principal = this.principalsStore.getPrincipalByUrl(this.calendar.owner)
 			if (principal) {
@@ -166,6 +179,7 @@ export default {
 
 			return ''
 		},
+
 		ownerDisplayname() {
 			const principal = this.principalsStore.getPrincipalByUrl(this.calendar.owner)
 			if (principal) {
@@ -174,6 +188,7 @@ export default {
 
 			return ''
 		},
+
 		/**
 		 * compute aria-description for AppNavigationItem link
 		 *
@@ -190,6 +205,7 @@ export default {
 				return t('calendar', 'Enable untitled calendar')
 			}
 		},
+
 		/**
 		 * Whether the calendar is currently being deleted
 		 *
@@ -198,6 +214,7 @@ export default {
 		isBeingDeleted() {
 			return !!this.calendar.deleteInterval
 		},
+
 		/**
 		 * Countdown to the deletion of the calendar
 		 *
@@ -215,6 +232,7 @@ export default {
 			}
 		},
 	},
+
 	methods: {
 		/**
 		 * Toggles the enabled state of this calendar

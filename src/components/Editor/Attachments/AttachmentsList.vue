@@ -4,7 +4,8 @@
 -->
 <template>
 	<div id="attachments">
-		<input ref="localAttachments"
+		<input
+			ref="localAttachments"
 			class="attachments-input"
 			type="file"
 			multiple
@@ -40,7 +41,8 @@
 		</div>
 		<div v-if="attachments.length > 0">
 			<ul class="attachments-list">
-				<NcListItem v-for="attachment in attachments"
+				<NcListItem
+					v-for="attachment in attachments"
 					:key="attachment.path"
 					class="attachments-list-item"
 					:force-display-actions="true"
@@ -50,7 +52,8 @@
 						<img :src="getPreview(attachment)" class="attachment-icon">
 					</template>
 					<template #actions>
-						<NcActionButton v-if="!isReadOnly"
+						<NcActionButton
+							v-if="!isReadOnly"
 							@click="deleteAttachmentFromEvent(attachment)">
 							<template #icon>
 								<Close :size="20" />
@@ -62,7 +65,8 @@
 			</ul>
 		</div>
 
-		<NcDialog v-if="showOpenConfirmation"
+		<NcDialog
+			v-if="showOpenConfirmation"
 			:open.sync="showOpenConfirmation"
 			:name="t('calendar', 'Confirmation')"
 			:buttons="openConfirmationButtons">
@@ -74,31 +78,29 @@
 </template>
 
 <script>
+import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
+import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import {
-	NcListItem,
-	NcActions,
 	NcActionButton,
+	NcActions,
 	NcDialog,
+	NcListItem,
 } from '@nextcloud/vue'
-
-import Upload from 'vue-material-design-icons/UploadOutline.vue'
+import { mapStores } from 'pinia'
+import { parseXML } from 'webdav'
 import Close from 'vue-material-design-icons/Close.vue'
 import Folder from 'vue-material-design-icons/FolderOutline.vue'
 import Paperclip from 'vue-material-design-icons/Paperclip.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
-
-import { generateUrl, getBaseUrl } from '@nextcloud/router'
-import { getFilePickerBuilder, showError } from '@nextcloud/dialogs'
-import logger from '../../../utils/logger.js'
+import Upload from 'vue-material-design-icons/UploadOutline.vue'
 import {
-	uploadLocalAttachment,
 	getFileInfo,
+	uploadLocalAttachment,
 } from '../../../services/attachmentService.js'
-import { parseXML } from 'webdav'
-import usePrincipalsStore from '../../../store/principals.js'
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
+import usePrincipalsStore from '../../../store/principals.js'
 import useSettingsStore from '../../../store/settings.js'
-import { mapStores } from 'pinia'
+import logger from '../../../utils/logger.js'
 
 export default {
 	name: 'AttachmentsList',
@@ -113,16 +115,19 @@ export default {
 		Plus,
 		NcDialog,
 	},
+
 	props: {
 		calendarObjectInstance: {
 			type: Object,
 			required: true,
 		},
+
 		isReadOnly: {
 			type: Boolean,
 			default: true,
 		},
 	},
+
 	data() {
 		return {
 			uploading: false,
@@ -131,15 +136,18 @@ export default {
 			openConfirmationButtons: [],
 		}
 	},
+
 	computed: {
 		...mapStores(usePrincipalsStore, useSettingsStore, useCalendarObjectInstanceStore),
 		currentUser() {
 			return this.principalsStore.getCurrentUserPrincipal
 		},
+
 		attachments() {
 			return this.calendarObjectInstance.attachments
 		},
 	},
+
 	methods: {
 		addAttachmentWithProperty(calendarObjectInstance, sharedData) {
 			this.calendarObjectInstanceStore.addAttachmentWithProperty({
@@ -147,12 +155,14 @@ export default {
 				sharedData,
 			})
 		},
+
 		deleteAttachmentFromEvent(attachment) {
 			this.calendarObjectInstanceStore.deleteAttachment({
 				calendarObjectInstance: this.calendarObjectInstance,
 				attachment,
 			})
 		},
+
 		async openFilesModal() {
 			const picker = getFilePickerBuilder(t('calendar', 'Choose a file to add as attachment'))
 				.setMultiSelect(false)
@@ -175,13 +185,13 @@ export default {
 					davRespObj.value = davRespObj.url
 					this.addAttachmentWithProperty(this.calendarObjectInstance, davRespObj)
 				}
-
 			} catch (error) {
-
+				logger.error(`Failed to attach file: ${error}`, { error })
 			}
 		},
+
 		isDuplicateAttachment(path) {
-			return this.attachments.find(attachment => {
+			return this.attachments.find((attachment) => {
 				if (attachment.fileName === path) {
 					showError(t('calendar', 'Attachment {name} already exist!', { name: this.getBaseName(path) }))
 					return true
@@ -189,15 +199,17 @@ export default {
 				return false
 			})
 		},
+
 		clickOnUploadButton() {
 			this.$refs.localAttachments.click()
 		},
+
 		async onLocalAttachmentSelected(e) {
 			try {
 				const attachmentsFolder = await this.settingsStore.createAttachmentsFolder()
 				const attachments = await uploadLocalAttachment(attachmentsFolder, Array.from(e.target.files), this.currentUser.dav, this.attachments)
 				// TODO do not share file, move to PHP
-				attachments.map(async attachment => {
+				attachments.map(async (attachment) => {
 					const data = await getFileInfo(`${attachmentsFolder}/${attachment.path}`, this.currentUser.dav.userId)
 					const davRes = await parseXML(data)
 					const davRespObj = davRes?.multistatus?.response[0]?.propstat?.prop
@@ -213,9 +225,11 @@ export default {
 				showError(t('calendar', 'Could not upload attachment(s)'))
 			}
 		},
+
 		getIcon(mime) {
 			return OC.MimeType.getIconUrl(mime)
 		},
+
 		getPreview(attachment) {
 			if (attachment.xNcHasPreview) {
 				return generateUrl(`/core/preview?fileId=${attachment.xNcFileId}&x=100&y=100&a=0`)
@@ -224,9 +238,11 @@ export default {
 				? OC.MimeType.getIconUrl(attachment.formatType)
 				: OC.MimeType.getIconUrl('folder')
 		},
+
 		getBaseName(name) {
 			return name.split('/').pop()
 		},
+
 		openFile(rawUrl) {
 			let url
 			try {
@@ -261,6 +277,7 @@ export default {
 				url,
 			)
 		},
+
 		/**
 		 * Open the confirmation dialog for suspicious or external attachments.
 		 *
