@@ -28,10 +28,12 @@ export default {
 			type: Object,
 		},
 	},
+
 	computed: {
 		startDate() {
 			return moment(this.booking.start * 1000).format('LLL')
 		},
+
 		endDate() {
 			return moment(this.booking.end * 1000).format('LLL')
 		},

@@ -16,7 +16,7 @@ import {
 export function getInitialView() {
 	try {
 		return loadState('calendar', 'initial_view')
-	} catch (error) {
+	} catch {
 		return 'dayGridMonth'
 	}
 }
@@ -30,7 +30,7 @@ export function getPreferredEditorRoute() {
 	let skipPopover
 	try {
 		skipPopover = loadState('calendar', 'skip_popover')
-	} catch (error) {
+	} catch {
 		skipPopover = false
 	}
 

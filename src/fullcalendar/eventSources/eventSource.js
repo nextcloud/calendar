@@ -1,3 +1,6 @@
+import getTimezoneManager from '../../services/timezoneDataProviderService.js'
+import useCalendarsStore from '../../store/calendars.js'
+import useFetchedTimeRangesStore from '../../store/fetchedTimeRanges.js'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -5,12 +8,9 @@
 import {
 	generateTextColorForHex,
 } from '../../utils/color.js'
-import getTimezoneManager from '../../services/timezoneDataProviderService.js'
 import { getUnixTimestampFromDate } from '../../utils/date.js'
-import { eventSourceFunction } from './eventSourceFunction.js'
 import logger from '../../utils/logger.js'
-import useFetchedTimeRangesStore from '../../store/fetchedTimeRanges.js'
-import useCalendarsStore from '../../store/calendars.js'
+import { eventSourceFunction } from './eventSourceFunction.js'
 
 /**
  * Returns a function to generate a FullCalendar event-source based on the Vuex calendar model

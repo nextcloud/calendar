@@ -8,21 +8,21 @@
 //   - https://github.com/gausie/colour-proximity
 //   - https://github.com/gausie/colour-proximity/pull/3
 
-import cssColors from 'css-color-names'
-import sortBy from 'lodash/sortBy.js'
-import pick from 'lodash/pick.js'
-import uniqBy from 'lodash/uniqBy.js'
 import colorString from 'color-string'
+import cssColors from 'css-color-names'
+import pick from 'lodash/pick.js'
+import sortBy from 'lodash/sortBy.js'
+import uniqBy from 'lodash/uniqBy.js'
 
-const uniqColorKeys = uniqBy(Object.keys(cssColors), c => cssColors[c])
+const uniqColorKeys = uniqBy(Object.keys(cssColors), (c) => cssColors[c])
 const filteredColors = pick(cssColors, uniqColorKeys)
 
 const colors = sortBy(
-	Object.keys(filteredColors).map(name => ({
+	Object.keys(filteredColors).map((name) => ({
 		name,
 		hex: filteredColors[name],
 	})),
-	c => c.hex,
+	(c) => c.hex,
 )
 
 const defaults = {
@@ -54,7 +54,7 @@ const defaults = {
  */
 export default function closestColor(hex, opt = {}) {
 	const options = { ...defaults, ...opt }
-	const sortedColors = sortBy(colors, c => proximity(hex, c.hex))
+	const sortedColors = sortBy(colors, (c) => proximity(hex, c.hex))
 	if (options.detailed) {
 		return sortedColors[0]
 	}
@@ -75,11 +75,9 @@ export default function closestColor(hex, opt = {}) {
 function proximity(s1, s2) {
 	const c1 = rgb2lab(colorString.get.rgb(s1))
 	const c2 = rgb2lab(colorString.get.rgb(s2))
-	return Math.sqrt(
-		Math.pow(c1[0] - c2[0], 2)
+	return Math.sqrt(Math.pow(c1[0] - c2[0], 2)
 		+ Math.pow(c1[1] - c2[1], 2)
-		+ Math.pow(c1[2] - c2[2], 2),
-	)
+		+ Math.pow(c1[2] - c2[2], 2))
 }
 
 /**

@@ -24,34 +24,39 @@
 			</NcActions>
 
 			<NcActions>
-				<NcActionButton v-if="showEMailLabel"
+				<NcActionButton
+					v-if="showEMailLabel"
 					@click.prevent.stop="openEMailLinkInput">
 					<template #icon>
 						<Email :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'Send link to calendar via email') }}
 				</NcActionButton>
-				<NcActionInput v-if="showEMailInput"
+				<NcActionInput
+					v-if="showEMailInput"
 					@submit.prevent.stop="sendLinkViaEMail">
 					<template #icon>
 						<Email :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'Enter one address') }}
 				</NcActionInput>
-				<NcActionText v-if="showEMailSending"
+				<NcActionText
+					v-if="showEMailSending"
 					icon="icon-loading-small">
 					<!-- eslint-disable-next-line no-irregular-whitespace -->
 					{{ $t('calendar', 'Sending email …') }}
 				</NcActionText>
 
-				<NcActionButton v-if="showCopySubscriptionLinkLabel"
+				<NcActionButton
+					v-if="showCopySubscriptionLinkLabel"
 					@click.prevent.stop="copySubscriptionLink">
 					<template #icon>
 						<CalendarBlank :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'Copy subscription link') }}
 				</NcActionButton>
-				<NcActionText v-if="showCopySubscriptionLinkSpinner"
+				<NcActionText
+					v-if="showCopySubscriptionLinkSpinner"
 					icon="icon-loading-small">
 					<!-- eslint-disable-next-line no-irregular-whitespace -->
 					{{ $t('calendar', 'Copying link …') }}
@@ -69,14 +74,16 @@
 					{{ $t('calendar', 'Could not copy link') }}
 				</NcActionText>
 
-				<NcActionButton v-if="showCopyEmbedCodeLinkLabel"
+				<NcActionButton
+					v-if="showCopyEmbedCodeLinkLabel"
 					@click.prevent.stop="copyEmbedCode">
 					<template #icon>
 						<CodeBrackets :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'Copy embedding code') }}
 				</NcActionButton>
-				<NcActionText v-if="showCopyEmbedCodeLinkSpinner"
+				<NcActionText
+					v-if="showCopyEmbedCodeLinkSpinner"
 					icon="icon-loading-small">
 					<!-- eslint-disable-next-line no-irregular-whitespace -->
 					{{ $t('calendar', 'Copying code …') }}
@@ -94,14 +101,16 @@
 					{{ $t('calendar', 'Could not copy code') }}
 				</NcActionText>
 
-				<NcActionButton v-if="!unpublishingCalendar"
+				<NcActionButton
+					v-if="!unpublishingCalendar"
 					@click.prevent.stop="unpublishCalendar">
 					<template #icon>
 						<Delete :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'Delete share link') }}
 				</NcActionButton>
-				<NcActionText v-if="unpublishingCalendar"
+				<NcActionText
+					v-if="unpublishingCalendar"
 					icon="icon-loading-small">
 					<!-- eslint-disable-next-line no-irregular-whitespace -->
 					{{ $t('calendar', 'Deleting share link …') }}
@@ -109,7 +118,8 @@
 			</NcActions>
 		</template>
 		<NcActions v-else>
-			<NcActionButton aria-label="$t('calendar', 'Share link')"
+			<NcActionButton
+				aria-label="$t('calendar', 'Share link')"
 				:disabled="publishingCalendar"
 				@click.prevent.stop="publishCalendar">
 				<template #icon>
@@ -121,26 +131,25 @@
 </template>
 
 <script>
-import { NcActions, NcActionButton, NcActionInput, NcActionText } from '@nextcloud/vue'
+import HttpClient from '@nextcloud/axios'
+import {
+	showError,
+	showSuccess,
+} from '@nextcloud/dialogs'
 import {
 	generateRemoteUrl,
 	generateUrl,
 	linkTo,
 } from '@nextcloud/router'
-import {
-	showSuccess,
-	showError,
-} from '@nextcloud/dialogs'
-import HttpClient from '@nextcloud/axios'
-
+import { NcActionButton, NcActionInput, NcActions, NcActionText } from '@nextcloud/vue'
+import { mapStores } from 'pinia'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
-import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import CodeBrackets from 'vue-material-design-icons/CodeBrackets.vue'
-import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import Email from 'vue-material-design-icons/EmailOutline.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
-import { mapStores } from 'pinia'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import useCalendarsStore from '../../../store/calendars.js'
 
 export default {
@@ -158,12 +167,14 @@ export default {
 		LinkIcon,
 		PlusIcon,
 	},
+
 	props: {
 		calendar: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			// is the calendar being published right now?
@@ -191,12 +202,14 @@ export default {
 			menuOpen: false,
 		}
 	},
+
 	computed: {
 		...mapStores(useCalendarsStore),
 		isPublished() {
 			return this.calendar.publishURL !== null
 		},
 	},
+
 	methods: {
 		async publishCalendar() {
 			this.publishingCalendar = true
@@ -210,11 +223,13 @@ export default {
 				this.publishingCalendar = false
 			}
 		},
+
 		openEMailLinkInput() {
 			this.showEMailLabel = false
 			this.showEMailInput = true
 			this.showEMailSending = false
 		},
+
 		async sendLinkViaEMail(event) {
 			this.showEMailLabel = false
 			this.showEMailInput = false
@@ -240,6 +255,7 @@ export default {
 				this.showEMailSending = false
 			}
 		},
+
 		async copyPublicLink() {
 			this.showCopyPublicLinkLabel = false
 			this.showCopyPublicLinkSpinner = true
@@ -260,6 +276,7 @@ export default {
 				this.showCopyPublicLinkSpinner = false
 			}
 		},
+
 		async copySubscriptionLink() {
 			this.menuOpen = true
 			this.showCopySubscriptionLinkLabel = false
@@ -298,6 +315,7 @@ export default {
 				}, 2000)
 			}
 		},
+
 		async copyEmbedCode() {
 			this.menuOpen = true
 			this.showCopyEmbedCodeLinkLabel = false
@@ -339,6 +357,7 @@ export default {
 				}, 2000)
 			}
 		},
+
 		async unpublishCalendar() {
 			this.unpublishingCalendar = true
 

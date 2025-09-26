@@ -25,17 +25,20 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		color: {
 			type: String,
 			required: true,
 			validator: (s) => /^(#)((?:[A-Fa-f0-9]{3}){1,2})$/.test(s),
 		},
 	},
+
 	data() {
 		return {
 			svg: '',
 		}
 	},
+
 	computed: {
 		coloredSVG() {
 			let color = this.color
@@ -54,6 +57,7 @@ export default {
 				.replace(/width="(\d)*(.(\d)*)?"/i, '')
 		},
 	},
+
 	watch: {
 		illustrationUrl: {
 			async handler(newUrl, oldUrl) {
@@ -69,6 +73,7 @@ export default {
 					this.svg = ''
 				}
 			},
+
 			immediate: true,
 		},
 	},

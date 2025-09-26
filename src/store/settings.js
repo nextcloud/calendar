@@ -1,20 +1,20 @@
+import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
+import { defineStore } from 'pinia'
+import { mapDavCollectionToCalendar } from '../models/calendar.js'
+import * as AttachmentService from '../services/attachmentService.js'
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { enableBirthdayCalendar } from '../services/caldavService.js'
-import { mapDavCollectionToCalendar } from '../models/calendar.js'
-import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
 import { setConfig } from '../services/settings.js'
-import { logInfo } from '../utils/logger.js'
-import { defineStore } from 'pinia'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
-import * as AttachmentService from '../services/attachmentService.js'
-import usePrincipalsStore from './principals.js'
-import useFetchedTimeRangesStore from './fetchedTimeRanges.js'
-import useCalendarsStore from './calendars.js'
-import useTasksStore from './unscheduledTasks.js'
+import { logInfo } from '../utils/logger.js'
 import useCalendarObjectsStore from './calendarObjects.js'
+import useCalendarsStore from './calendars.js'
+import useFetchedTimeRangesStore from './fetchedTimeRanges.js'
+import usePrincipalsStore from './principals.js'
+import useTasksStore from './unscheduledTasks.js'
 
 export default defineStore('settings', {
 	state: () => {

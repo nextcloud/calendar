@@ -34,11 +34,12 @@ export default function(router, route, window) {
 			name = route.name
 		}
 
-		const params = Object.assign({}, route.params, {
+		const params = {
+			...route.params,
 			allDay: allDay ? '1' : '0',
 			dtstart: String(Math.floor(start.getTime() / 1000)),
 			dtend: String(Math.floor(end.getTime() / 1000)),
-		})
+		}
 
 		// Don't push new route when day didn't change
 		if (name === route.name && params.allDay === route.params.allDay

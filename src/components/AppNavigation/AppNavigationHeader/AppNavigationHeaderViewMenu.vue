@@ -4,17 +4,17 @@
 -->
 
 <script setup lang="ts">
+import { t } from '@nextcloud/l10n'
+import { NcActionButton, NcActions } from '@nextcloud/vue'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router/composables'
-import { t } from '@nextcloud/l10n'
-import { NcActions, NcActionButton } from '@nextcloud/vue'
-import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+import ViewComfy from 'vue-material-design-icons/ViewComfy.vue'
 import ViewDay from 'vue-material-design-icons/ViewDay.vue'
 import ViewGrid from 'vue-material-design-icons/ViewGrid.vue'
 import ViewList from 'vue-material-design-icons/ViewList.vue'
 import ViewModule from 'vue-material-design-icons/ViewModule.vue'
 import ViewWeek from 'vue-material-design-icons/ViewWeek.vue'
-import ViewComfy from 'vue-material-design-icons/ViewComfy.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -79,7 +79,8 @@ useHotKey(['l', '5'], () => selectView('listMonth'))
 			<template #icon>
 				<component :is="defaultIcon" :size="20" />
 			</template>
-			<NcActionButton v-for="view in views"
+			<NcActionButton
+				v-for="view in views"
 				:key="view.id"
 				:icon="view.icon"
 				:close-after-click="true"

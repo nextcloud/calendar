@@ -4,8 +4,9 @@
 -->
 
 <template>
-	<NcButton class="button new-event"
-		type="primary"
+	<NcButton
+		class="button new-event"
+		variant="primary"
 		:aria-label="newEventButtonAriaLabel"
 		@click="newEvent">
 		<template #icon>
@@ -16,13 +17,18 @@
 </template>
 
 <script>
-import Plus from 'vue-material-design-icons/Plus.vue'
 import { NcButton } from '@nextcloud/vue'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { useRoute, useRouter } from 'vue-router/composables'
+import Plus from 'vue-material-design-icons/Plus.vue'
 
 export default {
 	name: 'AppNavigationHeaderNewEvent',
+	components: {
+		Plus,
+		NcButton,
+	},
+
 	setup() {
 		const route = useRoute()
 		const router = useRouter()
@@ -40,10 +46,7 @@ export default {
 			newEvent,
 		}
 	},
-	components: {
-		Plus,
-		NcButton,
-	},
+
 	computed: {
 		newEventButtonAriaLabel() {
 			return this.$t('calendar', 'Create new event')

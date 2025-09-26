@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Vue from 'vue'
 import { defineStore } from 'pinia'
+import Vue from 'vue'
 import { createConfig, deleteConfig, updateConfig } from '../services/appointmentConfigService.js'
 import logger from '../utils/logger.js'
 
@@ -62,7 +62,6 @@ export default defineStore('appointmentConfigs', {
 			Vue.set(this.configs, config.id, config.clone())
 		},
 		addConfigMutation(config) {
-
 			/// TODO this.configs[config.id] = config.clone()
 			Vue.set(this.configs, config.id, config.clone())
 		},

@@ -3,13 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { generateUrl, getRootUrl } from '@nextcloud/router'
 import Vue from 'vue'
 import Router from 'vue-router'
-import { getRootUrl, generateUrl } from '@nextcloud/router'
-
 import Calendar from './views/Calendar.vue'
-import EditSimple from './views/EditSimple.vue'
 import EditFull from './views/EditFull.vue'
+import EditSimple from './views/EditSimple.vue'
 import {
 	getDefaultEndDateForNewEvent,
 	getDefaultStartDateForNewEvent,

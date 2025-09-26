@@ -1,3 +1,9 @@
+import { showInfo } from '@nextcloud/dialogs'
+import { emit } from '@nextcloud/event-bus'
+import { translate as t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
+import useSettingsStore from '../../store/settings.js'
+import useWidgetStore from '../../store/widget.js'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -6,12 +12,6 @@ import {
 	getPrefixedRoute,
 	isPublicOrEmbeddedRoute,
 } from '../../utils/router.js'
-import { generateUrl } from '@nextcloud/router'
-import { translate as t } from '@nextcloud/l10n'
-import { showInfo } from '@nextcloud/dialogs'
-import { emit } from '@nextcloud/event-bus'
-import useSettingsStore from '../../store/settings.js'
-import useWidgetStore from '../../store/widget.js'
 
 /**
  * Returns a function for click action on event. This will open the editor.
@@ -31,13 +31,13 @@ export default function(router, route, window, isWidget = false, ref = undefined
 			widgetStore.setWidgetRef({ widgetRef: ref.fullCalendar.$el })
 		}
 		switch (event.extendedProps.objectType) {
-		case 'VEVENT':
-			handleEventClick(event, router, route, window, isWidget)
-			break
+			case 'VEVENT':
+				handleEventClick(event, router, route, window, isWidget)
+				break
 
-		case 'VTODO':
-			handleToDoClick(event, route, window, isWidget)
-			break
+			case 'VTODO':
+				handleToDoClick(event, route, window, isWidget)
+				break
 		}
 	}
 }
@@ -71,10 +71,11 @@ function handleEventClick(event, router, route, window, isWidget = false) {
 	}
 
 	const name = getPrefixedRoute(route.name, desiredRoute)
-	const params = Object.assign({}, route.params, {
+	const params = {
+		...route.params,
 		object: event.extendedProps.objectId,
 		recurrenceId: String(event.extendedProps.recurrenceId),
-	})
+	}
 
 	// Don't push new route when day didn't change
 	if ((getPrefixedRoute(route.name, 'EditPopoverView') === route.name || getPrefixedRoute(route.name, 'EditFullView') === route.name)

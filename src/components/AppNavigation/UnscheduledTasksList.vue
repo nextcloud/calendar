@@ -5,7 +5,8 @@
 
 <template>
 	<div class="unscheduled-tasks-list">
-		<UnscheduledTasksListItem v-for="config in tasks"
+		<UnscheduledTasksListItem
+			v-for="config in tasks"
 			:key="config.id"
 			:config="config"
 			:color="(calendarsStore.getCalendarById(config.extendedProps.calendarId)).color"
@@ -14,10 +15,10 @@
 </template>
 
 <script>
+import { mapStores } from 'pinia'
 import UnscheduledTasksListItem from './UnscheduledTasksList/UnscheduledTasksListItem.vue'
 import useCalendarsStore from '../../store/calendars.js'
 import useTasksStore from '../../store/unscheduledTasks.js'
-import { mapStores } from 'pinia'
 
 export default {
 	name: 'UnscheduledTasksList',

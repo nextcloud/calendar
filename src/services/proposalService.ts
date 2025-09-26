@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { ProposalInterface, ProposalDateInterface, ProposalResponseInterface } from '@/types/proposals/proposalInterfaces'
+import type { ProposalDateInterface, ProposalInterface, ProposalResponseInterface } from '@/types/proposals/proposalInterfaces'
 
 class ProposalService {
-
 	async listProposals() {
 		const response = await fetch('/ocs/v2.php/calendar/proposal/list', {
 			method: 'POST',
@@ -114,7 +113,6 @@ class ProposalService {
 		}
 		return await response.json()
 	}
-
 }
 
 export const proposalService = new ProposalService()

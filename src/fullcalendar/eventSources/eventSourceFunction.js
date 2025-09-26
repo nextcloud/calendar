@@ -3,16 +3,16 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { translate as t } from '@nextcloud/l10n'
-import {
-	hexToRGB,
-	isLight,
-	generateTextColorForHex,
-	getHexForColorName,
-} from '../../utils/color.js'
-import logger from '../../utils/logger.js'
-import { getAllObjectsInTimeRange } from '../../utils/calendarObject.js'
 import usePrincipalsStore from '../../store/principals.js'
 import useTasksStore from '../../store/unscheduledTasks.js'
+import { getAllObjectsInTimeRange } from '../../utils/calendarObject.js'
+import {
+	generateTextColorForHex,
+	getHexForColorName,
+	hexToRGB,
+	isLight,
+} from '../../utils/color.js'
+import logger from '../../utils/logger.js'
 /**
  * convert an array of calendar-objects to events
  *

@@ -4,19 +4,23 @@
 -->
 
 <template>
-	<div v-if="display"
+	<div
+		v-if="display"
 		class="property-select"
 		:class="{ 'property-select--readonly': isReadOnly }">
-		<component :is="icon"
+		<component
+			:is="icon"
 			:title="info"
 			:size="20"
 			:name="readableName"
 			class="property-select__icon"
 			:class="{ 'property-select__icon--hidden': !showIcon }" />
 
-		<div class="property-select__input"
+		<div
+			class="property-select__input"
 			:class="{ 'property-select__input--readonly': isReadOnly }">
-			<NcSelect v-if="!isReadOnly"
+			<NcSelect
+				v-if="!isReadOnly"
 				:options="options"
 				:searchable="false"
 				:name="readableName"
@@ -34,10 +38,9 @@
 </template>
 
 <script>
-import PropertyMixin from '../../../mixins/PropertyMixin.js'
 import { NcSelect } from '@nextcloud/vue'
-
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
+import PropertyMixin from '../../../mixins/PropertyMixin.js'
 
 export default {
 	name: 'PropertySelect',
@@ -45,21 +48,26 @@ export default {
 		NcSelect,
 		InformationVariant,
 	},
+
 	mixins: [
 		PropertyMixin,
 	],
+
 	computed: {
 		display() {
 			return true
 		},
+
 		options() {
 			return this.propModel.options
 		},
+
 		selectedValue() {
 			const value = this.value || this.propModel.defaultValue
 			return this.options.find((option) => option.value === value)
 		},
 	},
+
 	methods: {
 		changeValue(selectedOption) {
 			if (!selectedOption) {

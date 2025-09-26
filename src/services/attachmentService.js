@@ -4,9 +4,9 @@
  */
 
 import axios from '@nextcloud/axios'
-import { generateOcsUrl, generateRemoteUrl } from '@nextcloud/router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
+import { generateOcsUrl, generateRemoteUrl } from '@nextcloud/router'
 import { parseXML } from 'webdav'
 import { parseUploadError } from '../utils/propfindErrorParse.js'
 
@@ -16,7 +16,7 @@ import { parseUploadError } from '../utils/propfindErrorParse.js'
  * @param {string} path The file path from the user's root directory. e.g. `/myfile.txt`
  * @return {string} url share link
  */
-const shareFile = async function(path) {
+async function shareFile(path) {
 	try {
 		const res = await axios.post(generateOcsUrl('apps/files_sharing/api/v1/', 2) + 'shares', {
 			shareType: OC.Share.SHARE_TYPE_LINK,
@@ -44,7 +44,7 @@ const shareFile = async function(path) {
  * @param permissions
  * @return {Promise<[{path: string, permissions, scope: string, name: string, backend: string, type: string},{path: string, permissions: *, scope: string, name: string, backend: string, type: string}]>}
  */
-const shareFileWith = async function(path, sharedWith, permissions = 17) {
+async function shareFileWith(path, sharedWith, permissions = 17) {
 	try {
 		const url = generateOcsUrl('apps/files_sharing/api/v1/', 2)
 		const res = await axios.post(`${url}shares`, {
@@ -68,7 +68,7 @@ const shareFileWith = async function(path, sharedWith, permissions = 17) {
 	}
 }
 
-const createFolder = async function(folderName, userId) {
+async function createFolder(folderName, userId) {
 	const url = generateRemoteUrl(`dav/files/${userId}/${folderName}`)
 	try {
 		await axios({
@@ -93,7 +93,7 @@ const createFolder = async function(folderName, userId) {
 	return folderName
 }
 
-const findFirstOwnedFolder = async function(path, userId) {
+async function findFirstOwnedFolder(path, userId) {
 	const infoXml = await getFileInfo(path, userId)
 	const info = await parseXML(infoXml)
 	const mountType = info?.multistatus?.response[0]?.propstat?.prop?.['mount-type']
@@ -110,20 +110,20 @@ const findFirstOwnedFolder = async function(path, userId) {
 	return findFirstOwnedFolder(hierarchy.join('/'), userId)
 }
 
-const uploadLocalAttachment = async function(folder, files, dav, componentAttachments) {
+async function uploadLocalAttachment(folder, files, dav, componentAttachments) {
 	const attachments = []
 	const promises = []
 
-	files.forEach(file => {
+	files.forEach((file) => {
 		// temp fix, until we decide where to save the attachments
-		if (componentAttachments.map(attachment => attachment.fileName.split('/').pop()).indexOf(file.name) !== -1) {
+		if (componentAttachments.map((attachment) => attachment.fileName.split('/').pop()).indexOf(file.name) !== -1) {
 			// TODO may be show user confirmation dialog to create a file named Existing_File_(2) ?
 			showError(t('calendar', 'Attachment {fileName} already exists!', {
 				fileName: file.name,
 			}))
 		} else {
 			const url = generateRemoteUrl(`dav/files/${dav.userId}/${folder}/${file.name}`)
-			const res = axios.put(url, file).then(resp => {
+			const res = axios.put(url, file).then((resp) => {
 				const data = {
 					fileName: file.name,
 					formatType: file.type,
@@ -151,15 +151,13 @@ const uploadLocalAttachment = async function(folder, files, dav, componentAttach
 			})
 			promises.push(res)
 		}
-
 	})
 	await Promise.all(promises)
 	return attachments
-
 }
 
 // TODO is shared or not @share-types@
-const getFileInfo = async function(path, userId) {
+async function getFileInfo(path, userId) {
 	const url = generateRemoteUrl(`dav/files/${userId}/${path}`)
 	const res = await axios({
 		method: 'PROPFIND',
@@ -185,9 +183,9 @@ const getFileInfo = async function(path, userId) {
 }
 
 export {
+	createFolder,
 	getFileInfo,
 	shareFile,
 	shareFileWith,
 	uploadLocalAttachment,
-	createFolder,
 }

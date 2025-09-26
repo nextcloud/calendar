@@ -8,7 +8,7 @@ import debounce from 'debounce'
 let resizeObserver
 
 if (window.ResizeObserver) {
-	resizeObserver = new ResizeObserver(debounce(entries => {
+	resizeObserver = new ResizeObserver(debounce((entries) => {
 		for (const entry of entries) {
 			autosize.update(entry.target)
 		}
@@ -22,7 +22,7 @@ if (window.ResizeObserver) {
  * @param {object} binding The binding's object
  * @param {VNode} vnode Virtual node
  */
-const bind = (el, binding, vnode) => {
+function bind(el, binding, vnode) {
 	// Check that the binding is true
 	if (binding.value !== true) {
 		return
@@ -49,7 +49,7 @@ const bind = (el, binding, vnode) => {
  * @param {object} binding The binding's object
  * @param {VNode} vnode Virtual node
  */
-const update = (el, binding, vnode) => {
+function update(el, binding, vnode) {
 	if (binding.value === true && binding.oldValue === false) {
 		bind(el, binding, vnode)
 	}
@@ -66,7 +66,7 @@ const update = (el, binding, vnode) => {
  *
  * @param {Element} el The DOM element
  */
-const unbind = (el) => {
+function unbind(el) {
 	autosize.destroy(el)
 	if (resizeObserver) {
 		resizeObserver.unobserve(el)

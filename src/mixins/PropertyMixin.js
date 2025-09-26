@@ -10,14 +10,14 @@
  * See inline for more documentation
  */
 
+import Bell from 'vue-material-design-icons/BellOutline.vue'
 import Briefcase from 'vue-material-design-icons/BriefcaseOutline.vue'
 import Check from 'vue-material-design-icons/Check.vue'
-import Eye from 'vue-material-design-icons/EyeOutline.vue'
 import EyedropperVariant from 'vue-material-design-icons/EyedropperVariant.vue'
+import Eye from 'vue-material-design-icons/EyeOutline.vue'
 import MapMarker from 'vue-material-design-icons/MapMarkerOutline.vue'
 import Tag from 'vue-material-design-icons/TagOutline.vue'
 import TextBoxOutline from 'vue-material-design-icons/TextBoxOutline.vue'
-import Bell from 'vue-material-design-icons/BellOutline.vue'
 
 export default {
 	components: {

@@ -12,18 +12,21 @@
 
 			<div class="edit-calendar-modal__name-and-color">
 				<div class="edit-calendar-modal__name-and-color__color">
-					<NcColorPicker v-model="calendarColor"
+					<NcColorPicker
+						v-model="calendarColor"
 						:advanced-fields="true"
 						@update:value="calendarColorChanged = true">
-						<div class="edit-calendar-modal__name-and-color__color__dot"
-							:style="{'background-color': calendarColor}" />
+						<div
+							class="edit-calendar-modal__name-and-color__color__dot"
+							:style="{ 'background-color': calendarColor }" />
 					</NcColorPicker>
 				</div>
 
-				<input v-model="calendarName"
+				<input
+					v-model="calendarName"
 					class="edit-calendar-modal__name-and-color__name"
 					type="text"
-					:placeholder="$t('calendar', 'Calendar name …')"
+					:placeholder="$t('calendar', 'Calendar name …')"
 					@input="calendarNameChanged = true">
 			</div>
 			<template v-if="canBeShared">
@@ -40,7 +43,8 @@
 					<SharingSearch :calendar="calendar" />
 					<PublishCalendar v-if="canBePublished" :calendar="calendar" />
 					<InternalLink :calendar="calendar" />
-					<ShareItem v-for="sharee in calendar.shares"
+					<ShareItem
+						v-for="sharee in calendar.shares"
 						:key="sharee.uri"
 						:sharee="sharee"
 						:calendar="calendar" />
@@ -48,25 +52,25 @@
 			</template>
 			<NcAppNavigationSpacer />
 			<div class="edit-calendar-modal__actions">
-				<NcButton v-if="calendar.isSharedWithMe" type="tertiary" @click="deleteCalendar">
+				<NcButton v-if="calendar.isSharedWithMe" variant="tertiary" @click="deleteCalendar">
 					<template #icon>
 						<CloseIcon :size="20" />
 					</template>
 					{{ $t('calendar', 'Unshare from me') }}
 				</NcButton>
-				<NcButton v-else type="tertiary" @click="deleteCalendar">
+				<NcButton v-else variant="tertiary" @click="deleteCalendar">
 					<template #icon>
 						<DeleteIcon :size="20" />
 					</template>
 					{{ $t('calendar', 'Delete') }}
 				</NcButton>
-				<NcButton type="tertiary" :href="downloadUrl">
+				<NcButton variant="tertiary" :href="downloadUrl">
 					<template #icon>
 						<DownloadIcon :size="20" />
 					</template>
 					{{ $t('calendar', 'Export') }}
 				</NcButton>
-				<NcButton type="secondary" @click="saveAndClose">
+				<NcButton variant="secondary" @click="saveAndClose">
 					<template #icon>
 						<CheckIcon :size="20" />
 					</template>
@@ -78,19 +82,19 @@
 </template>
 
 <script>
-import { NcModal, NcColorPicker, NcButton, NcCheckboxRadioSwitch, NcAppNavigationSpacer } from '@nextcloud/vue'
-import PublishCalendar from './EditCalendarModal/PublishCalendar.vue'
-import SharingSearch from './EditCalendarModal/SharingSearch.vue'
-import ShareItem from './EditCalendarModal/ShareItem.vue'
-import InternalLink from './EditCalendarModal/InternalLink.vue'
-import logger from '../../utils/logger.js'
+import { showError } from '@nextcloud/dialogs'
+import { NcAppNavigationSpacer, NcButton, NcCheckboxRadioSwitch, NcColorPicker, NcModal } from '@nextcloud/vue'
+import { mapStores } from 'pinia'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import CloseIcon from 'vue-material-design-icons/Close.vue'
 import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import DownloadIcon from 'vue-material-design-icons/TrayArrowDown.vue'
-import CloseIcon from 'vue-material-design-icons/Close.vue'
-import CheckIcon from 'vue-material-design-icons/Check.vue'
-import { showError } from '@nextcloud/dialogs'
+import InternalLink from './EditCalendarModal/InternalLink.vue'
+import PublishCalendar from './EditCalendarModal/PublishCalendar.vue'
+import ShareItem from './EditCalendarModal/ShareItem.vue'
+import SharingSearch from './EditCalendarModal/SharingSearch.vue'
 import useCalendarsStore from '../../store/calendars.js'
-import { mapStores } from 'pinia'
+import logger from '../../utils/logger.js'
 
 export default {
 	name: 'EditCalendarModal',
@@ -109,6 +113,7 @@ export default {
 		NcAppNavigationSpacer,
 		NcCheckboxRadioSwitch,
 	},
+
 	data() {
 		return {
 			calendarColor: undefined,
@@ -118,6 +123,7 @@ export default {
 			calendarNameChanged: false,
 		}
 	},
+
 	computed: {
 		...mapStores(useCalendarsStore),
 		calendar() {
@@ -162,6 +168,7 @@ export default {
 			return this.calendar.url + '?export'
 		},
 	},
+
 	watch: {
 		calendar(calendar) {
 			if (!calendar) {
@@ -175,6 +182,7 @@ export default {
 			this.isTransparent = calendar.transparency === 'transparent'
 		},
 	},
+
 	methods: {
 		/**
 		 * Close the modal (without saving).

@@ -170,7 +170,9 @@ export default function({ event, el }) {
  */
 function darkenColor(color) {
 	const rgb = color.match(/\d+/g)
-	if (!rgb) return color
-	const [r, g, b] = rgb.map(c => Math.max(0, Math.min(255, c - (c * 0.3))))
+	if (!rgb) {
+		return color
+	}
+	const [r, g, b] = rgb.map((c) => Math.max(0, Math.min(255, c - (c * 0.3))))
 	return `rgb(${r}, ${g}, ${b})`
 }

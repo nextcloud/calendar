@@ -6,7 +6,8 @@
 <template>
 	<div class="resource-room-type">
 		<div class="resource-room-type__input">
-			<NcSelect :value="getOption(value)"
+			<NcSelect
+				:value="getOption(value)"
 				:options="options"
 				:placeholder="placeholder"
 				:clearable="false"
@@ -31,16 +32,19 @@ export default {
 	components: {
 		NcSelect,
 	},
+
 	props: {
 		value: {
 			type: String,
 			required: true,
 		},
 	},
+
 	computed: {
 		placeholder() {
 			return this.$t('calendar', 'Room type')
 		},
+
 		options() {
 			return [
 				{ value: '', label: this.$t('calendar', 'Any') },
@@ -48,6 +52,7 @@ export default {
 			]
 		},
 	},
+
 	methods: {
 		getOption(value) {
 			// Selecting 'Any' will reset the input
@@ -55,8 +60,9 @@ export default {
 				return undefined
 			}
 
-			return this.options.find(option => option.value === value)
+			return this.options.find((option) => option.value === value)
 		},
+
 		changeValue(option) {
 			this.$emit('update:value', option.value)
 		},

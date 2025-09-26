@@ -3,23 +3,23 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import {
-	ProposalParticipantStatus,
-	ProposalParticipantRealm,
-	ProposalDateVote,
-	ProposalParticipantAttendance,
-} from '@/types/proposals/proposalEnums'
 import type {
+	ProposalDateInterface,
 	ProposalInterface,
 	ProposalParticipantInterface,
-	ProposalDateInterface,
-	ProposalResponseInterface,
 	ProposalResponseDateInterface,
+	ProposalResponseInterface,
 	ProposalVoteInterface,
 } from '@/types/proposals/proposalInterfaces'
 
-export class ProposalParticipant implements ProposalParticipantInterface {
+import {
+	ProposalDateVote,
+	ProposalParticipantAttendance,
+	ProposalParticipantRealm,
+	ProposalParticipantStatus,
+} from '@/types/proposals/proposalEnums'
 
+export class ProposalParticipant implements ProposalParticipantInterface {
 	public id: number | null = null
 	public name: string | null = null
 	public address: string = ''
@@ -63,11 +63,9 @@ export class ProposalParticipant implements ProposalParticipantInterface {
 			this.realm = ProposalParticipantRealm.Internal
 		}
 	}
-
 }
 
 export class ProposalDate implements ProposalDateInterface {
-
 	public id: number | null = null
 	public date: Date | null = null
 
@@ -87,11 +85,9 @@ export class ProposalDate implements ProposalDateInterface {
 		this.id = typeof data.id === 'number' ? data.id : null
 		this.date = data.date ? new Date(data.date as string) : null
 	}
-
 }
 
 export class ProposalVote implements ProposalVoteInterface {
-
 	public id: number | null = null
 	public date: number | null = null
 	public participant: number | null = null
@@ -111,11 +107,9 @@ export class ProposalVote implements ProposalVoteInterface {
 			this.vote = ProposalDateVote.Maybe
 		}
 	}
-
 }
 
 export class Proposal implements ProposalInterface {
-
 	public id: number | null = null
 	public uid: string | null = null
 	public uname: string | null = null
@@ -139,8 +133,8 @@ export class Proposal implements ProposalInterface {
 			description: this.description,
 			location: this.location,
 			duration: this.duration,
-			dates: this.dates.map(d => d.toJson()),
-			participants: this.participants.map(p => p.toJson()),
+			dates: this.dates.map((d) => d.toJson()),
+			participants: this.participants.map((p) => p.toJson()),
 		}
 	}
 
@@ -159,31 +153,29 @@ export class Proposal implements ProposalInterface {
 		this.duration = typeof data.duration === 'number' ? data.duration : 0
 		this.dates = Array.isArray(data.dates)
 			? data.dates.map((d: Record<string, unknown>) => {
-				const date = new ProposalDate()
-				date.fromJson(d)
-				return date
-			})
+					const date = new ProposalDate()
+					date.fromJson(d)
+					return date
+				})
 			: []
 		this.participants = Array.isArray(data.participants)
 			? data.participants.map((p: Record<string, unknown>) => {
-				const participant = new ProposalParticipant()
-				participant.fromJson(p)
-				return participant
-			})
+					const participant = new ProposalParticipant()
+					participant.fromJson(p)
+					return participant
+				})
 			: []
 		this.votes = Array.isArray(data.votes)
 			? data.votes.map((v: Record<string, unknown>) => {
-				const vote = new ProposalVote()
-				vote.fromJson(v)
-				return vote
-			})
+					const vote = new ProposalVote()
+					vote.fromJson(v)
+					return vote
+				})
 			: []
 	}
-
 }
 
 export class ProposalResponseDate implements ProposalResponseDateInterface {
-
 	public id: number = 0
 	public date: Date = new Date()
 	public vote: ProposalDateVote = ProposalDateVote.No
@@ -196,11 +188,9 @@ export class ProposalResponseDate implements ProposalResponseDateInterface {
 			vote: this.vote,
 		}
 	}
-
 }
 
 export class ProposalResponse implements ProposalResponseInterface {
-
 	public token: string = ''
 	public dates: Record<number, ProposalResponseDate> = {}
 
@@ -211,5 +201,4 @@ export class ProposalResponse implements ProposalResponseInterface {
 			dates: Object.fromEntries(Object.entries(this.dates).map(([id, date]) => [id, date.toJson()])),
 		}
 	}
-
 }

@@ -7,57 +7,66 @@
 	<div class="calendar-list-wrapper">
 		<CalendarListNew />
 		<template v-if="!isPublic">
-			<draggable v-model="sortedCalendars.personal"
+			<draggable
+				v-model="sortedCalendars.personal"
 				:disabled="disableDragging"
-				v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
+				v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
 				draggable=".draggable-calendar-list-item"
 				@update="updateInput">
-				<CalendarListItem v-for="calendar in sortedCalendars.personal"
+				<CalendarListItem
+					v-for="calendar in sortedCalendars.personal"
 					:key="calendar.id"
 					class="draggable-calendar-list-item"
 					:calendar="calendar" />
 			</draggable>
 		</template>
 		<template v-else>
-			<PublicCalendarListItem v-for="calendar in sortedCalendars.personal"
+			<PublicCalendarListItem
+				v-for="calendar in sortedCalendars.personal"
 				:key="calendar.id"
 				:calendar="calendar" />
 		</template>
 
 		<NcAppNavigationCaption v-if="sortedCalendars.shared.length" :name="$t('calendar', 'Shared calendars')" />
 		<template v-if="!isPublic">
-			<draggable v-model="sortedCalendars.shared"
+			<draggable
+				v-model="sortedCalendars.shared"
 				:disabled="disableDragging"
-				v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
+				v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
 				draggable=".draggable-calendar-list-item"
 				@update="updateInput">
-				<CalendarListItem v-for="calendar in sortedCalendars.shared"
+				<CalendarListItem
+					v-for="calendar in sortedCalendars.shared"
 					:key="calendar.id"
 					class="draggable-calendar-list-item"
 					:calendar="calendar" />
 			</draggable>
 		</template>
 		<template v-else>
-			<PublicCalendarListItem v-for="calendar in sortedCalendars.shared"
+			<PublicCalendarListItem
+				v-for="calendar in sortedCalendars.shared"
 				:key="calendar.id"
 				:calendar="calendar" />
 		</template>
 
 		<NcAppNavigationCaption v-if="sortedCalendars.deck.length" :name="$t('calendar', 'Deck')" />
 		<template v-if="!isPublic">
-			<draggable v-model="sortedCalendars.deck"
+			<draggable
+				v-model="sortedCalendars.deck"
 				:disabled="disableDragging"
-				v-bind="{swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3}"
+				v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
 				draggable=".draggable-calendar-list-item"
 				@update="updateInput">
-				<CalendarListItem v-for="calendar in sortedCalendars.deck"
+				<CalendarListItem
+					v-for="calendar in sortedCalendars.deck"
 					:key="calendar.id"
 					class="draggable-calendar-list-item"
 					:calendar="calendar" />
 			</draggable>
 		</template>
 		<template v-else>
-			<PublicCalendarListItem v-for="calendar in sortedCalendars.deck"
+			<PublicCalendarListItem
+				v-for="calendar in sortedCalendars.deck"
 				:key="calendar.id"
 				:calendar="calendar" />
 		</template>
@@ -72,16 +81,16 @@
 </template>
 
 <script>
+import { showError } from '@nextcloud/dialogs'
 import { NcAppNavigationCaption, NcAppNavigationSpacer } from '@nextcloud/vue'
+import debounce from 'debounce'
+import pLimit from 'p-limit'
+import { mapState, mapStores } from 'pinia'
+import draggable from 'vuedraggable'
 import CalendarListItem from './CalendarList/CalendarListItem.vue'
+import CalendarListItemLoadingPlaceholder from './CalendarList/CalendarListItemLoadingPlaceholder.vue'
 import CalendarListNew from './CalendarList/CalendarListNew.vue'
 import PublicCalendarListItem from './CalendarList/PublicCalendarListItem.vue'
-import CalendarListItemLoadingPlaceholder from './CalendarList/CalendarListItemLoadingPlaceholder.vue'
-import draggable from 'vuedraggable'
-import debounce from 'debounce'
-import { showError } from '@nextcloud/dialogs'
-import pLimit from 'p-limit'
-import { mapStores, mapState } from 'pinia'
 import useCalendarsStore from '../../store/calendars.js'
 
 const limit = pLimit(1)
@@ -97,16 +106,19 @@ export default {
 		NcAppNavigationSpacer,
 		draggable,
 	},
+
 	props: {
 		isPublic: {
 			type: Boolean,
 			required: true,
 		},
+
 		loadingCalendars: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	data() {
 		return {
 			calendars: [],
@@ -118,27 +130,33 @@ export default {
 				shared: [],
 				deck: [],
 			},
+
 			disableDragging: false,
 			showOrderModal: false,
 		}
 	},
+
 	computed: {
 		...mapStores(useCalendarsStore),
 		...mapState(useCalendarsStore, {
 			serverCalendars: 'sortedCalendarsSubscriptions',
 		}),
+
 		loadingKeyCalendars() {
 			return this._uid + '-loading-placeholder-calendars'
 		},
 	},
+
 	watch: {
 		serverCalendars(val) {
 			this.calendars = val
 		},
+
 		calendars() {
 			this.sortCalendars()
 		},
 	},
+
 	mounted() {
 		this.calendarsStore.$onAction(({ name, args, after }) => {
 			if (name === 'toggleCalendarEnabled') {
@@ -151,6 +169,7 @@ export default {
 			}
 		})
 	},
+
 	methods: {
 		sortCalendars() {
 			this.sortedCalendars = {
@@ -173,9 +192,11 @@ export default {
 				this.sortedCalendars.personal.push(calendar)
 			})
 		},
+
 		updateInput: debounce(async function() {
 			await this.update()
 		}, 2500),
+
 		async update() {
 			this.disableDragging = true
 			const currentCalendars = [

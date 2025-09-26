@@ -11,7 +11,7 @@ import { getLinkToConfig } from '../utils/settings.js'
  * @param {string | number | boolean} value Config-value to set
  * @return {Promise<void>}
  */
-const setConfig = async (key, value) => {
+async function setConfig(key, value) {
 	await HttpClient.post(getLinkToConfig(key), { value })
 }
 

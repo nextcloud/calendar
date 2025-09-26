@@ -5,10 +5,10 @@
 
 import { getCanonicalLocale } from '@nextcloud/l10n'
 
-const locale = [getCanonicalLocale(), undefined].find(locale => {
+const locale = [getCanonicalLocale(), undefined].find((locale) => {
 	try {
 		(new Date()).toLocaleString(locale)
-	} catch (e) {
+	} catch {
 		return false
 	}
 

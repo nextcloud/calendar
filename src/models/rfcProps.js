@@ -10,7 +10,7 @@ import { getDefaultCategories } from '../defaults/defaultCategories.js'
  *
  * @return {{color: {readableName: *, icon: string, multiple: boolean, info: *}, timeTransparency: {readableName: *, defaultValue: string, icon: string, multiple: boolean, options: *[], info: *}, description: {readableName: *, icon: string, placeholder: *, defaultNumberOfRows: number}, location: {readableName: *, icon: string, placeholder: *}, categories: {readableName: *, icon: string, multiple: boolean, options: *, tagPlaceholder: *, placeholder: *, info: *}, accessClass: {readableName: *, defaultValue: string, icon: string, options: *[], multiple: boolean, info: *}, status: {readableName: *, defaultValue: string, icon: string, options: *[], multiple: boolean, info: *}}}
  */
-const getRFCProperties = () => {
+function getRFCProperties() {
 	return {
 		/**
 		 * https://tools.ietf.org/html/rfc5545#section-3.8.1.3
@@ -41,10 +41,10 @@ const getRFCProperties = () => {
 		description: {
 			readableName: t('calendar', 'Description'),
 			placeholder: t('calendar', 'Add a description\n'
-				+ '\n'
-				+ '- What is this meeting about\n'
-				+ '- Agenda items\n'
-				+ '- Anything participants need to prepare'),
+			+ '\n'
+			+ '- What is this meeting about\n'
+			+ '- Agenda items\n'
+			+ '- Anything participants need to prepare'),
 			icon: 'TextBoxOutline',
 			defaultNumberOfRows: 2,
 		},

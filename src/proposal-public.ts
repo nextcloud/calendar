@@ -4,9 +4,8 @@
  */
 
 import { getCSPNonce } from '@nextcloud/auth'
-import Vue from 'vue'
 import { createPinia, PiniaVuePlugin } from 'pinia'
-
+import Vue from 'vue'
 import ProposalPublic from './views/Proposal/ProposalPublic.vue'
 
 __webpack_nonce__ = getCSPNonce()!
@@ -17,6 +16,6 @@ const pinia = createPinia()
 window.addEventListener('DOMContentLoaded', () => {
 	new Vue({
 		pinia,
-		render: h => h(ProposalPublic),
+		render: (h) => h(ProposalPublic),
 	}).$mount('#calendar-content')
 })

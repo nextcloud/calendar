@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<AppNavigationItem :name="title"
+	<AppNavigationItem
+		:name="title"
 		@click="openUserSettings">
 		<template #icon>
 			<AlertCircleIcon :size="20" />
@@ -13,9 +14,9 @@
 </template>
 
 <script>
+import { generateUrl } from '@nextcloud/router'
 import { NcAppNavigationItem as AppNavigationItem } from '@nextcloud/vue'
 import AlertCircleIcon from 'vue-material-design-icons/AlertCircle.vue'
-import { generateUrl } from '@nextcloud/router'
 
 export default {
 	name: 'NoEmailAddressWarning',
@@ -23,11 +24,13 @@ export default {
 		AppNavigationItem,
 		AlertCircleIcon,
 	},
+
 	computed: {
 		title() {
 			return this.t('calendar', 'To configure appointments, add your email address in personal settings.')
 		},
 	},
+
 	methods: {
 		openUserSettings() {
 			const url = generateUrl('settings/user')

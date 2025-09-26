@@ -5,7 +5,8 @@
 
 <template>
 	<div class="invitees-list-item">
-		<AvatarParticipationStatus :attendee-is-organizer="false"
+		<AvatarParticipationStatus
+			:attendee-is-organizer="false"
 			:is-viewed-by-organizer="isViewedByOrganizer"
 			:is-resource="false"
 			:avatar-link="avatarLink"
@@ -15,53 +16,63 @@
 			:common-name="commonName"
 			:timezone="timezone"
 			:is-group="isGroup" />
-		<div class="invitees-list-item__displayname"
-			:class="{ 'invitees-list-item__groupname':members.length }">
+		<div
+			class="invitees-list-item__displayname"
+			:class="{ 'invitees-list-item__groupname': members.length }">
 			{{ commonName }}
-			<span v-if="members.length"
+			<span
+				v-if="members.length"
 				class="invitees-list-item__member-count">
 				({{ $n('calendar', '%n member', '%n members', members.length) }})
 			</span>
 		</div>
 		<div class="invitees-list-item__actions">
-			<NcButton v-if="members.length"
+			<NcButton
+				v-if="members.length"
 				class="icon-collapse"
-				:class="{ 'icon-collapse--open':memberListExpaneded }"
-				type="tertiary"
+				:class="{ 'icon-collapse--open': memberListExpaneded }"
+				variant="tertiary"
 				@click="toggleMemberList">
 				<template #icon>
-					<ChevronUp v-if="memberListExpaneded"
+					<ChevronUp
+						v-if="memberListExpaneded"
 						:size="20" />
-					<ChevronDown v-else
+					<ChevronDown
+						v-else
 						:size="20" />
 				</template>
 			</NcButton>
 			<Actions v-if="!isReadOnly && isViewedByOrganizer">
-				<ActionCheckbox v-if="!members.length"
+				<ActionCheckbox
+					v-if="!members.length"
 					:checked="attendee.rsvp"
 					@change="toggleRSVP">
 					{{ $t('calendar', 'Request reply') }}
 				</ActionCheckbox>
 
-				<ActionRadio v-if="!members.length"
+				<ActionRadio
+					v-if="!members.length"
 					:name="radioName"
 					:checked="isChair"
 					@change="changeRole('CHAIR')">
 					{{ $t('calendar', 'Chairperson') }}
 				</ActionRadio>
-				<ActionRadio v-if="!members.length"
+				<ActionRadio
+					v-if="!members.length"
 					:name="radioName"
 					:checked="isRequiredParticipant"
 					@change="changeRole('REQ-PARTICIPANT')">
 					{{ $t('calendar', 'Required participant') }}
 				</ActionRadio>
-				<ActionRadio v-if="!members.length"
+				<ActionRadio
+					v-if="!members.length"
 					:name="radioName"
 					:checked="isOptionalParticipant"
 					@change="changeRole('OPT-PARTICIPANT')">
 					{{ $t('calendar', 'Optional participant') }}
 				</ActionRadio>
-				<ActionRadio v-if="!members.length"
+				<ActionRadio
+					v-if="!members.length"
 					:name="radioName"
 					:checked="isNonParticipant"
 					@change="changeRole('NON-PARTICIPANT')">
@@ -76,10 +87,12 @@
 				</ActionButton>
 			</Actions>
 		</div>
-		<div v-if="members.length"
+		<div
+			v-if="members.length"
 			class="member-list"
-			:class="{ 'member-list--open':memberListExpaneded }">
-			<InviteesListItem v-for="member in members"
+			:class="{ 'member-list--open': memberListExpaneded }">
+			<InviteesListItem
+				v-for="member in members"
 				:key="member.email"
 				:attendee="member"
 				:is-read-only="isReadOnly"
@@ -91,22 +104,21 @@
 </template>
 
 <script>
-import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
 import {
-	NcActions as Actions,
 	NcActionButton as ActionButton,
-	NcActionRadio as ActionRadio,
 	NcActionCheckbox as ActionCheckbox,
+	NcActionRadio as ActionRadio,
+	NcActions as Actions,
 	NcButton,
 } from '@nextcloud/vue'
-import { removeMailtoPrefix } from '../../../utils/attendee.js'
+import { mapState, mapStores } from 'pinia'
 import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
 import ChevronUp from 'vue-material-design-icons/ChevronUp.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
-
-import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
-import { mapState, mapStores } from 'pinia'
+import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
 import { getAttendeeDetails } from '../../../services/attendeeDetails.js'
+import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
+import { removeMailtoPrefix } from '../../../utils/attendee.js'
 
 export default {
 	name: 'InviteesListItem',
@@ -121,35 +133,42 @@ export default {
 		ChevronDown,
 		ChevronUp,
 	},
+
 	props: {
 		attendee: {
 			type: Object,
 			required: true,
 		},
+
 		organizerDisplayName: {
 			type: String,
 			required: true,
 		},
+
 		isReadOnly: {
 			type: Boolean,
 			required: true,
 		},
+
 		members: {
 			type: Array,
 			default: () => [],
 			required: false,
 		},
+
 		isViewedByOrganizer: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	data() {
 		return {
 			memberListExpaneded: false,
 			timezone: null,
 		}
 	},
+
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore),
 		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
@@ -159,6 +178,7 @@ export default {
 		avatarLink() {
 			return this.commonName
 		},
+
 		/**
 		 * @return {string}
 		 */
@@ -169,6 +189,7 @@ export default {
 				return this.$t('calendar', 'Remove attendee')
 			}
 		},
+
 		/**
 		 * Common name of the organizer or the uri without the 'mailto:' prefix.
 		 *
@@ -185,27 +206,34 @@ export default {
 
 			return ''
 		},
+
 		radioName() {
 			return this._uid + '-role-radio-input-group'
 		},
+
 		isChair() {
 			return this.attendee.role === 'CHAIR'
 		},
+
 		isRequiredParticipant() {
 			return this.attendee.role === 'REQ-PARTICIPANT'
 		},
+
 		isOptionalParticipant() {
 			return this.attendee.role === 'OPT-PARTICIPANT'
 		},
+
 		isNonParticipant() {
 			return this.attendee.role === 'NON-PARTICIPANT'
 		},
+
 		isGroup() {
 			return this.attendee.attendeeProperty.userType === 'GROUP'
 		},
 	},
+
 	watch: {
-		'calendarObjectInstance.isAllDay'(newVal) {
+		'calendarObjectInstance.isAllDay': function(newVal) {
 			if (!newVal) {
 				getAttendeeDetails(this.attendee.uri).then((res) => {
 					this.timezone = res?.timezone
@@ -215,6 +243,7 @@ export default {
 			}
 		},
 	},
+
 	mounted() {
 		if (!this.calendarObjectInstance.isAllDay) {
 			getAttendeeDetails(this.attendee.uri).then((res) => {
@@ -222,6 +251,7 @@ export default {
 			})
 		}
 	},
+
 	methods: {
 		/**
 		 * Toggles the RSVP flag of the attendee
@@ -231,6 +261,7 @@ export default {
 				attendee: this.attendee,
 			})
 		},
+
 		/**
 		 * Updates the role of the attendee
 		 *
@@ -242,6 +273,7 @@ export default {
 				role,
 			})
 		},
+
 		/**
 		 * Removes an attendee from the event
 		 *
@@ -250,6 +282,7 @@ export default {
 		removeAttendee(attendee) {
 			this.$emit('remove-attendee', attendee)
 		},
+
 		/**
 		 * Toggle member list if attendee is a group
 		 */

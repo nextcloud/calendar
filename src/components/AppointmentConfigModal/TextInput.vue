@@ -6,7 +6,8 @@
 <template>
 	<div class="text-input">
 		<label :for="id">{{ label }}</label>
-		<input :id="id"
+		<input
+			:id="id"
 			type="text"
 			:value="value"
 			:disabled="disabled"
@@ -24,20 +25,24 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		value: {
 			type: String,
 			default: '',
 		},
+
 		disabled: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	data() {
 		return {
 			id: randomId(),
 		}
 	},
+
 	methods: {
 		change(e) {
 			this.$emit('update:value', e.target.value)

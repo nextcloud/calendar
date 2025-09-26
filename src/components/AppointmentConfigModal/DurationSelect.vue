@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<SelectWrapper :label="label"
+	<SelectWrapper
+		:label="label"
 		:value="value"
 		:disabled="disabled"
 		:options="options"
@@ -19,32 +20,39 @@ export default {
 	components: {
 		SelectWrapper,
 	},
+
 	props: {
 		label: {
 			type: String,
 			default: '',
 		},
+
 		value: {
 			type: Number,
 			default: 5 * 60,
 		},
+
 		disabled: {
 			type: Boolean,
 			default: false,
 		},
+
 		allowZero: {
 			type: Boolean,
 			default: false,
 		},
+
 		min: {
 			type: Number,
 			default: 0,
 		},
+
 		max: {
 			type: [Number, null, undefined],
 			default: 60 * 60,
 		},
 	},
+
 	computed: {
 		options() {
 			let options = []
@@ -55,7 +63,7 @@ export default {
 
 			options.push(...[
 				// Minutes
-				...[5, 10, 15, 30, 45].map(duration => {
+				...[5, 10, 15, 30, 45].map((duration) => {
 					const label = this.n('calendar', '{duration} minute', '{duration} minutes', duration, {
 						duration,
 					})
@@ -63,7 +71,7 @@ export default {
 				}),
 
 				// Hours
-				...[1, 2, 6].map(duration => {
+				...[1, 2, 6].map((duration) => {
 					const label = this.n('calendar', '{duration} hour', '{duration} hours', duration, {
 						duration,
 					})
@@ -71,7 +79,7 @@ export default {
 				}),
 
 				// Days
-				...[1, 2].map(duration => {
+				...[1, 2].map((duration) => {
 					const label = this.n('calendar', '{duration} day', '{duration} days', duration, {
 						duration,
 					})
@@ -79,7 +87,7 @@ export default {
 				}),
 
 				// Weeks
-				...[1, 2, 4, 6].map(duration => {
+				...[1, 2, 4, 6].map((duration) => {
 					const label = this.n('calendar', '{duration} week', '{duration} weeks', duration, {
 						duration,
 					})
@@ -87,7 +95,7 @@ export default {
 				}),
 
 				// Months
-				...[1, 2, 3, 6, 9].map(duration => {
+				...[1, 2, 3, 6, 9].map((duration) => {
 					const label = this.n('calendar', '{duration} month', '{duration} months', duration, {
 						duration,
 					})
@@ -95,7 +103,7 @@ export default {
 				}),
 
 				// Years
-				...[1].map(duration => {
+				...[1].map((duration) => {
 					const label = this.n('calendar', '{duration} year', '{duration} years', duration, {
 						duration,
 					})
@@ -104,12 +112,12 @@ export default {
 			])
 
 			if (this.min) {
-				options = options.filter(option => {
+				options = options.filter((option) => {
 					return option.value >= this.min || (this.allowZero && option.value === 0)
 				})
 			}
 			if (this.max) {
-				options = options.filter(option => option.value <= this.max)
+				options = options.filter((option) => option.value <= this.max)
 			}
 			return options
 		},

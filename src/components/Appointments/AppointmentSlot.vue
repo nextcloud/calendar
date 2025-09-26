@@ -18,20 +18,24 @@ export default {
 	components: {
 		NcButton,
 	},
+
 	props: {
 		start: {
 			required: true,
 			type: Number,
 		},
+
 		end: {
 			required: true,
 			type: Number,
 		},
+
 		timeZoneId: {
 			required: true,
 			type: String,
 		},
 	},
+
 	computed: {
 		dateTimeFormatter() {
 			return Intl.DateTimeFormat(undefined, {
@@ -40,9 +44,11 @@ export default {
 				dateStyle: 'short',
 			})
 		},
+
 		startTime() {
 			return timeStampToLocaleTime(this.start, this.timeZoneId)
 		},
+
 		endTime() {
 			return timeStampToLocaleTime(this.end, this.timeZoneId)
 		},

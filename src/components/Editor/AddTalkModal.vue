@@ -4,26 +4,31 @@
  -->
 
 <template>
-	<NcModal size="normal"
+	<NcModal
+		size="normal"
 		class="modal"
 		:name="t('calendar', 'Select a Talk Room')"
 		@close="$emit('close', $event)">
 		<div class="modal-content">
 			<h2>{{ t('calendar', 'Add Talk conversation') }}</h2>
 			<div class="talk-room-list">
-				<NcEmptyContent v-if="loading"
+				<NcEmptyContent
+					v-if="loading"
 					icon="icon-loading"
 					class="modal__content__loading"
-					:description="t('calendar','Fetching Talk rooms…')" />
-				<NcEmptyContent v-else-if="talkConversations.length === 0"
-					:description="t('calendar','No Talk room available')" />
+					:description="t('calendar', 'Fetching Talk rooms…')" />
+				<NcEmptyContent
+					v-else-if="talkConversations.length === 0"
+					:description="t('calendar', 'No Talk room available')" />
 				<ul v-else>
-					<li v-for="conversation in sortedTalkConversations"
+					<li
+						v-for="conversation in sortedTalkConversations"
 						:key="conversation.id"
 						:class="{ selected: selectedRoom && selectedRoom.id === conversation.id }"
 						class="talk-room-list__item"
 						@click="selectRoom(conversation)">
-						<NcAvatar :url="avatarUrl(conversation)"
+						<NcAvatar
+							:url="avatarUrl(conversation)"
 							:size="28"
 							:disable-tooltip="true" />
 						<span>{{ conversation.displayName }}</span>
@@ -31,7 +36,8 @@
 				</ul>
 			</div>
 			<div class="sticky-footer">
-				<NcButton v-if="canCreateConversations"
+				<NcButton
+					v-if="canCreateConversations"
 					class="talk_new-room"
 					:disabled="creatingTalkRoom"
 					@click="createTalkRoom">
@@ -40,7 +46,8 @@
 					</template>
 					{{ t('calendar', 'Create a new public conversation') }}
 				</NcButton>
-				<NcButton type="primary"
+				<NcButton
+					variant="primary"
 					class="talk_select-room"
 					:disabled="!selectedRoom"
 					@click="selectConversation(selectedRoom)">
@@ -52,20 +59,20 @@
 </template>
 
 <script>
-import {
-	NcButton,
-	NcModal,
-	NcAvatar,
-	NcEmptyContent,
-} from '@nextcloud/vue'
 import axios from '@nextcloud/axios'
-import { loadState } from '@nextcloud/initial-state'
-import { createTalkRoom, generateURLForToken } from '../../services/talkService.js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
-import IconAdd from 'vue-material-design-icons/Plus.vue'
-import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
+import {
+	NcAvatar,
+	NcButton,
+	NcEmptyContent,
+	NcModal,
+} from '@nextcloud/vue'
 import { mapStores } from 'pinia'
+import IconAdd from 'vue-material-design-icons/Plus.vue'
+import { createTalkRoom, generateURLForToken } from '../../services/talkService.js'
+import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
 
 // Ref https://github.com/nextcloud/spreed/blob/main/docs/constants.md
 const CONVERSATION_TYPE_GROUP = 2
@@ -86,21 +93,25 @@ export default {
 		NcAvatar,
 		NcEmptyContent,
 	},
+
 	props: {
 		calendarObjectInstance: {
 			type: Object,
 			required: true,
 		},
+
 		conversations: {
 			type: Array,
 			required: true,
 		},
 	},
+
 	setup() {
 		return {
 			canCreateConversations,
 		}
 	},
+
 	data() {
 		return {
 			talkConversations: [],
@@ -110,6 +121,7 @@ export default {
 			loading: true,
 		}
 	},
+
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
 		/**
@@ -119,26 +131,27 @@ export default {
 			return this.talkConversations.toSorted((a, b) => b.lastActivity - a.lastActivity)
 		},
 	},
+
 	async mounted() {
 		await this.fetchTalkConversations()
 	},
+
 	methods: {
 		avatarUrl(conversation) {
 			return generateOcsUrl('apps/spreed/api/v1/room/{token}/avatar', {
 				token: conversation.token,
 			})
 		},
+
 		async fetchTalkConversations() {
 			try {
 				const response = await axios.get(generateOcsUrl('apps/spreed/api/v4/room'))
-				this.talkConversations = response.data.ocs.data.filter(conversation =>
-					(conversation.participantType === PARTICIPANT_TYPE_OWNER
-						|| conversation.participantType === PARTICIPANT_TYPE_MODERATOR)
-					&& (conversation.type === CONVERSATION_TYPE_GROUP
-						|| (conversation.type === CONVERSATION_TYPE_PUBLIC
-							&& conversation.objectType !== CONVERSATION_OBJECT_TYPE_VIDEO_VERIFICATION))
-					&& conversation.objectType !== CONVERSATION_OBJECT_TYPE_EVENT,
-				)
+				this.talkConversations = response.data.ocs.data.filter((conversation) => (conversation.participantType === PARTICIPANT_TYPE_OWNER
+					|| conversation.participantType === PARTICIPANT_TYPE_MODERATOR)
+				&& (conversation.type === CONVERSATION_TYPE_GROUP
+					|| (conversation.type === CONVERSATION_TYPE_PUBLIC
+						&& conversation.objectType !== CONVERSATION_OBJECT_TYPE_VIDEO_VERIFICATION))
+					&& conversation.objectType !== CONVERSATION_OBJECT_TYPE_EVENT)
 			} catch (error) {
 				console.error('Error fetching Talk conversations:', error)
 				showError(this.$t('calendar', 'Error fetching Talk conversations.'))
@@ -146,6 +159,7 @@ export default {
 				this.loading = false
 			}
 		},
+
 		selectRoom(conversation) {
 			this.selectedRoom = conversation
 		},
@@ -219,6 +233,7 @@ export default {
 				this.creatingTalkRoom = false
 			}
 		},
+
 		closeModal() {
 			this.$emit('close')
 		},

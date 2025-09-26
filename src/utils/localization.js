@@ -1,8 +1,3 @@
-/**
- * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
- * SPDX-License-Identifier: AGPL-3.0-or-later
- */
-import moment from '@nextcloud/moment'
 import {
 	getDayNames,
 	getDayNamesMin,
@@ -11,6 +6,11 @@ import {
 	getMonthNames,
 	getMonthNamesShort,
 } from '@nextcloud/l10n'
+/**
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+import moment from '@nextcloud/moment'
 
 /**
  * Maps a moment locale to a vue2-datepicker locale
@@ -20,7 +20,7 @@ import {
  * @param {string} momentLocale Name of the moment locale
  * @return {object} The vue2-datepicker lang object
  */
-const getLangConfigForVue2DatePicker = (momentLocale) => {
+function getLangConfigForVue2DatePicker(momentLocale) {
 	const dateFormat = moment.localeData(momentLocale)
 		.longDateFormat('L')
 		.toUpperCase()

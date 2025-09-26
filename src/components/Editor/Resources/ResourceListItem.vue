@@ -5,7 +5,8 @@
 
 <template>
 	<div class="resource-list-item">
-		<AvatarParticipationStatus :attendee-is-organizer="false"
+		<AvatarParticipationStatus
+			:attendee-is-organizer="false"
 			:is-viewed-by-organizer="isViewedByOrganizer"
 			:is-resource="true"
 			:is-suggestion="isSuggestion"
@@ -27,15 +28,20 @@
 				</ActionButton>
 			</actions>
 			<Actions v-else-if="isViewedByOrganizer">
-				<ActionCaption v-if="seatingCapacity"
+				<ActionCaption
+					v-if="seatingCapacity"
 					:name="seatingCapacity" />
-				<ActionCaption v-if="roomType"
+				<ActionCaption
+					v-if="roomType"
 					:name="roomType" />
-				<ActionCaption v-if="hasProjector"
+				<ActionCaption
+					v-if="hasProjector"
 					:name="$t('calendar', 'Has a projector')" />
-				<ActionCaption v-if="hasWhiteboard"
+				<ActionCaption
+					v-if="hasWhiteboard"
 					:name="$t('calendar', 'Has a whiteboard')" />
-				<ActionCaption v-if="isAccessible"
+				<ActionCaption
+					v-if="isAccessible"
 					:name="$t('calendar', 'Wheelchair accessible')" />
 				<ActionSeparator v-if="seatingCapacity || roomType || hasProjector || hasWhiteboard || isAccessible" />
 				<ActionButton @click="removeResource">
@@ -51,19 +57,18 @@
 
 <script>
 import {
-	NcActions as Actions,
 	NcActionButton as ActionButton,
 	NcActionCaption as ActionCaption,
+	NcActions as Actions,
 	NcActionSeparator as ActionSeparator,
 } from '@nextcloud/vue'
+import Plus from 'vue-material-design-icons/Plus.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
+import { formatRoomType } from '../../../models/resourceProps.js'
+import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import { removeMailtoPrefix } from '../../../utils/attendee.js'
 import logger from '../../../utils/logger.js'
-import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
-import { formatRoomType } from '../../../models/resourceProps.js'
-
-import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
-import Plus from 'vue-material-design-icons/Plus.vue'
 
 export default {
 	name: 'ResourceListItem',
@@ -76,33 +81,40 @@ export default {
 		Delete,
 		Plus,
 	},
+
 	props: {
 		resource: {
 			type: Object,
 			required: true,
 		},
+
 		organizerDisplayName: {
 			type: String,
 			required: true,
 		},
+
 		isReadOnly: {
 			type: Boolean,
 			required: true,
 		},
+
 		isSuggestion: {
 			type: Boolean,
 			default: false,
 		},
+
 		isViewedByOrganizer: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	data() {
 		return {
 			principal: null,
 		}
 	},
+
 	computed: {
 		commonName() {
 			if (this.resource.commonName) {
@@ -115,15 +127,19 @@ export default {
 
 			return this.resource.uri
 		},
+
 		isAccessible() {
 			return this.hasFeature('WHEELCHAIR-ACCESSIBLE')
 		},
+
 		hasProjector() {
 			return this.hasFeature('PROJECTOR')
 		},
+
 		hasWhiteboard() {
 			return this.hasFeature('WHITEBOARD')
 		},
+
 		seatingCapacity() {
 			const seatingCapacity = this.principal?.roomSeatingCapacity
 			if (!seatingCapacity) {
@@ -134,14 +150,18 @@ export default {
 				'calendar',
 				'{seatingCapacity} seat',
 				'{seatingCapacity} seats',
-				seatingCapacity, {
+				seatingCapacity,
+				{
 					seatingCapacity,
-				})
+				},
+			)
 		},
+
 		roomType() {
 			const roomType = this.principal?.roomType
 			return formatRoomType(roomType) ?? roomType
 		},
+
 		participationStatus() {
 			if (this.isSuggestion) {
 				return ''
@@ -149,18 +169,22 @@ export default {
 
 			return this.resource.participationStatus
 		},
+
 		scheduleStatus() {
 			return this.resource.attendeeProperty?.getParameterFirstValue('SCHEDULE-STATUS') ?? ''
 		},
 	},
+
 	watch: {
 		async resource() {
 			await this.fetchPrincipal()
 		},
 	},
+
 	async mounted() {
 		await this.fetchPrincipal()
 	},
+
 	methods: {
 		/**
 		 * Add this suggestions to the event
@@ -168,12 +192,14 @@ export default {
 		addSuggestion() {
 			this.$emit('add-suggestion', this.resource)
 		},
+
 		/**
 		 * Removes a resource from the event
 		 */
 		removeResource() {
 			this.$emit('remove-resource', this.resource)
 		},
+
 		/**
 		 * Check if this resource has a feature
 		 *
@@ -182,15 +208,16 @@ export default {
 		 */
 		hasFeature(feature) {
 			const features = this.principal?.roomFeatures?.split(',') ?? []
-			return !!features.find(featureToCheck => featureToCheck === feature)
+			return !!features.find((featureToCheck) => featureToCheck === feature)
 		},
+
 		/**
 		 * Try to fetch the principal belonging to this resource
 		 */
 		async fetchPrincipal() {
 			const uri = removeMailtoPrefix(this.resource.uri)
 			let principals = await principalPropertySearchByDisplaynameOrEmail(uri)
-			principals = principals.filter(principal => removeMailtoPrefix(principal.email) === uri)
+			principals = principals.filter((principal) => removeMailtoPrefix(principal.email) === uri)
 			if (principals.length === 0) {
 				logger.debug('No principal for resource found', {
 					uri: this.resource.uri,

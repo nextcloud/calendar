@@ -14,38 +14,40 @@ import { getDateFromDateTimeValue } from '../utils/date.js'
  * @param {object} props The alarm properties already provided
  * @return {object}
  */
-const getDefaultAlarmObject = (props = {}) => Object.assign({}, {
-	// The calendar-js alarm component
-	alarmComponent: null,
-	// Type of alarm: DISPLAY, EMAIL, AUDIO
-	type: null,
-	// Whether or not the alarm is relative
-	isRelative: false,
-	// Date object of an absolute alarm (if it's absolute, it must be DATE-TIME)
-	absoluteDate: null,
-	// The time zone id of for absolute alarms
-	absoluteTimezoneId: null,
-	// Whether or not the relative alarm is before the event,
-	relativeIsBefore: null,
-	// Whether or not the alarm is relative to the event's start
-	relativeIsRelatedToStart: null,
-	// TIMED EVENTS:
-	// Unit (seconds, minutes, hours, ...) if this alarm is inside a timed event
-	relativeUnitTimed: null,
-	// The amount of unit if this alarm is inside a timed event
-	relativeAmountTimed: null,
-	// ALL-DAY EVENTS:
-	// Unit (seconds, minutes, hours, ...) if this alarm is inside an all-day event
-	relativeUnitAllDay: null,
-	// The amount of unit if this alarm is inside a all-day event
-	relativeAmountAllDay: null,
-	// The hours to display alarm for in an all-day event (e.g. 1 day before at 9:00 am)
-	relativeHoursAllDay: null,
-	// The minutes to display alarm for in an all-day event (e.g. 1 day before at 9:30 am)
-	relativeMinutesAllDay: null,
-	// The total amount of seconds for a relative alarm
-	relativeTrigger: null,
-}, props)
+function getDefaultAlarmObject(props = {}) {
+	return { // The calendar-js alarm component
+		alarmComponent: null,
+		// Type of alarm: DISPLAY, EMAIL, AUDIO
+		type: null,
+		// Whether or not the alarm is relative
+		isRelative: false,
+		// Date object of an absolute alarm (if it's absolute, it must be DATE-TIME)
+		absoluteDate: null,
+		// The time zone id of for absolute alarms
+		absoluteTimezoneId: null,
+		// Whether or not the relative alarm is before the event,
+		relativeIsBefore: null,
+		// Whether or not the alarm is relative to the event's start
+		relativeIsRelatedToStart: null,
+		// TIMED EVENTS:
+		// Unit (seconds, minutes, hours, ...) if this alarm is inside a timed event
+		relativeUnitTimed: null,
+		// The amount of unit if this alarm is inside a timed event
+		relativeAmountTimed: null,
+		// ALL-DAY EVENTS:
+		// Unit (seconds, minutes, hours, ...) if this alarm is inside an all-day event
+		relativeUnitAllDay: null,
+		// The amount of unit if this alarm is inside a all-day event
+		relativeAmountAllDay: null,
+		// The hours to display alarm for in an all-day event (e.g. 1 day before at 9:00 am)
+		relativeHoursAllDay: null,
+		// The minutes to display alarm for in an all-day event (e.g. 1 day before at 9:30 am)
+		relativeMinutesAllDay: null,
+		// The total amount of seconds for a relative alarm
+		relativeTrigger: null,
+		...props,
+	}
+}
 
 /**
  * Map an alarm component to our alarm object
@@ -53,7 +55,7 @@ const getDefaultAlarmObject = (props = {}) => Object.assign({}, {
  * @param {AlarmComponent} alarmComponent The calendar-js alarm-component to turn into an alarm object
  * @return {object}
  */
-const mapAlarmComponentToAlarmObject = (alarmComponent) => {
+function mapAlarmComponentToAlarmObject(alarmComponent) {
 	if (alarmComponent.trigger.isRelative()) {
 		const relativeIsBefore = alarmComponent.trigger.value.isNegative
 		const relativeIsRelatedToStart = alarmComponent.trigger.related === 'START'

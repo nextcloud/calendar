@@ -5,7 +5,8 @@
 
 <template>
 	<div class="today-button-section">
-		<NcButton :aria-label="title"
+		<NcButton
+			:aria-label="title"
 			class="button"
 			:name="title"
 			@click="today()">
@@ -23,17 +24,17 @@ export default {
 	components: {
 		NcButton,
 	},
+
 	computed: {
 		title() {
 			return moment().format('ll')
 		},
 	},
+
 	methods: {
 		today() {
 			const name = this.$route.name
-			const params = Object.assign({}, this.$route.params, {
-				firstDay: 'now',
-			})
+			const params = { ...this.$route.params, firstDay: 'now' }
 
 			// Don't push new route when day didn't change
 			if (this.$route.params.firstDay === 'now') {

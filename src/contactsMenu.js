@@ -3,18 +3,17 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import 'core-js/stable/index.js'
+import CalendarBlankSvg from '@mdi/svg/svg/calendar-blank.svg'
+import { getRequestToken } from '@nextcloud/auth'
+import { translate as t } from '@nextcloud/l10n'
+import { linkTo } from '@nextcloud/router'
+import { registerContactsMenuAction } from '@nextcloud/vue/functions/contactsMenu'
 
+import 'core-js/stable/index.js'
 import '../css/calendar.scss'
 
-import { getRequestToken } from '@nextcloud/auth'
-import { linkTo } from '@nextcloud/router'
-import { translate as t } from '@nextcloud/l10n'
-import { registerContactsMenuAction } from '@nextcloud/vue/dist/Functions/contactsMenu.js'
-import CalendarBlankSvg from '@mdi/svg/svg/calendar-blank.svg'
-
 // CSP config for webpack dynamic chunk loading
-// eslint-disable-next-line
+
 __webpack_nonce__ = btoa(getRequestToken())
 
 // Correct the root of the app for chunk loading

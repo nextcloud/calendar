@@ -1,18 +1,20 @@
-/**
- * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
- * SPDX-License-Identifier: AGPL-3.0-or-later
- */
-import getTimezoneManager from '../services/timezoneDataProviderService.js'
-import {
-	getDateFromDateTimeValue,
-} from '../utils/date.js'
-import { AttendeeProperty, Property, DateTimeValue, DurationValue, RecurValue, AttachmentProperty, Parameter } from '@nextcloud/calendar-js'
-import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/recurrence.js'
+import { AttachmentProperty, AttendeeProperty, DateTimeValue, DurationValue, Parameter, Property, RecurValue } from '@nextcloud/calendar-js'
+import { generateUrl } from '@nextcloud/router'
+import { defineStore } from 'pinia'
+import Vue from 'vue'
+import { mapAlarmComponentToAlarmObject } from '../models/alarm.js'
 import {
 	copyCalendarObjectInstanceIntoEventComponent,
 	getDefaultEventObject,
 	mapEventComponentToEventObject,
 } from '../models/event.js'
+import { getRFCProperties } from '../models/rfcProps.js'
+import { updateTalkParticipants } from '../services/talkService.js'
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import {
 	getAmountAndUnitForTimedEvents,
 	getAmountHoursMinutesAndUnitForAllDayEvents,
@@ -20,19 +22,16 @@ import {
 	getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents,
 	updateAlarms,
 } from '../utils/alarms.js'
-import { mapAlarmComponentToAlarmObject } from '../models/alarm.js'
 import { getObjectAtRecurrenceId } from '../utils/calendarObject.js'
+import { getClosestCSS3ColorNameForHex, getHexForColorName } from '../utils/color.js'
+import {
+	getDateFromDateTimeValue,
+} from '../utils/date.js'
 import logger from '../utils/logger.js'
-import { getRFCProperties } from '../models/rfcProps.js'
-import { generateUrl } from '@nextcloud/router'
-import { updateTalkParticipants } from '../services/talkService.js'
+import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/recurrence.js'
 import useCalendarObjectsStore from './calendarObjects.js'
 import useCalendarsStore from './calendars.js'
 import useSettingsStore from './settings.js'
-import { getClosestCSS3ColorNameForHex, getHexForColorName } from '../utils/color.js'
-
-import { defineStore } from 'pinia'
-import Vue from 'vue'
 
 export default defineStore('calendarObjectInstance', {
 	state: () => {
@@ -1270,8 +1269,8 @@ export default defineStore('calendarObjectInstance', {
 				}
 				calendarObjectInstance.eventComponent.removeAttachment(attachment.attachmentProperty)
 			} catch {
+				// Ignore
 			}
-
 		},
 
 		// start of actions
@@ -1669,7 +1668,6 @@ export default defineStore('calendarObjectInstance', {
 			recurrenceRule,
 			frequency,
 		}) {
-
 			console.debug(calendarObjectInstance)
 			console.debug(recurrenceRule)
 			console.debug(frequency)
@@ -1742,39 +1740,39 @@ export default defineStore('calendarObjectInstance', {
 			frequency,
 		}) {
 			switch (frequency) {
-			case 'WEEKLY':
-				if (recurrenceRule.recurrenceRuleValue) {
-					const byDay = getWeekDayFromDate(calendarObjectInstance.startDate)
-					recurrenceRule.recurrenceRuleValue.setComponent('BYDAY', [byDay])
-					recurrenceRule.byDay.push(byDay)
+				case 'WEEKLY':
+					if (recurrenceRule.recurrenceRuleValue) {
+						const byDay = getWeekDayFromDate(calendarObjectInstance.startDate)
+						recurrenceRule.recurrenceRuleValue.setComponent('BYDAY', [byDay])
+						recurrenceRule.byDay.push(byDay)
 
-					console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
-				}
-				break
+						console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+					}
+					break
 
-			case 'MONTHLY':
-				if (recurrenceRule.recurrenceRuleValue) {
-					const byMonthDay = calendarObjectInstance.startDate.getDate()
-					recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', [byMonthDay])
-					recurrenceRule.byMonthDay.push(byMonthDay)
+				case 'MONTHLY':
+					if (recurrenceRule.recurrenceRuleValue) {
+						const byMonthDay = calendarObjectInstance.startDate.getDate()
+						recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', [byMonthDay])
+						recurrenceRule.byMonthDay.push(byMonthDay)
 
-					console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
-				}
-				break
+						console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+					}
+					break
 
-			case 'YEARLY':
-				if (recurrenceRule.recurrenceRuleValue) {
-					const byMonth = calendarObjectInstance.startDate.getMonth() + 1 // Javascript months are zero-based
-					recurrenceRule.recurrenceRuleValue.setComponent('BYMONTH', [byMonth])
-					recurrenceRule.byMonth.push(byMonth)
+				case 'YEARLY':
+					if (recurrenceRule.recurrenceRuleValue) {
+						const byMonth = calendarObjectInstance.startDate.getMonth() + 1 // Javascript months are zero-based
+						recurrenceRule.recurrenceRuleValue.setComponent('BYMONTH', [byMonth])
+						recurrenceRule.byMonth.push(byMonth)
 
-					const byMonthDay = calendarObjectInstance.startDate.getDate()
-					recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', [byMonthDay])
-					recurrenceRule.byMonthDay.push(byMonthDay)
+						const byMonthDay = calendarObjectInstance.startDate.getDate()
+						recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', [byMonthDay])
+						recurrenceRule.byMonthDay.push(byMonthDay)
 
-					console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
-				}
-				break
+						console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+					}
+					break
 			}
 		},
 
@@ -1871,39 +1869,39 @@ export default defineStore('calendarObjectInstance', {
 			let until
 			switch (recurrenceRule.frequency) {
 			// Defaults to 7 days
-			case 'DAILY':
-				until = new Date(calendarObjectInstance.startDate.getTime() + 7 * 24 * 60 * 60 * 1000)
-				break
+				case 'DAILY':
+					until = new Date(calendarObjectInstance.startDate.getTime() + 7 * 24 * 60 * 60 * 1000)
+					break
 
 				// Defaults to 4 weeks
-			case 'WEEKLY':
-				until = new Date(calendarObjectInstance.startDate.getTime() + 4 * 7 * 24 * 60 * 60 * 1000)
-				break
+				case 'WEEKLY':
+					until = new Date(calendarObjectInstance.startDate.getTime() + 4 * 7 * 24 * 60 * 60 * 1000)
+					break
 
 				// Defaults to 10 year
-			case 'YEARLY':
-				until = new Date(
-					calendarObjectInstance.startDate.getFullYear() + 10,
-					calendarObjectInstance.startDate.getMonth(),
-					calendarObjectInstance.startDate.getDate(),
-					23,
-					59,
-					59,
-				)
-				break
+				case 'YEARLY':
+					until = new Date(
+						calendarObjectInstance.startDate.getFullYear() + 10,
+						calendarObjectInstance.startDate.getMonth(),
+						calendarObjectInstance.startDate.getDate(),
+						23,
+						59,
+						59,
+					)
+					break
 
 				// Defaults to 12 months
-			case 'MONTHLY':
-			default:
-				until = new Date(
-					calendarObjectInstance.startDate.getFullYear() + 1,
-					calendarObjectInstance.startDate.getMonth(),
-					calendarObjectInstance.startDate.getDate(),
-					23,
-					59,
-					59,
-				)
-				break
+				case 'MONTHLY':
+				default:
+					until = new Date(
+						calendarObjectInstance.startDate.getFullYear() + 1,
+						calendarObjectInstance.startDate.getMonth(),
+						calendarObjectInstance.startDate.getDate(),
+						23,
+						59,
+						59,
+					)
+					break
 			}
 
 			this.changeRecurrenceToInfinite({
@@ -1969,8 +1967,12 @@ export default defineStore('calendarObjectInstance', {
 		}) {
 			if (alarm.alarmComponent) {
 				alarm.alarmComponent.trigger.value.totalSeconds
-					= getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(amount,
-						alarm.relativeHoursAllDay, alarm.relativeMinutesAllDay, alarm.relativeUnitAllDay)
+					= getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(
+						amount,
+						alarm.relativeHoursAllDay,
+						alarm.relativeMinutesAllDay,
+						alarm.relativeUnitAllDay,
+					)
 
 				alarm.relativeAmountAllDay = amount
 				alarm.relativeTrigger = alarm.alarmComponent.trigger.value.totalSeconds
@@ -1987,8 +1989,12 @@ export default defineStore('calendarObjectInstance', {
 		}) {
 			if (alarm.alarmComponent) {
 				alarm.alarmComponent.trigger.value.totalSeconds
-					= getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(alarm.relativeAmountAllDay,
-						alarm.relativeHoursAllDay, alarm.relativeMinutesAllDay, unit)
+					= getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(
+						alarm.relativeAmountAllDay,
+						alarm.relativeHoursAllDay,
+						alarm.relativeMinutesAllDay,
+						unit,
+					)
 
 				alarm.relativeUnitAllDay = unit
 				alarm.relativeTrigger = alarm.alarmComponent.trigger.value.totalSeconds
@@ -2006,8 +2012,12 @@ export default defineStore('calendarObjectInstance', {
 		}) {
 			if (alarm.alarmComponent) {
 				alarm.alarmComponent.trigger.value.totalSeconds
-					= getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(alarm.relativeAmountAllDay,
-						hours, minutes, alarm.relativeUnitAllDay)
+					= getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(
+						alarm.relativeAmountAllDay,
+						hours,
+						minutes,
+						alarm.relativeUnitAllDay,
+					)
 
 				alarm.relativeHoursAllDay = hours
 				alarm.relativeMinutesAllDay = minutes

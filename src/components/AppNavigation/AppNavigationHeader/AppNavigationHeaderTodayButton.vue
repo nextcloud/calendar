@@ -4,10 +4,10 @@
 -->
 
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router/composables'
+import { t } from '@nextcloud/l10n'
 import { NcButton } from '@nextcloud/vue'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
-import { t } from '@nextcloud/l10n'
+import { useRoute, useRouter } from 'vue-router/composables'
 
 const route = useRoute()
 const router = useRouter()
@@ -31,7 +31,8 @@ useHotKey('t', () => today())
 </script>
 
 <template>
-	<NcButton class="button today"
+	<NcButton
+		class="button today"
 		@click="today">
 		{{ t('calendar', 'Today') }}
 	</NcButton>

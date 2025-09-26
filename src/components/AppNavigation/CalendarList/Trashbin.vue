@@ -4,23 +4,27 @@
 -->
 
 <template>
-	<NcAppNavigationItem :name="t('calendar', 'Trash bin')"
+	<NcAppNavigationItem
+		:name="t('calendar', 'Trash bin')"
 		:pinned="true"
 		@click.prevent="onShow">
 		<template #icon>
 			<IconDelete :size="20" decorative />
 		</template>
 		<template #extra>
-			<NcModal v-if="showModal"
+			<NcModal
+				v-if="showModal"
 				size="large"
 				@close="showModal = false">
 				<div class="modal__content">
 					<h2>{{ t('calendar', 'Trash bin') }}</h2>
-					<NcEmptyContent v-if="loading"
+					<NcEmptyContent
+						v-if="loading"
 						icon="icon-loading"
 						class="modal__content__loading"
 						:description="t('calendar', 'Loading deleted items.')" />
-					<NcEmptyContent v-else-if="!items.length"
+					<NcEmptyContent
+						v-else-if="!items.length"
 						class="modal__content__empty"
 						:description="t('calendar', 'You do not have any deleted items.')">
 						<template #icon>
@@ -42,7 +46,8 @@
 								<td>
 									<div class="item">
 										<div>
-											<div class="color-dot"
+											<div
+												class="color-dot"
 												:style="{ 'background-color': item.color }" />
 										</div>
 
@@ -61,8 +66,8 @@
 								</td>
 								<td>
 									<div class="item-actions">
-										<NcButton type="secondary" @click="restore(item)">
-											{{ t('calendar','Restore') }}
+										<NcButton variant="secondary" @click="restore(item)">
+											{{ t('calendar', 'Restore') }}
 										</NcButton>
 
 										<NcActions :force-menu="true">
@@ -70,7 +75,7 @@
 												<template #icon>
 													<Delete :size="20" decorative />
 												</template>
-												{{ t('calendar','Delete permanently') }}
+												{{ t('calendar', 'Delete permanently') }}
 											</NcActionButton>
 										</NcActions>
 									</div>
@@ -81,8 +86,8 @@
 							<p v-if="retentionDuration">
 								{{ n('calendar', 'Items in the trash bin are deleted after {numDays} day', 'Items in the trash bin are deleted after {numDays} days', retentionDuration, { numDays: retentionDuration }) }}
 							</p>
-							<NcButton type="error" @click="onEmptyTrashBin()">
-								{{ t('calendar','Empty trash bin') }}
+							<NcButton variant="error" @click="onEmptyTrashBin()">
+								{{ t('calendar', 'Empty trash bin') }}
 							</NcButton>
 						</div>
 					</template>
@@ -93,24 +98,23 @@
 </template>
 
 <script>
+import { showError } from '@nextcloud/dialogs'
+import moment from '@nextcloud/moment'
 import {
-	NcAppNavigationItem,
-	NcActions,
 	NcActionButton,
-	NcModal,
-	NcEmptyContent,
+	NcActions,
+	NcAppNavigationItem,
 	NcButton,
 	NcDateTime,
+	NcEmptyContent,
+	NcModal,
 } from '@nextcloud/vue'
-import moment from '@nextcloud/moment'
-import logger from '../../../utils/logger.js'
-import { showError } from '@nextcloud/dialogs'
-import { uidToHexColor } from '../../../utils/color.js'
+import { mapState, mapStores } from 'pinia'
+import IconDelete from 'vue-material-design-icons/TrashCanOutline.vue'
 import useCalendarsStore from '../../../store/calendars.js'
 import useSettingsStore from '../../../store/settings.js'
-import { mapStores, mapState } from 'pinia'
-
-import IconDelete from 'vue-material-design-icons/TrashCanOutline.vue'
+import { uidToHexColor } from '../../../utils/color.js'
+import logger from '../../../utils/logger.js'
 
 export default {
 	name: 'Trashbin',
@@ -124,25 +128,30 @@ export default {
 		NcModal,
 		IconDelete,
 	},
+
 	data() {
 		return {
 			showModal: false,
 			loading: true,
 		}
 	},
+
 	computed: {
 		...mapStores(useCalendarsStore),
 		...mapState(useSettingsStore, {
 			timezoneObject: 'getResolvedTimezoneObject',
 		}),
+
 		calendars() {
 			return this.calendarsStore.sortedDeletedCalendars
 		},
+
 		objects() {
 			return this.calendarsStore.allDeletedCalendarObjects
 		},
+
 		items() {
-			const formattedCalendars = this.calendars.map(calendar => ({
+			const formattedCalendars = this.calendars.map((calendar) => ({
 				calendar,
 				type: 'calendar',
 				key: calendar.url,
@@ -151,7 +160,7 @@ export default {
 				deletedAt: calendar._props['{http://nextcloud.com/ns}deleted-at'],
 				color: calendar.color ?? uidToHexColor(calendar.displayname),
 			}))
-			const formattedCalendarObjects = this.objects.map(vobject => {
+			const formattedCalendarObjects = this.objects.map((vobject) => {
 				let eventSummary = t('calendar', 'Untitled item')
 				try {
 					eventSummary = vobject?.calendarComponent.getComponentIterator().next().value?.title
@@ -169,8 +178,8 @@ export default {
 					}
 				}
 				const color = vobject.calendarComponent.getComponentIterator().next().value?.color
-						?? vobject.calendar?.color
-						?? uidToHexColor(subline)
+					?? vobject.calendar?.color
+					?? uidToHexColor(subline)
 				return {
 					vobject,
 					type: 'object',
@@ -185,12 +194,12 @@ export default {
 
 			return formattedCalendars.concat(formattedCalendarObjects).sort((item1, item2) => item2.deletedAt - item1.deletedAt)
 		},
+
 		retentionDuration() {
-			return Math.ceil(
-				this.calendarsStore.trashBin.retentionDuration / (60 * 60 * 24),
-			)
+			return Math.ceil(this.calendarsStore.trashBin.retentionDuration / (60 * 60 * 24))
 		},
 	},
+
 	methods: {
 		async onShow() {
 			this.showModal = true
@@ -215,16 +224,17 @@ export default {
 			}
 			this.loading = false
 		},
+
 		async onDeletePermanently(item) {
 			logger.debug('deleting ' + item.url + ' permanently', item)
 			try {
 				switch (item.type) {
-				case 'calendar':
-					await this.calendarsStore.deleteCalendarPermanently({ calendar: item.calendar })
-					break
-				case 'object':
-					await this.calendarsStore.deleteCalendarObjectPermanently({ vobject: item.vobject })
-					break
+					case 'calendar':
+						await this.calendarsStore.deleteCalendarPermanently({ calendar: item.calendar })
+						break
+					case 'object':
+						await this.calendarsStore.deleteCalendarObjectPermanently({ vobject: item.vobject })
+						break
 				}
 			} catch (error) {
 				logger.error('could not delete ' + item.url, { error })
@@ -232,17 +242,18 @@ export default {
 				showError(t('calendar', 'Could not delete calendar or event'))
 			}
 		},
+
 		async restore(item) {
 			logger.debug('restoring ' + item.url, item)
 			try {
 				switch (item.type) {
-				case 'calendar':
-					await this.calendarsStore.restoreCalendar({ calendar: item.calendar })
-					await this.calendarsStore.loadCollections()
-					break
-				case 'object':
-					await this.calendarsStore.restoreCalendarObject({ vobject: item.vobject })
-					break
+					case 'calendar':
+						await this.calendarsStore.restoreCalendar({ calendar: item.calendar })
+						await this.calendarsStore.loadCollections()
+						break
+					case 'object':
+						await this.calendarsStore.restoreCalendarObject({ vobject: item.vobject })
+						break
 				}
 			} catch (error) {
 				logger.error('could not restore ' + item.url, { error })
@@ -250,6 +261,7 @@ export default {
 				showError(t('calendar', 'Could not restore calendar or event'))
 			}
 		},
+
 		onEmptyTrashBin() {
 			OC.dialogs.confirm(
 				t('calendar', 'Do you really want to empty the trash bin?'),

@@ -6,7 +6,8 @@
 	<div v-if="isWidget" class="calendar-Widget">
 		<EmbedTopNavigation v-if="!showEmptyCalendarScreen" :is-widget="true" />
 
-		<CalendarGrid v-if="!showEmptyCalendarScreen"
+		<CalendarGrid
+			v-if="!showEmptyCalendarScreen"
 			ref="calendarGridWidget"
 			:is-widget="isWidget"
 			:url="url"
@@ -17,12 +18,13 @@
 	</div>
 
 	<NcContent v-else app-name="calendar" :class="classNames">
-		<AppNavigation v-if="!isWidget &&!isEmbedded && !showEmptyCalendarScreen">
+		<AppNavigation v-if="!isWidget && !isEmbedded && !showEmptyCalendarScreen">
 			<!-- Date Picker, View Buttons, Today Button -->
 			<AppNavigationHeader :is-public="!isAuthenticatedUser" />
 			<template #list>
 				<!-- Calendar / Subscription List -->
-				<CalendarList :is-public="!isAuthenticatedUser"
+				<CalendarList
+					:is-public="!isAuthenticatedUser"
 					:loading-calendars="loadingCalendars" />
 				<EditCalendarModal />
 
@@ -42,7 +44,8 @@
 			</template>
 			<!-- Settings and import -->
 			<template #footer>
-				<Settings v-if="isAuthenticatedUser"
+				<Settings
+					v-if="isAuthenticatedUser"
 					:loading-calendars="loadingCalendars" />
 			</template>
 		</AppNavigation>
@@ -60,21 +63,24 @@
 					</NcActions>
 				</div>
 
-				<CalendarGrid v-if="!showEmptyCalendarScreen"
+				<CalendarGrid
+					v-if="!showEmptyCalendarScreen"
 					ref="CalendarGrid"
 					:is-authenticated-user="isAuthenticatedUser" />
 				<EmptyCalendar v-else />
 			</div>
 		</AppContent>
 
-		<NcAppSidebar v-if="isAuthenticatedUser"
+		<NcAppSidebar
+			v-if="isAuthenticatedUser"
 			v-show="tasksSidebar && tasksSidebarEnabled"
 			:name="t('calendar', 'Unscheduled tasks')"
 			@close="toggletasksSidebar()">
 			<NcAppSidebarTab id="settings-tab" name="Settings">
 				<!-- Task without End Date List -->
 				<template>
-					<UnscheduledTasksList @tasks-empty="handleTasksEmpty"
+					<UnscheduledTasksList
+						@tasks-empty="handleTasksEmpty"
 						@task-clicked="handleTaskClick" />
 				</template>
 			</NcAppSidebarTab>
@@ -85,36 +91,50 @@
 </template>
 
 <script>
+import {
+	showWarning,
+} from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
 // Import vue components
 import {
-	NcAppNavigation as AppNavigation,
 	NcAppContent as AppContent,
-	NcContent,
-	NcAppSidebarTab,
-	NcAppSidebar,
+	NcAppNavigation as AppNavigation,
 	NcActionButton,
 	NcActions,
+	NcAppSidebar,
+	NcAppSidebarTab,
+	NcContent,
 } from '@nextcloud/vue'
+import { mapState, mapStores } from 'pinia'
+import PlaylistCheckIcon from 'vue-material-design-icons/PlaylistCheck.vue'
 import AppNavigationHeader from '../components/AppNavigation/AppNavigationHeader.vue'
+import AppointmentConfigList from '../components/AppNavigation/AppointmentConfigList.vue'
 import CalendarList from '../components/AppNavigation/CalendarList.vue'
-import Settings from '../components/AppNavigation/Settings.vue'
-import EmbedTopNavigation from '../components/AppNavigation/EmbedTopNavigation.vue'
-import EmptyCalendar from '../components/EmptyCalendar.vue'
-import CalendarGrid from '../components/CalendarGrid.vue'
+import Trashbin from '../components/AppNavigation/CalendarList/Trashbin.vue'
 import EditCalendarModal from '../components/AppNavigation/EditCalendarModal.vue'
+import EmbedTopNavigation from '../components/AppNavigation/EmbedTopNavigation.vue'
+import ProposalList from '../components/AppNavigation/Proposal/ProposalList.vue'
+import Settings from '../components/AppNavigation/Settings.vue'
+import UnscheduledTasksList from '../components/AppNavigation/UnscheduledTasksList.vue'
+import CalendarGrid from '../components/CalendarGrid.vue'
+import EmptyCalendar from '../components/EmptyCalendar.vue'
 import EditSimple from './EditSimple.vue'
 import ProposalEditor from './Proposal/ProposalEditor.vue'
 import eventClick from '../fullcalendar/interaction/eventClick.js'
-import PlaylistCheckIcon from 'vue-material-design-icons/PlaylistCheck.vue'
-import ProposalList from '../components/AppNavigation/Proposal/ProposalList.vue'
-
+import { mapDavCollectionToCalendar } from '../models/calendar.js'
 // Import CalDAV related methods
 import {
 	findAllCalendars,
 	initializeClientForPublicView,
 	initializeClientForUserView,
 } from '../services/caldavService.js'
-
+import getTimezoneManager from '../services/timezoneDataProviderService.js'
+import useCalendarObjectsStore from '../store/calendarObjects.js'
+import useCalendarsStore from '../store/calendars.js'
+import useFetchedTimeRangesStore from '../store/fetchedTimeRanges.js'
+import usePrincipalsStore from '../store/principals.js'
+import useSettingsStore from '../store/settings.js'
+import useWidgetStore from '../store/widget.js'
 // Import others
 import { uidToHexColor } from '../utils/color.js'
 import {
@@ -122,25 +142,10 @@ import {
 	getUnixTimestampFromDate,
 	getYYYYMMDDFromFirstdayParam,
 } from '../utils/date.js'
-import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import logger from '../utils/logger.js'
 import loadMomentLocalization from '../utils/moment.js'
-import { loadState } from '@nextcloud/initial-state'
-import {
-	showWarning,
-} from '@nextcloud/dialogs'
+
 import '@nextcloud/dialogs/style.css'
-import Trashbin from '../components/AppNavigation/CalendarList/Trashbin.vue'
-import AppointmentConfigList from '../components/AppNavigation/AppointmentConfigList.vue'
-import UnscheduledTasksList from '../components/AppNavigation/UnscheduledTasksList.vue'
-import useFetchedTimeRangesStore from '../store/fetchedTimeRanges.js'
-import useCalendarsStore from '../store/calendars.js'
-import useCalendarObjectsStore from '../store/calendarObjects.js'
-import usePrincipalsStore from '../store/principals.js'
-import useSettingsStore from '../store/settings.js'
-import useWidgetStore from '../store/widget.js'
-import { mapStores, mapState } from 'pinia'
-import { mapDavCollectionToCalendar } from '../models/calendar.js'
 
 export default {
 	name: 'Calendar',
@@ -167,28 +172,33 @@ export default {
 		ProposalEditor,
 		ProposalList,
 	},
+
 	props: {
 		// Is the calendar in a widget ?
 		isWidget: {
 			type: Boolean,
 			default: false,
 		},
+
 		// The reference token for the widget for public share calendars
 		referenceToken: {
 			type: String,
 			required: false,
 		},
+
 		// Is public share ?
 		isPublic: {
 			type: Boolean,
 			required: false,
 		},
+
 		// Url of private calendar
 		url: {
 			type: String,
 			required: false,
 		},
 	},
+
 	data() {
 		return {
 			loadingCalendars: true,
@@ -198,6 +208,7 @@ export default {
 			tasksSidebarEnabled: false,
 		}
 	},
+
 	computed: {
 		...mapStores(
 			useFetchedTimeRangesStore,
@@ -207,17 +218,21 @@ export default {
 			useSettingsStore,
 			useWidgetStore,
 		),
+
 		...mapState(useSettingsStore, {
 			timezoneId: 'getResolvedTimezone',
 		}),
+
 		...mapState(useSettingsStore, [
 			'timezone',
 			'disableAppointments',
 			'tasksSidebar',
 		]),
+
 		defaultDate() {
 			return getYYYYMMDDFromFirstdayParam(this.$route?.params?.firstDay ?? 'now')
 		},
+
 		isEditable() {
 			// We do not allow drag and drop when the editor is open.
 			return !this.isPublicShare
@@ -226,30 +241,37 @@ export default {
 				&& this.$route?.name !== 'EditPopoverView'
 				&& this.$route?.name !== 'EditFullView'
 		},
+
 		isSelectable() {
 			return !this.isPublicShare && !this.isEmbedded && !this.isWidget
 		},
+
 		isAuthenticatedUser() {
 			return !this.isPublicShare && !this.isEmbedded && !this.isWidget
 		},
+
 		isPublicShare() {
 			if (this.isWidget) {
 				return false
 			}
 			return this.$route.name.startsWith('Public')
 		},
+
 		isEmbedded() {
 			if (this.isWidget) {
 				return false
 			}
 			return this.$route.name.startsWith('Embed')
 		},
+
 		showWidgetEventDetails() {
 			return this.widgetStore.widgetEventDetailsOpen && this.$refs.calendarGridWidget.$el === this.widgetStore.widgetRef
 		},
+
 		showHeader() {
 			return this.isPublicShare && this.isEmbedded && this.isWidget
 		},
+
 		classNames() {
 			if (this.isEmbedded) {
 				return 'app-calendar-public-embedded'
@@ -261,6 +283,7 @@ export default {
 			return null
 		},
 	},
+
 	created() {
 		this.backgroundSyncJob = setInterval(async () => {
 			const currentUserPrincipal = this.principalsStore.getCurrentUserPrincipal
@@ -317,6 +340,7 @@ export default {
 			}
 		}, 1000 * 60)
 	},
+
 	async beforeMount() {
 		this.settingsStore.loadSettingsFromServer({
 			appVersion: loadState('calendar', 'app_version'),
@@ -384,6 +408,7 @@ export default {
 			this.loadingCalendars = false
 		}
 	},
+
 	async mounted() {
 		if (this.timezone === 'automatic' && this.timezoneId === 'UTC') {
 			const { toastElement }
@@ -406,6 +431,7 @@ export default {
 			resources: this.principalsStore.getResourcePrincipals,
 		})
 	},
+
 	methods: {
 		/**
 		 * Loads the locale data for moment.js

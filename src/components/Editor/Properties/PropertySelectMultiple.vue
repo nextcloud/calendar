@@ -5,16 +5,19 @@
 
 <template>
 	<div v-if="display" class="property-select-multiple">
-		<component :is="icon"
+		<component
+			:is="icon"
 			:title="info"
 			:size="20"
 			:name="readableName"
 			class="property-select-multiple__icon"
 			:class="{ 'property-select-multiple__icon--hidden': !showIcon }" />
 
-		<div class="property-select-multiple__input"
+		<div
+			class="property-select-multiple__input"
 			:class="{ 'property-select-multiple__input--readonly': isReadOnly }">
-			<NcSelect v-if="!isReadOnly"
+			<NcSelect
+				v-if="!isReadOnly"
 				:value="selectionData"
 				:options="options"
 				:searchable="true"
@@ -39,7 +42,8 @@
 			</NcSelect>
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else class="property-select-multiple-colored-tag-wrapper">
-				<PropertySelectMultipleColoredTag v-for="singleValue in value"
+				<PropertySelectMultipleColoredTag
+					v-for="singleValue in value"
 					:key="singleValue.value"
 					:option="singleValue" />
 			</div>
@@ -48,49 +52,54 @@
 </template>
 
 <script>
-import PropertyMixin from '../../../mixins/PropertyMixin.js'
-import { NcSelect } from '@nextcloud/vue'
-import PropertySelectMultipleColoredTag from './PropertySelectMultipleColoredTag.vue'
-import PropertySelectMultipleColoredOption from './PropertySelectMultipleColoredOption.vue'
 import { getLocale } from '@nextcloud/l10n'
-
+import { NcSelect } from '@nextcloud/vue'
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
+import PropertySelectMultipleColoredOption from './PropertySelectMultipleColoredOption.vue'
+import PropertySelectMultipleColoredTag from './PropertySelectMultipleColoredTag.vue'
+import PropertyMixin from '../../../mixins/PropertyMixin.js'
 
 export default {
 	name: 'PropertySelectMultiple',
 	components: {
 		PropertySelectMultipleColoredOption,
 		PropertySelectMultipleColoredTag,
-		// eslint-disable-next-line vue/no-reserved-component-names
+
 		NcSelect,
 		InformationVariant,
 	},
+
 	mixins: [
 		PropertyMixin,
 	],
+
 	props: {
 		coloredOptions: {
 			type: Boolean,
 			default: false,
 		},
+
 		closeOnSelect: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	data() {
 		return {
 			selectionData: [],
 		}
 	},
+
 	computed: {
 		display() {
 			return !(this.isReadOnly && this.selectionData.length === 0)
 		},
+
 		options() {
 			const options = this.propModel.options.slice()
 			for (const category of (this.selectionData ?? [])) {
-				if (options.find(option => option.value === category.value)) {
+				if (options.find((option) => option.value === category.value)) {
 					continue
 				}
 
@@ -102,14 +111,14 @@ export default {
 			}
 
 			for (const category of this.value) {
-				if (!options.find(option => option.value === category) && category !== undefined) {
-					options.splice(options.findIndex(options => options.value === category), 1)
+				if (!options.find((option) => option.value === category) && category !== undefined) {
+					options.splice(options.findIndex((options) => options.value === category), 1)
 				}
 			}
 
 			if (this.customLabelBuffer) {
 				for (const category of this.customLabelBuffer) {
-					if (!options.find(option => option.value === category.value)) {
+					if (!options.find((option) => option.value === category.value)) {
 						options.push(category)
 					}
 				}
@@ -125,14 +134,16 @@ export default {
 				})
 		},
 	},
+
 	created() {
 		for (const category of this.value) {
 			// Create and select pseudo option if is not yet known
-			const option = this.options.find(option => option.value === category)
+			const option = this.options.find((option) => option.value === category)
 				?? { label: category, value: category }
 			this.selectionData.push(option)
 		}
 	},
+
 	methods: {
 		unselectValue(value) {
 			if (!value) {
@@ -141,25 +152,26 @@ export default {
 
 			this.$emit('remove-single-value', value.value)
 
-			this.selectionData.splice(this.selectionData.findIndex(option => option.value === value.value), 1)
+			this.selectionData.splice(this.selectionData.findIndex((option) => option.value === value.value), 1)
 
 			// store removed custom options to keep it in the option list
 			const options = this.propModel.options.slice()
-			if (!options.find(option => option.value === value.value)) {
+			if (!options.find((option) => option.value === value.value)) {
 				if (!this.customLabelBuffer) {
 					this.customLabelBuffer = []
 				}
 				this.customLabelBuffer.push(value)
 			}
 		},
+
 		tag(value) {
 			if (!value) {
 				return
 			}
 
 			// budget deselectFromDropdown since the vue-select implementation doesn't work
-			if (this.selectionData.find(option => option.value === value.value)) {
-				this.selectionData.splice(this.selectionData.findIndex(option => option.value === value.value), 1)
+			if (this.selectionData.find((option) => option.value === value.value)) {
+				this.selectionData.splice(this.selectionData.findIndex((option) => option.value === value.value), 1)
 			}
 
 			this.selectionData.push(value)

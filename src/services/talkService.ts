@@ -3,44 +3,44 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { AutocompleteEntry } from '@/types/autocomplete'
+import type { OcsEnvelope } from '@/types/ocs'
+import type { ProposalInterface, ProposalParticipantInterface } from '@/types/proposals/proposalInterfaces'
+import type { TalkRoom } from '@/types/talk'
+
+import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateOcsUrl, generateUrl, getBaseUrl } from '@nextcloud/router'
-import { loadState } from '@nextcloud/initial-state'
 import md5 from 'md5'
-
-import type { ProposalInterface, ProposalParticipantInterface } from '@/types/proposals/proposalInterfaces'
+import { autocomplete } from './autocompleteService.ts'
 import { ProposalParticipantRealm } from '@/types/proposals/proposalEnums'
-import { autocomplete } from './autocompleteService'
-import type { AutocompleteEntry } from '@/types/autocomplete'
-import type { TalkRoom } from '@/types/talk'
-import type { OcsEnvelope } from '@/types/ocs'
 
 type TalkRoomCreateRequest = {
-  roomType: number
-  roomName: string
-  objectType: string
-  objectId: string
-  password?: string
-  readOnly?: number
-  listable?: number
-  messageExpiration?: number
-  lobbyState?: number
-  lobbyTimer?: number | null
-  sipEnabled?: number
-  permissions?: number
-  recordingConsent?: number
-  mentionPermissions?: number
-  description?: string
-  emoji?: string | null
-  avatarColor?: string | null
-  participants?: {
-    users?: string[]
-    federated_users?: string[]
-    groups?: string[]
-    emails?: string[]
-    phones?: string[]
-    teams?: string[]
-  }
+	roomType: number
+	roomName: string
+	objectType: string
+	objectId: string
+	password?: string
+	readOnly?: number
+	listable?: number
+	messageExpiration?: number
+	lobbyState?: number
+	lobbyTimer?: number | null
+	sipEnabled?: number
+	permissions?: number
+	recordingConsent?: number
+	mentionPermissions?: number
+	description?: string
+	emoji?: string | null
+	avatarColor?: string | null
+	participants?: {
+		users?: string[]
+		federated_users?: string[]
+		groups?: string[]
+		emails?: string[]
+		phones?: string[]
+		teams?: string[]
+	}
 }
 
 type TalkRoomCreateResponse = OcsEnvelope<TalkRoom>
@@ -64,7 +64,7 @@ export async function createTalkRoomFromProposal(proposal: ProposalInterface): P
 	const participantPromises = (proposal.participants || [])
 		.filter((participant): participant is ProposalParticipantInterface => !!participant?.address)
 		.map((participant) => {
-			return new Promise<{ userId?: string; email?: string }>((resolve) => {
+			return new Promise<{ userId?: string, email?: string }>((resolve) => {
 				(async () => {
 					// internal users are resolved to user IDs if possible
 					// otherwise fallback to email
@@ -107,8 +107,12 @@ export async function createTalkRoomFromProposal(proposal: ProposalInterface): P
 	}
 
 	payload.participants = {}
-	if (users.length) payload.participants.users = users
-	if (emails.length) payload.participants.emails = emails
+	if (users.length) {
+		payload.participants.users = users
+	}
+	if (emails.length) {
+		payload.participants.emails = emails
+	}
 
 	try {
 		const response = await transceivePost<TalkRoomCreateRequest, TalkRoomCreateResponse>('room', payload)

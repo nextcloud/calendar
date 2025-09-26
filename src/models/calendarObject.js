@@ -15,30 +15,32 @@ import {
  * @param {object} props Calendar-object-props already provided
  * @return {object}
  */
-const getDefaultCalendarObjectObject = (props = {}) => Object.assign({}, {
-	// Id of this calendar-object
-	id: null,
-	// Id of the associated calendar
-	calendarId: null,
-	// The cdav-library object storing the calendar-object
-	dav: null,
-	// The parsed calendar-js object
-	calendarComponent: null,
-	// The uid of the calendar-object
-	uid: null,
-	// The uri of the calendar-object
-	uri: null,
-	// The type of calendar-object
-	objectType: null,
-	// Whether or not the calendar-object is an event
-	isEvent: false,
-	// Whether or not the calendar-object is a journal
-	isJournal: false,
-	// Whether or not the calendar-object is a task
-	isTodo: false,
-	// Whether or not the calendar-object exists on the server
-	existsOnServer: false,
-}, props)
+function getDefaultCalendarObjectObject(props = {}) {
+	return { // Id of this calendar-object
+		id: null,
+		// Id of the associated calendar
+		calendarId: null,
+		// The cdav-library object storing the calendar-object
+		dav: null,
+		// The parsed calendar-js object
+		calendarComponent: null,
+		// The uid of the calendar-object
+		uid: null,
+		// The uri of the calendar-object
+		uri: null,
+		// The type of calendar-object
+		objectType: null,
+		// Whether or not the calendar-object is an event
+		isEvent: false,
+		// Whether or not the calendar-object is a journal
+		isJournal: false,
+		// Whether or not the calendar-object is a task
+		isTodo: false,
+		// Whether or not the calendar-object exists on the server
+		existsOnServer: false,
+		...props,
+	}
+}
 
 /**
  * Maps a calendar-object from c-dav to our calendar-object object
@@ -47,7 +49,7 @@ const getDefaultCalendarObjectObject = (props = {}) => Object.assign({}, {
  * @param {string} calendarId The calendar-id this object is associated with
  * @return {object}
  */
-const mapCDavObjectToCalendarObject = (dav, calendarId) => {
+function mapCDavObjectToCalendarObject(dav, calendarId) {
 	const parserManager = getParserManager()
 	const parser = parserManager.getParserForFileType('text/calendar')
 
@@ -88,7 +90,7 @@ const mapCDavObjectToCalendarObject = (dav, calendarId) => {
  * @param {string=} calendarId The associated calendar if applicable
  * @return {object}
  */
-const mapCalendarJsToCalendarObject = (calendarComponent, calendarId = null) => {
+function mapCalendarJsToCalendarObject(calendarComponent, calendarId = null) {
 	const vObjectIterator = calendarComponent.getVObjectIterator()
 	const firstVObject = vObjectIterator.next().value
 	if (!firstVObject) {
@@ -108,6 +110,6 @@ const mapCalendarJsToCalendarObject = (calendarComponent, calendarId = null) => 
 
 export {
 	getDefaultCalendarObjectObject,
-	mapCDavObjectToCalendarObject,
 	mapCalendarJsToCalendarObject,
+	mapCDavObjectToCalendarObject,
 }

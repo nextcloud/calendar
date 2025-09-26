@@ -1,20 +1,20 @@
+import { generateRemoteUrl } from '@nextcloud/router'
+import { defineStore } from 'pinia'
+import Vue from 'vue'
+import {
+	getDefaultPrincipalObject,
+	mapDavToPrincipal,
+} from '../models/principal.js'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import {
 	findPrincipalByUrl,
-	getCurrentUserPrincipal,
 	findPrincipalsInCollection,
+	getCurrentUserPrincipal,
 } from '../services/caldavService.js'
 import logger from '../utils/logger.js'
-import {
-	getDefaultPrincipalObject,
-	mapDavToPrincipal,
-} from '../models/principal.js'
-import { defineStore } from 'pinia'
-import Vue from 'vue'
-import { generateRemoteUrl } from '@nextcloud/router'
 
 export default defineStore('principals', {
 	state: () => {
@@ -93,7 +93,6 @@ export default defineStore('principals', {
 			}
 
 			this.addPrincipalMutation({ principal: mapDavToPrincipal(principal) })
-
 		},
 
 		/**

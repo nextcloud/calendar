@@ -26,6 +26,6 @@ export function getAllRoomTypes() {
  * @return {string|null} Human readable and localized room type or null if given raw value is invalid
  */
 export function formatRoomType(value) {
-	const option = getAllRoomTypes().find(option => option.value === value)
+	const option = getAllRoomTypes().find((option) => option.value === value)
 	return option?.label ?? null
 }

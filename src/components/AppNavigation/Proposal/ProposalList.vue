@@ -5,7 +5,8 @@
 
 <template>
 	<div class="proposal-list__-list">
-		<NcAppNavigationCaption class="proposal-list__caption"
+		<NcAppNavigationCaption
+			class="proposal-list__caption"
 			:name="t('calendar', 'Meeting proposals')">
 			<template #actions>
 				<NcActionButton @click="onProposalCreate()">
@@ -18,7 +19,8 @@
 		</NcAppNavigationCaption>
 
 		<template v-if="!userHasEmailAddress">
-			<NcAppNavigationItem :name="t('calendar', 'A configured email address is required to use meeting proposals')"
+			<NcAppNavigationItem
+				:name="t('calendar', 'A configured email address is required to use meeting proposals')"
 				@click="window.open(generateUrl('settings/user'), '_blank').focus()">
 				<template #icon>
 					<WarningIcon :size="20" />
@@ -27,7 +29,8 @@
 		</template>
 
 		<template v-if="userHasEmailAddress">
-			<NcAppNavigationItem v-if="storedProposals.length === 0"
+			<NcAppNavigationItem
+				v-if="storedProposals.length === 0"
 				:name="t('calendar', 'No active meeting proposals')"
 				@click="onProposalCreate()">
 				<template #icon>
@@ -35,7 +38,8 @@
 				</template>
 			</NcAppNavigationItem>
 
-			<NcAppNavigationItem v-for="proposal in storedProposals"
+			<NcAppNavigationItem
+				v-for="proposal in storedProposals"
 				:key="proposal.id"
 				:name="proposal.title"
 				class="proposal-list__item"
@@ -52,21 +56,24 @@
 					</NcCounterBubble>
 				</template>
 				<template #actions>
-					<NcActionButton :close-after-click="true"
+					<NcActionButton
+						:close-after-click="true"
 						@click="onProposalView(proposal)">
 						<template #icon>
 							<ViewIcon :size="20" />
 						</template>
 						{{ t('calendar', 'View') }}
 					</NcActionButton>
-					<NcActionButton :close-after-click="true"
+					<NcActionButton
+						:close-after-click="true"
 						@click="onProposalModify(proposal)">
 						<template #icon>
 							<ModifyIcon :size="20" />
 						</template>
 						{{ t('calendar', 'Edit') }}
 					</NcActionButton>
-					<NcActionButton :close-after-click="true"
+					<NcActionButton
+						:close-after-click="true"
 						@click="onProposalDestroy(proposal)">
 						<template #icon>
 							<DestroyIcon :size="20" />
@@ -80,28 +87,29 @@
 </template>
 
 <script lang="ts">
-// types, object and stores
-import useProposalStore from '@/store/proposalStore'
-import usePrincipalStore from '@/store/principals'
+import type { Proposal } from '@/models/proposals/proposals'
+
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import { Proposal } from '@/models/proposals/proposals'
-import { ProposalParticipantStatus } from '@/types/proposals/proposalEnums'
+// icons
+import WarningIcon from 'vue-material-design-icons/AlertCircleOutline'
+import ViewIcon from 'vue-material-design-icons/CalendarMultiselect'
+import CompleteIcon from 'vue-material-design-icons/CheckCircleOutline'
+import ModifyIcon from 'vue-material-design-icons/Pencil'
+import CreateIcon from 'vue-material-design-icons/Plus'
+import VotingIcon from 'vue-material-design-icons/Poll'
+import PendingIcon from 'vue-material-design-icons/ProgressClock'
+import DestroyIcon from 'vue-material-design-icons/TrashCanOutline'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 // components
 import NcAppNavigationCaption from '@nextcloud/vue/components/NcAppNavigationCaption'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
-import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
-// icons
-import WarningIcon from 'vue-material-design-icons/AlertCircleOutline'
-import PendingIcon from 'vue-material-design-icons/ProgressClock'
-import CompleteIcon from 'vue-material-design-icons/CheckCircleOutline'
-import VotingIcon from 'vue-material-design-icons/Poll'
-import ViewIcon from 'vue-material-design-icons/CalendarMultiselect'
-import CreateIcon from 'vue-material-design-icons/Plus'
-import ModifyIcon from 'vue-material-design-icons/Pencil'
-import DestroyIcon from 'vue-material-design-icons/TrashCanOutline'
+import usePrincipalStore from '@/store/principals'
+// types, object and stores
+import useProposalStore from '@/store/proposalStore'
+import { ProposalParticipantStatus } from '@/types/proposals/proposalEnums'
 
 export default {
 	name: 'ProposalList',
@@ -138,7 +146,7 @@ export default {
 	},
 
 	watch: {
-		'proposalStore.modalVisible'(newValue: boolean, oldValue: boolean) {
+		'proposalStore.modalVisible': function(newValue: boolean, oldValue: boolean) {
 			// Refresh the list when the modal closes (was true, now false)
 			if (oldValue === true && newValue === false) {
 				this.fetchProposals()
@@ -194,7 +202,7 @@ export default {
 		},
 
 		proposalParticipantsResponded(proposal: Proposal): number {
-			return proposal.participants.filter(p => p.status === ProposalParticipantStatus.Responded).length
+			return proposal.participants.filter((p) => p.status === ProposalParticipantStatus.Responded).length
 		},
 	},
 }

@@ -6,7 +6,8 @@
 <template>
 	<div class="repeat-option-set repeat-option-set--end">
 		<span class="repeat-option-end__label">{{ $t('calendar', 'End repeat') }}</span>
-		<NcSelect class="repeat-option-end__end-type-select"
+		<NcSelect
+			class="repeat-option-end__end-type-select"
 			:options="options"
 			:searchable="false"
 			:name="$t('calendar', 'Select to end repeat')"
@@ -15,20 +16,23 @@
 			input-id="value"
 			label="label"
 			@input="changeEndType" />
-		<DatePicker v-if="isUntil"
+		<DatePicker
+			v-if="isUntil"
 			class="repeat-option-end__until"
 			:min="minimumDate"
 			:date="until"
 			type="date"
 			@change="changeUntil" />
-		<input v-if="isCount"
+		<input
+			v-if="isCount"
 			class="repeat-option-end__count"
 			type="number"
 			min="1"
 			max="3500"
 			:value="count"
 			@input="changeCount">
-		<span v-if="isCount"
+		<span
+			v-if="isCount"
 			class="repeat-option-end__count">
 			{{ occurrencesLabel }}
 		</span>
@@ -36,10 +40,9 @@
 </template>
 
 <script>
-import DatePicker from '../../Shared/DatePicker.vue'
 import { NcSelect } from '@nextcloud/vue'
-
 import { mapStores } from 'pinia'
+import DatePicker from '../../Shared/DatePicker.vue'
 import useDavRestrictionsStore from '../../../store/davRestrictions.js'
 
 export default {
@@ -48,6 +51,7 @@ export default {
 		DatePicker,
 		NcSelect,
 	},
+
 	props: {
 		/**
 		 * The calendar-object instance
@@ -56,15 +60,18 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		count: {
 			type: Number,
 			default: null,
 		},
+
 		until: {
 			type: Date,
 			default: null,
 		},
 	},
+
 	computed: {
 		...mapStores(useDavRestrictionsStore),
 		/**
@@ -75,6 +82,7 @@ export default {
 		minimumDate() {
 			return this.calendarObjectInstance.startDate
 		},
+
 		/**
 		 * The maximum date the user can select in the until date-picker
 		 *
@@ -83,6 +91,7 @@ export default {
 		maximumDate() {
 			return new Date(this.davRestrictionsStore.maximumDate)
 		},
+
 		/**
 		 * Whether or not this event is recurring until a given date
 		 *
@@ -91,6 +100,7 @@ export default {
 		isUntil() {
 			return this.count === null && this.until !== null
 		},
+
 		/**
 		 * Whether or not this event is recurring after a given amount of occurrences
 		 *
@@ -99,6 +109,7 @@ export default {
 		isCount() {
 			return this.count !== null && this.until === null
 		},
+
 		/**
 		 * Label for time/times
 		 *
@@ -107,6 +118,7 @@ export default {
 		occurrencesLabel() {
 			return this.$n('calendar', 'time', 'times', this.count)
 		},
+
 		/**
 		 * Options for recurrence-end
 		 *
@@ -124,6 +136,7 @@ export default {
 				value: 'count',
 			}]
 		},
+
 		/**
 		 * The selected option for the recurrence-end
 		 *
@@ -131,14 +144,15 @@ export default {
 		 */
 		selectedOption() {
 			if (this.count !== null) {
-				return this.options.find(option => option.value === 'count')
+				return this.options.find((option) => option.value === 'count')
 			} else if (this.until !== null) {
-				return this.options.find(option => option.value === 'until')
+				return this.options.find((option) => option.value === 'until')
 			} else {
-				return this.options.find(option => option.value === 'never')
+				return this.options.find((option) => option.value === 'never')
 			}
 		},
 	},
+
 	methods: {
 		/**
 		 * Changes the type of recurrence-end
@@ -153,19 +167,20 @@ export default {
 			}
 
 			switch (value.value) {
-			case 'until':
-				this.$emit('change-to-until')
-				break
+				case 'until':
+					this.$emit('change-to-until')
+					break
 
-			case 'count':
-				this.$emit('change-to-count')
-				break
+				case 'count':
+					this.$emit('change-to-count')
+					break
 
-			case 'never':
-			default:
-				this.$emit('set-infinite')
+				case 'never':
+				default:
+					this.$emit('set-infinite')
 			}
 		},
+
 		/**
 		 * Changes the until-date of this recurrence-set
 		 *
@@ -174,6 +189,7 @@ export default {
 		changeUntil(date) {
 			this.$emit('set-until', date)
 		},
+
 		/**
 		 * Changes the number of occurrences in this recurrence-set
 		 *

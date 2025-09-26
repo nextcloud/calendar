@@ -41,12 +41,14 @@
 						{{ storedProposal?.duration ? storedProposal.duration + ' min' : t('calendar', 'No Duration') }}
 					</div>
 					<div class="proposal-public__content-duration-right">
-						<NcTimezonePicker v-model="userTimezone"
+						<NcTimezonePicker
+							v-model="userTimezone"
 							:aria-label="t('calendar', 'Select a different time zone')" />
 					</div>
 				</div>
 				<div class="proposal-public__content-matrix">
-					<ProposalResponseMatrix mode="participant"
+					<ProposalResponseMatrix
+						mode="participant"
 						:proposal="storedProposal"
 						:response="response"
 						:timezone-id="userTimezone"
@@ -54,7 +56,7 @@
 				</div>
 			</div>
 			<div class="proposal-public__content-row-actions">
-				<NcButton type="primary" @click="onSubmit">
+				<NcButton variant="primary" @click="onSubmit">
 					{{ t('calendar', 'Submit') }}
 				</NcButton>
 			</div>
@@ -63,23 +65,23 @@
 </template>
 
 <script lang="ts">
-// types, object and stores
-import useProposalStore from '@/store/proposalStore'
 import { t } from '@nextcloud/l10n'
-import { ProposalResponse, ProposalResponseDate } from '@/models/proposals/proposals'
-import { ProposalDateVote } from '@/types/proposals/proposalEnums'
-// components
-import NcGuestContent from '@nextcloud/vue/components/NcGuestContent'
-import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
-import NcAvatar from '@nextcloud/vue/components/NcAvatar'
-import NcButton from '@nextcloud/vue/components/NcButton'
-import NcTimezonePicker from '@nextcloud/vue/components/NcTimezonePicker'
-import ProposalResponseMatrix from '@/components/Proposal/ProposalResponseMatrix.vue'
 // icons
 import ProposalIcon from 'vue-material-design-icons/BallotOutline'
 import RespondedIcon from 'vue-material-design-icons/Check'
-import LocationIcon from 'vue-material-design-icons/MapMarkerOutline'
 import DurationIcon from 'vue-material-design-icons/ClockOutline'
+import LocationIcon from 'vue-material-design-icons/MapMarkerOutline'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+// components
+import NcGuestContent from '@nextcloud/vue/components/NcGuestContent'
+import NcTimezonePicker from '@nextcloud/vue/components/NcTimezonePicker'
+import ProposalResponseMatrix from '@/components/Proposal/ProposalResponseMatrix.vue'
+import { ProposalResponse, ProposalResponseDate } from '@/models/proposals/proposals'
+// types, object and stores
+import useProposalStore from '@/store/proposalStore'
+import { ProposalDateVote } from '@/types/proposals/proposalEnums'
 
 export default {
 	name: 'ProposalPublic',
@@ -98,15 +100,15 @@ export default {
 	},
 
 	data() {
-	   return {
-		   proposalStore: useProposalStore(),
-		   token: null,
-		   contentView: 'loading',
-		   storedProposal: null,
-		   response: new ProposalResponse(),
-		   ProposalDateVote,
-		   userTimezone: 'UTC',
-	   }
+		return {
+			proposalStore: useProposalStore(),
+			token: null,
+			contentView: 'loading',
+			storedProposal: null,
+			response: new ProposalResponse(),
+			ProposalDateVote,
+			userTimezone: 'UTC',
+		}
 	},
 
 	computed: {

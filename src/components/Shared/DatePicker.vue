@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<DateTimePicker id="date-time-picker-input"
+	<DateTimePicker
+		id="date-time-picker-input"
 		:min="minimumDate"
 		:max="maximumDate"
 		:value="date"
@@ -18,38 +19,43 @@
 import {
 	NcDateTimePickerNative as DateTimePicker,
 } from '@nextcloud/vue'
-import { mapStores } from 'pinia'
-
-import useDavRestrictionsStore from '../../store/davRestrictions.js'
 import debounce from 'debounce'
+import { mapStores } from 'pinia'
+import useDavRestrictionsStore from '../../store/davRestrictions.js'
 
 export default {
 	name: 'DatePicker',
 	components: {
 		DateTimePicker,
 	},
+
 	props: {
 		date: {
 			type: Date,
 			required: true,
 		},
+
 		prefix: {
 			type: String,
 			default: null,
 		},
+
 		min: {
 			type: Date,
 			default: null,
 		},
+
 		max: {
 			type: Date,
 			default: null,
 		},
+
 		type: {
 			type: String,
 			default: 'date',
 		},
 	},
+
 	computed: {
 		...mapStores(useDavRestrictionsStore),
 		/**
@@ -60,6 +66,7 @@ export default {
 		minimumDate() {
 			return this.min || new Date(this.davRestrictionsStore.minimumDate)
 		},
+
 		/**
 		 * The latest date a user is allowed to pick in the timezone
 		 *
@@ -69,6 +76,7 @@ export default {
 			return this.max || new Date(this.davRestrictionsStore.maximumDate)
 		},
 	},
+
 	methods: {
 		/**
 		 * Emits a change event for the Date
@@ -82,6 +90,7 @@ export default {
 
 			this.$emit('change', date)
 		}, 1000),
+
 		/**
 		 * Whether or not the date is acceptable
 		 *

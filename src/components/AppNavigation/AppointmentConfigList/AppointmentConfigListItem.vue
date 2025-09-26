@@ -5,20 +5,23 @@
 
 <template>
 	<div>
-		<AppNavigationItem :name="config.name"
+		<AppNavigationItem
+			:name="config.name"
 			@click.prevent>
 			<template #icon>
 				<CalendarCheckIcon :size="20" decorative />
 			</template>
 			<template #actions>
-				<ActionLink :href="config.bookingUrl"
+				<ActionLink
+					:href="config.bookingUrl"
 					target="_blank">
 					<template #icon>
 						<OpenInNewIcon :size="20" />
 					</template>
 					{{ t('calendar', 'Preview') }}
 				</ActionLink>
-				<ActionButton v-if="hasClipboard"
+				<ActionButton
+					v-if="hasClipboard"
 					:close-after-click="true"
 					@click="copyLink">
 					<template #icon>
@@ -26,14 +29,16 @@
 					</template>
 					{{ t('calendar', 'Copy link') }}
 				</ActionButton>
-				<ActionButton :close-after-click="true"
+				<ActionButton
+					:close-after-click="true"
 					@click="showModal = true">
 					<template #icon>
 						<PencilIcon :size="20" />
 					</template>
 					{{ t('calendar', 'Edit') }}
 				</ActionButton>
-				<ActionButton :close-after-click="true"
+				<ActionButton
+					:close-after-click="true"
 					@click="$emit('delete', $event)">
 					<template #icon>
 						<DeleteIcon :size="20" />
@@ -42,7 +47,8 @@
 				</ActionButton>
 			</template>
 		</AppNavigationItem>
-		<AppointmentConfigModal v-if="showModal"
+		<AppointmentConfigModal
+			v-if="showModal"
 			:is-new="false"
 			:config="config"
 			@close="closeModal" />
@@ -50,19 +56,19 @@
 </template>
 
 <script>
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import {
-	NcAppNavigationItem as AppNavigationItem,
 	NcActionButton as ActionButton,
 	NcActionLink as ActionLink,
+	NcAppNavigationItem as AppNavigationItem,
 } from '@nextcloud/vue'
 import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
-import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
+import LinkVariantIcon from 'vue-material-design-icons/Link.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
-import AppointmentConfig from '../../../models/appointmentConfig.js'
+import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import AppointmentConfigModal from '../../AppointmentConfigModal.vue'
-import LinkVariantIcon from 'vue-material-design-icons/Link.vue'
-import { showError, showSuccess } from '@nextcloud/dialogs'
+import AppointmentConfig from '../../../models/appointmentConfig.js'
 import logger from '../../../utils/logger.js'
 
 export default {
@@ -78,27 +84,32 @@ export default {
 		CalendarCheckIcon,
 		LinkVariantIcon,
 	},
+
 	props: {
 		config: {
 			type: AppointmentConfig,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			showModal: false,
 			loading: false,
 		}
 	},
+
 	computed: {
 		hasClipboard() {
 			return navigator && navigator.clipboard
 		},
 	},
+
 	methods: {
 		closeModal() {
 			this.showModal = false
 		},
+
 		async copyLink() {
 			try {
 				await navigator.clipboard.writeText(this.config.bookingUrl)

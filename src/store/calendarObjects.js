@@ -1,20 +1,20 @@
+import {
+	createEvent,
+	DateTimeValue,
+	getParserManager,
+} from '@nextcloud/calendar-js'
+import { getTimezoneManager } from '@nextcloud/timezones'
+import { defineStore } from 'pinia'
+import Vue from 'vue'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { mapCalendarJsToCalendarObject } from '../models/calendarObject.js'
 import logger from '../utils/logger.js'
-import {
-	createEvent,
-	getParserManager,
-	DateTimeValue,
-} from '@nextcloud/calendar-js'
-import useFetchedTimeRangesStore from './fetchedTimeRanges.js'
-import useCalendarsStore from './calendars.js'
-import { defineStore } from 'pinia'
 import useCalendarObjectInstanceStore from './calendarObjectInstance.js'
-import Vue from 'vue'
-import { getTimezoneManager } from '@nextcloud/timezones'
+import useCalendarsStore from './calendars.js'
+import useFetchedTimeRangesStore from './fetchedTimeRanges.js'
 
 export default defineStore('calendarObjects', {
 	state: () => {

@@ -6,7 +6,8 @@
 <template>
 	<div class="number-input">
 		<label :for="id">{{ label }}</label>
-		<input :id="id"
+		<input
+			:id="id"
 			type="number"
 			min="0"
 			:value="realValue"
@@ -24,20 +25,24 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		value: {
 			type: Number,
 			default: undefined,
 		},
+
 		allowEmpty: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	data() {
 		return {
 			id: randomId(),
 		}
 	},
+
 	computed: {
 		realValue() {
 			if (this.allowEmpty) {
@@ -47,6 +52,7 @@ export default {
 			return this.value ?? 0
 		},
 	},
+
 	methods: {
 		change(e) {
 			this.$emit('update:value', parseInt(e.target.value))

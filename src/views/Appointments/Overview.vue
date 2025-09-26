@@ -6,7 +6,8 @@
 <template>
 	<div class="overview-info">
 		<div class="title">
-			<Avatar :user="userInfo.uid"
+			<Avatar
+				:user="userInfo.uid"
 				:display-name="userInfo.displayName"
 				:disable-tooltip="true"
 				:disable-menu="true"
@@ -17,16 +18,19 @@
 		</div>
 		<div class="appointment-configs">
 			<template v-if="configs.length > 0">
-				<div v-for="config in configs"
+				<div
+					v-for="config in configs"
 					:key="config.id"
 					class="config">
-					<a :href="linkToConfig(config)"
+					<a
+						:href="linkToConfig(config)"
 						class="config-link">
 						<div class="header">
 							<CalendarCheckIcon decorative />
 							<span class="name">{{ config.name }}</span>
 						</div>
-						<div v-if="config.description !== ''"
+						<div
+							v-if="config.description !== ''"
 							class="description">
 							{{ config.description }}
 						</div>
@@ -45,13 +49,13 @@
 </template>
 
 <script>
+import { generateUrl } from '@nextcloud/router'
 import {
 	NcAvatar as Avatar,
 	NcEmptyContent as EmptyContent,
 } from '@nextcloud/vue'
-import { generateUrl } from '@nextcloud/router'
-import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
 import CalendarBlankIcon from 'vue-material-design-icons/CalendarBlank.vue'
+import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
 
 export default {
 	name: 'Overview',
@@ -61,16 +65,19 @@ export default {
 		CalendarCheckIcon,
 		CalendarBlankIcon,
 	},
+
 	props: {
 		configs: {
 			required: true,
 			type: Array,
 		},
+
 		userInfo: {
 			required: true,
 			type: Object,
 		},
 	},
+
 	methods: {
 		linkToConfig(config) {
 			return generateUrl('/apps/calendar/appointment/{token}', {

@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<AppNavigationItem :loading="calendar.loading"
+	<AppNavigationItem
+		:loading="calendar.loading"
 		:name="calendar.displayName || $t('calendar', 'Untitled calendar')"
 		:menu-open.sync="menuOpen">
 		<template #icon>
@@ -12,21 +13,24 @@
 		</template>
 
 		<template #counter>
-			<Avatar :user="owner"
+			<Avatar
+				:user="owner"
 				:is-guest="true"
 				:disable-tooltip="true"
 				:disable-menu="true" />
 		</template>
 
 		<template #actions>
-			<ActionButton v-if="showCopySubscriptionLinkLabel"
+			<ActionButton
+				v-if="showCopySubscriptionLinkLabel"
 				@click.prevent.stop="copySubscriptionLink">
 				<template #icon>
 					<LinkVariant :size="20" decorative />
 				</template>
 				{{ $t('calendar', 'Copy subscription link') }}
 			</ActionButton>
-			<ActionText v-if="showCopySubscriptionLinkSpinner"
+			<ActionText
+				v-if="showCopySubscriptionLinkSpinner"
 				icon="icon-loading-small">
 				<!-- eslint-disable-next-line no-irregular-whitespace -->
 				{{ $t('calendar', 'Copying link …') }}
@@ -44,7 +48,8 @@
 				{{ $t('calendar', 'Could not copy link') }}
 			</ActionText>
 
-			<ActionLink target="_blank"
+			<ActionLink
+				target="_blank"
 				:href="downloadUrl">
 				<template #icon>
 					<Download :size="20" decorative />
@@ -57,23 +62,22 @@
 
 <script>
 import {
-	NcAvatar as Avatar,
+	showError,
+	showSuccess,
+} from '@nextcloud/dialogs'
+import {
+	generateRemoteUrl,
+} from '@nextcloud/router'
+import {
 	NcActionButton as ActionButton,
 	NcActionLink as ActionLink,
 	NcActionText as ActionText,
 	NcAppNavigationIconBullet as AppNavigationIconBullet,
 	NcAppNavigationItem as AppNavigationItem,
+	NcAvatar as Avatar,
 } from '@nextcloud/vue'
-import {
-	generateRemoteUrl,
-} from '@nextcloud/router'
-import {
-	showSuccess,
-	showError,
-} from '@nextcloud/dialogs'
-
-import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
+import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 
 export default {
 	name: 'PublicCalendarListItem',
@@ -87,12 +91,14 @@ export default {
 		Download,
 		LinkIcon,
 	},
+
 	props: {
 		calendar: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			// copy subscription link:
@@ -104,6 +110,7 @@ export default {
 			menuOpen: false,
 		}
 	},
+
 	computed: {
 		/**
 		 * Download url of the calendar
@@ -113,6 +120,7 @@ export default {
 		downloadUrl() {
 			return this.calendar.url + '?export'
 		},
+
 		/**
 		 * TODO: this should use principals and principal.userId
 		 *
@@ -133,6 +141,7 @@ export default {
 			return userId
 		},
 	},
+
 	methods: {
 		async copySubscriptionLink() {
 			this.menuOpen = true

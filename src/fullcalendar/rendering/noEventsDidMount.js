@@ -1,11 +1,11 @@
+import { translate as t } from '@nextcloud/l10n'
+import { NcEmptyContent as EmptyContent } from '@nextcloud/vue'
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import Vue from 'vue'
-import { NcEmptyContent as EmptyContent } from '@nextcloud/vue'
 import CalendarIcon from 'vue-material-design-icons/CalendarBlank.vue'
-import { translate as t } from '@nextcloud/l10n'
 
 /**
  * Adds our standardized emptyContent component if list view is empty

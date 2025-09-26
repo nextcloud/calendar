@@ -1,10 +1,10 @@
+import { defineStore } from 'pinia'
+import Vue from 'vue'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import useCalendarsStore from './calendars.js'
-import { defineStore } from 'pinia'
-import Vue from 'vue'
 
 export default defineStore('tasks', {
 	state: () => {
@@ -18,11 +18,11 @@ export default defineStore('tasks', {
 			const tasks = []
 			const ordered = Object.keys(this.map).sort().reduce(
 				(obj, key) => {
-				  obj[key] = this.map[key]
-				  return obj
+					obj[key] = this.map[key]
+					return obj
 				},
 				{},
-			  )
+			)
 			for (const calendarId in ordered) {
 				const calendar = calendarsStore.getCalendarById(calendarId)
 				if (calendar.enabled) {
@@ -39,9 +39,10 @@ export default defineStore('tasks', {
 			if (!this.map[calendarid]) {
 				Vue.set(this.map, calendarid, [])
 			} else {
-				this.map[calendarid].sort(function(a, b) { return a.title.localeCompare(b.title) })
+				this.map[calendarid].sort(function(a, b) {
+					return a.title.localeCompare(b.title)
+				})
 			}
-
 		},
 
 		/**
@@ -55,7 +56,7 @@ export default defineStore('tasks', {
 				Vue.set(this.map, calendarid, [])
 			}
 			const tasks = this.map[calendarid]
-			const index = tasks.findIndex(el => el.id === task.id)
+			const index = tasks.findIndex((el) => el.id === task.id)
 			if (index === -1) {
 				tasks.push(task)
 			} else {
@@ -74,7 +75,7 @@ export default defineStore('tasks', {
 				return
 			}
 			const tasks = this.map[calendarid]
-			const index = tasks.findIndex(el => el.id === task.id)
+			const index = tasks.findIndex((el) => el.id === task.id)
 			if (index !== -1) {
 				tasks.splice(index, 1)
 			}
