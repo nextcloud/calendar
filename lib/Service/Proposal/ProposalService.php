@@ -26,6 +26,7 @@ use OCA\Calendar\Objects\Proposal\ProposalParticipantStatus;
 use OCA\Calendar\Objects\Proposal\ProposalResponseObject;
 use OCA\Calendar\Objects\Proposal\ProposalVoteCollection;
 use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IManager;
 use OCP\IAppConfig;
@@ -320,9 +321,9 @@ class ProposalService {
 		// if no primary calendar is set, use the first useable calendar
 		if ($userCalendar === null) {
 			$userCalendars = $this->calendarManager->getCalendarsForPrincipal('principals/users/' . $user->getUID());
-			foreach ($userCalendars as $userCalendar) {
-				if (!$userCalendar instanceof ICreateFromString || !$userCalendar->isDeleted()) {
-					$userCalendar = $userCalendar;
+			foreach ($userCalendars as $calendar) {
+				if ($calendar instanceof ICreateFromString && $calendar instanceof ICalendarIsWritable && $calendar->isWritable() && !$calendar->isDeleted()) {
+					$userCalendar = $calendar;
 					break;
 				}
 			}
@@ -335,7 +336,9 @@ class ProposalService {
 		// timezone option
 		$eventTimezone = null;
 		if (isset($options['timezone']) && is_string($options['timezone']) && in_array($options['timezone'], DateTimeZone::listIdentifiers(), true)) {
-			$eventTimezone = new DateTimeZone($options['timezone']);
+			if (!empty($options['timezone'])) {
+				$eventTimezone = new DateTimeZone($options['timezone']);
+			}
 		}
 		// participant attendance option
 		$eventAttendancePreset = false;
@@ -354,8 +357,7 @@ class ProposalService {
 		$vEvent = $vObject->add('VEVENT', []);
 		$vEvent->UID->setValue($proposal->getUuid() ?? Uuid::v4()->toRfc4122());
 		$vEvent->add('DTSTART', $eventTimezone ? $selectedDate->getDate()->setTimezone($eventTimezone) : $selectedDate->getDate());
-		$vEvent->add('DURATION', "PT{$proposal->getDuration()}M");
-		$vEvent->add('STATUS', 'CONFIRMED');
+		$vEvent->add('DTEND', (clone $vEvent->DTSTART->getDateTime())->add(new \DateInterval("PT{$proposal->getDuration()}M")));
 		$vEvent->add('SEQUENCE', 1);
 		$vEvent->add('SUMMARY', $proposal->getTitle());
 		$vEvent->add('DESCRIPTION', $proposal->getDescription());
@@ -634,11 +636,16 @@ class ProposalService {
 		}
 
 		foreach ($proposal->getParticipants()->filterByRealm(ProposalParticipantRealm::Internal) as $participant) {
+			$participantAddress = $participant->getAddress();
+			if ($participantAddress === null) {
+				continue;
+			}
+
 			// TODO: this is stupid, we send the internal users email address from the UI then convert it back to a user name
 			// should probably be sent from the UI as a user name, or send and store both the user name and email address
 			// maybe send the address as a special schema "local:{user name}/{email address}", this would allow us to later extend this to federated users
 			// with a different special schema like "federated:{user name}@{server}/{email address}"
-			$participantUsers = $this->userManager->getByEmail($participant->getAddress());
+			$participantUsers = $this->userManager->getByEmail($participantAddress);
 			if ($participantUsers === []) {
 				continue;
 			}
