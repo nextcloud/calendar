@@ -585,7 +585,7 @@ export default {
 
 			try {
 				showSuccess(t('calendar', 'Creating meeting for {date}', { date: dateString }))
-				await this.proposalStore.convertProposal(this.selectedProposal, date)
+				await this.proposalStore.convertProposal(this.selectedProposal, date, this.userTimezone)
 				showSuccess(t('calendar', 'Successfully created meeting for {date}', { date: dateString }))
 				this.onModalClose()
 			} catch (error) {

@@ -9,12 +9,15 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Service\Proposal;
 
+use DateTimeZone;
 use Exception;
 use OCA\Calendar\Db\ProposalDateMapper;
 use OCA\Calendar\Db\ProposalMapper;
 use OCA\Calendar\Db\ProposalParticipantMapper;
 use OCA\Calendar\Db\ProposalVoteMapper;
 use OCA\Calendar\Objects\Proposal\ProposalDateCollection;
+use OCA\Calendar\Objects\Proposal\ProposalDateObject;
+use OCA\Calendar\Objects\Proposal\ProposalDateVote;
 use OCA\Calendar\Objects\Proposal\ProposalObject;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantCollection;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantObject;
@@ -293,20 +296,14 @@ class ProposalService {
 	/**
 	 * Convert a selected proposal date into a calendar meeting.
 	 */
-	public function convertProposal(IUser $user, int $proposalId, int $dateId): void {
+	public function convertProposal(IUser $user, int $proposalId, int $dateId, array $options = []): void {
 		// retrieve full proposal with participants, dates, and votes
 		$proposal = $this->fetchProposal($user, $proposalId);
 		if ($proposal === null) {
 			throw new \InvalidArgumentException('Proposal not found');
 		}
 		// locate selected date
-		$selectedDate = null;
-		foreach ($proposal->getDates() as $date) {
-			if ($date->getId() === $dateId) {
-				$selectedDate = $date;
-				break;
-			}
-		}
+		$selectedDate = $proposal->getDates()->findById($dateId);
 		if ($selectedDate === null) {
 			throw new \InvalidArgumentException('Date not found for proposal');
 		}
@@ -334,18 +331,37 @@ class ProposalService {
 			throw new \RuntimeException('Could not find a useable calendar to create a meeting from the selected proposal');
 		}
 
+		// extract options
+		// timezone option
+		$eventTimezone = null;
+		if (isset($options['timezone']) && is_string($options['timezone']) && in_array($options['timezone'], DateTimeZone::listIdentifiers(), true)) {
+			$eventTimezone = new DateTimeZone($options['timezone']);
+		}
+		// participant attendance option
+		$eventAttendancePreset = false;
+		if (isset($options['attendancePreset']) && is_bool($options['attendancePreset'])) {
+			$eventAttendancePreset = $options['attendancePreset'];
+		}
+		// talk room option
+		$talkRoomUri = null;
+		if (isset($options['talkRoomUri']) && is_string($options['talkRoomUri'])) {
+			$talkRoomUri = $options['talkRoomUri'];
+		}
+
 		// build a VCalendar with single definitive event
 		$vObject = new VCalendar();
 		/** @var \Sabre\VObject\Component\VEvent $vEvent */
 		$vEvent = $vObject->add('VEVENT', []);
 		$vEvent->UID->setValue($proposal->getUuid() ?? Uuid::v4()->toRfc4122());
-		$vEvent->add('DTSTART', $selectedDate->getDate());
+		$vEvent->add('DTSTART', $eventTimezone ? $selectedDate->getDate()->setTimezone($eventTimezone) : $selectedDate->getDate());
 		$vEvent->add('DURATION', "PT{$proposal->getDuration()}M");
 		$vEvent->add('STATUS', 'CONFIRMED');
 		$vEvent->add('SEQUENCE', 1);
 		$vEvent->add('SUMMARY', $proposal->getTitle());
 		$vEvent->add('DESCRIPTION', $proposal->getDescription());
-		if (!empty($proposal->getLocation())) {
+		if ($talkRoomUri !== null) {
+			$vEvent->add('LOCATION', $talkRoomUri);
+		} elseif (!empty($proposal->getLocation())) {
 			$vEvent->add('LOCATION', $proposal->getLocation());
 		}
 		$vEvent->add('ORGANIZER', 'mailto:' . $user->getEMailAddress(), ['CN' => $user->getDisplayName()]);
@@ -356,7 +372,7 @@ class ProposalService {
 			$vEvent->add('ATTENDEE', 'mailto:' . $participant->getAddress(), [
 				'CN' => $participant->getName(),
 				'CUTYPE' => 'INDIVIDUAL',
-				'PARTSTAT' => 'NEEDS-ACTION',
+				'PARTSTAT' => $eventAttendancePreset ? $this->convertProposalAttendeeAttendance($selectedDate, $participant, $proposal->getVotes()) : 'NEEDS-ACTION',
 				'ROLE' => 'REQ-PARTICIPANT'
 			]);
 		}
@@ -372,7 +388,21 @@ class ProposalService {
 		$this->proposalParticipantMapper->deleteByProposalId($user->getUID(), $proposal->getId());
 		$this->proposalDateMapper->deleteByProposalId($user->getUID(), $proposal->getId());
 		$this->proposalMapper->deleteById($user->getUID(), $proposal->getId());
+	}
 
+	public function convertProposalAttendeeAttendance(ProposalDateObject $date, ProposalParticipantObject $participant, ProposalVoteCollection $votes): string {
+		// find the vote for the given date and participant
+		$vote = $votes->findByDateAndParticipant($date->getId(), $participant->getId());
+		// convert the vote to an iCal PARTSTAT value
+		if ($vote === null) {
+			return 'NEEDS-ACTION';
+		}
+		return match ($vote->getVote()) {
+			ProposalDateVote::Yes => 'ACCEPTED',
+			ProposalDateVote::No => 'DECLINED',
+			ProposalDateVote::Maybe => 'TENTATIVE',
+			default => 'NEEDS-ACTION',
+		};
 	}
 
 	public function deleteProposalsByUser(string $user): void {
