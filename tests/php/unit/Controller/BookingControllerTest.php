@@ -131,18 +131,19 @@ class BookingControllerTest extends TestCase {
 
 		$apptConfg = new AppointmentConfig();
 		$apptConfg->setId(1);
+		$apptConfg->setToken('abc123');
 		$this->time->expects(self::once())
 			->method('getTime')
 			->willReturn($currentDate);
 		$this->apptService->expects(self::once())
-			->method('findById')
-			->with(1)
+			->method('findByToken')
+			->with($apptConfg->getToken())
 			->willReturn($apptConfg);
 		$this->bookingService->expects(self::once())
 			->method('getAvailableSlots')
 			->with($apptConfg, $sDT, $eDT);
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $selectedDate, $selectedTz);
+		$this->controller->getBookableSlots($apptConfg->getToken(), $selectedDate, $selectedTz);
 	}
 
 	public function testGetBookableSlotsDatesInPast(): void {
@@ -150,34 +151,36 @@ class BookingControllerTest extends TestCase {
 		$selectedDate = '2024-7-1';
 		$apptConfg = new AppointmentConfig();
 		$apptConfg->setId(1);
+		$apptConfg->setToken('abc123');
 		$this->time->expects(self::once())
 			->method('getTime')
 			->willReturn($currentDate);
 		$this->apptService->expects(self::never())
-			->method('findById')
-			->with(1);
+			->method('findByToken')
+			->with($apptConfg->getToken());
 		$this->bookingService->expects(self::never())
 			->method('getAvailableSlots');
 		$this->logger->expects(self::once())
 			->method('warning');
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $selectedDate, 'Europe/Berlin');
+		$this->controller->getBookableSlots($apptConfg->getToken(), $selectedDate, 'Europe/Berlin');
 	}
 
 	public function testGetBookableSlotsInvalidTimezone(): void {
 		$selectedDate = '2024-7-1';
 		$apptConfg = new AppointmentConfig();
 		$apptConfg->setId(1);
+		$apptConfg->setToken('abc123');
 		$this->time->expects(self::never())
 			->method('getTime');
 		$this->apptService->expects(self::never())
-			->method('findById')
-			->with(1);
+			->method('findByToken')
+			->with($apptConfg->getToken());
 		$this->bookingService->expects(self::never())
 			->method('getAvailableSlots');
 		$this->expectException(Exception::class);
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $selectedDate, 'Hook/Neverland');
+		$this->controller->getBookableSlots($apptConfg->getToken(), $selectedDate, 'Hook/Neverland');
 	}
 
 	public function testGetBookableSlotsTimezoneIdentical(): void {
@@ -190,18 +193,19 @@ class BookingControllerTest extends TestCase {
 
 		$apptConfg = new AppointmentConfig();
 		$apptConfg->setId(1);
+		$apptConfg->setToken('abc123');
 		$this->time->expects(self::once())
 			->method('getTime')
 			->willReturn($currentDate);
 		$this->apptService->expects(self::once())
-			->method('findById')
-			->with(1)
+			->method('findByToken')
+			->with($apptConfg->getToken())
 			->willReturn($apptConfg);
 		$this->bookingService->expects(self::once())
 			->method('getAvailableSlots')
 			->with($apptConfg, $sDT, $eDT);
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $selectedDate, $selectedTz);
+		$this->controller->getBookableSlots($apptConfg->getToken(), $selectedDate, $selectedTz);
 	}
 
 	public function testGetBookableSlotsTimezoneMinus10(): void {
@@ -214,18 +218,19 @@ class BookingControllerTest extends TestCase {
 
 		$apptConfg = new AppointmentConfig();
 		$apptConfg->setId(1);
+		$apptConfg->setToken('abc123');
 		$this->time->expects(self::once())
 			->method('getTime')
 			->willReturn($currentDate);
 		$this->apptService->expects(self::once())
-			->method('findById')
-			->with(1)
+			->method('findByToken')
+			->with($apptConfg->getToken())
 			->willReturn($apptConfg);
 		$this->bookingService->expects(self::once())
 			->method('getAvailableSlots')
 			->with($apptConfg, $sDT, $eDT);
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $selectedDate, $timezone);
+		$this->controller->getBookableSlots($apptConfg->getToken(), $selectedDate, $timezone);
 	}
 
 	public function testGetBookableSlotsTimezonePlus10(): void {
@@ -238,18 +243,19 @@ class BookingControllerTest extends TestCase {
 
 		$apptConfg = new AppointmentConfig();
 		$apptConfg->setId(1);
+		$apptConfg->setToken('abc123');
 		$this->time->expects(self::once())
 			->method('getTime')
 			->willReturn($currentDate);
 		$this->apptService->expects(self::once())
-			->method('findById')
-			->with(1)
+			->method('findByToken')
+			->with($apptConfg->getToken())
 			->willReturn($apptConfg);
 		$this->bookingService->expects(self::once())
 			->method('getAvailableSlots')
 			->with($apptConfg, $sDT, $eDT);
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $selectedDate, $timezone);
+		$this->controller->getBookableSlots($apptConfg->getToken(), $selectedDate, $timezone);
 	}
 
 	public function testGetBookableSlotsTimezonePlus14(): void {
@@ -262,18 +268,19 @@ class BookingControllerTest extends TestCase {
 
 		$apptConfg = new AppointmentConfig();
 		$apptConfg->setId(1);
+		$apptConfg->setToken('abc123');
 		$this->time->expects(self::once())
 			->method('getTime')
 			->willReturn($currentDate);
 		$this->apptService->expects(self::once())
-			->method('findById')
-			->with(1)
+			->method('findByToken')
+			->with($apptConfg->getToken())
 			->willReturn($apptConfg);
 		$this->bookingService->expects(self::once())
 			->method('getAvailableSlots')
 			->with($apptConfg, $sDT, $eDT);
 
-		$this->controller->getBookableSlots($apptConfg->getId(), $selectedDate, $timezone);
+		$this->controller->getBookableSlots($apptConfg->getToken(), $selectedDate, $timezone);
 	}
 
 	public function testBook(): void {
@@ -285,14 +292,14 @@ class BookingControllerTest extends TestCase {
 			->with($email)
 			->willReturn(true);
 		$this->apptService->expects(self::once())
-			->method('findById')
+			->method('findByToken')
 			->willReturn($config);
 		$this->bookingService->expects(self::once())
 			->method('book')
 			->with($config, 1, 1, 'Hook/Neverland', 'Test', $email, 'Test')
 			->willReturn(new Booking());
 
-		$this->controller->bookSlot(1, 1, 1, 'Test', $email, 'Test', 'Hook/Neverland');
+		$this->controller->bookSlot('abc123', 1, 1, 'Test', $email, 'Test', 'Hook/Neverland');
 	}
 
 
@@ -305,14 +312,14 @@ class BookingControllerTest extends TestCase {
 			->with($email)
 			->willReturn(true);
 		$this->apptService->expects(self::once())
-			->method('findById')
+			->method('findByToken')
 			->willReturn($config);
 		$this->bookingService->expects(self::once())
 			->method('book')
 			->with($config, 1, 1, 'Hook/Neverland', 'Test', $email, 'Test')
 			->willThrowException(new InvalidArgumentException());
 
-		$this->controller->bookSlot(1, 1, 1, 'Test', $email, 'Test', 'Hook/Neverland');
+		$this->controller->bookSlot('abc123', 1, 1, 'Test', $email, 'Test', 'Hook/Neverland');
 	}
 
 	public function testBookInvalidSlot(): void {
@@ -324,14 +331,14 @@ class BookingControllerTest extends TestCase {
 			->with($email)
 			->willReturn(true);
 		$this->apptService->expects(self::once())
-			->method('findById')
+			->method('findByToken')
 			->willReturn($config);
 		$this->bookingService->expects(self::once())
 			->method('book')
 			->with($config, 1, 1, 'Europe/Berlin', 'Test', $email, 'Test')
 			->willThrowException(new NoSlotFoundException());
 
-		$this->controller->bookSlot(1, 1, 1, 'Test', $email, 'Test', 'Europe/Berlin');
+		$this->controller->bookSlot('abc123', 1, 1, 'Test', $email, 'Test', 'Europe/Berlin');
 	}
 
 	public function testBookInvalidBooking(): void {
@@ -343,7 +350,7 @@ class BookingControllerTest extends TestCase {
 			->with($email)
 			->willReturn(true);
 		$this->apptService->expects(self::once())
-			->method('findById')
+			->method('findByToken')
 			->willReturn($config);
 		$this->bookingService->expects(self::once())
 			->method('book')
@@ -354,7 +361,7 @@ class BookingControllerTest extends TestCase {
 			->with('debug')
 			->willReturn(false);
 
-		$this->controller->bookSlot(1, 1, 1, 'Test', $email, 'Test', 'Europe/Berlin');
+		$this->controller->bookSlot('abc123', 1, 1, 'Test', $email, 'Test', 'Europe/Berlin');
 	}
 
 	public function testBookInvalidId(): void {
@@ -364,12 +371,12 @@ class BookingControllerTest extends TestCase {
 			->with($email)
 			->willReturn(true);
 		$this->apptService->expects(self::once())
-			->method('findById')
+			->method('findByToken')
 			->willThrowException(new ServiceException());
 		$this->bookingService->expects(self::never())
 			->method('book');
 
-		$this->controller->bookSlot(1, 1, 1, 'Test', $email, 'Test', 'Europe/Berlin');
+		$this->controller->bookSlot('abc123', 1, 1, 'Test', $email, 'Test', 'Europe/Berlin');
 	}
 
 
@@ -381,10 +388,10 @@ class BookingControllerTest extends TestCase {
 			->with($email)
 			->willReturn(false);
 		$this->apptService->expects(self::never())
-			->method('findById');
+			->method('findByToken');
 		$this->bookingService->expects(self::never())
 			->method('book');
 
-		$this->controller->bookSlot(1, 1, 1, 'Test', $email, 'Test', 'Europe/Berlin');
+		$this->controller->bookSlot('abc123', 1, 1, 'Test', $email, 'Test', 'Europe/Berlin');
 	}
 }
