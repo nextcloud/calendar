@@ -12,8 +12,8 @@ import { generateUrl } from '@nextcloud/router'
  * @param timeZone {String} target time zone for the time stamps
  */
 export async function findSlots(config, date, timeZone) {
-	const url = generateUrl('/apps/calendar/appointment/{id}/slots?dateSelected={date}&timeZone={timeZone}', {
-		id: config.id,
+	const url = generateUrl('/apps/calendar/appointment/{token}/slots?dateSelected={date}&timeZone={timeZone}', {
+		token: config.token,
 		date,
 		timeZone,
 	})
@@ -32,8 +32,8 @@ export async function findSlots(config, date, timeZone) {
  * @param timeZone
  */
 export async function bookSlot(config, slot, displayName, email, description, timeZone) {
-	const url = generateUrl('/apps/calendar/appointment/{id}/book', {
-		id: config.id,
+	const url = generateUrl('/apps/calendar/appointment/{token}/book', {
+		token: config.token,
 	})
 
 	const response = await axios.post(url, {

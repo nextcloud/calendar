@@ -80,14 +80,14 @@ class BookingController extends Controller {
 	 * @NoAdminRequired
 	 * @PublicPage
 	 *
-	 * @param int $appointmentConfigId
+	 * @param string $appointmentConfigToken
 	 * @param int $startTime UNIX time stamp for the start time in UTC
 	 * @param string $timeZone
 	 *
 	 * @return JsonResponse
 	 */
 	public function getBookableSlots(
-		int $appointmentConfigId,
+		string $appointmentConfigToken,
 		string $dateSelected,
 		string $timeZone,
 	): JsonResponse {
@@ -120,9 +120,9 @@ class BookingController extends Controller {
 		}
 
 		try {
-			$config = $this->appointmentConfigService->findById($appointmentConfigId);
+			$config = $this->appointmentConfigService->findByToken($appointmentConfigToken);
 		} catch (ServiceException $e) {
-			$this->logger->error('No appointment config found for id ' . $appointmentConfigId, ['exception' => $e]);
+			$this->logger->error('No appointment config found for ' . $appointmentConfigToken, ['exception' => $e]);
 			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
 		}
 
@@ -135,7 +135,7 @@ class BookingController extends Controller {
 	 * @NoAdminRequired
 	 * @PublicPage
 	 *
-	 * @param int $appointmentConfigId
+	 * @param string $appointmentConfigToken
 	 * @param int $start
 	 * @param int $end
 	 * @param string $displayName
@@ -149,7 +149,7 @@ class BookingController extends Controller {
 	 */
 	#[AnonRateLimit(limit: 10, period: 1200)]
 	#[UserRateLimit(limit: 10, period: 300)]
-	public function bookSlot(int $appointmentConfigId,
+	public function bookSlot(string $appointmentConfigToken,
 		int $start,
 		int $end,
 		string $displayName,
@@ -165,15 +165,15 @@ class BookingController extends Controller {
 		}
 
 		try {
-			$config = $this->appointmentConfigService->findById($appointmentConfigId);
+			$config = $this->appointmentConfigService->findByToken($appointmentConfigToken);
 		} catch (ServiceException $e) {
-			$this->logger->error('No appointment config found for id ' . $appointmentConfigId, ['exception' => $e]);
+			$this->logger->error('No appointment config found for token ' . $appointmentConfigToken, ['exception' => $e]);
 			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
 		}
 		try {
 			$booking = $this->bookingService->book($config, $start, $end, $timeZone, $displayName, $email, $description);
 		} catch (NoSlotFoundException $e) {
-			$this->logger->warning('No slot available for start: ' . $start . ', end: ' . $end . ', config id: ' . $appointmentConfigId, ['exception' => $e]);
+			$this->logger->warning('No slot available for start: ' . $start . ', end: ' . $end . ', config token: ' . $appointmentConfigToken, ['exception' => $e]);
 			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
 		} catch (InvalidArgumentException $e) {
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
