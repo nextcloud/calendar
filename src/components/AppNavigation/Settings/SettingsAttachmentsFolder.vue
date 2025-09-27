@@ -14,7 +14,7 @@
 				v-model="attachmentsFolder"
 				type="text"
 				:label-outside="true"
-				@input="debounceSaveAttachmentsFolder(attachmentsFolder)"
+				@update:modelValue="debounceSaveAttachmentsFolder(attachmentsFolder)"
 				@change="debounceSaveAttachmentsFolder(attachmentsFolder)"
 				@click="selectCalendarFolder"
 				@keyboard.enter="selectCalendarFolder" />

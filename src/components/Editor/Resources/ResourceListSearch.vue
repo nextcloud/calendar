@@ -27,7 +27,7 @@
 			label="displayName"
 			:clearable="false"
 			@search="findResources"
-			@input="addResource">
+			@update:modelValue="addResource">
 			<template #option="option">
 				<div class="resource-search-list-item">
 					<Avatar

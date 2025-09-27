@@ -11,7 +11,7 @@
 			type="number"
 			min="0"
 			:value="realValue"
-			@input="change">
+			@update:modelValue="change">
 	</div>
 </template>
 

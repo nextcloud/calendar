@@ -13,7 +13,7 @@
 		:hide-label="true"
 		class="date-time-picker"
 		@blur="onBlur"
-		@input="onInput" />
+		@update:modelValue="change" />
 </template>
 
 <script>

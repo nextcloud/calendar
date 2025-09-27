@@ -11,7 +11,7 @@
 		:clearable="false"
 		input-id="freq"
 		label="label"
-		@input="select" />
+		@update:modelValue="select" />
 </template>
 
 <script>

@@ -15,7 +15,7 @@
 			:clearable="false"
 			input-id="value"
 			label="label"
-			@input="changeEndType" />
+			@update:modelValue="changeEndType" />
 		<DatePicker
 			v-if="isUntil"
 			class="repeat-option-end__until"
@@ -30,7 +30,7 @@
 			min="1"
 			max="3500"
 			:value="count"
-			@input="changeCount">
+			@update:modelValue="changeCount">
 		<span
 			v-if="isCount"
 			class="repeat-option-end__count">

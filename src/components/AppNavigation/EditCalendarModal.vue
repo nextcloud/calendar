@@ -27,7 +27,7 @@
 					class="edit-calendar-modal__name-and-color__name"
 					type="text"
 					:placeholder="$t('calendar', 'Calendar name …')"
-					@input="calendarNameChanged = true">
+					@update:modelValue="calendarNameChanged = true">
 			</div>
 			<template v-if="canBeShared">
 				<NcCheckboxRadioSwitch :checked.sync="isTransparent">

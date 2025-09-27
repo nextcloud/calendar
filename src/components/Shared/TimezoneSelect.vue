@@ -15,7 +15,7 @@
 		track-by="timezoneId"
 		label="label"
 		open-direction="above"
-		@input="change" />
+		@update:modelValue="change" />
 </template>
 
 <script>

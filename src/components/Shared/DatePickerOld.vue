@@ -51,7 +51,7 @@
 					<TimezonePicker
 						class="timezone-popover-wrapper__timezone-select"
 						:value="timezoneId"
-						@input="changeTimezone" />
+						@update:modelValue="changeTimezone" />
 				</template>
 			</NcPopover>
 		</template>

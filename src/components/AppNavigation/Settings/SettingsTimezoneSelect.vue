@@ -12,7 +12,7 @@
 			:uid="inputId"
 			:additional-timezones="additionalTimezones"
 			:value="timezone"
-			@input="setTimezoneValue" />
+			@update:modelValue="setTimezoneValue" />
 	</li>
 </template>
 

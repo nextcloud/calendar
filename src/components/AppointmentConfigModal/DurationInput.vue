@@ -11,7 +11,7 @@
 				:id="id"
 				v-model="internalValue"
 				type="text"
-				@input="change"
+				@update:modelValue="change"
 				@focus="focus"
 				@blur="updateInternalValue">
 		</div>

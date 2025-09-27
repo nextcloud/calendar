@@ -13,7 +13,7 @@
 			min="1"
 			max="366"
 			:value="interval"
-			@input="changeInterval" />
+			@update:modelValue="changeInterval" />
 		<RepeatFreqSelect
 			class="repeat-option-set__frequency"
 			:freq="frequency"

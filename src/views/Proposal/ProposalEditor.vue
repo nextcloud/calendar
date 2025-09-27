@@ -100,7 +100,7 @@
 								type="number"
 								min="1"
 								step="1"
-								@input="onProposalDurationChange($event)" />
+								@update:modelValue="onProposalDurationChange($event)" />
 							<div class="proposal-editor__proposal-duration-helpers">
 								<NcCheckboxRadioSwitch
 									type="radio"

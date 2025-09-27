@@ -19,7 +19,7 @@
 				min="0"
 				max="3600"
 				:value="alarm.relativeAmountTimed"
-				@input="changeRelativeAmountTimed">
+				@update:modelValue="changeRelativeAmountTimed">
 			<AlarmTimeUnitSelect
 				:is-all-day="isAllDay"
 				:count="alarm.relativeAmountTimed"
@@ -36,7 +36,7 @@
 					min="0"
 					max="3600"
 					:value="alarm.relativeAmountAllDay"
-					@input="changeRelativeAmountAllDay">
+					@update:modelValue="changeRelativeAmountAllDay">
 				<AlarmTimeUnitSelect
 					:is-all-day="isAllDay"
 					:count="alarm.relativeAmountAllDay"

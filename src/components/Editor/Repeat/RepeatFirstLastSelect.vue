@@ -13,7 +13,7 @@
 		:clearable="false"
 		input-id="value"
 		label="label"
-		@input="select" />
+		@update:modelValue="select" />
 </template>
 
 <script>
