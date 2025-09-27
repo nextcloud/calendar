@@ -7,7 +7,7 @@
 	<NcSelect
 		:allow-empty="false"
 		:options="options"
-		:value="selected"
+		:modelValue="selected"
 		:disabled="disabled"
 		:clearable="false"
 		input-id="unit"

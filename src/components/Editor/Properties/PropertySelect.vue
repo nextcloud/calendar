@@ -24,7 +24,7 @@
 				:options="options"
 				:searchable="false"
 				:name="readableName"
-				:value="selectedValue"
+				:modelValue="selectedValue"
 				:placeholder="placeholder"
 				:label-outside="true"
 				:clearable="false"

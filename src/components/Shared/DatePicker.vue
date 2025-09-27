@@ -8,7 +8,7 @@
 		id="date-time-picker-input"
 		:min="minimumDate"
 		:max="maximumDate"
-		:value="date"
+		:modelValue="date"
 		:type="type"
 		:hide-label="true"
 		class="date-time-picker"

@@ -10,7 +10,7 @@
 			:id="id"
 			type="number"
 			min="0"
-			:value="realValue"
+			:modelValue="realValue"
 			@update:modelValue="change">
 	</div>
 </template>

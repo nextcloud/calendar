@@ -12,7 +12,7 @@
 			class="repeat-option-set__interval"
 			min="1"
 			max="366"
-			:value="interval"
+			:modelValue="interval"
 			@update:modelValue="changeInterval" />
 		<RepeatFreqSelect
 			class="repeat-option-set__frequency"

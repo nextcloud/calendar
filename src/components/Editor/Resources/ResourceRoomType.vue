@@ -7,7 +7,7 @@
 	<div class="resource-room-type">
 		<div class="resource-room-type__input">
 			<NcSelect
-				:value="getOption(value)"
+				:modelValue="getOption(value)"
 				:options="options"
 				:placeholder="placeholder"
 				:clearable="false"

@@ -15,7 +15,7 @@
 					<NcColorPicker
 						v-model="calendarColor"
 						:advanced-fields="true"
-						@update:value="calendarColorChanged = true">
+						@update:modelValue="calendarColorChanged = true">
 						<div
 							class="edit-calendar-modal__name-and-color__color__dot"
 							:style="{ 'background-color': calendarColor }" />

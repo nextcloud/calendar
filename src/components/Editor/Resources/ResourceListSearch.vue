@@ -52,7 +52,7 @@
 
 		<template>
 			<div class="resource-search__capacity">
-				<ResourceSeatingCapacity :value.sync="capacity" />
+				<ResourceSeatingCapacity v-model="capacity" />
 				<Actions class="resource-search__capacity__actions">
 					<ActionCheckbox :checked.sync="isAvailable">
 						<!-- Translators room or resource is not yet booked -->
@@ -69,7 +69,7 @@
 					</ActionCheckbox>
 				</Actions>
 			</div>
-			<ResourceRoomType :value.sync="roomType" />
+			<ResourceRoomType v-model="roomType" />
 		</template>
 	</div>
 </template>

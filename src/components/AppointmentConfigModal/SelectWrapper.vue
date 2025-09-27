@@ -13,7 +13,7 @@
 			<option
 				v-for="option in options"
 				:key="option.value"
-				:value="option.value"
+				:modelValue="option.value"
 				v-bind="{ selected: option.value === value }">
 				{{ option.label }}
 			</option>

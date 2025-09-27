@@ -25,7 +25,7 @@
 			v-else
 			class="property-color__input">
 			<ColorPicker
-				:value="selectedColor"
+				:modelValue="selectedColor"
 				:shown.sync="isColorPickerOpen"
 				:advanced-fields="true"
 				@submit="changeColor">

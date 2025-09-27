@@ -11,7 +11,7 @@
 			:options="options"
 			:searchable="false"
 			:name="$t('calendar', 'Select to end repeat')"
-			:value="selectedOption"
+			:modelValue="selectedOption"
 			:clearable="false"
 			input-id="value"
 			label="label"
@@ -29,7 +29,7 @@
 			type="number"
 			min="1"
 			max="3500"
-			:value="count"
+			:modelValue="count"
 			@update:modelValue="changeCount">
 		<span
 			v-if="isCount"
