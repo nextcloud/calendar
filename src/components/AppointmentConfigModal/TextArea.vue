@@ -11,7 +11,7 @@
 			v-autosize="true"
 			:value="value"
 			:rows="2"
-			@input="$emit('update:value', $event.target.value)" />
+			@update:modelValue="$emit('update:value', $event.target.value)" />
 	</div>
 </template>
 

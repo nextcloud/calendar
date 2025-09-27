@@ -12,7 +12,7 @@
 		:clearable="false"
 		input-id="unit"
 		label="label"
-		@input="select" />
+		@update:modelValue="select" />
 </template>
 
 <script>

@@ -9,7 +9,7 @@
 		type="time"
 		:hide-label="true"
 		v-bind="$attrs"
-		@input="change" />
+		@update:modelValue="change" />
 </template>
 
 <script>

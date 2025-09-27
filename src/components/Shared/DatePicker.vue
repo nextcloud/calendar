@@ -12,7 +12,7 @@
 		:type="type"
 		:hide-label="true"
 		class="date-time-picker"
-		@input="change" />
+		@update:modelValue="change" />
 </template>
 
 <script>

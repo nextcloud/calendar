@@ -50,7 +50,7 @@
 							<NcTimezonePicker
 								v-if="showTimezoneSelect && !isAllDay"
 								:value="startTimezone"
-								@input="changeStartTimezone" />
+								@update:modelValue="changeStartTimezone" />
 							<NcButton
 								v-if="!showTimezoneSelect && !isAllDay && !isMobile"
 								variant="tertiary"
@@ -84,7 +84,7 @@
 								@change="changeEndTime" />
 						</div>
 						<div v-if="showTimezoneSelect && !isAllDay" class="property-title-time-picker__time-pickers-to-inner__timezone">
-							<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay" :value="endTimezone" @input="changeEndTimezone" />
+							<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay" :value="endTimezone" @update:modelValue="changeEndTimezone" />
 						</div>
 					</div>
 				</div>

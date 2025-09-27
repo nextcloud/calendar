@@ -11,7 +11,7 @@
 					:id="id"
 					:checked="enabled"
 					type="checkbox"
-					@input="$emit('update:enabled', $event.target.checked)">
+					@update:modelValue="$emit('update:enabled', $event.target.checked)">
 			</div>
 			<label :for="id">{{ label }}</label>
 		</div>

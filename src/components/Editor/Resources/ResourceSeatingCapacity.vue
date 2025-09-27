@@ -11,7 +11,7 @@
 			min="0"
 			:placeholder="placeholder"
 			:value="value"
-			@input="changeValue" />
+			@update:modelValue="changeValue" />
 	</div>
 </template>
 

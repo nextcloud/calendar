@@ -11,7 +11,7 @@
 			type="text"
 			:value="value"
 			:disabled="disabled"
-			@input="change">
+			@update:modelValue="change">
 	</div>
 </template>
 

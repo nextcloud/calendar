@@ -29,7 +29,7 @@
 				:class="{ 'textarea--description': isDescription }"
 				@focus="handleToggleTextareaFocus(true)"
 				@blur="handleToggleTextareaFocus(false)"
-				@input.prevent.stop="changeValue" />
+				@update:modelValue.prevent.stop="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div
 				v-else

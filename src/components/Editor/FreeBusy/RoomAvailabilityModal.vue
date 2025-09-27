@@ -38,7 +38,7 @@
 						:id="datePickerInputId"
 						:hide-label="true"
 						:value="currentDate"
-						@input="(date) => handleActions('picker', date)" />
+						@update:modelValue="(date) => handleActions('picker', date)" />
 					<NcPopover :no-focus-trap="true">
 						<template #trigger>
 							<NcButton variant="tertiary-no-background">

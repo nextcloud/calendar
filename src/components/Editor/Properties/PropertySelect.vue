@@ -30,7 +30,7 @@
 				:clearable="false"
 				input-id="value"
 				label="label"
-				@input="changeValue" />
+				@update:modelValue="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else>{{ selectedValue.label }}</div>
 		</div>
