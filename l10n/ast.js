@@ -110,7 +110,6 @@ OC.L10N.register(
     "Share with users or groups" : "Compartir con usuarios o grupos",
     "No users or groups" : "Nun hai nengún usuariu nin grupu",
     "Failed to save calendar name and color" : "Nun se pue guardar el nome y el color del calendariu",
-    "Calendar name …" : "Nome del calendariu…",
     "Share calendar" : "Compartir el calendariu",
     "Save" : "Guardar",
     "View" : "Ver",
@@ -296,6 +295,7 @@ OC.L10N.register(
     "This is an event reminder." : "Esto ye un recordatoriu del eventu.",
     "User not found" : "Nun s'atopó l'usuariu",
     "Hidden" : "Anubrióse",
+    "Calendar name …" : "Nome del calendariu…",
     "Enable simplified editor" : "Activar l'editor simplificáu",
     "Limit the number of events displayed in the monthly view" : "Llendar el númberu d'eventos amosaos na vista de meses",
     "Show keyboard shortcuts" : "Amosar los atayos del tecáu"
