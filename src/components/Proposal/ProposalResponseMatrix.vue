@@ -202,7 +202,7 @@ export default {
 			const groups = {}
 			dates.forEach((d) => {
 				// Apply timezone offset for grouping by day
-				const key = d.date ? moment(d.date).utcOffset(this.timezoneOffset).format('YYYY-MM-DD') : 'invalid'
+				const key = d.date ? moment(d.date).utcOffset(this.timezoneOffset).format('yyyy-MM-dd') : 'invalid'
 				if (!groups[key]) {
 					groups[key] = []
 				}
