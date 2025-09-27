@@ -5,7 +5,7 @@
 
 <template>
 	<DateTimePicker
-		:value="date"
+		:modelValue="date"
 		type="time"
 		:hide-label="true"
 		v-bind="$attrs"

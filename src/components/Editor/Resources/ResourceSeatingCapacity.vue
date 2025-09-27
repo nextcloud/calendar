@@ -10,7 +10,7 @@
 			type="number"
 			min="0"
 			:placeholder="placeholder"
-			:value="value"
+			:modelValue="value"
 			@update:modelValue="changeValue" />
 	</div>
 </template>

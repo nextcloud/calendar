@@ -23,7 +23,7 @@
 							input-id="slot"
 							label="displayStart"
 							:label-outside="true"
-							:value="selectedSlot"
+							:modelValue="selectedSlot"
 							@option:selected="setSlotSuggestion">
 							<template #selected-option="{}">
 								{{ $t('calendar', 'Suggestion accepted') }}
@@ -73,7 +73,7 @@
 						</NcButton>
 						<NcDateTimePickerNative
 							:hide-label="true"
-							:value="currentStart"
+							:modelValue="currentStart"
 							@update:modelValue="(date) => handleActions('picker', date)" />
 						<NcButton
 							variant="secondary"
@@ -131,7 +131,7 @@
 						</NcButton>
 						<NcDateTimePickerNative
 							:hide-label="true"
-							:value="currentStart"
+							:modelValue="currentStart"
 							@update:modelValue="(date) => handleActions('picker', date)" />
 						<NcButton
 							variant="secondary"
@@ -194,7 +194,7 @@
 								input-id="slot"
 								label="displayStart"
 								:label-outside="true"
-								:value="selectedSlot"
+								:modelValue="selectedSlot"
 								:loading="loadingIndicator"
 								:disabled="loadingIndicator"
 								@option:selected="setSlotSuggestion">

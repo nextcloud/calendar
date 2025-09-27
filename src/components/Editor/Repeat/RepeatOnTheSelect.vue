@@ -7,7 +7,7 @@
 	<NcSelect
 		:allow-empty="false"
 		:options="options"
-		:value="selected"
+		:modelValue="selected"
 		:disabled="disabled"
 		:placeholder="$t('calendar', 'Monday')"
 		:clearable="false"

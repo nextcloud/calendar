@@ -18,7 +18,7 @@
 				type="number"
 				min="0"
 				max="3600"
-				:value="alarm.relativeAmountTimed"
+				:modelValue="alarm.relativeAmountTimed"
 				@update:modelValue="changeRelativeAmountTimed">
 			<AlarmTimeUnitSelect
 				:is-all-day="isAllDay"
@@ -35,7 +35,7 @@
 					type="number"
 					min="0"
 					max="3600"
-					:value="alarm.relativeAmountAllDay"
+					:modelValue="alarm.relativeAmountAllDay"
 					@update:modelValue="changeRelativeAmountAllDay">
 				<AlarmTimeUnitSelect
 					:is-all-day="isAllDay"
@@ -98,8 +98,7 @@
 				<ActionRadio
 					v-if="canChangeAlarmType && isAlarmTypeOther"
 					:name="alarmTypeName"
-					:value="isAlarmTypeOther ?? alarmType"
-					:model-value="alarmType"
+					:model-value="isAlarmTypeOther ?? alarmType"
 					@update:modelValue="changeType(alarmType)">
 					{{ $t('calendar', 'Other notification') }}
 				</ActionRadio>

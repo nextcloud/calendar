@@ -9,7 +9,7 @@
 		<textarea
 			:id="id"
 			v-autosize="true"
-			:value="value"
+			:modelValue="value"
 			:rows="2"
 			@update:modelValue="$emit('update:value', $event.target.value)" />
 	</div>

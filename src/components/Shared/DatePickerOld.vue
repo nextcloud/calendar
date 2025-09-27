@@ -9,7 +9,7 @@
 		:first-day-of-week="firstDay"
 		format="YYYY-MM-DD HH:mm"
 		:formatter="formatter"
-		:value="date"
+		:modelValue="date"
 		:type="actualType"
 		:clearable="false"
 		:minute-step="5"
@@ -50,7 +50,7 @@
 					</div>
 					<TimezonePicker
 						class="timezone-popover-wrapper__timezone-select"
-						:value="timezoneId"
+						:modelValue="timezoneId"
 						@update:modelValue="changeTimezone" />
 				</template>
 			</NcPopover>

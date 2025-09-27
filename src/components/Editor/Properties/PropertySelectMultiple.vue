@@ -18,7 +18,7 @@
 			:class="{ 'property-select-multiple__input--readonly': isReadOnly }">
 			<NcSelect
 				v-if="!isReadOnly"
-				:value="selectionData"
+				:modelValue="selectionData"
 				:options="options"
 				:searchable="true"
 				:placeholder="placeholder"

@@ -37,7 +37,7 @@
 					<NcDateTimePickerNative
 						:id="datePickerInputId"
 						:hide-label="true"
-						:value="currentDate"
+						:modelValue="currentDate"
 						@update:modelValue="(date) => handleActions('picker', date)" />
 					<NcPopover :no-focus-trap="true">
 						<template #trigger>

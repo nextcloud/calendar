@@ -106,7 +106,7 @@
 					<NcSelect
 						:id="slotDuration"
 						:options="slotDurationOptions"
-						:value="selectedDurationOption"
+						v-model="selectedDurationOption"
 						:disabled="savingSlotDuration"
 						:clearable="false"
 						:input-label="$t('calendar', 'Density in Day and Week View')"
@@ -139,7 +139,7 @@
 					<div class="settings-fieldset-interior-item">
 						<NcSelect
 							:options="defaultReminderOptions"
-							:value="selectedDefaultReminderOption"
+							v-model="selectedDefaultReminderOption"
 							:disabled="savingDefaultReminder"
 							:clearable="false"
 							:input-label="$t('calendar', 'Default reminder')"

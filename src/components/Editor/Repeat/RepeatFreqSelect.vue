@@ -7,7 +7,7 @@
 	<NcSelect
 		:allow-empty="false"
 		:options="options"
-		:value="selected"
+		:modelValue="selected"
 		:clearable="false"
 		input-id="freq"
 		label="label"

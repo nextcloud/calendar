@@ -9,7 +9,7 @@
 		<input
 			:id="id"
 			type="text"
-			:value="value"
+			:modelValue="value"
 			:disabled="disabled"
 			@update:modelValue="change">
 	</div>

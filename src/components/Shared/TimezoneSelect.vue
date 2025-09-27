@@ -4,7 +4,7 @@
 -->
 <template>
 	<NcSelect
-		:value="selectedTimezone"
+		:modelValue="selectedTimezone"
 		:options="options"
 		:multiple="false"
 		:group-select="false"

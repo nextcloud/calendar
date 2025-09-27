@@ -25,7 +25,7 @@
 				:placeholder="placeholder"
 				:rows="rows"
 				:name="readableName"
-				:value="value"
+				:modelValue="value"
 				:class="{ 'textarea--description': isDescription }"
 				@focus="handleToggleTextareaFocus(true)"
 				@blur="handleToggleTextareaFocus(false)"
