@@ -146,9 +146,9 @@
 					<div v-if="!isReadOnlyOrViewing" class="app-full__header__details">
 						<div class="app-full__header__details-time">
 							<NcCheckboxRadioSwitch
-								:checked="isAllDay"
+								:model-value="isAllDay"
 								:disabled="!canModifyAllDay"
-								@update:checked="toggleAllDayPreliminary">
+								@update:modelValue="toggleAllDayPreliminary">
 								{{ $t('calendar', 'All day') }}
 							</NcCheckboxRadioSwitch>
 						</div>
