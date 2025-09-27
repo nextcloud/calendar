@@ -73,7 +73,7 @@
 <script>
 import interactionPlugin from '@fullcalendar/interaction'
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
-import FullCalendar from '@fullcalendar/vue'
+import FullCalendar from '@fullcalendar/vue3'
 import { NcButton, NcDateTimePickerNative, NcModal, NcPopover } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'

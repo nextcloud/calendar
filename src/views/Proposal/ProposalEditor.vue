@@ -243,7 +243,7 @@ import type { Proposal } from '@/models/proposals/proposals'
 
 import FullCalendarInteraction from '@fullcalendar/interaction'
 import FullCalendarTimeGrid from '@fullcalendar/timegrid'
-import FullCalendar from '@fullcalendar/vue'
+import FullCalendar from '@fullcalendar/vue3'
 import { AttendeeProperty } from '@nextcloud/calendar-js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'

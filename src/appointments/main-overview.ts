@@ -5,39 +5,26 @@
 
 import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
-import { translate, translatePlural } from '@nextcloud/l10n'
 import { linkTo } from '@nextcloud/router'
-import Vue from 'vue'
-import Booking from '../views/Appointments/Booking.vue'
+import { createApp } from 'vue'
+import Overview from '../views/Appointments/Overview.vue'
+import L10nMixin from '../mixins/L10nMixin.ts'
 
 // CSP config for webpack dynamic chunk loading
-
-__webpack_nonce__ = btoa(getRequestToken())
+__webpack_nonce__ = btoa(getRequestToken()!)
 
 // Correct the root of the app for chunk loading
 // OC.linkTo matches the apps folders
 // OC.generateUrl ensure the index.php (or not)
 // We do not want the index.php since we're loading files
-// eslint-disable-next-line
 __webpack_public_path__ = linkTo('calendar', 'js/')
 
-Vue.prototype.$t = translate
-Vue.prototype.$n = translatePlural
-
-const config = loadState('calendar', 'config')
+const configs = loadState('calendar', 'appointmentConfigs')
 const userInfo = loadState('calendar', 'userInfo')
-const visitorInfo = loadState('calendar', 'visitorInfo', {
-	displayName: '',
-	email: '',
-})
 
-export default new Vue({
-	el: '#appointment-booking',
-	render: (h) => h(Booking, {
-		props: {
-			config,
-			userInfo,
-			visitorInfo,
-		},
-	}),
+const app = createApp(Overview, {
+	configs,
+	userInfo,
 })
+app.mixin(L10nMixin)
+app.mount('#appointments-overview')

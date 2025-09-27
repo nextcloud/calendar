@@ -1,10 +1,11 @@
-import { translate as t } from '@nextcloud/l10n'
-import { NcEmptyContent as EmptyContent } from '@nextcloud/vue'
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import Vue from 'vue'
+
+import { t } from '@nextcloud/l10n'
+import { NcEmptyContent as EmptyContent } from '@nextcloud/vue'
+import { createApp } from 'vue'
 import CalendarIcon from 'vue-material-design-icons/CalendarBlank.vue'
 
 /**
@@ -14,14 +15,10 @@ import CalendarIcon from 'vue-material-design-icons/CalendarBlank.vue'
  * @param {Node} data.el The HTML element
  */
 export default function({ el }) {
-	const EmptyContentClass = Vue.extend(EmptyContent)
-	const instance = new EmptyContentClass({
-		propsData: {
-			title: t('calendar', 'No events'),
-			description: t('calendar', 'Create a new event or change the visible time-range'),
-		},
+	const app = createApp(EmptyContent, {
+		title: t('calendar', 'No events'),
+		description: t('calendar', 'Create a new event or change the visible time-range'),
 	})
-	instance.$slots.icon = [instance.$createElement(CalendarIcon)]
-	instance.$mount()
-	el.appendChild(instance.$el)
+	const vm = app.mount(el)
+	vm.$slots.icon = [vm.$createElement(CalendarIcon)]
 }

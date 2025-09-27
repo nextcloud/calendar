@@ -1,6 +1,5 @@
 import { generateRemoteUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
-import Vue from 'vue'
 import {
 	getDefaultPrincipalObject,
 	mapDavToPrincipal,
@@ -156,7 +155,7 @@ export default defineStore('principals', {
 
 			this.principals.push(object)
 			/// TODO this.principalsById[object.id] = object
-			Vue.set(this.principalsById, object.id, object)
+			this.principalsById[object.id] = object
 		},
 
 		/**
@@ -171,11 +170,7 @@ export default defineStore('principals', {
 			principal.dav.scheduleDefaultCalendarUrl = scheduleDefaultCalendarUrl
 
 			await principal.dav.update()
-			Vue.set(
-				this.principalsById[principal.id],
-				'scheduleDefaultCalendarUrl',
-				scheduleDefaultCalendarUrl,
-			)
+			this.principalsById[principal.id].scheduleDefaultCalendarUrl = scheduleDefaultCalendarUrl
 		},
 	},
 })
