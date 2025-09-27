@@ -13,14 +13,12 @@ import 'core-js/stable/index.js'
 import '../css/calendar.scss'
 
 // CSP config for webpack dynamic chunk loading
-
-__webpack_nonce__ = btoa(getRequestToken())
+__webpack_nonce__ = btoa(getRequestToken()!)
 
 // Correct the root of the app for chunk loading
 // OC.linkTo matches the apps folders
 // OC.generateUrl ensure the index.php (or not)
 // We do not want the index.php since we're loading files
-// eslint-disable-next-line
 __webpack_public_path__ = linkTo('calendar', 'js/')
 
 // Decode calendar icon (inline data url -> raw svg)
@@ -32,35 +30,26 @@ registerContactsMenuAction({
 	iconSvg: () => CalendarBlankSvgRaw,
 	enabled: (entry) => entry.isUser,
 	callback: async (args) => {
-		const { default: Vue } = await import('vue')
+		const { createApp } = await import('vue')
 		const { default: ContactsMenuAvailability } = await import('./views/ContactsMenuAvailability.vue')
-		const { createPinia, PiniaVuePlugin } = await import('pinia')
-		const { translatePlural } = await import('@nextcloud/l10n')
+		const { createPinia } = await import('pinia')
+		const { default: L10nMixin } = await import('./mixins/L10nMixin.ts')
 
-		Vue.use(PiniaVuePlugin)
+		const app = createApp(ContactsMenuAvailability, {
+			userId: args.uid,
+			userDisplayName: args.fullName,
+			userEmail: args.emailAddresses[0],
+		})
+
 		const pinia = createPinia()
+		app.use(pinia)
 
-		// Register global components
-		Vue.prototype.$t = t
-		Vue.prototype.$n = translatePlural
-
-		// The nextcloud-vue package does currently rely on t and n
-		Vue.prototype.t = t
-		Vue.prototype.n = translatePlural
+		app.mixin(L10nMixin)
 
 		// Append container element to the body to mount the vm at
 		const el = document.createElement('div')
 		document.body.appendChild(el)
 
-		const View = Vue.extend(ContactsMenuAvailability)
-		const vm = new View({
-			propsData: {
-				userId: args.uid,
-				userDisplayName: args.fullName,
-				userEmail: args.emailAddresses[0],
-			},
-			pinia,
-		})
-		vm.$mount(el)
+		app.mount(el)
 	},
 })

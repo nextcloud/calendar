@@ -265,10 +265,10 @@
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 // Import FullCalendar itself
-import FullCalendar from '@fullcalendar/vue'
+import FullCalendar from '@fullcalendar/vue3'
 import { AttendeeProperty } from '@nextcloud/calendar-js'
 import { isRTL } from '@nextcloud/l10n'
-import { isMobile, NcActionButton, NcActions, NcButton, NcDateTimePickerNative, NcListItemIcon, NcModal, NcPopover, NcSelect, NcUserBubble } from '@nextcloud/vue'
+import { useIsMobile, NcActionButton, NcActions, NcButton, NcDateTimePickerNative, NcListItemIcon, NcModal, NcPopover, NcSelect, NcUserBubble } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
@@ -313,7 +313,6 @@ export default {
 		Close,
 	},
 
-	mixins: [isMobile],
 	props: {
 		/**
 		 * The organizer object.
@@ -374,6 +373,14 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+	},
+
+	setup() {
+		const isMobile = useIsMobile()
+
+		return {
+			isMobile,
+		}
 	},
 
 	data() {

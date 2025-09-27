@@ -1,7 +1,6 @@
 import { AttachmentProperty, AttendeeProperty, DateTimeValue, DurationValue, Parameter, Property, RecurValue } from '@nextcloud/calendar-js'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
-import Vue from 'vue'
 import { mapAlarmComponentToAlarmObject } from '../models/alarm.js'
 import {
 	copyCalendarObjectInstanceIntoEventComponent,
@@ -385,8 +384,7 @@ export default defineStore('calendarObjectInstance', {
 		changeCustomColor({ calendarObjectInstance, customColor }) {
 			if (customColor === null) {
 				calendarObjectInstance.eventComponent.deleteAllProperties('COLOR')
-				// TODO: get rid of Vue.set in Vue 3
-				Vue.set(calendarObjectInstance, 'customColor', null)
+				calendarObjectInstance.customColor = null
 				return
 			}
 
@@ -403,8 +401,7 @@ export default defineStore('calendarObjectInstance', {
 			}
 
 			calendarObjectInstance.eventComponent.color = cssColorName
-			// TODO: get rid of Vue.set in Vue 3
-			Vue.set(calendarObjectInstance, 'customColor', hexColorOfCssName)
+			calendarObjectInstance.customColor = hexColorOfCssName
 		},
 
 		/**
@@ -577,11 +574,11 @@ export default defineStore('calendarObjectInstance', {
 		 */
 		setOrganizer({ calendarObjectInstance, commonName = null, email }) {
 			calendarObjectInstance.eventComponent.setOrganizerFromNameAndEMail(commonName, email)
-			Vue.set(calendarObjectInstance, 'organizer', {
+			calendarObjectInstance.organizer = {
 				commonName,
 				uri: email,
 				attendeeProperty: calendarObjectInstance.eventComponent.getFirstProperty('ORGANIZER'),
-			})
+			}
 		},
 
 		/**
@@ -737,17 +734,10 @@ export default defineStore('calendarObjectInstance', {
 					recurrenceRule.recurrenceRuleValue.setComponent(part, [])
 				}
 
-				/* TODO
 				recurrenceRule.byDay = []
 				recurrenceRule.byMonth = []
 				recurrenceRule.byMonthDay = []
 				recurrenceRule.bySetPosition = null
-				*/
-
-				Vue.set(recurrenceRule, 'byDay', [])
-				Vue.set(recurrenceRule, 'byMonth', [])
-				Vue.set(recurrenceRule, 'byMonthDay', [])
-				Vue.set(recurrenceRule, 'bySetPosition', null)
 
 				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
@@ -988,8 +978,7 @@ export default defineStore('calendarObjectInstance', {
 		}) {
 			if (recurrenceRule.recurrenceRuleValue) {
 				recurrenceRule.recurrenceRuleValue.setComponent('BYDAY', byDay)
-				// TODO recurrenceRule.byDay = byDay
-				Vue.set(recurrenceRule, 'byDay', byDay)
+				recurrenceRule.byDay = byDay
 
 				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
@@ -1008,8 +997,7 @@ export default defineStore('calendarObjectInstance', {
 		}) {
 			if (recurrenceRule.recurrenceRuleValue) {
 				recurrenceRule.recurrenceRuleValue.setComponent('BYSETPOS', [bySetPosition])
-				/// TODO recurrenceRule.bySetPosition = bySetPosition
-				Vue.set(recurrenceRule, 'bySetPosition', bySetPosition)
+				recurrenceRule.bySetPosition = bySetPosition
 
 				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
@@ -1706,8 +1694,7 @@ export default defineStore('calendarObjectInstance', {
 				// Remove the recurrence-rule
 				if (recurrenceRule.recurrenceRuleValue) {
 					calendarObjectInstance.eventComponent.deleteAllProperties('RRULE')
-					/// TODO calendarObjectInstance.recurrenceRule = getDefaultEventObject().recurrenceRule
-					Vue.set(calendarObjectInstance, 'recurrenceRule', getDefaultEventObject().recurrenceRule)
+					calendarObjectInstance.recurrenceRule = getDefaultEventObject().recurrenceRule
 
 					console.debug(calendarObjectInstance)
 					console.debug(recurrenceRule)

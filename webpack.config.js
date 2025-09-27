@@ -2,21 +2,19 @@
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-const path = require('path')
-const webpack = require('webpack')
 
+const path = require('path')
 const webpackConfig = require('@nextcloud/webpack-vue-config')
 const webpackRules = require('@nextcloud/webpack-vue-config/rules')
 const BabelLoaderExcludeNodeModulesExcept = require('babel-loader-exclude-node-modules-except')
 
-webpackConfig.entry['reference'] = path.join(__dirname, 'src', 'reference.js')
-webpackConfig.entry['contacts-menu'] = path.join(__dirname, 'src', 'contactsMenu.js')
-
-// Add appointments entries
-webpackConfig.entry['appointments-booking'] = path.join(__dirname, 'src', 'appointments/main-booking.js')
-webpackConfig.entry['appointments-confirmation'] = path.join(__dirname, 'src', 'appointments/main-confirmation.js')
-webpackConfig.entry['appointments-conflict'] = path.join(__dirname, 'src', 'appointments/main-conflict.js')
-webpackConfig.entry['appointments-overview'] = path.join(__dirname, 'src', 'appointments/main-overview.js')
+webpackConfig.entry.main = path.join(__dirname, 'src', 'main.ts')
+webpackConfig.entry.reference = path.join(__dirname, 'src', 'reference.ts')
+webpackConfig.entry['contacts-menu'] = path.join(__dirname, 'src', 'contactsMenu.ts')
+webpackConfig.entry['appointments-booking'] = path.join(__dirname, 'src', 'appointments/main-booking.ts')
+webpackConfig.entry['appointments-confirmation'] = path.join(__dirname, 'src', 'appointments/main-confirmation.ts')
+webpackConfig.entry['appointments-conflict'] = path.join(__dirname, 'src', 'appointments/main-conflict.ts')
+webpackConfig.entry['appointments-overview'] = path.join(__dirname, 'src', 'appointments/main-overview.ts')
 webpackConfig.entry['proposal-public'] = path.join(__dirname, 'src', 'proposal-public.ts')
 
 webpackConfig.resolve = {

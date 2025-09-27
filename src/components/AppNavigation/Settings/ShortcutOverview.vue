@@ -18,17 +18,15 @@
 				<span class="shortcut-section-item__keys">
 					<template v-for="(keyCombination, index2) of shortcut.keys">
 						<template v-for="(key, index3) in keyCombination">
-							<kbd :key="`${category.categoryId}-${index}-${index2}-${index3}`">{{ key }}</kbd>
+							<kbd>{{ key }}</kbd>
 							<span
 								v-if="index3 !== (keyCombination.length - 1)"
-								:key="`${category.categoryId}-${index}-${index2}-${index3}`"
 								class="shortcut-section-item__spacer">
 								+
 							</span>
 						</template>
 						<span
 							v-if="index2 !== (shortcut.keys.length - 1)"
-							:key="`${category.categoryId}-${index}-${index2}`"
 							class="shortcut-section-item__spacer">
 							{{ $t('calendar', 'or') }}
 						</span>

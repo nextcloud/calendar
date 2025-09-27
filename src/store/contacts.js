@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { defineStore } from 'pinia'
-import Vue from 'vue'
 
 export default defineStore('contacts', {
 	state: () => {
@@ -29,8 +28,7 @@ export default defineStore('contacts', {
 				// share the same email address, we will just follow
 				// first come, first served.
 				if (this.contactByEmail[email] === undefined) {
-					/// TODO this.contactByEmail[email] = contact
-					Vue.set(this.contactByEmail, email, contact)
+					this.contactByEmail[email] = contact
 				}
 			}
 		},

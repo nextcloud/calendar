@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { defineStore } from 'pinia'
-import Vue from 'vue'
 
 export default defineStore('importFiles', {
 	state: () => {
@@ -37,10 +36,8 @@ export default defineStore('importFiles', {
 				type,
 			}
 
-			// TODO: use this.importFiles.push(file) directly in Vue 3 (reactive by default)
-			this.importFiles = [...this.importFiles, file]
-			/// TODO this.importFilesById[file.id] = file
-			Vue.set(this.importFilesById, file.id, file)
+			this.importFiles.push(file)
+			this.importFilesById[file.id] = file
 		},
 
 		/**
@@ -51,21 +48,16 @@ export default defineStore('importFiles', {
 		 * @param {string} data.calendarId Id of calendar to import file into
 		 */
 		setCalendarForFileId({ fileId, calendarId }) {
-			// TODO: remove Vue.set when migrating to Vue 3 (reactive by default)
-			Vue.set(this.importCalendarRelation, fileId, calendarId)
+			this.importCalendarRelation[fileId] = calendarId
 		},
 
 		/**
 		 * Removes all files from state
 		 */
 		removeAllFiles() {
-			/// TODO this.importFiles = []
-			/// TODO this.importFilesById = {}
-			/// TODO this.importCalendarRelation = {}
-
-			Vue.set(this, 'importFiles', [])
-			Vue.set(this, 'importFilesById', {})
-			Vue.set(this, 'importCalendarRelation', {})
+			this.importFiles = []
+			this.importFilesById = {}
+			this.importCalendarRelation = {}
 		},
 	},
 })
