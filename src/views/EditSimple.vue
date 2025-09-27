@@ -488,10 +488,12 @@ export default {
 		},
 
 		repositionPopover() {
+			/*
 			const isNew = this.isWidget ? false : this.$route.name === 'NewPopoverView'
 			this.$refs.popover.$children[0].$refs.reference = this.getDomElementForPopover(isNew, this.$route)
 			this.$refs.popover.$children[0].$refs.popper.dispose()
 			this.$refs.popover.$children[0].$refs.popper.init()
+			*/
 		},
 
 		/**
