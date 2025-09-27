@@ -7,7 +7,7 @@
 	<DateTimePicker
 		:lang="lang"
 		:first-day-of-week="firstDay"
-		format="YYYY-MM-DD HH:mm"
+		format="yyyy-MM-dd HH:mm"
 		:formatter="formatter"
 		:modelValue="date"
 		:type="actualType"
