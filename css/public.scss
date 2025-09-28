@@ -11,7 +11,8 @@
 	flex-direction: column;
 
 	#embed-header {
-		height: 50px;
+		flex-wrap: wrap;
+		gap: calc(var(--default-grid-baseline) * 2);
 		width: 100%;
 		padding: calc(var(--default-grid-baseline) * 2);
 		box-sizing: border-box;
