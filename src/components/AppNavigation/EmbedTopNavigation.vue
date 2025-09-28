@@ -13,11 +13,11 @@
 		</div>
 		<!-- TODO have one button per calendar -->
 		<div v-if="!isWidget" class="embed-header__share-section">
-			<Actions>
+			<NcActions>
 				<template #icon>
 					<Download :size="20" decorative />
 				</template>
-				<ActionLink
+				<NcActionLink
 					v-for="calendar in calendarsStore.sortedSubscriptions"
 					:key="calendar.id"
 					target="_blank"
@@ -26,13 +26,13 @@
 						<Download :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'Export {name}', { name: calendar.displayName || $t('calendar', 'Untitled calendar') }) }}
-				</ActionLink>
-			</Actions>
-			<Actions>
+				</NcActionLink>
+			</NcActions>
+			<NcActions>
 				<template #icon>
 					<CalendarBlank :size="20" decorative />
 				</template>
-				<ActionButton
+				<NcActionButton
 					v-for="calendar in calendarsStore.sortedSubscriptions"
 					:key="calendar.id"
 					@click.prevent.stop="copySubscriptionLink(calendar)">
@@ -40,8 +40,8 @@
 						<CalendarBlank :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'Subscribe to {name}', { name: calendar.displayName || $t('calendar', 'Untitled calendar') }) }}
-				</ActionButton>
-			</Actions>
+				</NcActionButton>
+			</NcActions>
 		</div>
 	</header>
 </template>

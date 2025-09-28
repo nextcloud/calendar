@@ -14,13 +14,10 @@
 		</template>
 		<template #extra>
 			<NcAppSettingsDialog
-				id="app-settings-modal"
+				v-model:open="showSettingsModal"
 				class="app-settings-modal"
 				:name="t('mail', 'Calendar settings')"
-				:show-navigation="true"
-				:additional-trap-elements="[]"
-				:open="showSettingsModal"
-				@update:open="(val) => showSettingsModal = val">
+				:show-navigation="true">
 				<NcAppSettingsSection
 					id="settings-modal-general"
 					class="calendar-settings-modal-section"

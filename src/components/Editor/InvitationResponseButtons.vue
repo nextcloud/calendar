@@ -31,16 +31,16 @@
 				@click="tentative">
 				{{ t('calendar', 'Tentative') }}
 			</NcButton>
-			<Actions v-else>
-				<ActionButton
+			<NcActions v-else>
+				<NcActionButton
 					:disabled="loading"
 					@click="tentative">
 					<template #icon>
 						<CalendarQuestionIcon :size="20" />
 					</template>
 					{{ t('calendar', 'Tentative') }}
-				</ActionButton>
-			</Actions>
+				</NcActionButton>
+			</NcActions>
 		</template>
 	</div>
 </template>
@@ -48,8 +48,8 @@
 <script>
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import {
-	NcActionButton as ActionButton,
-	NcActions as Actions,
+	NcActionButton,
+	NcActions,
 	NcButton,
 } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
@@ -60,8 +60,8 @@ import logger from '../../utils/logger.js'
 export default {
 	name: 'InvitationResponseButtons',
 	components: {
-		Actions,
-		ActionButton,
+		NcActions,
+		NcActionButton,
 		NcButton,
 		CalendarQuestionIcon,
 	},

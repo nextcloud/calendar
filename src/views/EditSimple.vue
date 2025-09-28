@@ -36,14 +36,14 @@
 
 				<template v-else-if="isError">
 					<div :class="topActionsClass">
-						<Actions>
-							<ActionButton @click="cancel(false)">
+						<NcActions>
+							<NcActionButton @click="cancel(false)">
 								<template #icon>
 									<Close :size="20" decorative />
 								</template>
 								{{ $t('calendar', 'Close') }}
-							</ActionButton>
-						</Actions>
+							</NcActionButton>
+						</NcActions>
 					</div>
 
 					<EmptyContent :name="$t('calendar', 'Event does not exist')" :description="error">
@@ -69,48 +69,48 @@
 								</p>
 							</template>
 						</NcPopover>
-						<Actions v-if="!isLoading && !isError && !isNew" :force-menu="true">
-							<ActionLink
+						<NcActions v-if="!isLoading && !isError && !isNew" :force-menu="true">
+							<NcActionLink
 								v-if="!hideEventExport && hasDownloadURL"
 								:href="downloadURL">
 								<template #icon>
 									<Download :size="20" decorative />
 								</template>
 								{{ $t('calendar', 'Export') }}
-							</ActionLink>
-							<ActionButton v-if="!canCreateRecurrenceException && !isReadOnly" @click="duplicateEvent()">
+							</NcActionLink>
+							<NcActionButton v-if="!canCreateRecurrenceException && !isReadOnly" @click="duplicateEvent()">
 								<template #icon>
 									<ContentDuplicate :size="20" decorative />
 								</template>
 								{{ $t('calendar', 'Duplicate') }}
-							</ActionButton>
-							<ActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave(false)">
+							</NcActionButton>
+							<NcActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave(false)">
 								<template #icon>
 									<Delete :size="20" decorative />
 								</template>
 								{{ $t('calendar', 'Delete') }}
-							</ActionButton>
-							<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(false)">
+							</NcActionButton>
+							<NcActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(false)">
 								<template #icon>
 									<Delete :size="20" decorative />
 								</template>
 								{{ $t('calendar', 'Delete this occurrence') }}
-							</ActionButton>
-							<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(true)">
+							</NcActionButton>
+							<NcActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(true)">
 								<template #icon>
 									<Delete :size="20" decorative />
 								</template>
 								{{ $t('calendar', 'Delete this and all future') }}
-							</ActionButton>
-						</Actions>
-						<Actions>
-							<ActionButton @click="cancel(false)">
+							</NcActionButton>
+						</NcActions>
+						<NcActions>
+							<NcActionButton @click="cancel(false)">
 								<template #icon>
 									<Close :size="20" decorative />
 								</template>
 								{{ $t('calendar', 'Close') }}
-							</ActionButton>
-						</Actions>
+							</NcActionButton>
+						</NcActions>
 					</div>
 
 					<CalendarPickerHeader
@@ -228,9 +228,9 @@
 import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
 import IconDelete from '@mdi/svg/svg/delete.svg?raw'
 import {
-	NcActionButton as ActionButton,
-	NcActionLink as ActionLink,
-	NcActions as Actions,
+	NcActionButton,
+	NcActionLink,
+	NcActions,
 	NcEmptyContent as EmptyContent,
 	NcAppNavigationSpacer,
 	NcButton,
@@ -272,9 +272,9 @@ export default {
 		PropertyTitleTimePicker,
 		PropertyTitle,
 		NcPopover,
-		Actions,
-		ActionButton,
-		ActionLink,
+		NcActions,
+		NcActionButton,
+		NcActionLink,
 		EmptyContent,
 		CalendarBlank,
 		Close,

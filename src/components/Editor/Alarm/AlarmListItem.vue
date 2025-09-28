@@ -68,86 +68,86 @@
 		<div
 			v-if="!isReadOnly"
 			class="property-alarm-item__options">
-			<Actions
+			<NcActions
 				:open="showMenu"
 				@update:open="(open) => showMenu = open">
-				<ActionRadio
+				<NcActionRadio
 					v-if="canChangeAlarmType || (!isAlarmTypeDisplay && forceEventAlarmType === 'DISPLAY')"
 					:name="alarmTypeName"
 					value="DISPLAY"
 					:model-value="alarmType"
 					@update:modelValue="changeType('DISPLAY')">
 					{{ $t('calendar', 'Notification') }}
-				</ActionRadio>
-				<ActionRadio
+				</NcActionRadio>
+				<NcActionRadio
 					v-if="canChangeAlarmType || (!isAlarmTypeEmail && forceEventAlarmType === 'EMAIL')"
 					:name="alarmTypeName"
 					value="EMAIL"
 					:model-value="alarmType"
 					@update:modelValue="changeType('EMAIL')">
 					{{ $t('calendar', 'Email') }}
-				</ActionRadio>
-				<ActionRadio
+				</NcActionRadio>
+				<NcActionRadio
 					v-if="canChangeAlarmType && isAlarmTypeAudio"
 					:name="alarmTypeName"
 					value="AUDIO"
 					:model-value="alarmType"
 					@update:modelValue="changeType('AUDIO')">
 					{{ $t('calendar', 'Audio notification') }}
-				</ActionRadio>
-				<ActionRadio
+				</NcActionRadio>
+				<NcActionRadio
 					v-if="canChangeAlarmType && isAlarmTypeOther"
 					:name="alarmTypeName"
 					:model-value="isAlarmTypeOther ?? alarmType"
 					@update:modelValue="changeType(alarmType)">
 					{{ $t('calendar', 'Other notification') }}
-				</ActionRadio>
+				</NcActionRadio>
 
-				<ActionSeparator v-if="canChangeAlarmType && !isRecurring" />
+				<NcActionSeparator v-if="canChangeAlarmType && !isRecurring" />
 
-				<ActionRadio
+				<NcActionRadio
 					v-if="!isRecurring"
 					:name="alarmTriggerName"
 					value="RELATIVE"
 					:model-value="alarmRelationType"
 					@update:modelValue="switchToRelativeAlarm">
 					{{ $t('calendar', 'Relative to event') }}
-				</ActionRadio>
-				<ActionRadio
+				</NcActionRadio>
+				<NcActionRadio
 					v-if="!isRecurring"
 					:name="alarmTriggerName"
 					value="ABSOLUTE"
 					:model-value="alarmRelationType"
 					@update:modelValue="switchToAbsoluteAlarm">
 					{{ $t('calendar', 'On date') }}
-				</ActionRadio>
+				</NcActionRadio>
 
-				<ActionSeparator />
+				<NcActionSeparator />
 
-				<ActionButton
+				<NcActionButton
 					v-if="canEdit && !isEditing"
 					@click.stop="toggleEditAlarm">
 					<template #icon>
 						<Pencil :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'Edit time') }}
-				</ActionButton>
-				<ActionButton
+				</NcActionButton>
+				<NcActionButton
 					v-if="canEdit && isEditing"
 					@click="toggleEditAlarm">
 					<template #icon>
 						<Check :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'Save time') }}
-				</ActionButton>
+				</NcActionButton>
 
-				<ActionButton @click="removeAlarm">
+				<NcActionButton @click="removeAlarm">
 					<template #icon>
 						<Delete :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'Remove reminder') }}
-				</ActionButton>
-			</Actions>
+				</NcActionButton>
+			</NcActions>
 		</div>
 	</div>
 </template>
@@ -155,10 +155,10 @@
 <script>
 import moment from '@nextcloud/moment'
 import {
-	NcActionButton as ActionButton,
-	NcActionRadio as ActionRadio,
-	NcActions as Actions,
-	NcActionSeparator as ActionSeparator,
+	NcActionButton,
+	NcActionRadio,
+	NcActions,
+	NcActionSeparator,
 } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import Check from 'vue-material-design-icons/CheckOutline.vue'
@@ -177,10 +177,10 @@ export default {
 		DatePicker,
 		TimePicker,
 		AlarmTimeUnitSelect,
-		Actions,
-		ActionButton,
-		ActionRadio,
-		ActionSeparator,
+		NcActions,
+		NcActionButton,
+		NcActionRadio,
+		NcActionSeparator,
 		Check,
 		Delete,
 		Pencil,

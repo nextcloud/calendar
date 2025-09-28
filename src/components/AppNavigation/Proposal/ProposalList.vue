@@ -51,9 +51,8 @@
 					<PendingIcon :size="20" decorative />
 				</template>
 				<template #counter>
-					<NcCounterBubble>
-						{{ proposalParticipantsResponded(proposal) + '/' + proposalParticipantsTotal(proposal) }}
-					</NcCounterBubble>
+					<NcChip :text="proposalParticipantsResponded(proposal) + '/' + proposalParticipantsTotal(proposal)"
+						:no-close="true" />
 				</template>
 				<template #actions>
 					<NcActionButton
@@ -105,7 +104,7 @@ import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 // components
 import NcAppNavigationCaption from '@nextcloud/vue/components/NcAppNavigationCaption'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
-import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
+import NcChip from '@nextcloud/vue/components/NcChip'
 import usePrincipalStore from '@/store/principals'
 // types, object and stores
 import useProposalStore from '@/store/proposalStore'
@@ -118,7 +117,7 @@ export default {
 		NcAppNavigationCaption,
 		NcAppNavigationItem,
 		NcActionButton,
-		NcCounterBubble,
+		NcChip,
 		WarningIcon,
 		PendingIcon,
 		CompleteIcon,
