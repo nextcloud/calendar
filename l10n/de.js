@@ -153,6 +153,7 @@ OC.L10N.register(
     "Share with users or groups" : "Mit Benutzern oder Gruppen teilen",
     "No users or groups" : "Keine Benutzer oder Gruppen",
     "Failed to save calendar name and color" : "Kalendername oder -farbe konnte nicht gespeichert werden.",
+    "Calendar name …" : "Kalendername …",
     "Never show me as busy (set this calendar to transparent)" : "Mich nie als beschäftigt anzeigen (diesen Kalender auf transparent setzen)",
     "Share calendar" : "Kalender teilen",
     "Unshare from me" : "Nicht mehr mit mir teilen",

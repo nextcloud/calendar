@@ -23,10 +23,12 @@ OC.L10N.register(
     "Edit" : "Ẓreg",
     "Delete" : "Kkes",
     "Create new" : "Snulfu-d amaynut",
+    "Calendars" : "Iwitayen",
     "Add new" : "Rnu amaynut",
     "New calendar" : "Awitay amaynut",
     "Name" : "Isem",
     "Deleted" : "Yettwakkes",
+    "Delete permanently" : "Kkes-it i lebda",
     "Share link" : "Bḍu aseɣwen",
     "Save" : "Sekles",
     "Filename" : "Isem n ufaylu",
@@ -40,6 +42,7 @@ OC.L10N.register(
     "General" : "Amatu",
     "Keyboard shortcuts" : "Inegzumen n unasiw",
     "Location" : "Adig",
+    "Description" : "Aglam",
     "Add" : "Rnu",
     "Monday" : "Arim",
     "Tuesday" : "Aram",
@@ -70,6 +73,7 @@ OC.L10N.register(
     "Daily" : "S wass",
     "Weekly" : "S umalas",
     "Other" : "Wayeḍ",
-    "Status" : "Addad"
+    "Status" : "Addad",
+    "Categories" : "Taggayin"
 },
 "nplurals=2; plural=(n != 1);");
