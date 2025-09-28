@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { translate as t } from '@nextcloud/l10n'
+import { toRaw } from 'vue'
 import usePrincipalsStore from '../../store/principals.js'
 import useTasksStore from '../../store/unscheduledTasks.js'
 import { getAllObjectsInTimeRange } from '../../utils/calendarObject.js'
@@ -13,6 +14,7 @@ import {
 	isLight,
 } from '../../utils/color.js'
 import logger from '../../utils/logger.js'
+
 /**
  * convert an array of calendar-objects to events
  *
@@ -29,7 +31,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 	tasksStore.emptyCalendar(calendar.id)
 
 	const fcEvents = []
-	for (const calendarObject of calendarObjects) {
+	for (const calendarObject of calendarObjects.map(toRaw)) {
 		let allObjectsInTimeRange
 		try {
 			allObjectsInTimeRange = getAllObjectsInTimeRange(calendarObject, start, end)

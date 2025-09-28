@@ -60,6 +60,7 @@ import useCalendarObjectsStore from '../../../store/calendarObjects.js'
 import useCalendarsStore from '../../../store/calendars.js'
 import useImportFilesStore from '../../../store/importFiles.js'
 import useImportStateStore from '../../../store/importState.js'
+import { useId } from 'vue'
 
 export default {
 	name: 'SettingsImportSection',
@@ -132,7 +133,7 @@ export default {
 		 * @return {string}
 		 */
 		inputUid() {
-			return this._uid + '-import-input'
+			return useId() + '-import-input'
 		},
 
 		/**

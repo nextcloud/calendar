@@ -29,6 +29,7 @@ export default defineStore('fetchedTimeRanges', {
 		 * @return {function({Number}, {Number}, {Number}): {Object}|false}
 		 */
 		getTimeRangeForCalendarCoveringRange: (state) => (calendarId, requestedFrom, requestedTo) => {
+			console.log('getTimeRangeForCalendarCoveringRange', state, calendarId, requestedFrom, requestedTo)
 			return state.fetchedTimeRanges.find((f) => {
 				return f.calendarId === calendarId && f.from <= requestedFrom && f.to >= requestedTo
 			})

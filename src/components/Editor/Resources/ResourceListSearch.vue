@@ -53,21 +53,21 @@
 		<template>
 			<div class="resource-search__capacity">
 				<ResourceSeatingCapacity v-model="capacity" />
-				<Actions class="resource-search__capacity__actions">
-					<ActionCheckbox :checked.sync="isAvailable">
+				<NcActions class="resource-search__capacity__actions">
+					<NcActionCheckbox :checked.sync="isAvailable">
 						<!-- Translators room or resource is not yet booked -->
 						{{ $t('calendar', 'Available') }}
-					</ActionCheckbox>
-					<ActionCheckbox :checked.sync="hasProjector">
+					</NcActionCheckbox>
+					<NcActionCheckbox :checked.sync="hasProjector">
 						{{ $t('calendar', 'Projector') }}
-					</ActionCheckbox>
-					<ActionCheckbox :checked.sync="hasWhiteboard">
+					</NcActionCheckbox>
+					<NcActionCheckbox :checked.sync="hasWhiteboard">
 						{{ $t('calendar', 'Whiteboard') }}
-					</ActionCheckbox>
-					<ActionCheckbox :checked.sync="isAccessible">
+					</NcActionCheckbox>
+					<NcActionCheckbox :checked.sync="isAccessible">
 						{{ $t('calendar', 'Wheelchair accessible') }}
-					</ActionCheckbox>
-				</Actions>
+					</NcActionCheckbox>
+				</NcActions>
 			</div>
 			<ResourceRoomType v-model="roomType" />
 		</template>

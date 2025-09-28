@@ -19,48 +19,48 @@
 			{{ commonName }}
 		</div>
 		<div class="resource-list-item__actions">
-			<Actions v-if="isViewedByOrganizer && isSuggestion">
-				<ActionButton @click="addSuggestion">
+			<NcActions v-if="isViewedByOrganizer && isSuggestion">
+				<NcActionButton @click="addSuggestion">
 					<template #icon>
 						<Plus :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'Add resource') }}
-				</ActionButton>
-			</actions>
-			<Actions v-else-if="isViewedByOrganizer">
-				<ActionCaption
+				</NcActionButton>
+			</NcActions>
+			<NcActions v-else-if="isViewedByOrganizer">
+				<NcActionCaption
 					v-if="seatingCapacity"
 					:name="seatingCapacity" />
-				<ActionCaption
+				<NcActionCaption
 					v-if="roomType"
 					:name="roomType" />
-				<ActionCaption
+				<NcActionCaption
 					v-if="hasProjector"
 					:name="$t('calendar', 'Has a projector')" />
-				<ActionCaption
+				<NcActionCaption
 					v-if="hasWhiteboard"
 					:name="$t('calendar', 'Has a whiteboard')" />
-				<ActionCaption
+				<NcActionCaption
 					v-if="isAccessible"
 					:name="$t('calendar', 'Wheelchair accessible')" />
-				<ActionSeparator v-if="seatingCapacity || roomType || hasProjector || hasWhiteboard || isAccessible" />
-				<ActionButton @click="removeResource">
+				<NcActionSeparator v-if="seatingCapacity || roomType || hasProjector || hasWhiteboard || isAccessible" />
+				<NcActionButton @click="removeResource">
 					<template #icon>
 						<Delete :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'Remove resource') }}
-				</ActionButton>
-			</actions>
+				</NcActionButton>
+			</NcActions>
 		</div>
 	</div>
 </template>
 
 <script>
 import {
-	NcActionButton as ActionButton,
-	NcActionCaption as ActionCaption,
-	NcActions as Actions,
-	NcActionSeparator as ActionSeparator,
+	NcActionButton,
+	NcActionCaption,
+	NcActions,
+	NcActionSeparator,
 } from '@nextcloud/vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
@@ -74,10 +74,10 @@ export default {
 	name: 'ResourceListItem',
 	components: {
 		AvatarParticipationStatus,
-		ActionButton,
-		ActionCaption,
-		ActionSeparator,
-		Actions,
+		NcActionButton,
+		NcActionCaption,
+		NcActionSeparator,
+		NcActions,
 		Delete,
 		Plus,
 	},

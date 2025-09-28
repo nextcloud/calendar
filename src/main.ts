@@ -29,6 +29,7 @@ __webpack_nonce__ = btoa(getRequestToken()!)
 __webpack_public_path__ = linkTo('calendar', 'js/')
 
 const app = createApp(App)
+app.config.idPrefix = 'calendar'
 
 const pinia = createPinia()
 app.use(pinia)

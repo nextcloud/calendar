@@ -33,23 +33,23 @@
 					class="property-color__color-preview"
 					:style="{ 'background-color': selectedColor }" />
 			</ColorPicker>
-			<Actions v-if="showColorRevertButton">
-				<ActionButton @click.prevent.stop="deleteColor">
+			<NcActions v-if="showColorRevertButton">
+				<NcActionButton @click.prevent.stop="deleteColor">
 					<template #icon>
 						<Undo :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'Remove color') }}
-				</ActionButton>
-			</Actions>
+				</NcActionButton>
+			</NcActions>
 		</div>
 	</div>
 </template>
 
 <script>
 import {
-	NcActionButton as ActionButton,
-	NcActions as Actions,
-	NcColorPicker as ColorPicker,
+	NcActionButton,
+	NcActions,
+	NcColorPicker,
 	NcButton,
 } from '@nextcloud/vue'
 import Undo from 'vue-material-design-icons/Undo.vue'
@@ -58,10 +58,10 @@ import PropertyMixin from '../../../mixins/PropertyMixin.js'
 export default {
 	name: 'PropertyColor',
 	components: {
-		Actions,
-		ActionButton,
+		NcActions,
+		NcActionButton,
 		NcButton,
-		ColorPicker,
+		NcColorPicker,
 		Undo,
 	},
 

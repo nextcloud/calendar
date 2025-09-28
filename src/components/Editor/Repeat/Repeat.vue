@@ -13,8 +13,8 @@
 			<RepeatSummary
 				class="property-repeat__summary__content"
 				:recurrence-rule="recurrenceRule" />
-			<Actions v-if="!isReadOnly">
-				<ActionButton @click="toggleOptions">
+			<NcActions v-if="!isReadOnly">
+				<NcActionButton @click="toggleOptions">
 					<template #icon>
 						<component
 							:is="toggleIcon"
@@ -22,8 +22,8 @@
 							decorative />
 					</template>
 					{{ toggleTitle }}
-				</ActionButton>
-			</Actions>
+				</NcActionButton>
+			</NcActions>
 		</div>
 
 		<NcModal :show.sync="showOptions">
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { NcActionButton as ActionButton, NcActions as Actions, NcModal } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcModal } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
 import Check from 'vue-material-design-icons/Check.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
@@ -112,8 +112,8 @@ export default {
 		RepeatIcon,
 		Pencil,
 		Check,
-		Actions,
-		ActionButton,
+		NcActions,
+		NcActionButton,
 		NcModal,
 	},
 
