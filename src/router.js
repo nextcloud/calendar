@@ -23,7 +23,6 @@ const base = generateUrl('apps/calendar', {}, {
 
 export default createRouter({
 	history: createWebHistory(base),
-	base,
 	routes: [
 		{
 			path: '/p/:tokens/:view/:firstDay',

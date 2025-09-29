@@ -377,6 +377,12 @@ import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import usePrincipalsStore from '../store/principals.js'
 import useSettingsStore from '../store/settings.js'
 import logger from '../utils/logger.js'
+import {
+	getPrefixedRoute,
+	beforeRouteEnter,
+	beforeRouteLeave,
+	beforeRouteUpdate,
+ } from '@/utils/router.js'
 
 export default {
 	name: 'EditFull',
@@ -536,6 +542,18 @@ export default {
 		window.removeEventListener('keydown', this.keyboardSaveEvent)
 		window.removeEventListener('keydown', this.keyboardDeleteEvent)
 		window.removeEventListener('keydown', this.keyboardDuplicateEvent)
+	},
+
+	beforeRouteEnter(to, from, next) {
+		beforeRouteEnter.call(this, to, from, next)
+	},
+
+	beforeRouteUpdate(to, from, next) {
+		beforeRouteUpdate.call(this, to, from, next)
+	},
+
+	beforeRouteLeave(to, from, next) {
+		beforeRouteLeave.call(this, to, from, next)
 	},
 
 	methods: {

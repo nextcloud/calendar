@@ -7,7 +7,7 @@
 	<div class="calendar-list-wrapper">
 		<CalendarListNew />
 		<template v-if="!isPublic">
-			<draggable
+			<draggable item-key="uri"
 				v-model="sortedCalendars.personal"
 				:disabled="disableDragging"
 				v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
@@ -30,7 +30,7 @@
 
 		<NcAppNavigationCaption v-if="sortedCalendars.shared.length" :name="$t('calendar', 'Shared calendars')" />
 		<template v-if="!isPublic">
-			<draggable
+			<draggable item-key="uri"
 				v-model="sortedCalendars.shared"
 				:disabled="disableDragging"
 				v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
@@ -53,7 +53,7 @@
 
 		<NcAppNavigationCaption v-if="sortedCalendars.deck.length" :name="$t('calendar', 'Deck')" />
 		<template v-if="!isPublic">
-			<draggable
+			<draggable item-key="uri"
 				v-model="sortedCalendars.deck"
 				:disabled="disableDragging"
 				v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
