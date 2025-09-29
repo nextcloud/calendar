@@ -39,6 +39,7 @@ app.mixin(L10nMixin)
 
 // Redirect Vue errors to Sentry
 app.config.errorHandler = function(error, vm, info): void {
+	console.error(error)
 	logger.error(`[Vue error]: Error in ${info}: ${error}`, {
 		error,
 		vm,
