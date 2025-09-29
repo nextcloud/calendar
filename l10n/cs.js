@@ -153,6 +153,7 @@ OC.L10N.register(
     "Share with users or groups" : "Sdílet s uživateli nebo skupinami",
     "No users or groups" : "Žádní uživatelé nebo skupiny",
     "Failed to save calendar name and color" : "Nepodařilo se uložit název a barvu kalendáře",
+    "Calendar name …" : "Název kalendáře …",
     "Never show me as busy (set this calendar to transparent)" : "Nikdy mne nezobrazovat jako zaneprázdněného (nastavit tento kalendář jako transparentní)",
     "Share calendar" : "Nasdílet kalendář",
     "Unshare from me" : "Přestat sdílet",
