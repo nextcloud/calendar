@@ -7,8 +7,8 @@ import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { linkTo } from '@nextcloud/router'
 import { createApp } from 'vue'
-import Confirmation from '../views/Appointments/Confirmation.vue'
-import L10nMixin from '../mixins/L10nMixin.ts'
+import Confirmation from '@/views/Appointments/Confirmation.vue'
+import L10nMixin from '@/mixins/L10nMixin'
 
 // CSP config for webpack dynamic chunk loading
 __webpack_nonce__ = btoa(getRequestToken()!)
