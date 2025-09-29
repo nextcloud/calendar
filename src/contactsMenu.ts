@@ -31,9 +31,9 @@ registerContactsMenuAction({
 	enabled: (entry) => entry.isUser,
 	callback: async (args) => {
 		const { createApp } = await import('vue')
-		const { default: ContactsMenuAvailability } = await import('./views/ContactsMenuAvailability.vue')
+		const { default: ContactsMenuAvailability } = await import('@/views/ContactsMenuAvailability.vue')
 		const { createPinia } = await import('pinia')
-		const { default: L10nMixin } = await import('./mixins/L10nMixin.ts')
+		const { default: L10nMixin } = await import('@/mixins/L10nMixin')
 
 		const app = createApp(ContactsMenuAvailability, {
 			userId: args.uid,

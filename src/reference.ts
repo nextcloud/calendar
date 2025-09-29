@@ -17,9 +17,9 @@ const renderedWidgets = new Map<string, { unmount(): void }>()
 // eslint-disable-next-line no-unused-vars
 registerWidget('calendar_widget', async (el, { richObjectType, richObject, accessible, interactive }) => {
 	const { createApp } = await import('vue')
-	const { default: Calendar } = await import('./views/Calendar.vue')
+	const { default: Calendar } = await import('@/views/Calendar.vue')
 	const { createPinia } = await import('pinia')
-	const { default: L10nMixin } = await import('./mixins/L10nMixin.ts')
+	const { default: L10nMixin } = await import('@/mixins/L10nMixin')
 	const { NcCustomPickerRenderResult } = await import('@nextcloud/vue/functions/reference')
 
 	const app = createApp(Calendar, {

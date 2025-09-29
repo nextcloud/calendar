@@ -4,12 +4,12 @@ import { linkTo } from '@nextcloud/router'
 import { createPinia } from 'pinia'
 import { createApp }  from 'vue'
 import App from './App.vue'
-import AppointmentConfig from './models/appointmentConfig.js'
-import router from './router.js'
-import windowTitleService from './services/windowTitleService.js'
-import useAppointmentConfigsStore from './store/appointmentConfigs.js'
-import logger from './utils/logger.js'
-import L10nMixin from './mixins/L10nMixin.ts'
+import AppointmentConfig from '@/models/appointmentConfig.js'
+import router from '@/router.js'
+import windowTitleService from '@/services/windowTitleService.js'
+import useAppointmentConfigsStore from '@/store/appointmentConfigs.js'
+import logger from '@/utils/logger.js'
+import L10nMixin from '@/mixins/L10nMixin'
 
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
