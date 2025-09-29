@@ -9,9 +9,9 @@
 		<input
 			:id="id"
 			type="text"
-			:modelValue="value"
+			:value="value"
 			:disabled="disabled"
-			@update:modelValue="change">
+			@update:value="change">
 	</div>
 </template>
 
