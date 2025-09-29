@@ -61,7 +61,7 @@ jobs:
         working-directory: nextcloud/apps/calendar
         run: npm run build
       - name: Install stunnel (tiny https proxy)
-        run: sudo apt-get install -y stunnel
+        run: sudo apt-get update && sudo apt-get install -y stunnel
       - name: Start php server and https proxy
         working-directory: nextcloud
         run: |
