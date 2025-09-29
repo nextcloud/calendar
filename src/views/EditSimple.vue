@@ -22,17 +22,23 @@
 			:shown="showPopover"
 			:auto-hide="false"
 			:placement="placement"
-			:boundary="boundaryElement"
 			popover-base-class="event-popover"
 			:triggers="[]">
-			<template #trigger="{ attrs }">
-				<!-- Dummy slot to silence vue warning regarding a custom trigger -->
-				<button v-bind="attrs" style="display: none" />
-			</template>
+			
 			<div class="event-popover__inner edit-simple">
-				<template v-if="isLoading && !isSaving">
-					<PopoverLoadingIndicator />
-				</template>
+				   <template v-if="isLoading && !isSaving">
+					   <PopoverLoadingIndicator />
+					   <div class="event-popover__top-actions">
+						   <NcActions>
+							   <NcActionButton @click="cancel(false)">
+								   <template #icon>
+									   <Close :size="20" decorative />
+								   </template>
+								   {{ $t('calendar', 'Close') }}
+							   </NcActionButton>
+						   </NcActions>
+					   </div>
+				   </template>
 
 				<template v-else-if="isError">
 					<div :class="topActionsClass">
@@ -260,7 +266,12 @@ import EditorMixin from '../mixins/EditorMixin.js'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import useSettingsStore from '../store/settings.js'
 import useWidgetStore from '../store/widget.js'
-import { getPrefixedRoute } from '../utils/router.js'
+import {
+	getPrefixedRoute,
+	beforeRouteEnter,
+	beforeRouteLeave,
+	beforeRouteUpdate,
+ } from '@/utils/router.js'
 
 export default {
 	name: 'EditSimple',
@@ -402,6 +413,10 @@ export default {
 				this.isViewing = !isNew
 			},
 		},
+
+		isLoading() {
+			console.info('isLoading changed', this.isLoading)
+		}
 	},
 
 	async mounted() {
@@ -421,6 +436,18 @@ export default {
 		this.$nextTick(() => {
 			this.repositionPopover()
 		})
+	},
+
+	beforeRouteEnter(to, from, next) {
+		beforeRouteEnter.call(this, to, from, next)
+	},
+
+	beforeRouteUpdate(to, from, next) {
+		beforeRouteUpdate.call(this, to, from, next)
+	},
+
+	beforeRouteLeave(to, from, next) {
+		beforeRouteLeave.call(this, to, from, next)
 	},
 
 	beforeDestroy() {

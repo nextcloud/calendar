@@ -22,7 +22,6 @@
 		v-bind="$attrs"
 		confirm
 		class="date-time-picker"
-		v-on="$listeners"
 		@close="close"
 		@change="change"
 		@pick="pickDate">
