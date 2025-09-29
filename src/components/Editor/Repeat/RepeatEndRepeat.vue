@@ -29,8 +29,8 @@
 			type="number"
 			min="1"
 			max="3500"
-			:modelValue="count"
-			@update:modelValue="changeCount">
+			:value="count"
+			@update:value="changeCount">
 		<span
 			v-if="isCount"
 			class="repeat-option-end__count">

@@ -14,8 +14,8 @@
 				type="text"
 				autocomplete="off"
 				:placeholder="t('calendar', 'Event title')"
-				:modelValue="value"
-				@update:modelValue.prevent.stop="changeValue">
+				:value="value"
+				@update:value.prevent.stop="changeValue">
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else :class="{ 'property-title__input__rtl': isRTL }">{{ value }}</div>
 		</div>
