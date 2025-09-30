@@ -70,6 +70,7 @@ OC.L10N.register(
     "Proceed" : "Працягнуць",
     "Upload from device" : "Запампаваць з прылады",
     "Delete file" : "Выдаліць файл",
+    "Confirmation" : "Пацвярджэнне",
     "Accepted {organizerName}'s invitation" : "Прынята запрашэнне {organizerName}",
     "Declined {organizerName}'s invitation" : "Адхілена запрашэнне {organizerName}",
     "{organizer} (organizer)" : "{organizer} (арганізатар)",
