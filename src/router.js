@@ -122,16 +122,23 @@ const router = new Router({
 				},
 				// Redirect the old sidebar route until Calendar drops support for Nextcloud < 32
 				// Ref https://github.com/nextcloud/server/pull/52410
+				// Now re-enabled with the simple editor in sidebar mode
 				{
 					path: '/:view/:firstDay/edit/sidebar/:object/:recurrenceId',
-					redirect: {
-						name: 'EditFullView',
-					},
+					name: 'EditSidebarView',
+					component: EditSimple,
+					props: { asSidebar: true },
 				},
 				{
 					path: '/:view/:firstDay/new/popover/:allDay/:dtstart/:dtend',
 					name: 'NewPopoverView',
 					component: EditSimple,
+				},
+				{
+					path: '/:view/:firstDay/new/sidebar/:allDay/:dtstart/:dtend',
+					name: 'NewSidebarView',
+					component: EditSimple,
+					props: { asSidebar: true },
 				},
 				{
 					path: '/:view/:firstDay/new/full/:allDay/:dtstart/:dtend',
