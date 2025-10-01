@@ -153,6 +153,7 @@ OC.L10N.register(
     "Share with users or groups" : "與使用者或群組分享",
     "No users or groups" : "沒有使用者或群組",
     "Failed to save calendar name and color" : "儲存行事曆名稱或色彩失敗",
+    "Calendar name …" : "日曆名稱 …",
     "Never show me as busy (set this calendar to transparent)" : "永不顯示我為忙碌狀態（設定此行事曆為透明）",
     "Share calendar" : "分享行事曆",
     "Unshare from me" : "取消與我分享",

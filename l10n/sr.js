@@ -153,6 +153,7 @@ OC.L10N.register(
     "Share with users or groups" : "Дели са корисницима или групама",
     "No users or groups" : "Нема корисника или група",
     "Failed to save calendar name and color" : "Није успело чување назива календара и боје",
+    "Calendar name …" : "Назив календара …",
     "Never show me as busy (set this calendar to transparent)" : "Никад не приказуј статус заузет (поставља овај календар на транспарентно)",
     "Share calendar" : "Дели календар",
     "Unshare from me" : "Уклони дељење за мене",
