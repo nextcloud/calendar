@@ -18,6 +18,7 @@ export default defineConfig([
 			'vue/multi-word-component-names': 'off',
 			// JSDocs are welcome but lint:fix should not create empty ones
 			'jsdoc/require-jsdoc': 'off',
+			'jsdoc/require-param': 'off',
 			// Forbid empty JSDocs
 			// TODO: Enable this rule once @nextcloud/eslint-config was updated and pulls the
 			//       newest version of eslint-plugin-jsdoc (is a recent feature/rule).
