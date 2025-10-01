@@ -21,10 +21,12 @@ use OCA\Calendar\Objects\Proposal\ProposalDateVote;
 use OCA\Calendar\Objects\Proposal\ProposalObject;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantCollection;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantObject;
+use OCA\Calendar\Objects\Proposal\ProposalParticipantRealm;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantStatus;
 use OCA\Calendar\Objects\Proposal\ProposalResponseObject;
 use OCA\Calendar\Objects\Proposal\ProposalVoteCollection;
 use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IManager;
 use OCP\IAppConfig;
@@ -38,6 +40,7 @@ use OCP\Mail\Provider\IManager as IMailManager;
 use OCP\Mail\Provider\IMessageSend;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
 use Symfony\Component\Uid\Uuid;
 
 class ProposalService {
@@ -196,6 +199,9 @@ class ProposalService {
 		// generate notifications for internal and external participants
 		$this->generateNotifications($user, $proposal, 'C');
 
+		// generate iTip for internal participants
+		$this->generateIMip($user, $proposal, 'C');
+
 		return $proposal;
 	}
 
@@ -260,6 +266,9 @@ class ProposalService {
 		// generate notifications for internal and external participants
 		$this->generateNotifications($user, $proposal, 'M');
 
+		// generate iTip for internal participants
+		$this->generateIMip($user, $proposal, 'M');
+
 		return $proposal;
 	}
 
@@ -280,6 +289,9 @@ class ProposalService {
 
 		// generate notifications for internal and external participants
 		$this->generateNotifications($user, $proposal, 'D');
+
+		// generate iTip for internal participants
+		$this->generateIMip($user, $proposal, 'D');
 	}
 
 	/**
@@ -309,9 +321,9 @@ class ProposalService {
 		// if no primary calendar is set, use the first useable calendar
 		if ($userCalendar === null) {
 			$userCalendars = $this->calendarManager->getCalendarsForPrincipal('principals/users/' . $user->getUID());
-			foreach ($userCalendars as $userCalendar) {
-				if (!$userCalendar instanceof ICreateFromString || !$userCalendar->isDeleted()) {
-					$userCalendar = $userCalendar;
+			foreach ($userCalendars as $calendar) {
+				if ($calendar instanceof ICreateFromString && $calendar instanceof ICalendarIsWritable && $calendar->isWritable() && !$calendar->isDeleted()) {
+					$userCalendar = $calendar;
 					break;
 				}
 			}
@@ -345,8 +357,7 @@ class ProposalService {
 		$vEvent = $vObject->add('VEVENT', []);
 		$vEvent->UID->setValue($proposal->getUuid() ?? Uuid::v4()->toRfc4122());
 		$vEvent->add('DTSTART', $eventTimezone ? $selectedDate->getDate()->setTimezone($eventTimezone) : $selectedDate->getDate());
-		$vEvent->add('DURATION', "PT{$proposal->getDuration()}M");
-		$vEvent->add('STATUS', 'CONFIRMED');
+		$vEvent->add('DTEND', (clone $vEvent->DTSTART->getDateTime())->add(new \DateInterval("PT{$proposal->getDuration()}M")));
 		$vEvent->add('SEQUENCE', 1);
 		$vEvent->add('SUMMARY', $proposal->getTitle());
 		$vEvent->add('DESCRIPTION', $proposal->getDescription());
@@ -563,9 +574,10 @@ class ProposalService {
 				// send message
 				$mailService->sendMessage($message);
 			} else {
+				$fromAddress = \OCP\Util::getDefaultEmailAddress('proposal-noreply');
 				// construct symfony mailer message and set required parameters
 				$message = $this->systemMailManager->createMessage();
-				$message->setFrom([$senderAddress => $senderName ?? '']);
+				$message->setFrom([$fromAddress => $senderName ?? '']);
 				$message->setTo(
 					$recipientName !== null ? [$recipientAddress => $recipientName] : [$recipientAddress]
 				);
@@ -580,4 +592,75 @@ class ProposalService {
 		}
 
 	}
+
+	private function generateIMip(IUser $user, ProposalObject $proposal, string $reason): void {
+		// if the calendar manager does not have a handleIMip method, we cannot generate iTip messages
+		if (!method_exists($this->calendarManager, 'handleIMip')) {
+			return;
+		}
+		// if the proposal has no dates or participants, we cannot generate any iTip messages
+		if ($proposal->getDates()->count() === 0 || $proposal->getParticipants()->count() === 0) {
+			return;
+		}
+		// construct calendar object with events
+		$template = new VCalendar();
+		// TODO: change REQUEST to PUBLISH
+		$template->add('METHOD', $reason !== 'D' ? 'REQUEST' : 'CANCEL');
+		// create a event for each date in the proposal
+		// TODO: should we create a new instance for each date or use a recurrence rule? Like RDATE:19970714T083000Z,19970715T083000Z
+		foreach ($proposal->getDates()->sortByDate() as $proposalDate) {
+			/** @var VEvent $vEvent */
+			$vEvent = $template->add('VEVENT', []);
+			if (isset($baseDate)) {
+				$vEvent->add('RECURRENCE-ID', $baseDate->getDate()->format('Ymd\THis\Z'));
+			} else {
+				$baseDate = $proposalDate;
+			}
+			$vEvent->UID->setValue($proposal->getUuid());
+			$vEvent->add('STATUS', 'TENTATIVE');
+			$vEvent->add('SEQUENCE', 1);
+			$vEvent->add('DTSTART', $proposalDate->getDate());
+			$vEvent->add('DURATION', "PT{$proposal->getDuration()}M");
+			$vEvent->add('SUMMARY', $proposal->getTitle());
+			$vEvent->add('DESCRIPTION', $proposal->getDescription());
+			$vEvent->add('ORGANIZER', 'mailto:' . $user->getEMailAddress(), ['CN' => $user->getDisplayName()]);
+			// add the participant to the event
+			foreach ($proposal->getParticipants() as $participant) {
+				$vEvent->add('ATTENDEE', 'mailto:' . $participant->getAddress(), [
+					'CN' => $participant->getName(),
+					'CUTYPE' => 'INDIVIDUAL',
+					'PARTSTAT' => 'NEEDS-ACTION',
+					'ROLE' => 'REQ-PARTICIPANT'
+				]);
+			}
+		}
+
+		foreach ($proposal->getParticipants()->filterByRealm(ProposalParticipantRealm::Internal) as $participant) {
+			$participantAddress = $participant->getAddress();
+			if ($participantAddress === null) {
+				continue;
+			}
+
+			// TODO: this is stupid, we send the internal users email address from the UI then convert it back to a user name
+			// should probably be sent from the UI as a user name, or send and store both the user name and email address
+			// maybe send the address as a special schema "local:{user name}/{email address}", this would allow us to later extend this to federated users
+			// with a different special schema like "federated:{user name}@{server}/{email address}"
+			$participantUsers = $this->userManager->getByEmail($participantAddress);
+			if ($participantUsers === []) {
+				continue;
+			}
+			$participantUser = $participantUsers[0];
+			try {
+				$this->calendarManager->handleIMip(
+					$participantUser->getUID(),
+					$template->serialize(),
+					$reason !== 'D' ? ['absent' => 'create'] : []
+				);
+			} catch (Exception $e) {
+				$this->logger->error($e->getMessage(), ['app' => 'calendar', 'exception' => $e]);
+			}
+		}
+
+	}
+
 }

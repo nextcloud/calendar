@@ -19,7 +19,6 @@ OC.L10N.register(
     "Deleted" : "Delite",
     "Restore" : "Restaurar",
     "Delete permanently" : "Deler permanentemente",
-    "Hidden" : "Occultate",
     "Share link" : "Compartir ligamine",
     "can edit" : "pote modificar",
     "Share with users or groups" : "Compartir con usatores o gruppos",
@@ -60,6 +59,7 @@ OC.L10N.register(
     "Repeat" : "Repeter",
     "never" : "nunquam",
     "after" : "post",
+    "None" : "Nulle",
     "Global" : "Global",
     "Subscribe" : "Subscribe",
     "Personal" : "Personal",
@@ -74,6 +74,7 @@ OC.L10N.register(
     "When shared show full event" : "Quando compartite, monstrar evento integremente",
     "When shared show only busy" : "Quando compartite, monstrar solo si illo es occupate",
     "When shared hide this event" : "Quando compartite, celar iste evento",
-    "Confirmed" : "Confirmate"
+    "Confirmed" : "Confirmate",
+    "Hidden" : "Occultate"
 },
 "nplurals=2; plural=(n != 1);");

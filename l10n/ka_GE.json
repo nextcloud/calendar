@@ -25,7 +25,6 @@
     "Restore" : "აღდგენა",
     "Delete permanently" : "სამუდამოდ წაშლა",
     "Deck" : "დასტა",
-    "Hidden" : "უჩინარი",
     "Share link" : "ბმულის გაზიარება",
     "can edit" : "შეგიძლია შეცვლა",
     "Share with users or groups" : "გაზიარება მოხმარებლებთან ან ჯგუფებთან",
@@ -72,6 +71,7 @@
     "available" : "ხელმისაწვდომი",
     "Yes" : "დიახ",
     "Maybe" : "შესაძლოა",
+    "None" : "არც ერთი",
     "Global" : "გლობალური",
     "Subscribe" : "გამოწერა",
     "Personal" : "პირადი",
@@ -91,6 +91,7 @@
     "When shared hide this event" : "როდესაც გაზიარებულია არ გამოჩნდეს ეს მოვლენა",
     "Status" : "სტატუსი",
     "Confirmed" : "დადასტურებლია",
-    "Categories" : "კატეგორიები"
+    "Categories" : "კატეგორიები",
+    "Hidden" : "უჩინარი"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

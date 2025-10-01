@@ -3,15 +3,19 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<!-- eslint-disable @nextcloud/vue/no-deprecated-props -->
+<!-- FIXME: Using `user-select` is deprecated - use `NcSelectUsers` component instead -->
+
 <template>
 	<div class="sharing-search">
-		<NcSelect :options="usersOrGroups"
+		<NcSelect
+			:options="usersOrGroups"
 			:searchable="true"
 			:internal-search="false"
 			:max-height="600"
 			:placeholder="$t('calendar', 'Share with users or groups')"
 			class="sharing-search__select"
-			:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
+			:class="{ showContent: inputGiven, 'icon-loading': isLoading }"
 			:user-select="true"
 			:filter-by="filterResults"
 			:clearable="false"
@@ -42,17 +46,18 @@
 </template>
 
 <script>
-import { NcAvatar, NcSelect } from '@nextcloud/vue'
-import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import HttpClient from '@nextcloud/axios'
-import debounce from 'debounce'
+import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
-import { urldecode } from '../../../utils/url.js'
-import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
-import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
-import usePrincipalsStore from '../../../store/principals.js'
-import useCalendarsStore from '../../../store/calendars.js'
+import { NcAvatar, NcSelect } from '@nextcloud/vue'
+import debounce from 'debounce'
 import { mapStores } from 'pinia'
+import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
+import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
+import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
+import useCalendarsStore from '../../../store/calendars.js'
+import usePrincipalsStore from '../../../store/principals.js'
+import { urldecode } from '../../../utils/url.js'
 
 export default {
 	name: 'SharingSearch',
@@ -62,12 +67,14 @@ export default {
 		AccountMultiple,
 		NcSelect,
 	},
+
 	props: {
 		calendar: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			isLoading: false,
@@ -75,19 +82,20 @@ export default {
 			usersOrGroups: [],
 		}
 	},
+
 	computed: {
 		...mapStores(usePrincipalsStore, useCalendarsStore),
 
 		/**
-		 * True, if the Nextcloud server supports read-only federated calendar shares.
+		 * True, if federated calendar shares are enabled on this server.
 		 *
 		 * @return {boolean}
 		 */
 		supportsFederatedCalendars() {
-			const nextcloudMajorVersion = parseInt(window.OC.config.version.split('.')[0])
-			return nextcloudMajorVersion >= 32
+			return loadState('calendar', 'calendar_federation_enabled')
 		},
 	},
+
 	methods: {
 		/**
 		 * Share calendar
@@ -111,6 +119,7 @@ export default {
 				isRemoteUser,
 			})
 		},
+
 		/**
 		 * Function to filter results in NcSelect
 		 *
@@ -129,6 +138,7 @@ export default {
 				|| (option.email && option.email.toLowerCase().includes(term))
 				|| (option.user && option.user.toLowerCase().includes(term))
 		},
+
 		/**
 		 * Use the cdav client call to find matches to the query from the existing Users & Groups
 		 *
@@ -168,8 +178,8 @@ export default {
 				this.inputGiven = false
 				this.isLoading = false
 			}
-
 		}, 500),
+
 		/**
 		 *
 		 * @param {string} query The search query
@@ -222,6 +232,7 @@ export default {
 				return list
 			}, [])
 		},
+
 		/**
 		 * Search for circles (teams) matching the query.
 		 *
@@ -262,7 +273,7 @@ export default {
 
 			return circles.filter((circle) => {
 				return !hiddenPrincipals.includes('principal:principals/circles/' + circle.value.shareWith)
-			}).map(circle => ({
+			}).map((circle) => ({
 				user: circle.label,
 				displayName: circle.label,
 				icon: 'icon-circle',
@@ -274,6 +285,7 @@ export default {
 				search: query,
 			}))
 		},
+
 		/**
 		 *
 		 * @param {string} query The search query

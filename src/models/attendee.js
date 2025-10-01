@@ -14,24 +14,26 @@ import { AttendeeProperty } from '@nextcloud/calendar-js'
  * @param {object} props The attendee properties already provided
  * @return {object}
  */
-const getDefaultAttendeeObject = (props = {}) => Object.assign({}, {
-	// The calendar-js attendee property
-	attendeeProperty: null,
-	// The display-name of the attendee
-	commonName: null,
-	// The calendar-user-type of the attendee
-	calendarUserType: 'INDIVIDUAL',
-	// The participation status of the attendee
-	participationStatus: 'NEEDS-ACTION',
-	// The role of the attendee
-	role: 'REQ-PARTICIPANT',
-	// The RSVP for the attendee
-	rsvp: false,
-	// The uri of the attendee
-	uri: null,
-	// Member address of the attendee
-	member: null,
-}, props)
+function getDefaultAttendeeObject(props = {}) {
+	return { // The calendar-js attendee property
+		attendeeProperty: null,
+		// The display-name of the attendee
+		commonName: null,
+		// The calendar-user-type of the attendee
+		calendarUserType: 'INDIVIDUAL',
+		// The participation status of the attendee
+		participationStatus: 'NEEDS-ACTION',
+		// The role of the attendee
+		role: 'REQ-PARTICIPANT',
+		// The RSVP for the attendee
+		rsvp: false,
+		// The uri of the attendee
+		uri: null,
+		// Member address of the attendee
+		member: null,
+		...props,
+	}
+}
 
 /**
  * Maps a calendar-js attendee property to our attendee object
@@ -39,7 +41,7 @@ const getDefaultAttendeeObject = (props = {}) => Object.assign({}, {
  * @param {AttendeeProperty} attendeeProperty The calendar-js attendeeProperty to turn into a attendee object
  * @return {object}
  */
-const mapAttendeePropertyToAttendeeObject = (attendeeProperty) => {
+function mapAttendeePropertyToAttendeeObject(attendeeProperty) {
 	return getDefaultAttendeeObject({
 		attendeeProperty,
 		commonName: attendeeProperty.commonName,
@@ -59,7 +61,7 @@ const mapAttendeePropertyToAttendeeObject = (attendeeProperty) => {
  * @param {boolean} isOrganizer Should it be an attendee or an organizer?
  * @return {AttendeeProperty}
  */
-const mapPrincipalObjectToAttendeeObject = (principalObject, isOrganizer = false) => {
+function mapPrincipalObjectToAttendeeObject(principalObject, isOrganizer = false) {
 	const attendeeProperty = AttendeeProperty.fromNameAndEMail(
 		principalObject.displayname,
 		principalObject.emailAddress,

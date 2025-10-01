@@ -6,11 +6,13 @@
 <template>
 	<div class="property-alarm-list">
 		<!-- TODO: probably not use index here for the key -->
-		<AlarmListNew v-if="!isReadOnly"
+		<AlarmListNew
+			v-if="!isReadOnly"
 			:is-all-day="calendarObjectInstance.isAllDay"
 			:show-icon="alarms.length === 0"
 			@add-alarm="addAlarm" />
-		<AlarmListItem v-for="(alarm, index) in alarms"
+		<AlarmListItem
+			v-for="(alarm, index) in alarms"
 			:key="index"
 			:alarm="alarm"
 			:calendar-object-instance="calendarObjectInstance"
@@ -21,12 +23,11 @@
 </template>
 
 <script>
-import AlarmListNew from './AlarmListNew.vue'
+import { mapState, mapStores } from 'pinia'
 import AlarmListItem from './AlarmListItem.vue'
-
+import AlarmListNew from './AlarmListNew.vue'
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
 import useSettingsStore from '../../../store/settings.js'
-import { mapStores, mapState } from 'pinia'
 
 export default {
 	name: 'AlarmList',
@@ -34,16 +35,19 @@ export default {
 		AlarmListItem,
 		AlarmListNew,
 	},
+
 	props: {
 		isReadOnly: {
 			type: Boolean,
 			required: true,
 		},
+
 		calendarObjectInstance: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore),
 		...mapState(useSettingsStore, ['forceEventAlarmType']),
@@ -51,6 +55,7 @@ export default {
 			return this.calendarObjectInstance.alarms
 		},
 	},
+
 	methods: {
 		/**
 		 * Adds another of the default alarms to the event
@@ -64,6 +69,7 @@ export default {
 				totalSeconds,
 			})
 		},
+
 		/**
 		 * Removes an alarm from this event
 		 *

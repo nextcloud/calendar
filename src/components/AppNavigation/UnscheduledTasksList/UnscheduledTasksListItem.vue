@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<ListItem :id="config.id + '-1'"
+	<ListItem
+		:id="config.id + '-1'"
 		class="fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event"
 		:data-event="JSON.stringify({ title: config.title })"
 		compact
@@ -12,18 +13,18 @@
 		:name="config.title"
 		@click="handleClick">
 		<template #icon>
-			<div class="icon-wrapper"
+			<div
+				class="icon-wrapper"
 				:style="{ backgroundColor: color, minWidth: '13px', minHeight: '13px', width: '13px', height: '13px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', flexShrink: 0 }" />
 		</template>
 	</ListItem>
 </template>
 
 <script>
+import { Draggable } from '@fullcalendar/interaction'
 import {
 	NcListItem as ListItem,
 } from '@nextcloud/vue'
-
-import { Draggable } from '@fullcalendar/interaction'
 
 export default {
 	name: 'UnscheduledTasksListItem',
@@ -31,11 +32,13 @@ export default {
 	components: {
 		ListItem,
 	},
+
 	props: {
 		config: {
 			type: Object,
 			required: true,
 		},
+
 		color: {
 			type: String,
 			required: false, // or true if needed
@@ -45,7 +48,7 @@ export default {
 
 	mounted() {
 		const containerEl = document.getElementById(this.config.id + '-1')
-		/* eslint-disable no-new */
+
 		new Draggable(containerEl, {
 			itemSelector: '.fc-event',
 			eventData: this.config,

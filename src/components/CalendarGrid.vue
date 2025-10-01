@@ -4,24 +4,27 @@
 -->
 
 <template>
-	<FullCalendar ref="fullCalendar"
-		:class="isWidget? 'fullcalendar-widget': ''"
+	<FullCalendar
+		ref="fullCalendar"
+		:class="isWidget ? 'fullcalendar-widget' : ''"
 		:options="options" />
 </template>
 
 <script>
 
-// Import FullCalendar itself
-import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
-import timeGridPlugin from '@fullcalendar/timegrid'
 import multiMonthPlugin from '@fullcalendar/multimonth'
-
+import timeGridPlugin from '@fullcalendar/timegrid'
+// Import FullCalendar itself
+import FullCalendar from '@fullcalendar/vue'
+import { DateTimeValue } from '@nextcloud/calendar-js'
+// Import other dependencies
+import debounce from 'debounce'
+import { mapState, mapStores } from 'pinia'
 // Import event sources
 import eventSource from '../fullcalendar/eventSources/eventSource.js'
-
 // Import interaction handlers
 import eventAllow from '../fullcalendar/interaction/eventAllow.js'
 import eventClick from '../fullcalendar/interaction/eventClick.js'
@@ -30,48 +33,46 @@ import eventResize from '../fullcalendar/interaction/eventResize.js'
 import navLinkDayClick from '../fullcalendar/interaction/navLinkDayClick.js'
 import navLinkWeekClick from '../fullcalendar/interaction/navLinkWeekClick.js'
 import select from '../fullcalendar/interaction/select.js'
-
 // Import localization plugins
 import { getDateFormattingConfig } from '../fullcalendar/localization/dateFormattingConfig.js'
 import { getFullCalendarLocale } from '../fullcalendar/localization/localeProvider.js'
 import momentPlugin from '../fullcalendar/localization/momentPlugin.js'
-
 // Import rendering handlers
 import dayHeaderDidMount from '../fullcalendar/rendering/dayHeaderDidMount.js'
 import eventDidMount from '../fullcalendar/rendering/eventDidMount.js'
-import eventOrder from '../fullcalendar/rendering/eventOrder.js'
+import {
+	eventDurationOrderDesc,
+	eventOrder,
+	eventStartOrder,
+} from '../fullcalendar/rendering/eventOrder.js'
 import noEventsDidMount from '../fullcalendar/rendering/noEventsDidMount.js'
-
 // Import timezone plugins
 import VTimezoneNamedTimezone from '../fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
-
-// Import other dependencies
-import debounce from 'debounce'
-import { getYYYYMMDDFromFirstdayParam } from '../utils/date.js'
-import useCalendarsStore from '../store/calendars.js'
-import useSettingsStore from '../store/settings.js'
 import useCalendarObjectsStore from '../store/calendarObjects.js'
+import useCalendarsStore from '../store/calendars.js'
 import useFetchedTimeRangesStore from '../store/fetchedTimeRanges.js'
+import useSettingsStore from '../store/settings.js'
 import useWidgetStore from '../store/widget.js'
-import { mapStores, mapState } from 'pinia'
-
-import { DateTimeValue } from '@nextcloud/calendar-js'
 import { getAllObjectsInTimeRange } from '../utils/calendarObject.js'
+import { getYYYYMMDDFromFirstdayParam } from '../utils/date.js'
 
 export default {
 	name: 'CalendarGrid',
 	components: {
 		FullCalendar,
 	},
+
 	props: {
 		isWidget: {
 			type: Boolean,
 			default: false,
 		},
+
 		url: {
 			type: String,
 			required: false,
 		},
+
 		/**
 		 * Whether or not the user is authenticated
 		 */
@@ -80,32 +81,40 @@ export default {
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			updateTodayJob: null,
 			updateTodayJobPreviousDate: null,
 		}
 	},
+
 	computed: {
-		...mapStores(useCalendarsStore,
-					 useSettingsStore,
-					 useCalendarObjectsStore,
-					 useFetchedTimeRangesStore),
+		...mapStores(
+			useCalendarsStore,
+			useSettingsStore,
+			useCalendarObjectsStore,
+			useFetchedTimeRangesStore,
+		),
+
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',
 			timezoneId: 'getResolvedTimezone',
 		}),
+
 		...mapState(useSettingsStore, [
 			'eventLimit',
 			'showWeekends',
 			'showWeekNumbers',
 			'slotDuration',
 		]),
+
 		...mapState(useCalendarObjectsStore, ['modificationCount']),
 		...mapState(useWidgetStore, [
 			'widgetView',
 			'widgetDate',
 		]),
+
 		options() {
 			return {
 				// Initialization:
@@ -134,7 +143,7 @@ export default {
 				dayHeaderDidMount,
 				eventDidMount,
 				noEventsDidMount,
-				eventOrder: ['start', '-duration', 'allDay', eventOrder],
+				eventOrder: [eventStartOrder, eventDurationOrderDesc, 'allDay', eventOrder],
 				forceEventDuration: false,
 				headerToolbar: false,
 				height: '100%',
@@ -159,6 +168,7 @@ export default {
 				eventReceive: this.handleEventReceive,
 			}
 		},
+
 		eventSources() {
 			if (this.isWidget) {
 				const calendar = this.calendarsStore.getCalendarByUrl(this.url)
@@ -169,6 +179,7 @@ export default {
 			}
 			return this.calendarsStore.enabledCalendars.map(eventSource())
 		},
+
 		/**
 		 * FullCalendar Plugins
 		 *
@@ -185,6 +196,7 @@ export default {
 				multiMonthPlugin,
 			]
 		},
+
 		isEditable() {
 			// We do not allow drag and drop when the editor is open.
 			return this.isAuthenticatedUser
@@ -192,20 +204,24 @@ export default {
 				&& this.$route?.name !== 'EditFullView'
 		},
 	},
+
 	watch: {
 		widgetView(newView) {
 			const calendarApi = this.$refs.fullCalendar.getApi()
 			calendarApi.changeView(newView)
 		},
+
 		widgetDate(newDate) {
 			const calendarApi = this.$refs.fullCalendar.getApi()
 			calendarApi.gotoDate(getYYYYMMDDFromFirstdayParam(newDate))
 		},
+
 		modificationCount: debounce(function() {
 			const calendarApi = this.$refs.fullCalendar.getApi()
 			calendarApi.refetchEvents()
 		}, 50),
 	},
+
 	/**
 	 * FullCalendar 5 is using calculated px values for the width
 	 * of its views.
@@ -220,7 +236,7 @@ export default {
 	 * we have to register a resize-observer here, that will automatically
 	 * update the fullCalendar size, when the available space changes.
 	 */
-	 mounted() {
+	mounted() {
 		if (window.ResizeObserver) {
 			const resizeObserver = new ResizeObserver(debounce(() => {
 				this.$refs.fullCalendar
@@ -231,6 +247,7 @@ export default {
 			resizeObserver.observe(this.$refs.fullCalendar.$el)
 		}
 	},
+
 	async created() {
 		this.updateTodayJob = setInterval(() => {
 			const newDate = getYYYYMMDDFromFirstdayParam('now')
@@ -265,8 +282,8 @@ export default {
 				}
 
 				if ((from.name === 'NewPopoverView' || from.name === 'NewFullView')
-				&& to.name !== 'NewPopoverView'
-				&& to.name !== 'NewFullView') {
+					&& to.name !== 'NewPopoverView'
+					&& to.name !== 'NewFullView') {
 					const calendarApi = this.$refs.fullCalendar.getApi()
 					calendarApi.unselect()
 				}
@@ -291,6 +308,7 @@ export default {
 			}
 		}
 	},
+
 	methods: {
 		/**
 		 * When a user changes the view, remember it and
@@ -304,10 +322,8 @@ export default {
 
 		/**
 		 * Add a todo task without end date to the calendar
-		 * @param info
 		 */
 		async handleEventReceive(info) {
-
 			const { event } = info
 			const { objectId, vobjectId, calendarId } = event.extendedProps
 
@@ -320,7 +336,7 @@ export default {
 
 			// 3. Update the 'DUE' property for the vtodo object
 			const allObjectsInTimeRange = getAllObjectsInTimeRange(calendarObject, event.start, event.start)
-			const vtodo = allObjectsInTimeRange.find(el => el.id === vobjectId)
+			const vtodo = allObjectsInTimeRange.find((el) => el.id === vobjectId)
 
 			// 3.1 Set to Date only value if view is month or year and start date is null or date only value
 			const view = this.$route?.params.view

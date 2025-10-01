@@ -27,7 +27,6 @@
     "Restore" : "Rikthe",
     "Delete permanently" : "Fshije përgjithmonë",
     "Deck" : "Shto paisjen U2F",
-    "Hidden" : "I fshehur",
     "Copy internal link" : "Kopjoni lidhjen e brendshme",
     "Share link" : "Ndani lidhjen",
     "can edit" : "mund të përpunojnë",
@@ -82,6 +81,7 @@
     "Resources" : "Burimet",
     "available" : "në gjëndje",
     "Yes" : "Po",
+    "None" : "Asnjë",
     "Create" : "Krijo",
     "Global" : "Globale",
     "Subscribe" : "Abonohu",
@@ -103,6 +103,7 @@
     "Status" : "Status",
     "Confirmed" : "E konfirmuar",
     "Canceled" : "Anuluar",
-    "Categories" : "Kategoritë"
+    "Categories" : "Kategoritë",
+    "Hidden" : "I fshehur"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -17,40 +17,42 @@ import {
  * @param {object} props Principal-props already provided
  * @return {any}
  */
-const getDefaultPrincipalObject = (props) => Object.assign({}, {
-	// Id of the principal
-	id: null,
-	// Calendar-user-type. This can be INDIVIDUAL, GROUP, RESOURCE or ROOM
-	calendarUserType: 'INDIVIDUAL',
-	// E-Mail address of principal used for scheduling
-	emailAddress: null,
-	// The principals display-name
-	// TODO: this should be renamed to displayName
-	displayname: null,
-	// principalScheme
-	principalScheme: null,
-	// The internal user-id in case it is of type INDIVIDUAL and a user
-	// TODO: userId is deprecrated, use principalId instead
-	userId: null,
-	// url to the DAV-principal-resource
-	url: null,
-	// The cdav-library object
-	dav: null,
-	// Whether or not this principal represents a circle
-	isCircle: false,
-	// Whether or not this principal represents a user
-	isUser: false,
-	// Whether or not this principal represents a group
-	isGroup: false,
-	// Whether or not this principal represents a calendar-resource
-	isCalendarResource: false,
-	// Whether or not this principal represents a calendar-room
-	isCalendarRoom: false,
-	// The id of the principal without prefix. e.g. userId / groupId / etc.
-	principalId: null,
-	// The url of the default calendar for invitations
-	scheduleDefaultCalendarUrl: null,
-}, props)
+function getDefaultPrincipalObject(props) {
+	return { // Id of the principal
+		id: null,
+		// Calendar-user-type. This can be INDIVIDUAL, GROUP, RESOURCE or ROOM
+		calendarUserType: 'INDIVIDUAL',
+		// E-Mail address of principal used for scheduling
+		emailAddress: null,
+		// The principals display-name
+		// TODO: this should be renamed to displayName
+		displayname: null,
+		// principalScheme
+		principalScheme: null,
+		// The internal user-id in case it is of type INDIVIDUAL and a user
+		// TODO: userId is deprecrated, use principalId instead
+		userId: null,
+		// url to the DAV-principal-resource
+		url: null,
+		// The cdav-library object
+		dav: null,
+		// Whether or not this principal represents a circle
+		isCircle: false,
+		// Whether or not this principal represents a user
+		isUser: false,
+		// Whether or not this principal represents a group
+		isGroup: false,
+		// Whether or not this principal represents a calendar-resource
+		isCalendarResource: false,
+		// Whether or not this principal represents a calendar-room
+		isCalendarRoom: false,
+		// The id of the principal without prefix. e.g. userId / groupId / etc.
+		principalId: null,
+		// The url of the default calendar for invitations
+		scheduleDefaultCalendarUrl: null,
+		...props,
+	}
+}
 
 /**
  * converts a dav principal into a vuex object
@@ -58,7 +60,7 @@ const getDefaultPrincipalObject = (props) => Object.assign({}, {
  * @param {object} dav cdav-library Principal object
  * @return {object}
  */
-const mapDavToPrincipal = (dav) => {
+function mapDavToPrincipal(dav) {
 	const id = btoa(encodeURI(dav.url))
 	const calendarUserType = dav.calendarUserType
 	const principalScheme = dav.principalScheme

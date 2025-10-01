@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { translate as t, getLanguage, getFirstDay } from '@nextcloud/l10n'
+import { getFirstDay, getLanguage, translate as t } from '@nextcloud/l10n'
 
 /**
  * Returns localization settings for the FullCalender package.
@@ -10,7 +10,7 @@ import { translate as t, getLanguage, getFirstDay } from '@nextcloud/l10n'
  * @see https://fullcalendar.io/docs
  * @return {object}
  */
-const getFullCalendarLocale = () => {
+function getFullCalendarLocale() {
 	return {
 		firstDay: getFirstDay(),
 		locale: getLanguage(),

@@ -28,11 +28,11 @@
 </template>
 
 <script>
-import { NcActions, NcActionButton } from '@nextcloud/vue'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { generateRemoteUrl } from '@nextcloud/router'
-import { showSuccess, showError } from '@nextcloud/dialogs'
-import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
+import { NcActionButton, NcActions } from '@nextcloud/vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
+import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 
 export default {
 	name: 'InternalLink',
@@ -42,12 +42,14 @@ export default {
 		OpenInNewIcon,
 		ContentCopy,
 	},
+
 	props: {
 		calendar: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	methods: {
 		/**
 		 * Copies the private calendar link

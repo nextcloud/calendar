@@ -6,15 +6,18 @@
 <template>
 	<div class="property-repeat" :class="{ 'property-repeat--readonly': isReadOnly, 'does-not-repeat': recurrenceRule.frequency === 'NONE' }">
 		<div class="property-repeat__summary">
-			<RepeatIcon class="property-repeat__summary__icon"
+			<RepeatIcon
+				class="property-repeat__summary__icon"
 				:name="$t('calendar', 'Repeat')"
 				:size="20" />
-			<RepeatSummary class="property-repeat__summary__content"
+			<RepeatSummary
+				class="property-repeat__summary__content"
 				:recurrence-rule="recurrenceRule" />
 			<Actions v-if="!isReadOnly">
 				<ActionButton @click="toggleOptions">
 					<template #icon>
-						<component :is="toggleIcon"
+						<component
+							:is="toggleIcon"
 							:size="20"
 							decorative />
 					</template>
@@ -26,16 +29,19 @@
 		<NcModal :show.sync="showOptions">
 			<div class="property-repeat__options">
 				<h2>{{ $t('calendar', 'Repeat event') }}</h2>
-				<RepeatFreqInterval v-if="!isRecurrenceException && !isReadOnly"
+				<RepeatFreqInterval
+					v-if="!isRecurrenceException && !isReadOnly"
 					:frequency="recurrenceRule.frequency"
 					:interval="recurrenceRule.interval"
 					@change-interval="changeInterval"
 					@change-frequency="changeFrequency" />
-				<RepeatFreqWeeklyOptions v-if="isFreqWeekly && !isRecurrenceException && !isReadOnly"
+				<RepeatFreqWeeklyOptions
+					v-if="isFreqWeekly && !isRecurrenceException && !isReadOnly"
 					:by-day="recurrenceRule.byDay"
 					@add-by-day="addByDay"
 					@remove-by-day="removeByDay" />
-				<RepeatFreqMonthlyOptions v-if="isFreqMonthly && !isRecurrenceException && !isReadOnly"
+				<RepeatFreqMonthlyOptions
+					v-if="isFreqMonthly && !isRecurrenceException && !isReadOnly"
 					:by-day="recurrenceRule.byDay"
 					:by-month-day="recurrenceRule.byMonthDay"
 					:by-set-position="recurrenceRule.bySetPosition"
@@ -45,7 +51,8 @@
 					@change-by-set-position="setBySetPosition"
 					@change-to-by-set-position="changeToBySetPositionMonthly"
 					@change-to-by-month-day="changeToByDayMonthly" />
-				<RepeatFreqYearlyOptions v-if="isFreqYearly && !isRecurrenceException && !isReadOnly"
+				<RepeatFreqYearlyOptions
+					v-if="isFreqYearly && !isRecurrenceException && !isReadOnly"
 					:by-day="recurrenceRule.byDay"
 					:by-month="recurrenceRule.byMonth"
 					:by-month-day="recurrenceRule.byMonthDay"
@@ -58,7 +65,8 @@
 					@change-by-set-position="setBySetPosition"
 					@change-to-by-set-position="changeToBySetPositionYearly"
 					@change-to-by-month-day="changeToByDayYearly" />
-				<RepeatEndRepeat v-if="isRepeating && !isRecurrenceException && !isReadOnly"
+				<RepeatEndRepeat
+					v-if="isRepeating && !isRecurrenceException && !isReadOnly"
 					:calendar-object-instance="calendarObjectInstance"
 					:until="recurrenceRule.until"
 					:count="recurrenceRule.count"
@@ -75,21 +83,20 @@
 </template>
 
 <script>
-import RepeatEndRepeat from './RepeatEndRepeat.vue'
-import RepeatFreqWeeklyOptions from './RepeatFreqWeeklyOptions.vue'
-import RepeatFreqMonthlyOptions from './RepeatFreqMonthlyOptions.vue'
-import RepeatFreqYearlyOptions from './RepeatFreqYearlyOptions.vue'
-import RepeatFreqInterval from './RepeatFreqInterval.vue'
-import RepeatUnsupportedWarning from './RepeatUnsupportedWarning.vue'
-import RepeatExceptionWarning from './RepeatExceptionWarning.vue'
-import RepeatSummary from './RepeatSummary.vue'
-import RepeatIcon from 'vue-material-design-icons/Repeat.vue'
-import Pencil from 'vue-material-design-icons/PencilOutline.vue'
-import Check from 'vue-material-design-icons/Check.vue'
-import { NcActions as Actions, NcActionButton as ActionButton, NcModal } from '@nextcloud/vue'
-
-import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
+import { NcActionButton as ActionButton, NcActions as Actions, NcModal } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
+import Check from 'vue-material-design-icons/Check.vue'
+import Pencil from 'vue-material-design-icons/PencilOutline.vue'
+import RepeatIcon from 'vue-material-design-icons/Repeat.vue'
+import RepeatEndRepeat from './RepeatEndRepeat.vue'
+import RepeatExceptionWarning from './RepeatExceptionWarning.vue'
+import RepeatFreqInterval from './RepeatFreqInterval.vue'
+import RepeatFreqMonthlyOptions from './RepeatFreqMonthlyOptions.vue'
+import RepeatFreqWeeklyOptions from './RepeatFreqWeeklyOptions.vue'
+import RepeatFreqYearlyOptions from './RepeatFreqYearlyOptions.vue'
+import RepeatSummary from './RepeatSummary.vue'
+import RepeatUnsupportedWarning from './RepeatUnsupportedWarning.vue'
+import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
 
 export default {
 	name: 'Repeat',
@@ -109,6 +116,7 @@ export default {
 		ActionButton,
 		NcModal,
 	},
+
 	props: {
 		/**
 		 * The calendar-object instance
@@ -117,6 +125,7 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		/**
 		 * The recurrence-rule to display
 		 */
@@ -124,6 +133,7 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		/**
 		 * Whether or not the event is read-only
 		 */
@@ -131,6 +141,7 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+
 		/**
 		 * Whether or not the user is editing the master-item
 		 * If so, we are enforcing "This and all future" and
@@ -140,6 +151,7 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+
 		/**
 		 * Whether or not this instance of the event is a recurrence-exception.
 		 * If yes, you can't modify the recurrence-rule
@@ -149,11 +161,13 @@ export default {
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			showOptions: false,
 		}
 	},
+
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore),
 		/**
@@ -164,6 +178,7 @@ export default {
 		isRepeating() {
 			return this.recurrenceRule.frequency !== 'NONE'
 		},
+
 		/**
 		 * Whether or not this event is recurring weekly
 		 *
@@ -172,6 +187,7 @@ export default {
 		isFreqWeekly() {
 			return this.recurrenceRule.frequency === 'WEEKLY'
 		},
+
 		/**
 		 * Whether or not this event is recurring monthly
 		 *
@@ -180,6 +196,7 @@ export default {
 		isFreqMonthly() {
 			return this.recurrenceRule.frequency === 'MONTHLY'
 		},
+
 		/**
 		 * Whether or not this event is recurring yearly
 		 *
@@ -188,6 +205,7 @@ export default {
 		isFreqYearly() {
 			return this.recurrenceRule.frequency === 'YEARLY'
 		},
+
 		/**
 		 * The name of the icon for the toggle options button
 		 *
@@ -199,6 +217,7 @@ export default {
 			}
 			return 'Pencil'
 		},
+
 		/**
 		 * The text of the toggle options button
 		 *
@@ -211,6 +230,7 @@ export default {
 			return this.t('calendar', 'Edit')
 		},
 	},
+
 	methods: {
 		/**
 		 * Changes the interval of recurrence
@@ -224,6 +244,7 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 * Changes the frequency of recurrence
 		 *
@@ -237,6 +258,7 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 * Adds a day to the ByDay part of the recurrence-rule
 		 *
@@ -249,6 +271,7 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 * Removes a day from the ByDay part of the recurrence-rule
 		 *
@@ -261,6 +284,7 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 * Adds a month-day to the ByMonthDay part of the recurrence-rule
 		 *
@@ -273,6 +297,7 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 * Removes a month-day from the ByMonthDay part of the recurrence-rule
 		 *
@@ -285,6 +310,7 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 * Adds a month to the ByMonth part of the recurrence-rule
 		 *
@@ -297,6 +323,7 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 * Removes a month-day from the ByMonth part of the recurrence-rule
 		 *
@@ -309,6 +336,7 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 * Overrides the entire byDay-list of the recurrence-rule
 		 *
@@ -321,6 +349,7 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 * Overrides the set-position of the recurrence-rule
 		 * RFC5545 technically allows a list of set-position,
@@ -335,6 +364,7 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 * Changes the monthly recurrence-editor from the selection of monthdays
 		 * to the selection of a relative position within the month
@@ -346,6 +376,7 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 * Changes the monthly recurrence-editor from the relative position within the month
 		 * to the selection of monthdays
@@ -357,17 +388,19 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 * Changes the yearly recurrence-editor from the selection of monthdays
 		 * to the selection of a relative position within the month
 		 */
-		 changeToBySetPositionYearly() {
+		changeToBySetPositionYearly() {
 			this.calendarObjectInstanceStore.changeYearlyRecurrenceFromByDayToBySetPosition({
 				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
 		},
+
 		/**
 		 * Changes the yearly recurrence-editor from the relative position within a month
 		 * to the selection of monthdays
@@ -379,6 +412,7 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 * Sets the recurrence-set to infinite recurrences
 		 */
@@ -388,6 +422,7 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 *
 		 */
@@ -398,6 +433,7 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 * Sets the recurrence-set to end on a specific date.
 		 * Unlike DTEND, which is the exclusive end,
@@ -413,6 +449,7 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 *
 		 */
@@ -422,6 +459,7 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 * Sets the recurrence-set to end on a specific date
 		 *
@@ -434,6 +472,7 @@ export default {
 			})
 			this.modified()
 		},
+
 		/**
 		 *
 		 */
@@ -450,6 +489,7 @@ export default {
 
 			this.calendarObjectInstanceStore.calendarObjectInstance.canModifyAllDay = this.calendarObjectInstanceStore.calendarObjectInstance.eventComponent.canModifyAllDay()
 		},
+
 		/**
 		 * Toggle visibility of the options
 		 */

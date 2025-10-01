@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import dateRangeFormat from '../filters/dateRangeFormat.js'
-import { getDateFromFirstdayParam } from '../utils/date.js'
 import useSettingsStore from '../store/settings.js'
+import { getDateFromFirstdayParam } from '../utils/date.js'
 
 const originalWindowTitle = document.title
 
@@ -57,7 +57,6 @@ export default function(router) {
 	 */
 	settingsStore.$onAction(({
 		name,
-		store,
 		args,
 	}) => {
 		if (name !== 'setMomentLocale') {

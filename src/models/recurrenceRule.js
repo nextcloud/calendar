@@ -1,9 +1,9 @@
+import { getDateFromDateTimeValue } from '../utils/date.js'
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { getWeekDayFromDate } from '../utils/recurrence.js'
-import { getDateFromDateTimeValue } from '../utils/date.js'
 
 /**
  * Creates a complete recurrence-rule-object based on given props
@@ -11,29 +11,31 @@ import { getDateFromDateTimeValue } from '../utils/date.js'
  * @param {object} props Recurrence-rule-object-props already provided
  * @return {object}
  */
-const getDefaultRecurrenceRuleObject = (props = {}) => Object.assign({}, {
-	// The calendar-js recurrence-rule value
-	recurrenceRuleValue: null,
-	// The frequency of the recurrence-rule (DAILY, WEEKLY, ...)
-	frequency: 'NONE',
-	// The interval of the recurrence-rule, must be a positive integer
-	interval: 1,
-	// Positive integer if recurrence-rule limited by count, null otherwise
-	count: null,
-	// Date if recurrence-rule limited by date, null otherwise
-	// We do not store a timezone here, since we only care about the date part
-	until: null,
-	// List of byDay components to limit/expand the recurrence-rule
-	byDay: [],
-	// List of byMonth components to limit/expand the recurrence-rule
-	byMonth: [],
-	// List of byMonthDay components to limit/expand the recurrence-rule
-	byMonthDay: [],
-	// A position to limit the recurrence-rule (e.g. -1 for last Friday)
-	bySetPosition: null,
-	// Whether or not the rule is not supported for editing
-	isUnsupported: false,
-}, props)
+function getDefaultRecurrenceRuleObject(props = {}) {
+	return { // The calendar-js recurrence-rule value
+		recurrenceRuleValue: null,
+		// The frequency of the recurrence-rule (DAILY, WEEKLY, ...)
+		frequency: 'NONE',
+		// The interval of the recurrence-rule, must be a positive integer
+		interval: 1,
+		// Positive integer if recurrence-rule limited by count, null otherwise
+		count: null,
+		// Date if recurrence-rule limited by date, null otherwise
+		// We do not store a timezone here, since we only care about the date part
+		until: null,
+		// List of byDay components to limit/expand the recurrence-rule
+		byDay: [],
+		// List of byMonth components to limit/expand the recurrence-rule
+		byMonth: [],
+		// List of byMonthDay components to limit/expand the recurrence-rule
+		byMonthDay: [],
+		// A position to limit the recurrence-rule (e.g. -1 for last Friday)
+		bySetPosition: null,
+		// Whether or not the rule is not supported for editing
+		isUnsupported: false,
+		...props,
+	}
+}
 
 /**
  * Maps a calendar-js recurrence-rule-value to an recurrence-rule-object
@@ -42,24 +44,24 @@ const getDefaultRecurrenceRuleObject = (props = {}) => Object.assign({}, {
  * @param {DateTimeValue} baseDate The base-date used to fill unset values
  * @return {object}
  */
-const mapRecurrenceRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate) => {
+function mapRecurrenceRuleValueToRecurrenceRuleObject(recurrenceRuleValue, baseDate) {
 	switch (recurrenceRuleValue.frequency) {
-	case 'DAILY':
-		return mapDailyRuleValueToRecurrenceRuleObject(recurrenceRuleValue)
+		case 'DAILY':
+			return mapDailyRuleValueToRecurrenceRuleObject(recurrenceRuleValue)
 
-	case 'WEEKLY':
-		return mapWeeklyRuleValueToRecurrenceRuleObject(recurrenceRuleValue, baseDate)
+		case 'WEEKLY':
+			return mapWeeklyRuleValueToRecurrenceRuleObject(recurrenceRuleValue, baseDate)
 
-	case 'MONTHLY':
-		return mapMonthlyRuleValueToRecurrenceRuleObject(recurrenceRuleValue, baseDate)
+		case 'MONTHLY':
+			return mapMonthlyRuleValueToRecurrenceRuleObject(recurrenceRuleValue, baseDate)
 
-	case 'YEARLY':
-		return mapYearlyRuleValueToRecurrenceRuleObject(recurrenceRuleValue, baseDate)
+		case 'YEARLY':
+			return mapYearlyRuleValueToRecurrenceRuleObject(recurrenceRuleValue, baseDate)
 
-	default: // SECONDLY, MINUTELY, HOURLY
-		return getDefaultRecurrenceRuleObjectForRecurrenceValue(recurrenceRuleValue, {
-			isUnsupported: true,
-		})
+		default: // SECONDLY, MINUTELY, HOURLY
+			return getDefaultRecurrenceRuleObjectForRecurrenceValue(recurrenceRuleValue, {
+				isUnsupported: true,
+			})
 	}
 }
 
@@ -110,9 +112,9 @@ const SUPPORTED_BY_DAY_WEEKLY = [
 	'SA',
 ]
 
-const SUPPORTED_BY_MONTHDAY_MONTHLY = [...Array(31).keys().map(i => i + 1)]
+const SUPPORTED_BY_MONTHDAY_MONTHLY = [...Array(31).keys().map((i) => i + 1)]
 
-const SUPPORTED_BY_MONTH_YEARLY = [...Array(12).keys().map(i => i + 1)]
+const SUPPORTED_BY_MONTH_YEARLY = [...Array(12).keys().map((i) => i + 1)]
 
 /**
  * Maps a daily calendar-js recurrence-rule-value to an recurrence-rule-object
@@ -120,7 +122,7 @@ const SUPPORTED_BY_MONTH_YEARLY = [...Array(12).keys().map(i => i + 1)]
  * @param recurrenceRuleValue
  * @return {object}
  */
-const mapDailyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue) => {
+function mapDailyRuleValueToRecurrenceRuleObject(recurrenceRuleValue) {
 	/**
 	 * We only support DAILY rules without any by-parts in the editor.
 	 * If the recurrence-rule contains any by-parts, mark it as unsupported.
@@ -139,7 +141,7 @@ const mapDailyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue) => {
  * @param {DateTimeValue} baseDate The base-date used to fill unset values
  * @return {object}
  */
-const mapWeeklyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate) => {
+function mapWeeklyRuleValueToRecurrenceRuleObject(recurrenceRuleValue, baseDate) {
 	/**
 	 * For WEEKLY recurrences, our editor only allows BYDAY
 	 *
@@ -179,7 +181,7 @@ const mapWeeklyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate)
  * @param {DateTimeValue} baseDate The base-date used to fill unset values
  * @return {object}
  */
-const mapMonthlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate) => {
+function mapMonthlyRuleValueToRecurrenceRuleObject(recurrenceRuleValue, baseDate) {
 	/**
 	 * We only supports BYMONTHDAY, BYDAY, BYSETPOS in order to expand the monthly rule.
 	 * It supports either BYMONTHDAY or the combination of BYDAY and BYSETPOS. They have to be used exclusively
@@ -224,7 +226,6 @@ const mapMonthlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate
 
 		// This handles cases where we have both BYDAY and BYSETPOS
 	} else if (containsRecurrenceComponent(recurrenceRuleValue, ['BYDAY']) && containsRecurrenceComponent(recurrenceRuleValue, ['BYSETPOS'])) {
-
 		if (isAllowedByDay(recurrenceRuleValue.getComponent('BYDAY'))) {
 			byDay = recurrenceRuleValue.getComponent('BYDAY')
 		} else {
@@ -242,7 +243,6 @@ const mapMonthlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate
 
 		// This handles cases where we only have a BYDAY
 	} else if (containsRecurrenceComponent(recurrenceRuleValue, ['BYDAY'])) {
-
 		const byDayArray = recurrenceRuleValue.getComponent('BYDAY')
 
 		if (byDayArray.length > 1) {
@@ -290,7 +290,7 @@ const mapMonthlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate
  * @param {DateTimeValue} baseDate The base-date used to fill unset values
  * @return {object}
  */
-const mapYearlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate) => {
+function mapYearlyRuleValueToRecurrenceRuleObject(recurrenceRuleValue, baseDate) {
 	/**
 	 * We only supports BYMONTH, BYDAY, BYSETPOS in order to expand the yearly rule.
 	 * It supports a combination of them.
@@ -326,7 +326,6 @@ const mapYearlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate)
 		byMonth = recurrenceRuleValue.getComponent('BYMONTH')
 			.filter((month) => SUPPORTED_BY_MONTH_YEARLY.includes(month))
 			.map((month) => month)
-
 	} else {
 		// This is a fallback where we just default BYMONTH to the start date of the event
 
@@ -348,7 +347,6 @@ const mapYearlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate)
 		byMonthDay = recurrenceRuleValue.getComponent('BYMONTHDAY')
 			.filter((monthDay) => SUPPORTED_BY_MONTHDAY_MONTHLY.includes(monthDay))
 			.map((monthDay) => monthDay)
-
 	} else if (containsRecurrenceComponent(recurrenceRuleValue, ['BYDAY']) && containsRecurrenceComponent(recurrenceRuleValue, ['BYSETPOS'])) {
 		// This handles cases where we have both BYDAY and BYSETPOS
 
@@ -415,7 +413,7 @@ const mapYearlyRuleValueToRecurrenceRuleObject = (recurrenceRuleValue, baseDate)
  * @param {string[]} byDay The byDay component to check
  * @return {boolean}
  */
-const isAllowedByDay = (byDay) => {
+function isAllowedByDay(byDay) {
 	return [
 		'MO',
 		'TU',
@@ -436,7 +434,7 @@ const isAllowedByDay = (byDay) => {
  * @param {string} bySetPos The bySetPos component to check
  * @return {boolean}
  */
-const isAllowedBySetPos = (bySetPos) => {
+function isAllowedBySetPos(bySetPos) {
 	return [
 		'-2',
 		'-1',
@@ -455,7 +453,7 @@ const isAllowedBySetPos = (bySetPos) => {
  * @param {string[]} components List of components to check for
  * @return {boolean}
  */
-const containsRecurrenceComponent = (recurrenceRule, components) => {
+function containsRecurrenceComponent(recurrenceRule, components) {
 	for (const component of components) {
 		const componentValue = recurrenceRule.getComponent(component)
 		if (componentValue.length > 0) {
@@ -474,7 +472,7 @@ const containsRecurrenceComponent = (recurrenceRule, components) => {
  * @param {object} props The properties to provide on top of default one
  * @return {object}
  */
-const getDefaultRecurrenceRuleObjectForRecurrenceValue = (recurrenceRuleValue, props) => {
+function getDefaultRecurrenceRuleObjectForRecurrenceValue(recurrenceRuleValue, props) {
 	const isUnsupported = recurrenceRuleValue.count !== null && recurrenceRuleValue.until !== null
 	let isUnsupportedProps = {}
 
@@ -484,7 +482,7 @@ const getDefaultRecurrenceRuleObjectForRecurrenceValue = (recurrenceRuleValue, p
 		}
 	}
 
-	return getDefaultRecurrenceRuleObject(Object.assign({}, {
+	return getDefaultRecurrenceRuleObject({
 		recurrenceRuleValue,
 		frequency: recurrenceRuleValue.frequency,
 		interval: parseInt(recurrenceRuleValue.interval, 10) || 1,
@@ -492,7 +490,9 @@ const getDefaultRecurrenceRuleObjectForRecurrenceValue = (recurrenceRuleValue, p
 		until: recurrenceRuleValue.until
 			? getDateFromDateTimeValue(recurrenceRuleValue.until)
 			: null,
-	}, props, isUnsupportedProps))
+		...props,
+		...isUnsupportedProps,
+	})
 }
 
 export {

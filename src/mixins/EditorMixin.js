@@ -3,20 +3,20 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getRFCProperties } from '../models/rfcProps.js'
-import logger from '../utils/logger.js'
-import { getPrefixedRoute } from '../utils/router.js'
-import { dateFactory } from '../utils/date.js'
-import { uidToHexColor } from '../utils/color.js'
-import { translate as t } from '@nextcloud/l10n'
-import { removeMailtoPrefix } from '../utils/attendee.js'
 import { showError } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
+import { mapState, mapStores } from 'pinia'
+import { getRFCProperties } from '../models/rfcProps.js'
+import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
+import useCalendarObjectsStore from '../store/calendarObjects.js'
+import useCalendarsStore from '../store/calendars.js'
 import usePrincipalsStore from '../store/principals.js'
 import useSettingsStore from '../store/settings.js'
-import useCalendarsStore from '../store/calendars.js'
-import useCalendarObjectsStore from '../store/calendarObjects.js'
-import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
-import { mapStores, mapState } from 'pinia'
+import { removeMailtoPrefix } from '../utils/attendee.js'
+import { uidToHexColor } from '../utils/color.js'
+import { dateFactory } from '../utils/date.js'
+import logger from '../utils/logger.js'
+import { getPrefixedRoute } from '../utils/router.js'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
@@ -407,7 +407,7 @@ export default {
 				this.calendarsStore.closeWidgetEventDetails()
 				return
 			}
-			const params = Object.assign({}, this.$route.params)
+			const params = { ...this.$route.params }
 			delete params.object
 			delete params.recurrenceId
 
@@ -428,6 +428,7 @@ export default {
 		},
 		/**
 		 * Resets the calendar-object back to its original state and closes the editor
+		 *
 		 * @param force whether to not show a confirmation modal before executing
 		 */
 		async cancel(force = false) {
@@ -443,7 +444,7 @@ export default {
 
 			if (
 				(!this.calendarObjectInstanceStore.calendarObjectInstance.eventComponent.isDirty()
-				&& !this.calendarObjectInstanceStore.calendarObjectInstance.isNew)
+					&& !this.calendarObjectInstanceStore.calendarObjectInstance.isNew)
 				|| this.compareCalendarObjects(this.calendarObjectInstanceStore.calendarObjectInstance, this.calendarObjectInstanceStore.emptyCalendarObjectInstance)
 				|| force
 			) {
@@ -465,7 +466,7 @@ export default {
 				return false
 			}
 
-			return keys1.every(key => {
+			return keys1.every((key) => {
 				return keys2.includes(key) && obj1[key] === obj2[key]
 			})
 		},
@@ -763,7 +764,7 @@ export default {
 	 */
 	async beforeRouteEnter(to, from, next) {
 		if (to.name === 'NewFullView' || to.name === 'NewPopoverView') {
-			next(async vm => {
+			next(async (vm) => {
 				vm.resetState()
 
 				const isAllDay = (to.params.allDay === '1')
@@ -784,7 +785,7 @@ export default {
 				}
 			})
 		} else {
-			next(async vm => {
+			next(async (vm) => {
 				vm.resetState()
 				const objectId = to.params.object
 				const recurrenceId = to.params.recurrenceId
@@ -798,7 +799,7 @@ export default {
 						const recurrenceId = await vm.calendarObjectInstanceStore.resolveClosestRecurrenceIdForCalendarObject({
 							objectId, closeToDate,
 						})
-						const params = Object.assign({}, vm.$route.params, { recurrenceId })
+						const params = { ...vm.$route.params, recurrenceId }
 						vm.$router.replace({ name: vm.$route.name, params })
 					} catch (error) {
 						console.debug(error)
@@ -884,7 +885,7 @@ export default {
 				const recurrenceId = await this.calendarObjectInstanceStore.resolveClosestRecurrenceIdForCalendarObject({
 					objectId, closeToDate,
 				})
-				const params = Object.assign({}, this.$route.params, { recurrenceId })
+				const params = { ...this.$route.params, recurrenceId }
 				next({ name: this.$route.name, params })
 				return
 			}
@@ -922,7 +923,7 @@ export default {
 
 		try {
 			if ((from.name !== 'NewPopoverView' || to.name !== 'EditPopoverView')
-			&& (from.name !== 'NewPopoverView' || to.name !== 'EditFullView')) {
+				&& (from.name !== 'NewPopoverView' || to.name !== 'EditFullView')) {
 				await this.save()
 			}
 			next()

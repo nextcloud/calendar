@@ -25,7 +25,6 @@ OC.L10N.register(
     "Deleted" : "Geskrap",
     "Restore" : "Herstel",
     "Delete permanently" : "Skrap permanent",
-    "Hidden" : "Versteek",
     "Share link" : "Deel skakel",
     "can edit" : "kan wysig",
     "Share with users or groups" : "Deel met gebruikers of groepe",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "after" : "na",
     "Resources" : "Hulpbronne",
     "available" : "beskikbaar",
+    "None" : "Geen",
     "Global" : "Globaal",
     "Subscribe" : "Teken in",
     "Personal" : "Persoonlik",
@@ -90,6 +90,7 @@ OC.L10N.register(
     "Other" : "Ander",
     "Status" : "Status",
     "Confirmed" : "Bevestig",
-    "Categories" : "Kategorieë"
+    "Categories" : "Kategorieë",
+    "Hidden" : "Versteek"
 },
 "nplurals=2; plural=(n != 1);");

@@ -7,6 +7,7 @@ import {
 	generateOcsUrl,
 	linkTo,
 } from '@nextcloud/router'
+import logger from '../utils/logger.js'
 
 /**
  * Finds circles by displayname
@@ -14,7 +15,7 @@ import {
  * @param {string} query The search-term
  * @return {Promise<void>}
  */
-const circleSearchByName = async (query) => {
+async function circleSearchByName(query) {
 	let results
 	try {
 		results = await HttpClient.get(generateOcsUrl('apps/files_sharing/api/v1/') + 'sharees', {
@@ -26,6 +27,10 @@ const circleSearchByName = async (query) => {
 			},
 		})
 	} catch (error) {
+		logger.error(`Failed to fetch circles: ${error}`, {
+			query,
+			error,
+		})
 		return []
 	}
 
@@ -45,9 +50,7 @@ const circleSearchByName = async (query) => {
 		return []
 	}
 
-	return circles.filter((circle) => {
-		return true
-	}).map(circle => ({
+	return circles.map((circle) => ({
 		displayname: circle.label,
 		population: circle.value.circle.population,
 		id: circle.value.circle.id,
@@ -61,7 +64,7 @@ const circleSearchByName = async (query) => {
  * @param {string} circleId The circle id to query
  * @return {Promise<void>}
  */
-const circleGetMembers = async (circleId) => {
+async function circleGetMembers(circleId) {
 	let results
 	try {
 		results = await HttpClient.get(linkTo('calendar', 'index.php') + '/v1/circles/getmembers', {
@@ -78,6 +81,6 @@ const circleGetMembers = async (circleId) => {
 }
 
 export {
-	circleSearchByName,
 	circleGetMembers,
+	circleSearchByName,
 }

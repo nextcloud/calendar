@@ -11,52 +11,54 @@ import { mapDavShareeToCalendarShareObject } from './calendarShare.js'
  * @param {object} props Calendar-props already provided
  * @return {object}
  */
-const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
-	// Id of the calendar
-	id: '',
-	// Visible display name
-	displayName: '',
-	// Color of the calendar
-	color: uidToHexColor(''),
-	// Whether or not the calendar is visible in the grid
-	enabled: true,
-	// Whether or not the calendar is loading events at the moment
-	loading: false,
-	// Whether this calendar supports VEvents
-	supportsEvents: true,
-	// Whether this calendar supports VJournals
-	supportsJournals: false,
-	// Whether this calendar supports VTodos
-	supportsTasks: false,
-	// The principal uri of the owner
-	owner: '',
-	// Timezone set for this calendar
-	timezone: null,
-	// List of shares
-	shares: [],
-	// Published url
-	publishURL: null,
-	// Internal CalDAV url of this calendar
-	url: '',
-	// Whether this calendar is read-only
-	readOnly: false,
-	// The order of this calendar in the calendar-list
-	order: 0,
-	// Whether or not the calendar is shared with me
-	isSharedWithMe: false,
-	// Whether or not the calendar can be shared by me
-	canBeShared: false,
-	// Whether or not the calendar can be published by me
-	canBePublished: false,
-	// Reference to cdav-lib object
-	dav: false,
-	// All calendar-objects from this calendar that have already been fetched
-	calendarObjects: [],
-	// Time-ranges that have already been fetched for this calendar
-	fetchedTimeRanges: [],
-	// Scheduling transparency
-	transparency: 'opaque',
-}, props)
+function getDefaultCalendarObject(props = {}) {
+	return { // Id of the calendar
+		id: '',
+		// Visible display name
+		displayName: '',
+		// Color of the calendar
+		color: uidToHexColor(''),
+		// Whether or not the calendar is visible in the grid
+		enabled: true,
+		// Whether or not the calendar is loading events at the moment
+		loading: false,
+		// Whether this calendar supports VEvents
+		supportsEvents: true,
+		// Whether this calendar supports VJournals
+		supportsJournals: false,
+		// Whether this calendar supports VTodos
+		supportsTasks: false,
+		// The principal uri of the owner
+		owner: '',
+		// Timezone set for this calendar
+		timezone: null,
+		// List of shares
+		shares: [],
+		// Published url
+		publishURL: null,
+		// Internal CalDAV url of this calendar
+		url: '',
+		// Whether this calendar is read-only
+		readOnly: false,
+		// The order of this calendar in the calendar-list
+		order: 0,
+		// Whether or not the calendar is shared with me
+		isSharedWithMe: false,
+		// Whether or not the calendar can be shared by me
+		canBeShared: false,
+		// Whether or not the calendar can be published by me
+		canBePublished: false,
+		// Reference to cdav-lib object
+		dav: false,
+		// All calendar-objects from this calendar that have already been fetched
+		calendarObjects: [],
+		// Time-ranges that have already been fetched for this calendar
+		fetchedTimeRanges: [],
+		// Scheduling transparency
+		transparency: 'opaque',
+		...props,
+	}
+}
 
 /**
  * Map a dav collection to our calendar object model
@@ -65,7 +67,7 @@ const getDefaultCalendarObject = (props = {}) => Object.assign({}, {
  * @param {object=} currentUserPrincipal The principal model of the current user principal
  * @return {object}
  */
-const mapDavCollectionToCalendar = (calendar, currentUserPrincipal) => {
+function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 	const id = btoa(calendar.url)
 	const displayName = calendar.displayname || getCalendarUriFromUrl(calendar.url)
 

@@ -55,7 +55,7 @@ class BookingMapper extends QBMapper {
 					IQueryBuilder::PARAM_INT_ARRAY
 				)
 			);
-		return $delete->execute();
+		return $delete->executeStatement();
 	}
 
 	/**

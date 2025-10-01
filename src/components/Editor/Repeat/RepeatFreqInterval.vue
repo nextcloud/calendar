@@ -5,7 +5,8 @@
 
 <template>
 	<div class="repeat-option-set repeat-option-set--interval-freq">
-		<NcTextField v-if="!isIntervalDisabled"
+		<NcTextField
+			v-if="!isIntervalDisabled"
 			:label="repeatEveryLabel"
 			type="number"
 			class="repeat-option-set__interval"
@@ -13,7 +14,8 @@
 			max="366"
 			:value="interval"
 			@input="changeInterval" />
-		<RepeatFreqSelect class="repeat-option-set__frequency"
+		<RepeatFreqSelect
+			class="repeat-option-set__frequency"
 			:freq="frequency"
 			:count="interval"
 			@change="changeFrequency" />
@@ -21,8 +23,8 @@
 </template>
 
 <script>
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import RepeatFreqSelect from './RepeatFreqSelect.vue'
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
 
 export default {
 	name: 'RepeatFreqInterval',
@@ -30,16 +32,19 @@ export default {
 		RepeatFreqSelect,
 		NcTextField,
 	},
+
 	props: {
 		frequency: {
 			type: String,
 			required: true,
 		},
+
 		interval: {
 			type: Number,
 			required: true,
 		},
 	},
+
 	computed: {
 		repeatEveryLabel() {
 			console.debug(this.frequency)
@@ -49,14 +54,17 @@ export default {
 
 			return this.$t('calendar', 'Repeat every')
 		},
+
 		isIntervalDisabled() {
 			return this.frequency === 'NONE'
 		},
 	},
+
 	methods: {
 		changeFrequency(value) {
 			this.$emit('change-frequency', value)
 		},
+
 		/**
 		 *
 		 * @param {Event} event The Input-event triggered when modifying the input

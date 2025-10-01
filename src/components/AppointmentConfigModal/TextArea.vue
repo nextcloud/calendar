@@ -6,7 +6,8 @@
 <template>
 	<div class="text-area">
 		<label :for="id">{{ label }}</label>
-		<textarea :id="id"
+		<textarea
+			:id="id"
 			v-autosize="true"
 			:value="value"
 			:rows="2"
@@ -15,24 +16,27 @@
 </template>
 
 <script>
-import { randomId } from '../../utils/randomId.js'
 import autosize from '../../directives/autosize.js'
+import { randomId } from '../../utils/randomId.js'
 
 export default {
 	name: 'TextArea',
 	directives: {
 		autosize,
 	},
+
 	props: {
 		label: {
 			type: String,
 			required: true,
 		},
+
 		value: {
 			type: String,
 			default: '',
 		},
 	},
+
 	data() {
 		return {
 			id: randomId(),

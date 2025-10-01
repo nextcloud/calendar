@@ -57,6 +57,7 @@ OC.L10N.register(
     "after" : "etter",
     "Room type" : "Romtype",
     "Remove participant" : "Eksterne deltakarar",
+    "None" : "Ingen",
     "Global" : "Global",
     "Personal" : "Personleg",
     "Edit event" : "Rediger hending",

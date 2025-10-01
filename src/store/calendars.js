@@ -1,3 +1,18 @@
+import { CalendarComponent, TimezoneComponent } from '@nextcloud/calendar-js'
+import { showError } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
+import { Timezone } from '@nextcloud/timezones'
+import pLimit from 'p-limit'
+import { defineStore } from 'pinia'
+import Vue from 'vue'
+import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar.js'
+import { mapCDavObjectToCalendarObject } from '../models/calendarObject.js'
+import {
+	CALDAV_BIRTHDAY_CALENDAR,
+	CALDAV_PERSONAL_CALENDAR,
+	IMPORT_STAGE_IMPORTING,
+	IMPORT_STAGE_PROCESSING,
+} from '../models/consts.js'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -9,31 +24,15 @@ import {
 	findAllDeletedCalendars,
 	findPublicCalendarsByTokens,
 } from '../services/caldavService.js'
-import { mapCDavObjectToCalendarObject } from '../models/calendarObject.js'
-import { dateFactory, getUnixTimestampFromDate } from '../utils/date.js'
-import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar.js'
-import pLimit from 'p-limit'
-import { uidToHexColor } from '../utils/color.js'
-import { translate as t } from '@nextcloud/l10n'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
-import { CalendarComponent, TimezoneComponent } from '@nextcloud/calendar-js'
-import { Timezone } from '@nextcloud/timezones'
-import {
-	CALDAV_BIRTHDAY_CALENDAR,
-	CALDAV_PERSONAL_CALENDAR,
-	IMPORT_STAGE_IMPORTING,
-	IMPORT_STAGE_PROCESSING,
-} from '../models/consts.js'
-import { showError } from '@nextcloud/dialogs'
-import useImportStateStore from './importState.js'
-import useImportFilesStore from './importFiles.js'
-import useSettingsStore from './settings.js'
-import useFetchedTimeRangesStore from './fetchedTimeRanges.js'
-import usePrincipalsStore from './principals.js'
+import { uidToHexColor } from '../utils/color.js'
+import { dateFactory, getUnixTimestampFromDate } from '../utils/date.js'
 import useCalendarObjectsStore from './calendarObjects.js'
-
-import { defineStore } from 'pinia'
-import Vue from 'vue'
+import useFetchedTimeRangesStore from './fetchedTimeRanges.js'
+import useImportFilesStore from './importFiles.js'
+import useImportStateStore from './importState.js'
+import usePrincipalsStore from './principals.js'
+import useSettingsStore from './settings.js'
 
 export default defineStore('calendars', {
 	state: () => {
@@ -61,7 +60,7 @@ export default defineStore('calendars', {
 			const settingsStore = useSettingsStore()
 
 			return state.calendars
-				.filter(calendar => calendar.supportsEvents || (settingsStore.showTasks && calendar.supportsTasks))
+				.filter((calendar) => calendar.supportsEvents || (settingsStore.showTasks && calendar.supportsTasks))
 				.sort((a, b) => a.order - b.order)
 		},
 
@@ -73,8 +72,8 @@ export default defineStore('calendars', {
 		 */
 		sortedCalendars(state) {
 			return state.calendars
-				.filter(calendar => calendar.supportsEvents)
-				.filter(calendar => !calendar.readOnly)
+				.filter((calendar) => calendar.supportsEvents)
+				.filter((calendar) => !calendar.readOnly)
 				.sort((a, b) => a.order - b.order)
 		},
 
@@ -86,7 +85,7 @@ export default defineStore('calendars', {
 		 */
 		sortedCalendarsAll(state) {
 			return state.calendars
-				.filter(calendar => calendar.supportsEvents)
+				.filter((calendar) => calendar.supportsEvents)
 				.sort((a, b) => a.order - b.order)
 		},
 
@@ -98,9 +97,9 @@ export default defineStore('calendars', {
 		 */
 		ownSortedCalendars(state) {
 			return state.calendars
-				.filter(calendar => calendar.supportsEvents)
-				.filter(calendar => !calendar.readOnly)
-				.filter(calendar => !calendar.isSharedWithMe)
+				.filter((calendar) => calendar.supportsEvents)
+				.filter((calendar) => !calendar.readOnly)
+				.filter((calendar) => !calendar.isSharedWithMe)
 				.sort((a, b) => a.order - b.order)
 		},
 
@@ -127,13 +126,13 @@ export default defineStore('calendars', {
 		 */
 		allDeletedCalendarObjects(state) {
 			const calendarUriMap = {}
-			state.calendars.forEach(calendar => {
+			state.calendars.forEach((calendar) => {
 				const withoutTrail = calendar.url.replace(/\/$/, '')
 				const uri = withoutTrail.slice(withoutTrail.lastIndexOf('/') + 1)
 				calendarUriMap[uri] = calendar
 			})
 
-			return state.deletedCalendarObjects.map(obj => ({
+			return state.deletedCalendarObjects.map((obj) => ({
 				calendar: calendarUriMap[obj.dav._props['{http://nextcloud.com/ns}calendar-uri']],
 				...obj,
 			}))
@@ -147,8 +146,8 @@ export default defineStore('calendars', {
 		 */
 		sortedSubscriptions(state) {
 			return state.calendars
-				.filter(calendar => calendar.supportsEvents)
-				.filter(calendar => calendar.readOnly)
+				.filter((calendar) => calendar.supportsEvents)
+				.filter((calendar) => calendar.readOnly)
 				.sort((a, b) => a.order - b.order)
 		},
 
@@ -162,8 +161,8 @@ export default defineStore('calendars', {
 			const settingsStore = useSettingsStore()
 
 			return state.calendars
-				.filter(calendar => calendar.supportsEvents || (settingsStore.showTasks && calendar.supportsTasks))
-				.filter(calendar => calendar.enabled)
+				.filter((calendar) => calendar.supportsEvents || (settingsStore.showTasks && calendar.supportsTasks))
+				.filter((calendar) => calendar.enabled)
 		},
 
 		/**
@@ -269,7 +268,7 @@ export default defineStore('calendars', {
 			const principalsStore = usePrincipalsStore()
 			const { calendars, trashBins, scheduleInboxes, subscriptions } = await findAll()
 			console.info('calendar home scanned', calendars, trashBins, subscriptions)
-			calendars.map((calendar) => mapDavCollectionToCalendar(calendar, principalsStore.getCurrentUserPrincipal)).forEach(calendar => {
+			calendars.map((calendar) => mapDavCollectionToCalendar(calendar, principalsStore.getCurrentUserPrincipal)).forEach((calendar) => {
 				this.addCalendarMutation({ calendar })
 			})
 			if (trashBins.length) {
@@ -294,8 +293,8 @@ export default defineStore('calendars', {
 		async loadDeletedCalendars() {
 			const calendars = await findAllDeletedCalendars()
 
-			calendars.forEach(calendar => {
-				if (this.deletedCalendars.some(c => c.url === calendar.url)) {
+			calendars.forEach((calendar) => {
+				if (this.deletedCalendars.some((c) => c.url === calendar.url)) {
 					// This calendar is already known
 					return
 				}
@@ -310,11 +309,11 @@ export default defineStore('calendars', {
 			const vobjects = await this.trashBin.findDeletedObjects() /// TODO what is this?
 			console.info('vobjects loaded', { vobjects })
 
-			vobjects.forEach(vobject => {
+			vobjects.forEach((vobject) => {
 				try {
 					const calendarObject = mapCDavObjectToCalendarObject(vobject, undefined)
 
-					if (this.deletedCalendarObjects.some(c => c.uri === calendarObject.uri)) {
+					if (this.deletedCalendarObjects.some((c) => c.uri === calendarObject.uri)) {
 						// This vobject is already known
 						return
 					}
@@ -423,7 +422,7 @@ export default defineStore('calendars', {
 				'X-NC-CalDAV-No-Trashbin': 1,
 			})
 
-			this.deletedCalendars = this.deletedCalendars.filter(c => c !== calendar)
+			this.deletedCalendars = this.deletedCalendars.filter((c) => c !== calendar)
 		},
 
 		deleteCalendarAfterTimeout({ calendar, countdown = 7 }) {
@@ -457,8 +456,12 @@ export default defineStore('calendars', {
 		},
 
 		cancelCalendarDeletion({ calendar }) {
-			if (calendar.deleteInterval) clearInterval(calendar.deleteInterval)
-			if (calendar.deleteTimeout) clearTimeout(calendar.deleteTimeout)
+			if (calendar.deleteInterval) {
+				clearInterval(calendar.deleteInterval)
+			}
+			if (calendar.deleteTimeout) {
+				clearTimeout(calendar.deleteTimeout)
+			}
 
 			this.calendarsById[calendar.id].deleteInterval = undefined
 			this.calendarsById[calendar.id].deleteTimeout = undefined
@@ -467,7 +470,7 @@ export default defineStore('calendars', {
 		async restoreCalendar({ calendar }) {
 			await this.trashBin.restore(calendar.url)
 
-			this.deletedCalendars = this.deletedCalendars.filter(c => c !== calendar)
+			this.deletedCalendars = this.deletedCalendars.filter((c) => c !== calendar)
 		},
 
 		async restoreCalendarObject({ vobject }) {
@@ -476,7 +479,7 @@ export default defineStore('calendars', {
 			await this.trashBin.restore(vobject.uri)
 
 			// Clean up the data locally
-			this.deletedCalendarObjects = this.deletedCalendarObjects.filter(vo => vo.id !== vobject.id)
+			this.deletedCalendarObjects = this.deletedCalendarObjects.filter((vo) => vo.id !== vobject.id)
 
 			// Delete cached time range that includes the restored event
 			const calendarObject = mapCDavObjectToCalendarObject(vobject.dav, undefined)
@@ -490,8 +493,7 @@ export default defineStore('calendars', {
 				this.deleteFetchedTimeRangeFromCalendarMutation({
 					calendar: vobject.calendar,
 					fetchedTimeRangeId: timeRange.id,
-				},
-				)
+				})
 				fetchedTimeRangesStore.removeTimeRange({
 					timeRangeId: timeRange.id,
 				})
@@ -513,7 +515,7 @@ export default defineStore('calendars', {
 				'X-NC-CalDAV-No-Trashbin': 1,
 			})
 
-			this.deletedCalendarObjects = this.deletedCalendarObjects.filter(vo => vo.id !== vobject.id)
+			this.deletedCalendarObjects = this.deletedCalendarObjects.filter((vo) => vo.id !== vobject.id)
 		},
 
 		/**
@@ -624,10 +626,10 @@ export default defineStore('calendars', {
 		 * @param {string} data.uri the sharing principalScheme uri
 		 */
 		async toggleCalendarShareWritable({ calendar, uri }) {
-			const sharee = calendar.shares.find(sharee => sharee.uri === uri)
+			const sharee = calendar.shares.find((sharee) => sharee.uri === uri)
 			await calendar.dav.share(uri, !sharee.writeable)
 			/// TODO test this not sure what it does
-			calendar = this.calendars.find(search => search.id === calendar.id)
+			calendar = this.calendars.find((search) => search.id === calendar.id)
 			sharee.writeable = !sharee.writeable
 		},
 
@@ -641,8 +643,8 @@ export default defineStore('calendars', {
 		async unshareCalendar({ calendar, uri }) {
 			await calendar.dav.unshare(uri)
 
-			calendar = this.calendars.find(search => search.id === calendar.id)
-			const shareIndex = calendar.shares.findIndex(sharee => sharee.uri === uri)
+			calendar = this.calendars.find((search) => search.id === calendar.id)
+			const shareIndex = calendar.shares.findIndex((sharee) => sharee.uri === uri)
 			calendar.shares.splice(shareIndex, 1)
 		},
 
@@ -657,7 +659,7 @@ export default defineStore('calendars', {
 			await calendar.dav.publish()
 			const publishURL = calendar.dav.publishURL
 
-			calendar = this.calendars.find(search => search.id === calendar.id)
+			calendar = this.calendars.find((search) => search.id === calendar.id)
 			calendar.publishURL = publishURL
 		},
 
@@ -671,7 +673,7 @@ export default defineStore('calendars', {
 		async unpublishCalendar({ calendar }) {
 			await calendar.dav.unpublish()
 
-			calendar = this.calendars.find(search => search.id === calendar.id)
+			calendar = this.calendars.find((search) => search.id === calendar.id)
 			calendar.publishURL = null
 		},
 
@@ -910,7 +912,7 @@ export default defineStore('calendars', {
 		 */
 		addCalendarMutation({ calendar }) {
 			const object = getDefaultCalendarObject(calendar)
-			if (!this.calendars.some(existing => existing.id === object.id)) {
+			if (!this.calendars.some((existing) => existing.id === object.id)) {
 				this.calendars.push(object)
 				Vue.set(this.calendars, 0, this.calendars[0]) /// TODO remove with vue 3
 			}

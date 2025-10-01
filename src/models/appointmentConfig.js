@@ -3,15 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { generateUrl, getBaseUrl } from '@nextcloud/router'
 import {
 	getEmptySlots,
 	vavailabilityToSlots,
 } from '@nextcloud/calendar-availability-vue'
+import { generateUrl, getBaseUrl } from '@nextcloud/router'
 
 /** @class */
 export default class AppointmentConfig {
-
 	/** @member {?number} */
 	id
 
@@ -123,7 +122,7 @@ export default class AppointmentConfig {
 		} else {
 			// Set default availability to Mo-Fr 9-5
 			const tsAtTime = (hours, minutes) => Math.round((new Date()).setHours(hours, minutes, 0, 0) / 1000);
-			['MO', 'TU', 'WE', 'TH', 'FR'].forEach(day => slots[day].push({
+			['MO', 'TU', 'WE', 'TH', 'FR'].forEach((day) => slots[day].push({
 				start: tsAtTime(9, 0),
 				end: tsAtTime(17, 0),
 			}))
@@ -147,7 +146,6 @@ export default class AppointmentConfig {
 			calendarFreeBusyUris: [],
 			futureLimit: 2 * 30 * 24 * 60 * 60, // 2 months
 		})
-
 	}
 
 	/**
@@ -181,7 +179,6 @@ export default class AppointmentConfig {
 			baseURL: getBaseUrl(),
 		})
 	}
-
 }
 
 /**

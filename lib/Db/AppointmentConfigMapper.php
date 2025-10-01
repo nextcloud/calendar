@@ -107,6 +107,6 @@ class AppointmentConfigMapper extends QBMapper {
 		$qb->delete($this->tableName)
 			->where($qb->expr()->eq('user_id', $qb->createNamedParameter($uid, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 
-		$qb->execute();
+		$qb->executeStatement();
 	}
 }

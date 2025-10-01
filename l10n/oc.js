@@ -41,7 +41,6 @@ OC.L10N.register(
     "Deleted" : "Suprimit",
     "Restore" : "Restaurar",
     "Delete permanently" : "Suprimir definitivament",
-    "Hidden" : "Amagat",
     "Share link" : "Partejar lo ligam",
     "Copy public link" : "Copiar lo ligam public",
     "Copied code" : "Còdi copiat",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Remove participant" : "Tirar participant",
     "Yes" : "Òc",
     "No" : "Non",
+    "None" : "Cap",
     "Create" : "Crear",
     "from {formattedDate}" : "a partir de {formattedDate}",
     "to {formattedDate}" : "cap a {formattedDate}",
@@ -183,6 +183,7 @@ OC.L10N.register(
     "Categories" : "Categorias",
     "Custom color" : "Color personalizada",
     "Error while sharing file" : "Error pendent lo partiment del fichièr",
-    "User not found" : "Utilizaire pas trobat"
+    "User not found" : "Utilizaire pas trobat",
+    "Hidden" : "Amagat"
 },
 "nplurals=2; plural=(n > 1);");

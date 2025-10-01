@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<NcSelect :allow-empty="false"
+	<NcSelect
+		:allow-empty="false"
 		:options="options"
 		:value="selected"
 		:disabled="disabled"
@@ -16,14 +17,15 @@
 </template>
 
 <script>
-import { NcSelect } from '@nextcloud/vue'
 import { getDayNames } from '@nextcloud/l10n'
+import { NcSelect } from '@nextcloud/vue'
 
 export default {
 	name: 'RepeatOnTheSelect',
 	components: {
 		NcSelect,
 	},
+
 	props: {
 		/**
 		 *
@@ -32,11 +34,13 @@ export default {
 			type: Array,
 			required: true,
 		},
+
 		disabled: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
 	computed: {
 		options() {
 			const dayNames = getDayNames()
@@ -73,10 +77,12 @@ export default {
 				value: ['SU', 'SA'],
 			}]
 		},
+
 		selected() {
-			return this.options.find(option => option.value.slice().sort().join(',') === this.byDay.slice().sort().join(','))
+			return this.options.find((option) => option.value.slice().sort().join(',') === this.byDay.slice().sort().join(','))
 		},
 	},
+
 	methods: {
 		select(value) {
 			if (!value) {

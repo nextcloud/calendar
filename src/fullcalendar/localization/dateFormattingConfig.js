@@ -8,7 +8,7 @@
  *
  * @return {object}
  */
-const getDateFormattingConfig = () => {
+function getDateFormattingConfig() {
 	const defaultConfig = {
 		dayHeaderFormat: 'ddd l',
 		titleFormat: 'll',

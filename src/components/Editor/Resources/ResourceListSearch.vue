@@ -9,18 +9,20 @@
 			{{ $t('calendar', 'Show all rooms') }}
 		</NcButton>
 
-		<RoomAvailabilityList v-if="showRoomAvailabilityModal"
+		<RoomAvailabilityList
+			v-if="showRoomAvailabilityModal"
 			:show-dialog.sync="showRoomAvailabilityModal"
 			:calendar-object-instance="calendarObjectInstance"
 			:start-date="calendarObjectInstance.startDate"
 			:end-date="calendarObjectInstance.endDate" />
-		<NcSelect class="resource-search__multiselect"
+		<NcSelect
+			class="resource-search__multiselect"
 			:options="matches"
 			:searchable="true"
 			:max-height="600"
 			:placeholder="placeholder"
 			:label-outside="true"
-			:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
+			:class="{ showContent: inputGiven, 'icon-loading': isLoading }"
 			input-id="email"
 			label="displayName"
 			:clearable="false"
@@ -28,12 +30,14 @@
 			@input="addResource">
 			<template #option="option">
 				<div class="resource-search-list-item">
-					<Avatar :disable-tooltip="true"
+					<Avatar
+						:disable-tooltip="true"
 						:display-name="option.displayName" />
 					<div class="resource-search-list-item__label resource-search-list-item__label--single-email">
 						<div>
 							{{ option.displayName }}
-							<span v-if="!isAvailable"
+							<span
+								v-if="!isAvailable"
 								class="resource-search-list-item__label__availability">
 								({{ formatAvailability(option.isAvailable) }})
 							</span>
@@ -72,21 +76,21 @@
 
 <script>
 import {
-	NcAvatar as Avatar,
-	NcActions as Actions,
 	NcActionCheckbox as ActionCheckbox,
-	NcSelect,
+	NcActions as Actions,
+	NcAvatar as Avatar,
 	NcButton,
+	NcSelect,
 } from '@nextcloud/vue'
-import { checkResourceAvailability } from '../../../services/freeBusyService.js'
 import debounce from 'debounce'
-import logger from '../../../utils/logger.js'
-import { advancedPrincipalPropertySearch } from '../../../services/caldavService.js'
-import ResourceSeatingCapacity from './ResourceSeatingCapacity.vue'
-import ResourceRoomType from './ResourceRoomType.vue'
-import usePrincipalsStore from '../../../store/principals.js'
 import { mapStores } from 'pinia'
 import RoomAvailabilityList from '../FreeBusy/RoomAvailabilityList.vue'
+import ResourceRoomType from './ResourceRoomType.vue'
+import ResourceSeatingCapacity from './ResourceSeatingCapacity.vue'
+import { advancedPrincipalPropertySearch } from '../../../services/caldavService.js'
+import { checkResourceAvailability } from '../../../services/freeBusyService.js'
+import usePrincipalsStore from '../../../store/principals.js'
+import logger from '../../../utils/logger.js'
 export default {
 	name: 'ResourceListSearch',
 	components: {
@@ -99,16 +103,19 @@ export default {
 		ActionCheckbox,
 		ResourceRoomType,
 	},
+
 	props: {
 		alreadyInvitedEmails: {
 			type: Array,
 			required: true,
 		},
+
 		calendarObjectInstance: {
 			type: Object,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			isLoading: false,
@@ -124,14 +131,17 @@ export default {
 			rooms: [],
 		}
 	},
+
 	computed: {
 		...mapStores(usePrincipalsStore),
 		placeholder() {
 			return this.$t('calendar', 'Search for resources or rooms')
 		},
+
 		noResult() {
 			return this.$t('calendar', 'No match found')
 		},
+
 		features() {
 			const features = []
 			if (this.isAccessible) {
@@ -146,10 +156,12 @@ export default {
 			return features
 		},
 	},
+
 	methods: {
 		openRoomAvailability() {
 			this.showRoomAvailabilityModal = true
 		},
+
 		findResources: debounce(async function(query) {
 			this.isLoading = true
 			let matches = []
@@ -165,9 +177,11 @@ export default {
 
 			this.matches = matches
 		}, 500),
+
 		addResource(selectedValue) {
 			this.$emit('add-resource', selectedValue)
 		},
+
 		async findResourcesFromDAV(input) {
 			let results
 			try {
@@ -183,7 +197,7 @@ export default {
 
 			// Build options
 			let options = results
-				.filter(principal => {
+				.filter((principal) => {
 					if (!principal.email) {
 						return false
 					}
@@ -199,7 +213,7 @@ export default {
 
 					return true
 				})
-				.map(principal => {
+				.map((principal) => {
 					const subLineData = []
 					if (principal.roomSeatingCapacity) {
 						subLineData.push(this.$n('calendar', '{seatingCapacity} seat', '{seatingCapacity} seats', principal.roomSeatingCapacity, {
@@ -231,11 +245,12 @@ export default {
 
 			// Filter by availability
 			if (this.isAvailable) {
-				options = options.filter(option => option.isAvailable)
+				options = options.filter((option) => option.isAvailable)
 			}
 
 			return options
 		},
+
 		/**
 		 * Format availability of a search result
 		 *
@@ -254,6 +269,7 @@ export default {
 	},
 }
 </script>
+
 <style lang="scss" scoped>
 .button.availability {
       margin-bottom: 8px;

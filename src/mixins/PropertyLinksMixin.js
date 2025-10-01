@@ -32,7 +32,6 @@ export default {
 
 	methods: {
 		handleShowTextarea(evt) {
-
 			if (this.isReadOnly || this.linkifyLinks === false) {
 				// do nothing
 				return

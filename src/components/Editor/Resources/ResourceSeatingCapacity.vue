@@ -5,7 +5,8 @@
 
 <template>
 	<div class="resource-capacity">
-		<NcTextField :label="placeholder"
+		<NcTextField
+			:label="placeholder"
 			type="number"
 			min="0"
 			:placeholder="placeholder"
@@ -15,23 +16,26 @@
 </template>
 
 <script>
-import NcTextField from '@nextcloud/vue/dist/Components/NcTextField.js'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 export default {
 	name: 'ResourceSeatingCapacity',
 	components: {
 		NcTextField,
 	},
+
 	props: {
 		value: {
 			type: Number,
 			required: true,
 		},
 	},
+
 	computed: {
 		placeholder() {
 			return this.$t('calendar', 'Minimum seating capacity')
 		},
 	},
+
 	methods: {
 		changeValue(event) {
 			this.$emit('update:value', parseInt(event.target.value))

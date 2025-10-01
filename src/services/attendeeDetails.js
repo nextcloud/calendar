@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getBaseUrl, linkTo } from '@nextcloud/router'
 import HttpClient from '@nextcloud/axios'
-import { principalPropertySearchByDisplaynameOrEmail } from './caldavService.js'
 import { getLocale } from '@nextcloud/l10n'
+import { getBaseUrl, linkTo } from '@nextcloud/router'
+import { principalPropertySearchByDisplaynameOrEmail } from './caldavService.js'
 
 /**
  *

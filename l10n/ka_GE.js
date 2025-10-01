@@ -27,7 +27,6 @@ OC.L10N.register(
     "Restore" : "აღდგენა",
     "Delete permanently" : "სამუდამოდ წაშლა",
     "Deck" : "დასტა",
-    "Hidden" : "უჩინარი",
     "Share link" : "ბმულის გაზიარება",
     "can edit" : "შეგიძლია შეცვლა",
     "Share with users or groups" : "გაზიარება მოხმარებლებთან ან ჯგუფებთან",
@@ -74,6 +73,7 @@ OC.L10N.register(
     "available" : "ხელმისაწვდომი",
     "Yes" : "დიახ",
     "Maybe" : "შესაძლოა",
+    "None" : "არც ერთი",
     "Global" : "გლობალური",
     "Subscribe" : "გამოწერა",
     "Personal" : "პირადი",
@@ -93,6 +93,7 @@ OC.L10N.register(
     "When shared hide this event" : "როდესაც გაზიარებულია არ გამოჩნდეს ეს მოვლენა",
     "Status" : "სტატუსი",
     "Confirmed" : "დადასტურებლია",
-    "Categories" : "კატეგორიები"
+    "Categories" : "კატეგორიები",
+    "Hidden" : "უჩინარი"
 },
 "nplurals=2; plural=(n!=1);");

@@ -31,7 +31,6 @@ OC.L10N.register(
     "Deleted" : "ลบแล้ว",
     "Restore" : "คืนค่า",
     "Delete permanently" : "ลบแบบถาวร",
-    "Hidden" : "ซ่อนอยู่",
     "Share link" : "แชร์ลิงก์",
     "can edit" : "สามารถแก้ไข",
     "Share with users or groups" : "แชร์กับผู้ใช้หรือกลุ่ม",
@@ -81,6 +80,7 @@ OC.L10N.register(
     "Resources" : "ทรัพยากร",
     "Yes" : "ใช่",
     "No" : "ไม่ตกลง",
+    "None" : "ไม่มี",
     "Create" : "สร้าง",
     "Pick a date" : "เลือกวันที่",
     "Global" : "ทั่วไป",
@@ -103,6 +103,7 @@ OC.L10N.register(
     "When shared hide this event" : "เมื่อแชร์จะซ่อนกิจกรรมนี้",
     "Status" : "สถานะ",
     "Confirmed" : "ยืนยันแล้ว",
-    "Categories" : "หมวดหมู่"
+    "Categories" : "หมวดหมู่",
+    "Hidden" : "ซ่อนอยู่"
 },
 "nplurals=1; plural=0;");

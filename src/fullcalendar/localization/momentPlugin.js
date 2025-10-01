@@ -1,9 +1,9 @@
+import { createPlugin } from '@fullcalendar/core'
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import moment from '@nextcloud/moment'
-import { createPlugin } from '@fullcalendar/core'
 import useSettingsStore from '../../store/settings.js'
 
 /**
@@ -13,7 +13,7 @@ import useSettingsStore from '../../store/settings.js'
  * @param {number[]} data.array Input data to initialize moment
  * @return {moment.Moment}
  */
-const momentFactory = ({ array }) => {
+function momentFactory({ array }) {
 	const settingsStore = useSettingsStore()
 	return moment(array).locale(settingsStore.momentLocale)
 }
@@ -25,7 +25,7 @@ const momentFactory = ({ array }) => {
  * @param {object} arg An Object containing the date, etc.
  * @return {function(string, string):string} cmdFormatter function
  */
-const cmdFormatter = (cmdStr, arg) => {
+function cmdFormatter(cmdStr, arg) {
 	// With our specific DateFormattingConfig,
 	// cmdStr will always be a moment parsable string
 	// like LT, etc.

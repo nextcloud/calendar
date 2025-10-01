@@ -5,7 +5,8 @@
 
 <template>
 	<div>
-		<div v-if="showPopover && !isViewing"
+		<div
+			v-if="showPopover && !isViewing"
 			ref="mask"
 			class="modal-mask"
 			:class="{
@@ -14,8 +15,10 @@
 			}"
 			role="dialog"
 			aria-modal="true"
-			tabindex="-1" />
-		<NcPopover ref="popover"
+			tabindex="-1"
+			@click.self="cancel(false)" />
+		<NcPopover
+			ref="popover"
 			:shown="showPopover"
 			:auto-hide="false"
 			:placement="placement"
@@ -26,7 +29,7 @@
 				<!-- Dummy slot to silence vue warning regarding a custom trigger -->
 				<button v-bind="attrs" style="display: none" />
 			</template>
-			<div class="event-popover__inner">
+			<div class="event-popover__inner edit-simple">
 				<template v-if="isLoading && !isSaving">
 					<PopoverLoadingIndicator />
 				</template>
@@ -52,9 +55,9 @@
 
 				<template v-else>
 					<div class="event-popover__top-actions">
-						<NcPopover v-if="isViewedByOrganizer === false" :focus-trap="false">
+						<NcPopover v-if="isViewedByOrganizer === false" :no-focus-trap="true">
 							<template #trigger>
-								<NcButton type="tertiary-no-background">
+								<NcButton variant="tertiary-no-background">
 									<template #icon>
 										<HelpCircleIcon :size="20" />
 									</template>
@@ -67,7 +70,8 @@
 							</template>
 						</NcPopover>
 						<Actions v-if="!isLoading && !isError && !isNew" :force-menu="true">
-							<ActionLink v-if="!hideEventExport && hasDownloadURL"
+							<ActionLink
+								v-if="!hideEventExport && hasDownloadURL"
 								:href="downloadURL">
 								<template #icon>
 									<Download :size="20" decorative />
@@ -109,17 +113,20 @@
 						</Actions>
 					</div>
 
-					<CalendarPickerHeader :value="selectedCalendar"
+					<CalendarPickerHeader
+						:value="selectedCalendar"
 						:calendars="calendars"
 						:is-read-only="isReadOnlyOrViewing || !canModifyCalendar"
 						:is-viewed-by-attendee="isViewedByOrganizer === false"
 						@update:value="changeCalendar" />
 
-					<PropertyTitle :value="titleOrPlaceholder"
+					<PropertyTitle
+						:value="titleOrPlaceholder"
 						:is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
 						@update:value="updateTitle" />
 
-					<PropertyTitleTimePicker :start-date="startDate"
+					<PropertyTitleTimePicker
+						:start-date="startDate"
 						:start-timezone="startTimezone"
 						:end-date="endDate"
 						:end-timezone="endTimezone"
@@ -138,7 +145,8 @@
 
 					<div v-if="!isReadOnlyOrViewing" class="app-full__header__details">
 						<div class="app-full__header__details-time">
-							<NcCheckboxRadioSwitch :checked="isAllDay"
+							<NcCheckboxRadioSwitch
+								:checked="isAllDay"
 								:disabled="!canModifyAllDay"
 								@update:checked="toggleAllDayPreliminary">
 								{{ $t('calendar', 'All day') }}
@@ -146,19 +154,22 @@
 						</div>
 					</div>
 
-					<PropertyText :is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
+					<PropertyText
+						:is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
 						:prop-model="rfcProps.location"
 						:value="location"
 						:linkify-links="true"
 						@update:value="updateLocation" />
-					<PropertyText :is-read-only="isReadOnlyOrViewing"
+					<PropertyText
+						:is-read-only="isReadOnlyOrViewing"
 						:prop-model="rfcProps.description"
 						:value="description"
 						:linkify-links="true"
 						:is-description="true"
 						@update:value="updateDescription" />
 
-					<InviteesList v-if="!isViewing || (isViewing && hasAttendees)"
+					<InviteesList
+						v-if="!isViewing || (isViewing && hasAttendees)"
 						class="event-popover__invitees"
 						:hide-buttons="true"
 						:hide-errors="true"
@@ -169,7 +180,8 @@
 						:calendar-object-instance="calendarObjectInstance"
 						:limit="3" />
 
-					<InvitationResponseButtons v-if="isViewedByAttendee && isViewing"
+					<InvitationResponseButtons
+						v-if="isViewedByAttendee && isViewing"
 						class="event-popover__response-buttons"
 						:attendee="userAsAttendee"
 						:calendar-id="calendarId"
@@ -177,7 +189,8 @@
 
 					<NcAppNavigationSpacer />
 
-					<SaveButtons v-if="!isWidget"
+					<SaveButtons
+						v-if="!isWidget"
 						class="event-popover__buttons"
 						:can-create-recurrence-exception="canCreateRecurrenceException"
 						:is-new="isNew"
@@ -185,13 +198,13 @@
 						:force-this-and-all-future="forceThisAndAllFuture"
 						:show-more-button="true"
 						:more-button-type="isViewing ? 'tertiary' : undefined"
-						:grow-horizontally="!isViewing && canCreateRecurrenceException"
 						:disabled="isSaving"
 						@save-this-only="saveAndView(false)"
 						@save-this-and-all-future="saveAndView(true)"
 						@show-more="showMore">
-						<NcButton v-if="!isReadOnly && isViewing"
-							:type="isViewedByAttendee ? 'tertiary' : undefined"
+						<NcButton
+							v-if="!isReadOnly && isViewing"
+							:variant="isViewedByAttendee ? 'tertiary' : undefined"
 							@click="isViewing = false">
 							<template #icon>
 								<EditIcon :size="20" />
@@ -202,52 +215,52 @@
 				</template>
 			</div>
 		</ncpopover>
-		<NcDialog :open="showCancelDialog"
+		<NcDialog
+			:open="showCancelDialog"
 			class="cancel-confirmation-dialog"
 			:name="t('calendar', 'Discard changes?')"
 			:message="t('calendar', 'Are you sure you want to discard the changes made to this event?')"
 			:buttons="cancelButtons" />
 	</div>
 </template>
+
 <script>
+import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
+import IconDelete from '@mdi/svg/svg/delete.svg?raw'
 import {
-	NcActions as Actions,
 	NcActionButton as ActionButton,
 	NcActionLink as ActionLink,
+	NcActions as Actions,
 	NcEmptyContent as EmptyContent,
-	NcPopover,
 	NcAppNavigationSpacer,
-	NcButton, NcCheckboxRadioSwitch,
-	NcDialog,
+	NcButton,
+	NcCheckboxRadioSwitch, NcDialog,
+	NcPopover,
 } from '@nextcloud/vue'
-import EditorMixin from '../mixins/EditorMixin.js'
+import { mapState, mapStores } from 'pinia'
+import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
+import Close from 'vue-material-design-icons/Close.vue'
+import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
+import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
+import EditIcon from 'vue-material-design-icons/PencilOutline.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
+import Download from 'vue-material-design-icons/TrayArrowDown.vue'
+import CalendarPickerHeader from '../components/Editor/CalendarPickerHeader.vue'
+import InvitationResponseButtons
+	from '../components/Editor/InvitationResponseButtons.vue'
+import InviteesList from '../components/Editor/Invitees/InviteesList.vue'
+import PropertyText from '../components/Editor/Properties/PropertyText.vue'
 import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'
 import PropertyTitleTimePicker
 	from '../components/Editor/Properties/PropertyTitleTimePicker.vue'
-import PropertyText from '../components/Editor/Properties/PropertyText.vue'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
 import PopoverLoadingIndicator
 	from '../components/Popover/PopoverLoadingIndicator.vue'
-import { getPrefixedRoute } from '../utils/router.js'
-import InvitationResponseButtons
-	from '../components/Editor/InvitationResponseButtons.vue'
-import CalendarPickerHeader from '../components/Editor/CalendarPickerHeader.vue'
-import InviteesList from '../components/Editor/Invitees/InviteesList.vue'
-
-import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
-import Close from 'vue-material-design-icons/Close.vue'
-import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
-import Download from 'vue-material-design-icons/TrayArrowDown.vue'
-import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
-import EditIcon from 'vue-material-design-icons/PencilOutline.vue'
-import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
-import { mapState, mapStores } from 'pinia'
+import EditorMixin from '../mixins/EditorMixin.js'
+import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import useSettingsStore from '../store/settings.js'
 import useWidgetStore from '../store/widget.js'
-import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
-
-import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
-import IconDelete from '@mdi/svg/svg/delete.svg?raw'
+import { getPrefixedRoute } from '../utils/router.js'
 
 export default {
 	name: 'EditSimple',
@@ -277,19 +290,23 @@ export default {
 		NcAppNavigationSpacer,
 		NcDialog,
 	},
+
 	mixins: [
 		EditorMixin,
 	],
+
 	props: {
 		dark: {
 			type: Boolean,
 			default: false,
 		},
+
 		lightBackdrop: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	data() {
 		return {
 			placement: 'auto',
@@ -316,6 +333,7 @@ export default {
 			],
 		}
 	},
+
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore),
 		...mapState(useSettingsStore, ['hideEventExport']),
@@ -352,6 +370,7 @@ export default {
 			return this.title
 		},
 	},
+
 	watch: {
 		$route(to, from) {
 			this.repositionPopover()
@@ -359,6 +378,7 @@ export default {
 			// Hide popover when changing the view until the user selects a slot again
 			this.isVisible = to?.params.view === from?.params.view
 		},
+
 		calendarObjectInstance() {
 			this.hasLocation = false
 			this.hasDescription = false
@@ -374,6 +394,7 @@ export default {
 				this.hasAttendees = true
 			}
 		},
+
 		isNew: {
 			immediate: true,
 			handler(isNew) {
@@ -382,6 +403,7 @@ export default {
 			},
 		},
 	},
+
 	async mounted() {
 		if (this.isWidget) {
 			const objectId = this.widgetEventDetails.object
@@ -400,21 +422,24 @@ export default {
 			this.repositionPopover()
 		})
 	},
+
 	beforeDestroy() {
 		window.removeEventListener('keydown', this.keyboardCloseEditor)
 		window.removeEventListener('keydown', this.keyboardSaveEvent)
 		window.removeEventListener('keydown', this.keyboardDeleteEvent)
 		window.removeEventListener('keydown', this.keyboardDuplicateEvent)
 	},
+
 	methods: {
 		closePopover() {
 			this.showMask = false
 		},
+
 		showMore() {
 			// Do not save yet
 			this.requiresActionOnRouteLeave = false
 
-			const params = Object.assign({}, this.$route.params)
+			const params = { ...this.$route.params }
 			if (this.isNew) {
 				this.$router.push({ name: 'NewFullView', params })
 			} else {
@@ -424,6 +449,7 @@ export default {
 				})
 			}
 		},
+
 		getDomElementForPopover(isNew, route) {
 			let matchingDomObject
 			if (this.isWidget) {
@@ -460,12 +486,14 @@ export default {
 			console.info('getDomElementForPopover', matchingDomObject, this.placement)
 			return matchingDomObject
 		},
+
 		repositionPopover() {
 			const isNew = this.isWidget ? false : this.$route.name === 'NewPopoverView'
 			this.$refs.popover.$children[0].$refs.reference = this.getDomElementForPopover(isNew, this.$route)
 			this.$refs.popover.$children[0].$refs.popper.dispose()
 			this.$refs.popover.$children[0].$refs.popper.init()
 		},
+
 		/**
 		 * Save changes and leave when creating a new event or return to viewing mode when editing
 		 * an existing event. Stay in editing mode if an error occurrs.
@@ -488,6 +516,7 @@ export default {
 				this.isViewing = false
 			}
 		},
+
 		/**
 		 * Toggles the all-day state of an event
 		 */
@@ -506,7 +535,7 @@ export default {
 .event-popover__inner {
 	width: unset !important;
 	min-width: 500px !important;
-	max-height: 100vh !important;
+	max-height: 90vh !important; // leaving some margin makes scrolling easier and ensures elements aren't cut off
 	overflow-y: auto !important;
 }
 
@@ -531,5 +560,83 @@ export default {
 
 .cancel-confirmation-dialog {
 	z-index: 1000000 !important;
+}
+
+.event-popover .event-popover__inner {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 4);
+	text-align: start;
+	max-width: 480px;
+	width: 480px;
+	padding: calc(var(--default-grid-baseline) * 2);
+	padding-top: var(--default-grid-baseline);
+	.empty-content {
+		margin-top: 0 !important;
+		padding: calc(var(--default-grid-baseline) * 12);
+	}
+	.event-popover__invitees {
+		.avatar-participation-status__text {
+			bottom: 22px;
+		}
+	}
+	.event-popover__buttons {
+		margin-top: calc(var(--default-grid-baseline) * 2);
+	}
+	.event-popover__top-actions {
+		display: flex;
+		gap: var(--default-grid-baseline);
+		position: absolute !important;
+		top: var(--default-grid-baseline) !important;
+		z-index: 100 !important;
+		opacity: .7 !important;
+		border-radius: 22px !important;
+		align-items: center;
+		inset-inline-end : var(--default-grid-baseline) !important;
+		.action-item.action-item--single {
+			width: 44px !important;
+			height: 44px !important;
+		}
+	}
+	.popover-loading-indicator {
+		width: 100%;
+		&__icon {
+			margin: 0 auto;
+			height: 62px;
+			width: 62px;
+			background-size: 62px;
+		}
+	}
+
+	.event-popover__response-buttons {
+		margin-top: calc(var(--default-grid-baseline) * 2);
+		margin-bottom: 0;
+	}
+	.property-text {
+		&__icon {
+			margin: 0 !important;
+		}
+	}
+}
+
+.event-popover {
+	// Don't cut popovers above popovers (e.g. date time picker)
+	.v-popper__inner {
+		overflow: unset !important;
+	}
+
+	&[x-out-of-boundaries] {
+		margin-top: 75px;
+	}
+
+	.calendar-picker-header {
+		margin-inline-start: 0 !important;
+	}
+}
+
+.event-popover[x-placement^='bottom'] {
+	.popover__arrow {
+		border-block-end-color: var(--color-background-dark);
+	}
 }
 </style>

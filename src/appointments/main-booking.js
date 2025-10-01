@@ -5,14 +5,13 @@
 
 import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
-import { linkTo } from '@nextcloud/router'
 import { translate, translatePlural } from '@nextcloud/l10n'
+import { linkTo } from '@nextcloud/router'
 import Vue from 'vue'
-
 import Booking from '../views/Appointments/Booking.vue'
 
 // CSP config for webpack dynamic chunk loading
-// eslint-disable-next-line
+
 __webpack_nonce__ = btoa(getRequestToken())
 
 // Correct the root of the app for chunk loading
@@ -34,7 +33,7 @@ const visitorInfo = loadState('calendar', 'visitorInfo', {
 
 export default new Vue({
 	el: '#appointment-booking',
-	render: h => h(Booking, {
+	render: (h) => h(Booking, {
 		props: {
 			config,
 			userInfo,

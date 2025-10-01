@@ -4,18 +4,22 @@
 -->
 
 <template>
-	<div v-if="display"
+	<div
+		v-if="display"
 		class="property-select"
 		:class="{ 'property-select--readonly': isReadOnly }">
-		<div class="property-select__input"
+		<div
+			class="property-select__input"
 			:class="{ 'property-select__input--readonly-calendar-picker': isReadOnly }">
-			<CalendarPicker v-if="!isReadOnly"
+			<CalendarPicker
+				v-if="!isReadOnly"
 				:value="calendar"
 				:calendars="calendars"
 				:show-calendar-on-select="true"
 				@select-calendar="selectCalendar" />
 
-			<CalendarPickerOption v-else
+			<CalendarPickerOption
+				v-else
 				:color="calendar.color"
 				:display-name="calendar.displayName"
 				:is-shared-with-me="calendar.isSharedWithMe"
@@ -34,25 +38,30 @@ export default {
 		CalendarPickerOption,
 		CalendarPicker,
 	},
+
 	props: {
 		calendar: {
 			type: Object,
 			default: undefined,
 		},
+
 		calendars: {
 			type: Array,
 			required: true,
 		},
+
 		isReadOnly: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
 	computed: {
 		display() {
 			return this.calendar !== undefined
 		},
 	},
+
 	methods: {
 		/**
 		 * Emits the select calendar event

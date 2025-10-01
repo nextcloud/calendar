@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<DateTimePicker :value="date"
+	<DateTimePicker
+		:value="date"
 		type="time"
 		:hide-label="true"
 		v-bind="$attrs"
@@ -21,21 +22,25 @@ export default {
 	components: {
 		DateTimePicker,
 	},
+
 	props: {
 		date: {
 			type: Date,
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 		}
 	},
+
 	computed: {
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',
 		}),
 	},
+
 	methods: {
 		/**
 		 * Emits a change event for the Date

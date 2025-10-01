@@ -1,15 +1,15 @@
+import { getCurrentUser } from '@nextcloud/auth'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import HTTPClient from '@nextcloud/axios'
-import { translate as t } from '@nextcloud/l10n'
-import { generateUrl, generateOcsUrl, getBaseUrl } from '@nextcloud/router'
 import { loadState } from '@nextcloud/initial-state'
-import { getCurrentUser } from '@nextcloud/auth'
-import logger from '../utils/logger.js'
-import { removeMailtoPrefix } from '../utils/attendee.js'
+import { translate as t } from '@nextcloud/l10n'
+import { generateOcsUrl, generateUrl, getBaseUrl } from '@nextcloud/router'
 import md5 from 'md5'
+import { removeMailtoPrefix } from '../utils/attendee.js'
+import logger from '../utils/logger.js'
 
 /**
  * Creates a new public talk room
@@ -20,6 +20,7 @@ import md5 from 'md5'
  *
  * @return {Promise<string>}
  */
+// eslint-disable-next-line no-unused-vars
 export async function createTalkRoom(eventTitle = null, eventDescription = null, attendees = []) {
 	const apiVersion = loadState('calendar', 'talk_api_version')
 	let response
@@ -76,7 +77,7 @@ export async function updateTalkParticipants(eventComponent) {
 		const { data: { ocs: { data: room } } } = await HTTPClient.get(generateOcsUrl('apps/spreed/api/' + apiVersion + '/', 2) + 'room/' + token)
 		const participantsResponse = await HTTPClient.get(generateOcsUrl('apps/spreed/api/' + apiVersion + '/', 2) + 'room/' + token + '/participants')
 		// Ignore if the actor isn't owner of the conversation
-		if (!participantsResponse.data.ocs.data.some(participant => participant.actorId === getCurrentUser().uid && participant.participantType <= 2)) {
+		if (!participantsResponse.data.ocs.data.some((participant) => participant.actorId === getCurrentUser().uid && participant.participantType <= 2)) {
 			logger.debug('Current user is not a moderator or owner', { currentUser: getCurrentUser().uid, conversation: participantsResponse.data.ocs.data })
 			return
 		}

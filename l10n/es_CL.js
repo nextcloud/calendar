@@ -29,7 +29,6 @@ OC.L10N.register(
     "Restore" : "Restaurar",
     "Delete permanently" : "Borrar permanentemente",
     "Deck" : "Deck",
-    "Hidden" : "Oculto",
     "Share link" : "Compartir liga",
     "can edit" : "puede editar",
     "Share with users or groups" : "Compartir con otros usuarios o grupos",
@@ -76,6 +75,7 @@ OC.L10N.register(
     "Resources" : "Recursos",
     "available" : "disponible",
     "Yes" : "Si",
+    "None" : "Ninguno",
     "Global" : "Global",
     "Subscribe" : "Suscribir",
     "Personal" : "Personal",
@@ -97,6 +97,7 @@ OC.L10N.register(
     "Status" : "Estatus",
     "Confirmed" : "Confirmado",
     "Categories" : "Categorías",
-    "User not found" : "No se encontró el usuario"
+    "User not found" : "No se encontró el usuario",
+    "Hidden" : "Oculto"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

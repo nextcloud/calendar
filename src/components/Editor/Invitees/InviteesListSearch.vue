@@ -4,12 +4,13 @@
 -->
 
 <template>
-	<NcSelect class="invitees-search__vselect"
+	<NcSelect
+		class="invitees-search__vselect"
 		:options="matches"
 		:searchable="true"
 		:max-height="600"
 		:placeholder="placeholder"
-		:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
+		:class="{ showContent: inputGiven, 'icon-loading': isLoading }"
 		:clearable="false"
 		:label-outside="true"
 		input-id="uid"
@@ -19,7 +20,8 @@
 		<template #option="option">
 			<div class="invitees-search-list-item">
 				<!-- We need to specify a unique key here for the avatar to be reactive. -->
-				<Avatar v-if="option.isUser"
+				<Avatar
+					v-if="option.isUser"
 					:key="option.uid"
 					:user="option.avatar"
 					:display-name="option.dropdownName" />
@@ -28,7 +30,8 @@
 						<GoogleCirclesCommunitiesIcon :size="20" />
 					</template>
 				</Avatar>
-				<Avatar v-if="!option.isUser && option.type !== 'circle'"
+				<Avatar
+					v-if="!option.isUser && option.type !== 'circle'"
 					:key="option.uid"
 					:url="option.avatar"
 					:display-name="option.commonName" />
@@ -50,23 +53,23 @@
 </template>
 
 <script>
+import HttpClient from '@nextcloud/axios'
+import { showInfo } from '@nextcloud/dialogs'
+import { linkTo } from '@nextcloud/router'
 import {
 	NcAvatar as Avatar,
 	NcSelect,
 } from '@nextcloud/vue'
-import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
-import isCirclesEnabled from '../../../services/isCirclesEnabled.js'
-import {
-	circleSearchByName,
-	circleGetMembers,
-} from '../../../services/circleService.js'
-import HttpClient from '@nextcloud/axios'
 import debounce from 'debounce'
-import { linkTo } from '@nextcloud/router'
-import { randomId } from '../../../utils/randomId.js'
 import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCirclesCommunities.vue'
-import { showInfo } from '@nextcloud/dialogs'
+import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
+import {
+	circleGetMembers,
+	circleSearchByName,
+} from '../../../services/circleService.js'
+import isCirclesEnabled from '../../../services/isCirclesEnabled.js'
 import { removeMailtoPrefix } from '../../../utils/attendee.js'
+import { randomId } from '../../../utils/randomId.js'
 
 export default {
 	name: 'InviteesListSearch',
@@ -75,16 +78,19 @@ export default {
 		NcSelect,
 		GoogleCirclesCommunitiesIcon,
 	},
+
 	props: {
 		alreadyInvitedEmails: {
 			type: Array,
 			required: true,
 		},
+
 		organizer: {
 			type: Object,
 			required: false,
 		},
 	},
+
 	data() {
 		return {
 			isLoading: false,
@@ -93,14 +99,17 @@ export default {
 			isCirclesEnabled,
 		}
 	},
+
 	computed: {
 		placeholder() {
 			return this.$t('calendar', 'Search for emails, users, contacts, contact groups or teams')
 		},
+
 		noResult() {
 			return this.$t('calendar', 'No match found')
 		},
 	},
+
 	methods: {
 		findAttendees: debounce(async function(query) {
 			this.isLoading = true
@@ -156,8 +165,8 @@ export default {
 
 			this.matches = matches
 		}, 500),
-		addAttendee(selectedValue) {
 
+		addAttendee(selectedValue) {
 			if (selectedValue.type === 'circle') {
 				showInfo(this.$t('calendar', 'Note that members of circles get invited but are not synced yet.'))
 				this.resolveCircleMembers(selectedValue.id)
@@ -179,6 +188,7 @@ export default {
 			}
 			this.$emit('add-attendee', selectedValue)
 		},
+
 		async resolveCircleMembers(circleId) {
 			let results
 			try {
@@ -196,6 +206,7 @@ export default {
 				}
 			})
 		},
+
 		async getContactGroupMembers(groupName) {
 			let results
 			try {
@@ -213,6 +224,7 @@ export default {
 				}
 			})
 		},
+
 		async findAttendeesFromContactsAPI(query) {
 			let response
 
@@ -277,6 +289,7 @@ export default {
 				return arr
 			}, [])
 		},
+
 		async findAttendeesFromDAV(query) {
 			let results
 			try {
@@ -314,6 +327,7 @@ export default {
 				}
 			})
 		},
+
 		async findAttendeesFromCircles(query) {
 			let results
 			try {

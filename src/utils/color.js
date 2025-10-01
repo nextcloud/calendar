@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import convert from 'color-convert'
-import { uidToColor } from './uidToColor.js'
 import css3Colors from 'css-color-names'
 import closestColor from './closestColor.js'
+import { uidToColor } from './uidToColor.js'
 
 /**
  * Detect if a color is light or dark
@@ -51,7 +51,7 @@ export function generateTextColorForRGB({ red, green, blue }) {
  * @return {string} the RGB result
  */
 export function hexToRGB(hexColor) {
-	if (hexColor == null) {
+	if (hexColor === null) {
 		return { red: 0, green: 0, blue: 0 }
 	}
 	const [red, green, blue] = convert.hex.rgb(hexColor.slice(1))
@@ -87,7 +87,6 @@ export function detectColor(color) {
 	}
 
 	return false
-
 }
 
 /**

@@ -26,7 +26,7 @@ export function getDefaultCategories() {
 		t('calendar', 'Travel'),
 		t('calendar', 'Vacation'),
 	]
-	return values.map(value => ({ value, label: value }))
+	return values.map((value) => ({ value, label: value }))
 }
 
 export default getDefaultCategories

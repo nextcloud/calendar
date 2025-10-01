@@ -38,7 +38,6 @@ OC.L10N.register(
     "Restore" : "Restaurar",
     "Delete permanently" : "Borrar permanentemente",
     "Deck" : "Deck",
-    "Hidden" : "Oculto",
     "Copy internal link" : "Copiar enlace interno",
     "Share link" : "Compartir link",
     "Copy public link" : "Copiar link publico",
@@ -100,6 +99,7 @@ OC.L10N.register(
     "Resources" : "Recursos",
     "available" : "disponible",
     "Yes" : "Sí",
+    "None" : "Ninguno",
     "Global" : "Global",
     "Subscribe" : "Suscribirse",
     "Select a date" : "Elija una fecha",
@@ -122,6 +122,7 @@ OC.L10N.register(
     "When shared hide this event" : "Al compartir, ocultar este evento ",
     "Status" : "Estatus",
     "Confirmed" : "Confirmado",
-    "Categories" : "Categoría"
+    "Categories" : "Categoría",
+    "Hidden" : "Oculto"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

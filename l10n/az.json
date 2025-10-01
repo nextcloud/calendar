@@ -17,7 +17,6 @@
     "Deleted" : "Silinib",
     "Restore" : "Geri qaytar",
     "Delete permanently" : "Həmişəlik sil",
-    "Hidden" : "Gizli",
     "Share link" : "Linki yayımla",
     "can edit" : "dəyişmək olar",
     "Save" : "Saxla",
@@ -56,6 +55,7 @@
     "Resources" : "Resurslar",
     "Yes" : "Bəli",
     "No" : "Xeyir",
+    "None" : "Heç bir",
     "Subscribe" : "Abunə",
     "Personal" : "Şəxsi",
     "Edit event" : "Hadisəni dəyişdir",
@@ -65,6 +65,7 @@
     "second" : "saniyə",
     "Other" : "Digər",
     "Status" : "Status",
-    "Categories" : "Kateqoriyalar"
+    "Categories" : "Kateqoriyalar",
+    "Hidden" : "Gizli"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

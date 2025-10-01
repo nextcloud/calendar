@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { DateTimeValue, DurationValue } from '@nextcloud/calendar-js'
+import { getClosestCSS3ColorNameForHex, getHexForColorName } from '../utils/color.js'
 import { getDateFromDateTimeValue } from '../utils/date.js'
-import { DurationValue, DateTimeValue } from '@nextcloud/calendar-js'
-import { getHexForColorName, getClosestCSS3ColorNameForHex } from '../utils/color.js'
 import { mapAlarmComponentToAlarmObject } from './alarm.js'
-import { mapAttendeePropertyToAttendeeObject } from './attendee.js'
 import { mapAttachmentPropertyToAttchmentObject } from './attachment.js'
+import { mapAttendeePropertyToAttendeeObject } from './attendee.js'
 import {
 	getDefaultRecurrenceRuleObject,
 	mapRecurrenceRuleValueToRecurrenceRuleObject,
@@ -20,65 +20,67 @@ import {
  * @param {object} props The props already provided
  * @return {object}
  */
-const getDefaultEventObject = (props = {}) => Object.assign({}, {
-	// The real event-component coming from calendar-js
-	eventComponent: null,
-	// Title of the event
-	title: null,
-	// Start date of the event
-	startDate: null,
-	// Timezone of the start date
-	startTimezoneId: null,
-	// End date of the event
-	endDate: null,
-	// Timezone of the end date
-	endTimezoneId: null,
-	// Indicator whether or not event is all-day
-	isAllDay: false,
-	// Whether or not the user is allowed to toggle the all-day checkbox
-	canModifyAllDay: true,
-	// Location that the event takes places in
-	location: null,
-	// description of the event
-	description: null,
-	// Access class of the event (PUBLIC, PRIVATE, CONFIDENTIAL)
-	accessClass: null,
-	// Status of the event (CONFIRMED, TENTATIVE, CANCELLED)
-	status: null,
-	// Whether or not to block this event in Free-Busy reports (TRANSPARENT, OPAQUE)
-	timeTransparency: null,
-	// The recurrence rule of this event. We only support one recurrence-rule
-	recurrenceRule: getDefaultRecurrenceRuleObject(),
-	// Whether or not this event has multiple recurrence-rules
-	hasMultipleRRules: false,
-	// Whether or not this is the master item
-	isMasterItem: false,
-	// Whether or not this is a recurrence-exception
-	isRecurrenceException: false,
-	// Whether or not the applied modifications require to update this and all future
-	forceThisAndAllFuture: false,
-	// Whether or not it's possible to create a recurrence-exception for this event
-	canCreateRecurrenceException: false,
-	// Attendees of this event
-	attendees: [],
-	// Organizer of the event
-	organizer: null,
-	// Alarm of the event
-	alarms: [],
-	// Custom color of the event
-	customColor: null,
-	// Categories
-	categories: [],
-	// Attachments of this event
-	attachments: [],
-}, props)
+function getDefaultEventObject(props = {}) {
+	return { // The real event-component coming from calendar-js
+		eventComponent: null,
+		// Title of the event
+		title: null,
+		// Start date of the event
+		startDate: null,
+		// Timezone of the start date
+		startTimezoneId: null,
+		// End date of the event
+		endDate: null,
+		// Timezone of the end date
+		endTimezoneId: null,
+		// Indicator whether or not event is all-day
+		isAllDay: false,
+		// Whether or not the user is allowed to toggle the all-day checkbox
+		canModifyAllDay: true,
+		// Location that the event takes places in
+		location: null,
+		// description of the event
+		description: null,
+		// Access class of the event (PUBLIC, PRIVATE, CONFIDENTIAL)
+		accessClass: null,
+		// Status of the event (CONFIRMED, TENTATIVE, CANCELLED)
+		status: null,
+		// Whether or not to block this event in Free-Busy reports (TRANSPARENT, OPAQUE)
+		timeTransparency: null,
+		// The recurrence rule of this event. We only support one recurrence-rule
+		recurrenceRule: getDefaultRecurrenceRuleObject(),
+		// Whether or not this event has multiple recurrence-rules
+		hasMultipleRRules: false,
+		// Whether or not this is the master item
+		isMasterItem: false,
+		// Whether or not this is a recurrence-exception
+		isRecurrenceException: false,
+		// Whether or not the applied modifications require to update this and all future
+		forceThisAndAllFuture: false,
+		// Whether or not it's possible to create a recurrence-exception for this event
+		canCreateRecurrenceException: false,
+		// Attendees of this event
+		attendees: [],
+		// Organizer of the event
+		organizer: null,
+		// Alarm of the event
+		alarms: [],
+		// Custom color of the event
+		customColor: null,
+		// Categories
+		categories: [],
+		// Attachments of this event
+		attachments: [],
+		...props,
+	}
+}
 
 /**
  *
  * @param {EventComponent} eventComponent The calendar-js eventComponent
  * @return {object}
  */
-const mapEventComponentToEventObject = (eventComponent) => {
+function mapEventComponentToEventObject(eventComponent) {
 	const eventObject = getDefaultEventObject({
 		eventComponent,
 		title: eventComponent.title,
@@ -180,7 +182,7 @@ const mapEventComponentToEventObject = (eventComponent) => {
  * @param {EventComponent} eventComponent The calendar-js EventComponent object
  * @param {boolean} resetAttendeeStatus Whether or not to reset the attendee status
  */
-const copyCalendarObjectInstanceIntoEventComponent = (eventObject, eventComponent, resetAttendeeStatus = false) => {
+function copyCalendarObjectInstanceIntoEventComponent(eventObject, eventComponent, resetAttendeeStatus = false) {
 	eventComponent.title = eventObject.title
 	eventComponent.location = eventObject.location
 	eventComponent.description = eventObject.description
@@ -225,7 +227,7 @@ const copyCalendarObjectInstanceIntoEventComponent = (eventObject, eventComponen
 }
 
 export {
+	copyCalendarObjectInstanceIntoEventComponent,
 	getDefaultEventObject,
 	mapEventComponentToEventObject,
-	copyCalendarObjectInstanceIntoEventComponent,
 }

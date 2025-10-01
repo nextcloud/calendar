@@ -41,7 +41,6 @@ OC.L10N.register(
     "Restore" : "Сэргээх",
     "Delete permanently" : "бүр мөсөн устгах",
     "Deck" : "Ажлын талбар",
-    "Hidden" : "Далд",
     "Share link" : "Холбоос хуваалцах",
     "can edit" : "засаж чадна",
     "Share with users or groups" : "Бусад хэрэглэгч, бүлэгт хуваалцах",
@@ -79,6 +78,7 @@ OC.L10N.register(
     "Repeat" : "Давтах",
     "never" : "хэзээ ч үгүй",
     "after" : "дараа",
+    "None" : "юу ч үгүй",
     "Create" : "үүсгэх",
     "Global" : "Нийтийн",
     "Subscribe" : "Захиалга",
@@ -95,6 +95,7 @@ OC.L10N.register(
     "When shared hide this event" : "Түгээсэн тохиолдолд энэ үйл явдлыг нуу",
     "Status" : "төлөв",
     "Confirmed" : "Баталгаажсан",
-    "Categories" : "төрөл"
+    "Categories" : "төрөл",
+    "Hidden" : "Далд"
 },
 "nplurals=2; plural=(n != 1);");

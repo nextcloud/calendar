@@ -9,7 +9,7 @@
  * @param {File} file The file object to get contents from
  * @return {Promise<string>}
  */
-export const readFileAsText = (file) => {
+export function readFileAsText(file) {
 	const fileReader = new FileReader()
 
 	return new Promise((resolve, reject) => {

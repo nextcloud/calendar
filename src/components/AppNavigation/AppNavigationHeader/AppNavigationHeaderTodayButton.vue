@@ -3,39 +3,37 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<template>
-	<Hotkey :keys="['t']" @hotkey="today">
-		<NcButton class="button today"
-			@click="today">
-			{{ $t('calendar', 'Today') }}
-		</NcButton>
-	</Hotkey>
-</template>
-
-<script>
+<script setup lang="ts">
+import { t } from '@nextcloud/l10n'
 import { NcButton } from '@nextcloud/vue'
-import { Hotkey } from '@simolation/vue-hotkey'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+import { useRoute, useRouter } from 'vue-router/composables'
 
-export default {
-	name: 'AppNavigationHeaderTodayButton',
-	components: {
-		NcButton,
-		Hotkey,
-	},
-	methods: {
-		today() {
-			const name = this.$route.name
-			const params = Object.assign({}, this.$route.params, {
-				firstDay: 'now',
-			})
+const route = useRoute()
+const router = useRouter()
 
-			// Don't push new route when day didn't change
-			if (this.$route.params.firstDay === 'now') {
-				return
-			}
+async function today(): Promise<void> {
+	// Don't push new route when day didn't change
+	if (route.params.firstDay === 'now') {
+		return
+	}
 
-			this.$router.push({ name, params })
-		},
-	},
+	const name = route.name!
+	const params = {
+		...route.params,
+		firstDay: 'now',
+	}
+
+	await router.push({ name, params })
 }
+
+useHotKey('t', () => today())
 </script>
+
+<template>
+	<NcButton
+		class="button today"
+		@click="today">
+		{{ t('calendar', 'Today') }}
+	</NcButton>
+</template>

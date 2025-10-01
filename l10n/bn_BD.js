@@ -16,7 +16,6 @@ OC.L10N.register(
     "Name" : "নাম",
     "Deleted" : "মুছে ফেলা",
     "Restore" : "ফিরিয়ে দাও",
-    "Hidden" : "লুকনো",
     "Share link" : "লিংক ভাগাভাগি করেন",
     "can edit" : "সম্পাদনা করতে পারবেন",
     "Save" : "সংরক্ষণ",
@@ -53,6 +52,7 @@ OC.L10N.register(
     "never" : "কখনোই নয়",
     "Yes" : "হ্যাঁ",
     "No" : "না",
+    "None" : "কোনটিই নয়",
     "Subscribe" : "গ্রাহক হোন",
     "Personal" : "ব্যক্তিগত",
     "Edit event" : "ইভেন্ট সম্পাদনা করুন",
@@ -60,6 +60,7 @@ OC.L10N.register(
     "Daily" : "দৈনিক",
     "Weekly" : "সাপ্তাহিক",
     "second" : "সেকেন্ড",
-    "Other" : "অন্যান্য"
+    "Other" : "অন্যান্য",
+    "Hidden" : "লুকনো"
 },
 "nplurals=2; plural=(n != 1);");

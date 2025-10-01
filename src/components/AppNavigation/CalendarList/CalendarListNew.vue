@@ -5,8 +5,9 @@
 
 <template>
 	<div>
-		<NcAppNavigationCaption class="app-navigation-entry-new-calendar"
-			:class="{'app-navigation-entry-new-calendar--open': isOpen}"
+		<NcAppNavigationCaption
+			class="app-navigation-entry-new-calendar"
+			:class="{ 'app-navigation-entry-new-calendar--open': isOpen }"
 			:name="$t('calendar', 'Calendars')"
 			:menu-open.sync="isOpen"
 			@click.prevent.stop="toggleDialog">
@@ -14,67 +15,77 @@
 				<Plus :size="20" :title="$t('calendar', 'Add new')" decorative />
 			</template>
 			<template #actions>
-				<ActionButton v-if="showCreateCalendarLabel"
+				<ActionButton
+					v-if="showCreateCalendarLabel"
 					@click.prevent.stop="openCreateCalendarInput">
 					<template #icon>
 						<CalendarBlank :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'New calendar') }}
 				</ActionButton>
-				<ActionInput v-if="showCreateCalendarInput"
+				<ActionInput
+					v-if="showCreateCalendarInput"
 					:aria-label="$t('calendar', 'Name for new calendar')"
 					@submit.prevent.stop="createNewCalendar">
 					<template #icon>
 						<CalendarBlank :size="20" decorative />
 					</template>
 				</ActionInput>
-				<ActionText v-if="showCreateCalendarSaving"
+				<ActionText
+					v-if="showCreateCalendarSaving"
 					icon="icon-loading-small">
 					<!-- eslint-disable-next-line no-irregular-whitespace -->
 					{{ $t('calendar', 'Creating calendar …') }}
 				</ActionText>
 
-				<ActionButton v-if="showCreateCalendarTaskListLabel"
+				<ActionButton
+					v-if="showCreateCalendarTaskListLabel"
 					@click.prevent.stop="openCreateCalendarTaskListInput">
 					<template #icon>
 						<CalendarCheck :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'New calendar with task list') }}
 				</ActionButton>
-				<ActionInput v-if="showCreateCalendarTaskListInput"
+				<ActionInput
+					v-if="showCreateCalendarTaskListInput"
 					:aria-label="$t('calendar', 'Name for new calendar')"
 					@submit.prevent.stop="createNewCalendarTaskList">
 					<template #icon>
 						<CalendarCheck :size="20" decorative />
 					</template>
 				</ActionInput>
-				<ActionText v-if="showCreateCalendarTaskListSaving"
+				<ActionText
+					v-if="showCreateCalendarTaskListSaving"
 					icon="icon-loading-small">
 					<!-- eslint-disable-next-line no-irregular-whitespace -->
 					{{ $t('calendar', 'Creating calendar …') }}
 				</ActionText>
 
 				<ActionSeparator v-if="canSubscribeLink" />
-				<ActionButton v-if="showCreateSubscriptionLabel && canSubscribeLink"
+				<ActionButton
+					v-if="showCreateSubscriptionLabel && canSubscribeLink"
 					@click.prevent.stop="openCreateSubscriptionInput">
 					<template #icon>
 						<LinkIcon :size="20" decorative />
 					</template>
 					{{ $t('calendar', 'New subscription from link (read-only)') }}
 				</ActionButton>
-				<ActionInput v-if="showCreateSubscriptionInput"
+				<ActionInput
+					v-if="showCreateSubscriptionInput"
 					:aria-label="$t('calendar', 'Name for new calendar')"
 					@submit.prevent.stop="createNewSubscription">
 					<template #icon>
 						<LinkIcon :size="20" decorative />
 					</template>
 				</ActionInput>
-				<ActionText v-if="showCreateSubscriptionSaving"
+				<ActionText
+					v-if="showCreateSubscriptionSaving"
 					icon="icon-loading-small">
 					<!-- eslint-disable-next-line no-irregular-whitespace -->
 					{{ $t('calendar', 'Creating subscription …') }}
 				</ActionText>
-				<ActionButton v-if="canSubscribeLink"
+				<ActionButton
+					v-if="canSubscribeLink"
 					:close-after-click="true"
 					@click="showHolidaySubscriptionPicker = true">
 					{{ t('calendar', 'Add public holiday calendar') }}
@@ -82,7 +93,8 @@
 						<Web :size="20" decorative />
 					</template>
 				</ActionButton>
-				<ActionButton v-if="hasPublicCalendars"
+				<ActionButton
+					v-if="hasPublicCalendars"
 					:close-after-click="true"
 					@click="showPublicCalendarSubscriptionPicker = true">
 					{{ t('calendar', 'Add custom public calendar') }}
@@ -92,15 +104,20 @@
 				</ActionButton>
 			</template>
 		</NcAppNavigationCaption>
-		<PublicCalendarSubscriptionPicker v-if="showHolidaySubscriptionPicker"
+		<PublicCalendarSubscriptionPicker
+			v-if="showHolidaySubscriptionPicker"
 			:show-holidays="true"
 			@close="showHolidaySubscriptionPicker = false" />
-		<PublicCalendarSubscriptionPicker v-if="showPublicCalendarSubscriptionPicker"
+		<PublicCalendarSubscriptionPicker
+			v-if="showPublicCalendarSubscriptionPicker"
 			@close="showPublicCalendarSubscriptionPicker = false" />
 	</div>
 </template>
 
 <script>
+import {
+	showError,
+} from '@nextcloud/dialogs'
 import {
 	NcActionButton as ActionButton,
 	NcActionInput as ActionInput,
@@ -108,20 +125,15 @@ import {
 	NcActionText as ActionText,
 	NcAppNavigationCaption,
 } from '@nextcloud/vue'
-import {
-	showError,
-} from '@nextcloud/dialogs'
-
-import { uidToHexColor } from '../../../utils/color.js'
-
+import { mapState, mapStores } from 'pinia'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
 import CalendarCheck from 'vue-material-design-icons/CalendarCheckOutline.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
 import Web from 'vue-material-design-icons/Web.vue'
-import { mapStores, mapState } from 'pinia'
 import useCalendarsStore from '../../../store/calendars.js'
 import useSettingsStore from '../../../store/settings.js'
+import { uidToHexColor } from '../../../utils/color.js'
 
 export default {
 	name: 'CalendarListNew',
@@ -138,6 +150,7 @@ export default {
 		Plus,
 		Web,
 	},
+
 	data() {
 		return {
 			// Open state
@@ -158,13 +171,16 @@ export default {
 			showPublicCalendarSubscriptionPicker: false,
 		}
 	},
+
 	computed: {
 		...mapState(useSettingsStore, {
 			canSubscribeLink: 'canSubscribeLink',
-			hasPublicCalendars: store => Boolean(store.publicCalendars),
+			hasPublicCalendars: (store) => Boolean(store.publicCalendars),
 		}),
+
 		...mapStores(useCalendarsStore),
 	},
+
 	watch: {
 		isOpen() {
 			if (this.isOpen) {
@@ -174,6 +190,7 @@ export default {
 			this.closeMenu()
 		},
 	},
+
 	methods: {
 		/**
 		 * Opens the Actions menu when clicking on the main item label
@@ -181,6 +198,7 @@ export default {
 		toggleDialog() {
 			this.isOpen = !this.isOpen
 		},
+
 		/**
 		 * Opens the create calendar input
 		 */
@@ -195,6 +213,7 @@ export default {
 			this.showCreateSubscriptionLabel = true
 			this.showCreateSubscriptionInput = false
 		},
+
 		/**
 		 * Opens the create calendar with task list input
 		 */
@@ -209,6 +228,7 @@ export default {
 			this.showCreateSubscriptionLabel = true
 			this.showCreateSubscriptionInput = false
 		},
+
 		/**
 		 * Opens the create subscription input
 		 */
@@ -223,6 +243,7 @@ export default {
 			this.showCreateCalendarTaskListLabel = true
 			this.showCreateCalendarTaskListInput = false
 		},
+
 		/**
 		 * Creates a new calendar
 		 *
@@ -249,6 +270,7 @@ export default {
 				this.closeMenu()
 			}
 		},
+
 		/**
 		 * Creates a new calendar with task list
 		 *
@@ -276,6 +298,7 @@ export default {
 				this.closeMenu()
 			}
 		},
+
 		/**
 		 * Creates a new subscription
 		 *
@@ -313,6 +336,7 @@ export default {
 				this.closeMenu()
 			}
 		},
+
 		/**
 		 * This resets the actions on close of menu
 		 */

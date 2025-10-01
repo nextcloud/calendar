@@ -4,15 +4,17 @@
 -->
 
 <template>
-	<div class="save-buttons" :class="{ 'save-buttons--grow': growHorizontally }">
-		<NcButton v-if="showMoreButton"
+	<div class="save-buttons">
+		<NcButton
+			v-if="showMoreButton"
 			:type="moreButtonType"
 			:disabled="disabled"
 			@click="showMore">
 			{{ $t('calendar', 'More details') }}
 		</NcButton>
-		<NcButton v-if="showSaveButton"
-			type="primary"
+		<NcButton
+			v-if="showSaveButton"
+			variant="primary"
 			:disabled="disabled"
 			@click="saveThisOnly">
 			<template #icon>
@@ -20,8 +22,9 @@
 			</template>
 			{{ $t('calendar', 'Save') }}
 		</NcButton>
-		<NcButton v-if="showUpdateButton"
-			type="primary"
+		<NcButton
+			v-if="showUpdateButton"
+			variant="primary"
 			:disabled="disabled"
 			@click="saveThisOnly">
 			<template #icon>
@@ -29,18 +32,38 @@
 			</template>
 			{{ $t('calendar', 'Update') }}
 		</NcButton>
-		<NcButton v-if="showUpdateThisAndFutureButton"
-			:type="forceThisAndAllFuture ? 'primary' : 'secondary'"
+		<NcButton
+			v-if="showUpdateThisAndFutureButton && !showUpdateOnlyThisButton"
+			:type="primary"
 			:disabled="disabled"
 			@click="saveThisAndAllFuture">
 			{{ $t('calendar', 'Update this and all future') }}
 		</NcButton>
-		<NcButton v-if="showUpdateOnlyThisButton"
-			type="primary"
+		<NcButton
+			v-if="showUpdateOnlyThisButton && !showUpdateThisAndFutureButton"
+			variant="primary"
 			:disabled="disabled"
 			@click="saveThisOnly">
 			{{ $t('calendar', 'Update this occurrence') }}
 		</NcButton>
+
+		<NcActions v-if="showUpdateThisAndFutureButton && showUpdateOnlyThisButton" :primary="true" :menu-name="t('calendar', 'Update')">
+			<template #icon>
+				<CheckIcon :size="20" />
+			</template>
+			<NcActionButton @click="saveThisAndAllFuture">
+				<template #icon>
+					<CheckIcon :size="20" />
+				</template>
+				{{ $t('calendar', 'Update this and all future') }}
+			</NcActionButton>
+			<NcActionButton @click="saveThisOnly">
+				<template #icon>
+					<CheckIcon :size="20" />
+				</template>
+				{{ $t('calendar', 'Update this occurrence') }}
+			</NcActionButton>
+		</NcActions>
 
 		<!-- Allow additional buttons -->
 		<slot />
@@ -48,7 +71,7 @@
 </template>
 
 <script>
-import { NcButton } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcButton } from '@nextcloud/vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 
 export default {
@@ -56,62 +79,74 @@ export default {
 	components: {
 		NcButton,
 		CheckIcon,
+		NcActions,
+		NcActionButton,
 	},
+
 	props: {
 		canCreateRecurrenceException: {
 			type: Boolean,
 			required: true,
 		},
+
 		isNew: {
 			type: Boolean,
 			required: true,
 		},
+
 		isReadOnly: {
 			type: Boolean,
 			required: true,
 		},
+
 		forceThisAndAllFuture: {
 			type: Boolean,
 			required: true,
 		},
+
 		showMoreButton: {
 			type: Boolean,
 			default: false,
 		},
+
 		moreButtonType: {
 			type: String,
 			default: undefined,
 		},
-		growHorizontally: {
-			type: Boolean,
-			default: true,
-		},
+
 		disabled: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	computed: {
 		showSaveButton() {
 			return !this.isReadOnly && this.isNew && !this.canCreateRecurrenceException
 		},
+
 		showUpdateButton() {
 			return !this.isReadOnly && !this.isNew && !this.canCreateRecurrenceException
 		},
+
 		showUpdateOnlyThisButton() {
 			return !this.isReadOnly && this.canCreateRecurrenceException && !this.forceThisAndAllFuture
 		},
+
 		showUpdateThisAndFutureButton() {
 			return !this.isReadOnly && this.canCreateRecurrenceException
 		},
 	},
+
 	methods: {
 		saveThisOnly() {
 			this.$emit('save-this-only')
 		},
+
 		saveThisAndAllFuture() {
 			this.$emit('save-this-and-all-future')
 		},
+
 		showMore() {
 			this.$emit('show-more')
 		},
@@ -124,13 +159,5 @@ export default {
 	display: flex;
 	justify-content: end;
 	gap: var(--default-grid-baseline);
-
-	&--grow {
-		flex-wrap: wrap;
-
-		button {
-			flex: 1 fit-content;
-		}
-	}
 }
 </style>

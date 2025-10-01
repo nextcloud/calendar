@@ -10,13 +10,15 @@
 				<AccountMultiple :size="28" />
 			</template>
 		</Avatar>
-		<Avatar v-else
+		<Avatar
+			v-else
 			:disable-tooltip="true"
 			:user="commonName"
 			:display-name="commonName"
 			:is-no-user="true" />
 		<template v-if="!isGroup">
-			<component :is="status.icon"
+			<component
+				:is="status.icon"
 				class="avatar-participation-status__indicator"
 				:fill-color="status.fillColor"
 				:size="20" />
@@ -29,73 +31,86 @@
 
 <script>
 import { NcAvatar as Avatar } from '@nextcloud/vue'
-import AccountMultiple from 'vue-material-design-icons/AccountMultipleOutline.vue'
-import IconCheck from 'vue-material-design-icons/CheckCircleOutline.vue'
-import IconNoResponse from 'vue-material-design-icons/HelpCircleOutline.vue'
-import IconClose from 'vue-material-design-icons/CloseCircleOutline.vue'
-import IconDelegated from 'vue-material-design-icons/ArrowRightDropCircleOutline.vue'
-
-import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
 import { mapStores } from 'pinia'
+import AccountMultiple from 'vue-material-design-icons/AccountMultipleOutline.vue'
+import IconDelegated from 'vue-material-design-icons/ArrowRightDropCircleOutline.vue'
+import IconAccepted from 'vue-material-design-icons/CheckCircleOutline.vue'
+import IconDeclined from 'vue-material-design-icons/CloseCircleOutline.vue'
+import IconTentative from 'vue-material-design-icons/HelpCircleOutline.vue'
+import IconNoResponse from 'vue-material-design-icons/MinusCircleOutline.vue'
+import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
 import { adjustAttendeeTime } from '@/services/attendeeDetails'
 
 export default {
 	name: 'AvatarParticipationStatus',
 	components: {
-	  Avatar,
-	  AccountMultiple,
-	  IconCheck,
-	  IconNoResponse,
-	  IconClose,
-	  IconDelegated,
+		Avatar,
+		AccountMultiple,
+		IconAccepted,
+		IconTentative,
+		IconNoResponse,
+		IconDeclined,
+		IconDelegated,
 	},
+
 	props: {
 		avatarLink: {
 			type: String,
 			required: true,
 		},
+
 		participationStatus: {
 			type: String,
 			required: true,
 		},
+
 		scheduleStatus: {
 			type: String,
 			required: false,
 		},
+
 		commonName: {
 			type: String,
 			required: true,
 		},
+
 		isViewedByOrganizer: {
 			type: Boolean,
 			required: true,
 		},
+
 		isResource: {
 			type: Boolean,
 			required: true,
 		},
+
 		isGroup: {
 			type: Boolean,
 			required: false,
 		},
+
 		isSuggestion: {
 			type: Boolean,
 			default: false,
 		},
+
 		attendeeIsOrganizer: {
 			type: Boolean,
 			required: true,
 		},
+
 		organizerDisplayName: {
 			type: String,
 			required: true,
 		},
+
 		timezone: {
 			type: String,
 			required: false,
 			default: null,
 		},
 	},
+
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore),
 		/**
@@ -103,12 +118,16 @@ export default {
 		 */
 		status() {
 			const acceptedIcon = {
-				icon: IconCheck,
+				icon: IconAccepted,
 				fillColor: '#32CD32',
 			}
 			const declinedIcon = {
-				icon: IconClose,
+				icon: IconDeclined,
 				fillColor: '#ff4402',
+			}
+			const tentativeIcon = {
+				icon: IconTentative,
+				fillColor: '#ffc107',
 			}
 
 			if (this.isSuggestion) {
@@ -120,58 +139,58 @@ export default {
 
 			// Try to use the participation status first
 			switch (this.participationStatus) {
-			case 'ACCEPTED':
-				if (this.isResource) {
+				case 'ACCEPTED':
+					if (this.isResource) {
+						return {
+							...acceptedIcon,
+							text: t('calendar', 'Available'),
+						}
+					}
+
+					if (this.attendeeIsOrganizer) {
+						return {
+							...acceptedIcon,
+							text: t('calendar', 'Invitation accepted'),
+						}
+					}
+
 					return {
 						...acceptedIcon,
-						text: t('calendar', 'Available'),
+						text: t('calendar', 'Accepted {organizerName}\'s invitation', {
+							organizerName: this.organizerDisplayName,
+						}),
 					}
-				}
-
-				if (this.attendeeIsOrganizer) {
+				case 'TENTATIVE':
 					return {
-						...acceptedIcon,
-						text: t('calendar', 'Invitation accepted'),
+						...tentativeIcon,
+						text: t('calendar', 'Participation marked as tentative'),
 					}
-				}
-
-				return {
-					...acceptedIcon,
-					text: t('calendar', 'Accepted {organizerName}\'s invitation', {
-						organizerName: this.organizerDisplayName,
-					}),
-				}
-			case 'TENTATIVE':
-				return {
-					...acceptedIcon,
-					text: t('calendar', 'Participation marked as tentative'),
-				}
-			case 'DELEGATED':
-				return {
-					icon: IconDelegated,
-					text: t('calendar', 'Invitation is delegated'),
-				}
-			case 'DECLINED':
-				if (this.isResource) {
+				case 'DELEGATED':
 					return {
-						...declinedIcon,
-						text: t('calendar', 'Not available'),
+						icon: IconDelegated,
+						text: t('calendar', 'Invitation is delegated'),
 					}
-				}
+				case 'DECLINED':
+					if (this.isResource) {
+						return {
+							...declinedIcon,
+							text: t('calendar', 'Not available'),
+						}
+					}
 
-				if (this.isViewedByOrganizer) {
+					if (this.isViewedByOrganizer) {
+						return {
+							...declinedIcon,
+							text: t('calendar', 'Invitation declined'),
+						}
+					}
+
 					return {
 						...declinedIcon,
-						text: t('calendar', 'Invitation declined'),
+						text: t('calendar', 'Declined {organizerName}\'s invitation', {
+							organizerName: this.organizerDisplayName,
+						}),
 					}
-				}
-
-				return {
-					...declinedIcon,
-					text: t('calendar', 'Declined {organizerName}\'s invitation', {
-						organizerName: this.organizerDisplayName,
-					}),
-				}
 			}
 
 			// Schedule status is only present on the original event of the organizer
@@ -228,6 +247,7 @@ export default {
 				}),
 			}
 		},
+
 		adjustedTime() {
 			return adjustAttendeeTime(this.calendarObjectInstanceStore.calendarObjectInstance.startDate, this.timezone)
 		},

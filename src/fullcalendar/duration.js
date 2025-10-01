@@ -12,17 +12,17 @@ import { DurationValue } from '@nextcloud/calendar-js'
  */
 export function getDurationValueFromFullCalendarDuration(fcDuration) {
 	switch (typeof fcDuration) {
-	case 'object':
-		return getDurationValueFromFullCalendarDurationEncodedAsObject(fcDuration)
+		case 'object':
+			return getDurationValueFromFullCalendarDurationEncodedAsObject(fcDuration)
 
-	case 'string':
-		return getDurationValueFromFullCalendarDurationEncodedAsString(fcDuration)
+		case 'string':
+			return getDurationValueFromFullCalendarDurationEncodedAsString(fcDuration)
 
-	case 'number':
-		return getDurationValueFromFullCalendarDurationEncodedAsNumber(fcDuration)
+		case 'number':
+			return getDurationValueFromFullCalendarDurationEncodedAsNumber(fcDuration)
 
-	default:
-		return null
+		default:
+			return null
 	}
 }
 

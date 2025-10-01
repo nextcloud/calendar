@@ -20,7 +20,6 @@ OC.L10N.register(
     "Deleted" : "Geläscht",
     "Restore" : "Zrécksetzen",
     "Delete permanently" : "Permanent läschen",
-    "Hidden" : "Verstoppt",
     "Share link" : "Link deelen",
     "can edit" : "kann änneren",
     "Share with users or groups" : "Mat Benotzer oder Gruppen deelen",
@@ -56,6 +55,7 @@ OC.L10N.register(
     "after" : "No",
     "Yes" : "Jo",
     "No" : "Nee",
+    "None" : "Keng",
     "Global" : "Global",
     "Subscribe" : "Umellen",
     "Personal" : "Perséinlech",
@@ -68,6 +68,7 @@ OC.L10N.register(
     "Other" : "Aner",
     "When shared show full event" : "Wann et gedeelt gouf, dann de ganzen Evenement uweisen",
     "When shared show only busy" : "Wann et gedeelt gouf, dann nëmmen als beschäftegt uweisen",
-    "When shared hide this event" : "Wann et gedeelt gouf, dann verstopp dëst Evenement"
+    "When shared hide this event" : "Wann et gedeelt gouf, dann verstopp dëst Evenement",
+    "Hidden" : "Verstoppt"
 },
 "nplurals=2; plural=(n != 1);");

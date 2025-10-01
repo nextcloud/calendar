@@ -5,7 +5,8 @@
 <template>
 	<div class="booking-appointment-details">
 		<div class="booking-details">
-			<Avatar :user="userInfo.uid"
+			<Avatar
+				:user="userInfo.uid"
 				:display-name="userInfo.displayName"
 				:disable-tooltip="true"
 				:disable-menu="true"
@@ -38,7 +39,8 @@
 				<div>
 					{{ $t('calendar', 'Your name') }}
 				</div>
-				<input id="displayName"
+				<input
+					id="displayName"
 					v-model="displayName"
 					type="text"
 					class="no-close"
@@ -49,7 +51,8 @@
 				<div>
 					{{ $t('calendar', 'Your email address') }}
 				</div>
-				<input ref="email"
+				<input
+					ref="email"
 					v-model="email"
 					type="email"
 					autocapitalize="none"
@@ -61,7 +64,8 @@
 			<div class="meeting-info">
 				{{ $t('calendar', 'Please share anything that will help prepare for our meeting') }}
 				<div class="meeting-text">
-					<textarea id="biography"
+					<textarea
+						id="biography"
 						v-model="description"
 						v-autosize="true"
 						rows="8"
@@ -70,24 +74,26 @@
 						:disabled="isLoading" />
 				</div>
 			</div>
-			<NcNoteCard v-if="showRateLimitingWarning"
+			<NcNoteCard
+				v-if="showRateLimitingWarning"
 				type="warning">
 				{{ $t('calendar', 'It seems a rate limit has been reached. Please try again later.') }}
 			</NcNoteCard>
-			<NcNoteCard v-if="showError"
+			<NcNoteCard
+				v-if="showError"
 				type="error">
 				{{ $t('calendar', 'Could not book the appointment. Please try again later or contact the organizer.') }}
 			</NcNoteCard>
 		</div>
 		<div class="buttons">
-			<NcButton type="tertiary" @click="$emit('go-back')">
+			<NcButton variant="tertiary" @click="$emit('go-back')">
 				<template #icon>
 					<IconBack :size="16" />
 				</template>
 				{{ $t('calendar', 'Back') }}
 			</NcButton>
 			<NcLoadingIcon v-if="isLoading" :size="32" class="loading-icon" />
-			<NcButton type="primary" :disabled="isLoading" @click="save">
+			<NcButton variant="primary" :disabled="isLoading" @click="save">
 				<template #icon>
 					<IconCheck :size="16" />
 				</template>
@@ -96,6 +102,7 @@
 		</div>
 	</div>
 </template>
+
 <script>
 import {
 	NcAvatar as Avatar,
@@ -103,13 +110,13 @@ import {
 	NcLoadingIcon,
 	NcNoteCard,
 } from '@nextcloud/vue'
-import autosize from '../../directives/autosize.js'
-import IconCheck from 'vue-material-design-icons/CheckOutline.vue'
+import IconBack from 'vue-material-design-icons/ArrowLeft.vue'
 import IconCalendar from 'vue-material-design-icons/CalendarOutline.vue'
+import IconCheck from 'vue-material-design-icons/CheckOutline.vue'
 import IconTime from 'vue-material-design-icons/ClockTimeFourOutline.vue'
 import IconTimezone from 'vue-material-design-icons/Web.vue'
-import IconBack from 'vue-material-design-icons/ArrowLeft.vue'
-import { timeStampToLocaleTime, timeStampToLocaleDate } from '../../utils/localeTime.js'
+import autosize from '../../directives/autosize.js'
+import { timeStampToLocaleDate, timeStampToLocaleTime } from '../../utils/localeTime.js'
 
 export default {
 	name: 'AppointmentDetails',
@@ -124,43 +131,53 @@ export default {
 		IconBack,
 		IconTimezone,
 	},
+
 	directives: {
 		autosize,
 	},
+
 	props: {
 		config: {
 			required: true,
 			type: Object,
 		},
+
 		timeSlot: {
 			required: true,
 			type: Object,
 		},
+
 		userInfo: {
 			required: true,
 			type: Object,
 		},
+
 		visitorInfo: {
 			required: true,
 			type: Object,
 		},
+
 		timeZoneId: {
 			required: true,
 			type: String,
 		},
+
 		showRateLimitingWarning: {
 			required: true,
 			type: Boolean,
 		},
+
 		showError: {
 			required: true,
 			type: Boolean,
 		},
+
 		isLoading: {
 			required: true,
 			type: Boolean,
 		},
 	},
+
 	data() {
 		return {
 			description: '',
@@ -169,19 +186,23 @@ export default {
 			timeZone: this.timeZoneId,
 		}
 	},
+
 	computed: {
 		startTime() {
 			return timeStampToLocaleTime(this.timeSlot.start, this.timeZoneId)
 		},
+
 		endTime() {
 			return timeStampToLocaleTime(this.timeSlot.end, this.timeZoneId)
 		},
+
 		date() {
 			return timeStampToLocaleDate(this.timeSlot.start, this.timeZoneId)
 		},
 	},
+
 	methods: {
-		 save() {
+		save() {
 			this.$emit('save', {
 				slot: this.timeSlot,
 				description: this.description,
@@ -189,7 +210,6 @@ export default {
 				displayName: this.displayName,
 				timeZone: this.timeZone,
 			})
-
 		},
 	},
 }

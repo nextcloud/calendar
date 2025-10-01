@@ -4,8 +4,9 @@
 -->
 
 <template>
-	<EmptyContent :name="$t('calendar', 'Public calendar does not exist')"
-		:description="$t('calendar', 'Maybe the share was deleted or has expired?' )">
+	<EmptyContent
+		:name="$t('calendar', 'Public calendar does not exist')"
+		:description="$t('calendar', 'Maybe the share was deleted or has expired?')">
 		<template #icon>
 			<CalendarBlank :size="20" decorative />
 		</template>

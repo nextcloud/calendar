@@ -17,7 +17,8 @@
 				<template #icon>
 					<Download :size="20" decorative />
 				</template>
-				<ActionLink v-for="calendar in calendarsStore.sortedSubscriptions"
+				<ActionLink
+					v-for="calendar in calendarsStore.sortedSubscriptions"
 					:key="calendar.id"
 					target="_blank"
 					:href="calendar.url + '?export'">
@@ -31,7 +32,8 @@
 				<template #icon>
 					<CalendarBlank :size="20" decorative />
 				</template>
-				<ActionButton v-for="calendar in calendarsStore.sortedSubscriptions"
+				<ActionButton
+					v-for="calendar in calendarsStore.sortedSubscriptions"
 					:key="calendar.id"
 					@click.prevent.stop="copySubscriptionLink(calendar)">
 					<template #icon>
@@ -46,24 +48,21 @@
 
 <script>
 import {
-	NcActions as Actions,
-	NcActionButton as ActionButton,
-	NcActionLink as ActionLink,
-} from '@nextcloud/vue'
+	showError,
+	showSuccess,
+} from '@nextcloud/dialogs'
 import { generateRemoteUrl } from '@nextcloud/router'
 import {
-	showSuccess,
-	showError,
-} from '@nextcloud/dialogs'
-
+	NcActionButton as ActionButton,
+	NcActionLink as ActionLink,
+	NcActions as Actions,
+} from '@nextcloud/vue'
+import { mapStores } from 'pinia'
+import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
+import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 import AppNavigationHeaderDatePicker from './AppNavigationHeader/AppNavigationHeaderDatePicker.vue'
 import AppNavigationHeaderTodayButton from './EmbedHeader/EmbedHeaderTodayButton.vue'
 import AppNavigationHeaderViewButtons from './EmbedHeader/EmbedHeaderViewButtons.vue'
-
-import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
-import Download from 'vue-material-design-icons/TrayArrowDown.vue'
-
-import { mapStores } from 'pinia'
 import useCalendarsStore from '../../store/calendars.js'
 
 export default {
@@ -78,15 +77,18 @@ export default {
 		CalendarBlank,
 		Download,
 	},
+
 	props: {
 		isWidget: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	computed: {
 		...mapStores(useCalendarsStore),
 	},
+
 	methods: {
 		async copySubscriptionLink(calendar) {
 			const rootURL = generateRemoteUrl('dav')
@@ -106,6 +108,7 @@ export default {
 	},
 }
 </script>
+
 <style lang="scss">
 #widget-header {
 	top: 0;

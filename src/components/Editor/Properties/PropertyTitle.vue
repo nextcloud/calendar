@@ -5,9 +5,11 @@
 
 <template>
 	<div class="property-title" :class="{ 'property-title--readonly': isReadOnly }">
-		<div class="property-title__input"
+		<div
+			class="property-title__input"
 			:class="{ 'property-title__input--readonly': isReadOnly }">
-			<input v-if="!isReadOnly"
+			<input
+				v-if="!isReadOnly"
 				v-focus
 				type="text"
 				autocomplete="off"
@@ -15,13 +17,13 @@
 				:value="value"
 				@input.prevent.stop="changeValue">
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
-			<div v-else :class="{'property-title__input__rtl':isRTL}">{{ value }}</div>
+			<div v-else :class="{ 'property-title__input__rtl': isRTL }">{{ value }}</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import { isRTL, getLanguage } from '@nextcloud/l10n'
+import { getLanguage, isRTL } from '@nextcloud/l10n'
 import focus from '../../../directives/focus.js'
 
 export default {
@@ -29,21 +31,25 @@ export default {
 	directives: {
 		focus,
 	},
+
 	props: {
 		isReadOnly: {
 			type: Boolean,
 			required: true,
 		},
+
 		value: {
 			type: String,
 			default: '',
 		},
 	},
+
 	computed: {
 		isRTL() {
 			return isRTL(getLanguage())
 		},
 	},
+
 	methods: {
 		changeValue(event) {
 			this.$emit('update:value', event.target.value)

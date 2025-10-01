@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { translate as t, translatePlural as n, getDayNames, getMonthNames } from '@nextcloud/l10n'
+import { getDayNames, getMonthNames, translatePlural as n, translate as t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 
 /**
@@ -20,39 +20,39 @@ export default (recurrenceRule, locale) => {
 	let freqPart = ''
 	if (recurrenceRule.interval === 1) {
 		switch (recurrenceRule.frequency) {
-		case 'DAILY':
-			freqPart = t('calendar', 'Daily')
-			break
+			case 'DAILY':
+				freqPart = t('calendar', 'Daily')
+				break
 
-		case 'WEEKLY':
-			freqPart = t('calendar', 'Weekly')
-			break
+			case 'WEEKLY':
+				freqPart = t('calendar', 'Weekly')
+				break
 
-		case 'MONTHLY':
-			freqPart = t('calendar', 'Monthly')
-			break
+			case 'MONTHLY':
+				freqPart = t('calendar', 'Monthly')
+				break
 
-		case 'YEARLY':
-			freqPart = t('calendar', 'Yearly')
-			break
+			case 'YEARLY':
+				freqPart = t('calendar', 'Yearly')
+				break
 		}
 	} else {
 		switch (recurrenceRule.frequency) {
-		case 'DAILY':
-			freqPart = n('calendar', 'Every %n day', 'Every %n days', recurrenceRule.interval)
-			break
+			case 'DAILY':
+				freqPart = n('calendar', 'Every %n day', 'Every %n days', recurrenceRule.interval)
+				break
 
-		case 'WEEKLY':
-			freqPart = n('calendar', 'Every %n week', 'Every %n weeks', recurrenceRule.interval)
-			break
+			case 'WEEKLY':
+				freqPart = n('calendar', 'Every %n week', 'Every %n weeks', recurrenceRule.interval)
+				break
 
-		case 'MONTHLY':
-			freqPart = n('calendar', 'Every %n month', 'Every %n months', recurrenceRule.interval)
-			break
+			case 'MONTHLY':
+				freqPart = n('calendar', 'Every %n month', 'Every %n months', recurrenceRule.interval)
+				break
 
-		case 'YEARLY':
-			freqPart = n('calendar', 'Every %n year', 'Every %n years', recurrenceRule.interval)
-			break
+			case 'YEARLY':
+				freqPart = n('calendar', 'Every %n year', 'Every %n years', recurrenceRule.interval)
+				break
 		}
 	}
 
@@ -164,7 +164,6 @@ function getTranslatedByDaySet(byDayList) {
 /**
  * Gets the byMonth list as formatted list of translated month-names
  *
- *
  * @param {string[]} byMonthList The by-month list to get formatted
  * @return {string}
  */
@@ -190,29 +189,29 @@ function getTranslatedMonths(byMonthList) {
  */
 export function getTranslatedOrdinalNumber(bySetPositionNum) {
 	switch (bySetPositionNum) {
-	case 1:
-		return t('calendar', 'first')
+		case 1:
+			return t('calendar', 'first')
 
-	case 2:
+		case 2:
 		// TRANSLATORS This refers to the second item in a series, not to the unit of time
-		return t('calendar', 'second')
+			return t('calendar', 'second')
 
-	case 3:
-		return t('calendar', 'third')
+		case 3:
+			return t('calendar', 'third')
 
-	case 4:
-		return t('calendar', 'fourth')
+		case 4:
+			return t('calendar', 'fourth')
 
-	case 5:
-		return t('calendar', 'fifth')
+		case 5:
+			return t('calendar', 'fifth')
 
-	case -2:
-		return t('calendar', 'second to last')
+		case -2:
+			return t('calendar', 'second to last')
 
-	case -1:
-		return t('calendar', 'last')
+		case -1:
+			return t('calendar', 'last')
 
-	default:
-		return ''
+		default:
+			return ''
 	}
 }

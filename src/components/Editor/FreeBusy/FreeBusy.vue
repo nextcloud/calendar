@@ -4,7 +4,8 @@
 -->
 
 <template>
-	<NcModal size="full"
+	<NcModal
+		size="full"
 		:name="dialogName || $t('calendar', 'Availability of attendees, resources and rooms')"
 		@close="$emit('close')">
 		<div class="modal">
@@ -14,7 +15,8 @@
 				</div>
 				<div class="modal__content__header">
 					<p v-if="isMobile && freeSlots && !disableFindTime">
-						<NcSelect class="modal__content__header__available-slots"
+						<NcSelect
+							class="modal__content__header__available-slots"
 							:options="freeSlots"
 							:placeholder="placeholder"
 							:clearable="false"
@@ -29,19 +31,22 @@
 						</NcSelect>
 					</p>
 					<div v-if="isMobile" class="modal__content__header__attendees">
-						<InviteesListSearch v-if="isMobile"
+						<InviteesListSearch
+							v-if="isMobile"
 							class="modal__content__header__attendees__search"
 							:already-invited-emails="alreadyInvitedEmails"
 							:organizer="organizer"
 							@add-attendee="addAttendee" />
 						<NcUserBubble :size="24" :display-name="organizer.commonName" />
-						<NcUserBubble v-for="attendee in attendees"
+						<NcUserBubble
+							v-for="attendee in attendees"
 							:key="attendee.id"
 							:size="24"
 							class="modal__content__header__attendees__user-bubble"
 							:display-name="attendee.commonName">
 							<template #name>
-								<a href="#"
+								<a
+									href="#"
 									title="Remove user"
 									class="icon-close"
 									@click="removeAttendee(attendee)" />
@@ -49,35 +54,40 @@
 						</NcUserBubble>
 					</div>
 				</div>
-				<div class="modal__content__actions" :class="{'modal__content__actions--mobile': isMobile}">
+				<div class="modal__content__actions" :class="{ 'modal__content__actions--mobile': isMobile }">
 					<div v-if="isMobile" class="modal__content__actions__date date-navigation">
-						<NcButton type="secondary"
+						<NcButton
+							variant="secondary"
 							:aria-label="t('calendar', 'Today')"
 							@click="handleActions('today')">
 							{{ $t('calendar', 'Today') }}
 						</NcButton>
-						<NcButton type="secondary"
-							:aria-label="isRTL? t('calendar', 'Previous date') : t('calendar', 'Next date')"
+						<NcButton
+							variant="secondary"
+							:aria-label="isRTL ? t('calendar', 'Previous date') : t('calendar', 'Next date')"
 							@click="handleActions(isRTL ? 'next' : 'prev')">
 							<template #icon>
 								<ChevronRightIcon v-if="isRTL" :size="22" />
 								<ChevronLeftIcon v-else :size="22" />
 							</template>
 						</NcButton>
-						<NcDateTimePickerNative :hide-label="true"
+						<NcDateTimePickerNative
+							:hide-label="true"
 							:value="currentStart"
-							@input="(date)=>handleActions('picker', date)" />
-						<NcButton type="secondary"
-							:aria-label="isRTL? t('calendar', 'Next date') : t('calendar', 'Previous date')"
+							@input="(date) => handleActions('picker', date)" />
+						<NcButton
+							variant="secondary"
+							:aria-label="isRTL ? t('calendar', 'Next date') : t('calendar', 'Previous date')"
 							@click="handleActions(isRTL ? 'prev' : 'next')">
 							<template #icon>
 								<ChevronLeftIcon v-if="isRTL" :size="22" />
 								<ChevronRightIcon v-else :size="22" />
 							</template>
 						</NcButton>
-						<NcPopover :focus-trap="false">
+						<NcPopover :no-focus-trap="true">
 							<template #trigger>
-								<NcButton type="tertiary-no-background"
+								<NcButton
+									variant="tertiary-no-background"
 									:aria-label="t('calendar', 'Legend')">
 									<template #icon>
 										<HelpCircleIcon :size="20" />
@@ -90,7 +100,8 @@
 									<div class="freebusy-caption__colors">
 										<div class="freebusy-caption-item">
 											<div class="freebusy-caption-item__color" />
-											<div class="
+											<div
+												class="
 											freebusy-caption-item__label">
 												{{ $t('calendar', 'Out of office') }}
 											</div>
@@ -101,35 +112,39 @@
 						</NcPopover>
 					</div>
 				</div>
-				<div class="modal__content__title" :class="{'modal__content__title--mobile': isMobile}">
+				<div class="modal__content__title" :class="{ 'modal__content__title--mobile': isMobile }">
 					<div v-if="!isMobile" class="modal__content__actions__title__date date-navigation">
-						<NcButton type="secondary"
+						<NcButton
+							variant="secondary"
 							:aria-label="t('calendar', 'Today')"
 							@click="handleActions('today')">
 							{{ $t('calendar', 'Today') }}
 						</NcButton>
-						<NcButton type="secondary"
-							:aria-label="isRTL? t('calendar', 'Previous date') : t('calendar', 'Next date')"
+						<NcButton
+							variant="secondary"
+							:aria-label="isRTL ? t('calendar', 'Previous date') : t('calendar', 'Next date')"
 							@click="handleActions(isRTL ? 'next' : 'prev')">
 							<template #icon>
 								<ChevronRightIcon v-if="isRTL" :size="22" />
 								<ChevronLeftIcon v-else :size="22" />
 							</template>
 						</NcButton>
-						<NcDateTimePickerNative :hide-label="true"
+						<NcDateTimePickerNative
+							:hide-label="true"
 							:value="currentStart"
-							@input="(date)=>handleActions('picker', date)" />
-						<NcButton type="secondary"
-							:aria-label="isRTL? t('calendar', 'Next date') : t('calendar', 'Previous date')"
+							@input="(date) => handleActions('picker', date)" />
+						<NcButton
+							variant="secondary"
+							:aria-label="isRTL ? t('calendar', 'Next date') : t('calendar', 'Previous date')"
 							@click="handleActions(isRTL ? 'prev' : 'next')">
 							<template #icon>
 								<ChevronLeftIcon v-if="isRTL" :size="22" />
 								<ChevronRightIcon v-else :size="22" />
 							</template>
 						</NcButton>
-						<NcPopover :focus-trap="false">
+						<NcPopover :no-focus-trap="true">
 							<template #trigger>
-								<NcButton type="tertiary-no-background">
+								<NcButton variant="tertiary-no-background">
 									<template #icon>
 										<HelpCircleIcon :size="20" />
 									</template>
@@ -141,7 +156,8 @@
 									<div class="freebusy-caption__colors">
 										<div class="freebusy-caption-item">
 											<div class="freebusy-caption-item__color" />
-											<div class="
+											<div
+												class="
 											freebusy-caption-item__label">
 												{{ $t('calendar', 'Out of office') }}
 											</div>
@@ -153,22 +169,25 @@
 					</div>
 					<h2>{{ weekNumber }}</h2>
 					<div class="modal__content__title__buttons">
-						<NcButton :type="view === 'timeGridWeek' ? 'secondary' : 'tertiary'"
+						<NcButton
+							:variant="view === 'timeGridWeek' ? 'secondary' : 'tertiary'"
 							:disabled="view === 'timeGridWeek'"
 							@click="updateView('timeGridWeek')">
-							{{ t('calendar','Week') }}
+							{{ t('calendar', 'Week') }}
 						</NcButton>
-						<NcButton :type="view === 'timeGridDay' ? 'secondary' : 'tertiary'"
+						<NcButton
+							:variant="view === 'timeGridDay' ? 'secondary' : 'tertiary'"
 							:disabled="view === 'timeGridDay'"
 							@click="updateView('timeGridDay')">
-							{{ t('calendar','Day') }}
+							{{ t('calendar', 'Day') }}
 						</NcButton>
 					</div>
 				</div>
 				<div class="modal__content__body">
 					<div v-if="!isMobile" class="modal__content__body__sidebar">
 						<p v-if="freeSlots && !disableFindTime">
-							<NcSelect class="available-slots__multiselect"
+							<NcSelect
+								class="available-slots__multiselect"
 								:options="freeSlots"
 								:placeholder="placeholder"
 								:clearable="false"
@@ -186,13 +205,16 @@
 						</p>
 						<div class="modal__content__body__sidebar__attendees">
 							{{ $t('calendar', 'Attendees:') }}
-							<InviteesListSearch class="modal__content__actions__select"
+							<InviteesListSearch
+								class="modal__content__actions__select"
 								:already-invited-emails="alreadyInvitedEmails"
 								:organizer="organizer"
 								@add-attendee="addAttendee" />
-							<NcListItemIcon :name="organizer.commonName"
+							<NcListItemIcon
+								:name="organizer.commonName"
 								class="modal__content__body__sidebar__attendees__item" />
-							<NcListItemIcon v-for="attendee in attendees"
+							<NcListItemIcon
+								v-for="attendee in attendees"
 								:key="attendee.id"
 								:name="attendee.commonName"
 								:subname="attendeeDetails[attendee.uri]?.localTime
@@ -204,14 +226,15 @@
 										<template #icon>
 											<Close :size="20" />
 										</template>
-										{{ t('calendar','Delete') }}
+										{{ t('calendar', 'Delete') }}
 									</NcActionButton>
 								</NcActions>
 							</NcListItemIcon>
 						</div>
 					</div>
 					<div class="modal__content__body__calendar">
-						<FullCalendar ref="freeBusyFullCalendar"
+						<FullCalendar
+							ref="freeBusyFullCalendar"
 							:options="options" />
 					</div>
 				</div>
@@ -224,7 +247,8 @@
 						</p>
 						<p>{{ formattedCurrentTime }}<span class="modal__content__footer__content__timezone">{{ formattedTimeZone }}</span></p>
 					</div>
-					<NcButton type="primary"
+					<NcButton
+						variant="primary"
 						@click="save">
 						{{ $t('calendar', 'Done') }}
 						<template #icon>
@@ -238,42 +262,34 @@
 </template>
 
 <script>
+import interactionPlugin from '@fullcalendar/interaction'
+import timeGridPlugin from '@fullcalendar/timegrid'
 // Import FullCalendar itself
 import FullCalendar from '@fullcalendar/vue'
-import timeGridPlugin from '@fullcalendar/timegrid'
-import interactionPlugin from '@fullcalendar/interaction'
-
+import { AttendeeProperty } from '@nextcloud/calendar-js'
+import { isRTL } from '@nextcloud/l10n'
+import { isMobile, NcActionButton, NcActions, NcButton, NcDateTimePickerNative, NcListItemIcon, NcModal, NcPopover, NcSelect, NcUserBubble } from '@nextcloud/vue'
+import { mapState } from 'pinia'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
+import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
+import Close from 'vue-material-design-icons/Close.vue'
+import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
+import InviteesListSearch from '../Invitees/InviteesListSearch.vue'
+import dateFormat from '../../../filters/dateFormat.js'
+import formatDateRange from '../../../filters/dateRangeFormat.js'
 // Import event sources
 import freeBusyEventSource from '../../../fullcalendar/eventSources/freeBusyEventSource.js'
-
 // Import localization plugins
 import { getDateFormattingConfig } from '../../../fullcalendar/localization/dateFormattingConfig.js'
 import { getFullCalendarLocale } from '../../../fullcalendar/localization/localeProvider.js'
 import momentPlugin from '../../../fullcalendar/localization/momentPlugin.js'
-
 // Import timezone plugins
 import VTimezoneNamedTimezone from '../../../fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
-
-import { NcDateTimePickerNative, NcButton, NcPopover, NcUserBubble, NcModal, NcSelect, NcListItemIcon, NcActions, NcActionButton } from '@nextcloud/vue'
-import isMobile from '@nextcloud/vue/dist/Mixins/isMobile.js'
-import { AttendeeProperty } from '@nextcloud/calendar-js'
-import { isRTL } from '@nextcloud/l10n'
-
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
-import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
-import CheckIcon from 'vue-material-design-icons/Check.vue'
-import Close from 'vue-material-design-icons/Close.vue'
-import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
-
-import InviteesListSearch from '../Invitees/InviteesListSearch.vue'
-
-import { getFirstFreeSlot, getBusySlots } from '../../../services/freeBusySlotService.js'
-import dateFormat from '../../../filters/dateFormat.js'
-import { mapState } from 'pinia'
-import useSettingsStore from '../../../store/settings.js'
+import { getBusySlots, getFirstFreeSlot } from '../../../services/freeBusySlotService.js'
 import useCalendarsStore from '../../../store/calendars.js'
+import useSettingsStore from '../../../store/settings.js'
 import { uidToHexColor } from '../../../utils/color.js'
-import formatDateRange from '../../../filters/dateRangeFormat.js'
 import { adjustAttendeeTime, getAttendeeDetails } from '@/services/attendeeDetails'
 
 export default {
@@ -296,6 +312,7 @@ export default {
 		HelpCircleIcon,
 		Close,
 	},
+
 	mixins: [isMobile],
 	props: {
 		/**
@@ -306,6 +323,7 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		/**
 		 * The attendee objects.
 		 * See /src/models/attendee.js for details
@@ -314,6 +332,7 @@ export default {
 			type: Array,
 			required: true,
 		},
+
 		/**
 		 * The start-date to query free-busy information from
 		 */
@@ -321,6 +340,7 @@ export default {
 			type: Date,
 			required: true,
 		},
+
 		/**
 		 * The end-date to query free-busy information from
 		 */
@@ -328,28 +348,34 @@ export default {
 			type: Date,
 			required: true,
 		},
+
 		allDay: {
 			type: Boolean,
 			default: false,
 		},
+
 		eventTitle: {
 			type: String,
 			default: '',
 		},
+
 		alreadyInvitedEmails: {
 			type: Array,
 			default: () => [],
 		},
+
 		dialogName: {
 			type: String,
 			required: false,
 			default: null,
 		},
+
 		disableFindTime: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
 	data() {
 		return {
 			loadingIndicator: true,
@@ -366,26 +392,33 @@ export default {
 			attendeeDetails: {},
 		}
 	},
+
 	computed: {
 		...mapState(useSettingsStore, {
 			timezoneId: 'getResolvedTimezone',
 		}),
+
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',
 		}),
+
 		...mapState(useSettingsStore, ['showWeekends', 'showWeekNumbers', 'timezone']),
 		...mapState(useCalendarsStore, {
 			personalCalendarColor: 'getPersonalCalendarColor',
 		}),
+
 		isRTL() {
 			return isRTL()
 		},
+
 		weekNumber() {
 			return formatDateRange(this.currentStart, this.view, this.locale)
 		},
+
 		placeholder() {
 			return this.$t('calendar', 'Suggested times')
 		},
+
 		/**
 		 * FullCalendar Plugins
 		 *
@@ -399,6 +432,7 @@ export default {
 				interactionPlugin,
 			]
 		},
+
 		formattedCurrentStart() {
 			// Check if the event spawns over multiple days
 			if (this.currentStart.getDate() !== this.currentEnd.getDate()) {
@@ -407,6 +441,7 @@ export default {
 			}
 			return this.currentStart.toLocaleDateString(this.lang, this.formattingOptions)
 		},
+
 		formattedCurrentTime() {
 			const options = { hour: '2-digit', minute: '2-digit', hour12: true }
 
@@ -415,9 +450,11 @@ export default {
 
 			return `${startTime} - ${endTime} `
 		},
+
 		formattedTimeZone() {
 			return this.timezoneId.replace('/', '-')
 		},
+
 		eventSources() {
 			const attendees = this.attendees.map((a) => a.attendeeProperty)
 			const organizer = new AttendeeProperty('ATTENDEE', this.organizer.attendeeProperty.email)
@@ -428,6 +465,7 @@ export default {
 				a,
 			))
 		},
+
 		resources() {
 			const resources = []
 			const roles = {
@@ -461,6 +499,7 @@ export default {
 
 			return resources
 		},
+
 		/**
 		 * Configuration options for FullCalendar
 		 * Please see https://fullcalendar.io/docs#toc for details
@@ -496,20 +535,23 @@ export default {
 				// will produce something like "Tuesday, September 18, 2018"
 				// ref https://fullcalendar.io/docs/date-formatting
 				titleFormat: {
-				  month: 'long',
-				  year: 'numeric',
-				  day: 'numeric',
-				  weekday: 'long',
+					month: 'long',
+					year: 'numeric',
+					day: 'numeric',
+					weekday: 'long',
 				},
+
 				dateClick: this.findFreeSlots(),
 			}
 		},
 	},
+
 	watch: {
 		view(newView) {
 			const calendar = this.$refs.freeBusyFullCalendar.getApi()
 			calendar.changeView(newView)
 		},
+
 		attendees(newVal) {
 			this.updateAttendeeDetails(newVal)
 
@@ -518,6 +560,7 @@ export default {
 			}
 		},
 	},
+
 	mounted() {
 		const calendar = this.$refs.freeBusyFullCalendar.getApi()
 		this.view = this.attendees.length > 4 || this.isMobile ? 'timeGridDay' : 'timeGridWeek'
@@ -542,12 +585,14 @@ export default {
 
 		this.$nextTick(() => calendar.updateSize())
 	},
+
 	methods: {
 		updateView(view) {
 			const calendar = this.$refs.freeBusyFullCalendar.getApi()
 			calendar.changeView(view)
 			this.view = view
 		},
+
 		handleSelect(arg) {
 			const calendar = this.$refs.freeBusyFullCalendar.getApi()
 			this.currentStart = arg.start
@@ -555,6 +600,7 @@ export default {
 			this.currentIsAllDay = arg.allDay
 			calendar.getEventById('selected-event-slot').setDates(arg.start, arg.end)
 		},
+
 		handleChange(e) {
 			if (this.navigatingWithButtons) {
 				this.navigatingWithButtons = false
@@ -565,8 +611,8 @@ export default {
 				this.currentStart = e.event.start
 				this.currentEnd = e.event.end
 			}
-
 		},
+
 		eventDidMount(e) {
 			const eventElement = e.el
 			if (e.event.id === 'selected-event-slot') {
@@ -582,36 +628,41 @@ export default {
 			}
 			eventElement.style.background = uidToHexColor(e.event.title)
 		},
+
 		save() {
 			this.$emit('update-dates', { start: this.currentStart, end: this.currentEnd })
 		},
+
 		addAttendee(attendee) {
 			this.$emit('add-attendee', attendee)
 			this.findFreeSlots()
 		},
+
 		removeAttendee(attendee) {
 			this.$emit('remove-attendee', attendee)
 			this.findFreeSlots()
 		},
+
 		loading(isLoading) {
 			this.loadingIndicator = isLoading
 		},
+
 		handleActions(action, date = null) {
 			this.navigatingWithButtons = true
 			const calendar = this.$refs.freeBusyFullCalendar.getApi()
 			switch (action) {
-			case 'today':
-				calendar.today()
-				break
-			case 'prev':
-				calendar.prev()
-				break
-			case 'next':
-				calendar.next()
-				break
-			case 'picker':
-				calendar.gotoDate(date)
-				break
+				case 'today':
+					calendar.today()
+					break
+				case 'prev':
+					calendar.prev()
+					break
+				case 'next':
+					calendar.next()
+					break
+				case 'picker':
+					calendar.gotoDate(date)
+					break
 			}
 
 			const newStart = calendar.getDate()
@@ -634,6 +685,7 @@ export default {
 			calendar.getEventById('selected-event-slot').setEnd(this.currentEnd)
 			this.findFreeSlots()
 		},
+
 		async findFreeSlots() {
 			// Doesn't make sense for multiple days
 			if (this.currentStart.getDate() !== this.currentEnd.getDate()) {
@@ -674,6 +726,7 @@ export default {
 				throw error // Re-throwing the error to handle it in the caller
 			}
 		},
+
 		setSlotSuggestion(slot) {
 			this.loading(true)
 			this.selectedSlot = slot
@@ -696,6 +749,7 @@ export default {
 			}
 			checkCondition()
 		},
+
 		updateAttendeeDetails(attendees) {
 			attendees.forEach((attendee) => {
 				getAttendeeDetails(attendee.uri).then((res) => {
@@ -704,7 +758,7 @@ export default {
 					}
 				})
 			})
-		}
+		},
 	},
 }
 </script>
