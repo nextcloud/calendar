@@ -52,6 +52,7 @@ OC.L10N.register(
     "Description" : "Апісанне",
     "Visibility" : "Бачнасць",
     "Duration" : "Працягласць",
+    "to" : "на",
     "Add" : "Дадаць",
     "Monday" : "Панядзелак",
     "Tuesday" : "Аўторак",
