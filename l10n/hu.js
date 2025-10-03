@@ -216,7 +216,7 @@ OC.L10N.register(
     "Personal availability settings" : "Személyes elérhetőség beállításai",
     "Copy primary CalDAV address" : "Elsődleges CalDAV-cím másolása",
     "Copy iOS/macOS CalDAV address" : "iOS/macOS CalDAV cím másolása",
-    "View options" : "Megtekintése beállítások",
+    "View options" : "Megtekintési beállítások",
     "Enable birthday calendar" : "Születésnapok naptárának engedélyezése",
     "Show tasks in calendar" : "Feladatok megjelenítése a naptárban",
     "Show weekends" : "Hétvégék megjelenítése",
