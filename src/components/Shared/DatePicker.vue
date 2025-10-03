@@ -11,7 +11,8 @@
 		:type="type"
 		:hide-label="true"
 		class="date-time-picker"
-		@input="change" />
+		@blur="onBlur"
+		@input="onInput" />
 </template>
 
 <script>
@@ -75,10 +76,13 @@ export default {
 		 *
 		 * @param {Date} date The new Date object
 		 */
-		change: debounce(async function(date) {
+		onInput(date) {
+			// Buffer the input; only emit when the user leaves the field
 			if (this.disabledDate(date)) {
 				return
 			}
+			this.pendingDate = date
+		},
 
 			this.$emit('change', date)
 		}, 1000),
