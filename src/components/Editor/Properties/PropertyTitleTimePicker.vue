@@ -128,7 +128,6 @@
 <script>
 import moment from '@nextcloud/moment'
 import { NcButton, NcTimezonePicker } from '@nextcloud/vue'
-import { debounce } from 'lodash'
 import { mapState } from 'pinia'
 import CalendarIcon from 'vue-material-design-icons/CalendarOutline.vue'
 import IconTimezone from 'vue-material-design-icons/Web.vue'
@@ -317,18 +316,18 @@ export default {
 		 *
 		 * @param {Date} value The new start date
 		 */
-		changeStartDate: debounce(function(value) {
+		changeStartDate(value) {
 			this.$emit('update-start-date', value)
-		}, 500),
+		},
 
 		/**
 		 * Update the start time
 		 *
 		 * @param {Date} value The new start time
 		 */
-		changeStartTime: debounce(function(value) {
+		changeStartTime(value) {
 			this.$emit('update-start-time', value)
-		}, 500),
+		},
 
 		/**
 		 * Updates the timezone of the start date
@@ -350,18 +349,18 @@ export default {
 		 *
 		 * @param {Date} value The new end date
 		 */
-		changeEndDate: debounce(function(value) {
+		changeEndDate(value) {
 			this.$emit('update-end-date', value)
-		}, 500),
+		},
 
 		/**
 		 * Update the end time
 		 *
 		 * @param {Date} value The new end time
 		 */
-		changeEndTime: debounce(function(value) {
+		changeEndTime(value) {
 			this.$emit('update-end-time', value)
-		}, 500),
+		},
 
 		/**
 		 * Updates the timezone of the end date
