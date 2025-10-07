@@ -230,6 +230,7 @@ OC.L10N.register(
     "Choose a file to add as attachment" : "Pasirinkite failą, kurį prisegsite prie laiško",
     "Choose a file to share as a link" : "Pasirinkite failą, kurį bendrinsite kaip nuorodą",
     "Add from Files" : "Pridėti iš Failų",
+    "Upload from device" : "Įkelti iš įrenginio",
     "Delete file" : "Ištrinti failą",
     "_{count} attachment_::_{count} attachments_" : ["{count} priedas","{count} priedai","{count} priedų","{count} priedas"],
     "Available" : "Prieinamas",
