@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.7.19 - 2025-10-08
+### Fixed
+- appointments: unify IDs
+
 ## 4.7.18 - 2025-05-26
 ### Fixed
 - send date as sting instead of epoch from appointment selector
