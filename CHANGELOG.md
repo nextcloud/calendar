@@ -1,3 +1,31 @@
+## [6.0.1](https://github.com/nextcloud/calendar/compare/v6.0.0...v6.0.1) (2025-10-08)
+
+
+### Bug Fixes
+
+* actually create a talk room when converting proposal ([6d45f81](https://github.com/nextcloud/calendar/commit/6d45f81b228bc3e43cd18980eec9a8e911457734))
+* **appointments:** unify IDs ([89271dd](https://github.com/nextcloud/calendar/commit/89271dd4751ce1570a36b7b7009d14d61f166dc7))
+* close view selection menu after click ([9b7e18d](https://github.com/nextcloud/calendar/commit/9b7e18d769d4798c429358e748e983cf027ab2ad))
+* embedded calendar header not responsive ([d50543b](https://github.com/nextcloud/calendar/commit/d50543bb3384879c43887b5f933cf50e910e94a1))
+* **l10n:** Update translations from Transifex ([3ff869c](https://github.com/nextcloud/calendar/commit/3ff869cf42a24adf65ea96527327a23d3aca8f89))
+* **l10n:** Update translations from Transifex ([1e23b7f](https://github.com/nextcloud/calendar/commit/1e23b7f797ce3401ac722bbf3d4bd9f54ea9a9d2))
+* **l10n:** Update translations from Transifex ([0c9d0cc](https://github.com/nextcloud/calendar/commit/0c9d0cc625bcbf24df5bdf5f222311ad7dbeda43))
+* **l10n:** Update translations from Transifex ([2ded409](https://github.com/nextcloud/calendar/commit/2ded4097e017e25e92cae4f5ec1ead6aaf649a80))
+* **l10n:** Update translations from Transifex ([a3e1c1b](https://github.com/nextcloud/calendar/commit/a3e1c1b090604e5c6ffb9408c30898877ea532a9))
+* **l10n:** Update translations from Transifex ([c041d42](https://github.com/nextcloud/calendar/commit/c041d42417bc6f081ec369d14420edc805c2fe3c))
+* **l10n:** Update translations from Transifex ([bdc5ec7](https://github.com/nextcloud/calendar/commit/bdc5ec75d596bc908b730fe3dbcf88b95daa7f26))
+* **l10n:** Update translations from Transifex ([b421770](https://github.com/nextcloud/calendar/commit/b42177090811464988420281ff135cca7da26d4b))
+* **l10n:** Update translations from Transifex ([d8fb694](https://github.com/nextcloud/calendar/commit/d8fb6948d0e116b07ca725c3876b04d7aada310c))
+* **l10n:** Update translations from Transifex ([4357637](https://github.com/nextcloud/calendar/commit/435763724769ee473ff311b5bf62252c53598371))
+* **l10n:** Update translations from Transifex ([891267f](https://github.com/nextcloud/calendar/commit/891267fb98190ec0fe913e2691e60b4401fc7b5d))
+* **l10n:** Update translations from Transifex ([0f764a0](https://github.com/nextcloud/calendar/commit/0f764a0f861bd9df197fb6644dfab1332d029e90))
+* **l10n:** Update translations from Transifex ([264b7dd](https://github.com/nextcloud/calendar/commit/264b7dd366151bf2762a5846df7dfc9e37819839))
+* meeting proposal convertion options ([628c691](https://github.com/nextcloud/calendar/commit/628c691319476293bee6f858902b60e91488ffad))
+* Meeting proposals calendar time blockers ([fe223ce](https://github.com/nextcloud/calendar/commit/fe223ce74c15c0cc9f847a343c5aed1d5156b069))
+* **rtl:** calendar grid direction ([e5e6774](https://github.com/nextcloud/calendar/commit/e5e6774d2ce438273121758d8c2958386271606b))
+
+
+
 # [6.0.0-rc.6](https://github.com/nextcloud/calendar/compare/v6.0.0-rc.5...v6.0.0-rc.6) (2025-09-23)
 
 
