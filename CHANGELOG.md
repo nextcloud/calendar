@@ -1,3 +1,29 @@
+## [5.5.6](https://github.com/nextcloud/calendar/compare/v5.5.5...v5.5.6) (2025-10-08)
+
+
+### Bug Fixes
+
+* **appointments:** unify IDs ([e8272b4](https://github.com/nextcloud/calendar/commit/e8272b46cb9d0a96b99624bb9468be10a7ff83a9))
+* close view selection menu after click ([15579a4](https://github.com/nextcloud/calendar/commit/15579a4baaef4e01963c4ce134b4f8f1189e656a))
+* embedded calendar header not responsive ([6c43227](https://github.com/nextcloud/calendar/commit/6c4322789e43145eae4067bffb14f744ebc53a4c))
+* hide resource booking if no backend available ([4023fc7](https://github.com/nextcloud/calendar/commit/4023fc79a8f7227e6fe7cac73563a01b5b910dab))
+* **l10n:** Update translations from Transifex ([72b71c5](https://github.com/nextcloud/calendar/commit/72b71c53793311f27bc857f3bf00cad349f4113b))
+* **l10n:** Update translations from Transifex ([5012865](https://github.com/nextcloud/calendar/commit/5012865f049c0906df5af2a9a3900598ecb5074e))
+* **l10n:** Update translations from Transifex ([3fc0842](https://github.com/nextcloud/calendar/commit/3fc084214a6db4be3b0104bd1b2dd42d45878ab2))
+* **l10n:** Update translations from Transifex ([d438739](https://github.com/nextcloud/calendar/commit/d43873965f56ef3e17f5e70abe31564b83c30e91))
+* **l10n:** Update translations from Transifex ([06d42e6](https://github.com/nextcloud/calendar/commit/06d42e66feb9322c8a7d341d4c6062e3df9215e6))
+* **l10n:** Update translations from Transifex ([fae401c](https://github.com/nextcloud/calendar/commit/fae401c191504235b27a844afc4a305cd76f0d6c))
+* **l10n:** Update translations from Transifex ([abffc56](https://github.com/nextcloud/calendar/commit/abffc5662e9d2ee6f47e159a986e597e00d5373c))
+* **l10n:** Update translations from Transifex ([bdfecff](https://github.com/nextcloud/calendar/commit/bdfecff4fd7bdc6206d4f15897469c5efaae0f8f))
+* **l10n:** Update translations from Transifex ([9e0382d](https://github.com/nextcloud/calendar/commit/9e0382d08ad28186045d346f75c7644de1a61dd9))
+* **l10n:** Update translations from Transifex ([8bb3668](https://github.com/nextcloud/calendar/commit/8bb3668d4793bd35009ec23c563ad722414e504f))
+* **l10n:** Update translations from Transifex ([eb1ea8f](https://github.com/nextcloud/calendar/commit/eb1ea8fc1789ccafbf643bfc2274e90d946c281f))
+* **l10n:** Update translations from Transifex ([8f2e394](https://github.com/nextcloud/calendar/commit/8f2e394a435972e27a81f3db9822bea7c0a11453))
+* **l10n:** Update translations from Transifex ([6ca94ae](https://github.com/nextcloud/calendar/commit/6ca94ae908bb6c7e26d860bc8392b659b6b58d5c))
+* **rtl:** calendar grid direction ([8bf59bd](https://github.com/nextcloud/calendar/commit/8bf59bd92630ca7a2a4f102514036a3639e78130))
+
+
+
 ## [5.5.5](https://github.com/nextcloud/calendar/compare/v5.5.4...v5.5.5) (2025-09-23)
 
 
