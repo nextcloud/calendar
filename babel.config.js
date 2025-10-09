@@ -4,4 +4,7 @@
  */
 const babelConfig = require('@nextcloud/babel-config')
 
+// Fix collecting coverage from TypeScript files when running Jest
+babelConfig.presets.push('@babel/preset-typescript')
+
 module.exports = babelConfig
