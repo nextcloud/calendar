@@ -47,7 +47,7 @@
     "@fullcalendar/timegrid": "6.1.19",
     "@fullcalendar/vue": "6.1.19",
     "@mdi/svg": "^7.4.47",
-    "@nextcloud/auth": "^2.5.2",
+    "@nextcloud/auth": "^2.5.3",
     "@nextcloud/axios": "^2.5.2",
     "@nextcloud/calendar-availability-vue": "^2.2.11",
     "@nextcloud/calendar-js": "^8.1.6",
@@ -147,7 +147,7 @@
       "clover"
     ],
     "transformIgnorePatterns": [
-      "/node_modules/(?!(@fullcalendar|uuid|webdav|p-limit|yocto-queue|color-(name|string|convert)|@nextcloud/(initial-state))).+\\.js$"
+      "/node_modules/(?!(@fullcalendar|uuid|webdav|p-limit|yocto-queue|color-(name|string|convert)|@nextcloud/(initial-state|browser-storage|auth))).+\\.js$"
     ],
     "setupFilesAfterEnv": [
       "./tests/javascript/jest.setup.js",
