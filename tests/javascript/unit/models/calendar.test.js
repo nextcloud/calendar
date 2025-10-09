@@ -39,6 +39,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			transparency: 'opaque',
+			onlyAvailability: false,
 		})
 	})
 
@@ -70,6 +71,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			transparency: 'opaque',
+			onlyAvailability: false,
 		})
 	})
 
@@ -88,6 +90,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			enabled: true,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
 			transparency: 'opaque',
+			onlyAvailability: false,
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
@@ -111,6 +114,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isSharedWithMe: false,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
 			transparency: 'opaque',
+			onlyAvailability: false,
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
@@ -134,6 +138,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			publishURL: undefined,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
 			transparency: 'transparent',
+			onlyAvailability: false,
 			enabled: false,
 		}
 
@@ -158,6 +163,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isSharedWithMe: false,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
 			transparency: 'transparent',
+			onlyAvailability: false,
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
@@ -203,6 +209,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isSharedWithMe: false,
 			timezone: null,
 			transparency: 'opaque',
+			onlyAvailability: false,
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
@@ -248,6 +255,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isSharedWithMe: true,
 			timezone: null,
 			transparency: 'opaque',
+			onlyAvailability: false,
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
@@ -293,6 +301,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isSharedWithMe: false,
 			timezone: null,
 			transparency: 'opaque',
+			onlyAvailability: false,
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
@@ -338,6 +347,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isSharedWithMe: false,
 			timezone: null,
 			transparency: 'opaque',
+			onlyAvailability: false,
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
@@ -383,6 +393,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isSharedWithMe: false,
 			timezone: null,
 			transparency: 'opaque',
+			onlyAvailability: false,
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
@@ -428,6 +439,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isSharedWithMe: false,
 			timezone: null,
 			transparency: 'opaque',
+			onlyAvailability: false,
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
@@ -529,6 +541,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isSharedWithMe: false,
 			timezone: null,
 			transparency: 'opaque',
+			onlyAvailability: false,
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
@@ -646,6 +659,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isSharedWithMe: true,
 			timezone: null,
 			transparency: 'opaque',
+			onlyAvailability: false,
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
@@ -692,6 +706,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isSharedWithMe: false,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
 			transparency: 'opaque',
+			onlyAvailability: false,
 			url: '/remote.php/dav/calendars/admin/personal/',
 			calendarObjects: [],
 			fetchedTimeRanges: [],

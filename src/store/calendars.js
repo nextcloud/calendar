@@ -592,6 +592,25 @@ export default defineStore('calendars', {
 		},
 
 		/**
+		 * Change if a calendar share only shows availability (instead of full event details)
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to modify
+		 * @param {string} data.shareOnlyAvailability the new value for sharing only avaliability
+		 * @return {Promise}
+		 */
+		async changeCalendarShareOnlyAvailability({ calendar, shareOnlyAvailability }) {
+			if (calendar.dav.onlyAvailability === shareOnlyAvailability) {
+				return
+			}
+
+			calendar.dav.onlyAvailability = shareOnlyAvailability
+
+			await calendar.dav.update()
+			this.calendarsById[calendar.id].onlyAvailability = shareOnlyAvailability
+		},
+
+		/**
 		 * Share calendar with User or Group
 		 *
 		 * @param {object} data destructuring object
