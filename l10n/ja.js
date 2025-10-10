@@ -252,6 +252,7 @@ OC.L10N.register(
     "Please share anything that will help prepare for our meeting" : "会議の準備に役立つことがあれば教えてください。",
     "Could not book the appointment. Please try again later or contact the organizer." : "予約できませんでした。後でもう一度試してみるか、主催者に連絡してください。",
     "Back" : "戻る",
+    "Add Talk conversation" : "会話を追加",
     "Create a new public conversation" : "公開の会話を作成する",
     "Select conversation" : "会話を選択",
     "on" : "曜日",
