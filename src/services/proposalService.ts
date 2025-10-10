@@ -3,48 +3,40 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import axios from '@nextcloud/axios'
+import { generateOcsUrl } from '@nextcloud/router'
+import type { AxiosResponse } from '@nextcloud/axios'
 import type { OcsEnvelope, OcsErrorData } from '@/types/ocs'
 import type { ProposalDateInterface, ProposalInterface, ProposalResponseInterface } from '@/types/proposals/proposalInterfaces'
 
-import { generateOcsUrl } from '@nextcloud/router'
-
 class ProposalService {
-	private async transceivePost(path: string, payload?: object) {
-		let response: Response
+	private async transceivePost<T>(path: string, payload?: object): Promise<T> {
+		let response: AxiosResponse<T | OcsEnvelope<OcsErrorData>>
 		try {
-			response = await fetch(generateOcsUrl(`/calendar/proposal/${path}`), {
-				method: 'POST',
+			response = await axios.post(generateOcsUrl(`/calendar/proposal/${path}`), payload, {
 				headers: {
 					'OCS-APIREQUEST': 'true',
 					'Content-Type': 'application/json',
-					Accept: 'application/json',
+					'Accept': 'application/json',
 				},
-				credentials: 'same-origin',
-				body: payload ? JSON.stringify(payload) : undefined,
+				withCredentials: true,
 			})
+			return response.data as T
 		} catch (error) {
-			throw new Error('Network error while contacting proposal service', { cause: error as Error })
+			let message = 'Unknown error'
+			if (error.response.headers['content-type'] && error.response.headers['content-type'].includes('application/json')) {
+				const ocsError = error.response.data as OcsEnvelope<OcsErrorData>
+				message = ocsError.ocs?.meta?.message ? ocsError.ocs.meta.message : `${error.response.status} ${error.response.statusText}`
+			} else {
+				message = `${error.response.status} ${error.response.statusText}`
+			}
+			throw new Error(`Unexpected error from proposal service: ${message}`)
 		}
-
-		if (response.ok) {
-			return response.json()
-		}
-
-		const contents = await response.text()
-		const contentType = response.headers.get('content-type') || ''
-		let message = 'Unknown error'
-		if (contentType.includes('application/json')) {
-			const errorData: OcsEnvelope<OcsErrorData> = JSON.parse(contents)
-			message = errorData.ocs?.meta?.message ? errorData.ocs.meta.message : `${response.status} ${response.statusText}`
-		} else {
-			message = contents?.trim().length ? contents : `${response.status} ${response.statusText}`
-		}
-		throw new Error(`Unexpected error from proposal service: ${message}`)
 	}
 
 	async listProposals() {
 		try {
-			return await this.transceivePost('list')
+			return await this.transceivePost<ProposalInterface[]>('list')
 		} catch (error) {
 			console.error('Failed to list proposals:', error)
 			throw new Error('Failed to list proposals', { cause: error as Error })
@@ -53,7 +45,7 @@ class ProposalService {
 
 	async fetchProposalByToken(token: string) {
 		try {
-			return await this.transceivePost('fetch', { token })
+			return await this.transceivePost<ProposalInterface>('fetch', { token })
 		} catch (error) {
 			console.error('Failed to fetch proposal:', error)
 			throw new Error('Failed to fetch proposal', { cause: error as Error })
@@ -62,7 +54,7 @@ class ProposalService {
 
 	async createProposal(data: ProposalInterface) {
 		try {
-			return await this.transceivePost('create', { proposal: data })
+			return await this.transceivePost<ProposalInterface>('create', { proposal: data })
 		} catch (error) {
 			console.error('Failed to create proposal:', error)
 			throw new Error('Failed to create proposal', { cause: error as Error })
@@ -74,7 +66,7 @@ class ProposalService {
 			throw new Error('Proposal id must be a number for update')
 		}
 		try {
-			return await this.transceivePost('modify', { proposal: data })
+			return await this.transceivePost<ProposalInterface>('modify', { proposal: data })
 		} catch (error) {
 			console.error('Failed to modify proposal:', error)
 			throw new Error('Failed to modify proposal', { cause: error as Error })
@@ -86,7 +78,7 @@ class ProposalService {
 			throw new Error('Proposal id must be a number for deletion')
 		}
 		try {
-			await this.transceivePost('destroy', { id: data.id })
+			await this.transceivePost<void>('destroy', { id: data.id })
 		} catch (error) {
 			console.error('Failed to destroy proposal:', error)
 			throw new Error('Failed to destroy proposal', { cause: error as Error })
@@ -95,7 +87,7 @@ class ProposalService {
 
 	async convertProposal(proposal: ProposalInterface, date: ProposalDateInterface, options: Record<string, unknown>) {
 		try {
-			await this.transceivePost('convert', { proposalId: proposal.id, dateId: date.id, options })
+			await this.transceivePost<void>('convert', { proposalId: proposal.id, dateId: date.id, options })
 		} catch (error) {
 			console.error('Failed to convert proposal:', error)
 			throw new Error('Failed to convert proposal', { cause: error as Error })
@@ -104,7 +96,7 @@ class ProposalService {
 
 	async storeResponse(data: ProposalResponseInterface) {
 		try {
-			return await this.transceivePost('response', { response: data })
+			return await this.transceivePost<void>('response', { response: data })
 		} catch (error) {
 			console.error('Failed to store proposal response:', error)
 			throw new Error('Failed to store proposal response', { cause: error as Error })
