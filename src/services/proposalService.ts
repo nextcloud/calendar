@@ -3,115 +3,112 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import type { OcsEnvelope, OcsErrorData } from '@/types/ocs'
 import type { ProposalDateInterface, ProposalInterface, ProposalResponseInterface } from '@/types/proposals/proposalInterfaces'
 
+import { generateOcsUrl } from '@nextcloud/router'
+
 class ProposalService {
-	async listProposals() {
-		const response = await fetch('/ocs/v2.php/calendar/proposal/list', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'OCS-APIRequest': 'true',
-			},
-		})
-		if (!response.ok) {
-			throw new Error('Failed to list proposals')
+	private async transceivePost(path: string, payload?: object) {
+		let response: Response
+		try {
+			response = await fetch(generateOcsUrl(`/calendar/proposal/${path}`), {
+				method: 'POST',
+				headers: {
+					'OCS-APIREQUEST': 'true',
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+				},
+				credentials: 'same-origin',
+				body: payload ? JSON.stringify(payload) : undefined,
+			})
+		} catch (error) {
+			throw new Error('Network error while contacting proposal service', { cause: error as Error })
 		}
-		return await response.json()
+
+		if (response.ok) {
+			return response.json()
+		}
+
+		const contents = await response.text()
+		const contentType = response.headers.get('content-type') || ''
+		let message = 'Unknown error'
+		if (contentType.includes('application/json')) {
+			const errorData: OcsEnvelope<OcsErrorData> = JSON.parse(contents)
+			message = errorData.ocs?.meta?.message ? errorData.ocs.meta.message : `${response.status} ${response.statusText}`
+		} else {
+			message = contents?.trim().length ? contents : `${response.status} ${response.statusText}`
+		}
+		throw new Error(`Unexpected error from proposal service: ${message}`)
+	}
+
+	async listProposals() {
+		try {
+			return await this.transceivePost('list')
+		} catch (error) {
+			console.error('Failed to list proposals:', error)
+			throw new Error('Failed to list proposals', { cause: error as Error })
+		}
 	}
 
 	async fetchProposalByToken(token: string) {
-		const response = await fetch('/ocs/v2.php/calendar/proposal/fetch', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'OCS-APIRequest': 'true',
-			},
-			body: JSON.stringify({ token }),
-		})
-		if (!response.ok) {
-			throw new Error('Failed to fetch proposal')
+		try {
+			return await this.transceivePost('fetch', { token })
+		} catch (error) {
+			console.error('Failed to fetch proposal:', error)
+			throw new Error('Failed to fetch proposal', { cause: error as Error })
 		}
-		return await response.json()
 	}
 
 	async createProposal(data: ProposalInterface) {
-		const response = await fetch('/ocs/v2.php/calendar/proposal/create', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'OCS-APIRequest': 'true',
-			},
-			body: JSON.stringify({ proposal: data }),
-		})
-		if (!response.ok) {
-			throw new Error('Failed to create proposal')
+		try {
+			return await this.transceivePost('create', { proposal: data })
+		} catch (error) {
+			console.error('Failed to create proposal:', error)
+			throw new Error('Failed to create proposal', { cause: error as Error })
 		}
-		return await response.json()
 	}
 
 	async modifyProposal(data: ProposalInterface) {
 		if (typeof data.id !== 'number') {
 			throw new Error('Proposal id must be a number for update')
 		}
-		const response = await fetch('/ocs/v2.php/calendar/proposal/modify', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'OCS-APIRequest': 'true',
-			},
-			body: JSON.stringify({ proposal: data }),
-		})
-		if (!response.ok) {
-			throw new Error('Failed to modify proposal')
+		try {
+			return await this.transceivePost('modify', { proposal: data })
+		} catch (error) {
+			console.error('Failed to modify proposal:', error)
+			throw new Error('Failed to modify proposal', { cause: error as Error })
 		}
-		return await response.json()
 	}
 
 	async destroyProposal(data: ProposalInterface) {
 		if (typeof data.id !== 'number') {
 			throw new Error('Proposal id must be a number for deletion')
 		}
-		const response = await fetch('/ocs/v2.php/calendar/proposal/destroy', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'OCS-APIRequest': 'true',
-			},
-			body: JSON.stringify({ id: data.id }),
-		})
-		if (!response.ok) {
-			throw new Error('Failed to destroy proposal')
+		try {
+			await this.transceivePost('destroy', { id: data.id })
+		} catch (error) {
+			console.error('Failed to destroy proposal:', error)
+			throw new Error('Failed to destroy proposal', { cause: error as Error })
 		}
 	}
 
 	async convertProposal(proposal: ProposalInterface, date: ProposalDateInterface, options: Record<string, unknown>) {
-		const response = await fetch('/ocs/v2.php/calendar/proposal/convert', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'OCS-APIRequest': 'true',
-			},
-			body: JSON.stringify({ proposalId: proposal.id, dateId: date.id, options }),
-		})
-		if (!response.ok) {
-			throw new Error('Failed to convert proposal')
+		try {
+			await this.transceivePost('convert', { proposalId: proposal.id, dateId: date.id, options })
+		} catch (error) {
+			console.error('Failed to convert proposal:', error)
+			throw new Error('Failed to convert proposal', { cause: error as Error })
 		}
 	}
 
 	async storeResponse(data: ProposalResponseInterface) {
-		const response = await fetch('/ocs/v2.php/calendar/proposal/response', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'OCS-APIRequest': 'true',
-			},
-			body: JSON.stringify({ response: data }),
-		})
-		if (!response.ok) {
-			throw new Error('Failed to store proposal response')
+		try {
+			return await this.transceivePost('response', { response: data })
+		} catch (error) {
+			console.error('Failed to store proposal response:', error)
+			throw new Error('Failed to store proposal response', { cause: error as Error })
 		}
-		return await response.json()
 	}
 }
 
