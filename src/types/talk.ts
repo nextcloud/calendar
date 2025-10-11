@@ -1,6 +1,71 @@
 // SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
+import type { OcsEnvelope } from '@/types/ocs'
+
+export type TalkRoomListRequest = {
+	noStatusUpdate?: boolean
+	includeStatus?: boolean
+	modifiedSince?: number
+	includeLastMessage?: boolean
+}
+
+export type TalkRoomListResponse = OcsEnvelope<TalkRoom[]>
+
+export type TalkRoomFetchResponse = OcsEnvelope<TalkRoom>
+
+export type TalkRoomCreateRequest = {
+	roomType: number
+	roomName: string
+	objectType: string
+	objectId: string
+	password?: string
+	readOnly?: number
+	listable?: number
+	messageExpiration?: number
+	lobbyState?: number
+	lobbyTimer?: number | null
+	sipEnabled?: number
+	permissions?: number
+	recordingConsent?: number
+	mentionPermissions?: number
+	description?: string
+	emoji?: string | null
+	avatarColor?: string | null
+	participants?: {
+		users?: string[]
+		federated_users?: string[]
+		groups?: string[]
+		emails?: string[]
+		phones?: string[]
+		teams?: string[]
+	}
+}
+
+export type TalkRoomCreateResponse = OcsEnvelope<TalkRoom>
+
+export type TalkRoomParticipant = {
+	actorId: string
+	actorType: string
+	attendeeId: number
+	participantType: number
+	displayName: string
+	inCall: number
+	lastPing: number
+	sessionIds: string[]
+}
+
+export type TalkRoomFetchParticipantsResponse = OcsEnvelope<TalkRoomParticipant[]>
+
+export type TalkRoomAddParticipantRequest = {
+	newParticipant: string
+	source: string
+}
+
+export type TalkRoomAddParticipantResponse = OcsEnvelope<{
+	type: number
+}>
+
 export type TalkRoom = {
 	actorId: string
 	invitedActorId: string

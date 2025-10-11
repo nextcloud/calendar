@@ -1,3 +1,8 @@
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 import { AttachmentProperty, AttendeeProperty, DateTimeValue, DurationValue, Parameter, Property, RecurValue } from '@nextcloud/calendar-js'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
@@ -9,11 +14,6 @@ import {
 	mapEventComponentToEventObject,
 } from '../models/event.js'
 import { getRFCProperties } from '../models/rfcProps.js'
-import { updateTalkParticipants } from '../services/talkService.js'
-/**
- * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
- * SPDX-License-Identifier: AGPL-3.0-or-later
- */
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import {
 	getAmountAndUnitForTimedEvents,
@@ -32,6 +32,7 @@ import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/r
 import useCalendarObjectsStore from './calendarObjects.js'
 import useCalendarsStore from './calendars.js'
 import useSettingsStore from './settings.js'
+import { updateRoomParticipantsFromEvent } from '@/services/talkService'
 
 export default defineStore('calendarObjectInstance', {
 	state: () => {
@@ -1470,7 +1471,6 @@ export default defineStore('calendarObjectInstance', {
 			const calendarObject = this.calendarObject
 
 			updateAlarms(eventComponent)
-			await updateTalkParticipants(eventComponent)
 
 			if (eventComponent.isDirty()) {
 				const isForkedItem = eventComponent.primaryItem !== null
@@ -1492,6 +1492,8 @@ export default defineStore('calendarObjectInstance', {
 						calendarId,
 					})
 				}
+				// trigger room update but don't wait for it
+				updateRoomParticipantsFromEvent(eventComponent)
 			}
 
 			if (calendarId !== this.calendarObject.calendarId) {
