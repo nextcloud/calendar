@@ -40,11 +40,11 @@
 					v-if="canCreateConversations"
 					class="talk_new-room"
 					:disabled="creatingTalkRoom"
-					@click="createTalkRoom">
+					@click="createTalkRoom('public')">
 					<template #icon>
 						<IconAdd :size="20" />
 					</template>
-					{{ t('calendar', 'Create a new public conversation') }}
+					{{ t('calendar', 'Create public conversation') }}
 				</NcButton>
 				<NcButton
 					variant="primary"
@@ -59,7 +59,6 @@
 </template>
 
 <script>
-import axios from '@nextcloud/axios'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { loadState } from '@nextcloud/initial-state'
 import { generateOcsUrl } from '@nextcloud/router'
@@ -69,10 +68,11 @@ import {
 	NcEmptyContent,
 	NcModal,
 } from '@nextcloud/vue'
+import md5 from 'md5'
 import { mapStores } from 'pinia'
 import IconAdd from 'vue-material-design-icons/Plus.vue'
-import { createTalkRoom, generateURLForToken } from '../../services/talkService.js'
 import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
+import { createRoom, generateRoomUrl, listRooms } from '@/services/talkService'
 
 // Ref https://github.com/nextcloud/spreed/blob/main/docs/constants.md
 const CONVERSATION_TYPE_GROUP = 2
@@ -145,8 +145,8 @@ export default {
 
 		async fetchTalkConversations() {
 			try {
-				const response = await axios.get(generateOcsUrl('apps/spreed/api/v4/room'))
-				this.talkConversations = response.data.ocs.data.filter((conversation) => (conversation.participantType === PARTICIPANT_TYPE_OWNER
+				const rooms = await listRooms()
+				this.talkConversations = rooms.filter((conversation) => (conversation.participantType === PARTICIPANT_TYPE_OWNER
 					|| conversation.participantType === PARTICIPANT_TYPE_MODERATOR)
 				&& (conversation.type === CONVERSATION_TYPE_GROUP
 					|| (conversation.type === CONVERSATION_TYPE_PUBLIC
@@ -166,7 +166,7 @@ export default {
 
 		async selectConversation(conversation) {
 			try {
-				const url = generateURLForToken(conversation.token)
+				const url = generateRoomUrl(conversation)
 
 				if (!url) {
 					showError(this.$t('calendar', 'Conversation does not have a valid URL.'))
@@ -201,17 +201,27 @@ export default {
 			}
 		},
 
-		async createTalkRoom() {
+		async createTalkRoom(type) {
 			const NEW_LINE = '\r\n'
 			try {
 				this.creatingTalkRoom = true
-				const url = await createTalkRoom(
-					this.calendarObjectInstance.title,
-					this.calendarObjectInstance.description,
-				)
 
+				const roomType = type === 'private' ? CONVERSATION_TYPE_GROUP : CONVERSATION_TYPE_PUBLIC
+				const room = await createRoom({
+					roomType,
+					roomName: this.calendarObjectInstance.title || this.$t('calendar', 'Talk conversation for event'),
+					objectType: 'event',
+					objectId: md5(String(Date.now())),
+					description: this.calendarObjectInstance.description || '',
+				})
+
+				if (!room || !room.token) {
+					throw new Error('No token returned from createRoom')
+				}
+
+				const url = generateRoomUrl(room)
 				if (!url) {
-					throw new Error('No URL returned from createTalkRoom')
+					throw new Error('Failed to generate URL from token')
 				}
 
 				if ((this.calendarObjectInstance.location ?? '').trim() === '') {

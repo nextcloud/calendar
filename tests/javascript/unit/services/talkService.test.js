@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { extractCallTokenFromUrl, generateURLForToken } from '../../../../src/services/talkService'
+import { extractRoomUrlToken, generateRoomUrl } from '../../../../src/services/talkService'
 import { getBaseUrl } from '@nextcloud/router'
 
 vi.mock('@nextcloud/router', () => ({
@@ -36,7 +36,7 @@ describe('services/talk test suite', () => {
 		['https://foo.bar/baz', undefined],
 		['https://foo.bar/baz/bar', undefined],
 	])('should extract a token from call url %s', (url, expected) => {
-		expect(extractCallTokenFromUrl(url)).toBe(expected)
+		expect(extractRoomUrlToken(url)).toBe(expected)
 	})
 
 	test.each([
@@ -60,6 +60,6 @@ describe('services/talk test suite', () => {
 		const baseUrl = location.protocol + '//' + location.host + '/nextcloud'
 		getBaseUrl.mockReturnValue(baseUrl)
 		
-		expect(generateURLForToken('foobar')).toBe(expected)
+		expect(generateRoomUrl('foobar')).toBe(expected)
 	})
 })

@@ -9,7 +9,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { Proposal } from '@/models/proposals/proposals'
 import { proposalService } from '@/services/proposalService'
-import { createTalkRoomFromProposal, generateURLForToken } from '@/services/talkService'
+import { createRoomFromProposal, generateRoomUrl } from '@/services/talkService'
 import useSettingsStore from '@/store/settings'
 
 export default defineStore('proposal', () => {
@@ -113,8 +113,8 @@ export default defineStore('proposal', () => {
 		}
 
 		if (settingsStore.talkEnabled && proposal.location === 'Talk conversation') {
-			const talkRoom = await createTalkRoomFromProposal(proposal)
-			options.talkRoomUri = generateURLForToken(talkRoom.token)
+			const talkRoom = await createRoomFromProposal(proposal)
+			options.talkRoomUri = generateRoomUrl(talkRoom)
 		}
 
 		await proposalService.convertProposal(proposal, date, options)
