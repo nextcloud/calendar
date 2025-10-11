@@ -105,6 +105,9 @@
 				<div v-if="highlightTimezones && startTimezone !== 'floating'" class="property-title-time-picker-read-only-wrapper__timezone">
 					{{ startTimezone }}
 				</div>
+				<div v-if="subtitleStart" class="property-title-time-picker-read-only-wrapper__subtitle">
+					{{ subtitleStart }} {{ t('calendar', 'Local Time') }}
+				</div>
 			</div>
 			<template v-if="!isAllDayOneDayEvent">
 				<div class="property-title-time-picker-read-only-wrapper property-title-time-picker-read-only-wrapper--end-date">
@@ -119,6 +122,9 @@
 					<div v-if="highlightTimezones && endTimezone !== 'floating'" class="property-title-time-picker-read-only-wrapper__timezone">
 						{{ endTimezone }}
 					</div>
+					<div v-if="subtitleEnd" class="property-title-time-picker-read-only-wrapper__subtitle">
+						{{ subtitleEnd }} {{ t('calendar', 'Local Time') }}
+					</div>
 				</div>
 			</template>
 		</div>
@@ -128,6 +134,7 @@
 <script>
 import moment from '@nextcloud/moment'
 import { NcButton, NcTimezonePicker } from '@nextcloud/vue'
+import momentTimezone from 'moment-timezone'
 import { mapState } from 'pinia'
 import CalendarIcon from 'vue-material-design-icons/CalendarOutline.vue'
 import IconTimezone from 'vue-material-design-icons/Web.vue'
@@ -295,6 +302,23 @@ export default {
 
 		isMobile() {
 			return this.windowWidth <= 840
+		},
+
+		subtitleStart() {
+			if (this.isAllDay) {
+				return null
+			}
+			// TODO also check if time difference
+			return momentTimezone.utc(this.startDate).tz(this.userTimezone)
+				.format('LT')
+		},
+
+		subtitleEnd() {
+			if (this.isAllDay) {
+				return null
+			}
+			return momentTimezone.utc(this.endDate).tz(this.userTimezone)
+				.format('LT')
 		},
 	},
 
@@ -579,5 +603,9 @@ export default {
 			margin: 0 !important;
 		}
 	}
+}
+
+.property-title-time-picker-read-only-wrapper__subtitle {
+    opacity: 0.8;
 }
 </style>
