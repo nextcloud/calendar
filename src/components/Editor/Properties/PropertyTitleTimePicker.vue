@@ -102,8 +102,11 @@
 					:title="startTimezone"
 					:class="{ 'highlighted-timezone-icon': highlightTimezones }"
 					:size="20" />
-				<div v-if="highlightTimezones && startTimezone !== 'floating'" class="property-title-time-picker-read-only-wrapper__timezone">
+				<div v-if="highlightTimezones && startTimezone !== 'floating'" class="property-title-time-picker-read-only-wrapper__timezone" :title="startTimezone">
 					{{ startTimezone }}
+				</div>
+				<div v-if="subtitleStart" class="property-title-time-picker-read-only-wrapper__subtitle">
+					{{ subtitleStart }} {{ t('calendar', 'Your Time') }}
 				</div>
 			</div>
 			<template v-if="!isAllDayOneDayEvent">
@@ -116,8 +119,11 @@
 						:title="endTimezone"
 						:class="{ 'highlighted-timezone-icon': highlightTimezones }"
 						:size="20" />
-					<div v-if="highlightTimezones && endTimezone !== 'floating'" class="property-title-time-picker-read-only-wrapper__timezone">
+					<div v-if="highlightTimezones && endTimezone !== 'floating'" class="property-title-time-picker-read-only-wrapper__timezone" :title="endTimezone">
 						{{ endTimezone }}
+					</div>
+					<div v-if="subtitleEnd" class="property-title-time-picker-read-only-wrapper__subtitle">
+						{{ subtitleEnd }} {{ t('calendar', 'Your Time') }}
 					</div>
 				</div>
 			</template>
@@ -126,13 +132,16 @@
 </template>
 
 <script>
+import { DateTimeValue } from '@nextcloud/calendar-js'
 import moment from '@nextcloud/moment'
 import { NcButton, NcTimezonePicker } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import CalendarIcon from 'vue-material-design-icons/CalendarOutline.vue'
 import IconTimezone from 'vue-material-design-icons/Web.vue'
 import DatePicker from '../../Shared/DatePicker.vue'
+import getTimezoneManager from '../../../services/timezoneDataProviderService.js'
 import useSettingsStore from '../../../store/settings.js'
+import { getDateFromDateTimeValue } from '@/utils/date'
 
 export default {
 	name: 'PropertyTitleTimePicker',
@@ -296,6 +305,31 @@ export default {
 		isMobile() {
 			return this.windowWidth <= 840
 		},
+
+		subtitleStart() {
+			if (this.isAllDay) {
+				return null
+			}
+			const localDate = this.getDateInUserTimezone(this.startDate, this.startTimezone)
+
+			if (localDate.getTime() === this.startDate.getTime()) {
+				return null
+			}
+
+			return moment(localDate).locale(this.locale).format('LT')
+		},
+
+		subtitleEnd() {
+			if (this.isAllDay) {
+				return null
+			}
+			const localDate = this.getDateInUserTimezone(this.endDate, this.endTimezone)
+			if (localDate.getTime() === this.endDate.getTime()) {
+				return null
+			}
+
+			return moment(localDate).locale(this.locale).format('LT')
+		},
 	},
 
 	mounted() {
@@ -374,6 +408,16 @@ export default {
 			}
 
 			this.$emit('update-end-timezone', value)
+		},
+
+		getDateInUserTimezone(date, timezone) {
+			const tzManager = getTimezoneManager()
+			const dateTimezone = tzManager.getTimezoneForId(timezone)
+			const userTimezone = tzManager.getTimezoneForId(this.userTimezone)
+
+			const dateTimeValue = DateTimeValue.fromJSDate(date)
+			dateTimeValue.replaceTimezone(dateTimezone)
+			return getDateFromDateTimeValue(dateTimeValue.getInTimezone(userTimezone))
 		},
 
 		updateWindowWidth() {
@@ -572,6 +616,11 @@ export default {
 	.property-title-time-picker-read-only-wrapper {
 		display: flex;
 		gap: calc(var(--default-grid-baseline) * 2);
+		max-width: calc(var(--sidebar-max-width) - var(--default-clickable-area) - var(--default-grid-baseline));
+
+		&__label, &__subtitle {
+			min-width: calc(var(--navigation-width) * 0.5);
+		}
 	}
 
 	.property-title-time-picker {
@@ -579,5 +628,15 @@ export default {
 			margin: 0 !important;
 		}
 	}
+
+	.property-title-time-picker-read-only-wrapper__timezone {
+		text-overflow: ellipsis;
+		overflow: hidden;
+		flex-shrink: 1;
+	}
+}
+
+.property-title-time-picker-read-only-wrapper__subtitle {
+    opacity: 0.8;
 }
 </style>
