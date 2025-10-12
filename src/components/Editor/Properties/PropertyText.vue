@@ -122,7 +122,7 @@ export default {
 
 .property-text__readonly-value {
 	white-space: pre-wrap;
-	word-break: break-all;
+	overflow-wrap: break-word;
 }
 
 .textarea--description {
