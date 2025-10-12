@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import axios from '@nextcloud/axios'
-import { generateOcsUrl } from '@nextcloud/router'
 import type { AxiosResponse } from '@nextcloud/axios'
 import type { OcsEnvelope, OcsErrorData } from '@/types/ocs'
 import type { ProposalDateInterface, ProposalInterface, ProposalResponseInterface } from '@/types/proposals/proposalInterfaces'
+
+import axios from '@nextcloud/axios'
+import { generateOcsUrl } from '@nextcloud/router'
 
 class ProposalService {
 	private async transceivePost<T>(path: string, payload?: object): Promise<T> {
@@ -17,7 +18,7 @@ class ProposalService {
 				headers: {
 					'OCS-APIREQUEST': 'true',
 					'Content-Type': 'application/json',
-					'Accept': 'application/json',
+					Accept: 'application/json',
 				},
 				withCredentials: true,
 			})
