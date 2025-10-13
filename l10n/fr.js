@@ -354,6 +354,7 @@ OC.L10N.register(
     "Legend" : "Légende",
     "Out of office" : "Absent du bureau",
     "Attendees:" : "Participants :",
+    "local time" : "heure locale",
     "Done" : "Terminé",
     "Search room" : "Chercher une salle",
     "Room name" : "Nom de la salle",
