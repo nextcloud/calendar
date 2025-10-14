@@ -128,6 +128,7 @@ import {
 	initializeClientForPublicView,
 	initializeClientForUserView,
 } from '../services/caldavService.js'
+import { isNotifyPushAvailable, registerNotifyPushSyncListener } from '../services/notifyService.ts'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import useCalendarObjectsStore from '../store/calendarObjects.js'
 import useCalendarsStore from '../store/calendars.js'
@@ -285,43 +286,19 @@ export default {
 	},
 
 	created() {
-		this.backgroundSyncJob = setInterval(async () => {
-			const currentUserPrincipal = this.principalsStore.getCurrentUserPrincipal
-			const calendars = (await findAllCalendars())
-				.map((calendar) => mapDavCollectionToCalendar(calendar, currentUserPrincipal))
-			for (const calendar of calendars) {
-				const existingSyncToken = this.calendarsStore.getCalendarSyncToken(calendar)
-				if (!existingSyncToken && !this.calendarsStore.getCalendarById(calendar.id)) {
-					// New calendar!
-					logger.debug(`Adding new calendar ${calendar.url}`)
-					this.calendarsStore.addCalendarMutation({ calendar })
-					continue
+		if (isNotifyPushAvailable() && registerNotifyPushSyncListener()) {
+			logger.info('Using notify_push sync')
+		} else {
+			logger.info('Using periodic background sync')
+			this.backgroundSyncJob = setInterval(async () => {
+				const currentUserPrincipal = this.principalsStore.getCurrentUserPrincipal
+				const calendars = (await findAllCalendars())
+					.map((calendar) => mapDavCollectionToCalendar(calendar, currentUserPrincipal))
+				for (const calendar of calendars) {
+					this.calendarsStore.syncCalendar({ calendar, skipIfUnchangedSyncToken: true })
 				}
-
-				if (calendar.dav.syncToken === existingSyncToken) {
-					continue
-				}
-
-				logger.debug(`Refetching calendar ${calendar.url} (syncToken changed)`)
-				const fetchedTimeRanges = this.fetchedTimeRangesStore
-					.getAllTimeRangesForCalendar(calendar.id)
-				for (const timeRange of fetchedTimeRanges) {
-					this.fetchedTimeRangesStore.removeTimeRange({
-						timeRangeId: timeRange.id,
-					})
-					this.calendarsStore.deleteFetchedTimeRangeFromCalendarMutation({
-						calendar,
-						fetchedTimeRangeId: timeRange.id,
-					})
-				}
-
-				this.calendarsStore.updateCalendarSyncToken({
-					calendar,
-					syncToken: calendar.dav.syncToken,
-				})
-				this.calendarObjectsStore.modificationCount++
-			}
-		}, 1000 * 30)
+			}, 1000 * 30)
+		}
 
 		this.timeFrameCacheExpiryJob = setInterval(() => {
 			const timestamp = (getUnixTimestampFromDate(dateFactory()) - 60 * 10)

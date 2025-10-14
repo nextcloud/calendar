@@ -11,6 +11,7 @@ use OCA\Calendar\Dashboard\CalendarWidget;
 use OCA\Calendar\Events\BeforeAppointmentBookedEvent;
 use OCA\Calendar\Listener\AppointmentBookedListener;
 use OCA\Calendar\Listener\CalendarReferenceListener;
+use OCA\Calendar\Listener\NotifyPushListener;
 use OCA\Calendar\Listener\UserDeletedListener;
 use OCA\Calendar\Notification\Notifier;
 use OCA\Calendar\Profile\AppointmentsAction;
@@ -19,6 +20,9 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Calendar\Events\CalendarObjectCreatedEvent;
+use OCP\Calendar\Events\CalendarObjectDeletedEvent;
+use OCP\Calendar\Events\CalendarObjectUpdatedEvent;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\IUserSession;
 use OCP\ServerVersion;
@@ -55,6 +59,10 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeAppointmentBookedEvent::class, AppointmentBookedListener::class);
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 		$context->registerEventListener(RenderReferenceEvent::class, CalendarReferenceListener::class);
+
+		$context->registerEventListener(CalendarObjectCreatedEvent::class, NotifyPushListener::class);
+		$context->registerEventListener(CalendarObjectUpdatedEvent::class, NotifyPushListener::class);
+		$context->registerEventListener(CalendarObjectDeletedEvent::class, NotifyPushListener::class);
 
 		$context->registerNotifierService(Notifier::class);
 	}
