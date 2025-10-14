@@ -92,6 +92,12 @@
       <code><![CDATA[IEventListener]]></code>
     </MissingTemplateParam>
   </file>
+  <file src="lib/Listener/NotifyPushListener.php">
+    <UndefinedClass>
+      <code><![CDATA[$this->queue]]></code>
+      <code><![CDATA[private]]></code>
+    </UndefinedClass>
+  </file>
   <file src="lib/Objects/BaseCollection.php">
     <PossiblyNullArgument>
       <code><![CDATA[$key]]></code>
@@ -189,6 +195,11 @@
       <code><![CDATA[$tzfrom]]></code>
       <code><![CDATA[$tzfrom]]></code>
     </PossiblyUndefinedVariable>
+  </file>
+  <file src="lib/Service/CalendarInitialStateService.php">
+    <UndefinedClass>
+      <code><![CDATA[IQueue]]></code>
+    </UndefinedClass>
   </file>
   <file src="lib/Service/ContactsService.php">
     <PossiblyInvalidArgument>
