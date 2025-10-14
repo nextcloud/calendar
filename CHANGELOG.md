@@ -1,3 +1,14 @@
+## [6.0.2](https://github.com/nextcloud/calendar/compare/v6.0.1...v6.0.2) (2025-10-14)
+
+
+### Bug Fixes
+
+* **l10n:** Update translations from Transifex ([80007df](https://github.com/nextcloud/calendar/commit/80007df75ec6e3f0cecf69d7a09f4cb0b2618129))
+* **l10n:** Update translations from Transifex ([92caa4c](https://github.com/nextcloud/calendar/commit/92caa4ccf22fcfa5c85f00fa2aaa11958ba08cb4))
+* **l10n:** Update translations from Transifex ([77f8087](https://github.com/nextcloud/calendar/commit/77f8087ad996efc74e165295c21f96f33f0192d8))
+
+
+
 ## [6.0.1](https://github.com/nextcloud/calendar/compare/v6.0.0...v6.0.1) (2025-10-08)
 
 
