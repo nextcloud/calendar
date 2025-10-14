@@ -5,6 +5,7 @@
 
 import type { AutocompleteEntry } from '@/types/autocomplete'
 import type { CalendarAttendee } from '@/types/calendar'
+import type { OcsEnvelope, OcsErrorData } from '@/types/ocs'
 import type { ProposalInterface, ProposalParticipantInterface } from '@/types/proposals/proposalInterfaces'
 import type {
 	TalkRoom,
@@ -18,8 +19,9 @@ import type {
 	TalkRoomListResponse,
 	TalkRoomParticipant,
 } from '@/types/talk'
-
+import type { AxiosResponse } from '@nextcloud/axios'
 import { getCurrentUser } from '@nextcloud/auth'
+import axios from '@nextcloud/axios'
 import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateOcsUrl, generateUrl, getBaseUrl } from '@nextcloud/router'
@@ -77,22 +79,15 @@ export function extractRoomUrlToken(value: string): string | undefined {
  */
 export async function listRooms(params?: TalkRoomListRequest): Promise<TalkRoom[]> {
 	try {
-		const response = await transceiveGet<TalkRoomListRequest, TalkRoomListResponse>('room', params)
-		// response sanity checks
-		if (!response.ocs || !response.ocs.meta || !response.ocs.data || !response.ocs.meta.status) {
-			throw new Error('Talk list error: malformed response')
-		}
-		if (response.ocs.meta.status !== 'ok') {
-			throw new Error(`Talk list error: ${response.ocs.meta.message || 'unknown error'}`)
-		}
+		const data = await transceiveGet<TalkRoomListRequest, TalkRoom[]>('room', params)
 		// Type guard to ensure data is TalkRoom[] and not OcsErrorData
-		if (Array.isArray(response.ocs.data)) {
-			return response.ocs.data
+		if (!Array.isArray(data)) {
+			throw new Error('Unexpected response format')
 		}
-		throw new Error('Talk list error: unexpected response format')
+		return data
 	} catch (error) {
-		console.debug(error)
-		throw error
+		console.error('Failed to list Talk rooms:', error)
+		throw new Error('Failed to list Talk rooms', { cause: error as Error })
 	}
 }
 
@@ -107,19 +102,11 @@ export async function listRooms(params?: TalkRoomListRequest): Promise<TalkRoom[
  */
 export async function createRoom(params: TalkRoomCreateRequest): Promise<TalkRoom> {
 	try {
-		const response = await transceivePost<TalkRoomCreateRequest, TalkRoomCreateResponse>('room', params)
-		// response sanity checks
-		if (!response.ocs || !response.ocs.meta || !response.ocs.data || !response.ocs.meta.status) {
-			throw new Error('Talk create error: malformed response')
-		}
-		if (response.ocs.meta.status !== 'ok') {
-			throw new Error(`Talk create error: ${response.ocs.meta.message || 'unknown error'}`)
-		}
-
-		return Array.isArray(response.ocs.data) ? response.ocs.data[0] as TalkRoom : response.ocs.data as TalkRoom
+		const data = await transceivePost<TalkRoomCreateRequest, TalkRoom | TalkRoom[]>('room', params)
+		return Array.isArray(data) ? data[0] : data
 	} catch (error) {
-		console.debug(error)
-		throw error
+		console.error('Failed to create Talk room:', error)
+		throw new Error('Failed to create Talk room', { cause: error as Error })
 	}
 }
 
@@ -223,11 +210,8 @@ export async function updateRoomParticipantsFromEvent(eventComponent: object): P
 
 	try {
 		// Fetch room details and participants
-		const roomResponse = await transceiveGet<undefined, TalkRoomFetchResponse>(`room/${token}`, undefined)
-		const participantsResponse = await transceiveGet<undefined, TalkRoomFetchParticipantsResponse>(`room/${token}/participants`, undefined)
-
-		const room = roomResponse.ocs.data as TalkRoom
-		const participants = participantsResponse.ocs.data as TalkRoomParticipant[]
+		const room = await transceiveGet<undefined, TalkRoom>(`room/${token}`, undefined)
+		const participants = await transceiveGet<undefined, TalkRoomParticipant[]>(`room/${token}/participants`, undefined)
 
 		// Verify current user is owner or moderator (participantType <= 2)
 		if (!participants.some((participant) => participant.actorId === currentUserId && participant.participantType <= 2)) {
@@ -305,7 +289,7 @@ export async function updateRoomParticipantsFromEvent(eventComponent: object): P
 			.map(async (result) => {
 				try {
 					if (result.userId) {
-						await transceivePost<TalkRoomAddParticipantRequest, TalkRoomAddParticipantResponse>(
+						await transceivePost<TalkRoomAddParticipantRequest, { type: number }>(
 							`room/${token}/participants`,
 							{
 								newParticipant: result.userId,
@@ -314,7 +298,7 @@ export async function updateRoomParticipantsFromEvent(eventComponent: object): P
 						)
 						logger.debug('Added user participant', { userId: result.userId })
 					} else if (result.email) {
-						await transceivePost<TalkRoomAddParticipantRequest, TalkRoomAddParticipantResponse>(
+						await transceivePost<TalkRoomAddParticipantRequest, { type: number }>(
 							`room/${token}/participants`,
 							{
 								newParticipant: result.email,
@@ -340,82 +324,120 @@ export async function updateRoomParticipantsFromEvent(eventComponent: object): P
 }
 
 /**
- * Generic function to GET data from the Talk OCS API and return the typed response
+ * Generic function to GET data from the Talk OCS API and return the unwrapped data
  *
  * @param path API path segment to append after the version (for example: "room")
  * @param params The request query parameters to append to the URL
  *
- * @return Promise that resolves to the typed response data
+ * @return Promise that resolves to the unwrapped OCS data
  *
- * @throws Error if the request fails
+ * @throws Error if the request fails or OCS response is invalid
  */
 async function transceiveGet<TRequest extends object | undefined, TResponse>(path: string, params?: TRequest): Promise<TResponse> {
 	const apiVersion = loadState('calendar', 'talk_api_version')
-	let url = generateOcsUrl('/apps/spreed/api/{apiVersion}/{path}', { apiVersion, path })
+	const url = generateOcsUrl('/apps/spreed/api/{apiVersion}/{path}', { apiVersion, path })
 
-	// Add query parameters if provided
-	if (params) {
-		const queryParams = new URLSearchParams()
-		for (const [key, value] of Object.entries(params)) {
-			if (value !== undefined) {
-				queryParams.append(key, String(value))
+	let response: AxiosResponse<TResponse>
+	try {
+		response = await axios.get<TResponse>(url, {
+			params,
+			headers: {
+				'OCS-APIREQUEST': 'true',
+			},
+		})
+		// Check if response has OCS envelope structure
+		if (response.data && typeof response.data === 'object' && 'ocs' in response.data) {
+			const ocsResponse = response.data as OcsEnvelope<TResponse>
+			// Response sanity checks
+			if (!ocsResponse.ocs || !ocsResponse.ocs.meta || !ocsResponse.ocs.data || !ocsResponse.ocs.meta.status) {
+				throw new Error('Talk service error: malformed response')
 			}
+			if (ocsResponse.ocs.meta.status !== 'ok' && ocsResponse.ocs.meta.message) {
+				throw new Error(`Talk service error: ${ocsResponse.ocs.meta.message}`)
+			}
+			if (ocsResponse.ocs.meta.status !== 'ok' && typeof ocsResponse.ocs.data === 'object' && 'error' in ocsResponse.ocs.data) {
+				throw new Error(`Talk service error: ${ocsResponse.ocs.data.error}`)
+			}
+			if (ocsResponse.ocs.meta.status !== 'ok') {
+				throw new Error('Talk service error: unknown error')
+			}
+			return ocsResponse.ocs.data as TResponse
 		}
-		const queryString = queryParams.toString()
-		if (queryString) {
-			url += '?' + queryString
+		// If not an OCS envelope, return the data as-is
+		return response.data as TResponse
+	} catch (error) {
+		if (error.response) {
+			if (error.response.data && typeof error.response.data === 'object' && 'ocs' in error.response.data) {
+				const ocsError = error.response.data as OcsEnvelope<OcsErrorData>
+				if (ocsError.ocs.meta.message) {
+					throw new Error(`Talk service error: ${ocsError.ocs.meta.message}`)
+				}
+				if (typeof ocsError.ocs.data === 'object' && 'error' in ocsError.ocs.data) {
+					throw new Error(`Talk service error: ${ocsError.ocs.data.error}`)
+				}
+			}
+			throw new Error(`${error.response.status} ${error.response.statusText}`)
 		}
+		throw new Error('Talk service error: unknown error')
 	}
-
-	const response = await fetch(url, {
-		method: 'GET',
-		headers: {
-			'OCS-APIREQUEST': 'true',
-			Accept: 'application/json',
-		},
-		credentials: 'same-origin',
-	})
-
-	if (!response.ok) {
-		const text = await response.text().catch(() => '')
-		throw new Error(`Request failed: ${response.status} ${response.statusText}${text ? ` - ${text}` : ''}`)
-	}
-
-	return response.json() as Promise<TResponse>
 }
 
 /**
- * Generic function to POST data to the Talk OCS API and return the typed response
+ * Generic function to POST data to the Talk OCS API and return the unwrapped data
  *
  * @param path API path segment to append after the version (for example: "room")
  * @param data The request payload body to send as JSON
  *
- * @return Promise that resolves to the typed response data
+ * @return Promise that resolves to the unwrapped OCS data
  *
- * @throws Error if the request fails
+ * @throws Error if the request fails or OCS response is invalid
  */
 async function transceivePost<TRequest extends object, TResponse>(path: string, data: TRequest): Promise<TResponse> {
 	const apiVersion = loadState('calendar', 'talk_api_version')
-	const response = await fetch(
-		generateOcsUrl('/apps/spreed/api/{apiVersion}/{path}', { apiVersion, path }),
-		{
-			method: 'POST',
+	const url = generateOcsUrl('/apps/spreed/api/{apiVersion}/{path}', { apiVersion, path })
+
+	let response: AxiosResponse<TResponse>
+	try {
+		response = await axios.post<TResponse>(url, data, {
 			headers: {
 				'OCS-APIREQUEST': 'true',
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
 			},
-			credentials: 'same-origin',
-			body: JSON.stringify(data),
-		},
-	)
-
-	if (!response.ok) {
-		const text = await response.text().catch(() => '')
-		throw new Error(`Request failed: ${response.status} ${response.statusText}${text ? ` - ${text}` : ''}`)
+		})
+		// Check if response has OCS envelope structure
+		if (response.data && typeof response.data === 'object' && 'ocs' in response.data) {
+			const ocsResponse = response.data as OcsEnvelope<TResponse>
+			// Response sanity checks
+			if (!ocsResponse.ocs || !ocsResponse.ocs.meta || !ocsResponse.ocs.data || !ocsResponse.ocs.meta.status) {
+				throw new Error('Talk service error: malformed response')
+			}
+			if (ocsResponse.ocs.meta.status !== 'ok' && ocsResponse.ocs.meta.message) {
+				throw new Error(`Talk service error: ${ocsResponse.ocs.meta.message}`)
+			}
+			if (ocsResponse.ocs.meta.status !== 'ok' && typeof ocsResponse.ocs.data === 'object' && 'error' in ocsResponse.ocs.data) {
+				throw new Error(`Talk service error: ${ocsResponse.ocs.data.error}`)
+			}
+			if (ocsResponse.ocs.meta.status !== 'ok') {
+				throw new Error('Talk service error: unknown error')
+			}
+			return ocsResponse.ocs.data as TResponse
+		}
+		// If not an OCS envelope, return the data as-is
+		return response.data as TResponse
+	} catch (error) {
+		if (error.response) {
+			if (error.response.data && typeof error.response.data === 'object' && 'ocs' in error.response.data) {
+				const ocsError = error.response.data as OcsEnvelope<OcsErrorData>
+				if (ocsError.ocs.meta.message) {
+					throw new Error(`Talk service error: ${ocsError.ocs.meta.message}`)
+				}
+				if (typeof ocsError.ocs.data === 'object' && 'error' in ocsError.ocs.data) {
+					throw new Error(`Talk service error: ${ocsError.ocs.data.error}`)
+				}
+			}
+			throw new Error(`${error.response.status} ${error.response.statusText}`)
+		}
+		throw new Error('Talk service error: unknown error')
 	}
-
-	return response.json() as Promise<TResponse>
 }
 
 export default {

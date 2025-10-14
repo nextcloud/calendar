@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
-import type { OcsEnvelope } from '@/types/ocs'
+import type { OcsEnvelope, OcsErrorData } from '@/types/ocs'
 
 export type TalkRoomListRequest = {
 	noStatusUpdate?: boolean
@@ -10,9 +10,9 @@ export type TalkRoomListRequest = {
 	includeLastMessage?: boolean
 }
 
-export type TalkRoomListResponse = OcsEnvelope<TalkRoom[]>
+export type TalkRoomListResponse = OcsEnvelope<TalkRoom[] | OcsErrorData>
 
-export type TalkRoomFetchResponse = OcsEnvelope<TalkRoom>
+export type TalkRoomFetchResponse = OcsEnvelope<TalkRoom | OcsErrorData>
 
 export type TalkRoomCreateRequest = {
 	roomType: number
@@ -42,7 +42,7 @@ export type TalkRoomCreateRequest = {
 	}
 }
 
-export type TalkRoomCreateResponse = OcsEnvelope<TalkRoom>
+export type TalkRoomCreateResponse = OcsEnvelope<TalkRoom | OcsErrorData>
 
 export type TalkRoomParticipant = {
 	actorId: string
@@ -55,7 +55,7 @@ export type TalkRoomParticipant = {
 	sessionIds: string[]
 }
 
-export type TalkRoomFetchParticipantsResponse = OcsEnvelope<TalkRoomParticipant[]>
+export type TalkRoomFetchParticipantsResponse = OcsEnvelope<TalkRoomParticipant[] | OcsErrorData>
 
 export type TalkRoomAddParticipantRequest = {
 	newParticipant: string
@@ -64,7 +64,7 @@ export type TalkRoomAddParticipantRequest = {
 
 export type TalkRoomAddParticipantResponse = OcsEnvelope<{
 	type: number
-}>
+} | OcsErrorData>
 
 export type TalkRoom = {
 	actorId: string
