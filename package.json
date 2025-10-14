@@ -64,7 +64,7 @@
     "autosize": "^6.0.1",
     "color-convert": "^3.1.2",
     "color-string": "^2.1.2",
-    "core-js": "^3.45.1",
+    "core-js": "^3.46.0",
     "css-color-names": "^1.0.1",
     "debounce": "^2.2.0",
     "linkifyjs": "^4.3.2",
