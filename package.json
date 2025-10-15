@@ -74,7 +74,7 @@
     "p-limit": "^6.2.0",
     "pinia": "^2.3.1",
     "v-tooltip": "^2.1.3",
-    "vue": "^2.7.16",
+    "vue": "^3.0.0-alpha",
     "vue-click-outside": "^1.1.0",
     "vue-material-design-icons": "^5.3.1",
     "vue-router": "^3.6.5",
