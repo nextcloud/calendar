@@ -47,6 +47,7 @@ OC.L10N.register(
     "Restore" : "Аднавіць",
     "Delete permanently" : "Выдаліць назаўжды",
     "Shared calendars" : "Абагуленыя календары",
+    "Internal link" : "Унутраная спасылка",
     "Share link" : "Абагуліць спасылку",
     "Copy public link" : "Скапіяваць публічную спасылку",
     "Unshare with {displayName}" : "Скасаваць абагульванне з {displayName}",
