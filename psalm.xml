@@ -37,6 +37,7 @@
 				<referencedClass name="OCA\Circles\Api\v1\Circles" />
 				<referencedClass name="OCA\Circles\Exceptions\CircleNotFoundException" />
 				<referencedClass name="OCA\Calendar\Controller\Exception" />
+				<referencedClass name="OCA\NotifyPush\Queue\IQueue" />
 				<referencedClass name="Psr\Http\Client\ClientExceptionInterface" />
 				<referencedClass name="Sabre\VObject\Component\VCalendar" />
 				<referencedClass name="Sabre\VObject\Component\VEvent" />
