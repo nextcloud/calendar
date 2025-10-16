@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Get version matrix
         id: versions
-        uses: icewind1991/nextcloud-version-matrix@c2bf575a3516752db5ce2915499d3f694885e2c7 # v1.0.0
+        uses: icewind1991/nextcloud-version-matrix@58becf3b4bb6dc6cef677b15e2fd8e7d48c0908f # v1.3.1
 
   php-lint:
     runs-on: ubuntu-latest
