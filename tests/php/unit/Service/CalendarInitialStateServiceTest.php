@@ -51,7 +51,9 @@ class CalendarInitialStateServiceTest extends TestCase {
 	private IAppConfig&MockObject $appConfig;
 	private IResourceManager&MockObject $resourceManager;
 	private IRoomManager&MockObject $roomManager;
-	private (IQueue&MockObject)|null $queue = null;
+
+	/** @var (IQueue&MockObject)|null  */
+	private $queue = null;
 
 	protected function setUp(): void {
 		$this->appName = 'calendar';
