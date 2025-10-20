@@ -36,8 +36,15 @@
 			v-if="showUpdateThisAndFutureButton && !showUpdateOnlyThisButton"
 			variant="primary"
 			:disabled="disabled"
+			@click="saveSeries">
+			{{ $t('calendar', 'Update all occurrences') }}
+		</NcButton>
+		<NcButton
+			v-if="showUpdateThisAndFutureButton && !showUpdateOnlyThisButton"
+			variant="primary"
+			:disabled="disabled"
 			@click="saveThisAndAllFuture">
-			{{ $t('calendar', 'Update this and all future') }}
+			{{ $t('calendar', 'Update this and all future occurrences') }}
 		</NcButton>
 		<NcButton
 			v-if="showUpdateOnlyThisButton && !showUpdateThisAndFutureButton"
@@ -51,11 +58,17 @@
 			<template #icon>
 				<CheckIcon :size="20" />
 			</template>
+			<NcActionButton @click="saveSeries">
+				<template #icon>
+					<CheckIcon :size="20" />
+				</template>
+				{{ $t('calendar', 'Update all occurrences') }}
+			</NcActionButton>
 			<NcActionButton @click="saveThisAndAllFuture">
 				<template #icon>
 					<CheckAllIcon :size="20" />
 				</template>
-				{{ $t('calendar', 'Update this and all future') }}
+				{{ $t('calendar', 'Update this and all future occurrences') }}
 			</NcActionButton>
 			<NcActionButton @click="saveThisOnly">
 				<template #icon>
@@ -142,15 +155,19 @@ export default {
 
 	methods: {
 		saveThisOnly() {
-			this.$emit('saveThisOnly')
+			this.$emit('save-this-only')
 		},
 
 		saveThisAndAllFuture() {
-			this.$emit('saveThisAndAllFuture')
+			this.$emit('save-this-and-all-future')
+		},
+
+		saveSeries() {
+			this.$emit('save-series')
 		},
 
 		showMore() {
-			this.$emit('showMore')
+			this.$emit('show-more')
 		},
 	},
 }
