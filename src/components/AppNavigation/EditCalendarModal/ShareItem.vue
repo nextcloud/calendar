@@ -24,7 +24,7 @@
 				type="checkbox"
 				class="checkbox"
 				@change="updatePermission">
-			<label :for="`${id}-can-edit`">{{ $t('calendar', 'can edit') }}</label>
+			<label :for="`${id}-can-edit`">{{ $t('calendar', 'can edit and see confidential events') }}</label>
 		</template>
 
 		<NcActions>

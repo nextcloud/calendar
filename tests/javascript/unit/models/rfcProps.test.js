@@ -27,7 +27,7 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 		expect(rfcProps.accessClass.readableName).toEqual('When shared show')
 		expect(rfcProps.accessClass.icon).toEqual('Eye')
 		expect(rfcProps.accessClass.multiple).toEqual(false)
-		expect(rfcProps.accessClass.info).toEqual('The visibility of this event in shared calendars.')
+		expect(rfcProps.accessClass.info).toEqual('The visibility of this event in read-only shared calendars.')
 		expect(rfcProps.accessClass.defaultValue).toEqual('PUBLIC')
 		expect(rfcProps.accessClass.options).toEqual([
 			{value: 'PUBLIC', label: 'When shared show full event'},
@@ -94,7 +94,7 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 		expect(translate).toHaveBeenNthCalledWith(2, 'calendar', 'When shared show full event')
 		expect(translate).toHaveBeenNthCalledWith(3, 'calendar', 'When shared show only busy')
 		expect(translate).toHaveBeenNthCalledWith(4, 'calendar', 'When shared hide this event')
-		expect(translate).toHaveBeenNthCalledWith(5, 'calendar', 'The visibility of this event in shared calendars.')
+		expect(translate).toHaveBeenNthCalledWith(5, 'calendar', 'The visibility of this event in read-only shared calendars.')
 
 		expect(translate).toHaveBeenNthCalledWith(6, 'calendar', 'Location')
 		expect(translate).toHaveBeenNthCalledWith(7, 'calendar', 'Add a location')
