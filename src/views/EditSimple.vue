@@ -88,24 +88,29 @@
 								</template>
 								{{ $t('calendar', 'Duplicate') }}
 							</ActionButton>
-							<ActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave(false)">
+							<ActionButton v-if="!isRecurringInstance && canDelete('occurrence')" @click="deleteAndLeave('occurrence')">
 								<template #icon>
 									<Delete :size="20" decorative />
 								</template>
 								{{ $t('calendar', 'Delete') }}
 							</ActionButton>
-							<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(false)">
+							<ActionButton v-if="isRecurringInstance && canDelete('occurrence')" @click="deleteAndLeave('occurrence')">
 								<template #icon>
 									<Delete :size="20" decorative />
 								</template>
 								{{ $t('calendar', 'Delete this occurrence') }}
 							</ActionButton>
-							<NcActionSeparator v-if="canDelete && canCreateRecurrenceException" />
-							<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(true)">
+							<ActionButton v-if="isRecurringInstance && canDelete('future')" @click="deleteAndLeave('future')">
 								<template #icon>
 									<Delete :size="20" decorative />
 								</template>
-								{{ $t('calendar', 'Delete this and all future') }}
+								{{ $t('calendar', 'Delete this and future occurrences') }}
+							</ActionButton>
+							<ActionButton v-if="isRecurringInstance && canDelete('series')" @click="deleteAndLeave('series')">
+								<template #icon>
+									<Delete :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Delete entire series') }}
 							</ActionButton>
 						</Actions>
 						<Actions>
@@ -165,6 +170,11 @@
 								@update:modelValue="toggleAllDayPreliminary">
 								{{ $t('calendar', 'All day') }}
 							</NcCheckboxRadioSwitch>
+							<Repeat
+								:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
+								:isEditingBaseInstance="isEditingBaseInstance"
+								:isEditingExceptionInstance="isEditingExceptionInstance"
+								@requireFutureUpdate="requireFutureUpdate" />
 						</div>
 						<div class="event-popover__location-row">
 							<PropertyText
@@ -214,7 +224,6 @@
 							v-if="isViewedByAttendee && isViewing"
 							class="event-popover__response-buttons"
 							:attendee="userAsAttendee"
-							:calendarId="calendarId"
 							@close="closeEditorAndSkipAction" />
 
 						<div v-if="isReadOnlyOrViewing && hasAlarms" class="property-alarm-wrapper">
@@ -229,15 +238,17 @@
 						<SaveButtons
 							v-if="!isWidget"
 							class="event-popover__buttons"
-							:canCreateRecurrenceException="canCreateRecurrenceException"
+							:canUpdateOccurrence="canUpdate('occurrence')"
+							:canUpdateFuture="canUpdate('future')"
+							:canUpdateSeries="canUpdate('series')"
 							:isNew="isNew"
 							:isReadOnly="isReadOnlyOrViewing"
-							:forceThisAndAllFuture="forceThisAndAllFuture"
 							:showMoreButton="true"
 							:moreButtonType="isViewing ? 'tertiary' : undefined"
 							:disabled="isSaving"
-							@saveThisOnly="saveAndView(false)"
-							@saveThisAndAllFuture="saveAndView(true)"
+							@saveOccurrence="saveAndView('occurrence')"
+							@saveFuture="saveAndView('future')"
+							@saveSeries="saveAndView('series')"
 							@showMore="showMore">
 							<NcButton
 								v-if="!isReadOnly && isViewing"
@@ -271,7 +282,6 @@ import {
 	NcActionLink as ActionLink,
 	NcActions as Actions,
 	NcEmptyContent as EmptyContent,
-	NcActionSeparator,
 	NcButton,
 	NcCheckboxRadioSwitch,
 	NcDialog,
@@ -298,6 +308,7 @@ import PropertyText from '@/components/Editor/Properties/PropertyText.vue'
 import PropertyTitle from '@/components/Editor/Properties/PropertyTitle.vue'
 import PropertyTitleTimePicker
 	from '@/components/Editor/Properties/PropertyTitleTimePicker.vue'
+import Repeat from '@/components/Editor/Repeat/Repeat.vue'
 import SaveButtons from '@/components/Editor/SaveButtons.vue'
 import EditorMixin from '@/mixins/EditorMixin.js'
 import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
@@ -314,11 +325,11 @@ export default {
 		PropertyText,
 		PropertyTitleTimePicker,
 		PropertyTitle,
+		Repeat,
 		NcPopover,
 		Actions,
 		ActionButton,
 		ActionLink,
-		NcActionSeparator,
 		AlarmList,
 		Bell,
 		EmptyContent,
@@ -821,19 +832,19 @@ export default {
 		 * Save changes and leave when creating a new event or return to viewing mode when editing
 		 * an existing event. Stay in editing mode if an error occurrs.
 		 *
-		 * @param {boolean} thisAndAllFuture Modify this and all future events
+		 * @param {string} scope Modification scope: 'occurrence', 'future', or 'series'
 		 * @return {Promise<void>}
 		 */
-		async saveAndView(thisAndAllFuture) {
+		async saveAndView(scope) {
 			// Transitioning from new to edit routes is not implemented for now
 			if (this.isNew) {
-				await this.saveAndLeave(thisAndAllFuture)
+				await this.saveAndLeave(scope)
 				return
 			}
 
 			this.isViewing = true
 			try {
-				await this.save(thisAndAllFuture)
+				await this.save(scope)
 				this.requiresActionOnRouteLeave = false
 			} catch {
 				this.isViewing = false
