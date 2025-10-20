@@ -4,7 +4,7 @@
  */
 import DavClient from '@nextcloud/cdav-library'
 import { generateRemoteUrl } from '@nextcloud/router'
-import { CALDAV_BIRTHDAY_CALENDAR } from '../models/consts.js'
+import { CALDAV_BIRTHDAY_CALENDAR } from '../models/consts.ts'
 
 const clients = {}
 

@@ -12,7 +12,7 @@ import {
 	CALDAV_PERSONAL_CALENDAR,
 	IMPORT_STAGE_IMPORTING,
 	IMPORT_STAGE_PROCESSING,
-} from '../models/consts.js'
+} from '../models/consts.ts'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
