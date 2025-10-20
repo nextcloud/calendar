@@ -33,18 +33,18 @@
 			<div class="property-repeat__options">
 				<h2>{{ $t('calendar', 'Repeat event') }}</h2>
 				<RepeatFreqInterval
-					v-if="!isRecurrenceException && !isReadOnly"
+					v-if="!isEditingExceptionInstance && !isReadOnly"
 					:frequency="recurrenceRule.frequency"
 					:interval="recurrenceRule.interval"
 					@changeInterval="changeInterval"
 					@changeFrequency="changeFrequency" />
 				<RepeatFreqWeeklyOptions
-					v-if="isFreqWeekly && !isRecurrenceException && !isReadOnly"
+					v-if="isFreqWeekly && !isEditingExceptionInstance && !isReadOnly"
 					:byDay="recurrenceRule.byDay"
 					@addByDay="addByDay"
 					@removeByDay="removeByDay" />
 				<RepeatFreqMonthlyOptions
-					v-if="isFreqMonthly && !isRecurrenceException && !isReadOnly"
+					v-if="isFreqMonthly && !isEditingExceptionInstance && !isReadOnly"
 					:byDay="recurrenceRule.byDay"
 					:byMonthDay="recurrenceRule.byMonthDay"
 					:bySetPosition="recurrenceRule.bySetPosition"
@@ -55,7 +55,7 @@
 					@changeToBySetPosition="changeToBySetPositionMonthly"
 					@changeToByMonthDay="changeToByDayMonthly" />
 				<RepeatFreqYearlyOptions
-					v-if="isFreqYearly && !isRecurrenceException && !isReadOnly"
+					v-if="isFreqYearly && !isEditingExceptionInstance && !isReadOnly"
 					:byDay="recurrenceRule.byDay"
 					:byMonth="recurrenceRule.byMonth"
 					:byMonthDay="recurrenceRule.byMonthDay"
@@ -69,7 +69,7 @@
 					@changeToBySetPosition="changeToBySetPositionYearly"
 					@changeToByMonthDay="changeToByDayYearly" />
 				<RepeatEndRepeat
-					v-if="isRepeating && !isRecurrenceException && !isReadOnly"
+					v-if="isRepeating && !isEditingExceptionInstance && !isReadOnly"
 					:until="recurrenceRule.until"
 					:count="recurrenceRule.count"
 					@setInfinite="setInfinite"
@@ -77,11 +77,11 @@
 					@setCount="setCount"
 					@changeToCount="changeToCount"
 					@changeToUntil="changeToUntil" />
-				<RepeatUnsupportedWarning v-if="recurrenceRule.isUnsupported && !isRecurrenceException" />
-				<RepeatExceptionWarning v-if="isRecurrenceException" />
+				<RepeatUnsupportedWarning v-if="recurrenceRule.isUnsupported && !isEditingExceptionInstance" />
+				<RepeatExceptionWarning v-if="isEditingExceptionInstance" />
 			</div>
 			<div
-				v-if="!isRecurrenceException && !isReadOnly"
+				v-if="!isEditingExceptionInstance && !isReadOnly"
 				class="property-repeat__options__footer">
 				<NcButton variant="primary" @click="saveAndClose">
 					{{ $t('calendar', 'Set repetition') }}
@@ -137,26 +137,25 @@ export default {
 		},
 
 		/**
-		 * Whether or not the user is editing the master-item
-		 * If so, we are enforcing "This and all future" and
-		 * don't allow to just save this occurrence
+		 * Whether or not the user is editing the base instance.
+		 * Recurrence-rule changes on a non-base instance require a future update.
 		 */
-		isEditingMasterItem: {
+		isEditingBaseInstance: {
 			type: Boolean,
 			required: true,
 		},
 
 		/**
-		 * Whether or not this instance of the event is a recurrence-exception.
+		 * Whether or not the user is editing a recurrence-exception.
 		 * If yes, you can't modify the recurrence-rule
 		 */
-		isRecurrenceException: {
+		isEditingExceptionInstance: {
 			type: Boolean,
 			required: true,
 		},
 	},
 
-	emits: ['forceThisAndAllFuture'],
+	emits: ['requireFutureUpdate'],
 
 	data() {
 		return {
@@ -468,8 +467,8 @@ export default {
 				})
 			}
 
-			if (!this.isEditingMasterItem) {
-				this.$emit('forceThisAndAllFuture')
+			if (!this.isEditingBaseInstance) {
+				this.$emit('requireFutureUpdate')
 			}
 
 			this.calendarObjectInstanceStore.calendarObjectInstance.canModifyAllDay = this.calendarObjectInstanceStore.calendarObjectInstance.eventComponent.canModifyAllDay()
