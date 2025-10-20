@@ -56,8 +56,6 @@ function getDefaultEventObject(props = {}) {
 		isMasterItem: false,
 		// Whether or not this is a recurrence-exception
 		isRecurrenceException: false,
-		// Whether or not the applied modifications require to update this and all future
-		forceThisAndAllFuture: false,
 		// Whether or not it's possible to create a recurrence-exception for this event
 		canCreateRecurrenceException: false,
 		// Attendees of this event

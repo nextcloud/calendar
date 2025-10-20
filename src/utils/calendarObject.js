@@ -42,7 +42,45 @@ function getObjectAtRecurrenceId(calendarObject, recurrenceId) {
 	return firstVObject.recurrenceManager.getOccurrenceAtExactly(d)
 }
 
+/**
+ * Checks whether the given event-component represents the primary (first)
+ * occurrence of its recurring series, as opposed to any later occurrence.
+ *
+ * The base component's own DTSTART is not necessarily a valid occurrence
+ * itself (e.g. it may not match the RRULE's BYDAY), so this compares against
+ * the actual first occurrence the recurrence-manager generates, rather than
+ * the base component's raw start date.
+ *
+ * @param {object} calendarObject Calendar-object model
+ * @param {AbstractRecurringComponent} eventComponent The occurrence being edited
+ * @return {boolean}
+ */
+function isBaseOccurrence(calendarObject, eventComponent) {
+	if (!eventComponent.isPartOfRecurrenceSet()) {
+		return false
+	}
+
+	let baseComponent = null
+	for (const component of calendarObject.calendarComponent.getComponentIterator()) {
+		if (component.name === eventComponent.name && !component.hasProperty('RECURRENCE-ID')) {
+			baseComponent = component
+			break
+		}
+	}
+	if (!baseComponent) {
+		return false
+	}
+
+	const firstOccurrenceRecurrenceId = baseComponent.recurrenceManager
+		.getClosestOccurrence(baseComponent.startDate)
+		.getReferenceRecurrenceId()
+
+	return !eventComponent.originalRecurrenceId
+		|| eventComponent.originalRecurrenceId.compare(firstOccurrenceRecurrenceId) === 0
+}
+
 export {
 	getAllObjectsInTimeRange,
 	getObjectAtRecurrenceId,
+	isBaseOccurrence,
 }

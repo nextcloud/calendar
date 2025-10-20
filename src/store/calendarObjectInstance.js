@@ -4,6 +4,8 @@
  */
 
 import { AttachmentProperty, AttendeeProperty, DateTimeValue, DurationValue, Parameter, Property, RecurValue } from '@nextcloud/calendar-js'
+import { showWarning } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import { markRaw } from 'vue'
@@ -27,7 +29,7 @@ import {
 	updateAlarms,
 	updateDefaultAlarm,
 } from '@/utils/alarms.js'
-import { getObjectAtRecurrenceId } from '@/utils/calendarObject.js'
+import { getObjectAtRecurrenceId, isBaseOccurrence } from '@/utils/calendarObject.js'
 import { getClosestCSS3ColorNameForHex, getHexForColorName } from '@/utils/color.js'
 import {
 	getDateFromDateTimeValue,
@@ -552,6 +554,60 @@ export default defineStore('calendarObjectInstance', {
 			const oldRSVP = attendee.attendeeProperty.rsvp
 			attendee.attendeeProperty.rsvp = !oldRSVP
 			attendee.rsvp = !oldRSVP
+		},
+
+		/**
+		 * Change the current attendee's participation status and save it with
+		 * the scope of the component the attendee is responding to.
+		 *
+		 * Responses to generated occurrences apply to the recurring master,
+		 * while responses to existing recurrence exceptions remain on the
+		 * exception.
+		 *
+		 * @param {object} data The destructuring object
+		 * @param {object} data.attendee The attendee object
+		 * @param {string} data.participationStatus New participation status
+		 * @return {Promise<void>}
+		 */
+		async saveAttendeeParticipationResponse({
+			attendee,
+			participationStatus,
+		}) {
+			const calendarObjectsStore = useCalendarObjectsStore()
+			const eventComponent = this.calendarObjectInstance.eventComponent
+			const responseScope = eventComponent.isRecurrenceException() ? 'occurrence' : 'series'
+			let attendeeProperty = attendee.attendeeProperty
+
+			if (responseScope === 'series') {
+				let baseComponent = null
+				for (const component of this.calendarObject.calendarComponent.getComponentIterator()) {
+					if (component.name === eventComponent.name && !component.hasProperty('RECURRENCE-ID')) {
+						baseComponent = component
+						break
+					}
+				}
+
+				if (baseComponent === null) {
+					throw new Error('Recurring master component not found')
+				}
+
+				const attendeeEmail = attendeeProperty.email.toLowerCase()
+				attendeeProperty = null
+				for (const masterAttendee of baseComponent.getAttendeeIterator()) {
+					if (masterAttendee.email.toLowerCase() === attendeeEmail) {
+						attendeeProperty = masterAttendee
+						break
+					}
+				}
+
+				if (attendeeProperty === null) {
+					throw new Error('Attendee not found on recurring master component')
+				}
+			}
+
+			attendeeProperty.participationStatus = participationStatus
+			attendee.participationStatus = participationStatus
+			await calendarObjectsStore.updateCalendarObject({ calendarObject: this.calendarObject })
 		},
 
 		/**
@@ -1379,23 +1435,120 @@ export default defineStore('calendarObjectInstance', {
 		 * Saves changes made to a single calendar-object-instance
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {boolean} data.thisAndAllFuture Whether or not to save changes for all future occurrences or just this one
+		 * @param {string} data.scope Modification scope: 'occurrence', 'future', or 'series'
 		 * @param {string} data.calendarId The new calendar-id to store it in
 		 * @return {Promise<void>}
 		 */
 		async saveCalendarObjectInstance({
-			thisAndAllFuture,
+			scope,
 			calendarId,
 		}) {
 			const calendarObjectsStore = useCalendarObjectsStore()
 
 			const eventComponent = this.calendarObjectInstance.eventComponent
 			const calendarObject = this.calendarObject
+			const isForkedItem = eventComponent.primaryItem !== null
 
 			updateAlarms(eventComponent)
 
-			if (eventComponent.isDirty()) {
-				const isForkedItem = eventComponent.primaryItem !== null
+			if (eventComponent.isDirty() && eventComponent.isPartOfRecurrenceSet() && scope === 'series') {
+				// Do not permit applying series-wide changes from a recurrence exception
+				// Recurrence exceptions do not have the full set of properties that the base component has.
+				if (eventComponent.isRecurrenceException()) {
+					logger.error('Only "this occurrence" can be updated while editing an existing recurrence exception')
+					return
+				}
+				// Find the master component (without RECURRENCE-ID)
+				let baseComponent = null
+				for (const component of calendarObject.calendarComponent.getComponentIterator()) {
+					if (component.name === eventComponent.name && !component.hasProperty('RECURRENCE-ID')) {
+						baseComponent = component
+						break
+					}
+				}
+
+				if (!baseComponent) {
+					logger.error('Could not find master component to save series-wide changes to')
+				} else {
+					// Determine if eventComponent is the primary (first) occurrence of its series
+					const isPrimaryOccurrence = isBaseOccurrence(calendarObject, eventComponent)
+
+					if (!isPrimaryOccurrence) {
+						// The actual, unedited occurrence - used both to detect whether the user changed the date/time.
+						const originalOccurrence = baseComponent.recurrenceManager.getOccurrenceAtExactly(eventComponent.originalRecurrenceId)
+
+						const dateTimeWasChanged = eventComponent.startDate.compare(originalOccurrence.startDate) !== 0
+							|| eventComponent.endDate.compare(originalOccurrence.endDate) !== 0
+							|| eventComponent.startDate.timezoneId !== originalOccurrence.startDate.timezoneId
+							|| eventComponent.endDate.timezoneId !== originalOccurrence.endDate.timezoneId
+							|| eventComponent.isAllDay() !== originalOccurrence.isAllDay()
+
+						if (dateTimeWasChanged) {
+							showWarning(t('calendar', 'We noticed that you adjusted the date or time. Since this is not the first occurrence of the series, the date/time changes have been discarded. To change the date or time of the whole series, please edit the first occurrence.'))
+
+							// Revert the editor's own date/time back to the original occurrence
+							eventComponent.startDate = originalOccurrence.startDate.clone()
+							eventComponent.endDate = originalOccurrence.endDate.clone()
+							this.calendarObjectInstance.startDate = getDateFromDateTimeValue(originalOccurrence.startDate)
+							this.calendarObjectInstance.endDate = getDateFromDateTimeValue(originalOccurrence.endDate)
+						}
+					}
+
+					// Clear the base component's own properties, then clone eventComponent's over wholesale
+					// we might be editing an instance or fork, not the base component itself. Both properties
+					// eventComponent already shared with the base component AND ones it didn't (e.g. a LOCATION
+					// added for the first time) need to end up on the base component.
+					const excludedPropertyNames = ['UID', 'RECURRENCE-ID', 'DTSTART', 'DTEND']
+					for (const property of baseComponent.getPropertyIterator()) {
+						if (excludedPropertyNames.includes(property.name)) {
+							continue
+						}
+						baseComponent.deleteAllProperties(property.name)
+					}
+					for (const property of eventComponent.getPropertyIterator()) {
+						if (excludedPropertyNames.includes(property.name)) {
+							continue
+						}
+						baseComponent.addProperty(property.clone())
+					}
+					// DTSTART and DTEND need to be cloned separately so that internal logic of ical.js
+					// can adjust all the recurrence rules and exceptions accordingly. Only do so when
+					// editing the base occurrence - otherwise we risk changing the date/time of the whole
+					// series when the user only intended to change a single occurrence.
+					if (isPrimaryOccurrence) {
+						baseComponent.startDate = eventComponent.startDate.clone()
+						baseComponent.endDate = eventComponent.endDate.clone()
+					}
+					// Only VALARM is copied here because it's the only sub-component the
+					// editor currently lets users change; other sub-components (e.g.
+					// PARTICIPANT, VLOCATION, VRESOURCE) that another client may have set
+					// are left untouched on baseComponent.
+					baseComponent.deleteAllComponents('VALARM')
+					for (const alarm of eventComponent.getAlarmIterator()) {
+						baseComponent.addComponent(alarm.clone())
+					}
+
+					await calendarObjectsStore.updateCalendarObject({ calendarObject })
+
+					eventComponent.resetDirty()
+
+					// trigger room update but don't wait for it
+					updateRoomParticipantsFromEvent(eventComponent)
+				}
+			}
+
+			if (eventComponent.isDirty() && scope !== 'series') {
+				// Do not permit "future occurrences" edits on an existing recurrence exception
+				if (isForkedItem && scope === 'future' && eventComponent.isRecurrenceException()) {
+					logger.error('Only "this occurrence" can be updated while editing an existing recurrence exception')
+					return
+				}
+				// Do not permit "this occurrence"/"this and future" edits on the primary
+				if (isForkedItem && (scope === 'occurrence' || scope === 'future') && isBaseOccurrence(calendarObject, eventComponent)) {
+					logger.error('Only "series" can be updated while editing the primary occurrence of a series')
+					return
+				}
+
 				let original = null
 				let fork = null
 
@@ -1403,7 +1556,7 @@ export default defineStore('calendarObjectInstance', {
 				// - primaryItem !== null -> Is this a fork or not?
 				// - eventComponent.canCreateRecurrenceExceptions() - Can we create a recurrence-exception for this item
 				if (isForkedItem && eventComponent.canCreateRecurrenceExceptions()) {
-					[original, fork] = eventComponent.createRecurrenceException(thisAndAllFuture)
+					[original, fork] = eventComponent.createRecurrenceException(scope === 'future')
 				}
 
 				await calendarObjectsStore.updateCalendarObject({ calendarObject })
@@ -1461,20 +1614,32 @@ export default defineStore('calendarObjectInstance', {
 		 * Deletes a calendar-object-instance
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {boolean} data.thisAndAllFuture Whether or not to delete all future occurrences or just this one
+		 * @param {string} data.scope Deletion scope: 'occurrence', 'future', or 'series'
 		 * @return {Promise<void>}
 		 */
-		async deleteCalendarObjectInstance({ thisAndAllFuture }) {
+		async deleteCalendarObjectInstance({ scope }) {
 			const calendarObjectsStore = useCalendarObjectsStore()
-
 			const eventComponent = this.calendarObjectInstance.eventComponent
-			const isRecurrenceSetEmpty = eventComponent.removeThisOccurrence(thisAndAllFuture)
-			const calendarObject = this.calendarObject
 
+			// Singleton event or deleting all occurrences - delete the whole calendar-object
+			if (!eventComponent.isPartOfRecurrenceSet() || scope === 'series') {
+				await calendarObjectsStore.deleteCalendarObject({ calendarObject: this.calendarObject })
+				return
+			}
+
+			// Do not permit "this occurrence"/"this and future" deletes on the primary
+			// occurrence of a series - only "series" makes sense there
+			if (isBaseOccurrence(this.calendarObject, eventComponent)) {
+				logger.error('Only "series" can be deleted while editing the primary occurrence of a series')
+				return
+			}
+
+			// Recurring event - remove this occurrence or this and all future
+			const isRecurrenceSetEmpty = eventComponent.removeThisOccurrence(scope === 'future')
 			if (isRecurrenceSetEmpty) {
-				await calendarObjectsStore.deleteCalendarObject({ calendarObject })
+				await calendarObjectsStore.deleteCalendarObject({ calendarObject: this.calendarObject })
 			} else {
-				await calendarObjectsStore.updateCalendarObject({ calendarObject })
+				await calendarObjectsStore.updateCalendarObject({ calendarObject: this.calendarObject })
 			}
 		},
 
