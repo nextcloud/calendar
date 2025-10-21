@@ -268,6 +268,12 @@
 // Fix week button overlapping with the toggle
 .fc-col-header-cell {
 	padding-top: 10px !important;
+
+	&-cushion {
+		text-overflow: ellipsis;
+		overflow: clip;
+		max-width: 100%;
+	}
 }
 
 .fc-timegrid-axis-cushion {
