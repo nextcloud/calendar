@@ -6,7 +6,7 @@
 <template>
 	<div class="settings-fieldset-interior-item settings-fieldset-interior-item--folder">
 		<label :for="inputId">
-			{{ $t('calendar', 'Default attachments location') }}
+			{{ $t('calendar', 'Attachments folder') }}
 		</label>
 		<div class="form-group">
 			<NcInputField
