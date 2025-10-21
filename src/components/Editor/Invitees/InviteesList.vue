@@ -8,7 +8,6 @@
 		<div v-if="showHeader" class="invitees-list__header">
 			<div class="invitees-list__header__title">
 				<AccountMultipleIcon :size="20" />
-				{{ t('calendar', 'Attendees') }}
 				{{ statusHeader }}
 			</div>
 
@@ -60,9 +59,9 @@
 			:is-viewed-by-organizer="isViewedByOrganizer"
 			@remove-attendee="removeAttendee" />
 		<div
-			v-if="limit > 0 && inviteesWithoutOrganizer.length > limit"
+			v-if="limit > 0 && invitees.length > (limit - 1)"
 			class="invitees-list__more">
-			{{ n('calendar', '%n more guest', '%n more guests', inviteesWithoutOrganizer.length - limit) }}
+			{{ n('calendar', '%n more attendee', '%n more attendees', invitees.length + 1 - limit) }}
 		</div>
 		<OrganizerNoEmailError v-else-if="!isReadOnly && isListEmpty && !hasUserEmailAddress && !hideErrors" />
 	</div>
@@ -320,11 +319,11 @@ export default {
 				return ''
 			}
 
-			return this.t('calendar', '{invitedCount} invited, {confirmedCount} confirmed', {
-				invitedCount: this.inviteesWithoutOrganizer.length,
-				confirmedCount: this.inviteesWithoutOrganizer
+			return this.t('calendar', '{invitedCount} attendees invited, {confirmedCount} confirmed', {
+				invitedCount: this.invitees.length + 1, // +1 for organizer
+				confirmedCount: this.invitees
 					.filter((attendee) => attendee.participationStatus === 'ACCEPTED')
-					.length,
+					.length + 1, // +1 for organizer
 			})
 		},
 
@@ -504,8 +503,7 @@ export default {
 	}
 
 	&__more {
-		padding: 15px 0 0 46px;
-		font-weight: bold;
+		padding: calc(var(--default-grid-baseline) * 4) 0 0 calc(var(--default-grid-baseline) * 11);
 		opacity: 0.75;
 	}
 
