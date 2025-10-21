@@ -148,7 +148,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (tým)",
     "An error occurred while unsharing the calendar." : "Došlo k chybě při rušení sdílení kalendáře",
     "An error occurred, unable to change the permission of the share." : "Došlo k chybě, nepodařilo se změnit přístupová práva k sdílení.",
-    "can edit" : "může upravovat",
     "Unshare with {displayName}" : "Přestat sdílet s {displayName}",
     "Share with users or groups" : "Sdílet s uživateli nebo skupinami",
     "No users or groups" : "Žádní uživatelé nebo skupiny",
@@ -642,7 +641,6 @@ OC.L10N.register(
     "When shared show full event" : "Když sdíleno zobrazit úplnou událost",
     "When shared show only busy" : "Když sdíleno zobrazit pouze zaneprázdněno",
     "When shared hide this event" : "Pří sdílení tuto událost skrýt",
-    "The visibility of this event in shared calendars." : "Viditelnost této události ve sdílených kalendářích.",
     "Add a location" : "Přidat umístění",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Přidejte popis\n\n- O čem tato schůzka je\n- Body programu\n- Cokoli co je třeba, aby si účastnici připravili",
     "Status" : "Stav",
@@ -673,12 +671,14 @@ OC.L10N.register(
     "Appointment not found" : "Schůzka nenalezena",
     "User not found" : "Uživatel nenalezen",
     "Hidden" : "Skrytý",
+    "can edit" : "může upravovat",
     "Calendar name …" : "Název kalendáře",
     "Automatic ({detected})" : "Automaticky ({detected})",
     "Shortcut overview" : "Přehled zkratek",
     "Enable simplified editor" : "Používat zjednodušený editor",
     "Limit the number of events displayed in the monthly view" : "Omezit počet zobrazovaných událostí v měsíčním pohledu",
     "Time increments" : "Přírůstky času",
-    "Show keyboard shortcuts" : "Zobrazit klávesové zkratky"
+    "Show keyboard shortcuts" : "Zobrazit klávesové zkratky",
+    "The visibility of this event in shared calendars." : "Viditelnost této události ve sdílených kalendářích."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

@@ -146,7 +146,6 @@
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Equipe)",
     "An error occurred while unsharing the calendar." : "Ocorreu um erro ao cancelar o compartilhamento do calendário.",
     "An error occurred, unable to change the permission of the share." : "Erro ao alterar a permissão do compartilhamento.",
-    "can edit" : "pode editar",
     "Unshare with {displayName}" : "Descompartilhar com {displayName}",
     "Share with users or groups" : "Compartilhar com usuários ou grupos",
     "No users or groups" : "Nenhum usuário ou grupo",
@@ -640,7 +639,6 @@
     "When shared show full event" : "Quando compartilhado, mostrar evento completo",
     "When shared show only busy" : "Quando compartilhado, mostrar somente ocupado",
     "When shared hide this event" : "Quando compartilhado, ocultar este evento",
-    "The visibility of this event in shared calendars." : "A visibilidade deste evento em calendários compartilhados.",
     "Add a location" : "Adicione uma localização",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Adicione uma descrição\n\n- Sobre o que é esta reunião\n- Itens da agenda\n- Qualquer coisa que os participantes precisem preparar",
     "Status" : "Status",
@@ -671,12 +669,14 @@
     "Appointment not found" : "Compromisso não encontrado",
     "User not found" : "Usuário não encontrado",
     "Hidden" : "Ocultos",
+    "can edit" : "pode editar",
     "Calendar name …" : "Nome do calendário …",
     "Automatic ({detected})" : "Automático ({detected})",
     "Shortcut overview" : "Visão geral de atalhos",
     "Enable simplified editor" : "Ativar o editor simplificado",
     "Limit the number of events displayed in the monthly view" : "Limitar número de eventos mostrados no modo de visualização mensal",
     "Time increments" : "Incrementos de tempo",
-    "Show keyboard shortcuts" : "Mostrar atalhos de teclado"
+    "Show keyboard shortcuts" : "Mostrar atalhos de teclado",
+    "The visibility of this event in shared calendars." : "A visibilidade deste evento em calendários compartilhados."
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

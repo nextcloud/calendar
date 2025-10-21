@@ -135,7 +135,6 @@
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Equip)",
     "An error occurred while unsharing the calendar." : "S'ha produït un error en deixar de compartir el calendari.",
     "An error occurred, unable to change the permission of the share." : "Ha succeït un error i no s'ha pogut canviar els permisos de compartició.",
-    "can edit" : "pot editar-lo",
     "Unshare with {displayName}" : "S'ha deixat de compartir amb {displayName}",
     "Share with users or groups" : "Comparteix amb usuaris o grups",
     "No users or groups" : "No hi ha usuaris ni grups",
@@ -559,7 +558,6 @@
     "When shared show full event" : "Quan es comparteix, mostra l'esdeveniment complet",
     "When shared show only busy" : "Quan es comparteix, mostra només si està ocupat",
     "When shared hide this event" : "Quan es comparteix, amaga aquest esdeveniment",
-    "The visibility of this event in shared calendars." : "La visibilitat de l'event en calendaris compartits.",
     "Add a location" : "Afegeix una ubicació",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Afegeix una descripció\n\n- De què tracta aquesta reunió\n- Elements de l'ordre del dia\n- Qualsevol cosa que els participants hagin de preparar",
     "Status" : "Estat",
@@ -586,12 +584,14 @@
     "Appointment not found" : "No s'ha trobat la cita",
     "User not found" : "No s'ha trobat l'usuari",
     "Hidden" : "Ocult",
+    "can edit" : "pot editar-lo",
     "Calendar name …" : "Nom del calendari …",
     "Automatic ({detected})" : "Automàtic ({detected})",
     "Shortcut overview" : "Descripció general de la drecera",
     "Enable simplified editor" : "Habilitar l'editor simplificat",
     "Limit the number of events displayed in the monthly view" : "Limita el nombre d'esdeveniments que es mostren a la vista mensual",
     "Time increments" : "Increments de temps",
-    "Show keyboard shortcuts" : "Mostra les dreceres del teclat"
+    "Show keyboard shortcuts" : "Mostra les dreceres del teclat",
+    "The visibility of this event in shared calendars." : "La visibilitat de l'event en calendaris compartits."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

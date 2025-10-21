@@ -18,7 +18,6 @@ OC.L10N.register(
     "Restore" : "ស្ដារ​មក​វិញ",
     "Delete permanently" : "លុប​ជា​អចិន្ត្រៃយ៍",
     "Share link" : "Share link",
-    "can edit" : "អាច​កែប្រែ",
     "Save" : "រក្សាទុក",
     "Cancel" : "បោះបង់",
     "General" : "ទូទៅ",
@@ -51,6 +50,7 @@ OC.L10N.register(
     "Weekly" : "រាល់​សប្ដាហ៍",
     "second" : "ទីពីរ",
     "last" : "ចុងក្រោយ",
-    "Other" : "ផ្សេងៗ"
+    "Other" : "ផ្សេងៗ",
+    "can edit" : "អាច​កែប្រែ"
 },
 "nplurals=1; plural=0;");

@@ -119,6 +119,7 @@ OC.L10N.register(
     "(organizer)" : "(арганізатар)",
     "From" : "З",
     "To" : "Да",
+    "Your Time" : "Ваш час",
     "never" : "ніколі",
     "Resources" : "Рэсурсы",
     "Attendance required" : "Наведванне абавязковае",

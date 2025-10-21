@@ -31,7 +31,6 @@ OC.L10N.register(
     "Deck" : "Shto paisjen U2F",
     "Copy internal link" : "Kopjoni lidhjen e brendshme",
     "Share link" : "Ndani lidhjen",
-    "can edit" : "mund të përpunojnë",
     "Share with users or groups" : "Nda me përdoruesit ose grupet",
     "Save" : "Ruaj",
     "View" : "Shiko",
@@ -106,6 +105,7 @@ OC.L10N.register(
     "Confirmed" : "E konfirmuar",
     "Canceled" : "Anuluar",
     "Categories" : "Kategoritë",
-    "Hidden" : "I fshehur"
+    "Hidden" : "I fshehur",
+    "can edit" : "mund të përpunojnë"
 },
 "nplurals=2; plural=(n != 1);");

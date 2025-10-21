@@ -42,7 +42,6 @@ OC.L10N.register(
     "Delete permanently" : "бүр мөсөн устгах",
     "Deck" : "Ажлын талбар",
     "Share link" : "Холбоос хуваалцах",
-    "can edit" : "засаж чадна",
     "Share with users or groups" : "Бусад хэрэглэгч, бүлэгт хуваалцах",
     "Save" : "Хадгалах",
     "Filename" : "Файлын нэр",
@@ -96,6 +95,7 @@ OC.L10N.register(
     "Status" : "төлөв",
     "Confirmed" : "Баталгаажсан",
     "Categories" : "төрөл",
-    "Hidden" : "Далд"
+    "Hidden" : "Далд",
+    "can edit" : "засаж чадна"
 },
 "nplurals=2; plural=(n != 1);");

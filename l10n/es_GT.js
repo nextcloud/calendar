@@ -28,7 +28,6 @@ OC.L10N.register(
     "Delete permanently" : "Borrar permanentemente",
     "Deck" : "Deck",
     "Share link" : "Compartir liga",
-    "can edit" : "puede editar",
     "Share with users or groups" : "Compartir con otros usuarios o grupos",
     "Save" : "Guardar",
     "Filename" : "Nombre del archivo",
@@ -97,6 +96,7 @@ OC.L10N.register(
     "Categories" : "Categorías",
     "User not found" : "No se encontró el usuario",
     "Hidden" : "Oculto",
+    "can edit" : "puede editar",
     "Show keyboard shortcuts" : "Mostrar atajos de teclado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -134,7 +134,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Team)",
     "An error occurred while unsharing the calendar." : "كالېندارنى ھەمبەھىرلەۋاتقاندا خاتالىق كۆرۈلدى.",
     "An error occurred, unable to change the permission of the share." : "ئورتاقلىشىشنىڭ رۇخسىتىنى ئۆزگەرتەلمەي خاتالىق كۆرۈلدى.",
-    "can edit" : "تەھرىرلىيەلەيدۇ",
     "Unshare with {displayName}" : "{displayName} بىلەن ئورتاقلاشماسلىق",
     "Share with users or groups" : "ئىشلەتكۈچىلەر ياكى گۇرۇپپىلار بىلەن ئورتاقلىشىڭ",
     "No users or groups" : "ئىشلەتكۈچى ياكى گۇرۇپپا يوق",
@@ -498,7 +497,6 @@ OC.L10N.register(
     "When shared show full event" : "ھەمبەھىرلەنگەندە تولۇق پائالىيەتنى كۆرسىتىدۇ",
     "When shared show only busy" : "ئورتاقلاشقاندا پەقەت ئالدىراش",
     "When shared hide this event" : "ئورتاقلاشقاندا بۇ پائالىيەتنى يوشۇرۇڭ",
-    "The visibility of this event in shared calendars." : "ئورتاق كالېنداردا بۇ پائالىيەتنىڭ كۆرۈنۈشچانلىقى.",
     "Add a location" : "ئورۇن قوشۇڭ",
     "Status" : "ھالەت",
     "Confirmed" : "جەزملەشتۈرۈلدى",
@@ -523,12 +521,14 @@ OC.L10N.register(
     "Appointment not found" : "تەيىنلەنمىدى",
     "User not found" : "ئىشلەتكۈچى تېپىلمىدى",
     "Hidden" : "يۇشۇرۇن",
+    "can edit" : "تەھرىرلىيەلەيدۇ",
     "Calendar name …" : "كالېندار ئىسمى…",
     "Automatic ({detected})" : "ئاپتوماتىك ({detected})",
     "Shortcut overview" : "تېزلەتمە ئومۇمىي كۆرۈنۈش",
     "Enable simplified editor" : "ئاددىيلاشتۇرۇلغان تەھرىرلىگۈچنى قوزغىتىڭ",
     "Limit the number of events displayed in the monthly view" : "ئايلىق كۆرۈنۈشتە كۆرسىتىلگەن پائالىيەت سانىنى چەكلەڭ",
     "Time increments" : "ۋاقىت كۆپەيدى",
-    "Show keyboard shortcuts" : "كۇنۇپكا تاختىسىنىڭ تېزلەتمىسىنى كۆرسەت"
+    "Show keyboard shortcuts" : "كۇنۇپكا تاختىسىنىڭ تېزلەتمىسىنى كۆرسەت",
+    "The visibility of this event in shared calendars." : "ئورتاق كالېنداردا بۇ پائالىيەتنىڭ كۆرۈنۈشچانلىقى."
 },
 "nplurals=2; plural=(n != 1);");

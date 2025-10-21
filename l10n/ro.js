@@ -129,7 +129,6 @@ OC.L10N.register(
     "Deleting share link …" : "Se şterge linkul de partajare ...",
     "An error occurred while unsharing the calendar." : "Eroare la eliminarea partajării calendarului.",
     "An error occurred, unable to change the permission of the share." : "A apărut o eroare, nu se poate schimba permisiunile fişierelor partajate.",
-    "can edit" : "poate edita",
     "Unshare with {displayName}" : "Retrage cu {displayName}",
     "Share with users or groups" : "Partajează cu utilizatori sau grupuri",
     "No users or groups" : "Nu sunt utilizatori sau grupuri",
@@ -474,7 +473,6 @@ OC.L10N.register(
     "When shared show full event" : "Arată tot evenimentul la partajare",
     "When shared show only busy" : "Arată doar ocupat la partajare",
     "When shared hide this event" : "Ascunde evenimentul la partajare",
-    "The visibility of this event in shared calendars." : "Vizibilitatea acestui eveniment în calendarele partajate.",
     "Add a location" : "Adaugă o locație",
     "Status" : "Stare",
     "Confirmed" : "Confirmat",
@@ -498,12 +496,14 @@ OC.L10N.register(
     "Appointment not found" : "Programarea nu a fost găsită",
     "User not found" : "Utilizatorul nu a fost găsit",
     "Hidden" : "Ascuns",
+    "can edit" : "poate edita",
     "Calendar name …" : "Numele calendarului ...",
     "Automatic ({detected})" : "Automat ({detectat})",
     "Shortcut overview" : "Prezentare generală a comenzilor rapide",
     "Enable simplified editor" : "Activează editorul simplificat",
     "Limit the number of events displayed in the monthly view" : "Limitează numărul evenimentelor în vizualizare lunară",
     "Time increments" : "Incremente de timp",
-    "Show keyboard shortcuts" : "Arată scurtături"
+    "Show keyboard shortcuts" : "Arată scurtături",
+    "The visibility of this event in shared calendars." : "Vizibilitatea acestui eveniment în calendarele partajate."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

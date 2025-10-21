@@ -26,7 +26,6 @@
     "Delete permanently" : "სამუდამოდ წაშლა",
     "Deck" : "დასტა",
     "Share link" : "ბმულის გაზიარება",
-    "can edit" : "შეგიძლია შეცვლა",
     "Share with users or groups" : "გაზიარება მოხმარებლებთან ან ჯგუფებთან",
     "Save" : "შენახვა",
     "Filename" : "ფაილის სახელი",
@@ -92,6 +91,7 @@
     "Status" : "სტატუსი",
     "Confirmed" : "დადასტურებლია",
     "Categories" : "კატეგორიები",
-    "Hidden" : "უჩინარი"
+    "Hidden" : "უჩინარი",
+    "can edit" : "შეგიძლია შეცვლა"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

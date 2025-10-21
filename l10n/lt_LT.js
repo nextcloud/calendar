@@ -114,7 +114,6 @@ OC.L10N.register(
     "Deleting share link …" : "Ištrinama viešinio nuoroda …",
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Komanda)",
     "An error occurred, unable to change the permission of the share." : "Įvykio klaida, nepavyko pakeisti viešinio leidimo.",
-    "can edit" : "gali redaguoti",
     "Unshare with {displayName}" : "Nustoti bendrinti su {displayName}",
     "Share with users or groups" : "Bendrinti su naudotojais ar grupėmis",
     "No users or groups" : "Nėra jokių naudotojų ar grupių",
@@ -418,7 +417,6 @@ OC.L10N.register(
     "When shared show full event" : "Bendrinant, rodyti visą įvykio informaciją",
     "When shared show only busy" : "Bendrinant, rodyti tik kaip užimtą laiką",
     "When shared hide this event" : "Bendrinant, slėpti šį įvykį",
-    "The visibility of this event in shared calendars." : "Šio įvykio matomumas bendrinamuose kalendoriuose.",
     "Add a location" : "Pridėti vietą",
     "Status" : "Būsena",
     "Confirmed" : "Patvirtintas",
@@ -442,11 +440,13 @@ OC.L10N.register(
     "Appointment not found" : "Susitikimas nerastas",
     "User not found" : "Naudotojas nerastas",
     "Hidden" : "Paslėpta",
+    "can edit" : "gali redaguoti",
     "Calendar name …" : "Kalendoriaus pavadinimas…",
     "Automatic ({detected})" : "Automatinė ({detected})",
     "Shortcut overview" : "Nuorodų apžvalga",
     "Enable simplified editor" : "Įjungti supaprastintą redaktorių",
     "Limit the number of events displayed in the monthly view" : "Riboti mėnesio rodinyje rodomų įvykių skaičių",
-    "Show keyboard shortcuts" : "Rodyti sparčiuosius klavišus"
+    "Show keyboard shortcuts" : "Rodyti sparčiuosius klavišus",
+    "The visibility of this event in shared calendars." : "Šio įvykio matomumas bendrinamuose kalendoriuose."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

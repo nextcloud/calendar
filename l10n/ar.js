@@ -138,7 +138,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (فريق)",
     "An error occurred while unsharing the calendar." : "حدث خطأ أثناء إلغاء مشاركة التقويم",
     "An error occurred, unable to change the permission of the share." : "حدث خطأ، لا يمكن تعديل صلاحيات نشر التقويم.",
-    "can edit" : "يمكن التحرير",
     "Unshare with {displayName}" : "إلغاء المشاركة مع {displayName}",
     "Share with users or groups" : "شارك مع مستخدمين او مجموعات",
     "No users or groups" : "لا يوجد مستخدمين أو مجموعات",
@@ -562,7 +561,6 @@ OC.L10N.register(
     "When shared show full event" : "عرض الحدث كاملاً عند مشاركته",
     "When shared show only busy" : "عرض \"مشغول\" فقط عند مشاركته",
     "When shared hide this event" : "إخفاء هذا الحدث عند مشاركته",
-    "The visibility of this event in shared calendars." : "ظهور الحدث في التقاويم المشتركة.",
     "Add a location" : "إضافة موقع",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "أضِف وصفاً:\n\n- ماهو موضوع الاجتماع\n- بنود الاجتماع\n- ما يحتاجه المشاركون إلى تحضيره للاجتماع",
     "Status" : "الحالة",
@@ -589,12 +587,14 @@ OC.L10N.register(
     "Appointment not found" : "الموعد غير موجود",
     "User not found" : "المستخدم غير موجود",
     "Hidden" : "مخفي",
+    "can edit" : "يمكن التحرير",
     "Calendar name …" : "اسم التقويم ...",
     "Automatic ({detected})" : "تلقائي ({detected})",
     "Shortcut overview" : "نظرة عامة للاختصارات",
     "Enable simplified editor" : "تفعيل المحرر البسيط",
     "Limit the number of events displayed in the monthly view" : "تقييد عدد الأحداث التي تُعرض في العرض الشهري",
     "Time increments" : "زيادات الوقت",
-    "Show keyboard shortcuts" : "إظهار اختصارات لوحة المفاتيح"
+    "Show keyboard shortcuts" : "إظهار اختصارات لوحة المفاتيح",
+    "The visibility of this event in shared calendars." : "ظهور الحدث في التقاويم المشتركة."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

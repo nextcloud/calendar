@@ -142,7 +142,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (tiimi)",
     "An error occurred while unsharing the calendar." : "Kalenterin jaon poistamisessa tapahtui virhe.",
     "An error occurred, unable to change the permission of the share." : "Tapahtui virhe, jaon käyttöoikeuksia ei pysty muokkaamaan.",
-    "can edit" : "voi muokata",
     "Unshare with {displayName}" : "Poista jako kohteesta {displayName}",
     "Share with users or groups" : "Jaa käyttäjien tai ryhmien kanssa",
     "No users or groups" : "Ei käyttäjiä tai ryhmiä",
@@ -590,7 +589,6 @@ OC.L10N.register(
     "When shared show full event" : "Jaettaessa näytä koko tapahtuma",
     "When shared show only busy" : "Jaettaessa näytä vain varattuna oleminen",
     "When shared hide this event" : "Jaettaessa piilota tämä tapahtuma",
-    "The visibility of this event in shared calendars." : "Tämän tapahtuman näkyvyys jaetuissa kalentereissa.",
     "Add a location" : "Lisää sijainti",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Lisää kuvaus\n\n- Mitä tapaamisessa käsitellään\n- Asialista\n- Mitä hyvänsä mihin osallistujien tulisi valmistautua",
     "Status" : "Tila",
@@ -619,12 +617,14 @@ OC.L10N.register(
     "Appointment not found" : "Tapaamista ei löydy",
     "User not found" : "Käyttäjää ei löydy",
     "Hidden" : "Piilotettu",
+    "can edit" : "voi muokata",
     "Calendar name …" : "Kalenterin nimi…",
     "Automatic ({detected})" : "Automaattinen ({detected})",
     "Shortcut overview" : "Pikakuvakenäkymä",
     "Enable simplified editor" : "Käytä yksinkertaistettua muokkainta",
     "Limit the number of events displayed in the monthly view" : "Rajoita kuukausinäkymässä näytettävien tapahtumien määrää",
     "Time increments" : "Aikavälit",
-    "Show keyboard shortcuts" : "Näytä pikanäppäimet"
+    "Show keyboard shortcuts" : "Näytä pikanäppäimet",
+    "The visibility of this event in shared calendars." : "Tämän tapahtuman näkyvyys jaetuissa kalentereissa."
 },
 "nplurals=2; plural=(n != 1);");

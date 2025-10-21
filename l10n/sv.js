@@ -147,7 +147,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Team)",
     "An error occurred while unsharing the calendar." : "Ett fel uppstod när delningen av kalendern skulle tas bort.",
     "An error occurred, unable to change the permission of the share." : "Ett fel inträffade. Det gick inte att ändra behörighet för delningen.",
-    "can edit" : "kan redigera",
     "Unshare with {displayName}" : "Sluta dela med {displayName}",
     "Share with users or groups" : "Dela med användare eller grupper",
     "No users or groups" : "Inga användare eller grupper",
@@ -641,7 +640,6 @@ OC.L10N.register(
     "When shared show full event" : "Om delad, visa hela händelsen",
     "When shared show only busy" : "Om delad, visa endast upptagen",
     "When shared hide this event" : "Om delad, dölj denna händelse",
-    "The visibility of this event in shared calendars." : "Synligheten för denna händelse i delade kalendrar.",
     "Add a location" : "Lägg till en plats",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Lägg till en beskrivning\n\n- Vad handlar mötet om\n- Punkter på dagordningen\n- Något som deltagare behöver förbereda",
     "Status" : "Status",
@@ -672,12 +670,14 @@ OC.L10N.register(
     "Appointment not found" : "Mötet hittades inte",
     "User not found" : "Användaren hittades inte",
     "Hidden" : "Gömd",
+    "can edit" : "kan redigera",
     "Calendar name …" : "Kalendernamn ...",
     "Automatic ({detected})" : "Automatisk ({detected})",
     "Shortcut overview" : "Översikt av genvägar",
     "Enable simplified editor" : "Aktivera förenklad redigerare",
     "Limit the number of events displayed in the monthly view" : "Begränsa antalet händelser som visas i månadsvyn",
     "Time increments" : "Tidsintervall",
-    "Show keyboard shortcuts" : "Visa tangentbordsgenvägar"
+    "Show keyboard shortcuts" : "Visa tangentbordsgenvägar",
+    "The visibility of this event in shared calendars." : "Synligheten för denna händelse i delade kalendrar."
 },
 "nplurals=2; plural=(n != 1);");

@@ -41,7 +41,6 @@ OC.L10N.register(
     "Internal link" : "Interna ligilo",
     "Share link" : "Kunhavigi ligilon",
     "Delete share link" : "Forigi kunhavo-ligilon",
-    "can edit" : "povas redakti",
     "Share with users or groups" : "Kunhavigi kun uzantoj aŭ grupoj",
     "No users or groups" : "Neniu uzanto aŭ grupo",
     "Save" : "Konservi",
@@ -149,6 +148,7 @@ OC.L10N.register(
     "Add this as a new category" : "Aldoni tion kiel novan kategorion",
     "User not found" : "Netrovita uzanto",
     "Hidden" : "Nevidebla",
+    "can edit" : "povas redakti",
     "Enable simplified editor" : "Ebligi simpligitan redaktilon",
     "Show keyboard shortcuts" : "Montri klavarajn ŝparvojojn"
 },

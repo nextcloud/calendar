@@ -123,7 +123,6 @@ OC.L10N.register(
     "Deleting share link …" : "Изтриване на връзката за споделяне  ...",
     "An error occurred while unsharing the calendar." : "Възникна грешка при прекратяване на споделянето на календар.",
     "An error occurred, unable to change the permission of the share." : "Възникна грешка, невъзможност да се промени разрешението за споделяне ",
-    "can edit" : "може да редактира",
     "Unshare with {displayName}" : "Прекратява споделянето с {displayName}",
     "Share with users or groups" : "Сподели с потребители или групи",
     "No users or groups" : "Няма потребители или групи",
@@ -469,7 +468,6 @@ OC.L10N.register(
     "When shared show full event" : "При споделяне, показвай цялото събитие",
     "When shared show only busy" : "При споделяне, показвай само статус \"зает\"",
     "When shared hide this event" : "При споделяне, скривай това събитие",
-    "The visibility of this event in shared calendars." : "Видимостта на това събитие в споделени календари.",
     "Add a location" : "Добавяне на местоположение",
     "Status" : "Състояние",
     "Confirmed" : "Потвърдено",
@@ -494,12 +492,14 @@ OC.L10N.register(
     "Appointment not found" : "Срещата не е намерена",
     "User not found" : "Потребителят не е намерен ",
     "Hidden" : "Скрит",
+    "can edit" : "може да редактира",
     "Calendar name …" : "Име на календар ...",
     "Automatic ({detected})" : "Автоматично (detected})",
     "Shortcut overview" : "Преглед на пряк път",
     "Enable simplified editor" : "Активиране на опростен редактор",
     "Limit the number of events displayed in the monthly view" : "Ограничаване на броя на събитията, показвани в месечния изглед",
     "Time increments" : "Времеви стъпки",
-    "Show keyboard shortcuts" : "Показване на клавишни комбинации"
+    "Show keyboard shortcuts" : "Показване на клавишни комбинации",
+    "The visibility of this event in shared calendars." : "Видимостта на това събитие в споделени календари."
 },
 "nplurals=2; plural=(n != 1);");

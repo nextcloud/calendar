@@ -113,7 +113,6 @@ OC.L10N.register(
     "Delete share link" : "Xóa liên kết chia sẻ",
     "Deleting share link …" : "Đang xóa liên kết chia sẻ  ...",
     "An error occurred, unable to change the permission of the share." : "Một lỗi đã diễn ra, không thể thay đổi quyền hạn chia sẻ",
-    "can edit" : "có thể chỉnh sửa",
     "Unshare with {displayName}" : "Gỡ chia sẻ với {displayName}",
     "Share with users or groups" : "Chia sẽ với người dùng hoặc nhóm",
     "No users or groups" : "Không có người dùng hay nhóm",
@@ -423,7 +422,6 @@ OC.L10N.register(
     "When shared show full event" : "Khi được chia sẻ thì hiển thị đầy đủ sự kiện",
     "When shared show only busy" : "Khi được chia sẻ thì chỉ hiển thị đang bận",
     "When shared hide this event" : "Khi được chia sẻ thì ẩn sự kiện này đi",
-    "The visibility of this event in shared calendars." : "Khả năng nhìn thấy của sự kiện này trong các lịch được chia sẻ",
     "Add a location" : "Thêm vào một địa điểm",
     "Status" : "Trạng thái",
     "Confirmed" : "Đã xác nhận",
@@ -443,10 +441,12 @@ OC.L10N.register(
     "Appointment not found" : "Không tìm thấy cuộc hẹn",
     "User not found" : "Không tìm thấy người dùng",
     "Hidden" : "Ẩn",
+    "can edit" : "có thể chỉnh sửa",
     "Automatic ({detected})" : " ({detected}) tự động",
     "Shortcut overview" : "Bản xem trước của lối tắt",
     "Enable simplified editor" : "Bật chỉnh sửa đơn giản",
     "Time increments" : "Mức tăng thời gian",
-    "Show keyboard shortcuts" : "Hiển thị các phím tắt"
+    "Show keyboard shortcuts" : "Hiển thị các phím tắt",
+    "The visibility of this event in shared calendars." : "Khả năng nhìn thấy của sự kiện này trong các lịch được chia sẻ"
 },
 "nplurals=1; plural=0;");

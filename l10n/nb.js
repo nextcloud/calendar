@@ -136,7 +136,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Lag)",
     "An error occurred while unsharing the calendar." : "Det oppstod en feil under oppheving av deling av kalenderen.",
     "An error occurred, unable to change the permission of the share." : "En feil oppsto, kan ikke endre rettighetene til delingen.",
-    "can edit" : "kan endre",
     "Unshare with {displayName}" : "Fjern deling med {displayName}",
     "Share with users or groups" : "Del med brukere eller grupper",
     "No users or groups" : "Ingen brukere eller grupper",
@@ -526,7 +525,6 @@ OC.L10N.register(
     "When shared show full event" : "Vis hele hendelsen om den deles",
     "When shared show only busy" : "Vis kun opptatt om den deles",
     "When shared hide this event" : "Skjul denne hendelsen om den deles",
-    "The visibility of this event in shared calendars." : "Synlighet for denne oppføringen i delte kalendere",
     "Add a location" : "Legg til et sted",
     "Status" : "Status",
     "Confirmed" : "Bekreftet",
@@ -552,12 +550,14 @@ OC.L10N.register(
     "Appointment not found" : "Avtale ikke funnet",
     "User not found" : "Fant ikke brukeren",
     "Hidden" : "Skjult",
+    "can edit" : "kan endre",
     "Calendar name …" : "Kalendernavn…",
     "Automatic ({detected})" : "Automatisk ({detected})",
     "Shortcut overview" : "Oversikt over snarveier",
     "Enable simplified editor" : "Aktiver forenklet redigering",
     "Limit the number of events displayed in the monthly view" : "Begrens antall hendelser som vises i månedsvisningen",
     "Time increments" : "Tidsøkninger",
-    "Show keyboard shortcuts" : "Vis tastatursnarveier"
+    "Show keyboard shortcuts" : "Vis tastatursnarveier",
+    "The visibility of this event in shared calendars." : "Synlighet for denne oppføringen i delte kalendere"
 },
 "nplurals=2; plural=(n != 1);");

@@ -136,7 +136,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Team)",
     "An error occurred while unsharing the calendar." : "カレンダーの共有解除中にエラーが発生しました",
     "An error occurred, unable to change the permission of the share." : "エラーが発生したため、共有の権限を変更できませんでした。",
-    "can edit" : "編集を許可",
     "Unshare with {displayName}" : "{displayName}との共有を解除",
     "Share with users or groups" : "ユーザーまたはグループと共有する",
     "No users or groups" : "ユーザーまたはグループはありません",
@@ -532,7 +531,6 @@ OC.L10N.register(
     "When shared show full event" : "共有時にすべてのイベントを表示",
     "When shared show only busy" : "共有時に実行中のみを表示",
     "When shared hide this event" : "共有時にこのイベントを隠す",
-    "The visibility of this event in shared calendars." : "共有カレンダーでのこのイベントの表示。",
     "Add a location" : "住所を追加",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "説明を追加\n\n- この会議の目的\n- 議題\n- 参加者が準備する必要があるもの",
     "Status" : "ステータス",
@@ -557,12 +555,14 @@ OC.L10N.register(
     "Appointment not found" : "予定が見つかりません",
     "User not found" : "ユーザーが見つかりません",
     "Hidden" : "非公開",
+    "can edit" : "編集を許可",
     "Calendar name …" : "カレンダー名 …",
     "Automatic ({detected})" : "自動 ({detected})",
     "Shortcut overview" : "概要",
     "Enable simplified editor" : "簡易エディターを有効にする",
     "Limit the number of events displayed in the monthly view" : "月間ビューに表示されるイベント数を制限する",
     "Time increments" : "時間の増加",
-    "Show keyboard shortcuts" : "キーボード ショートカット"
+    "Show keyboard shortcuts" : "キーボード ショートカット",
+    "The visibility of this event in shared calendars." : "共有カレンダーでのこのイベントの表示。"
 },
 "nplurals=1; plural=0;");

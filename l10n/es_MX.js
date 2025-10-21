@@ -137,7 +137,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Equipo)",
     "An error occurred while unsharing the calendar." : "Ocurrió un error al dejar de compartir el calendario.",
     "An error occurred, unable to change the permission of the share." : "Ocurrió un error, no se pudieron cambiar los permisos del recurso compartido.",
-    "can edit" : "puede editar",
     "Unshare with {displayName}" : "Dejar de compartir con {displayName}",
     "Share with users or groups" : "Compartir con otros usuarios o grupos",
     "No users or groups" : "Sin usuarios ni grupos",
@@ -528,7 +527,6 @@ OC.L10N.register(
     "When shared show full event" : "Al compartir, mostrar el evento completo",
     "When shared show only busy" : "Al compartir, mostrar sólo como ocupado ",
     "When shared hide this event" : "Al compartir, ocultar este evento ",
-    "The visibility of this event in shared calendars." : "La visibilidad de este evento en calendarios compartidos.",
     "Add a location" : "Añadir ubicación",
     "Status" : "Estatus",
     "Confirmed" : "Confirmado",
@@ -553,12 +551,14 @@ OC.L10N.register(
     "Appointment not found" : "Cita no encontrada",
     "User not found" : "No se encontró el usuario",
     "Hidden" : "Oculto",
+    "can edit" : "puede editar",
     "Calendar name …" : "Nombre del calendario …",
     "Automatic ({detected})" : "Automático ({detected})",
     "Shortcut overview" : "Vista general de atajos",
     "Enable simplified editor" : "Habilitar el editor simplificado",
     "Limit the number of events displayed in the monthly view" : "Limitar el número de eventos mostrados en la vista mensual",
     "Time increments" : "Incrementos de tiempo",
-    "Show keyboard shortcuts" : "Mostrar atajos de teclado"
+    "Show keyboard shortcuts" : "Mostrar atajos de teclado",
+    "The visibility of this event in shared calendars." : "La visibilidad de este evento en calendarios compartidos."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

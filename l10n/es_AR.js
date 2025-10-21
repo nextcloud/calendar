@@ -42,7 +42,6 @@ OC.L10N.register(
     "Share link" : "Compartir link",
     "Copy public link" : "Copiar link publico",
     "Copied code" : "Código copiado",
-    "can edit" : "puede editar",
     "Share with users or groups" : "Compartir con usuarios o grupos",
     "No users or groups" : "No hay usuarios ni grupos.",
     "Save" : "Guardar",
@@ -123,6 +122,7 @@ OC.L10N.register(
     "Status" : "Estatus",
     "Confirmed" : "Confirmado",
     "Categories" : "Categoría",
-    "Hidden" : "Oculto"
+    "Hidden" : "Oculto",
+    "can edit" : "puede editar"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
