@@ -148,7 +148,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Foireann)",
     "An error occurred while unsharing the calendar." : "Tharla earráid agus an féilire á dhí-roinnt.",
     "An error occurred, unable to change the permission of the share." : "Tharla earráid, níorbh fhéidir cead na comhroinnte a athrú.",
-    "can edit" : "is féidir in eagar",
     "Unshare with {displayName}" : "Díroinn le {displayName}",
     "Share with users or groups" : "Roinn le húsáideoirí nó le grúpaí",
     "No users or groups" : "Gan úsáideoirí nó grúpaí",
@@ -642,7 +641,6 @@ OC.L10N.register(
     "When shared show full event" : "Nuair a chomhroinntear taispeáin imeacht iomlán",
     "When shared show only busy" : "Nuair a bheidh an seó roinnte ach gnóthach",
     "When shared hide this event" : "Nuair a bheidh tú roinnte cuir an t-imeacht seo i bhfolach",
-    "The visibility of this event in shared calendars." : "Infheictheacht an imeachta seo i bhféilirí roinnte.",
     "Add a location" : "Cuir suíomh leis",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Cuir cur síos leis\n\n- Cad faoi atá an cruinniú seo?\n- Míreanna ar an gclár\n- Rud ar bith is gá do rannpháirtithe a ullmhú",
     "Status" : "Stádas",
@@ -673,12 +671,14 @@ OC.L10N.register(
     "Appointment not found" : "Níor aimsíodh an coinne",
     "User not found" : "Úsáideoir gan aimsiú",
     "Hidden" : "I bhfolach",
+    "can edit" : "is féidir in eagar",
     "Calendar name …" : "Ainm an fhéilire…",
     "Automatic ({detected})" : "Uathoibríoch ({detected})",
     "Shortcut overview" : "Forbhreathnú aicearra",
     "Enable simplified editor" : "Cumasaigh eagarthóir simplithe",
     "Limit the number of events displayed in the monthly view" : "Teorainn a chur le líon na n-imeachtaí a thaispeántar san amharc míosúil",
     "Time increments" : "Arduithe ama",
-    "Show keyboard shortcuts" : "Taispeáin aicearraí méarchláir"
+    "Show keyboard shortcuts" : "Taispeáin aicearraí méarchláir",
+    "The visibility of this event in shared calendars." : "Infheictheacht an imeachta seo i bhféilirí roinnte."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

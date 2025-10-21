@@ -95,7 +95,6 @@ OC.L10N.register(
     "Delete share link" : "Dileu dolen rhannu",
     "Deleting share link …" : "Wrthi'n dileu dolen rhannu …",
     "An error occurred, unable to change the permission of the share." : "Bu gwall, ni fu modd newid caniatâd y gyfran.",
-    "can edit" : "yn gallu golygu",
     "Unshare with {displayName}" : "Dadrannu gyda {displayName}",
     "Share with users or groups" : "Rhannwch gyda defnyddwyr neu grwpiau",
     "No users or groups" : "Dim defnyddwyr na grwpiau",
@@ -398,7 +397,6 @@ OC.L10N.register(
     "When shared show full event" : "Pan wedi ei rannu, yn dangos y digwyddiad llawn",
     "When shared show only busy" : "Pan wedi ei rannu, yn dangos dim ond prysur",
     "When shared hide this event" : "Pan wedi ei rannu, yn cuddio'r digwyddiad hwn",
-    "The visibility of this event in shared calendars." : "Gwelededd y digwyddiad hwn mewn calendrau a rennir.",
     "Add a location" : "Ychwanegu lleoliad",
     "Status" : "Statws",
     "Confirmed" : "Cadarnhawyd",
@@ -417,10 +415,12 @@ OC.L10N.register(
     "Appointment not found" : "Apwyntiad heb ei ganfod",
     "User not found" : "Defnyddiwr heb ei ganfod",
     "Hidden" : "Cudd",
+    "can edit" : "yn gallu golygu",
     "Automatic ({detected})" : "Awtomatig ({detected})",
     "Shortcut overview" : "Trosolwg llwybr byr",
     "Enable simplified editor" : "Galluogi golygydd symlach",
     "Time increments" : "Cynyddiadau amser",
-    "Show keyboard shortcuts" : "Dangos llwybrau byr bysellfwrdd"
+    "Show keyboard shortcuts" : "Dangos llwybrau byr bysellfwrdd",
+    "The visibility of this event in shared calendars." : "Gwelededd y digwyddiad hwn mewn calendrau a rennir."
 },
 "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;");

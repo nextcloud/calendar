@@ -144,7 +144,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Тим)",
     "An error occurred while unsharing the calendar." : "Настана грешка при откажување на споделување на календар.",
     "An error occurred, unable to change the permission of the share." : "Настана грешка, неможе да се променат дозволите за споделување.",
-    "can edit" : "може да се измени",
     "Unshare with {displayName}" : "Не споделувај со {displayName}",
     "Share with users or groups" : "Сподели со корисници или групи",
     "No users or groups" : "Нема корисници или групи",
@@ -587,7 +586,6 @@ OC.L10N.register(
     "When shared show full event" : "Кога е споделен, прикажи го целосно настанот",
     "When shared show only busy" : "Кога е споделен, прикажи зафатено",
     "When shared hide this event" : "Кога е споделен, сокриј го настанот",
-    "The visibility of this event in shared calendars." : "Видливост на овој настан во споделен календар.",
     "Add a location" : "Додади локација",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Додај опис\n\n- За што е овој состанок\n- Точки на дневен ред\n- Сè што учесниците треба да подготват",
     "Status" : "Статус",
@@ -614,12 +612,14 @@ OC.L10N.register(
     "Appointment not found" : "Терминот не е пронајден",
     "User not found" : "Корисникот не е пронајден",
     "Hidden" : "Сокриен",
+    "can edit" : "може да се измени",
     "Calendar name …" : "Име на календар ...",
     "Automatic ({detected})" : "Автоматски ({detected})",
     "Shortcut overview" : "Преглед на кратенки преку тастатура",
     "Enable simplified editor" : "Овозможи поедноставен уредувач",
     "Limit the number of events displayed in the monthly view" : "Ограничи број на настани прикажани во месечниот преглед",
     "Time increments" : "Временско зголемување",
-    "Show keyboard shortcuts" : "Прикажи кратенки преку тастатура"
+    "Show keyboard shortcuts" : "Прикажи кратенки преку тастатура",
+    "The visibility of this event in shared calendars." : "Видливост на овој настан во споделен календар."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

@@ -148,7 +148,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Ομάδα)",
     "An error occurred while unsharing the calendar." : "Προέκυψε σφάλμα κατά την κατάργηση της κοινής χρήσης του ημερολογίου.",
     "An error occurred, unable to change the permission of the share." : "Παρουσιάστηκε σφάλμα, δεν ήταν δυνατή η αλλαγή των δικαιωμάτων της κοινής χρήσης.",
-    "can edit" : "δυνατότητα επεξεργασίας",
     "Unshare with {displayName}" : "Κατάργηση κοινής χρήσης με {displayName}",
     "Share with users or groups" : "Κοινή χρήση με χρήστες ή ομάδες",
     "No users or groups" : "Δεν υπάρχουν χρήστες ή ομάδες",
@@ -641,7 +640,6 @@ OC.L10N.register(
     "When shared show full event" : "Προβολή πλήρους συμβάντος, όταν κοινοποιείται",
     "When shared show only busy" : "Όταν είναι σε κοινή χρήση να προβάλλονται μόνο απασχολημένοι ",
     "When shared hide this event" : "Απόκρυψη αυτού του συμβάντος, όταν κοινοποιείται",
-    "The visibility of this event in shared calendars." : "Η ορατότητα του γεγονότος στα ημερολόγια κοινής χρήσης.",
     "Add a location" : "Προσθήκη τοποθεσίας",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Προσθέστε μια περιγραφή\n\n- Τι αφορά αυτή η συνάντηση\n- Θέματα ημερήσιας διάταξης\n- Οτιδήποτε πρέπει να προετοιμάσουν οι συμμετέχοντες",
     "Status" : "Κατάσταση",
@@ -671,12 +669,14 @@ OC.L10N.register(
     "Appointment not found" : "Το ραντεβού δεν βρέθηκε",
     "User not found" : "Ο/Η χρήστης δεν βρέθηκε",
     "Hidden" : "Κρυφός",
+    "can edit" : "δυνατότητα επεξεργασίας",
     "Calendar name …" : "Όνομα ημερολογίου …",
     "Automatic ({detected})" : "Αυτόματα ({detected})",
     "Shortcut overview" : "Επισκόπηση συντόμευσης",
     "Enable simplified editor" : "Ενεργοποίηση απλοποιημένου προγράμματος επεξεργασίας",
     "Limit the number of events displayed in the monthly view" : "Περιορισμός του αριθμού των συμβάντων που εμφανίζονται στη μηνιαία προβολή",
     "Time increments" : "Χρόνος μεταξύ δυο ραντεβού",
-    "Show keyboard shortcuts" : "Εμφάνιση συντομεύσεων πληκτρολογίου"
+    "Show keyboard shortcuts" : "Εμφάνιση συντομεύσεων πληκτρολογίου",
+    "The visibility of this event in shared calendars." : "Η ορατότητα του γεγονότος στα ημερολόγια κοινής χρήσης."
 },
 "nplurals=2; plural=(n != 1);");

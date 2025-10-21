@@ -148,7 +148,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Equipo)",
     "An error occurred while unsharing the calendar." : "Ocurrió un error al intentar dejar de compartir el calendario.",
     "An error occurred, unable to change the permission of the share." : "Se ha producido un error, no fue posible cambiar los permisos del recurso compartido.",
-    "can edit" : "puede editar",
     "Unshare with {displayName}" : "Dejar de compartir con {displayName}",
     "Share with users or groups" : "Compartir con otros usuarios o grupos",
     "No users or groups" : "No hay usuarios ni grupos.",
@@ -642,7 +641,6 @@ OC.L10N.register(
     "When shared show full event" : "Al compartir, mostrar el evento completo",
     "When shared show only busy" : "Al compartir, mostrar solo ocupado",
     "When shared hide this event" : "Al compartir, ocultar este evento",
-    "The visibility of this event in shared calendars." : "Visibilidad de este evento en calendarios compartidos",
     "Add a location" : "Añadir ubicación",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Añada una descripción\n\n- ¿De qué se trata esta reunión?\n- Orden del día\n- Algo que los participantes deban preparar",
     "Status" : "Estado",
@@ -673,12 +671,14 @@ OC.L10N.register(
     "Appointment not found" : "Cita no encontrada",
     "User not found" : "Usuario no encontrado",
     "Hidden" : "Oculto",
+    "can edit" : "puede editar",
     "Calendar name …" : "Nombre del calendario …",
     "Automatic ({detected})" : "Automático ({detected})",
     "Shortcut overview" : "Vista general de atajos",
     "Enable simplified editor" : "Activar editor simplificado",
     "Limit the number of events displayed in the monthly view" : "Limita el número de eventos mostrados en la vista mensual",
     "Time increments" : "Incrementos de tiempo",
-    "Show keyboard shortcuts" : "Mostrar atajos de teclado"
+    "Show keyboard shortcuts" : "Mostrar atajos de teclado",
+    "The visibility of this event in shared calendars." : "Visibilidad de este evento en calendarios compartidos"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

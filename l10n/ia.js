@@ -20,7 +20,6 @@ OC.L10N.register(
     "Restore" : "Restaurar",
     "Delete permanently" : "Deler permanentemente",
     "Share link" : "Compartir ligamine",
-    "can edit" : "pote modificar",
     "Share with users or groups" : "Compartir con usatores o gruppos",
     "Save" : "Salveguardar",
     "View" : "Vider",
@@ -75,6 +74,7 @@ OC.L10N.register(
     "When shared show only busy" : "Quando compartite, monstrar solo si illo es occupate",
     "When shared hide this event" : "Quando compartite, celar iste evento",
     "Confirmed" : "Confirmate",
-    "Hidden" : "Occultate"
+    "Hidden" : "Occultate",
+    "can edit" : "pote modificar"
 },
 "nplurals=2; plural=(n != 1);");

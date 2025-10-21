@@ -146,7 +146,6 @@
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Zespół)",
     "An error occurred while unsharing the calendar." : "Wystąpił błąd podczas wyłączania udostępniania kalendarza.",
     "An error occurred, unable to change the permission of the share." : "Wystąpił błąd, nie można zmienić uprawnień do udostępnienia.",
-    "can edit" : "może edytować",
     "Unshare with {displayName}" : "Zatrzymaj udostępnianie z {displayName}",
     "Share with users or groups" : "Udostępnij użytkownikom lub grupom",
     "No users or groups" : "Brak użytkowników lub grup",
@@ -640,7 +639,6 @@
     "When shared show full event" : "Gdy udostępniony pokaż pełne wydarzenie",
     "When shared show only busy" : "Gdy udostępniony pokaż tylko zajęty",
     "When shared hide this event" : "Gdy udostępniony ukryj to wydarzenie",
-    "The visibility of this event in shared calendars." : "Widoczność tego wydarzenia w udostępnianych kalendarzach.",
     "Add a location" : "Dodaj lokalizację",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Dodaj opis\n\n- Czego dotyczy to spotkanie\n- Punkty do omówienia\n- Co muszą przygotować osoby uczestniczące",
     "Status" : "Status",
@@ -671,12 +669,14 @@
     "Appointment not found" : "Nie znaleziono spotkania",
     "User not found" : "Nie znaleziono użytkownika",
     "Hidden" : "Ukryty",
+    "can edit" : "może edytować",
     "Calendar name …" : "Nazwa kalendarza…",
     "Automatic ({detected})" : "Automatycznie ({detected})",
     "Shortcut overview" : "Przegląd skrótu",
     "Enable simplified editor" : "Włącz uproszczony edytor",
     "Limit the number of events displayed in the monthly view" : "Ogranicz liczbę zdarzeń wyświetlanych w widoku miesięcznym",
     "Time increments" : "Przyrosty czasu",
-    "Show keyboard shortcuts" : "Pokaż skróty klawiaturowe"
+    "Show keyboard shortcuts" : "Pokaż skróty klawiaturowe",
+    "The visibility of this event in shared calendars." : "Widoczność tego wydarzenia w udostępnianych kalendarzach."
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

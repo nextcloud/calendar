@@ -49,7 +49,6 @@ OC.L10N.register(
     "Deleted" : "Dipadam",
     "Restore" : "Pulihkan",
     "Share link" : "Share link",
-    "can edit" : "boleh mengubah",
     "Save" : "Simpan",
     "Cancel" : "Batal",
     "General" : "Umum",
@@ -80,6 +79,7 @@ OC.L10N.register(
     "Daily" : "Setiap hari",
     "Weekly" : "Setiap minggu",
     "second" : "kedua",
-    "Other" : "Lain"
+    "Other" : "Lain",
+    "can edit" : "boleh mengubah"
 },
 "nplurals=1; plural=0;");

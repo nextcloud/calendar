@@ -25,7 +25,6 @@ OC.L10N.register(
     "Restore" : "Gjenopprett",
     "Delete permanently" : "Slett for godt",
     "Share link" : "Del lenkje",
-    "can edit" : "kan endra",
     "Save" : "Lagre",
     "Cancel" : "Avbryt",
     "Automatic ({timezone})" : "Automatisk ({tidssone})",
@@ -73,6 +72,7 @@ OC.L10N.register(
     "When shared show only busy" : "Når delt, vis berre oppteken",
     "When shared hide this event" : "Når delt, gøym denne hendinga",
     "Status" : "Status",
-    "Confirmed" : "Stadfesta"
+    "Confirmed" : "Stadfesta",
+    "can edit" : "kan endra"
 },
 "nplurals=2; plural=(n != 1);");

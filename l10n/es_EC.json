@@ -129,7 +129,6 @@
     "Deleting share link …" : "Eliminando enlace compartido …",
     "An error occurred while unsharing the calendar." : "Ocurrió un error al dejar de compartir el calendario.",
     "An error occurred, unable to change the permission of the share." : "Ocurrió un error, no se pudo cambiar el permiso de la compartición.",
-    "can edit" : "puede editar",
     "Unshare with {displayName}" : "Dejar de compartir con {displayName}",
     "Share with users or groups" : "Compartir con otros usuarios o grupos",
     "No users or groups" : "Sin usuarios ni grupos",
@@ -475,7 +474,6 @@
     "When shared show full event" : "Al compartir, mostrar el evento completo",
     "When shared show only busy" : "Al compartir, mostrar sólo como ocupado ",
     "When shared hide this event" : "Al compartir, ocultar este evento ",
-    "The visibility of this event in shared calendars." : "La visibilidad de este evento en calendarios compartidos.",
     "Add a location" : "Agregar una ubicación",
     "Status" : "Estatus",
     "Confirmed" : "Confirmado",
@@ -499,12 +497,14 @@
     "Appointment not found" : "Cita no encontrada",
     "User not found" : "No se encontró el usuario",
     "Hidden" : "Oculto",
+    "can edit" : "puede editar",
     "Calendar name …" : "Nombre del calendario …",
     "Automatic ({detected})" : "Automático ({detected})",
     "Shortcut overview" : "Resumen de accesos directos",
     "Enable simplified editor" : "Habilitar editor simplificado",
     "Limit the number of events displayed in the monthly view" : "Limitar la cantidad de eventos mostrados en la vista mensual",
     "Time increments" : "Incrementos de tiempo",
-    "Show keyboard shortcuts" : "Mostrar accesos directos de teclado"
+    "Show keyboard shortcuts" : "Mostrar accesos directos de teclado",
+    "The visibility of this event in shared calendars." : "La visibilidad de este evento en calendarios compartidos."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -148,7 +148,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (csapat)",
     "An error occurred while unsharing the calendar." : "Hiba történt a naptár megosztásának megszüntetése során.",
     "An error occurred, unable to change the permission of the share." : "Hiba történt, nem lehet megváltoztatni a megosztás jogosultságait.",
-    "can edit" : "szerkesztheti",
     "Unshare with {displayName}" : "Megosztás megszüntetése a következővel: {displayName}",
     "Share with users or groups" : "Megosztás felhasználókkal vagy csoportokkal",
     "No users or groups" : "Nincsenek felhasználók vagy csoportok",
@@ -642,7 +641,6 @@ OC.L10N.register(
     "When shared show full event" : "A teljes esemény megjelenítése megosztáskor",
     "When shared show only busy" : "Csak a foglaltság megjelenítése megosztáskor",
     "When shared hide this event" : "Az esemény elrejtése megosztáskor",
-    "The visibility of this event in shared calendars." : "Az esemény láthatósága a megosztott naptárakban.",
     "Add a location" : "Helyszín hozzáadása",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Adjon hozzá egy leírást\n\n- Miről szól ez a találkozó\n- Napirendi pontok\n- Bármi, amivel a résztvevőknek készülniük kell",
     "Status" : "Állapot",
@@ -673,12 +671,14 @@ OC.L10N.register(
     "Appointment not found" : "A találkozó nem található",
     "User not found" : "A felhasználó nem található",
     "Hidden" : "Rejtett",
+    "can edit" : "szerkesztheti",
     "Calendar name …" : "Naptár neve…",
     "Automatic ({detected})" : "Automatikus ({detected})",
     "Shortcut overview" : "Gyorsbillentyűk áttekintése",
     "Enable simplified editor" : "Egyszerűsített szerkesztő engedélyezése",
     "Limit the number of events displayed in the monthly view" : "A havi nézetben megjelenített események számának korlátozása",
     "Time increments" : "Idő lépésköze",
-    "Show keyboard shortcuts" : "Billentyűparancsok megjelenítése"
+    "Show keyboard shortcuts" : "Billentyűparancsok megjelenítése",
+    "The visibility of this event in shared calendars." : "Az esemény láthatósága a megosztott naptárakban."
 },
 "nplurals=2; plural=(n != 1);");

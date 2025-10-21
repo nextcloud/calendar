@@ -73,7 +73,6 @@ OC.L10N.register(
     "Delete share link" : "Dilamet eo bet al liamm lodañ",
     "Deleting share link …" : "O tilemel al liamm lodañ...",
     "An error occurred, unable to change the permission of the share." : "Ur azi a zo bet, dibosupl eo cheñch aotreoù ar rannadenn.",
-    "can edit" : "posuple eo embann",
     "Unshare with {displayName}" : "Dirannañ gant {displayName}",
     "Share with users or groups" : "Rannañ gant implijourienn pe strolladoù",
     "No users or groups" : "Implijourienn pe strodadoù ebet",
@@ -149,7 +148,6 @@ OC.L10N.register(
     "When shared show full event" : "Diskouez an darvoud a-bezh pa vez lodet",
     "When shared show only busy" : "Diskouez hepken ar re pres warno pa vez lodet",
     "When shared hide this event" : "Kuzhat an darvoud-mañ pa vez lodet",
-    "The visibility of this event in shared calendars." : "Gweluster an darvoud-mañ en deiziataerioù lodet.",
     "Add a location" : "Ouzhpennañ ul lec'hiadur",
     "Status" : "Statud",
     "Confirmed" : "Kadarnaet",
@@ -166,6 +164,8 @@ OC.L10N.register(
     "Error while sharing file" : "Ur fazi a zo bet en ur rannañ ar restr",
     "An error occurred, unable to delete the calendar." : "C'hoarvezet ez eus ur fazi, ne c'haller ket dilemel an deiziataer.",
     "Imported {filename}" : "Enporzhiet {filename}",
-    "Hidden" : "Koachet"
+    "Hidden" : "Koachet",
+    "can edit" : "posuple eo embann",
+    "The visibility of this event in shared calendars." : "Gweluster an darvoud-mañ en deiziataerioù lodet."
 },
 "nplurals=5; plural=((n%10 == 1) && (n%100 != 11) && (n%100 !=71) && (n%100 !=91) ? 0 :(n%10 == 2) && (n%100 != 12) && (n%100 !=72) && (n%100 !=92) ? 1 :(n%10 ==3 || n%10==4 || n%10==9) && (n%100 < 10 || n% 100 > 19) && (n%100 < 70 || n%100 > 79) && (n%100 < 90 || n%100 > 99) ? 2 :(n != 0 && n % 1000000 == 0) ? 3 : 4);");

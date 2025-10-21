@@ -133,7 +133,6 @@ OC.L10N.register(
     "Deleting share link …" : "Deleting share link …",
     "An error occurred while unsharing the calendar." : "An error occurred while unsharing the calendar.",
     "An error occurred, unable to change the permission of the share." : "An error occurred, unable to change the permission of the share.",
-    "can edit" : "can edit",
     "Unshare with {displayName}" : "Unshare with {displayName}",
     "Share with users or groups" : "Share with users or groups",
     "No users or groups" : "No users or groups",
@@ -488,7 +487,6 @@ OC.L10N.register(
     "When shared show full event" : "When shared show full event",
     "When shared show only busy" : "When shared show only busy",
     "When shared hide this event" : "When shared hide this event",
-    "The visibility of this event in shared calendars." : "The visibility of this event in shared calendars.",
     "Add a location" : "Add a location",
     "Status" : "Status",
     "Confirmed" : "Confirmed",
@@ -512,12 +510,14 @@ OC.L10N.register(
     "Appointment not found" : "Appointment not found",
     "User not found" : "User not found",
     "Hidden" : "Hidden",
+    "can edit" : "can edit",
     "Calendar name …" : "Calendar name …",
     "Automatic ({detected})" : "Automatic ({detected})",
     "Shortcut overview" : "Shortcut overview",
     "Enable simplified editor" : "Enable simplified editor",
     "Limit the number of events displayed in the monthly view" : "Limit the number of events displayed in the monthly view",
     "Time increments" : "Time increments",
-    "Show keyboard shortcuts" : "Show keyboard shortcuts"
+    "Show keyboard shortcuts" : "Show keyboard shortcuts",
+    "The visibility of this event in shared calendars." : "The visibility of this event in shared calendars."
 },
 "nplurals=2; plural=(n!=1);");

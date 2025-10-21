@@ -138,7 +138,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName}(Team)",
     "An error occurred while unsharing the calendar." : "Er is een fout opgetreden bij het delen van de kalender.",
     "An error occurred, unable to change the permission of the share." : "Er is een fout opgetreden, het is niet mogelijk om de machtiging van de share te wijzigen",
-    "can edit" : "kan wijzigen",
     "Unshare with {displayName}" : "Stop delen met {displayName}",
     "Share with users or groups" : "Deel met gebruikers of groepen",
     "No users or groups" : "Geen gebruikers of groepen",
@@ -534,7 +533,6 @@ OC.L10N.register(
     "When shared show full event" : "Wanneer gedeeld, toon gehele afspraak",
     "When shared show only busy" : "Wanneer gedeeld, toon alleen onbeschikbaarheid",
     "When shared hide this event" : "Wanneer gedeeld, verberg deze afspraak",
-    "The visibility of this event in shared calendars." : "De zichtbaarheid van deze afspraak in gedeelde agenda's.",
     "Add a location" : "Een locatie toevoegen",
     "Status" : "Status",
     "Confirmed" : "Bevestigd",
@@ -558,12 +556,14 @@ OC.L10N.register(
     "Appointment not found" : "Afspraak niet gevonden",
     "User not found" : "Gebruiker niet gevonden",
     "Hidden" : "Verborgen",
+    "can edit" : "kan wijzigen",
     "Calendar name …" : "Kalendernaam ...",
     "Automatic ({detected})" : "Automatisch ({detected})",
     "Shortcut overview" : "Snelkoppeling overzicht",
     "Enable simplified editor" : "Eenvoudige editor inschakelen",
     "Limit the number of events displayed in the monthly view" : "Beperk het aantal evenementen dat wordt weergegeven in de maandweergave",
     "Time increments" : "Time-toename",
-    "Show keyboard shortcuts" : "Toon sneltoetsen"
+    "Show keyboard shortcuts" : "Toon sneltoetsen",
+    "The visibility of this event in shared calendars." : "De zichtbaarheid van deze afspraak in gedeelde agenda's."
 },
 "nplurals=2; plural=(n != 1);");

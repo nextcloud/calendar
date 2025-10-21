@@ -89,7 +89,6 @@
     "Delete share link" : "Izbriši poveznicu dijeljenja",
     "Deleting share link …" : "Brisanje poveznice dijeljenja...",
     "An error occurred, unable to change the permission of the share." : "Došlo je do pogreške, nije moguće promijeniti dopuštenje dijeljenja.",
-    "can edit" : "uređivanje moguće",
     "Unshare with {displayName}" : "Prekid dijeljenja s {displayName}",
     "Share with users or groups" : "Dijelite s korisnicima ili grupama",
     "No users or groups" : "Nema korisnika ili grupa",
@@ -348,7 +347,6 @@
     "When shared show full event" : "Kada se dijeli, prikaži cijeli događaj",
     "When shared show only busy" : "Kada se dijeli, prikaži samo zauzeto",
     "When shared hide this event" : "Kada se dijeli, sakrij događaj",
-    "The visibility of this event in shared calendars." : "Vidljivost ovog događaja u dijeljenim kalendarima.",
     "Add a location" : "Dodaj lokaciju",
     "Status" : "Status",
     "Confirmed" : "Potvrđeno",
@@ -367,10 +365,12 @@
     "Imported {filename}" : "Uvezena datoteka {filename}",
     "User not found" : "Korisnik nije pronađen",
     "Hidden" : "Skriveno",
+    "can edit" : "uređivanje moguće",
     "Automatic ({detected})" : "Automatsko ({detected})",
     "Shortcut overview" : "Pregled prečaca",
     "Enable simplified editor" : "Omogući jednostavan uređivač",
     "Time increments" : "Vremenski prirasti",
-    "Show keyboard shortcuts" : "Prikaži tipkovne prečace"
+    "Show keyboard shortcuts" : "Prikaži tipkovne prečace",
+    "The visibility of this event in shared calendars." : "Vidljivost ovog događaja u dijeljenim kalendarima."
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

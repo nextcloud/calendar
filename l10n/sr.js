@@ -148,7 +148,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Тим)",
     "An error occurred while unsharing the calendar." : "Дошло је до грешке приликом уклањања дељења календара.",
     "An error occurred, unable to change the permission of the share." : "Дошло је до грешке, не може да се измени дозвола дељења.",
-    "can edit" : "може да мења",
     "Unshare with {displayName}" : "Уклони дељење са {displayName}",
     "Share with users or groups" : "Дели са корисницима или групама",
     "No users or groups" : "Нема корисника или група",
@@ -642,7 +641,6 @@ OC.L10N.register(
     "When shared show full event" : "Прикажи цео догађај када је догађај дељен",
     "When shared show only busy" : "Прикажи само да сте заузети када је догађај дељен",
     "When shared hide this event" : "Сакриј догађај када је догађај дељен",
-    "The visibility of this event in shared calendars." : "Видљивост овог догађаја у дељеним календарима.",
     "Add a location" : "Додај локацију",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Додајте опис\n\n- Шта је тема састанка\n- Ставке дневног реда\n- Било шта што учесници треба да припреме",
     "Status" : "Статус",
@@ -673,12 +671,14 @@ OC.L10N.register(
     "Appointment not found" : "Састанак није пронађен",
     "User not found" : "Корисник није нађен",
     "Hidden" : "Сакривен",
+    "can edit" : "може да мења",
     "Calendar name …" : "Назив календара ...",
     "Automatic ({detected})" : "Аутоматски ({detected})",
     "Shortcut overview" : "Преглед пречица",
     "Enable simplified editor" : "Укључи поједностављени едитор",
     "Limit the number of events displayed in the monthly view" : "Ограничи број догађаја који се приказују у месечном приказу",
     "Time increments" : "Временски кораци",
-    "Show keyboard shortcuts" : "Прикажи пречице тастатуре"
+    "Show keyboard shortcuts" : "Прикажи пречице тастатуре",
+    "The visibility of this event in shared calendars." : "Видљивост овог догађаја у дељеним календарима."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

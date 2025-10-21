@@ -128,7 +128,6 @@ OC.L10N.register(
     "Deleting share link …" : "מחיקת קישור השיתוף…",
     "An error occurred while unsharing the calendar." : "אירעה שגיאה במהלך ביטול שיתוף לוח השנה",
     "An error occurred, unable to change the permission of the share." : "אירעה שגיאה, לא ניתן לשנות את הרשאות השיתוף.",
-    "can edit" : "ניתן לערוך",
     "Unshare with {displayName}" : "ביטול שיתוף עם {displayName}",
     "Share with users or groups" : "שיתוף עם משתמשים או קבוצות",
     "No users or groups" : "אין משתמשים או קבוצות",
@@ -354,7 +353,6 @@ OC.L10N.register(
     "When shared show full event" : "כאשר משותף מציג אירוע מלא",
     "When shared show only busy" : "כאשר משותף מציג עסוק בלבד",
     "When shared hide this event" : "כאשר משותף מסתיר אירוע זה",
-    "The visibility of this event in shared calendars." : "הנראות של אירוע זה בלוחות שנה משותפים.",
     "Add a location" : "הוסף מיקום",
     "Status" : "מצב",
     "Confirmed" : "מאושר",
@@ -373,10 +371,12 @@ OC.L10N.register(
     "Imported {filename}" : "יובא {filename} ",
     "User not found" : "המשתמש לא נמצא",
     "Hidden" : "מוסתר",
+    "can edit" : "ניתן לערוך",
     "Calendar name …" : "שם לוח השנה ...",
     "Automatic ({detected})" : "אוטומטי ({detected})",
     "Shortcut overview" : "סקירת קיצור דרך",
     "Enable simplified editor" : "אפשר עורך פשוט",
-    "Show keyboard shortcuts" : "הצגת קיצורי מקלדת"
+    "Show keyboard shortcuts" : "הצגת קיצורי מקלדת",
+    "The visibility of this event in shared calendars." : "הנראות של אירוע זה בלוחות שנה משותפים."
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

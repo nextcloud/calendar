@@ -147,7 +147,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Lantaldea)",
     "An error occurred while unsharing the calendar." : "Errorea gertatu da egutegia partekatzeari uztean.",
     "An error occurred, unable to change the permission of the share." : "Errore bat gertatu da, ezin da partekatzearen baimena aldatu.",
-    "can edit" : "editatu dezake",
     "Unshare with {displayName}" : "Utzi {displayName} erabiltzailearekin partekatzeari",
     "Share with users or groups" : "Partekatu erabiltzaile edo taldeekin",
     "No users or groups" : "Ez dago erabiltzaile edota talderik",
@@ -566,7 +565,6 @@ OC.L10N.register(
     "When shared show full event" : "Partekatzean erakutsi gertaera osoa",
     "When shared show only busy" : "Partekatzean okupatua bezala erakutsi soilik",
     "When shared hide this event" : "Partekatzean ezkutatu gertaera hau",
-    "The visibility of this event in shared calendars." : "Gertaera honen ikusgarritasuna egutegi partekatuetan",
     "Add a location" : "Gehitu kokapen bat",
     "Status" : "Egoera",
     "Confirmed" : "Berretsita",
@@ -592,12 +590,14 @@ OC.L10N.register(
     "Appointment not found" : "Ez da hitzordua aurkitu",
     "User not found" : "Ez da erabiltzailea aurkitu",
     "Hidden" : "Ezkutuan",
+    "can edit" : "editatu dezake",
     "Calendar name …" : "Egutegiaren izena ...",
     "Automatic ({detected})" : "Automatikoa ({detected})",
     "Shortcut overview" : "Lasterbideen informazio orokorra",
     "Enable simplified editor" : "Gaitu editore sinplifikatua",
     "Limit the number of events displayed in the monthly view" : "Mugatu hileroko ikuspegian bistaratzen diren gertaeren kopurua",
     "Time increments" : " \nDenbora-gehikuntzak",
-    "Show keyboard shortcuts" : "Erakutsi teklatuaren lasterbideak"
+    "Show keyboard shortcuts" : "Erakutsi teklatuaren lasterbideak",
+    "The visibility of this event in shared calendars." : "Gertaera honen ikusgarritasuna egutegi partekatuetan"
 },
 "nplurals=2; plural=(n != 1);");
