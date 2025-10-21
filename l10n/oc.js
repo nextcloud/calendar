@@ -41,13 +41,14 @@ OC.L10N.register(
     "Deleted" : "Suprimit",
     "Restore" : "Restaurar",
     "Delete permanently" : "Suprimir definitivament",
+    "Internal link" : "Ligam intèrn",
+    "Copy internal link" : "Copiar lo ligam intèrn",
     "Share link" : "Partejar lo ligam",
     "Copy public link" : "Copiar lo ligam public",
     "Copied code" : "Còdi copiat",
     "Could not copy code" : "Se poguèt pas copiar lo còdi",
     "Delete share link" : "Suprimir lo ligam de partatge",
     "Deleting share link …" : "Supression del ligam de partatge …",
-    "can edit" : "pòt modificar",
     "Save" : "Salvar",
     "View" : "Veire",
     "Import calendars" : "Importar de calendièrs",
@@ -184,6 +185,7 @@ OC.L10N.register(
     "Custom color" : "Color personalizada",
     "Error while sharing file" : "Error pendent lo partiment del fichièr",
     "User not found" : "Utilizaire pas trobat",
-    "Hidden" : "Amagat"
+    "Hidden" : "Amagat",
+    "can edit" : "pòt modificar"
 },
 "nplurals=2; plural=(n > 1);");

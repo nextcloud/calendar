@@ -14,7 +14,6 @@
     "Restore" : "Վերականգնել",
     "Delete permanently" : "Ջնջել ընդմիշտ",
     "Share link" : "Կիսվել հղմամբ",
-    "can edit" : "կարող է խմբագրել",
     "Share with users or groups" : "Կիսվել օգտատերերի կամ խմբերի հետ",
     "Save" : "Պահպանել",
     "Cancel" : "Չեղարկել",
@@ -51,6 +50,7 @@
     "Weekly" : "Շաբաթական",
     "second" : "երկրորդ",
     "Other" : "Այլ",
-    "Confirmed" : "Հաստատված"
+    "Confirmed" : "Հաստատված",
+    "can edit" : "կարող է խմբագրել"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

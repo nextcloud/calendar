@@ -15,7 +15,6 @@ OC.L10N.register(
     "Restore" : "மீட்டெடு",
     "Delete permanently" : "நிரந்தரமாக நீக்கவும்",
     "Share link" : "Share link",
-    "can edit" : "தொகுக்க முடியும்",
     "Save" : "சேமிக்க ",
     "Cancel" : "இரத்து செய்க",
     "Actions" : "செயல்கள்",
@@ -47,6 +46,7 @@ OC.L10N.register(
     "Close" : "மூடுக",
     "Selected" : "Selected",
     "Title" : "தலைப்பு",
-    "Other" : "மற்றவை"
+    "Other" : "மற்றவை",
+    "can edit" : "தொகுக்க முடியும்"
 },
 "nplurals=2; plural=(n != 1);");

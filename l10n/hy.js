@@ -16,7 +16,6 @@ OC.L10N.register(
     "Restore" : "Վերականգնել",
     "Delete permanently" : "Ջնջել ընդմիշտ",
     "Share link" : "Կիսվել հղմամբ",
-    "can edit" : "կարող է խմբագրել",
     "Share with users or groups" : "Կիսվել օգտատերերի կամ խմբերի հետ",
     "Save" : "Պահպանել",
     "Cancel" : "Չեղարկել",
@@ -53,6 +52,7 @@ OC.L10N.register(
     "Weekly" : "Շաբաթական",
     "second" : "երկրորդ",
     "Other" : "Այլ",
-    "Confirmed" : "Հաստատված"
+    "Confirmed" : "Հաստատված",
+    "can edit" : "կարող է խմբագրել"
 },
 "nplurals=2; plural=(n != 1);");

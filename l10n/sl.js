@@ -134,7 +134,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Skupina)",
     "An error occurred while unsharing the calendar." : "Prišlo je do napake med onemogočanjem souporabe koledarja.",
     "An error occurred, unable to change the permission of the share." : "Prišlo je do napake; ni mogoče spremeniti dovoljenj souporabe.",
-    "can edit" : "lahko ureja",
     "Unshare with {displayName}" : "Odstrani souporabo z uporabnikom {displayName}",
     "Share with users or groups" : "Souporaba z uporabniki in skupinami",
     "No users or groups" : "Ni uporabnikov ali skupin",
@@ -505,7 +504,6 @@ OC.L10N.register(
     "When shared show full event" : "V souporabi pokaži poln dogodek",
     "When shared show only busy" : "V souporabi pokaži le, da je zasedeno",
     "When shared hide this event" : "V souporabi skrij ta dogodek",
-    "The visibility of this event in shared calendars." : "Vidnost tega dogodka v koledarjih v souporabi.",
     "Add a location" : "Dodaj mesto ...",
     "Status" : "Stanje",
     "Confirmed" : "Potrjeno",
@@ -529,12 +527,14 @@ OC.L10N.register(
     "Appointment not found" : "Sestanka ni mogoče najti",
     "User not found" : "Uporabnika ni mogoče najti",
     "Hidden" : "Skrito",
+    "can edit" : "lahko ureja",
     "Calendar name …" : "Ime koledarja …",
     "Automatic ({detected})" : "Samodejno ({detected})",
     "Shortcut overview" : "Pregled tipkovnih bližnjic",
     "Enable simplified editor" : "Omogoči poenostavljen urejevalnik",
     "Limit the number of events displayed in the monthly view" : "Omeji število dogodkov v pogledu meseca",
     "Time increments" : "Časovno povečevanje",
-    "Show keyboard shortcuts" : "Pokaži tipkovne bližnjice"
+    "Show keyboard shortcuts" : "Pokaži tipkovne bližnjice",
+    "The visibility of this event in shared calendars." : "Vidnost tega dogodka v koledarjih v souporabi."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -148,7 +148,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Komanda)",
     "An error occurred while unsharing the calendar." : "Taqvimni ulashishni bekor qilishda xatolik yuz berdi.",
     "An error occurred, unable to change the permission of the share." : "Xatolik yuz berdi, ulashish ruxsatini o‘zgartirib bo‘lmadi.",
-    "can edit" : "tahrirlashi mumkin",
     "Unshare with {displayName}" : " {displayName}bilan ulashishni bekor qilish",
     "Share with users or groups" : "Foydalanuvchilar yoki guruhlar bilan baham ko'ring",
     "No users or groups" : "Foydalanuvchilar yoki guruhlar yo'q",
@@ -642,7 +641,6 @@ OC.L10N.register(
     "When shared show full event" : "Ulashganda toʻliq tadbir koʻrsatiladi",
     "When shared show only busy" : "Baham ko'rilganda faqat band ko`rsatish",
     "When shared hide this event" : "Baham ko'rilganda, bu tadbirni yashirish",
-    "The visibility of this event in shared calendars." : "Bu tadbirning umumiy taqvimda koʻrinishi.",
     "Add a location" : "Joy qo'shing",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Tavsif qo'shing\n\n- Bu uchrashuv nima haqida\n- Kun tartibidagi masalalar\n- Ishtirokchilar tayyorlashi kerak bo'lgan hamma narsa",
     "Status" : "Holat",
@@ -673,12 +671,14 @@ OC.L10N.register(
     "Appointment not found" : "Uchrashuv topilmadi",
     "User not found" : "Foydalanuvchi topilmadi",
     "Hidden" : "Yashirin",
+    "can edit" : "tahrirlashi mumkin",
     "Calendar name …" : "Taqvim nomi…",
     "Automatic ({detected})" : "Automatik ({detected})",
     "Shortcut overview" : "Qisqa komandalar haqida umumiy ma'lumot",
     "Enable simplified editor" : "Soddalashtirilgan muharrirni yoqing",
     "Limit the number of events displayed in the monthly view" : "Oylik ko'rinishda ko'rsatiladigan voqealar sonini cheklang",
     "Time increments" : "Vaqt o'sishi",
-    "Show keyboard shortcuts" : "Klaviatura yorliqlarini ko'rsatish"
+    "Show keyboard shortcuts" : "Klaviatura yorliqlarini ko'rsatish",
+    "The visibility of this event in shared calendars." : "Bu tadbirning umumiy taqvimda koʻrinishi."
 },
 "nplurals=1; plural=0;");

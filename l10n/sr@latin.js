@@ -14,7 +14,6 @@ OC.L10N.register(
     "Delete permanently" : "Obriši zauvek",
     "Copy internal link" : "Kopiraj internu vezu",
     "Share link" : "Veza deljenja",
-    "can edit" : "može da menja",
     "Save" : "Save",
     "Filename" : "Ime fajla",
     "Cancel" : "Cancel",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Daily" : "дневно",
     "Weekly" : "недељно",
     "second" : "sekund",
-    "Other" : "Ostali"
+    "Other" : "Ostali",
+    "can edit" : "može da menja"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

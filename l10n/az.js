@@ -20,7 +20,6 @@ OC.L10N.register(
     "Restore" : "Geri qaytar",
     "Delete permanently" : "Həmişəlik sil",
     "Share link" : "Linki yayımla",
-    "can edit" : "dəyişmək olar",
     "Save" : "Saxla",
     "Cancel" : "Dayandır",
     "Automatic" : "Avtomatik",
@@ -68,6 +67,7 @@ OC.L10N.register(
     "Other" : "Digər",
     "Status" : "Status",
     "Categories" : "Kateqoriyalar",
-    "Hidden" : "Gizli"
+    "Hidden" : "Gizli",
+    "can edit" : "dəyişmək olar"
 },
 "nplurals=2; plural=(n != 1);");

@@ -130,7 +130,6 @@ OC.L10N.register(
     "Deleting share link …" : "در حال حذف پیوند اشتراک ...",
     "An error occurred while unsharing the calendar." : "An error occurred while unsharing the calendar.",
     "An error occurred, unable to change the permission of the share." : "خطایی روی داد ، قادر به تغییر مجوز اشتراک نیست.",
-    "can edit" : "می توان ویرایش کرد",
     "Unshare with {displayName}" : "عدم اشتراک گذاری با {displayName}",
     "Share with users or groups" : "اشتراک گذاری با کاربران یا گروه ها ...",
     "No users or groups" : "هیچ کاربر یا گروهی وجود ندارد",
@@ -482,7 +481,6 @@ OC.L10N.register(
     "When shared show full event" : "هنگام اشتراک گذاری ، رویداد کامل را نشان می دهد",
     "When shared show only busy" : "وقتی نمایش اشتراکی فقط مشغول است",
     "When shared hide this event" : "هنگام اشتراک گذاری این رویداد را پنهان کنید",
-    "The visibility of this event in shared calendars." : "قابلیت مشاهده این رویداد در تقویمهای مشترک.",
     "Add a location" : "افزودن یک محل",
     "Status" : "وضعیت",
     "Confirmed" : "تایید شده",
@@ -506,12 +504,14 @@ OC.L10N.register(
     "Appointment not found" : "Appointment not found",
     "User not found" : "کاربر یافت نشد",
     "Hidden" : "مخفی",
+    "can edit" : "می توان ویرایش کرد",
     "Calendar name …" : "نام تقویم …",
     "Automatic ({detected})" : "خودکار ({شناسایی})",
     "Shortcut overview" : "Shortcut overview",
     "Enable simplified editor" : "ویرایشگر ساده شده را فعال کنید",
     "Limit the number of events displayed in the monthly view" : "Limit the number of events displayed in the monthly view",
     "Time increments" : "Time increments",
-    "Show keyboard shortcuts" : "Show keyboard shortcuts"
+    "Show keyboard shortcuts" : "Show keyboard shortcuts",
+    "The visibility of this event in shared calendars." : "قابلیت مشاهده این رویداد در تقویمهای مشترک."
 },
 "nplurals=2; plural=(n > 1);");

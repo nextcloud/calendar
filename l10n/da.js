@@ -148,7 +148,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Team)",
     "An error occurred while unsharing the calendar." : "Der opstod en fejl under fjernelse af deling af kalenderen.",
     "An error occurred, unable to change the permission of the share." : "Der opstod en fejl, som ikke kunne ændre tilladelsen til delingen.",
-    "can edit" : "kan redigere",
     "Unshare with {displayName}" : "Fjern deling med {displayName}",
     "Share with users or groups" : "Del med brugere eller grupper",
     "No users or groups" : "Ingen brugere eller grupper",
@@ -642,7 +641,6 @@ OC.L10N.register(
     "When shared show full event" : "Når delt, vis den fulde begivenhed",
     "When shared show only busy" : "Når delt, vis kun optaget",
     "When shared hide this event" : "Når delt, skjul denne begivenhed",
-    "The visibility of this event in shared calendars." : "Synligheden af denne begivenhed i delte kalendere.",
     "Add a location" : "Tilføj en placering",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Tilføj en beskrivelse\n\n- Hvad omhandler mødet\n- Dagsordenselementer\n- Noget som deltagerne skal forberede",
     "Status" : "Status",
@@ -673,12 +671,14 @@ OC.L10N.register(
     "Appointment not found" : "Aftale ikke fundet",
     "User not found" : "Bruger ikke fundet",
     "Hidden" : "Skjult",
+    "can edit" : "kan redigere",
     "Calendar name …" : "Kalender navn …",
     "Automatic ({detected})" : "Automatisk ({detected})",
     "Shortcut overview" : "Genvejsoversigt",
     "Enable simplified editor" : "Slå simpel editor til",
     "Limit the number of events displayed in the monthly view" : "Begræns antallet af hændelser, der vises i månedsvisningen",
     "Time increments" : "Tidsintervaller",
-    "Show keyboard shortcuts" : "Vis tastaturgenveje"
+    "Show keyboard shortcuts" : "Vis tastaturgenveje",
+    "The visibility of this event in shared calendars." : "Synligheden af denne begivenhed i delte kalendere."
 },
 "nplurals=2; plural=(n != 1);");

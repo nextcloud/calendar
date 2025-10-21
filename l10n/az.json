@@ -18,7 +18,6 @@
     "Restore" : "Geri qaytar",
     "Delete permanently" : "Həmişəlik sil",
     "Share link" : "Linki yayımla",
-    "can edit" : "dəyişmək olar",
     "Save" : "Saxla",
     "Cancel" : "Dayandır",
     "Automatic" : "Avtomatik",
@@ -66,6 +65,7 @@
     "Other" : "Digər",
     "Status" : "Status",
     "Categories" : "Kateqoriyalar",
-    "Hidden" : "Gizli"
+    "Hidden" : "Gizli",
+    "can edit" : "dəyişmək olar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

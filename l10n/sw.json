@@ -146,7 +146,6 @@
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Timu)",
     "An error occurred while unsharing the calendar." : "Kosa limetokea wakati wa kutoshirikisha kalenda",
     "An error occurred, unable to change the permission of the share." : "Kosa limetokea, haiwezi kubadili ruhusa za kushirikisha",
-    "can edit" : "Inaweza kuhariri",
     "Unshare with {displayName}" : "Acha kushirikisha na {displayName}",
     "Share with users or groups" : "Shiriki na watumiaji au makundi",
     "No users or groups" : "Hakuna watumiaji au makundi",
@@ -640,7 +639,6 @@
     "When shared show full event" : "Iliyoshirikishwa inapoonesha tukio zima",
     "When shared show only busy" : "Iliyoshirikishwa inapoonesha ubize tu",
     "When shared hide this event" : "Iliyoshirikishwa inapoficha tukio hili",
-    "The visibility of this event in shared calendars." : "Mwonekano wa tukio hili katika kalenda zilizoshirikiwa.",
     "Add a location" : "Ongeza eneo",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Ongeza maelezo\n\nMkutano huu unahusu nini\nVipengele vya ajenda- kitu chochote mshiriki anahitaji kuandaa",
     "Status" : "Wadhifa",
@@ -671,12 +669,14 @@
     "Appointment not found" : "Muadi haupatikani",
     "User not found" : "Mtumiaji hapatikani",
     "Hidden" : "Iliyofichwa",
+    "can edit" : "Inaweza kuhariri",
     "Calendar name …" : "Jina la kalenda",
     "Automatic ({detected})" : "Kiotomatiki {detected}",
     "Shortcut overview" : "Muhtasari wa mkato",
     "Enable simplified editor" : "Wezesha mhariri aliyerahisishwa",
     "Limit the number of events displayed in the monthly view" : "Zuia namba za matukio yanayooneshwa katika mwonekano wa mwezi",
     "Time increments" : "Uongezekaji wa muda",
-    "Show keyboard shortcuts" : "Onesha mikato ya keyboard"
+    "Show keyboard shortcuts" : "Onesha mikato ya keyboard",
+    "The visibility of this event in shared calendars." : "Mwonekano wa tukio hili katika kalenda zilizoshirikiwa."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -28,7 +28,6 @@ OC.L10N.register(
     "Delete permanently" : "სამუდამოდ წაშლა",
     "Deck" : "დასტა",
     "Share link" : "ბმულის გაზიარება",
-    "can edit" : "შეგიძლია შეცვლა",
     "Share with users or groups" : "გაზიარება მოხმარებლებთან ან ჯგუფებთან",
     "Save" : "შენახვა",
     "Filename" : "ფაილის სახელი",
@@ -94,6 +93,7 @@ OC.L10N.register(
     "Status" : "სტატუსი",
     "Confirmed" : "დადასტურებლია",
     "Categories" : "კატეგორიები",
-    "Hidden" : "უჩინარი"
+    "Hidden" : "უჩინარი",
+    "can edit" : "შეგიძლია შეცვლა"
 },
 "nplurals=2; plural=(n!=1);");

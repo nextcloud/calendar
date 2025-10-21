@@ -137,7 +137,6 @@
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Tím)",
     "An error occurred while unsharing the calendar." : "Počas rušenia zdieľania kalendára sa vyskytla chyba.",
     "An error occurred, unable to change the permission of the share." : "Vyskytla sa chyba, nie je možné zmeniť práva na zdieľanie kalendára.",
-    "can edit" : "môže upraviť",
     "Unshare with {displayName}" : "Zrušiť zdieľanie s {displayName}",
     "Share with users or groups" : "Sprístupniť používateľom alebo skupinám",
     "No users or groups" : "Žiadni používatelia alebo skupiny",
@@ -561,7 +560,6 @@
     "When shared show full event" : "Pri zdieľaní zobraziť udalosť úplne",
     "When shared show only busy" : "Pri zdieľaní zobraziť len zaneprázdnený",
     "When shared hide this event" : "Pri zdieľaní skryť udalosť",
-    "The visibility of this event in shared calendars." : "Viditeľnosť tejto udalosti v zdieľaných kalendároch.",
     "Add a location" : "Zadajte umiestnenie",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Pridať popis\n\n- O čom je toto stretnutie\n- Body programu\n- Všetko, čo si účastníci musia pripraviť",
     "Status" : "Stav",
@@ -588,12 +586,14 @@
     "Appointment not found" : "Stretnutie nebolo nájdené",
     "User not found" : "Užívateľ nebol nájdený",
     "Hidden" : "Skryté",
+    "can edit" : "môže upraviť",
     "Calendar name …" : "Názov kalendára ...",
     "Automatic ({detected})" : "Automaticky ({detected})",
     "Shortcut overview" : "Stručný prehľad",
     "Enable simplified editor" : "Povoliť zjednodušený editor",
     "Limit the number of events displayed in the monthly view" : "Obmedziť počet udalostí zobrazených v mesačnom pohľade",
     "Time increments" : "Časové prírastky",
-    "Show keyboard shortcuts" : "Zobraziť klávesové skratky"
+    "Show keyboard shortcuts" : "Zobraziť klávesové skratky",
+    "The visibility of this event in shared calendars." : "Viditeľnosť tejto udalosti v zdieľaných kalendároch."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

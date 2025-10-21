@@ -126,7 +126,6 @@ OC.L10N.register(
     "Deleting share link …" : "Dzēš koplietoto saiti ...",
     "An error occurred while unsharing the calendar." : "Atgadījās kļūda kalendāra koplietošanas atcelšanas laikā.",
     "An error occurred, unable to change the permission of the share." : "Atgadījās kļūda, nevar mainīt kopīgojuma atļauju.",
-    "can edit" : "var labot",
     "Unshare with {displayName}" : "Atcelt kopīgošanu ar {displayName}",
     "Share with users or groups" : "Koplietot ar lietotājiem vai grupām",
     "No users or groups" : "Nav lietotāji vai grupas",
@@ -440,7 +439,6 @@ OC.L10N.register(
     "When shared show full event" : "Ja kopīgots, tad rādīt pilnu notikumu",
     "When shared show only busy" : "Ja kopīgots, tad rādīt tikai aizņemtos",
     "When shared hide this event" : "Ja kopīgots, tad paslēpt šo notikumu",
-    "The visibility of this event in shared calendars." : "Šī notikuma redzamība koplietotos kalendāros.",
     "Add a location" : "Pievienot atrašanās vietu",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Pievienot aprakstu\n\n- Par ko ir šī tikšanās\n- Darba kārtības vienumi\n- Jebkas, kam dalībniekiem ir jāsagatavojas",
     "Status" : "Status",
@@ -465,11 +463,13 @@ OC.L10N.register(
     "Appointment not found" : "Tikšanās nav atrasta",
     "User not found" : "Lietotājs nav atrasts",
     "Hidden" : "Paslēpts",
+    "can edit" : "var labot",
     "Calendar name …" : "Kalendāra nosaukums ...",
     "Automatic ({detected})" : "Automātiska ({detected})",
     "Shortcut overview" : "Īsceļu pārskats",
     "Enable simplified editor" : "Iespējot vienkāršoto redaktoru",
     "Limit the number of events displayed in the monthly view" : "Ierobežot notikumu skaitu, kas tiek parādīti mēneša skatā",
-    "Show keyboard shortcuts" : "Rādīt tastatūras saīsnes taustiņus"
+    "Show keyboard shortcuts" : "Rādīt tastatūras saīsnes taustiņus",
+    "The visibility of this event in shared calendars." : "Šī notikuma redzamība koplietotos kalendāros."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

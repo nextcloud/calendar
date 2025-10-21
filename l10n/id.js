@@ -125,7 +125,6 @@ OC.L10N.register(
     "Deleting share link …" : "Menghapus tautan berbagi …",
     "An error occurred while unsharing the calendar." : "Terjadi kesalahan saat membatalkan pembagian kalender. ",
     "An error occurred, unable to change the permission of the share." : "Terjadi galat, tidak dapat mengubah hak akses berbagi.",
-    "can edit" : "dapat edit",
     "Unshare with {displayName}" : "Batal berbagi dengan {displayName}",
     "Share with users or groups" : "Berbagi dengan pengguna atau grup",
     "No users or groups" : "Tidak ada pengguna atau grup",
@@ -329,7 +328,6 @@ OC.L10N.register(
     "Please ask your administrator to enable the Tasks App." : "Silakan tanya administrator Anda untuk mengaktifkan aplikasi Tugas.",
     "_+%n more_::_+%n more_" : ["+%n lagi"],
     "Other" : "Lainnya",
-    "The visibility of this event in shared calendars." : "Visibilitas acara ini di kalender yang dibagikan.",
     "Add a location" : "Tambah lokasi",
     "Status" : "Status",
     "Confirmed" : "Terkonfirmasi",
@@ -345,9 +343,11 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Terjadi galat, tidak dapat menghapus kalender.",
     "This is an event reminder." : "Ini adalah pengingat acara.",
     "Hidden" : "Sembunyi",
+    "can edit" : "dapat edit",
     "Automatic ({detected})" : "Otomatis ({detected})",
     "Shortcut overview" : "Ikhtisar pintasan",
     "Enable simplified editor" : "Aktifkan editor serderhana",
-    "Show keyboard shortcuts" : "Tampilkan pintasan papan kunci"
+    "Show keyboard shortcuts" : "Tampilkan pintasan papan kunci",
+    "The visibility of this event in shared calendars." : "Visibilitas acara ini di kalender yang dibagikan."
 },
 "nplurals=1; plural=0;");

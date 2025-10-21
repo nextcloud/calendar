@@ -26,7 +26,6 @@ OC.L10N.register(
     "Restore" : "Herstel",
     "Delete permanently" : "Skrap permanent",
     "Share link" : "Deel skakel",
-    "can edit" : "kan wysig",
     "Share with users or groups" : "Deel met gebruikers of groepe",
     "No users or groups" : "Geen gebruikers of groepe",
     "Save" : "Stoor",
@@ -91,6 +90,7 @@ OC.L10N.register(
     "Status" : "Status",
     "Confirmed" : "Bevestig",
     "Categories" : "Kategorieë",
-    "Hidden" : "Versteek"
+    "Hidden" : "Versteek",
+    "can edit" : "kan wysig"
 },
 "nplurals=2; plural=(n != 1);");

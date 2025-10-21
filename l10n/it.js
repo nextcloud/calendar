@@ -139,7 +139,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Team)",
     "An error occurred while unsharing the calendar." : "Si è verificato un errore durante la rimozione della condivisione del calendario.",
     "An error occurred, unable to change the permission of the share." : "Si è verificato un errore, impossibile cambiare i permessi della condivisione.",
-    "can edit" : "può modificare",
     "Unshare with {displayName}" : "Rimuovi condivisione con {displayName}",
     "Share with users or groups" : "Condividi con utenti o gruppi",
     "No users or groups" : "Nessun utente o gruppo",
@@ -555,7 +554,6 @@ OC.L10N.register(
     "When shared show full event" : "Se condiviso, mostra evento completo",
     "When shared show only busy" : "Se condiviso, mostra solo occupato",
     "When shared hide this event" : "Se condiviso, nascondi questo evento",
-    "The visibility of this event in shared calendars." : "La visibilità di questo evento nei calendari condivisi.",
     "Add a location" : "Aggiungi un luogo",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Aggiungi una descrizione\n\n- Di cosa tratta questa riunione\n- Punti all'ordine del giorno\n- Tutto ciò che i partecipanti devono preparare",
     "Status" : "Stato",
@@ -582,12 +580,14 @@ OC.L10N.register(
     "Appointment not found" : "Appuntamento non trovato",
     "User not found" : "Utente non trovato",
     "Hidden" : "Nascosta",
+    "can edit" : "può modificare",
     "Calendar name …" : "Nome del calendario...",
     "Automatic ({detected})" : "Automatico ({detected})",
     "Shortcut overview" : "Riepilogo delle scorciatoie",
     "Enable simplified editor" : "Attiva editor semplificato",
     "Limit the number of events displayed in the monthly view" : "Limita il numero di eventi visualizzati nella vista mensile",
     "Time increments" : "Incrementi di tempo",
-    "Show keyboard shortcuts" : "Mostra scorciatoie da tastiera"
+    "Show keyboard shortcuts" : "Mostra scorciatoie da tastiera",
+    "The visibility of this event in shared calendars." : "La visibilità di questo evento nei calendari condivisi."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

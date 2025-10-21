@@ -32,7 +32,6 @@ OC.L10N.register(
     "Restore" : "คืนค่า",
     "Delete permanently" : "ลบแบบถาวร",
     "Share link" : "แชร์ลิงก์",
-    "can edit" : "สามารถแก้ไข",
     "Share with users or groups" : "แชร์กับผู้ใช้หรือกลุ่ม",
     "Save" : "บันทึก",
     "View" : "มุมมอง",
@@ -104,6 +103,7 @@ OC.L10N.register(
     "Status" : "สถานะ",
     "Confirmed" : "ยืนยันแล้ว",
     "Categories" : "หมวดหมู่",
-    "Hidden" : "ซ่อนอยู่"
+    "Hidden" : "ซ่อนอยู่",
+    "can edit" : "สามารถแก้ไข"
 },
 "nplurals=1; plural=0;");

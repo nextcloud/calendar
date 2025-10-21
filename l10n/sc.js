@@ -93,7 +93,6 @@ OC.L10N.register(
     "Delete share link" : "Cantzella ligòngiu de cumpartzidura",
     "Deleting share link …" : "Cantzellende su ligòngiu de cumpartzidura …",
     "An error occurred, unable to change the permission of the share." : "B'at àpidu un'errore, no at fatu a cambiare su permissu de cumpartzidura.",
-    "can edit" : "podet modificare",
     "Unshare with {displayName}" : "Annulla sa cumpartzidura cun {displayName}",
     "Share with users or groups" : "Cumpartzi cun utentes o grupos",
     "No users or groups" : "Peruna utèntzia o grupu",
@@ -334,7 +333,6 @@ OC.L10N.register(
     "When shared show full event" : "Cando si cumpartzit mustra totu s'eventu",
     "When shared show only busy" : "Cando si cumpartzit, mustra isceti ocupadu",
     "When shared hide this event" : "Cando si cumpartzit, cua custu eventu",
-    "The visibility of this event in shared calendars." : "Sa visibilidade de custu eventu in is calendàrios cumpartzidos",
     "Add a location" : "Agiunghe una positzione",
     "Status" : "Istadu",
     "Confirmed" : "Cunfirmadu",
@@ -353,10 +351,12 @@ OC.L10N.register(
     "Imported {filename}" : "Importadu {filename}",
     "User not found" : "Utèntzia no agatada",
     "Hidden" : "Cuadu",
+    "can edit" : "podet modificare",
     "Automatic ({detected})" : "Automàticu ({detected})",
     "Shortcut overview" : "Bista generale de is curtziadòrgiu",
     "Enable simplified editor" : "Ativa s'editore semplificadu",
     "Time increments" : "Crèschidas de tempus",
-    "Show keyboard shortcuts" : "Mustra curtziadòrgios de tecladu"
+    "Show keyboard shortcuts" : "Mustra curtziadòrgios de tecladu",
+    "The visibility of this event in shared calendars." : "Sa visibilidade de custu eventu in is calendàrios cumpartzidos"
 },
 "nplurals=2; plural=(n != 1);");

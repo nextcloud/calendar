@@ -148,7 +148,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (команда)",
     "An error occurred while unsharing the calendar." : "Помилка під час скасування доступу до календаря.",
     "An error occurred, unable to change the permission of the share." : "Помилка: неможливо змінити права доступу до спільного ресурсу.",
-    "can edit" : "може редагувати",
     "Unshare with {displayName}" : "Забрати спільний доступ з {displayName}",
     "Share with users or groups" : "Поділитися з користувачем або групою",
     "No users or groups" : "Відсутні користувачі або групи",
@@ -642,7 +641,6 @@ OC.L10N.register(
     "When shared show full event" : "Все про подію, якщо у спільному доступі",
     "When shared show only busy" : "Показувати тільки зайнятість, якщо у спільному доступі",
     "When shared hide this event" : "Приховати подію, якщо у спільному доступі",
-    "The visibility of this event in shared calendars." : "Видимість цієї події у спільних календарях.",
     "Add a location" : "Додати розташування",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Додайте до опису\n\n- Тема зустрічі\n- Питання до розгляду\n- До чого мають підготуватися учасники",
     "Status" : "Статус",
@@ -673,12 +671,14 @@ OC.L10N.register(
     "Appointment not found" : "Запрошення на зустріч не знайдено",
     "User not found" : "Користувача не знайдено",
     "Hidden" : "Прихований",
+    "can edit" : "може редагувати",
     "Calendar name …" : "Назва календаря...",
     "Automatic ({detected})" : "Автоматично ({detected})",
     "Shortcut overview" : "Перегляд скорочень",
     "Enable simplified editor" : "Увімкнути спрощений редактор",
     "Limit the number of events displayed in the monthly view" : "Частково показувати події у щомісячному поданні",
     "Time increments" : "Крок",
-    "Show keyboard shortcuts" : "Показати клавіатурні скорочення"
+    "Show keyboard shortcuts" : "Показати клавіатурні скорочення",
+    "The visibility of this event in shared calendars." : "Видимість цієї події у спільних календарях."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

@@ -137,7 +137,6 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Teymi)",
     "An error occurred while unsharing the calendar." : "Villa kom upp við að taka dagatalið úr samnýtingu.",
     "An error occurred, unable to change the permission of the share." : "Villa kom upp, gat ekki breytt heimildum á sameigninni.",
-    "can edit" : "getur breytt",
     "Unshare with {displayName}" : "Hætta deilingu með {displayName}",
     "Share with users or groups" : "Deila með notendum eða hópum",
     "No users or groups" : "Engir notendur eða hópar",
@@ -543,7 +542,6 @@ OC.L10N.register(
     "When shared show full event" : "Þegar er deilt, birta allan atburð",
     "When shared show only busy" : "Þegar er deilt, birta eingöngu upptekið",
     "When shared hide this event" : "Þegar er deilt, fela þennan atburð",
-    "The visibility of this event in shared calendars." : "Sýnileiki þessa atburðar í sameiginlegum dagatölum",
     "Add a location" : "Bæta við staðsetningu",
     "Add a description\n\n- What is this meeting about\n- Agenda items\n- Anything participants need to prepare" : "Bættu við lýsingu\n\n- Um hvað snýst þessi fundur\n- Atriði á dagskrá\n- Hvaðeina sem þátttakendur þurfa að undirbúa",
     "Status" : "Staða",
@@ -570,12 +568,14 @@ OC.L10N.register(
     "Appointment not found" : "Stefnumót fannst ekki",
     "User not found" : "Notandi fannst ekki",
     "Hidden" : "Falinn",
+    "can edit" : "getur breytt",
     "Calendar name …" : "Heiti dagatals …",
     "Automatic ({detected})" : "Sjálfvirkt ({detected})",
     "Shortcut overview" : "Yfirlit flýtilykla",
     "Enable simplified editor" : "Virkja einfaldaðan ritil",
     "Limit the number of events displayed in the monthly view" : "Takmarka fjölda atburða sem birtast í mánaðaryfirlitinu",
     "Time increments" : "Tímaþrep",
-    "Show keyboard shortcuts" : "Birta flýtivísanir á lyklaborði"
+    "Show keyboard shortcuts" : "Birta flýtivísanir á lyklaborði",
+    "The visibility of this event in shared calendars." : "Sýnileiki þessa atburðar í sameiginlegum dagatölum"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

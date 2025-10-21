@@ -21,7 +21,6 @@ OC.L10N.register(
     "Restore" : "Zrécksetzen",
     "Delete permanently" : "Permanent läschen",
     "Share link" : "Link deelen",
-    "can edit" : "kann änneren",
     "Share with users or groups" : "Mat Benotzer oder Gruppen deelen",
     "Save" : "Späicheren",
     "Cancel" : "Ofbriechen",
@@ -69,6 +68,7 @@ OC.L10N.register(
     "When shared show full event" : "Wann et gedeelt gouf, dann de ganzen Evenement uweisen",
     "When shared show only busy" : "Wann et gedeelt gouf, dann nëmmen als beschäftegt uweisen",
     "When shared hide this event" : "Wann et gedeelt gouf, dann verstopp dëst Evenement",
-    "Hidden" : "Verstoppt"
+    "Hidden" : "Verstoppt",
+    "can edit" : "kann änneren"
 },
 "nplurals=2; plural=(n != 1);");

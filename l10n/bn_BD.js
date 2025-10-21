@@ -17,7 +17,6 @@ OC.L10N.register(
     "Deleted" : "মুছে ফেলা",
     "Restore" : "ফিরিয়ে দাও",
     "Share link" : "লিংক ভাগাভাগি করেন",
-    "can edit" : "সম্পাদনা করতে পারবেন",
     "Save" : "সংরক্ষণ",
     "Cancel" : "বাতিল",
     "Automatic" : "স্বয়ংক্রিয়",
@@ -61,6 +60,7 @@ OC.L10N.register(
     "Weekly" : "সাপ্তাহিক",
     "second" : "সেকেন্ড",
     "Other" : "অন্যান্য",
-    "Hidden" : "লুকনো"
+    "Hidden" : "লুকনো",
+    "can edit" : "সম্পাদনা করতে পারবেন"
 },
 "nplurals=2; plural=(n != 1);");
