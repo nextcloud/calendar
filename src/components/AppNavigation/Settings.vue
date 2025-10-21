@@ -36,18 +36,19 @@
 							<CalendarClockIcon :size="20" decorative />
 						</template>
 						<span class="button-content-with-icon">
-							{{ $t('calendar', 'Personal availability settings') }}
+							{{ $t('calendar', 'Availability settings') }}
 							<OpenInNewIcon :size="20" decorative />
 						</span>
 					</NcButton>
-					<div>&nbsp;</div>
+					<h4>{{ t('calendar', 'CalDAV') }}</h4>
+					<span>{{ t('calendar', 'Access Nextcloud calendars from other apps and devices') }}</span>
 					<NcButton
 						variant="tertiary"
 						@click.prevent.stop="copyPrimaryCalDAV">
 						<template #icon>
 							<ContentCopy :size="20" decorative />
 						</template>
-						{{ $t('calendar', 'Copy primary CalDAV address') }}
+						{{ $t('calendar', 'CalDAV URL') }}
 					</NcButton>
 					<NcButton
 						variant="tertiary"
@@ -61,7 +62,7 @@
 				<NcAppSettingsSection
 					id="app-settings-modal-view"
 					class="calendar-settings-modal-section"
-					:name="t('calendar', 'View options')">
+					:name="t('calendar', 'Appearance')">
 					<SettingsTimezoneSelect
 						class="settings-fieldset-interior-item"
 						:is-disabled="loadingCalendars" />
@@ -70,28 +71,28 @@
 						:model-value="hasBirthdayCalendar"
 						:disabled="isBirthdayCalendarDisabled"
 						@update:model-value="toggleBirthdayEnabled">
-						{{ $t('calendar', 'Enable birthday calendar') }}
+						{{ $t('calendar', 'Birthday calendar') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch
 						class="settings-fieldset-interior-item"
 						:model-value="showTasks"
 						:disabled="savingTasks"
 						@update:model-value="toggleTasksEnabled">
-						{{ $t('calendar', 'Show tasks in calendar') }}
+						{{ $t('calendar', 'Tasks in calendar') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch
 						class="settings-fieldset-interior-item"
 						:model-value="showWeekends"
 						:disabled="savingWeekend"
 						@update:model-value="toggleWeekendsEnabled">
-						{{ $t('calendar', 'Show weekends') }}
+						{{ $t('calendar', 'Weekends') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch
 						class="settings-fieldset-interior-item"
 						:model-value="showWeekNumbers"
 						:disabled="savingWeekNumber"
 						@update:model-value="toggleWeekNumberEnabled">
-						{{ $t('calendar', 'Show week numbers') }}
+						{{ $t('calendar', 'Week numbers') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch
 						class="settings-fieldset-interior-item"
@@ -99,7 +100,7 @@
 						:disabled="savingEventLimit"
 						@update:model-value="toggleEventLimitEnabled">
 						<span class="no-wrap-label">
-							{{ $t('calendar', 'Limit number of events shown in month view') }}
+							{{ $t('calendar', 'Limit number of events shown in Month view') }}
 						</span>
 					</NcCheckboxRadioSwitch>
 					<NcSelect
@@ -108,7 +109,7 @@
 						:value="selectedDurationOption"
 						:disabled="savingSlotDuration"
 						:clearable="false"
-						:input-label="$t('calendar', 'Time division in day and week view')"
+						:input-label="$t('calendar', 'Density in Day and Week View')"
 						input-id="value"
 						label="label"
 						@option:selected="changeSlotDuration" />
@@ -122,7 +123,8 @@
 						:model-value="!skipPopover"
 						:disabled="savingPopover"
 						@update:model-value="togglePopoverEnabled">
-						{{ $t('calendar', 'Enable simple editor') }}
+						{{ $t('calendar', 'Simple event editor') }}<br>
+						{{ $t('calendar', '"More details" opens the detailed editor') }}
 					</NcCheckboxRadioSwitch>
 					<!-- Hidden: default calendar picker -->
 					<div v-if="false" class="settings-fieldset-interior-item">
