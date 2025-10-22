@@ -31,6 +31,7 @@ OC.L10N.register(
     "List view" : "Liste visning",
     "Actions" : "Handlingar",
     "General" : "Generelt",
+    "Appearance" : "Utsjånad",
     "Keyboard shortcuts" : "Tastatursnarvegar",
     "Update" : "Oppdater",
     "Location" : "Stad",

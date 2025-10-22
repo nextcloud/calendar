@@ -43,7 +43,6 @@ OC.L10N.register(
     "Actions" : "Acciones",
     "or" : "o",
     "General" : "General",
-    "Show week numbers" : "Mostrar número de semana",
     "Keyboard shortcuts" : "Atajos del teclado",
     "Update" : "Actualizar",
     "Location" : "Ubicación",
@@ -98,6 +97,7 @@ OC.L10N.register(
     "Categories" : "Categorías",
     "User not found" : "No se encontró el usuario",
     "Hidden" : "Oculto",
-    "can edit" : "puede editar"
+    "can edit" : "puede editar",
+    "Show week numbers" : "Mostrar número de semana"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

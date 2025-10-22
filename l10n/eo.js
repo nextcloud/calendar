@@ -57,10 +57,6 @@ OC.L10N.register(
     "Close editor" : "Fermi redaktilon",
     "or" : "aŭ",
     "General" : "Ĝenerala",
-    "Enable birthday calendar" : "Ebligi naskiĝtaga kalendaro",
-    "Show tasks in calendar" : "Montri taskojn en la kalendaro",
-    "Show weekends" : "Montri semajnfinojn",
-    "Show week numbers" : "Montri numerojn de semajno",
     "Keyboard shortcuts" : "Fulmoklavoj",
     "Update" : "Ĝisdatigi",
     "Location" : "Loko",
@@ -149,7 +145,11 @@ OC.L10N.register(
     "User not found" : "Netrovita uzanto",
     "Hidden" : "Nevidebla",
     "can edit" : "povas redakti",
+    "Enable birthday calendar" : "Ebligi naskiĝtaga kalendaro",
+    "Show tasks in calendar" : "Montri taskojn en la kalendaro",
     "Enable simplified editor" : "Ebligi simpligitan redaktilon",
+    "Show weekends" : "Montri semajnfinojn",
+    "Show week numbers" : "Montri numerojn de semajno",
     "Show keyboard shortcuts" : "Montri klavarajn ŝparvojojn"
 },
 "nplurals=2; plural=(n != 1);");

@@ -42,6 +42,7 @@ OC.L10N.register(
     "List view" : "มุมมองแบบรายการ",
     "Actions" : "การกระทำ",
     "General" : "ทั่วไป",
+    "Appearance" : "ลักษณะที่ปรากฏ",
     "Editing" : "กำลังแก้ไข",
     "Keyboard shortcuts" : "แป้นพิมพ์ลัด",
     "_{duration} year_::_{duration} years_" : ["{duration}ปี"],
