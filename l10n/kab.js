@@ -40,6 +40,7 @@ OC.L10N.register(
     "Close editor" : "Mdel amaẓrag",
     "or" : "neɣ",
     "General" : "Amatu",
+    "Appearance" : "Udem",
     "Keyboard shortcuts" : "Inegzumen n unasiw",
     "Location" : "Adig",
     "Description" : "Aglam",

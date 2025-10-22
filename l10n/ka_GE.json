@@ -35,7 +35,6 @@
     "Actions" : "მოქმედებები",
     "or" : "ან",
     "General" : "ზოგადი",
-    "Show week numbers" : "კვირის ნომრების ჩვენება",
     "Keyboard shortcuts" : "კლავიატურის კომბინაციები",
     "Update" : "განახლება",
     "Location" : "ადგილმდებარეობა",
@@ -92,6 +91,7 @@
     "Confirmed" : "დადასტურებლია",
     "Categories" : "კატეგორიები",
     "Hidden" : "უჩინარი",
-    "can edit" : "შეგიძლია შეცვლა"
+    "can edit" : "შეგიძლია შეცვლა",
+    "Show week numbers" : "კვირის ნომრების ჩვენება"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

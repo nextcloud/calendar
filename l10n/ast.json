@@ -141,13 +141,7 @@
     "CalDAV link copied to clipboard." : "L'enllaz CalDAV copióse nel cartafueyu.",
     "CalDAV link could not be copied to clipboard." : "L'enllaz CalDAV nun se pudo copiar nel cartafueyu.",
     "General" : "Xeneral",
-    "Personal availability settings" : "Configuración de la disponibilidá personal",
-    "Copy primary CalDAV address" : "Copiar la direición CalDAV primaria",
     "Copy iOS/macOS CalDAV address" : "Copiar la direición CalDAV d'iOS/macOS",
-    "Enable birthday calendar" : "Activar el calendariu de los cumpleaños",
-    "Show tasks in calendar" : "Amosar les xeres nel calendariu",
-    "Show weekends" : "Amosar les fines de selmana",
-    "Show week numbers" : "Amosar los númberos de selmana",
     "Default reminder" : "Recordatoriu predetermináu",
     "Keyboard shortcuts" : "Atayos del tecláu",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minutu","{duration} minutos"],
@@ -294,8 +288,14 @@
     "User not found" : "Nun s'atopó l'usuariu",
     "Hidden" : "Anubrióse",
     "Calendar name …" : "Nome del calendariu…",
+    "Enable birthday calendar" : "Activar el calendariu de los cumpleaños",
+    "Show tasks in calendar" : "Amosar les xeres nel calendariu",
     "Enable simplified editor" : "Activar l'editor simplificáu",
     "Limit the number of events displayed in the monthly view" : "Llendar el númberu d'eventos amosaos na vista de meses",
+    "Show weekends" : "Amosar les fines de selmana",
+    "Show week numbers" : "Amosar los númberos de selmana",
+    "Copy primary CalDAV address" : "Copiar la direición CalDAV primaria",
+    "Personal availability settings" : "Configuración de la disponibilidá personal",
     "Show keyboard shortcuts" : "Amosar los atayos del tecáu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

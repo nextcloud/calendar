@@ -37,7 +37,6 @@ OC.L10N.register(
     "Actions" : "მოქმედებები",
     "or" : "ან",
     "General" : "ზოგადი",
-    "Show week numbers" : "კვირის ნომრების ჩვენება",
     "Keyboard shortcuts" : "კლავიატურის კომბინაციები",
     "Update" : "განახლება",
     "Location" : "ადგილმდებარეობა",
@@ -94,6 +93,7 @@ OC.L10N.register(
     "Confirmed" : "დადასტურებლია",
     "Categories" : "კატეგორიები",
     "Hidden" : "უჩინარი",
-    "can edit" : "შეგიძლია შეცვლა"
+    "can edit" : "შეგიძლია შეცვლა",
+    "Show week numbers" : "კვირის ნომრების ჩვენება"
 },
 "nplurals=2; plural=(n!=1);");
