@@ -55,6 +55,7 @@ OC.L10N.register(
     "Filename" : "Nom de fichièr",
     "Cancel" : "Anullar",
     "_Import calendar_::_Import calendars_" : ["Importar un calendièr","Importar de calendièrs"],
+    "Attachments folder" : "Dossièr de pèças-juntas",
     "Automatic" : "Automatic",
     "Navigation" : "Navegacion",
     "Views" : "Vistas",
@@ -64,7 +65,6 @@ OC.L10N.register(
     "Actions" : "Accions",
     "or" : "o",
     "General" : "Generals",
-    "Show weekends" : "Monstrar las dimenjadas",
     "Editing" : "Edicion",
     "Keyboard shortcuts" : "Acorchis de clavièr",
     "0 minutes" : "0 minuta",
@@ -186,6 +186,7 @@ OC.L10N.register(
     "Error while sharing file" : "Error pendent lo partiment del fichièr",
     "User not found" : "Utilizaire pas trobat",
     "Hidden" : "Amagat",
-    "can edit" : "pòt modificar"
+    "can edit" : "pòt modificar",
+    "Show weekends" : "Monstrar las dimenjadas"
 },
 "nplurals=2; plural=(n > 1);");

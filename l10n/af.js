@@ -37,7 +37,6 @@ OC.L10N.register(
     "Timezone" : "Tydsone",
     "List view" : "Lysaansig",
     "Actions" : "Aksies",
-    "Show week numbers" : "Toon weeknommers",
     "Keyboard shortcuts" : "Sneltoetse",
     "Update" : "Werk by",
     "Location" : "Ligging",
@@ -91,6 +90,7 @@ OC.L10N.register(
     "Confirmed" : "Bevestig",
     "Categories" : "Kategorieë",
     "Hidden" : "Versteek",
-    "can edit" : "kan wysig"
+    "can edit" : "kan wysig",
+    "Show week numbers" : "Toon weeknommers"
 },
 "nplurals=2; plural=(n != 1);");

@@ -48,7 +48,6 @@ OC.L10N.register(
     "Cancel" : "Цуцлах",
     "Actions" : "Үйл ажиллагаа",
     "General" : "ерөнхий",
-    "Show week numbers" : "7 хоногийн дугаарыг харуулах",
     "Update" : "Шинэчлэх",
     "Location" : "Байршил",
     "Description" : "Тодорхойлолт",
@@ -96,6 +95,7 @@ OC.L10N.register(
     "Confirmed" : "Баталгаажсан",
     "Categories" : "төрөл",
     "Hidden" : "Далд",
-    "can edit" : "засаж чадна"
+    "can edit" : "засаж чадна",
+    "Show week numbers" : "7 хоногийн дугаарыг харуулах"
 },
 "nplurals=2; plural=(n != 1);");

@@ -41,7 +41,6 @@ OC.L10N.register(
     "List view" : "Pamje listë",
     "Actions" : "Veprimet",
     "General" : "Të përgjithshme",
-    "Show week numbers" : "Shfaq numra javësh",
     "Keyboard shortcuts" : "Shkurtoret e tastierës",
     "Update" : "Përditësoje",
     "Location" : "Vendndodhje",
@@ -106,6 +105,7 @@ OC.L10N.register(
     "Canceled" : "Anuluar",
     "Categories" : "Kategoritë",
     "Hidden" : "I fshehur",
-    "can edit" : "mund të përpunojnë"
+    "can edit" : "mund të përpunojnë",
+    "Show week numbers" : "Shfaq numra javësh"
 },
 "nplurals=2; plural=(n != 1);");

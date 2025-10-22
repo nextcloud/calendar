@@ -18,6 +18,7 @@ OC.L10N.register(
     "Filename" : "Ime fajla",
     "Cancel" : "Cancel",
     "List view" : "Prikaz liste",
+    "Appearance" : "Izgled",
     "Update" : "Ažuriraj",
     "Description" : "Opis",
     "Add" : "Dodaj",
