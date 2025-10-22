@@ -25,10 +25,8 @@ use OCP\Calendar\Events\CalendarObjectDeletedEvent;
 use OCP\Calendar\Events\CalendarObjectUpdatedEvent;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\IUserSession;
-use OCP\ServerVersion;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use function method_exists;
 
@@ -76,23 +74,15 @@ class Application extends App implements IBootstrap {
 	}
 
 	private function addContactsMenuScript(ContainerInterface $container): void {
-		// ServerVersion was added in 31, but we don't care about older versions anyway
-		try {
-			/** @var ServerVersion $serverVersion */
-			$serverVersion = $container->get(ServerVersion::class);
-		} catch (ContainerExceptionInterface $e) {
+		// User needs to be logged in to fetch availability -> disable the feature otherwise
+		/** @var IUserSession $userSession */
+		$userSession = $container->get(IUserSession::class);
+		if (!$userSession->isLoggedIn()) {
 			return;
 		}
 
-		// TODO: drop condition once we only support Nextcloud >= 31
-		if ($serverVersion->getMajorVersion() >= 31) {
-			// The contacts menu/avatar is potentially shown everywhere so an event based loading
-			// mechanism doesn't make sense here - well, maybe not when not logged in yet :-)
-			$userSession = $container->get(IUserSession::class);
-			if (!$userSession->isLoggedIn()) {
-				return;
-			}
-			Util::addScript(self::APP_ID, 'calendar-contacts-menu');
-		}
+		// The contacts menu/avatar is potentially shown everywhere so an event based loading
+		// mechanism doesn't make sense here
+		Util::addScript(self::APP_ID, 'calendar-contacts-menu');
 	}
 }
