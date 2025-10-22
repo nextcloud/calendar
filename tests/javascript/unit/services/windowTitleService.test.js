@@ -8,8 +8,8 @@ import windowTitleService from "../../../../src/services/windowTitleService.js";
 import useSettingsStore from '../../../../src/store/settings.js'
 import { createPinia, setActivePinia } from 'pinia'
 
-jest.mock('../../../../src/filters/dateRangeFormat.js')
-jest.mock('../../../../src/utils/date.js')
+vi.mock('../../../../src/filters/dateRangeFormat.js')
+vi.mock('../../../../src/utils/date.js')
 
 describe('services/windowTitleService', () => {
 
@@ -28,7 +28,7 @@ describe('services/windowTitleService', () => {
 		settingsStore.momentLocale = 'momentLocaleLoadedFromState'
 
 		const router = {
-			beforeEach: jest.fn(),
+			beforeEach: vi.fn(),
 		}
 
 		const to = {
@@ -43,7 +43,7 @@ describe('services/windowTitleService', () => {
 				view: 'view-param-of-from',
 			}
 		}
-		const next = jest.fn()
+		const next = vi.fn()
 
 		dateRangeFormat
 			.mockReturnValueOnce('formatted date range')
@@ -74,7 +74,7 @@ describe('services/windowTitleService', () => {
 		settingsStore.momentLocale = 'momentLocaleLoadedFromState'
 
 		const router = {
-			beforeEach: jest.fn(),
+			beforeEach: vi.fn(),
 		}
 
 		const to = {
@@ -87,7 +87,7 @@ describe('services/windowTitleService', () => {
 				view: 'view-param-of-from',
 			}
 		}
-		const next = jest.fn()
+		const next = vi.fn()
 
 		dateRangeFormat
 			.mockReturnValueOnce('formatted date range')
@@ -114,7 +114,7 @@ describe('services/windowTitleService', () => {
 		const settingsStore = useSettingsStore()
 
 		const router = {
-			beforeEach: jest.fn(),
+			beforeEach: vi.fn(),
 			currentRoute: {
 				params: {
 					firstDay: 'first-day-param-of-current-route',

@@ -7,7 +7,7 @@ import {
 	mapDavCollectionToCalendar,
 } from '../../../../src/models/calendar.js'
 import { mapDavShareeToCalendarShareObject } from "../../../../src/models/calendarShare.js";
-jest.mock("../../../../src/models/calendarShare.js")
+vi.mock("../../../../src/models/calendarShare.js")
 
 describe('Test suite: Calendar model (models/calendar.js)', () => {
 

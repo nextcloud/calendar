@@ -4,7 +4,7 @@
  */
 import navLinkWeekClick from '../../../../../src/fullcalendar/interaction/navLinkWeekClick.js'
 import { getYYYYMMDDFromDate } from '../../../../../src/utils/date.js'
-jest.mock('../../../../../src/utils/date.js')
+vi.mock('../../../../../src/utils/date.js')
 
 describe('fullcalendar/eventClick test suite', () => {
 
@@ -14,7 +14,7 @@ describe('fullcalendar/eventClick test suite', () => {
 
 	it('should open the clicked day in week view', () => {
 		const router = {
-			push: jest.fn(),
+			push: vi.fn(),
 		}
 		const route = {
 			name: 'CalendarView',
@@ -49,7 +49,7 @@ describe('fullcalendar/eventClick test suite', () => {
 
 	it('should open the clicked day in week view (already on correct date)', () => {
 		const router = {
-			push: jest.fn(),
+			push: vi.fn(),
 		}
 		const route = {
 			name: 'CalendarView',
@@ -84,7 +84,7 @@ describe('fullcalendar/eventClick test suite', () => {
 
 	it('should open the clicked day in week view (already in correct view)', () => {
 		const router = {
-			push: jest.fn(),
+			push: vi.fn(),
 		}
 		const route = {
 			name: 'CalendarView',
@@ -119,7 +119,7 @@ describe('fullcalendar/eventClick test suite', () => {
 
 	it('should not open a duplicate route', () => {
 		const router = {
-			push: jest.fn(),
+			push: vi.fn(),
 		}
 		const route = {
 			name: 'CalendarView',

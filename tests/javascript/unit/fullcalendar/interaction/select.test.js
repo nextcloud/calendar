@@ -16,7 +16,7 @@ describe('fullcalendar/select test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = false
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = { name: 'CalendarView', params: { otherParam: '456' } }
 		const window = { innerWidth: 1920 }
 
@@ -43,7 +43,7 @@ describe('fullcalendar/select test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = true
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = { name: 'CalendarView', params: { otherParam: '456' } }
 		const window = { innerWidth: 1920 }
 
@@ -70,7 +70,7 @@ describe('fullcalendar/select test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = false
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = { name: 'CalendarView', params: { otherParam: '456' } }
 		const window = { innerWidth: 500 }
 
@@ -97,7 +97,7 @@ describe('fullcalendar/select test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = false
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = {
 			name: 'NewPopoverView',
 			params: {
@@ -123,7 +123,7 @@ describe('fullcalendar/select test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = false
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = {
 			name: 'NewFullView',
 			params: {
@@ -149,7 +149,7 @@ describe('fullcalendar/select test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = true
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = {
 			name: 'NewFullView',
 			params: {
@@ -175,7 +175,7 @@ describe('fullcalendar/select test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = true
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = {
 			name: 'NewPopoverView',
 			params: {
@@ -201,7 +201,7 @@ describe('fullcalendar/select test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = false
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = {
 			name: 'NewPopoverView',
 			params: {
@@ -236,7 +236,7 @@ describe('fullcalendar/select test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = false
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = {
 			name: 'NewFullView',
 			params: {

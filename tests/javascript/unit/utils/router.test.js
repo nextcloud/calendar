@@ -10,7 +10,7 @@ import {
 } from '../../../../src/utils/router.js'
 import { loadState } from '@nextcloud/initial-state'
 
-jest.mock('@nextcloud/initial-state')
+vi.mock('@nextcloud/initial-state')
 
 describe('utils/router test suite', () => {
 

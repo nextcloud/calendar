@@ -9,10 +9,10 @@ import {getObjectAtRecurrenceId} from "../../../../../src/utils/calendarObject.j
 import useCalendarsStore from '../../../../../src/store/calendars.js'
 import useCalendarObjectsStore from '../../../../../src/store/calendarObjects.js'
 
-jest.mock('../../../../../src/fullcalendar/duration.js')
-jest.mock("../../../../../src/utils/calendarObject.js")
-jest.mock('../../../../../src/store/calendars.js')
-jest.mock('../../../../../src/store/calendarObjects.js')
+vi.mock('../../../../../src/fullcalendar/duration.js')
+vi.mock("../../../../../src/utils/calendarObject.js")
+vi.mock('../../../../../src/store/calendars.js')
+vi.mock('../../../../../src/store/calendarObjects.js')
 
 describe('fullcalendar/eventResize test suite', () => {
 
@@ -25,11 +25,11 @@ describe('fullcalendar/eventResize test suite', () => {
 
 	it('should properly resize a non-recurring event', async () => {
 		const calendarsStore = {
-			getEventByObjectId: jest.fn(),
+			getEventByObjectId: vi.fn(),
 		}
 		useCalendarsStore.mockReturnValue(calendarsStore)
 		const calendarObjectsStore = {
-			updateCalendarObject: jest.fn(),
+			updateCalendarObject: vi.fn(),
 		}
 		useCalendarObjectsStore.mockReturnValue(calendarObjectsStore)
 		const event = {
@@ -42,17 +42,17 @@ describe('fullcalendar/eventResize test suite', () => {
 			hours: 5
 		}
 		const endDelta = {}
-		const revert = jest.fn()
+		const revert = vi.fn()
 
 		getDurationValueFromFullCalendarDuration
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 5 })
 			.mockReturnValueOnce(false)
 
 		const eventComponent = {
-			addDurationToStart: jest.fn(),
-			addDurationToEnd: jest.fn(),
-			canCreateRecurrenceExceptions: jest.fn().mockReturnValue(false),
-			createRecurrenceException: jest.fn(),
+			addDurationToStart: vi.fn(),
+			addDurationToEnd: vi.fn(),
+			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(false),
+			createRecurrenceException: vi.fn(),
 		}
 		const calendarObject = {
 			_isCalendarObject: true,
@@ -91,11 +91,11 @@ describe('fullcalendar/eventResize test suite', () => {
 
 	it('should properly resize a recurring event', async () => {
 		const calendarsStore = {
-			getEventByObjectId: jest.fn(),
+			getEventByObjectId: vi.fn(),
 		}
 		useCalendarsStore.mockReturnValue(calendarsStore)
 		const calendarObjectsStore = {
-			updateCalendarObject: jest.fn(),
+			updateCalendarObject: vi.fn(),
 		}
 		useCalendarObjectsStore.mockReturnValue(calendarObjectsStore)
 		const event = {
@@ -108,17 +108,17 @@ describe('fullcalendar/eventResize test suite', () => {
 		const endDelta = {
 			hours: 5
 		}
-		const revert = jest.fn()
+		const revert = vi.fn()
 
 		getDurationValueFromFullCalendarDuration
 			.mockReturnValueOnce(false)
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 5 })
 
 		const eventComponent = {
-			addDurationToStart: jest.fn(),
-			addDurationToEnd: jest.fn(),
-			canCreateRecurrenceExceptions: jest.fn().mockReturnValue(true),
-			createRecurrenceException: jest.fn(),
+			addDurationToStart: vi.fn(),
+			addDurationToEnd: vi.fn(),
+			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(true),
+			createRecurrenceException: vi.fn(),
 		}
 		const calendarObject = {
 			_isCalendarObject: true,
@@ -162,17 +162,17 @@ describe('fullcalendar/eventResize test suite', () => {
 		useCalendarObjectsStore.mockReturnValue(calendarObjectsStore)
 		const startDelta = {}
 		const endDelta = {}
-		const revert = jest.fn()
+		const revert = vi.fn()
 
 		getDurationValueFromFullCalendarDuration
 			.mockReturnValueOnce(false)
 			.mockReturnValueOnce(false)
 
 		const eventComponent = {
-			addDurationToStart: jest.fn(),
-			addDurationToEnd: jest.fn(),
-			canCreateRecurrenceExceptions: jest.fn().mockReturnValue(true),
-			createRecurrenceException: jest.fn(),
+			addDurationToStart: vi.fn(),
+			addDurationToEnd: vi.fn(),
+			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(true),
+			createRecurrenceException: vi.fn(),
 		}
 		const calendarObject = {
 			_isCalendarObject: true,
@@ -201,7 +201,7 @@ describe('fullcalendar/eventResize test suite', () => {
 
 	it('should revert the action when the object was not found', async () => {
 		const calendarsStore = {
-			getEventByObjectId: jest.fn(),
+			getEventByObjectId: vi.fn(),
 		}
 		useCalendarsStore.mockReturnValue(calendarsStore)
 		const calendarObjectsStore = {}
@@ -216,17 +216,17 @@ describe('fullcalendar/eventResize test suite', () => {
 			hours: 5
 		}
 		const endDelta = {}
-		const revert = jest.fn()
+		const revert = vi.fn()
 
 		getDurationValueFromFullCalendarDuration
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 5 })
 			.mockReturnValueOnce(false)
 
 		const eventComponent = {
-			addDurationToStart: jest.fn(),
-			addDurationToEnd: jest.fn(),
-			canCreateRecurrenceExceptions: jest.fn().mockReturnValue(false),
-			createRecurrenceException: jest.fn(),
+			addDurationToStart: vi.fn(),
+			addDurationToEnd: vi.fn(),
+			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(false),
+			createRecurrenceException: vi.fn(),
 		}
 		const calendarObject = {
 			_isCalendarObject: true,
@@ -260,7 +260,7 @@ describe('fullcalendar/eventResize test suite', () => {
 
 	it('should revert the action when the recurrence was not found', async () => {
 		const calendarsStore = {
-			getEventByObjectId: jest.fn(),
+			getEventByObjectId: vi.fn(),
 		}
 		useCalendarsStore.mockReturnValue(calendarsStore)
 		const calendarObjectsStore = {}
@@ -275,17 +275,17 @@ describe('fullcalendar/eventResize test suite', () => {
 			hours: 5
 		}
 		const endDelta = {}
-		const revert = jest.fn()
+		const revert = vi.fn()
 
 		getDurationValueFromFullCalendarDuration
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 5 })
 			.mockReturnValueOnce(false)
 
 		const eventComponent = {
-			addDurationToStart: jest.fn(),
-			addDurationToEnd: jest.fn(),
-			canCreateRecurrenceExceptions: jest.fn().mockReturnValue(false),
-			createRecurrenceException: jest.fn(),
+			addDurationToStart: vi.fn(),
+			addDurationToEnd: vi.fn(),
+			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(false),
+			createRecurrenceException: vi.fn(),
 		}
 		const calendarObject = {
 			_isCalendarObject: true,
@@ -319,12 +319,12 @@ describe('fullcalendar/eventResize test suite', () => {
 
 	it('should revert the action when there was an error updating the event', async () => {
 		const calendarsStore = {
-			getEventByObjectId: jest.fn(),
+			getEventByObjectId: vi.fn(),
 		}
 		useCalendarsStore.mockReturnValue(calendarsStore)
 		const calendarObjectsStore = {
-			updateCalendarObject: jest.fn(),
-			resetCalendarObjectToDavMutation: jest.fn(),
+			updateCalendarObject: vi.fn(),
+			resetCalendarObjectToDavMutation: vi.fn(),
 		}
 		useCalendarObjectsStore.mockReturnValue(calendarObjectsStore)
 		const event = {
@@ -337,17 +337,17 @@ describe('fullcalendar/eventResize test suite', () => {
 			hours: 5
 		}
 		const endDelta = {}
-		const revert = jest.fn()
+		const revert = vi.fn()
 
 		getDurationValueFromFullCalendarDuration
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 5 })
 			.mockReturnValueOnce(false)
 
 		const eventComponent = {
-			addDurationToStart: jest.fn(),
-			addDurationToEnd: jest.fn(),
-			canCreateRecurrenceExceptions: jest.fn().mockReturnValue(false),
-			createRecurrenceException: jest.fn(),
+			addDurationToStart: vi.fn(),
+			addDurationToEnd: vi.fn(),
+			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(false),
+			createRecurrenceException: vi.fn(),
 		}
 		const calendarObject = {
 			_isCalendarObject: true,

@@ -15,11 +15,11 @@ import { setConfig } from '../../../../src/services/settings.js'
 import { logInfo } from '../../../../src/utils/logger.js'
 import { CALDAV_BIRTHDAY_CALENDAR } from '../../../../src/models/consts'
 
-jest.mock('../../../../src/services/caldavService.js')
-jest.mock('../../../../src/models/calendar.js')
-jest.mock('@nextcloud/calendar-js')
-jest.mock('../../../../src/services/settings.js')
-jest.mock('../../../../src/utils/logger.js')
+vi.mock('../../../../src/services/caldavService.js')
+vi.mock('../../../../src/models/calendar.js')
+vi.mock('@nextcloud/calendar-js')
+vi.mock('../../../../src/services/settings.js')
+vi.mock('../../../../src/utils/logger.js')
 
 describe('store/settings test suite', () => {
 
@@ -218,7 +218,7 @@ Initial settings:
 			id: 'bday',
 			url: `foo/bar/${CALDAV_BIRTHDAY_CALENDAR}/`,
 			dav: {
-				delete: jest.fn().mockResolvedValueOnce(),
+				delete: vi.fn().mockResolvedValueOnce(),
 			},
 		}
 

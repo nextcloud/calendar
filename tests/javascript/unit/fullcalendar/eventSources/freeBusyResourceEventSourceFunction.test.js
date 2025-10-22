@@ -12,9 +12,9 @@ import {
 import { translate } from '@nextcloud/l10n'
 import {getAllObjectsInTimeRange} from "../../../../../src/utils/calendarObject.js";
 import { createPinia, setActivePinia } from 'pinia'
-jest.mock('@nextcloud/l10n')
-jest.mock('../../../../../src/utils/color.js')
-jest.mock("../../../../../src/utils/calendarObject.js")
+vi.mock('@nextcloud/l10n')
+vi.mock('../../../../../src/utils/color.js')
+vi.mock("../../../../../src/utils/calendarObject.js")
 
 describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 
@@ -51,106 +51,106 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			name: 'VEVENT',
 			id: '1-1',
 			// To title on purpose
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event11Start
 				})
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event11End
 				})
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
-			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
-			getPropertyIterator: jest.fn().mockReturnValue([]),
+			hasComponent: vi.fn().mockReturnValue(false),
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}, {
 			name: 'VEVENT',
 			id: '1-2',
 			status: 'CANCELLED',
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 456 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 456 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event12Start
 				})
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event12End
 				})
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
 			title: 'Untitled\nmultiline\nevent',
-			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
-			getPropertyIterator: jest.fn().mockReturnValue([]),
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}, {
 			name: 'VEVENT',
 			id: '1-3',
 			status: 'TENTATIVE',
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 789 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 789 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event13Start
 				})
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event13End
 				})
 			},
-			hasComponent: jest.fn().mockReturnValue(true),
-			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
-			getPropertyIterator: jest.fn().mockReturnValue([]),
+			hasComponent: vi.fn().mockReturnValue(true),
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}]
 		const eventComponentSet2 = [{
 			name: 'VEVENT',
 			id: '2-1',
 			status: 'CONFIRMED',
-			isAllDay: jest.fn().mockReturnValue(true),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 101 }),
-			canModifyAllDay: jest.fn().mockReturnValue(true),
+			isAllDay: vi.fn().mockReturnValue(true),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 101 }),
+			canModifyAllDay: vi.fn().mockReturnValue(true),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event21Start
 				})
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event21End
 				})
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
-			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
-			getPropertyIterator: jest.fn().mockReturnValue([]),
+			hasComponent: vi.fn().mockReturnValue(false),
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}]
 		const eventComponentSet4 = [{
 			name: 'VEVENT',
 			id: '3-1',
 			status: 'CONFIRMED',
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 303 }),
-			canModifyAllDay: jest.fn().mockReturnValue(true),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 303 }),
+			canModifyAllDay: vi.fn().mockReturnValue(true),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event31Start
 				})
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event31End
 				})
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
 			color: 'red',
-			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
-			getPropertyIterator: jest.fn().mockReturnValue([]),
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}]
 
 		getAllObjectsInTimeRange
@@ -457,123 +457,123 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			name: 'VTODO',
 			id: '1',
 			// To title on purpose
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event1Start
 				})
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event1End
 				})
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
 			percent: null,
-			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
-			getPropertyIterator: jest.fn().mockReturnValue([]),
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '2',
 			// To title on purpose
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event2Start
 				})
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event2End
 				})
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
 			percent: null,
-			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
-			getPropertyIterator: jest.fn().mockReturnValue([]),
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '3',
 			// To title on purpose
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event3Start
 				})
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event3End
 				})
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
 			percent: 99,
-			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
-			getPropertyIterator: jest.fn().mockReturnValue([]),
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '4',
 			// To title on purpose
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event4Start
 				})
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event4End
 				})
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
 			title: 'This task has a title',
 			percent: null,
-			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
-			getPropertyIterator: jest.fn().mockReturnValue([]),
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '5',
 			// To title on purpose
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event5Start
 				})
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
+				getInTimezone: vi.fn().mockReturnValue({
 					jsDate: event5End
 				})
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
 			title: 'This task has a title and percent',
 			percent: 99,
-			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
-			getPropertyIterator: jest.fn().mockReturnValue([]),
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '6',
 			// To title on purpose
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
-			hasComponent: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
 			title: 'Task without Due',
 			startDate: null,
 			endDate: null,
 			percent: null,
-			getFirstPropertyFirstValue: jest.fn().mockReturnValue(null),
-			getPropertyIterator: jest.fn().mockReturnValue([]),
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}]
 
 		getAllObjectsInTimeRange

@@ -11,12 +11,12 @@ import { eventSourceFunction } from '../../../../../src/fullcalendar/eventSource
 import useFetchedTimeRangesStore from '../../../../../src/store/fetchedTimeRanges.js'
 import useCalendarsStore from '../../../../../src/store/calendars.js'
 
-jest.mock('../../../../../src/utils/color.js')
-jest.mock('../../../../../src/services/timezoneDataProviderService')
-jest.mock('../../../../../src/utils/date.js')
-jest.mock('../../../../../src/fullcalendar/eventSources/eventSourceFunction.js')
-jest.mock('../../../../../src/store/fetchedTimeRanges.js')
-jest.mock('../../../../../src/store/calendars.js')
+vi.mock('../../../../../src/utils/color.js')
+vi.mock('../../../../../src/services/timezoneDataProviderService')
+vi.mock('../../../../../src/utils/date.js')
+vi.mock('../../../../../src/fullcalendar/eventSources/eventSourceFunction.js')
+vi.mock('../../../../../src/store/fetchedTimeRanges.js')
+vi.mock('../../../../../src/store/calendars.js')
 
 describe('fullcalendar/eventSource test suite', () => {
 
@@ -86,14 +86,14 @@ describe('fullcalendar/eventSource test suite', () => {
 
 	it('should provide an eventSource function to provide events - fetch new timerange', async () => {
 		const calendarsStore = {
-			getEventsFromCalendarInTimeRange: jest.fn()
+			getEventsFromCalendarInTimeRange: vi.fn()
 				.mockResolvedValueOnce(42),
 		}
 		useCalendarsStore.mockReturnValue(calendarsStore)
 		const fetchedTimeRangesStore = {
-			getTimeRangeForCalendarCoveringRange: jest.fn()
+			getTimeRangeForCalendarCoveringRange: vi.fn()
 				.mockReturnValueOnce(false),
-			getCalendarObjectsByTimeRangeId: jest.fn()
+			getCalendarObjectsByTimeRangeId: vi.fn()
 				.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }])
 		}
 		useFetchedTimeRangesStore.mockReturnValue(fetchedTimeRangesStore)
@@ -104,7 +104,7 @@ describe('fullcalendar/eventSource test suite', () => {
 			readOnly: true
 		}
 
-		const getTimezoneForId = jest.fn()
+		const getTimezoneForId = vi.fn()
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'America/New_York' })
 		getTimezoneManager
 			.mockReturnValue({
@@ -125,8 +125,8 @@ describe('fullcalendar/eventSource test suite', () => {
 		const end = new Date(Date.UTC(2019, 0, 31, 59, 59, 59, 999))
 		const timeZone = 'America/New_York'
 
-		const successCallback = jest.fn()
-		const failureCallback = jest.fn()
+		const successCallback = vi.fn()
+		const failureCallback = vi.fn()
 
 		const eventSourceFn = eventSource()
 		const { events } = eventSourceFn(calendar)
@@ -156,16 +156,16 @@ describe('fullcalendar/eventSource test suite', () => {
 
 	it('should provide an eventSource function to provide events - existing timerange', async () => {
 		const calendarsStore = {
-			getEventsFromCalendarInTimeRange: jest.fn()
+			getEventsFromCalendarInTimeRange: vi.fn()
 				.mockResolvedValueOnce(42),
 		}
 		useCalendarsStore.mockReturnValue(calendarsStore)
 		const fetchedTimeRangesStore = {
-			getTimeRangeForCalendarCoveringRange: jest.fn()
+			getTimeRangeForCalendarCoveringRange: vi.fn()
 				.mockReturnValueOnce({
 					id: 42,
 				}),
-			getCalendarObjectsByTimeRangeId: jest.fn()
+			getCalendarObjectsByTimeRangeId: vi.fn()
 				.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }])
 		}
 		useFetchedTimeRangesStore.mockReturnValue(fetchedTimeRangesStore)
@@ -176,7 +176,7 @@ describe('fullcalendar/eventSource test suite', () => {
 			readOnly: true
 		}
 
-		const getTimezoneForId = jest.fn()
+		const getTimezoneForId = vi.fn()
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'America/New_York' })
 		getTimezoneManager
 			.mockReturnValue({
@@ -197,8 +197,8 @@ describe('fullcalendar/eventSource test suite', () => {
 		const end = new Date(Date.UTC(2019, 0, 31, 59, 59, 59, 999))
 		const timeZone = 'America/New_York'
 
-		const successCallback = jest.fn()
-		const failureCallback = jest.fn()
+		const successCallback = vi.fn()
+		const failureCallback = vi.fn()
 
 		const eventSourceFn = eventSource()
 		const { events } = eventSourceFn(calendar)
@@ -223,16 +223,16 @@ describe('fullcalendar/eventSource test suite', () => {
 
 	it('should provide an eventSource function to provide events - existing timerange - unknown timezone', async () => {
 		const calendarsStore = {
-			getEventsFromCalendarInTimeRange: jest.fn()
+			getEventsFromCalendarInTimeRange: vi.fn()
 				.mockResolvedValueOnce(42),
 		}
 		useCalendarsStore.mockReturnValue(calendarsStore)
 		const fetchedTimeRangesStore = {
-			getTimeRangeForCalendarCoveringRange: jest.fn()
+			getTimeRangeForCalendarCoveringRange: vi.fn()
 				.mockReturnValueOnce({
 					id: 42,
 				}),
-			getCalendarObjectsByTimeRangeId: jest.fn()
+			getCalendarObjectsByTimeRangeId: vi.fn()
 				.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }])
 		}
 		useFetchedTimeRangesStore.mockReturnValue(fetchedTimeRangesStore)
@@ -243,7 +243,7 @@ describe('fullcalendar/eventSource test suite', () => {
 			readOnly: true
 		}
 
-		const getTimezoneForId = jest.fn()
+		const getTimezoneForId = vi.fn()
 			.mockReturnValueOnce(null)
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'UTC' })
 		getTimezoneManager
@@ -265,8 +265,8 @@ describe('fullcalendar/eventSource test suite', () => {
 		const end = new Date(Date.UTC(2019, 0, 31, 59, 59, 59, 999))
 		const timeZone = 'America/New_York'
 
-		const successCallback = jest.fn()
-		const failureCallback = jest.fn()
+		const successCallback = vi.fn()
+		const failureCallback = vi.fn()
 
 		const eventSourceFn = eventSource()
 		const { events } = eventSourceFn(calendar)
@@ -295,14 +295,14 @@ describe('fullcalendar/eventSource test suite', () => {
 
 	it('should provide an eventSource function that catches errors while fetching', async () => {
 		const calendarsStore = {
-			getEventsFromCalendarInTimeRange: jest.fn()
+			getEventsFromCalendarInTimeRange: vi.fn()
 				.mockRejectedValueOnce(new Error()),
 		}
 		useCalendarsStore.mockReturnValue(calendarsStore)
 		const fetchedTimeRangesStore = {
-			getTimeRangeForCalendarCoveringRange: jest.fn()
+			getTimeRangeForCalendarCoveringRange: vi.fn()
 				.mockReturnValueOnce(false),
-			getCalendarObjectsByTimeRangeId: jest.fn()
+			getCalendarObjectsByTimeRangeId: vi.fn()
 				.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }])
 		}
 		useFetchedTimeRangesStore.mockReturnValue(fetchedTimeRangesStore)
@@ -313,7 +313,7 @@ describe('fullcalendar/eventSource test suite', () => {
 			readOnly: true
 		}
 
-		const getTimezoneForId = jest.fn()
+		const getTimezoneForId = vi.fn()
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'America/New_York' })
 		getTimezoneManager
 			.mockReturnValue({
@@ -334,8 +334,8 @@ describe('fullcalendar/eventSource test suite', () => {
 		const end = new Date(Date.UTC(2019, 0, 31, 59, 59, 59, 999))
 		const timeZone = 'America/New_York'
 
-		const successCallback = jest.fn()
-		const failureCallback = jest.fn()
+		const successCallback = vi.fn()
+		const failureCallback = vi.fn()
 
 		const eventSourceFn = eventSource()
 		const { events } = eventSourceFn(calendar)

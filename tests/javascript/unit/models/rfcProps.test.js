@@ -5,8 +5,8 @@
 import { getRFCProperties } from '../../../../src/models/rfcProps.js'
 import { translate } from '@nextcloud/l10n'
 import { getDefaultCategories } from '../../../../src/defaults/defaultCategories.js'
-jest.mock('@nextcloud/l10n')
-jest.mock('../../../../src/defaults/defaultCategories.js')
+vi.mock('@nextcloud/l10n')
+vi.mock('../../../../src/defaults/defaultCategories.js')
 
 describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 

@@ -10,7 +10,7 @@ import {
 import { getDateFromDateTimeValue } from '../../../../src/utils/date.js'
 import { DateTimeValue } from "@nextcloud/calendar-js";
 
-jest.mock('../../../../src/utils/date.js')
+vi.mock('../../../../src/utils/date.js')
 
 describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 

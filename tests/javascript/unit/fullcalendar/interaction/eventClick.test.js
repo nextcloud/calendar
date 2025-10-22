@@ -14,10 +14,10 @@ import { translate } from '@nextcloud/l10n'
 import { showInfo } from '@nextcloud/dialogs'
 import { createPinia, setActivePinia } from "pinia";
 
-jest.mock("../../../../../src/utils/router.js");
-jest.mock("@nextcloud/router");
-jest.mock("@nextcloud/l10n");
-jest.mock("@nextcloud/dialogs");
+vi.mock("../../../../../src/utils/router.js");
+vi.mock("@nextcloud/router");
+vi.mock("@nextcloud/l10n");
+vi.mock("@nextcloud/dialogs");
 
 describe('fullcalendar/eventClick test suite', () => {
 
@@ -35,7 +35,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = false
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = { name: 'CalendarView', params: { otherParam: '456' } }
 		const window = { innerWidth: 1920 }
 
@@ -72,7 +72,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = true
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = { name: 'CalendarView', params: { otherParam: '456' } }
 		const window = { innerWidth: 1920 }
 
@@ -109,7 +109,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = false
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = { name: 'CalendarView', params: { otherParam: '456' } }
 		const window = { innerWidth: 500 }
 
@@ -146,7 +146,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = true
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = { name: 'PublicCalendarView', params: { otherParam: '456' } }
 		const window = { innerWidth: 1920 }
 
@@ -183,7 +183,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = true
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = { name: 'EmbedCalendarView', params: { otherParam: '456' } }
 		const window = { innerWidth: 1920 }
 
@@ -220,7 +220,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = true
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = {
 			name: 'EditFullView',
 			params: {
@@ -256,7 +256,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.skipPopover = false
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = {
 			name: 'EditFullView',
 			params: {
@@ -292,7 +292,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.tasksEnabled = true
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = {
 			name: 'EditFullView',
 			params: {
@@ -332,7 +332,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.tasksEnabled = false
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = {
 			name: 'EditFullView',
 			params: {
@@ -374,7 +374,7 @@ describe('fullcalendar/eventClick test suite', () => {
 		const settingsStore = useSettingsStore()
 		settingsStore.tasksEnabled = false
 
-		const router = { push: jest.fn() }
+		const router = { push: vi.fn() }
 		const route = {
 			name: 'EditFullView',
 			params: {
@@ -438,7 +438,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			}
 		}
 
-		const next = jest.fn()
+		const next = vi.fn()
 		EditorMixin.requiresActionOnRouteLeave = false
 		EditorMixin.beforeRouteLeave(toRoute, fromRoute, next)
 	})
@@ -461,7 +461,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			}
 		}
 
-		const next = jest.fn()
+		const next = vi.fn()
 		EditorMixin.requiresActionOnRouteLeave = true
 		EditorMixin.beforeRouteLeave(toRoute, fromRoute, next)
 	})
@@ -484,7 +484,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			}
 		}
 
-		const next = jest.fn()
+		const next = vi.fn()
 		EditorMixin.requiresActionOnRouteLeave = true
 		EditorMixin.beforeRouteLeave(toRoute, fromRoute, next)
 	})
@@ -507,7 +507,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			}
 		}
 
-		const next = jest.fn()
+		const next = vi.fn()
 		EditorMixin.requiresActionOnRouteLeave = true
 		EditorMixin.beforeRouteLeave(toRoute, fromRoute, next)
 	})
@@ -530,7 +530,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			}
 		}
 
-		const next = jest.fn()
+		const next = vi.fn()
 		EditorMixin.requiresActionOnRouteLeave = true
 		EditorMixin.beforeRouteLeave(toRoute, fromRoute, next)
 	})
@@ -553,7 +553,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			}
 		}
 
-		const next = jest.fn()
+		const next = vi.fn()
 		EditorMixin.requiresActionOnRouteLeave = true
 		EditorMixin.beforeRouteLeave(toRoute, fromRoute, next)
 	})
@@ -576,7 +576,7 @@ describe('fullcalendar/eventClick test suite', () => {
 			}
 		}
 
-		const next = jest.fn()
+		const next = vi.fn()
 		EditorMixin.requiresActionOnRouteLeave = true
 		EditorMixin.beforeRouteLeave(toRoute, fromRoute, next)
 	})
