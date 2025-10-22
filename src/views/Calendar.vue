@@ -50,7 +50,7 @@
 			</template>
 		</AppNavigation>
 		<EmbedTopNavigation v-if="isEmbedded" />
-		<AppContent>
+		<AppContent id="CalendarContent">
 			<div class="calendar-wrapper">
 				<div v-if="isAuthenticatedUser" v-show="tasksSidebarEnabled" class="app-navigation-toggle-wrapper">
 					<NcActions class="toggle-button app-navigation-toggle--prevent-overlap">
@@ -86,7 +86,9 @@
 			</NcAppSidebarTab>
 		</NcAppSidebar>
 		<!-- Edit modal -->
-		<router-view />
+		<div ref="editorHost" class="calendar-editor-host">
+			<router-view />
+		</div>
 	</NcContent>
 </template>
 
@@ -460,6 +462,10 @@ export default {
 
 .calendar-Widget {
 	width: 100%;
+}
+
+.calendar-editor-host {
+	position: relative;
 }
 </style>
 ```
