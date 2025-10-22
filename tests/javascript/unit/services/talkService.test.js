@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { extractCallTokenFromUrl, generateURLForToken } from '../../../../src/services/talkService'
+import { extractRoomUrlToken, generateRoomUrl } from '../../../../src/services/talkService'
 
 describe('services/talk test suite', () => {
 	let windowSpy
@@ -26,7 +26,7 @@ describe('services/talk test suite', () => {
 		['https://foo.bar/baz', undefined],
 		['https://foo.bar/baz/bar', undefined],
 	])('should extract a token from call url %s', (url, expected) => {
-		expect(extractCallTokenFromUrl(url)).toBe(expected)
+		expect(extractRoomUrlToken(url)).toBe(expected)
 	})
 
 	test.each([
@@ -51,6 +51,6 @@ describe('services/talk test suite', () => {
 			location,
 			_oc_webroot: '/nextcloud',
 		}))
-		expect(generateURLForToken('foobar')).toBe(expected)
+		expect(generateRoomUrl('foobar')).toBe(expected)
 	})
 })
