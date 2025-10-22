@@ -9,8 +9,8 @@ import {
 } from '../../../../src/utils/alarms.js'
 import { getDateFromDateTimeValue } from '../../../../src/utils/date.js'
 
-jest.mock('../../../../src/utils/alarms.js')
-jest.mock('../../../../src/utils/date.js')
+vi.mock('../../../../src/utils/alarms.js')
+vi.mock('../../../../src/utils/date.js')
 
 describe('Test suite: Alarm model (models/alarm.js)', () => {
 

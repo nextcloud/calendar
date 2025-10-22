@@ -12,7 +12,7 @@ import {
 	modifyDate
 } from '../../../../src/utils/date.js'
 import logger from '../../../../src/utils/logger.js'
-jest.mock('../../../../src/utils/logger.js')
+vi.mock('../../../../src/utils/logger.js')
 
 describe('utils/alarms test suite', () => {
 

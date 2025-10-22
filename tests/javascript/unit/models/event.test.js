@@ -11,11 +11,11 @@ import { mapAttendeePropertyToAttendeeObject } from '../../../../src/models/atte
 import { getDefaultRecurrenceRuleObject, mapRecurrenceRuleValueToRecurrenceRuleObject } from '../../../../src/models/recurrenceRule.js'
 import { DateTimeValue } from "@nextcloud/calendar-js";
 
-jest.mock('../../../../src/utils/date.js')
-jest.mock('../../../../src/utils/color.js')
-jest.mock('../../../../src/models/alarm.js')
-jest.mock('../../../../src/models/attendee.js')
-jest.mock('../../../../src/models/recurrenceRule.js')
+vi.mock('../../../../src/utils/date.js')
+vi.mock('../../../../src/utils/color.js')
+vi.mock('../../../../src/models/alarm.js')
+vi.mock('../../../../src/models/attendee.js')
+vi.mock('../../../../src/models/recurrenceRule.js')
 
 describe('Test suite: Event model (models/event.js)', () => {
 

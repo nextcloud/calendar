@@ -9,7 +9,7 @@ describe('services/talk test suite', () => {
 	let windowSpy
 
 	beforeEach(() => {
-		windowSpy = jest.spyOn(window, 'window', 'get')
+		windowSpy = vi.spyOn(window, 'window', 'get')
 	})
 
 	afterEach(() => {

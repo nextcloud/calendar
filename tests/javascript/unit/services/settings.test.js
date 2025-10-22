@@ -6,8 +6,8 @@ import HttpClient from '@nextcloud/axios'
 import { getLinkToConfig } from '../../../../src/utils/settings.js'
 import {setConfig} from "../../../../src/services/settings.js";
 
-jest.mock('@nextcloud/axios')
-jest.mock('../../../../src/utils/settings.js')
+vi.mock('@nextcloud/axios')
+vi.mock('../../../../src/utils/settings.js')
 
 describe('Test suite: Settings service (services/settings.js)', () => {
 

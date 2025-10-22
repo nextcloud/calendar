@@ -4,7 +4,7 @@
  */
 import { getLinkToConfig } from '../../../../src/utils/settings.js'
 import { linkTo } from '@nextcloud/router'
-jest.mock('@nextcloud/router')
+vi.mock('@nextcloud/router')
 
 describe('utils/settings test suite', () => {
 

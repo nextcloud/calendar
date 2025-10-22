@@ -7,7 +7,7 @@ import { doFreeBusyRequest } from '../../../../src/utils/freebusy'
 import { findSchedulingOutbox } from '../../../../src/services/caldavService'
 import { AttendeeProperty, DateTimeValue, FreeBusyProperty } from '@nextcloud/calendar-js'
 
-jest.mock('../../../../src/services/caldavService')
+vi.mock('../../../../src/services/caldavService')
 
 /**
  * Create an array from an async generator

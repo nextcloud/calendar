@@ -5,7 +5,7 @@
 import defaultCategories from '../../../../src/defaults/defaultCategories.js'
 import { translate } from '@nextcloud/l10n'
 
-jest.mock('@nextcloud/l10n')
+vi.mock('@nextcloud/l10n')
 
 describe('defaults/defaultCategories test suite', () => {
 

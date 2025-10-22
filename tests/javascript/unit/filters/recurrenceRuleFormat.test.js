@@ -5,7 +5,7 @@
 import recurrenceRuleFormat from '../../../../src/filters/recurrenceRuleFormat.js'
 import { translate, translatePlural, getDayNames, getMonthNames } from '@nextcloud/l10n'
 
-jest.mock('@nextcloud/l10n')
+vi.mock('@nextcloud/l10n')
 
 describe('format/recurrenceRuleFormat test suite', () => {
 

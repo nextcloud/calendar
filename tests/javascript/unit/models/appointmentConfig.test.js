@@ -5,11 +5,13 @@
 
 import AppointmentConfig from '../../../../src/models/appointmentConfig.js'
 
+vi.mock('@nextcloud/calendar-availability-vue')
+
 describe('models/appointmentConfig test suite', () => {
 	let windowSpy
 
 	beforeEach(() => {
-		windowSpy = jest.spyOn(window, 'window', 'get')
+		windowSpy = vi.spyOn(window, 'window', 'get')
 	})
 
 	afterEach(() => {
@@ -34,7 +36,7 @@ describe('models/appointmentConfig test suite', () => {
 			'http://nextcloud.testing:8080/nextcloud/index.php/apps/calendar/appointment/foobar',
 		],
 	])('should generate absolute URLs', (location, expected) => {
-		windowSpy.mockImplementation(() => ({
+		windowSpy?.mockImplementation(() => ({
 			location,
 			_oc_webroot: '/nextcloud',
 		}))

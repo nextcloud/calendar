@@ -6,7 +6,7 @@
 import dateRangeFormat from "../../../../src/filters/dateRangeFormat.js";
 import { translate } from '@nextcloud/l10n'
 
-jest.mock('@nextcloud/l10n')
+vi.mock('@nextcloud/l10n')
 
 describe('format/dateRangeFormat test suite', () => {
 

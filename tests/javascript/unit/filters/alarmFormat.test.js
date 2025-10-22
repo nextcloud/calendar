@@ -5,7 +5,7 @@
 import alarmFormat from "../../../../src/filters/alarmFormat.js";
 import { translate, translatePlural } from '@nextcloud/l10n'
 
-jest.mock('@nextcloud/l10n')
+vi.mock('@nextcloud/l10n')
 
 describe('format/alarmFormat test suite', () => {
 
