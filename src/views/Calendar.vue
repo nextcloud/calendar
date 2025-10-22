@@ -297,7 +297,7 @@ export default {
 				for (const calendar of calendars) {
 					this.calendarsStore.syncCalendar({ calendar, skipIfUnchangedSyncToken: true })
 				}
-			}, 1000 * 30)
+			}, 1000 * 60)
 		}
 
 		this.timeFrameCacheExpiryJob = setInterval(() => {
