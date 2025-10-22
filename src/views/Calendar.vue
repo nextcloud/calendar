@@ -86,7 +86,9 @@
 			</NcAppSidebarTab>
 		</NcAppSidebar>
 		<!-- Edit modal -->
-		<router-view />
+		<div ref="simpleEditorAnchor" class="simple-editor-anchor">
+			<router-view />
+		</div>
 	</NcContent>
 </template>
 
@@ -460,6 +462,10 @@ export default {
 
 .calendar-Widget {
 	width: 100%;
+}
+
+.simple-editor-anchor {
+	position: relative;
 }
 </style>
 ```
