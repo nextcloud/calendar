@@ -50,7 +50,7 @@
 			</template>
 		</AppNavigation>
 		<EmbedTopNavigation v-if="isEmbedded" />
-		<AppContent>
+		<AppContent id="CalendarContent">
 			<div class="calendar-wrapper">
 				<div v-if="isAuthenticatedUser" v-show="tasksSidebarEnabled" class="app-navigation-toggle-wrapper">
 					<NcActions class="toggle-button app-navigation-toggle--prevent-overlap">
