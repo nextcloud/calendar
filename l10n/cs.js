@@ -178,6 +178,7 @@ OC.L10N.register(
     "Invalid location selected" : "Vybráno neplatné umístění",
     "Attachments folder successfully saved." : "Nastavení složky pro přílohy úspěšně uloženo.",
     "Error on saving attachments folder." : "Chyba při ukládání nastavení složky pro přílohy.",
+    "Attachments folder" : "Složka s přílohami",
     "{filename} could not be parsed" : "{filename} není možné zpracovat",
     "No valid files found, aborting import" : "Nenalezeny žádné platné soubory, import proto bude ukončen",
     "_Successfully imported %n event_::_Successfully imported %n events_" : ["Úspěšně naimportována %n událost","Úspěšně naimportovány %n události","Úspěšně naimportováno %n událostí","Úspěšně naimportovány %n události"],

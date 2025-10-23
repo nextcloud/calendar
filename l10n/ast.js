@@ -144,6 +144,7 @@ OC.L10N.register(
     "CalDAV link could not be copied to clipboard." : "L'enllaz CalDAV nun se pudo copiar nel cartafueyu.",
     "General" : "Xeneral",
     "Copy iOS/macOS CalDAV address" : "Copiar la direición CalDAV d'iOS/macOS",
+    "Appearance" : "Aspeutu",
     "Default reminder" : "Recordatoriu predetermináu",
     "Keyboard shortcuts" : "Atayos del tecláu",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minutu","{duration} minutos"],
