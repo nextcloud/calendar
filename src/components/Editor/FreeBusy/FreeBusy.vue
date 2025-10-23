@@ -519,7 +519,7 @@ export default {
 		}
 		calendar.addEvent({
 			id: 'selected-event-slot',
-			title: 'Selected slot',
+			title: t('calendar', 'Selected slot'),
 			start: this.currentStart,
 			end: this.currentEnd,
 			textColor: 'var(--color-main-text)',
