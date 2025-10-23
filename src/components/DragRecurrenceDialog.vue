@@ -7,20 +7,22 @@
 import { t } from '@nextcloud/l10n'
 import { NcButton, NcModal } from '@nextcloud/vue'
 import { computed, defineEmits, defineProps } from 'vue'
-import { DragRecurrenceDialogResult } from '../models/consts'
+import { DragRecurrenceDialogResult } from '../models/consts.ts'
 
 const props = defineProps<{
 	// TODO: exports some typings from @nextcloud/calendar-js
-	eventComponent: any,
+	eventComponent: {
+		canCreateRecurrenceExceptions(): boolean
+		isMasterItem(): boolean
+		get isExactForkOfPrimary(): boolean
+	}
 }>()
 
 const emit = defineEmits<{
-	(e: 'close', result: string): void,
+	(e: 'close', result: string): void
 }>()
 
-const canCreateRecurrenceException = computed<boolean>(
-	() => props.eventComponent?.canCreateRecurrenceExceptions() ?? false
-)
+const canCreateRecurrenceException = computed<boolean>(() => props.eventComponent?.canCreateRecurrenceExceptions() ?? false)
 
 const forceThisAndAllFuture = computed<boolean>(() => {
 	if (!props.eventComponent) {
@@ -32,7 +34,8 @@ const forceThisAndAllFuture = computed<boolean>(() => {
 </script>
 
 <template>
-	<NcModal :name="t('calendar', 'Please confirm')"
+	<NcModal
+		:name="t('calendar', 'Please confirm')"
 		@close="emit('close', DragRecurrenceDialogResult.Cancel)">
 		<div class="drag-recurrence-modal">
 			<p>
@@ -42,12 +45,14 @@ const forceThisAndAllFuture = computed<boolean>(() => {
 				<NcButton @click="emit('close', DragRecurrenceDialogResult.Cancel)">
 					{{ t('calendar', 'Cancel') }}
 				</NcButton>
-				<NcButton v-if="canCreateRecurrenceException && !forceThisAndAllFuture"
+				<NcButton
+					v-if="canCreateRecurrenceException && !forceThisAndAllFuture"
 					variant="primary"
 					@click="emit('close', DragRecurrenceDialogResult.SaveThisOnly)">
 					{{ t('calendar', 'Update this occurrence') }}
 				</NcButton>
-				<NcButton v-if="canCreateRecurrenceException"
+				<NcButton
+					v-if="canCreateRecurrenceException"
 					variant="primary"
 					@click="emit('close', DragRecurrenceDialogResult.SaveThisAndAllFuture)">
 					{{ t('calendar', 'Update this and all future') }}
