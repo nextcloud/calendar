@@ -178,6 +178,7 @@ OC.L10N.register(
     "Invalid location selected" : "Ugyldig placering er valgt",
     "Attachments folder successfully saved." : "Mappen vedhæftede filer blev gemt.",
     "Error on saving attachments folder." : "Fejl ved lagring af vedhæftede filer mappen.",
+    "Attachments folder" : "Mappe til vedhæftede filer",
     "{filename} could not be parsed" : "{filename} kunne ikke fortolkes",
     "No valid files found, aborting import" : "Ingen gyldige filer fundet, importen afbrydes",
     "_Successfully imported %n event_::_Successfully imported %n events_" : ["%n begivenhed blev importeret","%n begivenheder blev importeret"],
