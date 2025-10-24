@@ -13,7 +13,7 @@ import {
 	ITIP_MESSAGE_REFRESH,
 	ITIP_MESSAGE_REPLY,
 	ITIP_MESSAGE_REQUEST,
-} from './consts.js'
+} from './consts.ts'
 
 /**
  * Creates a complete scheduling-object-object based on given props
