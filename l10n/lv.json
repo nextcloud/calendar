@@ -5,7 +5,7 @@
     "%s has published the calendar »%s«" : "%s dalījās ar kalendāru »%s«",
     "Unexpected error sending email. Please contact your administrator." : "E-pasta ziņojuma nosūtīšanas laikā bija neparedzēta kļūda. Lūgums sazināties ar savu pārvaldītāju.",
     "Successfully sent email to %1$s" : "E-pasta ziņojums sekmīgi nosūtīts uz %1$s",
-    "Hello," : "Sveicināti,",
+    "Hello," : "Sveiciens,",
     "We wanted to inform you that %s has published the calendar »%s«." : "Mēs vēlējāmies ziņot, ka %s padarīja pieejamu kalendāru »%s«.",
     "Open »%s«" : "Atvērt »%s«",
     "Cheers!" : "Priekā!",
