@@ -351,6 +351,7 @@ OC.L10N.register(
     "optional participant" : "Optionaler Teilnehmer",
     "{organizer} (organizer)" : "{organizer} (Organisator)",
     "{attendee} ({role})" : "{attendee} ({role})",
+    "Selected slot" : "Gewähltes Zeitfenster",
     "Availability of attendees, resources and rooms" : "Verfügbarkeit von Teilnehmern, Resourcen und Räumen",
     "Suggestion accepted" : "Vorschlag angenommen",
     "Previous date" : "Vorheriger Termin",

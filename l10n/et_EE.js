@@ -351,6 +351,7 @@ OC.L10N.register(
     "optional participant" : "valikuline osaleja",
     "{organizer} (organizer)" : "{organizer} (korraldaja)",
     "{attendee} ({role})" : "{attendee} ({role})",
+    "Selected slot" : "Valitud ajavahemik",
     "Availability of attendees, resources and rooms" : "Osalejate, vahendite ja ruumide saadavus",
     "Suggestion accepted" : "Soovitud on vastu võetud",
     "Previous date" : "Eelmine kuupäev",
