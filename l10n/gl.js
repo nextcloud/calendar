@@ -351,6 +351,7 @@ OC.L10N.register(
     "optional participant" : "participante opcional",
     "{organizer} (organizer)" : "{organizer} (organizador)",
     "{attendee} ({role})" : "{attendee} ({role})",
+    "Selected slot" : "Franxa horaria seleccionada",
     "Availability of attendees, resources and rooms" : "Dispoñibilidade de asistentes, recursos e salas",
     "Suggestion accepted" : "Aceptouse a suxestión",
     "Previous date" : "Data anterior",
