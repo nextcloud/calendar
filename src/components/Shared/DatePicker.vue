@@ -87,7 +87,7 @@ export default {
 			}
 			this.pendingDate = date
 		},
-		onBlur(event) {
+		onBlur() {
 			// When focus leaves the picker, commit the pending date
 			if (this.pendingDate === undefined || this.pendingDate === null) {
 				return
