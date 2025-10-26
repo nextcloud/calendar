@@ -195,7 +195,7 @@ import {
 	IMPORT_STAGE_DEFAULT,
 	IMPORT_STAGE_IMPORTING,
 	IMPORT_STAGE_PROCESSING,
-} from '../../models/consts.js'
+} from '../../models/consts.ts'
 import { getCurrentUserPrincipal } from '../../services/caldavService.js'
 import useCalendarsStore from '../../store/calendars.js'
 import useImportFilesStore from '../../store/importFiles.js'

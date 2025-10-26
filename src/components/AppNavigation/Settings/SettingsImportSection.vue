@@ -54,7 +54,7 @@ import {
 	IMPORT_STAGE_DEFAULT,
 	IMPORT_STAGE_IMPORTING,
 	IMPORT_STAGE_PROCESSING,
-} from '../../../models/consts.js'
+} from '../../../models/consts.ts'
 import { readFileAsText } from '../../../services/readFileAsTextService.js'
 import useCalendarObjectsStore from '../../../store/calendarObjects.js'
 import useCalendarsStore from '../../../store/calendars.js'
