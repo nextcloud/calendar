@@ -11,7 +11,8 @@
 		:type="type"
 		:hide-label="true"
 		class="date-time-picker"
-		@input="change" />
+		@blur="onBlur"
+		@input="onInput" />
 </template>
 
 <script>
@@ -21,7 +22,6 @@ import {
 import { mapStores } from 'pinia'
 
 import useDavRestrictionsStore from '../../store/davRestrictions.js'
-import debounce from 'debounce'
 
 export default {
 	name: 'DatePicker',
@@ -50,6 +50,11 @@ export default {
 			default: 'date',
 		},
 	},
+	data() {
+		return {
+			pendingDate: null,
+		}
+	},
 	computed: {
 		...mapStores(useDavRestrictionsStore),
 		/**
@@ -75,13 +80,25 @@ export default {
 		 *
 		 * @param {Date} date The new Date object
 		 */
-		change: debounce(async function(date) {
+		onInput(date) {
+			// Buffer the input; only emit when the user leaves the field
 			if (this.disabledDate(date)) {
 				return
 			}
-
-			this.$emit('change', date)
-		}, 1000),
+			this.pendingDate = date
+		},
+		onBlur() {
+			// When focus leaves the picker, commit the pending date
+			if (this.pendingDate === undefined || this.pendingDate === null) {
+				return
+			}
+			const pending = this.pendingDate
+			this.pendingDate = null
+			if (this.disabledDate(pending)) {
+				return
+			}
+			this.$emit('change', pending)
+		},
 		/**
 		 * Whether or not the date is acceptable
 		 *
