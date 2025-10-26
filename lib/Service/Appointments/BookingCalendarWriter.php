@@ -10,45 +10,34 @@ namespace OCA\Calendar\Service\Appointments;
 use DateTimeImmutable;
 use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Db\AppointmentConfig;
+use OCA\Calendar\Db\Booking;
 use OCP\Calendar\Exceptions\CalendarException;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IManager;
 use OCP\IConfig;
+use OCP\IL10N;
+use OCP\IUser;
 use OCP\IUserManager;
-use OCP\L10N\IFactory;
-use OCP\Security\ISecureRandom;
+use OCP\L10N\IFactory as L10NFactory;
 use RuntimeException;
+use Sabre\VObject\Component\VAlarm;
 use Sabre\VObject\Component\VCalendar;
+use Sabre\VObject\Component\VEvent;
+use Symfony\Component\Uid\Uuid;
+
 use function abs;
 
 class BookingCalendarWriter {
-	/** @var IConfig */
-	private $config;
 
-	/** @var IManager */
-	private $manager;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var ISecureRandom */
-	private $random;
-
-	private TimezoneGenerator $timezoneGenerator;
+	private IL10N $l10n;
 
 	public function __construct(
-		IConfig $config,
-		IManager $manager,
-		IUserManager $userManager,
-		ISecureRandom $random,
-		TimezoneGenerator $timezoneGenerator,
-		private IFactory $l10nFactory,
+		private readonly IConfig $config,
+		private readonly IManager $manager,
+		private readonly IUserManager $userManager,
+		private readonly L10NFactory $l10nFactory,
+		private readonly TimezoneGenerator $timezoneGenerator,
 	) {
-		$this->config = $config;
-		$this->manager = $manager;
-		$this->userManager = $userManager;
-		$this->random = $random;
-		$this->timezoneGenerator = $timezoneGenerator;
 	}
 
 	private function secondsToIso8601Duration(int $secs): string {
@@ -69,80 +58,118 @@ class BookingCalendarWriter {
 
 	/**
 	 * @param AppointmentConfig $config
-	 * @param DateTimeImmutable $start
-	 * @param string $displayName
-	 * @param string $email
-	 * @param string|null $description
+	 * @param Booking $booking
 	 *
 	 * @return string
 	 * @throws RuntimeException
 	 */
-	public function write(AppointmentConfig $config,
-		DateTimeImmutable $start,
-		string $displayName,
-		string $email,
-		string $timezone, ?string $description = null,
-		?string $location = null) : string {
+	public function write(AppointmentConfig $config, Booking $booking) : string {
 		$calendar = current($this->manager->getCalendarsForPrincipal($config->getPrincipalUri(), [$config->getTargetCalendarUri()]));
 		if (!($calendar instanceof ICreateFromString)) {
-			throw new RuntimeException('Could not find a public writable calendar for this principal');
+			throw new RuntimeException('Could not find a writable calendar for this principal');
 		}
-		$organizer = $this->userManager->get($config->getUserId());
-		if ($organizer === null) {
+		$user = $this->userManager->get($config->getUserId());
+		if ($user === null) {
 			throw new RuntimeException('Organizer not registered user for this instance');
 		}
 
-		$lang = $this->config->getUserValue($organizer->getUID(), 'core', 'lang', null);
-		$l10n = $this->l10nFactory->get('calendar', $lang);
+		$userLanguage = $this->config->getUserValue($user->getUID(), 'core', 'lang', null);
+		$this->l10n = $this->l10nFactory->get('calendar', $userLanguage);
 
-		$vcalendar = new VCalendar([
-			'CALSCALE' => 'GREGORIAN',
-			'VERSION' => '2.0',
-			'VEVENT' => [
-				// TRANSLATORS Title for event appoinment, first the attendee name, then the appointment name
-				'SUMMARY' => $l10n->t('%1$s - %2$s', [$displayName, $config->getName()]),
-				'STATUS' => 'CONFIRMED',
-				'DTSTART' => $start,
-				'DTEND' => $start->setTimestamp($start->getTimestamp() + ($config->getLength()))
-			]
-		]);
-
-		$end = $start->getTimestamp() + $config->getLength();
-		$tz = $this->timezoneGenerator->generateVTimezone($timezone, $start->getTimestamp(), $end);
-		if ($tz) {
-			$vcalendar->add($tz);
+		$vAppointmentObject = $this->generateAppointment($user, $config, $booking);
+		try {
+			$this->createFromString($calendar, Uuid::v4()->toRfc4122() . '.ics', $vAppointmentObject->serialize());
+		} catch (CalendarException $e) {
+			throw new RuntimeException('Could not write event  for appointment config id ' . $config->getId() . ' to calendar: ' . $e->getMessage(), 0, $e);
 		}
 
-		if (!empty($description)) {
-			$vcalendar->VEVENT->add('DESCRIPTION', $description);
+		if ($config->getPreparationDuration() !== 0) {
+			$vPreAppointmentObject = $this->generatePreAppointment($config, $vAppointmentObject);
+			try {
+				$this->createFromString($calendar, Uuid::v4()->toRfc4122() . '.ics', $vPreAppointmentObject->serialize());
+			} catch (CalendarException $e) {
+				throw new RuntimeException('Could not write event for appointment config id ' . $config->getId() . ' to calendar: ' . $e->getMessage(), 0, $e);
+			}
 		}
 
-		$vcalendar->VEVENT->add(
+		if ($config->getFollowupDuration() !== 0) {
+			$vPostAppointmentObject = $this->generatePostAppointment($config, $vAppointmentObject);
+			try {
+				$this->createFromString($calendar, Uuid::v4()->toRfc4122() . '.ics', $vPostAppointmentObject->serialize());
+			} catch (CalendarException $e) {
+				throw new RuntimeException('Could not write event for appointment config id ' . $config->getId() . ' to calendar: ' . $e->getMessage(), 0, $e);
+			}
+		}
+
+		return $vAppointmentObject->serialize();
+	}
+
+	public function generateAppointment(IUser $user, AppointmentConfig $config, Booking $booking): VCalendar {
+		$timezone = $booking->getTimezone();
+		if (empty($timezone)) {
+			throw new RuntimeException('Invalid timezone for booking');
+		}
+		$start = (new DateTimeImmutable())->setTimestamp($booking->getStart())->setTimezone(new \DateTimeZone($timezone));
+		$end = (clone $start)->setTimestamp($start->getTimestamp() + $config->getLength());
+
+		// construct the envelope
+		$vCalendar = new VCalendar(['CALSCALE' => 'GREGORIAN', 'VERSION' => '2.0']);
+		$vTimezone = $this->timezoneGenerator->generateVTimezone($booking->getTimezone(), $start->getTimestamp(), $end->getTimestamp());
+		if ($vTimezone) {
+			$vCalendar->add($vTimezone);
+		}
+
+		// construct the event
+		/** @var VEvent $vEvent */
+		$vEvent = $vCalendar->add('VEVENT');
+		$vEvent->add('DTSTART', $start);
+		$vEvent->add('DTEND', $end);
+		$vEvent->add('STATUS', 'CONFIRMED');
+		$vEvent->add('X-NC-APPOINTMENT', $config->getToken());
+
+		if (!empty($booking->getDisplayName())) {
+			$vEvent->add('SUMMARY', $booking->getDisplayName() . ' - ' . $config->getName());
+		} else {
+			$vEvent->add('SUMMARY', $config->getName());
+		}
+
+		if (!empty($booking->getDescription()) && !empty($config->getDescription())) {
+			$vEvent->add('DESCRIPTION',
+				$this->l10n->t('Requestor Comments:') . PHP_EOL
+				. $booking->getDescription() . PHP_EOL . PHP_EOL
+				. $this->l10n->t('Appointment Description:') . PHP_EOL
+				. $config->getDescription()
+			);
+		} elseif (!empty($booking->getDescription())) {
+			$vEvent->add('DESCRIPTION',
+				$this->l10n->t('Requestor Comments:') . PHP_EOL
+				. $booking->getDescription()
+			);
+		} elseif (!empty($config->getDescription())) {
+			$vEvent->add('DESCRIPTION',
+				$this->l10n->t('Appointment Description:') . PHP_EOL
+				. $config->getDescription()
+			);
+		}
+
+		if (!empty($config->getLocation())) {
+			$vEvent->add('LOCATION', $config->getLocation());
+		}
+
+		$vEvent->add(
 			'ORGANIZER',
-			'mailto:' . $organizer->getEMailAddress(),
+			'mailto:' . $user->getEMailAddress(),
 			[
-				'CN' => $organizer->getDisplayName(),
+				'CN' => $user->getDisplayName(),
 				'CUTYPE' => 'INDIVIDUAL',
 				'PARTSTAT' => 'ACCEPTED'
 			]
 		);
 
-		$vcalendar->VEVENT->add(
-			'ATTENDEE',
-			'mailto:' . $organizer->getEMailAddress(),
+		$vEvent->add('ATTENDEE',
+			'mailto:' . $booking->getEmail(),
 			[
-				'CN' => $organizer->getDisplayName(),
-				'CUTYPE' => 'INDIVIDUAL',
-				'RSVP' => 'TRUE',
-				'ROLE' => 'REQ-PARTICIPANT',
-				'PARTSTAT' => 'ACCEPTED'
-			]
-		);
-
-		$vcalendar->VEVENT->add('ATTENDEE',
-			'mailto:' . $email,
-			[
-				'CN' => $displayName,
+				'CN' => $booking->getDisplayName(),
 				'CUTYPE' => 'INDIVIDUAL',
 				'RSVP' => 'TRUE',
 				'ROLE' => 'REQ-PARTICIPANT',
@@ -157,90 +184,57 @@ class BookingCalendarWriter {
 			'none'
 		);
 		if ($defaultReminder !== 'none') {
-			$alarm = $vcalendar->createComponent('VALARM');
-			$alarm->add($vcalendar->createProperty('TRIGGER', '-' . $this->secondsToIso8601Duration(abs((int)$defaultReminder)), ['RELATED' => 'START']));
-			$alarm->add($vcalendar->createProperty('ACTION', 'DISPLAY'));
-			$vcalendar->VEVENT->add($alarm);
+			/** @var VAlarm $alarm */
+			$alarm = $vCalendar->createComponent('VALARM');
+			$alarm->add('TRIGGER', '-' . $this->secondsToIso8601Duration(abs((int)$defaultReminder)), ['RELATED' => 'START']);
+			$alarm->add('ACTION', 'DISPLAY');
+			$vEvent->add($alarm);
 		}
 
-		if ($location !== null) {
-			$vcalendar->VEVENT->add('LOCATION', $location);
+		return $vCalendar;
+	}
+
+	public function generatePreAppointment(AppointmentConfig $config, VCalendar $vAppointmentObject): VCalendar {
+		$anchorDate = $vAppointmentObject->VEVENT->DTSTART->getDateTime();
+		$vCalendar = new VCalendar([
+			'CALSCALE' => 'GREGORIAN',
+			'VERSION' => '2.0',
+			'VEVENT' => [
+				'DTSTART' => (clone $anchorDate)->modify('-' . $config->getPreparationDuration() . ' seconds'),
+				'DTEND' => $anchorDate,
+				'STATUS' => 'CONFIRMED',
+				'SUMMARY' => $this->l10n->t('Prepare for %s', [$config->getName()]),
+				'DESCRIPTION' => $config->getDescription(),
+				'RELATED-TO' => $vAppointmentObject->VEVENT->UID->getValue(),
+				'RELTYPE' => 'PARENT',
+				'X-NC-PRE-APPOINTMENT' => $config->getToken(),
+			]
+		]);
+		if ($vAppointmentObject->VTIMEZONE) {
+			$vCalendar->add(clone $vAppointmentObject->VTIMEZONE);
 		}
+		return $vCalendar;
+	}
 
-		$vcalendar->VEVENT->add('X-NC-APPOINTMENT', $config->getToken());
-
-		$filename = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
-
-		try {
-			$this->createFromString($calendar, $filename . '.ics', $vcalendar->serialize());
-		} catch (CalendarException $e) {
-			throw new RuntimeException('Could not write event  for appointment config id ' . $config->getId() . ' to calendar: ' . $e->getMessage(), 0, $e);
+	public function generatePostAppointment(AppointmentConfig $config, VCalendar $vAppointmentObject): VCalendar {
+		$anchorDate = $vAppointmentObject->VEVENT->DTEND->getDateTime();
+		$vCalendar = new VCalendar([
+			'CALSCALE' => 'GREGORIAN',
+			'VERSION' => '2.0',
+			'VEVENT' => [
+				'DTSTART' => $anchorDate,
+				'DTEND' => (clone $anchorDate)->modify('+' . $config->getFollowupDuration() . ' seconds'),
+				'STATUS' => 'CONFIRMED',
+				'SUMMARY' => $this->l10n->t('Follow up for %s', [$config->getName()]),
+				'RELATED-TO' => $vAppointmentObject->VEVENT->UID->getValue(),
+				'RELTYPE' => 'PARENT',
+				'X-NC-POST-APPOINTMENT' => $config->getToken()
+			]
+		]);
+		if ($vAppointmentObject->VTIMEZONE) {
+			$vCalendar->add(clone $vAppointmentObject->VTIMEZONE);
 		}
-
-		if ($config->getPreparationDuration() !== 0) {
-			$string = $l10n->t('Prepare for %s', [$config->getName()]);
-			$prepStart = $start->setTimestamp($start->getTimestamp() - $config->getPreparationDuration());
-			$prepCalendar = new VCalendar([
-				'CALSCALE' => 'GREGORIAN',
-				'VERSION' => '2.0',
-				'VEVENT' => [
-					'SUMMARY' => $string,
-					'STATUS' => 'CONFIRMED',
-					'DTSTART' => $prepStart,
-					'DTEND' => $start
-				]
-			]);
-			$tz = $this->timezoneGenerator->generateVTimezone($timezone, $prepStart->getTimestamp(), $start->getTimestamp());
-			if ($tz) {
-				$prepCalendar->add($tz);
-			}
-
-			$prepCalendar->VEVENT->add('RELATED-TO', $vcalendar->VEVENT->{'UID'});
-			$prepCalendar->VEVENT->add('RELTYPE', 'PARENT');
-			$prepCalendar->VEVENT->add('X-NC-PRE-APPOINTMENT', $config->getToken());
-
-			$prepFileName = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
-
-			try {
-				$this->createFromString($calendar, $prepFileName . '.ics', $prepCalendar->serialize());
-			} catch (CalendarException $e) {
-				throw new RuntimeException('Could not write event  for appointment config id ' . $config->getId() . ' to calendar: ' . $e->getMessage(), 0, $e);
-			}
-		}
-
-		if ($config->getFollowupDuration() !== 0) {
-			$string = $l10n->t('Follow up for %s', [$config->getName()]);
-			$followupStart = $start->setTimestamp($start->getTimestamp() + $config->getLength());
-			$followUpEnd = $followupStart->setTimestamp($followupStart->getTimestamp() + $config->getFollowupDuration());
-			$followUpCalendar = new VCalendar([
-				'CALSCALE' => 'GREGORIAN',
-				'VERSION' => '2.0',
-				'VEVENT' => [
-					'SUMMARY' => $string,
-					'STATUS' => 'CONFIRMED',
-					'DTSTART' => $followupStart,
-					'DTEND' => $followUpEnd
-				]
-			]);
-
-			$tz = $this->timezoneGenerator->generateVTimezone($timezone, $followupStart->getTimestamp(), $followUpEnd->getTimestamp());
-			if ($tz) {
-				$followUpCalendar->add($tz);
-			}
-
-			$followUpCalendar->VEVENT->add('RELATED-TO', $vcalendar->VEVENT->{'UID'});
-			$followUpCalendar->VEVENT->add('RELTYPE', 'PARENT');
-			$followUpCalendar->VEVENT->add('X-NC-POST-APPOINTMENT', $config->getToken());
-
-			$followUpFilename = $this->random->generate(32, ISecureRandom::CHAR_ALPHANUMERIC);
-
-			try {
-				$this->createFromString($calendar, $followUpFilename . '.ics', $followUpCalendar->serialize());
-			} catch (CalendarException $e) {
-				throw new RuntimeException('Could not write event  for appointment config id ' . $config->getId() . ' to calendar: ' . $e->getMessage(), 0, $e);
-			}
-		}
-		return $vcalendar->serialize();
+		return $vCalendar;
 	}
 
 	/**
