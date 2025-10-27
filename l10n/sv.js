@@ -350,6 +350,7 @@ OC.L10N.register(
     "optional participant" : "valfri deltagare",
     "{organizer} (organizer)" : "{organizer} (arrangör)",
     "{attendee} ({role})" : "{attendee} ({role})",
+    "Selected slot" : "Vald tidpunkt",
     "Availability of attendees, resources and rooms" : "Tillgänglighet för deltagare, resurser och lokaler",
     "Suggestion accepted" : "Förslaget accepterat",
     "Previous date" : "Föregående datum",
