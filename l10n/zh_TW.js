@@ -351,6 +351,7 @@ OC.L10N.register(
     "optional participant" : "可不出席的參與者",
     "{organizer} (organizer)" : "{organizer} (organizer)",
     "{attendee} ({role})" : "{attendee} ({role})",
+    "Selected slot" : "選定時段",
     "Availability of attendees, resources and rooms" : "參與者、資源和空間的可用性",
     "Suggestion accepted" : "已接受建議",
     "Previous date" : "前一個日期",
