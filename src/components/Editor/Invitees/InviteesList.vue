@@ -8,7 +8,8 @@
 		<div v-if="showHeader" class="invitees-list__header">
 			<div class="invitees-list__header__title">
 				<AccountMultipleIcon :size="20" />
-				{{ statusHeader }}
+				<span>{{ t('calendar', 'Attendees') }}</span>
+				<NcCounterBubble :count="invitees.length + 1" />
 			</div>
 
 			<div v-if="!hideButtons" class="invitees-list-button-group">
@@ -34,6 +35,10 @@
 					@update-dates="saveNewDate"
 					@close="closeFreeBusy" />
 			</div>
+		</div>
+
+		<div class="invitees-list__subtitle">
+			{{ statusHeader }}
 		</div>
 
 		<InviteesListSearch
@@ -73,7 +78,7 @@ import {
 	showSuccess,
 	showWarning,
 } from '@nextcloud/dialogs'
-import { NcButton } from '@nextcloud/vue'
+import { NcButton, NcCounterBubble } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import AccountMultipleIcon from 'vue-material-design-icons/AccountMultipleOutline.vue'
 import FreeBusy from '../FreeBusy/FreeBusy.vue'
@@ -98,6 +103,7 @@ export default {
 		InviteesListSearch,
 		OrganizerListItem,
 		AccountMultipleIcon,
+		NcCounterBubble,
 	},
 
 	props: {
@@ -319,11 +325,12 @@ export default {
 				return ''
 			}
 
-			return this.t('calendar', '{invitedCount} attendees invited, {confirmedCount} confirmed', {
-				invitedCount: this.invitees.length + 1, // +1 for organizer
+			return this.t('calendar', '{confirmedCount} confirmed, {waitingCount} awaiting response', {
 				confirmedCount: this.invitees
 					.filter((attendee) => attendee.participationStatus === 'ACCEPTED')
 					.length + 1, // +1 for organizer
+				waitingCount: this.invitees
+					.filter((attendee) => attendee.participationStatus === 'NEEDS-ACTION').length,
 			})
 		},
 
@@ -499,7 +506,12 @@ export default {
 			gap: calc(var(--default-grid-baseline) * 4);
 			font-size: calc(var(--default-font-size) * 1.2);
 			align-items: center;
+			font-weight: bold;
 		}
+	}
+
+	&__subtitle {
+		color: var(--color-text-maxcontrast);
 	}
 
 	&__more {
