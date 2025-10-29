@@ -41,9 +41,9 @@
 						</div>
 
 						<PropertyTitle
-							:value="title"
+							:modelValue="title"
 							:is-read-only="isReadOnly || isViewedByOrganizer === false"
-							@update:value="updateTitle" />
+							@update:modelValue="updateTitle" />
 					</div>
 
 					<div v-if="!isLoading && !isError" class="app-full__actions">
@@ -115,7 +115,7 @@
 						<div class="app-full__header__details-time">
 							<NcCheckboxRadioSwitch
 								v-if="!isReadOnly && !isViewedByAttendee"
-								:model-value="isAllDay"
+								:modelValue="isAllDay"
 								:disabled="!canModifyAllDay"
 								@update:modelValue="toggleAllDayPreliminary">
 								{{ $t('calendar', 'All day') }}
@@ -134,11 +134,11 @@
 
 						<div class="app-full__header__details-calendar">
 							<CalendarPickerHeader
-								:value="selectedCalendar"
+								:modelValue="selectedCalendar"
 								:calendars="calendars"
 								:is-read-only="isReadOnly || !canModifyCalendar"
 								:is-viewed-by-attendee="isViewedByOrganizer === false"
-								@update:value="changeCalendar" />
+								@update:modelValue="changeCalendar" />
 							<NcPopover v-if="isViewedByOrganizer === false" :no-focus-trap="true">
 								<template #trigger>
 									<NcButton variant="tertiary-no-background">
@@ -171,17 +171,17 @@
 							class="property-location"
 							:is-read-only="isReadOnly || isViewedByOrganizer === false"
 							:prop-model="rfcProps.location"
-							:value="location"
+							:modelValue="location"
 							:linkify-links="true"
-							@update:value="updateLocation" />
+							@update:modelValue="updateLocation" />
 						<PropertyText
 							class="property-description"
 							:is-read-only="isReadOnly"
 							:prop-model="rfcProps.description"
-							:value="description"
+							:modelValue="description"
 							:is-description="true"
 							:linkify-links="true"
-							@update:value="updateDescription" />
+							@update:modelValue="updateDescription" />
 
 						<AlarmList
 							:calendar-object-instance="calendarObjectInstance"
@@ -216,24 +216,24 @@
 						<PropertySelect
 							:is-read-only="isReadOnly"
 							:prop-model="rfcProps.status"
-							:value="status"
-							@update:value="updateStatus" />
+							:modelValue="status"
+							@update:modelValue="updateStatus" />
 						<PropertySelect
 							:is-read-only="isReadOnly || isViewedByOrganizer === false"
 							:prop-model="rfcProps.accessClass"
-							:value="accessClass"
-							@update:value="updateAccessClass" />
+							:modelValue="accessClass"
+							@update:modelValue="updateAccessClass" />
 						<PropertySelect
 							:is-read-only="isReadOnly"
 							:prop-model="rfcProps.timeTransparency"
-							:value="timeTransparency"
-							@update:value="updateTimeTransparency" />
+							:modelValue="timeTransparency"
+							@update:modelValue="updateTimeTransparency" />
 						<PropertySelectMultiple
 							class="property-categories"
 							:colored-options="true"
 							:is-read-only="isReadOnly"
 							:prop-model="rfcProps.categories"
-							:value="categories"
+							:modelValue="categories"
 							@add-single-value="addCategory"
 							@remove-single-value="removeCategory" />
 						<PropertyColor
@@ -241,8 +241,8 @@
 							:show-icon="!(isReadOnly && color === null)"
 							:is-read-only="isReadOnly"
 							:prop-model="rfcProps.color"
-							:value="color"
-							@update:value="updateColor" />
+							:modelValue="color"
+							@update:modelValue="updateColor" />
 					</div>
 				</div>
 

@@ -120,16 +120,16 @@
 					</div>
 
 					<CalendarPickerHeader
-						:value="selectedCalendar"
+						:modelValue="selectedCalendar"
 						:calendars="calendars"
 						:is-read-only="isReadOnlyOrViewing || !canModifyCalendar"
 						:is-viewed-by-attendee="isViewedByOrganizer === false"
-						@update:value="changeCalendar" />
+						@update:modelValue="changeCalendar" />
 
 					<PropertyTitle
-						:value="titleOrPlaceholder"
+						:modelValue="titleOrPlaceholder"
 						:is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
-						@update:value="updateTitle" />
+						@update:modelValue="updateTitle" />
 
 					<PropertyTitleTimePicker
 						:start-date="startDate"
@@ -152,7 +152,7 @@
 					<div v-if="!isReadOnlyOrViewing" class="app-full__header__details">
 						<div class="app-full__header__details-time">
 							<NcCheckboxRadioSwitch
-								:model-value="isAllDay"
+								:modelValue="isAllDay"
 								:disabled="!canModifyAllDay"
 								@update:modelValue="toggleAllDayPreliminary">
 								{{ $t('calendar', 'All day') }}
@@ -163,16 +163,16 @@
 					<PropertyText
 						:is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
 						:prop-model="rfcProps.location"
-						:value="location"
+						:modelValue="location"
 						:linkify-links="true"
-						@update:value="updateLocation" />
+						@update:modelValue="updateLocation" />
 					<PropertyText
 						:is-read-only="isReadOnlyOrViewing"
 						:prop-model="rfcProps.description"
-						:value="description"
+						:modelValue="description"
 						:linkify-links="true"
 						:is-description="true"
-						@update:value="updateDescription" />
+						@update:modelValue="updateDescription" />
 
 					<InviteesList
 						v-if="!isViewing || (isViewing && hasAttendees)"

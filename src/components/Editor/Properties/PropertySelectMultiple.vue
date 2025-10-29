@@ -43,7 +43,7 @@
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else class="property-select-multiple-colored-tag-wrapper">
 				<PropertySelectMultipleColoredTag
-					v-for="singleValue in value"
+					v-for="singleValue in modelValue"
 					:key="singleValue.value"
 					:option="singleValue" />
 			</div>
@@ -110,7 +110,7 @@ export default {
 				})
 			}
 
-			for (const category of this.value) {
+			for (const category of this.modelValue) {
 				if (!options.find((option) => option.value === category) && category !== undefined) {
 					options.splice(options.findIndex((options) => options.value === category), 1)
 				}
@@ -136,7 +136,7 @@ export default {
 	},
 
 	created() {
-		for (const category of this.value) {
+		for (const category of this.modelValue) {
 			// Create and select pseudo option if is not yet known
 			const option = this.options.find((option) => option.value === category)
 				?? { label: category, value: category }
@@ -145,37 +145,37 @@ export default {
 	},
 
 	methods: {
-		unselectValue(value) {
-			if (!value) {
+		unselectValue(selectedOption) {
+			if (!selectedOption) {
 				return
 			}
 
-			this.$emit('remove-single-value', value.value)
+			this.$emit('remove-single-value', selectedOption.value)
 
-			this.selectionData.splice(this.selectionData.findIndex((option) => option.value === value.value), 1)
+			this.selectionData.splice(this.selectionData.findIndex((option) => option.value === selectedOption.value), 1)
 
 			// store removed custom options to keep it in the option list
 			const options = this.propModel.options.slice()
-			if (!options.find((option) => option.value === value.value)) {
+			if (!options.find((option) => option.value === selectedOption.value)) {
 				if (!this.customLabelBuffer) {
 					this.customLabelBuffer = []
 				}
-				this.customLabelBuffer.push(value)
+				this.customLabelBuffer.push(selectedOption)
 			}
 		},
 
-		tag(value) {
-			if (!value) {
+		tag(selectedOption) {
+			if (!selectedOption) {
 				return
 			}
 
 			// budget deselectFromDropdown since the vue-select implementation doesn't work
-			if (this.selectionData.find((option) => option.value === value.value)) {
-				this.selectionData.splice(this.selectionData.findIndex((option) => option.value === value.value), 1)
+			if (this.selectionData.find((option) => option.value === selectedOption.value)) {
+				this.selectionData.splice(this.selectionData.findIndex((option) => option.value === selectedOption.value), 1)
 			}
 
-			this.selectionData.push(value)
-			this.$emit('add-single-value', value.value)
+			this.selectionData.push(selectedOption)
+			this.$emit('add-single-value', selectedOption.value)
 		},
 	},
 }

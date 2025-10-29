@@ -94,7 +94,7 @@ export default {
 		 * @return {string}
 		 */
 		selectedColor() {
-			return this.value || this.calendarColor
+			return this.modelValue || this.calendarColor
 		},
 
 		/**
@@ -107,7 +107,7 @@ export default {
 				return false
 			}
 
-			return !!this.value
+			return !!this.modelValue
 		},
 	},
 
@@ -118,7 +118,7 @@ export default {
 		 * @param {string} newColor The new Color as HEX
 		 */
 		changeColor(newColor) {
-			this.$emit('update:value', newColor)
+			this.$emit('update:modelValue', newColor)
 			this.isColorPickerOpen = false
 		},
 
@@ -127,7 +127,7 @@ export default {
 		 * defaulting the color back to the calendar-color
 		 */
 		deleteColor() {
-			this.$emit('update:value', null)
+			this.$emit('update:modelValue', null)
 		},
 	},
 }

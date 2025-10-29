@@ -43,8 +43,7 @@
 				</thead>
 				<tbody>
 					<template v-for="group in datesGrouped" :key="'day-' + group.key">
-						<tr
-							class="proposal-matrix__table-row-label">
+						<tr class="proposal-matrix__table-row-label">
 							<td class="proposal-matrix__table-day-label">
 								{{ group.label }}
 							</td>

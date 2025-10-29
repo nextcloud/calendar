@@ -63,7 +63,7 @@ export default {
 		},
 
 		selectedValue() {
-			const value = this.value || this.propModel.defaultValue
+			const value = this.modelValue || this.propModel.defaultValue
 			return this.options.find((option) => option.value === value)
 		},
 	},

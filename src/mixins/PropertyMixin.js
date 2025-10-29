@@ -52,7 +52,7 @@ export default {
 		 * The value to be displayed inside the property.
 		 * The type varies from property to property.
 		 */
-		value: {
+		modelValue: {
 			required: true,
 		},
 		/**

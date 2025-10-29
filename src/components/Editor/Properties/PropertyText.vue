@@ -25,11 +25,11 @@
 				:placeholder="placeholder"
 				:rows="rows"
 				:name="readableName"
-				:value="value"
+				:value="modelValue"
 				:class="{ 'textarea--description': isDescription }"
 				@focus="handleToggleTextareaFocus(true)"
 				@blur="handleToggleTextareaFocus(false)"
-				@update:modelValue.prevent.stop="changeValue" />
+				@input="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div
 				v-else
@@ -63,6 +63,16 @@ export default {
 	],
 
 	props: {
+		modelValue: {
+			type: String | null,
+			default: null,
+		},
+
+		isReadOnly: {
+			type: Boolean,
+			required: true,
+		},
+
 		isDescription: {
 			type: Boolean,
 			default: false,
@@ -72,10 +82,10 @@ export default {
 	computed: {
 		display() {
 			if (this.isReadOnly) {
-				if (typeof this.value !== 'string') {
+				if (typeof this.modelValue !== 'string') {
 					return false
 				}
-				if (this.value.trim() === '') {
+				if (this.modelValue.trim() === '') {
 					return false
 				}
 			}
@@ -97,9 +107,9 @@ export default {
 	methods: {
 		changeValue(event) {
 			if (event.target.value.trim() === '') {
-				this.$emit('update:value', null)
+				this.$emit('update:modelValue', null)
 			} else {
-				this.$emit('update:value', event.target.value)
+				this.$emit('update:modelValue', event.target.value)
 			}
 		},
 	},

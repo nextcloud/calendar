@@ -14,10 +14,10 @@
 				type="text"
 				autocomplete="off"
 				:placeholder="t('calendar', 'Event title')"
-				:value="value"
-				@update:value.prevent.stop="changeValue">
+				:value="modelValue"
+				@input="changeValue">
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
-			<div v-else :class="{ 'property-title__input__rtl': isRTL }">{{ value }}</div>
+			<div v-else :class="{ 'property-title__input__rtl': isRTL }">{{ modelValue }}</div>
 		</div>
 	</div>
 </template>
@@ -25,6 +25,7 @@
 <script>
 import { getLanguage, isRTL } from '@nextcloud/l10n'
 import focus from '../../../directives/focus.js'
+import PropertyMixin from '../../../mixins/PropertyMixin.js'
 
 export default {
 	name: 'PropertyTitle',
@@ -38,7 +39,7 @@ export default {
 			required: true,
 		},
 
-		value: {
+		modelValue: {
 			type: String,
 			default: '',
 		},
@@ -52,7 +53,7 @@ export default {
 
 	methods: {
 		changeValue(event) {
-			this.$emit('update:value', event.target.value)
+			this.$emit('update:modelValue', event.target.value)
 		},
 	},
 }

@@ -7,10 +7,10 @@
 	<PropertySelect
 		:prop-model="propModel"
 		:is-read-only="false"
-		:value="null"
+		:modelValue="null"
 		:show-icon="showIcon"
 		class="property-alarm-new"
-		@update:value="addReminderFromSelect" />
+		@update:modelValue="addReminderFromSelect" />
 </template>
 
 <script>

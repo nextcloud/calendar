@@ -15,14 +15,14 @@
 			:class="{
 				'calendar-picker-header__picker--has-menu': !isReadOnly && calendars.length > 1,
 			}"
-			:menu-name="value.displayName"
+			:menu-name="modelValue.displayName"
 			:force-name="true"
 			:disabled="isDisabled">
 			<template #icon>
 				<div class="calendar-picker-header__icon">
 					<div
 						class="calendar-picker-header__icon__dot"
-						:style="{ 'background-color': value.color }" />
+						:style="{ 'background-color': modelValue.color }" />
 				</div>
 			</template>
 			<template>
@@ -57,7 +57,7 @@ export default {
 	},
 
 	props: {
-		value: {
+		modelValue: {
 			type: Object,
 			required: true,
 		},
