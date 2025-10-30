@@ -142,6 +142,7 @@
     "Share calendar" : "カレンダー共有",
     "Unshare from me" : "共有を自分から解除",
     "Save" : "保存",
+    "Are you sure you want to delete \"{title}\"?" : "本当に\"{title}\"を削除してもいいですか?",
     "View" : "表示",
     "Import calendars" : "カレンダーのインポート",
     "Please select a calendar to import into …" : "インポートするカレンダーを選択してください …",
