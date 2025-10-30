@@ -140,6 +140,7 @@ OC.L10N.register(
     "from {formattedDate} at {formattedTime}" : "ад {formattedDate} да {formattedTime}",
     "Global" : "Глабальны",
     "Public calendars" : "Публічныя календары",
+    "Select a date" : "Выберыце дату",
     "Time:" : "Час:",
     "Personal" : "Асабістыя",
     "Show unscheduled tasks" : "Паказаць незапланаваныя заданні",

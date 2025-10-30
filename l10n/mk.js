@@ -206,8 +206,11 @@ OC.L10N.register(
     "CalDAV link copied to clipboard." : "CalDAV линкот е копиран.",
     "CalDAV link could not be copied to clipboard." : "CalDAV линкот неможе да биде копиран.",
     "General" : "Општо",
+    "CalDAV" : "CalDAV",
+    "CalDAV URL" : "CalDAV URL",
     "Copy iOS/macOS CalDAV address" : "Копирај iOS/macOS CalDAV адреса",
     "Appearance" : "Изглед",
+    "Birthday calendar" : "Календар со родендени",
     "Default calendar for incoming invitations" : "Стандарден календар за дојдовни покани",
     "Default reminder" : "Стандарден потсетник",
     "Keyboard shortcuts" : "Кратенки преку тастатура",
@@ -622,6 +625,7 @@ OC.L10N.register(
     "Personal availability settings" : "Параметри за лична достапност",
     "Show keyboard shortcuts" : "Прикажи кратенки преку тастатура",
     "The visibility of this event in shared calendars." : "Видливост на овој настан во споделен календар.",
-    "View options" : "Прегледај опции "
+    "View options" : "Прегледај опции ",
+    "Enable simple editor" : "Овозможи едноставен уредувач"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
