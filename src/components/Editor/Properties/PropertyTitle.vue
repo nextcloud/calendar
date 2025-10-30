@@ -57,3 +57,10 @@ export default {
 	},
 }
 </script>
+
+<style scoped lang="scss">
+.property-title__input--readonly {
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+</style>
