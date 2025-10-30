@@ -477,12 +477,12 @@ export default {
 		},
 		keyboardSaveEvent(event) {
 			if (event.key === 'Enter' && event.ctrlKey === true && !this.isReadOnly && !this.canCreateRecurrenceException) {
-				this.saveAndLeave(false)
+				this.saveAndLeave('single')
 			}
 		},
 		keyboardDeleteEvent(event) {
 			if (event.key === 'Delete' && event.ctrlKey === true && this.canDelete && !this.canCreateRecurrenceException) {
-				this.deleteAndLeave(false)
+				this.deleteAndLeave('single')
 			}
 		},
 		keyboardDuplicateEvent(event) {
@@ -496,10 +496,10 @@ export default {
 		/**
 		 * Saves a calendar-object
 		 *
-		 * @param {boolean} thisAndAllFuture Whether to modify only this or this and all future occurrences
+		 * @param {string} mode Modification mode: 'all', 'future', or 'single'
 		 * @return {Promise<void>}
 		 */
-		async save(thisAndAllFuture = false) {
+		async save(mode = 'single') {
 			if (!this.calendarObject) {
 				logger.error('Calendar-object not found')
 				return
@@ -508,14 +508,14 @@ export default {
 				return
 			}
 			if (this.forceThisAndAllFuture) {
-				thisAndAllFuture = true
+				mode = 'future'
 			}
 
 			this.isLoading = true
 			this.isSaving = true
 			try {
 				await this.calendarObjectInstanceStore.saveCalendarObjectInstance({
-					thisAndAllFuture,
+					mode,
 					calendarId: this.calendarId,
 				})
 			} catch (error) {
@@ -534,11 +534,11 @@ export default {
 		/**
 		 * Saves a calendar-object and closes the editor
 		 *
-		 * @param {boolean} thisAndAllFuture Whether to modify only this or this and all future occurrences
+		 * @param {string} mode Modification mode: 'all', 'future', or 'single'
 		 * @return {Promise<void>}
 		 */
-		async saveAndLeave(thisAndAllFuture = false) {
-			await this.save(thisAndAllFuture)
+		async saveAndLeave(mode = 'single') {
+			await this.save(mode)
 			this.requiresActionOnRouteLeave = false
 			this.closeEditor()
 		},
@@ -555,10 +555,10 @@ export default {
 		/**
 		 * Deletes a calendar-object
 		 *
-		 * @param {boolean} thisAndAllFuture Whether to delete only this or this and all future occurrences
+		 * @param {string} mode Deletion mode: 'all', 'future', or 'single'
 		 * @return {Promise<void>}
 		 */
-		async delete(thisAndAllFuture = false) {
+		async delete(mode = 'single') {
 			if (!this.calendarObject) {
 				logger.error('Calendar-object not found')
 				return
@@ -568,17 +568,17 @@ export default {
 			}
 
 			this.isLoading = true
-			await this.calendarObjectInstanceStore.deleteCalendarObjectInstance({ thisAndAllFuture })
+			await this.calendarObjectInstanceStore.deleteCalendarObjectInstance({ mode })
 			this.isLoading = false
 		},
 		/**
 		 * Deletes a calendar-object and closes the editor
 		 *
-		 * @param {boolean} thisAndAllFuture Whether to delete only this or this and all future occurrences
+		 * @param {string} mode Deletion mode: 'all', 'future', or 'single'
 		 * @return {Promise<void>}
 		 */
-		async deleteAndLeave(thisAndAllFuture = false) {
-			await this.delete(thisAndAllFuture)
+		async deleteAndLeave(mode = 'single') {
+			await this.delete(mode)
 			this.requiresActionOnRouteLeave = false
 			this.closeEditor()
 		},
