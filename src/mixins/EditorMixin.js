@@ -411,8 +411,10 @@ export default {
 			delete params.object
 			delete params.recurrenceId
 
+			const targetRouteName = getPrefixedRoute(this.$route?.name ?? 'CalendarView', 'CalendarView')
+
 			this.$router.push({
-				name: getPrefixedRoute(this.$route.name, 'CalendarView'),
+				name: targetRouteName,
 				params,
 			})
 
