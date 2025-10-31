@@ -110,7 +110,10 @@ export default function({ event, el }) {
 			el.style.background = 'var(--fc-page-bg-color)'
 		}
 
-		titleElement.style.color = 'var(--color-main-text)'
+		if (titleElement) {
+			titleElement.style.color = 'var(--color-main-text)'
+		}
+
 		if (timeElement) {
 			timeElement.style.color = 'var(--color-main-text)'
 		}
@@ -123,27 +126,36 @@ export default function({ event, el }) {
 
 		if (el.classList.contains('fc-event-nc-declined')) {
 			el.title = t('calendar', 'You declined this event')
-			titleElement.style.textDecoration = 'line-through'
+			if (titleElement) {
+				titleElement.style.textDecoration = 'line-through'
+			}
 		}
 	}
 
 	if (el.classList.contains('fc-event-nc-all-declined')) {
 		const titleElement = el.querySelector('.fc-event-title')
 
-		const svgString = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="m40-120 440-760 440 760H40Zm440-120q17 0 28.5-11.5T520-280q0-17-11.5-28.5T480-320q-17 0-28.5 11.5T440-280q0 17 11.5 28.5T480-240Zm-40-120h80v-200h-80v200Z"/></svg>'
-		titleElement.innerHTML = svgString + titleElement.innerHTML
+		if (titleElement) {
+			const svgString = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="m40-120 440-760 440 760H40Zm440-120q17 0 28.5-11.5T520-280q0-17-11.5-28.5T480-320q-17 0-28.5 11.5T440-280q0 17 11.5 28.5T480-240Zm-40-120h80v-200h-80v200Z"/></svg>'
+			titleElement.innerHTML = svgString + titleElement.innerHTML
 
-		const svgElement = titleElement.querySelector('svg')
-		svgElement.style.fill = el.style.borderColor
-		svgElement.style.width = '1em'
-		svgElement.style.marginBottom = '0.2em'
-		svgElement.style.verticalAlign = 'middle'
+			const svgElement = titleElement.querySelector('svg')
+			if (svgElement) {
+				svgElement.style.fill = el.style.borderColor
+				svgElement.style.width = '1em'
+				svgElement.style.marginBottom = '0.2em'
+				svgElement.style.verticalAlign = 'middle'
+			}
+		}
 	}
 
 	if (el.classList.contains('fc-event-nc-tentative')) {
 		const dotElement = el.querySelector('.fc-daygrid-event-dot')
 
-		const bgColor = el.style.backgroundColor ? el.style.backgroundColor : dotElement.style.borderColor
+		// Get background color, with fallback to border color if dotElement doesn't exist
+		const bgColor = el.style.backgroundColor
+			? el.style.backgroundColor
+			: (dotElement ? dotElement.style.borderColor : el.style.borderColor)
 		const bgStripeColor = darkenColor(bgColor)
 
 		let backgroundStyling = `repeating-linear-gradient(45deg, ${bgStripeColor}, ${bgStripeColor} 1px, ${bgColor} 1px, ${bgColor} 10px)`
