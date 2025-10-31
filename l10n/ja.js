@@ -249,7 +249,7 @@ OC.L10N.register(
     "Back" : "戻る",
     "Successfully added Talk conversation link to location." : "トークへのリンクをロケーションに追加しました。",
     "Add Talk conversation" : "会話を追加",
-    "Create a new public conversation" : "公開の会話を作成する",
+    "Create a new public conversation" : "公開の会話を作成",
     "Select conversation" : "会話を選択",
     "on" : "曜日",
     "at" : "で",
