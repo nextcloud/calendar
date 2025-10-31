@@ -371,12 +371,12 @@ import ResourceList from '../components/Editor/Resources/ResourceList.vue'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
 import EditorMixin from '../mixins/EditorMixin.js'
 import { shareFile } from '../services/attachmentService.js'
-import { doesContainTalkLink } from '../services/talkService.js'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import usePrincipalsStore from '../store/principals.js'
 import useSettingsStore from '../store/settings.js'
 import logger from '../utils/logger.js'
+import { containsRoomUrl } from '@/services/talkService'
 
 export default {
 	name: 'EditFull',
@@ -507,10 +507,7 @@ export default {
 				return true
 			}
 
-			if (doesContainTalkLink(this.calendarObjectInstance.location)) {
-				return true
-			}
-			return doesContainTalkLink(this.calendarObjectInstance.description)
+			return containsRoomUrl(this.calendarObjectInstance.location) || containsRoomUrl(this.calendarObjectInstance.description)
 		},
 
 		isCreateTalkRoomButtonVisible() {
