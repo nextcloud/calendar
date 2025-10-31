@@ -212,6 +212,8 @@ OC.L10N.register(
     "CalDAV link copied to clipboard." : "Link CalDAV skopiowany do schowka.",
     "CalDAV link could not be copied to clipboard." : "Nie można skopiować linku CalDAV do schowka.",
     "General" : "Ogólne",
+    "CalDAV" : "CalDAV",
+    "CalDAV URL" : "CalDAV URL",
     "Copy iOS/macOS CalDAV address" : "Kopiuj adres CalDAV dla iOS/macOS",
     "Appearance" : "Wygląd",
     "Editing" : "Edytowanie",
