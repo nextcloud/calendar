@@ -1,3 +1,32 @@
+## [5.5.8](https://github.com/nextcloud/calendar/compare/v5.5.7...v5.5.8) (2025-11-04)
+
+
+### Bug Fixes
+
+* improve title and description word wrapping ([f5270b4](https://github.com/nextcloud/calendar/commit/f5270b461afad2754fa804ffa6005848df11267b))
+* **l10n:** Update translations from Transifex ([528f027](https://github.com/nextcloud/calendar/commit/528f027f38670a0504c8bde99d13317525b0ac22))
+* **l10n:** Update translations from Transifex ([f36bf58](https://github.com/nextcloud/calendar/commit/f36bf58631a587f6a41d917d0336b5fc7eb3610d))
+* **l10n:** Update translations from Transifex ([3f872ab](https://github.com/nextcloud/calendar/commit/3f872ab234bf23294ae55084ca941798927c14d0))
+* **l10n:** Update translations from Transifex ([9d07941](https://github.com/nextcloud/calendar/commit/9d07941d228b29e260300f45ae5a88d76a1dd7f9))
+* **l10n:** Update translations from Transifex ([2ac9c7a](https://github.com/nextcloud/calendar/commit/2ac9c7a614a2fb7f90c383da0fa8a176202f4e4f))
+* **l10n:** Update translations from Transifex ([847fa6e](https://github.com/nextcloud/calendar/commit/847fa6e936dd3dfeed656ca7ea54360e0873d909))
+* **l10n:** Update translations from Transifex ([a436317](https://github.com/nextcloud/calendar/commit/a4363176777f01040996096f9ba4219d762e9f8b))
+* **l10n:** Update translations from Transifex ([53651c2](https://github.com/nextcloud/calendar/commit/53651c22a5808ad39e95cdb9f8ae46caa632f5db))
+* **l10n:** Update translations from Transifex ([19fab85](https://github.com/nextcloud/calendar/commit/19fab856c870de88ee788dcbb2d4c2d082cc8fdf))
+* **l10n:** Update translations from Transifex ([a835364](https://github.com/nextcloud/calendar/commit/a83536429b3b386447d9ba9c0c4862eda986934f))
+* **l10n:** Update translations from Transifex ([32a5ca1](https://github.com/nextcloud/calendar/commit/32a5ca19c6c9aeea5a8484a2720bf003975bec93))
+* **l10n:** Update translations from Transifex ([1b77aae](https://github.com/nextcloud/calendar/commit/1b77aaeded4ba19845fb9ec8c0d5f89378227db7))
+* **l10n:** Update translations from Transifex ([7727c6b](https://github.com/nextcloud/calendar/commit/7727c6b2c7a6a5d0d3b3c9c90e1f5a750ada4efb))
+* **l10n:** Update translations from Transifex ([b95c6ce](https://github.com/nextcloud/calendar/commit/b95c6ce682cfb3e8b6952a8fbc7d54fffa66e2e5))
+* **l10n:** Update translations from Transifex ([cc4c6f0](https://github.com/nextcloud/calendar/commit/cc4c6f029f107ee15c64fc240dd5aad47b67d136))
+* **l10n:** Update translations from Transifex ([8079a25](https://github.com/nextcloud/calendar/commit/8079a252e8c742ea14abc2632626cb9f1ab68110))
+* Make the wording "Selected slot" translatable ([589ba93](https://github.com/nextcloud/calendar/commit/589ba93234375e2b51934c094c186660bcc32594))
+* prevent event date change glitch ([575420d](https://github.com/nextcloud/calendar/commit/575420d94fd7acef525553e8bd1e70d3b47ea3f8))
+* week day view issue with tentetive status ([07a0894](https://github.com/nextcloud/calendar/commit/07a08944bc3ae1202677163fa7cdfbf8ba2ea48d))
+* wrong end date mutation ([b67b40e](https://github.com/nextcloud/calendar/commit/b67b40ef917950eb2be56996d505ecbe9e063f2b))
+
+
+
 ## [5.5.7](https://github.com/nextcloud/calendar/compare/v5.5.6...v5.5.7) (2025-10-14)
 
 
