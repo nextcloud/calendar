@@ -183,7 +183,7 @@ class ProposalService {
 			$entry = $participant->toStore();
 			$entry->setUid($user->getUID());
 			$entry->setPid($proposalEntry->getId());
-			$entry->setToken(md5($proposalEntry->getId() . $entry->getAddress()));
+			$entry->setToken(md5(random_bytes(32)));
 			$this->proposalParticipantMapper->insert($entry);
 		}
 		// store dates
@@ -233,7 +233,7 @@ class ProposalService {
 				if ($mutation === 'modified') {
 					$this->proposalParticipantMapper->update($mutatedParticipantEntry);
 				} else {
-					$mutatedParticipantEntry->setToken(md5($mutatedProposalEntry->getId() . $mutatedParticipantEntry->getAddress()));
+					$mutatedParticipantEntry->setToken(md5(random_bytes(32)));
 					$this->proposalParticipantMapper->insert($mutatedParticipantEntry);
 				}
 			}
