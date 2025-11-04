@@ -47,6 +47,16 @@
 					{{ t('calendar', 'Create public conversation') }}
 				</NcButton>
 				<NcButton
+					v-if="canCreateConversations"
+					class="talk_new-room"
+					:disabled="creatingTalkRoom"
+					@click="createTalkRoom('private')">
+					<template #icon>
+						<IconAdd :size="20" />
+					</template>
+					{{ t('calendar', 'Create private conversation') }}
+				</NcButton>
+				<NcButton
 					variant="primary"
 					class="talk_select-room"
 					:disabled="!selectedRoom"
