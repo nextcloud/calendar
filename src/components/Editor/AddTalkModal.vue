@@ -5,55 +5,70 @@
 
 <template>
 	<NcModal
-		size="normal"
+		size="small"
 		class="modal"
 		:name="t('calendar', 'Select a Talk Room')"
 		@close="$emit('close', $event)">
 		<div class="modal-content">
-			<h2>{{ t('calendar', 'Add Talk conversation') }}</h2>
-			<div class="talk-room-list">
-				<NcEmptyContent
-					v-if="loading"
-					icon="icon-loading"
-					class="modal__content__loading"
-					:description="t('calendar', 'Fetching Talk rooms…')" />
-				<NcEmptyContent
-					v-else-if="talkConversations.length === 0"
-					:description="t('calendar', 'No Talk room available')" />
-				<ul v-else>
-					<li
-						v-for="conversation in sortedTalkConversations"
-						:key="conversation.id"
-						:class="{ selected: selectedRoom && selectedRoom.id === conversation.id }"
-						class="talk-room-list__item"
-						@click="selectRoom(conversation)">
+			<NcEmptyContent
+				v-if="loading"
+				icon="icon-loading"
+				class="modal__content__loading"
+				:description="t('calendar', 'Fetching Talk rooms…')" />
+			<NcEmptyContent
+				v-else-if="talkConversations.length === 0"
+				:description="t('calendar', 'No Talk room available')" />
+			<NcFormGroup v-else :label="t('calendar', 'Select existing conversation')">
+				<NcListItem
+					v-for="conversation in sortedTalkConversations"
+					:key="conversation.id"
+					:class="{ selected: selectedRoom && selectedRoom.id === conversation.id }"
+					:name="conversation.displayName"
+					class="talk-room-list__item"
+					@click="selectRoom(conversation)">
+					<template #icon>
 						<NcAvatar
 							:url="avatarUrl(conversation)"
 							:size="28"
 							:disable-tooltip="true" />
-						<span>{{ conversation.displayName }}</span>
-					</li>
-				</ul>
-			</div>
-			<div class="sticky-footer">
-				<NcButton
-					v-if="canCreateConversations"
-					class="talk_new-room"
-					:disabled="creatingTalkRoom"
-					@click="createTalkRoom('public')">
-					<template #icon>
-						<IconAdd :size="20" />
 					</template>
-					{{ t('calendar', 'Create public conversation') }}
-				</NcButton>
+				</NcListItem>
 				<NcButton
-					variant="primary"
+					variant="secondary"
 					class="talk_select-room"
+					wide
 					:disabled="!selectedRoom"
 					@click="selectConversation(selectedRoom)">
 					{{ t('calendar', 'Select conversation') }}
 				</NcButton>
-			</div>
+			</NcFormGroup>
+			<div class="spacer" />
+			<NcFormGroup :label="t('calendar', 'Or create a new conversation')">
+				<NcFormBox>
+					<NcFormBoxButton
+						v-if="canCreateConversations"
+						class="talk_new-room"
+						:disabled="creatingTalkRoom"
+						wide
+						@click="createTalkRoom('public')">
+						<template #icon>
+							<IconAdd :size="20" />
+						</template>
+						{{ t('calendar', 'Create public conversation') }}
+					</NcFormBoxButton>
+					<NcFormBoxButton
+						v-if="canCreateConversations"
+						class="talk_new-room"
+						:disabled="creatingTalkRoom"
+						wide
+						@click="createTalkRoom('private')">
+						<template #icon>
+							<IconAdd :size="20" />
+						</template>
+						{{ t('calendar', 'Create private conversation') }}
+					</NcFormBoxButton>
+				</NcFormBox>
+			</NcFormGroup>
 		</div>
 	</NcModal>
 </template>
@@ -66,6 +81,10 @@ import {
 	NcAvatar,
 	NcButton,
 	NcEmptyContent,
+	NcFormBox,
+	NcFormBoxButton,
+	NcFormGroup,
+	NcListItem,
 	NcModal,
 } from '@nextcloud/vue'
 import md5 from 'md5'
@@ -92,16 +111,15 @@ export default {
 		IconAdd,
 		NcAvatar,
 		NcEmptyContent,
+		NcFormBox,
+		NcFormBoxButton,
+		NcListItem,
+		NcFormGroup,
 	},
 
 	props: {
 		calendarObjectInstance: {
 			type: Object,
-			required: true,
-		},
-
-		conversations: {
-			type: Array,
 			required: true,
 		},
 	},
@@ -252,58 +270,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.talk-room-list {
-	flex: 1;
-	overflow-y: auto;
-	padding: 10px;
-	font-weight: 600;
-
-	&__item {
-		display: flex;
-		gap: calc(var(--default-grid-baseline) * 2);
-		align-items: center;
-		padding: 6px 6px 6px 9px;
-		height: 34px;
-		&:hover {
-			background-color: var(--color-background-hover);
-			border-radius: var(--border-radius-large);
-
-		}
-		&.selected {
-			background-color: var(--color-primary-element);
-			border-radius: var(--border-radius-large);
-			color: white;
-		}
-	}
-}
-
-.sticky-footer {
-	position: sticky;
-	bottom: 0;
-	padding: 16px;
-	text-align: end;
-	display: flex;
-	background-color: var(--color-main-background);
-	border-radius: var(--border-radius-large);
-}
-
-.talk_new-room {
-	margin-inline-end: auto;
-}
-
-.talk_select-room {
-	margin-inline-start: auto;
-}
-
-h2 {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-	height: 30px;
-}
-
 .modal-content {
-	margin-top: calc(var(--default-grid-baseline) * 8);
+	margin: calc(var(--default-grid-baseline) * 6);
+}
+
+.spacer {
+	margin-top: calc(var(--default-grid-baseline) * 6);
 }
 </style>
