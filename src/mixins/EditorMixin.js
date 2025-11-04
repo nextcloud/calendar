@@ -442,33 +442,16 @@ export default {
 				return
 			}
 
-			if (
-				(!this.calendarObjectInstanceStore.calendarObjectInstance.eventComponent.isDirty()
-					&& !this.calendarObjectInstanceStore.calendarObjectInstance.isNew)
-				|| this.compareCalendarObjects(this.calendarObjectInstanceStore.calendarObjectInstance, this.calendarObjectInstanceStore.emptyCalendarObjectInstance)
-				|| force
-			) {
+			if (this.calendarObjectInstanceStore.calendarObjectInstance.eventComponent.isDirty() && !force) {
+				this.showCancelDialog = true
+			} else {
 				this.calendarObjectsStore.resetCalendarObjectToDavMutation({
 					calendarObject: this.calendarObject,
 				})
 
 				this.requiresActionOnRouteLeave = false
 				this.closeEditor()
-			} else {
-				this.showCancelDialog = true
 			}
-		},
-		compareCalendarObjects(obj1, obj2) {
-			const keys1 = Object.keys(obj1)
-			const keys2 = Object.keys(obj2)
-
-			if (keys1.length !== keys2.length) {
-				return false
-			}
-
-			return keys1.every((key) => {
-				return keys2.includes(key) && obj1[key] === obj2[key]
-			})
 		},
 		keyboardCloseEditor(event) {
 			if (event.key === 'Escape') {
