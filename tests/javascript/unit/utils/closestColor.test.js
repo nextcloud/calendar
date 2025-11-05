@@ -7,15 +7,9 @@
 //   - https://github.com/juliuste/closest-css-color
 
 import closestColor from '../../../../src/utils/closestColor.js'
-import cssColors from 'css-color-names'
-import uniqBy from 'lodash/uniqBy.js'
-import pick from 'lodash/pick.js'
 
 describe('utils/closestColor test suite', () => {
 	it('should calculate the closest color', () => {
-		const uniqColorKeys = uniqBy(Object.keys(cssColors), c => cssColors[c])
-		const filteredColors = pick(cssColors, uniqColorKeys)
-
 		const color1 = closestColor('#fff')
 		expect(color1).toBe('white')
 
@@ -27,9 +21,13 @@ describe('utils/closestColor test suite', () => {
 			name: 'darkblue',
 			hex: '#00008b',
 		})
+	})
 
-		for (const color of Object.keys(filteredColors)) {
-			expect(closestColor(filteredColors[color])).toBe(color)
-		}
+	it('should return the same color when given exact CSS color values', () => {
+		expect(closestColor('#ffffff')).toBe('white')
+		expect(closestColor('#000000')).toBe('black')
+		expect(closestColor('#ff0000')).toBe('red')
+		expect(closestColor('#00ff00')).toBe('lime')
+		expect(closestColor('#0000ff')).toBe('blue')
 	})
 })

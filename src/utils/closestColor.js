@@ -10,9 +10,38 @@
 
 import colorString from 'color-string'
 import cssColors from 'css-color-names'
-import pick from 'lodash/pick.js'
-import sortBy from 'lodash/sortBy.js'
-import uniqBy from 'lodash/uniqBy.js'
+
+// Helper function to get unique array values by key
+function uniqBy(arr, fn) {
+	const seen = new Set()
+	return arr.filter((item) => {
+		const key = fn(item)
+		if (seen.has(key)) {
+			return false
+		}
+		seen.add(key)
+		return true
+	})
+}
+
+// Helper function to pick specific keys from object
+function pick(obj, keys) {
+	return keys.reduce((result, key) => {
+		if (key in obj) {
+			result[key] = obj[key]
+		}
+		return result
+	}, {})
+}
+
+// Helper function to sort array by key
+function sortBy(arr, fn) {
+	return [...arr].sort((a, b) => {
+		const aVal = fn(a)
+		const bVal = fn(b)
+		return aVal < bVal ? -1 : aVal > bVal ? 1 : 0
+	})
+}
 
 const uniqColorKeys = uniqBy(Object.keys(cssColors), (c) => cssColors[c])
 const filteredColors = pick(cssColors, uniqColorKeys)
