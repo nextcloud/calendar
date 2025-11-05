@@ -4,16 +4,26 @@
  */
 
 import { extractCallTokenFromUrl, generateURLForToken } from '../../../../src/services/talkService'
+import { getBaseUrl } from '@nextcloud/router'
+
+vi.mock('@nextcloud/router', () => ({
+	generateUrl: vi.fn((url, params, options) => {
+		const baseURL = options?.baseURL || ''
+		let path = url
+		if (params) {
+			Object.keys(params).forEach(key => {
+				path = path.replace(`{${key}}`, params[key])
+			})
+		}
+		// When baseURL is provided, add /index.php prefix (mimics real Nextcloud router behavior)
+		return baseURL + (baseURL ? '/index.php' : '') + path
+	}),
+	getBaseUrl: vi.fn(),
+}))
 
 describe('services/talk test suite', () => {
-	let windowSpy
-
-	beforeEach(() => {
-		windowSpy = vi.spyOn(window, 'window', 'get')
-	})
-
 	afterEach(() => {
-		windowSpy.mockRestore()
+		vi.clearAllMocks()
 	})
 
 	test.each([
@@ -47,10 +57,9 @@ describe('services/talk test suite', () => {
 			'http://nextcloud.testing:8080/nextcloud/index.php/call/foobar',
 		],
 	])('should generate an absolute URL to a call', (location, expected) => {
-		windowSpy.mockImplementation(() => ({
-			location,
-			_oc_webroot: '/nextcloud',
-		}))
+		const baseUrl = location.protocol + '//' + location.host + '/nextcloud'
+		getBaseUrl.mockReturnValue(baseUrl)
+		
 		expect(generateURLForToken('foobar')).toBe(expected)
 	})
 })
