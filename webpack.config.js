@@ -68,4 +68,12 @@ webpackRules.RULE_SCSS.use = [
 	},
 ]
 
+// Reduce moment.js bundle size by ignoring all locales these are bundled in nextcloud/moment
+webpackConfig.plugins.push(
+	new webpack.IgnorePlugin({
+		resourceRegExp: /^\.\/locale$/,
+		contextRegExp: /moment$/,
+	})
+)
+
 module.exports = webpackConfig
