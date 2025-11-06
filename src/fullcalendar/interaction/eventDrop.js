@@ -1,17 +1,21 @@
-import { showWarning } from '@nextcloud/dialogs'
-import { translate as t } from '@nextcloud/l10n'
-import getTimezoneManager from '../../services/timezoneDataProviderService.js'
-import useCalendarObjectsStore from '../../store/calendarObjects.js'
-import useCalendarsStore from '../../store/calendars.js'
-import usePrincipalsStore from '../../store/principals.js'
-import { isOrganizer } from '../../utils/attendee.js'
-import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
-import logger from '../../utils/logger.js'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import { showWarning } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
+import { spawnDialog } from '@nextcloud/vue/functions/dialog'
+import DragRecurrenceDialog from '../../components/DragRecurrenceDialog.vue'
+import { DragRecurrenceDialogResult } from '../../models/consts.ts'
+import getTimezoneManager from '../../services/timezoneDataProviderService.js'
+import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
+import useCalendarObjectsStore from '../../store/calendarObjects.js'
+import usePrincipalsStore from '../../store/principals.js'
+import { isOrganizer } from '../../utils/attendee.js'
+import logger from '../../utils/logger.js'
 import { getDurationValueFromFullCalendarDuration } from '../duration.js'
+
 /**
  * Returns a function to drop an event at a different position
  *
@@ -19,8 +23,8 @@ import { getDurationValueFromFullCalendarDuration } from '../duration.js'
  * @return {Function}
  */
 export default function(fcAPI) {
-	const calendarsStore = useCalendarsStore()
 	const calendarObjectsStore = useCalendarObjectsStore()
+	const calendarObjectInstanceStore = useCalendarObjectInstanceStore()
 	const principalsStore = usePrincipalsStore()
 
 	return async function({ event, delta, revert }) {
@@ -42,27 +46,27 @@ export default function(fcAPI) {
 
 		const objectId = event.extendedProps.objectId
 		const recurrenceId = event.extendedProps.recurrenceId
-		const recurrenceIdDate = new Date(recurrenceId * 1000)
 
-		let calendarObject
+		let objects
 		try {
-			calendarObject = await calendarsStore.getEventByObjectId({ objectId })
+			objects = await calendarObjectInstanceStore.getCalendarObjectInstanceByObjectIdAndRecurrenceId({
+				objectId,
+				recurrenceId,
+			})
 		} catch (error) {
-			console.debug(error)
+			logger.error('Recurrence was not found', { error })
+			calendarObjectInstanceStore.resetCalendarObjectInstanceObjectIdAndRecurrenceId()
 			revert()
 			return
 		}
 
-		const eventComponent = getObjectAtRecurrenceId(calendarObject, recurrenceIdDate)
-		if (!eventComponent) {
-			console.debug('Recurrence-id not found')
-			revert()
-			return
-		}
+		const { calendarObject, calendarObjectInstance } = objects
+		const eventComponent = calendarObjectInstance.eventComponent
 
 		if (!isOrganizer(principalsStore.getCurrentUserPrincipalEmail, eventComponent.organizer)) {
 			revert()
 			showWarning(t('calendar', 'You are not allowed to edit this event as an attendee.'))
+			calendarObjectInstanceStore.resetCalendarObjectInstanceObjectIdAndRecurrenceId()
 			return
 		}
 
@@ -83,28 +87,55 @@ export default function(fcAPI) {
 			// shiftByDuration may throw exceptions in certain cases
 			eventComponent.shiftByDuration(deltaDuration, event.allDay, timezone, defaultAllDayDuration, defaultTimedDuration)
 		} catch (error) {
+			logger.error('Failed to shift event', { error })
 			calendarObjectsStore.resetCalendarObjectToDavMutation({
 				calendarObject,
 			})
-			console.debug(error)
+			calendarObjectInstanceStore.resetCalendarObjectInstanceObjectIdAndRecurrenceId()
 			revert()
 			return
 		}
 
-		if (eventComponent.canCreateRecurrenceExceptions()) {
-			eventComponent.createRecurrenceException()
+		// Show a modal to let the user decide whether to update this or all future instances.
+		// Non-recurring events or recurrence exceptions can just be dropped and don't require
+		// extra user interaction.
+		let thisAndAllFuture = false
+		if (eventComponent.isPartOfRecurrenceSet() && eventComponent.canCreateRecurrenceExceptions()) {
+			const result = await new Promise((resolve) => {
+				try {
+					spawnDialog(DragRecurrenceDialog, { eventComponent }, resolve)
+				} catch (error) {
+					logger.error(`Drag recurrence confirmation modal error: ${error}`, { error })
+					resolve(DragRecurrenceDialogResult.Cancel)
+				}
+			})
+			if (result === DragRecurrenceDialogResult.Cancel) {
+				calendarObjectsStore.resetCalendarObjectToDavMutation({
+					calendarObject,
+				})
+				calendarObjectInstanceStore.resetCalendarObjectInstanceObjectIdAndRecurrenceId()
+				revert()
+				return
+			}
+
+			thisAndAllFuture = result === DragRecurrenceDialogResult.SaveThisAndAllFuture
 		}
 
 		try {
-			await calendarObjectsStore.updateCalendarObject({
+			await calendarObjectInstanceStore.saveCalendarObject({
+				thisAndAllFuture,
+				calendarId: calendarObject.calendarId,
 				calendarObject,
+				eventComponent,
 			})
 		} catch (error) {
+			logger.error('Failed to save dragged event', { error })
 			calendarObjectsStore.resetCalendarObjectToDavMutation({
 				calendarObject,
 			})
-			console.debug(error)
 			revert()
+		} finally {
+			calendarObjectInstanceStore.resetCalendarObjectInstanceObjectIdAndRecurrenceId()
 		}
 	}
 }

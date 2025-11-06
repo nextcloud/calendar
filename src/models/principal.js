@@ -9,7 +9,7 @@ import {
 	PRINCIPAL_PREFIX_CIRCLE,
 	PRINCIPAL_PREFIX_GROUP,
 	PRINCIPAL_PREFIX_USER,
-} from './consts.js'
+} from './consts.ts'
 
 /**
  * Creates a complete principal-object based on given props
