@@ -105,7 +105,7 @@ OC.L10N.register(
     "Restore" : "Atjaunot",
     "Delete permanently" : "Neatgriezeniski izdzēst",
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Atkritnes vienumi tiek izdzēsti pēc {numDays} dienām","Atkritnes vienumi tiek izdzēsti pēc {numDays} dienas","Atkritnes vienumi tiek izdzēsti pēc {numDays} dienām"],
-    "Could not update calendar order." : "Nevarēja atjaunināt kalendāra pasūtījumu.",
+    "Could not update calendar order." : "Nevarēja atjaunināt kalendāru secību.",
     "Internal link" : "Iekšējā saite",
     "A private link that can be used with external clients" : "Privāta saite, kas var tikt izmantota ar ārējiem klientiem.",
     "Copy internal link" : "Ievietot iekšējo saiti starpliktuvē",
