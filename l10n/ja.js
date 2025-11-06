@@ -345,7 +345,7 @@ OC.L10N.register(
     "Event title" : "イベントタイトル",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "繰り返しの一部であるイベントの終日設定は変更できません。",
     "From" : "開始",
-    "To" : "〜まで",
+    "To" : "終了",
     "Repeat" : "繰り返し",
     "Repeat event" : "繰り返しイベント",
     "_time_::_times_" : ["回数"],
