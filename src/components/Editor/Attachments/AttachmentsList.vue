@@ -253,18 +253,12 @@ export default {
 			}
 
 			const baseUrl = new URL(getBaseUrl())
+			console.log(url.href, baseUrl.href)
 			if (url.href.startsWith(baseUrl.href)) {
-				if (url.pathname.endsWith('/download') || url.pathname.endsWith('/download/')) {
-					// Show a confirmation to warn users of direct downloads
-					this.showConfirmationDialog(
-						t('calendar', 'You are about to download a file. Please check the file name before opening it. Are you sure to proceed?'),
-						url,
-					)
-					return
-				}
-
-				// URL belongs to this instance and is safe
-				window.open(url.href, '_blank', 'noopener noreferrer')
+				this.showConfirmationDialog(
+					t('calendar', 'You are about to navigate to {link}. Are you sure to proceed?', { link: url.href }),
+					url,
+				)
 				return
 			}
 
