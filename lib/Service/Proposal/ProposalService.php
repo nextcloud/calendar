@@ -25,6 +25,7 @@ use OCA\Calendar\Objects\Proposal\ProposalParticipantRealm;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantStatus;
 use OCA\Calendar\Objects\Proposal\ProposalResponseObject;
 use OCA\Calendar\Objects\Proposal\ProposalVoteCollection;
+use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICreateFromString;
@@ -200,7 +201,7 @@ class ProposalService {
 		$this->generateNotifications($user, $proposal, 'C');
 
 		// generate iTip for internal participants
-		$this->generateIMip($user, $proposal, 'C');
+		$this->syncCalendarBlockers($user, $proposal, 'C');
 
 		return $proposal;
 	}
@@ -267,7 +268,7 @@ class ProposalService {
 		$this->generateNotifications($user, $proposal, 'M');
 
 		// generate iTip for internal participants
-		$this->generateIMip($user, $proposal, 'M');
+		$this->syncCalendarBlockers($user, $proposal, 'M');
 
 		return $proposal;
 	}
@@ -291,7 +292,7 @@ class ProposalService {
 		$this->generateNotifications($user, $proposal, 'D');
 
 		// generate iTip for internal participants
-		$this->generateIMip($user, $proposal, 'D');
+		$this->syncCalendarBlockers($user, $proposal, 'D');
 	}
 
 	/**
@@ -308,26 +309,8 @@ class ProposalService {
 		if ($selectedDate === null) {
 			throw new \InvalidArgumentException('Date not found for proposal');
 		}
-
-		// retrieve the primary calendar for the user
-		// this condition is just to make psalm happy
-		if (method_exists($this->calendarManager, 'getPrimaryCalendar')) {
-			/** @var ICalendar&ICreateFromString|null $userCalendar */
-			$userCalendar = $this->calendarManager->getPrimaryCalendar($user->getUID());
-		}
-		if ($userCalendar !== null && (!$userCalendar instanceof ICreateFromString || $userCalendar->isDeleted())) {
-			$userCalendar = null;
-		}
-		// if no primary calendar is set, use the first useable calendar
-		if ($userCalendar === null) {
-			$userCalendars = $this->calendarManager->getCalendarsForPrincipal('principals/users/' . $user->getUID());
-			foreach ($userCalendars as $calendar) {
-				if ($calendar instanceof ICreateFromString && $calendar instanceof ICalendarIsWritable && $calendar->isWritable() && !$calendar->isDeleted()) {
-					$userCalendar = $calendar;
-					break;
-				}
-			}
-		}
+		// locate users primary calendar
+		$userCalendar = $this->findPrimaryCalendar($user);
 		if ($userCalendar === null) {
 			throw new \RuntimeException('Could not find a useable calendar to create a meeting from the selected proposal');
 		}
@@ -593,58 +576,148 @@ class ProposalService {
 
 	}
 
-	private function generateIMip(IUser $user, ProposalObject $proposal, string $reason): void {
+	/**
+	 * Create, update, or delete calendar blocker event
+	 */
+	private function syncCalendarBlockers(IUser $user, ProposalObject $proposal, string $reason): void {
+
+		// if the proposal has no dates or participants, time blockers are not needed
+		if ($proposal->getDates()->count() === 0 || $proposal->getParticipants()->count() === 0) {
+			return;
+		}
+		$userCalendarUri = null;
+		$userEventUri = null;
+		// if the reason is deletion, remove existing calendar blockers
+		if ($reason === 'D') {
+			$result = $this->findCalendarBlocker($user, $proposal);
+			if ($result === null) {
+				return;
+			}
+			$this->deleteCalendarBlockersOrganizer($user, $result['calendarUri'], $result['eventUri'], $proposal);
+			return;
+		}
+		// if the reason is modification, try to locate existing calendar with blocker
+		if ($reason === 'M') {
+			$result = $this->findCalendarBlocker($user, $proposal);
+			if ($result !== null) {
+				$userCalendarUri = $result['calendarUri'];
+				$userEventUri = $result['eventUri'];
+			}
+		}
+		// if reason is creation, or no existing calendar blocker found, locate primary calendar
+		if (!isset($userCalendarUri) || $userCalendarUri === null) {
+			$result = $this->findPrimaryCalendar($user);
+			if ($result !== null) {
+				$userCalendarUri = $result->getUri();
+			}
+		}
+		if ($userCalendarUri === null) {
+			throw new \RuntimeException('Could not find a useable calendar to create a meeting from the selected proposal');
+		}
+
+		$vObject = $this->constructCalendarBlocker($user, $proposal);
+
+		$this->applyCalendarBlockersOrganizer($user, $userCalendarUri, $userEventUri, $vObject);
+		$this->applyCalendarBlockersParticipant($user, $proposal, $reason, $userCalendarUri, $userEventUri, $vObject);
+
+	}
+
+	/**
+	 * Construct calendar blocker event
+	 */
+	private function constructCalendarBlocker(IUser $user, ProposalObject $proposal): VCalendar {
+		// construct calendar object with events
+		$proposalDates = [];
+		$firstProposalDate = null;
+		foreach ($proposal->getDates()->sortByDate() as $proposalDate) {
+			$date = $proposalDate->getDate();
+			if ($firstProposalDate === null) {
+				$firstProposalDate = $date;
+			}
+			$proposalDates[] = $date->format('Ymd\THis\Z');
+		}
+		if ($firstProposalDate === null) {
+			throw new \InvalidArgumentException('Cannot construct calendar blocker without at least one proposal date');
+		}
+		$vObject = new VCalendar();
+		/** @var VEvent $vEvent */
+		$vEvent = $vObject->add('VEVENT', []);
+		$vEvent->UID->setValue($proposal->getUuid());
+		$vEvent->add('STATUS', 'TENTATIVE');
+		$vEvent->add('SEQUENCE', 1);
+		$vEvent->add('DTSTART', $firstProposalDate);
+		$vEvent->add('DURATION', "PT{$proposal->getDuration()}M");
+		$vEvent->add('RDATE', $proposalDates);
+		$vEvent->add('SUMMARY', $this->l10n->t('[Proposed] ') . $proposal->getTitle());
+		if (!empty($proposal->getDescription())) {
+			$vEvent->add('DESCRIPTION', $proposal->getDescription());
+		}
+		if (!empty($proposal->getLocation())) {
+			$vEvent->add('LOCATION', $proposal->getLocation());
+		}
+		$vEvent->add('ORGANIZER', 'mailto:' . $user->getEMailAddress(), ['CN' => $user->getDisplayName()]);
+		// add the participant to the event
+		foreach ($proposal->getParticipants() as $participant) {
+			$vEvent->add('ATTENDEE', 'mailto:' . $participant->getAddress(), [
+				'CN' => $participant->getName(),
+				'CUTYPE' => 'INDIVIDUAL',
+				'PARTSTAT' => 'NEEDS-ACTION',
+				'ROLE' => 'REQ-PARTICIPANT'
+			]);
+		}
+
+		return $vObject;
+	}
+
+	/**
+	 * Create or update calendar blocker event(s) for organizer
+	 */
+	private function applyCalendarBlockersOrganizer(IUser $user, string $calendarUri, ?string $eventUri, VCalendar $vObject): void {
+		/** @var \OCA\DAV\CalDAV\CalendarHome $calendarHome */
+		$calendarHome = (new InvitationResponseServer(false))->getServer()->tree->getNodeForPath('/calendars/' . $user->getUID());
+		/** @var \OCA\DAV\CalDAV\Calendar $calendar */
+		$calendar = $calendarHome->getChild($calendarUri);
+
+		if ($eventUri === null) {
+			$calendar->createFile(
+				Uuid::v4()->toRfc4122() . '.ics',
+				$vObject->serialize()
+			);
+		} else {
+			$event = $calendar->getChild($eventUri);
+			$event->put($vObject->serialize());
+		}
+	}
+
+	/**
+	 * Delete existing calendar blocker event
+	 */
+	private function deleteCalendarBlockersOrganizer(IUser $user, string $calendarUri, string $eventUri, ProposalObject $proposal): void {
+		/** @var \OCA\DAV\CalDAV\CalendarHome $calendarHome */
+		$calendarHome = (new InvitationResponseServer(false))->getServer()->tree->getNodeForPath('/calendars/' . $user->getUID());
+		/** @var \OCA\DAV\CalDAV\Calendar $calendar */
+		$calendar = $calendarHome->getChild($calendarUri);
+
+		$event = $calendar->getChild($eventUri);
+		$event->delete($event->getName());
+	}
+
+	/**
+	 *  Create or update calendar blocker event(s) for participant(s)
+	 */
+	private function applyCalendarBlockersParticipant(IUser $user, ProposalObject $proposal, string $reason, string $calendarUri, ?string $eventUri, VCalendar $vObject): void {
 		// if the calendar manager does not have a handleIMip method, we cannot generate iTip messages
 		if (!method_exists($this->calendarManager, 'handleIMip')) {
 			return;
 		}
-		// if the proposal has no dates or participants, we cannot generate any iTip messages
-		if ($proposal->getDates()->count() === 0 || $proposal->getParticipants()->count() === 0) {
-			return;
-		}
-		// construct calendar object with events
-		$template = new VCalendar();
 		// TODO: change REQUEST to PUBLISH
-		$template->add('METHOD', $reason !== 'D' ? 'REQUEST' : 'CANCEL');
-		// create a event for each date in the proposal
-		// TODO: should we create a new instance for each date or use a recurrence rule? Like RDATE:19970714T083000Z,19970715T083000Z
-		foreach ($proposal->getDates()->sortByDate() as $proposalDate) {
-			/** @var VEvent $vEvent */
-			$vEvent = $template->add('VEVENT', []);
-			if (isset($baseDate)) {
-				$vEvent->add('RECURRENCE-ID', $baseDate->getDate()->format('Ymd\THis\Z'));
-			} else {
-				$baseDate = $proposalDate;
-			}
-			$vEvent->UID->setValue($proposal->getUuid());
-			$vEvent->add('STATUS', 'TENTATIVE');
-			$vEvent->add('SEQUENCE', 1);
-			$vEvent->add('DTSTART', $proposalDate->getDate());
-			$vEvent->add('DURATION', "PT{$proposal->getDuration()}M");
-			$vEvent->add('SUMMARY', $proposal->getTitle());
-			$vEvent->add('DESCRIPTION', $proposal->getDescription());
-			$vEvent->add('ORGANIZER', 'mailto:' . $user->getEMailAddress(), ['CN' => $user->getDisplayName()]);
-			// add the participant to the event
-			foreach ($proposal->getParticipants() as $participant) {
-				$vEvent->add('ATTENDEE', 'mailto:' . $participant->getAddress(), [
-					'CN' => $participant->getName(),
-					'CUTYPE' => 'INDIVIDUAL',
-					'PARTSTAT' => 'NEEDS-ACTION',
-					'ROLE' => 'REQ-PARTICIPANT'
-				]);
-			}
-		}
+		$vObject->add('METHOD', $reason !== 'D' ? 'REQUEST' : 'CANCEL');
 
 		foreach ($proposal->getParticipants()->filterByRealm(ProposalParticipantRealm::Internal) as $participant) {
 			$participantAddress = $participant->getAddress();
 			if ($participantAddress === null) {
 				continue;
 			}
-
-			// TODO: this is stupid, we send the internal users email address from the UI then convert it back to a user name
-			// should probably be sent from the UI as a user name, or send and store both the user name and email address
-			// maybe send the address as a special schema "local:{user name}/{email address}", this would allow us to later extend this to federated users
-			// with a different special schema like "federated:{user name}@{server}/{email address}"
 			$participantUsers = $this->userManager->getByEmail($participantAddress);
 			if ($participantUsers === []) {
 				continue;
@@ -653,14 +726,55 @@ class ProposalService {
 			try {
 				$this->calendarManager->handleIMip(
 					$participantUser->getUID(),
-					$template->serialize(),
+					$vObject->serialize(),
 					$reason !== 'D' ? ['absent' => 'create'] : []
 				);
 			} catch (Exception $e) {
 				$this->logger->error($e->getMessage(), ['app' => 'calendar', 'exception' => $e]);
 			}
 		}
+	}
 
+	/**
+	 * Find the primary calendar for a user, or the first useable calendar
+	 */
+	private function findPrimaryCalendar(IUser $user): ?ICreateFromString {
+		// retrieve the primary calendar for the user
+		// this condition is just to make psalm happy
+		if (method_exists($this->calendarManager, 'getPrimaryCalendar')) {
+			/** @var ICalendar&ICreateFromString|null $userCalendar */
+			$userCalendar = $this->calendarManager->getPrimaryCalendar($user->getUID());
+		}
+		if ($userCalendar !== null && (!$userCalendar instanceof ICreateFromString || $userCalendar->isDeleted())) {
+			$userCalendar = null;
+		}
+		// if no primary calendar is set, use the first useable calendar
+		if ($userCalendar === null) {
+			$userCalendars = $this->calendarManager->getCalendarsForPrincipal('principals/users/' . $user->getUID());
+			foreach ($userCalendars as $calendar) {
+				if ($calendar instanceof ICreateFromString && $calendar instanceof ICalendarIsWritable && $calendar->isWritable() && !$calendar->isDeleted()) {
+					$userCalendar = $calendar;
+					break;
+				}
+			}
+		}
+		return $userCalendar;
+	}
+
+	/**
+	 * Find existing calendar blocker event
+	 *
+	 * @return array{calendarUri: string, eventUri: string}|null
+	 */
+	private function findCalendarBlocker(IUser $user, ProposalObject $proposal): ?array {
+		$userCalendars = $this->calendarManager->getCalendarsForPrincipal('principals/users/' . $user->getUID());
+		foreach ($userCalendars as $calendar) {
+			$result = $calendar->search('', [], ['uid' => (string)$proposal->getUuid()]);
+			if (isset($result[0])) {
+				return ['calendarUri' => $calendar->getUri(), 'eventUri' => $result[0]['uri']];
+			}
+		}
+		return null;
 	}
 
 }
