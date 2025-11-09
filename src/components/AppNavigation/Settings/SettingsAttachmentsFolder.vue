@@ -4,47 +4,40 @@
 -->
 
 <template>
-	<div class="settings-fieldset-interior-item settings-fieldset-interior-item--folder">
-		<label :for="inputId">
-			{{ $t('calendar', 'Default attachments location') }}
-		</label>
-		<div class="form-group">
-			<NcInputField :id="inputId"
-				v-model="attachmentsFolder"
-				type="text"
-				:label-outside="true"
-				@input="debounceSaveAttachmentsFolder(attachmentsFolder)"
-				@change="debounceSaveAttachmentsFolder(attachmentsFolder)"
-				@click="selectCalendarFolder"
-				@keyboard.enter="selectCalendarFolder" />
-		</div>
-	</div>
+	<NcFormBoxButton :label="$t('calendar', 'Attachments folder')"
+		:description="attachmentsFolder"
+		inverted-accent
+		@click="selectCalendarFolder">
+		<template #icon>
+			<IconFolderOpen :size="20" />
+		</template>
+	</NcFormBoxButton>
 </template>
 
 <script>
-/* eslint-disable-next-line n/no-missing-import */
-import NcInputField from '@nextcloud/vue/dist/Components/NcInputField.js'
-import debounce from 'debounce'
 import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'
-import { randomId } from '../../../utils/randomId.js'
+import { NcFormBoxButton } from '@nextcloud/vue'
+import debounce from 'debounce'
+import { mapState, mapStores } from 'pinia'
+import IconFolderOpen from 'vue-material-design-icons/FolderOpenOutline.vue'
 import useSettingsStore from '../../../store/settings.js'
-import { mapStores, mapState } from 'pinia'
 import logger from '../../../utils/logger.js'
 
 export default {
 	name: 'SettingsAttachmentsFolder',
+
 	components: {
-		NcInputField,
+		NcFormBoxButton,
+		IconFolderOpen,
 	},
+
 	computed: {
 		...mapStores(useSettingsStore),
 		...mapState(useSettingsStore, {
-			attachmentsFolder: store => store.attachmentsFolder || '/',
+			attachmentsFolder: (store) => store.attachmentsFolder || '/',
 		}),
-		inputId() {
-			return `input-${randomId()}`
-		},
 	},
+
 	methods: {
 		async selectCalendarFolder() {
 			const picker = getFilePickerBuilder(t('calendar', 'Select the default location for attachments'))
@@ -60,9 +53,11 @@ export default {
 			const path = await picker.pick()
 			this.saveAttachmentsFolder(path)
 		},
+
 		debounceSaveAttachmentsFolder: debounce(function(...args) {
 			this.saveAttachmentsFolder(...args)
 		}, 300),
+
 		saveAttachmentsFolder(path) {
 			if (typeof path !== 'string' || path.trim() === '' || !path.startsWith('/')) {
 				showError(t('calendar', 'Invalid location selected'))
