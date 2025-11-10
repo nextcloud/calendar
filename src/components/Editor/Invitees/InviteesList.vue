@@ -8,8 +8,8 @@
 		<div v-if="showHeader" class="invitees-list__header">
 			<div class="invitees-list__header__title">
 				<AccountMultipleIcon :size="20" />
-				{{ t('calendar', 'Attendees') }}
-				{{ statusHeader }}
+				<span class="invitees-list__header__title__text">{{ t('calendar', 'Attendees') }}</span>
+				<NcCounterBubble :count="invitees.length + 1" />
 			</div>
 
 			<div v-if="!hideButtons" class="invitees-list-button-group">
@@ -37,6 +37,10 @@
 			</div>
 		</div>
 
+		<div class="invitees-list__subtitle">
+			{{ statusHeader }}
+		</div>
+
 		<InviteesListSearch
 			v-if="!isReadOnly && hasUserEmailAddress"
 			:already-invited-emails="alreadyInvitedEmails"
@@ -60,9 +64,9 @@
 			:is-viewed-by-organizer="isViewedByOrganizer"
 			@remove-attendee="removeAttendee" />
 		<div
-			v-if="limit > 0 && inviteesWithoutOrganizer.length > limit"
+			v-if="limit > 0 && invitees.length > (limit - 1)"
 			class="invitees-list__more">
-			{{ n('calendar', '%n more guest', '%n more guests', inviteesWithoutOrganizer.length - limit) }}
+			{{ n('calendar', '%n more attendee', '%n more attendees', invitees.length + 1 - limit) }}
 		</div>
 		<OrganizerNoEmailError v-else-if="!isReadOnly && isListEmpty && !hasUserEmailAddress && !hideErrors" />
 	</div>
@@ -74,7 +78,7 @@ import {
 	showSuccess,
 	showWarning,
 } from '@nextcloud/dialogs'
-import { NcButton } from '@nextcloud/vue'
+import { NcButton, NcCounterBubble } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import AccountMultipleIcon from 'vue-material-design-icons/AccountMultipleOutline.vue'
 import FreeBusy from '../FreeBusy/FreeBusy.vue'
@@ -99,6 +103,7 @@ export default {
 		InviteesListSearch,
 		OrganizerListItem,
 		AccountMultipleIcon,
+		NcCounterBubble,
 	},
 
 	props: {
@@ -320,11 +325,12 @@ export default {
 				return ''
 			}
 
-			return this.t('calendar', '{invitedCount} invited, {confirmedCount} confirmed', {
-				invitedCount: this.inviteesWithoutOrganizer.length,
-				confirmedCount: this.inviteesWithoutOrganizer
+			return this.t('calendar', '{confirmedCount} confirmed, {waitingCount} awaiting response', {
+				confirmedCount: this.invitees
 					.filter((attendee) => attendee.participationStatus === 'ACCEPTED')
-					.length,
+					.length + 1, // +1 for organizer
+				waitingCount: this.invitees
+					.filter((attendee) => attendee.participationStatus === 'NEEDS-ACTION').length,
 			})
 		},
 
@@ -497,15 +503,28 @@ export default {
 
 		&__title {
 			display: flex;
-			gap: calc(var(--default-grid-baseline) * 4);
+			gap: calc(var(--default-grid-baseline) * 2);
 			font-size: calc(var(--default-font-size) * 1.2);
 			align-items: center;
+			font-weight: bold;
+
+			div {
+				box-sizing: border-box;
+			}
+
+			&__text {
+				margin-inline-start: calc(var(--default-grid-baseline) * 4);
+			}
 		}
 	}
 
+	&__subtitle {
+		color: var(--color-text-maxcontrast);
+		margin-inline-start: calc(var(--default-grid-baseline) * 11);
+	}
+
 	&__more {
-		padding: 15px 0 0 46px;
-		font-weight: bold;
+		padding: calc(var(--default-grid-baseline) * 4) 0 0 calc(var(--default-grid-baseline) * 11);
 		opacity: 0.75;
 	}
 
