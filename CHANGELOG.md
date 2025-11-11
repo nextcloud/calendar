@@ -1,3 +1,16 @@
+## [5.5.9](https://github.com/nextcloud/calendar/compare/v5.5.8...v5.5.9) (2025-11-11)
+
+
+### Bug Fixes
+
+* **attachements:** show confirmation dialog for all links ([ddef377](https://github.com/nextcloud/calendar/commit/ddef377699db74fee9a42c20855595e425695d87))
+* **l10n:** Update translations from Transifex ([f4fb0a6](https://github.com/nextcloud/calendar/commit/f4fb0a6a92888dd2120a632e200003b4175204d9))
+* **l10n:** Update translations from Transifex ([a36e096](https://github.com/nextcloud/calendar/commit/a36e096933c2db959cf6e247920f639a7ccac36c))
+* **l10n:** Update translations from Transifex ([2a29c0d](https://github.com/nextcloud/calendar/commit/2a29c0daade7d145b5c9f1b51f4eec8f84e42d6b))
+* **l10n:** Update translations from Transifex ([c7f6baa](https://github.com/nextcloud/calendar/commit/c7f6baa3da0d65570e28bfd0dc894135c5b7b988))
+
+
+
 ## [5.5.8](https://github.com/nextcloud/calendar/compare/v5.5.7...v5.5.8) (2025-11-04)
 
 
