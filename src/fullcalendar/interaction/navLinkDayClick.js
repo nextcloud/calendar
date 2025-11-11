@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { getYYYYMMDDFromDate } from '../../utils/date.js'
+import { errorCatch } from '../utils/errors.js'
 
 /**
  * Handles a click on a day-number in the calendar-grid
@@ -12,7 +13,7 @@ import { getYYYYMMDDFromDate } from '../../utils/date.js'
  * @return {function(Date): void}
  */
 export default function(router, route) {
-	return function(date) {
+	return errorCatch(function(date) {
 		const name = route.name
 		const params = {
 			...route.params,
@@ -26,5 +27,5 @@ export default function(router, route) {
 		}
 
 		router.push({ name, params })
-	}
+	}, 'navLinkDayClick')
 }

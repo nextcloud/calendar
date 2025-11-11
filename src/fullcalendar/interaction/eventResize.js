@@ -1,11 +1,12 @@
-import useCalendarObjectsStore from '../../store/calendarObjects.js'
-import useCalendarsStore from '../../store/calendars.js'
-import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import useCalendarObjectsStore from '../../store/calendarObjects.js'
+import useCalendarsStore from '../../store/calendars.js'
+import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
 import { getDurationValueFromFullCalendarDuration } from '../duration.js'
+import { errorCatchAsync } from '../utils/errors.js'
 
 /**
  * Returns a function to resize an event
@@ -16,7 +17,7 @@ export default function() {
 	const calendarsStore = useCalendarsStore()
 	const calendarObjectsStore = useCalendarObjectsStore()
 
-	return async function({ event, startDelta, endDelta, revert }) {
+	return errorCatchAsync(async function({ event, startDelta, endDelta, revert }) {
 		const startDeltaDuration = getDurationValueFromFullCalendarDuration(startDelta)
 		const endDeltaDuration = getDurationValueFromFullCalendarDuration(endDelta)
 
@@ -67,5 +68,5 @@ export default function() {
 			console.debug(error)
 			revert()
 		}
-	}
+	}, 'eventResize')
 }

@@ -2,6 +2,7 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { errorCatch } from '../utils/errors.js'
 
 /**
  * Figure out whether or not an event can be dropped at a certain place
@@ -13,10 +14,10 @@
  * @param {EventApi} draggedEvent The fullcalendar event object
  * @return {boolean}
  */
-export default function(dropInfo, draggedEvent) {
+export default errorCatch(function(dropInfo, draggedEvent) {
 	if (draggedEvent.extendedProps.canModifyAllDay) {
 		return true
 	}
 
 	return dropInfo.allDay === draggedEvent.allDay
-}
+}, 'eventAllow')

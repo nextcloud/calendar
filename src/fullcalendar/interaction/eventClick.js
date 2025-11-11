@@ -1,17 +1,18 @@
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 import { showInfo } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import useSettingsStore from '../../store/settings.js'
 import useWidgetStore from '../../store/widget.js'
-/**
- * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
- * SPDX-License-Identifier: AGPL-3.0-or-later
- */
 import {
 	getPrefixedRoute,
 	isPublicOrEmbeddedRoute,
 } from '../../utils/router.js'
+import { errorCatchAsync } from '../utils/errors.js'
 
 /**
  * Returns a function for click action on event. This will open the editor.
@@ -26,7 +27,7 @@ import {
  */
 export default function(router, route, window, isWidget = false, ref = undefined) {
 	const widgetStore = useWidgetStore()
-	return function({ event }) {
+	return errorCatchAsync(function({ event }) {
 		if (isWidget) {
 			widgetStore.setWidgetRef({ widgetRef: ref.fullCalendar.$el })
 		}
@@ -39,7 +40,7 @@ export default function(router, route, window, isWidget = false, ref = undefined
 				handleToDoClick(event, route, window, isWidget)
 				break
 		}
-	}
+	}, 'eventClick')
 }
 
 /**
