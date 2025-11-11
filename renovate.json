@@ -38,7 +38,8 @@
 			"description": "Request JavaScript reviews",
 			"matchManagers": ["npm"],
 			"reviewers": [
-				"st3iny"
+				"SebastianKrupinski",
+				"GVodyanov"
 			]
 		},
 		{
@@ -46,7 +47,7 @@
 			"matchManagers": ["composer"],
 			"reviewers": [
 				"SebastianKrupinski",
-				"st3iny"
+				"GVodyanov"
 			]
 		},
 		{
@@ -55,7 +56,7 @@
 			"extends": ["schedule:monthly"],
 			"reviewers": [
 				"SebastianKrupinski",
-				"st3iny"
+				"GVodyanov"
 			]
 		},
 		{
@@ -79,8 +80,8 @@
 				"3. to review"
 			],
 			"reviewers": [
-				"GretaD",
-				"st3iny"
+				"SebastianKrupinski",
+				"GVodyanov"
 			]
 		},
 		{

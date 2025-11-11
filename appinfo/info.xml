@@ -25,7 +25,7 @@
 	]]></description>
 	<version>6.1.0-dev.0</version>
 	<licence>agpl</licence>
-	<author homepage="https://github.com/st3iny">Richard Steinmetz</author>
+	<author homepage="https://github.com/GVodyanov">Grigory Vodyanov</author>
 	<author homepage="https://github.com/SebastianKrupinski">Sebastian Krupinski </author>
 	<author homepage="https://github.com/tcitworld">Thomas Citharel</author>
 	<namespace>Calendar</namespace>
