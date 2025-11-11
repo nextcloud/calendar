@@ -253,7 +253,6 @@ export default {
 			}
 
 			const baseUrl = new URL(getBaseUrl())
-			console.log(url.href, baseUrl.href)
 			if (url.href.startsWith(baseUrl.href)) {
 				this.showConfirmationDialog(
 					t('calendar', 'You are about to navigate to {link}. Are you sure to proceed?', { link: url.href }),
