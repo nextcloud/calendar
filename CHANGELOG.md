@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.7.20 - 2025-11-11
+### Fixed
+- attachments: show confirmation dialog for all links
+
 ## 4.7.19 - 2025-10-08
 ### Fixed
 - appointments: unify IDs
