@@ -1,3 +1,7 @@
+/**
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
 import { showWarning } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import getTimezoneManager from '../../services/timezoneDataProviderService.js'
@@ -7,11 +11,9 @@ import usePrincipalsStore from '../../store/principals.js'
 import { isOrganizer } from '../../utils/attendee.js'
 import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
 import logger from '../../utils/logger.js'
-/**
- * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
- * SPDX-License-Identifier: AGPL-3.0-or-later
- */
 import { getDurationValueFromFullCalendarDuration } from '../duration.js'
+import { errorCatchAsync } from '../utils/errors.js'
+
 /**
  * Returns a function to drop an event at a different position
  *
@@ -23,7 +25,7 @@ export default function(fcAPI) {
 	const calendarObjectsStore = useCalendarObjectsStore()
 	const principalsStore = usePrincipalsStore()
 
-	return async function({ event, delta, revert }) {
+	return errorCatchAsync(async function({ event, delta, revert }) {
 		const deltaDuration = getDurationValueFromFullCalendarDuration(delta)
 		const defaultAllDayDuration = getDurationValueFromFullCalendarDuration(fcAPI.getOption('defaultAllDayEventDuration'))
 		const defaultTimedDuration = getDurationValueFromFullCalendarDuration(fcAPI.getOption('defaultTimedEventDuration'))
@@ -106,5 +108,5 @@ export default function(fcAPI) {
 			console.debug(error)
 			revert()
 		}
-	}
+	}, 'eventDrop')
 }

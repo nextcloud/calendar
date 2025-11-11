@@ -2,6 +2,7 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { errorCatch } from '../utils/errors.js'
 
 /**
  * This sorts events by their start date and time and skips all-day events.
@@ -60,3 +61,5 @@ export function eventOrder(firstEvent, secondEvent) {
 
 	return 0
 }
+
+export default errorCatch(eventOrder, 'eventOrder')

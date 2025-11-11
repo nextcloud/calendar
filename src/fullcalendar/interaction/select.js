@@ -4,6 +4,7 @@
  */
 
 import useSettingsStore from '../../store/settings.js'
+import { errorCatch } from '../utils/errors.js'
 
 /**
  * Provides a function to select a time-range in the calendar-grid.
@@ -18,7 +19,7 @@ import useSettingsStore from '../../store/settings.js'
 export default function(router, route, window) {
 	const settingsStore = useSettingsStore()
 
-	return function({ start, end, allDay }) {
+	return errorCatch(function({ start, end, allDay }) {
 		let name = settingsStore.skipPopover
 			? 'NewFullView'
 			: 'NewPopoverView'
@@ -48,5 +49,5 @@ export default function(router, route, window) {
 		}
 
 		router.push({ name, params })
-	}
+	}, 'select')
 }
