@@ -318,12 +318,10 @@ OC.L10N.register(
     "Decline" : "Avslå",
     "Tentative" : "Foreløpig",
     "No attendees yet" : "Ingen deltakere enda",
-    "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} invitert, {confirmedCount} bekreftet",
     "Successfully appended link to talk room to location." : "Lenke til talk-rom til plassering er lagt til.",
     "Successfully appended link to talk room to description." : "La til lenke til Talk-rom til beskrivelsen.",
     "Error creating Talk room" : "Feil ved opprettelse av Talk-rom",
     "Attendees" : "Deltakere",
-    "_%n more guest_::_%n more guests_" : ["%n gjest til","%n flere gjester"],
     "Remove group" : "Fjern gruppe",
     "Remove attendee" : "Fjern deltaker",
     "Request reply" : "Be om svar",
@@ -560,6 +558,8 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Kopier primær CalDAV-adresse",
     "Personal availability settings" : "Personlig ledighets-innstillinger",
     "Show keyboard shortcuts" : "Vis tastatursnarveier",
+    "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} invitert, {confirmedCount} bekreftet",
+    "_%n more guest_::_%n more guests_" : ["%n gjest til","%n flere gjester"],
     "The visibility of this event in shared calendars." : "Synlighet for denne oppføringen i delte kalendere"
 },
 "nplurals=2; plural=(n != 1);");
