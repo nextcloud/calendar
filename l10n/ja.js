@@ -322,12 +322,10 @@ OC.L10N.register(
     "Decline" : "拒否",
     "Tentative" : "暫定的",
     "No attendees yet" : "出席者はまだいません",
-    "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} 招待済み, {confirmedCount} 確定",
     "Successfully appended link to talk room to location." : "トークルームへのリンクをロケーションに追加しました。",
     "Successfully appended link to talk room to description." : "通話ルームへのリンクを説明文に追加しました",
     "Error creating Talk room" : "通話ルームの作成に失敗しました",
     "Attendees" : "参加者",
-    "_%n more guest_::_%n more guests_" : ["ゲスト %n 名追加"],
     "Remove group" : "グループを削除",
     "Remove attendee" : "出席者を削除",
     "Request reply" : "返信をリクエストする",
@@ -566,6 +564,8 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "通常のCalDAVアドレスをコピー",
     "Personal availability settings" : "個人の稼働率設定",
     "Show keyboard shortcuts" : "キーボード ショートカット",
+    "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} 招待済み, {confirmedCount} 確定",
+    "_%n more guest_::_%n more guests_" : ["ゲスト %n 名追加"],
     "The visibility of this event in shared calendars." : "共有カレンダーでのこのイベントの表示。"
 },
 "nplurals=1; plural=0;");

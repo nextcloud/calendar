@@ -336,12 +336,10 @@ OC.L10N.register(
     "Decline" : "Hafna",
     "Tentative" : "Með fyrirvara",
     "No attendees yet" : "Engir þátttakendur ennþá",
-    "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} boðið, {confirmedCount} staðfestir",
     "Successfully appended link to talk room to location." : "Tókst að bæta tengli á spjallsvæði við staðsetningu.",
     "Successfully appended link to talk room to description." : "Tókst að bæta tengli á spjallsvæði við lýsingu.",
     "Error creating Talk room" : "Villa við að búa til spjallsvæði.",
     "Attendees" : "Þátttakendur",
-    "_%n more guest_::_%n more guests_" : ["%n gestur til viðbótar","%n gestir til viðbótar"],
     "Remove group" : "Fjarlægja hóp",
     "Remove attendee" : "Fjarlægja þátttakanda",
     "Request reply" : "Biðja um svar",
@@ -577,6 +575,8 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Afrita aðal-CalDAV-vistfang",
     "Personal availability settings" : "Persónulegar stillingar varðandi hvenær til taks",
     "Show keyboard shortcuts" : "Birta flýtivísanir á lyklaborði",
+    "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} boðið, {confirmedCount} staðfestir",
+    "_%n more guest_::_%n more guests_" : ["%n gestur til viðbótar","%n gestir til viðbótar"],
     "The visibility of this event in shared calendars." : "Sýnileiki þessa atburðar í sameiginlegum dagatölum"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

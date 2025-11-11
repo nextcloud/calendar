@@ -349,7 +349,6 @@ OC.L10N.register(
     "Decline" : "Kieltäydy",
     "Tentative" : "Alustava",
     "No attendees yet" : "Ei vielä osallistujia",
-    "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} kutsuttu, {confirmedCount} vahvistettu",
     "Successfully appended link to talk room to description." : "Linkki Talk-huoneeseen lisättiin onnistuneesti kuvaukseen.",
     "Error creating Talk room" : "Virhe luotaessa Talk-huonetta",
     "Attendees" : "Osallistujat",
@@ -625,6 +624,7 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Kopioi ensisijainen CalDAV-osoite",
     "Personal availability settings" : "Henkilökohtaiset saatavuusasetukset",
     "Show keyboard shortcuts" : "Näytä pikanäppäimet",
+    "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} kutsuttu, {confirmedCount} vahvistettu",
     "The visibility of this event in shared calendars." : "Tämän tapahtuman näkyvyys jaetuissa kalentereissa.",
     "View options" : "Näkymävalinnat",
     "Limit number of events shown in month view" : "Rajoita kuukausinäkymässä näytettävien tapahtumien määrää"

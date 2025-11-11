@@ -340,12 +340,10 @@ OC.L10N.register(
     "Decline" : "رفض",
     "Tentative" : "مؤقت",
     "No attendees yet" : "لا يوجد حضور حتى الآن",
-    "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} مدعو, {confirmedCount} مؤكد",
     "Successfully appended link to talk room to location." : "تمّ إلحاق رابط غرفة المحادثة بالموقع بنجاح.",
     "Successfully appended link to talk room to description." : "تمّ إلحاق الرابط بوصف غرفة المحادثة بنجاح.",
     "Error creating Talk room" : "خطأ في انشاء غرفة محادثة",
     "Attendees" : "المشاركون",
-    "_%n more guest_::_%n more guests_" : ["%n ضيفاً آخر","%n ضيفاً آخر","%n ضيفاً آخر","%n ضيوف آخرين","%n ضيفاً آخر","%n ضيفاً آخر"],
     "Remove group" : "حذف مجموعة",
     "Remove attendee" : "إلغاء شخص من قائمة الحضور",
     "Request reply" : "طلب الرّد",
@@ -597,6 +595,8 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "نسخ عنوان CalDAV الرئيسي",
     "Personal availability settings" : "إعدادات التواجد الشخصي",
     "Show keyboard shortcuts" : "إظهار اختصارات لوحة المفاتيح",
+    "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} مدعو, {confirmedCount} مؤكد",
+    "_%n more guest_::_%n more guests_" : ["%n ضيفاً آخر","%n ضيفاً آخر","%n ضيفاً آخر","%n ضيوف آخرين","%n ضيفاً آخر","%n ضيفاً آخر"],
     "The visibility of this event in shared calendars." : "ظهور الحدث في التقاويم المشتركة."
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");
