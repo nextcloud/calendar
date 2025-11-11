@@ -326,7 +326,6 @@ OC.L10N.register(
     "Decline" : "Afwijzen",
     "Tentative" : "Voorlopig",
     "No attendees yet" : "Nog geen deelnemers",
-    "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} uitgenodigd, {confirmedCount} bevestigd",
     "Successfully appended link to talk room to location." : "Succesvol de link naar de Talk ruimte aan de locatie toegevoegd.",
     "Successfully appended link to talk room to description." : "Met succes een link naar de gespreksruimte toegevoegd aan de beschrijving.",
     "Error creating Talk room" : "Fout tijdens aanmaken gespreksruimte",
@@ -566,6 +565,7 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Kopieer primair CalDAV adres",
     "Personal availability settings" : "Persoonlijke beschikbaarheidsinstellingen",
     "Show keyboard shortcuts" : "Toon sneltoetsen",
+    "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} uitgenodigd, {confirmedCount} bevestigd",
     "The visibility of this event in shared calendars." : "De zichtbaarheid van deze afspraak in gedeelde agenda's."
 },
 "nplurals=2; plural=(n != 1);");

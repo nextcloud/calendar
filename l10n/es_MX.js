@@ -322,12 +322,10 @@ OC.L10N.register(
     "Decline" : "Rechazar",
     "Tentative" : "Tentativo",
     "No attendees yet" : "Aún no hay asistentes",
-    "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} invitados, {confirmedCount} confirmados",
     "Successfully appended link to talk room to location." : "Se ha añadido correctamente el enlace a la sala de conversación a la ubicación.",
     "Successfully appended link to talk room to description." : "Se ha añadido correctamente el enlace a la sala de conversación a la descripción.",
     "Error creating Talk room" : "Error al crear la sala de Talk",
     "Attendees" : "Asistentes",
-    "_%n more guest_::_%n more guests_" : ["%n invitado más","%n más invitados","%n más invitados"],
     "Remove group" : "Eliminar grupo",
     "Remove attendee" : "Eliminar asistente",
     "Request reply" : "Solicitar respuesta",
@@ -560,6 +558,8 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Copiar la dirección CalDAV principal",
     "Personal availability settings" : "Configuración de disponibilidad personal",
     "Show keyboard shortcuts" : "Mostrar atajos de teclado",
+    "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} invitados, {confirmedCount} confirmados",
+    "_%n more guest_::_%n more guests_" : ["%n invitado más","%n más invitados","%n más invitados"],
     "The visibility of this event in shared calendars." : "La visibilidad de este evento en calendarios compartidos."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

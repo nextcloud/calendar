@@ -214,7 +214,6 @@ OC.L10N.register(
     "No attendees yet" : "Nun hai nengún asistente",
     "Error creating Talk room" : "Hebo un error al crear la sala de Talk",
     "Attendees" : "Asistentes",
-    "_%n more guest_::_%n more guests_" : ["%n convidáu más","%n convidaos más"],
     "Remove group" : "Quitar el grupu",
     "_%n member_::_%n members_" : ["%n miembru","%n miembros"],
     "No match found" : "Nun s'atopó nenguna coincidencia",
@@ -299,6 +298,7 @@ OC.L10N.register(
     "Show week numbers" : "Amosar los númberos de selmana",
     "Copy primary CalDAV address" : "Copiar la direición CalDAV primaria",
     "Personal availability settings" : "Configuración de la disponibilidá personal",
-    "Show keyboard shortcuts" : "Amosar los atayos del tecáu"
+    "Show keyboard shortcuts" : "Amosar los atayos del tecáu",
+    "_%n more guest_::_%n more guests_" : ["%n convidáu más","%n convidaos más"]
 },
 "nplurals=2; plural=(n != 1);");
