@@ -69,7 +69,7 @@
     "color-string": "^2.1.2",
     "core-js": "^3.46.0",
     "css-color-names": "^1.0.1",
-    "debounce": "^2.2.0",
+    "debounce": "^3.0.0",
     "linkifyjs": "^4.3.2",
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
