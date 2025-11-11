@@ -86,12 +86,12 @@ import OrganizerNoEmailError from '../OrganizerNoEmailError.vue'
 import InviteesListItem from './InviteesListItem.vue'
 import InviteesListSearch from './InviteesListSearch.vue'
 import OrganizerListItem from './OrganizerListItem.vue'
-import { createTalkRoom, doesContainTalkLink } from '../../../services/talkService.js'
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
 import useCalendarsStore from '../../../store/calendars.js'
 import usePrincipalsStore from '../../../store/principals.js'
 import useSettingsStore from '../../../store/settings.js'
 import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
+import { containsRoomUrl } from '@/services/talkService'
 
 export default {
 	name: 'InviteesList',
@@ -305,14 +305,7 @@ export default {
 				return true
 			}
 
-			if (doesContainTalkLink(this.calendarObjectInstance.location)) {
-				return true
-			}
-			if (doesContainTalkLink(this.calendarObjectInstance.description)) {
-				return true
-			}
-
-			return false
+			return containsRoomUrl(this.calendarObjectInstance.location) || containsRoomUrl(this.calendarObjectInstance.description)
 		},
 
 		isViewedByOrganizer() {
@@ -452,43 +445,6 @@ export default {
 		saveNewDate(dates) {
 			this.$emit('update-dates', dates)
 			this.showFreeBusyModel = false
-		},
-
-		async createTalkRoom() {
-			const NEW_LINE = '\r\n'
-			try {
-				this.creatingTalkRoom = true
-				const url = await createTalkRoom(
-					this.calendarObjectInstance.title,
-					this.calendarObjectInstance.description,
-				)
-
-				// Store in LOCATION property if it's missing/empty. Append to description otherwise.
-				if ((this.calendarObjectInstance.location ?? '').trim() === '') {
-					this.calendarObjectInstanceStore.changeLocation({
-						calendarObjectInstance: this.calendarObjectInstance,
-						location: url,
-					})
-					showSuccess(this.$t('calendar', 'Successfully appended link to talk room to location.'))
-				} else {
-					if (!this.calendarObjectInstance.description) {
-						this.calendarObjectInstanceStore.changeDescription({
-							calendarObjectInstance: this.calendarObjectInstance,
-							description: url,
-						})
-					} else {
-						this.calendarObjectInstanceStore.changeDescription({
-							calendarObjectInstance: this.calendarObjectInstance,
-							description: this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + url + NEW_LINE,
-						})
-					}
-					showSuccess(this.$t('calendar', 'Successfully appended link to talk room to description.'))
-				}
-			} catch (error) {
-				showError(this.$t('calendar', 'Error creating Talk room'))
-			} finally {
-				this.creatingTalkRoom = false
-			}
 		},
 	},
 }
