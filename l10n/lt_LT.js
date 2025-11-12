@@ -247,8 +247,6 @@ OC.L10N.register(
     "Decline" : "Atmesti",
     "Tentative" : "Preliminarus",
     "No attendees yet" : "Kol kas kviestinių nėra",
-    "Successfully appended link to talk room to description." : "Pokalbių kambario nuoroda sėkmingai pridėta į aprašą.",
-    "Error creating Talk room" : "Klaida sukuriant pokalbių kambarį",
     "Attendees" : "Kviestiniai",
     "Remove group" : "Šalinti grupę",
     "Remove attendee" : "Šalinti kviestinį",
@@ -449,6 +447,8 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Kopijuoti pirminį CalDAV adresą",
     "Personal availability settings" : "Asmeninio pasiekiamumo nustatymai",
     "Show keyboard shortcuts" : "Rodyti sparčiuosius klavišus",
+    "Successfully appended link to talk room to description." : "Pokalbių kambario nuoroda sėkmingai pridėta į aprašą.",
+    "Error creating Talk room" : "Klaida sukuriant pokalbių kambarį",
     "The visibility of this event in shared calendars." : "Šio įvykio matomumas bendrinamuose kalendoriuose."
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -309,8 +309,6 @@ OC.L10N.register(
     "Decline" : "Zavrni",
     "Tentative" : "V usklajevanju",
     "No attendees yet" : "Ni še vpisanih udeležencev",
-    "Successfully appended link to talk room to description." : "Povezava do sobe Talk je uspešno dodana v opis.",
-    "Error creating Talk room" : "Prišlo je do napake med ustvarjanjem klepetalnice Talk",
     "Attendees" : "Udeleženci",
     "Remove group" : "Odstrani skupino",
     "Remove attendee" : "Odstrani udeleženca",
@@ -537,6 +535,8 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Kopiraj osnovni naslov CalDAV",
     "Personal availability settings" : "Nastavitve osebne dejavnosti",
     "Show keyboard shortcuts" : "Pokaži tipkovne bližnjice",
+    "Successfully appended link to talk room to description." : "Povezava do sobe Talk je uspešno dodana v opis.",
+    "Error creating Talk room" : "Prišlo je do napake med ustvarjanjem klepetalnice Talk",
     "The visibility of this event in shared calendars." : "Vidnost tega dogodka v koledarjih v souporabi."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

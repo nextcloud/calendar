@@ -282,7 +282,6 @@ OC.L10N.register(
     "Decline" : "Noraidīt",
     "Tentative" : "Mēģinājums",
     "No attendees yet" : "Vēl nav dalībnieku",
-    "Error creating Talk room" : "Notika kļūda, veidojot tērzēšanas istabu",
     "Attendees" : "Dalībnieki",
     "Remove group" : "Noņemt grupu",
     "Remove attendee" : "Noņemt dalībnieku",
@@ -471,6 +470,7 @@ OC.L10N.register(
     "Personal availability settings" : "Personiskās pieejamības iestatījumi",
     "Show keyboard shortcuts" : "Rādīt tastatūras saīsnes taustiņus",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} uzaicināti, {confirmedCount} apstiprinājuši",
+    "Error creating Talk room" : "Notika kļūda, veidojot tērzēšanas istabu",
     "The visibility of this event in shared calendars." : "Šī notikuma redzamība koplietotos kalendāros."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

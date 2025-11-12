@@ -220,8 +220,6 @@ OC.L10N.register(
     "Decline" : "דחייה",
     "Tentative" : "טנטטיבית",
     "No attendees yet" : "עדיין אין משתתפים",
-    "Successfully appended link to talk room to description." : "הקישור צורף ל\"חדר השיחות\" לתיאור בהצלחה.",
-    "Error creating Talk room" : "שגיאה ביצירת \"חדר השיחות\"",
     "Attendees" : "משתתפים",
     "Remove group" : "הסרת קבוצה",
     "Remove attendee" : "הסר את המשתתף",
@@ -379,6 +377,8 @@ OC.L10N.register(
     "Show week numbers" : "הצגת מספרי שבועות",
     "Copy primary CalDAV address" : "העתקת כתובת CalDAV עיקרית",
     "Show keyboard shortcuts" : "הצגת קיצורי מקלדת",
+    "Successfully appended link to talk room to description." : "הקישור צורף ל\"חדר השיחות\" לתיאור בהצלחה.",
+    "Error creating Talk room" : "שגיאה ביצירת \"חדר השיחות\"",
     "The visibility of this event in shared calendars." : "הנראות של אירוע זה בלוחות שנה משותפים."
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

@@ -103,6 +103,7 @@
     "Upload from device" : "Запампаваць з прылады",
     "Delete file" : "Выдаліць файл",
     "Confirmation" : "Пацвярджэнне",
+    "_{count} attachment_::_{count} attachments_" : ["{count} далучэнне","{count} далучэнні","{count} далучэнняў","{count} далучэнняў"],
     "Accepted {organizerName}'s invitation" : "Прынята запрашэнне {organizerName}",
     "Declined {organizerName}'s invitation" : "Адхілена запрашэнне {organizerName}",
     "{organizer} (organizer)" : "{organizer} (арганізатар)",
@@ -116,7 +117,6 @@
     "Accept" : "Прыняць",
     "Decline" : "Адхіліць",
     "No attendees yet" : "Пакуль няма ўдзельнікаў",
-    "Successfully appended link to talk room to description." : "Спасылка на пакой у Talk паспяхова дададзена ў апісанне.",
     "Attendees" : "Удзельнікі",
     "Remove group" : "Выдаліць групу",
     "Remove attendee" : "Выдаліць удзельніка",
@@ -185,6 +185,7 @@
     "Enable birthday calendar" : "Уключыць каляндар дзён нараджэння",
     "Show tasks in calendar" : "Паказаць заданні ў календары",
     "Show weekends" : "Паказваць уік-энды",
-    "Show keyboard shortcuts" : "Паказаць спалучэнні клавіш"
+    "Show keyboard shortcuts" : "Паказаць спалучэнні клавіш",
+    "Successfully appended link to talk room to description." : "Спасылка на пакой у Talk паспяхова дададзена ў апісанне."
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

@@ -291,9 +291,6 @@ OC.L10N.register(
     "Decline" : "کاهش می یابد",
     "Tentative" : "آزمایشی",
     "No attendees yet" : "هنوز هیچ حضوری وجود ندارد",
-    "Successfully appended link to talk room to location." : "Successfully appended link to talk room to location.",
-    "Successfully appended link to talk room to description." : "پیوند موفقیت آمیز پیوند به اتاق گفتگو به توضیحات.",
-    "Error creating Talk room" : "خطا در ایجاد اتاق گفتگو",
     "Attendees" : "شرکت کنندگان",
     "Remove group" : "برداشتن گروه",
     "Remove attendee" : "شرکت کننده را حذف کنید",
@@ -514,6 +511,9 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "آدرس اصلی CalDAV را کپی کنید",
     "Personal availability settings" : "Personal availability settings",
     "Show keyboard shortcuts" : "Show keyboard shortcuts",
+    "Successfully appended link to talk room to location." : "Successfully appended link to talk room to location.",
+    "Successfully appended link to talk room to description." : "پیوند موفقیت آمیز پیوند به اتاق گفتگو به توضیحات.",
+    "Error creating Talk room" : "خطا در ایجاد اتاق گفتگو",
     "The visibility of this event in shared calendars." : "قابلیت مشاهده این رویداد در تقویمهای مشترک."
 },
 "nplurals=2; plural=(n > 1);");

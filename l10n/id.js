@@ -217,8 +217,6 @@ OC.L10N.register(
     "Decline" : "Tolak",
     "Tentative" : "Tentatif",
     "No attendees yet" : "Belum ada peserta",
-    "Successfully appended link to talk room to description." : "Berhasil menambahkan tautan ruang Talk pada deskripsi.",
-    "Error creating Talk room" : "Galat membuat ruangan Talk",
     "Attendees" : "Peserta",
     "Remove group" : "Hapus grup",
     "Remove attendee" : "Hapus peserta",
@@ -350,6 +348,8 @@ OC.L10N.register(
     "Show week numbers" : "Tampilkan nomor pekan",
     "Copy primary CalDAV address" : "Salin alamat utama CalDAV",
     "Show keyboard shortcuts" : "Tampilkan pintasan papan kunci",
+    "Successfully appended link to talk room to description." : "Berhasil menambahkan tautan ruang Talk pada deskripsi.",
+    "Error creating Talk room" : "Galat membuat ruangan Talk",
     "The visibility of this event in shared calendars." : "Visibilitas acara ini di kalender yang dibagikan."
 },
 "nplurals=1; plural=0;");

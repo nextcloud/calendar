@@ -307,9 +307,6 @@
     "Decline" : "رەت قىلىش",
     "Tentative" : "Tentative",
     "No attendees yet" : "ھازىرغىچە قاتناشقۇچىلار يوق",
-    "Successfully appended link to talk room to location." : "مۇۋەپپەقىيەتلىك ھالدا پاراڭلىشىش ئۆيىگە ئۇلىنىش قوشۇلدى.",
-    "Successfully appended link to talk room to description." : "مۇۋەپپەقىيەتلىك ھالدا سۆزلىشىش ئۆيىگە ئۇلىنىش قوشۇلدى.",
-    "Error creating Talk room" : "سۆھبەت ئۆيى قۇرۇشتا خاتالىق",
     "Attendees" : "قاتناشقۇچىلار",
     "Remove group" : "گۇرۇپپىنى ئۆچۈرۈڭ",
     "Remove attendee" : "قاتناشقۇچىلارنى ئېلىۋېتىڭ",
@@ -529,6 +526,9 @@
     "Personal availability settings" : "شەخسىي ئىشلىتىش تەڭشىكى",
     "Show keyboard shortcuts" : "كۇنۇپكا تاختىسىنىڭ تېزلەتمىسىنى كۆرسەت",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} قىلىنغان سان} تەكلىپ قىلىنغان ، {confirmedCount} سان} جەزملەشتۈرۈلگەن",
+    "Successfully appended link to talk room to location." : "مۇۋەپپەقىيەتلىك ھالدا پاراڭلىشىش ئۆيىگە ئۇلىنىش قوشۇلدى.",
+    "Successfully appended link to talk room to description." : "مۇۋەپپەقىيەتلىك ھالدا سۆزلىشىش ئۆيىگە ئۇلىنىش قوشۇلدى.",
+    "Error creating Talk room" : "سۆھبەت ئۆيى قۇرۇشتا خاتالىق",
     "The visibility of this event in shared calendars." : "ئورتاق كالېنداردا بۇ پائالىيەتنىڭ كۆرۈنۈشچانلىقى."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
