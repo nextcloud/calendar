@@ -284,9 +284,6 @@ OC.L10N.register(
     "Decline" : "Refuză",
     "Tentative" : "Tentativă",
     "No attendees yet" : "Nu exista participați încă",
-    "Successfully appended link to talk room to location." : "S-a adăugat cu succes locației linkul la camera Talk.",
-    "Successfully appended link to talk room to description." : "S-a adăugat cu succes descrierii linkul la camera Talk.",
-    "Error creating Talk room" : "Camera Talk nu a putut fi creată",
     "Attendees" : "Participanți",
     "Remove group" : "Înlătură grupul",
     "Remove attendee" : "Elimină participant",
@@ -506,6 +503,9 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Copiază adresa primară CalDAV",
     "Personal availability settings" : "Setări de disponibilitate",
     "Show keyboard shortcuts" : "Arată scurtături",
+    "Successfully appended link to talk room to location." : "S-a adăugat cu succes locației linkul la camera Talk.",
+    "Successfully appended link to talk room to description." : "S-a adăugat cu succes descrierii linkul la camera Talk.",
+    "Error creating Talk room" : "Camera Talk nu a putut fi creată",
     "The visibility of this event in shared calendars." : "Vizibilitatea acestui eveniment în calendarele partajate."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

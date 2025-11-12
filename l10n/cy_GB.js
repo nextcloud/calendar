@@ -227,8 +227,6 @@ OC.L10N.register(
     "Decline" : "Gwrthod",
     "Tentative" : "I'w gadarnhau",
     "No attendees yet" : "Dim mynychwyr eto",
-    "Successfully appended link to talk room to description." : "Llwyddwyd i atodi dolen i'r ystafell siarad i'r disgrifiad.",
-    "Error creating Talk room" : "Gwall wrth greu ystafell Siarad",
     "Attendees" : "Mynychwyr",
     "Remove attendee" : "Dileu mynychwr",
     "Chairperson" : "Cadeirydd",
@@ -421,6 +419,8 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Copïo prig gyfeiriad CalDAV",
     "Personal availability settings" : "Gosodiadau argaeledd personol",
     "Show keyboard shortcuts" : "Dangos llwybrau byr bysellfwrdd",
+    "Successfully appended link to talk room to description." : "Llwyddwyd i atodi dolen i'r ystafell siarad i'r disgrifiad.",
+    "Error creating Talk room" : "Gwall wrth greu ystafell Siarad",
     "The visibility of this event in shared calendars." : "Gwelededd y digwyddiad hwn mewn calendrau a rennir."
 },
 "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;");
