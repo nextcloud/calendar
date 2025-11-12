@@ -326,9 +326,6 @@ OC.L10N.register(
     "Decline" : "Afwijzen",
     "Tentative" : "Voorlopig",
     "No attendees yet" : "Nog geen deelnemers",
-    "Successfully appended link to talk room to location." : "Succesvol de link naar de Talk ruimte aan de locatie toegevoegd.",
-    "Successfully appended link to talk room to description." : "Met succes een link naar de gespreksruimte toegevoegd aan de beschrijving.",
-    "Error creating Talk room" : "Fout tijdens aanmaken gespreksruimte",
     "Attendees" : "Deelnemers",
     "Remove group" : "Groep verwijderen",
     "Remove attendee" : "Verwijder genodigde",
@@ -566,6 +563,9 @@ OC.L10N.register(
     "Personal availability settings" : "Persoonlijke beschikbaarheidsinstellingen",
     "Show keyboard shortcuts" : "Toon sneltoetsen",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} uitgenodigd, {confirmedCount} bevestigd",
+    "Successfully appended link to talk room to location." : "Succesvol de link naar de Talk ruimte aan de locatie toegevoegd.",
+    "Successfully appended link to talk room to description." : "Met succes een link naar de gespreksruimte toegevoegd aan de beschrijving.",
+    "Error creating Talk room" : "Fout tijdens aanmaken gespreksruimte",
     "The visibility of this event in shared calendars." : "De zichtbaarheid van deze afspraak in gedeelde agenda's."
 },
 "nplurals=2; plural=(n != 1);");

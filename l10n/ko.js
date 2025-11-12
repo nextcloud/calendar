@@ -301,9 +301,6 @@ OC.L10N.register(
     "Decline" : "거절",
     "Tentative" : "예정됨",
     "No attendees yet" : "아직 참석자가 없습니다.",
-    "Successfully appended link to talk room to location." : "위치에 대화방 링크를 성공적으로 추가함",
-    "Successfully appended link to talk room to description." : "설명에 대화방 링크를 성공적으로 추가함",
-    "Error creating Talk room" : "대화방 생성 오류",
     "Attendees" : "참석자",
     "Remove group" : "그룹 지우기",
     "Remove attendee" : "참석자 삭제",
@@ -524,6 +521,9 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "주 CalDAV 주소 복사하기",
     "Personal availability settings" : "개인별 시간 조율 설정",
     "Show keyboard shortcuts" : "키보드 단축키 표시",
+    "Successfully appended link to talk room to location." : "위치에 대화방 링크를 성공적으로 추가함",
+    "Successfully appended link to talk room to description." : "설명에 대화방 링크를 성공적으로 추가함",
+    "Error creating Talk room" : "대화방 생성 오류",
     "The visibility of this event in shared calendars." : "공유 달력에서 이 일정의 표시 여부"
 },
 "nplurals=1; plural=0;");

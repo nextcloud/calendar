@@ -290,9 +290,6 @@ OC.L10N.register(
     "Decline" : "Decline",
     "Tentative" : "Tentative",
     "No attendees yet" : "No attendees yet",
-    "Successfully appended link to talk room to location." : "Successfully appended link to talk room to location.",
-    "Successfully appended link to talk room to description." : "Successfully appended link to talk room to description.",
-    "Error creating Talk room" : "Error creating Talk room",
     "Attendees" : "Attendees",
     "Remove group" : "Remove group",
     "Remove attendee" : "Remove attendee",
@@ -519,6 +516,9 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Copy primary CalDAV address",
     "Personal availability settings" : "Personal availability settings",
     "Show keyboard shortcuts" : "Show keyboard shortcuts",
+    "Successfully appended link to talk room to location." : "Successfully appended link to talk room to location.",
+    "Successfully appended link to talk room to description." : "Successfully appended link to talk room to description.",
+    "Error creating Talk room" : "Error creating Talk room",
     "The visibility of this event in shared calendars." : "The visibility of this event in shared calendars."
 },
 "nplurals=2; plural=(n!=1);");

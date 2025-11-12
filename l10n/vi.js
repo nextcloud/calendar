@@ -246,8 +246,6 @@ OC.L10N.register(
     "Decline" : "Từ chối",
     "Tentative" : "Chưa chắc chắn",
     "No attendees yet" : "Chưa có giờ tham gia",
-    "Successfully appended link to talk room to description." : "Liên kết đã được thêm thành công vào mô tả trong phòng trò chuyện ",
-    "Error creating Talk room" : "Có lõi xảy ra khi tạo phòng Trò chuyện",
     "Attendees" : "Người tham gia",
     "Remove group" : "Xóa nhóm",
     "Remove attendee" : "Gỡ bỏ người tham gia",
@@ -449,6 +447,8 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Sao chép địa chỉ CalDAV chính",
     "Personal availability settings" : "Thiết lập lịch trống cá nhân",
     "Show keyboard shortcuts" : "Hiển thị các phím tắt",
+    "Successfully appended link to talk room to description." : "Liên kết đã được thêm thành công vào mô tả trong phòng trò chuyện ",
+    "Error creating Talk room" : "Có lõi xảy ra khi tạo phòng Trò chuyện",
     "The visibility of this event in shared calendars." : "Khả năng nhìn thấy của sự kiện này trong các lịch được chia sẻ"
 },
 "nplurals=1; plural=0;");

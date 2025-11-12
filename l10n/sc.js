@@ -185,8 +185,6 @@ OC.L10N.register(
     "Decline" : "Refuda",
     "Tentative" : "Intentu",
     "No attendees yet" : "Ancora peruna persone pro partetzipare",
-    "Successfully appended link to talk room to description." : "Ligòngiu apicadu in manera curreta in sa descritzione de s'aposentu de cunversatzione",
-    "Error creating Talk room" : "Errore in sa creatzione de s'aposentu Talk",
     "Attendees" : "Partetzipantes",
     "Remove group" : "Boga·nche grupu",
     "Remove attendee" : "Boga•nche partetzipante",
@@ -359,6 +357,8 @@ OC.L10N.register(
     "Time increments" : "Crèschidas de tempus",
     "Copy primary CalDAV address" : "Còpia s'indiritzu CalDAV printzipale",
     "Show keyboard shortcuts" : "Mustra curtziadòrgios de tecladu",
+    "Successfully appended link to talk room to description." : "Ligòngiu apicadu in manera curreta in sa descritzione de s'aposentu de cunversatzione",
+    "Error creating Talk room" : "Errore in sa creatzione de s'aposentu Talk",
     "The visibility of this event in shared calendars." : "Sa visibilidade de custu eventu in is calendàrios cumpartzidos"
 },
 "nplurals=2; plural=(n != 1);");

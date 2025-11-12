@@ -212,7 +212,6 @@ OC.L10N.register(
     "Decline" : "Refugar",
     "Tentative" : "Provisional",
     "No attendees yet" : "Nun hai nengún asistente",
-    "Error creating Talk room" : "Hebo un error al crear la sala de Talk",
     "Attendees" : "Asistentes",
     "Remove group" : "Quitar el grupu",
     "_%n member_::_%n members_" : ["%n miembru","%n miembros"],
@@ -299,6 +298,7 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Copiar la direición CalDAV primaria",
     "Personal availability settings" : "Configuración de la disponibilidá personal",
     "Show keyboard shortcuts" : "Amosar los atayos del tecáu",
+    "Error creating Talk room" : "Hebo un error al crear la sala de Talk",
     "_%n more guest_::_%n more guests_" : ["%n convidáu más","%n convidaos más"]
 },
 "nplurals=2; plural=(n != 1);");
