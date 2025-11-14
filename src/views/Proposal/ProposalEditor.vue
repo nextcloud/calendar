@@ -61,7 +61,7 @@
 				</div>
 			</div>
 			<!-- Show proposal editor -->
-			<div v-if="modalMode === 'create' || modalMode === 'modify'" class="proposal-editor__content">
+			<div v-if="(modalMode === 'create' || modalMode === 'modify') && selectedProposal" class="proposal-editor__content">
 				<div class="proposal-editor__column-left">
 					<!-- Row 1: Title -->
 					<div class="proposal-editor__row-title">
@@ -92,62 +92,15 @@
 								{{ t('calendar', 'Add Talk conversation') }}
 							</NcCheckboxRadioSwitch>
 						</div>
-						<div class="proposal-editor__proposal-duration-container">
-							<NcTextField
-								v-model="selectedProposal.duration"
-								class="proposal-editor__proposal-duration"
-								:label="t('calendar', 'Duration')"
-								type="number"
-								min="1"
-								step="1"
-								@input="onProposalDurationChange($event)" />
-							<div class="proposal-editor__proposal-duration-helpers">
-								<NcCheckboxRadioSwitch
-									type="radio"
-									class="proposal-editor__proposal-duration-helper"
-									:button-variant="true"
-									button-variant-grouped="horizontal"
-									name="duration-helper"
-									value="15"
-									:model-value="String(selectedProposal.duration)"
-									@update:modelValue="changeDuration(15)">
-									{{ t('calendar', '15 min') }}
-								</NcCheckboxRadioSwitch>
-								<NcCheckboxRadioSwitch
-									type="radio"
-									class="proposal-editor__proposal-duration-helper"
-									:button-variant="true"
-									button-variant-grouped="horizontal"
-									name="duration-helper"
-									value="30"
-									:model-value="String(selectedProposal.duration)"
-									@update:modelValue="changeDuration(30)">
-									{{ t('calendar', '30 min') }}
-								</NcCheckboxRadioSwitch>
-								<NcCheckboxRadioSwitch
-									type="radio"
-									class="proposal-editor__proposal-duration-helper"
-									:button-variant="true"
-									button-variant-grouped="horizontal"
-									name="duration-helper"
-									value="60"
-									:model-value="String(selectedProposal.duration)"
-									@update:modelValue="changeDuration(60)">
-									{{ t('calendar', '60 min') }}
-								</NcCheckboxRadioSwitch>
-								<NcCheckboxRadioSwitch
-									type="radio"
-									class="proposal-editor__proposal-duration-helper"
-									:button-variant="true"
-									button-variant-grouped="horizontal"
-									name="duration-helper"
-									value="90"
-									:model-value="String(selectedProposal.duration)"
-									@update:modelValue="changeDuration(90)">
-									{{ t('calendar', '90 min') }}
-								</NcCheckboxRadioSwitch>
-							</div>
-						</div>
+						<DurationSelector
+							:model-value="selectedProposal.duration"
+							:label="t('calendar', 'Duration')"
+							:label-outside="true"
+							:predefined-options="durationOptions"
+							:show-custom="true"
+							:show-days="false"
+							:minute-step="5"
+							@update:modelValue="changeDuration" />
 						<InviteesListSearch
 							class="proposal-editor__proposal-participants-selector"
 							:already-invited-emails="existingParticipantAddressess"
@@ -263,6 +216,7 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwit
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
+import DurationSelector from '@/components/Editor/DurationSelector.vue'
 import InviteesListSearch from '@/components/Editor/Invitees/InviteesListSearch.vue'
 import ProposalDateItem from '@/components/Proposal/ProposalDateItem.vue'
 import ProposalParticipantItem from '@/components/Proposal/ProposalParticipantItem.vue'
@@ -305,6 +259,7 @@ export default {
 		NcTextArea,
 		FullCalendar,
 		InviteesListSearch,
+		DurationSelector,
 		ProposalParticipantItem,
 		ProposalDateItem,
 		ProposalResponseMatrix,
@@ -403,6 +358,18 @@ export default {
 			} else {
 				return false
 			}
+		},
+
+		durationOptions() {
+			return [
+				{ value: 15, label: t('calendar', '15 minutes') },
+				{ value: 30, label: t('calendar', '30 minutes') },
+				{ value: 45, label: t('calendar', '45 minutes') },
+				{ value: 60, label: t('calendar', '1 hour') },
+				{ value: 90, label: t('calendar', '1 hour 30 minutes') },
+				{ value: 120, label: t('calendar', '2 hours') },
+				{ value: 180, label: t('calendar', '3 hours') },
+			]
 		},
 
 		/**
@@ -629,12 +596,6 @@ export default {
 				showError(t('calendar', 'Failed to create a meeting for {date}', { date: dateString }))
 				console.error('Failed to create a meeting:', error)
 			}
-		},
-
-		onProposalDurationChange(event: Event) {
-			const value = (event.target as HTMLInputElement).value
-			const duration = parseInt(value, 10)
-			this.changeDuration(duration)
 		},
 
 		onProposalLocationTypeToggle(): void {
@@ -1117,6 +1078,10 @@ export default {
 	overflow-y: auto;
 	margin-bottom: calc(var(--default-grid-baseline) * 2);
 	min-height: 0;
+
+	> * {
+		flex-shrink: 0;
+	}
 }
 
 .proposal-editor__row-actions {
@@ -1168,46 +1133,6 @@ export default {
 
 .proposal-editor__proposal-location {
 	flex: 1;
-}
-
-.proposal-editor__proposal-duration-container {
-	display: flex;
-	align-items: center;
-	gap: calc(var(--default-grid-baseline) * 2);
-}
-
-.proposal-editor__proposal-duration {
-	flex: 1;
-}
-
-.proposal-editor__proposal-duration-helpers {
-	display: flex;
-	gap: 0;
-
-	// Deep CSS to remove default borders from radio switches and match secondary button styling
-	:deep(.checkbox-radio-switch) {
-		border: none !important;
-
-		// Match NcButton secondary variant colors
-		.checkbox-radio-switch__content {
-			background-color: var(--color-background-hover);
-			color: var(--color-text-primary);
-
-			&:hover {
-				background-color: var(--color-primary-element-light);
-			}
-		}
-
-		// Selected state styling
-		&.checkbox-radio-switch--checked .checkbox-radio-switch__content {
-			background-color: var(--color-primary-element);
-			color: var(--color-primary-element-text);
-
-			&:hover {
-				background-color: var(--color-primary-element-hover);
-			}
-		}
-	}
 }
 
 :deep([class*="participant-busy-"]) {
