@@ -84,23 +84,29 @@
 								</template>
 								{{ $t('calendar', 'Duplicate') }}
 							</ActionButton>
-							<ActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave(false)">
+							<ActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave('single')">
 								<template #icon>
 									<Delete :size="20" decorative />
 								</template>
 								{{ $t('calendar', 'Delete') }}
 							</ActionButton>
-							<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(false)">
+							<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave('single')">
 								<template #icon>
 									<Delete :size="20" decorative />
 								</template>
 								{{ $t('calendar', 'Delete this occurrence') }}
 							</ActionButton>
-							<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(true)">
+							<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave('future')">
 								<template #icon>
 									<Delete :size="20" decorative />
 								</template>
-								{{ $t('calendar', 'Delete this and all future') }}
+								{{ $t('calendar', 'Delete this and future occurrences') }}
+							</ActionButton>
+							<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave('all')">
+								<template #icon>
+									<Delete :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Delete all occurrences') }}
 							</ActionButton>
 						</Actions>
 						<Actions>
@@ -199,8 +205,9 @@
 						:show-more-button="true"
 						:more-button-type="isViewing ? 'tertiary' : undefined"
 						:disabled="isSaving"
-						@save-this-only="saveAndView(false)"
-						@save-this-and-all-future="saveAndView(true)"
+						@save-this-only="saveAndView('single')"
+						@save-this-and-all-future="saveAndView('future')"
+						@save-series="saveAndView('all')"
 						@show-more="showMore">
 						<NcButton
 							v-if="!isReadOnly && isViewing"
@@ -498,13 +505,13 @@ export default {
 		 * Save changes and leave when creating a new event or return to viewing mode when editing
 		 * an existing event. Stay in editing mode if an error occurrs.
 		 *
-		 * @param {boolean} thisAndAllFuture Modify this and all future events
+		 * @param {string} mode Modification mode: 'all', 'future', or 'single'
 		 * @return {Promise<void>}
 		 */
-		async saveAndView(thisAndAllFuture) {
+		async saveAndView(mode) {
 			// Transitioning from new to edit routes is not implemented for now
 			if (this.isNew) {
-				await this.saveAndLeave(thisAndAllFuture)
+				await this.saveAndLeave(mode)
 				return
 			}
 

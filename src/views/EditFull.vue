@@ -54,8 +54,10 @@
 							:is-new="isNew"
 							:is-read-only="isReadOnly"
 							:force-this-and-all-future="forceThisAndAllFuture"
-							@save-this-only="prepareAccessForAttachments(false)"
-							@save-this-and-all-future="prepareAccessForAttachments(true)" />
+							@save-this-only="prepareAccessForAttachments('single')"
+							@save-this-and-all-future="prepareAccessForAttachments('future')"
+							@save-series="prepareAccessForAttachments('all')"
+						/>
 						<div class="app-full__actions__inner" :class="[{ 'app-full__actions__inner__readonly': isReadOnly }]">
 							<NcActions>
 								<NcActionLink v-if="!hideEventExport && hasDownloadURL && !isNew" :href="downloadURL">
@@ -70,23 +72,29 @@
 									</template>
 									{{ $t('calendar', 'Duplicate') }}
 								</NcActionButton>
-								<NcActionButton v-if="canDelete && !canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(false)">
+								<NcActionButton v-if="canDelete && !canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave('single')">
 									<template #icon>
 										<Delete :size="20" decorative />
 									</template>
 									{{ $t('calendar', 'Delete') }}
 								</NcActionButton>
-								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(false)">
+								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave('single')">
 									<template #icon>
 										<Delete :size="20" decorative />
 									</template>
 									{{ $t('calendar', 'Delete this occurrence') }}
 								</NcActionButton>
-								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(true)">
+								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave('future')">
 									<template #icon>
 										<Delete :size="20" decorative />
 									</template>
-									{{ $t('calendar', 'Delete this and all future') }}
+									{{ $t('calendar', 'Delete this and future occurrences') }}
+								</NcActionButton>
+								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave('all')">
+									<template #icon>
+										<Delete :size="20" decorative />
+									</template>
+									{{ $t('calendar', 'Delete this and future occurrences') }}
 								</NcActionButton>
 							</NcActions>
 						</div>
@@ -291,7 +299,7 @@
 								<NcButton
 									variant="primary"
 									:disabled="showPreloader"
-									@click="acceptAttachmentsModal(thisAndAllFuture)">
+									@click="acceptAttachmentsModal()">
 									{{ t('calendar', 'Invite') }}
 								</NcButton>
 							</div>
@@ -421,7 +429,7 @@ export default {
 
 	data() {
 		return {
-			thisAndAllFuture: false,
+			saveMode: 'single',
 			doNotShare: false,
 			showModal: false,
 			showModalNewAttachments: [],
@@ -704,7 +712,7 @@ export default {
 				this.showModal = false
 				this.showModalNewAttachments = []
 				this.showModalUsers = []
-				this.saveEvent(this.thisAndAllFuture)
+				this.saveEvent(this.saveMode)
 			}, 500)
 			// trigger save event after make each attachment access
 			// 1) if !isPrivate get attachments NOT SHARED  and SharedType is empry -> API ADD SHARE
@@ -728,8 +736,8 @@ export default {
 			return name.split('/').pop()
 		},
 
-		prepareAccessForAttachments(thisAndAllFuture = false) {
-			this.thisAndAllFuture = thisAndAllFuture
+		prepareAccessForAttachments(mode = false) {
+			this.saveMode = mode
 			const newAttachments = this.calendarObjectInstance.attachments.filter((attachment) => {
 				// get only new attachments
 				// TODO get NOT only new attachments =) Maybe we should filter all attachments without share-type, 'cause event can be private and AFTER save owner could add new participant
@@ -749,14 +757,14 @@ export default {
 					return false
 				})
 			} else {
-				this.saveEvent(thisAndAllFuture)
+				this.saveEvent(this.saveMode)
 			}
 		},
 
-		saveEvent(thisAndAllFuture = false) {
+		saveEvent(mode = 'single') {
 			// if there is new attachments and !private, then make modal with users and files/
 			// maybe check shared access before add file
-			this.saveAndLeave(thisAndAllFuture)
+			this.saveAndLeave(mode)
 			this.calendarObjectInstance.attachments = this.calendarObjectInstance.attachments.map((attachment) => {
 				if (attachment.isNew) {
 					delete attachment.isNew

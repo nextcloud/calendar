@@ -33,35 +33,48 @@
 			{{ $t('calendar', 'Update') }}
 		</NcButton>
 		<NcButton
-			v-if="showUpdateThisAndFutureButton && !showUpdateOnlyThisButton"
-			:type="primary"
-			:disabled="disabled"
-			@click="saveThisAndAllFuture">
-			{{ $t('calendar', 'Update this and all future') }}
-		</NcButton>
-		<NcButton
 			v-if="showUpdateOnlyThisButton && !showUpdateThisAndFutureButton"
 			variant="primary"
 			:disabled="disabled"
 			@click="saveThisOnly">
 			{{ $t('calendar', 'Update this occurrence') }}
 		</NcButton>
+		<NcButton
+			v-if="showUpdateThisAndFutureButton && !showUpdateOnlyThisButton"
+			:type="primary"
+			:disabled="disabled"
+			@click="saveThisAndAllFuture">
+			{{ $t('calendar', 'Update this and future occurrences') }}
+		</NcButton>
+		<NcButton
+			v-if="showUpdateThisAndFutureButton && !showUpdateOnlyThisButton"
+			:type="primary"
+			:disabled="disabled"
+			@click="saveSeries">
+			{{ $t('calendar', 'Update all occurrences') }}
+		</NcButton>
 
 		<NcActions v-if="showUpdateThisAndFutureButton && showUpdateOnlyThisButton" :primary="true" :menu-name="t('calendar', 'Update')">
 			<template #icon>
 				<CheckIcon :size="20" />
 			</template>
-			<NcActionButton @click="saveThisAndAllFuture">
-				<template #icon>
-					<CheckIcon :size="20" />
-				</template>
-				{{ $t('calendar', 'Update this and all future') }}
-			</NcActionButton>
 			<NcActionButton @click="saveThisOnly">
 				<template #icon>
 					<CheckIcon :size="20" />
 				</template>
 				{{ $t('calendar', 'Update this occurrence') }}
+			</NcActionButton>
+			<NcActionButton @click="saveThisAndAllFuture">
+				<template #icon>
+					<CheckIcon :size="20" />
+				</template>
+				{{ $t('calendar', 'Update this and future occurrences') }}
+			</NcActionButton>
+			<NcActionButton @click="saveSeries">
+				<template #icon>
+					<CheckIcon :size="20" />
+				</template>
+				{{ $t('calendar', 'Update all occurrences') }}
 			</NcActionButton>
 		</NcActions>
 
@@ -145,6 +158,10 @@ export default {
 
 		saveThisAndAllFuture() {
 			this.$emit('save-this-and-all-future')
+		},
+
+		saveSeries() {
+			this.$emit('save-series')
 		},
 
 		showMore() {
