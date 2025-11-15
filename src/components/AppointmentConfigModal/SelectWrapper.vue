@@ -9,12 +9,12 @@
 		<select
 			:id="id"
 			:disabled="disabled"
+			:value="modelValue"
 			@change="onSelect">
 			<option
 				v-for="option in options"
 				:key="option.value"
-				:value="option.value"
-				v-bind="{ selected: option.value === value }">
+				:value="option.value">
 				{{ option.label }}
 			</option>
 		</select>
@@ -32,7 +32,7 @@ export default {
 			default: '',
 		},
 
-		value: {
+		modelValue: {
 			type: [String, Number],
 			required: true,
 		},
@@ -56,7 +56,7 @@ export default {
 
 	methods: {
 		onSelect(e) {
-			this.$emit('update:value', e.target.value)
+			this.$emit('update:modelValue', e.target.value)
 		},
 	},
 }

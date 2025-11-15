@@ -15,7 +15,7 @@
 					<NcColorPicker
 						v-model="calendarColor"
 						:advanced-fields="true"
-						@update:value="calendarColorChanged = true">
+						@update:modelValue="calendarColorChanged = true">
 						<div
 							class="edit-calendar-modal__name-and-color__color__dot"
 							:style="{ 'background-color': calendarColor }" />
@@ -30,7 +30,7 @@
 					@input="calendarNameChanged = true">
 			</div>
 			<template v-if="canBeShared">
-				<NcCheckboxRadioSwitch :checked.sync="isTransparent">
+				<NcCheckboxRadioSwitch v-model="isTransparent">
 					{{ $t('calendar', 'Never show me as busy (set this calendar to transparent)') }}
 				</NcCheckboxRadioSwitch>
 			</template>

@@ -45,37 +45,41 @@
 			<Actions v-if="!isReadOnly && isViewedByOrganizer">
 				<ActionCheckbox
 					v-if="!members.length"
-					:checked="attendee.rsvp"
-					@change="toggleRSVP">
+					:model-value="attendee.rsvp"
+					@update:modelValue="toggleRSVP">
 					{{ $t('calendar', 'Request reply') }}
 				</ActionCheckbox>
 
 				<ActionRadio
 					v-if="!members.length"
 					:name="radioName"
-					:checked="isChair"
-					@change="changeRole('CHAIR')">
+					value="CHAIR"
+					:model-value="attendee.role"
+					@update:modelValue="changeRole">
 					{{ $t('calendar', 'Chairperson') }}
 				</ActionRadio>
 				<ActionRadio
 					v-if="!members.length"
 					:name="radioName"
-					:checked="isRequiredParticipant"
-					@change="changeRole('REQ-PARTICIPANT')">
+					value="REQ-PARTICIPANT"
+					:model-value="attendee.role"
+					@update:modelValue="changeRole">
 					{{ $t('calendar', 'Required participant') }}
 				</ActionRadio>
 				<ActionRadio
 					v-if="!members.length"
 					:name="radioName"
-					:checked="isOptionalParticipant"
-					@change="changeRole('OPT-PARTICIPANT')">
+					value="OPT-PARTICIPANT"
+					:model-value="attendee.role"
+					@update:modelValue="changeRole">
 					{{ $t('calendar', 'Optional participant') }}
 				</ActionRadio>
 				<ActionRadio
 					v-if="!members.length"
 					:name="radioName"
-					:checked="isNonParticipant"
-					@change="changeRole('NON-PARTICIPANT')">
+					value="NON-PARTICIPANT"
+					:model-value="attendee.role"
+					@update:modelValue="changeRole">
 					{{ $t('calendar', 'Non-participant') }}
 				</ActionRadio>
 
@@ -208,23 +212,7 @@ export default {
 		},
 
 		radioName() {
-			return this._uid + '-role-radio-input-group'
-		},
-
-		isChair() {
-			return this.attendee.role === 'CHAIR'
-		},
-
-		isRequiredParticipant() {
-			return this.attendee.role === 'REQ-PARTICIPANT'
-		},
-
-		isOptionalParticipant() {
-			return this.attendee.role === 'OPT-PARTICIPANT'
-		},
-
-		isNonParticipant() {
-			return this.attendee.role === 'NON-PARTICIPANT'
+			return this.$.uid + '-role-radio-input-group'
 		},
 
 		isGroup() {

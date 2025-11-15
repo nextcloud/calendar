@@ -16,13 +16,12 @@
 			<label :for="id">{{ label }}</label>
 		</div>
 		<DurationSelect
+			v-model="durationSelection"
 			class="checked-duration-select__duration"
 			:allow-zero="defaultValue === 0"
 			:disabled="!enabled"
-			:value="valueOrDefault"
 			:min="min"
-			:max="max"
-			@update:value="$emit('update:value', $event)" />
+			:max="max" />
 	</div>
 </template>
 
@@ -42,7 +41,7 @@ export default {
 			required: true,
 		},
 
-		value: {
+		modelValue: {
 			type: Number,
 			default: 0,
 		},
@@ -76,7 +75,17 @@ export default {
 
 	computed: {
 		valueOrDefault() {
-			return this.value ?? this.defaultValue
+			return this.modelValue ?? this.defaultValue
+		},
+
+		durationSelection: {
+			get() {
+				return this.valueOrDefault
+			},
+
+			set(value) {
+				this.$emit('update:modelValue', value)
+			},
 		},
 	},
 }

@@ -19,24 +19,24 @@
 				<div class="appointment-config-modal__form">
 					<fieldset>
 						<TextInput
+							v-model="editing.name"
 							class="appointment-config-modal__form__row"
-							:label="t('calendar', 'Appointment name')"
-							:value.sync="editing.name" />
+							:label="t('calendar', 'Appointment name')" />
 						<TextInput
+							v-model="editing.location"
 							class="appointment-config-modal__form__row"
 							:label="t('calendar', 'Location')"
-							:value.sync="editing.location"
 							:disabled="isTalkEnabled && editing.createTalkRoom" />
 						<div v-if="isTalkEnabled" class="appointment-config-modal__form__row">
-							<NcCheckboxRadioSwitch :checked.sync="editing.createTalkRoom">
+							<NcCheckboxRadioSwitch v-model="editing.createTalkRoom">
 								{{ t('calendar', 'Create a Talk room') }}
 							</NcCheckboxRadioSwitch>
 							<span class="appointment-config-modal__talk-room-description">{{ t('calendar', 'A unique link will be generated for every booked appointment and sent via the confirmation email') }}</span>
 						</div>
 						<TextArea
+							v-model="editing.description"
 							class="appointment-config-modal__form__row"
-							:label="t('calendar', 'Description')"
-							:value.sync="editing.description" />
+							:label="t('calendar', 'Description')" />
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<div class="calendar-select">
@@ -49,17 +49,17 @@
 									@select-calendar="changeCalendar" />
 							</div>
 							<VisibilitySelect
-								:label="t('calendar', 'Visibility')"
-								:value.sync="editing.visibility" />
+								v-model="editing.visibility"
+								:label="t('calendar', 'Visibility')" />
 						</div>
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<DurationInput
-								:label="t('calendar', 'Duration')"
-								:value.sync="editing.length" />
+								v-model="editing.length"
+								:label="t('calendar', 'Duration')" />
 							<DurationSelect
-								:label="t('calendar', 'Increments')"
-								:value.sync="editing.increment" />
+								v-model="editing.increment"
+								:label="t('calendar', 'Increments')" />
 						</div>
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--local">
@@ -78,7 +78,7 @@
 						<header>{{ t('calendar', 'Pick time ranges where appointments are allowed') }}</header>
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<CalendarAvailability
-								:slots.sync="editing.availability.slots"
+								v-model:slots="editing.availability.slots"
 								:l10n-to="t('calendar', 'to')"
 								:l10n-delete-slot="t('calendar', 'Delete slot')"
 								:l10n-empty-day="t('calendar', 'No times set')"
@@ -99,13 +99,15 @@
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<CheckedDurationSelect
+								v-model="editing.preparationDuration"
+								:enabled="enablePreparationDuration"
 								:label="t('calendar', 'Before the event')"
-								:enabled.sync="enablePreparationDuration"
-								:value.sync="editing.preparationDuration" />
+								@update:enabled="setEnablePreparationDuration" />
 							<CheckedDurationSelect
+								v-model="editing.followupDuration"
+								:enabled="enableFollowupDuration"
 								:label="t('calendar', 'After the event')"
-								:enabled.sync="enableFollowupDuration"
-								:value.sync="editing.followupDuration" />
+								@update:enabled="setEnableFollowupDuration" />
 						</div>
 					</fieldset>
 
@@ -114,23 +116,24 @@
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<DurationSelect
+								v-model="editing.timeBeforeNextSlot"
 								:label="t('calendar', 'Minimum time before next available slot')"
-								:value.sync="editing.timeBeforeNextSlot"
 								:max="7 * 24 * 60 * 60" />
 							<NumberInput
+								v-model="editing.dailyMax"
 								:label="t('calendar', 'Max slots per day')"
-								:value.sync="editing.dailyMax"
 								:allow-empty="true" />
 						</div>
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<CheckedDurationSelect
+								v-model="editing.futureLimit"
+								:enabled="enableFutureLimit"
 								:label="t('calendar', 'Limit how far in the future appointments can be booked')"
-								:enabled.sync="enableFutureLimit"
-								:value.sync="editing.futureLimit"
 								:default-value="defaultConfig.futureLimit"
 								:min="7 * 24 * 60 * 60"
-								:max="null" />
+								:max="null"
+								@update:enabled="setEnableFutureLimit" />
 						</div>
 					</fieldset>
 				</div>
@@ -290,6 +293,18 @@ export default {
 	},
 
 	methods: {
+		setEnablePreparationDuration(value) {
+			this.enablePreparationDuration = value
+		},
+
+		setEnableFollowupDuration(value) {
+			this.enableFollowupDuration = value
+		},
+
+		setEnableFutureLimit(value) {
+			this.enableFutureLimit = value
+		},
+
 		reset() {
 			this.editing = this.config.clone()
 

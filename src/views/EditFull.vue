@@ -64,25 +64,25 @@
 									</template>
 									{{ $t('calendar', 'Export') }}
 								</NcActionLink>
-								<NcActionButton v-if="!canCreateRecurrenceException && !isReadOnly && !isNew" type="tertiary" @click="duplicateEvent()">
+								<NcActionButton v-if="!canCreateRecurrenceException && !isReadOnly && !isNew" @click="duplicateEvent()">
 									<template #icon>
 										<ContentDuplicate :size="20" decorative />
 									</template>
 									{{ $t('calendar', 'Duplicate') }}
 								</NcActionButton>
-								<NcActionButton v-if="canDelete && !canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(false)">
+								<NcActionButton v-if="canDelete && !canCreateRecurrenceException && !isNew" @click="deleteAndLeave(false)">
 									<template #icon>
 										<Delete :size="20" decorative />
 									</template>
 									{{ $t('calendar', 'Delete') }}
 								</NcActionButton>
-								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(false)">
+								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" @click="deleteAndLeave(false)">
 									<template #icon>
 										<Delete :size="20" decorative />
 									</template>
 									{{ $t('calendar', 'Delete this occurrence') }}
 								</NcActionButton>
-								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(true)">
+								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" @click="deleteAndLeave(true)">
 									<template #icon>
 										<Delete :size="20" decorative />
 									</template>
@@ -115,9 +115,9 @@
 						<div class="app-full__header__details-time">
 							<NcCheckboxRadioSwitch
 								v-if="!isReadOnly && !isViewedByAttendee"
-								:checked="isAllDay"
+								:model-value="isAllDay"
 								:disabled="!canModifyAllDay"
-								@update:checked="toggleAllDayPreliminary">
+								@update:modelValue="toggleAllDayPreliminary">
 								{{ $t('calendar', 'All day') }}
 							</NcCheckboxRadioSwitch>
 
@@ -280,7 +280,7 @@
 						</div>
 						<div class="modal-footer">
 							<div class="modal-footer-checkbox">
-								<NcCheckboxRadioSwitch v-if="!isPrivate()" :checked.sync="doNotShare">
+								<NcCheckboxRadioSwitch v-if="!isPrivate()" v-model="doNotShare">
 									{{ t('calendar', 'Deny access') }}
 								</NcCheckboxRadioSwitch>
 							</div>
@@ -503,11 +503,7 @@ export default {
 		},
 
 		isCreateTalkRoomButtonDisabled() {
-			if (this.creatingTalkRoom) {
-				return true
-			}
-
-			return containsRoomUrl(this.calendarObjectInstance.location) || containsRoomUrl(this.calendarObjectInstance.description)
+			return containsRoomUrl(this.calendarObjectInstance?.location) || containsRoomUrl(this.calendarObjectInstance?.description)
 		},
 
 		isCreateTalkRoomButtonVisible() {

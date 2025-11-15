@@ -11,11 +11,13 @@
 
 		<RoomAvailabilityList
 			v-if="showRoomAvailabilityModal"
-			:show-dialog.sync="showRoomAvailabilityModal"
+			:show-dialog="showRoomAvailabilityModal"
 			:calendar-object-instance="calendarObjectInstance"
 			:start-date="calendarObjectInstance.startDate"
-			:end-date="calendarObjectInstance.endDate" />
+			:end-date="calendarObjectInstance.endDate"
+			@update:show-dialog="setShowRoomAvailabilityModal" />
 		<NcSelect
+			v-model="selectedResource"
 			class="resource-search__multiselect"
 			:options="matches"
 			:searchable="true"
@@ -26,8 +28,7 @@
 			input-id="email"
 			label="displayName"
 			:clearable="false"
-			@search="findResources"
-			@input="addResource">
+			@search="findResources">
 			<template #option="option">
 				<div class="resource-search-list-item">
 					<Avatar
@@ -52,24 +53,24 @@
 
 		<template>
 			<div class="resource-search__capacity">
-				<ResourceSeatingCapacity :value.sync="capacity" />
+				<ResourceSeatingCapacity v-model="capacity" />
 				<Actions class="resource-search__capacity__actions">
-					<ActionCheckbox :checked.sync="isAvailable">
+					<ActionCheckbox v-model="isAvailable">
 						<!-- Translators room or resource is not yet booked -->
 						{{ $t('calendar', 'Available') }}
 					</ActionCheckbox>
-					<ActionCheckbox :checked.sync="hasProjector">
+					<ActionCheckbox v-model="hasProjector">
 						{{ $t('calendar', 'Projector') }}
 					</ActionCheckbox>
-					<ActionCheckbox :checked.sync="hasWhiteboard">
+					<ActionCheckbox v-model="hasWhiteboard">
 						{{ $t('calendar', 'Whiteboard') }}
 					</ActionCheckbox>
-					<ActionCheckbox :checked.sync="isAccessible">
+					<ActionCheckbox v-model="isAccessible">
 						{{ $t('calendar', 'Wheelchair accessible') }}
 					</ActionCheckbox>
 				</Actions>
 			</div>
-			<ResourceRoomType :value.sync="roomType" />
+			<ResourceRoomType v-model="roomType" />
 		</template>
 	</div>
 </template>
@@ -128,6 +129,7 @@ export default {
 			hasProjector: false,
 			hasWhiteboard: false,
 			showRoomAvailabilityModal: false,
+			selectedResource: null,
 			rooms: [],
 		}
 	},
@@ -157,9 +159,24 @@ export default {
 		},
 	},
 
+	watch: {
+		selectedResource(selectedValue) {
+			if (!selectedValue) {
+				return
+			}
+
+			this.addResource(selectedValue)
+			this.selectedResource = null
+		},
+	},
+
 	methods: {
 		openRoomAvailability() {
 			this.showRoomAvailabilityModal = true
+		},
+
+		setShowRoomAvailabilityModal(value) {
+			this.showRoomAvailabilityModal = value
 		},
 
 		findResources: debounce(async function(query) {

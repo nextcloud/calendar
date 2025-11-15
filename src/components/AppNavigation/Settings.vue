@@ -70,49 +70,48 @@
 						class="settings-fieldset-interior-item"
 						:model-value="hasBirthdayCalendar"
 						:disabled="isBirthdayCalendarDisabled"
-						@update:model-value="toggleBirthdayEnabled">
+						@update:modelValue="toggleBirthdayEnabled">
 						{{ $t('calendar', 'Birthday calendar') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch
 						class="settings-fieldset-interior-item"
 						:model-value="showTasks"
 						:disabled="savingTasks"
-						@update:model-value="toggleTasksEnabled">
+						@update:modelValue="toggleTasksEnabled">
 						{{ $t('calendar', 'Tasks in calendar') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch
 						class="settings-fieldset-interior-item"
 						:model-value="showWeekends"
 						:disabled="savingWeekend"
-						@update:model-value="toggleWeekendsEnabled">
+						@update:modelValue="toggleWeekendsEnabled">
 						{{ $t('calendar', 'Weekends') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch
 						class="settings-fieldset-interior-item"
 						:model-value="showWeekNumbers"
 						:disabled="savingWeekNumber"
-						@update:model-value="toggleWeekNumberEnabled">
+						@update:modelValue="toggleWeekNumberEnabled">
 						{{ $t('calendar', 'Week numbers') }}
 					</NcCheckboxRadioSwitch>
 					<NcCheckboxRadioSwitch
 						class="settings-fieldset-interior-item"
 						:model-value="eventLimit"
 						:disabled="savingEventLimit"
-						@update:model-value="toggleEventLimitEnabled">
+						@update:modelValue="toggleEventLimitEnabled">
 						<span class="no-wrap-label">
 							{{ $t('calendar', 'Limit number of events shown in Month view') }}
 						</span>
 					</NcCheckboxRadioSwitch>
 					<NcSelect
 						:id="slotDuration"
+						v-model="slotDurationSelection"
 						:options="slotDurationOptions"
-						:value="selectedDurationOption"
 						:disabled="savingSlotDuration"
 						:clearable="false"
 						:input-label="$t('calendar', 'Density in Day and Week View')"
 						input-id="value"
-						label="label"
-						@option:selected="changeSlotDuration" />
+						label="label" />
 				</NcAppSettingsSection>
 				<NcAppSettingsSection
 					id="app-settings-modal-editing"
@@ -122,7 +121,7 @@
 						class="settings-fieldset-interior-item"
 						:model-value="!skipPopover"
 						:disabled="savingPopover"
-						@update:model-value="togglePopoverEnabled">
+						@update:modelValue="togglePopoverEnabled">
 						{{ $t('calendar', 'Simple event editor') }}<br>
 						{{ $t('calendar', '"More details" opens the detailed editor') }}
 					</NcCheckboxRadioSwitch>
@@ -138,14 +137,13 @@
 					</div>
 					<div class="settings-fieldset-interior-item">
 						<NcSelect
+							v-model="defaultReminderSelection"
 							:options="defaultReminderOptions"
-							:value="selectedDefaultReminderOption"
 							:disabled="savingDefaultReminder"
 							:clearable="false"
 							:input-label="$t('calendar', 'Default reminder')"
 							input-id="value"
-							label="label"
-							@option:selected="changeDefaultReminder" />
+							label="label" />
 					</div>
 					<div class="settings-fieldset-interior-item">
 						<SettingsAttachmentsFolder />
@@ -320,6 +318,16 @@ export default {
 			return this.slotDurationOptions.find((o) => o.value === this.slotDuration)
 		},
 
+		slotDurationSelection: {
+			get() {
+				return this.selectedDurationOption
+			},
+
+			set(option) {
+				this.changeSlotDuration(option)
+			},
+		},
+
 		defaultReminderOptions() {
 			const defaultAlarms = getDefaultAlarms().map((seconds) => {
 				const label = seconds === 0 ? t('calendar', 'At event start') : moment.duration(Math.abs(seconds) * 1000).locale(this.locale).humanize()
@@ -337,6 +345,16 @@ export default {
 
 		selectedDefaultReminderOption() {
 			return this.defaultReminderOptions.find((o) => o.value === this.defaultReminder)
+		},
+
+		defaultReminderSelection: {
+			get() {
+				return this.selectedDefaultReminderOption
+			},
+
+			set(option) {
+				this.changeDefaultReminder(option)
+			},
 		},
 
 		availabilitySettingsUrl() {

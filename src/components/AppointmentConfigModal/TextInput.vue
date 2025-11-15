@@ -9,7 +9,7 @@
 		<input
 			:id="id"
 			type="text"
-			:value="value"
+			:value="modelValue"
 			:disabled="disabled"
 			@input="change">
 	</div>
@@ -26,7 +26,7 @@ export default {
 			required: true,
 		},
 
-		value: {
+		modelValue: {
 			type: String,
 			default: '',
 		},
@@ -45,7 +45,7 @@ export default {
 
 	methods: {
 		change(e) {
-			this.$emit('update:value', e.target.value)
+			this.$emit('update:modelValue', e.target.value)
 		},
 	},
 }

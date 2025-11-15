@@ -9,9 +9,9 @@
 		<textarea
 			:id="id"
 			v-autosize="true"
-			:value="value"
+			:value="modelValue"
 			:rows="2"
-			@input="$emit('update:value', $event.target.value)" />
+			@input="$emit('update:modelValue', $event.target.value)" />
 	</div>
 </template>
 
@@ -31,7 +31,7 @@ export default {
 			required: true,
 		},
 
-		value: {
+		modelValue: {
 			type: String,
 			default: '',
 		},
