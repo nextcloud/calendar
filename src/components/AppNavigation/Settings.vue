@@ -17,92 +17,71 @@
 				id="app-settings-modal"
 				class="app-settings-modal"
 				:name="t('mail', 'Calendar settings')"
+				:legacy="false"
 				:show-navigation="true"
 				:additional-trap-elements="[]"
 				:open="showSettingsModal"
 				@update:open="(val) => showSettingsModal = val">
 				<NcAppSettingsSection
 					id="settings-modal-general"
-					class="calendar-settings-modal-section"
 					:name="t('calendar', 'General')">
-					<SettingsImportSection
-						class="settings-fieldset-interior-item"
+					<SettingsTimezoneSelect
 						:is-disabled="loadingCalendars" />
-					<NcButton
-						variant="tertiary"
-						target="_blank"
-						:href="availabilitySettingsUrl">
-						<template #icon>
-							<CalendarClockIcon :size="20" decorative />
-						</template>
-						<span class="button-content-with-icon">
+					<NcFormBox>
+						<NcFormBoxButton
+							target="_blank"
+							:href="availabilitySettingsUrl">
 							{{ $t('calendar', 'Availability settings') }}
-							<OpenInNewIcon :size="20" decorative />
-						</span>
-					</NcButton>
-					<h4>{{ t('calendar', 'CalDAV') }}</h4>
-					<span>{{ t('calendar', 'Access Nextcloud calendars from other apps and devices') }}</span>
-					<NcButton
-						variant="tertiary"
-						@click.prevent.stop="copyPrimaryCalDAV">
-						<template #icon>
-							<ContentCopy :size="20" decorative />
-						</template>
-						{{ $t('calendar', 'CalDAV URL') }}
-					</NcButton>
-					<NcButton
-						variant="tertiary"
-						@click.prevent.stop="copyAppleCalDAV">
-						<template #icon>
-							<ContentCopy :size="20" decorative />
-						</template>
-						{{ $t('calendar', 'Copy iOS/macOS CalDAV address') }}
-					</NcButton>
+						</NcFormBoxButton>
+					</NcFormBox>
+					<SettingsImportSection
+						:is-disabled="loadingCalendars" />
+					<NcFormGroup :label="t('calendar', 'CalDAV')" :description="t('calendar', 'Access Nextcloud calendars from other apps and devices')">
+						<NcFormBox>
+							<NcFormBoxCopyButton :label="t('calendar', 'CalDAV URL')" :value="primaryCalDAV" />
+							<NcFormBoxCopyButton :label="t('calendar', 'Server Address for iOS and macOS')" :value="appleCalDAV" />
+						</NcFormBox>
+					</NcFormGroup>
 				</NcAppSettingsSection>
 				<NcAppSettingsSection
-					id="app-settings-modal-view"
-					class="calendar-settings-modal-section"
+					id="settings-modal-appearance"
 					:name="t('calendar', 'Appearance')">
-					<SettingsTimezoneSelect
-						class="settings-fieldset-interior-item"
-						:is-disabled="loadingCalendars" />
-					<NcCheckboxRadioSwitch
-						class="settings-fieldset-interior-item"
-						:model-value="hasBirthdayCalendar"
-						:disabled="isBirthdayCalendarDisabled"
-						@update:model-value="toggleBirthdayEnabled">
-						{{ $t('calendar', 'Birthday calendar') }}
-					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch
-						class="settings-fieldset-interior-item"
-						:model-value="showTasks"
-						:disabled="savingTasks"
-						@update:model-value="toggleTasksEnabled">
-						{{ $t('calendar', 'Tasks in calendar') }}
-					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch
-						class="settings-fieldset-interior-item"
-						:model-value="showWeekends"
-						:disabled="savingWeekend"
-						@update:model-value="toggleWeekendsEnabled">
-						{{ $t('calendar', 'Weekends') }}
-					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch
-						class="settings-fieldset-interior-item"
-						:model-value="showWeekNumbers"
-						:disabled="savingWeekNumber"
-						@update:model-value="toggleWeekNumberEnabled">
-						{{ $t('calendar', 'Week numbers') }}
-					</NcCheckboxRadioSwitch>
-					<NcCheckboxRadioSwitch
-						class="settings-fieldset-interior-item"
-						:model-value="eventLimit"
-						:disabled="savingEventLimit"
-						@update:model-value="toggleEventLimitEnabled">
-						<span class="no-wrap-label">
+					<NcFormBox>
+						<NcFormBoxSwitch
+							v-model="hasBirthdayCalendarBinding"
+							:disabled="isBirthdayCalendarDisabled"
+							@update:modelValue="toggleBirthdayEnabled">
+							{{ $t('calendar', 'Birthday calendar') }}
+						</NcFormBoxSwitch>
+						<NcFormBoxSwitch
+							v-model="showTasksBinding"
+							:disabled="savingTasks"
+							@update:modelValue="toggleTasksEnabled">
+							{{ $t('calendar', 'Tasks in calendar') }}
+						</NcFormBoxSwitch>
+						<NcFormBoxSwitch
+							v-model="showWeekendsBinding"
+							:disabled="savingWeekend"
+							@update:modelValue="toggleWeekendsEnabled">
+							{{ $t('calendar', 'Weekends') }}
+						</NcFormBoxSwitch>
+						<NcFormBoxSwitch
+							v-model="showWeekNumbersBinding"
+							:disabled="savingWeekNumber"
+							@update:modelValue="toggleWeekNumberEnabled">
+							{{ $t('calendar', 'Week numbers') }}
+						</NcFormBoxSwitch>
+					</NcFormBox>
+
+					<NcFormBox>
+						<NcFormBoxSwitch
+							v-model="eventLimitBinding"
+							:disabled="savingEventLimit"
+							@update:modelValue="toggleEventLimitEnabled">
 							{{ $t('calendar', 'Limit number of events shown in Month view') }}
-						</span>
-					</NcCheckboxRadioSwitch>
+						</NcFormBoxSwitch>
+					</NcFormBox>
+
 					<NcSelect
 						:id="slotDuration"
 						:options="slotDurationOptions"
@@ -116,47 +95,32 @@
 				</NcAppSettingsSection>
 				<NcAppSettingsSection
 					id="app-settings-modal-editing"
-					class="calendar-settings-modal-section"
 					:name="t('calendar', 'Editing')">
-					<NcCheckboxRadioSwitch
-						class="settings-fieldset-interior-item"
-						:model-value="!skipPopover"
-						:disabled="savingPopover"
-						@update:model-value="togglePopoverEnabled">
-						{{ $t('calendar', 'Simple event editor') }}<br>
-						{{ $t('calendar', '"More details" opens the detailed editor') }}
-					</NcCheckboxRadioSwitch>
-					<!-- Hidden: default calendar picker -->
-					<div v-if="false" class="settings-fieldset-interior-item">
-						<CalendarPicker
-							:value="defaultCalendar"
-							:calendars="defaultCalendarOptions"
-							:disabled="savingDefaultCalendarId"
-							:input-label="$t('calendar', 'Default calendar for incoming invitations')"
-							:clearable="false"
-							@select-calendar="changeDefaultCalendar" />
-					</div>
-					<div class="settings-fieldset-interior-item">
-						<NcSelect
-							:options="defaultReminderOptions"
-							:value="selectedDefaultReminderOption"
-							:disabled="savingDefaultReminder"
-							:clearable="false"
-							:input-label="$t('calendar', 'Default reminder')"
-							input-id="value"
-							label="label"
-							@option:selected="changeDefaultReminder" />
-					</div>
-					<div class="settings-fieldset-interior-item">
+					<NcSelect
+						:options="defaultReminderOptions"
+						:value="selectedDefaultReminderOption"
+						:disabled="savingDefaultReminder"
+						:clearable="false"
+						:input-label="$t('calendar', 'Default reminder')"
+						input-id="value"
+						label="label"
+						@option:selected="changeDefaultReminder" />
+					<NcFormBox>
+						<NcFormBoxSwitch
+							v-model="simpleEventEditorBinding"
+							:disabled="savingPopover"
+							:label="t('calendar', 'Simple event editor')"
+							@update:modelValue="togglePopoverEnabled">
+							<template #description>
+								{{ $t('calendar', '"More details" opens the detailed editor') }}
+							</template>
+						</NcFormBoxSwitch>
+					</NcFormBox>
+					<NcFormGroup :label="t('calendar', 'Files')">
 						<SettingsAttachmentsFolder />
-					</div>
+					</NcFormGroup>
 				</NcAppSettingsSection>
-				<NcAppSettingsSection
-					id="app-settings-modal-keyboard"
-					class="calendar-settings-modal-section"
-					:name="t('calendar', 'Keyboard shortcuts')">
-					<ShortcutOverview />
-				</NcAppSettingsSection>
+				<ShortcutOverview />
 			</NcAppSettingsDialog>
 		</template>
 	</NcAppNavigationItem>
@@ -165,7 +129,6 @@
 <script>
 import {
 	showError,
-	showSuccess,
 } from '@nextcloud/dialogs'
 import moment from '@nextcloud/moment'
 import {
@@ -176,16 +139,15 @@ import {
 	NcAppNavigationItem,
 	NcAppSettingsDialog,
 	NcAppSettingsSection,
-	NcButton,
-	NcCheckboxRadioSwitch,
+	NcFormBox,
+	NcFormBoxButton,
+	NcFormBoxCopyButton,
+	NcFormBoxSwitch,
+	NcFormGroup,
 	NcSelect,
 } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
-import CalendarClockIcon from 'vue-material-design-icons/CalendarClock.vue'
 import CogIcon from 'vue-material-design-icons/CogOutline.vue'
-import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
-import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
-import CalendarPicker from '../Shared/CalendarPicker.vue'
 import SettingsAttachmentsFolder from './Settings/SettingsAttachmentsFolder.vue'
 import SettingsImportSection from './Settings/SettingsImportSection.vue'
 import SettingsTimezoneSelect from './Settings/SettingsTimezoneSelect.vue'
@@ -206,8 +168,6 @@ import logger from '../../utils/logger.js'
 export default {
 	name: 'Settings',
 	components: {
-		NcButton,
-		NcCheckboxRadioSwitch,
 		NcAppNavigationItem,
 		NcAppSettingsDialog,
 		NcAppSettingsSection,
@@ -215,12 +175,13 @@ export default {
 		SettingsImportSection,
 		SettingsTimezoneSelect,
 		SettingsAttachmentsFolder,
-		ContentCopy,
-		CalendarPicker,
 		ShortcutOverview,
 		CogIcon,
-		OpenInNewIcon,
-		CalendarClockIcon,
+		NcFormBox,
+		NcFormBoxButton,
+		NcFormGroup,
+		NcFormBoxCopyButton,
+		NcFormBoxSwitch,
 	},
 
 	props: {
@@ -243,6 +204,12 @@ export default {
 			savingWeekend: false,
 			savingWeekNumber: false,
 			savingDefaultCalendar: false,
+			hasBirthdayCalendarBinding: false,
+			showTasksBinding: false,
+			showWeekendsBinding: false,
+			showWeekNumbersBinding: false,
+			eventLimitBinding: false,
+			simpleEventEditorBinding: false,
 		}
 	},
 
@@ -355,7 +322,7 @@ export default {
 		},
 
 		/**
-		 * The default calendar for incoming inivitations
+		 * The default calendarci for incoming inivitations
 		 *
 		 * @return {object|undefined} The default calendar or undefined if none is available
 		 */
@@ -372,6 +339,23 @@ export default {
 
 			return calendar
 		},
+
+		primaryCalDAV() {
+			return generateRemoteUrl('dav')
+		},
+
+		appleCalDAV() {
+			return new URL(getCurrentUserPrincipal().principalUrl, this.primaryCalDAV)
+		},
+	},
+
+	async created() {
+		this.hasBirthdayCalendarBinding = this.hasBirthdayCalendar
+		this.showTasksBinding = this.showTasks
+		this.showWeekendsBinding = this.showWeekends
+		this.showWeekNumbersBinding = this.showWeekNumbers
+		this.eventLimitBinding = this.eventLimit
+		this.simpleEventEditorBinding = !this.skipPopover
 	},
 
 	methods: {
@@ -536,41 +520,12 @@ export default {
 				this.savingDefaultCalendar = false
 			}
 		},
-
-		/**
-		 * Copies the primary CalDAV url to the user's clipboard.
-		 */
-		async copyPrimaryCalDAV() {
-			try {
-				await navigator.clipboard.writeText(generateRemoteUrl('dav'))
-				showSuccess(this.$t('calendar', 'CalDAV link copied to clipboard.'))
-			} catch (error) {
-				console.debug(error)
-				showError(this.$t('calendar', 'CalDAV link could not be copied to clipboard.'))
-			}
-		},
-
-		/**
-		 * Copies the macOS / iOS specific CalDAV url to the user's clipboard.
-		 * This url is user-specific.
-		 */
-		async copyAppleCalDAV() {
-			const rootURL = generateRemoteUrl('dav')
-			const url = new URL(getCurrentUserPrincipal().principalUrl, rootURL)
-
-			try {
-				await navigator.clipboard.writeText(url)
-				showSuccess(this.$t('calendar', 'CalDAV link copied to clipboard.'))
-			} catch (error) {
-				console.debug(error)
-				showError(this.$t('calendar', 'CalDAV link could not be copied to clipboard.'))
-			}
-		},
 	},
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+// Needed for the cog icon the navigation sidebar to be aligned
 .navigation-calendar-settings {
 	padding-inline-start: calc(var(--default-grid-baseline) * 2);
 	padding-bottom: calc(var(--default-grid-baseline) * 2);
