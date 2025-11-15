@@ -8,9 +8,9 @@
 		<div class="title">
 			<Avatar
 				:user="userInfo.uid"
-				:display-name="userInfo.displayName"
-				:disable-tooltip="true"
-				:disable-menu="true"
+				:displayName="userInfo.displayName"
+				:disableTooltip="true"
+				:disableMenu="true"
 				:size="180" />
 			<h2 class="user-info">
 				{{ $t('calendar', 'Book an appointment with {name}', { name: userInfo.displayName }) }}

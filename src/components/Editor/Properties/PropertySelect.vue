@@ -21,16 +21,15 @@
 			:class="{ 'property-select__input--readonly': isReadOnly }">
 			<NcSelect
 				v-if="!isReadOnly"
+				v-model="selectedValue"
 				:options="options"
 				:searchable="false"
 				:name="readableName"
-				:value="selectedValue"
 				:placeholder="placeholder"
-				:label-outside="true"
+				:labelOutside="true"
 				:clearable="false"
-				input-id="value"
-				label="label"
-				@input="changeValue" />
+				inputId="value"
+				label="label" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else>{{ selectedValue.label }}</div>
 		</div>
@@ -62,19 +61,19 @@ export default {
 			return this.propModel.options
 		},
 
-		selectedValue() {
-			const value = this.value || this.propModel.defaultValue
-			return this.options.find((option) => option.value === value)
-		},
-	},
+		selectedValue: {
+			get() {
+				const value = this.value || this.propModel.defaultValue
+				return this.options.find((option) => option.value === value)
+			},
 
-	methods: {
-		changeValue(selectedOption) {
-			if (!selectedOption) {
-				return
-			}
+			set(selectedOption) {
+				if (!selectedOption) {
+					return
+				}
 
-			this.$emit('update:value', selectedOption.value)
+				this.$emit('update:value', selectedOption.value)
+			},
 		},
 	},
 }

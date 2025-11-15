@@ -45,7 +45,7 @@
 					v-for="attachment in attachments"
 					:key="attachment.path"
 					class="attachments-list-item"
-					:force-display-actions="true"
+					:forceDisplayActions="true"
 					:name="getBaseName(attachment.fileName)"
 					@click="openFile(attachment.uri)">
 					<template #icon>
@@ -67,7 +67,7 @@
 
 		<NcDialog
 			v-if="showOpenConfirmation"
-			:open.sync="showOpenConfirmation"
+			v-model:open="showOpenConfirmation"
 			:name="t('calendar', 'Confirmation')"
 			:buttons="openConfirmationButtons">
 			<p class="external-link-message">

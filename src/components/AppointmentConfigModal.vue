@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<Modal
+	<NcModal
 		size="large"
 		:name="formTitle"
 		@close="$emit('close')">
@@ -12,31 +12,31 @@
 		<div v-if="editing" class="appointment-config-modal">
 			<Confirmation
 				v-if="showConfirmation"
-				:is-new="isNew"
+				:isNew="isNew"
 				:config="editing"
 				@close="$emit('close')" />
 			<template v-else>
 				<div class="appointment-config-modal__form">
 					<fieldset>
 						<TextInput
+							v-model="editing.name"
 							class="appointment-config-modal__form__row"
-							:label="t('calendar', 'Appointment name')"
-							:value.sync="editing.name" />
+							:label="t('calendar', 'Appointment name')" />
 						<TextInput
+							v-model="editing.location"
 							class="appointment-config-modal__form__row"
 							:label="t('calendar', 'Location')"
-							:value.sync="editing.location"
 							:disabled="isTalkEnabled && editing.createTalkRoom" />
 						<div v-if="isTalkEnabled" class="appointment-config-modal__form__row">
-							<NcCheckboxRadioSwitch :checked.sync="editing.createTalkRoom">
+							<NcCheckboxRadioSwitch v-model="editing.createTalkRoom">
 								{{ t('calendar', 'Create a Talk room') }}
 							</NcCheckboxRadioSwitch>
 							<span class="appointment-config-modal__talk-room-description">{{ t('calendar', 'A unique link will be generated for every booked appointment and sent via the confirmation email') }}</span>
 						</div>
 						<TextArea
+							v-model="editing.description"
 							class="appointment-config-modal__form__row"
-							:label="t('calendar', 'Description')"
-							:value.sync="editing.description" />
+							:label="t('calendar', 'Description')" />
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<div class="calendar-select">
@@ -45,21 +45,21 @@
 									v-if="calendar !== undefined"
 									:value="calendar"
 									:calendars="availableCalendars"
-									:show-calendar-on-select="false"
-									@select-calendar="changeCalendar" />
+									:showCalendarOnSelect="false"
+									@selectCalendar="changeCalendar" />
 							</div>
 							<VisibilitySelect
-								:label="t('calendar', 'Visibility')"
-								:value.sync="editing.visibility" />
+								v-model="editing.visibility"
+								:label="t('calendar', 'Visibility')" />
 						</div>
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<DurationInput
-								:label="t('calendar', 'Duration')"
-								:value.sync="editing.length" />
+								v-model="editing.length"
+								:label="t('calendar', 'Duration')" />
 							<DurationSelect
-								:label="t('calendar', 'Increments')"
-								:value.sync="editing.increment" />
+								v-model="editing.increment"
+								:label="t('calendar', 'Increments')" />
 						</div>
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--local">
@@ -68,9 +68,9 @@
 								:value="selectedConflictCalendars"
 								:calendars="selectableConflictCalendars"
 								:multiple="true"
-								:show-calendar-on-select="false"
-								@select-calendar="addConflictCalender"
-								@remove-calendar="removeConflictCalendar" />
+								:showCalendarOnSelect="false"
+								@selectCalendar="addConflictCalender"
+								@removeCalendar="removeConflictCalendar" />
 						</div>
 					</fieldset>
 
@@ -78,19 +78,19 @@
 						<header>{{ t('calendar', 'Pick time ranges where appointments are allowed') }}</header>
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<CalendarAvailability
-								:slots.sync="editing.availability.slots"
-								:l10n-to="t('calendar', 'to')"
-								:l10n-delete-slot="t('calendar', 'Delete slot')"
-								:l10n-empty-day="t('calendar', 'No times set')"
-								:l10n-add-slot="t('calendar', 'Add')"
-								:l10n-monday="t('calendar', 'Monday')"
-								:l10n-tuesday="t('calendar', 'Tuesday')"
-								:l10n-wednesday="t('calendar', 'Wednesday')"
-								:l10n-thursday="t('calendar', 'Thursday')"
-								:l10n-friday="t('calendar', 'Friday')"
-								:l10n-saturday="t('calendar', 'Saturday')"
-								:l10n-sunday="t('calendar', 'Sunday')"
-								:l10n-week-day-list-label="t('calendar', 'Weekdays')" />
+								v-model:slots="editing.availability.slots"
+								:l10nTo="t('calendar', 'to')"
+								:l10nDeleteSlot="t('calendar', 'Delete slot')"
+								:l10nEmptyDay="t('calendar', 'No times set')"
+								:l10nAddSlot="t('calendar', 'Add')"
+								:l10nMonday="t('calendar', 'Monday')"
+								:l10nTuesday="t('calendar', 'Tuesday')"
+								:l10nWednesday="t('calendar', 'Wednesday')"
+								:l10nThursday="t('calendar', 'Thursday')"
+								:l10nFriday="t('calendar', 'Friday')"
+								:l10nSaturday="t('calendar', 'Saturday')"
+								:l10nSunday="t('calendar', 'Sunday')"
+								:l10nWeekDayListLabel="t('calendar', 'Weekdays')" />
 						</div>
 					</fieldset>
 
@@ -99,13 +99,15 @@
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<CheckedDurationSelect
+								v-model="editing.preparationDuration"
+								:enabled="enablePreparationDuration"
 								:label="t('calendar', 'Before the event')"
-								:enabled.sync="enablePreparationDuration"
-								:value.sync="editing.preparationDuration" />
+								@update:enabled="setEnablePreparationDuration" />
 							<CheckedDurationSelect
+								v-model="editing.followupDuration"
+								:enabled="enableFollowupDuration"
 								:label="t('calendar', 'After the event')"
-								:enabled.sync="enableFollowupDuration"
-								:value.sync="editing.followupDuration" />
+								@update:enabled="setEnableFollowupDuration" />
 						</div>
 					</fieldset>
 
@@ -114,23 +116,24 @@
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<DurationSelect
+								v-model="editing.timeBeforeNextSlot"
 								:label="t('calendar', 'Minimum time before next available slot')"
-								:value.sync="editing.timeBeforeNextSlot"
 								:max="7 * 24 * 60 * 60" />
 							<NumberInput
+								v-model="editing.dailyMax"
 								:label="t('calendar', 'Max slots per day')"
-								:value.sync="editing.dailyMax"
-								:allow-empty="true" />
+								:allowEmpty="true" />
 						</div>
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<CheckedDurationSelect
+								v-model="editing.futureLimit"
+								:enabled="enableFutureLimit"
 								:label="t('calendar', 'Limit how far in the future appointments can be booked')"
-								:enabled.sync="enableFutureLimit"
-								:value.sync="editing.futureLimit"
-								:default-value="defaultConfig.futureLimit"
+								:defaultValue="defaultConfig.futureLimit"
 								:min="7 * 24 * 60 * 60"
-								:max="null" />
+								:max="null"
+								@update:enabled="setEnableFutureLimit" />
 						</div>
 					</fieldset>
 				</div>
@@ -148,12 +151,12 @@
 				</NcButton>
 			</template>
 		</div>
-	</Modal>
+	</NcModal>
 </template>
 
 <script>
 import { CalendarAvailability } from '@nextcloud/calendar-availability-vue'
-import { NcModal as Modal, NcButton, NcCheckboxRadioSwitch, NcNoteCard } from '@nextcloud/vue'
+import { NcButton, NcCheckboxRadioSwitch, NcModal, NcNoteCard } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import CheckedDurationSelect from './AppointmentConfigModal/CheckedDurationSelect.vue'
 import Confirmation from './AppointmentConfigModal/Confirmation.vue'
@@ -177,7 +180,7 @@ export default {
 		CheckedDurationSelect,
 		CalendarPicker,
 		DurationInput,
-		Modal,
+		NcModal,
 		NumberInput,
 		TextInput,
 		TextArea,
@@ -295,6 +298,18 @@ export default {
 	},
 
 	methods: {
+		setEnablePreparationDuration(value) {
+			this.enablePreparationDuration = value
+		},
+
+		setEnableFollowupDuration(value) {
+			this.enableFollowupDuration = value
+		},
+
+		setEnableFutureLimit(value) {
+			this.enableFutureLimit = value
+		},
+
 		reset() {
 			this.editing = this.config.clone()
 

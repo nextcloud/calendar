@@ -16,10 +16,10 @@
 		<Avatar
 			v-if="isSharedWithMe"
 			class="calendar-picker-option__avatar"
-			:disable-menu="true"
-			:disable-tooltip="true"
+			:disableMenu="true"
+			:disableTooltip="true"
 			:user="userId"
-			:display-name="userDisplayName"
+			:displayName="userDisplayName"
 			:size="18" />
 	</div>
 </template>
