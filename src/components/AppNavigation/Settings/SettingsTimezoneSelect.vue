@@ -10,7 +10,7 @@
 		</label>
 		<TimezonePicker
 			:uid="inputId"
-			:additional-timezones="additionalTimezones"
+			:additionalTimezones="additionalTimezones"
 			:value="timezone"
 			@input="setTimezoneValue" />
 	</li>

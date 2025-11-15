@@ -4,82 +4,85 @@
 -->
 
 <template>
-	<NcGuestContent class="booking-wrapper">
-		<div v-if="!selectedSlot && !bookingConfirmed" class="booking">
-			<div class="booking__config-user-info">
-				<Avatar
-					:user="userInfo.uid"
-					:display-name="userInfo.displayName"
-					:disable-tooltip="true"
-					:disable-menu="true"
-					:size="44" />
-				<div class="booking__display-name">
-					<strong>{{ userInfo.displayName }}</strong>
+	<div class="booking__container">
+		<NcGuestContent v-if="!selectedSlot && !bookingConfirmed">
+			<div class="booking">
+				<div class="booking__config-user-info">
+					<Avatar
+						:user="userInfo.uid"
+						:displayName="userInfo.displayName"
+						:disableTooltip="true"
+						:disableMenu="true"
+						:size="44" />
+					<div class="booking__display-name">
+						<strong>{{ userInfo.displayName }}</strong>
+					</div>
+					<h5 class="booking__name">
+						{{ config.name }}
+					</h5>
+					<!-- Description needs to stay inline due to its whitespace -->
+					<span class="booking__description">{{ config.description }}</span>
 				</div>
-				<h5 class="booking__name">
-					{{ config.name }}
-				</h5>
-				<!-- Description needs to stay inline due to its whitespace -->
-				<span class="booking__description">{{ config.description }}</span>
+				<div class="booking__date-selection">
+					<h5 class="booking__date-header">
+						{{ $t('calendar', 'Select a date') }}
+					</h5>
+					<div class="booking__date">
+						<DateTimePicker
+							v-model="selectedDate"
+							:min="minimumDate"
+							type="date"
+							inline
+							:open="true" />
+					</div>
+					<div class="booking__time-zone">
+						<TimezonePicker
+							v-model="timeZone"
+							:aria-label="$t('calendar', 'Select a date')"
+							@change="fetchSlots" />
+					</div>
+				</div>
+				<div class="booking__slot-selection">
+					<h5>{{ $t('calendar', 'Select slot') }}</h5>
+					<div class="booking__slots">
+						<Loading v-if="loadingSlots" class="loading" :size="24" />
+						<NcEmptyContent
+							v-else-if="slots.length === 0 && !loadingSlots"
+							:title="$t('calendar', 'No slots available')"
+							:description="$t('calendar', 'No slots available')" />
+						<template v-else>
+							<AppointmentSlot
+								v-for="slot in slots"
+								:key="slot.start"
+								:start="slot.start"
+								:end="slot.end"
+								:timeZoneId="timeZone"
+								@click="onSlotClicked(slot)" />
+						</template>
+					</div>
+				</div>
 			</div>
-			<div class="booking__date-selection">
-				<h5 class="booking__date-header">
-					{{ $t('calendar', 'Select a date') }}
-				</h5>
-				<div class="booking__date">
-					<DateTimePicker
-						v-model="selectedDate"
-						:disabled-date="disabledDate"
-						type="date"
-						:open="true"
-						@change="fetchSlots" />
-				</div>
-				<div class="booking__time-zone">
-					<TimezonePicker
-						v-model="timeZone"
-						:aria-label="$t('calendar', 'Select a date')"
-						@change="fetchSlots" />
-				</div>
-			</div>
-			<div class="booking__slot-selection">
-				<h5>{{ $t('calendar', 'Select slot') }}</h5>
-				<div class="booking__slots">
-					<Loading v-if="loadingSlots" class="loading" :size="24" />
-					<NcEmptyContent
-						v-else-if="slots.length === 0 && !loadingSlots"
-						:title="$t('calendar', 'No slots available')"
-						:description="$t('calendar', 'No slots available')" />
-					<template v-else>
-						<AppointmentSlot
-							v-for="slot in slots"
-							:key="slot.start"
-							:start="slot.start"
-							:end="slot.end"
-							:time-zone-id="timeZone"
-							@click="onSlotClicked(slot)" />
-					</template>
-				</div>
-			</div>
-		</div>
-		<AppointmentDetails
-			v-else-if="selectedSlot && !bookingConfirmed"
-			:key="selectedSlot.start"
-			:user-info="userInfo"
-			:config="config"
-			:time-slot="selectedSlot"
-			:visitor-info="visitorInfo"
-			:time-zone-id="timeZone"
-			:show-error="bookingError"
-			:show-rate-limiting-warning="bookingRateLimit"
-			:is-loading="bookingLoading"
-			@save="onSave"
-			@close="selectedSlot = undefined"
-			@go-back="selectedSlot = undefined" />
-
-		<AppointmentBookingConfirmation
-			v-else
-			@close="bookingConfirmed = false" />
-	</NcGuestContent>
+		</NcGuestContent>
+		<NcGuestContent v-else-if="selectedSlot && !bookingConfirmed">
+			<AppointmentDetails
+				:key="selectedSlot.start"
+				:userInfo="userInfo"
+				:config="config"
+				:timeSlot="selectedSlot"
+				:visitorInfo="visitorInfo"
+				:timeZoneId="timeZone"
+				:showError="bookingError"
+				:showRateLimitingWarning="bookingRateLimit"
+				:isLoading="bookingLoading"
+				@save="onSave"
+				@close="selectedSlot = undefined"
+				@goBack="selectedSlot = undefined" />
+		</NcGuestContent>
+		<NcGuestContent v-else-if="bookingConfirmed">
+			<AppointmentBookingConfirmation
+				@close="bookingConfirmed = false" />
+		</NcGuestContent>
+	</div>
 </template>
 
 <script>
@@ -91,6 +94,7 @@ import {
 	NcGuestContent,
 	NcTimezonePicker as TimezonePicker,
 } from '@nextcloud/vue'
+import { h } from 'vue'
 import MDILoading from 'vue-material-design-icons/Loading.vue'
 import AppointmentBookingConfirmation from '../../components/Appointments/AppointmentBookingConfirmation.vue'
 import AppointmentDetails from '../../components/Appointments/AppointmentDetails.vue'
@@ -99,15 +103,11 @@ import { bookSlot, findSlots } from '../../services/appointmentService.js'
 
 import '@nextcloud/dialogs/style.css'
 
-const Loading = {
-	functional: true,
-	render(h, { data, props }) {
-		return h(MDILoading, {
-			data,
-			staticClass: 'animation-rotate',
-			props,
-		})
-	},
+function Loading(props) {
+	return h(MDILoading, {
+		class: 'animation-rotate',
+		...props,
+	})
 }
 
 export default {
@@ -176,6 +176,10 @@ export default {
 	},
 
 	watch: {
+		selectedDate() {
+			this.fetchSlots()
+		},
+
 		timeZone() {
 			// TODO: fix the @nextcloud/vue component to emit @change
 			this.fetchSlots()
@@ -191,19 +195,6 @@ export default {
 	},
 
 	methods: {
-		/**
-		 * Whether the date is acceptable
-		 *
-		 * @param {Date} date The date to compare to
-		 * @return {boolean}
-		 */
-		disabledDate(date) {
-			if (date <= this.minimumDate) {
-				return true
-			}
-			return this.endDate && this.endDate < date
-		},
-
 		async fetchSlots() {
 			this.slots = []
 			this.loadingSlots = true
@@ -264,61 +255,46 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.booking-wrapper {
+<style lang="scss">
+// Need to be unscoped to target the mount point
+#appointment-booking {
 	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+</style>
+
+<style lang="scss" scoped>
+.booking__container {
+	display: flex;
+	width: 100%;
+	height: 100vh;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 .booking {
 	display: flex;
-	flex: 1 auto;
 	flex-direction: row;
 	flex-wrap: wrap;
-	width: 900px;
-	min-height: 500px;
-	margin-bottom: 50px;
-	justify-content: space-between;
-}
-
-.booking > div {
-	flex-basis: 33.33%;
-	flex-grow: 1;
-}
-
-.booking__config-user-info {
-	flex-grow: 1;
-}
-
-.booking__date-selection {
-	display: flex;
-	flex-direction: column;
+	max-width: 100%;
+	gap: calc(var(--default-grid-baseline) * 6);
+	padding-top: calc(var(--default-grid-baseline) * 4);
+	padding-bottom: calc(var(--default-grid-baseline) * 4);
+	padding-inline: calc(var(--default-grid-baseline) * 4);
 }
 
 .booking__description {
 	white-space: break-spaces;
 }
 
-.booking__date-selection,
-.booking__slot-selection {
-	padding: 0 10px;
-}
-
-.booking__time-zone {
-	margin-top: 280px;
-	position: relative;
-
-	:deep(.v-select.select) {
-		max-width: 260px;
-	}
-}
-
-.booking__date-header {
-	position: relative;
-	margin-inline-start: 16px;
-}
-
-.booking__slot-selection .material-design-icon.loading-icon.animation-rotate {
-	animation: rotate var(--animation-duration, 0.8s) linear infinite;
+.booking__date-selection {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 2);
 }
 
 .booking__slots {
@@ -326,6 +302,10 @@ export default {
 	flex-direction: column;
 	max-height: 440px;
 	overflow-y: auto;
+}
+
+.booking__slot-selection {
+	min-width: 180px;
 }
 
 :deep(.mx-input-wrapper) {
@@ -336,21 +316,7 @@ export default {
 	border: 0;
 }
 
-h2, h3, h4, h5 {
-	margin-top: 0;
+:deep(.textarea__main-wrapper) {
+	height: unset !important;
 }
-
-.booking__date {
-	margin-top: -25px;
-}
-
-:deep(.cell.disabled) {
-		background-color: var(--color-background-dark);
-		color: var(--color-main-text);
-}
-
-:deep(.cell.not-current-month) {
-	background-color: unset;
-}
-
 </style>

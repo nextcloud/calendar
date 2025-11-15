@@ -5,9 +5,9 @@
 
 <template>
 	<AppNavigationItem
+		v-model:menuOpen="menuOpen"
 		:loading="calendar.loading"
-		:name="calendar.displayName || $t('calendar', 'Untitled calendar')"
-		:menu-open.sync="menuOpen">
+		:name="calendar.displayName || $t('calendar', 'Untitled calendar')">
 		<template #icon>
 			<AppNavigationIconBullet :color="calendar.color" />
 		</template>
@@ -15,9 +15,9 @@
 		<template #counter>
 			<Avatar
 				:user="owner"
-				:is-guest="true"
-				:disable-tooltip="true"
-				:disable-menu="true" />
+				:isGuest="true"
+				:disableTooltip="true"
+				:disableMenu="true" />
 		</template>
 
 		<template #actions>
@@ -30,9 +30,10 @@
 				{{ $t('calendar', 'Copy subscription link') }}
 			</ActionButton>
 			<ActionText
-				v-if="showCopySubscriptionLinkSpinner"
-				icon="icon-loading-small">
-				<!-- eslint-disable-next-line no-irregular-whitespace -->
+				v-if="showCopySubscriptionLinkSpinner">
+				<template #icon>
+					<div class="icon icon-loading-small" />
+				</template>
 				{{ $t('calendar', 'Copying link …') }}
 			</ActionText>
 			<ActionText v-if="showCopySubscriptionLinkSuccess">

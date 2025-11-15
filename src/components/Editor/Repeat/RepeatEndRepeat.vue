@@ -7,15 +7,14 @@
 	<div class="repeat-option-set repeat-option-set--end">
 		<span class="repeat-option-end__label">{{ $t('calendar', 'End repeat') }}</span>
 		<NcSelect
+			v-model="selectedOption"
 			class="repeat-option-end__end-type-select"
 			:options="options"
 			:searchable="false"
-			:name="$t('calendar', 'Select to end repeat')"
-			:value="selectedOption"
+			:inputOutside="true"
 			:clearable="false"
-			input-id="value"
-			label="label"
-			@input="changeEndType" />
+			inputId="value"
+			label="label" />
 		<DatePicker
 			v-if="isUntil"
 			class="repeat-option-end__until"
@@ -23,24 +22,18 @@
 			:date="until"
 			type="date"
 			@change="changeUntil" />
-		<input
+		<NcTextField
 			v-if="isCount"
 			class="repeat-option-end__count"
 			type="number"
-			min="1"
-			max="3500"
-			:value="count"
-			@input="changeCount">
-		<span
-			v-if="isCount"
-			class="repeat-option-end__count">
-			{{ occurrencesLabel }}
-		</span>
+			:label="$t('calendar', 'Occurrences')"
+			:modelValue="String(count)"
+			@update:modelValue="changeCount" />
 	</div>
 </template>
 
 <script>
-import { NcSelect } from '@nextcloud/vue'
+import { NcSelect, NcTextField } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
 import DatePicker from '../../Shared/DatePicker.vue'
 import useDavRestrictionsStore from '../../../store/davRestrictions.js'
@@ -50,6 +43,7 @@ export default {
 	components: {
 		DatePicker,
 		NcSelect,
+		NcTextField,
 	},
 
 	props: {
@@ -111,15 +105,6 @@ export default {
 		},
 
 		/**
-		 * Label for time/times
-		 *
-		 * @return {string}
-		 */
-		occurrencesLabel() {
-			return this.$n('calendar', 'time', 'times', this.count)
-		},
-
-		/**
 		 * Options for recurrence-end
 		 *
 		 * @return {object[]}
@@ -142,44 +127,40 @@ export default {
 		 *
 		 * @return {object}
 		 */
-		selectedOption() {
-			if (this.count !== null) {
-				return this.options.find((option) => option.value === 'count')
-			} else if (this.until !== null) {
-				return this.options.find((option) => option.value === 'until')
-			} else {
+		selectedOption: {
+			get() {
+				if (this.count !== null) {
+					return this.options.find((option) => option.value === 'count')
+				} else if (this.until !== null) {
+					return this.options.find((option) => option.value === 'until')
+				}
+
 				return this.options.find((option) => option.value === 'never')
-			}
+			},
+
+			set(value) {
+				if (!value) {
+					return
+				}
+
+				switch (value.value) {
+					case 'until':
+						this.$emit('changeToUntil')
+						break
+
+					case 'count':
+						this.$emit('changeToCount')
+						break
+
+					case 'never':
+					default:
+						this.$emit('setInfinite')
+				}
+			},
 		},
 	},
 
 	methods: {
-		/**
-		 * Changes the type of recurrence-end
-		 * Whether it ends never, on a given date or after an amount of occurrences
-		 *
-		 * @param {object} value The new type of recurrence-end to select
-		 */
-		changeEndType(value) {
-			console.debug(value)
-			if (!value) {
-				return
-			}
-
-			switch (value.value) {
-				case 'until':
-					this.$emit('change-to-until')
-					break
-
-				case 'count':
-					this.$emit('change-to-count')
-					break
-
-				case 'never':
-				default:
-					this.$emit('set-infinite')
-			}
-		},
 
 		/**
 		 * Changes the until-date of this recurrence-set
@@ -187,21 +168,21 @@ export default {
 		 * @param {Date} date The new date to set as end
 		 */
 		changeUntil(date) {
-			this.$emit('set-until', date)
+			this.$emit('setUntil', date)
 		},
 
 		/**
 		 * Changes the number of occurrences in this recurrence-set
 		 *
-		 * @param {Event} event The input event
+		 * @param {string} value The input value
 		 */
-		changeCount(event) {
-			const minimumValue = parseInt(event.target.min, 10)
-			const maximumValue = parseInt(event.target.max, 10)
-			const selectedValue = parseInt(event.target.value, 10)
+		changeCount(value) {
+			const minimumValue = 1
+			const maximumValue = 3500
+			const selectedValue = parseInt(value, 10)
 
 			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
-				this.$emit('set-count', selectedValue)
+				this.$emit('setCount', selectedValue)
 			}
 		},
 	},

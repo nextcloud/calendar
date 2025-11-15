@@ -12,7 +12,7 @@
 				:size="20" />
 			<RepeatSummary
 				class="property-repeat__summary__content"
-				:recurrence-rule="recurrenceRule" />
+				:recurrenceRule="recurrenceRule" />
 			<Actions v-if="!isReadOnly">
 				<ActionButton @click="toggleOptions">
 					<template #icon>
@@ -26,55 +26,58 @@
 			</Actions>
 		</div>
 
-		<NcModal :show.sync="showOptions">
+		<NcModal
+			v-model:show="showOptions"
+			size="small"
+			:name="$t('calendar', 'Repeat event')">
 			<div class="property-repeat__options">
 				<h2>{{ $t('calendar', 'Repeat event') }}</h2>
 				<RepeatFreqInterval
 					v-if="!isRecurrenceException && !isReadOnly"
 					:frequency="recurrenceRule.frequency"
 					:interval="recurrenceRule.interval"
-					@change-interval="changeInterval"
-					@change-frequency="changeFrequency" />
+					@changeInterval="changeInterval"
+					@changeFrequency="changeFrequency" />
 				<RepeatFreqWeeklyOptions
 					v-if="isFreqWeekly && !isRecurrenceException && !isReadOnly"
-					:by-day="recurrenceRule.byDay"
-					@add-by-day="addByDay"
-					@remove-by-day="removeByDay" />
+					:byDay="recurrenceRule.byDay"
+					@addByDay="addByDay"
+					@removeByDay="removeByDay" />
 				<RepeatFreqMonthlyOptions
 					v-if="isFreqMonthly && !isRecurrenceException && !isReadOnly"
-					:by-day="recurrenceRule.byDay"
-					:by-month-day="recurrenceRule.byMonthDay"
-					:by-set-position="recurrenceRule.bySetPosition"
-					@add-by-month-day="addByMonthDay"
-					@remove-by-month-day="removeByMonthDay"
-					@change-by-day="setByDay"
-					@change-by-set-position="setBySetPosition"
-					@change-to-by-set-position="changeToBySetPositionMonthly"
-					@change-to-by-month-day="changeToByDayMonthly" />
+					:byDay="recurrenceRule.byDay"
+					:byMonthDay="recurrenceRule.byMonthDay"
+					:bySetPosition="recurrenceRule.bySetPosition"
+					@addByMonthDay="addByMonthDay"
+					@removeByMonthDay="removeByMonthDay"
+					@changeByDay="setByDay"
+					@changeBySetPosition="setBySetPosition"
+					@changeToBySetPosition="changeToBySetPositionMonthly"
+					@changeToByMonthDay="changeToByDayMonthly" />
 				<RepeatFreqYearlyOptions
 					v-if="isFreqYearly && !isRecurrenceException && !isReadOnly"
-					:by-day="recurrenceRule.byDay"
-					:by-month="recurrenceRule.byMonth"
-					:by-month-day="recurrenceRule.byMonthDay"
-					:by-set-position="recurrenceRule.bySetPosition"
-					@add-by-month="addByMonth"
-					@remove-by-month="removeByMonth"
-					@add-by-month-day="addByMonthDay"
-					@remove-by-month-day="removeByMonthDay"
-					@change-by-day="setByDay"
-					@change-by-set-position="setBySetPosition"
-					@change-to-by-set-position="changeToBySetPositionYearly"
-					@change-to-by-month-day="changeToByDayYearly" />
+					:byDay="recurrenceRule.byDay"
+					:byMonth="recurrenceRule.byMonth"
+					:byMonthDay="recurrenceRule.byMonthDay"
+					:bySetPosition="recurrenceRule.bySetPosition"
+					@addByMonth="addByMonth"
+					@removeByMonth="removeByMonth"
+					@addByMonthDay="addByMonthDay"
+					@removeByMonthDay="removeByMonthDay"
+					@changeByDay="setByDay"
+					@changeBySetPosition="setBySetPosition"
+					@changeToBySetPosition="changeToBySetPositionYearly"
+					@changeToByMonthDay="changeToByDayYearly" />
 				<RepeatEndRepeat
 					v-if="isRepeating && !isRecurrenceException && !isReadOnly"
-					:calendar-object-instance="calendarObjectInstance"
+					:calendarObjectInstance="calendarObjectInstance"
 					:until="recurrenceRule.until"
 					:count="recurrenceRule.count"
-					@set-infinite="setInfinite"
-					@set-until="setUntil"
-					@set-count="setCount"
-					@change-to-count="changeToCount"
-					@change-to-until="changeToUntil" />
+					@setInfinite="setInfinite"
+					@setUntil="setUntil"
+					@setCount="setCount"
+					@changeToCount="changeToCount"
+					@changeToUntil="changeToUntil" />
 				<RepeatUnsupportedWarning v-if="recurrenceRule.isUnsupported && !isRecurrenceException" />
 				<RepeatExceptionWarning v-if="isRecurrenceException" />
 			</div>
@@ -492,7 +495,7 @@ export default {
 			}
 
 			if (!this.isEditingMasterItem) {
-				this.$emit('force-this-and-all-future')
+				this.$emit('forceThisAndAllFuture')
 			}
 
 			this.calendarObjectInstanceStore.calendarObjectInstance.canModifyAllDay = this.calendarObjectInstanceStore.calendarObjectInstance.eventComponent.canModifyAllDay()

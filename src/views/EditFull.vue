@@ -9,10 +9,10 @@
 		v-model="showFullModal"
 		class="calendar-edit-full"
 		size="full"
-		label-id="edit-full-modal"
+		labelId="edit-full-modal"
 		:name="t('calendar', 'Edit event')"
 		:dark="false"
-		:no-close="true"
+		:noClose="true"
 		@close="cancel(false)">
 		<NcButton class="calendar-edit-full__default-close" variant="tertiary" @click="cancel(false)">
 			<template #icon>
@@ -42,7 +42,7 @@
 
 						<PropertyTitle
 							:value="title"
-							:is-read-only="isReadOnly || isViewedByOrganizer === false"
+							:isReadOnly="isReadOnly || isViewedByOrganizer === false"
 							@update:value="updateTitle" />
 					</div>
 
@@ -50,12 +50,12 @@
 						<SaveButtons
 							v-if="showSaveButtons"
 							class="app-full-tab__buttons"
-							:can-create-recurrence-exception="canCreateRecurrenceException"
-							:is-new="isNew"
-							:is-read-only="isReadOnly"
-							:force-this-and-all-future="forceThisAndAllFuture"
-							@save-this-only="prepareAccessForAttachments(false)"
-							@save-this-and-all-future="prepareAccessForAttachments(true)" />
+							:canCreateRecurrenceException="canCreateRecurrenceException"
+							:isNew="isNew"
+							:isReadOnly="isReadOnly"
+							:forceThisAndAllFuture="forceThisAndAllFuture"
+							@saveThisOnly="prepareAccessForAttachments(false)"
+							@saveThisAndAllFuture="prepareAccessForAttachments(true)" />
 						<div class="app-full__actions__inner" :class="[{ 'app-full__actions__inner__readonly': isReadOnly }]">
 							<NcActions>
 								<NcActionLink v-if="!hideEventExport && hasDownloadURL && !isNew" :href="downloadURL">
@@ -64,25 +64,25 @@
 									</template>
 									{{ $t('calendar', 'Export') }}
 								</NcActionLink>
-								<NcActionButton v-if="!canCreateRecurrenceException && !isReadOnly && !isNew" type="tertiary" @click="duplicateEvent()">
+								<NcActionButton v-if="!canCreateRecurrenceException && !isReadOnly && !isNew" @click="duplicateEvent()">
 									<template #icon>
 										<ContentDuplicate :size="20" decorative />
 									</template>
 									{{ $t('calendar', 'Duplicate') }}
 								</NcActionButton>
-								<NcActionButton v-if="canDelete && !canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(false)">
+								<NcActionButton v-if="canDelete && !canCreateRecurrenceException && !isNew" @click="deleteAndLeave(false)">
 									<template #icon>
 										<Delete :size="20" decorative />
 									</template>
 									{{ $t('calendar', 'Delete') }}
 								</NcActionButton>
-								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(false)">
+								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" @click="deleteAndLeave(false)">
 									<template #icon>
 										<Delete :size="20" decorative />
 									</template>
 									{{ $t('calendar', 'Delete this occurrence') }}
 								</NcActionButton>
-								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" type="tertiary" @click="deleteAndLeave(true)">
+								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" @click="deleteAndLeave(true)">
 									<template #icon>
 										<Delete :size="20" decorative />
 									</template>
@@ -95,51 +95,51 @@
 
 				<div class="app-full__header">
 					<PropertyTitleTimePicker
-						:start-date="startDate"
-						:start-timezone="startTimezone"
-						:end-date="endDate"
-						:end-timezone="endTimezone"
-						:is-all-day="isAllDay"
-						:is-read-only="isReadOnly || isViewedByOrganizer === false"
-						:can-modify-all-day="canModifyAllDay"
-						:user-timezone="currentUserTimezone"
-						:append-to-body="true"
-						@update-start-date="updateStartDate"
-						@update-start-time="updateStartTime"
-						@update-start-timezone="updateStartTimezone"
-						@update-end-date="updateEndDate"
-						@update-end-time="updateEndTime"
-						@update-end-timezone="updateEndTimezone" />
+						:startDate="startDate"
+						:startTimezone="startTimezone"
+						:endDate="endDate"
+						:endTimezone="endTimezone"
+						:isAllDay="isAllDay"
+						:isReadOnly="isReadOnly || isViewedByOrganizer === false"
+						:canModifyAllDay="canModifyAllDay"
+						:userTimezone="currentUserTimezone"
+						:appendToBody="true"
+						@updateStartDate="updateStartDate"
+						@updateStartTime="updateStartTime"
+						@updateStartTimezone="updateStartTimezone"
+						@updateEndDate="updateEndDate"
+						@updateEndTime="updateEndTime"
+						@updateEndTimezone="updateEndTimezone" />
 
 					<div class="app-full__header__details">
 						<div class="app-full__header__details-time">
 							<NcCheckboxRadioSwitch
 								v-if="!isReadOnly && !isViewedByAttendee"
-								:checked="isAllDay"
+								:modelValue="isAllDay"
 								:disabled="!canModifyAllDay"
-								@update:checked="toggleAllDayPreliminary">
+								@update:modelValue="toggleAllDayPreliminary">
 								{{ $t('calendar', 'All day') }}
 							</NcCheckboxRadioSwitch>
 
 							<!-- TODO: If not editing the master item, force updating this and all future   -->
 							<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
 							<Repeat
-								:calendar-object-instance="calendarObjectInstance"
-								:recurrence-rule="calendarObjectInstance.recurrenceRule"
-								:is-read-only="isReadOnly || isViewedByOrganizer === false"
-								:is-editing-master-item="isEditingMasterItem"
-								:is-recurrence-exception="isRecurrenceException"
-								@force-this-and-all-future="forceModifyingFuture" />
+								:calendarObjectInstance="calendarObjectInstance"
+								:recurrenceRule="calendarObjectInstance.recurrenceRule"
+								:isReadOnly="isReadOnly || isViewedByOrganizer === false"
+								:isEditingMasterItem="isEditingMasterItem"
+								:isRecurrenceException="isRecurrenceException"
+								@forceThisAndAllFuture="forceModifyingFuture" />
 						</div>
 
 						<div class="app-full__header__details-calendar">
 							<CalendarPickerHeader
 								:value="selectedCalendar"
 								:calendars="calendars"
-								:is-read-only="isReadOnly || !canModifyCalendar"
-								:is-viewed-by-attendee="isViewedByOrganizer === false"
+								:isReadOnly="isReadOnly || !canModifyCalendar"
+								:isViewedByAttendee="isViewedByOrganizer === false"
 								@update:value="changeCalendar" />
-							<NcPopover v-if="isViewedByOrganizer === false" :no-focus-trap="true">
+							<NcPopover v-if="isViewedByOrganizer === false" :noFocusTrap="true">
 								<template #trigger>
 									<NcButton variant="tertiary-no-background">
 										<template #icon>
@@ -159,9 +159,9 @@
 					<InvitationResponseButtons
 						v-if="isViewedByAttendee"
 						:attendee="userAsAttendee"
-						:calendar-id="calendarId"
+						:calendarId="calendarId"
 						:narrow="true"
-						:grow-horizontally="true"
+						:growHorizontally="true"
 						@close="closeEditorAndSkipAction" />
 				</div>
 
@@ -169,28 +169,28 @@
 					<div class="app-full-body__left">
 						<PropertyText
 							class="property-location"
-							:is-read-only="isReadOnly || isViewedByOrganizer === false"
-							:prop-model="rfcProps.location"
+							:isReadOnly="isReadOnly || isViewedByOrganizer === false"
+							:propModel="rfcProps.location"
 							:value="location"
-							:linkify-links="true"
+							:linkifyLinks="true"
 							@update:value="updateLocation" />
 						<PropertyText
 							class="property-description"
-							:is-read-only="isReadOnly"
-							:prop-model="rfcProps.description"
+							:isReadOnly="isReadOnly"
+							:propModel="rfcProps.description"
 							:value="description"
-							:is-description="true"
-							:linkify-links="true"
+							:isDescription="true"
+							:linkifyLinks="true"
 							@update:value="updateDescription" />
 
 						<AlarmList
-							:calendar-object-instance="calendarObjectInstance"
-							:is-read-only="isReadOnly" />
+							:calendarObjectInstance="calendarObjectInstance"
+							:isReadOnly="isReadOnly" />
 
 						<AttachmentsList
 							v-if="!isLoading"
-							:calendar-object-instance="calendarObjectInstance"
-							:is-read-only="isReadOnly" />
+							:calendarObjectInstance="calendarObjectInstance"
+							:isReadOnly="isReadOnly" />
 					</div>
 
 					<div class="app-full-body__right">
@@ -201,10 +201,10 @@
 							<AddTalkModal
 								v-if="isModalOpen"
 								:conversations="talkConversations"
-								:calendar-object-instance="calendarObjectInstance"
+								:calendarObjectInstance="calendarObjectInstance"
 								@close="isModalOpen = false"
-								@update-location="updateLocation"
-								@update-description="updateDescription" />
+								@updateLocation="updateLocation"
+								@updateDescription="updateDescription" />
 							<NcButton
 								class="property-add-talk__button"
 								:disabled="isCreateTalkRoomButtonDisabled"
@@ -214,33 +214,33 @@
 							</NcButton>
 						</div>
 						<PropertySelect
-							:is-read-only="isReadOnly"
-							:prop-model="rfcProps.status"
+							:isReadOnly="isReadOnly"
+							:propModel="rfcProps.status"
 							:value="status"
 							@update:value="updateStatus" />
 						<PropertySelect
-							:is-read-only="isReadOnly || isViewedByOrganizer === false"
-							:prop-model="rfcProps.accessClass"
+							:isReadOnly="isReadOnly || isViewedByOrganizer === false"
+							:propModel="rfcProps.accessClass"
 							:value="accessClass"
 							@update:value="updateAccessClass" />
 						<PropertySelect
-							:is-read-only="isReadOnly"
-							:prop-model="rfcProps.timeTransparency"
+							:isReadOnly="isReadOnly"
+							:propModel="rfcProps.timeTransparency"
 							:value="timeTransparency"
 							@update:value="updateTimeTransparency" />
 						<PropertySelectMultiple
 							class="property-categories"
-							:colored-options="true"
-							:is-read-only="isReadOnly"
-							:prop-model="rfcProps.categories"
+							:coloredOptions="true"
+							:isReadOnly="isReadOnly"
+							:propModel="rfcProps.categories"
 							:value="categories"
-							@add-single-value="addCategory"
-							@remove-single-value="removeCategory" />
+							@addSingleValue="addCategory"
+							@removeSingleValue="removeCategory" />
 						<PropertyColor
-							:calendar-color="selectedCalendarColor"
-							:show-icon="!(isReadOnly && color === null)"
-							:is-read-only="isReadOnly"
-							:prop-model="rfcProps.color"
+							:calendarColor="selectedCalendarColor"
+							:showIcon="!(isReadOnly && color === null)"
+							:isReadOnly="isReadOnly"
+							:propModel="rfcProps.color"
 							:value="color"
 							@update:value="updateColor" />
 					</div>
@@ -264,7 +264,7 @@
 								class="user-list-item"
 								:name="attendee.commonName"
 								:subtitle="emailWithoutMailto(attendee.uri)"
-								:is-no-user="true" />
+								:isNoUser="true" />
 						</div>
 						<div class="modal-subtitle">
 							{{ n('calendar', 'Attachment requires shared access', 'Attachments requiring shared access', showModalNewAttachments.length) }}
@@ -276,11 +276,11 @@
 								class="attachment-list-item"
 								:name="getBaseName(attachment.fileName)"
 								:url="getPreview(attachment)"
-								:force-display-actions="false" />
+								:forceDisplayActions="false" />
 						</div>
 						<div class="modal-footer">
 							<div class="modal-footer-checkbox">
-								<NcCheckboxRadioSwitch v-if="!isPrivate()" :checked.sync="doNotShare">
+								<NcCheckboxRadioSwitch v-if="!isPrivate()" v-model="doNotShare">
 									{{ t('calendar', 'Deny access') }}
 								</NcCheckboxRadioSwitch>
 							</div>
@@ -304,18 +304,18 @@
 						<InviteesList
 							v-if="!isLoading"
 							:calendar="selectedCalendar"
-							:calendar-object-instance="calendarObjectInstance"
-							:is-read-only="isReadOnly || isViewedByOrganizer === false"
-							:is-shared-with-me="isSharedWithMe"
-							:show-header="true"
-							@update-dates="updateDates" />
+							:calendarObjectInstance="calendarObjectInstance"
+							:isReadOnly="isReadOnly || isViewedByOrganizer === false"
+							:isSharedWithMe="isSharedWithMe"
+							:showHeader="true"
+							@updateDates="updateDates" />
 					</div>
 
 					<div class="app-full-footer__right">
 						<ResourceList
 							v-if="!isLoading"
-							:calendar-object-instance="calendarObjectInstance"
-							:is-read-only="isReadOnly || isViewedByOrganizer === false" />
+							:calendarObjectInstance="calendarObjectInstance"
+							:isReadOnly="isReadOnly || isViewedByOrganizer === false" />
 					</div>
 				</div>
 			</div>
@@ -435,12 +435,13 @@ export default {
 			cancelButtons: [
 				{
 					label: t('calendar', 'Discard changes'),
+					variant: 'secondary',
 					icon: atob(IconDelete.split(',')[1]),
 					callback: () => { this.cancel(true) },
 				},
 				{
 					label: t('calendar', 'Cancel'),
-					type: 'primary',
+					variant: 'primary',
 					icon: atob(IconCancel.split(',')[1]),
 					callback: () => { this.closeCancelDialog() },
 				},
@@ -504,11 +505,7 @@ export default {
 		},
 
 		isCreateTalkRoomButtonDisabled() {
-			if (this.creatingTalkRoom) {
-				return true
-			}
-
-			return containsRoomUrl(this.calendarObjectInstance.location) || containsRoomUrl(this.calendarObjectInstance.description)
+			return containsRoomUrl(this.calendarObjectInstance?.location) || containsRoomUrl(this.calendarObjectInstance?.description)
 		},
 
 		isCreateTalkRoomButtonVisible() {
@@ -529,7 +526,7 @@ export default {
 		window.addEventListener('keydown', this.keyboardDuplicateEvent)
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		window.removeEventListener('keydown', this.keyboardCloseEditor)
 		window.removeEventListener('keydown', this.keyboardSaveEvent)
 		window.removeEventListener('keydown', this.keyboardDeleteEvent)

@@ -5,10 +5,10 @@
 
 <template>
 	<PropertySelect
-		:prop-model="propModel"
-		:is-read-only="false"
+		:propModel="propModel"
+		:isReadOnly="false"
 		:value="null"
-		:show-icon="showIcon"
+		:showIcon="showIcon"
 		class="property-alarm-new"
 		@update:value="addReminderFromSelect" />
 </template>
@@ -80,7 +80,7 @@ export default {
 		 * @param {object} value The alarm value
 		 */
 		addReminderFromSelect(value) {
-			this.$emit('add-alarm', value)
+			this.$emit('addAlarm', value)
 		},
 
 		/**

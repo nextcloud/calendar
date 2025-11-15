@@ -5,15 +5,14 @@
 
 <template>
 	<NcSelect
-		:allow-empty="false"
+		v-model="selected"
+		:allowEmpty="false"
 		:options="options"
-		:value="selected"
 		:disabled="disabled"
 		:placeholder="$t('calendar', 'first')"
 		:clearable="false"
-		input-id="value"
-		label="label"
-		@input="select" />
+		inputId="value"
+		label="label" />
 </template>
 
 <script>
@@ -52,20 +51,18 @@ export default {
 			}))
 		},
 
-		selected() {
-			return this.options.find((option) => option.value === this.bySetPosition)
-		},
-	},
+		selected: {
+			get() {
+				return this.options.find((option) => option.value === this.bySetPosition)
+			},
 
-	methods: {
-		select(value) {
-			if (!value) {
-				return
-			}
+			set(value) {
+				if (!value) {
+					return
+				}
 
-			console.debug(value)
-
-			this.$emit('change', value.value)
+				this.$emit('change', value.value)
+			},
 		},
 	},
 }
