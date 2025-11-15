@@ -84,14 +84,13 @@
 
 					<NcSelect
 						:id="slotDuration"
+						v-model="slotDurationSelection"
 						:options="slotDurationOptions"
-						:value="selectedDurationOption"
 						:disabled="savingSlotDuration"
 						:clearable="false"
 						:input-label="$t('calendar', 'Density in Day and Week View')"
 						input-id="value"
-						label="label"
-						@option:selected="changeSlotDuration" />
+						label="label" />
 				</NcAppSettingsSection>
 				<NcAppSettingsSection
 					id="app-settings-modal-editing"
@@ -287,6 +286,16 @@ export default {
 			return this.slotDurationOptions.find((o) => o.value === this.slotDuration)
 		},
 
+		slotDurationSelection: {
+			get() {
+				return this.selectedDurationOption
+			},
+
+			set(option) {
+				this.changeSlotDuration(option)
+			},
+		},
+
 		defaultReminderOptions() {
 			const defaultAlarms = getDefaultAlarms().map((seconds) => {
 				const label = seconds === 0 ? t('calendar', 'At event start') : moment.duration(Math.abs(seconds) * 1000).locale(this.locale).humanize()
@@ -304,6 +313,16 @@ export default {
 
 		selectedDefaultReminderOption() {
 			return this.defaultReminderOptions.find((o) => o.value === this.defaultReminder)
+		},
+
+		defaultReminderSelection: {
+			get() {
+				return this.selectedDefaultReminderOption
+			},
+
+			set(option) {
+				this.changeDefaultReminder(option)
+			},
 		},
 
 		availabilitySettingsUrl() {

@@ -8,7 +8,7 @@
 	<div class="property-alarm-item">
 		<div v-if="!isEditing" class="property-alarm-item__front">
 			<div class="property-alarm-item__label">
-				{{ alarm | formatAlarm(isAllDay, currentUserTimezone, locale) }}
+				{{ formatAlarm(alarm, isAllDay, currentUserTimezone, locale) }}
 			</div>
 		</div>
 		<div
@@ -187,10 +187,6 @@ export default {
 		Pencil,
 	},
 
-	filters: {
-		formatAlarm,
-	},
-
 	props: {
 		alarm: {
 			type: Object,
@@ -229,7 +225,7 @@ export default {
 
 		canEdit() {
 			// You can always edit an alarm if it's absolute
-			if (!this.isRelative) {
+			if (!this.isRelativeAlarm) {
 				return true
 			}
 
@@ -270,11 +266,11 @@ export default {
 		},
 
 		alarmTypeName() {
-			return this._uid + '-radio-type-name'
+			return this.$.uid + '-radio-type-name'
 		},
 
 		alarmTriggerName() {
-			return this._uid + '-radio-trigger-name'
+			return this.$.uid + '-radio-trigger-name'
 		},
 
 		alarmRelationType() {
@@ -344,6 +340,19 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Format the alarm for display
+		 *
+		 * @param {object} alarm The alarm object
+		 * @param {boolean} isAllDay Whether the event is all-day
+		 * @param {string} timezone The timezone
+		 * @param {string} locale The locale
+		 * @return {string} Formatted alarm string
+		 */
+		formatAlarm(alarm, isAllDay, timezone, locale) {
+			return formatAlarm(alarm, isAllDay, timezone, locale)
+		},
+
 		/**
 		 * This method enables the editing mode
 		 */

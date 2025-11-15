@@ -9,7 +9,8 @@
 			class="app-navigation-entry-new-calendar"
 			:class="{ 'app-navigation-entry-new-calendar--open': isOpen }"
 			:name="$t('calendar', 'Calendars')"
-			:menu-open.sync="isOpen"
+			:menu-open="isOpen"
+			@update:menu-open="setMenuOpen"
 			@click.prevent.stop="toggleDialog">
 			<template #actionsTriggerIcon>
 				<Plus :size="20" :title="$t('calendar', 'Add new')" decorative />
@@ -32,9 +33,10 @@
 					</template>
 				</ActionInput>
 				<ActionText
-					v-if="showCreateCalendarSaving"
-					icon="icon-loading-small">
-					<!-- eslint-disable-next-line no-irregular-whitespace -->
+					v-if="showCreateCalendarSaving">
+					<template #icon>
+						<div class="icon icon-loading-small" />
+					</template>
 					{{ $t('calendar', 'Creating calendar …') }}
 				</ActionText>
 
@@ -55,9 +57,10 @@
 					</template>
 				</ActionInput>
 				<ActionText
-					v-if="showCreateCalendarTaskListSaving"
-					icon="icon-loading-small">
-					<!-- eslint-disable-next-line no-irregular-whitespace -->
+					v-if="showCreateCalendarTaskListSaving">
+					<template #icon>
+						<div class="icon icon-loading-small" />
+					</template>
 					{{ $t('calendar', 'Creating calendar …') }}
 				</ActionText>
 
@@ -79,9 +82,10 @@
 					</template>
 				</ActionInput>
 				<ActionText
-					v-if="showCreateSubscriptionSaving"
-					icon="icon-loading-small">
-					<!-- eslint-disable-next-line no-irregular-whitespace -->
+					v-if="showCreateSubscriptionSaving">
+					<template #icon>
+						<div class="icon icon-loading-small" />
+					</template>
 					{{ $t('calendar', 'Creating subscription …') }}
 				</ActionText>
 				<ActionButton
@@ -192,6 +196,10 @@ export default {
 	},
 
 	methods: {
+		setMenuOpen(value) {
+			this.isOpen = value
+		},
+
 		/**
 		 * Opens the Actions menu when clicking on the main item label
 		 */

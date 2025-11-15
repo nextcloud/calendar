@@ -31,8 +31,7 @@
 						v-model="selectedDate"
 						:disabled-date="disabledDate"
 						type="date"
-						:open="true"
-						@change="fetchSlots" />
+						:open="true" />
 				</div>
 				<div class="booking__time-zone">
 					<TimezonePicker
@@ -91,6 +90,7 @@ import {
 	NcGuestContent,
 	NcTimezonePicker as TimezonePicker,
 } from '@nextcloud/vue'
+import { h } from 'vue'
 import MDILoading from 'vue-material-design-icons/Loading.vue'
 import AppointmentBookingConfirmation from '../../components/Appointments/AppointmentBookingConfirmation.vue'
 import AppointmentDetails from '../../components/Appointments/AppointmentDetails.vue'
@@ -99,15 +99,11 @@ import { bookSlot, findSlots } from '../../services/appointmentService.js'
 
 import '@nextcloud/dialogs/style.css'
 
-const Loading = {
-	functional: true,
-	render(h, { data, props }) {
-		return h(MDILoading, {
-			data,
-			staticClass: 'animation-rotate',
-			props,
-		})
-	},
+const Loading = (props) => {
+	return h(MDILoading, {
+		class: 'animation-rotate',
+		...props,
+	})
 }
 
 export default {
@@ -176,6 +172,10 @@ export default {
 	},
 
 	watch: {
+		selectedDate() {
+			this.fetchSlots()
+		},
+
 		timeZone() {
 			// TODO: fix the @nextcloud/vue component to emit @change
 			this.fetchSlots()
