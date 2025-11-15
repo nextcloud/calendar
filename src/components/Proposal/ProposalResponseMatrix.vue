@@ -27,9 +27,9 @@
 							<div class="proposal-matrix__table-participant-header-avatar">
 								<NcAvatar
 									:user="participant.name || participant.address"
-									:display-name="participant.name || participant.address"
-									:disable-tooltip="false"
-									:is-no-user="true"
+									:displayName="participant.name || participant.address"
+									:disableTooltip="false"
+									:isNoUser="true"
 									:size="32" />
 								<div class="proposal-matrix__table-participant-header-name">
 									{{ participant.name || participant.address }}
@@ -41,81 +41,79 @@
 						</th>
 					</tr>
 				</thead>
-				<tbody>
-					<template v-for="group in datesGrouped">
-						<tr
-							:key="'day-' + group.key"
-							class="proposal-matrix__table-row-label">
-							<td class="proposal-matrix__table-day-label">
-								{{ group.label }}
-							</td>
-						</tr>
-						<tr v-for="date in group.dates" :key="date.id" class="proposal-matrix__table-row">
-							<td class="proposal-matrix__table-day-time">
-								{{ dateTimeSpan(date.date) }}
-							</td>
-							<td v-if="mode === 'participant'" class="proposal-matrix__table-actions-participant">
-								<div class="voting-options-container">
-									<NcCheckboxRadioSwitch
-										type="radio"
-										:button-variant="true"
-										button-variant-grouped="horizontal"
-										:name="'vote-' + date.id"
-										:value="ProposalDateVote.Yes"
-										:model-value="dateVoteValue(date)"
-										@update:modelValue="$emit('date-vote', { date: date, vote: ProposalDateVote.Yes })">
-										<div class="vote-option">
-											<VoteYesIcon />
-											{{ t('calendar', 'Yes') }}
-										</div>
-									</NcCheckboxRadioSwitch>
-									<NcCheckboxRadioSwitch
-										type="radio"
-										:button-variant="true"
-										button-variant-grouped="horizontal"
-										:name="'vote-' + date.id"
-										:value="ProposalDateVote.No"
-										:model-value="dateVoteValue(date)"
-										@update:modelValue="$emit('date-vote', { date: date, vote: ProposalDateVote.No })">
-										<div class="vote-option">
-											<VoteNoIcon />
-											{{ t('calendar', 'No') }}
-										</div>
-									</NcCheckboxRadioSwitch>
-									<NcCheckboxRadioSwitch
-										type="radio"
-										:button-variant="true"
-										button-variant-grouped="horizontal"
-										:name="'vote-' + date.id"
-										:value="ProposalDateVote.Maybe"
-										:model-value="dateVoteValue(date)"
-										@update:modelValue="$emit('date-vote', { date: date, vote: ProposalDateVote.Maybe })">
-										<div class="vote-option">
-											<VoteMaybeIcon />
-											{{ t('calendar', 'Maybe') }}
-										</div>
-									</NcCheckboxRadioSwitch>
-								</div>
-							</td>
-							<td v-for="participant in proposal.participants" :key="participant.id + '-' + date.id" class="proposal-matrix__table-votes">
-								<component
-									:is="participantVoteIcon(participant.id, date.id)"
-									:title="participantVoteLabel(participant.id, date.id)"
-									:size="20" />
-							</td>
-							<td v-if="mode === 'organizer'" class="proposal-matrix__table-actions-organizer">
-								<NcButton
-									variant="tertiary"
-									:title="t('calendar', 'Create a meeting for this date and time')"
-									@click="$emit('date-convert', date)">
-									<template #icon>
-										<CreateIcon />
-									</template>
-									{{ t('calendar', 'Create') }}
-								</NcButton>
-							</td>
-						</tr>
-					</template>
+				<tbody
+					v-for="(group, groupIndex) in datesGrouped"
+					:key="group.key || groupIndex">
+					<tr class="proposal-matrix__table-row-label">
+						<td class="proposal-matrix__table-day-label">
+							{{ group.label }}
+						</td>
+					</tr>
+					<tr v-for="date in group.dates" :key="date.id" class="proposal-matrix__table-row">
+						<td class="proposal-matrix__table-day-time">
+							{{ dateTimeSpan(date.date) }}
+						</td>
+						<td v-if="mode === 'participant'" class="proposal-matrix__table-actions-participant">
+							<div class="voting-options-container">
+								<NcCheckboxRadioSwitch
+									type="radio"
+									:buttonVariant="true"
+									buttonVariantGrouped="horizontal"
+									:name="'vote-' + date.id"
+									:value="ProposalDateVote.Yes"
+									:modelValue="dateVoteValue(date)"
+									@update:modelValue="$emit('dateVote', { date: date, vote: ProposalDateVote.Yes })">
+									<div class="vote-option">
+										<VoteYesIcon />
+										{{ t('calendar', 'Yes') }}
+									</div>
+								</NcCheckboxRadioSwitch>
+								<NcCheckboxRadioSwitch
+									type="radio"
+									:buttonVariant="true"
+									buttonVariantGrouped="horizontal"
+									:name="'vote-' + date.id"
+									:value="ProposalDateVote.No"
+									:modelValue="dateVoteValue(date)"
+									@update:modelValue="$emit('dateVote', { date: date, vote: ProposalDateVote.No })">
+									<div class="vote-option">
+										<VoteNoIcon />
+										{{ t('calendar', 'No') }}
+									</div>
+								</NcCheckboxRadioSwitch>
+								<NcCheckboxRadioSwitch
+									type="radio"
+									:buttonVariant="true"
+									buttonVariantGrouped="horizontal"
+									:name="'vote-' + date.id"
+									:value="ProposalDateVote.Maybe"
+									:modelValue="dateVoteValue(date)"
+									@update:modelValue="$emit('dateVote', { date: date, vote: ProposalDateVote.Maybe })">
+									<div class="vote-option">
+										<VoteMaybeIcon />
+										{{ t('calendar', 'Maybe') }}
+									</div>
+								</NcCheckboxRadioSwitch>
+							</div>
+						</td>
+						<td v-for="participant in proposal.participants" :key="participant.id + '-' + date.id" class="proposal-matrix__table-votes">
+							<component
+								:is="participantVoteIcon(participant.id, date.id)"
+								:title="participantVoteLabel(participant.id, date.id)"
+								:size="20" />
+						</td>
+						<td v-if="mode === 'organizer'" class="proposal-matrix__table-actions-organizer">
+							<NcButton
+								variant="tertiary"
+								:title="t('calendar', 'Create a meeting for this date and time')"
+								@click="$emit('dateConvert', date)">
+								<template #icon>
+									<CreateIcon />
+								</template>
+								{{ t('calendar', 'Create') }}
+							</NcButton>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
@@ -177,8 +175,8 @@ export default {
 	},
 
 	emits: [
-		'date-convert',
-		'date-vote',
+		'dateConvert',
+		'dateVote',
 	],
 
 	data() {
@@ -203,7 +201,7 @@ export default {
 			const groups = {}
 			dates.forEach((d) => {
 				// Apply timezone offset for grouping by day
-				const key = d.date ? moment(d.date).utcOffset(this.timezoneOffset).format('YYYY-MM-DD') : 'invalid'
+				const key = d.date ? moment(d.date).utcOffset(this.timezoneOffset).format('yyyy-MM-dd') : 'invalid'
 				if (!groups[key]) {
 					groups[key] = []
 				}

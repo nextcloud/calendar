@@ -5,14 +5,14 @@
 
 <template>
 	<NcSelect
-		:allow-empty="false"
+		v-model="selected"
+		:allowEmpty="false"
 		:options="options"
-		:value="selected"
 		:disabled="disabled"
 		:clearable="false"
-		input-id="unit"
-		label="label"
-		@input="select" />
+		:labelOutside="true"
+		inputId="unit"
+		label="label" />
 </template>
 
 <script>
@@ -93,23 +93,18 @@ export default {
 		 *
 		 * @return {object}
 		 */
-		selected() {
-			return this.options.find((o) => o.unit === this.unit)
-		},
-	},
+		selected: {
+			get() {
+				return this.options.find((o) => o.unit === this.unit)
+			},
 
-	methods: {
-		/**
-		 * This triggers the change event when the user selected a new unit
-		 *
-		 * @param {object} value The selected option
-		 */
-		select(value) {
-			if (!value) {
-				return
-			}
+			set(value) {
+				if (!value) {
+					return
+				}
 
-			this.$emit('change', value.unit)
+				this.$emit('change', value.unit)
+			},
 		},
 	},
 }

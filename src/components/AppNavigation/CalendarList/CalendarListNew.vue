@@ -9,7 +9,8 @@
 			class="app-navigation-entry-new-calendar"
 			:class="{ 'app-navigation-entry-new-calendar--open': isOpen }"
 			:name="$t('calendar', 'Calendars')"
-			:menu-open.sync="isOpen"
+			:menuOpen="isOpen"
+			@update:menuOpen="setMenuOpen"
 			@click.prevent.stop="toggleDialog">
 			<template #actionsTriggerIcon>
 				<Plus :size="20" :title="$t('calendar', 'Add new')" decorative />
@@ -32,9 +33,10 @@
 					</template>
 				</ActionInput>
 				<ActionText
-					v-if="showCreateCalendarSaving"
-					icon="icon-loading-small">
-					<!-- eslint-disable-next-line no-irregular-whitespace -->
+					v-if="showCreateCalendarSaving">
+					<template #icon>
+						<div class="icon icon-loading-small" />
+					</template>
 					{{ $t('calendar', 'Creating calendar …') }}
 				</ActionText>
 
@@ -55,9 +57,10 @@
 					</template>
 				</ActionInput>
 				<ActionText
-					v-if="showCreateCalendarTaskListSaving"
-					icon="icon-loading-small">
-					<!-- eslint-disable-next-line no-irregular-whitespace -->
+					v-if="showCreateCalendarTaskListSaving">
+					<template #icon>
+						<div class="icon icon-loading-small" />
+					</template>
 					{{ $t('calendar', 'Creating calendar …') }}
 				</ActionText>
 
@@ -79,15 +82,16 @@
 					</template>
 				</ActionInput>
 				<ActionText
-					v-if="showCreateSubscriptionSaving"
-					icon="icon-loading-small">
-					<!-- eslint-disable-next-line no-irregular-whitespace -->
+					v-if="showCreateSubscriptionSaving">
+					<template #icon>
+						<div class="icon icon-loading-small" />
+					</template>
 					{{ $t('calendar', 'Creating subscription …') }}
 				</ActionText>
 				<ActionButton
 					v-if="canSubscribeLink"
-					:close-after-click="true"
-					@click="showHolidaySubscriptionPicker = true">
+					:closeAfterClick="true"
+					@click="openHolidaySubscriptionPicker">
 					{{ t('calendar', 'Add public holiday calendar') }}
 					<template #icon>
 						<Web :size="20" decorative />
@@ -95,8 +99,8 @@
 				</ActionButton>
 				<ActionButton
 					v-if="hasPublicCalendars"
-					:close-after-click="true"
-					@click="showPublicCalendarSubscriptionPicker = true">
+					:closeAfterClick="true"
+					@click="openPublicCalendarSubscriptionPicker">
 					{{ t('calendar', 'Add custom public calendar') }}
 					<template #icon>
 						<Web :size="20" decorative />
@@ -106,7 +110,7 @@
 		</NcAppNavigationCaption>
 		<PublicCalendarSubscriptionPicker
 			v-if="showHolidaySubscriptionPicker"
-			:show-holidays="true"
+			:showHolidays="true"
 			@close="showHolidaySubscriptionPicker = false" />
 		<PublicCalendarSubscriptionPicker
 			v-if="showPublicCalendarSubscriptionPicker"
@@ -126,6 +130,10 @@ import {
 	NcAppNavigationCaption,
 } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
+import {
+	defineAsyncComponent,
+	nextTick,
+} from 'vue'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
 import CalendarCheck from 'vue-material-design-icons/CalendarCheckOutline.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
@@ -145,7 +153,7 @@ export default {
 		NcAppNavigationCaption,
 		CalendarBlank,
 		CalendarCheck,
-		PublicCalendarSubscriptionPicker: () => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '../../Subscription/PublicCalendarSubscriptionPicker.vue'),
+		PublicCalendarSubscriptionPicker: defineAsyncComponent(() => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '../../Subscription/PublicCalendarSubscriptionPicker.vue')),
 		LinkIcon,
 		Plus,
 		Web,
@@ -182,8 +190,8 @@ export default {
 	},
 
 	watch: {
-		isOpen() {
-			if (this.isOpen) {
+		isOpen(newValue) {
+			if (newValue) {
 				return
 			}
 
@@ -192,6 +200,10 @@ export default {
 	},
 
 	methods: {
+		setMenuOpen(value) {
+			this.isOpen = value
+		},
+
 		/**
 		 * Opens the Actions menu when clicking on the main item label
 		 */
@@ -335,6 +347,18 @@ export default {
 				this.isOpen = false
 				this.closeMenu()
 			}
+		},
+
+		async openHolidaySubscriptionPicker() {
+			// Use nextTick to ensure the menu closes before opening the modal
+			await nextTick()
+			this.showHolidaySubscriptionPicker = true
+		},
+
+		async openPublicCalendarSubscriptionPicker() {
+			// Use nextTick to ensure the menu closes before opening the modal
+			await nextTick()
+			this.showPublicCalendarSubscriptionPicker = true
 		},
 
 		/**

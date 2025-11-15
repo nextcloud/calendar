@@ -5,11 +5,10 @@
 
 <template>
 	<SelectWrapper
+		v-model="selection"
 		:label="label"
-		:value="value"
 		:disabled="disabled"
-		:options="options"
-		@update:value="$emit('update:value', $event)" />
+		:options="options" />
 </template>
 
 <script>
@@ -27,7 +26,7 @@ export default {
 			default: '',
 		},
 
-		value: {
+		modelValue: {
 			type: String,
 			default: 'PUBLIC',
 		},
@@ -51,6 +50,18 @@ export default {
 				},
 			],
 		}
+	},
+
+	computed: {
+		selection: {
+			get() {
+				return this.modelValue
+			},
+
+			set(value) {
+				this.$emit('update:modelValue', value)
+			},
+		},
 	},
 }
 </script>

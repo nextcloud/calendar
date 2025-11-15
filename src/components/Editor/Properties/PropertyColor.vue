@@ -26,8 +26,8 @@
 			class="property-color__input">
 			<NcColorPicker
 				v-model="selectedColor"
-				:shown.sync="selectorOpen"
-				:advanced-fields="true"
+				v-model:shown="selectorOpen"
+				:advancedFields="true"
 				@update:modelValue="changeColor">
 				<NcButton
 					class="property-color__color-preview"
@@ -36,7 +36,7 @@
 			<NcButton
 				v-if="!isReadOnly && !!value"
 				variant="tertiary"
-				:arial-label="$t('calendar', 'Remove color')"
+				:arialLabel="$t('calendar', 'Remove color')"
 				@click="deleteColor">
 				<template #icon>
 					<Undo :size="20" decorative />

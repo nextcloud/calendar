@@ -8,9 +8,9 @@
 		<div class="proposal-participant__avatar">
 			<NcAvatar
 				:user="participantName"
-				:display-name="participantName"
-				:disable-tooltip="true"
-				:is-no-user="true" />
+				:displayName="participantName"
+				:disableTooltip="true"
+				:isNoUser="true" />
 		</div>
 		<div class="proposal-participant__name">
 			{{ participantName }}
@@ -19,7 +19,7 @@
 			<OptionalIcon v-if="!participantAttendance" />
 			<NcActions>
 				<NcActionButton
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="onParticipantAttendance">
 					<template #icon>
 						<RequiredIcon v-if="!participantAttendance" />
@@ -28,7 +28,7 @@
 					{{ !participantAttendance ? t('calendar', 'Attendance required') : t('calendar', 'Attendance optional') }}
 				</NcActionButton>
 				<NcActionButton
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="onParticipantRemove">
 					<template #icon>
 						<DestroyIcon />
@@ -74,7 +74,7 @@ export default {
 		},
 	},
 
-	emits: ['participant-remove', 'participant-attendance'],
+	emits: ['participantRemove', 'participantAttendance'],
 
 	data() {
 		return {
@@ -97,14 +97,14 @@ export default {
 		t,
 
 		onParticipantRemove() {
-			this.$emit('participant-remove', this.proposalParticipant.address)
+			this.$emit('participantRemove', this.proposalParticipant.address)
 		},
 
 		onParticipantAttendance() {
 			const newAttendance = this.proposalParticipant.attendance === ProposalParticipantAttendance.Required
 				? ProposalParticipantAttendance.Optional
 				: ProposalParticipantAttendance.Required
-			this.$emit('participant-attendance', newAttendance)
+			this.$emit('participantAttendance', newAttendance)
 		},
 	},
 }

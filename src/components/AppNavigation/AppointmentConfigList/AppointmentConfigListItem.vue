@@ -22,7 +22,7 @@
 				</ActionLink>
 				<ActionButton
 					v-if="hasClipboard"
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="copyLink">
 					<template #icon>
 						<LinkVariantIcon :size="20" />
@@ -30,7 +30,7 @@
 					{{ t('calendar', 'Copy link') }}
 				</ActionButton>
 				<ActionButton
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="duplicate">
 					<template #icon>
 						<ContentDuplicate :size="20" />
@@ -38,7 +38,7 @@
 					{{ t('calendar', 'Duplicate') }}
 				</ActionButton>
 				<ActionButton
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="openEditModal">
 					<template #icon>
 						<PencilIcon :size="20" />
@@ -46,7 +46,7 @@
 					{{ t('calendar', 'Edit') }}
 				</ActionButton>
 				<ActionButton
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="$emit('delete', $event)">
 					<template #icon>
 						<DeleteIcon :size="20" />
@@ -57,8 +57,8 @@
 		</AppNavigationItem>
 		<AppointmentConfigModal
 			v-if="showModal"
-			:is-new="isDuplicate"
-			:is-duplicate="isDuplicate"
+			:isNew="isDuplicate"
+			:isDuplicate="isDuplicate"
 			:config="config"
 			@close="closeModal" />
 	</div>

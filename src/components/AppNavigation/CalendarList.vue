@@ -7,18 +7,20 @@
 	<div class="calendar-list-wrapper">
 		<CalendarListNew />
 		<template v-if="!isPublic">
-			<draggable
+			<Draggable
 				v-model="sortedCalendars.personal"
+				itemKey="id"
 				:disabled="disableDragging"
 				v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
 				draggable=".draggable-calendar-list-item"
 				@update="updateInput">
-				<CalendarListItem
-					v-for="calendar in sortedCalendars.personal"
-					:key="calendar.id"
-					class="draggable-calendar-list-item"
-					:calendar="calendar" />
-			</draggable>
+				<template #item="{ element: calendar }">
+					<CalendarListItem
+						:key="calendar.id"
+						class="draggable-calendar-list-item"
+						:calendar="calendar" />
+				</template>
+			</Draggable>
 		</template>
 		<template v-else>
 			<PublicCalendarListItem
@@ -29,18 +31,20 @@
 
 		<NcAppNavigationCaption v-if="sortedCalendars.shared.length" :name="$t('calendar', 'Shared calendars')" />
 		<template v-if="!isPublic">
-			<draggable
+			<Draggable
 				v-model="sortedCalendars.shared"
+				itemKey="id"
 				:disabled="disableDragging"
 				v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
 				draggable=".draggable-calendar-list-item"
 				@update="updateInput">
-				<CalendarListItem
-					v-for="calendar in sortedCalendars.shared"
-					:key="calendar.id"
-					class="draggable-calendar-list-item"
-					:calendar="calendar" />
-			</draggable>
+				<template #item="{ element: calendar }">
+					<CalendarListItem
+						:key="calendar.id"
+						class="draggable-calendar-list-item"
+						:calendar="calendar" />
+				</template>
+			</Draggable>
 		</template>
 		<template v-else>
 			<PublicCalendarListItem
@@ -51,18 +55,20 @@
 
 		<NcAppNavigationCaption v-if="sortedCalendars.deck.length" :name="$t('calendar', 'Deck')" />
 		<template v-if="!isPublic">
-			<draggable
+			<Draggable
 				v-model="sortedCalendars.deck"
+				itemKey="id"
 				:disabled="disableDragging"
 				v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
 				draggable=".draggable-calendar-list-item"
 				@update="updateInput">
-				<CalendarListItem
-					v-for="calendar in sortedCalendars.deck"
-					:key="calendar.id"
-					class="draggable-calendar-list-item"
-					:calendar="calendar" />
-			</draggable>
+				<template #item="{ element: calendar }">
+					<CalendarListItem
+						:key="calendar.id"
+						class="draggable-calendar-list-item"
+						:calendar="calendar" />
+				</template>
+			</Draggable>
 		</template>
 		<template v-else>
 			<PublicCalendarListItem
@@ -104,7 +110,7 @@ export default {
 		PublicCalendarListItem,
 		NcAppNavigationCaption,
 		NcAppNavigationSpacer,
-		draggable,
+		Draggable: draggable,
 	},
 
 	props: {

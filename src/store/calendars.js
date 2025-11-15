@@ -4,7 +4,6 @@ import { translate as t } from '@nextcloud/l10n'
 import { Timezone } from '@nextcloud/timezones'
 import pLimit from 'p-limit'
 import { defineStore } from 'pinia'
-import Vue from 'vue'
 import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar.js'
 import { mapCDavObjectToCalendarObject } from '../models/calendarObject.js'
 import {
@@ -406,8 +405,7 @@ export default defineStore('calendars', {
 			await calendar.dav.delete()
 
 			this.calendars.splice(this.calendars.indexOf(calendar), 1)
-			/// TODO this.calendarsById.delete(calendar.id)
-			Vue.delete(this.calendarsById, calendar.id)
+			delete this.calendarsById[calendar.id]
 			this.syncTokens.delete(calendar.id)
 		},
 
@@ -427,8 +425,7 @@ export default defineStore('calendars', {
 		},
 
 		deleteCalendarAfterTimeout({ calendar, countdown = 7 }) {
-			/// TODO this.calendarsById[calendar.id].countdown = countdown
-			Vue.set(this.calendarsById[calendar.id], 'countdown', countdown)
+			this.calendarsById[calendar.id].countdown = countdown
 
 			const deleteInterval = setInterval(() => {
 				countdown--
@@ -437,8 +434,7 @@ export default defineStore('calendars', {
 					countdown = 0
 				}
 
-				/// TODO this.calendarsById[calendar.id].countdown = countdown
-				Vue.set(this.calendarsById[calendar.id], 'countdown', countdown)
+				this.calendarsById[calendar.id].countdown = countdown
 			}, 1000)
 			const deleteTimeout = setTimeout(async () => {
 				try {
@@ -450,10 +446,8 @@ export default defineStore('calendars', {
 					clearInterval(deleteInterval)
 				}
 			}, 7000)
-			/// TODO this.calendarsById[calendar.id].deleteInterval = deleteInterval
-			/// TODO this.calendarsById[calendar.id].deleteTimeout = deleteTimeout
-			Vue.set(this.calendarsById[calendar.id], 'deleteInterval', deleteInterval)
-			Vue.set(this.calendarsById[calendar.id], 'deleteTimeout', deleteTimeout)
+			this.calendarsById[calendar.id].deleteInterval = deleteInterval
+			this.calendarsById[calendar.id].deleteTimeout = deleteTimeout
 		},
 
 		cancelCalendarDeletion({ calendar }) {
@@ -915,10 +909,9 @@ export default defineStore('calendars', {
 			const object = getDefaultCalendarObject(calendar)
 			if (!this.calendars.some((existing) => existing.id === object.id)) {
 				this.calendars.push(object)
-				Vue.set(this.calendars, 0, this.calendars[0]) /// TODO remove with vue 3
+				this.calendars = [...this.calendars]
 			}
-			/// TODO this.calendarsById[object.id] = object
-			Vue.set(this.calendarsById, object.id, object)
+			this.calendarsById[object.id] = object
 		},
 
 		/**

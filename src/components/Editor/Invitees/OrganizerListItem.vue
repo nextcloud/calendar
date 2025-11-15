@@ -6,17 +6,17 @@
 <template>
 	<div class="invitees-list-item">
 		<AvatarParticipationStatus
-			:attendee-is-organizer="true"
-			:avatar-link="avatarLink"
-			:is-viewed-by-organizer="isViewedByOrganizer"
-			:is-resource="isResource"
-			:common-name="commonName"
-			:organizer-display-name="commonName"
-			:schedule-status="organizer.attendeeProperty.getParameterFirstValue('SCHEDULE-STATUS')"
-			participation-status="ACCEPTED" />
+			:attendeeIsOrganizer="true"
+			:avatarLink="avatarLink"
+			:isViewedByOrganizer="isViewedByOrganizer"
+			:isResource="isResource"
+			:commonName="commonName"
+			:organizerDisplayName="commonName"
+			:scheduleStatus="organizer.attendeeProperty.getParameterFirstValue('SCHEDULE-STATUS')"
+			participationStatus="ACCEPTED" />
 
 		<AttendeeDisplay
-			:display-name="commonName"
+			:displayName="commonName"
 			:email="organizerEmail" />
 
 		<div class="invitees-list-item__organizer-hint">
@@ -28,7 +28,7 @@
 					<NcActionButton
 						v-if="!selectedOrganizer(person.address)"
 						:key="person.address + '-1'"
-						:close-after-click="true"
+						:closeAfterClick="true"
 						@click="changeOrganizer(person, false)">
 						<template #icon>
 							<Crown :size="20" />
@@ -38,7 +38,7 @@
 					<NcActionButton
 						v-if="!selectedOrganizer(person.address)"
 						:key="person.address + '-2'"
-						:close-after-click="true"
+						:closeAfterClick="true"
 						@click="changeOrganizer(person, true)">
 						<template #icon>
 							<Crown :size="20" />
@@ -145,7 +145,7 @@ export default {
 		},
 
 		changeOrganizer(person, attend) {
-			this.$emit('change-organizer', person, attend)
+			this.$emit('changeOrganizer', person, attend)
 		},
 	},
 }

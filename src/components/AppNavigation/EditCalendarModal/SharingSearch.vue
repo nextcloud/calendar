@@ -11,17 +11,18 @@
 		<NcSelect
 			:options="usersOrGroups"
 			:searchable="true"
-			:internal-search="false"
+			:internalSearch="false"
 			:max-height="600"
 			:placeholder="$t('calendar', 'Share with users or groups')"
 			class="sharing-search__select"
 			:class="{ showContent: inputGiven, 'icon-loading': isLoading }"
-			:user-select="true"
-			:filter-by="filterResults"
+			:userSelect="true"
+			:filterBy="filterResults"
 			:clearable="false"
-			open-direction="above"
-			track-by="user"
+			openDirection="above"
+			trackBy="user"
 			label="displayName"
+			:labelOutside="true"
 			@search="findSharee"
 			@option:selected="shareCalendar">
 			<template #no-options>
@@ -31,7 +32,7 @@
 				<div class="share-item">
 					<AccountMultiple v-if="sharee.isGroup" :size="20" class="share-item__group-icon" />
 					<AccountGroupIcon v-else-if="sharee.isCircle" :size="20" class="share-item__team-icon" />
-					<NcAvatar v-else :user="sharee.userId" :display-name="sharee.displayName" />
+					<NcAvatar v-else :user="sharee.userId" :displayName="sharee.displayName" />
 
 					<div class="share-item__label">
 						{{ sharee.displayName }}

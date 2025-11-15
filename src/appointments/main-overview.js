@@ -7,7 +7,7 @@ import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import { linkTo } from '@nextcloud/router'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import Overview from '../views/Appointments/Overview.vue'
 
 // CSP config for webpack dynamic chunk loading
@@ -24,15 +24,16 @@ __webpack_public_path__ = linkTo('calendar', 'js/')
 const configs = loadState('calendar', 'appointmentConfigs')
 const userInfo = loadState('calendar', 'userInfo')
 
-Vue.prototype.$t = translate
-Vue.prototype.$n = translatePlural
-
-export default new Vue({
-	el: '#appointments-overview',
-	render: (h) => h(Overview, {
-		props: {
-			configs,
-			userInfo,
-		},
-	}),
+const app = createApp(Overview, {
+	configs,
+	userInfo,
 })
+
+app.config.globalProperties.$t = translate
+app.config.globalProperties.$n = translatePlural
+app.config.globalProperties.t = translate
+app.config.globalProperties.n = translatePlural
+
+const overviewInstance = app.mount('#appointments-overview')
+
+export default overviewInstance

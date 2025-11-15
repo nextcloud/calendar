@@ -7,7 +7,7 @@ import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import { linkTo } from '@nextcloud/router'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import Conflict from '../views/Appointments/Conflict.vue'
 
 // CSP config for webpack dynamic chunk loading
@@ -21,20 +21,21 @@ __webpack_nonce__ = btoa(getRequestToken())
 // eslint-disable-next-line
 __webpack_public_path__ = linkTo('calendar', 'js/')
 
-Vue.prototype.$t = translate
-Vue.prototype.$n = translatePlural
-
 const link = loadState('calendar', 'appointment-link')
 const booking = loadState('calendar', 'booking')
 
-export default new Vue({
-	el: '#appointment-conflict',
-	render: (h) => h(Conflict, {
-		props: {
-			link,
-			confirmed: booking.confirmed,
-			start: booking.start,
-			end: booking.end,
-		},
-	}),
+const app = createApp(Conflict, {
+	link,
+	confirmed: booking.confirmed,
+	start: booking.start,
+	end: booking.end,
 })
+
+app.config.globalProperties.$t = translate
+app.config.globalProperties.$n = translatePlural
+app.config.globalProperties.t = translate
+app.config.globalProperties.n = translatePlural
+
+const conflictInstance = app.mount('#appointment-conflict')
+
+export default conflictInstance

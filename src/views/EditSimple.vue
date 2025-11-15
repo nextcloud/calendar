@@ -53,9 +53,9 @@
 					</EmptyContent>
 				</template>
 
-				<template v-else>
+				<template v-else-if="calendarObjectInstance">
 					<div class="event-popover__top-actions">
-						<NcPopover v-if="isViewedByOrganizer === false" :no-focus-trap="true">
+						<NcPopover v-if="isViewedByOrganizer === false" :noFocusTrap="true">
 							<template #trigger>
 								<NcButton variant="tertiary-no-background">
 									<template #icon>
@@ -69,7 +69,7 @@
 								</p>
 							</template>
 						</NcPopover>
-						<Actions v-if="!isLoading && !isError && !isNew" :force-menu="true">
+						<Actions v-if="!isLoading && !isError && !isNew" :forceMenu="true">
 							<ActionLink
 								v-if="!hideEventExport && hasDownloadURL"
 								:href="downloadURL">
@@ -118,14 +118,14 @@
 						<CalendarPickerHeader
 							:value="selectedCalendar"
 							:calendars="calendars"
-							:is-read-only="isReadOnlyOrViewing || !canModifyCalendar"
-							:is-viewed-by-attendee="isViewedByOrganizer === false"
+							:isReadOnly="isReadOnlyOrViewing || !canModifyCalendar"
+							:isViewedByAttendee="isViewedByOrganizer === false"
 							@update:value="changeCalendar" />
 
 						<PropertyTitle
 							:value="titleOrPlaceholder"
-							:is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
-							:is-cancelled="isCancelled"
+							:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
+							:isCancelled="isCancelled"
 							@update:value="updateTitle" />
 
 						<div v-if="isCancelled" class="event-popover__cancelled">
@@ -136,69 +136,68 @@
 					<!-- Content -->
 					<div class="event-popover__content">
 						<PropertyTitleTimePicker
-							:start-date="startDate"
-							:start-timezone="startTimezone"
-							:end-date="endDate"
-							:end-timezone="endTimezone"
-							:is-all-day="isAllDay"
-							:is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
-							:can-modify-all-day="canModifyAllDay"
-							:user-timezone="currentUserTimezone"
+							:startDate="startDate"
+							:startTimezone="startTimezone"
+							:endDate="endDate"
+							:endTimezone="endTimezone"
+							:isAllDay="isAllDay"
+							:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
+							:canModifyAllDay="canModifyAllDay"
+							:userTimezone="currentUserTimezone"
 							:wrap="true"
-							@update-start-date="updateStartDate"
-							@update-start-time="updateStartTime"
-							@update-start-timezone="updateStartTimezone"
-							@update-end-date="updateEndDate"
-							@update-end-time="updateEndTime"
-							@update-end-timezone="updateEndTimezone"
-							@toggle-all-day="toggleAllDay" />
+							@updateStartDate="updateStartDate"
+							@updateStartTime="updateStartTime"
+							@updateStartTimezone="updateStartTimezone"
+							@updateEndDate="updateEndDate"
+							@updateEndTime="updateEndTime"
+							@updateEndTimezone="updateEndTimezone"
+							@toggleAllDay="toggleAllDay" />
 
 						<div v-if="!isReadOnlyOrViewing" class="event-popover__all-day">
 							<NcCheckboxRadioSwitch
-								:checked="isAllDay"
+								:modelValue="isAllDay"
 								:disabled="isViewedByOrganizer === false || isReadOnlyOrViewing || !canModifyAllDay"
-								@update:checked="toggleAllDayPreliminary">
+								@update:modelValue="toggleAllDayPreliminary">
 								{{ $t('calendar', 'All day') }}
 							</NcCheckboxRadioSwitch>
 						</div>
-
 						<PropertyText
-							:is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
-							:prop-model="rfcProps.location"
+							:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
+							:propModel="rfcProps.location"
 							:value="location"
-							:linkify-links="true"
+							:linkifyLinks="true"
 							@update:value="updateLocation" />
 						<PropertyText
-							:is-read-only="isReadOnlyOrViewing"
-							:prop-model="rfcProps.description"
+							:isReadOnly="isReadOnlyOrViewing"
+							:propModel="rfcProps.description"
 							:value="description"
-							:linkify-links="true"
-							:is-description="true"
+							:linkifyLinks="true"
+							:isDescription="true"
 							@update:value="updateDescription" />
 
 						<InviteesList
 							v-if="!isViewing || (isViewing && hasAttendees)"
 							class="event-popover__invitees"
-							:hide-buttons="true"
-							:hide-errors="true"
-							:show-header="true"
-							:is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
-							:is-shared-with-me="isSharedWithMe"
+							:hideButtons="true"
+							:hideErrors="true"
+							:showHeader="true"
+							:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
+							:isSharedWithMe="isSharedWithMe"
 							:calendar="selectedCalendar"
-							:calendar-object-instance="calendarObjectInstance" />
+							:calendarObjectInstance="calendarObjectInstance" />
 
 						<InvitationResponseButtons
 							v-if="isViewedByAttendee && isViewing"
 							class="event-popover__response-buttons"
 							:attendee="userAsAttendee"
-							:calendar-id="calendarId"
+							:calendarId="calendarId"
 							@close="closeEditorAndSkipAction" />
 
 						<div v-if="isReadOnlyOrViewing && hasAlarms" class="property-alarm-wrapper">
 							<Bell :size="20" class="property-alarm-icon" />
 							<AlarmList
-								:calendar-object-instance="calendarObjectInstance"
-								:is-read-only="isReadOnlyOrViewing" />
+								:calendarObjectInstance="calendarObjectInstance"
+								:isReadOnly="isReadOnlyOrViewing" />
 						</div>
 					</div>
 
@@ -207,16 +206,16 @@
 						<SaveButtons
 							v-if="!isWidget"
 							class="event-popover__buttons"
-							:can-create-recurrence-exception="canCreateRecurrenceException"
-							:is-new="isNew"
-							:is-read-only="isReadOnlyOrViewing"
-							:force-this-and-all-future="forceThisAndAllFuture"
-							:show-more-button="true"
-							:more-button-type="isViewing ? 'tertiary' : undefined"
+							:canCreateRecurrenceException="canCreateRecurrenceException"
+							:isNew="isNew"
+							:isReadOnly="isReadOnlyOrViewing"
+							:forceThisAndAllFuture="forceThisAndAllFuture"
+							:showMoreButton="true"
+							:moreButtonType="isViewing ? 'tertiary' : undefined"
 							:disabled="isSaving"
-							@save-this-only="saveAndView(false)"
-							@save-this-and-all-future="saveAndView(true)"
-							@show-more="showMore">
+							@saveThisOnly="saveAndView(false)"
+							@saveThisAndAllFuture="saveAndView(true)"
+							@showMore="showMore">
 							<NcButton
 								v-if="!isReadOnly && isViewing"
 								:variant="isViewedByAttendee ? 'tertiary' : undefined"
@@ -250,7 +249,8 @@ import {
 	NcActions as Actions,
 	NcEmptyContent as EmptyContent,
 	NcButton,
-	NcCheckboxRadioSwitch, NcDialog,
+	NcCheckboxRadioSwitch,
+	NcDialog,
 	NcPopover,
 } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
@@ -338,12 +338,13 @@ export default {
 			cancelButtons: [
 				{
 					label: t('calendar', 'Discard changes'),
+					variant: 'secondary',
 					icon: atob(IconDelete.split(',')[1]),
 					callback: () => { this.cancel(true) },
 				},
 				{
 					label: t('calendar', 'Cancel'),
-					type: 'primary',
+					variant: 'primary',
 					icon: atob(IconCancel.split(',')[1]),
 					callback: () => { this.closeCancelDialog() },
 				},
@@ -415,33 +416,35 @@ export default {
 			}
 		},
 
-		calendarObjectInstance() {
+		calendarObjectInstance(newVal) {
 			this.hasLocation = false
 			this.hasDescription = false
 			this.hasAttendees = false
 			this.hasAlarms = false
 			this.isCancelled = false
 
-			if (typeof this.calendarObjectInstance.location === 'string' && this.calendarObjectInstance.location.trim() !== '') {
-				this.hasLocation = true
-			}
-			if (typeof this.calendarObjectInstance.description === 'string' && this.calendarObjectInstance.description.trim() !== '') {
-				this.hasDescription = true
-			}
-			if (Array.isArray(this.calendarObjectInstance.attendees) && this.calendarObjectInstance.attendees.length > 0) {
-				this.hasAttendees = true
-			}
-			if (Array.isArray(this.calendarObjectInstance.alarms) && this.calendarObjectInstance.alarms.length > 0) {
-				this.hasAlarms = true
-			}
-			if (this.calendarObjectInstance.status === 'CANCELLED') {
-				this.isCancelled = true
-			}
+			if (this.calendarObjectInstance) {
+				if (typeof this.calendarObjectInstance.location === 'string' && this.calendarObjectInstance.location.trim() !== '') {
+					this.hasLocation = true
+				}
+				if (typeof this.calendarObjectInstance.description === 'string' && this.calendarObjectInstance.description.trim() !== '') {
+					this.hasDescription = true
+				}
+				if (Array.isArray(this.calendarObjectInstance.attendees) && this.calendarObjectInstance.attendees.length > 0) {
+					this.hasAttendees = true
+				}
+				if (Array.isArray(this.calendarObjectInstance.alarms) && this.calendarObjectInstance.alarms.length > 0) {
+					this.hasAlarms = true
+				}
+				if (this.calendarObjectInstance.status === 'CANCELLED') {
+					this.isCancelled = true
+				}
 
-			// Reposition after content changes
-			this.$nextTick(() => {
-				this.repositionPopover()
-			})
+				// Reposition after content changes
+				this.$nextTick(() => {
+					this.repositionPopover()
+				})
+			}
 		},
 
 		isNew: {
@@ -459,7 +462,7 @@ export default {
 			})
 		},
 
-		isLoading(newVal) {
+		isLoading(newVal, oldVal) {
 			// When loading completes, reposition to accommodate the loaded content
 			if (newVal === false) {
 				this.$nextTick(() => {
@@ -510,7 +513,7 @@ export default {
 		this.ensureElInDom()
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		window.removeEventListener('keydown', this.keyboardCloseEditor)
 		window.removeEventListener('keydown', this.keyboardSaveEvent)
 		window.removeEventListener('keydown', this.keyboardDeleteEvent)
@@ -625,11 +628,19 @@ export default {
 		 * Calculate the popover position based on target element
 		 */
 		calculateAndApplyPosition(targetElement) {
-			// Get current popover element if it exists
-			const existingPopover = this.$el?.querySelector('.event-popover')
+			const SPACING = 16
+			// In Vue 3, this.$el might be a comment node, so we need to check if querySelector exists
+			let existingPopover = null
+			if (this.$el && typeof this.$el.querySelector === 'function') {
+				existingPopover = this.$el.querySelector('.event-popover')
+			} else {
+				// Fallback: search in the document
+				existingPopover = document.querySelector('.event-popover')
+			}
+
+			// Get current popover element dimensions
 			const estimatedHeight = Math.max(existingPopover?.offsetHeight || 0, 420)
 			const estimatedWidth = Math.max(existingPopover?.offsetWidth || 0, 460)
-			const SPACING = 16
 
 			// Get rectangles
 			const targetRect = targetElement.getBoundingClientRect()

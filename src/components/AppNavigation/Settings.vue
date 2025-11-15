@@ -18,15 +18,15 @@
 				class="app-settings-modal"
 				:name="t('calendar', 'Calendar settings')"
 				:legacy="false"
-				:show-navigation="true"
-				:additional-trap-elements="[]"
+				:showNavigation="true"
+				:additionalTrapElements="[]"
 				:open="showSettingsModal"
 				@update:open="(val) => showSettingsModal = val">
 				<NcAppSettingsSection
 					id="settings-modal-general"
 					:name="t('calendar', 'General')">
 					<SettingsTimezoneSelect
-						:is-disabled="loadingCalendars" />
+						:isDisabled="loadingCalendars" />
 					<NcFormBox>
 						<NcFormBoxButton
 							target="_blank"
@@ -35,7 +35,7 @@
 						</NcFormBoxButton>
 					</NcFormBox>
 					<SettingsImportSection
-						:is-disabled="loadingCalendars" />
+						:isDisabled="loadingCalendars" />
 					<NcFormGroup :label="t('calendar', 'CalDAV')" :description="t('calendar', 'Access Nextcloud calendars from other apps and devices')">
 						<NcFormBox>
 							<NcFormBoxCopyButton :label="t('calendar', 'CalDAV URL')" :value="primaryCalDAV" />
@@ -84,25 +84,24 @@
 
 					<NcSelect
 						:id="slotDuration"
+						v-model="slotDurationSelection"
 						:options="slotDurationOptions"
-						:value="selectedDurationOption"
 						:disabled="savingSlotDuration"
 						:clearable="false"
-						:input-label="$t('calendar', 'Density in Day and Week View')"
-						input-id="value"
-						label="label"
-						@option:selected="changeSlotDuration" />
+						:inputLabel="$t('calendar', 'Density in Day and Week View')"
+						inputId="value"
+						label="label" />
 				</NcAppSettingsSection>
 				<NcAppSettingsSection
 					id="app-settings-modal-editing"
 					:name="t('calendar', 'Editing')">
 					<NcSelect
 						:options="defaultReminderOptions"
-						:value="selectedDefaultReminderOption"
+						:modelValue="selectedDefaultReminderOption"
 						:disabled="savingDefaultReminder"
 						:clearable="false"
-						:input-label="$t('calendar', 'Default reminder')"
-						input-id="value"
+						:inputLabel="$t('calendar', 'Default reminder')"
+						inputId="value"
 						label="label"
 						@option:selected="changeDefaultReminder" />
 					<NcFormBox>
@@ -287,6 +286,16 @@ export default {
 			return this.slotDurationOptions.find((o) => o.value === this.slotDuration)
 		},
 
+		slotDurationSelection: {
+			get() {
+				return this.selectedDurationOption
+			},
+
+			set(option) {
+				this.changeSlotDuration(option)
+			},
+		},
+
 		defaultReminderOptions() {
 			const defaultAlarms = getDefaultAlarms().map((seconds) => {
 				const label = seconds === 0 ? t('calendar', 'At event start') : moment.duration(Math.abs(seconds) * 1000).locale(this.locale).humanize()
@@ -304,6 +313,16 @@ export default {
 
 		selectedDefaultReminderOption() {
 			return this.defaultReminderOptions.find((o) => o.value === this.defaultReminder)
+		},
+
+		defaultReminderSelection: {
+			get() {
+				return this.selectedDefaultReminderOption
+			},
+
+			set(option) {
+				this.changeDefaultReminder(option)
+			},
 		},
 
 		availabilitySettingsUrl() {

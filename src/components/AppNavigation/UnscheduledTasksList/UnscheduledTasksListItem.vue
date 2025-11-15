@@ -57,7 +57,7 @@ export default {
 
 	methods: {
 		handleClick() {
-			this.$emit('task-clicked', this.config)
+			this.$emit('taskClicked', this.config)
 		},
 	},
 }

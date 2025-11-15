@@ -15,8 +15,8 @@
 			:class="{
 				'calendar-picker-header__picker--has-menu': !isReadOnly && calendars.length > 1,
 			}"
-			:menu-name="value.displayName"
-			:force-name="true"
+			:menuName="value.displayName"
+			:forceName="true"
 			:disabled="isDisabled">
 			<template #icon>
 				<div class="calendar-picker-header__icon">
@@ -25,12 +25,12 @@
 						:style="{ 'background-color': value.color }" />
 				</div>
 			</template>
-			<template>
+			<template #default>
 				<NcActionButton
 					v-for="calendar in calendars"
 					:key="calendar.id"
 					class="calendar-picker-header__picker__option"
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="$emit('update:value', calendar)">
 					<template #icon>
 						<div class="calendar-picker-header__icon">

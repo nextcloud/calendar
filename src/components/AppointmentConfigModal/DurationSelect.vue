@@ -5,11 +5,10 @@
 
 <template>
 	<SelectWrapper
+		v-model="selectedOption"
 		:label="label"
-		:value="value"
 		:disabled="disabled"
-		:options="options"
-		@update:value="$emit('update:value', parseInt($event))" />
+		:options="options" />
 </template>
 
 <script>
@@ -27,7 +26,7 @@ export default {
 			default: '',
 		},
 
-		value: {
+		modelValue: {
 			type: Number,
 			default: 5 * 60,
 		},
@@ -54,6 +53,19 @@ export default {
 	},
 
 	computed: {
+		selectedOption: {
+			get() {
+				return this.modelValue?.toString() ?? ''
+			},
+
+			set(value) {
+				const parsedValue = parseInt(value)
+				if (!Number.isNaN(parsedValue)) {
+					this.$emit('update:modelValue', parsedValue)
+				}
+			},
+		},
+
 		options() {
 			let options = []
 

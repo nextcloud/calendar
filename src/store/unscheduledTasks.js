@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import Vue from 'vue'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -37,7 +36,7 @@ export default defineStore('tasks', {
 
 		finishCalendar(calendarid) {
 			if (!this.map[calendarid]) {
-				Vue.set(this.map, calendarid, [])
+				this.map[calendarid] = []
 			} else {
 				this.map[calendarid].sort(function(a, b) {
 					return a.title.localeCompare(b.title)
@@ -53,7 +52,7 @@ export default defineStore('tasks', {
 		 */
 		appendTask(calendarid, task) {
 			if (!this.map[calendarid]) {
-				Vue.set(this.map, calendarid, [])
+				this.map[calendarid] = []
 			}
 			const tasks = this.map[calendarid]
 			const index = tasks.findIndex((el) => el.id === task.id)

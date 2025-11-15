@@ -4,7 +4,7 @@
  */
 import { translate as t } from '@nextcloud/l10n'
 import { NcEmptyContent as EmptyContent } from '@nextcloud/vue'
-import Vue from 'vue'
+import { createApp, h } from 'vue'
 import CalendarIcon from 'vue-material-design-icons/CalendarBlank.vue'
 import { errorCatch } from '../utils/errors.js'
 
@@ -15,14 +15,19 @@ import { errorCatch } from '../utils/errors.js'
  * @param {Node} data.el The HTML element
  */
 export default errorCatch(function({ el }) {
-	const EmptyContentClass = Vue.extend(EmptyContent)
-	const instance = new EmptyContentClass({
-		propsData: {
-			title: t('calendar', 'No events'),
-			description: t('calendar', 'Create a new event or change the visible time-range'),
+	const mountTarget = document.createElement('div')
+	el.appendChild(mountTarget)
+
+	const app = createApp({
+		render() {
+			return h(EmptyContent, {
+				title: t('calendar', 'No events'),
+				description: t('calendar', 'Create a new event or change the visible time-range'),
+			}, {
+				icon: () => h(CalendarIcon),
+			})
 		},
 	})
-	instance.$slots.icon = [instance.$createElement(CalendarIcon)]
-	instance.$mount()
-	el.appendChild(instance.$el)
+
+	app.mount(mountTarget)
 }, 'noEventsDidMount')

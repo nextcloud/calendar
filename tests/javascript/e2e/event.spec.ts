@@ -17,8 +17,8 @@ test('create an event', async ({ page }) => {
 
 	// Create new event with random title
 	await page.getByRole('button', { name: 'Create new event' }).click()
-	await page.getByRole('textbox', { name: 'Event title' }).click()
-	await page.getByRole('textbox', { name: 'Event title' }).fill(eventTitle)
+	await page.getByRole('textbox', { name: 'Title' }).click()
+	await page.getByRole('textbox', { name: 'Title' }).fill(eventTitle)
 	await page.getByRole('button', { name: 'Save' }).click()
 
 	// Wait for modal to close

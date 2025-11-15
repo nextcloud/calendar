@@ -10,8 +10,8 @@
 			type="number"
 			min="0"
 			:placeholder="placeholder"
-			:value="value"
-			@input="changeValue" />
+			:modelValue="modelValue"
+			@update:modelValue="changeValue" />
 	</div>
 </template>
 
@@ -24,11 +24,13 @@ export default {
 	},
 
 	props: {
-		value: {
+		modelValue: {
 			type: Number,
 			required: true,
 		},
 	},
+
+	emits: ['update:modelValue'],
 
 	computed: {
 		placeholder() {
@@ -37,8 +39,9 @@ export default {
 	},
 
 	methods: {
-		changeValue(event) {
-			this.$emit('update:value', parseInt(event.target.value))
+		changeValue(value) {
+			const parsedValue = parseInt(value, 10)
+			this.$emit('update:modelValue', Number.isNaN(parsedValue) ? NaN : parsedValue)
 		},
 	},
 }

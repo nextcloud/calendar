@@ -6,14 +6,14 @@
 <template>
 	<FreeBusy
 		v-if="initialized"
-		:dialog-name="dialogName"
-		:start-date="startDate"
-		:end-date="endDate"
+		:dialogName="dialogName"
+		:startDate="startDate"
+		:endDate="endDate"
 		:organizer="organizer"
 		:attendees="attendees"
-		:disable-find-time="true"
-		@add-attendee="addAttendee"
-		@remove-attendee="removeAttendee"
+		:disableFindTime="true"
+		@addAttendee="addAttendee"
+		@removeAttendee="removeAttendee"
 		@close="close" />
 </template>
 

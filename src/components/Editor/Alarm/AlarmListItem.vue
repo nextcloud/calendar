@@ -8,20 +8,20 @@
 	<div class="property-alarm-item">
 		<div v-if="!isEditing" class="property-alarm-item__front">
 			<div class="property-alarm-item__label">
-				{{ alarm | formatAlarm(isAllDay, currentUserTimezone, locale) }}
+				{{ formatAlarm(alarm, isAllDay, currentUserTimezone, locale) }}
 			</div>
 		</div>
 		<div
 			v-if="isEditing && isRelativeAlarm && !isAllDay"
 			class="property-alarm-item__edit property-alarm-item__edit--timed">
-			<input
+			<NcTextField
 				type="number"
-				min="0"
-				max="3600"
-				:value="alarm.relativeAmountTimed"
-				@input="changeRelativeAmountTimed">
+				:label="$t('calendar', 'Amount')"
+				:labelOutside="true"
+				:modelValue="String(alarm.relativeAmountTimed)"
+				@update:modelValue="changeRelativeAmountTimed" />
 			<AlarmTimeUnitSelect
-				:is-all-day="isAllDay"
+				:isAllDay="isAllDay"
 				:count="alarm.relativeAmountTimed"
 				:unit="alarm.relativeUnitTimed"
 				:disabled="false"
@@ -31,14 +31,14 @@
 			v-if="isEditing && isRelativeAlarm && isAllDay"
 			class="property-alarm-item__edit property-alarm-item__edit--all-day">
 			<div class="property-alarm-item__edit--all-day__distance">
-				<input
+				<NcTextField
 					type="number"
-					min="0"
-					max="3600"
-					:value="alarm.relativeAmountAllDay"
-					@input="changeRelativeAmountAllDay">
+					:label="$t('calendar', 'Amount')"
+					:labelOutside="false"
+					:modelValue="String(alarm.relativeAmountAllDay)"
+					@update:modelValue="changeRelativeAmountAllDay" />
 				<AlarmTimeUnitSelect
-					:is-all-day="isAllDay"
+					:isAllDay="isAllDay"
 					:count="alarm.relativeAmountAllDay"
 					:unit="alarm.relativeUnitAllDay"
 					:disabled="false"
@@ -60,10 +60,10 @@
 			<DatePicker
 				prefix="on"
 				:date="alarm.absoluteDate"
-				:timezone-id="alarm.absoluteTimezoneId"
-				:is-all-day="false"
+				:timezoneId="alarm.absoluteTimezoneId"
+				:isAllDay="false"
 				@change="changeAbsoluteDate"
-				@change-timezone="changeAbsoluteTimezoneId" />
+				@changeTimezone="changeAbsoluteTimezoneId" />
 		</div>
 		<div
 			v-if="!isReadOnly"
@@ -75,7 +75,7 @@
 					v-if="canChangeAlarmType || (!isAlarmTypeDisplay && forceEventAlarmType === 'DISPLAY')"
 					:name="alarmTypeName"
 					value="DISPLAY"
-					:model-value="alarmType"
+					:modelValue="alarmType"
 					@update:modelValue="changeType('DISPLAY')">
 					{{ $t('calendar', 'Notification') }}
 				</ActionRadio>
@@ -83,7 +83,7 @@
 					v-if="canChangeAlarmType || (!isAlarmTypeEmail && forceEventAlarmType === 'EMAIL')"
 					:name="alarmTypeName"
 					value="EMAIL"
-					:model-value="alarmType"
+					:modelValue="alarmType"
 					@update:modelValue="changeType('EMAIL')">
 					{{ $t('calendar', 'Email') }}
 				</ActionRadio>
@@ -91,7 +91,7 @@
 					v-if="canChangeAlarmType && isAlarmTypeAudio"
 					:name="alarmTypeName"
 					value="AUDIO"
-					:model-value="alarmType"
+					:modelValue="alarmType"
 					@update:modelValue="changeType('AUDIO')">
 					{{ $t('calendar', 'Audio notification') }}
 				</ActionRadio>
@@ -99,7 +99,7 @@
 					v-if="canChangeAlarmType && isAlarmTypeOther"
 					:name="alarmTypeName"
 					:value="isAlarmTypeOther ?? alarmType"
-					:model-value="alarmType"
+					:modelValue="alarmType"
 					@update:modelValue="changeType(alarmType)">
 					{{ $t('calendar', 'Other notification') }}
 				</ActionRadio>
@@ -110,7 +110,7 @@
 					v-if="!isRecurring"
 					:name="alarmTriggerName"
 					value="RELATIVE"
-					:model-value="alarmRelationType"
+					:modelValue="alarmRelationType"
 					@update:modelValue="switchToRelativeAlarm">
 					{{ $t('calendar', 'Relative to event') }}
 				</ActionRadio>
@@ -118,7 +118,7 @@
 					v-if="!isRecurring"
 					:name="alarmTriggerName"
 					value="ABSOLUTE"
-					:model-value="alarmRelationType"
+					:modelValue="alarmRelationType"
 					@update:modelValue="switchToAbsoluteAlarm">
 					{{ $t('calendar', 'On date') }}
 				</ActionRadio>
@@ -160,6 +160,7 @@ import {
 	NcActionRadio as ActionRadio,
 	NcActions as Actions,
 	NcActionSeparator as ActionSeparator,
+	NcTextField,
 } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import Check from 'vue-material-design-icons/CheckOutline.vue'
@@ -182,13 +183,10 @@ export default {
 		ActionButton,
 		ActionRadio,
 		ActionSeparator,
+		NcTextField,
 		Check,
 		Delete,
 		Pencil,
-	},
-
-	filters: {
-		formatAlarm,
 	},
 
 	props: {
@@ -229,7 +227,7 @@ export default {
 
 		canEdit() {
 			// You can always edit an alarm if it's absolute
-			if (!this.isRelative) {
+			if (!this.isRelativeAlarm) {
 				return true
 			}
 
@@ -270,11 +268,11 @@ export default {
 		},
 
 		alarmTypeName() {
-			return this._uid + '-radio-type-name'
+			return this.$.uid + '-radio-type-name'
 		},
 
 		alarmTriggerName() {
-			return this._uid + '-radio-trigger-name'
+			return this.$.uid + '-radio-trigger-name'
 		},
 
 		alarmRelationType() {
@@ -345,6 +343,19 @@ export default {
 
 	methods: {
 		/**
+		 * Format the alarm for display
+		 *
+		 * @param {object} alarm The alarm object
+		 * @param {boolean} isAllDay Whether the event is all-day
+		 * @param {string} timezone The timezone
+		 * @param {string} locale The locale
+		 * @return {string} Formatted alarm string
+		 */
+		formatAlarm(alarm, isAllDay, timezone, locale) {
+			return formatAlarm(alarm, isAllDay, timezone, locale)
+		},
+
+		/**
 		 * This method enables the editing mode
 		 */
 		toggleEditAlarm() {
@@ -366,6 +377,8 @@ export default {
 				alarm: this.alarm,
 				type,
 			})
+
+			this.showMenu = false
 		},
 
 		/**
@@ -380,6 +393,8 @@ export default {
 				calendarObjectInstance: this.calendarObjectInstance,
 				alarm: this.alarm,
 			})
+
+			this.showMenu = false
 		},
 
 		/**
@@ -394,24 +409,28 @@ export default {
 				calendarObjectInstance: this.calendarObjectInstance,
 				alarm: this.alarm,
 			})
+
+			this.showMenu = false
 		},
 
 		/**
 		 * This method emits the removeAlarm event
 		 */
 		removeAlarm() {
-			this.$emit('remove-alarm', this.alarm)
+			this.$emit('removeAlarm', this.alarm)
+
+			this.showMenu = false
 		},
 
 		/**
 		 * changes the relative amount entered in timed mode
 		 *
-		 * @param {Event} event The Input-event triggered when modifying the input
+		 * @param {string} value The input value
 		 */
-		changeRelativeAmountTimed(event) {
-			const minimumValue = parseInt(event.target.min, 10)
-			const maximumValue = parseInt(event.target.max, 10)
-			const selectedValue = parseInt(event.target.value, 10)
+		changeRelativeAmountTimed(value) {
+			const minimumValue = 0
+			const maximumValue = 3600
+			const selectedValue = parseInt(value, 10)
 
 			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
 				this.calendarObjectInstanceStore.changeAlarmAmountTimed({
@@ -436,12 +455,12 @@ export default {
 		/**
 		 * changes the relative amount entered in all-day
 		 *
-		 * @param {Event} event The Input-event triggered when modifying the input
+		 * @param {string} value The input value
 		 */
-		changeRelativeAmountAllDay(event) {
-			const minimumValue = parseInt(event.target.min, 10)
-			const maximumValue = parseInt(event.target.max, 10)
-			const selectedValue = parseInt(event.target.value, 10)
+		changeRelativeAmountAllDay(value) {
+			const minimumValue = 0
+			const maximumValue = 3600
+			const selectedValue = parseInt(value, 10)
 
 			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
 				this.calendarObjectInstanceStore.changeAlarmAmountAllDay({

@@ -19,7 +19,7 @@
 <script>
 import { NcButton } from '@nextcloud/vue'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
-import { useRoute, useRouter } from 'vue-router/composables'
+import { useRoute, useRouter } from 'vue-router'
 import Plus from 'vue-material-design-icons/Plus.vue'
 
 export default {

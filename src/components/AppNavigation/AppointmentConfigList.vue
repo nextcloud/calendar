@@ -18,7 +18,7 @@
 				v-if="hasUserEmailAddress"
 				#actions>
 				<ActionButton
-					:close-after-click="true"
+					:closeAfterClick="true"
 					@click="showModalForNewConfig = true">
 					<template #icon>
 						<PlusIcon :size="20" decorative />
@@ -39,7 +39,7 @@
 
 			<AppointmentConfigModal
 				v-if="showModalForNewConfig"
-				:is-new="true"
+				:isNew="true"
 				:config="defaultConfig"
 				@close="closeModal" />
 		</template>

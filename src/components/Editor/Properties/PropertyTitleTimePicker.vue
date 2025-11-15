@@ -22,12 +22,10 @@
 					v-if="!showTimezoneSelect && (!isAllDay || isMobile)"
 					variant="tertiary"
 					@click="showTimezoneSelect = !showTimezoneSelect">
-					<template>
-						<span class="property-title-time-picker__button">
-							<IconTimezone :size="20" />
-							{{ startTimezone }}
-						</span>
+					<template #icon>
+						<IconTimezone :size="20" />
 					</template>
+					{{ startTimezone }}
 				</NcButton>
 				<div class="property-title-time-picker__time-pickers-from">
 					<!-- TRANSLATORS Start of an event -->
@@ -49,18 +47,16 @@
 						<div v-if="showTimezoneSelect && !isAllDay" class="property-title-time-picker__time-pickers-from-inner__timezone">
 							<NcTimezonePicker
 								v-if="showTimezoneSelect && !isAllDay"
-								:value="startTimezone"
-								@input="changeStartTimezone" />
+								:modelValue="startTimezone"
+								@update:modelValue="changeStartTimezone" />
 							<NcButton
 								v-if="!showTimezoneSelect && !isAllDay && !isMobile"
 								variant="tertiary"
 								@click="showTimezoneSelect = !showTimezoneSelect">
-								<template>
-									<span class="property-title-time-picker__button">
-										<IconTimezone :size="20" />
-										{{ startTimezone }}
-									</span>
+								<template #icon>
+									<IconTimezone :size="20" />
 								</template>
+								{{ startTimezone }}
 							</NcButton>
 						</div>
 					</div>
@@ -84,7 +80,7 @@
 								@change="changeEndTime" />
 						</div>
 						<div v-if="showTimezoneSelect && !isAllDay" class="property-title-time-picker__time-pickers-to-inner__timezone">
-							<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay" :value="endTimezone" @input="changeEndTimezone" />
+							<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay" :modelValue="endTimezone" @update:modelValue="changeEndTimezone" />
 						</div>
 					</div>
 				</div>
@@ -344,7 +340,7 @@ export default {
 		window.addEventListener('resize', this.updateWindowWidth)
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		window.removeEventListener('resize', this.updateWindowWidth)
 	},
 
@@ -355,7 +351,7 @@ export default {
 		 * @param {Date} value The new start date
 		 */
 		changeStartDate(value) {
-			this.$emit('update-start-date', value)
+			this.$emit('updateStartDate', value)
 		},
 
 		/**
@@ -364,7 +360,7 @@ export default {
 		 * @param {Date} value The new start time
 		 */
 		changeStartTime(value) {
-			this.$emit('update-start-time', value)
+			this.$emit('updateStartTime', value)
 		},
 
 		/**
@@ -378,8 +374,8 @@ export default {
 				return
 			}
 
-			this.$emit('update-start-timezone', value)
-			this.$emit('update-end-timezone', value)
+			this.$emit('updateStartTimezone', value)
+			this.$emit('updateEndTimezone', value)
 		},
 
 		/**
@@ -388,7 +384,7 @@ export default {
 		 * @param {Date} value The new end date
 		 */
 		changeEndDate(value) {
-			this.$emit('update-end-date', value)
+			this.$emit('updateEndDate', value)
 		},
 
 		/**
@@ -397,7 +393,7 @@ export default {
 		 * @param {Date} value The new end time
 		 */
 		changeEndTime(value) {
-			this.$emit('update-end-time', value)
+			this.$emit('updateEndTime', value)
 		},
 
 		/**
@@ -411,7 +407,7 @@ export default {
 				return
 			}
 
-			this.$emit('update-end-timezone', value)
+			this.$emit('updateEndTimezone', value)
 		},
 
 		getDateInUserTimezone(date, timezone) {
@@ -432,10 +428,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-:deep(.button-vue--icon-only), :deep(.button-vue__icon) {
-	width: 7rem !important;
-}
-
 /* Needed because the timezone picker has old styling */
 :deep(.vs__dropdown-toggle), :deep(.v-select) {
 	height: var(--default-clickable-area);
@@ -462,6 +454,10 @@ export default {
 	gap: var(--default-grid-baseline);
 	flex-direction: column;
 	flex-grow: 1;
+
+	button {
+		margin-inline-start: calc(var(--default-grid-baseline) * 8);
+	}
 }
 
 .property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {
@@ -505,9 +501,9 @@ export default {
 	}
 
 	.datepicker-label {
-		flex: 0 0 calc(var(--default-grid-baseline) * 6);
-		width: calc(var(--default-grid-baseline) * 6);
-		max-width: calc(var(--default-grid-baseline) * 6);
+		flex: 0 0 calc(var(--default-grid-baseline) * 9);
+		width: calc(var(--default-grid-baseline) * 9);
+		max-width: calc(var(--default-grid-baseline) * 9);
 		display: flex;
 		justify-content: flex-end;
 		text-align: end;

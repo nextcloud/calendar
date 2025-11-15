@@ -5,29 +5,29 @@
 <template>
 	<NcSelect
 		label="id"
-		:input-id="inputId"
+		:inputId="inputId"
 		:disabled="isDisabled"
 		:options="options"
-		:value="valueIds"
+		:modelValue="valueIds"
 		:multiple="multiple"
 		:clearable="clearable"
-		:filter-by="selectFilterBy"
-		:input-label="inputLabel"
-		:label-outside="inputLabel === ''"
-		@option:selected="change"
-		@option:deselected="remove">
+		trackBy="id"
+		:filterBy="selectFilterBy"
+		:inputLabel="inputLabel"
+		:labelOutside="inputLabel === ''"
+		@update:modelValue="handleSelectionUpdate">
 		<template #option="{ id }">
 			<CalendarPickerOption
 				:color="getCalendarById(id).color"
-				:display-name="getCalendarById(id).displayName"
-				:is-shared-with-me="getCalendarById(id).isSharedWithMe"
+				:displayName="getCalendarById(id).displayName"
+				:isSharedWithMe="getCalendarById(id).isSharedWithMe"
 				:owner="getCalendarById(id).owner" />
 		</template>
 		<template #selected-option="{ id }">
 			<CalendarPickerOption
 				:color="getCalendarById(id).color"
-				:display-name="getCalendarById(id).displayName"
-				:is-shared-with-me="getCalendarById(id).isSharedWithMe"
+				:displayName="getCalendarById(id).displayName"
+				:isSharedWithMe="getCalendarById(id).isSharedWithMe"
 				:owner="getCalendarById(id).owner" />
 		</template>
 	</NcSelect>
@@ -120,26 +120,41 @@ export default {
 		 *
 		 * @param {{id: string}|{id: string}[]} options All selected options (including the new one)
 		 */
-		change(options) {
-			if (!options || options.length === 0) {
+		change(optionId) {
+			if (!optionId) {
 				return
 			}
-
-			// The new option will always be the last element
-			const newOption = Array.isArray(options) ? options[options.length - 1] : options
-			const newCalendar = this.getCalendarById(newOption.id)
+			const newCalendar = this.getCalendarById(optionId.id)
 			if (this.showCalendarOnSelect && !newCalendar.enabled) {
 				this.calendarsStore.toggleCalendarEnabled({
 					calendar: newCalendar,
 				})
 			}
 
-			this.$emit('select-calendar', newCalendar)
+			this.$emit('selectCalendar', newCalendar)
 		},
 
-		remove(option) {
+		remove(optionId) {
 			if (this.multiple) {
-				this.$emit('remove-calendar', this.getCalendarById(option))
+				this.$emit('removeCalendar', this.getCalendarById(optionId))
+			}
+		},
+
+		handleSelectionUpdate(selection) {
+			const previous = Array.isArray(this.valueIds) ? this.valueIds : [this.valueIds].filter(Boolean)
+			const current = Array.isArray(selection) ? selection : [selection].filter(Boolean)
+
+			if (this.multiple) {
+				const added = current.filter((id) => !previous.includes(id))
+				const removed = previous.filter((id) => !current.includes(id))
+				added.forEach((id) => this.change(id))
+				removed.forEach((id) => this.remove(id))
+				return
+			}
+
+			const newId = current[0]
+			if (newId && newId !== previous[0]) {
+				this.change(newId)
 			}
 		},
 

@@ -18,7 +18,7 @@ import listPlugin from '@fullcalendar/list'
 import multiMonthPlugin from '@fullcalendar/multimonth'
 import timeGridPlugin from '@fullcalendar/timegrid'
 // Import FullCalendar itself
-import FullCalendar from '@fullcalendar/vue'
+import FullCalendar from '@fullcalendar/vue3'
 import { DateTimeValue } from '@nextcloud/calendar-js'
 // Import other dependencies
 import debounce from 'debounce'
