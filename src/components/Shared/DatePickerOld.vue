@@ -7,9 +7,9 @@
 	<DateTimePicker
 		:lang="lang"
 		:first-day-of-week="firstDay"
-		format="YYYY-MM-DD HH:mm"
+		format="yyyy-MM-dd HH:mm"
 		:formatter="formatter"
-		:value="date"
+		:model-value="date"
 		:type="actualType"
 		:clearable="false"
 		:minute-step="5"
@@ -22,9 +22,8 @@
 		v-bind="$attrs"
 		confirm
 		class="date-time-picker"
-		v-on="$listeners"
 		@close="close"
-		@change="change"
+		@update:modelValue="change"
 		@pick="pickDate">
 		<template #icon-calendar>
 			<IconNewCalendar v-if="isAllDay" :size="20" class="date-time-picker__icon" />
@@ -50,8 +49,8 @@
 					</div>
 					<TimezonePicker
 						class="timezone-popover-wrapper__timezone-select"
-						:value="timezoneId"
-						@input="changeTimezone" />
+						:model-value="timezoneId"
+						@update:modelValue="changeTimezone" />
 				</template>
 			</NcPopover>
 		</template>

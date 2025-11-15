@@ -8,14 +8,14 @@
 		:input-id="inputId"
 		:disabled="isDisabled"
 		:options="options"
-		:value="valueIds"
+		:model-value="valueIds"
 		:multiple="multiple"
 		:clearable="clearable"
+		track-by="id"
 		:filter-by="selectFilterBy"
 		:input-label="inputLabel"
 		:label-outside="inputLabel === ''"
-		@option:selected="change"
-		@option:deselected="remove">
+		@update:modelValue="handleSelectionUpdate">
 		<template #option="{ id }">
 			<CalendarPickerOption
 				:color="getCalendarById(id).color"
@@ -120,14 +120,11 @@ export default {
 		 *
 		 * @param {{id: string}|{id: string}[]} options All selected options (including the new one)
 		 */
-		change(options) {
-			if (!options || options.length === 0) {
+		change(optionId) {
+			if (!optionId) {
 				return
 			}
-
-			// The new option will always be the last element
-			const newOption = Array.isArray(options) ? options[options.length - 1] : options
-			const newCalendar = this.getCalendarById(newOption.id)
+			const newCalendar = this.getCalendarById(optionId)
 			if (this.showCalendarOnSelect && !newCalendar.enabled) {
 				this.calendarsStore.toggleCalendarEnabled({
 					calendar: newCalendar,
@@ -137,9 +134,27 @@ export default {
 			this.$emit('select-calendar', newCalendar)
 		},
 
-		remove(option) {
+		remove(optionId) {
 			if (this.multiple) {
-				this.$emit('remove-calendar', this.getCalendarById(option))
+				this.$emit('remove-calendar', this.getCalendarById(optionId))
+			}
+		},
+
+		handleSelectionUpdate(selection) {
+			const previous = Array.isArray(this.valueIds) ? this.valueIds : [this.valueIds].filter(Boolean)
+			const current = Array.isArray(selection) ? selection : [selection].filter(Boolean)
+
+			if (this.multiple) {
+				const added = current.filter((id) => !previous.includes(id))
+				const removed = previous.filter((id) => !current.includes(id))
+				added.forEach((id) => this.change(id))
+				removed.forEach((id) => this.remove(id))
+				return
+			}
+
+			const newId = current[0]
+			if (newId && newId !== previous[0]) {
+				this.change(newId)
 			}
 		},
 

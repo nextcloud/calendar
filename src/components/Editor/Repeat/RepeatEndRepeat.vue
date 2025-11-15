@@ -7,15 +7,14 @@
 	<div class="repeat-option-set repeat-option-set--end">
 		<span class="repeat-option-end__label">{{ $t('calendar', 'End repeat') }}</span>
 		<NcSelect
+			v-model="selectedOption"
 			class="repeat-option-end__end-type-select"
 			:options="options"
 			:searchable="false"
 			:name="$t('calendar', 'Select to end repeat')"
-			:value="selectedOption"
 			:clearable="false"
 			input-id="value"
-			label="label"
-			@input="changeEndType" />
+			label="label" />
 		<DatePicker
 			v-if="isUntil"
 			class="repeat-option-end__until"
@@ -142,44 +141,40 @@ export default {
 		 *
 		 * @return {object}
 		 */
-		selectedOption() {
-			if (this.count !== null) {
-				return this.options.find((option) => option.value === 'count')
-			} else if (this.until !== null) {
-				return this.options.find((option) => option.value === 'until')
-			} else {
+		selectedOption: {
+			get() {
+				if (this.count !== null) {
+					return this.options.find((option) => option.value === 'count')
+				} else if (this.until !== null) {
+					return this.options.find((option) => option.value === 'until')
+				}
+
 				return this.options.find((option) => option.value === 'never')
-			}
+			},
+
+			set(value) {
+				if (!value) {
+					return
+				}
+
+				switch (value.value) {
+					case 'until':
+						this.$emit('change-to-until')
+						break
+
+					case 'count':
+						this.$emit('change-to-count')
+						break
+
+					case 'never':
+					default:
+						this.$emit('set-infinite')
+				}
+			},
 		},
 	},
 
 	methods: {
-		/**
-		 * Changes the type of recurrence-end
-		 * Whether it ends never, on a given date or after an amount of occurrences
-		 *
-		 * @param {object} value The new type of recurrence-end to select
-		 */
-		changeEndType(value) {
-			console.debug(value)
-			if (!value) {
-				return
-			}
-
-			switch (value.value) {
-				case 'until':
-					this.$emit('change-to-until')
-					break
-
-				case 'count':
-					this.$emit('change-to-count')
-					break
-
-				case 'never':
-				default:
-					this.$emit('set-infinite')
-			}
-		},
 
 		/**
 		 * Changes the until-date of this recurrence-set

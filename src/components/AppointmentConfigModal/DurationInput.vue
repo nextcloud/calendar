@@ -29,7 +29,7 @@ export default {
 			required: true,
 		},
 
-		value: {
+		modelValue: {
 			type: Number,
 			default: 0,
 		},
@@ -45,7 +45,7 @@ export default {
 	computed: {
 		valueInMinutes() {
 			// Convert value prop from seconds to minutes
-			return Math.round(this.value / 60)
+			return Math.round(this.modelValue / 60)
 		},
 
 		valueWithUnit() {
@@ -66,7 +66,7 @@ export default {
 	},
 
 	watch: {
-		value(newVal) {
+		modelValue(newVal) {
 			// Only apply new value if it really changed compared to the internal state
 			if (this.parsedInternalValue * 60 !== newVal) {
 				this.updateInternalValue()
@@ -81,7 +81,7 @@ export default {
 	methods: {
 		change() {
 			// Emit value in seconds
-			this.$emit('update:value', this.parsedInternalValue * 60)
+			this.$emit('update:modelValue', this.parsedInternalValue * 60)
 		},
 
 		focus() {

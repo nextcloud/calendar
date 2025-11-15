@@ -37,12 +37,13 @@
 			<template v-if="!isBeingDeleted">
 				<template v-if="isSharedWithMe">
 					<NcActionCaption :name="$t('calendar', 'Shared with you by')" />
-					<NcActionText :name="ownerDisplayname">
+					<NcActionText>
 						<template #icon>
 							<div class="actions-icon-avatar">
 								<NcAvatar :user="ownerUserId" :display-name="ownerDisplayname" :size="30" />
 							</div>
 						</template>
+						{{ ownerDisplayname }}
 					</NcActionText>
 					<NcActionSeparator />
 				</template>
@@ -50,12 +51,7 @@
 					<template #icon>
 						<Pencil :size="20" decorative />
 					</template>
-					<template v-if="canBeShared">
-						{{ $t('calendar', 'Edit and share calendar') }}
-					</template>
-					<template v-else>
-						{{ $t('calendar', 'Edit calendar') }}
-					</template>
+					{{ canBeShared ? $t('calendar', 'Edit and share calendar') : $t('calendar', 'Edit calendar') }}
 				</ActionButton>
 			</template>
 			<template v-else>

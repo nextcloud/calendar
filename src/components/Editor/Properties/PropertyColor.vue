@@ -26,7 +26,7 @@
 			class="property-color__input">
 			<NcColorPicker
 				v-model="selectedColor"
-				:shown.sync="selectorOpen"
+				v-model:shown="selectorOpen"
 				:advanced-fields="true"
 				@update:modelValue="changeColor">
 				<NcButton

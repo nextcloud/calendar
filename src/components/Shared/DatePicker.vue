@@ -8,12 +8,12 @@
 		id="date-time-picker-input"
 		:min="minimumDate"
 		:max="maximumDate"
-		:value="date"
+		:model-value="date"
 		:type="type"
 		:hide-label="true"
 		class="date-time-picker"
 		@blur="onBlur"
-		@input="onInput" />
+		@update:model-value="onInput" />
 </template>
 
 <script>

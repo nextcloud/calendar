@@ -22,12 +22,10 @@
 					v-if="!showTimezoneSelect && (!isAllDay || isMobile)"
 					variant="tertiary"
 					@click="showTimezoneSelect = !showTimezoneSelect">
-					<template>
-						<span class="property-title-time-picker__button">
-							<IconTimezone :size="20" />
-							{{ startTimezone }}
-						</span>
+					<template #icon>
+						<IconTimezone :size="20" />
 					</template>
+					{{ startTimezone }}
 				</NcButton>
 				<div class="property-title-time-picker__time-pickers-from">
 					<!-- TRANSLATORS Start of an event -->
@@ -49,18 +47,16 @@
 						<div v-if="showTimezoneSelect && !isAllDay" class="property-title-time-picker__time-pickers-from-inner__timezone">
 							<NcTimezonePicker
 								v-if="showTimezoneSelect && !isAllDay"
-								:value="startTimezone"
-								@input="changeStartTimezone" />
+								:model-value="startTimezone"
+								@update:model-value="changeStartTimezone" />
 							<NcButton
 								v-if="!showTimezoneSelect && !isAllDay && !isMobile"
 								variant="tertiary"
 								@click="showTimezoneSelect = !showTimezoneSelect">
-								<template>
-									<span class="property-title-time-picker__button">
-										<IconTimezone :size="20" />
-										{{ startTimezone }}
-									</span>
+								<template #icon>
+									<IconTimezone :size="20" />
 								</template>
+								{{ startTimezone }}
 							</NcButton>
 						</div>
 					</div>
@@ -84,7 +80,7 @@
 								@change="changeEndTime" />
 						</div>
 						<div v-if="showTimezoneSelect && !isAllDay" class="property-title-time-picker__time-pickers-to-inner__timezone">
-							<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay" :value="endTimezone" @input="changeEndTimezone" />
+							<NcTimezonePicker v-if="showTimezoneSelect && !isAllDay" :model-value="endTimezone" @update:model-value="changeEndTimezone" />
 						</div>
 					</div>
 				</div>

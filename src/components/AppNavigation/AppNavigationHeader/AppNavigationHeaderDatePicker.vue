@@ -8,7 +8,7 @@ import { isRTL as isRTLFn, t } from '@nextcloud/l10n'
 import { NcButton } from '@nextcloud/vue'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { computed, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router/composables'
+import { useRoute, useRouter } from 'vue-router'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import DatePicker from '../../Shared/DatePickerOld.vue'
@@ -158,6 +158,10 @@ function toggleDatepicker() {
 	isDatepickerOpen.value = !isDatepickerOpen.value
 }
 
+function setDatepickerOpen(value: boolean) {
+	isDatepickerOpen.value = value
+}
+
 useHotKey(['n', 'j'], () => navigateTimeRangeForward())
 useHotKey(['p', 'k'], () => navigateTimeRangeBackward())
 </script>
@@ -188,8 +192,9 @@ useHotKey(['p', 'k'], () => navigateTimeRangeBackward())
 			:append-to-body="props.isWidget"
 			:date="selectedDate"
 			:is-all-day="true"
-			:open.sync="isDatepickerOpen"
+			:open="isDatepickerOpen"
 			:type="view === 'multiMonthYear' ? 'year' : 'date'"
+			@update:open="setDatepickerOpen"
 			@change="navigateToDate" />
 		<NcButton
 			v-if="!props.isWidget"
