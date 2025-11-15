@@ -26,7 +26,7 @@ export default {
 			required: true,
 		},
 
-		value: {
+		modelValue: {
 			type: Number,
 			default: undefined,
 		},
@@ -46,16 +46,16 @@ export default {
 	computed: {
 		realValue() {
 			if (this.allowEmpty) {
-				return this.value
+				return this.modelValue
 			}
 
-			return this.value ?? 0
+			return this.modelValue ?? 0
 		},
 	},
 
 	methods: {
 		change(e) {
-			this.$emit('update:value', parseInt(e.target.value))
+			this.$emit('update:modelValue', parseInt(e.target.value))
 		},
 	},
 }

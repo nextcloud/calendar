@@ -25,8 +25,8 @@
 			v-else
 			class="property-color__input">
 			<ColorPicker
-				:value="selectedColor"
-				:shown.sync="isColorPickerOpen"
+				v-model:shown="isColorPickerOpen"
+				:model-value="selectedColor"
 				:advanced-fields="true"
 				@submit="changeColor">
 				<NcButton

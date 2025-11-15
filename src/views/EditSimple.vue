@@ -53,7 +53,7 @@
 					</EmptyContent>
 				</template>
 
-				<template v-else>
+				<template v-else-if="calendarObjectInstance">
 					<div class="event-popover__top-actions">
 						<NcPopover v-if="isViewedByOrganizer === false" :no-focus-trap="true">
 							<template #trigger>
@@ -150,14 +150,12 @@
 
 						<div v-if="!isReadOnlyOrViewing" class="event-popover__all-day">
 							<NcCheckboxRadioSwitch
-								:checked="isAllDay"
-								:disabled="isViewedByOrganizer === false || isReadOnlyOrViewing || canModifyAllDay"
-								@update:checked="toggleAllDayPreliminary">
+								:model-value="isAllDay"
+								:disabled="isViewedByOrganizer === false || isReadOnlyOrViewing || !canModifyAllDay"
+								@update:modelValue="toggleAllDayPreliminary">
 								{{ $t('calendar', 'All day') }}
 							</NcCheckboxRadioSwitch>
-						</div>
-
-						<PropertyText
+						</div>						<PropertyText
 							:is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
 							:prop-model="rfcProps.location"
 							:value="location"
@@ -396,25 +394,27 @@ export default {
 			}
 		},
 
-		calendarObjectInstance() {
+		calendarObjectInstance(newVal) {
 			this.hasLocation = false
 			this.hasDescription = false
 			this.hasAttendees = false
 
-			if (typeof this.calendarObjectInstance.location === 'string' && this.calendarObjectInstance.location.trim() !== '') {
-				this.hasLocation = true
-			}
-			if (typeof this.calendarObjectInstance.description === 'string' && this.calendarObjectInstance.description.trim() !== '') {
-				this.hasDescription = true
-			}
-			if (Array.isArray(this.calendarObjectInstance.attendees) && this.calendarObjectInstance.attendees.length > 0) {
-				this.hasAttendees = true
-			}
+			if (this.calendarObjectInstance) {
+				if (typeof this.calendarObjectInstance.location === 'string' && this.calendarObjectInstance.location.trim() !== '') {
+					this.hasLocation = true
+				}
+				if (typeof this.calendarObjectInstance.description === 'string' && this.calendarObjectInstance.description.trim() !== '') {
+					this.hasDescription = true
+				}
+				if (Array.isArray(this.calendarObjectInstance.attendees) && this.calendarObjectInstance.attendees.length > 0) {
+					this.hasAttendees = true
+				}
 
-			// Reposition after content changes
-			this.$nextTick(() => {
-				this.repositionPopover()
-			})
+				// Reposition after content changes
+				this.$nextTick(() => {
+					this.repositionPopover()
+				})
+			}
 		},
 
 		isNew: {
@@ -432,7 +432,7 @@ export default {
 			}, 100)
 		},
 
-		isLoading(newVal) {
+		isLoading(newVal, oldVal) {
 			// When loading completes, reposition to accommodate the loaded content
 			if (newVal === false) {
 				this.$nextTick(() => {
@@ -603,7 +603,14 @@ export default {
 		 */
 		calculateAndApplyPosition(targetElement) {
 			// Get current popover element if it exists
-			const existingPopover = this.$el?.querySelector('.event-popover')
+			// In Vue 3, this.$el might be a comment node, so we need to check if querySelector exists
+			let existingPopover = null
+			if (this.$el && typeof this.$el.querySelector === 'function') {
+				existingPopover = this.$el.querySelector('.event-popover')
+			} else {
+				// Fallback: search in the document
+				existingPopover = document.querySelector('.event-popover')
+			}
 			const estimatedHeight = existingPopover?.offsetHeight || 400
 			const estimatedWidth = existingPopover?.offsetWidth || 520
 			const SPACING = 16

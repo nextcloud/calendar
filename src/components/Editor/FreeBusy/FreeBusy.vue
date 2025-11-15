@@ -23,8 +23,8 @@
 							input-id="slot"
 							label="displayStart"
 							:label-outside="true"
-							:value="selectedSlot"
-							@option:selected="setSlotSuggestion">
+							:model-value="selectedSlot"
+							@update:modelValue="setSlotSuggestion">
 							<template #selected-option="{}">
 								{{ $t('calendar', 'Suggestion accepted') }}
 							</template>
@@ -194,10 +194,10 @@
 								input-id="slot"
 								label="displayStart"
 								:label-outside="true"
-								:value="selectedSlot"
+								:model-value="selectedSlot"
 								:loading="loadingIndicator"
 								:disabled="loadingIndicator"
-								@option:selected="setSlotSuggestion">
+								@update:modelValue="setSlotSuggestion">
 								<template #selected-option="{}">
 									{{ $t('calendar', 'Suggestion accepted') }}
 								</template>
@@ -265,10 +265,11 @@
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 // Import FullCalendar itself
-import FullCalendar from '@fullcalendar/vue'
+import FullCalendar from '@fullcalendar/vue3'
 import { AttendeeProperty } from '@nextcloud/calendar-js'
 import { isRTL } from '@nextcloud/l10n'
-import { isMobile, NcActionButton, NcActions, NcButton, NcDateTimePickerNative, NcListItemIcon, NcModal, NcPopover, NcSelect, NcUserBubble } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcButton, NcDateTimePickerNative, NcListItemIcon, NcModal, NcPopover, NcSelect, NcUserBubble } from '@nextcloud/vue'
+import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
 import { mapState } from 'pinia'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
@@ -313,7 +314,6 @@ export default {
 		Close,
 	},
 
-	mixins: [isMobile],
 	props: {
 		/**
 		 * The organizer object.
@@ -376,6 +376,11 @@ export default {
 		},
 	},
 
+	setup() {
+		const isMobile = useIsMobile()
+		return { isMobile }
+	},
+
 	data() {
 		return {
 			loadingIndicator: true,
@@ -394,6 +399,7 @@ export default {
 	},
 
 	computed: {
+
 		...mapState(useSettingsStore, {
 			timezoneId: 'getResolvedTimezone',
 		}),

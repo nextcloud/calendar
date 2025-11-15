@@ -51,9 +51,9 @@
 					<PendingIcon :size="20" decorative />
 				</template>
 				<template #counter>
-					<NcCounterBubble>
-						{{ proposalParticipantsResponded(proposal) + '/' + proposalParticipantsTotal(proposal) }}
-					</NcCounterBubble>
+					<NcCounterBubble
+						:count="`${proposalParticipantsResponded(proposal)}/${proposalParticipantsTotal(proposal)}`"
+						:raw="true" />
 				</template>
 				<template #actions>
 					<NcActionButton
