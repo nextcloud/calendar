@@ -4,37 +4,32 @@
 -->
 
 <template>
-	<div class="settings-fieldset-interior-item settings-fieldset-interior-item--folder">
-		<label :for="inputId">
-			{{ $t('calendar', 'Attachments folder') }}
-		</label>
-		<div class="form-group">
-			<NcInputField
-				:id="inputId"
-				v-model="attachmentsFolder"
-				type="text"
-				:label-outside="true"
-				@input="debounceSaveAttachmentsFolder(attachmentsFolder)"
-				@change="debounceSaveAttachmentsFolder(attachmentsFolder)"
-				@click="selectCalendarFolder"
-				@keyboard.enter="selectCalendarFolder" />
-		</div>
-	</div>
+	<NcFormBoxButton
+		:label="$t('calendar', 'Attachments folder')"
+		:description="attachmentsFolder"
+		inverted-accent
+		@click="selectCalendarFolder">
+		<template #icon>
+			<IconFolderOpen :size="20" />
+		</template>
+	</NcFormBoxButton>
 </template>
 
 <script>
 import { getFilePickerBuilder, showError, showSuccess } from '@nextcloud/dialogs'
+import { NcFormBoxButton } from '@nextcloud/vue'
 import debounce from 'debounce'
 import { mapState, mapStores } from 'pinia'
-import NcInputField from '@nextcloud/vue/components/NcInputField'
+import IconFolderOpen from 'vue-material-design-icons/FolderOpenOutline.vue'
 import useSettingsStore from '../../../store/settings.js'
 import logger from '../../../utils/logger.js'
-import { randomId } from '../../../utils/randomId.js'
 
 export default {
 	name: 'SettingsAttachmentsFolder',
+
 	components: {
-		NcInputField,
+		NcFormBoxButton,
+		IconFolderOpen,
 	},
 
 	computed: {
@@ -42,10 +37,6 @@ export default {
 		...mapState(useSettingsStore, {
 			attachmentsFolder: (store) => store.attachmentsFolder || '/',
 		}),
-
-		inputId() {
-			return `input-${randomId()}`
-		},
 	},
 
 	methods: {

@@ -3,105 +3,113 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-	<div class="shortcut-overview-modal">
-		<section
+	<NcAppSettingsShortcutsSection>
+		<NcHotkeyList
 			v-for="category in shortcuts"
 			:key="category.categoryId"
-			class="shortcut-section">
-			<h3 class="shortcut-section__header">
-				{{ category.categoryLabel }}
-			</h3>
-			<div
+			:label="category.categoryLabel">
+			<NcHotkey
 				v-for="(shortcut, index) in category.shortcuts"
 				:key="`${category.categoryId}-${index}`"
-				class="shortcut-section-item">
-				<span class="shortcut-section-item__keys">
-					<template v-for="(keyCombination, index2) of shortcut.keys">
-						<template v-for="(key, index3) in keyCombination">
-							<kbd :key="`${category.categoryId}-${index}-${index2}-${index3}`">{{ key }}</kbd>
+				:hotkey="shortcut.or ? null : shortcut.keys[0]"
+				:label="shortcut.label">
+				<template v-if="shortcut.or" #hotkey>
+					<div class="shortcut-section-item__keys">
+						<div v-for="(key, keyIndex) in shortcut.keys" :key="keyIndex">
+							<NcKbd :symbol="key" />
 							<span
-								v-if="index3 !== (keyCombination.length - 1)"
-								:key="`${category.categoryId}-${index}-${index2}-${index3}`"
-								class="shortcut-section-item__spacer">
-								+
+								v-if="keyIndex !== (shortcut.keys.length - 1)">
+								{{ $t('calendar', 'or') }}
 							</span>
-						</template>
-						<span
-							v-if="index2 !== (shortcut.keys.length - 1)"
-							:key="`${category.categoryId}-${index}-${index2}`"
-							class="shortcut-section-item__spacer">
-							{{ $t('calendar', 'or') }}
-						</span>
-					</template>
-				</span>
-				<span class="shortcut-section-item__label">{{ shortcut.label }}</span>
-			</div>
-		</section>
-	</div>
+						</div>
+					</div>
+				</template>
+			</NcHotkey>
+		</NcHotkeyList>
+	</NcAppSettingsShortcutsSection>
 </template>
 
 <script>
 import { translate as t } from '@nextcloud/l10n'
+import { NcAppSettingsShortcutsSection, NcHotkey, NcHotkeyList } from '@nextcloud/vue'
+import NcKbd from '@nextcloud/vue/components/NcKbd'
 
 export default {
+	name: 'ShortcutOverview',
+
+	components: {
+		NcAppSettingsShortcutsSection,
+		NcHotkeyList,
+		NcHotkey,
+		NcKbd,
+	},
+
 	computed: {
 		shortcuts() {
 			return [{
 				categoryId: 'navigation',
 				categoryLabel: t('calendar', 'Navigation'),
 				shortcuts: [{
-					keys: [['p'], ['k']],
+					keys: ['P', 'K'],
 					label: t('calendar', 'Previous period'),
+					or: true,
 				}, {
-					keys: [['n'], ['j']],
+					keys: ['N', 'J'],
 					label: t('calendar', 'Next period'),
+					or: true,
 				}, {
-					keys: [['t']],
+					keys: ['T'],
 					label: t('calendar', 'Today'),
+					or: true,
 				}],
 			}, {
 				categoryId: 'views',
 				categoryLabel: t('calendar', 'Views'),
 				shortcuts: [{
-					keys: [['1'], ['d']],
+					keys: ['1', 'D'],
 					label: t('calendar', 'Day view'),
+					or: true,
 				}, {
-					keys: [['2'], ['w']],
+					keys: ['2', 'W'],
 					label: t('calendar', 'Week view'),
+					or: true,
 				}, {
-					keys: [['3'], ['m']],
+					keys: ['3', 'M'],
 					label: t('calendar', 'Month view'),
+					or: true,
 				}, {
-					keys: [['4'], ['y']],
+					keys: ['4', 'Y'],
 					label: t('calendar', 'Year view'),
+					or: true,
 				}, {
-					keys: [['5'], ['l']],
+					keys: ['5', 'L'],
 					label: t('calendar', 'List view'),
+					or: true,
 				}],
 			}, {
 				categoryId: 'actions',
 				categoryLabel: t('calendar', 'Actions'),
 				shortcuts: [{
-					keys: [['c']],
+					keys: ['C'],
 					label: t('calendar', 'Create event'),
 				}, {
-					keys: [['h']],
+					keys: ['H'],
 					label: t('calendar', 'Show shortcuts'),
 				}],
 			}, {
 				categoryId: 'editor',
 				categoryLabel: t('calendar', 'Editor'),
 				shortcuts: [{
-					keys: [['Escape']],
+					keys: ['Escape'],
 					label: t('calendar', 'Close editor'),
 				}, {
-					keys: [['Ctrl+Enter']],
+					keys: ['Control Enter'],
 					label: t('calendar', 'Save edited event'),
 				}, {
-					keys: [['Ctrl+Delete']],
+					keys: ['Control Delete'],
 					label: t('calendar', 'Delete edited event'),
 				}, {
-					keys: [['Ctrl+d']],
+					keys: ['Control D'],
 					label: t('calendar', 'Duplicate event'),
 				}],
 			}]
@@ -111,40 +119,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.shortcut-section {
-	width: 50%;
-	min-width: 425px;
-	flex-grow: 0;
-	flex-shrink: 0;
-	padding: 10px;
-	box-sizing: border-box;
-
-	.shortcut-section-item {
-		width: 100%;
-		display: grid;
-		grid-template-columns: 33% 67%;
-		column-gap: 10px;
-
-		&:not(:first-child) {
-			margin-top: 10px;
-		}
-
-		&__keys {
-			display: block;
-			text-align: end;
-		}
-
-		&__label {
-			display: block;
-			text-align: start;
-			padding-top: 5px;
-		}
-
-		&__spacer {
-			margin: 0 3px;
-		}
-	}
+.shortcut-section-item__keys {
+	display: flex;
+	gap: var(--default-grid-baseline);
 }
-
 </style>
