@@ -16,23 +16,27 @@
 				:key="`${category.categoryId}-${index}`"
 				class="shortcut-section-item">
 				<span class="shortcut-section-item__keys">
-					<template v-for="(keyCombination, index2) of shortcut.keys">
-						<template v-for="(key, index3) in keyCombination">
-							<kbd :key="`${category.categoryId}-${index}-${index2}-${index3}`">{{ key }}</kbd>
+					<span
+						v-for="(keyCombination, index2) in shortcut.keys"
+						:key="`${category.categoryId}-${index}-combo-${index2}`"
+						class="shortcut-section-item__combination">
+						<span
+							v-for="(key, index3) in keyCombination"
+							:key="`${category.categoryId}-${index}-${index2}-${index3}`"
+							class="shortcut-section-item__key">
+							<kbd>{{ key }}</kbd>
 							<span
 								v-if="index3 !== (keyCombination.length - 1)"
-								:key="`${category.categoryId}-${index}-${index2}-${index3}`"
 								class="shortcut-section-item__spacer">
 								+
 							</span>
-						</template>
+						</span>
 						<span
 							v-if="index2 !== (shortcut.keys.length - 1)"
-							:key="`${category.categoryId}-${index}-${index2}`"
 							class="shortcut-section-item__spacer">
 							{{ $t('calendar', 'or') }}
 						</span>
-					</template>
+					</span>
 				</span>
 				<span class="shortcut-section-item__label">{{ shortcut.label }}</span>
 			</div>

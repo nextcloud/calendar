@@ -67,7 +67,7 @@
 
 		<NcDialog
 			v-if="showOpenConfirmation"
-			:open.sync="showOpenConfirmation"
+			v-model:open="showOpenConfirmation"
 			:name="t('calendar', 'Confirmation')"
 			:buttons="openConfirmationButtons">
 			<p class="external-link-message">
