@@ -35,7 +35,6 @@
     "Timezone" : "Tydsone",
     "List view" : "Lysaansig",
     "Actions" : "Aksies",
-    "Keyboard shortcuts" : "Sneltoetse",
     "Update" : "Werk by",
     "Location" : "Ligging",
     "Description" : "Beskrywing",
@@ -89,6 +88,7 @@
     "Categories" : "Kategorieë",
     "Hidden" : "Versteek",
     "can edit" : "kan wysig",
-    "Show week numbers" : "Toon weeknommers"
+    "Show week numbers" : "Toon weeknommers",
+    "Keyboard shortcuts" : "Sneltoetse"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

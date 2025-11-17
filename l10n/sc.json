@@ -123,12 +123,8 @@
     "Show shortcuts" : "Mustra curtziadòrgios",
     "or" : "o",
     "No reminder" : "Perunu promemòria",
-    "CalDAV link copied to clipboard." : "Ligòngiu CalDAV copiadu in punta de billete.",
-    "CalDAV link could not be copied to clipboard." : "No at fatu a copiare su ligòngiu CalDAV in punta de billete.",
-    "Copy iOS/macOS CalDAV address" : "Còpia s'indiritzu CalDAV iOS/macOS",
     "Appearance" : "Aspetu",
     "Default reminder" : "Promemòria predefinidu",
-    "Keyboard shortcuts" : "Curtziadòrgios de tecladu",
     "Update" : "Agiorna",
     "Location" : "Positzione",
     "Description" : "Descritzione",
@@ -347,6 +343,8 @@
     "can edit" : "podet modificare",
     "Automatic ({detected})" : "Automàticu ({detected})",
     "Shortcut overview" : "Bista generale de is curtziadòrgiu",
+    "CalDAV link copied to clipboard." : "Ligòngiu CalDAV copiadu in punta de billete.",
+    "CalDAV link could not be copied to clipboard." : "No at fatu a copiare su ligòngiu CalDAV in punta de billete.",
     "Enable birthday calendar" : "Ativa su calendàriu de cumpleannos",
     "Show tasks in calendar" : "Mustra atividades in su calendàriu",
     "Enable simplified editor" : "Ativa s'editore semplificadu",
@@ -354,9 +352,11 @@
     "Show week numbers" : "Mustra nùmeru de chidas",
     "Time increments" : "Crèschidas de tempus",
     "Copy primary CalDAV address" : "Còpia s'indiritzu CalDAV printzipale",
+    "Copy iOS/macOS CalDAV address" : "Còpia s'indiritzu CalDAV iOS/macOS",
     "Show keyboard shortcuts" : "Mustra curtziadòrgios de tecladu",
     "Successfully appended link to talk room to description." : "Ligòngiu apicadu in manera curreta in sa descritzione de s'aposentu de cunversatzione",
     "Error creating Talk room" : "Errore in sa creatzione de s'aposentu Talk",
-    "The visibility of this event in shared calendars." : "Sa visibilidade de custu eventu in is calendàrios cumpartzidos"
+    "The visibility of this event in shared calendars." : "Sa visibilidade de custu eventu in is calendàrios cumpartzidos",
+    "Keyboard shortcuts" : "Curtziadòrgios de tecladu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

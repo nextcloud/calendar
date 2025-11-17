@@ -186,15 +186,10 @@
     "At event start" : "イベント開始時",
     "No reminder" : "リマインダーなし",
     "Failed to save default calendar" : "デフォルトカレンダーの保存に失敗しました",
-    "CalDAV link copied to clipboard." : "CalDAVリンクがクリップボードにコピーされました",
-    "CalDAV link could not be copied to clipboard." : "CalDAVリンクをクリップボードにコピーできませんでした",
     "General" : "一般",
-    "Copy iOS/macOS CalDAV address" : "iOS/macOS用のCalDAVアドレスをコピー",
     "Appearance" : "表示",
     "Editing" : "編集中",
-    "Default calendar for incoming invitations" : "受信した招待状のデフォルトカレンダー",
     "Default reminder" : "既定のリマインダー",
-    "Keyboard shortcuts" : "キーボードショートカット",
     "Appointment schedule successfully created" : "予約スケジュールの作成に成功しました",
     "Appointment schedule successfully updated" : "予約スケジュールの更新に成功しました",
     "_{duration} minute_::_{duration} minutes_" : ["{duration}分"],
@@ -548,6 +543,8 @@
     "Default attachments location" : "添付ファイルのデフォルト位置",
     "Automatic ({detected})" : "自動 ({detected})",
     "Shortcut overview" : "概要",
+    "CalDAV link copied to clipboard." : "CalDAVリンクがクリップボードにコピーされました",
+    "CalDAV link could not be copied to clipboard." : "CalDAVリンクをクリップボードにコピーできませんでした",
     "Enable birthday calendar" : "誕生日カレンダーを有効にする",
     "Show tasks in calendar" : "カレンダーにタスクを表示",
     "Enable simplified editor" : "簡易エディターを有効にする",
@@ -555,7 +552,9 @@
     "Show weekends" : "週末を表示する",
     "Show week numbers" : "週番号を表示する",
     "Time increments" : "時間の増加",
+    "Default calendar for incoming invitations" : "受信した招待状のデフォルトカレンダー",
     "Copy primary CalDAV address" : "通常のCalDAVアドレスをコピー",
+    "Copy iOS/macOS CalDAV address" : "iOS/macOS用のCalDAVアドレスをコピー",
     "Personal availability settings" : "個人の稼働率設定",
     "Show keyboard shortcuts" : "キーボード ショートカット",
     "Create a new public conversation" : "公開の会話を作成",
@@ -564,6 +563,7 @@
     "Successfully appended link to talk room to description." : "通話ルームへのリンクを説明文に追加しました",
     "Error creating Talk room" : "通話ルームの作成に失敗しました",
     "_%n more guest_::_%n more guests_" : ["ゲスト %n 名追加"],
-    "The visibility of this event in shared calendars." : "共有カレンダーでのこのイベントの表示。"
+    "The visibility of this event in shared calendars." : "共有カレンダーでのこのイベントの表示。",
+    "Keyboard shortcuts" : "キーボードショートカット"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

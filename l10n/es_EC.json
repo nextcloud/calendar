@@ -177,14 +177,10 @@
     "or" : "o",
     "Calendar settings" : "Configuración del calendario",
     "No reminder" : "Sin recordatorio",
-    "CalDAV link copied to clipboard." : "Enlace CalDAV copiado al portapapeles.",
-    "CalDAV link could not be copied to clipboard." : "No se pudo copiar el enlace CalDAV al portapapeles.",
     "General" : "General",
-    "Copy iOS/macOS CalDAV address" : "Copiar dirección CalDAV para iOS/macOS",
     "Appearance" : "Apariencia",
     "Editing" : "Edición",
     "Default reminder" : "Recordatorio predeterminado",
-    "Keyboard shortcuts" : "Atajos del teclado",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minuto","{duration} minutos","{duration} minutos"],
     "0 minutes" : "0 minutos",
     "_{duration} hour_::_{duration} hours_" : ["{duration} hora","{duration} horas","{duration} horas"],
@@ -495,6 +491,8 @@
     "Default attachments location" : "Ubicación predeterminada para adjuntos",
     "Automatic ({detected})" : "Automático ({detected})",
     "Shortcut overview" : "Resumen de accesos directos",
+    "CalDAV link copied to clipboard." : "Enlace CalDAV copiado al portapapeles.",
+    "CalDAV link could not be copied to clipboard." : "No se pudo copiar el enlace CalDAV al portapapeles.",
     "Enable birthday calendar" : "Habilitar calendario de cumpleaños",
     "Show tasks in calendar" : "Mostrar tareas en el calendario",
     "Enable simplified editor" : "Habilitar editor simplificado",
@@ -503,10 +501,12 @@
     "Show week numbers" : "Mostrar número de semana",
     "Time increments" : "Incrementos de tiempo",
     "Copy primary CalDAV address" : "Copiar dirección CalDAV principal",
+    "Copy iOS/macOS CalDAV address" : "Copiar dirección CalDAV para iOS/macOS",
     "Personal availability settings" : "Configuración de disponibilidad personal",
     "Show keyboard shortcuts" : "Mostrar accesos directos de teclado",
     "Successfully appended link to talk room to description." : "Enlace a la sala de Talk se agregó correctamente a la descripción.",
     "Error creating Talk room" : "Error al crear la sala de Talk",
-    "The visibility of this event in shared calendars." : "La visibilidad de este evento en calendarios compartidos."
+    "The visibility of this event in shared calendars." : "La visibilidad de este evento en calendarios compartidos.",
+    "Keyboard shortcuts" : "Atajos del teclado"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

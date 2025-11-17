@@ -57,7 +57,6 @@ OC.L10N.register(
     "Close editor" : "Fermi redaktilon",
     "or" : "aŭ",
     "General" : "Ĝenerala",
-    "Keyboard shortcuts" : "Fulmoklavoj",
     "Update" : "Ĝisdatigi",
     "Location" : "Loko",
     "Description" : "Priskribo",
@@ -150,6 +149,7 @@ OC.L10N.register(
     "Enable simplified editor" : "Ebligi simpligitan redaktilon",
     "Show weekends" : "Montri semajnfinojn",
     "Show week numbers" : "Montri numerojn de semajno",
-    "Show keyboard shortcuts" : "Montri klavarajn ŝparvojojn"
+    "Show keyboard shortcuts" : "Montri klavarajn ŝparvojojn",
+    "Keyboard shortcuts" : "Fulmoklavoj"
 },
 "nplurals=2; plural=(n != 1);");

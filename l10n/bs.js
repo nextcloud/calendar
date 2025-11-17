@@ -17,7 +17,6 @@ OC.L10N.register(
     "Save" : "Spremi",
     "Cancel" : "Odustani",
     "Actions" : "Radnje",
-    "Keyboard shortcuts" : "Tipkovni prečaci",
     "Update" : "Ažuriraj",
     "Location" : "Lokacija",
     "Description" : "Opis",
@@ -57,6 +56,7 @@ OC.L10N.register(
     "second" : "drugi",
     "Other" : "Ostali",
     "Status" : "Status",
-    "can edit" : "mogu mijenjati"
+    "can edit" : "mogu mijenjati",
+    "Keyboard shortcuts" : "Tipkovni prečaci"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

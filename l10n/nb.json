@@ -186,15 +186,10 @@
     "At event start" : "Ved hendelsens start",
     "No reminder" : "Ingen påminnelse",
     "Failed to save default calendar" : "Lagring av standard kalender feilet",
-    "CalDAV link copied to clipboard." : "CalDAV-lenke kopiert til utklippstavlen.",
-    "CalDAV link could not be copied to clipboard." : "CalDAV-lenke kunne ikke bli kopiert til utklippstavlen.",
     "General" : "Generell",
-    "Copy iOS/macOS CalDAV address" : "Kopier CalDAV-lenke for iOS/macOS",
     "Appearance" : "Utseende",
     "Editing" : "Rediger",
-    "Default calendar for incoming invitations" : "Standard kalender for innkommende invitasjoner",
     "Default reminder" : "Standardpåminnelse",
-    "Keyboard shortcuts" : "Tastatursnarveier",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minutt","{duration} minutter"],
     "0 minutes" : "0 minutter",
     "_{duration} hour_::_{duration} hours_" : ["{duration} time","{duration} timer"],
@@ -543,6 +538,8 @@
     "Default attachments location" : "Standard plassering for vedlegg",
     "Automatic ({detected})" : "Automatisk ({detected})",
     "Shortcut overview" : "Oversikt over snarveier",
+    "CalDAV link copied to clipboard." : "CalDAV-lenke kopiert til utklippstavlen.",
+    "CalDAV link could not be copied to clipboard." : "CalDAV-lenke kunne ikke bli kopiert til utklippstavlen.",
     "Enable birthday calendar" : "Aktiver fødselsdagkalender",
     "Show tasks in calendar" : "Vis oppgaver i kalender",
     "Enable simplified editor" : "Aktiver forenklet redigering",
@@ -550,7 +547,9 @@
     "Show weekends" : "Vis helger",
     "Show week numbers" : "Vis ukenummer",
     "Time increments" : "Tidsøkninger",
+    "Default calendar for incoming invitations" : "Standard kalender for innkommende invitasjoner",
     "Copy primary CalDAV address" : "Kopier primær CalDAV-adresse",
+    "Copy iOS/macOS CalDAV address" : "Kopier CalDAV-lenke for iOS/macOS",
     "Personal availability settings" : "Personlig ledighets-innstillinger",
     "Show keyboard shortcuts" : "Vis tastatursnarveier",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} invitert, {confirmedCount} bekreftet",
@@ -558,6 +557,7 @@
     "Successfully appended link to talk room to description." : "La til lenke til Talk-rom til beskrivelsen.",
     "Error creating Talk room" : "Feil ved opprettelse av Talk-rom",
     "_%n more guest_::_%n more guests_" : ["%n gjest til","%n flere gjester"],
-    "The visibility of this event in shared calendars." : "Synlighet for denne oppføringen i delte kalendere"
+    "The visibility of this event in shared calendars." : "Synlighet for denne oppføringen i delte kalendere",
+    "Keyboard shortcuts" : "Tastatursnarveier"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

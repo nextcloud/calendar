@@ -170,14 +170,10 @@
     "Calendar settings" : "Kalendāra iestatījumi",
     "No reminder" : "Nav atgādinājuma",
     "Failed to save default calendar" : "Neizdevās saglabāt noklusējuma kalendāru",
-    "CalDAV link copied to clipboard." : "Kalendāra saite ievietota starpliktuvē.",
-    "CalDAV link could not be copied to clipboard." : "Kalendāra saiti neizdevās ievietot starpliktuvē.",
     "General" : "Vispārīgi",
-    "Copy iOS/macOS CalDAV address" : "Kopēt IOS/macOS CalDAV adresi",
     "Appearance" : "Izskats",
     "Editing" : "Labošana",
     "Default reminder" : "Noklusējuma atgādinājums",
-    "Keyboard shortcuts" : "Tastatūras saīsnes",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minūšu","{duration} minūte","{duration} minūtes"],
     "0 minutes" : "0 minūtes",
     "_{duration} hour_::_{duration} hours_" : ["{duration} stundu","{duration} stunda","{duration} stundas"],
@@ -458,6 +454,8 @@
     "Default attachments location" : "Pielikumu noklusējuma atrašanās vietas",
     "Automatic ({detected})" : "Automātiska ({detected})",
     "Shortcut overview" : "Īsceļu pārskats",
+    "CalDAV link copied to clipboard." : "Kalendāra saite ievietota starpliktuvē.",
+    "CalDAV link could not be copied to clipboard." : "Kalendāra saiti neizdevās ievietot starpliktuvē.",
     "Enable birthday calendar" : "Iespējot dzimšanas dienas kalendāru",
     "Show tasks in calendar" : "Rādīt uzdevumus kalendārā",
     "Enable simplified editor" : "Iespējot vienkāršoto redaktoru",
@@ -465,10 +463,12 @@
     "Show weekends" : "Rādīt nedēļas nogales",
     "Show week numbers" : "Rādīt nedēļu numurus",
     "Copy primary CalDAV address" : "Ievietot starpliktuvē galveno CalDAV adresi",
+    "Copy iOS/macOS CalDAV address" : "Kopēt IOS/macOS CalDAV adresi",
     "Personal availability settings" : "Personiskās pieejamības iestatījumi",
     "Show keyboard shortcuts" : "Rādīt tastatūras saīsnes taustiņus",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} uzaicināti, {confirmedCount} apstiprinājuši",
     "Error creating Talk room" : "Notika kļūda, veidojot tērzēšanas istabu",
-    "The visibility of this event in shared calendars." : "Šī notikuma redzamība koplietotos kalendāros."
+    "The visibility of this event in shared calendars." : "Šī notikuma redzamība koplietotos kalendāros.",
+    "Keyboard shortcuts" : "Tastatūras saīsnes"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);"
 }
