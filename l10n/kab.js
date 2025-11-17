@@ -41,7 +41,6 @@ OC.L10N.register(
     "or" : "neɣ",
     "General" : "Amatu",
     "Appearance" : "Udem",
-    "Keyboard shortcuts" : "Inegzumen n unasiw",
     "Location" : "Adig",
     "Description" : "Aglam",
     "Add" : "Rnu",
@@ -75,6 +74,7 @@ OC.L10N.register(
     "Weekly" : "S umalas",
     "Other" : "Wayeḍ",
     "Status" : "Addad",
-    "Categories" : "Taggayin"
+    "Categories" : "Taggayin",
+    "Keyboard shortcuts" : "Inegzumen n unasiw"
 },
 "nplurals=2; plural=(n != 1);");

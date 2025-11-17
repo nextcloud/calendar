@@ -185,15 +185,10 @@
     "At event start" : "Al comienzo del evento",
     "No reminder" : "Sin recordatorio",
     "Failed to save default calendar" : "No se pudo guardar el calendario predeterminado",
-    "CalDAV link copied to clipboard." : "Enlace CalDAV copiado al portapapeles.",
-    "CalDAV link could not be copied to clipboard." : "No se pudo copiar el enlace CalDAV al portapapeles.",
     "General" : "General",
-    "Copy iOS/macOS CalDAV address" : "Copiar la dirección iOS/macOS CalDAV",
     "Appearance" : "Apariencia",
     "Editing" : "Editando",
-    "Default calendar for incoming invitations" : "Calendario predeterminado para aceptar invitaciones",
     "Default reminder" : "Recordatorio predeterminado",
-    "Keyboard shortcuts" : "Atajos del teclado",
     "Appointment schedule successfully created" : "El cronograma de citas fue creado exitosamente",
     "Appointment schedule successfully updated" : "El cronograma de citas fue actualizado exitosamente",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minuto","{duration} minutos","{duration} minutos"],
@@ -543,6 +538,8 @@
     "Default attachments location" : "Ubicación predeterminada para adjuntos",
     "Automatic ({detected})" : "Automático ({detected})",
     "Shortcut overview" : "Vista general de atajos",
+    "CalDAV link copied to clipboard." : "Enlace CalDAV copiado al portapapeles.",
+    "CalDAV link could not be copied to clipboard." : "No se pudo copiar el enlace CalDAV al portapapeles.",
     "Enable birthday calendar" : "Habilitar el calendario de cumpleaños",
     "Show tasks in calendar" : "Mostrar tareas en el calendario",
     "Enable simplified editor" : "Habilitar el editor simplificado",
@@ -550,7 +547,9 @@
     "Show weekends" : "Mostrar fines de semana",
     "Show week numbers" : "Mostrar número de semana",
     "Time increments" : "Incrementos de tiempo",
+    "Default calendar for incoming invitations" : "Calendario predeterminado para aceptar invitaciones",
     "Copy primary CalDAV address" : "Copiar la dirección CalDAV principal",
+    "Copy iOS/macOS CalDAV address" : "Copiar la dirección iOS/macOS CalDAV",
     "Personal availability settings" : "Configuración de disponibilidad personal",
     "Show keyboard shortcuts" : "Mostrar atajos de teclado",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} invitados, {confirmedCount} confirmados",
@@ -558,6 +557,7 @@
     "Successfully appended link to talk room to description." : "Se ha añadido correctamente el enlace a la sala de conversación a la descripción.",
     "Error creating Talk room" : "Error al crear la sala de Talk",
     "_%n more guest_::_%n more guests_" : ["%n invitado más","%n más invitados","%n más invitados"],
-    "The visibility of this event in shared calendars." : "La visibilidad de este evento en calendarios compartidos."
+    "The visibility of this event in shared calendars." : "La visibilidad de este evento en calendarios compartidos.",
+    "Keyboard shortcuts" : "Atajos del teclado"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

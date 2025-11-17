@@ -72,7 +72,6 @@ OC.L10N.register(
     "Tasks in calendar" : "Заданні ў календары",
     "Weekends" : "Уік-энды",
     "Week numbers" : "Нумары тыдняў",
-    "Keyboard shortcuts" : "Спалучэнні клавіш",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} хвіліна","{duration} хвіліны","{duration} хвілін","{duration} хвілін"],
     "_{duration} hour_::_{duration} hours_" : ["{duration} гадзіна","{duration} гадзіны","{duration} гадзін","{duration} гадзін"],
     "_{duration} day_::_{duration} days_" : ["{duration} дзень","{duration} дні","{duration} дзён","{duration} дзён"],
@@ -188,6 +187,7 @@ OC.L10N.register(
     "Show tasks in calendar" : "Паказаць заданні ў календары",
     "Show weekends" : "Паказваць уік-энды",
     "Show keyboard shortcuts" : "Паказаць спалучэнні клавіш",
-    "Successfully appended link to talk room to description." : "Спасылка на пакой у Talk паспяхова дададзена ў апісанне."
+    "Successfully appended link to talk room to description." : "Спасылка на пакой у Talk паспяхова дададзена ў апісанне.",
+    "Keyboard shortcuts" : "Спалучэнні клавіш"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

@@ -138,13 +138,9 @@
     "Calendar settings" : "Configuración del calendariu",
     "No reminder" : "Nun hai nengún recordatoriu",
     "Failed to save default calendar" : "Nun se pue guardar el calendariu predetermináu",
-    "CalDAV link copied to clipboard." : "L'enllaz CalDAV copióse nel cartafueyu.",
-    "CalDAV link could not be copied to clipboard." : "L'enllaz CalDAV nun se pudo copiar nel cartafueyu.",
     "General" : "Xeneral",
-    "Copy iOS/macOS CalDAV address" : "Copiar la direición CalDAV d'iOS/macOS",
     "Appearance" : "Aspeutu",
     "Default reminder" : "Recordatoriu predetermináu",
-    "Keyboard shortcuts" : "Atayos del tecláu",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minutu","{duration} minutos"],
     "0 minutes" : "0 minutos",
     "_{duration} hour_::_{duration} hours_" : ["{duration} hora","{duration} hores"],
@@ -287,6 +283,8 @@
     "User not found" : "Nun s'atopó l'usuariu",
     "Hidden" : "Anubrióse",
     "Calendar name …" : "Nome del calendariu…",
+    "CalDAV link copied to clipboard." : "L'enllaz CalDAV copióse nel cartafueyu.",
+    "CalDAV link could not be copied to clipboard." : "L'enllaz CalDAV nun se pudo copiar nel cartafueyu.",
     "Enable birthday calendar" : "Activar el calendariu de los cumpleaños",
     "Show tasks in calendar" : "Amosar les xeres nel calendariu",
     "Enable simplified editor" : "Activar l'editor simplificáu",
@@ -294,9 +292,11 @@
     "Show weekends" : "Amosar les fines de selmana",
     "Show week numbers" : "Amosar los númberos de selmana",
     "Copy primary CalDAV address" : "Copiar la direición CalDAV primaria",
+    "Copy iOS/macOS CalDAV address" : "Copiar la direición CalDAV d'iOS/macOS",
     "Personal availability settings" : "Configuración de la disponibilidá personal",
     "Show keyboard shortcuts" : "Amosar los atayos del tecáu",
     "Error creating Talk room" : "Hebo un error al crear la sala de Talk",
-    "_%n more guest_::_%n more guests_" : ["%n convidáu más","%n convidaos más"]
+    "_%n more guest_::_%n more guests_" : ["%n convidáu más","%n convidaos más"],
+    "Keyboard shortcuts" : "Atayos del tecláu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -198,14 +198,9 @@
     "At event start" : "Tapahtuman alkaessa",
     "No reminder" : "Ei muistutusta",
     "Failed to save default calendar" : "Oletuskalenterin tallentaminen epäonnistui",
-    "CalDAV link copied to clipboard." : "CalDAV-linkki kopioitu leikepöydälle.",
-    "CalDAV link could not be copied to clipboard." : "CalDAV-linkkiä ei voitu kopioida leikepöydälle.",
     "General" : "Yleiset",
-    "Copy iOS/macOS CalDAV address" : "Kopioi iOS:in/macOS:n CalDAV-osoite",
     "Appearance" : "Ulkoasu",
-    "Default calendar for incoming invitations" : "Oletuskalenteri saapuville kutsuille",
     "Default reminder" : "Oletusmuistutus",
-    "Keyboard shortcuts" : "Pikanäppäimet",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minuutti","{duration} minuuttia"],
     "0 minutes" : "0 minuuttia",
     "_{duration} hour_::_{duration} hours_" : ["{duration} tunti","{duration} tuntia"],
@@ -608,6 +603,8 @@
     "Default attachments location" : "Liitteiden oletussijainti",
     "Automatic ({detected})" : "Automaattinen ({detected})",
     "Shortcut overview" : "Pikakuvakenäkymä",
+    "CalDAV link copied to clipboard." : "CalDAV-linkki kopioitu leikepöydälle.",
+    "CalDAV link could not be copied to clipboard." : "CalDAV-linkkiä ei voitu kopioida leikepöydälle.",
     "Enable birthday calendar" : "Käytä syntymäpäiväkalenteria",
     "Show tasks in calendar" : "Näytä tehtävät kalenterissa",
     "Enable simplified editor" : "Käytä yksinkertaistettua muokkainta",
@@ -615,7 +612,9 @@
     "Show weekends" : "Näytä viikonloput",
     "Show week numbers" : "Näytä viikkonumerot",
     "Time increments" : "Aikavälit",
+    "Default calendar for incoming invitations" : "Oletuskalenteri saapuville kutsuille",
     "Copy primary CalDAV address" : "Kopioi ensisijainen CalDAV-osoite",
+    "Copy iOS/macOS CalDAV address" : "Kopioi iOS:in/macOS:n CalDAV-osoite",
     "Personal availability settings" : "Henkilökohtaiset saatavuusasetukset",
     "Show keyboard shortcuts" : "Näytä pikanäppäimet",
     "Create a new public conversation" : "Luo uusi julkinen keskustelu",
@@ -624,6 +623,7 @@
     "Error creating Talk room" : "Virhe luotaessa Talk-huonetta",
     "The visibility of this event in shared calendars." : "Tämän tapahtuman näkyvyys jaetuissa kalentereissa.",
     "View options" : "Näkymävalinnat",
-    "Limit number of events shown in month view" : "Rajoita kuukausinäkymässä näytettävien tapahtumien määrää"
+    "Limit number of events shown in month view" : "Rajoita kuukausinäkymässä näytettävien tapahtumien määrää",
+    "Keyboard shortcuts" : "Pikanäppäimet"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

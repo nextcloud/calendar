@@ -185,15 +185,10 @@
     "At event start" : "Við upphaf atburðar",
     "No reminder" : "Engin áminning",
     "Failed to save default calendar" : "Mistókst að vista sjálfgefið dagatal",
-    "CalDAV link copied to clipboard." : "CalDAV-tengill afritaður á klippispjald.",
-    "CalDAV link could not be copied to clipboard." : "Ekki var hægt að afrita CalDAV-tengil á klippispjald.",
     "General" : "Almennt",
-    "Copy iOS/macOS CalDAV address" : "Afrita iOS/macOS CalDAV-vistfang ",
     "Appearance" : "Útlit",
     "Editing" : "Breytingar",
-    "Default calendar for incoming invitations" : "Sjálfgefið dagatal fyrir boð sem berast",
     "Default reminder" : "Sjálfgefin áminning",
-    "Keyboard shortcuts" : "Flýtileiðir á lyklaborði",
     "Appointment schedule successfully created" : "Tókst að útbúa dagskrá stefnumóta",
     "Appointment schedule successfully updated" : "Tókst að uppfæra dagskrá stefnumóta",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} mínúta","{duration} mínútur"],
@@ -560,6 +555,8 @@
     "Default attachments location" : "Sjálfgefin staðsetning viðhengja",
     "Automatic ({detected})" : "Sjálfvirkt ({detected})",
     "Shortcut overview" : "Yfirlit flýtilykla",
+    "CalDAV link copied to clipboard." : "CalDAV-tengill afritaður á klippispjald.",
+    "CalDAV link could not be copied to clipboard." : "Ekki var hægt að afrita CalDAV-tengil á klippispjald.",
     "Enable birthday calendar" : "Virkja fæðingardagatal",
     "Show tasks in calendar" : "Sýna verkefni í dagatali",
     "Enable simplified editor" : "Virkja einfaldaðan ritil",
@@ -567,7 +564,9 @@
     "Show weekends" : "Sýna helgar",
     "Show week numbers" : "Sýna vikunúmer",
     "Time increments" : "Tímaþrep",
+    "Default calendar for incoming invitations" : "Sjálfgefið dagatal fyrir boð sem berast",
     "Copy primary CalDAV address" : "Afrita aðal-CalDAV-vistfang",
+    "Copy iOS/macOS CalDAV address" : "Afrita iOS/macOS CalDAV-vistfang ",
     "Personal availability settings" : "Persónulegar stillingar varðandi hvenær til taks",
     "Show keyboard shortcuts" : "Birta flýtivísanir á lyklaborði",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} boðið, {confirmedCount} staðfestir",
@@ -575,6 +574,7 @@
     "Successfully appended link to talk room to description." : "Tókst að bæta tengli á spjallsvæði við lýsingu.",
     "Error creating Talk room" : "Villa við að búa til spjallsvæði.",
     "_%n more guest_::_%n more guests_" : ["%n gestur til viðbótar","%n gestir til viðbótar"],
-    "The visibility of this event in shared calendars." : "Sýnileiki þessa atburðar í sameiginlegum dagatölum"
+    "The visibility of this event in shared calendars." : "Sýnileiki þessa atburðar í sameiginlegum dagatölum",
+    "Keyboard shortcuts" : "Flýtileiðir á lyklaborði"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

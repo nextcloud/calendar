@@ -188,15 +188,10 @@
     "At event start" : "في بداية الحدث",
     "No reminder" : "لا يوجد تذكير ",
     "Failed to save default calendar" : "تعذّر حفظ التقويم التلقائي",
-    "CalDAV link copied to clipboard." : "تم نسخ CalDAV.",
-    "CalDAV link could not be copied to clipboard." : "لا يمكن نسخ CalDAV.",
     "General" : "عامٌّ",
-    "Copy iOS/macOS CalDAV address" : "نسخ عنوان CalDAV لأجهزة الماك/الأيفون",
     "Appearance" : "المظهر",
     "Editing" : "جارِ التعديل",
-    "Default calendar for incoming invitations" : "التقويم التلقائي للدعوات الواردة",
     "Default reminder" : "التذكير الافتراضي",
-    "Keyboard shortcuts" : "اختصارات لوحة المفاتيح",
     "Appointment schedule successfully created" : "تمّ إنشاء جدول المواعيد بنجاح",
     "Appointment schedule successfully updated" : "تمّ تحديث جدول المواعيد بنجاح",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} دقائق","{duration} دقيقة","{duration} دقائق","{duration} دقائق","{duration} دقائق","{duration} دقائق"],
@@ -580,6 +575,8 @@
     "Default attachments location" : "موقع المُرفقات التلقائي",
     "Automatic ({detected})" : "تلقائي ({detected})",
     "Shortcut overview" : "نظرة عامة للاختصارات",
+    "CalDAV link copied to clipboard." : "تم نسخ CalDAV.",
+    "CalDAV link could not be copied to clipboard." : "لا يمكن نسخ CalDAV.",
     "Enable birthday calendar" : "تفعيل تقويم عيد الميلاد",
     "Show tasks in calendar" : "إظهار المهام في التقويم",
     "Enable simplified editor" : "تفعيل المحرر البسيط",
@@ -587,7 +584,9 @@
     "Show weekends" : "إظهار أيام نهاية الاسبوع",
     "Show week numbers" : "إظهار أرقام الأسابيع",
     "Time increments" : "زيادات الوقت",
+    "Default calendar for incoming invitations" : "التقويم التلقائي للدعوات الواردة",
     "Copy primary CalDAV address" : "نسخ عنوان CalDAV الرئيسي",
+    "Copy iOS/macOS CalDAV address" : "نسخ عنوان CalDAV لأجهزة الماك/الأيفون",
     "Personal availability settings" : "إعدادات التواجد الشخصي",
     "Show keyboard shortcuts" : "إظهار اختصارات لوحة المفاتيح",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} مدعو, {confirmedCount} مؤكد",
@@ -595,6 +594,7 @@
     "Successfully appended link to talk room to description." : "تمّ إلحاق الرابط بوصف غرفة المحادثة بنجاح.",
     "Error creating Talk room" : "خطأ في انشاء غرفة محادثة",
     "_%n more guest_::_%n more guests_" : ["%n ضيفاً آخر","%n ضيفاً آخر","%n ضيفاً آخر","%n ضيوف آخرين","%n ضيفاً آخر","%n ضيفاً آخر"],
-    "The visibility of this event in shared calendars." : "ظهور الحدث في التقاويم المشتركة."
+    "The visibility of this event in shared calendars." : "ظهور الحدث في التقاويم المشتركة.",
+    "Keyboard shortcuts" : "اختصارات لوحة المفاتيح"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

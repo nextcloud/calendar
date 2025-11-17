@@ -66,7 +66,6 @@ OC.L10N.register(
     "or" : "o",
     "General" : "Generals",
     "Editing" : "Edicion",
-    "Keyboard shortcuts" : "Acorchis de clavièr",
     "0 minutes" : "0 minuta",
     "Update" : "Metre a jorn",
     "Location" : "Emplaçament",
@@ -187,6 +186,7 @@ OC.L10N.register(
     "User not found" : "Utilizaire pas trobat",
     "Hidden" : "Amagat",
     "can edit" : "pòt modificar",
-    "Show weekends" : "Monstrar las dimenjadas"
+    "Show weekends" : "Monstrar las dimenjadas",
+    "Keyboard shortcuts" : "Acorchis de clavièr"
 },
 "nplurals=2; plural=(n > 1);");
