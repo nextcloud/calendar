@@ -19,7 +19,6 @@ OC.L10N.register(
     "Cancel" : "இரத்து செய்க",
     "Actions" : "செயல்கள்",
     "General" : "பொதுவான",
-    "Keyboard shortcuts" : "விசைப்பலகை குறுக்குவழிகள்",
     "Update" : "இற்றைப்படுத்தல்",
     "Location" : "இடம்",
     "Description" : "விவரிப்பு",
@@ -47,6 +46,7 @@ OC.L10N.register(
     "Selected" : "Selected",
     "Title" : "தலைப்பு",
     "Other" : "மற்றவை",
-    "can edit" : "தொகுக்க முடியும்"
+    "can edit" : "தொகுக்க முடியும்",
+    "Keyboard shortcuts" : "விசைப்பலகை குறுக்குவழிகள்"
 },
 "nplurals=2; plural=(n != 1);");

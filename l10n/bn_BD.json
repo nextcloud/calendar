@@ -20,7 +20,6 @@
     "Automatic" : "স্বয়ংক্রিয়",
     "Actions" : "পদক্ষেপসমূহ",
     "General" : "সাধারণ",
-    "Keyboard shortcuts" : "কী-বোর্ড শর্টকাট",
     "Update" : "পরিবর্ধন",
     "Location" : "অবস্থান",
     "Description" : "বিবরণ",
@@ -59,6 +58,7 @@
     "second" : "সেকেন্ড",
     "Other" : "অন্যান্য",
     "Hidden" : "লুকনো",
-    "can edit" : "সম্পাদনা করতে পারবেন"
+    "can edit" : "সম্পাদনা করতে পারবেন",
+    "Keyboard shortcuts" : "কী-বোর্ড শর্টকাট"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

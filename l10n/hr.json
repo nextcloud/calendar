@@ -122,14 +122,10 @@
     "Show shortcuts" : "Prikaži prečace",
     "or" : "ili",
     "No reminder" : "Nema podsjetnika",
-    "CalDAV link copied to clipboard." : "Poveznica kalendara CalDAV kopirana je u međuspremnik.",
-    "CalDAV link could not be copied to clipboard." : "Poveznica kalendara CalDAV nije kopirana u međuspremnik.",
     "General" : "Općenito",
-    "Copy iOS/macOS CalDAV address" : "Kopiraj iOS/macOS CalDAV adresu",
     "Appearance" : "Izgled",
     "Editing" : "Uređivanje",
     "Default reminder" : "Zadani podsjetnik",
-    "Keyboard shortcuts" : "Tipkovni prečaci",
     "Update" : "Ažuriraj",
     "Location" : "Lokacija",
     "Description" : "Opis",
@@ -363,6 +359,8 @@
     "can edit" : "uređivanje moguće",
     "Automatic ({detected})" : "Automatsko ({detected})",
     "Shortcut overview" : "Pregled prečaca",
+    "CalDAV link copied to clipboard." : "Poveznica kalendara CalDAV kopirana je u međuspremnik.",
+    "CalDAV link could not be copied to clipboard." : "Poveznica kalendara CalDAV nije kopirana u međuspremnik.",
     "Enable birthday calendar" : "Omogući kalendar rođendana",
     "Show tasks in calendar" : "Prikaži zadatke u kalendaru",
     "Enable simplified editor" : "Omogući jednostavan uređivač",
@@ -370,9 +368,11 @@
     "Show week numbers" : "Prikaži brojeve tjedana",
     "Time increments" : "Vremenski prirasti",
     "Copy primary CalDAV address" : "Kopiraj primarnu CalDAV adresu",
+    "Copy iOS/macOS CalDAV address" : "Kopiraj iOS/macOS CalDAV adresu",
     "Show keyboard shortcuts" : "Prikaži tipkovne prečace",
     "Successfully appended link to talk room to description." : "Uspješno dodana poveznica na Talk sobu u opis.",
     "Error creating Talk room" : "Pogreška pri stvaranju Talk sobe",
-    "The visibility of this event in shared calendars." : "Vidljivost ovog događaja u dijeljenim kalendarima."
+    "The visibility of this event in shared calendars." : "Vidljivost ovog događaja u dijeljenim kalendarima.",
+    "Keyboard shortcuts" : "Tipkovni prečaci"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

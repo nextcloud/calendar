@@ -206,15 +206,10 @@
     "At event start" : "Gertaeraren hasieran",
     "No reminder" : "Gogorarazpenik ez",
     "Failed to save default calendar" : "Egutegi lehenetsia gordetzeak huts egin du",
-    "CalDAV link copied to clipboard." : "CalDAV esteka arbelera kopiatu da.",
-    "CalDAV link could not be copied to clipboard." : "Ezin izan da CalDAV helbidea arbelera kopiatu.",
     "General" : "Orokorra",
-    "Copy iOS/macOS CalDAV address" : "Kopiatu iOS/macOS CalDAV helbidea",
     "Appearance" : "Itxura",
     "Editing" : "Edizioa",
-    "Default calendar for incoming invitations" : "Jasotako gonbidapenetarako egutegi lehenetsia",
     "Default reminder" : "Gogorarazpen lehenetsia",
-    "Keyboard shortcuts" : "Teklatuaren lasterbideak",
     "Appointment schedule successfully created" : "Hitzorduaren ordutegia ondo sortu da",
     "Appointment schedule successfully updated" : "Hitzorduaren ordutegia ondo eguneratu da",
     "_{duration} minute_::_{duration} minutes_" : ["minutu {duration}","{duration} minutu"],
@@ -579,6 +574,8 @@
     "Default attachments location" : "Eranskinen kokaleku lehenetsia",
     "Automatic ({detected})" : "Automatikoa ({detected})",
     "Shortcut overview" : "Lasterbideen informazio orokorra",
+    "CalDAV link copied to clipboard." : "CalDAV esteka arbelera kopiatu da.",
+    "CalDAV link could not be copied to clipboard." : "Ezin izan da CalDAV helbidea arbelera kopiatu.",
     "Enable birthday calendar" : "Gaitu urtebetetzeen egutegia",
     "Show tasks in calendar" : "Erakutsi zereginak egutegian",
     "Enable simplified editor" : "Gaitu editore sinplifikatua",
@@ -586,7 +583,9 @@
     "Show weekends" : "Erakutsi asteburuak",
     "Show week numbers" : "Erakutsi aste zenbakiak",
     "Time increments" : " \nDenbora-gehikuntzak",
+    "Default calendar for incoming invitations" : "Jasotako gonbidapenetarako egutegi lehenetsia",
     "Copy primary CalDAV address" : "Kopiatu CalDAV helbide nagusia",
+    "Copy iOS/macOS CalDAV address" : "Kopiatu iOS/macOS CalDAV helbidea",
     "Personal availability settings" : "Eskuragarritasun pertsonalaren ezarpenak",
     "Show keyboard shortcuts" : "Erakutsi teklatuaren lasterbideak",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} gonbidatuta, {confirmedCount} berretsita",
@@ -598,6 +597,7 @@
     "View options" : "Ikuspegi aukerak",
     "Limit number of events shown in month view" : "Mugatu hilabete-ikuspegian erakusten den gertaera kopurua",
     "Time division in day and week view" : "Denboraren banaketa egun- eta aste-ikuspegian",
-    "Enable simple editor" : "Gaitu editore sinplea"
+    "Enable simple editor" : "Gaitu editore sinplea",
+    "Keyboard shortcuts" : "Teklatuaren lasterbideak"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

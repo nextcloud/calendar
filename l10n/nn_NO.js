@@ -32,7 +32,6 @@ OC.L10N.register(
     "Actions" : "Handlingar",
     "General" : "Generelt",
     "Appearance" : "Utsjånad",
-    "Keyboard shortcuts" : "Tastatursnarvegar",
     "Update" : "Oppdater",
     "Location" : "Stad",
     "Description" : "Skildring",
@@ -74,6 +73,7 @@ OC.L10N.register(
     "When shared hide this event" : "Når delt, gøym denne hendinga",
     "Status" : "Status",
     "Confirmed" : "Stadfesta",
-    "can edit" : "kan endra"
+    "can edit" : "kan endra",
+    "Keyboard shortcuts" : "Tastatursnarvegar"
 },
 "nplurals=2; plural=(n != 1);");

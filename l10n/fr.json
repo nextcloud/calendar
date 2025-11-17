@@ -207,15 +207,10 @@
     "At event start" : "Au début de l'événement",
     "No reminder" : "Aucun rappel",
     "Failed to save default calendar" : "Échec d'enregistrement de l'agenda par défaut",
-    "CalDAV link copied to clipboard." : "Lien CalDAV copié dans le presse-papier.",
-    "CalDAV link could not be copied to clipboard." : "Impossible de copier le lien CalDAV dans le presse-papier.",
     "General" : "Général",
-    "Copy iOS/macOS CalDAV address" : "Copier l'adresse CalDAV pour iOS/macOS",
     "Appearance" : "Apparence",
     "Editing" : "Éditer",
-    "Default calendar for incoming invitations" : "Agenda par défaut pour les invitations entrantes",
     "Default reminder" : "Rappel par défaut",
-    "Keyboard shortcuts" : "Raccourcis clavier",
     "Appointment schedule successfully created" : "Création du calendrier de rendez-vous réussie",
     "Appointment schedule successfully updated" : "Mise à jour du calendrier de rendez-vous réussie",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minute","{duration} minutes","{duration} minutes"],
@@ -658,6 +653,8 @@
     "Default attachments location" : "Emplacement par défaut des pièces jointes",
     "Automatic ({detected})" : "Automatique ({detected})",
     "Shortcut overview" : "Aperçu des raccourcis",
+    "CalDAV link copied to clipboard." : "Lien CalDAV copié dans le presse-papier.",
+    "CalDAV link could not be copied to clipboard." : "Impossible de copier le lien CalDAV dans le presse-papier.",
     "Enable birthday calendar" : "Activer l'agenda des anniversaires",
     "Show tasks in calendar" : "Afficher les tâches dans l'agenda",
     "Enable simplified editor" : "Activer l'éditeur simplifié",
@@ -665,7 +662,9 @@
     "Show weekends" : "Afficher les week-ends",
     "Show week numbers" : "Afficher les numéros de semaine",
     "Time increments" : "Incréments de temps",
+    "Default calendar for incoming invitations" : "Agenda par défaut pour les invitations entrantes",
     "Copy primary CalDAV address" : "Copier l'adresse CalDAV principale",
+    "Copy iOS/macOS CalDAV address" : "Copier l'adresse CalDAV pour iOS/macOS",
     "Personal availability settings" : "Paramètres de disponibilités personnelles",
     "Show keyboard shortcuts" : "Afficher les raccourcis clavier",
     "Create a new public conversation" : "Créer une nouvelle conversation publique",
@@ -678,6 +677,7 @@
     "View options" : "Options d'affichage",
     "Limit number of events shown in month view" : "Limiter le nombre d'événements affichés dans la vue mensuelle",
     "Time division in day and week view" : "Incréments de temps dans les vues journalières et hebdomadaires",
-    "Enable simple editor" : "Activer l'éditeur simplifié"
+    "Enable simple editor" : "Activer l'éditeur simplifié",
+    "Keyboard shortcuts" : "Raccourcis clavier"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

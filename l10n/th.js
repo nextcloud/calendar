@@ -44,7 +44,6 @@ OC.L10N.register(
     "General" : "ทั่วไป",
     "Appearance" : "ลักษณะที่ปรากฏ",
     "Editing" : "กำลังแก้ไข",
-    "Keyboard shortcuts" : "แป้นพิมพ์ลัด",
     "_{duration} year_::_{duration} years_" : ["{duration}ปี"],
     "Update" : "อัปเดต",
     "Location" : "ตำแหน่ง",
@@ -105,6 +104,7 @@ OC.L10N.register(
     "Confirmed" : "ยืนยันแล้ว",
     "Categories" : "หมวดหมู่",
     "Hidden" : "ซ่อนอยู่",
-    "can edit" : "สามารถแก้ไข"
+    "can edit" : "สามารถแก้ไข",
+    "Keyboard shortcuts" : "แป้นพิมพ์ลัด"
 },
 "nplurals=1; plural=0;");

@@ -27,7 +27,6 @@ OC.L10N.register(
     "Automatic" : "Automatic",
     "Actions" : "Actiones",
     "General" : "General",
-    "Keyboard shortcuts" : "Combinationes de claves",
     "Update" : "Actualisar",
     "Location" : "Loco",
     "Description" : "Description",
@@ -75,6 +74,7 @@ OC.L10N.register(
     "Confirmed" : "Confirmate",
     "Hidden" : "Occultate",
     "can edit" : "pote modificar",
-    "Show week numbers" : "Monstrar le numero del septimanas"
+    "Show week numbers" : "Monstrar le numero del septimanas",
+    "Keyboard shortcuts" : "Combinationes de claves"
 },
 "nplurals=2; plural=(n != 1);");

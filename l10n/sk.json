@@ -189,15 +189,10 @@
     "At event start" : "Na začiatku udalosti",
     "No reminder" : "Žiadna pripomienka",
     "Failed to save default calendar" : "Nepodarilo sa uložiť predvolený kalendár.",
-    "CalDAV link copied to clipboard." : "Odkaz CalDAV skopírovaný do schránky.",
-    "CalDAV link could not be copied to clipboard." : "Odkaz CalDAV nebolo možné skopírovať do schránky.",
     "General" : "Všeobecné",
-    "Copy iOS/macOS CalDAV address" : "Kopírovať iOS/macOS CalDAV adresu",
     "Appearance" : "Vzhľad",
     "Editing" : "Úprava",
-    "Default calendar for incoming invitations" : "Predvolený kalendár pre prichádzajúce pozvánky",
     "Default reminder" : "Predvolená pripomienka",
-    "Keyboard shortcuts" : "Klávesové skratky",
     "Appointment schedule successfully created" : "Plán stretnutia bol úspešne vytvorený",
     "Appointment schedule successfully updated" : "Plán stretnutia bol úspešne upravený",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minúta","{duration} minút","{duration} minút","{duration} minút"],
@@ -582,6 +577,8 @@
     "Default attachments location" : "Predvolené umiestnenie príloh",
     "Automatic ({detected})" : "Automaticky ({detected})",
     "Shortcut overview" : "Stručný prehľad",
+    "CalDAV link copied to clipboard." : "Odkaz CalDAV skopírovaný do schránky.",
+    "CalDAV link could not be copied to clipboard." : "Odkaz CalDAV nebolo možné skopírovať do schránky.",
     "Enable birthday calendar" : "Povoliť narodeninový kalendár",
     "Show tasks in calendar" : "Zobraziť úlohy v kalendári",
     "Enable simplified editor" : "Povoliť zjednodušený editor",
@@ -589,7 +586,9 @@
     "Show weekends" : "Zobraziť víkendy",
     "Show week numbers" : "Zobraziť čísla týždňov",
     "Time increments" : "Časové prírastky",
+    "Default calendar for incoming invitations" : "Predvolený kalendár pre prichádzajúce pozvánky",
     "Copy primary CalDAV address" : "Kopírovať primárnu CalDAV adresu",
+    "Copy iOS/macOS CalDAV address" : "Kopírovať iOS/macOS CalDAV adresu",
     "Personal availability settings" : "Osobné nastavenia dostupnosti",
     "Show keyboard shortcuts" : "Zobraziť klávesové skratky",
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} pozvaných, {confirmedCount} potvrdených",
@@ -597,6 +596,7 @@
     "Successfully appended link to talk room to description." : "Do popisu bol úspešne pridaný odkaz na miestnosť v Talk /Rozhovore/",
     "Error creating Talk room" : "Chyba pri vytváraní miestnosti v Talk /Rozhovore/",
     "_%n more guest_::_%n more guests_" : ["%n ďalší hosť","%n ďalší hostia","%n ďalších hostí","%n ďalších hostí"],
-    "The visibility of this event in shared calendars." : "Viditeľnosť tejto udalosti v zdieľaných kalendároch."
+    "The visibility of this event in shared calendars." : "Viditeľnosť tejto udalosti v zdieľaných kalendároch.",
+    "Keyboard shortcuts" : "Klávesové skratky"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

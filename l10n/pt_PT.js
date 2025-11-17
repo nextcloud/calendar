@@ -149,13 +149,9 @@ OC.L10N.register(
     "or" : "ou",
     "Calendar settings" : "Configurações do calendário",
     "No reminder" : "Nenhum lembrete",
-    "CalDAV link copied to clipboard." : "Ligação CalDAV copiada para a área de transferência.",
-    "CalDAV link could not be copied to clipboard." : "Não foi possível copiar a ligação CalDAV para a área de transferência.",
     "General" : "Geral",
-    "Copy iOS/macOS CalDAV address" : "Copiar endereço iOS/macOS CalDAV",
     "Editing" : "A editar",
     "Default reminder" : "Lembrete padrão",
-    "Keyboard shortcuts" : "Atalhos de teclado",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minuto","{duration} minutos","{duration} minutos"],
     "0 minutes" : "0 minutos",
     "_{duration} hour_::_{duration} hours_" : ["{duration} hora","{duration} horas","{duration} horas"],
@@ -303,6 +299,8 @@ OC.L10N.register(
     "Calendar name …" : "Nome do calendário…",
     "Automatic ({detected})" : "Automático ({detected})",
     "Shortcut overview" : "Visão geral de atalhos",
+    "CalDAV link copied to clipboard." : "Ligação CalDAV copiada para a área de transferência.",
+    "CalDAV link could not be copied to clipboard." : "Não foi possível copiar a ligação CalDAV para a área de transferência.",
     "Enable birthday calendar" : "Ativar calendário de aniversários",
     "Show tasks in calendar" : "Mostrar tarefas no calendário",
     "Enable simplified editor" : "Ativar editor simplificado",
@@ -310,7 +308,9 @@ OC.L10N.register(
     "Show week numbers" : "Mostrar o número das semanas",
     "Time increments" : "Incrementos de tempo",
     "Copy primary CalDAV address" : "Copiar endereço CalDAV primário",
+    "Copy iOS/macOS CalDAV address" : "Copiar endereço iOS/macOS CalDAV",
     "Personal availability settings" : "Configurações de disponibilidade pessoal",
-    "Show keyboard shortcuts" : "Mostrar atalhos de teclado"
+    "Show keyboard shortcuts" : "Mostrar atalhos de teclado",
+    "Keyboard shortcuts" : "Atalhos de teclado"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

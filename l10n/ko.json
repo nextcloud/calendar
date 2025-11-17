@@ -178,14 +178,10 @@
     "or" : "또는",
     "Calendar settings" : "달력 설정",
     "No reminder" : "알림 없음",
-    "CalDAV link copied to clipboard." : "CalDAV 링크를 클립보드에 복사했습니다.",
-    "CalDAV link could not be copied to clipboard." : "CalDAV 링크를 클립보드에 복사할 수 없습니다.",
     "General" : "일반",
-    "Copy iOS/macOS CalDAV address" : "iOS/macOS CalDAV 주소 복사하기",
     "Appearance" : "외형",
     "Editing" : "글 수정",
     "Default reminder" : "기본 알림",
-    "Keyboard shortcuts" : "키보드 단축키",
     "Appointment schedule successfully created" : "약속 일정이 성공적으로 생성되었습니다",
     "Appointment schedule successfully updated" : "약속 일정이 성공적으로 갱신되었습니다",
     "_{duration} minute_::_{duration} minutes_" : ["{duration}분"],
@@ -509,6 +505,8 @@
     "Default attachments location" : "기본 첨부파일 위치",
     "Automatic ({detected})" : "자동 ({detected})",
     "Shortcut overview" : "바로가기 개요",
+    "CalDAV link copied to clipboard." : "CalDAV 링크를 클립보드에 복사했습니다.",
+    "CalDAV link could not be copied to clipboard." : "CalDAV 링크를 클립보드에 복사할 수 없습니다.",
     "Enable birthday calendar" : "생일 달력 활성화",
     "Show tasks in calendar" : "달력에 작업 보이기",
     "Enable simplified editor" : "간편한 편집기 활성화",
@@ -517,11 +515,13 @@
     "Show week numbers" : "주 번호 보이기",
     "Time increments" : "시간 단위",
     "Copy primary CalDAV address" : "주 CalDAV 주소 복사하기",
+    "Copy iOS/macOS CalDAV address" : "iOS/macOS CalDAV 주소 복사하기",
     "Personal availability settings" : "개인별 시간 조율 설정",
     "Show keyboard shortcuts" : "키보드 단축키 표시",
     "Successfully appended link to talk room to location." : "위치에 대화방 링크를 성공적으로 추가함",
     "Successfully appended link to talk room to description." : "설명에 대화방 링크를 성공적으로 추가함",
     "Error creating Talk room" : "대화방 생성 오류",
-    "The visibility of this event in shared calendars." : "공유 달력에서 이 일정의 표시 여부"
+    "The visibility of this event in shared calendars." : "공유 달력에서 이 일정의 표시 여부",
+    "Keyboard shortcuts" : "키보드 단축키"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
