@@ -1,3 +1,23 @@
+# [6.1.0](https://github.com/nextcloud/calendar/compare/v6.0.4...v6.1.0) (2025-11-18)
+
+
+### Bug Fixes
+
+* **l10n:** Update translations from Transifex ([d87950f](https://github.com/nextcloud/calendar/commit/d87950f2a0b8ba533c7cd0964f8413d19a7c81f6))
+* **l10n:** Update translations from Transifex ([06b7e10](https://github.com/nextcloud/calendar/commit/06b7e107f80851a44faf08fa2eef37ef393c61a0))
+* **l10n:** Update translations from Transifex ([03a20ab](https://github.com/nextcloud/calendar/commit/03a20abaf743c2814565e4a0cc99d1db21a31dd5))
+* **l10n:** Update translations from Transifex ([dc0b70a](https://github.com/nextcloud/calendar/commit/dc0b70acbf26e2e34a54aba45b2312f34a78e96e))
+* **l10n:** Update translations from Transifex ([97a62b4](https://github.com/nextcloud/calendar/commit/97a62b489021e0c179d7e08b327ed871cd49e0bf))
+* **l10n:** Update translations from Transifex ([60a03aa](https://github.com/nextcloud/calendar/commit/60a03aa8cea08d22f2f09ee16094ac3ef342b59a))
+* **l10n:** Update translations from Transifex ([9b40c79](https://github.com/nextcloud/calendar/commit/9b40c79e89f9e76d3b401164bcee613e7ce805f8))
+
+
+### Features
+
+* **settings:** redesign to new vue components ([cb3bf37](https://github.com/nextcloud/calendar/commit/cb3bf370d5a8d0774059d01ad3e9c36429528a22))
+
+
+
 ## [6.0.4](https://github.com/nextcloud/calendar/compare/v6.0.3...v6.0.4) (2025-11-11)
 
 
