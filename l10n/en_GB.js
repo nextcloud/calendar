@@ -226,6 +226,7 @@ OC.L10N.register(
     "Default reminder" : "Default reminder",
     "Simple event editor" : "Simple event editor",
     "\"More details\" opens the detailed editor" : "\"More details\" opens the detailed editor",
+    "Files" : "Files",
     "Appointment schedule successfully created" : "Appointment schedule successfully created",
     "Appointment schedule successfully updated" : "Appointment schedule successfully updated",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minute","{duration} minutes"],

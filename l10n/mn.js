@@ -48,6 +48,7 @@ OC.L10N.register(
     "Cancel" : "Цуцлах",
     "Actions" : "Үйл ажиллагаа",
     "General" : "ерөнхий",
+    "Files" : "Файлууд",
     "Update" : "Шинэчлэх",
     "Location" : "Байршил",
     "Description" : "Тодорхойлолт",

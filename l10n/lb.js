@@ -28,6 +28,7 @@ OC.L10N.register(
     "List view" : "Lëscht Vue",
     "Actions" : "Aktiounen",
     "General" : "Allgemeng",
+    "Files" : "Dateien",
     "Update" : "Update",
     "Location" : "Uert",
     "Description" : "Beschreiwung",

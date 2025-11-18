@@ -191,6 +191,7 @@ OC.L10N.register(
     "Appearance" : "Útlit",
     "Editing" : "Breytingar",
     "Default reminder" : "Sjálfgefin áminning",
+    "Files" : "Skráaforrit",
     "Appointment schedule successfully created" : "Tókst að útbúa dagskrá stefnumóta",
     "Appointment schedule successfully updated" : "Tókst að uppfæra dagskrá stefnumóta",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} mínúta","{duration} mínútur"],

@@ -195,6 +195,7 @@ OC.L10N.register(
     "Appearance" : "Vzhľad",
     "Editing" : "Úprava",
     "Default reminder" : "Predvolená pripomienka",
+    "Files" : "Súbory",
     "Appointment schedule successfully created" : "Plán stretnutia bol úspešne vytvorený",
     "Appointment schedule successfully updated" : "Plán stretnutia bol úspešne upravený",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minúta","{duration} minút","{duration} minút","{duration} minút"],

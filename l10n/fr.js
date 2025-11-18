@@ -213,6 +213,7 @@ OC.L10N.register(
     "Appearance" : "Apparence",
     "Editing" : "Éditer",
     "Default reminder" : "Rappel par défaut",
+    "Files" : "Fichiers",
     "Appointment schedule successfully created" : "Création du calendrier de rendez-vous réussie",
     "Appointment schedule successfully updated" : "Mise à jour du calendrier de rendez-vous réussie",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minute","{duration} minutes","{duration} minutes"],

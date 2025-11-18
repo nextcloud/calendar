@@ -52,6 +52,7 @@ OC.L10N.register(
     "Save" : "Simpan",
     "Cancel" : "Batal",
     "General" : "Umum",
+    "Files" : "Fail-fail",
     "Update" : "Kemaskini",
     "Location" : "Lokasi",
     "Description" : "Keterangan",

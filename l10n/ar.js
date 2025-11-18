@@ -194,6 +194,7 @@ OC.L10N.register(
     "Appearance" : "المظهر",
     "Editing" : "جارِ التعديل",
     "Default reminder" : "التذكير الافتراضي",
+    "Files" : "الملفّات",
     "Appointment schedule successfully created" : "تمّ إنشاء جدول المواعيد بنجاح",
     "Appointment schedule successfully updated" : "تمّ تحديث جدول المواعيد بنجاح",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} دقائق","{duration} دقيقة","{duration} دقائق","{duration} دقائق","{duration} دقائق","{duration} دقائق"],

@@ -192,6 +192,7 @@ OC.L10N.register(
     "Appearance" : "Utseende",
     "Editing" : "Rediger",
     "Default reminder" : "Standardpåminnelse",
+    "Files" : "Filer",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minutt","{duration} minutter"],
     "0 minutes" : "0 minutter",
     "_{duration} hour_::_{duration} hours_" : ["{duration} time","{duration} timer"],

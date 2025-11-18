@@ -184,6 +184,7 @@ OC.L10N.register(
     "Appearance" : "외형",
     "Editing" : "글 수정",
     "Default reminder" : "기본 알림",
+    "Files" : "파일",
     "Appointment schedule successfully created" : "약속 일정이 성공적으로 생성되었습니다",
     "Appointment schedule successfully updated" : "약속 일정이 성공적으로 갱신되었습니다",
     "_{duration} minute_::_{duration} minutes_" : ["{duration}분"],

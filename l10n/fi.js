@@ -203,6 +203,7 @@ OC.L10N.register(
     "General" : "Yleiset",
     "Appearance" : "Ulkoasu",
     "Default reminder" : "Oletusmuistutus",
+    "Files" : "Tiedostot",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minuutti","{duration} minuuttia"],
     "0 minutes" : "0 minuuttia",
     "_{duration} hour_::_{duration} hours_" : ["{duration} tunti","{duration} tuntia"],

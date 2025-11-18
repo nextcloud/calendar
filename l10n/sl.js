@@ -188,6 +188,7 @@ OC.L10N.register(
     "Appearance" : "Videz",
     "Editing" : "Urejanje",
     "Default reminder" : "Privzeti opomnik",
+    "Files" : "Datoteke",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minuta","{duration} minuti","{duration} minute","{duration} minut"],
     "0 minutes" : "0 minut",
     "_{duration} hour_::_{duration} hours_" : ["{duration} ura","{duration} uri","{duration} ure","{duration} ur"],

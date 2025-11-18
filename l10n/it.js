@@ -194,6 +194,7 @@ OC.L10N.register(
     "Appearance" : "Aspetto",
     "Editing" : "Modificando",
     "Default reminder" : "Promemoria predefinito",
+    "Files" : "File",
     "Appointment schedule successfully created" : "Il programma degli appuntamenti è stato creato con successo",
     "Appointment schedule successfully updated" : "Il programma degli appuntamenti è stato aggiornato con successo",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minuto","{duration} minuti","{duration} minuti"],
