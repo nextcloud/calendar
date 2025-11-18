@@ -148,7 +148,7 @@
       "clover"
     ],
     "transformIgnorePatterns": [
-      "/node_modules/(?!(@fullcalendar|uuid|webdav|p-limit|yocto-queue|color-(name|string|convert)|@nextcloud/(initial-state))).+\\.js$"
+      "/node_modules/(?!(@fullcalendar|uuid|webdav|p-limit|yocto-queue|color-(name|string|convert)|@nextcloud/.*)).+\\.js$"
     ],
     "setupFilesAfterEnv": [
       "./tests/javascript/jest.setup.js",
