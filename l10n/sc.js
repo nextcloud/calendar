@@ -127,6 +127,7 @@ OC.L10N.register(
     "No reminder" : "Perunu promemòria",
     "Appearance" : "Aspetu",
     "Default reminder" : "Promemòria predefinidu",
+    "Files" : "Archìvios",
     "Update" : "Agiorna",
     "Location" : "Positzione",
     "Description" : "Descritzione",

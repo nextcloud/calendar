@@ -226,6 +226,7 @@ OC.L10N.register(
     "Default reminder" : "Standard påmindelse",
     "Simple event editor" : "Simpel aftale editor",
     "\"More details\" opens the detailed editor" : "\"Flere detaljer\" åbner detalje editoren",
+    "Files" : "Filer",
     "Appointment schedule successfully created" : "Aftaleplanlægning blev oprettet",
     "Appointment schedule successfully updated" : "Aftaleplanlægningen er opdateret",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minut","{duration} minutter"],

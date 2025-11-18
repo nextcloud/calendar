@@ -33,6 +33,7 @@ OC.L10N.register(
     "Navigation" : "ການນຳທາງ",
     "List view" : "ລາຍການທີ່ຈະເບິ່ງ",
     "General" : "ທົ່ວໄປ",
+    "Files" : "ຟາຍ",
     "Description" : "ລາຍລະອຽດ",
     "Duration" : "ໄລຍະ",
     "Add" : "ເພີ່ມ",

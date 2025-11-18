@@ -212,6 +212,7 @@ OC.L10N.register(
     "Appearance" : "Itxura",
     "Editing" : "Edizioa",
     "Default reminder" : "Gogorarazpen lehenetsia",
+    "Files" : "Fitxategiak",
     "Appointment schedule successfully created" : "Hitzorduaren ordutegia ondo sortu da",
     "Appointment schedule successfully updated" : "Hitzorduaren ordutegia ondo eguneratu da",
     "_{duration} minute_::_{duration} minutes_" : ["minutu {duration}","{duration} minutu"],

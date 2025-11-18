@@ -41,6 +41,7 @@ OC.L10N.register(
     "List view" : "Pamje listë",
     "Actions" : "Veprimet",
     "General" : "Të përgjithshme",
+    "Files" : "Skedarë",
     "Update" : "Përditësoje",
     "Location" : "Vendndodhje",
     "Description" : "Përshkrim",

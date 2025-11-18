@@ -150,6 +150,7 @@
     "General" : "Geral",
     "Editing" : "A editar",
     "Default reminder" : "Lembrete padrão",
+    "Files" : "Ficheiros",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minuto","{duration} minutos","{duration} minutos"],
     "0 minutes" : "0 minutos",
     "_{duration} hour_::_{duration} hours_" : ["{duration} hora","{duration} horas","{duration} horas"],

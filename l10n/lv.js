@@ -176,6 +176,7 @@ OC.L10N.register(
     "Appearance" : "Izskats",
     "Editing" : "Labošana",
     "Default reminder" : "Noklusējuma atgādinājums",
+    "Files" : "Datnes",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minūšu","{duration} minūte","{duration} minūtes"],
     "0 minutes" : "0 minūtes",
     "_{duration} hour_::_{duration} hours_" : ["{duration} stundu","{duration} stunda","{duration} stundas"],

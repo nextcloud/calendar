@@ -212,6 +212,7 @@ OC.L10N.register(
     "Appearance" : "Εμφάνιση",
     "Editing" : "Επεξεργασία",
     "Default reminder" : "Προεπιλεγμένη υπενθύμιση",
+    "Files" : "Αρχεία",
     "Appointment schedule successfully created" : "Το πρόγραμμα ραντεβού δημιουργήθηκε επιτυχώς",
     "Appointment schedule successfully updated" : "Το πρόγραμμα ραντεβού ενημερώθηκε επιτυχώς",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} λεπτό","{duration} λεπτά"],

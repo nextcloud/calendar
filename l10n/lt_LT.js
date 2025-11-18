@@ -165,6 +165,7 @@ OC.L10N.register(
     "Appearance" : "Išvaizda",
     "Editing" : "Taisymas",
     "Default reminder" : "Numatytasis priminimas",
+    "Files" : "Failai",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minutė","{duration} minutės","{duration} minučių","{duration} minutė"],
     "0 minutes" : "0 minučių",
     "_{duration} hour_::_{duration} hours_" : ["{duration} valanda","{duration} valandos","{duration} valandų","{duration} valanda"],

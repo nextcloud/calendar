@@ -39,6 +39,7 @@ OC.L10N.register(
     "Actions" : "Acciones",
     "or" : "o",
     "General" : "General",
+    "Files" : "Archivo",
     "Update" : "Actualizar",
     "Location" : "Ubicación",
     "Description" : "Descripción",

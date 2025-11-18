@@ -226,6 +226,7 @@ OC.L10N.register(
     "Default reminder" : "Напомняне по подразбиране",
     "Simple event editor" : "Опростен редактор на събития",
     "\"More details\" opens the detailed editor" : "„Повече детайли“ отваря подробния редактор",
+    "Files" : "Файлове",
     "Appointment schedule successfully created" : "Графикът на срещите е създаден успешно",
     "Appointment schedule successfully updated" : "Графикът на срещите бе актуализиран успешно",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} минути","{duration} минути"],

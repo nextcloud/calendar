@@ -128,6 +128,7 @@ OC.L10N.register(
     "Appearance" : "Izgled",
     "Editing" : "Uređivanje",
     "Default reminder" : "Zadani podsjetnik",
+    "Files" : "Datoteke",
     "Update" : "Ažuriraj",
     "Location" : "Lokacija",
     "Description" : "Opis",

@@ -183,6 +183,7 @@ OC.L10N.register(
     "Appearance" : "Apariencia",
     "Editing" : "Edición",
     "Default reminder" : "Recordatorio predeterminado",
+    "Files" : "Archivo",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minuto","{duration} minutos","{duration} minutos"],
     "0 minutes" : "0 minutos",
     "_{duration} hour_::_{duration} hours_" : ["{duration} hora","{duration} horas","{duration} horas"],

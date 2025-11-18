@@ -192,6 +192,7 @@ OC.L10N.register(
     "Appearance" : "Aparença",
     "Editing" : "Edició",
     "Default reminder" : "Recordatori per defecte",
+    "Files" : "Fitxers",
     "Appointment schedule successfully created" : "S'ha creat correctament la planificació de cites",
     "Appointment schedule successfully updated" : "La planificació de cites s'ha actualitzat correctament",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minut","{duration} minuts"],
