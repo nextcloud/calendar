@@ -165,6 +165,7 @@ OC.L10N.register(
     "No reminder" : "אין תזכורת",
     "General" : "כללי",
     "Appearance" : "מראה",
+    "Files" : "קבצים",
     "Update" : "עדכון",
     "Location" : "מיקום",
     "Description" : "תיאור",

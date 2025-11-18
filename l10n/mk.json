@@ -223,6 +223,7 @@
     "Default reminder" : "Стандарден потсетник",
     "Simple event editor" : "Едноставен уредувач на настани",
     "\"More details\" opens the detailed editor" : "\"Повеќе детали\" го отвора деталниот уредувач",
+    "Files" : "Датотеки",
     "Appointment schedule successfully created" : "Распоред за состаноци е успешно креиран",
     "Appointment schedule successfully updated" : "Распоред за состаноци е успешно ажуриран",
     "_{duration} minute_::_{duration} minutes_" : ["1 минута","{duration} минути"],

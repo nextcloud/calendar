@@ -226,6 +226,7 @@ OC.L10N.register(
     "Default reminder" : "Alapértelmezett emlékeztető",
     "Simple event editor" : "Egyszerű eseményszerkesztő",
     "\"More details\" opens the detailed editor" : "A „További részletek” megnyitja a részletes szerkesztőt",
+    "Files" : "Fájlok",
     "Appointment schedule successfully created" : "Találkozó ütemezése sikeresen létrehozva",
     "Appointment schedule successfully updated" : "Találkozó ütemezése sikeresen frissítve",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} perc","{duration} perc"],

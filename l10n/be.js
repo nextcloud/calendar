@@ -72,6 +72,7 @@ OC.L10N.register(
     "Tasks in calendar" : "Заданні ў календары",
     "Weekends" : "Уік-энды",
     "Week numbers" : "Нумары тыдняў",
+    "Files" : "Файлы",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} хвіліна","{duration} хвіліны","{duration} хвілін","{duration} хвілін"],
     "_{duration} hour_::_{duration} hours_" : ["{duration} гадзіна","{duration} гадзіны","{duration} гадзін","{duration} гадзін"],
     "_{duration} day_::_{duration} days_" : ["{duration} дзень","{duration} дні","{duration} дзён","{duration} дзён"],

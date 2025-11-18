@@ -143,6 +143,7 @@ OC.L10N.register(
     "General" : "Xeneral",
     "Appearance" : "Aspeutu",
     "Default reminder" : "Recordatoriu predetermináu",
+    "Files" : "Ficheros",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minutu","{duration} minutos"],
     "0 minutes" : "0 minutos",
     "_{duration} hour_::_{duration} hours_" : ["{duration} hora","{duration} hores"],

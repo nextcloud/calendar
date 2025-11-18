@@ -212,6 +212,7 @@ OC.L10N.register(
     "Appearance" : "Внешний вид",
     "Editing" : "Редактирование",
     "Default reminder" : "Напоминание по умолчанию",
+    "Files" : "Файлы",
     "Appointment schedule successfully created" : "Рассписание встреч создано",
     "Appointment schedule successfully updated" : "Расписание встреч обновлено",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} минута","{duration} минуты","{duration} минут","{duration} минут"],

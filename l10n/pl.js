@@ -215,6 +215,7 @@ OC.L10N.register(
     "Appearance" : "Wygląd",
     "Editing" : "Edytowanie",
     "Default reminder" : "Przypomnienie domyślne",
+    "Files" : "Pliki",
     "Appointment schedule successfully created" : "Harmonogram spotkań został pomyślnie utworzony",
     "Appointment schedule successfully updated" : "Harmonogram spotkań został pomyślnie zaktualizowany",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minuta","{duration} minuty","{duration} minut","{duration} minut"],

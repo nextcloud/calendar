@@ -226,6 +226,7 @@ OC.L10N.register(
     "Default reminder" : "Výchozí upomínka",
     "Simple event editor" : "Jednoduchý editor událostí",
     "\"More details\" opens the detailed editor" : "„Další podrobnosti“ otevře podrobný editor",
+    "Files" : "Soubory",
     "Appointment schedule successfully created" : "Plán schůzky úspěšně vytvořen",
     "Appointment schedule successfully updated" : "Plán schůzky úspěšně zaktualizován",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minuta","{duration} minuty","{duration} minut","{duration} minuty"],

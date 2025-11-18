@@ -194,6 +194,7 @@ OC.L10N.register(
     "Appearance" : "Uiterlijk",
     "Editing" : "Bewerken",
     "Default reminder" : "Standaard herinnering",
+    "Files" : "Bestanden",
     "Appointment schedule successfully created" : "Afspraakschema succesvol aangemaakt",
     "Appointment schedule successfully updated" : "Afspraakschema succesvol aangepast",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minuut","{duration} minuten"],

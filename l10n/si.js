@@ -35,6 +35,7 @@ OC.L10N.register(
     "Cancel" : "අවලංගු කරන්න",
     "Actions" : "ක්‍රියාමාර්ග",
     "General" : "සමාන්‍යය",
+    "Files" : "ගොනු",
     "Update" : "යාවත්කාල",
     "Location" : "ස්ථානය",
     "Description" : "විස්තරය",

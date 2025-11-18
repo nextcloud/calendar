@@ -191,6 +191,7 @@ OC.L10N.register(
     "Appearance" : "Apariencia",
     "Editing" : "Editando",
     "Default reminder" : "Recordatorio predeterminado",
+    "Files" : "Archivo",
     "Appointment schedule successfully created" : "El cronograma de citas fue creado exitosamente",
     "Appointment schedule successfully updated" : "El cronograma de citas fue actualizado exitosamente",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minuto","{duration} minutos","{duration} minutos"],

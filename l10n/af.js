@@ -37,6 +37,7 @@ OC.L10N.register(
     "Timezone" : "Tydsone",
     "List view" : "Lysaansig",
     "Actions" : "Aksies",
+    "Files" : "Lêer ",
     "Update" : "Werk by",
     "Location" : "Ligging",
     "Description" : "Beskrywing",

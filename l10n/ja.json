@@ -190,6 +190,7 @@
     "Appearance" : "表示",
     "Editing" : "編集中",
     "Default reminder" : "既定のリマインダー",
+    "Files" : "ファイル",
     "Appointment schedule successfully created" : "予約スケジュールの作成に成功しました",
     "Appointment schedule successfully updated" : "予約スケジュールの更新に成功しました",
     "_{duration} minute_::_{duration} minutes_" : ["{duration}分"],
