@@ -46,7 +46,6 @@ OC.L10N.register(
     "Selected" : "Selected",
     "Title" : "தலைப்பு",
     "Other" : "மற்றவை",
-    "can edit" : "தொகுக்க முடியும்",
-    "Keyboard shortcuts" : "விசைப்பலகை குறுக்குவழிகள்"
+    "can edit" : "தொகுக்க முடியும்"
 },
 "nplurals=2; plural=(n != 1);");

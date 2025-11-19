@@ -420,7 +420,6 @@ OC.L10N.register(
     "Show keyboard shortcuts" : "Dangos llwybrau byr bysellfwrdd",
     "Successfully appended link to talk room to description." : "Llwyddwyd i atodi dolen i'r ystafell siarad i'r disgrifiad.",
     "Error creating Talk room" : "Gwall wrth greu ystafell Siarad",
-    "The visibility of this event in shared calendars." : "Gwelededd y digwyddiad hwn mewn calendrau a rennir.",
-    "Keyboard shortcuts" : "Llwybrau byr bysellfwrdd"
+    "The visibility of this event in shared calendars." : "Gwelededd y digwyddiad hwn mewn calendrau a rennir."
 },
 "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;");

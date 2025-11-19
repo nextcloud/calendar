@@ -97,7 +97,6 @@ OC.L10N.register(
     "Hidden" : "Oculto",
     "can edit" : "puede editar",
     "Show week numbers" : "Mostrar número de semana",
-    "Show keyboard shortcuts" : "Mostrar atajos de teclado",
-    "Keyboard shortcuts" : "Atajos del teclado"
+    "Show keyboard shortcuts" : "Mostrar atajos de teclado"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

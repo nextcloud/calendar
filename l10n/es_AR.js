@@ -123,7 +123,6 @@ OC.L10N.register(
     "Categories" : "Categoría",
     "Hidden" : "Oculto",
     "can edit" : "puede editar",
-    "Show week numbers" : "Mostrar número de semana",
-    "Keyboard shortcuts" : "Atajos de teclado"
+    "Show week numbers" : "Mostrar número de semana"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

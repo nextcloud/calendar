@@ -74,7 +74,6 @@ OC.L10N.register(
     "Weekly" : "S umalas",
     "Other" : "Wayeḍ",
     "Status" : "Addad",
-    "Categories" : "Taggayin",
-    "Keyboard shortcuts" : "Inegzumen n unasiw"
+    "Categories" : "Taggayin"
 },
 "nplurals=2; plural=(n != 1);");

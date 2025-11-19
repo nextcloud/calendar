@@ -518,7 +518,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to location." : "Successfully appended link to talk room to location.",
     "Successfully appended link to talk room to description." : "Successfully appended link to talk room to description.",
     "Error creating Talk room" : "Error creating Talk room",
-    "The visibility of this event in shared calendars." : "The visibility of this event in shared calendars.",
-    "Keyboard shortcuts" : "Keyboard shortcuts"
+    "The visibility of this event in shared calendars." : "The visibility of this event in shared calendars."
 },
 "nplurals=2; plural=(n!=1);");

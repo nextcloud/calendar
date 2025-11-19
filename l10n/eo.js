@@ -149,7 +149,6 @@ OC.L10N.register(
     "Enable simplified editor" : "Ebligi simpligitan redaktilon",
     "Show weekends" : "Montri semajnfinojn",
     "Show week numbers" : "Montri numerojn de semajno",
-    "Show keyboard shortcuts" : "Montri klavarajn ŝparvojojn",
-    "Keyboard shortcuts" : "Fulmoklavoj"
+    "Show keyboard shortcuts" : "Montri klavarajn ŝparvojojn"
 },
 "nplurals=2; plural=(n != 1);");

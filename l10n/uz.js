@@ -675,11 +675,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "Tavsifga suhbat xonasiga havola muvaffaqiyatli qo‘shildi.",
     "Error creating Talk room" : "Muloqot xonasini yaratishda xatolik yuz berdi",
     "_%n more guest_::_%n more guests_" : ["%n ko'proq mehmonlar"],
-    "The visibility of this event in shared calendars." : "Bu tadbirning umumiy taqvimda koʻrinishi.",
-    "View options" : "Variantlarni ko‘rish",
-    "Limit number of events shown in month view" : "Oy ko'rinishida ko'rsatiladigan tadbirlar sonini cheklash",
-    "Time division in day and week view" : "Kun va hafta ko'rinishida vaqtni taqsimlash",
-    "Enable simple editor" : "Oddiy muharrirni yoqing",
-    "Keyboard shortcuts" : "Klaviatura yorliqlari"
+    "The visibility of this event in shared calendars." : "Bu tadbirning umumiy taqvimda koʻrinishi."
 },
 "nplurals=1; plural=0;");

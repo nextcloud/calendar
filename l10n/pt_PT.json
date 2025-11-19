@@ -309,7 +309,6 @@
     "Copy primary CalDAV address" : "Copiar endereço CalDAV primário",
     "Copy iOS/macOS CalDAV address" : "Copiar endereço iOS/macOS CalDAV",
     "Personal availability settings" : "Configurações de disponibilidade pessoal",
-    "Show keyboard shortcuts" : "Mostrar atalhos de teclado",
-    "Keyboard shortcuts" : "Atalhos de teclado"
+    "Show keyboard shortcuts" : "Mostrar atalhos de teclado"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

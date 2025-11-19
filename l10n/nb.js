@@ -560,7 +560,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "La til lenke til Talk-rom til beskrivelsen.",
     "Error creating Talk room" : "Feil ved opprettelse av Talk-rom",
     "_%n more guest_::_%n more guests_" : ["%n gjest til","%n flere gjester"],
-    "The visibility of this event in shared calendars." : "Synlighet for denne oppføringen i delte kalendere",
-    "Keyboard shortcuts" : "Tastatursnarveier"
+    "The visibility of this event in shared calendars." : "Synlighet for denne oppføringen i delte kalendere"
 },
 "nplurals=2; plural=(n != 1);");

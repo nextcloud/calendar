@@ -359,7 +359,6 @@ OC.L10N.register(
     "Show keyboard shortcuts" : "Mustra curtziadòrgios de tecladu",
     "Successfully appended link to talk room to description." : "Ligòngiu apicadu in manera curreta in sa descritzione de s'aposentu de cunversatzione",
     "Error creating Talk room" : "Errore in sa creatzione de s'aposentu Talk",
-    "The visibility of this event in shared calendars." : "Sa visibilidade de custu eventu in is calendàrios cumpartzidos",
-    "Keyboard shortcuts" : "Curtziadòrgios de tecladu"
+    "The visibility of this event in shared calendars." : "Sa visibilidade de custu eventu in is calendàrios cumpartzidos"
 },
 "nplurals=2; plural=(n != 1);");

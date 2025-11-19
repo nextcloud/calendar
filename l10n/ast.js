@@ -299,7 +299,6 @@ OC.L10N.register(
     "Personal availability settings" : "Configuración de la disponibilidá personal",
     "Show keyboard shortcuts" : "Amosar los atayos del tecáu",
     "Error creating Talk room" : "Hebo un error al crear la sala de Talk",
-    "_%n more guest_::_%n more guests_" : ["%n convidáu más","%n convidaos más"],
-    "Keyboard shortcuts" : "Atayos del tecláu"
+    "_%n more guest_::_%n more guests_" : ["%n convidáu más","%n convidaos más"]
 },
 "nplurals=2; plural=(n != 1);");
