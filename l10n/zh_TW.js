@@ -697,11 +697,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "成功將線上會議室的連結加至活動細節",
     "Error creating Talk room" : "建立線上會議室發生錯誤",
     "_%n more guest_::_%n more guests_" : ["還有 %n 位來賓"],
-    "The visibility of this event in shared calendars." : "此活動在分享的日曆可見程度。",
-    "View options" : "檢視選項",
-    "Limit number of events shown in month view" : "限制月份檢視中顯示的事件數量",
-    "Time division in day and week view" : "在日與週檢視中的時間劃分",
-    "Enable simple editor" : "啟用簡易編輯器",
-    "Keyboard shortcuts" : "鍵盤快速鍵"
+    "The visibility of this event in shared calendars." : "此活動在分享的日曆可見程度。"
 },
 "nplurals=1; plural=0;");

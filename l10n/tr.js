@@ -226,6 +226,7 @@ OC.L10N.register(
     "Default reminder" : "Varsayılan anımsatıcı",
     "Simple event editor" : "Basit etkinlik düzenleyici",
     "\"More details\" opens the detailed editor" : "\"Ayrıntılar\" ayrıntılı düzenleyiciyi açar",
+    "Files" : "Dosyalar",
     "Appointment schedule successfully created" : "Randevu zamanı eklendi",
     "Appointment schedule successfully updated" : "Randevu zamanı güncellendi",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} dakika","{duration} dakika"],
@@ -691,11 +692,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "Bağlantı Konuş odası açıklamasına eklendi.",
     "Error creating Talk room" : "Konuş odası oluştururken sorun çıktı",
     "_%n more guest_::_%n more guests_" : ["%n diğer konuk","%n diğer konuk"],
-    "The visibility of this event in shared calendars." : "Bu etkinliğin paylaşılmış takvimlerdeki görünümü.",
-    "View options" : "Görünüm seçenekleri",
-    "Limit number of events shown in month view" : "Aylık görünümde görüntülenecek etkinlik sayısı sınırlansın",
-    "Time division in day and week view" : "Gün ve hafta görünümündeki zaman bölümü",
-    "Enable simple editor" : "Basit düzenleyici kullanılsın",
-    "Keyboard shortcuts" : "Kısayol tuşları"
+    "The visibility of this event in shared calendars." : "Bu etkinliğin paylaşılmış takvimlerdeki görünümü."
 },
 "nplurals=2; plural=(n > 1);");

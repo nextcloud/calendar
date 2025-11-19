@@ -695,11 +695,6 @@
     "Successfully appended link to talk room to description." : "D'éirigh le ceangal leis an seomra cainte a chur i gceangal leis an gcur síos.",
     "Error creating Talk room" : "Earráid agus an seomra cainte á chruthú",
     "_%n more guest_::_%n more guests_" : ["%n aoi eile","%n aíonna eile","%n aíonna eile","%n aíonna eile","%n aíonna eile"],
-    "The visibility of this event in shared calendars." : "Infheictheacht an imeachta seo i bhféilirí roinnte.",
-    "View options" : "Roghanna féachana",
-    "Limit number of events shown in month view" : "Teorainn a chur le líon na n-imeachtaí a thaispeántar san amharc míosúil",
-    "Time division in day and week view" : "Roinnt ama i radharc lae agus seachtaine",
-    "Enable simple editor" : "Cumasaigh eagarthóir simplí",
-    "Keyboard shortcuts" : "Aicearraí méarchláir"
+    "The visibility of this event in shared calendars." : "Infheictheacht an imeachta seo i bhféilirí roinnte."
 },"pluralForm" :"nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);"
 }

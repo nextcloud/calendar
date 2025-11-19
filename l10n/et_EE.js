@@ -697,11 +697,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "Kõnerakenduse jututoa lingi lisamine kirjeldusele õnnestus.",
     "Error creating Talk room" : "Viga Kõnerakenduse jututoa loomisel",
     "_%n more guest_::_%n more guests_" : ["veel %n külaline","veel %n külalist"],
-    "The visibility of this event in shared calendars." : "Selle sündmuse nähtavus jagatud kalendrites.",
-    "View options" : "Vaata eelistusi",
-    "Limit number of events shown in month view" : "Piira kuuvaates kuvatavate sündmuste arvu",
-    "Time division in day and week view" : "Ajajaotus päeva ja nädalavaates",
-    "Enable simple editor" : "Kasuta lihtsat muutmisvaadet",
-    "Keyboard shortcuts" : "Klaviatuuri kiirklahvid"
+    "The visibility of this event in shared calendars." : "Selle sündmuse nähtavus jagatud kalendrites."
 },
 "nplurals=2; plural=(n != 1);");

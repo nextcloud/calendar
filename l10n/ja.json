@@ -564,7 +564,6 @@
     "Successfully appended link to talk room to description." : "通話ルームへのリンクを説明文に追加しました",
     "Error creating Talk room" : "通話ルームの作成に失敗しました",
     "_%n more guest_::_%n more guests_" : ["ゲスト %n 名追加"],
-    "The visibility of this event in shared calendars." : "共有カレンダーでのこのイベントの表示。",
-    "Keyboard shortcuts" : "キーボードショートカット"
+    "The visibility of this event in shared calendars." : "共有カレンダーでのこのイベントの表示。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

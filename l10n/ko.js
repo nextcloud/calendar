@@ -524,7 +524,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to location." : "위치에 대화방 링크를 성공적으로 추가함",
     "Successfully appended link to talk room to description." : "설명에 대화방 링크를 성공적으로 추가함",
     "Error creating Talk room" : "대화방 생성 오류",
-    "The visibility of this event in shared calendars." : "공유 달력에서 이 일정의 표시 여부",
-    "Keyboard shortcuts" : "키보드 단축키"
+    "The visibility of this event in shared calendars." : "공유 달력에서 이 일정의 표시 여부"
 },
 "nplurals=1; plural=0;");

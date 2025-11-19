@@ -214,6 +214,7 @@ OC.L10N.register(
     "CalDAV" : "CalDAV",
     "Access Nextcloud calendars from other apps and devices" : "Åtkomst till Nextcloud-kalendrar från andra appar och enheter",
     "CalDAV URL" : "CalDAV URL",
+    "Server Address for iOS and macOS" : "Serveradress för iOS och macOS",
     "Appearance" : "Utseende",
     "Birthday calendar" : "Födelsedagskalender",
     "Tasks in calendar" : "Uppgifter i kalendern",
@@ -225,6 +226,7 @@ OC.L10N.register(
     "Default reminder" : "Standardpåminnelse",
     "Simple event editor" : "Enkel händelseredigerare",
     "\"More details\" opens the detailed editor" : "”Mer information” öppnar den detaljerade redigeraren",
+    "Files" : "Filer",
     "Appointment schedule successfully created" : "Mötesschema skapat",
     "Appointment schedule successfully updated" : "Mötesschema uppdaterat",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minut","{duration} minuter"],
@@ -694,11 +696,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "Länk till rum i Talk tillagd i beskrivningen.",
     "Error creating Talk room" : "Kunde inte skapa rum i Talk",
     "_%n more guest_::_%n more guests_" : ["%n gäst till","%n gäster till"],
-    "The visibility of this event in shared calendars." : "Synligheten för denna händelse i delade kalendrar.",
-    "View options" : "Visningsalternativ",
-    "Limit number of events shown in month view" : "Begränsa antalet händelser som visas i månadsvyn",
-    "Time division in day and week view" : "Tidsindelning i dag- och vecko­vy",
-    "Enable simple editor" : "Aktivera enkel redigerare",
-    "Keyboard shortcuts" : "Tangentbordsgenvägar"
+    "The visibility of this event in shared calendars." : "Synligheten för denna händelse i delade kalendrar."
 },
 "nplurals=2; plural=(n != 1);");

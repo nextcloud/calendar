@@ -19,6 +19,7 @@ OC.L10N.register(
     "Cancel" : "Cancel",
     "List view" : "Prikaz liste",
     "Appearance" : "Izgled",
+    "Files" : "Fajlovi",
     "Update" : "Ažuriraj",
     "Description" : "Opis",
     "Add" : "Dodaj",

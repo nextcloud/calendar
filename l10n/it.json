@@ -587,7 +587,6 @@
     "Successfully appended link to talk room to description." : "Collegamento aggiunto correttamente alla stanza di Talk come descrizione.",
     "Error creating Talk room" : "Errore durante la creazione della stanza di Talk",
     "_%n more guest_::_%n more guests_" : ["%n più ospite","%n più ospiti","%n più ospiti"],
-    "The visibility of this event in shared calendars." : "La visibilità di questo evento nei calendari condivisi.",
-    "Keyboard shortcuts" : "Scorciatoie da tastiera"
+    "The visibility of this event in shared calendars." : "La visibilità di questo evento nei calendari condivisi."
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

@@ -509,7 +509,6 @@ OC.L10N.register(
     "Show keyboard shortcuts" : "Mostrar accesos directos de teclado",
     "Successfully appended link to talk room to description." : "Enlace a la sala de Talk se agregó correctamente a la descripción.",
     "Error creating Talk room" : "Error al crear la sala de Talk",
-    "The visibility of this event in shared calendars." : "La visibilidad de este evento en calendarios compartidos.",
-    "Keyboard shortcuts" : "Atajos del teclado"
+    "The visibility of this event in shared calendars." : "La visibilidad de este evento en calendarios compartidos."
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

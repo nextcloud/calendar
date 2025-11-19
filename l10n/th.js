@@ -104,7 +104,6 @@ OC.L10N.register(
     "Confirmed" : "ยืนยันแล้ว",
     "Categories" : "หมวดหมู่",
     "Hidden" : "ซ่อนอยู่",
-    "can edit" : "สามารถแก้ไข",
-    "Keyboard shortcuts" : "แป้นพิมพ์ลัด"
+    "can edit" : "สามารถแก้ไข"
 },
 "nplurals=1; plural=0;");

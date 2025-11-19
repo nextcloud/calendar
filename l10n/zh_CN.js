@@ -692,11 +692,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "成功将链接添加到聊天室的描述。",
     "Error creating Talk room" : "建立聊天室时发生错误",
     "_%n more guest_::_%n more guests_" : ["还有 %n 位访客"],
-    "The visibility of this event in shared calendars." : "在共享日历中此事项的可见性。",
-    "View options" : "视图选项",
-    "Limit number of events shown in month view" : "限制月视图中显示的事件数",
-    "Time division in day and week view" : "日视图和周视图中的时间划分",
-    "Enable simple editor" : "启用简单编辑器",
-    "Keyboard shortcuts" : "键盘快捷键"
+    "The visibility of this event in shared calendars." : "在共享日历中此事项的可见性。"
 },
 "nplurals=1; plural=0;");

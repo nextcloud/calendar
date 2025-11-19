@@ -226,6 +226,7 @@ OC.L10N.register(
     "Default reminder" : "Kikumbusho cha chaguo-msingi",
     "Simple event editor" : "Mhariri wa tukio rahisi",
     "\"More details\" opens the detailed editor" : "\"Maelezo zaidi\" hufungua kihariri cha kina",
+    "Files" : "Faili",
     "Appointment schedule successfully created" : "Ratiba ya miadi imetengenezwa kikamilifu",
     "Appointment schedule successfully updated" : "Ratiba ya miadi imesasishwa kikamilifu",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minute","{duration}dakika"],
@@ -695,11 +696,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "Kikmilifu kimeongezwa kiungo kwa chumba cha talk na kwa maelezo",
     "Error creating Talk room" : "Hitilafu kutengeneza chumba cha Talk",
     "_%n more guest_::_%n more guests_" : ["%n more guest","%n wageni zaidi"],
-    "The visibility of this event in shared calendars." : "Mwonekano wa tukio hili katika kalenda zilizoshirikiwa.",
-    "View options" : "Tazama machaguo",
-    "Limit number of events shown in month view" : "Kikomo cha idadi ya matukio yanayoonyeshwa katika mwonekano wa mwezi",
-    "Time division in day and week view" : "Mgawanyiko wa wakati katika mtazamo wa siku na wiki",
-    "Enable simple editor" : "Washa kihariri rahisi",
-    "Keyboard shortcuts" : "Mikato ya keyboard"
+    "The visibility of this event in shared calendars." : "Mwonekano wa tukio hili katika kalenda zilizoshirikiwa."
 },
 "nplurals=2; plural=(n != 1);");

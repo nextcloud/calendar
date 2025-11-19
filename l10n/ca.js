@@ -596,7 +596,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "S'ha afegit l'enllaç d'una nova sala de Talk a la descripció de l'esdeveniment.",
     "Error creating Talk room" : "Ha succeït un error tractant de crear la sala a Talk",
     "_%n more guest_::_%n more guests_" : ["%n convidat més","%n convidats més"],
-    "The visibility of this event in shared calendars." : "La visibilitat de l'event en calendaris compartits.",
-    "Keyboard shortcuts" : "Dreceres de teclat"
+    "The visibility of this event in shared calendars." : "La visibilitat de l'event en calendaris compartits."
 },
 "nplurals=2; plural=(n != 1);");

@@ -577,7 +577,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "Tókst að bæta tengli á spjallsvæði við lýsingu.",
     "Error creating Talk room" : "Villa við að búa til spjallsvæði.",
     "_%n more guest_::_%n more guests_" : ["%n gestur til viðbótar","%n gestir til viðbótar"],
-    "The visibility of this event in shared calendars." : "Sýnileiki þessa atburðar í sameiginlegum dagatölum",
-    "Keyboard shortcuts" : "Flýtileiðir á lyklaborði"
+    "The visibility of this event in shared calendars." : "Sýnileiki þessa atburðar í sameiginlegum dagatölum"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

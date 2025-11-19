@@ -375,7 +375,6 @@ OC.L10N.register(
     "Show keyboard shortcuts" : "Prikaži tipkovne prečace",
     "Successfully appended link to talk room to description." : "Uspješno dodana poveznica na Talk sobu u opis.",
     "Error creating Talk room" : "Pogreška pri stvaranju Talk sobe",
-    "The visibility of this event in shared calendars." : "Vidljivost ovog događaja u dijeljenim kalendarima.",
-    "Keyboard shortcuts" : "Tipkovni prečaci"
+    "The visibility of this event in shared calendars." : "Vidljivost ovog događaja u dijeljenim kalendarima."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

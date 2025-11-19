@@ -691,11 +691,6 @@
     "Successfully appended link to talk room to description." : "Успешно додаден линк од собата за разговор во описот.",
     "Error creating Talk room" : "Грешка при креирање на соба за разговор",
     "_%n more guest_::_%n more guests_" : ["%n гостин","%n други гости"],
-    "The visibility of this event in shared calendars." : "Видливост на овој настан во споделен календар.",
-    "View options" : "Прегледај опции ",
-    "Limit number of events shown in month view" : "Ограничи го бројот на прикажани настани во месечен преглед",
-    "Time division in day and week view" : "Поделба на време во дневен и неделен преглед",
-    "Enable simple editor" : "Овозможи едноставен уредувач",
-    "Keyboard shortcuts" : "Кратенки преку тастатура"
+    "The visibility of this event in shared calendars." : "Видливост на овој настан во споделен календар."
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

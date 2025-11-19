@@ -696,11 +696,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "Beszélgetés szoba hivatkozásának a leíráshoz csatolása sikeres.",
     "Error creating Talk room" : "Hiba a Beszélgetés szoba létrehozásakor",
     "_%n more guest_::_%n more guests_" : ["%n további vendég","%n további vendég"],
-    "The visibility of this event in shared calendars." : "Az esemény láthatósága a megosztott naptárakban.",
-    "View options" : "Megtekintési beállítások",
-    "Limit number of events shown in month view" : "A havi nézetben megjelenített események számának korlátozása",
-    "Time division in day and week view" : "Időfelosztás a napi és heti nézetben",
-    "Enable simple editor" : "Egyszerű szerkesztő engedélyezése",
-    "Keyboard shortcuts" : "Gyorsbillentyűk"
+    "The visibility of this event in shared calendars." : "Az esemény láthatósága a megosztott naptárakban."
 },
 "nplurals=2; plural=(n != 1);");

@@ -106,7 +106,6 @@ OC.L10N.register(
     "Categories" : "Kategoritë",
     "Hidden" : "I fshehur",
     "can edit" : "mund të përpunojnë",
-    "Show week numbers" : "Shfaq numra javësh",
-    "Keyboard shortcuts" : "Shkurtoret e tastierës"
+    "Show week numbers" : "Shfaq numra javësh"
 },
 "nplurals=2; plural=(n != 1);");

@@ -349,7 +349,6 @@ OC.L10N.register(
     "Show keyboard shortcuts" : "Tampilkan pintasan papan kunci",
     "Successfully appended link to talk room to description." : "Berhasil menambahkan tautan ruang Talk pada deskripsi.",
     "Error creating Talk room" : "Galat membuat ruangan Talk",
-    "The visibility of this event in shared calendars." : "Visibilitas acara ini di kalender yang dibagikan.",
-    "Keyboard shortcuts" : "Pintasan keyboard"
+    "The visibility of this event in shared calendars." : "Visibilitas acara ini di kalender yang dibagikan."
 },
 "nplurals=1; plural=0;");

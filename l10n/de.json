@@ -695,11 +695,6 @@
     "Successfully appended link to talk room to description." : "Link zur Beschreibung des Besprechungsraums hinzugefügt.",
     "Error creating Talk room" : "Fehler beim Erstellen des Besprechungsraumes",
     "_%n more guest_::_%n more guests_" : ["%n weiterer Gast","%n weitere Gäste"],
-    "The visibility of this event in shared calendars." : "Sichtbarkeit dieses Termins in geteilten Kalendern.",
-    "View options" : "Optionen ansehen",
-    "Limit number of events shown in month view" : "Die Anzahl der in der Monatsansicht angezeigten Ereignisse begrenzen",
-    "Time division in day and week view" : "Zeiteinteilung in Tag- und Wochenansicht",
-    "Enable simple editor" : "Einfachen Editor aktivieren",
-    "Keyboard shortcuts" : "Tastaturkürzel"
+    "The visibility of this event in shared calendars." : "Sichtbarkeit dieses Termins in geteilten Kalendern."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

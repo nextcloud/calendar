@@ -599,7 +599,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "Do popisu bol úspešne pridaný odkaz na miestnosť v Talk /Rozhovore/",
     "Error creating Talk room" : "Chyba pri vytváraní miestnosti v Talk /Rozhovore/",
     "_%n more guest_::_%n more guests_" : ["%n ďalší hosť","%n ďalší hostia","%n ďalších hostí","%n ďalších hostí"],
-    "The visibility of this event in shared calendars." : "Viditeľnosť tejto udalosti v zdieľaných kalendároch.",
-    "Keyboard shortcuts" : "Klávesové skratky"
+    "The visibility of this event in shared calendars." : "Viditeľnosť tejto udalosti v zdieľaných kalendároch."
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

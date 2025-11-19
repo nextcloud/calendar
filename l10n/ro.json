@@ -503,7 +503,6 @@
     "Successfully appended link to talk room to location." : "S-a adăugat cu succes locației linkul la camera Talk.",
     "Successfully appended link to talk room to description." : "S-a adăugat cu succes descrierii linkul la camera Talk.",
     "Error creating Talk room" : "Camera Talk nu a putut fi creată",
-    "The visibility of this event in shared calendars." : "Vizibilitatea acestui eveniment în calendarele partajate.",
-    "Keyboard shortcuts" : "Scurtături din tastatură"
+    "The visibility of this event in shared calendars." : "Vizibilitatea acestui eveniment în calendarele partajate."
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

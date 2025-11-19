@@ -692,11 +692,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "Успішно додано посилання на віртуальну кімнату Talk до опису події.",
     "Error creating Talk room" : "Помилка при створенні віртуальної кімнати Talk",
     "_%n more guest_::_%n more guests_" : ["Ще %n гість","Ще %n гостей","Ще %n гостей","Ще %n гостей"],
-    "The visibility of this event in shared calendars." : "Видимість цієї події у спільних календарях.",
-    "View options" : "Параметри подання",
-    "Limit number of events shown in month view" : "Обмежити кількість подій,  які показуватимуться у щомісячному поданні",
-    "Time division in day and week view" : "Розподіл часу у щоденному та щомтижневому поданні",
-    "Enable simple editor" : "Увімкнути простий редактор",
-    "Keyboard shortcuts" : "Скорочення"
+    "The visibility of this event in shared calendars." : "Видимість цієї події у спільних календарях."
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");
