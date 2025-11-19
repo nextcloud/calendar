@@ -73,7 +73,6 @@ OC.L10N.register(
     "When shared hide this event" : "Når delt, gøym denne hendinga",
     "Status" : "Status",
     "Confirmed" : "Stadfesta",
-    "can edit" : "kan endra",
-    "Keyboard shortcuts" : "Tastatursnarvegar"
+    "can edit" : "kan endra"
 },
 "nplurals=2; plural=(n != 1);");

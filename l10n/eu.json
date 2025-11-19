@@ -594,11 +594,6 @@
     "Successfully appended link to talk room to description." : "Ondo erantsi zaio esteka hizketa gelaren deskribapenari.",
     "Error creating Talk room" : "Errorea Talk gela sortzean",
     "_%n more guest_::_%n more guests_" : ["gonbidatu gehiago %n","%n gonbidatu gehiago"],
-    "The visibility of this event in shared calendars." : "Gertaera honen ikusgarritasuna egutegi partekatuetan",
-    "View options" : "Ikuspegi aukerak",
-    "Limit number of events shown in month view" : "Mugatu hilabete-ikuspegian erakusten den gertaera kopurua",
-    "Time division in day and week view" : "Denboraren banaketa egun- eta aste-ikuspegian",
-    "Enable simple editor" : "Gaitu editore sinplea",
-    "Keyboard shortcuts" : "Teklatuaren lasterbideak"
+    "The visibility of this event in shared calendars." : "Gertaera honen ikusgarritasuna egutegi partekatuetan"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -93,7 +93,6 @@ OC.L10N.register(
     "Categories" : "კატეგორიები",
     "Hidden" : "უჩინარი",
     "can edit" : "შეგიძლია შეცვლა",
-    "Show week numbers" : "კვირის ნომრების ჩვენება",
-    "Keyboard shortcuts" : "კლავიატურის კომბინაციები"
+    "Show week numbers" : "კვირის ნომრების ჩვენება"
 },
 "nplurals=2; plural=(n!=1);");

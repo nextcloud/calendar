@@ -695,11 +695,6 @@
     "Successfully appended link to talk room to description." : "Engadiuse satisfactoriamente unha ligazón á descrición da  sala de conversa.",
     "Error creating Talk room" : "Produciuse un erro ao crear a sala de Parladoiro",
     "_%n more guest_::_%n more guests_" : ["%n  convidado máis","%n convidados máis"],
-    "The visibility of this event in shared calendars." : "A visibilidade deste evento nos calendarios compartidos.",
-    "View options" : "Ver as opcións",
-    "Limit number of events shown in month view" : "Limitar o número de eventos que se amosan na vista mensual",
-    "Time division in day and week view" : "División horaria na vista do día e da semana",
-    "Enable simple editor" : "Activar o editor simple",
-    "Keyboard shortcuts" : "Atallos de teclado"
+    "The visibility of this event in shared calendars." : "A visibilidade deste evento nos calendarios compartidos."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

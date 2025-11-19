@@ -624,9 +624,6 @@ OC.L10N.register(
     "{invitedCount} invited, {confirmedCount} confirmed" : "{invitedCount} kutsuttu, {confirmedCount} vahvistettu",
     "Successfully appended link to talk room to description." : "Linkki Talk-huoneeseen lisättiin onnistuneesti kuvaukseen.",
     "Error creating Talk room" : "Virhe luotaessa Talk-huonetta",
-    "The visibility of this event in shared calendars." : "Tämän tapahtuman näkyvyys jaetuissa kalentereissa.",
-    "View options" : "Näkymävalinnat",
-    "Limit number of events shown in month view" : "Rajoita kuukausinäkymässä näytettävien tapahtumien määrää",
-    "Keyboard shortcuts" : "Pikanäppäimet"
+    "The visibility of this event in shared calendars." : "Tämän tapahtuman näkyvyys jaetuissa kalentereissa."
 },
 "nplurals=2; plural=(n != 1);");

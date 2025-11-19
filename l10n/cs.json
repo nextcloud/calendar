@@ -694,11 +694,6 @@
     "Successfully appended link to talk room to description." : "Do popisu úspěšně přidán odkaz na místnost v Talk",
     "Error creating Talk room" : "Chyba při vytváření místnosti v Talk",
     "_%n more guest_::_%n more guests_" : ["%n další host","%n další hosté","%n dalších hostů","%n další hosté"],
-    "The visibility of this event in shared calendars." : "Viditelnost této události ve sdílených kalendářích.",
-    "View options" : "Zobrazit předvolby",
-    "Limit number of events shown in month view" : "Omezit počet zobrazovaných událostí v měsíčním pohledu",
-    "Time division in day and week view" : "Dělení času v denním a týdenním zobrazení",
-    "Enable simple editor" : "Používat zjednodušený editor",
-    "Keyboard shortcuts" : "Klávesové zkratky"
+    "The visibility of this event in shared calendars." : "Viditelnost této události ve sdílených kalendářích."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

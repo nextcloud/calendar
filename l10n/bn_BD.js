@@ -60,7 +60,6 @@ OC.L10N.register(
     "second" : "সেকেন্ড",
     "Other" : "অন্যান্য",
     "Hidden" : "লুকনো",
-    "can edit" : "সম্পাদনা করতে পারবেন",
-    "Keyboard shortcuts" : "কী-বোর্ড শর্টকাট"
+    "can edit" : "সম্পাদনা করতে পারবেন"
 },
 "nplurals=2; plural=(n != 1);");

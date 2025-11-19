@@ -449,7 +449,6 @@ OC.L10N.register(
     "Show keyboard shortcuts" : "Hiển thị các phím tắt",
     "Successfully appended link to talk room to description." : "Liên kết đã được thêm thành công vào mô tả trong phòng trò chuyện ",
     "Error creating Talk room" : "Có lõi xảy ra khi tạo phòng Trò chuyện",
-    "The visibility of this event in shared calendars." : "Khả năng nhìn thấy của sự kiện này trong các lịch được chia sẻ",
-    "Keyboard shortcuts" : "Phím tắt"
+    "The visibility of this event in shared calendars." : "Khả năng nhìn thấy của sự kiện này trong các lịch được chia sẻ"
 },
 "nplurals=1; plural=0;");

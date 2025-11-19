@@ -678,11 +678,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "Pomyślnie dołączono do opisu link do pokoju rozmów.",
     "Error creating Talk room" : "Błąd podczas tworzenia pokoju w Talku",
     "_%n more guest_::_%n more guests_" : ["%n gość więcej","%n gości więcej","%n gości więcej","%n gości więcej"],
-    "The visibility of this event in shared calendars." : "Widoczność tego wydarzenia w udostępnianych kalendarzach.",
-    "View options" : "Wyświetl opcje",
-    "Limit number of events shown in month view" : "Ogranicz liczbę wydarzeń wyświetlanych w widoku miesiąca",
-    "Time division in day and week view" : "Podział czasu w widoku dnia i tygodnia",
-    "Enable simple editor" : "Włącz prosty edytor",
-    "Keyboard shortcuts" : "Skróty klawiaturowe"
+    "The visibility of this event in shared calendars." : "Widoczność tego wydarzenia w udostępnianych kalendarzach."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

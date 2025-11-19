@@ -694,11 +694,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "Link til Snak rum blev tilføjet til beskrivelse.",
     "Error creating Talk room" : "Fejl ved oprettelse af Snak rum",
     "_%n more guest_::_%n more guests_" : ["%n flere gæster","%n flere gæster"],
-    "The visibility of this event in shared calendars." : "Synligheden af denne begivenhed i delte kalendere.",
-    "View options" : "Vis indstillinger",
-    "Limit number of events shown in month view" : "Begræns antal begivenheder i månedsoversigt",
-    "Time division in day and week view" : "Tidsopdeling i dag og uge oversigt",
-    "Enable simple editor" : "Aktivér simpel editor",
-    "Keyboard shortcuts" : "Tastaturgenveje"
+    "The visibility of this event in shared calendars." : "Synligheden af denne begivenhed i delte kalendere."
 },
 "nplurals=2; plural=(n != 1);");

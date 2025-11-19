@@ -226,6 +226,7 @@ OC.L10N.register(
     "Default reminder" : "Подразумевани подсетник",
     "Simple event editor" : "Једноставни уређивач догађаја",
     "\"More details\" opens the detailed editor" : "„Више детаља” отвара детаљни уређивач",
+    "Files" : "Фајлови",
     "Appointment schedule successfully created" : "Успешно је креиран распоред састанка",
     "Appointment schedule successfully updated" : "Успешно је ажуриран распоред састанка",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} минут","{duration} минута","{duration} минута"],
@@ -691,11 +692,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "У опис је успешно додат линк на Talk собу.",
     "Error creating Talk room" : "Грешка приликом креирања Talk собе",
     "_%n more guest_::_%n more guests_" : ["још %n гост","још %n госта","још %n гостију"],
-    "The visibility of this event in shared calendars." : "Видљивост овог догађаја у дељеним календарима.",
-    "View options" : "Опције приказа",
-    "Limit number of events shown in month view" : "Ограничи број догађаја који се виде у месечном приказу",
-    "Time division in day and week view" : "Подела времена у погледу дана и недеље",
-    "Enable simple editor" : "Укључи прости едитор",
-    "Keyboard shortcuts" : "Пречице на тастатури"
+    "The visibility of this event in shared calendars." : "Видљивост овог догађаја у дељеним календарима."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

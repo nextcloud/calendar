@@ -186,7 +186,6 @@ OC.L10N.register(
     "User not found" : "Utilizaire pas trobat",
     "Hidden" : "Amagat",
     "can edit" : "pòt modificar",
-    "Show weekends" : "Monstrar las dimenjadas",
-    "Keyboard shortcuts" : "Acorchis de clavièr"
+    "Show weekends" : "Monstrar las dimenjadas"
 },
 "nplurals=2; plural=(n > 1);");

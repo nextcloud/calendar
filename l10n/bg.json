@@ -688,11 +688,6 @@
     "Successfully appended link to talk room to location." : "Връзката към стаята за разговори е успешно добавена към местоположението.",
     "Successfully appended link to talk room to description." : "Успешно добавена връзка към стаята за разговори от описанието.",
     "Error creating Talk room" : "Грешка при създаването на Стая за разговори",
-    "The visibility of this event in shared calendars." : "Видимостта на това събитие в споделени календари.",
-    "View options" : "Вижте опциите",
-    "Limit number of events shown in month view" : "Ограничаване на броя събития показвани в месечен изглед",
-    "Time division in day and week view" : "Разделяне на времето в дневен и седмичен изглед",
-    "Enable simple editor" : "Активиране на опростен редактор",
-    "Keyboard shortcuts" : "Бързи клавиши"
+    "The visibility of this event in shared calendars." : "Видимостта на това събитие в споделени календари."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -187,6 +187,7 @@ OC.L10N.register(
     "Appearance" : "كۆرۈنۈش",
     "Editing" : "تەھرىرلەش",
     "Default reminder" : "كۆڭۈلدىكى ئەسكەرتىش",
+    "Files" : "ھۆججەتلەر",
     "Appointment schedule successfully created" : "تەيىنلەش جەدۋىلى مۇۋەپپەقىيەتلىك قۇرۇلدى",
     "Appointment schedule successfully updated" : "تەيىنلەش جەدۋىلى مۇۋەپپەقىيەتلىك يېڭىلاندى",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} مىنۇت","{duration} مىنۇت"],
@@ -536,7 +537,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to location." : "مۇۋەپپەقىيەتلىك ھالدا پاراڭلىشىش ئۆيىگە ئۇلىنىش قوشۇلدى.",
     "Successfully appended link to talk room to description." : "مۇۋەپپەقىيەتلىك ھالدا سۆزلىشىش ئۆيىگە ئۇلىنىش قوشۇلدى.",
     "Error creating Talk room" : "سۆھبەت ئۆيى قۇرۇشتا خاتالىق",
-    "The visibility of this event in shared calendars." : "ئورتاق كالېنداردا بۇ پائالىيەتنىڭ كۆرۈنۈشچانلىقى.",
-    "Keyboard shortcuts" : "كۇنۇپكا تاختىسى تېزلەتمىسى"
+    "The visibility of this event in shared calendars." : "ئورتاق كالېنداردا بۇ پائالىيەتنىڭ كۆرۈنۈشچانلىقى."
 },
 "nplurals=2; plural=(n != 1);");

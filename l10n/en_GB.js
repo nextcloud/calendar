@@ -215,6 +215,7 @@ OC.L10N.register(
     "CalDAV" : "CalDAV",
     "Access Nextcloud calendars from other apps and devices" : "Access Nextcloud calendars from other apps and devices",
     "CalDAV URL" : "CalDAV URL",
+    "Server Address for iOS and macOS" : "Server Address for iOS and macOS",
     "Appearance" : "Appearance",
     "Birthday calendar" : "Birthday calendar",
     "Tasks in calendar" : "Tasks in calendar",
@@ -696,11 +697,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "Successfully appended link to talk room to description.",
     "Error creating Talk room" : "Error creating Talk room",
     "_%n more guest_::_%n more guests_" : ["%n more guest","%n more guests"],
-    "The visibility of this event in shared calendars." : "The visibility of this event in shared calendars.",
-    "View options" : "View options",
-    "Limit number of events shown in month view" : "Limit number of events shown in month view",
-    "Time division in day and week view" : "Time division in day and week view",
-    "Enable simple editor" : "Enable simple editor",
-    "Keyboard shortcuts" : "Keyboard shortcuts"
+    "The visibility of this event in shared calendars." : "The visibility of this event in shared calendars."
 },
 "nplurals=2; plural=(n != 1);");

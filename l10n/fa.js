@@ -514,7 +514,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to location." : "Successfully appended link to talk room to location.",
     "Successfully appended link to talk room to description." : "پیوند موفقیت آمیز پیوند به اتاق گفتگو به توضیحات.",
     "Error creating Talk room" : "خطا در ایجاد اتاق گفتگو",
-    "The visibility of this event in shared calendars." : "قابلیت مشاهده این رویداد در تقویمهای مشترک.",
-    "Keyboard shortcuts" : "میان‌برهای صفحه‌کلید"
+    "The visibility of this event in shared calendars." : "قابلیت مشاهده این رویداد در تقویمهای مشترک."
 },
 "nplurals=2; plural=(n > 1);");
