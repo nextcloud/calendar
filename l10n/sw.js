@@ -215,6 +215,7 @@ OC.L10N.register(
     "CalDAV" : "CalDAV",
     "Access Nextcloud calendars from other apps and devices" : "Fikia kalenda za Nextcloud kutoka kwa programu na vifaa vingine",
     "CalDAV URL" : "URL ya CalDAV ",
+    "Server Address for iOS and macOS" : "Anwani ya Seva ya iOS na macOS",
     "Appearance" : "Mwonekano",
     "Birthday calendar" : "Kalenda ya siku ya kuzaliwa",
     "Tasks in calendar" : "Majukumu katika kalenda",
