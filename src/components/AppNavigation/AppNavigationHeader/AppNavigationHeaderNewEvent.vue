@@ -5,7 +5,7 @@
 
 <template>
 	<NcButton
-		class="button new-event"
+		class="new-event"
 		variant="primary"
 		:aria-label="newEventButtonAriaLabel"
 		@click="newEvent">
@@ -54,10 +54,3 @@ export default {
 	},
 }
 </script>
-
-<style scoped>
-.button.primary.new-event {
-	display: flex;
-	align-items: center;
-}
-</style>
