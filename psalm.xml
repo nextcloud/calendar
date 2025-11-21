@@ -37,6 +37,9 @@
 				<referencedClass name="OCA\Circles\Api\v1\Circles" />
 				<referencedClass name="OCA\Circles\Exceptions\CircleNotFoundException" />
 				<referencedClass name="OCA\Calendar\Controller\Exception" />
+				<referencedClass name="OCA\DAV\CalDAV\Calendar" />
+				<referencedClass name="OCA\DAV\CalDAV\CalendarHome" />
+				<referencedClass name="OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer" />
 				<referencedClass name="OCA\NotifyPush\Queue\IQueue" />
 				<referencedClass name="Psr\Http\Client\ClientExceptionInterface" />
 				<referencedClass name="Sabre\VObject\Component\VCalendar" />
@@ -65,6 +68,9 @@
 				<referencedClass name="OC\App\CompareVersion" />
 				<referencedClass name="OCA\Calendar\Controller\Exception" />
 				<referencedClass name="OCA\Circles\Api\v1\Circles" />
+				<referencedClass name="OCA\DAV\CalDAV\Calendar" />
+				<referencedClass name="OCA\DAV\CalDAV\CalendarHome" />
+				<referencedClass name="OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer" />
 				<referencedClass name="Symfony\Component\Console\Output\OutputInterface" />
 			</errorLevel>
 		</UndefinedDocblockClass>

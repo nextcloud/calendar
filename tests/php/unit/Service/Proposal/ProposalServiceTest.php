@@ -76,6 +76,8 @@ class ProposalServiceTest extends TestCase {
 		$this->user = $this->createMock(IUser::class);
 
 		$this->user->method('getUID')->willReturn('testuser');
+		$this->user->method('getEMailAddress')->willReturn('test@example.com');
+		$this->user->method('getDisplayName')->willReturn('Test User');
 
 		$this->service = new ProposalService(
 			$this->appConfig,
@@ -278,6 +280,14 @@ class ProposalServiceTest extends TestCase {
 			->with('testuser', 1)
 			->willReturn([]);
 
+		// Mock calendar manager for syncCalendarBlockers
+		$calendar = $this->createMock(\OCP\Calendar\ICreateFromString::class);
+		$calendar->expects($this->any())->method('isDeleted')->willReturn(false);
+		$calendar->expects($this->any())->method('getUri')->willReturn('test-calendar-uri');
+		$calendar->expects($this->any())->method('search')->willReturn([]);
+		$this->calendarManager->expects($this->any())->method('getPrimaryCalendar')->willReturn($calendar);
+		$this->calendarManager->expects($this->any())->method('getCalendarsForPrincipal')->willReturn([$calendar]);
+
 		$result = $this->service->createProposal($this->user, $proposal);
 
 		$this->assertInstanceOf(ProposalObject::class, $result);
@@ -302,7 +312,7 @@ class ProposalServiceTest extends TestCase {
 		$this->proposalMapper->expects($this->exactly(2))
 			->method('fetchById')
 			->with('testuser', 1)
-			->willReturn($currentProposalEntry);
+			->willReturnOnConsecutiveCalls($currentProposalEntry, $mutatedProposalEntry);
 
 		$this->proposalParticipantMapper->expects($this->exactly(2))
 			->method('fetchByProposalId')
@@ -321,6 +331,14 @@ class ProposalServiceTest extends TestCase {
 
 		$this->proposalMapper->expects($this->once())
 			->method('update');
+
+		// Mock calendar manager for syncCalendarBlockers
+		$calendar = $this->createMock(\OCP\Calendar\ICreateFromString::class);
+		$calendar->expects($this->any())->method('isDeleted')->willReturn(false);
+		$calendar->expects($this->any())->method('getUri')->willReturn('test-calendar-uri');
+		$calendar->expects($this->any())->method('search')->willReturn([]);
+		$this->calendarManager->expects($this->any())->method('getPrimaryCalendar')->willReturn($calendar);
+		$this->calendarManager->expects($this->any())->method('getCalendarsForPrincipal')->willReturn([$calendar]);
 
 		$result = $this->service->modifyProposal($this->user, $proposal);
 
@@ -389,6 +407,14 @@ class ProposalServiceTest extends TestCase {
 		$this->proposalMapper->expects($this->once())
 			->method('deleteById')
 			->with('testuser', 1);
+
+		// Mock calendar manager for syncCalendarBlockers
+		$calendar = $this->createMock(\OCP\Calendar\ICreateFromString::class);
+		$calendar->expects($this->any())->method('isDeleted')->willReturn(false);
+		$calendar->expects($this->any())->method('getUri')->willReturn('test-calendar-uri');
+		$calendar->expects($this->any())->method('search')->willReturn([]);
+		$this->calendarManager->expects($this->any())->method('getPrimaryCalendar')->willReturn($calendar);
+		$this->calendarManager->expects($this->any())->method('getCalendarsForPrincipal')->willReturn([$calendar]);
 
 		$this->service->destroyProposal($this->user, 1);
 	}
@@ -617,8 +643,14 @@ class ProposalServiceTest extends TestCase {
 
 		// mock methods
 		// calendar manager
-		$this->calendarManager->method('getPrimaryCalendar')->with('testuser')->willReturn(null);
-		$this->calendarManager->method('getCalendarsForPrincipal')->with('principals/users/testuser')->willReturn([]);
+		$this->calendarManager->expects($this->once())
+			->method('getPrimaryCalendar')
+			->with('testuser')
+			->willReturn(null);
+		$this->calendarManager->expects($this->once())
+			->method('getCalendarsForPrincipal')
+			->with('principals/users/testuser')
+			->willReturn([]);
 
 		// test and assertions
 		$this->expectException(\RuntimeException::class);
