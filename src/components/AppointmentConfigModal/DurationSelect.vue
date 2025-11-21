@@ -63,7 +63,7 @@ export default {
 
 			options.push(...[
 				// Minutes
-				...[5, 10, 15, 30, 45].map((duration) => {
+				...[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map((duration) => {
 					const label = this.n('calendar', '{duration} minute', '{duration} minutes', duration, {
 						duration,
 					})
