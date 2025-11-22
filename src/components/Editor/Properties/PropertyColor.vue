@@ -16,39 +16,38 @@
 			class="property-color__input property-color__input--readonly">
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div class="property-color__color-preview"
-				:style="{'background-color': selectedColor }" />
+				:style="{ 'background-color': selectedColor }" />
 		</div>
 		<div v-else
 			class="property-color__input">
-			<ColorPicker :value="selectedColor"
-				:shown.sync="isColorPickerOpen"
+			<NcColorPicker v-model="selectedColor"
+				:shown.sync="selectorOpen"
 				:advanced-fields="true"
-				@submit="changeColor">
+				@update:modelValue="changeColor">
 				<NcButton class="property-color__color-preview"
-					:style="{'background-color': selectedColor }" />
-			</ColorPicker>
-			<Actions v-if="showColorRevertButton">
-				<ActionButton @click.prevent.stop="deleteColor">
-					<template #icon>
-						<Undo :size="20" decorative />
-					</template>
-					{{ $t('calendar', 'Remove color') }}
-				</ActionButton>
-			</Actions>
+					:style="{ 'background-color': selectedColor }" />
+			</NcColorPicker>
+			<NcButton v-if="!isReadOnly && !!value"
+				variant="tertiary"
+				:arial-label="$t('calendar', 'Remove color')"
+				@click="deleteColor">
+				<template #icon>
+					<Undo :size="20" decorative />
+				</template>
+			</NcButton>
 		</div>
 	</div>
 </template>
 
 <script>
-import PropertyMixin from '../../../mixins/PropertyMixin.js'
 import {
+	NcActionButton as ActionButton,
 	NcActions as Actions,
 	NcButton,
-	NcActionButton as ActionButton,
-	NcColorPicker as ColorPicker,
+	NcColorPicker,
 } from '@nextcloud/vue'
-
 import Undo from 'vue-material-design-icons/Undo.vue'
+import PropertyMixin from '../../../mixins/PropertyMixin.js'
 
 export default {
 	name: 'PropertyColor',
@@ -56,12 +55,14 @@ export default {
 		Actions,
 		ActionButton,
 		NcButton,
-		ColorPicker,
+		NcColorPicker,
 		Undo,
 	},
+
 	mixins: [
 		PropertyMixin,
 	],
+
 	props: {
 		/**
 		 * The color of the calendar
@@ -72,49 +73,44 @@ export default {
 			default: null,
 		},
 	},
+
 	data() {
 		return {
-			isColorPickerOpen: false,
+			selectorOpen: false,
+			selectedColor: null,
 		}
 	},
-	computed: {
-		/**
-		 * The selected color is either custom or
-		 * defaults to the color of the calendar
-		 *
-		 * @return {string}
-		 */
-		selectedColor() {
-			return this.value || this.calendarColor
-		},
-		/**
-		 * Whether or not to show the delete color button
-		 *
-		 * @return {boolean}
-		 */
-		showColorRevertButton() {
-			if (this.isReadOnly) {
-				return false
-			}
 
-			return !!this.value
-		},
+	mounted() {
+		this.defaultColor()
 	},
+
 	methods: {
+
+		/**
+		 * Determines the default color to show
+		 */
+		defaultColor() {
+			this.selectedColor = this.value || this.calendarColor
+		},
+
 		/**
 		 * Changes / Sets the custom color of this event
+		 *
 		 * @param {string} newColor The new Color as HEX
 		 */
 		changeColor(newColor) {
+			this.selectedColor = newColor
 			this.$emit('update:value', newColor)
-			this.isColorPickerOpen = false
 		},
+
 		/**
 		 * Removes the custom color from this event,
 		 * defaulting the color back to the calendar-color
 		 */
 		deleteColor() {
 			this.$emit('update:value', null)
+			this.selectedColor = this.calendarColor
 		},
 	},
 }
