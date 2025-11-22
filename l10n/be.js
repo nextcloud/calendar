@@ -62,6 +62,7 @@ OC.L10N.register(
     "Navigation" : "Навігацыя",
     "Actions" : "Дзеянні",
     "Close editor" : "Закрыць рэдактар",
+    "or" : "або",
     "General" : "Агульныя",
     "Availability settings" : "Налады даступнасці",
     "CalDAV" : "CalDAV",
