@@ -24,23 +24,23 @@
 		<div
 			v-else
 			class="property-color__input">
-			<ColorPicker
-				:value="selectedColor"
-				:shown.sync="isColorPickerOpen"
+			<NcColorPicker
+				v-model="selectedColor"
+				:shown.sync="selectorOpen"
 				:advanced-fields="true"
-				@submit="changeColor">
+				@update:modelValue="changeColor">
 				<NcButton
 					class="property-color__color-preview"
 					:style="{ 'background-color': selectedColor }" />
-			</ColorPicker>
-			<Actions v-if="showColorRevertButton">
-				<ActionButton @click.prevent.stop="deleteColor">
+			</NcColorPicker>
+			<NcButton
+				v-if="!isReadOnly && !!value"
+				:arial-label="$t('calendar', 'Remove color')"
+				@click="deleteColor">
 					<template #icon>
 						<Undo :size="20" decorative />
 					</template>
-					{{ $t('calendar', 'Remove color') }}
-				</ActionButton>
-			</Actions>
+			</NcButton>
 		</div>
 	</div>
 </template>
@@ -49,7 +49,7 @@
 import {
 	NcActionButton as ActionButton,
 	NcActions as Actions,
-	NcColorPicker as ColorPicker,
+	NcColorPicker,
 	NcButton,
 } from '@nextcloud/vue'
 import Undo from 'vue-material-design-icons/Undo.vue'
@@ -61,7 +61,7 @@ export default {
 		Actions,
 		ActionButton,
 		NcButton,
-		ColorPicker,
+		NcColorPicker,
 		Undo,
 	},
 
@@ -82,44 +82,31 @@ export default {
 
 	data() {
 		return {
-			isColorPickerOpen: false,
+			selectorOpen: false,
+			selectedColor: null,
 		}
 	},
 
-	computed: {
-		/**
-		 * The selected color is either custom or
-		 * defaults to the color of the calendar
-		 *
-		 * @return {string}
-		 */
-		selectedColor() {
-			return this.value || this.calendarColor
-		},
-
-		/**
-		 * Whether or not to show the delete color button
-		 *
-		 * @return {boolean}
-		 */
-		showColorRevertButton() {
-			if (this.isReadOnly) {
-				return false
-			}
-
-			return !!this.value
-		},
+	mounted() {
+		this.defaultColor()
 	},
 
 	methods: {
+
+		/**
+		 * Determines the default color to show
+		 */
+		defaultColor() {
+			this.selectedColor = this.value || this.calendarColor
+		},
 		/**
 		 * Changes / Sets the custom color of this event
 		 *
 		 * @param {string} newColor The new Color as HEX
 		 */
 		changeColor(newColor) {
+			this.selectedColor = newColor
 			this.$emit('update:value', newColor)
-			this.isColorPickerOpen = false
 		},
 
 		/**
@@ -128,6 +115,7 @@ export default {
 		 */
 		deleteColor() {
 			this.$emit('update:value', null)
+			this.selectedColor = this.calendarColor
 		},
 	},
 }
