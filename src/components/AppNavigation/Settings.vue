@@ -345,7 +345,10 @@ export default {
 		},
 
 		appleCalDAV() {
-			return new URL(getCurrentUserPrincipal().principalUrl, this.primaryCalDAV)
+			if (!this.currentUserPrincipal) {
+				return ''
+			}
+			return new URL(this.currentUserPrincipal.principalUrl, this.primaryCalDAV).toString()
 		},
 	},
 
