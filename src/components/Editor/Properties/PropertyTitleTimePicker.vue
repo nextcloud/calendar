@@ -94,16 +94,18 @@
 			v-if="isReadOnly"
 			class="property-title-time-picker__time-pickers property-title-time-picker__time-pickers--readonly">
 			<div class="property-title-time-picker-read-only-wrapper property-title-time-picker-read-only-wrapper--start-date">
-				<div class="property-title-time-picker-read-only-wrapper__label">
-					{{ formattedStart }}
-				</div>
-				<IconTimezone
-					v-if="!isAllDay"
-					:title="startTimezone"
-					:class="{ 'highlighted-timezone-icon': highlightTimezones }"
-					:size="20" />
-				<div v-if="highlightTimezones && startTimezone !== 'floating'" class="property-title-time-picker-read-only-wrapper__timezone" :title="startTimezone">
-					{{ startTimezone }}
+				<div class="property-title-time-picker-read-only-wrapper__main-info">
+					<div class="property-title-time-picker-read-only-wrapper__label">
+						{{ formattedStart }}
+					</div>
+					<IconTimezone
+						v-if="!isAllDay"
+						:title="startTimezone"
+						:class="{ 'highlighted-timezone-icon': highlightTimezones }"
+						:size="20" />
+					<div v-if="highlightTimezones && startTimezone !== 'floating'" class="property-title-time-picker-read-only-wrapper__timezone" :title="startTimezone">
+						{{ startTimezone }}
+					</div>
 				</div>
 				<div v-if="subtitleStart" class="property-title-time-picker-read-only-wrapper__subtitle">
 					{{ subtitleStart }} {{ t('calendar', 'Your Time') }}
@@ -111,16 +113,18 @@
 			</div>
 			<template v-if="!isAllDayOneDayEvent">
 				<div class="property-title-time-picker-read-only-wrapper property-title-time-picker-read-only-wrapper--end-date">
-					<div class="property-title-time-picker-read-only-wrapper__label">
-						{{ formattedEnd }}
-					</div>
-					<IconTimezone
-						v-if="!isAllDay"
-						:title="endTimezone"
-						:class="{ 'highlighted-timezone-icon': highlightTimezones }"
-						:size="20" />
-					<div v-if="highlightTimezones && endTimezone !== 'floating'" class="property-title-time-picker-read-only-wrapper__timezone" :title="endTimezone">
-						{{ endTimezone }}
+					<div class="property-title-time-picker-read-only-wrapper__main-info">
+						<div class="property-title-time-picker-read-only-wrapper__label">
+							{{ formattedEnd }}
+						</div>
+						<IconTimezone
+							v-if="!isAllDay"
+							:title="endTimezone"
+							:class="{ 'highlighted-timezone-icon': highlightTimezones }"
+							:size="20" />
+						<div v-if="highlightTimezones && endTimezone !== 'floating'" class="property-title-time-picker-read-only-wrapper__timezone" :title="endTimezone">
+							{{ endTimezone }}
+						</div>
 					</div>
 					<div v-if="subtitleEnd" class="property-title-time-picker-read-only-wrapper__subtitle">
 						{{ subtitleEnd }} {{ t('calendar', 'Your Time') }}
@@ -615,6 +619,7 @@ export default {
 
 	.property-title-time-picker-read-only-wrapper {
 		display: flex;
+		flex-direction: column;
 		gap: calc(var(--default-grid-baseline) * 2);
 		max-width: calc(var(--sidebar-max-width) - var(--default-clickable-area) - var(--default-grid-baseline));
 
@@ -636,7 +641,19 @@ export default {
 	}
 }
 
+.property-title-time-picker-read-only-wrapper__main-info {
+	display: flex;
+	gap: calc(var(--default-grid-baseline) * 2);
+}
+
 .property-title-time-picker-read-only-wrapper__subtitle {
     opacity: 0.8;
 }
+
+.app-full {
+	.property-title-time-picker--readonly {
+		margin-inline-start: calc(var(--default-grid-baseline) * 9);
+	}
+}
+
 </style>
