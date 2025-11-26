@@ -56,6 +56,8 @@ function getDefaultCalendarObject(props = {}) {
 		fetchedTimeRanges: [],
 		// Scheduling transparency
 		transparency: 'opaque',
+		// Shared option to only show free/busy
+		onlyAvailability: false,
 		...props,
 	}
 }
@@ -130,6 +132,8 @@ function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 		}
 	}
 
+	const onlyAvailability = false
+
 	return getDefaultCalendarObject({
 		id,
 		displayName,
@@ -149,6 +153,7 @@ function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 		shares,
 		timezone,
 		transparency,
+		onlyAvailability,
 		dav: calendar,
 	})
 }
