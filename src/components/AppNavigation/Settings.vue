@@ -142,7 +142,6 @@ import {
 	IMPORT_STAGE_IMPORTING,
 	IMPORT_STAGE_PROCESSING,
 } from '../../models/consts.js'
-import { getCurrentUserPrincipal } from '../../services/caldavService.js'
 import useCalendarsStore from '../../store/calendars.js'
 import useImportFilesStore from '../../store/importFiles.js'
 import usePrincipalsStore from '../../store/principals.js'
@@ -329,7 +328,10 @@ export default {
 		},
 
 		appleCalDAV() {
-			return new URL(getCurrentUserPrincipal().principalUrl, this.primaryCalDAV)
+			if (!this.currentUserPrincipal) {
+				return ''
+			}
+			return new URL(this.currentUserPrincipal.principalUrl, this.primaryCalDAV).toString()
 		},
 	},
 
