@@ -104,12 +104,10 @@
 </template>
 
 <script>
-import {
-	NcAvatar as Avatar,
-	NcButton,
-	NcLoadingIcon,
-	NcNoteCard,
-} from '@nextcloud/vue'
+import Avatar from '@nextcloud/vue/components/NcAvatar'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
+import NcNoteCard from '@nextcloud/vue/components/NcNoteCard'
 import IconBack from 'vue-material-design-icons/ArrowLeft.vue'
 import IconCalendar from 'vue-material-design-icons/CalendarOutline.vue'
 import IconCheck from 'vue-material-design-icons/CheckOutline.vue'
