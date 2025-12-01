@@ -155,7 +155,8 @@
 								@update:modelValue="toggleAllDayPreliminary">
 								{{ $t('calendar', 'All day') }}
 							</NcCheckboxRadioSwitch>
-						</div>						<PropertyText
+						</div>
+						<PropertyText
 							:is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
 							:prop-model="rfcProps.location"
 							:value="location"
@@ -317,12 +318,13 @@ export default {
 			cancelButtons: [
 				{
 					label: t('calendar', 'Discard event'),
+					variant: 'secondary',
 					icon: atob(IconDelete.split(',')[1]),
 					callback: () => { this.cancel(true) },
 				},
 				{
 					label: t('calendar', 'Cancel'),
-					type: 'primary',
+					variant: 'primary',
 					icon: atob(IconCancel.split(',')[1]),
 					callback: () => { this.showCancelDialog = false },
 				},

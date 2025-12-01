@@ -434,12 +434,13 @@ export default {
 			cancelButtons: [
 				{
 					label: t('calendar', 'Discard event'),
+					variant: 'secondary',
 					icon: atob(IconDelete.split(',')[1]),
 					callback: () => { this.cancel(true) },
 				},
 				{
 					label: t('calendar', 'Cancel'),
-					type: 'primary',
+					variant: 'primary',
 					icon: atob(IconCancel.split(',')[1]),
 					callback: () => { this.showCancelDialog = false },
 				},
