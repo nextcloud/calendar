@@ -511,7 +511,7 @@ class ProposalService {
 		}
 		// duration
 		if ($proposal->getDuration() > 0) {
-			$template->addBodyListItem((string)$proposal->getDuration() . ' minutes', $this->l10n->t('Duration:'));
+			$template->addBodyListItem($this->l10n->t('%1$s minutes', [(string)$proposal->getDuration()]), $this->l10n->t('Duration:'));
 		}
 		// dates
 		$temporaryText = '';
@@ -648,7 +648,7 @@ class ProposalService {
 		$vEvent->add('DTSTART', $firstProposalDate);
 		$vEvent->add('DURATION', "PT{$proposal->getDuration()}M");
 		$vEvent->add('RDATE', $proposalDates);
-		$vEvent->add('SUMMARY', $this->l10n->t('[Proposed] ') . $proposal->getTitle());
+		$vEvent->add('SUMMARY', $this->l10n->t('[Proposed] %1$s', [$proposal->getTitle()]));
 		if (!empty($proposal->getDescription())) {
 			$vEvent->add('DESCRIPTION', $proposal->getDescription());
 		}
