@@ -340,7 +340,7 @@ export default {
 		window.addEventListener('resize', this.updateWindowWidth)
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		window.removeEventListener('resize', this.updateWindowWidth)
 	},
 

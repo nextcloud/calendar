@@ -28,7 +28,7 @@
 				v-model="selectedColor"
 				v-model:shown="selectorOpen"
 				:advanced-fields="true"
-				@update:modelValue="changeColor">
+				@update:model-value="changeColor">
 				<NcButton
 					class="property-color__color-preview"
 					:style="{ 'background-color': selectedColor }" />

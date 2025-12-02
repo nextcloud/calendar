@@ -152,7 +152,7 @@
 							<NcCheckboxRadioSwitch
 								:model-value="isAllDay"
 								:disabled="isViewedByOrganizer === false || isReadOnlyOrViewing || !canModifyAllDay"
-								@update:modelValue="toggleAllDayPreliminary">
+								@update:model-value="toggleAllDayPreliminary">
 								{{ $t('calendar', 'All day') }}
 							</NcCheckboxRadioSwitch>
 						</div>
@@ -489,7 +489,7 @@ export default {
 		this.ensureElInDom()
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		window.removeEventListener('keydown', this.keyboardCloseEditor)
 		window.removeEventListener('keydown', this.keyboardSaveEvent)
 		window.removeEventListener('keydown', this.keyboardDeleteEvent)

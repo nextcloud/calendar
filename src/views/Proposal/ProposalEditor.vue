@@ -88,7 +88,7 @@
 								class="proposal-editor__proposal-location-selector"
 								variant="secondary"
 								:model-value="modalEditLocationState"
-								@update:modelValue="onProposalLocationTypeToggle">
+								@update:model-value="onProposalLocationTypeToggle">
 								{{ t('calendar', 'Add Talk conversation') }}
 							</NcCheckboxRadioSwitch>
 						</div>
@@ -106,7 +106,7 @@
 								class="proposal-editor__proposal-duration-helpers"
 								:label="t('calendar', 'Duration suggestions')"
 								hide-label
-								@update:modelValue="onProposalDurationSuggestionChange">
+								@update:model-value="onProposalDurationSuggestionChange">
 								<NcRadioGroupButton
 									v-for="duration in [15, 30, 60, 90]"
 									:key="duration"
@@ -510,7 +510,7 @@ export default {
 		this.calendarSpanDays = this.calendarDateSpan
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		window.removeEventListener('resize', this.onWindowResize)
 	},
 
