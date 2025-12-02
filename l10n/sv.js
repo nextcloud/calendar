@@ -52,7 +52,6 @@ OC.L10N.register(
     "%1$s from %2$s to %3$s" : "%1$s från %2$s till %3$s",
     "Dates:" : "Datum:",
     "Respond" : "Svara",
-    "[Proposed] " : "[Föreslagen]",
     "A Calendar app for Nextcloud" : "En kalender-app för Nextcloud",
     "Previous day" : "Föregående dag",
     "Previous week" : "Föregående vecka",
