@@ -117,7 +117,7 @@
 								v-if="!isReadOnly && !isViewedByAttendee"
 								:model-value="isAllDay"
 								:disabled="!canModifyAllDay"
-								@update:modelValue="toggleAllDayPreliminary">
+								@update:model-value="toggleAllDayPreliminary">
 								{{ $t('calendar', 'All day') }}
 							</NcCheckboxRadioSwitch>
 
@@ -525,7 +525,7 @@ export default {
 		window.addEventListener('keydown', this.keyboardDuplicateEvent)
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		window.removeEventListener('keydown', this.keyboardCloseEditor)
 		window.removeEventListener('keydown', this.keyboardSaveEvent)
 		window.removeEventListener('keydown', this.keyboardDeleteEvent)

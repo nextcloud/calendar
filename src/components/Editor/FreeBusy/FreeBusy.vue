@@ -24,7 +24,7 @@
 							label="displayStart"
 							:label-outside="true"
 							:model-value="selectedSlot"
-							@update:modelValue="setSlotSuggestion">
+							@update:model-value="setSlotSuggestion">
 							<template #selected-option="{}">
 								{{ $t('calendar', 'Suggestion accepted') }}
 							</template>
@@ -197,7 +197,7 @@
 								:model-value="selectedSlot"
 								:loading="loadingIndicator"
 								:disabled="loadingIndicator"
-								@update:modelValue="setSlotSuggestion">
+								@update:model-value="setSlotSuggestion">
 								<template #selected-option="{}">
 									{{ $t('calendar', 'Suggestion accepted') }}
 								</template>

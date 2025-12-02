@@ -50,25 +50,25 @@
 						<NcFormBoxSwitch
 							v-model="hasBirthdayCalendarBinding"
 							:disabled="isBirthdayCalendarDisabled"
-							@update:modelValue="toggleBirthdayEnabled">
+							@update:model-value="toggleBirthdayEnabled">
 							{{ $t('calendar', 'Birthday calendar') }}
 						</NcFormBoxSwitch>
 						<NcFormBoxSwitch
 							v-model="showTasksBinding"
 							:disabled="savingTasks"
-							@update:modelValue="toggleTasksEnabled">
+							@update:model-value="toggleTasksEnabled">
 							{{ $t('calendar', 'Tasks in calendar') }}
 						</NcFormBoxSwitch>
 						<NcFormBoxSwitch
 							v-model="showWeekendsBinding"
 							:disabled="savingWeekend"
-							@update:modelValue="toggleWeekendsEnabled">
+							@update:model-value="toggleWeekendsEnabled">
 							{{ $t('calendar', 'Weekends') }}
 						</NcFormBoxSwitch>
 						<NcFormBoxSwitch
 							v-model="showWeekNumbersBinding"
 							:disabled="savingWeekNumber"
-							@update:modelValue="toggleWeekNumberEnabled">
+							@update:model-value="toggleWeekNumberEnabled">
 							{{ $t('calendar', 'Week numbers') }}
 						</NcFormBoxSwitch>
 					</NcFormBox>
@@ -77,7 +77,7 @@
 						<NcFormBoxSwitch
 							v-model="eventLimitBinding"
 							:disabled="savingEventLimit"
-							@update:modelValue="toggleEventLimitEnabled">
+							@update:model-value="toggleEventLimitEnabled">
 							{{ $t('calendar', 'Limit number of events shown in Month view') }}
 						</NcFormBoxSwitch>
 					</NcFormBox>
@@ -109,7 +109,7 @@
 							v-model="simpleEventEditorBinding"
 							:disabled="savingPopover"
 							:label="t('calendar', 'Simple event editor')"
-							@update:modelValue="togglePopoverEnabled">
+							@update:model-value="togglePopoverEnabled">
 							<template #description>
 								{{ $t('calendar', '"More details" opens the detailed editor') }}
 							</template>
