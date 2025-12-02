@@ -62,7 +62,7 @@
 									:name="'vote-' + date.id"
 									:value="ProposalDateVote.Yes"
 									:model-value="dateVoteValue(date)"
-									@update:modelValue="$emit('date-vote', { date: date, vote: ProposalDateVote.Yes })">
+									@update:model-value="$emit('date-vote', { date: date, vote: ProposalDateVote.Yes })">
 									<div class="vote-option">
 										<VoteYesIcon />
 										{{ t('calendar', 'Yes') }}
@@ -75,7 +75,7 @@
 									:name="'vote-' + date.id"
 									:value="ProposalDateVote.No"
 									:model-value="dateVoteValue(date)"
-									@update:modelValue="$emit('date-vote', { date: date, vote: ProposalDateVote.No })">
+									@update:model-value="$emit('date-vote', { date: date, vote: ProposalDateVote.No })">
 									<div class="vote-option">
 										<VoteNoIcon />
 										{{ t('calendar', 'No') }}
@@ -88,7 +88,7 @@
 									:name="'vote-' + date.id"
 									:value="ProposalDateVote.Maybe"
 									:model-value="dateVoteValue(date)"
-									@update:modelValue="$emit('date-vote', { date: date, vote: ProposalDateVote.Maybe })">
+									@update:model-value="$emit('date-vote', { date: date, vote: ProposalDateVote.Maybe })">
 									<div class="vote-option">
 										<VoteMaybeIcon />
 										{{ t('calendar', 'Maybe') }}

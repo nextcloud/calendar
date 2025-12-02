@@ -15,7 +15,7 @@
 		:filter-by="selectFilterBy"
 		:input-label="inputLabel"
 		:label-outside="inputLabel === ''"
-		@update:modelValue="handleSelectionUpdate">
+		@update:model-value="handleSelectionUpdate">
 		<template #option="{ id }">
 			<CalendarPickerOption
 				:color="getCalendarById(id).color"

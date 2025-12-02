@@ -99,7 +99,7 @@ import { bookSlot, findSlots } from '../../services/appointmentService.js'
 
 import '@nextcloud/dialogs/style.css'
 
-const Loading = (props) => {
+function Loading(props) {
 	return h(MDILoading, {
 		class: 'animation-rotate',
 		...props,

@@ -51,7 +51,7 @@
 				<ActionCheckbox
 					v-if="!members.length"
 					:model-value="attendee.rsvp"
-					@update:modelValue="toggleRSVP">
+					@update:model-value="toggleRSVP">
 					{{ $t('calendar', 'Request reply') }}
 				</ActionCheckbox>
 
@@ -60,7 +60,7 @@
 					:name="radioName"
 					value="CHAIR"
 					:model-value="attendee.role"
-					@update:modelValue="changeRole">
+					@update:model-value="changeRole">
 					{{ $t('calendar', 'Chairperson') }}
 				</ActionRadio>
 				<ActionRadio
@@ -68,7 +68,7 @@
 					:name="radioName"
 					value="REQ-PARTICIPANT"
 					:model-value="attendee.role"
-					@update:modelValue="changeRole">
+					@update:model-value="changeRole">
 					{{ $t('calendar', 'Required participant') }}
 				</ActionRadio>
 				<ActionRadio
@@ -76,7 +76,7 @@
 					:name="radioName"
 					value="OPT-PARTICIPANT"
 					:model-value="attendee.role"
-					@update:modelValue="changeRole">
+					@update:model-value="changeRole">
 					{{ $t('calendar', 'Optional participant') }}
 				</ActionRadio>
 				<ActionRadio
@@ -84,7 +84,7 @@
 					:name="radioName"
 					value="NON-PARTICIPANT"
 					:model-value="attendee.role"
-					@update:modelValue="changeRole">
+					@update:model-value="changeRole">
 					{{ $t('calendar', 'Non-participant') }}
 				</ActionRadio>
 

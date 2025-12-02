@@ -9,7 +9,7 @@
 		:aria-description="descriptionAppNavigationItem"
 		:name="calendarDisplayName || $t('calendar', 'Untitled calendar')"
 		:class="{ deleted: isBeingDeleted, disabled: !calendar.enabled }"
-		@update:menuOpen="actionsMenuOpen = $event"
+		@update:menu-open="actionsMenuOpen = $event"
 		@click.prevent.stop="toggleEnabled">
 		<template #icon>
 			<CheckboxMarked

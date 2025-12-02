@@ -23,7 +23,7 @@
 		confirm
 		class="date-time-picker"
 		@close="close"
-		@update:modelValue="change"
+		@update:model-value="change"
 		@pick="pickDate">
 		<template #icon-calendar>
 			<IconNewCalendar v-if="isAllDay" :size="20" class="date-time-picker__icon" />
@@ -50,7 +50,7 @@
 					<TimezonePicker
 						class="timezone-popover-wrapper__timezone-select"
 						:model-value="timezoneId"
-						@update:modelValue="changeTimezone" />
+						@update:model-value="changeTimezone" />
 				</template>
 			</NcPopover>
 		</template>

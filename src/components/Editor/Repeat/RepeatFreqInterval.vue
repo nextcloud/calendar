@@ -61,6 +61,7 @@ export default {
 			get() {
 				return this.interval
 			},
+
 			set(value) {
 				const minimumValue = parseInt(this.$el?.querySelector('input')?.min || '1', 10)
 				const maximumValue = parseInt(this.$el?.querySelector('input')?.max || '366', 10)
@@ -69,7 +70,7 @@ export default {
 				if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
 					this.$emit('change-interval', selectedValue)
 				}
-			}
+			},
 		},
 	},
 

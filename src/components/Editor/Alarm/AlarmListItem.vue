@@ -76,7 +76,7 @@
 					:name="alarmTypeName"
 					value="DISPLAY"
 					:model-value="alarmType"
-					@update:modelValue="changeType('DISPLAY')">
+					@update:model-value="changeType('DISPLAY')">
 					{{ $t('calendar', 'Notification') }}
 				</ActionRadio>
 				<ActionRadio
@@ -84,7 +84,7 @@
 					:name="alarmTypeName"
 					value="EMAIL"
 					:model-value="alarmType"
-					@update:modelValue="changeType('EMAIL')">
+					@update:model-value="changeType('EMAIL')">
 					{{ $t('calendar', 'Email') }}
 				</ActionRadio>
 				<ActionRadio
@@ -92,7 +92,7 @@
 					:name="alarmTypeName"
 					value="AUDIO"
 					:model-value="alarmType"
-					@update:modelValue="changeType('AUDIO')">
+					@update:model-value="changeType('AUDIO')">
 					{{ $t('calendar', 'Audio notification') }}
 				</ActionRadio>
 				<ActionRadio
@@ -100,7 +100,7 @@
 					:name="alarmTypeName"
 					:value="isAlarmTypeOther ?? alarmType"
 					:model-value="alarmType"
-					@update:modelValue="changeType(alarmType)">
+					@update:model-value="changeType(alarmType)">
 					{{ $t('calendar', 'Other notification') }}
 				</ActionRadio>
 
@@ -111,7 +111,7 @@
 					:name="alarmTriggerName"
 					value="RELATIVE"
 					:model-value="alarmRelationType"
-					@update:modelValue="switchToRelativeAlarm">
+					@update:model-value="switchToRelativeAlarm">
 					{{ $t('calendar', 'Relative to event') }}
 				</ActionRadio>
 				<ActionRadio
@@ -119,7 +119,7 @@
 					:name="alarmTriggerName"
 					value="ABSOLUTE"
 					:model-value="alarmRelationType"
-					@update:modelValue="switchToAbsoluteAlarm">
+					@update:model-value="switchToAbsoluteAlarm">
 					{{ $t('calendar', 'On date') }}
 				</ActionRadio>
 
