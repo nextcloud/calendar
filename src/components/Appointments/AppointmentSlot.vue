@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { NcButton } from '@nextcloud/vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import { timeStampToLocaleTime } from '../../utils/localeTime.js'
 
 export default {
