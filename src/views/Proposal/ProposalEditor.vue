@@ -421,8 +421,6 @@ export default {
 					this.initializeCalendar()
 					if (!this.calendarApi) return
 					this.fetchParticipantAvailability()
-					// Force reactivity update for the date range display
-					this.$forceUpdate()
 				},
 			}
 		},
@@ -480,9 +478,14 @@ export default {
 			}
 		},
 
-		calendarSpanDays(newVal) {
+		calendarSpanDays(newVal, oldVal) {
+			// Prevent unnecessary updates when value hasn't actually changed
+			if (newVal === oldVal) {
+				return
+			}
 			if (!this.calendarApi) {
-				return console.error('Calendar API not initialized')
+				console.warn('Calendar API not initialized yet')
+				return
 			}
 			this.calendarApi.setOption('views', {
 				timeGridSpan: {
