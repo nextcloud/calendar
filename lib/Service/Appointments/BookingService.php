@@ -107,15 +107,7 @@ class BookingService {
 			)
 		);
 
-		$calendar = $this->calendarWriter->write(
-			$config,
-			$startObj,
-			$booking->getDisplayName(),
-			$booking->getEmail(),
-			$booking->getTimezone(),
-			$booking->getDescription(),
-			$config->getCreateTalkRoom() ? $booking->getTalkUrl() : $config->getLocation(),
-		);
+		$calendar = $this->calendarWriter->write($config, $booking);
 		$booking->setConfirmed(true);
 		$this->bookingMapper->update($booking);
 

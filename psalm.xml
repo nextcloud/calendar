@@ -63,6 +63,7 @@
 				<referencedClass name="Doctrine\DBAL\Schema\SchemaException" />
 				<referencedClass name="Doctrine\DBAL\Schema\Table" />
 				<referencedClass name="OC\Security\CSP\ContentSecurityPolicyNonceManager" />
+				<referencedClass name="Sabre\VObject\Component\VAlarm" />
 				<referencedClass name="Sabre\VObject\Component\VEvent" />
 				<referencedClass name="Sabre\VObject\Component\VTimezone" />
 				<referencedClass name="OC\App\CompareVersion" />
