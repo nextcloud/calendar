@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "80f37e422246e1448b83f967586f3e5c",
+    "content-hash": "564be7f2abf53213768eeff81f25f50e",
     "packages": [],
     "packages-dev": [
         {
             "name": "christophwurst/nextcloud_testing",
-            "version": "v1.0.1",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ChristophWurst/nextcloud_testing.git",
-                "reference": "dcd62d7ea496891f88e6aa9709b15b1d8a774216"
+                "reference": "4959d073dd44cb23a014ab6da6f39639316b4fc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_testing/zipball/dcd62d7ea496891f88e6aa9709b15b1d8a774216",
-                "reference": "dcd62d7ea496891f88e6aa9709b15b1d8a774216",
+                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_testing/zipball/4959d073dd44cb23a014ab6da6f39639316b4fc4",
+                "reference": "4959d073dd44cb23a014ab6da6f39639316b4fc4",
                 "shasum": ""
             },
             "require": {
@@ -45,9 +45,9 @@
             "description": "Simple and fast unit and integration testing framework for Nextcloud, based on PHPUnit",
             "support": {
                 "issues": "https://github.com/ChristophWurst/nextcloud_testing/issues",
-                "source": "https://github.com/ChristophWurst/nextcloud_testing/tree/v1.0.1"
+                "source": "https://github.com/ChristophWurst/nextcloud_testing/tree/v1.0.4"
             },
-            "time": "2025-05-23T11:40:46+00:00"
+            "time": "2025-11-27T08:00:34+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -2002,5 +2002,5 @@
     "platform-overrides": {
         "php": "8.1"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }
