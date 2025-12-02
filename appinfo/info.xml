@@ -23,7 +23,7 @@
 * 📎 **Attachments!** Add, upload and view event attachments
 * 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
 	]]></description>
-	<version>6.1.0-dev.0</version>
+	<version>6.2.0-dev.0</version>
 	<licence>agpl</licence>
 	<author homepage="https://github.com/GVodyanov">Grigory Vodyanov</author>
 	<author homepage="https://github.com/SebastianKrupinski">Sebastian Krupinski </author>
