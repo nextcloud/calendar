@@ -8,6 +8,7 @@
 		<NcModal
 			v-if="modalVisible"
 			class="proposal-modal__content"
+			:name="modalTitle"
 			:title="modalTitle"
 			:size="modalSize"
 			@close="onModalClose()">
@@ -52,7 +53,7 @@
 					</div>
 				</div>
 				<!-- Responses Matrix Row -->
-				<div class="proposal-viewer__content-matrix">
+				<div v-if="selectedProposal" class="proposal-viewer__content-matrix">
 					<ProposalResponseMatrix
 						mode="organizer"
 						:proposal="selectedProposal"
