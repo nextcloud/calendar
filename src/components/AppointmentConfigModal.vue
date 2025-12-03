@@ -4,7 +4,7 @@
 -->
 
 <template>
-	<Modal
+	<NcModal
 		size="large"
 		:name="formTitle"
 		@close="$emit('close')">
@@ -151,12 +151,12 @@
 				</NcButton>
 			</template>
 		</div>
-	</Modal>
+	</NcModal>
 </template>
 
 <script>
 import { CalendarAvailability } from '@nextcloud/calendar-availability-vue'
-import { NcModal as Modal, NcButton, NcCheckboxRadioSwitch, NcNoteCard } from '@nextcloud/vue'
+import { NcModal, NcButton, NcCheckboxRadioSwitch, NcNoteCard } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import CheckedDurationSelect from './AppointmentConfigModal/CheckedDurationSelect.vue'
 import Confirmation from './AppointmentConfigModal/Confirmation.vue'
@@ -180,7 +180,7 @@ export default {
 		CheckedDurationSelect,
 		CalendarPicker,
 		DurationInput,
-		Modal,
+		NcModal,
 		NumberInput,
 		TextInput,
 		TextArea,
