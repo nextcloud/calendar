@@ -5,6 +5,6 @@
         }
     },
     "require-dev": {
-        "vimeo/psalm": "^6.13.1"
+        "vimeo/psalm": "^7.0.0-beta11"
     }
 }
