@@ -5,24 +5,23 @@
 
 <template>
 	<div class="duration-input">
-		<label :for="id">{{ label }}</label>
-		<div class="input">
-			<input
-				:id="id"
-				v-model="internalValue"
-				type="text"
-				@input="change"
-				@focus="focus"
-				@blur="updateInternalValue">
-		</div>
+		<NcTextField
+			v-model="internalValue"
+			:label="label"
+			@update:model-value="change"
+			@focus="focus"
+			@blur="updateInternalValue" />
 	</div>
 </template>
 
 <script>
-import { randomId } from '../../utils/randomId.js'
+import { NcTextField } from '@nextcloud/vue'
 
 export default {
 	name: 'DurationInput',
+	components: {
+		NcTextField,
+	},
 	props: {
 		label: {
 			type: String,
@@ -37,7 +36,6 @@ export default {
 
 	data() {
 		return {
-			id: randomId(),
 			internalValue: '',
 		}
 	},

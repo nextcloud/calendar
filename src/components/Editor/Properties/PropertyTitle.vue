@@ -8,14 +8,13 @@
 		<div
 			class="property-title__input"
 			:class="{ 'property-title__input--readonly': isReadOnly }">
-			<input
+			<NcTextField
 				v-if="!isReadOnly"
 				v-focus
-				type="text"
-				autocomplete="off"
-				:placeholder="t('calendar', 'Event title')"
-				:value="value"
-				@input.prevent.stop="changeValue">
+				:placeholder="t('calendar', 'Title')"
+				:label-outside="true"
+				:model-value="value"
+				@update:model-value="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else :class="{ 'property-title__input__rtl': isRTL }">{{ value }}</div>
 		</div>
@@ -23,11 +22,17 @@
 </template>
 
 <script>
-import { getLanguage, isRTL } from '@nextcloud/l10n'
+import { getLanguage, isRTL, t } from '@nextcloud/l10n'
+import { NcTextField } from '@nextcloud/vue'
 import focus from '../../../directives/focus.js'
 
 export default {
 	name: 'PropertyTitle',
+	
+	components: {
+		NcTextField,
+	},
+
 	directives: {
 		focus,
 	},
@@ -51,8 +56,9 @@ export default {
 	},
 
 	methods: {
-		changeValue(event) {
-			this.$emit('update:value', event.target.value)
+		t,
+		changeValue(value) {
+			this.$emit('update:value', value)
 		},
 	},
 }

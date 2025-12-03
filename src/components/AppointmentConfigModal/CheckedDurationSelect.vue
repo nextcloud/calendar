@@ -6,14 +6,11 @@
 <template>
 	<div class="checked-duration-select">
 		<div class="checked-duration-select__checkbox-row">
-			<div class="checked-duration-select__checkbox-row__input-wrapper">
-				<input
-					:id="id"
-					:checked="enabled"
-					type="checkbox"
-					@input="$emit('update:enabled', $event.target.checked)">
-			</div>
-			<label :for="id">{{ label }}</label>
+			<NcCheckboxRadioSwitch
+				:checked="enabled"
+				@update:checked="$emit('update:enabled', $event)">
+				{{ label }}
+			</NcCheckboxRadioSwitch>
 		</div>
 		<DurationSelect
 			v-model="durationSelection"
@@ -26,13 +23,14 @@
 </template>
 
 <script>
+import { NcCheckboxRadioSwitch } from '@nextcloud/vue'
 import DurationSelect from './DurationSelect.vue'
-import { randomId } from '../../utils/randomId.js'
 
 export default {
 	name: 'CheckedDurationSelect',
 	components: {
 		DurationSelect,
+		NcCheckboxRadioSwitch,
 	},
 
 	props: {
@@ -65,12 +63,6 @@ export default {
 			type: [Number, null, undefined],
 			default: 60 * 60,
 		},
-	},
-
-	data() {
-		return {
-			id: randomId(),
-		}
 	},
 
 	computed: {

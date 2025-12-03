@@ -10,6 +10,7 @@
 		:options="options"
 		:disabled="disabled"
 		:clearable="false"
+		:label-outside="true"
 		input-id="unit"
 		label="label" />
 </template>
