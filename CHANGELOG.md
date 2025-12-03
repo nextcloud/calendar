@@ -1,3 +1,26 @@
+## [6.1.1](https://github.com/nextcloud/calendar/compare/v6.1.0...v6.1.1) (2025-12-03)
+
+
+### Bug Fixes
+
+* event color picker ([4a480d6](https://github.com/nextcloud/calendar/commit/4a480d638c0e27406b0ba4df7f4d5ab965d53ee3))
+* improve confidentiality wording when sharing calendars/events ([c8abd59](https://github.com/nextcloud/calendar/commit/c8abd598251f3aebf4b3d49d8ad9970d6b2185f1))
+* improve translations ([605e83a](https://github.com/nextcloud/calendar/commit/605e83a0887241c609a9ba85ac179ead00ec6fef))
+* **l10n:** Update translations from Transifex ([4fe62ec](https://github.com/nextcloud/calendar/commit/4fe62ec1b379d6ed41fcceb58b8fa328b04315c1))
+* **l10n:** Update translations from Transifex ([15ed259](https://github.com/nextcloud/calendar/commit/15ed259e9c6c899032b44077d2c8864753be0503))
+* **l10n:** Update translations from Transifex ([5d0c18d](https://github.com/nextcloud/calendar/commit/5d0c18db0e415b23b671778d73487a85615ef3ed))
+* **l10n:** Update translations from Transifex ([51eeea2](https://github.com/nextcloud/calendar/commit/51eeea2f878e0d028f3b502c665e0e4b2372a2d9))
+* **l10n:** Update translations from Transifex ([c34b515](https://github.com/nextcloud/calendar/commit/c34b515d0b7f6227289d95bbf245ba86c14f760d))
+* **l10n:** Update translations from Transifex ([1c39dfa](https://github.com/nextcloud/calendar/commit/1c39dfa27260b534abb23c925b3837171fb119d8))
+* **l10n:** Update translations from Transifex ([047b271](https://github.com/nextcloud/calendar/commit/047b2717731ae795108c962ba172a86d0db18ae3))
+* **l10n:** Update translations from Transifex ([1168972](https://github.com/nextcloud/calendar/commit/11689729caf858c755d9dfd81f2afc909d1fb462))
+* **l10n:** Update translations from Transifex ([070fead](https://github.com/nextcloud/calendar/commit/070feadb60dd63b4a9727370989cbd400ea451e5))
+* meeting proposal calendar blockers ([74d3f84](https://github.com/nextcloud/calendar/commit/74d3f84f186240c3894f76b468d887ff93a3e68e))
+* meeting proposal freeze and error ([4822db4](https://github.com/nextcloud/calendar/commit/4822db4f7dae8e670a310bdb78d6f4b962c9d1c9))
+* settings getCurrentUserPrincipal error ([b3c67fa](https://github.com/nextcloud/calendar/commit/b3c67fa3661d6758c24a42dcd8a0a6ad10e12250))
+
+
+
 # [6.1.0](https://github.com/nextcloud/calendar/compare/v6.0.4...v6.1.0) (2025-11-18)
 
 
