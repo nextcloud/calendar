@@ -16,16 +16,13 @@
 			</p>
 		</div>
 
-		<template v-if="canBeSharedWritable">
-			<input
-				:id="`${id}-can-edit`"
-				:disabled="updatingSharee"
-				:checked="sharee.writeable"
-				type="checkbox"
-				class="checkbox"
-				@change="updatePermission">
-			<label :for="`${id}-can-edit`">{{ $t('calendar', 'can edit and see confidential events') }}</label>
-		</template>
+		<NcCheckboxRadioSwitch
+			v-if="canBeSharedWritable"
+			:disabled="updatingSharee"
+			v-model="sharee.writeable"
+			@update:checked="updatePermission">
+			{{ $t('calendar', 'can edit and see confidential events') }}
+		</NcCheckboxRadioSwitch>
 
 		<NcActions>
 			<NcActionButton
@@ -44,7 +41,7 @@
 import {
 	showInfo,
 } from '@nextcloud/dialogs'
-import { NcActionButton, NcActions, NcAvatar } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcAvatar, NcCheckboxRadioSwitch } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroupOutline.vue'
 import AccountMultiple from 'vue-material-design-icons/AccountMultipleOutline.vue'
@@ -59,6 +56,7 @@ export default {
 		NcActions,
 		NcActionButton,
 		NcAvatar,
+		NcCheckboxRadioSwitch,
 		AccountGroupIcon,
 		AccountMultiple,
 		Delete,
