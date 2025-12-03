@@ -14,12 +14,12 @@
 		<div
 			v-if="isEditing && isRelativeAlarm && !isAllDay"
 			class="property-alarm-item__edit property-alarm-item__edit--timed">
-			<input
+			<NcTextField
 				type="number"
-				min="0"
-				max="3600"
-				:value="alarm.relativeAmountTimed"
-				@input="changeRelativeAmountTimed">
+				:label="$t('calendar', 'Amount')"
+				:label-outside="true"
+				:model-value="String(alarm.relativeAmountTimed)"
+				@update:model-value="changeRelativeAmountTimed" />
 			<AlarmTimeUnitSelect
 				:is-all-day="isAllDay"
 				:count="alarm.relativeAmountTimed"
@@ -31,12 +31,12 @@
 			v-if="isEditing && isRelativeAlarm && isAllDay"
 			class="property-alarm-item__edit property-alarm-item__edit--all-day">
 			<div class="property-alarm-item__edit--all-day__distance">
-				<input
+				<NcTextField
 					type="number"
-					min="0"
-					max="3600"
-					:value="alarm.relativeAmountAllDay"
-					@input="changeRelativeAmountAllDay">
+					:label="$t('calendar', 'Amount')"
+					:label-outside="false"
+					:model-value="String(alarm.relativeAmountAllDay)"
+					@update:model-value="changeRelativeAmountAllDay" />
 				<AlarmTimeUnitSelect
 					:is-all-day="isAllDay"
 					:count="alarm.relativeAmountAllDay"
@@ -160,6 +160,7 @@ import {
 	NcActionRadio as ActionRadio,
 	NcActions as Actions,
 	NcActionSeparator as ActionSeparator,
+	NcTextField,
 } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import Check from 'vue-material-design-icons/CheckOutline.vue'
@@ -182,6 +183,7 @@ export default {
 		ActionButton,
 		ActionRadio,
 		ActionSeparator,
+		NcTextField,
 		Check,
 		Delete,
 		Pencil,
@@ -415,12 +417,12 @@ export default {
 		/**
 		 * changes the relative amount entered in timed mode
 		 *
-		 * @param {Event} event The Input-event triggered when modifying the input
+		 * @param {string} value The input value
 		 */
-		changeRelativeAmountTimed(event) {
-			const minimumValue = parseInt(event.target.min, 10)
-			const maximumValue = parseInt(event.target.max, 10)
-			const selectedValue = parseInt(event.target.value, 10)
+		changeRelativeAmountTimed(value) {
+			const minimumValue = 0
+			const maximumValue = 3600
+			const selectedValue = parseInt(value, 10)
 
 			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
 				this.calendarObjectInstanceStore.changeAlarmAmountTimed({
@@ -445,12 +447,12 @@ export default {
 		/**
 		 * changes the relative amount entered in all-day
 		 *
-		 * @param {Event} event The Input-event triggered when modifying the input
+		 * @param {string} value The input value
 		 */
-		changeRelativeAmountAllDay(event) {
-			const minimumValue = parseInt(event.target.min, 10)
-			const maximumValue = parseInt(event.target.max, 10)
-			const selectedValue = parseInt(event.target.value, 10)
+		changeRelativeAmountAllDay(value) {
+			const minimumValue = 0
+			const maximumValue = 3600
+			const selectedValue = parseInt(value, 10)
 
 			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
 				this.calendarObjectInstanceStore.changeAlarmAmountAllDay({

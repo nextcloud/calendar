@@ -11,7 +11,7 @@
 			class="repeat-option-end__end-type-select"
 			:options="options"
 			:searchable="false"
-			:name="$t('calendar', 'Select to end repeat')"
+			:input-outside="true"
 			:clearable="false"
 			input-id="value"
 			label="label" />
@@ -22,24 +22,18 @@
 			:date="until"
 			type="date"
 			@change="changeUntil" />
-		<input
+		<NcTextField
 			v-if="isCount"
 			class="repeat-option-end__count"
 			type="number"
-			min="1"
-			max="3500"
-			:value="count"
-			@input="changeCount">
-		<span
-			v-if="isCount"
-			class="repeat-option-end__count">
-			{{ occurrencesLabel }}
-		</span>
+			:label="$t('calendar', 'Occurrences')"
+			:model-value="String(count)"
+			@update:model-value="changeCount" />
 	</div>
 </template>
 
 <script>
-import { NcSelect } from '@nextcloud/vue'
+import { NcSelect, NcTextField } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
 import DatePicker from '../../Shared/DatePicker.vue'
 import useDavRestrictionsStore from '../../../store/davRestrictions.js'
@@ -49,6 +43,7 @@ export default {
 	components: {
 		DatePicker,
 		NcSelect,
+		NcTextField,
 	},
 
 	props: {
@@ -107,15 +102,6 @@ export default {
 		 */
 		isCount() {
 			return this.count !== null && this.until === null
-		},
-
-		/**
-		 * Label for time/times
-		 *
-		 * @return {string}
-		 */
-		occurrencesLabel() {
-			return this.$n('calendar', 'time', 'times', this.count)
 		},
 
 		/**
@@ -188,12 +174,12 @@ export default {
 		/**
 		 * Changes the number of occurrences in this recurrence-set
 		 *
-		 * @param {Event} event The input event
+		 * @param {string} value The input value
 		 */
-		changeCount(event) {
-			const minimumValue = parseInt(event.target.min, 10)
-			const maximumValue = parseInt(event.target.max, 10)
-			const selectedValue = parseInt(event.target.value, 10)
+		changeCount(value) {
+			const minimumValue = 1
+			const maximumValue = 3500
+			const selectedValue = parseInt(value, 10)
 
 			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
 				this.$emit('set-count', selectedValue)

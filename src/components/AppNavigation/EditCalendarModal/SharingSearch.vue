@@ -22,6 +22,7 @@
 			open-direction="above"
 			track-by="user"
 			label="displayName"
+			:label-outside="true"
 			@search="findSharee"
 			@option:selected="shareCalendar">
 			<template #no-options>
