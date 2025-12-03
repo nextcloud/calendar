@@ -22,7 +22,6 @@ OC.L10N.register(
     "Appointments" : "Janji temu",
     "Schedule appointment \"%s\"" : "Jadual janji temu \"%s\"",
     "Schedule an appointment" : "Jadualkan janji temu",
-    "%1$s - %2$s" : "%1$s - %2$s",
     "Prepare for %s" : "Menyediakan untuk %s",
     "Appointment with:" : "Janji temu dengan:",
     "Description:" : "Penerangan:",
@@ -81,6 +80,7 @@ OC.L10N.register(
     "Weekly" : "Setiap minggu",
     "second" : "kedua",
     "Other" : "Lain",
+    "%1$s - %2$s" : "%1$s - %2$s",
     "can edit" : "boleh mengubah"
 },
 "nplurals=1; plural=0;");
