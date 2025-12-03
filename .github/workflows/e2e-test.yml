@@ -7,9 +7,6 @@ on: pull_request
 permissions:
   contents: read
 
-env:
-  NODE_VERSION: "22" # TODO: Extract automatically using another action
-
 jobs:
   matrix:
     runs-on: ubuntu-latest-low
@@ -33,7 +30,6 @@ jobs:
         with:
           nextcloud-version: ${{ needs.matrix.outputs.branches-min }}
           php-version: ${{ needs.matrix.outputs.php-min }}
-          node-version: ${{ env.NODE_VERSION }}
           install: true
       - name: Configure Nextcloud for testing
         run: |
@@ -45,15 +41,24 @@ jobs:
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
         with:
           path: nextcloud/apps/calendar
+      - name: Read package.json node and npm engines version
+        uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
+        id: package-engines-versions
+        with:
+          fallbackNode: '^24'
+          fallbackNpm: '^11'
+          path: nextcloud/apps/calendar
+      - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6
+        with:
+          node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
+      - name: Set up npm ${{ steps.package-engines-versions.outputs.npmVersion }}
+        run: npm i -g 'npm@${{ steps.package-engines-versions.outputs.npmVersion }}'
       - name: Install php dependencies
         working-directory: nextcloud/apps/calendar
         run: composer install
       - name: Install the app
         run: php -f nextcloud/occ app:enable calendar
-      - name: Set up node ${{ env.NODE_VERSION }}
-        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6
-        with:
-          node-version: ${{ env.NODE_VERSION }}
       - name: Install npm dependencies
         working-directory: nextcloud/apps/calendar
         run: npm ci
@@ -79,7 +84,7 @@ jobs:
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         if: always()
         with:
-          name: playwright-report-${{ github.event.number }}-nc${{ needs.matrix.outputs.branches-min }}-php${{ needs.matrix.outputs.php-min }}-node${{ env.NODE_VERSION }}
+          name: playwright-report-${{ github.event.number }}-nc${{ needs.matrix.outputs.branches-min }}-php${{ needs.matrix.outputs.php-min }}-node${{ steps.package-engines-versions.outputs.nodeVersion }}
           path: nextcloud/apps/calendar/playwright-report/
           retention-days: 14
       - name: Print server logs
