@@ -15,6 +15,7 @@
 			<NcModal
 				v-if="showModal"
 				size="large"
+				:name="t('calendar', 'Trash bin')"
 				@close="showModal = false">
 				<div class="modal__content">
 					<h2>{{ t('calendar', 'Trash bin') }}</h2>
