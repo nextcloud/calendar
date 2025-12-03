@@ -32,7 +32,7 @@ useHotKey('t', () => today())
 
 <template>
 	<NcButton
-		class="button today"
+		class="today"
 		@click="today">
 		{{ t('calendar', 'Today') }}
 	</NcButton>

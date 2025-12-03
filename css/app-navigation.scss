@@ -17,43 +17,13 @@
 	.today-button-section,
 	.view-button-section {
 		display: flex;
-
-		.button {
-			// this border-radius affects the button in the middle of the group
-			// for the rounded corner buttons on the sides, see further below
-			border-radius: 0;
-			font-weight: normal;
-			margin: 0 0 var(--default-grid-baseline) 0;
-			flex-grow: 1;
-		}
-
-		.button:first-child:not(:only-of-type) {
-			border-radius: var(--border-radius-element) 0 0 var(--border-radius-element);
-		}
-
-		.button:last-child:not(:only-of-type) {
-			border-radius: 0 var(--border-radius-element) var(--border-radius-element) 0;
-		}
-
-		.button:not(:only-of-type):not(:first-child):not(:last-child) {
-			border-radius: 0;
-		}
-
-		.button:only-child {
-			border-radius: var(--border-radius-element);
-		}
-
-		.button:hover,
-		.button:focus,
-		.button.active {
-			z-index: 50;
-		}
 	}
 
 	.datepicker-button-section {
 		&__datepicker-label {
 			flex-grow: 4 !important;
 			text-align: center;
+			border-radius: 0 !important;
 		}
 
 		&__datepicker {
@@ -92,6 +62,8 @@
 
 	.new-event-today-view-section {
 		display: flex;
+		gap: var(--default-grid-baseline);
+		margin-top: var(--default-grid-baseline);
 
 		// Fix margins from core
 		.button {
