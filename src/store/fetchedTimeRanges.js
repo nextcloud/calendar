@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { defineStore } from 'pinia'
-import Vue from 'vue'
 import useCalendarObjectsStore from './calendarObjects.js'
 
 export default defineStore('fetchedTimeRanges', {
@@ -82,7 +81,7 @@ export default defineStore('fetchedTimeRanges', {
 
 			this.fetchedTimeRanges.push(fetchedTimeRange)
 			/// TODO this.fetchedTimeRangesById[fetchedTimeRange.id] = fetchedTimeRange
-			Vue.set(this.fetchedTimeRangesById, fetchedTimeRange.id, fetchedTimeRange)
+			this.fetchedTimeRangesById[fetchedTimeRange.id] = fetchedTimeRange
 		},
 
 		/**
@@ -92,7 +91,7 @@ export default defineStore('fetchedTimeRanges', {
 		 * @param {number} data.timeRangeId Id of time-range to remove
 		 */
 		removeTimeRange({ timeRangeId }) {
-			Vue.delete(this.fetchedTimeRangesById, timeRangeId)
+			delete this.fetchedTimeRangesById[timeRangeId]
 			this.fetchedTimeRanges = this.fetchedTimeRanges
 				.filter((timeRange) => timeRange.id !== timeRangeId)
 		},

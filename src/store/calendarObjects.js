@@ -5,7 +5,7 @@ import {
 } from '@nextcloud/calendar-js'
 import { getTimezoneManager } from '@nextcloud/timezones'
 import { defineStore } from 'pinia'
-import Vue from 'vue'
+import { markRaw } from 'vue'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -188,8 +188,7 @@ export default defineStore('calendarObjects', {
 				await calendarObject.dav.delete()
 			}
 
-			/// TODO: delete this.calendarObjects[calendarObject.id]
-			Vue.delete(this.calendarObjects, calendarObject.id)
+			delete this.calendarObjects[calendarObject.id]
 			calendarsStore.deleteCalendarObjectFromCalendarMutation({
 				calendar: {
 					id: calendarObject.calendarId,
@@ -239,7 +238,11 @@ export default defineStore('calendarObjects', {
 			}
 
 			const firstCalendar = calendarsStore.sortedCalendars[0].id
-			return Promise.resolve(mapCalendarJsToCalendarObject(calendar, firstCalendar))
+			const calendarObject = mapCalendarJsToCalendarObject(calendar, firstCalendar)
+			if (calendarObject.calendarComponent) {
+				calendarObject.calendarComponent = markRaw(calendarObject.calendarComponent)
+			}
+			return Promise.resolve(calendarObject)
 		},
 
 		/**
@@ -303,8 +306,10 @@ export default defineStore('calendarObjects', {
 		 */
 		appendOrUpdateCalendarObjectsMutation({ calendarObjects = [] }) {
 			for (const calendarObject of calendarObjects) {
-				/// TODO this.calendarObjects[calendarObject.id] = calendarObject
-				Vue.set(this.calendarObjects, calendarObject.id, calendarObject)
+				if (calendarObject.calendarComponent) {
+					calendarObject.calendarComponent = markRaw(calendarObject.calendarComponent)
+				}
+				this.calendarObjects[calendarObject.id] = calendarObject
 			}
 		},
 
@@ -316,8 +321,10 @@ export default defineStore('calendarObjects', {
 		 */
 		appendCalendarObjectMutation({ calendarObject }) {
 			if (!this.calendarObjects[calendarObject.id]) {
-				/// TODO this.calendarObjects[calendarObject.id] = calendarObject
-				Vue.set(this.calendarObjects, calendarObject.id, calendarObject)
+				if (calendarObject.calendarComponent) {
+					calendarObject.calendarComponent = markRaw(calendarObject.calendarComponent)
+				}
+				this.calendarObjects[calendarObject.id] = calendarObject
 			}
 		},
 
@@ -356,7 +363,7 @@ export default defineStore('calendarObjects', {
 			const itemIterator = parser.getItemIterator()
 			const firstVCalendar = itemIterator.next().value
 			if (firstVCalendar) {
-				calendarObject.calendarComponent = firstVCalendar
+				calendarObject.calendarComponent = markRaw(firstVCalendar)
 			}
 		},
 	},
