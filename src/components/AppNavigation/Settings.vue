@@ -16,7 +16,7 @@
 			<NcAppSettingsDialog
 				id="app-settings-modal"
 				class="app-settings-modal"
-				:name="t('mail', 'Calendar settings')"
+				:name="t('calendar', 'Calendar settings')"
 				:legacy="false"
 				:show-navigation="true"
 				:additional-trap-elements="[]"
