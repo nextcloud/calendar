@@ -105,7 +105,8 @@
     "resolve-url-loader": "^5.0.0",
     "ts-loader": "^9.5.4",
     "typescript": "^5.9.3",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "vue-style-loader": "^4.1.3"
   },
   "optionalDependencies": {
     "fsevents": "^2.3.3"
