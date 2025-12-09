@@ -168,7 +168,6 @@ useHotKey(['p', 'k'], () => navigateTimeRangeBackward())
 	<div class="datepicker-button-section">
 		<NcButton v-if="!props.isWidget"
 			:aria-label="isRTL? nextLabel: previousLabel"
-			class="button"
 			:class="{'datepicker-button-section__right': isRTL , 'datepicker-button-section__left': !isRTL}"
 			:name="isRTL? nextLabel: previousLabel"
 			@click="navigateTimeRangeBackward">
@@ -178,7 +177,7 @@ useHotKey(['p', 'k'], () => navigateTimeRangeBackward())
 			</template>
 		</NcButton>
 		<NcButton v-if="!props.isWidget"
-			class="datepicker-button-section__datepicker-label button datepicker-label"
+			class="datepicker-button-section__datepicker-label datepicker-label"
 			@click.stop.prevent="toggleDatepicker"
 			@mousedown.stop.prevent="() => {}"
 			@mouseup.stop.prevent="() => {}">
@@ -194,7 +193,6 @@ useHotKey(['p', 'k'], () => navigateTimeRangeBackward())
 			@change="navigateToDate" />
 		<NcButton v-if="!props.isWidget"
 			:aria-label="isRTL? previousLabel: nextLabel"
-			class="button"
 			:class="{'datepicker-button-section__right': !isRTL , 'datepicker-button-section__left': isRTL}"
 			:name="isRTL? previousLabel: nextLabel"
 			@click="navigateTimeRangeForward">
