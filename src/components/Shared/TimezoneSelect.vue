@@ -4,7 +4,7 @@
 -->
 <template>
 	<NcSelect
-		:value="selectedTimezone"
+		v-model="selectedTimezone"
 		:options="options"
 		:multiple="false"
 		:group-select="false"
@@ -14,8 +14,7 @@
 		group-label="continent"
 		track-by="timezoneId"
 		label="label"
-		open-direction="above"
-		@input="change" />
+		open-direction="above" />
 </template>
 
 <script>
@@ -60,6 +59,14 @@ export default {
 					timezoneId: this.value,
 				}
 			},
+
+			set(newValue) {
+				if (!newValue) {
+					return
+				}
+
+				this.$emit('change', newValue.timezoneId)
+			},
 		},
 
 		options() {
@@ -73,14 +80,5 @@ export default {
 		},
 	},
 
-	methods: {
-		change(newValue) {
-			if (!newValue) {
-				return
-			}
-
-			this.$emit('change', newValue.timezoneId)
-		},
-	},
 }
 </script>

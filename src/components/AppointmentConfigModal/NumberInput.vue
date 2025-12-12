@@ -5,28 +5,29 @@
 
 <template>
 	<div class="number-input">
-		<label :for="id">{{ label }}</label>
-		<input
-			:id="id"
+		<NcTextField
+			:model-value="String(realValue ?? '')"
+			:label="label"
 			type="number"
-			min="0"
-			:value="realValue"
-			@input="change">
+			@update:model-value="change" />
 	</div>
 </template>
 
 <script>
-import { randomId } from '../../utils/randomId.js'
+import { NcTextField } from '@nextcloud/vue'
 
 export default {
 	name: 'NumberInput',
+	components: {
+		NcTextField,
+	},
 	props: {
 		label: {
 			type: String,
 			required: true,
 		},
 
-		value: {
+		modelValue: {
 			type: Number,
 			default: undefined,
 		},
@@ -37,25 +38,19 @@ export default {
 		},
 	},
 
-	data() {
-		return {
-			id: randomId(),
-		}
-	},
-
 	computed: {
 		realValue() {
 			if (this.allowEmpty) {
-				return this.value
+				return this.modelValue
 			}
 
-			return this.value ?? 0
+			return this.modelValue ?? 0
 		},
 	},
 
 	methods: {
-		change(e) {
-			this.$emit('update:value', parseInt(e.target.value))
+		change(value) {
+			this.$emit('update:modelValue', parseInt(value))
 		},
 	},
 }

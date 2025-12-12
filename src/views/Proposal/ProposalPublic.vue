@@ -157,7 +157,7 @@ export default {
 							responseDate.id = date.id
 							responseDate.date = new Date(date.date)
 							responseDate.vote = ProposalDateVote.Maybe
-							this.$set(this.response.dates, date.id, responseDate)
+							this.response.dates[date.id] = responseDate
 						}
 					})
 				}

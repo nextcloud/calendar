@@ -36,43 +36,32 @@
 		</div>
 		<div class="appointment-details">
 			<div class="name-details">
-				<div>
-					{{ $t('calendar', 'Your name') }}
-				</div>
-				<input
-					id="displayName"
+				<NcTextField
 					v-model="displayName"
-					type="text"
-					class="no-close"
+					:label="$t('calendar', 'Your name')"
 					required
-					:disabled="isLoading">
+					:disabled="isLoading" />
 			</div>
 			<div class="email-details">
-				<div>
-					{{ $t('calendar', 'Your email address') }}
-				</div>
-				<input
+				<NcTextField
 					ref="email"
 					v-model="email"
 					type="email"
+					:label="$t('calendar', 'Your email address')"
 					autocapitalize="none"
 					autocomplete="on"
-					autocorrect="off"
 					:disabled="isLoading"
-					required>
+					required />
 			</div>
 			<div class="meeting-info">
-				{{ $t('calendar', 'Please share anything that will help prepare for our meeting') }}
-				<div class="meeting-text">
-					<textarea
-						id="biography"
-						v-model="description"
-						v-autosize="true"
-						rows="8"
-						autocapitalize="none"
-						autocomplete="off"
-						:disabled="isLoading" />
-				</div>
+				<NcTextArea
+					v-model="description"
+					:label="$t('calendar', 'Please share anything that will help prepare for our meeting')"
+					:rows="8"
+					autocapitalize="none"
+					autocomplete="off"
+					:disabled="isLoading"
+					resize="vertical" />
 			</div>
 			<NcNoteCard
 				v-if="showRateLimitingWarning"
@@ -109,6 +98,8 @@ import {
 	NcButton,
 	NcLoadingIcon,
 	NcNoteCard,
+	NcTextArea,
+	NcTextField,
 } from '@nextcloud/vue'
 import IconBack from 'vue-material-design-icons/ArrowLeft.vue'
 import IconCalendar from 'vue-material-design-icons/CalendarOutline.vue'
@@ -125,6 +116,8 @@ export default {
 		NcButton,
 		NcLoadingIcon,
 		NcNoteCard,
+		NcTextArea,
+		NcTextField,
 		IconCheck,
 		IconTime,
 		IconCalendar,
