@@ -214,7 +214,7 @@ OC.L10N.register(
     "No reminder" : "Keine Erinnerung",
     "Failed to save default calendar" : "Standardkalender konnte nicht gespeichert werden",
     "General" : "Allgemein",
-    "Availability settings" : "Verfügbare Einstellungen",
+    "Availability settings" : "Einstellen der Verfügbarkeit",
     "CalDAV" : "CalDAV",
     "Access Nextcloud calendars from other apps and devices" : "Von anderen Apps und Geräten aus auf Nextcloud-Kalender zugreifen",
     "CalDAV URL" : "CalDAV-URL",
