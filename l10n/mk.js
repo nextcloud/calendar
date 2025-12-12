@@ -47,6 +47,7 @@ OC.L10N.register(
     "Dear %s, a proposed meeting has been updated" : "Почитуван/а %s, предложениот состанок е ажуриран",
     "Dear %s, a proposed meeting has been cancelled" : "Почитуван/а %s, предложениот состанок е откажан",
     "Location:" : "Локација:",
+    "%1$s minutes" : "%1$s минути",
     "Duration:" : "Времетраење:",
     "%1$s from %2$s to %3$s" : "%1$s од %2$s до %3$s",
     "Dates:" : "Датуми:",
