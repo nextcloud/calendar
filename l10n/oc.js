@@ -65,6 +65,7 @@ OC.L10N.register(
     "Actions" : "Accions",
     "or" : "o",
     "General" : "Generals",
+    "Appearance" : "Aparéncia",
     "Editing" : "Edicion",
     "0 minutes" : "0 minuta",
     "Update" : "Metre a jorn",
