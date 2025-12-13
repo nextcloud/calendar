@@ -84,13 +84,12 @@
 
 <script>
 import { showError } from '@nextcloud/dialogs'
-import {
-	NcAvatar as Avatar,
-	NcDateTimePicker as DateTimePicker,
-	NcEmptyContent,
-	NcGuestContent,
-	NcTimezonePicker as TimezonePicker,
-} from '@nextcloud/vue'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import Avatar from '@nextcloud/vue/components/NcAvatar'
+import DateTimePicker from '@nextcloud/vue/components/NcDateTimePicker'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcGuestContent from '@nextcloud/vue/components/NcGuestContent'
+import TimezonePicker from '@nextcloud/vue/components/NcDateTimePicker'
 import MDILoading from 'vue-material-design-icons/Loading.vue'
 import AppointmentBookingConfirmation from '../../components/Appointments/AppointmentBookingConfirmation.vue'
 import AppointmentDetails from '../../components/Appointments/AppointmentDetails.vue'
