@@ -20,30 +20,6 @@
 	}
 
 	.datepicker-button-section {
-		&__datepicker-label {
-			flex-grow: 4 !important;
-			text-align: center;
-			border-radius: 0 !important;
-		}
-
-		&__datepicker {
-			margin-inline-start: 26px;
-			margin-top: 48px;
-			position: absolute !important;
-			width: 0 !important;
-
-			.mx-input-wrapper {
-				display: none !important;
-			}
-		}
-
-		&__left,
-		&__right {
-			background-size: 10px;
-			flex-grow: 0 !important;
-			width: 34px;
-			padding: 0 6px !important;
-		}
 		&__left{
 			border-radius: var(--border-radius-element) 0 0 var(--border-radius-element) !important;
 		}
