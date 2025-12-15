@@ -486,7 +486,7 @@ OC.L10N.register(
     "Public holiday calendars" : "Resmi tatil takvimleri",
     "Public calendars" : "Herkese açık takvimler",
     "No valid public calendars configured" : "Yapılandırılmış geçerli bir herkese açık takvim yok",
-    "Speak to the server administrator to resolve this issue." : "Lütfen bu sorunu çözmesi için sunucu yöneticiniz ile görüşün.",
+    "Speak to the server administrator to resolve this issue." : "Lütfen bu sorunu çözümlemesi için sunucu yöneticiniz ile görüşün.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Resmi tatil takvimleri Thunderbird tarafından sağlanır. Takvim verileri {website} üzerinden indirilir",
     "These public calendars are suggested by the server administrator. Calendar data will be downloaded from the respective website." : "Sunucu yöneticisi şu herkese açık takvimleri öneriyor. Takvim verileri ilgili siteden indirilir.",
     "By {authors}" : "{authors} tarafından",
