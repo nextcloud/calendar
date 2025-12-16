@@ -18,7 +18,7 @@
 
 <script>
 import {
-	NcDateTimePickerNative as DateTimePicker,
+	NcDateTimePicker as DateTimePicker,
 } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
 import useDavRestrictionsStore from '../../store/davRestrictions.js'

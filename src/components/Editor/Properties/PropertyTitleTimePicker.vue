@@ -501,9 +501,9 @@ export default {
 	}
 
 	.datepicker-label {
-		flex: 0 0 calc(var(--default-grid-baseline) * 6);
-		width: calc(var(--default-grid-baseline) * 6);
-		max-width: calc(var(--default-grid-baseline) * 6);
+		flex: 0 0 calc(var(--default-grid-baseline) * 9);
+		width: calc(var(--default-grid-baseline) * 9);
+		max-width: calc(var(--default-grid-baseline) * 9);
 		display: flex;
 		justify-content: flex-end;
 		text-align: end;
