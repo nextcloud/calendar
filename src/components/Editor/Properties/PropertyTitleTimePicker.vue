@@ -360,7 +360,6 @@ export default {
 		 * @param {Date} value The new start time
 		 */
 		changeStartTime(value) {
-			console.log('changeStartTime', value)
 			this.$emit('update-start-time', value)
 		},
 
