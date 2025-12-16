@@ -360,6 +360,7 @@ export default {
 		 * @param {Date} value The new start time
 		 */
 		changeStartTime(value) {
+			console.log('changeStartTime', value)
 			this.$emit('update-start-time', value)
 		},
 
@@ -428,10 +429,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-:deep(.button-vue--icon-only), :deep(.button-vue__icon) {
-	width: 7rem !important;
-}
-
 /* Needed because the timezone picker has old styling */
 :deep(.vs__dropdown-toggle), :deep(.v-select) {
 	height: var(--default-clickable-area);
@@ -458,6 +455,10 @@ export default {
 	gap: var(--default-grid-baseline);
 	flex-direction: column;
 	flex-grow: 1;
+
+	button {
+		margin-inline-start: calc(var(--default-grid-baseline) * 8);
+	}
 }
 
 .property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {

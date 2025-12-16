@@ -469,5 +469,10 @@ export default {
 .simple-editor-anchor {
 	position: relative;
 }
+
+.property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {
+	margin-inline-start: unset !important;
+	padding-inline-end: unset !important;
+}
 </style>
 ```

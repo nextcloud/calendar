@@ -4,75 +4,77 @@
 -->
 <template>
 	<div class="booking-appointment-details">
-		<div class="booking-details">
-			<Avatar
-				:user="userInfo.uid"
-				:display-name="userInfo.displayName"
-				:disable-tooltip="true"
-				:disable-menu="true"
-				:size="44" />
-			<div class="booking__display-name">
-				<strong>{{ userInfo.displayName }}</strong>
+		<div class="booking-appointment-wrapper">
+			<div class="booking-details">
+				<Avatar
+					:user="userInfo.uid"
+					:display-name="userInfo.displayName"
+					:disable-tooltip="true"
+					:disable-menu="true"
+					:size="44" />
+				<div class="booking__display-name">
+					<strong>{{ userInfo.displayName }}</strong>
+				</div>
+				<h3 class="booking__name">
+					{{ config.name }}
+				</h3>
+				<!-- Description needs to stay inline due to its whitespace -->
+				<div class="booking__description">
+					{{ config.description }}
+				</div>
+				<div class="booking__date">
+					<IconCalendar :size="16" />
+					{{ date }}
+				</div>
+				<div class="booking__time">
+					<IconTime :size="16" />
+					{{ startTime }} - {{ endTime }}
+				</div>
+				<div class="booking__time">
+					<IconTimezone :size="16" />
+					{{ timeZone }}
+				</div>
 			</div>
-			<h3 class="booking__name">
-				{{ config.name }}
-			</h3>
-			<!-- Description needs to stay inline due to its whitespace -->
-			<div class="booking__description">
-				{{ config.description }}
+			<div class="appointment-details">
+				<div class="name-details">
+					<NcTextField
+						v-model="displayName"
+						:label="$t('calendar', 'Your name')"
+						required
+						:disabled="isLoading" />
+				</div>
+				<div class="email-details">
+					<NcTextField
+						ref="email"
+						v-model="email"
+						type="email"
+						:label="$t('calendar', 'Your email address')"
+						autocapitalize="none"
+						autocomplete="on"
+						:disabled="isLoading"
+						required />
+				</div>
+				<div class="meeting-info">
+					<NcTextArea
+						v-model="description"
+						:label="$t('calendar', 'Please share anything that will help prepare for our meeting')"
+						:rows="8"
+						autocapitalize="none"
+						autocomplete="off"
+						:disabled="isLoading"
+						resize="vertical" />
+				</div>
+				<NcNoteCard
+					v-if="showRateLimitingWarning"
+					type="warning">
+					{{ $t('calendar', 'It seems a rate limit has been reached. Please try again later.') }}
+				</NcNoteCard>
+				<NcNoteCard
+					v-if="showError"
+					type="error">
+					{{ $t('calendar', 'Could not book the appointment. Please try again later or contact the organizer.') }}
+				</NcNoteCard>
 			</div>
-			<div class="booking__date">
-				<IconCalendar :size="16" />
-				{{ date }}
-			</div>
-			<div class="booking__time">
-				<IconTime :size="16" />
-				{{ startTime }} - {{ endTime }}
-			</div>
-			<div class="booking__time">
-				<IconTimezone :size="16" />
-				{{ timeZone }}
-			</div>
-		</div>
-		<div class="appointment-details">
-			<div class="name-details">
-				<NcTextField
-					v-model="displayName"
-					:label="$t('calendar', 'Your name')"
-					required
-					:disabled="isLoading" />
-			</div>
-			<div class="email-details">
-				<NcTextField
-					ref="email"
-					v-model="email"
-					type="email"
-					:label="$t('calendar', 'Your email address')"
-					autocapitalize="none"
-					autocomplete="on"
-					:disabled="isLoading"
-					required />
-			</div>
-			<div class="meeting-info">
-				<NcTextArea
-					v-model="description"
-					:label="$t('calendar', 'Please share anything that will help prepare for our meeting')"
-					:rows="8"
-					autocapitalize="none"
-					autocomplete="off"
-					:disabled="isLoading"
-					resize="vertical" />
-			</div>
-			<NcNoteCard
-				v-if="showRateLimitingWarning"
-				type="warning">
-				{{ $t('calendar', 'It seems a rate limit has been reached. Please try again later.') }}
-			</NcNoteCard>
-			<NcNoteCard
-				v-if="showError"
-				type="error">
-				{{ $t('calendar', 'Could not book the appointment. Please try again later or contact the organizer.') }}
-			</NcNoteCard>
 		</div>
 		<div class="buttons">
 			<NcButton variant="tertiary" @click="$emit('go-back')">
@@ -222,13 +224,21 @@ h3 {
 
 .booking-appointment-details {
 	display: flex;
-	flex-direction: row;
-	padding: 10px;
+	flex-direction: column;
+	padding: calc(var(--default-grid-baseline) * 2);
 	flex-wrap: wrap;
 	width: calc(100vw - 120px);
 	max-width: 720px;
 	max-height: 500px;
 	overflow: auto;
+}
+
+.booking-appointment-wrapper {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: calc(var(--default-grid-baseline) * 6);
+	width: 100%;
 }
 
 .booking-details {

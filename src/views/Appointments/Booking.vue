@@ -30,8 +30,9 @@
 					<div class="booking__date">
 						<DateTimePicker
 							v-model="selectedDate"
-							:disabled-date="disabledDate"
+							:min="minimumDate"
 							type="date"
+							inline
 							:open="true" />
 					</div>
 					<div class="booking__time-zone">
@@ -194,19 +195,6 @@ export default {
 	},
 
 	methods: {
-		/**
-		 * Whether the date is acceptable
-		 *
-		 * @param {Date} date The date to compare to
-		 * @return {boolean}
-		 */
-		disabledDate(date) {
-			if (date <= this.minimumDate) {
-				return true
-			}
-			return this.endDate && this.endDate < date
-		},
-
 		async fetchSlots() {
 			this.slots = []
 			this.loadingSlots = true
@@ -268,6 +256,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#appointment-booking {
+	width: 100vw;
+}
+
 .booking__container {
 	display: flex;
 	width: 100%;
@@ -279,9 +271,10 @@ export default {
 
 .booking {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
+	flex-wrap: wrap;
 	width: 100%;
-	gap: calc(var(--default-grid-baseline) * 2);
+	gap: calc(var(--default-grid-baseline) * 6);
 	padding-top: calc(var(--default-grid-baseline) * 4);
 	padding-bottom: calc(var(--default-grid-baseline) * 4);
 	padding-inline: calc(var(--default-grid-baseline) * 4);
@@ -294,6 +287,7 @@ export default {
 .booking__date-selection {
 	display: flex;
 	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 2);
 }
 
 .booking__slots {
@@ -303,11 +297,19 @@ export default {
 	overflow-y: auto;
 }
 
+.booking__slot-selection {
+	min-width: 180px;
+}
+
 :deep(.mx-input-wrapper) {
 	display: none;
 }
 
 :deep(.mx-datepicker-main) {
 	border: 0;
+}
+
+:deep(.textarea__main-wrapper) {
+	height: unset !important;
 }
 </style>
