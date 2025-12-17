@@ -1,3 +1,12 @@
+## [6.1.2](https://github.com/nextcloud/calendar/compare/v6.1.1...v6.1.2) (2025-12-17)
+
+
+### Bug Fixes
+
+* use system button sytles for top navigation buttons ([e7325d0](https://github.com/nextcloud/calendar/commit/e7325d049cad657b2c5ac8403428926dd7eaef59))
+
+
+
 ## [6.1.1](https://github.com/nextcloud/calendar/compare/v6.1.0...v6.1.1) (2025-12-03)
 
 
