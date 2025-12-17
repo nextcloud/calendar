@@ -13,6 +13,8 @@ use OCA\Calendar\BackgroundJob\CleanUpOutdatedBookingsJob;
 use OCA\Calendar\Service\Appointments\BookingService;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\ICalendarQuery;
+use OCP\Server;
+use OCP\ServerVersion;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -47,8 +49,13 @@ class CleanupOutdatedBookingJobTest extends TestCase {
 		// Make sure the job is actually run
 		$this->time->method('getTime')
 			->willReturn(500000);
-		// Set a fake ID
-		$this->job->setId(99);
+		// Set a fake ID - handle both int (server < 33) and string (server >= 33) type signatures
+		$serverVersion = Server::get(ServerVersion::class);
+		if ($serverVersion->getMajorVersion() >= 33) {
+			$this->job->setId('99');
+		} else {
+			$this->job->setId(99);
+		}
 	}
 
 	public function testRun(): void {
