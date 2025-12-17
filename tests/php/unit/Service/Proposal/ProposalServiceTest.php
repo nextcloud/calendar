@@ -19,6 +19,7 @@ use OCA\Calendar\Db\ProposalParticipantEntry;
 use OCA\Calendar\Db\ProposalParticipantMapper;
 use OCA\Calendar\Db\ProposalVoteEntry;
 use OCA\Calendar\Db\ProposalVoteMapper;
+use OCA\Calendar\Objects\Proposal\ProposalCollection;
 use OCA\Calendar\Objects\Proposal\ProposalDateObject;
 use OCA\Calendar\Objects\Proposal\ProposalDateVote;
 use OCA\Calendar\Objects\Proposal\ProposalObject;
@@ -123,7 +124,7 @@ class ProposalServiceTest extends TestCase {
 
 		$result = $this->service->listProposals($this->user);
 
-		$this->assertIsArray($result);
+		$this->assertInstanceOf(ProposalCollection::class, $result);
 		$this->assertCount(2, $result);
 		$this->assertContainsOnlyInstancesOf(ProposalObject::class, $result);
 	}
@@ -151,8 +152,8 @@ class ProposalServiceTest extends TestCase {
 
 		$result = $this->service->listProposals($this->user);
 
-		$this->assertIsArray($result);
-		$this->assertEmpty($result);
+		$this->assertInstanceOf(ProposalCollection::class, $result);
+		$this->assertCount(0, $result);
 	}
 
 	public function testFetchProposalSuccess(): void {
