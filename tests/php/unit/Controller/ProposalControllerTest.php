@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
+use OCA\Calendar\Objects\Proposal\ProposalCollection;
 use OCA\Calendar\Objects\Proposal\ProposalObject;
 use OCA\Calendar\Objects\Proposal\ProposalResponseObject;
 use OCA\Calendar\Service\Proposal\ProposalService;
@@ -52,7 +53,12 @@ class ProposalControllerTest extends TestCase {
 	}
 
 	public function testListSuccess(): void {
-		$proposals = [['id' => 1, 'title' => 'Test Proposal']];
+		$proposalsJson = [['id' => 1, 'title' => 'Test Proposal']];
+		$proposalCollection = $this->createMock(ProposalCollection::class);
+		$proposalCollection->expects($this->once())
+			->method('toJson')
+			->with('private')
+			->willReturn($proposalsJson);
 
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
@@ -63,13 +69,13 @@ class ProposalControllerTest extends TestCase {
 		$this->proposalService->expects($this->once())
 			->method('listProposals')
 			->with($this->user)
-			->willReturn($proposals);
+			->willReturn($proposalCollection);
 
 		$response = $this->controller->list();
 
 		$this->assertInstanceOf(JSONResponse::class, $response);
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
-		$this->assertEquals($proposals, $response->getData());
+		$this->assertEquals($proposalsJson, $response->getData());
 	}
 
 	public function testListWithNoAuthentication(): void {
@@ -154,7 +160,12 @@ class ProposalControllerTest extends TestCase {
 	}
 
 	public function testListWithAdminAccess(): void {
-		$proposals = [['id' => 3, 'title' => 'Admin Access Test']];
+		$proposalsJson = [['id' => 3, 'title' => 'Admin Access Test']];
+		$proposalCollection = $this->createMock(ProposalCollection::class);
+		$proposalCollection->expects($this->once())
+			->method('toJson')
+			->with('private')
+			->willReturn($proposalsJson);
 		$targetUser = $this->createMock(IUser::class);
 
 		$this->userSession->expects($this->once())
@@ -181,17 +192,18 @@ class ProposalControllerTest extends TestCase {
 		$this->proposalService->expects($this->once())
 			->method('listProposals')
 			->with($targetUser)
-			->willReturn($proposals);
+			->willReturn($proposalCollection);
 
 		$response = $this->controller->list('targetuser');
 
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
-		$this->assertEquals($proposals, $response->getData());
+		$this->assertEquals($proposalsJson, $response->getData());
 	}
 
 	public function testFetchByTokenSuccess(): void {
 		$proposal = $this->createMock(ProposalObject::class);
 		$proposalUser = $this->createMock(IUser::class);
+		$proposalJson = ['id' => 1, 'title' => 'Test'];
 
 		$proposal->expects($this->once())
 			->method('getUid')
@@ -199,6 +211,10 @@ class ProposalControllerTest extends TestCase {
 		$proposal->expects($this->once())
 			->method('setUname')
 			->with('John Doe');
+		$proposal->expects($this->once())
+			->method('toJson')
+			->with('public')
+			->willReturn($proposalJson);
 		$proposalUser->expects($this->once())
 			->method('getDisplayName')
 			->willReturn('John Doe');
@@ -215,7 +231,7 @@ class ProposalControllerTest extends TestCase {
 		$response = $this->controller->fetchByToken('test_token');
 
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
-		$this->assertEquals($proposal, $response->getData());
+		$this->assertEquals($proposalJson, $response->getData());
 	}
 
 	public function testFetchByTokenNotFound(): void {
@@ -234,6 +250,12 @@ class ProposalControllerTest extends TestCase {
 		$proposalData = ['title' => 'New Proposal', 'description' => 'Test'];
 		$proposalObject = $this->createMock(ProposalObject::class);
 		$createdProposal = $this->createMock(ProposalObject::class);
+		$createdProposalJson = ['id' => 1, 'title' => 'New Proposal'];
+
+		$createdProposal->expects($this->once())
+			->method('toJson')
+			->with('private')
+			->willReturn($createdProposalJson);
 
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
@@ -249,12 +271,18 @@ class ProposalControllerTest extends TestCase {
 		$response = $this->controller->create($proposalData);
 
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
-		$this->assertEquals($createdProposal, $response->getData());
+		$this->assertEquals($createdProposalJson, $response->getData());
 	}
 
 	public function testModifySuccess(): void {
 		$proposalData = ['id' => 1, 'title' => 'Modified Proposal'];
 		$modifiedProposal = $this->createMock(ProposalObject::class);
+		$modifiedProposalJson = ['id' => 1, 'title' => 'Modified Proposal'];
+
+		$modifiedProposal->expects($this->once())
+			->method('toJson')
+			->with('private')
+			->willReturn($modifiedProposalJson);
 
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
@@ -270,7 +298,7 @@ class ProposalControllerTest extends TestCase {
 		$response = $this->controller->modify($proposalData);
 
 		$this->assertEquals(Http::STATUS_OK, $response->getStatus());
-		$this->assertEquals($modifiedProposal, $response->getData());
+		$this->assertEquals($modifiedProposalJson, $response->getData());
 	}
 
 	public function testModifyNotFound(): void {

@@ -11,7 +11,7 @@ namespace OCA\Calendar\Objects\Proposal;
 
 use OCA\Calendar\Db\ProposalDetailsEntry;
 
-class ProposalObject implements \JsonSerializable {
+class ProposalObject {
 
 	private ?int $id = null;
 	private ?string $uid = null;
@@ -31,8 +31,7 @@ class ProposalObject implements \JsonSerializable {
 		$this->votes = new ProposalVoteCollection();
 	}
 
-	#[\Override]
-	public function jsonSerialize(): array {
+	public function toJson(string $context): array {
 		$data = [
 			'@type' => 'MeetingProposal',
 			'id' => $this->id,
@@ -43,7 +42,7 @@ class ProposalObject implements \JsonSerializable {
 			'description' => $this->description,
 			'location' => $this->location,
 			'duration' => $this->duration,
-			'participants' => $this->participants->toJson(),
+			'participants' => $this->participants->toJson($context),
 			'dates' => $this->dates->toJson(),
 			'votes' => $this->votes->toJson(),
 		];

@@ -20,10 +20,10 @@ class ProposalParticipantCollection extends BaseCollection {
 		parent::__construct(ProposalParticipantObject::class, $data);
 	}
 
-	public function toJson(): array {
+	public function toJson(string $context): array {
 		$data = [];
 		foreach ($this as $key => $value) {
-			$data[$key] = $value->toJson();
+			$data[$key] = $value->toJson($context);
 		}
 		return $data;
 	}
