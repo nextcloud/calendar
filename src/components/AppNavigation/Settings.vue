@@ -331,7 +331,7 @@ export default {
 			if (!this.currentUserPrincipal) {
 				return ''
 			}
-			return new URL(this.currentUserPrincipal.principalUrl, this.primaryCalDAV).toString()
+			return new URL(this.currentUserPrincipal.url, this.primaryCalDAV).toString()
 		},
 	},
 
