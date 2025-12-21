@@ -70,6 +70,10 @@ export default {
 		 * @return {Date}
 		 */
 		minimumDate() {
+			if (!this.min && this.type === 'time') {
+				return null
+			}
+
 			return this.min || new Date(this.davRestrictionsStore.minimumDate)
 		},
 
@@ -79,6 +83,10 @@ export default {
 		 * @return {Date}
 		 */
 		maximumDate() {
+			if (!this.max && this.type === 'time') {
+				return null
+			}
+
 			return this.max || new Date(this.davRestrictionsStore.maximumDate)
 		},
 	},
@@ -97,7 +105,7 @@ export default {
 			this.pendingDate = date
 		},
 
-		onBlur(event) {
+		onBlur() {
 			// When focus leaves the picker, commit the pending date
 			if (this.pendingDate === undefined || this.pendingDate === null) {
 				return
@@ -117,6 +125,10 @@ export default {
 		 * @return {boolean}
 		 */
 		disabledDate(date) {
+			if (!this.max && !this.min && this.type === 'time') {
+				return false
+			}
+
 			return date < this.minimumDate || date > this.maximumDate
 		},
 	},
