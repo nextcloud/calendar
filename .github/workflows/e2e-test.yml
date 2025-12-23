@@ -7,9 +7,6 @@ on: pull_request
 permissions:
   contents: read
 
-env:
-  NODE_VERSION: "22" # TODO: Extract automatically using another action
-
 jobs:
   matrix:
     runs-on: ubuntu-latest-low
@@ -33,7 +30,6 @@ jobs:
         with:
           nextcloud-version: ${{ needs.matrix.outputs.branches-min }}
           php-version: ${{ needs.matrix.outputs.php-min }}
-          node-version: ${{ env.NODE_VERSION }}
           install: true
       - name: Configure Nextcloud for testing
         run: |
@@ -45,6 +41,19 @@ jobs:
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
         with:
           path: nextcloud/apps/calendar
+      - name: Read package.json node and npm engines version
+        uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
+        id: package-engines-versions
+        with:
+          fallbackNode: '^24'
+          fallbackNpm: '^11'
+          path: nextcloud/apps/calendar
+      - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6
+        with:
+          node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
+      - name: Set up npm ${{ steps.package-engines-versions.outputs.npmVersion }}
+        run: npm i -g 'npm@${{ steps.package-engines-versions.outputs.npmVersion }}'
       - name: Install php dependencies
         working-directory: nextcloud/apps/calendar
         run: composer install
@@ -79,7 +88,7 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: always()
         with:
-          name: playwright-report-${{ github.event.number }}-nc${{ needs.matrix.outputs.branches-min }}-php${{ needs.matrix.outputs.php-min }}-node${{ env.NODE_VERSION }}
+          name: playwright-report-${{ github.event.number }}-nc${{ needs.matrix.outputs.branches-min }}-php${{ needs.matrix.outputs.php-min }}-node${{ steps.package-engines-versions.outputs.nodeVersion }}
           path: nextcloud/apps/calendar/playwright-report/
           retention-days: 14
       - name: Print server logs
