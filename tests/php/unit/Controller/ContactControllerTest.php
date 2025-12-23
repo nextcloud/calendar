@@ -12,6 +12,7 @@ use OCA\Calendar\Service\ContactsService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Contacts\IManager;
+use OCP\IAppConfig;
 use OCP\IRequest;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -33,6 +34,7 @@ class ContactControllerTest extends TestCase {
 	/** @var IUserManager|MockObject */
 	private $userManager;
 	private ContactsService|MockObject $service;
+	private IAppConfig|MockObject $appConfig;
 
 	/** @var ContactController */
 	protected $controller;
@@ -46,6 +48,7 @@ class ContactControllerTest extends TestCase {
 		$this->appManager = $this->createMock(IAppManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->service = $this->createMock(ContactsService::class);
+		$this->appConfig = $this->createMock(IAppConfig::class);
 		$this->logger = $this->createMock(NullLogger::class);
 		$this->controller = new ContactController($this->appName,
 			$this->request,
@@ -53,6 +56,7 @@ class ContactControllerTest extends TestCase {
 			$this->appManager,
 			$this->userManager,
 			$this->service,
+			$this->appConfig,
 			$this->logger,
 		);
 	}
@@ -335,6 +339,10 @@ class ContactControllerTest extends TestCase {
 		$this->manager->expects(self::once())
 			->method('isEnabled')
 			->willReturn(true);
+		$this->appConfig->expects(self::once())
+			->method('getValueBool')
+			->with('dav', 'caldav_external_attendees_disabled', false)
+			->willReturn(false);
 		$this->service
 			->method('hasEmail')
 			->willReturnMap([
@@ -357,20 +365,23 @@ class ContactControllerTest extends TestCase {
 				[$user1, 'Person 1'],
 				[$user2, 'Person 2'],
 				[$user3, ''],
+				[$user4, 'Person 3'],
 			]);
-		$this->service->expects(self::exactly(2))
+		$this->service->expects(self::exactly(3))
 			->method('getLanguageId')
 			->willReturnMap([
 				[$user1, 'de'],
-				[$user3, 'en_us'],
+				[$user2, null],
+				[$user4, 'en_us'],
 			]);
-		$this->service->expects(self::exactly(2))
+		$this->service->expects(self::exactly(3))
 			->method('getTimezoneId')
 			->willReturnMap([
 				[$user1, 'Europe/Berlin'],
-				[$user3, 'Australia/Adelaide'],
+				[$user2, null],
+				[$user4, 'Australia/Adelaide'],
 			]);
-		$this->service->expects(self::exactly(2))
+		$this->service->expects(self::exactly(3))
 			->method('getEmail')
 			->willReturnMap([
 				[$user1, [
@@ -379,7 +390,7 @@ class ContactControllerTest extends TestCase {
 				]
 				],
 				[$user2, ['foo3@example.com']],
-				[$user3, ['foo5@example.com']],
+				[$user4, ['foo4@example.com']],
 			]);
 		$this->service->method('getPhotoUri')
 			->willReturnMap([
@@ -391,7 +402,7 @@ class ContactControllerTest extends TestCase {
 		$this->manager->expects(self::exactly(2))
 			->method('search')
 			->willReturnMap([
-				['search 123', ['FN', 'EMAIL'], [], [$user1, $user2, $user3, $user4]],
+				['search 123', ['FN', 'EMAIL'], ['enumeration' => true], [$user1, $user2, $user3, $user4]],
 				['search 123', ['CATEGORIES'], [], [$user4]]
 			]);
 
@@ -416,6 +427,101 @@ class ContactControllerTest extends TestCase {
 				],
 				'lang' => null,
 				'tzid' => null,
+				'photo' => null,
+				'type' => 'individual'
+			], [
+				'name' => 'Person 3',
+				'emails' => [
+					'foo4@example.com'
+				],
+				'lang' => 'en_us',
+				'tzid' => 'Australia/Adelaide',
+				'photo' => null,
+				'type' => 'individual'
+			]
+		], $response->getData());
+		$this->assertEquals(200, $response->getStatus());
+	}
+
+	public function testSearchAttendeeExternalAttendeesDisabled():void {
+		$user1 = [
+			'FN' => 'Person 1',
+			'EMAIL' => [
+				'foo1@example.com',
+				'foo2@example.com',
+			],
+			'LANG' => 'de',
+			'TZ' => 'Europe/Berlin',
+			'PHOTO' => 'VALUE=uri:http://foo.bar'
+		];
+		$user2 = [
+			'FN' => 'Person 2',
+			'EMAIL' => 'foo3@example.com',
+		];
+		$user3 = [
+			'isLocalSystemBook' => true,
+			'FN' => 'System User',
+			'EMAIL' => 'system@example.com',
+			'LANG' => 'en',
+			'TZ' => 'UTC',
+		];
+
+		$this->manager->expects(self::once())
+			->method('isEnabled')
+			->willReturn(true);
+		$this->appConfig->expects(self::once())
+			->method('getValueBool')
+			->with('dav', 'caldav_external_attendees_disabled', false)
+			->willReturn(true);
+		$this->service
+			->method('hasEmail')
+			->willReturnMap([
+				[$user1, true],
+				[$user2, true],
+				[$user3, true],
+			]);
+		$this->service
+			->method('isSystemBook')
+			->willReturnMap([
+				[$user1, false],
+				[$user2, false],
+				[$user3, true],
+			]);
+		$this->service
+			->method('getNameFromContact')
+			->willReturnMap([
+				[$user3, 'System User'],
+			]);
+		$this->service->expects(self::once())
+			->method('getLanguageId')
+			->with($user3)
+			->willReturn('en');
+		$this->service->expects(self::once())
+			->method('getTimezoneId')
+			->with($user3)
+			->willReturn('UTC');
+		$this->service->expects(self::once())
+			->method('getEmail')
+			->with($user3)
+			->willReturn(['system@example.com']);
+		$this->service->expects(self::once())
+			->method('getPhotoUri')
+			->with($user3)
+			->willReturn(null);
+		$this->manager->expects(self::once())
+			->method('search')
+			->with('search 123', ['FN', 'EMAIL'], ['enumeration' => true])
+			->willReturn([$user1, $user2, $user3]);
+
+		$response = $this->controller->searchAttendee('search 123');
+
+		$this->assertInstanceOf(JSONResponse::class, $response);
+		$this->assertEquals([
+			[
+				'name' => 'System User',
+				'emails' => ['system@example.com'],
+				'lang' => 'en',
+				'tzid' => 'UTC',
 				'photo' => null,
 				'type' => 'individual'
 			]
