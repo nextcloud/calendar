@@ -42,7 +42,7 @@
     "@fullcalendar/resource": "6.1.20",
     "@fullcalendar/resource-timeline": "6.1.20",
     "@fullcalendar/timegrid": "6.1.20",
-    "@fullcalendar/vue": "6.1.20",
+    "@fullcalendar/vue3": "6.1.20",
     "@mdi/svg": "^7.4.47",
     "@nextcloud/auth": "^2.5.3",
     "@nextcloud/axios": "^2.5.2",
