@@ -255,11 +255,18 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+// Need to be unscoped to target the mount point
 #appointment-booking {
-	width: 100vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
 }
+</style>
 
+<style lang="scss" scoped>
 .booking__container {
 	display: flex;
 	width: 100%;
@@ -273,7 +280,7 @@ export default {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	width: 100%;
+	max-width: 100%;
 	gap: calc(var(--default-grid-baseline) * 6);
 	padding-top: calc(var(--default-grid-baseline) * 4);
 	padding-bottom: calc(var(--default-grid-baseline) * 4);
