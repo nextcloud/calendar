@@ -156,7 +156,7 @@
 
 <script>
 import { CalendarAvailability } from '@nextcloud/calendar-availability-vue'
-import { NcModal, NcButton, NcCheckboxRadioSwitch, NcNoteCard } from '@nextcloud/vue'
+import { NcButton, NcCheckboxRadioSwitch, NcModal, NcNoteCard } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import CheckedDurationSelect from './AppointmentConfigModal/CheckedDurationSelect.vue'
 import Confirmation from './AppointmentConfigModal/Confirmation.vue'

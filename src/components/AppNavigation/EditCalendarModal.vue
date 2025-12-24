@@ -4,11 +4,11 @@
 -->
 
 <template>
-	<NcModal v-if="!!calendarsStore.editCalendarModal && calendar"
+	<NcModal
+		v-if="!!calendarsStore.editCalendarModal && calendar"
 		size="normal"
 		:name="$t('calendar', 'Edit calendar')"
 		@close="closeModal">
-
 		<div class="edit-calendar-modal">
 			<h3 class="edit-calendar-modal__header">
 				{{ $t('calendar', 'Edit calendar') }}

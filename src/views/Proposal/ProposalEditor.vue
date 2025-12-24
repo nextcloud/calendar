@@ -83,7 +83,7 @@
 								v-if="!settingsStore.talkEnabled || !modalEditLocationState"
 								class="proposal-editor__proposal-location"
 								:label="t('calendar', 'Location')"
-								:value="selectedProposal.location" />
+								:model-value="selectedProposal.location" />
 							<NcCheckboxRadioSwitch
 								v-if="settingsStore.talkEnabled"
 								class="proposal-editor__proposal-location-selector"

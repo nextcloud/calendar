@@ -73,7 +73,7 @@
 						</NcButton>
 						<NcDateTimePickerNative
 							:hide-label="true"
-							:value="currentStart"
+							:model-value="currentStart"
 							@input="(date) => handleActions('picker', date)" />
 						<NcButton
 							variant="secondary"
@@ -131,7 +131,7 @@
 						</NcButton>
 						<NcDateTimePickerNative
 							:hide-label="true"
-							:value="currentStart"
+							:model-value="currentStart"
 							@input="(date) => handleActions('picker', date)" />
 						<NcButton
 							variant="secondary"

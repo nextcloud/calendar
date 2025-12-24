@@ -97,7 +97,7 @@
 					:name="t('calendar', 'Editing')">
 					<NcSelect
 						:options="defaultReminderOptions"
-						:value="selectedDefaultReminderOption"
+						:model-value="selectedDefaultReminderOption"
 						:disabled="savingDefaultReminder"
 						:clearable="false"
 						:input-label="$t('calendar', 'Default reminder')"

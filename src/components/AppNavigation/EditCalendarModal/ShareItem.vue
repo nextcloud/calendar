@@ -18,8 +18,8 @@
 
 		<NcCheckboxRadioSwitch
 			v-if="canBeSharedWritable"
-			:disabled="updatingSharee"
 			v-model="sharee.writeable"
+			:disabled="updatingSharee"
 			@update:checked="updatePermission">
 			{{ $t('calendar', 'can edit and see confidential events') }}
 		</NcCheckboxRadioSwitch>

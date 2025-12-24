@@ -22,6 +22,7 @@ export default {
 	components: {
 		NcTextField,
 	},
+
 	props: {
 		label: {
 			type: String,

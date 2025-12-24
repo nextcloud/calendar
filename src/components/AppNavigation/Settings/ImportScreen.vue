@@ -9,7 +9,6 @@
 		size="large"
 		:name="$t('calendar', 'Import destination selection')"
 		@close="cancelImport">
-
 		<h2 class="import-modal__title">
 			{{ $t('calendar', 'Import calendars') }}
 		</h2>
