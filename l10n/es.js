@@ -178,7 +178,7 @@ OC.L10N.register(
     "Attachments folder successfully saved." : "La carpeta de adjuntos se guardó exitosamente.",
     "Error on saving attachments folder." : "Error al guardar la carpeta de adjuntos.",
     "Attachments folder" : "Carpeta de adjuntos",
-    "{filename} could not be parsed" : "{filename} no pudo ser analizado",
+    "{filename} could not be parsed" : "{filename} no se ha podido analizar",
     "No valid files found, aborting import" : "No se han encontrado archivos válidos, cancelando la importación",
     "_Successfully imported %n event_::_Successfully imported %n events_" : ["Se ha importado con éxito %n evento.","Se han importado con éxito %n eventos.","Se han importado con éxito %n eventos."],
     "Import partially failed. Imported {accepted} out of {total}." : "La importación ha fallado parcialmente. Importados {accepted} sobre {total}.",
