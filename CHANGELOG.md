@@ -1,3 +1,12 @@
+## [6.1.3](https://github.com/nextcloud/calendar/compare/v6.1.2...v6.1.3) (2025-12-29)
+
+
+### Bug Fixes
+
+* show server address for ios ([5329675](https://github.com/nextcloud/calendar/commit/5329675c4f1a8c6ff5e7134d6114ce53dbaf2065))
+
+
+
 ## [6.1.2](https://github.com/nextcloud/calendar/compare/v6.1.1...v6.1.2) (2025-12-17)
 
 
