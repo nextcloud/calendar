@@ -91,7 +91,7 @@
 				<ActionButton
 					v-if="canSubscribeLink"
 					:close-after-click="true"
-					@click="showHolidaySubscriptionPicker = true">
+					@click="openHolidaySubscriptionPicker">
 					{{ t('calendar', 'Add public holiday calendar') }}
 					<template #icon>
 						<Web :size="20" decorative />
@@ -100,7 +100,7 @@
 				<ActionButton
 					v-if="hasPublicCalendars"
 					:close-after-click="true"
-					@click="showPublicCalendarSubscriptionPicker = true">
+					@click="openPublicCalendarSubscriptionPicker">
 					{{ t('calendar', 'Add custom public calendar') }}
 					<template #icon>
 						<Web :size="20" decorative />
@@ -119,6 +119,10 @@
 </template>
 
 <script>
+import {
+	defineAsyncComponent,
+	nextTick,
+} from 'vue'
 import {
 	showError,
 } from '@nextcloud/dialogs'
@@ -149,7 +153,7 @@ export default {
 		NcAppNavigationCaption,
 		CalendarBlank,
 		CalendarCheck,
-		PublicCalendarSubscriptionPicker: () => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '../../Subscription/PublicCalendarSubscriptionPicker.vue'),
+		PublicCalendarSubscriptionPicker: defineAsyncComponent(() => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '../../Subscription/PublicCalendarSubscriptionPicker.vue')),
 		LinkIcon,
 		Plus,
 		Web,
@@ -186,8 +190,8 @@ export default {
 	},
 
 	watch: {
-		isOpen() {
-			if (this.isOpen) {
+		isOpen(newValue) {
+			if (newValue) {
 				return
 			}
 
@@ -343,6 +347,18 @@ export default {
 				this.isOpen = false
 				this.closeMenu()
 			}
+		},
+
+		async openHolidaySubscriptionPicker() {
+			// Use nextTick to ensure the menu closes before opening the modal
+			await nextTick()
+			this.showHolidaySubscriptionPicker = true
+		},
+
+		async openPublicCalendarSubscriptionPicker() {
+			// Use nextTick to ensure the menu closes before opening the modal
+			await nextTick()
+			this.showPublicCalendarSubscriptionPicker = true
 		},
 
 		/**
