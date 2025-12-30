@@ -222,6 +222,10 @@
 							<AlarmList
 								:isReadOnly="isReadOnlyOrViewing" />
 						</div>
+						<AttachmentsList
+							v-if="!isLoading && isViewing"
+							:isReadOnly="true"
+							compact />
 					</div>
 
 					<!-- Footer -->
@@ -290,6 +294,7 @@ import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 import IconVideo from 'vue-material-design-icons/VideoOutline.vue'
 import AddTalkModal from '@/components/Editor/AddTalkModal.vue'
 import AlarmList from '@/components/Editor/Alarm/AlarmList.vue'
+import AttachmentsList from '@/components/Editor/Attachments/AttachmentsList.vue'
 import CalendarPickerHeader from '@/components/Editor/CalendarPickerHeader.vue'
 import InvitationResponseButtons
 	from '@/components/Editor/InvitationResponseButtons.vue'
@@ -321,6 +326,7 @@ export default {
 		NcActionSeparator,
 		AlarmList,
 		Bell,
+		AttachmentsList,
 		EmptyContent,
 		CalendarBlank,
 		Close,
