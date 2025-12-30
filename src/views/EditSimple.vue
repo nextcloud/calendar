@@ -188,6 +188,11 @@
 							:attendee="userAsAttendee"
 							:calendar-id="calendarId"
 							@close="closeEditorAndSkipAction" />
+
+						<AttachmentsList
+							v-if="!isLoading && isViewing && hasAttachments"
+							:calendar-object-instance="calendarObjectInstance"
+							:is-read-only="true" />
 					</div>
 
 					<!-- Footer -->
@@ -248,6 +253,7 @@ import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
 import EditIcon from 'vue-material-design-icons/PencilOutline.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Download from 'vue-material-design-icons/TrayArrowDown.vue'
+import AttachmentsList from '../components/Editor/Attachments/AttachmentsList.vue'
 import CalendarPickerHeader from '../components/Editor/CalendarPickerHeader.vue'
 import InvitationResponseButtons
 	from '../components/Editor/InvitationResponseButtons.vue'
@@ -275,6 +281,7 @@ export default {
 		Actions,
 		ActionButton,
 		ActionLink,
+		AttachmentsList,
 		EmptyContent,
 		CalendarBlank,
 		Close,
@@ -311,6 +318,7 @@ export default {
 			hasLocation: false,
 			hasDescription: false,
 			hasAttendees: false,
+			hasAttachments: false,
 			boundaryElement: null,
 			isVisible: true,
 			isViewing: true,
@@ -400,6 +408,7 @@ export default {
 			this.hasLocation = false
 			this.hasDescription = false
 			this.hasAttendees = false
+			this.hasAttachments = false
 
 			if (typeof this.calendarObjectInstance.location === 'string' && this.calendarObjectInstance.location.trim() !== '') {
 				this.hasLocation = true
@@ -409,6 +418,9 @@ export default {
 			}
 			if (Array.isArray(this.calendarObjectInstance.attendees) && this.calendarObjectInstance.attendees.length > 0) {
 				this.hasAttendees = true
+			}
+			if (Array.isArray(this.calendarObjectInstance.attachments) && this.calendarObjectInstance.attachments.length > 0) {
+				this.hasAttachments = true
 			}
 
 			// Reposition after content changes
