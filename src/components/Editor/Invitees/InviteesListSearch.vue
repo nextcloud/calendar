@@ -62,7 +62,6 @@ import {
 } from '@nextcloud/vue'
 import debounce from 'debounce'
 import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCirclesCommunities.vue'
-import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import {
 	circleGetMembers,
 	circleSearchByName,
@@ -118,15 +117,14 @@ export default {
 			if (query.length > 0) {
 				const promises = [
 					this.findAttendeesFromContactsAPI(query),
-					this.findAttendeesFromDAV(query),
 				]
 				if (isCirclesEnabled) {
 					promises.push(this.findAttendeesFromCircles(query))
 				}
 
-				const [contactsResults, davResults, circleResults] = await Promise.all(promises)
+				const results = await Promise.all(promises)
+				const [contactsResults, circleResults] = results
 				matches.push(...contactsResults)
-				matches.push(...davResults)
 				if (isCirclesEnabled) {
 					matches.push(...circleResults)
 				}
@@ -288,44 +286,6 @@ export default {
 
 				return arr
 			}, [])
-		},
-
-		async findAttendeesFromDAV(query) {
-			let results
-			try {
-				results = await principalPropertySearchByDisplaynameOrEmail(query)
-			} catch (error) {
-				console.debug(error)
-				return []
-			}
-
-			return results.filter((principal) => {
-				if (!principal.email) {
-					return false
-				}
-
-				if (this.alreadyInvitedEmails.includes(principal.email)) {
-					return false
-				}
-
-				// Do not include resources and rooms
-				if (['ROOM', 'RESOURCE'].includes(principal.calendarUserType)) {
-					return false
-				}
-
-				return true
-			}).map((principal) => {
-				return {
-					commonName: principal.displayname,
-					calendarUserType: principal.calendarUserType,
-					email: principal.email,
-					language: principal.language,
-					isUser: principal.calendarUserType === 'INDIVIDUAL',
-					avatar: decodeURIComponent(principal.userId),
-					hasMultipleEMails: false,
-					dropdownName: principal.displayname ? [principal.displayname, principal.email].join(' ') : principal.email,
-				}
-			})
 		},
 
 		async findAttendeesFromCircles(query) {
