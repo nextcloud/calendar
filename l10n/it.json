@@ -441,6 +441,8 @@
     "Personal" : "Personale",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Il rilevamento automatico del fuso orario ha determinato che il tuo è UTC.\nProbabilmente è il risultato di alcune misure di sicurezza del tuo browser web.\nImposta il tuo fuso orario a mano nelle impostazioni del calendario.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Il fuso orario configurato ({timezoneId}) non è stato trovato. Ripiego su UTC.\nCambia il tuo fuso orario nelle impostazioni e segnala questo problema.",
+    "Show unscheduled tasks" : "Mostra attività non programmate",
+    "Unscheduled tasks" : "Attività non programmate",
     "Availability of {displayName}" : "Disponibilità di {displayName}",
     "Edit event" : "Modifica evento",
     "Event does not exist" : "L'evento non esiste",
