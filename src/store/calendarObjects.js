@@ -211,9 +211,10 @@ export default defineStore('calendarObjects', {
 		 * @param {number} data.end Timestamp for end of new event
 		 * @param {string} data.timezoneId asd
 		 * @param {boolean} data.isAllDay foo
+		 * @param {string} [data.calendarId] Optional calendar id to create the event in
 		 * @return {Promise<CalendarObject>}
 		 */
-		createNewEvent({ start, end, timezoneId, isAllDay }) {
+		createNewEvent({ start, end, timezoneId, isAllDay, calendarId = null }) {
 			const calendarsStore = useCalendarsStore()
 			const timezoneManager = getTimezoneManager()
 			const timezone = timezoneManager.getTimezoneForId(timezoneId)
@@ -238,8 +239,8 @@ export default defineStore('calendarObjects', {
 				vObject.undirtify()
 			}
 
-			const firstCalendar = calendarsStore.sortedCalendars[0].id
-			return Promise.resolve(mapCalendarJsToCalendarObject(calendar, firstCalendar))
+			const targetCalendar = calendarId || calendarsStore.sortedCalendars[0].id
+			return Promise.resolve(mapCalendarJsToCalendarObject(calendar, targetCalendar))
 		},
 
 		/**
