@@ -6,11 +6,10 @@
 		"target": "ESNext",
 		"strictNullChecks": true,
 		"sourceMap": true,
-		"allowSyntheticDefaultImports": true,
 		"declaration": false,
-		"baseUrl": ".",
+		"allowSyntheticDefaultImports": true,
 		"paths": {
-			"@/*": ["src/*"]
+			"@/*": ["./src/*"]
 		}
 	},
 	"vueCompilerOptions": {
