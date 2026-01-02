@@ -111,7 +111,7 @@
 						@update-end-time="updateEndTime"
 						@update-end-timezone="updateEndTimezone" />
 
-					<div v-if="!isReadOnly" class="app-full__header__details">
+					<div class="app-full__header__details">
 						<div class="app-full__header__details-time">
 							<NcCheckboxRadioSwitch
 								v-if="!isReadOnly && !isViewedByAttendee"
