@@ -4,8 +4,7 @@
  */
 
 import { generateUrl, getRootUrl } from '@nextcloud/router'
-import Vue from 'vue'
-import Router from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import Calendar from './views/Calendar.vue'
 import EditFull from './views/EditFull.vue'
 import EditSimple from './views/EditSimple.vue'
@@ -16,17 +15,14 @@ import {
 	getPreferredEditorRoute,
 } from './utils/router.js'
 
-Vue.use(Router)
-
 const webRootWithIndexPHP = getRootUrl() + '/index.php'
 const doesURLContainIndexPHP = window.location.pathname.startsWith(webRootWithIndexPHP)
 const base = generateUrl('apps/calendar', {}, {
 	noRewrite: doesURLContainIndexPHP,
 })
 
-const router = new Router({
-	mode: 'history',
-	base,
+const router = createRouter({
+	history: createWebHistory(base),
 	routes: [
 		{
 			path: '/p/:tokens/:view/:firstDay',

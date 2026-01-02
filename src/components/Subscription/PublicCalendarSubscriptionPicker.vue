@@ -4,7 +4,10 @@
 -->
 
 <template>
-	<NcModal @close="$emit('close', $event)">
+	<NcModal
+		size="small"
+		:name="$t('calendar', 'Public calendar subscriptions selection')"
+		@close="$emit('close', $event)">
 		<div class="public-calendar-subscription-picker">
 			<h2 v-if="showHolidays">
 				{{ t('calendar', 'Public holiday calendars') }}

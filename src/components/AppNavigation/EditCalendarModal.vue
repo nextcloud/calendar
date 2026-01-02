@@ -4,7 +4,11 @@
 -->
 
 <template>
-	<NcModal v-if="!!calendarsStore.editCalendarModal && calendar" size="normal" @close="closeModal">
+	<NcModal
+		v-if="!!calendarsStore.editCalendarModal && calendar"
+		size="normal"
+		:name="$t('calendar', 'Edit calendar')"
+		@close="closeModal">
 		<div class="edit-calendar-modal">
 			<h3 class="edit-calendar-modal__header">
 				{{ $t('calendar', 'Edit calendar') }}
@@ -15,22 +19,22 @@
 					<NcColorPicker
 						v-model="calendarColor"
 						:advanced-fields="true"
-						@update:value="calendarColorChanged = true">
+						@update:model-value="calendarColorChanged = true">
 						<div
 							class="edit-calendar-modal__name-and-color__color__dot"
 							:style="{ 'background-color': calendarColor }" />
 					</NcColorPicker>
 				</div>
 
-				<input
+				<NcTextField
 					v-model="calendarName"
 					class="edit-calendar-modal__name-and-color__name"
-					type="text"
-					:placeholder="$t('calendar', 'Calendar name …')"
-					@input="calendarNameChanged = true">
+					:label="$t('calendar', 'Calendar name')"
+					:label-outside="true"
+					@update:model-value="calendarNameChanged = true" />
 			</div>
 			<template v-if="canBeShared">
-				<NcCheckboxRadioSwitch :checked.sync="isTransparent">
+				<NcCheckboxRadioSwitch v-model="isTransparent">
 					{{ $t('calendar', 'Never show me as busy (set this calendar to transparent)') }}
 				</NcCheckboxRadioSwitch>
 			</template>
@@ -83,7 +87,7 @@
 
 <script>
 import { showError } from '@nextcloud/dialogs'
-import { NcAppNavigationSpacer, NcButton, NcCheckboxRadioSwitch, NcColorPicker, NcModal } from '@nextcloud/vue'
+import { NcAppNavigationSpacer, NcButton, NcCheckboxRadioSwitch, NcColorPicker, NcModal, NcTextField } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
@@ -102,6 +106,7 @@ export default {
 		NcModal,
 		NcColorPicker,
 		NcButton,
+		NcTextField,
 		PublishCalendar,
 		SharingSearch,
 		ShareItem,
