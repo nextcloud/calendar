@@ -8,9 +8,8 @@
 		"sourceMap": true,
 		"allowSyntheticDefaultImports": true,
 		"declaration": false,
-		"baseUrl": ".",
 		"paths": {
-			"@/*": ["src/*"]
+			"@/*": ["./src/*"]
 		}
 	},
 	"vueCompilerOptions": {
