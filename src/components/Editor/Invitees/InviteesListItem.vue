@@ -16,16 +16,21 @@
 			:common-name="commonName"
 			:timezone="timezone"
 			:is-group="isGroup" />
-		<div
-			class="invitees-list-item__displayname"
-			:class="{ 'invitees-list-item__groupname': members.length }">
-			{{ commonName }}
-			<span
-				v-if="members.length"
-				class="invitees-list-item__member-count">
-				({{ $n('calendar', '%n member', '%n members', members.length) }})
-			</span>
-		</div>
+
+		<AttendeeDisplay
+			:display-name="commonName"
+			:email="attendeeEmail"
+			:has-members="!!members.length">
+			<template #displayname>
+				{{ commonName }}
+				<span
+					v-if="members.length"
+					class="invitees-list-item__member-count">
+					({{ $n('calendar', '%n member', '%n members', members.length) }})
+				</span>
+			</template>
+		</AttendeeDisplay>
+
 		<div class="invitees-list-item__actions">
 			<NcButton
 				v-if="members.length"
@@ -116,6 +121,7 @@ import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
 import ChevronUp from 'vue-material-design-icons/ChevronUp.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
+import AttendeeDisplay from './AttendeeDisplay.vue'
 import { getAttendeeDetails } from '../../../services/attendeeDetails.js'
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
 import { removeMailtoPrefix } from '../../../utils/attendee.js'
@@ -132,6 +138,7 @@ export default {
 		NcButton,
 		ChevronDown,
 		ChevronUp,
+		AttendeeDisplay,
 	},
 
 	props: {
@@ -205,6 +212,15 @@ export default {
 			}
 
 			return ''
+		},
+
+		/**
+		 * Email address without the 'mailto:' prefix
+		 *
+		 * @return {string}
+		 */
+		attendeeEmail() {
+			return this.attendee.uri ? removeMailtoPrefix(this.attendee.uri) : ''
 		},
 
 		radioName() {
@@ -300,17 +316,6 @@ export default {
 
 .invitees-list-item__actions {
 	display: flex;
-}
-
-.invitees-list-item__displayname {
-	margin-bottom: 17px;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	white-space: nowrap;
-}
-
-.invitees-list-item__groupname {
-	margin-bottom: 0px;
 }
 
 .avatar-participation-status {
