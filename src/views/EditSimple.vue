@@ -188,6 +188,13 @@
 							:attendee="userAsAttendee"
 							:calendar-id="calendarId"
 							@close="closeEditorAndSkipAction" />
+
+						<div v-if="isReadOnlyOrViewing && hasAlarms" class="property-alarm-wrapper">
+							<Bell :size="20" class="property-alarm-icon" />
+							<AlarmList
+								:calendar-object-instance="calendarObjectInstance"
+								:is-read-only="isReadOnlyOrViewing" />
+						</div>
 					</div>
 
 					<!-- Footer -->
@@ -241,6 +248,7 @@ import {
 	NcPopover,
 } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
+import Bell from 'vue-material-design-icons/BellOutline.vue'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
 import Close from 'vue-material-design-icons/Close.vue'
 import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
@@ -248,6 +256,7 @@ import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
 import EditIcon from 'vue-material-design-icons/PencilOutline.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Download from 'vue-material-design-icons/TrayArrowDown.vue'
+import AlarmList from '../components/Editor/Alarm/AlarmList.vue'
 import CalendarPickerHeader from '../components/Editor/CalendarPickerHeader.vue'
 import InvitationResponseButtons
 	from '../components/Editor/InvitationResponseButtons.vue'
@@ -275,6 +284,8 @@ export default {
 		Actions,
 		ActionButton,
 		ActionLink,
+		AlarmList,
+		Bell,
 		EmptyContent,
 		CalendarBlank,
 		Close,
@@ -311,6 +322,7 @@ export default {
 			hasLocation: false,
 			hasDescription: false,
 			hasAttendees: false,
+			hasAlarms: false,
 			boundaryElement: null,
 			isVisible: true,
 			isViewing: true,
@@ -400,6 +412,7 @@ export default {
 			this.hasLocation = false
 			this.hasDescription = false
 			this.hasAttendees = false
+			this.hasAlarms = false
 
 			if (typeof this.calendarObjectInstance.location === 'string' && this.calendarObjectInstance.location.trim() !== '') {
 				this.hasLocation = true
@@ -409,6 +422,9 @@ export default {
 			}
 			if (Array.isArray(this.calendarObjectInstance.attendees) && this.calendarObjectInstance.attendees.length > 0) {
 				this.hasAttendees = true
+			}
+			if (Array.isArray(this.calendarObjectInstance.alarms) && this.calendarObjectInstance.alarms.length > 0) {
+				this.hasAlarms = true
 			}
 
 			// Reposition after content changes
@@ -865,6 +881,11 @@ export default {
 			height: 44px !important;
 		}
 	}
+}
+
+.property-alarm-wrapper {
+	display: flex;
+	align-items: center;
 }
 
 </style>
