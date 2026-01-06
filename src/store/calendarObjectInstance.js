@@ -1521,6 +1521,7 @@ export default defineStore('calendarObjectInstance', {
 				end: endDate.unixTime,
 				timezoneId: oldEventComponent.startDate.timezoneId,
 				isAllDay: oldEventComponent.isAllDay(),
+				calendarId: this.calendarObject?.calendarId ?? null,
 			})
 			const eventComponent = getObjectAtRecurrenceId(calendarObject, startDate.jsDate)
 			copyCalendarObjectInstanceIntoEventComponent(oldCalendarObjectInstance, eventComponent, true)
