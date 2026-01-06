@@ -12,9 +12,13 @@
 		label-id="edit-full-modal"
 		:name="t('calendar', 'Edit event')"
 		:dark="false"
-		:no-close="true"
+		:no-close="operationInProgress"
 		@close="cancel(false)">
-		<NcButton class="calendar-edit-full__default-close" variant="tertiary" @click="cancel(false)">
+		<NcButton
+			class="calendar-edit-full__default-close"
+			variant="tertiary"
+			:disabled="operationInProgress"
+			@click="cancel(false)">
 			<template #icon>
 				<Close :size="20" />
 			</template>
@@ -162,7 +166,7 @@
 						:calendar-id="calendarId"
 						:narrow="true"
 						:grow-horizontally="true"
-						@close="closeEditorAndSkipAction" />
+						@respond="saveParticipationStatus" />
 				</div>
 
 				<div class="app-full-body">
@@ -325,6 +329,12 @@
 			:name="t('calendar', 'Discard changes?')"
 			:message="t('calendar', 'Are you sure you want to discard the changes made to this event?')"
 			:buttons="cancelButtons" />
+
+		<!-- Loading overlay - rendered last to appear on top -->
+		<div v-if="operationInProgress" class="edit-full__loading-overlay">
+			<NcLoadingIcon :size="64" />
+			<p>{{ operationMessage }}</p>
+		</div>
 	</NcModal>
 </template>
 
@@ -332,6 +342,8 @@
 import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
 import IconDelete from '@mdi/svg/svg/delete.svg?raw'
 import { Parameter } from '@nextcloud/calendar-js'
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import { generateUrl } from '@nextcloud/router'
 import {
@@ -343,6 +355,7 @@ import {
 	NcDialog,
 	NcEmptyContent,
 	NcListItemIcon,
+	NcLoadingIcon,
 	NcModal,
 	NcPopover,
 } from '@nextcloud/vue'
@@ -392,6 +405,7 @@ export default {
 		NcEmptyContent,
 		NcModal,
 		NcListItemIcon,
+		NcLoadingIcon,
 		NcButton,
 		NcCheckboxRadioSwitch,
 		NcPopover,
@@ -447,6 +461,8 @@ export default {
 
 			showCancelDialog: false,
 			showFullModal: true,
+			operationInProgress: false,
+			operationMessage: '',
 		}
 	},
 
@@ -775,6 +791,77 @@ export default {
 
 			this.toggleAllDay()
 		},
+
+		/**
+		 * Override method to add operation locking
+		 *
+		 * @param {boolean} thisAndAllFuture Whether to modify only this or this and all future occurrences
+		 * @return {Promise<void>}
+		 */
+		async save(thisAndAllFuture = false) {
+			if (this.operationInProgress) {
+				return
+			}
+
+			this.operationInProgress = true
+			this.operationMessage = t('calendar', 'Saving event…')
+
+			try {
+				// Call the parent method from EditorMixin
+				await EditorMixin.methods.save.call(this, thisAndAllFuture)
+			} finally {
+				this.operationInProgress = false
+				this.operationMessage = ''
+			}
+		},
+
+		/**
+		 * Override method to add operation locking
+		 *
+		 * @param {boolean} thisAndAllFuture Whether to delete only this or this and all future occurrences
+		 * @return {Promise<void>}
+		 */
+		async delete(thisAndAllFuture = false) {
+			if (this.operationInProgress) {
+				return
+			}
+
+			this.operationInProgress = true
+			this.operationMessage = t('calendar', 'Deleting event…')
+
+			try {
+				await EditorMixin.methods.delete.call(this, thisAndAllFuture)
+				showSuccess(this.t('calendar', 'Event deleted successfully.'))
+				this.closeEditorAndSkipAction()
+			} catch (e) {
+				showError(this.t('calendar', 'Failed to delete event.'))
+			} finally {
+				this.operationInProgress = false
+				this.operationMessage = ''
+			}
+		},
+
+		/**
+		 * Override method to add operation locking
+		 *
+		 * @param {string} participationStatus The participation status (ACCEPTED, DECLINED, TENTATIVE)
+		 * @return {Promise<void>}
+		 */
+		async saveParticipationStatus(participationStatus) {
+			this.operationInProgress = true
+			this.operationMessage = t('calendar', 'Updating participation status…')
+
+			try {
+				await EditorMixin.methods.saveParticipationStatus.call(this, this.userAsAttendee, participationStatus)
+				showSuccess(this.t('calendar', 'Participation status updated successfully.'))
+				this.closeEditorAndSkipAction()
+			} catch (e) {
+				showError(this.t('calendar', 'Failed to update participation status.'))
+			} finally {
+				this.operationInProgress = false
+				this.operationMessage = ''
+			}
+		},
 	},
 }
 </script>
@@ -1083,5 +1170,36 @@ export default {
 	width: 40px;
 	height: auto;
 	border-radius: var(--border-radius);
+}
+
+.edit-full__loading-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(var(--backdrop-color), 0.5);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: calc(var(--default-grid-baseline) * 4);
+	z-index: 10000;
+
+	p {
+		font-size: calc(var(--default-grid-baseline) * 4);
+		font-weight: 500;
+		color: var(--color-text-primary);
+		margin: 0;
+	}
+}
+
+
+
+.app-full__header__top-close-icon {
+	&.disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
 }
 </style>

@@ -37,7 +37,7 @@
 				<template v-else-if="isError">
 					<div class="event-popover__top-actions">
 						<Actions>
-							<ActionButton @click="cancel(false)">
+							<ActionButton :disabled="operationInProgress" @click="cancel(false)">
 								<template #icon>
 									<Close :size="20" decorative />
 								</template>
@@ -104,7 +104,7 @@
 							</ActionButton>
 						</Actions>
 						<Actions>
-							<ActionButton @click="cancel(false)">
+							<ActionButton :disabled="operationInProgress" @click="cancel(false)">
 								<template #icon>
 									<Close :size="20" decorative />
 								</template>
@@ -187,7 +187,7 @@
 							class="event-popover__response-buttons"
 							:attendee="userAsAttendee"
 							:calendar-id="calendarId"
-							@close="closeEditorAndSkipAction" />
+							@respond="saveParticipationStatus" />
 
 						<div v-if="isReadOnlyOrViewing && hasAlarms" class="property-alarm-wrapper">
 							<Bell :size="20" class="property-alarm-icon" />
@@ -215,6 +215,7 @@
 							<NcButton
 								v-if="!isReadOnly && isViewing"
 								:variant="isViewedByAttendee ? 'tertiary' : undefined"
+								:disabled="operationInProgress"
 								@click="isViewing = false">
 								<template #icon>
 									<EditIcon :size="20" />
@@ -224,6 +225,12 @@
 						</SaveButtons>
 					</div>
 				</template>
+
+				<!-- Loading overlay - rendered last to appear on top -->
+				<div v-if="operationInProgress" class="edit-simple__loading-overlay">
+					<NcLoadingIcon :size="64" />
+					<p>{{ operationMessage }}</p>
+				</div>
 			</div>
 		</div>
 		<NcDialog
@@ -238,13 +245,16 @@
 <script>
 import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
 import IconDelete from '@mdi/svg/svg/delete.svg?raw'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import {
 	NcActionButton as ActionButton,
 	NcActionLink as ActionLink,
 	NcActions as Actions,
 	NcEmptyContent as EmptyContent,
 	NcButton,
-	NcCheckboxRadioSwitch, NcDialog,
+	NcCheckboxRadioSwitch,
+	NcDialog,
+	NcLoadingIcon,
 	NcPopover,
 } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
@@ -299,6 +309,7 @@ export default {
 		EditIcon,
 		HelpCircleIcon,
 		NcDialog,
+		NcLoadingIcon,
 	},
 
 	mixins: [
@@ -328,6 +339,8 @@ export default {
 			isViewing: true,
 			closeMask: false,
 			showCancelDialog: false,
+			operationInProgress: false,
+			operationMessage: '',
 			cancelButtons: [
 				{
 					label: t('calendar', 'Discard event'),
@@ -762,6 +775,28 @@ export default {
 		},
 
 		/**
+		 * Respond to an invitation
+		 *
+		 * @param {string} participationStatus The participation status (ACCEPTED, DECLINED, TENTATIVE)
+		 * @return {Promise<void>}
+		 */
+		async saveParticipationStatus(participationStatus) {
+			this.operationInProgress = true
+			this.operationMessage = t('calendar', 'Updating participation status…')
+
+			try {
+				await EditorMixin.methods.saveParticipationStatus.call(this, this.userAsAttendee, participationStatus)
+				showSuccess(this.t('calendar', 'Participation status updated successfully.'))
+				this.closeEditorAndSkipAction()
+			} catch (e) {
+				showError(this.t('calendar', 'Failed to update participation status.'))
+			} finally {
+				this.operationInProgress = false
+				this.operationMessage = ''
+			}
+		},
+
+		/**
 		 * Toggles the all-day state of an event
 		 */
 		toggleAllDayPreliminary() {
@@ -891,6 +926,28 @@ export default {
 .property-alarm-wrapper {
 	display: flex;
 	align-items: center;
+}
+
+.edit-simple__loading-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(var(--backdrop-color), 0.5);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: calc(var(--default-grid-baseline) * 4);
+	z-index: 10000;
+	border-radius: var(--border-radius-large);
+
+	p {
+		margin: 0;
+		font-weight: 500;
+		color: var(--color-main-text);
+	}
 }
 
 </style>
