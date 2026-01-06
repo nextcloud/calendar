@@ -362,6 +362,12 @@ class ProposalService {
 			]);
 		}
 
+		// delete any existing calendar blocker event
+		$result = $this->findCalendarBlocker($user, $proposal);
+		if ($result !== null) {
+			$this->deleteCalendarBlockersOrganizer($user, $result['calendarUri'], $result['eventUri'], $proposal);
+		}
+
 		// store the calendar object
 		$userCalendar->createFromString(
 			Uuid::v4()->toRfc4122() . '.ics',
