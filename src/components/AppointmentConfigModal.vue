@@ -199,6 +199,11 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+
+		isDuplicate: {
+			type: Boolean,
+			default: false,
+		},
 	},
 
 	data() {
@@ -292,6 +297,10 @@ export default {
 	methods: {
 		reset() {
 			this.editing = this.config.clone()
+
+			if (this.isDuplicate) {
+				this.editing.name = `${this.editing.name} ${this.t('calendar', '(copy)')}`
+			}
 
 			this.enablePreparationDuration = !!this.editing.preparationDuration
 			this.enableFollowupDuration = !!this.editing.followupDuration
