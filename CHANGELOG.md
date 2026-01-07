@@ -1,3 +1,14 @@
+## [5.5.12](https://github.com/nextcloud/calendar/compare/v5.5.11...v5.5.12) (2026-01-07)
+
+
+### Bug Fixes
+
+* add duplicated event directly to the target calendar ([93a5c9f](https://github.com/nextcloud/calendar/commit/93a5c9ff1eba78f7ad450898aa1f22240888d4f6))
+* **l10n:** Update translations from Transifex ([2db74a0](https://github.com/nextcloud/calendar/commit/2db74a0f4563ea642b12082efdf9549eb43667b5))
+* **l10n:** Update translations from Transifex ([bd0a9ba](https://github.com/nextcloud/calendar/commit/bd0a9ba1b3811fc5a3b0d1f64343089a2ecc6a1f))
+
+
+
 ## [5.5.11](https://github.com/nextcloud/calendar/compare/v5.5.10...v5.5.11) (2025-12-29)
 
 
