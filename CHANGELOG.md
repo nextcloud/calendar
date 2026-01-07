@@ -1,3 +1,12 @@
+## [6.1.4](https://github.com/nextcloud/calendar/compare/v6.1.3...v6.1.4) (2026-01-07)
+
+
+### Bug Fixes
+
+* add duplicated event directly to the target calendar ([9cf4ceb](https://github.com/nextcloud/calendar/commit/9cf4cebe8400efffa427ef35261e38e08cb7d121))
+
+
+
 ## [6.1.3](https://github.com/nextcloud/calendar/compare/v6.1.2...v6.1.3) (2025-12-29)
 
 
