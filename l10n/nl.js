@@ -146,6 +146,7 @@ OC.L10N.register(
     "Unshare from me" : "Stop delen met mij",
     "Save" : "Opslaan",
     "No title" : "Geen titel",
+    "Are you sure you want to delete \"{title}\"?" : "Weet je zeker dat je \"{title}\" wilt verwijderen?",
     "View" : "Bekijken",
     "Import calendars" : "Importeer agenda's",
     "Please select a calendar to import into …" : "Selecteer een agenda om naar te importeren  ...",
