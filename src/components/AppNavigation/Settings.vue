@@ -502,9 +502,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .settings-fieldset-interior-item,
 :deep(.v-select.select) {
 	width: 100%;
+}
+
+:deep(.settings-button__icon > svg) {
+	margin: 7px 5px 7px 9px;
 }
 </style>
