@@ -14,9 +14,11 @@
 			:organizer-display-name="commonName"
 			:schedule-status="organizer.attendeeProperty.getParameterFirstValue('SCHEDULE-STATUS')"
 			participation-status="ACCEPTED" />
-		<div class="invitees-list-item__displayname">
-			{{ commonName }}
-		</div>
+
+		<AttendeeDetails
+			:display-name="commonName"
+			:email="organizerEmail" />
+
 		<div class="invitees-list-item__organizer-hint">
 			{{ $t('calendar', '(organizer)') }}
 		</div>
@@ -54,11 +56,13 @@ import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import Crown from 'vue-material-design-icons/CrownOutline.vue'
 import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
+import AttendeeDetails from './AttendeeDetails.vue'
 import { removeMailtoPrefix } from '../../../utils/attendee.js'
 
 export default {
 	name: 'OrganizerListItem',
 	components: {
+		AttendeeDetails,
 		AvatarParticipationStatus,
 		Crown,
 		NcActions,
@@ -117,6 +121,15 @@ export default {
 			return ''
 		},
 
+		/**
+		 * Email address without the 'mailto:' prefix
+		 *
+		 * @return {string}
+		 */
+		organizerEmail() {
+			return this.organizer.uri ? removeMailtoPrefix(this.organizer.uri) : ''
+		},
+
 		isResource() {
 			// The organizer does not have a tooltip
 			return false
@@ -139,13 +152,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.invitees-list-item__displayname {
-	margin-bottom: 13px;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	white-space: nowrap;
-}
-
 .invitees-list-item__organizer-hint {
 	margin-bottom: 14px;
 }
