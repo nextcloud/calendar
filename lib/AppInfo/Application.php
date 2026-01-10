@@ -16,6 +16,7 @@ use OCA\Calendar\Listener\UserDeletedListener;
 use OCA\Calendar\Notification\Notifier;
 use OCA\Calendar\Profile\AppointmentsAction;
 use OCA\Calendar\Reference\ReferenceProvider;
+use OCA\Calendar\UserMigration\Migrator;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -63,6 +64,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CalendarObjectDeletedEvent::class, NotifyPushListener::class);
 
 		$context->registerNotifierService(Notifier::class);
+
+		$context->registerUserMigrator(Migrator::class);
 	}
 
 	/**
