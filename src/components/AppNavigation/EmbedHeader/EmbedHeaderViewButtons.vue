@@ -30,7 +30,7 @@
 			{{ $t('calendar', 'Year') }}
 		</NcButton>
 		<NcButton
-			:class="isMonthListViewSelected ? 'primary' : 'secondary'"
+			:variant="isMonthListViewSelected ? 'primary' : 'secondary'"
 			class="button"
 			@click="view('listMonth')">
 			{{ $t('calendar', 'List') }}
