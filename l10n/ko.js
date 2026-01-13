@@ -414,6 +414,7 @@ OC.L10N.register(
     "Title" : "제목",
     "30 min" : "30분",
     "Participants" : "참가자",
+    "Thank you for your response!" : "답변해 주셔서 감사합니다!",
     "Submit" : "제출",
     "Subscribe to {name}" : "{name} 구독",
     "Export {name}" : "{name} 내보내기",
