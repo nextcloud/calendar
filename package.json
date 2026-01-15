@@ -73,7 +73,7 @@
     "md5": "^2.3.0",
     "p-limit": "^7.1.0",
     "pinia": "^2.3.1",
-    "vue": "^2.7.16",
+    "vue": "^3.0.0-alpha",
     "vue-material-design-icons": "^5.3.1",
     "vue-router": "^3.6.5",
     "vuedraggable": "^2.24.3",
