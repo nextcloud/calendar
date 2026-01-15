@@ -31,7 +31,15 @@
 				</ActionButton>
 				<ActionButton
 					:close-after-click="true"
-					@click="showModal = true">
+					@click="duplicate">
+					<template #icon>
+						<ContentDuplicate :size="20" />
+					</template>
+					{{ t('calendar', 'Duplicate') }}
+				</ActionButton>
+				<ActionButton
+					:close-after-click="true"
+					@click="openEditModal">
 					<template #icon>
 						<PencilIcon :size="20" />
 					</template>
@@ -49,7 +57,8 @@
 		</AppNavigationItem>
 		<AppointmentConfigModal
 			v-if="showModal"
-			:is-new="false"
+			:is-new="isDuplicate"
+			:is-duplicate="isDuplicate"
 			:config="config"
 			@close="closeModal" />
 	</div>
@@ -63,6 +72,7 @@ import {
 	NcAppNavigationItem as AppNavigationItem,
 } from '@nextcloud/vue'
 import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
+import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
 import LinkVariantIcon from 'vue-material-design-icons/Link.vue'
 import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
 import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
@@ -78,6 +88,7 @@ export default {
 		AppNavigationItem,
 		ActionButton,
 		ActionLink,
+		ContentDuplicate,
 		DeleteIcon,
 		OpenInNewIcon,
 		PencilIcon,
@@ -96,6 +107,7 @@ export default {
 		return {
 			showModal: false,
 			loading: false,
+			isDuplicate: false,
 		}
 	},
 
@@ -108,6 +120,17 @@ export default {
 	methods: {
 		closeModal() {
 			this.showModal = false
+			this.isDuplicate = false
+		},
+
+		openEditModal() {
+			this.isDuplicate = false
+			this.showModal = true
+		},
+
+		duplicate() {
+			this.isDuplicate = true
+			this.showModal = true
 		},
 
 		async copyLink() {
