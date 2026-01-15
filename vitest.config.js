@@ -24,5 +24,8 @@ export default defineConfig({
 		environment: 'jsdom',
 		// Required for transforming CSS files
 		pool: 'vmForks',
+		// Increase timeouts for slow CI environments
+		testTimeout: 120000, // 2 minutes per test
+		hookTimeout: 30000,  // 30 seconds for hooks
 	},
 });
