@@ -336,7 +336,7 @@ export async function updateRoomParticipantsFromEvent(eventComponent: object): P
  */
 async function transceiveGet<TRequest extends object | undefined, TResponse>(path: string, params?: TRequest): Promise<TResponse> {
 	const apiVersion = loadState('calendar', 'talk_api_version')
-	const url = generateOcsUrl('/apps/spreed/api/{apiVersion}/{path}', { apiVersion, path })
+	const url = generateOcsUrl('/apps/spreed/api/{apiVersion}', { apiVersion }) + `/${path}`
 
 	let response: AxiosResponse<TResponse>
 	try {
@@ -397,7 +397,7 @@ async function transceiveGet<TRequest extends object | undefined, TResponse>(pat
  */
 async function transceivePost<TRequest extends object, TResponse>(path: string, data: TRequest): Promise<TResponse> {
 	const apiVersion = loadState('calendar', 'talk_api_version')
-	const url = generateOcsUrl('/apps/spreed/api/{apiVersion}/{path}', { apiVersion, path })
+	const url = generateOcsUrl('/apps/spreed/api/{apiVersion}', { apiVersion }) + `/${path}`
 
 	let response: AxiosResponse<TResponse>
 	try {
