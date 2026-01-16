@@ -35,6 +35,7 @@ OC.L10N.register(
     "Out of office" : "Van kancelarije",
     "Done" : "Gotovo",
     "Unknown" : "Nepoznato",
+    "Copied to clipboard" : "Kopirano u klipbord",
     "never" : "never",
     "Yes" : "Da",
     "No" : "Ne",

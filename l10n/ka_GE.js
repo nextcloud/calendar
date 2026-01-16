@@ -62,6 +62,7 @@ OC.L10N.register(
     "Accept" : "მიღება",
     "Decline" : "ურაყოფა",
     "Tentative" : "საცდელი",
+    "Copied to clipboard" : "კოპირებულია კლიპბორდში",
     "Attendees" : "დამსწრეები",
     "Repeat" : "გამეორება",
     "never" : "არასდროს",

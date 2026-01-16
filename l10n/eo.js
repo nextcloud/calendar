@@ -91,6 +91,7 @@ OC.L10N.register(
     "Accept" : "Akcepti",
     "Decline" : "Malakcepti",
     "Tentative" : "Nekonfirmita",
+    "Copied to clipboard" : "Kopiita en la tondejon",
     "Attendees" : "Ĉeestontoj",
     "Remove group" : "Forigi grupon",
     "Required participant" : "Bezonata partoprenanto",

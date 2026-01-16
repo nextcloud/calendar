@@ -71,6 +71,7 @@ OC.L10N.register(
     "Accept" : "ยอมรับ",
     "Decline" : "ปฏิเสธ",
     "Tentative" : "ชั่วคราว",
+    "Copied to clipboard" : "คัดลอกไปยังคลิปบอร์ดแล้ว",
     "Attendees" : "ผู้เข้าร่วมกิจกรรม",
     "Remove group" : "ลบกลุ่ม",
     "Repeat" : "ทำซ้ำ",

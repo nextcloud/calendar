@@ -49,6 +49,7 @@ OC.L10N.register(
     "days" : "Deeg",
     "weeks" : "Wochen",
     "Unknown" : "Onbekannt",
+    "Copied to clipboard" : "An d'Tëschenoflag kopéiert",
     "Attendees" : "Participanten",
     "Repeat" : "Widderhuelen",
     "never" : "Ni",
