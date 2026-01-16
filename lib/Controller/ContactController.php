@@ -18,6 +18,7 @@ use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\QueryException;
 use OCP\Contacts\IManager;
+use OCP\IAppConfig;
 use OCP\IRequest;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
@@ -41,6 +42,7 @@ class ContactController extends Controller {
 		private IAppManager $appManager,
 		private IUserManager $userManager,
 		private ContactsService $contactsService,
+		private IAppConfig $appConfig,
 		private LoggerInterface $logger,
 	) {
 		parent::__construct($appName, $request);
@@ -100,11 +102,16 @@ class ContactController extends Controller {
 			return new JSONResponse();
 		}
 
-		$result = $this->contactsManager->search($search, ['FN', 'EMAIL']);
+		$externalAttendeesDisabled = $this->appConfig->getValueBool('dav', 'caldav_external_attendees_disabled', false);
+		$result = $this->contactsManager->search($search, ['FN', 'EMAIL'], ['enumeration' => true]);
 
 		$contacts = [];
 		foreach ($result as $r) {
-			if ($this->contactsService->isSystemBook($r) || !$this->contactsService->hasEmail($r)) {
+			if (!$this->contactsService->hasEmail($r)) {
+				continue;
+			}
+			// When external attendees are disabled, only include system book contacts
+			if ($externalAttendeesDisabled && !$this->contactsService->isSystemBook($r)) {
 				continue;
 			}
 			$name = $this->contactsService->getNameFromContact($r);
@@ -122,24 +129,27 @@ class ContactController extends Controller {
 			];
 		}
 
-		$groups = $this->contactsManager->search($search, ['CATEGORIES']);
-		$groups = array_filter($groups, function ($group) {
-			return $this->contactsService->hasEmail($group);
-		});
-		$filtered = $this->contactsService->filterGroupsWithCount($groups, $search);
-		foreach ($filtered as $groupName => $count) {
-			if ($count === 0) {
-				continue;
+		// Skip contact groups when external attendees are disabled
+		if (!$externalAttendeesDisabled) {
+			$groups = $this->contactsManager->search($search, ['CATEGORIES']);
+			$groups = array_filter($groups, function ($group) {
+				return $this->contactsService->hasEmail($group);
+			});
+			$filtered = $this->contactsService->filterGroupsWithCount($groups, $search);
+			foreach ($filtered as $groupName => $count) {
+				if ($count === 0) {
+					continue;
+				}
+				$contacts[] = [
+					'name' => $groupName,
+					'emails' => ['mailto:' . urlencode($groupName) . '@group'],
+					'lang' => '',
+					'tzid' => '',
+					'photo' => '',
+					'type' => 'contactsgroup',
+					'members' => $count,
+				];
 			}
-			$contacts[] = [
-				'name' => $groupName,
-				'emails' => ['mailto:' . urlencode($groupName) . '@group'],
-				'lang' => '',
-				'tzid' => '',
-				'photo' => '',
-				'type' => 'contactsgroup',
-				'members' => $count,
-			];
 		}
 
 		return new JSONResponse($contacts);
