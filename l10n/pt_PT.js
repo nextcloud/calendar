@@ -238,6 +238,7 @@ OC.L10N.register(
     "Accept" : "Aceitar",
     "Decline" : "Recusar",
     "Tentative" : "Tentativa",
+    "Copied to clipboard" : "Copiado para a área de transferência",
     "Attendees" : "Participantes",
     "From" : "De",
     "To" : "Para",

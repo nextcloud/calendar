@@ -182,6 +182,7 @@ OC.L10N.register(
     "Accept" : "Prihvati",
     "Decline" : "Odbij",
     "Tentative" : "Uvjetno",
+    "Copied to clipboard" : "Kopirano u međuspremnik",
     "No attendees yet" : "Još nema sudionika",
     "Attendees" : "Sudionici",
     "Remove group" : "Ukloni grupu",

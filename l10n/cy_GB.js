@@ -222,6 +222,7 @@ OC.L10N.register(
     "Accept" : "Derbyn",
     "Decline" : "Gwrthod",
     "Tentative" : "I'w gadarnhau",
+    "Copied to clipboard" : "Wedi'i gopïo i'r clipfwrdd",
     "No attendees yet" : "Dim mynychwyr eto",
     "Attendees" : "Mynychwyr",
     "Remove attendee" : "Dileu mynychwr",

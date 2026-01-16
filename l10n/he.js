@@ -216,6 +216,7 @@ OC.L10N.register(
     "Accept" : "אשר",
     "Decline" : "דחייה",
     "Tentative" : "טנטטיבית",
+    "Copied to clipboard" : "הועתק ללוח הגזירים",
     "No attendees yet" : "עדיין אין משתתפים",
     "Attendees" : "משתתפים",
     "Remove group" : "הסרת קבוצה",

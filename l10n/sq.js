@@ -73,6 +73,7 @@ OC.L10N.register(
     "Accept" : "Prano",
     "Decline" : "Refuzo",
     "Tentative" : "Tentativë",
+    "Copied to clipboard" : "U kopjua në clipboard",
     "Attendees" : "Pjesëmarrës",
     "Remove group" : "Hiq grupin",
     "Repeat" : "Përsërite",

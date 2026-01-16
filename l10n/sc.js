@@ -181,6 +181,7 @@ OC.L10N.register(
     "Accept" : "Atzeta",
     "Decline" : "Refuda",
     "Tentative" : "Intentu",
+    "Copied to clipboard" : "Copiadu in punta de billete",
     "No attendees yet" : "Ancora peruna persone pro partetzipare",
     "Attendees" : "Partetzipantes",
     "Remove group" : "Boga·nche grupu",

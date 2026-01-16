@@ -110,6 +110,7 @@ OC.L10N.register(
     "Accept" : "Acceptar",
     "Decline" : "Declinar",
     "Tentative" : "Provisòri",
+    "Copied to clipboard" : "Copiat dins lo cartabèu",
     "Attendees" : "Convidats",
     "Remove group" : "Suprimir lo grop",
     "Remove color" : "Suprimir la color",
