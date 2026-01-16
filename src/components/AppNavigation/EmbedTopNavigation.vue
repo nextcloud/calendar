@@ -131,12 +131,5 @@ export default {
 		display: flex;
 
 	}
-
-	.datepicker-button-section {
-		display: flex;
-		&__datepicker-label {
-			min-width: 150px;
-		}
-	}
 }
 </style>

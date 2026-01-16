@@ -18,7 +18,9 @@
 	</div>
 
 	<NcContent v-else app-name="calendar" :class="classNames">
-		<AppNavigation v-if="!isWidget && !isEmbedded && !showEmptyCalendarScreen">
+		<AppNavigation
+			v-if="!isWidget && !isEmbedded && !showEmptyCalendarScreen"
+			aria-label="Calendar navigation">
 			<!-- Date Picker, View Buttons, Today Button -->
 			<AppNavigationHeader :is-public="!isAuthenticatedUser" />
 			<template #list>
@@ -466,6 +468,11 @@ export default {
 
 .simple-editor-anchor {
 	position: relative;
+}
+
+.property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {
+	margin-inline-start: unset !important;
+	padding-inline-end: unset !important;
 }
 </style>
 ```
