@@ -61,6 +61,7 @@ OC.L10N.register(
     "Done" : "Immed",
     "Busy" : "Ur yestuf ara",
     "Unknown" : "Arussin",
+    "Copied to clipboard" : "Aḍris yettwanγel γef afus",
     "Yes" : "Ih",
     "No" : "Uhu",
     "None" : "Ula d yiwen",

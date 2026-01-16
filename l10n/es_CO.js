@@ -68,6 +68,7 @@ OC.L10N.register(
     "Accept" : "Aceptar",
     "Decline" : "Declinar",
     "Tentative" : "Tentativo",
+    "Copied to clipboard" : "Copiado al portapapeles",
     "Attendees" : "Asistentes",
     "Repeat" : "Repetir",
     "never" : "nunca",
