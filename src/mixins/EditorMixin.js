@@ -12,6 +12,7 @@ import useCalendarObjectsStore from '../store/calendarObjects.js'
 import useCalendarsStore from '../store/calendars.js'
 import usePrincipalsStore from '../store/principals.js'
 import useSettingsStore from '../store/settings.js'
+import useWidgetStore from '../store/widget.js'
 import { removeMailtoPrefix } from '../utils/attendee.js'
 import { uidToHexColor } from '../utils/color.js'
 import { dateFactory } from '../utils/date.js'
@@ -61,7 +62,7 @@ export default {
 		}),
 		...mapState(useCalendarsStore, ['initialCalendarsLoaded']),
 		...mapState(useCalendarObjectInstanceStore, ['calendarObject', 'calendarObjectInstance']),
-		...mapStores(useCalendarsStore, usePrincipalsStore, useCalendarObjectsStore, useCalendarObjectInstanceStore, useSettingsStore),
+		...mapStores(useCalendarsStore, usePrincipalsStore, useCalendarObjectsStore, useCalendarObjectInstanceStore, useSettingsStore, useWidgetStore),
 		eventComponent() {
 			return this.calendarObjectInstance?.eventComponent
 		},
@@ -404,7 +405,7 @@ export default {
 		 */
 		closeEditor() {
 			if (this.isWidget) {
-				this.calendarsStore.closeWidgetEventDetails()
+				this.widgetStore.closeWidgetEventDetails()
 				return
 			}
 			const params = { ...this.$route.params }
