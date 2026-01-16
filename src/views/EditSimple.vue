@@ -723,7 +723,12 @@ export default {
 				left: `${left}px`,
 				zIndex: 9999,
 				maxWidth: '100vw',
-				maxHeight: '90vh',
+				maxHeight: `min(90vh, calc(100vh - ${top}px))`,
+			}
+
+			const innerEl = document.querySelector('.event-popover__inner.edit-simple')
+			if (innerEl) {
+				innerEl.style.maxHeight = `min(90vh, calc(100vh - ${top}px))`
 			}
 
 			// Verify and fine-tune position before showing
