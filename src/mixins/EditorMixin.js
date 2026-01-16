@@ -527,7 +527,30 @@ export default {
 			this.requiresActionOnRouteLeave = false
 			this.closeEditor()
 		},
-
+		/**
+		 * Set the participation status for an attendee and save the event
+		 *
+		 * @param {object} attendee The attendee object
+		 * @param {string} participationStatus The new participation status (ACCEPTED, DECLINED, TENTATIVE)
+		 * @return {Promise<void>}
+		 */
+		async saveParticipationStatus(attendee, participationStatus) {
+			try {
+				this.calendarObjectInstanceStore.changeAttendeesParticipationStatus({
+					attendee,
+					participationStatus,
+				})
+				// TODO: What about recurring events? Add new buttons like "Accept this and all future"?
+				// Currently, this will only accept a single occurrence.
+				await this.calendarObjectInstanceStore.saveCalendarObjectInstance({
+					thisAndAllFuture: false,
+					calendarId: this.calendarId,
+				})
+			} catch (error) {
+				logger.error('Failed to set participation status', { error, participationStatus })
+				throw error
+			}
+		},
 		/**
 		 * Duplicates a calendar-object and saves it
 		 *
