@@ -1,3 +1,14 @@
+## [6.1.5](https://github.com/nextcloud/calendar/compare/v6.1.4...v6.1.5) (2026-01-16)
+
+
+### Bug Fixes
+
+* **l10n:** Update translations from Transifex ([aa5cbc2](https://github.com/nextcloud/calendar/commit/aa5cbc217a50777a71d22d32eac349e9691ce5ef))
+* meeting proposal conversion error ([a7a9913](https://github.com/nextcloud/calendar/commit/a7a9913dc8e6f55621a2d64496300936438e3bd1))
+* restrict calendar invitation users ([0036b64](https://github.com/nextcloud/calendar/commit/0036b6442503bd13c8ab749fc924025c7e111ea4))
+
+
+
 ## [6.1.4](https://github.com/nextcloud/calendar/compare/v6.1.3...v6.1.4) (2026-01-07)
 
 
