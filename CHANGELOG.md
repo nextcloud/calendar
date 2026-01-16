@@ -1,3 +1,18 @@
+## [5.5.13](https://github.com/nextcloud/calendar/compare/v5.5.12...v5.5.13) (2026-01-16)
+
+
+### Bug Fixes
+
+* **l10n:** Update translations from Transifex ([420e503](https://github.com/nextcloud/calendar/commit/420e5033b4734b76c142bc320dec9945e99a20ff))
+* **l10n:** Update translations from Transifex ([4360580](https://github.com/nextcloud/calendar/commit/43605800d306ce2ff3976ebbe1b8377c45e6e2fc))
+* **l10n:** Update translations from Transifex ([06db44a](https://github.com/nextcloud/calendar/commit/06db44a2c7a8a0e508438d355c0d72c5edb56e9d))
+* **l10n:** Update translations from Transifex ([4571430](https://github.com/nextcloud/calendar/commit/4571430d51fd4e9e221728e5e77460faa117c5a9))
+* **l10n:** Update translations from Transifex ([c29d6f9](https://github.com/nextcloud/calendar/commit/c29d6f9801f41fd7f8be9bf9b2ac7fb52d893fdd))
+* restrict calendar invitation users ([8a684ee](https://github.com/nextcloud/calendar/commit/8a684ee28cc3af3232cadb7bfe363d71c18f0b42))
+* settings button icon alignment ([5b11baa](https://github.com/nextcloud/calendar/commit/5b11baa7f9b6734bb0070c29dc06f4ddd4b8293e))
+
+
+
 ## [5.5.12](https://github.com/nextcloud/calendar/compare/v5.5.11...v5.5.12) (2026-01-07)
 
 
