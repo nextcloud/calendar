@@ -259,6 +259,7 @@ OC.L10N.register(
     "available" : "disponível",
     "Yes" : "Sim",
     "No" : "Não",
+    "Maybe" : "Talvez",
     "None" : "Nenhum",
     "Create" : "Criar",
     "Pick a date" : "Escolha uma data",

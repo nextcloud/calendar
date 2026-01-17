@@ -116,6 +116,7 @@ OC.L10N.register(
     "Unknown" : "Dianv",
     "Accept" : "Asantiñ",
     "Tentative" : "Taol-esae",
+    "Copied to clipboard" : "Eilet er golver",
     "Remove group" : "Lemel strollad",
     "never" : "james",
     "after" : "goude",

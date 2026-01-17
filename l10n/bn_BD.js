@@ -45,6 +45,7 @@ OC.L10N.register(
     "Choose a file to add as attachment" : "সংযুক্তি দেয়ার জন্য একটি ফাইল নির্বাচন করুন",
     "Done" : "শেষ হলো",
     "Unknown" : "অজানা",
+    "Copied to clipboard" : "ক্লিপবোর্ডে কপি করা হলো",
     "Attendees" : "অংশগ্রহণকারীবৃন্দ",
     "Repeat" : "পূনঃসংঘটন",
     "never" : "কখনোই নয়",

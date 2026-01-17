@@ -334,6 +334,7 @@ OC.L10N.register(
     "Accept" : "Accepta",
     "Decline" : "Rebutja",
     "Tentative" : "Provisional",
+    "Copied to clipboard" : "Copiat al porta-retalls",
     "No attendees yet" : "Encara no hi ha cap participant",
     "Attendees" : "Assistents",
     "Remove group" : "Suprimir el grup",
