@@ -10,6 +10,15 @@
 				<AccountMultipleIcon :size="20" />
 				<span class="invitees-list__header__title__text">{{ t('calendar', 'Attendees') }}</span>
 				<NcCounterBubble :count="invitees.length + 1" />
+				<NcButton
+					:disabled="invitees.length === 0"
+					:aria-label="t('calendar', 'Export attendees')"
+					:title="t('calendar', 'Export attendees')"
+					@click="exportInvitteesList">
+					<template #icon>
+						<Download :size="20" />
+					</template>
+				</NcButton>
 			</div>
 
 			<div v-if="!hideButtons" class="invitees-list-button-group">
@@ -81,6 +90,7 @@ import {
 import { NcButton, NcCounterBubble } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import AccountMultipleIcon from 'vue-material-design-icons/AccountMultipleOutline.vue'
+import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 import FreeBusy from '../FreeBusy/FreeBusy.vue'
 import OrganizerNoEmailError from '../OrganizerNoEmailError.vue'
 import InviteesListItem from './InviteesListItem.vue'
@@ -104,6 +114,7 @@ export default {
 		OrganizerListItem,
 		AccountMultipleIcon,
 		NcCounterBubble,
+		Download,
 	},
 
 	props: {
@@ -445,6 +456,28 @@ export default {
 		saveNewDate(dates) {
 			this.$emit('update-dates', dates)
 			this.showFreeBusyModel = false
+		},
+
+		exportInvitteesList() {
+			const BOM = '\uFEFF'
+			const headers = `${t('calendar', 'Name')},${t('calendar', 'Email')},${t('calendar', 'Status')},${t('calendar', 'Role')}\n`
+			const rows = this.inviteesWithoutOrganizer.map((attendee) => {
+				const name = attendee.commonName || ''
+				const email = removeMailtoPrefix(attendee.uri) || ''
+				const status = attendee.participationStatus || ''
+				const role = attendee.role || ''
+				return `${name},${email},${status},${role}\n`
+			})
+			const csvContent = BOM + headers + rows.join('')
+			const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+			const link = document.createElement('a')
+			link.href = URL.createObjectURL(blob)
+			const eventTitle = this.calendarObjectInstance.title || t('calendar', 'Untitled event')
+			const timestamp = new Date().toISOString().slice(0, 10)
+			link.setAttribute('download', `${eventTitle}-${timestamp}.csv`)
+			document.body.appendChild(link)
+			link.click()
+			document.body.removeChild(link)
 		},
 	},
 }
