@@ -373,6 +373,7 @@ OC.L10N.register(
     "Accept" : "Приемам",
     "Decline" : "Отхвърляне",
     "Tentative" : "Несигурно",
+    "Copied to clipboard" : "Копирано в клипборда",
     "No attendees yet" : "Все още няма участващи",
     "Please add at least one attendee to use the \"Find a time\" feature." : "Моля добавете поне един участник, за да използвате функцията „Намиране на час“.",
     "Attendees" : "Участници",

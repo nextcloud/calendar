@@ -384,6 +384,8 @@ OC.L10N.register(
     "Decline" : "回絕",
     "Tentative" : "暫定",
     "Copied to clipboard" : "已複製到剪貼簿",
+    "Failed to copy" : "複製失敗",
+    "Copy name and email address" : "複製名字與電子郵件地址",
     "No attendees yet" : "還沒有任何參與者",
     "{confirmedCount} confirmed, {waitingCount} awaiting response" : "{confirmedCount} 個已確認，{waitingCount} 個正在等待回應",
     "Please add at least one attendee to use the \"Find a time\" feature." : "請新增至少一位參與者，以使用「尋找時間」功能。",
