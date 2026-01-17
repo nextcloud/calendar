@@ -49,6 +49,7 @@ OC.L10N.register(
     "Done" : "Edildi",
     "Accept" : "Qəbul et",
     "Decline" : "İmtina",
+    "Copied to clipboard" : "Mübadilə buferinə nüsxələndi",
     "Attendees" : "İştirakçılar",
     "Remove group" : "Qrupu sil",
     "Repeat" : "Təkrar",
