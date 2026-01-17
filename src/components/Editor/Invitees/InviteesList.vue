@@ -10,6 +10,15 @@
 				<AccountMultipleIcon :size="20" />
 				<span class="invitees-list__header__title__text">{{ t('calendar', 'Attendees') }}</span>
 				<NcCounterBubble :count="invitees.length + 1" />
+				<NcButton
+					:disabled="invitees.length === 0"
+					:aria-label="t('calendar', 'Copy attendees to clipboard')"
+					:title="t('calendar', 'Copy attendees to clipboard')"
+					@click="copyAttendeesToClipboard">
+					<template #icon>
+						<ContentCopy :size="20" />
+					</template>
+				</NcButton>
 			</div>
 
 			<div v-if="!hideButtons" class="invitees-list-button-group">
@@ -81,6 +90,7 @@ import {
 import { NcButton, NcCounterBubble } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import AccountMultipleIcon from 'vue-material-design-icons/AccountMultipleOutline.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import FreeBusy from '../FreeBusy/FreeBusy.vue'
 import OrganizerNoEmailError from '../OrganizerNoEmailError.vue'
 import InviteesListItem from './InviteesListItem.vue'
@@ -104,6 +114,7 @@ export default {
 		OrganizerListItem,
 		AccountMultipleIcon,
 		NcCounterBubble,
+		ContentCopy,
 	},
 
 	props: {
@@ -445,6 +456,24 @@ export default {
 		saveNewDate(dates) {
 			this.$emit('update-dates', dates)
 			this.showFreeBusyModel = false
+		},
+
+		async copyAttendeesToClipboard() {
+			const headers = `${this.t('calendar', 'Name')}\t${this.t('calendar', 'Email')}\t${this.t('calendar', 'Status')}\t${this.t('calendar', 'Role')}`
+			const rows = this.inviteesWithoutOrganizer.map((attendee) => {
+				const name = attendee.commonName || ''
+				const email = removeMailtoPrefix(attendee.uri) || ''
+				const status = attendee.participationStatus || ''
+				const role = attendee.role || ''
+				return `${name}\t${email}\t${status}\t${role}`
+			})
+			const tsvContent = [headers, ...rows].join('\n')
+			try {
+				await navigator.clipboard.writeText(tsvContent)
+				showSuccess(this.t('calendar', 'Attendees copied to clipboard'))
+			} catch (e) {
+				showError(this.t('calendar', 'Failed to copy attendees to clipboard'))
+			}
 		},
 	},
 }
