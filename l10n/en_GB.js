@@ -384,6 +384,8 @@ OC.L10N.register(
     "Decline" : "Decline",
     "Tentative" : "Tentative",
     "Copied to clipboard" : "Copied to clipboard",
+    "Failed to copy" : "Failed to copy",
+    "Copy name and email address" : "Copy name and email address",
     "No attendees yet" : "No attendees yet",
     "{confirmedCount} confirmed, {waitingCount} awaiting response" : "{confirmedCount} confirmed, {waitingCount} awaiting response",
     "Please add at least one attendee to use the \"Find a time\" feature." : "Please add at least one attendee to use the \"Find a time\" feature.",
