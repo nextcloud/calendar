@@ -90,6 +90,21 @@ export default defineStore('calendars', {
 		},
 
 		/**
+		 * List of sorted writable calendars.
+		 *
+		 * Even including ones without support for events.
+		 * Those are usually excluded by all other getters.
+		 *
+		 * @param {object} state the store data
+		 * @return {Array}
+		 */
+		sortedWritableCalendarsEvenWithoutSupportForEvents(state) {
+			return state.calendars
+				.filter((calendar) => !calendar.readOnly)
+				.sort((a, b) => a.order - b.order)
+		},
+
+		/**
 		 * List of sorted calendars owned by the principal
 		 *
 		 * @param {object} state the store data
@@ -218,29 +233,6 @@ export default defineStore('calendars', {
 			}
 
 			return null
-		},
-
-		/**
-		 * @return {function({Boolean}, {Boolean}, {Boolean}): {Object}[]}
-		 */
-		sortedCalendarFilteredByComponents() {
-			return (vevent, vjournal, vtodo) => {
-				return this.sortedCalendars.filter((calendar) => {
-					if (vevent && !calendar.supportsEvents) {
-						return false
-					}
-
-					if (vjournal && !calendar.supportsJournals) {
-						return false
-					}
-
-					if (vtodo && !calendar.supportsTasks) {
-						return false
-					}
-
-					return true
-				})
-			}
 		},
 
 		/**
