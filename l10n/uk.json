@@ -546,7 +546,7 @@
     "Failed to create a meeting for {date}" : "Не вдалося створити зустріч для {date}",
     "Please enter a valid duration in minutes." : "Зазначте дійсну тривалість у хвилинах.",
     "Failed to fetch proposals" : "Не вдалося отримати пропозиції зустрічей",
-    "Failed to fetch free/busy data" : "Не вдалося отримати дати доступности",
+    "Failed to fetch free/busy data" : "Не вдалося отримати дати доступності",
     "Selected" : "Вибрано",
     "No Description" : "Без опису",
     "No Location" : "Місце не вибрано",
