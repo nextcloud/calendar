@@ -264,7 +264,7 @@ export default {
 	&__indicator {
 		position: absolute;
 		bottom: 2px !important;
-		inset-inline-start: 43px;
+		inset-inline-start: 38px;
 		inset-inline-end: 0;
 		background-size: 10px;
 		height: 15px;
@@ -293,7 +293,7 @@ export default {
 
 	&__text {
 		opacity: .45;
-		inset-inline-start: 63px;
+		inset-inline-start: 58px;
 		bottom: 21px;
 		white-space: nowrap;
 		position: relative;

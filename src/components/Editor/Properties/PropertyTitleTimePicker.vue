@@ -615,6 +615,10 @@ export default {
 			align-self: start;
 			padding-top: calc(var(--default-grid-baseline) / 2);
 		}
+
+		.property-title-time-picker__time-pickers {
+			margin-inline-start: calc(var(--default-grid-baseline) * 0.5)
+		}
 	}
 
 	.property-title-time-picker-read-only-wrapper {

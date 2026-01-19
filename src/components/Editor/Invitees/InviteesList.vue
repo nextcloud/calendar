@@ -469,14 +469,14 @@ export default {
 			}
 
 			&__text {
-				margin-inline-start: calc(var(--default-grid-baseline) * 4);
+				margin-inline-start: calc(var(--default-grid-baseline) * 2);
 			}
 		}
 	}
 
 	&__subtitle {
 		color: var(--color-text-maxcontrast);
-		margin-inline-start: calc(var(--default-grid-baseline) * 11);
+		margin-inline-start: calc(var(--default-grid-baseline) * 9);
 	}
 
 	&__more {

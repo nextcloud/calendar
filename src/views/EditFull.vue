@@ -826,7 +826,7 @@ export default {
 	margin: calc(var(--default-grid-baseline) * 16) auto auto;
 
 	:deep(.avatar-participation-status__text) {
-		bottom: -1px !important;
+		bottom: -2px !important;
 		position: absolute !important;
 		max-width: min(calc(100vw - 130px), 500px) !important;
 		min-width: unset !important;
@@ -873,7 +873,7 @@ export default {
 			}
 
 			&-close-icon {
-				width: calc(var(--default-grid-baseline) * 4 + 22px);
+				width: calc(var(--default-grid-baseline) * 4 + 21px);
 				display: flex;
 				justify-content: flex-start;
 				visibility: hidden;
@@ -935,7 +935,7 @@ export default {
 		flex-direction: column;
 		gap: calc(var(--default-grid-baseline) * 4);
 
-		.property-select__input {
+		:deep(.property-select__input) {
 			max-width: calc(var(--total-width) * 1 / 3 - var(--column-gap) / 2 - 36px);
 			display: flex;
 			align-items: center;
