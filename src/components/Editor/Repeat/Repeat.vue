@@ -78,12 +78,19 @@
 				<RepeatUnsupportedWarning v-if="recurrenceRule.isUnsupported && !isRecurrenceException" />
 				<RepeatExceptionWarning v-if="isRecurrenceException" />
 			</div>
+			<div
+				v-if="!isRecurrenceException && !isReadOnly"
+				class="property-repeat__options__footer">
+				<NcButton variant="primary" @click="saveAndClose">
+					{{ $t('calendar', 'Add') }}
+				</NcButton>
+			</div>
 		</NcModal>
 	</div>
 </template>
 
 <script>
-import { NcActionButton as ActionButton, NcActions as Actions, NcModal } from '@nextcloud/vue'
+import { NcActionButton as ActionButton, NcActions as Actions, NcButton, NcModal } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
 import Check from 'vue-material-design-icons/Check.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
@@ -115,6 +122,7 @@ export default {
 		Actions,
 		ActionButton,
 		NcModal,
+		NcButton,
 	},
 
 	props: {
@@ -491,6 +499,13 @@ export default {
 		},
 
 		/**
+		 * Save (already applied) and close the modal
+		 */
+		saveAndClose() {
+			this.showOptions = false
+		},
+
+		/**
 		 * Toggle visibility of the options
 		 */
 		toggleOptions() {
@@ -506,5 +521,11 @@ export default {
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--default-grid-baseline) * 2);
+}
+
+.property-repeat__options__footer {
+	padding: 0 calc(var(--default-grid-baseline) * 4) calc(var(--default-grid-baseline) * 4);
+	display: flex;
+	justify-content: flex-end;
 }
 </style>
