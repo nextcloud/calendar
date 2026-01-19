@@ -106,6 +106,10 @@
 	&__front, &__edit {
 		margin-inline-start: calc(var(--default-grid-baseline) * 4);
 	}
+
+	.app-full &__front, &__edit {
+		margin-inline-start: calc(var(--default-grid-baseline) * 9);
+	}
 }
 
 .property-add-talk {

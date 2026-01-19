@@ -117,7 +117,15 @@ export default {
 }
 
 .property-text__input {
-	padding-inline-start: calc(var(--default-grid-baseline) * 11);
+	padding-inline-start: calc(var(--default-grid-baseline) * 9);
+}
+
+.edit-simple .property-text__input {
+	padding-inline-start: calc(var(--default-grid-baseline) * 12);
+}
+
+.property-text--readonly .property-text__input {
+	padding-inline-start: calc(var(--default-grid-baseline) * 9);
 }
 
 .property-text__readonly-value {
