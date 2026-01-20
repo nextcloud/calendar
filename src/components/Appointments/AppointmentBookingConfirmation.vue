@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { NcEmptyContent as EmptyContent } from '@nextcloud/vue'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import EmailIcon from 'vue-material-design-icons/EmailOutline.vue'
 
 export default {
