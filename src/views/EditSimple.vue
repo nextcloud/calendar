@@ -151,7 +151,7 @@
 						<div v-if="!isReadOnlyOrViewing" class="event-popover__all-day">
 							<NcCheckboxRadioSwitch
 								:checked="isAllDay"
-								:disabled="isViewedByOrganizer === false || isReadOnlyOrViewing || canModifyAllDay"
+								:disabled="isViewedByOrganizer === false || isReadOnlyOrViewing || !canModifyAllDay"
 								@update:checked="toggleAllDayPreliminary">
 								{{ $t('calendar', 'All day') }}
 							</NcCheckboxRadioSwitch>
