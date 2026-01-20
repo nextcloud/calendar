@@ -31,6 +31,8 @@ OC.L10N.register(
     "Deleted" : "ลบแล้ว",
     "Restore" : "คืนค่า",
     "Delete permanently" : "ลบแบบถาวร",
+    "Internal link" : "ลิงค์ภายใน",
+    "Copy internal link" : "คัดลอกลิงค์ภายใน",
     "Share link" : "แชร์ลิงก์",
     "Share with users or groups" : "แชร์กับผู้ใช้หรือกลุ่ม",
     "Save" : "บันทึก",
