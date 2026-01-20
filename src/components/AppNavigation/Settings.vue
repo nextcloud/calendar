@@ -50,25 +50,25 @@
 						<NcFormBoxSwitch
 							v-model="hasBirthdayCalendarBinding"
 							:disabled="isBirthdayCalendarDisabled"
-							@update:modelValue="toggleBirthdayEnabled">
+							@update:model-value="toggleBirthdayEnabled">
 							{{ $t('calendar', 'Birthday calendar') }}
 						</NcFormBoxSwitch>
 						<NcFormBoxSwitch
 							v-model="showTasksBinding"
 							:disabled="savingTasks"
-							@update:modelValue="toggleTasksEnabled">
+							@update:model-value="toggleTasksEnabled">
 							{{ $t('calendar', 'Tasks in calendar') }}
 						</NcFormBoxSwitch>
 						<NcFormBoxSwitch
 							v-model="showWeekendsBinding"
 							:disabled="savingWeekend"
-							@update:modelValue="toggleWeekendsEnabled">
+							@update:model-value="toggleWeekendsEnabled">
 							{{ $t('calendar', 'Weekends') }}
 						</NcFormBoxSwitch>
 						<NcFormBoxSwitch
 							v-model="showWeekNumbersBinding"
 							:disabled="savingWeekNumber"
-							@update:modelValue="toggleWeekNumberEnabled">
+							@update:model-value="toggleWeekNumberEnabled">
 							{{ $t('calendar', 'Week numbers') }}
 						</NcFormBoxSwitch>
 					</NcFormBox>
@@ -77,28 +77,27 @@
 						<NcFormBoxSwitch
 							v-model="eventLimitBinding"
 							:disabled="savingEventLimit"
-							@update:modelValue="toggleEventLimitEnabled">
+							@update:model-value="toggleEventLimitEnabled">
 							{{ $t('calendar', 'Limit number of events shown in Month view') }}
 						</NcFormBoxSwitch>
 					</NcFormBox>
 
 					<NcSelect
 						:id="slotDuration"
+						v-model="slotDurationSelection"
 						:options="slotDurationOptions"
-						:value="selectedDurationOption"
 						:disabled="savingSlotDuration"
 						:clearable="false"
 						:input-label="$t('calendar', 'Density in Day and Week View')"
 						input-id="value"
-						label="label"
-						@option:selected="changeSlotDuration" />
+						label="label" />
 				</NcAppSettingsSection>
 				<NcAppSettingsSection
 					id="app-settings-modal-editing"
 					:name="t('calendar', 'Editing')">
 					<NcSelect
 						:options="defaultReminderOptions"
-						:value="selectedDefaultReminderOption"
+						:model-value="selectedDefaultReminderOption"
 						:disabled="savingDefaultReminder"
 						:clearable="false"
 						:input-label="$t('calendar', 'Default reminder')"
@@ -110,7 +109,7 @@
 							v-model="simpleEventEditorBinding"
 							:disabled="savingPopover"
 							:label="t('calendar', 'Simple event editor')"
-							@update:modelValue="togglePopoverEnabled">
+							@update:model-value="togglePopoverEnabled">
 							<template #description>
 								{{ $t('calendar', '"More details" opens the detailed editor') }}
 							</template>
@@ -287,6 +286,16 @@ export default {
 			return this.slotDurationOptions.find((o) => o.value === this.slotDuration)
 		},
 
+		slotDurationSelection: {
+			get() {
+				return this.selectedDurationOption
+			},
+
+			set(option) {
+				this.changeSlotDuration(option)
+			},
+		},
+
 		defaultReminderOptions() {
 			const defaultAlarms = getDefaultAlarms().map((seconds) => {
 				const label = seconds === 0 ? t('calendar', 'At event start') : moment.duration(Math.abs(seconds) * 1000).locale(this.locale).humanize()
@@ -304,6 +313,16 @@ export default {
 
 		selectedDefaultReminderOption() {
 			return this.defaultReminderOptions.find((o) => o.value === this.defaultReminder)
+		},
+
+		defaultReminderSelection: {
+			get() {
+				return this.selectedDefaultReminderOption
+			},
+
+			set(option) {
+				this.changeDefaultReminder(option)
+			},
 		},
 
 		availabilitySettingsUrl() {

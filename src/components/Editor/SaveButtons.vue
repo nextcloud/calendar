@@ -34,7 +34,7 @@
 		</NcButton>
 		<NcButton
 			v-if="showUpdateThisAndFutureButton && !showUpdateOnlyThisButton"
-			:type="primary"
+			variant="primary"
 			:disabled="disabled"
 			@click="saveThisAndAllFuture">
 			{{ $t('calendar', 'Update this and all future') }}

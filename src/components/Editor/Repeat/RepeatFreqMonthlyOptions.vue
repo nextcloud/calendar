@@ -11,7 +11,6 @@
 				type="radio"
 				:name="radioInputId"
 				:model-value="byMonthDayEnabled"
-				@update:modelValue="enableByMonthDay"
 				@update:model-value="enableByMonthDay">
 				{{ $t('calendar', 'By day of the month') }}
 			</NcCheckboxRadioSwitch>
@@ -33,7 +32,6 @@
 				type="radio"
 				:name="radioInputId"
 				:model-value="!byMonthDayEnabled"
-				@update:modelValue="enableBySetPosition"
 				@update:model-value="enableBySetPosition">
 				{{ $t('calendar', 'On the') }}
 			</NcCheckboxRadioSwitch>

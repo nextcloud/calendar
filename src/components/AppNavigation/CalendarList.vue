@@ -9,15 +9,17 @@
 		<template v-if="!isPublic">
 			<draggable
 				v-model="sortedCalendars.personal"
+				item-key="id"
 				:disabled="disableDragging"
 				v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
 				draggable=".draggable-calendar-list-item"
 				@update="updateInput">
-				<CalendarListItem
-					v-for="calendar in sortedCalendars.personal"
-					:key="calendar.id"
-					class="draggable-calendar-list-item"
-					:calendar="calendar" />
+				<template #item="{ element: calendar }">
+					<CalendarListItem
+						:key="calendar.id"
+						class="draggable-calendar-list-item"
+						:calendar="calendar" />
+				</template>
 			</draggable>
 		</template>
 		<template v-else>
@@ -31,15 +33,17 @@
 		<template v-if="!isPublic">
 			<draggable
 				v-model="sortedCalendars.shared"
+				item-key="id"
 				:disabled="disableDragging"
 				v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
 				draggable=".draggable-calendar-list-item"
 				@update="updateInput">
-				<CalendarListItem
-					v-for="calendar in sortedCalendars.shared"
-					:key="calendar.id"
-					class="draggable-calendar-list-item"
-					:calendar="calendar" />
+				<template #item="{ element: calendar }">
+					<CalendarListItem
+						:key="calendar.id"
+						class="draggable-calendar-list-item"
+						:calendar="calendar" />
+				</template>
 			</draggable>
 		</template>
 		<template v-else>
@@ -53,15 +57,17 @@
 		<template v-if="!isPublic">
 			<draggable
 				v-model="sortedCalendars.deck"
+				item-key="id"
 				:disabled="disableDragging"
 				v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
 				draggable=".draggable-calendar-list-item"
 				@update="updateInput">
-				<CalendarListItem
-					v-for="calendar in sortedCalendars.deck"
-					:key="calendar.id"
-					class="draggable-calendar-list-item"
-					:calendar="calendar" />
+				<template #item="{ element: calendar }">
+					<CalendarListItem
+						:key="calendar.id"
+						class="draggable-calendar-list-item"
+						:calendar="calendar" />
+				</template>
 			</draggable>
 		</template>
 		<template v-else>

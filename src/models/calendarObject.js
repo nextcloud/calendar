@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { getParserManager } from '@nextcloud/calendar-js'
+import { markRaw } from 'vue'
 import {
 	COMPONENT_NAME_EVENT,
 	COMPONENT_NAME_JOURNAL,
@@ -72,7 +73,7 @@ function mapCDavObjectToCalendarObject(dav, calendarId) {
 		id: btoa(dav.url),
 		calendarId,
 		dav,
-		calendarComponent,
+		calendarComponent: markRaw(calendarComponent),
 		uid: firstVObject.uid,
 		uri: dav.url,
 		objectType: firstVObject.name,
@@ -99,7 +100,7 @@ function mapCalendarJsToCalendarObject(calendarComponent, calendarId = null) {
 
 	return getDefaultCalendarObjectObject({
 		calendarId,
-		calendarComponent,
+		calendarComponent: markRaw(calendarComponent),
 		uid: firstVObject.uid,
 		objectType: firstVObject.name,
 		isEvent: firstVObject.name === COMPONENT_NAME_EVENT,

@@ -26,7 +26,10 @@
 			</Actions>
 		</div>
 
-		<NcModal :show.sync="showOptions">
+		<NcModal
+			v-model:show="showOptions"
+			size="small"
+			:name="$t('calendar', 'Repeat event')">
 			<div class="property-repeat__options">
 				<h2>{{ $t('calendar', 'Repeat event') }}</h2>
 				<RepeatFreqInterval

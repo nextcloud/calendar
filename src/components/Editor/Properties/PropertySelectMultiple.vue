@@ -18,7 +18,7 @@
 			:class="{ 'property-select-multiple__input--readonly': isReadOnly }">
 			<NcSelect
 				v-if="!isReadOnly"
-				:value="selectionData"
+				:model-value="selectionData"
 				:options="options"
 				:searchable="true"
 				:placeholder="placeholder"
@@ -88,6 +88,7 @@ export default {
 	data() {
 		return {
 			selectionData: [],
+			customLabelBuffer: [],
 		}
 	},
 
