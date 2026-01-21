@@ -344,6 +344,7 @@ OC.L10N.register(
     "Invite" : "Mời",
     "Untitled event" : "Sự kiện không tiêu đề",
     "Close" : "Đóng",
+    "Selected" : "Đã chọn",
     "Title" : "Tên",
     "Participants" : "Người tham gia",
     "Submit" : "Gửi",
