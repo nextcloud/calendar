@@ -17,7 +17,7 @@
 				:value="value"
 				@input.prevent.stop="changeValue">
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
-			<div v-else :class="{ 'property-title__input__rtl': isRTL }">{{ value }}</div>
+			<div v-else :class="{ 'property-title__input__rtl': isRTL, 'property-title__input--cancelled': isCancelled }">{{ value }}</div>
 		</div>
 	</div>
 </template>
@@ -36,6 +36,11 @@ export default {
 		isReadOnly: {
 			type: Boolean,
 			required: true,
+		},
+
+		isCancelled: {
+			type: Boolean,
+			default: false,
 		},
 
 		value: {
@@ -62,5 +67,10 @@ export default {
 .property-title__input--readonly {
 	white-space: pre-wrap;
 	overflow-wrap: break-word;
+}
+
+.property-title__input--cancelled {
+	text-decoration-line: line-through;
+	opacity: 0.7;
 }
 </style>

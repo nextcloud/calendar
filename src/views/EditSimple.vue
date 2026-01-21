@@ -125,7 +125,12 @@
 						<PropertyTitle
 							:value="titleOrPlaceholder"
 							:is-read-only="isReadOnlyOrViewing || isViewedByOrganizer === false"
+							:is-cancelled="isCancelled"
 							@update:value="updateTitle" />
+
+						<div v-if="isCancelled" class="event-popover__cancelled">
+							{{ $t('calendar', 'This event was cancelled') }}
+						</div>
 					</div>
 
 					<!-- Content -->
@@ -326,6 +331,7 @@ export default {
 			boundaryElement: null,
 			isVisible: true,
 			isViewing: true,
+			isCancelled: false,
 			closeMask: false,
 			showCancelDialog: false,
 			cancelButtons: [
@@ -413,6 +419,7 @@ export default {
 			this.hasDescription = false
 			this.hasAttendees = false
 			this.hasAlarms = false
+			this.isCancelled = false
 
 			if (typeof this.calendarObjectInstance.location === 'string' && this.calendarObjectInstance.location.trim() !== '') {
 				this.hasLocation = true
@@ -425,6 +432,9 @@ export default {
 			}
 			if (Array.isArray(this.calendarObjectInstance.alarms) && this.calendarObjectInstance.alarms.length > 0) {
 				this.hasAlarms = true
+			}
+			if (this.calendarObjectInstance.status === 'CANCELLED') {
+				this.isCancelled = true
 			}
 
 			// Reposition after content changes
@@ -835,6 +845,10 @@ export default {
 		:deep(.calendar-picker-header) {
 			margin-inline-start: 0;
 			margin-bottom: calc(var(--default-grid-baseline) * 2);
+		}
+
+		.event-popover__cancelled {
+			opacity: .7;
 		}
 	}
 
