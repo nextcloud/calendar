@@ -195,6 +195,10 @@
 								:calendar-object-instance="calendarObjectInstance"
 								:is-read-only="isReadOnlyOrViewing" />
 						</div>
+						<AttachmentsList
+							v-if="!isLoading && isViewing && hasAttachments"
+							:calendar-object-instance="calendarObjectInstance"
+							:is-read-only="true" />
 					</div>
 
 					<!-- Footer -->
@@ -257,6 +261,7 @@ import EditIcon from 'vue-material-design-icons/PencilOutline.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Download from 'vue-material-design-icons/TrayArrowDown.vue'
 import AlarmList from '../components/Editor/Alarm/AlarmList.vue'
+import AttachmentsList from '../components/Editor/Attachments/AttachmentsList.vue'
 import CalendarPickerHeader from '../components/Editor/CalendarPickerHeader.vue'
 import InvitationResponseButtons
 	from '../components/Editor/InvitationResponseButtons.vue'
@@ -286,6 +291,7 @@ export default {
 		ActionLink,
 		AlarmList,
 		Bell,
+		AttachmentsList,
 		EmptyContent,
 		CalendarBlank,
 		Close,
@@ -323,6 +329,7 @@ export default {
 			hasDescription: false,
 			hasAttendees: false,
 			hasAlarms: false,
+			hasAttachments: false,
 			boundaryElement: null,
 			isVisible: true,
 			isViewing: true,
@@ -413,6 +420,7 @@ export default {
 			this.hasDescription = false
 			this.hasAttendees = false
 			this.hasAlarms = false
+			this.hasAttachments = false
 
 			if (typeof this.calendarObjectInstance.location === 'string' && this.calendarObjectInstance.location.trim() !== '') {
 				this.hasLocation = true
@@ -425,6 +433,9 @@ export default {
 			}
 			if (Array.isArray(this.calendarObjectInstance.alarms) && this.calendarObjectInstance.alarms.length > 0) {
 				this.hasAlarms = true
+			}
+			if (Array.isArray(this.calendarObjectInstance.attachments) && this.calendarObjectInstance.attachments.length > 0) {
+				this.hasAttachments = true
 			}
 
 			// Reposition after content changes
