@@ -527,6 +527,7 @@ OC.L10N.register(
     "Untitled event" : "Untitled event",
     "Close" : "ປິດ",
     "Modifications will not get propagated to the organizer and other attendees" : "Modifications will not get propagated to the organizer and other attendees",
+    "This event was cancelled" : "This event was cancelled",
     "Meeting proposals overview" : "Meeting proposals overview",
     "Edit meeting proposal" : "Edit meeting proposal",
     "Create meeting proposal" : "Create meeting proposal",

@@ -422,6 +422,7 @@ OC.L10N.register(
     "Invite" : "Povabi",
     "Untitled event" : "Neimenovan dogodek",
     "Close" : "Zapri",
+    "This event was cancelled" : "Dogodek je preklican",
     "Selected" : "Izbrano",
     "Title" : "Naslov",
     "30 min" : "30 min",

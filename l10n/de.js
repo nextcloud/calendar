@@ -538,6 +538,7 @@ OC.L10N.register(
     "Untitled event" : "Unbenannter Termin",
     "Close" : "Schließen",
     "Modifications will not get propagated to the organizer and other attendees" : "Änderungen werden nicht an den Organisator und andere Teilnehmer weitergegeben",
+    "This event was cancelled" : "Dieser Termin wurde abgesagt.",
     "Meeting proposals overview" : "Überblick der Besprechungsvorschläge",
     "Edit meeting proposal" : "Besprechungsvorschlag bearbeiten",
     "Create meeting proposal" : "Besprechungsvorschlag erstellen",

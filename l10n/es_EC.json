@@ -394,6 +394,7 @@
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["El adjunto requiere acceso compartido","Los adjuntos requieren acceso compartido","Los adjuntos requieren acceso compartido"],
     "Untitled event" : "Evento sin título",
     "Close" : "Cerrar",
+    "This event was cancelled" : "Este evento fue cancelado",
     "Title" : "Título",
     "30 min" : "30 minutos",
     "Participants" : "Participantes",

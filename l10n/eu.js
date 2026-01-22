@@ -475,6 +475,7 @@ OC.L10N.register(
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["Sarbide partekatua behar duen eranskina","Sarbide partekatua behar duten eranskinak"],
     "Untitled event" : "Izenik gabeko gertaera",
     "Close" : "Itxi",
+    "This event was cancelled" : "Gertaera hau bertan behera utzi da",
     "Selected" : "Hautatua",
     "Title" : "Izenburua",
     "30 min" : "30 min",
