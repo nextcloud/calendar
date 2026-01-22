@@ -11,7 +11,6 @@
 			v-if="!isAccepted"
 			variant="primary"
 			class="invitation-response-buttons__button"
-			:disabled="loading"
 			@click="accept">
 			{{ t('calendar', 'Accept') }}
 		</NcButton>
@@ -19,7 +18,6 @@
 			v-if="!isDeclined"
 			variant="error"
 			class="invitation-response-buttons__button"
-			:disabled="loading"
 			@click="decline">
 			{{ t('calendar', 'Decline') }}
 		</NcButton>
@@ -27,13 +25,11 @@
 			<NcButton
 				v-if="!narrow"
 				class="invitation-response-buttons__button"
-				:disabled="loading"
 				@click="tentative">
 				{{ t('calendar', 'Tentative') }}
 			</NcButton>
 			<Actions v-else>
 				<ActionButton
-					:disabled="loading"
 					@click="tentative">
 					<template #icon>
 						<CalendarQuestionIcon :size="20" />
@@ -46,16 +42,12 @@
 </template>
 
 <script>
-import { showError, showSuccess } from '@nextcloud/dialogs'
 import {
 	NcActionButton as ActionButton,
 	NcActions as Actions,
 	NcButton,
 } from '@nextcloud/vue'
-import { mapStores } from 'pinia'
 import CalendarQuestionIcon from 'vue-material-design-icons/CalendarQuestionOutline.vue'
-import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
-import logger from '../../utils/logger.js'
 
 export default {
 	name: 'InvitationResponseButtons',
@@ -88,14 +80,7 @@ export default {
 		},
 	},
 
-	data() {
-		return {
-			loading: false,
-		}
-	},
-
 	computed: {
-		...mapStores(useCalendarObjectInstanceStore),
 		isAccepted() {
 			return this.attendee.participationStatus === 'ACCEPTED'
 		},
@@ -110,61 +95,16 @@ export default {
 	},
 
 	methods: {
-		async accept() {
-			try {
-				await this.setParticipationStatus('ACCEPTED')
-				showSuccess(this.t('calendar', 'The invitation has been accepted successfully.'))
-				this.$emit('close')
-			} catch (e) {
-				showError(this.t('calendar', 'Failed to accept the invitation.'))
-			}
+		accept() {
+			this.$emit('respond', 'ACCEPTED')
 		},
 
-		async decline() {
-			try {
-				await this.setParticipationStatus('DECLINED')
-				showSuccess(this.t('calendar', 'The invitation has been declined successfully.'))
-				this.$emit('close')
-			} catch (e) {
-				showError(this.t('calendar', 'Failed to decline the invitation.'))
-			}
+		decline() {
+			this.$emit('respond', 'DECLINED')
 		},
 
-		async tentative() {
-			try {
-				await this.setParticipationStatus('TENTATIVE')
-				showSuccess(this.t('calendar', 'Your participation has been marked as tentative.'))
-				this.$emit('close')
-			} catch (e) {
-				showError(this.t('calendar', 'Failed to set the participation status to tentative.'))
-			}
-		},
-
-		/**
-		 * Set the participation status and save the event
-		 *
-		 * @param {string} participationStatus The new participation status
-		 * @return {Promise<void>}
-		 */
-		async setParticipationStatus(participationStatus) {
-			this.loading = true
-			try {
-				this.calendarObjectInstanceStore.changeAttendeesParticipationStatus({
-					attendee: this.attendee,
-					participationStatus,
-				})
-				// TODO: What about recurring events? Add new buttons like "Accept this and all future"?
-				// Currently, this will only accept a single occurrence.
-				await this.calendarObjectInstanceStore.saveCalendarObjectInstance({
-					thisAndAllFuture: false,
-					calendarId: this.calendarId,
-				})
-			} catch (error) {
-				logger.error('Failed to set participation status', { error, participationStatus })
-				throw error
-			} finally {
-				this.loading = false
-			}
+		tentative() {
+			this.$emit('respond', 'TENTATIVE')
 		},
 	},
 }
