@@ -534,6 +534,7 @@ OC.L10N.register(
     "Untitled event" : "نامسىز ھادىسە",
     "Close" : "ياپ",
     "Modifications will not get propagated to the organizer and other attendees" : "ئۆزگەرتىشلەر تەشكىللىگۈچى ۋە باشقا قاتناشقۇچىلارغا تارقىتىلمايدۇ",
+    "This event was cancelled" : "بۇ پائالىيەت ئەمەلدىن قالدۇرۇلدى",
     "Meeting proposals overview" : "يىغىن تەكلىپى ئەھۋالى",
     "Edit meeting proposal" : "يىغىن تەكلىپىنى تەھرىرلە",
     "Create meeting proposal" : "يىغىن تەكلىپى قۇر",

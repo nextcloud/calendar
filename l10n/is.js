@@ -458,6 +458,7 @@ OC.L10N.register(
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["Viðhengi krefst sameiginlegs aðgangs","Viðhengi krefjast sameiginlegs aðgangs"],
     "Untitled event" : "Ónefndur atburður",
     "Close" : "Loka",
+    "This event was cancelled" : "Hætt hefur verið við þennan atburð",
     "Participants" : "Þátttakendur",
     "Submit" : "Senda inn",
     "Subscribe to {name}" : "Panta áskrift að {name}",

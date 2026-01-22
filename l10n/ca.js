@@ -468,6 +468,7 @@ OC.L10N.register(
     "Untitled event" : "Esdeveniment sense títol",
     "Close" : "Tanca",
     "Modifications will not get propagated to the organizer and other attendees" : "Les modificacions no es propagaran a l'organitzador i als altres assistents",
+    "This event was cancelled" : "Aquest esdeveniment s'ha cancel·lat",
     "Selected" : "Seleccionat",
     "Title" : "Títol",
     "30 min" : "30 min",

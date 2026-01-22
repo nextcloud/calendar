@@ -443,6 +443,7 @@
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["添付ファイルには共有アクセスが必要です"],
     "Untitled event" : "無題のイベント",
     "Close" : "閉じる",
+    "This event was cancelled" : "このイベントはキャンセルされました",
     "Selected" : "選択済み",
     "Title" : "タイトル",
     "30 min" : "30分",

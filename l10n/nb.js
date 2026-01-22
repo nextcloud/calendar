@@ -440,6 +440,7 @@ OC.L10N.register(
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["Vedlegg som krever delt tilgang","Vedlegg som krever delt tilgang"],
     "Untitled event" : "Hendelse uten tittel",
     "Close" : "Lukk",
+    "This event was cancelled" : "Denne hendelsen ble kansellert",
     "Title" : "Navn",
     "30 min" : "30 min",
     "Participants" : "Deltakere",

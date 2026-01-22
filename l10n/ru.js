@@ -525,6 +525,7 @@ OC.L10N.register(
     "Untitled event" : "Событие без названия",
     "Close" : "Закрыть",
     "Modifications will not get propagated to the organizer and other attendees" : "Изменения не будут распространены на организатора и других участников",
+    "This event was cancelled" : "Мероприятие было отменено",
     "Meeting proposals overview" : "Обзор предложенных встреч",
     "Edit meeting proposal" : "Изменить предложение о встрече",
     "Create meeting proposal" : "Создать предложение о встрече",

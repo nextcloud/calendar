@@ -403,6 +403,7 @@ OC.L10N.register(
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["Attachment requires shared access","Attachments requiring shared access"],
     "Untitled event" : "Untitled event",
     "Close" : "Close",
+    "This event was cancelled" : "This event was cancelled",
     "Selected" : "Selected",
     "30 min" : "30 წთ",
     "Participants" : "Participants",

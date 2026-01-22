@@ -534,6 +534,7 @@ OC.L10N.register(
     "Untitled event" : "Nepojmenovaná událost",
     "Close" : "Zavřít",
     "Modifications will not get propagated to the organizer and other attendees" : "Změny nebudou propagovány organizátorovi a ostatním účastníkům",
+    "This event was cancelled" : "Tato událost byla zrušena",
     "Meeting proposals overview" : "Přehled návrhů schůzky",
     "Edit meeting proposal" : "Upravit návrh schůzky",
     "Create meeting proposal" : "Vytvořit návrh schůzky",
