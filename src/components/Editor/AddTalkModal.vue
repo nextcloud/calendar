@@ -19,20 +19,22 @@
 				v-else-if="talkConversations.length === 0"
 				:description="t('calendar', 'No Talk room available')" />
 			<NcFormGroup v-else :label="t('calendar', 'Select existing conversation')">
-				<NcListItem
-					v-for="conversation in sortedTalkConversations"
-					:key="conversation.id"
-					:class="{ selected: selectedRoom && selectedRoom.id === conversation.id }"
-					:name="conversation.displayName"
-					class="talk-room-list__item"
-					@click="selectRoom(conversation)">
-					<template #icon>
-						<NcAvatar
-							:url="avatarUrl(conversation)"
-							:size="28"
-							:disable-tooltip="true" />
-					</template>
-				</NcListItem>
+				<div class="talk-room__wrapper">
+					<NcListItem
+						v-for="conversation in sortedTalkConversations"
+						:key="conversation.id"
+						:class="{ selected: selectedRoom && selectedRoom.id === conversation.id }"
+						:name="conversation.displayName"
+						class="talk-room-list__item"
+						@click="selectRoom(conversation)">
+						<template #icon>
+							<NcAvatar
+								:url="avatarUrl(conversation)"
+								:size="28"
+								:disable-tooltip="true" />
+						</template>
+					</NcListItem>
+				</div>
 				<NcButton
 					variant="secondary"
 					class="talk_select-room"
@@ -276,5 +278,11 @@ export default {
 
 .spacer {
 	margin-top: calc(var(--default-grid-baseline) * 6);
+}
+
+.talk-room__wrapper {
+	max-height: 400px;
+	overflow-y: auto;
+	overflow-x: clip;
 }
 </style>
