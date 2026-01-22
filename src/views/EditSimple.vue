@@ -454,18 +454,16 @@ export default {
 
 		isViewing() {
 			// Reposition when switching between viewing and editing modes
-			setTimeout(() => {
+			this.$nextTick(() => {
 				this.repositionPopover(true)
-			}, 100)
+			})
 		},
 
 		isLoading(newVal) {
 			// When loading completes, reposition to accommodate the loaded content
 			if (newVal === false) {
 				this.$nextTick(() => {
-					setTimeout(() => {
-						this.repositionPopover(true)
-					}, 100)
+					this.repositionPopover(true)
 				})
 			}
 		},
@@ -500,10 +498,8 @@ export default {
 					if (this.resizeTimeout) {
 						clearTimeout(this.resizeTimeout)
 					}
-					this.resizeTimeout = setTimeout(() => {
-						// Reposition when content size changes
-						this.repositionPopover(true)
-					}, 50)
+					// Reposition when content size changes
+					this.repositionPopover(true)
 				})
 				this.popoverResizeObserver.observe(popoverEl)
 			}
@@ -553,7 +549,7 @@ export default {
 			}
 			this.resizeTimeout = setTimeout(() => {
 				this.repositionPopover()
-			}, 100)
+			}, 25)
 		},
 
 		showMore() {
@@ -631,8 +627,8 @@ export default {
 		calculateAndApplyPosition(targetElement) {
 			// Get current popover element if it exists
 			const existingPopover = this.$el?.querySelector('.event-popover')
-			const estimatedHeight = existingPopover?.offsetHeight || 400
-			const estimatedWidth = existingPopover?.offsetWidth || 520
+			const estimatedHeight = Math.max(existingPopover?.offsetHeight || 0, 420)
+			const estimatedWidth = Math.max(existingPopover?.offsetWidth || 0, 460)
 			const SPACING = 16
 
 			// Get rectangles
@@ -746,7 +742,7 @@ export default {
 			setTimeout(() => {
 				// Only show popover after final positioning is complete
 				this.popoverReady = true
-			}, 100)
+			}, 25)
 		},
 
 		/**
