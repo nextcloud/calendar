@@ -324,7 +324,8 @@
 			:open="showCancelDialog"
 			:name="t('calendar', 'Discard changes?')"
 			:message="t('calendar', 'Are you sure you want to discard the changes made to this event?')"
-			:buttons="cancelButtons" />
+			:buttons="cancelButtons"
+			@update:open="showCancelDialog = $event" />
 	</NcModal>
 </template>
 
@@ -433,7 +434,7 @@ export default {
 			selectedConversation: null,
 			cancelButtons: [
 				{
-					label: t('calendar', 'Discard event'),
+					label: t('calendar', 'Discard changes'),
 					icon: atob(IconDelete.split(',')[1]),
 					callback: () => { this.cancel(true) },
 				},
@@ -441,7 +442,7 @@ export default {
 					label: t('calendar', 'Cancel'),
 					type: 'primary',
 					icon: atob(IconCancel.split(',')[1]),
-					callback: () => { this.showCancelDialog = false },
+					callback: () => { this.closeCancelDialog() },
 				},
 			],
 
