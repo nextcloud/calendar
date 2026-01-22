@@ -429,6 +429,12 @@ export default {
 			this.closeEditor()
 		},
 		/**
+		 * Close cancel dialog
+		 */
+		closeCancelDialog() {
+			this.showCancelDialog = false
+		},
+		/**
 		 * Resets the calendar-object back to its original state and closes the editor
 		 *
 		 * @param force whether to not show a confirmation modal before executing

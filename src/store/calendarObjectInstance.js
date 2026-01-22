@@ -1402,12 +1402,13 @@ export default defineStore('calendarObjectInstance', {
 			const status = rfcProps.status.defaultValue
 
 			calendarObjectInstance.eventComponent.status = status
-			calendarObjectInstance.status = status
 
 			this.setCalendarObjectInstanceForNewEvent({
 				calendarObject,
 				calendarObjectInstance,
 			})
+
+			calendarObjectInstance.eventComponent.undirtify()
 
 			this.emptyCalendarObjectInstance = { ...calendarObjectInstance }
 
