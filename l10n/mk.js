@@ -524,6 +524,7 @@ OC.L10N.register(
     "Untitled event" : "Неименуван настан",
     "Close" : "Затвори",
     "Modifications will not get propagated to the organizer and other attendees" : "Измените нема да бидат применети кај организаторот и другите учесници",
+    "This event was cancelled" : "Овој настан беше откажан",
     "Meeting proposals overview" : "Преглед на предлози за состаноци",
     "Edit meeting proposal" : "Измени предлог за состанок",
     "Create meeting proposal" : "Креирај предлог за состанок",

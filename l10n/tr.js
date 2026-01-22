@@ -536,6 +536,7 @@ OC.L10N.register(
     "Untitled event" : "Adlandırılmamış etkinlik",
     "Close" : "Kapat",
     "Modifications will not get propagated to the organizer and other attendees" : "Değişiklikler düzenleyiciye ve diğer katılımcılara iletilmeyecek",
+    "This event was cancelled" : "Bu etkinlik iptal edildi",
     "Meeting proposals overview" : "Toplantı önerileri özeti",
     "Edit meeting proposal" : "Toplantı önerisini düzenle",
     "Create meeting proposal" : "Toplantı önerisi oluştur",

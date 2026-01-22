@@ -534,6 +534,7 @@ OC.L10N.register(
     "Untitled event" : "未命名事件",
     "Close" : "关闭",
     "Modifications will not get propagated to the organizer and other attendees" : "修改不会传播给组织者和其他参加者",
+    "This event was cancelled" : "此活动已取消",
     "Meeting proposals overview" : "会议提议概览",
     "Edit meeting proposal" : "编辑会议提议",
     "Create meeting proposal" : "创建会议提议",

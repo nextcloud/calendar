@@ -392,6 +392,7 @@ OC.L10N.register(
     "_Attachment requires shared access_::_Attachments requiring shared access_" : ["Atașament care necesită acces partajat","Atașamente care necesită acces partajat","Atașamente care necesită acces partajat"],
     "Untitled event" : "Eveniment fără titlu",
     "Close" : "Închide",
+    "This event was cancelled" : "Acest eveniment a fost anulat",
     "Title" : "Titlu",
     "Participants" : "Participanți",
     "Submit" : "Trimite",

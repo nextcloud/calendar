@@ -464,6 +464,7 @@ OC.L10N.register(
     "Untitled event" : "Evento senza titolo",
     "Close" : "Chiudi",
     "Modifications will not get propagated to the organizer and other attendees" : "Le modifiche non verranno propagate all'organizzatore e agli altri partecipanti",
+    "This event was cancelled" : "Questo evento è stato annullato",
     "Selected" : "Selezionato",
     "Title" : "Titolo",
     "30 min" : "30 min",

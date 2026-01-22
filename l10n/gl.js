@@ -534,6 +534,7 @@ OC.L10N.register(
     "Untitled event" : "Evento sen título",
     "Close" : "Pechar",
     "Modifications will not get propagated to the organizer and other attendees" : "As modificacións non van ser propagadas ao organizador e a outros asistentes",
+    "This event was cancelled" : "Este evento foi cancelado",
     "Meeting proposals overview" : "Vista xeral das propostas de xuntanza",
     "Edit meeting proposal" : "Editar a proposta de xuntanza",
     "Create meeting proposal" : "Crear unha proposta de xuntanza",

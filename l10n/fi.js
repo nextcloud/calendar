@@ -494,6 +494,7 @@ OC.L10N.register(
     "_User requires access to your file_::_Users require access to your file_" : ["Käyttäjä tarvitsee pääsyn tiedostoosi","Käyttäjät tarvitsevat pääsyn tiedostoosi"],
     "Untitled event" : "Nimetön tapahtuma",
     "Close" : "Sulje",
+    "This event was cancelled" : "Tämä tapahtuma peruttiin",
     "Meeting proposals overview" : "Kokousehdotusten yhteenveto",
     "Edit meeting proposal" : "Muokkaa kokousehdotusta",
     "Create meeting proposal" : "Luo kokousehdotus",

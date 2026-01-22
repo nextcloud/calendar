@@ -532,6 +532,7 @@ OC.L10N.register(
     "Untitled event" : "Unavngiven begivenhed",
     "Close" : "Luk",
     "Modifications will not get propagated to the organizer and other attendees" : "Ændringer vil ikke blive udbredt til organisatoren eller andre deltagere",
+    "This event was cancelled" : "Denne begivenhed blev aflyst",
     "Meeting proposals overview" : "Mødeforslagsoversigt",
     "Edit meeting proposal" : "Redigér oversigt over mødeforslag",
     "Create meeting proposal" : "Opret mødeforslag",

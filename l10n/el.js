@@ -506,6 +506,7 @@ OC.L10N.register(
     "Untitled event" : "Συμβάν χωρίς τίτλο",
     "Close" : "Κλείσιμο",
     "Modifications will not get propagated to the organizer and other attendees" : "Οι τροποποιήσεις δεν θα διαδοθούν στον διοργανωτή και τους άλλους συμμετέχοντες",
+    "This event was cancelled" : "Αυτή η εκδήλωση ακυρώθηκε",
     "Meeting proposals overview" : "Επισκόπηση προτάσεων συναντήσεων",
     "Edit meeting proposal" : "Επεξεργασία πρότασης συνάντησης",
     "Create meeting proposal" : "Δημιουργία πρότασης συνάντησης",

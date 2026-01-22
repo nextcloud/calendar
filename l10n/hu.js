@@ -526,6 +526,7 @@ OC.L10N.register(
     "Untitled event" : "Névtelen esemény",
     "Close" : "Bezárás",
     "Modifications will not get propagated to the organizer and other attendees" : "A módosításokat a szervező és a többi résztvevő nem fogja megkapni",
+    "This event was cancelled" : "Ezt az eseményt lemondták",
     "Meeting proposals overview" : "Találkozójavaslatok áttekintése",
     "Edit meeting proposal" : "Találkozójavaslat szerkesztése",
     "Create meeting proposal" : "Találkozójavaslat létrehozása",

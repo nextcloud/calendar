@@ -538,6 +538,7 @@ OC.L10N.register(
     "Untitled event" : "Ilma nimeta sündmus",
     "Close" : "Sulge",
     "Modifications will not get propagated to the organizer and other attendees" : "Muudatused ei jõua ei korraldaja ega muude osalejateni",
+    "This event was cancelled" : "See sündmus on tühistatud",
     "Meeting proposals overview" : "Ülevaade kohtumiste ettepanekutest",
     "Edit meeting proposal" : "Muuda kohtumise ettepanekut",
     "Create meeting proposal" : "Lisa ettepanek kohtumiseks",

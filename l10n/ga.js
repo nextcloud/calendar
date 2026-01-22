@@ -536,6 +536,7 @@ OC.L10N.register(
     "Untitled event" : "Imeacht gan teideal",
     "Close" : "Dún",
     "Modifications will not get propagated to the organizer and other attendees" : "Ní dhéanfar na modhnuithe a fhorleathadh chuig an eagraí agus chuig lucht freastail eile",
+    "This event was cancelled" : "Cuireadh an imeacht seo ar ceal",
     "Meeting proposals overview" : "Forbhreathnú ar thograí cruinnithe",
     "Edit meeting proposal" : "Cuir togra cruinnithe in eagar",
     "Create meeting proposal" : "Cruthaigh togra cruinnithe",

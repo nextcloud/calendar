@@ -413,6 +413,7 @@ OC.L10N.register(
     "_User requires access to your file_::_Users require access to your file_" : ["사용자가 내 파일에 대한 접근을 요구합니다"],
     "Untitled event" : "제목없는 일정",
     "Close" : "닫기",
+    "This event was cancelled" : "이 일정은 취소되었습니다",
     "Title" : "제목",
     "30 min" : "30분",
     "Participants" : "참가자",
