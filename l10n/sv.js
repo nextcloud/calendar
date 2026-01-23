@@ -515,7 +515,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Visa ej schemalagda uppgifter",
     "Unscheduled tasks" : "Ej schemalagda uppgifter",
     "Availability of {displayName}" : "Tillgänglighet för {displayName}",
-    "Discard event" : "Avbryt händelse",
+    "Discard changes" : "Släng ändringar",
     "Edit event" : "Redigera händelse",
     "Event does not exist" : "Händelsen existerar inte",
     "Delete this occurrence" : "Ta bort denna förekomst",

@@ -392,6 +392,7 @@ OC.L10N.register(
     "Personal" : "Personal",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue.",
+    "Discard changes" : "Discard changes",
     "Event does not exist" : "Event does not exist",
     "Delete this occurrence" : "Delete this occurrence",
     "Delete this and all future" : "Delete this and all future",

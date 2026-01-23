@@ -518,7 +518,7 @@
     "Show unscheduled tasks" : "Mostrar tarefas não agendadas",
     "Unscheduled tasks" : "Tarefas não agendadas",
     "Availability of {displayName}" : "Disponibilidade de {displayName}",
-    "Discard event" : "Descartar evento",
+    "Discard changes" : "Descartar alterações",
     "Edit event" : "Editar evento",
     "Event does not exist" : "O evento não existe",
     "Delete this occurrence" : "Excluir esta ocorrência",

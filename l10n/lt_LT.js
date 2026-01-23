@@ -330,6 +330,7 @@ OC.L10N.register(
     "Personal" : "Asmeniniai",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Automatinis laiko juostos aptikimas nustatė, kad jūsų laiko juosta yra UTC.\nTaip, greičiausiai, yra dėl jūsų saityno naršyklės saugos priemonių.\nKalendoriaus nustatymuose prašome rankiniu būdu nusistatyti laiko juostą.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Jūsų konfigūruota laiko juosta ({timezoneId}) nerasta. Grįžtama į UTC.\nPrašome nustatymuose pakeisti savo laiko juostą ir pranešti apie šią problemą.",
+    "Discard changes" : "Atmesti pakeitimus",
     "Edit event" : "Taisyti įvykį",
     "Event does not exist" : "Įvykio nėra",
     "Delete this occurrence" : "Ištrinti šį pasikartojimą",
