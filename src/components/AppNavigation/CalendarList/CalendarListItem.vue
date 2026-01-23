@@ -46,6 +46,12 @@
 					</NcActionText>
 					<NcActionSeparator />
 				</template>
+				<ActionButton v-if="isPublished" @click.prevent.stop="copyPublicLink">
+					<template #icon>
+						<ContentCopy :size="20" decorative />
+					</template>
+					{{ $t('calendar', 'Copy public link') }}
+				</ActionButton>
 				<ActionButton @click.prevent.stop="showEditModal">
 					<template #icon>
 						<Pencil :size="20" decorative />
@@ -81,7 +87,8 @@
 </template>
 
 <script>
-import { showError } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
 import {
 	NcActionButton as ActionButton,
 	NcAppNavigationItem as AppNavigationItem,
@@ -93,6 +100,7 @@ import {
 import { mapStores } from 'pinia'
 import CheckboxBlank from 'vue-material-design-icons/CheckboxBlankOutline.vue'
 import CheckboxMarked from 'vue-material-design-icons/CheckboxMarked.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import LinkVariant from 'vue-material-design-icons/Link.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
 import Undo from 'vue-material-design-icons/Undo.vue'
@@ -113,6 +121,7 @@ export default {
 		NcActionText,
 		NcActionSeparator,
 		NcActionCaption,
+		ContentCopy,
 	},
 
 	props: {
@@ -143,6 +152,15 @@ export default {
 			}
 
 			return this.calendar.canBeShared || this.calendar.canBePublished
+		},
+
+		/**
+		 * Whether the calendar is already published or not.
+		 *
+		 * @return {boolean}
+		 */
+		isPublished() {
+			return this.calendar.publishURL !== null
 		},
 
 		/**
@@ -259,6 +277,27 @@ export default {
 		 */
 		showEditModal() {
 			this.calendarsStore.editCalendarModal = { calendarId: this.calendar.id }
+		},
+
+		async copyPublicLink() {
+			this.showCopyPublicLinkLabel = false
+			this.showCopyPublicLinkSpinner = true
+
+			const rootURL = generateRemoteUrl('dav')
+			const token = this.calendar.publishURL.split('/').slice(-1)[0]
+			const url = new URL(generateUrl('apps/calendar') + '/p/' + token, rootURL)
+
+			// copy link for calendar to clipboard
+			try {
+				await navigator.clipboard.writeText(url)
+				showSuccess(this.$t('calendar', 'Calendar link copied to clipboard.'))
+			} catch (error) {
+				console.debug(error)
+				showError(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
+			} finally {
+				this.showCopyPublicLinkLabel = true
+				this.showCopyPublicLinkSpinner = false
+			}
 		},
 	},
 }
