@@ -29,12 +29,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - uses: webiny/action-conventional-commits@8bc41ff4e7d423d56fa4905f6ff79209a78776c7 # v1.3.0
+      - uses: webiny/action-conventional-commits@faccb24fc2550dd15c0390d944379d2d8ed9690e # v1.3.1
         if: ${{ github.base_ref == 'main' }}
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: webiny/action-conventional-commits@8bc41ff4e7d423d56fa4905f6ff79209a78776c7 # v1.3.0
+      - uses: webiny/action-conventional-commits@faccb24fc2550dd15c0390d944379d2d8ed9690e # v1.3.1
         if: ${{ github.base_ref != 'main' }}
         with:
           allowed-commit-types: "fix,docs,style,refactor,test,build,perf,ci,chore,revert,merge" # Anything but "feat" https://github.com/webiny/action-conventional-commits/blob/8bc41ff4e7d423d56fa4905f6ff79209a78776c7/action.yml#L9C15-L9C85
