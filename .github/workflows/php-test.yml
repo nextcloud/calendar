@@ -61,6 +61,8 @@ jobs:
           - php-versions: '8.5'
             nextcloud-versions: 'stable32'
         include:
+          - php-versions: '8.4'
+            nextcloud-versions: 'stable33'
           - php-versions: '8.1'
             nextcloud-versions: 'stable32'
     name: php${{ matrix.php-versions }} on ${{ matrix.nextcloud-versions }} integration tests
