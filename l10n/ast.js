@@ -250,6 +250,7 @@ OC.L10N.register(
     "Invite" : "Convidar",
     "Untitled event" : "Eventu ensin títulu",
     "Close" : "Zarrar",
+    "This event was cancelled" : "Esti eventu anulóse",
     "Title" : "Títulu",
     "Participants" : "Participantes",
     "Submit" : "Unviar",

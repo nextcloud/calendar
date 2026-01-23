@@ -506,7 +506,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Прикажи незададени задачи",
     "Unscheduled tasks" : "Нездадени задачи",
     "Availability of {displayName}" : "Достапност на {displayName}",
-    "Discard event" : "Отфрли настан",
+    "Discard changes" : "Орфрли промени",
     "Edit event" : "Уреди го настанот",
     "Event does not exist" : "Настанот не постои",
     "Delete this occurrence" : "Избришете ја оваа можност",

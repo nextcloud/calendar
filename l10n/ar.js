@@ -469,6 +469,7 @@ OC.L10N.register(
     "Untitled event" : "حدث بدون اسم",
     "Close" : "إغلاق",
     "Modifications will not get propagated to the organizer and other attendees" : "التعديلات لن يتم إذاعتها على المنظم والمشاركين الآخرين",
+    "This event was cancelled" : "الحدثُ تمّ إلغاؤه",
     "Selected" : "مُحدّدة",
     "Title" : "العنوان",
     "30 min" : "30 دقيقة",

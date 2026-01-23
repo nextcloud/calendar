@@ -479,7 +479,7 @@ OC.L10N.register(
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Asettamaasi aikavyöhykettä ({timezoneId}) ei löytynyt. Vaihdetaan takaisin UTC:hen.\nOle hyvä ja vaihda aikavyöhykkeesi asetuksista ja ilmoita tästä ongelmasta.",
     "Show unscheduled tasks" : "Näytä ajastamattomat tehtävät",
     "Unscheduled tasks" : "Ajastamattomat tehtävät",
-    "Discard event" : "Hylkää tapahtuma",
+    "Discard changes" : "Hylkää muutokset",
     "Edit event" : "Muokkaa tapahtumaa",
     "Event does not exist" : "Tapahtumaa ei ole olemassa",
     "Delete this occurrence" : "Poista tämä esiintymä",
