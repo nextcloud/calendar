@@ -520,7 +520,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Näita ajastamata ülesandeid",
     "Unscheduled tasks" : "Ajastamata ülesanded",
     "Availability of {displayName}" : "{displayName} saadavus",
-    "Discard event" : "Loobu sündmusest",
+    "Discard changes" : "Loobu muudatustest",
     "Edit event" : "Muuda sündmust",
     "Event does not exist" : "Sündmust pole olemas",
     "Delete this occurrence" : "Kustuta vaid see kord",

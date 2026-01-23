@@ -508,7 +508,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Nem ütemezett feladatok megjelenítése",
     "Unscheduled tasks" : "Nem ütemezett feladatok",
     "Availability of {displayName}" : "{displayName} elérhetősége",
-    "Discard event" : "Esemény elvetése",
+    "Discard changes" : "Változtatások elvetése",
     "Edit event" : "Esemény szerkesztése",
     "Event does not exist" : "Az esemény nem létezik",
     "Delete this occurrence" : "Ezen előfordulás törlése",

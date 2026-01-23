@@ -516,7 +516,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "显示未计划的任务",
     "Unscheduled tasks" : "未计划的任务",
     "Availability of {displayName}" : "{displayName} 的可用性",
-    "Discard event" : "舍弃事件",
+    "Discard changes" : "舍弃更改",
     "Edit event" : "编辑事件",
     "Event does not exist" : "事件不存在",
     "Delete this occurrence" : "删除此重复事件",

@@ -514,7 +514,7 @@
     "Show unscheduled tasks" : "Afficher les tâches non planifiées",
     "Unscheduled tasks" : "Tâches non planifiées",
     "Availability of {displayName}" : "Disponibilité de {displayName}",
-    "Discard event" : "Annuler l'évènement",
+    "Discard changes" : "Abandonner les modifications",
     "Edit event" : "Modifier l'événement",
     "Event does not exist" : "L'événement n'existe pas",
     "Delete this occurrence" : "Supprimer cette occurrence",

@@ -507,7 +507,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Показать незапланированные задачи",
     "Unscheduled tasks" : "Незапланированные задачи",
     "Availability of {displayName}" : "Доступность {displayName}",
-    "Discard event" : "Сбросить событие",
+    "Discard changes" : "Отменить изменения",
     "Edit event" : "Редактировать событие",
     "Event does not exist" : "Событие не существует",
     "Delete this occurrence" : "Удалить это повторение",

@@ -430,7 +430,7 @@ OC.L10N.register(
     "Personal" : "個人",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "自動的なタイムゾーンの検出により、あなたのタイムゾーンはUTCと判断されました。\nこれはおそらく、あなたのウェブブラウザのセキュリティ対策の結果です。\nカレンダーの設定でタイムゾーンを手動で設定してください。",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "設定されたタイムゾーン ({timezoneId}) が見つかりませんでした。UTCにフォールバックします。\n設定でタイムゾーンを変更して、この問題を報告してください。",
-    "Discard event" : "イベントを破棄",
+    "Discard changes" : "変更を破棄する",
     "Edit event" : "イベントを編集",
     "Event does not exist" : "イベントは存在しません",
     "Delete this occurrence" : "この出来事を削除",

@@ -512,7 +512,7 @@
     "Show unscheduled tasks" : "Vis ikke planlagte opgaver",
     "Unscheduled tasks" : "Ikke planlagte opgaver",
     "Availability of {displayName}" : "Tilgængelighed af {displayName}",
-    "Discard event" : "Forkast begivenhed",
+    "Discard changes" : "Fortryd ændringer",
     "Edit event" : "Redigér begivenhed",
     "Event does not exist" : "Begivenheden eksisterer ikke",
     "Delete this occurrence" : "Slet denne forekomst",

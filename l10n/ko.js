@@ -403,6 +403,7 @@ OC.L10N.register(
     "Personal" : "개인",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "자동으로 감지된 귀하의 시간대가 UTC입니다.\n이 웹 브라우저의 보안 설정이 원인일 수 있습니다.\n달력 설정에서 수동으로 시간대를 설정해 주십시오.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "설정된 시간대 ({timezoneId}) 을(를) 찾을 수 없습니다. UTC로 설정됩니다.\n설정에서 시간대를 변경하고 이 문제를 보고해 주십시오.",
+    "Discard changes" : "변경 사항 버리기",
     "Edit event" : "일정 편집",
     "Event does not exist" : "일정이 존재하지 않음",
     "Delete this occurrence" : "이 일정 삭제",

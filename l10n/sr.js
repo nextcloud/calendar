@@ -504,7 +504,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Прикажи задатке који нису заказани",
     "Unscheduled tasks" : "Незаказани задаци",
     "Availability of {displayName}" : "Доступност корисника {displayName}",
-    "Discard event" : "Одбаци догађај",
+    "Discard changes" : "Одбаци измене",
     "Edit event" : "Измени догађај",
     "Event does not exist" : "Догађај не постоји",
     "Delete this occurrence" : "Обриши ово појављивање",
