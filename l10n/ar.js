@@ -454,6 +454,7 @@ OC.L10N.register(
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "الاكتشاف التلقائي للمنطقة الزمنية يُحدّد منطقتك الزمنية بالنسبة للتوقيت العالمي المُوحّد UTC. هذا على الأرجح نتيجة للتدابير الأمنية لمتصفح الويب الخاص بك. يُرجى ضبط المنطقة الزمنية يدويًا في إعدادات التقويم.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "لم يتم العثور على منطقتك الزمنية التي تمّت تهيئتها ({timezoneId}). تمّ الرجوع إلى التوقيت العالمي المُوحّد UTC. يرجى تغيير منطقتك الزمنية في الإعدادات، والإبلاغ عن هذه المشكلة.",
     "Availability of {displayName}" : "توافُر {displayName}",
+    "Discard changes" : "تجاهل التغييرات",
     "Edit event" : "تعديل الحدث",
     "Event does not exist" : "الفعالية غير موجودة",
     "Delete this occurrence" : "حذف هذا الظهور",
