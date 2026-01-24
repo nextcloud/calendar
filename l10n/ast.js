@@ -244,6 +244,7 @@ OC.L10N.register(
     "Subscribe" : "Soscribise",
     "Time:" : "Hora:",
     "Personal" : "Personal",
+    "Discard changes" : "Escartar los cambeos",
     "Edit event" : "Editar eventu",
     "Event does not exist" : "L'eventu nun esiste",
     "All day" : "Tol día",
