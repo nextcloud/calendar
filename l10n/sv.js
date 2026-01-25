@@ -533,6 +533,7 @@ OC.L10N.register(
     "Untitled event" : "Namnlös händelse",
     "Close" : "Stäng",
     "Modifications will not get propagated to the organizer and other attendees" : "Ändringar kommer inte att skickas till organisatören eller andra deltagare",
+    "This event was cancelled" : "Detta evenemang har blivit inställt",
     "Meeting proposals overview" : "Översikt över mötesförslag",
     "Edit meeting proposal" : "Redigera mötesförslag",
     "Create meeting proposal" : "Skapa mötesförslag",
