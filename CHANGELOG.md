@@ -1,5 +1,37 @@
 # Changelog
 
+## 6.2.0-beta.1
+### Fixed
+- add scrolling for long list
+- make short events render title on one line
+- cancel confirmation dialog
+- all day toggle
+- improve simple editor positioning logic
+
+## 6.2.0-beta.0
+### Added
+- feat(invitees): add copy button for attendee  emails
+- feat: restrict calendar invitation users
+- feat(appointments): add duplicate button to clone appointments
+- feat: proposal and appointment configuration migrator
+- feat(EditSimple): show alarms in viewing mode
+- feat: added ability to create private talk room
+- feat(settings): redesign to new vue components
+- feat(Settings): redesign to new vue components (#7682)
+- feat: add description to booked appointment and pre appointment blocker
+- feat: sync calendar instantly on changes
+- feat(PropertyTitleTimePicker): add local time subtitle
+- feat(CalendarList): keep hidden calendars in main list
+- feat(SaveButtons): group update buttons
+- feat: exit event edit popover without click on X
+- feat: add confirmation dialog before cancel
+- feat: meeting proposal convertion options
+- feat: add local time when inviting attendees to events
+- feat: Meeting proposals calendar time blockers
+- feat: move calendar setting to modal
+- feat(deps): Add Nextcloud 33 support
+
+
 ## 5.0.0 - Unreleased
 ### Added
 - Nextcloud 30 support
