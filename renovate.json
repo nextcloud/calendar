@@ -7,7 +7,9 @@
 		":semanticCommits",
 		":gitSignOff"
 	],
-	"timezone": "Europe/Vienna",
+	"assigneesFromCodeOwners": true,
+	"expandCodeOwnersGroups": true,
+	"timezone": "Europe/Berlin",
 	"schedule": [
 		"before 5am on wednesday"
 	],
@@ -20,7 +22,7 @@
 	"ignoreUnstable": false,
 	"baseBranchPatterns": [
 		"main",
-		"stable6.1",
+		"stable6.2",
 		"stable5.5"
 	],
 	"enabledManagers": [
@@ -37,28 +39,16 @@
 	"packageRules": [
 		{
 			"description": "Request JavaScript reviews",
-			"matchManagers": ["npm"],
-			"reviewers": [
-				"SebastianKrupinski",
-				"GVodyanov"
-			]
+			"matchManagers": ["npm"]
 		},
 		{
 			"description": "Request PHP reviews",
-			"matchManagers": ["composer"],
-			"reviewers": [
-				"SebastianKrupinski",
-				"GVodyanov"
-			]
+			"matchManagers": ["composer"]
 		},
 		{
 			"description": "Bump Github actions monthly and request reviews",
 			"matchManagers": ["github-actions"],
-			"extends": ["schedule:monthly"],
-			"reviewers": [
-				"SebastianKrupinski",
-				"GVodyanov"
-			]
+			"extends": ["schedule:monthly"]
 		},
 		{
 			"matchUpdateTypes": ["minor", "patch"],
@@ -79,10 +69,6 @@
 			"labels": [
 				"dependencies",
 				"3. to review"
-			],
-			"reviewers": [
-				"SebastianKrupinski",
-				"GVodyanov"
 			]
 		},
 		{
