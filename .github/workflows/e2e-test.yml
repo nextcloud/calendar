@@ -29,7 +29,7 @@ jobs:
     needs: matrix
     steps:
       - name: Set up Nextcloud env
-        uses: ChristophWurst/setup-nextcloud@fc0790385c175d97e88a7cb0933490de6e990374 # v0.3.2
+        uses: ChristophWurst/setup-nextcloud@6e38a6146b15a4c4c932ce72ed8daf75eb903d18 # v0.4.1
         with:
           nextcloud-version: ${{ needs.matrix.outputs.branches-min }}
           php-version: ${{ needs.matrix.outputs.php-min }}
