@@ -13,6 +13,7 @@ import { removeMailtoPrefix } from '../utils/attendee.js'
 import { showError } from '@nextcloud/dialogs'
 import usePrincipalsStore from '../store/principals.js'
 import useSettingsStore from '../store/settings.js'
+import useWidgetStore from '../store/widget.js'
 import useCalendarsStore from '../store/calendars.js'
 import useCalendarObjectsStore from '../store/calendarObjects.js'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
@@ -61,7 +62,7 @@ export default {
 		}),
 		...mapState(useCalendarsStore, ['initialCalendarsLoaded']),
 		...mapState(useCalendarObjectInstanceStore, ['calendarObject', 'calendarObjectInstance']),
-		...mapStores(useCalendarsStore, usePrincipalsStore, useCalendarObjectsStore, useCalendarObjectInstanceStore, useSettingsStore),
+		...mapStores(useCalendarsStore, usePrincipalsStore, useCalendarObjectsStore, useCalendarObjectInstanceStore, useSettingsStore, useWidgetStore),
 		eventComponent() {
 			return this.calendarObjectInstance?.eventComponent
 		},
@@ -404,7 +405,7 @@ export default {
 		 */
 		closeEditor() {
 			if (this.isWidget) {
-				this.calendarsStore.closeWidgetEventDetails()
+				this.widgetStore.closeWidgetEventDetails()
 				return
 			}
 			const params = Object.assign({}, this.$route.params)
