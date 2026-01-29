@@ -8,6 +8,9 @@
 		<div class="edit-calendar-modal">
 			<h3 class="edit-calendar-modal__header">
 				{{ $t('calendar', 'Edit calendar') }}
+				<span class="edit-calendar-modal__header_subtitle">
+					{{ description }}
+				</span>
 			</h3>
 
 			<div class="edit-calendar-modal__name-and-color">
@@ -167,6 +170,36 @@ export default {
 		downloadUrl() {
 			return this.calendar.url + '?export'
 		},
+
+		/**
+		 * Description about supported components.
+		 *
+		 * @return {string}
+		 */
+		description() {
+			if (this.calendar.supportsEvents && this.calendar.supportsTasks && this.calendar.supportsJournals) {
+				return this.$t('calendar', 'This calendar supports events, tasks and journal entries.')
+			}
+			if (this.calendar.supportsEvents && this.calendar.supportsTasks && !this.calendar.supportsJournals) {
+				return this.$t('calendar', 'This calendar supports events and tasks.')
+			}
+			if (this.calendar.supportsEvents && !this.calendar.supportsTasks && this.calendar.supportsJournals) {
+				return this.$t('calendar', 'This calendar supports events and journal entries.')
+			}
+			if (this.calendar.supportsEvents && !this.calendar.supportsTasks && !this.calendar.supportsJournals) {
+				return this.$t('calendar', 'This calendar supports only events.')
+			}
+			if (!this.calendar.supportsEvents && this.calendar.supportsTasks && this.calendar.supportsJournals) {
+				return this.$t('calendar', 'This calendar supports tasks and journal entries.')
+			}
+			if (!this.calendar.supportsEvents && this.calendar.supportsTasks && !this.calendar.supportsJournals) {
+				return this.$t('calendar', 'This calendar supports only tasks.')
+			}
+			if (!this.calendar.supportsEvents && !this.calendar.supportsTasks && this.calendar.supportsJournals) {
+				return this.$t('calendar', 'This calendar supports only journal entries.')
+			}
+			return this.$t('calendar', 'This calendar supports neither events, tasks nor journal entries.')
+		},
 	},
 
 	watch: {
@@ -293,6 +326,13 @@ export default {
 	&__sharing-header {
 		// Same font size the header of NcDialog (no variable available a this point)
 		font-size: 21px;
+	}
+
+	&__header_subtitle {
+		display: block;
+		color: var(--color-text-maxcontrast);
+		font-size: 1rem;
+		font-weight: normal;
 	}
 
 	&__name-and-color {
