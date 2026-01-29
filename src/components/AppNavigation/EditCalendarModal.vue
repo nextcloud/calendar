@@ -8,6 +8,9 @@
 		<div class="edit-calendar-modal">
 			<h3 class="edit-calendar-modal__header">
 				{{ $t('calendar', 'Edit calendar') }}
+				<span class="edit-calendar-modal__header_subtitle">
+					{{ description }}
+				</span>
 			</h3>
 
 			<div class="edit-calendar-modal__name-and-color">
@@ -83,6 +86,7 @@
 
 <script>
 import { showError } from '@nextcloud/dialogs'
+import { getLanguage } from '@nextcloud/l10n'
 import { NcAppNavigationSpacer, NcButton, NcCheckboxRadioSwitch, NcColorPicker, NcModal } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
@@ -166,6 +170,39 @@ export default {
 		 */
 		downloadUrl() {
 			return this.calendar.url + '?export'
+		},
+
+		/**
+		 * Description about supported component types.
+		 *
+		 * @return {string}
+		 */
+		description() {
+			const supportedTypes = []
+			if (this.calendar.supportsEvents) {
+				supportedTypes.push(this.$t('calendar', 'events'))
+			}
+			if (this.calendar.supportsTasks) {
+				supportedTypes.push(this.$t('calendar', 'tasks'))
+			}
+			if (this.calendar.supportsJournals) {
+				// TRANSLATORS "notes" would be more user-friendly. "journal entries" (from RFC 5545) was used to avoid confusion with notes from the Notes app.
+				supportedTypes.push(this.$t('calendar', 'journal entries'))
+			}
+
+			if (supportedTypes.lenght === 0) {
+				return this.$t('calendar', 'This calendar supports neither events, tasks nor journal entries.')
+			}
+
+			const formatter = new Intl.ListFormat(getLanguage(), { type: 'conjunction' })
+			const localizedTypes = formatter.format(supportedTypes)
+			return this.$n(
+				'calendar',
+				'This calendar supports only {types}.',
+				'This calendar supports {types}.',
+				supportedTypes.length,
+				{ types: localizedTypes },
+			)
 		},
 	},
 
@@ -293,6 +330,13 @@ export default {
 	&__sharing-header {
 		// Same font size the header of NcDialog (no variable available a this point)
 		font-size: 21px;
+	}
+
+	&__header_subtitle {
+		display: block;
+		color: var(--color-text-maxcontrast);
+		font-size: 1rem;
+		font-weight: normal;
 	}
 
 	&__name-and-color {
