@@ -152,7 +152,9 @@ class BookingCalendarWriter {
 			);
 		}
 
-		if (!empty($config->getLocation())) {
+		if (!empty($booking->getTalkUrl())) {
+			$vEvent->add('LOCATION', $booking->getTalkUrl());
+		} elseif (!empty($config->getLocation())) {
 			$vEvent->add('LOCATION', $config->getLocation());
 		}
 
