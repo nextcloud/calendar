@@ -253,7 +253,7 @@ export default {
 							language: result.lang,
 							timezoneId: result.tzid,
 							hasMultipleEMails: false,
-							dropdownName: name,
+							dropdownName: name + ' ' + email,
 							type: 'contactsgroup',
 						})
 						return
@@ -268,7 +268,7 @@ export default {
 						language: result.lang,
 						timezoneId: result.tzid,
 						hasMultipleEMails,
-						dropdownName: name,
+						dropdownName: name + ' ' + email,
 					})
 				})
 
