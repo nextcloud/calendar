@@ -145,6 +145,7 @@ OC.L10N.register(
     "Friday" : "Petak",
     "Saturday" : "Subota",
     "Sunday" : "Nedjelja",
+    "Weekdays" : "Dani u tjednu",
     "Your email address" : "Vaša adresa e-pošte",
     "Back" : "Natrag",
     "Select conversation" : "Odaberi razgovor",
