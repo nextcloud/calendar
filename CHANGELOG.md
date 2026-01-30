@@ -1,5 +1,11 @@
 # Changelog
 
+## 6.2.0-rc.1
+### Fixed
+- appointment booking room creation
+- participant search make matching work with both name and email
+- not possible to close Event when Calendar is embedded into Collective
+
 ## 6.2.0-beta.1
 ### Fixed
 - add scrolling for long list
