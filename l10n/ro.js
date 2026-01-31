@@ -380,6 +380,7 @@ OC.L10N.register(
     "Personal" : "Personal",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "A fost detectată automat zona de timp ca fiind UTC.\nProbabil ca măsura de securitate în cadrul browserului.\nSetați zona de timp manual în setările Calendar.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Zona de timp ({timezoneId}) nu există. Se revenire la UTC.\nModificați zona de timp în setări și raportați această problemă.",
+    "Discard changes" : "Anulează modificările",
     "Edit event" : "Modifică eveniment",
     "Event does not exist" : "Evenimentul nu există",
     "Delete this occurrence" : "Șterge această poziție",

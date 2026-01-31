@@ -489,7 +489,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Mostrar tareas no agendadas",
     "Unscheduled tasks" : "Tareas no agendadas",
     "Availability of {displayName}" : "Disponibilidad de {displayName}",
-    "Discard event" : "Descartar evento",
+    "Discard changes" : "Descartar cambios",
     "Edit event" : "Editar evento",
     "Event does not exist" : "el evento no existe",
     "Delete this occurrence" : "Eliminar esta ocurrencia",

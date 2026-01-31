@@ -516,7 +516,7 @@
     "Show unscheduled tasks" : "Zamanlanmamış görevleri görüntüle",
     "Unscheduled tasks" : "Zamanlanmamış görevler",
     "Availability of {displayName}" : "{displayName} uygunluğu",
-    "Discard event" : "Etkinliği sil",
+    "Discard changes" : "Değişiklikleri yok say",
     "Edit event" : "Etkinliği düzenle",
     "Event does not exist" : "Etkinlik bulunamadı",
     "Delete this occurrence" : "Bu etkinliği sil",

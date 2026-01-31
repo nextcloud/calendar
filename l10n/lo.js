@@ -509,7 +509,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Show unscheduled tasks",
     "Unscheduled tasks" : "Unscheduled tasks",
     "Availability of {displayName}" : "Availability of {displayName}",
-    "Discard event" : "Discard event",
+    "Discard changes" : "Discard changes",
     "Edit event" : "Edit event",
     "Event does not exist" : "Event does not exist",
     "Delete this occurrence" : "Delete this occurrence",

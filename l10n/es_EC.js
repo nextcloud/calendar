@@ -384,6 +384,7 @@ OC.L10N.register(
     "Personal" : "Personal",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "La detección automática de la zona horaria determinó que tu zona horaria es UTC.\n      Esto es probablemente el resultado de medidas de seguridad de tu navegador web.\n      Por favor, establece tu zona horaria manualmente en la configuración del calendario.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "No se encontró tu zona horaria configurada ({timezoneId}). Se usará UTC.\n      Por favor, cambia tu zona horaria en la configuración y reporta este problema.",
+    "Discard changes" : "Descartar cambios",
     "Edit event" : "Editar evento",
     "Event does not exist" : "El evento no existe",
     "Delete this occurrence" : "Eliminar esta ocurrencia",

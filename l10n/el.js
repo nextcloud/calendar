@@ -488,7 +488,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Εμφάνιση μη προγραμματισμένων εργασιών",
     "Unscheduled tasks" : "Μη προγραμματισμένες εργασίες",
     "Availability of {displayName}" : "Διαθεσιμότητα του/της {displayName}",
-    "Discard event" : "Απόρριψη συμβάντος",
+    "Discard changes" : "Απόρριψη αλλαγών",
     "Edit event" : "Επεξεργασία συμβάντος",
     "Event does not exist" : "Δεν υπάρχει το γεγονός",
     "Delete this occurrence" : "Διαγράψτε το περιστατικό",
