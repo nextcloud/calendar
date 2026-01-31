@@ -171,6 +171,7 @@ OC.L10N.register(
     "Choose a file to share as a link" : "Izaberi datoteku za dijeljenje putem poveznice",
     "Proceed" : "Nastavi",
     "Delete file" : "Izbriši datoteku",
+    "Confirmation" : "Potvrda",
     "Available" : "Dostupno",
     "Not available" : "Nije dostupno",
     "{organizer} (organizer)" : "{organizer} (organizator)",
