@@ -97,14 +97,14 @@
     "@types/node": "^25.0.10",
     "@types/webpack": "^5.28.5",
     "@vitejs/plugin-vue2": "^2.3.4",
-    "@vitest/coverage-v8": "^4.0.17",
+    "@vitest/coverage-v8": "^4.0.18",
     "@vue/test-utils": "^2.4.6",
     "babel-loader-exclude-node-modules-except": "^1.2.1",
     "jsdom": "^27.4.0",
     "resolve-url-loader": "^5.0.0",
     "ts-loader": "^9.5.4",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.17",
+    "vitest": "^4.0.18",
     "vue-template-compiler": "^2.7.16"
   },
   "optionalDependencies": {
