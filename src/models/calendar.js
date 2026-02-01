@@ -48,6 +48,12 @@ function getDefaultCalendarObject(props = {}) {
 		canBeShared: false,
 		// Whether or not the calendar can be published by me
 		canBePublished: false,
+		// Whether or not I can create objects in this calendar
+		canCreateObject: false,
+		// Whether or not I can modify objects in this calendar
+		canModifyObject: false,
+		// Whether or not I can delete objects in this calendar
+		canDeleteObject: false,
 		// Reference to cdav-lib object
 		dav: false,
 		// All calendar-objects from this calendar that have already been fetched
@@ -86,6 +92,9 @@ function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 	const readOnly = !calendar.isWriteable()
 	const canBeShared = calendar.isShareable()
 	const canBePublished = calendar.isPublishable()
+	const canCreateObject = calendar.currentUserPrivilegeSet.includes('{DAV:}bind') || calendar.currentUserPrivilegeSet.includes('{DAV:}write') || calendar.currentUserPrivilegeSet.includes('{DAV:}all') === true
+	const canModifyObject = calendar.currentUserPrivilegeSet.includes('{DAV:}write-content') || calendar.currentUserPrivilegeSet.includes('{DAV:}write') || calendar.currentUserPrivilegeSet.includes('{DAV:}all') === true
+	const canDeleteObject = calendar.currentUserPrivilegeSet.includes('{DAV:}unbind') || calendar.currentUserPrivilegeSet.includes('{DAV:}write') || calendar.currentUserPrivilegeSet.includes('{DAV:}all') === true
 	const order = calendar.order || 0
 	const url = calendar.url
 	const publishURL = calendar.publishURL || null
@@ -146,6 +155,9 @@ function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 		publishURL,
 		canBeShared,
 		canBePublished,
+		canCreateObject,
+		canModifyObject,
+		canDeleteObject,
 		shares,
 		timezone,
 		transparency,
