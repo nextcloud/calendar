@@ -7,9 +7,12 @@ import { setActivePinia, createPinia } from 'pinia'
 
 describe('store/contacts test suite', () => {
 
-	setActivePinia(createPinia())
+	let contactsStore
 
-	const contactsStore = useContactsStore()
+	beforeEach(() => {
+		setActivePinia(createPinia())
+		contactsStore = useContactsStore()
+	})
 
 	it('should provide a default state', () => {
 		expect(contactsStore.contacts).toEqual([])
@@ -62,23 +65,11 @@ describe('store/contacts test suite', () => {
 			name: 'Jane Doe',
 			emails: ['jane.doe@example.com'],
 		}
-
-		const state = {
-			contacts: [
-				contact1,
-				contact2,
-			],
-			contactByEmail: {
-				'john.doe@example.com': contact1,
-				'jane.doe@example.com': contact2,
-			},
-		}
-
-		contactsStore.contacts = state.contacts
-		contactsStore.contactByEmail = state.contactByEmail
+		contactsStore.appendContact({ contact: contact1 })
+		contactsStore.appendContact({ contact: contact2 })
 
 		contactsStore.removeContact({ contact: contact1 })
-
+		
 		expect(contactsStore.contacts).toEqual([
 			contact2,
 		])
@@ -97,17 +88,8 @@ describe('store/contacts test suite', () => {
 			name: 'Jane Doe',
 			emails: ['jane.doe@example.com'],
 		}
-
-		const state = {
-			contacts: [
-				contact1,
-				contact2,
-			],
-			contactByEmail: {
-				'john.doe@example.com': contact1,
-				'jane.doe@example.com': contact2,
-			},
-		}
+		contactsStore.appendContact({ contact: contact1 })
+		contactsStore.appendContact({ contact: contact2 })
 
 		const unknownContact = {
 			name: 'Foo Bar',
@@ -116,12 +98,12 @@ describe('store/contacts test suite', () => {
 
 		contactsStore.removeContact({ contact: unknownContact })
 
-		expect(state.contacts).toEqual([
+		expect(contactsStore.contacts).toEqual([
 			contact1,
 			contact2,
 		])
 
-		expect(state.contactByEmail).toEqual({
+		expect(contactsStore.contactByEmail).toEqual({
 			'john.doe@example.com': contact1,
 			'jane.doe@example.com': contact2,
 		})
