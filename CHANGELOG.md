@@ -1,3 +1,28 @@
+## [5.5.14](https://github.com/nextcloud/calendar/compare/v5.5.13...v5.5.14) (2026-02-02)
+
+
+### Bug Fixes
+
+* **deps:** update dependency lodash to v4.17.23 (stable5.5) ([#7896](https://github.com/nextcloud/calendar/issues/7896)) ([06f9d7c](https://github.com/nextcloud/calendar/commit/06f9d7c6d60cc91bd78b5c46bd2b19b22002d3d0))
+* **InviteesListSearch:** make matching work with both name and email ([a21451a](https://github.com/nextcloud/calendar/commit/a21451ad7baa6b3f8948a3417797f1aceaae3586))
+* **l10n:** Update translations from Transifex ([74d542d](https://github.com/nextcloud/calendar/commit/74d542dafbdb43c88d5215753079ad57c99cea0c))
+* **l10n:** Update translations from Transifex ([9b9e1af](https://github.com/nextcloud/calendar/commit/9b9e1af2e26127e96f9f2530b114a7257ab1530b))
+* **l10n:** Update translations from Transifex ([ef94f69](https://github.com/nextcloud/calendar/commit/ef94f6989bcd58c8be17e01234423f0e2cc41f74))
+* **l10n:** Update translations from Transifex ([0d6f304](https://github.com/nextcloud/calendar/commit/0d6f3043c3eb17cb71f0458338f32dbb57bbe71c))
+* **l10n:** Update translations from Transifex ([50685d5](https://github.com/nextcloud/calendar/commit/50685d5ee475e7c5d352ee169140f36e4da16858))
+* **l10n:** Update translations from Transifex ([5626098](https://github.com/nextcloud/calendar/commit/56260982c0736800951ae285a1047102bc525a9d))
+* **l10n:** Update translations from Transifex ([cd2d686](https://github.com/nextcloud/calendar/commit/cd2d6867d8d90b0840cca788f368d2a136887b73))
+* **l10n:** Update translations from Transifex ([5370d13](https://github.com/nextcloud/calendar/commit/5370d13b2b92152fa4f1f695040b89f492445856))
+* **l10n:** Update translations from Transifex ([28c0f84](https://github.com/nextcloud/calendar/commit/28c0f84c73d7df34b01a2679f4d80a8fb64b518f))
+* **l10n:** Update translations from Transifex ([e15df76](https://github.com/nextcloud/calendar/commit/e15df76808f5d9dd7432dd4fe9a4c60df286a4c8))
+* **l10n:** Update translations from Transifex ([35941ba](https://github.com/nextcloud/calendar/commit/35941baa82bff59816e6bef353e5062c7b4bbaa4))
+* **l10n:** Update translations from Transifex ([321f5ad](https://github.com/nextcloud/calendar/commit/321f5add750adadce55504e7a4fbfa032b02a45b))
+* **l10n:** Update translations from Transifex ([e8b2e05](https://github.com/nextcloud/calendar/commit/e8b2e05d9c8602d80720abf21cb4870260421a78))
+* **l10n:** Update translations from Transifex ([ffdbb0a](https://github.com/nextcloud/calendar/commit/ffdbb0ae5c573a575de27c6a300e0c0e894a1450))
+* **l10n:** Update translations from Transifex ([150d064](https://github.com/nextcloud/calendar/commit/150d06465bc227c696c5c2c092bf621c7d08752c))
+
+
+
 ## [5.5.13](https://github.com/nextcloud/calendar/compare/v5.5.12...v5.5.13) (2026-01-16)
 
 
