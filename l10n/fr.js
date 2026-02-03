@@ -223,7 +223,7 @@ OC.L10N.register(
     "Appearance" : "Apparence",
     "Birthday calendar" : "Calendrier des anniversaires",
     "Tasks in calendar" : "Tâches dans le calendrier",
-    "Weekends" : "Fins de semaines",
+    "Weekends" : "Week-ends",
     "Week numbers" : "Numéros de semaines",
     "Limit number of events shown in Month view" : "Limiter le nombre d'événements affichés dans la vue Mois",
     "Density in Day and Week View" : "Densité dans les vues Jour et Semaine",
