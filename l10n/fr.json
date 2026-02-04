@@ -154,6 +154,8 @@
     "Unshare with {displayName}" : "Ne plus partager avec {displayName}",
     "Share with users or groups" : "Partager avec des utilisateurs ou des groupes",
     "No users or groups" : "Aucun utilisateur ni groupe",
+    "events" : "événements",
+    "tasks" : "tâches",
     "Failed to save calendar name and color" : "Échec d'enregistrement du nom et de la couleur de l'agenda",
     "Calendar name …" : "Nom de l'agenda …",
     "Never show me as busy (set this calendar to transparent)" : "Ne jamais me considérer occupé (définir ce calendrier comme transparent)",
