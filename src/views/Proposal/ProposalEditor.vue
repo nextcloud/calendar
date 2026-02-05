@@ -1020,7 +1020,6 @@ export default {
 .proposal-viewer__content-title {
 	font-size: calc(var(--default-grid-baseline) * 6);
 	font-weight: bold;
-	word-wrap: break-word;
 	overflow-wrap: break-word;
 	hyphens: auto;
 }
