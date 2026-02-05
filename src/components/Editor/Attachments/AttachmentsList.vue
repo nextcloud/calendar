@@ -25,13 +25,13 @@
 				<template #icon>
 					<Plus :size="20" />
 				</template>
-				<NcActionButton @click="openFilesModal()">
+				<NcActionButton closeAfterClick="true" @click="openFilesModal()">
 					<template #icon>
 						<Folder :size="20" />
 					</template>
 					{{ t('calendar', 'Add from Files') }}
 				</NcActionButton>
-				<NcActionButton @click="clickOnUploadButton">
+				<NcActionButton closeAfterClick="true" @click="clickOnUploadButton">
 					<template #icon>
 						<Upload :size="20" />
 					</template>
@@ -54,6 +54,7 @@
 					<template #actions>
 						<NcActionButton
 							v-if="!isReadOnly"
+							closeAfterClick="true"
 							@click="deleteAttachmentFromEvent(attachment)">
 							<template #icon>
 								<Close :size="20" />
