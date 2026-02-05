@@ -195,7 +195,7 @@ export default {
 				return true
 			}
 
-			return calendar.readOnly
+			return !calendar.canCreateObject && !calendar.canModifyObject
 		},
 		isSharedWithMe() {
 			if (!this.calendarObject) {
