@@ -25,7 +25,7 @@
 						:style="{ 'background-color': value.color }" />
 				</div>
 			</template>
-			<template>
+			<template #default>
 				<NcActionButton
 					v-for="calendar in calendars"
 					:key="calendar.id"
