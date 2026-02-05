@@ -377,6 +377,8 @@ export default {
 				alarm: this.alarm,
 				type,
 			})
+
+			this.showMenu = false
 		},
 
 		/**
@@ -391,6 +393,8 @@ export default {
 				calendarObjectInstance: this.calendarObjectInstance,
 				alarm: this.alarm,
 			})
+
+			this.showMenu = false
 		},
 
 		/**
@@ -405,6 +409,8 @@ export default {
 				calendarObjectInstance: this.calendarObjectInstance,
 				alarm: this.alarm,
 			})
+
+			this.showMenu = false
 		},
 
 		/**
@@ -412,6 +418,8 @@ export default {
 		 */
 		removeAlarm() {
 			this.$emit('removeAlarm', this.alarm)
+
+			this.showMenu = false
 		},
 
 		/**
