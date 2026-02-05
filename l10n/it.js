@@ -270,7 +270,7 @@ OC.L10N.register(
     "Other notification" : "Altra notifica",
     "Relative to event" : "Relativo all'evento",
     "On date" : "In data",
-    "Edit time" : "Ora di modifica",
+    "Edit time" : "Modifica ora",
     "Save time" : "Ora di salvataggio",
     "Remove reminder" : "Rimuovi promemoria",
     "Add reminder" : "Aggiungi promemoria",
