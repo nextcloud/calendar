@@ -20,11 +20,11 @@
 							:options="freeSlots"
 							:placeholder="placeholder"
 							:clearable="false"
-							input-id="slot"
+							inputId="slot"
 							label="displayStart"
-							:label-outside="true"
-							:value="selectedSlot"
-							@option:selected="setSlotSuggestion">
+							:labelOutside="true"
+							:modelValue="selectedSlot"
+							@update:modelValue="setSlotSuggestion">
 							<template #selected-option="{}">
 								{{ $t('calendar', 'Suggestion accepted') }}
 							</template>
@@ -34,16 +34,16 @@
 						<InviteesListSearch
 							v-if="isMobile"
 							class="modal__content__header__attendees__search"
-							:already-invited-emails="alreadyInvitedEmails"
+							:alreadyInvitedEmails="alreadyInvitedEmails"
 							:organizer="organizer"
-							@add-attendee="addAttendee" />
-						<NcUserBubble :size="24" :display-name="organizer.commonName" />
+							@addAttendee="addAttendee" />
+						<NcUserBubble :size="24" :displayName="organizer.commonName" />
 						<NcUserBubble
 							v-for="attendee in attendees"
 							:key="attendee.id"
 							:size="24"
 							class="modal__content__header__attendees__user-bubble"
-							:display-name="attendee.commonName">
+							:displayName="attendee.commonName">
 							<template #name>
 								<a
 									href="#"
@@ -72,8 +72,8 @@
 							</template>
 						</NcButton>
 						<NcDateTimePickerNative
-							:hide-label="true"
-							:value="currentStart"
+							:hideLabel="true"
+							:modelValue="currentStart"
 							@input="(date) => handleActions('picker', date)" />
 						<NcButton
 							variant="secondary"
@@ -84,7 +84,7 @@
 								<ChevronRightIcon v-else :size="22" />
 							</template>
 						</NcButton>
-						<NcPopover :no-focus-trap="true">
+						<NcPopover :noFocusTrap="true">
 							<template #trigger>
 								<NcButton
 									variant="tertiary-no-background"
@@ -130,8 +130,8 @@
 							</template>
 						</NcButton>
 						<NcDateTimePickerNative
-							:hide-label="true"
-							:value="currentStart"
+							:hideLabel="true"
+							:modelValue="currentStart"
 							@input="(date) => handleActions('picker', date)" />
 						<NcButton
 							variant="secondary"
@@ -142,7 +142,7 @@
 								<ChevronRightIcon v-else :size="22" />
 							</template>
 						</NcButton>
-						<NcPopover :no-focus-trap="true">
+						<NcPopover :noFocusTrap="true">
 							<template #trigger>
 								<NcButton variant="tertiary-no-background">
 									<template #icon>
@@ -191,13 +191,13 @@
 								:options="freeSlots"
 								:placeholder="placeholder"
 								:clearable="false"
-								input-id="slot"
+								inputId="slot"
 								label="displayStart"
-								:label-outside="true"
-								:value="selectedSlot"
+								:labelOutside="true"
+								:modelValue="selectedSlot"
 								:loading="loadingIndicator"
 								:disabled="loadingIndicator"
-								@option:selected="setSlotSuggestion">
+								@update:modelValue="setSlotSuggestion">
 								<template #selected-option="{}">
 									{{ $t('calendar', 'Suggestion accepted') }}
 								</template>
@@ -207,9 +207,9 @@
 							{{ $t('calendar', 'Attendees:') }}
 							<InviteesListSearch
 								class="modal__content__actions__select"
-								:already-invited-emails="alreadyInvitedEmails"
+								:alreadyInvitedEmails="alreadyInvitedEmails"
 								:organizer="organizer"
-								@add-attendee="addAttendee" />
+								@addAttendee="addAttendee" />
 							<NcListItemIcon
 								:name="organizer.commonName"
 								class="modal__content__body__sidebar__attendees__item" />
@@ -265,10 +265,11 @@
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 // Import FullCalendar itself
-import FullCalendar from '@fullcalendar/vue'
+import FullCalendar from '@fullcalendar/vue3'
 import { AttendeeProperty } from '@nextcloud/calendar-js'
 import { isRTL } from '@nextcloud/l10n'
-import { isMobile, NcActionButton, NcActions, NcButton, NcDateTimePickerNative, NcListItemIcon, NcModal, NcPopover, NcSelect, NcUserBubble } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcButton, NcDateTimePickerNative, NcListItemIcon, NcModal, NcPopover, NcSelect, NcUserBubble } from '@nextcloud/vue'
+import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
 import { mapState } from 'pinia'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
@@ -313,7 +314,6 @@ export default {
 		Close,
 	},
 
-	mixins: [isMobile],
 	props: {
 		/**
 		 * The organizer object.
@@ -376,6 +376,11 @@ export default {
 		},
 	},
 
+	setup() {
+		const isMobile = useIsMobile()
+		return { isMobile }
+	},
+
 	data() {
 		return {
 			loadingIndicator: true,
@@ -394,6 +399,7 @@ export default {
 	},
 
 	computed: {
+
 		...mapState(useSettingsStore, {
 			timezoneId: 'getResolvedTimezone',
 		}),
@@ -556,7 +562,7 @@ export default {
 			this.updateAttendeeDetails(newVal)
 
 			if (newVal.length === 0) {
-				this.$emit('close:no-attendees')
+				this.$emit('close:noAttendees')
 			}
 		},
 	},
@@ -630,16 +636,16 @@ export default {
 		},
 
 		save() {
-			this.$emit('update-dates', { start: this.currentStart, end: this.currentEnd })
+			this.$emit('updateDates', { start: this.currentStart, end: this.currentEnd })
 		},
 
 		addAttendee(attendee) {
-			this.$emit('add-attendee', attendee)
+			this.$emit('addAttendee', attendee)
 			this.findFreeSlots()
 		},
 
 		removeAttendee(attendee) {
-			this.$emit('remove-attendee', attendee)
+			this.$emit('removeAttendee', attendee)
 			this.findFreeSlots()
 		},
 

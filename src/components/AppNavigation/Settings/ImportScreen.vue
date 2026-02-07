@@ -4,7 +4,11 @@
 -->
 
 <template>
-	<Modal class="import-modal" size="large" @close="cancelImport">
+	<Modal
+		class="import-modal"
+		size="large"
+		:name="$t('calendar', 'Import destination selection')"
+		@close="cancelImport">
 		<h2 class="import-modal__title">
 			{{ $t('calendar', 'Import calendars') }}
 		</h2>
@@ -14,7 +18,7 @@
 		</h4>
 
 		<transition-group class="import-modal__file-list" tag="ul">
-			<li :key="headerRowKey" class="import-modal-file-item import-modal-file-item--header">
+			<li key="import-header-row" class="import-modal-file-item import-modal-file-item--header">
 				<div class="import-modal-file-item__filename">
 					{{ $t('calendar', 'Filename') }}
 				</div>
@@ -55,19 +59,13 @@ export default {
 		},
 	},
 
-	computed: {
-		headerRowKey() {
-			return this._uid + '-header-row'
-		},
-	},
-
 	methods: {
 		importCalendar() {
-			this.$emit('import-calendar')
+			this.$emit('importCalendar')
 		},
 
 		cancelImport() {
-			this.$emit('cancel-import')
+			this.$emit('cancelImport')
 		},
 	},
 }

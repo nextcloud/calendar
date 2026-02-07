@@ -22,7 +22,7 @@
 				class="repeat-option-set-section__title"
 				type="radio"
 				:name="radioInputId"
-				:model-value="byMonthDayEnabled"
+				:modelValue="byMonthDayEnabled"
 				@update:modelValue="enableByMonthDay">
 				{{ $t('calendar', 'On specific day') }}
 			</NcCheckboxRadioSwitch>
@@ -43,16 +43,16 @@
 				class="repeat-option-set-section__title"
 				type="radio"
 				:name="radioInputId"
-				:model-value="!byMonthDayEnabled"
+				:modelValue="!byMonthDayEnabled"
 				@update:modelValue="enableBySetPosition">
 				{{ $t('calendar', 'On the') }}
 			</NcCheckboxRadioSwitch>
 			<RepeatFirstLastSelect
-				:by-set-position="bySetPosition"
+				:bySetPosition="bySetPosition"
 				:disabled="byMonthDayEnabled"
 				@change="changeBySetPosition" />
 			<RepeatOnTheSelect
-				:by-day="byDay"
+				:byDay="byDay"
 				:disabled="byMonthDayEnabled"
 				@change="changeByDay" />
 		</div>
@@ -162,10 +162,10 @@ export default {
 		 */
 		toggleByMonth(byMonth) {
 			if (this.byMonth.indexOf(byMonth) === -1) {
-				this.$emit('add-by-month', byMonth)
+				this.$emit('addByMonth', byMonth)
 			} else {
 				if (this.byMonth.length > 1) {
-					this.$emit('remove-by-month', byMonth)
+					this.$emit('removeByMonth', byMonth)
 				}
 			}
 		},
@@ -176,10 +176,10 @@ export default {
 		 */
 		toggleByMonthDay(byMonthDay) {
 			if (this.byMonthDay.indexOf(byMonthDay) === -1) {
-				this.$emit('add-by-month-day', byMonthDay)
+				this.$emit('addByMonthDay', byMonthDay)
 			} else {
 				if (this.byMonthDay.length > 1) {
-					this.$emit('remove-by-month-day', byMonthDay)
+					this.$emit('removeByMonthDay', byMonthDay)
 				}
 			}
 		},
@@ -189,7 +189,7 @@ export default {
 				return
 			}
 
-			this.$emit('change-to-by-month-day')
+			this.$emit('changeToByMonthDay')
 		},
 
 		enableBySetPosition() {
@@ -197,15 +197,15 @@ export default {
 				return
 			}
 
-			this.$emit('change-to-by-set-position')
+			this.$emit('changeToBySetPosition')
 		},
 
 		changeByDay(value) {
-			this.$emit('change-by-day', value)
+			this.$emit('changeByDay', value)
 		},
 
 		changeBySetPosition(value) {
-			this.$emit('change-by-set-position', value)
+			this.$emit('changeBySetPosition', value)
 		},
 	},
 }

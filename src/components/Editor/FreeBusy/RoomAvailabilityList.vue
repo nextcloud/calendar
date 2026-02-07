@@ -41,12 +41,13 @@
 			<div>
 				<RoomAvailabilityModal
 					v-if="showRoomAvailabilityModal"
-					:show.sync="showRoomAvailabilityModal"
-					:start-date="calendarObjectInstance.startDate"
-					:end-date="calendarObjectInstance.endDate"
+					:show="showRoomAvailabilityModal"
+					:startDate="calendarObjectInstance.startDate"
+					:endDate="calendarObjectInstance.endDate"
 					:rooms="selectedRooms"
-					:calendar-object-instance="calendarObjectInstance"
-					:organizer="currentUserPrincipalAsAttendee" />
+					:calendarObjectInstance="calendarObjectInstance"
+					:organizer="currentUserPrincipalAsAttendee"
+					@update:show="setShowRoomAvailabilityModal" />
 			</div>
 		</div>
 	</NcDialog>
@@ -119,6 +120,10 @@ export default {
 		openRoomAvailability(room) {
 			this.selectedRooms = [room]
 			this.showRoomAvailabilityModal = true
+		},
+
+		setShowRoomAvailabilityModal(value) {
+			this.showRoomAvailabilityModal = value
 		},
 	},
 }

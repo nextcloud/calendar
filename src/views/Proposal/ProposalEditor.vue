@@ -8,6 +8,7 @@
 		<NcModal
 			v-if="modalVisible"
 			class="proposal-modal__content"
+			:name="modalTitle"
 			:title="modalTitle"
 			:size="modalSize"
 			@close="onModalClose()">
@@ -52,12 +53,12 @@
 					</div>
 				</div>
 				<!-- Responses Matrix Row -->
-				<div class="proposal-viewer__content-matrix">
+				<div v-if="selectedProposal" class="proposal-viewer__content-matrix">
 					<ProposalResponseMatrix
 						mode="organizer"
 						:proposal="selectedProposal"
-						:timezone-id="userTimezone"
-						@date-convert="onProposalConvert" />
+						:timezoneId="userTimezone"
+						@dateConvert="onProposalConvert" />
 				</div>
 			</div>
 			<!-- Show proposal editor -->
@@ -82,12 +83,12 @@
 								v-if="!settingsStore.talkEnabled || !modalEditLocationState"
 								class="proposal-editor__proposal-location"
 								:label="t('calendar', 'Location')"
-								:value="selectedProposal.location" />
+								:modelValue="selectedProposal.location" />
 							<NcCheckboxRadioSwitch
 								v-if="settingsStore.talkEnabled"
 								class="proposal-editor__proposal-location-selector"
 								variant="secondary"
-								:model-value="modalEditLocationState"
+								:modelValue="modalEditLocationState"
 								@update:modelValue="onProposalLocationTypeToggle">
 								{{ t('calendar', 'Add Talk conversation') }}
 							</NcCheckboxRadioSwitch>
@@ -101,75 +102,41 @@
 								min="1"
 								step="1"
 								@input="onProposalDurationChange($event)" />
-							<div class="proposal-editor__proposal-duration-helpers">
-								<NcCheckboxRadioSwitch
-									type="radio"
-									class="proposal-editor__proposal-duration-helper"
-									:button-variant="true"
-									button-variant-grouped="horizontal"
-									name="duration-helper"
-									value="15"
-									:model-value="String(selectedProposal.duration)"
-									@update:modelValue="changeDuration(15)">
-									{{ t('calendar', '15 min') }}
-								</NcCheckboxRadioSwitch>
-								<NcCheckboxRadioSwitch
-									type="radio"
-									class="proposal-editor__proposal-duration-helper"
-									:button-variant="true"
-									button-variant-grouped="horizontal"
-									name="duration-helper"
-									value="30"
-									:model-value="String(selectedProposal.duration)"
-									@update:modelValue="changeDuration(30)">
-									{{ t('calendar', '30 min') }}
-								</NcCheckboxRadioSwitch>
-								<NcCheckboxRadioSwitch
-									type="radio"
-									class="proposal-editor__proposal-duration-helper"
-									:button-variant="true"
-									button-variant-grouped="horizontal"
-									name="duration-helper"
-									value="60"
-									:model-value="String(selectedProposal.duration)"
-									@update:modelValue="changeDuration(60)">
-									{{ t('calendar', '60 min') }}
-								</NcCheckboxRadioSwitch>
-								<NcCheckboxRadioSwitch
-									type="radio"
-									class="proposal-editor__proposal-duration-helper"
-									:button-variant="true"
-									button-variant-grouped="horizontal"
-									name="duration-helper"
-									value="90"
-									:model-value="String(selectedProposal.duration)"
-									@update:modelValue="changeDuration(90)">
-									{{ t('calendar', '90 min') }}
-								</NcCheckboxRadioSwitch>
-							</div>
+							<NcRadioGroup
+								v-model="selectedProposal.duration"
+								class="proposal-editor__proposal-duration-helpers"
+								:label="t('calendar', 'Duration suggestions')"
+								hideLabel
+								@update:modelValue="onProposalDurationSuggestionChange">
+								<NcRadioGroupButton
+									v-for="duration in [15, 30, 60, 90]"
+									:key="duration"
+									:label="t('calendar', '{duration} min', { duration })"
+									:value="duration" />
+							</NcRadioGroup>
 						</div>
 						<InviteesListSearch
 							class="proposal-editor__proposal-participants-selector"
-							:already-invited-emails="existingParticipantAddressess"
-							@add-attendee="onProposalParticipantAdd" />
+							:alreadyInvitedEmails="existingParticipantAddressess"
+							@addAttendee="onProposalParticipantAdd" />
 						<div v-if="selectedProposal.participants.length > 0" class="proposal-editor__proposal-participants">
 							<h6>{{ t('calendar', 'Participants') }}</h6>
 							<ProposalParticipantItem
 								v-for="(participant, idx) in selectedProposal.participants"
 								:key="idx"
-								:proposal-participant="participant"
-								@participant-attendance="onProposalParticipantAttendance(participant.address, $event)"
-								@participant-remove="onProposalParticipantRemove(participant.address)" />
+								:proposalParticipant="participant"
+								@participantAttendance="onProposalParticipantAttendance(participant.address, $event)"
+								@participantRemove="onProposalParticipantRemove(participant.address)" />
 						</div>
 						<div v-if="selectedProposal.dates.length > 0" class="proposal-editor__proposed-dates">
 							<h6>{{ t('calendar', 'Selected times') }}</h6>
 							<ProposalDateItem
 								v-for="(entry, idx) in selectedProposal.dates"
 								:key="idx"
-								:proposal-date="entry"
-								:timezone-id="userTimezone"
-								@date-focus="onProposalDateFocus(entry)"
-								@date-remove="onProposalDateRemove(idx)" />
+								:proposalDate="entry"
+								:timezoneId="userTimezone"
+								@dateFocus="onProposalDateFocus(entry)"
+								@dateRemove="onProposalDateRemove(idx)" />
 						</div>
 					</div>
 					<!-- Row 3: Actions -->
@@ -243,7 +210,7 @@ import type { Proposal } from '@/models/proposals/proposals'
 
 import FullCalendarInteraction from '@fullcalendar/interaction'
 import FullCalendarTimeGrid from '@fullcalendar/timegrid'
-import FullCalendar from '@fullcalendar/vue'
+import FullCalendar from '@fullcalendar/vue3'
 import { AttendeeProperty } from '@nextcloud/calendar-js'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
@@ -261,6 +228,8 @@ import DeleteIcon from 'vue-material-design-icons/TrashCanOutline'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcModal from '@nextcloud/vue/components/NcModal'
+import NcRadioGroup from '@nextcloud/vue/components/NcRadioGroup'
+import NcRadioGroupButton from '@nextcloud/vue/components/NcRadioGroupButton'
 import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import InviteesListSearch from '@/components/Editor/Invitees/InviteesListSearch.vue'
@@ -301,6 +270,8 @@ export default {
 		NcButton,
 		NcCheckboxRadioSwitch,
 		NcModal,
+		NcRadioGroup,
+		NcRadioGroupButton,
 		NcTextField,
 		NcTextArea,
 		FullCalendar,
@@ -498,6 +469,7 @@ export default {
 
 			return `${startFormatted} to ${endFormatted}`
 		},
+
 	},
 
 	watch: {
@@ -539,7 +511,7 @@ export default {
 		this.calendarSpanDays = this.calendarDateSpan
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		window.removeEventListener('resize', this.onWindowResize)
 	},
 
@@ -553,6 +525,14 @@ export default {
 		onModalOpen() {
 			this.selectedProposal = this.proposalStore.modalProposal
 			this.modalMode = this.proposalStore.modalMode
+
+			// Ensure proposal has default values to prevent null binding errors
+			if (this.selectedProposal) {
+				this.selectedProposal.title = this.selectedProposal.title || ''
+				this.selectedProposal.description = this.selectedProposal.description || ''
+				this.selectedProposal.location = this.selectedProposal.location || ''
+				this.selectedProposal.duration = this.selectedProposal.duration || 30
+			}
 
 			// Wait for the FullCalendar component to be mounted before trying to initialize API
 			this.$nextTick(() => {
@@ -777,6 +757,11 @@ export default {
 			this.selectedProposal.duration = duration
 			// Refresh calendar view
 			this.renderParticipantAvailability()
+		},
+
+		onProposalDurationSuggestionChange(value: string): void {
+			const duration = parseInt(value, 10)
+			this.changeDuration(duration)
 		},
 
 		addParticipant(participant: ParticipantSearchInterface): void {
@@ -1035,7 +1020,6 @@ export default {
 .proposal-viewer__content-title {
 	font-size: calc(var(--default-grid-baseline) * 6);
 	font-weight: bold;
-	word-wrap: break-word;
 	overflow-wrap: break-word;
 	hyphens: auto;
 }
@@ -1175,41 +1159,22 @@ export default {
 
 .proposal-editor__proposal-duration-container {
 	display: flex;
-	align-items: center;
+	align-items: stretch;
 	gap: calc(var(--default-grid-baseline) * 2);
+	flex-wrap: nowrap;
 }
 
 .proposal-editor__proposal-duration {
-	flex: 1;
+	flex: 0 0 20%;
+	max-width: 20%;
 }
 
 .proposal-editor__proposal-duration-helpers {
-	display: flex;
-	gap: 0;
+	flex: 1 1 80%;
+	max-width: 80%;
 
-	// Deep CSS to remove default borders from radio switches and match secondary button styling
-	:deep(.checkbox-radio-switch) {
-		border: none !important;
-
-		// Match NcButton secondary variant colors
-		.checkbox-radio-switch__content {
-			background-color: var(--color-background-hover);
-			color: var(--color-text-primary);
-
-			&:hover {
-				background-color: var(--color-primary-element-light);
-			}
-		}
-
-		// Selected state styling
-		&.checkbox-radio-switch--checked .checkbox-radio-switch__content {
-			background-color: var(--color-primary-element);
-			color: var(--color-primary-element-text);
-
-			&:hover {
-				background-color: var(--color-primary-element-hover);
-			}
-		}
+	:deep(.nc-form-box) {
+		width: 100%;
 	}
 }
 

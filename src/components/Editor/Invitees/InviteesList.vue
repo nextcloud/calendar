@@ -24,15 +24,15 @@
 					v-if="showFreeBusyModel"
 					:attendees="calendarObjectInstance.attendees"
 					:organizer="calendarObjectInstance.organizer"
-					:start-date="calendarObjectInstance.startDate"
-					:end-date="calendarObjectInstance.endDate"
-					:event-title="calendarObjectInstance.title"
-					:already-invited-emails="alreadyInvitedEmails"
-					:show-done-button="true"
-					:all-day="calendarObjectInstance.eventComponent.isAllDay()"
-					@remove-attendee="removeAttendee"
-					@add-attendee="addAttendee"
-					@update-dates="saveNewDate"
+					:startDate="calendarObjectInstance.startDate"
+					:endDate="calendarObjectInstance.endDate"
+					:eventTitle="calendarObjectInstance.title"
+					:alreadyInvitedEmails="alreadyInvitedEmails"
+					:showDoneButton="true"
+					:allDay="calendarObjectInstance.eventComponent.isAllDay()"
+					@removeAttendee="removeAttendee"
+					@addAttendee="addAttendee"
+					@updateDates="saveNewDate"
 					@close="closeFreeBusy" />
 			</div>
 		</div>
@@ -43,26 +43,26 @@
 
 		<InviteesListSearch
 			v-if="!isReadOnly && hasUserEmailAddress"
-			:already-invited-emails="alreadyInvitedEmails"
+			:alreadyInvitedEmails="alreadyInvitedEmails"
 			:organizer="calendarObjectInstance.organizer"
-			@add-attendee="addAttendee" />
+			@addAttendee="addAttendee" />
 		<OrganizerListItem
 			v-if="hasOrganizer"
-			:is-read-only="isReadOnly"
-			:is-shared-with-me="isSharedWithMe"
+			:isReadOnly="isReadOnly"
+			:isSharedWithMe="isSharedWithMe"
 			:organizer="calendarObjectInstance.organizer"
-			:organizer-selection="organizerSelection"
-			:is-viewed-by-organizer="isViewedByOrganizer"
-			@change-organizer="changeOrganizer" />
+			:organizerSelection="organizerSelection"
+			:isViewedByOrganizer="isViewedByOrganizer"
+			@changeOrganizer="changeOrganizer" />
 		<InviteesListItem
 			v-for="invitee in limitedInviteesWithoutOrganizer"
 			:key="invitee.email"
 			:attendee="invitee"
-			:is-read-only="isReadOnly"
-			:organizer-display-name="organizerDisplayName"
+			:isReadOnly="isReadOnly"
+			:organizerDisplayName="organizerDisplayName"
 			:members="invitee.members"
-			:is-viewed-by-organizer="isViewedByOrganizer"
-			@remove-attendee="removeAttendee" />
+			:isViewedByOrganizer="isViewedByOrganizer"
+			@removeAttendee="removeAttendee" />
 		<div
 			v-if="limit > 0 && invitees.length > (limit - 1)"
 			class="invitees-list__more">
@@ -443,7 +443,7 @@ export default {
 		},
 
 		saveNewDate(dates) {
-			this.$emit('update-dates', dates)
+			this.$emit('updateDates', dates)
 			this.showFreeBusyModel = false
 		},
 	},

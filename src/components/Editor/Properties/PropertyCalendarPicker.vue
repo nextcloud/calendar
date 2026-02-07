@@ -15,14 +15,14 @@
 				v-if="!isReadOnly"
 				:value="calendar"
 				:calendars="calendars"
-				:show-calendar-on-select="true"
-				@select-calendar="selectCalendar" />
+				:showCalendarOnSelect="true"
+				@selectCalendar="selectCalendar" />
 
 			<CalendarPickerOption
 				v-else
 				:color="calendar.color"
-				:display-name="calendar.displayName"
-				:is-shared-with-me="calendar.isSharedWithMe"
+				:displayName="calendar.displayName"
+				:isSharedWithMe="calendar.isSharedWithMe"
 				:owner="calendar.owner" />
 		</div>
 	</div>
@@ -71,7 +71,7 @@ export default {
 		 * @param {object} value The calendar Object
 		 */
 		selectCalendar(value) {
-			this.$emit('select-calendar', value)
+			this.$emit('selectCalendar', value)
 		},
 	},
 }

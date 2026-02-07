@@ -5,31 +5,31 @@
 
 <template>
 	<div class="duration-input">
-		<label :for="id">{{ label }}</label>
-		<div class="input">
-			<input
-				:id="id"
-				v-model="internalValue"
-				type="text"
-				@input="change"
-				@focus="focus"
-				@blur="updateInternalValue">
-		</div>
+		<NcTextField
+			v-model="internalValue"
+			:label="label"
+			@update:modelValue="change"
+			@focus="focus"
+			@blur="updateInternalValue" />
 	</div>
 </template>
 
 <script>
-import { randomId } from '../../utils/randomId.js'
+import { NcTextField } from '@nextcloud/vue'
 
 export default {
 	name: 'DurationInput',
+	components: {
+		NcTextField,
+	},
+
 	props: {
 		label: {
 			type: String,
 			required: true,
 		},
 
-		value: {
+		modelValue: {
 			type: Number,
 			default: 0,
 		},
@@ -37,7 +37,6 @@ export default {
 
 	data() {
 		return {
-			id: randomId(),
 			internalValue: '',
 		}
 	},
@@ -45,7 +44,7 @@ export default {
 	computed: {
 		valueInMinutes() {
 			// Convert value prop from seconds to minutes
-			return Math.round(this.value / 60)
+			return Math.round(this.modelValue / 60)
 		},
 
 		valueWithUnit() {
@@ -66,7 +65,7 @@ export default {
 	},
 
 	watch: {
-		value(newVal) {
+		modelValue(newVal) {
 			// Only apply new value if it really changed compared to the internal state
 			if (this.parsedInternalValue * 60 !== newVal) {
 				this.updateInternalValue()
@@ -81,7 +80,7 @@ export default {
 	methods: {
 		change() {
 			// Emit value in seconds
-			this.$emit('update:value', this.parsedInternalValue * 60)
+			this.$emit('update:modelValue', this.parsedInternalValue * 60)
 		},
 
 		focus() {

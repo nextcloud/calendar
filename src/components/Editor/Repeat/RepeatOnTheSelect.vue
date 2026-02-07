@@ -5,15 +5,14 @@
 
 <template>
 	<NcSelect
-		:allow-empty="false"
+		v-model="selected"
+		:allowEmpty="false"
 		:options="options"
-		:value="selected"
 		:disabled="disabled"
 		:placeholder="$t('calendar', 'Monday')"
 		:clearable="false"
-		input-id="value"
-		label="label"
-		@input="select" />
+		inputId="value"
+		label="label" />
 </template>
 
 <script>
@@ -78,18 +77,18 @@ export default {
 			}]
 		},
 
-		selected() {
-			return this.options.find((option) => option.value.slice().sort().join(',') === this.byDay.slice().sort().join(','))
-		},
-	},
+		selected: {
+			get() {
+				return this.options.find((option) => option.value.slice().sort().join(',') === this.byDay.slice().sort().join(','))
+			},
 
-	methods: {
-		select(value) {
-			if (!value) {
-				return
-			}
+			set(value) {
+				if (!value) {
+					return
+				}
 
-			this.$emit('change', value.value)
+				this.$emit('change', value.value)
+			},
 		},
 	},
 }
