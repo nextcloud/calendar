@@ -19,6 +19,8 @@ use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\QueryException;
 use OCP\Contacts\IManager;
 use OCP\IAppConfig;
+use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\IUserManager;
 use Psr\Log\LoggerInterface;
@@ -43,7 +45,10 @@ class ContactController extends Controller {
 		private IUserManager $userManager,
 		private ContactsService $contactsService,
 		private IAppConfig $appConfig,
+		private IConfig $config,
+		private IGroupManager $groupManager,
 		private LoggerInterface $logger,
+		private ?string $userId,
 	) {
 		parent::__construct($appName, $request);
 	}
@@ -102,23 +107,113 @@ class ContactController extends Controller {
 			return new JSONResponse();
 		}
 
+		// Read restriction configuration
 		$externalAttendeesDisabled = $this->appConfig->getValueBool('dav', 'caldav_external_attendees_disabled', false);
-		$result = $this->contactsManager->search($search, ['FN', 'EMAIL'], ['enumeration' => true]);
+		$shareeGroupsOnlyRestriction = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+		$shareeGroupsOnlyExclusion = [];
+		$shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'no') === 'yes';
+		$shareeEnumerationInGroupOnly = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$shareeEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
+		$shareeEnumerationFullMatchUserId = $shareeEnumerationFullMatch && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes') === 'yes';
+		$shareeEnumerationFullMatchEmail = $shareeEnumerationFullMatch && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
+		if ($shareeGroupsOnlyRestriction) {
+			$excludedGroups = json_decode(
+				$this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '[]'),
+				true
+			);
+			if (is_array($excludedGroups)) {
+				$shareeGroupsOnlyExclusion = $excludedGroups;
+			}
+		}
+
+		$result = $this->contactsManager->search(
+			$search,
+			['UID', 'FN', 'EMAIL'],
+			[
+				'enumeration' => $shareeEnumeration,
+				'fullmatch' => $shareeEnumerationFullMatch,
+			]
+		);
+
+		// Get user groups if group restriction is enabled
+		$userGroups = [];
+		if (($shareeGroupsOnlyRestriction || ($shareeEnumeration && $shareeEnumerationInGroupOnly)) && $this->userId !== null) {
+			$user = $this->userManager->get($this->userId);
+			if ($user === null) {
+				return new JSONResponse();
+			}
+			$userGroups = $this->groupManager->getUserGroupIds($user);
+
+			if ($shareeGroupsOnlyRestriction && $shareeGroupsOnlyExclusion !== []
+				&& array_intersect($userGroups, $shareeGroupsOnlyExclusion) !== []) {
+				$shareeGroupsOnlyRestriction = false;
+			}
+		}
 
 		$contacts = [];
 		foreach ($result as $r) {
 			if (!$this->contactsService->hasEmail($r)) {
 				continue;
 			}
+
+			$isSystemUser = $this->contactsService->isSystemBook($r);
+
 			// When external attendees are disabled, only include system book contacts
-			if ($externalAttendeesDisabled && !$this->contactsService->isSystemBook($r)) {
+			if ($externalAttendeesDisabled && !$isSystemUser) {
 				continue;
 			}
+
+			// Apply group restrictions for system users
+			$isInSameGroup = false;
+			if ($isSystemUser && ($shareeGroupsOnlyRestriction || $shareeEnumerationInGroupOnly)) {
+				foreach ($userGroups as $userGroup) {
+					if ($this->groupManager->isInGroup($r['UID'], $userGroup)) {
+						$isInSameGroup = true;
+						break;
+					}
+				}
+				if ($shareeGroupsOnlyRestriction && !$isInSameGroup) {
+					continue;
+				}
+				if (!$shareeEnumerationFullMatch && !$isInSameGroup) {
+					continue;
+				}
+			}
+
 			$name = $this->contactsService->getNameFromContact($r);
 			$email = $this->contactsService->getEmail($r);
 			$photo = $this->contactsService->getPhotoUri($r);
 			$timezoneId = $this->contactsService->getTimezoneId($r);
 			$lang = $this->contactsService->getLanguageId($r);
+
+			// Check full match requirements for system users not in same group
+			if ($isSystemUser && $shareeEnumerationInGroupOnly && !$isInSameGroup) {
+				$lowerSearch = strtolower($search);
+				$matchFound = false;
+
+				// Check for full match on name, user ID, or email
+				if ($lowerSearch !== '') {
+					if ($shareeEnumerationFullMatch && !empty($name) && $lowerSearch === strtolower($name)) {
+						$matchFound = true;
+					}
+					if ($shareeEnumerationFullMatchUserId && $lowerSearch === strtolower($r['UID'])) {
+						$matchFound = true;
+					}
+					if ($shareeEnumerationFullMatchEmail && $email) {
+						foreach ($email as $e) {
+							if ($lowerSearch === strtolower($e)) {
+								$matchFound = true;
+								break;
+							}
+						}
+					}
+				}
+
+				if (!$matchFound) {
+					continue;
+				}
+			}
+
 			$contacts[] = [
 				'name' => $name,
 				'emails' => $email,
