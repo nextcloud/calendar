@@ -1,5 +1,8 @@
 # Changelog
 
+## 6.2.0
+- No changes since RC.
+
 ## 6.2.0-rc.1
 ### Fixed
 - appointment booking room creation
