@@ -38,6 +38,11 @@
 				</NcCheckboxRadioSwitch>
 			</template>
 			<template v-if="canBeShared">
+				<NcCheckboxRadioSwitch :checked.sync="isOnlyAvailability">
+					{{ $t('calendar', 'Don’t show event details to others') }}
+				</NcCheckboxRadioSwitch>
+			</template>
+			<template v-if="canBeShared">
 				<h3 class="edit-calendar-modal__sharing-header">
 					{{ $t('calendar', 'Share calendar') }}
 				</h3>
@@ -123,6 +128,7 @@ export default {
 			calendarColor: undefined,
 			calendarColorChanged: false,
 			isTransparent: false,
+			isOnlyAvailability: false,
 			calendarName: undefined,
 			calendarNameChanged: false,
 		}
@@ -217,6 +223,7 @@ export default {
 			this.calendarNameChanged = false
 			this.calendarColorChanged = false
 			this.isTransparent = calendar.transparency === 'transparent'
+			this.isOnlyAvailability = calendar.onlyAvailability
 		},
 	},
 
@@ -265,6 +272,24 @@ export default {
 		},
 
 		/**
+		 * Save the calendar share property of only showing availability
+		 */
+		async saveShareOnlyAvailability() {
+			try {
+				await this.calendarsStore.changeCalendarShareOnlyAvailability({
+					calendar: this.calendar,
+					onlyAvailability: this.isOnlyAvailability,
+				})
+			} catch (error) {
+				logger.error('Failed to save calendar transparency', {
+					calendar: this.calendar,
+					onlyAvailability: this.isOnlyAvailability,
+				})
+				throw error
+			}
+		},
+
+		/**
 		 * Save the calendar name.
 		 */
 		async saveName() {
@@ -293,6 +318,7 @@ export default {
 					await this.saveColor()
 				}
 				await this.saveTransparency()
+				await this.saveShareOnlyAvailability()
 				if (this.calendarNameChanged) {
 					await this.saveName()
 				}
