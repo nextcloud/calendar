@@ -79,6 +79,7 @@ export default {
 			id: randomId(),
 			updatingSharee: false,
 			shareeEmail: '',
+			isWriteable: false,
 		}
 	},
 
@@ -108,14 +109,22 @@ export default {
 			return this.calendar.canCreateObject || this.calendar.canModifyObject
 		},
 
-		isWriteable: {
-			get() {
-				return this.sharee.writeable
-			},
+		/**
+		 * @return {boolean}
+		 */
+		initialIsWriteable() {
+			return this.sharee.writeable
+		},
+	},
+
+	watch: {
+		isWriteable() {
+			this.updatePermission()
 		},
 	},
 
 	mounted() {
+		this.isWriteable = this.initialIsWriteable
 		this.updateShareeEmail()
 	},
 
