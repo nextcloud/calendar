@@ -124,7 +124,7 @@ export default {
 			if (!optionId) {
 				return
 			}
-			const newCalendar = this.getCalendarById(optionId)
+			const newCalendar = this.getCalendarById(optionId.id)
 			if (this.showCalendarOnSelect && !newCalendar.enabled) {
 				this.calendarsStore.toggleCalendarEnabled({
 					calendar: newCalendar,
