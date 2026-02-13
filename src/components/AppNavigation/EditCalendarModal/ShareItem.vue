@@ -107,8 +107,7 @@ export default {
 		 * @return {boolean}
 		 */
 		canBeSharedWritable() {
-			// TODO: read-write sharing is not implemented for federated calendars yet
-			return !this.sharee.isRemoteUser
+			return this.calendar.canCreateObject || this.calendar.canModifyObject
 		},
 	},
 

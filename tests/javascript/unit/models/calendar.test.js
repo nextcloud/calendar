@@ -35,6 +35,9 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isSharedWithMe: false,
 			canBeShared: false,
 			canBePublished: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			dav: false,
 			calendarObjects: [],
 			fetchedTimeRanges: [],
@@ -66,6 +69,9 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isSharedWithMe: false,
 			canBeShared: false,
 			canBePublished: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			dav: false,
 			calendarObjects: [],
 			fetchedTimeRanges: [],
@@ -88,6 +94,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			enabled: true,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
 			transparency: 'opaque',
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
@@ -109,6 +116,9 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
 			transparency: 'opaque',
 			url: '/foo/bar',
@@ -135,6 +145,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
 			transparency: 'transparent',
 			enabled: false,
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
@@ -156,6 +167,9 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
 			transparency: 'transparent',
 			url: '/foo/bar',
@@ -179,7 +193,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isPublishable: () => true,
 			order: undefined,
 			publishURL: undefined,
-			enabled: undefined
+			enabled: undefined,
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
@@ -201,6 +216,9 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: null,
 			transparency: 'opaque',
 			url: '/foo/bar',
@@ -224,7 +242,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isPublishable: () => true,
 			order: undefined,
 			publishURL: undefined,
-			enabled: undefined
+			enabled: undefined,
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
@@ -246,6 +265,9 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: true,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: null,
 			transparency: 'opaque',
 			url: '/foo/bar',
@@ -269,7 +291,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isPublishable: () => true,
 			order: undefined,
 			publishURL: undefined,
-			enabled: true
+			enabled: true,
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
@@ -291,6 +314,9 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: null,
 			transparency: 'opaque',
 			url: '/foo/bar',
@@ -314,7 +340,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isPublishable: () => true,
 			order: undefined,
 			publishURL: undefined,
-			enabled: true
+			enabled: true,
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
@@ -336,6 +363,9 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: null,
 			transparency: 'opaque',
 			url: '/foo/bar',
@@ -359,7 +389,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isPublishable: () => true,
 			order: undefined,
 			publishURL: undefined,
-			enabled: true
+			enabled: true,
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
@@ -381,6 +412,9 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: null,
 			transparency: 'opaque',
 			url: '/foo/bar',
@@ -404,7 +438,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isPublishable: () => true,
 			order: undefined,
 			publishURL: undefined,
-			enabled: true
+			enabled: true,
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
@@ -426,6 +461,9 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: null,
 			transparency: 'opaque',
 			url: '/foo/bar',
@@ -499,7 +537,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 						'{http://owncloud.org/ns}read'
 					]
 				}
-			]
+			],
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
@@ -527,6 +566,9 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: null,
 			transparency: 'opaque',
 			url: '/foo/bar',
@@ -624,7 +666,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 						'{http://owncloud.org/ns}read'
 					]
 				}
-			]
+			],
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject)).toEqual({
@@ -644,6 +687,9 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: true,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: null,
 			transparency: 'opaque',
 			url: '/foo/bar',
@@ -668,7 +714,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			order: undefined,
 			publishURL: undefined,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
-			enabled: false
+			enabled: false,
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
@@ -690,6 +737,9 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsJournals: false,
 			supportsTasks: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
 			transparency: 'opaque',
 			url: '/remote.php/dav/calendars/admin/personal/',

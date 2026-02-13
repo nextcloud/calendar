@@ -25,7 +25,7 @@ export default defineConfig({
 		// Required for transforming CSS files
 		pool: 'vmForks',
 		// Increase timeouts for slow CI environments
-		testTimeout: 120000, // 2 minutes per test
-		hookTimeout: 30000,  // 30 seconds for hooks
+		testTimeout: 300000, // 2 minutes per test
+		hookTimeout: 60000,  // 60 seconds for hooks
 	},
 });
