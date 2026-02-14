@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { defineStore } from 'pinia'
-import Vue from 'vue'
 
 export default defineStore('contacts', {
 	state: () => {
@@ -29,8 +28,7 @@ export default defineStore('contacts', {
 				// share the same email address, we will just follow
 				// first come, first served.
 				if (this.contactByEmail[email] === undefined) {
-					/// TODO this.contactByEmail[email] = contact
-					Vue.set(this.contactByEmail, email, contact)
+					this.contactByEmail[email] = contact
 				}
 			}
 		},
@@ -42,16 +40,24 @@ export default defineStore('contacts', {
 		 * @param {object} data.contact The contact to remove from the store
 		 */
 		removeContact({ contact }) {
-			for (const email of contact.emails) {
-				if (this.contactByEmail[email] === contact) {
-					delete this.contactByEmail[email]
-				}
-			}
-
 			const index = this.contacts.indexOf(contact)
 			if (index !== -1) {
 				this.contacts.splice(index, 1)
 			}
+
+			const newContactByEmail = {}
+			for (const remainingContact of this.contacts) {
+				for (const email of remainingContact.emails) {
+					if (newContactByEmail[email] === undefined) {
+						newContactByEmail[email] = remainingContact
+					}
+				}
+			}
+
+			Object.keys(this.contactByEmail).forEach((key) => {
+				delete this.contactByEmail[key]
+			})
+			Object.assign(this.contactByEmail, newContactByEmail)
 		},
 	},
 })

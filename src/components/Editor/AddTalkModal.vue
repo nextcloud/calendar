@@ -31,7 +31,7 @@
 							<NcAvatar
 								:url="avatarUrl(conversation)"
 								:size="28"
-								:disable-tooltip="true" />
+								:disableTooltip="true" />
 						</template>
 					</NcListItem>
 				</div>
@@ -245,14 +245,14 @@ export default {
 				}
 
 				if ((this.calendarObjectInstance.location ?? '').trim() === '') {
-					this.$emit('update-location', url)
+					this.$emit('updateLocation', url)
 					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to location.'))
 				} else {
 					const newDescription = this.calendarObjectInstance.description
 						? this.calendarObjectInstance.description + NEW_LINE + NEW_LINE + url + NEW_LINE
 						: url
 
-					this.$emit('update-description', newDescription)
+					this.$emit('updateDescription', newDescription)
 					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to description.'))
 				}
 				this.closeModal()

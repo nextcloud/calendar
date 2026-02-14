@@ -18,18 +18,18 @@
 			:class="{ 'property-select-multiple__input--readonly': isReadOnly }">
 			<NcSelect
 				v-if="!isReadOnly"
-				:value="selectionData"
+				:modelValue="selectionData"
 				:options="options"
 				:searchable="true"
 				:placeholder="placeholder"
-				:label-outside="true"
+				:labelOutside="true"
 				:name="readableName"
 				:multiple="true"
 				:taggable="true"
-				:no-wrap="false"
-				:deselect-from-dropdown="true"
-				:create-option="(label) => ({ value: label, label })"
-				input-id="label"
+				:noWrap="false"
+				:deselectFromDropdown="true"
+				:createOption="(label) => ({ value: label, label })"
+				inputId="label"
 				label="label"
 				@option:selecting="tag"
 				@option:deselected="unselectValue">
@@ -88,6 +88,7 @@ export default {
 	data() {
 		return {
 			selectionData: [],
+			customLabelBuffer: [],
 		}
 	},
 
@@ -150,7 +151,7 @@ export default {
 				return
 			}
 
-			this.$emit('remove-single-value', value.value)
+			this.$emit('removeSingleValue', value.value)
 
 			this.selectionData.splice(this.selectionData.findIndex((option) => option.value === value.value), 1)
 
@@ -175,7 +176,7 @@ export default {
 			}
 
 			this.selectionData.push(value)
-			this.$emit('add-single-value', value.value)
+			this.$emit('addSingleValue', value.value)
 		},
 	},
 }

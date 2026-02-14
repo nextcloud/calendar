@@ -5,11 +5,11 @@
 <template>
 	<header :id="isWidget ? 'widget-header' : 'embed-header'" role="banner">
 		<div :class="isWidget ? 'widget-header__date-section' : 'embed-header__date-section'">
-			<AppNavigationHeaderDatePicker :is-widget="isWidget" />
+			<AppNavigationHeaderDatePicker :isWidget="isWidget" />
 			<AppNavigationHeaderTodayButton v-if="!isWidget" />
 		</div>
 		<div :class="isWidget ? 'widget-header__views-section' : 'embed-header__views-section'">
-			<AppNavigationHeaderViewButtons :is-widget="isWidget" />
+			<AppNavigationHeaderViewButtons :isWidget="isWidget" />
 		</div>
 		<!-- TODO have one button per calendar -->
 		<div v-if="!isWidget" class="embed-header__share-section">
@@ -130,13 +130,6 @@ export default {
 	.view-button-section {
 		display: flex;
 
-	}
-
-	.datepicker-button-section {
-		display: flex;
-		&__datepicker-label {
-			min-width: 150px;
-		}
 	}
 }
 </style>

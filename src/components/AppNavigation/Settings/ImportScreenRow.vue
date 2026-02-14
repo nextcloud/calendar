@@ -12,7 +12,7 @@
 			class="import-modal-file-item__calendar-select"
 			:value="calendar"
 			:calendars="calendars"
-			@select-calendar="selectCalendar" />
+			@selectCalendar="selectCalendar" />
 	</li>
 </template>
 

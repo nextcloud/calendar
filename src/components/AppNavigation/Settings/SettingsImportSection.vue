@@ -21,7 +21,6 @@
 			{{ $n('calendar', 'Import calendar', 'Import calendars', 1) }}
 		</NcButton>
 		<input
-			:id="inputUid"
 			ref="importInput"
 			class="hidden"
 			type="file"
@@ -33,8 +32,8 @@
 		<ImportScreen
 			v-if="showImportModal"
 			:files="files"
-			@cancel-import="cancelImport"
-			@import-calendar="importCalendar" />
+			@cancelImport="cancelImport"
+			@importCalendar="importCalendar" />
 	</div>
 </template>
 
@@ -123,16 +122,6 @@ export default {
 		 */
 		showProgressBar() {
 			return this.stage === IMPORT_STAGE_IMPORTING
-		},
-
-		/**
-		 * Unique identifier for the input field.
-		 * Needed for the label
-		 *
-		 * @return {string}
-		 */
-		inputUid() {
-			return this._uid + '-import-input'
 		},
 
 		/**

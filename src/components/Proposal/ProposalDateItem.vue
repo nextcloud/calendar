@@ -8,13 +8,13 @@
 		<div class="proposal-date__icon">
 			<ItemIcon />
 		</div>
-		<div class="proposal-date__content" @click="$emit('date-focus')">
+		<div class="proposal-date__content" @click="$emit('dateFocus')">
 			{{ formattedDate }}
 		</div>
 		<div class="proposal-date__action">
 			<DestroyIcon
 				:title="t('calendar', 'Remove date')"
-				@click="$emit('date-remove')" />
+				@click="$emit('dateRemove')" />
 		</div>
 	</div>
 </template>
@@ -49,7 +49,7 @@ export default {
 		},
 	},
 
-	emits: ['date-remove', 'date-focus'],
+	emits: ['dateRemove', 'dateFocus'],
 
 	computed: {
 		formattedDate(): string {

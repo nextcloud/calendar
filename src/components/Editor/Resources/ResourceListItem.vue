@@ -6,15 +6,15 @@
 <template>
 	<div class="resource-list-item">
 		<AvatarParticipationStatus
-			:attendee-is-organizer="false"
-			:is-viewed-by-organizer="isViewedByOrganizer"
-			:is-resource="true"
-			:is-suggestion="isSuggestion"
-			:avatar-link="commonName"
-			:participation-status="participationStatus"
-			:schedule-status="scheduleStatus"
-			:organizer-display-name="organizerDisplayName"
-			:common-name="commonName" />
+			:attendeeIsOrganizer="false"
+			:isViewedByOrganizer="isViewedByOrganizer"
+			:isResource="true"
+			:isSuggestion="isSuggestion"
+			:avatarLink="commonName"
+			:participationStatus="participationStatus"
+			:scheduleStatus="scheduleStatus"
+			:organizerDisplayName="organizerDisplayName"
+			:commonName="commonName" />
 		<div class="resource-list-item__displayname">
 			{{ commonName }}
 		</div>
@@ -190,14 +190,14 @@ export default {
 		 * Add this suggestions to the event
 		 */
 		addSuggestion() {
-			this.$emit('add-suggestion', this.resource)
+			this.$emit('addSuggestion', this.resource)
 		},
 
 		/**
 		 * Removes a resource from the event
 		 */
 		removeResource() {
-			this.$emit('remove-resource', this.resource)
+			this.$emit('removeResource', this.resource)
 		},
 
 		/**

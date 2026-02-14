@@ -10,9 +10,8 @@
 				class="repeat-option-set-section__title"
 				type="radio"
 				:name="radioInputId"
-				:model-value="byMonthDayEnabled"
-				@update:modelValue="enableByMonthDay"
-				@update:model-value="enableByMonthDay">
+				:modelValue="byMonthDayEnabled"
+				@update:modelValue="enableByMonthDay">
 				{{ $t('calendar', 'By day of the month') }}
 			</NcCheckboxRadioSwitch>
 			<div class="repeat-option-set-section__grid">
@@ -32,17 +31,16 @@
 				class="repeat-option-set-section__title"
 				type="radio"
 				:name="radioInputId"
-				:model-value="!byMonthDayEnabled"
-				@update:modelValue="enableBySetPosition"
-				@update:model-value="enableBySetPosition">
+				:modelValue="!byMonthDayEnabled"
+				@update:modelValue="enableBySetPosition">
 				{{ $t('calendar', 'On the') }}
 			</NcCheckboxRadioSwitch>
 			<RepeatFirstLastSelect
-				:by-set-position="bySetPosition"
+				:bySetPosition="bySetPosition"
 				:disabled="byMonthDayEnabled"
 				@change="changeBySetPosition" />
 			<RepeatOnTheSelect
-				:by-day="byDay"
+				:byDay="byDay"
 				:disabled="byMonthDayEnabled"
 				@change="changeByDay" />
 		</div>
@@ -132,10 +130,10 @@ export default {
 		 */
 		toggleByMonthDay(byMonthDay) {
 			if (this.byMonthDay.indexOf(byMonthDay) === -1) {
-				this.$emit('add-by-month-day', byMonthDay)
+				this.$emit('addByMonthDay', byMonthDay)
 			} else {
 				if (this.byMonthDay.length > 1) {
-					this.$emit('remove-by-month-day', byMonthDay)
+					this.$emit('removeByMonthDay', byMonthDay)
 				}
 			}
 		},
@@ -145,7 +143,7 @@ export default {
 				return
 			}
 
-			this.$emit('change-to-by-month-day')
+			this.$emit('changeToByMonthDay')
 		},
 
 		enableBySetPosition() {
@@ -153,15 +151,15 @@ export default {
 				return
 			}
 
-			this.$emit('change-to-by-set-position')
+			this.$emit('changeToBySetPosition')
 		},
 
 		changeByDay(value) {
-			this.$emit('change-by-day', value)
+			this.$emit('changeByDay', value)
 		},
 
 		changeBySetPosition(value) {
-			this.$emit('change-by-set-position', value)
+			this.$emit('changeBySetPosition', value)
 		},
 	},
 }

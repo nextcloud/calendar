@@ -7,7 +7,7 @@
 	<DateTimePicker
 		:value="date"
 		type="time"
-		:hide-label="true"
+		:hideLabel="true"
 		v-bind="$attrs"
 		@input="change" />
 </template>

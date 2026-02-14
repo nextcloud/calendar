@@ -6,34 +6,31 @@
 <template>
 	<div class="checked-duration-select">
 		<div class="checked-duration-select__checkbox-row">
-			<div class="checked-duration-select__checkbox-row__input-wrapper">
-				<input
-					:id="id"
-					:checked="enabled"
-					type="checkbox"
-					@input="$emit('update:enabled', $event.target.checked)">
-			</div>
-			<label :for="id">{{ label }}</label>
+			<NcCheckboxRadioSwitch
+				:modelValue="enabled"
+				@update:checked="$emit('update:enabled', $event)">
+				{{ label }}
+			</NcCheckboxRadioSwitch>
 		</div>
 		<DurationSelect
+			v-model="durationSelection"
 			class="checked-duration-select__duration"
-			:allow-zero="defaultValue === 0"
+			:allowZero="defaultValue === 0"
 			:disabled="!enabled"
-			:value="valueOrDefault"
 			:min="min"
-			:max="max"
-			@update:value="$emit('update:value', $event)" />
+			:max="max" />
 	</div>
 </template>
 
 <script>
+import { NcCheckboxRadioSwitch } from '@nextcloud/vue'
 import DurationSelect from './DurationSelect.vue'
-import { randomId } from '../../utils/randomId.js'
 
 export default {
 	name: 'CheckedDurationSelect',
 	components: {
 		DurationSelect,
+		NcCheckboxRadioSwitch,
 	},
 
 	props: {
@@ -42,7 +39,7 @@ export default {
 			required: true,
 		},
 
-		value: {
+		modelValue: {
 			type: Number,
 			default: 0,
 		},
@@ -68,15 +65,19 @@ export default {
 		},
 	},
 
-	data() {
-		return {
-			id: randomId(),
-		}
-	},
-
 	computed: {
 		valueOrDefault() {
-			return this.value ?? this.defaultValue
+			return this.modelValue ?? this.defaultValue
+		},
+
+		durationSelection: {
+			get() {
+				return this.valueOrDefault
+			},
+
+			set(value) {
+				this.$emit('update:modelValue', value)
+			},
 		},
 	},
 }

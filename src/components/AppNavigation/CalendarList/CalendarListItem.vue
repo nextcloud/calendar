@@ -15,12 +15,12 @@
 			<CheckboxMarked
 				v-if="calendar.enabled"
 				:size="20"
-				:fill-color="calendar.color"
+				:fillColor="calendar.color"
 				@click.prevent.stop="toggleEnabled" />
 			<CheckboxBlank
 				v-else
 				:size="20"
-				:fill-color="calendar.color"
+				:fillColor="calendar.color"
 				@click.prevent.stop="toggleEnabled" />
 		</template>
 
@@ -29,7 +29,7 @@
 			<NcAvatar
 				v-else-if="isSharedWithMe && loadedOwnerPrincipal && !actionsMenuOpen"
 				:user="ownerUserId"
-				:display-name="ownerDisplayname" />
+				:displayName="ownerDisplayname" />
 			<div v-else-if="isSharedWithMe && !loadedOwnerPrincipal" class="icon icon-loading" />
 		</template>
 
@@ -37,12 +37,13 @@
 			<template v-if="!isBeingDeleted">
 				<template v-if="isSharedWithMe">
 					<NcActionCaption :name="$t('calendar', 'Shared with you by')" />
-					<NcActionText :name="ownerDisplayname">
+					<NcActionText>
 						<template #icon>
 							<div class="actions-icon-avatar">
-								<NcAvatar :user="ownerUserId" :display-name="ownerDisplayname" :size="30" />
+								<NcAvatar :user="ownerUserId" :displayName="ownerDisplayname" :size="30" />
 							</div>
 						</template>
+						{{ ownerDisplayname }}
 					</NcActionText>
 					<NcActionSeparator />
 				</template>
@@ -56,12 +57,7 @@
 					<template #icon>
 						<Pencil :size="20" decorative />
 					</template>
-					<template v-if="canBeShared">
-						{{ $t('calendar', 'Edit and share calendar') }}
-					</template>
-					<template v-else>
-						{{ $t('calendar', 'Edit calendar') }}
-					</template>
+					{{ canBeShared ? $t('calendar', 'Edit and share calendar') : $t('calendar', 'Edit calendar') }}
 				</ActionButton>
 			</template>
 			<template v-else>

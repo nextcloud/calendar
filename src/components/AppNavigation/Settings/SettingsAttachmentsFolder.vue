@@ -7,7 +7,7 @@
 	<NcFormBoxButton
 		:label="$t('calendar', 'Attachments folder')"
 		:description="attachmentsFolder"
-		inverted-accent
+		invertedAccent
 		@click="selectCalendarFolder">
 		<template #icon>
 			<IconFolderOpen :size="20" />

@@ -9,10 +9,9 @@
 			{{ $t('calendar', 'Timezone') }}
 		</label>
 		<TimezonePicker
+			v-model="timezone"
 			:uid="inputId"
-			:additional-timezones="additionalTimezones"
-			:value="timezone"
-			@input="setTimezoneValue" />
+			:additionalTimezones="additionalTimezones" />
 	</li>
 </template>
 
@@ -38,10 +37,16 @@ export default {
 		},
 	},
 
+	data() {
+		return {
+			timezone: null,
+		}
+	},
+
 	computed: {
 		...mapStores(useSettingsStore),
 		...mapState(useSettingsStore, {
-			timezone: (store) => store.timezone || 'automatic',
+			initialTimezone: (store) => store.timezone || 'automatic',
 		}),
 
 		inputId() {
@@ -61,6 +66,16 @@ export default {
 				label: this.$t('calendar', 'Automatic ({timezone})', { timezone }),
 			}]
 		},
+	},
+
+	watch: {
+		timezone(newTimezoneId) {
+			this.setTimezoneValue(newTimezoneId)
+		},
+	},
+
+	mounted() {
+		this.timezone = this.initialTimezone
 	},
 
 	methods: {

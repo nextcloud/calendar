@@ -7,14 +7,13 @@
 	<div class="resource-room-type">
 		<div class="resource-room-type__input">
 			<NcSelect
-				:value="getOption(value)"
+				v-model="selectedOption"
 				:options="options"
 				:placeholder="placeholder"
 				:clearable="false"
-				:label-outside="true"
-				input-id="value"
-				label="label"
-				@option:selected="changeValue">
+				:labelOutside="true"
+				inputId="value"
+				label="label">
 				<template #option="option">
 					<div>{{ option.label !== null ? option.label : "" }}</div>
 				</template>
@@ -34,11 +33,13 @@ export default {
 	},
 
 	props: {
-		value: {
+		modelValue: {
 			type: String,
 			required: true,
 		},
 	},
+
+	emits: ['update:modelValue'],
 
 	computed: {
 		placeholder() {
@@ -51,6 +52,17 @@ export default {
 				...getAllRoomTypes(),
 			]
 		},
+
+		selectedOption: {
+			get() {
+				return this.getOption(this.modelValue)
+			},
+
+			set(option) {
+				const value = option?.value ?? ''
+				this.$emit('update:modelValue', value)
+			},
+		},
 	},
 
 	methods: {
@@ -61,10 +73,6 @@ export default {
 			}
 
 			return this.options.find((option) => option.value === value)
-		},
-
-		changeValue(option) {
-			this.$emit('update:value', option.value)
 		},
 	},
 }

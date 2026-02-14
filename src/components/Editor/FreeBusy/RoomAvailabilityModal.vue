@@ -36,10 +36,10 @@
 
 					<NcDateTimePickerNative
 						:id="datePickerInputId"
-						:hide-label="true"
-						:value="currentDate"
-						@input="(date) => handleActions('picker', date)" />
-					<NcPopover :no-focus-trap="true">
+						:hideLabel="true"
+						:modelValue="currentDate"
+						@update:modelValue="(date) => handleActions('picker', date)" />
+					<NcPopover :noFocusTrap="true">
 						<template #trigger>
 							<NcButton variant="tertiary-no-background">
 								<template #icon>
@@ -73,7 +73,7 @@
 <script>
 import interactionPlugin from '@fullcalendar/interaction'
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
-import FullCalendar from '@fullcalendar/vue'
+import FullCalendar from '@fullcalendar/vue3'
 import { NcButton, NcDateTimePickerNative, NcModal, NcPopover } from '@nextcloud/vue'
 import { mapState } from 'pinia'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
