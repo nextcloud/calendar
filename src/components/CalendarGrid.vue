@@ -166,7 +166,7 @@ export default {
 				// Dropping Tasks
 				droppable: true,
 				eventReceive: this.handleEventReceive,
-				eventShortHeight: 40,
+				eventShortHeight: 38,
 			}
 		},
 
