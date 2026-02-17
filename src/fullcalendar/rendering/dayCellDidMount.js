@@ -1,22 +1,17 @@
 /**
- * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { errorCatch } from '../utils/errors.js'
 
 /**
- * Adjusts the colSpan attribute of day-headers in the list view
- * and sets aria-current="date" on the current day for accessibility
+ * Sets aria-current="date" on the current day cell for accessibility
  *
  * @param {object} data The destructuring object
  * @param {Node} data.el The HTML element
  */
 export default errorCatch(function({ el }) {
-	if (el.classList.contains('fc-list-day')) {
-		el.firstChild.colSpan = 5
-	}
-
 	if (el.classList.contains('fc-day-today')) {
 		el.setAttribute('aria-current', 'date')
 	}
-}, 'dayHeaderDidMount')
+}, 'dayCellDidMount')

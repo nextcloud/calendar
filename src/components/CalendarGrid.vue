@@ -38,6 +38,7 @@ import { getDateFormattingConfig } from '../fullcalendar/localization/dateFormat
 import { getFullCalendarLocale } from '../fullcalendar/localization/localeProvider.js'
 import momentPlugin from '../fullcalendar/localization/momentPlugin.js'
 // Import rendering handlers
+import dayCellDidMount from '../fullcalendar/rendering/dayCellDidMount.js'
 import dayHeaderDidMount from '../fullcalendar/rendering/dayHeaderDidMount.js'
 import eventDidMount from '../fullcalendar/rendering/eventDidMount.js'
 import {
@@ -140,6 +141,7 @@ export default {
 				...getDateFormattingConfig(),
 				...getFullCalendarLocale(),
 				// Rendering
+				dayCellDidMount,
 				dayHeaderDidMount,
 				eventDidMount,
 				noEventsDidMount,
