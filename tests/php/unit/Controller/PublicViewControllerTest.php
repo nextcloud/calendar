@@ -169,29 +169,37 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
+		$expectedCalls = [
+			['calendar', 'app_version', '1.0.0'],
+			['calendar', 'event_limit', true],
+			['calendar', 'first_run', false],
+			['calendar', 'initial_view', 'defaultCurrentView'],
+			['calendar', 'show_weekends', false],
+			['calendar', 'show_week_numbers', true],
+			['calendar', 'skip_popover', true],
+			['calendar', 'talk_enabled', false],
+			['calendar', 'talk_api_version', 'v1'],
+			['calendar', 'timezone', 'defaultTimezone'],
+			['calendar', 'slot_duration', 'defaultSlotDuration'],
+			['calendar', 'default_reminder', 'defaultDefaultReminder'],
+			['calendar', 'show_tasks', false],
+			['calendar', 'tasks_sidebar', false],
+			['calendar', 'tasks_enabled', false],
+			['calendar', 'hide_event_export', false],
+			['calendar', 'can_subscribe_link', 'defaultCanSubscribeLink'],
+			['calendar', 'show_resources', false],
+			['calendar', 'is_embed', true],
+		];
+		$callIndex = 0;
+
 		$this->initialStateService->expects(self::exactly(19))
 			->method('provideInitialState')
-			->withConsecutive(
-				['calendar', 'app_version', '1.0.0'],
-				['calendar', 'event_limit', true],
-				['calendar', 'first_run', false],
-				['calendar', 'initial_view', 'defaultCurrentView'],
-				['calendar', 'show_weekends', false],
-				['calendar', 'show_week_numbers', true],
-				['calendar', 'skip_popover', true],
-				['calendar', 'talk_enabled', false],
-				['calendar', 'talk_api_version', 'v1'],
-				['calendar', 'timezone', 'defaultTimezone'],
-				['calendar', 'slot_duration', 'defaultSlotDuration'],
-				['calendar', 'default_reminder', 'defaultDefaultReminder'],
-				['calendar', 'show_tasks', false],
-				['calendar', 'tasks_sidebar', false],
-				['calendar', 'tasks_enabled', false],
-				['calendar', 'hide_event_export', false],
-				['calendar', 'can_subscribe_link', 'defaultCanSubscribeLink'],
-				['calendar', 'show_resources', false],
-				['calendar', 'is_embed', true],
-			);
+			->willReturnCallback(function ($appName, $key, $value) use (&$callIndex, $expectedCalls) {
+				$this->assertEquals($expectedCalls[$callIndex][0], $appName);
+				$this->assertEquals($expectedCalls[$callIndex][1], $key);
+				$this->assertEquals($expectedCalls[$callIndex][2], $value);
+				$callIndex++;
+			});
 
 		$response = $this->controller->publicIndexForEmbedding('');
 
