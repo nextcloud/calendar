@@ -313,7 +313,7 @@ OC.L10N.register(
     "Other notification" : "Notifikasi lain",
     "Relative to event" : "Relatif terhadap acara",
     "On date" : "Pada tanggal",
-    "Edit time" : "Edit waktu",
+    "Edit time" : "Ubah waktu",
     "Save time" : "Simpan waktu",
     "Remove reminder" : "Buang pengingat",
     "Add reminder" : "Tambahkan pengingat",
