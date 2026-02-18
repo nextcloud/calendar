@@ -4,18 +4,19 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 bootstrap="tests/php/unit/bootstrap.php"
-		 verbose="true"
-		 xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd">
-  <coverage>
+		     bootstrap="tests/php/unit/bootstrap.php"
+		     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
+  <testsuite name="integration">
+    <directory suffix="Test.php">./tests/php/integration</directory>
+  </testsuite>
+  <source>
     <include>
-      <directory suffix=".php">../lib</directory>
+      <directory suffix=".php">./lib</directory>
     </include>
+  </source>
+  <coverage>
     <report>
       <clover outputFile="./clover.integration.xml"/>
     </report>
   </coverage>
-  <testsuite name="integration">
-    <directory suffix="Test.php">./tests/php/integration</directory>
-  </testsuite>
 </phpunit>

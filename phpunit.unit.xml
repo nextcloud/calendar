@@ -5,15 +5,16 @@
 -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          bootstrap="tests/php/unit/bootstrap.php"
-         verbose="true"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd">
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd">
   <testsuite name="unit">
     <directory suffix="Test.php">./tests/php/unit</directory>
   </testsuite>
-  <coverage>
+  <source>
     <include>
       <directory suffix=".php">./lib</directory>
     </include>
+  </source>
+  <coverage>
     <report>
       <clover outputFile="./clover.unit.xml"/>
     </report>
