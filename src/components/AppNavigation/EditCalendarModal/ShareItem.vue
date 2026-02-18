@@ -7,7 +7,7 @@
 	<div class="share-item">
 		<AccountMultiple v-if="sharee.isGroup" :size="20" class="share-item__group-icon" />
 		<AccountGroupIcon v-else-if="sharee.isCircle" :size="20" class="share-item__team-icon" />
-		<NcAvatar v-else :user="sharee.userId" :display-name="sharee.displayName" />
+		<NcAvatar v-else :user="sharee.userId" :displayName="sharee.displayName" />
 
 		<div class="share-item__label">
 			{{ sharee.displayName }}
@@ -16,16 +16,13 @@
 			</p>
 		</div>
 
-		<template v-if="canBeSharedWritable">
-			<input
-				:id="`${id}-can-edit`"
-				:disabled="updatingSharee"
-				:checked="sharee.writeable"
-				type="checkbox"
-				class="checkbox"
-				@change="updatePermission">
-			<label :for="`${id}-can-edit`">{{ $t('calendar', 'can edit and see confidential events') }}</label>
-		</template>
+		<NcCheckboxRadioSwitch
+			v-if="canBeSharedWritable"
+			v-model="isWriteable"
+			:disabled="updatingSharee"
+			@update:checked="updatePermission">
+			{{ $t('calendar', 'can edit and see confidential events') }}
+		</NcCheckboxRadioSwitch>
 
 		<NcActions>
 			<NcActionButton
@@ -44,7 +41,7 @@
 import {
 	showInfo,
 } from '@nextcloud/dialogs'
-import { NcActionButton, NcActions, NcAvatar } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcAvatar, NcCheckboxRadioSwitch } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroupOutline.vue'
 import AccountMultiple from 'vue-material-design-icons/AccountMultipleOutline.vue'
@@ -59,6 +56,7 @@ export default {
 		NcActions,
 		NcActionButton,
 		NcAvatar,
+		NcCheckboxRadioSwitch,
 		AccountGroupIcon,
 		AccountMultiple,
 		Delete,
@@ -81,6 +79,7 @@ export default {
 			id: randomId(),
 			updatingSharee: false,
 			shareeEmail: '',
+			isWriteable: false,
 		}
 	},
 
@@ -109,9 +108,23 @@ export default {
 		canBeSharedWritable() {
 			return this.calendar.canCreateObject || this.calendar.canModifyObject
 		},
+
+		/**
+		 * @return {boolean}
+		 */
+		initialIsWriteable() {
+			return this.sharee.writeable
+		},
+	},
+
+	watch: {
+		isWriteable() {
+			this.updatePermission()
+		},
 	},
 
 	mounted() {
+		this.isWriteable = this.initialIsWriteable
 		this.updateShareeEmail()
 	},
 

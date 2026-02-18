@@ -8,17 +8,17 @@
 		<!-- TODO: probably not use index here for the key -->
 		<AlarmListNew
 			v-if="!isReadOnly"
-			:is-all-day="calendarObjectInstance.isAllDay"
-			:show-icon="alarms.length === 0"
-			@add-alarm="addAlarm" />
+			:isAllDay="calendarObjectInstance.isAllDay"
+			:showIcon="alarms.length === 0"
+			@addAlarm="addAlarm" />
 		<AlarmListItem
 			v-for="(alarm, index) in alarms"
 			:key="index"
 			:alarm="alarm"
-			:calendar-object-instance="calendarObjectInstance"
-			:is-read-only="isReadOnly"
-			:show-icon="index === 0"
-			@remove-alarm="removeAlarm" />
+			:calendarObjectInstance="calendarObjectInstance"
+			:isReadOnly="isReadOnly"
+			:showIcon="index === 0"
+			@removeAlarm="removeAlarm" />
 	</div>
 </template>
 

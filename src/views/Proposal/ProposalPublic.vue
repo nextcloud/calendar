@@ -22,7 +22,7 @@
 		<NcGuestContent v-else-if="contentView === 'loaded'">
 			<div class="proposal-public__content-row-details">
 				<div class="proposal-public__content-organizer">
-					<NcAvatar :user="storedProposal?.uid" :display-name="storedProposal?.uname" :is-no-user="true" />
+					<NcAvatar :user="storedProposal?.uid" :displayName="storedProposal?.uname" :isNoUser="true" />
 					{{ storedProposal?.uname || t('calendar', 'Unknown User') }}
 				</div>
 				<h1 class="proposal-public__content-title">
@@ -51,8 +51,8 @@
 						mode="participant"
 						:proposal="storedProposal"
 						:response="response"
-						:timezone-id="userTimezone"
-						@date-vote="onDateVote" />
+						:timezoneId="userTimezone"
+						@dateVote="onDateVote" />
 				</div>
 			</div>
 			<div class="proposal-public__content-row-actions">
@@ -157,7 +157,7 @@ export default {
 							responseDate.id = date.id
 							responseDate.date = new Date(date.date)
 							responseDate.vote = ProposalDateVote.Maybe
-							this.$set(this.response.dates, date.id, responseDate)
+							this.response.dates[date.id] = responseDate
 						}
 					})
 				}
@@ -229,7 +229,6 @@ export default {
 .proposal-public__content-title {
   font-size: calc(var(--default-grid-baseline) * 6);
   font-weight: bold;
-  word-wrap: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
 }

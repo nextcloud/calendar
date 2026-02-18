@@ -5,11 +5,10 @@
 
 import { defineConfig } from 'eslint/config'
 
-// TODO: replace with recommended when migrating to Vue 3
-import { recommendedVue2 } from '@nextcloud/eslint-config'
+import { recommended } from '@nextcloud/eslint-config'
 
 export default defineConfig([
-	...recommendedVue2,
+	...recommended,
 	{
 		rules: {
 			// Relax some rules for now. Can be improved later one (baseline).

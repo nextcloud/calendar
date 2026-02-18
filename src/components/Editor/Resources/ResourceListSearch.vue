@@ -11,28 +11,29 @@
 
 		<RoomAvailabilityList
 			v-if="showRoomAvailabilityModal"
-			:show-dialog.sync="showRoomAvailabilityModal"
-			:calendar-object-instance="calendarObjectInstance"
-			:start-date="calendarObjectInstance.startDate"
-			:end-date="calendarObjectInstance.endDate" />
+			:showDialog="showRoomAvailabilityModal"
+			:calendarObjectInstance="calendarObjectInstance"
+			:startDate="calendarObjectInstance.startDate"
+			:endDate="calendarObjectInstance.endDate"
+			@update:showDialog="setShowRoomAvailabilityModal" />
 		<NcSelect
+			v-model="selectedResource"
 			class="resource-search__multiselect"
 			:options="matches"
 			:searchable="true"
 			:max-height="600"
 			:placeholder="placeholder"
-			:label-outside="true"
+			:labelOutside="true"
 			:class="{ showContent: inputGiven, 'icon-loading': isLoading }"
-			input-id="email"
+			inputId="email"
 			label="displayName"
 			:clearable="false"
-			@search="findResources"
-			@input="addResource">
+			@search="findResources">
 			<template #option="option">
 				<div class="resource-search-list-item">
 					<Avatar
-						:disable-tooltip="true"
-						:display-name="option.displayName" />
+						:disableTooltip="true"
+						:displayName="option.displayName" />
 					<div class="resource-search-list-item__label resource-search-list-item__label--single-email">
 						<div>
 							{{ option.displayName }}
@@ -52,24 +53,24 @@
 
 		<template>
 			<div class="resource-search__capacity">
-				<ResourceSeatingCapacity :value.sync="capacity" />
+				<ResourceSeatingCapacity v-model="capacity" />
 				<Actions class="resource-search__capacity__actions">
-					<ActionCheckbox :checked.sync="isAvailable">
+					<ActionCheckbox v-model="isAvailable">
 						<!-- Translators room or resource is not yet booked -->
 						{{ $t('calendar', 'Available') }}
 					</ActionCheckbox>
-					<ActionCheckbox :checked.sync="hasProjector">
+					<ActionCheckbox v-model="hasProjector">
 						{{ $t('calendar', 'Projector') }}
 					</ActionCheckbox>
-					<ActionCheckbox :checked.sync="hasWhiteboard">
+					<ActionCheckbox v-model="hasWhiteboard">
 						{{ $t('calendar', 'Whiteboard') }}
 					</ActionCheckbox>
-					<ActionCheckbox :checked.sync="isAccessible">
+					<ActionCheckbox v-model="isAccessible">
 						{{ $t('calendar', 'Wheelchair accessible') }}
 					</ActionCheckbox>
 				</Actions>
 			</div>
-			<ResourceRoomType :value.sync="roomType" />
+			<ResourceRoomType v-model="roomType" />
 		</template>
 	</div>
 </template>
@@ -128,6 +129,7 @@ export default {
 			hasProjector: false,
 			hasWhiteboard: false,
 			showRoomAvailabilityModal: false,
+			selectedResource: null,
 			rooms: [],
 		}
 	},
@@ -157,9 +159,24 @@ export default {
 		},
 	},
 
+	watch: {
+		selectedResource(selectedValue) {
+			if (!selectedValue) {
+				return
+			}
+
+			this.addResource(selectedValue)
+			this.selectedResource = null
+		},
+	},
+
 	methods: {
 		openRoomAvailability() {
 			this.showRoomAvailabilityModal = true
+		},
+
+		setShowRoomAvailabilityModal(value) {
+			this.showRoomAvailabilityModal = value
 		},
 
 		findResources: debounce(async function(query) {
@@ -179,7 +196,7 @@ export default {
 		}, 500),
 
 		addResource(selectedValue) {
-			this.$emit('add-resource', selectedValue)
+			this.$emit('addResource', selectedValue)
 		},
 
 		async findResourcesFromDAV(input) {

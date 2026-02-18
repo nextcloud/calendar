@@ -7,7 +7,7 @@
 import { t } from '@nextcloud/l10n'
 import { NcButton } from '@nextcloud/vue'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
-import { useRoute, useRouter } from 'vue-router/composables'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()

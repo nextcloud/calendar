@@ -5,13 +5,12 @@
 
 <template>
 	<NcSelect
-		:allow-empty="false"
+		v-model="selected"
+		:allowEmpty="false"
 		:options="options"
-		:value="selected"
 		:clearable="false"
-		input-id="freq"
-		label="label"
-		@input="select" />
+		inputId="freq"
+		label="label" />
 </template>
 
 <script>
@@ -55,18 +54,18 @@ export default {
 			}]
 		},
 
-		selected() {
-			return this.options.find((o) => o.freq === this.freq)
-		},
-	},
+		selected: {
+			get() {
+				return this.options.find((o) => o.freq === this.freq)
+			},
 
-	methods: {
-		select(value) {
-			if (!value) {
-				return
-			}
+			set(value) {
+				if (!value) {
+					return
+				}
 
-			this.$emit('change', value.freq)
+				this.$emit('change', value.freq)
+			},
 		},
 	},
 }

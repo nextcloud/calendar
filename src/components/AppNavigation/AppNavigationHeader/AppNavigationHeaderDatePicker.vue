@@ -5,13 +5,12 @@
 
 <script setup lang="ts">
 import { isRTL as isRTLFn, t } from '@nextcloud/l10n'
-import { NcButton } from '@nextcloud/vue'
+import { NcButton, NcDateTimePicker } from '@nextcloud/vue'
 import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { computed, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router/composables'
+import { useRoute, useRouter } from 'vue-router'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
-import DatePicker from '../../Shared/DatePickerOld.vue'
 import formatDateRange from '../../../filters/dateRangeFormat.js'
 import useSettingsStore from '../../../store/settings.js'
 import useWidgetStore from '../../../store/widget.js'
@@ -27,8 +26,6 @@ const props = defineProps<{
 
 const route = useRoute()
 const router = useRouter()
-
-const isDatepickerOpen = ref(false)
 
 const widgetStore = useWidgetStore()
 const settingsStore = useSettingsStore()
@@ -48,7 +45,9 @@ const view = computed<string>(() => {
 	return route.params.view
 })
 
-const formattedSelectedDate = computed<string>(() => formatDateRange(selectedDate.value, view.value, settingsStore.momentLocale))
+function dateFormatWrapper(date: Date): string {
+	return formatDateRange(date, view.value, settingsStore.momentLocale, false)
+}
 
 const previousLabel = computed(() => {
 	switch (view.value) {
@@ -154,10 +153,6 @@ async function navigateToDate(date: Date): Promise<void> {
 	}
 }
 
-function toggleDatepicker() {
-	isDatepickerOpen.value = !isDatepickerOpen.value
-}
-
 useHotKey(['n', 'j'], () => navigateTimeRangeForward())
 useHotKey(['p', 'k'], () => navigateTimeRangeBackward())
 </script>
@@ -175,22 +170,12 @@ useHotKey(['p', 'k'], () => navigateTimeRangeBackward())
 				<ChevronLeftIcon v-else :size="22" />
 			</template>
 		</NcButton>
-		<NcButton
-			v-if="!props.isWidget"
-			class="datepicker-button-section__datepicker-label datepicker-label"
-			@click.stop.prevent="toggleDatepicker"
-			@mousedown.stop.prevent="() => {}"
-			@mouseup.stop.prevent="() => {}">
-			{{ formattedSelectedDate }}
-		</NcButton>
-		<DatePicker
-			:class="props.isWidget ? 'datepicker-widget' : 'datepicker-button-section__datepicker'"
-			:append-to-body="props.isWidget"
-			:date="selectedDate"
-			:is-all-day="true"
-			:open.sync="isDatepickerOpen"
+		<NcDateTimePicker
+			class="datepicker-button-section__datepicker"
+			:format="dateFormatWrapper"
+			:modelValue="selectedDate"
 			:type="view === 'multiMonthYear' ? 'year' : 'date'"
-			@change="navigateToDate" />
+			@update:modelValue="navigateToDate" />
 		<NcButton
 			v-if="!props.isWidget"
 			:aria-label="isRTL ? previousLabel : nextLabel"
@@ -205,9 +190,26 @@ useHotKey(['p', 'k'], () => navigateTimeRangeBackward())
 	</div>
 </template>
 
-<style lang="scss">
-.datepicker-widget{
-	width: 135px;
-    margin: 2px 5px 5px 5px;
+<style lang="scss" scoped>
+.datepicker-button-section__datepicker {
+	:deep(input) {
+		border-radius: 0 !important;
+		text-align: center;
+		border: 1px solid var(--color-primary-element-light-hover) !important;
+		font-weight: bold;
+		background-color: var(--color-primary-element-light) !important;
+		margin: 0 !important;
+
+		padding: 0 !important;
+		width: calc(var(--default-grid-baseline) * 54) !important;
+	}
+
+	:deep(.dp__input_not_clearable) {
+		padding: 0 !important;
+	}
+
+	:deep(.dp__input_icon) {
+		display: none;
+	}
 }
 </style>

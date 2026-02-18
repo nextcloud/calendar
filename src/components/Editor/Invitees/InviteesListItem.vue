@@ -6,21 +6,21 @@
 <template>
 	<div class="invitees-list-item">
 		<AvatarParticipationStatus
-			:attendee-is-organizer="false"
-			:is-viewed-by-organizer="isViewedByOrganizer"
-			:is-resource="false"
-			:avatar-link="avatarLink"
-			:participation-status="attendee.participationStatus"
-			:schedule-status="attendee.attendeeProperty.getParameterFirstValue('SCHEDULE-STATUS')"
-			:organizer-display-name="organizerDisplayName"
-			:common-name="commonName"
+			:attendeeIsOrganizer="false"
+			:isViewedByOrganizer="isViewedByOrganizer"
+			:isResource="false"
+			:avatarLink="avatarLink"
+			:participationStatus="attendee.participationStatus"
+			:scheduleStatus="attendee.attendeeProperty.getParameterFirstValue('SCHEDULE-STATUS')"
+			:organizerDisplayName="organizerDisplayName"
+			:commonName="commonName"
 			:timezone="timezone"
-			:is-group="isGroup" />
+			:isGroup="isGroup" />
 
 		<AttendeeDisplay
-			:display-name="commonName"
+			:displayName="commonName"
 			:email="attendeeEmail"
-			:has-members="!!members.length">
+			:hasMembers="!!members.length">
 			<template #displayname>
 				{{ commonName }}
 				<span
@@ -50,37 +50,41 @@
 			<Actions v-if="!isReadOnly && isViewedByOrganizer">
 				<ActionCheckbox
 					v-if="!members.length"
-					:checked="attendee.rsvp"
-					@change="toggleRSVP">
+					:modelValue="attendee.rsvp"
+					@update:modelValue="toggleRSVP">
 					{{ $t('calendar', 'Request reply') }}
 				</ActionCheckbox>
 
 				<ActionRadio
 					v-if="!members.length"
 					:name="radioName"
-					:checked="isChair"
-					@change="changeRole('CHAIR')">
+					value="CHAIR"
+					:modelValue="attendee.role"
+					@update:modelValue="changeRole">
 					{{ $t('calendar', 'Chairperson') }}
 				</ActionRadio>
 				<ActionRadio
 					v-if="!members.length"
 					:name="radioName"
-					:checked="isRequiredParticipant"
-					@change="changeRole('REQ-PARTICIPANT')">
+					value="REQ-PARTICIPANT"
+					:modelValue="attendee.role"
+					@update:modelValue="changeRole">
 					{{ $t('calendar', 'Required participant') }}
 				</ActionRadio>
 				<ActionRadio
 					v-if="!members.length"
 					:name="radioName"
-					:checked="isOptionalParticipant"
-					@change="changeRole('OPT-PARTICIPANT')">
+					value="OPT-PARTICIPANT"
+					:modelValue="attendee.role"
+					@update:modelValue="changeRole">
 					{{ $t('calendar', 'Optional participant') }}
 				</ActionRadio>
 				<ActionRadio
 					v-if="!members.length"
 					:name="radioName"
-					:checked="isNonParticipant"
-					@change="changeRole('NON-PARTICIPANT')">
+					value="NON-PARTICIPANT"
+					:modelValue="attendee.role"
+					@update:modelValue="changeRole">
 					{{ $t('calendar', 'Non-participant') }}
 				</ActionRadio>
 
@@ -100,10 +104,10 @@
 				v-for="member in members"
 				:key="member.email"
 				:attendee="member"
-				:is-read-only="isReadOnly"
-				:organizer-display-name="organizerDisplayName"
+				:isReadOnly="isReadOnly"
+				:organizerDisplayName="organizerDisplayName"
 				:members="member.members"
-				@remove-attendee="removeAttendee(member)" />
+				@removeAttendee="removeAttendee(member)" />
 		</div>
 	</div>
 </template>
@@ -224,23 +228,7 @@ export default {
 		},
 
 		radioName() {
-			return this._uid + '-role-radio-input-group'
-		},
-
-		isChair() {
-			return this.attendee.role === 'CHAIR'
-		},
-
-		isRequiredParticipant() {
-			return this.attendee.role === 'REQ-PARTICIPANT'
-		},
-
-		isOptionalParticipant() {
-			return this.attendee.role === 'OPT-PARTICIPANT'
-		},
-
-		isNonParticipant() {
-			return this.attendee.role === 'NON-PARTICIPANT'
+			return this.$.uid + '-role-radio-input-group'
 		},
 
 		isGroup() {
@@ -296,7 +284,7 @@ export default {
 		 * @param {object} attendee Attendee object to remove
 		 */
 		removeAttendee(attendee) {
-			this.$emit('remove-attendee', attendee)
+			this.$emit('removeAttendee', attendee)
 		},
 
 		/**

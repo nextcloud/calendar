@@ -4,7 +4,6 @@
  */
 
 import { defineStore } from 'pinia'
-import Vue from 'vue'
 import { createConfig, deleteConfig, updateConfig } from '../services/appointmentConfigService.js'
 import logger from '../utils/logger.js'
 
@@ -21,7 +20,7 @@ export default defineStore('appointmentConfigs', {
 		addInitialConfigs(configs) {
 			for (const config of configs) {
 				/// TODO this.configs[config.id] = config
-				Vue.set(this.configs, config.id, config)
+				this.configs[config.id] = config
 			}
 		},
 		async updateConfig({ config }) {
@@ -59,11 +58,11 @@ export default defineStore('appointmentConfigs', {
 			}
 
 			/// TODO this.configs[config.id] = config.clone()
-			Vue.set(this.configs, config.id, config.clone())
+			this.configs[config.id] = config.clone()
 		},
 		addConfigMutation(config) {
 			/// TODO this.configs[config.id] = config.clone()
-			Vue.set(this.configs, config.id, config.clone())
+			this.configs[config.id] = config.clone()
 		},
 		deleteConfigMutation(id) {
 			if (!this.configs[id]) {
@@ -71,7 +70,7 @@ export default defineStore('appointmentConfigs', {
 			}
 
 			/// TODO delete this.configs[id]
-			Vue.delete(this.configs, id)
+			delete this.configs[id]
 		},
 	},
 })

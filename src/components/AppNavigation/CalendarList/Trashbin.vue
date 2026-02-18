@@ -15,6 +15,7 @@
 			<NcModal
 				v-if="showModal"
 				size="large"
+				:name="t('calendar', 'Trash bin')"
 				@close="showModal = false">
 				<div class="modal__content">
 					<h2>{{ t('calendar', 'Trash bin') }}</h2>
@@ -28,7 +29,7 @@
 						class="modal__content__empty"
 						:description="t('calendar', 'You do not have any deleted items.')">
 						<template #icon>
-							<Delete :size="20" decorative />
+							<IconDelete :size="20" decorative />
 						</template>
 					</NcEmptyContent>
 					<template v-else>
@@ -70,10 +71,10 @@
 											{{ t('calendar', 'Restore') }}
 										</NcButton>
 
-										<NcActions :force-menu="true">
+										<NcActions :forceMenu="true">
 											<NcActionButton @click="onDeletePermanently(item)">
 												<template #icon>
-													<Delete :size="20" decorative />
+													<IconDelete :size="20" decorative />
 												</template>
 												{{ t('calendar', 'Delete permanently') }}
 											</NcActionButton>

@@ -4,28 +4,30 @@
 -->
 <template>
 	<div v-if="isWidget" class="calendar-Widget">
-		<EmbedTopNavigation v-if="!showEmptyCalendarScreen" :is-widget="true" />
+		<EmbedTopNavigation v-if="!showEmptyCalendarScreen" :isWidget="true" />
 
 		<CalendarGrid
 			v-if="!showEmptyCalendarScreen"
 			ref="calendarGridWidget"
-			:is-widget="isWidget"
+			:isWidget="isWidget"
 			:url="url"
-			:is-authenticated-user="isAuthenticatedUser" />
+			:isAuthenticatedUser="isAuthenticatedUser" />
 		<EmptyCalendar v-else />
 
-		<EditSimple v-if="showWidgetEventDetails" :is-widget="true" />
+		<EditSimple v-if="showWidgetEventDetails" :isWidget="true" />
 	</div>
 
-	<NcContent v-else app-name="calendar" :class="classNames">
-		<AppNavigation v-if="!isWidget && !isEmbedded && !showEmptyCalendarScreen">
+	<NcContent v-else appName="calendar" :class="classNames">
+		<AppNavigation
+			v-if="!isWidget && !isEmbedded && !showEmptyCalendarScreen"
+			aria-label="Calendar navigation">
 			<!-- Date Picker, View Buttons, Today Button -->
-			<AppNavigationHeader :is-public="!isAuthenticatedUser" />
+			<AppNavigationHeader :isPublic="!isAuthenticatedUser" />
 			<template #list>
 				<!-- Calendar / Subscription List -->
 				<CalendarList
-					:is-public="!isAuthenticatedUser"
-					:loading-calendars="loadingCalendars" />
+					:isPublic="!isAuthenticatedUser"
+					:loadingCalendars="loadingCalendars" />
 				<EditCalendarModal />
 
 				<!-- Proposals -->
@@ -46,7 +48,7 @@
 			<template #footer>
 				<Settings
 					v-if="isAuthenticatedUser"
-					:loading-calendars="loadingCalendars" />
+					:loadingCalendars="loadingCalendars" />
 			</template>
 		</AppNavigation>
 		<EmbedTopNavigation v-if="isEmbedded" />
@@ -66,7 +68,7 @@
 				<CalendarGrid
 					v-if="!showEmptyCalendarScreen"
 					ref="CalendarGrid"
-					:is-authenticated-user="isAuthenticatedUser" />
+					:isAuthenticatedUser="isAuthenticatedUser" />
 				<EmptyCalendar v-else />
 			</div>
 		</AppContent>
@@ -80,8 +82,8 @@
 				<!-- Task without End Date List -->
 				<template>
 					<UnscheduledTasksList
-						@tasks-empty="handleTasksEmpty"
-						@task-clicked="handleTaskClick" />
+						@tasksEmpty="handleTasksEmpty"
+						@taskClicked="handleTaskClick" />
 				</template>
 			</NcAppSidebarTab>
 		</NcAppSidebar>
@@ -466,6 +468,11 @@ export default {
 
 .simple-editor-anchor {
 	position: relative;
+}
+
+.property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {
+	margin-inline-start: unset !important;
+	padding-inline-end: unset !important;
 }
 </style>
 ```

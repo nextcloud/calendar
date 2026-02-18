@@ -10,7 +10,7 @@
 			:key="config.id"
 			:config="config"
 			:color="(calendarsStore.getCalendarById(config.extendedProps.calendarId)).color"
-			@task-clicked="passTaskClick" />
+			@taskClicked="passTaskClick" />
 	</div>
 </template>
 
@@ -40,17 +40,17 @@ export default {
 
 	watch: {
 		tasks(newTasks) {
-			this.$emit('tasks-empty', newTasks.length === 0)
+			this.$emit('tasksEmpty', newTasks.length === 0)
 		},
 	},
 
 	mounted() {
-		this.$emit('tasks-empty', this.tasks.length === 0)
+		this.$emit('tasksEmpty', this.tasks.length === 0)
 	},
 
 	methods: {
 		passTaskClick(task) {
-			this.$emit('task-clicked', task)
+			this.$emit('taskClicked', task)
 		},
 	},
 }

@@ -12,15 +12,15 @@
 		</Avatar>
 		<Avatar
 			v-else
-			:disable-tooltip="true"
+			:disableTooltip="true"
 			:user="commonName"
-			:display-name="commonName"
-			:is-no-user="true" />
+			:displayName="commonName"
+			:isNoUser="true" />
 		<template v-if="!isGroup">
 			<component
 				:is="status.icon"
 				class="avatar-participation-status__indicator"
-				:fill-color="status.fillColor"
+				:fillColor="status.fillColor"
 				:size="20" />
 			<div class="avatar-participation-status__text">
 				<span v-if="adjustedTime" class="avatar-participation-status__text__time">{{ adjustedTime }} local time, </span>{{ status.text.trim() }}

@@ -25,13 +25,13 @@
 				<template #icon>
 					<Plus :size="20" />
 				</template>
-				<NcActionButton @click="openFilesModal()">
+				<NcActionButton closeAfterClick="true" @click="openFilesModal()">
 					<template #icon>
 						<Folder :size="20" />
 					</template>
 					{{ t('calendar', 'Add from Files') }}
 				</NcActionButton>
-				<NcActionButton @click="clickOnUploadButton">
+				<NcActionButton closeAfterClick="true" @click="clickOnUploadButton">
 					<template #icon>
 						<Upload :size="20" />
 					</template>
@@ -45,7 +45,7 @@
 					v-for="attachment in attachments"
 					:key="attachment.path"
 					class="attachments-list-item"
-					:force-display-actions="true"
+					:forceDisplayActions="true"
 					:name="getBaseName(attachment.fileName)"
 					@click="openFile(attachment.uri)">
 					<template #icon>
@@ -54,6 +54,7 @@
 					<template #actions>
 						<NcActionButton
 							v-if="!isReadOnly"
+							closeAfterClick="true"
 							@click="deleteAttachmentFromEvent(attachment)">
 							<template #icon>
 								<Close :size="20" />
@@ -67,7 +68,7 @@
 
 		<NcDialog
 			v-if="showOpenConfirmation"
-			:open.sync="showOpenConfirmation"
+			v-model:open="showOpenConfirmation"
 			:name="t('calendar', 'Confirmation')"
 			:buttons="openConfirmationButtons">
 			<p class="external-link-message">

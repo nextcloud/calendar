@@ -7,7 +7,7 @@ import { getRequestToken } from '@nextcloud/auth'
 import { loadState } from '@nextcloud/initial-state'
 import { translate, translatePlural } from '@nextcloud/l10n'
 import { linkTo } from '@nextcloud/router'
-import Vue from 'vue'
+import { createApp } from 'vue'
 import Booking from '../views/Appointments/Booking.vue'
 
 // CSP config for webpack dynamic chunk loading
@@ -21,9 +21,6 @@ __webpack_nonce__ = btoa(getRequestToken())
 // eslint-disable-next-line
 __webpack_public_path__ = linkTo('calendar', 'js/')
 
-Vue.prototype.$t = translate
-Vue.prototype.$n = translatePlural
-
 const config = loadState('calendar', 'config')
 const userInfo = loadState('calendar', 'userInfo')
 const visitorInfo = loadState('calendar', 'visitorInfo', {
@@ -31,13 +28,17 @@ const visitorInfo = loadState('calendar', 'visitorInfo', {
 	email: '',
 })
 
-export default new Vue({
-	el: '#appointment-booking',
-	render: (h) => h(Booking, {
-		props: {
-			config,
-			userInfo,
-			visitorInfo,
-		},
-	}),
+const app = createApp(Booking, {
+	config,
+	userInfo,
+	visitorInfo,
 })
+
+app.config.globalProperties.$t = translate
+app.config.globalProperties.$n = translatePlural
+app.config.globalProperties.t = translate
+app.config.globalProperties.n = translatePlural
+
+const bookingInstance = app.mount('#appointment-booking')
+
+export default bookingInstance

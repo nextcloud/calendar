@@ -51,13 +51,13 @@
 					<PendingIcon :size="20" decorative />
 				</template>
 				<template #counter>
-					<NcCounterBubble>
-						{{ proposalParticipantsResponded(proposal) + '/' + proposalParticipantsTotal(proposal) }}
-					</NcCounterBubble>
+					<NcCounterBubble
+						:count="`${proposalParticipantsResponded(proposal)}/${proposalParticipantsTotal(proposal)}`"
+						:raw="true" />
 				</template>
 				<template #actions>
 					<NcActionButton
-						:close-after-click="true"
+						:closeAfterClick="true"
 						@click="onProposalView(proposal)">
 						<template #icon>
 							<ViewIcon :size="20" />
@@ -65,7 +65,7 @@
 						{{ t('calendar', 'View') }}
 					</NcActionButton>
 					<NcActionButton
-						:close-after-click="true"
+						:closeAfterClick="true"
 						@click="onProposalModify(proposal)">
 						<template #icon>
 							<ModifyIcon :size="20" />
@@ -73,7 +73,7 @@
 						{{ t('calendar', 'Edit') }}
 					</NcActionButton>
 					<NcActionButton
-						:close-after-click="true"
+						:closeAfterClick="true"
 						@click="onProposalDestroy(proposal)">
 						<template #icon>
 							<DestroyIcon :size="20" />

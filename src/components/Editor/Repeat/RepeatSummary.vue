@@ -5,7 +5,7 @@
 
 <template>
 	<span v-if="display">
-		{{ recurrenceRule | formatRecurrenceRule(locale) }}
+		{{ formattedRecurrenceRule }}
 	</span>
 	<span v-else>
 		{{ $t('calendar', 'Does not repeat') }}
@@ -19,9 +19,6 @@ import useSettingsStore from '../../../store/settings.js'
 
 export default {
 	name: 'RepeatSummary',
-	filters: {
-		formatRecurrenceRule,
-	},
 
 	props: {
 		/**
@@ -46,6 +43,15 @@ export default {
 		 */
 		display() {
 			return this.recurrenceRule.frequency !== 'NONE'
+		},
+
+		/**
+		 * Returns the formatted recurrence rule string
+		 *
+		 * @return {string}
+		 */
+		formattedRecurrenceRule() {
+			return formatRecurrenceRule(this.recurrenceRule, this.locale)
 		},
 	},
 }

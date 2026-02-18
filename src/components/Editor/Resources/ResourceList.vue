@@ -9,29 +9,29 @@
 
 		<ResourceListSearch
 			v-if="!isReadOnly && hasUserEmailAddress && resourceBookingEnabled"
-			:already-invited-emails="alreadyInvitedEmails"
-			:calendar-object-instance="calendarObjectInstance"
-			@add-resource="addResource" />
+			:alreadyInvitedEmails="alreadyInvitedEmails"
+			:calendarObjectInstance="calendarObjectInstance"
+			@addResource="addResource" />
 
 		<div class="resource-list">
 			<ResourceListItem
 				v-for="resource in resources"
 				:key="resource.email"
 				:resource="resource"
-				:is-read-only="isReadOnly"
-				:organizer-display-name="organizerDisplayName"
-				:is-viewed-by-organizer="isViewedByOrganizer"
-				@remove-resource="removeResource" />
+				:isReadOnly="isReadOnly"
+				:organizerDisplayName="organizerDisplayName"
+				:isViewedByOrganizer="isViewedByOrganizer"
+				@removeResource="removeResource" />
 
 			<ResourceListItem
 				v-for="room in suggestedRooms"
 				:key="room.email + '-suggested'"
 				:resource="room"
-				:is-read-only="false"
-				:organizer-display-name="organizerDisplayName"
-				:is-suggestion="true"
-				:is-viewed-by-organizer="isViewedByOrganizer"
-				@add-suggestion="addResource" />
+				:isReadOnly="false"
+				:organizerDisplayName="organizerDisplayName"
+				:isSuggestion="true"
+				:isViewedByOrganizer="isViewedByOrganizer"
+				@addSuggestion="addResource" />
 		</div>
 	</div>
 </template>

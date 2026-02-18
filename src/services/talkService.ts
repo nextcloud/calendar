@@ -249,8 +249,7 @@ export async function updateRoomParticipantsFromEvent(eventComponent: object): P
 						// Only map if there is exactly one result and it's not the organizer
 						if (matches.length === 1
 							&& matches[0].id !== currentUserId
-							&& matches[0].shareWithDisplayNameUnique === participantEmail
-						) {
+							&& matches[0].shareWithDisplayNameUnique === participantEmail) {
 							logger.debug('Resolved attendee to user', { email: participantEmail, userId: matches[0].id })
 							resolve({ userId: matches[0].id })
 							return

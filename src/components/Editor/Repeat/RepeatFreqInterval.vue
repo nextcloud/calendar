@@ -7,13 +7,12 @@
 	<div class="repeat-option-set repeat-option-set--interval-freq">
 		<NcTextField
 			v-if="!isIntervalDisabled"
+			v-model="localInterval"
 			:label="repeatEveryLabel"
 			type="number"
 			class="repeat-option-set__interval"
 			min="1"
-			max="366"
-			:value="interval"
-			@input="changeInterval" />
+			max="366" />
 		<RepeatFreqSelect
 			class="repeat-option-set__frequency"
 			:freq="frequency"
@@ -47,7 +46,6 @@ export default {
 
 	computed: {
 		repeatEveryLabel() {
-			console.debug(this.frequency)
 			if (this.frequency === 'NONE') {
 				return this.$t('calendar', 'Repeat')
 			}
@@ -58,25 +56,27 @@ export default {
 		isIntervalDisabled() {
 			return this.frequency === 'NONE'
 		},
+
+		localInterval: {
+			get() {
+				return this.interval
+			},
+
+			set(value) {
+				const minimumValue = parseInt(this.$el?.querySelector('input')?.min || '1', 10)
+				const maximumValue = parseInt(this.$el?.querySelector('input')?.max || '366', 10)
+				const selectedValue = parseInt(value, 10)
+
+				if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
+					this.$emit('changeInterval', selectedValue)
+				}
+			},
+		},
 	},
 
 	methods: {
 		changeFrequency(value) {
-			this.$emit('change-frequency', value)
-		},
-
-		/**
-		 *
-		 * @param {Event} event The Input-event triggered when modifying the input
-		 */
-		changeInterval(event) {
-			const minimumValue = parseInt(event.target.min, 10)
-			const maximumValue = parseInt(event.target.max, 10)
-			const selectedValue = parseInt(event.target.value, 10)
-
-			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
-				this.$emit('change-interval', selectedValue)
-			}
+			this.$emit('changeFrequency', value)
 		},
 	},
 }

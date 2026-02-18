@@ -12,8 +12,8 @@
 		:placeholder="placeholder"
 		:class="{ showContent: inputGiven, 'icon-loading': isLoading }"
 		:clearable="false"
-		:label-outside="true"
-		input-id="uid"
+		:labelOutside="true"
+		inputId="uid"
 		label="dropdownName"
 		@search="findAttendees"
 		@option:selected="addAttendee">
@@ -24,7 +24,7 @@
 					v-if="option.isUser"
 					:key="option.uid"
 					:user="option.avatar"
-					:display-name="option.dropdownName" />
+					:displayName="option.dropdownName" />
 				<Avatar v-else-if="option.type === 'circle'">
 					<template #icon>
 						<GoogleCirclesCommunitiesIcon :size="20" />
@@ -34,7 +34,7 @@
 					v-if="!option.isUser && option.type !== 'circle'"
 					:key="option.uid"
 					:url="option.avatar"
-					:display-name="option.commonName" />
+					:displayName="option.commonName" />
 
 				<div class="invitees-search-list-item__label">
 					<div>
@@ -181,10 +181,10 @@ export default {
 					subtitle: selectedValue.subtitle,
 					type: 'contactsgroup',
 				}
-				this.$emit('add-attendee', group)
+				this.$emit('addAttendee', group)
 				return
 			}
-			this.$emit('add-attendee', selectedValue)
+			this.$emit('addAttendee', selectedValue)
 		},
 
 		async resolveCircleMembers(circleId) {
@@ -200,7 +200,7 @@ export default {
 			}
 			results.data.forEach((member) => {
 				if (!this.organizer || member.email !== this.organizer.uri) {
-					this.$emit('add-attendee', member)
+					this.$emit('addAttendee', member)
 				}
 			})
 		},
@@ -218,7 +218,7 @@ export default {
 
 			results.data.forEach((member) => {
 				if (!this.organizer || member.email !== this.organizer.uri) {
-					this.$emit('add-attendee', member)
+					this.$emit('addAttendee', member)
 				}
 			})
 		},

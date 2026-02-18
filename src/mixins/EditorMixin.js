@@ -136,7 +136,7 @@ export default {
 		 * @return {boolean}
 		 */
 		canModifyAllDay() {
-			return (this.calendarObjectInstance?.canModifyAllDay ?? false) || !this.calendarObject.existsOnServer
+			return (this.calendarObjectInstance?.canModifyAllDay ?? false) || !(this.calendarObject?.existsOnServer ?? true)
 		},
 		/**
 		 * Returns the color the illustration should be colored in
@@ -223,7 +223,7 @@ export default {
 		 * @return {boolean|null}
 		 */
 		isViewedByOrganizer() {
-			if (!this.calendarObjectInstance.attendees.length) {
+			if (!this.calendarObjectInstance || !this.calendarObjectInstance.attendees.length) {
 				return null
 			}
 
@@ -241,7 +241,7 @@ export default {
 		 * @return {?object}
 		 */
 		userAsAttendee() {
-			if (this.isReadOnly || !this.principalsStore.getCurrentUserPrincipalEmail || !this.calendarObjectInstance.organizer) {
+			if (!this.calendarObjectInstance || this.isReadOnly || !this.principalsStore.getCurrentUserPrincipalEmail || !this.calendarObjectInstance.organizer) {
 				return null
 			}
 
@@ -292,7 +292,7 @@ export default {
 				return false
 			}
 
-			return this.calendarObject.existsOnServer
+			return this.calendarObject?.existsOnServer ?? false
 		},
 		/**
 		 * Returns whether or not the user is allowed to create recurrence exceptions for this event
@@ -312,6 +312,9 @@ export default {
 		 * @return {boolean}
 		 */
 		canModifyCalendar() {
+			if (!this.calendarObjectInstance) {
+				return true
+			}
 			const eventComponent = this.calendarObjectInstance.eventComponent
 			if (!eventComponent) {
 				return true
@@ -341,7 +344,7 @@ export default {
 				return false
 			}
 
-			return this.calendarObject.existsOnServer
+			return this.calendarObject?.existsOnServer ?? false
 		},
 		/**
 		 * Returns the download url as a string or null if event is loading or does not exist on the server (yet)
@@ -376,6 +379,71 @@ export default {
 			return false
 		},
 	},
+
+	async created() {
+		// Skip data loading for widgets - they handle it in mounted()
+		if (this.isWidget) {
+			return
+		}
+
+		// Check if this is a new event or existing event based on route name
+		// NewPopoverView and NewFullView are for new events
+		const isNewEvent = this.$route?.name?.startsWith('New')
+
+		if (isNewEvent) {
+			// For new events, create a new calendar object instance
+			console.debug('[Editor] Creating new event')
+			try {
+				await this.loadingCalendars()
+
+				const isAllDay = (this.$route.params.allDay === '1')
+				const start = parseInt(this.$route.params.dtstart)
+				const end = parseInt(this.$route.params.dtend)
+				const timezoneId = this.settingsStore.getResolvedTimezone
+
+				await this.calendarObjectInstanceStore.getCalendarObjectInstanceForNewEvent({
+					isAllDay,
+					start,
+					end,
+					timezoneId,
+				})
+
+				// Set the calendarId from the created calendar object
+				if (this.calendarObject) {
+					this.calendarId = this.calendarObject.calendarId
+				}
+
+				console.debug('[Editor] New event created successfully')
+			} catch (error) {
+				console.error('[Editor] Error creating new event:', error)
+			} finally {
+				this.isLoading = false
+			}
+		} else {
+			// For existing events, load the event data
+			const objectId = this.$route.params.object
+			const recurrenceId = this.$route.params.recurrenceId
+
+			console.debug('[Editor] Loading event data...', { objectId, recurrenceId })
+
+			try {
+				await this.loadingCalendars()
+				await this.calendarObjectInstanceStore.getCalendarObjectInstanceByObjectIdAndRecurrenceId({ objectId, recurrenceId })
+				this.calendarId = this.calendarObject.calendarId
+				this.isEditingMasterItem = this.eventComponent.isMasterItem()
+				this.isRecurrenceException = this.eventComponent.isRecurrenceException()
+				console.debug('[Editor] Event loaded successfully')
+			} catch (error) {
+				console.error('[Editor] Error loading event:', error)
+				this.isError = true
+				this.error = this.$t('calendar', 'It might have been deleted, or there was a typo in a link')
+			} finally {
+				this.isLoading = false
+				console.debug('[Editor] isLoading set to false')
+			}
+		}
+	},
+
 	methods: {
 		/**
 		 * Changes the selected calendar
@@ -789,7 +857,8 @@ export default {
 					try {
 						await vm.loadingCalendars()
 						const recurrenceId = await vm.calendarObjectInstanceStore.resolveClosestRecurrenceIdForCalendarObject({
-							objectId, closeToDate,
+							objectId,
+							closeToDate,
 						})
 						const params = { ...vm.$route.params, recurrenceId }
 						vm.$router.replace({ name: vm.$route.name, params })
@@ -875,7 +944,8 @@ export default {
 				const closeToDate = dateFactory()
 				await this.loadingCalendars()
 				const recurrenceId = await this.calendarObjectInstanceStore.resolveClosestRecurrenceIdForCalendarObject({
-					objectId, closeToDate,
+					objectId,
+					closeToDate,
 				})
 				const params = { ...this.$route.params, recurrenceId }
 				next({ name: this.$route.name, params })

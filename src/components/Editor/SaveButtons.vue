@@ -34,7 +34,7 @@
 		</NcButton>
 		<NcButton
 			v-if="showUpdateThisAndFutureButton && !showUpdateOnlyThisButton"
-			:type="primary"
+			variant="primary"
 			:disabled="disabled"
 			@click="saveThisAndAllFuture">
 			{{ $t('calendar', 'Update this and all future') }}
@@ -47,7 +47,7 @@
 			{{ $t('calendar', 'Update this occurrence') }}
 		</NcButton>
 
-		<NcActions v-if="showUpdateThisAndFutureButton && showUpdateOnlyThisButton" :primary="true" :menu-name="t('calendar', 'Update')">
+		<NcActions v-if="showUpdateThisAndFutureButton && showUpdateOnlyThisButton" :primary="true" :menuName="t('calendar', 'Update')">
 			<template #icon>
 				<CheckIcon :size="20" />
 			</template>
@@ -140,15 +140,15 @@ export default {
 
 	methods: {
 		saveThisOnly() {
-			this.$emit('save-this-only')
+			this.$emit('saveThisOnly')
 		},
 
 		saveThisAndAllFuture() {
-			this.$emit('save-this-and-all-future')
+			this.$emit('saveThisAndAllFuture')
 		},
 
 		showMore() {
-			this.$emit('show-more')
+			this.$emit('showMore')
 		},
 	},
 }
