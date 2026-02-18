@@ -271,14 +271,20 @@ class EmailControllerTest extends TestCase {
 			->method('addHeading')
 			->with('TRANSLATED: User Displayname 123 has published the calendar »calendar name 456«')
 			->willReturn($template);
+
+		$expectedCalls = [
+			'TRANSLATED: Hello,',
+			'TRANSLATED: We wanted to inform you that User Displayname 123 has published the calendar »calendar name 456«.',
+			'TRANSLATED: Cheers!',
+		];
+		$callIndex = 0;
 		$template->expects(self::exactly(3))
 			->method('addBodyText')
-			->withConsecutive(
-				['TRANSLATED: Hello,'],
-				['TRANSLATED: We wanted to inform you that User Displayname 123 has published the calendar »calendar name 456«.'],
-				['TRANSLATED: Cheers!']
-			)
-			->willReturnSelf();
+			->willReturnCallback(function ($text) use (&$callIndex, $expectedCalls, $template) {
+				$this->assertEquals($expectedCalls[$callIndex], $text);
+				$callIndex++;
+				return $template;
+			});
 		$template->expects(self::once())
 			->method('addBodyButton')
 			->with('TRANSLATED: Open »calendar name 456«', 'http://publicURL123')
