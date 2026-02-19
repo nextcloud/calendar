@@ -126,15 +126,14 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import { NcCheckboxRadioSwitch, NcLoadingIcon } from '@nextcloud/vue'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
 import debounce from 'debounce'
 import { mapStores } from 'pinia'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
 import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
 import ChevronRight from 'vue-material-design-icons/ChevronRight.vue'
 import MapMarker from 'vue-material-design-icons/MapMarker.vue'
 import OfficeBuildingOutline from 'vue-material-design-icons/OfficeBuildingOutline.vue'
 import Wrench from 'vue-material-design-icons/Wrench.vue'
-
 import ResourceRoomCard from './ResourceRoomCard.vue'
 import { formatFacility } from '../../../models/resourceProps.js'
 import { checkResourceAvailability } from '../../../services/freeBusyService.js'

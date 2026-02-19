@@ -49,7 +49,6 @@
 import { NcButton } from '@nextcloud/vue'
 import Minus from 'vue-material-design-icons/Minus.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
-
 import { formatRoomType } from '../../../models/resourceProps.js'
 
 export default {
