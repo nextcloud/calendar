@@ -22,8 +22,11 @@ export default defineConfig({
 		],
 		globals: true,
 		environment: 'jsdom',
-		// Use forks pool for reliable vi.mock() hoisting with coverage
-		pool: 'forks',
+		// vmThreads is required for CSS file transformation from @nextcloud/vue
+		pool: 'vmThreads',
+		// Disable parallelism to prevent non-deterministic vi.mock() hoisting
+		// failures when V8 coverage is active (vitest-dev/vitest#8861)
+		fileParallelism: false,
 		// Increase timeouts for slow CI environments
 		testTimeout: 300000, // 2 minutes per test
 		hookTimeout: 60000, // 60 seconds for hooks
