@@ -33,7 +33,7 @@
 			</div>
 			<NcButton
 				v-if="isViewedByOrganizer && !isReadOnly && (isAdded || (room.isAvailable && !hasRoomSelected))"
-				:type="isAdded ? 'tertiary' : 'secondary'"
+				:variant="isAdded ? 'tertiary' : 'secondary'"
 				class="room-card__action"
 				@click="toggleRoom">
 				<template #icon>
@@ -49,12 +49,14 @@
 import { NcButton } from '@nextcloud/vue'
 import Minus from 'vue-material-design-icons/Minus.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
+
 import { formatRoomType } from '../../../models/resourceProps.js'
+
 export default {
 	name: 'ResourceRoomCard',
 	components: {
-		NcButton,
 		Minus,
+		NcButton,
 		Plus,
 	},
 
@@ -63,23 +65,29 @@ export default {
 			type: Object,
 			required: true,
 		},
+
 		isAdded: {
 			type: Boolean,
 			default: false,
 		},
+
 		isReadOnly: {
 			type: Boolean,
 			default: false,
 		},
+
 		isViewedByOrganizer: {
 			type: Boolean,
 			default: false,
 		},
+
 		hasRoomSelected: {
 			type: Boolean,
 			default: false,
 		},
 	},
+
+	emits: ['removeRoom', 'addRoom'],
 
 	computed: {
 		statusLabel() {
@@ -90,6 +98,7 @@ export default {
 				? this.$t('calendar', 'Available')
 				: this.$t('calendar', 'Unavailable')
 		},
+
 		statusClass() {
 			if (this.isAdded) {
 				return 'room-card__status--reserved'
@@ -98,9 +107,11 @@ export default {
 				? 'room-card__status--free'
 				: 'room-card__status--busy'
 		},
+
 		subLocation() {
 			return this.room.roomNumber || ''
 		},
+
 		roomTypeLabel() {
 			const type = this.room.roomType
 			if (!type || type === 'meeting-room') {
@@ -113,9 +124,9 @@ export default {
 	methods: {
 		toggleRoom() {
 			if (this.isAdded) {
-				this.$emit('remove-room', this.room)
+				this.$emit('removeRoom', this.room)
 			} else {
-				this.$emit('add-room', {
+				this.$emit('addRoom', {
 					commonName: this.room.displayname,
 					email: this.room.emailAddress,
 					calendarUserType: this.room.calendarUserType,

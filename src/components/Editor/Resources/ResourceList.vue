@@ -15,12 +15,11 @@
 			v-if="!isReadOnly && hasUserEmailAddress && resourceBookingEnabled"
 			class="resource-picker__filters">
 			<NcTextField
-				:value="filterText"
+				v-model="filterText"
 				:placeholder="$t('calendar', 'Search rooms...')"
-				:show-trailing-button="filterText.length > 0"
-				trailing-button-icon="close"
-				@update:value="filterText = $event"
-				@trailing-button-click="filterText = ''" />
+				:showTrailingButton="filterText.length > 0"
+				trailingButtonIcon="close"
+				@trailingButtonClick="filterText = ''" />
 
 			<div class="resource-picker__filters__row">
 				<NcCheckboxRadioSwitch
@@ -36,7 +35,7 @@
 						type="number"
 						min="0"
 						:placeholder="$t('calendar', 'pers.')"
-						class="resource-picker__capacity-input" />
+						class="resource-picker__capacity-input">
 				</div>
 			</div>
 
@@ -101,12 +100,12 @@
 						v-for="room in group.rooms"
 						:key="room.id"
 						:room="room"
-						:is-added="isRoomAdded(room)"
-						:is-read-only="isReadOnly"
-						:is-viewed-by-organizer="isViewedByOrganizer"
-						:has-room-selected="resources.length > 0"
-						@add-room="addResource"
-						@remove-room="removeRoomByPrincipal" />
+						:isAdded="isRoomAdded(room)"
+						:isReadOnly="isReadOnly"
+						:isViewedByOrganizer="isViewedByOrganizer"
+						:hasRoomSelected="resources.length > 0"
+						@addRoom="addResource"
+						@removeRoom="removeRoomByPrincipal" />
 				</div>
 			</div>
 
@@ -130,12 +129,12 @@ import { NcCheckboxRadioSwitch, NcLoadingIcon } from '@nextcloud/vue'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import debounce from 'debounce'
 import { mapStores } from 'pinia'
-import Vue from 'vue'
-import MapMarker from 'vue-material-design-icons/MapMarker.vue'
 import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
 import ChevronRight from 'vue-material-design-icons/ChevronRight.vue'
+import MapMarker from 'vue-material-design-icons/MapMarker.vue'
 import OfficeBuildingOutline from 'vue-material-design-icons/OfficeBuildingOutline.vue'
 import Wrench from 'vue-material-design-icons/Wrench.vue'
+
 import ResourceRoomCard from './ResourceRoomCard.vue'
 import { formatFacility } from '../../../models/resourceProps.js'
 import { checkResourceAvailability } from '../../../services/freeBusyService.js'
@@ -147,15 +146,15 @@ import logger from '../../../utils/logger.js'
 export default {
 	name: 'ResourceList',
 	components: {
-		MapMarker,
 		ChevronDown,
 		ChevronRight,
-		OfficeBuildingOutline,
-		Wrench,
+		MapMarker,
 		NcCheckboxRadioSwitch,
 		NcLoadingIcon,
 		NcTextField,
+		OfficeBuildingOutline,
 		ResourceRoomCard,
+		Wrench,
 	},
 
 	props: {
@@ -163,6 +162,7 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+
 		calendarObjectInstance: {
 			type: Object,
 			required: true,
@@ -220,7 +220,9 @@ export default {
 			const buildings = new Set()
 			for (const room of this.allRooms) {
 				const name = room.roomBuildingName
-				if (name) buildings.add(name)
+				if (name) {
+					buildings.add(name)
+				}
 			}
 			return [...buildings].sort()
 		},
@@ -231,7 +233,9 @@ export default {
 				const features = room.roomFeatures?.split(',') ?? []
 				for (const f of features) {
 					const trimmed = f.trim()
-					if (trimmed) facilitySet.add(trimmed)
+					if (trimmed) {
+						facilitySet.add(trimmed)
+					}
 				}
 			}
 			return [...facilitySet].sort().map((id) => ({
@@ -293,12 +297,16 @@ export default {
 				// Booked rooms first
 				const aAdded = this.isRoomAdded(a) ? 0 : 1
 				const bAdded = this.isRoomAdded(b) ? 0 : 1
-				if (aAdded !== bAdded) return aAdded - bAdded
+				if (aAdded !== bAdded) {
+					return aAdded - bAdded
+				}
 
 				// Available before unavailable
 				const aAvail = a.isAvailable ? 0 : 1
 				const bAvail = b.isAvailable ? 0 : 1
-				if (aAvail !== bAvail) return aAvail - bAvail
+				if (aAvail !== bAvail) {
+					return aAvail - bAvail
+				}
 
 				// Alphabetically
 				return (a.displayname || '').localeCompare(b.displayname || '')
@@ -323,7 +331,9 @@ export default {
 			return Object.values(groups).sort((a, b) => {
 				const aHasAdded = a.rooms.some((r) => this.isRoomAdded(r)) ? 0 : 1
 				const bHasAdded = b.rooms.some((r) => this.isRoomAdded(r)) ? 0 : 1
-				if (aHasAdded !== bHasAdded) return aHasAdded - bHasAdded
+				if (aHasAdded !== bHasAdded) {
+					return aHasAdded - bHasAdded
+				}
 				return a.name.localeCompare(b.name)
 			})
 		},
@@ -366,7 +376,9 @@ export default {
 				const groups = this.groupedRooms
 				const expanded = {}
 				if (groups.length <= 3) {
-					groups.forEach((g) => { expanded[g.name] = true })
+					for (const g of groups) {
+						expanded[g.name] = true
+					}
 				} else if (groups.length > 0) {
 					expanded[groups[0].name] = true
 				}
@@ -395,10 +407,7 @@ export default {
 				for (let i = 0; i < this.allRooms.length; i++) {
 					const opt = options.find((o) => o.email === this.allRooms[i].emailAddress)
 					if (opt) {
-						Vue.set(this.allRooms, i, {
-							...this.allRooms[i],
-							isAvailable: opt.isAvailable,
-						})
+						this.allRooms[i] = { ...this.allRooms[i], isAvailable: opt.isAvailable }
 					}
 				}
 			} catch (error) {
@@ -429,7 +438,7 @@ export default {
 		},
 
 		toggleGroup(groupName) {
-			Vue.set(this.expandedGroups, groupName, !this.expandedGroups[groupName])
+			this.expandedGroups[groupName] = !this.expandedGroups[groupName]
 		},
 
 		addResource({ commonName, email, calendarUserType, language, timezoneId, roomAddress }) {
@@ -456,9 +465,7 @@ export default {
 		},
 
 		removeRoomByPrincipal(room) {
-			const attendee = this.resources.find(
-				(a) => removeMailtoPrefix(a.uri) === room.emailAddress,
-			)
+			const attendee = this.resources.find((a) => removeMailtoPrefix(a.uri) === room.emailAddress)
 			if (attendee) {
 				this.removeResource(attendee)
 			}
