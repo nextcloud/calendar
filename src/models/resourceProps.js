@@ -13,7 +13,12 @@ import { translate as t } from '@nextcloud/l10n'
 export function getAllRoomTypes() {
 	return [
 		{ value: 'meeting-room', label: t('calendar', 'Meeting room') },
+		{ value: 'board-room', label: t('calendar', 'Board room') },
+		{ value: 'conference-room', label: t('calendar', 'Conference room') },
 		{ value: 'lecture-hall', label: t('calendar', 'Lecture hall') },
+		{ value: 'rehearsal-room', label: t('calendar', 'Rehearsal room') },
+		{ value: 'studio', label: t('calendar', 'Studio') },
+		{ value: 'outdoor-area', label: t('calendar', 'Outdoor area') },
 		{ value: 'seminar-room', label: t('calendar', 'Seminar room') },
 		{ value: 'other', label: t('calendar', 'Other') },
 	]
@@ -28,4 +33,30 @@ export function getAllRoomTypes() {
 export function formatRoomType(value) {
 	const option = getAllRoomTypes().find((option) => option.value === value)
 	return option?.label ?? null
+}
+
+/**
+ * Short labels for known facility types
+ */
+const FACILITY_LABELS = {
+	projector: t('calendar', 'Projector'),
+	beamer: t('calendar', 'Projector'),
+	whiteboard: t('calendar', 'Whiteboard'),
+	video_conference: t('calendar', 'Video'),
+	videoconference: t('calendar', 'Video'),
+	wheelchair_accessible: t('calendar', 'Wheelchair accessible'),
+	'wheelchair-accessible': t('calendar', 'Wheelchair accessible'),
+	audio: t('calendar', 'Audio'),
+	display: t('calendar', 'Display'),
+}
+
+/**
+ * Get a human-readable label for a facility
+ *
+ * @param {string} facility The facility identifier
+ * @return {string}
+ */
+export function formatFacility(facility) {
+	const lower = facility.toLowerCase().trim()
+	return FACILITY_LABELS[lower] || facility.charAt(0).toUpperCase() + facility.slice(1)
 }

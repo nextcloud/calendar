@@ -50,6 +50,14 @@ function getDefaultPrincipalObject(props) {
 		principalId: null,
 		// The url of the default calendar for invitations
 		scheduleDefaultCalendarUrl: null,
+		// Room-specific properties (only for calendar-rooms)
+		roomSeatingCapacity: null,
+		roomType: null,
+		roomAddress: null,
+		roomFeatures: null,
+		roomBuildingName: null,
+		roomBuildingAddress: null,
+		roomNumber: null,
 		...props,
 	}
 }
@@ -91,6 +99,33 @@ function mapDavToPrincipal(dav) {
 	const url = dav.principalUrl
 	const userId = dav.userId
 
+	// Extract room-specific properties from DAV object using standard cdav-library getters
+	const roomSeatingCapacity = dav.roomSeatingCapacity ?? null
+	const roomType = dav.roomType ?? null
+	const roomFeatures = dav.roomFeatures ?? null
+	const roomBuildingAddress = dav.roomBuildingAddress ?? null
+	// Derive building name from address (everything before first comma): "Poppodium, Kerkstraat 10" → "Poppodium"
+	const roomBuildingName = roomBuildingAddress ? roomBuildingAddress.split(',')[0].trim() : null
+	// Room number (floor.room format, e.g. "2.17") is stored in room-building-room-number
+	const roomNumber = dav.roomBuildingRoomNumber ?? null
+
+	// Construct roomAddress for event LOCATION field from available properties
+	// Format: "Street (Building, Room X.XX)" — street-first for map/navigation apps
+	let roomAddress = null
+	if (roomBuildingAddress) {
+		const commaIdx = roomBuildingAddress.indexOf(',')
+		if (commaIdx > 0) {
+			const building = roomBuildingAddress.substring(0, commaIdx).trim()
+			const street = roomBuildingAddress.substring(commaIdx + 1).trim()
+			const detail = roomNumber ? building + ', Room ' + roomNumber : building
+			roomAddress = street + ' (' + detail + ')'
+		} else {
+			roomAddress = roomNumber
+				? roomBuildingAddress + ' (Room ' + roomNumber + ')'
+				: roomBuildingAddress
+		}
+	}
+
 	return getDefaultPrincipalObject({
 		id,
 		calendarUserType,
@@ -107,6 +142,13 @@ function mapDavToPrincipal(dav) {
 		principalId,
 		userId,
 		scheduleDefaultCalendarUrl,
+		roomSeatingCapacity,
+		roomType,
+		roomAddress,
+		roomFeatures,
+		roomBuildingName,
+		roomBuildingAddress,
+		roomNumber,
 	})
 }
 
