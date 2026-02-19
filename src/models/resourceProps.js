@@ -36,18 +36,24 @@ export function formatRoomType(value) {
 }
 
 /**
- * Short labels for known facility types
+ * Short labels for known facility types.
+ * Evaluated lazily (inside a function) so that t() is not called at module-import
+ * time, which would break test mocks.
+ *
+ * @return {object}
  */
-const FACILITY_LABELS = {
-	projector: t('calendar', 'Projector'),
-	beamer: t('calendar', 'Projector'),
-	whiteboard: t('calendar', 'Whiteboard'),
-	video_conference: t('calendar', 'Video'),
-	videoconference: t('calendar', 'Video'),
-	wheelchair_accessible: t('calendar', 'Wheelchair accessible'),
-	'wheelchair-accessible': t('calendar', 'Wheelchair accessible'),
-	audio: t('calendar', 'Audio'),
-	display: t('calendar', 'Display'),
+function getFacilityLabels() {
+	return {
+		projector: t('calendar', 'Projector'),
+		beamer: t('calendar', 'Projector'),
+		whiteboard: t('calendar', 'Whiteboard'),
+		video_conference: t('calendar', 'Video'),
+		videoconference: t('calendar', 'Video'),
+		wheelchair_accessible: t('calendar', 'Wheelchair accessible'),
+		'wheelchair-accessible': t('calendar', 'Wheelchair accessible'),
+		audio: t('calendar', 'Audio'),
+		display: t('calendar', 'Display'),
+	}
 }
 
 /**
@@ -58,5 +64,5 @@ const FACILITY_LABELS = {
  */
 export function formatFacility(facility) {
 	const lower = facility.toLowerCase().trim()
-	return FACILITY_LABELS[lower] || facility.charAt(0).toUpperCase() + facility.slice(1)
+	return getFacilityLabels()[lower] || facility.charAt(0).toUpperCase() + facility.slice(1)
 }
