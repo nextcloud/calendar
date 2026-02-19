@@ -533,7 +533,7 @@ export default {
 		display: flex;
 		align-items: center;
 		color: var(--color-text-maxcontrast);
-		margin-right: 2px;
+		margin-inline-end: 2px;
 	}
 
 	&__chip {
@@ -602,7 +602,7 @@ export default {
 
 		&-name {
 			flex: 1;
-			text-align: left;
+			text-align: start;
 		}
 
 		&-count {
@@ -615,7 +615,7 @@ export default {
 			display: flex;
 			flex-direction: column;
 			gap: calc(var(--default-grid-baseline) * 1);
-			padding-left: 8px;
+			padding-inline-start: 8px;
 			padding-bottom: 4px;
 		}
 	}

@@ -135,7 +135,7 @@ export default {
 	background: var(--color-main-background);
 
 	&--added {
-		border-left: 3px solid var(--color-primary);
+		border-inline-start: 3px solid var(--color-primary);
 		background: var(--color-primary-element-light);
 	}
 
