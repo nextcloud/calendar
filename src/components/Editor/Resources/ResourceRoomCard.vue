@@ -1,5 +1,5 @@
 <!--
-  - SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
@@ -7,21 +7,21 @@
 	<div
 		class="room-card"
 		:class="{
-			'room-card--added': isAdded,
-			'room-card--unavailable': !room.isAvailable && !isAdded,
+			'room-card--added': props.isAdded,
+			'room-card--unavailable': !props.room.isAvailable && !props.isAdded,
 		}"
-		:title="room.roomBuildingAddress || ''">
+		:title="props.room.roomBuildingAddress || ''">
 		<div class="room-card__row">
 			<div class="room-card__info">
-				<span class="room-card__name">{{ room.displayname }}</span>
+				<span class="room-card__name">{{ props.room.displayname }}</span>
 				<span class="room-card__meta">
 					<span
 						class="room-card__status"
 						:class="statusClass">
 						{{ statusLabel }}
 					</span>
-					<template v-if="room.roomSeatingCapacity">
-						&middot; {{ room.roomSeatingCapacity }}p
+					<template v-if="props.room.roomSeatingCapacity">
+						&middot; {{ props.room.roomSeatingCapacity }}p
 					</template>
 					<template v-if="subLocation">
 						&middot; {{ subLocation }}
@@ -32,12 +32,12 @@
 				</span>
 			</div>
 			<NcButton
-				v-if="isViewedByOrganizer && !isReadOnly && (isAdded || (room.isAvailable && !hasRoomSelected))"
-				:variant="isAdded ? 'tertiary' : 'secondary'"
+				v-if="props.isViewedByOrganizer && !props.isReadOnly && (props.isAdded || (props.room.isAvailable && !props.hasRoomSelected))"
+				:variant="props.isAdded ? 'tertiary' : 'secondary'"
 				class="room-card__action"
 				@click="toggleRoom">
 				<template #icon>
-					<Minus v-if="isAdded" :size="20" />
+					<Minus v-if="props.isAdded" :size="20" />
 					<Plus v-else :size="20" />
 				</template>
 			</NcButton>
@@ -45,95 +45,94 @@
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
+import { t } from '@nextcloud/l10n'
 import { NcButton } from '@nextcloud/vue'
+import { computed } from 'vue'
 import Minus from 'vue-material-design-icons/Minus.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
 import { formatRoomType } from '../../../models/resourceProps.js'
 
-export default {
-	name: 'ResourceRoomCard',
-	components: {
-		Minus,
-		NcButton,
-		Plus,
-	},
+interface RoomPrincipal {
+	id: string | null
+	displayname: string | null
+	emailAddress: string | null
+	calendarUserType: string
+	isAvailable: boolean
+	roomSeatingCapacity: string | null
+	roomType: string | null
+	roomAddress: string | null
+	roomNumber: string | null
+	roomBuildingName: string | null
+	roomBuildingAddress: string | null
+}
 
-	props: {
-		room: {
-			type: Object,
-			required: true,
-		},
+interface AddRoomPayload {
+	commonName: string | null
+	email: string | null
+	calendarUserType: string
+	roomAddress: string | null
+}
 
-		isAdded: {
-			type: Boolean,
-			default: false,
-		},
+const props = withDefaults(defineProps<{
+	room: RoomPrincipal
+	isAdded?: boolean
+	isReadOnly?: boolean
+	isViewedByOrganizer?: boolean
+	hasRoomSelected?: boolean
+}>(), {
+	isAdded: false,
+	isReadOnly: false,
+	isViewedByOrganizer: false,
+	hasRoomSelected: false,
+})
 
-		isReadOnly: {
-			type: Boolean,
-			default: false,
-		},
+const emit = defineEmits<{
+	removeRoom: [room: RoomPrincipal]
+	addRoom: [payload: AddRoomPayload]
+}>()
 
-		isViewedByOrganizer: {
-			type: Boolean,
-			default: false,
-		},
+const statusLabel = computed<string>(() => {
+	if (props.isAdded) {
+		return t('calendar', 'Reserved')
+	}
+	return props.room.isAvailable
+		? t('calendar', 'Available')
+		: t('calendar', 'Unavailable')
+})
 
-		hasRoomSelected: {
-			type: Boolean,
-			default: false,
-		},
-	},
+const statusClass = computed<string>(() => {
+	if (props.isAdded) {
+		return 'room-card__status--reserved'
+	}
+	return props.room.isAvailable
+		? 'room-card__status--free'
+		: 'room-card__status--busy'
+})
 
-	emits: ['removeRoom', 'addRoom'],
+const subLocation = computed<string>(() => {
+	return props.room.roomNumber || ''
+})
 
-	computed: {
-		statusLabel() {
-			if (this.isAdded) {
-				return this.$t('calendar', 'Reserved')
-			}
-			return this.room.isAvailable
-				? this.$t('calendar', 'Available')
-				: this.$t('calendar', 'Unavailable')
-		},
+const roomTypeLabel = computed<string>(() => {
+	const type = props.room.roomType
+	if (!type || type === 'meeting-room') {
+		return ''
+	}
+	return formatRoomType(type) ?? type
+})
 
-		statusClass() {
-			if (this.isAdded) {
-				return 'room-card__status--reserved'
-			}
-			return this.room.isAvailable
-				? 'room-card__status--free'
-				: 'room-card__status--busy'
-		},
-
-		subLocation() {
-			return this.room.roomNumber || ''
-		},
-
-		roomTypeLabel() {
-			const type = this.room.roomType
-			if (!type || type === 'meeting-room') {
-				return ''
-			}
-			return formatRoomType(type) ?? type
-		},
-	},
-
-	methods: {
-		toggleRoom() {
-			if (this.isAdded) {
-				this.$emit('removeRoom', this.room)
-			} else {
-				this.$emit('addRoom', {
-					commonName: this.room.displayname,
-					email: this.room.emailAddress,
-					calendarUserType: this.room.calendarUserType,
-					roomAddress: this.room.roomAddress,
-				})
-			}
-		},
-	},
+function toggleRoom(): void {
+	if (props.isAdded) {
+		emit('removeRoom', props.room)
+	} else {
+		emit('addRoom', {
+			commonName: props.room.displayname,
+			email: props.room.emailAddress,
+			calendarUserType: props.room.calendarUserType,
+			roomAddress: props.room.roomAddress,
+		})
+	}
 }
 </script>
 

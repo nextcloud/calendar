@@ -1,5 +1,5 @@
 <!--
-  - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
@@ -7,16 +7,16 @@
 	<div class="resource-picker">
 		<span class="app-full-subtitle">
 			<MapMarker :size="20" />
-			{{ $t('calendar', 'Rooms') }}
+			{{ t('calendar', 'Rooms') }}
 		</span>
 
 		<!-- Search and filter -->
 		<div
-			v-if="!isReadOnly && hasUserEmailAddress && resourceBookingEnabled"
+			v-if="!props.isReadOnly && hasUserEmailAddress && resourceBookingEnabled"
 			class="resource-picker__filters">
 			<NcTextField
 				v-model="filterText"
-				:placeholder="$t('calendar', 'Search rooms...')"
+				:placeholder="t('calendar', 'Search rooms\u2026')"
 				:showTrailingButton="filterText.length > 0"
 				trailingButtonIcon="close"
 				@trailingButtonClick="filterText = ''" />
@@ -25,16 +25,16 @@
 				<NcCheckboxRadioSwitch
 					v-model="filterAvailableOnly"
 					type="switch">
-					{{ $t('calendar', 'Available only') }}
+					{{ t('calendar', 'Available only') }}
 				</NcCheckboxRadioSwitch>
 				<div class="resource-picker__capacity">
-					<label for="min-capacity">{{ $t('calendar', 'Min.') }}</label>
+					<label for="min-capacity">{{ t('calendar', 'Min.') }}</label>
 					<input
 						id="min-capacity"
 						v-model.number="filterMinCapacity"
 						type="number"
 						min="0"
-						:placeholder="$t('calendar', 'pers.')"
+						:placeholder="t('calendar', 'pers.')"
 						class="resource-picker__capacity-input">
 				</div>
 			</div>
@@ -101,7 +101,7 @@
 						:key="room.id"
 						:room="room"
 						:isAdded="isRoomAdded(room)"
-						:isReadOnly="isReadOnly"
+						:isReadOnly="props.isReadOnly"
 						:isViewedByOrganizer="isViewedByOrganizer"
 						:hasRoomSelected="resources.length > 0"
 						@addRoom="addResource"
@@ -112,22 +112,23 @@
 			<p
 				v-if="totalFilteredCount === 0 && allRooms.length > 0"
 				class="resource-picker__empty">
-				{{ $t('calendar', 'No rooms found') }}
+				{{ t('calendar', 'No rooms found') }}
 			</p>
 			<p
 				v-else-if="allRooms.length === 0 && !isLoadingAvailability"
 				class="resource-picker__empty">
-				{{ $t('calendar', 'No rooms available') }}
+				{{ t('calendar', 'No rooms available') }}
 			</p>
 		</div>
 	</div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { loadState } from '@nextcloud/initial-state'
+import { t } from '@nextcloud/l10n'
 import { NcCheckboxRadioSwitch, NcLoadingIcon } from '@nextcloud/vue'
 import debounce from 'debounce'
-import { mapStores } from 'pinia'
+import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
 import ChevronRight from 'vue-material-design-icons/ChevronRight.vue'
@@ -142,345 +143,352 @@ import usePrincipalsStore from '../../../store/principals.js'
 import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
 import logger from '../../../utils/logger.js'
 
-export default {
-	name: 'ResourceList',
-	components: {
-		ChevronDown,
-		ChevronRight,
-		MapMarker,
-		NcCheckboxRadioSwitch,
-		NcLoadingIcon,
-		NcTextField,
-		OfficeBuildingOutline,
-		ResourceRoomCard,
-		Wrench,
-	},
+interface RoomPrincipal {
+	id: string | null
+	displayname: string | null
+	emailAddress: string | null
+	calendarUserType: string
+	isAvailable: boolean
+	roomSeatingCapacity: string | null
+	roomType: string | null
+	roomAddress: string | null
+	roomFeatures: string | null
+	roomNumber: string | null
+	roomBuildingName: string | null
+	roomBuildingAddress: string | null
+}
 
-	props: {
-		isReadOnly: {
-			type: Boolean,
-			required: true,
-		},
+interface RoomGroup {
+	name: string
+	rooms: RoomPrincipal[]
+	availableCount: number
+}
 
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
-	},
+interface Attendee {
+	uri: string
+	attendeeProperty: { userType: string }
+}
 
-	data() {
-		return {
-			allRooms: [],
-			isLoadingAvailability: false,
-			filterText: '',
-			filterAvailableOnly: true,
-			filterMinCapacity: 0,
-			activeFacilities: [],
-			activeBuildings: [],
-			expandedGroups: {},
+interface CalendarObjectInstanceProp {
+	startDate: Date
+	endDate: Date
+	attendees: Attendee[]
+	organizer: { uri: string } | null
+	eventComponent: { startDate: object, endDate: object }
+}
+
+interface AddRoomPayload {
+	commonName: string | null
+	email: string | null
+	calendarUserType: string
+	roomAddress: string | null
+	language?: string | null
+	timezoneId?: string | null
+}
+
+const props = defineProps<{
+	isReadOnly: boolean
+	calendarObjectInstance: CalendarObjectInstanceProp
+}>()
+
+const principalsStore = usePrincipalsStore()
+const calendarObjectInstanceStore = useCalendarObjectInstanceStore()
+
+const resourceBookingEnabled = loadState<boolean>('calendar', 'resource_booking_enabled', false)
+
+// Reactive state
+const allRooms = ref<RoomPrincipal[]>([])
+const isLoadingAvailability = ref(false)
+const filterText = ref('')
+const filterAvailableOnly = ref(true)
+const filterMinCapacity = ref(0)
+const activeFacilities = ref<string[]>([])
+const activeBuildings = ref<string[]>([])
+const expandedGroups = reactive<Record<string, boolean>>({})
+
+// Computed
+const resources = computed<Attendee[]>(() => {
+	return props.calendarObjectInstance.attendees.filter((attendee) => {
+		return ['ROOM', 'RESOURCE'].includes(attendee.attendeeProperty.userType)
+	})
+})
+
+const alreadyInvitedEmails = computed<string[]>(() => {
+	return resources.value.map((attendee) => removeMailtoPrefix(attendee.uri))
+})
+
+const hasUserEmailAddress = computed<boolean>(() => {
+	const emailAddress = principalsStore.getCurrentUserPrincipal?.emailAddress
+	return !!emailAddress
+})
+
+const isViewedByOrganizer = computed<boolean>(() => {
+	if (!props.calendarObjectInstance.organizer) {
+		return true
+	}
+	const organizerEmail = removeMailtoPrefix(props.calendarObjectInstance.organizer.uri)
+	return organizerEmail === principalsStore.getCurrentUserPrincipalEmail
+})
+
+const allBuildings = computed<string[]>(() => {
+	const buildings = new Set<string>()
+	for (const room of allRooms.value) {
+		const name = room.roomBuildingName
+		if (name) {
+			buildings.add(name)
 		}
-	},
+	}
+	return [...buildings].sort()
+})
 
-	computed: {
-		...mapStores(usePrincipalsStore, useCalendarObjectInstanceStore),
-
-		resources() {
-			return this.calendarObjectInstance.attendees.filter((attendee) => {
-				return ['ROOM', 'RESOURCE'].includes(attendee.attendeeProperty.userType)
-			})
-		},
-
-		alreadyInvitedEmails() {
-			return this.resources.map((attendee) => removeMailtoPrefix(attendee.uri))
-		},
-
-		organizerDisplayName() {
-			return organizerDisplayName(this.calendarObjectInstance.organizer)
-		},
-
-		hasUserEmailAddress() {
-			const emailAddress = this.principalsStore.getCurrentUserPrincipal?.emailAddress
-			return !!emailAddress
-		},
-
-		isViewedByOrganizer() {
-			if (!this.calendarObjectInstance.organizer) {
-				return true
+const allFacilities = computed(() => {
+	const facilitySet = new Set<string>()
+	for (const room of allRooms.value) {
+		const features = room.roomFeatures?.split(',') ?? []
+		for (const f of features) {
+			const trimmed = f.trim()
+			if (trimmed) {
+				facilitySet.add(trimmed)
 			}
-			const organizerEmail = removeMailtoPrefix(this.calendarObjectInstance.organizer.uri)
-			return organizerEmail === this.principalsStore.getCurrentUserPrincipalEmail
-		},
+		}
+	}
+	return [...facilitySet].sort().map((id) => ({
+		id,
+		label: formatFacility(id),
+	}))
+})
 
-		resourceBookingEnabled() {
-			return loadState('calendar', 'resource_booking_enabled')
-		},
-
-		allBuildings() {
-			const buildings = new Set()
-			for (const room of this.allRooms) {
-				const name = room.roomBuildingName
-				if (name) {
-					buildings.add(name)
-				}
+const filteredRooms = computed<RoomPrincipal[]>(() => {
+	return allRooms.value.filter((room) => {
+		// Always show rooms that are already added to the event
+		if (isRoomAdded(room)) {
+			return true
+		}
+		// Text filter
+		if (filterText.value) {
+			const q = filterText.value.toLowerCase()
+			if (!room.displayname?.toLowerCase().includes(q)
+				&& !room.roomAddress?.toLowerCase().includes(q)
+				&& !room.roomBuildingAddress?.toLowerCase().includes(q)
+				&& !room.roomBuildingName?.toLowerCase().includes(q)
+				&& !room.roomNumber?.toLowerCase().includes(q)) {
+				return false
 			}
-			return [...buildings].sort()
-		},
-
-		allFacilities() {
-			const facilitySet = new Set()
-			for (const room of this.allRooms) {
-				const features = room.roomFeatures?.split(',') ?? []
-				for (const f of features) {
-					const trimmed = f.trim()
-					if (trimmed) {
-						facilitySet.add(trimmed)
-					}
-				}
+		}
+		// Building filter
+		if (activeBuildings.value.length > 0) {
+			const building = room.roomBuildingName || ''
+			if (!activeBuildings.value.includes(building)) {
+				return false
 			}
-			return [...facilitySet].sort().map((id) => ({
-				id,
-				label: formatFacility(id),
-			}))
-		},
-
-		filteredRooms() {
-			return this.allRooms.filter((room) => {
-				// Always show rooms that are already added to the event
-				if (this.isRoomAdded(room)) {
-					return true
-				}
-				// Text filter
-				if (this.filterText) {
-					const q = this.filterText.toLowerCase()
-					if (!room.displayname?.toLowerCase().includes(q)
-						&& !room.roomAddress?.toLowerCase().includes(q)
-						&& !room.roomBuildingAddress?.toLowerCase().includes(q)
-						&& !room.roomBuildingName?.toLowerCase().includes(q)
-						&& !room.roomNumber?.toLowerCase().includes(q)) {
-						return false
-					}
-				}
-				// Building filter
-				if (this.activeBuildings.length > 0) {
-					const building = room.roomBuildingName || ''
-					if (!this.activeBuildings.includes(building)) {
-						return false
-					}
-				}
-				// Available filter
-				if (this.filterAvailableOnly && !room.isAvailable) {
+		}
+		// Available filter
+		if (filterAvailableOnly.value && !room.isAvailable) {
+			return false
+		}
+		// Capacity filter
+		if (filterMinCapacity.value > 0) {
+			const cap = parseInt(room.roomSeatingCapacity as string) || 0
+			if (cap < filterMinCapacity.value) {
+				return false
+			}
+		}
+		// Facility filters
+		if (activeFacilities.value.length > 0) {
+			const features = room.roomFeatures?.split(',').map((f) => f.trim()) ?? []
+			for (const required of activeFacilities.value) {
+				if (!features.includes(required)) {
 					return false
 				}
-				// Capacity filter
-				if (this.filterMinCapacity > 0) {
-					const cap = parseInt(room.roomSeatingCapacity) || 0
-					if (cap < this.filterMinCapacity) {
-						return false
-					}
-				}
-				// Facility filters
-				if (this.activeFacilities.length > 0) {
-					const features = room.roomFeatures?.split(',').map((f) => f.trim()) ?? []
-					for (const required of this.activeFacilities) {
-						if (!features.includes(required)) {
-							return false
-						}
-					}
-				}
-				return true
-			})
-		},
-
-		sortedRooms() {
-			return [...this.filteredRooms].sort((a, b) => {
-				// Booked rooms first
-				const aAdded = this.isRoomAdded(a) ? 0 : 1
-				const bAdded = this.isRoomAdded(b) ? 0 : 1
-				if (aAdded !== bAdded) {
-					return aAdded - bAdded
-				}
-
-				// Available before unavailable
-				const aAvail = a.isAvailable ? 0 : 1
-				const bAvail = b.isAvailable ? 0 : 1
-				if (aAvail !== bAvail) {
-					return aAvail - bAvail
-				}
-
-				// Alphabetically
-				return (a.displayname || '').localeCompare(b.displayname || '')
-			})
-		},
-
-		groupedRooms() {
-			const groups = {}
-
-			for (const room of this.sortedRooms) {
-				const groupName = room.roomBuildingName || this.$t('calendar', 'Other')
-				if (!groups[groupName]) {
-					groups[groupName] = { name: groupName, rooms: [], availableCount: 0 }
-				}
-				groups[groupName].rooms.push(room)
-				if (room.isAvailable) {
-					groups[groupName].availableCount++
-				}
 			}
-
-			// Sort groups: groups with added rooms first, then alphabetically
-			return Object.values(groups).sort((a, b) => {
-				const aHasAdded = a.rooms.some((r) => this.isRoomAdded(r)) ? 0 : 1
-				const bHasAdded = b.rooms.some((r) => this.isRoomAdded(r)) ? 0 : 1
-				if (aHasAdded !== bHasAdded) {
-					return aHasAdded - bHasAdded
-				}
-				return a.name.localeCompare(b.name)
-			})
-		},
-
-		totalFilteredCount() {
-			return this.sortedRooms.length
-		},
-	},
-
-	watch: {
-		'calendarObjectInstance.startDate': 'debouncedLoadAvailability',
-		'calendarObjectInstance.endDate': 'debouncedLoadAvailability',
-	},
-
-	created() {
-		this.debouncedLoadAvailability = debounce(this.loadAvailability, 500)
-	},
-
-	async mounted() {
-		if (this.resourceBookingEnabled) {
-			await this.loadAllRooms()
 		}
-	},
+		return true
+	})
+})
 
-	methods: {
-		async loadAllRooms() {
-			this.isLoadingAvailability = true
+const sortedRooms = computed<RoomPrincipal[]>(() => {
+	return [...filteredRooms.value].sort((a, b) => {
+		// Booked rooms first
+		const aAdded = isRoomAdded(a) ? 0 : 1
+		const bAdded = isRoomAdded(b) ? 0 : 1
+		if (aAdded !== bAdded) {
+			return aAdded - bAdded
+		}
 
-			const roomPrincipals = this.principalsStore.getRoomPrincipals || []
-			this.allRooms = roomPrincipals.map((p) => ({
-				...p,
-				isAvailable: true,
-			}))
+		// Available before unavailable
+		const aAvail = a.isAvailable ? 0 : 1
+		const bAvail = b.isAvailable ? 0 : 1
+		if (aAvail !== bAvail) {
+			return aAvail - bAvail
+		}
 
-			await this.loadAvailability()
-			this.isLoadingAvailability = false
+		// Alphabetically
+		return (a.displayname || '').localeCompare(b.displayname || '')
+	})
+})
 
-			// Initialize expanded groups after data is loaded
-			this.$nextTick(() => {
-				const groups = this.groupedRooms
-				const expanded = {}
-				if (groups.length <= 3) {
-					for (const g of groups) {
-						expanded[g.name] = true
-					}
-				} else if (groups.length > 0) {
-					expanded[groups[0].name] = true
-				}
-				this.expandedGroups = expanded
-			})
-		},
+const groupedRooms = computed<RoomGroup[]>(() => {
+	const groups: Record<string, RoomGroup> = {}
 
-		async loadAvailability() {
-			if (this.allRooms.length === 0) {
-				return
-			}
+	for (const room of sortedRooms.value) {
+		const groupName = room.roomBuildingName || t('calendar', 'Other')
+		if (!groups[groupName]) {
+			groups[groupName] = { name: groupName, rooms: [], availableCount: 0 }
+		}
+		groups[groupName].rooms.push(room)
+		if (room.isAvailable) {
+			groups[groupName].availableCount++
+		}
+	}
 
-			const options = this.allRooms.map((r) => ({
-				email: r.emailAddress,
-				isAvailable: true,
-			}))
+	// Sort groups: groups with added rooms first, then alphabetically
+	return Object.values(groups).sort((a, b) => {
+		const aHasAdded = a.rooms.some((r) => isRoomAdded(r)) ? 0 : 1
+		const bHasAdded = b.rooms.some((r) => isRoomAdded(r)) ? 0 : 1
+		if (aHasAdded !== bHasAdded) {
+			return aHasAdded - bHasAdded
+		}
+		return a.name.localeCompare(b.name)
+	})
+})
 
-			try {
-				await checkResourceAvailability(
-					options,
-					this.principalsStore.getCurrentUserPrincipalEmail,
-					this.calendarObjectInstance.eventComponent.startDate,
-					this.calendarObjectInstance.eventComponent.endDate,
-				)
+const totalFilteredCount = computed<number>(() => {
+	return sortedRooms.value.length
+})
 
-				for (let i = 0; i < this.allRooms.length; i++) {
-					const opt = options.find((o) => o.email === this.allRooms[i].emailAddress)
-					if (opt) {
-						this.allRooms[i] = { ...this.allRooms[i], isAvailable: opt.isAvailable }
-					}
-				}
-			} catch (error) {
-				logger.error('Could not check room availability', { error })
-			}
-		},
-
-		isRoomAdded(room) {
-			return this.alreadyInvitedEmails.includes(room.emailAddress)
-		},
-
-		toggleBuilding(building) {
-			const idx = this.activeBuildings.indexOf(building)
-			if (idx >= 0) {
-				this.activeBuildings.splice(idx, 1)
-			} else {
-				this.activeBuildings.push(building)
-			}
-		},
-
-		toggleFacility(facilityId) {
-			const idx = this.activeFacilities.indexOf(facilityId)
-			if (idx >= 0) {
-				this.activeFacilities.splice(idx, 1)
-			} else {
-				this.activeFacilities.push(facilityId)
-			}
-		},
-
-		toggleGroup(groupName) {
-			this.expandedGroups[groupName] = !this.expandedGroups[groupName]
-		},
-
-		addResource({ commonName, email, calendarUserType, language, timezoneId, roomAddress }) {
-			this.calendarObjectInstanceStore.addAttendee({
-				calendarObjectInstance: this.calendarObjectInstance,
-				commonName,
-				uri: email,
-				calendarUserType: calendarUserType || 'ROOM',
-				participationStatus: 'NEEDS-ACTION',
-				role: 'REQ-PARTICIPANT',
-				rsvp: true,
-				language,
-				timezoneId,
-				organizer: this.principalsStore.getCurrentUserPrincipal,
-			})
-			this.updateLocation(roomAddress)
-		},
-
-		removeResource(resource) {
-			this.calendarObjectInstanceStore.removeAttendee({
-				calendarObjectInstance: this.calendarObjectInstance,
-				attendee: resource,
-			})
-		},
-
-		removeRoomByPrincipal(room) {
-			const attendee = this.resources.find((a) => removeMailtoPrefix(a.uri) === room.emailAddress)
-			if (attendee) {
-				this.removeResource(attendee)
-			}
-		},
-
-		updateLocation(location) {
-			if (!location) {
-				return
-			}
-			this.calendarObjectInstanceStore.changeLocation({
-				calendarObjectInstance: this.calendarObjectInstance,
-				location,
-			})
-		},
-	},
+// Methods
+function isRoomAdded(room: RoomPrincipal): boolean {
+	return alreadyInvitedEmails.value.includes(room.emailAddress as string)
 }
+
+function toggleBuilding(building: string): void {
+	const idx = activeBuildings.value.indexOf(building)
+	if (idx >= 0) {
+		activeBuildings.value.splice(idx, 1)
+	} else {
+		activeBuildings.value.push(building)
+	}
+}
+
+function toggleFacility(facilityId: string): void {
+	const idx = activeFacilities.value.indexOf(facilityId)
+	if (idx >= 0) {
+		activeFacilities.value.splice(idx, 1)
+	} else {
+		activeFacilities.value.push(facilityId)
+	}
+}
+
+function toggleGroup(groupName: string): void {
+	expandedGroups[groupName] = !expandedGroups[groupName]
+}
+
+async function loadAvailability(): Promise<void> {
+	if (allRooms.value.length === 0) {
+		return
+	}
+
+	const options = allRooms.value.map((r) => ({
+		email: r.emailAddress,
+		isAvailable: true,
+	}))
+
+	try {
+		await checkResourceAvailability(
+			options,
+			principalsStore.getCurrentUserPrincipalEmail,
+			props.calendarObjectInstance.eventComponent.startDate,
+			props.calendarObjectInstance.eventComponent.endDate,
+		)
+
+		for (let i = 0; i < allRooms.value.length; i++) {
+			const opt = options.find((o) => o.email === allRooms.value[i].emailAddress)
+			if (opt) {
+				allRooms.value[i] = { ...allRooms.value[i], isAvailable: opt.isAvailable }
+			}
+		}
+	} catch (error) {
+		logger.error('Could not check room availability', { error })
+	}
+}
+
+const debouncedLoadAvailability = debounce(loadAvailability, 500)
+
+async function loadAllRooms(): Promise<void> {
+	isLoadingAvailability.value = true
+
+	const roomPrincipals = principalsStore.getRoomPrincipals || []
+	allRooms.value = roomPrincipals.map((p: Record<string, unknown>) => ({
+		...p,
+		isAvailable: true,
+	} as RoomPrincipal))
+
+	await loadAvailability()
+	isLoadingAvailability.value = false
+
+	// Initialize expanded groups after data is loaded
+	nextTick(() => {
+		const groups = groupedRooms.value
+		if (groups.length <= 3) {
+			for (const g of groups) {
+				expandedGroups[g.name] = true
+			}
+		} else if (groups.length > 0) {
+			expandedGroups[groups[0].name] = true
+		}
+	})
+}
+
+function addResource({ commonName, email, calendarUserType, language, timezoneId, roomAddress }: AddRoomPayload): void {
+	calendarObjectInstanceStore.addAttendee({
+		calendarObjectInstance: props.calendarObjectInstance,
+		commonName,
+		uri: email,
+		calendarUserType: calendarUserType || 'ROOM',
+		participationStatus: 'NEEDS-ACTION',
+		role: 'REQ-PARTICIPANT',
+		rsvp: true,
+		language,
+		timezoneId,
+		organizer: principalsStore.getCurrentUserPrincipal,
+	})
+	updateLocation(roomAddress)
+}
+
+function removeResource(resource: Attendee): void {
+	calendarObjectInstanceStore.removeAttendee({
+		calendarObjectInstance: props.calendarObjectInstance,
+		attendee: resource,
+	})
+}
+
+function removeRoomByPrincipal(room: RoomPrincipal): void {
+	const attendee = resources.value.find((a) => removeMailtoPrefix(a.uri) === room.emailAddress)
+	if (attendee) {
+		removeResource(attendee)
+	}
+}
+
+function updateLocation(location: string | null): void {
+	if (!location) {
+		return
+	}
+	calendarObjectInstanceStore.changeLocation({
+		calendarObjectInstance: props.calendarObjectInstance,
+		location,
+	})
+}
+
+// Watchers
+watch(() => props.calendarObjectInstance.startDate, debouncedLoadAvailability)
+watch(() => props.calendarObjectInstance.endDate, debouncedLoadAvailability)
+
+// Lifecycle
+onMounted(async () => {
+	if (resourceBookingEnabled) {
+		await loadAllRooms()
+	}
+})
 </script>
 
 <style lang="scss" scoped>
