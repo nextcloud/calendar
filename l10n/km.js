@@ -45,12 +45,12 @@ OC.L10N.register(
     "Personal" : "ផ្ទាល់​ខ្លួន",
     "Edit event" : "កែ​ព្រឹត្តិការណ៍",
     "Close" : "បិទ",
-    "30 min" : "30 នាទី",
     "Daily" : "រាល់ថ្ងៃ",
     "Weekly" : "រាល់​សប្ដាហ៍",
     "second" : "ទីពីរ",
     "last" : "ចុងក្រោយ",
     "Other" : "ផ្សេងៗ",
-    "can edit" : "អាច​កែប្រែ"
+    "can edit" : "អាច​កែប្រែ",
+    "30 min" : "30 នាទី"
 },
 "nplurals=1; plural=0;");

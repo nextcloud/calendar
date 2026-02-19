@@ -215,7 +215,7 @@ OC.L10N.register(
     "_%n member_::_%n members_" : ["%n miembru","%n miembros"],
     "No match found" : "Nun s'atopó nenguna coincidencia",
     "Remove color" : "Quitar el color",
-    "Event title" : "Títulu del eventu",
+    "Title" : "Títulu",
     "From" : "De",
     "To" : "Pa",
     "Repeat" : "Repitir",
@@ -236,8 +236,6 @@ OC.L10N.register(
     "No" : "Non",
     "None" : "Nada",
     "Create" : "Crear",
-    "Please enter a valid date" : "Introduz una data válida",
-    "Pick a date" : "Escueyi una data",
     "Global" : "Global",
     "An error occurred, unable to read public calendars." : "Prodúxose un error, nun ye posible lleer los calendariu públicos.",
     "An error occurred, unable to subscribe to calendar." : "Prodúxose un error, nun ye posible soscribise al calendariu.",
@@ -252,7 +250,6 @@ OC.L10N.register(
     "Untitled event" : "Eventu ensin títulu",
     "Close" : "Zarrar",
     "This event was cancelled" : "Esti eventu anulóse",
-    "Title" : "Títulu",
     "Participants" : "Participantes",
     "Submit" : "Unviar",
     "Miscellaneous" : "Miscelanea",
@@ -303,6 +300,9 @@ OC.L10N.register(
     "Personal availability settings" : "Configuración de la disponibilidá personal",
     "Show keyboard shortcuts" : "Amosar los atayos del tecáu",
     "Error creating Talk room" : "Hebo un error al crear la sala de Talk",
-    "_%n more guest_::_%n more guests_" : ["%n convidáu más","%n convidaos más"]
+    "_%n more guest_::_%n more guests_" : ["%n convidáu más","%n convidaos más"],
+    "Event title" : "Títulu del eventu",
+    "Please enter a valid date" : "Introduz una data válida",
+    "Pick a date" : "Escueyi una data"
 },
 "nplurals=2; plural=(n != 1);");
