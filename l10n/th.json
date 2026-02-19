@@ -82,7 +82,6 @@
     "No" : "ไม่ตกลง",
     "None" : "ไม่มี",
     "Create" : "สร้าง",
-    "Pick a date" : "เลือกวันที่",
     "Global" : "ทั่วไป",
     "Subscribe" : "สมัครรับข้อมูล",
     "Personal" : "ส่วนตัว",
@@ -105,6 +104,7 @@
     "Confirmed" : "ยืนยันแล้ว",
     "Categories" : "หมวดหมู่",
     "Hidden" : "ซ่อนอยู่",
-    "can edit" : "สามารถแก้ไข"
+    "can edit" : "สามารถแก้ไข",
+    "Pick a date" : "เลือกวันที่"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

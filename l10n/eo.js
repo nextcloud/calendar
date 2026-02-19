@@ -114,7 +114,6 @@ OC.L10N.register(
     "Yes" : "Jes",
     "No" : "Ne",
     "None" : "Nenio",
-    "on {formattedDate}" : "je la {formattedDate}",
     "Global" : "Monda",
     "Subscribe" : "Aboni",
     "Time:" : "Tempo:",
@@ -150,6 +149,7 @@ OC.L10N.register(
     "Enable simplified editor" : "Ebligi simpligitan redaktilon",
     "Show weekends" : "Montri semajnfinojn",
     "Show week numbers" : "Montri numerojn de semajno",
-    "Show keyboard shortcuts" : "Montri klavarajn ŝparvojojn"
+    "Show keyboard shortcuts" : "Montri klavarajn ŝparvojojn",
+    "on {formattedDate}" : "je la {formattedDate}"
 },
 "nplurals=2; plural=(n != 1);");

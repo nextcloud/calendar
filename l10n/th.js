@@ -84,7 +84,6 @@ OC.L10N.register(
     "No" : "ไม่ตกลง",
     "None" : "ไม่มี",
     "Create" : "สร้าง",
-    "Pick a date" : "เลือกวันที่",
     "Global" : "ทั่วไป",
     "Subscribe" : "สมัครรับข้อมูล",
     "Personal" : "ส่วนตัว",
@@ -107,6 +106,7 @@ OC.L10N.register(
     "Confirmed" : "ยืนยันแล้ว",
     "Categories" : "หมวดหมู่",
     "Hidden" : "ซ่อนอยู่",
-    "can edit" : "สามารถแก้ไข"
+    "can edit" : "สามารถแก้ไข",
+    "Pick a date" : "เลือกวันที่"
 },
 "nplurals=1; plural=0;");

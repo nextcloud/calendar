@@ -106,7 +106,6 @@ OC.L10N.register(
     "Edit event" : "Editar evento",
     "All day" : "Todo el día",
     "Close" : "Cerrar",
-    "30 min" : "30 minutos",
     "Participants" : "Participantes",
     "Submit" : "Enviar",
     "Anniversary" : "Aniversario",
@@ -124,6 +123,7 @@ OC.L10N.register(
     "Categories" : "Categoría",
     "Hidden" : "Oculto",
     "can edit" : "puede editar",
-    "Show week numbers" : "Mostrar número de semana"
+    "Show week numbers" : "Mostrar número de semana",
+    "30 min" : "30 minutos"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -240,6 +240,7 @@ OC.L10N.register(
     "Tentative" : "Tentativa",
     "Copied to clipboard" : "Copiado para a área de transferência",
     "Attendees" : "Participantes",
+    "Title" : "Título",
     "From" : "De",
     "To" : "Para",
     "Repeat" : "Repetir",
@@ -262,7 +263,6 @@ OC.L10N.register(
     "Maybe" : "Talvez",
     "None" : "Nenhum",
     "Create" : "Criar",
-    "Pick a date" : "Escolha uma data",
     "Global" : "Global",
     "Subscribed" : "Subscrito",
     "Subscribe" : "Subscrever",
@@ -273,7 +273,6 @@ OC.L10N.register(
     "Untitled event" : "Evento sem título",
     "Close" : "Fechar",
     "Selected" : "Selecionado",
-    "Title" : "Título",
     "Participants" : "Participantes",
     "Submit" : "Submeter",
     "Anniversary" : "Aniversário",
@@ -315,6 +314,7 @@ OC.L10N.register(
     "Copy primary CalDAV address" : "Copiar endereço CalDAV primário",
     "Copy iOS/macOS CalDAV address" : "Copiar endereço iOS/macOS CalDAV",
     "Personal availability settings" : "Configurações de disponibilidade pessoal",
-    "Show keyboard shortcuts" : "Mostrar atalhos de teclado"
+    "Show keyboard shortcuts" : "Mostrar atalhos de teclado",
+    "Pick a date" : "Escolha uma data"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
