@@ -22,8 +22,8 @@ export default defineConfig({
 		],
 		globals: true,
 		environment: 'jsdom',
-		// Required for transforming CSS files
-		pool: 'vmThreads',
+		// Use forks pool for reliable vi.mock() hoisting with coverage
+		pool: 'forks',
 		// Increase timeouts for slow CI environments
 		testTimeout: 300000, // 2 minutes per test
 		hookTimeout: 60000, // 60 seconds for hooks
