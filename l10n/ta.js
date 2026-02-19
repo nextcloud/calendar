@@ -36,6 +36,7 @@ OC.L10N.register(
     "Done" : "Done",
     "Unknown" : "தெரியாத",
     "Attendees" : "பங்கேற்பாளர்கள்",
+    "Title" : "தலைப்பு",
     "Repeat" : "மீண்டும்",
     "never" : "ஒருபோதும்",
     "Yes" : "ஆம்",
@@ -44,7 +45,6 @@ OC.L10N.register(
     "Personal" : "தனிப்பட்ட",
     "Close" : "மூடுக",
     "Selected" : "Selected",
-    "Title" : "தலைப்பு",
     "Other" : "மற்றவை",
     "can edit" : "தொகுக்க முடியும்"
 },
