@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { defineStore } from 'pinia'
+import { markRaw } from 'vue'
 
 export default defineStore('importFiles', {
 	state: () => {
@@ -31,7 +32,7 @@ export default defineStore('importFiles', {
 				contents,
 				lastModified,
 				name,
-				parser,
+				parser: markRaw(parser),
 				size,
 				type,
 			}
