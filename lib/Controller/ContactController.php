@@ -229,7 +229,7 @@ class ContactController extends Controller {
 				$user = $this->userManager->get($circleMemberUserId);
 
 				if ($user === null) {
-					throw new ServiceException('Could not find organizer');
+					continue;
 				}
 
 				$contacts[] = [
