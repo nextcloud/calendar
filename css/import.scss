@@ -21,7 +21,8 @@
 
 		.import-modal-file-item {
 			display: flex;
-			padding-top: 10px;
+			margin-top: 10px;
+			margin-bottom: 10px;
 
 			&--header {
 				font-weight: bold;
@@ -33,6 +34,10 @@
 
 			&__calendar-select {
 				flex: 1 1 0;
+			}
+			
+			&__calendar-disabled-hint {
+				color: var(--color-text-maxcontrast);
 			}
 		}
 	}
