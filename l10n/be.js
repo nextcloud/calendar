@@ -157,6 +157,7 @@ OC.L10N.register(
     "Close" : "Закрыць",
     "Selected" : "Выбрана",
     "No Description" : "Няма апісання",
+    "{duration} min" : "{duration} хв",
     "Participants" : "Удзельнікі",
     "Submit" : "Адправіць",
     "Meeting" : "Сустрэча",
