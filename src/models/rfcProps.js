@@ -24,7 +24,7 @@ const getRFCProperties = () => {
 				{ value: 'PRIVATE', label: t('calendar', 'When shared hide this event') },
 			],
 			multiple: false,
-			info: t('calendar', 'The visibility of this event in shared calendars.'),
+			info: t('calendar', 'The visibility of this event in read-only shared calendars.'),
 			defaultValue: 'PUBLIC',
 		},
 		/**
