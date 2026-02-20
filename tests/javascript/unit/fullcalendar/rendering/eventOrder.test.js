@@ -3,182 +3,153 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import {
-	eventOrder,
-	eventStartOrder,
-	eventDurationOrderDesc,
+	allDayFirst,
+	allDayOrder,
+	partDayOrder,
 } from '../../../../../src/fullcalendar/rendering/eventOrder.js'
 
-describe('fullcalendar/eventOrder test suite', () => {
+describe('fullcalendar/eventOrder - allDayFirst', () => {
 
-	it('should sort events by the underlying calendar-order', () => {
-		const firstEvent = {
-			extendedProps: {
-				calendarOrder: 0,
-				calendarName: 'AACCEE',
-				calendarId: 'ID:AABBCC',
-			},
-			title: 'Title 123',
-		}
-		const secondEvent = {
-			extendedProps: {
-				calendarOrder: 5,
-				calendarName: 'AABBCC',
-				calendarId: 'ID:AACCEE',
-			},
-			title: 'Title 123',
-		}
+	it('should sort all-day events before timed events', () => {
+		const allDayEvent = { allDay: true }
+		const timedEvent = { allDay: false }
 
-		expect(eventOrder(firstEvent, secondEvent)).toEqual(-1)
-		expect(eventOrder(secondEvent, firstEvent)).toEqual(1)
+		expect(allDayFirst(allDayEvent, timedEvent)).toEqual(-1)
+		expect(allDayFirst(timedEvent, allDayEvent)).toEqual(1)
 	})
 
-	it('should sort events by calendar-name if calendar-order is equal', () => {
-		const firstEvent = {
-			extendedProps: {
-				calendarOrder: 42,
-				calendarName: 'AABBCC',
-				calendarId: 'ID:AACCEE',
-			},
-			title: 'Title 123',
-		}
-		const secondEvent = {
-			extendedProps: {
-				calendarOrder: 42,
-				calendarName: 'AACCEE',
-				calendarId: 'ID:AABBCC',
-			},
-			title: 'Title 123',
-		}
+	it('should return zero when both events are all-day', () => {
+		const first = { allDay: true }
+		const second = { allDay: true }
 
-		expect(eventOrder(firstEvent, secondEvent)).toEqual(-1)
-		expect(eventOrder(secondEvent, firstEvent)).toEqual(1)
+		expect(allDayFirst(first, second)).toEqual(0)
 	})
 
-	it('should sort events by calendar-id if calendar-name and calendar-order is equal', () => {
-		const firstEvent = {
-			extendedProps: {
-				calendarOrder: 42,
-				calendarName: 'AABBCC',
-				calendarId: 'ID:AABBCC',
-			},
-			title: 'Title 123',
-		}
-		const secondEvent = {
-			extendedProps: {
-				calendarOrder: 42,
-				calendarName: 'AABBCC',
-				calendarId: 'ID:AACCEE',
-			},
-			title: 'Title 123',
-		}
+	it('should return zero when both events are timed', () => {
+		const first = { allDay: false }
+		const second = { allDay: false }
 
-		expect(eventOrder(firstEvent, secondEvent)).toEqual(-1)
-		expect(eventOrder(secondEvent, firstEvent)).toEqual(1)
+		expect(allDayFirst(first, second)).toEqual(0)
+	})
+})
+
+describe('fullcalendar/eventOrder - allDayOrder', () => {
+
+	it('should return zero when either event is not all-day', () => {
+		const allDayEvent = { allDay: true, extendedProps: { calendarOrder: 0 }, duration: 1000, title: 'A' }
+		const timedEvent = { allDay: false, extendedProps: { calendarOrder: 5 }, duration: 500, title: 'B' }
+
+		expect(allDayOrder(allDayEvent, timedEvent)).toEqual(0)
+		expect(allDayOrder(timedEvent, allDayEvent)).toEqual(0)
+		expect(allDayOrder(timedEvent, timedEvent)).toEqual(0)
 	})
 
-	it('should sort events by title as a fallback', () => {
-		const firstEvent = {
-			extendedProps: {
-				calendarOrder: 42,
-				calendarName: 'AABBCC',
-				calendarId: 'ID:AABBCC',
-			},
+	it('should sort all-day events by calendarOrder ascending', () => {
+		const first = {
+			allDay: true,
+			extendedProps: { calendarOrder: 0 },
+			duration: 1000,
 			title: 'Title 123',
 		}
-		const secondEvent = {
-			extendedProps: {
-				calendarOrder: 42,
-				calendarName: 'AABBCC',
-				calendarId: 'ID:AABBCC',
-			},
-			title: 'Title 456',
+		const second = {
+			allDay: true,
+			extendedProps: { calendarOrder: 5 },
+			duration: 1000,
+			title: 'Title 123',
 		}
 
-		expect(eventOrder(firstEvent, secondEvent)).toEqual(-1)
-		expect(eventOrder(secondEvent, firstEvent)).toEqual(1)
+		expect(allDayOrder(first, second)).toEqual(-1)
+		expect(allDayOrder(second, first)).toEqual(1)
 	})
 
-	it('should return zero if all properties are equal', () => {
-		const firstEvent = {
-			extendedProps: {
-				calendarOrder: 42,
-				calendarName: 'AABBCC',
-				calendarId: 'ID:AABBCC',
-			},
+	it('should sort all-day events by duration descending when calendarOrder is equal', () => {
+		const first = {
+			allDay: true,
+			extendedProps: { calendarOrder: 1 },
+			duration: 2000,
 			title: 'Title 123',
 		}
-		const secondEvent = {
-			extendedProps: {
-				calendarOrder: 42,
-				calendarName: 'AABBCC',
-				calendarId: 'ID:AABBCC',
-			},
+		const second = {
+			allDay: true,
+			extendedProps: { calendarOrder: 1 },
+			duration: 1000,
 			title: 'Title 123',
 		}
 
-		expect(eventOrder(firstEvent, secondEvent)).toEqual(0)
-		expect(eventOrder(secondEvent, firstEvent)).toEqual(0)
+		// first has longer duration, so it should come first
+		expect(allDayOrder(first, second)).toBeLessThan(0)
+		expect(allDayOrder(second, first)).toBeGreaterThan(0)
 	})
 
-	it('should sort events by start (ascending)', () => {
+	it('should sort all-day events by title when calendarOrder and duration are equal', () => {
+		const first = {
+			allDay: true,
+			extendedProps: { calendarOrder: 1 },
+			duration: 1000,
+			title: 'AAA',
+		}
+		const second = {
+			allDay: true,
+			extendedProps: { calendarOrder: 1 },
+			duration: 1000,
+			title: 'BBB',
+		}
+
+		expect(allDayOrder(first, second)).toEqual(-1)
+		expect(allDayOrder(second, first)).toEqual(1)
+	})
+
+	it('should return zero when all properties are equal', () => {
+		const first = {
+			allDay: true,
+			extendedProps: { calendarOrder: 1 },
+			duration: 1000,
+			title: 'Title 123',
+		}
+		const second = {
+			allDay: true,
+			extendedProps: { calendarOrder: 1 },
+			duration: 1000,
+			title: 'Title 123',
+		}
+
+		expect(allDayOrder(first, second)).toEqual(0)
+		expect(allDayOrder(second, first)).toEqual(0)
+	})
+})
+
+describe('fullcalendar/eventOrder - partDayOrder', () => {
+
+	it('should sort timed events by start time ascending', () => {
 		const firstEvent = {
 			title: 'Title 123',
+			allDay: false,
 			start: 1000,
 		}
 		const secondEvent = {
 			title: 'Title 123',
+			allDay: false,
 			start: 1001,
 		}
 
-		expect(eventStartOrder(firstEvent, secondEvent)).toBeLessThan(0)
-		expect(eventStartOrder(secondEvent, firstEvent)).toBeGreaterThan(0)
-		expect(eventStartOrder(firstEvent, firstEvent)).toBe(0)
+		expect(partDayOrder(firstEvent, secondEvent)).toBeLessThan(0)
+		expect(partDayOrder(secondEvent, firstEvent)).toBeGreaterThan(0)
+		expect(partDayOrder(firstEvent, firstEvent)).toBe(0)
 	})
 
-	it('should sort events by start - skip all-day', () => {
+	it('should return zero when both events are all-day', () => {
 		const firstEvent = {
 			title: 'Title 123',
 			start: 1000,
-			allDay: 1,
+			allDay: true,
 		}
 		const secondEvent = {
 			title: 'Title 123',
 			start: 1001,
-			allDay: 1,
+			allDay: true,
 		}
 
-		expect(eventStartOrder(firstEvent, secondEvent)).toBe(0)
-		expect(eventStartOrder(secondEvent, firstEvent)).toBe(0)
-	})
-
-	it('should sort events by duration (descending)', () => {
-		const firstEvent = {
-			title: 'Title 123',
-			duration: 1000,
-		}
-		const secondEvent = {
-			title: 'Title 123',
-			duration: 1001,
-		}
-
-		expect(eventDurationOrderDesc(firstEvent, secondEvent)).toBeGreaterThan(0)
-		expect(eventDurationOrderDesc(secondEvent, firstEvent)).toBeLessThan(0)
-		expect(eventDurationOrderDesc(firstEvent, firstEvent)).toBe(0)
-	})
-
-	it('should sort events by duration - skip all-day', () => {
-		const firstEvent = {
-			title: 'Title 123',
-			duration: 1000,
-			allDay: 1,
-		}
-		const secondEvent = {
-			title: 'Title 123',
-			duration: 1001,
-			allDay: 1,
-		}
-
-		expect(eventDurationOrderDesc(firstEvent, secondEvent)).toBe(0)
-		expect(eventDurationOrderDesc(secondEvent, firstEvent)).toBe(0)
+		expect(partDayOrder(firstEvent, secondEvent)).toBe(0)
+		expect(partDayOrder(secondEvent, firstEvent)).toBe(0)
 	})
 })

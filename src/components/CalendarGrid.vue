@@ -42,9 +42,9 @@ import dayCellDidMount from '../fullcalendar/rendering/dayCellDidMount.js'
 import dayHeaderDidMount from '../fullcalendar/rendering/dayHeaderDidMount.js'
 import eventDidMount from '../fullcalendar/rendering/eventDidMount.js'
 import {
-	eventDurationOrderDesc,
-	eventOrder,
-	eventStartOrder,
+	allDayFirst,
+	allDayOrder,
+	partDayOrder,
 } from '../fullcalendar/rendering/eventOrder.js'
 import noEventsDidMount from '../fullcalendar/rendering/noEventsDidMount.js'
 // Import timezone plugins
@@ -145,7 +145,7 @@ export default {
 				dayHeaderDidMount,
 				eventDidMount,
 				noEventsDidMount,
-				eventOrder: [eventStartOrder, eventDurationOrderDesc, 'allDay', eventOrder],
+				eventOrder: [allDayFirst, allDayOrder, partDayOrder],
 				forceEventDuration: false,
 				headerToolbar: false,
 				height: '100%',
