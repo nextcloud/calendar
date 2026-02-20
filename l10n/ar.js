@@ -263,6 +263,7 @@ OC.L10N.register(
     "Select conversation" : "اختر محادثة",
     "on" : "في",
     "at" : "عند",
+    "Amount" : "الكمية",
     "before at" : "قبل",
     "Notification" : "تنبيه",
     "Email" : "البريد الإلكتروني",

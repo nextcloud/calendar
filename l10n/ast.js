@@ -170,6 +170,7 @@ OC.L10N.register(
     "Weekdays" : "Díes de la selmana",
     "Your email address" : "La to direición de corréu electrónicu",
     "Back" : "Atrás",
+    "Amount" : "Cantidá",
     "Notification" : "Avisu",
     "Email" : "Corréu electrónicu",
     "Audio notification" : "Avisu d'audiu",
