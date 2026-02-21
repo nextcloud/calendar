@@ -553,7 +553,7 @@ OC.L10N.register(
     "Edit this meeting proposal" : "Diesen Besprechungsvorschlag bearbeiten",
     "Delete this meeting proposal" : "Diesen Besprechungsvorschlag löschen",
     "Duration suggestions" : "Dauer-Vorschläge",
-    "{duration} min" : "{duration} Minuten",
+    "{duration} min" : "{duration} Min.",
     "Participants" : "Teilnehmer",
     "Selected times" : "Ausgewählte Zeiten",
     "Previous span" : "Vorherige Zeitspanne",
