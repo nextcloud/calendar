@@ -27,6 +27,13 @@
 					:name="t('calendar', 'General')">
 					<SettingsTimezoneSelect
 						:is-disabled="loadingCalendars" />
+					<CalendarPicker
+						:value="defaultCalendar"
+						:calendars="defaultCalendarOptions"
+						:disabled="savingDefaultCalendarId"
+						:input-label="$t('calendar', 'Default calendar for incoming invitations')"
+						:clearable="false"
+						@select-calendar="changeDefaultCalendar" />
 					<NcFormBox>
 						<NcFormBoxButton
 							target="_blank"
@@ -148,6 +155,7 @@ import {
 } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import CogIcon from 'vue-material-design-icons/CogOutline.vue'
+import CalendarPicker from '../Shared/CalendarPicker.vue'
 import SettingsAttachmentsFolder from './Settings/SettingsAttachmentsFolder.vue'
 import SettingsImportSection from './Settings/SettingsImportSection.vue'
 import SettingsTimezoneSelect from './Settings/SettingsTimezoneSelect.vue'
@@ -172,6 +180,7 @@ export default {
 		NcAppSettingsDialog,
 		NcAppSettingsSection,
 		NcSelect,
+		CalendarPicker,
 		SettingsImportSection,
 		SettingsTimezoneSelect,
 		SettingsAttachmentsFolder,
