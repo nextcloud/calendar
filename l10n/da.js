@@ -322,7 +322,7 @@ OC.L10N.register(
     "Choose a file to share as a link" : "Vælg en fil der skal deles som link",
     "Attachment {name} already exist!" : "Vedhæftet fil {name} findes allerede!",
     "Could not upload attachment(s)" : "Kunne ikke uploade vedhæftning(er)",
-    "You are about to navigate to {link}. Are you sure to proceed?" : "Du er ved at åbne linket:{link}. Er du sikker på, at du vil fortsætte?",
+    "You are about to navigate to {link}. Are you sure to proceed?" : "Du er ved at åbne linket: {link}. Er du sikker på, at du vil fortsætte?",
     "You are about to navigate to {host}. Are you sure to proceed? Link: {link}" : "Du er ved at navigere til {host}. Er du sikker på at du vil fortsætte? Link: {link}",
     "Proceed" : "Fortsæt",
     "No attachments" : "Ingen vedhæftede filer",
