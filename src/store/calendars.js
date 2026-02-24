@@ -23,6 +23,7 @@ import {
 	findAllDeletedCalendars,
 	findPublicCalendarsByTokens,
 } from '../services/caldavService.js'
+import { getShareAlarmSettings, toggleShareAlarmSuppression } from '../services/shareAlarmService.js'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import { uidToHexColor } from '../utils/color.js'
 import { dateFactory, getUnixTimestampFromDate } from '../utils/date.js'
@@ -626,6 +627,44 @@ export default defineStore('calendars', {
 			/// TODO test this not sure what it does
 			calendar = this.calendars.find((search) => search.id === calendar.id)
 			sharee.writeable = !sharee.writeable
+		},
+
+		/**
+		 * Load alarm suppression settings for all shares of a calendar
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar
+		 * @return {Promise<void>}
+		 */
+		async loadShareAlarmSettings({ calendar }) {
+			try {
+				const settings = await getShareAlarmSettings(calendar.url)
+				for (const sharee of calendar.shares) {
+					const principalUri = sharee.uri.replace('principal:', '')
+					sharee.suppressAlarms = settings[principalUri] ?? false
+				}
+			} catch (error) {
+				logger.error('Failed to load share alarm settings', { error })
+			}
+		},
+
+		/**
+		 * Toggle alarm suppression for a specific share
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to change
+		 * @param {string} data.uri the sharing principalScheme uri
+		 * @return {Promise<void>}
+		 */
+		async toggleShareAlarmSuppression({ calendar, uri }) {
+			const sharee = calendar.shares.find((s) => s.uri === uri)
+			const principalUri = uri.replace('principal:', '')
+			const newValue = !sharee.suppressAlarms
+
+			await toggleShareAlarmSuppression(calendar.url, principalUri, newValue)
+
+			calendar = this.calendars.find((search) => search.id === calendar.id)
+			sharee.suppressAlarms = newValue
 		},
 
 		/**

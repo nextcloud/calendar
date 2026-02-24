@@ -16,13 +16,22 @@
 			</p>
 		</div>
 
-		<NcCheckboxRadioSwitch
-			v-if="canBeSharedWritable"
-			v-model="isWriteable"
-			:disabled="updatingSharee"
-			@update:checked="updatePermission">
-			{{ $t('calendar', 'can edit and see confidential events') }}
-		</NcCheckboxRadioSwitch>
+		<div class="share-item__options">
+			<NcCheckboxRadioSwitch
+				v-if="canBeSharedWritable"
+				v-model="isWriteable"
+				:disabled="updatingSharee"
+				@update:modelValue="updatePermission">
+				{{ $t('calendar', 'can edit and see confidential events') }}
+			</NcCheckboxRadioSwitch>
+
+			<NcCheckboxRadioSwitch
+				v-model="isSuppressAlarms"
+				:disabled="updatingSharee"
+				@update:modelValue="updateAlarmSuppression">
+				{{ $t('calendar', 'suppress alarms') }}
+			</NcCheckboxRadioSwitch>
+		</div>
 
 		<NcActions>
 			<NcActionButton
@@ -80,6 +89,7 @@ export default {
 			updatingSharee: false,
 			shareeEmail: '',
 			isWriteable: false,
+			isSuppressAlarms: false,
 		}
 	},
 
@@ -118,13 +128,14 @@ export default {
 	},
 
 	watch: {
-		isWriteable() {
-			this.updatePermission()
+		'sharee.suppressAlarms'(newVal) {
+			this.isSuppressAlarms = newVal
 		},
 	},
 
 	mounted() {
 		this.isWriteable = this.initialIsWriteable
+		this.isSuppressAlarms = this.sharee.suppressAlarms || false
 		this.updateShareeEmail()
 	},
 
@@ -171,6 +182,26 @@ export default {
 			}
 		},
 
+		/**
+		 * Toggles alarm suppression for this sharee
+		 *
+		 * @return {Promise<void>}
+		 */
+		async updateAlarmSuppression() {
+			this.updatingSharee = true
+			try {
+				await this.calendarsStore.toggleShareAlarmSuppression({
+					calendar: this.calendar,
+					uri: this.sharee.uri,
+				})
+				this.updatingSharee = false
+			} catch (error) {
+				console.error(error)
+				showInfo(this.$t('calendar', 'An error occurred, unable to change the alarm suppression setting.'))
+				this.updatingSharee = false
+			}
+		},
+
 		async updateShareeEmail() {
 			if (this.sharee.isGroup || this.sharee.isCircle) {
 				return
@@ -213,11 +244,22 @@ export default {
 	&__label {
 		flex: 1 auto;
 		flex-direction: column;
+		min-width: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
 
 		p {
 			color: var(--color-text-lighter);
 			line-height: 1;
 		}
+	}
+
+	&__options {
+		display: flex;
+		gap: 4px;
+		margin-inline-start: auto;
+		white-space: nowrap;
+		flex-shrink: 0;
 	}
 }
 </style>

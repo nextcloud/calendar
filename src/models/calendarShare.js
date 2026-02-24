@@ -32,6 +32,8 @@ function getDefaultCalendarShareObject(props = {}) {
 		isRemoteUser: false,
 		// Uri necessary for deleting / updating share
 		uri: null,
+		// Whether alarms are suppressed for this sharee
+		suppressAlarms: false,
 		...props,
 	}
 }
