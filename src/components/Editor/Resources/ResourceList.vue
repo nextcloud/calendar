@@ -485,7 +485,7 @@ watch(() => props.calendarObjectInstance.endDate, debouncedLoadAvailability)
 
 // Lifecycle
 onMounted(async () => {
-	if (resourceBookingEnabled) {
+	if (resourceBookingEnabled && isViewedByOrganizer.value) {
 		await loadAllRooms()
 	}
 })
