@@ -12,11 +12,13 @@ use OCA\Calendar\Events\BeforeAppointmentBookedEvent;
 use OCA\Calendar\Listener\AppointmentBookedListener;
 use OCA\Calendar\Listener\CalendarReferenceListener;
 use OCA\Calendar\Listener\NotifyPushListener;
+use OCA\Calendar\Listener\SabrePluginAddListener;
 use OCA\Calendar\Listener\UserDeletedListener;
 use OCA\Calendar\Notification\Notifier;
 use OCA\Calendar\Profile\AppointmentsAction;
 use OCA\Calendar\Reference\ReferenceProvider;
 use OCA\Calendar\UserMigration\Migrator;
+use OCA\DAV\Events\SabrePluginAddEvent;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -62,6 +64,8 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(CalendarObjectCreatedEvent::class, NotifyPushListener::class);
 		$context->registerEventListener(CalendarObjectUpdatedEvent::class, NotifyPushListener::class);
 		$context->registerEventListener(CalendarObjectDeletedEvent::class, NotifyPushListener::class);
+
+		$context->registerEventListener(SabrePluginAddEvent::class, SabrePluginAddListener::class);
 
 		$context->registerNotifierService(Notifier::class);
 
