@@ -26,6 +26,7 @@ OC.L10N.register(
     "Calendars" : "Iwitayen",
     "Add new" : "Rnu amaynut",
     "New calendar" : "Awitay amaynut",
+    "Export" : "Sifeḍ",
     "Empty trash bin" : "Silem taqecwalt",
     "Name" : "Isem",
     "Deleted" : "Yettwakkes",
