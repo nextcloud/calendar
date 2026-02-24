@@ -43,6 +43,9 @@ return [
 		['name' => 'contact#getContactGroupMembers', 'url' => '/v1/autocompletion/groupmembers', 'verb' => 'POST'],
 		// Settings
 		['name' => 'settings#setConfig', 'url' => '/v1/config/{key}', 'verb' => 'POST'],
+		// Share alarm suppression
+		['name' => 'shareAlarm#get', 'url' => '/v1/share-alarm', 'verb' => 'GET'],
+		['name' => 'shareAlarm#toggle', 'url' => '/v1/share-alarm', 'verb' => 'POST'],
 		// Tools
 		['name' => 'email#sendEmailPublicLink', 'url' => '/v1/public/sendmail', 'verb' => 'POST'],
 	],
