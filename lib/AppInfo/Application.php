@@ -29,7 +29,6 @@ use OCP\IUserSession;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
-use function method_exists;
 
 class Application extends App implements IBootstrap {
 	/** @var string */
@@ -47,12 +46,12 @@ class Application extends App implements IBootstrap {
 	 */
 	#[\Override]
 	public function register(IRegistrationContext $context): void {
+		$context->registerCapability(Capabilities::class);
+
 		$context->registerDashboardWidget(CalendarWidget::class);
 
-		// TODO: drop conditional code when the app is 23+
-		if (method_exists($context, 'registerProfileLinkAction')) {
-			$context->registerProfileLinkAction(AppointmentsAction::class);
-		}
+		$context->registerProfileLinkAction(AppointmentsAction::class);
+
 		$context->registerReferenceProvider(ReferenceProvider::class);
 
 		$context->registerEventListener(BeforeAppointmentBookedEvent::class, AppointmentBookedListener::class);
