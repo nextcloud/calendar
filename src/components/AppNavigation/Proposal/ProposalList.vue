@@ -83,6 +83,12 @@
 				</template>
 			</NcAppNavigationItem>
 		</template>
+		<NcDialog
+			:open="showDeleteDialog"
+			:name="t('calendar', 'Delete proposal')"
+			:message="deleteDialogMessage"
+			:buttons="deleteDialogButtons"
+			@update:open="showDeleteDialog = $event" />
 	</div>
 </template>
 
@@ -106,6 +112,7 @@ import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcAppNavigationCaption from '@nextcloud/vue/components/NcAppNavigationCaption'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
 import usePrincipalStore from '@/store/principals'
 // types, object and stores
 import useProposalStore from '@/store/proposalStore'
@@ -118,6 +125,7 @@ export default {
 		NcAppNavigationCaption,
 		NcAppNavigationItem,
 		NcActionButton,
+		NcDialog,
 		NcCounterBubble,
 		WarningIcon,
 		PendingIcon,
@@ -136,12 +144,34 @@ export default {
 			principalStore,
 			proposalStore,
 			storedProposals: [] as Array<Proposal>,
+			showDeleteDialog: false,
+			pendingDeleteProposal: null as Proposal | null,
 		}
 	},
 
 	computed: {
 		userHasEmailAddress() {
 			return this.principalStore?.getCurrentUserPrincipal?.emailAddress?.length > 0
+		},
+
+		deleteDialogMessage(): string {
+			const title = this.pendingDeleteProposal?.title ?? t('calendar', 'No title')
+			return t('calendar', 'Are you sure you want to delete "{title}"?', { title })
+		},
+
+		deleteDialogButtons() {
+			return [
+				{
+					label: t('calendar', 'Delete'),
+					variant: 'secondary',
+					callback: () => this.destroyProposal(),
+				},
+				{
+					label: t('calendar', 'Cancel'),
+					variant: 'primary',
+					callback: () => { this.showDeleteDialog = false },
+				},
+			]
 		},
 	},
 
@@ -175,8 +205,16 @@ export default {
 			this.proposalStore.showModal('modify', proposal)
 		},
 
-		async onProposalDestroy(proposal: Proposal) {
-			if (!confirm(t('calendar', 'Are you sure you want to delete "{title}"?', { title: proposal.title ?? t('calendar', 'No title') }))) {
+		onProposalDestroy(proposal: Proposal) {
+			this.pendingDeleteProposal = proposal
+			this.showDeleteDialog = true
+		},
+
+		async destroyProposal() {
+			const proposal = this.pendingDeleteProposal
+			this.pendingDeleteProposal = null
+			this.showDeleteDialog = false
+			if (!proposal) {
 				return
 			}
 			try {

@@ -202,6 +202,20 @@
 				</div>
 			</div>
 		</NcModal>
+
+		<NcDialog
+			:open="showDeleteDialog"
+			:name="t('calendar', 'Delete proposal')"
+			:message="deleteDialogMessage"
+			:buttons="deleteDialogButtons"
+			@update:open="showDeleteDialog = $event" />
+
+		<NcDialog
+			:open="showConvertDialog"
+			:name="t('calendar', 'Create meeting')"
+			:message="convertDialogMessage"
+			:buttons="convertDialogButtons"
+			@update:open="showConvertDialog = $event" />
 	</div>
 </template>
 
@@ -227,6 +241,7 @@ import DeleteIcon from 'vue-material-design-icons/TrashCanOutline'
 // components
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcRadioGroup from '@nextcloud/vue/components/NcRadioGroup'
 import NcRadioGroupButton from '@nextcloud/vue/components/NcRadioGroupButton'
@@ -269,6 +284,7 @@ export default {
 	components: {
 		NcButton,
 		NcCheckboxRadioSwitch,
+		NcDialog,
 		NcModal,
 		NcRadioGroup,
 		NcRadioGroupButton,
@@ -309,6 +325,10 @@ export default {
 			calendarSpanMin: 1, // Minimum days that can be shown
 			calendarSpanDays: 7, // Currently applied span (derived)
 			screenWidth: window.innerWidth, // Track screen width
+			showDeleteDialog: false,
+			pendingDeleteProposal: null as Proposal | null,
+			showConvertDialog: false,
+			pendingConvertDate: null as ProposalDate | null,
 		}
 	},
 
@@ -431,6 +451,49 @@ export default {
 					this.fetchParticipantAvailability()
 				},
 			}
+		},
+
+		pendingConvertDateString(): string {
+			return this.pendingConvertDate ? this.formatProposalDate(this.pendingConvertDate.date) : ''
+		},
+
+		deleteDialogMessage(): string {
+			const title = this.pendingDeleteProposal?.title ?? t('calendar', 'No title')
+			return t('calendar', 'Are you sure you want to delete "{title}"?', { title })
+		},
+
+		convertDialogMessage(): string {
+			return t('calendar', 'Create a meeting for "{date}"? This will create a calendar event with all participants.', { date: this.pendingConvertDateString })
+		},
+
+		deleteDialogButtons() {
+			return [
+				{
+					label: t('calendar', 'Delete'),
+					variant: 'secondary',
+					callback: () => this.destroyProposal(),
+				},
+				{
+					label: t('calendar', 'Cancel'),
+					variant: 'primary',
+					callback: () => { this.showDeleteDialog = false },
+				},
+			]
+		},
+
+		convertDialogButtons() {
+			return [
+				{
+					label: t('calendar', 'Cancel'),
+					variant: 'secondary',
+					callback: () => { this.showConvertDialog = false },
+				},
+				{
+					label: t('calendar', 'Create meeting'),
+					variant: 'primary',
+					callback: () => this.convertProposal(),
+				},
+			]
 		},
 
 		existingParticipantAddressess(): string[] {
@@ -562,19 +625,9 @@ export default {
 			this.modalMode = 'modify'
 		},
 
-		async onProposalDestroy(proposal: Proposal) {
-			if (!confirm(t('calendar', 'Are you sure you want to delete "{title}"?', { title: proposal.title ?? t('calendar', 'No title') }))) {
-				return
-			}
-			try {
-				showSuccess(t('calendar', 'Deleting proposal "{title}"', { title: proposal.title ?? t('calendar', 'No title') }))
-				await this.proposalStore.destroyProposal(proposal)
-				showSuccess(t('calendar', 'Successfully deleted proposal'))
-				this.onModalClose()
-			} catch (error) {
-				showError(t('calendar', 'Failed to delete proposal'))
-				console.error('Failed to delete proposal:', error)
-			}
+		onProposalDestroy(proposal: Proposal) {
+			this.pendingDeleteProposal = proposal
+			this.showDeleteDialog = true
 		},
 
 		async onProposalSave() {
@@ -592,26 +645,12 @@ export default {
 			}
 		},
 
-		async onProposalConvert(date: ProposalDate) {
+		onProposalConvert(date: ProposalDate) {
 			if (!this.selectedProposal || !date.date) {
 				return console.error('No proposal selected or invalid date for meeting conversion')
 			}
-
-			// Confirm the action with the user
-			const dateString = this.formatProposalDate(date.date)
-			if (!confirm(t('calendar', 'Create a meeting for "{date}"? This will create a calendar event with all participants.', { date: dateString }))) {
-				return
-			}
-
-			try {
-				showSuccess(t('calendar', 'Creating meeting for {date}', { date: dateString }))
-				await this.proposalStore.convertProposal(this.selectedProposal, date, this.userTimezone)
-				showSuccess(t('calendar', 'Successfully created meeting for {date}', { date: dateString }))
-				this.onModalClose()
-			} catch (error) {
-				showError(t('calendar', 'Failed to create a meeting for {date}', { date: dateString }))
-				console.error('Failed to create a meeting:', error)
-			}
+			this.pendingConvertDate = date
+			this.showConvertDialog = true
 		},
 
 		onProposalDurationChange(event: Event) {
@@ -742,6 +781,43 @@ export default {
 			} catch (error) {
 				showError(t('calendar', 'Failed to fetch proposals'))
 				console.error('Failed to fetch proposals:', error)
+			}
+		},
+
+		async destroyProposal() {
+			const proposal = this.pendingDeleteProposal
+			this.showDeleteDialog = false
+			this.pendingDeleteProposal = null
+			if (!proposal) {
+				return
+			}
+			try {
+				showSuccess(t('calendar', 'Deleting proposal "{title}"', { title: proposal.title ?? t('calendar', 'No title') }))
+				await this.proposalStore.destroyProposal(proposal)
+				showSuccess(t('calendar', 'Successfully deleted proposal'))
+				this.onModalClose()
+			} catch (error) {
+				showError(t('calendar', 'Failed to delete proposal'))
+				console.error('Failed to delete proposal:', error)
+			}
+		},
+
+		async convertProposal() {
+			const date = this.pendingConvertDate
+			this.showConvertDialog = false
+			this.pendingConvertDate = null
+			if (!this.selectedProposal || !date) {
+				return
+			}
+			const dateString = this.formatProposalDate(date.date)
+			try {
+				showSuccess(t('calendar', 'Creating meeting for {date}', { date: dateString }))
+				await this.proposalStore.convertProposal(this.selectedProposal, date, this.userTimezone)
+				showSuccess(t('calendar', 'Successfully created meeting for {date}', { date: dateString }))
+				this.onModalClose()
+			} catch (error) {
+				showError(t('calendar', 'Failed to create a meeting for {date}', { date: dateString }))
+				console.error('Failed to create a meeting:', error)
 			}
 		},
 
