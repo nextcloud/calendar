@@ -468,6 +468,7 @@
     "Personal" : "Persoonlijk",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "De automatisch gedetecteerde tijdzone is UTC.\nDit komt waarschijnlijk door beveiligingsmaatregelen van je webbrowser. Stel de tijdzone handmatig in bij de agenda-instellingen.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Je ingestelde tijdzone ({timezoneId}) werd niet gevonden. Er wordt teruggevallen op UTC.\nWijzig je tijdzone in instellingen en meld het incident.",
+    "Discard changes" : "Negeer wijzigingen",
     "Edit event" : "Bewerk gebeurtenis",
     "Event does not exist" : "Activiteit bestaat niet",
     "Delete this occurrence" : "Verwijder deze afspraak",
