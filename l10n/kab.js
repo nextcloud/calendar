@@ -43,6 +43,7 @@ OC.L10N.register(
     "or" : "neɣ",
     "General" : "Amatu",
     "Appearance" : "Udem",
+    "Editing" : "Asiẓreg",
     "Location" : "Adig",
     "Description" : "Aglam",
     "Add" : "Rnu",
