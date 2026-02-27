@@ -124,7 +124,7 @@
 	background-color: var(--color-background-dark) !important;
 	border: 1px solid var(--color-background-darker);
 	.fc-daygrid-day-top {
-		opacity: 0.6;
+		opacity: 0.8;
 	}
 }
 
@@ -132,13 +132,6 @@
 .fc-event {
 	padding-inline-start: 3px;
 	border-width: 2px;
-
-	&.fc-event-nc-task-completed,
-	&.fc-event-nc-tentative,
-	&.fc-event-past,
-	&.fc-event-nc-cancelled {
-		opacity: .5;
-	}
 
 	&.fc-event-nc-task-completed,
 	&.fc-event-nc-cancelled {
