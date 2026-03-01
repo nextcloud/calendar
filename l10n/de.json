@@ -394,6 +394,7 @@
     "Copied to clipboard" : "In die Zwischenablage kopiert",
     "Failed to copy" : "Kopieren fehlgeschlagen",
     "Copy name and email address" : "Name und E-Mail-Adresse kopieren",
+    "Send email to {email}" : "E-Mail an {email} senden",
     "No attendees yet" : "Keine Teilnehmer bislang",
     "{confirmedCount} confirmed, {waitingCount} awaiting response" : "{confirmedCount} bestätigt, {waitingCount} warten auf Antwort",
     "Please add at least one attendee to use the \"Find a time\" feature." : "Zum Verwenden der Funktion \"Zeit finden\", bitte mindestens einen Teilnehmer hinzufügen.",
