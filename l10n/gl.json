@@ -394,6 +394,7 @@
     "Copied to clipboard" : "Copiado no portapapeis",
     "Failed to copy" : "Produciuse un fallo ao copiar",
     "Copy name and email address" : "Copiar o nome e o enderezo de correo",
+    "Send email to {email}" : "Enviar correo a {email}",
     "No attendees yet" : "Aínda non hai participantes",
     "{confirmedCount} confirmed, {waitingCount} awaiting response" : "{confirmedCount} confirmados, agardando a resposta de {waitingCount}",
     "Please add at least one attendee to use the \"Find a time\" feature." : "Engada polo menos un asistente para usar a funcionalidade «Atopar unha hora».",
