@@ -9,8 +9,11 @@
 			<slot name="displayname">
 				{{ displayName }}
 			</slot>
+			<span v-if="email && !hasMembers" class="attendee-display__email">
+				{{ email }}
+			</span>
 		</div>
-		<span v-if="email && !hasMembers" :title="email" class="attendee-display__button-wrapper">
+		<span v-if="email && !hasMembers" class="attendee-display__button-wrapper">
 			<NcButton
 				class="attendee-display__button"
 				variant="tertiary-no-background"
@@ -18,6 +21,17 @@
 				@click="handleCopy">
 				<template #icon>
 					<ContentCopy :size="16" />
+				</template>
+			</NcButton>
+			<NcButton
+				class="attendee-display__button"
+				variant="tertiary-no-background"
+				:title="email"
+				:aria-label="$t('calendar', 'Send email to {email}', { email })"
+				:href="mailtoLink"
+				tag="a">
+				<template #icon>
+					<EmailOutline :size="16" />
 				</template>
 			</NcButton>
 		</span>
@@ -28,12 +42,14 @@
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { NcButton } from '@nextcloud/vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
+import EmailOutline from 'vue-material-design-icons/EmailOutline.vue'
 
 export default {
 	name: 'AttendeeDisplay',
 	components: {
 		NcButton,
 		ContentCopy,
+		EmailOutline,
 	},
 
 	props: {
@@ -50,6 +66,12 @@ export default {
 		hasMembers: {
 			type: Boolean,
 			default: false,
+		},
+	},
+
+	computed: {
+		mailtoLink() {
+			return `mailto:${this.email}`
 		},
 	},
 
@@ -83,6 +105,11 @@ export default {
 		text-overflow: ellipsis;
 		overflow: hidden;
 		white-space: nowrap;
+	}
+
+	&__email {
+		margin-inline-start: calc(var(--default-grid-baseline) * 2);
+		opacity: 0.45;
 	}
 
 	&__button-wrapper {
