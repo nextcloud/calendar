@@ -172,6 +172,7 @@ import useAppointmentConfigsStore from '../store/appointmentConfigs.js'
 import useCalendarsStore from '../store/calendars.js'
 import useSettingsStore from '../store/settings.js'
 import logger from '../utils/logger.js'
+import { isAfterVersion } from '@/utils/nextcloudVersion'
 
 export default {
 	name: 'AppointmentConfigModal',
@@ -259,8 +260,7 @@ export default {
 
 		// TODO: Can be removed after NC version 30 support is dropped
 		availableCalendars() {
-			const nextcloudMajorVersion = parseInt(window.OC.config.version.split('.')[0])
-			if (nextcloudMajorVersion >= 31) {
+			if (isAfterVersion(31)) {
 				return this.sortedCalendars
 			}
 			return this.ownSortedCalendars

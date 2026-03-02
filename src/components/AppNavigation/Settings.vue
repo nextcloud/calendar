@@ -338,10 +338,6 @@ export default {
 			return generateUrl('/settings/user/availability')
 		},
 
-		nextcloudVersion() {
-			return parseInt(OC.config.version.split('.')[0])
-		},
-
 		defaultCalendarOptions() {
 			return this.calendarsStore.calendars
 				.filter((calendar) => !calendar.readOnly
@@ -350,7 +346,7 @@ export default {
 		},
 
 		/**
-		 * The default calendarci for incoming inivitations
+		 * The default calendar for incoming inivitations
 		 *
 		 * @return {object|undefined} The default calendar or undefined if none is available
 		 */
