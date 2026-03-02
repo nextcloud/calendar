@@ -396,6 +396,7 @@ OC.L10N.register(
     "Copied to clipboard" : "Cóipeáladh chuig an ngearrthaisce",
     "Failed to copy" : "Theip ar chóipeáil",
     "Copy name and email address" : "Cóipeáil ainm agus seoladh ríomhphoist",
+    "Send email to {email}" : "Seol ríomhphost chuig {email}",
     "No attendees yet" : "Níl aon lucht freastail fós",
     "{confirmedCount} confirmed, {waitingCount} awaiting response" : "Deimhníodh {confirmedCount}, tá {waitingCount} ag fanacht le freagra",
     "Please add at least one attendee to use the \"Find a time\" feature." : "Cuir freastalaí amháin ar a laghad leis le go n-úsáidfidh tú an ghné \"Aimsigh am\".",

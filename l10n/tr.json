@@ -394,6 +394,7 @@
     "Copied to clipboard" : "Panoya kopyalandı",
     "Failed to copy" : "Kopyalanamadı",
     "Copy name and email address" : "Adı ve e-posta adresini kopyala",
+    "Send email to {email}" : "{email} adresine e-posta gönder",
     "No attendees yet" : "Henüz bir katılımcı yok",
     "{confirmedCount} confirmed, {waitingCount} awaiting response" : "{confirmedCount} onaylandı, {waitingCount} yanıt bekleniyor",
     "Please add at least one attendee to use the \"Find a time\" feature." : "Lütfen \"Bir zaman bul\" özelliğini kullanmak için en az bir katılımcı ekleyin.",
