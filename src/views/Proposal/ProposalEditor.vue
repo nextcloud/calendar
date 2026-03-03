@@ -11,7 +11,15 @@
 			:name="modalTitle"
 			:title="modalTitle"
 			:size="modalSize"
+			:close-button-contained="false"
+			:no-close="!operationInProgress"
 			@close="onModalClose()">
+			<!-- Loading overlay -->
+			<div v-if="operationInProgress" class="proposal-editor__loading-overlay">
+				<NcLoadingIcon :size="64" />
+				<p>{{ operationMessage }}</p>
+			</div>
+
 			<!-- Show proposal viewer -->
 			<div v-if="modalMode === 'view'" class="proposal-viewer__content">
 				<div class="proposal-viewer__content-title">
@@ -227,6 +235,7 @@ import DeleteIcon from 'vue-material-design-icons/TrashCanOutline'
 // components
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
+import NcLoadingIcon from '@nextcloud/vue/components/NcLoadingIcon'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import NcRadioGroup from '@nextcloud/vue/components/NcRadioGroup'
 import NcRadioGroupButton from '@nextcloud/vue/components/NcRadioGroupButton'
@@ -269,6 +278,7 @@ export default {
 	components: {
 		NcButton,
 		NcCheckboxRadioSwitch,
+		NcLoadingIcon,
 		NcModal,
 		NcRadioGroup,
 		NcRadioGroupButton,
@@ -309,6 +319,8 @@ export default {
 			calendarSpanMin: 1, // Minimum days that can be shown
 			calendarSpanDays: 7, // Currently applied span (derived)
 			screenWidth: window.innerWidth, // Track screen width
+			operationInProgress: false, // Lock to prevent concurrent operations
+			operationMessage: '', // Message to display during operation
 		}
 	},
 
@@ -563,36 +575,60 @@ export default {
 		},
 
 		async onProposalDestroy(proposal: Proposal) {
+			if (this.operationInProgress) {
+				return
+			}
+
 			if (!confirm(t('calendar', 'Are you sure you want to delete "{title}"?', { title: proposal.title ?? t('calendar', 'No title') }))) {
 				return
 			}
+
+			this.operationInProgress = true
+			this.operationMessage = t('calendar', 'Deleting proposal…')
+
 			try {
-				showSuccess(t('calendar', 'Deleting proposal "{title}"', { title: proposal.title ?? t('calendar', 'No title') }))
 				await this.proposalStore.destroyProposal(proposal)
 				showSuccess(t('calendar', 'Successfully deleted proposal'))
 				this.onModalClose()
 			} catch (error) {
 				showError(t('calendar', 'Failed to delete proposal'))
 				console.error('Failed to delete proposal:', error)
+			} finally {
+				this.operationInProgress = false
+				this.operationMessage = ''
 			}
 		},
 
 		async onProposalSave() {
+			if (this.operationInProgress) {
+				return
+			}
+
+			if (!this.selectedProposal) {
+				return console.error('No proposal selected for this operation')
+			}
+
+			this.operationInProgress = true
+			this.operationMessage = t('calendar', 'Saving proposal…')
+
 			try {
-				if (!this.selectedProposal) {
-					return console.error('No proposal selected for this operation')
-				}
-				showSuccess(t('calendar', 'Saving proposal "{title}"', { title: this.selectedProposal.title ?? t('calendar', 'No title') }))
 				await this.proposalStore.storeProposal(this.selectedProposal)
 				showSuccess(t('calendar', 'Successfully saved proposal'))
 				this.onModalClose()
 			} catch (error) {
 				showError(t('calendar', 'Failed to save proposal'))
 				console.error('Failed to save proposal:', error)
+			} finally {
+				this.operationInProgress = false
+				this.operationMessage = ''
 			}
 		},
 
 		async onProposalConvert(date: ProposalDate) {
+			if (this.operationInProgress) {
+				return
+			}
+
 			if (!this.selectedProposal || !date.date) {
 				return console.error('No proposal selected or invalid date for meeting conversion')
 			}
@@ -603,14 +639,19 @@ export default {
 				return
 			}
 
+			this.operationInProgress = true
+			this.operationMessage = t('calendar', 'Creating meeting…')
+
 			try {
-				showSuccess(t('calendar', 'Creating meeting for {date}', { date: dateString }))
 				await this.proposalStore.convertProposal(this.selectedProposal, date, this.userTimezone)
 				showSuccess(t('calendar', 'Successfully created meeting for {date}', { date: dateString }))
 				this.onModalClose()
 			} catch (error) {
 				showError(t('calendar', 'Failed to create a meeting for {date}', { date: dateString }))
 				console.error('Failed to create a meeting:', error)
+			} finally {
+				this.operationInProgress = false
+				this.operationMessage = ''
 			}
 		},
 
@@ -1185,4 +1226,28 @@ export default {
 	/* Override background with striped pattern for better visibility */
 	background-image: repeating-linear-gradient(45deg, transparent 0px, transparent calc(var(--default-grid-baseline) * 1), var(--color-background-hover) calc(var(--default-grid-baseline) * 1), var(--color-background-hover) calc(var(--default-grid-baseline) * 4)) !important;
 }
+
+.proposal-editor__loading-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(var(--backdrop-color), 0.5);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: calc(var(--default-grid-baseline) * 4);
+	z-index: 10000;
+	border-radius: var(--border-radius-large);
+
+	p {
+		font-size: calc(var(--default-grid-baseline) * 4);
+		font-weight: 500;
+		color: var(--color-text-primary);
+		margin: 0;
+	}
+}
+
 </style>
