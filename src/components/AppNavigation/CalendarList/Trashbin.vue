@@ -34,54 +34,58 @@
 					</NcEmptyContent>
 					<template v-else>
 						<table>
-							<tr>
-								<th class="name">
-									{{ t('calendar', 'Name') }}
-								</th>
-								<th class="deletedAt">
-									{{ t('calendar', 'Deleted') }}
-								</th>
-								<th>&nbsp;</th>
-							</tr>
-							<tr v-for="item in items" :key="item.url">
-								<td>
-									<div class="item">
-										<div>
-											<div
-												class="color-dot"
-												:style="{ 'background-color': item.color }" />
-										</div>
-
-										<div>
-											<div class="item-name">
-												{{ item.name }}
+							<thead>
+								<tr>
+									<th class="name">
+										{{ t('calendar', 'Name') }}
+									</th>
+									<th class="deletedAt">
+										{{ t('calendar', 'Deleted') }}
+									</th>
+									<th>&nbsp;</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="item in items" :key="item.url">
+									<td>
+										<div class="item">
+											<div>
+												<div
+													class="color-dot"
+													:style="{ 'background-color': item.color }" />
 											</div>
-											<div v-if="item.subline" class="item-subline">
-												{{ item.subline }}
+
+											<div>
+												<div class="item-name">
+													{{ item.name }}
+												</div>
+												<div v-if="item.subline" class="item-subline">
+													{{ item.subline }}
+												</div>
 											</div>
 										</div>
-									</div>
-								</td>
-								<td class="deletedAt">
-									<NcDateTime class="timestamp" :timestamp="item.deletedAt" />
-								</td>
-								<td>
-									<div class="item-actions">
-										<NcButton variant="secondary" @click="restore(item)">
-											{{ t('calendar', 'Restore') }}
-										</NcButton>
+									</td>
+									<td class="deletedAt">
+										<NcDateTime class="timestamp" :timestamp="item.deletedAt" />
+									</td>
+									<td>
+										<div class="item-actions">
+											<NcButton variant="secondary" @click="restore(item)">
+												{{ t('calendar', 'Restore') }}
+											</NcButton>
 
-										<NcActions :forceMenu="true">
-											<NcActionButton @click="onDeletePermanently(item)">
-												<template #icon>
-													<IconDelete :size="20" decorative />
-												</template>
-												{{ t('calendar', 'Delete permanently') }}
-											</NcActionButton>
-										</NcActions>
-									</div>
-								</td>
-							</tr>
+											<NcActions :forceMenu="true">
+												<NcActionButton @click="onDeletePermanently(item)">
+													<template #icon>
+														<IconDelete :size="20" decorative />
+													</template>
+													{{ t('calendar', 'Delete permanently') }}
+												</NcActionButton>
+											</NcActions>
+										</div>
+									</td>
+								</tr>
+							</tbody>
 						</table>
 						<div class="footer">
 							<p v-if="retentionDuration">

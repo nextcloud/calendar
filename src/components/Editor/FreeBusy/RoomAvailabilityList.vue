@@ -10,33 +10,37 @@
 		@update:open="(e) => $emit('update:show-dialog', e)">
 		<div class="modal__content__header">
 			<table>
-				<tr>
-					<th class="name">
-						{{ $t('calendar', 'Room name') }}
-					</th>
-					<th>&nbsp;</th>
-				</tr>
-				<tr v-for="room in rooms" :key="room.id">
-					<td>
-						<div class="item">
-							<div>
-								<div class="item-name">
-									{{ room.displayname }}
+				<thead>
+					<tr>
+						<th class="name">
+							{{ $t('calendar', 'Room name') }}
+						</th>
+						<th>&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="room in rooms" :key="room.id">
+						<td>
+							<div class="item">
+								<div>
+									<div class="item-name">
+										{{ room.displayname }}
+									</div>
 								</div>
 							</div>
-						</div>
-					</td>
-					<td>
-						<div class="item-actions">
-							<NcButton
-								variant="secondary"
-								class="rooms__availability"
-								@click="openRoomAvailability(room)">
-								{{ $t('calendar', 'Check room availability') }}
-							</NcButton>
-						</div>
-					</td>
-				</tr>
+						</td>
+						<td>
+							<div class="item-actions">
+								<NcButton
+									variant="secondary"
+									class="rooms__availability"
+									@click="openRoomAvailability(room)">
+									{{ $t('calendar', 'Check room availability') }}
+								</NcButton>
+							</div>
+						</td>
+					</tr>
+				</tbody>
 			</table>
 			<div>
 				<RoomAvailabilityModal
