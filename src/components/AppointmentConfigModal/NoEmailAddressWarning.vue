@@ -41,7 +41,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-:deep {
+:deep() {
 	.app-navigation-entry-link {
 		align-items: center;
 		line-height: unset !important;
