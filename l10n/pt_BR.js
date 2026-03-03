@@ -396,6 +396,7 @@ OC.L10N.register(
     "Copied to clipboard" : "Copiado para a área de transferência",
     "Failed to copy" : "Falha ao copiar",
     "Copy name and email address" : "Copiar o nome e o endereço de e-mail",
+    "Send email to {email}" : "Enviar e-mail para {email}",
     "No attendees yet" : "Nenhum participante ainda",
     "{confirmedCount} confirmed, {waitingCount} awaiting response" : "{confirmedCount} confirmados, {waitingCount} aguardando resposta",
     "Please add at least one attendee to use the \"Find a time\" feature." : "Por favor, adicione pelo menos um participante para usar o recurso \"Encontrar um horário\".",
