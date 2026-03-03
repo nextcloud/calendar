@@ -119,15 +119,23 @@ export default {
 		status() {
 			const acceptedIcon = {
 				icon: IconAccepted,
-				fillColor: '#32CD32',
+				fillColor: 'var(--color-success-text)',
 			}
 			const declinedIcon = {
 				icon: IconDeclined,
-				fillColor: '#ff4402',
+				fillColor: 'var(--color-error-text)',
 			}
 			const tentativeIcon = {
 				icon: IconTentative,
-				fillColor: '#ffc107',
+				fillColor: 'var(--color-element-warning)',
+			}
+			const delegatedIcon = {
+				icon: IconDelegated,
+				fillColor: 'vat(--color-text-maxcontrast)',
+			}
+			const noResponseIcon = {
+				icon: IconNoResponse,
+				fillColor: 'vat(--color-text-maxcontrast)',
 			}
 
 			if (this.isSuggestion) {
@@ -274,25 +282,8 @@ export default {
 		justify-self: unset !important;
 	}
 
-	&__indicator.accepted {
-		background-color: #2fb130;
-	}
-
-	&__indicator.declined {
-		background-color: #ff0000;
-	}
-
-	&__indicator.tentative {
-		background-color: #ffa704;
-	}
-
-	&__indicator.delegated,
-	&__indicator.no-response {
-		background-color: grey;
-	}
-
 	&__text {
-		opacity: .45;
+		color: var(--color-text-maxcontrast);
 		inset-inline-start: 58px;
 		bottom: 21px;
 		white-space: nowrap;
