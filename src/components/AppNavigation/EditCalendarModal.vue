@@ -23,6 +23,7 @@
 				<input v-model="calendarName"
 					class="edit-calendar-modal__name-and-color__name"
 					type="text"
+					:required="true"
 					:placeholder="$t('calendar', 'Calendar name …')"
 					@input="calendarNameChanged = true">
 			</div>
@@ -66,7 +67,7 @@
 					</template>
 					{{ $t('calendar', 'Export') }}
 				</NcButton>
-				<NcButton type="secondary" @click="saveAndClose">
+				<NcButton type="secondary" :disabled="!isCalendarNameValid" @click="saveAndClose">
 					<template #icon>
 						<CheckIcon :size="20" />
 					</template>
@@ -161,6 +162,15 @@ export default {
 		downloadUrl() {
 			return this.calendar.url + '?export'
 		},
+
+		/**
+		 * Whether the calendar name can be submitted.
+		 *
+		 * @return {boolean}
+		 */
+		isCalendarNameValid() {
+			return typeof this.calendarName === 'string' && this.calendarName.trim().length > 0
+		},
 	},
 	watch: {
 		calendar(calendar) {
@@ -226,7 +236,7 @@ export default {
 			try {
 				await this.calendarsStore.renameCalendar({
 					calendar: this.calendar,
-					newName: this.calendarName,
+					newName: this.calendarName.trim(),
 				})
 			} catch (error) {
 				logger.error('Failed to save calendar name', {
@@ -243,6 +253,9 @@ export default {
 		 * @return {Promise<void>}
 		 */
 		async saveAndClose() {
+			if (!this.isCalendarNameValid) {
+				return
+			}
 			try {
 				if (this.calendarColorChanged) {
 					await this.saveColor()
