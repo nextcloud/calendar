@@ -226,7 +226,7 @@ export default {
 			try {
 				await this.calendarsStore.renameCalendar({
 					calendar: this.calendar,
-					newName: this.calendarName,
+					newName: this.calendarName.trim(),
 				})
 			} catch (error) {
 				logger.error('Failed to save calendar name', {
@@ -243,6 +243,9 @@ export default {
 		 * @return {Promise<void>}
 		 */
 		async saveAndClose() {
+			if (!this.isCalendarNameValid) {
+				return
+			}
 			try {
 				if (this.calendarColorChanged) {
 					await this.saveColor()
