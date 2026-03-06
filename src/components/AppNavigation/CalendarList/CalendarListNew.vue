@@ -8,7 +8,7 @@
 		<NcAppNavigationCaption
 			class="app-navigation-entry-new-calendar"
 			:class="{ 'app-navigation-entry-new-calendar--open': isOpen }"
-			:name="$t('calendar', 'Calendars')"
+			:name="$t('calendar', 'My calendars')"
 			:menuOpen="isOpen"
 			@update:menuOpen="setMenuOpen"
 			@click.prevent.stop="toggleDialog">
