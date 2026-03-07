@@ -39,7 +39,6 @@
     "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["Dirannañ an deizataer a ben {countdown} eilenn","Dirannañ an deizataer a ben {countdown} eilenn","Dirannañ an deizataer a ben {countdown} eilenn","Dirannañ an deizataer a ben {countdown} eilenn","Dilamet e vo an deiziataer a-benn {countdown} eilenn"],
     "An error occurred, unable to create the calendar." : "Ur fazi a zo bet, dibosupl eo krouiñ an deizataer",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Lakait ul liamm mat (o kregiñ gant http://, https://, webcal://, or webcals://)",
-    "Calendars" : "Deiziataerioù",
     "New calendar" : "Deizataer nevez",
     "Creating calendar …" : "Krouiñ un deizataer ...",
     "New calendar with task list" : "Deizataer nevez gant ur roll ober",
@@ -164,6 +163,7 @@
     "Error while sharing file" : "Ur fazi a zo bet en ur rannañ ar restr",
     "An error occurred, unable to delete the calendar." : "C'hoarvezet ez eus ur fazi, ne c'haller ket dilemel an deiziataer.",
     "Imported {filename}" : "Enporzhiet {filename}",
+    "Calendars" : "Deiziataerioù",
     "Hidden" : "Koachet",
     "can edit" : "posuple eo embann",
     "The visibility of this event in shared calendars." : "Gweluster an darvoud-mañ en deiziataerioù lodet."

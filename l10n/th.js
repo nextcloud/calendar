@@ -23,7 +23,6 @@ OC.L10N.register(
     "Edit" : "แก้ไข",
     "Delete" : "ลบ",
     "Create new" : "สร้างใหม่",
-    "Calendars" : "ปฏิทิน",
     "New calendar" : "สร้างปฏิทินใหม่",
     "Export" : "ส่งออก",
     "Empty trash bin" : "ล้างข้อมูลในถังขยะ",
@@ -105,6 +104,7 @@ OC.L10N.register(
     "Status" : "สถานะ",
     "Confirmed" : "ยืนยันแล้ว",
     "Categories" : "หมวดหมู่",
+    "Calendars" : "ปฏิทิน",
     "Hidden" : "ซ่อนอยู่",
     "can edit" : "สามารถแก้ไข",
     "Pick a date" : "เลือกวันที่"
