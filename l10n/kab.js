@@ -23,7 +23,6 @@ OC.L10N.register(
     "Edit" : "Ẓreg",
     "Delete" : "Kkes",
     "Create new" : "Snulfu-d amaynut",
-    "Calendars" : "Iwitayen",
     "Add new" : "Rnu amaynut",
     "New calendar" : "Awitay amaynut",
     "Export" : "Sifeḍ",
@@ -78,6 +77,7 @@ OC.L10N.register(
     "Weekly" : "S umalas",
     "Other" : "Wayeḍ",
     "Status" : "Addad",
-    "Categories" : "Taggayin"
+    "Categories" : "Taggayin",
+    "Calendars" : "Iwitayen"
 },
 "nplurals=2; plural=(n != 1);");
