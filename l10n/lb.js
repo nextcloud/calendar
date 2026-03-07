@@ -12,7 +12,6 @@ OC.L10N.register(
     "Copy link" : "Link kopéieren",
     "Edit" : "Änneren",
     "Delete" : "Läschen",
-    "Calendars" : "Kalenneren",
     "New calendar" : "Neie Kalenner",
     "Export" : "Exportéieren",
     "Empty trash bin" : "Eidel Dreckskëscht",
@@ -70,6 +69,7 @@ OC.L10N.register(
     "When shared show full event" : "Wann et gedeelt gouf, dann de ganzen Evenement uweisen",
     "When shared show only busy" : "Wann et gedeelt gouf, dann nëmmen als beschäftegt uweisen",
     "When shared hide this event" : "Wann et gedeelt gouf, dann verstopp dëst Evenement",
+    "Calendars" : "Kalenneren",
     "Hidden" : "Verstoppt",
     "can edit" : "kann änneren"
 },

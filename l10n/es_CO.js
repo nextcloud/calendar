@@ -22,7 +22,6 @@ OC.L10N.register(
     "Copy link" : "Copiar enlace",
     "Edit" : "Editar",
     "Delete" : "Borrar",
-    "Calendars" : "Calendarios",
     "New calendar" : "Nuevo calendario",
     "Export" : "Exportar",
     "Empty trash bin" : "Vacíar la papelera",
@@ -97,6 +96,7 @@ OC.L10N.register(
     "Confirmed" : "Confirmado",
     "Categories" : "Categorías",
     "User not found" : "No se encontró el usuario",
+    "Calendars" : "Calendarios",
     "Hidden" : "Oculto",
     "can edit" : "puede editar",
     "Show week numbers" : "Mostrar número de semana"

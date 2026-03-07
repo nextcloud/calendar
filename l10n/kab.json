@@ -21,7 +21,6 @@
     "Edit" : "Ẓreg",
     "Delete" : "Kkes",
     "Create new" : "Snulfu-d amaynut",
-    "Calendars" : "Iwitayen",
     "Add new" : "Rnu amaynut",
     "New calendar" : "Awitay amaynut",
     "Export" : "Sifeḍ",
@@ -76,6 +75,7 @@
     "Weekly" : "S umalas",
     "Other" : "Wayeḍ",
     "Status" : "Addad",
-    "Categories" : "Taggayin"
+    "Categories" : "Taggayin",
+    "Calendars" : "Iwitayen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
