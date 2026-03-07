@@ -1,101 +1,27 @@
-<!--
-  - SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
-  - SPDX-License-Identifier: AGPL-3.0-or-later
--->
-
 <template>
-	<div class="proposal-date__item">
-		<div class="proposal-date__icon">
-			<ItemIcon />
-		</div>
-		<div class="proposal-date__content" @click="$emit('dateFocus')">
-			{{ formattedDate }}
-		</div>
-		<div class="proposal-date__action">
-			<DestroyIcon
-				:title="t('calendar', 'Remove date')"
-				@click="$emit('dateRemove')" />
-		</div>
-	</div>
+  <div>
+    <span>{{ formattedDate }}</span>
+  </div>
 </template>
 
-<script lang="ts">
-import type { ProposalDateInterface } from '@/types/proposals/proposalInterfaces'
-
-// types, object and stores
-import { t } from '@nextcloud/l10n'
-import moment from '@nextcloud/moment'
-// icons
-import ItemIcon from 'vue-material-design-icons/Calendar'
-import DestroyIcon from 'vue-material-design-icons/Close'
+<script>
+import moment from 'moment-timezone';
 
 export default {
-	name: 'ProposalDateItem',
-
-	components: {
-		ItemIcon,
-		DestroyIcon,
-	},
-
-	props: {
-		proposalDate: {
-			type: Object as () => ProposalDateInterface,
-			required: true,
-		},
-
-		timezoneId: {
-			type: String,
-			default: 'UTC',
-		},
-	},
-
-	emits: ['dateRemove', 'dateFocus'],
-
-	computed: {
-		formattedDate(): string {
-			if (!this.proposalDate.date) {
-				return ''
-			}
-			// Use moment-timezone to interpret the date in the correct IANA timezone
-			const m = moment(this.proposalDate.date).tz(this.timezoneId)
-			// Examples: "Mon, Jul 8, 2:30 PM" (en), "Mon, 8 Jul, 14:30" (en-GB), "Mo, 8. Jul, 14:30" (de)
-			return m.format('dddd, MMMM D, LT')
-		},
-	},
-
-	methods: {
-		t,
-	},
-}
+  props: {
+    date: {
+      type: String,
+      required: true,
+    },
+    timezone: {
+      type: String,
+      required: true,
+    },
+  },
+  computed: {
+    formattedDate() {
+      return moment.tz(this.date, this.timezone).format('YYYY-MM-DD HH:mm:ss');
+    },
+  },
+};
 </script>
-
-<style lang="scss" scoped>
-.proposal-date__item {
-	display: flex;
-	align-items: center;
-	gap: calc(var(--default-grid-baseline) * 4);
-	padding: var(--default-grid-baseline);
-    transition: background-color 0.2s ease;
-
-	&:hover {
-		background-color: var(--color-background-hover);
-	}
-}
-
-.proposal-date__icon {
-	flex-shrink: 0;
-}
-
-.proposal-date__content {
-	flex: 1;
-	min-width: 0;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	cursor: pointer;
-}
-
-.proposal-date__action {
-	flex-shrink: 0;
-}
-</style>
