@@ -57,7 +57,7 @@ export default {
 				return ''
 			}
 			// Use moment-timezone to interpret the date in the correct IANA timezone
-			const m = moment.tz(this.proposalDate.date, this.timezoneId)
+			const m = moment(this.proposalDate.date).tz(this.timezoneId)
 			// Examples: "Mon, Jul 8, 2:30 PM" (en), "Mon, 8 Jul, 14:30" (en-GB), "Mo, 8. Jul, 14:30" (de)
 			return m.format('dddd, MMMM D, LT')
 		},
