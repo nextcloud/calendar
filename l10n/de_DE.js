@@ -100,6 +100,7 @@ OC.L10N.register(
     "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["Kalender wird in {countdown} Sekunde gelöscht","Kalender wird in {countdown} Sekunden gelöscht"],
     "An error occurred, unable to create the calendar." : "Es ist ein Fehler aufgetreten, der Kalender konnte nicht erstellt werden.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Bitte geben Sie einen gültigen Link ein (beginnend mit http://, https://, webcal://, oder webcals://)",
+    "My calendars" : "Meine Kalender",
     "Add new" : "Neu hinzufügen",
     "New calendar" : "Neuer Kalender",
     "Name for new calendar" : "Name für neuen Kalender",
