@@ -34,6 +34,8 @@
 					class="edit-calendar-modal__name-and-color__name"
 					:label="$t('calendar', 'Calendar name')"
 					:labelOutside="true"
+					:error="!isCalendarNameValid"
+					:helperText="!isCalendarNameValid ? $t('calendar', 'Calendar name can not be blank') : ''"
 					@update:modelValue="calendarNameChanged = true" />
 			</div>
 			<template v-if="canBeShared">
@@ -77,7 +79,7 @@
 					</template>
 					{{ $t('calendar', 'Export') }}
 				</NcButton>
-				<NcButton variant="secondary" @click="saveAndClose">
+				<NcButton variant="secondary" :disabled="!isCalendarNameValid" @click="saveAndClose">
 					<template #icon>
 						<CheckIcon :size="20" />
 					</template>
@@ -175,6 +177,15 @@ export default {
 		 */
 		downloadUrl() {
 			return this.calendar.url + '?export'
+		},
+
+		/**
+		 * Whether the calendar name is non-blank.
+		 *
+		 * @return {boolean}
+		 */
+		isCalendarNameValid() {
+			return !!this.calendarName?.trim()
 		},
 
 		/**
@@ -276,7 +287,7 @@ export default {
 			try {
 				await this.calendarsStore.renameCalendar({
 					calendar: this.calendar,
-					newName: this.calendarName,
+					newName: this.calendarName.trim(),
 				})
 			} catch (error) {
 				logger.error('Failed to save calendar name', {
@@ -293,6 +304,9 @@ export default {
 		 * @return {Promise<void>}
 		 */
 		async saveAndClose() {
+			if (!this.isCalendarNameValid) {
+				return
+			}
 			try {
 				if (this.calendarColorChanged) {
 					await this.saveColor()
