@@ -98,6 +98,7 @@
     "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["Deleting the calendar in {countdown} second","Deleting the calendar in {countdown} seconds"],
     "An error occurred, unable to create the calendar." : "An error occurred, unable to create the calendar.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)",
+    "My calendars" : "My calendars",
     "Add new" : "Add new",
     "New calendar" : "New calendar",
     "Name for new calendar" : "Name for new calendar",
