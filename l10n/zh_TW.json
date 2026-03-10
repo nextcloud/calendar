@@ -98,6 +98,7 @@
     "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["將在 {countdown} 秒後刪除日曆"],
     "An error occurred, unable to create the calendar." : "發生錯誤，無法建立日曆",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "請輸入有效的連結（以 http:// , https:// , webcal:// , 或 webcals:// 開頭）",
+    "My calendars" : "我的日曆",
     "Add new" : "新增",
     "New calendar" : "新日曆",
     "Name for new calendar" : "新行事曆名稱",
