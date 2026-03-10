@@ -39,6 +39,7 @@ OC.L10N.register(
     "Untitled calendar" : "Каляндар без назвы",
     "Copy public link" : "Скапіяваць публічную спасылку",
     "Edit calendar" : "Рэдагаваць каляндар",
+    "My calendars" : "Мае календары",
     "New calendar with task list" : "Новы каляндар са спісам заданняў",
     "Export" : "Экспарт",
     "Trash bin" : "Сметніца",

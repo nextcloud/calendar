@@ -100,6 +100,7 @@ OC.L10N.register(
     "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["Excluindo o calendário em {countdown} segundo","Excluindo o calendário em {countdown} segundos","Excluindo o calendário em {countdown} segundos"],
     "An error occurred, unable to create the calendar." : "Erro ao criar o calendário.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Digite um link válido (começando com http://, https://, webcal://, ou webcals://)",
+    "My calendars" : "Meus calendários",
     "Add new" : "Adicionar novo",
     "New calendar" : "Novo calendário",
     "Name for new calendar" : "Nome do novo calendário",
