@@ -98,6 +98,7 @@ OC.L10N.register(
     "Edit calendar" : "Editar calendário",
     "_Unsharing the calendar in {countdown} second_::_Unsharing the calendar in {countdown} seconds_" : ["Descompartilhando o calendário em {countdown} segundo","Descompartilhando o calendário em {countdown} segundos","Descompartilhando o calendário em {countdown} segundos"],
     "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["Excluindo o calendário em {countdown} segundo","Excluindo o calendário em {countdown} segundos","Excluindo o calendário em {countdown} segundos"],
+    "Calendar name can not be blank" : "O nome do calendário não pode ficar em branco",
     "An error occurred, unable to create the calendar." : "Erro ao criar o calendário.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Digite um link válido (começando com http://, https://, webcal://, ou webcals://)",
     "My calendars" : "Meus calendários",

@@ -98,6 +98,7 @@ OC.L10N.register(
     "Edit calendar" : "Kalender bearbeiten",
     "_Unsharing the calendar in {countdown} second_::_Unsharing the calendar in {countdown} seconds_" : ["Kalenderfreigabe wird in {countdown} Sekunde beendet","Kalenderfreigabe wird in {countdown} Sekunden beendet"],
     "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["Kalender wird in {countdown} Sekunde gelöscht","Kalender werden in {countdown} Sekunden gelöscht"],
+    "Calendar name can not be blank" : "Der Kalendername darf nicht leer sein",
     "An error occurred, unable to create the calendar." : "Es ist ein Fehler aufgetreten, der Kalender konnte nicht erstellt werden.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Bitte einen gültigen Link eingeben (beginnend mit http://, https://, webcal://, oder webcals://)",
     "My calendars" : "Meine Kalender",

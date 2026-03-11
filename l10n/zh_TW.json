@@ -96,6 +96,7 @@
     "Edit calendar" : "編輯行事曆",
     "_Unsharing the calendar in {countdown} second_::_Unsharing the calendar in {countdown} seconds_" : ["將在 {countdown} 秒後取消分享日曆"],
     "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["將在 {countdown} 秒後刪除日曆"],
+    "Calendar name can not be blank" : "日曆名稱不能為空",
     "An error occurred, unable to create the calendar." : "發生錯誤，無法建立日曆",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "請輸入有效的連結（以 http:// , https:// , webcal:// , 或 webcals:// 開頭）",
     "My calendars" : "我的日曆",
