@@ -6,7 +6,7 @@
 <template>
 	<NcModal
 		v-if="!!calendarsStore.editCalendarModal && calendar"
-		size="normal"
+		size="large"
 		:name="$t('calendar', 'Edit calendar')"
 		@close="closeModal">
 		<div class="edit-calendar-modal">
@@ -233,6 +233,11 @@ export default {
 			this.calendarNameChanged = false
 			this.calendarColorChanged = false
 			this.isTransparent = calendar.transparency === 'transparent'
+
+			// Load alarm suppression settings for shares when modal opens
+			if (!calendar.isSharedWithMe && calendar.shares.length > 0) {
+				this.calendarsStore.loadShareAlarmSettings({ calendar })
+			}
 		},
 	},
 
