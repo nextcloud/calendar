@@ -96,6 +96,7 @@
     "Edit calendar" : "Edit calendar",
     "_Unsharing the calendar in {countdown} second_::_Unsharing the calendar in {countdown} seconds_" : ["Unsharing the calendar in {countdown} second","Unsharing the calendar in {countdown} seconds"],
     "_Deleting the calendar in {countdown} second_::_Deleting the calendar in {countdown} seconds_" : ["Deleting the calendar in {countdown} second","Deleting the calendar in {countdown} seconds"],
+    "Calendar name can not be blank" : "Calendar name can not be blank",
     "An error occurred, unable to create the calendar." : "An error occurred, unable to create the calendar.",
     "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)" : "Please enter a valid link (starting with http://, https://, webcal://, or webcals://)",
     "My calendars" : "My calendars",
