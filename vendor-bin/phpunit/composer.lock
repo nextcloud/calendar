@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c6a2e01254383be37831691ebceed7a7",
+    "content-hash": "8df47d40b09bad037b778cdb33a0b4ec",
     "packages": [],
     "packages-dev": [
         {
             "name": "christophwurst/nextcloud_testing",
-            "version": "v1.1.1",
+            "version": "v1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ChristophWurst/nextcloud_testing.git",
-                "reference": "152df875b0533e720fc20a77a33fecbd9d408588"
+                "reference": "2428fddb15caeb025fa0bb37638e7756aae2a1f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_testing/zipball/152df875b0533e720fc20a77a33fecbd9d408588",
-                "reference": "152df875b0533e720fc20a77a33fecbd9d408588",
+                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_testing/zipball/2428fddb15caeb025fa0bb37638e7756aae2a1f1",
+                "reference": "2428fddb15caeb025fa0bb37638e7756aae2a1f1",
                 "shasum": ""
             },
             "require": {
@@ -45,9 +45,9 @@
             "description": "Simple and fast unit and integration testing framework for Nextcloud, based on PHPUnit",
             "support": {
                 "issues": "https://github.com/ChristophWurst/nextcloud_testing/issues",
-                "source": "https://github.com/ChristophWurst/nextcloud_testing/tree/v1.1.1"
+                "source": "https://github.com/ChristophWurst/nextcloud_testing/tree/v1.1.3"
             },
-            "time": "2026-02-17T08:39:26+00:00"
+            "time": "2026-03-10T18:18:16+00:00"
         },
         {
             "name": "myclabs/deep-copy",
