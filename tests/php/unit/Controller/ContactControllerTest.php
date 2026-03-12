@@ -306,15 +306,20 @@ class ContactControllerTest extends TestCase {
 				[$user3, null],
 				[$user4, null],
 			]);
+		$searchCallCount = 0;
 		$this->manager->expects(self::exactly(2))
 			->method('search')
-			->withConsecutive(
-				['search 123', ['FN', 'EMAIL'], ['enumeration' => true]],
-				['search 123', ['CATEGORIES']],
-			)
-			->willReturnOnConsecutiveCalls(
-				[$user1, $user2, $user3, $user4],
-				[
+			->willReturnCallback(function (string $search, array $fields, array $options = []) use (&$searchCallCount, $user1, $user2, $user3, $user4) {
+				$searchCallCount++;
+				if ($searchCallCount === 1) {
+					$this->assertEquals('search 123', $search);
+					$this->assertEquals(['FN', 'EMAIL'], $fields);
+					$this->assertEquals(['enumeration' => true], $options);
+					return [$user1, $user2, $user3, $user4];
+				}
+				$this->assertEquals('search 123', $search);
+				$this->assertEquals(['CATEGORIES'], $fields);
+				return [
 					[
 						'FN' => 'Person 4',
 						'EMAIL' => 'foo4@example.com',
@@ -329,8 +334,8 @@ class ContactControllerTest extends TestCase {
 						'EMAIL' => 'foo6@example.com',
 						'CATEGORIES' => 'search 123'
 					],
-				],
-			);
+				];
+			});
 
 		$this->service->method('getNameFromContact')
 			->willReturnMap([

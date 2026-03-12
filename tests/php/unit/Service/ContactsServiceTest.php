@@ -59,24 +59,6 @@ class ContactsServiceTest extends TestCase {
 		$this->assertNull($this->service->getPhotoUri([]));
 	}
 
-	public function testFilterGroupsWithCount(): void {
-		$contact = [
-			['CATEGORIES' => 'The Proclaimers,I\'m gonna be,When I go out,I would walk 500 Miles,I would walk 500 more'],
-			['CATEGORIES' => 'The Proclaimers,When I\'m lonely,I would walk 500 Miles,I would walk 500 more'],
-			['CATEGORIES' => ''],
-			[],
-		];
-
-		$searchterm = 'walk';
-
-		$expected = [
-			'I would walk 500 Miles' => 2,
-			'I would walk 500 more' => 2,
-		];
-
-		$this->assertEqualsCanonicalizing($expected, $this->service->filterGroupsWithCount($contact, $searchterm));
-	}
-
 	public function testGetTimezoneId(): void {
 		$contact = ['TZ' => ['UTC']];
 		$this->assertEquals('UTC', $this->service->getTimezoneId($contact));

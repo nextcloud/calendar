@@ -64,8 +64,8 @@ import {
 	NcSelect,
 } from '@nextcloud/vue'
 import debounce from 'debounce'
-import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCirclesCommunities.vue'
 import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
+import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCirclesCommunities.vue'
 import {
 	circleGetMembers,
 	circleSearchByName,
@@ -220,7 +220,7 @@ export default {
 					contacts.push({
 						type: 'group',
 						dropdownName: groupName,
-						subtitle: this.$n('calendar', 'Contains %n contact(s) with email addresses', 'Contains %n contact(s) with email addresses', processedGroupContacts.length),
+						subtitle: this.$n('calendar', 'Contains %n contact with email address', 'Contains %n contacts with email addresses', processedGroupContacts.length),
 						contacts: processedGroupContacts,
 					})
 				}
@@ -228,6 +228,7 @@ export default {
 
 			return [...contacts, ...this.buildEmailsFromContactData(response.data.contacts)]
 		},
+
 		buildEmailsFromContactData(contactsData) {
 			return contactsData.reduce((arr, result) => {
 				const hasMultipleEMails = result.emails.length > 1

@@ -135,7 +135,7 @@ class ContactController extends Controller {
 
 			$groups = array_reduce($groupsContactsResult, function (array $acc, array $groupContact) use ($search) {
 				// Information about system users is fetched via DAV nowadays
-				if (isset($groupContact['isLocalSystemBook']) && $groupContact['isLocalSystemBook']) {
+				if ($this->contactsService->isSystemBook($groupContact)) {
 					return $acc;
 				}
 
