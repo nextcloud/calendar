@@ -1139,12 +1139,17 @@ export default defineStore('calendarObjectInstance', {
 			calendarObjectInstance,
 			type,
 			totalSeconds,
+			isDefault = false,
 		}) {
 			if (calendarObjectInstance.eventComponent) {
 				const eventComponent = calendarObjectInstance.eventComponent
 
 				const duration = DurationValue.fromSeconds(totalSeconds)
 				const alarmComponent = eventComponent.addRelativeAlarm(type, duration)
+
+				if (isDefault) {
+					alarmComponent.addProperty(new Property('X-NC-DEFAULT-ALARM', isDefault))
+				}
 
 				const alarmObject = mapAlarmComponentToAlarmObject(alarmComponent)
 
@@ -1404,11 +1409,15 @@ export default defineStore('calendarObjectInstance', {
 				defaultReminder = parseInt(settingsStore.defaultReminder)
 			}
 
-			if (!isNaN(defaultReminder)) {
+			if (
+				!isNaN(defaultReminder)
+				&& !calendarObjectInstance.alarms.some((alarm) => alarm.alarmComponent.getFirstPropertyFirstValue('X-NC-DEFAULT-ALARM'))
+			) {
 				this.addAlarmToCalendarObjectInstance({
 					calendarObjectInstance,
 					type: 'DISPLAY',
 					totalSeconds: defaultReminder,
+					isDefault: true,
 				})
 				logger.debug(`Added defaultReminder (${defaultReminder}s) to newly created event`)
 			}
@@ -1880,8 +1889,8 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 *
 		 * @param {object} data The destructuring object for data
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
+		 * @param {string} data.byDay The new until to set
 		 */
 		enableRecurrenceLimitByUntil({
 			calendarObjectInstance,
@@ -1939,6 +1948,7 @@ export default defineStore('calendarObjectInstance', {
 		 *
 		 * @param {object} data The destructuring object for data
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
+		 * @param {number} data.count The new count to set
 		 */
 		enableRecurrenceLimitByCount({ recurrenceRule }) {
 			this.changeRecurrenceToInfinite({
