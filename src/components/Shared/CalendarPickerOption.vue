@@ -11,10 +11,21 @@
 
 		<span class="calendar-picker-option__label">
 			{{ displayName }}
+			<span v-if="isDelegated && delegatorDisplayName" class="calendar-picker-option__delegation">
+				{{ $t('calendar', '(delegated by {name})', { name: delegatorDisplayName }) }}
+			</span>
 		</span>
 
 		<Avatar
-			v-if="isSharedWithMe"
+			v-if="isDelegated"
+			class="calendar-picker-option__avatar"
+			:disableMenu="true"
+			:disableTooltip="true"
+			:user="delegatorUserId"
+			:displayName="delegatorDisplayName"
+			:size="18" />
+		<Avatar
+			v-else-if="isSharedWithMe"
 			class="calendar-picker-option__avatar"
 			:disableMenu="true"
 			:disableTooltip="true"
@@ -55,6 +66,16 @@ export default {
 			type: Boolean,
 			required: true,
 		},
+
+		isDelegated: {
+			type: Boolean,
+			default: false,
+		},
+
+		delegatorUrl: {
+			type: String,
+			default: '',
+		},
 	},
 
 	computed: {
@@ -93,6 +114,28 @@ export default {
 
 			return null
 		},
+
+		delegatorPrincipal() {
+			if (!this.delegatorUrl) {
+				return null
+			}
+			return this.principalsStore.getPrincipalByUrl(this.delegatorUrl) || null
+		},
+
+		delegatorUserId() {
+			return this.delegatorPrincipal?.userId || null
+		},
+
+		delegatorDisplayName() {
+			return this.delegatorPrincipal?.displayname || this.delegatorPrincipal?.userId || ''
+		},
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.calendar-picker-option__delegation {
+	color: var(--color-text-maxcontrast);
+	margin-inline-start: 4px;
+}
+</style>

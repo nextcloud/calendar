@@ -85,7 +85,7 @@ export default {
 			}
 
 			// Emit value in seconds
-			// eslint-disable-next-line vue/require-explicit-emits
+
 			this.$emit('update:modelValue', this.parsedInternalValue * 60)
 		},
 

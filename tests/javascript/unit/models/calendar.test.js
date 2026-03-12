@@ -32,6 +32,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			url: '',
 			readOnly: false,
 			order: 0,
+			isDelegated: false,
 			isSharedWithMe: false,
 			canBeShared: false,
 			canBePublished: false,
@@ -44,6 +45,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			transparency: 'opaque',
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 	})
 
@@ -68,6 +70,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			url: '',
 			readOnly: false,
 			order: 0,
+			isDelegated: false,
 			isSharedWithMe: false,
 			canBeShared: false,
 			canBePublished: false,
@@ -80,6 +83,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			transparency: 'opaque',
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 	})
 
@@ -119,6 +123,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
 			canCreateObject: false,
 			canDeleteObject: false,
@@ -131,6 +136,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -172,6 +178,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
 			canCreateObject: false,
 			canDeleteObject: false,
@@ -184,6 +191,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -223,6 +231,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
 			canCreateObject: false,
 			canDeleteObject: false,
@@ -235,6 +244,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -274,6 +284,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: true,
 			canCreateObject: false,
 			canDeleteObject: false,
@@ -286,6 +297,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -325,6 +337,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
 			canCreateObject: false,
 			canDeleteObject: false,
@@ -337,6 +350,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -376,6 +390,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
 			canCreateObject: false,
 			canDeleteObject: false,
@@ -388,6 +403,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -427,6 +443,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
 			canCreateObject: false,
 			canDeleteObject: false,
@@ -439,6 +456,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -478,6 +496,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
 			canCreateObject: false,
 			canDeleteObject: false,
@@ -490,6 +509,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -585,6 +605,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
 			canCreateObject: false,
 			canDeleteObject: false,
@@ -597,6 +618,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(4)
@@ -708,6 +730,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: true,
 			canCreateObject: false,
 			canDeleteObject: false,
@@ -720,6 +743,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -760,6 +784,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
 			canCreateObject: false,
 			canDeleteObject: false,
@@ -772,6 +797,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 	})
 
