@@ -15,6 +15,7 @@ use OCA\Calendar\Db\ProposalDateMapper;
 use OCA\Calendar\Db\ProposalMapper;
 use OCA\Calendar\Db\ProposalParticipantMapper;
 use OCA\Calendar\Db\ProposalVoteMapper;
+use OCA\Calendar\Objects\Proposal\ProposalCollection;
 use OCA\Calendar\Objects\Proposal\ProposalDateCollection;
 use OCA\Calendar\Objects\Proposal\ProposalDateObject;
 use OCA\Calendar\Objects\Proposal\ProposalDateVote;
@@ -62,7 +63,7 @@ class ProposalService {
 	) {
 	}
 
-	public function listProposals(IUser $user): array {
+	public function listProposals(IUser $user): ProposalCollection {
 		// retrieve all proposals, participants, dates, and votes for the user
 		$proposalEntries = $this->proposalMapper->fetchByUserId($user->getUID());
 		$proposalParticipantEntries = $this->proposalParticipantMapper->fetchByUserId($user->getUID());
@@ -99,7 +100,7 @@ class ProposalService {
 			[]
 		);
 		// convert the store entries to objects
-		$proposals = [];
+		$proposals = new ProposalCollection();
 		foreach ($proposalEntries as $proposalEntry) {
 			// convert the store format to a proposal object
 			$proposal = new ProposalObject();
