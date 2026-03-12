@@ -77,6 +77,14 @@
 				:calendar="calendar" />
 		</template>
 
+		<NcAppNavigationCaption v-if="sortedCalendars.delegated.length" :name="$t('calendar', 'Delegated')" />
+		<template v-if="!isPublic && sortedCalendars.delegated.length">
+			<CalendarListItem
+				v-for="calendar in sortedCalendars.delegated"
+				:key="calendar.id"
+				:calendar="calendar" />
+		</template>
+
 		<NcAppNavigationSpacer />
 
 		<!-- The header slot must be placed here, otherwise vuedraggable adds undefined as item to the array -->
@@ -98,6 +106,7 @@ import CalendarListItemLoadingPlaceholder from './CalendarList/CalendarListItemL
 import CalendarListNew from './CalendarList/CalendarListNew.vue'
 import PublicCalendarListItem from './CalendarList/PublicCalendarListItem.vue'
 import useCalendarsStore from '../../store/calendars.js'
+import useDelegationStore from '../../store/delegation.js'
 
 const limit = pLimit(1)
 
@@ -129,12 +138,13 @@ export default {
 		return {
 			calendars: [],
 			/**
-			 * Calendars sorted by personal, shared, and deck
+			 * Calendars sorted by personal, shared, deck, and delegated
 			 */
 			sortedCalendars: {
 				personal: [],
 				shared: [],
 				deck: [],
+				delegated: [],
 			},
 
 			disableDragging: false,
@@ -143,7 +153,7 @@ export default {
 	},
 
 	computed: {
-		...mapStores(useCalendarsStore),
+		...mapStores(useCalendarsStore, useDelegationStore),
 		...mapState(useCalendarsStore, {
 			serverCalendars: 'sortedCalendarsSubscriptions',
 		}),
@@ -182,9 +192,15 @@ export default {
 				personal: [],
 				shared: [],
 				deck: [],
+				delegated: [],
 			}
 
 			this.calendars.forEach((calendar) => {
+				if (calendar.isDelegated) {
+					this.sortedCalendars.delegated.push(calendar)
+					return
+				}
+
 				if (calendar.isSharedWithMe) {
 					this.sortedCalendars.shared.push(calendar)
 					return

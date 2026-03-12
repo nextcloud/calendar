@@ -126,6 +126,11 @@
 						<SettingsAttachmentsFolder />
 					</NcFormGroup>
 				</NcAppSettingsSection>
+				<NcAppSettingsSection
+					id="settings-modal-delegation"
+					:name="t('calendar', 'Delegation')">
+					<SettingsDelegationSection />
+				</NcAppSettingsSection>
 				<EventLegend />
 				<ShortcutOverview />
 			</NcAppSettingsDialog>
@@ -158,6 +163,7 @@ import CogIcon from 'vue-material-design-icons/CogOutline.vue'
 import CalendarPicker from '../Shared/CalendarPicker.vue'
 import EventLegend from './Settings/EventLegend.vue'
 import SettingsAttachmentsFolder from './Settings/SettingsAttachmentsFolder.vue'
+import SettingsDelegationSection from './Settings/SettingsDelegationSection.vue'
 import SettingsImportSection from './Settings/SettingsImportSection.vue'
 import SettingsTimezoneSelect from './Settings/SettingsTimezoneSelect.vue'
 import ShortcutOverview from './Settings/ShortcutOverview.vue'
@@ -185,6 +191,7 @@ export default {
 		SettingsImportSection,
 		SettingsTimezoneSelect,
 		SettingsAttachmentsFolder,
+		SettingsDelegationSection,
 		ShortcutOverview,
 		CogIcon,
 		NcFormBox,

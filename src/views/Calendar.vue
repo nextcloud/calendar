@@ -136,6 +136,7 @@ import { isNotifyPushAvailable, registerNotifyPushSyncListener } from '../servic
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import useCalendarObjectsStore from '../store/calendarObjects.js'
 import useCalendarsStore from '../store/calendars.js'
+import useDelegationStore from '../store/delegation.js'
 import useFetchedTimeRangesStore from '../store/fetchedTimeRanges.js'
 import usePrincipalsStore from '../store/principals.js'
 import useSettingsStore from '../store/settings.js'
@@ -222,6 +223,7 @@ export default {
 			usePrincipalsStore,
 			useSettingsStore,
 			useWidgetStore,
+			useDelegationStore,
 		),
 
 		...mapState(useSettingsStore, {
@@ -385,6 +387,10 @@ export default {
 					order: 0,
 				})
 			}
+
+			// Load delegation info: who has delegated their calendars to the current user
+			await this.delegationStore.fetchDelegators()
+			await this.delegationStore.fetchDelegatedCalendars()
 
 			this.loadingCalendars = false
 		}

@@ -21,6 +21,7 @@
 				:color="getCalendarById(id).color"
 				:displayName="getCalendarById(id).displayName"
 				:isSharedWithMe="getCalendarById(id).isSharedWithMe"
+				:isDelegated="getCalendarById(id).isDelegated"
 				:owner="getCalendarById(id).owner" />
 		</template>
 		<template #selected-option="{ id }">
@@ -28,6 +29,7 @@
 				:color="getCalendarById(id).color"
 				:displayName="getCalendarById(id).displayName"
 				:isSharedWithMe="getCalendarById(id).isSharedWithMe"
+				:isDelegated="getCalendarById(id).isDelegated"
 				:owner="getCalendarById(id).owner" />
 		</template>
 	</NcSelect>

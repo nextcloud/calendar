@@ -14,7 +14,7 @@
 		</span>
 
 		<Avatar
-			v-if="isSharedWithMe"
+			v-if="isSharedWithMe || isDelegated"
 			class="calendar-picker-option__avatar"
 			:disableMenu="true"
 			:disableTooltip="true"
@@ -54,6 +54,11 @@ export default {
 		isSharedWithMe: {
 			type: Boolean,
 			required: true,
+		},
+
+		isDelegated: {
+			type: Boolean,
+			default: false,
 		},
 	},
 
