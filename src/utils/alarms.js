@@ -5,6 +5,9 @@
 
 import { AttendeeProperty, Property } from '@nextcloud/calendar-js'
 import { translate as t } from '@nextcloud/l10n'
+import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
+import useCalendarsStore from '../store/calendars.js'
+import { isAfterVersion } from './nextcloudVersion.ts'
 
 /**
  * Get the factor for a given unit
@@ -197,6 +200,32 @@ export function getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(amoun
 	}
 
 	return amount
+}
+
+export function updateDefaultAlarm() {
+	const calendarObjectInstanceStore = useCalendarObjectInstanceStore()
+	const calendarObjectInstance = calendarObjectInstanceStore.calendarObjectInstance
+	const calendarsStore = useCalendarsStore()
+	const calendar = calendarsStore.getCalendarById(calendarObjectInstanceStore.calendarObject.calendarId)
+
+	let defaultReminder = null
+	if (isAfterVersion(34) && calendar && calendar.defaultAlarm !== null) {
+		defaultReminder = calendar.defaultAlarm
+	}
+
+	if (!isNaN(defaultReminder)) {
+		calendarObjectInstanceStore.removeAlarmFromCalendarObjectInstance({
+			calendarObjectInstance,
+			alarm: calendarObjectInstance.alarms.find((alarm) => alarm.alarmComponent.getFirstPropertyFirstValue('X-DEFAULT')),
+		})
+
+		calendarObjectInstanceStore.addAlarmToCalendarObjectInstance({
+			calendarObjectInstance,
+			type: 'DISPLAY',
+			totalSeconds: defaultReminder,
+			isDefault: true,
+		})
+	}
 }
 
 /**
