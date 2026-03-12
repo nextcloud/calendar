@@ -4,10 +4,12 @@
  */
 
 import type { getCSPNonce } from '@nextcloud/auth'
+import type { OC } from './types/oc.ts'
 
 declare global {
 	let __webpack_nonce__: ReturnType<typeof getCSPNonce>
 	let __webpack_public_path__: string
+	const OC: OC
 }
 
 export {}
