@@ -24,8 +24,21 @@ class ProposalResponseDateObject {
 
 		foreach ($data as $key => $value) {
 			if (property_exists($this, $key)) {
-				if ($key === 'date' && is_string($value)) {
-					$this->date = new DateTimeImmutable($value);
+				// validate values
+				if ($key === 'id' && !is_int($value)) {
+					throw new \InvalidArgumentException('Invalid value for id, expected integer');
+				} elseif ($key === 'vote' && ProposalDateVote::tryFrom($value) === null) {
+					throw new \InvalidArgumentException('Invalid value for vote, expected one of: ' . implode(', ', array_column(ProposalDateVote::cases(), 'value')));
+				} elseif ($key === 'date' && !is_string($value)) {
+					throw new \InvalidArgumentException('Invalid value for date, expected ISO 8601 string');
+				}
+				// assign values
+				if ($key === 'date') {
+					try {
+						$this->date = new DateTimeImmutable($value);
+					} catch (\Exception) {
+						throw new \InvalidArgumentException('Invalid value for date, expected ISO 8601 string');
+					}
 				} else {
 					$this->{$key} = $value;
 				}
