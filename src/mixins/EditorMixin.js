@@ -13,6 +13,7 @@ import useCalendarsStore from '../store/calendars.js'
 import usePrincipalsStore from '../store/principals.js'
 import useSettingsStore from '../store/settings.js'
 import useWidgetStore from '../store/widget.js'
+import { updateDefaultAlarm } from '../utils/alarms.js'
 import { removeMailtoPrefix } from '../utils/attendee.js'
 import { uidToHexColor } from '../utils/color.js'
 import { dateFactory } from '../utils/date.js'
@@ -461,6 +462,8 @@ export default {
 			if (this.calendarObject && !this.calendarObject.existsOnServer) {
 				this.calendarObject.calendarId = selectedCalendar.id
 			}
+
+			updateDefaultAlarm()
 		},
 		/**
 		 * This will force the user to update this and all future occurrences when saving

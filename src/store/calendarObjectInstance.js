@@ -1139,12 +1139,14 @@ export default defineStore('calendarObjectInstance', {
 			calendarObjectInstance,
 			type,
 			totalSeconds,
+			isDefault = false,
 		}) {
 			if (calendarObjectInstance.eventComponent) {
 				const eventComponent = calendarObjectInstance.eventComponent
 
 				const duration = DurationValue.fromSeconds(totalSeconds)
 				const alarmComponent = eventComponent.addRelativeAlarm(type, duration)
+				alarmComponent.addProperty(new Property('X-DEFAULT', isDefault))
 
 				const alarmObject = mapAlarmComponentToAlarmObject(alarmComponent)
 
@@ -1409,6 +1411,7 @@ export default defineStore('calendarObjectInstance', {
 					calendarObjectInstance,
 					type: 'DISPLAY',
 					totalSeconds: defaultReminder,
+					isDefault: true,
 				})
 				logger.debug(`Added defaultReminder (${defaultReminder}s) to newly created event`)
 			}
