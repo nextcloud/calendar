@@ -21,17 +21,19 @@ class ProposalParticipantObject {
 	private ProposalParticipantStatus $status;
 	private ProposalParticipantRealm $realm;
 
-	public function toJson(): array {
+	public function toJson(string $context): array {
 		$data = [
 			'@type' => 'MeetingProposalParticipant',
 			'id' => $this->id,
 			'name' => $this->name,
-			'address' => $this->address,
 			'status' => $this->status->value,
 			'attendance' => $this->attendance->value,
-			'realm' => $this->realm->value,
-			'token' => $this->token,
 		];
+		if ($context === 'private') {
+			$data['address'] = $this->address;
+			$data['realm'] = $this->realm->value;
+			$data['token'] = $this->token;
+		}
 		return $data;
 	}
 

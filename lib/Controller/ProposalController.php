@@ -79,7 +79,7 @@ class ProposalController extends ApiController {
 		// retrieve proposals for the user
 		$proposals = $this->proposalService->listProposals($userObject);
 
-		return new JSONResponse($proposals, Http::STATUS_OK);
+		return new JSONResponse($proposals->toJson('private'), Http::STATUS_OK);
 	}
 
 	/**
@@ -102,7 +102,7 @@ class ProposalController extends ApiController {
 		if ($user !== null) {
 			$proposal->setUname($user->getDisplayName());
 		}
-		return new JSONResponse($proposal, Http::STATUS_OK);
+		return new JSONResponse($proposal->toJson('public'), Http::STATUS_OK);
 	}
 
 	/**
@@ -124,7 +124,7 @@ class ProposalController extends ApiController {
 		// handle the creation of the proposal
 		$proposalObject = $this->proposalService->createProposal($userObject, $proposalObject);
 
-		return new JSONResponse($proposalObject, Http::STATUS_OK);
+		return new JSONResponse($proposalObject->toJson('private'), Http::STATUS_OK);
 	}
 
 	/**
@@ -150,7 +150,7 @@ class ProposalController extends ApiController {
 			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_NOT_FOUND);
 		}
 
-		return new JSONResponse($proposalObject, Http::STATUS_OK);
+		return new JSONResponse($proposalObject->toJson('private'), Http::STATUS_OK);
 	}
 
 	/**
