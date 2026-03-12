@@ -15,6 +15,7 @@ use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\AppointmentConfigMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\IDBConnection;
+use OCP\Server;
 
 class AppointmentConfigMapperTest extends TestCase {
 	use DatabaseTransaction;
@@ -28,7 +29,7 @@ class AppointmentConfigMapperTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->db = \OC::$server->getDatabaseConnection();
+		$this->db = Server::get(\OCP\IDBConnection::class);
 		$this->mapper = new AppointmentConfigMapper(
 			$this->db
 		);

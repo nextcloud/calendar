@@ -11,12 +11,12 @@ namespace OCA\Calendar\Tests\Integration\Db;
 
 use ChristophWurst\Nextcloud\Testing\DatabaseTransaction;
 use ChristophWurst\Nextcloud\Testing\TestCase;
-use OC;
 use OCA\Calendar\Db\Booking;
 use OCA\Calendar\Db\BookingMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
+use OCP\Server;
 
 class BookingMapperTest extends TestCase {
 	use DatabaseTransaction;
@@ -24,13 +24,16 @@ class BookingMapperTest extends TestCase {
 	/** @var IDBConnection */
 	private $db;
 
+	/** @var ITimeFactory */
+	private $time;
+
 	/** @var BookingMapper */
 	private $mapper;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->db = OC::$server->get(IDBConnection::class);
+		$this->db = Server::get(\OCP\IDBConnection::class);
 		$this->time = $this->createConfiguredMock(ITimeFactory::class, [
 			'getTime' => 1635721200
 		]);
