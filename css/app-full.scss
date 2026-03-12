@@ -119,6 +119,10 @@
 	.app-full &__front, &__edit {
 		margin-inline-start: calc(var(--default-grid-baseline) * 9);
 	}
+
+	&__label--default {
+		color: var(--color-text-maxcontrast);
+	}
 }
 
 .property-add-talk {

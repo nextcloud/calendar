@@ -5,9 +5,9 @@
 
 <template>
 	<!-- Yes, technically an alarm is a component, not a property, but for the matter of CSS names it really doesn't matter -->
-	<div class="property-alarm-item">
+	<div class="property-alarm-item" :title="isDefault ? $t('calendar', 'Default reminder of calendar') : ''">
 		<div v-if="!isEditing" class="property-alarm-item__front">
-			<div class="property-alarm-item__label">
+			<div class="property-alarm-item__label" :class="{ 'property-alarm-item__label--default': isDefault }">
 				{{ formatAlarm(alarm, isAllDay, currentUserTimezone, locale) }}
 			</div>
 		</div>
@@ -325,6 +325,10 @@ export default {
 
 		timeFormat() {
 			return moment.localeData().longDateFormat('LT')
+		},
+
+		isDefault() {
+			return this.alarm.alarmComponent.getFirstPropertyFirstValue('X-DEFAULT')
 		},
 
 		absoluteDateFormat() {

@@ -5,6 +5,9 @@
 
 import { AttendeeProperty, Property } from '@nextcloud/calendar-js'
 import { translate as t } from '@nextcloud/l10n'
+import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
+import useCalendarsStore from '../store/calendars.js'
+import { isAfterVersion } from './nextcloudVersion.ts'
 
 /**
  * Get the factor for a given unit
@@ -197,6 +200,36 @@ export function getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(amoun
 	}
 
 	return amount
+}
+
+export function updateDefaultAlarm() {
+	const calendarObjectInstanceStore = useCalendarObjectInstanceStore()
+	const calendarObjectInstance = calendarObjectInstanceStore.calendarObjectInstance
+	const calendarsStore = useCalendarsStore()
+	const calendar = calendarsStore.getCalendarById(calendarObjectInstanceStore.calendarObject.calendarId)
+
+	let defaultReminder = null
+	if (isAfterVersion(34) && calendar && calendar.defaultAlarm !== null) {
+		defaultReminder = calendar.defaultAlarm
+	}
+
+	// Find the existing default alarm (if any)
+	const existingDefaultAlarm = calendarObjectInstance.alarms.find((alarm) => alarm.alarmComponent.getFirstPropertyFirstValue('X-DEFAULT'))
+	// Only update the default alarm if one already exists.
+	// If the user has manually removed the default alarm, don't re-add it.
+	if (!isNaN(defaultReminder) && existingDefaultAlarm) {
+		calendarObjectInstanceStore.removeAlarmFromCalendarObjectInstance({
+			calendarObjectInstance,
+			alarm: existingDefaultAlarm,
+		})
+
+		calendarObjectInstanceStore.addAlarmToCalendarObjectInstance({
+			calendarObjectInstance,
+			type: 'DISPLAY',
+			totalSeconds: defaultReminder,
+			isDefault: true,
+		})
+	}
 }
 
 /**
