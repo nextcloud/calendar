@@ -39,3 +39,16 @@ registerWidget('calendar_widget', async (el, { richObjectType, richObject, acces
 }, (el, renderResult) => {
 	renderResult.object.$destroy()
 }, true)
+
+registerWidget('calendar_event', async (el, { richObject }) => {
+	const { createApp } = await import('vue')
+	const { default: EventReferenceWidget } = await import('./views/EventReferenceWidget.vue')
+
+	const app = createApp(EventReferenceWidget, {
+		richObject,
+	})
+	app.mount(el)
+	return new NcCustomPickerRenderResult(el, app)
+}, (el, renderResult) => {
+	renderResult.object.$destroy()
+})
