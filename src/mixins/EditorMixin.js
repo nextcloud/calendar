@@ -7,6 +7,7 @@ import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { mapState, mapStores } from 'pinia'
 import { getRFCProperties } from '../models/rfcProps.js'
+import { containsRoomUrl } from '../services/talkService.ts'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import useCalendarObjectsStore from '../store/calendarObjects.js'
 import useCalendarsStore from '../store/calendars.js'
@@ -54,12 +55,15 @@ export default {
 			isEditingMasterItem: false,
 			// Whether or not it is a recurrence-exception
 			isRecurrenceException: false,
+			// Whether or not the Talk modal is open
+			isTalkModalOpen: false,
 		}
 	},
 	computed: {
 		...mapState(useSettingsStore, {
 			currentUserTimezone: 'getResolvedTimezone',
 		}),
+		...mapState(useSettingsStore, ['talkEnabled']),
 		...mapState(useCalendarsStore, ['initialCalendarsLoaded']),
 		...mapState(useCalendarObjectInstanceStore, ['calendarObject', 'calendarObjectInstance']),
 		...mapStores(useCalendarsStore, usePrincipalsStore, useCalendarObjectsStore, useCalendarObjectInstanceStore, useSettingsStore, useWidgetStore),
@@ -378,6 +382,25 @@ export default {
 
 			return false
 		},
+
+		/**
+		 * Returns whether the Talk room button should be disabled
+		 * (i.e. location or description already contains a Talk room URL)
+		 *
+		 * @return {boolean}
+		 */
+		isCreateTalkRoomButtonDisabled() {
+			return containsRoomUrl(this.calendarObjectInstance?.location) || containsRoomUrl(this.calendarObjectInstance?.description)
+		},
+
+		/**
+		 * Returns whether the Talk room button should be visible
+		 *
+		 * @return {boolean}
+		 */
+		isCreateTalkRoomButtonVisible() {
+			return this.talkEnabled && this.isViewedByOrganizer !== false && this.isReadOnly !== true
+		},
 	},
 
 	async created() {
@@ -445,6 +468,13 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Opens the Talk modal for selecting or creating a Talk room
+		 */
+		openTalkModal() {
+			this.isTalkModalOpen = true
+		},
+
 		/**
 		 * Changes the selected calendar
 		 * Does not move the calendar-object yet, that's done in save
