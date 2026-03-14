@@ -167,6 +167,8 @@
     "Calendar name" : "日曆名稱",
     "Never show me as busy (set this calendar to transparent)" : "永不顯示我為忙碌狀態（設定此行事曆為透明）",
     "Default reminder" : "預設提醒",
+    "Select default reminder" : "選取預設的提醒",
+    "This reminder will be automatically added to all new events created in this calendar" : "此提醒將自動新增至此行事曆中所有新建立的活動",
     "Share calendar" : "分享行事曆",
     "Unshare from me" : "取消與我分享",
     "Save" : "儲存",
