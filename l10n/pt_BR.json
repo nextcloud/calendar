@@ -167,6 +167,8 @@
     "Calendar name" : "Nome do calendário",
     "Never show me as busy (set this calendar to transparent)" : "Nunca me mostrar como ocupado (definir este calendário como transparente)",
     "Default reminder" : "Lembrete padrão",
+    "Select default reminder" : "Selecione o lembrete padrão",
+    "This reminder will be automatically added to all new events created in this calendar" : "Este lembrete será adicionado automaticamente a todos os novos eventos criados neste calendário",
     "Share calendar" : "Compartilhar calendário",
     "Unshare from me" : "Descompartilhar comigo",
     "Save" : "Salvar",
