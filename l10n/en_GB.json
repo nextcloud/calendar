@@ -167,6 +167,8 @@
     "Calendar name" : "Calendar name",
     "Never show me as busy (set this calendar to transparent)" : "Never show me as busy (set this calendar to transparent)",
     "Default reminder" : "Default reminder",
+    "Select default reminder" : "Select default reminder",
+    "This reminder will be automatically added to all new events created in this calendar" : "This reminder will be automatically added to all new events created in this calendar",
     "Share calendar" : "Share calendar",
     "Unshare from me" : "Unshare from me",
     "Save" : "Save",
