@@ -145,6 +145,7 @@ export default {
 							timezoneId: null,
 							hasMultipleEMails: false,
 							dropdownName: query,
+							scheduleAgent: 'CLIENT',
 						})
 					}
 				}

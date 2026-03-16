@@ -96,7 +96,7 @@ export default defineStore('calendarObjects', {
 		 * Updates a calendar-object
 		 *
 		 * @param {object} data destructuring object
-		 * @param {CalendarObject} data.calendarObject Calendar-object to delete
+		 * @param {CalendarObject} data.calendarObject Calendar-object to update
 		 * @return {Promise<void>}
 		 */
 		async updateCalendarObject({ calendarObject }) {
@@ -105,7 +105,19 @@ export default defineStore('calendarObjects', {
 
 			if (calendarObject.existsOnServer) {
 				calendarObject.dav.data = calendarObject.calendarComponent.toICS()
-				await calendarObject.dav.update()
+				try {
+					await calendarObject.dav.update()
+				} catch (error) {
+					logger.error('Could not update calendar object', { error })
+					this.resetCalendarObjectToDavMutation({ calendarObject })
+					throw error
+				}
+
+				if (!calendarObject.dav.etag) {
+					calendarObject.dav.fetchCompleteData(true).catch((error) => {
+						logger.warn('Could not refetch calendar object ETag after update', { error })
+					})
+				}
 
 				fetchedTimeRangesStore.addCalendarObjectIdToAllTimeRangesOfCalendar({
 					calendarId: calendarObject.calendarId,
@@ -119,7 +131,12 @@ export default defineStore('calendarObjects', {
 			}
 
 			const calendar = calendarsStore.getCalendarById(calendarObject.calendarId)
-			calendarObject.dav = await calendar.dav.createVObject(calendarObject.calendarComponent.toICS())
+			try {
+				calendarObject.dav = await calendar.dav.createVObject(calendarObject.calendarComponent.toICS())
+			} catch (error) {
+				logger.error('Could not create calendar object', { error })
+				throw error
+			}
 			calendarObject.existsOnServer = true
 			this.updateCalendarObjectIdMutation({ calendarObject })
 

@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import {getDefaultAttendeeObject, mapAttendeePropertyToAttendeeObject, mapPrincipalObjectToAttendeeObject} from "../../../../src/models/attendee.js";
 import { AttendeeProperty } from '@nextcloud/calendar-js'
+import { getDefaultAttendeeObject, mapAttendeePropertyToAttendeeObject, mapPrincipalObjectToAttendeeObject } from '../../../../src/models/attendee.js'
 
 describe('Test suite: Attendee model (models/attendee.js)', () => {
 
@@ -18,6 +18,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 			role: 'REQ-PARTICIPANT',
 			rsvp: false,
 			uri: null,
+			scheduleAgent: null,
 		})
 	})
 
@@ -35,6 +36,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 			rsvp: false,
 			uri: null,
 			otherProp: 'foo',
+			scheduleAgent: null,
 		})
 	})
 
@@ -51,6 +53,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 			role: 'REQ-PARTICIPANT',
 			rsvp: true,
 			uri: 'mailto:jsmith@example.com',
+			scheduleAgent: null,
 		})
 	})
 
@@ -67,6 +70,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 			role: 'REQ-PARTICIPANT',
 			rsvp: false,
 			uri: 'mailto:ietf-calsch@example.org',
+			scheduleAgent: null,
 		})
 	})
 
@@ -83,6 +87,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 			role: 'REQ-PARTICIPANT',
 			rsvp: false,
 			uri: 'mailto:jsmith@example.com',
+			scheduleAgent: null,
 		})
 	})
 
@@ -99,6 +104,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 			role: 'CHAIR',
 			rsvp: false,
 			uri: 'mailto:mrbig@example.com',
+			scheduleAgent: null,
 		})
 	})
 
@@ -115,6 +121,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 			role: 'REQ-PARTICIPANT',
 			rsvp: false,
 			uri: 'mailto:hcabot@example.com',
+			scheduleAgent: null,
 		})
 	})
 
@@ -131,6 +138,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 			role: 'NON-PARTICIPANT',
 			rsvp: false,
 			uri: 'mailto:iamboss@example.com',
+			scheduleAgent: null,
 		})
 	})
 
@@ -147,6 +155,7 @@ describe('Test suite: Attendee model (models/attendee.js)', () => {
 			role: 'REQ-PARTICIPANT',
 			rsvp: false,
 			uri: 'mailto:jdoe@example.com',
+			scheduleAgent: null,
 		})
 	})
 

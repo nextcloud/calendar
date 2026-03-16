@@ -430,6 +430,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {string=} data.timezoneId Preferred timezone of the attendee
 		 * @param {object=} data.organizer Principal of the organizer to be set if not present
 		 * @param {string | Array} data.member Group membership(s)
+		 * @param {string=} data.scheduleAgent Optional SCHEDULE-AGENT parameter value ('CLIENT'- for external attendees or null for server handled scheduling)
 		 */
 		addAttendee({
 			calendarObjectInstance,
@@ -443,6 +444,7 @@ export default defineStore('calendarObjectInstance', {
 			timezoneId = null,
 			organizer = null,
 			member = null,
+			scheduleAgent = null,
 		}) {
 			const attendee = AttendeeProperty.fromNameAndEMail(commonName, uri)
 			if (calendarUserType !== null) {
@@ -466,6 +468,9 @@ export default defineStore('calendarObjectInstance', {
 			if (member !== null) {
 				attendee.updateParameterIfExist('MEMBER', member)
 			}
+			if (scheduleAgent !== null) {
+				attendee.setParameter(new Parameter('SCHEDULE-AGENT', scheduleAgent))
+			}
 
 			// TODO - use real addAttendeeFrom method
 			calendarObjectInstance.eventComponent.addProperty(attendee)
@@ -476,6 +481,7 @@ export default defineStore('calendarObjectInstance', {
 				rsvp,
 				uri,
 				attendeeProperty: attendee,
+				scheduleAgent,
 			})
 
 			if (!calendarObjectInstance.organizer && organizer) {

@@ -31,6 +31,8 @@ function getDefaultAttendeeObject(props = {}) {
 		uri: null,
 		// Member address of the attendee
 		member: null,
+		// The SCHEDULE-AGENT parameter value for the attendee ('CLIENT' for external attendees)
+		scheduleAgent: null,
 		...props,
 	}
 }
@@ -51,6 +53,7 @@ function mapAttendeePropertyToAttendeeObject(attendeeProperty) {
 		rsvp: attendeeProperty.rsvp,
 		uri: attendeeProperty.email,
 		member: attendeeProperty.member,
+		scheduleAgent: attendeeProperty.getParameterFirstValue('SCHEDULE-AGENT') ?? null,
 	})
 }
 
