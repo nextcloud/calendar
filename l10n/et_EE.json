@@ -167,6 +167,8 @@
     "Calendar name" : "Kalendri nimi",
     "Never show me as busy (set this calendar to transparent)" : "Ära iialgi näita, et ma olen hõivatud (muuda see kalender läbipaistvaks)",
     "Default reminder" : "Vaikimisi meeldetuletus",
+    "Select default reminder" : "Vali vaikimisi meeldetuletus",
+    "This reminder will be automatically added to all new events created in this calendar" : "See meeldetuletus lisatakse vaikimisi käikidele selle kalendri uutele sündmustele",
     "Share calendar" : "Jaga kalendrit",
     "Unshare from me" : "Eemalda minult see jagamine",
     "Save" : "Salvesta",
