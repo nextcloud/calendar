@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace OCA\Calendar\Reference;
 
 use OCA\Calendar\AppInfo\Application;
-use OCA\DAV\CalDAV\CalDavBackend;
+use OCP\Calendar\ICalendar;
 use OCP\Calendar\IManager;
 use OCP\Collaboration\Reference\ADiscoverableReferenceProvider;
 use OCP\Collaboration\Reference\IReference;
@@ -18,14 +18,12 @@ use OCP\Collaboration\Reference\Reference;
 use OCP\IDateTimeFormatter;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use Sabre\VObject\Reader;
 
 class EventReferenceProvider extends ADiscoverableReferenceProvider {
 	public function __construct(
 		private readonly IL10N $l10n,
 		private readonly IURLGenerator $urlGenerator,
 		private readonly IManager $calendarManager,
-		private CalDavBackend $calDavBackend,
 		private readonly IDateTimeFormatter $dateTimeFormatter,
 		private readonly ?string $userId,
 	) {
@@ -106,24 +104,24 @@ class EventReferenceProvider extends ADiscoverableReferenceProvider {
 		}
 
 		$calendar = $this->getCalendar($calendarUri);
-		if ($calendar === null) {
+		if ($calendar->isDeleted()) {
 			return null;
 		}
 
-		$eventData = $this->getEventData($calendar['id'], $eventFile);
+		$eventData = $this->getEventData($calendar, $eventFile);
 		if ($eventData === null) {
 			return null;
 		}
 
 		$reference = new Reference($referenceText);
 		$reference->setTitle($eventData['title']);
-		$reference->setDescription($eventData['date'] ?? $calendar['{DAV:}displayname'] ?? '');
+		$reference->setDescription($eventData['date'] ?? $calendar->getDisplayName());
 		$reference->setRichObject(
 			'calendar_event',
 			[
 				'title' => $eventData['title'],
-				'calendarName' => $calendar['{DAV:}displayname'] ?? '',
-				'calendarColor' => $calendar['{http://apple.com/ns/ical/}calendar-color'] ?? null,
+				'calendarName' => $calendar->getDisplayName(),
+				'calendarColor' => $calendar->getDisplayColor(),
 				'date' => $eventData['date'],
 				'startTimestamp' => $eventData['startTimestamp'],
 				'endTimestamp' => $eventData['endTimestamp'],
@@ -148,50 +146,57 @@ class EventReferenceProvider extends ADiscoverableReferenceProvider {
 		return null;
 	}
 
-	private function getCalendar(string $calendarUri): ?array {
+	private function getCalendar(string $calendarUri): ICalendar {
 		$principalUri = 'principals/users/' . $this->userId;
-		$calendar = $this->calDavBackend->getCalendarByUri($principalUri, $calendarUri);
-		if ($calendar === null || $calendar['{http://nextcloud.com/ns}deleted_at'] !== null) {
-			return null;
-		}
-		return $calendar;
+		$calendars = $this->calendarManager->getCalendarsForPrincipal($principalUri, [$calendarUri]);
+		return $calendars[0];
 	}
 
-	private function getEventData(int $calendarId, string $eventFile): ?array {
-		$object = $this->calDavBackend->getCalendarObject($calendarId, $eventFile);
-		if ($object === null) {
+	private function getEventData(ICalendar $calendar, string $eventFile): ?array {
+		$event = null;
+		foreach ($calendar->search('') as $result) {
+			if (($result['uri'] ?? null) === $eventFile) {
+				$event = $result;
+				break;
+			}
+		}
+		if ($event === null) {
 			return null;
 		}
 
-		$vObject = Reader::read($object['calendardata']);
-		$vEvent = $vObject->VEVENT ?? null;
-		if ($vEvent === null) {
+		$object = $event['objects'][0] ?? null;
+		if ($object === null) {
 			return null;
+
 		}
 
 		$date = null;
 		$startTimestamp = null;
-		if (isset($vEvent->DTSTART)) {
-			$dt = $vEvent->DTSTART->getDateTime();
-			$date = $this->dateTimeFormatter->formatTimeSpan(\DateTime::createFromInterface($dt));
-			$startTimestamp = $dt->getTimestamp();
+		/** @var \DateTimeInterface|null $dtStart */
+		$dtStart = $object['DTSTART'][0] ?? null;
+		if ($dtStart instanceof \DateTimeInterface) {
+			$date = $this->dateTimeFormatter->formatTimeSpan(\DateTime::createFromInterface($dtStart));
+			$startTimestamp = $dtStart->getTimestamp();
 		}
 
 		$endTimestamp = null;
-		if (isset($vEvent->DTEND)) {
-			$dt = $vEvent->DTEND->getDateTime();
-			$endTimestamp = $dt->getTimestamp();
-		} elseif (isset($vEvent->DURATION) && $startTimestamp !== null) {
-			$duration = $vEvent->DURATION->getDateInterval();
-			$endTimestamp = (new \DateTime())->setTimestamp($startTimestamp)->add($duration)->getTimestamp();
+		/** @var \DateTimeInterface|null $dtEnd */
+		$dtEnd = $object['DTEND'][0] ?? null;
+		if ($dtEnd instanceof \DateTimeInterface) {
+			$endTimestamp = $dtEnd->getTimestamp();
+		} elseif ($startTimestamp !== null) {
+			$duration = $object['DURATION'][0] ?? null;
+			if ($duration instanceof \DateInterval) {
+				$endTimestamp = (new \DateTime())->setTimestamp($startTimestamp)->add($duration)->getTimestamp();
+			}
 		}
 
 		return [
-			'title' => isset($vEvent->SUMMARY) ? (string)$vEvent->SUMMARY : $this->l10n->t('Untitled event'),
+			'title' => $object['SUMMARY'][0] ?? $this->l10n->t('Untitled event'),
 			'date' => $date,
 			'startTimestamp' => $startTimestamp,
 			'endTimestamp' => $endTimestamp,
-			'location' => isset($vEvent->LOCATION) ? (string)$vEvent->LOCATION : null,
+			'location' => $object['LOCATION'][0] ?? null,
 		];
 	}
 
