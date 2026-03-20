@@ -1,5 +1,5 @@
 <!--
-  - SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
@@ -30,52 +30,53 @@ import ItemIcon from 'vue-material-design-icons/Calendar'
 import DestroyIcon from 'vue-material-design-icons/Close'
 
 export default {
-	name: 'ProposalDateItem',
+    name: 'ProposalDateItem',
 
-	components: {
-		ItemIcon,
-		DestroyIcon,
-	},
+    components: {
+        ItemIcon,
+        DestroyIcon,
+    },
 
-	props: {
-		proposalDate: {
-			type: Object as () => ProposalDateInterface,
-			required: true,
-		},
+    props: {
+        proposalDate: {
+            type: Object as () => ProposalDateInterface,
+            required: true,
+        },
 
-		timezoneId: {
-			type: String,
-			default: 'UTC',
-		},
-	},
+        timezoneId: {
+            type: String,
+            default: 'UTC',
+        },
+    },
 
-	emits: ['dateRemove', 'dateFocus'],
+    emits: ['dateRemove', 'dateFocus'],
 
-	computed: {
-		formattedDate(): string {
-			if (!this.proposalDate.date) {
-				return ''
-			}
-			// Get the timezone offset in minutes
-			let timezoneOffset = 0
-			try {
-				const now = new Date()
-				const utcDate = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }))
-				const targetDate = new Date(now.toLocaleString('en-US', { timeZone: this.timezoneId }))
-				timezoneOffset = ((utcDate.getTime() - targetDate.getTime()) / (1000 * 60)) * -1
-			} catch (e) {
-				timezoneOffset = 0
-			}
-			const m = moment(this.proposalDate.date).utcOffset(timezoneOffset)
-			// Examples: "Mon, Jul 8, 2:30 PM" (en), "Mon, 8 Jul, 14:30" (en-GB), "Mo, 8. Jul, 14:30" (de)
-			return m.format('dddd, MMMM D, LT')
-		},
-	},
+    computed: {
+        formattedDate(): string {
+            if (!this.proposalDate.date) {
+                return '';
+            }
 
-	methods: {
-		t,
-	},
-}
+            const date = new Date(this.proposalDate.date);
+
+            // Format the date directly in the target timezone
+            return new Intl.DateTimeFormat('en-US', {
+                timeZone: this.timezoneId,
+                weekday: 'long',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+            }).format(date);
+        },
+    },
+
+    methods: {
+        t,
+    },
+};
+
+
 </script>
 
 <style lang="scss" scoped>
