@@ -14,27 +14,31 @@ __webpack_public_path__ = linkTo('calendar', 'js/') // eslint-disable-line
 
 // eslint-disable-next-line no-unused-vars
 registerWidget('calendar_widget', async (el, { richObjectType, richObject, accessible, interactive }) => {
-	const { default: Vue } = await import('vue')
+	const { createApp } = await import('vue')
 	const { default: Calendar } = await import('./views/Calendar.vue')
-	const { createPinia, PiniaVuePlugin } = await import('pinia')
+	const { createPinia } = await import('pinia')
 
-	Vue.use(PiniaVuePlugin)
 	const pinia = createPinia()
 
-	Vue.prototype.$t = translate
-	Vue.prototype.$n = translatePlural
-	Vue.mixin({ methods: { t, n } })
+	const app = createApp(Calendar, {
+		isWidget: true,
+		isPublic: richObject.isPublic,
+		referenceToken: richObject?.token,
+		url: richObject.url,
+	})
 
-	const Widget = Vue.extend(Calendar)
-	const vueElement = new Widget({
-		pinia,
-		propsData: {
-			isWidget: true,
-			isPublic: richObject.isPublic,
-			referenceToken: richObject?.token,
-			url: richObject.url,
+	app.use(pinia)
+	app.config.globalProperties.$t = translate
+	app.config.globalProperties.$n = translatePlural
+
+	app.mixin({
+		methods: {
+			t: translate,
+			n: translatePlural,
 		},
-	}).$mount(el)
+	})
+
+	const vueElement = app.mount(el)
 	return new NcCustomPickerRenderResult(vueElement.$el, vueElement)
 }, (el, renderResult) => {
 	renderResult.object.$destroy()
