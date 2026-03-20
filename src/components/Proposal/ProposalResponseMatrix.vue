@@ -1,5 +1,5 @@
 <!--
-  - SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
@@ -127,7 +127,6 @@
 import type { ProposalDate } from '@/models/proposals/proposals'
 
 import { t } from '@nextcloud/l10n'
-import moment from '@nextcloud/moment'
 import CreateIcon from 'vue-material-design-icons/CalendarOutline'
 import VoteYesIcon from 'vue-material-design-icons/Check'
 import VoteNoIcon from 'vue-material-design-icons/Close'
@@ -140,187 +139,161 @@ import { Proposal, ProposalResponse } from '@/models/proposals/proposals'
 import { ProposalDateVote } from '@/types/proposals/proposalEnums'
 
 export default {
-	name: 'ProposalResponseMatrix',
+    name: 'ProposalResponseMatrix',
 
-	components: {
-		NcButton,
-		NcAvatar,
-		NcCheckboxRadioSwitch,
-		VoteYesIcon,
-		VoteNoIcon,
-		VoteMaybeIcon,
-		VoteNoneIcon,
-		CreateIcon,
-	},
+    components: {
+        NcButton,
+        NcAvatar,
+        NcCheckboxRadioSwitch,
+        VoteYesIcon,
+        VoteNoIcon,
+        VoteMaybeIcon,
+        VoteNoneIcon,
+        CreateIcon,
+    },
 
-	props: {
-		mode: {
-			type: String,
-			required: true,
-		},
+    props: {
+        mode: {
+            type: String,
+            required: true,
+        },
 
-		proposal: {
-			type: Proposal,
-			required: true,
-		},
+        proposal: {
+            type: Proposal,
+            required: true,
+        },
 
-		response: {
-			type: ProposalResponse,
-		},
+        response: {
+            type: ProposalResponse,
+        },
 
-		timezoneId: {
-			type: String,
-			default: 'UTC',
-		},
-	},
+        timezoneId: {
+            type: String,
+            default: 'UTC',
+        },
+    },
 
-	emits: [
-		'dateConvert',
-		'dateVote',
-	],
+    emits: ['dateConvert', 'dateVote'],
 
-	data() {
-		return {
-			ProposalDateVote,
-			timezoneOffset: 0,
-		}
-	},
+    data() {
+        return {
+            ProposalDateVote,
+        }
+    },
 
-	computed: {
-		datesGrouped() {
-			if (!this.proposal) {
-				return []
-			}
-			// Sort dates for predictable grouping
-			const dates = [...this.proposal.dates].sort((a, b) => {
-				if (!a.date || !b.date) {
-					return 0
-				}
-				return a.date.getTime() - b.date.getTime()
-			})
-			const groups = {}
-			dates.forEach((d) => {
-				// Apply timezone offset for grouping by day
-				const key = d.date ? moment(d.date).utcOffset(this.timezoneOffset).format('yyyy-MM-dd') : 'invalid'
-				if (!groups[key]) {
-					groups[key] = []
-				}
-				groups[key].push(d)
-			})
-			return Object.entries(groups).map(([key, grp]: [string, ProposalDate[]]) => ({
-				key,
-				label: moment(grp[0].date).utcOffset(this.timezoneOffset).format('dddd, MMMM Do'),
-				dates: grp,
-			}))
-		},
+    computed: {
+        datesGrouped() {
+            if (!this.proposal) return []
 
-		columnCount() {
-			// time + participants + action
-			const participants = this.proposal?.participants?.length ?? 0
-			return 2 + participants
-		},
+            const dates = [...this.proposal.dates].sort((a, b) => {
+                if (!a.date || !b.date) return 0
+                return a.date.getTime() - b.date.getTime()
+            })
 
-	},
+            const groups = {}
 
-	watch: {
-		timezoneId(newZone) {
-			if (newZone) {
-				this.timezoneOffset = this.calculateTimezoneOffset(newZone)
-			}
-		},
-	},
+            dates.forEach((d) => {
+                if (!d.date) return
 
-	created() {
-		if (this.timezoneId) {
-			this.timezoneOffset = this.calculateTimezoneOffset(this.timezoneId)
-		}
-	},
+                // DST‑safe grouping key
+                const key = new Intl.DateTimeFormat('en-CA', {
+                    timeZone: this.timezoneId,
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                }).format(d.date)
 
-	methods: {
-		t,
+                if (!groups[key]) groups[key] = []
+                groups[key].push(d)
+            })
 
-		calculateTimezoneOffset(timezoneId) {
-			// Get the timezone offset in minutes
-			try {
-				const now = new Date()
-				const utcDate = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }))
-				const targetDate = new Date(now.toLocaleString('en-US', { timeZone: timezoneId }))
-				return ((utcDate.getTime() - targetDate.getTime()) / (1000 * 60)) * -1
-			} catch (e) {
-				// Fallback to UTC if timezone is invalid
-				return 0
-			}
-		},
+            return Object.entries(groups).map(([key, grp]) => ({
+                key,
+                label: new Intl.DateTimeFormat('en-US', {
+                    timeZone: this.timezoneId,
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                }).format(grp[0].date),
+                dates: grp,
+            }))
+        },
 
-		dateTimeSpan(date) {
-			const startDate = moment(date).utcOffset(this.timezoneOffset)
-			const endDate = moment(date).utcOffset(this.timezoneOffset).add(this.proposal.duration, 'minutes')
+        columnCount() {
+            const participants = this.proposal?.participants?.length ?? 0
+            return 2 + participants
+        },
+    },
 
-			const startTime = startDate.format('LT')
-			const endTime = endDate.format('LT')
+    methods: {
+        t,
 
-			return `${startTime} - ${endTime}`
-		},
+        dateTimeSpan(date) {
+            const end = new Date(date.getTime() + this.proposal.duration * 60000)
 
-		dateVoteValue(date: ProposalDate): ProposalDateVote {
-			if (date.id === null) {
-				return ProposalDateVote.Maybe
-			}
-			if (!this.response || !this.response.dates || !this.response.dates[date.id]) {
-				return ProposalDateVote.Maybe
-			}
-			return this.response.dates[date.id].vote
-		},
+            const startStr = new Intl.DateTimeFormat('en-US', {
+                timeZone: this.timezoneId,
+                hour: 'numeric',
+                minute: '2-digit',
+            }).format(date)
 
-		formatProposalDateCompact(date) {
-			if (!date) {
-				return ''
-			}
-			// Apply timezone offset and format very compact: "7/8 2PM"
-			const adjustedDate = moment(date).utcOffset(this.timezoneOffset)
-			return adjustedDate.format('M/D LT').replace(':00', '').replace(' ', ' ')
-		},
+            const endStr = new Intl.DateTimeFormat('en-US', {
+                timeZone: this.timezoneId,
+                hour: 'numeric',
+                minute: '2-digit',
+            }).format(end)
 
-		participantVoteIcon(participantId, dateId) {
-			const vote = this.participantVote(participantId, dateId)
-			switch (vote) {
-				case ProposalDateVote.Yes:
-					return 'VoteYesIcon'
-				case ProposalDateVote.No:
-					return 'VoteNoIcon'
-				case ProposalDateVote.Maybe:
-					return 'VoteMaybeIcon'
-				default:
-					return 'VoteNoneIcon'
-			}
-		},
+            return `${startStr} - ${endStr}`
+        },
 
-		participantVoteLabel(participantId, dateId) {
-			const vote = this.participantVote(participantId, dateId)
-			switch (vote) {
-				case ProposalDateVote.Yes:
-					return t('calendar', 'Yes')
-				case ProposalDateVote.No:
-					return t('calendar', 'No')
-				case ProposalDateVote.Maybe:
-					return t('calendar', 'Maybe')
-				default:
-					return t('calendar', 'None')
-			}
-		},
+        dateVoteValue(date: ProposalDate): ProposalDateVote {
+            if (date.id === null) return ProposalDateVote.Maybe
+            if (!this.response || !this.response.dates || !this.response.dates[date.id]) {
+                return ProposalDateVote.Maybe
+            }
+            return this.response.dates[date.id].vote
+        },
 
-		participantVote(participantId, dateId) {
-			if (!this.proposal || !participantId || !dateId) {
-				return null // No response / unknown
-			}
+        formatProposalDateCompact(date) {
+            if (!date) return ''
 
-			// Find the vote for this participant and date combination
-			const vote = this.proposal.votes.find((v) => v.participant === participantId && v.date === dateId)
+            return new Intl.DateTimeFormat('en-US', {
+                timeZone: this.timezoneId,
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+            }).format(date)
+        },
 
-			return vote ? vote.vote : null // null indicates no response
-		},
-	},
+        participantVoteIcon(participantId, dateId) {
+            const vote = this.participantVote(participantId, dateId)
+            switch (vote) {
+                case ProposalDateVote.Yes: return 'VoteYesIcon'
+                case ProposalDateVote.No: return 'VoteNoIcon'
+                case ProposalDateVote.Maybe: return 'VoteMaybeIcon'
+                default: return 'VoteNoneIcon'
+            }
+        },
+
+        participantVoteLabel(participantId, dateId) {
+            const vote = this.participantVote(participantId, dateId)
+            switch (vote) {
+                case ProposalDateVote.Yes: return t('calendar', 'Yes')
+                case ProposalDateVote.No: return t('calendar', 'No')
+                case ProposalDateVote.Maybe: return t('calendar', 'Maybe')
+                default: return t('calendar', 'None')
+            }
+        },
+
+        participantVote(participantId, dateId) {
+            if (!this.proposal || !participantId || !dateId) return null
+            const vote = this.proposal.votes.find(v => v.participant === participantId && v.date === dateId)
+            return vote ? vote.vote : null
+        },
+    },
 }
+
 </script>
 
 <style lang="scss" scoped>
