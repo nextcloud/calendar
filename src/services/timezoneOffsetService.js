@@ -21,7 +21,7 @@ export function getTimezoneOffset(proposalDate, timezoneId){
 
     const parts = dtf.formatToParts(date)
 
-    const values: Record<string, string> = {}
+    const values = {}
     parts.forEach(({ type, value }) => {
       if (type !== 'literal') values[type] = value
     })
