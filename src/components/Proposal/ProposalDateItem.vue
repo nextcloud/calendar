@@ -58,7 +58,7 @@ export default {
 				return ''
 			}
 			// Get the timezone offset in minutes
-			const timezoneOffset = getTimezoneOffset(this.proposalDate.date,this.timezoneId)
+			const timezoneOffset = getTimezoneOffset(this.proposalDate.date, this.timezoneId)
 			const m = moment(this.proposalDate.date).utcOffset(timezoneOffset)
 			// Examples: "Mon, Jul 8, 2:30 PM" (en), "Mon, 8 Jul, 14:30" (en-GB), "Mo, 8. Jul, 14:30" (de)
 			return m.format('dddd, MMMM D, LT')
