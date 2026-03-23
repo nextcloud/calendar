@@ -50,7 +50,7 @@ export function getTimezoneOffset(proposalDate, timezoneId) {
         )
 
         return Math.floor((asUTC - date.getTime()) / 60000)
-    } catch {
+    } catch (error) {
         return null
     }
 }
