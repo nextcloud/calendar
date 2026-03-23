@@ -165,6 +165,8 @@
     "Calendar name" : "Nom de l'agenda",
     "Never show me as busy (set this calendar to transparent)" : "Ne jamais me considérer occupé (définir ce calendrier comme transparent)",
     "Default reminder" : "Rappel par défaut",
+    "Select default reminder" : "Sélectionner le rappel par défaut",
+    "This reminder will be automatically added to all new events created in this calendar" : "Ce rappel sera automatiquement ajouté à tous les nouveaux événements créés dans cet agenda",
     "Share calendar" : "Partager l'agenda",
     "Unshare from me" : "Quitter ce partage",
     "Save" : "Enregistrer",
