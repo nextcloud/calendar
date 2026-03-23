@@ -4,9 +4,3 @@
  */
 
 document.title = 'Standard Nextcloud title'
-
-globalThis.OC = {
-	config: {
-		version: '34.0.0',
-	},
-}

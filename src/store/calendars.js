@@ -27,7 +27,6 @@ import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import { uidToHexColor } from '../utils/color.js'
 import { dateFactory, getUnixTimestampFromDate } from '../utils/date.js'
 import logger from '../utils/logger.js'
-import { isAfterVersion } from '../utils/nextcloudVersion.ts'
 import useCalendarObjectsStore from './calendarObjects.js'
 import useFetchedTimeRangesStore from './fetchedTimeRanges.js'
 import useImportFilesStore from './importFiles.js'
@@ -585,29 +584,6 @@ export default defineStore('calendars', {
 
 			await calendar.dav.update()
 			this.calendarsById[calendar.id].transparency = transparency
-		},
-
-		/**
-		 * Change a calendar's default alarm
-		 *
-		 * @param {object} data destructuring object
-		 * @param {object} data.calendar the calendar to modify
-		 * @param {string|null} data.defaultAlarm the new default alarm in seconds (or null to disable)
-		 * @return {Promise}
-		 */
-		async changeCalendarDefaultAlarm({ calendar, defaultAlarm }) {
-			if (!isAfterVersion(34)) {
-				return
-			}
-
-			if (calendar.dav.defaultAlarm === defaultAlarm) {
-				return
-			}
-
-			calendar.dav.defaultAlarm = defaultAlarm
-
-			await calendar.dav.update()
-			this.calendarsById[calendar.id].defaultAlarm = defaultAlarm
 		},
 
 		/**

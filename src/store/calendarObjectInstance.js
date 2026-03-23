@@ -28,7 +28,6 @@ import {
 	getDateFromDateTimeValue,
 } from '../utils/date.js'
 import logger from '../utils/logger.js'
-import { isAfterVersion } from '../utils/nextcloudVersion.ts'
 import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/recurrence.js'
 import useCalendarObjectsStore from './calendarObjects.js'
 import useCalendarsStore from './calendars.js'
@@ -1392,18 +1391,9 @@ export default defineStore('calendarObjectInstance', {
 			const eventComponent = getObjectAtRecurrenceId(calendarObject, startDate)
 			const calendarObjectInstance = mapEventComponentToEventObject(eventComponent)
 
-			// Add an alarm if set. First check for calendar-specific default alarm (Nextcloud 34+),
-			// then fall back to the global default reminder setting.
-			const calendarsStore = useCalendarsStore()
-			const calendar = calendarsStore.getCalendarById(calendarObject.calendarId)
-
-			let defaultReminder = null
-			if (isAfterVersion(34) && calendar && calendar.defaultAlarm !== null) {
-				defaultReminder = parseInt(calendar.defaultAlarm)
-			} else {
-				defaultReminder = parseInt(settingsStore.defaultReminder)
-			}
-
+			// Add an alarm if the user set a default one in the settings. If
+			// not, defaultReminder will not be a number (rather the string "none").
+			const defaultReminder = parseInt(settingsStore.defaultReminder)
 			if (!isNaN(defaultReminder)) {
 				this.addAlarmToCalendarObjectInstance({
 					calendarObjectInstance,
