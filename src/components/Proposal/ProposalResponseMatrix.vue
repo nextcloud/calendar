@@ -137,8 +137,9 @@ import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import { Proposal, ProposalResponse } from '@/models/proposals/proposals'
-import { ProposalDateVote } from '@/types/proposals/proposalEnums'
 import { getTimezoneOffset } from '@/services/timezoneOffsetService'
+import { ProposalDateVote } from '@/types/proposals/proposalEnums'
+
 
 export default {
 	name: 'ProposalResponseMatrix',
