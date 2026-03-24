@@ -580,4 +580,84 @@ describe('fullcalendar/eventClick test suite', () => {
 		EditorMixin.requiresActionOnRouteLeave = true
 		EditorMixin.beforeRouteLeave(toRoute, fromRoute, next)
 	})
+
+	it('should properly encode calendarId containing percent-encoded spaces (shared by user with space)', () => {
+		const settingsStore = useSettingsStore()
+		settingsStore.tasksEnabled = true
+	
+		const router = { push: vi.fn() }
+		const route = {
+			name: 'EditFullView',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+		const window = {
+			innerWidth: 1920,
+			location: {
+				protocol: 'http:',
+				host: 'nextcloud.testing',
+			}
+		}
+	
+		generateUrl.mockReturnValueOnce('/generated-url')
+	
+		const eventClickFunction = eventClick(router, route, window)
+		eventClickFunction({ event: {
+			extendedProps: {
+				davUrl: '/remote.php/dav/calendars/admin/calendar_shared_by_User%20NAME/EAFB112A-4556-404A-B807-B1E040D0F7A0.ics',
+				object: 'object123',
+				recurrenceId: 'recurrence456',
+				objectType: 'VTODO',
+			}
+		}})
+	
+		expect(generateUrl).toHaveBeenCalledTimes(1)
+		expect(generateUrl).toHaveBeenNthCalledWith(1,
+			'apps/tasks/calendars/calendar_shared_by_User%2520NAME/tasks/EAFB112A-4556-404A-B807-B1E040D0F7A0.ics'
+		)
+		expect(window.location.href).toEqual('/generated-url')
+	})
+
+	it('should encode special characters in calendarId and taskId', () => {
+		const settingsStore = useSettingsStore()
+		settingsStore.tasksEnabled = true
+	
+		const router = { push: vi.fn() }
+		const route = {
+			name: 'EditFullView',
+			params: {
+				object: 'object123',
+				otherParam: '456',
+				recurrenceId: 'recurrence456',
+			}
+		}
+		const window = {
+			innerWidth: 1920,
+			location: {
+				protocol: 'http:',
+				host: 'nextcloud.testing',
+			}
+		}
+	
+		generateUrl.mockReturnValueOnce('/generated-url')
+	
+		const eventClickFunction = eventClick(router, route, window)
+		eventClickFunction({ event: {
+			extendedProps: {
+				davUrl: '/remote.php/dav/calendars/admin/calendar#special/task?file&name.ics',
+				object: 'object123',
+				recurrenceId: 'recurrence456',
+				objectType: 'VTODO',
+			}
+		}})
+	
+		expect(generateUrl).toHaveBeenCalledTimes(1)
+		expect(generateUrl).toHaveBeenNthCalledWith(1,
+			'apps/tasks/calendars/calendar%23special/tasks/task%3Ffile%26name.ics'
+		)
+		expect(window.location.href).toEqual('/generated-url')
+	})
 })
