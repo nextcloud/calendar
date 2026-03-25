@@ -381,7 +381,7 @@ OC.L10N.register(
     "Busy (tentative)" : "Zaneprázdnený (predbežne)",
     "Busy" : "Zaneprázdnený",
     "Unknown" : "Neznámy",
-    "Find a time" : "Nájisť čas",
+    "Find a time" : "Nájsť čas",
     "The invitation has been accepted successfully." : "Pozvánka bola úspešne prijatá.",
     "Failed to accept the invitation." : "Prijatie pozvánky zlyhalo.",
     "The invitation has been declined successfully." : "Pozvánka bola odmietnutá.",
