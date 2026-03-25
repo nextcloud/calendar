@@ -363,17 +363,32 @@ class ProposalService {
 			]);
 		}
 
-		// delete any existing calendar blocker event
+		// find any existing calendar blocker event and update it in-place, or create a new event
+		// updating in-place avoids a duplicate-UID constraint violation that would occur if the
+		// prior delete did not complete before the insert (e.g. due to DB caching or a failed
+		// delete operation)
 		$result = $this->findCalendarBlocker($user, $proposal);
 		if ($result !== null) {
-			$this->deleteCalendarBlockersOrganizer($user, $result['calendarUri'], $result['eventUri'], $proposal);
+			// update the existing blocker event with the final event data (PUT / overwrite)
+			try {
+				$calendarHome = (new InvitationResponseServer(false))->getServer()->tree->getNodeForPath('/calendars/' . $user->getUID());
+				$calendarNode = $calendarHome->getChild($result['calendarUri']);
+				$eventNode = $calendarNode->getChild($result['eventUri']);
+				$eventNode->put($vObject->serialize());
+			} catch (\Exception $e) {
+				throw new \RuntimeException(
+					'Failed to update calendar event for proposal ' . ((string)$proposal->getId()) . ': ' . $e->getMessage(),
+					0,
+					$e
+				);
+			}
+		} else {
+			// no existing blocker – create a fresh calendar object
+			$userCalendar->createFromString(
+				Uuid::v4()->toRfc4122() . '.ics',
+				$vObject->serialize()
+			);
 		}
-
-		// store the calendar object
-		$userCalendar->createFromString(
-			Uuid::v4()->toRfc4122() . '.ics',
-			$vObject->serialize()
-		);
 
 		// destroy the proposal entry
 		$this->proposalVoteMapper->deleteByProposalId($user->getUID(), $proposal->getId());
