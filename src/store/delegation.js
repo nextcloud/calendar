@@ -2,15 +2,17 @@
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { generateRemoteUrl } from '@nextcloud/router'
+import { showError } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
 import { defineStore } from 'pinia'
 import { mapDavCollectionToCalendar } from '../models/calendar.js'
 import { mapDavToPrincipal } from '../models/principal.js'
 import { findCalendarsAtUrl, findPrincipalByUrl } from '../services/caldavService.js'
 import {
 	addDelegateToGroup,
+	getCalendarHomeUrl,
 	getDelegateUrls,
-	getDelegatorUserIds,
+	getDelegatorPrincipalUrls,
 	removeDelegateFromGroup,
 } from '../services/delegationService.js'
 import logger from '../utils/logger.js'
@@ -29,12 +31,13 @@ export default defineStore('delegation', {
 			delegates: [],
 
 			/**
-			 * User IDs of principals who have granted the current user proxy access.
-			 * Used to identify "delegated" calendars in the sidebar.
+			 * Principal URLs of users who have granted the current user proxy access.
+			 * Stored as full absolute principal URLs so calendar-home discovery can
+			 * be performed without reconstructing paths from user IDs.
 			 *
 			 * @type {string[]}
 			 */
-			delegatorUserIds: [],
+			delegatorPrincipalUrls: [],
 		}
 	},
 
@@ -45,7 +48,7 @@ export default defineStore('delegation', {
 		 * @param {object} state The store state
 		 * @return {boolean}
 		 */
-		hasDelegatedCalendars: (state) => state.delegatorUserIds.length > 0,
+		hasDelegatedCalendars: (state) => state.delegatorPrincipalUrls.length > 0,
 	},
 
 	actions: {
@@ -86,7 +89,7 @@ export default defineStore('delegation', {
 		},
 
 		/**
-		 * Fetch the user IDs of principals who have granted the current user proxy access.
+		 * Fetch the principal URLs of users who have granted the current user proxy access.
 		 *
 		 * @return {Promise<void>}
 		 */
@@ -98,10 +101,10 @@ export default defineStore('delegation', {
 			}
 
 			try {
-				this.delegatorUserIds = await getDelegatorUserIds(currentUser.url)
-				logger.debug('Fetched delegators', { delegatorUserIds: this.delegatorUserIds })
+				this.delegatorPrincipalUrls = await getDelegatorPrincipalUrls(currentUser.url)
+				logger.debug('Fetched delegators', { delegatorPrincipalUrls: this.delegatorPrincipalUrls })
 			} catch (error) {
-				logger.error('Could not fetch delegator user IDs', { error })
+				logger.error('Could not fetch delegator principal URLs', { error })
 			}
 		},
 
@@ -147,10 +150,14 @@ export default defineStore('delegation', {
 		 * The calendars are tagged with isDelegated=true so CalendarList can show them
 		 * in their own section.
 		 *
+		 * Calendar home URLs are discovered via CalDAV PROPFIND on each delegator's
+		 * principal (RFC 4791 §6.2.1) rather than being constructed from user IDs,
+		 * which ensures correctness regardless of server path conventions.
+		 *
 		 * @return {Promise<void>}
 		 */
 		async fetchDelegatedCalendars() {
-			if (!this.delegatorUserIds.length) {
+			if (!this.delegatorPrincipalUrls.length) {
 				return
 			}
 
@@ -158,15 +165,15 @@ export default defineStore('delegation', {
 			const calendarsStore = useCalendarsStore()
 			const currentUser = principalsStore.getCurrentUserPrincipal
 
-			for (const delegatorUserId of this.delegatorUserIds) {
-				// Guard against empty or suspicious user IDs before constructing the URL.
-				if (!delegatorUserId || delegatorUserId.includes('/') || delegatorUserId.includes('..')) {
-					logger.warn('Skipping invalid delegator user ID', { delegatorUserId })
+			for (const delegatorPrincipalUrl of this.delegatorPrincipalUrls) {
+				// Discover the delegator's calendar home URL via CalDAV principal PROPFIND.
+				// This follows RFC 4791 §6.2.1 and avoids hard-coding any URL path convention.
+				const calendarHomeUrl = await getCalendarHomeUrl(delegatorPrincipalUrl)
+				if (!calendarHomeUrl) {
+					logger.warn('Could not determine calendar home URL for delegator', { delegatorPrincipalUrl })
+					showError(t('calendar', 'Could not load delegated calendars. Make sure the server supports calendar delegation.'))
 					continue
 				}
-
-				// Construct the delegator's calendar home URL using Nextcloud's path convention.
-				const calendarHomeUrl = generateRemoteUrl(`dav/calendars/${encodeURIComponent(delegatorUserId)}/`)
 
 				try {
 					const rawCalendars = await findCalendarsAtUrl(calendarHomeUrl)
@@ -183,7 +190,8 @@ export default defineStore('delegation', {
 
 					logger.debug('Fetched delegated calendars from', { calendarHomeUrl, count: mappedCalendars.length })
 				} catch (error) {
-					logger.error('Could not fetch calendars for delegator', { delegatorUserId, error })
+					logger.error('Could not fetch calendars for delegator', { delegatorPrincipalUrl, error })
+					showError(t('calendar', 'Could not load delegated calendars. Make sure the server supports calendar delegation.'))
 				}
 			}
 		},

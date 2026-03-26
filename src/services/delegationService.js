@@ -184,28 +184,66 @@ async function removeDelegateFromGroup(userId, delegatePrincipalUrl) {
 }
 
 /**
- * Get the user IDs of principals who have delegated write access to the current user.
- * This is done by inspecting the group-membership property of the current user's principal.
+ * Get the principal URLs of users who have delegated write access to the current user.
+ * Inspects the group-membership property and strips the /calendar-proxy-write suffix to
+ * return the owner's principal URL directly, ready for CalDAV discovery.
  *
  * @param {string} principalUrl Absolute URL of the current user's principal
- * @return {Promise<string[]>} User IDs of users who delegated to the current user
+ * @return {Promise<string[]>} Absolute principal URLs of users who delegated to the current user
  */
-async function getDelegatorUserIds(principalUrl) {
+async function getDelegatorPrincipalUrls(principalUrl) {
 	const groups = await fetchGroupMembership(principalUrl)
 	return groups
 		.filter((url) => url.includes('calendar-proxy-write'))
 		.map((url) => {
 			// URL pattern: .../principals/users/{userId}/calendar-proxy-write[/]
-			const match = url.match(/\/principals\/users\/([^/]+)\/calendar-proxy-write/)
-			return match ? decodeURIComponent(match[1]) : null
+			// Strip the proxy-group suffix to get the owner's principal URL.
+			const match = url.match(/^(.+\/principals\/users\/[^/]+)\/calendar-proxy-write/)
+			return match ? match[1] : null
 		})
 		.filter(Boolean)
 }
 
+/**
+ * Discover the calendar home URL for a principal via CalDAV PROPFIND.
+ *
+ * Performs a PROPFIND depth-0 on the principal URL requesting
+ * {urn:ietf:params:xml:ns:caldav}calendar-home-set, then returns the first href.
+ * This is the standards-correct (RFC 4791 §6.2.1) way to locate a user's calendar home
+ * and avoids hard-coding any URL path conventions.
+ *
+ * @param {string} principalUrl Absolute URL of the owner's principal
+ * @return {Promise<string|null>} Absolute URL of the calendar home, or null on failure
+ */
+async function getCalendarHomeUrl(principalUrl) {
+	const body = `<?xml version="1.0" encoding="utf-8"?>
+<d:propfind xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">
+  <d:prop>
+    <c:calendar-home-set/>
+  </d:prop>
+</d:propfind>`
+
+	try {
+		const doc = await propfind(principalUrl, body)
+		const propEl = doc.getElementsByTagNameNS('urn:ietf:params:xml:ns:caldav', 'calendar-home-set')[0]
+		if (!propEl) {
+			return null
+		}
+		const hrefs = Array.from(propEl.getElementsByTagNameNS('DAV:', 'href'))
+			.map((el) => toAbsoluteUrl(el.textContent.trim()))
+			.filter(Boolean)
+		return hrefs[0] ?? null
+	} catch (error) {
+		logger.error('Could not fetch calendar-home-set', { principalUrl, error })
+		return null
+	}
+}
+
 export {
 	addDelegateToGroup,
+	getCalendarHomeUrl,
 	getDelegateUrls,
-	getDelegatorUserIds,
+	getDelegatorPrincipalUrls,
 	getProxyGroupUrl,
 	removeDelegateFromGroup,
 }
