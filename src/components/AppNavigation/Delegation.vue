@@ -475,7 +475,6 @@ export default {
 
 	&__option-email {
 		color: var(--color-text-lighter);
-		font-size: 0.85em;
 	}
 }
 </style>
