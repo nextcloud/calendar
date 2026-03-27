@@ -248,6 +248,42 @@ async function findPrincipalsInCollection(url, options = {}) {
 	return getClient().findPrincipalsInCollection(url, options)
 }
 
+/**
+ * Fetches all calendars from a calendar home at an arbitrary URL.
+ * Used to load calendars from another user's calendar home when acting as their proxy.
+ *
+ * This temporarily creates a CalendarHome object via the existing authenticated
+ * client so all credentials/headers are reused, then immediately restores the
+ * client's original calendar home list.
+ *
+ * NOTE: This relies on the cdav-library DavClient's `_extractCalendarHomes` method,
+ * which is a convention-private (underscore-prefixed) API. If the cdav-library
+ * changes this internal method, this function will need to be updated accordingly.
+ *
+ * @param {string} calendarHomeUrl Absolute URL of the calendar home to fetch from
+ * @return {Promise<Calendar[]>} Raw cdav-library Calendar objects
+ */
+async function findCalendarsAtUrl(calendarHomeUrl) {
+	const client = getClient()
+	const savedCalendarHomes = client.calendarHomes.slice()
+
+	try {
+		// _extractCalendarHomes creates CalendarHome objects using the existing
+		// authenticated _request object and sets client.calendarHomes.
+		await client._extractCalendarHomes({
+			'{urn:ietf:params:xml:ns:caldav}calendar-home-set': [calendarHomeUrl],
+		})
+
+		if (!client.calendarHomes.length) {
+			return []
+		}
+
+		return await client.calendarHomes[0].findAllCalendars()
+	} finally {
+		client.calendarHomes = savedCalendarHomes
+	}
+}
+
 export {
 	advancedPrincipalPropertySearch,
 	createCalendar,
@@ -256,6 +292,7 @@ export {
 	findAll,
 	findAllCalendars,
 	findAllDeletedCalendars,
+	findCalendarsAtUrl,
 	findPrincipalByUrl,
 	findPrincipalsInCollection,
 	findPublicCalendarsByTokens,

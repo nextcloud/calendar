@@ -43,6 +43,9 @@
 
 				<!-- Trashbin -->
 				<Trashbin v-if="calendarsStore.hasTrashBin" />
+
+				<!-- Delegation -->
+				<Delegation v-if="isAuthenticatedUser" />
 			</template>
 			<!-- Settings and import -->
 			<template #footer>
@@ -115,6 +118,7 @@ import AppNavigationHeader from '../components/AppNavigation/AppNavigationHeader
 import AppointmentConfigList from '../components/AppNavigation/AppointmentConfigList.vue'
 import CalendarList from '../components/AppNavigation/CalendarList.vue'
 import Trashbin from '../components/AppNavigation/CalendarList/Trashbin.vue'
+import Delegation from '../components/AppNavigation/Delegation.vue'
 import EditCalendarModal from '../components/AppNavigation/EditCalendarModal.vue'
 import EmbedTopNavigation from '../components/AppNavigation/EmbedTopNavigation.vue'
 import ProposalList from '../components/AppNavigation/Proposal/ProposalList.vue'
@@ -136,6 +140,7 @@ import { isNotifyPushAvailable, registerNotifyPushSyncListener } from '../servic
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import useCalendarObjectsStore from '../store/calendarObjects.js'
 import useCalendarsStore from '../store/calendars.js'
+import useDelegationStore from '../store/delegation.js'
 import useFetchedTimeRangesStore from '../store/fetchedTimeRanges.js'
 import usePrincipalsStore from '../store/principals.js'
 import useSettingsStore from '../store/settings.js'
@@ -166,6 +171,7 @@ export default {
 		NcContent,
 		AppContent,
 		AppNavigation,
+		Delegation,
 		Trashbin,
 		EditCalendarModal,
 		EditSimple,
@@ -222,6 +228,7 @@ export default {
 			usePrincipalsStore,
 			useSettingsStore,
 			useWidgetStore,
+			useDelegationStore,
 		),
 
 		...mapState(useSettingsStore, {
@@ -385,6 +392,10 @@ export default {
 					order: 0,
 				})
 			}
+
+			// Load delegation info: who has delegated their calendars to the current user
+			await this.delegationStore.fetchDelegators()
+			await this.delegationStore.fetchDelegatedCalendars()
 
 			this.loadingCalendars = false
 		}
