@@ -1,17 +1,17 @@
 /**
- * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import { fileURLToPath } from 'node:url'
+import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
 	plugins: [vue()],
 	resolve: {
 		alias: {
-			'@': fileURLToPath(new URL('./src', import.meta.url))
+			'@': fileURLToPath(new URL('./src', import.meta.url)),
 		},
 	},
 	test: {
@@ -24,8 +24,13 @@ export default defineConfig({
 		environment: 'jsdom',
 		// Required for transforming CSS files
 		pool: 'vmForks',
+		poolOptions: {
+			vmForks: {
+				singleFork: true,
+			},
+		},
 		// Increase timeouts for slow CI environments
 		testTimeout: 300000, // 2 minutes per test
-		hookTimeout: 60000,  // 60 seconds for hooks
+		hookTimeout: 60000, // 60 seconds for hooks
 	},
-});
+})
