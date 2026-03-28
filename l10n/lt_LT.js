@@ -226,6 +226,7 @@ OC.L10N.register(
     "Add from Files" : "Pridėti iš Failų",
     "Upload from device" : "Įkelti iš įrenginio",
     "Delete file" : "Ištrinti failą",
+    "Confirmation" : "Patvirtinimas",
     "_{count} attachment_::_{count} attachments_" : ["{count} priedas","{count} priedai","{count} priedų","{count} priedas"],
     "Available" : "Prieinamas",
     "Invitation accepted" : "Pakvietimas priimtas",
