@@ -47,16 +47,16 @@
 						:size="20" />
 				</template>
 			</NcButton>
-			<Actions v-if="!isReadOnly && isViewedByOrganizer">
+			<Actions v-if="isViewedByOrganizer">
 				<ActionCheckbox
-					v-if="!members.length"
+					v-if="!isReadOnly && !members.length"
 					:modelValue="attendee.rsvp"
 					@update:modelValue="toggleRSVP">
 					{{ $t('calendar', 'Request reply') }}
 				</ActionCheckbox>
 
 				<ActionRadio
-					v-if="!members.length"
+					v-if="!isReadOnly && !members.length"
 					:name="radioName"
 					value="CHAIR"
 					:modelValue="attendee.role"
@@ -64,7 +64,7 @@
 					{{ $t('calendar', 'Chairperson') }}
 				</ActionRadio>
 				<ActionRadio
-					v-if="!members.length"
+					v-if="!isReadOnly && !members.length"
 					:name="radioName"
 					value="REQ-PARTICIPANT"
 					:modelValue="attendee.role"
@@ -72,7 +72,7 @@
 					{{ $t('calendar', 'Required participant') }}
 				</ActionRadio>
 				<ActionRadio
-					v-if="!members.length"
+					v-if="!isReadOnly && !members.length"
 					:name="radioName"
 					value="OPT-PARTICIPANT"
 					:modelValue="attendee.role"
@@ -80,7 +80,7 @@
 					{{ $t('calendar', 'Optional participant') }}
 				</ActionRadio>
 				<ActionRadio
-					v-if="!members.length"
+					v-if="!isReadOnly && !members.length"
 					:name="radioName"
 					value="NON-PARTICIPANT"
 					:modelValue="attendee.role"
@@ -88,7 +88,9 @@
 					{{ $t('calendar', 'Non-participant') }}
 				</ActionRadio>
 
-				<ActionButton @click="removeAttendee(attendee)">
+				<ActionButton
+					v-if="!isReadOnly"
+					@click="removeAttendee(attendee)">
 					<template #icon>
 						<Delete :size="20" decorative />
 					</template>
