@@ -1,5 +1,5 @@
 <!--
-  - SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
@@ -137,7 +137,9 @@ import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import { Proposal, ProposalResponse } from '@/models/proposals/proposals'
+import { getTimezoneOffset } from '@/services/timezoneOffsetService'
 import { ProposalDateVote } from '@/types/proposals/proposalEnums'
+
 
 export default {
 	name: 'ProposalResponseMatrix',
@@ -182,7 +184,6 @@ export default {
 	data() {
 		return {
 			ProposalDateVote,
-			timezoneOffset: 0,
 		}
 	},
 
@@ -201,17 +202,21 @@ export default {
 			const groups = {}
 			dates.forEach((d) => {
 				// Apply timezone offset for grouping by day
-				const key = d.date ? moment(d.date).utcOffset(this.timezoneOffset).format('yyyy-MM-dd') : 'invalid'
+				const offset = getTimezoneOffset(d.date.toISOString(), this.timezoneId)
+				const key = moment(d.date).utcOffset(offset).format('YYYY-MM-DD')
 				if (!groups[key]) {
 					groups[key] = []
 				}
 				groups[key].push(d)
 			})
-			return Object.entries(groups).map(([key, grp]: [string, ProposalDate[]]) => ({
-				key,
-				label: moment(grp[0].date).utcOffset(this.timezoneOffset).format('dddd, MMMM Do'),
-				dates: grp,
-			}))
+			return Object.entries(groups).map(([key, grp]: [string, ProposalDate[]]) => {
+				const offset = getTimezoneOffset(grp[0].date.toISOString(), this.timezoneId)
+				return {
+					key,
+					label: moment(grp[0].date).utcOffset(offset).format('dddd, MMMM Do'),
+					dates: grp,
+				}
+			})
 		},
 
 		columnCount() {
@@ -222,39 +227,13 @@ export default {
 
 	},
 
-	watch: {
-		timezoneId(newZone) {
-			if (newZone) {
-				this.timezoneOffset = this.calculateTimezoneOffset(newZone)
-			}
-		},
-	},
-
-	created() {
-		if (this.timezoneId) {
-			this.timezoneOffset = this.calculateTimezoneOffset(this.timezoneId)
-		}
-	},
-
 	methods: {
 		t,
 
-		calculateTimezoneOffset(timezoneId) {
-			// Get the timezone offset in minutes
-			try {
-				const now = new Date()
-				const utcDate = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }))
-				const targetDate = new Date(now.toLocaleString('en-US', { timeZone: timezoneId }))
-				return ((utcDate.getTime() - targetDate.getTime()) / (1000 * 60)) * -1
-			} catch (e) {
-				// Fallback to UTC if timezone is invalid
-				return 0
-			}
-		},
-
 		dateTimeSpan(date) {
-			const startDate = moment(date).utcOffset(this.timezoneOffset)
-			const endDate = moment(date).utcOffset(this.timezoneOffset).add(this.proposal.duration, 'minutes')
+			const offset = getTimezoneOffset(date.toISOString(), this.timezoneId)
+			const startDate = moment(date).utcOffset(offset)
+			const endDate = moment(date).utcOffset(offset).add(this.proposal.duration, 'minutes')
 
 			const startTime = startDate.format('LT')
 			const endTime = endDate.format('LT')
@@ -277,7 +256,8 @@ export default {
 				return ''
 			}
 			// Apply timezone offset and format very compact: "7/8 2PM"
-			const adjustedDate = moment(date).utcOffset(this.timezoneOffset)
+			const offset = getTimezoneOffset(date.toISOString(), this.timezoneId)
+			const adjustedDate = moment(date).utcOffset(offset)
 			return adjustedDate.format('M/D LT').replace(':00', '').replace(' ', ' ')
 		},
 
