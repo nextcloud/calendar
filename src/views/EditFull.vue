@@ -199,17 +199,16 @@
 							class="property-add-talk">
 							<IconVideo :size="20" class="property-text__icon property-add-talk__icon" />
 							<AddTalkModal
-								v-if="isModalOpen"
-								:conversations="talkConversations"
+								v-if="isTalkModalOpen"
 								:calendarObjectInstance="calendarObjectInstance"
-								@close="isModalOpen = false"
+								@close="isTalkModalOpen = false"
 								@updateLocation="updateLocation"
 								@updateDescription="updateDescription" />
 							<NcButton
 								class="property-add-talk__button"
 								:disabled="isCreateTalkRoomButtonDisabled"
 								style="width: 100%"
-								@click="openModal">
+								@click="openTalkModal">
 								{{ t('calendar', 'Add Talk conversation') }}
 							</NcButton>
 						</div>
@@ -377,7 +376,6 @@ import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import usePrincipalsStore from '../store/principals.js'
 import useSettingsStore from '../store/settings.js'
 import logger from '../utils/logger.js'
-import { containsRoomUrl } from '@/services/talkService'
 
 export default {
 	name: 'EditFull',
@@ -429,9 +427,6 @@ export default {
 			showModalUsers: [],
 			sharedProgress: 0,
 			showPreloader: false,
-			isModalOpen: false,
-			talkConversations: [],
-			selectedConversation: null,
 			cancelButtons: [
 				{
 					label: t('calendar', 'Discard changes'),
@@ -462,7 +457,6 @@ export default {
 		}),
 
 		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
-		...mapState(useSettingsStore, ['talkEnabled']),
 		accessClass() {
 			return this.calendarObjectInstance?.accessClass || null
 		},
@@ -504,14 +498,6 @@ export default {
 			return this.principalsStore.getCurrentUserPrincipal || null
 		},
 
-		isCreateTalkRoomButtonDisabled() {
-			return containsRoomUrl(this.calendarObjectInstance?.location) || containsRoomUrl(this.calendarObjectInstance?.description)
-		},
-
-		isCreateTalkRoomButtonVisible() {
-			return this.talkEnabled && this.isViewedByOrganizer !== false && this.isReadOnly !== true
-		},
-
 		resources() {
 			return this.calendarObjectInstance.attendees.filter((attendee) => {
 				return ['ROOM', 'RESOURCE'].includes(attendee.attendeeProperty.userType)
@@ -534,10 +520,6 @@ export default {
 	},
 
 	methods: {
-		openModal() {
-			this.isModalOpen = true
-		},
-
 		updateLocation(location) {
 			this.calendarObjectInstanceStore.changeLocation({
 				calendarObjectInstance: this.calendarObjectInstance,
