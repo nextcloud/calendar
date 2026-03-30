@@ -52,7 +52,11 @@ export default {
 		...mapStores(useCalendarObjectInstanceStore),
 		...mapState(useSettingsStore, ['forceEventAlarmType']),
 		alarms() {
-			return this.calendarObjectInstance.alarms
+			return this.calendarObjectInstance.alarms.slice().sort((a, b) => {
+				const aIsDefault = a.alarmComponent.getFirstPropertyFirstValue('X-DEFAULT') ? 1 : 0
+				const bIsDefault = b.alarmComponent.getFirstPropertyFirstValue('X-DEFAULT') ? 1 : 0
+				return bIsDefault - aIsDefault
+			})
 		},
 	},
 
