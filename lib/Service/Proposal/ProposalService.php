@@ -521,7 +521,8 @@ class ProposalService {
 		}
         // dates
         $temporaryText = '';
-        $userTimezone = new \DateTimeZone('Europe/Paris');
+		$owner = $proposal->getowner();
+        $userTimezone = $this->dateTimeZone->getTimeZone($owner);
 
         foreach ($proposal->getDates()->sortByDate() as $date) {
             $dtStartUtc = \DateTime::createFromImmutable($date->getDate());
