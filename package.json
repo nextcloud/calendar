@@ -96,7 +96,7 @@
     "@playwright/test": "^1.58.2",
     "@types/node": "^25.2.3",
     "@types/webpack": "^5.28.5",
-    "@vitejs/plugin-vue": "^6.0.4",
+    "@vitejs/plugin-vue": "^6.0.5",
     "@vitest/coverage-v8": "^4.0.18",
     "@vue/compiler-sfc": "^3.5.28",
     "@vue/test-utils": "^2.4.6",
