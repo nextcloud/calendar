@@ -522,7 +522,7 @@ class ProposalService {
 		}
         // dates
         $temporaryText = '';
-		$owner = $proposal->getowner();
+		$owner = $proposal->getOwner();
         $userTimezone = $this->dateTimeZone->getTimeZone($owner);
 
         foreach ($proposal->getDates()->sortByDate() as $date) {
