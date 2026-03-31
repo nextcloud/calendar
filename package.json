@@ -101,7 +101,7 @@
     "@vue/compiler-sfc": "^3.5.28",
     "@vue/test-utils": "^2.4.6",
     "babel-loader-exclude-node-modules-except": "^1.2.1",
-    "jsdom": "^28.0.0",
+    "jsdom": "^29.0.1",
     "resolve-url-loader": "^5.0.0",
     "ts-loader": "^9.5.4",
     "typescript": "^6.0.2",
