@@ -97,7 +97,7 @@
     "@types/node": "^25.5.0",
     "@types/webpack": "^5.28.5",
     "@vitejs/plugin-vue": "^6.0.5",
-    "@vitest/coverage-v8": "^4.0.18",
+    "@vitest/coverage-v8": "^4.1.2",
     "@vue/compiler-sfc": "^3.5.28",
     "@vue/test-utils": "^2.4.6",
     "babel-loader-exclude-node-modules-except": "^1.2.1",
@@ -105,7 +105,7 @@
     "resolve-url-loader": "^5.0.0",
     "ts-loader": "^9.5.4",
     "typescript": "^6.0.2",
-    "vitest": "^4.0.18",
+    "vitest": "^4.1.2",
     "vue-template-compiler": "^2.7.16",
     "vue-style-loader": "^4.1.3"
   },
