@@ -250,10 +250,15 @@ export default {
 		 * @param {Event} event The submit event
 		 */
 		async createNewCalendar(event) {
+			const displayName = event.target.querySelector('input[type=text]').value
+
+			if (!displayName.trim()) {
+				showError(this.$t('calendar', 'Calendar name can not be blank'))
+				return
+			}
+
 			this.showCreateCalendarInput = false
 			this.showCreateCalendarSaving = true
-
-			const displayName = event.target.querySelector('input[type=text]').value
 
 			try {
 				await this.calendarsStore.appendCalendar({
@@ -277,10 +282,15 @@ export default {
 		 * @param {Event} event The submit event
 		 */
 		async createNewCalendarTaskList(event) {
+			const displayName = event.target.querySelector('input[type=text]').value
+
+			if (!displayName.trim()) {
+				showError(this.$t('calendar', 'Calendar name can not be blank'))
+				return
+			}
+
 			this.showCreateCalendarTaskListInput = false
 			this.showCreateCalendarTaskListSaving = true
-
-			const displayName = event.target.querySelector('input[type=text]').value
 
 			try {
 				await this.calendarsStore.appendCalendar({
@@ -305,10 +315,7 @@ export default {
 		 * @param {Event} event The submit event
 		 */
 		async createNewSubscription(event) {
-			this.showCreateSubscriptionInput = false
-			this.showCreateSubscriptionSaving = true
-
-			const link = event.target.querySelector('input[type=text]').value
+			const link = event.target.querySelector('input[type=text]')?.value.trim()
 			let url
 			let hostname
 			try {
@@ -319,6 +326,9 @@ export default {
 				showError(this.$t('calendar', 'Please enter a valid link (starting with http://, https://, webcal://, or webcals://)'))
 				return
 			}
+
+			this.showCreateSubscriptionInput = false
+			this.showCreateSubscriptionSaving = true
 
 			try {
 				await this.calendarsStore.appendSubscription({

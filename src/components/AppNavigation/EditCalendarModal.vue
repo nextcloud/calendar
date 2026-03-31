@@ -22,12 +22,15 @@
 					</NcColorPicker>
 				</div>
 
-				<input
+				<NcTextField
 					v-model="calendarName"
 					class="edit-calendar-modal__name-and-color__name"
-					type="text"
+					:label="$t('calendar', 'Calendar name')"
+					:label-outside="true"
 					:placeholder="$t('calendar', 'Calendar name …')"
-					@input="calendarNameChanged = true">
+					:error="!isCalendarNameValid"
+					:helper-text="!isCalendarNameValid ? $t('calendar', 'Calendar name can not be blank') : ''"
+					@input="calendarNameChanged = true" />
 			</div>
 			<template v-if="canBeShared">
 				<NcCheckboxRadioSwitch :checked.sync="isTransparent">
@@ -70,7 +73,7 @@
 					</template>
 					{{ $t('calendar', 'Export') }}
 				</NcButton>
-				<NcButton variant="secondary" @click="saveAndClose">
+				<NcButton variant="secondary" :disabled="!isCalendarNameValid" @click="saveAndClose">
 					<template #icon>
 						<CheckIcon :size="20" />
 					</template>
@@ -83,7 +86,7 @@
 
 <script>
 import { showError } from '@nextcloud/dialogs'
-import { NcAppNavigationSpacer, NcButton, NcCheckboxRadioSwitch, NcColorPicker, NcModal } from '@nextcloud/vue'
+import { NcAppNavigationSpacer, NcButton, NcCheckboxRadioSwitch, NcColorPicker, NcModal, NcTextField } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
@@ -112,6 +115,7 @@ export default {
 		InternalLink,
 		NcAppNavigationSpacer,
 		NcCheckboxRadioSwitch,
+		NcTextField,
 	},
 
 	data() {
@@ -166,6 +170,15 @@ export default {
 		 */
 		downloadUrl() {
 			return this.calendar.url + '?export'
+		},
+
+		/**
+		 * Whether the calendar name is non-blank.
+		 *
+		 * @return {boolean}
+		 */
+		isCalendarNameValid() {
+			return !!this.calendarName?.trim()
 		},
 	},
 
@@ -234,7 +247,7 @@ export default {
 			try {
 				await this.calendarsStore.renameCalendar({
 					calendar: this.calendar,
-					newName: this.calendarName,
+					newName: this.calendarName.trim(),
 				})
 			} catch (error) {
 				logger.error('Failed to save calendar name', {
@@ -251,6 +264,9 @@ export default {
 		 * @return {Promise<void>}
 		 */
 		async saveAndClose() {
+			if (!this.isCalendarNameValid) {
+				return
+			}
 			try {
 				if (this.calendarColorChanged) {
 					await this.saveColor()
