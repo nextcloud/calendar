@@ -4,27 +4,27 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8df47d40b09bad037b778cdb33a0b4ec",
+    "content-hash": "a77e29f1fa7de4637d8c89ec1afa30d0",
     "packages": [],
     "packages-dev": [
         {
             "name": "christophwurst/nextcloud_testing",
-            "version": "v1.1.3",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ChristophWurst/nextcloud_testing.git",
-                "reference": "2428fddb15caeb025fa0bb37638e7756aae2a1f1"
+                "reference": "7087e2bb880c0ff34ba3b894b734627916daa4b3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_testing/zipball/2428fddb15caeb025fa0bb37638e7756aae2a1f1",
-                "reference": "2428fddb15caeb025fa0bb37638e7756aae2a1f1",
+                "url": "https://api.github.com/repos/ChristophWurst/nextcloud_testing/zipball/7087e2bb880c0ff34ba3b894b734627916daa4b3",
+                "reference": "7087e2bb880c0ff34ba3b894b734627916daa4b3",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.4|^8.0",
+                "php": "^8.0",
                 "php-webdriver/webdriver": "^1.9",
-                "phpunit/phpunit": "^8.0|^9.0|^10.0"
+                "phpunit/phpunit": "^9.0|^10.0|^11.0"
             },
             "type": "library",
             "autoload": {
@@ -45,9 +45,9 @@
             "description": "Simple and fast unit and integration testing framework for Nextcloud, based on PHPUnit",
             "support": {
                 "issues": "https://github.com/ChristophWurst/nextcloud_testing/issues",
-                "source": "https://github.com/ChristophWurst/nextcloud_testing/tree/v1.1.3"
+                "source": "https://github.com/ChristophWurst/nextcloud_testing/tree/v2.0.0"
             },
-            "time": "2026-03-10T18:18:16+00:00"
+            "time": "2026-03-19T12:31:27+00:00"
         },
         {
             "name": "myclabs/deep-copy",
