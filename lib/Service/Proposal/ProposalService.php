@@ -539,7 +539,7 @@ class ProposalService {
         }
 
         // Add timezone info at the end
-        $temporaryText .= "\n(" . $userTimezone->getName() . ")";
+		$temporaryText = rtrim($temporaryText) . "\n(" . $userTimezone->getName() . ")";
 
         $template->addBodyListItem($temporaryText, $this->l10n->t('Dates:'));
 
