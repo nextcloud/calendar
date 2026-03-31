@@ -522,8 +522,8 @@ class ProposalService {
 		}
         // dates
         $temporaryText = '';
-		$owner = $proposal->getOwner();
-        $userTimezone = $this->dateTimeZone->getTimeZone($owner);
+		$owner = $proposal->getUid();
+		$userTimezone = $this->dateTimeZone->getTimeZoneForUser($owner);
 
         foreach ($proposal->getDates()->sortByDate() as $date) {
             $dtStartUtc = \DateTime::createFromImmutable($date->getDate());
