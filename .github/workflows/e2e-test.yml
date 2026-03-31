@@ -81,7 +81,7 @@ jobs:
       - name: Run Playwright tests
         working-directory: nextcloud/apps/calendar
         run: DEBUG=pw:api npx playwright test
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         if: always()
         with:
           name: playwright-report-${{ github.event.number }}-nc${{ needs.matrix.outputs.branches-min }}-php${{ needs.matrix.outputs.php-min }}-node${{ steps.package-engines-versions.outputs.nodeVersion }}
