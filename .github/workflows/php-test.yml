@@ -19,7 +19,7 @@ jobs:
       XDEBUG_MODE: coverage
     steps:
     - name: Set up php${{ matrix.php-versions }}
-      uses: shivammathur/setup-php@85c019fd025f731a83ac9fbc1cdd9ba69d76b6e3 # v2.36.0 with verbose logging due to stuck runs
+      uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # 2.37.0 with verbose logging due to stuck runs
       with:
         php-version: ${{ matrix.php-versions }}
         extensions: ctype, curl, dom, gd, gmp, iconv, intl, json, mbstring, openssl, pdo_sqlite, posix, sqlite, xml, zip
@@ -43,7 +43,7 @@ jobs:
       run: composer run test:unit
     - name: Upload coverage to Codecov
       if: ${{ matrix.nextcloud-versions == 'master' }}
-      uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5
+      uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: nextcloud/apps/calendar/clover.unit.xml
@@ -71,7 +71,7 @@ jobs:
       XDEBUG_MODE: coverage
     steps:
       - name: Set up php${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@85c019fd025f731a83ac9fbc1cdd9ba69d76b6e3 # v2.36.0 with verbose logging due to stuck runs
+        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # 2.37.0 with verbose logging due to stuck runs
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: ctype, curl, dom, gd, gmp, iconv, intl, json, mbstring, openssl, pdo_sqlite, posix, sqlite, xml, zip
