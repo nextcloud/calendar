@@ -61,6 +61,7 @@ class ProposalService {
 		private IMailer $systemMailManager,
 		private IMailManager $userMailManager,
 		private IManager $calendarManager,
+		private IDateTimeZone $dateTimeZone,
 	) {
 	}
 
