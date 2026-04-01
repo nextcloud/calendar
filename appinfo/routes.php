@@ -14,6 +14,9 @@ return [
 		['name' => 'view#index', 'url' => '/new/{isAllDay}/{dtStart}/{dtEnd}', 'verb' => 'GET', 'postfix' => 'direct.new.timerange'],
 		['name' => 'view#index', 'url' => '/edit/{objectId}', 'verb' => 'GET', 'postfix' => 'direct.edit'],
 		['name' => 'view#index', 'url' => '/edit/{objectId}/{recurrenceId}', 'verb' => 'GET', 'postfix' => 'direct.edit.recurrenceId'],
+		// Permanent event deep links (UID-based)
+		['name' => 'event#index', 'url' => '/event/{uid}', 'verb' => 'GET', 'postfix' => 'event.uid'],
+		['name' => 'event#index', 'url' => '/event/{uid}/{recurrenceId}', 'verb' => 'GET', 'postfix' => 'event.uid.recurrenceId'],
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth|multiMonthYear|listMonth'], 'postfix' => 'view.timerange'],
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}/new/{mode}/{isAllDay}/{dtStart}/{dtEnd}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth|multiMonthYear|listMonth'], 'postfix' => 'view.timerange.new'],
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}/edit/{mode}/{objectId}/{recurrenceId}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth|multiMonthYear|listMonth'], 'postfix' => 'view.timerange.edit'],
