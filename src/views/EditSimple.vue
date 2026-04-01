@@ -257,6 +257,7 @@ import { mapState, mapStores } from 'pinia'
 import Bell from 'vue-material-design-icons/BellOutline.vue'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
 import Close from 'vue-material-design-icons/Close.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
 import EditIcon from 'vue-material-design-icons/PencilOutline.vue'
@@ -297,6 +298,7 @@ export default {
 		Close,
 		Download,
 		ContentDuplicate,
+		ContentCopy,
 		Delete,
 		InvitationResponseButtons,
 		CalendarPickerHeader,
