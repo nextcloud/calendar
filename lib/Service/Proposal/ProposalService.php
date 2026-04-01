@@ -26,6 +26,7 @@ use OCA\Calendar\Objects\Proposal\ProposalParticipantRealm;
 use OCA\Calendar\Objects\Proposal\ProposalParticipantStatus;
 use OCA\Calendar\Objects\Proposal\ProposalResponseObject;
 use OCA\Calendar\Objects\Proposal\ProposalVoteCollection;
+use OCA\Calendar\Service\CalendarManager;
 use OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer;
 use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarIsWritable;
@@ -60,6 +61,7 @@ class ProposalService {
 		private IMailer $systemMailManager,
 		private IMailManager $userMailManager,
 		private IManager $calendarManager,
+		private CalendarManager $appCalendarManager;
 	) {
 	}
 
