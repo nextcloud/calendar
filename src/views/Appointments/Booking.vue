@@ -285,6 +285,7 @@ export default {
 	padding-top: calc(var(--default-grid-baseline) * 4);
 	padding-bottom: calc(var(--default-grid-baseline) * 4);
 	padding-inline: calc(var(--default-grid-baseline) * 4);
+	margin-bottom: var(--footer-height);
 }
 
 .booking__description {
