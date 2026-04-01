@@ -276,8 +276,8 @@ export default {
 	flex-wrap: wrap;
 	width: 900px;
 	min-height: 500px;
-	margin-bottom: 50px;
 	justify-content: space-between;
+	margin-bottom: var(--footer-height);
 }
 
 .booking > div {
