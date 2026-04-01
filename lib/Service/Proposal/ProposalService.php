@@ -521,10 +521,10 @@ class ProposalService {
 		}
         // dates
         $temporaryText = '';
-		$ownerUid = $proposal->getUid();
-		$ownerUser = $this->userManager->get($ownerUid);
-		$timezoneId = $ownerUser?->getTimezone() ?? date_default_timezone_get();
-		$userTimezone = new \DateTimeZone($timezoneId);
+		
+		//get the timezone from the proposal
+		$eventTimezone = $this->getEventTimezone($proposal);
+		$userTimezone = $eventTimezone ?? new \DateTimeZone(date_default_timezone_get());
 
         foreach ($proposal->getDates()->sortByDate() as $date) {
             $dtStartUtc = \DateTime::createFromImmutable($date->getDate());
@@ -797,6 +797,21 @@ class ProposalService {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Find timezone
+	 *
+	 * @return \DateTimeZone|null  The calendar's timezone, or null if unavailable
+	 */
+	private function getEventTimezone(ProposalObject $proposal): ?\DateTimeZone {
+		$calendar = $this->calendarManager->getCalendarById($proposal->getCalendarId());
+		if ($calendar === null) {
+			return null;
+		}
+
+		$tzString = $calendar->getTimezone();
+		return $tzString ? new \DateTimeZone($tzString) : null;
 	}
 
 }
