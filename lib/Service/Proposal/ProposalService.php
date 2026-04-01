@@ -32,7 +32,6 @@ use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IManager;
 use OCP\IAppConfig;
-use OCP\IDateTimeZone;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -61,7 +60,6 @@ class ProposalService {
 		private IMailer $systemMailManager,
 		private IMailManager $userMailManager,
 		private IManager $calendarManager,
-		private IDateTimeZone $dateTimeZone,
 	) {
 	}
 
@@ -523,8 +521,9 @@ class ProposalService {
 		}
         // dates
         $temporaryText = '';
-		$owner = $proposal->getUid();
-		$userTimezone = $this->dateTimeZone->getTimeZoneForUser($owner);
+		$ownerUser = $this->userManager->get($ownerUid);
+		$timezoneId = $ownerUser?->getTimezone() ?? date_default_timezone_get();
+		$userTimezone = new \DateTimeZone($timezoneId);
 
         foreach ($proposal->getDates()->sortByDate() as $date) {
             $dtStartUtc = \DateTime::createFromImmutable($date->getDate());
