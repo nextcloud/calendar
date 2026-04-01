@@ -521,6 +521,7 @@ class ProposalService {
 		}
         // dates
         $temporaryText = '';
+		$ownerUid = $proposal->getUid();
 		$ownerUser = $this->userManager->get($ownerUid);
 		$timezoneId = $ownerUser?->getTimezone() ?? date_default_timezone_get();
 		$userTimezone = new \DateTimeZone($timezoneId);
