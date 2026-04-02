@@ -90,6 +90,11 @@ class CalendarInitialStateService {
 			'enableCalendarFederation',
 			true,
 		);
+		$remoteSharesEnabled = $this->appConfig->getValueBool(
+			'files_sharing',
+			'outgoing_server2server_share_enabled',
+			true,
+		);
 
 		$enableResourceBooking = !empty($this->resourceManager->getBackends())
 			|| !empty($this->roomManager->getBackends());
@@ -124,7 +129,7 @@ class CalendarInitialStateService {
 		$this->initialStateService->provideInitialState('publicCalendars', $publicCalendars);
 		$this->initialStateService->provideInitialState(
 			'calendar_federation_enabled',
-			$calendarFederationEnabled,
+			$calendarFederationEnabled && $remoteSharesEnabled,
 		);
 		$this->initialStateService->provideInitialState(
 			'resource_booking_enabled',
