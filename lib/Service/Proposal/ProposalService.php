@@ -525,6 +525,7 @@ class ProposalService {
 		$temporaryText = '';
 		$ownerUid = $proposal->getUid();
 		$timezoneString = $this->config->getUserValue($ownerUid, 'core', 'timezone', 'UTC');
+		$userTimezone = new \DateTimeZone($timezoneString);
 		//Get dates
         foreach ($proposal->getDates()->sortByDate() as $date) {
             $dtStartUtc = \DateTime::createFromImmutable($date->getDate());
