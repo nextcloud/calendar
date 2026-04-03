@@ -167,6 +167,8 @@ OC.L10N.register(
     "Calendar name" : "Kalender naam",
     "Never show me as busy (set this calendar to transparent)" : "Toon mij nooit als bezet (stel deze agenda in als transparant)",
     "Default reminder" : "Standaard herinnering",
+    "Select default reminder" : "Selecteer standaard herinnering",
+    "This reminder will be automatically added to all new events created in this calendar" : "Deze herinnering wordt automatisch toegevoegd aan alle nieuwe gebeurtenissen in deze kalender",
     "Share calendar" : "Delen kalender",
     "Unshare from me" : "Stop delen met mij",
     "Save" : "Opslaan",
