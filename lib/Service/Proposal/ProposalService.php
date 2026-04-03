@@ -521,11 +521,21 @@ class ProposalService {
 		if ($proposal->getDuration() > 0) {
 			$template->addBodyListItem($this->l10n->t('%1$s minutes', [(string)$proposal->getDuration()]), $this->l10n->t('Duration:'));
 		}
-		// Get timezon info in user personal settings 
+		
+		// Get timezone info in user personal settings 
 		$temporaryText = '';
 		$ownerUid = $proposal->getUid();
 		$timezoneString = $this->config->getUserValue($ownerUid, 'core', 'timezone', 'UTC');
+		
+		// Validate timezone against known identifiers
+		$validTimezones = \DateTimeZone::listIdentifiers();
+		if (!in_array($timezoneString, $validTimezones, true)) {
+			$timezoneString = 'UTC';
+		}
+		
+		/** @psalm-var non-empty-string $timezoneString */
 		$userTimezone = new \DateTimeZone($timezoneString);
+		
 		//Get dates
         foreach ($proposal->getDates()->sortByDate() as $date) {
             $dtStartUtc = \DateTime::createFromImmutable($date->getDate());
