@@ -32,6 +32,7 @@ use OCA\Calendar\Objects\Proposal\ProposalResponseObject;
 use OCA\Calendar\Objects\Proposal\ProposalVoteCollection;
 use OCA\Calendar\Objects\Proposal\ProposalVoteObject;
 use OCP\Calendar\IManager;
+use OCP\Config\IUserConfig;
 use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -52,6 +53,7 @@ class ProposalServiceTest extends TestCase {
 	protected ProposalVoteMapper|MockObject $proposalVoteMapper;
 	protected IL10N|MockObject $l10n;
 	protected IURLGenerator|MockObject $urlGenerator;
+	protected IUserConfig|MockObject $userConfig;
 	protected IUserManager|MockObject $userManager;
 	protected IMailer|MockObject $systemMailManager;
 	protected IMailManager|MockObject $userMailManager;
@@ -70,6 +72,7 @@ class ProposalServiceTest extends TestCase {
 		$this->proposalVoteMapper = $this->createMock(ProposalVoteMapper::class);
 		$this->l10n = $this->createMock(IL10N::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->userConfig = $this->createMock(IUserConfig::class);
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->systemMailManager = $this->createMock(IMailer::class);
 		$this->userMailManager = $this->createMock(IMailManager::class);
@@ -89,6 +92,7 @@ class ProposalServiceTest extends TestCase {
 			$this->proposalVoteMapper,
 			$this->l10n,
 			$this->urlGenerator,
+			$this->userConfig,
 			$this->userManager,
 			$this->systemMailManager,
 			$this->userMailManager,

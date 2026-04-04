@@ -31,6 +31,7 @@ use OCP\Calendar\ICalendar;
 use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IManager;
+use OCP\Config\IUserConfig;
 use OCP\IAppConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -56,6 +57,7 @@ class ProposalService {
 		private ProposalVoteMapper $proposalVoteMapper,
 		private IL10N $l10n,
 		private IURLGenerator $urlGenerator,
+		private IUserConfig $userConfig,
 		private IUserManager $userManager,
 		private IMailer $systemMailManager,
 		private IMailManager $userMailManager,
@@ -520,17 +522,26 @@ class ProposalService {
 			$template->addBodyListItem($this->l10n->t('%1$s minutes', [(string)$proposal->getDuration()]), $this->l10n->t('Duration:'));
 		}
 		// dates
+		$timezoneString = $this->userConfig->getValueString($user->getUID(), 'core', 'timezone', 'UTC') ?: 'UTC';
+		try {
+			$userTimezone = new \DateTimeZone($timezoneString);
+		} catch (\Exception $e) {
+			$userTimezone = new \DateTimeZone('UTC');
+		}
+
 		$temporaryText = '';
 		foreach ($proposal->getDates()->sortByDate() as $date) {
-			$dtStart = \DateTime::createFromImmutable($date->getDate());
+			$dtStart = \DateTime::createFromImmutable($date->getDate())->setTimezone($userTimezone);
 			$dtEnd = (clone $dtStart)->add(new \DateInterval("PT{$proposal->getDuration()}M"));
 			$textDate = $this->l10n->l('date', $dtStart, ['width' => 'long']);
 			$textStart = $this->l10n->l('time', $dtStart, ['width' => 'short']);
 			$textEnd = $this->l10n->l('time', $dtEnd, ['width' => 'short']);
 			$temporaryText .= $this->l10n->t('%1$s from %2$s to %3$s', [$textDate, $textStart, $textEnd]) . "\n";
 		}
-		$template->addBodyListItem($temporaryText, $this->l10n->t('Dates:'));
 
+		$temporaryText .= '(' . $userTimezone->getName() . ')';
+		$template->addBodyListItem($temporaryText, $this->l10n->t('Dates:'));
+		// buttons
 		$template->addBodyButton(
 			$this->l10n->t('Respond'),
 			$this->urlGenerator->linkToRouteAbsolute('Calendar.ProposalPublic.index', ['token' => $recipientToken])
