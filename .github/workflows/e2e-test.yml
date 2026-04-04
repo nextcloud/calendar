@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Get version matrix
         id: versions
-        uses: icewind1991/nextcloud-version-matrix@58becf3b4bb6dc6cef677b15e2fd8e7d48c0908f # v1.3.1
+        uses: icewind1991/nextcloud-version-matrix@8a7bac6300b2f0f3100088b297995a229558ddba # v1.3.2
 
   frontend-e2e-tests:
     runs-on: ubuntu-latest
@@ -49,7 +49,7 @@ jobs:
           fallbackNpm: '^11'
           path: nextcloud/apps/calendar
       - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
-        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
         with:
           node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
       - name: Set up npm ${{ steps.package-engines-versions.outputs.npmVersion }}
@@ -81,7 +81,7 @@ jobs:
       - name: Run Playwright tests
         working-directory: nextcloud/apps/calendar
         run: DEBUG=pw:api npx playwright test
-      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         if: always()
         with:
           name: playwright-report-${{ github.event.number }}-nc${{ needs.matrix.outputs.branches-min }}-php${{ needs.matrix.outputs.php-min }}-node${{ steps.package-engines-versions.outputs.nodeVersion }}

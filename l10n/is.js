@@ -396,6 +396,8 @@ OC.L10N.register(
     "Update this occurrence" : "Uppfæra þetta tilviki",
     "Public calendar does not exist" : "Opinbert dagatal er ekki til",
     "Maybe the share was deleted or has expired?" : "Hugsanlega hefur sameigninni verið eytt eða hún sé útrunnin?",
+    "Yes" : "Já",
+    "No" : "Nei",
     "Create" : "Búa til",
     "Type to search time zone" : "Skrifaðu til að leita að tímabelti...",
     "Global" : "Víðvært",

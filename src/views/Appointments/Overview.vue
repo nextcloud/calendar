@@ -96,7 +96,7 @@ export default {
 	flex-direction: column;
 	max-width: 900px;
 	margin: 50px auto;
-	padding: 8px 25px;
+	padding: 8px 25px var(--footer-height) 25px;
 
 	.title {
 		display: flex;

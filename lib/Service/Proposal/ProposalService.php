@@ -363,17 +363,16 @@ class ProposalService {
 			]);
 		}
 
-		// delete any existing calendar blocker event
+		// convert existing calendar blocker to event if it exists, otherwise create a new event in the user's calendar
 		$result = $this->findCalendarBlocker($user, $proposal);
 		if ($result !== null) {
-			$this->deleteCalendarBlockersOrganizer($user, $result['calendarUri'], $result['eventUri'], $proposal);
+			$this->applyCalendarBlockersOrganizer($user, $result['calendarUri'], $result['eventUri'], $vObject);
+		} else {
+			$userCalendar->createFromString(
+				Uuid::v4()->toRfc4122() . '.ics',
+				$vObject->serialize()
+			);
 		}
-
-		// store the calendar object
-		$userCalendar->createFromString(
-			Uuid::v4()->toRfc4122() . '.ics',
-			$vObject->serialize()
-		);
 
 		// destroy the proposal entry
 		$this->proposalVoteMapper->deleteByProposalId($user->getUID(), $proposal->getId());

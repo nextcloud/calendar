@@ -161,12 +161,32 @@
 								{{ $t('calendar', 'All day') }}
 							</NcCheckboxRadioSwitch>
 						</div>
-						<PropertyText
-							:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
-							:propModel="rfcProps.location"
-							:value="location"
-							:linkifyLinks="true"
-							@update:value="updateLocation" />
+						<div class="event-popover__location-row">
+							<PropertyText
+								:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
+								:propModel="rfcProps.location"
+								:value="location"
+								:linkifyLinks="true"
+								@update:value="updateLocation" />
+							<NcButton
+								v-if="isCreateTalkRoomButtonVisible && !isReadOnlyOrViewing"
+								variant="secondary"
+								:disabled="isCreateTalkRoomButtonDisabled"
+								:ariaLabel="t('calendar', 'Add Talk conversation')"
+								:title="t('calendar', 'Add Talk conversation')"
+								@click="openTalkModal">
+								<template #icon>
+									<IconVideo :size="20" />
+								</template>
+							</NcButton>
+						</div>
+						<AddTalkModal
+							v-if="isTalkModalOpen"
+							:calendarObjectInstance="calendarObjectInstance"
+							@close="isTalkModalOpen = false"
+							@updateLocation="updateLocation"
+							@updateDescription="updateDescription" />
+
 						<PropertyText
 							:isReadOnly="isReadOnlyOrViewing"
 							:propModel="rfcProps.description"
@@ -262,6 +282,8 @@ import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
 import EditIcon from 'vue-material-design-icons/PencilOutline.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import Download from 'vue-material-design-icons/TrayArrowDown.vue'
+import IconVideo from 'vue-material-design-icons/VideoOutline.vue'
+import AddTalkModal from '../components/Editor/AddTalkModal.vue'
 import AlarmList from '../components/Editor/Alarm/AlarmList.vue'
 import CalendarPickerHeader from '../components/Editor/CalendarPickerHeader.vue'
 import InvitationResponseButtons
@@ -305,6 +327,8 @@ export default {
 		EditIcon,
 		HelpCircleIcon,
 		NcDialog,
+		AddTalkModal,
+		IconVideo,
 	},
 
 	mixins: [
@@ -913,6 +937,17 @@ export default {
 .property-alarm-wrapper {
 	display: flex;
 	align-items: center;
+}
+
+.event-popover__location-row {
+	display: flex;
+	align-items: start;
+	gap: var(--default-grid-baseline);
+
+	.property-text {
+		flex: 1;
+		min-width: 0;
+	}
 }
 
 </style>
