@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
@@ -32,6 +32,7 @@ use OCP\Calendar\ICalendarIsWritable;
 use OCP\Calendar\ICreateFromString;
 use OCP\Calendar\IManager;
 use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\IUser;
@@ -49,6 +50,7 @@ class ProposalService {
 
 	public function __construct(
 		private IAppConfig $appConfig,
+		private IConfig $config,
 		private LoggerInterface $logger,
 		private ProposalMapper $proposalMapper,
 		private ProposalParticipantMapper $proposalParticipantMapper,
@@ -519,16 +521,36 @@ class ProposalService {
 		if ($proposal->getDuration() > 0) {
 			$template->addBodyListItem($this->l10n->t('%1$s minutes', [(string)$proposal->getDuration()]), $this->l10n->t('Duration:'));
 		}
-		// dates
+
+		// Get timezone info in user personal settings
 		$temporaryText = '';
+		$ownerUid = $proposal->getUid();
+		$timezoneString = $this->config->getUserValue($ownerUid, 'core', 'timezone', 'UTC');
+
+		// Validate timezone against known identifiers
+		$validTimezones = \DateTimeZone::listIdentifiers();
+		if (!in_array($timezoneString, $validTimezones, true)) {
+			$timezoneString = 'UTC';
+		}
+
+		/** @psalm-var non-empty-string $timezoneString */
+		$userTimezone = new \DateTimeZone($timezoneString);
+
+		//Get dates
 		foreach ($proposal->getDates()->sortByDate() as $date) {
-			$dtStart = \DateTime::createFromImmutable($date->getDate());
-			$dtEnd = (clone $dtStart)->add(new \DateInterval("PT{$proposal->getDuration()}M"));
+			$dtStartUtc = \DateTime::createFromImmutable($date->getDate());
+			$dtEndUtc = (clone $dtStartUtc)->add(new \DateInterval("PT{$proposal->getDuration()}M"));
+			// Convert to user timezone
+			$dtStart = (clone $dtStartUtc)->setTimezone($userTimezone);
+			$dtEnd = (clone $dtEndUtc)->setTimezone($userTimezone);
 			$textDate = $this->l10n->l('date', $dtStart, ['width' => 'long']);
 			$textStart = $this->l10n->l('time', $dtStart, ['width' => 'short']);
 			$textEnd = $this->l10n->l('time', $dtEnd, ['width' => 'short']);
 			$temporaryText .= $this->l10n->t('%1$s from %2$s to %3$s', [$textDate, $textStart, $textEnd]) . "\n";
 		}
+		// Add timezone info at the end
+		$temporaryText = rtrim($temporaryText) . "\n(" . $userTimezone->getName() . ')';
+
 		$template->addBodyListItem($temporaryText, $this->l10n->t('Dates:'));
 
 		$template->addBodyButton(
