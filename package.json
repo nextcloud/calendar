@@ -1,7 +1,7 @@
 {
   "name": "calendar",
   "description": "A calendar app for Nextcloud. Easily sync events from various devices, share and edit them online.",
-  "version": "6.3.0-dev.0",
+  "version": "6.3.0-rc.1",
   "keywords": [
     "nextcloud",
     "calendars",
