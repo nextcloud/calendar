@@ -1170,7 +1170,20 @@ export default defineStore('calendarObjectInstance', {
 			alarm,
 		}) {
 			if (alarm.alarmComponent) {
-				calendarObjectInstance.eventComponent.removeAlarm(alarm.alarmComponent)
+				const alarmIterator = calendarObjectInstance.eventComponent.getAlarmIterator()
+				let matchedAlarm = null
+				const targetSeconds = alarm.alarmComponent.trigger.value.totalSeconds
+				const targetAction = alarm.alarmComponent.action
+				for (const a of alarmIterator) {
+					if (a.trigger.value.totalSeconds === targetSeconds && a.action === targetAction) {
+						matchedAlarm = a
+						break
+					}
+				}
+
+				if (matchedAlarm) {
+					calendarObjectInstance.eventComponent.removeAlarm(matchedAlarm)
+				}
 
 				const index = calendarObjectInstance.alarms.indexOf(alarm)
 				if (index !== -1) {
