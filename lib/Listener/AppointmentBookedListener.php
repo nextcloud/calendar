@@ -82,8 +82,8 @@ class AppointmentBookedListener implements IEventListener {
 
 		$options = $this->broker->newConversationOptions();
 		$options->setPublic();
-		if (method_exists($options, 'setMeeting')) {
-			$options->setMeeting(
+		if (method_exists($options, 'setMeetingDate')) {
+			$options->setMeetingDate(
 				$this->timeFactory->getDateTime('@' . $event->getBooking()->getStart()),
 				$this->timeFactory->getDateTime('@' . $event->getBooking()->getEnd()),
 			);
