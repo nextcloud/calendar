@@ -310,6 +310,11 @@ export default {
 	margin-top: 5px;
 }
 
+.attendee-display {
+	flex: 1;
+	min-width: 0;
+}
+
 .invitees-list-item__member-count {
 	color: var(--color-text-maxcontrast);
 	font-weight: 300;
