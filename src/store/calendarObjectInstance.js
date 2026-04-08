@@ -1415,6 +1415,12 @@ export default defineStore('calendarObjectInstance', {
 			const calendarsStore = useCalendarsStore()
 			const calendar = calendarsStore.getCalendarById(calendarObject.calendarId)
 
+			// Inherit calendar transparency to new events (fix for "Never show me as busy")
+			if (calendar?.transparency === 'transparent') {
+				calendarObjectInstance.timeTransparency = 'transparent'
+				calendarObjectInstance.eventComponent.timeTransparency = 'transparent'
+			}
+
 			let defaultReminder = null
 			if (isAfterVersion(34) && calendar && calendar.defaultAlarm !== null) {
 				defaultReminder = parseInt(calendar.defaultAlarm)
