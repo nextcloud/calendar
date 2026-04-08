@@ -101,6 +101,7 @@ OC.L10N.register(
     "Successfully added Talk conversation link to description." : "Спасылка на размову ў Talk паспяхова дададзена ў апісанне.",
     "Select conversation" : "Выберыце размову",
     "on" : "укл.",
+    "Default reminder of calendar" : "Прадвызначаны напамін календара",
     "Notification" : "Апавяшчэнне",
     "Email" : "Электронная пошта",
     "seconds" : "с",

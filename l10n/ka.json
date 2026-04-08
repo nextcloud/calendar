@@ -180,6 +180,7 @@
     "No reminder" : "No reminder",
     "General" : "General",
     "Editing" : "Editing",
+    "Files" : "ფაილები",
     "_{duration} minute_::_{duration} minutes_" : ["{duration} minute","{duration} minutes"],
     "0 minutes" : "0 minutes",
     "_{duration} hour_::_{duration} hours_" : ["{duration} hour","{duration} hours"],
