@@ -42,7 +42,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			transparency: 'opaque',
-			defaultAlarm: null,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
 		})
 	})
 
@@ -77,7 +78,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			transparency: 'opaque',
-			defaultAlarm: null,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
 		})
 	})
 
@@ -127,7 +129,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
-			defaultAlarm: null,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -179,7 +182,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
-			defaultAlarm: null,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -229,7 +233,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
-			defaultAlarm: null,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -279,7 +284,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
-			defaultAlarm: null,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -329,7 +335,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
-			defaultAlarm: null,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -379,7 +386,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
-			defaultAlarm: null,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -429,7 +437,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
-			defaultAlarm: null,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -479,7 +488,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
-			defaultAlarm: null,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -585,7 +595,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
-			defaultAlarm: null,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(4)
@@ -707,7 +718,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
-			defaultAlarm: null,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -758,7 +770,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
-			defaultAlarm: null,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
 		})
 	})
 
