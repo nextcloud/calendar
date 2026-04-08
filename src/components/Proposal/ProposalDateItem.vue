@@ -1,5 +1,5 @@
 <!--
-  - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
@@ -21,7 +21,6 @@
 
 <script lang="ts">
 import type { ProposalDateInterface } from '@/types/proposals/proposalInterfaces'
-import { getTimezoneOffset } from '@/services/timezoneOffsetService'
 
 // types, object and stores
 import { t } from '@nextcloud/l10n'
@@ -29,6 +28,7 @@ import moment from '@nextcloud/moment'
 // icons
 import ItemIcon from 'vue-material-design-icons/Calendar'
 import DestroyIcon from 'vue-material-design-icons/Close'
+import { getTimezoneOffset } from '@/services/timezoneOffsetService'
 
 export default {
 	name: 'ProposalDateItem',
