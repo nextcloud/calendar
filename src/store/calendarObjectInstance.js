@@ -1422,8 +1422,14 @@ export default defineStore('calendarObjectInstance', {
 			}
 
 			let defaultReminder = null
-			if (isAfterVersion(34) && calendar && calendar.defaultAlarm !== null) {
-				defaultReminder = parseInt(calendar.defaultAlarm)
+			if (isAfterVersion(34) && calendar) {
+				if (calendarObjectInstance.isAllDay && calendar.defaultAlarmFullDay !== undefined) {
+					defaultReminder = calendar.defaultAlarmFullDay
+				} else if (!calendarObjectInstance.isAllDay && calendar.defaultAlarmPartDay !== undefined) {
+					defaultReminder = calendar.defaultAlarmPartDay
+				} else {
+					defaultReminder = parseInt(settingsStore.defaultReminder)
+				}
 			} else {
 				defaultReminder = parseInt(settingsStore.defaultReminder)
 			}
