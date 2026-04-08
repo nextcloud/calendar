@@ -209,8 +209,12 @@ export function updateDefaultAlarm() {
 	const calendar = calendarsStore.getCalendarById(calendarObjectInstanceStore.calendarObject.calendarId)
 
 	let defaultReminder = null
-	if (isAfterVersion(34) && calendar && calendar.defaultAlarm !== null) {
-		defaultReminder = calendar.defaultAlarm
+	if (isAfterVersion(34) && calendar) {
+		if (calendarObjectInstance.isAllDay && calendar.defaultAlarmFullDay !== undefined) {
+			defaultReminder = calendar.defaultAlarmFullDay
+		} else if (!calendarObjectInstance.isAllDay && calendar.defaultAlarmPartDay !== undefined) {
+			defaultReminder = calendar.defaultAlarmPartDay
+		}
 	}
 
 	// Find the existing default alarm (if any)
