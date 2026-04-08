@@ -13,8 +13,10 @@ describe('defaults/defaultAlarmProvider test suite', () => {
 			-600,
 			-900,
 			-1800,
+			-2700,
 			-3600,
 			-7200,
+			-10800,
 			-86400,
 			-172800,
 		])
@@ -25,6 +27,7 @@ describe('defaults/defaultAlarmProvider test suite', () => {
 			32400,
 			-54000,
 			-140400,
+			-226800,
 			-572400,
 		])
 	})

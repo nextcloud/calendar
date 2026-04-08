@@ -63,8 +63,10 @@ function getDefaultCalendarObject(props = {}) {
 		fetchedTimeRanges: [],
 		// Scheduling transparency
 		transparency: 'opaque',
-		// Default alarm/reminder for new events in seconds (null if disabled)
-		defaultAlarm: null,
+		// Default alarm/reminder for part-day events in seconds (null if disabled)
+		defaultAlarmPartDay: null,
+		// Default alarm/reminder for full-day events in seconds (null if disabled)
+		defaultAlarmFullDay: null,
 		...props,
 	}
 }
@@ -106,9 +108,10 @@ function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 	// then the default value CALDAV:opaque MUST be assumed.
 	// https://datatracker.ietf.org/doc/html/rfc6638#section-9.1
 	const transparency = calendar.transparency || 'opaque'
-	// Default alarm for new events in this calendar (in seconds)
-	// The value can be null or a number of seconds
-	const defaultAlarm = isAfterVersion(34) && calendar.defaultAlarm !== undefined ? calendar.defaultAlarm : null
+	// Default alarm for part-day events in this calendar (in seconds)
+	const defaultAlarmPartDay = isAfterVersion(34) && calendar.defaultAlarmPartDay !== undefined ? calendar.defaultAlarmPartDay : null
+	// Default alarm for full-day events in this calendar (in seconds)
+	const defaultAlarmFullDay = isAfterVersion(34) && calendar.defaultAlarmFullDay !== undefined ? calendar.defaultAlarmFullDay : null
 
 	let isSharedWithMe = false
 	if (!currentUserPrincipal) {
@@ -167,7 +170,8 @@ function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 		shares,
 		timezone,
 		transparency,
-		defaultAlarm,
+		defaultAlarmPartDay,
+		defaultAlarmFullDay,
 		dav: calendar,
 	})
 }
