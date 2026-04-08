@@ -288,9 +288,10 @@ export default {
 		bottom: 21px;
 		white-space: nowrap;
 		position: relative;
-		min-width: 420px;
 		text-overflow: ellipsis;
 		overflow: hidden;
+		max-width: 420px;
+		min-width: 420px;
 	}
 }
 </style>
