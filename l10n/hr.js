@@ -318,6 +318,7 @@ OC.L10N.register(
     "Create private conversation" : "Stvori privatni razgovor",
     "on" : "na",
     "at" : "u",
+    "Default reminder of calendar" : "Zadani podsjetnik za kalendar",
     "Amount" : "Iznos",
     "before at" : "prije u",
     "Notification" : "Obavijest",

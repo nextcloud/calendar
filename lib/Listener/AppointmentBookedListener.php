@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Calendar\Listener;
 
 use OCA\Calendar\Events\BeforeAppointmentBookedEvent;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IL10N;
@@ -27,16 +28,21 @@ class AppointmentBookedListener implements IEventListener {
 
 	private IL10N $l10n;
 
+	/** @var ITimeFactory $timeFactory , */
+	private $timeFactory;
+
 	/** @var LoggerInterface */
 	private $logger;
 
 	public function __construct(IBroker $broker,
 		IUserManager $userManager,
 		IL10N $l10n,
+		ITimeFactory $timeFactory,
 		LoggerInterface $logger) {
 		$this->broker = $broker;
 		$this->userManager = $userManager;
 		$this->l10n = $l10n;
+		$this->timeFactory = $timeFactory;
 		$this->logger = $logger;
 	}
 
@@ -73,10 +79,20 @@ class AppointmentBookedListener implements IEventListener {
 			$event->getConfig()->getName(),
 			$event->getBooking()->getDisplayName(),
 		]);
+
+		$options = $this->broker->newConversationOptions();
+		$options->setPublic();
+		if (method_exists($options, 'setMeetingDate')) {
+			$options->setMeetingDate(
+				$this->timeFactory->getDateTime('@' . $event->getBooking()->getStart()),
+				$this->timeFactory->getDateTime('@' . $event->getBooking()->getEnd()),
+			);
+		}
+
 		$conversation = $this->broker->createConversation(
 			$conversationName,
 			[$organizer],
-			$this->broker->newConversationOptions()->setPublic(),
+			$options,
 		);
 		$event->getBooking()->setTalkUrl(
 			$conversation->getAbsoluteUrl(),
