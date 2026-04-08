@@ -318,6 +318,7 @@ OC.L10N.register(
     "Create private conversation" : "Privát beszélgetés létrehozása",
     "on" : "be",
     "at" : "ekkor: ",
+    "Default reminder of calendar" : "Naptár alapértelmezett emlékeztetője",
     "Amount" : "Mennyiség",
     "before at" : "előtt",
     "Notification" : "Értesítés",
