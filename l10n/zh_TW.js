@@ -318,6 +318,7 @@ OC.L10N.register(
     "Create private conversation" : "建立私人對話",
     "on" : "在",
     "at" : "在",
+    "Default reminder of calendar" : "行事曆的預設提醒",
     "Amount" : "數量",
     "before at" : "之前於",
     "Notification" : "通知",

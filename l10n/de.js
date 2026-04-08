@@ -318,6 +318,7 @@ OC.L10N.register(
     "Create private conversation" : "Eine private Unterhaltung erstellen",
     "on" : "am",
     "at" : "um",
+    "Default reminder of calendar" : "Standarderinnerung des Kalenders",
     "Amount" : "Menge",
     "before at" : "vorher um",
     "Notification" : "Benachrichtigung",
