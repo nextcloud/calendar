@@ -58,6 +58,8 @@ class CalendarInitialStateService {
 		$attachmentsFolder = $this->config->getUserValue($this->userId, 'dav', 'attachmentsFolder', '/Calendar');
 		$slotDuration = $this->config->getUserValue($this->userId, $this->appName, 'slotDuration', $defaultSlotDuration);
 		$defaultReminder = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminder', $defaultDefaultReminder);
+		$defaultReminderPartDay = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminderPartDay', $defaultReminder);
+		$defaultReminderFullDay = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminderFullDay', $defaultReminder);
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
 		$tasksSidebar = $this->config->getUserValue($this->userId, $this->appName, 'tasksSidebar', $defaultTasksSidebar) === 'yes';
 		$hideEventExport = $this->config->getAppValue($this->appName, 'hideEventExport', 'no') === 'yes';
@@ -101,6 +103,8 @@ class CalendarInitialStateService {
 		$this->initialStateService->provideInitialState('attachments_folder', $attachmentsFolder);
 		$this->initialStateService->provideInitialState('slot_duration', $slotDuration);
 		$this->initialStateService->provideInitialState('default_reminder', $defaultReminder);
+		$this->initialStateService->provideInitialState('default_reminder_part_day', $defaultReminderPartDay);
+		$this->initialStateService->provideInitialState('default_reminder_full_day', $defaultReminderFullDay);
 		$this->initialStateService->provideInitialState('show_tasks', $showTasks);
 		$this->initialStateService->provideInitialState('tasks_sidebar', $tasksSidebar);
 		$this->initialStateService->provideInitialState('tasks_enabled', $tasksEnabled);
