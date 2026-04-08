@@ -1,5 +1,5 @@
 <!--
-  - SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
@@ -139,7 +139,6 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwit
 import { Proposal, ProposalResponse } from '@/models/proposals/proposals'
 import { getTimezoneOffset } from '@/services/timezoneOffsetService'
 import { ProposalDateVote } from '@/types/proposals/proposalEnums'
-
 
 export default {
 	name: 'ProposalResponseMatrix',
