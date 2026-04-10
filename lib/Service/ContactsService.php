@@ -112,27 +112,6 @@ class ContactsService {
 	}
 
 	/**
-	 * @param array $groups
-	 * @param string $search
-	 * @return array
-	 */
-	public function filterGroupsWithCount(array $groups, string $search): array {
-		//filter to be unique
-		$categories = [];
-		foreach ($groups as $group) {
-			// CATEGORIES is sometimes missing (despite being searched for via the backend)
-			if (!isset($group['CATEGORIES'])) {
-				continue;
-			}
-
-			$categories[] = array_filter(explode(',', $group['CATEGORIES']), static function ($cat) use ($search) {
-				return str_contains(strtolower($cat), strtolower($search));
-			});
-		}
-		return array_count_values(array_merge(...$categories));
-	}
-
-	/**
 	 * @param array $contact
 	 * @return array
 	 */
