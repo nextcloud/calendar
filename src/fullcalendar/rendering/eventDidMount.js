@@ -103,7 +103,7 @@ export default errorCatch(function({ event, el }) {
 			if (rgb) {
 				const now = new Date()
 				const isPast = event.end ? event.end < now : (event.start ? event.start < now : false)
-				const opacity = isPast ? 0.05 : 0.4
+				const opacity = isPast ? 0.05 : 0.35
 				el.style.backgroundColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`
 			}
 		}
@@ -130,7 +130,7 @@ export default errorCatch(function({ event, el }) {
 			const isPast = event.end ? event.end < now : (event.start ? event.start < now : false)
 			const borderRgb = extractRGB(el.style.borderColor)
 			if (isPast && borderRgb) {
-				const fadedBorderColor = `rgba(${borderRgb.r}, ${borderRgb.g}, ${borderRgb.b}, 0.4)`
+				const fadedBorderColor = `rgba(${borderRgb.r}, ${borderRgb.g}, ${borderRgb.b}, 0.35)`
 				el.style.borderTopColor = fadedBorderColor
 				el.style.borderRightColor = fadedBorderColor
 				el.style.borderBottomColor = fadedBorderColor
