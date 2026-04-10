@@ -14,8 +14,8 @@
 	--fc-daygrid-event-dot-width: 10px !important;
 
 	--fc-event-bg-color: var(--color-primary-element);
-	--fc-event-border-color: var(--color-primary-element-text);
-	--fc-event-text-color: var(--color-primary-element-text);
+	--fc-event-border-color: var(--color-primary-element);
+	--fc-event-text-color: var(--color-main-text);
 	--fc-event-selected-overlay-color: var(--color-box-shadow);
 
 	--fc-event-resizer-thickness: 8px;
@@ -131,13 +131,35 @@
 // ### FullCalendar Event adjustments
 .fc-event {
 	padding-inline-start: 3px;
-	border-width: 2px;
+
+	// Only show the left border, thick and full-opacity (dot events and list events are excluded)
+	&:not(.fc-daygrid-dot-event):not(.fc-list-event) {
+		border-block-start-width: 0 !important;
+		border-block-end-width: 0 !important;
+		border-inline-end-width: 0 !important;
+		border-inline-start-width: var(--default-grid-baseline) !important;
+		border-inline-start-style: solid !important;
+	}
 
 	&.fc-event-nc-task-completed,
 	&.fc-event-nc-cancelled {
 		.fc-event-title,
 		.fc-list-event-title {
 			text-decoration: line-through !important;
+		}
+	}
+
+
+	// Participation-state events with no fill keep the thick left stripe plus a 1px frame.
+	&.fc-event-nc-all-declined,
+	&.fc-event-nc-needs-action,
+	&.fc-event-nc-declined {
+		&:not(.fc-daygrid-dot-event):not(.fc-list-event) {
+			background-color: transparent !important;
+			border-block-start-width: 1px !important;
+			border-block-end-width: 1px !important;
+			border-inline-end-width: 1px !important;
+			border-inline-start-width: var(--default-grid-baseline) !important;
 		}
 	}
 
@@ -305,3 +327,33 @@
 		margin-inline-end: 2vw;
 	}
 }
+
+// High-contrast mode: events use plain page background so the coloured left
+// border is the sole colour indicator (no transparency, no stripe patterns).
+// Two triggers:
+//   1. OS/browser prefers-contrast: more media feature.
+//   2. Nextcloud in-app Accessibility theme, which writes
+//      data-themes="light-highcontrast" (or dark-highcontrast) on <body>
+//      without necessarily setting the OS media feature.
+@mixin _fc-high-contrast-events {
+	.fc-event:not(.fc-daygrid-dot-event):not(.fc-list-event) {
+		background-color: var(--fc-page-bg-color) !important;
+		background-image: none !important;
+
+		.fc-event-title,
+		.fc-event-time {
+			color: var(--color-main-text) !important;
+		}
+	}
+}
+
+@media (prefers-contrast: more) {
+	@include _fc-high-contrast-events;
+}
+
+[data-theme-light-highcontrast],
+[data-theme-dark-highcontrast],
+[data-themes*="highcontrast"] {
+	@include _fc-high-contrast-events;
+}
+
