@@ -318,6 +318,7 @@ OC.L10N.register(
     "Create private conversation" : "Створити приватну розмову",
     "on" : "о",
     "at" : "о",
+    "Default reminder of calendar" : "Типове нагадування календаря",
     "Amount" : "Сума",
     "before at" : "до о",
     "Notification" : "Сповіщення",
