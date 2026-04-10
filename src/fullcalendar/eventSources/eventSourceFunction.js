@@ -7,7 +7,6 @@ import usePrincipalsStore from '../../store/principals.js'
 import useTasksStore from '../../store/unscheduledTasks.js'
 import { getAllObjectsInTimeRange } from '../../utils/calendarObject.js'
 import {
-	generateTextColorForHex,
 	getHexForColorName,
 	hexToRGB,
 	isLight,
@@ -81,6 +80,10 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				classNames.push('fc-event-nc-alarms')
 			}
 
+			if (object.name === 'VEVENT' && object.getFirstPropertyFirstValue('TRANSP') === 'TRANSPARENT') {
+				classNames.push('fc-event-nc-free')
+			}
+
 			let jsStart, jsEnd
 			if (object.name === 'VEVENT') {
 				jsStart = object.startDate.getInTimezone(timezone).jsDate
@@ -140,6 +143,10 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				}
 			}
 
+			const attendeeCount = object.hasComponent('ATTENDEE')
+				? [...object.getPropertyIterator('ATTENDEE')].length
+				: 0
+
 			const fcEvent = {
 				id: [calendarObject.id, object.id].join('###'),
 				title,
@@ -165,6 +172,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 					davUrl: calendarObject.dav.url,
 					location: object.location,
 					description: object.description,
+					attendeeCount,
 				},
 			}
 
@@ -173,7 +181,6 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				if (customColor) {
 					fcEvent.backgroundColor = customColor
 					fcEvent.borderColor = customColor
-					fcEvent.textColor = generateTextColorForHex(customColor)
 				}
 			}
 			if (object.name === 'VTODO' && object.endDate === null && object.percent !== 100 && object.status !== 'COMPLETED') {
