@@ -318,6 +318,7 @@ OC.L10N.register(
     "Create private conversation" : "Lisa privaatne vestlus",
     "on" : "ajal",
     "at" : "asukohas",
+    "Default reminder of calendar" : "Kalendri vaikimisi meeldetuletus",
     "Amount" : "Kogus",
     "before at" : "enne",
     "Notification" : "Teavitus",
