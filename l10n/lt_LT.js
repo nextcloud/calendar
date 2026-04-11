@@ -318,6 +318,7 @@ OC.L10N.register(
     "Create private conversation" : "Sukurti privatų pokalbį",
     "on" : "šiomis dienomis",
     "at" : ",",
+    "Default reminder of calendar" : "Numatytasis kalendoriaus priminimas",
     "Amount" : "Kiekis",
     "before at" : "prieš įvykį, ties",
     "Notification" : "Pranešimas",
