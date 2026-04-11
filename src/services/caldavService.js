@@ -20,6 +20,7 @@ function getClient(headers = {}) {
 		rootUrl: generateRemoteUrl('dav'),
 		defaultHeaders: {
 			'X-NC-CalDAV-Webcal-Caching': 'On',
+			...headers
 		},
 	})
 
@@ -70,6 +71,7 @@ function findAllCalendars() {
  * Fetch all subscriptions in the calendar home from the server
  */
 export async function findAllSubscriptions() {
+	// If this header is not set, the client will not detect subscribed calendars as such.
 	const headers = {
 		'X-NC-CalDAV-Webcal-Caching': 'Off',
 	}
