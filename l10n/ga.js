@@ -318,6 +318,7 @@ OC.L10N.register(
     "Create private conversation" : "Cruthaigh comhrá príobháideach",
     "on" : "ar",
     "at" : "ag",
+    "Default reminder of calendar" : "Meabhrúchán réamhshocraithe an fhéilire",
     "Amount" : "Méid",
     "before at" : "roimh ag",
     "Notification" : "Fógra",
