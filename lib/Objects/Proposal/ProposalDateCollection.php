@@ -84,7 +84,7 @@ class ProposalDateCollection extends BaseCollection {
 		foreach ($otherDates as $key => $date) {
 			if (isset($currentDates[$key])) {
 				if ($date->getDate()->getTimestamp() !== $currentDates[$key]->getDate()->getTimestamp()) {
-					$modified[] = $currentDates[$key];
+					$modified[] = $date;
 				}
 				unset($currentDates[$key]);
 			} else {
