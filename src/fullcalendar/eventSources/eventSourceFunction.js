@@ -7,7 +7,6 @@ import usePrincipalsStore from '../../store/principals.js'
 import useTasksStore from '../../store/unscheduledTasks.js'
 import { getAllObjectsInTimeRange } from '../../utils/calendarObject.js'
 import {
-	generateTextColorForHex,
 	getHexForColorName,
 	hexToRGB,
 	isLight,
@@ -173,7 +172,6 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				if (customColor) {
 					fcEvent.backgroundColor = customColor
 					fcEvent.borderColor = customColor
-					fcEvent.textColor = generateTextColorForHex(customColor)
 				}
 			}
 			if (object.name === 'VTODO' && object.endDate === null && object.percent !== 100 && object.status !== 'COMPLETED') {

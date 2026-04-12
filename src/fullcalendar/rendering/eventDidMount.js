@@ -93,6 +93,22 @@ export default errorCatch(function({ event, el }) {
 		}
 	}
 
+	// Apply semi-transparent background for grid events (not dot or list events).
+	// The full-opacity color remains on the left border (set by FullCalendar's inline border-color).
+	// Past events get a stronger fill to keep them visually distinct.
+	if (!el.classList.contains('fc-list-event') && !el.classList.contains('fc-daygrid-dot-event')) {
+		const bgColor = el.style.backgroundColor
+		if (bgColor) {
+			const rgb = extractRGB(bgColor)
+			if (rgb) {
+				const now = new Date()
+				const isPast = event.end ? event.end < now : (event.start ? event.start < now : false)
+				const opacity = isPast ? 0.05 : 0.35
+				el.style.backgroundColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`
+			}
+		}
+	}
+
 	if (
 		el.classList.contains('fc-event-nc-all-declined')
 		|| el.classList.contains('fc-event-nc-needs-action')
@@ -108,7 +124,17 @@ export default errorCatch(function({ event, el }) {
 			dotElement.style.minWidth = '10px'
 			dotElement.style.minHeight = '10px'
 		} else {
-			el.style.background = 'var(--fc-page-bg-color)'
+			el.style.background = 'transparent'
+
+			const now = new Date()
+			const isPast = event.end ? event.end < now : (event.start ? event.start < now : false)
+			const borderRgb = extractRGB(el.style.borderColor)
+			if (isPast && borderRgb) {
+				const fadedBorderColor = `rgba(${borderRgb.r}, ${borderRgb.g}, ${borderRgb.b}, 0.35)`
+				el.style.borderTopColor = fadedBorderColor
+				el.style.borderRightColor = fadedBorderColor
+				el.style.borderBottomColor = fadedBorderColor
+			}
 		}
 
 		if (titleElement) {
@@ -153,23 +179,28 @@ export default errorCatch(function({ event, el }) {
 	if (el.classList.contains('fc-event-nc-tentative')) {
 		const dotElement = el.querySelector('.fc-daygrid-event-dot')
 
-		// Get background color, with fallback to border color if dotElement doesn't exist
-		const bgColor = el.style.backgroundColor
-			? el.style.backgroundColor
-			: (dotElement ? dotElement.style.borderColor : el.style.borderColor)
-		const bgStripeColor = darkenColor(bgColor)
-
-		let backgroundStyling = `repeating-linear-gradient(45deg, ${bgStripeColor}, ${bgStripeColor} 1px, ${bgColor} 1px, ${bgColor} 10px)`
-
 		if (dotElement) {
+			// Dot events: keep the existing marker fill and overlay stripes only.
+			const dotColor = dotElement.style.borderColor || el.style.borderColor
+			const dotRgb = extractRGB(dotColor)
+			const stripeColor = dotRgb ? `rgba(${dotRgb.r}, ${dotRgb.g}, ${dotRgb.b}, 0.25)` : dotColor
 			dotElement.style.borderWidth = '2px'
-			backgroundStyling = `repeating-linear-gradient(45deg, ${bgColor}, ${bgColor} 1px, var(--fc-page-bg-color) 1px, var(--fc-page-bg-color) 3.5px)`
-
-			dotElement.style.background = backgroundStyling
+			dotElement.style.backgroundImage = `repeating-linear-gradient(45deg, ${stripeColor}, ${stripeColor} 1px, transparent 1px, transparent 3.5px)`
 			dotElement.style.minWidth = '10px'
 			dotElement.style.minHeight = '10px'
 		} else {
-			el.style.background = backgroundStyling
+			// Block/time events: keep the existing fill and overlay stripes only.
+			const eventColor = el.style.borderColor
+			const rgb = extractRGB(eventColor)
+			if (rgb) {
+				const stripeColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.25)`
+				el.style.backgroundImage = `repeating-linear-gradient(45deg, ${stripeColor}, ${stripeColor} 2px, transparent 2px, transparent 10px)`
+			} else {
+				// Fallback for when border color can't be parsed
+				const baseColor = el.style.backgroundColor
+				const stripeColor = darkenColor(baseColor)
+				el.style.backgroundImage = `repeating-linear-gradient(45deg, ${stripeColor}, ${stripeColor} 2px, transparent 2px, transparent 10px)`
+			}
 		}
 
 		el.title = t('calendar', 'Your participation is tentative')
@@ -177,15 +208,61 @@ export default errorCatch(function({ event, el }) {
 }, 'eventDidMount')
 
 /**
- * Create a slightly darker color for background stripes
+ * Extract RGB components from a CSS color string.
+ * Supports rgb(), rgba(), #rrggbb, and #rgb formats.
+ *
+ * @param {string} color The color string to parse
+ * @return {{r: number, g: number, b: number}|null}
+ */
+function extractRGB(color) {
+	if (!color) {
+		return null
+	}
+
+	// rgb() or rgba() — browser-normalised inline style values
+	const rgbMatch = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)/)
+	if (rgbMatch) {
+		return { r: parseInt(rgbMatch[1]), g: parseInt(rgbMatch[2]), b: parseInt(rgbMatch[3]) }
+	}
+
+	// #rrggbb
+	const hexMatch = color.match(/^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i)
+	if (hexMatch) {
+		return {
+			r: parseInt(hexMatch[1], 16),
+			g: parseInt(hexMatch[2], 16),
+			b: parseInt(hexMatch[3], 16),
+		}
+	}
+
+	// #rgb
+	const shortHexMatch = color.match(/^#([0-9a-f])([0-9a-f])([0-9a-f])$/i)
+	if (shortHexMatch) {
+		return {
+			r: parseInt(shortHexMatch[1] + shortHexMatch[1], 16),
+			g: parseInt(shortHexMatch[2] + shortHexMatch[2], 16),
+			b: parseInt(shortHexMatch[3] + shortHexMatch[3], 16),
+		}
+	}
+
+	return null
+}
+
+/**
+ * Create a slightly darker color for background stripes.
+ * Handles rgb(), rgba(), and hex color formats.
  *
  * @param {string} color The color to darken
+ * @return {string} The darkened color
  */
 function darkenColor(color) {
-	const rgb = color.match(/\d+/g)
-	if (!rgb) {
+	const match = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/)
+	if (!match) {
 		return color
 	}
-	const [r, g, b] = rgb.map((c) => Math.max(0, Math.min(255, c - (c * 0.3))))
+	const [r, g, b] = [match[1], match[2], match[3]].map((c) => Math.max(0, Math.min(255, parseInt(c) - (parseInt(c) * 0.3))))
+	if (match[4] !== undefined) {
+		return `rgba(${r}, ${g}, ${b}, ${match[4]})`
+	}
 	return `rgb(${r}, ${g}, ${b})`
 }
