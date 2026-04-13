@@ -222,16 +222,27 @@ function prependTitleIcon(el, svgPath) {
 	if (!titleElement) {
 		return
 	}
-	const svgString = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="${svgPath}"/></svg>`
-	titleElement.innerHTML = svgString + titleElement.innerHTML
 
-	const svgElement = titleElement.querySelector('svg')
-	if (svgElement) {
-		svgElement.style.fill = el.style.borderColor
-		svgElement.style.width = '1em'
-		svgElement.style.marginBottom = '0.2em'
-		svgElement.style.verticalAlign = 'middle'
+	// Avoid duplicating icons when eventDidMount is called again (e.g. after a click).
+	const existingSvgs = titleElement.querySelectorAll('svg')
+	for (const svg of existingSvgs) {
+		const path = svg.querySelector('path')
+		if (path && path.getAttribute('d') === svgPath) {
+			return
+		}
 	}
+
+	const svgNS = 'http://www.w3.org/2000/svg'
+	const svgElement = document.createElementNS(svgNS, 'svg')
+	svgElement.setAttribute('viewBox', '0 -960 960 960')
+	const pathElement = document.createElementNS(svgNS, 'path')
+	pathElement.setAttribute('d', svgPath)
+	svgElement.appendChild(pathElement)
+	svgElement.style.fill = el.style.borderColor
+	svgElement.style.width = '1em'
+	svgElement.style.marginBottom = '0.2em'
+	svgElement.style.verticalAlign = 'middle'
+	titleElement.insertBefore(svgElement, titleElement.firstChild)
 }
 
 /**
