@@ -58,6 +58,12 @@
 							@saveThisAndAllFuture="prepareAccessForAttachments(true)" />
 						<div class="app-full__actions__inner" :class="[{ 'app-full__actions__inner__readonly': isReadOnly }]">
 							<NcActions>
+								<NcActionButton v-if="eventLink && !isNew" @click="copyEventLink()">
+									<template #icon>
+										<ContentCopy :size="20" decorative />
+									</template>
+									{{ $t('calendar', 'Copy link') }}
+								</NcActionButton>
 								<NcActionLink v-if="!hideEventExport && hasDownloadURL && !isNew" :href="downloadURL">
 									<template #icon>
 										<Download :size="20" decorative />
@@ -349,6 +355,7 @@ import {
 import { mapState, mapStores } from 'pinia'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import Close from 'vue-material-design-icons/Close.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
@@ -404,6 +411,7 @@ export default {
 		Delete,
 		Download,
 		ContentDuplicate,
+		ContentCopy,
 		InvitationResponseButtons,
 		AttachmentsList,
 		CalendarPickerHeader,
