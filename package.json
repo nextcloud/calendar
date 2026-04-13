@@ -128,6 +128,7 @@
     ],
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1",
+      "^@nextcloud/paths$": "<rootDir>/__mocks__/@nextcloud/paths.js",
       "\\.(css|less|scss|sass)$": "<rootDir>/__mocks__/css.js"
     },
     "transform": {
