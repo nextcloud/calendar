@@ -106,7 +106,6 @@ OC.L10N.register(
     "Categories" : "หมวดหมู่",
     "Calendars" : "ปฏิทิน",
     "Hidden" : "ซ่อนอยู่",
-    "can edit" : "สามารถแก้ไข",
     "Pick a date" : "เลือกวันที่"
 },
 "nplurals=1; plural=0;");

@@ -96,7 +96,6 @@ OC.L10N.register(
     "Categories" : "Categorías",
     "User not found" : "No se encontró el usuario",
     "Hidden" : "Oculto",
-    "can edit" : "puede editar",
     "Show week numbers" : "Mostrar número de semana",
     "Show keyboard shortcuts" : "Mostrar atajos de teclado"
 },

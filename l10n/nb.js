@@ -525,7 +525,6 @@ OC.L10N.register(
     "%1$s - %2$s" : "%1$s - %2$s",
     "Calendars" : "Kalendere",
     "Hidden" : "Skjult",
-    "can edit" : "kan endre",
     "Calendar name …" : "Kalendernavn…",
     "Default attachments location" : "Standard plassering for vedlegg",
     "Automatic ({detected})" : "Automatisk ({detected})",
@@ -564,7 +563,6 @@ OC.L10N.register(
     "Please select a time zone:" : "Vennligst velg en tidssone:",
     "Pick a time" : "Velg et tidspunkt",
     "Pick a date" : "Velg en dato",
-    "The visibility of this event in shared calendars." : "Synlighet for denne oppføringen i delte kalendere",
     "30 min" : "30 min"
 },
 "nplurals=2; plural=(n != 1);");

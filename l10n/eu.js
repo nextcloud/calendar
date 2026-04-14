@@ -560,7 +560,6 @@ OC.L10N.register(
     "%1$s - %2$s" : "%1$s - %2$s",
     "Calendars" : "Egutegiak",
     "Hidden" : "Ezkutuan",
-    "can edit" : "editatu dezake",
     "Calendar name …" : "Egutegiaren izena ...",
     "Default attachments location" : "Eranskinen kokaleku lehenetsia",
     "Automatic ({detected})" : "Automatikoa ({detected})",
@@ -599,7 +598,6 @@ OC.L10N.register(
     "Please select a time zone:" : "Aukeratu ordu-zona bat:",
     "Pick a time" : "Aukeratu ordua",
     "Pick a date" : "Aukeratu eguna",
-    "The visibility of this event in shared calendars." : "Gertaera honen ikusgarritasuna egutegi partekatuetan",
     "Calendar name …" : "Egutegiaren izena …",
     "30 min" : "30 min"
 },

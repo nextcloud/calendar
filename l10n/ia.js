@@ -73,7 +73,6 @@ OC.L10N.register(
     "When shared hide this event" : "Quando compartite, celar iste evento",
     "Confirmed" : "Confirmate",
     "Hidden" : "Occultate",
-    "can edit" : "pote modificar",
     "Show week numbers" : "Monstrar le numero del septimanas"
 },
 "nplurals=2; plural=(n != 1);");

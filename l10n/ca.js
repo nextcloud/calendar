@@ -561,7 +561,6 @@ OC.L10N.register(
     "%1$s - %2$s" : "%1$s - %2$s",
     "Calendars" : "Calendaris",
     "Hidden" : "Ocult",
-    "can edit" : "pot editar-lo",
     "Calendar name …" : "Nom del calendari …",
     "Default attachments location" : "Ubicació per defecte dels fitxers adjunts",
     "Automatic ({detected})" : "Automàtic ({detected})",
@@ -600,7 +599,6 @@ OC.L10N.register(
     "Please select a time zone:" : "Seleccioneu una zona horària:",
     "Pick a time" : "Tria una hora",
     "Pick a date" : "Tria una data",
-    "The visibility of this event in shared calendars." : "La visibilitat de l'event en calendaris compartits.",
     "30 min" : "30 min"
 },
 "nplurals=2; plural=(n != 1);");

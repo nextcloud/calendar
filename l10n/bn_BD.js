@@ -60,7 +60,6 @@ OC.L10N.register(
     "Weekly" : "সাপ্তাহিক",
     "second" : "সেকেন্ড",
     "Other" : "অন্যান্য",
-    "Hidden" : "লুকনো",
-    "can edit" : "সম্পাদনা করতে পারবেন"
+    "Hidden" : "লুকনো"
 },
 "nplurals=2; plural=(n != 1);");

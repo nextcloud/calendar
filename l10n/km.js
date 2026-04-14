@@ -50,7 +50,6 @@ OC.L10N.register(
     "second" : "ទីពីរ",
     "last" : "ចុងក្រោយ",
     "Other" : "ផ្សេងៗ",
-    "can edit" : "អាច​កែប្រែ",
     "30 min" : "30 នាទី"
 },
 "nplurals=1; plural=0;");

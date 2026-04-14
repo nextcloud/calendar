@@ -80,7 +80,6 @@ OC.L10N.register(
     "Weekly" : "Setiap minggu",
     "second" : "kedua",
     "Other" : "Lain",
-    "%1$s - %2$s" : "%1$s - %2$s",
-    "can edit" : "boleh mengubah"
+    "%1$s - %2$s" : "%1$s - %2$s"
 },
 "nplurals=1; plural=0;");

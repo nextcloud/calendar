@@ -68,7 +68,6 @@ OC.L10N.register(
     "Other" : "Digər",
     "Status" : "Status",
     "Categories" : "Kateqoriyalar",
-    "Hidden" : "Gizli",
-    "can edit" : "dəyişmək olar"
+    "Hidden" : "Gizli"
 },
 "nplurals=2; plural=(n != 1);");

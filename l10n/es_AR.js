@@ -122,7 +122,6 @@ OC.L10N.register(
     "Categories" : "Categoría",
     "Calendars" : "Calendarios",
     "Hidden" : "Oculto",
-    "can edit" : "puede editar",
     "Show week numbers" : "Mostrar número de semana",
     "30 min" : "30 minutos"
 },
