@@ -70,7 +70,6 @@ OC.L10N.register(
     "When shared show only busy" : "Wann et gedeelt gouf, dann nëmmen als beschäftegt uweisen",
     "When shared hide this event" : "Wann et gedeelt gouf, dann verstopp dëst Evenement",
     "Calendars" : "Kalenneren",
-    "Hidden" : "Verstoppt",
-    "can edit" : "kann änneren"
+    "Hidden" : "Verstoppt"
 },
 "nplurals=2; plural=(n != 1);");

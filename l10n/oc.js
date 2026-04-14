@@ -180,7 +180,6 @@ OC.L10N.register(
     "User not found" : "Utilizaire pas trobat",
     "Calendars" : "Calendièrs",
     "Hidden" : "Amagat",
-    "can edit" : "pòt modificar",
     "Show weekends" : "Monstrar las dimenjadas",
     "Event title" : "Títol de l’eveniment",
     "_time_::_times_" : ["còp","còps"],

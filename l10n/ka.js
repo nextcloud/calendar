@@ -485,7 +485,6 @@ OC.L10N.register(
     "%1$s - %2$s" : "%1$s - %2$s",
     "Calendars" : "Calendars",
     "Hidden" : "Hidden",
-    "can edit" : "can edit",
     "Calendar name …" : "Calendar name …",
     "Default attachments location" : "Default attachments location",
     "Automatic ({detected})" : "Automatic ({detected})",
@@ -521,7 +520,6 @@ OC.L10N.register(
     "Please select a time zone:" : "Please select a time zone:",
     "Pick a time" : "Pick a time",
     "Pick a date" : "Pick a date",
-    "The visibility of this event in shared calendars." : "The visibility of this event in shared calendars.",
     "30 min" : "30 წთ"
 },
 "nplurals=2; plural=(n!=1);");

@@ -544,7 +544,6 @@ OC.L10N.register(
     "%1$s - %2$s" : "%1$s - %2$s",
     "Calendars" : "Dagatöl",
     "Hidden" : "Falinn",
-    "can edit" : "getur breytt",
     "Calendar name …" : "Heiti dagatals …",
     "Default attachments location" : "Sjálfgefin staðsetning viðhengja",
     "Automatic ({detected})" : "Sjálfvirkt ({detected})",
@@ -582,7 +581,6 @@ OC.L10N.register(
     "Select a time zone" : "Veldu tímabelti",
     "Please select a time zone:" : "Veldu tímabelti:",
     "Pick a time" : "Veldu tíma",
-    "Pick a date" : "Veldu dagsetningu",
-    "The visibility of this event in shared calendars." : "Sýnileiki þessa atburðar í sameiginlegum dagatölum"
+    "Pick a date" : "Veldu dagsetningu"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

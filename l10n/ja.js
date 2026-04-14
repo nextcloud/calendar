@@ -529,7 +529,6 @@ OC.L10N.register(
     "%1$s - %2$s" : "%1$s - %2$s",
     "Calendars" : "カレンダー",
     "Hidden" : "非公開",
-    "can edit" : "編集を許可",
     "Calendar name …" : "カレンダー名 …",
     "Default attachments location" : "添付ファイルのデフォルト位置",
     "Automatic ({detected})" : "自動 ({detected})",
@@ -569,7 +568,6 @@ OC.L10N.register(
     "Please select a time zone:" : "タイムゾーンを選択してください：",
     "Pick a time" : "時間を指定",
     "Pick a date" : "日付を指定",
-    "The visibility of this event in shared calendars." : "共有カレンダーでのこのイベントの表示。",
     "30 min" : "30分"
 },
 "nplurals=1; plural=0;");

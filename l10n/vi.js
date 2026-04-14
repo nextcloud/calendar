@@ -420,7 +420,6 @@ OC.L10N.register(
     "%1$s - %2$s" : "%1$s-%2$s",
     "Calendars" : "Lịch",
     "Hidden" : "Ẩn",
-    "can edit" : "có thể chỉnh sửa",
     "Automatic ({detected})" : " ({detected}) tự động",
     "Shortcut overview" : "Bản xem trước của lối tắt",
     "CalDAV link copied to clipboard." : "Liên kết CalDAV đã được sao chép vào bảng tạm",
@@ -451,7 +450,6 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Vui lòng điền vào 1 ngày và thời gian khả dụng",
     "Please select a time zone:" : "Vui lòng chọn múi thời gian:",
     "Pick a time" : "Chọn thời gian",
-    "Pick a date" : "Chọn ngày",
-    "The visibility of this event in shared calendars." : "Khả năng nhìn thấy của sự kiện này trong các lịch được chia sẻ"
+    "Pick a date" : "Chọn ngày"
 },
 "nplurals=1; plural=0;");

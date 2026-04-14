@@ -329,7 +329,6 @@ OC.L10N.register(
     "User not found" : "Utèntzia no agatada",
     "Calendars" : "Calendàrios",
     "Hidden" : "Cuadu",
-    "can edit" : "podet modificare",
     "Automatic ({detected})" : "Automàticu ({detected})",
     "Shortcut overview" : "Bista generale de is curtziadòrgiu",
     "CalDAV link copied to clipboard." : "Ligòngiu CalDAV copiadu in punta de billete.",
@@ -359,7 +358,6 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Inserta•nche una data e un'ora bàlidas",
     "Please select a time zone:" : "Sèbera unu fusu oràriu:",
     "Pick a time" : "Sèbera una ora",
-    "Pick a date" : "Sèbera una data",
-    "The visibility of this event in shared calendars." : "Sa visibilidade de custu eventu in is calendàrios cumpartzidos"
+    "Pick a date" : "Sèbera una data"
 },
 "nplurals=2; plural=(n != 1);");

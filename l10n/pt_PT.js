@@ -299,7 +299,6 @@ OC.L10N.register(
     "User not found" : "Utilizador não encontrado",
     "Calendars" : "Calendários",
     "Hidden" : "Escondido",
-    "can edit" : "pode editar",
     "Calendar name …" : "Nome do calendário…",
     "Automatic ({detected})" : "Automático ({detected})",
     "Shortcut overview" : "Visão geral de atalhos",
