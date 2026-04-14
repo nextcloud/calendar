@@ -562,7 +562,6 @@ OC.L10N.register(
     "%1$s - %2$s" : "%1$s - %2$s",
     "Calendars" : "التقاويم",
     "Hidden" : "مخفي",
-    "can edit" : "يمكن التحرير",
     "Calendar name …" : "اسم التقويم ...",
     "Default attachments location" : "موقع المُرفقات التلقائي",
     "Automatic ({detected})" : "تلقائي ({detected})",
@@ -601,7 +600,6 @@ OC.L10N.register(
     "Please select a time zone:" : "إختر المنطقة الزمنية من فضلك:",
     "Pick a time" : "إختر وقتاً",
     "Pick a date" : "إختر تاريخاً",
-    "The visibility of this event in shared calendars." : "ظهور الحدث في التقاويم المشتركة.",
     "30 min" : "30 دقيقة"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

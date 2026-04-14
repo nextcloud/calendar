@@ -472,7 +472,6 @@ OC.L10N.register(
     "User not found" : "Utilizatorul nu a fost găsit",
     "Calendars" : "Calendare",
     "Hidden" : "Ascuns",
-    "can edit" : "poate edita",
     "Calendar name …" : "Numele calendarului ...",
     "Default attachments location" : "Locația implicită a atașamentelor",
     "Automatic ({detected})" : "Automat ({detectat})",
@@ -507,7 +506,6 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Adăugați o dată validă și o oră",
     "Please select a time zone:" : "Te rugăm să alegeți un fus orar:",
     "Pick a time" : "Alege un interval orar",
-    "Pick a date" : "Alege o dată",
-    "The visibility of this event in shared calendars." : "Vizibilitatea acestui eveniment în calendarele partajate."
+    "Pick a date" : "Alege o dată"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

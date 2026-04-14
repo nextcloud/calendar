@@ -143,7 +143,6 @@ OC.L10N.register(
     "Add this as a new category" : "Aldoni tion kiel novan kategorion",
     "User not found" : "Netrovita uzanto",
     "Hidden" : "Nevidebla",
-    "can edit" : "povas redakti",
     "Enable birthday calendar" : "Ebligi naskiĝtaga kalendaro",
     "Show tasks in calendar" : "Montri taskojn en la kalendaro",
     "Enable simplified editor" : "Ebligi simpligitan redaktilon",

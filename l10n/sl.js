@@ -505,7 +505,6 @@ OC.L10N.register(
     "%1$s - %2$s" : "%1$s – %2$s",
     "Calendars" : "Koledarji",
     "Hidden" : "Skrito",
-    "can edit" : "lahko ureja",
     "Calendar name …" : "Ime koledarja …",
     "Default attachments location" : "Privzeto mesto prilog",
     "Automatic ({detected})" : "Samodejno ({detected})",
@@ -541,7 +540,6 @@ OC.L10N.register(
     "Please select a time zone:" : "Izbor časovnega pasu:",
     "Pick a time" : "Izbor časa",
     "Pick a date" : "Izbor datuma",
-    "The visibility of this event in shared calendars." : "Vidnost tega dogodka v koledarjih v souporabi.",
     "30 min" : "30 min"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

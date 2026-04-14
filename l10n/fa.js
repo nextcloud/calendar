@@ -483,7 +483,6 @@ OC.L10N.register(
     "%1$s - %2$s" : "%1$s - %2$s",
     "Calendars" : "تقویم‌ها",
     "Hidden" : "مخفی",
-    "can edit" : "می توان ویرایش کرد",
     "Calendar name …" : "نام تقویم …",
     "Default attachments location" : "Default attachments location",
     "Automatic ({detected})" : "خودکار ({شناسایی})",
@@ -519,7 +518,6 @@ OC.L10N.register(
     "Please select a time zone:" : "Please select a time zone:",
     "Pick a time" : "Pick a time",
     "Pick a date" : "Pick a date",
-    "The visibility of this event in shared calendars." : "قابلیت مشاهده این رویداد در تقویمهای مشترک.",
     "30 min" : "30 min"
 },
 "nplurals=2; plural=(n > 1);");

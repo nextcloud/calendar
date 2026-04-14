@@ -493,7 +493,6 @@ OC.L10N.register(
     "User not found" : "사용자를 찾을 수 없음",
     "Calendars" : "달력",
     "Hidden" : "숨겨짐",
-    "can edit" : "편집 가능",
     "Calendar name …" : "달력 이름 ...",
     "Default attachments location" : "기본 첨부파일 위치",
     "Automatic ({detected})" : "자동 ({detected})",
@@ -528,7 +527,6 @@ OC.L10N.register(
     "Please select a time zone:" : "시간대를 선택하세요.",
     "Pick a time" : "시간 선택",
     "Pick a date" : "날짜 선택",
-    "The visibility of this event in shared calendars." : "공유 달력에서 이 일정의 표시 여부",
     "30 min" : "30분"
 },
 "nplurals=1; plural=0;");

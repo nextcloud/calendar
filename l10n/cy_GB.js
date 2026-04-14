@@ -389,7 +389,6 @@ OC.L10N.register(
     "Appointment not found" : "Apwyntiad heb ei ganfod",
     "User not found" : "Defnyddiwr heb ei ganfod",
     "Hidden" : "Cudd",
-    "can edit" : "yn gallu golygu",
     "Automatic ({detected})" : "Awtomatig ({detected})",
     "Shortcut overview" : "Trosolwg llwybr byr",
     "CalDAV link copied to clipboard." : "Dolen CalDAV wedi'i chopïo i'r clipfwrdd.",
@@ -420,7 +419,6 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Rhowch ddyddiad ac amser dilys",
     "Please select a time zone:" : "Dewiswch gylchfa amser:",
     "Pick a time" : "Dewiswch amser",
-    "Pick a date" : "Dewiswch ddyddiad",
-    "The visibility of this event in shared calendars." : "Gwelededd y digwyddiad hwn mewn calendrau a rennir."
+    "Pick a date" : "Dewiswch ddyddiad"
 },
 "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;");

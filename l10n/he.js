@@ -352,7 +352,6 @@ OC.L10N.register(
     "User not found" : "המשתמש לא נמצא",
     "Calendars" : "לוחות שנה",
     "Hidden" : "מוסתר",
-    "can edit" : "ניתן לערוך",
     "Calendar name …" : "שם לוח השנה ...",
     "Automatic ({detected})" : "אוטומטי ({detected})",
     "Shortcut overview" : "סקירת קיצור דרך",
@@ -381,7 +380,6 @@ OC.L10N.register(
     "Please enter a valid date" : "נא להקליד תאריך תקני",
     "Please enter a valid date and time" : "נא להקליד שעה ותאריך תקניים",
     "Pick a time" : "בחר זמן",
-    "Pick a date" : "תבחר תאריך",
-    "The visibility of this event in shared calendars." : "הנראות של אירוע זה בלוחות שנה משותפים."
+    "Pick a date" : "תבחר תאריך"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

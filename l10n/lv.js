@@ -440,7 +440,6 @@ OC.L10N.register(
     "User not found" : "Lietotājs nav atrasts",
     "Calendars" : "Kalendāri",
     "Hidden" : "Paslēpts",
-    "can edit" : "var labot",
     "Calendar name …" : "Kalendāra nosaukums ...",
     "Default attachments location" : "Pielikumu noklusējuma atrašanās vietas",
     "Automatic ({detected})" : "Automātiska ({detected})",
@@ -471,7 +470,6 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Lūgums ievadīt derīgu datumu un laiku",
     "Please select a time zone:" : "Lūgums atlasīt laika joslu:",
     "Pick a time" : "Izvēlēties laiku",
-    "Pick a date" : "Izvēlēties datumu",
-    "The visibility of this event in shared calendars." : "Šī notikuma redzamība koplietotos kalendāros."
+    "Pick a date" : "Izvēlēties datumu"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

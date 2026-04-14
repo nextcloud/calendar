@@ -609,7 +609,6 @@ OC.L10N.register(
     "%1$s - %2$s" : "%1$s - %2$s",
     "Calendars" : "Agenda's",
     "Hidden" : "Verborgen",
-    "can edit" : "kan wijzigen",
     "Calendar name …" : "Kalendernaam ...",
     "Default attachments location" : "Standaard bijlagenlocatie",
     "Automatic ({detected})" : "Automatisch ({detected})",
@@ -648,7 +647,6 @@ OC.L10N.register(
     "Please select a time zone:" : "Selecteer een tijdzone:",
     "Pick a time" : "Kies een tijd",
     "Pick a date" : "Kies een datum",
-    "The visibility of this event in shared calendars." : "De zichtbaarheid van deze afspraak in gedeelde agenda's.",
     "30 min" : "30 min"
 },
 "nplurals=2; plural=(n != 1);");
