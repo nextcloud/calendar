@@ -719,7 +719,7 @@
     "{formattedDate} at {formattedTime}" : "{formattedDate}, {formattedTime}",
     "Please enter a valid date" : "Įveskite teisingą datą",
     "Please enter a valid date and time" : "Įveskite teisingą datą ir laiką",
-    "Select a time zone" : "Pasirinkite laiko juostą",
+    "Select a time zone" : "Pasirinkti laiko juostą",
     "Please select a time zone:" : "Pasirinkite laiko juostą:",
     "Pick a time" : "Pasirinkite laiką",
     "Pick a date" : "Pasirinkite datą",
