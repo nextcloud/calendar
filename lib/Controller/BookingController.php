@@ -202,9 +202,8 @@ class BookingController extends Controller {
 	 *
 	 * @param string $token
 	 * @return TemplateResponse
-	 * @throws Exception
 	 */
-	public function confirmBooking(string $token): TemplateResponse {
+	public function showConfirmBooking(string $token): TemplateResponse {
 		try {
 			$booking = $this->bookingService->findByToken($token);
 		} catch (ClientException $e) {
@@ -219,7 +218,7 @@ class BookingController extends Controller {
 
 		try {
 			$config = $this->appointmentConfigService->findById($booking->getApptConfigId());
-		} catch (ServiceException $e) {
+		} catch (ClientException $e) {
 			$this->logger->error($e->getMessage(), ['exception' => $e]);
 			return new TemplateResponse(
 				Application::APP_ID,
@@ -229,27 +228,56 @@ class BookingController extends Controller {
 			);
 		}
 
-		$link = $this->urlGenerator->linkToRouteAbsolute('calendar.appointment.show', [ 'token' => $config->getToken() ]);
-		try {
-			$booking = $this->bookingService->confirmBooking($booking, $config);
-		} catch (ClientException $e) {
-			$this->logger->warning($e->getMessage(), ['exception' => $e]);
-		}
+		$link = $this->urlGenerator->linkToRouteAbsolute('calendar.appointment.show', ['token' => $config->getToken()]);
 
-		$this->initialState->provideInitialState(
-			'appointment-link',
-			$link
-		);
-		$this->initialState->provideInitialState(
-			'booking',
-			$booking
-		);
+		$this->initialState->provideInitialState('appointment-link', $link);
+		$this->initialState->provideInitialState('booking', $booking);
+		$this->initialState->provideInitialState('booking-token', $token);
 
 		return new TemplateResponse(
 			Application::APP_ID,
-			'appointments/booking-conflict',
+			'appointments/confirmation',
 			[],
 			TemplateResponse::RENDER_AS_GUEST
 		);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param string $token
+	 * @return JsonResponse
+	 */
+	public function confirmBooking(string $token): JsonResponse {
+		try {
+			$booking = $this->bookingService->findByToken($token);
+		} catch (ClientException $e) {
+			$this->logger->warning($e->getMessage(), ['exception' => $e]);
+			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
+		}
+
+		if ($booking->isConfirmed()) {
+			return JsonResponse::success(['confirmed' => true]);
+		}
+
+		try {
+			$config = $this->appointmentConfigService->findById($booking->getApptConfigId());
+		} catch (ClientException $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
+		}
+
+		try {
+			$booking = $this->bookingService->confirmBooking($booking, $config);
+		} catch (NoSlotFoundException $e) {
+			$this->logger->warning($e->getMessage(), ['exception' => $e]);
+			return JsonResponse::fail('slot_unavailable', Http::STATUS_CONFLICT);
+		} catch (ClientException $e) {
+			$this->logger->warning($e->getMessage(), ['exception' => $e]);
+			return JsonResponse::fail(null, Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		return JsonResponse::success(['confirmed' => $booking->isConfirmed()]);
 	}
 }
