@@ -204,7 +204,7 @@ class BookingController extends Controller {
 	 * @return TemplateResponse
 	 * @throws Exception
 	 */
-	public function confirmBooking(string $token): TemplateResponse {
+	public function showConfirmBooking(string $token): TemplateResponse {
 		try {
 			$booking = $this->bookingService->findByToken($token);
 		} catch (ClientException $e) {
@@ -229,27 +229,50 @@ class BookingController extends Controller {
 			);
 		}
 
-		$link = $this->urlGenerator->linkToRouteAbsolute('calendar.appointment.show', [ 'token' => $config->getToken() ]);
+		$link = $this->urlGenerator->linkToRouteAbsolute('calendar.appointment.show', ['token' => $config->getToken()]);
+
+		$this->initialState->provideInitialState('appointment-link', $link);
+		$this->initialState->provideInitialState('booking', $booking);
+		$this->initialState->provideInitialState('booking-token', $token);
+
+		return new TemplateResponse(
+			Application::APP_ID,
+			'appointments/confirmation',
+			[],
+			TemplateResponse::RENDER_AS_GUEST
+		);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @param string $token
+	 * @return JsonResponse
+	 * @throws Exception
+	 */
+	public function confirmBooking(string $token): JsonResponse {
+		try {
+			$booking = $this->bookingService->findByToken($token);
+		} catch (ClientException $e) {
+			$this->logger->warning($e->getMessage(), ['exception' => $e]);
+			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
+		}
+
+		try {
+			$config = $this->appointmentConfigService->findById($booking->getApptConfigId());
+		} catch (ServiceException $e) {
+			$this->logger->error($e->getMessage(), ['exception' => $e]);
+			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
+		}
+
 		try {
 			$booking = $this->bookingService->confirmBooking($booking, $config);
 		} catch (ClientException $e) {
 			$this->logger->warning($e->getMessage(), ['exception' => $e]);
+			return JsonResponse::fail('slot_unavailable', Http::STATUS_CONFLICT);
 		}
 
-		$this->initialState->provideInitialState(
-			'appointment-link',
-			$link
-		);
-		$this->initialState->provideInitialState(
-			'booking',
-			$booking
-		);
-
-		return new TemplateResponse(
-			Application::APP_ID,
-			'appointments/booking-conflict',
-			[],
-			TemplateResponse::RENDER_AS_GUEST
-		);
+		return JsonResponse::success(['confirmed' => $booking->getConfirmed()]);
 	}
 }
