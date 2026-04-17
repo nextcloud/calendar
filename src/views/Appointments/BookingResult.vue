@@ -30,7 +30,7 @@
 import moment from '@nextcloud/moment'
 
 export default {
-	name: 'Conflict',
+	name: 'BookingResult',
 	props: {
 		link: {
 			required: true,

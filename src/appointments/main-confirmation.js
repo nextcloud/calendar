@@ -11,7 +11,6 @@ import Vue from 'vue'
 import Confirmation from '../views/Appointments/Confirmation.vue'
 
 // CSP config for webpack dynamic chunk loading
-
 __webpack_nonce__ = btoa(getRequestToken())
 
 // Correct the root of the app for chunk loading
@@ -24,13 +23,17 @@ __webpack_public_path__ = linkTo('calendar', 'js/')
 Vue.prototype.$t = translate
 Vue.prototype.$n = translatePlural
 
+const link = loadState('calendar', 'appointment-link')
 const booking = loadState('calendar', 'booking')
+const token = loadState('calendar', 'booking-token')
 
 export default new Vue({
 	el: '#appointment-confirmation',
 	render: (h) => h(Confirmation, {
 		props: {
+			link,
 			booking,
+			token,
 		},
 	}),
 })

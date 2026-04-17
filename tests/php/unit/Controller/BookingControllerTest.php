@@ -14,10 +14,14 @@ use InvalidArgumentException;
 use OC\URLGenerator;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\Booking;
+use OCA\Calendar\Exception\ClientException;
 use OCA\Calendar\Exception\NoSlotFoundException;
 use OCA\Calendar\Exception\ServiceException;
+use OCA\Calendar\Http\JsonResponse;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCA\Calendar\Service\Appointments\BookingService;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Calendar\ICalendarQuery;
@@ -49,7 +53,7 @@ class BookingControllerTest extends TestCase {
 	/** @var AppointmentConfigService|MockObject */
 	protected $service;
 
-	/** @var AppointmentConfigController */
+	/** @var BookingController */
 	protected $controller;
 
 	/** @var ITimeFactory|MockObject */
@@ -376,5 +380,192 @@ class BookingControllerTest extends TestCase {
 			->method('book');
 
 		$this->controller->bookSlot('abc123', 1, 1, 'Test', $email, 'Test', 'Europe/Berlin');
+	}
+
+	public function testShowConfirmBookingBookingNotFound(): void {
+		$this->bookingService->expects(self::once())
+			->method('findByToken')
+			->with('tok')
+			->willThrowException(new ClientException());
+		$this->apptService->expects(self::never())
+			->method('findById');
+		$this->initialState->expects(self::never())
+			->method('provideInitialState');
+
+		$response = $this->controller->showConfirmBooking('tok');
+
+		self::assertInstanceOf(TemplateResponse::class, $response);
+		self::assertSame('appointments/404-booking', $response->getTemplateName());
+	}
+
+	public function testShowConfirmBookingConfigNotFound(): void {
+		$booking = new Booking();
+		$booking->setApptConfigId(42);
+		$this->bookingService->expects(self::once())
+			->method('findByToken')
+			->willReturn($booking);
+		$this->apptService->expects(self::once())
+			->method('findById')
+			->with(42)
+			->willThrowException(new ClientException());
+		$this->initialState->expects(self::never())
+			->method('provideInitialState');
+
+		$response = $this->controller->showConfirmBooking('tok');
+
+		self::assertInstanceOf(TemplateResponse::class, $response);
+		self::assertSame('appointments/404-booking', $response->getTemplateName());
+	}
+
+	public function testShowConfirmBooking(): void {
+		$booking = new Booking();
+		$booking->setApptConfigId(42);
+		$config = new AppointmentConfig();
+		$config->setToken('cfg-tok');
+		$this->bookingService->expects(self::once())
+			->method('findByToken')
+			->with('tok')
+			->willReturn($booking);
+		$this->apptService->expects(self::once())
+			->method('findById')
+			->with(42)
+			->willReturn($config);
+		$this->urlGenerator->expects(self::once())
+			->method('linkToRouteAbsolute')
+			->with('calendar.appointment.show', ['token' => 'cfg-tok'])
+			->willReturn('https://example.test/appt');
+		$matcher = self::exactly(3);
+		$this->initialState->expects($matcher)
+			->method('provideInitialState')
+			->willReturnCallback(function (string $key, $value) use ($matcher, $booking): void {
+				match ($matcher->numberOfInvocations()) {
+					1 => self::assertSame(['appointment-link', 'https://example.test/appt'], [$key, $value]),
+					2 => self::assertSame(['booking', $booking], [$key, $value]),
+					3 => self::assertSame(['booking-token', 'tok'], [$key, $value]),
+				};
+			});
+
+		$response = $this->controller->showConfirmBooking('tok');
+
+		self::assertInstanceOf(TemplateResponse::class, $response);
+		self::assertSame('appointments/confirmation', $response->getTemplateName());
+	}
+
+	public function testConfirmBookingNotFound(): void {
+		$this->bookingService->expects(self::once())
+			->method('findByToken')
+			->with('tok')
+			->willThrowException(new ClientException());
+		$this->bookingService->expects(self::never())
+			->method('confirmBooking');
+
+		$response = $this->controller->confirmBooking('tok');
+
+		self::assertInstanceOf(JsonResponse::class, $response);
+		self::assertSame(Http::STATUS_NOT_FOUND, $response->getStatus());
+	}
+
+	public function testConfirmBookingAlreadyConfirmed(): void {
+		$booking = new Booking();
+		$booking->setApptConfigId(42);
+		$booking->setConfirmed(true);
+		$this->bookingService->expects(self::once())
+			->method('findByToken')
+			->willReturn($booking);
+		$this->apptService->expects(self::never())
+			->method('findById');
+		$this->bookingService->expects(self::never())
+			->method('confirmBooking');
+
+		$response = $this->controller->confirmBooking('tok');
+
+		self::assertInstanceOf(JsonResponse::class, $response);
+		self::assertSame(Http::STATUS_OK, $response->getStatus());
+		self::assertSame(['status' => 'success', 'data' => ['confirmed' => true]], $response->getData());
+	}
+
+	public function testConfirmBookingConfigNotFound(): void {
+		$booking = new Booking();
+		$booking->setApptConfigId(42);
+		$this->bookingService->expects(self::once())
+			->method('findByToken')
+			->willReturn($booking);
+		$this->apptService->expects(self::once())
+			->method('findById')
+			->with(42)
+			->willThrowException(new ClientException());
+		$this->bookingService->expects(self::never())
+			->method('confirmBooking');
+
+		$response = $this->controller->confirmBooking('tok');
+
+		self::assertInstanceOf(JsonResponse::class, $response);
+		self::assertSame(Http::STATUS_NOT_FOUND, $response->getStatus());
+	}
+
+	public function testConfirmBookingSlotUnavailable(): void {
+		$booking = new Booking();
+		$booking->setApptConfigId(42);
+		$config = new AppointmentConfig();
+		$this->bookingService->expects(self::once())
+			->method('findByToken')
+			->willReturn($booking);
+		$this->apptService->expects(self::once())
+			->method('findById')
+			->willReturn($config);
+		$this->bookingService->expects(self::once())
+			->method('confirmBooking')
+			->with($booking, $config)
+			->willThrowException(new NoSlotFoundException());
+
+		$response = $this->controller->confirmBooking('tok');
+
+		self::assertInstanceOf(JsonResponse::class, $response);
+		self::assertSame(Http::STATUS_CONFLICT, $response->getStatus());
+		self::assertSame(['status' => 'fail', 'data' => 'slot_unavailable'], $response->getData());
+	}
+
+	public function testConfirmBookingClientError(): void {
+		$booking = new Booking();
+		$booking->setApptConfigId(42);
+		$config = new AppointmentConfig();
+		$this->bookingService->expects(self::once())
+			->method('findByToken')
+			->willReturn($booking);
+		$this->apptService->expects(self::once())
+			->method('findById')
+			->willReturn($config);
+		$this->bookingService->expects(self::once())
+			->method('confirmBooking')
+			->willThrowException(new ClientException());
+
+		$response = $this->controller->confirmBooking('tok');
+
+		self::assertInstanceOf(JsonResponse::class, $response);
+		self::assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $response->getStatus());
+	}
+
+	public function testConfirmBooking(): void {
+		$booking = new Booking();
+		$booking->setApptConfigId(42);
+		$config = new AppointmentConfig();
+		$confirmed = new Booking();
+		$confirmed->setConfirmed(true);
+		$this->bookingService->expects(self::once())
+			->method('findByToken')
+			->willReturn($booking);
+		$this->apptService->expects(self::once())
+			->method('findById')
+			->willReturn($config);
+		$this->bookingService->expects(self::once())
+			->method('confirmBooking')
+			->with($booking, $config)
+			->willReturn($confirmed);
+
+		$response = $this->controller->confirmBooking('tok');
+
+		self::assertInstanceOf(JsonResponse::class, $response);
+		self::assertSame(Http::STATUS_OK, $response->getStatus());
+		self::assertSame(['status' => 'success', 'data' => ['confirmed' => true]], $response->getData());
 	}
 }
