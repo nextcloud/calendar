@@ -141,6 +141,31 @@
 		border-inline-start-style: solid !important;
 	}
 
+	// Free (TRANSP:TRANSPARENT) events: hollow left strip — 1px accent | page-bg | 1px accent
+	&.fc-event-nc-free {
+		&:not(.fc-daygrid-dot-event):not(.fc-list-event) {
+			position: relative;
+			// Hide the solid left border; the ::before pseudo-element takes its place
+			border-inline-start-color: transparent !important;
+
+			&::before {
+				content: '';
+				position: absolute;
+				// Offset into the (transparent) border area so we start at the true left edge
+				inset-inline-start: calc(-1 * var(--default-grid-baseline));
+				top: 0;
+				bottom: 0;
+				width: var(--default-grid-baseline);
+				background: var(--fc-page-bg-color);
+				border-inline-start: 1px solid var(--nc-event-color, currentColor);
+				border-inline-end: 1px solid var(--nc-event-color, currentColor);
+				border-start-start-radius: inherit;
+				border-end-start-radius: inherit;
+				box-sizing: border-box;
+			}
+		}
+	}
+
 	&.fc-event-nc-task-completed,
 	&.fc-event-nc-cancelled {
 		.fc-event-title,

@@ -80,6 +80,10 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				classNames.push('fc-event-nc-alarms')
 			}
 
+			if (object.name === 'VEVENT' && object.getFirstPropertyFirstValue('TRANSP') === 'TRANSPARENT') {
+				classNames.push('fc-event-nc-free')
+			}
+
 			let jsStart, jsEnd
 			if (object.name === 'VEVENT') {
 				jsStart = object.startDate.getInTimezone(timezone).jsDate

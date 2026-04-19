@@ -64,6 +64,14 @@ export default errorCatch(function({ event, el }) {
 		}
 	}
 
+	if (
+		el.classList.contains('fc-event-nc-free')
+		&& !el.classList.contains('fc-list-event')
+		&& !el.classList.contains('fc-daygrid-dot-event')
+	) {
+		el.style.setProperty('--nc-event-color', el.style.borderColor)
+	}
+
 	if (event.source === null) {
 		el.dataset.isNew = 'yes'
 	} else {
