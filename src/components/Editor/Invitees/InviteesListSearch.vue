@@ -19,9 +19,12 @@
 		@option:selected="addAttendee">
 		<template #option="option">
 			<div class="invitees-search-list-item">
-				<!-- We need to specify a unique key here for the avatar to be reactive. -->
-				<Avatar
-					v-if="option.isUser"
+				<Avatar v-if="option.type === 'group'">
+					<template #icon>
+						<AccountMultiple :size="20" />
+					</template>
+				</Avatar><!-- We need to specify a unique key here for the avatar to be reactive. -->
+				<Avatar v-else-if="option.isUser"
 					:key="option.uid"
 					:user="option.avatar"
 					:displayName="option.dropdownName" />
@@ -31,7 +34,7 @@
 					</template>
 				</Avatar>
 				<Avatar
-					v-if="!option.isUser && option.type !== 'circle'"
+					v-if="!option.isUser && option.type !== 'circle' && option.type !== 'group'"
 					:key="option.uid"
 					:url="option.avatar"
 					:displayName="option.commonName" />
@@ -40,10 +43,10 @@
 					<div>
 						{{ option.commonName }}
 					</div>
-					<div v-if="option.email !== option.commonName && option.type !== 'circle' && option.type !== 'contactsgroup'">
+					<div v-if="option.email !== option.dropdownName && option.type !== 'circle' && option.type !== 'group'">
 						{{ option.email }}
 					</div>
-					<div v-if="option.type === 'circle' || option.type === 'contactsgroup'">
+					<div v-if="option.type === 'circle' || option.type === 'group'">
 						{{ option.subtitle }}
 					</div>
 				</div>
@@ -61,6 +64,7 @@ import {
 	NcSelect,
 } from '@nextcloud/vue'
 import debounce from 'debounce'
+import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
 import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCirclesCommunities.vue'
 import {
 	circleGetMembers,
@@ -76,6 +80,7 @@ export default {
 		Avatar,
 		NcSelect,
 		GoogleCirclesCommunitiesIcon,
+		AccountMultiple,
 	},
 
 	props: {
@@ -167,24 +172,14 @@ export default {
 		addAttendee(selectedValue) {
 			if (selectedValue.type === 'circle') {
 				showInfo(this.$t('calendar', 'Note that members of circles get invited but are not synced yet.'))
-				this.resolveCircleMembers(selectedValue.id)
+				this.resolveCircleMembers(selectedValue.id, selectedValue.email)
+			} else if (selectedValue.type === 'group') {
+				selectedValue.contacts.forEach((contact) => {
+					this.$emit('add-attendee', contact)
+				})
+			} else {
+				this.$emit('add-attendee', selectedValue)
 			}
-			if (selectedValue.type === 'contactsgroup') {
-				showInfo(this.$t('calendar', 'Note that members of contact groups get invited but are not synced yet.'))
-				this.getContactGroupMembers(selectedValue.commonName)
-				const group = {
-					calendarUserType: 'GROUP',
-					commonName: selectedValue.commonName,
-					dropdownName: selectedValue.dropdownName,
-					email: selectedValue.email,
-					isUser: false,
-					subtitle: selectedValue.subtitle,
-					type: 'contactsgroup',
-				}
-				this.$emit('addAttendee', group)
-				return
-			}
-			this.$emit('addAttendee', selectedValue)
 		},
 
 		async resolveCircleMembers(circleId) {
@@ -199,26 +194,8 @@ export default {
 				return []
 			}
 			results.data.forEach((member) => {
-				if (!this.organizer || member.email !== this.organizer.uri) {
-					this.$emit('addAttendee', member)
-				}
-			})
-		},
-
-		async getContactGroupMembers(groupName) {
-			let results
-			try {
-				results = await HttpClient.post(linkTo('calendar', 'index.php') + '/v1/autocompletion/groupmembers', {
-					groupName,
-				})
-			} catch (error) {
-				console.error('Failed to fetch contact group members', error)
-				return []
-			}
-
-			results.data.forEach((member) => {
-				if (!this.organizer || member.email !== this.organizer.uri) {
-					this.$emit('addAttendee', member)
+				if (!this.alreadyInvitedEmails.includes(member.email) && (!this.organizer || member.email !== this.organizer.uri)) {
+					this.$emit('add-attendee', member)
 				}
 			})
 		},
@@ -235,11 +212,32 @@ export default {
 				return []
 			}
 
-			const data = response.data
-			return data.reduce((arr, result) => {
+			const contacts = []
+			/** Groups are shown before contacts */
+			for (const [groupName, groupContacts] of Object.entries(response.data.groups)) {
+				const processedGroupContacts = this.buildEmailsFromContactData(groupContacts)
+				if (processedGroupContacts.length > 0) {
+					contacts.push({
+						type: 'group',
+						dropdownName: groupName,
+						subtitle: this.$n('calendar', 'Contains %n contact with email address', 'Contains %n contacts with email addresses', processedGroupContacts.length),
+						contacts: processedGroupContacts,
+					})
+				}
+			}
+
+			return [...contacts, ...this.buildEmailsFromContactData(response.data.contacts)]
+		},
+
+		buildEmailsFromContactData(contactsData) {
+			return contactsData.reduce((arr, result) => {
 				const hasMultipleEMails = result.emails.length > 1
 
 				result.emails.forEach((email) => {
+					if (email === '') {
+						return
+					}
+
 					let name
 					if (result.name && !hasMultipleEMails) {
 						name = result.name
@@ -253,25 +251,8 @@ export default {
 						return
 					}
 
-					if (result.type === 'contactsgroup') {
-						arr.push({
-							calendarUserType: 'GROUP',
-							commonName: result.name,
-							subtitle: this.$n('calendar', '%n member', '%n members', result.members),
-							members: { length: result.members },
-							email,
-							isUser: false,
-							avatar: result.photo,
-							language: result.lang,
-							timezoneId: result.tzid,
-							hasMultipleEMails: false,
-							dropdownName: name + ' ' + email,
-							type: 'contactsgroup',
-						})
-						return
-					}
-
 					arr.push({
+						type: 'contact',
 						calendarUserType: 'INDIVIDUAL',
 						commonName: result.name,
 						email,
