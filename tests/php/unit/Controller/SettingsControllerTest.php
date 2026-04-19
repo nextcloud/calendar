@@ -406,6 +406,92 @@ class SettingsControllerTest extends TestCase {
 		$this->assertEquals(500, $actual->getStatus());
 	}
 
+	/**
+	 * @param string $value
+	 * @param int $expectedStatusCode
+	 *
+	 * @dataProvider setDefaultReminderPartDayWithAllowedValueDataProvider
+	 */
+	public function testSetDefaultReminderPartDayWithAllowedValue(string $value,
+		int $expectedStatusCode):void {
+		if ($expectedStatusCode === 200) {
+			$this->config->expects($this->once())
+				->method('setUserValue')
+				->with('user123', $this->appName, 'defaultReminderPartDay', $value);
+		}
+
+		$actual = $this->controller->setConfig('defaultReminderPartDay', $value);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals($expectedStatusCode, $actual->getStatus());
+	}
+
+	public function setDefaultReminderPartDayWithAllowedValueDataProvider():array {
+		return $this->setDefaultReminderWithAllowedValueDataProvider();
+	}
+
+	public function testSetDefaultReminderPartDayWithException():void {
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('user123', $this->appName, 'defaultReminderPartDay', 'none')
+			->will($this->throwException(new \Exception));
+
+		$actual = $this->controller->setConfig('defaultReminderPartDay', 'none');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(500, $actual->getStatus());
+	}
+
+	/**
+	 * @param string $value
+	 * @param int $expectedStatusCode
+	 *
+	 * @dataProvider setDefaultReminderFullDayWithAllowedValueDataProvider
+	 */
+	public function testSetDefaultReminderFullDayWithAllowedValue(string $value,
+		int $expectedStatusCode):void {
+		if ($expectedStatusCode === 200) {
+			$this->config->expects($this->once())
+				->method('setUserValue')
+				->with('user123', $this->appName, 'defaultReminderFullDay', $value);
+		}
+
+		$actual = $this->controller->setConfig('defaultReminderFullDay', $value);
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals($expectedStatusCode, $actual->getStatus());
+	}
+
+	public function setDefaultReminderFullDayWithAllowedValueDataProvider():array {
+		return [
+			['none', 200],
+			['-0', 200],
+			['0', 200],
+			['32400', 200],
+			['-54000', 200],
+			['-140400', 200],
+			['not-none', 422],
+			['NaN', 422],
+			['0.1', 422],
+		];
+	}
+
+	public function testSetDefaultReminderFullDayWithException():void {
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with('user123', $this->appName, 'defaultReminderFullDay', 'none')
+			->will($this->throwException(new \Exception));
+
+		$actual = $this->controller->setConfig('defaultReminderFullDay', 'none');
+
+		$this->assertInstanceOf('OCP\AppFramework\Http\JSONResponse', $actual);
+		$this->assertEquals([], $actual->getData());
+		$this->assertEquals(500, $actual->getStatus());
+	}
+
 	public function testSetNotExistingConfig():void {
 		$actual = $this->controller->setConfig('foo', 'bar');
 

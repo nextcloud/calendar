@@ -21,14 +21,13 @@ import {
 	getTotalSecondsFromAmountAndUnitForTimedEvents,
 	getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents,
 	updateAlarms,
+	updateDefaultAlarm,
 } from '../utils/alarms.js'
 import { getObjectAtRecurrenceId } from '../utils/calendarObject.js'
 import { getClosestCSS3ColorNameForHex, getHexForColorName } from '../utils/color.js'
 import {
 	getDateFromDateTimeValue,
 } from '../utils/date.js'
-import logger from '../utils/logger.js'
-import { isAfterVersion } from '../utils/nextcloudVersion.ts'
 import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/recurrence.js'
 import useCalendarObjectsStore from './calendarObjects.js'
 import useCalendarsStore from './calendars.js'
@@ -1391,7 +1390,6 @@ export default defineStore('calendarObjectInstance', {
 			timezoneId,
 		}) {
 			const calendarObjectsStore = useCalendarObjectsStore()
-			const settingsStore = useSettingsStore()
 
 			if (this.isNew === true) {
 				return Promise.resolve({
@@ -1410,8 +1408,6 @@ export default defineStore('calendarObjectInstance', {
 			const eventComponent = getObjectAtRecurrenceId(calendarObject, startDate)
 			const calendarObjectInstance = mapEventComponentToEventObject(eventComponent)
 
-			// Add an alarm if set. First check for calendar-specific default alarm (Nextcloud 34+),
-			// then fall back to the global default reminder setting.
 			const calendarsStore = useCalendarsStore()
 			const calendar = calendarsStore.getCalendarById(calendarObject.calendarId)
 
@@ -1421,25 +1417,7 @@ export default defineStore('calendarObjectInstance', {
 				calendarObjectInstance.eventComponent.timeTransparency = 'transparent'
 			}
 
-			let defaultReminder = null
-			if (isAfterVersion(34) && calendar && calendar.defaultAlarm !== null) {
-				defaultReminder = parseInt(calendar.defaultAlarm)
-			} else {
-				defaultReminder = parseInt(settingsStore.defaultReminder)
-			}
-
-			if (
-				!isNaN(defaultReminder)
-				&& !calendarObjectInstance.alarms.some((alarm) => alarm.alarmComponent.getFirstPropertyFirstValue('X-NC-DEFAULT-ALARM'))
-			) {
-				this.addAlarmToCalendarObjectInstance({
-					calendarObjectInstance,
-					type: 'DISPLAY',
-					totalSeconds: defaultReminder,
-					isDefault: true,
-				})
-				logger.debug(`Added defaultReminder (${defaultReminder}s) to newly created event`)
-			}
+			updateDefaultAlarm(calendarObject.calendarId, calendarObjectInstance)
 
 			// Add default status
 			const rfcProps = getRFCProperties()

@@ -72,6 +72,10 @@ class SettingsController extends Controller {
 				return $this->setSlotDuration($value);
 			case 'defaultReminder':
 				return $this->setDefaultReminder($value);
+			case 'defaultReminderPartDay':
+				return $this->setDefaultReminderPartDay($value);
+			case 'defaultReminderFullDay':
+				return $this->setDefaultReminderFullDay($value);
 			case 'showTasks':
 				return $this->setShowTasks($value);
 			case 'tasksSidebar':
@@ -347,15 +351,30 @@ class SettingsController extends Controller {
 	}
 
 	/**
+	 * validates reminder values
+	 *
+	 * @param string $value User-selected reminder value
+	 * @param bool $allowPositive Whether positive trigger offsets are allowed
+	 * @return bool
+	 */
+	private function isValidReminderValue(string $value, bool $allowPositive = false): bool {
+		if ($value === 'none') {
+			return true;
+		}
+
+		$options = $allowPositive ? [] : ['options' => ['max_range' => 0]];
+
+		return filter_var($value, FILTER_VALIDATE_INT, $options) !== false;
+	}
+
+	/**
 	 * sets defaultReminder for user
 	 *
 	 * @param string $value User-selected option for default_reminder in agenda view
 	 * @return JSONResponse
 	 */
 	private function setDefaultReminder(string $value):JSONResponse {
-		if ($value !== 'none'
-			&& filter_var($value, FILTER_VALIDATE_INT,
-				['options' => ['max_range' => 0]]) === false) {
+		if (!$this->isValidReminderValue($value)) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -364,6 +383,56 @@ class SettingsController extends Controller {
 				$this->userId,
 				$this->appName,
 				'defaultReminder',
+				$value
+			);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * sets defaultReminderPartDay for user
+	 *
+	 * @param string $value User-selected option for the part-day default reminder
+	 * @return JSONResponse
+	 */
+	private function setDefaultReminderPartDay(string $value):JSONResponse {
+		if (!$this->isValidReminderValue($value)) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'defaultReminderPartDay',
+				$value
+			);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * sets defaultReminderFullDay for user
+	 *
+	 * @param string $value User-selected option for the full-day default reminder
+	 * @return JSONResponse
+	 */
+	private function setDefaultReminderFullDay(string $value):JSONResponse {
+		if (!$this->isValidReminderValue($value, true)) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'defaultReminderFullDay',
 				$value
 			);
 		} catch (\Exception $e) {
