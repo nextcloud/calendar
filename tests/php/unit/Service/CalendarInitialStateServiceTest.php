@@ -20,6 +20,8 @@ use OCP\Calendar\Room\IBackend as IRoomBackend;
 use OCP\Calendar\Room\IManager as IRoomManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class CalendarInitialStateServiceTest extends TestCase {
@@ -55,6 +57,9 @@ class CalendarInitialStateServiceTest extends TestCase {
 	/** @var (IQueue&MockObject)|null */
 	private $queue = null;
 
+	private IGroupManager&MockObject $groupManager;
+	private IUserManager&MockObject $userManager;
+
 	protected function setUp(): void {
 		$this->appName = 'calendar';
 		$this->appManager = $this->createMock(IAppManager::class);
@@ -70,6 +75,8 @@ class CalendarInitialStateServiceTest extends TestCase {
 		if (interface_exists(IQueue::class)) {
 			$this->queue = $this->createMock(IQueue::class);
 		}
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
 	}
 
 	public function testRun(): void {
@@ -85,6 +92,8 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->resourceManager,
 			$this->roomManager,
 			$this->queue,
+			$this->groupManager,
+			$this->userManager,
 		);
 		$this->config->expects(self::exactly(17))
 			->method('getAppValue')
@@ -198,6 +207,8 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->resourceManager,
 			$this->roomManager,
 			$this->queue,
+			$this->groupManager,
+			$this->userManager,
 		);
 		$this->config->expects(self::exactly(17))
 			->method('getAppValue')
@@ -242,10 +253,9 @@ class CalendarInitialStateServiceTest extends TestCase {
 				[null, 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
 				[null, 'calendar', 'tasksSidebar', 'defaultTasksSidebar', 'yes'],
 			]);
-		$this->appManager->expects(self::exactly(3))
+		$this->appManager->expects(self::exactly(2))
 			->method('isEnabledForUser')
 			->willReturnMap([
-				['spreed', null, true],
 				['tasks', null, true],
 				['circles', null, false],
 			]);
@@ -271,7 +281,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['show_weekends', true],
 				['show_week_numbers', true],
 				['skip_popover', true],
-				['talk_enabled', true],
+				['talk_enabled', false],
 				['talk_api_version', 'v4'],
 				['timezone', 'Europe/Berlin'],
 				['attachments_folder', '/Calendar'],
@@ -314,6 +324,8 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->resourceManager,
 			$this->roomManager,
 			$this->queue,
+			$this->groupManager,
+			$this->userManager,
 		);
 		$this->config->expects(self::exactly(17))
 			->method('getAppValue')
