@@ -371,23 +371,6 @@
 	}
 }
 
-// Override outdated server styling
-input:not(
-	[type='range'],
-	.input-field__input,
-	[type='submit'],
-	[type='button'],
-	[type='reset'],
-	.multiselect__input,
-	.select2-input,
-	.action-input__input,
-	[class^="vs__"]
-),
-select,
-div[contenteditable=true],
-textarea {
-	border: var(--border-width-input) solid var(--color-border-maxcontrast);
-}
 
 textarea {
 	padding: 5px 12px !important;
