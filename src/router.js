@@ -91,11 +91,11 @@ const router = createRouter({
 		},
 		{
 			path: '/edit/:object',
-			redirect: () => `/${getInitialView()}/now/edit/${getPreferredEditorRoute()}/:object/next`,
+			redirect: (to) => `/${getInitialView()}/now/edit/${getPreferredEditorRoute()}/${to.params.object}/next`,
 		},
 		{
 			path: '/edit/:object/:recurrenceId',
-			redirect: () => `/${getInitialView()}/now/edit/${getPreferredEditorRoute()}/:object/:recurrenceId`,
+			redirect: (to) => `/${getInitialView()}/now/edit/${getPreferredEditorRoute()}/${to.params.object}/${to.params.recurrenceId}`,
 		},
 		/**
 		 * This is the main route that contains the current view and viewed day
