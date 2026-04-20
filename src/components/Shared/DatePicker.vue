@@ -56,6 +56,8 @@ export default {
 		},
 	},
 
+	emits: ['change'],
+
 	data() {
 		return {
 			pendingDate: null,
