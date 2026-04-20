@@ -20,8 +20,6 @@ use OCP\Calendar\Room\IBackend as IRoomBackend;
 use OCP\Calendar\Room\IManager as IRoomManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
-use OCP\IGroupManager;
-use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class CalendarInitialStateServiceTest extends TestCase {
@@ -57,9 +55,6 @@ class CalendarInitialStateServiceTest extends TestCase {
 	/** @var (IQueue&MockObject)|null */
 	private $queue = null;
 
-	private IGroupManager&MockObject $groupManager;
-	private IUserManager&MockObject $userManager;
-
 	protected function setUp(): void {
 		$this->appName = 'calendar';
 		$this->appManager = $this->createMock(IAppManager::class);
@@ -75,8 +70,6 @@ class CalendarInitialStateServiceTest extends TestCase {
 		if (interface_exists(IQueue::class)) {
 			$this->queue = $this->createMock(IQueue::class);
 		}
-		$this->groupManager = $this->createMock(IGroupManager::class);
-		$this->userManager = $this->createMock(IUserManager::class);
 	}
 
 	public function testRun(): void {
@@ -92,8 +85,6 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->resourceManager,
 			$this->roomManager,
 			$this->queue,
-			$this->groupManager,
-			$this->userManager,
 		);
 		$this->config->expects(self::exactly(17))
 			->method('getAppValue')
@@ -207,8 +198,6 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->resourceManager,
 			$this->roomManager,
 			$this->queue,
-			$this->groupManager,
-			$this->userManager,
 		);
 		$this->config->expects(self::exactly(17))
 			->method('getAppValue')
@@ -325,8 +314,6 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->resourceManager,
 			$this->roomManager,
 			$this->queue,
-			$this->groupManager,
-			$this->userManager,
 		);
 		$this->config->expects(self::exactly(17))
 			->method('getAppValue')
