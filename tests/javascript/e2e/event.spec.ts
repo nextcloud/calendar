@@ -3,16 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { test, expect } from '@playwright/test'
-import { login } from './login.js'
+import { expect } from '@playwright/test'
+import { test } from './fixtures.ts'
 
-test.beforeEach(async ({ page }) => {
-	await login(page)
-})
-
-test('create an event', async ({ page }) => {
-	await page.goto('./index.php/apps/calendar')
-
+test('create an event', async ({ page, calendarPage }) => {
 	const eventTitle = Math.random().toString(16).slice(2)
 
 	// Create new event with random title
