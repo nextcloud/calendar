@@ -244,7 +244,6 @@ export default {
 				await HttpClient.post(url, {
 					recipient: emailAddress,
 					token: this.calendar.publishURL.split('/').slice(-1)[0],
-					calendarName: this.calendar.displayName,
 				})
 			} catch (error) {
 				console.error(error)
