@@ -10,6 +10,7 @@ namespace OCA\Calendar\Controller;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Calendar\IManager;
 use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -48,6 +49,9 @@ class EmailController extends Controller {
 	/** @var IUserManager */
 	private $userManager;
 
+	/** @var \OCP\Calendar\IManager */
+	private $calendarManager;
+
 	/**
 	 * EmailController constructor.
 	 *
@@ -60,6 +64,7 @@ class EmailController extends Controller {
 	 * @param Defaults $defaults
 	 * @param IURLGenerator $urlGenerator
 	 * @param IUserManager $userManager
+	 * @param IManager $calendarManager
 	 */
 	public function __construct(string $appName,
 		IRequest $request,
@@ -69,7 +74,8 @@ class EmailController extends Controller {
 		IL10N $l10N,
 		Defaults $defaults,
 		IURLGenerator $urlGenerator,
-		IUserManager $userManager) {
+		IUserManager $userManager,
+		IManager $calendarManager) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->userSession = $userSession;
@@ -78,12 +84,12 @@ class EmailController extends Controller {
 		$this->defaults = $defaults;
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
+		$this->calendarManager = $calendarManager;
 	}
 
 	/**
 	 * @param string $recipient
 	 * @param string $token
-	 * @param string $calendarName
 	 * @return JSONResponse
 	 *
 	 * @UserRateThrottle(limit=5, period=100)
@@ -91,8 +97,7 @@ class EmailController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function sendEmailPublicLink(string $recipient,
-		string $token,
-		string $calendarName):JSONResponse {
+		string $token):JSONResponse {
 		if (strlen($recipient) > 512) {
 			return new JSONResponse([
 				'message' => $this->l10n->t('Provided email-address is too long'),
@@ -112,11 +117,20 @@ class EmailController extends Controller {
 			], Http::STATUS_BAD_REQUEST);
 		}
 
-		$fromAddress = $this->getFromAddress();
-		$displayName = $this->userManager->getDisplayName($user->getUID());
-		$subject = $this->l10n->t('%s has published the calendar »%s«', [$displayName, $calendarName]);
+		$calendar = $this->findCalendarByToken($user, $token);
 
-		$template = $this->createTemplate($subject, $displayName, $calendarName, $token);
+		if ($calendar === null) {
+			return new JSONResponse([
+				'message' => $this->l10n->t('An error occured during sending email'),
+			], Http::STATUS_BAD_REQUEST);
+		}
+
+		$fromAddress = $this->getFromAddress();
+		$displayNameOfUser = $this->userManager->getDisplayName($user->getUID()) ?? $user->getUID();
+		$displayNameOfCalendar = $calendar->getDisplayName() ?? $calendar->getKey();
+		$subject = $this->l10n->t('%s has published the calendar »%s«', [$displayNameOfUser, $displayNameOfCalendar]);
+
+		$template = $this->createTemplate($subject, $displayNameOfUser, $displayNameOfCalendar, $token);
 		$message = $this->createMessage($fromAddress, [$recipient => $recipient], $template);
 
 		try {
@@ -206,5 +220,27 @@ class EmailController extends Controller {
 		return $this->urlGenerator->linkToRouteAbsolute('calendar.publicView.public_index_with_branding', [
 			'token' => $token,
 		]);
+	}
+
+	/**
+	 * Returns the calendar that matches
+	 * the given public sharing token.
+	 *
+	 * @param string $token
+	 * @return \OCA\DAV\CalDAV\CalendarImpl|null
+	 */
+	private function findCalendarByToken($user, string $token): mixed {
+		$userId = $user->getUID();
+		$userCalendars = $this->calendarManager->getCalendarsForPrincipal("principals/users/$userId");
+
+		$matchingCalendar = array_find($userCalendars, function ($calendar) use ($token) {
+			// TODO: Remove method_exists check once there is no risk
+			//  anymore the method isn't available.
+			if (method_exists($calendar, 'getPublicToken')) {
+				return $calendar->getPublicToken() === $token;
+			}
+		});
+
+		return $matchingCalendar;
 	}
 }
