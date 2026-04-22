@@ -61,6 +61,7 @@
 				<referencedClass name="OC\App\CompareVersion" />
 				<referencedClass name="OCA\Calendar\Controller\Exception" />
 				<referencedClass name="OCA\Circles\Api\v1\Circles" />
+				<referencedClass name="OCA\DAV\CalDAV\CalendarImpl" />
 				<referencedClass name="Symfony\Component\Console\Output\OutputInterface" />
 			</errorLevel>
 		</UndefinedDocblockClass>
