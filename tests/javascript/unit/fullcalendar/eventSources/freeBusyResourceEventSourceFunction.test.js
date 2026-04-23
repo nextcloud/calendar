@@ -217,6 +217,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					percent: null,
 					description: undefined,
 					location: undefined,
+					attendeeCount: 0,
 				}
 			},
 			{
@@ -240,6 +241,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					percent: null,
 					description: undefined,
 					location: undefined,
+					attendeeCount: 0,
 				}
 			},
 			{
@@ -263,6 +265,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					percent: null,
 					description: undefined,
 					location: undefined,
+					attendeeCount: 0,
 				}
 			},
 			{
@@ -286,6 +289,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					percent: null,
 					description: undefined,
 					location: undefined,
+					attendeeCount: 0,
 				}
 			},
 			{
@@ -309,11 +313,11 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					percent: null,
 					description: undefined,
 					location: undefined,
+					attendeeCount: 0,
 				},
-				backgroundColor: '#ff0000',
-				borderColor: '#ff0000',
-				textColor: '#eeeeee',
-			}
+			backgroundColor: '#ff0000',
+			borderColor: '#ff0000',
+		}
 		])
 
 		expect(eventComponentSet1[0].startDate.getInTimezone).toHaveBeenCalledTimes(1)
@@ -356,8 +360,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 		expect(getHexForColorName).toHaveBeenCalledTimes(1)
 		expect(getHexForColorName).toHaveBeenNthCalledWith(1, 'red')
 
-		expect(generateTextColorForHex).toHaveBeenCalledTimes(1)
-		expect(generateTextColorForHex).toHaveBeenNthCalledWith(1, '#ff0000')
+		expect(generateTextColorForHex).toHaveBeenCalledTimes(0)
 
 		// Make sure the following dates have not been touched
 		expect(event11Start.getFullYear()).toEqual(2020)
@@ -615,6 +618,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				recurrenceId: 123,
 				description: undefined,
 				location: undefined,
+				attendeeCount: 0,
 			},
 			id: '1###1',
 			start: event1End,
@@ -639,6 +643,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				recurrenceId: 123,
 				description: undefined,
 				location: undefined,
+				attendeeCount: 0,
 			},
 			id: '1###2',
 			start: event2End,
@@ -663,6 +668,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				recurrenceId: 123,
 				description: undefined,
 				location: undefined,
+				attendeeCount: 0,
 			},
 			id: '1###3',
 			start: event3End,
@@ -687,6 +693,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				recurrenceId: 123,
 				description: undefined,
 				location: undefined,
+				attendeeCount: 0,
 			},
 			id: '1###4',
 			start: event4End,
@@ -711,6 +718,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				recurrenceId: 123,
 				description: undefined,
 				location: undefined,
+				attendeeCount: 0,
 			},
 			id: '1###5',
 			start: event5End,
