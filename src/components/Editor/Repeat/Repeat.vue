@@ -85,7 +85,7 @@
 				v-if="!isRecurrenceException && !isReadOnly"
 				class="property-repeat__options__footer">
 				<NcButton variant="primary" @click="saveAndClose">
-					{{ $t('calendar', 'Add') }}
+					{{ $t('calendar', 'Set repetition') }}
 				</NcButton>
 			</div>
 		</NcModal>
