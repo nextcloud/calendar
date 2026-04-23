@@ -82,6 +82,7 @@
 									</template>
 									{{ $t('calendar', 'Delete this occurrence') }}
 								</NcActionButton>
+								<NcActionSeparator v-if="canDelete && canCreateRecurrenceException && !isNew" />
 								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" @click="deleteAndLeave(true)">
 									<template #icon>
 										<Delete :size="20" decorative />
@@ -338,6 +339,7 @@ import {
 	NcActionButton,
 	NcActionLink,
 	NcActions,
+	NcActionSeparator,
 	NcButton,
 	NcCheckboxRadioSwitch,
 	NcDialog,
@@ -411,6 +413,7 @@ export default {
 		IconVideo,
 		HelpCircleIcon,
 		NcActions,
+		NcActionSeparator,
 		Close,
 	},
 
