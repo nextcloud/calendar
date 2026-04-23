@@ -187,98 +187,6 @@ class ContactControllerTest extends TestCase {
 		$this->assertEquals(200, $response->getStatus());
 	}
 
-	public function testGetGroupMembersNoResults() {
-		$this->manager->expects(self::once())
-			->method('isEnabled')
-			->willReturn(true);
-
-		$groupname = 'groupname';
-		$this->manager->expects(self::once())
-			->method('search')
-			->with($groupname, ['CATEGORIES'])
-			->willReturn([]);
-
-		$this->controller->getContactGroupMembers($groupname);
-	}
-
-	public function testGetGroupMembers() {
-		$this->manager->expects(self::once())
-			->method('isEnabled')
-			->willReturn(true);
-		$this->service->expects(self::once())
-			->method('hasEmail')
-			->willReturn(true);
-		$this->service->expects(self::once())
-			->method('getNameFromContact')
-			->willReturn('Person 1');
-		$this->service->expects(self::once())
-			->method('getLanguageId')
-			->willReturn('en_us');
-		$this->service->expects(self::once())
-			->method('getTimezoneId')
-			->willReturn('Australia/Adelaide');
-		$this->service->expects(self::once())
-			->method('getEmail')
-			->willReturn(['foo1@example.com']);
-
-		$groupname = 'group';
-		$this->manager->expects(self::once())
-			->method('search')
-			->with($groupname, ['CATEGORIES'])
-			->willReturn([
-				[
-					'FN' => 'Person 1',
-					'ADR' => [
-						'33 42nd Street;Random Town;Some State;;United States',
-						';;5 Random Ave;12782 Some big city;Yet another state;United States',
-					],
-					'EMAIL' => [
-						'foo1@example.com',
-						'foo2@example.com',
-					],
-					'LANG' => [
-						'de',
-						'en'
-					],
-					'TZ' => [
-						'Europe/Berlin',
-						'UTC'
-					],
-					'PHOTO' => 'VALUE=uri:http://foo.bar',
-					'CATEGORIES' => 'groupname,group',
-				],
-				[
-					'FN' => 'Person 2',
-					'EMAIL' => 'foo3@example.com',
-					'CATEGORIES' => 'groups,asecondgroup',
-				],
-				[
-					'ADR' => [
-						'ABC Street 2;01337 Village;;Germany',
-					],
-					'LANG' => 'en_us',
-					'TZ' => 'Australia/Adelaide',
-					'PHOTO' => 'VALUE:BINARY:4242424242',
-					'CATEGORIES' => 'agroupthatswrong,asecondgroup',
-				],
-				[
-					'isLocalSystemBook' => true,
-					'FN' => 'Person 3',
-					'ADR' => [
-						'ABC Street 2;01337 Village;;Germany',
-					],
-					'EMAIL' => 'foo4@example.com',
-					'LANG' => 'en_us',
-					'TZ' => 'Australia/Adelaide',
-					'PHOTO' => 'VALUE:BINARY:4242424242',
-					'CATEGORIES' => 'groupppppp',
-				],
-			]);
-
-		$groupmembers = $this->controller->getContactGroupMembers($groupname);
-		$this->assertCount(1, $groupmembers->getData());
-	}
-
 	public function testSearchAttendeeDisabled():void {
 		$this->manager->expects(self::once())
 			->method('isEnabled')
@@ -370,30 +278,26 @@ class ContactControllerTest extends TestCase {
 				[$user3, ''],
 				[$user4, 'Person 3'],
 			]);
-		$this->service->expects(self::exactly(3))
+		$this->service->expects(self::exactly(2))
 			->method('getLanguageId')
 			->willReturnMap([
 				[$user1, 'de'],
 				[$user2, null],
-				[$user4, 'en_us'],
 			]);
-		$this->service->expects(self::exactly(3))
+		$this->service->expects(self::exactly(2))
 			->method('getTimezoneId')
 			->willReturnMap([
 				[$user1, 'Europe/Berlin'],
 				[$user2, null],
-				[$user4, 'Australia/Adelaide'],
 			]);
-		$this->service->expects(self::exactly(3))
+		$this->service->expects(self::exactly(2))
 			->method('getEmail')
 			->willReturnMap([
 				[$user1, [
 					'foo1@example.com',
 					'foo2@example.com',
-				]
-				],
+				]],
 				[$user2, ['foo3@example.com']],
-				[$user4, ['foo4@example.com']],
 			]);
 		$this->service->method('getPhotoUri')
 			->willReturnMap([
@@ -402,47 +306,62 @@ class ContactControllerTest extends TestCase {
 				[$user3, null],
 				[$user4, null],
 			]);
+		$searchCallCount = 0;
 		$this->manager->expects(self::exactly(2))
 			->method('search')
+			->willReturnCallback(function (string $search, array $fields, array $options = []) use (&$searchCallCount, $user1, $user2, $user3, $user4) {
+				$searchCallCount++;
+				if ($searchCallCount === 1) {
+					$this->assertEquals('search 123', $search);
+					$this->assertEquals(['FN', 'EMAIL'], $fields);
+					$this->assertEquals(['enumeration' => true], $options);
+					return [$user1, $user2, $user3, $user4];
+				}
+				$this->assertEquals('search 123', $search);
+				$this->assertEquals(['CATEGORIES'], $fields);
+				return [
+					[
+						'FN' => 'Person 4',
+						'EMAIL' => 'foo4@example.com',
+						'CATEGORIES' => 'search 123,other'
+					],
+					[
+						'FN' => 'Person 5',
+						'CATEGORIES' => 'search 123'
+					],
+					[
+						'FN' => 'Person 6',
+						'EMAIL' => 'foo6@example.com',
+						'CATEGORIES' => 'search 123'
+					],
+				];
+			});
+
+		$this->service->method('getNameFromContact')
 			->willReturnMap([
-				['search 123', ['FN', 'EMAIL'], ['enumeration' => true], [$user1, $user2, $user3, $user4]],
-				['search 123', ['CATEGORIES'], [], [$user4]]
+				[$user1, 'Person 1'],
+				[$user2, 'Person 2'],
+				[['FN' => 'Person 4', 'EMAIL' => 'foo4@example.com', 'CATEGORIES' => 'search 123,other'], 'Person 4'],
+				[['FN' => 'Person 6', 'EMAIL' => 'foo6@example.com', 'CATEGORIES' => 'search 123'], 'Person 6'],
+			]);
+		$this->service->method('getEmail')
+			->willReturnMap([
+				[$user1, ['foo1@example.com', 'foo2@example.com']],
+				[$user2, ['foo3@example.com']],
+				[['FN' => 'Person 4', 'EMAIL' => 'foo4@example.com', 'CATEGORIES' => 'search 123,other'], ['foo4@example.com']],
+				[['FN' => 'Person 6', 'EMAIL' => 'foo6@example.com', 'CATEGORIES' => 'search 123'], ['foo6@example.com']],
 			]);
 
 		$response = $this->controller->searchAttendee('search 123');
 
 		$this->assertInstanceOf(JSONResponse::class, $response);
-		$this->assertEquals([
-			[
-				'name' => 'Person 1',
-				'emails' => [
-					'foo1@example.com',
-					'foo2@example.com',
-				],
-				'lang' => 'de',
-				'tzid' => 'Europe/Berlin',
-				'photo' => 'http://foo.bar',
-				'type' => 'individual'
-			], [
-				'name' => 'Person 2',
-				'emails' => [
-					'foo3@example.com'
-				],
-				'lang' => null,
-				'tzid' => null,
-				'photo' => null,
-				'type' => 'individual'
-			], [
-				'name' => 'Person 3',
-				'emails' => [
-					'foo4@example.com'
-				],
-				'lang' => 'en_us',
-				'tzid' => 'Australia/Adelaide',
-				'photo' => null,
-				'type' => 'individual'
-			]
-		], $response->getData());
+		$data = $response->getData();
+		$this->assertArrayHasKey('contacts', $data);
+		$this->assertArrayHasKey('groups', $data);
+		$this->assertCount(2, $data['contacts']);
+		$this->assertEquals('Person 1', $data['contacts'][0]['name']);
+		$this->assertEquals('Person 2', $data['contacts'][1]['name']);
+		$this->assertArrayHasKey('search 123', $data['groups']);
 		$this->assertEquals(200, $response->getStatus());
 	}
 
@@ -520,14 +439,16 @@ class ContactControllerTest extends TestCase {
 
 		$this->assertInstanceOf(JSONResponse::class, $response);
 		$this->assertEquals([
-			[
-				'name' => 'System User',
-				'emails' => ['system@example.com'],
-				'lang' => 'en',
-				'tzid' => 'UTC',
-				'photo' => null,
-				'type' => 'individual'
-			]
+			'contacts' => [
+				[
+					'name' => 'System User',
+					'emails' => ['system@example.com'],
+					'lang' => 'en',
+					'tzid' => 'UTC',
+					'photo' => null,
+				]
+			],
+			'groups' => [],
 		], $response->getData());
 		$this->assertEquals(200, $response->getStatus());
 	}
