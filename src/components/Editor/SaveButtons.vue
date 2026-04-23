@@ -53,7 +53,7 @@
 			</template>
 			<NcActionButton @click="saveThisAndAllFuture">
 				<template #icon>
-					<CheckIcon :size="20" />
+					<CheckAllIcon :size="20" />
 				</template>
 				{{ $t('calendar', 'Update this and all future') }}
 			</NcActionButton>
@@ -73,12 +73,14 @@
 <script>
 import { NcActionButton, NcActions, NcButton } from '@nextcloud/vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
+import CheckAllIcon from 'vue-material-design-icons/CheckAll.vue'
 
 export default {
 	name: 'SaveButtons',
 	components: {
 		NcButton,
 		CheckIcon,
+		CheckAllIcon,
 		NcActions,
 		NcActionButton,
 	},
