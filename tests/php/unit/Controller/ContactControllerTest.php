@@ -13,7 +13,10 @@ use OCP\App\IAppManager;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Contacts\IManager;
 use OCP\IAppConfig;
+use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -36,6 +39,8 @@ class ContactControllerTest extends TestCase {
 	private $userManager;
 	private ContactsService|MockObject $service;
 	private IAppConfig|MockObject $appConfig;
+	private IConfig|MockObject $config;
+	private IGroupManager|MockObject $groupManager;
 
 	/** @var ContactController */
 	protected $controller;
@@ -52,6 +57,8 @@ class ContactControllerTest extends TestCase {
 		$this->userManager = $this->createMock(IUserManager::class);
 		$this->service = $this->createMock(ContactsService::class);
 		$this->appConfig = $this->createMock(IAppConfig::class);
+		$this->config = $this->createMock(IConfig::class);
+		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->logger = $this->createMock(NullLogger::class);
 		$this->controller = new ContactController($this->appName,
 			$this->request,
@@ -60,7 +67,10 @@ class ContactControllerTest extends TestCase {
 			$this->userManager,
 			$this->service,
 			$this->appConfig,
+			$this->config,
+			$this->groupManager,
 			$this->logger,
+			'test-user',
 		);
 	}
 
@@ -297,152 +307,94 @@ class ContactControllerTest extends TestCase {
 	public function testSearchAttendee():void {
 		$user1 = [
 			'FN' => 'Person 1',
-			'ADR' => [
-				'33 42nd Street;Random Town;Some State;;United States',
-				';;5 Random Ave;12782 Some big city;Yet another state;United States',
-			],
-			'EMAIL' => [
-				'foo1@example.com',
-				'foo2@example.com',
-			],
-			'LANG' => [
-				'de',
-				'en'
-			],
-			'TZ' => [
-				'Europe/Berlin',
-				'UTC'
-			],
+			'EMAIL' => ['foo1@example.com', 'foo2@example.com'],
+			'LANG' => 'de',
+			'TZ' => 'Europe/Berlin',
 			'PHOTO' => 'VALUE=uri:http://foo.bar'
 		];
-		$user2 = [
-			'FN' => 'Person 2',
-			'EMAIL' => 'foo3@example.com',
-		];
-		$user3 = [
-			'ADR' => [
-				'ABC Street 2;01337 Village;;Germany',
-			],
-			'LANG' => 'en_us',
-			'TZ' => 'Australia/Adelaide',
-			'PHOTO' => 'VALUE:BINARY:4242424242'
-		];
-		$user4 = [
+		$systemUser = [
+			'UID' => 'system-user',
 			'isLocalSystemBook' => true,
-			'FN' => 'Person 3',
-			'ADR' => [
-				'ABC Street 2;01337 Village;;Germany',
-			],
-			'LANG' => 'en_us',
-			'TZ' => 'Australia/Adelaide',
-			'PHOTO' => 'VALUE:BINARY:4242424242',
-			'CATEGORIES' => 'search 123'
+			'FN' => 'System User',
+			'EMAIL' => ['system@example.com'],
+			'LANG' => 'en',
+			'TZ' => 'UTC',
 		];
 
 		$this->manager->expects(self::once())
 			->method('isEnabled')
 			->willReturn(true);
+
 		$this->appConfig->expects(self::once())
 			->method('getValueBool')
 			->with('dav', 'caldav_external_attendees_disabled', false)
 			->willReturn(false);
+
+		// Enumeration enabled, no group restrictions
+		$this->config->expects(self::exactly(6))
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'no', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_full_match', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes', 'yes'],
+			]);
+
 		$this->service
 			->method('hasEmail')
-			->willReturnMap([
-				[$user1, true],
-				[$user2, true],
-				[$user3, false],
-				[$user4, true],
-			]);
+			->willReturn(true);
 		$this->service
 			->method('isSystemBook')
 			->willReturnMap([
 				[$user1, false],
-				[$user2, false],
-				[$user3, false],
-				[$user4, true],
+				[$systemUser, true],
 			]);
 		$this->service
 			->method('getNameFromContact')
 			->willReturnMap([
 				[$user1, 'Person 1'],
-				[$user2, 'Person 2'],
-				[$user3, ''],
-				[$user4, 'Person 3'],
+				[$systemUser, 'System User'],
 			]);
-		$this->service->expects(self::exactly(3))
+		$this->service
 			->method('getLanguageId')
 			->willReturnMap([
 				[$user1, 'de'],
-				[$user2, null],
-				[$user4, 'en_us'],
+				[$systemUser, 'en'],
 			]);
-		$this->service->expects(self::exactly(3))
+		$this->service
 			->method('getTimezoneId')
 			->willReturnMap([
 				[$user1, 'Europe/Berlin'],
-				[$user2, null],
-				[$user4, 'Australia/Adelaide'],
+				[$systemUser, 'UTC'],
 			]);
-		$this->service->expects(self::exactly(3))
+		$this->service
 			->method('getEmail')
 			->willReturnMap([
-				[$user1, [
-					'foo1@example.com',
-					'foo2@example.com',
-				]
-				],
-				[$user2, ['foo3@example.com']],
-				[$user4, ['foo4@example.com']],
+				[$user1, ['foo1@example.com', 'foo2@example.com']],
+				[$systemUser, ['system@example.com']],
 			]);
 		$this->service->method('getPhotoUri')
 			->willReturnMap([
 				[$user1, 'http://foo.bar'],
-				[$user2, null],
-				[$user3, null],
-				[$user4, null],
+				[$systemUser, null],
 			]);
+
 		$this->manager->expects(self::exactly(2))
 			->method('search')
 			->willReturnMap([
-				['search 123', ['FN', 'EMAIL'], ['enumeration' => true], [$user1, $user2, $user3, $user4]],
-				['search 123', ['CATEGORIES'], [], [$user4]]
+				['search', ['UID', 'FN', 'EMAIL'], ['enumeration' => true, 'fullmatch' => true], [$user1, $systemUser]],
+				['search', ['CATEGORIES'], [], []]
 			]);
 
-		$response = $this->controller->searchAttendee('search 123');
+		$response = $this->controller->searchAttendee('search');
 
 		$this->assertInstanceOf(JSONResponse::class, $response);
-		$this->assertEquals([
-			[
-				'name' => 'Person 1',
-				'emails' => [
-					'foo1@example.com',
-					'foo2@example.com',
-				],
-				'lang' => 'de',
-				'tzid' => 'Europe/Berlin',
-				'photo' => 'http://foo.bar',
-				'type' => 'individual'
-			], [
-				'name' => 'Person 2',
-				'emails' => [
-					'foo3@example.com'
-				],
-				'lang' => null,
-				'tzid' => null,
-				'photo' => null,
-				'type' => 'individual'
-			], [
-				'name' => 'Person 3',
-				'emails' => [
-					'foo4@example.com'
-				],
-				'lang' => 'en_us',
-				'tzid' => 'Australia/Adelaide',
-				'photo' => null,
-				'type' => 'individual'
-			]
-		], $response->getData());
+		$data = $response->getData();
+		$this->assertCount(2, $data);
+		$this->assertEquals('Person 1', $data[0]['name']);
+		$this->assertEquals('System User', $data[1]['name']);
 		$this->assertEquals(200, $response->getStatus());
 	}
 
@@ -462,6 +414,7 @@ class ContactControllerTest extends TestCase {
 			'EMAIL' => 'foo3@example.com',
 		];
 		$user3 = [
+			'UID' => 'system-user',
 			'isLocalSystemBook' => true,
 			'FN' => 'System User',
 			'EMAIL' => 'system@example.com',
@@ -472,10 +425,23 @@ class ContactControllerTest extends TestCase {
 		$this->manager->expects(self::once())
 			->method('isEnabled')
 			->willReturn(true);
+
 		$this->appConfig->expects(self::once())
 			->method('getValueBool')
 			->with('dav', 'caldav_external_attendees_disabled', false)
 			->willReturn(true);
+
+		$this->config->expects(self::exactly(6))
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'no', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_full_match', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes', 'yes'],
+			]);
+
 		$this->service
 			->method('hasEmail')
 			->willReturnMap([
@@ -511,9 +477,10 @@ class ContactControllerTest extends TestCase {
 			->method('getPhotoUri')
 			->with($user3)
 			->willReturn(null);
+
 		$this->manager->expects(self::once())
 			->method('search')
-			->with('search 123', ['FN', 'EMAIL'], ['enumeration' => true])
+			->with('search 123', ['UID', 'FN', 'EMAIL'], ['enumeration' => true, 'fullmatch' => true])
 			->willReturn([$user1, $user2, $user3]);
 
 		$response = $this->controller->searchAttendee('search 123');
@@ -528,6 +495,138 @@ class ContactControllerTest extends TestCase {
 				'photo' => null,
 				'type' => 'individual'
 			]
+		], $response->getData());
+		$this->assertEquals(200, $response->getStatus());
+	}
+
+	public function testSearchAttendeeShareWithGroupOnlyExcludesConfiguredGroups(): void {
+		$externalContact = [
+			'FN' => 'External Person',
+			'EMAIL' => ['external@example.com'],
+			'LANG' => 'de',
+			'TZ' => 'Europe/Berlin',
+		];
+		$allowedSystemUser = [
+			'UID' => 'allowed-system-user',
+			'isLocalSystemBook' => true,
+			'FN' => 'Allowed System User',
+			'EMAIL' => ['allowed@example.com'],
+			'LANG' => 'en',
+			'TZ' => 'UTC',
+		];
+		$excludedSystemUser = [
+			'UID' => 'excluded-system-user',
+			'isLocalSystemBook' => true,
+			'FN' => 'Excluded System User',
+			'EMAIL' => ['excluded@example.com'],
+			'LANG' => 'en',
+			'TZ' => 'UTC',
+		];
+		$user = $this->createMock(IUser::class);
+
+		$this->manager->expects(self::once())
+			->method('isEnabled')
+			->willReturn(true);
+
+		$this->appConfig->expects(self::once())
+			->method('getValueBool')
+			->with('dav', 'caldav_external_attendees_disabled', false)
+			->willReturn(false);
+
+		$this->config->expects(self::exactly(7))
+			->method('getAppValue')
+			->willReturnMap([
+				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+				['core', 'shareapi_only_share_with_group_members_exclude_group_list', '[]', '["excluded-group"]'],
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'no', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
+				['core', 'shareapi_restrict_user_enumeration_full_match', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes', 'yes'],
+				['core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes', 'yes'],
+			]);
+
+		$this->userManager->expects(self::once())
+			->method('get')
+			->with('test-user')
+			->willReturn($user);
+
+		$this->groupManager->expects(self::once())
+			->method('getUserGroupIds')
+			->with($user)
+			->willReturn(['allowed-group', 'excluded-group']);
+
+		$this->groupManager->expects(self::never())
+			->method('isInGroup')
+		;
+
+		$this->service->method('hasEmail')->willReturn(true);
+		$this->service->method('isSystemBook')
+			->willReturnMap([
+				[$externalContact, false],
+				[$allowedSystemUser, true],
+				[$excludedSystemUser, true],
+			]);
+		$this->service->method('getNameFromContact')
+			->willReturnMap([
+				[$externalContact, 'External Person'],
+				[$allowedSystemUser, 'Allowed System User'],
+				[$excludedSystemUser, 'Excluded System User'],
+			]);
+		$this->service->method('getLanguageId')
+			->willReturnMap([
+				[$externalContact, 'de'],
+				[$allowedSystemUser, 'en'],
+				[$excludedSystemUser, 'en'],
+			]);
+		$this->service->method('getTimezoneId')
+			->willReturnMap([
+				[$externalContact, 'Europe/Berlin'],
+				[$allowedSystemUser, 'UTC'],
+				[$excludedSystemUser, 'UTC'],
+			]);
+		$this->service->method('getEmail')
+			->willReturnMap([
+				[$externalContact, ['external@example.com']],
+				[$allowedSystemUser, ['allowed@example.com']],
+				[$excludedSystemUser, ['excluded@example.com']],
+			]);
+		$this->service->method('getPhotoUri')->willReturn(null);
+
+		$this->manager->expects(self::exactly(2))
+			->method('search')
+			->willReturnMap([
+				['search', ['UID', 'FN', 'EMAIL'], ['enumeration' => true, 'fullmatch' => true], [$externalContact, $allowedSystemUser, $excludedSystemUser]],
+				['search', ['CATEGORIES'], [], []],
+			]);
+
+		$response = $this->controller->searchAttendee('search');
+
+		$this->assertInstanceOf(JSONResponse::class, $response);
+		$this->assertEquals([
+			[
+				'name' => 'External Person',
+				'emails' => ['external@example.com'],
+				'lang' => 'de',
+				'tzid' => 'Europe/Berlin',
+				'photo' => null,
+				'type' => 'individual',
+			],
+			[
+				'name' => 'Allowed System User',
+				'emails' => ['allowed@example.com'],
+				'lang' => 'en',
+				'tzid' => 'UTC',
+				'photo' => null,
+				'type' => 'individual',
+			],
+			[
+				'name' => 'Excluded System User',
+				'emails' => ['excluded@example.com'],
+				'lang' => 'en',
+				'tzid' => 'UTC',
+				'photo' => null,
+				'type' => 'individual',
+			],
 		], $response->getData());
 		$this->assertEquals(200, $response->getStatus());
 	}
