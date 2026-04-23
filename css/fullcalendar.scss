@@ -77,12 +77,10 @@
 
 	.fc-daygrid-day-top {
 		.fc-daygrid-day-number {
-			margin: 4px;
-			width: 24px;
-			height: 24px;
+			margin: var(--default-grid-baseline) 0 calc(var(--default-grid-baseline) + 1px);
+			padding: 0 var(--default-grid-baseline);
 			text-align: center;
 			font-weight: bold !important;
-			padding: 0 !important;
 			background: var(--color-primary-element);
 			color: var(--color-primary-element-text);
 			border-radius: var(--border-radius-small);
