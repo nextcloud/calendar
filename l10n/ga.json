@@ -2,6 +2,7 @@
     "Provided email-address is too long" : "Ar choinníoll go bhfuil an seoladh ríomhphoist ró-fhada",
     "User-Session unexpectedly expired" : "Chuaigh an Seisiún Úsáideora in éag gan choinne",
     "Provided email-address is not valid" : "Ar choinníoll nach bhfuil an seoladh ríomhphoist bailí",
+    "An error occured during sending email" : "Tharla earráid agus ríomhphost á sheoladh",
     "%s has published the calendar »%s«" : "D'fhoilsigh %s an féilire »%s«",
     "Unexpected error sending email. Please contact your administrator." : "Earráid gan choinne agus ríomhphost á sheoladh. Déan teagmháil le do riarthóir le do thoil.",
     "Successfully sent email to %1$s" : "D'éirigh le seoladh ríomhphoist chuig %1$s",

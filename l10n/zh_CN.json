@@ -2,6 +2,7 @@
     "Provided email-address is too long" : "所提供的电子邮件地址太长",
     "User-Session unexpectedly expired" : "用户会话意外过期",
     "Provided email-address is not valid" : "提供的电子邮件地址无效",
+    "An error occured during sending email" : "发送电子邮件时出错",
     "%s has published the calendar »%s«" : "%s 已经发布了日历 »%s«",
     "Unexpected error sending email. Please contact your administrator." : "发送电子邮件时出现意外错误，请联系您的管理员。",
     "Successfully sent email to %1$s" : "成功将电子邮件发送到 %1$s",
