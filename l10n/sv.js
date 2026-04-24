@@ -4,6 +4,7 @@ OC.L10N.register(
     "Provided email-address is too long" : "Den angivna e-postadressen är för lång",
     "User-Session unexpectedly expired" : "Användarsessionen upphörde oväntat",
     "Provided email-address is not valid" : "Den angivna e-postadressen är inte giltig",
+    "An error occured during sending email" : "Ett fel uppstod vid sändning av e-post",
     "%s has published the calendar »%s«" : "%s har publicerat kalender \"%s\"",
     "Unexpected error sending email. Please contact your administrator." : "Oväntat fel vid utskick av e-post. Kontakta din administratör.",
     "Successfully sent email to %1$s" : "E-post skickad till %1$s",

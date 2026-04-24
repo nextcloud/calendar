@@ -4,6 +4,7 @@ OC.L10N.register(
     "Provided email-address is too long" : "Eingegebene E-Mail-Adresse ist zu lang",
     "User-Session unexpectedly expired" : "Sitzung unerwartet abgelaufen",
     "Provided email-address is not valid" : "Angegebene E-Mail-Adresse ist ungültig",
+    "An error occured during sending email" : "Beim Senden der E-Mail ist ein Fehler aufgetreten",
     "%s has published the calendar »%s«" : "%s hat den Kalender »%s« veröffentlicht",
     "Unexpected error sending email. Please contact your administrator." : "Unerwarteter Fehler beim Senden der E-Mail. Bitte kontaktieren Sie die Administration.",
     "Successfully sent email to %1$s" : "E-Mail versandt an %1$s",
