@@ -21,6 +21,7 @@
 			:min="minimumDate"
 			:date="until"
 			type="date"
+			:appendToBody="true"
 			@change="changeUntil" />
 		<NcTextField
 			v-if="isCount"
