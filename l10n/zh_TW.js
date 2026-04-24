@@ -4,6 +4,7 @@ OC.L10N.register(
     "Provided email-address is too long" : "已提供的電子郵件地址太長",
     "User-Session unexpectedly expired" : "使用者連線階段過期",
     "Provided email-address is not valid" : "提供的電子郵件地址無效",
+    "An error occured during sending email" : "寄送電子郵件時發生錯誤",
     "%s has published the calendar »%s«" : "%s 發佈了日曆 »%s«",
     "Unexpected error sending email. Please contact your administrator." : "傳送電子郵件出現意外的錯誤。請聯絡您的管理者。",
     "Successfully sent email to %1$s" : "已成功傳送電子郵件至 %1$s",
