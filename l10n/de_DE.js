@@ -433,6 +433,7 @@ OC.L10N.register(
     "Your Time" : "Ihre Zeit",
     "Repeat" : "Wiederholen",
     "Repeat event" : "Termin wiederholen",
+    "Set repetition" : "Wiederholung festlegen",
     "never" : "Niemals",
     "on date" : "zum Datum",
     "after" : "Nach",

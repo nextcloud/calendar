@@ -433,6 +433,7 @@ OC.L10N.register(
     "Your Time" : "Seu Horário",
     "Repeat" : "Repetir",
     "Repeat event" : "Repetir evento",
+    "Set repetition" : "Definir repetição",
     "never" : "nunca",
     "on date" : "na data",
     "after" : "após",
