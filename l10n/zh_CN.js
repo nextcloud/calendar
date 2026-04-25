@@ -433,6 +433,7 @@ OC.L10N.register(
     "Your Time" : "您的时间",
     "Repeat" : "重复",
     "Repeat event" : "重复活动",
+    "Set repetition" : "设置重复",
     "never" : "从不",
     "on date" : "在特定日期",
     "after" : "之后",
