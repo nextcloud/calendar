@@ -93,28 +93,10 @@
 								{{ t('calendar', 'Add Talk conversation') }}
 							</NcCheckboxRadioSwitch>
 						</div>
-						<div class="proposal-editor__proposal-duration-container">
-							<NcTextField
-								v-model="selectedProposal.duration"
-								class="proposal-editor__proposal-duration"
-								:label="t('calendar', 'Duration')"
-								type="number"
-								min="1"
-								step="1"
-								@input="onProposalDurationChange($event)" />
-							<NcRadioGroup
-								v-model="selectedProposal.duration"
-								class="proposal-editor__proposal-duration-helpers"
-								:label="t('calendar', 'Duration suggestions')"
-								hideLabel
-								@update:modelValue="onProposalDurationSuggestionChange">
-								<NcRadioGroupButton
-									v-for="duration in [15, 30, 60, 90]"
-									:key="duration"
-									:label="t('calendar', '{duration} min', { duration })"
-									:value="duration" />
-							</NcRadioGroup>
-						</div>
+						<DurationSelector
+							class="proposal-editor__proposal-duration"
+							:modelValue="selectedProposal.duration"
+							@update:modelValue="changeDuration" />
 						<InviteesListSearch
 							class="proposal-editor__proposal-participants-selector"
 							:alreadyInvitedEmails="existingParticipantAddressess"
@@ -243,10 +225,9 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcModal from '@nextcloud/vue/components/NcModal'
-import NcRadioGroup from '@nextcloud/vue/components/NcRadioGroup'
-import NcRadioGroupButton from '@nextcloud/vue/components/NcRadioGroupButton'
 import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
+import DurationSelector from '@/components/Editor/DurationSelector.vue'
 import InviteesListSearch from '@/components/Editor/Invitees/InviteesListSearch.vue'
 import ProposalDateItem from '@/components/Proposal/ProposalDateItem.vue'
 import ProposalParticipantItem from '@/components/Proposal/ProposalParticipantItem.vue'
@@ -286,10 +267,9 @@ export default {
 		NcCheckboxRadioSwitch,
 		NcDialog,
 		NcModal,
-		NcRadioGroup,
-		NcRadioGroupButton,
 		NcTextField,
 		NcTextArea,
+		DurationSelector,
 		FullCalendar,
 		InviteesListSearch,
 		ProposalParticipantItem,
@@ -653,12 +633,6 @@ export default {
 			this.showConvertDialog = true
 		},
 
-		onProposalDurationChange(event: Event) {
-			const value = (event.target as HTMLInputElement).value
-			const duration = parseInt(value, 10)
-			this.changeDuration(duration)
-		},
-
 		onProposalLocationTypeToggle(): void {
 			if (!this.selectedProposal) {
 				return
@@ -833,11 +807,6 @@ export default {
 			this.selectedProposal.duration = duration
 			// Refresh calendar view
 			this.renderParticipantAvailability()
-		},
-
-		onProposalDurationSuggestionChange(value: string): void {
-			const duration = parseInt(value, 10)
-			this.changeDuration(duration)
 		},
 
 		addParticipant(participant: ParticipantSearchInterface): void {
@@ -1231,27 +1200,6 @@ export default {
 
 .proposal-editor__proposal-location {
 	flex: 1;
-}
-
-.proposal-editor__proposal-duration-container {
-	display: flex;
-	align-items: stretch;
-	gap: calc(var(--default-grid-baseline) * 2);
-	flex-wrap: nowrap;
-}
-
-.proposal-editor__proposal-duration {
-	flex: 0 0 20%;
-	max-width: 20%;
-}
-
-.proposal-editor__proposal-duration-helpers {
-	flex: 1 1 80%;
-	max-width: 80%;
-
-	:deep(.nc-form-box) {
-		width: 100%;
-	}
 }
 
 :deep([class*="participant-busy-"]) {
