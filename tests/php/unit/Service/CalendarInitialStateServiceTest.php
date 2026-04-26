@@ -22,6 +22,7 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUserManager;
+use OCP\Talk\IBroker;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class CalendarInitialStateServiceTest extends TestCase {
@@ -59,6 +60,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 
 	private IGroupManager&MockObject $groupManager;
 	private IUserManager&MockObject $userManager;
+	private IBroker&MockObject $talkBroker;
 
 	protected function setUp(): void {
 		$this->appName = 'calendar';
@@ -77,6 +79,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 		}
 		$this->groupManager = $this->createMock(IGroupManager::class);
 		$this->userManager = $this->createMock(IUserManager::class);
+		$this->talkBroker = $this->createMock(IBroker::class);
 	}
 
 	public function testRun(): void {
@@ -94,6 +97,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->queue,
 			$this->groupManager,
 			$this->userManager,
+			$this->talkBroker,
 		);
 		$this->config->expects(self::exactly(17))
 			->method('getAppValue')
@@ -137,10 +141,9 @@ class CalendarInitialStateServiceTest extends TestCase {
 			->willReturnMap([
 				['dav', 'enableCalendarFederation', true, false, true],
 			]);
-		$this->appManager->expects(self::exactly(3))
+		$this->appManager->expects(self::exactly(2))
 			->method('isEnabledForUser')
 			->willReturnMap([
-				['spreed', null, true],
 				['tasks', null, true],
 				['circles', null, false],
 			]);
@@ -150,6 +153,12 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['spreed', true, '12.0.0'],
 				['circles', true, '22.0.0'],
 			]);
+		$this->talkBroker->expects(self::once())
+			->method('isDisabledForUser')
+			->willReturn(false);
+		$this->talkBroker->expects(self::once())
+			->method('isNotAllowedToCreateConversations')
+			->willReturn(false);
 		$this->appointmentContfigService->expects(self::once())
 			->method('getAllAppointmentConfigurations')
 			->with($this->userId)
@@ -209,6 +218,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->queue,
 			$this->groupManager,
 			$this->userManager,
+			$this->talkBroker,
 		);
 		$this->config->expects(self::exactly(17))
 			->method('getAppValue')
@@ -265,6 +275,12 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['spreed', true, '12.0.0'],
 				['circles', true, '22.0.0'],
 			]);
+		$this->talkBroker->expects(self::once())
+			->method('isDisabledForUser')
+			->willReturn(true);
+		$this->talkBroker->expects(self::once())
+			->method('isNotAllowedToCreateConversations')
+			->willReturn(true);
 		$this->resourceManager->expects(self::once())
 			->method('getBackends')
 			->willReturn([]);
@@ -326,6 +342,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->queue,
 			$this->groupManager,
 			$this->userManager,
+			$this->talkBroker,
 		);
 		$this->config->expects(self::exactly(17))
 			->method('getAppValue')
@@ -369,10 +386,9 @@ class CalendarInitialStateServiceTest extends TestCase {
 			->willReturnMap([
 				['dav', 'enableCalendarFederation', true, false, true],
 			]);
-		$this->appManager->expects(self::exactly(3))
+		$this->appManager->expects(self::exactly(2))
 			->method('isEnabledForUser')
 			->willReturnMap([
-				['spreed', null, false],
 				['tasks', null, false],
 				['circles', null, false],
 			]);
@@ -382,6 +398,12 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['spreed', true, '11.3.0'],
 				['circles', true, '22.0.0'],
 			]);
+		$this->talkBroker->expects(self::once())
+			->method('isDisabledForUser')
+			->willReturn(true);
+		$this->talkBroker->expects(self::once())
+			->method('isNotAllowedToCreateConversations')
+			->willReturn(true);
 		$this->appointmentContfigService->expects(self::once())
 			->method('getAllAppointmentConfigurations')
 			->with($this->userId)
