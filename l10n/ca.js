@@ -307,6 +307,8 @@ OC.L10N.register(
     "Awaiting response" : "Esperant resposta",
     "Checking availability" : "Consultant disponibilitat",
     "Has not responded to {organizerName}'s invitation yet" : "Encara no ha respost a la invitació de {organizerName}",
+    "45 minutes" : "45 minuts",
+    "Hours" : "Hores",
     "chairperson" : "responsable",
     "required participant" : "participant obligatori",
     "non-participant" : "no participant",

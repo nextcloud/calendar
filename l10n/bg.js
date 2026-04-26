@@ -340,6 +340,7 @@ OC.L10N.register(
     "Awaiting response" : "Очаква се отговор",
     "Checking availability" : "Проверка на наличността",
     "Has not responded to {organizerName}'s invitation yet" : "Все още няма отговор на поканата на {organizerName}",
+    "45 minutes" : "45 минути",
     "Suggested times" : "Предложени часове",
     "chairperson" : "председател",
     "required participant" : "задължителен участник",
