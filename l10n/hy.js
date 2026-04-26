@@ -37,6 +37,8 @@ OC.L10N.register(
     "minutes" : "րոպե",
     "hours" : "ժամ",
     "days" : "օր",
+    "Hours" : "Ժամ",
+    "Minutes" : "Րոպե",
     "Unknown" : "Անհայտ",
     "Attendees" : "Մասնակիցներ",
     "Repeat" : "Կրկնել",
