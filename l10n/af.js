@@ -63,6 +63,7 @@ OC.L10N.register(
     "Delete file" : "Skrap lêer",
     "Available" : "Beskikbaar",
     "Not available" : "Onbeskikbaar",
+    "Custom" : "Eie",
     "Unknown" : "Onbekend",
     "Accept" : "Aanvaar",
     "Tentative" : "Tentatief",
