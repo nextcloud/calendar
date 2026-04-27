@@ -368,6 +368,7 @@ OC.L10N.register(
     "30 minutes" : "30 minutos",
     "45 minutes" : "45 minutos",
     "1 hour" : "1 hora",
+    "2 hours" : "2 horas",
     "Custom" : "Personalizado",
     "Days" : "Días",
     "Hours" : "Horas",

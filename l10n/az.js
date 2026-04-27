@@ -47,6 +47,8 @@ OC.L10N.register(
     "days" : "günlər",
     "weeks" : "həftələr",
     "Choose a file to add as attachment" : "Əlavə ediləcək faylı seçin",
+    "Hours" : "Saatlar",
+    "Minutes" : "Dəqiqələr",
     "Done" : "Edildi",
     "Accept" : "Qəbul et",
     "Decline" : "İmtina",
