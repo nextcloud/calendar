@@ -383,9 +383,6 @@
     "Select a date" : "날짜 선택",
     "Select slot" : "슬롯 선택",
     "No slots available" : "사용 가능한 슬롯 없음",
-    "The slot for your appointment has been confirmed" : "약속에 대한 슬롯이 확인되었습니다",
-    "Appointment Details:" : "약속에 대한 상세 정보:",
-    "Time:" : "시간:",
     "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "감사합니다. {startDate}에서 {endDate}까지의 예약이 확인되었습니다.",
     "Book another appointment:" : "다른 약속 예약하기:",
     "See all available slots" : "사용 가능한 슬롯 모두 보기",
@@ -533,6 +530,9 @@
     "Please select a time zone:" : "시간대를 선택하세요.",
     "Pick a time" : "시간 선택",
     "Pick a date" : "날짜 선택",
+    "The slot for your appointment has been confirmed" : "약속에 대한 슬롯이 확인되었습니다",
+    "Appointment Details:" : "약속에 대한 상세 정보:",
+    "Time:" : "시간:",
     "30 min" : "30분"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

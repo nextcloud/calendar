@@ -365,10 +365,6 @@ OC.L10N.register(
     "Subscribe" : "Suscribir",
     "Select slot" : "Seleccionar intervalo",
     "No slots available" : "No hay intervalos disponibles",
-    "The slot for your appointment has been confirmed" : "El intervalo para tu cita ha sido confirmado",
-    "Appointment Details:" : "Detalles de la cita:",
-    "Time:" : "Hora:",
-    "Booked for:" : "Reservado para:",
     "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "Gracias. Tu reserva desde {startDate} hasta {endDate} ha sido confirmada.",
     "Book another appointment:" : "Reservar otra cita:",
     "See all available slots" : "Ver todos los intervalos disponibles",
@@ -521,6 +517,10 @@ OC.L10N.register(
     "Please select a time zone:" : "Selecciona una zona horaria:",
     "Pick a time" : "Seleccionar una hora",
     "Pick a date" : "Selecciona una fecha",
+    "The slot for your appointment has been confirmed" : "El intervalo para tu cita ha sido confirmado",
+    "Appointment Details:" : "Detalles de la cita:",
+    "Time:" : "Hora:",
+    "Booked for:" : "Reservado para:",
     "30 min" : "30 minutos"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

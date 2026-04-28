@@ -433,10 +433,6 @@ OC.L10N.register(
     "Select a date" : "Seleccioneu una data",
     "Select slot" : "Seleccioneu unitat temporal",
     "No slots available" : "No hi han unitats temporals disponibles",
-    "The slot for your appointment has been confirmed" : "S'ha confirmat l’unitat temporal per a la vostra cita",
-    "Appointment Details:" : "Detalls de la cita:",
-    "Time:" : "Hora:",
-    "Booked for:" : "Reservat per a:",
     "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "Gràcies. La teva reserva de {startDate} a {endDate} s'ha confirmat.",
     "Book another appointment:" : "Reserva una altra cita:",
     "See all available slots" : "Consulta totes les unitat temporals disponibles",
@@ -608,6 +604,10 @@ OC.L10N.register(
     "Please select a time zone:" : "Seleccioneu una zona horària:",
     "Pick a time" : "Tria una hora",
     "Pick a date" : "Tria una data",
+    "The slot for your appointment has been confirmed" : "S'ha confirmat l’unitat temporal per a la vostra cita",
+    "Appointment Details:" : "Detalls de la cita:",
+    "Time:" : "Hora:",
+    "Booked for:" : "Reservat per a:",
     "30 min" : "30 min"
 },
 "nplurals=2; plural=(n != 1);");

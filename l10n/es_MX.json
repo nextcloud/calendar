@@ -407,10 +407,6 @@
     "Select a date" : "Seleccionar una fecha",
     "Select slot" : "Seleccionar espacio",
     "No slots available" : "No hay espacios disponibles",
-    "The slot for your appointment has been confirmed" : "El espacio de su cita ha sido confirmado",
-    "Appointment Details:" : "Detalles de la cita:",
-    "Time:" : "Hora:",
-    "Booked for:" : "Agendado para:",
     "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "Gracias. Su reservación desde {startDate} hasta {endDate} ha sido confirmada.",
     "Book another appointment:" : "Agendar otra cita:",
     "See all available slots" : "Ver todos los espacios disponibles",
@@ -568,6 +564,10 @@
     "Please select a time zone:" : "Por favor, seleccione una zona horaria:",
     "Pick a time" : "Elige una hora",
     "Pick a date" : "Elige una fecha",
+    "The slot for your appointment has been confirmed" : "El espacio de su cita ha sido confirmado",
+    "Appointment Details:" : "Detalles de la cita:",
+    "Time:" : "Hora:",
+    "Booked for:" : "Agendado para:",
     "30 min" : "30 min"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

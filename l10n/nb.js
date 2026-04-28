@@ -409,10 +409,6 @@ OC.L10N.register(
     "Select a date" : "Velg en dato",
     "Select slot" : "Velg tidsrom",
     "No slots available" : "Ingen tidsrom ledig",
-    "The slot for your appointment has been confirmed" : "Tidsrommet for din avtale har blitt bekreftet",
-    "Appointment Details:" : "Avtaledetaljer:",
-    "Time:" : "Tid:",
-    "Booked for:" : "Bestilt for:",
     "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "Takk skal du ha. Bestillingen din fra {startDate} til {endDate} er bekreftet.",
     "Book another appointment:" : "Bestill en annen avtale:",
     "See all available slots" : "Se ledige tidsrom",
@@ -572,6 +568,10 @@ OC.L10N.register(
     "Please select a time zone:" : "Vennligst velg en tidssone:",
     "Pick a time" : "Velg et tidspunkt",
     "Pick a date" : "Velg en dato",
+    "The slot for your appointment has been confirmed" : "Tidsrommet for din avtale har blitt bekreftet",
+    "Appointment Details:" : "Avtaledetaljer:",
+    "Time:" : "Tid:",
+    "Booked for:" : "Bestilt for:",
     "30 min" : "30 min"
 },
 "nplurals=2; plural=(n != 1);");

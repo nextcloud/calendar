@@ -409,10 +409,6 @@ OC.L10N.register(
     "Select a date" : "日付を選択",
     "Select slot" : "時間枠を選択",
     "No slots available" : "利用可能な時間枠がありません",
-    "The slot for your appointment has been confirmed" : "時間枠を予約しました",
-    "Appointment Details:" : "予定の詳細：",
-    "Time:" : "時刻:",
-    "Booked for:" : "予約済み：",
     "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "ありがとうございます。{startDate} から {endDate} までの予約が確定しました。",
     "Book another appointment:" : "別の予約をする：",
     "See all available slots" : "利用可能なすべての時間枠",
@@ -575,6 +571,10 @@ OC.L10N.register(
     "Please select a time zone:" : "タイムゾーンを選択してください：",
     "Pick a time" : "時間を指定",
     "Pick a date" : "日付を指定",
+    "The slot for your appointment has been confirmed" : "時間枠を予約しました",
+    "Appointment Details:" : "予定の詳細：",
+    "Time:" : "時刻:",
+    "Booked for:" : "予約済み：",
     "30 min" : "30分"
 },
 "nplurals=1; plural=0;");
