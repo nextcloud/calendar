@@ -207,6 +207,7 @@ OC.L10N.register(
     "Declined {organizerName}'s invitation" : "Gwrthodwyd gwahoddiad {organizerName}",
     "Checking availability" : "Gwirio argaeledd",
     "Has not responded to {organizerName}'s invitation yet" : "Nid yw wedi ymateb i wahoddiad {organizerName} eto",
+    "Custom" : "Cyfaddas",
     "{organizer} (organizer)" : "{organizer} (trefnydd)",
     "Availability of attendees, resources and rooms" : "Argaeledd mynychwyr, adnoddau ac ystafelloedd",
     "Out of office" : "Allan o'r swyddfa",
@@ -282,10 +283,6 @@ OC.L10N.register(
     "Subscribe" : "Tanysgrifio",
     "Select slot" : "Dewiswch slot",
     "No slots available" : "Dim slotiau ar gael",
-    "The slot for your appointment has been confirmed" : "Mae'r slot ar gyfer eich apwyntiad wedi'i gadarnhau",
-    "Appointment Details:" : "Manylion Apwyntiad:",
-    "Time:" : "Dewis amser",
-    "Booked for:" : "Archebwyd ar gyfer:",
     "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "Diolch. Mae eich archeb o {startDate} i {endDate} wedi'i chadarnhau.",
     "Book another appointment:" : "Trefnwch apwyntiad arall:",
     "See all available slots" : "Gweler yr holl slotiau sydd ar gael",
@@ -419,6 +416,10 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Rhowch ddyddiad ac amser dilys",
     "Please select a time zone:" : "Dewiswch gylchfa amser:",
     "Pick a time" : "Dewiswch amser",
-    "Pick a date" : "Dewiswch ddyddiad"
+    "Pick a date" : "Dewiswch ddyddiad",
+    "The slot for your appointment has been confirmed" : "Mae'r slot ar gyfer eich apwyntiad wedi'i gadarnhau",
+    "Appointment Details:" : "Manylion Apwyntiad:",
+    "Time:" : "Dewis amser",
+    "Booked for:" : "Archebwyd ar gyfer:"
 },
 "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;");

@@ -249,7 +249,6 @@ OC.L10N.register(
     "An error occurred, unable to read public calendars." : "Prodúxose un error, nun ye posible lleer los calendariu públicos.",
     "An error occurred, unable to subscribe to calendar." : "Prodúxose un error, nun ye posible soscribise al calendariu.",
     "Subscribe" : "Soscribise",
-    "Time:" : "Hora:",
     "Personal" : "Personal",
     "Discard changes" : "Escartar los cambeos",
     "Edit event" : "Editar eventu",
@@ -313,6 +312,7 @@ OC.L10N.register(
     "_%n more guest_::_%n more guests_" : ["%n convidáu más","%n convidaos más"],
     "Event title" : "Títulu del eventu",
     "Please enter a valid date" : "Introduz una data válida",
-    "Pick a date" : "Escueyi una data"
+    "Pick a date" : "Escueyi una data",
+    "Time:" : "Hora:"
 },
 "nplurals=2; plural=(n != 1);");

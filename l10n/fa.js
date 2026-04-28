@@ -370,10 +370,6 @@ OC.L10N.register(
     "Select a date" : "تاریخ را انتخاب کنید",
     "Select slot" : "Select slot",
     "No slots available" : "No slots available",
-    "The slot for your appointment has been confirmed" : "The slot for your appointment has been confirmed",
-    "Appointment Details:" : "Appointment Details:",
-    "Time:" : "Time:",
-    "Booked for:" : "Booked for:",
     "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "Thank you. Your booking from {startDate} to {endDate} has been confirmed.",
     "Book another appointment:" : "Book another appointment:",
     "See all available slots" : "See all available slots",
@@ -527,6 +523,10 @@ OC.L10N.register(
     "Please select a time zone:" : "Please select a time zone:",
     "Pick a time" : "Pick a time",
     "Pick a date" : "Pick a date",
+    "The slot for your appointment has been confirmed" : "The slot for your appointment has been confirmed",
+    "Appointment Details:" : "Appointment Details:",
+    "Time:" : "Time:",
+    "Booked for:" : "Booked for:",
     "30 min" : "30 min"
 },
 "nplurals=2; plural=(n > 1);");

@@ -61,13 +61,13 @@ OC.L10N.register(
     "Decline" : "ප්‍රතික්ෂේප",
     "No" : "නැහැ",
     "Create" : "සාදන්න",
-    "Time:" : "වේලාව:",
     "Personal" : "පුද්ගලික",
     "Close" : "වසන්න",
     "Selected" : "තෝරා ඇත",
     "Anniversary" : "සංවත්සරය",
     "Daily" : "දිනපතා",
     "Weekly" : "සතිපතා",
-    "Other" : "වෙනත්"
+    "Other" : "වෙනත්",
+    "Time:" : "වේලාව:"
 },
 "nplurals=2; plural=(n != 1);");

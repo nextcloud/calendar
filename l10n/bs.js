@@ -38,6 +38,7 @@ OC.L10N.register(
     "days" : "dana",
     "weeks" : "sedmica",
     "Hours" : "Sati",
+    "Minutes" : "Minute",
     "Busy" : "Zauzet",
     "Unknown" : "Nepoznato",
     "Accept" : "Prihvati",

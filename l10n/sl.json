@@ -391,10 +391,6 @@
     "Select a date" : "Izbor datuma",
     "Select slot" : "Izbor časovnega termina",
     "No slots available" : "Ni razpoložljivih časovnih terminov",
-    "The slot for your appointment has been confirmed" : "Časovni termin sestanka je potrjen",
-    "Appointment Details:" : "Podrobnosti sestanka:",
-    "Time:" : "Čas:",
-    "Booked for:" : "Rezervirano za:",
     "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "Rezervacija od {startDate} do {endDate} je potrjena.",
     "Book another appointment:" : "Dogovorite se za drug sestanek:",
     "See all available slots" : "Pokaži vse razpoložljive termine",
@@ -547,6 +543,10 @@
     "Please select a time zone:" : "Izbor časovnega pasu:",
     "Pick a time" : "Izbor časa",
     "Pick a date" : "Izbor datuma",
+    "The slot for your appointment has been confirmed" : "Časovni termin sestanka je potrjen",
+    "Appointment Details:" : "Podrobnosti sestanka:",
+    "Time:" : "Čas:",
+    "Booked for:" : "Rezervirano za:",
     "30 min" : "30 min"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }
