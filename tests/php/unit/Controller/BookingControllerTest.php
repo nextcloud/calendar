@@ -438,7 +438,7 @@ class BookingControllerTest extends TestCase {
 		$this->initialState->expects($matcher)
 			->method('provideInitialState')
 			->willReturnCallback(function (string $key, $value) use ($matcher, $booking): void {
-				match ($matcher->numberOfInvocations()) {
+				match ($matcher->getInvocationCount()) {
 					1 => self::assertSame(['appointment-link', 'https://example.test/appt'], [$key, $value]),
 					2 => self::assertSame(['booking', $booking], [$key, $value]),
 					3 => self::assertSame(['booking-token', 'tok'], [$key, $value]),
