@@ -45,6 +45,7 @@ OC.L10N.register(
     "weeks" : "সপ্তাহসমূহ",
     "Choose a file to add as attachment" : "সংযুক্তি দেয়ার জন্য একটি ফাইল নির্বাচন করুন",
     "Hours" : "ঘন্টা",
+    "Minutes" : "মিনিট",
     "Done" : "শেষ হলো",
     "Unknown" : "অজানা",
     "Copied to clipboard" : "ক্লিপবোর্ডে কপি করা হলো",

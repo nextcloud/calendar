@@ -316,10 +316,6 @@ OC.L10N.register(
     "Subscribe" : "Theo dõi",
     "Select slot" : "Chọn suất",
     "No slots available" : "Không có suất trống",
-    "The slot for your appointment has been confirmed" : "Suất cho cuộc hẹn của bạn đã được xác nhận",
-    "Appointment Details:" : "Chi tiết cuộc hẹn:",
-    "Time:" : "Thời gian:",
-    "Booked for:" : "Đã đặt cho:",
     "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "Cảm ơn. Lịch hẹn của bạn từ {startDate} đến {endDate} đã được xác nhận.",
     "Book another appointment:" : "Đặt một cuộc hẹn khác:",
     "See all available slots" : "Hiển thị toàn bộ các suất trống ",
@@ -459,6 +455,10 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Vui lòng điền vào 1 ngày và thời gian khả dụng",
     "Please select a time zone:" : "Vui lòng chọn múi thời gian:",
     "Pick a time" : "Chọn thời gian",
-    "Pick a date" : "Chọn ngày"
+    "Pick a date" : "Chọn ngày",
+    "The slot for your appointment has been confirmed" : "Suất cho cuộc hẹn của bạn đã được xác nhận",
+    "Appointment Details:" : "Chi tiết cuộc hẹn:",
+    "Time:" : "Thời gian:",
+    "Booked for:" : "Đã đặt cho:"
 },
 "nplurals=1; plural=0;");

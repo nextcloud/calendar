@@ -239,7 +239,6 @@ OC.L10N.register(
     "Global" : "Globale",
     "Subscribed" : "Sutaiscritu",
     "Subscribe" : "Sutaiscrie",
-    "Time:" : "Tempus:",
     "Personal" : "Personale",
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Sa rilevada automàtica de su fusu oràriu at determinadu ca su tuo est UTC.\nEst probàbile chi custu siat su resurtadu de calicuna mesura de seguridade de su navigadore tuo.\nCunfigura su fusu oràriu tuo a manu in sa cunfiguratzione de su calendàriu.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Su fusu oràriu cunfiguradu ({timezoneId}) no est istadu agatadu. Torro a s'UTC.\nCàmbia su fusu oràriu tuo in sa cunfiguratzione e signala custu problema.",
@@ -364,6 +363,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Inserta•nche una data e un'ora bàlidas",
     "Please select a time zone:" : "Sèbera unu fusu oràriu:",
     "Pick a time" : "Sèbera una ora",
-    "Pick a date" : "Sèbera una data"
+    "Pick a date" : "Sèbera una data",
+    "Time:" : "Tempus:"
 },
 "nplurals=2; plural=(n != 1);");

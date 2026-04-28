@@ -357,10 +357,6 @@ OC.L10N.register(
     "Could not fetch slots" : "Nu se pot prelua intervalele",
     "Select slot" : "Selectați intervalul",
     "No slots available" : "Nu sunt intervale disponibile",
-    "The slot for your appointment has been confirmed" : "Intervalul pentru întâlnire a fost confirmat",
-    "Appointment Details:" : "Detaliile programării:",
-    "Time:" : "Timp:",
-    "Booked for:" : "Rezervat pentru:",
     "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "Mulțumim. Rezervarea din {startDate} pînă în {endDate} a fost confirmată.",
     "Book another appointment:" : "Rezervați o altă programare:",
     "See all available slots" : "Vezi toate intervalele disponibile",
@@ -512,6 +508,10 @@ OC.L10N.register(
     "Please enter a valid date and time" : "Adăugați o dată validă și o oră",
     "Please select a time zone:" : "Te rugăm să alegeți un fus orar:",
     "Pick a time" : "Alege un interval orar",
-    "Pick a date" : "Alege o dată"
+    "Pick a date" : "Alege o dată",
+    "The slot for your appointment has been confirmed" : "Intervalul pentru întâlnire a fost confirmat",
+    "Appointment Details:" : "Detaliile programării:",
+    "Time:" : "Timp:",
+    "Booked for:" : "Rezervat pentru:"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

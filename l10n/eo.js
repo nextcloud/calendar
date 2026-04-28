@@ -85,6 +85,7 @@ OC.L10N.register(
     "Delete file" : "Forigi dosieron",
     "Available" : "Disponeble",
     "Not available" : "Ne disponeble",
+    "30 minutes" : "30 minutoj",
     "1 hour" : "1 horo",
     "Custom" : "Propra",
     "Hours" : "Horoj",
@@ -120,7 +121,6 @@ OC.L10N.register(
     "No" : "Ne",
     "Global" : "Monda",
     "Subscribe" : "Aboni",
-    "Time:" : "Tempo:",
     "Personal" : "Persona",
     "Edit event" : "Redakti okazaĵon",
     "All day" : "Tuttage",
@@ -153,6 +153,7 @@ OC.L10N.register(
     "Show weekends" : "Montri semajnfinojn",
     "Show week numbers" : "Montri numerojn de semajno",
     "Show keyboard shortcuts" : "Montri klavarajn ŝparvojojn",
-    "on {formattedDate}" : "je la {formattedDate}"
+    "on {formattedDate}" : "je la {formattedDate}",
+    "Time:" : "Tempo:"
 },
 "nplurals=2; plural=(n != 1);");

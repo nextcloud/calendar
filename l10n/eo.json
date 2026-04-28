@@ -83,6 +83,7 @@
     "Delete file" : "Forigi dosieron",
     "Available" : "Disponeble",
     "Not available" : "Ne disponeble",
+    "30 minutes" : "30 minutoj",
     "1 hour" : "1 horo",
     "Custom" : "Propra",
     "Hours" : "Horoj",
@@ -118,7 +119,6 @@
     "No" : "Ne",
     "Global" : "Monda",
     "Subscribe" : "Aboni",
-    "Time:" : "Tempo:",
     "Personal" : "Persona",
     "Edit event" : "Redakti okazaĵon",
     "All day" : "Tuttage",
@@ -151,6 +151,7 @@
     "Show weekends" : "Montri semajnfinojn",
     "Show week numbers" : "Montri numerojn de semajno",
     "Show keyboard shortcuts" : "Montri klavarajn ŝparvojojn",
-    "on {formattedDate}" : "je la {formattedDate}"
+    "on {formattedDate}" : "je la {formattedDate}",
+    "Time:" : "Tempo:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

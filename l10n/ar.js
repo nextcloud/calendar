@@ -434,10 +434,6 @@ OC.L10N.register(
     "Select a date" : "إختر تاريخاً",
     "Select slot" : "إختر الخانة الزمنية",
     "No slots available" : "لا توجد خانة زمنية متاحة",
-    "The slot for your appointment has been confirmed" : "تم تأكيد الموعد المحدد لك",
-    "Appointment Details:" : "تفاصيل الموعد:",
-    "Time:" : "الوقت:",
-    "Booked for:" : "محجوز لـ :",
     "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "شكراً. حجزك من {startDate} إلى {endDate} تمّ تأكيده.",
     "Book another appointment:" : "إحجز موعداً آخر:",
     "See all available slots" : "شاهد كل الخانات الزمنية المتاحة",
@@ -609,6 +605,10 @@ OC.L10N.register(
     "Please select a time zone:" : "إختر المنطقة الزمنية من فضلك:",
     "Pick a time" : "إختر وقتاً",
     "Pick a date" : "إختر تاريخاً",
+    "The slot for your appointment has been confirmed" : "تم تأكيد الموعد المحدد لك",
+    "Appointment Details:" : "تفاصيل الموعد:",
+    "Time:" : "الوقت:",
+    "Booked for:" : "محجوز لـ :",
     "30 min" : "30 دقيقة"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

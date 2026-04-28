@@ -425,10 +425,6 @@ OC.L10N.register(
     "Select a date" : "Veldu dagsetningu",
     "Select slot" : "Veldu tímahólf",
     "No slots available" : "Engin tímahólf tiltæk",
-    "The slot for your appointment has been confirmed" : "Tímahólfið fyrir stefnumótið þtt er staðfestur",
-    "Appointment Details:" : "Nánar um stefnumót:",
-    "Time:" : "Tími:",
-    "Booked for:" : "Bókað fyrir:",
     "Thank you. Your booking from {startDate} to {endDate} has been confirmed." : "Takk fyrir. Bókun þín frá {startDate} til {endDate} hefur verið staðfest.",
     "Book another appointment:" : "Bóka annað stefnumót:",
     "See all available slots" : "Sjá öll tiltæk tímahólf",
@@ -590,6 +586,10 @@ OC.L10N.register(
     "Select a time zone" : "Veldu tímabelti",
     "Please select a time zone:" : "Veldu tímabelti:",
     "Pick a time" : "Veldu tíma",
-    "Pick a date" : "Veldu dagsetningu"
+    "Pick a date" : "Veldu dagsetningu",
+    "The slot for your appointment has been confirmed" : "Tímahólfið fyrir stefnumótið þtt er staðfestur",
+    "Appointment Details:" : "Nánar um stefnumót:",
+    "Time:" : "Tími:",
+    "Booked for:" : "Bókað fyrir:"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
