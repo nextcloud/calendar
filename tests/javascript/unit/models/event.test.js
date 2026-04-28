@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getDefaultEventObject, mapEventComponentToEventObject } from "../../../../src/models/event.js";
+import { copyCalendarObjectInstanceIntoEventComponent, getDefaultEventObject, mapEventComponentToEventObject } from '../../../../src/models/event.js'
 import { getDateFromDateTimeValue } from '../../../../src/utils/date.js'
 import { getHexForColorName } from '../../../../src/utils/color.js'
 import { mapAlarmComponentToAlarmObject } from '../../../../src/models/alarm.js'
@@ -62,6 +62,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			customColor: null,
 			categories: [],
 			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDefaultRecurrenceRuleObject).toHaveBeenCalledTimes(1)
@@ -104,6 +105,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			customColor: null,
 			categories: [],
 			attachments: [],
+			invitationForwarding: 'TRUE',
 			otherProp: 'foo',
 		})
 
@@ -154,6 +156,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			customColor: null,
 			categories: [],
 			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -221,7 +224,8 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
-			attachments: []
+			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -289,6 +293,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			customColor: null,
 			categories: [],
 			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		const alarms = eventComponent.getAlarmList()
@@ -343,6 +348,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			customColor: null,
 			categories: ['BUSINESS', 'HUMAN RESOURCES'],
 			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -399,6 +405,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			customColor: '#eeffee',
 			categories: [],
 			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -458,6 +465,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			customColor: null,
 			categories: [],
 			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -514,6 +522,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			customColor: null,
 			categories: [],
 			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -567,6 +576,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			customColor: null,
 			categories: [],
 			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -620,6 +630,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			customColor: null,
 			categories: [],
 			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -677,6 +688,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			customColor: null,
 			categories: [],
 			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -733,6 +745,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			customColor: null,
 			categories: [],
 			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -787,6 +800,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			customColor: null,
 			categories: [],
 			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -844,6 +858,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			customColor: null,
 			categories: [],
 			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -857,5 +872,56 @@ describe('Test suite: Event model (models/event.js)', () => {
 		expect(mapRecurrenceRuleValueToRecurrenceRuleObject).toHaveBeenNthCalledWith(1, eventComponent.getFirstPropertyFirstValue('RRULE'), eventComponent.startDate)
 
 		expect(getDefaultRecurrenceRuleObject).toHaveBeenCalledTimes(1)
+	})
+
+	it('should default invitation forwarding to TRUE', () => {
+		getDefaultRecurrenceRuleObject
+			.mockReturnValueOnce({
+				defaultRecurrenceObject: true,
+			})
+
+		expect(getDefaultEventObject().invitationForwarding).toEqual('TRUE')
+	})
+
+	it('should map an event component custom invitation forwarding property', () => {
+		const recurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 7, 0, 0)), true)
+		const eventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-timed', recurrenceId)
+		eventComponent.updatePropertyWithValue('X-NC-INVITATION-FORWARDING', 'FALSE')
+
+		const mockDate1 = new Date()
+		const mockDate2 = new Date()
+		getDateFromDateTimeValue
+			.mockReturnValueOnce(mockDate1)
+			.mockReturnValueOnce(mockDate2)
+
+		getDefaultRecurrenceRuleObject
+			.mockReturnValueOnce({
+				defaultRecurrenceObject: true,
+			})
+
+		expect(mapEventComponentToEventObject(eventComponent).invitationForwarding).toEqual('FALSE')
+	})
+
+	it('should copy the custom invitation forwarding property into a new event component', () => {
+		const recurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 7, 0, 0)), true)
+		const sourceEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-timed', recurrenceId)
+		const targetEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-timed', recurrenceId)
+		sourceEventComponent.updatePropertyWithValue('X-NC-INVITATION-FORWARDING', 'FALSE')
+
+		const eventObject = getDefaultEventObject({
+			eventComponent: sourceEventComponent,
+			title: sourceEventComponent.title,
+			location: sourceEventComponent.location,
+			description: sourceEventComponent.description,
+			accessClass: sourceEventComponent.accessClass,
+			status: sourceEventComponent.status,
+			timeTransparency: sourceEventComponent.timeTransparency,
+			invitationForwarding: 'FALSE',
+		})
+
+		copyCalendarObjectInstanceIntoEventComponent(eventObject, targetEventComponent)
+
+		expect(targetEventComponent.hasProperty('X-NC-INVITATION-FORWARDING')).toBe(true)
+		expect(targetEventComponent.getFirstPropertyFirstValue('X-NC-INVITATION-FORWARDING')).toBe('FALSE')
 	})
 })

@@ -386,6 +386,18 @@ export default defineStore('calendarObjectInstance', {
 		},
 
 		/**
+		 * Change the invitation-forwarding property of an event
+		 *
+		 * @param {object} data The destructuring object
+		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+		 * @param {string} data.invitationForwarding Invitation forwarding value
+		 */
+		changeInvitationForwarding({ calendarObjectInstance, invitationForwarding }) {
+			calendarObjectInstance.eventComponent.updatePropertyWithValue('X-NC-INVITATION-FORWARDING', invitationForwarding)
+			calendarObjectInstance.invitationForwarding = invitationForwarding
+		},
+
+		/**
 		 * Change the customized color of an event
 		 *
 		 * @param {object} data The destructuring object
