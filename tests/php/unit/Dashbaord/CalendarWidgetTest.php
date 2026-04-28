@@ -155,21 +155,101 @@ class CalendarWidgetTest extends TestCase {
 		$this->dateTimeFormatter->expects(self::once())
 			->method('formatTimeSpan')
 			->willReturn('12345678');
-		$this->urlGenerator->expects(self::exactly(2))
+		$this->urlGenerator->expects(self::once())
 			->method('getAbsoluteURL')
-			->willReturnOnConsecutiveCalls('59d30b6c-5a31-4d28-b1d6-c8f928180e96', '#ffffff');
+			->willReturn('59d30b6c-5a31-4d28-b1d6-c8f928180e96');
+
+		$icon = 'data:image/svg+xml,' . rawurlencode('<svg height="32" width="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#ffffff"/></svg>');
 
 		$widget = new WidgetItem(
 			$result['objects'][0]['SUMMARY'][0],
 			'12345678',
 			'59d30b6c-5a31-4d28-b1d6-c8f928180e96',
-			'#ffffff',
+			$icon,
 			(string)$start->getTimestamp(),
 		);
 
 		$widgets = $this->widget->getItems($userId);
 		$this->assertCount(1, $widgets);
 		$this->assertEquals($widgets[0], $widget);
+	}
+
+	public function testGetItemsCachesCalendarDotPerRequest(): void {
+		$userId = 'admin';
+		$calendarA = $this->createMock(ITestCalendar::class);
+		$calendarB = $this->createMock(ITestCalendar::class);
+		$time = 1665550936;
+		$start = (new DateTimeImmutable())->setTimestamp($time);
+		$twoWeeks = $start->add(new \DateInterval('P14D'));
+		$options = [
+			'timerange' => [
+				'start' => $start,
+				'end' => $twoWeeks,
+			]
+		];
+		$resultA = [
+			'id' => '3599',
+			'uid' => 'uid-a',
+			'uri' => 'a.ics',
+			'objects' => [[
+				'DTSTART' => [$start],
+				'SUMMARY' => ['Test A'],
+			]],
+		];
+		$resultB = [
+			'id' => '3600',
+			'uid' => 'uid-b',
+			'uri' => 'b.ics',
+			'objects' => [[
+				'DTSTART' => [$start],
+				'SUMMARY' => ['Test B'],
+			]],
+		];
+
+		$this->calendarManager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->with('principals/users/' . $userId)
+			->willReturn([$calendarA, $calendarB]);
+		$this->timeFactory->expects(self::once())
+			->method('getTime')
+			->willReturn($time);
+		$calendarA->expects(self::once())
+			->method('isEnabled')
+			->willReturn(true);
+		$calendarB->expects(self::once())
+			->method('isEnabled')
+			->willReturn(true);
+		$calendarA->expects(self::once())
+			->method('isDeleted')
+			->willReturn(false);
+		$calendarB->expects(self::once())
+			->method('isDeleted')
+			->willReturn(false);
+		$calendarA->expects(self::once())
+			->method('search')
+			->with('', [], $options, 7)
+			->willReturn([$resultA]);
+		$calendarB->expects(self::once())
+			->method('search')
+			->with('', [], $options, 7)
+			->willReturn([$resultB]);
+		$calendarA->expects(self::once())
+			->method('getDisplayColor')
+			->willReturn('#abcdef');
+		$calendarB->expects(self::once())
+			->method('getDisplayColor')
+			->willReturn('#abcdef');
+		$this->dateTimeFormatter->expects(self::exactly(2))
+			->method('formatTimeSpan')
+			->willReturn('12345678');
+		$this->urlGenerator->expects(self::exactly(2))
+			->method('getAbsoluteURL')
+			->willReturnOnConsecutiveCalls('uid-a', 'uid-b');
+
+		$widgets = $this->widget->getItems($userId);
+
+		$this->assertCount(2, $widgets);
+		$this->assertSame($widgets[0]->getIconUrl(), $widgets[1]->getIconUrl());
 	}
 
 	public function testGetItemsWithDisabledCalendar() {
