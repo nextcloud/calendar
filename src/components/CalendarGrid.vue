@@ -132,6 +132,7 @@ export default {
 				eventClick: eventClick(this.$router, this.$route, window, this.isWidget, this.$refs),
 				eventDrop: this.isWidget ? false : (...args) => eventDrop(this.$refs.fullCalendar.getApi())(...args),
 				eventResize: this.isWidget ? false : eventResize(),
+				eventResizableFromStart: true,
 				navLinkDayClick: this.isWidget ? false : navLinkDayClick(this.$router, this.$route),
 				navLinkWeekClick: this.isWidget ? false : navLinkWeekClick(this.$router, this.$route),
 				select: this.isWidget ? false : select(this.$router, this.$route, window),
