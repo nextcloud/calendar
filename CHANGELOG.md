@@ -1,3 +1,40 @@
+## [6.2.3](https://github.com/nextcloud/calendar/compare/v6.2.2...v6.2.3) (2026-04-29)
+
+
+### Bug Fixes
+
+* add an extra confirmation step to appointment booking ([ceff98c](https://github.com/nextcloud/calendar/commit/ceff98c711dc7a3a21fe25bcb420991375ab501d))
+* appointment pages overlapping with footer on mobile ([741ab95](https://github.com/nextcloud/calendar/commit/741ab95c721766d12ee8452fc829c9d57db6e2f6))
+* **EmailController:** Ensure provided token matches any shared calendar ([18ed8cb](https://github.com/nextcloud/calendar/commit/18ed8cbb910695d1f23387253c94b775c4bab146))
+* improve attendee search ([5bfc2c8](https://github.com/nextcloud/calendar/commit/5bfc2c89c3b250383a22671e7431631a118ee0ae))
+* **l10n:** Update translations from Transifex ([09381c1](https://github.com/nextcloud/calendar/commit/09381c1332bfb073c1760497dbc83e0db3f17afe))
+* **l10n:** Update translations from Transifex ([a6929fe](https://github.com/nextcloud/calendar/commit/a6929fee6ad767c833aeccbd259487681dad4f4c))
+* **l10n:** Update translations from Transifex ([d79d719](https://github.com/nextcloud/calendar/commit/d79d71904b8b6ea2bb360cf48dcad05d8cd6658e))
+* **l10n:** Update translations from Transifex ([9c76cbd](https://github.com/nextcloud/calendar/commit/9c76cbd9ff495d9fabe33cf2636f760e5396527a))
+* **l10n:** Update translations from Transifex ([29dd73e](https://github.com/nextcloud/calendar/commit/29dd73eb12ee3bca75d1ba346e234901ebcf8f39))
+* **l10n:** Update translations from Transifex ([737df40](https://github.com/nextcloud/calendar/commit/737df40ddf40646a64feae284b8701dacc5997b6))
+* **l10n:** Update translations from Transifex ([4cb100e](https://github.com/nextcloud/calendar/commit/4cb100e2015a31d4a0d01332012c3d4b299c893c))
+* **l10n:** Update translations from Transifex ([28b5405](https://github.com/nextcloud/calendar/commit/28b5405ef13c157cd0cffd3515ed3d8d4e3f377b))
+* **l10n:** Update translations from Transifex ([34931e2](https://github.com/nextcloud/calendar/commit/34931e2e5c063eec52b2331c6a0791fb03dd1f6c))
+* **l10n:** Update translations from Transifex ([e673132](https://github.com/nextcloud/calendar/commit/e67313220fb787f326efac005c3eb03b301ca00c))
+* **l10n:** Update translations from Transifex ([432b908](https://github.com/nextcloud/calendar/commit/432b908cb5da42a89f451a68f41a10dd2198929a))
+* **l10n:** Update translations from Transifex ([b619343](https://github.com/nextcloud/calendar/commit/b619343fb898e7df665c6d61eed338f713776467))
+* **l10n:** Update translations from Transifex ([95e91f3](https://github.com/nextcloud/calendar/commit/95e91f36102e495f97e0fa612836333a4e78de28))
+* **l10n:** Update translations from Transifex ([eac291a](https://github.com/nextcloud/calendar/commit/eac291a34b493b30599e34fe658c9b391ff6c7f2))
+* **l10n:** Update translations from Transifex ([ba65458](https://github.com/nextcloud/calendar/commit/ba6545874adbc810b56932eafcb17ab6de5b22b5))
+* **l10n:** Update translations from Transifex ([f92ba7b](https://github.com/nextcloud/calendar/commit/f92ba7b9bdc5add32a8eafda8d491ee65afa8e8f))
+* **l10n:** Update translations from Transifex ([8a0494f](https://github.com/nextcloud/calendar/commit/8a0494f38bfbffe77f87be8af7086e62cdc7d2a6))
+* **l10n:** Update translations from Transifex ([7b0939f](https://github.com/nextcloud/calendar/commit/7b0939ff995a24132e07dc2771bb3fd418021675))
+* **l10n:** Update translations from Transifex ([8668bd8](https://github.com/nextcloud/calendar/commit/8668bd83496687b44c98e5c497287e2ea2271dd0))
+* **l10n:** Update translations from Transifex ([c6f19f6](https://github.com/nextcloud/calendar/commit/c6f19f6a16d3d0b060a9affe85c1f0de0cfeb32d))
+* **l10n:** Update translations from Transifex ([9c8ebbc](https://github.com/nextcloud/calendar/commit/9c8ebbc780ec55eb8ed895c06396dd829c20ef88))
+* **l10n:** Update translations from Transifex ([0ebfc9b](https://github.com/nextcloud/calendar/commit/0ebfc9b16ad0dfade681ce9f6de4f191ef5e16e0))
+* **l10n:** Update translations from Transifex ([1b077c8](https://github.com/nextcloud/calendar/commit/1b077c87e060fd7a31c106b14a05eb0abd33616e))
+* **talk-integration:** make sure talk is enabled for user ([ffa492b](https://github.com/nextcloud/calendar/commit/ffa492b5797ff6fa4949bd6df79c6413dbf3f422))
+* widget icon generation ([ca066b3](https://github.com/nextcloud/calendar/commit/ca066b369f0eaace76c88ed60e1e9772f1eadaeb))
+
+
+
 ## [6.2.2](https://github.com/nextcloud/calendar/compare/v6.2.1...v6.2.2) (2026-03-31)
 
 
