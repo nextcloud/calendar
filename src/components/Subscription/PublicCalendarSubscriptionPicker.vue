@@ -18,7 +18,7 @@
 			<NcEmptyContent
 				v-if="!calendars.length"
 				:title="$t('calendar', 'No valid public calendars configured')"
-				:description="$t('calendar', 'Speak to the server administrator to resolve this issue.')">
+				:description="$t('calendar', 'Contact your server administrator to resolve this issue.')">
 				<template #icon>
 					<CalendarBlank :size="20" decorative />
 				</template>
@@ -33,7 +33,7 @@
 			</p>
 			<div v-for="calendar in calendars" :key="calendar.source" class="public-calendar-subscription-picker__region">
 				<div class="public-calendar-subscription-picker__region__name">
-					<h3>{{ calendar.name }}</h3>
+					<p>{{ calendar.name }}</p>
 					<div v-if="calendar.description" class="public-calendar-subscription-picker__region__name__subline">
 						{{ calendar.description }}
 					</div>
@@ -168,7 +168,11 @@ export default {
 
 <style lang="scss" scoped>
 .public-calendar-subscription-picker {
-	padding: 20px;
+	padding: calc(var(--default-grid-baseline) * 4);
+
+	h2 {
+		margin-top: 0;
+	}
 
 	&__attribution {
 		color: var(--color-text-maxcontrast)
@@ -176,15 +180,14 @@ export default {
 
 	&__region {
 		display: flex;
-		margin-top: 20px;
+		margin-top: calc(var(--default-grid-baseline) * 6);
 		align-items: center;
 
 		&__name {
 			flex-grow: 1;
 
-			h3 {
+			p {
 				font-weight: bold;
-				margin-bottom: initial;
 			}
 
 			&__subline {
