@@ -11,6 +11,7 @@ use Exception;
 use OCA\Calendar\Service\ContactsService;
 use OCA\Calendar\Service\ServiceException;
 use OCA\Circles\Exceptions\CircleNotFoundException;
+use OCA\Circles\Model\Member;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -317,21 +318,43 @@ class ContactController extends Controller {
 		$circleMembers = $circle->getInheritedMembers();
 
 		foreach ($circleMembers as $circleMember) {
+			$email = "";
 			if ($circleMember->isLocal()) {
 
 				$circleMemberUserId = $circleMember->getUserId();
 
-				$user = $this->userManager->get($circleMemberUserId);
+				switch ($circleMember->getUserType()) {
+					case Member::TYPE_USER:
+						$user = $this->userManager->get($circleMemberUserId);
+						$email = $user ? $user->getEMailAddress() : "";
+						break;
 
-				if ($user === null) {
-					throw new ServiceException('Could not find organizer');
+					case Member::TYPE_GROUP:
+						// Ignored, as `getInheritedMembers` already fetches all members
+						continue 2;
+
+					case Member::TYPE_MAIL:
+						$email = $circleMemberUserId;
+						break;
+
+					case Member::TYPE_CONTACT:
+						// Currently you can't add contacts to circles, just mails of contacts
+						continue 2;
+
+					case Member::TYPE_CIRCLE:
+						// Ignored, as `getInheritedMembers` already fetches all members
+						continue 2;
+
+					default:
+						$this->logger->warning("Unknown usertype for circle member with ID: {$circleMemberUserId}");
+						continue 2;
 				}
 
 				$contacts[] = [
 					'commonName' => $circleMember->getDisplayName(),
 					'calendarUserType' => 'INDIVIDUAL',
-					'email' => $user->getEMailAddress(),
-					'isUser' => true,
+					'email' => $email,
+					'isUser' => $circleMember->getUserType() === 1,
 					'avatar' => $circleMemberUserId,
 					'hasMultipleEMails' => false,
 					'dropdownName' => $circleMember->getDisplayName(),
