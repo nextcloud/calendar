@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c572e50c06c9e0ea8b7084ff96f25c37",
+    "content-hash": "f779ef15f0f9545be74ef3fa9c42c6bf",
     "packages": [],
     "packages-dev": [
         {
@@ -1903,6 +1903,41 @@
             "time": "2025-02-19T13:28:12+00:00"
         },
         {
+            "name": "psalm/psalm-plugin-api",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/psalm/psalm-plugin-api.git",
+                "reference": "a995ad2c44df828f5333cb37b0ced92bb4b74b5b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/psalm/psalm-plugin-api/zipball/a995ad2c44df828f5333cb37b0ced92bb4b74b5b",
+                "reference": "a995ad2c44df828f5333cb37b0ced92bb4b74b5b",
+                "shasum": ""
+            },
+            "conflict": {
+                "vimeo/psalm": "<7.0.0"
+            },
+            "type": "metapackage",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniil Gentili",
+                    "email": "daniil@daniil.it"
+                }
+            ],
+            "description": "Stable, semantically versioned API for Psalm plugins",
+            "support": {
+                "issues": "https://github.com/psalm/psalm-plugin-api/issues",
+                "source": "https://github.com/psalm/psalm-plugin-api/tree/0.1.0"
+            },
+            "time": "2026-03-19T15:12:37+00:00"
+        },
+        {
             "name": "psr/container",
             "version": "2.0.2",
             "source": {
@@ -3112,16 +3147,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "6.16.1",
+            "version": "7.0.0-beta19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "f1f5de594dc76faf8784e02d3dc4716c91c6f6ac"
+                "reference": "7e751c06a756fa64dc4c759c09fe4a173afcb433"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/f1f5de594dc76faf8784e02d3dc4716c91c6f6ac",
-                "reference": "f1f5de594dc76faf8784e02d3dc4716c91c6f6ac",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/7e751c06a756fa64dc4c759c09fe4a173afcb433",
+                "reference": "7e751c06a756fa64dc4c759c09fe4a173afcb433",
                 "shasum": ""
             },
             "require": {
@@ -3145,6 +3180,7 @@
                 "netresearch/jsonmapper": "^5.0",
                 "nikic/php-parser": "^5.0.0",
                 "php": "~8.1.31 || ~8.2.27 || ~8.3.16 || ~8.4.3 || ~8.5.0",
+                "psalm/psalm-plugin-api": "0.1.0",
                 "sebastian/diff": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
                 "spatie/array-to-xml": "^2.17.0 || ^3.0",
                 "symfony/console": "^6.0 || ^7.0 || ^8.0",
@@ -3167,7 +3203,7 @@
                 "phpstan/phpdoc-parser": "^1.6",
                 "phpunit/phpunit": "^9.6",
                 "psalm/plugin-mockery": "^1.1",
-                "psalm/plugin-phpunit": "^0.19",
+                "psalm/plugin-phpunit": "^0.20.1",
                 "slevomat/coding-standard": "^8.4",
                 "squizlabs/php_codesniffer": "^3.6",
                 "symfony/process": "^6.0 || ^7.0 || ^8.0"
@@ -3226,7 +3262,7 @@
                 "issues": "https://github.com/vimeo/psalm/issues",
                 "source": "https://github.com/vimeo/psalm"
             },
-            "time": "2026-03-19T10:56:09+00:00"
+            "time": "2026-04-15T20:48:24+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -3289,7 +3325,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "vimeo/psalm": 10
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {},
