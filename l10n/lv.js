@@ -342,7 +342,6 @@ OC.L10N.register(
     "Holidays in {region}" : "Brīvdienas {region}",
     "An error occurred, unable to read public calendars." : "Atgadījās kļūda, nevarēja nolasīt publiskos kalendārus.",
     "An error occurred, unable to subscribe to calendar." : "Atgadījās kļūda, neizdevās abonēt kalendāru.",
-    "Speak to the server administrator to resolve this issue." : "Jāsazinās ar servera pārvaldītāju, lai atrisinātu šo sarežģījumu.",
     "Subscribed" : "Abonēts",
     "Subscribe" : "Abonēt",
     "Select slot" : "Atlasīt laikspraugu",
@@ -476,6 +475,7 @@ OC.L10N.register(
     "Please select a time zone:" : "Lūgums atlasīt laika joslu:",
     "Pick a time" : "Izvēlēties laiku",
     "Pick a date" : "Izvēlēties datumu",
+    "Speak to the server administrator to resolve this issue." : "Jāsazinās ar servera pārvaldītāju, lai atrisinātu šo sarežģījumu.",
     "The slot for your appointment has been confirmed" : "Vieta paredzētajam notikumam tika apstiprināta",
     "Appointment Details:" : "Informācija par paredzēto tikšanos:",
     "Time:" : "Laiks:"
