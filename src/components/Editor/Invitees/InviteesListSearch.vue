@@ -8,6 +8,7 @@
 		class="invitees-search__vselect"
 		:options="matches"
 		:searchable="true"
+		:filterBy="filterAttendees"
 		:max-height="600"
 		:placeholder="placeholder"
 		:class="{ showContent: inputGiven, 'icon-loading': isLoading }"
@@ -110,6 +111,11 @@ export default {
 	},
 
 	methods: {
+		// Required to disable NCSelect's internal filtering
+		filterAttendees() {
+			return true
+		},
+
 		findAttendees: debounce(async function(query) {
 			this.isLoading = true
 			const matches = []
