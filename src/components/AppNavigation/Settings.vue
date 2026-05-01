@@ -126,6 +126,7 @@
 						<SettingsAttachmentsFolder />
 					</NcFormGroup>
 				</NcAppSettingsSection>
+				<EventLegend />
 				<ShortcutOverview />
 			</NcAppSettingsDialog>
 		</template>
@@ -155,6 +156,7 @@ import {
 import { mapState, mapStores } from 'pinia'
 import CogIcon from 'vue-material-design-icons/CogOutline.vue'
 import CalendarPicker from '../Shared/CalendarPicker.vue'
+import EventLegend from './Settings/EventLegend.vue'
 import SettingsAttachmentsFolder from './Settings/SettingsAttachmentsFolder.vue'
 import SettingsImportSection from './Settings/SettingsImportSection.vue'
 import SettingsTimezoneSelect from './Settings/SettingsTimezoneSelect.vue'
@@ -190,6 +192,7 @@ export default {
 		NcFormGroup,
 		NcFormBoxCopyButton,
 		NcFormBoxSwitch,
+		EventLegend,
 	},
 
 	props: {
