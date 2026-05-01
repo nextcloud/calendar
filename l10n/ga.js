@@ -509,6 +509,7 @@ OC.L10N.register(
     "Public holiday calendars" : "Féilirí saoire poiblí",
     "Public calendars" : "Féilirí poiblí",
     "No valid public calendars configured" : "Níl aon fhéilire poiblí bailí cumraithe",
+    "Contact your server administrator to resolve this issue." : "Téigh i dteagmháil le riarthóir do fhreastalaí chun an fhadhb seo a réiteach.",
     "Public holiday calendars are provided by Thunderbird. Calendar data will be downloaded from {website}" : "Soláthraíonn Thunderbird féilirí saoire poiblí. Déanfar sonraí féilire a íoslódáil ó {website}",
     "These public calendars are suggested by the server administrator. Calendar data will be downloaded from the respective website." : "Molann riarthóir an fhreastalaí na féilirí poiblí seo. Íoslódálfar sonraí an fhéilire ón suíomh Gréasáin faoi seach.",
     "By {authors}" : "Le {authors}",
