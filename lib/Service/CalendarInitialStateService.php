@@ -18,6 +18,7 @@ use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IUserManager;
+use OCP\Talk\IBroker;
 use function in_array;
 
 class CalendarInitialStateService {
@@ -36,6 +37,7 @@ class CalendarInitialStateService {
 		private ?IQueue $queue,
 		private IGroupManager $groupManager,
 		private IUserManager $userManager,
+		private IBroker $talkBroker,
 	) {
 	}
 
@@ -151,34 +153,10 @@ class CalendarInitialStateService {
 	}
 
 	private function isTalkEnabledForUser(): bool {
-		$userId = $this->userId;
-		if ($userId === null) {
-			return false;
-		}
+		$canStartConversation= !$this->talkBroker->isDisabledForUser();
+		$canUseTalk=  !$this->talkBroker->isNotAllowedToCreateConversations();
 
-		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
-		$user = $this->userManager->get($userId);
-
-		if ($user === null) {
-			return false;
-		}
-
-		$userGroups = $userGroups = $this->groupManager->getUserGroupIds($user);
-
-
-		//groups allowed to start a conversation
-		$startConversation = $this->config->getAppValue('spreed', 'start_conversations', '[]');
-		$startConversation = json_decode($startConversation, true);
-
-		$canStartConversation = !empty(array_intersect($startConversation, $userGroups));
-
-		//groups allowed to use talk
-		$allowedGroups = $this->config->getAppValue('spreed', 'allowed_groups', '[]');
-		$allowedGroups = json_decode($allowedGroups, true);
-
-		$canUseTalk = !empty(array_intersect($allowedGroups, $userGroups));
-
-		return $talkEnabled && $canStartConversation && $canUseTalk;
+		return $canStartConversation && $canUseTalk;
 	}
 
 
