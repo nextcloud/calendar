@@ -17,6 +17,7 @@ OC.L10N.register(
     "None" : "Ništa",
     "Save" : "Save",
     "Cancel" : "Cancel",
+    "Icons" : "Ikone",
     "Filename" : "Ime fajla",
     "List view" : "Prikaz liste",
     "Appearance" : "Izgled",
