@@ -190,6 +190,7 @@ OC.L10N.register(
     "Free" : "Volné",
     "Accepted" : "Přijato",
     "Tentative" : "Nezávazně",
+    "Invited" : "Pozvaný",
     "Icons" : "Ikony",
     "Attendees" : "Účastníci",
     "Import destination selection" : "Výběr cíle importu",

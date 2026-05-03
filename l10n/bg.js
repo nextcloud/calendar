@@ -173,6 +173,8 @@ OC.L10N.register(
     "Free" : " Свободни",
     "Accepted" : "Прието",
     "Tentative" : "Несигурно",
+    "Invited" : "Поканен",
+    "Icons" : "Икони",
     "Attendees" : "Участници",
     "Import calendars" : "Импортиране на календари",
     "Please select a calendar to import into …" : "Моля, изберете календар, в който да импортирате",

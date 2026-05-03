@@ -152,6 +152,8 @@ OC.L10N.register(
     "Free" : "Disponible",
     "Accepted" : "Acceptat",
     "Tentative" : "Provisional",
+    "Invited" : "Convidat",
+    "Icons" : "Icones",
     "Attendees" : "Assistents",
     "Import calendars" : "Importació calendaris",
     "Please select a calendar to import into …" : "Escolliu un calendari per ser importat …",

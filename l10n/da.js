@@ -176,6 +176,7 @@ OC.L10N.register(
     "Free" : "Ledig",
     "Accepted" : "Accepteret",
     "Tentative" : "Foreløbig",
+    "Invited" : "Inviteret",
     "Icons" : "Ikoner",
     "Attendees" : "Deltagere",
     "Import calendars" : "Importér kalendere",
