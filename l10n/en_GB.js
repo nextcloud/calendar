@@ -191,6 +191,7 @@ OC.L10N.register(
     "Free" : "Free",
     "Accepted" : "Accepted",
     "Tentative" : "Tentative",
+    "Invited" : "Invited",
     "Icons" : "Icons",
     "Attendees" : "Attendees",
     "Import destination selection" : "Import destination selection",

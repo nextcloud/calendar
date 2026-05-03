@@ -116,6 +116,7 @@ OC.L10N.register(
     "View" : "Ver",
     "Busy" : "Ocupáu",
     "Tentative" : "Provisional",
+    "Icons" : "Iconos",
     "Attendees" : "Asistentes",
     "Import calendars" : "Importar calendarios",
     "Please select a calendar to import into …" : "Seleiciona un calendariu al qu'importar …",

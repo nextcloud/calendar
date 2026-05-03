@@ -58,6 +58,7 @@ OC.L10N.register(
     "Cancel" : "Скасаваць",
     "View" : "Праглядзець",
     "Busy" : "Заняты",
+    "Icons" : "Значкі",
     "Attendees" : "Удзельнікі",
     "Filename" : "Назва файла",
     "Attachments folder" : "Папка для далучэнняў",

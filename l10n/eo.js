@@ -49,6 +49,7 @@ OC.L10N.register(
     "View" : "Vidi",
     "Busy" : "Okupita",
     "Tentative" : "Nekonfirmita",
+    "Invited" : "Invitita",
     "Icons" : "Piktogramoj",
     "Attendees" : "Ĉeestontoj",
     "Filename" : "Dosiernomo",
