@@ -33,6 +33,7 @@ OC.L10N.register(
     "Save" : "Guardar",
     "Cancel" : "Cancelar",
     "Tentative" : "Tentativo",
+    "Invited" : "Invitado",
     "Icons" : "Íconos",
     "Attendees" : "Asistentes",
     "Filename" : "Nombre del archivo",

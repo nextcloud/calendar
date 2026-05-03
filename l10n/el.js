@@ -172,6 +172,7 @@ OC.L10N.register(
     "Free" : "Ελεύθερος",
     "Accepted" : "Αποδεκτός",
     "Tentative" : "Με επιφύλαξη",
+    "Invited" : "Προσκεκλημένος",
     "Icons" : "Εικονίδια",
     "Attendees" : "Συμμετέχοντες",
     "Import calendars" : "Εισαγωγή ημερολογίων",

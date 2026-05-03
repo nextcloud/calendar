@@ -18,6 +18,7 @@ OC.L10N.register(
     "Save" : "Spremi",
     "Cancel" : "Odustani",
     "Busy" : "Zauzet",
+    "Invited" : "Pozvan",
     "Attendees" : "Sudionici",
     "Actions" : "Radnje",
     "Update" : "Ažuriraj",
