@@ -20,6 +20,7 @@ OC.L10N.register(
     "None" : "কোনটিই নয়",
     "Save" : "সংরক্ষণ",
     "Cancel" : "বাতিল",
+    "Attendees" : "অংশগ্রহণকারীবৃন্দ",
     "Automatic" : "স্বয়ংক্রিয়",
     "Actions" : "পদক্ষেপসমূহ",
     "General" : "সাধারণ",
@@ -44,10 +45,11 @@ OC.L10N.register(
     "days" : "দিনগুলি",
     "weeks" : "সপ্তাহসমূহ",
     "Choose a file to add as attachment" : "সংযুক্তি দেয়ার জন্য একটি ফাইল নির্বাচন করুন",
+    "Hours" : "ঘন্টা",
+    "Minutes" : "মিনিট",
     "Done" : "শেষ হলো",
     "Unknown" : "অজানা",
     "Copied to clipboard" : "ক্লিপবোর্ডে কপি করা হলো",
-    "Attendees" : "অংশগ্রহণকারীবৃন্দ",
     "Repeat" : "পূনঃসংঘটন",
     "never" : "কখনোই নয়",
     "Yes" : "হ্যাঁ",
@@ -60,7 +62,6 @@ OC.L10N.register(
     "Weekly" : "সাপ্তাহিক",
     "second" : "সেকেন্ড",
     "Other" : "অন্যান্য",
-    "Hidden" : "লুকনো",
-    "can edit" : "সম্পাদনা করতে পারবেন"
+    "Hidden" : "লুকনো"
 },
 "nplurals=2; plural=(n != 1);");

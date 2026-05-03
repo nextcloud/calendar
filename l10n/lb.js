@@ -24,6 +24,7 @@ OC.L10N.register(
     "None" : "Keng",
     "Save" : "Späicheren",
     "Cancel" : "Ofbriechen",
+    "Attendees" : "Participanten",
     "Automatic" : "Automatesch",
     "List view" : "Lëscht Vue",
     "Actions" : "Aktiounen",
@@ -48,9 +49,11 @@ OC.L10N.register(
     "hours" : "Stonnen",
     "days" : "Deeg",
     "weeks" : "Wochen",
+    "Custom" : "Individualiséier",
+    "Hours" : "Stonnen",
+    "Minutes" : "Minutten",
     "Unknown" : "Onbekannt",
     "Copied to clipboard" : "An d'Tëschenoflag kopéiert",
-    "Attendees" : "Participanten",
     "Repeat" : "Widderhuelen",
     "never" : "Ni",
     "after" : "No",
@@ -70,7 +73,6 @@ OC.L10N.register(
     "When shared show only busy" : "Wann et gedeelt gouf, dann nëmmen als beschäftegt uweisen",
     "When shared hide this event" : "Wann et gedeelt gouf, dann verstopp dëst Evenement",
     "Calendars" : "Kalenneren",
-    "Hidden" : "Verstoppt",
-    "can edit" : "kann änneren"
+    "Hidden" : "Verstoppt"
 },
 "nplurals=2; plural=(n != 1);");

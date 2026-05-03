@@ -26,6 +26,8 @@
     "None" : "Ingen",
     "Save" : "Lagre",
     "Cancel" : "Avbryt",
+    "Tentative" : "Førebels",
+    "Attendees" : "Deltakarar",
     "Automatic ({timezone})" : "Automatisk ({tidssone})",
     "List view" : "Liste visning",
     "Actions" : "Handlingar",
@@ -48,8 +50,6 @@
     "days" : "dagar",
     "Delete file" : "Slett fil",
     "Unknown" : "Ukjend",
-    "Tentative" : "Førebels",
-    "Attendees" : "Deltakarar",
     "Repeat" : "Gjenta",
     "never" : "aldri",
     "after" : "etter",
@@ -70,7 +70,6 @@
     "When shared show only busy" : "Når delt, vis berre oppteken",
     "When shared hide this event" : "Når delt, gøym denne hendinga",
     "Status" : "Status",
-    "Confirmed" : "Stadfesta",
-    "can edit" : "kan endra"
+    "Confirmed" : "Stadfesta"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

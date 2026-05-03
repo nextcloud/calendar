@@ -15,7 +15,6 @@ webpackConfig.entry['contacts-menu'] = path.join(__dirname, 'src', 'contactsMenu
 // Add appointments entries
 webpackConfig.entry['appointments-booking'] = path.join(__dirname, 'src', 'appointments/main-booking.js')
 webpackConfig.entry['appointments-confirmation'] = path.join(__dirname, 'src', 'appointments/main-confirmation.js')
-webpackConfig.entry['appointments-conflict'] = path.join(__dirname, 'src', 'appointments/main-conflict.js')
 webpackConfig.entry['appointments-overview'] = path.join(__dirname, 'src', 'appointments/main-overview.js')
 webpackConfig.entry['proposal-public'] = path.join(__dirname, 'src', 'proposal-public.ts')
 

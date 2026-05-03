@@ -23,6 +23,7 @@ OC.L10N.register(
     "None" : "Heç bir",
     "Save" : "Saxla",
     "Cancel" : "Dayandır",
+    "Attendees" : "İştirakçılar",
     "Automatic" : "Avtomatik",
     "Actions" : "İşlər",
     "General" : "Ümumi",
@@ -47,11 +48,12 @@ OC.L10N.register(
     "days" : "günlər",
     "weeks" : "həftələr",
     "Choose a file to add as attachment" : "Əlavə ediləcək faylı seçin",
+    "Hours" : "Saatlar",
+    "Minutes" : "Dəqiqələr",
     "Done" : "Edildi",
     "Accept" : "Qəbul et",
     "Decline" : "İmtina",
     "Copied to clipboard" : "Mübadilə buferinə nüsxələndi",
-    "Attendees" : "İştirakçılar",
     "Remove group" : "Qrupu sil",
     "Repeat" : "Təkrar",
     "never" : "heç vaxt",
@@ -68,7 +70,6 @@ OC.L10N.register(
     "Other" : "Digər",
     "Status" : "Status",
     "Categories" : "Kateqoriyalar",
-    "Hidden" : "Gizli",
-    "can edit" : "dəyişmək olar"
+    "Hidden" : "Gizli"
 },
 "nplurals=2; plural=(n != 1);");

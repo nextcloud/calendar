@@ -21,6 +21,7 @@ OC.L10N.register(
     "None" : "គ្មាន",
     "Save" : "រក្សាទុក",
     "Cancel" : "បោះបង់",
+    "Attendees" : "អ្នក​ចូលរួម",
     "General" : "ទូទៅ",
     "Update" : "ធ្វើ​បច្ចុប្បន្នភាព",
     "Location" : "ទីតាំង",
@@ -36,7 +37,6 @@ OC.L10N.register(
     "Sunday" : "ថ្ងៃអាទិត្យ",
     "Your email address" : "អ៊ីម៉ែល​របស់​អ្នក",
     "Email" : "អ៊ីមែល",
-    "Attendees" : "អ្នក​ចូលរួម",
     "Repeat" : "ធ្វើម្ដងទៀត",
     "never" : "មិនដែរ",
     "first" : "ទីមួយ",
@@ -50,7 +50,6 @@ OC.L10N.register(
     "second" : "ទីពីរ",
     "last" : "ចុងក្រោយ",
     "Other" : "ផ្សេងៗ",
-    "can edit" : "អាច​កែប្រែ",
     "30 min" : "30 នាទី"
 },
 "nplurals=1; plural=0;");

@@ -2,16 +2,13 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import eventSource from "../../../../../src/fullcalendar/eventSources/eventSource.js";
-
-import { generateTextColorForHex } from '../../../../../src/utils/color.js'
-import getTimezoneManager from '../../../../../src/services/timezoneDataProviderService'
-import { getUnixTimestampFromDate } from '../../../../../src/utils/date.js'
+import eventSource from '../../../../../src/fullcalendar/eventSources/eventSource.js'
 import { eventSourceFunction } from '../../../../../src/fullcalendar/eventSources/eventSourceFunction.js'
-import useFetchedTimeRangesStore from '../../../../../src/store/fetchedTimeRanges.js'
+import getTimezoneManager from '../../../../../src/services/timezoneDataProviderService'
 import useCalendarsStore from '../../../../../src/store/calendars.js'
+import useFetchedTimeRangesStore from '../../../../../src/store/fetchedTimeRanges.js'
+import { getUnixTimestampFromDate } from '../../../../../src/utils/date.js'
 
-vi.mock('../../../../../src/utils/color.js')
 vi.mock('../../../../../src/services/timezoneDataProviderService')
 vi.mock('../../../../../src/utils/date.js')
 vi.mock('../../../../../src/fullcalendar/eventSources/eventSourceFunction.js')
@@ -19,9 +16,7 @@ vi.mock('../../../../../src/store/fetchedTimeRanges.js')
 vi.mock('../../../../../src/store/calendars.js')
 
 describe('fullcalendar/eventSource test suite', () => {
-
 	beforeEach(() => {
-		generateTextColorForHex.mockClear()
 		getTimezoneManager.mockClear()
 		getUnixTimestampFromDate.mockClear()
 		eventSourceFunction.mockClear()
@@ -37,23 +32,16 @@ describe('fullcalendar/eventSource test suite', () => {
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			readOnly: false
+			readOnly: false,
 		}
-
-		generateTextColorForHex
-			.mockReturnValue('#00ff00')
 
 		const eventSourceFunction = eventSource()
 		expect(eventSourceFunction(calendar)).toEqual({
 			id: 'calendar-id-123',
 			backgroundColor: '#ff00ff',
 			borderColor: '#ff00ff',
-			textColor: '#00ff00',
-			events: expect.any(Function)
+			events: expect.any(Function),
 		})
-
-		expect(generateTextColorForHex).toHaveBeenCalledTimes(1)
-		expect(generateTextColorForHex).toHaveBeenNthCalledWith(1, '#ff00ff')
 	})
 
 	it('should provide an eventSource for a given read-only calendar', () => {
@@ -64,24 +52,17 @@ describe('fullcalendar/eventSource test suite', () => {
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			readOnly: true
+			readOnly: true,
 		}
-
-		generateTextColorForHex
-			.mockReturnValue('#00ff00')
 
 		const eventSourceFunction = eventSource()
 		expect(eventSourceFunction(calendar)).toEqual({
 			id: 'calendar-id-123',
 			backgroundColor: '#ff00ff',
 			borderColor: '#ff00ff',
-			textColor: '#00ff00',
 			events: expect.any(Function),
-			editable: false
+			editable: false,
 		})
-
-		expect(generateTextColorForHex).toHaveBeenCalledTimes(1)
-		expect(generateTextColorForHex).toHaveBeenNthCalledWith(1, '#ff00ff')
 	})
 
 	it('should provide an eventSource function to provide events - fetch new timerange', async () => {
@@ -94,32 +75,29 @@ describe('fullcalendar/eventSource test suite', () => {
 			getTimeRangeForCalendarCoveringRange: vi.fn()
 				.mockReturnValueOnce(false),
 			getCalendarObjectsByTimeRangeId: vi.fn()
-				.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }])
+				.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }]),
 		}
 		useFetchedTimeRangesStore.mockReturnValue(fetchedTimeRangesStore)
 
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			readOnly: true
+			readOnly: true,
 		}
 
 		const getTimezoneForId = vi.fn()
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'America/New_York' })
 		getTimezoneManager
 			.mockReturnValue({
-				getTimezoneForId
+				getTimezoneForId,
 			})
 
 		getUnixTimestampFromDate
 			.mockReturnValueOnce(1234)
 			.mockReturnValueOnce(5678)
 
-		generateTextColorForHex
-			.mockReturnValue('#00ff00')
-
 		eventSourceFunction
-			.mockReturnValueOnce([{ fcEventId: 1 },  { fcEventId: 2 }])
+			.mockReturnValueOnce([{ fcEventId: 1 }, { fcEventId: 2 }])
 
 		const start = new Date(Date.UTC(2019, 0, 1, 0, 0, 0, 0))
 		const end = new Date(Date.UTC(2019, 0, 31, 59, 59, 59, 999))
@@ -139,7 +117,7 @@ describe('fullcalendar/eventSource test suite', () => {
 		expect(calendarsStore.getEventsFromCalendarInTimeRange).toHaveBeenNthCalledWith(1, {
 			calendar,
 			from: start,
-			to: end
+			to: end,
 		})
 
 		expect(fetchedTimeRangesStore.getCalendarObjectsByTimeRangeId).toHaveBeenCalledTimes(1)
@@ -149,7 +127,7 @@ describe('fullcalendar/eventSource test suite', () => {
 		expect(eventSourceFunction).toHaveBeenNthCalledWith(1, [{ calendarObjectId: 1 }, { calendarObjectId: 2 }], calendar, start, end, { calendarJsTimezone: true, tzid: 'America/New_York' })
 
 		expect(successCallback).toHaveBeenCalledTimes(1)
-		expect(successCallback).toHaveBeenNthCalledWith(1, [{ fcEventId: 1 },  { fcEventId: 2 }])
+		expect(successCallback).toHaveBeenNthCalledWith(1, [{ fcEventId: 1 }, { fcEventId: 2 }])
 
 		expect(failureCallback).toHaveBeenCalledTimes(0)
 	})
@@ -166,32 +144,29 @@ describe('fullcalendar/eventSource test suite', () => {
 					id: 42,
 				}),
 			getCalendarObjectsByTimeRangeId: vi.fn()
-				.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }])
+				.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }]),
 		}
 		useFetchedTimeRangesStore.mockReturnValue(fetchedTimeRangesStore)
 
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			readOnly: true
+			readOnly: true,
 		}
 
 		const getTimezoneForId = vi.fn()
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'America/New_York' })
 		getTimezoneManager
 			.mockReturnValue({
-				getTimezoneForId
+				getTimezoneForId,
 			})
 
 		getUnixTimestampFromDate
 			.mockReturnValueOnce(1234)
 			.mockReturnValueOnce(5678)
 
-		generateTextColorForHex
-			.mockReturnValue('#00ff00')
-
 		eventSourceFunction
-			.mockReturnValueOnce([{ fcEventId: 1 },  { fcEventId: 2 }])
+			.mockReturnValueOnce([{ fcEventId: 1 }, { fcEventId: 2 }])
 
 		const start = new Date(Date.UTC(2019, 0, 1, 0, 0, 0, 0))
 		const end = new Date(Date.UTC(2019, 0, 31, 59, 59, 59, 999))
@@ -216,7 +191,7 @@ describe('fullcalendar/eventSource test suite', () => {
 		expect(eventSourceFunction).toHaveBeenNthCalledWith(1, [{ calendarObjectId: 1 }, { calendarObjectId: 2 }], calendar, start, end, { calendarJsTimezone: true, tzid: 'America/New_York' })
 
 		expect(successCallback).toHaveBeenCalledTimes(1)
-		expect(successCallback).toHaveBeenNthCalledWith(1, [{ fcEventId: 1 },  { fcEventId: 2 }])
+		expect(successCallback).toHaveBeenNthCalledWith(1, [{ fcEventId: 1 }, { fcEventId: 2 }])
 
 		expect(failureCallback).toHaveBeenCalledTimes(0)
 	})
@@ -233,14 +208,14 @@ describe('fullcalendar/eventSource test suite', () => {
 					id: 42,
 				}),
 			getCalendarObjectsByTimeRangeId: vi.fn()
-				.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }])
+				.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }]),
 		}
 		useFetchedTimeRangesStore.mockReturnValue(fetchedTimeRangesStore)
 
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			readOnly: true
+			readOnly: true,
 		}
 
 		const getTimezoneForId = vi.fn()
@@ -248,18 +223,15 @@ describe('fullcalendar/eventSource test suite', () => {
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'UTC' })
 		getTimezoneManager
 			.mockReturnValue({
-				getTimezoneForId
+				getTimezoneForId,
 			})
 
 		getUnixTimestampFromDate
 			.mockReturnValueOnce(1234)
 			.mockReturnValueOnce(5678)
 
-		generateTextColorForHex
-			.mockReturnValue('#00ff00')
-
 		eventSourceFunction
-			.mockReturnValueOnce([{ fcEventId: 1 },  { fcEventId: 2 }])
+			.mockReturnValueOnce([{ fcEventId: 1 }, { fcEventId: 2 }])
 
 		const start = new Date(Date.UTC(2019, 0, 1, 0, 0, 0, 0))
 		const end = new Date(Date.UTC(2019, 0, 31, 59, 59, 59, 999))
@@ -288,7 +260,7 @@ describe('fullcalendar/eventSource test suite', () => {
 		expect(eventSourceFunction).toHaveBeenNthCalledWith(1, [{ calendarObjectId: 1 }, { calendarObjectId: 2 }], calendar, start, end, { calendarJsTimezone: true, tzid: 'UTC' })
 
 		expect(successCallback).toHaveBeenCalledTimes(1)
-		expect(successCallback).toHaveBeenNthCalledWith(1, [{ fcEventId: 1 },  { fcEventId: 2 }])
+		expect(successCallback).toHaveBeenNthCalledWith(1, [{ fcEventId: 1 }, { fcEventId: 2 }])
 
 		expect(failureCallback).toHaveBeenCalledTimes(0)
 	})
@@ -303,32 +275,29 @@ describe('fullcalendar/eventSource test suite', () => {
 			getTimeRangeForCalendarCoveringRange: vi.fn()
 				.mockReturnValueOnce(false),
 			getCalendarObjectsByTimeRangeId: vi.fn()
-				.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }])
+				.mockReturnValueOnce([{ calendarObjectId: 1 }, { calendarObjectId: 2 }]),
 		}
 		useFetchedTimeRangesStore.mockReturnValue(fetchedTimeRangesStore)
 
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			readOnly: true
+			readOnly: true,
 		}
 
 		const getTimezoneForId = vi.fn()
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'America/New_York' })
 		getTimezoneManager
 			.mockReturnValue({
-				getTimezoneForId
+				getTimezoneForId,
 			})
 
 		getUnixTimestampFromDate
 			.mockReturnValueOnce(1234)
 			.mockReturnValueOnce(5678)
 
-		generateTextColorForHex
-			.mockReturnValue('#00ff00')
-
 		eventSourceFunction
-			.mockReturnValueOnce([{ fcEventId: 1 },  { fcEventId: 2 }])
+			.mockReturnValueOnce([{ fcEventId: 1 }, { fcEventId: 2 }])
 
 		const start = new Date(Date.UTC(2019, 0, 1, 0, 0, 0, 0))
 		const end = new Date(Date.UTC(2019, 0, 31, 59, 59, 59, 999))
@@ -348,7 +317,7 @@ describe('fullcalendar/eventSource test suite', () => {
 		expect(calendarsStore.getEventsFromCalendarInTimeRange).toHaveBeenNthCalledWith(1, {
 			calendar,
 			from: start,
-			to: end
+			to: end,
 		})
 
 		expect(fetchedTimeRangesStore.getCalendarObjectsByTimeRangeId).toHaveBeenCalledTimes(0)
@@ -358,5 +327,4 @@ describe('fullcalendar/eventSource test suite', () => {
 
 		expect(failureCallback).toHaveBeenCalledTimes(1)
 	})
-
 })

@@ -17,13 +17,13 @@ return [
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth|multiMonthYear|listMonth'], 'postfix' => 'view.timerange'],
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}/new/{mode}/{isAllDay}/{dtStart}/{dtEnd}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth|multiMonthYear|listMonth'], 'postfix' => 'view.timerange.new'],
 		['name' => 'view#index', 'url' => '/{view}/{timeRange}/edit/{mode}/{objectId}/{recurrenceId}', 'verb' => 'GET', 'requirements' => ['view' => 'timeGridDay|timeGridWeek|dayGridMonth|multiMonthYear|listMonth'], 'postfix' => 'view.timerange.edit'],
-		['name' => 'view#getCalendarDotSvg', 'url' => '/public/getCalendarDotSvg/{color}.svg', 'verb' => 'GET'],
 		// Appointments
 		['name' => 'appointment#index', 'url' => '/appointments/{userId}', 'verb' => 'GET'],
 		['name' => 'appointment#show', 'url' => '/appointment/{token}', 'verb' => 'GET'],
 		['name' => 'booking#getBookableSlots', 'url' => '/appointment/{appointmentConfigToken}/slots', 'verb' => 'GET'],
 		['name' => 'booking#bookSlot', 'url' => '/appointment/{appointmentConfigToken}/book', 'verb' => 'POST'],
-		['name' => 'booking#confirmBooking', 'url' => '/appointment/confirm/{token}', 'verb' => 'GET'],
+		['name' => 'booking#showConfirmBooking', 'url' => '/appointment/confirm/{token}', 'verb' => 'GET'],
+		['name' => 'booking#confirmBooking', 'url' => '/appointment/confirm/{token}', 'verb' => 'POST'],
 		// Public views
 		['name' => 'publicView#public_index_with_branding', 'url' => '/p/{token}', 'verb' => 'GET'],
 		['name' => 'publicView#public_index_with_branding', 'url' => '/p/{token}/{view}/{timeRange}', 'verb' => 'GET', 'postfix' => 'publicview.timerange'],

@@ -17,6 +17,9 @@ OC.L10N.register(
     "None" : "Ništa",
     "Save" : "Spremi",
     "Cancel" : "Odustani",
+    "Busy" : "Zauzet",
+    "Invited" : "Pozvan",
+    "Attendees" : "Sudionici",
     "Actions" : "Radnje",
     "Update" : "Ažuriraj",
     "Location" : "Lokacija",
@@ -37,11 +40,11 @@ OC.L10N.register(
     "hours" : "sati",
     "days" : "dana",
     "weeks" : "sedmica",
-    "Busy" : "Zauzet",
+    "Hours" : "Sati",
+    "Minutes" : "Minute",
     "Unknown" : "Nepoznato",
     "Accept" : "Prihvati",
     "Decline" : "Odbij",
-    "Attendees" : "Sudionici",
     "Title" : "Naslov",
     "Repeat" : "Ponovi",
     "never" : "nikad",
@@ -55,7 +58,6 @@ OC.L10N.register(
     "Weekly" : "Sedmično",
     "second" : "drugi",
     "Other" : "Ostali",
-    "Status" : "Status",
-    "can edit" : "mogu mijenjati"
+    "Status" : "Status"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

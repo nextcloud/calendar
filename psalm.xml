@@ -71,6 +71,7 @@
 				<referencedClass name="OCA\Circles\Api\v1\Circles" />
 				<referencedClass name="OCA\DAV\CalDAV\Calendar" />
 				<referencedClass name="OCA\DAV\CalDAV\CalendarHome" />
+				<referencedClass name="OCA\DAV\CalDAV\CalendarImpl" />
 				<referencedClass name="OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer" />
 				<referencedClass name="Symfony\Component\Console\Output\OutputInterface" />
 			</errorLevel>

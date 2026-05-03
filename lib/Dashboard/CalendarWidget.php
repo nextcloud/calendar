@@ -38,6 +38,9 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 	protected IManager $calendarManager;
 	protected ITimeFactory $timeFactory;
 
+	/** @var array<string, string> */
+	private array $calendarDotIconCache = [];
+
 	/**
 	 * CalendarWidget constructor.
 	 */
@@ -159,7 +162,7 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 					$recurrence['SUMMARY'][0] ?? 'New Event',
 					$this->dateTimeFormatter->formatTimeSpan(DateTime::createFromImmutable($startDate)),
 					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.index', ['objectId' => $calendarEvent['uid']])),
-					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.getCalendarDotSvg', ['color' => $calendar->getDisplayColor() ?? '#0082c9'])), // default NC blue fallback
+					$this->getCalendarDotIconUrl($calendar->getDisplayColor()),
 					(string)$startDate->getTimestamp(),
 				);
 				$widgetItems[] = $widget;
@@ -171,6 +174,24 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 		});
 
 		return $widgetItems;
+	}
+
+	private function getCalendarDotIconUrl(?string $color): string {
+		$sanitizedColor = ltrim(trim((string)$color), '#');
+		$validColor = '#0082c9';
+
+		if (preg_match('/^([0-9a-f]{3}|[0-9a-f]{6})$/i', $sanitizedColor) === 1) {
+			$validColor = '#' . $sanitizedColor;
+		}
+
+		if (isset($this->calendarDotIconCache[$validColor])) {
+			return $this->calendarDotIconCache[$validColor];
+		}
+
+		$svg = '<svg height="32" width="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="' . $validColor . '"/></svg>';
+		$this->calendarDotIconCache[$validColor] = 'data:image/svg+xml,' . rawurlencode($svg);
+
+		return $this->calendarDotIconCache[$validColor];
 	}
 
 	/**

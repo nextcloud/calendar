@@ -50,6 +50,7 @@ OC.L10N.register(
     "Share link" : "Share link",
     "Save" : "Simpan",
     "Cancel" : "Batal",
+    "Attendees" : "Jemputan",
     "General" : "Umum",
     "Files" : "Fail-fail",
     "Update" : "Kemaskini",
@@ -68,7 +69,6 @@ OC.L10N.register(
     "Notification" : "Pemberitahuan",
     "Email" : "Email",
     "Done" : "Selesai",
-    "Attendees" : "Jemputan",
     "Repeat" : "Ulang",
     "never" : "jangan",
     "Yes" : "Ya",
@@ -80,7 +80,6 @@ OC.L10N.register(
     "Weekly" : "Setiap minggu",
     "second" : "kedua",
     "Other" : "Lain",
-    "%1$s - %2$s" : "%1$s - %2$s",
-    "can edit" : "boleh mengubah"
+    "%1$s - %2$s" : "%1$s - %2$s"
 },
 "nplurals=1; plural=0;");

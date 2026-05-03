@@ -17,6 +17,7 @@ OC.L10N.register(
     "None" : "Ništa",
     "Save" : "Save",
     "Cancel" : "Cancel",
+    "Icons" : "Ikone",
     "Filename" : "Ime fajla",
     "List view" : "Prikaz liste",
     "Appearance" : "Izgled",
@@ -33,6 +34,9 @@ OC.L10N.register(
     "Sunday" : "Nedelja",
     "Email" : "email",
     "Proceed" : "Nastavi",
+    "15 minutes" : "15 minuta",
+    "30 minutes" : "30 minuta",
+    "1 hour" : "1 sat",
     "Out of office" : "Van kancelarije",
     "Done" : "Gotovo",
     "Unknown" : "Nepoznato",
@@ -45,7 +49,6 @@ OC.L10N.register(
     "Daily" : "дневно",
     "Weekly" : "недељно",
     "second" : "sekund",
-    "Other" : "Ostali",
-    "can edit" : "može da menja"
+    "Other" : "Ostali"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

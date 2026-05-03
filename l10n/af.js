@@ -32,6 +32,8 @@ OC.L10N.register(
     "Save" : "Stoor",
     "Cancel" : "Kanselleer",
     "View" : "Bekyk",
+    "Tentative" : "Tentatief",
+    "Attendees" : "Bywoners",
     "Filename" : "Lêernaam",
     "Automatic" : "Outomaties",
     "Automatic ({timezone})" : "Outomaties ({timezone})",
@@ -63,10 +65,9 @@ OC.L10N.register(
     "Delete file" : "Skrap lêer",
     "Available" : "Beskikbaar",
     "Not available" : "Onbeskikbaar",
+    "Custom" : "Eie",
     "Unknown" : "Onbekend",
     "Accept" : "Aanvaar",
-    "Tentative" : "Tentatief",
-    "Attendees" : "Bywoners",
     "From" : "Van",
     "To" : "Aan",
     "Repeat" : "Herhaal",
@@ -90,7 +91,6 @@ OC.L10N.register(
     "Confirmed" : "Bevestig",
     "Categories" : "Kategorieë",
     "Hidden" : "Versteek",
-    "can edit" : "kan wysig",
     "Show week numbers" : "Toon weeknommers"
 },
 "nplurals=2; plural=(n != 1);");

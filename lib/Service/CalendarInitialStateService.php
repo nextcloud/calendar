@@ -16,6 +16,8 @@ use OCP\Calendar\Resource\IManager as IResourceManager;
 use OCP\Calendar\Room\IManager as IRoomManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUserManager;
 use function in_array;
 
 class CalendarInitialStateService {
@@ -32,6 +34,8 @@ class CalendarInitialStateService {
 		private IResourceManager $resourceManager,
 		private IRoomManager $roomManager,
 		private ?IQueue $queue,
+		private IGroupManager $groupManager,
+		private IUserManager $userManager,
 	) {
 	}
 
@@ -70,7 +74,6 @@ class CalendarInitialStateService {
 		$showResources = $this->config->getAppValue($this->appName, 'showResources', 'yes') === 'yes';
 		$publicCalendars = $this->config->getAppValue($this->appName, 'publicCalendars', '');
 
-		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
 		$talkApiVersion = version_compare($this->appManager->getAppVersion('spreed'), '12.0.0', '>=') ? 'v4' : 'v1';
 		$tasksEnabled = $this->appManager->isEnabledForUser('tasks');
 
@@ -95,7 +98,7 @@ class CalendarInitialStateService {
 		$this->initialStateService->provideInitialState('show_weekends', $showWeekends);
 		$this->initialStateService->provideInitialState('show_week_numbers', $showWeekNumbers);
 		$this->initialStateService->provideInitialState('skip_popover', $skipPopover);
-		$this->initialStateService->provideInitialState('talk_enabled', $talkEnabled);
+		$this->initialStateService->provideInitialState('talk_enabled', $this->isTalkEnabledForUser());
 		$this->initialStateService->provideInitialState('talk_api_version', $talkApiVersion);
 		$this->initialStateService->provideInitialState('timezone', $timezone);
 		$this->initialStateService->provideInitialState('attachments_folder', $attachmentsFolder);
@@ -146,4 +149,38 @@ class CalendarInitialStateService {
 				return $view;
 		}
 	}
+
+	private function isTalkEnabledForUser(): bool {
+		$userId = $this->userId;
+		if ($userId === null) {
+			return false;
+		}
+
+		$talkEnabled = $this->appManager->isEnabledForUser('spreed');
+		$user = $this->userManager->get($userId);
+
+		if ($user === null) {
+			return false;
+		}
+
+		$userGroups = $this->groupManager->getUserGroupIds($user);
+
+		//groups allowed to start a conversation
+		$startConversation = $this->config->getAppValue('spreed', 'start_conversations', '[]');
+		$startConversation = json_decode($startConversation, true);
+		$startConversation = is_array($startConversation) ? $startConversation : [];
+
+		$canStartConversation = !empty(array_intersect($startConversation, $userGroups));
+
+		//groups allowed to use talk
+		$allowedGroups = $this->config->getAppValue('spreed', 'allowed_groups', '[]');
+		$allowedGroups = json_decode($allowedGroups, true);
+		$allowedGroups = is_array($allowedGroups) ? $allowedGroups : [];
+
+		$canUseTalk = !empty(array_intersect($allowedGroups, $userGroups));
+
+		return $talkEnabled && $canStartConversation && $canUseTalk;
+	}
+
+
 }

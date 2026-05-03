@@ -4,9 +4,10 @@
  */
 
 export default {
-	inserted(el) {
+	mounted(el) {
 		setTimeout(() => {
-			el.focus()
-		}, 500)
+			const input = el.querySelector('input') || el
+			input.focus()
+		}, 100)
 	},
 }

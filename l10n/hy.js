@@ -19,6 +19,8 @@ OC.L10N.register(
     "Share with users or groups" : "Կիսվել օգտատերերի կամ խմբերի հետ",
     "Save" : "Պահպանել",
     "Cancel" : "Չեղարկել",
+    "Icons" : "լոգոտիպներ",
+    "Attendees" : "Մասնակիցներ",
     "General" : "Ընդհանուր",
     "Update" : "Թարմացնել",
     "Location" : "Տեղակայություն",
@@ -37,8 +39,9 @@ OC.L10N.register(
     "minutes" : "րոպե",
     "hours" : "ժամ",
     "days" : "օր",
+    "Hours" : "Ժամ",
+    "Minutes" : "Րոպե",
     "Unknown" : "Անհայտ",
-    "Attendees" : "Մասնակիցներ",
     "Repeat" : "Կրկնել",
     "never" : "երբեք",
     "after" : "հետո",
@@ -52,7 +55,6 @@ OC.L10N.register(
     "Weekly" : "Շաբաթական",
     "second" : "երկրորդ",
     "Other" : "Այլ",
-    "Confirmed" : "Հաստատված",
-    "can edit" : "կարող է խմբագրել"
+    "Confirmed" : "Հաստատված"
 },
 "nplurals=2; plural=(n != 1);");
