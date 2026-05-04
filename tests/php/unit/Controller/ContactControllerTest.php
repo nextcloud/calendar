@@ -493,7 +493,8 @@ class ContactControllerTest extends TestCase {
 				'lang' => 'en',
 				'tzid' => 'UTC',
 				'photo' => null,
-				'type' => 'individual'
+				'type' => 'individual',
+				'source' => 'system',
 			]
 		], $response->getData());
 		$this->assertEquals(200, $response->getStatus());
@@ -610,6 +611,7 @@ class ContactControllerTest extends TestCase {
 				'tzid' => 'Europe/Berlin',
 				'photo' => null,
 				'type' => 'individual',
+				'source' => 'user',
 			],
 			[
 				'name' => 'Allowed System User',
@@ -618,6 +620,7 @@ class ContactControllerTest extends TestCase {
 				'tzid' => 'UTC',
 				'photo' => null,
 				'type' => 'individual',
+				'source' => 'system',
 			],
 			[
 				'name' => 'Excluded System User',
@@ -626,6 +629,7 @@ class ContactControllerTest extends TestCase {
 				'tzid' => 'UTC',
 				'photo' => null,
 				'type' => 'individual',
+				'source' => 'system',
 			],
 		], $response->getData());
 		$this->assertEquals(200, $response->getStatus());

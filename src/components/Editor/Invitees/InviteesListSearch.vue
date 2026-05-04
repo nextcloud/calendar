@@ -281,7 +281,7 @@ export default {
 						calendarUserType: 'INDIVIDUAL',
 						commonName: result.name,
 						email,
-						isUser: false,
+						isUser: result.source === 'system' ? true : false,
 						avatar: result.photo,
 						language: result.lang,
 						timezoneId: result.tzid,
