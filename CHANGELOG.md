@@ -1,3 +1,21 @@
+## [6.2.4](https://github.com/nextcloud/calendar/compare/v6.2.3...v6.2.4) (2026-05-04)
+
+
+### Bug Fixes
+
+* calendar initiial state ([f9cac93](https://github.com/nextcloud/calendar/commit/f9cac9368d91ed203d1c96bfa41990fc0e932d52))
+* identify if contact is a system user ([fc357d9](https://github.com/nextcloud/calendar/commit/fc357d904ee6f4a7b2b00e14de95663d4d539da3))
+* input validation ([9a31b3e](https://github.com/nextcloud/calendar/commit/9a31b3e2a5cc44f7ed37216df943445d01914e35))
+* **l10n:** Update translations from Transifex ([e1970a8](https://github.com/nextcloud/calendar/commit/e1970a86d30a9c156d80654c7f9cb6bf6f693d4a))
+* **l10n:** Update translations from Transifex ([6f00c56](https://github.com/nextcloud/calendar/commit/6f00c568c9dd097aa0a73e67e1949f80966d5c4b))
+* **l10n:** Update translations from Transifex ([e92de4a](https://github.com/nextcloud/calendar/commit/e92de4a2d87672abefa144b358bc73adbfc70af1))
+* **l10n:** Update translations from Transifex ([43c245b](https://github.com/nextcloud/calendar/commit/43c245bff024e35123d18c3d150ec52f2303cd27))
+* **l10n:** Update translations from Transifex ([d21cefd](https://github.com/nextcloud/calendar/commit/d21cefdfd456c1f8c68ca93150361b0275425b5e))
+* **talk-integration:** enable for users when no restrictions set ([b9ae0ca](https://github.com/nextcloud/calendar/commit/b9ae0ca9ff93f3b2265add57e63f891920f0f964))
+* user name search ([333167f](https://github.com/nextcloud/calendar/commit/333167fe53d496c5f375e37ee93aa0e1ddb39de6))
+
+
+
 ## [6.2.3](https://github.com/nextcloud/calendar/compare/v6.2.2...v6.2.3) (2026-04-29)
 
 
