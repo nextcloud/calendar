@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { showError } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
 import { mapState, mapStores } from 'pinia'
 import { getRFCProperties } from '../models/rfcProps.js'
 import { containsRoomUrl } from '../services/talkService.ts'
@@ -368,6 +369,28 @@ export default {
 			return this.calendarObject.dav.url + '?export'
 		},
 		/**
+		 * Returns the permanent deep link URL for this event, or null if the event is new
+		 *
+		 * @return {string|null}
+		 */
+		eventLink() {
+			if (!this.calendarObject) {
+				return null
+			}
+
+			const uid = this.calendarObject.uid
+			if (!uid) {
+				return null
+			}
+
+			const recurrenceId = this.$route?.params?.recurrenceId
+			if (recurrenceId && recurrenceId !== 'next') {
+				return window.location.origin + generateUrl('/apps/calendar/event/{uid}/{recurrenceId}', { uid, recurrenceId })
+			}
+
+			return window.location.origin + generateUrl('/apps/calendar/event/{uid}', { uid })
+		},
+		/**
 		 * Returns whether or not this is a new event
 		 *
 		 * @return {boolean}
@@ -643,6 +666,25 @@ export default {
 		 */
 		async duplicateEvent() {
 			await this.calendarObjectInstanceStore.duplicateCalendarObjectInstance()
+		},
+
+		/**
+		 * Copies the permanent event deep link to the clipboard
+		 *
+		 * @return {Promise<void>}
+		 */
+		async copyEventLink() {
+			if (!this.eventLink) {
+				return
+			}
+
+			try {
+				await navigator.clipboard.writeText(this.eventLink)
+				showSuccess(t('calendar', 'Event link copied to clipboard'))
+			} catch (error) {
+				logger.error('Failed to copy event link to clipboard', { error })
+				showError(t('calendar', 'Failed to copy event link'))
+			}
 		},
 
 		/**
