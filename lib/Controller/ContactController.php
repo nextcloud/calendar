@@ -220,7 +220,8 @@ class ContactController extends Controller {
 				'lang' => $lang,
 				'tzid' => $timezoneId,
 				'photo' => $photo,
-				'type' => 'individual'
+				'type' => 'individual',
+				'source' => $isSystemUser ? 'system' : 'user',
 			];
 		}
 
@@ -242,6 +243,7 @@ class ContactController extends Controller {
 					'tzid' => '',
 					'photo' => '',
 					'type' => 'contactsgroup',
+					'source' => 'user',
 					'members' => $count,
 				];
 			}
