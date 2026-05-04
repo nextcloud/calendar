@@ -101,6 +101,37 @@
 							class="proposal-editor__proposal-participants-selector"
 							:alreadyInvitedEmails="existingParticipantAddressess"
 							@addAttendee="onProposalParticipantAdd" />
+						<!-- Keyboard-accessible date/time slot entry -->
+						<div class="proposal-editor__add-slot">
+							<h6>{{ t('calendar', 'Add a time slot') }}</h6>
+							<div class="proposal-editor__add-slot-inputs">
+								<label class="proposal-editor__add-slot-label">
+									<span>{{ t('calendar', 'Date') }}</span>
+									<input
+										v-model="newSlotDate"
+										class="proposal-editor__add-slot-date"
+										type="date"
+										@keydown.enter="onKeyboardAddSlot">
+								</label>
+								<label class="proposal-editor__add-slot-label">
+									<span>{{ t('calendar', 'Time') }}</span>
+									<input
+										v-model="newSlotTime"
+										class="proposal-editor__add-slot-time"
+										type="time"
+										@keydown.enter="onKeyboardAddSlot">
+								</label>
+								<NcButton
+									variant="secondary"
+									:disabled="!newSlotDate || !newSlotTime"
+									@click="onKeyboardAddSlot">
+									<template #icon>
+										<AddIcon />
+									</template>
+									{{ t('calendar', 'Add') }}
+								</NcButton>
+							</div>
+						</div>
 						<div v-if="selectedProposal.participants.length > 0" class="proposal-editor__proposal-participants">
 							<h6>{{ t('calendar', 'Participants') }}</h6>
 							<ProposalParticipantItem
@@ -177,10 +208,24 @@
 							</template>
 						</NcButton>
 					</div>
-					<FullCalendar
-						ref="proposalFullCalendar"
-						:options="calendarConfiguration"
-						class="proposal-editor__calendar" />
+					<!-- Keyboard-navigable wrapper around FullCalendar -->
+					<div
+						ref="calendarKeyboardWrapper"
+						class="proposal-editor__calendar-wrapper"
+						tabindex="0"
+						:aria-label="t('calendar', 'Calendar time picker. Use arrow keys to move, Enter to add a time slot.')"
+						role="application"
+						@keydown="onCalendarKeydown"
+						@focus="onCalendarWrapperFocus"
+						@blur="onCalendarWrapperBlur">
+						<p v-show="keyboardCursorActive" aria-live="polite" aria-atomic="true">
+							{{ keyboardCursorAriaLabel }}
+						</p>
+						<FullCalendar
+							ref="proposalFullCalendar"
+							:options="calendarConfiguration"
+							class="proposal-editor__calendar" />
+					</div>
 				</div>
 			</div>
 		</NcModal>
@@ -215,10 +260,10 @@ import PreviousSpanIcon from 'vue-material-design-icons/ChevronLeft'
 import NextSpanIcon from 'vue-material-design-icons/ChevronRight'
 import DurationIcon from 'vue-material-design-icons/ClockOutline'
 import ZoomOutIcon from 'vue-material-design-icons/MagnifyMinusOutline'
-// icons
 import ZoomInIcon from 'vue-material-design-icons/MagnifyPlusOutline'
 import LocationIcon from 'vue-material-design-icons/MapMarkerOutline'
 import EditIcon from 'vue-material-design-icons/PencilOutline'
+import AddIcon from 'vue-material-design-icons/Plus'
 import DeleteIcon from 'vue-material-design-icons/TrashCanOutline'
 // components
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -283,6 +328,7 @@ export default {
 		DeleteIcon,
 		LocationIcon,
 		DurationIcon,
+		AddIcon,
 	},
 
 	data() {
@@ -309,6 +355,10 @@ export default {
 			pendingDeleteProposal: null as Proposal | null,
 			showConvertDialog: false,
 			pendingConvertDate: null as ProposalDate | null,
+			newSlotDate: '',
+			newSlotTime: '',
+			keyboardCursorDate: null as Date | null, // current keyboard cursor position
+			keyboardCursorActive: false, // whether the keyboard cursor is visible
 		}
 	},
 
@@ -476,6 +526,18 @@ export default {
 			]
 		},
 
+		keyboardCursorAriaLabel(): string {
+			if (!this.keyboardCursorDate) {
+				return ''
+			}
+			const duration = this.selectedProposal?.duration ?? 30
+			const end = new Date(this.keyboardCursorDate.getTime() + duration * 60000)
+			return t('calendar', 'Selected: {start} – {end}. Press Enter to add this time slot.', {
+				start: this.formatProposalDate(this.keyboardCursorDate),
+				end: moment(end).format('LT'),
+			})
+		},
+
 		existingParticipantAddressess(): string[] {
 			return this.selectedProposal ? this.selectedProposal.participants.map((p: ProposalParticipant) => p.address) : []
 		},
@@ -594,6 +656,8 @@ export default {
 			this.selectedProposal = null
 			this.modalView = 'view'
 			this.participantAvailability = {}
+			this.keyboardCursorDate = null
+			this.keyboardCursorActive = false
 			if (this.calendarApi) {
 				this.calendarApi.removeAllEvents()
 				this.calendarApi.unselect()
@@ -708,6 +772,107 @@ export default {
 			}
 			// Focus the calendar on the specific date
 			this.calendarApi.gotoDate(date.date)
+		},
+
+		onCalendarWrapperFocus(): void {
+			if (!this.keyboardCursorDate) {
+				// Initialize cursor to now (rounded to next 15 min) but not in the past
+				const now = new Date()
+				const minutes = Math.ceil(now.getMinutes() / 15) * 15
+				now.setMinutes(minutes, 0, 0)
+				this.keyboardCursorDate = now
+			}
+			this.keyboardCursorActive = true
+			this.renderParticipantAvailability()
+		},
+
+		onCalendarWrapperBlur(): void {
+			this.keyboardCursorActive = false
+			this.renderParticipantAvailability()
+		},
+
+		onCalendarKeydown(event: KeyboardEvent): void {
+			// Only intercept arrow keys and Enter/Escape when wrapper is focused
+			const handled = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Enter', 'Escape'].includes(event.key)
+			if (!handled) {
+				return
+			}
+			event.preventDefault()
+
+			if (!this.keyboardCursorDate) {
+				return
+			}
+
+			const SLOT_MINUTES = 15
+			const cursor = new Date(this.keyboardCursorDate.getTime())
+
+			switch (event.key) {
+				case 'ArrowRight':
+					cursor.setDate(cursor.getDate() + 1)
+					break
+				case 'ArrowLeft':
+					cursor.setDate(cursor.getDate() - 1)
+					break
+				case 'ArrowDown':
+					cursor.setMinutes(cursor.getMinutes() + SLOT_MINUTES)
+					break
+				case 'ArrowUp':
+					cursor.setMinutes(cursor.getMinutes() - SLOT_MINUTES)
+					break
+				case 'Enter': {
+					const duration = parseInt(String(this.selectedProposal?.duration ?? ''), 10)
+					if (isNaN(duration) || duration <= 0) {
+						showError(t('calendar', 'Please enter a valid duration in minutes.'))
+						return
+					}
+					this.addProposedDate(new Date(this.keyboardCursorDate.getTime()))
+					return
+				}
+				case 'Escape':
+					this.keyboardCursorActive = false
+					this.renderParticipantAvailability()
+					// Return focus to the wrapper's previous sibling or blur
+					;(this.$refs.calendarKeyboardWrapper as HTMLElement)?.blur()
+					return
+			}
+
+			// Prevent moving cursor to the past
+			const today = new Date()
+			today.setHours(0, 0, 0, 0)
+			if (cursor < today) {
+				return
+			}
+
+			this.keyboardCursorDate = cursor
+			// Navigate calendar view to keep cursor visible
+			if (this.calendarApi) {
+				this.calendarApi.gotoDate(cursor)
+			}
+			this.renderParticipantAvailability()
+		},
+
+		onKeyboardAddSlot(): void {
+			if (!this.newSlotDate || !this.newSlotTime) {
+				return
+			}
+			const duration = parseInt(String(this.selectedProposal?.duration ?? ''), 10)
+			if (isNaN(duration) || duration <= 0) {
+				showError(t('calendar', 'Please enter a valid duration in minutes.'))
+				return
+			}
+			const dateObj = new Date(`${this.newSlotDate}T${this.newSlotTime}`)
+			if (isNaN(dateObj.getTime())) {
+				showError(t('calendar', 'Invalid date or time.'))
+				return
+			}
+			this.addProposedDate(dateObj)
+			// Navigate calendar to the selected date
+			if (this.calendarApi) {
+				this.calendarApi.gotoDate(dateObj)
+			}
+			// Reset inputs
+			this.newSlotDate = ''
+			this.newSlotTime = ''
 		},
 
 		onCalendarFocusToday(): void {
@@ -1016,6 +1181,22 @@ export default {
 					},
 				})
 			})
+
+			// Add keyboard cursor event
+			if (this.keyboardCursorActive && this.keyboardCursorDate) {
+				this.calendarApi.addEvent({
+					id: 'keyboard-cursor',
+					title: t('calendar', 'Press Enter to add'),
+					start: this.keyboardCursorDate,
+					end: new Date(this.keyboardCursorDate.getTime() + duration * 60000),
+					backgroundColor: 'var(--color-success)',
+					borderColor: 'var(--color-success)',
+					allDay: false,
+					startEditable: false,
+					classNames: ['keyboard-cursor-event'],
+					extendedProps: { keyboardCursor: true },
+				})
+			}
 		},
 
 		generateParticipantColor(participantId) {
@@ -1040,6 +1221,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$breakpoint-mobile: 1024px;
+
 .proposal-modal__content {
 	display: flex;
 	width: 100%;
@@ -1060,6 +1243,12 @@ export default {
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--default-grid-baseline) * 3);
+
+	@media (max-width: $breakpoint-mobile) {
+		padding-top: calc(var(--default-grid-baseline) * 4);
+		padding-bottom: calc(var(--default-grid-baseline) * 4);
+		padding-inline: calc(var(--default-grid-baseline) * 3);
+	}
 }
 
 .proposal-viewer__content-title {
@@ -1080,6 +1269,12 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+
+	@media (max-width: $breakpoint-mobile) {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: calc(var(--default-grid-baseline) * 2);
+	}
 }
 
 .proposal-viewer__content-location,
@@ -1116,6 +1311,13 @@ export default {
 	gap: calc(var(--default-grid-baseline) * 4);
 	height: calc(100% - calc(var(--default-grid-baseline) * 4));
 	overflow: hidden;
+
+	@media (max-width: $breakpoint-mobile) {
+		flex-direction: column;
+		height: auto;
+		overflow-y: auto;
+		padding-inline: calc(var(--default-grid-baseline) * 2);
+	}
 }
 
 .proposal-editor__column-left {
@@ -1125,6 +1327,14 @@ export default {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
+
+	@media (max-width: $breakpoint-mobile) {
+		min-width: unset;
+		max-width: unset;
+		width: 100%;
+		height: auto;
+		flex-shrink: 0;
+	}
 }
 
 .proposal-editor__column-right {
@@ -1134,6 +1344,13 @@ export default {
 	flex-direction: column;
 	height: calc(100% - calc(var(--default-grid-baseline) * 8));
 	margin-top: calc(var(--default-grid-baseline) * 8);
+
+	@media (max-width: $breakpoint-mobile) {
+		min-width: unset;
+		width: 100%;
+		margin-top: 0;
+		flex-shrink: 0;
+	}
 }
 
 .proposal-editor__row-title {
@@ -1149,6 +1366,11 @@ export default {
 	overflow-y: auto;
 	margin-bottom: calc(var(--default-grid-baseline) * 2);
 	min-height: 0;
+
+	@media (max-width: $breakpoint-mobile) {
+		overflow-y: visible;
+		min-height: unset;
+	}
 }
 
 .proposal-editor__row-actions {
@@ -1171,6 +1393,20 @@ export default {
 	white-space: nowrap;
 }
 
+.proposal-editor__calendar-wrapper {
+	flex: 1;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	border-radius: var(--border-radius-element);
+	outline: none;
+
+	&:focus {
+		box-shadow: 0 0 0 var(--border-width-input-focused) var(--color-primary-element);
+	}
+}
+
 .proposal-editor__calendar {
 	flex: 1;
 	min-height: 0;
@@ -1189,6 +1425,10 @@ export default {
 		text-align: center;
 		margin: 0;
 	}
+
+	@media (max-width: $breakpoint-mobile) {
+		gap: calc(var(--default-grid-baseline) * 1);
+	}
 }
 
 .proposal-editor__proposal-location-container {
@@ -1200,6 +1440,43 @@ export default {
 
 .proposal-editor__proposal-location {
 	flex: 1;
+}
+
+.proposal-editor__add-slot {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 1);
+	margin-top: calc(var(--default-grid-baseline) * 2);
+}
+
+.proposal-editor__add-slot-inputs {
+	display: flex;
+	gap: calc(var(--default-grid-baseline) * 2);
+	align-items: flex-end;
+	flex-wrap: wrap;
+}
+
+.proposal-editor__add-slot-label {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--default-grid-baseline) * 0.5);
+	flex: 1;
+	min-width: calc(var(--default-grid-baseline) * 28);
+
+	input {
+		width: 100%;
+		height: var(--default-clickable-area);
+		border: var(--border-width-input-focused) solid var(--color-border-maxcontrast);
+		border-radius: var(--border-radius-element);
+		padding: 0 calc(var(--default-grid-baseline) * 2);
+		background: var(--color-main-background);
+		color: var(--color-main-text);
+
+		&:focus {
+			border-color: var(--color-primary-element);
+			outline: none;
+		}
+	}
 }
 
 :deep([class*="participant-busy-"]) {
