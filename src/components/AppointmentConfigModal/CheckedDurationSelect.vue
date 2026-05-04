@@ -8,7 +8,7 @@
 		<div class="checked-duration-select__checkbox-row">
 			<NcCheckboxRadioSwitch
 				:modelValue="enabled"
-				@update:checked="$emit('update:enabled', $event)">
+				@update:modelValue="$emit('update:enabled', $event)">
 				{{ label }}
 			</NcCheckboxRadioSwitch>
 		</div>
