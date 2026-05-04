@@ -1,3 +1,19 @@
+## [6.3.2-rc.0](https://github.com/nextcloud/calendar/compare/v6.3.1-rc.0...v6.3.2-rc.0) (2026-05-04)
+
+
+### Bug Fixes
+
+* appointment config check boxes ([ac0bc46](https://github.com/nextcloud/calendar/commit/ac0bc46e32093b522e5a3632a2dc65e4a27d07ed))
+* calendar initiial state ([1a32dbb](https://github.com/nextcloud/calendar/commit/1a32dbb3548f538149b1b2b96cf760343b2d90da))
+* **deps:** Fix npm audit ([0ceb660](https://github.com/nextcloud/calendar/commit/0ceb6603f9a3eb894e6ea2932fe0e44f09a8ff54))
+* identify if contact is a system user ([c5cfdc4](https://github.com/nextcloud/calendar/commit/c5cfdc4fa6f82bccf359614dec68e8eed51bac25))
+* input validation ([e02c322](https://github.com/nextcloud/calendar/commit/e02c3222fc72eed14a2c0a947ef0884d25ecb986))
+* **talk-integration:** enable for users when no restrictions set ([f337b2e](https://github.com/nextcloud/calendar/commit/f337b2ef9cfca9dd18723af873d54e1e20b5fe80))
+* update styling of public calendar modal ([7c5f7d2](https://github.com/nextcloud/calendar/commit/7c5f7d2996ebbbc51fba59d2ddf77936b7a00420))
+* user name search ([b5b8b53](https://github.com/nextcloud/calendar/commit/b5b8b539d948cf2ba43eff2597b604721adf056f))
+
+
+
 ## [6.3.1-rc.0](https://github.com/nextcloud/calendar/compare/v6.3.0-rc.1...v6.3.1-rc.0) (2026-04-29)
 
 
