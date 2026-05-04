@@ -243,6 +243,12 @@
 							:propModel="rfcProps.color"
 							:value="color"
 							@update:value="updateColor" />
+						<PropertySelect
+							v-if="showInvitationForwarding"
+							:isReadOnly="isReadOnly || isViewedByOrganizer === false"
+							:propModel="propInvitationForwarding"
+							:value="invitationForwarding"
+							@update:value="updateInvitationForwarding" />
 					</div>
 				</div>
 
@@ -333,6 +339,7 @@
 import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
 import IconDelete from '@mdi/svg/svg/delete.svg?raw'
 import { Parameter } from '@nextcloud/calendar-js'
+import { translate as t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import { generateUrl } from '@nextcloud/router'
 import {
@@ -378,6 +385,7 @@ import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import usePrincipalsStore from '../store/principals.js'
 import useSettingsStore from '../store/settings.js'
 import logger from '../utils/logger.js'
+import { isAfterVersion } from '../utils/nextcloudVersion.ts'
 
 export default {
 	name: 'EditFull',
@@ -447,6 +455,19 @@ export default {
 
 			showCancelDialog: false,
 			showFullModal: true,
+
+			propInvitationForwarding: {
+				readableName: t('calendar', 'Allow forwarding'),
+				icon: 'AccountPlusOutline',
+				options: [
+					{ value: 'TRUE', label: t('calendar', 'Anyone with the invitation can respond') },
+					{ value: 'FALSE', label: t('calendar', 'Only invited attendees can respond') },
+				],
+
+				multiple: false,
+				info: t('calendar', 'Choose "Only invited attendees can respond" to prevent attendees from forwarding the invitation to others.'),
+				defaultValue: 'TRUE',
+			},
 		}
 	},
 
@@ -474,6 +495,10 @@ export default {
 
 		timeTransparency() {
 			return this.calendarObjectInstance?.timeTransparency || null
+		},
+
+		invitationForwarding() {
+			return this.calendarObjectInstance?.invitationForwarding ?? null
 		},
 
 		subTitle() {
@@ -505,6 +530,10 @@ export default {
 			return this.calendarObjectInstance.attendees.filter((attendee) => {
 				return ['ROOM', 'RESOURCE'].includes(attendee.attendeeProperty.userType)
 			})
+		},
+
+		showInvitationForwarding() {
+			return isAfterVersion(34)
 		},
 	},
 
@@ -582,6 +611,18 @@ export default {
 			this.calendarObjectInstanceStore.changeTimeTransparency({
 				calendarObjectInstance: this.calendarObjectInstance,
 				timeTransparency,
+			})
+		},
+
+		/**
+		 * Allow or disallow forwarding of this invitation
+		 *
+		 * @param {string} invitationForwarding Invitation forwarding value
+		 */
+		updateInvitationForwarding(invitationForwarding) {
+			this.calendarObjectInstanceStore.changeInvitationForwarding({
+				calendarObjectInstance: this.calendarObjectInstance,
+				invitationForwarding,
 			})
 		},
 
