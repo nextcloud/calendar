@@ -1550,6 +1550,36 @@ export default defineStore('calendarObjectInstance', {
 		},
 
 		/**
+		 * Resends an invitation update to a single attendee.
+		 *
+		 * @param {object} data The destructuring object
+		 * @param {object} data.attendee The attendee to resend the invitation to
+		 * @return {Promise<void>}
+		 */
+		async resendInvitationToAttendee({ attendee }) {
+			if (!this.calendarObject?.existsOnServer || !attendee?.attendeeProperty) {
+				return
+			}
+
+			const calendarObjectsStore = useCalendarObjectsStore()
+			const attendeeProperty = attendee.attendeeProperty
+			const previousForceSend = attendeeProperty.getParameterFirstValue('SCHEDULE-FORCE-SEND')
+
+			// Ask the scheduling backend to send a fresh REQUEST to this attendee.
+			attendeeProperty.setParameter(new Parameter('SCHEDULE-FORCE-SEND', 'REQUEST'))
+
+			try {
+				await calendarObjectsStore.updateCalendarObject({ calendarObject: this.calendarObject })
+			} finally {
+				if (previousForceSend === null) {
+					attendeeProperty.deleteParameter('SCHEDULE-FORCE-SEND')
+				} else {
+					attendeeProperty.setParameter(new Parameter('SCHEDULE-FORCE-SEND', previousForceSend))
+				}
+			}
+		},
+
+		/**
 		 * Duplicate calendar-object-instance
 		 *
 		 * @return {Promise<void>}
