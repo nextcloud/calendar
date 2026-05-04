@@ -493,7 +493,7 @@ export default {
 				this.calendarObject.calendarId = selectedCalendar.id
 			}
 
-			updateDefaultAlarm()
+			updateDefaultAlarm(this.calendarObject.calendarId, this.calendarObjectInstance)
 		},
 		/**
 		 * This will force the user to update this and all future occurrences when saving
@@ -814,6 +814,8 @@ export default {
 			this.calendarObjectInstanceStore.toggleAllDay({
 				calendarObjectInstance: this.calendarObjectInstance,
 			})
+
+			updateDefaultAlarm(this.calendarObject.calendarId, this.calendarObjectInstance)
 		},
 		/**
 		 * Resets the internal state after changing the viewed calendar-object
