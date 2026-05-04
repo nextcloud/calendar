@@ -170,14 +170,14 @@ class CalendarInitialStateService {
 		$startConversation = json_decode($startConversation, true);
 		$startConversation = is_array($startConversation) ? $startConversation : [];
 
-		$canStartConversation = !empty(array_intersect($startConversation, $userGroups));
+		$canStartConversation = empty($startConversation) || !empty(array_intersect($startConversation, $userGroups));
 
 		//groups allowed to use talk
 		$allowedGroups = $this->config->getAppValue('spreed', 'allowed_groups', '[]');
 		$allowedGroups = json_decode($allowedGroups, true);
 		$allowedGroups = is_array($allowedGroups) ? $allowedGroups : [];
 
-		$canUseTalk = !empty(array_intersect($allowedGroups, $userGroups));
+		$canUseTalk = empty($allowedGroups) || !empty(array_intersect($allowedGroups, $userGroups));
 
 		return $talkEnabled && $canStartConversation && $canUseTalk;
 	}
