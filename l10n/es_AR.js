@@ -48,6 +48,7 @@ OC.L10N.register(
     "Cancel" : "Cancelar",
     "View" : "Ver",
     "Tentative" : "Tentativo",
+    "Invited" : "Invitado",
     "Icons" : "Íconos",
     "Attendees" : "Asistentes",
     "Filename" : "Nombre de archivo",
