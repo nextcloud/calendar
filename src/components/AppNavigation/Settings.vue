@@ -103,14 +103,23 @@
 					id="app-settings-modal-editing"
 					:name="t('calendar', 'Editing')">
 					<NcSelect
-						:options="defaultReminderOptions"
-						:modelValue="selectedDefaultReminderOption"
-						:disabled="savingDefaultReminder"
+						:options="defaultReminderPartDayOptions"
+						:modelValue="selectedDefaultReminderPartDayOption"
+						:disabled="savingDefaultReminderPartDay"
 						:clearable="false"
-						:inputLabel="$t('calendar', 'Default reminder')"
+						:inputLabel="$t('calendar', 'Default reminder for part-day events')"
 						inputId="value"
 						label="label"
-						@option:selected="changeDefaultReminder" />
+						@option:selected="changeDefaultReminderPartDay" />
+					<NcSelect
+						:options="defaultReminderFullDayOptions"
+						:modelValue="selectedDefaultReminderFullDayOption"
+						:disabled="savingDefaultReminderFullDay"
+						:clearable="false"
+						:inputLabel="$t('calendar', 'Default reminder for full-day events')"
+						inputId="value"
+						label="label"
+						@option:selected="changeDefaultReminderFullDay" />
 					<NcFormBox>
 						<NcFormBoxSwitch
 							v-model="simpleEventEditorBinding"
@@ -162,6 +171,7 @@ import SettingsImportSection from './Settings/SettingsImportSection.vue'
 import SettingsTimezoneSelect from './Settings/SettingsTimezoneSelect.vue'
 import ShortcutOverview from './Settings/ShortcutOverview.vue'
 import { getDefaultAlarms } from '../../defaults/defaultAlarmProvider.js'
+import alarmFormat from '../../filters/alarmFormat.js'
 import {
 	IMPORT_STAGE_DEFAULT,
 	IMPORT_STAGE_IMPORTING,
@@ -172,6 +182,10 @@ import useCalendarsStore from '../../store/calendars.js'
 import useImportFilesStore from '../../store/importFiles.js'
 import usePrincipalsStore from '../../store/principals.js'
 import useSettingsStore from '../../store/settings.js'
+import {
+	getAmountAndUnitForTimedEvents,
+	getAmountHoursMinutesAndUnitForAllDayEvents,
+} from '../../utils/alarms.js'
 import logger from '../../utils/logger.js'
 
 export default {
@@ -210,7 +224,8 @@ export default {
 			savingTasks: false,
 			savingPopover: false,
 			savingSlotDuration: false,
-			savingDefaultReminder: false,
+			savingDefaultReminderPartDay: false,
+			savingDefaultReminderFullDay: false,
 			savingDefaultCalendarId: false,
 			savingWeekend: false,
 			savingWeekNumber: false,
@@ -233,6 +248,8 @@ export default {
 			'showWeekends',
 			'showWeekNumbers',
 			'slotDuration',
+			'defaultReminderPartDay',
+			'defaultReminderFullDay',
 			'defaultReminder',
 		]),
 
@@ -308,33 +325,22 @@ export default {
 			},
 		},
 
-		defaultReminderOptions() {
-			const defaultAlarms = getDefaultAlarms().map((seconds) => {
-				const label = seconds === 0 ? t('calendar', 'At event start') : moment.duration(Math.abs(seconds) * 1000).locale(this.locale).humanize()
-				return {
-					label,
-					value: seconds.toString(),
-				}
-			})
-
-			return [{
-				label: this.$t('calendar', 'No reminder'),
-				value: 'none',
-			}].concat(defaultAlarms)
+		defaultReminderPartDayOptions() {
+			return this.getDefaultReminderOptions(false)
 		},
 
-		selectedDefaultReminderOption() {
-			return this.defaultReminderOptions.find((o) => o.value === this.defaultReminder)
+		defaultReminderFullDayOptions() {
+			return this.getDefaultReminderOptions(true)
 		},
 
-		defaultReminderSelection: {
-			get() {
-				return this.selectedDefaultReminderOption
-			},
+		selectedDefaultReminderPartDayOption() {
+			const selectedValue = this.defaultReminderPartDay ?? this.defaultReminder
+			return this.defaultReminderPartDayOptions.find((o) => o.value === selectedValue)
+		},
 
-			set(option) {
-				this.changeDefaultReminder(option)
-			},
+		selectedDefaultReminderFullDayOption() {
+			const selectedValue = this.defaultReminderFullDay ?? this.defaultReminder
+			return this.defaultReminderFullDayOptions.find((o) => o.value === selectedValue)
 		},
 
 		availabilitySettingsUrl() {
@@ -498,27 +504,114 @@ export default {
 		},
 
 		/**
-		 * Updates the setting for the default reminder
+		 * Get the translated option list for default reminders.
+		 *
+		 * @param {boolean} allDay Whether full-day reminders should be returned
+		 * @return {Array<object>}
+		 */
+		getDefaultReminderOptions(allDay) {
+			const defaultAlarms = getDefaultAlarms(allDay).map((seconds) => ({
+				label: this.getDefaultReminderLabel(seconds, allDay),
+				value: seconds.toString(),
+			}))
+
+			return [{
+				label: this.$t('calendar', 'No reminder'),
+				value: 'none',
+			}].concat(defaultAlarms)
+		},
+
+		/**
+		 * Get the translated label for a default reminder option.
+		 *
+		 * @param {number} seconds The alarm trigger offset in seconds
+		 * @param {boolean} allDay Whether this is for a full-day event
+		 * @return {string}
+		 */
+		getDefaultReminderLabel(seconds, allDay) {
+			if (!allDay) {
+				return seconds === 0
+					? this.$t('calendar', 'At event start')
+					: moment.duration(Math.abs(seconds) * 1000).locale(this.locale).humanize()
+			}
+
+			const currentUserTimezone = this.settingsStore.getResolvedTimezone
+			return alarmFormat(this.getAlarmObjectFromTriggerTime(seconds), true, currentUserTimezone, this.locale)
+		},
+
+		/**
+		 * Create alarm object from trigger time for formatting.
+		 *
+		 * @param {number} time Total amount of seconds for the trigger
+		 * @return {object} The alarm object
+		 */
+		getAlarmObjectFromTriggerTime(time) {
+			const timedData = getAmountAndUnitForTimedEvents(time)
+			const allDayData = getAmountHoursMinutesAndUnitForAllDayEvents(time)
+
+			return {
+				isRelative: true,
+				absoluteDate: null,
+				absoluteTimezoneId: null,
+				relativeIsBefore: time < 0,
+				relativeIsRelatedToStart: true,
+				relativeUnitTimed: timedData.unit,
+				relativeAmountTimed: timedData.amount,
+				relativeUnitAllDay: allDayData.unit,
+				relativeAmountAllDay: allDayData.amount,
+				relativeHoursAllDay: allDayData.hours,
+				relativeMinutesAllDay: allDayData.minutes,
+				relativeTrigger: time,
+			}
+		},
+
+		/**
+		 * Updates the setting for the part-day default reminder
 		 *
 		 * @param {object} option The new selected value
 		 */
-		async changeDefaultReminder(option) {
+		async changeDefaultReminderPartDay(option) {
 			if (!option) {
 				return
 			}
 
 			// change to loading status
-			this.savingDefaultReminder = true
+			this.savingDefaultReminderPartDay = true
 
 			try {
-				await this.settingsStore.setDefaultReminder({
-					defaultReminder: option.value,
+				await this.settingsStore.setDefaultReminderPartDay({
+					defaultReminderPartDay: option.value,
 				})
-				this.savingDefaultReminder = false
+				this.savingDefaultReminderPartDay = false
 			} catch (error) {
 				console.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
-				this.savingDefaultReminder = false
+				this.savingDefaultReminderPartDay = false
+			}
+		},
+
+		/**
+		 * Updates the setting for the full-day default reminder
+		 *
+		 * @param {object} option The new selected value
+		 */
+		async changeDefaultReminderFullDay(option) {
+			if (!option) {
+				return
+			}
+
+			// change to loading status
+			this.savingDefaultReminderFullDay = true
+
+			try {
+				await this.settingsStore.setDefaultReminderFullDay({
+					defaultReminderFullDay: option.value,
+				})
+				this.savingDefaultReminderFullDay = false
+			} catch (error) {
+				console.error(error)
+				showError(this.$t('calendar', 'New setting was not saved successfully.'))
+				this.savingDefaultReminderFullDay = false
 			}
 		},
 

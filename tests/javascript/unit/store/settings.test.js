@@ -49,6 +49,8 @@ describe('store/settings test suite', () => {
 			skipPopover: null,
 			slotDuration: null,
 			defaultReminder: null,
+			defaultReminderPartDay: null,
+			defaultReminderFullDay: null,
 			tasksEnabled: false,
 			tasksSidebar: true,
 			timezone: 'automatic',
@@ -76,6 +78,8 @@ describe('store/settings test suite', () => {
 			skipPopover: null,
 			slotDuration: null,
 			defaultReminder: null,
+			defaultReminderPartDay: null,
+			defaultReminderFullDay: null,
 			tasksEnabled: false,
 			tasksSidebar: true,
 			timezone: 'automatic',
@@ -102,6 +106,8 @@ describe('store/settings test suite', () => {
 			skipPopover: true,
 			slotDuration: '00:30:00',
 			defaultReminder: '-600',
+			defaultReminderPartDay: undefined,
+			defaultReminderFullDay: undefined,
 			talkEnabled: false,
 			tasksEnabled: true,
 			tasksSidebar: false,
@@ -130,6 +136,8 @@ Initial settings:
 	- SkipPopover: true
 	- SlotDuration: 00:30:00
 	- DefaultReminder: -600
+	- DefaultReminderPartDay: undefined
+	- DefaultReminderFullDay: undefined
 	- TalkEnabled: false
 	- TasksEnabled: true
 	- TasksSidebar: false
@@ -152,6 +160,8 @@ Initial settings:
 			skipPopover: true,
 			slotDuration: '00:30:00',
 			defaultReminder: '-600',
+			defaultReminderPartDay: '-600',
+			defaultReminderFullDay: '-600',
 			talkEnabled: false,
 			tasksEnabled: true,
 			tasksSidebar: false,
