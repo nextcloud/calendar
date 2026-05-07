@@ -948,6 +948,12 @@ export default {
 .property-alarm-wrapper {
 	display: flex;
 	align-items: center;
+
+	// In the simple popover there is no label column to align with, so strip
+	// the large indent that app-full.scss adds for the full editor layout.
+	:deep(.property-alarm-item__front) {
+		margin-inline-start: calc(var(--default-grid-baseline) * 4);
+	}
 }
 
 .event-popover__location-row {
