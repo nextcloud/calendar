@@ -588,26 +588,41 @@ export default defineStore('calendars', {
 		},
 
 		/**
-		 * Change a calendar's default alarm
+		 * Change a calendar's default alarms for part-day and full-day events
 		 *
 		 * @param {object} data destructuring object
 		 * @param {object} data.calendar the calendar to modify
-		 * @param {string|null} data.defaultAlarm the new default alarm in seconds (or null to disable)
+		 * @param {number|null} data.defaultAlarmPartDay the new default alarm for part-day events in seconds (or null to disable)
+		 * @param {number|null} data.defaultAlarmFullDay the new default alarm for full-day events in seconds (or null to disable)
 		 * @return {Promise}
 		 */
-		async changeCalendarDefaultAlarm({ calendar, defaultAlarm }) {
+		async changeCalendarDefaultAlarms({ calendar, defaultAlarmPartDay, defaultAlarmFullDay }) {
 			if (!isAfterVersion(34)) {
 				return
 			}
 
-			if (calendar.dav.defaultAlarm === defaultAlarm) {
+			const partDayChanged = calendar.dav.defaultAlarmPartDay !== defaultAlarmPartDay
+			const fullDayChanged = calendar.dav.defaultAlarmFullDay !== defaultAlarmFullDay
+
+			if (!partDayChanged && !fullDayChanged) {
 				return
 			}
 
-			calendar.dav.defaultAlarm = defaultAlarm
+			if (partDayChanged) {
+				calendar.dav.defaultAlarmPartDay = defaultAlarmPartDay
+			}
+			if (fullDayChanged) {
+				calendar.dav.defaultAlarmFullDay = defaultAlarmFullDay
+			}
 
 			await calendar.dav.update()
-			this.calendarsById[calendar.id].defaultAlarm = defaultAlarm
+
+			if (partDayChanged) {
+				this.calendarsById[calendar.id].defaultAlarmPartDay = defaultAlarmPartDay
+			}
+			if (fullDayChanged) {
+				this.calendarsById[calendar.id].defaultAlarmFullDay = defaultAlarmFullDay
+			}
 		},
 
 		/**

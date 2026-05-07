@@ -7,6 +7,7 @@ import { AttendeeProperty, Property } from '@nextcloud/calendar-js'
 import { translate as t } from '@nextcloud/l10n'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import useCalendarsStore from '../store/calendars.js'
+import useSettingsStore from '../store/settings.js'
 import { isAfterVersion } from './nextcloudVersion.ts'
 
 /**
@@ -202,22 +203,36 @@ export function getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(amoun
 	return amount
 }
 
-export function updateDefaultAlarm() {
+/**
+ * Updates or creates the default alarm for an event.
+ * When no default alarm exists yet, one is only created for newly constructed instances
+ * passed in by the caller.
+ *
+ * @param {string} calendarId The ID of the calendar to update the default alarm from
+ * @param {object} calendarObjectInstance The calendar object instance to update
+ */
+export function updateDefaultAlarm(calendarId, calendarObjectInstance) {
 	const calendarObjectInstanceStore = useCalendarObjectInstanceStore()
-	const calendarObjectInstance = calendarObjectInstanceStore.calendarObjectInstance
 	const calendarsStore = useCalendarsStore()
-	const calendar = calendarsStore.getCalendarById(calendarObjectInstanceStore.calendarObject.calendarId)
+	const calendar = calendarsStore.getCalendarById(calendarId)
 
-	let defaultReminder = null
-	if (isAfterVersion(34) && calendar && calendar.defaultAlarm !== null) {
-		defaultReminder = calendar.defaultAlarm
+	if (!calendar || !calendarObjectInstance) {
+		console.error('Missing calendar or calendar object instance to update default alarm for.')
+		return
+	}
+
+	const defaultReminder = getDefaultReminderForEvent({
+		calendar,
+		isAllDay: calendarObjectInstance.isAllDay,
+	})
+
+	if (isNaN(defaultReminder)) {
+		return
 	}
 
 	// Find the existing default alarm (if any)
 	const existingDefaultAlarm = calendarObjectInstance.alarms.find((alarm) => alarm.alarmComponent.getFirstPropertyFirstValue('X-NC-DEFAULT-ALARM'))
-	// Only update the default alarm if one already exists.
-	// If the user has manually removed the default alarm, don't re-add it.
-	if (!isNaN(defaultReminder) && existingDefaultAlarm) {
+	if (existingDefaultAlarm) {
 		calendarObjectInstanceStore.removeAlarmFromCalendarObjectInstance({
 			calendarObjectInstance,
 			alarm: existingDefaultAlarm,
@@ -229,7 +244,50 @@ export function updateDefaultAlarm() {
 			totalSeconds: defaultReminder,
 			isDefault: true,
 		})
+		return
 	}
+
+	// Only create a missing default alarm for newly constructed event instances.
+	if (calendarObjectInstance !== calendarObjectInstanceStore.calendarObjectInstance) {
+		calendarObjectInstanceStore.addAlarmToCalendarObjectInstance({
+			calendarObjectInstance,
+			type: 'DISPLAY',
+			totalSeconds: defaultReminder,
+			isDefault: true,
+		})
+	}
+}
+
+/**
+ * Resolves the default reminder for an event.
+ * Calendar-specific defaults win, then the global part/full-day defaults,
+ * then the legacy global defaultReminder for backwards compatibility.
+ *
+ * @param {object} data The destructuring object
+ * @param {object|undefined} data.calendar The selected calendar
+ * @param {boolean} data.isAllDay Whether the event is all-day
+ * @return {number|null}
+ */
+export function getDefaultReminderForEvent({ calendar, isAllDay }) {
+	const settingsStore = useSettingsStore()
+
+	if (isAfterVersion(34) && calendar) {
+		if (isAllDay && calendar.dav.defaultAlarmFullDay !== undefined) {
+			return calendar.dav.defaultAlarmFullDay
+		}
+
+		if (!isAllDay && calendar.dav.defaultAlarmPartDay !== undefined) {
+			return calendar.dav.defaultAlarmPartDay
+		}
+	}
+
+	const globalDefaultReminder = parseInt(isAllDay ? settingsStore.defaultReminderFullDay : settingsStore.defaultReminderPartDay)
+	if (!isNaN(globalDefaultReminder)) {
+		return globalDefaultReminder
+	}
+
+	const legacyDefaultReminder = parseInt(settingsStore.defaultReminder)
+	return isNaN(legacyDefaultReminder) ? null : legacyDefaultReminder
 }
 
 /**

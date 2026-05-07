@@ -33,6 +33,9 @@ export default defineStore('settings', {
 			showWeekNumbers: null,
 			skipPopover: null,
 			slotDuration: null,
+			defaultReminderPartDay: null,
+			defaultReminderFullDay: null,
+			// Legacy fallback for users that have not saved separate part/full-day defaults yet.
 			defaultReminder: null,
 			tasksEnabled: false,
 			timezone: 'automatic',
@@ -222,6 +225,36 @@ export default defineStore('settings', {
 		},
 
 		/**
+		 * Updates the user's preferred default reminder for part-day events
+		 *
+		 * @param {object} data The destructuring object
+		 * @param {string} data.defaultReminderPartDay The new part-day default reminder
+		 */
+		async setDefaultReminderPartDay({ defaultReminderPartDay }) {
+			if (this.defaultReminderPartDay === defaultReminderPartDay) {
+				return
+			}
+
+			await setConfig('defaultReminderPartDay', defaultReminderPartDay)
+			this.defaultReminderPartDay = defaultReminderPartDay
+		},
+
+		/**
+		 * Updates the user's preferred default reminder for full-day events
+		 *
+		 * @param {object} data The destructuring object
+		 * @param {string} data.defaultReminderFullDay The new full-day default reminder
+		 */
+		async setDefaultReminderFullDay({ defaultReminderFullDay }) {
+			if (this.defaultReminderFullDay === defaultReminderFullDay) {
+				return
+			}
+
+			await setConfig('defaultReminderFullDay', defaultReminderFullDay)
+			this.defaultReminderFullDay = defaultReminderFullDay
+		},
+
+		/**
 		 * Updates the user's timezone
 		 *
 		 * @param {object} data The destructuring object
@@ -299,7 +332,9 @@ export default defineStore('settings', {
 		 * @param {boolean} data.showWeekends Whether or not to display weekends
 		 * @param {boolean} data.skipPopover Whether or not to skip the simple event popover
 		 * @param {string} data.slotDuration The duration of one slot in the agendaView
-		 * @param {string} data.defaultReminder The default reminder to set on newly created events
+		 * @param {string} data.defaultReminder Legacy default reminder fallback for older installs
+		 * @param {string} data.defaultReminderPartDay The default reminder for newly created part-day events
+		 * @param {string} data.defaultReminderFullDay The default reminder for newly created full-day events
 		 * @param {boolean} data.talkEnabled Whether or not the talk app is enabled
 		 * @param {boolean} data.tasksEnabled Whether ot not the tasks app is enabled
 		 * @param {string} data.timezone The timezone to view the calendar in. Either an Olsen timezone or "automatic"
@@ -312,7 +347,7 @@ export default defineStore('settings', {
 		 * @param {boolean} data.showResources Show or hide the resources tab
 		 * @param {string} data.publicCalendars
 		 */
-		loadSettingsFromServer({ appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, tasksSidebar, canSubscribeLink, attachmentsFolder, showResources, publicCalendars }) {
+		loadSettingsFromServer({ appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, defaultReminderPartDay, defaultReminderFullDay, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, tasksSidebar, canSubscribeLink, attachmentsFolder, showResources, publicCalendars }) {
 			logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -324,6 +359,8 @@ Initial settings:
 	- SkipPopover: ${skipPopover}
 	- SlotDuration: ${slotDuration}
 	- DefaultReminder: ${defaultReminder}
+	- DefaultReminderPartDay: ${defaultReminderPartDay}
+	- DefaultReminderFullDay: ${defaultReminderFullDay}
 	- TalkEnabled: ${talkEnabled}
 	- TasksEnabled: ${tasksEnabled}
 	- TasksSidebar: ${tasksSidebar}
@@ -346,6 +383,8 @@ Initial settings:
 			this.skipPopover = skipPopover
 			this.slotDuration = slotDuration
 			this.defaultReminder = defaultReminder
+			this.defaultReminderPartDay = defaultReminderPartDay ?? defaultReminder
+			this.defaultReminderFullDay = defaultReminderFullDay ?? defaultReminder
 			this.talkEnabled = talkEnabled
 			this.tasksEnabled = tasksEnabled
 			this.timezone = timezone
