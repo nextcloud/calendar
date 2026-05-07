@@ -450,13 +450,13 @@ export default {
 				{
 					label: t('calendar', 'Discard changes'),
 					variant: 'secondary',
-					icon: atob(IconDelete.split(',')[1]),
+					icon: IconDelete,
 					callback: () => { this.cancel(true) },
 				},
 				{
 					label: t('calendar', 'Cancel'),
 					variant: 'primary',
-					icon: atob(IconCancel.split(',')[1]),
+					icon: IconCancel,
 					callback: () => { this.closeCancelDialog() },
 				},
 			],
