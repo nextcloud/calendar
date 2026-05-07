@@ -101,9 +101,11 @@ export default errorCatch(function({ event, el }) {
 		}
 	}
 
-	// Apply semi-transparent background for grid events (not dot or list events).
+	// Apply semi-transparent accent-color overlay on top of the solid calendar grid background for
+	// grid events (not dot or list events). Using a solid page-background base prevents overlapping
+	// events from bleeding through each other.
 	// The full-opacity color remains on the left border (set by FullCalendar's inline border-color).
-	// Past events get a stronger fill to keep them visually distinct.
+	// Past events get a weaker fill to keep them visually distinct.
 	// Skipped in high-contrast mode — CSS will force the plain page background instead.
 	if (
 		!el.classList.contains('fc-list-event')
@@ -117,7 +119,10 @@ export default errorCatch(function({ event, el }) {
 				const now = new Date()
 				const isPast = event.end ? event.end < now : (event.start ? event.start < now : false)
 				const opacity = isPast ? 0.05 : 0.35
-				el.style.backgroundColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`
+				// Solid page-background as the base so overlapping events are opaque,
+				// with the accent colour layered on top as a translucent gradient.
+				el.style.backgroundColor = 'var(--fc-page-bg-color)'
+				el.style.backgroundImage = `linear-gradient(rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity}), rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity}))`
 			}
 		}
 	}
@@ -137,7 +142,9 @@ export default errorCatch(function({ event, el }) {
 			dotElement.style.minWidth = '10px'
 			dotElement.style.minHeight = '10px'
 		} else {
-			el.style.background = 'transparent'
+			// Use the solid page background instead of transparent so overlapping events
+			// don't bleed through each other.
+			el.style.background = 'var(--fc-page-bg-color)'
 
 			if (!isHighContrast()) {
 				const now = new Date()
@@ -200,16 +207,23 @@ export default errorCatch(function({ event, el }) {
 			dotElement.style.minWidth = '10px'
 			dotElement.style.minHeight = '10px'
 		} else if (!isHighContrast()) {
-			// Block/time events: keep the existing fill and overlay stripes only.
+			// Block/time events: solid page background as the base, event colour overlay,
+			// then stripe pattern on top — so overlapping events stay opaque.
 			const eventColor = el.style.borderColor
 			const rgb = extractRGB(eventColor)
 			if (rgb) {
 				const stripeColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.25)`
-				el.style.backgroundImage = `repeating-linear-gradient(45deg, ${stripeColor}, ${stripeColor} 2px, transparent 2px, transparent 10px)`
+				const now = new Date()
+				const isPast = event.end ? event.end < now : (event.start ? event.start < now : false)
+				const overlayOpacity = isPast ? 0.05 : 0.35
+				const overlayColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${overlayOpacity})`
+				el.style.backgroundColor = 'var(--fc-page-bg-color)'
+				el.style.backgroundImage = `repeating-linear-gradient(45deg, ${stripeColor}, ${stripeColor} 2px, transparent 2px, transparent 10px), linear-gradient(${overlayColor}, ${overlayColor})`
 			} else {
 				// Fallback for when border color can't be parsed
-				const baseColor = el.style.backgroundColor
+				const baseColor = el.style.borderColor
 				const stripeColor = darkenColor(baseColor)
+				el.style.backgroundColor = 'var(--fc-page-bg-color)'
 				el.style.backgroundImage = `repeating-linear-gradient(45deg, ${stripeColor}, ${stripeColor} 2px, transparent 2px, transparent 10px)`
 			}
 		}
