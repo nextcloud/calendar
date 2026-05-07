@@ -71,6 +71,8 @@ function getDefaultEventObject(props = {}) {
 		categories: [],
 		// Attachments of this event
 		attachments: [],
+		// Invitation forwarding
+		invitationForwarding: 'TRUE',
 		...props,
 	}
 }
@@ -172,6 +174,10 @@ function mapEventComponentToEventObject(eventComponent) {
 		}
 	}
 
+	if (eventComponent.hasProperty('X-NC-INVITATION-FORWARDING')) {
+		eventObject.invitationForwarding = eventComponent.getFirstPropertyFirstValue('X-NC-INVITATION-FORWARDING')
+	}
+
 	return eventObject
 }
 
@@ -219,6 +225,10 @@ function copyCalendarObjectInstanceIntoEventComponent(eventObject, eventComponen
 
 	for (const rule of eventObject.eventComponent.getPropertyIterator('RRULE')) {
 		eventComponent.addProperty(rule)
+	}
+
+	if (eventObject.eventComponent.hasProperty('X-NC-INVITATION-FORWARDING')) {
+		eventComponent.updatePropertyWithValue('X-NC-INVITATION-FORWARDING', eventObject.invitationForwarding)
 	}
 
 	if (eventObject.customColor) {
