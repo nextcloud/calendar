@@ -352,6 +352,7 @@ OC.L10N.register(
     "1 hour" : "1 час",
     "2 hours" : "2 часа",
     "Custom" : "Задать",
+    "Days" : "Дни",
     "Hours" : "Часы",
     "Minutes" : "Минуты",
     "Suggested times" : "Предложенные варианты времени",
