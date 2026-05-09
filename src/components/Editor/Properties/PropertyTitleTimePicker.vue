@@ -18,15 +18,6 @@
 			<div
 				:class="{ 'property-title-time-picker__time-pickers--all-day': isAllDay }"
 				class="property-title-time-picker__time-pickers__inner">
-				<NcButton
-					v-if="!showTimezoneSelect && (!isAllDay || isMobile)"
-					variant="tertiary"
-					@click="showTimezoneSelect = !showTimezoneSelect">
-					<template #icon>
-						<IconTimezone :size="20" />
-					</template>
-					{{ startTimezone }}
-				</NcButton>
 				<div class="property-title-time-picker__time-pickers-from">
 					<!-- TRANSLATORS Start of an event -->
 					<div class="datepicker-label">
@@ -84,6 +75,15 @@
 						</div>
 					</div>
 				</div>
+				<NcButton
+					v-if="!showTimezoneSelect && (!isAllDay || isMobile)"
+					variant="tertiary"
+					@click="showTimezoneSelect = !showTimezoneSelect">
+					<template #icon>
+						<IconTimezone :size="20" />
+					</template>
+					{{ startTimezone }}
+				</NcButton>
 			</div>
 		</div>
 		<div
@@ -456,7 +456,7 @@ export default {
 	flex-grow: 1;
 
 	button {
-		margin-inline-start: calc(var(--default-grid-baseline) * 8);
+		margin-inline-start: calc(var(--default-grid-baseline) * 9);
 	}
 }
 
@@ -501,12 +501,12 @@ export default {
 	}
 
 	.datepicker-label {
-		flex: 0 0 calc(var(--default-grid-baseline) * 9);
-		width: calc(var(--default-grid-baseline) * 9);
-		max-width: calc(var(--default-grid-baseline) * 9);
+		flex: 0 0 calc(var(--default-grid-baseline) * 10);
+		width: calc(var(--default-grid-baseline) * 10);
+		max-width: calc(var(--default-grid-baseline) * 10);
 		display: flex;
-		justify-content: flex-end;
-		text-align: end;
+		justify-content: flex-start;
+		text-align: start;
 		padding-inline-end: calc(var(--default-grid-baseline) * 2);
 		white-space: nowrap;
 		overflow: visible;
@@ -521,10 +521,6 @@ export default {
 	display: flex;
 	gap: var(--default-grid-baseline);
 	font-weight: normal;
-}
-
-.property-title-time-picker__time-pickers-from-inner__selectors {
-	padding-inline-start: calc(var(--default-grid-baseline) * 1);
 }
 
 :deep(button.vs__open-indicator-button) {
@@ -591,7 +587,7 @@ export default {
 	.property-title-time-picker__time-pickers {
 		flex-grow: 0 !important;
 		flex-shrink: 1;
-		margin-inline-start: calc(var(--default-grid-baseline) * 2);
+		margin-inline-start: calc(var(--default-grid-baseline) * 1);
 	}
 
 	.property-title-time-picker__time-pickers-from-inner__selectors, .property-title-time-picker__time-pickers-to-inner__selectors {
