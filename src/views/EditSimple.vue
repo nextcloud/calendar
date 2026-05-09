@@ -922,7 +922,7 @@ export default {
 		background: var(--color-main-background);
 	}
 	.event-popover__all-day {
-		margin-inline-start: calc(var(--default-grid-baseline) * 10);
+		margin-inline-start: calc(var(--default-grid-baseline) * 11);
 	}
 
 	.event-popover__loading-icon {
