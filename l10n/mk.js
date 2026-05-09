@@ -349,6 +349,7 @@ OC.L10N.register(
     "30 minutes" : "30 минути",
     "1 hour" : "1 час",
     "Custom" : "Прилагодено",
+    "Days" : "Дена",
     "Hours" : "Часови",
     "Minutes" : "Минути",
     "Suggested times" : "Предложено време",
