@@ -332,7 +332,7 @@ class ContactControllerTest extends TestCase {
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
-				['core', 'shareapi_allow_share_dialog_user_enumeration', 'no', 'yes'],
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_full_match', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes', 'yes'],
@@ -432,7 +432,7 @@ class ContactControllerTest extends TestCase {
 			->method('getAppValue')
 			->willReturnMap([
 				['core', 'shareapi_only_share_with_group_members', 'no', 'no'],
-				['core', 'shareapi_allow_share_dialog_user_enumeration', 'no', 'yes'],
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_full_match', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes', 'yes'],
@@ -535,7 +535,7 @@ class ContactControllerTest extends TestCase {
 			->willReturnMap([
 				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
 				['core', 'shareapi_only_share_with_group_members_exclude_group_list', '[]', '["excluded-group"]'],
-				['core', 'shareapi_allow_share_dialog_user_enumeration', 'no', 'yes'],
+				['core', 'shareapi_allow_share_dialog_user_enumeration', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_to_group', 'no', 'no'],
 				['core', 'shareapi_restrict_user_enumeration_full_match', 'yes', 'yes'],
 				['core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes', 'yes'],
