@@ -111,7 +111,7 @@ class ContactController extends Controller {
 		$externalAttendeesDisabled = $this->appConfig->getValueBool('dav', 'caldav_external_attendees_disabled', false);
 		$shareeGroupsOnlyRestriction = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 		$shareeGroupsOnlyExclusion = [];
-		$shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'no') === 'yes';
+		$shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
 		$shareeEnumerationInGroupOnly = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
 		$shareeEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
 		$shareeEnumerationFullMatchUserId = $shareeEnumerationFullMatch && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes') === 'yes';
