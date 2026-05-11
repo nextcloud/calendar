@@ -77,6 +77,30 @@
 				:calendar="calendar" />
 		</template>
 
+		<NcAppNavigationCaption v-if="sortedCalendars.tasks.length" :name="$t('calendar', 'Tasks')" />
+		<template v-if="!isPublic">
+			<Draggable
+				v-model="sortedCalendars.tasks"
+				itemKey="id"
+				:disabled="disableDragging"
+				v-bind="{ swapThreshold: 0.30, delay: 500, delayOnTouchOnly: true, touchStartThreshold: 3 }"
+				draggable=".draggable-calendar-list-item"
+				@update="updateInput">
+				<template #item="{ element: calendar }">
+					<CalendarListItem
+						:key="calendar.id"
+						class="draggable-calendar-list-item"
+						:calendar="calendar" />
+				</template>
+			</Draggable>
+		</template>
+		<template v-else>
+			<PublicCalendarListItem
+				v-for="calendar in sortedCalendars.tasks"
+				:key="calendar.id"
+				:calendar="calendar" />
+		</template>
+
 		<NcAppNavigationSpacer />
 
 		<!-- The header slot must be placed here, otherwise vuedraggable adds undefined as item to the array -->
@@ -129,12 +153,13 @@ export default {
 		return {
 			calendars: [],
 			/**
-			 * Calendars sorted by personal, shared, and deck
+			 * Calendars sorted by personal, shared, deck, and tasks
 			 */
 			sortedCalendars: {
 				personal: [],
 				shared: [],
 				deck: [],
+				tasks: [],
 			},
 
 			disableDragging: false,
@@ -182,6 +207,7 @@ export default {
 				personal: [],
 				shared: [],
 				deck: [],
+				tasks: [],
 			}
 
 			this.calendars.forEach((calendar) => {
@@ -192,6 +218,11 @@ export default {
 
 				if (calendar.url.includes('app-generated--deck--board')) {
 					this.sortedCalendars.deck.push(calendar)
+					return
+				}
+
+				if (calendar.supportsTasks && !calendar.supportsEvents && !calendar.supportsJournals) {
+					this.sortedCalendars.tasks.push(calendar)
 					return
 				}
 
@@ -209,6 +240,7 @@ export default {
 				...this.sortedCalendars.personal,
 				...this.sortedCalendars.shared,
 				...this.sortedCalendars.deck,
+				...this.sortedCalendars.tasks,
 			]
 			const newOrder = currentCalendars.reduce((newOrderObj, currentItem, currentIndex) => {
 				newOrderObj[currentItem.id] = currentIndex
