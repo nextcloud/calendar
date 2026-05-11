@@ -42,11 +42,11 @@ export default {
 			options: [
 				{
 					value: 'PUBLIC',
-					label: this.t('calendar', 'Public – shown on the profile page'),
+					label: this.t('calendar', 'Public – shown on profile page'),
 				},
 				{
 					value: 'PRIVATE',
-					label: this.t('calendar', 'Private – only accessible via secret link'),
+					label: this.t('calendar', 'Private – only accessible via link'),
 				},
 			],
 		}
