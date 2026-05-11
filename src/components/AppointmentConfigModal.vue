@@ -5,7 +5,7 @@
 
 <template>
 	<NcModal
-		size="large"
+		size="normal"
 		:name="formTitle"
 		@close="$emit('close')">
 		<!-- Wait for the config to become available before rendering the form. -->
@@ -17,6 +17,9 @@
 				@close="$emit('close')" />
 			<template v-else>
 				<div class="appointment-config-modal__form">
+					<div class="appointment-config-modal__form__title">
+						<h2>{{ formTitle }}</h2>
+					</div>
 					<fieldset>
 						<TextInput
 							v-model="editing.name"
@@ -39,21 +42,6 @@
 							:label="t('calendar', 'Description')" />
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
-							<div class="calendar-select">
-								<label>{{ t('calendar', 'Calendar') }}</label>
-								<CalendarPicker
-									v-if="calendar !== undefined"
-									:value="calendar"
-									:calendars="availableCalendars"
-									:showCalendarOnSelect="false"
-									@selectCalendar="changeCalendar" />
-							</div>
-							<VisibilitySelect
-								v-model="editing.visibility"
-								:label="t('calendar', 'Visibility')" />
-						</div>
-
-						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<DurationInput
 								v-model="editing.length"
 								:label="t('calendar', 'Duration')" />
@@ -62,20 +50,36 @@
 								:label="t('calendar', 'Increments')" />
 						</div>
 
+						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
+							<div class="calendar-select">
+								<label>{{ t('calendar', 'Booking calendar') }}</label>
+								<CalendarPicker
+									v-if="calendar !== undefined"
+									:value="calendar"
+									:calendars="availableCalendars"
+									:showCalendarOnSelect="false"
+									@selectCalendar="changeCalendar" />
+							</div>
+							<div class="calendar-select">
+								<label>{{ t('calendar', 'Calendars to check for conflicts') }}</label>
+								<CalendarPicker
+									:value="selectedConflictCalendars"
+									:calendars="selectableConflictCalendars"
+									:multiple="true"
+									:showCalendarOnSelect="false"
+									@selectCalendar="addConflictCalender"
+									@removeCalendar="removeConflictCalendar" />
+							</div>
+						</div>
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--local">
-							<label>{{ t('calendar', 'Additional calendars to check for conflicts') }}</label>
-							<CalendarPicker
-								:value="selectedConflictCalendars"
-								:calendars="selectableConflictCalendars"
-								:multiple="true"
-								:showCalendarOnSelect="false"
-								@selectCalendar="addConflictCalender"
-								@removeCalendar="removeConflictCalendar" />
+							<VisibilitySelect
+								v-model="editing.visibility"
+								:label="t('calendar', 'Visibility')" />
 						</div>
 					</fieldset>
 
 					<fieldset>
-						<header>{{ t('calendar', 'Pick time ranges where appointments are allowed') }}</header>
+						<header><h3>{{ t('calendar', 'Booking availability') }}</h3></header>
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<CalendarAvailability
 								v-model:slots="editing.availability.slots"
@@ -95,29 +99,24 @@
 					</fieldset>
 
 					<fieldset>
-						<header>{{ t('calendar', 'Add time before and after the event') }}</header>
-
+						<header><h3>{{ t('calendar', 'Planning restrictions') }}</h3></header>
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<CheckedDurationSelect
 								v-model="editing.preparationDuration"
 								:enabled="enablePreparationDuration"
-								:label="t('calendar', 'Before the event')"
+								:label="t('calendar', 'Buffer before the event')"
 								@update:enabled="setEnablePreparationDuration" />
 							<CheckedDurationSelect
 								v-model="editing.followupDuration"
 								:enabled="enableFollowupDuration"
-								:label="t('calendar', 'After the event')"
+								:label="t('calendar', 'Buffer after the event')"
 								@update:enabled="setEnableFollowupDuration" />
 						</div>
-					</fieldset>
-
-					<fieldset>
-						<header>{{ t('calendar', 'Planning restrictions') }}</header>
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<DurationSelect
 								v-model="editing.timeBeforeNextSlot"
-								:label="t('calendar', 'Minimum time before next available slot')"
+								:label="t('calendar', 'Minimum time before next slot')"
 								:max="7 * 24 * 60 * 60" />
 							<NumberInput
 								v-model="editing.dailyMax"
@@ -147,6 +146,9 @@
 					variant="primary"
 					:disabled="!editing.name || editing.length === 0 || isLoading"
 					@click="save">
+					<template #icon>
+						<CheckIcon :size="20" />
+					</template>
 					{{ saveButtonText }}
 				</NcButton>
 			</template>
@@ -158,6 +160,7 @@
 import { CalendarAvailability } from '@nextcloud/calendar-availability-vue'
 import { NcButton, NcCheckboxRadioSwitch, NcModal, NcNoteCard } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
 import CheckedDurationSelect from './AppointmentConfigModal/CheckedDurationSelect.vue'
 import Confirmation from './AppointmentConfigModal/Confirmation.vue'
 import DurationInput from './AppointmentConfigModal/DurationInput.vue'

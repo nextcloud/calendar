@@ -90,7 +90,7 @@ export default {
 		align-items: center;
 
 		&__input-wrapper {
-			flex: 0 0 20px;
+			flex: 0 0 calc(var(--default-grid-baseline) * 4);
 
 			input[type=checkbox] {
 				margin: 0;
@@ -102,10 +102,6 @@ export default {
 		input, label {
 			display: block;
 		}
-	}
-
-	&__duration {
-		//margin-left: 20px;
 	}
 }
 </style>
