@@ -5,9 +5,12 @@
 
 <template>
 	<div class="duration-input">
+		<label for="duration-input">{{ label }}</label>
 		<NcTextField
+			id="duration-input"
 			v-model="internalValue"
 			:label="label"
+			:labelOutside="true"
 			@update:modelValue="change"
 			@focus="focus"
 			@blur="updateInternalValue" />
@@ -97,6 +100,12 @@ export default {
 
 <style lang="scss" scoped>
 .duration-input {
+	label {
+		display: flex;
+		gap: var(--default-grid-baseline);
+		align-items: center;
+
+	}
 	.input {
 		display: flex;
 		align-items: center;
@@ -104,6 +113,7 @@ export default {
 		input {
 			flex: 1 auto;
 		}
+
 	}
 }
 </style>
