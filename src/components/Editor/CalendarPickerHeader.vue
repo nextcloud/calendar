@@ -34,7 +34,18 @@
 					@click="$emit('update:value', calendar)">
 					<template #icon>
 						<div class="calendar-picker-header__icon">
+							<NcAvatar
+								v-if="calendar.isSharedWithMe || calendar.isDelegated"
+								class="calendar-picker-header__picker__option__avatar"
+								:title="getOwnerDisplayName(calendar)"
+								:disableMenu="true"
+								:disableTooltip="true"
+								:hideStatus="true"
+								:user="getOwnerUserId(calendar)"
+								:displayName="getOwnerDisplayName(calendar)"
+								:size="20" />
 							<div
+								v-else
 								class="calendar-picker-header__icon__dot"
 								:style="{ 'background-color': calendar.color }" />
 						</div>
@@ -43,17 +54,29 @@
 				</NcActionButton>
 			</template>
 		</NcActions>
+		<NcAvatar
+			v-if="value.isSharedWithMe || value.isDelegated"
+			class="calendar-picker-header__avatar"
+			:disableMenu="true"
+			:title="ownerDisplayName"
+			:disableTooltip="true"
+			:user="ownerUserId"
+			:displayName="ownerDisplayName"
+			:size="24" />
 	</div>
 </template>
 
 <script>
-import { NcActionButton, NcActions } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcAvatar } from '@nextcloud/vue'
+import { mapStores } from 'pinia'
+import usePrincipalsStore from '../../store/principals.js'
 
 export default {
 	name: 'CalendarPickerHeader',
 	components: {
 		NcActions,
 		NcActionButton,
+		NcAvatar,
 	},
 
 	props: {
@@ -79,11 +102,39 @@ export default {
 	},
 
 	computed: {
+		...mapStores(usePrincipalsStore),
 		/**
 		 * @return {boolean}
 		 */
 		isDisabled() {
 			return this.isReadOnly || this.calendars.length < 2
+		},
+
+		/**
+		 * Get the principal object of the calendar's owner
+		 *
+		 * @return {null | object}
+		 */
+		ownerPrincipal() {
+			return this.principalsStore.getPrincipalByUrl(this.value.owner)
+		},
+
+		/**
+		 * Gets the user-id of the calendar's owner
+		 *
+		 * @return {null | string}
+		 */
+		ownerUserId() {
+			return this.ownerPrincipal?.userId ?? null
+		},
+
+		/**
+		 * Gets the display name of the calendar's owner
+		 *
+		 * @return {null | string}
+		 */
+		ownerDisplayName() {
+			return this.ownerPrincipal?.displayname ?? null
 		},
 	},
 
@@ -92,6 +143,28 @@ export default {
 		// Material Design icons by Google are available under the Apache 2.0 license
 		const menuDownIconUrl = 'url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTcsMTBMMTIsMTVMMTcsMTBIN1oiIC8+PC9zdmc+)'
 		this.$el.style.setProperty('--mdi-menu-down', menuDownIconUrl)
+	},
+
+	methods: {
+		/**
+		 * Gets the user-id of the given calendar's owner
+		 *
+		 * @param {object} calendar The calendar object
+		 * @return {null | string}
+		 */
+		getOwnerUserId(calendar) {
+			return this.principalsStore.getPrincipalByUrl(calendar.owner)?.userId ?? null
+		},
+
+		/**
+		 * Gets the display name of the given calendar's owner
+		 *
+		 * @param {object} calendar The calendar object
+		 * @return {null | string}
+		 */
+		getOwnerDisplayName(calendar) {
+			return this.principalsStore.getPrincipalByUrl(calendar.owner)?.displayname ?? null
+		},
 	},
 }
 </script>
@@ -142,6 +215,10 @@ export default {
 			:deep(button) {
 				align-items: center !important;
 			}
+
+			&__avatar {
+				margin: auto;
+			}
 		}
 
 		// Fix long calendar name ellipsis
@@ -160,6 +237,12 @@ export default {
 			opacity: 1 !important;
 			filter: unset !important;
 		}
+	}
+
+	&__avatar {
+		flex-shrink: 0;
+		align-self: center;
+		margin-inline-start: var(--default-grid-baseline);
 	}
 
 	&__icon {
