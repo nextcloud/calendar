@@ -1,3 +1,19 @@
+## [6.2.5](https://github.com/nextcloud/calendar/compare/v6.2.4...v6.2.5) (2026-05-11)
+
+
+### Bug Fixes
+
+* **ContactController:** default option for user enumeration in sharing ([7dbc6a1](https://github.com/nextcloud/calendar/commit/7dbc6a1c01b85712fa1e0328e381ef1530cc0327))
+* **l10n:** Update translations from Transifex ([24da732](https://github.com/nextcloud/calendar/commit/24da7321c68559ea463121e644d5df8f0d8428c0))
+* **l10n:** Update translations from Transifex ([840e831](https://github.com/nextcloud/calendar/commit/840e8313f398a37d9beac45159ad1b0a5da9e3a3))
+* **l10n:** Update translations from Transifex ([eb38ab3](https://github.com/nextcloud/calendar/commit/eb38ab350696eaac79c0783fa7bf89adf0feaeb7))
+* **l10n:** Update translations from Transifex ([c30bd67](https://github.com/nextcloud/calendar/commit/c30bd675a8eae9de89ab15cabf1cc1e310f3e7aa))
+* **l10n:** Update translations from Transifex ([0b8bc99](https://github.com/nextcloud/calendar/commit/0b8bc99b1a52fff1a811b3ddb2463b4da951f328))
+* **l10n:** Update translations from Transifex ([48bf7c6](https://github.com/nextcloud/calendar/commit/48bf7c61980cf4e0867aa91d2966b067616f6443))
+* **l10n:** Update translations from Transifex ([4a74e25](https://github.com/nextcloud/calendar/commit/4a74e25f4b525af77d038b9b1a9b3357ce18213f))
+
+
+
 ## [6.2.4](https://github.com/nextcloud/calendar/compare/v6.2.3...v6.2.4) (2026-05-04)
 
 
