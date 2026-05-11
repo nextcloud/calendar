@@ -5,9 +5,12 @@
 
 <template>
 	<div class="number-input">
+		<label for="number-input">{{ label }}</label>
 		<NcTextField
+			id="number-input"
 			:modelValue="String(realValue ?? '')"
 			:label="label"
+			:labelOutside="true"
 			type="number"
 			@update:modelValue="change" />
 	</div>
