@@ -14,6 +14,8 @@ describe('utils/attendee test suite', () => {
 		const uri = 'principal@test.com'
 		expect(removeMailtoPrefix(uri)).toEqual(uri)
 		expect(removeMailtoPrefix(`mailto:${uri}`)).toEqual(uri)
+		expect(removeMailtoPrefix(`MAILTO:${uri}`)).toEqual(uri)
+		expect(removeMailtoPrefix(`MailTo:${uri}`)).toEqual(uri)
 	})
 
 	it('should return blank strings when uris are not of type string', () => {
