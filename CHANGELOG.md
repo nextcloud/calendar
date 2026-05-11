@@ -1,3 +1,20 @@
+# [6.4.0](https://github.com/nextcloud/calendar/compare/v6.3.2-rc.0...v6.4.0) (2026-05-11)
+
+
+### Bug Fixes
+
+* add event link ([a26a758](https://github.com/nextcloud/calendar/commit/a26a758e611dc76fdefc7267380156b3fd41eb0f))
+* adjust alignment of time and timezone pickers ([c9a9677](https://github.com/nextcloud/calendar/commit/c9a9677fc0d74d133846cc38a670d82500cb0d92))
+* Allow or disallow invitation forwarding ([46c01a5](https://github.com/nextcloud/calendar/commit/46c01a5f8cd3fe367b78aa0742dadbae57c3df14))
+* **ContactController:** default option for user enumeration in sharing ([ee29a35](https://github.com/nextcloud/calendar/commit/ee29a352d481f17d674fb99bbdedef556f63712b))
+* default full / part day alarm ([582feff](https://github.com/nextcloud/calendar/commit/582feff6a3288426c0501ea66cfcd9f79178c1c8))
+* **deps:** Fix npm audit ([7193d45](https://github.com/nextcloud/calendar/commit/7193d45cb6b7150f50c7e126be3a98bc2dd22edb))
+* event overlapping and reminder alignment ([400113d](https://github.com/nextcloud/calendar/commit/400113da1348bd5534df870b4578398d69815436))
+* reorganise appointment config UI ([2b38778](https://github.com/nextcloud/calendar/commit/2b3877821d6638744870020b45f946d51d92aff4))
+* **utils/attendee:** mailto case ([b7d7da9](https://github.com/nextcloud/calendar/commit/b7d7da9eef49f99c50abd964b00ada42d6690a71))
+
+
+
 ## [6.3.2-rc.0](https://github.com/nextcloud/calendar/compare/v6.3.1-rc.0...v6.3.2-rc.0) (2026-05-04)
 
 
