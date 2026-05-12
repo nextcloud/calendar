@@ -22,7 +22,7 @@
 	"ignoreUnstable": false,
 	"baseBranchPatterns": [
 		"main",
-		"stable6.3",
+		"stable6.4",
 		"stable5.5"
 	],
 	"enabledManagers": [
