@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 __mocks__
 .editorconfig
-.eslintrc.js
 .git
 .git-blame-ignore-revs
 .github
@@ -13,8 +12,6 @@ __mocks__
 .php-cs-fixer.dist.php
 .php-cs-fixer.cache
 .scrutinizer.yml
-.stylelintignore
-.stylelintrc
 .tx
 babel.config.js
 build
@@ -34,13 +31,15 @@ phpunit*.xml
 renovate.json
 screenshots
 src
-stylelint.config.js
+stylelint.config.mjs
 tests
 timezones
 /vendor/bin
 /vendor/bamarni/composer-bin-plugin/e2e
 /vendor-bin
-webpack.*
+eslint.config.mjs
+rspack.config.js
 playwright.config.js
+vitest.config.js
 tsconfig.json
 tsconfig.json.license
