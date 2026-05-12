@@ -16,6 +16,7 @@ OC.L10N.register(
     "Name" : "নাম",
     "Deleted" : "মুছে ফেলা",
     "Restore" : "ফিরিয়ে দাও",
+    "Tasks" : "কর্ম",
     "Share link" : "লিংক ভাগাভাগি করেন",
     "None" : "কোনটিই নয়",
     "Save" : "সংরক্ষণ",

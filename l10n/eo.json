@@ -36,6 +36,7 @@
     "Restore" : "Restaŭri",
     "Delete permanently" : "Forigi por ĉiam",
     "Deck" : "Kartaro",
+    "Tasks" : "Taskoj",
     "Internal link" : "Interna ligilo",
     "Share link" : "Kunhavigi ligilon",
     "Delete share link" : "Forigi kunhavo-ligilon",
@@ -73,8 +74,6 @@
     "Friday" : "Vendredo",
     "Saturday" : "Sabato",
     "Sunday" : "Dimanĉo",
-    "Before the event" : "Antaŭe la evento",
-    "After the event" : "Post la evento",
     "We sent you an email with details. Please confirm your appointment using the link in the email. You can close this page now." : "Ni sendis al vi retmesaĝon kun detaloj. Bonvolu konfirmi vian rendevuon per la ligilo en la retpoŝto. Vi povas fermi ĉi tiun paĝon nun.",
     "Your email address" : "Via retpoŝta adreso",
     "Notification" : "Atentigo",
@@ -153,6 +152,8 @@
     "Show weekends" : "Montri semajnfinojn",
     "Show week numbers" : "Montri numerojn de semajno",
     "Show keyboard shortcuts" : "Montri klavarajn ŝparvojojn",
+    "Before the event" : "Antaŭe la evento",
+    "After the event" : "Post la evento",
     "on {formattedDate}" : "je la {formattedDate}",
     "Time:" : "Tempo:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

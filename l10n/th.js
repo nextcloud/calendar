@@ -30,6 +30,7 @@ OC.L10N.register(
     "Deleted" : "ลบแล้ว",
     "Restore" : "คืนค่า",
     "Delete permanently" : "ลบแบบถาวร",
+    "Tasks" : "งาน",
     "Internal link" : "ลิงค์ภายใน",
     "Copy internal link" : "คัดลอกลิงค์ภายใน",
     "Share link" : "แชร์ลิงก์",

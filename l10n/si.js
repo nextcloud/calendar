@@ -30,6 +30,7 @@ OC.L10N.register(
     "Untitled calendar" : "නිර්ණාමික දින දර්ශනය",
     "Name" : "නම",
     "Restore" : "ප්‍රතිෂ්ථාපනය",
+    "Tasks" : "කාර්යයන්",
     "Save" : "සුරකින්න",
     "Cancel" : "අවලංගු කරන්න",
     "Busy" : "කාර්යබහුලයි",

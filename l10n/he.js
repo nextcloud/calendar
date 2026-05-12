@@ -107,6 +107,7 @@ OC.L10N.register(
     "Delete permanently" : "מחיקה לצמיתות",
     "Could not update calendar order." : "לא היה ניתן לעדכן את סדר לוח השנה.",
     "Deck" : "חפיסה",
+    "Tasks" : "משימות",
     "Internal link" : "קישור פנימי",
     "A private link that can be used with external clients" : "קישור פרטי שיכול לשמש עבור משתמשים חיצוניים",
     "Copy internal link" : "העתקת קישור פנימי",
