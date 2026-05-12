@@ -71,15 +71,15 @@ const router = createRouter({
 		},
 		{
 			path: '/p/:tokens/:fancyName?',
-			redirect: `/p/:tokens/${getInitialView()}/now`,
+			redirect: (to) => `/p/${to.params.tokens}/${getInitialView()}/now`,
 		},
 		{
 			path: '/public/:tokens/:fancyName?',
-			redirect: `/p/:tokens/${getInitialView()}/now`,
+			redirect: (to) => `/p/${to.params.tokens}/${getInitialView()}/now`,
 		},
 		{
 			path: '/embed/:tokens',
-			redirect: `/embed/:tokens/${getInitialView()}/now`,
+			redirect: (to) => `/embed/${to.params.tokens}/${getInitialView()}/now`,
 		},
 		{
 			path: '/new/:view?',
@@ -87,7 +87,7 @@ const router = createRouter({
 		},
 		{
 			path: '/new/:allDay/:dtstart/:dtend',
-			redirect: () => `/${getInitialView()}/:dtstart/new/${getPreferredEditorRoute()}/:allDay/:dtstart/:dtend`,
+			redirect: (to) => `/${getInitialView()}/${to.params.dtstart}/new/${getPreferredEditorRoute()}/${to.params.allDay}/${to.params.dtstart}/${to.params.dtend}`,
 		},
 		{
 			path: '/edit/:object',
