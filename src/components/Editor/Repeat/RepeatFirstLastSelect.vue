@@ -26,17 +26,11 @@ export default {
 	},
 
 	props: {
-		/**
-		 *
-		 */
 		bySetPosition: {
 			type: Number,
 			default: null,
 		},
 
-		/**
-		 *
-		 */
 		disabled: {
 			type: Boolean,
 			required: true,
