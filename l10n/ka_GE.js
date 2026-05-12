@@ -27,6 +27,7 @@ OC.L10N.register(
     "Restore" : "აღდგენა",
     "Delete permanently" : "სამუდამოდ წაშლა",
     "Deck" : "დასტა",
+    "Tasks" : "დავალებები",
     "Share link" : "ბმულის გაზიარება",
     "Share with users or groups" : "გაზიარება მოხმარებლებთან ან ჯგუფებთან",
     "None" : "არც ერთი",

@@ -29,6 +29,7 @@ OC.L10N.register(
     "Restore" : "Rikthe",
     "Delete permanently" : "Fshije përgjithmonë",
     "Deck" : "Shto paisjen U2F",
+    "Tasks" : "Detyra",
     "Copy internal link" : "Kopjoni lidhjen e brendshme",
     "Share link" : "Ndani lidhjen",
     "Share with users or groups" : "Nda me përdoruesit ose grupet",

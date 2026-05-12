@@ -24,6 +24,7 @@ OC.L10N.register(
     "Deleted" : "Sletta",
     "Restore" : "Gjenopprett",
     "Delete permanently" : "Slett for godt",
+    "Tasks" : "Oppgåver",
     "Share link" : "Del lenkje",
     "None" : "Ingen",
     "Save" : "Lagre",

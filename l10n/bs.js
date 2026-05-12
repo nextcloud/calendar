@@ -13,6 +13,7 @@ OC.L10N.register(
     "Export" : "Izvezi",
     "Name" : "Ime",
     "Restore" : "Obnovi",
+    "Tasks" : "Zadaci",
     "Share link" : "Podijelite vezu",
     "None" : "Ništa",
     "Save" : "Spremi",
