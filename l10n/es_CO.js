@@ -30,6 +30,7 @@ OC.L10N.register(
     "Restore" : "Restaurar",
     "Delete permanently" : "Borrar permanentemente",
     "Deck" : "Deck",
+    "Tasks" : "Tareas",
     "Share link" : "Compartir enlace",
     "Share with users or groups" : "Compartir con otros usuarios o grupos",
     "None" : "Ninguno",
