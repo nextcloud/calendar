@@ -170,6 +170,7 @@ export default {
 				droppable: true,
 				eventReceive: this.handleEventReceive,
 				eventShortHeight: 38,
+				loading: this.scrollMonthViewToToday,
 			}
 		},
 
@@ -314,6 +315,26 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Scroll the month view to today when loading the calendar,
+		 * so people can directly see today's date and events.
+		 */
+		scrollMonthViewToToday(isLoading) {
+			if (isLoading) {
+				return
+			}
+			const calendarApi = this.$refs.fullCalendar.getApi()
+			if (calendarApi.view.type !== 'dayGridMonth') {
+				return
+			}
+			this.$nextTick(() => {
+				const todayEl = this.$refs.fullCalendar.$el.querySelector('.fc-day-today')
+				if (todayEl) {
+					todayEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+				}
+			})
+		},
+
 		/**
 		 * When a user changes the view, remember it and
 		 * use it the next time they open the calendar app
