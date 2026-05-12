@@ -89,7 +89,7 @@
 		</NcAppSidebar>
 		<!-- Edit modal -->
 		<div ref="simpleEditorAnchor" class="simple-editor-anchor">
-			<router-view />
+			<router-view :key="$route.fullPath" />
 		</div>
 	</NcContent>
 </template>
