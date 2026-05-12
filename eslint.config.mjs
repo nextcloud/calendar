@@ -3,25 +3,22 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { defineConfig } from 'eslint/config'
-
 import { recommended } from '@nextcloud/eslint-config'
 
-export default defineConfig([
+export default [
 	...recommended,
 	{
+		files: ['**/*.js', '**/*.vue', '**/*.ts'],
 		rules: {
-			// Relax some rules for now. Can be improved later one (baseline).
+			// Relax some rules for now. Can be improved later on (baseline).
 			'no-console': 'off',
 			'@typescript-eslint/no-unused-vars': 'off',
 			'vue/multi-word-component-names': 'off',
 			// JSDocs are welcome but lint:fix should not create empty ones
-			'jsdoc/require-jsdoc': 'off',
-			'jsdoc/require-param': 'off',
+			'jsdoc/require-jsdoc': ['warn', { enableFixer: false }],
+			'jsdoc/require-param': ['warn', { enableFixer: false }],
 			// Forbid empty JSDocs
-			// TODO: Enable this rule once @nextcloud/eslint-config was updated and pulls the
-			//       newest version of eslint-plugin-jsdoc (is a recent feature/rule).
-			// 'jsdoc/no-blank-blocks': 'error',
+			'jsdoc/no-blank-blocks': ['error', { enableFixer: true }],
 		},
 	},
-])
+]

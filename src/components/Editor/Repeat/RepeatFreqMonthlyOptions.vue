@@ -65,25 +65,16 @@ export default {
 	},
 
 	props: {
-		/**
-		 *
-		 */
 		byDay: {
 			type: Array,
 			required: true,
 		},
 
-		/**
-		 *
-		 */
 		byMonthDay: {
 			type: Array,
 			required: true,
 		},
 
-		/**
-		 *
-		 */
 		bySetPosition: {
 			type: Number,
 			default: null,

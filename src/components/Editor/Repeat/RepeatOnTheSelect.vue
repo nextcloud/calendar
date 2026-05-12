@@ -26,9 +26,6 @@ export default {
 	},
 
 	props: {
-		/**
-		 *
-		 */
 		byDay: {
 			type: Array,
 			required: true,
