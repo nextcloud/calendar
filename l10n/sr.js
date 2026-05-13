@@ -702,11 +702,6 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "Термин за ваш састанак је потврђен",
     "Appointment Details:" : "Детаљи састанка:",
     "Time:" : "Време:",
-    "Booked for:" : "Резервисано за:",
-    "Calendar name …" : "Назив календара …",
-    "15 min" : "15 мин",
-    "30 min" : "30 мин",
-    "60 min" : "60 мин",
-    "90 min" : "90 мин"
+    "Booked for:" : "Резервисано за:"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

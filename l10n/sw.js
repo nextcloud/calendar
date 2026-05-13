@@ -721,11 +721,6 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "Slot kwa muadi wako imethibitishwa",
     "Appointment Details:" : "Maelezo ya kina ya muadi",
     "Time:" : "Muda",
-    "Booked for:" : "Imekatishiwa nafasi kwa:",
-    "Calendar name …" : "Jina la kalenda …",
-    "15 min" : "15 dakika",
-    "30 min" : "30 dakika",
-    "60 min" : "60 dakika",
-    "90 min" : "90 dakika"
+    "Booked for:" : "Imekatishiwa nafasi kwa:"
 },
 "nplurals=2; plural=(n != 1);");

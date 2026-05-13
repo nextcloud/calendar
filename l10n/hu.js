@@ -735,10 +735,7 @@ OC.L10N.register(
     "Appointment Details:" : "Találkozó részletei:",
     "Time:" : "Idő:",
     "Booked for:" : "Részére lefoglalva:",
-    "Calendar name …" : "Naptár neve…",
-    "15 min" : "15 perc",
-    "30 min" : "30 perc",
-    "60 min" : "60 perc",
-    "90 min" : "90 perc"
+    "Duration suggestions" : "Időtartam-javaslatok",
+    "{duration} min" : "{duration} perc"
 },
 "nplurals=2; plural=(n != 1);");

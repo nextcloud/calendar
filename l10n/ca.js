@@ -611,7 +611,6 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "S'ha confirmat l’unitat temporal per a la vostra cita",
     "Appointment Details:" : "Detalls de la cita:",
     "Time:" : "Hora:",
-    "Booked for:" : "Reservat per a:",
-    "30 min" : "30 min"
+    "Booked for:" : "Reservat per a:"
 },
 "nplurals=2; plural=(n != 1);");

@@ -577,7 +577,6 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "時間枠を予約しました",
     "Appointment Details:" : "予定の詳細：",
     "Time:" : "時刻:",
-    "Booked for:" : "予約済み：",
-    "30 min" : "30分"
+    "Booked for:" : "予約済み："
 },
 "nplurals=1; plural=0;");

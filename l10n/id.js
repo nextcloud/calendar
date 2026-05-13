@@ -717,11 +717,6 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "Slot untuk janji temu Anda telah dikonfirmasi",
     "Appointment Details:" : "Detail Janji Temu:",
     "Time:" : "Waktu:",
-    "Booked for:" : "Dipesan untuk:",
-    "Calendar name …" : "Nama kalender …",
-    "15 min" : "15 menit",
-    "30 min" : "30 menit",
-    "60 min" : "60 menit",
-    "90 min" : "90 menit"
+    "Booked for:" : "Dipesan untuk:"
 },
 "nplurals=1; plural=0;");

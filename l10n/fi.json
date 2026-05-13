@@ -659,11 +659,6 @@
     "The slot for your appointment has been confirmed" : "Aikarako tapaamiselle on vahvistettu",
     "Appointment Details:" : "Tapaamisen yksityiskohdat:",
     "Time:" : "Aika:",
-    "Booked for:" : "Varattu:",
-    "Calendar name …" : "Kalenterin nimi …",
-    "15 min" : "15 min",
-    "30 min" : "30 min",
-    "60 min" : "60 min",
-    "90 min" : "90 min"
+    "Booked for:" : "Varattu:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

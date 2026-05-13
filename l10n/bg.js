@@ -126,6 +126,7 @@ OC.L10N.register(
     "Could not update calendar order." : " Невъзможност да се актуализира записът в календара",
     "Shared calendars" : "споделени календари",
     "Deck" : "Deck",
+    "Tasks" : "Задачи",
     "Internal link" : "Вътрешна връзка",
     "A private link that can be used with external clients" : "Частна връзка, която може да се използва с външни клиенти",
     "Copy internal link" : "Копиране на вътрешна връзка",
@@ -697,11 +698,6 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "Слотът за вашата среща е потвърден",
     "Appointment Details:" : "Подробности за срещата:",
     "Time:" : "Час:",
-    "Booked for:" : "Резервирано за:",
-    "Calendar name …" : "Име на календар ...",
-    "15 min" : "15 мин",
-    "30 min" : "30 мин",
-    "60 min" : "60 мин",
-    "90 min" : "90 мин"
+    "Booked for:" : "Резервирано за:"
 },
 "nplurals=2; plural=(n != 1);");

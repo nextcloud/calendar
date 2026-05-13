@@ -772,10 +772,7 @@ OC.L10N.register(
     "Appointment Details:" : "Susitikimo duomenys:",
     "Time:" : "Laikas:",
     "Booked for:" : "Užsakyta:",
-    "Calendar name …" : "Kalendoriaus pavadinimas  …",
-    "15 min" : "15 min",
-    "30 min" : "30 min",
-    "60 min" : "60 min",
-    "90 min" : "90 min"
+    "Duration suggestions" : "Trukmės pasiūlymai",
+    "{duration} min" : "{duration} min"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

@@ -610,8 +610,6 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "Zure hitzorduaren tartea berretsi da",
     "Appointment Details:" : "Hitzorduaren xehetasunak:",
     "Time:" : "Noiz:",
-    "Booked for:" : "Honetarako erreserbatuta:",
-    "Calendar name …" : "Egutegiaren izena …",
-    "30 min" : "30 min"
+    "Booked for:" : "Honetarako erreserbatuta:"
 },
 "nplurals=2; plural=(n != 1);");

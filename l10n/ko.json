@@ -536,7 +536,6 @@
     "Speak to the server administrator to resolve this issue." : "이 문제를 해결하기 위해 서버 관리자에게 문의하십시오",
     "The slot for your appointment has been confirmed" : "약속에 대한 슬롯이 확인되었습니다",
     "Appointment Details:" : "약속에 대한 상세 정보:",
-    "Time:" : "시간:",
-    "30 min" : "30분"
+    "Time:" : "시간:"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -116,6 +116,7 @@ OC.L10N.register(
     "Could not update calendar order." : "لا يمكن تعديل ترتيب التقويم.",
     "Shared calendars" : "تقاويم مشتركة",
     "Deck" : "البطاقات",
+    "Tasks" : "المهام",
     "Internal link" : "رابط داخلي",
     "A private link that can be used with external clients" : "رابط خاص يمكن استخدامه مع العملاء الخارجيين",
     "Copy internal link" : "إنسخ الرابط الداخلي",
@@ -611,7 +612,6 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "تم تأكيد الموعد المحدد لك",
     "Appointment Details:" : "تفاصيل الموعد:",
     "Time:" : "الوقت:",
-    "Booked for:" : "محجوز لـ :",
-    "30 min" : "30 دقيقة"
+    "Booked for:" : "محجوز لـ :"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

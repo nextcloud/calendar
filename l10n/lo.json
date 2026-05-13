@@ -704,11 +704,6 @@
     "The slot for your appointment has been confirmed" : "The slot for your appointment has been confirmed",
     "Appointment Details:" : "Appointment Details:",
     "Time:" : "Time:",
-    "Booked for:" : "Booked for:",
-    "Calendar name …" : "Calendar name …",
-    "15 min" : "15 min",
-    "30 min" : "30 min",
-    "60 min" : "60 min",
-    "90 min" : "90 min"
+    "Booked for:" : "Booked for:"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

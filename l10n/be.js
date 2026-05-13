@@ -48,6 +48,7 @@ OC.L10N.register(
     "Restore" : "Аднавіць",
     "Delete permanently" : "Выдаліць назаўжды",
     "Shared calendars" : "Абагуленыя календары",
+    "Tasks" : "Заданні",
     "Internal link" : "Унутраная спасылка",
     "Share link" : "Абагуліць спасылку",
     "Unshare with {displayName}" : "Скасаваць абагульванне з {displayName}",
@@ -200,9 +201,6 @@ OC.L10N.register(
     "Successfully appended link to talk room to description." : "Спасылка на пакой у Talk паспяхова дададзена ў апісанне.",
     "from {formattedDate} at {formattedTime}" : "ад {formattedDate} да {formattedTime}",
     "Time:" : "Час:",
-    "15 min" : "15 хв",
-    "30 min" : "30 хв",
-    "60 min" : "60 хв",
-    "90 min" : "90 хв"
+    "{duration} min" : "{duration} хв"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

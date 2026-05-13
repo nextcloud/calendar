@@ -734,10 +734,7 @@ OC.L10N.register(
     "Appointment Details:" : "Detalji termina:",
     "Time:" : "Vrijeme:",
     "Booked for:" : "Rezervirano za:",
-    "Calendar name …" : "Naziv kalendara …",
-    "15 min" : "15 min",
-    "30 min" : "30 min",
-    "60 min" : "60 min",
-    "90 min" : "90 min"
+    "Duration suggestions" : "Prijedlozi trajanja",
+    "{duration} min" : "{duration}min"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

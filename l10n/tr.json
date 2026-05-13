@@ -732,10 +732,7 @@
     "Appointment Details:" : "Randevu bilgileri:",
     "Time:" : "Saat:",
     "Booked for:" : "Ayırtılan:",
-    "Calendar name …" : "Takvim adı…",
-    "15 min" : "15 dakika",
-    "30 min" : "30 dakika",
-    "60 min" : "60 dakika",
-    "90 min" : "90 dakika"
+    "Duration suggestions" : "Süre önerileri",
+    "{duration} min" : "{duration} dakika"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

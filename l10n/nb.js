@@ -575,7 +575,6 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "Tidsrommet for din avtale har blitt bekreftet",
     "Appointment Details:" : "Avtaledetaljer:",
     "Time:" : "Tid:",
-    "Booked for:" : "Bestilt for:",
-    "30 min" : "30 min"
+    "Booked for:" : "Bestilt for:"
 },
 "nplurals=2; plural=(n != 1);");

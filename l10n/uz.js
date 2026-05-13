@@ -730,10 +730,7 @@ OC.L10N.register(
     "Appointment Details:" : "Uchrashuv tafsilotlari:",
     "Time:" : "Vaqt:",
     "Booked for:" : "Quyidagilar uchun band qilingan:",
-    "Calendar name …" : "Taqvim nomi …",
-    "15 min" : "15 min",
-    "30 min" : "30 daqiqa",
-    "60 min" : "60 min",
-    "90 min" : "90 min"
+    "Duration suggestions" : "Davomiylik bo'yicha takliflar",
+    "{duration} min" : "{duration} minut"
 },
 "nplurals=1; plural=0;");

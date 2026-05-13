@@ -684,10 +684,6 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "H θέση σας για το ραντεβού σας έχει επιβεβαιωθεί",
     "Appointment Details:" : "Λεπτομέρειες Ραντεβού",
     "Time:" : "Ώρα:",
-    "Booked for:" : "Κρατηση για",
-    "15 min" : "15 λεπτά",
-    "30 min" : "30 λεπτά",
-    "60 min" : "60 λεπτά",
-    "90 min" : "90 λεπτά"
+    "Booked for:" : "Κρατηση για"
 },
 "nplurals=2; plural=(n != 1);");

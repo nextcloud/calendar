@@ -772,10 +772,7 @@ OC.L10N.register(
     "Appointment Details:" : "Sonraí Coinne:",
     "Time:" : "Am:",
     "Booked for:" : "Áirithe le haghaidh:",
-    "Calendar name …" : "Ainm an fhéilire …",
-    "15 min" : "15 nóiméad",
-    "30 min" : "30 nóim",
-    "60 min" : "60 nóiméad",
-    "90 min" : "90 nóiméad"
+    "Duration suggestions" : "Moltaí fad",
+    "{duration} min" : "{duration} nóiméad"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

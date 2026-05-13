@@ -739,10 +739,7 @@
     "Appointment Details:" : "預約細節：",
     "Time:" : "時間：",
     "Booked for:" : "已訂：",
-    "Calendar name …" : "日曆名稱 …",
-    "15 min" : "15 分鐘",
-    "30 min" : "30 分鐘",
-    "60 min" : "60 分鐘",
-    "90 min" : "90 分鐘"
+    "Duration suggestions" : "持續時間建議",
+    "{duration} min" : "{duration} 分鐘"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
