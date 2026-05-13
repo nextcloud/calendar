@@ -14,10 +14,12 @@ OC.L10N.register(
     "Name" : "பெயர்",
     "Restore" : "மீட்டெடு",
     "Delete permanently" : "நிரந்தரமாக நீக்கவும்",
+    "Tasks" : "கடமைகள்",
     "Share link" : "Share link",
     "None" : "ஒன்றுமில்லை",
     "Save" : "சேமிக்க ",
     "Cancel" : "இரத்து செய்க",
+    "Attendees" : "பங்கேற்பாளர்கள்",
     "Actions" : "செயல்கள்",
     "General" : "பொதுவான",
     "Update" : "இற்றைப்படுத்தல்",
@@ -36,7 +38,6 @@ OC.L10N.register(
     "Email" : "மின்னஞ்சல்",
     "Done" : "Done",
     "Unknown" : "தெரியாத",
-    "Attendees" : "பங்கேற்பாளர்கள்",
     "Title" : "தலைப்பு",
     "Repeat" : "மீண்டும்",
     "never" : "ஒருபோதும்",
@@ -45,7 +46,6 @@ OC.L10N.register(
     "Personal" : "தனிப்பட்ட",
     "Close" : "மூடுக",
     "Selected" : "Selected",
-    "Other" : "மற்றவை",
-    "can edit" : "தொகுக்க முடியும்"
+    "Other" : "மற்றவை"
 },
 "nplurals=2; plural=(n != 1);");

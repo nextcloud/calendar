@@ -17,11 +17,13 @@
     "Deleted" : "Geläscht",
     "Restore" : "Zrécksetzen",
     "Delete permanently" : "Permanent läschen",
+    "Tasks" : "Tâchen",
     "Share link" : "Link deelen",
     "Share with users or groups" : "Mat Benotzer oder Gruppen deelen",
     "None" : "Keng",
     "Save" : "Späicheren",
     "Cancel" : "Ofbriechen",
+    "Attendees" : "Participanten",
     "Automatic" : "Automatesch",
     "List view" : "Lëscht Vue",
     "Actions" : "Aktiounen",
@@ -46,9 +48,11 @@
     "hours" : "Stonnen",
     "days" : "Deeg",
     "weeks" : "Wochen",
+    "Custom" : "Individualiséier",
+    "Hours" : "Stonnen",
+    "Minutes" : "Minutten",
     "Unknown" : "Onbekannt",
     "Copied to clipboard" : "An d'Tëschenoflag kopéiert",
-    "Attendees" : "Participanten",
     "Repeat" : "Widderhuelen",
     "never" : "Ni",
     "after" : "No",
@@ -68,7 +72,6 @@
     "When shared show only busy" : "Wann et gedeelt gouf, dann nëmmen als beschäftegt uweisen",
     "When shared hide this event" : "Wann et gedeelt gouf, dann verstopp dëst Evenement",
     "Calendars" : "Kalenneren",
-    "Hidden" : "Verstoppt",
-    "can edit" : "kann änneren"
+    "Hidden" : "Verstoppt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
