@@ -19,6 +19,7 @@ OC.L10N.register(
     "Deleted" : "Silinib",
     "Restore" : "Geri qaytar",
     "Delete permanently" : "Həmişəlik sil",
+    "Tasks" : "Tapşırıqlar",
     "Share link" : "Linki yayımla",
     "None" : "Heç bir",
     "Save" : "Saxla",

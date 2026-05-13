@@ -750,10 +750,7 @@ OC.L10N.register(
     "Appointment Details:" : "Detalles de la cita:",
     "Time:" : "Hora:",
     "Booked for:" : "Reservada para:",
-    "Calendar name …" : "Nombre del calendario …",
-    "15 min" : "15 min",
-    "30 min" : "30 min",
-    "60 min" : "60 min",
-    "90 min" : "90 min"
+    "Duration suggestions" : "Sugerencias de duración",
+    "{duration} min" : "{duration}minuto"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

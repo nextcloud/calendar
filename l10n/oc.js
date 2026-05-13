@@ -196,7 +196,6 @@ OC.L10N.register(
     "from {formattedDate}" : "a partir de {formattedDate}",
     "to {formattedDate}" : "cap a {formattedDate}",
     "Pick a time" : "Causir una ora",
-    "Pick a date" : "Causir una data",
-    "30 min" : "30 min"
+    "Pick a date" : "Causir una data"
 },
 "nplurals=2; plural=(n > 1);");

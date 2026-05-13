@@ -731,10 +731,7 @@ OC.L10N.register(
     "Appointment Details:" : "Afspraak Details:",
     "Time:" : "Tijd:",
     "Booked for:" : "Geboekt voor:",
-    "Calendar name …" : "Kalendernaam ...",
-    "15 min" : "15 min",
-    "30 min" : "30 min",
-    "60 min" : "60 min",
-    "90 min" : "90 min"
+    "Duration suggestions" : "Tijdsbestek voorstellen",
+    "{duration} min" : "{duration} min"
 },
 "nplurals=2; plural=(n != 1);");

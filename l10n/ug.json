@@ -710,11 +710,6 @@
     "The slot for your appointment has been confirmed" : "سىزنىڭ ۋەزىپىگە تەيىنلەنگەنلىكىڭىز جەزملەشتۈرۈلدى",
     "Appointment Details:" : "تەيىنلەش تەپسىلاتى:",
     "Time:" : "ۋاقىت:",
-    "Booked for:" : "زاكاز قىلىندى:",
-    "Calendar name …" : "كالېندار ئىسمى …",
-    "15 min" : "15 مىنۇت",
-    "30 min" : "30 مىنۇت",
-    "60 min" : "60 مىنۇت",
-    "90 min" : "90 مىنۇت"
+    "Booked for:" : "زاكاز قىلىندى:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

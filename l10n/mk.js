@@ -699,11 +699,6 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "Времето за вашиот термин е потврден",
     "Appointment Details:" : "Детали за терминот:",
     "Time:" : "Време:",
-    "Booked for:" : "Резервирано за:",
-    "Calendar name …" : "Име на календар …",
-    "15 min" : "15 мин",
-    "30 min" : "30 мин",
-    "60 min" : "60 мин",
-    "90 min" : "90 мин"
+    "Booked for:" : "Резервирано за:"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

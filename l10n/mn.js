@@ -713,9 +713,7 @@ OC.L10N.register(
     "Appointment Details:" : "Уулзалтын дэлгэрэнгүй:",
     "Time:" : "Цаг:",
     "Booked for:" : "Захиалсан:",
-    "15 min" : "15 мин",
-    "30 min" : "30 мин",
-    "60 min" : "60 мин",
-    "90 min" : "90 мин"
+    "Duration suggestions" : "Үргэлжлэх хугацааны санал",
+    "{duration} min" : "{duration} мин"
 },
 "nplurals=2; plural=(n != 1);");

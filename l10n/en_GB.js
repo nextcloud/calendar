@@ -741,10 +741,7 @@ OC.L10N.register(
     "Appointment Details:" : "Appointment Details:",
     "Time:" : "Time:",
     "Booked for:" : "Booked for:",
-    "Calendar name …" : "Calendar name …",
-    "15 min" : "15 min",
-    "30 min" : "30 min",
-    "60 min" : "60 min",
-    "90 min" : "90 min"
+    "Duration suggestions" : "Duration suggestions",
+    "{duration} min" : "{duration} min"
 },
 "nplurals=2; plural=(n != 1);");

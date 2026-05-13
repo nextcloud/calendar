@@ -734,10 +734,7 @@ OC.L10N.register(
     "Appointment Details:" : "Podrobnosti o schůzce:",
     "Time:" : "Čas:",
     "Booked for:" : "Zarezervováno pro:",
-    "Calendar name …" : "Název kalendáře …",
-    "15 min" : "15 min",
-    "30 min" : "30 min",
-    "60 min" : "60 min",
-    "90 min" : "90 min"
+    "Duration suggestions" : "Návrhy datumů",
+    "{duration} min" : "{duration} min"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

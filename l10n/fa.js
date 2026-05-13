@@ -530,7 +530,6 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "The slot for your appointment has been confirmed",
     "Appointment Details:" : "Appointment Details:",
     "Time:" : "Time:",
-    "Booked for:" : "Booked for:",
-    "30 min" : "30 min"
+    "Booked for:" : "Booked for:"
 },
 "nplurals=2; plural=(n > 1);");

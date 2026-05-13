@@ -739,10 +739,7 @@
     "Appointment Details:" : "预约详情：",
     "Time:" : "时间：",
     "Booked for:" : "已预约：",
-    "Calendar name …" : "日历名称 …",
-    "15 min" : "15 分钟",
-    "30 min" : "30 分钟",
-    "60 min" : "60 分钟",
-    "90 min" : "90 分钟"
+    "Duration suggestions" : "时长建议",
+    "{duration} min" : "{duration} 分钟"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

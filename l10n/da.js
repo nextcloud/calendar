@@ -711,11 +711,6 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "Tidspunktet for din aftale er blevet bekræftet",
     "Appointment Details:" : "Detaljer om aftale:",
     "Time:" : "Tid:",
-    "Booked for:" : "Booket til:",
-    "Calendar name …" : "Kalendernavn …",
-    "15 min" : "15 min",
-    "30 min" : "30 min",
-    "60 min" : "60 min",
-    "90 min" : "90 minutter"
+    "Booked for:" : "Booket til:"
 },
 "nplurals=2; plural=(n != 1);");

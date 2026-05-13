@@ -524,7 +524,6 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "El intervalo para tu cita ha sido confirmado",
     "Appointment Details:" : "Detalles de la cita:",
     "Time:" : "Hora:",
-    "Booked for:" : "Reservado para:",
-    "30 min" : "30 minutos"
+    "Booked for:" : "Reservado para:"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
