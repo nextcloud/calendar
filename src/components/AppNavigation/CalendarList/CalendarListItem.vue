@@ -269,11 +269,14 @@ export default {
 		},
 
 		calendarDisplayName() {
-			if (this.calendar.displayName.substring(0, 5) === 'Deck:') {
-				return this.calendar.displayName.substring(5)
-			} else {
-				return this.calendar.displayName
+			let name = this.calendar.displayName
+			if (name.substring(0, 5) === 'Deck:') {
+				name = name.substring(5)
 			}
+			if (this.calendar.isDelegated && this.calendar.delegationAccess === 'read') {
+				name = this.$t('calendar', '{name} (read only)', { name })
+			}
+			return name
 		},
 	},
 
@@ -301,7 +304,6 @@ export default {
 		 * Open the calendar modal for this calendar item.
 		 */
 		showEditModal() {
-			console.log('getting here')
 			this.calendarsStore.editCalendarModal = { calendarId: this.calendar.id }
 		},
 

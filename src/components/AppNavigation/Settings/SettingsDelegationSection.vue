@@ -11,7 +11,7 @@
 
 		<NcFormGroup
 			:label="t('calendar', 'Delegates')"
-			:description="t('calendar', 'Allow users to manage your calendar events and invitations on your behalf.')">
+			:description="t('calendar', 'Allow users to view your calendars, or manage events and invitations on your behalf.')">
 			<NcEmptyContent
 				v-if="loading"
 				icon="icon-loading"
@@ -22,9 +22,27 @@
 					v-for="delegate in delegationStore.delegates"
 					:key="delegate.url"
 					:name="delegate.displayname || delegate.principalId"
-					:subname="delegate.emailAddress"
+					:subname="accessLabel(delegate.access)"
 					:compact="true">
 					<template #actions>
+						<NcActionButton
+							v-if="delegate.access === 'read'"
+							:aria-label="t('calendar', 'Allow editing')"
+							@click="onChangeAccess(delegate, 'write')">
+							<template #icon>
+								<PencilIcon :size="20" />
+							</template>
+							{{ t('calendar', 'Allow editing') }}
+						</NcActionButton>
+						<NcActionButton
+							v-else
+							:aria-label="t('calendar', 'Restrict to view only')"
+							@click="onChangeAccess(delegate, 'read')">
+							<template #icon>
+								<EyeIcon :size="20" />
+							</template>
+							{{ t('calendar', 'Restrict to view only') }}
+						</NcActionButton>
 						<NcActionButton
 							:aria-label="t('calendar', 'Revoke access')"
 							@click="onRevokeClick(delegate)">
@@ -97,9 +115,25 @@
 						</div>
 					</template>
 				</NcSelect>
-				<p class="delegation-add__description">
-					{{ t('calendar', 'They will be able to manage your calendar events and invitations on your behalf.') }}
-				</p>
+				<fieldset class="delegation-add__access">
+					<legend class="delegation-add__access-legend">
+						{{ t('calendar', 'Access level') }}
+					</legend>
+					<NcCheckboxRadioSwitch
+						v-model="selectedAccess"
+						value="write"
+						name="delegation-access"
+						type="radio">
+						{{ t('calendar', 'Can edit (manage events on your behalf)') }}
+					</NcCheckboxRadioSwitch>
+					<NcCheckboxRadioSwitch
+						v-model="selectedAccess"
+						value="read"
+						name="delegation-access"
+						type="radio">
+						{{ t('calendar', 'Can view only') }}
+					</NcCheckboxRadioSwitch>
+				</fieldset>
 			</div>
 			<template #actions>
 				<NcButton variant="secondary" @click="showAddDelegate = false">
@@ -122,6 +156,7 @@ import {
 	NcActionButton,
 	NcAvatar,
 	NcButton,
+	NcCheckboxRadioSwitch,
 	NcDialog,
 	NcEmptyContent,
 	NcFormGroup,
@@ -132,6 +167,8 @@ import {
 import debounce from 'debounce'
 import { mapStores } from 'pinia'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
+import EyeIcon from 'vue-material-design-icons/EyeOutline.vue'
+import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import useDelegationStore from '../../../store/delegation.js'
@@ -145,6 +182,7 @@ export default {
 		NcActionButton,
 		NcAvatar,
 		NcButton,
+		NcCheckboxRadioSwitch,
 		NcDialog,
 		NcEmptyContent,
 		NcFormGroup,
@@ -152,6 +190,8 @@ export default {
 		NcNoteCard,
 		NcSelect,
 		CloseIcon,
+		EyeIcon,
+		PencilIcon,
 		PlusIcon,
 	},
 
@@ -167,6 +207,8 @@ export default {
 			showAddDelegate: false,
 			/** Currently selected user in the add-delegate dialog */
 			selectedUser: null,
+			/** Access level chosen in the add-delegate dialog */
+			selectedAccess: 'write',
 			/** Search results for user lookup */
 			searchResults: [],
 			/** Whether user search is in progress */
@@ -259,7 +301,10 @@ export default {
 			const delegate = this.revokeTarget
 			this.revokeTarget = null
 			try {
-				await this.delegationStore.removeDelegate({ principalUrl: delegate.url })
+				await this.delegationStore.removeDelegate({
+					principalUrl: delegate.url,
+					access: delegate.access,
+				})
 				showSuccess(this.t('calendar', 'Access revoked successfully.'))
 			} catch (error) {
 				logger.error('Failed to revoke delegate access', { error })
@@ -272,8 +317,47 @@ export default {
 		 */
 		openAddDelegate() {
 			this.selectedUser = null
+			this.selectedAccess = 'write'
 			this.searchResults = []
 			this.showAddDelegate = true
+		},
+
+		/**
+		 * Human-readable label for an access level.
+		 *
+		 * @param {'read'|'write'} access The access level
+		 * @return {string}
+		 */
+		accessLabel(access) {
+			return access === 'read'
+				? this.t('calendar', 'View only')
+				: this.t('calendar', 'Can edit')
+		},
+
+		/**
+		 * Promote or demote a delegate's access level.
+		 *
+		 * @param {object} delegate The delegate to change
+		 * @param {'read'|'write'} newAccess The new access level
+		 */
+		async onChangeAccess(delegate, newAccess) {
+			if (delegate.access === newAccess) {
+				return
+			}
+			try {
+				await this.delegationStore.addDelegate({
+					principalUrl: delegate.url,
+					access: newAccess,
+					from: delegate.access,
+				})
+				showSuccess(newAccess === 'write'
+					? this.t('calendar', 'Editing access granted.')
+					: this.t('calendar', 'Access restricted to view only.'),
+				)
+			} catch (error) {
+				logger.error('Failed to change delegate access', { error })
+				showError(this.t('calendar', 'Could not update access.'))
+			}
 		},
 
 		/**
@@ -296,10 +380,15 @@ export default {
 			}
 			this.addLoading = true
 			const user = this.selectedUser
+			const access = this.selectedAccess
 			this.showAddDelegate = false
 			try {
-				await this.delegationStore.addDelegate({ principalUrl: user.url })
-				showSuccess(this.t('calendar', '{name} can now act on your behalf.', { name: user.displayname || user.principalId }))
+				await this.delegationStore.addDelegate({ principalUrl: user.url, access })
+				const name = user.displayname || user.principalId
+				showSuccess(access === 'write'
+					? this.t('calendar', '{name} can now act on your behalf.', { name })
+					: this.t('calendar', '{name} can now view your calendars.', { name }),
+				)
 			} catch (error) {
 				logger.error('Failed to add delegate', { error })
 				showError(this.t('calendar', 'Could not add delegate.'))
@@ -408,6 +497,17 @@ export default {
 	&__description {
 		margin-top: calc(var(--default-grid-baseline) * 3);
 		color: var(--color-text-maxcontrast);
+	}
+
+	&__access {
+		margin-top: calc(var(--default-grid-baseline) * 3);
+		border: none;
+		padding: 0;
+	}
+
+	&__access-legend {
+		font-weight: bold;
+		margin-bottom: var(--default-grid-baseline);
 	}
 
 	&__option {

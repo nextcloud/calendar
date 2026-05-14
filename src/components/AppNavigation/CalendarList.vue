@@ -221,17 +221,21 @@ export default {
 
 		async update() {
 			this.disableDragging = true
-			const currentCalendars = [
+			// Only draggable buckets participate in ordering — delegated calendars
+			// aren't owned by the current user, so we must not PROPPATCH order on them.
+			const orderableCalendars = [
 				...this.sortedCalendars.personal,
 				...this.sortedCalendars.shared,
 				...this.sortedCalendars.deck,
 			]
-			const newOrder = currentCalendars.reduce((newOrderObj, currentItem, currentIndex) => {
+			const newOrder = orderableCalendars.reduce((newOrderObj, currentItem, currentIndex) => {
 				newOrderObj[currentItem.id] = currentIndex
 				return newOrderObj
 			}, {})
 
-			this.calendars = currentCalendars
+			// Keep delegated calendars in the local list so the next sortCalendars()
+			// can place them back into their section.
+			this.calendars = [...orderableCalendars, ...this.sortedCalendars.delegated]
 
 			try {
 				await limit(() => this.calendarsStore.updateCalendarListOrder({ newOrder }))

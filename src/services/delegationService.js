@@ -114,6 +114,41 @@ async function fetchGroupMembership(principalUrl) {
 }
 
 /**
+ * Inspect a PROPPATCH 207 Multi-Status response body for per-property
+ * failures. PROPPATCH returns 207 even when individual properties fail,
+ * so a 2xx HTTP status alone is not proof of success.
+ *
+ * @param {string} responseBody The XML response body
+ * @throws {Error} If any propstat reports a non-2xx status
+ */
+function assertProppatchSuccess(responseBody) {
+	if (typeof responseBody !== 'string' || !responseBody.trim()) {
+		return
+	}
+	let doc
+	try {
+		doc = new DOMParser().parseFromString(responseBody, 'text/xml')
+	} catch (e) {
+		return
+	}
+	const propstats = doc.getElementsByTagNameNS('DAV:', 'propstat')
+	for (const propstat of Array.from(propstats)) {
+		const statusEl = propstat.getElementsByTagNameNS('DAV:', 'status')[0]
+		if (!statusEl) {
+			continue
+		}
+		const match = statusEl.textContent.match(/HTTP\/[\d.]+\s+(\d{3})/)
+		if (!match) {
+			continue
+		}
+		const code = parseInt(match[1], 10)
+		if (code < 200 || code >= 300) {
+			throw new Error(`PROPPATCH group-member-set failed with status ${code}`)
+		}
+	}
+}
+
+/**
  * Set the group-member-set of a proxy group via PROPPATCH.
  *
  * @param {string} groupUrl Absolute URL of the proxy group principal
@@ -133,7 +168,7 @@ async function setGroupMemberSet(groupUrl, memberUrls) {
   </d:set>
 </d:propertyupdate>`
 
-	await axios({
+	const response = await axios({
 		method: 'PROPPATCH',
 		url: groupUrl,
 		data: body,
@@ -141,29 +176,33 @@ async function setGroupMemberSet(groupUrl, memberUrls) {
 			'Content-Type': 'application/xml; charset=utf-8',
 		},
 	})
+
+	assertProppatchSuccess(response.data)
 }
 
 /**
- * Get the absolute URLs of all write-delegates for a user.
- * Delegates are principals in the user's calendar-proxy-write group.
+ * Get the absolute URLs of delegates of the given access level for a user.
+ * Delegates are principals in the user's calendar-proxy-{type} group.
  *
  * @param {string} userId The current user's login name
+ * @param {'read'|'write'} type Proxy access level
  * @return {Promise<string[]>} Absolute principal URLs of delegates
  */
-async function getDelegateUrls(userId) {
-	const groupUrl = getProxyGroupUrl(userId, 'write')
+async function getDelegateUrls(userId, type = 'write') {
+	const groupUrl = getProxyGroupUrl(userId, type)
 	return fetchGroupMemberSet(groupUrl)
 }
 
 /**
- * Add a delegate to the current user's calendar-proxy-write group.
+ * Add a delegate to the current user's calendar-proxy-{type} group.
  *
  * @param {string} userId The current user's login name
  * @param {string} delegatePrincipalUrl Absolute URL of the principal to add
+ * @param {'read'|'write'} type Proxy access level
  * @return {Promise<void>}
  */
-async function addDelegateToGroup(userId, delegatePrincipalUrl) {
-	const groupUrl = getProxyGroupUrl(userId, 'write')
+async function addDelegateToGroup(userId, delegatePrincipalUrl, type = 'write') {
+	const groupUrl = getProxyGroupUrl(userId, type)
 	const current = await fetchGroupMemberSet(groupUrl)
 	if (!current.includes(delegatePrincipalUrl)) {
 		await setGroupMemberSet(groupUrl, [...current, delegatePrincipalUrl])
@@ -171,37 +210,54 @@ async function addDelegateToGroup(userId, delegatePrincipalUrl) {
 }
 
 /**
- * Remove a delegate from the current user's calendar-proxy-write group.
+ * Remove a delegate from the current user's calendar-proxy-{type} group.
  *
  * @param {string} userId The current user's login name
  * @param {string} delegatePrincipalUrl Absolute URL of the principal to remove
+ * @param {'read'|'write'} type Proxy access level
  * @return {Promise<void>}
  */
-async function removeDelegateFromGroup(userId, delegatePrincipalUrl) {
-	const groupUrl = getProxyGroupUrl(userId, 'write')
+async function removeDelegateFromGroup(userId, delegatePrincipalUrl, type = 'write') {
+	const groupUrl = getProxyGroupUrl(userId, type)
 	const current = await fetchGroupMemberSet(groupUrl)
 	await setGroupMemberSet(groupUrl, current.filter((url) => url !== delegatePrincipalUrl))
 }
 
 /**
- * Get the principal URLs of users who have delegated write access to the current user.
- * Inspects the group-membership property and strips the /calendar-proxy-write suffix to
- * return the owner's principal URL directly, ready for CalDAV discovery.
+ * Get the principal URLs of users who have delegated access to the current user,
+ * along with the access level they granted.
+ *
+ * Inspects the group-membership property for entries ending in
+ * /calendar-proxy-write or /calendar-proxy-read and strips the suffix to return
+ * the owner's principal URL directly, ready for CalDAV discovery.
+ *
+ * If the same delegator appears in both read and write groups (which shouldn't
+ * normally happen — write implies read), the write entry wins.
  *
  * @param {string} principalUrl Absolute URL of the current user's principal
- * @return {Promise<string[]>} Absolute principal URLs of users who delegated to the current user
+ * @return {Promise<Array<{principalUrl: string, access: 'read'|'write'}>>}
+ *   Delegators with their access level
  */
 async function getDelegatorPrincipalUrls(principalUrl) {
 	const groups = await fetchGroupMembership(principalUrl)
-	return groups
-		.filter((url) => url.includes('calendar-proxy-write'))
-		.map((url) => {
-			// URL pattern: .../principals/users/{userId}/calendar-proxy-write[/]
-			// Strip the proxy-group suffix to get the owner's principal URL.
-			const match = url.match(/^(.+\/principals\/users\/[^/]+)\/calendar-proxy-write/)
-			return match ? match[1] : null
-		})
-		.filter(Boolean)
+	const byPrincipal = new Map()
+	for (const url of groups) {
+		const match = url.match(/^(.+\/principals\/users\/[^/]+)\/calendar-proxy-(read|write)/)
+		if (!match) {
+			continue
+		}
+		const owner = match[1]
+		const access = match[2]
+		// Write supersedes read for the same delegator.
+		if (byPrincipal.get(owner) === 'write') {
+			continue
+		}
+		byPrincipal.set(owner, access)
+	}
+	return Array.from(byPrincipal.entries()).map(([principalUrl, access]) => ({
+		principalUrl,
+		access,
+	}))
 }
 
 /**

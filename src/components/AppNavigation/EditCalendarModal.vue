@@ -79,18 +79,23 @@
 			</template>
 			<NcAppNavigationSpacer />
 			<div class="edit-calendar-modal__actions">
-				<NcButton v-if="calendar.isSharedWithMe" variant="tertiary" @click="deleteCalendar">
-					<template #icon>
-						<CloseIcon :size="20" />
-					</template>
-					{{ $t('calendar', 'Unshare from me') }}
-				</NcButton>
-				<NcButton v-else variant="tertiary" @click="deleteCalendar">
-					<template #icon>
-						<DeleteIcon :size="20" />
-					</template>
-					{{ $t('calendar', 'Delete') }}
-				</NcButton>
+				<!-- Delegated calendars have no local share-record to unshare and
+				     can't be deleted by the delegate — the delegator must revoke
+				     proxy access. Hide the destructive action entirely. -->
+				<template v-if="!calendar.isDelegated">
+					<NcButton v-if="calendar.isSharedWithMe" variant="tertiary" @click="deleteCalendar">
+						<template #icon>
+							<CloseIcon :size="20" />
+						</template>
+						{{ $t('calendar', 'Unshare from me') }}
+					</NcButton>
+					<NcButton v-else variant="tertiary" @click="deleteCalendar">
+						<template #icon>
+							<DeleteIcon :size="20" />
+						</template>
+						{{ $t('calendar', 'Delete') }}
+					</NcButton>
+				</template>
 				<NcButton variant="tertiary" :href="downloadUrl">
 					<template #icon>
 						<DownloadIcon :size="20" />

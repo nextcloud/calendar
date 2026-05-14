@@ -23,21 +23,21 @@ export default defineStore('delegation', {
 	state: () => {
 		return {
 			/**
-			 * List of principal objects that the current user has delegated to
-			 * (members of the current user's calendar-proxy-write group).
+			 * List of principals the current user has delegated to.
+			 * Each entry is a principal object decorated with an `access`
+			 * field ('read' or 'write').
 			 *
-			 * @type {object[]}
+			 * @type {Array<object & {access: 'read'|'write'}>}
 			 */
 			delegates: [],
 
 			/**
-			 * Principal URLs of users who have granted the current user proxy access.
-			 * Stored as full absolute principal URLs so calendar-home discovery can
-			 * be performed without reconstructing paths from user IDs.
+			 * Delegators (users who have granted the current user proxy access),
+			 * each annotated with the access level they granted.
 			 *
-			 * @type {string[]}
+			 * @type {Array<{principalUrl: string, access: 'read'|'write'}>}
 			 */
-			delegatorPrincipalUrls: [],
+			delegators: [],
 		}
 	},
 
@@ -48,13 +48,14 @@ export default defineStore('delegation', {
 		 * @param {object} state The store state
 		 * @return {boolean}
 		 */
-		hasDelegatedCalendars: (state) => state.delegatorPrincipalUrls.length > 0,
+		hasDelegatedCalendars: (state) => state.delegators.length > 0,
 	},
 
 	actions: {
 		/**
-		 * Fetch the current user's delegates (members of their calendar-proxy-write group)
-		 * and resolve their principal details.
+		 * Fetch the current user's delegates from both the read and write proxy
+		 * groups and resolve their principal details. Each resulting delegate
+		 * is annotated with its `access` level.
 		 *
 		 * @return {Promise<void>}
 		 */
@@ -65,20 +66,33 @@ export default defineStore('delegation', {
 				return
 			}
 
-			let memberUrls
+			let writeUrls = []
+			let readUrls = []
 			try {
-				memberUrls = await getDelegateUrls(currentUser.userId)
+				[writeUrls, readUrls] = await Promise.all([
+					getDelegateUrls(currentUser.userId, 'write'),
+					getDelegateUrls(currentUser.userId, 'read'),
+				])
 			} catch (error) {
 				logger.error('Could not fetch delegate URLs', { error })
 				return
 			}
 
+			// Write supersedes read if (somehow) the same principal is in both.
+			const accessByUrl = new Map()
+			for (const url of readUrls) {
+				accessByUrl.set(url, 'read')
+			}
+			for (const url of writeUrls) {
+				accessByUrl.set(url, 'write')
+			}
+
 			const delegates = []
-			for (const url of memberUrls) {
+			for (const [url, access] of accessByUrl.entries()) {
 				try {
 					const dav = await findPrincipalByUrl(url)
 					if (dav) {
-						delegates.push(mapDavToPrincipal(dav))
+						delegates.push({ ...mapDavToPrincipal(dav), access })
 					}
 				} catch (error) {
 					logger.error('Could not resolve delegate principal', { url, error })
@@ -89,7 +103,8 @@ export default defineStore('delegation', {
 		},
 
 		/**
-		 * Fetch the principal URLs of users who have granted the current user proxy access.
+		 * Fetch the users who have granted the current user proxy access,
+		 * along with the access level they granted (read or write).
 		 *
 		 * @return {Promise<void>}
 		 */
@@ -101,46 +116,62 @@ export default defineStore('delegation', {
 			}
 
 			try {
-				this.delegatorPrincipalUrls = await getDelegatorPrincipalUrls(currentUser.url)
-				logger.debug('Fetched delegators', { delegatorPrincipalUrls: this.delegatorPrincipalUrls })
+				this.delegators = await getDelegatorPrincipalUrls(currentUser.url)
+				logger.debug('Fetched delegators', { delegators: this.delegators })
 			} catch (error) {
-				logger.error('Could not fetch delegator principal URLs', { error })
+				logger.error('Could not fetch delegators', { error })
 			}
 		},
 
 		/**
-		 * Add a user as a delegate (add them to the current user's calendar-proxy-write group).
+		 * Add a user as a delegate. If a `from` access is supplied, the user is
+		 * first removed from that group — used when changing a delegate's access
+		 * level (e.g. promoting read → write).
 		 *
 		 * @param {object} data The destructuring object
 		 * @param {string} data.principalUrl Absolute URL of the principal to add
+		 * @param {'read'|'write'} [data.access] Access level to grant (default: 'write')
+		 * @param {'read'|'write'} [data.from] If set, remove from this group first
 		 * @return {Promise<void>}
 		 */
-		async addDelegate({ principalUrl }) {
+		async addDelegate({ principalUrl, access = 'write', from = undefined }) {
 			const principalsStore = usePrincipalsStore()
 			const currentUser = principalsStore.getCurrentUserPrincipal
 			if (!currentUser?.userId) {
 				return
 			}
 
-			await addDelegateToGroup(currentUser.userId, principalUrl)
+			if (from && from !== access) {
+				await removeDelegateFromGroup(currentUser.userId, principalUrl, from)
+			}
+			await addDelegateToGroup(currentUser.userId, principalUrl, access)
 			await this.fetchDelegates()
 		},
 
 		/**
-		 * Remove a delegate (remove them from the current user's calendar-proxy-write group).
+		 * Remove a delegate. Removes from the explicit `access` group if given,
+		 * otherwise removes from both read and write to ensure full revocation.
 		 *
 		 * @param {object} data The destructuring object
 		 * @param {string} data.principalUrl Absolute URL of the principal to remove
+		 * @param {'read'|'write'} [data.access] Specific group to remove from
 		 * @return {Promise<void>}
 		 */
-		async removeDelegate({ principalUrl }) {
+		async removeDelegate({ principalUrl, access = undefined }) {
 			const principalsStore = usePrincipalsStore()
 			const currentUser = principalsStore.getCurrentUserPrincipal
 			if (!currentUser?.userId) {
 				return
 			}
 
-			await removeDelegateFromGroup(currentUser.userId, principalUrl)
+			if (access) {
+				await removeDelegateFromGroup(currentUser.userId, principalUrl, access)
+			} else {
+				await Promise.all([
+					removeDelegateFromGroup(currentUser.userId, principalUrl, 'write'),
+					removeDelegateFromGroup(currentUser.userId, principalUrl, 'read'),
+				])
+			}
 			this.delegates = this.delegates.filter((d) => d.url !== principalUrl)
 		},
 
@@ -157,7 +188,7 @@ export default defineStore('delegation', {
 		 * @return {Promise<void>}
 		 */
 		async fetchDelegatedCalendars() {
-			if (!this.delegatorPrincipalUrls.length) {
+			if (!this.delegators.length) {
 				return
 			}
 
@@ -165,7 +196,16 @@ export default defineStore('delegation', {
 			const calendarsStore = useCalendarsStore()
 			const currentUser = principalsStore.getCurrentUserPrincipal
 
-			for (const delegatorPrincipalUrl of this.delegatorPrincipalUrls) {
+			for (const { principalUrl: delegatorPrincipalUrl, access } of this.delegators) {
+				// Load the delegator's principal into the principals store so the
+				// CalendarListItem avatar can resolve the owner. Without this,
+				// `loadedOwnerPrincipal` stays false and the row shows a spinner.
+				try {
+					await principalsStore.fetchPrincipalByUrl({ url: delegatorPrincipalUrl })
+				} catch (error) {
+					logger.warn('Could not load delegator principal', { delegatorPrincipalUrl, error })
+				}
+
 				// Discover the delegator's calendar home URL via CalDAV principal PROPFIND.
 				// This follows RFC 4791 §6.2.1 and avoids hard-coding any URL path convention.
 				const calendarHomeUrl = await getCalendarHomeUrl(delegatorPrincipalUrl)
@@ -177,9 +217,17 @@ export default defineStore('delegation', {
 
 				try {
 					const rawCalendars = await findCalendarsAtUrl(calendarHomeUrl)
+					// For read-only delegation, force the readOnly flag on the local model
+					// so the UI cannot offer editing affordances. (Server ACL would reject
+					// edits anyway, but failing late is a worse UX.)
 					const mappedCalendars = rawCalendars
 						.map((cal) => mapDavCollectionToCalendar(cal, currentUser))
-						.map((cal) => ({ ...cal, isDelegated: true }))
+						.map((cal) => ({
+							...cal,
+							isDelegated: true,
+							delegationAccess: access,
+							readOnly: cal.readOnly || access === 'read',
+						}))
 
 					for (const calendar of mappedCalendars) {
 						// Only add if not already present
@@ -188,7 +236,7 @@ export default defineStore('delegation', {
 						}
 					}
 
-					logger.debug('Fetched delegated calendars from', { calendarHomeUrl, count: mappedCalendars.length })
+					logger.debug('Fetched delegated calendars from', { calendarHomeUrl, access, count: mappedCalendars.length })
 				} catch (error) {
 					logger.error('Could not fetch calendars for delegator', { delegatorPrincipalUrl, error })
 					showError(t('calendar', 'Could not load delegated calendars. Make sure the server supports calendar delegation.'))

@@ -47,6 +47,8 @@ function getDefaultCalendarObject(props = {}) {
 		isSharedWithMe: false,
 		// Whether or not the calendar belongs to a user who delegated to me
 		isDelegated: false,
+		// If isDelegated, the access level granted ('read' or 'write')
+		delegationAccess: null,
 		// Whether or not the calendar can be shared by me
 		canBeShared: false,
 		// Whether or not the calendar can be published by me
