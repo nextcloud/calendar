@@ -196,12 +196,13 @@
 	// Reminder icon on events with alarms set
 	.fc-event-nc-alarms {
 		.fc-event-main-frame {
-			width: calc(100% - 17px);
+			width: calc(100% - 15px);
+			margin-left: 15px;
 		}		
 		.icon-event-reminder {
 			position: absolute;
 			top: 2px;
-			right: 2px;
+			left: 2px;
 			content: "";
 			display: inline-block;
 			min-width: 14px;
