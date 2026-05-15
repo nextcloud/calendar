@@ -56,6 +56,11 @@ describe('router redirect test suite', () => {
 		expect(router.currentRoute.value.path).toBe('/embed/e9NifA4gGmfHJo54/dayGridMonth/now')
 	})
 
+	it('redirects /new to the initial view', async () => {
+		await router.push('/new')
+		expect(router.currentRoute.value.path).toMatch(/^\/dayGridMonth\/now\/new\/popover\/0\/\d+\/\d+$/)
+	})
+
 	it('redirects /edit/:object with the real object id', async () => {
 		await router.push('/edit/someObjectId')
 		expect(router.currentRoute.value.path).toBe('/dayGridMonth/now/edit/popover/someObjectId/next')

@@ -83,7 +83,7 @@ const router = createRouter({
 		},
 		{
 			path: '/new/:view?',
-			redirect: (to) => `/${to.params.view ?? getInitialView()}/now/new/${getPreferredEditorRoute()}/0/${getDefaultStartDateForNewEvent()}/${getDefaultEndDateForNewEvent()}`,
+			redirect: (to) => `/${to.params.view || getInitialView()}/now/new/${getPreferredEditorRoute()}/0/${getDefaultStartDateForNewEvent()}/${getDefaultEndDateForNewEvent()}`,
 		},
 		{
 			path: '/new/:allDay/:dtstart/:dtend',
