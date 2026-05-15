@@ -61,6 +61,8 @@ jobs:
         nextcloud-versions: [ 'master' ]
         include:
           - php-versions: '8.5'
+            nextcloud-versions: 'stable34'
+          - php-versions: '8.5'
             nextcloud-versions: 'stable33'
           - php-versions: '8.2'
             nextcloud-versions: 'stable32'
