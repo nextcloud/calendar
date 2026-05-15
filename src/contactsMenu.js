@@ -32,35 +32,39 @@ registerContactsMenuAction({
 	iconSvg: () => CalendarBlankSvgRaw,
 	enabled: (entry) => entry.isUser,
 	callback: async (args) => {
-		const { default: Vue } = await import('vue')
+		const { createApp } = await import('vue')
 		const { default: ContactsMenuAvailability } = await import('./views/ContactsMenuAvailability.vue')
-		const { createPinia, PiniaVuePlugin } = await import('pinia')
+		const { createPinia } = await import('pinia')
 		const { translatePlural } = await import('@nextcloud/l10n')
 
-		Vue.use(PiniaVuePlugin)
 		const pinia = createPinia()
-
-		// Register global components
-		Vue.prototype.$t = t
-		Vue.prototype.$n = translatePlural
-
-		// The nextcloud-vue package does currently rely on t and n
-		Vue.prototype.t = t
-		Vue.prototype.n = translatePlural
 
 		// Append container element to the body to mount the vm at
 		const el = document.createElement('div')
 		document.body.appendChild(el)
 
-		const View = Vue.extend(ContactsMenuAvailability)
-		const vm = new View({
-			propsData: {
-				userId: args.uid,
-				userDisplayName: args.fullName,
-				userEmail: args.emailAddresses[0],
-			},
-			pinia,
+		const app = createApp(ContactsMenuAvailability, {
+			userId: args.uid,
+			userDisplayName: args.fullName,
+			userEmail: args.emailAddresses[0],
 		})
-		vm.$mount(el)
+
+		app.config.globalProperties.$t = t
+		app.config.globalProperties.$n = translatePlural
+		app.config.globalProperties.$destroy = () => {
+			app.unmount()
+			el.remove()
+		}
+
+		// nextcloud-vue components still access translation helpers as instance methods.
+		app.mixin({
+			methods: {
+				t,
+				n: translatePlural,
+			},
+		})
+
+		app.use(pinia)
+		app.mount(el)
 	},
 })
