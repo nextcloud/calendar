@@ -11,9 +11,11 @@
 			v-model="internalValue"
 			:label="label"
 			:labelOutside="true"
-			@update:modelValue="change"
-			@focus="focus"
-			@blur="updateInternalValue" />
+			type="number"
+			min="0"
+			step="1"
+			inputmode="numeric"
+			@update:modelValue="change" />
 	</div>
 </template>
 
@@ -38,6 +40,8 @@ export default {
 		},
 	},
 
+	emits: ['update:modelValue', 'update:model-value'],
+
 	data() {
 		return {
 			internalValue: '',
@@ -50,20 +54,13 @@ export default {
 			return Math.round(this.modelValue / 60)
 		},
 
-		valueWithUnit() {
-			return this.$n('calendar', '{duration} minute', '{duration} minutes', this.valueInMinutes, {
-				duration: this.valueInMinutes,
-			})
-		},
-
 		parsedInternalValue() {
-			const matches = this.internalValue.match(/[0-9]+/)
-			if (!matches) {
+			if (this.internalValue === '') {
 				return 0
 			}
 
-			const minutes = parseInt(matches[0])
-			return isNaN(minutes) ? 0 : minutes
+			const minutes = Number.parseInt(this.internalValue, 10)
+			return Number.isNaN(minutes) ? 0 : minutes
 		},
 	},
 
@@ -82,17 +79,18 @@ export default {
 
 	methods: {
 		change() {
+			const sanitizedValue = String(this.internalValue).replace(/\D+/g, '')
+			if (sanitizedValue !== this.internalValue) {
+				this.internalValue = sanitizedValue
+			}
+
 			// Emit value in seconds
+			// eslint-disable-next-line vue/require-explicit-emits
 			this.$emit('update:modelValue', this.parsedInternalValue * 60)
 		},
 
-		focus() {
-			// Remove minutes prefix upon focus
-			this.internalValue = this.valueInMinutes.toString()
-		},
-
 		updateInternalValue() {
-			this.internalValue = this.valueWithUnit
+			this.internalValue = this.valueInMinutes.toString()
 		},
 	},
 }
