@@ -15,6 +15,7 @@
 		:filterBy="selectFilterBy"
 		:inputLabel="inputLabel"
 		:labelOutside="inputLabel === ''"
+		:selectable="selectable"
 		@update:modelValue="handleSelectionUpdate">
 		<template #option="{ id }">
 			<CalendarPickerOption
@@ -86,6 +87,18 @@ export default {
 		inputLabel: {
 			type: String,
 			default: '',
+		},
+
+		/**
+		 * Decides whether a calendar is selectable or not.
+		 * Non-selectable calendars are displayed but cannot be selected.
+		 *
+		 * @param {object} calendar
+		 * @return {boolean}
+		 */
+		isCalendarSelectable: {
+			type: Function,
+			default: (calendar) => true,
 		},
 	},
 
@@ -176,6 +189,17 @@ export default {
 		 */
 		selectFilterBy(option, label, search) {
 			return option.displayName.toLowerCase().indexOf(search) !== -1
+		},
+
+		/**
+		 * Decide whether the given option can be selected
+		 *
+		 * @param {object} option The calendar option
+		 * @return {boolean} True if the option can be selected
+		 */
+		selectable(option) {
+			const calendar = this.getCalendarById(option.id)
+			return this.isCalendarSelectable(calendar)
 		},
 	},
 }
