@@ -48,6 +48,15 @@
 				</template>
 			</NcButton>
 			<Actions v-if="!isReadOnly && isViewedByOrganizer">
+				<ActionButton
+					v-if="canResendInvitation"
+					@click="resendInvitation(attendee)">
+					<template #icon>
+						<EmailSync :size="20" decorative />
+					</template>
+					{{ $t('calendar', 'Resend invitation') }}
+				</ActionButton>
+
 				<ActionCheckbox
 					v-if="!members.length"
 					:modelValue="attendee.rsvp"
@@ -113,6 +122,7 @@
 </template>
 
 <script>
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import {
 	NcActionButton as ActionButton,
 	NcActionCheckbox as ActionCheckbox,
@@ -123,6 +133,7 @@ import {
 import { mapState, mapStores } from 'pinia'
 import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
 import ChevronUp from 'vue-material-design-icons/ChevronUp.vue'
+import EmailSync from 'vue-material-design-icons/EmailSyncOutline.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
 import AttendeeDisplay from './AttendeeDisplay.vue'
@@ -141,6 +152,7 @@ export default {
 		Delete,
 		NcButton,
 		ChevronDown,
+		EmailSync,
 		ChevronUp,
 		AttendeeDisplay,
 	},
@@ -173,9 +185,12 @@ export default {
 		},
 	},
 
+	emits: ['removeAttendee'],
+
 	data() {
 		return {
 			memberListExpaneded: false,
+			isResendingInvitation: false,
 			timezone: null,
 		}
 	},
@@ -234,6 +249,10 @@ export default {
 		isGroup() {
 			return this.attendee.attendeeProperty.userType === 'GROUP'
 		},
+
+		canResendInvitation() {
+			return !this.isReadOnly && this.isViewedByOrganizer && !this.members.length && !this.isGroup
+		},
 	},
 
 	watch: {
@@ -285,6 +304,27 @@ export default {
 		 */
 		removeAttendee(attendee) {
 			this.$emit('removeAttendee', attendee)
+		},
+
+		/**
+		 * Resends the invitation to a single attendee.
+		 *
+		 * @param {object} attendee Attendee object
+		 * @return {Promise<void>}
+		 */
+		async resendInvitation(attendee) {
+			if (this.isResendingInvitation) {
+				return
+			}
+
+			this.isResendingInvitation = true
+			try {
+				await this.calendarObjectInstanceStore.resendInvitationToAttendee({ attendee })
+				showSuccess(this.$t('calendar', 'Invitation resent'))
+			} catch {
+				showError(this.$t('calendar', 'Unable to resend invitation'))
+			}
+			this.isResendingInvitation = false
 		},
 
 		/**
