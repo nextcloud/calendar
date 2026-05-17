@@ -44,7 +44,7 @@
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<DurationInput
 								v-model="editing.length"
-								:label="t('calendar', 'Duration')" />
+								:label="t('calendar', 'Duration (minutes)')" />
 							<DurationSelect
 								v-model="editing.increment"
 								:label="t('calendar', 'Increments')" />
