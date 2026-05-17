@@ -142,7 +142,9 @@
 	// Free (TRANSP:TRANSPARENT) events: hollow left strip — 1px accent | page-bg | 1px accent
 	&.fc-event-nc-free {
 		&:not(.fc-daygrid-dot-event):not(.fc-list-event) {
-			position: relative;
+			&:not(.fc-timegrid-event) {
+				position: relative;
+			}
 			// Hide the solid left border; the ::before pseudo-element takes its place
 			border-inline-start-color: transparent !important;
 
