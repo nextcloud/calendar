@@ -53,6 +53,7 @@
     "Accept" : "Qəbul et",
     "Decline" : "İmtina",
     "Copied to clipboard" : "Mübadilə buferinə nüsxələndi",
+    "Status" : "Status",
     "Remove group" : "Qrupu sil",
     "Repeat" : "Təkrar",
     "never" : "heç vaxt",
@@ -67,7 +68,6 @@
     "Weekly" : "Həftəlik",
     "second" : "saniyə",
     "Other" : "Digər",
-    "Status" : "Status",
     "Categories" : "Kateqoriyalar",
     "Hidden" : "Gizli"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
