@@ -55,6 +55,7 @@ OC.L10N.register(
     "Accept" : "Qəbul et",
     "Decline" : "İmtina",
     "Copied to clipboard" : "Mübadilə buferinə nüsxələndi",
+    "Status" : "Status",
     "Remove group" : "Qrupu sil",
     "Repeat" : "Təkrar",
     "never" : "heç vaxt",
@@ -69,7 +70,6 @@ OC.L10N.register(
     "Weekly" : "Həftəlik",
     "second" : "saniyə",
     "Other" : "Digər",
-    "Status" : "Status",
     "Categories" : "Kateqoriyalar",
     "Hidden" : "Gizli"
 },

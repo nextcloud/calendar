@@ -69,6 +69,7 @@ OC.L10N.register(
     "Done" : "Immed",
     "Unknown" : "Arussin",
     "Copied to clipboard" : "Aḍris yettwanγel γef afus",
+    "Status" : "Addad",
     "Title" : "Azwel",
     "Yes" : "Ih",
     "No" : "Uhu",
@@ -80,7 +81,6 @@ OC.L10N.register(
     "Daily" : "S wass",
     "Weekly" : "S umalas",
     "Other" : "Wayeḍ",
-    "Status" : "Addad",
     "Categories" : "Taggayin",
     "Calendars" : "Iwitayen"
 },
