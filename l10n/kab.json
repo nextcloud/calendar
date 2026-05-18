@@ -67,6 +67,7 @@
     "Done" : "Immed",
     "Unknown" : "Arussin",
     "Copied to clipboard" : "Aḍris yettwanγel γef afus",
+    "Status" : "Addad",
     "Title" : "Azwel",
     "Yes" : "Ih",
     "No" : "Uhu",
@@ -78,7 +79,6 @@
     "Daily" : "S wass",
     "Weekly" : "S umalas",
     "Other" : "Wayeḍ",
-    "Status" : "Addad",
     "Categories" : "Taggayin",
     "Calendars" : "Iwitayen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

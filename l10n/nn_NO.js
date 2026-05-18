@@ -53,6 +53,7 @@ OC.L10N.register(
     "days" : "dagar",
     "Delete file" : "Slett fil",
     "Unknown" : "Ukjend",
+    "Status" : "Status",
     "Repeat" : "Gjenta",
     "never" : "aldri",
     "after" : "etter",
@@ -72,7 +73,6 @@ OC.L10N.register(
     "When shared show full event" : "Når delt, vis heile hendinga",
     "When shared show only busy" : "Når delt, vis berre oppteken",
     "When shared hide this event" : "Når delt, gøym denne hendinga",
-    "Status" : "Status",
     "Confirmed" : "Stadfesta"
 },
 "nplurals=2; plural=(n != 1);");
