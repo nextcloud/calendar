@@ -7,14 +7,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { defineStore } from 'pinia'
 import { mapDavCollectionToCalendar } from '../models/calendar.js'
 import { mapDavToPrincipal } from '../models/principal.js'
-import { findCalendarsAtUrl, findPrincipalByUrl } from '../services/caldavService.js'
-import {
-	addDelegateToGroup,
-	getCalendarHomeUrl,
-	getDelegateUrls,
-	getDelegatorPrincipalUrls,
-	removeDelegateFromGroup,
-} from '../services/delegationService.js'
+import { findCalendarsAtUrl, findPrincipalByUrl, getClient } from '../services/caldavService.js'
 import logger from '../utils/logger.js'
 import useCalendarsStore from './calendars.js'
 import usePrincipalsStore from './principals.js'
@@ -61,13 +54,15 @@ export default defineStore('delegation', {
 		async fetchDelegates() {
 			const principalsStore = usePrincipalsStore()
 			const currentUser = principalsStore.getCurrentUserPrincipal
-			if (!currentUser?.userId) {
+			if (!currentUser?.url) {
 				return
 			}
 
+			const proxyWriteGroupUrl = currentUser.url.replace(/\/?$/, '') + '/calendar-proxy-write'
+
 			let memberUrls
 			try {
-				memberUrls = await getDelegateUrls(currentUser.userId)
+				memberUrls = await getClient().getDelegateUrls(proxyWriteGroupUrl)
 			} catch (error) {
 				logger.error('Could not fetch delegate URLs', { error })
 				return
@@ -101,7 +96,7 @@ export default defineStore('delegation', {
 			}
 
 			try {
-				this.delegatorPrincipalUrls = await getDelegatorPrincipalUrls(currentUser.url)
+				this.delegatorPrincipalUrls = await getClient().getDelegatorPrincipalUrls(currentUser.url)
 				logger.debug('Fetched delegators', { delegatorPrincipalUrls: this.delegatorPrincipalUrls })
 			} catch (error) {
 				logger.error('Could not fetch delegator principal URLs', { error })
@@ -118,11 +113,12 @@ export default defineStore('delegation', {
 		async addDelegate({ principalUrl }) {
 			const principalsStore = usePrincipalsStore()
 			const currentUser = principalsStore.getCurrentUserPrincipal
-			if (!currentUser?.userId) {
+			if (!currentUser?.url) {
 				return
 			}
 
-			await addDelegateToGroup(currentUser.userId, principalUrl)
+			const proxyWriteGroupUrl = currentUser.url.replace(/\/?$/, '') + '/calendar-proxy-write'
+			await getClient().addDelegate(proxyWriteGroupUrl, principalUrl)
 			await this.fetchDelegates()
 		},
 
@@ -136,11 +132,12 @@ export default defineStore('delegation', {
 		async removeDelegate({ principalUrl }) {
 			const principalsStore = usePrincipalsStore()
 			const currentUser = principalsStore.getCurrentUserPrincipal
-			if (!currentUser?.userId) {
+			if (!currentUser?.url) {
 				return
 			}
 
-			await removeDelegateFromGroup(currentUser.userId, principalUrl)
+			const proxyWriteGroupUrl = currentUser.url.replace(/\/?$/, '') + '/calendar-proxy-write'
+			await getClient().removeDelegate(proxyWriteGroupUrl, principalUrl)
 			this.delegates = this.delegates.filter((d) => d.url !== principalUrl)
 		},
 
@@ -168,7 +165,7 @@ export default defineStore('delegation', {
 			for (const delegatorPrincipalUrl of this.delegatorPrincipalUrls) {
 				// Discover the delegator's calendar home URL via CalDAV principal PROPFIND.
 				// This follows RFC 4791 §6.2.1 and avoids hard-coding any URL path convention.
-				const calendarHomeUrl = await getCalendarHomeUrl(delegatorPrincipalUrl)
+				const calendarHomeUrl = await getClient().getCalendarHomeUrlForPrincipal(delegatorPrincipalUrl)
 				if (!calendarHomeUrl) {
 					logger.warn('Could not determine calendar home URL for delegator', { delegatorPrincipalUrl })
 					showError(t('calendar', 'Could not load delegated calendars. Make sure the server supports calendar delegation.'))
