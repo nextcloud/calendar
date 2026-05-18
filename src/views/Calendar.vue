@@ -80,11 +80,9 @@
 			@close="toggletasksSidebar()">
 			<NcAppSidebarTab id="settings-tab" name="Settings">
 				<!-- Task without End Date List -->
-				<template>
-					<UnscheduledTasksList
-						@tasksEmpty="handleTasksEmpty"
-						@taskClicked="handleTaskClick" />
-				</template>
+				<UnscheduledTasksList
+					@tasksEmpty="handleTasksEmpty"
+					@taskClicked="handleTaskClick" />
 			</NcAppSidebarTab>
 		</NcAppSidebar>
 		<!-- Edit modal -->
