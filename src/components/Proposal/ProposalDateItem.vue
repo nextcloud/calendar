@@ -8,13 +8,23 @@
 		<div class="proposal-date__icon">
 			<ItemIcon />
 		</div>
-		<div class="proposal-date__content" @click="$emit('dateFocus')">
+		<div
+			class="proposal-date__content"
+			tabindex="0"
+			role="button"
+			:aria-label="t('calendar', 'Focus date {date} in calendar', { date: formattedDate })"
+			@click="$emit('dateFocus')"
+			@keydown.enter.space.prevent="$emit('dateFocus')">
 			{{ formattedDate }}
 		</div>
 		<div class="proposal-date__action">
-			<DestroyIcon
+			<button
+				class="proposal-date__remove-btn"
 				:title="t('calendar', 'Remove date')"
-				@click="$emit('dateRemove')" />
+				:aria-label="t('calendar', 'Remove date {date}', { date: formattedDate })"
+				@click="$emit('dateRemove')">
+				<DestroyIcon />
+			</button>
 		</div>
 	</div>
 </template>
@@ -84,7 +94,7 @@ export default {
 	align-items: center;
 	gap: calc(var(--default-grid-baseline) * 4);
 	padding: var(--default-grid-baseline);
-    transition: background-color 0.2s ease;
+	transition: background-color 0.2s ease;
 
 	&:hover {
 		background-color: var(--color-background-hover);
@@ -102,9 +112,27 @@ export default {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	cursor: pointer;
+	border-radius: var(--border-radius-element);
 }
 
 .proposal-date__action {
 	flex-shrink: 0;
+}
+
+.proposal-date__remove-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: calc(var(--default-grid-baseline) * 1);
+	border-radius: var(--border-radius-element);
+	color: var(--color-main-text);
+	line-height: 0;
+
+	&:hover {
+		background-color: var(--color-background-hover);
+	}
 }
 </style>
