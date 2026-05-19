@@ -223,6 +223,7 @@ OC.L10N.register(
     "Copied to clipboard" : "Copióse nel cartafueyu",
     "No attendees yet" : "Nun hai nengún asistente",
     "Status" : "Estáu",
+    "Role" : "Rol",
     "Remove group" : "Quitar el grupu",
     "_%n member_::_%n members_" : ["%n miembru","%n miembros"],
     "No match found" : "Nun s'atopó nenguna coincidencia",

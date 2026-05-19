@@ -346,6 +346,7 @@ OC.L10N.register(
     "Copied to clipboard" : "تمّ النسخ إلى الحافظة",
     "No attendees yet" : "لا يوجد حضور حتى الآن",
     "Status" : "الحالة",
+    "Role" : "الوظيفة",
     "Chairperson" : "الرئيس",
     "Required participant" : "مشارك مطلوب",
     "Optional participant" : "مشارك اختياري",
