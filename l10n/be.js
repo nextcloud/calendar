@@ -135,6 +135,7 @@ OC.L10N.register(
     "Copied to clipboard" : "Скапіявана ў буфер абмену",
     "No attendees yet" : "Пакуль няма ўдзельнікаў",
     "Status" : "Статус",
+    "Role" : "Роля",
     "Remove group" : "Выдаліць групу",
     "Remove attendee" : "Выдаліць удзельніка",
     "_%n member_::_%n members_" : ["%n удзельнік","%n удзельнікі","%n удзельнікаў","%n удзельнікаў"],
