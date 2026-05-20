@@ -1,8 +1,9 @@
-import { getDateFromDateTimeValue } from '../utils/date.js'
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { markRaw } from 'vue'
+import { getDateFromDateTimeValue } from '../utils/date.js'
 import { getWeekDayFromDate } from '../utils/recurrence.js'
 
 /**
@@ -483,7 +484,7 @@ function getDefaultRecurrenceRuleObjectForRecurrenceValue(recurrenceRuleValue, p
 	}
 
 	return getDefaultRecurrenceRuleObject({
-		recurrenceRuleValue,
+		recurrenceRuleValue: markRaw(recurrenceRuleValue),
 		frequency: recurrenceRuleValue.frequency,
 		interval: parseInt(recurrenceRuleValue.interval, 10) || 1,
 		count: recurrenceRuleValue.count,
