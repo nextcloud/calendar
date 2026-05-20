@@ -1,3 +1,28 @@
+## [6.4.1](https://github.com/nextcloud/calendar/compare/v6.4.0...v6.4.1) (2026-05-20)
+
+
+### Bug Fixes
+
+* appointment config issues ([23e61cc](https://github.com/nextcloud/calendar/commit/23e61cc3341742f698634a730ac73dab6167b51b))
+* **chore:** fix missing unscheduled tasks list ([121e147](https://github.com/nextcloud/calendar/commit/121e1474e6b4ccd8a725dfdfc4f981c2c7f2db08))
+* **deps:** Fix npm audit ([7c672b1](https://github.com/nextcloud/calendar/commit/7c672b146eb99dd67f481eb4455fe22d3069b491))
+* do not update share item on mount ([c3bd833](https://github.com/nextcloud/calendar/commit/c3bd83330e6438c67883728679a2172780e97206))
+* free event height ([5239753](https://github.com/nextcloud/calendar/commit/5239753b24572979e1c04e6eab6efd986b523ca4))
+* **l10n:** Update translations from Transifex ([a30b710](https://github.com/nextcloud/calendar/commit/a30b7109f2e775bd347a64214b38720cc2c6db37))
+* **l10n:** Update translations from Transifex ([e7b208b](https://github.com/nextcloud/calendar/commit/e7b208bcd51c2769823efe62fd6c22c89b7efa1d))
+* **l10n:** Update translations from Transifex ([2d7c337](https://github.com/nextcloud/calendar/commit/2d7c3371ee8790d6d93aba37c9b9539de58ae436))
+* **l10n:** Update translations from Transifex ([dc0c034](https://github.com/nextcloud/calendar/commit/dc0c034c287772be6d152d405cf3e6c2d52c13bb))
+* **l10n:** Update translations from Transifex ([46b4fe8](https://github.com/nextcloud/calendar/commit/46b4fe87ef542cfece30d128f25d17308cf48117))
+* **l10n:** Update translations from Transifex ([d158623](https://github.com/nextcloud/calendar/commit/d158623cfc48db5542080afa10e4cc39336b84fe))
+* **l10n:** Update translations from Transifex ([9e6941f](https://github.com/nextcloud/calendar/commit/9e6941f60ac42791a1c87d2bbce128c8730d6555))
+* **l10n:** Update translations from Transifex ([c9bccf3](https://github.com/nextcloud/calendar/commit/c9bccf3582aef26099070a4b57695c9d452ce774))
+* **models:** markRaw calendar-js objects in Pinia state ([a19d566](https://github.com/nextcloud/calendar/commit/a19d566f22a7502808eb52da2a332918ecacb072))
+* **router:** Set parameters correctly when redirecting with Vue 3 ([57dc473](https://github.com/nextcloud/calendar/commit/57dc47310d9b731f20f1dfe6116081ab0b363642))
+* simple editor refresh ([e82d29c](https://github.com/nextcloud/calendar/commit/e82d29c60b03e3d3c31c627510c38058ab892456))
+* vue router 5 matching behaviour ([4be3958](https://github.com/nextcloud/calendar/commit/4be3958a0dc0acc95ce7cd817d1059e374174cf0))
+
+
+
 # [6.4.0](https://github.com/nextcloud/calendar/compare/v6.3.2-rc.0...v6.4.0) (2026-05-11)
 
 
