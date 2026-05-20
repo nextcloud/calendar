@@ -486,7 +486,7 @@ export default defineStore('calendarObjectInstance', {
 				role,
 				rsvp,
 				uri,
-				attendeeProperty: attendee,
+				attendeeProperty: markRaw(attendee),
 			})
 
 			if (!calendarObjectInstance.organizer && organizer) {
