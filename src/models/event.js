@@ -4,6 +4,7 @@
  */
 
 import { DateTimeValue, DurationValue } from '@nextcloud/calendar-js'
+import { markRaw } from 'vue'
 import { getClosestCSS3ColorNameForHex, getHexForColorName } from '../utils/color.js'
 import { getDateFromDateTimeValue } from '../utils/date.js'
 import { mapAlarmComponentToAlarmObject } from './alarm.js'
@@ -84,7 +85,7 @@ function getDefaultEventObject(props = {}) {
  */
 function mapEventComponentToEventObject(eventComponent) {
 	const eventObject = getDefaultEventObject({
-		eventComponent,
+		eventComponent: markRaw(eventComponent),
 		title: eventComponent.title,
 		isAllDay: eventComponent.isAllDay(),
 		canModifyAllDay: eventComponent.canModifyAllDay(),
