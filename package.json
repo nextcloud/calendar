@@ -67,7 +67,7 @@
     "core-js": "^3.49.0",
     "css-color-names": "^1.0.1",
     "debounce": "^3.0.0",
-    "linkifyjs": "^4.3.2",
+    "linkifyjs": "^4.3.3",
     "md5": "^2.3.0",
     "p-limit": "^7.3.0",
     "pinia": "^3.0.4",
