@@ -307,6 +307,13 @@ export default defineStore('calendarObjects', {
 		 */
 		appendOrUpdateCalendarObjectsMutation({ calendarObjects = [] }) {
 			for (const calendarObject of calendarObjects) {
+				const existing = this.calendarObjects[calendarObject.id]
+				// Keep the existing instance when the object is unchanged (same ETag).
+				// Replacing it with a fresh instance would detach references held elsewhere
+				if (existing && existing.dav?.etag && calendarObject.dav?.etag
+					&& existing.dav.etag === calendarObject.dav.etag) {
+					continue
+				}
 				if (calendarObject.calendarComponent) {
 					calendarObject.calendarComponent = markRaw(calendarObject.calendarComponent)
 				}
