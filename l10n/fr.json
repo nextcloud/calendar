@@ -383,7 +383,7 @@
     "Invitation declined" : "Invitation déclinée",
     "Declined {organizerName}'s invitation" : "Invitation de {organizerName} déclinée",
     "Availability will be checked" : "La disponibilité sera vérifiée",
-    "Invitation will be sent" : "Les invitations seront envoyées",
+    "Invitation will be sent" : "Une invitation sera envoyée",
     "Failed to check availability" : "Échec de vérification de disponiblité",
     "Failed to deliver invitation" : "Échec de l'envoi de l'invitation",
     "Awaiting response" : "En attente de la réponse",
