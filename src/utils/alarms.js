@@ -226,7 +226,7 @@ export function updateDefaultAlarm(calendarId, calendarObjectInstance) {
 		isAllDay: calendarObjectInstance.isAllDay,
 	})
 
-	if (isNaN(defaultReminder)) {
+	if (defaultReminder === null || isNaN(defaultReminder)) {
 		return
 	}
 
