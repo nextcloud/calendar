@@ -88,7 +88,7 @@
 					{{ $t('calendar', 'Non-participant') }}
 				</ActionRadio>
 
-				<ActionButton @click="removeAttendee(attendee)">
+				<ActionButton :closeAfterClick="true" @click="removeAttendee(attendee)">
 					<template #icon>
 						<Delete :size="20" decorative />
 					</template>
