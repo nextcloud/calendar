@@ -291,9 +291,7 @@ export function getDefaultReminderForEvent({ calendar, isAllDay }) {
 }
 
 /**
- * Propagate data from an event component to all EMAIL alarm components.
- * An alarm component must contain a description, summary and all attendees to be notified.
- * We don't have a separate UI for maintaining attendees of an alarm, so we just copy them from the event.
+ * Propagate data from an event component to its DISPLAY and EMAIL alarm components.
  *
  * https://www.rfc-editor.org/rfc/rfc5545#section-3.6.6
  *
@@ -305,7 +303,19 @@ export function updateAlarms(eventComponent) {
 			continue
 		}
 
+		if (!alarmComponent.hasProperty('DESCRIPTION')) {
+			const defaultDescription = t('calendar', 'This is an event reminder.')
+			alarmComponent.addProperty(new Property('DESCRIPTION', defaultDescription))
+		}
+
+		// Clear properties that are only valid on EMAIL alarms.
 		alarmComponent.deleteAllProperties('SUMMARY')
+		alarmComponent.deleteAllProperties('ATTENDEE')
+
+		if (alarmComponent.action !== 'EMAIL') {
+			continue
+		}
+
 		const summaryProperty = eventComponent.getFirstProperty('SUMMARY')
 		if (summaryProperty) {
 			alarmComponent.addProperty(summaryProperty.clone())
@@ -314,12 +324,6 @@ export function updateAlarms(eventComponent) {
 			alarmComponent.addProperty(new Property('SUMMARY', defaultSummary))
 		}
 
-		if (!alarmComponent.hasProperty('DESCRIPTION')) {
-			const defaultDescription = t('calendar', 'This is an event reminder.')
-			alarmComponent.addProperty(new Property('DESCRIPTION', defaultDescription))
-		}
-
-		alarmComponent.deleteAllProperties('ATTENDEE')
 		for (const attendee of eventComponent.getAttendeeIterator()) {
 			if (['RESOURCE', 'ROOM'].includes(attendee.userType)) {
 				continue
