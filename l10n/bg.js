@@ -382,6 +382,7 @@ OC.L10N.register(
     "No attendees yet" : "Все още няма участващи",
     "Please add at least one attendee to use the \"Find a time\" feature." : "Моля добавете поне един участник, за да използвате функцията „Намиране на час“.",
     "Status" : "Състояние",
+    "Role" : "Роля",
     "Chairperson" : "Председател",
     "Required participant" : "Необходим участник",
     "Optional participant" : " Участник по желание",
