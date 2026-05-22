@@ -27,7 +27,7 @@
 				:multiple="true"
 				:taggable="true"
 				:noWrap="false"
-				:deselectFromDropdown="true"
+				:deselectFromDropdown="false"
 				:createOption="(label) => ({ value: label, label })"
 				inputId="label"
 				label="label"
