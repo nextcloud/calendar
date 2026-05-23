@@ -126,17 +126,40 @@ export default defineStore('calendars', {
 		 * @return {Array}
 		 */
 		allDeletedCalendarObjects(state) {
-			const calendarUriMap = {}
+			const lastSegment = (uri) => (uri ?? '').split('/').filter(Boolean).at(-1) ?? ''
+
+			const sourceUriOf = (calendar) => {
+				const tail = lastSegment(calendar.url)
+				const at = tail.lastIndexOf('_shared_by_')
+				if (at > 0) {
+					return tail.slice(0, at)
+				}
+				return tail
+			}
+
+			// Key calendars by `${ownerUserId}|${sourceUri}` so deleted objects
+			// match their origin calendar across owned/shared/delegated views.
+			const calendarBySource = new Map()
 			state.calendars.forEach((calendar) => {
-				const withoutTrail = calendar.url.replace(/\/$/, '')
-				const uri = withoutTrail.slice(withoutTrail.lastIndexOf('/') + 1)
-				calendarUriMap[uri] = calendar
+				let key = `${lastSegment(calendar.owner)}|${sourceUriOf(calendar)}`
+				if (calendar.isDelegated) {
+					key += lastSegment(calendar.delegatorUrl)
+				}
+				calendarBySource.set(key, calendar)
 			})
 
-			return state.deletedCalendarObjects.map((obj) => ({
-				calendar: calendarUriMap[obj.dav._props['{http://nextcloud.com/ns}calendar-uri']],
-				...obj,
-			}))
+			return state.deletedCalendarObjects.map((obj) => {
+				const owner = obj.dav.calendarOwnerPrincipalUri
+				const sourceUri = obj.dav.sourceCalendarUri
+				let key = `${lastSegment(owner)}|${sourceUri}`
+				if (obj.dav.delegator) {
+					key += lastSegment(obj.dav.delegator)
+				}
+				return {
+					calendar: calendarBySource.get(key),
+					...obj,
+				}
+			})
 		},
 
 		/**
