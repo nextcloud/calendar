@@ -55,7 +55,7 @@
 					:name="t('calendar', 'Appearance')">
 					<NcFormBox>
 						<NcFormBoxSwitch
-							v-model="hasBirthdayCalendarBinding"
+							v-model="hasBirthdayCalendar"
 							:disabled="isBirthdayCalendarDisabled"
 							@update:modelValue="toggleBirthdayEnabled">
 							{{ $t('calendar', 'Birthday calendar') }}
@@ -227,7 +227,6 @@ export default {
 			savingWeekend: false,
 			savingWeekNumber: false,
 			savingDefaultCalendar: false,
-			hasBirthdayCalendarBinding: false,
 			showTasksBinding: false,
 			showWeekendsBinding: false,
 			showWeekNumbersBinding: false,
@@ -383,7 +382,6 @@ export default {
 	},
 
 	async created() {
-		this.hasBirthdayCalendarBinding = this.hasBirthdayCalendar
 		this.showTasksBinding = this.showTasks
 		this.showWeekendsBinding = this.showWeekends
 		this.showWeekNumbersBinding = this.showWeekNumbers
