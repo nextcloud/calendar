@@ -1,3 +1,20 @@
+## [6.4.2](https://github.com/nextcloud/calendar/compare/v6.4.1...v6.4.2) (2026-05-25)
+
+
+### Bug Fixes
+
+* **alarms:** do not add ATTENDEE/SUMMARY to DISPLAY alarms ([c2c4347](https://github.com/nextcloud/calendar/commit/c2c4347e79c9bf9286be153379cc6138ea8e08fa))
+* default null alarm ([77e8a21](https://github.com/nextcloud/calendar/commit/77e8a21f543e65c8e7441031fb89155ab5b2127c))
+* **deps:** Fix npm audit ([fd81f67](https://github.com/nextcloud/calendar/commit/fd81f67ecb4cad1ffd73d33c6bb8c159b6c0a8ba))
+* **editor:** close attendee action menu after Remove ([dc13f04](https://github.com/nextcloud/calendar/commit/dc13f04ba2d52ecb1d6c2b79a02dbb7bc9cf1b4f))
+* **editor:** store categories again by disabling deselectFromDropdown ([25e3dd6](https://github.com/nextcloud/calendar/commit/25e3dd62c55cd8c96efedd58bf836190f5c2e997))
+* **l10n:** Update translations from Transifex ([f205add](https://github.com/nextcloud/calendar/commit/f205add21f31d5e4fd11df53de306502c1028d31))
+* **l10n:** Update translations from Transifex ([4504934](https://github.com/nextcloud/calendar/commit/45049343cc741cf4fa07ed58d07a31f5ae3d7b02))
+* **l10n:** Update translations from Transifex ([492b63e](https://github.com/nextcloud/calendar/commit/492b63e4390c03b6193be29376525a959bd49b5e))
+* **settings:** fix birthday calendar toggle ([5ca1254](https://github.com/nextcloud/calendar/commit/5ca1254030d2c8a826099a8a3965fe1bd2dbd891))
+
+
+
 ## [6.4.1](https://github.com/nextcloud/calendar/compare/v6.4.0...v6.4.1) (2026-05-20)
 
 
