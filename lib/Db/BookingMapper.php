@@ -46,7 +46,7 @@ class BookingMapper extends QBMapper {
 		$delete = $this->db->getQueryBuilder();
 		$subQuery->select('id')
 			->from('calendar_appt_configs')
-			->where($delete->expr()->eq('user_id', $delete->createNamedParameter($uid, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
+			->where($subQuery->expr()->eq('user_id', $subQuery->createNamedParameter($uid, IQueryBuilder::PARAM_STR), IQueryBuilder::PARAM_STR));
 		$delete->delete($this->getTableName())
 			->where(
 				$delete->expr()->in(
