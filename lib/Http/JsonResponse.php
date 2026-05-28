@@ -13,11 +13,7 @@ use JsonSerializable;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse as Base;
 use Throwable;
-use function array_flip;
-use function array_intersect_key;
-use function array_map;
 use function array_merge;
-use function get_class;
 
 /**
  * @see https://github.com/omniti-labs/jsend
@@ -90,31 +86,8 @@ class JsonResponse extends Base {
 		return self::error(
 			$error->getMessage(),
 			$status,
-			array_merge(
-				$data,
-				self::serializeException($error)
-			),
+			$data,
 			$error->getCode()
 		);
-	}
-
-	private static function serializeException(?Throwable $throwable): ?array {
-		if ($throwable === null) {
-			return null;
-		}
-		return [
-			'type' => get_class($throwable),
-			'message' => $throwable->getMessage(),
-			'code' => $throwable->getCode(),
-			'trace' => self::filterTrace($throwable->getTrace()),
-			'previous' => self::serializeException($throwable->getPrevious()),
-		];
-	}
-
-	private static function filterTrace(array $original): array {
-		return array_map(function (array $row) {
-			return array_intersect_key($row,
-				array_flip(['file', 'line', 'function', 'class']));
-		}, $original);
 	}
 }
