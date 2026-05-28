@@ -108,6 +108,7 @@ export default {
 			'showWeekends',
 			'showWeekNumbers',
 			'slotDuration',
+			'searchQuery',
 		]),
 
 		...mapState(useCalendarObjectsStore, ['modificationCount']),
@@ -225,6 +226,11 @@ export default {
 			const calendarApi = this.$refs.fullCalendar.getApi()
 			calendarApi.refetchEvents()
 		}, 50),
+
+		searchQuery: debounce(function() {
+			const calendarApi = this.$refs.fullCalendar.getApi()
+			calendarApi.refetchEvents()
+		}, 300),
 	},
 
 	/**
