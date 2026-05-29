@@ -509,6 +509,11 @@ class ProposalService {
 				$this->l10n->t('Dear %s, a proposed meeting has been cancelled', [$recipientName])
 			)
 		};
+		// buttons
+		$template->addBodyButton(
+			$this->l10n->t('Respond'),
+			$this->urlGenerator->linkToRouteAbsolute('Calendar.ProposalPublic.index', ['token' => $recipientToken])
+		);
 		// description
 		if (!empty($proposal->getDescription())) {
 			$template->addBodyListItem($proposal->getDescription(), $this->l10n->t('Description:'));
@@ -541,11 +546,6 @@ class ProposalService {
 
 		$temporaryText .= '(' . $userTimezone->getName() . ')';
 		$template->addBodyListItem($temporaryText, $this->l10n->t('Dates:'));
-		// buttons
-		$template->addBodyButton(
-			$this->l10n->t('Respond'),
-			$this->urlGenerator->linkToRouteAbsolute('Calendar.ProposalPublic.index', ['token' => $recipientToken])
-		);
 
 		$template->addFooter();
 
