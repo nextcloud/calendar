@@ -63,7 +63,6 @@ class AppointmentConfigMapperTest extends TestCase {
 		$id = $appointment->getId();
 		$appointment = $this->mapper->findById($id);
 
-
 		$this->assertEquals('okens', $appointment->getToken());
 		$this->assertEquals('Test 2', $appointment->getName());
 		$this->assertEquals('Test Description', $appointment->getDescription());
@@ -91,7 +90,6 @@ class AppointmentConfigMapperTest extends TestCase {
 		$appointment = $this->mapper->insert($appointment);
 		$token = $appointment->getToken();
 		$appointment = $this->mapper->findByToken($token);
-
 
 		$this->assertEquals('okensdsadsas', $appointment->getToken());
 		$this->assertEquals('Test 2', $appointment->getName());

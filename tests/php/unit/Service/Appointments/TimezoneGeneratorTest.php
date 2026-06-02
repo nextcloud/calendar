@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Tests\Unit\Service\Appointments;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
@@ -70,6 +71,5 @@ class TimezoneGeneratorTest extends TestCase {
 			['Asia/Singapore', null, 1, $microsoftExchangeMap['Asia/Singapore']],
 		];
 	}
-
 
 }

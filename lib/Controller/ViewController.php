@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Controller;
 
 use OC\App\CompareVersion;
@@ -18,7 +19,6 @@ use OCP\IRequest;
 class ViewController extends Controller {
 	/** @var IConfig */
 	private $config;
-
 
 	/** @var IAppManager */
 	private $appManager;

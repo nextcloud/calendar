@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Service;
 
 use OC\App\CompareVersion;
@@ -142,13 +143,10 @@ class CalendarInitialStateService {
 		switch ($view) {
 			case 'agendaDay':
 				return 'timeGridDay';
-
 			case 'agendaWeek':
 				return 'timeGridWeek';
-
 			case 'month':
 				return 'dayGridMonth';
-
 			default:
 				return $view;
 		}
@@ -185,6 +183,5 @@ class CalendarInitialStateService {
 
 		return $talkEnabled && $canStartConversation && $canUseTalk;
 	}
-
 
 }

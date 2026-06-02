@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Controller;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
@@ -289,7 +290,6 @@ class BookingControllerTest extends TestCase {
 		$this->controller->bookSlot('abc123', 1, 1, 'Test', $email, 'Test', 'Hook/Neverland');
 	}
 
-
 	public function testBookInvalidTimeZone(): void {
 		$email = 'penny@stardewvalley.edu';
 		$config = new AppointmentConfig();
@@ -365,7 +365,6 @@ class BookingControllerTest extends TestCase {
 
 		$this->controller->bookSlot('abc123', 1, 1, 'Test', $email, 'Test', 'Europe/Berlin');
 	}
-
 
 	public function testBookInvalidEmail(): void {
 		$email = 'testing-abcdef';

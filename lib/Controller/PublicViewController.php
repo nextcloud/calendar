@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Controller;
@@ -55,7 +56,6 @@ class PublicViewController extends Controller {
 		$this->initialStateService = $initialStateService;
 		$this->urlGenerator = $urlGenerator;
 	}
-
 
 	/**
 	 * Load the public sharing calendar page with branding

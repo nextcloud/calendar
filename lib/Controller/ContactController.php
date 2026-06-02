@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Controller;
 
 use Exception;
@@ -92,7 +93,6 @@ class ContactController extends Controller {
 
 		return new JSONResponse($contacts);
 	}
-
 
 	/**
 	 * Search for a contact based on a contact's name or email-address
@@ -344,7 +344,6 @@ class ContactController extends Controller {
 
 		return new JSONResponse($contacts);
 	}
-
 
 	/**
 	 * Get a contact's photo based on their email-address

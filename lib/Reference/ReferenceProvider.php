@@ -12,20 +12,17 @@ namespace OCA\Calendar\Reference;
 use OCA\Calendar\AppInfo\Application;
 use OCP\Collaboration\Reference\ADiscoverableReferenceProvider;
 use OCP\Collaboration\Reference\IReference;
-
 use OCP\Collaboration\Reference\Reference;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 
 class ReferenceProvider extends ADiscoverableReferenceProvider {
 
-
 	public function __construct(
 		private IL10N $l10n,
 		private IURLGenerator $urlGenerator,
 	) {
 	}
-
 
 	#[\Override]
 	public function getId(): string {
@@ -111,8 +108,6 @@ class ReferenceProvider extends ADiscoverableReferenceProvider {
 					return null;
 			}
 
-
-
 			return $reference;
 		}
 
@@ -124,7 +119,6 @@ class ReferenceProvider extends ADiscoverableReferenceProvider {
 			return $output_array[1];
 		}
 		return null;
-
 	}
 	private function getUrlFromLink(string $data, string $type): ?string {
 		if ($type === 'public') {
@@ -133,7 +127,6 @@ class ReferenceProvider extends ADiscoverableReferenceProvider {
 			return $this->urlGenerator->getWebroot() . $output_array[0];
 		}
 		return null;
-
 	}
 
 	private function getType(string $url): string {
