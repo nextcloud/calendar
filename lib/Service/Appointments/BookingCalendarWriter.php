@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Service\Appointments;
 
 use DateTimeImmutable;
@@ -24,7 +25,6 @@ use Sabre\VObject\Component\VAlarm;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
 use Symfony\Component\Uid\Uuid;
-
 use function abs;
 
 class BookingCalendarWriter {

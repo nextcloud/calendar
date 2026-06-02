@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\BackgroundJob;
 
 use OCA\Calendar\Service\Appointments\BookingService;
@@ -35,7 +36,6 @@ class CleanUpOutdatedBookingsJob extends TimedJob {
 			$this->setTimeSensitivity(self::TIME_INSENSITIVE);
 		}
 	}
-
 
 	#[\Override]
 	protected function run($argument): void {

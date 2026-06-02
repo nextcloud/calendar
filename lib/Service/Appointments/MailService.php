@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Service\Appointments;
 
 use Exception;
@@ -94,7 +95,6 @@ class MailService {
 			->setTo([$booking->getEmail() => $booking->getDisplayName()])
 			->setReplyTo([$fromEmail => $fromName]);
 
-
 		$template = $this->mailer->createEMailTemplate('calendar.confirmAppointment');
 		$template->addHeader();
 
@@ -126,7 +126,6 @@ class MailService {
 		$template->addFooter();
 
 		$message->useTemplate($template);
-
 
 		try {
 			$failed = $this->mailer->send($message);
@@ -167,7 +166,6 @@ class MailService {
 			->setTo([$booking->getEmail() => $booking->getDisplayName()])
 			->setReplyTo([$fromEmail => $fromName]);
 
-
 		$template = $this->mailer->createEMailTemplate('calendar.confirmAppointment');
 		$template->addHeader();
 
@@ -195,7 +193,6 @@ class MailService {
 		$attachment = $this->mailer->createAttachment($calendar, 'appointment.ics', 'text/calendar');
 		$message->attach($attachment);
 		$message->useTemplate($template);
-
 
 		try {
 			$failed = $this->mailer->send($message);
@@ -284,7 +281,6 @@ class MailService {
 			->setFrom([$sys => $booking->getDisplayName()])
 			->setTo([$toEmail => $toName]);
 
-
 		$template = $this->mailer->createEMailTemplate('calendar.confirmOrganizer');
 		$template->addHeader();
 
@@ -310,7 +306,6 @@ class MailService {
 		$attachment = $this->mailer->createAttachment($calendar, 'appointment.ics', 'text/calendar');
 		$message->attach($attachment);
 		$message->useTemplate($template);
-
 
 		try {
 			$failed = $this->mailer->send($message);

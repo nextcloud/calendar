@@ -63,7 +63,6 @@ class ProposalController extends ApiController {
 		return $user;
 	}
 
-
 	/**
 	 * Retrieve list of available proposals
 	 */
