@@ -175,7 +175,9 @@ class BookingCalendarWriter {
 				'CUTYPE' => 'INDIVIDUAL',
 				'RSVP' => 'TRUE',
 				'ROLE' => 'REQ-PARTICIPANT',
-				'PARTSTAT' => 'ACCEPTED'
+				'PARTSTAT' => 'ACCEPTED',
+				// Read by IMipService::setL10nFromAttendee for iTip update/cancel emails.
+				'LANGUAGE' => $this->l10nFactory->findLanguage(),
 			]
 		);
 
