@@ -1546,17 +1546,31 @@ export default defineStore('calendarObjectInstance', {
 		 */
 		async duplicateCalendarObjectInstance() {
 			const calendarObjectsStore = useCalendarObjectsStore()
+			const calendarsStore = useCalendarsStore()
 
 			const oldCalendarObjectInstance = this.calendarObjectInstance
 			const oldEventComponent = oldCalendarObjectInstance.eventComponent
 			const startDate = oldEventComponent.startDate.getInUTC()
 			const endDate = oldEventComponent.endDate.getInUTC()
+
+			// Determine the target calendar ID
+			let targetCalendarId = this.calendarObject?.calendarId ?? null
+			const currentCalendar = targetCalendarId ? calendarsStore.getCalendarById(targetCalendarId) : null
+
+			// If the source calendar is read-only, use the first writable calendar
+			if (currentCalendar?.readOnly) {
+				const writableCalendars = calendarsStore.sortedCalendarsAllowingCreate
+				if (writableCalendars.length > 0) {
+					targetCalendarId = writableCalendars[0].id
+				}
+			}
+
 			const calendarObject = await calendarObjectsStore.createNewEvent({
 				start: startDate.unixTime,
 				end: endDate.unixTime,
 				timezoneId: oldEventComponent.startDate.timezoneId,
 				isAllDay: oldEventComponent.isAllDay(),
-				calendarId: this.calendarObject?.calendarId ?? null,
+				calendarId: targetCalendarId,
 			})
 			const eventComponent = getObjectAtRecurrenceId(calendarObject, startDate.jsDate)
 			copyCalendarObjectInstanceIntoEventComponent(oldCalendarObjectInstance, eventComponent, true)

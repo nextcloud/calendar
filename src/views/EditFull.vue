@@ -70,7 +70,7 @@
 									</template>
 									{{ $t('calendar', 'Export') }}
 								</NcActionLink>
-								<NcActionButton v-if="!canCreateRecurrenceException && !isReadOnly && !isNew" @click="duplicateEvent()">
+								<NcActionButton v-if="!canCreateRecurrenceException && hasWritableCalendars && !isNew" @click="duplicateEvent()">
 									<template #icon>
 										<ContentDuplicate :size="20" decorative />
 									</template>
