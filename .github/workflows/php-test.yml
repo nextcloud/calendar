@@ -46,7 +46,7 @@ jobs:
       uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        file: nextcloud/apps/calendar/clover.unit.xml
+        files: nextcloud/apps/calendar/clover.unit.xml
         flags: php
         fail_ci_if_error: ${{ !github.event.pull_request.head.repo.fork }}
         verbose: true
