@@ -48,10 +48,10 @@ jobs:
           fallbackNode: '^24'
           fallbackNpm: '^11'
           path: nextcloud/apps/calendar
-      - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
+      - name: Set up node 24.15.0
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
         with:
-          node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
+          node-version: 24.15.0
       - name: Set up npm ${{ steps.package-engines-versions.outputs.npmVersion }}
         run: npm i -g 'npm@${{ steps.package-engines-versions.outputs.npmVersion }}'
       - name: Install php dependencies
