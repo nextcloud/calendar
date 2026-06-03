@@ -4,6 +4,13 @@
 -->
 
 <template>
+	<!--
+	`format` is specified as a workaround for https://github.com/nextcloud/calendar/issues/8307
+	until the issue is fixed in `@nextcloud/vue`.
+
+	This works because `@vuepic/vue-datepicker` can use it to parse text inputs from the user
+	when providing a format as pattern string (and not a one-way function).
+	-->
 	<DateTimePicker
 		id="date-time-picker-input"
 		:min="minimumDate"
@@ -12,16 +19,21 @@
 		:type="type"
 		:hideLabel="true"
 		class="date-time-picker"
+		:format="formatStr"
 		@blur="onBlur"
 		@update:modelValue="onInput" />
 </template>
 
 <script>
+import { getCanonicalLocale } from '@nextcloud/l10n'
 import {
 	NcDateTimePicker as DateTimePicker,
 } from '@nextcloud/vue'
+import { getDateLocalePattern, getDateTimeLocalePattern, getTimeLocalePattern } from 'datetime-locale-patterns'
 import { mapStores } from 'pinia'
 import useDavRestrictionsStore from '../../store/davRestrictions.js'
+
+const canonicalLocale = getCanonicalLocale()
 
 export default {
 	name: 'DatePicker',
@@ -90,6 +102,28 @@ export default {
 			}
 
 			return this.max || new Date(this.davRestrictionsStore.maximumDate)
+		},
+
+		/**
+		 * Returns the date format pattern for the current picker type.
+		 *
+		 * See https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
+		 *
+		 * @return {string | undefined} A format pattern or `undefined` to use the default `NcDateTimePicker` formatting.
+		 */
+		formatStr() {
+			// Match logic from https://github.com/nextcloud-libraries/nextcloud-vue/blob/v9.8.0/src/components/NcDateTimePicker/NcDateTimePicker.vue#L549
+			if (this.type === 'date' || this.type === 'date-range') {
+				return getDateLocalePattern(canonicalLocale, { dateStyle: 'medium' })
+			} else if (this.type === 'time' || this.type === 'time-range') {
+				return getTimeLocalePattern(canonicalLocale, { timeStyle: 'short' })
+			} else if (this.type === 'datetime' || this.type === 'datetime-range') {
+				return getDateTimeLocalePattern(canonicalLocale, { dateStyle: 'medium', timeStyle: 'short' })
+			} else {
+				// 'datetime-locale-patterns' does not support `month` and `year`.
+				// So fall back to default formatting.
+				return undefined
+			}
 		},
 	},
 
