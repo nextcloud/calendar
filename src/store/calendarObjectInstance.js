@@ -1423,10 +1423,11 @@ export default defineStore('calendarObjectInstance', {
 			const calendarsStore = useCalendarsStore()
 			const calendar = calendarsStore.getCalendarById(calendarObject.calendarId)
 
-			// Inherit calendar transparency to new events (fix for "Never show me as busy")
-			if (calendar?.transparency === 'transparent') {
-				calendarObjectInstance.timeTransparency = 'transparent'
-				calendarObjectInstance.eventComponent.timeTransparency = 'transparent'
+			// Inherit calendar transparency to new events
+			if (['TRANSPARENT', 'OPAQUE'].includes(calendar.transparency.toUpperCase())) {
+				const value = calendar.transparency.toUpperCase()
+				calendarObjectInstance.timeTransparency = value
+				calendarObjectInstance.eventComponent.timeTransparency = value
 			}
 
 			updateDefaultAlarm(calendarObject.calendarId, calendarObjectInstance)
