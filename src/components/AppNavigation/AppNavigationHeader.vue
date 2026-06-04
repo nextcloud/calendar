@@ -5,6 +5,10 @@
 
 <template>
 	<header class="app-navigation-header">
+		<NcAppNavigationSearch
+			v-model="searchQuery"
+			:label="t('calendar', 'Filter events …')"
+			class="app-navigation-header__filter" />
 		<AppNavigationHeaderDatePicker />
 		<div class="new-event-today-view-section">
 			<AppNavigationHeaderNewEvent v-if="!isPublic" />
@@ -15,10 +19,14 @@
 </template>
 
 <script>
+import { translate as t } from '@nextcloud/l10n'
+import { mapStores } from 'pinia'
+import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
 import AppNavigationHeaderDatePicker from './AppNavigationHeader/AppNavigationHeaderDatePicker.vue'
 import AppNavigationHeaderNewEvent from './AppNavigationHeader/AppNavigationHeaderNewEvent.vue'
 import AppNavigationHeaderTodayButton from './AppNavigationHeader/AppNavigationHeaderTodayButton.vue'
 import AppNavigationHeaderViewMenu from './AppNavigationHeader/AppNavigationHeaderViewMenu.vue'
+import useSettingsStore from '../../store/settings.js'
 
 export default {
 	name: 'AppNavigationHeader',
@@ -27,6 +35,7 @@ export default {
 		AppNavigationHeaderTodayButton,
 		AppNavigationHeaderNewEvent,
 		AppNavigationHeaderViewMenu,
+		NcAppNavigationSearch,
 	},
 
 	props: {
@@ -35,5 +44,25 @@ export default {
 			required: true,
 		},
 	},
+
+	computed: {
+		...mapStores(useSettingsStore),
+
+		searchQuery: {
+			get() { return this.settingsStore.searchQuery },
+			set(val) { this.settingsStore.setSearchQuery(val) },
+		},
+	},
+
+	methods: {
+		t,
+	},
 }
 </script>
+
+<style lang="scss" scoped>
+.app-navigation-header__filter {
+	padding: 0;
+	margin-bottom: var(--default-grid-baseline);
+}
+</style>

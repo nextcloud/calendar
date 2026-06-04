@@ -47,6 +47,7 @@ export default defineStore('settings', {
 			momentLocale: 'en',
 			attachmentsFolder: '/Calendar',
 			attachmentsFolderCreated: false,
+			searchQuery: '',
 		}
 	},
 	getters: {
@@ -408,6 +409,10 @@ Initial settings:
 			logInfo(`Updated moment locale: ${locale}`)
 
 			this.momentLocale = locale
+		},
+
+		setSearchQuery(query) {
+			this.searchQuery = query
 		},
 	},
 
