@@ -27,15 +27,35 @@
 		<template #counter>
 			<LinkVariant v-if="isSharedByMe" :size="20" />
 			<NcAvatar
+				v-else-if="isDelegated && loadedDelegatorPrincipal && !actionsMenuOpen"
+				:user="delegatorUserId"
+				:displayName="delegatorDisplayname"
+				:title="delegatorDisplayname"
+				:hideStatus="true"
+				:size="20"
+				class="delegated-counter-avatar" />
+			<NcAvatar
 				v-else-if="isSharedWithMe && loadedOwnerPrincipal && !actionsMenuOpen"
 				:user="ownerUserId"
 				:displayName="ownerDisplayname" />
-			<div v-else-if="isSharedWithMe && !loadedOwnerPrincipal" class="icon icon-loading" />
+			<div v-else-if="(isSharedWithMe && !loadedOwnerPrincipal) || (isDelegated && !loadedDelegatorPrincipal)" class="icon icon-loading" />
 		</template>
 
 		<template #actions>
 			<template v-if="!isBeingDeleted">
-				<template v-if="isSharedWithMe">
+				<template v-if="isDelegated">
+					<NcActionCaption :name="$t('calendar', 'Delegated to you by')" />
+					<NcActionText class="delegated-action-text">
+						<template #icon>
+							<div class="actions-icon-avatar">
+								<NcAvatar :user="delegatorUserId" :displayName="delegatorDisplayname" :size="30" />
+							</div>
+						</template>
+						{{ delegatorDisplayname }}
+					</NcActionText>
+					<NcActionSeparator />
+				</template>
+				<template v-else-if="isSharedWithMe">
 					<NcActionCaption :name="$t('calendar', 'Shared with you by')" />
 					<NcActionText>
 						<template #icon>
@@ -143,7 +163,7 @@ export default {
 		canBeShared() {
 			// The backend falsely reports incoming editable shares as being shareable
 			// Ref https://github.com/nextcloud/calendar/issues/5755
-			if (this.calendar.isSharedWithMe) {
+			if (this.calendar.isSharedWithMe || this.calendar.isDelegated) {
 				return false
 			}
 
@@ -165,7 +185,16 @@ export default {
 		 * @return {boolean}
 		 */
 		isSharedWithMe() {
-			return this.calendar.isSharedWithMe
+			return this.calendar.isSharedWithMe && !this.calendar.isDelegated
+		},
+
+		/**
+		 * Is the calendar delegated to me by another user?
+		 *
+		 * @return {boolean}
+		 */
+		isDelegated() {
+			return !!this.calendar.isDelegated
 		},
 
 		/**
@@ -186,6 +215,10 @@ export default {
 			return this.principalsStore.getPrincipalByUrl(this.calendar.owner) !== undefined
 		},
 
+		loadedDelegatorPrincipal() {
+			return this.principalsStore.getPrincipalByUrl(this.calendar.delegatorUrl) !== undefined
+		},
+
 		ownerUserId() {
 			const principal = this.principalsStore.getPrincipalByUrl(this.calendar.owner)
 			if (principal) {
@@ -202,6 +235,16 @@ export default {
 			}
 
 			return ''
+		},
+
+		delegatorUserId() {
+			const principal = this.principalsStore.getPrincipalByUrl(this.calendar.delegatorUrl)
+			return principal?.userId || ''
+		},
+
+		delegatorDisplayname() {
+			const principal = this.principalsStore.getPrincipalByUrl(this.calendar.delegatorUrl)
+			return principal?.displayname || principal?.userId || ''
 		},
 
 		/**
@@ -306,6 +349,16 @@ export default {
 		justify-content: center;
 		width: 44px;
 		height: 44px;
+	}
+
+	// Size and position the delegated avatar in the counter slot to match icon buttons
+	.delegated-counter-avatar {
+		margin-inline-start: auto;
+	}
+
+	// Vertically align the owner name with the avatar in the "Delegated to you by" row
+	:deep(.action-text__text) {
+		align-self: center ;
 	}
 
 	// Hide avatars if list item is hovered

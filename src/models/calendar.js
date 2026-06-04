@@ -45,6 +45,11 @@ function getDefaultCalendarObject(props = {}) {
 		order: 0,
 		// Whether or not the calendar is shared with me
 		isSharedWithMe: false,
+		// Whether or not the calendar belongs to a user who delegated to me
+		isDelegated: false,
+		// Principal URL of the delegator whose home this calendar was fetched from
+		// (may differ from `owner` when the delegator only has access via a share)
+		delegatorUrl: '',
 		// Whether or not the calendar can be shared by me
 		canBeShared: false,
 		// Whether or not the calendar can be published by me

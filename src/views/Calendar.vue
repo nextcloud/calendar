@@ -134,6 +134,7 @@ import { isNotifyPushAvailable, registerNotifyPushSyncListener } from '../servic
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import useCalendarObjectsStore from '../store/calendarObjects.js'
 import useCalendarsStore from '../store/calendars.js'
+import useDelegationStore from '../store/delegation.ts'
 import useFetchedTimeRangesStore from '../store/fetchedTimeRanges.js'
 import usePrincipalsStore from '../store/principals.js'
 import useSettingsStore from '../store/settings.js'
@@ -147,6 +148,7 @@ import {
 } from '../utils/date.js'
 import logger from '../utils/logger.js'
 import loadMomentLocalization from '../utils/moment.js'
+import { isAfterVersion } from '../utils/nextcloudVersion.ts'
 
 import '@nextcloud/dialogs/style.css'
 
@@ -220,6 +222,7 @@ export default {
 			usePrincipalsStore,
 			useSettingsStore,
 			useWidgetStore,
+			useDelegationStore,
 		),
 
 		...mapState(useSettingsStore, {
@@ -384,6 +387,12 @@ export default {
 					color: uidToHexColor(this.$t('calendar', 'Personal')),
 					order: 0,
 				})
+			}
+
+			// Load delegation info: who has delegated their calendars to the current user
+			if (isAfterVersion(34)) {
+				await this.delegationStore.fetchDelegators()
+				await this.delegationStore.fetchDelegatedCalendars()
 			}
 
 			this.loadingCalendars = false

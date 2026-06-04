@@ -250,6 +250,18 @@ async function findPrincipalsInCollection(url, options = {}) {
 	return getClient().findPrincipalsInCollection(url, options)
 }
 
+/**
+ * Fetches all calendars from a calendar home at an arbitrary URL.
+ * Used to load calendars from another user's calendar home when acting as their proxy.
+ *
+ * @param {string} calendarHomeUrl Absolute URL of the calendar home to fetch from
+ * @return {Promise<Calendar[]>} Raw cdav-library Calendar objects
+ */
+async function findCalendarsAtUrl(calendarHomeUrl) {
+	const calendarHome = getClient().getCalendarHomeForUrl(calendarHomeUrl)
+	return calendarHome.findAllCalendars()
+}
+
 export {
 	advancedPrincipalPropertySearch,
 	createCalendar,
@@ -258,12 +270,14 @@ export {
 	findAll,
 	findAllCalendars,
 	findAllDeletedCalendars,
+	findCalendarsAtUrl,
 	findPrincipalByUrl,
 	findPrincipalsInCollection,
 	findPublicCalendarsByTokens,
 	findSchedulingInbox,
 	findSchedulingOutbox,
 	getBirthdayCalendar,
+	getClient,
 	getCurrentUserPrincipal,
 	initializeClientForPublicView,
 	initializeClientForUserView,
