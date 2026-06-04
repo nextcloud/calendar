@@ -61,6 +61,7 @@ describe('store/settings test suite', () => {
 			attachmentsFolderCreated: false,
 			showResources: true,
 			publicCalendars: null,
+			searchQuery: '',
 		})
 	})
 
@@ -176,6 +177,7 @@ Initial settings:
 			attachmentsFolderCreated: false,
 			showResources: true,
 			publicCalendars: null,
+			searchQuery: '',
 		})
 	})
 
@@ -606,6 +608,16 @@ Initial settings:
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'timezone', 'Europe/Berlin')
 
 		expect(settingsStore.timezone).toEqual('Europe/Berlin')
+	})
+
+	it('should provide an action to set the search query', () => {
+		const settingsStore = useSettingsStore()
+
+		settingsStore.setSearchQuery('meeting')
+		expect(settingsStore.searchQuery).toEqual('meeting')
+
+		settingsStore.setSearchQuery('')
+		expect(settingsStore.searchQuery).toEqual('')
 	})
 
 	it('should provide an action to initialize the calendar-js config', () => {
