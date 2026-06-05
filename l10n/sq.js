@@ -42,6 +42,7 @@ OC.L10N.register(
     "Icons" : "Ikonat",
     "Attendees" : "Pjesëmarrës",
     "Filename" : "Emri i skedarit",
+    "Revoke" : "Anulo",
     "Automatic" : "Automatike",
     "Automatic ({timezone})" : "Automatike ({zona kohore})",
     "List view" : "Pamje listë",

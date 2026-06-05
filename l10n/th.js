@@ -43,6 +43,7 @@ OC.L10N.register(
     "Icons" : "ไอคอน",
     "Attendees" : "ผู้เข้าร่วมกิจกรรม",
     "Filename" : "ชื่อไฟล์",
+    "Revoke" : "เพิกถอน",
     "Automatic" : "อัตโนมัติ",
     "Year view" : "มุมมองรายปี",
     "List view" : "มุมมองแบบรายการ",
