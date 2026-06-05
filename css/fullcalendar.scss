@@ -135,7 +135,7 @@
 		border-block-start-width: 0 !important;
 		border-block-end-width: 0 !important;
 		border-inline-end-width: 0 !important;
-		border-inline-start-width: var(--default-grid-baseline) !important;
+		border-inline-start-width: calc(var(--default-grid-baseline) + var(--default-grid-basline) * 0.5) !important;
 		border-inline-start-style: solid !important;
 	}
 
@@ -184,7 +184,7 @@
 			border-block-start-width: 1px !important;
 			border-block-end-width: 1px !important;
 			border-inline-end-width: 1px !important;
-			border-inline-start-width: var(--default-grid-baseline) !important;
+			border-inline-start-width: calc(var(--default-grid-baseline) + var(--default-grid-basline) * 0.5) !important;
 		}
 	}
 
