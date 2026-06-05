@@ -27,6 +27,7 @@ OC.L10N.register(
     "View" : "Vider",
     "Tentative" : "Tentative",
     "Attendees" : "Participantes",
+    "Revoke" : "Revocar",
     "Automatic" : "Automatic",
     "Actions" : "Actiones",
     "General" : "General",

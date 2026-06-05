@@ -62,6 +62,8 @@ OC.L10N.register(
     "Filename" : "Nom de fichièr",
     "_Import calendar_::_Import calendars_" : ["Importar un calendièr","Importar de calendièrs"],
     "Attachments folder" : "Dossièr de pèças-juntas",
+    "Revoke" : "Revocar",
+    "Viewer" : "Visualizaira",
     "Automatic" : "Automatic",
     "Navigation" : "Navegacion",
     "Views" : "Vistas",
