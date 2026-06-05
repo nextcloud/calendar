@@ -118,7 +118,7 @@ export default errorCatch(function({ event, el }) {
 			if (rgb) {
 				const now = new Date()
 				const isPast = event.end ? event.end < now : (event.start ? event.start < now : false)
-				const opacity = isPast ? 0.05 : 0.35
+				const opacity = isPast ? 0.15 : 0.35
 				// Solid page-background as the base so overlapping events are opaque,
 				// with the accent colour layered on top as a translucent gradient.
 				el.style.backgroundColor = 'var(--fc-page-bg-color)'
@@ -215,7 +215,7 @@ export default errorCatch(function({ event, el }) {
 				const stripeColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.25)`
 				const now = new Date()
 				const isPast = event.end ? event.end < now : (event.start ? event.start < now : false)
-				const overlayOpacity = isPast ? 0.05 : 0.35
+				const overlayOpacity = isPast ? 0.15 : 0.35
 				const overlayColor = `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${overlayOpacity})`
 				el.style.backgroundColor = 'var(--fc-page-bg-color)'
 				el.style.backgroundImage = `repeating-linear-gradient(45deg, ${stripeColor}, ${stripeColor} 2px, transparent 2px, transparent 10px), linear-gradient(${overlayColor}, ${overlayColor})`
