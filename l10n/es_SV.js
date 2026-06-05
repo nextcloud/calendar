@@ -38,6 +38,7 @@ OC.L10N.register(
     "Icons" : "Íconos",
     "Attendees" : "Asistentes",
     "Filename" : "Nombre del archivo",
+    "Revoke" : "Revocar",
     "Automatic" : "Automático",
     "Automatic ({timezone})" : "({timezone}) automática",
     "Timezone" : "Zona horaria",
