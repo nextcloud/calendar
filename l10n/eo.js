@@ -54,6 +54,8 @@ OC.L10N.register(
     "Icons" : "Piktogramoj",
     "Attendees" : "Ĉeestontoj",
     "Filename" : "Dosiernomo",
+    "Revoke" : "Senvalidigi",
+    "Viewer" : "Vidigilo",
     "Editor" : "Redaktilo",
     "Automatic" : "Aŭtomata",
     "Automatic ({timezone})" : "Aŭtomate ({timezone})",
