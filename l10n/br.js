@@ -89,6 +89,8 @@ OC.L10N.register(
     "Calendar to import into" : "Deizataer de emporzhiañ e-barzh",
     "_Import calendar_::_Import calendars_" : ["Emporzhiañ deizataer","Emporzhiañ deizataer","Emporzhiañ deizataer","Emporzhiañ deizataer","Emporzhiañ deizataer"],
     "Attachments folder" : "Teuliad stag",
+    "Revoke" : "Digargañ",
+    "Viewer" : "Gweller",
     "{filename} could not be parsed" : "{filename} na c'hell ket bezhañ dielfennet",
     "No valid files found, aborting import" : "Restr mat kavet ebet, arrestet e vez an emporzhiañ",
     "Import partially failed. Imported {accepted} out of {total}." : "Emporzhiañ damc'hwitet. Emporzhiet {accepted} diwar {total}.",
