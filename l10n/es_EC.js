@@ -160,6 +160,7 @@ OC.L10N.register(
     "Error on saving attachments folder." : "Error al guardar la carpeta de adjuntos.",
     "Attachments folder" : "Carpeta de archivos adjuntos",
     "Revoke" : "Revocar",
+    "Viewer" : "Visor",
     "Editor" : "Editor",
     "No users found" : "No se encontraron usuarios",
     "{filename} could not be parsed" : "No se pudo analizar {filename}",

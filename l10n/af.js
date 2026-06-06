@@ -36,6 +36,7 @@ OC.L10N.register(
     "Tentative" : "Tentatief",
     "Attendees" : "Bywoners",
     "Filename" : "Lêernaam",
+    "Viewer" : "Bekyker",
     "Automatic" : "Outomaties",
     "Automatic ({timezone})" : "Outomaties ({timezone})",
     "Timezone" : "Tydsone",

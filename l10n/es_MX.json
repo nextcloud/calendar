@@ -163,6 +163,7 @@
     "Attachments folder successfully saved." : "La carpeta de adjuntos se guardó exitosamente.",
     "Error on saving attachments folder." : "Ocurrió un error al guardar la carpeta de adjuntos.",
     "Revoke" : "Revocar",
+    "Viewer" : "Visor",
     "Editor" : "Editor",
     "No users found" : "No se encontraron usuarios",
     "{filename} could not be parsed" : "No se pudo analizar {filename}",
