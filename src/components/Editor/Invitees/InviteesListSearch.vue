@@ -24,7 +24,7 @@
 				<Avatar
 					v-if="option.isUser"
 					:key="option.uid"
-					:user="option.avatar"
+					:url="option.avatar"
 					:displayName="option.dropdownName" />
 				<Avatar v-else-if="option.type === 'circle'">
 					<template #icon>
