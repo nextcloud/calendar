@@ -228,6 +228,7 @@ OC.L10N.register(
     "Revoke" : "Geçersiz kıl",
     "Viewer" : "Görüntüleyici",
     "Editor" : "Düzenleyici",
+    "Delegates" : "Delegeler",
     "Revoke access" : "Yetki devrini geri al",
     "Add delegate" : "Yetki devri ekle",
     "Revoke access?" : "Yetki devri geri alınsın mı?",
