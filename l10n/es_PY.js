@@ -39,6 +39,7 @@ OC.L10N.register(
     "Attendees" : "Asistentes",
     "Filename" : "Nombre del archivo",
     "Revoke" : "Revocar",
+    "Viewer" : "Visor",
     "Automatic" : "Automático",
     "List view" : "Vista de lista",
     "Actions" : "Acciones",
