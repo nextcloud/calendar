@@ -66,6 +66,7 @@
     "color-string": "^2.1.4",
     "core-js": "^3.49.0",
     "css-color-names": "^1.0.1",
+    "datetime-locale-patterns": "^1.0.2",
     "debounce": "^3.0.0",
     "linkifyjs": "^4.3.3",
     "md5": "^2.3.0",
