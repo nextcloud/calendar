@@ -100,7 +100,7 @@
     "@vitejs/plugin-vue": "^6.0.5",
     "@vitest/coverage-v8": "^4.1.2",
     "@vue/compiler-sfc": "^3.5.31",
-    "@vue/test-utils": "^2.4.6",
+    "@vue/test-utils": "^2.4.11",
     "css-loader": "^7.1.4",
     "jsdom": "^29.1.1",
     "sass": "^1.100.0",
