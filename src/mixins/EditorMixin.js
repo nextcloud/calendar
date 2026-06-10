@@ -897,11 +897,10 @@ export default {
 	 *
 	 * @param {object} to The route to navigate to
 	 * @param {object} from The route coming from
-	 * @param {Function} next Function to be called when ready to load the next view
 	 */
-	async beforeRouteEnter(to, from, next) {
+	async beforeRouteEnter(to, from) {
 		if (to.name === 'NewFullView' || to.name === 'NewPopoverView') {
-			next(async (vm) => {
+			return async (vm) => {
 				vm.resetState()
 
 				const isAllDay = (to.params.allDay === '1')
@@ -920,17 +919,15 @@ export default {
 				} finally {
 					vm.isLoading = false
 				}
-			})
+			}
 		} else {
-			next(async (vm) => {
+			return async (vm) => {
 				vm.resetState()
 				const objectId = to.params.object
 				const recurrenceId = to.params.recurrenceId
 
 				if (recurrenceId === 'next') {
 					const closeToDate = dateFactory()
-					// TODO: can we replace this by simply returning the new route since we are inside next()
-					// Probably not though, because it's async
 					try {
 						await vm.loadingCalendars()
 						const recurrenceId = await vm.calendarObjectInstanceStore.resolveClosestRecurrenceIdForCalendarObject({
@@ -962,7 +959,7 @@ export default {
 				} finally {
 					vm.isLoading = false
 				}
-			})
+			}
 		}
 	},
 	/**
@@ -972,9 +969,8 @@ export default {
 	 *
 	 * @param {object} to The route to navigate to
 	 * @param {object} from The route coming from
-	 * @param {Function} next Function to be called when ready to load the next view
 	 */
-	async beforeRouteUpdate(to, from, next) {
+	async beforeRouteUpdate(to, from) {
 		// If we are in the New Event dialog, we want to update the selected time
 		if (to.name === 'NewFullView' || to.name === 'NewPopoverView') {
 			// If allDay, dtstart and dtend are the same there is no need to update.
@@ -982,7 +978,6 @@ export default {
 			if (to.params.allDay === from.params.allDay
 				&& to.params.dtstart === from.params.dtstart
 				&& to.params.dtend === from.params.dtend) {
-				next()
 				return
 			}
 
@@ -993,14 +988,12 @@ export default {
 
 			await this.loadingCalendars()
 			await this.calendarObjectInstanceStore.updateCalendarObjectInstanceForNewEvent({ isAllDay, start, end, timezoneId })
-			next()
 		} else {
 			// If both the objectId and recurrenceId remained the same
 			// there is no need to update. This is usally the case when navigating
 			// through the calendar while the editor is open
 			if (to.params.object === from.params.object
 				&& to.params.recurrenceId === from.params.recurrenceId) {
-				next()
 				return
 			}
 
@@ -1010,8 +1003,7 @@ export default {
 				await this.save()
 			} catch (error) {
 				console.debug(error)
-				next(false)
-				return
+				return false
 			}
 
 			this.resetState()
@@ -1025,8 +1017,7 @@ export default {
 					closeToDate,
 				})
 				const params = { ...this.$route.params, recurrenceId }
-				next({ name: this.$route.name, params })
-				return
+				return { name: this.$route.name, params }
 			}
 
 			try {
@@ -1041,7 +1032,6 @@ export default {
 				this.error = t('calendar', 'It might have been deleted, or there was a typo in the link')
 			} finally {
 				this.isLoading = false
-				next()
 			}
 		}
 	},
@@ -1050,13 +1040,11 @@ export default {
 	 *
 	 * @param {object} to The route to navigate to
 	 * @param {object} from The route coming from
-	 * @param {Function} next Function to be called when ready to load the next view
 	 */
-	async beforeRouteLeave(to, from, next) {
+	async beforeRouteLeave(to, from) {
 		// requiresActionOnRouteLeave is false when an action like deleting / saving / cancelling was already taken.
 		// The responsibility of this method is to automatically save the event when the user clicks outside the editor
 		if (!this.requiresActionOnRouteLeave) {
-			next()
 			return
 		}
 
@@ -1065,10 +1053,9 @@ export default {
 				&& (from.name !== 'NewPopoverView' || to.name !== 'EditFullView')) {
 				await this.save()
 			}
-			next()
 		} catch (error) {
 			console.debug(error)
-			next(false)
+			return false
 		}
 	},
 }
