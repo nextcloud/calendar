@@ -5,37 +5,44 @@
 
 .import-modal {
 	.modal-container {
-		padding: 24px !important;
-		min-width: 50%;
+		padding: calc(var(--default-grid-baseline) * 6) !important;
 		overflow: visible !important;
 
-		.import-modal__title,
-		.import-modal__subtitle {
+		.import-modal__title {
 			text-align: center;
+			font-size: calc(var(--default-grid-baseline) * 5);
+			font-weight: bold;
+		}
+
+		.import-modal__progress-bar {
+			margin-top: calc(var(--default-grid-baseline) * 6);
+			margin-bottom: calc(var(--default-grid-baseline) * 4);
 		}
 
 		.import-modal__actions {
+			margin-top: calc(var(--default-grid-baseline) * 3);
 			display: flex;
-			gap: 5px;
+			gap: var(--default-grid-baseline);
+			justify-content: flex-end;
+		}
+
+		.import-modal__counters {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			column-gap: calc(var(--default-grid-baseline) * 2);
+			row-gap: calc(var(--default-grid-baseline) * 2);
+			margin-top: calc(var(--default-grid-baseline) * 2);
+
+			.notecard {
+				align-items: center;
+				margin: 0 !important;
+			}
 		}
 
 		.import-modal-file-item {
-			display: flex;
 			margin-top: calc(var(--default-grid-baseline) * 2);
 			margin-bottom: calc(var(--default-grid-baseline) * 2);
 
-			&--header {
-				font-weight: bold;
-			}
-
-			&__filename {
-				flex: 2 1 0;
-			}
-
-			&__calendar-select {
-				flex: 1 1 0;
-			}
-			
 			&__calendar-disabled-hint {
 				color: var(--color-text-maxcontrast);
 			}
