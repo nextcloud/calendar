@@ -5,29 +5,53 @@
 
 <template>
 	<li class="import-modal-file-item">
-		<div class="import-modal-file-item__filename">
-			<div>{{ file.name }}</div>
-			<div
-				v-if="disabledHint"
-				class="import-modal-file-item__calendar-disabled-hint">
-				{{ disabledHint }}
-			</div>
-		</div>
-		<CalendarPicker
-			class="import-modal-file-item__calendar-select"
-			:value="calendar"
-			:calendars="calendars"
-			:isCalendarSelectable="isCalendarSelectable"
-			@selectCalendar="selectCalendar" />
+		<NcFormGroup :label="$t('calendar', 'Calendar to import into')" :description="disabledHint">
+			<NcFormBox v-slot="{ itemClass }">
+				<NcFormBoxCopyButton :class="itemClass" :label="$t('calendar', 'File')" :value="file.name" />
+			</NcFormBox>
+			<NcFormBox v-slot="{ itemClass }">
+				<CalendarPicker
+					:class="itemClass"
+					:value="calendar"
+					:calendars="calendars"
+					:isCalendarSelectable="isCalendarSelectable"
+					@selectCalendar="selectCalendar" />
+			</NcFormBox>
+		</NcFormGroup>
+		<NcFormGroup :label="$t('calendar', 'Import options')">
+			<NcFormBox v-slot="{ itemClass }">
+				<div class="import-modal-file-item__format" :class="itemClass">
+					<label :for="formatInputId" class="import-modal-file-item__format-label">
+						{{ $t('calendar', 'File format') }}
+					</label>
+					<NcSelect
+						v-model="selectedFormat"
+						:inputId="formatInputId"
+						:options="formatOptions"
+						:allowEmpty="false"
+						:clearable="false"
+						label="label" />
+				</div>
+			</NcFormBox>
+			<NcFormBox v-slot="{ itemClass }">
+				<NcFormBoxSwitch
+					:class="itemClass"
+					:modelValue="supersede"
+					:label="$t('calendar', 'Overwrite existing events')"
+					:description="$t('calendar', 'Replace events in the calendar that match the imported ones instead of skipping them.')"
+					@update:modelValue="setSupersede" />
+			</NcFormBox>
+		</NcFormGroup>
 	</li>
 </template>
 
 <script>
 import { getLanguage } from '@nextcloud/l10n'
+import { NcFormBox, NcFormBoxCopyButton, NcFormBoxSwitch, NcFormGroup, NcSelect } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
 import CalendarPicker from '../../Shared/CalendarPicker.vue'
 import useCalendarsStore from '../../../store/calendars.js'
-import useImportFilesStore from '../../../store/importFiles.js'
+import useImportStore from '../../../store/import.ts'
 import usePrincipalsStore from '../../../store/principals.js'
 import { uidToHexColor } from '../../../utils/color.js'
 
@@ -35,17 +59,65 @@ export default {
 	name: 'ImportScreenRow',
 	components: {
 		CalendarPicker,
+		NcFormBox,
+		NcFormBoxCopyButton,
+		NcFormBoxSwitch,
+		NcFormGroup,
+		NcSelect,
 	},
 
 	props: {
-		file: {
+		entry: {
 			type: Object,
 			required: true,
 		},
 	},
 
 	computed: {
-		...mapStores(usePrincipalsStore, useImportFilesStore, useCalendarsStore),
+		...mapStores(usePrincipalsStore, useImportStore, useCalendarsStore),
+
+		file() {
+			return this.entry.file
+		},
+
+		formatInputId() {
+			return `import-format-${this.file.id}`
+		},
+
+		formatOptions() {
+			return [{
+				id: 'ical',
+				label: this.$t('calendar', 'iCalendar (.ics)'),
+			}, {
+				id: 'jcal',
+				label: this.$t('calendar', 'jCal (.json)'),
+			}, {
+				id: 'xcal',
+				label: this.$t('calendar', 'xCal (.xml)'),
+			}]
+		},
+
+		selectedFormat: {
+			get() {
+				const format = this.entry.options.format
+				return this.formatOptions.find((option) => option.id === format) ?? this.formatOptions[0]
+			},
+
+			set(option) {
+				if (!option) {
+					return
+				}
+				this.importStore.setOptionsForFile({
+					fileId: this.file.id,
+					options: { format: option.id },
+				})
+			},
+		},
+
+		supersede() {
+			return this.entry.options.supersede
+		},
+
 		newCalendar() {
 			return {
 				id: 'new',
@@ -57,7 +129,7 @@ export default {
 		},
 
 		calendar() {
-			const calendarId = this.importFilesStore.importCalendarRelation[this.file.id]
+			const calendarId = this.entry.calendarId
 			if (calendarId === this.newCalendar.id) {
 				return this.newCalendar
 			}
@@ -127,11 +199,31 @@ export default {
 		},
 
 		selectCalendar(newCalendar) {
-			this.importFilesStore.setCalendarForFileId({
+			this.importStore.setCalendarForFile({
 				fileId: this.file.id,
 				calendarId: newCalendar.id,
+			})
+		},
+
+		setSupersede(supersede) {
+			this.importStore.setOptionsForFile({
+				fileId: this.file.id,
+				options: { supersede },
 			})
 		},
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.import-modal-file-item__format {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	padding: 8px 12px;
+
+	&-label {
+		font-weight: bold;
+	}
+}
+</style>
