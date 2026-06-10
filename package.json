@@ -97,7 +97,7 @@
     "@rspack/core": "^2.0.0",
     "@rspack/plugin-node-polyfill": "^0.5.8",
     "@types/node": "^25.6.0",
-    "@vitejs/plugin-vue": "^6.0.5",
+    "@vitejs/plugin-vue": "^6.0.7",
     "@vitest/coverage-v8": "^4.1.2",
     "@vue/compiler-sfc": "^3.5.31",
     "@vue/test-utils": "^2.4.6",
