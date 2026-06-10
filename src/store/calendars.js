@@ -9,8 +9,6 @@ import { mapCDavObjectToCalendarObject } from '../models/calendarObject.js'
 import {
 	CALDAV_BIRTHDAY_CALENDAR,
 	CALDAV_PERSONAL_CALENDAR,
-	IMPORT_STAGE_IMPORTING,
-	IMPORT_STAGE_PROCESSING,
 } from '../models/consts.js'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
@@ -24,14 +22,11 @@ import {
 	findPublicCalendarsByTokens,
 } from '../services/caldavService.js'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
-import { uidToHexColor } from '../utils/color.js'
 import { dateFactory, getUnixTimestampFromDate } from '../utils/date.js'
 import logger from '../utils/logger.js'
 import { isAfterVersion } from '../utils/nextcloudVersion.ts'
 import useCalendarObjectsStore from './calendarObjects.js'
 import useFetchedTimeRangesStore from './fetchedTimeRanges.js'
-import useImportFilesStore from './importFiles.js'
-import useImportStateStore from './importState.js'
 import usePrincipalsStore from './principals.js'
 import useSettingsStore from './settings.js'
 
@@ -828,93 +823,6 @@ export default defineStore('calendars', {
 			return calendarObject
 		},
 
-		/**
-		 * Import events into calendar
-		 *
-		 */
-		async importEventsIntoCalendar() {
-			const importStateStore = useImportStateStore()
-			const importFilesStore = useImportFilesStore()
-			const principalsStore = usePrincipalsStore()
-			const fetchedTimeRangesStore = useFetchedTimeRangesStore()
-			const calendarObjectsStore = useCalendarObjectsStore()
-
-			importStateStore.stage = IMPORT_STAGE_IMPORTING
-
-			// Create a copy
-			const files = importFilesStore.importFiles.slice()
-
-			let totalCount = 0
-			for (const file of files) {
-				totalCount += file.parser.getItemCount()
-
-				const calendarId = importFilesStore.importCalendarRelation[file.id]
-				if (calendarId === 'new') {
-					const displayName = file.parser.getName() || t('calendar', 'Imported {filename}', {
-						filename: file.name,
-					})
-					const color = file.parser.getColor() || uidToHexColor(displayName)
-					const components = []
-					if (file.parser.containsVEvents()) {
-						components.push('VEVENT')
-					}
-					if (file.parser.containsVJournals()) {
-						components.push('VJOURNAL')
-					}
-					if (file.parser.containsVTodos()) {
-						components.push('VTODO')
-					}
-
-					const response = await createCalendar(displayName, color, components, 0)
-					const calendar = mapDavCollectionToCalendar(response, principalsStore.getCurrentUserPrincipal)
-					this.addCalendarMutation({ calendar })
-					importFilesStore.setCalendarForFileId({
-						fileId: file.id,
-						calendarId: calendar.id,
-					})
-				}
-			}
-
-			importStateStore.total = totalCount
-
-			const limit = pLimit(3)
-			const requests = []
-
-			for (const file of files) {
-				const calendarId = importFilesStore.importCalendarRelation[file.id]
-				const calendar = this.getCalendarById(calendarId)
-
-				for (const item of file.parser.getItemIterator()) {
-					requests.push(limit(async () => {
-						const ics = item.toICS()
-
-						let davObject
-						try {
-							davObject = await calendar.dav.createVObject(ics)
-						} catch (error) {
-							importStateStore.denied++
-							console.error(error)
-							return
-						}
-
-						const calendarObject = mapCDavObjectToCalendarObject(davObject, calendarId)
-						calendarObjectsStore.appendCalendarObjectMutation({ calendarObject })
-						this.addCalendarObjectToCalendarMutation({
-							calendar,
-							calendarObjectId: calendarObject.id,
-						})
-						fetchedTimeRangesStore.addCalendarObjectIdToAllTimeRangesOfCalendar({
-							calendarId: calendar.id,
-							calendarObjectId: calendarObject.id,
-						})
-						importStateStore.accepted++
-					}))
-				}
-			}
-
-			await Promise.all(requests)
-			importStateStore.stage = IMPORT_STAGE_PROCESSING
-		},
 		/**
 		 *
 		 * @param {object} data The data destructuring object
