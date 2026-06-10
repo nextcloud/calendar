@@ -102,7 +102,7 @@
     "@vue/compiler-sfc": "^3.5.31",
     "@vue/test-utils": "^2.4.6",
     "css-loader": "^7.1.2",
-    "jsdom": "^29.0.2",
+    "jsdom": "^29.1.1",
     "sass": "^1.93.2",
     "sass-loader": "^16.0.6",
     "typescript": "^6.0.2",
