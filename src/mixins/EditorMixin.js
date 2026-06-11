@@ -458,6 +458,7 @@ export default {
 				// Set the calendarId from the created calendar object
 				if (this.calendarObject) {
 					this.calendarId = this.calendarObject.calendarId
+					this.addDelegatorAsAttendeeIfNeeded(this.selectedCalendar)
 				}
 
 				console.debug('[Editor] New event created successfully')
@@ -514,9 +515,49 @@ export default {
 			// to the desired calendar as a second step.
 			if (this.calendarObject && !this.calendarObject.existsOnServer) {
 				this.calendarObject.calendarId = selectedCalendar.id
+				this.addDelegatorAsAttendeeIfNeeded(selectedCalendar)
 			}
 
 			updateDefaultAlarm(this.calendarObject.calendarId, this.calendarObjectInstance)
+		},
+
+		/**
+		 * When creating an event on a delegated calendar, automatically adds the
+		 * delegator as an attendee so they are aware of and invited to the event.
+		 *
+		 * @param {object|null} calendar The calendar object to check
+		 */
+		addDelegatorAsAttendeeIfNeeded(calendar) {
+			if (!calendar?.isDelegated || !calendar.delegatorUrl) {
+				return
+			}
+
+			if (!this.calendarObjectInstance) {
+				return
+			}
+
+			const delegatorPrincipal = this.principalsStore.getPrincipalByUrl(calendar.delegatorUrl)
+			if (!delegatorPrincipal?.emailAddress) {
+				return
+			}
+
+			const alreadyAttendee = this.calendarObjectInstance.attendees.some((attendee) => removeMailtoPrefix(attendee.uri) === delegatorPrincipal.emailAddress)
+
+			if (!alreadyAttendee) {
+				this.calendarObjectInstanceStore.addAttendee({
+					calendarObjectInstance: this.calendarObjectInstance,
+					commonName: delegatorPrincipal.displayname,
+					uri: delegatorPrincipal.emailAddress,
+					calendarUserType: 'INDIVIDUAL',
+					participationStatus: 'NEEDS-ACTION',
+					role: 'REQ-PARTICIPANT',
+					rsvp: true,
+					language: null,
+					timezoneId: null,
+					organizer: this.principalsStore.getCurrentUserPrincipal,
+					member: null,
+				})
+			}
 		},
 		/**
 		 * This will force the user to update this and all future occurrences when saving
