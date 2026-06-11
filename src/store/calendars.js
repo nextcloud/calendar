@@ -79,6 +79,20 @@ export default defineStore('calendars', {
 		},
 
 		/**
+		 * List of sorted calendars that allow creating objects
+		 *
+		 * @param {object} state the store data
+		 * @return {Array}
+		 */
+		sortedCalendarsAllowingCreate(state) {
+			return state.calendars
+				.filter((calendar) => calendar.supportsEvents)
+				.filter((calendar) => calendar.canCreateObject)
+				.filter((calendar) => !calendar.readOnly)
+				.sort((a, b) => a.order - b.order)
+		},
+
+		/**
 		 * List of sorted all calendars
 		 *
 		 * @param {object} state the store data
