@@ -454,8 +454,7 @@ export default {
 .app-navigation-toggle-wrapper {
 	position: absolute;
 	top: var(--app-navigation-padding);
-	inset-inline-end: calc(0px - var(--app-navigation-padding));
-	margin-inline-end: calc(-1 * var(--default-clickable-area));
+	inset-inline-end: 0;
 }
 
 .calendar-wrapper {
@@ -467,7 +466,7 @@ export default {
 .toggle-button {
 	position: absolute;
 	top: 2px;
-	inset-inline-end: 50px;
+	inset-inline-end: var(--app-navigation-padding);
 	z-index: 1000;
 }
 
