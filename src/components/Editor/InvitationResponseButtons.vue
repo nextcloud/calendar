@@ -156,7 +156,7 @@ export default {
 				// TODO: What about recurring events? Add new buttons like "Accept this and all future"?
 				// Currently, this will only accept a single occurrence.
 				await this.calendarObjectInstanceStore.saveCalendarObjectInstance({
-					thisAndAllFuture: false,
+					mode: 'all',
 					calendarId: this.calendarId,
 				})
 			} catch (error) {
