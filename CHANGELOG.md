@@ -1,3 +1,42 @@
+## [6.4.3](https://github.com/nextcloud/calendar/compare/v6.4.2...v6.4.3) (2026-06-15)
+
+
+### Bug Fixes
+
+* **appointment:** capture Attendee browser language and save it ([bc1ba69](https://github.com/nextcloud/calendar/commit/bc1ba696a7c85f1fd0e9a48b1a11fef9ed50803d))
+* **css:** keep unscheduled tasks toggle inside the scroll container ([9ea84b3](https://github.com/nextcloud/calendar/commit/9ea84b35864c6092d380cfdf2c0d52cd1ea468bd))
+* **deps:** Fix npm audit ([8c81e25](https://github.com/nextcloud/calendar/commit/8c81e25f94dd0d1434e43d859c4a23265f7768ad))
+* **deps:** update cdav library ([0e9f770](https://github.com/nextcloud/calendar/commit/0e9f7707f178e68e02f27a7fc50ae4ffeb7f4ce9))
+* **deps:** update dependency @nextcloud/cdav-library to ^2.6.2 ([41f5ac3](https://github.com/nextcloud/calendar/commit/41f5ac35020d7c9cc37cdfe892823f605466177c))
+* empty trash bin action ([db4a58e](https://github.com/nextcloud/calendar/commit/db4a58e8d135d7bf05e9360f174ccab3e4f5a1c8))
+* **eventDidMount:** increase past event opacity ([fea9e2c](https://github.com/nextcloud/calendar/commit/fea9e2c579f0791baf71f11b37e74799512a725f))
+* invitee list avatar ([56ed2bd](https://github.com/nextcloud/calendar/commit/56ed2bd530853cc4d5b5abb9679204c1197c570c))
+* **l10n:** Update translations from Transifex ([58461f2](https://github.com/nextcloud/calendar/commit/58461f2fdfbc772700cc1821392a96f21ecaf934))
+* **l10n:** Update translations from Transifex ([ed6ca19](https://github.com/nextcloud/calendar/commit/ed6ca1971484fdacb239fb52fc35b58edef7ff1e))
+* **l10n:** Update translations from Transifex ([7549155](https://github.com/nextcloud/calendar/commit/754915503c8f9f3a633c3604a553359c3b9ecf42))
+* **l10n:** Update translations from Transifex ([879a3f6](https://github.com/nextcloud/calendar/commit/879a3f6092122f1c44e93cf3ffd4b9c0cbd65d15))
+* **l10n:** Update translations from Transifex ([b16b0ac](https://github.com/nextcloud/calendar/commit/b16b0ac1b1dd3c9656cd4c935508354765fbc96b))
+* **l10n:** Update translations from Transifex ([0904ec4](https://github.com/nextcloud/calendar/commit/0904ec42da683a3552a094c0da80870528b6b90d))
+* **l10n:** Update translations from Transifex ([0ae33bc](https://github.com/nextcloud/calendar/commit/0ae33bc3057b3b6b057c291e823ba9319aa966dc))
+* **l10n:** Update translations from Transifex ([00529f6](https://github.com/nextcloud/calendar/commit/00529f647e022a3d537963638107a914bc7115a9))
+* **l10n:** Update translations from Transifex ([1087c04](https://github.com/nextcloud/calendar/commit/1087c04c68b163b5fecca434c64b828f9f1d5d96))
+* **l10n:** Update translations from Transifex ([a6f4c2f](https://github.com/nextcloud/calendar/commit/a6f4c2f30ac610094681185c527b5f516d2e12f3))
+* **l10n:** Update translations from Transifex ([e5726bc](https://github.com/nextcloud/calendar/commit/e5726bc4ca5dd9acc1c9d01ba709f74ba686baed))
+* **l10n:** Update translations from Transifex ([1968256](https://github.com/nextcloud/calendar/commit/196825611045187f8396c2580142232d2f2019d3))
+* **l10n:** Update translations from Transifex ([e53dd63](https://github.com/nextcloud/calendar/commit/e53dd631d289a8ecef269caffb29a5136d093e9a))
+* **l10n:** Update translations from Transifex ([1769a3c](https://github.com/nextcloud/calendar/commit/1769a3c7429decaab06a47e37913af822760894b))
+* **l10n:** Update translations from Transifex ([c799ead](https://github.com/nextcloud/calendar/commit/c799eadbe1bf14456785cf428633675e36528fe1))
+* **l10n:** Update translations from Transifex ([0b3f59e](https://github.com/nextcloud/calendar/commit/0b3f59ea9c432b5fb547d7d97cb204c69a55b54f))
+* **l10n:** Update translations from Transifex ([26295b9](https://github.com/nextcloud/calendar/commit/26295b91913b6b8159dfd37e0ea74e155e313a00))
+* Meeting proposal time zone offset ([f08a967](https://github.com/nextcloud/calendar/commit/f08a967fa179181ac3e74b2e198292b6bc9803fc))
+* missed entry point during vue 3 migration ([3d17987](https://github.com/nextcloud/calendar/commit/3d179878c847dfbb515105b9450be1ad301ca253))
+* move 'Respond' button to top of message template ([feae8df](https://github.com/nextcloud/calendar/commit/feae8df0fcd8fa82f705c0de90e9c8e36bd822dc))
+* **store:** preserve calendar-object identity on unchanged refetch ([bc075ee](https://github.com/nextcloud/calendar/commit/bc075eef0d540787aa5862cced2b508a1dd12bf0))
+* **trashbin:** restrict retore and delete on the frontend ([ab2cebf](https://github.com/nextcloud/calendar/commit/ab2cebfd64ca4687f941655c6786e11314de9ca2))
+* **ui:** Restore the section showing events that take place on full days ([92628e8](https://github.com/nextcloud/calendar/commit/92628e869d45cc9bb3a91e335c32fa6bc8a69063))
+
+
+
 ## [6.4.2](https://github.com/nextcloud/calendar/compare/v6.4.1...v6.4.2) (2026-05-25)
 
 
