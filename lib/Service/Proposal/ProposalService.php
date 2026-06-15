@@ -577,13 +577,11 @@ class ProposalService {
 				$fromAddress = \OCP\Util::getDefaultEmailAddress('proposal-noreply');
 				// construct symfony mailer message and set required parameters
 				$message = $this->systemMailManager->createMessage();
-				$message->setFrom([$fromAddress => $senderName ?? '']);
+				$message->setFrom([$fromAddress => $senderName]);
 				$message->setTo(
 					$recipientName !== null ? [$recipientAddress => $recipientName] : [$recipientAddress]
 				);
-				$message->setReplyTo(
-					$senderName !== null ? [$senderAddress => $senderName] : [$senderAddress]
-				);
+				$message->setReplyTo([$senderAddress => $senderName]);
 				$message->useTemplate($template);
 				$failed = $this->systemMailManager->send($message);
 			}
