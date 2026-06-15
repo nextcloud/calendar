@@ -15,9 +15,17 @@ import type {
  */
 import { getRequestToken } from '@nextcloud/auth'
 import { generateOcsUrl } from '@nextcloud/router'
+import { isAtLeastVersion } from '@/utils/nextcloudVersion'
 
 const API_URL = generateOcsUrl('/calendar/import')
 const OPERATION = 'calendar import'
+
+/**
+ * Whether the server provides the OCS calendar import endpoint (34.0.5 and newer)
+ */
+export function isStreamImportSupported(): boolean {
+	return isAtLeastVersion(34, 0, 5)
+}
 
 export function generateTransactionId(): string {
 	return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`

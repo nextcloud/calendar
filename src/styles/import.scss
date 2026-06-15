@@ -26,17 +26,10 @@
 			justify-content: flex-end;
 		}
 
-		.import-modal__counters {
-			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-			column-gap: calc(var(--default-grid-baseline) * 2);
-			row-gap: calc(var(--default-grid-baseline) * 2);
-			margin-top: calc(var(--default-grid-baseline) * 2);
-
-			.notecard {
-				align-items: center;
-				margin: 0 !important;
-			}
+		.import-modal__status {
+			margin-top: calc(var(--default-grid-baseline) * -2);
+			color: var(--color-text-maxcontrast);
+			text-align: center;
 		}
 
 		.import-modal-file-item {

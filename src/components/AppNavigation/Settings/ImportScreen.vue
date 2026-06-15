@@ -34,32 +34,16 @@
 
 			<NcProgressBar class="import-modal__progress-bar" :value="progressValue" size="medium" />
 
-			<div class="import-modal__counters">
-				<NcNoteCard type="info">
-					<strong>{{ totals.discovered }}</strong> {{ $t('calendar', 'Discovered') }}
-				</NcNoteCard>
-				<NcNoteCard type="info">
-					<strong>{{ totals.processed }}</strong> {{ $t('calendar', 'Processed') }}
-				</NcNoteCard>
-				<NcNoteCard type="success">
-					<strong>{{ totals.created }}</strong> {{ $t('calendar', 'Created') }}
-				</NcNoteCard>
-				<NcNoteCard type="info">
-					<strong>{{ totals.updated }}</strong> {{ $t('calendar', 'Updated') }}
-				</NcNoteCard>
-				<NcNoteCard type="warning">
-					<strong>{{ totals.exists }}</strong> {{ $t('calendar', 'Skipped') }}
-				</NcNoteCard>
-				<NcNoteCard type="error">
-					<strong>{{ totals.error }}</strong> {{ $t('calendar', 'Errors') }}
-				</NcNoteCard>
-			</div>
+			<p v-if="statusLine" class="import-modal__status">
+				{{ statusLine }}
+			</p>
 		</template>
 	</Modal>
 </template>
 
 <script>
-import { NcModal as Modal, NcButton, NcNoteCard, NcProgressBar } from '@nextcloud/vue'
+import { getLanguage } from '@nextcloud/l10n'
+import { NcModal as Modal, NcButton, NcProgressBar } from '@nextcloud/vue'
 import Upload from 'vue-material-design-icons/TrayArrowUp.vue'
 import ImportScreenRow from '@/components/AppNavigation/Settings/ImportScreenRow.vue'
 
@@ -67,7 +51,6 @@ export default {
 	name: 'ImportScreen',
 	components: {
 		NcButton,
-		NcNoteCard,
 		NcProgressBar,
 		ImportScreenRow,
 		Modal,
@@ -105,6 +88,33 @@ export default {
 
 		progressValue() {
 			return Math.round(this.totals.processed / Math.max(this.totals.discovered, 1) * 100)
+		},
+
+		/**
+		 * Progress summary listing only the counters that are not zero.
+		 *
+		 * @return {string}
+		 */
+		statusLine() {
+			const { discovered, processed, created, updated, exists, error } = this.totals
+			const parts = []
+			if (discovered > 0) {
+				parts.push(this.$n('calendar', 'Processing {processed} of %n', 'Processing {processed} of %n', discovered, { processed }))
+			}
+			if (created > 0) {
+				parts.push(this.$n('calendar', 'Created %n', 'Created %n', created))
+			}
+			if (updated > 0) {
+				parts.push(this.$n('calendar', 'Updated %n', 'Updated %n', updated))
+			}
+			if (exists > 0) {
+				parts.push(this.$n('calendar', 'Skipped %n', 'Skipped %n', exists))
+			}
+			if (error > 0) {
+				parts.push(this.$n('calendar', 'Failed %n', 'Failed %n', error))
+			}
+
+			return new Intl.ListFormat(getLanguage(), { type: 'unit' }).format(parts)
 		},
 
 		activeFileLabel() {

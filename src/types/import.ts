@@ -20,6 +20,8 @@ export type ImportFileSource = {
 		containsVEvents: () => boolean
 		containsVTodos: () => boolean
 		containsVJournals: () => boolean
+		getItemCount: () => number
+		getItemIterator: () => Iterable<{ toICS: () => string }>
 	}
 }
 

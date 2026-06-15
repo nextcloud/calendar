@@ -4,12 +4,19 @@
  */
 import { createPinia, setActivePinia } from 'pinia'
 import useImportStore from '@/store/import.ts'
-import { importService } from '@/services/importService.ts'
+import { importService, isStreamImportSupported } from '@/services/importService.ts'
 
-const { calendarsStoreMock, principalsStoreMock } = vi.hoisted(() => ({
+const { calendarsStoreMock, calendarObjectsStoreMock, fetchedTimeRangesStoreMock, principalsStoreMock } = vi.hoisted(() => ({
 	calendarsStoreMock: {
 		getCalendarById: vi.fn(),
 		addCalendarMutation: vi.fn(),
+		addCalendarObjectToCalendarMutation: vi.fn(),
+	},
+	calendarObjectsStoreMock: {
+		appendCalendarObjectMutation: vi.fn(),
+	},
+	fetchedTimeRangesStoreMock: {
+		addCalendarObjectIdToAllTimeRangesOfCalendar: vi.fn(),
 	},
 	principalsStoreMock: {
 		getCurrentUserPrincipal: { url: 'http://localhost/principal/admin' },
@@ -18,6 +25,16 @@ const { calendarsStoreMock, principalsStoreMock } = vi.hoisted(() => ({
 
 vi.mock('@/services/importService.ts', () => ({
 	importService: { import: vi.fn() },
+	isStreamImportSupported: vi.fn(),
+}))
+vi.mock('@/models/calendarObject.js', () => ({
+	mapCDavObjectToCalendarObject: vi.fn((davObject, calendarId) => ({ id: davObject.url, calendarId })),
+}))
+vi.mock('@/store/calendarObjects.js', () => ({
+	default: () => calendarObjectsStoreMock,
+}))
+vi.mock('@/store/fetchedTimeRanges.js', () => ({
+	default: () => fetchedTimeRangesStoreMock,
 }))
 vi.mock('@/services/caldavService.js', () => ({
 	createCalendar: vi.fn(),
@@ -55,6 +72,11 @@ describe('store/import test suite', () => {
 		importService.import.mockReset()
 		calendarsStoreMock.getCalendarById.mockReset()
 		calendarsStoreMock.addCalendarMutation.mockReset()
+		calendarsStoreMock.addCalendarObjectToCalendarMutation.mockReset()
+		calendarObjectsStoreMock.appendCalendarObjectMutation.mockReset()
+		fetchedTimeRangesStoreMock.addCalendarObjectIdToAllTimeRangesOfCalendar.mockReset()
+		isStreamImportSupported.mockReset()
+		isStreamImportSupported.mockReturnValue(true)
 		setActivePinia(createPinia())
 	})
 
@@ -278,5 +300,52 @@ describe('store/import test suite', () => {
 		expect(store.stage).toBe('error')
 		expect(store.lastError).toBe('Selected calendar not found')
 		expect(store.running).toBe(false)
+	})
+
+	it('should import object by object via CalDAV when the server lacks the import endpoint', async () => {
+		isStreamImportSupported.mockReturnValue(false)
+		const createVObject = vi.fn()
+			.mockResolvedValueOnce({ url: 'obj-a' })
+			.mockRejectedValueOnce(new Error('nope'))
+			.mockResolvedValueOnce({ url: 'obj-c' })
+		const calendar = {
+			id: 'cal-1',
+			url: 'http://localhost/remote.php/dav/calendars/admin/personal/',
+			displayName: 'Personal',
+			dav: { createVObject },
+		}
+		calendarsStoreMock.getCalendarById.mockReturnValue(calendar)
+
+		const store = useImportStore()
+		store.addFile(makeFilePayload({
+			parser: {
+				getItemCount: () => 3,
+				getItemIterator: () => ['a', 'b', 'c'].map((uid) => ({ toICS: () => `ICS-${uid}` })),
+			},
+		}))
+		store.setCalendarForFile({ fileId: 0, calendarId: 'cal-1' })
+
+		const totals = await store.startImport()
+
+		expect(importService.import).not.toHaveBeenCalled()
+		expect(createVObject.mock.calls).toEqual([['ICS-a'], ['ICS-b'], ['ICS-c']])
+		expect(totals).toEqual({
+			discovered: 3,
+			processed: 3,
+			created: 2,
+			updated: 0,
+			exists: 0,
+			error: 1,
+		})
+		expect(store.sessions[0].status).toBe('error')
+		expect(calendarObjectsStoreMock.appendCalendarObjectMutation).toHaveBeenCalledTimes(2)
+		expect(calendarsStoreMock.addCalendarObjectToCalendarMutation).toHaveBeenCalledWith({
+			calendar,
+			calendarObjectId: 'obj-a',
+		})
+		expect(fetchedTimeRangesStoreMock.addCalendarObjectIdToAllTimeRangesOfCalendar).toHaveBeenCalledWith({
+			calendarId: 'cal-1',
+			calendarObjectId: 'obj-c',
+		})
 	})
 })
