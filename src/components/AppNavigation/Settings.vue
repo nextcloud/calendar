@@ -184,11 +184,6 @@ import ShortcutOverview from '@/components/AppNavigation/Settings/ShortcutOvervi
 import CalendarPicker from '@/components/Shared/CalendarPicker.vue'
 import { getDefaultAlarms } from '@/defaults/defaultAlarmProvider.js'
 import alarmFormat from '@/filters/alarmFormat.js'
-import {
-	IMPORT_STAGE_DEFAULT,
-	IMPORT_STAGE_IMPORTING,
-	IMPORT_STAGE_PROCESSING,
-} from '@/models/consts.js'
 import useCalendarsStore from '@/store/calendars.js'
 import useImportStore from '@/store/import.ts'
 import usePrincipalsStore from '@/store/principals.js'

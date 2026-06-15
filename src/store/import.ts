@@ -17,14 +17,19 @@ import type {
 } from '@/types/import'
 
 import { translate as t } from '@nextcloud/l10n'
+import pLimit from 'p-limit'
 import { defineStore } from 'pinia'
 import { computed, markRaw, ref } from 'vue'
 import { mapDavCollectionToCalendar } from '@/models/calendar.js'
+import { mapCDavObjectToCalendarObject } from '@/models/calendarObject.js'
 import { createCalendar } from '@/services/caldavService.js'
-import { importService } from '@/services/importService'
+import { importService, isStreamImportSupported } from '@/services/importService'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
 import useCalendarsStore from '@/store/calendars.js'
+import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
 import usePrincipalsStore from '@/store/principals.js'
 import { uidToHexColor } from '@/utils/color.js'
+import logger from '@/utils/logger.js'
 
 /**
  * Create a fresh counter object for import progress aggregation.
@@ -266,18 +271,22 @@ export default defineStore('import', () => {
 				session.targetDisplayName = target.displayName
 				session.targetUri = target.uri
 
-				const request: ImportRequest = {
-					target: target.uri,
-					options: {
-						format: options.format,
-						validation: 1,
-						errors: 0,
-						supersede: options.supersede,
-					},
-					data: file.contents,
-				}
+				if (isStreamImportSupported()) {
+					const request: ImportRequest = {
+						target: target.uri,
+						options: {
+							format: options.format,
+							validation: 1,
+							errors: 0,
+							supersede: options.supersede,
+						},
+						data: file.contents,
+					}
 
-				await importService.import(request, (event) => handleEvent(file.id, event))
+					await importService.import(request, (event) => handleEvent(file.id, event))
+				} else {
+					await importLegacy(file, target.id, session)
+				}
 				session.status = session.counters.error > 0 ? 'error' : 'completed'
 			}
 
@@ -295,6 +304,53 @@ export default defineStore('import', () => {
 			running.value = false
 			activeFileId.value = null
 		}
+	}
+
+	/**
+	 * Import a file object by object via CalDAV, for servers without the OCS import endpoint.
+	 *
+	 * @param file Imported file
+	 * @param calendarId Destination calendar id
+	 * @param session Session receiving the progress counters
+	 */
+	async function importLegacy(file: ImportFileSource, calendarId: string, session: ImportSession): Promise<void> {
+		const calendarsStore = useCalendarsStore()
+		const calendarObjectsStore = useCalendarObjectsStore()
+		const fetchedTimeRangesStore = useFetchedTimeRangesStore()
+		const calendar = calendarsStore.getCalendarById(calendarId)
+
+		session.counters.discovered = file.parser.getItemCount()
+
+		const limit = pLimit(3)
+		const requests: Promise<void>[] = []
+		for (const item of file.parser.getItemIterator()) {
+			requests.push(limit(async () => {
+				let davObject
+				try {
+					davObject = await calendar.dav.createVObject(item.toICS())
+				} catch (error) {
+					logger.error(error)
+					session.counters.processed += 1
+					session.counters.error += 1
+					return
+				}
+
+				const calendarObject = mapCDavObjectToCalendarObject(davObject, calendarId)
+				calendarObjectsStore.appendCalendarObjectMutation({ calendarObject })
+				calendarsStore.addCalendarObjectToCalendarMutation({
+					calendar,
+					calendarObjectId: calendarObject.id,
+				})
+				fetchedTimeRangesStore.addCalendarObjectIdToAllTimeRangesOfCalendar({
+					calendarId,
+					calendarObjectId: calendarObject.id,
+				})
+				session.counters.processed += 1
+				session.counters.created += 1
+			}))
+		}
+
+		await Promise.all(requests)
 	}
 
 	/**
