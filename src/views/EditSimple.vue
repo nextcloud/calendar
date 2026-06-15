@@ -129,11 +129,19 @@
 							:isViewedByAttendee="isViewedByOrganizer === false"
 							@update:value="changeCalendar" />
 
-						<PropertyTitle
-							:value="titleOrPlaceholder"
-							:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
-							:isCancelled="isCancelled"
-							@update:value="updateTitle" />
+						<div @keydown="handleTitleAreaKeydown">
+							<PropertyTitle
+								:value="titleOrPlaceholder"
+								:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
+								:isCancelled="isCancelled"
+								@update:value="handleTitleUpdate" />
+
+							<TimeSuggestion
+								v-if="timeSuggestion && !isReadOnlyOrViewing"
+								:suggestion="timeSuggestion"
+								@apply="applyTimeSuggestion"
+								@dismiss="dismissTimeSuggestion" />
+						</div>
 
 						<div v-if="isCancelled" class="event-popover__cancelled">
 							{{ $t('calendar', 'This event was cancelled') }}
@@ -302,8 +310,10 @@ import PropertyText from '../components/Editor/Properties/PropertyText.vue'
 import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'
 import PropertyTitleTimePicker
 	from '../components/Editor/Properties/PropertyTitleTimePicker.vue'
+import TimeSuggestion from '../components/Editor/Properties/TimeSuggestion.vue'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
 import EditorMixin from '../mixins/EditorMixin.js'
+import TimeSuggestionMixin from '../mixins/TimeSuggestionMixin.js'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import useSettingsStore from '../store/settings.js'
 import useWidgetStore from '../store/widget.js'
@@ -317,6 +327,7 @@ export default {
 		PropertyText,
 		PropertyTitleTimePicker,
 		PropertyTitle,
+		TimeSuggestion,
 		NcPopover,
 		Actions,
 		ActionButton,
@@ -344,6 +355,7 @@ export default {
 
 	mixins: [
 		EditorMixin,
+		TimeSuggestionMixin,
 	],
 
 	props: {
@@ -457,6 +469,7 @@ export default {
 			this.hasAttendees = false
 			this.hasAlarms = false
 			this.isCancelled = false
+			this.timeSuggestion = null
 
 			if (this.calendarObjectInstance) {
 				if (typeof this.calendarObjectInstance.location === 'string' && this.calendarObjectInstance.location.trim() !== '') {
@@ -824,6 +837,7 @@ export default {
 
 			this.toggleAllDay()
 		},
+
 	},
 }
 </script>
