@@ -5,33 +5,32 @@
 
 <template>
 	<li class="import-modal-file-item">
-		<NcFormGroup :label="$t('calendar', 'Calendar to import into')" :description="disabledHint">
+		<NcFormGroup :label="$t('calendar', 'Importing file')">
 			<NcFormBox v-slot="{ itemClass }">
 				<NcFormBoxCopyButton :class="itemClass" :label="$t('calendar', 'File')" :value="file.name" />
 			</NcFormBox>
 			<NcFormBox v-slot="{ itemClass }">
 				<CalendarPicker
 					:class="itemClass"
+					:inputLabel="$t('calendar', 'Calendar to import into')"
 					:value="calendar"
 					:calendars="calendars"
 					:isCalendarSelectable="isCalendarSelectable"
 					@selectCalendar="selectCalendar" />
+				<p v-if="disabledHint" class="import-modal-file-item__calendar-hint">
+					{{ disabledHint }}
+				</p>
 			</NcFormBox>
-		</NcFormGroup>
-		<NcFormGroup :label="$t('calendar', 'Import options')">
 			<NcFormBox v-slot="{ itemClass }">
-				<div class="import-modal-file-item__format" :class="itemClass">
-					<label :for="formatInputId" class="import-modal-file-item__format-label">
-						{{ $t('calendar', 'File format') }}
-					</label>
-					<NcSelect
-						v-model="selectedFormat"
-						:inputId="formatInputId"
-						:options="formatOptions"
-						:allowEmpty="false"
-						:clearable="false"
-						label="label" />
-				</div>
+				<NcSelect
+					v-model="selectedFormat"
+					:class="itemClass"
+					:inputId="formatInputId"
+					:inputLabel="$t('calendar', 'Filetype')"
+					:options="formatOptions"
+					:allowEmpty="false"
+					:clearable="false"
+					label="label" />
 			</NcFormBox>
 			<NcFormBox v-slot="{ itemClass }">
 				<NcFormBoxSwitch
@@ -216,14 +215,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.import-modal-file-item__format {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	padding: 8px 12px;
+.import-modal-file-item {
+	&:not(:last-child) {
+		border-bottom: var(--border-width-input) solid var(--color-border);
+		padding-bottom: calc(var(--default-grid-baseline) * 4);
+		margin-bottom: calc(var(--default-grid-baseline) * 4);
+	}
 
-	&-label {
-		font-weight: bold;
+	&__calendar-hint {
+		color: var(--color-text-maxcontrast);
+		font-size: var(--default-font-size);
+	}
+
+	:deep(legend) {
+		font-size: calc(var(--default-font-size) * (4/3));
 	}
 }
 </style>
