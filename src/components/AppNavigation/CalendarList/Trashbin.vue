@@ -164,7 +164,8 @@ export default {
 				url: calendar._url,
 				deletedAt: calendar._props['{http://nextcloud.com/ns}deleted-at'],
 				color: calendar.color ?? uidToHexColor(calendar.displayname),
-				readonly: false,
+				canDelete: this.canDeleteCalendar(calendar),
+				canRestore: this.canRestoreCalendar(calendar),
 			}))
 			const formattedCalendarObjects = this.objects.map((vobject) => {
 				let eventSummary = t('calendar', 'Untitled item')
@@ -286,11 +287,33 @@ export default {
 				return
 			}
 			this.items.forEach((item) => {
-				if (!this.canModify(item)) {
+				if (!item.canDelete) {
 					return
 				}
 				this.onDeletePermanently(item)
 			})
+		},
+
+		/**
+		 * Whether the current user is allowed to restore a deleted calendar.
+		 *
+		 * @return {boolean}
+		 */
+		canRestoreCalendar(calendar) {
+			const privileges = calendar?.currentUserPrivilegeSet ?? []
+			return privileges.includes('{DAV:}write')
+				|| privileges.includes('{DAV:}all')
+		},
+
+		/**
+		 * Whether the current user is allowed to permanently delete a deleted calendar.
+		 *
+		 * @return {boolean}
+		 */
+		canDeleteCalendar(calendar) {
+			const privileges = calendar?.currentUserPrivilegeSet ?? []
+			return privileges.includes('{DAV:}write')
+				|| privileges.includes('{DAV:}all')
 		},
 	},
 }
