@@ -283,6 +283,17 @@ export default {
 			return this.calendarsStore.getCalendarById(this.calendarId)
 		},
 		/**
+		 * Returns the userId of the delegator when the selected calendar is delegated, or null otherwise
+		 *
+		 * @return {string|null}
+		 */
+		delegatorUserId() {
+			if (!this.selectedCalendar?.isDelegated || !this.selectedCalendar.delegatorUrl) {
+				return null
+			}
+			return this.principalsStore.getPrincipalByUrl(this.selectedCalendar.delegatorUrl)?.userId ?? null
+		},
+		/**
 		 * Returns whether or not the user is allowed to delete this event
 		 *
 		 * @return {boolean}
@@ -522,8 +533,8 @@ export default {
 		},
 
 		/**
-		 * When creating an event on a delegated calendar, automatically adds the
-		 * delegator as an attendee so they are aware of and invited to the event.
+		 * When creating an event on a delegated calendar, sets the delegator as the organizer.
+		 * The assistant (current user) should not be listed as organizer or attendee.
 		 *
 		 * @param {object|null} calendar The calendar object to check
 		 */
@@ -541,21 +552,11 @@ export default {
 				return
 			}
 
-			const alreadyAttendee = this.calendarObjectInstance.attendees.some((attendee) => removeMailtoPrefix(attendee.uri) === delegatorPrincipal.emailAddress)
-
-			if (!alreadyAttendee) {
-				this.calendarObjectInstanceStore.addAttendee({
+			if (!this.calendarObjectInstance.organizer) {
+				this.calendarObjectInstanceStore.setOrganizer({
 					calendarObjectInstance: this.calendarObjectInstance,
 					commonName: delegatorPrincipal.displayname,
-					uri: delegatorPrincipal.emailAddress,
-					calendarUserType: 'INDIVIDUAL',
-					participationStatus: 'NEEDS-ACTION',
-					role: 'REQ-PARTICIPANT',
-					rsvp: true,
-					language: null,
-					timezoneId: null,
-					organizer: this.principalsStore.getCurrentUserPrincipal,
-					member: null,
+					email: delegatorPrincipal.emailAddress,
 				})
 			}
 		},
