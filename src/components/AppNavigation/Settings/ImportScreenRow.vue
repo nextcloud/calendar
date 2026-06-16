@@ -228,7 +228,7 @@ export default {
 	}
 
 	:deep(legend) {
-		font-size: calc(var(--default-font-size) * (4/3));
+		font-size: calc(var(--default-font-size) * (4 / 3));
 	}
 }
 </style>
