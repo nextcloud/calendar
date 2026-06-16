@@ -96,7 +96,7 @@
 						:disabled="savingSlotDuration"
 						:clearable="false"
 						:inputLabel="$t('calendar', 'Density in Day and Week View')"
-						inputId="value"
+						inputId="settings-slot-duration"
 						label="label" />
 				</NcAppSettingsSection>
 				<NcAppSettingsSection
@@ -108,7 +108,7 @@
 						:disabled="savingDefaultReminderPartDay"
 						:clearable="false"
 						:inputLabel="$t('calendar', 'Default reminder for part-day events')"
-						inputId="value"
+						inputId="settings-reminder-part-day"
 						label="label"
 						@option:selected="changeDefaultReminderPartDay" />
 					<NcSelect
@@ -117,7 +117,7 @@
 						:disabled="savingDefaultReminderFullDay"
 						:clearable="false"
 						:inputLabel="$t('calendar', 'Default reminder for full-day events')"
-						inputId="value"
+						inputId="settings-reminder-full-day"
 						label="label"
 						@option:selected="changeDefaultReminderFullDay" />
 					<NcFormBox>

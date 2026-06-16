@@ -13,8 +13,8 @@
 		:placeholder="placeholder"
 		:class="{ showContent: inputGiven, 'icon-loading': isLoading }"
 		:clearable="false"
-		:labelOutside="true"
-		inputId="uid"
+		:ariaLabelCombobox="$t('calendar', 'Search for attendees')"
+		inputId="invitees-search-uid"
 		label="dropdownName"
 		@search="findAttendees"
 		@option:selected="addAttendee">

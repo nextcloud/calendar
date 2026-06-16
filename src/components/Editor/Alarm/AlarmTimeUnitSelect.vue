@@ -10,8 +10,8 @@
 		:options="options"
 		:disabled="disabled"
 		:clearable="false"
-		:labelOutside="true"
-		inputId="unit"
+		:ariaLabelCombobox="$t('calendar', 'Time unit')"
+		inputId="alarm-time-unit"
 		label="label" />
 </template>
 

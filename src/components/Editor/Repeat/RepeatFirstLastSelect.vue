@@ -11,7 +11,8 @@
 		:disabled="disabled"
 		:placeholder="$t('calendar', 'first')"
 		:clearable="false"
-		inputId="value"
+		:ariaLabelCombobox="$t('calendar', 'Week occurrence')"
+		inputId="repeat-first-last"
 		label="label" />
 </template>
 

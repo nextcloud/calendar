@@ -23,9 +23,9 @@
 			:searchable="true"
 			:max-height="600"
 			:placeholder="placeholder"
-			:labelOutside="true"
+			:ariaLabelCombobox="$t('calendar', 'Search for resources')"
 			:class="{ showContent: inputGiven, 'icon-loading': isLoading }"
-			inputId="email"
+			inputId="resource-search-email"
 			label="displayName"
 			:clearable="false"
 			@search="findResources">
