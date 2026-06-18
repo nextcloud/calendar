@@ -20,6 +20,7 @@ OC.L10N.register(
     "Restore" : "Zrécksetzen",
     "Delete permanently" : "Permanent läschen",
     "Tasks" : "Tâchen",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Link deelen",
     "Share with users or groups" : "Mat Benotzer oder Gruppen deelen",
     "None" : "Keng",

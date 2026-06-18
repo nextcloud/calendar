@@ -15,6 +15,7 @@ OC.L10N.register(
     "Deleted" : "Ջնջված",
     "Restore" : "Վերականգնել",
     "Delete permanently" : "Ջնջել ընդմիշտ",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Կիսվել հղմամբ",
     "Share with users or groups" : "Կիսվել օգտատերերի կամ խմբերի հետ",
     "Save" : "Պահպանել",

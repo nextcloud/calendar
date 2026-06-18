@@ -19,6 +19,7 @@ OC.L10N.register(
     "Deleted" : "Delite",
     "Restore" : "Restaurar",
     "Delete permanently" : "Deler permanentemente",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Compartir ligamine",
     "Share with users or groups" : "Compartir con usatores o gruppos",
     "None" : "Nulle",

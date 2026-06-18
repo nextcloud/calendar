@@ -50,6 +50,7 @@ OC.L10N.register(
     "Shared calendars" : "Абагуленыя календары",
     "Tasks" : "Заданні",
     "Internal link" : "Унутраная спасылка",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Абагуліць спасылку",
     "Unshare with {displayName}" : "Скасаваць абагульванне з {displayName}",
     "No users or groups" : "Няма карыстальнікаў або груп",

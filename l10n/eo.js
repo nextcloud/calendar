@@ -40,6 +40,7 @@ OC.L10N.register(
     "Deck" : "Kartaro",
     "Tasks" : "Taskoj",
     "Internal link" : "Interna ligilo",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Kunhavigi ligilon",
     "Delete share link" : "Forigi kunhavo-ligilon",
     "Share with users or groups" : "Kunhavigi kun uzantoj aŭ grupoj",

@@ -47,6 +47,7 @@ OC.L10N.register(
     "Name" : "Nama",
     "Deleted" : "Dipadam",
     "Restore" : "Pulihkan",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Share link",
     "Save" : "Simpan",
     "Cancel" : "Batal",
