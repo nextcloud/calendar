@@ -18,6 +18,7 @@ OC.L10N.register(
     "Restore" : "ស្ដារ​មក​វិញ",
     "Delete permanently" : "លុប​ជា​អចិន្ត្រៃយ៍",
     "Tasks" : "ភារកិច្ច",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Share link",
     "None" : "គ្មាន",
     "Save" : "រក្សាទុក",

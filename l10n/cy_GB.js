@@ -79,6 +79,7 @@ OC.L10N.register(
     "Restore" : "Adfer",
     "Delete permanently" : "Dileu'n barhaol",
     "Could not update calendar order." : "Methu â diweddaru trefn y calendr.",
+    "Copy internal link" : "Copy internal link",
     "An error occurred, unable to publish calendar." : "Bu gwall, ni fu modd cyhoeddi'r calendr.",
     "An error occurred, unable to send email." : "Bu gwall, ni fu modd anfon e-bost.",
     "Embed code copied to clipboard." : "Mewnosod cod wedi'i gopïo i'r clipfwrdd.",

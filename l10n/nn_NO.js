@@ -25,6 +25,7 @@ OC.L10N.register(
     "Restore" : "Gjenopprett",
     "Delete permanently" : "Slett for godt",
     "Tasks" : "Oppgåver",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Del lenkje",
     "None" : "Ingen",
     "Save" : "Lagre",

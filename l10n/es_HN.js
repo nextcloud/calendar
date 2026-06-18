@@ -28,6 +28,7 @@ OC.L10N.register(
     "Delete permanently" : "Borrar permanentemente",
     "Deck" : "Deck",
     "Tasks" : "Tareas",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Compartir liga",
     "Share with users or groups" : "Compartir con otros usuarios o grupos",
     "None" : "Ninguno",
