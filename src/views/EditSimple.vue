@@ -190,6 +190,7 @@
 						<AddTalkModal
 							v-if="isTalkModalOpen"
 							:calendarObjectInstance="calendarObjectInstance"
+							:delegatorUserId="delegatorUserId"
 							@close="isTalkModalOpen = false"
 							@updateLocation="updateLocation"
 							@updateDescription="updateDescription" />

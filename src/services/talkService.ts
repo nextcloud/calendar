@@ -179,6 +179,42 @@ export async function createRoomFromProposal(proposal: ProposalInterface): Promi
 }
 
 /**
+ * Add a user to a Talk room and promote them to moderator.
+ * Fetches the participant list to resolve the attendeeId required by the moderator endpoint.
+ *
+ * @param token The Talk room token
+ * @param userId The Nextcloud user ID to add and promote
+ *
+ * @throws Error if adding the participant or promoting fails
+ */
+export async function addParticipantAsModerator(token: string, userId: string): Promise<void> {
+	try {
+		await transceivePost<TalkRoomAddParticipantRequest, { type: number }>(`room/${token}/participants`, {
+			newParticipant: userId,
+			source: 'users',
+		})
+	} catch (error) {
+		// Ignore if the user is already a participant
+		logger.debug('Participant may already exist in room', { userId, error })
+	}
+
+	const participants = await transceiveGet<undefined, TalkRoomParticipant[]>(`room/${token}/participants`, undefined)
+	const participant = participants.find((p) => p.actorId === userId && p.actorType === 'users')
+	if (!participant) {
+		throw new Error(`Could not find participant ${userId} in room ${token} after adding`)
+	}
+
+	try {
+		await transceivePost<{ attendeeId: number }, object>(`room/${token}/moderators`, {
+			attendeeId: participant.attendeeId,
+		})
+	} catch (error) {
+		console.error('Failed to promote user to moderator:', error)
+		throw new Error('Failed to promote user to moderator', { cause: error as Error })
+	}
+}
+
+/**
  * Updates Talk room/conversation participants based on calendar event attendees
  *
  * This function synchronizes the participants of a Talk room with the attendees
@@ -348,14 +384,14 @@ async function transceiveGet<TRequest extends object | undefined, TResponse>(pat
 		// Check if response has OCS envelope structure
 		if (response.data && typeof response.data === 'object' && 'ocs' in response.data) {
 			const ocsResponse = response.data as OcsEnvelope<TResponse>
-			// Response sanity checks
-			if (!ocsResponse.ocs || !ocsResponse.ocs.meta || !ocsResponse.ocs.data || !ocsResponse.ocs.meta.status) {
+			// Response sanity checks (data may legitimately be null for endpoints that return no payload)
+			if (!ocsResponse.ocs || !ocsResponse.ocs.meta || !ocsResponse.ocs.meta.status) {
 				throw new Error('Talk service error: malformed response')
 			}
 			if (ocsResponse.ocs.meta.status !== 'ok' && ocsResponse.ocs.meta.message) {
 				throw new Error(`Talk service error: ${ocsResponse.ocs.meta.message}`)
 			}
-			if (ocsResponse.ocs.meta.status !== 'ok' && typeof ocsResponse.ocs.data === 'object' && 'error' in ocsResponse.ocs.data) {
+			if (ocsResponse.ocs.meta.status !== 'ok' && ocsResponse.ocs.data !== null && typeof ocsResponse.ocs.data === 'object' && 'error' in ocsResponse.ocs.data) {
 				throw new Error(`Talk service error: ${ocsResponse.ocs.data.error}`)
 			}
 			if (ocsResponse.ocs.meta.status !== 'ok') {
@@ -374,7 +410,7 @@ async function transceiveGet<TRequest extends object | undefined, TResponse>(pat
 				if (ocsError.ocs.meta.message) {
 					throw new Error(`Talk service error: ${ocsError.ocs.meta.message}`)
 				}
-				if (typeof ocsError.ocs.data === 'object' && 'error' in ocsError.ocs.data) {
+				if (ocsError.ocs.data !== null && typeof ocsError.ocs.data === 'object' && 'error' in ocsError.ocs.data) {
 					throw new Error(`Talk service error: ${ocsError.ocs.data.error}`)
 				}
 			}
@@ -408,14 +444,14 @@ async function transceivePost<TRequest extends object, TResponse>(path: string, 
 		// Check if response has OCS envelope structure
 		if (response.data && typeof response.data === 'object' && 'ocs' in response.data) {
 			const ocsResponse = response.data as OcsEnvelope<TResponse>
-			// Response sanity checks
-			if (!ocsResponse.ocs || !ocsResponse.ocs.meta || !ocsResponse.ocs.data || !ocsResponse.ocs.meta.status) {
+			// Response sanity checks (data may legitimately be null for endpoints that return no payload)
+			if (!ocsResponse.ocs || !ocsResponse.ocs.meta || !ocsResponse.ocs.meta.status) {
 				throw new Error('Talk service error: malformed response')
 			}
 			if (ocsResponse.ocs.meta.status !== 'ok' && ocsResponse.ocs.meta.message) {
 				throw new Error(`Talk service error: ${ocsResponse.ocs.meta.message}`)
 			}
-			if (ocsResponse.ocs.meta.status !== 'ok' && typeof ocsResponse.ocs.data === 'object' && 'error' in ocsResponse.ocs.data) {
+			if (ocsResponse.ocs.meta.status !== 'ok' && ocsResponse.ocs.data !== null && typeof ocsResponse.ocs.data === 'object' && 'error' in ocsResponse.ocs.data) {
 				throw new Error(`Talk service error: ${ocsResponse.ocs.data.error}`)
 			}
 			if (ocsResponse.ocs.meta.status !== 'ok') {
@@ -434,7 +470,7 @@ async function transceivePost<TRequest extends object, TResponse>(path: string, 
 				if (ocsError.ocs.meta.message) {
 					throw new Error(`Talk service error: ${ocsError.ocs.meta.message}`)
 				}
-				if (typeof ocsError.ocs.data === 'object' && 'error' in ocsError.ocs.data) {
+				if (ocsError.ocs.data !== null && typeof ocsError.ocs.data === 'object' && 'error' in ocsError.ocs.data) {
 					throw new Error(`Talk service error: ${ocsError.ocs.data.error}`)
 				}
 			}
@@ -448,6 +484,7 @@ export default {
 	listRooms,
 	createRoom,
 	createRoomFromProposal,
+	addParticipantAsModerator,
 	updateRoomParticipantsFromEvent,
 	generateRoomUrl,
 	containsRoomUrl,
