@@ -28,11 +28,11 @@ beforeAll(() => {
 	//     - Test file A is executed before test file B on the same worker
 	//   - Then
     //     - Test file B fails because
-    //       - Module Y in test file B is loaded and mocked
+	//       - Module Y in test file B is loaded and mocked
 	//         - Module Y is loaded before module X because, 
 	//           `vi.mock` causes the import to be moved to the start of the file
 	//           > `vi.mock` is hoisted (in other words, moved) to top of the file. 
-	// 			 > It means that whenever you write it (be it inside beforeEach or test), 
+	// 		 > It means that whenever you write it (be it inside beforeEach or test), 
 	//           > it will actually be called before that.
 	//           See https://vitest.dev/api/vi.html#vi-mock
 	//         - Probably module Y is loaded from cache but still mocked,
@@ -59,6 +59,10 @@ beforeAll(() => {
 	// > to apply the module mock in every test file automatically.
 	// See https://vitest.dev/guide/mocking/modules.html
 	vi.resetModules()
+})
+
+afterEach(() => {
+	vi.clearAllMocks()
 })
 
 document.title = 'Standard Nextcloud title'
