@@ -20,6 +20,7 @@ OC.L10N.register(
     "Restore" : "Geri qaytar",
     "Delete permanently" : "Həmişəlik sil",
     "Tasks" : "Tapşırıqlar",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Linki yayımla",
     "None" : "Heç bir",
     "Save" : "Saxla",

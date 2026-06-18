@@ -56,6 +56,7 @@ OC.L10N.register(
     "Restore" : "Adkrouiñ",
     "Delete permanently" : "Lamet da viken",
     "Could not update calendar order." : "Dibosupl eo adnevesaat urzh an deizataerioù",
+    "Copy internal link" : "Copy internal link",
     "An error occurred, unable to publish calendar." : "C'hoarvezet ez eus ur fazi, ne c'haller ket embann an deiziataer.",
     "An error occurred, unable to send email." : "C'hoarvezet ez eus ur fazi, ne c'haller ket kas ar postel",
     "Embed code copied to clipboard." : "Eilet eo bet ar c'hod enframmañ er golver",

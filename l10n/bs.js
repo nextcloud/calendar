@@ -14,6 +14,7 @@ OC.L10N.register(
     "Name" : "Ime",
     "Restore" : "Obnovi",
     "Tasks" : "Zadaci",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Podijelite vezu",
     "None" : "Ništa",
     "Save" : "Spremi",

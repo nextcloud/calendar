@@ -96,6 +96,7 @@ OC.L10N.register(
     "Deck" : "Kế hoạch",
     "Tasks" : "Nhiệm vụ",
     "Internal link" : "Liên kết nội bộ",
+    "Copy internal link" : "Copy internal link",
     "An error occurred, unable to publish calendar." : "Có lỗi đã xảy ra, không thể công khai lịch.",
     "An error occurred, unable to send email." : "Một lỗi đã xảy ra, không thể gửi email.",
     "Embed code copied to clipboard." : "Mã nhúng đã được sao chép vào bảng tạm.",
