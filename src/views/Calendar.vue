@@ -86,9 +86,7 @@
 			</NcAppSidebarTab>
 		</NcAppSidebar>
 		<!-- Edit modal -->
-		<div ref="simpleEditorAnchor" class="simple-editor-anchor">
-			<router-view :key="$route.fullPath" />
-		</div>
+		<router-view :key="$route.fullPath" />
 	</NcContent>
 </template>
 
@@ -472,10 +470,6 @@ export default {
 
 .calendar-Widget {
 	width: 100%;
-}
-
-.simple-editor-anchor {
-	position: relative;
 }
 
 .property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {
