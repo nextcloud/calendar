@@ -580,6 +580,16 @@ class ProposalServiceTest extends TestCase {
 			->method('deleteById')
 			->with('testuser', 1);
 
+		// the internal participant must be looked up and notified of the finalised event via iTIP
+		$participantUser = $this->createMock(IUser::class);
+		$participantUser->method('getUID')->willReturn('alice');
+		$this->userManager->expects($this->once())
+			->method('getByEmail')
+			->with('alice@example.com')
+			->willReturn([$participantUser]);
+		$this->calendarManager->expects($this->once())
+			->method('handleIMip');
+
 		// test and assertions
 		$this->service->convertProposal($this->user, 1, 10, ['attendancePreset' => true]);
 		$this->addToAssertionCount(1); // If we reached this point, the test is successfully completed
