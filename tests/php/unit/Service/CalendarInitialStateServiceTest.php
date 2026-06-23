@@ -147,10 +147,11 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
 				['user123', 'calendar', 'tasksSidebar', 'defaultTasksSidebar', 'yes'],
 			]);
-		$this->appConfig->expects(self::once())
+		$this->appConfig->expects(self::exactly(2))
 			->method('getValueBool')
 			->willReturnMap([
 				['dav', 'enableCalendarFederation', true, false, true],
+				['files_sharing', 'outgoing_server2server_share_enabled', true, false, true],
 			]);
 		$this->appManager->expects(self::exactly(3))
 			->method('isEnabledForUser')
@@ -250,10 +251,11 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['calendar', 'showResources', 'yes', 'yes'],
 				['calendar', 'publicCalendars', ''],
 			]);
-		$this->appConfig->expects(self::once())
+		$this->appConfig->expects(self::exactly(2))
 			->method('getValueBool')
 			->willReturnMap([
 				['dav', 'enableCalendarFederation', true, false, false],
+				['files_sharing', 'outgoing_server2server_share_enabled', true, false, false],
 			]);
 		$this->config->expects(self::exactly(14))
 			->method('getUserValue')
@@ -392,10 +394,11 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
 				['user123', 'calendar', 'tasksSidebar', 'defaultTasksSidebar', 'yes'],
 			]);
-		$this->appConfig->expects(self::once())
+		$this->appConfig->expects(self::exactly(2))
 			->method('getValueBool')
 			->willReturnMap([
 				['dav', 'enableCalendarFederation', true, false, true],
+				['files_sharing', 'outgoing_server2server_share_enabled', true, false, true],
 			]);
 		$this->appManager->expects(self::exactly(3))
 			->method('isEnabledForUser')
