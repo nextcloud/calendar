@@ -161,7 +161,7 @@ OC.L10N.register(
     "{teamDisplayName} (Team)" : "{teamDisplayName} (Team)",
     "An error occurred while unsharing the calendar." : "Es ist ein Fehler beim Aufheben der Freigabe des Kalenders aufgetreten.",
     "An error occurred, unable to change the permission of the share." : "Es ist ein Fehler aufgetreten, die Berechtigung für die Freigabe konnte nicht geändert werden.",
-    "can edit and see confidential events" : "kann vertrauliche Termine einsehen und bearbeiten",
+    "can edit and see confidential events" : "kann bearbeiten und vertrauliche Termine einsehen",
     "Unshare with {displayName}" : "Mit {displayName} nicht mehr teilen",
     "Share with users or groups" : "Mit Benutzern oder Gruppen teilen",
     "No users or groups" : "Keine Benutzer oder Gruppen",
