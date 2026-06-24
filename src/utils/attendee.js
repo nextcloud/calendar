@@ -58,6 +58,61 @@ export function organizerDisplayName(organizer) {
 }
 
 /**
+ * Heuristically check if an email address looks like a mailing list address
+ *
+ * @param {string} email Email address to check (with or without mailto: prefix)
+ * @return {boolean} True if the address looks like a mailing list
+ */
+export function looksLikeMailingList(email) {
+	if (typeof email !== 'string') {
+		return false
+	}
+
+	const address = removeMailtoPrefix(email).toLowerCase()
+	const atIndex = address.indexOf('@')
+	if (atIndex === -1) {
+		return false
+	}
+
+	const local = address.slice(0, atIndex)
+	const domain = address.slice(atIndex + 1)
+
+	const exactMatches = new Set([
+		'list', 'lists', 'ml', 'announce', 'announcements', 'noreply', 'no-reply',
+		'newsletter', 'newsletters', 'mailer-daemon', 'postmaster', 'sympa',
+		'majordomo', 'listserv', 'mailman', 'dmarc', 'bounce', 'bounces',
+		'subscribe', 'unsubscribe',
+	])
+	if (exactMatches.has(local)) {
+		return true
+	}
+
+	const suffixes = [
+		'-bounces', '-request', '-subscribe', '-unsubscribe', '-owner', '-help',
+		'-announce', '-devel', '-discuss', '-commits', '-bugs', '-patches',
+		'-users', '-list', '+bounces', '+subscribe',
+	]
+	if (suffixes.some((s) => local.endsWith(s))) {
+		return true
+	}
+
+	const knownDomains = new Set([
+		'googlegroups.com', 'groups.io', 'freelists.org',
+		'yahoogroups.com', 'listserv.com', 'topica.com',
+	])
+	if (knownDomains.has(domain)) {
+		return true
+	}
+
+	const knownSubdomainPrefixes = ['lists.', 'ml.', 'listserv.', 'mailman.', 'sympa.']
+	if (knownSubdomainPrefixes.some((p) => domain.startsWith(p))) {
+		return true
+	}
+
+	return false
+}
+
+/**
  * Check if the current user is an attendee
  *
  * @param {string} currentUserPrincipalEmail Email address of the current user
