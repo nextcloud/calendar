@@ -281,7 +281,7 @@ export default {
 		 * hence we can't use beforeRouteUpdate directly.
 		 */
 		if (!this.isWidget) {
-			this.$router.beforeEach((to, from, next) => {
+			this.$router.beforeEach((to, from) => {
 				if (to.params.firstDay !== from.params.firstDay) {
 					const calendarApi = this.$refs.fullCalendar.getApi()
 					calendarApi.gotoDate(getYYYYMMDDFromFirstdayParam(to.params.firstDay))
@@ -298,8 +298,6 @@ export default {
 					const calendarApi = this.$refs.fullCalendar.getApi()
 					calendarApi.unselect()
 				}
-
-				next()
 			})
 
 			// Trigger the select event programmatically on initial page load to show the new event
