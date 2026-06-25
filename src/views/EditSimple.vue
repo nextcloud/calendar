@@ -24,8 +24,6 @@
 				...popoverStyle,
 				pointerEvents: popoverReady ? 'auto' : 'none',
 				visibility: popoverReady ? 'visible' : 'hidden',
-				opacity: popoverReady ? 1 : 0,
-				transition: popoverReady ? 'opacity 0.15s ease' : 'none',
 			}">
 			<div class="event-popover__inner edit-simple">
 				<template v-if="isLoading && !isSaving">
@@ -492,15 +490,17 @@ export default {
 		},
 
 		isViewing() {
-			// Reposition when switching between viewing and editing modes
+			// Hide while repositioning so the size change is not animated.
+			this.popoverReady = false
 			this.$nextTick(() => {
 				this.repositionPopover(true)
 			})
 		},
 
 		isLoading(newVal, oldVal) {
-			// When loading completes, reposition to accommodate the loaded content
+			// When loading completes, hide and reposition to fit the full content.
 			if (newVal === false) {
+				this.popoverReady = false
 				this.$nextTick(() => {
 					this.repositionPopover(true)
 				})
@@ -572,13 +572,15 @@ export default {
 			if (!this.$el) {
 				return
 			}
-			if (document.body.contains(this.$el)) {
+			// Append directly to document.body so that position:fixed works relative
+			// to the viewport. NcContent can have backdrop-filter applied (when a
+			// background image is set), which turns it into a containing block for
+			// fixed descendants and clips them via overflow:hidden — cutting off the
+			// footer / save-button row.
+			if (this.$el.parentElement === document.body) {
 				return
 			}
-			const host = document.querySelector('.simple-editor-anchor')
-			if (host && !host.contains(this.$el)) {
-				host.appendChild(this.$el)
-			}
+			document.body.appendChild(this.$el)
 		},
 
 		handleResize() {
@@ -587,7 +589,7 @@ export default {
 				clearTimeout(this.resizeTimeout)
 			}
 			this.resizeTimeout = setTimeout(() => {
-				this.repositionPopover()
+				this.repositionPopover(true)
 			}, 25)
 		},
 
@@ -674,8 +676,25 @@ export default {
 				existingPopover = document.querySelector('.event-popover')
 			}
 
-			// Get current popover element dimensions
-			const estimatedHeight = Math.max(existingPopover?.offsetHeight || 0, 420)
+			const innerEl = this.$el?.querySelector?.('.event-popover__inner.edit-simple')
+				?? document.querySelector('.event-popover__inner.edit-simple')
+
+			// When repositioning while hidden, clear any stale maxHeight constraints so
+			// offsetHeight reflects the natural content height, not a previous estimate.
+			// Without this, the loading-spinner height locks in a maxHeight that is too
+			// small for the fully loaded content, causing an unwanted scrollbar.
+			if (!this.popoverReady) {
+				if (existingPopover) {
+					existingPopover.style.maxHeight = ''
+				}
+				if (innerEl) {
+					innerEl.style.maxHeight = ''
+				}
+			}
+
+			// Get current popover element dimensions (reading offsetHeight forces a reflow)
+			const naturalHeight = existingPopover?.offsetHeight || 0
+			const estimatedHeight = Math.max(naturalHeight, 200)
 			const estimatedWidth = Math.max(existingPopover?.offsetWidth || 0, 460)
 
 			// Get rectangles
@@ -762,32 +781,46 @@ export default {
 				left = boundaryRect.left + SPACING
 			}
 
-			// Keep vertical position within bounds
-			if (top + estimatedHeight > boundaryRect.bottom - SPACING) {
-				top = boundaryRect.bottom - estimatedHeight - SPACING
+			// Keep vertical position within bounds, using viewport height as the
+			// hard ceiling so the popover is never positioned below the screen.
+			const viewportHeight = window.innerHeight
+			const effectiveBottom = Math.min(boundaryRect.bottom, viewportHeight)
+			if (top + estimatedHeight > effectiveBottom - SPACING) {
+				top = effectiveBottom - estimatedHeight - SPACING
 			}
 			if (top < boundaryRect.top + SPACING) {
 				top = boundaryRect.top + SPACING
 			}
 
-			// Apply the style
+			// Calculate maxHeight in pixels so it is consistent with the JS
+			// coordinate system. Leave SPACING clearance at the bottom so the
+			// footer/save-button row is never flush against the viewport edge.
+			const maxH = Math.max(
+				Math.min(Math.floor(viewportHeight * 0.9), viewportHeight - top - SPACING),
+				200, // absolute minimum so loading spinner is still visible
+			)
+
+			// Apply the full style (position + size) while the popover is hidden.
 			this.popoverStyle = {
 				position: 'fixed',
 				top: `${top}px`,
 				left: `${left}px`,
 				zIndex: 9999,
 				maxWidth: '100vw',
-				maxHeight: `min(90vh, calc(100vh - ${top}px))`,
+				maxHeight: `${maxH}px`,
 			}
 
-			const innerEl = document.querySelector('.event-popover__inner.edit-simple')
+			// Always set the inner's maxHeight to the available viewport space.
+			// When content is shorter it has no effect (inner renders at natural height,
+			// no scrollbar). When the user later expands content (adds attendees, toggles
+			// all-day, etc.) the flex layout kicks in: the scrollable content area grows
+			// while the footer stays anchored at the bottom.
 			if (innerEl) {
-				innerEl.style.maxHeight = `min(90vh, calc(100vh - ${top}px))`
+				innerEl.style.maxHeight = `${maxH}px`
 			}
 
-			// Verify and fine-tune position before showing
+			// Show the popover only after the final layout is committed.
 			setTimeout(() => {
-				// Only show popover after final positioning is complete
 				this.popoverReady = true
 			}, 25)
 		},
