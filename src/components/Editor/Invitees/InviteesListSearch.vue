@@ -324,4 +324,8 @@ export default {
 :deep(.avatardiv) {
 	overflow: visible !important;
 }
+
+:deep(.vs__search::placeholder) {
+	text-overflow: ellipsis;
+}
 </style>
