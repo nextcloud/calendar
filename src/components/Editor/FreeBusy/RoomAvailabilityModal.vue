@@ -47,7 +47,7 @@
 								</template>
 							</NcButton>
 						</template>
-						<template>
+						<template #default>
 							<div class="freebusy-caption">
 								<div class="freebusy-caption__calendar-user-types" />
 								<div class="freebusy-caption__colors">
