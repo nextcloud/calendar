@@ -8,7 +8,7 @@
 		:name="title"
 		@click="openUserSettings">
 		<template #icon>
-			<AlertCircleIcon :size="20" />
+			<AlertCircleIcon :size="20" class="no-email-warning__icon" />
 		</template>
 	</AppNavigationItem>
 </template>
@@ -53,5 +53,9 @@ export default {
 		white-space: unset !important;
 		text-overflow: unset !important;
 	}
+}
+
+.no-email-warning__icon {
+	color: var(--color-element-warning);
 }
 </style>
