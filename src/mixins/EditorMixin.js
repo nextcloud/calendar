@@ -436,6 +436,14 @@ export default {
 		isCreateTalkRoomButtonVisible() {
 			return this.talkEnabled && this.isViewedByOrganizer !== false && this.isReadOnly !== true
 		},
+		/**
+		 * Returns true if at least one writable calendar exists
+		 *
+		 * @return {boolean}
+		 */
+		hasWritableCalendars() {
+			return this.calendarsStore.sortedCalendarsAllowingCreate.length > 0
+		},
 	},
 
 	async created() {
@@ -708,6 +716,8 @@ export default {
 		 */
 		async duplicateEvent() {
 			await this.calendarObjectInstanceStore.duplicateCalendarObjectInstance()
+			// Update the local calendarId to match the new calendar object
+			this.calendarId = this.calendarObject.calendarId
 		},
 
 		/**
