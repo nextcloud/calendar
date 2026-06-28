@@ -71,7 +71,6 @@
 </template>
 
 <script>
-import interactionPlugin from '@fullcalendar/interaction'
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
 import FullCalendar from '@fullcalendar/vue3'
 import { NcButton, NcDateTimePickerNative, NcModal, NcPopover } from '@nextcloud/vue'
@@ -210,7 +209,6 @@ export default {
 				resourceTimelinePlugin,
 				momentPlugin,
 				VTimezoneNamedTimezone,
-				interactionPlugin,
 			]
 		},
 
@@ -257,10 +255,6 @@ export default {
 				resources: this.resources,
 				// Plugins
 				plugins: this.plugins,
-				// Interaction:
-				editable: false,
-				selectable: true,
-				select: this.handleSelect,
 				// Localization:
 				...getDateFormattingConfig(),
 				...getFullCalendarLocale(),
