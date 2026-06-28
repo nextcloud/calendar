@@ -436,28 +436,28 @@ export default {
 	padding-block: calc(var(--default-grid-baseline) * 2);
 
 	:deep(.material-design-icon.check-icon) {
-		color: #32CD32;
+		color: var(--color-success-text);
 		background-color: rgba(90, 90, 90, 0.1);
 		padding: calc(var(--default-grid-baseline) * 2);
 		border-radius: calc(var(--default-grid-baseline) * 1);
 	}
 
 	:deep(.material-design-icon.close-icon) {
-		color: #ff4402;
+		color: var(--color-error-text);
 		background-color: rgba(90, 90, 90, 0.1);
 		padding: calc(var(--default-grid-baseline) * 2);
 		border-radius: calc(var(--default-grid-baseline) * 1);
 	}
 
 	:deep(.material-design-icon.help-icon) {
-		color: #ffc107;
+		color: var(--color-element-warning);
 		background-color: rgba(90, 90, 90, 0.1);
 		padding: calc(var(--default-grid-baseline) * 2);
 		border-radius: calc(var(--default-grid-baseline) * 1);
 	}
 
 	:deep(.material-design-icon.minus-icon) {
-		color: #6B6B6B;
+		color: var(--color-text-maxcontrast);
 		background-color: rgba(90, 90, 90, 0.1);
 		padding: calc(var(--default-grid-baseline) * 2);
 		border-radius: calc(var(--default-grid-baseline) * 1);

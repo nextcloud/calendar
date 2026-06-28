@@ -23,7 +23,7 @@
 				:name="t('calendar', 'A configured email address is required to use meeting proposals')"
 				@click="window.open(generateUrl('settings/user'), '_blank').focus()">
 				<template #icon>
-					<WarningIcon :size="20" />
+					<WarningIcon :size="20" class="proposal-list__warning-icon" />
 				</template>
 			</NcAppNavigationItem>
 		</template>
@@ -248,6 +248,10 @@ export default {
 
 <style lang="scss" scoped>
 .proposal-list__icon--complete {
-	color: #009f05;
+	color: var(--color-success-text);
+}
+
+:deep(.proposal-list__warning-icon) {
+	color: var(--color-element-warning);
 }
 </style>
