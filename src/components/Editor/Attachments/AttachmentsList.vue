@@ -9,6 +9,7 @@
 			class="attachments-input"
 			type="file"
 			multiple
+			:aria-label="t('calendar', 'Upload files as attachments')"
 			@change="onLocalAttachmentSelected">
 		<div class="attachments-summary">
 			<div class="attachments-summary-inner">

@@ -26,9 +26,10 @@
 				:searchable="false"
 				:name="readableName"
 				:placeholder="placeholder"
-				:labelOutside="true"
 				:clearable="false"
-				inputId="value"
+				:inputId="readableName + '-select-input'"
+				:ariaLabelCombobox="readableName"
+				:ariaLabelListbox="readableName"
 				label="label" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div v-else>{{ selectedValue.label }}</div>

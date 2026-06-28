@@ -5,7 +5,7 @@
 
 <template>
 	<div class="repeat-option-set repeat-option-set--end">
-		<span class="repeat-option-end__label">{{ $t('calendar', 'End repeat') }}</span>
+		<label for="repeat-end-type-select" class="repeat-option-end__label">{{ $t('calendar', 'End repeat') }}</label>
 		<NcSelect
 			v-model="selectedOption"
 			class="repeat-option-end__end-type-select"
@@ -13,7 +13,7 @@
 			:searchable="false"
 			:inputOutside="true"
 			:clearable="false"
-			inputId="value"
+			inputId="repeat-end-type-select"
 			label="label" />
 		<DatePicker
 			v-if="isUntil"
@@ -21,6 +21,7 @@
 			:min="minimumDate"
 			:date="until"
 			type="date"
+			:ariaLabel="$t('calendar', 'End repeat date')"
 			:appendToBody="true"
 			@change="changeUntil" />
 		<NcTextField

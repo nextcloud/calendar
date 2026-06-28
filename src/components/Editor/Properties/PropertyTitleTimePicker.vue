@@ -27,12 +27,14 @@
 						<div class="property-title-time-picker__time-pickers-from-inner__selectors">
 							<DatePicker
 								:date="startDate"
+								:ariaLabel="$t('calendar', 'Start date')"
 								prefix="from"
 								@change="changeStartDate" />
 							<DatePicker
 								v-if="!isAllDay"
 								:date="startDate"
 								type="time"
+								:ariaLabel="$t('calendar', 'Start time')"
 								@change="changeStartTime" />
 						</div>
 						<div v-if="showTimezoneSelect && !isAllDay" class="property-title-time-picker__time-pickers-from-inner__timezone">
@@ -62,12 +64,14 @@
 						<div class="property-title-time-picker__time-pickers-from-inner__selectors">
 							<DatePicker
 								:date="endDate"
+								:ariaLabel="$t('calendar', 'End date')"
 								prefix="to"
 								@change="changeEndDate" />
 							<DatePicker
 								v-if="!isAllDay"
 								:date="endDate"
 								type="time"
+								:ariaLabel="$t('calendar', 'End time')"
 								@change="changeEndTime" />
 						</div>
 						<div v-if="showTimezoneSelect && !isAllDay" class="property-title-time-picker__time-pickers-to-inner__timezone">

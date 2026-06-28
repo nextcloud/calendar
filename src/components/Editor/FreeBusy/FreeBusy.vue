@@ -20,9 +20,9 @@
 							:options="freeSlots"
 							:placeholder="placeholder"
 							:clearable="false"
-							inputId="slot"
+							:ariaLabelCombobox="$t('calendar', 'Available time slots')"
+							inputId="free-busy-slot-mobile"
 							label="displayStart"
-							:labelOutside="true"
 							:modelValue="selectedSlot"
 							@update:modelValue="setSlotSuggestion">
 							<template #selected-option="{}">
@@ -191,9 +191,9 @@
 								:options="freeSlots"
 								:placeholder="placeholder"
 								:clearable="false"
-								inputId="slot"
+								:ariaLabelCombobox="$t('calendar', 'Available time slots')"
+								inputId="free-busy-slot-desktop"
 								label="displayStart"
-								:labelOutside="true"
 								:modelValue="selectedSlot"
 								:loading="loadingIndicator"
 								:disabled="loadingIndicator"

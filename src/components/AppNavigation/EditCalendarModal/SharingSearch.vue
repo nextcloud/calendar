@@ -22,7 +22,7 @@
 			openDirection="above"
 			trackBy="user"
 			label="displayName"
-			:labelOutside="true"
+			:ariaLabelCombobox="$t('calendar', 'Share with users or groups')"
 			@search="findSharee"
 			@option:selected="shareCalendar">
 			<template #no-options>
