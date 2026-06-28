@@ -131,11 +131,11 @@ export default {
 			}
 			const delegatedIcon = {
 				icon: IconDelegated,
-				fillColor: 'vat(--color-text-maxcontrast)',
+				fillColor: 'var(--color-text-maxcontrast)',
 			}
 			const noResponseIcon = {
 				icon: IconNoResponse,
-				fillColor: 'vat(--color-text-maxcontrast)',
+				fillColor: 'var(--color-text-maxcontrast)',
 			}
 
 			if (this.isSuggestion) {
