@@ -248,6 +248,7 @@ OC.L10N.register(
     "Remove color" : "הסר צבע",
     "Title" : "כותרת",
     "From" : "מאת",
+    "Start date" : "תאריך התחלה",
     "To" : "אל",
     "Repeat" : "חזרה",
     "never" : "לעולם לא",

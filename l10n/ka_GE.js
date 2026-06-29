@@ -78,6 +78,7 @@ OC.L10N.register(
     "Copied to clipboard" : "კოპირებულია კლიპბორდში",
     "Status" : "სტატუსი",
     "Title" : "სათაური",
+    "Start date" : "დაწყების თარიღი",
     "Repeat" : "გამეორება",
     "never" : "არასდროს",
     "after" : "შემდეგ",

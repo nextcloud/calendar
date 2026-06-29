@@ -81,6 +81,7 @@ OC.L10N.register(
     "Copied to clipboard" : "Copiado al portapapeles",
     "Status" : "Estatus",
     "From" : "De",
+    "Start date" : "Fecha de inicio",
     "To" : "Para",
     "Repeat" : "Repetir",
     "never" : "nunca",
