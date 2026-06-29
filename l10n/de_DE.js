@@ -711,6 +711,7 @@ OC.L10N.register(
     "W" : "W",
     "%n more" : "%n weitere",
     "No events to display" : "Keine Termine zum Anzeigen",
+    "{startDate} to {endDate}" : "{startDate} bis {endDate}",
     "All participants declined" : "Alle Teilnehmer haben abgelehnt",
     "Please confirm your participation" : "Bitte Teilnahme bestätigen",
     "You declined this event" : "Sie haben diesen Termin abgelehnt",

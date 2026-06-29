@@ -647,6 +647,7 @@ OC.L10N.register(
     "W" : "T",
     "%n more" : "%n další",
     "No events to display" : "Žádné události k zobrazení",
+    "{startDate} to {endDate}" : "{startDate} až {endDate}",
     "All participants declined" : "Všichni účastníci odmítli",
     "Please confirm your participation" : "Potvrďte svou účast",
     "You declined this event" : "Odmítli jste účast na této události",

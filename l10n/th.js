@@ -85,6 +85,7 @@ OC.L10N.register(
     "Copied to clipboard" : "คัดลอกไปยังคลิปบอร์ดแล้ว",
     "Status" : "สถานะ",
     "Remove group" : "ลบกลุ่ม",
+    "Start date" : "วันที่เริ่มต้น",
     "Repeat" : "ทำซ้ำ",
     "never" : "ไม่ต้องเลย",
     "after" : "หลังจาก",
