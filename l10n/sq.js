@@ -90,6 +90,7 @@ OC.L10N.register(
     "Status" : "Status",
     "Remove group" : "Hiq grupin",
     "Title" : "Titulli",
+    "Start date" : "Datë nisjeje",
     "Repeat" : "Përsërite",
     "never" : "kurrë",
     "after" : "pas",

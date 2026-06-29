@@ -614,6 +614,7 @@ OC.L10N.register(
     "W" : "U",
     "%n more" : "%n yderligere",
     "No events to display" : "Ingen begivenheder",
+    "{startDate} to {endDate}" : "{startDate} til {endDate}",
     "All participants declined" : "Alle deltagere afviste",
     "Please confirm your participation" : "Bekræft venligst din deltagelse",
     "You declined this event" : "Di afviste denne begivenhed",

@@ -324,6 +324,7 @@ OC.L10N.register(
     "Title" : "제목",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "반복하는 이 일정의 \"하루 종일\" 여부를 수정할 수 없습니다.",
     "From" : "시작",
+    "Start date" : "시작 날짜",
     "To" : "종료",
     "Repeat" : "반복",
     "never" : "없음",

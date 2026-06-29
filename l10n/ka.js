@@ -304,6 +304,7 @@ OC.L10N.register(
     "Remove color" : "Remove color",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Cannot modify all-day setting for events that are part of a recurrence-set.",
     "From" : "From",
+    "Start date" : "Start date",
     "To" : "To",
     "Repeat" : "Repeat",
     "never" : "never",

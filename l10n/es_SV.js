@@ -78,6 +78,7 @@ OC.L10N.register(
     "Decline" : "Declinar",
     "Copied to clipboard" : "Copiado al portapapeles",
     "Status" : "Estatus",
+    "Start date" : "Fecha de inicio",
     "Repeat" : "Repetir",
     "never" : "nunca",
     "after" : "después",
