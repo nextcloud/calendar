@@ -73,6 +73,7 @@ OC.L10N.register(
     "Accept" : "Aanvaar",
     "Status" : "Status",
     "From" : "Van",
+    "Start date" : "Begindatum",
     "To" : "Aan",
     "Repeat" : "Herhaal",
     "never" : "nooit",

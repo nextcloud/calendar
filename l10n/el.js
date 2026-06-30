@@ -392,6 +392,7 @@ OC.L10N.register(
     "Title" : "Τίτλος",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Δεν είναι δυνατή η τροποποίηση της ρύθμισης ολοήμερου συμβάντος που αποτελεί μέρος σετ-επανάληψης.",
     "From" : "Από",
+    "Start date" : "Ημερομηνία έναρξης",
     "To" : "Έως",
     "End date" : "Ημερομηνία λήξης",
     "Repeat" : "Επανάληψη",

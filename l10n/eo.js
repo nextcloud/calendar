@@ -108,6 +108,7 @@ OC.L10N.register(
     "Optional participant" : "Laŭvola partoprenanto",
     "Remove group" : "Forigi grupon",
     "From" : "De",
+    "Start date" : "Komencdato",
     "To" : "Al",
     "Repeat" : "Ripeti",
     "never" : "neniam",

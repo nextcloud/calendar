@@ -499,6 +499,7 @@ OC.L10N.register(
     "Title" : "Title",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Cannot modify all-day setting for events that are part of a recurrence-set.",
     "From" : "From",
+    "Start date" : "Start date",
     "Start time" : "Start time",
     "To" : "To",
     "End date" : "End date",
