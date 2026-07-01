@@ -92,7 +92,7 @@
     "@nextcloud/stylelint-config": "^3.2.2",
     "@nextcloud/typings": "^1.10.0",
     "@playwright/test": "^1.60.0",
-    "@rsdoctor/rspack-plugin": "^1.5.12",
+    "@rsdoctor/rspack-plugin": "^1.5.17",
     "@rspack/cli": "^2.0.8",
     "@rspack/core": "^2.0.8",
     "@rspack/plugin-node-polyfill": "^0.5.8",
