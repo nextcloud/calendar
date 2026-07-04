@@ -86,9 +86,7 @@
 			</NcAppSidebarTab>
 		</NcAppSidebar>
 		<!-- Edit modal -->
-		<div ref="simpleEditorAnchor" class="simple-editor-anchor">
-			<router-view :key="$route.fullPath" />
-		</div>
+		<router-view :key="$route.fullPath" />
 	</NcContent>
 </template>
 
@@ -454,8 +452,7 @@ export default {
 .app-navigation-toggle-wrapper {
 	position: absolute;
 	top: var(--app-navigation-padding);
-	inset-inline-end: calc(0px - var(--app-navigation-padding));
-	margin-inline-end: calc(-1 * var(--default-clickable-area));
+	inset-inline-end: 0;
 }
 
 .calendar-wrapper {
@@ -467,16 +464,12 @@ export default {
 .toggle-button {
 	position: absolute;
 	top: 2px;
-	inset-inline-end: 50px;
+	inset-inline-end: var(--app-navigation-padding);
 	z-index: 1000;
 }
 
 .calendar-Widget {
 	width: 100%;
-}
-
-.simple-editor-anchor {
-	position: relative;
 }
 
 .property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {

@@ -298,6 +298,7 @@ OC.L10N.register(
     "Title" : "Virsraksts",
     "Cannot modify all-day setting for events that are part of a recurrence-set." : "Nevar izmainīt visas dienas iestatījumu notikumiem, kas ir daļa no atkārtojumu kopas.",
     "From" : "No",
+    "Start date" : "Sākuma datums",
     "To" : "Līdz",
     "Repeat" : "Atkārtot",
     "never" : "nekad",

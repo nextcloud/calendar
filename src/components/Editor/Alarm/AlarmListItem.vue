@@ -62,6 +62,7 @@
 				:date="alarm.absoluteDate"
 				:timezoneId="alarm.absoluteTimezoneId"
 				:isAllDay="false"
+				:ariaLabel="$t('calendar', 'Alarm date and time')"
 				@change="changeAbsoluteDate"
 				@changeTimezone="changeAbsoluteTimezoneId" />
 		</div>

@@ -93,7 +93,7 @@ import md5 from 'md5'
 import { mapStores } from 'pinia'
 import IconAdd from 'vue-material-design-icons/Plus.vue'
 import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
-import { createRoom, generateRoomUrl, listRooms } from '@/services/talkService'
+import { addParticipantAsModerator, createRoom, generateRoomUrl, listRooms } from '@/services/talkService'
 
 // Ref https://github.com/nextcloud/spreed/blob/main/docs/constants.md
 const CONVERSATION_TYPE_GROUP = 2
@@ -123,6 +123,11 @@ export default {
 		calendarObjectInstance: {
 			type: Object,
 			required: true,
+		},
+
+		delegatorUserId: {
+			type: String,
+			default: null,
 		},
 	},
 
@@ -237,6 +242,14 @@ export default {
 
 				if (!room || !room.token) {
 					throw new Error('No token returned from createRoom')
+				}
+
+				if (this.delegatorUserId) {
+					try {
+						await addParticipantAsModerator(room.token, this.delegatorUserId)
+					} catch (error) {
+						console.error('Failed to add delegator as moderator:', error)
+					}
 				}
 
 				const url = generateRoomUrl(room)

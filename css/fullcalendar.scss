@@ -190,7 +190,7 @@
 
 	.fc-event-title {
 		text-overflow: ellipsis;
-		font-weight: 700;
+		font-weight: var(--font-weight-element);
 	}
 
 	// Reminder icon on events with alarms set
@@ -335,10 +335,6 @@
 
 	.fc-event-mirror {
 		border: none !important;
-	}
-
-	.fc-highlight {
-		background: none !important;
 	}
 
 }

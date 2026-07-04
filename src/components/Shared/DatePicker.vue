@@ -12,12 +12,11 @@
 	when providing a format as pattern string (and not a one-way function).
 	-->
 	<DateTimePicker
-		id="date-time-picker-input"
+		:ariaLabel="ariaLabel"
 		:min="minimumDate"
 		:max="maximumDate"
 		:modelValue="date"
 		:type="type"
-		:hideLabel="true"
 		class="date-time-picker"
 		:format="formatStr"
 		@blur="onBlur"
@@ -45,6 +44,11 @@ export default {
 		date: {
 			type: Date,
 			required: true,
+		},
+
+		ariaLabel: {
+			type: String,
+			default: null,
 		},
 
 		prefix: {

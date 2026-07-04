@@ -22,6 +22,7 @@
 			<textarea
 				v-if="!isReadOnly && !showLinksClickable"
 				v-autosize="true"
+				:aria-label="readableName"
 				:placeholder="placeholder"
 				:rows="rows"
 				:name="readableName"

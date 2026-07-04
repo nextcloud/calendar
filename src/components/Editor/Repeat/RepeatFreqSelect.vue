@@ -9,6 +9,7 @@
 		:allowEmpty="false"
 		:options="options"
 		:clearable="false"
+		:ariaLabelCombobox="$t('calendar', 'Repeat frequency')"
 		inputId="freq"
 		label="label" />
 </template>
