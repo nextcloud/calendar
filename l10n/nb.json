@@ -293,6 +293,8 @@
     "1 hour" : "1 time",
     "2 hours" : "2 timer",
     "Custom" : "Egendefinert",
+    "_{i} hour_::_{i} hours_" : ["{i} time","{i} timer"],
+    "_{i} minute_::_{i} minutes_" : ["{i} minutt","{i} minutter"],
     "Days" : "Dager",
     "Hours" : "Timer",
     "Minutes" : "Minutter",
