@@ -45,6 +45,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			transparency: 'opaque',
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			defaultAlarmsFullDay: [],
+			defaultAlarmsPartDay: [],
 			delegatorUrl: '',
 		})
 	})
@@ -83,6 +85,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			transparency: 'opaque',
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			defaultAlarmsFullDay: [],
+			defaultAlarmsPartDay: [],
 			delegatorUrl: '',
 		})
 	})
@@ -136,6 +140,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			defaultAlarmsFullDay: [],
+			defaultAlarmsPartDay: [],
 			delegatorUrl: '',
 		})
 
@@ -191,6 +197,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			defaultAlarmsFullDay: [],
+			defaultAlarmsPartDay: [],
 			delegatorUrl: '',
 		})
 
@@ -244,6 +252,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			defaultAlarmsFullDay: [],
+			defaultAlarmsPartDay: [],
 			delegatorUrl: '',
 		})
 
@@ -297,6 +307,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			defaultAlarmsFullDay: [],
+			defaultAlarmsPartDay: [],
 			delegatorUrl: '',
 		})
 
@@ -350,6 +362,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			defaultAlarmsFullDay: [],
+			defaultAlarmsPartDay: [],
 			delegatorUrl: '',
 		})
 
@@ -403,6 +417,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			defaultAlarmsFullDay: [],
+			defaultAlarmsPartDay: [],
 			delegatorUrl: '',
 		})
 
@@ -456,6 +472,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			defaultAlarmsFullDay: [],
+			defaultAlarmsPartDay: [],
 			delegatorUrl: '',
 		})
 
@@ -509,6 +527,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			defaultAlarmsFullDay: [],
+			defaultAlarmsPartDay: [],
 			delegatorUrl: '',
 		})
 
@@ -618,6 +638,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			defaultAlarmsFullDay: [],
+			defaultAlarmsPartDay: [],
 			delegatorUrl: '',
 		})
 
@@ -743,6 +765,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			defaultAlarmsFullDay: [],
+			defaultAlarmsPartDay: [],
 			delegatorUrl: '',
 		})
 
@@ -797,6 +821,8 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			loading: false,
 			defaultAlarmFullDay: null,
 			defaultAlarmPartDay: null,
+			defaultAlarmsFullDay: [],
+			defaultAlarmsPartDay: [],
 			delegatorUrl: '',
 		})
 	})

@@ -204,11 +204,35 @@ export function getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(amoun
 }
 
 /**
- * Updates or creates the default alarm for an event.
- * When no default alarm exists yet, one is only created for newly constructed instances
+ * Preferred resolver for default alarms when creating or updating an event.
+ * On NC35+, returns the normalized plural lists on the calendar model (DISPLAY/EMAIL).
+ * On NC34, wraps the legacy single-int reminder as one DISPLAY alarm.
+ *
+ * @param {object} data The destructuring object
+ * @param {object|undefined} data.calendar The selected calendar
+ * @param {boolean} data.isAllDay Whether the event is all-day
+ * @return {import('../types/calendar.ts').DefaultCalendarAlarm[]}
+ */
+export function getDefaultAlarmsForEvent({ calendar, isAllDay }) {
+	if (isAfterVersion(35) && calendar) {
+		const alarms = isAllDay ? calendar.defaultAlarmsFullDay : calendar.defaultAlarmsPartDay
+		return Array.isArray(alarms) ? [...alarms] : []
+	}
+
+	const legacyReminder = getDefaultReminderForEvent({ calendar, isAllDay })
+	if (legacyReminder === null || isNaN(legacyReminder)) {
+		return []
+	}
+
+	return [{ trigger: legacyReminder, action: 'DISPLAY' }]
+}
+
+/**
+ * Updates or creates the default alarms for an event.
+ * When no default alarms exist yet, they are only created for newly constructed instances
  * passed in by the caller.
  *
- * @param {string} calendarId The ID of the calendar to update the default alarm from
+ * @param {string} calendarId The ID of the calendar to update the default alarms from
  * @param {object} calendarObjectInstance The calendar object instance to update
  */
 export function updateDefaultAlarm(calendarId, calendarObjectInstance) {
@@ -221,47 +245,61 @@ export function updateDefaultAlarm(calendarId, calendarObjectInstance) {
 		return
 	}
 
-	const defaultReminder = getDefaultReminderForEvent({
+	const defaultAlarms = getDefaultAlarmsForEvent({
 		calendar,
 		isAllDay: calendarObjectInstance.isAllDay,
 	})
 
-	if (defaultReminder === null || isNaN(defaultReminder)) {
+	if (defaultAlarms.length === 0) {
 		return
 	}
 
-	// Find the existing default alarm (if any)
-	const existingDefaultAlarm = calendarObjectInstance.alarms.find((alarm) => alarm.alarmComponent.getFirstPropertyFirstValue('X-NC-DEFAULT-ALARM'))
-	if (existingDefaultAlarm) {
-		calendarObjectInstanceStore.removeAlarmFromCalendarObjectInstance({
-			calendarObjectInstance,
-			alarm: existingDefaultAlarm,
-		})
+	const existingDefaultAlarms = calendarObjectInstance.alarms.filter(
+		(alarm) => alarm.alarmComponent.getFirstPropertyFirstValue('X-NC-DEFAULT-ALARM'),
+	)
 
-		calendarObjectInstanceStore.addAlarmToCalendarObjectInstance({
-			calendarObjectInstance,
-			type: 'DISPLAY',
-			totalSeconds: defaultReminder,
-			isDefault: true,
-		})
+	if (existingDefaultAlarms.length > 0) {
+		for (const alarm of existingDefaultAlarms) {
+			calendarObjectInstanceStore.removeAlarmFromCalendarObjectInstance({
+				calendarObjectInstance,
+				alarm,
+			})
+		}
+
+		for (const { trigger, action } of defaultAlarms) {
+			calendarObjectInstanceStore.addAlarmToCalendarObjectInstance({
+				calendarObjectInstance,
+				type: action,
+				totalSeconds: trigger,
+				isDefault: true,
+			})
+		}
 		return
 	}
 
-	// Only create a missing default alarm for newly constructed event instances.
-	if (calendarObjectInstance !== calendarObjectInstanceStore.calendarObjectInstance) {
-		calendarObjectInstanceStore.addAlarmToCalendarObjectInstance({
-			calendarObjectInstance,
-			type: 'DISPLAY',
-			totalSeconds: defaultReminder,
-			isDefault: true,
-		})
+	// Only create missing default alarms for newly constructed event instances,
+	// or the active editor instance while composing a new unsaved event (calendar switch).
+	const isPreStoreInstance = calendarObjectInstance !== calendarObjectInstanceStore.calendarObjectInstance
+	const isNewEditorInstance = calendarObjectInstanceStore.isNew
+		&& calendarObjectInstance === calendarObjectInstanceStore.calendarObjectInstance
+
+	if (isPreStoreInstance || isNewEditorInstance) {
+		for (const { trigger, action } of defaultAlarms) {
+			calendarObjectInstanceStore.addAlarmToCalendarObjectInstance({
+				calendarObjectInstance,
+				type: action,
+				totalSeconds: trigger,
+				isDefault: true,
+			})
+		}
 	}
 }
 
 /**
- * Resolves the default reminder for an event.
- * Calendar-specific defaults win, then the global part/full-day defaults,
- * then the legacy global defaultReminder for backwards compatibility.
+ * Legacy resolver: single default reminder in seconds (DISPLAY only).
+ * Reads calendar DAV int defaults (NC34+) then global user settings.
+ *
+ * @deprecated Use {@link getDefaultAlarmsForEvent} instead. Kept exported for backwards compatibility.
  *
  * @param {object} data The destructuring object
  * @param {object|undefined} data.calendar The selected calendar

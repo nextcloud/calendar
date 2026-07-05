@@ -8,9 +8,19 @@ import {
 	getAmountAndUnitForTimedEvents,
 	getTotalSecondsFromAmountAndUnitForTimedEvents,
 	getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents,
+	getDefaultAlarmsForEvent,
+	getDefaultReminderForEvent,
+	updateDefaultAlarm,
 	updateAlarms,
 } from '../../../../src/utils/alarms.js'
 import { getParserManager } from '@nextcloud/calendar-js'
+import useCalendarObjectInstanceStore from '../../../../src/store/calendarObjectInstance.js'
+import useCalendarsStore from '../../../../src/store/calendars.js'
+import useSettingsStore from '../../../../src/store/settings.js'
+import { setActivePinia, createPinia } from 'pinia'
+
+vi.mock('../../../../src/store/calendarObjectInstance.js')
+vi.mock('../../../../src/store/calendars.js')
 
 /**
  * Parse an ICS string and return the first event component.
@@ -51,6 +61,224 @@ function eventICS(alarms, attendees = '') {
 }
 
 describe('utils/alarms test suite', () => {
+
+	beforeEach(() => {
+		setActivePinia(createPinia())
+		globalThis.OC.config.version = '34.0.0'
+		vi.clearAllMocks()
+	})
+
+	function setupUpdateDefaultAlarmStores({
+		isNew,
+		sameInstance,
+		calendar,
+		calendarObjectInstance,
+	}) {
+		const addAlarm = vi.fn()
+		const removeAlarm = vi.fn()
+		const calendarObjectInstanceStore = {
+			isNew,
+			calendarObjectInstance: sameInstance ? calendarObjectInstance : {},
+			addAlarmToCalendarObjectInstance: addAlarm,
+			removeAlarmFromCalendarObjectInstance: removeAlarm,
+		}
+		useCalendarObjectInstanceStore.mockReturnValue(calendarObjectInstanceStore)
+		useCalendarsStore.mockReturnValue({
+			getCalendarById: vi.fn(() => calendar),
+		})
+		return { addAlarm, removeAlarm }
+	}
+
+	describe('getDefaultAlarmsForEvent', () => {
+		it('returns plural part-day alarms on NC35+', () => {
+			globalThis.OC.config.version = '35.0.0'
+
+			const calendar = {
+				defaultAlarmsPartDay: [
+					{ trigger: -900, action: 'DISPLAY' },
+					{ trigger: -3600, action: 'EMAIL' },
+				],
+				defaultAlarmsFullDay: [],
+				dav: {},
+			}
+
+			expect(getDefaultAlarmsForEvent({ calendar, isAllDay: false })).toEqual([
+				{ trigger: -900, action: 'DISPLAY' },
+				{ trigger: -3600, action: 'EMAIL' },
+			])
+		})
+
+		it('returns plural full-day alarms on NC35+', () => {
+			globalThis.OC.config.version = '35.0.0'
+
+			const calendar = {
+				defaultAlarmsPartDay: [],
+				defaultAlarmsFullDay: [
+					{ trigger: -32400, action: 'DISPLAY' },
+				],
+				dav: {},
+			}
+
+			expect(getDefaultAlarmsForEvent({ calendar, isAllDay: true })).toEqual([
+				{ trigger: -32400, action: 'DISPLAY' },
+			])
+		})
+
+		it('returns empty list on NC35+ when calendar defaults are disabled', () => {
+			globalThis.OC.config.version = '35.0.0'
+
+			const calendar = {
+				defaultAlarmsPartDay: [],
+				defaultAlarmsFullDay: [],
+				dav: {},
+			}
+
+			expect(getDefaultAlarmsForEvent({ calendar, isAllDay: false })).toEqual([])
+		})
+
+		it('falls back to a single DISPLAY alarm from calendar DAV defaults on NC34', () => {
+			const calendar = {
+				defaultAlarmsPartDay: [],
+				defaultAlarmsFullDay: [],
+				dav: {
+					defaultAlarmPartDay: -900,
+				},
+			}
+
+			expect(getDefaultAlarmsForEvent({ calendar, isAllDay: false })).toEqual([
+				{ trigger: -900, action: 'DISPLAY' },
+			])
+		})
+
+		it('falls back to global settings when calendar has no defaults on NC34', () => {
+			const settingsStore = useSettingsStore()
+			settingsStore.defaultReminderPartDay = '-1800'
+
+			expect(getDefaultAlarmsForEvent({ calendar: undefined, isAllDay: false })).toEqual([
+				{ trigger: -1800, action: 'DISPLAY' },
+			])
+		})
+	})
+
+	describe('updateDefaultAlarm', () => {
+		it('applies NC34 legacy defaults when switching calendar on a new unsaved event', () => {
+			const calendarObjectInstance = { isAllDay: false, alarms: [] }
+			const calendar = {
+				defaultAlarmsPartDay: [],
+				defaultAlarmsFullDay: [],
+				dav: { defaultAlarmPartDay: -900 },
+			}
+			const { addAlarm } = setupUpdateDefaultAlarmStores({
+				isNew: true,
+				sameInstance: true,
+				calendar,
+				calendarObjectInstance,
+			})
+
+			updateDefaultAlarm('test1', calendarObjectInstance)
+
+			expect(addAlarm).toHaveBeenCalledWith({
+				calendarObjectInstance,
+				type: 'DISPLAY',
+				totalSeconds: -900,
+				isDefault: true,
+			})
+		})
+
+		it('applies NC35+ plural defaults when switching calendar on a new unsaved event', () => {
+			globalThis.OC.config.version = '35.0.0'
+
+			const calendarObjectInstance = { isAllDay: false, alarms: [] }
+			const calendar = {
+				defaultAlarmsPartDay: [
+					{ trigger: -900, action: 'DISPLAY' },
+					{ trigger: -3600, action: 'EMAIL' },
+				],
+				defaultAlarmsFullDay: [],
+				dav: {},
+			}
+			const { addAlarm } = setupUpdateDefaultAlarmStores({
+				isNew: true,
+				sameInstance: true,
+				calendar,
+				calendarObjectInstance,
+			})
+
+			updateDefaultAlarm('test1', calendarObjectInstance)
+
+			expect(addAlarm).toHaveBeenCalledTimes(2)
+			expect(addAlarm).toHaveBeenNthCalledWith(1, {
+				calendarObjectInstance,
+				type: 'DISPLAY',
+				totalSeconds: -900,
+				isDefault: true,
+			})
+			expect(addAlarm).toHaveBeenNthCalledWith(2, {
+				calendarObjectInstance,
+				type: 'EMAIL',
+				totalSeconds: -3600,
+				isDefault: true,
+			})
+		})
+
+		it('does not add defaults when editing an existing saved event', () => {
+			const calendarObjectInstance = { isAllDay: false, alarms: [] }
+			const calendar = {
+				defaultAlarmsPartDay: [],
+				defaultAlarmsFullDay: [],
+				dav: { defaultAlarmPartDay: -900 },
+			}
+			const { addAlarm } = setupUpdateDefaultAlarmStores({
+				isNew: false,
+				sameInstance: true,
+				calendar,
+				calendarObjectInstance,
+			})
+
+			updateDefaultAlarm('test1', calendarObjectInstance)
+
+			expect(addAlarm).not.toHaveBeenCalled()
+		})
+
+		it('still applies defaults for a pre-store constructed instance', () => {
+			const calendarObjectInstance = { isAllDay: false, alarms: [] }
+			const calendar = {
+				defaultAlarmsPartDay: [],
+				defaultAlarmsFullDay: [],
+				dav: { defaultAlarmPartDay: -900 },
+			}
+			const { addAlarm } = setupUpdateDefaultAlarmStores({
+				isNew: false,
+				sameInstance: false,
+				calendar,
+				calendarObjectInstance,
+			})
+
+			updateDefaultAlarm('test1', calendarObjectInstance)
+
+			expect(addAlarm).toHaveBeenCalledWith({
+				calendarObjectInstance,
+				type: 'DISPLAY',
+				totalSeconds: -900,
+				isDefault: true,
+			})
+		})
+	})
+
+	describe('getDefaultReminderForEvent', () => {
+		it('prefers calendar DAV defaults over global settings on NC34', () => {
+			const settingsStore = useSettingsStore()
+			settingsStore.defaultReminderPartDay = '-1800'
+
+			const calendar = {
+				dav: {
+					defaultAlarmPartDay: -900,
+				},
+			}
+
+			expect(getDefaultReminderForEvent({ calendar, isAllDay: false })).toEqual(-900)
+		})
+	})
 
 	it('should return the correct factor for different units', () => {
 		expect(getFactorForAlarmUnit('seconds')).toEqual(1)

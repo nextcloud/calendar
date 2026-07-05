@@ -43,36 +43,61 @@
 					{{ $t('calendar', 'Never show me as busy (set this calendar to transparent)') }}
 				</NcCheckboxRadioSwitch>
 			</template>
-			<template v-if="!calendar.isSharedWithMe && isAfterVersion">
-				<div class="edit-calendar-modal__default-alarm">
-					<label for="default-alarm-partday-select" class="edit-calendar-modal__default-alarm__label">
-						{{ $t('calendar', 'Default reminder for part-day events') }}
-					</label>
-					<NcSelect
-						v-model="selectedDefaultAlarmPartDay"
-						inputId="default-alarm-partday-select"
-						:options="defaultAlarmPartDayOptions"
-						:clearable="false"
-						:placeholder="$t('calendar', 'Select default reminder')"
-						class="edit-calendar-modal__default-alarm__select"
-						@update:modelValue="defaultAlarmChanged = true" />
-				</div>
-				<div class="edit-calendar-modal__default-alarm">
-					<label for="default-alarm-fullday-select" class="edit-calendar-modal__default-alarm__label">
-						{{ $t('calendar', 'Default reminder for full-day events') }}
-					</label>
-					<NcSelect
-						v-model="selectedDefaultAlarmFullDay"
-						inputId="default-alarm-fullday-select"
-						:options="defaultAlarmFullDayOptions"
-						:clearable="false"
-						:placeholder="$t('calendar', 'Select default reminder')"
-						class="edit-calendar-modal__default-alarm__select"
-						@update:modelValue="defaultAlarmChanged = true" />
-					<p class="edit-calendar-modal__default-alarm__hint">
-						{{ $t('calendar', 'These reminders will be automatically added to new events created in this calendar') }}
-					</p>
-				</div>
+			<template v-if="!calendar.isSharedWithMe && supportsDefaultCalendarAlarms">
+				<template v-if="supportsPluralDefaultCalendarAlarms">
+					<div class="edit-calendar-modal__default-alarm">
+						<label class="edit-calendar-modal__default-alarm__label">
+							{{ $t('calendar', 'Default reminder for part-day events') }}
+						</label>
+						<DefaultAlarmsList
+							v-model="defaultAlarmsPartDay"
+							:isAllDay="false"
+							@update:modelValue="defaultAlarmChanged = true" />
+					</div>
+					<div class="edit-calendar-modal__default-alarm">
+						<label class="edit-calendar-modal__default-alarm__label">
+							{{ $t('calendar', 'Default reminder for full-day events') }}
+						</label>
+						<DefaultAlarmsList
+							v-model="defaultAlarmsFullDay"
+							:isAllDay="true"
+							@update:modelValue="defaultAlarmChanged = true" />
+						<p class="edit-calendar-modal__default-alarm__hint">
+							{{ $t('calendar', 'These reminders will be automatically added to new events created in this calendar') }}
+						</p>
+					</div>
+				</template>
+				<template v-else>
+					<div class="edit-calendar-modal__default-alarm">
+						<label for="default-alarm-partday-select" class="edit-calendar-modal__default-alarm__label">
+							{{ $t('calendar', 'Default reminder for part-day events') }}
+						</label>
+						<NcSelect
+							v-model="selectedDefaultAlarmPartDay"
+							inputId="default-alarm-partday-select"
+							:options="defaultAlarmPartDayOptions"
+							:clearable="false"
+							:placeholder="$t('calendar', 'Select default reminder')"
+							class="edit-calendar-modal__default-alarm__select"
+							@update:modelValue="defaultAlarmChanged = true" />
+					</div>
+					<div class="edit-calendar-modal__default-alarm">
+						<label for="default-alarm-fullday-select" class="edit-calendar-modal__default-alarm__label">
+							{{ $t('calendar', 'Default reminder for full-day events') }}
+						</label>
+						<NcSelect
+							v-model="selectedDefaultAlarmFullDay"
+							inputId="default-alarm-fullday-select"
+							:options="defaultAlarmFullDayOptions"
+							:clearable="false"
+							:placeholder="$t('calendar', 'Select default reminder')"
+							class="edit-calendar-modal__default-alarm__select"
+							@update:modelValue="defaultAlarmChanged = true" />
+						<p class="edit-calendar-modal__default-alarm__hint">
+							{{ $t('calendar', 'These reminders will be automatically added to new events created in this calendar') }}
+						</p>
+					</div>
+				</template>
 			</template>
 			<template v-if="canBeShared">
 				<h3 class="edit-calendar-modal__sharing-header">
@@ -130,6 +155,7 @@ import CheckIcon from 'vue-material-design-icons/Check.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import DownloadIcon from 'vue-material-design-icons/TrayArrowDown.vue'
+import DefaultAlarmsList from './EditCalendarModal/DefaultAlarmsList.vue'
 import InternalLink from './EditCalendarModal/InternalLink.vue'
 import PublishCalendar from './EditCalendarModal/PublishCalendar.vue'
 import ShareItem from './EditCalendarModal/ShareItem.vue'
@@ -163,6 +189,7 @@ export default {
 		InternalLink,
 		NcAppNavigationSpacer,
 		NcCheckboxRadioSwitch,
+		DefaultAlarmsList,
 	},
 
 	data() {
@@ -174,6 +201,8 @@ export default {
 			calendarNameChanged: false,
 			selectedDefaultAlarmPartDay: null,
 			selectedDefaultAlarmFullDay: null,
+			defaultAlarmsPartDay: [],
+			defaultAlarmsFullDay: [],
 			defaultAlarmChanged: false,
 		}
 	},
@@ -327,8 +356,17 @@ export default {
 		 *
 		 * @return {boolean}
 		 */
-		isAfterVersion() {
+		supportsDefaultCalendarAlarms() {
 			return isAfterVersion(34)
+		},
+
+		/**
+		 * Whether plural default alarms are supported (Nextcloud 35+)
+		 *
+		 * @return {boolean}
+		 */
+		supportsPluralDefaultCalendarAlarms() {
+			return isAfterVersion(35)
 		},
 	},
 
@@ -344,22 +382,27 @@ export default {
 			this.calendarColorChanged = false
 			this.isTransparent = calendar.transparency === 'transparent'
 
-			// Initialize default alarm for part-day events
-			if (calendar.defaultAlarmPartDay === null) {
-				this.selectedDefaultAlarmPartDay = this.defaultAlarmPartDayOptions[0]
+			if (isAfterVersion(35)) {
+				this.defaultAlarmsPartDay = [...(calendar.defaultAlarmsPartDay ?? [])]
+				this.defaultAlarmsFullDay = [...(calendar.defaultAlarmsFullDay ?? [])]
 			} else {
-				const value = parseInt(calendar.defaultAlarmPartDay)
-				const option = this.defaultAlarmPartDayOptions.find((opt) => opt.value === value)
-				this.selectedDefaultAlarmPartDay = option || this.defaultAlarmPartDayOptions[0]
-			}
+				// Initialize default alarm for part-day events
+				if (calendar.defaultAlarmPartDay === null) {
+					this.selectedDefaultAlarmPartDay = this.defaultAlarmPartDayOptions[0]
+				} else {
+					const value = parseInt(calendar.defaultAlarmPartDay)
+					const option = this.defaultAlarmPartDayOptions.find((opt) => opt.value === value)
+					this.selectedDefaultAlarmPartDay = option || this.defaultAlarmPartDayOptions[0]
+				}
 
-			// Initialize default alarm for full-day events
-			if (calendar.defaultAlarmFullDay === null) {
-				this.selectedDefaultAlarmFullDay = this.defaultAlarmFullDayOptions[0]
-			} else {
-				const value = parseInt(calendar.defaultAlarmFullDay)
-				const option = this.defaultAlarmFullDayOptions.find((opt) => opt.value === value)
-				this.selectedDefaultAlarmFullDay = option || this.defaultAlarmFullDayOptions[0]
+				// Initialize default alarm for full-day events
+				if (calendar.defaultAlarmFullDay === null) {
+					this.selectedDefaultAlarmFullDay = this.defaultAlarmFullDayOptions[0]
+				} else {
+					const value = parseInt(calendar.defaultAlarmFullDay)
+					const option = this.defaultAlarmFullDayOptions.find((opt) => opt.value === value)
+					this.selectedDefaultAlarmFullDay = option || this.defaultAlarmFullDayOptions[0]
+				}
 			}
 			this.defaultAlarmChanged = false
 		},
@@ -432,6 +475,15 @@ export default {
 		 */
 		async saveDefaultAlarm() {
 			try {
+				if (isAfterVersion(35)) {
+					await this.calendarsStore.changeCalendarDefaultAlarms({
+						calendar: this.calendar,
+						defaultAlarmsPartDay: this.defaultAlarmsPartDay,
+						defaultAlarmsFullDay: this.defaultAlarmsFullDay,
+					})
+					return
+				}
+
 				const pdayValue = this.selectedDefaultAlarmPartDay ? this.selectedDefaultAlarmPartDay.value : null
 				const fdayValue = this.selectedDefaultAlarmFullDay ? this.selectedDefaultAlarmFullDay.value : null
 				await this.calendarsStore.changeCalendarDefaultAlarms({
@@ -464,7 +516,7 @@ export default {
 				if (this.calendarNameChanged) {
 					await this.saveName()
 				}
-				if (this.isAfterVersion && this.defaultAlarmChanged) {
+				if (isAfterVersion(34) && this.defaultAlarmChanged) {
 					await this.saveDefaultAlarm()
 				}
 			} catch (error) {

@@ -26,6 +26,7 @@ import {
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import { uidToHexColor } from '../utils/color.js'
 import { dateFactory, getUnixTimestampFromDate } from '../utils/date.js'
+import { defaultAlarmsEqual, toDavPayload } from '../utils/defaultCalendarAlarms.js'
 import logger from '../utils/logger.js'
 import { isAfterVersion } from '../utils/nextcloudVersion.ts'
 import useCalendarObjectsStore from './calendarObjects.js'
@@ -607,11 +608,22 @@ export default defineStore('calendars', {
 		 *
 		 * @param {object} data destructuring object
 		 * @param {object} data.calendar the calendar to modify
-		 * @param {number|null} data.defaultAlarmPartDay the new default alarm for part-day events in seconds (or null to disable)
-		 * @param {number|null} data.defaultAlarmFullDay the new default alarm for full-day events in seconds (or null to disable)
+		 * @param {number|null} [data.defaultAlarmPartDay] legacy default alarm for part-day events in seconds
+		 * @param {number|null} [data.defaultAlarmFullDay] legacy default alarm for full-day events in seconds
+		 * @param {Array|null} [data.defaultAlarmsPartDay] plural default alarms for part-day events (NC35+)
+		 * @param {Array|null} [data.defaultAlarmsFullDay] plural default alarms for full-day events (NC35+)
 		 * @return {Promise}
 		 */
-		async changeCalendarDefaultAlarms({ calendar, defaultAlarmPartDay, defaultAlarmFullDay }) {
+		async changeCalendarDefaultAlarms({ calendar, defaultAlarmPartDay, defaultAlarmFullDay, defaultAlarmsPartDay, defaultAlarmsFullDay }) {
+			if (isAfterVersion(35) && (defaultAlarmsPartDay !== undefined || defaultAlarmsFullDay !== undefined)) {
+				await this.changeCalendarPluralDefaultAlarms({
+					calendar,
+					defaultAlarmsPartDay: defaultAlarmsPartDay ?? [],
+					defaultAlarmsFullDay: defaultAlarmsFullDay ?? [],
+				})
+				return
+			}
+
 			if (!isAfterVersion(34)) {
 				return
 			}
@@ -637,6 +649,49 @@ export default defineStore('calendars', {
 			}
 			if (fullDayChanged) {
 				this.calendarsById[calendar.id].defaultAlarmFullDay = defaultAlarmFullDay
+			}
+		},
+
+		/**
+		 * Change plural default alarm lists (NC35+)
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to modify
+		 * @param {Array} data.defaultAlarmsPartDay
+		 * @param {Array} data.defaultAlarmsFullDay
+		 * @return {Promise}
+		 */
+		async changeCalendarPluralDefaultAlarms({ calendar, defaultAlarmsPartDay, defaultAlarmsFullDay }) {
+			if (!isAfterVersion(35)) {
+				return
+			}
+
+			const partDayPayload = toDavPayload(defaultAlarmsPartDay)
+			const fullDayPayload = toDavPayload(defaultAlarmsFullDay)
+
+			const currentPartDay = calendar.defaultAlarmsPartDay ?? []
+			const currentFullDay = calendar.defaultAlarmsFullDay ?? []
+			const partDayChanged = !defaultAlarmsEqual(currentPartDay, defaultAlarmsPartDay)
+			const fullDayChanged = !defaultAlarmsEqual(currentFullDay, defaultAlarmsFullDay)
+
+			if (!partDayChanged && !fullDayChanged) {
+				return
+			}
+
+			if (partDayChanged) {
+				calendar.dav.defaultAlarmsPartDay = partDayPayload
+			}
+			if (fullDayChanged) {
+				calendar.dav.defaultAlarmsFullDay = fullDayPayload
+			}
+
+			await calendar.dav.update()
+
+			if (partDayChanged) {
+				this.calendarsById[calendar.id].defaultAlarmsPartDay = [...defaultAlarmsPartDay]
+			}
+			if (fullDayChanged) {
+				this.calendarsById[calendar.id].defaultAlarmsFullDay = [...defaultAlarmsFullDay]
 			}
 		},
 
