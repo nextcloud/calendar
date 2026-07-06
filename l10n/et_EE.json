@@ -134,7 +134,7 @@
     "_Items in the trash bin are deleted after {numDays} day_::_Items in the trash bin are deleted after {numDays} days_" : ["Prügikastis olevad objektid kustutatakse {numDays} päeva pärast","Prügikastis olevad objektid kustutatakse {numDays} päeva pärast"],
     "Could not update calendar order." : "Kalendri järjekorda ei õnnestunud uuendada.",
     "Shared calendars" : "Jagatud kalendrid",
-    "Deck" : "Deck",
+    "Deck" : "Kanban",
     "Tasks" : "Ülesanded",
     "Delegated by {name} (read-only)" : "{name} on volitanud sulle kasutamise (vaid lugemisõigustes)",
     "Delegated by {name}" : "{name} on volitanud sulle kasutamise",
