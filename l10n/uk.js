@@ -76,7 +76,7 @@ OC.L10N.register(
     "Month" : "Місяць",
     "Year" : "Рік",
     "List" : "Список",
-    "Filter events …" : "Відфільтрувати події ...",
+    "Filter events …" : "Швидкий фільтр ...",
     "Appointment link was copied to clipboard" : "Посилання на зустріч скопійовано до буфера обміну",
     "Appointment link could not be copied to clipboard" : "Неможливо скопіювати посилання до буфера обміну",
     "Preview" : "Перегляд",
