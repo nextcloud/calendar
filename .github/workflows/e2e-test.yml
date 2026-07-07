@@ -15,7 +15,7 @@ jobs:
       branches-min: ${{ steps.versions.outputs.branches-min }}
     steps:
       - name: Checkout app
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Get version matrix
         id: versions
         uses: icewind1991/nextcloud-version-matrix@8a7bac6300b2f0f3100088b297995a229558ddba # v1.3.2
@@ -38,7 +38,7 @@ jobs:
           php -f nextcloud/occ config:system:set overwritehost --value=localhost
           php -f nextcloud/occ config:system:set overwrite.cli.url --value=https://localhost
       - name: Check out the app
-        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           path: nextcloud/apps/calendar
       - name: Read package.json node and npm engines version
