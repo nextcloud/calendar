@@ -70,6 +70,13 @@ export default {
 				// do nothing
 				return
 			}
+			// Keep the textarea open when the user merely switches to another
+			// browser tab or window. Otherwise the blur fired while the page is
+			// hidden collapses the field back to the linkified view, and the
+			// edit state (and caret position) is lost when the user returns.
+			if (hasFocus === false && document.hidden) {
+				return
+			}
 			this.textareaHasFocus = hasFocus
 		},
 	},
