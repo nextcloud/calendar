@@ -33,7 +33,11 @@
 					:closeAfterClick="true"
 					@click="$emit('update:value', calendar)">
 					<template #icon>
-						<div class="calendar-picker-header__icon">
+						<div class="calendar-picker-header__picker__option__row">
+							<div
+								class="calendar-picker-header__icon__dot"
+								:style="{ 'background-color': calendar.color }" />
+							<span class="calendar-picker-header__picker__option__label">{{ getOptionLabel(calendar) }}</span>
 							<NcAvatar
 								v-if="calendar.isDelegated"
 								class="calendar-picker-header__picker__option__avatar"
@@ -54,13 +58,8 @@
 								:user="getOwnerUserId(calendar)"
 								:displayName="getOwnerDisplayName(calendar)"
 								:size="20" />
-							<div
-								v-else
-								class="calendar-picker-header__icon__dot"
-								:style="{ 'background-color': calendar.color }" />
 						</div>
 					</template>
-					{{ getOptionLabel(calendar) }}
 				</NcActionButton>
 			</template>
 		</NcActions>
@@ -229,8 +228,7 @@ export default {
 
 		/**
 		 * Builds the option label including the "(delegated by X)" suffix
-		 * when applicable. NcActionButton only renders the first text node of
-		 * its default slot, so the suffix must be part of the same string.
+		 * when applicable.
 		 *
 		 * @param {object} calendar The calendar object
 		 * @return {string}
@@ -298,8 +296,25 @@ export default {
 				align-items: center !important;
 			}
 
+			&__row {
+				display: flex;
+				align-items: center;
+				gap: calc(var(--default-grid-baseline) * 2);
+				min-width: 0;
+				padding-inline-start: var(--default-grid-baseline);
+			}
+
+			&__label {
+				flex: 0 1 auto;
+				min-width: 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				text-align: start;
+				white-space: nowrap;
+			}
+
 			&__avatar {
-				margin: auto;
+				flex-shrink: 0;
 			}
 		}
 
@@ -339,6 +354,7 @@ export default {
 			width: $dot-size;
 			height: $dot-size;
 			border-radius: $dot-size;
+			flex-shrink: 0;
 		}
 	}
 }
