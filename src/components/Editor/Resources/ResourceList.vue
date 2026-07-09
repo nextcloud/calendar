@@ -102,10 +102,10 @@
 					@click="toggleGroup(group.name)">
 					<ChevronDown
 						v-if="expandedGroups[group.name]"
-						:size="18" />
+						:size="20" />
 					<ChevronRight
 						v-else
-						:size="18" />
+						:size="20" />
 					<span class="resource-picker__group-name">{{ group.name }}</span>
 					<span class="resource-picker__group-count">
 						{{ group.availableCount }}/{{ group.rooms.length }}
@@ -527,7 +527,7 @@ onMounted(async () => {
 	&__capacity {
 		display: flex;
 		align-items: center;
-		gap: 4px;
+		gap: var(--default-grid-baseline);
 		font-size: calc(var(--default-font-size) * 0.9);
 
 		label {
@@ -537,8 +537,8 @@ onMounted(async () => {
 	}
 
 	&__capacity-input {
-		width: 64px;
-		padding: 4px 6px;
+		width: calc(var(--default-grid-baseline) * 16);
+		padding: var(--default-grid-baseline) calc(var(--default-grid-baseline) * 1.5);
 		border: 2px solid var(--color-border-maxcontrast);
 		border-radius: var(--border-radius);
 		background: var(--color-main-background);
@@ -554,7 +554,7 @@ onMounted(async () => {
 	&__field {
 		display: flex;
 		flex-direction: column;
-		gap: 2px;
+		gap: calc(var(--default-grid-baseline) / 2);
 	}
 
 	&__field-label {
@@ -571,7 +571,7 @@ onMounted(async () => {
 	&__list {
 		display: flex;
 		flex-direction: column;
-		max-height: 400px;
+		max-height: calc(var(--default-grid-baseline) * 100);
 		overflow-y: auto;
 	}
 
@@ -579,9 +579,9 @@ onMounted(async () => {
 		&-header {
 			display: flex;
 			align-items: center;
-			gap: 4px;
+			gap: var(--default-grid-baseline);
 			width: 100%;
-			padding: 6px 4px;
+			padding: calc(var(--default-grid-baseline) * 1.5) var(--default-grid-baseline);
 			border: none;
 			background: none;
 			cursor: pointer;
@@ -608,9 +608,9 @@ onMounted(async () => {
 		&-rooms {
 			display: flex;
 			flex-direction: column;
-			gap: calc(var(--default-grid-baseline) * 1);
-			padding-inline-start: 8px;
-			padding-bottom: 4px;
+			gap: var(--default-grid-baseline);
+			padding-inline-start: calc(var(--default-grid-baseline) * 2);
+			padding-bottom: var(--default-grid-baseline);
 		}
 	}
 

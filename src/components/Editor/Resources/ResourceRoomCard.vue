@@ -140,7 +140,7 @@ function toggleRoom(): void {
 
 <style lang="scss" scoped>
 .room-card {
-	padding: 6px 10px;
+	padding: calc(var(--default-grid-baseline) * 1.5) calc(var(--default-grid-baseline) * 2.5);
 	border-radius: var(--border-radius-large);
 	border: 1px solid var(--color-border);
 	background: var(--color-main-background);
@@ -157,7 +157,7 @@ function toggleRoom(): void {
 	&__row {
 		display: flex;
 		align-items: center;
-		gap: 8px;
+		gap: calc(var(--default-grid-baseline) * 2);
 	}
 
 	&__info {
@@ -183,12 +183,12 @@ function toggleRoom(): void {
 
 	&__status {
 		&--free {
-			color: var(--color-success-text, #2d7a3a);
+			color: var(--color-success-text);
 			font-weight: 600;
 		}
 
 		&--busy {
-			color: var(--color-error-text, #c9302c);
+			color: var(--color-error-text);
 			font-weight: 600;
 		}
 
