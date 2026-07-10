@@ -89,6 +89,11 @@ export default {
 			default: false,
 		},
 
+		availability: {
+			type: String, // 'checking' | 'available' | 'unavailable' | null
+			default: null,
+		},
+
 		attendeeIsOrganizer: {
 			type: Boolean,
 			required: true,
@@ -202,6 +207,24 @@ export default {
 				// No status or status 1.0 indicate that the invitation is pending
 				if (!this.scheduleStatus || this.scheduleStatus === '1.0') {
 					if (this.isResource) {
+						switch (this.availability) {
+							case 'available':
+								return {
+									...acceptedIcon,
+									text: t('calendar', 'Still available'),
+								}
+							case 'unavailable':
+								return {
+									...declinedIcon,
+									text: t('calendar', 'Already booked'),
+								}
+							case 'checking':
+								return {
+									icon: IconNoResponse,
+									text: t('calendar', 'Checking availability'),
+								}
+						}
+
 						return {
 							icon: IconNoResponse,
 							text: t('calendar', 'Will be booked after saving, if available'),
