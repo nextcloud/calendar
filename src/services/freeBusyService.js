@@ -34,7 +34,6 @@ export async function checkResourceAvailability(options, principalEmail, start, 
 		const attendeeEmail = removeMailtoPrefix(attendeeProperty.email)
 		for (const option of options) {
 			if (removeMailtoPrefix(option.email) === attendeeEmail) {
-				options.participationStatus = ''
 				option.isAvailable = false
 				break
 			}
