@@ -44,6 +44,15 @@
 					v-if="isAccessible"
 					:name="$t('calendar', 'Wheelchair accessible')" />
 				<ActionSeparator v-if="seatingCapacity || roomType || hasProjector || hasWhiteboard || isAccessible" />
+				<ActionButton
+					v-if="principal"
+					:closeAfterClick="true"
+					@click="showAvailabilityModal = true">
+					<template #icon>
+						<CalendarSearch :size="20" decorative />
+					</template>
+					{{ $t('calendar', 'Check availability') }}
+				</ActionButton>
 				<ActionButton @click="removeResource">
 					<template #icon>
 						<Delete :size="20" decorative />
@@ -52,6 +61,15 @@
 				</ActionButton>
 			</actions>
 		</div>
+		<RoomAvailabilityModal
+			v-if="showAvailabilityModal"
+			:show="showAvailabilityModal"
+			:startDate="calendarObjectInstance.startDate"
+			:endDate="calendarObjectInstance.endDate"
+			:rooms="[roomPrincipal]"
+			:calendarObjectInstance="calendarObjectInstance"
+			:organizer="currentUserPrincipalAsAttendee"
+			@update:show="(value) => { showAvailabilityModal = value }" />
 	</div>
 </template>
 
@@ -62,11 +80,17 @@ import {
 	NcActions as Actions,
 	NcActionSeparator as ActionSeparator,
 } from '@nextcloud/vue'
+import { mapStores } from 'pinia'
+import CalendarSearch from 'vue-material-design-icons/CalendarSearch.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
+import RoomAvailabilityModal from '../FreeBusy/RoomAvailabilityModal.vue'
+import { mapPrincipalObjectToAttendeeObject } from '../../../models/attendee.js'
 import { formatRoomType } from '../../../models/resourceProps.js'
 import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
+import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
+import usePrincipalsStore from '../../../store/principals.js'
 import { removeMailtoPrefix } from '../../../utils/attendee.js'
 import logger from '../../../utils/logger.js'
 
@@ -78,8 +102,10 @@ export default {
 		ActionCaption,
 		ActionSeparator,
 		Actions,
+		CalendarSearch,
 		Delete,
 		Plus,
+		RoomAvailabilityModal,
 	},
 
 	props: {
@@ -112,10 +138,47 @@ export default {
 	data() {
 		return {
 			principal: null,
+			showAvailabilityModal: false,
 		}
 	},
 
 	computed: {
+		...mapStores(usePrincipalsStore, useCalendarObjectInstanceStore),
+		calendarObjectInstance() {
+			return this.calendarObjectInstanceStore.calendarObjectInstance
+		},
+
+		/**
+		 * The room principal in the shape expected by the availability modal.
+		 * The principal property search returns raw cdav principals where the
+		 * email address is stored in email rather than emailAddress.
+		 *
+		 * @return {?object}
+		 */
+		roomPrincipal() {
+			if (!this.principal) {
+				return null
+			}
+
+			return {
+				displayname: this.principal.displayname,
+				emailAddress: this.principal.email,
+				calendarUserType: this.principal.calendarUserType,
+			}
+		},
+
+		/**
+		 * Return the current user principal as an ORGANIZER attendee object
+		 *
+		 * @return {object}
+		 */
+		currentUserPrincipalAsAttendee() {
+			return mapPrincipalObjectToAttendeeObject(
+				this.principalsStore.getCurrentUserPrincipal,
+				true,
+			)
+		},
+
 		commonName() {
 			if (this.resource.commonName) {
 				return this.resource.commonName
