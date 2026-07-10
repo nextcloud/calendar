@@ -865,6 +865,13 @@ export default {
 		min-width: unset !important;
 	}
 
+	// The cap above is sized for the wide invitees column. In the narrow
+	// resources column long statuses would still overflow onto the actions
+	// menu, so clamp them to the column width instead.
+	.app-full-footer__right :deep(.avatar-participation-status__text) {
+		max-width: calc(var(--total-width) / 3 - var(--column-gap) / 2 - 58px - var(--default-clickable-area)) !important;
+	}
+
 	&__header {
 		display: flex;
 		flex-direction: column;
