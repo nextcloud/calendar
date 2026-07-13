@@ -101,6 +101,10 @@ export interface CalendarInterface {
 	defaultAlarmPartDay: number | null
 	/** Default alarm/reminder for full-day events in seconds (null if disabled) */
 	defaultAlarmFullDay: number | null
+	/** Handle of the countdown interval while the calendar is pending deletion */
+	deleteInterval?: ReturnType<typeof setInterval>
+	/** Seconds remaining until a pending deletion is executed */
+	countdown?: number
 }
 
 /**
