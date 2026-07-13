@@ -134,8 +134,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.calendar-picker-option {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--default-grid-baseline) * 2);
+	min-width: 0;
+}
+
+.calendar-picker-option__color-indicator {
+	width: calc(var(--default-grid-baseline) * 3);
+	height: calc(var(--default-grid-baseline) * 3);
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.calendar-picker-option__label {
+	flex: 1 1 auto;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
 .calendar-picker-option__delegation {
 	color: var(--color-text-maxcontrast);
 	margin-inline-start: 4px;
+}
+
+.calendar-picker-option__avatar {
+	flex-shrink: 0;
 }
 </style>
