@@ -669,6 +669,12 @@ export default {
 				thisAndAllFuture = true
 			}
 
+			// If this is a new event, mark it as dirty so that it is saved even when no changes were made
+			// (e.g. when creating an event and immediately saving it without title etc.)
+			if (this.isNew) {
+				this.calendarObjectInstance.eventComponent.markDirty()
+			}
+
 			this.isLoading = true
 			this.isSaving = true
 			try {
