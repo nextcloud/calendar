@@ -1,3 +1,18 @@
+## [5.5.22](https://github.com/nextcloud/calendar/compare/v5.5.21...v5.5.22) (2026-07-13)
+
+
+### Bug Fixes
+
+* **deps:** Fix npm audit ([8a1dca0](https://github.com/nextcloud/calendar/commit/8a1dca00acf6601012ad2a2c7a36b331a59bfc27))
+* **l10n:** Update translations from Transifex ([6c1269f](https://github.com/nextcloud/calendar/commit/6c1269f327ee48c4a91914a5f83216d7b7bc3363))
+* **l10n:** Update translations from Transifex ([dbb45a0](https://github.com/nextcloud/calendar/commit/dbb45a02258c4054a00916bdfa4450fe163c4469))
+* **l10n:** Update translations from Transifex ([7a87bc0](https://github.com/nextcloud/calendar/commit/7a87bc040e0e6933269cd3f4c869b4cf6bec5835))
+* **l10n:** Update translations from Transifex ([23b0189](https://github.com/nextcloud/calendar/commit/23b01893d778a275ef427acdf9268be6248a7d81))
+* **l10n:** Update translations from Transifex ([3325ab3](https://github.com/nextcloud/calendar/commit/3325ab3719422b6a742511330825483dca0bbcb3))
+* **l10n:** Update translations from Transifex ([e1c03a5](https://github.com/nextcloud/calendar/commit/e1c03a5d2b74b33e8c372b35c66f62602f3199f3))
+
+
+
 ## [5.5.21](https://github.com/nextcloud/calendar/compare/v5.5.20...v5.5.21) (2026-07-02)
 
 
