@@ -190,10 +190,6 @@ export default {
 			serverCalendars: 'sortedCalendarsSubscriptions',
 		}),
 
-		loadingKeyCalendars() {
-			return this._uid + '-loading-placeholder-calendars'
-		},
-
 		isDelegationSupported() {
 			return isAfterVersion(34)
 		},

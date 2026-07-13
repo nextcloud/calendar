@@ -52,6 +52,7 @@ import {
 	NcButton,
 	NcCheckboxRadioSwitch,
 } from '@nextcloud/vue'
+import { useId } from 'vue'
 import RepeatFirstLastSelect from './RepeatFirstLastSelect.vue'
 import RepeatOnTheSelect from './RepeatOnTheSelect.vue'
 
@@ -81,6 +82,11 @@ export default {
 		},
 	},
 
+	setup() {
+		const radioInputId = useId() + '-radio-select'
+		return { radioInputId }
+	},
+
 	computed: {
 		/**
 		 * @return {object[]}
@@ -104,13 +110,6 @@ export default {
 		 */
 		byMonthDayEnabled() {
 			return this.byMonthDay.length > 0
-		},
-
-		/**
-		 * @return {string}
-		 */
-		radioInputId() {
-			return this._uid + '-radio-select'
 		},
 	},
 

@@ -75,6 +75,7 @@ import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
 import FullCalendar from '@fullcalendar/vue3'
 import { NcButton, NcDateTimePickerNative, NcModal, NcPopover } from '@nextcloud/vue'
 import { mapState } from 'pinia'
+import { useId } from 'vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
@@ -137,6 +138,11 @@ export default {
 		},
 	},
 
+	setup() {
+		const uniqueComponentId = useId()
+		return { uniqueComponentId }
+	},
+
 	data() {
 		return {
 			currentDate: this.startDate,
@@ -181,12 +187,12 @@ export default {
 		eventSources() {
 			return [
 				freeBusyResourceEventSource(
-					this._uid,
+					this.uniqueComponentId,
 					this.organizer.attendeeProperty,
 					this.attendees.map((a) => a.attendeeProperty),
 				),
 				freeBusyFakeBlockingEventSource(
-					this._uid,
+					this.uniqueComponentId,
 					this.resources,
 					this.currentStart,
 					this.currentEnd,

@@ -85,9 +85,6 @@ export default {
 
 	computed: {
 		...mapStores(useCalendarsStore, usePrincipalsStore),
-		uid() {
-			return this._uid
-		},
 
 		/**
 		 * @return {string}
