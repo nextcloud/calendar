@@ -146,10 +146,20 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 			foreach ($searchResult as $calendarEvent) {
 				// Find first recurrence in the future
 				$recurrence = null;
+				$isAllDay = false;
 				foreach ($calendarEvent['objects'] as $object) {
 					/** @var DateTimeImmutable $startDate */
 					$startDate = $object['DTSTART'][0];
-					if ($startDate->getTimestamp() >= $dateTime->getTimestamp()) {
+					$time = $startDate instanceof DateTimeImmutable ? $startDate->format('H:i:s') : '';
+					$isAllDay = $time === '00:00:00' || $time === '23:59:59';
+					if ($isAllDay) {
+						// All-day events have no time component; compare by calendar date
+						// so today's events are not excluded by a timestamp comparison
+						if ($startDate->format('Y-m-d') >= $dateTime->format('Y-m-d')) {
+							$recurrence = $object;
+							break;
+						}
+					} elseif ($startDate->getTimestamp() >= $dateTime->getTimestamp()) {
 						$recurrence = $object;
 						break;
 					}
@@ -159,9 +169,13 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 					continue;
 				}
 
+				$subtitle = $isAllDay
+					? $this->l10n->t('All day')
+					: $this->dateTimeFormatter->formatTimeSpan(DateTime::createFromImmutable($startDate));
+
 				$widget = new WidgetItem(
 					$recurrence['SUMMARY'][0] ?? 'New Event',
-					$this->dateTimeFormatter->formatTimeSpan(DateTime::createFromImmutable($startDate)),
+					$subtitle,
 					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.index', ['objectId' => $calendarEvent['uid']])),
 					$this->getCalendarDotIconUrl($calendar->getDisplayColor()),
 					(string)$startDate->getTimestamp(),
