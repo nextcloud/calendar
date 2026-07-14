@@ -103,6 +103,7 @@ OC.L10N.register(
     "Status" : "Estatus",
     "Role" : "Rol",
     "Remove group" : "Eliminar grupo",
+    "Start date" : "Fecha de inicio",
     "Repeat" : "Repetir",
     "never" : "nunca",
     "after" : "después",
