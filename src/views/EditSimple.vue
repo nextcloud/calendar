@@ -1001,4 +1001,7 @@ export default {
 	}
 }
 
+:deep(.checkbox-content__icon) {
+	margin-block: 0 !important;
+}
 </style>
