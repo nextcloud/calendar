@@ -17,6 +17,7 @@
 			}"
 			:menuName="getOptionLabel(value)"
 			:forceName="true"
+			:forceMenu="true"
 			:disabled="isDisabled">
 			<template #icon>
 				<div class="calendar-picker-header__icon">
