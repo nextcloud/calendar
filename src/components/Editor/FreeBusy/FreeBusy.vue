@@ -271,6 +271,7 @@ import { isRTL } from '@nextcloud/l10n'
 import { NcActionButton, NcActions, NcButton, NcDateTimePickerNative, NcListItemIcon, NcModal, NcPopover, NcSelect, NcUserBubble } from '@nextcloud/vue'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
 import { mapState } from 'pinia'
+import { useId } from 'vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
@@ -378,7 +379,8 @@ export default {
 
 	setup() {
 		const isMobile = useIsMobile()
-		return { isMobile }
+		const uniqueComponentId = useId()
+		return { isMobile, uniqueComponentId }
 	},
 
 	data() {
@@ -466,7 +468,7 @@ export default {
 			const organizer = new AttendeeProperty('ATTENDEE', this.organizer.attendeeProperty.email)
 			organizer.commonName = this.organizer.attendeeProperty.commonName
 			return [...attendees, organizer].map((a) => freeBusyEventSource(
-				this._uid,
+				this.uniqueComponentId,
 				this.organizer.attendeeProperty,
 				a,
 			))
