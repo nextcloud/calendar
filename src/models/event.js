@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { DateTimeValue, DurationValue } from '@nextcloud/calendar-js'
+import { DurationValue } from '@nextcloud/calendar-js'
 import { markRaw } from 'vue'
-import { getClosestCSS3ColorNameForHex, getHexForColorName } from '../utils/color.js'
+import { getHexForColorName } from '../utils/color.js'
 import { getDateFromDateTimeValue } from '../utils/date.js'
 import { mapAlarmComponentToAlarmObject } from './alarm.js'
 import { mapAttachmentPropertyToAttchmentObject } from './attachment.js'
@@ -187,53 +187,58 @@ function mapEventComponentToEventObject(eventComponent) {
  *
  * @param {object} eventObject The calendar-object-instance object
  * @param {EventComponent} eventComponent The calendar-js EventComponent object
- * @param {boolean} resetAttendeeStatus Whether or not to reset the attendee status
  */
-function copyCalendarObjectInstanceIntoEventComponent(eventObject, eventComponent, resetAttendeeStatus = false) {
-	eventComponent.title = eventObject.title
-	eventComponent.location = eventObject.location
-	eventComponent.description = eventObject.description
-	eventComponent.accessClass = eventObject.accessClass
-	eventComponent.status = eventObject.status
-	eventComponent.timeTransparency = eventObject.timeTransparency
+function copyCalendarObjectInstanceIntoEventComponent(eventObject, eventComponent) {
+	const sourceEventComponent = eventObject.eventComponent
 
-	for (const category of eventObject.categories) {
-		eventComponent.addCategory(category)
-	}
-
-	if (eventObject.organizer) {
-		eventComponent.setOrganizerFromNameAndEMail(eventObject.organizer.commonName, eventObject.organizer.uri)
-	}
-
-	for (const alarm of eventObject.alarms) {
-		if (alarm.isRelative) {
-			const duration = DurationValue.fromSeconds(alarm.relativeTrigger)
-			eventComponent.addRelativeAlarm(alarm.type, duration, alarm.relativeIsRelatedToStart)
-		} else {
-			const date = DateTimeValue.fromJSDate(alarm.absoluteDate)
-			eventComponent.addAbsoluteAlarm(alarm.type, date)
+	const unexpectedRecurrenceProperties = new Set([
+		'RRULE',
+		'EXRULE',
+		'RDATE',
+		'EXDATE',
+	])
+	for (const property of sourceEventComponent.getPropertyIterator()) {
+		if (unexpectedRecurrenceProperties.has(property.name)) {
+			throw new Error(`Illegal argument: Event objects has recurrence related property ${property.name}.`)
 		}
 	}
 
-	for (const attendee of eventObject.attendees) {
-		if (resetAttendeeStatus) {
-			attendee.attendeeProperty.participationStatus = 'NEEDS-ACTION'
-			attendee.attendeeProperty.rsvp = true
+	const propertiesExcludedFromCopying = new Set([
+		// These properties are regenerated for the new copy.
+		'UID',
+		'SEQUENCE',
+		'CREATED',
+		'DTSTAMP',
+		'LAST-MODIFIED',
+		// Currently only copying as exact occurrences.
+		// Therefore, do not preserve any RECURRENCE-ID.
+		'RECURRENCE-ID',
+	])
+	for (const property of sourceEventComponent.getPropertyIterator()) {
+		if (propertiesExcludedFromCopying.has(property.name)) {
+			continue
 		}
-
-		eventComponent.addProperty(attendee.attendeeProperty)
+		const successful = eventComponent.addProperty(property.clone())
+		if (!successful) {
+			throw new Error(`Illegal state: Property ${property.name} could not be copied.`)
+		}
 	}
 
-	for (const rule of eventObject.eventComponent.getPropertyIterator('RRULE')) {
-		eventComponent.addProperty(rule)
+	// VALARM is supported in our app.
+	// Other sub components could be PARTICIPANT, VLOCATION, VRESOURCE.
+	// They might be set by other clients or apps.
+	// So preservsem when copying.
+	// Same behaviour applies events are copied for recurrence exceptions.
+	for (const subComponent of sourceEventComponent.getComponentIterator()) {
+		const successful = eventComponent.addComponent(subComponent.clone())
+		if (!successful) {
+			throw new Error(`Illegal state: Component ${subComponent.name} could not be copied.`)
+		}
 	}
 
-	if (eventObject.eventComponent.hasProperty('X-NC-INVITATION-FORWARDING')) {
-		eventComponent.updatePropertyWithValue('X-NC-INVITATION-FORWARDING', eventObject.invitationForwarding)
-	}
-
-	if (eventObject.customColor) {
-		eventComponent.color = getClosestCSS3ColorNameForHex(eventObject.customColor)
+	for (const attendee of sourceEventComponent.getAttendeeIterator()) {
+		attendee.participationStatus = 'NEEDS-ACTION'
+		attendee.rsvp = true
 	}
 }
 
