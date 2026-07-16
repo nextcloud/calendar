@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { detectColor, uidToHexColor } from '../utils/color.js'
+import { normalizeFromDav } from '../utils/defaultCalendarAlarms.js'
 import { isAfterVersion } from '../utils/nextcloudVersion.ts'
 import { mapDavShareeToCalendarShareObject } from './calendarShare.js'
 
@@ -72,6 +73,9 @@ function getDefaultCalendarObject(props = {}) {
 		defaultAlarmPartDay: null,
 		// Default alarm/reminder for full-day events in seconds (null if disabled)
 		defaultAlarmFullDay: null,
+		// Default alarm lists for part-day / full-day events (NC35+)
+		defaultAlarmsPartDay: [],
+		defaultAlarmsFullDay: [],
 		...props,
 	}
 }
@@ -117,6 +121,12 @@ function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 	const defaultAlarmPartDay = isAfterVersion(34) && calendar.defaultAlarmPartDay !== undefined ? calendar.defaultAlarmPartDay : null
 	// Default alarm for full-day events in this calendar (in seconds)
 	const defaultAlarmFullDay = isAfterVersion(34) && calendar.defaultAlarmFullDay !== undefined ? calendar.defaultAlarmFullDay : null
+	const defaultAlarmsPartDay = isAfterVersion(35)
+		? normalizeFromDav(calendar.defaultAlarmsPartDay, defaultAlarmPartDay)
+		: []
+	const defaultAlarmsFullDay = isAfterVersion(35)
+		? normalizeFromDav(calendar.defaultAlarmsFullDay, defaultAlarmFullDay)
+		: []
 
 	let isSharedWithMe = false
 	if (!currentUserPrincipal) {
@@ -177,6 +187,8 @@ function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 		transparency,
 		defaultAlarmPartDay,
 		defaultAlarmFullDay,
+		defaultAlarmsPartDay,
+		defaultAlarmsFullDay,
 		dav: calendar,
 	})
 }
