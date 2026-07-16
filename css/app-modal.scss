@@ -15,7 +15,7 @@
 			h2 {
 				margin: 0;
 			}
-			
+
 		}
 
 		fieldset {
@@ -23,7 +23,7 @@
 
 			header {
 
-				h3 {	
+				h3 {
 					font-size: 20px;
 					font-weight: 600;
 					margin: var(--default-grid-baseline) 0;
@@ -70,6 +70,10 @@
 		margin-top: calc(var(--default-grid-baseline) * 4);
 		margin-inline-start: auto;
 	}
+}
+
+.modal-mask.add-talk-modal {
+	z-index: 10000 !important;
 }
 
 .app-config-modal-confirmation {
