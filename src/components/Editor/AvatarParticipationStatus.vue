@@ -54,11 +54,6 @@ export default {
 	},
 
 	props: {
-		avatarLink: {
-			type: String,
-			required: true,
-		},
-
 		participationStatus: {
 			type: String,
 			required: true,

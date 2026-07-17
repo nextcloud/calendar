@@ -36,7 +36,6 @@
 					:organizer="calendarObjectInstance.organizer"
 					:startDate="calendarObjectInstance.startDate"
 					:endDate="calendarObjectInstance.endDate"
-					:eventTitle="calendarObjectInstance.title"
 					:alreadyInvitedEmails="alreadyInvitedEmails"
 					:showDoneButton="true"
 					:allDay="calendarObjectInstance.eventComponent.isAllDay()"

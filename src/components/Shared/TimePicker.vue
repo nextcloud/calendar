@@ -14,8 +14,6 @@
 
 <script>
 import { NcDateTimePickerNative as DateTimePicker } from '@nextcloud/vue'
-import { mapState } from 'pinia'
-import useSettingsStore from '../../store/settings.js'
 
 export default {
 	name: 'TimePicker',
@@ -35,12 +33,6 @@ export default {
 	data() {
 		return {
 		}
-	},
-
-	computed: {
-		...mapState(useSettingsStore, {
-			locale: 'momentLocale',
-		}),
 	},
 
 	methods: {

@@ -13,8 +13,6 @@
 			v-if="showRoomAvailabilityModal"
 			:showDialog="showRoomAvailabilityModal"
 			:calendarObjectInstance="calendarObjectInstance"
-			:startDate="calendarObjectInstance.startDate"
-			:endDate="calendarObjectInstance.endDate"
 			@update:showDialog="setShowRoomAvailabilityModal" />
 		<NcSelect
 			v-model="selectedResource"

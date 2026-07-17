@@ -18,7 +18,6 @@
 				v-for="resource in resources"
 				:key="resource.email"
 				:resource="resource"
-				:isReadOnly="isReadOnly"
 				:organizerDisplayName="organizerDisplayName"
 				:isViewedByOrganizer="isViewedByOrganizer"
 				@removeResource="removeResource" />
@@ -27,7 +26,6 @@
 				v-for="room in suggestedRooms"
 				:key="room.email + '-suggested'"
 				:resource="room"
-				:isReadOnly="false"
 				:organizerDisplayName="organizerDisplayName"
 				:isSuggestion="true"
 				:isViewedByOrganizer="isViewedByOrganizer"

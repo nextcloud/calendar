@@ -355,11 +355,6 @@ export default {
 			default: false,
 		},
 
-		eventTitle: {
-			type: String,
-			default: '',
-		},
-
 		alreadyInvitedEmails: {
 			type: Array,
 			default: () => [],
@@ -412,7 +407,6 @@ export default {
 			locale: 'momentLocale',
 		}),
 
-		...mapState(useSettingsStore, ['showWeekends', 'showWeekNumbers', 'timezone']),
 		...mapState(useCalendarsStore, {
 			personalCalendarColor: 'getPersonalCalendarColor',
 		}),

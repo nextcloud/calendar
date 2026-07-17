@@ -51,11 +51,6 @@ export default {
 			default: null,
 		},
 
-		prefix: {
-			type: String,
-			default: null,
-		},
-
 		min: {
 			type: Date,
 			default: null,

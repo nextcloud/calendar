@@ -38,11 +38,6 @@ export default {
 	},
 
 	props: {
-		userId: {
-			type: String,
-			required: true,
-		},
-
 		userDisplayName: {
 			type: String,
 			required: true,

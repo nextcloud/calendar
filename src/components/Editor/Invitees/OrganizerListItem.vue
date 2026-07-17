@@ -7,7 +7,6 @@
 	<div class="invitees-list-item">
 		<AvatarParticipationStatus
 			:attendeeIsOrganizer="true"
-			:avatarLink="avatarLink"
 			:isViewedByOrganizer="isViewedByOrganizer"
 			:isResource="isResource"
 			:commonName="commonName"

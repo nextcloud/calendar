@@ -28,7 +28,6 @@
 							<DatePicker
 								:date="startDate"
 								:ariaLabel="$t('calendar', 'Start date')"
-								prefix="from"
 								@change="changeStartDate" />
 							<DatePicker
 								v-if="!isAllDay"
@@ -65,7 +64,6 @@
 							<DatePicker
 								:date="endDate"
 								:ariaLabel="$t('calendar', 'End date')"
-								prefix="to"
 								@change="changeEndDate" />
 							<DatePicker
 								v-if="!isAllDay"
