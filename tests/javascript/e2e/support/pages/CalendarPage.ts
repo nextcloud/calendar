@@ -5,6 +5,7 @@
 
 import type { Locator, Page } from '@playwright/test'
 
+import { EditSimpleDialog } from './EditSimpleDialog.ts'
 import { PublicCalendarSubscriptionDialog } from './PublicCalendarSubscriptionDialog.ts'
 
 /**
@@ -12,10 +13,8 @@ import { PublicCalendarSubscriptionDialog } from './PublicCalendarSubscriptionDi
  */
 export class CalendarPage {
 	calendarNavigation: Locator
-	publicCalendarSubscriptionDialog: PublicCalendarSubscriptionDialog
 
 	constructor(private readonly page: Page) {
-		this.publicCalendarSubscriptionDialog = new PublicCalendarSubscriptionDialog(page)
 		this.calendarNavigation = page.getByRole('navigation', { name: 'Calendar navigation' })
 	}
 
@@ -25,5 +24,27 @@ export class CalendarPage {
 
 	async expectCalendarExists(calendarName: string) {
 		return this.calendarNavigation.getByRole('link', { name: calendarName }).isVisible()
+	}
+
+	async openPublicCalendarSubscriptionDialog() {
+		await this.page
+			.getByText('My calendarsAdd new')
+			.getByRole('button', { name: 'Actions' })
+			.click()
+		await this.page.getByRole('menuitem', { name: 'Add custom public calendar' }).click()
+
+		return new PublicCalendarSubscriptionDialog(this.page)
+	}
+
+	async createNewEvent() {
+		await this.page.getByRole('button', { name: 'Create new event' }).click()
+
+		// Wait for autofocus (`v-focus`) to complete before continuing with any further actions.
+        // Focus changing suddenly in between other actions can break tests.
+		await this.page.getByRole('textbox', { name: 'Title' })
+			.and(this.page.locator(':focus'))
+			.waitFor({ state: 'attached' })
+
+		return new EditSimpleDialog(this.page)
 	}
 }
