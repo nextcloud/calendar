@@ -6,7 +6,7 @@
 <template>
 	<NcModal
 		size="small"
-		class="modal"
+		class="modal add-talk-modal"
 		:name="t('calendar', 'Select a Talk Room')"
 		@close="$emit('close', $event)">
 		<div class="modal-content">
