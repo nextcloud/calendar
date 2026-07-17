@@ -7,19 +7,19 @@
 	<div>
 		<div
 			v-if="showPopover && !isViewing"
-			ref="mask"
 			class="modal-mask"
 			:class="{
 				'modal-mask--opaque': dark,
 				'modal-mask--light': lightBackdrop,
 			}"
-			role="dialog"
-			aria-modal="true"
 			tabindex="-1"
 			@click.self="cancel(false)" />
 		<div
 			v-if="showPopover"
 			class="event-popover"
+			role="dialog"
+			aria-modal="true"
+			:aria-label="t('calendar', 'Simple event editor')"
 			:style="{
 				...popoverStyle,
 				pointerEvents: popoverReady ? 'auto' : 'none',
