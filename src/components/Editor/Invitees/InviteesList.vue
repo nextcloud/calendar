@@ -441,16 +441,18 @@ export default {
 				attendee,
 			})
 			this.recentAttendees = this.recentAttendees.filter((a) => a.uri !== attendee.email)
+
+			if (this.calendarObjectInstance.attendees.length === 0) {
+				showWarning(this.$t('calendar', 'Please add at least one attendee to use the "Find a time" feature.'))
+				this.closeFreeBusy()
+			}
 		},
 
 		openFreeBusy() {
 			this.showFreeBusyModel = true
 		},
 
-		closeFreeBusy(showNoAttendeesToast = false) {
-			if (showNoAttendeesToast) {
-				showWarning(this.$t('calendar', 'Please add at least one attendee to use the "Find a time" feature.'))
-			}
+		closeFreeBusy() {
 			this.showFreeBusyModel = false
 		},
 
