@@ -3,6 +3,67 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type AppointmentConfig from '@/models/appointmentConfig.js'
+
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import {
+	NcActionButton as ActionButton,
+	NcActionLink as ActionLink,
+	NcAppNavigationItem as AppNavigationItem,
+} from '@nextcloud/vue'
+import { ref } from 'vue'
+import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
+import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
+import LinkVariantIcon from 'vue-material-design-icons/Link.vue'
+import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
+import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
+import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
+import AppointmentConfigModal from '@/components/AppointmentConfigModal.vue'
+import logger from '@/utils/logger.js'
+
+const props = defineProps<{
+	config: AppointmentConfig
+}>()
+
+defineEmits<{
+	delete: []
+}>()
+
+const showEditor = ref(false)
+const isDuplicate = ref(false)
+
+function openEditor(): void {
+	isDuplicate.value = false
+	showEditor.value = true
+}
+
+function closeEditor(): void {
+	showEditor.value = false
+	isDuplicate.value = false
+}
+
+function hasClipboard(): boolean {
+	return Boolean(navigator && navigator.clipboard)
+}
+
+function duplicate(): void {
+	isDuplicate.value = true
+	showEditor.value = true
+}
+
+async function copyLink(): Promise<void> {
+	try {
+		await navigator.clipboard.writeText(props.config.bookingUrl)
+		showSuccess(t('calendar', 'Appointment link was copied to clipboard'))
+	} catch (error) {
+		logger.error('Failed to copy appointment link to clipboard', { error })
+		showError(t('calendar', 'Appointment link could not be copied to clipboard'))
+	}
+}
+</script>
+
 <template>
 	<div>
 		<AppNavigationItem
@@ -21,7 +82,7 @@
 					{{ t('calendar', 'Preview') }}
 				</ActionLink>
 				<ActionButton
-					v-if="hasClipboard"
+					v-if="hasClipboard()"
 					:closeAfterClick="true"
 					@click="copyLink">
 					<template #icon>
@@ -39,7 +100,7 @@
 				</ActionButton>
 				<ActionButton
 					:closeAfterClick="true"
-					@click="openEditModal">
+					@click="openEditor">
 					<template #icon>
 						<PencilIcon :size="20" />
 					</template>
@@ -47,7 +108,7 @@
 				</ActionButton>
 				<ActionButton
 					:closeAfterClick="true"
-					@click="$emit('delete', $event)">
+					@click="$emit('delete')">
 					<template #icon>
 						<DeleteIcon :size="20" />
 					</template>
@@ -56,94 +117,10 @@
 			</template>
 		</AppNavigationItem>
 		<AppointmentConfigModal
-			v-if="showModal"
+			v-if="showEditor"
 			:isNew="isDuplicate"
 			:isDuplicate="isDuplicate"
 			:config="config"
-			@close="closeModal" />
+			@close="closeEditor" />
 	</div>
 </template>
-
-<script>
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import {
-	NcActionButton as ActionButton,
-	NcActionLink as ActionLink,
-	NcAppNavigationItem as AppNavigationItem,
-} from '@nextcloud/vue'
-import CalendarCheckIcon from 'vue-material-design-icons/CalendarCheck.vue'
-import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
-import LinkVariantIcon from 'vue-material-design-icons/Link.vue'
-import OpenInNewIcon from 'vue-material-design-icons/OpenInNew.vue'
-import PencilIcon from 'vue-material-design-icons/PencilOutline.vue'
-import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
-import AppointmentConfigModal from '../../AppointmentConfigModal.vue'
-import AppointmentConfig from '../../../models/appointmentConfig.js'
-import logger from '../../../utils/logger.js'
-
-export default {
-	name: 'AppointmentConfigListItem',
-	components: {
-		AppointmentConfigModal,
-		AppNavigationItem,
-		ActionButton,
-		ActionLink,
-		ContentDuplicate,
-		DeleteIcon,
-		OpenInNewIcon,
-		PencilIcon,
-		CalendarCheckIcon,
-		LinkVariantIcon,
-	},
-
-	props: {
-		config: {
-			type: AppointmentConfig,
-			required: true,
-		},
-	},
-
-	emits: ['delete'],
-
-	data() {
-		return {
-			showModal: false,
-			loading: false,
-			isDuplicate: false,
-		}
-	},
-
-	computed: {
-		hasClipboard() {
-			return navigator && navigator.clipboard
-		},
-	},
-
-	methods: {
-		closeModal() {
-			this.showModal = false
-			this.isDuplicate = false
-		},
-
-		openEditModal() {
-			this.isDuplicate = false
-			this.showModal = true
-		},
-
-		duplicate() {
-			this.isDuplicate = true
-			this.showModal = true
-		},
-
-		async copyLink() {
-			try {
-				await navigator.clipboard.writeText(this.config.bookingUrl)
-				showSuccess(this.$t('calendar', 'Appointment link was copied to clipboard'))
-			} catch (error) {
-				logger.error('Failed to copy appointment link to clipboard', { error })
-				showError(this.$t('calendar', 'Appointment link could not be copied to clipboard'))
-			}
-		},
-	},
-}
-</script>

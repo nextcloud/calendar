@@ -3,64 +3,49 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import { NcTextField } from '@nextcloud/vue'
+import { computed } from 'vue'
+
+const props = withDefaults(defineProps<{
+	label: string
+	modelValue?: number
+	allowEmpty?: boolean
+}>(), {
+	modelValue: undefined,
+	allowEmpty: false,
+})
+
+const emit = defineEmits<{
+	'update:modelValue': [value: number | undefined]
+}>()
+
+const internalValue = computed<number | undefined>({
+	get() {
+		return props.modelValue ?? (props.allowEmpty ? undefined : 0)
+	},
+
+	set(value: number | undefined) {
+		if (value === undefined || Number.isNaN(value)) {
+			return
+		}
+		emit('update:modelValue', value ?? (props.allowEmpty ? undefined : 0))
+	},
+})
+
+</script>
+
 <template>
 	<div class="number-input">
 		<label for="number-input">{{ label }}</label>
 		<NcTextField
 			id="number-input"
-			:modelValue="String(realValue ?? '')"
+			v-model="internalValue"
 			:label="label"
 			:labelOutside="true"
-			type="number"
-			@update:modelValue="change" />
+			type="number" />
 	</div>
 </template>
-
-<script>
-import { NcTextField } from '@nextcloud/vue'
-
-export default {
-	name: 'NumberInput',
-	components: {
-		NcTextField,
-	},
-
-	props: {
-		label: {
-			type: String,
-			required: true,
-		},
-
-		modelValue: {
-			type: Number,
-			default: undefined,
-		},
-
-		allowEmpty: {
-			type: Boolean,
-			default: false,
-		},
-	},
-
-	emits: ['update:modelValue'],
-
-	computed: {
-		realValue() {
-			if (this.allowEmpty) {
-				return this.modelValue
-			}
-
-			return this.modelValue ?? 0
-		},
-	},
-
-	methods: {
-		change(value) {
-			this.$emit('update:modelValue', parseInt(value))
-		},
-	},
-}
-</script>
 
 <style lang="scss" scoped>
 // TODO: move to global scss file
