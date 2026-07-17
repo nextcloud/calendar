@@ -135,6 +135,8 @@ export default {
 		},
 	},
 
+	emits: ['addSuggestion', 'removeResource'],
+
 	data() {
 		return {
 			principal: null,

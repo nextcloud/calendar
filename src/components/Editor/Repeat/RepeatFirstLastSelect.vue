@@ -38,6 +38,8 @@ export default {
 		},
 	},
 
+	emits: ['change'],
+
 	computed: {
 		options() {
 			return [1, 2, 3, 4, 5, -2, -1].map((ordinal) => ({

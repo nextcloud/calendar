@@ -42,6 +42,8 @@ export default {
 		},
 	},
 
+	emits: ['update:modelValue'],
+
 	computed: {
 		realValue() {
 			if (this.allowEmpty) {

@@ -37,6 +37,8 @@ export default {
 		},
 	},
 
+	emits: ['update:modelValue'],
+
 	data() {
 		return {
 			options: [

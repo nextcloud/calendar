@@ -55,6 +55,8 @@ export default {
 		},
 	},
 
+	emits: ['update:value'],
+
 	computed: {
 		isRTL() {
 			return isRTL(getLanguage())

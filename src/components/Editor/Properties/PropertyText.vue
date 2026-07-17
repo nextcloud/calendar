@@ -70,6 +70,8 @@ export default {
 		},
 	},
 
+	emits: ['update:value'],
+
 	computed: {
 		display() {
 			if (this.isReadOnly) {

@@ -138,6 +138,8 @@ export default {
 		},
 	},
 
+	emits: ['update:show'],
+
 	setup() {
 		const uniqueComponentId = useId()
 		return { uniqueComponentId }

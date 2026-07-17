@@ -122,6 +122,8 @@ export default {
 		},
 	},
 
+	emits: ['saveThisOnly', 'saveThisAndAllFuture', 'showMore'],
+
 	computed: {
 		showSaveButton() {
 			return !this.isReadOnly && this.isNew && !this.canCreateRecurrenceException

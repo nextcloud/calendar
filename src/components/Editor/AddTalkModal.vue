@@ -131,6 +131,8 @@ export default {
 		},
 	},
 
+	emits: ['close', 'updateDescription', 'updateLocation'],
+
 	setup() {
 		return {
 			canCreateConversations,

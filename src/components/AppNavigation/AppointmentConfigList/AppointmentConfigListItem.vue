@@ -103,6 +103,8 @@ export default {
 		},
 	},
 
+	emits: ['delete'],
+
 	data() {
 		return {
 			showModal: false,

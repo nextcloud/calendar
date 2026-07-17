@@ -53,6 +53,8 @@ export default {
 		PropertyMixin,
 	],
 
+	emits: ['update:value'],
+
 	computed: {
 		display() {
 			return true

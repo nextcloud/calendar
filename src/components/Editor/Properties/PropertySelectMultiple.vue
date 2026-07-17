@@ -86,6 +86,8 @@ export default {
 		},
 	},
 
+	emits: ['removeSingleValue', 'addSingleValue'],
+
 	data() {
 		return {
 			selectionData: [],

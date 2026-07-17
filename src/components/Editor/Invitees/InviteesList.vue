@@ -160,6 +160,8 @@ export default {
 		},
 	},
 
+	emits: ['updateDates'],
+
 	data() {
 		return {
 			creatingTalkRoom: false,

@@ -173,6 +173,8 @@ export default {
 		},
 	},
 
+	emits: ['forceThisAndAllFuture'],
+
 	data() {
 		return {
 			showOptions: false,

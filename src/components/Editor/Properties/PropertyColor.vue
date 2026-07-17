@@ -81,6 +81,8 @@ export default {
 		},
 	},
 
+	emits: ['update:value'],
+
 	data() {
 		return {
 			selectorOpen: false,
