@@ -46,6 +46,8 @@ export default {
 		},
 	},
 
+	emits: ['change'],
+
 	computed: {
 		/**
 		 * This returns a list of options for the unit select.

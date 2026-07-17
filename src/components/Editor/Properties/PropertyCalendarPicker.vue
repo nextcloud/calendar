@@ -56,6 +56,8 @@ export default {
 		},
 	},
 
+	emits: ['selectCalendar'],
+
 	computed: {
 		display() {
 			return this.calendar !== undefined

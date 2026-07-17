@@ -230,6 +230,8 @@ export default {
 		},
 	},
 
+	emits: ['updateStartDate', 'updateStartTime', 'updateStartTimezone', 'updateEndTimezone', 'updateEndDate', 'updateEndTime'],
+
 	data() {
 		return {
 			/**

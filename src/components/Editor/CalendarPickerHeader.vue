@@ -120,6 +120,8 @@ export default {
 		},
 	},
 
+	emits: ['update:value'],
+
 	computed: {
 		...mapStores(usePrincipalsStore),
 		/**

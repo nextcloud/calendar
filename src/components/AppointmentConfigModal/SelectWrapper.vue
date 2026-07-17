@@ -48,6 +48,8 @@ export default {
 		},
 	},
 
+	emits: ['update:modelValue'],
+
 	data() {
 		return {
 			id: randomId(),

@@ -212,6 +212,8 @@ export default {
 		},
 	},
 
+	emits: ['removeAlarm'],
+
 	data() {
 		return {
 			isEditing: false,

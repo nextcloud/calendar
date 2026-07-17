@@ -63,6 +63,8 @@ export default {
 		},
 	},
 
+	emits: ['update:modelValue', 'update:enabled'],
+
 	computed: {
 		internalEnabled: {
 			get() {

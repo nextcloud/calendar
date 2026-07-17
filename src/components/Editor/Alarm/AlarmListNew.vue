@@ -42,6 +42,8 @@ export default {
 		},
 	},
 
+	emits: ['addAlarm'],
+
 	computed: {
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',

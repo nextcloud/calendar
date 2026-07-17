@@ -88,6 +88,8 @@ export default {
 		showHolidays: Boolean,
 	},
 
+	emits: ['close'],
+
 	data() {
 		let calendars = []
 		if (this.showHolidays) {

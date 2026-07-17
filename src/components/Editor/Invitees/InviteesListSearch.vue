@@ -91,6 +91,8 @@ export default {
 		},
 	},
 
+	emits: ['addAttendee'],
+
 	data() {
 		return {
 			isLoading: false,

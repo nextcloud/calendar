@@ -117,6 +117,8 @@ export default {
 		},
 	},
 
+	emits: ['addResource'],
+
 	data() {
 		return {
 			isLoading: false,

@@ -100,6 +100,8 @@ export default {
 		},
 	},
 
+	emits: ['addByMonth', 'removeByMonth', 'addByMonthDay', 'removeByMonthDay', 'changeToByMonthDay', 'changeToBySetPosition', 'changeByDay', 'changeBySetPosition'],
+
 	setup() {
 		const radioInputId = useId() + '-radio-select'
 		return { radioInputId }

@@ -44,6 +44,8 @@ export default {
 		},
 	},
 
+	emits: ['changeInterval', 'changeFrequency'],
+
 	computed: {
 		repeatEveryLabel() {
 			if (this.frequency === 'NONE') {

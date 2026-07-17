@@ -173,6 +173,8 @@ export default {
 		},
 	},
 
+	emits: ['removeAttendee'],
+
 	data() {
 		return {
 			memberListExpaneded: false,

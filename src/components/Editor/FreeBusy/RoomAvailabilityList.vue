@@ -94,6 +94,8 @@ export default {
 		},
 	},
 
+	emits: ['update:show-dialog'],
+
 	data() {
 		return {
 			showRoomAvailabilityModal: false,

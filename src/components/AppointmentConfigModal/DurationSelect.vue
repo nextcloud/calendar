@@ -52,6 +52,8 @@ export default {
 		},
 	},
 
+	emits: ['update:modelValue'],
+
 	computed: {
 		selectedOption: {
 			get() {

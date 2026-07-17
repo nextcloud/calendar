@@ -96,6 +96,8 @@ export default {
 		},
 	},
 
+	emits: ['changeOrganizer'],
+
 	computed: {
 		/**
 		 * @return {string}

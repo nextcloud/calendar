@@ -68,6 +68,8 @@ export default {
 		},
 	},
 
+	emits: ['changeToUntil', 'changeToCount', 'setInfinite', 'setUntil', 'setCount'],
+
 	computed: {
 		...mapStores(useDavRestrictionsStore),
 		/**

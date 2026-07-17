@@ -35,6 +35,8 @@ export default {
 		},
 	},
 
+	emits: ['change'],
+
 	computed: {
 		options() {
 			return [{

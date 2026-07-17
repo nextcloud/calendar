@@ -106,6 +106,8 @@ export default {
 		},
 	},
 
+	emits: ['selectCalendar', 'removeCalendar'],
+
 	computed: {
 		...mapStores(useCalendarsStore),
 		isDisabled() {

@@ -173,6 +173,8 @@ export default {
 		},
 	},
 
+	emits: ['goBack', 'save'],
+
 	data() {
 		return {
 			description: '',
