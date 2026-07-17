@@ -9,7 +9,7 @@
 		v-model="showFullModal"
 		class="calendar-edit-full"
 		size="full"
-		:name="t('calendar', 'Edit event')"
+		:name="t('calendar', 'Detailed event editor')"
 		:dark="false"
 		:noClose="true"
 		@close="cancel(false)">
