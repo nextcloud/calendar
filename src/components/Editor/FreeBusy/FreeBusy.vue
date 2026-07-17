@@ -377,6 +377,8 @@ export default {
 		},
 	},
 
+	emits: ['close', 'updateDates', 'addAttendee', 'removeAttendee'],
+
 	setup() {
 		const isMobile = useIsMobile()
 		const uniqueComponentId = useId()
@@ -562,10 +564,6 @@ export default {
 
 		attendees(newVal) {
 			this.updateAttendeeDetails(newVal)
-
-			if (newVal.length === 0) {
-				this.$emit('close:noAttendees')
-			}
 		},
 	},
 
