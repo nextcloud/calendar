@@ -9,7 +9,6 @@
 			:attendeeIsOrganizer="false"
 			:isViewedByOrganizer="isViewedByOrganizer"
 			:isResource="false"
-			:avatarLink="avatarLink"
 			:participationStatus="attendee.participationStatus"
 			:scheduleStatus="attendee.attendeeProperty.getParameterFirstValue('SCHEDULE-STATUS')"
 			:organizerDisplayName="organizerDisplayName"

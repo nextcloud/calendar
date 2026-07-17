@@ -122,11 +122,6 @@ export default {
 			required: true,
 		},
 
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
-
 		organizer: {
 			type: Object,
 			required: true,

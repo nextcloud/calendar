@@ -10,7 +10,6 @@
 			:isViewedByOrganizer="isViewedByOrganizer"
 			:isResource="true"
 			:isSuggestion="isSuggestion"
-			:avatarLink="commonName"
 			:participationStatus="participationStatus"
 			:scheduleStatus="scheduleStatus"
 			:organizerDisplayName="organizerDisplayName"
@@ -67,7 +66,6 @@
 			:startDate="calendarObjectInstance.startDate"
 			:endDate="calendarObjectInstance.endDate"
 			:rooms="[roomPrincipal]"
-			:calendarObjectInstance="calendarObjectInstance"
 			:organizer="currentUserPrincipalAsAttendee"
 			@update:show="(value) => { showAvailabilityModal = value }" />
 	</div>
@@ -116,11 +114,6 @@ export default {
 
 		organizerDisplayName: {
 			type: String,
-			required: true,
-		},
-
-		isReadOnly: {
-			type: Boolean,
 			required: true,
 		},
 

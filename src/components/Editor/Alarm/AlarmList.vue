@@ -17,7 +17,6 @@
 			:alarm="alarm"
 			:calendarObjectInstance="calendarObjectInstance"
 			:isReadOnly="isReadOnly"
-			:showIcon="index === 0"
 			@removeAlarm="removeAlarm" />
 	</div>
 </template>

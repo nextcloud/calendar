@@ -22,7 +22,6 @@
 				@update:modelValue="changeRelativeAmountTimed" />
 			<AlarmTimeUnitSelect
 				:isAllDay="isAllDay"
-				:count="alarm.relativeAmountTimed"
 				:unit="alarm.relativeUnitTimed"
 				:disabled="false"
 				@change="changeRelativeUnitTimed" />
@@ -39,7 +38,6 @@
 					@update:modelValue="changeRelativeAmountAllDay" />
 				<AlarmTimeUnitSelect
 					:isAllDay="isAllDay"
-					:count="alarm.relativeAmountAllDay"
 					:unit="alarm.relativeUnitAllDay"
 					:disabled="false"
 					class="time-unit-select"
@@ -58,7 +56,6 @@
 			v-if="isEditing && isAbsoluteAlarm"
 			class="property-alarm-item__edit property-alarm-item__edit--absolute">
 			<DatePicker
-				prefix="on"
 				:date="alarm.absoluteDate"
 				:timezoneId="alarm.absoluteTimezoneId"
 				:isAllDay="false"
@@ -202,11 +199,6 @@ export default {
 		},
 
 		isReadOnly: {
-			type: Boolean,
-			required: true,
-		},
-
-		showIcon: {
 			type: Boolean,
 			required: true,
 		},

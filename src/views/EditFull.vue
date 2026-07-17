@@ -485,7 +485,6 @@ export default {
 			locale: 'momentLocale',
 			hideEventExport: 'hideEventExport',
 			attachmentsFolder: 'attachmentsFolder',
-			showResources: 'showResources',
 		}),
 
 		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),

@@ -35,11 +35,6 @@ export default {
 			required: true,
 		},
 
-		count: {
-			type: Number,
-			required: true,
-		},
-
 		disabled: {
 			type: Boolean,
 			required: true,

@@ -99,7 +99,6 @@ export default {
 		),
 
 		...mapState(useSettingsStore, {
-			locale: 'momentLocale',
 			timezoneId: 'getResolvedTimezone',
 		}),
 

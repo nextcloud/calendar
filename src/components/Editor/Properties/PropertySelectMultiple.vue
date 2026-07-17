@@ -79,11 +79,6 @@ export default {
 			type: Boolean,
 			default: false,
 		},
-
-		closeOnSelect: {
-			type: Boolean,
-			default: false,
-		},
 	},
 
 	emits: ['removeSingleValue', 'addSingleValue'],

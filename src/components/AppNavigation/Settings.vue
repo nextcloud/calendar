@@ -25,8 +25,7 @@
 				<NcAppSettingsSection
 					id="settings-modal-general"
 					:name="t('calendar', 'General')">
-					<SettingsTimezoneSelect
-						:isDisabled="loadingCalendars" />
+					<SettingsTimezoneSelect />
 					<CalendarPicker
 						:value="defaultCalendar"
 						:calendars="defaultCalendarOptions"

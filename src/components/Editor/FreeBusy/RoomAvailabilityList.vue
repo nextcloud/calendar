@@ -49,7 +49,6 @@
 					:startDate="calendarObjectInstance.startDate"
 					:endDate="calendarObjectInstance.endDate"
 					:rooms="selectedRooms"
-					:calendarObjectInstance="calendarObjectInstance"
 					:organizer="currentUserPrincipalAsAttendee"
 					@update:show="setShowRoomAvailabilityModal" />
 			</div>
@@ -75,16 +74,6 @@ export default {
 	props: {
 		calendarObjectInstance: {
 			type: Object,
-			required: true,
-		},
-
-		startDate: {
-			type: Date,
-			required: true,
-		},
-
-		endDate: {
-			type: Date,
 			required: true,
 		},
 

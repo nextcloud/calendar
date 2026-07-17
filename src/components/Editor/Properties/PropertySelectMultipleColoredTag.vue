@@ -22,16 +22,6 @@ export default {
 			type: [String, Object],
 			required: true,
 		},
-
-		search: {
-			type: String,
-			default: undefined,
-		},
-
-		remove: {
-			type: Function,
-			default: () => {},
-		},
 	},
 
 	computed: {
