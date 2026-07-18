@@ -66,7 +66,6 @@ OC.L10N.register(
     "Remove participant" : "Eksterne deltakarar",
     "Global" : "Global",
     "Personal" : "Personleg",
-    "Edit event" : "Rediger hending",
     "Close" : "Lukk",
     "Participants" : "Deltakarar",
     "Daily" : "Kvar dag",
@@ -78,6 +77,7 @@ OC.L10N.register(
     "When shared show full event" : "Når delt, vis heile hendinga",
     "When shared show only busy" : "Når delt, vis berre oppteken",
     "When shared hide this event" : "Når delt, gøym denne hendinga",
-    "Confirmed" : "Stadfesta"
+    "Confirmed" : "Stadfesta",
+    "Edit event" : "Rediger hending"
 },
 "nplurals=2; plural=(n != 1);");

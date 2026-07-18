@@ -597,7 +597,6 @@
     "Anyone with the invitation can respond" : "任何收到邀请的人都可以回复",
     "Only invited attendees can respond" : "只有受邀的参加者才能回复",
     "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "选择“只有受邀的参加者才能回复”以防止参加者将邀请转发给其他人。",
-    "Edit event" : "编辑活动",
     "Event does not exist" : "活动不存在",
     "Delete this occurrence" : "删除此重复活动",
     "Delete this and all future" : "删除此项及以后的项目",
@@ -816,6 +815,7 @@
     "Appointment Details:" : "预约详情：",
     "Time:" : "时间：",
     "Booked for:" : "已预约：",
+    "Edit event" : "编辑活动",
     "Duration suggestions" : "时长建议",
     "{duration} min" : "{duration} 分钟"
 },"pluralForm" :"nplurals=1; plural=0;"

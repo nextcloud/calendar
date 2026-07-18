@@ -613,7 +613,6 @@ OC.L10N.register(
     "Anyone with the invitation can respond" : "Is féidir le duine ar bith a bhfuil an cuireadh aige freagra a thabhairt",
     "Only invited attendees can respond" : "Ní féidir ach le freastalaithe a raibh cuireadh tugtha dóibh freagra a thabhairt",
     "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Roghnaigh \"Ní féidir ach le freastalaithe a bhfuil cuireadh tugtha dóibh freagra a thabhairt\" chun cosc ​​a chur ar fhreastalaithe an cuireadh a chur ar aghaidh chuig daoine eile.",
-    "Edit event" : "Cuir an t-imeacht in eagar",
     "Event does not exist" : "Níl imeacht ann",
     "Delete this occurrence" : "Scrios an teagmhas seo",
     "Delete this and all future" : "Scrios seo agus gach todhchaí",
@@ -837,6 +836,7 @@ OC.L10N.register(
     "Appointment Details:" : "Sonraí Coinne:",
     "Time:" : "Am:",
     "Booked for:" : "Áirithe le haghaidh:",
+    "Edit event" : "Cuir an t-imeacht in eagar",
     "Duration suggestions" : "Moltaí fad",
     "{duration} min" : "{duration} nóiméad"
 },

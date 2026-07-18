@@ -128,7 +128,6 @@ OC.L10N.register(
     "Global" : "Monda",
     "Subscribe" : "Aboni",
     "Personal" : "Persona",
-    "Edit event" : "Redakti okazaĵon",
     "All day" : "Tuttage",
     "Untitled event" : "Sentitola okazaĵo",
     "Close" : "Fermi",
@@ -161,6 +160,7 @@ OC.L10N.register(
     "Before the event" : "Antaŭe la evento",
     "After the event" : "Post la evento",
     "on {formattedDate}" : "je la {formattedDate}",
-    "Time:" : "Tempo:"
+    "Time:" : "Tempo:",
+    "Edit event" : "Redakti okazaĵon"
 },
 "nplurals=2; plural=(n != 1);");

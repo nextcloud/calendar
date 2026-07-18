@@ -153,7 +153,6 @@ OC.L10N.register(
     "Global" : "Global",
     "Subscribe" : "S'abonar",
     "Personal" : "Personal",
-    "Edit event" : "Editar un eveniment",
     "All day" : "Tota la jornada",
     "Untitled event" : "Eveniment sens nom",
     "Close" : "Tampar",
@@ -199,6 +198,7 @@ OC.L10N.register(
     "from {formattedDate}" : "a partir de {formattedDate}",
     "to {formattedDate}" : "cap a {formattedDate}",
     "Pick a time" : "Causir una ora",
-    "Pick a date" : "Causir una data"
+    "Pick a date" : "Causir una data",
+    "Edit event" : "Editar un eveniment"
 },
 "nplurals=2; plural=(n > 1);");

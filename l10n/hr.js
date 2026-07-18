@@ -524,7 +524,6 @@ OC.L10N.register(
     "Unscheduled tasks" : "Nezakazani zadaci",
     "Availability of {displayName}" : "Dostupnost korisnika {displayName}",
     "Discard changes" : "Odbaci promjene",
-    "Edit event" : "Uredi događaj",
     "Event does not exist" : "Događaj ne postoji",
     "Delete this occurrence" : "Izbriši ovo ponavljanje",
     "Delete this and all future" : "Izbriši ovo i sva buduća ponavljanja",
@@ -740,6 +739,7 @@ OC.L10N.register(
     "Appointment Details:" : "Detalji termina:",
     "Time:" : "Vrijeme:",
     "Booked for:" : "Rezervirano za:",
+    "Edit event" : "Uredi događaj",
     "Duration suggestions" : "Prijedlozi trajanja",
     "{duration} min" : "{duration}min"
 },

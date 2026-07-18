@@ -541,7 +541,6 @@ OC.L10N.register(
     "Unscheduled tasks" : "Tareas no agendadas",
     "Availability of {displayName}" : "Disponibilidad de {displayName}",
     "Discard changes" : "Descartar cambios",
-    "Edit event" : "Editar evento",
     "Event does not exist" : "el evento no existe",
     "Delete this occurrence" : "Eliminar esta ocurrencia",
     "Delete this and all future" : "Eliminar este evento y los todos los futuros",
@@ -757,6 +756,7 @@ OC.L10N.register(
     "Appointment Details:" : "Detalles de la cita:",
     "Time:" : "Hora:",
     "Booked for:" : "Reservada para:",
+    "Edit event" : "Editar evento",
     "Duration suggestions" : "Sugerencias de duración",
     "{duration} min" : "{duration}minuto"
 },

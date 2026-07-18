@@ -55,11 +55,11 @@ OC.L10N.register(
     "No" : "Ne",
     "Create" : "Kreiraj",
     "Personal" : "Osobno",
-    "Edit event" : "Izmjeni događaj",
     "Close" : "Zatvori",
     "Daily" : "Dnevno",
     "Weekly" : "Sedmično",
     "second" : "drugi",
-    "Other" : "Ostali"
+    "Other" : "Ostali",
+    "Edit event" : "Izmjeni događaj"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

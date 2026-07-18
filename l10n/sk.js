@@ -526,7 +526,6 @@ OC.L10N.register(
     "Unscheduled tasks" : "Neplánované úlohy",
     "Availability of {displayName}" : "Dostupnosť {displayName}",
     "Discard changes" : "Zahodiť zmeny",
-    "Edit event" : "Upraviť udalosť",
     "Event does not exist" : "Udalosť neexistuje",
     "Delete this occurrence" : "Vymazať tento výskyt",
     "Delete this and all future" : "Vymazať toto a všetko budúce",
@@ -742,6 +741,7 @@ OC.L10N.register(
     "Appointment Details:" : "Podrobnosti o stretnutí",
     "Time:" : "Čas:",
     "Booked for:" : "Rezervované na:",
+    "Edit event" : "Upraviť udalosť",
     "Duration suggestions" : "Návrhy trvania",
     "{duration} min" : "{duration} min"
 },

@@ -491,7 +491,6 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Показване на непланирани задачи",
     "Unscheduled tasks" : "Непланирани задачи",
     "Availability of {displayName}" : "Наличие на {displayName}",
-    "Edit event" : "Редакция на събитието",
     "Event does not exist" : "Събитието не съществува",
     "Delete this occurrence" : "Изтриване на това събитие",
     "Delete this and all future" : "Изтриване на това и на всички бъдещи ",
@@ -704,6 +703,7 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "Слотът за вашата среща е потвърден",
     "Appointment Details:" : "Подробности за срещата:",
     "Time:" : "Час:",
-    "Booked for:" : "Резервирано за:"
+    "Booked for:" : "Резервирано за:",
+    "Edit event" : "Редакция на събитието"
 },
 "nplurals=2; plural=(n != 1);");

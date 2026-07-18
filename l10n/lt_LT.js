@@ -615,7 +615,6 @@ OC.L10N.register(
     "Anyone with the invitation can respond" : "Atsakyti gali kiekvienas, turintis kvietimą",
     "Only invited attendees can respond" : "Atsakyti gali tik pakviestieji dalyviai",
     "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Pasirinkite „Atsakyti gali tik pakviestieji dalyviai“, kad dalyviai negalėtų persiųsti kvietimo kitiems.",
-    "Edit event" : "Redaguoti įvykį",
     "Event does not exist" : "Įvykio nėra",
     "Delete this occurrence" : "Ištrinti šį pasikartojimą",
     "Delete this and all future" : "Ištrinti šį ir visus būsimus",
@@ -839,6 +838,7 @@ OC.L10N.register(
     "Appointment Details:" : "Susitikimo duomenys:",
     "Time:" : "Laikas:",
     "Booked for:" : "Užsakyta:",
+    "Edit event" : "Redaguoti įvykį",
     "Duration suggestions" : "Trukmės pasiūlymai",
     "{duration} min" : "{duration} min"
 },

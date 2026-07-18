@@ -601,7 +601,6 @@ OC.L10N.register(
     "Anyone with the invitation can respond" : "Будь-хто, хто отримав запрошення, можуть відповідати",
     "Only invited attendees can respond" : "Лише запрошені учасники можуть відповідати",
     "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Виберіть \"Лише запрошені учасники можуть відповідати\", щоби заборонити учасниками пересилати запрошення іншим користувачам.",
-    "Edit event" : "Редагувати подію",
     "Event does not exist" : "Подія відсутня",
     "Delete this occurrence" : "Вилучити повторення",
     "Delete this and all future" : "Вилучити це та всі подальші повторення",
@@ -820,6 +819,7 @@ OC.L10N.register(
     "Appointment Details:" : "Деталі зустрічі:",
     "Time:" : "Час:",
     "Booked for:" : "Зарезервовано для:",
+    "Edit event" : "Редагувати подію",
     "Duration suggestions" : "Пропозиція тривалості",
     "{duration} min" : "{duration} хв."
 },

@@ -505,7 +505,6 @@
     "Unscheduled tasks" : "Товлоогүй даалгаврууд",
     "Availability of {displayName}" : "{displayName}-ийн боломжтой байдал",
     "Discard changes" : "Өөрчлөлтүүдийг хаях",
-    "Edit event" : "“Æ–π–ª —è–≤–¥–ª—ã–≥ –∑–∞—Å–≤–∞—Ä–ª–∞—Ö",
     "Event does not exist" : "Үйл явдал байхгүй",
     "Delete this occurrence" : "Энэ тохиолдлыг устгах",
     "Delete this and all future" : "Энэ болон бүх ирээдүйг устгах",
@@ -717,6 +716,7 @@
     "Appointment Details:" : "Уулзалтын дэлгэрэнгүй:",
     "Time:" : "Цаг:",
     "Booked for:" : "Захиалсан:",
+    "Edit event" : "“Æ–π–ª —è–≤–¥–ª—ã–≥ –∑–∞—Å–≤–∞—Ä–ª–∞—Ö",
     "Duration suggestions" : "Үргэлжлэх хугацааны санал",
     "{duration} min" : "{duration} мин"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

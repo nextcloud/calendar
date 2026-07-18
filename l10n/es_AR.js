@@ -115,7 +115,6 @@ OC.L10N.register(
     "Subscribe" : "Suscribirse",
     "Select a date" : "Elija una fecha",
     "Personal" : "Personal",
-    "Edit event" : "Editar evento",
     "All day" : "Todo el día",
     "Close" : "Cerrar",
     "Participants" : "Participantes",
@@ -134,6 +133,7 @@ OC.L10N.register(
     "Categories" : "Categoría",
     "Calendars" : "Calendarios",
     "Hidden" : "Oculto",
-    "Show week numbers" : "Mostrar número de semana"
+    "Show week numbers" : "Mostrar número de semana",
+    "Edit event" : "Editar evento"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

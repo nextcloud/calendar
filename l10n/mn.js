@@ -507,7 +507,6 @@ OC.L10N.register(
     "Unscheduled tasks" : "Товлоогүй даалгаврууд",
     "Availability of {displayName}" : "{displayName}-ийн боломжтой байдал",
     "Discard changes" : "Өөрчлөлтүүдийг хаях",
-    "Edit event" : "“Æ–π–ª —è–≤–¥–ª—ã–≥ –∑–∞—Å–≤–∞—Ä–ª–∞—Ö",
     "Event does not exist" : "Үйл явдал байхгүй",
     "Delete this occurrence" : "Энэ тохиолдлыг устгах",
     "Delete this and all future" : "Энэ болон бүх ирээдүйг устгах",
@@ -719,6 +718,7 @@ OC.L10N.register(
     "Appointment Details:" : "Уулзалтын дэлгэрэнгүй:",
     "Time:" : "Цаг:",
     "Booked for:" : "Захиалсан:",
+    "Edit event" : "“Æ–π–ª —è–≤–¥–ª—ã–≥ –∑–∞—Å–≤–∞—Ä–ª–∞—Ö",
     "Duration suggestions" : "Үргэлжлэх хугацааны санал",
     "{duration} min" : "{duration} мин"
 },

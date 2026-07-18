@@ -491,7 +491,6 @@ OC.L10N.register(
     "Unscheduled tasks" : "Нездадени задачи",
     "Availability of {displayName}" : "Достапност на {displayName}",
     "Discard changes" : "Орфрли промени",
-    "Edit event" : "Уреди го настанот",
     "Event does not exist" : "Настанот не постои",
     "Delete this occurrence" : "Избришете ја оваа можност",
     "Delete this and all future" : "Избришете го овој и сите во иднина",
@@ -705,6 +704,7 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "Времето за вашиот термин е потврден",
     "Appointment Details:" : "Детали за терминот:",
     "Time:" : "Време:",
-    "Booked for:" : "Резервирано за:"
+    "Booked for:" : "Резервирано за:",
+    "Edit event" : "Уреди го настанот"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

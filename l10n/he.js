@@ -277,7 +277,6 @@ OC.L10N.register(
     "Global" : "גלובלי",
     "Subscribe" : "הרשמה",
     "Personal" : "אישי",
-    "Edit event" : "עריכת אירוע",
     "Event does not exist" : "האירוע לא קיים",
     "Delete this occurrence" : "מחיקת המופע הזה",
     "Delete this and all future" : "מחיקת זה והבאים",
@@ -397,6 +396,7 @@ OC.L10N.register(
     "Please enter a valid date and time" : "נא להקליד שעה ותאריך תקניים",
     "Pick a time" : "בחר זמן",
     "Pick a date" : "תבחר תאריך",
-    "Time:" : "שעה:"
+    "Time:" : "שעה:",
+    "Edit event" : "עריכת אירוע"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

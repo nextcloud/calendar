@@ -536,7 +536,6 @@ OC.L10N.register(
     "Availability of {displayName}" : "Dostupnost {displayName}",
     "Discard changes" : "Zahodit změny",
     "Allow forwarding" : "Umožnit přeposílání",
-    "Edit event" : "Upravit událost",
     "Event does not exist" : "Událost neexistuje",
     "Delete this occurrence" : "Smazat tento výskyt",
     "Delete this and all future" : "Smazat toto a všechny budoucí",
@@ -752,6 +751,7 @@ OC.L10N.register(
     "Appointment Details:" : "Podrobnosti o schůzce:",
     "Time:" : "Čas:",
     "Booked for:" : "Zarezervováno pro:",
+    "Edit event" : "Upravit událost",
     "Duration suggestions" : "Návrhy datumů",
     "{duration} min" : "{duration} min"
 },

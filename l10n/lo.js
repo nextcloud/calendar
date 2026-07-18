@@ -499,7 +499,6 @@ OC.L10N.register(
     "Unscheduled tasks" : "Unscheduled tasks",
     "Availability of {displayName}" : "Availability of {displayName}",
     "Discard changes" : "Discard changes",
-    "Edit event" : "Edit event",
     "Event does not exist" : "Event does not exist",
     "Delete this occurrence" : "Delete this occurrence",
     "Delete this and all future" : "Delete this and all future",
@@ -712,6 +711,7 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "The slot for your appointment has been confirmed",
     "Appointment Details:" : "Appointment Details:",
     "Time:" : "Time:",
-    "Booked for:" : "Booked for:"
+    "Booked for:" : "Booked for:",
+    "Edit event" : "Edit event"
 },
 "nplurals=1; plural=0;");
