@@ -600,7 +600,6 @@ OC.L10N.register(
     "Anyone with the invitation can respond" : "Daveti alan herhangi biri yanıt verebilir",
     "Only invited attendees can respond" : "Yalnızca davet edilmiş kişi yanıt verebilir",
     "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Katılımcıların daveti başkalarına iletmelerini önlemek için \"Yalnızca davet edilmiş kişi yanıt verebilir\" olarak seçin.",
-    "Edit event" : "Etkinliği düzenle",
     "Event does not exist" : "Etkinlik bulunamadı",
     "Delete this occurrence" : "Bu etkinliği sil",
     "Delete this and all future" : "Bu ve sonraki etkinlikleri sil",
@@ -819,6 +818,7 @@ OC.L10N.register(
     "Appointment Details:" : "Randevu bilgileri:",
     "Time:" : "Saat:",
     "Booked for:" : "Ayırtılan:",
+    "Edit event" : "Etkinliği düzenle",
     "Duration suggestions" : "Süre önerileri",
     "{duration} min" : "{duration} dakika"
 },

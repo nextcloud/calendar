@@ -515,7 +515,6 @@ OC.L10N.register(
     "Unscheduled tasks" : "Kazi ambazo hazijaratibiwa",
     "Availability of {displayName}" : "Upatikanaji wa {displayName}",
     "Discard changes" : "Tupa mabadiliko",
-    "Edit event" : "Hariri tukio",
     "Event does not exist" : "Tukio halipatikani",
     "Delete this occurrence" : "Futa tukio hili",
     "Delete this and all future" : "Futa hii na muda wote ujao",
@@ -729,6 +728,7 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "Slot kwa muadi wako imethibitishwa",
     "Appointment Details:" : "Maelezo ya kina ya muadi",
     "Time:" : "Muda",
-    "Booked for:" : "Imekatishiwa nafasi kwa:"
+    "Booked for:" : "Imekatishiwa nafasi kwa:",
+    "Edit event" : "Hariri tukio"
 },
 "nplurals=2; plural=(n != 1);");

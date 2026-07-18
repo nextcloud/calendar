@@ -613,7 +613,6 @@ OC.L10N.register(
     "Anyone with the invitation can respond" : "Iedereen met de uitnodiging kan reageren",
     "Only invited attendees can respond" : "Alleen uitgenodigde deelnemers kunnen reageren",
     "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Kies \"Alleen uitgenodigde deelnemers kunnen reageren\" om te voorkomen dat deelnemers de uitnodiging naar anderen doorsturen.",
-    "Edit event" : "Bewerk gebeurtenis",
     "Event does not exist" : "Activiteit bestaat niet",
     "Delete this occurrence" : "Verwijder deze afspraak",
     "Delete this and all future" : "Verwijder deze en toekomstige",
@@ -837,6 +836,7 @@ OC.L10N.register(
     "Appointment Details:" : "Afspraak Details:",
     "Time:" : "Tijd:",
     "Booked for:" : "Geboekt voor:",
+    "Edit event" : "Bewerk gebeurtenis",
     "Duration suggestions" : "Tijdsbestek voorstellen",
     "{duration} min" : "{duration} min"
 },

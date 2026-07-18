@@ -101,7 +101,6 @@ OC.L10N.register(
     "Global" : "Globale",
     "Subscribe" : "Abonohu",
     "Personal" : "Personale",
-    "Edit event" : "Përpunoni veprimtarinë",
     "All day" : "Gjithë ditën",
     "Close" : "Mbylle",
     "Submit" : "Dërgo",
@@ -118,6 +117,7 @@ OC.L10N.register(
     "Canceled" : "Anuluar",
     "Categories" : "Kategoritë",
     "Hidden" : "I fshehur",
-    "Show week numbers" : "Shfaq numra javësh"
+    "Show week numbers" : "Shfaq numra javësh",
+    "Edit event" : "Përpunoni veprimtarinë"
 },
 "nplurals=2; plural=(n != 1);");

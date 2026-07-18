@@ -50,12 +50,12 @@ OC.L10N.register(
     "No" : "Ոչ",
     "Global" : "Ընդհանուր",
     "Personal" : "Անձնական",
-    "Edit event" : "Խմբագրել դեպքը",
     "Close" : "Փակել",
     "Daily" : "Օրական",
     "Weekly" : "Շաբաթական",
     "second" : "երկրորդ",
     "Other" : "Այլ",
-    "Confirmed" : "Հաստատված"
+    "Confirmed" : "Հաստատված",
+    "Edit event" : "Խմբագրել դեպքը"
 },
 "nplurals=2; plural=(n != 1);");

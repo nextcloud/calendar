@@ -366,7 +366,6 @@ OC.L10N.register(
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "A fost detectată automat zona de timp ca fiind UTC.\nProbabil ca măsura de securitate în cadrul browserului.\nSetați zona de timp manual în setările Calendar.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Zona de timp ({timezoneId}) nu există. Se revenire la UTC.\nModificați zona de timp în setări și raportați această problemă.",
     "Discard changes" : "Anulează modificările",
-    "Edit event" : "Modifică eveniment",
     "Event does not exist" : "Evenimentul nu există",
     "Delete this occurrence" : "Șterge această poziție",
     "Delete this and all future" : "Șterge aceasta și toate viitoare",
@@ -518,6 +517,7 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "Intervalul pentru întâlnire a fost confirmat",
     "Appointment Details:" : "Detaliile programării:",
     "Time:" : "Timp:",
-    "Booked for:" : "Rezervat pentru:"
+    "Booked for:" : "Rezervat pentru:",
+    "Edit event" : "Modifică eveniment"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

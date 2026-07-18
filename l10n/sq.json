@@ -99,7 +99,6 @@
     "Global" : "Globale",
     "Subscribe" : "Abonohu",
     "Personal" : "Personale",
-    "Edit event" : "Përpunoni veprimtarinë",
     "All day" : "Gjithë ditën",
     "Close" : "Mbylle",
     "Submit" : "Dërgo",
@@ -116,6 +115,7 @@
     "Canceled" : "Anuluar",
     "Categories" : "Kategoritë",
     "Hidden" : "I fshehur",
-    "Show week numbers" : "Shfaq numra javësh"
+    "Show week numbers" : "Shfaq numra javësh",
+    "Edit event" : "Përpunoni veprimtarinë"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

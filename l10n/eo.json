@@ -126,7 +126,6 @@
     "Global" : "Monda",
     "Subscribe" : "Aboni",
     "Personal" : "Persona",
-    "Edit event" : "Redakti okazaĵon",
     "All day" : "Tuttage",
     "Untitled event" : "Sentitola okazaĵo",
     "Close" : "Fermi",
@@ -159,6 +158,7 @@
     "Before the event" : "Antaŭe la evento",
     "After the event" : "Post la evento",
     "on {formattedDate}" : "je la {formattedDate}",
-    "Time:" : "Tempo:"
+    "Time:" : "Tempo:",
+    "Edit event" : "Redakti okazaĵon"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

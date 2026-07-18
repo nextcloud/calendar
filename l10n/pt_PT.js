@@ -514,7 +514,6 @@ OC.L10N.register(
     "Allow forwarding" : "Permitir encaminhamento",
     "Anyone with the invitation can respond" : "Qualquer pessoa que tenha recebido o convite pode responder",
     "Only invited attendees can respond" : "Somente os participantes convidados podem responder",
-    "Edit event" : "Editar evento",
     "Event does not exist" : "O evento não existe",
     "Delete this and all future" : "Excluir esta e todas as futuras",
     "All day" : "Todo o dia",
@@ -692,6 +691,7 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "A vaga para seu compromisso foi confirmada",
     "Appointment Details:" : "Detalhes do Compromisso:",
     "Booked for:" : "Reservado para:",
+    "Edit event" : "Editar evento",
     "{duration} min" : "{duration} min"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

@@ -600,7 +600,6 @@ OC.L10N.register(
     "Anyone with the invitation can respond" : "هر کسی که دعوتنامه را دارد می‌تواند پاسخ دهد",
     "Only invited attendees can respond" : "فقط شرکت‌کنندگان دعوت شده می‌توانند پاسخ دهند",
     "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "گزینه «فقط شرکت‌کنندگان دعوت شده می‌توانند پاسخ دهند» را انتخاب کنید تا از ارسال دعوتنامه به دیگران توسط شرکت‌کنندگان جلوگیری شود.",
-    "Edit event" : "ویرایش رویداد",
     "Event does not exist" : "رویداد وجود ندارد",
     "Delete this occurrence" : "حذف این تکرار",
     "Delete this and all future" : "حذف این و همه موارد بعدی",
@@ -819,6 +818,7 @@ OC.L10N.register(
     "Appointment Details:" : "جزئیات نوبت:",
     "Time:" : "زمان:",
     "Booked for:" : "رزرو شده برای:",
+    "Edit event" : "ویرایش رویداد",
     "Duration suggestions" : "پیشنهادات مدت زمان",
     "{duration} min" : "{duration} دقیقه"
 },

@@ -532,7 +532,6 @@ OC.L10N.register(
     "Anyone with the invitation can respond" : "Kuka tahansa, jolla on kutsu, voi vastata",
     "Only invited attendees can respond" : "Vain kutsutut osallistujat voivat vastta",
     "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Valitse \"Vain kutsutut osallistujat voivat vastata\" estääksesi osallistujia välittämästä kutsuja eteenpäin.",
-    "Edit event" : "Muokkaa tapahtumaa",
     "Event does not exist" : "Tapahtumaa ei ole olemassa",
     "Delete this occurrence" : "Poista tämä esiintymä",
     "Delete this and all future" : "Poista tämä ja kaikki tulevat",
@@ -734,6 +733,7 @@ OC.L10N.register(
     "Appointment Details:" : "Tapaamisen yksityiskohdat:",
     "Time:" : "Aika:",
     "Booked for:" : "Varattu:",
+    "Edit event" : "Muokkaa tapahtumaa",
     "Duration suggestions" : "Ehdotuksia kestoksi"
 },
 "nplurals=2; plural=(n != 1);");

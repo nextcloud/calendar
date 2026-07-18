@@ -444,7 +444,6 @@ OC.L10N.register(
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "No s'ha trobat la vostra zona horària configurada ({timezoneId}). Tornant a l'UTC.\nCanvieu la vostra zona horària a la configuració i informeu d'aquest problema.",
     "Availability of {displayName}" : "Disponibilitat de {displayName}",
     "Discard changes" : "Descarta els canvis",
-    "Edit event" : "Edita l'esdeveniment",
     "Event does not exist" : "L'esdeveniment no existeix",
     "Delete this occurrence" : "Suprimeix aquesta ocurrència",
     "Delete this and all future" : "Suprimeix aquesta i les ocurrències futures",
@@ -617,6 +616,7 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "S'ha confirmat l’unitat temporal per a la vostra cita",
     "Appointment Details:" : "Detalls de la cita:",
     "Time:" : "Hora:",
-    "Booked for:" : "Reservat per a:"
+    "Booked for:" : "Reservat per a:",
+    "Edit event" : "Edita l'esdeveniment"
 },
 "nplurals=2; plural=(n != 1);");

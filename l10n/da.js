@@ -504,7 +504,6 @@ OC.L10N.register(
     "Unscheduled tasks" : "Ikke planlagte opgaver",
     "Availability of {displayName}" : "Tilgængelighed af {displayName}",
     "Discard changes" : "Fortryd ændringer",
-    "Edit event" : "Redigér begivenhed",
     "Event does not exist" : "Begivenheden eksisterer ikke",
     "Delete this occurrence" : "Slet denne forekomst",
     "Delete this and all future" : "Slet denne og alle fremtidige",
@@ -718,6 +717,7 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "Tidspunktet for din aftale er blevet bekræftet",
     "Appointment Details:" : "Detaljer om aftale:",
     "Time:" : "Tid:",
-    "Booked for:" : "Booket til:"
+    "Booked for:" : "Booket til:",
+    "Edit event" : "Redigér begivenhed"
 },
 "nplurals=2; plural=(n != 1);");

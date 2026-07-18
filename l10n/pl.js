@@ -577,7 +577,6 @@ OC.L10N.register(
     "Anyone with the invitation can respond" : "Każdy, kto ma zaproszenie, może odpowiedzieć",
     "Only invited attendees can respond" : "Tylko zaproszeni uczestnicy mogą odpowiadać",
     "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Wybierz \"Tylko zaproszeni uczestnicy mogą odpowiadać\", aby uniemożliwić uczestnikom przekazywanie zaproszenia innym osobom.",
-    "Edit event" : "Edytuj zdarzenie",
     "Event does not exist" : "Wydarzenie nie istnieje",
     "Delete this occurrence" : "Usuń to wydarzenie",
     "Delete this and all future" : "Usuń to i wszystkie przyszłe",
@@ -795,6 +794,7 @@ OC.L10N.register(
     "Appointment Details:" : "Szczegóły spotkania:",
     "Time:" : "Czas:",
     "Booked for:" : "Zarezerwowane dla:",
+    "Edit event" : "Edytuj zdarzenie",
     "Duration suggestions" : "Sugestie czasu trwania",
     "{duration} min" : "{duration} min"
 },

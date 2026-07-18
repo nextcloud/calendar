@@ -433,7 +433,6 @@ OC.L10N.register(
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Stillta tímabeltið þitt ({timezoneId}) fannst ekki. Nota UTC til vara.\nStilltu tímabeltið þitt í stillingum dagatalsins og tilkynntu þetta vandamál.",
     "Availability of {displayName}" : "Lausir tímar hjá {displayName}",
     "Discard changes" : "Henda breytingum",
-    "Edit event" : "Breyta atburði",
     "Event does not exist" : "Atburður er ekki til",
     "Delete this occurrence" : "Eyða þessu tilviki",
     "Delete this and all future" : "Eyða þessu og framtíðar tilvikum",
@@ -597,6 +596,7 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "Tímahólfið fyrir stefnumótið þtt er staðfestur",
     "Appointment Details:" : "Nánar um stefnumót:",
     "Time:" : "Tími:",
-    "Booked for:" : "Bókað fyrir:"
+    "Booked for:" : "Bókað fyrir:",
+    "Edit event" : "Breyta atburði"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

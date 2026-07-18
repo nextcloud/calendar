@@ -65,7 +65,6 @@ OC.L10N.register(
     "Global" : "Global",
     "Subscribe" : "Subscribe",
     "Personal" : "Personal",
-    "Edit event" : "Modificar evento",
     "Close" : "Clauder",
     "Anniversary" : "Anniversario de evento",
     "Week {number} of {year}" : "Septimana {number} de {year}",
@@ -78,6 +77,7 @@ OC.L10N.register(
     "When shared hide this event" : "Quando compartite, celar iste evento",
     "Confirmed" : "Confirmate",
     "Hidden" : "Occultate",
-    "Show week numbers" : "Monstrar le numero del septimanas"
+    "Show week numbers" : "Monstrar le numero del septimanas",
+    "Edit event" : "Modificar evento"
 },
 "nplurals=2; plural=(n != 1);");

@@ -615,7 +615,6 @@ OC.L10N.register(
     "Anyone with the invitation can respond" : "任何收到邀請的人都可以回覆",
     "Only invited attendees can respond" : "僅被邀請的參與者可回應",
     "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "選擇「僅被邀請的參與者可回應」以防止參與者將邀請轉發給其他人。",
-    "Edit event" : "編輯活動",
     "Event does not exist" : "活動不存在",
     "Delete this occurrence" : "刪除這次活動",
     "Delete this and all future" : "刪除這次和所有未來重複",
@@ -839,6 +838,7 @@ OC.L10N.register(
     "Appointment Details:" : "預約詳細資訊：",
     "Time:" : "時間：",
     "Booked for:" : "已預約：",
+    "Edit event" : "編輯活動",
     "Duration suggestions" : "持續時間建議",
     "{duration} min" : "{duration}分鐘"
 },

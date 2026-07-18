@@ -515,7 +515,6 @@ OC.L10N.register(
     "Unscheduled tasks" : "Rejadan tashqari vazifalar",
     "Availability of {displayName}" : " {displayName}uchun mavjud",
     "Discard changes" : "O'zgarishlarni bekor qilish",
-    "Edit event" : "Tadbirni tahrirlash",
     "Event does not exist" : "Tadbir mavjud emas",
     "Delete this occurrence" : "Ushbu tadbirni o'chiring",
     "Delete this and all future" : "Buni va barcha keyingilarini o'chirib tashlang",
@@ -730,6 +729,7 @@ OC.L10N.register(
     "Appointment Details:" : "Uchrashuv tafsilotlari:",
     "Time:" : "Vaqt:",
     "Booked for:" : "Quyidagilar uchun band qilingan:",
+    "Edit event" : "Tadbirni tahrirlash",
     "Duration suggestions" : "Davomiylik bo'yicha takliflar",
     "{duration} min" : "{duration} minut"
 },

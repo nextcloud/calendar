@@ -479,7 +479,6 @@ OC.L10N.register(
     "Unscheduled tasks" : "Μη προγραμματισμένες εργασίες",
     "Availability of {displayName}" : "Διαθεσιμότητα του/της {displayName}",
     "Discard changes" : "Απόρριψη αλλαγών",
-    "Edit event" : "Επεξεργασία συμβάντος",
     "Event does not exist" : "Δεν υπάρχει το γεγονός",
     "Delete this occurrence" : "Διαγράψτε το περιστατικό",
     "Delete this and all future" : "Διαγράψτε αυτό και όλα τα μελλοντικά",
@@ -691,6 +690,7 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "H θέση σας για το ραντεβού σας έχει επιβεβαιωθεί",
     "Appointment Details:" : "Λεπτομέρειες Ραντεβού",
     "Time:" : "Ώρα:",
-    "Booked for:" : "Κρατηση για"
+    "Booked for:" : "Κρατηση για",
+    "Edit event" : "Επεξεργασία συμβάντος"
 },
 "nplurals=2; plural=(n != 1);");

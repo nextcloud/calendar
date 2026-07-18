@@ -444,7 +444,6 @@
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "لم يتم العثور على منطقتك الزمنية التي تمّت تهيئتها ({timezoneId}). تمّ الرجوع إلى التوقيت العالمي المُوحّد UTC. يرجى تغيير منطقتك الزمنية في الإعدادات، والإبلاغ عن هذه المشكلة.",
     "Availability of {displayName}" : "توافُر {displayName}",
     "Discard changes" : "تجاهل التغييرات",
-    "Edit event" : "تعديل الحدث",
     "Event does not exist" : "الفعالية غير موجودة",
     "Delete this occurrence" : "حذف هذا الظهور",
     "Delete this and all future" : "حذف هذا الظهور والجميع في الستقبل",
@@ -617,6 +616,7 @@
     "The slot for your appointment has been confirmed" : "تم تأكيد الموعد المحدد لك",
     "Appointment Details:" : "تفاصيل الموعد:",
     "Time:" : "الوقت:",
-    "Booked for:" : "محجوز لـ :"
+    "Booked for:" : "محجوز لـ :",
+    "Edit event" : "تعديل الحدث"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

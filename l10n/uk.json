@@ -599,7 +599,6 @@
     "Anyone with the invitation can respond" : "Будь-хто, хто отримав запрошення, можуть відповідати",
     "Only invited attendees can respond" : "Лише запрошені учасники можуть відповідати",
     "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Виберіть \"Лише запрошені учасники можуть відповідати\", щоби заборонити учасниками пересилати запрошення іншим користувачам.",
-    "Edit event" : "Редагувати подію",
     "Event does not exist" : "Подія відсутня",
     "Delete this occurrence" : "Вилучити повторення",
     "Delete this and all future" : "Вилучити це та всі подальші повторення",
@@ -818,6 +817,7 @@
     "Appointment Details:" : "Деталі зустрічі:",
     "Time:" : "Час:",
     "Booked for:" : "Зарезервовано для:",
+    "Edit event" : "Редагувати подію",
     "Duration suggestions" : "Пропозиція тривалості",
     "{duration} min" : "{duration} хв."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
