@@ -573,7 +573,6 @@ OC.L10N.register(
     "Anyone with the invitation can respond" : "Bárki válaszolhat, akinek van meghívója",
     "Only invited attendees can respond" : "Csak a meghívott résztvevők válaszolhatnak",
     "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Válassza a „Csak a meghívott résztvevők válaszolhatnak” lehetőséget, ha meg szeretné akadályozni, hogy a résztvevők továbbítsák a meghívót másoknak.",
-    "Edit event" : "Esemény szerkesztése",
     "Event does not exist" : "Az esemény nem létezik",
     "Delete this occurrence" : "Ezen előfordulás törlése",
     "Delete this and all future" : "Ezen és az összes jövőbeli törlése",
@@ -791,6 +790,7 @@ OC.L10N.register(
     "Appointment Details:" : "Találkozó részletei:",
     "Time:" : "Idő:",
     "Booked for:" : "Részére lefoglalva:",
+    "Edit event" : "Esemény szerkesztése",
     "Duration suggestions" : "Időtartam-javaslatok",
     "{duration} min" : "{duration} perc"
 },

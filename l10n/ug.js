@@ -506,7 +506,6 @@ OC.L10N.register(
     "Unscheduled tasks" : "پىلانلانمىغان ۋەزىپىلەر",
     "Availability of {displayName}" : "{displayName} نىڭ بىكار ۋاقىتلىرى",
     "Discard changes" : "ئۆزگەرتىشلەرنى ئەمەلدىن قالدۇرۇڭ",
-    "Edit event" : "پائالىيەتنى تەھرىرلە",
     "Event does not exist" : "ھادىسە مەۋجۇت ئەمەس",
     "Delete this occurrence" : "بۇ ھادىسىنى ئۆچۈرۈڭ",
     "Delete this and all future" : "بۇنى ۋە كەلگۈسىنى ئۆچۈرۈڭ",
@@ -720,6 +719,7 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "سىزنىڭ ۋەزىپىگە تەيىنلەنگەنلىكىڭىز جەزملەشتۈرۈلدى",
     "Appointment Details:" : "تەيىنلەش تەپسىلاتى:",
     "Time:" : "ۋاقىت:",
-    "Booked for:" : "زاكاز قىلىندى:"
+    "Booked for:" : "زاكاز قىلىندى:",
+    "Edit event" : "پائالىيەتنى تەھرىرلە"
 },
 "nplurals=2; plural=(n != 1);");

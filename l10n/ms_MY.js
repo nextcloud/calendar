@@ -75,12 +75,12 @@ OC.L10N.register(
     "Yes" : "Ya",
     "No" : "Tidak",
     "Personal" : "Peribadi",
-    "Edit event" : "Ubah peristiwa",
     "Close" : "Tutup",
     "Daily" : "Setiap hari",
     "Weekly" : "Setiap minggu",
     "second" : "kedua",
     "Other" : "Lain",
-    "%1$s - %2$s" : "%1$s - %2$s"
+    "%1$s - %2$s" : "%1$s - %2$s",
+    "Edit event" : "Ubah peristiwa"
 },
 "nplurals=1; plural=0;");

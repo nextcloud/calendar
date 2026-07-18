@@ -65,13 +65,13 @@ OC.L10N.register(
     "No" : "Xeyir",
     "Subscribe" : "Abunə",
     "Personal" : "Şəxsi",
-    "Edit event" : "Hadisəni dəyişdir",
     "Close" : "Bağla",
     "Daily" : "Günlük",
     "Weekly" : "Həftəlik",
     "second" : "saniyə",
     "Other" : "Digər",
     "Categories" : "Kateqoriyalar",
-    "Hidden" : "Gizli"
+    "Hidden" : "Gizli",
+    "Edit event" : "Hadisəni dəyişdir"
 },
 "nplurals=2; plural=(n != 1);");

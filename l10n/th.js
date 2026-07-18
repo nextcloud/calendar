@@ -96,7 +96,6 @@ OC.L10N.register(
     "Global" : "ทั่วไป",
     "Subscribe" : "สมัครรับข้อมูล",
     "Personal" : "ส่วนตัว",
-    "Edit event" : "แก้ไขกิจกรรม",
     "Close" : "ปิด",
     "Selected" : "เลือกอยู่",
     "Submit" : "ส่ง",
@@ -115,6 +114,7 @@ OC.L10N.register(
     "Categories" : "หมวดหมู่",
     "Calendars" : "ปฏิทิน",
     "Hidden" : "ซ่อนอยู่",
-    "Pick a date" : "เลือกวันที่"
+    "Pick a date" : "เลือกวันที่",
+    "Edit event" : "แก้ไขกิจกรรม"
 },
 "nplurals=1; plural=0;");

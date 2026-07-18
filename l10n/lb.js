@@ -64,7 +64,6 @@ OC.L10N.register(
     "Global" : "Global",
     "Subscribe" : "Umellen",
     "Personal" : "Perséinlech",
-    "Edit event" : "Evenement änneren",
     "Close" : "Zoumaachen",
     "Week {number} of {year}" : "Woch {Nummer} vum {Joer}",
     "Daily" : "All Dag",
@@ -75,6 +74,7 @@ OC.L10N.register(
     "When shared show only busy" : "Wann et gedeelt gouf, dann nëmmen als beschäftegt uweisen",
     "When shared hide this event" : "Wann et gedeelt gouf, dann verstopp dëst Evenement",
     "Calendars" : "Kalenneren",
-    "Hidden" : "Verstoppt"
+    "Hidden" : "Verstoppt",
+    "Edit event" : "Evenement änneren"
 },
 "nplurals=2; plural=(n != 1);");

@@ -509,7 +509,6 @@ OC.L10N.register(
     "Unscheduled tasks" : "Tugas yang belum dijadwalkan",
     "Availability of {displayName}" : "Ketersediaan {displayName}",
     "Discard changes" : "Buang perubahan",
-    "Edit event" : "Sunting agenda",
     "Event does not exist" : "Acara tidak ada",
     "Delete this occurrence" : "Hapus kejadian ini",
     "Delete this and all future" : "Hapus ini dan semua yang akan datang",
@@ -723,6 +722,7 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "Slot untuk janji temu Anda telah dikonfirmasi",
     "Appointment Details:" : "Detail Janji Temu:",
     "Time:" : "Waktu:",
-    "Booked for:" : "Dipesan untuk:"
+    "Booked for:" : "Dipesan untuk:",
+    "Edit event" : "Sunting agenda"
 },
 "nplurals=1; plural=0;");

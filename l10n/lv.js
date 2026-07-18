@@ -348,7 +348,6 @@ OC.L10N.register(
     "Book another appointment:" : "Rezervēt vēl vienu plānotu tikšanos",
     "Book an appointment with {name}" : "Pieteikt tikšanos ar {name}",
     "Personal" : "Personīgs",
-    "Edit event" : "Labot notikumu",
     "Event does not exist" : "Notikums nepastāv",
     "Delete this occurrence" : "Izdzēst šo notikumu",
     "All day" : "Visas dienas",
@@ -484,6 +483,7 @@ OC.L10N.register(
     "Speak to the server administrator to resolve this issue." : "Jāsazinās ar servera pārvaldītāju, lai atrisinātu šo sarežģījumu.",
     "The slot for your appointment has been confirmed" : "Vieta paredzētajam notikumam tika apstiprināta",
     "Appointment Details:" : "Informācija par paredzēto tikšanos:",
-    "Time:" : "Laiks:"
+    "Time:" : "Laiks:",
+    "Edit event" : "Labot notikumu"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

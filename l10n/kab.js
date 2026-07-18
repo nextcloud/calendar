@@ -159,7 +159,6 @@ OC.L10N.register(
     "Select a date" : "Fren Azemz",
     "Personal" : "Udmawan",
     "Discard changes" : "Sefsex ibeddilen",
-    "Edit event" : "Edit event",
     "All day" : "Ass kamel",
     "Invite" : "Snubget",
     "Discard changes?" : "Sefsex ibeddilen?",
@@ -194,6 +193,7 @@ OC.L10N.register(
     "Hidden" : "Udrig",
     "Show keyboard shortcuts" : "Sken inegzumen n unasiw",
     "Pick a date" : "Fren azemz",
-    "Time:" : "Akud:"
+    "Time:" : "Akud:",
+    "Edit event" : "Edit event"
 },
 "nplurals=2; plural=(n != 1);");

@@ -89,7 +89,6 @@ OC.L10N.register(
     "Global" : "გლობალური",
     "Subscribe" : "გამოწერა",
     "Personal" : "პირადი",
-    "Edit event" : "მოვლენის ცვლილება",
     "All day" : "მთელი დღე",
     "Close" : "დახურვა",
     "Participants" : "მონაწილეები",
@@ -105,6 +104,7 @@ OC.L10N.register(
     "Confirmed" : "დადასტურებლია",
     "Categories" : "კატეგორიები",
     "Hidden" : "უჩინარი",
-    "Show week numbers" : "კვირის ნომრების ჩვენება"
+    "Show week numbers" : "კვირის ნომრების ჩვენება",
+    "Edit event" : "მოვლენის ცვლილება"
 },
 "nplurals=2; plural=(n!=1);");

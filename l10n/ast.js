@@ -258,7 +258,6 @@ OC.L10N.register(
     "Subscribe" : "Soscribise",
     "Personal" : "Personal",
     "Discard changes" : "Escartar los cambeos",
-    "Edit event" : "Editar eventu",
     "Event does not exist" : "L'eventu nun esiste",
     "All day" : "Tol día",
     "Invite" : "Convidar",
@@ -321,6 +320,7 @@ OC.L10N.register(
     "Event title" : "Títulu del eventu",
     "Please enter a valid date" : "Introduz una data válida",
     "Pick a date" : "Escueyi una data",
-    "Time:" : "Hora:"
+    "Time:" : "Hora:",
+    "Edit event" : "Editar eventu"
 },
 "nplurals=2; plural=(n != 1);");

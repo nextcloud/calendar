@@ -613,7 +613,6 @@ OC.L10N.register(
     "Anyone with the invitation can respond" : "招待状を持っている人は誰でも返答できます",
     "Only invited attendees can respond" : "招待された出席者のみが返答できます",
     "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "「招待された出席者のみが返答できます」を選択すると、出席者が招待状を他の人に転送できなくなります。",
-    "Edit event" : "イベントを編集",
     "Event does not exist" : "イベントは存在しません",
     "Delete this occurrence" : "この出来事を削除",
     "Delete this and all future" : "これ以降を削除する",
@@ -837,6 +836,7 @@ OC.L10N.register(
     "Appointment Details:" : "予定の詳細：",
     "Time:" : "時刻:",
     "Booked for:" : "予約済み：",
+    "Edit event" : "イベントを編集",
     "Duration suggestions" : "期間の候補",
     "{duration} min" : "{duration}分"
 },

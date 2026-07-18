@@ -405,7 +405,6 @@ OC.L10N.register(
     "The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings." : "Samodejno zaznavanje časovnega pasu določa časovni pas kot UTC.\nTo je najverjetneje prilagojeno na varnostne nastavitve spletnega brskalnika.\nČasovni pas lahko določite tudi ročno med nastavitvami koledarja.",
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Nastavljenega časovnega pasu ({timezoneId}) ni mogoče najti. Povrnjena bo nastavitev na UTC.\nČasovni pas določite ročno med nastavitvami koledarja in pošljite poročilo o napaki.",
     "Discard changes" : "Opusti spremembe",
-    "Edit event" : "Uredi dogodek",
     "Event does not exist" : "Dogodek ne obstaja",
     "Delete this occurrence" : "Izbriši to pojavitev",
     "Delete this and all future" : "Izbriši to in vse prihodnje pojavitve",
@@ -558,6 +557,7 @@ OC.L10N.register(
     "The slot for your appointment has been confirmed" : "Časovni termin sestanka je potrjen",
     "Appointment Details:" : "Podrobnosti sestanka:",
     "Time:" : "Čas:",
-    "Booked for:" : "Rezervirano za:"
+    "Booked for:" : "Rezervirano za:",
+    "Edit event" : "Uredi dogodek"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

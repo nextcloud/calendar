@@ -615,7 +615,6 @@ OC.L10N.register(
     "Anyone with the invitation can respond" : "Vastata võivad kõik, kes mingil viisil kutse saavad",
     "Only invited attendees can respond" : "Vastata võivad vaid kutsutud",
     "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Valikuga „Vastata võivad vaid kutsutud“ saad välistada kutsete edastamise teistele huvilistele.",
-    "Edit event" : "Muuda sündmust",
     "Event does not exist" : "Sündmust pole olemas",
     "Delete this occurrence" : "Kustuta vaid see kord",
     "Delete this and all future" : "Kustuta see ja kõik tulevased",
@@ -839,6 +838,7 @@ OC.L10N.register(
     "Appointment Details:" : "Kohtumise üksikasjad:",
     "Time:" : "Aeg:",
     "Booked for:" : "Broneeritud:",
+    "Edit event" : "Muuda sündmust",
     "Duration suggestions" : "Kestuse soovitused",
     "{duration} min" : "{duration} min"
 },

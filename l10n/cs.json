@@ -534,7 +534,6 @@
     "Availability of {displayName}" : "Dostupnost {displayName}",
     "Discard changes" : "Zahodit změny",
     "Allow forwarding" : "Umožnit přeposílání",
-    "Edit event" : "Upravit událost",
     "Event does not exist" : "Událost neexistuje",
     "Delete this occurrence" : "Smazat tento výskyt",
     "Delete this and all future" : "Smazat toto a všechny budoucí",
@@ -750,6 +749,7 @@
     "Appointment Details:" : "Podrobnosti o schůzce:",
     "Time:" : "Čas:",
     "Booked for:" : "Zarezervováno pro:",
+    "Edit event" : "Upravit událost",
     "Duration suggestions" : "Návrhy datumů",
     "{duration} min" : "{duration} min"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
