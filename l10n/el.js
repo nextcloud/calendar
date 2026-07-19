@@ -336,6 +336,7 @@ OC.L10N.register(
     "Custom" : "Προσαρμοσμένο",
     "Days" : "Ημέρες",
     "Hours" : "Ώρες",
+    "Minutes" : "Λεπτά",
     "Suggested times" : "Προτεινόμενες ώρες",
     "chairperson" : "πρόεδρος",
     "required participant" : "απαιτούμενος συμμετέχων",
