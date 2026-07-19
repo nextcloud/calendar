@@ -615,6 +615,7 @@ OC.L10N.register(
     "Anyone with the invitation can respond" : "Vastata võivad kõik, kes mingil viisil kutse saavad",
     "Only invited attendees can respond" : "Vastata võivad vaid kutsutud",
     "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Valikuga „Vastata võivad vaid kutsutud“ saad välistada kutsete edastamise teistele huvilistele.",
+    "Detailed event editor" : "Sündmuse üksikasjalik muutmisvaade",
     "Event does not exist" : "Sündmust pole olemas",
     "Delete this occurrence" : "Kustuta vaid see kord",
     "Delete this and all future" : "Kustuta see ja kõik tulevased",
