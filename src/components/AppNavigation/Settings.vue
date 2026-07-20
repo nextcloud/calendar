@@ -185,7 +185,7 @@ import {
 } from '../../models/consts.js'
 import { getCurrentUserPrincipal } from '../../services/caldavService.js'
 import useCalendarsStore from '../../store/calendars.js'
-import useImportFilesStore from '../../store/importFiles.js'
+import useImportStore from '../../store/import.ts'
 import usePrincipalsStore from '../../store/principals.js'
 import useSettingsStore from '../../store/settings.js'
 import {
@@ -247,7 +247,7 @@ export default {
 	},
 
 	computed: {
-		...mapStores(useSettingsStore, useCalendarsStore, useImportFilesStore, usePrincipalsStore),
+		...mapStores(useSettingsStore, useCalendarsStore, useImportStore, usePrincipalsStore),
 		...mapState(useSettingsStore, [
 			'eventLimit',
 			'showTasks',
@@ -276,24 +276,8 @@ export default {
 			return isAfterVersion(34)
 		},
 
-		files() {
-			return this.importFilesStore.importFiles
-		},
-
 		hasBirthdayCalendar() {
 			return !!this.calendarsStore.getBirthdayCalendar
-		},
-
-		showUploadButton() {
-			return this.importStateStore.importState.stage === IMPORT_STAGE_DEFAULT
-		},
-
-		showImportModal() {
-			return this.importStateStore.importState.stage === IMPORT_STAGE_PROCESSING
-		},
-
-		showProgressBar() {
-			return this.importStateStore.importState.stage === IMPORT_STAGE_IMPORTING
 		},
 
 		settingsTitle() {
