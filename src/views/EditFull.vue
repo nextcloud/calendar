@@ -39,10 +39,18 @@
 							<Close :size="20" @click="cancel(false)" />
 						</div>
 
-						<PropertyTitle
-							:value="title"
-							:isReadOnly="isReadOnly || isViewedByOrganizer === false"
-							@update:value="updateTitle" />
+						<div @keydown="handleTitleAreaKeydown">
+							<PropertyTitle
+								:value="title"
+								:isReadOnly="isReadOnly || isViewedByOrganizer === false"
+								@update:value="handleTitleUpdate" />
+
+							<TimeSuggestion
+								v-if="timeSuggestion && !isReadOnly"
+								:suggestion="timeSuggestion"
+								@apply="applyTimeSuggestion"
+								@dismiss="dismissTimeSuggestion" />
+						</div>
 					</div>
 
 					<div v-if="!isLoading && !isError" class="app-full__actions">
@@ -382,10 +390,12 @@ import PropertySelectMultiple from '../components/Editor/Properties/PropertySele
 import PropertyText from '../components/Editor/Properties/PropertyText.vue'
 import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'
 import PropertyTitleTimePicker from '../components/Editor/Properties/PropertyTitleTimePicker.vue'
+import TimeSuggestion from '../components/Editor/Properties/TimeSuggestion.vue'
 import Repeat from '../components/Editor/Repeat/Repeat.vue'
 import ResourceList from '../components/Editor/Resources/ResourceList.vue'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
 import EditorMixin from '../mixins/EditorMixin.js'
+import TimeSuggestionMixin from '../mixins/TimeSuggestionMixin.js'
 import { shareFile } from '../services/attachmentService.js'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
@@ -426,6 +436,7 @@ export default {
 		AttachmentsList,
 		CalendarPickerHeader,
 		PropertyTitle,
+		TimeSuggestion,
 		IconVideo,
 		HelpCircleIcon,
 		NcActions,
@@ -435,6 +446,7 @@ export default {
 
 	mixins: [
 		EditorMixin,
+		TimeSuggestionMixin,
 	],
 
 	data() {
@@ -541,6 +553,12 @@ export default {
 
 		showInvitationForwarding() {
 			return isAfterVersion(34)
+		},
+	},
+
+	watch: {
+		calendarObjectInstance() {
+			this.timeSuggestion = null
 		},
 	},
 
@@ -806,6 +824,7 @@ export default {
 
 			this.toggleAllDay()
 		},
+
 	},
 }
 </script>
