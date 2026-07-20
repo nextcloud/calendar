@@ -153,6 +153,7 @@ OC.L10N.register(
     "No users or groups" : "Δεν υπάρχουν χρήστες ή ομάδες",
     "None" : "Καμία",
     "Failed to save calendar name and color" : "Απέτυχε η αποθήκευση του ονόματος και του χρώματος του ημερολογίου",
+    "Calendar name" : "Όνομα ημερολογίου",
     "Never show me as busy (set this calendar to transparent)" : "Να μην εμφανίζομαι ποτέ ως απασχολημένος/η (ορισμός ημερολογίου ως διαφανές)",
     "Share calendar" : "Κοινή χρήση ημερολογίου",
     "Unshare from me" : "Διακοπή διαμοιρασμού με εμένα",
