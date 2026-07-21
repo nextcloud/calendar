@@ -5,11 +5,11 @@
 
 <template>
 	<DateTimePicker
-		:modelValue="date"
+		v-model="timePickerValue"
 		type="time"
 		:hideLabel="true"
 		v-bind="$attrs"
-		@update:modelValue="change" />
+		@blur="restoreLastValidDate" />
 </template>
 
 <script lang="ts">
@@ -26,23 +26,29 @@ export default {
 			type: Date,
 			required: true,
 		},
+
 	},
 
 	emits: ['change'],
 
-	data() {
+	data(): { timePickerValue: Date | null } {
 		return {
+			timePickerValue: this.date,
 		}
 	},
 
-	methods: {
-		/**
-		 * Emits a change event for the Date
-		 *
-		 * @param date - The new Date object, or `null` if the date is cleared by the user.
-		 */
-		change(date: Date | null) {
+	watch: {
+		timePickerValue(date) {
+			if (date === null) {
+				return
+			}
 			this.$emit('change', date)
+		},
+	},
+
+	methods: {
+		restoreLastValidDate() {
+			this.timePickerValue = this.date
 		},
 	},
 }
