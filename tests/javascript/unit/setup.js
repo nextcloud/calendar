@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { enableAutoUnmount } from '@vue/test-utils'
+
 beforeAll(() => {
 	// Disclaimer: The following explanation might be inaccurate 
 	// because it is a result of encountering this issue for the first time. 
@@ -60,6 +62,9 @@ beforeAll(() => {
 	// See https://vitest.dev/guide/mocking/modules.html
 	vi.resetModules()
 })
+
+// Required if `attachTo: document.body` is used in tests.
+enableAutoUnmount(afterEach)
 
 document.title = 'Standard Nextcloud title'
 

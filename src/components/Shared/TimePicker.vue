@@ -6,7 +6,7 @@
 import type { Ref } from 'vue'
 
 import { NcDateTimePickerNative } from '@nextcloud/vue'
-import { ref, watchEffect } from 'vue'
+import { computed, ref } from 'vue'
 
 const { date } = defineProps<{
 	date: Date
@@ -16,21 +16,34 @@ const emit = defineEmits<{
 	change: [value: Date]
 }>()
 
-const timePickerValue: Ref<Date | null> = ref(date)
+const cleared: Ref<boolean> = ref(false)
+const timePickerValue = computed<Date | null>({
+	get() {
+		if (cleared.value) {
+			return null
+		}
+		return date
+	},
+	set(newValue: Date | null) {
+		if (newValue === null) {
+			cleared.value = true
+			return
+		}
+
+		cleared.value = false
+
+		if (date.getHours() !== newValue.getHours() || date.getMinutes() !== newValue.getMinutes()) {
+			emit('change', newValue)
+		}
+	},
+})
 
 /**
- * Re
+ * Restores last valid date into a input, if input is cleared.
  */
-function restoreLastValidDate() {
-	timePickerValue.value = date
+function restoreClearedInput() {
+	cleared.value = false
 }
-
-watchEffect(() => {
-	if (timePickerValue.value === null) {
-		return
-	}
-	emit('change', timePickerValue.value)
-})
 </script>
 
 <template>
@@ -39,5 +52,5 @@ watchEffect(() => {
 		type="time"
 		:hideLabel="true"
 		v-bind="$attrs"
-		@blur="restoreLastValidDate" />
+		@blur="restoreClearedInput" />
 </template>
