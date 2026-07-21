@@ -58,7 +58,7 @@ import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
 import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import useCalendarsStore from '../../../store/calendars.js'
 import usePrincipalsStore from '../../../store/principals.js'
-import { urldecode } from '../../../utils/url.js'
+import { urldecode } from '../../../utils/url.ts'
 
 export default {
 	name: 'SharingSearch',
