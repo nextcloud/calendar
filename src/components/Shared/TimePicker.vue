@@ -2,54 +2,42 @@
   - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+<script setup lang="ts">
+import type { Ref } from 'vue'
+
+import { NcDateTimePickerNative } from '@nextcloud/vue'
+import { ref, watchEffect } from 'vue'
+
+const { date } = defineProps<{
+	date: Date
+}>()
+
+const emit = defineEmits<{
+	change: [value: Date]
+}>()
+
+const timePickerValue: Ref<Date | null> = ref(date)
+
+/**
+ * Re
+ */
+function restoreLastValidDate() {
+	timePickerValue.value = date
+}
+
+watchEffect(() => {
+	if (timePickerValue.value === null) {
+		return
+	}
+	emit('change', timePickerValue.value)
+})
+</script>
 
 <template>
-	<DateTimePicker
+	<NcDateTimePickerNative
 		v-model="timePickerValue"
 		type="time"
 		:hideLabel="true"
 		v-bind="$attrs"
 		@blur="restoreLastValidDate" />
 </template>
-
-<script lang="ts">
-import { NcDateTimePickerNative as DateTimePicker } from '@nextcloud/vue'
-
-export default {
-	name: 'TimePicker',
-	components: {
-		DateTimePicker,
-	},
-
-	props: {
-		date: {
-			type: Date,
-			required: true,
-		},
-
-	},
-
-	emits: ['change'],
-
-	data(): { timePickerValue: Date | null } {
-		return {
-			timePickerValue: this.date,
-		}
-	},
-
-	watch: {
-		timePickerValue(date) {
-			if (date === null) {
-				return
-			}
-			this.$emit('change', date)
-		},
-	},
-
-	methods: {
-		restoreLastValidDate() {
-			this.timePickerValue = this.date
-		},
-	},
-}
-</script>
