@@ -376,6 +376,8 @@ export default {
 		},
 	},
 
+	emits: ['close', 'updateDates', 'addAttendee', 'removeAttendee'],
+
 	setup() {
 		const isMobile = useIsMobile()
 		return { isMobile }
@@ -560,10 +562,6 @@ export default {
 
 		attendees(newVal) {
 			this.updateAttendeeDetails(newVal)
-
-			if (newVal.length === 0) {
-				this.$emit('close:noAttendees')
-			}
 		},
 	},
 

@@ -11,13 +11,12 @@ test('subscribe to a public calendar', async ({ provisioning, calendarPage, page
 	await provisioning.updateAppConfigValue('calendar', 'publicCalendars', publicCalendarConfValue)
 	// Page needs to be reloaded because the config value is loaded on page load.
 	await page.reload()
-	const dialog = calendarPage.publicCalendarSubscriptionDialog
+	let dialog = await calendarPage.openPublicCalendarSubscriptionDialog()
 
-	await dialog.open()
 	await dialog.subscribeToCalendar(publicCalendarName)
 	await dialog.close()
 
 	await calendarPage.expectCalendarExists(publicCalendarName)
-	await dialog.open()
+	dialog = await calendarPage.openPublicCalendarSubscriptionDialog()
 	await dialog.expectSubscribed(publicCalendarName)
 })

@@ -37,17 +37,26 @@ export class ProvisioningFacade {
 		return this.api
 	}
 
-	async createUser() {
+	async createUser({
+		displayName = 'userDefault',
+		email = 'userDefault@example.com'
+	} = {}) {
 		const user = {
 			userId: `user-${crypto.randomUUID()}`,
 			password: DEFAULT_USER_PASSWORD,
+		}
+		const userRequestData = {
+			userid: user.userId,
+			password: user.password,
+			displayName: displayName,
+			email: email
 		}
 		const api = await this.getAPI()
 
 		// NOTE Possible improvement: Generate client from OpenAPI spec
 		// See https://docs.nextcloud.com/server/stable/developer_manual/_static/openapi.html#/operations/provisioning_api-users-add-user
 		const res = await api.post('/ocs/v2.php/cloud/users', {
-			data: { userid: user.userId, password: user.password },
+			data: userRequestData,
 		})
 
 		if (!res.ok()) {
