@@ -74,7 +74,7 @@
 						<NcDateTimePickerNative
 							:hideLabel="true"
 							:modelValue="currentStart"
-							@input="(date) => handleActions('picker', date)" />
+							@update:modelValue="(date) => handleActions('picker', date)" />
 						<NcButton
 							variant="secondary"
 							:aria-label="isRTL ? t('calendar', 'Next date') : t('calendar', 'Previous date')"
@@ -132,7 +132,7 @@
 						<NcDateTimePickerNative
 							:hideLabel="true"
 							:modelValue="currentStart"
-							@input="(date) => handleActions('picker', date)" />
+							@update:modelValue="(date) => handleActions('picker', date)" />
 						<NcButton
 							variant="secondary"
 							:aria-label="isRTL ? t('calendar', 'Next date') : t('calendar', 'Previous date')"
@@ -665,6 +665,10 @@ export default {
 					calendar.next()
 					break
 				case 'picker':
+					// `date` is `null` when the "clear" button of the native date input was used.
+					if (date === null) {
+						return
+					}
 					calendar.gotoDate(date)
 					break
 			}
