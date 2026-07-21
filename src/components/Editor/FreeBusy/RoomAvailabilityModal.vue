@@ -260,7 +260,6 @@ export default {
 				...getFullCalendarLocale(),
 				// Rendering
 				height: 'auto',
-				loading: this.loading,
 				headerToolbar: false,
 				resourceAreaColumns: [
 					{
@@ -280,8 +279,6 @@ export default {
 					day: 'numeric',
 					weekday: 'long',
 				},
-
-				dateClick: this.findFreeSlots(),
 			}
 		},
 
