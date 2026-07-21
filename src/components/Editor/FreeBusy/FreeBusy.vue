@@ -665,6 +665,10 @@ export default {
 					calendar.next()
 					break
 				case 'picker':
+					// `date` is `null` when the "clear" button of the native date input was used.
+					if (date === null) {
+						return
+					}
 					calendar.gotoDate(date)
 					break
 			}
