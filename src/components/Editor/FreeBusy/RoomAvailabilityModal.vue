@@ -263,7 +263,6 @@ export default {
 				...getFullCalendarLocale(),
 				// Rendering
 				height: 'auto',
-				loading: this.loading,
 				headerToolbar: false,
 				resourceAreaColumns: [
 					{
@@ -283,8 +282,6 @@ export default {
 					day: 'numeric',
 					weekday: 'long',
 				},
-
-				dateClick: this.findFreeSlots(),
 			}
 		},
 
@@ -310,6 +307,10 @@ export default {
 					calendar.next()
 					break
 				case 'picker':
+					// `date` is `null` when the "clear" button of the native date input was used.
+					if (date === null) {
+						return
+					}
 					calendar.gotoDate(date)
 					break
 			}
