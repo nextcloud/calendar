@@ -3,42 +3,29 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import { t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
+import { NcAppNavigationItem } from '@nextcloud/vue'
+import AlertCircleIcon from 'vue-material-design-icons/AlertCircle.vue'
+
+const title = t('calendar', 'To configure appointments, add your email address in personal settings.')
+
+function openUserSettings(): void {
+	const url = generateUrl('settings/user')
+	window.open(url, '_blank')?.focus()
+}
+</script>
+
 <template>
-	<AppNavigationItem
+	<NcAppNavigationItem
 		:name="title"
 		@click="openUserSettings">
 		<template #icon>
 			<AlertCircleIcon :size="20" class="no-email-warning__icon" />
 		</template>
-	</AppNavigationItem>
+	</NcAppNavigationItem>
 </template>
-
-<script>
-import { generateUrl } from '@nextcloud/router'
-import { NcAppNavigationItem as AppNavigationItem } from '@nextcloud/vue'
-import AlertCircleIcon from 'vue-material-design-icons/AlertCircle.vue'
-
-export default {
-	name: 'NoEmailAddressWarning',
-	components: {
-		AppNavigationItem,
-		AlertCircleIcon,
-	},
-
-	computed: {
-		title() {
-			return this.t('calendar', 'To configure appointments, add your email address in personal settings.')
-		},
-	},
-
-	methods: {
-		openUserSettings() {
-			const url = generateUrl('settings/user')
-			window.open(url, '_blank').focus()
-		},
-	},
-}
-</script>
 
 <style lang="scss" scoped>
 :deep() {

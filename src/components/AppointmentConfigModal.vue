@@ -3,13 +3,207 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type { CalendarInterface } from '@/types/calendar.ts'
+
+import { CalendarAvailability } from '@nextcloud/calendar-availability-vue'
+import { t } from '@nextcloud/l10n'
+import {
+	NcButton,
+	NcCheckboxRadioSwitch,
+	NcModal,
+	NcNoteCard,
+	NcTextArea,
+	NcTextField,
+} from '@nextcloud/vue'
+import { computed, ref, watch } from 'vue'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import CheckedDurationSelect from './AppointmentConfigModal/CheckedDurationSelect.vue'
+import Confirmation from './AppointmentConfigModal/Confirmation.vue'
+import DurationInput from './AppointmentConfigModal/DurationInput.vue'
+import DurationSelect from './AppointmentConfigModal/DurationSelect.vue'
+import NumberInput from './AppointmentConfigModal/NumberInput.vue'
+import VisibilitySelect from './AppointmentConfigModal/VisibilitySelect.vue'
+import CalendarPicker from './Shared/CalendarPicker.vue'
+import AppointmentConfig from '@/models/appointmentConfig.js'
+import useAppointmentConfigsStore from '@/store/appointmentConfigs.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useSettingsStore from '@/store/settings.js'
+import logger from '@/utils/logger.js'
+import { isAfterVersion } from '@/utils/nextcloudVersion'
+
+const props = withDefaults(defineProps<{
+	config: AppointmentConfig
+	isNew: boolean
+	isDuplicate?: boolean
+}>(), {
+	isDuplicate: false,
+})
+
+defineEmits<{
+	close: []
+}>()
+
+const appointmentConfigsStore = useAppointmentConfigsStore()
+const calendarsStore = useCalendarsStore()
+const settingsStore = useSettingsStore()
+
+const isLoading = ref(false)
+const editing = ref<AppointmentConfig>(props.config.clone())
+const enablePreparationDuration = ref(false)
+const enableFollowupDuration = ref(false)
+const enableFutureLimit = ref(false)
+const rateLimitingReached = ref(false)
+const showConfirmation = ref(false)
+
+const isTalkEnabled = computed<boolean>(() => settingsStore.talkEnabled)
+
+const formTitle = computed<string>(() => {
+	if (showConfirmation.value) {
+		return t('calendar', 'Appointment schedule saved')
+	}
+	if (props.isNew) {
+		return t('calendar', 'Create appointment schedule')
+	}
+
+	return t('calendar', 'Edit appointment schedule')
+})
+
+const saveButtonText = computed<string>(() => {
+	if (props.isNew) {
+		return t('calendar', 'Save')
+	}
+
+	return t('calendar', 'Update')
+})
+
+// TODO: Can be removed after NC version 30 support is dropped
+const availableCalendars = computed<CalendarInterface[]>(() => {
+	if (isAfterVersion(31)) {
+		return calendarsStore.sortedCalendars
+	}
+	return calendarsStore.ownSortedCalendars
+})
+
+const calendar = computed<CalendarInterface | undefined>(() => {
+	if (!editing.value.targetCalendarUri) {
+		return availableCalendars.value[0]
+	}
+
+	const uri = editing.value.targetCalendarUri
+	const calendar = availableCalendars.value.find((cal) => calendarUrlToUri(cal.url) === uri)
+	return calendar || availableCalendars.value[0]
+})
+
+const selectableConflictCalendars = computed<CalendarInterface[]>(() => {
+	// The target calendar is always a conflict calendar, remove it from additional conflict calendars
+	return calendarsStore.sortedCalendarsAll.filter((cal: CalendarInterface) => cal.url !== calendar.value?.url)
+})
+
+const selectedConflictCalendars = computed<CalendarInterface[]>(() => {
+	const freebusyUris: string[] = editing.value.calendarFreeBusyUris ?? []
+	return freebusyUris.map((uri) => {
+		return calendarsStore.sortedCalendarsAll.find((cal: CalendarInterface) => calendarUrlToUri(cal.url) === uri)
+	}).filter((cal: CalendarInterface | undefined): cal is CalendarInterface => cal !== undefined)
+})
+
+const defaultConfig = computed<AppointmentConfig>(() => {
+	return AppointmentConfig.createDefault(
+		calendarUrlToUri(availableCalendars.value[0].url),
+		calendarsStore.scheduleInbox,
+		settingsStore.getResolvedTimezone,
+	)
+})
+
+watch(() => props.config, () => {
+	reset()
+})
+
+function reset(): void {
+	editing.value = props.config.clone()
+
+	if (props.isDuplicate) {
+		editing.value.name = `${editing.value.name} ${t('calendar', '(copy)')}`
+	}
+
+	enablePreparationDuration.value = !!editing.value.preparationDuration
+	enableFollowupDuration.value = !!editing.value.followupDuration
+	enableFutureLimit.value = !!editing.value.futureLimit
+
+	showConfirmation.value = false
+	// Disable Talk integration if Talk is no longer available
+	if (!isTalkEnabled.value) {
+		editing.value.createTalkRoom = false
+	}
+}
+
+function calendarUrlToUri(url: string): string {
+	// Trim trailing slash and split into URL parts
+	const parts = url.replace(/\/$/, '').split('/')
+	// The last one is the URI
+	return parts[parts.length - 1]
+}
+
+function changeCalendar(calendar: CalendarInterface): void {
+	editing.value.targetCalendarUri = calendarUrlToUri(calendar.url)
+	editing.value.calendarFreeBusyUris = editing.value.calendarFreeBusyUris.filter((uri: string) => uri !== calendarUrlToUri(calendar.url))
+}
+
+function addConflictCalender(calendar: CalendarInterface): void {
+	editing.value.calendarFreeBusyUris.push(calendarUrlToUri(calendar.url))
+}
+
+function removeConflictCalendar(calendar: CalendarInterface): void {
+	editing.value.calendarFreeBusyUris = editing.value.calendarFreeBusyUris.filter((uri: string) => uri !== calendarUrlToUri(calendar.url))
+}
+
+async function save(): Promise<void> {
+	isLoading.value = true
+	rateLimitingReached.value = false
+
+	if (!enablePreparationDuration.value) {
+		editing.value.preparationDuration = defaultConfig.value.preparationDuration
+	}
+
+	if (!enableFollowupDuration.value) {
+		editing.value.followupDuration = defaultConfig.value.followupDuration
+	}
+
+	if (!enableFutureLimit.value) {
+		editing.value.futureLimit = null
+	}
+
+	editing.value.targetCalendarUri ??= defaultConfig.value.targetCalendarUri
+
+	const config = editing.value
+	try {
+		if (props.isNew) {
+			logger.info('Creating new config', { config })
+			editing.value = await appointmentConfigsStore.createConfig({ config })
+		} else {
+			logger.info('Saving config', { config })
+			editing.value = await appointmentConfigsStore.updateConfig({ config })
+		}
+		showConfirmation.value = true
+	} catch (error) {
+		if (error?.response?.status === 429) {
+			rateLimitingReached.value = true
+		}
+		logger.error('Failed to save config', { error, config, isNew: props.isNew })
+	} finally {
+		isLoading.value = false
+	}
+}
+
+reset()
+</script>
+
 <template>
 	<NcModal
 		size="normal"
 		:name="formTitle"
 		@close="$emit('close')">
-		<!-- Wait for the config to become available before rendering the form. -->
-		<div v-if="editing" class="appointment-config-modal">
+		<div class="appointment-config-modal">
 			<Confirmation
 				v-if="showConfirmation"
 				:isNew="isNew"
@@ -21,11 +215,11 @@
 						<h2>{{ formTitle }}</h2>
 					</div>
 					<fieldset>
-						<TextInput
+						<NcTextField
 							v-model="editing.name"
 							class="appointment-config-modal__form__row"
 							:label="t('calendar', 'Appointment name')" />
-						<TextInput
+						<NcTextField
 							v-model="editing.location"
 							class="appointment-config-modal__form__row"
 							:label="t('calendar', 'Location')"
@@ -36,10 +230,14 @@
 							</NcCheckboxRadioSwitch>
 							<span class="appointment-config-modal__talk-room-description">{{ t('calendar', 'A unique link will be generated for every booked appointment and sent via the confirmation email') }}</span>
 						</div>
-						<TextArea
-							v-model="editing.description"
-							class="appointment-config-modal__form__row"
-							:label="t('calendar', 'Description')" />
+						<div class="appointment-config-modal__form__row">
+							<label>{{ t('calendar', 'Description') }}</label>
+							<NcTextArea
+								v-model="editing.description"
+								class="appointment-config-modal__form__row"
+								:labelOutside="true"
+								resize="vertical" />
+						</div>
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
 							<DurationInput
@@ -105,12 +303,12 @@
 								v-model="editing.preparationDuration"
 								:enabled="enablePreparationDuration"
 								:label="t('calendar', 'Buffer before the event')"
-								@update:enabled="setEnablePreparationDuration" />
+								@update:enabled="enablePreparationDuration = $event" />
 							<CheckedDurationSelect
 								v-model="editing.followupDuration"
 								:enabled="enableFollowupDuration"
 								:label="t('calendar', 'Buffer after the event')"
-								@update:enabled="setEnableFollowupDuration" />
+								@update:enabled="enableFollowupDuration = $event" />
 						</div>
 
 						<div class="appointment-config-modal__form__row appointment-config-modal__form__row--wrapped">
@@ -132,7 +330,7 @@
 								:defaultValue="defaultConfig.futureLimit"
 								:min="7 * 24 * 60 * 60"
 								:max="null"
-								@update:enabled="setEnableFutureLimit" />
+								@update:enabled="enableFutureLimit = $event" />
 						</div>
 					</fieldset>
 				</div>
@@ -155,244 +353,6 @@
 		</div>
 	</NcModal>
 </template>
-
-<script>
-import { CalendarAvailability } from '@nextcloud/calendar-availability-vue'
-import { NcButton, NcCheckboxRadioSwitch, NcModal, NcNoteCard } from '@nextcloud/vue'
-import { mapState, mapStores } from 'pinia'
-import CheckIcon from 'vue-material-design-icons/Check.vue'
-import CheckedDurationSelect from './AppointmentConfigModal/CheckedDurationSelect.vue'
-import Confirmation from './AppointmentConfigModal/Confirmation.vue'
-import DurationInput from './AppointmentConfigModal/DurationInput.vue'
-import DurationSelect from './AppointmentConfigModal/DurationSelect.vue'
-import NumberInput from './AppointmentConfigModal/NumberInput.vue'
-import TextArea from './AppointmentConfigModal/TextArea.vue'
-import TextInput from './AppointmentConfigModal/TextInput.vue'
-import VisibilitySelect from './AppointmentConfigModal/VisibilitySelect.vue'
-import CalendarPicker from './Shared/CalendarPicker.vue'
-import AppointmentConfig from '../models/appointmentConfig.js'
-import useAppointmentConfigsStore from '../store/appointmentConfigs.js'
-import useCalendarsStore from '../store/calendars.js'
-import useSettingsStore from '../store/settings.js'
-import logger from '../utils/logger.js'
-import { isAfterVersion } from '@/utils/nextcloudVersion'
-
-export default {
-	name: 'AppointmentConfigModal',
-	components: {
-		CalendarAvailability,
-		CheckedDurationSelect,
-		CalendarPicker,
-		DurationInput,
-		NcModal,
-		NumberInput,
-		TextInput,
-		TextArea,
-		DurationSelect,
-		VisibilitySelect,
-		Confirmation,
-		NcButton,
-		NcCheckboxRadioSwitch,
-		NcNoteCard,
-	},
-
-	props: {
-		config: {
-			type: AppointmentConfig,
-			required: true,
-		},
-
-		isNew: {
-			type: Boolean,
-			required: true,
-		},
-
-		isDuplicate: {
-			type: Boolean,
-			default: false,
-		},
-	},
-
-	emits: ['close'],
-
-	data() {
-		return {
-			isLoading: false,
-			editing: undefined,
-			enablePreparationDuration: false,
-			enableFollowupDuration: false,
-			enableFutureLimit: false,
-			rateLimitingReached: false,
-			showConfirmation: false,
-		}
-	},
-
-	computed: {
-		...mapState(useSettingsStore, {
-			isTalkEnabled: 'talkEnabled',
-		}),
-
-		...mapState(useCalendarsStore, ['ownSortedCalendars', 'sortedCalendars', 'sortedCalendarsAll']),
-		...mapStores(useAppointmentConfigsStore, useCalendarsStore, useSettingsStore),
-		formTitle() {
-			if (this.showConfirmation) {
-				return this.$t('calendar', 'Appointment schedule saved')
-			}
-			if (this.isNew) {
-				return this.$t('calendar', 'Create appointment schedule')
-			}
-
-			return this.$t('calendar', 'Edit appointment schedule')
-		},
-
-		saveButtonText() {
-			if (this.isNew) {
-				return this.$t('calendar', 'Save')
-			}
-
-			return this.$t('calendar', 'Update')
-		},
-
-		calendar() {
-			if (!this.editing.targetCalendarUri) {
-				return this.availableCalendars[0]
-			}
-
-			const uri = this.editing.targetCalendarUri
-			const calendar = this.availableCalendars.find((cal) => this.calendarUrlToUri(cal.url) === uri)
-			return calendar || this.availableCalendars[0]
-		},
-
-		// TODO: Can be removed after NC version 30 support is dropped
-		availableCalendars() {
-			if (isAfterVersion(31)) {
-				return this.sortedCalendars
-			}
-			return this.ownSortedCalendars
-		},
-
-		selectableConflictCalendars() {
-			// The target calendar is always a conflict calendar, remove it from additional conflict calendars
-			return this.sortedCalendarsAll.filter((calendar) => calendar.url !== this.calendar.url)
-		},
-
-		selectedConflictCalendars() {
-			const freebusyUris = this.editing.calendarFreeBusyUris ?? []
-			return freebusyUris.map((uri) => {
-				return this.sortedCalendarsAll.find((cal) => this.calendarUrlToUri(cal.url) === uri)
-			}).filter((calendar) => calendar !== undefined)
-		},
-
-		defaultConfig() {
-			return AppointmentConfig.createDefault(
-				this.calendarUrlToUri(this.availableCalendars[0].url),
-				this.calendarsStore.scheduleInbox,
-				this.settingsStore.getResolvedTimezone,
-			)
-		},
-	},
-
-	watch: {
-		config() {
-			this.reset()
-		},
-	},
-
-	created() {
-		this.reset()
-	},
-
-	methods: {
-		setEnablePreparationDuration(value) {
-			this.enablePreparationDuration = value
-		},
-
-		setEnableFollowupDuration(value) {
-			this.enableFollowupDuration = value
-		},
-
-		setEnableFutureLimit(value) {
-			this.enableFutureLimit = value
-		},
-
-		reset() {
-			this.editing = this.config.clone()
-
-			if (this.isDuplicate) {
-				this.editing.name = `${this.editing.name} ${this.t('calendar', '(copy)')}`
-			}
-
-			this.enablePreparationDuration = !!this.editing.preparationDuration
-			this.enableFollowupDuration = !!this.editing.followupDuration
-			this.enableFutureLimit = !!this.editing.futureLimit
-
-			this.showConfirmation = false
-			// Disable Talk integration if Talk is no longer available
-			if (!this.isTalkEnabled) {
-				this.editing.createTalkRoom = false
-			}
-		},
-
-		calendarUrlToUri(url) {
-			// Trim trailing slash and split into URL parts
-			const parts = url.replace(/\/$/, '').split('/')
-			// The last one is the URI
-			return parts[parts.length - 1]
-		},
-
-		changeCalendar(calendar) {
-			this.editing.targetCalendarUri = this.calendarUrlToUri(calendar.url)
-			this.editing.calendarFreeBusyUris = this.editing.calendarFreeBusyUris.filter((uri) => uri !== this.calendarUrlToUri(calendar.url))
-		},
-
-		addConflictCalender(calendar) {
-			this.editing.calendarFreeBusyUris.push(this.calendarUrlToUri(calendar.url))
-		},
-
-		removeConflictCalendar(calendar) {
-			this.editing.calendarFreeBusyUris = this.editing.calendarFreeBusyUris.filter((uri) => uri !== this.calendarUrlToUri(calendar.url))
-		},
-
-		async save() {
-			this.isLoading = true
-			this.rateLimitingReached = false
-
-			if (!this.enablePreparationDuration) {
-				this.editing.preparationDuration = this.defaultConfig.preparationDuration
-			}
-
-			if (!this.enableFollowupDuration) {
-				this.editing.followupDuration = this.defaultConfig.followupDuration
-			}
-
-			if (!this.enableFutureLimit) {
-				this.editing.futureLimit = null
-			}
-
-			this.editing.targetCalendarUri ??= this.defaultConfig.targetCalendarUri
-
-			const config = this.editing
-			try {
-				if (this.isNew) {
-					logger.info('Creating new config', { config })
-					this.editing = await this.appointmentConfigsStore.createConfig({ config })
-				} else {
-					logger.info('Saving config', { config })
-					this.editing = await this.appointmentConfigsStore.updateConfig({ config })
-				}
-				this.showConfirmation = true
-			} catch (error) {
-				if (error?.response?.status === 429) {
-					this.rateLimitingReached = true
-				}
-				logger.error('Failed to save config', { error, config, isNew: this.isNew })
-			} finally {
-				this.isLoading = false
-			}
-		},
-	},
-}
-</script>
 
 <style lang="scss" scoped>
 .appointment-config-modal {

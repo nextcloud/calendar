@@ -3,6 +3,36 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import { NcTextField } from '@nextcloud/vue'
+import { computed } from 'vue'
+
+const props = withDefaults(defineProps<{
+	label: string
+	modelValue?: number
+}>(), {
+	modelValue: 0,
+})
+
+const emit = defineEmits<{
+	'update:modelValue': [value: number]
+}>()
+
+// Value prop is in seconds but displayed in minutes
+const internalValue = computed<number>({
+	get() {
+		return Math.round(props.modelValue / 60)
+	},
+
+	set(value: number) {
+		if (value === undefined || Number.isNaN(value)) {
+			return
+		}
+		emit('update:modelValue', value * 60)
+	},
+})
+</script>
+
 <template>
 	<div class="duration-input">
 		<label for="duration-input">{{ label }}</label>
@@ -14,87 +44,9 @@
 			type="number"
 			min="0"
 			step="1"
-			inputmode="numeric"
-			@update:modelValue="change" />
+			inputmode="numeric" />
 	</div>
 </template>
-
-<script>
-import { NcTextField } from '@nextcloud/vue'
-
-export default {
-	name: 'DurationInput',
-	components: {
-		NcTextField,
-	},
-
-	props: {
-		label: {
-			type: String,
-			required: true,
-		},
-
-		modelValue: {
-			type: Number,
-			default: 0,
-		},
-	},
-
-	emits: ['update:modelValue', 'update:model-value'],
-
-	data() {
-		return {
-			internalValue: '',
-		}
-	},
-
-	computed: {
-		valueInMinutes() {
-			// Convert value prop from seconds to minutes
-			return Math.round(this.modelValue / 60)
-		},
-
-		parsedInternalValue() {
-			if (this.internalValue === '') {
-				return 0
-			}
-
-			const minutes = Number.parseInt(this.internalValue, 10)
-			return Number.isNaN(minutes) ? 0 : minutes
-		},
-	},
-
-	watch: {
-		modelValue(newVal) {
-			// Only apply new value if it really changed compared to the internal state
-			if (this.parsedInternalValue * 60 !== newVal) {
-				this.updateInternalValue()
-			}
-		},
-	},
-
-	mounted() {
-		this.updateInternalValue()
-	},
-
-	methods: {
-		change() {
-			const sanitizedValue = String(this.internalValue).replace(/\D+/g, '')
-			if (sanitizedValue !== this.internalValue) {
-				this.internalValue = sanitizedValue
-			}
-
-			// Emit value in seconds
-
-			this.$emit('update:modelValue', this.parsedInternalValue * 60)
-		},
-
-		updateInternalValue() {
-			this.internalValue = this.valueInMinutes.toString()
-		},
-	},
-}
-</script>
 
 <style lang="scss" scoped>
 .duration-input {
