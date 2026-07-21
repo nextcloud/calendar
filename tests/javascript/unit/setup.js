@@ -68,3 +68,8 @@ globalThis.OC = {
 		version: '34.0.0',
 	},
 }
+
+// To disable warning: [ERROR] @nextcloud/vue: The `@nextcloud/vue` library was used without setting / replacing the `appName`. { app: '@nextcloud/vue', level: 2 }
+globalThis.appName = 'calendar'
+// To disable warning: [ERROR] @nextcloud/vue: The `@nextcloud/vue` library was used without setting / replacing the `appVersion`. { app: '@nextcloud/vue', level: 2 }
+globalThis.appVersion = '0.0.0'

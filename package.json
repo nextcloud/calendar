@@ -99,6 +99,7 @@
     "@types/node": "^26.1.1",
     "@vitejs/plugin-vue": "^6.0.7",
     "@vitest/coverage-v8": "^4.1.10",
+    "@vitest/eslint-plugin": "^1.6.23",
     "@vue/compiler-sfc": "^3.5.40",
     "@vue/test-utils": "^2.4.11",
     "css-loader": "^7.1.4",
