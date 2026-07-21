@@ -5,14 +5,14 @@
 
 <template>
 	<DateTimePicker
-		:value="date"
+		:modelValue="date"
 		type="time"
 		:hideLabel="true"
 		v-bind="$attrs"
-		@input="change" />
+		@update:modelValue="change" />
 </template>
 
-<script>
+<script lang="ts">
 import { NcDateTimePickerNative as DateTimePicker } from '@nextcloud/vue'
 
 export default {
@@ -39,9 +39,9 @@ export default {
 		/**
 		 * Emits a change event for the Date
 		 *
-		 * @param {Date} date The new Date object
+		 * @param date - The new Date object, or `null` if the date is cleared by the user.
 		 */
-		change(date) {
+		change(date: Date | null) {
 			this.$emit('change', date)
 		},
 	},
