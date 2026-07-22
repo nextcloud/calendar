@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { extractRoomUrlToken, generateRoomUrl } from '../../../../src/services/talkService'
 import { getBaseUrl } from '@nextcloud/router'
+import { extractRoomUrlToken, generateRoomUrl } from '../../../../src/services/talkService.ts'
 
 vi.mock('@nextcloud/router', () => ({
 	generateUrl: vi.fn((url, params, options) => {
 		const baseURL = options?.baseURL || ''
 		let path = url
 		if (params) {
-			Object.keys(params).forEach(key => {
+			Object.keys(params).forEach((key) => {
 				path = path.replace(`{${key}}`, params[key])
 			})
 		}
@@ -42,7 +42,7 @@ describe('services/talk test suite', () => {
 	test.each([
 		[
 			{ protocol: 'https:', host: 'nextcloud.testing' },
-			'https://nextcloud.testing/nextcloud/index.php/call/foobar'
+			'https://nextcloud.testing/nextcloud/index.php/call/foobar',
 		],
 		[
 			{ protocol: 'http:', host: 'nextcloud.testing' },
@@ -59,7 +59,7 @@ describe('services/talk test suite', () => {
 	])('should generate an absolute URL to a call', (location, expected) => {
 		const baseUrl = location.protocol + '//' + location.host + '/nextcloud'
 		getBaseUrl.mockReturnValue(baseUrl)
-		
+
 		expect(generateRoomUrl('foobar')).toBe(expected)
 	})
 })

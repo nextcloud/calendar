@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { doFreeBusyRequest } from '../../../../src/utils/freebusy'
-import { findSchedulingOutbox } from '../../../../src/services/caldavService'
-import { AttendeeProperty, DateTimeValue, FreeBusyProperty } from '@nextcloud/calendar-js'
+import { AttendeeProperty, DateTimeValue } from '@nextcloud/calendar-js'
+import { findSchedulingOutbox } from '../../../../src/services/caldavService.js'
+import { doFreeBusyRequest } from '../../../../src/utils/freebusy.js'
 
 vi.mock('../../../../src/services/caldavService')
 
@@ -27,7 +27,7 @@ describe('utils/freebusy test suite', () => {
 	it('should ignore explicit free slots', async () => {
 		const calendarData = loadICS('freebusy/explicitFreeSlot')
 		findSchedulingOutbox.mockImplementationOnce(() => ({
-			async freeBusyRequest(ics) {
+			async freeBusyRequest() {
 				return {
 					foo: {
 						success: true,
@@ -53,7 +53,7 @@ describe('utils/freebusy test suite', () => {
 	it('should handle multiple attendees', async () => {
 		const calendarData = loadICS('freebusy/multipleAttendees')
 		findSchedulingOutbox.mockImplementationOnce(() => ({
-			async freeBusyRequest(ics) {
+			async freeBusyRequest() {
 				return {
 					foo: {
 						success: true,

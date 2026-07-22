@@ -2,15 +2,14 @@
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { CalendarComponent, FreeBusyComponent, getParserManager } from '@nextcloud/calendar-js'
 import {
 	getDefaultCalendarObjectObject,
 	mapCalendarJsToCalendarObject,
-	mapCDavObjectToCalendarObject
-} from "../../../../src/models/calendarObject.js";
-import {CalendarComponent, FreeBusyComponent, getParserManager} from "@nextcloud/calendar-js";
+	mapCDavObjectToCalendarObject,
+} from '../../../../src/models/calendarObject.js'
 
 describe('Test suite: Calendar object model (models/calendarObject.js)', () => {
-
 	it('should return a default calendarObject object', () => {
 		expect(getDefaultCalendarObjectObject()).toEqual({
 			calendarId: null,
@@ -54,7 +53,7 @@ describe('Test suite: Calendar object model (models/calendarObject.js)', () => {
 		}
 
 		expect(() => mapCDavObjectToCalendarObject(dav, 'calendar-id-123'))
-			.toThrowError(/^Empty calendar object$/);
+			.toThrowError(/^Empty calendar object$/)
 	})
 
 	it('should map a c-dav calendar-object to calendar object - throw error for empty calendar', () => {
@@ -64,7 +63,7 @@ describe('Test suite: Calendar object model (models/calendarObject.js)', () => {
 		}
 
 		expect(() => mapCDavObjectToCalendarObject(dav, 'calendar-id-123'))
-			.toThrowError(/^Empty calendar object$/);
+			.toThrowError(/^Empty calendar object$/)
 	})
 
 	it('should map a c-dav calendar-object to calendar object - throw error for no vobjects', () => {
@@ -74,7 +73,7 @@ describe('Test suite: Calendar object model (models/calendarObject.js)', () => {
 		}
 
 		expect(() => mapCDavObjectToCalendarObject(dav, 'calendar-id-123'))
-			.toThrowError(/^Empty calendar object$/);
+			.toThrowError(/^Empty calendar object$/)
 	})
 
 	it('should map c-dav calendar object to calendar object - vevent', () => {
@@ -144,7 +143,7 @@ describe('Test suite: Calendar object model (models/calendarObject.js)', () => {
 		const calendarComponent = CalendarComponent.fromEmpty()
 
 		expect(() => mapCalendarJsToCalendarObject(calendarComponent))
-			.toThrowError(/^Calendar object without vobjects$/);
+			.toThrowError(/^Calendar object without vobjects$/)
 	})
 
 	it('should map a calendar-js calendar-object to calendar object - throw error for no vobjects', () => {
@@ -152,7 +151,7 @@ describe('Test suite: Calendar object model (models/calendarObject.js)', () => {
 		calendarComponent.addComponent(new FreeBusyComponent('VFREEBUSY'))
 
 		expect(() => mapCalendarJsToCalendarObject(calendarComponent))
-			.toThrowError(/^Calendar object without vobjects$/);
+			.toThrowError(/^Calendar object without vobjects$/)
 	})
 
 	it('should map a calendar-js calendar-object to calendar object - vevent', () => {
@@ -217,5 +216,4 @@ describe('Test suite: Calendar object model (models/calendarObject.js)', () => {
 			uri: null,
 		})
 	})
-
 })

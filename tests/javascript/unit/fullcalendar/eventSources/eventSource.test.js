@@ -4,7 +4,7 @@
  */
 import eventSource from '../../../../../src/fullcalendar/eventSources/eventSource.js'
 import { eventSourceFunction } from '../../../../../src/fullcalendar/eventSources/eventSourceFunction.js'
-import getTimezoneManager from '../../../../../src/services/timezoneDataProviderService'
+import getTimezoneManager from '../../../../../src/services/timezoneDataProviderService.js'
 import useCalendarsStore from '../../../../../src/store/calendars.js'
 import useFetchedTimeRangesStore from '../../../../../src/store/fetchedTimeRanges.js'
 import { getUnixTimestampFromDate } from '../../../../../src/utils/date.js'

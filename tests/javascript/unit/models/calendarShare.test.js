@@ -5,11 +5,10 @@
 
 import {
 	getDefaultCalendarShareObject,
-	mapDavShareeToCalendarShareObject
-} from "../../../../src/models/calendarShare.js";
+	mapDavShareeToCalendarShareObject,
+} from '../../../../src/models/calendarShare.js'
 
 describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
-
 	it('should return a default calendar share object', () => {
 		expect(getDefaultCalendarShareObject()).toEqual({
 			id: null,
@@ -42,12 +41,12 @@ describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
 
 	it('should map a dav sharee to a calendar share object - user', () => {
 		const davSharee = {
-			'href': 'principal:principals/users/user4',
+			href: 'principal:principals/users/user4',
 			'common-name': 'Marcus Beehler',
 			'invite-accepted': true,
-			'access': [
-				'{http://owncloud.org/ns}read'
-			]
+			access: [
+				'{http://owncloud.org/ns}read',
+			],
 		}
 
 		expect(mapDavShareeToCalendarShareObject(davSharee)).toEqual({
@@ -64,12 +63,12 @@ describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
 
 	it('should map a dav sharee to a calendar share object - user without displayname', () => {
 		const davSharee = {
-			'href': 'principal:principals/users/user4',
+			href: 'principal:principals/users/user4',
 			'common-name': '',
 			'invite-accepted': true,
-			'access': [
-				'{http://owncloud.org/ns}read'
-			]
+			access: [
+				'{http://owncloud.org/ns}read',
+			],
 		}
 
 		expect(mapDavShareeToCalendarShareObject(davSharee)).toEqual({
@@ -86,12 +85,12 @@ describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
 
 	it('should map a dav sharee to a calendar share object - group', () => {
 		const davSharee = {
-			'href': 'principal:principals/groups/admin',
+			href: 'principal:principals/groups/admin',
 			'common-name': '',
 			'invite-accepted': true,
-			'access': [
-				'{http://owncloud.org/ns}read'
-			]
+			access: [
+				'{http://owncloud.org/ns}read',
+			],
 		}
 
 		expect(mapDavShareeToCalendarShareObject(davSharee)).toEqual({
@@ -108,12 +107,12 @@ describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
 
 	it('should map a dav sharee to a calendar share object - circle', () => {
 		const davSharee = {
-			'href': 'principal:principals/circles/c479c14bd82415',
+			href: 'principal:principals/circles/c479c14bd82415',
 			'common-name': 'My personal circle',
 			'invite-accepted': true,
-			'access': [
-				'{http://owncloud.org/ns}read-write'
-			]
+			access: [
+				'{http://owncloud.org/ns}read-write',
+			],
 		}
 
 		expect(mapDavShareeToCalendarShareObject(davSharee)).toEqual({
@@ -132,12 +131,12 @@ describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
 		// This should never be the case. This test should just make sure it doesn't crash and always
 		// provides a displayname
 		const davSharee = {
-			'href': 'principal:principals/circles/c479c14bd82415',
+			href: 'principal:principals/circles/c479c14bd82415',
 			'common-name': '',
 			'invite-accepted': true,
-			'access': [
-				'{http://owncloud.org/ns}read-write'
-			]
+			access: [
+				'{http://owncloud.org/ns}read-write',
+			],
 		}
 
 		expect(mapDavShareeToCalendarShareObject(davSharee)).toEqual({
@@ -155,12 +154,12 @@ describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
 	it('should map a dav sharee to a calendar share object - remote user', () => {
 		const davSharee = {
 			// Decoded cloud id: marcus@federated.cloud.com
-			'href': 'principal:principals/remote-users/bWFyY3VzQGZlZGVyYXRlZC5jbG91ZC5jb20=',
+			href: 'principal:principals/remote-users/bWFyY3VzQGZlZGVyYXRlZC5jbG91ZC5jb20=',
 			'common-name': 'Marcus Beehler@federated.cloud.com',
 			'invite-accepted': true,
-			'access': [
-				'{http://owncloud.org/ns}read'
-			]
+			access: [
+				'{http://owncloud.org/ns}read',
+			],
 		}
 
 		expect(mapDavShareeToCalendarShareObject(davSharee)).toEqual({
@@ -178,12 +177,12 @@ describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
 	it('should map a dav sharee to a calendar share object - remote user without displayname', () => {
 		const davSharee = {
 			// Decoded cloud id: marcus@federated.cloud.com
-			'href': 'principal:principals/remote-users/bWFyY3VzQGZlZGVyYXRlZC5jbG91ZC5jb20=',
+			href: 'principal:principals/remote-users/bWFyY3VzQGZlZGVyYXRlZC5jbG91ZC5jb20=',
 			'common-name': '',
 			'invite-accepted': true,
-			'access': [
-				'{http://owncloud.org/ns}read'
-			]
+			access: [
+				'{http://owncloud.org/ns}read',
+			],
 		}
 
 		expect(mapDavShareeToCalendarShareObject(davSharee)).toEqual({
@@ -200,12 +199,12 @@ describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
 
 	it('should properly handle sharee URIs with non-ascii characters', () => {
 		const davSharee = {
-			'href': 'principal:principals/groups/מַזָּל טוֹב',
+			href: 'principal:principals/groups/מַזָּל טוֹב',
 			'common-name': '',
 			'invite-accepted': true,
-			'access': [
-				'{http://owncloud.org/ns}read'
-			]
+			access: [
+				'{http://owncloud.org/ns}read',
+			],
 		}
 
 		expect(mapDavShareeToCalendarShareObject(davSharee)).toEqual({

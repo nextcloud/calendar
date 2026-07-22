@@ -2,20 +2,18 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import eventResize from "../../../../../src/fullcalendar/interaction/eventResize.js";
-
-import { getDurationValueFromFullCalendarDuration} from '../../../../../src/fullcalendar/duration.js'
-import {getObjectAtRecurrenceId} from "../../../../../src/utils/calendarObject.js";
-import useCalendarsStore from '../../../../../src/store/calendars.js'
+import { getDurationValueFromFullCalendarDuration } from '../../../../../src/fullcalendar/duration.js'
+import eventResize from '../../../../../src/fullcalendar/interaction/eventResize.js'
 import useCalendarObjectsStore from '../../../../../src/store/calendarObjects.js'
+import useCalendarsStore from '../../../../../src/store/calendars.js'
+import { getObjectAtRecurrenceId } from '../../../../../src/utils/calendarObject.js'
 
 vi.mock('../../../../../src/fullcalendar/duration.js')
-vi.mock("../../../../../src/utils/calendarObject.js")
+vi.mock('../../../../../src/utils/calendarObject.js')
 vi.mock('../../../../../src/store/calendars.js')
 vi.mock('../../../../../src/store/calendarObjects.js')
 
 describe('fullcalendar/eventResize test suite', () => {
-
 	beforeEach(() => {
 		getDurationValueFromFullCalendarDuration.mockClear()
 		getObjectAtRecurrenceId.mockClear()
@@ -35,11 +33,11 @@ describe('fullcalendar/eventResize test suite', () => {
 		const event = {
 			extendedProps: {
 				objectId: 'object123',
-				recurrenceId: '1573554842'
-			}
+				recurrenceId: '1573554842',
+			},
 		}
 		const startDelta = {
-			hours: 5
+			hours: 5,
 		}
 		const endDelta = {}
 		const revert = vi.fn()
@@ -101,12 +99,12 @@ describe('fullcalendar/eventResize test suite', () => {
 		const event = {
 			extendedProps: {
 				objectId: 'object123',
-				recurrenceId: '1573554842'
-			}
+				recurrenceId: '1573554842',
+			},
 		}
 		const startDelta = {}
 		const endDelta = {
-			hours: 5
+			hours: 5,
 		}
 		const revert = vi.fn()
 
@@ -174,9 +172,6 @@ describe('fullcalendar/eventResize test suite', () => {
 			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(true),
 			createRecurrenceException: vi.fn(),
 		}
-		const calendarObject = {
-			_isCalendarObject: true,
-		}
 		getObjectAtRecurrenceId
 			.mockReturnValue(eventComponent)
 
@@ -209,11 +204,11 @@ describe('fullcalendar/eventResize test suite', () => {
 		const event = {
 			extendedProps: {
 				objectId: 'object123',
-				recurrenceId: '1573554842'
-			}
+				recurrenceId: '1573554842',
+			},
 		}
 		const startDelta = {
-			hours: 5
+			hours: 5,
 		}
 		const endDelta = {}
 		const revert = vi.fn()
@@ -227,9 +222,6 @@ describe('fullcalendar/eventResize test suite', () => {
 			addDurationToEnd: vi.fn(),
 			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(false),
 			createRecurrenceException: vi.fn(),
-		}
-		const calendarObject = {
-			_isCalendarObject: true,
 		}
 		getObjectAtRecurrenceId
 			.mockReturnValue(eventComponent)
@@ -268,11 +260,11 @@ describe('fullcalendar/eventResize test suite', () => {
 		const event = {
 			extendedProps: {
 				objectId: 'object123',
-				recurrenceId: '1573554842'
-			}
+				recurrenceId: '1573554842',
+			},
 		}
 		const startDelta = {
-			hours: 5
+			hours: 5,
 		}
 		const endDelta = {}
 		const revert = vi.fn()
@@ -330,11 +322,11 @@ describe('fullcalendar/eventResize test suite', () => {
 		const event = {
 			extendedProps: {
 				objectId: 'object123',
-				recurrenceId: '1573554842'
-			}
+				recurrenceId: '1573554842',
+			},
 		}
 		const startDelta = {
-			hours: 5
+			hours: 5,
 		}
 		const endDelta = {}
 		const revert = vi.fn()
@@ -386,5 +378,4 @@ describe('fullcalendar/eventResize test suite', () => {
 
 		expect(revert).toHaveBeenCalledTimes(1)
 	})
-
 })

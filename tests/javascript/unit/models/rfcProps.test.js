@@ -2,14 +2,13 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getRFCProperties } from '../../../../src/models/rfcProps.js'
 import { translate } from '@nextcloud/l10n'
 import { getDefaultCategories } from '../../../../src/defaults/defaultCategories.js'
+import { getRFCProperties } from '../../../../src/models/rfcProps.js'
 vi.mock('@nextcloud/l10n')
 vi.mock('../../../../src/defaults/defaultCategories.js')
 
 describe('Test suite: RFC properties (models/rfcProps.js)', () => {
-
 	beforeEach(() => {
 		translate.mockClear()
 		getDefaultCategories.mockClear()
@@ -30,9 +29,9 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 		expect(rfcProps.accessClass.info).toEqual('The visibility of this event in read-only shared calendars.')
 		expect(rfcProps.accessClass.defaultValue).toEqual('PUBLIC')
 		expect(rfcProps.accessClass.options).toEqual([
-			{value: 'PUBLIC', label: 'When shared show full event'},
-			{value: 'CONFIDENTIAL', label: 'When shared show only busy'},
-			{value: 'PRIVATE', label: 'When shared hide this event'},
+			{ value: 'PUBLIC', label: 'When shared show full event' },
+			{ value: 'CONFIDENTIAL', label: 'When shared show only busy' },
+			{ value: 'PRIVATE', label: 'When shared hide this event' },
 		])
 
 		expect(rfcProps.location).toEqual(expect.any(Object))
@@ -101,10 +100,10 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 
 		expect(translate).toHaveBeenNthCalledWith(8, 'calendar', 'Description')
 		expect(translate).toHaveBeenNthCalledWith(9, 'calendar', 'Add a description\n'
-			+ '\n'
-			+ '- What is this meeting about\n'
-			+ '- Agenda items\n'
-			+ '- Anything participants need to prepare')
+		+ '\n'
+		+ '- What is this meeting about\n'
+		+ '- Agenda items\n'
+		+ '- Anything participants need to prepare')
 
 		expect(translate).toHaveBeenNthCalledWith(10, 'calendar', 'Status')
 		expect(translate).toHaveBeenNthCalledWith(11, 'calendar', 'Confirmed')
@@ -125,5 +124,4 @@ describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 		expect(translate).toHaveBeenNthCalledWith(23, 'calendar', 'Custom color')
 		expect(translate).toHaveBeenNthCalledWith(24, 'calendar', 'Special color of this event. Overrides the calendar-color.')
 	})
-
 })

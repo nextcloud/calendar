@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { copyCalendarObjectInstanceIntoEventComponent, getDefaultEventObject, mapEventComponentToEventObject } from '../../../../src/models/event.js'
-import { getDateFromDateTimeValue } from '../../../../src/utils/date.js'
-import { getHexForColorName } from '../../../../src/utils/color.js'
+import { DateTimeValue, DurationValue } from '@nextcloud/calendar-js'
+import { expect } from 'vitest'
 import { mapAlarmComponentToAlarmObject } from '../../../../src/models/alarm.js'
 import { mapAttendeePropertyToAttendeeObject } from '../../../../src/models/attendee.js'
+import { copyCalendarObjectInstanceIntoEventComponent, getDefaultEventObject, mapEventComponentToEventObject } from '../../../../src/models/event.js'
 import { getDefaultRecurrenceRuleObject, mapRecurrenceRuleValueToRecurrenceRuleObject } from '../../../../src/models/recurrenceRule.js'
-import { DateTimeValue, DurationValue } from "@nextcloud/calendar-js";
-import { expect } from 'vitest'
+import { getHexForColorName } from '../../../../src/utils/color.js'
+import { getDateFromDateTimeValue } from '../../../../src/utils/date.js'
 
 vi.mock('../../../../src/utils/date.js')
 vi.mock('../../../../src/utils/color.js')
@@ -19,7 +19,6 @@ vi.mock('../../../../src/models/attendee.js')
 vi.mock('../../../../src/models/recurrenceRule.js')
 
 describe('Test suite: Event model (models/event.js)', () => {
-
 	beforeEach(() => {
 		getDateFromDateTimeValue.mockClear()
 		getHexForColorName.mockClear()
@@ -32,7 +31,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 	it('should return a default event object', () => {
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(getDefaultEventObject()).toEqual({
@@ -50,7 +49,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: null,
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: false,
@@ -72,7 +71,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 	it('should fill up an object with default values', () => {
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(getDefaultEventObject({
@@ -93,7 +92,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: null,
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: false,
@@ -126,7 +125,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -144,7 +143,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -186,7 +185,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -204,7 +203,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -260,7 +259,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -278,7 +277,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -318,7 +317,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -336,7 +335,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -375,7 +374,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -393,7 +392,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -435,7 +434,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -453,7 +452,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -492,7 +491,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -510,7 +509,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -546,7 +545,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -564,7 +563,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -600,7 +599,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -618,7 +617,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'TRANSPARENT',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -660,7 +659,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -715,7 +714,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -733,7 +732,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: false,
@@ -772,7 +771,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -830,7 +829,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -993,7 +992,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 		const targetEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-minimal', targetRecurrenceId)
 
 		// When
-		const error = expect(() => copyCalendarObjectInstanceIntoEventComponent(sourceEventObject, targetEventComponent))
+		expect(() => copyCalendarObjectInstanceIntoEventComponent(sourceEventObject, targetEventComponent))
 			.toThrow('Illegal argument: Event objects has recurrence related property RRULE.')
 	})
 

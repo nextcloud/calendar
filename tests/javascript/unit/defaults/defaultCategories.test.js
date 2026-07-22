@@ -2,13 +2,12 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import defaultCategories from '../../../../src/defaults/defaultCategories.js'
 import { translate } from '@nextcloud/l10n'
+import defaultCategories from '../../../../src/defaults/defaultCategories.js'
 
 vi.mock('@nextcloud/l10n')
 
 describe('defaults/defaultCategories test suite', () => {
-
 	beforeEach(() => {
 		translate.mockClear()
 	})
@@ -35,7 +34,7 @@ describe('defaults/defaultCategories test suite', () => {
 			'Vacation',
 		]
 
-		expect(defaultCategories()).toEqual(categories.map(category => ({
+		expect(defaultCategories()).toEqual(categories.map((category) => ({
 			value: category,
 			label: category,
 		})))
@@ -57,5 +56,4 @@ describe('defaults/defaultCategories test suite', () => {
 		expect(translate).toHaveBeenNthCalledWith(14, 'calendar', 'Travel')
 		expect(translate).toHaveBeenNthCalledWith(15, 'calendar', 'Vacation')
 	})
-
 })

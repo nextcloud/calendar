@@ -2,10 +2,9 @@
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import ICAL from 'ical.js'
-import { AlarmComponent, AttendeeProperty, RecurValue, getParserManager } from '@nextcloud/calendar-js'
-
+import { AlarmComponent, AttendeeProperty, getParserManager, RecurValue } from '@nextcloud/calendar-js'
 const fs = require('fs')
+import ICAL from 'ical.js'
 
 /**
  * global helper function to load an ics asset by name
