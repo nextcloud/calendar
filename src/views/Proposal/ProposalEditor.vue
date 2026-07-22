@@ -233,6 +233,7 @@ import ProposalDateItem from '@/components/Proposal/ProposalDateItem.vue'
 import ProposalParticipantItem from '@/components/Proposal/ProposalParticipantItem.vue'
 import ProposalResponseMatrix from '@/components/Proposal/ProposalResponseMatrix.vue'
 import { getBusySlots } from '../../services/freeBusySlotService.js'
+import { getFullCalendarLocale } from '@/fullcalendar/localization/localeProvider.js'
 import FullCalendarMoment from '@/fullcalendar/localization/momentPlugin.js'
 import FullCalendarTimezones from '@/fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
 import { ProposalDate, ProposalParticipant } from '@/models/proposals/proposals'
@@ -394,6 +395,7 @@ export default {
 					FullCalendarTimezones,
 				],
 
+				...getFullCalendarLocale(),
 				headerToolbar: false,
 				initialView: 'timeGridSpan',
 				views: {
