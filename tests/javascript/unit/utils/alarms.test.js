@@ -2,15 +2,15 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { getParserManager } from '@nextcloud/calendar-js'
 import {
-	getFactorForAlarmUnit,
-	getAmountHoursMinutesAndUnitForAllDayEvents,
 	getAmountAndUnitForTimedEvents,
+	getAmountHoursMinutesAndUnitForAllDayEvents,
+	getFactorForAlarmUnit,
 	getTotalSecondsFromAmountAndUnitForTimedEvents,
 	getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents,
 	updateAlarms,
 } from '../../../../src/utils/alarms.js'
-import { getParserManager } from '@nextcloud/calendar-js'
 
 /**
  * Parse an ICS string and return the first event component.
@@ -51,7 +51,6 @@ function eventICS(alarms, attendees = '') {
 }
 
 describe('utils/alarms test suite', () => {
-
 	it('should return the correct factor for different units', () => {
 		expect(getFactorForAlarmUnit('seconds')).toEqual(1)
 		expect(getFactorForAlarmUnit('minutes')).toEqual(60)
@@ -64,52 +63,52 @@ describe('utils/alarms test suite', () => {
 	it('should get the amount and unit from total seconds', () => {
 		expect(getAmountAndUnitForTimedEvents(0)).toEqual({
 			amount: 0,
-			unit: 'minutes'
+			unit: 'minutes',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(-60)).toEqual({
 			amount: 1,
-			unit: 'minutes'
+			unit: 'minutes',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(59)).toEqual({
 			amount: 59,
-			unit: 'seconds'
+			unit: 'seconds',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(-61)).toEqual({
 			amount: 61,
-			unit: 'seconds'
+			unit: 'seconds',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(120)).toEqual({
 			amount: 2,
-			unit: 'minutes'
+			unit: 'minutes',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(-3600)).toEqual({
 			amount: 1,
-			unit: 'hours'
+			unit: 'hours',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(3660)).toEqual({
 			amount: 61,
-			unit: 'minutes'
+			unit: 'minutes',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(-43200)).toEqual({
 			amount: 12,
-			unit: 'hours'
+			unit: 'hours',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(259200)).toEqual({
 			amount: 3,
-			unit: 'days'
+			unit: 'days',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(-1209600)).toEqual({
 			amount: 2,
-			unit: 'weeks'
+			unit: 'weeks',
 		})
 	})
 
@@ -139,7 +138,7 @@ describe('utils/alarms test suite', () => {
 			amount: 0,
 			hours: 9,
 			minutes: 1,
-			unit: 'days'
+			unit: 'days',
 		})
 
 		// 1 day before at 9am
@@ -147,7 +146,7 @@ describe('utils/alarms test suite', () => {
 			amount: 1,
 			hours: 9,
 			minutes: 0,
-			unit: 'days'
+			unit: 'days',
 		})
 
 		// 2 days before at 9am
@@ -155,7 +154,7 @@ describe('utils/alarms test suite', () => {
 			amount: 2,
 			hours: 9,
 			minutes: 0,
-			unit: 'days'
+			unit: 'days',
 		})
 
 		// 1 week before at 9am
@@ -163,7 +162,7 @@ describe('utils/alarms test suite', () => {
 			amount: 1,
 			hours: 9,
 			minutes: 0,
-			unit: 'weeks'
+			unit: 'weeks',
 		})
 
 		// 10 days before at 9am
@@ -171,7 +170,7 @@ describe('utils/alarms test suite', () => {
 			amount: 10,
 			hours: 9,
 			minutes: 0,
-			unit: 'days'
+			unit: 'days',
 		})
 
 		// 1 week before at 8:30am
@@ -179,7 +178,7 @@ describe('utils/alarms test suite', () => {
 			amount: 1,
 			hours: 8,
 			minutes: 30,
-			unit: 'weeks'
+			unit: 'weeks',
 		})
 	})
 
@@ -267,5 +266,3 @@ describe('utils/alarms test suite', () => {
 		})
 	})
 })
-
-

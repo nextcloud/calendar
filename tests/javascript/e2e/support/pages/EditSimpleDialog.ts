@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { type Locator, type Page } from '@playwright/test'
-import { EditFullDialog } from './EditFullDialog'
+import type { Locator, Page } from '@playwright/test'
+
+import { EditFullDialog } from './EditFullDialog.ts'
 
 /**
  * Encapsulate interactions with the simple event editor dialog.
@@ -19,7 +20,7 @@ export class EditSimpleDialog {
 	async addAttende(name: string) {
 		const attendeesInput = this.locator.getByRole('combobox', { name: 'Search for attendees' })
 		await attendeesInput.fill(name)
-		await this.page.getByRole('option', { name: name }).click()
+		await this.page.getByRole('option', { name }).click()
 	}
 
 	async openDetailedEditor() {

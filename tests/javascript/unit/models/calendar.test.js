@@ -6,11 +6,10 @@ import {
 	getDefaultCalendarObject,
 	mapDavCollectionToCalendar,
 } from '../../../../src/models/calendar.js'
-import { mapDavShareeToCalendarShareObject } from "../../../../src/models/calendarShare.js";
-vi.mock("../../../../src/models/calendarShare.js")
+import { mapDavShareeToCalendarShareObject } from '../../../../src/models/calendarShare.js'
+vi.mock('../../../../src/models/calendarShare.js')
 
 describe('Test suite: Calendar model (models/calendar.js)', () => {
-
 	beforeEach(() => {
 		mapDavShareeToCalendarShareObject.mockClear()
 	})
@@ -53,7 +52,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 		expect(getDefaultCalendarObject({
 			id: '123',
 			displayName: 'Foo',
-			loading: true
+			loading: true,
 		})).toEqual({
 			id: '123',
 			displayName: 'Foo',
@@ -106,7 +105,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/admin/'
+			url: '/remote.php/dav/principals/users/admin/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -161,7 +160,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/admin/'
+			url: '/remote.php/dav/principals/users/admin/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -214,7 +213,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/admin/'
+			url: '/remote.php/dav/principals/users/admin/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -267,7 +266,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/user123/'
+			url: '/remote.php/dav/principals/users/user123/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -320,7 +319,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/admin/'
+			url: '/remote.php/dav/principals/users/admin/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -373,7 +372,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/admin/'
+			url: '/remote.php/dav/principals/users/admin/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -426,7 +425,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/admin/'
+			url: '/remote.php/dav/principals/users/admin/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -479,7 +478,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/admin/'
+			url: '/remote.php/dav/principals/users/admin/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -538,52 +537,52 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			enabled: true,
 			shares: [
 				{
-					'href': 'principal:principals/users/user4',
+					href: 'principal:principals/users/user4',
 					'common-name': 'Marcus Beehler',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read'
-					]
+					access: [
+						'{http://owncloud.org/ns}read',
+					],
 				},
 				{
-					'href': 'principal:principals/users/admin',
+					href: 'principal:principals/users/admin',
 					'common-name': 'admin',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read-write'
-					]
+					access: [
+						'{http://owncloud.org/ns}read-write',
+					],
 				},
 				{
-					'href': 'principal:principals/circles/c479c14bd82415',
+					href: 'principal:principals/circles/c479c14bd82415',
 					'common-name': 'My personal circle',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read'
-					]
+					access: [
+						'{http://owncloud.org/ns}read',
+					],
 				},
 				{
-					'href': 'principal:principals/users/user3',
+					href: 'principal:principals/users/user3',
 					'common-name': 'Whitney Anders',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read-write'
-					]
+					access: [
+						'{http://owncloud.org/ns}read-write',
+					],
 				},
 				{
-					'href': 'principal:principals/groups/admin',
+					href: 'principal:principals/groups/admin',
 					'common-name': '',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read'
-					]
-				}
+					access: [
+						'{http://owncloud.org/ns}read',
+					],
+				},
 			],
 			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
 			url: '/remote.php/dav/principals/users/admin/',
-			principalScheme: 'principal:principals/users/admin'
+			principalScheme: 'principal:principals/users/admin',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -623,36 +622,36 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(4)
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenNthCalledWith(1, {
-			'href': 'principal:principals/users/user4',
+			href: 'principal:principals/users/user4',
 			'common-name': 'Marcus Beehler',
 			'invite-accepted': true,
-			'access': [
-				'{http://owncloud.org/ns}read'
-			]
+			access: [
+				'{http://owncloud.org/ns}read',
+			],
 		})
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenNthCalledWith(2, {
-			'href': 'principal:principals/circles/c479c14bd82415',
+			href: 'principal:principals/circles/c479c14bd82415',
 			'common-name': 'My personal circle',
 			'invite-accepted': true,
-			'access': [
-				'{http://owncloud.org/ns}read'
-			]
+			access: [
+				'{http://owncloud.org/ns}read',
+			],
 		})
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenNthCalledWith(3, {
-			'href': 'principal:principals/users/user3',
+			href: 'principal:principals/users/user3',
 			'common-name': 'Whitney Anders',
 			'invite-accepted': true,
-			'access': [
-				'{http://owncloud.org/ns}read-write'
-			]
+			access: [
+				'{http://owncloud.org/ns}read-write',
+			],
 		})
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenNthCalledWith(4, {
-			'href': 'principal:principals/groups/admin',
+			href: 'principal:principals/groups/admin',
 			'common-name': '',
 			'invite-accepted': true,
-			'access': [
-				'{http://owncloud.org/ns}read'
-			]
+			access: [
+				'{http://owncloud.org/ns}read',
+			],
 		})
 	})
 
@@ -671,45 +670,45 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			enabled: true,
 			shares: [
 				{
-					'href': 'principal:principals/users/user4',
+					href: 'principal:principals/users/user4',
 					'common-name': 'Marcus Beehler',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read'
-					]
+					access: [
+						'{http://owncloud.org/ns}read',
+					],
 				},
 				{
-					'href': 'principal:principals/users/admin',
+					href: 'principal:principals/users/admin',
 					'common-name': 'admin',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read-write'
-					]
+					access: [
+						'{http://owncloud.org/ns}read-write',
+					],
 				},
 				{
-					'href': 'principal:principals/circles/c479c14bd82415',
+					href: 'principal:principals/circles/c479c14bd82415',
 					'common-name': 'My personal circle',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read'
-					]
+					access: [
+						'{http://owncloud.org/ns}read',
+					],
 				},
 				{
-					'href': 'principal:principals/users/user3',
+					href: 'principal:principals/users/user3',
 					'common-name': 'Whitney Anders',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read-write'
-					]
+					access: [
+						'{http://owncloud.org/ns}read-write',
+					],
 				},
 				{
-					'href': 'principal:principals/groups/admin',
+					href: 'principal:principals/groups/admin',
 					'common-name': '',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read'
-					]
-				}
+					access: [
+						'{http://owncloud.org/ns}read',
+					],
+				},
 			],
 			currentUserPrivilegeSet: [],
 		}
@@ -767,7 +766,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/admin/'
+			url: '/remote.php/dav/principals/users/admin/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -800,5 +799,4 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			delegatorUrl: '',
 		})
 	})
-
 })

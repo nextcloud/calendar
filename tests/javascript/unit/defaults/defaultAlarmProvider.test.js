@@ -5,7 +5,6 @@
 import getDefaultAlarms from '../../../../src/defaults/defaultAlarmProvider.js'
 
 describe('defaults/defaultAlarmProvider test suite', () => {
-
 	it('should provide default alarms for timed events', () => {
 		expect(getDefaultAlarms()).toEqual([
 			0,
@@ -31,5 +30,4 @@ describe('defaults/defaultAlarmProvider test suite', () => {
 			-572400,
 		])
 	})
-
 })

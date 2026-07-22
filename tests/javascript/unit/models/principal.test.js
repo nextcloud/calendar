@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import {getDefaultPrincipalObject, mapDavToPrincipal} from "../../../../src/models/principal.js";
+import { getDefaultPrincipalObject, mapDavToPrincipal } from '../../../../src/models/principal.js'
 
 describe('Test suite: Principal model (models/principal.js)', () => {
-
 	it('should return a default principal object', () => {
 		expect(getDefaultPrincipalObject()).toEqual({
 			id: null,
@@ -64,7 +63,7 @@ describe('Test suite: Principal model (models/principal.js)', () => {
 			scheduleInbox: null,
 			scheduleOutbox: null,
 			url: '/remote.php/dav/principals/users/jane.doe/',
-			userId: 'legacy-jane-doe-uid'
+			userId: 'legacy-jane-doe-uid',
 		}
 
 		expect(mapDavToPrincipal(dav)).toEqual({

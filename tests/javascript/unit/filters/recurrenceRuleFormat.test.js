@@ -2,13 +2,12 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { getDayNames, getMonthNames, translate, translatePlural } from '@nextcloud/l10n'
 import recurrenceRuleFormat from '../../../../src/filters/recurrenceRuleFormat.js'
-import { translate, translatePlural, getDayNames, getMonthNames } from '@nextcloud/l10n'
 
 vi.mock('@nextcloud/l10n')
 
 describe('format/recurrenceRuleFormat test suite', () => {
-
 	beforeEach(() => {
 		translate.mockClear()
 		translatePlural.mockClear()
@@ -26,15 +25,15 @@ describe('format/recurrenceRuleFormat test suite', () => {
 	it('should format a recurrence-rule that is non-recurring', () => {
 		expect(recurrenceRuleFormat({
 			frequency: 'NONE',
-				interval: 1,
-				count: null,
-				until: null,
-				byDay: [],
-				byMonth: [],
-				byMonthDay: [],
-				bySetPosition: null,
-				isUnsupported: false,
-				recurrenceRuleValue: null,
+			interval: 1,
+			count: null,
+			until: null,
+			byDay: [],
+			byMonth: [],
+			byMonthDay: [],
+			bySetPosition: null,
+			isUnsupported: false,
+			recurrenceRuleValue: null,
 		}, 'de')).toMatchSnapshot()
 	})
 
@@ -219,5 +218,4 @@ describe('format/recurrenceRuleFormat test suite', () => {
 			recurrenceRuleValue: null,
 		}, 'de')).toMatchSnapshot()
 	})
-
 })

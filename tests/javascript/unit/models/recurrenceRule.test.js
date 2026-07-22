@@ -3,17 +3,16 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { DateTimeValue } from '@nextcloud/calendar-js'
 import {
 	getDefaultRecurrenceRuleObject,
-	mapRecurrenceRuleValueToRecurrenceRuleObject
-} from "../../../../src/models/recurrenceRule.js";
+	mapRecurrenceRuleValueToRecurrenceRuleObject,
+} from '../../../../src/models/recurrenceRule.js'
 import { getDateFromDateTimeValue } from '../../../../src/utils/date.js'
-import { DateTimeValue } from "@nextcloud/calendar-js";
 
 vi.mock('../../../../src/utils/date.js')
 
 describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
-
 	beforeEach(() => {
 		getDateFromDateTimeValue.mockClear()
 	})
@@ -870,7 +869,6 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 		const mockDate = new Date()
 		getDateFromDateTimeValue
 			.mockReturnValueOnce(mockDate)
-
 
 		// plain MONTHLY
 		expect(mapRecurrenceRuleValueToRecurrenceRuleObject(recurrenceRuleValue, baseDate)).toEqual({

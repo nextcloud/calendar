@@ -2,15 +2,14 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { translate, getCanonicalLocale } from '@nextcloud/l10n'
+import { getCanonicalLocale, translate } from '@nextcloud/l10n'
+import eventRender from '../../../../../src/fullcalendar/rendering/eventDidMount.js'
 import { formatDateWithTimezone, isMultiDayAllDayEvent } from '../../../../../src/utils/date.js'
-import eventRender from "../../../../../src/fullcalendar/rendering/eventDidMount.js";
 
 vi.mock('@nextcloud/l10n')
 vi.mock('../../../../../src/utils/date.js')
 
 describe('fullcalendar/eventDidMount test suite', () => {
-
 	it('should add extended properties from the event to the dataset of the dom element - existing event', () => {
 		const el = document.createElement('div')
 		const event = {
@@ -170,11 +169,9 @@ describe('fullcalendar/eventDidMount test suite', () => {
 	//
 	// 	expect(el.outerHTML).toEqual('<div class="fc-event-nc-task" data-object-id="object123" data-recurrence-id="recurrence456"><div class="fc-content"><span class="icon-event-task icon-event-task--light icon-event-task--checked--light"></span><span class="fc-time">2pm</span><span class="fc-title">Title 123</span></div></div>')
 	// })
-
 })
 
 describe('fullcalendar/eventDidMount aria-label test suite', () => {
-
 	beforeEach(() => {
 		translate.mockClear()
 		getCanonicalLocale.mockClear()
@@ -185,7 +182,9 @@ describe('fullcalendar/eventDidMount aria-label test suite', () => {
 
 		// Mock translate to perform placeholder substitution like the real function
 		translate.mockImplementation((app, str, params) => {
-			if (!params) return str
+			if (!params) {
+				return str
+			}
 			return Object.entries(params).reduce(
 				(result, [key, value]) => result.replace(`{${key}}`, value),
 				str,
@@ -227,7 +226,6 @@ describe('fullcalendar/eventDidMount aria-label test suite', () => {
 	}
 
 	describe('all-day events', () => {
-
 		it('should build an aria-label for a single-day all-day event', () => {
 			const start = new Date('2026-03-11T00:00:00')
 			const end = new Date('2026-03-12T00:00:00')
@@ -281,7 +279,6 @@ describe('fullcalendar/eventDidMount aria-label test suite', () => {
 	})
 
 	describe('timed events', () => {
-
 		it('should build an aria-label for a same-day timed event', () => {
 			const start = new Date('2026-03-11T10:00:00Z')
 			const end = new Date('2026-03-11T11:00:00Z')
@@ -363,7 +360,6 @@ describe('fullcalendar/eventDidMount aria-label test suite', () => {
 	})
 
 	describe('edge cases', () => {
-
 		it('should use "Untitled event" for events with no title', () => {
 			const start = new Date('2026-03-11T00:00:00')
 
@@ -412,9 +408,7 @@ describe('fullcalendar/eventDidMount aria-label test suite', () => {
 			// Verify that translate was called for combining title + time description
 			// (not just raw string concatenation)
 			const translateCalls = translate.mock.calls
-			const ariaLabelCall = translateCalls.find(
-				call => call[1] === '{title}, {timeDescription}',
-			)
+			const ariaLabelCall = translateCalls.find((call) => call[1] === '{title}, {timeDescription}')
 			expect(ariaLabelCall).toBeTruthy()
 			expect(ariaLabelCall[2]).toEqual({
 				title: 'Team Meeting',

@@ -3,18 +3,17 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import {
+	detectColor,
 	generateTextColorForHex,
 	generateTextColorForRGB,
+	getClosestCSS3ColorNameForHex,
+	getHexForColorName,
 	hexToRGB,
 	isLight,
 	uidToHexColor,
-	detectColor,
-	getHexForColorName,
-	getClosestCSS3ColorNameForHex
 } from '../../../../src/utils/color.js'
 
 describe('utils/color test suite', () => {
-
 	it('should provide a function to generate a text-color from an rgb string', () => {
 		expect(generateTextColorForHex('#fff')).toEqual('#000000')
 		expect(generateTextColorForHex('#000')).toEqual('#FAFAFA')
@@ -30,8 +29,8 @@ describe('utils/color test suite', () => {
 	})
 
 	it('should determine whether a color is light', () => {
-		expect(isLight({ red: 255, green: 255, blue: 255 })).toEqual(true);
-		expect(isLight({ red: 0, green: 0, blue: 0 })).toEqual(false);
+		expect(isLight({ red: 255, green: 255, blue: 255 })).toEqual(true)
+		expect(isLight({ red: 0, green: 0, blue: 0 })).toEqual(false)
 	})
 
 	it('should provide a RGB object for a hex string', () => {

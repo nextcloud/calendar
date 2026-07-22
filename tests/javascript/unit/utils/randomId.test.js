@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { randomId } from '../../../../src/utils/randomId'
+import { randomId } from '../../../../src/utils/randomId.js'
 
 describe('utils/randomId test suite', () => {
 	it('should generate hex strings', () => {

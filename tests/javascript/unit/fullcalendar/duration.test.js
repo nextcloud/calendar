@@ -5,7 +5,6 @@
 import { getDurationValueFromFullCalendarDuration, getFullCalendarDurationFromDurationValue } from '../../../../src/fullcalendar/duration.js'
 
 describe('fullcalendar/duration test suite', () => {
-
 	it('should get the calendar-js duration from a fullcalendar duration object - object', () => {
 		expect(getDurationValueFromFullCalendarDuration({
 			year: 99,
@@ -15,13 +14,13 @@ describe('fullcalendar/duration test suite', () => {
 		expect(getDurationValueFromFullCalendarDuration({
 			days: 2,
 			minutes: 50,
-			seconds: 2
+			seconds: 2,
 		}).totalSeconds).toEqual(175802)
 
 		expect(getDurationValueFromFullCalendarDuration({
 			day: 2,
 			minute: 50,
-			second: 2
+			second: 2,
 		}).totalSeconds).toEqual(175802)
 
 		expect(getDurationValueFromFullCalendarDuration({
@@ -33,7 +32,7 @@ describe('fullcalendar/duration test suite', () => {
 			second: 1,
 			milliseconds: 5555,
 			millisecond: 6666,
-			ms: 7777
+			ms: 7777,
 		}).totalSeconds).toEqual(175820)
 	})
 

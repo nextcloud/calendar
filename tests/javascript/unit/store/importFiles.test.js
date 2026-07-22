@@ -2,8 +2,8 @@
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { createPinia, setActivePinia } from 'pinia'
 import useImportFilesStore from '../../../../src/store/importFiles.js'
-import { setActivePinia, createPinia } from 'pinia'
 
 describe('store/importFiles test suite', () => {
 	beforeEach(() => {
@@ -56,10 +56,11 @@ describe('store/importFiles test suite', () => {
 			{
 				...file1,
 				id: 42,
-			}, {
+			},
+			{
 				...file2,
 				id: 43,
-			}
+			},
 		])
 
 		expect(importFilesStore.importFilesById[42]).toEqual({
@@ -134,5 +135,4 @@ describe('store/importFiles test suite', () => {
 			importCalendarRelation: {},
 		})
 	})
-
 })

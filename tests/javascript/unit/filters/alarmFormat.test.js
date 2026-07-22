@@ -2,13 +2,12 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import alarmFormat from "../../../../src/filters/alarmFormat.js";
 import { translate, translatePlural } from '@nextcloud/l10n'
+import alarmFormat from '../../../../src/filters/alarmFormat.js'
 
 vi.mock('@nextcloud/l10n')
 
 describe('format/alarmFormat test suite', () => {
-
 	beforeEach(() => {
 		translate.mockClear()
 		translatePlural.mockClear()
@@ -281,5 +280,4 @@ describe('format/alarmFormat test suite', () => {
 
 		expect(alarmFormat(alarm, true, 'Europe/Berlin', 'de')).toEqual('on {time} ({timezoneId})')
 	})
-
 })
