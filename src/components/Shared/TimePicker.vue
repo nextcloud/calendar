@@ -5,17 +5,15 @@
 
 <template>
 	<DateTimePicker
-		:value="date"
+		v-model="internalValue"
 		type="time"
 		:hideLabel="true"
 		v-bind="$attrs"
-		@input="change" />
+		@blur="restoreClearedInput" />
 </template>
 
 <script>
 import { NcDateTimePickerNative as DateTimePicker } from '@nextcloud/vue'
-import { mapState } from 'pinia'
-import useSettingsStore from '../../store/settings.js'
 
 export default {
 	name: 'TimePicker',
@@ -30,25 +28,47 @@ export default {
 		},
 	},
 
+	emits: ['change'],
+
 	data() {
 		return {
+			cleared: false,
 		}
 	},
 
 	computed: {
-		...mapState(useSettingsStore, {
-			locale: 'momentLocale',
-		}),
+		/**
+		 * Value displayed and manipulated by the wrapped NcDateTimePickerNative.
+		 * Coordinates passing the `date` and emitting changes to it
+		 * while tracking an intermediate state where NcDateTimePickerNative is cleared.
+		 */
+		internalValue: {
+			get() {
+				if (this.cleared) {
+					return null
+				}
+				return this.date
+			},
+
+			set(newValue) {
+				if (newValue === null) {
+					this.cleared = true
+					return
+				}
+				this.cleared = false
+				if (this.date.getHours() !== newValue.getHours() || this.date.getMinutes() !== newValue.getMinutes()) {
+					this.$emit('change', newValue)
+				}
+			},
+		},
 	},
 
 	methods: {
 		/**
-		 * Emits a change event for the Date
-		 *
-		 * @param {Date} date The new Date object
+		 * Restores last valid date into a input, if input is cleared.
 		 */
-		change(date) {
-			this.$emit('change', date)
+		restoreClearedInput() {
+			this.cleared = false
 		},
 	},
 }

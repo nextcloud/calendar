@@ -27,5 +27,13 @@ export default defineConfig({
 		// Increase timeouts for slow CI environments
 		testTimeout: 300000, // 2 minutes per test
 		hookTimeout: 60000,  // 60 seconds for hooks
+		server: {
+			deps: {
+				// Workaround "SyntaxError: Cannot use import statement outside a module"
+				// caused by "import { Picker, Emoji, EmojiIndex } from 'emoji-mart-vue-fast/src'"
+				// in NcEmojiPicker.vue
+				inline: '@nextcloud/vue',
+			},
+		},
 	},
 });
