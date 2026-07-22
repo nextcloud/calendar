@@ -7,6 +7,6 @@
     },
     "require-dev": {
         "nextcloud/coding-standard": "^1.5.0",
-        "php-cs-fixer/shim": "^3.95.13"
+        "php-cs-fixer/shim": "^3.95.15"
     }
 }
