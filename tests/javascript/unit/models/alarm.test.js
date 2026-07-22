@@ -8,6 +8,7 @@ import {
 	getAmountHoursMinutesAndUnitForAllDayEvents,
 } from '../../../../src/utils/alarms.js'
 import { getDateFromDateTimeValue } from '../../../../src/utils/date.js'
+import { getAlarmComponentFromAsset } from '../loadAsset.js'
 
 vi.mock('../../../../src/utils/alarms.js')
 vi.mock('../../../../src/utils/date.js')

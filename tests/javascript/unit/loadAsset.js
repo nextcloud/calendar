@@ -12,7 +12,7 @@ import ICAL from 'ical.js'
  * @param {string} assetName
  * @returns {string}
  */
-global.loadICS = (assetName) => {
+export function loadICS(assetName) {
 	return fs.readFileSync('tests/assets/ics/' + assetName + '.ics', 'UTF8')
 }
 
@@ -22,7 +22,7 @@ global.loadICS = (assetName) => {
  * @param {String} assetName Name of the asset
  * @returns {AlarmComponent}
  */
-global.getAlarmComponentFromAsset = (assetName) => {
+export function getAlarmComponentFromAsset(assetName) {
 	const ics = loadICS(assetName)
 	const jCal = ICAL.parse(ics.trim())
 	const iCalComp = new ICAL.Component(jCal)
@@ -36,7 +36,7 @@ global.getAlarmComponentFromAsset = (assetName) => {
  * @param {String} assetName Name of the asset
  * @returns {AttendeeProperty}
  */
-global.getAttendeePropertyFromAsset = (assetName) => {
+export function getAttendeePropertyFromAsset(assetName) {
 	const ics = loadICS(assetName)
 	const iCalProp = ICAL.Property.fromString(ics.trim())
 
@@ -49,7 +49,7 @@ global.getAttendeePropertyFromAsset = (assetName) => {
  * @param {String} assetName Name of the asset
  * @returns {RecurValue}
  */
-global.getRecurValueFromAsset = (assetName) => {
+export function getRecurValueFromAsset(assetName) {
 	const ics = loadICS(assetName)
 	const iCalValue = ICAL.Recur.fromString(ics.trim())
 
@@ -62,7 +62,7 @@ global.getRecurValueFromAsset = (assetName) => {
  * @param {String} assetName Name of the asset
  * @param {DateTimeValue} recurrenceId RecurrenceId of instance
  */
-global.getEventComponentFromAsset = (assetName, recurrenceId) => {
+export function getEventComponentFromAsset(assetName, recurrenceId) {
 	const ics = loadICS(assetName)
 	const parser = getParserManager().getParserForFileType('text/calendar')
 	parser.parse(ics)

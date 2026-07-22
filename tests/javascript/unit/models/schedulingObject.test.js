@@ -9,6 +9,7 @@ import {
 	mapCalendarJsToSchedulingObject,
 	mapCDavObjectToSchedulingObject,
 } from '../../../../src/models/schedulingObject.js'
+import { loadICS } from '../loadAsset.js'
 
 describe('Test suite: Scheduling Object model (models/schedulingObject.js)', () => {
 	it('should return a default scheduling object object', () => {

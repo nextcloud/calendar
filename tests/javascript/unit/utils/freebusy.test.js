@@ -6,6 +6,7 @@
 import { AttendeeProperty, DateTimeValue } from '@nextcloud/calendar-js'
 import { findSchedulingOutbox } from '../../../../src/services/caldavService.js'
 import { doFreeBusyRequest } from '../../../../src/utils/freebusy.js'
+import { loadICS } from '../loadAsset.js'
 
 vi.mock('../../../../src/services/caldavService')
 
