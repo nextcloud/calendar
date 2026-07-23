@@ -5,6 +5,7 @@
 
 import { AttendeeProperty } from '@nextcloud/calendar-js'
 import { getDefaultAttendeeObject, mapAttendeePropertyToAttendeeObject, mapPrincipalObjectToAttendeeObject } from '../../../../src/models/attendee.js'
+import { getAttendeePropertyFromAsset } from '../loadAsset.js'
 
 describe('Test suite: Attendee model (models/attendee.js)', () => {
 	it('should return a default attendee object', () => {

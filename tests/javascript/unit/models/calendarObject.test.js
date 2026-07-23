@@ -8,6 +8,7 @@ import {
 	mapCalendarJsToCalendarObject,
 	mapCDavObjectToCalendarObject,
 } from '../../../../src/models/calendarObject.js'
+import { loadICS } from '../loadAsset.js'
 
 describe('Test suite: Calendar object model (models/calendarObject.js)', () => {
 	it('should return a default calendarObject object', () => {

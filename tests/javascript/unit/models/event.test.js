@@ -11,6 +11,7 @@ import { copyCalendarObjectInstanceIntoEventComponent, getDefaultEventObject, ma
 import { getDefaultRecurrenceRuleObject, mapRecurrenceRuleValueToRecurrenceRuleObject } from '../../../../src/models/recurrenceRule.js'
 import { getHexForColorName } from '../../../../src/utils/color.js'
 import { getDateFromDateTimeValue } from '../../../../src/utils/date.js'
+import { getEventComponentFromAsset } from '../loadAsset.js'
 
 vi.mock('../../../../src/utils/date.js')
 vi.mock('../../../../src/utils/color.js')

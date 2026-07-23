@@ -9,6 +9,7 @@ import {
 	mapRecurrenceRuleValueToRecurrenceRuleObject,
 } from '../../../../src/models/recurrenceRule.js'
 import { getDateFromDateTimeValue } from '../../../../src/utils/date.js'
+import { getRecurValueFromAsset } from '../loadAsset.js'
 
 vi.mock('../../../../src/utils/date.js')
 
