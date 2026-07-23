@@ -231,6 +231,12 @@ h3 {
 	max-width: 720px;
 	max-height: 500px;
 	overflow: auto;
+
+	@media (max-width: 768px) {
+		width: 100%;
+		max-height: none;
+		overflow: visible;
+	}
 }
 
 .booking-appointment-wrapper {
@@ -239,19 +245,31 @@ h3 {
 	flex-wrap: wrap;
 	gap: calc(var(--default-grid-baseline) * 6);
 	width: 100%;
+
+	@media (max-width: 768px) {
+		flex-direction: column;
+		gap: calc(var(--default-grid-baseline) * 4);
+	}
 }
 
 .booking-details {
 	flex: 1 220px;
+	min-width: 0;
 }
 
 .appointment-details {
 	max-width: 360px;
 	flex: 1 auto;
 	padding-inline-start: 30px;
+	min-width: 0;
 
 	input {
 		width: 100%;
+	}
+
+	@media (max-width: 768px) {
+		max-width: 100%;
+		padding-inline-start: 0;
 	}
 }
 
