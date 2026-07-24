@@ -341,7 +341,9 @@ class ProposalService {
 		$vObject = new VCalendar();
 		/** @var \Sabre\VObject\Component\VEvent $vEvent */
 		$vEvent = $vObject->add('VEVENT', []);
-		$vEvent->UID->setValue($proposal->getUuid() ?? Uuid::v4()->toRfc4122());
+		// UID is assigned below depending on whether an existing blocker is reused (PUT in place)
+		// or a fresh calendar object is created. Reusing the proposal UUID for a fresh INSERT
+		// would collide with an orphan blocker held by oc_calendarobjects.calobjects_by_uid_index.
 		$vEvent->add('DTSTART', $eventTimezone ? $selectedDate->getDate()->setTimezone($eventTimezone) : $selectedDate->getDate());
 		$vEvent->add('DTEND', (clone $vEvent->DTSTART->getDateTime())->add(new \DateInterval("PT{$proposal->getDuration()}M")));
 		$vEvent->add('SEQUENCE', 1);
@@ -368,8 +370,16 @@ class ProposalService {
 		// convert existing calendar blocker to event if it exists, otherwise create a new event in the user's calendar
 		$result = $this->findCalendarBlocker($user, $proposal);
 		if ($result !== null) {
+			// blocker found in the user's calendars: reuse the proposal UUID so iCal threading
+			// is preserved. applyCalendarBlockersOrganizer issues a PUT against the same URI,
+			// which updates the existing row rather than inserting a new one.
+			$vEvent->UID->setValue($proposal->getUuid() ?? Uuid::v4()->toRfc4122());
 			$this->applyCalendarBlockersOrganizer($user, $result['calendarUri'], $result['eventUri'], $vObject);
 		} else {
+			// blocker was not surfaced by the search (calendar not in the principal listing,
+			// search backend lag, etc.) but may still hold the proposal UID in oc_calendarobjects.
+			// Use a fresh UUID so the INSERT below cannot collide on calobjects_by_uid_index.
+			$vEvent->UID->setValue(Uuid::v4()->toRfc4122());
 			$userCalendar->createFromString(
 				Uuid::v4()->toRfc4122() . '.ics',
 				$vObject->serialize()
