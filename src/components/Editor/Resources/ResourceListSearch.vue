@@ -124,7 +124,10 @@ export default {
 			matches: [],
 			capacity: NaN,
 			roomType: '',
-			isAvailable: true,
+			// Show busy resources too (annotated per result) instead of
+			// hiding them, so the search doesn't hide the exact conflict
+			// information this feature is meant to surface.
+			isAvailable: false,
 			isAccessible: false,
 			hasProjector: false,
 			hasWhiteboard: false,

@@ -75,6 +75,7 @@ export default {
 			// email -> 'checking' | 'available' | 'unavailable'
 			resourceAvailabilities: {},
 			availabilityRequestToken: 0,
+			suggestionsRequestToken: 0,
 		}
 	},
 
@@ -157,8 +158,17 @@ export default {
 		},
 
 		eventTimeRange() {
+			this.loadRoomSuggestions()
 			this.checkAvailabilityDebounced()
 		},
+	},
+
+	created() {
+		// Created per instance, since a debounced function shared across all
+		// ResourceList instances (e.g. via the methods object) would throw
+		// when called with a different `this` while a previous call is still
+		// pending.
+		this.checkAvailabilityDebounced = debounce(this.checkPendingResourceAvailability.bind(this), 700)
 	},
 
 	async mounted() {
@@ -202,10 +212,6 @@ export default {
 			return this.resourceAvailabilities[removeMailtoPrefix(resource.uri)] ?? null
 		},
 
-		checkAvailabilityDebounced: debounce(function() {
-			this.checkPendingResourceAvailability()
-		}, 700),
-
 		/**
 		 * Predict the booking outcome of all pending resources with a
 		 * free busy request. The result is only a prediction because the
@@ -229,6 +235,9 @@ export default {
 				return
 			}
 
+			// Kept so a failed request can restore the last known result
+			// instead of dropping it in favour of an unknown state.
+			const previousAvailabilities = this.resourceAvailabilities
 			this.resourceAvailabilities = Object.fromEntries(options.map(({ email }) => [email, 'checking']))
 
 			try {
@@ -250,7 +259,7 @@ export default {
 				}
 
 				logger.warn('Could not check resource availability', { error })
-				this.resourceAvailabilities = {}
+				this.resourceAvailabilities = previousAvailabilities
 			}
 		},
 
@@ -263,6 +272,9 @@ export default {
 				this.suggestedRooms = []
 				return
 			}
+
+			// Invalidate results of any request still in flight
+			const token = ++this.suggestionsRequestToken
 
 			try {
 				logger.info('fetching suggestions for ' + this.attendees.length + ' attendees')
@@ -290,9 +302,17 @@ export default {
 				)
 				logger.debug('availability of room suggestions fetched', { results })
 
+				if (token !== this.suggestionsRequestToken) {
+					return
+				}
+
 				// Take the first three available options
 				this.suggestedRooms = results.filter((room) => room.isAvailable).slice(0, 3)
 			} catch (error) {
+				if (token !== this.suggestionsRequestToken) {
+					return
+				}
+
 				logger.error('Could not find resources', { error })
 				this.suggestedRooms = []
 			}
