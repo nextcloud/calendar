@@ -58,6 +58,19 @@ export function organizerDisplayName(organizer) {
 }
 
 /**
+ * Check if a resource booking is still pending, i.e. the resource has neither
+ * accepted nor declined and the server has not reported a scheduling result yet
+ *
+ * @param {string} participationStatus PARTSTAT of the resource attendee
+ * @param {string} scheduleStatus SCHEDULE-STATUS parameter value of the resource attendee
+ * @return {boolean} True if the booking outcome is still unknown
+ */
+export function isPendingResourceBooking(participationStatus, scheduleStatus) {
+	return !['ACCEPTED', 'DECLINED', 'TENTATIVE'].includes(participationStatus)
+		&& (!scheduleStatus || scheduleStatus === '1.0')
+}
+
+/**
  * Check if the current user is an attendee
  *
  * @param {string} currentUserPrincipalEmail Email address of the current user
