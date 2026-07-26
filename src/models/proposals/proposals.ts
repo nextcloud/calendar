@@ -118,6 +118,7 @@ export class Proposal implements ProposalInterface {
 	public description: string | null = null
 	public location: string | null = null
 	public duration: number = 0
+	public responseNotify: boolean = false
 	public participants: ProposalParticipant[] = []
 	public dates: ProposalDate[] = []
 	public votes: ProposalVote[] = []
@@ -133,6 +134,7 @@ export class Proposal implements ProposalInterface {
 			description: this.description,
 			location: this.location,
 			duration: this.duration,
+			responseNotify: this.responseNotify,
 			dates: this.dates.map((d) => d.toJson()),
 			participants: this.participants.map((p) => p.toJson()),
 		}
@@ -151,6 +153,7 @@ export class Proposal implements ProposalInterface {
 		this.description = typeof data.description === 'string' ? data.description : null
 		this.location = typeof data.location === 'string' ? data.location : null
 		this.duration = typeof data.duration === 'number' ? data.duration : 0
+		this.responseNotify = typeof data.responseNotify === 'boolean' ? data.responseNotify : false
 		this.dates = Array.isArray(data.dates)
 			? data.dates.map((d: Record<string, unknown>) => {
 					const date = new ProposalDate()
