@@ -122,7 +122,7 @@ class EmailController extends Controller {
 
 		if ($calendar === null) {
 			return new JSONResponse([
-				'message' => $this->l10n->t('An error occured during sending email'),
+				'message' => $this->l10n->t('An error occurred during sending email'),
 			], Http::STATUS_BAD_REQUEST);
 		}
 
