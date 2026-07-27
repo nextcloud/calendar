@@ -173,7 +173,7 @@ class EmailControllerTest extends TestCase {
 		);
 
 		$this->assertEquals([
-			'message' => 'TRANSLATED: An error occured during sending email'
+			'message' => 'TRANSLATED: An error occurred during sending email'
 		], $response->getData());
 		$this->assertEquals(Http::STATUS_BAD_REQUEST, $response->getStatus());
 	}
