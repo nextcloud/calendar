@@ -615,6 +615,7 @@ OC.L10N.register(
     "Anyone with the invitation can respond" : "N'importe qui ayant l'invitation peut y répondre",
     "Only invited attendees can respond" : "Seuls les participants invités peuvent répondre",
     "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Sélectionnez « Seuls les participants invités peuvent répondre » pour empêcher les participants de transférer l'invitation à d'autres personnes.",
+    "Detailed event editor" : "Éditeur avancé d'événements",
     "Event does not exist" : "L'événement n'existe pas",
     "Delete this occurrence" : "Supprimer cette occurrence",
     "Delete this and all future" : "Supprimer cette occurrence et toutes les prochaines",
