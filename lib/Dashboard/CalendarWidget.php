@@ -190,8 +190,10 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 		$dateTime = $dateTimeProperty[0];
 		$parameters = $dateTimeProperty[1] ?? [];
 		$tzid = isset($parameters['TZID']) ? (string)$parameters['TZID'] : '';
+		$valueType = isset($parameters['VALUE']) ? (string)$parameters['VALUE'] : '';
 
-		if (preg_match('/^UTC([+-])(\d{2}):?(\d{2})$/i', $tzid, $matches) !== 1) {
+		if (strcasecmp($valueType, 'DATE') === 0
+			|| preg_match('/^UTC([+-])(\d{2}):?(\d{2})$/i', $tzid, $matches) !== 1) {
 			return $dateTime;
 		}
 

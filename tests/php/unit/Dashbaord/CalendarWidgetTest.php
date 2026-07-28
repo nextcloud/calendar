@@ -238,6 +238,19 @@ class CalendarWidgetTest extends TestCase {
 		$this->assertSame('UTC-04:00', $result['objects'][0]['DTSTART'][1]['TZID']);
 	}
 
+	public function testFixedOffsetNormalizationLeavesAllDayValueUnchanged(): void {
+		$start = new DateTimeImmutable('2026-07-28 00:00:00 UTC');
+		$normalized = self::invokePrivate($this->widget, 'normalizeFixedOffsetDateTime', [[
+			$start,
+			[
+				'TZID' => 'UTC-04:00',
+				'VALUE' => 'DATE',
+			],
+		]]);
+
+		$this->assertSame($start, $normalized);
+	}
+
 	public function testGetItemsCachesCalendarDotPerRequest(): void {
 		$userId = 'admin';
 		$calendarA = $this->createMock(ITestCalendar::class);
