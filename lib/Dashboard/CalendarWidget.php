@@ -11,6 +11,7 @@ namespace OCA\Calendar\Dashboard;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
+use DateTimeZone;
 use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Service\JSDataService;
 use OCP\AppFramework\Services\IInitialState;
@@ -133,22 +134,31 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 			foreach ($searchResult as $calendarEvent) {
 				// Find first recurrence in the future
 				$recurrence = null;
+				$startDate = null;
 				foreach ($calendarEvent['objects'] as $object) {
-					/** @var DateTimeImmutable $startDate */
-					$startDate = $object['DTSTART'][0];
-					if ($startDate->getTimestamp() >= $dateTime->getTimestamp()) {
+					$objectStartDate = $this->normalizeFixedOffsetDateTime($object['DTSTART']);
+					if ($objectStartDate->getTimestamp() >= $dateTime->getTimestamp()) {
+						$displayStartDate = $this->normalizeDisplayDateTime(
+							$objectStartDate,
+							$dateTime->getTimezone(),
+							$object['DTSTART'],
+						);
 						$recurrence = $object;
+						$startDate = $objectStartDate;
 						break;
 					}
 				}
 
-				if ($recurrence === null) {
+				if ($recurrence === null || $startDate === null) {
 					continue;
 				}
 
 				$widget = new WidgetItem(
 					$recurrence['SUMMARY'][0] ?? 'New Event',
-					$this->dateTimeFormatter->formatTimeSpan(DateTime::createFromImmutable($startDate)),
+					$this->dateTimeFormatter->formatTimeSpan(
+						DateTime::createFromImmutable($displayStartDate),
+						DateTime::createFromImmutable($dateTime),
+					),
 					$this->urlGenerator->getAbsoluteURL($this->urlGenerator->linkToRoute('calendar.view.index', ['objectId' => $calendarEvent['uid']])),
 					$this->getCalendarDotIconUrl($calendar->getDisplayColor()),
 					(string)$startDate->getTimestamp(),
@@ -162,6 +172,68 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 		});
 
 		return $widgetItems;
+	}
+
+	/**
+	 * Sabre VObject falls back to PHP's default timezone when it cannot resolve
+	 * non-IANA fixed-offset TZIDs such as UTC-04:00. Preserve the parsed wall
+	 * clock and attach the explicit offset before the widget emits a timestamp.
+	 *
+	 * @param array{0: DateTimeImmutable, 1?: array<string, mixed>} $dateTimeProperty
+	 */
+	private function normalizeFixedOffsetDateTime(array $dateTimeProperty): DateTimeImmutable {
+		$dateTime = $dateTimeProperty[0];
+		$parameters = $dateTimeProperty[1] ?? [];
+		$tzid = isset($parameters['TZID']) ? (string)$parameters['TZID'] : '';
+		$valueType = isset($parameters['VALUE']) ? (string)$parameters['VALUE'] : '';
+
+		if (strcasecmp($valueType, 'DATE') === 0
+			|| preg_match('/^UTC([+-])(\d{2}):?(\d{2})$/i', $tzid, $matches) !== 1) {
+			return $dateTime;
+		}
+
+		$hours = (int)$matches[2];
+		$minutes = (int)$matches[3];
+		if ($hours > 23 || $minutes > 59) {
+			return $dateTime;
+		}
+
+		$timeZone = new DateTimeZone(sprintf('%s%02d:%02d', $matches[1], $hours, $minutes));
+		$normalized = DateTimeImmutable::createFromFormat(
+			'!Y-m-d H:i:s.u',
+			$dateTime->format('Y-m-d H:i:s.u'),
+			$timeZone,
+		);
+
+		return $normalized ?: $dateTime;
+	}
+
+	/**
+	 * Use one timezone for relative-day comparison. Timed values represent an
+	 * instant and are converted; all-day values represent a calendar date and
+	 * must retain that date when attached to the display timezone.
+	 *
+	 * @param array{0: DateTimeImmutable, 1?: array<string, mixed>} $dateTimeProperty
+	 */
+	private function normalizeDisplayDateTime(
+		DateTimeImmutable $dateTime,
+		DateTimeZone $displayTimeZone,
+		array $dateTimeProperty,
+	): DateTimeImmutable {
+		$parameters = $dateTimeProperty[1] ?? [];
+		$valueType = isset($parameters['VALUE']) ? (string)$parameters['VALUE'] : '';
+
+		if (strcasecmp($valueType, 'DATE') !== 0) {
+			return $dateTime->setTimezone($displayTimeZone);
+		}
+
+		$normalized = DateTimeImmutable::createFromFormat(
+			'!Y-m-d',
+			$dateTime->format('Y-m-d'),
+			$displayTimeZone,
+		);
+
+		return $normalized ?: $dateTime;
 	}
 
 	private function getCalendarDotIconUrl(?string $color): string {
