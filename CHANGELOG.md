@@ -1,3 +1,24 @@
+## [6.5.2](https://github.com/nextcloud/calendar/compare/v6.5.1...v6.5.2) (2026-07-28)
+
+
+### Bug Fixes
+
+* **a11y:** contrast ([0307dfd](https://github.com/nextcloud/calendar/commit/0307dfd062d04e54441c63ce34dbf0d416f6b5a9))
+* editor calendar picker and all day alignment ([7f7792a](https://github.com/nextcloud/calendar/commit/7f7792a48677ed8b1995eeab04b0c680170f4c86))
+* **editor:**  handle closing free-busy dialog correctly ([d0288fc](https://github.com/nextcloud/calendar/commit/d0288fca156499134c3c72fa8adc0dcf160ece79)), closes [#8590](https://github.com/nextcloud/calendar/issues/8590)
+* **editor:**  use modal name as  accessibility name ([541c50e](https://github.com/nextcloud/calendar/commit/541c50e0b0060437f06342c3dda20587c9b04379))
+* **editor:** do not used unefined properties in room availability modal ([0906e0f](https://github.com/nextcloud/calendar/commit/0906e0fab434e72e382519e97f413856b0b42f51))
+* **editor:** time input for relative reminders to all day events ([d4e3e6d](https://github.com/nextcloud/calendar/commit/d4e3e6d410cf926af6a41112057b2c54a73b21a1))
+* **editor:** unable to change dates through date picker in free busy dialog ([e8327cd](https://github.com/nextcloud/calendar/commit/e8327cdcc80a018d7f9b364c2a86d0a2ae170501)), closes [#8623](https://github.com/nextcloud/calendar/issues/8623)
+* **editor:** use consistent accessibility names for event editors ([85b9510](https://github.com/nextcloud/calendar/commit/85b9510db65c3a2f0bb67c7f6ab7845068b8958e))
+* **editor:** using clear button breaks date picker in free busy dialog ([f15264e](https://github.com/nextcloud/calendar/commit/f15264e612e8e141d40053dafe0c0498673f5813))
+* **editor:** using clear button breaks date picker in room availability modal ([122d375](https://github.com/nextcloud/calendar/commit/122d375f92edd3694fe95a2256c321d5be1f7230))
+* **email:** correct spelling of 'occurred' in error message ([a60b6a2](https://github.com/nextcloud/calendar/commit/a60b6a2200a876eaf0c38bfef6ba38a71c62bb3c))
+* **proposals:** localize calendar overview ([9465278](https://github.com/nextcloud/calendar/commit/9465278b67d7b025912acce3f9d74c298a6c36e0))
+* talk modal z-index ([0ab4ca5](https://github.com/nextcloud/calendar/commit/0ab4ca500921e79605695736b27cdd9bcd62d977))
+
+
+
 ## [6.5.1](https://github.com/nextcloud/calendar/compare/v6.5.0...v6.5.1) (2026-07-13)
 
 
