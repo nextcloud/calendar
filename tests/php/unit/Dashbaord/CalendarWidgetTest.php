@@ -234,6 +234,8 @@ class CalendarWidgetTest extends TestCase {
 		$this->assertCount(1, $widgets);
 		$this->assertSame((string)$expectedStart->getTimestamp(), $widgets[0]->getSinceId());
 		$this->assertSame('in 10 hours', $widgets[0]->getSubtitle());
+		$this->assertSame($backendStart, $result['objects'][0]['DTSTART'][0]);
+		$this->assertSame('UTC-04:00', $result['objects'][0]['DTSTART'][1]['TZID']);
 	}
 
 	public function testGetItemsCachesCalendarDotPerRequest(): void {
