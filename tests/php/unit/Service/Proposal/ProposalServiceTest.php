@@ -595,6 +595,61 @@ class ProposalServiceTest extends TestCase {
 		$this->addToAssertionCount(1); // If we reached this point, the test is successfully completed
 	}
 
+	/**
+	 * Regression: when no calendar blocker is found by the search, the converted event must not
+	 * reuse the proposal's UUID. Otherwise an INSERT into oc_calendarobjects collides with a
+	 * possibly-orphaned blocker holding the same UID and triggers SQLSTATE[23505] (#7941).
+	 */
+	public function testConvertProposalUsesFreshUuidWhenBlockerNotFound(): void {
+		$proposalEntry = $this->createProposalEntry(1, 'Convert Proposal');
+		$proposalEntry->setDuration(60);
+		$proposalEntry->setUuid('9d8aa045-d371-49c1-9f70-aaaaaaaaaaaa');
+		$dateEntry = new ProposalDateEntry();
+		$dateEntry->setId(10);
+		$dateEntry->setPid(1);
+		$dateEntry->setUid('testuser');
+		$dateEntry->setDate((new \DateTimeImmutable('+1 day'))->getTimestamp());
+
+		$this->proposalMapper->expects($this->once())
+			->method('fetchById')
+			->with('testuser', 1)
+			->willReturn($proposalEntry);
+		$this->proposalParticipantMapper->expects($this->once())
+			->method('fetchByProposalId')
+			->with('testuser', 1)
+			->willReturn([]);
+		$this->proposalDateMapper->expects($this->once())
+			->method('fetchByProposalId')
+			->with('testuser', 1)
+			->willReturn([$dateEntry]);
+		$this->proposalVoteMapper->expects($this->once())
+			->method('fetchByProposalId')
+			->with('testuser', 1)
+			->willReturn([]);
+
+		// Simulate the bug condition: search across the user's calendars surfaces no blocker
+		// (even though one may still exist in oc_calendarobjects with the proposal's UID).
+		$this->calendarManager->method('getCalendarsForPrincipal')->willReturn([]);
+
+		$calendar = $this->createMock(\OCP\Calendar\ICreateFromString::class);
+		$calendar->method('isDeleted')->willReturn(false);
+		$calendar->expects($this->once())
+			->method('createFromString')
+			->with(
+				$this->callback(fn ($name) => str_ends_with($name, '.ics')),
+				$this->callback(fn ($data) => !str_contains($data, 'UID:' . $proposalEntry->getUuid())),
+			);
+		$this->calendarManager->method('getPrimaryCalendar')->with('testuser')->willReturn($calendar);
+
+		$this->proposalVoteMapper->expects($this->once())->method('deleteByProposalId')->with('testuser', 1);
+		$this->proposalParticipantMapper->expects($this->once())->method('deleteByProposalId')->with('testuser', 1);
+		$this->proposalDateMapper->expects($this->once())->method('deleteByProposalId')->with('testuser', 1);
+		$this->proposalMapper->expects($this->once())->method('deleteById')->with('testuser', 1);
+
+		$this->service->convertProposal($this->user, 1, 10);
+		$this->addToAssertionCount(1);
+	}
+
 	public function testConvertProposalDateNotFound(): void {
 		// mock objects
 		// proposal entry
