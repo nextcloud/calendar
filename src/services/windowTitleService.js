@@ -36,9 +36,8 @@ export default function(router) {
 	 * This listens to router changes and automatically
 	 * updates the title
 	 */
-	router.beforeEach((to, from, next) => {
+	router.beforeEach((to) => {
 		if (!to.params.firstDay) {
-			next()
 			return
 		}
 
@@ -47,8 +46,6 @@ export default function(router) {
 		const locale = settingsStore.momentLocale
 
 		updateTitle(date, view, locale)
-
-		next()
 	})
 
 	/**
