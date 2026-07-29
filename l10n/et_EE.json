@@ -2,6 +2,7 @@
     "Provided email-address is too long" : "Sisestatud e-postiaadress on liiga pikk",
     "User-Session unexpectedly expired" : "Kasutajasessioon aegus ootamatult",
     "Provided email-address is not valid" : "Sisestatud e-postiaadress pole korrektne",
+    "An error occurred during sending email" : "E-kirja saatmise tekkis viga",
     "%s has published the calendar »%s«" : "%s avaldas kalendri „%s“",
     "Unexpected error sending email. Please contact your administrator." : "Ootamatu viga e-kirja saatmisel. Palun võta ühendust oma peakasutajaga.",
     "Successfully sent email to %1$s" : "E-kiri on saadetud kasutajale %1$s",
