@@ -78,7 +78,6 @@ import { mapState } from 'pinia'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
-import dateFormat from '../../../filters/dateFormat.js'
 import freeBusyBlockedForAllEventSource from '../../../fullcalendar/eventSources/freeBusyBlockedForAllEventSource.js'
 import freeBusyFakeBlockingEventSource from '../../../fullcalendar/eventSources/freeBusyFakeBlockingEventSource.js'
 import freeBusyResourceEventSource from '../../../fullcalendar/eventSources/freeBusyResourceEventSource.js'
@@ -87,7 +86,6 @@ import { getFullCalendarLocale } from '../../../fullcalendar/localization/locale
 import momentPlugin from '../../../fullcalendar/localization/momentPlugin.js'
 import VTimezoneNamedTimezone from '../../../fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
 import { mapPrincipalObjectToAttendeeObject } from '../../../models/attendee.js'
-import { getBusySlots, getFirstFreeSlot } from '../../../services/freeBusySlotService.js'
 import useSettingsStore from '../../../store/settings.js'
 import { getColorForFBType } from '../../../utils/freebusy.js'
 import { randomId } from '../../../utils/randomId.js'
@@ -143,7 +141,6 @@ export default {
 			currentStart: this.startDate,
 			currentEnd: this.endDate,
 			lang: getFullCalendarLocale().locale,
-			freeSlots: [],
 		}
 	},
 
@@ -313,54 +310,6 @@ export default {
 			}
 			this.currentDate = calendar.getDate()
 			calendar.scrollToTime(this.scrollTime)
-			this.findFreeSlots()
-		},
-
-		async findFreeSlots() {
-			// Doesn't make sense for multiple days
-			if (this.currentStart.getDate() !== this.currentEnd.getDate()) {
-				return
-			}
-
-			// Needed to update with full calendar widget changes
-			const startSearch = new Date(this.currentStart)
-			startSearch.setDate(this.currentDate.getDate())
-			startSearch.setMonth(this.currentDate.getMonth())
-			startSearch.setYear(this.currentDate.getFullYear())
-
-			const endSearch = new Date(this.currentEnd)
-			endSearch.setDate(this.currentDate.getDate())
-			endSearch.setMonth(this.currentDate.getMonth())
-			endSearch.setYear(this.currentDate.getFullYear())
-
-			try {
-				// for now search slots only in the first week days
-				const endSearchDate = new Date(startSearch)
-				endSearchDate.setDate(startSearch.getDate() + 7)
-				const eventResults = await getBusySlots(
-					this.organizer.attendeeProperty,
-					this.attendees.map((a) => a.attendeeProperty),
-					startSearch,
-					endSearchDate,
-					this.timeZoneId,
-				)
-
-				const freeSlots = getFirstFreeSlot(
-					startSearch,
-					endSearch,
-					eventResults.events,
-				)
-
-				freeSlots.forEach((slot) => {
-					slot.displayStart = dateFormat(slot.start, false, getFullCalendarLocale().locale)
-				})
-
-				this.freeSlots = freeSlots
-			} catch (error) {
-				// Handle error here
-				console.error('Error occurred while finding free slots:', error)
-				throw error // Re-throwing the error to handle it in the caller
-			}
 		},
 	},
 }
