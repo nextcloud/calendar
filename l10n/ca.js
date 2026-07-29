@@ -346,6 +346,7 @@ OC.L10N.register(
     "Copied to clipboard" : "Copiat al porta-retalls",
     "No attendees yet" : "Encara no hi ha cap participant",
     "Status" : "Estat",
+    "Role" : "Rol",
     "Chairperson" : "Organització",
     "Required participant" : "Participació obligatòria",
     "Optional participant" : "Participació opcional",

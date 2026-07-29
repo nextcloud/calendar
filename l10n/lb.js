@@ -28,6 +28,7 @@ OC.L10N.register(
     "Cancel" : "Ofbriechen",
     "Attendees" : "Participanten",
     "Automatic" : "Automatesch",
+    "Timezone" : "Zäitzon",
     "List view" : "Lëscht Vue",
     "Actions" : "Aktiounen",
     "General" : "Allgemeng",

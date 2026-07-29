@@ -4,6 +4,7 @@ OC.L10N.register(
     "Provided email-address is too long" : "Pateiktas el. pašto adresas yra per ilgas",
     "User-Session unexpectedly expired" : "Netikėtai pasibaigė vartotojo seanso galiojimas",
     "Provided email-address is not valid" : "Pateiktas el. pašto adresas nėra teisingas",
+    "An error occurred during sending email" : "Siunčiant el. laišką įvyko klaida",
     "%s has published the calendar »%s«" : "%s paskelbė kalendorių „%s“",
     "Unexpected error sending email. Please contact your administrator." : "Netikėta klaida siunčiant el. laišką. Susisiekite su savo administratoriumi.",
     "Successfully sent email to %1$s" : "El. laiškas sėkmingai išsiųstas į %1$s",
