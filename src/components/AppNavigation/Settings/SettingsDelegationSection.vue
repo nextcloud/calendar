@@ -143,6 +143,7 @@ import {
 import debounce from 'debounce'
 import { computed, onMounted, ref } from 'vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import { principalPropertySearchByDisplaynameOrEmail } from '@/services/caldavService.js'
 import useDelegationStore from '@/store/delegation.ts'
 import usePrincipalsStore from '@/store/principals.js'
