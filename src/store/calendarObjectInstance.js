@@ -34,6 +34,35 @@ import useCalendarsStore from './calendars.js'
 import useSettingsStore from './settings.js'
 import { updateRoomParticipantsFromEvent } from '@/services/talkService'
 
+/**
+ * Overwrites the ATTENDEE/ORGANIZER of the master's current-and-future exceptions
+ * with clones of the master's own, after an in-place "this and all future" master update.
+ *
+ * @param {object} eventComponent Forked event component being saved.
+ */
+export function syncMasterParticipantsOntoFutureExceptions(eventComponent) {
+	if (!eventComponent.isExactForkOfPrimary || !eventComponent.primaryItem.isMasterItem()) {
+		return
+	}
+	const master = eventComponent.primaryItem
+	const ref = eventComponent.getReferenceRecurrenceId()
+	const futureExceptions = master.recurrenceManager
+		.getRecurrenceExceptionList()
+		.filter((exception) => ref.compare(exception.recurrenceId) <= 0)
+	const masterAttendees = master.getAttendeeList()
+	const masterOrganizer = master.getFirstProperty('ORGANIZER')
+	for (const exception of futureExceptions) {
+		exception.deleteAllProperties('ATTENDEE')
+		for (const att of masterAttendees) {
+			exception.addProperty(att.clone())
+		}
+		if (masterOrganizer) {
+			exception.deleteAllProperties('ORGANIZER')
+			exception.addProperty(masterOrganizer.clone())
+		}
+	}
+}
+
 export default defineStore('calendarObjectInstance', {
 	state: () => {
 		return {
@@ -1518,6 +1547,11 @@ export default defineStore('calendarObjectInstance', {
 				// - eventComponent.canCreateRecurrenceExceptions() - Can we create a recurrence-exception for this item
 				if (isForkedItem && eventComponent.canCreateRecurrenceExceptions()) {
 					[original, fork] = eventComponent.createRecurrenceException(thisAndAllFuture)
+
+					// calendar-js leaves existing exceptions untouched on in-place master overrides.
+					if (thisAndAllFuture) {
+						syncMasterParticipantsOntoFutureExceptions(eventComponent)
+					}
 				}
 
 				await calendarObjectsStore.updateCalendarObject({ calendarObject })
