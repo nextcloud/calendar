@@ -1,7 +1,7 @@
 {
   "name": "calendar",
   "description": "A calendar app for Nextcloud. Easily sync events from various devices, share and edit them online.",
-  "version": "6.6.0-dev.0",
+  "version": "6.6.0",
   "keywords": [
     "nextcloud",
     "calendars",
@@ -70,7 +70,7 @@
     "debounce": "^3.0.0",
     "linkifyjs": "^4.3.3",
     "md5": "^2.3.0",
-    "p-limit": "^7.3.0",
+    "p-limit": "^7.3.1",
     "pinia": "^4.0.2",
     "vue": "^3.5.40",
     "vue-loader": "^17.4.2",

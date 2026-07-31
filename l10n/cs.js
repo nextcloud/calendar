@@ -211,6 +211,7 @@ OC.L10N.register(
     "Revoke" : "Odvolat",
     "Viewer" : "Prohlížeč",
     "Editor" : "Editor",
+    "Delegates" : "Deleguje",
     "No users found" : "Nenalezeni žádní uživatelé",
     "{filename} could not be parsed" : "{filename} není možné zpracovat",
     "No valid files found, aborting import" : "Nenalezeny žádné platné soubory, import proto bude ukončen",
