@@ -14,7 +14,7 @@ export function removeMailtoPrefix(uri) {
 		return ''
 	}
 
-	if (uri.startsWith('mailto:')) {
+	if (uri.toLowerCase().startsWith('mailto:')) {
 		return uri.slice(7)
 	}
 

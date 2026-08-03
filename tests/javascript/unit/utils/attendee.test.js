@@ -7,13 +7,15 @@ import {
 	addMailtoPrefix,
 	organizerDisplayName,
 	removeMailtoPrefix,
-} from '../../../../src/utils/attendee'
+} from '../../../../src/utils/attendee.js'
 
 describe('utils/attendee test suite', () => {
 	it('should remove mailto prefixes from uris', () => {
 		const uri = 'principal@test.com'
 		expect(removeMailtoPrefix(uri)).toEqual(uri)
 		expect(removeMailtoPrefix(`mailto:${uri}`)).toEqual(uri)
+		expect(removeMailtoPrefix(`MAILTO:${uri}`)).toEqual(uri)
+		expect(removeMailtoPrefix(`MailTo:${uri}`)).toEqual(uri)
 	})
 
 	it('should return blank strings when uris are not of type string', () => {
@@ -27,10 +29,10 @@ describe('utils/attendee test suite', () => {
 		expect(addMailtoPrefix(uri)).toEqual(uriWithPrefix)
 		expect(addMailtoPrefix(uriWithPrefix)).toEqual(uriWithPrefix)
 	})
-	
+
 	it('should add mailto prefixes to uris when they are not of type string', () => {
-		expect(addMailtoPrefix(null)).toEqual("mailto:")
-		expect(addMailtoPrefix(undefined)).toEqual("mailto:")
+		expect(addMailtoPrefix(null)).toEqual('mailto:')
+		expect(addMailtoPrefix(undefined)).toEqual('mailto:')
 	})
 
 	it('should extract a display name of an organizer', () => {

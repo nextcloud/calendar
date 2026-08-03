@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Service\Appointments;
 
 use DateTimeImmutable;
@@ -84,13 +85,13 @@ class BookingService {
 	}
 
 	/**
-	 * @throws ClientException|DbException
+	 * @throws NoSlotFoundException|ClientException|DbException
 	 */
 	public function confirmBooking(Booking $booking, AppointmentConfig $config): Booking {
 		$bookingSlot = current($this->getAvailableSlots($config, $booking->getStart(), $booking->getEnd()));
 
 		if (!$bookingSlot) {
-			throw new ClientException('Slot for booking is not available any more');
+			throw new NoSlotFoundException('Slot for booking is not available any more');
 		}
 
 		$tz = new DateTimeZone($booking->getTimezone());

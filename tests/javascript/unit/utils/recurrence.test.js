@@ -4,32 +4,30 @@
  */
 import {
 	getBySetPositionAndBySetFromDate,
-	getWeekDayFromDate
+	getWeekDayFromDate,
 } from '../../../../src/utils/recurrence.js'
 
-
 describe('utils/recurrence test suite', () => {
-
 	it('should get the BYSETPOS value for a date object', () => {
 		expect(getBySetPositionAndBySetFromDate(new Date(2019, 0, 1))).toEqual({
 			byDay: 'TU',
-			bySetPosition: 1
+			bySetPosition: 1,
 		})
 		expect(getBySetPositionAndBySetFromDate(new Date(2019, 0, 8))).toEqual({
 			byDay: 'TU',
-			bySetPosition: 2
+			bySetPosition: 2,
 		})
 		expect(getBySetPositionAndBySetFromDate(new Date(2019, 0, 15))).toEqual({
 			byDay: 'TU',
-			bySetPosition: 3
+			bySetPosition: 3,
 		})
 		expect(getBySetPositionAndBySetFromDate(new Date(2019, 0, 22))).toEqual({
 			byDay: 'TU',
-			bySetPosition: 4
+			bySetPosition: 4,
 		})
 		expect(getBySetPositionAndBySetFromDate(new Date(2019, 0, 29))).toEqual({
 			byDay: 'TU',
-			bySetPosition: 5
+			bySetPosition: 5,
 		})
 	})
 
@@ -44,7 +42,7 @@ describe('utils/recurrence test suite', () => {
 
 		expect(() => {
 			getWeekDayFromDate({
-				getDay: () => 99
+				getDay: () => 99,
 			})
 		}).toThrow(TypeError)
 	})

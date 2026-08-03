@@ -2,10 +2,9 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getFirstFreeSlot } from "../../../../src/services/freeBusySlotService.js";
+import { getFirstFreeSlot } from '../../../../src/services/freeBusySlotService.js'
 
 describe('services/freeBusySlotService test suite', () => {
-
 	it('should return the first rounded slot after blocking event end', () => {
 		const events = [
 			{
@@ -14,8 +13,8 @@ describe('services/freeBusySlotService test suite', () => {
 			},
 		]
 
-		let start = new Date('2024-01-01T08:30:00Z')
-		let end = new Date('2024-01-01T09:30:00Z')
+		const start = new Date('2024-01-01T08:30:00Z')
+		const end = new Date('2024-01-01T09:30:00Z')
 
 		const result = getFirstFreeSlot(start, end, events)
 
@@ -40,8 +39,8 @@ describe('services/freeBusySlotService test suite', () => {
 			},
 		]
 
-		let start = new Date('2024-01-01T08:00:00Z')
-		let end = new Date('2024-01-01T08:45:00Z')
+		const start = new Date('2024-01-01T08:00:00Z')
+		const end = new Date('2024-01-01T08:45:00Z')
 
 		const result = getFirstFreeSlot(start, end, events)
 
@@ -68,8 +67,8 @@ describe('services/freeBusySlotService test suite', () => {
 			},
 		]
 
-		let start = new Date('2024-01-01T08:00:00Z')
-		let end = new Date('2024-01-01T08:45:00Z')
+		const start = new Date('2024-01-01T08:00:00Z')
+		const end = new Date('2024-01-01T08:45:00Z')
 
 		const result = getFirstFreeSlot(start, end, events)
 
@@ -92,12 +91,11 @@ describe('services/freeBusySlotService test suite', () => {
 			},
 		]
 
-		let start = new Date('2024-01-01T11:00:00Z')
-		let end = new Date('2024-01-01T12:45:00Z')
+		const start = new Date('2024-01-01T11:00:00Z')
+		const end = new Date('2024-01-01T12:45:00Z')
 
 		const result = getFirstFreeSlot(start, end, events)
 
 		expect(result[0].start).toEqual(new Date('2024-01-01T16:15:00Z'))
 	})
-
 })

@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Notification;
 
 use OCA\Calendar\AppInfo\Application;
@@ -37,7 +38,6 @@ class Notifier implements INotifier {
 	public function getName(): string {
 		return $this->factory->get(Application::APP_ID)->t('Calendar');
 	}
-
 
 	#[\Override]
 	public function prepare(INotification $notification, string $languageCode): INotification {

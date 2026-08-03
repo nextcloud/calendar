@@ -3,26 +3,18 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { test, expect } from '@playwright/test'
-import { login } from './login.js'
+import { expect } from '@playwright/test'
+import { test } from './support/fixtures.ts'
 
-test.beforeEach(async ({ page }) => {
-	await login(page)
-})
-
-test('create an event', async ({ page }) => {
-	await page.goto('./index.php/apps/calendar')
-
-	const eventTitle = Math.random().toString(16).slice(2)
-
+test('create an event', async ({ page, calendarPage }) => {
 	// Create new event with random title
-	await page.getByRole('button', { name: 'Create new event' }).click()
-	await page.getByRole('textbox', { name: 'Title' }).click()
-	await page.getByRole('textbox', { name: 'Title' }).fill(eventTitle)
-	await page.getByRole('button', { name: 'Save' }).click()
+	const eventTitle = Math.random().toString(16).slice(2)
+	const simpleEditor = await calendarPage.createNewEvent()
+	await simpleEditor.fillTitle(eventTitle)
+	await simpleEditor.save()
 
 	// Wait for modal to close
-	await expect(page.getByRole('dialog')).not.toBeVisible()
+	await expect(simpleEditor.locator).not.toBeVisible()
 
 	// Assert that the new event exists
 	await expect(page.getByText(eventTitle)).toBeVisible()

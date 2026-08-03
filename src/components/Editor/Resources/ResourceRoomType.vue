@@ -11,8 +11,8 @@
 				:options="options"
 				:placeholder="placeholder"
 				:clearable="false"
-				:labelOutside="true"
-				inputId="value"
+				:ariaLabelCombobox="$t('calendar', 'Room type')"
+				inputId="resource-room-type"
 				label="label">
 				<template #option="option">
 					<div>{{ option.label !== null ? option.label : "" }}</div>

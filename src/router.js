@@ -71,31 +71,31 @@ const router = createRouter({
 		},
 		{
 			path: '/p/:tokens/:fancyName?',
-			redirect: `/p/:tokens/${getInitialView()}/now`,
+			redirect: (to) => `/p/${to.params.tokens}/${getInitialView()}/now`,
 		},
 		{
 			path: '/public/:tokens/:fancyName?',
-			redirect: `/p/:tokens/${getInitialView()}/now`,
+			redirect: (to) => `/p/${to.params.tokens}/${getInitialView()}/now`,
 		},
 		{
 			path: '/embed/:tokens',
-			redirect: `/embed/:tokens/${getInitialView()}/now`,
+			redirect: (to) => `/embed/${to.params.tokens}/${getInitialView()}/now`,
 		},
 		{
 			path: '/new/:view?',
-			redirect: (to) => `/${to.params.view ?? getInitialView()}/now/new/${getPreferredEditorRoute()}/0/${getDefaultStartDateForNewEvent()}/${getDefaultEndDateForNewEvent()}`,
+			redirect: (to) => `/${to.params.view || getInitialView()}/now/new/${getPreferredEditorRoute()}/0/${getDefaultStartDateForNewEvent()}/${getDefaultEndDateForNewEvent()}`,
 		},
 		{
 			path: '/new/:allDay/:dtstart/:dtend',
-			redirect: () => `/${getInitialView()}/:dtstart/new/${getPreferredEditorRoute()}/:allDay/:dtstart/:dtend`,
+			redirect: (to) => `/${getInitialView()}/${to.params.dtstart}/new/${getPreferredEditorRoute()}/${to.params.allDay}/${to.params.dtstart}/${to.params.dtend}`,
 		},
 		{
 			path: '/edit/:object',
-			redirect: () => `/${getInitialView()}/now/edit/${getPreferredEditorRoute()}/:object/next`,
+			redirect: (to) => `/${getInitialView()}/now/edit/${getPreferredEditorRoute()}/${to.params.object}/next`,
 		},
 		{
 			path: '/edit/:object/:recurrenceId',
-			redirect: () => `/${getInitialView()}/now/edit/${getPreferredEditorRoute()}/:object/:recurrenceId`,
+			redirect: (to) => `/${getInitialView()}/now/edit/${getPreferredEditorRoute()}/${to.params.object}/${to.params.recurrenceId}`,
 		},
 		/**
 		 * This is the main route that contains the current view and viewed day

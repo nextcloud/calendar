@@ -9,7 +9,6 @@
 			:attendeeIsOrganizer="false"
 			:isViewedByOrganizer="isViewedByOrganizer"
 			:isResource="false"
-			:avatarLink="avatarLink"
 			:participationStatus="attendee.participationStatus"
 			:scheduleStatus="attendee.attendeeProperty.getParameterFirstValue('SCHEDULE-STATUS')"
 			:organizerDisplayName="organizerDisplayName"
@@ -88,7 +87,7 @@
 					{{ $t('calendar', 'Non-participant') }}
 				</ActionRadio>
 
-				<ActionButton @click="removeAttendee(attendee)">
+				<ActionButton :closeAfterClick="true" @click="removeAttendee(attendee)">
 					<template #icon>
 						<Delete :size="20" decorative />
 					</template>
@@ -172,6 +171,8 @@ export default {
 			default: false,
 		},
 	},
+
+	emits: ['removeAttendee'],
 
 	data() {
 		return {

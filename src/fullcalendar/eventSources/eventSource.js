@@ -5,9 +5,6 @@ import useFetchedTimeRangesStore from '../../store/fetchedTimeRanges.js'
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import {
-	generateTextColorForHex,
-} from '../../utils/color.js'
 import { getUnixTimestampFromDate } from '../../utils/date.js'
 import logger from '../../utils/logger.js'
 import { eventSourceFunction } from './eventSourceFunction.js'
@@ -27,7 +24,6 @@ export default function() {
 			// coloring
 			backgroundColor: calendar.color,
 			borderColor: calendar.color,
-			textColor: generateTextColorForHex(calendar.color),
 			// html foo
 			events: async ({ start, end, timeZone }, successCallback, failureCallback) => {
 				let timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)

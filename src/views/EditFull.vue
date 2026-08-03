@@ -9,8 +9,7 @@
 		v-model="showFullModal"
 		class="calendar-edit-full"
 		size="full"
-		labelId="edit-full-modal"
-		:name="t('calendar', 'Edit event')"
+		:name="t('calendar', 'Detailed event editor')"
 		:dark="false"
 		:noClose="true"
 		@close="cancel(false)">
@@ -58,6 +57,12 @@
 							@saveThisAndAllFuture="prepareAccessForAttachments(true)" />
 						<div class="app-full__actions__inner" :class="[{ 'app-full__actions__inner__readonly': isReadOnly }]">
 							<NcActions>
+								<NcActionButton v-if="eventLink && !isNew" @click="copyEventLink()">
+									<template #icon>
+										<ContentCopy :size="20" decorative />
+									</template>
+									{{ $t('calendar', 'Copy link') }}
+								</NcActionButton>
 								<NcActionLink v-if="!hideEventExport && hasDownloadURL && !isNew" :href="downloadURL">
 									<template #icon>
 										<Download :size="20" decorative />
@@ -82,6 +87,7 @@
 									</template>
 									{{ $t('calendar', 'Delete this occurrence') }}
 								</NcActionButton>
+								<NcActionSeparator v-if="canDelete && canCreateRecurrenceException && !isNew" />
 								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" @click="deleteAndLeave(true)">
 									<template #icon>
 										<Delete :size="20" decorative />
@@ -201,6 +207,7 @@
 							<AddTalkModal
 								v-if="isTalkModalOpen"
 								:calendarObjectInstance="calendarObjectInstance"
+								:delegatorUserId="delegatorUserId"
 								@close="isTalkModalOpen = false"
 								@updateLocation="updateLocation"
 								@updateDescription="updateDescription" />
@@ -242,6 +249,12 @@
 							:propModel="rfcProps.color"
 							:value="color"
 							@update:value="updateColor" />
+						<PropertySelect
+							v-if="showInvitationForwarding"
+							:isReadOnly="isReadOnly || isViewedByOrganizer === false"
+							:propModel="propInvitationForwarding"
+							:value="invitationForwarding"
+							@update:value="updateInvitationForwarding" />
 					</div>
 				</div>
 
@@ -332,12 +345,14 @@
 import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
 import IconDelete from '@mdi/svg/svg/delete.svg?raw'
 import { Parameter } from '@nextcloud/calendar-js'
+import { translate as t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import { generateUrl } from '@nextcloud/router'
 import {
 	NcActionButton,
 	NcActionLink,
 	NcActions,
+	NcActionSeparator,
 	NcButton,
 	NcCheckboxRadioSwitch,
 	NcDialog,
@@ -349,6 +364,7 @@ import {
 import { mapState, mapStores } from 'pinia'
 import CalendarBlank from 'vue-material-design-icons/CalendarBlank.vue'
 import Close from 'vue-material-design-icons/Close.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
 import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
 import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
@@ -376,6 +392,7 @@ import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import usePrincipalsStore from '../store/principals.js'
 import useSettingsStore from '../store/settings.js'
 import logger from '../utils/logger.js'
+import { isAfterVersion } from '../utils/nextcloudVersion.ts'
 
 export default {
 	name: 'EditFull',
@@ -404,6 +421,7 @@ export default {
 		Delete,
 		Download,
 		ContentDuplicate,
+		ContentCopy,
 		InvitationResponseButtons,
 		AttachmentsList,
 		CalendarPickerHeader,
@@ -411,6 +429,7 @@ export default {
 		IconVideo,
 		HelpCircleIcon,
 		NcActions,
+		NcActionSeparator,
 		Close,
 	},
 
@@ -431,19 +450,32 @@ export default {
 				{
 					label: t('calendar', 'Discard changes'),
 					variant: 'secondary',
-					icon: atob(IconDelete.split(',')[1]),
+					icon: IconDelete,
 					callback: () => { this.cancel(true) },
 				},
 				{
 					label: t('calendar', 'Cancel'),
 					variant: 'primary',
-					icon: atob(IconCancel.split(',')[1]),
+					icon: IconCancel,
 					callback: () => { this.closeCancelDialog() },
 				},
 			],
 
 			showCancelDialog: false,
 			showFullModal: true,
+
+			propInvitationForwarding: {
+				readableName: t('calendar', 'Allow forwarding'),
+				icon: 'AccountPlusOutline',
+				options: [
+					{ value: 'TRUE', label: t('calendar', 'Anyone with the invitation can respond') },
+					{ value: 'FALSE', label: t('calendar', 'Only invited attendees can respond') },
+				],
+
+				multiple: false,
+				info: t('calendar', 'Choose "Only invited attendees can respond" to prevent attendees from forwarding the invitation to others.'),
+				defaultValue: 'TRUE',
+			},
 		}
 	},
 
@@ -453,7 +485,6 @@ export default {
 			locale: 'momentLocale',
 			hideEventExport: 'hideEventExport',
 			attachmentsFolder: 'attachmentsFolder',
-			showResources: 'showResources',
 		}),
 
 		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
@@ -471,6 +502,10 @@ export default {
 
 		timeTransparency() {
 			return this.calendarObjectInstance?.timeTransparency || null
+		},
+
+		invitationForwarding() {
+			return this.calendarObjectInstance?.invitationForwarding ?? null
 		},
 
 		subTitle() {
@@ -502,6 +537,10 @@ export default {
 			return this.calendarObjectInstance.attendees.filter((attendee) => {
 				return ['ROOM', 'RESOURCE'].includes(attendee.attendeeProperty.userType)
 			})
+		},
+
+		showInvitationForwarding() {
+			return isAfterVersion(34)
 		},
 	},
 
@@ -579,6 +618,18 @@ export default {
 			this.calendarObjectInstanceStore.changeTimeTransparency({
 				calendarObjectInstance: this.calendarObjectInstance,
 				timeTransparency,
+			})
+		},
+
+		/**
+		 * Allow or disallow forwarding of this invitation
+		 *
+		 * @param {string} invitationForwarding Invitation forwarding value
+		 */
+		updateInvitationForwarding(invitationForwarding) {
+			this.calendarObjectInstanceStore.changeInvitationForwarding({
+				calendarObjectInstance: this.calendarObjectInstance,
+				invitationForwarding,
 			})
 		},
 
@@ -810,6 +861,13 @@ export default {
 		position: absolute !important;
 		max-width: min(calc(100vw - 130px), 500px) !important;
 		min-width: unset !important;
+	}
+
+	// The cap above is sized for the wide invitees column. In the narrow
+	// resources column long statuses would still overflow onto the actions
+	// menu, so clamp them to the column width instead.
+	.app-full-footer__right :deep(.avatar-participation-status__text) {
+		max-width: calc(var(--total-width) / 3 - var(--column-gap) / 2 - 58px - var(--default-clickable-area)) !important;
 	}
 
 	&__header {

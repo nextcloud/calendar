@@ -7,7 +7,6 @@ import { getYYYYMMDDFromDate } from '../../../../../src/utils/date.js'
 vi.mock('../../../../../src/utils/date.js')
 
 describe('fullcalendar/eventClick test suite', () => {
-
 	beforeEach(() => {
 		getYYYYMMDDFromDate.mockClear()
 	})
@@ -43,7 +42,7 @@ describe('fullcalendar/eventClick test suite', () => {
 				otherParam: '456',
 				view: 'timeGridWeek',
 				firstDay: 'first-day-param-of-date',
-			}
+			},
 		})
 	})
 
@@ -78,7 +77,7 @@ describe('fullcalendar/eventClick test suite', () => {
 				otherParam: '456',
 				view: 'timeGridWeek',
 				firstDay: 'first-day-param-of-date',
-			}
+			},
 		})
 	})
 
@@ -113,7 +112,7 @@ describe('fullcalendar/eventClick test suite', () => {
 				otherParam: '456',
 				view: 'timeGridWeek',
 				firstDay: 'first-day-param-of-date',
-			}
+			},
 		})
 	})
 

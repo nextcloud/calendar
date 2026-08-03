@@ -36,6 +36,8 @@ export default {
 		},
 	},
 
+	emits: ['click'],
+
 	computed: {
 		dateTimeFormatter() {
 			return Intl.DateTimeFormat(undefined, {

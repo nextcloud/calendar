@@ -8,9 +8,3 @@
 		<div class="icon icon-loading" />
 	</li>
 </template>
-
-<script>
-export default {
-	name: 'CalendarListItemLoadingPlaceholder',
-}
-</script>

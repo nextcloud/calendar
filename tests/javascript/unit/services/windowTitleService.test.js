@@ -2,17 +2,16 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import dateRangeFormat from '../../../../src/filters/dateRangeFormat.js'
-import { getDateFromFirstdayParam } from '../../../../src/utils/date.js'
-import windowTitleService from "../../../../src/services/windowTitleService.js";
-import useSettingsStore from '../../../../src/store/settings.js'
 import { createPinia, setActivePinia } from 'pinia'
+import dateRangeFormat from '../../../../src/filters/dateRangeFormat.js'
+import windowTitleService from '../../../../src/services/windowTitleService.js'
+import useSettingsStore from '../../../../src/store/settings.js'
+import { getDateFromFirstdayParam } from '../../../../src/utils/date.js'
 
 vi.mock('../../../../src/filters/dateRangeFormat.js')
 vi.mock('../../../../src/utils/date.js')
 
 describe('services/windowTitleService', () => {
-
 	beforeEach(() => {
 		dateRangeFormat.mockClear()
 		getDateFromFirstdayParam.mockClear()
@@ -35,13 +34,13 @@ describe('services/windowTitleService', () => {
 			params: {
 				firstDay: 'first-day-param-of-to',
 				view: 'view-param-of-to',
-			}
+			},
 		}
 		const from = {
 			params: {
 				firstDay: 'first-day-param-of-from',
 				view: 'view-param-of-from',
-			}
+			},
 		}
 		const next = vi.fn()
 
@@ -80,12 +79,12 @@ describe('services/windowTitleService', () => {
 		const to = {
 			params: {
 				view: 'view-param-of-to',
-			}
+			},
 		}
 		const from = {
 			params: {
 				view: 'view-param-of-from',
-			}
+			},
 		}
 		const next = vi.fn()
 
@@ -119,8 +118,8 @@ describe('services/windowTitleService', () => {
 				params: {
 					firstDay: 'first-day-param-of-current-route',
 					view: 'view-param-of-current-route',
-				}
-			}
+				},
+			},
 		}
 
 		dateRangeFormat
@@ -143,7 +142,5 @@ describe('services/windowTitleService', () => {
 
 		expect(getDateFromFirstdayParam).toHaveBeenCalledTimes(1)
 		expect(getDateFromFirstdayParam).toHaveBeenNthCalledWith(1, 'first-day-param-of-current-route')
-
 	})
-
 })

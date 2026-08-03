@@ -49,7 +49,6 @@
 					:startDate="calendarObjectInstance.startDate"
 					:endDate="calendarObjectInstance.endDate"
 					:rooms="selectedRooms"
-					:calendarObjectInstance="calendarObjectInstance"
 					:organizer="currentUserPrincipalAsAttendee"
 					@update:show="setShowRoomAvailabilityModal" />
 			</div>
@@ -78,21 +77,13 @@ export default {
 			required: true,
 		},
 
-		startDate: {
-			type: Date,
-			required: true,
-		},
-
-		endDate: {
-			type: Date,
-			required: true,
-		},
-
 		showDialog: {
 			type: Boolean,
 			default: true,
 		},
 	},
+
+	emits: ['update:show-dialog'],
 
 	data() {
 		return {

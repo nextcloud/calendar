@@ -80,17 +80,13 @@
 			@close="toggletasksSidebar()">
 			<NcAppSidebarTab id="settings-tab" name="Settings">
 				<!-- Task without End Date List -->
-				<template>
-					<UnscheduledTasksList
-						@tasksEmpty="handleTasksEmpty"
-						@taskClicked="handleTaskClick" />
-				</template>
+				<UnscheduledTasksList
+					@tasksEmpty="handleTasksEmpty"
+					@taskClicked="handleTaskClick" />
 			</NcAppSidebarTab>
 		</NcAppSidebar>
 		<!-- Edit modal -->
-		<div ref="simpleEditorAnchor" class="simple-editor-anchor">
-			<router-view />
-		</div>
+		<router-view :key="$route.fullPath" />
 	</NcContent>
 </template>
 
@@ -136,6 +132,7 @@ import { isNotifyPushAvailable, registerNotifyPushSyncListener } from '../servic
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
 import useCalendarObjectsStore from '../store/calendarObjects.js'
 import useCalendarsStore from '../store/calendars.js'
+import useDelegationStore from '../store/delegation.ts'
 import useFetchedTimeRangesStore from '../store/fetchedTimeRanges.js'
 import usePrincipalsStore from '../store/principals.js'
 import useSettingsStore from '../store/settings.js'
@@ -149,6 +146,7 @@ import {
 } from '../utils/date.js'
 import logger from '../utils/logger.js'
 import loadMomentLocalization from '../utils/moment.js'
+import { isAfterVersion } from '../utils/nextcloudVersion.ts'
 
 import '@nextcloud/dialogs/style.css'
 
@@ -222,6 +220,7 @@ export default {
 			usePrincipalsStore,
 			useSettingsStore,
 			useWidgetStore,
+			useDelegationStore,
 		),
 
 		...mapState(useSettingsStore, {
@@ -332,6 +331,8 @@ export default {
 			skipPopover: loadState('calendar', 'skip_popover'),
 			slotDuration: loadState('calendar', 'slot_duration'),
 			defaultReminder: loadState('calendar', 'default_reminder'),
+			defaultReminderPartDay: loadState('calendar', 'default_reminder_part_day', loadState('calendar', 'default_reminder')),
+			defaultReminderFullDay: loadState('calendar', 'default_reminder_full_day', loadState('calendar', 'default_reminder')),
 			talkEnabled: loadState('calendar', 'talk_enabled'),
 			tasksEnabled: loadState('calendar', 'tasks_enabled'),
 			timezone: loadState('calendar', 'timezone'),
@@ -384,6 +385,12 @@ export default {
 					color: uidToHexColor(this.$t('calendar', 'Personal')),
 					order: 0,
 				})
+			}
+
+			// Load delegation info: who has delegated their calendars to the current user
+			if (isAfterVersion(34)) {
+				await this.delegationStore.fetchDelegators()
+				await this.delegationStore.fetchDelegatedCalendars()
 			}
 
 			this.loadingCalendars = false
@@ -445,8 +452,7 @@ export default {
 .app-navigation-toggle-wrapper {
 	position: absolute;
 	top: var(--app-navigation-padding);
-	inset-inline-end: calc(0px - var(--app-navigation-padding));
-	margin-inline-end: calc(-1 * var(--default-clickable-area));
+	inset-inline-end: 0;
 }
 
 .calendar-wrapper {
@@ -458,16 +464,12 @@ export default {
 .toggle-button {
 	position: absolute;
 	top: 2px;
-	inset-inline-end: 50px;
+	inset-inline-end: var(--app-navigation-padding);
 	z-index: 1000;
 }
 
 .calendar-Widget {
 	width: 100%;
-}
-
-.simple-editor-anchor {
-	position: relative;
 }
 
 .property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {

@@ -22,7 +22,7 @@
 				class="avatar-participation-status__indicator"
 				:fillColor="status.fillColor"
 				:size="20" />
-			<div class="avatar-participation-status__text">
+			<div class="avatar-participation-status__text" :title="statusTitle">
 				<span v-if="adjustedTime" class="avatar-participation-status__text__time">{{ adjustedTime }} local time, </span>{{ status.text.trim() }}
 			</div>
 		</template>
@@ -54,11 +54,6 @@ export default {
 	},
 
 	props: {
-		avatarLink: {
-			type: String,
-			required: true,
-		},
-
 		participationStatus: {
 			type: String,
 			required: true,
@@ -131,11 +126,11 @@ export default {
 			}
 			const delegatedIcon = {
 				icon: IconDelegated,
-				fillColor: 'vat(--color-text-maxcontrast)',
+				fillColor: 'var(--color-text-maxcontrast)',
 			}
 			const noResponseIcon = {
 				icon: IconNoResponse,
-				fillColor: 'vat(--color-text-maxcontrast)',
+				fillColor: 'var(--color-text-maxcontrast)',
 			}
 
 			if (this.isSuggestion) {
@@ -209,7 +204,7 @@ export default {
 					if (this.isResource) {
 						return {
 							icon: IconNoResponse,
-							text: t('calendar', 'Availability will be checked'),
+							text: t('calendar', 'Will be booked after saving, if available'),
 						}
 					}
 
@@ -258,6 +253,20 @@ export default {
 
 		adjustedTime() {
 			return adjustAttendeeTime(this.calendarObjectInstanceStore.calendarObjectInstance.startDate, this.timezone)
+		},
+
+		/**
+		 * Full status as native tooltip since the text may be ellipsised
+		 *
+		 * @return {string}
+		 */
+		statusTitle() {
+			const text = this.status.text.trim()
+			if (this.adjustedTime) {
+				return `${this.adjustedTime} local time, ${text}`
+			}
+
+			return text
 		},
 	},
 }

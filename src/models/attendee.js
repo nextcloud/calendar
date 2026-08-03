@@ -4,6 +4,7 @@
  */
 
 import { AttendeeProperty } from '@nextcloud/calendar-js'
+import { markRaw } from 'vue'
 
 /**
  * Creates a complete attendee object based on given props
@@ -43,7 +44,7 @@ function getDefaultAttendeeObject(props = {}) {
  */
 function mapAttendeePropertyToAttendeeObject(attendeeProperty) {
 	return getDefaultAttendeeObject({
-		attendeeProperty,
+		attendeeProperty: markRaw(attendeeProperty),
 		commonName: attendeeProperty.commonName,
 		calendarUserType: attendeeProperty.userType,
 		participationStatus: attendeeProperty.participationStatus,

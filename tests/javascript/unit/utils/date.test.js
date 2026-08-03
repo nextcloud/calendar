@@ -4,22 +4,20 @@
  */
 import {
 	dateFactory,
-	getYYYYMMDDFromDate,
-	getUnixTimestampFromDate,
-	getDateFromFirstdayParam,
-	getYYYYMMDDFromFirstdayParam,
 	getDateFromDateTimeValue,
-	modifyDate
+	getDateFromFirstdayParam,
+	getUnixTimestampFromDate,
+	getYYYYMMDDFromDate,
+	getYYYYMMDDFromFirstdayParam,
+	modifyDate,
 } from '../../../../src/utils/date.js'
 import logger from '../../../../src/utils/logger.js'
 vi.mock('../../../../src/utils/logger.js')
 
 describe('utils/alarms test suite', () => {
-
 	beforeEach(() => {
 		logger.error.mockClear()
 	})
-
 
 	it('should return a date', () => {
 		expect(dateFactory()).toBeInstanceOf(Date)
@@ -94,7 +92,7 @@ describe('utils/alarms test suite', () => {
 			day: 1,
 			hour: 14,
 			minute: 42,
-			seconds: 13
+			seconds: 13,
 		})
 
 		expect(date.getFullYear()).toEqual(2019)

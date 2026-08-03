@@ -99,7 +99,6 @@ export default {
 		),
 
 		...mapState(useSettingsStore, {
-			locale: 'momentLocale',
 			timezoneId: 'getResolvedTimezone',
 		}),
 
@@ -108,6 +107,7 @@ export default {
 			'showWeekends',
 			'showWeekNumbers',
 			'slotDuration',
+			'searchQuery',
 		]),
 
 		...mapState(useCalendarObjectsStore, ['modificationCount']),
@@ -132,6 +132,7 @@ export default {
 				eventClick: eventClick(this.$router, this.$route, window, this.isWidget, this.$refs),
 				eventDrop: this.isWidget ? false : (...args) => eventDrop(this.$refs.fullCalendar.getApi())(...args),
 				eventResize: this.isWidget ? false : eventResize(),
+				eventResizableFromStart: true,
 				navLinkDayClick: this.isWidget ? false : navLinkDayClick(this.$router, this.$route),
 				navLinkWeekClick: this.isWidget ? false : navLinkWeekClick(this.$router, this.$route),
 				select: this.isWidget ? false : select(this.$router, this.$route, window),
@@ -169,6 +170,7 @@ export default {
 				droppable: true,
 				eventReceive: this.handleEventReceive,
 				eventShortHeight: 38,
+				loading: this.scrollMonthViewToToday,
 			}
 		},
 
@@ -223,6 +225,11 @@ export default {
 			const calendarApi = this.$refs.fullCalendar.getApi()
 			calendarApi.refetchEvents()
 		}, 50),
+
+		searchQuery: debounce(function() {
+			const calendarApi = this.$refs.fullCalendar.getApi()
+			calendarApi.refetchEvents()
+		}, 300),
 	},
 
 	/**
@@ -313,6 +320,26 @@ export default {
 	},
 
 	methods: {
+		/**
+		 * Scroll the month view to today when loading the calendar,
+		 * so people can directly see today's date and events.
+		 */
+		scrollMonthViewToToday(isLoading) {
+			if (isLoading) {
+				return
+			}
+			const calendarApi = this.$refs.fullCalendar.getApi()
+			if (calendarApi.view.type !== 'dayGridMonth') {
+				return
+			}
+			this.$nextTick(() => {
+				const todayEl = this.$refs.fullCalendar.$el.querySelector('.fc-day-today')
+				if (todayEl) {
+					todayEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+				}
+			})
+		},
+
 		/**
 		 * When a user changes the view, remember it and
 		 * use it the next time they open the calendar app

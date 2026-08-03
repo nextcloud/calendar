@@ -20,9 +20,9 @@
 							:options="freeSlots"
 							:placeholder="placeholder"
 							:clearable="false"
-							inputId="slot"
+							:ariaLabelCombobox="$t('calendar', 'Available time slots')"
+							inputId="free-busy-slot-mobile"
 							label="displayStart"
-							:labelOutside="true"
 							:modelValue="selectedSlot"
 							@update:modelValue="setSlotSuggestion">
 							<template #selected-option="{}">
@@ -74,7 +74,7 @@
 						<NcDateTimePickerNative
 							:hideLabel="true"
 							:modelValue="currentStart"
-							@input="(date) => handleActions('picker', date)" />
+							@update:modelValue="(date) => handleActions('picker', date)" />
 						<NcButton
 							variant="secondary"
 							:aria-label="isRTL ? t('calendar', 'Next date') : t('calendar', 'Previous date')"
@@ -132,7 +132,7 @@
 						<NcDateTimePickerNative
 							:hideLabel="true"
 							:modelValue="currentStart"
-							@input="(date) => handleActions('picker', date)" />
+							@update:modelValue="(date) => handleActions('picker', date)" />
 						<NcButton
 							variant="secondary"
 							:aria-label="isRTL ? t('calendar', 'Next date') : t('calendar', 'Previous date')"
@@ -191,9 +191,9 @@
 								:options="freeSlots"
 								:placeholder="placeholder"
 								:clearable="false"
-								inputId="slot"
+								:ariaLabelCombobox="$t('calendar', 'Available time slots')"
+								inputId="free-busy-slot-desktop"
 								label="displayStart"
-								:labelOutside="true"
 								:modelValue="selectedSlot"
 								:loading="loadingIndicator"
 								:disabled="loadingIndicator"
@@ -271,6 +271,7 @@ import { isRTL } from '@nextcloud/l10n'
 import { NcActionButton, NcActions, NcButton, NcDateTimePickerNative, NcListItemIcon, NcModal, NcPopover, NcSelect, NcUserBubble } from '@nextcloud/vue'
 import { useIsMobile } from '@nextcloud/vue/composables/useIsMobile'
 import { mapState } from 'pinia'
+import { useId } from 'vue'
 import CheckIcon from 'vue-material-design-icons/Check.vue'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
@@ -354,11 +355,6 @@ export default {
 			default: false,
 		},
 
-		eventTitle: {
-			type: String,
-			default: '',
-		},
-
 		alreadyInvitedEmails: {
 			type: Array,
 			default: () => [],
@@ -376,9 +372,12 @@ export default {
 		},
 	},
 
+	emits: ['close', 'updateDates', 'addAttendee', 'removeAttendee'],
+
 	setup() {
 		const isMobile = useIsMobile()
-		return { isMobile }
+		const uniqueComponentId = useId()
+		return { isMobile, uniqueComponentId }
 	},
 
 	data() {
@@ -408,7 +407,6 @@ export default {
 			locale: 'momentLocale',
 		}),
 
-		...mapState(useSettingsStore, ['showWeekends', 'showWeekNumbers', 'timezone']),
 		...mapState(useCalendarsStore, {
 			personalCalendarColor: 'getPersonalCalendarColor',
 		}),
@@ -466,7 +464,7 @@ export default {
 			const organizer = new AttendeeProperty('ATTENDEE', this.organizer.attendeeProperty.email)
 			organizer.commonName = this.organizer.attendeeProperty.commonName
 			return [...attendees, organizer].map((a) => freeBusyEventSource(
-				this._uid,
+				this.uniqueComponentId,
 				this.organizer.attendeeProperty,
 				a,
 			))
@@ -560,10 +558,6 @@ export default {
 
 		attendees(newVal) {
 			this.updateAttendeeDetails(newVal)
-
-			if (newVal.length === 0) {
-				this.$emit('close:noAttendees')
-			}
 		},
 	},
 
@@ -667,6 +661,10 @@ export default {
 					calendar.next()
 					break
 				case 'picker':
+					// `date` is `null` when the "clear" button of the native date input was used.
+					if (date === null) {
+						return
+					}
 					calendar.gotoDate(date)
 					break
 			}

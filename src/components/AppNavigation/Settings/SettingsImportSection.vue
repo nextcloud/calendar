@@ -27,6 +27,7 @@
 			:accept="supportedFileTypes"
 			:disabled="disableImport"
 			multiple
+			:aria-label="$t('calendar', 'Import calendar file')"
 			@change="processFiles">
 
 		<ImportScreen

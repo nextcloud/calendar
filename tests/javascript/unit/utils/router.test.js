@@ -2,18 +2,17 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { loadState } from '@nextcloud/initial-state'
 import {
 	getInitialView,
+	getPreferredEditorRoute,
 	getPrefixedRoute,
 	isPublicOrEmbeddedRoute,
-	getPreferredEditorRoute,
 } from '../../../../src/utils/router.js'
-import { loadState } from '@nextcloud/initial-state'
 
 vi.mock('@nextcloud/initial-state')
 
 describe('utils/router test suite', () => {
-
 	beforeEach(() => {
 		loadState.mockClear()
 	})

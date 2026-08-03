@@ -3,6 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { DateTimeValue } from '@nextcloud/calendar-js'
+import getTimezoneManager from '../services/timezoneDataProviderService.js'
+import useSettingsStore from '../store/settings.js'
 import logger from './logger.js'
 
 /**
@@ -114,4 +117,56 @@ export function modifyDate(date, { day = 0, week = 0, month = 0, year = 0 }) {
 	date.setFullYear(date.getFullYear() + year)
 
 	return date
+}
+
+/**
+ * Convert a date from UTC to user's timezone
+ *
+ * @param {Date} date The date to convert (in UTC)
+ * @return {Date} Converted date in user's timezone
+ */
+export function convertDateToUserTimezone(date) {
+	const settingsStore = useSettingsStore()
+	const userTimezoneId = settingsStore.getResolvedTimezone
+
+	const tzManager = getTimezoneManager()
+	const utcTimezone = tzManager.getTimezoneForId('UTC')
+	const userTimezone = tzManager.getTimezoneForId(userTimezoneId)
+
+	const dateTimeValue = DateTimeValue.fromJSDate(date, true)
+	dateTimeValue.replaceTimezone(utcTimezone)
+	return getDateFromDateTimeValue(dateTimeValue.getInTimezone(userTimezone))
+}
+
+/**
+ * Format a date with specified options
+ *
+ * @param {Date} date The date to format (in UTC for timed events, local for all-day)
+ * @param {string|undefined} locale The locale to use
+ * @param {object} options Formatting options
+ * @param {boolean} convertTimezone Whether to convert from UTC to user timezone
+ * @return {string} Formatted date string
+ */
+export function formatDateWithTimezone(date, locale, options, convertTimezone = false) {
+	const dateToFormat = convertTimezone ? convertDateToUserTimezone(date) : date
+	return dateToFormat.toLocaleString(locale ?? 'en_001', options)
+}
+
+/**
+ * Check if an all-day event spans multiple days
+ *
+ * @param {Date} start Start date
+ * @param {Date} end End date (exclusive in FullCalendar)
+ * @return {boolean} True if multi-day
+ */
+export function isMultiDayAllDayEvent(start, end) {
+	// FullCalendar all-day end dates are exclusive, so subtract one day
+	const adjustedEnd = new Date(end)
+	adjustedEnd.setDate(adjustedEnd.getDate() - 1)
+	adjustedEnd.setHours(0, 0, 0, 0)
+
+	const startMidnight = new Date(start)
+	startMidnight.setHours(0, 0, 0, 0)
+
+	return adjustedEnd.getTime() > startMidnight.getTime()
 }

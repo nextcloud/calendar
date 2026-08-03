@@ -26,6 +26,8 @@ export default {
 		UnscheduledTasksListItem,
 	},
 
+	emits: ['tasksEmpty', 'taskClicked'],
+
 	computed: {
 		...mapStores(useCalendarsStore, useTasksStore),
 

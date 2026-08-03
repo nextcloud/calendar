@@ -8,12 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: [ '8.2', '8.3', '8.4', '8.5' ]
+        php-versions: [ '8.3', '8.4', '8.5' ]
         nextcloud-versions: [ 'master' ]
         include:
           - php-versions: '8.5'
+            nextcloud-versions: 'stable34'
+          - php-versions: '8.5'
             nextcloud-versions: 'stable33'
-          - php-versions: '8.2'
+          - php-versions: '8.3'
             nextcloud-versions: 'stable32'
     name: php${{ matrix.php-versions }} on ${{ matrix.nextcloud-versions }} unit tests
     env:
@@ -21,7 +23,7 @@ jobs:
       XDEBUG_MODE: coverage
     steps:
     - name: Set up php${{ matrix.php-versions }}
-      uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # 2.37.0 with verbose logging due to stuck runs
+      uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2 with verbose logging due to stuck runs
       with:
         php-version: ${{ matrix.php-versions }}
         extensions: ctype, curl, dom, gd, gmp, iconv, intl, json, mbstring, openssl, pdo_sqlite, posix, sqlite, xml, zip
@@ -34,7 +36,7 @@ jobs:
     - name: Install Nextcloud
       run: php -f nextcloud/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
     - name: Checkout the app
-      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
       with:
         path: nextcloud/apps/calendar
     - name: Install dependencies
@@ -45,10 +47,10 @@ jobs:
       run: composer run test:unit
     - name: Upload coverage to Codecov
       if: ${{ matrix.nextcloud-versions == 'master' }}
-      uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6
+      uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        file: nextcloud/apps/calendar/clover.unit.xml
+        files: nextcloud/apps/calendar/clover.unit.xml
         flags: php
         fail_ci_if_error: ${{ !github.event.pull_request.head.repo.fork }}
         verbose: true
@@ -57,12 +59,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: [ '8.2', '8.3', '8.4', '8.5' ]
+        php-versions: [ '8.3', '8.4', '8.5' ]
         nextcloud-versions: [ 'master' ]
         include:
           - php-versions: '8.5'
+            nextcloud-versions: 'stable34'
+          - php-versions: '8.5'
             nextcloud-versions: 'stable33'
-          - php-versions: '8.2'
+          - php-versions: '8.3'
             nextcloud-versions: 'stable32'
     name: php${{ matrix.php-versions }} on ${{ matrix.nextcloud-versions }} integration tests
     env:
@@ -70,7 +74,7 @@ jobs:
       XDEBUG_MODE: coverage
     steps:
       - name: Set up php${{ matrix.php-versions }}
-        uses: shivammathur/setup-php@accd6127cb78bee3e8082180cb391013d204ef9f # 2.37.0 with verbose logging due to stuck runs
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2 with verbose logging due to stuck runs
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: ctype, curl, dom, gd, gmp, iconv, intl, json, mbstring, openssl, pdo_sqlite, posix, sqlite, xml, zip
@@ -83,7 +87,7 @@ jobs:
       - name: Install Nextcloud
         run: php -f nextcloud/occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
       - name: Checkout the app
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           path: nextcloud/apps/calendar
       - name: Install dependencies

@@ -3,17 +3,274 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import {
+	NcActionButton as ActionButton,
+	NcActionInput as ActionInput,
+	NcActionSeparator as ActionSeparator,
+	NcActionText as ActionText,
+	NcAppNavigationCaption,
+} from '@nextcloud/vue'
+import {
+	computed,
+	defineAsyncComponent,
+	nextTick,
+	ref,
+	watch,
+} from 'vue'
+import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
+import CalendarCheck from 'vue-material-design-icons/CalendarCheckOutline.vue'
+import LinkIcon from 'vue-material-design-icons/Link.vue'
+import Plus from 'vue-material-design-icons/Plus.vue'
+import Web from 'vue-material-design-icons/Web.vue'
+import useCalendarsStore from '@/store/calendars.js'
+import useSettingsStore from '@/store/settings.js'
+import { uidToHexColor } from '@/utils/color.js'
+
+const PublicCalendarSubscriptionPicker = defineAsyncComponent(() => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '../../Subscription/PublicCalendarSubscriptionPicker.vue'))
+
+const calendarsStore = useCalendarsStore()
+const settingsStore = useSettingsStore()
+
+// Open state
+const isOpen = ref(false)
+// New calendar
+const showCreateCalendarLabel = ref(true)
+const showCreateCalendarInput = ref(false)
+const showCreateCalendarSaving = ref(false)
+// New calendar with task list
+const showCreateCalendarTaskListLabel = ref(true)
+const showCreateCalendarTaskListInput = ref(false)
+const showCreateCalendarTaskListSaving = ref(false)
+// New subscription
+const showCreateSubscriptionLabel = ref(true)
+const showCreateSubscriptionInput = ref(false)
+const showCreateSubscriptionSaving = ref(false)
+const showHolidaySubscriptionPicker = ref(false)
+const showPublicCalendarSubscriptionPicker = ref(false)
+
+const canSubscribeLink = computed<boolean>(() => settingsStore.canSubscribeLink)
+const hasPublicCalendars = computed<boolean>(() => Boolean(settingsStore.publicCalendars))
+
+watch(isOpen, (newValue) => {
+	if (newValue) {
+		return
+	}
+
+	closeMenu()
+})
+
+/**
+ * Updates the open state of the Actions menu
+ *
+ * @param value The new open state
+ */
+function setMenuOpen(value: boolean): void {
+	isOpen.value = value
+}
+
+/**
+ * Opens the Actions menu when clicking on the main item label
+ */
+function toggleDialog(): void {
+	isOpen.value = !isOpen.value
+}
+
+/**
+ * Opens the create calendar input
+ */
+function openCreateCalendarInput(): void {
+	showCreateCalendarLabel.value = false
+	showCreateCalendarInput.value = true
+	showCreateCalendarSaving.value = false
+
+	showCreateCalendarTaskListLabel.value = true
+	showCreateCalendarTaskListInput.value = false
+
+	showCreateSubscriptionLabel.value = true
+	showCreateSubscriptionInput.value = false
+}
+
+/**
+ * Opens the create calendar with task list input
+ */
+function openCreateCalendarTaskListInput(): void {
+	showCreateCalendarTaskListLabel.value = false
+	showCreateCalendarTaskListInput.value = true
+	showCreateCalendarTaskListSaving.value = false
+
+	showCreateCalendarLabel.value = true
+	showCreateCalendarInput.value = false
+
+	showCreateSubscriptionLabel.value = true
+	showCreateSubscriptionInput.value = false
+}
+
+/**
+ * Opens the create subscription input
+ */
+function openCreateSubscriptionInput(): void {
+	showCreateSubscriptionLabel.value = false
+	showCreateSubscriptionInput.value = true
+	showCreateSubscriptionSaving.value = false
+
+	showCreateCalendarLabel.value = true
+	showCreateCalendarInput.value = false
+
+	showCreateCalendarTaskListLabel.value = true
+	showCreateCalendarTaskListInput.value = false
+}
+
+/**
+ * Creates a new calendar
+ *
+ * @param event The submit event
+ */
+async function createNewCalendar(event: Event): Promise<void> {
+	const displayName = (event.target as HTMLElement).querySelector<HTMLInputElement>('input[type=text]')?.value ?? ''
+
+	if (!displayName.trim()) {
+		showError(t('calendar', 'Calendar name can not be blank'))
+		return
+	}
+
+	showCreateCalendarInput.value = false
+	showCreateCalendarSaving.value = true
+
+	try {
+		await calendarsStore.appendCalendar({
+			displayName,
+			color: uidToHexColor(displayName),
+		})
+	} catch (error) {
+		console.debug(error)
+		showError(t('calendar', 'An error occurred, unable to create the calendar.'))
+	} finally {
+		showCreateCalendarSaving.value = false
+		showCreateCalendarLabel.value = true
+		isOpen.value = false
+		closeMenu()
+	}
+}
+
+/**
+ * Creates a new calendar with task list
+ *
+ * @param event The submit event
+ */
+async function createNewCalendarTaskList(event: Event): Promise<void> {
+	const displayName = (event.target as HTMLElement).querySelector<HTMLInputElement>('input[type=text]')?.value ?? ''
+
+	if (!displayName.trim()) {
+		showError(t('calendar', 'Calendar name can not be blank'))
+		return
+	}
+
+	showCreateCalendarTaskListInput.value = false
+	showCreateCalendarTaskListSaving.value = true
+
+	try {
+		await calendarsStore.appendCalendar({
+			displayName,
+			color: uidToHexColor(displayName),
+			components: ['VEVENT', 'VTODO'],
+		})
+	} catch (error) {
+		console.debug(error)
+		showError(t('calendar', 'An error occurred, unable to create the calendar.'))
+	} finally {
+		showCreateCalendarTaskListSaving.value = false
+		showCreateCalendarTaskListLabel.value = true
+		isOpen.value = false
+		closeMenu()
+	}
+}
+
+/**
+ * Creates a new subscription
+ *
+ * @param event The submit event
+ */
+async function createNewSubscription(event: Event): Promise<void> {
+	const link = (event.target as HTMLElement).querySelector<HTMLInputElement>('input[type=text]')?.value.trim() ?? ''
+	let url: URL
+	let hostname: string
+	try {
+		url = new URL(link)
+		hostname = url.hostname
+	} catch (error) {
+		console.error(error)
+		showError(t('calendar', 'Please enter a valid link (starting with http://, https://, webcal://, or webcals://)'))
+		return
+	}
+
+	showCreateSubscriptionInput.value = false
+	showCreateSubscriptionSaving.value = true
+
+	try {
+		await calendarsStore.appendSubscription({
+			displayName: hostname,
+			color: uidToHexColor(link),
+			source: link,
+		})
+	} catch (error) {
+		console.debug(error)
+		showError(t('calendar', 'An error occurred, unable to create the calendar.'))
+	} finally {
+		showCreateSubscriptionSaving.value = false
+		showCreateSubscriptionLabel.value = true
+		isOpen.value = false
+		closeMenu()
+	}
+}
+
+/**
+ * Opens the public holiday calendar subscription picker
+ */
+async function openHolidaySubscriptionPicker(): Promise<void> {
+	// Use nextTick to ensure the menu closes before opening the modal
+	await nextTick()
+	showHolidaySubscriptionPicker.value = true
+}
+
+/**
+ * Opens the custom public calendar subscription picker
+ */
+async function openPublicCalendarSubscriptionPicker(): Promise<void> {
+	// Use nextTick to ensure the menu closes before opening the modal
+	await nextTick()
+	showPublicCalendarSubscriptionPicker.value = true
+}
+
+/**
+ * This resets the actions on close of menu
+ */
+function closeMenu(): void {
+	showCreateCalendarLabel.value = true
+	showCreateCalendarInput.value = false
+	showCreateCalendarSaving.value = false
+	showCreateCalendarTaskListLabel.value = true
+	showCreateCalendarTaskListInput.value = false
+	showCreateCalendarTaskListSaving.value = false
+	showCreateSubscriptionLabel.value = true
+	showCreateSubscriptionInput.value = false
+	showCreateSubscriptionSaving.value = false
+}
+</script>
+
 <template>
 	<div>
 		<NcAppNavigationCaption
 			class="app-navigation-entry-new-calendar"
 			:class="{ 'app-navigation-entry-new-calendar--open': isOpen }"
-			:name="$t('calendar', 'My calendars')"
+			:name="t('calendar', 'My calendars')"
 			:menuOpen="isOpen"
 			@update:menuOpen="setMenuOpen"
 			@click.prevent.stop="toggleDialog">
 			<template #actionsTriggerIcon>
-				<Plus :size="20" :title="$t('calendar', 'Add new')" decorative />
+				<Plus :size="20" :title="t('calendar', 'Add new')" decorative />
 			</template>
 			<template #actions>
 				<ActionButton
@@ -22,11 +279,11 @@
 					<template #icon>
 						<CalendarBlank :size="20" decorative />
 					</template>
-					{{ $t('calendar', 'New calendar') }}
+					{{ t('calendar', 'New calendar') }}
 				</ActionButton>
 				<ActionInput
 					v-if="showCreateCalendarInput"
-					:aria-label="$t('calendar', 'Name for new calendar')"
+					:aria-label="t('calendar', 'Name for new calendar')"
 					@submit.prevent.stop="createNewCalendar">
 					<template #icon>
 						<CalendarBlank :size="20" decorative />
@@ -37,7 +294,7 @@
 					<template #icon>
 						<div class="icon icon-loading-small" />
 					</template>
-					{{ $t('calendar', 'Creating calendar …') }}
+					{{ t('calendar', 'Creating calendar …') }}
 				</ActionText>
 
 				<ActionButton
@@ -46,11 +303,11 @@
 					<template #icon>
 						<CalendarCheck :size="20" decorative />
 					</template>
-					{{ $t('calendar', 'New calendar with task list') }}
+					{{ t('calendar', 'New calendar with task list') }}
 				</ActionButton>
 				<ActionInput
 					v-if="showCreateCalendarTaskListInput"
-					:aria-label="$t('calendar', 'Name for new calendar')"
+					:aria-label="t('calendar', 'Name for new calendar')"
 					@submit.prevent.stop="createNewCalendarTaskList">
 					<template #icon>
 						<CalendarCheck :size="20" decorative />
@@ -61,7 +318,7 @@
 					<template #icon>
 						<div class="icon icon-loading-small" />
 					</template>
-					{{ $t('calendar', 'Creating calendar …') }}
+					{{ t('calendar', 'Creating calendar …') }}
 				</ActionText>
 
 				<ActionSeparator v-if="canSubscribeLink" />
@@ -71,11 +328,11 @@
 					<template #icon>
 						<LinkIcon :size="20" decorative />
 					</template>
-					{{ $t('calendar', 'New subscription from link (read-only)') }}
+					{{ t('calendar', 'New subscription from link (read-only)') }}
 				</ActionButton>
 				<ActionInput
 					v-if="showCreateSubscriptionInput"
-					:aria-label="$t('calendar', 'Name for new calendar')"
+					:aria-label="t('calendar', 'Name for new calendar')"
 					@submit.prevent.stop="createNewSubscription">
 					<template #icon>
 						<LinkIcon :size="20" decorative />
@@ -86,7 +343,7 @@
 					<template #icon>
 						<div class="icon icon-loading-small" />
 					</template>
-					{{ $t('calendar', 'Creating subscription …') }}
+					{{ t('calendar', 'Creating subscription …') }}
 				</ActionText>
 				<ActionButton
 					v-if="canSubscribeLink"
@@ -117,277 +374,6 @@
 			@close="showPublicCalendarSubscriptionPicker = false" />
 	</div>
 </template>
-
-<script>
-import {
-	showError,
-} from '@nextcloud/dialogs'
-import {
-	NcActionButton as ActionButton,
-	NcActionInput as ActionInput,
-	NcActionSeparator as ActionSeparator,
-	NcActionText as ActionText,
-	NcAppNavigationCaption,
-} from '@nextcloud/vue'
-import { mapState, mapStores } from 'pinia'
-import {
-	defineAsyncComponent,
-	nextTick,
-} from 'vue'
-import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
-import CalendarCheck from 'vue-material-design-icons/CalendarCheckOutline.vue'
-import LinkIcon from 'vue-material-design-icons/Link.vue'
-import Plus from 'vue-material-design-icons/Plus.vue'
-import Web from 'vue-material-design-icons/Web.vue'
-import useCalendarsStore from '../../../store/calendars.js'
-import useSettingsStore from '../../../store/settings.js'
-import { uidToHexColor } from '../../../utils/color.js'
-
-export default {
-	name: 'CalendarListNew',
-	components: {
-		ActionButton,
-		ActionInput,
-		ActionSeparator,
-		ActionText,
-		NcAppNavigationCaption,
-		CalendarBlank,
-		CalendarCheck,
-		PublicCalendarSubscriptionPicker: defineAsyncComponent(() => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '../../Subscription/PublicCalendarSubscriptionPicker.vue')),
-		LinkIcon,
-		Plus,
-		Web,
-	},
-
-	data() {
-		return {
-			// Open state
-			isOpen: false,
-			// New calendar
-			showCreateCalendarLabel: true,
-			showCreateCalendarInput: false,
-			showCreateCalendarSaving: false,
-			// New calendar with task list
-			showCreateCalendarTaskListLabel: true,
-			showCreateCalendarTaskListInput: false,
-			showCreateCalendarTaskListSaving: false,
-			// New subscription
-			showCreateSubscriptionLabel: true,
-			showCreateSubscriptionInput: false,
-			showCreateSubscriptionSaving: false,
-			showHolidaySubscriptionPicker: false,
-			showPublicCalendarSubscriptionPicker: false,
-		}
-	},
-
-	computed: {
-		...mapState(useSettingsStore, {
-			canSubscribeLink: 'canSubscribeLink',
-			hasPublicCalendars: (store) => Boolean(store.publicCalendars),
-		}),
-
-		...mapStores(useCalendarsStore),
-	},
-
-	watch: {
-		isOpen(newValue) {
-			if (newValue) {
-				return
-			}
-
-			this.closeMenu()
-		},
-	},
-
-	methods: {
-		setMenuOpen(value) {
-			this.isOpen = value
-		},
-
-		/**
-		 * Opens the Actions menu when clicking on the main item label
-		 */
-		toggleDialog() {
-			this.isOpen = !this.isOpen
-		},
-
-		/**
-		 * Opens the create calendar input
-		 */
-		openCreateCalendarInput() {
-			this.showCreateCalendarLabel = false
-			this.showCreateCalendarInput = true
-			this.showCreateCalendarSaving = false
-
-			this.showCreateCalendarTaskListLabel = true
-			this.showCreateCalendarTaskListInput = false
-
-			this.showCreateSubscriptionLabel = true
-			this.showCreateSubscriptionInput = false
-		},
-
-		/**
-		 * Opens the create calendar with task list input
-		 */
-		openCreateCalendarTaskListInput() {
-			this.showCreateCalendarTaskListLabel = false
-			this.showCreateCalendarTaskListInput = true
-			this.showCreateCalendarTaskListSaving = false
-
-			this.showCreateCalendarLabel = true
-			this.showCreateCalendarInput = false
-
-			this.showCreateSubscriptionLabel = true
-			this.showCreateSubscriptionInput = false
-		},
-
-		/**
-		 * Opens the create subscription input
-		 */
-		openCreateSubscriptionInput() {
-			this.showCreateSubscriptionLabel = false
-			this.showCreateSubscriptionInput = true
-			this.showCreateSubscriptionSaving = false
-
-			this.showCreateCalendarLabel = true
-			this.showCreateCalendarInput = false
-
-			this.showCreateCalendarTaskListLabel = true
-			this.showCreateCalendarTaskListInput = false
-		},
-
-		/**
-		 * Creates a new calendar
-		 *
-		 * @param {Event} event The submit event
-		 */
-		async createNewCalendar(event) {
-			const displayName = event.target.querySelector('input[type=text]').value
-
-			if (!displayName.trim()) {
-				showError(this.$t('calendar', 'Calendar name can not be blank'))
-				return
-			}
-
-			this.showCreateCalendarInput = false
-			this.showCreateCalendarSaving = true
-
-			try {
-				await this.calendarsStore.appendCalendar({
-					displayName,
-					color: uidToHexColor(displayName),
-				})
-			} catch (error) {
-				console.debug(error)
-				showError(this.$t('calendar', 'An error occurred, unable to create the calendar.'))
-			} finally {
-				this.showCreateCalendarSaving = false
-				this.showCreateCalendarLabel = true
-				this.isOpen = false
-				this.closeMenu()
-			}
-		},
-
-		/**
-		 * Creates a new calendar with task list
-		 *
-		 * @param {Event} event The submit event
-		 */
-		async createNewCalendarTaskList(event) {
-			const displayName = event.target.querySelector('input[type=text]').value
-
-			if (!displayName.trim()) {
-				showError(this.$t('calendar', 'Calendar name can not be blank'))
-				return
-			}
-
-			this.showCreateCalendarTaskListInput = false
-			this.showCreateCalendarTaskListSaving = true
-
-			try {
-				await this.calendarsStore.appendCalendar({
-					displayName,
-					color: uidToHexColor(displayName),
-					components: ['VEVENT', 'VTODO'],
-				})
-			} catch (error) {
-				console.debug(error)
-				showError(this.$t('calendar', 'An error occurred, unable to create the calendar.'))
-			} finally {
-				this.showCreateCalendarTaskListSaving = false
-				this.showCreateCalendarTaskListLabel = true
-				this.isOpen = false
-				this.closeMenu()
-			}
-		},
-
-		/**
-		 * Creates a new subscription
-		 *
-		 * @param {Event} event The submit event
-		 */
-		async createNewSubscription(event) {
-			const link = event.target.querySelector('input[type=text]')?.value.trim()
-			let url
-			let hostname
-			try {
-				url = new URL(link)
-				hostname = url.hostname
-			} catch (error) {
-				console.error(error)
-				showError(this.$t('calendar', 'Please enter a valid link (starting with http://, https://, webcal://, or webcals://)'))
-				return
-			}
-
-			this.showCreateSubscriptionInput = false
-			this.showCreateSubscriptionSaving = true
-
-			try {
-				await this.calendarsStore.appendSubscription({
-					displayName: hostname,
-					color: uidToHexColor(link),
-					source: link,
-				})
-			} catch (error) {
-				console.debug(error)
-				showError(this.$t('calendar', 'An error occurred, unable to create the calendar.'))
-			} finally {
-				this.showCreateSubscriptionSaving = false
-				this.showCreateSubscriptionLabel = true
-				this.isOpen = false
-				this.closeMenu()
-			}
-		},
-
-		async openHolidaySubscriptionPicker() {
-			// Use nextTick to ensure the menu closes before opening the modal
-			await nextTick()
-			this.showHolidaySubscriptionPicker = true
-		},
-
-		async openPublicCalendarSubscriptionPicker() {
-			// Use nextTick to ensure the menu closes before opening the modal
-			await nextTick()
-			this.showPublicCalendarSubscriptionPicker = true
-		},
-
-		/**
-		 * This resets the actions on close of menu
-		 */
-		closeMenu() {
-			this.showCreateCalendarLabel = true
-			this.showCreateCalendarInput = false
-			this.showCreateCalendarSaving = false
-			this.showCreateCalendarTaskListLabel = true
-			this.showCreateCalendarTaskListInput = false
-			this.showCreateCalendarTaskListSaving = false
-			this.showCreateSubscriptionLabel = true
-			this.showCreateSubscriptionInput = false
-			this.showCreateSubscriptionSaving = false
-		},
-	},
-}
-</script>
 
 <style scoped>
 :deep(.action-item__menutoggle) {

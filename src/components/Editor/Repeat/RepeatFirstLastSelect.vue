@@ -11,7 +11,8 @@
 		:disabled="disabled"
 		:placeholder="$t('calendar', 'first')"
 		:clearable="false"
-		inputId="value"
+		:ariaLabelCombobox="$t('calendar', 'Week occurrence')"
+		inputId="repeat-first-last"
 		label="label" />
 </template>
 
@@ -26,22 +27,18 @@ export default {
 	},
 
 	props: {
-		/**
-		 *
-		 */
 		bySetPosition: {
 			type: Number,
 			default: null,
 		},
 
-		/**
-		 *
-		 */
 		disabled: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
+	emits: ['change'],
 
 	computed: {
 		options() {

@@ -11,7 +11,6 @@ import { createApp } from 'vue'
 import Confirmation from '../views/Appointments/Confirmation.vue'
 
 // CSP config for webpack dynamic chunk loading
-
 __webpack_nonce__ = btoa(getRequestToken())
 
 // Correct the root of the app for chunk loading
@@ -21,10 +20,14 @@ __webpack_nonce__ = btoa(getRequestToken())
 // eslint-disable-next-line
 __webpack_public_path__ = linkTo('calendar', 'js/')
 
+const link = loadState('calendar', 'appointment-link')
 const booking = loadState('calendar', 'booking')
+const token = loadState('calendar', 'booking-token')
 
 const app = createApp(Confirmation, {
+	link,
 	booking,
+	token,
 })
 
 app.config.globalProperties.$t = translate

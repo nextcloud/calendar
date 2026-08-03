@@ -3,13 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import dateRangeFormat from "../../../../src/filters/dateRangeFormat.js";
 import { translate } from '@nextcloud/l10n'
+import dateRangeFormat from '../../../../src/filters/dateRangeFormat.js'
 
 vi.mock('@nextcloud/l10n')
 
 describe('format/dateRangeFormat test suite', () => {
-
 	beforeEach(() => {
 		translate.mockClear()
 
@@ -23,7 +22,6 @@ describe('format/dateRangeFormat test suite', () => {
 	})
 
 	it('should provide a format for week view', () => {
-
 		const date = new Date(2019, 0, 1, 0, 0, 0, 0)
 		expect(dateRangeFormat(date, 'timeGridWeek', 'de')).toMatchSnapshot()
 	})
@@ -37,5 +35,4 @@ describe('format/dateRangeFormat test suite', () => {
 		const date = new Date(2019, 0, 1, 0, 0, 0, 0)
 		expect(dateRangeFormat(date, 'fooBarUnknownView', 'de')).toMatchSnapshot()
 	})
-
 })

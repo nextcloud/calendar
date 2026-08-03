@@ -3,6 +3,44 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
+<script setup lang="ts">
+import type AppointmentConfig from '@/models/appointmentConfig.js'
+
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { NcEmptyContent as EmptyContent, NcButton } from '@nextcloud/vue'
+import { computed } from 'vue'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import logger from '@/utils/logger.js'
+
+const props = defineProps<{
+	config: AppointmentConfig
+	isNew: boolean
+}>()
+
+const title = computed<string>(() => {
+	if (props.isNew) {
+		return t('calendar', 'Appointment schedule successfully created')
+	}
+
+	return t('calendar', 'Appointment schedule successfully updated')
+})
+
+function hasClipboard(): boolean {
+	return Boolean(navigator && navigator.clipboard)
+}
+
+async function copyLink(): Promise<void> {
+	try {
+		await navigator.clipboard.writeText(props.config.bookingUrl)
+		showSuccess(t('calendar', 'Appointment link was copied to clipboard'))
+	} catch (error) {
+		logger.error('Failed to copy appointment link to clipboard', { error })
+		showError(t('calendar', 'Appointment link could not be copied to clipboard'))
+	}
+}
+</script>
+
 <template>
 	<div class="app-config-modal-confirmation">
 		<EmptyContent :name="title">
@@ -18,57 +56,10 @@
 				{{ t('calendar', 'Preview') }}
 			</NcButton>
 			<NcButton
-				v-if="showCopyLinkButton"
+				v-if="hasClipboard()"
 				@click="copyLink">
 				{{ t('calendar', 'Copy link') }}
 			</NcButton>
 		</div>
 	</div>
 </template>
-
-<script>
-import { NcEmptyContent as EmptyContent, NcButton } from '@nextcloud/vue'
-import CheckIcon from 'vue-material-design-icons/Check.vue'
-import AppointmentConfig from '../../models/appointmentConfig.js'
-
-export default {
-	name: 'Confirmation',
-	components: {
-		NcButton,
-		EmptyContent,
-		CheckIcon,
-	},
-
-	props: {
-		config: {
-			type: AppointmentConfig,
-			required: true,
-		},
-
-		isNew: {
-			type: Boolean,
-			required: true,
-		},
-	},
-
-	computed: {
-		title() {
-			if (this.isNew) {
-				return this.$t('calendar', 'Appointment schedule successfully created')
-			}
-
-			return this.$t('calendar', 'Appointment schedule successfully updated')
-		},
-
-		showCopyLinkButton() {
-			return navigator && navigator.clipboard
-		},
-	},
-
-	methods: {
-		copyLink() {
-			navigator.clipboard.writeText(this.config.bookingUrl)
-		},
-	},
-}
-</script>

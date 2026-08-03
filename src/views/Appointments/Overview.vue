@@ -93,9 +93,11 @@ export default {
 .overview-info {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	flex-direction: column;
+	width: 100%;
 	max-width: 900px;
-	margin: 50px auto;
+	margin: 0 auto;
 	padding: 8px 25px var(--footer-height) 25px;
 
 	.title {
@@ -177,6 +179,14 @@ export default {
 </style>
 
 <style lang="scss">
+#appointments-overview {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	min-height: 100%;
+}
+
 #content.app-calendar {
   // Enable scrolling
   overflow: auto;

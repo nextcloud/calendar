@@ -2,6 +2,7 @@
  * SPDX-FileCopyrightText: 2022 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { markRaw } from 'vue'
 
 /**
  * Creates a complete attachment object based on given props
@@ -36,7 +37,7 @@ function getDefaultAttachmentObject(props = {}) {
  */
 function mapAttachmentPropertyToAttchmentObject(attachmentProperty) {
 	return getDefaultAttachmentObject({
-		attachmentProperty,
+		attachmentProperty: markRaw(attachmentProperty),
 		fileName: attachmentProperty.getParameterFirstValue('FILENAME'),
 		formatType: attachmentProperty.formatType,
 		uri: attachmentProperty.uri,

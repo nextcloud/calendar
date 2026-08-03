@@ -11,7 +11,8 @@
 		:disabled="disabled"
 		:placeholder="$t('calendar', 'Monday')"
 		:clearable="false"
-		inputId="value"
+		:ariaLabelCombobox="$t('calendar', 'Day of week')"
+		inputId="repeat-on-the"
 		label="label" />
 </template>
 
@@ -26,9 +27,6 @@ export default {
 	},
 
 	props: {
-		/**
-		 *
-		 */
 		byDay: {
 			type: Array,
 			required: true,
@@ -39,6 +37,8 @@ export default {
 			required: true,
 		},
 	},
+
+	emits: ['change'],
 
 	computed: {
 		options() {

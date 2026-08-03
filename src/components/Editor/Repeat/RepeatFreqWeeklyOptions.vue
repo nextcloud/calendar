@@ -38,6 +38,8 @@ export default {
 		},
 	},
 
+	emits: ['addByDay', 'removeByDay'],
+
 	computed: {
 		options() {
 			const dayNamesMin = getDayNamesMin()

@@ -15,8 +15,9 @@
 			:class="{
 				'calendar-picker-header__picker--has-menu': !isReadOnly && calendars.length > 1,
 			}"
-			:menuName="value.displayName"
+			:menuName="getOptionLabel(value)"
 			:forceName="true"
+			:forceMenu="true"
 			:disabled="isDisabled">
 			<template #icon>
 				<div class="calendar-picker-header__icon">
@@ -33,27 +34,68 @@
 					:closeAfterClick="true"
 					@click="$emit('update:value', calendar)">
 					<template #icon>
-						<div class="calendar-picker-header__icon">
+						<div class="calendar-picker-header__picker__option__row">
 							<div
 								class="calendar-picker-header__icon__dot"
 								:style="{ 'background-color': calendar.color }" />
+							<span class="calendar-picker-header__picker__option__label">{{ getOptionLabel(calendar) }}</span>
+							<NcAvatar
+								v-if="calendar.isDelegated"
+								class="calendar-picker-header__picker__option__avatar"
+								:title="getDelegatorDisplayName(calendar)"
+								:disableMenu="true"
+								:disableTooltip="true"
+								:hideStatus="true"
+								:user="getDelegatorUserId(calendar)"
+								:displayName="getDelegatorDisplayName(calendar)"
+								:size="20" />
+							<NcAvatar
+								v-else-if="calendar.isSharedWithMe"
+								class="calendar-picker-header__picker__option__avatar"
+								:title="getOwnerDisplayName(calendar)"
+								:disableMenu="true"
+								:disableTooltip="true"
+								:hideStatus="true"
+								:user="getOwnerUserId(calendar)"
+								:displayName="getOwnerDisplayName(calendar)"
+								:size="20" />
 						</div>
 					</template>
-					{{ calendar.displayName }}
 				</NcActionButton>
 			</template>
 		</NcActions>
+		<NcAvatar
+			v-if="value.isDelegated"
+			class="calendar-picker-header__avatar"
+			:disableMenu="true"
+			:title="delegatorDisplayName"
+			:disableTooltip="true"
+			:user="delegatorUserId"
+			:displayName="delegatorDisplayName"
+			:size="24" />
+		<NcAvatar
+			v-else-if="value.isSharedWithMe"
+			class="calendar-picker-header__avatar"
+			:disableMenu="true"
+			:title="ownerDisplayName"
+			:disableTooltip="true"
+			:user="ownerUserId"
+			:displayName="ownerDisplayName"
+			:size="24" />
 	</div>
 </template>
 
 <script>
-import { NcActionButton, NcActions } from '@nextcloud/vue'
+import { NcActionButton, NcActions, NcAvatar } from '@nextcloud/vue'
+import { mapStores } from 'pinia'
+import usePrincipalsStore from '../../store/principals.js'
 
 export default {
 	name: 'CalendarPickerHeader',
 	components: {
 		NcActions,
 		NcActionButton,
+		NcAvatar,
 	},
 
 	props: {
@@ -78,12 +120,57 @@ export default {
 		},
 	},
 
+	emits: ['update:value'],
+
 	computed: {
+		...mapStores(usePrincipalsStore),
 		/**
 		 * @return {boolean}
 		 */
 		isDisabled() {
 			return this.isReadOnly || this.calendars.length < 2
+		},
+
+		/**
+		 * Get the principal object of the calendar's owner
+		 *
+		 * @return {null | object}
+		 */
+		ownerPrincipal() {
+			return this.principalsStore.getPrincipalByUrl(this.value.owner)
+		},
+
+		/**
+		 * Gets the user-id of the calendar's owner
+		 *
+		 * @return {null | string}
+		 */
+		ownerUserId() {
+			return this.ownerPrincipal?.userId ?? null
+		},
+
+		/**
+		 * Gets the display name of the calendar's owner
+		 *
+		 * @return {null | string}
+		 */
+		ownerDisplayName() {
+			return this.ownerPrincipal?.displayname ?? null
+		},
+
+		delegatorPrincipal() {
+			if (!this.value.delegatorUrl) {
+				return null
+			}
+			return this.principalsStore.getPrincipalByUrl(this.value.delegatorUrl) ?? null
+		},
+
+		delegatorUserId() {
+			return this.delegatorPrincipal?.userId ?? null
+		},
+
+		delegatorDisplayName() {
+			return this.delegatorPrincipal?.displayname ?? this.delegatorPrincipal?.userId ?? null
 		},
 	},
 
@@ -92,6 +179,75 @@ export default {
 		// Material Design icons by Google are available under the Apache 2.0 license
 		const menuDownIconUrl = 'url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTcsMTBMMTIsMTVMMTcsMTBIN1oiIC8+PC9zdmc+)'
 		this.$el.style.setProperty('--mdi-menu-down', menuDownIconUrl)
+	},
+
+	methods: {
+		/**
+		 * Gets the user-id of the given calendar's owner
+		 *
+		 * @param {object} calendar The calendar object
+		 * @return {null | string}
+		 */
+		getOwnerUserId(calendar) {
+			return this.principalsStore.getPrincipalByUrl(calendar.owner)?.userId ?? null
+		},
+
+		/**
+		 * Gets the display name of the given calendar's owner
+		 *
+		 * @param {object} calendar The calendar object
+		 * @return {null | string}
+		 */
+		getOwnerDisplayName(calendar) {
+			return this.principalsStore.getPrincipalByUrl(calendar.owner)?.displayname ?? null
+		},
+
+		/**
+		 * Gets the user-id of the given delegated calendar's delegator
+		 *
+		 * @param {object} calendar The calendar object
+		 * @return {null | string}
+		 */
+		getDelegatorUserId(calendar) {
+			if (!calendar.delegatorUrl) {
+				return null
+			}
+			return this.principalsStore.getPrincipalByUrl(calendar.delegatorUrl)?.userId ?? null
+		},
+
+		/**
+		 * Gets the display name of the given delegated calendar's delegator
+		 *
+		 * @param {object} calendar The calendar object
+		 * @return {null | string}
+		 */
+		getDelegatorDisplayName(calendar) {
+			if (!calendar.delegatorUrl) {
+				return null
+			}
+			const principal = this.principalsStore.getPrincipalByUrl(calendar.delegatorUrl)
+			return principal?.displayname ?? principal?.userId ?? null
+		},
+
+		/**
+		 * Builds the option label including the "(delegated by X)" suffix
+		 * when applicable.
+		 *
+		 * @param {object} calendar The calendar object
+		 * @return {string}
+		 */
+		getOptionLabel(calendar) {
+			if (calendar.isDelegated) {
+				const delegator = this.getDelegatorDisplayName(calendar)
+				if (delegator) {
+					return this.$t('calendar', '{name} (delegated by {delegator})', {
+						name: calendar.displayName,
+						delegator,
+					})
+				}
+			}
+			return calendar.displayName
+		},
 	},
 }
 </script>
@@ -142,6 +298,27 @@ export default {
 			:deep(button) {
 				align-items: center !important;
 			}
+
+			&__row {
+				display: flex;
+				align-items: center;
+				gap: calc(var(--default-grid-baseline) * 2);
+				min-width: 0;
+				padding-inline-start: var(--default-grid-baseline);
+			}
+
+			&__label {
+				flex: 0 1 auto;
+				min-width: 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				text-align: start;
+				white-space: nowrap;
+			}
+
+			&__avatar {
+				flex-shrink: 0;
+			}
 		}
 
 		// Fix long calendar name ellipsis
@@ -162,6 +339,12 @@ export default {
 		}
 	}
 
+	&__avatar {
+		flex-shrink: 0;
+		align-self: center;
+		margin-inline-start: var(--default-grid-baseline);
+	}
+
 	&__icon {
 		display: flex;
 		align-items: center;
@@ -174,6 +357,7 @@ export default {
 			width: $dot-size;
 			height: $dot-size;
 			border-radius: $dot-size;
+			flex-shrink: 0;
 		}
 	}
 }

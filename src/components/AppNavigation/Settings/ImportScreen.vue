@@ -59,6 +59,8 @@ export default {
 		},
 	},
 
+	emits: ['importCalendar', 'cancelImport'],
+
 	methods: {
 		importCalendar() {
 			this.$emit('importCalendar')

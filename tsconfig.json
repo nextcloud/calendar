@@ -1,3 +1,8 @@
+/**
+ * SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 {
 	"include": ["src/**/*.ts", "src/**/*.vue", "src/env.d.ts"],
 	"compilerOptions": {
@@ -10,7 +15,7 @@
 		"allowSyntheticDefaultImports": true,
 		"paths": {
 			"@/*": ["./src/*"]
-		}
+		},
 	},
 	"vueCompilerOptions": {
 		"target": "2.7"

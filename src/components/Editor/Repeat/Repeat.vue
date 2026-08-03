@@ -85,7 +85,7 @@
 				v-if="!isRecurrenceException && !isReadOnly"
 				class="property-repeat__options__footer">
 				<NcButton variant="primary" @click="saveAndClose">
-					{{ $t('calendar', 'Add') }}
+					{{ $t('calendar', 'Set repetition') }}
 				</NcButton>
 			</div>
 		</NcModal>
@@ -172,6 +172,8 @@ export default {
 			required: true,
 		},
 	},
+
+	emits: ['forceThisAndAllFuture'],
 
 	data() {
 		return {
@@ -434,9 +436,6 @@ export default {
 			this.modified()
 		},
 
-		/**
-		 *
-		 */
 		changeToUntil() {
 			this.calendarObjectInstanceStore.enableRecurrenceLimitByUntil({
 				calendarObjectInstance: this.calendarObjectInstance,
@@ -461,9 +460,6 @@ export default {
 			this.modified()
 		},
 
-		/**
-		 *
-		 */
 		changeToCount() {
 			this.calendarObjectInstanceStore.enableRecurrenceLimitByCount({
 				recurrenceRule: this.recurrenceRule,
@@ -484,9 +480,6 @@ export default {
 			this.modified()
 		},
 
-		/**
-		 *
-		 */
 		modified() {
 			if (this.recurrenceRule.isUnsupported) {
 				this.calendarObjectInstanceStore.markRecurrenceRuleAsSupported({

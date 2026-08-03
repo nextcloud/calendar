@@ -50,10 +50,27 @@ class ProposalObject {
 	}
 
 	public function fromJson(array $data): void {
+		// validate data
 		if (isset($data['@type']) && $data['@type'] !== 'MeetingProposal') {
 			throw new \InvalidArgumentException('Invalid type for Proposal Object');
 		}
-
+		if (isset($data['id']) && !is_int($data['id'])) {
+			throw new \InvalidArgumentException('ID must be an integer');
+		}
+		foreach (['uid', 'uname', 'uuid', 'title', 'description', 'location'] as $key) {
+			if (isset($data[$key]) && !is_string($data[$key])) {
+				throw new \InvalidArgumentException(sprintf('%s must be a string', ucfirst($key)));
+			}
+			if (in_array($key, ['title', 'description', 'location']) && isset($data[$key])) {
+				if (strip_tags($data[$key]) !== $data[$key]) {
+					throw new \InvalidArgumentException(sprintf('HTML is not allowed in proposal %s', $key));
+				}
+			}
+		}
+		if (isset($data['duration']) && !is_int($data['duration'])) {
+			throw new \InvalidArgumentException('Duration must be an integer');
+		}
+		// assign values
 		foreach ($data as $key => $value) {
 			if (property_exists($this, $key)) {
 				if ($key === 'participants' && is_array($value)) {

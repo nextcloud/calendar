@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { showError } from '@nextcloud/dialogs'
+import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
 import { mapState, mapStores } from 'pinia'
 import { getRFCProperties } from '../models/rfcProps.js'
 import { containsRoomUrl } from '../services/talkService.ts'
@@ -282,6 +283,17 @@ export default {
 			return this.calendarsStore.getCalendarById(this.calendarId)
 		},
 		/**
+		 * Returns the userId of the delegator when the selected calendar is delegated, or null otherwise
+		 *
+		 * @return {string|null}
+		 */
+		delegatorUserId() {
+			if (!this.selectedCalendar?.isDelegated || !this.selectedCalendar.delegatorUrl) {
+				return null
+			}
+			return this.principalsStore.getPrincipalByUrl(this.selectedCalendar.delegatorUrl)?.userId ?? null
+		},
+		/**
 		 * Returns whether or not the user is allowed to delete this event
 		 *
 		 * @return {boolean}
@@ -368,6 +380,28 @@ export default {
 			return this.calendarObject.dav.url + '?export'
 		},
 		/**
+		 * Returns the permanent deep link URL for this event, or null if the event is new
+		 *
+		 * @return {string|null}
+		 */
+		eventLink() {
+			if (!this.calendarObject) {
+				return null
+			}
+
+			const uid = this.calendarObject.uid
+			if (!uid) {
+				return null
+			}
+
+			const recurrenceId = this.$route?.params?.recurrenceId
+			if (recurrenceId && recurrenceId !== 'next') {
+				return window.location.origin + generateUrl('/apps/calendar/object/{uid}/{recurrenceId}', { uid, recurrenceId })
+			}
+
+			return window.location.origin + generateUrl('/apps/calendar/object/{uid}', { uid })
+		},
+		/**
 		 * Returns whether or not this is a new event
 		 *
 		 * @return {boolean}
@@ -435,6 +469,7 @@ export default {
 				// Set the calendarId from the created calendar object
 				if (this.calendarObject) {
 					this.calendarId = this.calendarObject.calendarId
+					this.addDelegatorAsAttendeeIfNeeded(this.selectedCalendar)
 				}
 
 				console.debug('[Editor] New event created successfully')
@@ -491,9 +526,39 @@ export default {
 			// to the desired calendar as a second step.
 			if (this.calendarObject && !this.calendarObject.existsOnServer) {
 				this.calendarObject.calendarId = selectedCalendar.id
+				this.addDelegatorAsAttendeeIfNeeded(selectedCalendar)
 			}
 
-			updateDefaultAlarm()
+			updateDefaultAlarm(this.calendarObject.calendarId, this.calendarObjectInstance)
+		},
+
+		/**
+		 * When creating an event on a delegated calendar, sets the delegator as the organizer.
+		 * The assistant (current user) should not be listed as organizer or attendee.
+		 *
+		 * @param {object|null} calendar The calendar object to check
+		 */
+		addDelegatorAsAttendeeIfNeeded(calendar) {
+			if (!calendar?.isDelegated || !calendar.delegatorUrl) {
+				return
+			}
+
+			if (!this.calendarObjectInstance) {
+				return
+			}
+
+			const delegatorPrincipal = this.principalsStore.getPrincipalByUrl(calendar.delegatorUrl)
+			if (!delegatorPrincipal?.emailAddress) {
+				return
+			}
+
+			if (!this.calendarObjectInstance.organizer) {
+				this.calendarObjectInstanceStore.setOrganizer({
+					calendarObjectInstance: this.calendarObjectInstance,
+					commonName: delegatorPrincipal.displayname,
+					email: delegatorPrincipal.emailAddress,
+				})
+			}
 		},
 		/**
 		 * This will force the user to update this and all future occurrences when saving
@@ -643,6 +708,25 @@ export default {
 		 */
 		async duplicateEvent() {
 			await this.calendarObjectInstanceStore.duplicateCalendarObjectInstance()
+		},
+
+		/**
+		 * Copies the permanent event deep link to the clipboard
+		 *
+		 * @return {Promise<void>}
+		 */
+		async copyEventLink() {
+			if (!this.eventLink) {
+				return
+			}
+
+			try {
+				await navigator.clipboard.writeText(this.eventLink)
+				showSuccess(t('calendar', 'Event link copied to clipboard'))
+			} catch (error) {
+				logger.error('Failed to copy event link to clipboard', { error })
+				showError(t('calendar', 'Failed to copy event link'))
+			}
 		},
 
 		/**
@@ -814,6 +898,8 @@ export default {
 			this.calendarObjectInstanceStore.toggleAllDay({
 				calendarObjectInstance: this.calendarObjectInstance,
 			})
+
+			updateDefaultAlarm(this.calendarObject.calendarId, this.calendarObjectInstance)
 		},
 		/**
 		 * Resets the internal state after changing the viewed calendar-object

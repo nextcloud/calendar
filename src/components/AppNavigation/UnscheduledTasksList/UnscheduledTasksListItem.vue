@@ -46,6 +46,8 @@ export default {
 		},
 	},
 
+	emits: ['taskClicked'],
+
 	mounted() {
 		const containerEl = document.getElementById(this.config.id + '-1')
 

@@ -375,6 +375,7 @@ class ProposalService {
 				$vObject->serialize()
 			);
 		}
+		$this->applyCalendarBlockersParticipant($user, $proposal, 'M', $vObject);
 
 		// destroy the proposal entry
 		$this->proposalVoteMapper->deleteByProposalId($user->getUID(), $proposal->getId());
@@ -509,6 +510,11 @@ class ProposalService {
 				$this->l10n->t('Dear %s, a proposed meeting has been cancelled', [$recipientName])
 			)
 		};
+		// buttons
+		$template->addBodyButton(
+			$this->l10n->t('Respond'),
+			$this->urlGenerator->linkToRouteAbsolute('Calendar.ProposalPublic.index', ['token' => $recipientToken])
+		);
 		// description
 		if (!empty($proposal->getDescription())) {
 			$template->addBodyListItem($proposal->getDescription(), $this->l10n->t('Description:'));
@@ -541,11 +547,6 @@ class ProposalService {
 
 		$temporaryText .= '(' . $userTimezone->getName() . ')';
 		$template->addBodyListItem($temporaryText, $this->l10n->t('Dates:'));
-		// buttons
-		$template->addBodyButton(
-			$this->l10n->t('Respond'),
-			$this->urlGenerator->linkToRouteAbsolute('Calendar.ProposalPublic.index', ['token' => $recipientToken])
-		);
 
 		$template->addFooter();
 
@@ -577,13 +578,11 @@ class ProposalService {
 				$fromAddress = \OCP\Util::getDefaultEmailAddress('proposal-noreply');
 				// construct symfony mailer message and set required parameters
 				$message = $this->systemMailManager->createMessage();
-				$message->setFrom([$fromAddress => $senderName ?? '']);
+				$message->setFrom([$fromAddress => $senderName]);
 				$message->setTo(
 					$recipientName !== null ? [$recipientAddress => $recipientName] : [$recipientAddress]
 				);
-				$message->setReplyTo(
-					$senderName !== null ? [$senderAddress => $senderName] : [$senderAddress]
-				);
+				$message->setReplyTo([$senderAddress => $senderName]);
 				$message->useTemplate($template);
 				$failed = $this->systemMailManager->send($message);
 			}
@@ -635,7 +634,7 @@ class ProposalService {
 		$vObject = $this->constructCalendarBlocker($user, $proposal);
 
 		$this->applyCalendarBlockersOrganizer($user, $userCalendarUri, $userEventUri, $vObject);
-		$this->applyCalendarBlockersParticipant($user, $proposal, $reason, $userCalendarUri, $userEventUri, $vObject);
+		$this->applyCalendarBlockersParticipant($user, $proposal, $reason, $vObject);
 
 	}
 
@@ -722,7 +721,7 @@ class ProposalService {
 	/**
 	 *  Create or update calendar blocker event(s) for participant(s)
 	 */
-	private function applyCalendarBlockersParticipant(IUser $user, ProposalObject $proposal, string $reason, string $calendarUri, ?string $eventUri, VCalendar $vObject): void {
+	private function applyCalendarBlockersParticipant(IUser $user, ProposalObject $proposal, string $reason, VCalendar $vObject): void {
 		// if the calendar manager does not have a handleIMip method, we cannot generate iTip messages
 		if (!method_exists($this->calendarManager, 'handleIMip')) {
 			return;

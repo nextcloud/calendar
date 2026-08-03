@@ -30,13 +30,6 @@ export default {
 		TimezonePicker,
 	},
 
-	props: {
-		isDisabled: {
-			type: Boolean,
-			required: true,
-		},
-	},
-
 	data() {
 		return {
 			timezone: null,

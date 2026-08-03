@@ -5,6 +5,7 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Service;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
@@ -20,6 +21,9 @@ use OCP\Calendar\Room\IBackend as IRoomBackend;
 use OCP\Calendar\Room\IManager as IRoomManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUser;
+use OCP\IUserManager;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class CalendarInitialStateServiceTest extends TestCase {
@@ -55,6 +59,9 @@ class CalendarInitialStateServiceTest extends TestCase {
 	/** @var (IQueue&MockObject)|null */
 	private $queue = null;
 
+	private IGroupManager&MockObject $groupManager;
+	private IUserManager&MockObject $userManager;
+
 	protected function setUp(): void {
 		$this->appName = 'calendar';
 		$this->appManager = $this->createMock(IAppManager::class);
@@ -70,6 +77,15 @@ class CalendarInitialStateServiceTest extends TestCase {
 		if (interface_exists(IQueue::class)) {
 			$this->queue = $this->createMock(IQueue::class);
 		}
+		$this->groupManager = $this->createMock(IGroupManager::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+
+		$user = $this->createMock(IUser::class);
+		$this->userManager->method('get')
+			->willReturn($user);
+		$this->groupManager->method('getUserGroupIds')
+			->with($user)
+			->willReturn([]);
 	}
 
 	public function testRun(): void {
@@ -85,8 +101,10 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->resourceManager,
 			$this->roomManager,
 			$this->queue,
+			$this->groupManager,
+			$this->userManager,
 		);
-		$this->config->expects(self::exactly(17))
+		$this->config->expects(self::exactly(19))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
@@ -97,6 +115,8 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
+				['calendar', 'defaultReminderPartDay', 'defaultDefaultReminder', 'defaultDefaultReminderPartDay'],
+				['calendar', 'defaultReminderFullDay', 'defaultDefaultReminder', 'defaultDefaultReminderFullDay'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
 				['calendar', 'tasksSidebar', 'yes', 'defaultTasksSidebar'],
 				['calendar', 'installed_version', '', '1.0.0'],
@@ -106,8 +126,10 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['dav', 'allow_calendar_link_subscriptions', 'yes', 'no'],
 				['calendar', 'showResources', 'yes', 'yes'],
 				['calendar', 'publicCalendars', ''],
+				['spreed', 'start_conversations', '[]', '[]'],
+				['spreed', 'allowed_groups', '[]', '[]'],
 			]);
-		$this->config->expects(self::exactly(12))
+		$this->config->expects(self::exactly(14))
 			->method('getUserValue')
 			->willReturnMap([
 				['user123', 'calendar', 'eventLimit', 'defaultEventLimit', 'yes'],
@@ -120,13 +142,16 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['user123', 'dav', 'attachmentsFolder', '/Calendar', '/Calendar'],
 				['user123', 'calendar', 'slotDuration', 'defaultSlotDuration', '00:15:00'],
 				['user123', 'calendar', 'defaultReminder', 'defaultDefaultReminder', '00:10:00'],
+				['user123', 'calendar', 'defaultReminderPartDay', '00:10:00', '-900'],
+				['user123', 'calendar', 'defaultReminderFullDay', '00:10:00', '32400'],
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
 				['user123', 'calendar', 'tasksSidebar', 'defaultTasksSidebar', 'yes'],
 			]);
-		$this->appConfig->expects(self::once())
+		$this->appConfig->expects(self::exactly(2))
 			->method('getValueBool')
 			->willReturnMap([
 				['dav', 'enableCalendarFederation', true, false, true],
+				['files_sharing', 'outgoing_server2server_share_enabled', true, false, true],
 			]);
 		$this->appManager->expects(self::exactly(3))
 			->method('isEnabledForUser')
@@ -150,7 +175,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 			->willReturn([$this->createMock(IResourceBackend::class)]);
 		$this->roomManager->expects(self::never())
 			->method('getBackends');
-		$this->initialStateService->expects(self::exactly(27))
+		$this->initialStateService->expects(self::exactly(29))
 			->method('provideInitialState')
 			->willReturnMap([
 				['app_version', '1.0.0'],
@@ -166,6 +191,8 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['attachments_folder', '/Calendar'],
 				['slot_duration', '00:15:00'],
 				['default_reminder', '00:10:00'],
+				['default_reminder_part_day', '-900'],
+				['default_reminder_full_day', '32400'],
 				['show_tasks', false],
 				['tasks_sidebar', true],
 				['tasks_enabled', true],
@@ -198,6 +225,8 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->resourceManager,
 			$this->roomManager,
 			$this->queue,
+			$this->groupManager,
+			$this->userManager,
 		);
 		$this->config->expects(self::exactly(17))
 			->method('getAppValue')
@@ -210,6 +239,8 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
+				['calendar', 'defaultReminderPartDay', 'defaultDefaultReminder', 'defaultDefaultReminderPartDay'],
+				['calendar', 'defaultReminderFullDay', 'defaultDefaultReminder', 'defaultDefaultReminderFullDay'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
 				['calendar', 'tasksSidebar', 'yes', 'defaulttasksSidebar'],
 				['calendar', 'installed_version', '', '1.0.0'],
@@ -219,14 +250,14 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['dav', 'allow_calendar_link_subscriptions', 'yes', 'no'],
 				['calendar', 'showResources', 'yes', 'yes'],
 				['calendar', 'publicCalendars', ''],
-				['calendar', 'publicCalendars', ''],
 			]);
-		$this->appConfig->expects(self::once())
+		$this->appConfig->expects(self::exactly(2))
 			->method('getValueBool')
 			->willReturnMap([
 				['dav', 'enableCalendarFederation', true, false, false],
+				['files_sharing', 'outgoing_server2server_share_enabled', true, false, false],
 			]);
-		$this->config->expects(self::exactly(12))
+		$this->config->expects(self::exactly(14))
 			->method('getUserValue')
 			->willReturnMap([
 				[null, 'calendar', 'eventLimit', 'defaultEventLimit', 'yes'],
@@ -239,13 +270,14 @@ class CalendarInitialStateServiceTest extends TestCase {
 				[null, 'dav', 'attachmentsFolder', '/Calendar', '/Calendar'],
 				[null, 'calendar', 'slotDuration', 'defaultSlotDuration', '00:15:00'],
 				[null, 'calendar', 'defaultReminder', 'defaultDefaultReminder', '00:10:00'],
+				[null, 'calendar', 'defaultReminderPartDay', '00:10:00', '-900'],
+				[null, 'calendar', 'defaultReminderFullDay', '00:10:00', '32400'],
 				[null, 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
 				[null, 'calendar', 'tasksSidebar', 'defaultTasksSidebar', 'yes'],
 			]);
-		$this->appManager->expects(self::exactly(3))
+		$this->appManager->expects(self::exactly(2))
 			->method('isEnabledForUser')
 			->willReturnMap([
-				['spreed', null, true],
 				['tasks', null, true],
 				['circles', null, false],
 			]);
@@ -261,7 +293,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 		$this->roomManager->expects(self::once())
 			->method('getBackends')
 			->willReturn([]);
-		$this->initialStateService->expects(self::exactly(26))
+		$this->initialStateService->expects(self::exactly(28))
 			->method('provideInitialState')
 			->willReturnMap([
 				['app_version', '1.0.0'],
@@ -271,12 +303,14 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['show_weekends', true],
 				['show_week_numbers', true],
 				['skip_popover', true],
-				['talk_enabled', true],
+				['talk_enabled', false],
 				['talk_api_version', 'v4'],
 				['timezone', 'Europe/Berlin'],
 				['attachments_folder', '/Calendar'],
 				['slot_duration', '00:15:00'],
 				['default_reminder', '00:10:00'],
+				['default_reminder_part_day', '-900'],
+				['default_reminder_full_day', '32400'],
 				['show_tasks', false],
 				['tasks_sidebar', false],
 				['tasks_enabled', true],
@@ -314,8 +348,10 @@ class CalendarInitialStateServiceTest extends TestCase {
 			$this->resourceManager,
 			$this->roomManager,
 			$this->queue,
+			$this->groupManager,
+			$this->userManager,
 		);
-		$this->config->expects(self::exactly(17))
+		$this->config->expects(self::exactly(19))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'defaultEventLimit'],
@@ -326,6 +362,8 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
 				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
+				['calendar', 'defaultReminderPartDay', 'defaultDefaultReminder', 'defaultDefaultReminderPartDay'],
+				['calendar', 'defaultReminderFullDay', 'defaultDefaultReminder', 'defaultDefaultReminderFullDay'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
 				['calendar', 'tasksSidebar', 'yes', 'defaulttasksSidebar'],
 				['calendar', 'installed_version', '', '1.0.0'],
@@ -335,8 +373,10 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['dav', 'allow_calendar_link_subscriptions', 'yes', 'no'],
 				['calendar', 'showResources', 'yes', 'yes'],
 				['calendar', 'publicCalendars', ''],
+				['spreed', 'start_conversations', '[]', '[]'],
+				['spreed', 'allowed_groups', '[]', '[]'],
 			]);
-		$this->config->expects(self::exactly(12))
+		$this->config->expects(self::exactly(14))
 			->method('getUserValue')
 			->willReturnMap([
 				['user123', 'calendar', 'eventLimit', 'defaultEventLimit', 'yes'],
@@ -349,13 +389,16 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['user123', 'dav', 'attachmentsFolder', '/Calendar', '/Calendar'],
 				['user123', 'calendar', 'slotDuration', 'defaultSlotDuration', '00:15:00'],
 				['user123', 'calendar', 'defaultReminder', 'defaultDefaultReminder', '00:10:00'],
+				['user123', 'calendar', 'defaultReminderPartDay', '00:10:00', '-900'],
+				['user123', 'calendar', 'defaultReminderFullDay', '00:10:00', '32400'],
 				['user123', 'calendar', 'showTasks', 'defaultShowTasks', '00:15:00'],
 				['user123', 'calendar', 'tasksSidebar', 'defaultTasksSidebar', 'yes'],
 			]);
-		$this->appConfig->expects(self::once())
+		$this->appConfig->expects(self::exactly(2))
 			->method('getValueBool')
 			->willReturnMap([
 				['dav', 'enableCalendarFederation', true, false, true],
+				['files_sharing', 'outgoing_server2server_share_enabled', true, false, true],
 			]);
 		$this->appManager->expects(self::exactly(3))
 			->method('isEnabledForUser')
@@ -380,7 +423,7 @@ class CalendarInitialStateServiceTest extends TestCase {
 		$this->roomManager->expects(self::once())
 			->method('getBackends')
 			->willReturn([$this->createMock(IRoomBackend::class)]);
-		$this->initialStateService->expects(self::exactly(27))
+		$this->initialStateService->expects(self::exactly(29))
 			->method('provideInitialState')
 			->willReturnMap([
 				['app_version', '1.0.0'],
@@ -396,6 +439,8 @@ class CalendarInitialStateServiceTest extends TestCase {
 				['attachments_folder', '/Calendar'],
 				['slot_duration', '00:15:00'],
 				['default_reminder', '00:10:00'],
+				['default_reminder_part_day', '-900'],
+				['default_reminder_full_day', '32400'],
 				['show_tasks', false],
 				['tasks_sidebar', false],
 				['tasks_enabled', false],

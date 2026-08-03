@@ -15,7 +15,7 @@ jobs:
       branches-min: ${{ steps.versions.outputs.branches-min }}
     steps:
       - name: Checkout app
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: Get version matrix
         id: versions
         uses: icewind1991/nextcloud-version-matrix@8a7bac6300b2f0f3100088b297995a229558ddba # v1.3.2
@@ -38,7 +38,7 @@ jobs:
           php -f nextcloud/occ config:system:set overwritehost --value=localhost
           php -f nextcloud/occ config:system:set overwrite.cli.url --value=https://localhost
       - name: Check out the app
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           path: nextcloud/apps/calendar
       - name: Read package.json node and npm engines version
@@ -48,10 +48,10 @@ jobs:
           fallbackNode: '^24'
           fallbackNpm: '^11'
           path: nextcloud/apps/calendar
-      - name: Set up node ${{ steps.package-engines-versions.outputs.nodeVersion }}
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+      - name: Set up node 24.15.0
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
-          node-version: ${{ steps.package-engines-versions.outputs.nodeVersion }}
+          node-version: 24.15.0
       - name: Set up npm ${{ steps.package-engines-versions.outputs.npmVersion }}
         run: npm i -g 'npm@${{ steps.package-engines-versions.outputs.npmVersion }}'
       - name: Install php dependencies

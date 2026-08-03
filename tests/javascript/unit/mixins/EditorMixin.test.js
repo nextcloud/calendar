@@ -4,9 +4,7 @@
  */
 
 describe('mixins/EditorMixin test suite', () => {
-
 	it('should be true', () => {
 		expect(true).toEqual(true)
 	})
-
 })

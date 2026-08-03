@@ -4,10 +4,10 @@
  */
 import { translate as t } from '@nextcloud/l10n'
 import usePrincipalsStore from '../../store/principals.js'
+import useSettingsStore from '../../store/settings.js'
 import useTasksStore from '../../store/unscheduledTasks.js'
 import { getAllObjectsInTimeRange } from '../../utils/calendarObject.js'
 import {
-	generateTextColorForHex,
 	getHexForColorName,
 	hexToRGB,
 	isLight,
@@ -26,7 +26,10 @@ import logger from '../../utils/logger.js'
 export function eventSourceFunction(calendarObjects, calendar, start, end, timezone) {
 	const principalsStore = usePrincipalsStore()
 	const tasksStore = useTasksStore()
+	const settingsStore = useSettingsStore()
 	tasksStore.emptyCalendar(calendar.id)
+
+	const searchTerms = settingsStore.searchQuery.trim().toLowerCase().split(/\s+/).filter(Boolean)
 
 	const fcEvents = []
 	for (const calendarObject of calendarObjects) {
@@ -79,6 +82,10 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 
 			if (object.hasComponent('VALARM')) {
 				classNames.push('fc-event-nc-alarms')
+			}
+
+			if (object.name === 'VEVENT' && object.getFirstPropertyFirstValue('TRANSP') === 'TRANSPARENT') {
+				classNames.push('fc-event-nc-free')
 			}
 
 			let jsStart, jsEnd
@@ -140,6 +147,10 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				}
 			}
 
+			const attendeeCount = object.hasComponent('ATTENDEE')
+				? [...object.getPropertyIterator('ATTENDEE')].length
+				: 0
+
 			const fcEvent = {
 				id: [calendarObject.id, object.id].join('###'),
 				title,
@@ -165,6 +176,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 					davUrl: calendarObject.dav.url,
 					location: object.location,
 					description: object.description,
+					attendeeCount,
 				},
 			}
 
@@ -173,9 +185,23 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				if (customColor) {
 					fcEvent.backgroundColor = customColor
 					fcEvent.borderColor = customColor
-					fcEvent.textColor = generateTextColorForHex(customColor)
 				}
 			}
+			if (searchTerms.length > 0) {
+				const organizerProperty = object.getFirstProperty('ORGANIZER')
+				const organizerText = organizerProperty
+					? [organizerProperty.commonName, organizerProperty.email?.replace('mailto:', '')].filter(Boolean).join(' ')
+					: ''
+				const attendeeText = [...object.getPropertyIterator('ATTENDEE')]
+					.map((a) => [a.commonName, a.email?.replace('mailto:', '')].filter(Boolean).join(' '))
+					.join(' ')
+				const haystack = [title, object.location, object.description, organizerText, attendeeText]
+					.filter(Boolean).join(' ').toLowerCase()
+				if (!searchTerms.some((term) => haystack.includes(term))) {
+					continue
+				}
+			}
+
 			if (object.name === 'VTODO' && object.endDate === null && object.percent !== 100 && object.status !== 'COMPLETED') {
 				fcEvent.create = true
 				tasksStore.appendTask(calendar.id, fcEvent)

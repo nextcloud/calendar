@@ -9,7 +9,6 @@ import {
 } from '../../../../../src/fullcalendar/rendering/eventOrder.js'
 
 describe('fullcalendar/eventOrder - allDayFirst', () => {
-
 	it('should sort all-day events before timed events', () => {
 		const allDayEvent = { allDay: true }
 		const timedEvent = { allDay: false }
@@ -34,7 +33,6 @@ describe('fullcalendar/eventOrder - allDayFirst', () => {
 })
 
 describe('fullcalendar/eventOrder - allDayOrder', () => {
-
 	it('should return zero when either event is not all-day', () => {
 		const allDayEvent = { allDay: true, extendedProps: { calendarOrder: 0 }, duration: 1000, title: 'A' }
 		const timedEvent = { allDay: false, extendedProps: { calendarOrder: 5 }, duration: 500, title: 'B' }
@@ -119,7 +117,6 @@ describe('fullcalendar/eventOrder - allDayOrder', () => {
 })
 
 describe('fullcalendar/eventOrder - partDayOrder', () => {
-
 	it('should sort timed events by start time ascending', () => {
 		const firstEvent = {
 			title: 'Title 123',

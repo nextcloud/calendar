@@ -120,7 +120,11 @@ class ProposalController extends ApiController {
 		$userObject = $authorization;
 		// construct proposal object from the provided data
 		$proposalObject = new ProposalObject();
-		$proposalObject->fromJson($proposal);
+		try {
+			$proposalObject->fromJson($proposal);
+		} catch (\InvalidArgumentException $e) {
+			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
 		// handle the creation of the proposal
 		$proposalObject = $this->proposalService->createProposal($userObject, $proposalObject);
 
@@ -142,7 +146,11 @@ class ProposalController extends ApiController {
 		$userObject = $authorization;
 		// construct proposal object from the provided data
 		$proposalObject = new ProposalObject();
-		$proposalObject->fromJson($proposal);
+		try {
+			$proposalObject->fromJson($proposal);
+		} catch (\InvalidArgumentException $e) {
+			return new JSONResponse(['error' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
+		}
 		// handle the modification of the proposal
 		try {
 			$proposalObject = $this->proposalService->modifyProposal($userObject, $proposalObject);

@@ -248,7 +248,6 @@ class ProposalControllerTest extends TestCase {
 
 	public function testCreateSuccess(): void {
 		$proposalData = ['title' => 'New Proposal', 'description' => 'Test'];
-		$proposalObject = $this->createMock(ProposalObject::class);
 		$createdProposal = $this->createMock(ProposalObject::class);
 		$createdProposalJson = ['id' => 1, 'title' => 'New Proposal'];
 
@@ -319,6 +318,74 @@ class ProposalControllerTest extends TestCase {
 
 		$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
 		$this->assertEquals(['error' => 'Proposal not found'], $response->getData());
+	}
+
+	public function testCreateAndModifyInvalidInput(): void {
+		$cases = [
+			[
+				'payload' => ['id' => 'invalid'],
+				'error' => 'ID must be an integer',
+			],
+			[
+				'payload' => ['uid' => 123],
+				'error' => 'Uid must be a string',
+			],
+			[
+				'payload' => ['uuid' => 123],
+				'error' => 'Uuid must be a string',
+			],
+			[
+				'payload' => ['title' => 123],
+				'error' => 'Title must be a string',
+			],
+			[
+				'payload' => ['title' => '<b>New Proposal</b>'],
+				'error' => 'HTML is not allowed in proposal title',
+			],
+			[
+				'payload' => ['description' => 123],
+				'error' => 'Description must be a string',
+			],
+			[
+				'payload' => ['description' => '<script>alert(1)</script>'],
+				'error' => 'HTML is not allowed in proposal description',
+			],
+			[
+				'payload' => ['location' => 123],
+				'error' => 'Location must be a string',
+			],
+			[
+				'payload' => ['location' => '<i>Room A</i>'],
+				'error' => 'HTML is not allowed in proposal location',
+			],
+			[
+				'payload' => ['duration' => 'invalid'],
+				'error' => 'Duration must be an integer',
+			],
+		];
+
+		$expectedCalls = count($cases) * 2;
+
+		$this->userSession->expects($this->exactly($expectedCalls))
+			->method('isLoggedIn')
+			->willReturn(true);
+		$this->userSession->expects($this->exactly($expectedCalls))
+			->method('getUser')
+			->willReturn($this->user);
+		$this->proposalService->expects($this->never())
+			->method('createProposal');
+		$this->proposalService->expects($this->never())
+			->method('modifyProposal');
+
+		foreach ($cases as $case) {
+			$response = $this->controller->create($case['payload']);
+			$this->assertEquals(Http::STATUS_BAD_REQUEST, $response->getStatus());
+			$this->assertEquals(['error' => $case['error']], $response->getData());
+
+			$response = $this->controller->modify($case['payload']);
+			$this->assertEquals(Http::STATUS_BAD_REQUEST, $response->getStatus());
+			$this->assertEquals(['error' => $case['error']], $response->getData());
+		}
 	}
 
 	public function testDestroySuccess(): void {

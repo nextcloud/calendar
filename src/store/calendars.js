@@ -91,6 +91,21 @@ export default defineStore('calendars', {
 		},
 
 		/**
+		 * List of sorted writable calendars.
+		 *
+		 * Even including ones without support for events.
+		 * Those are usually excluded by all other getters.
+		 *
+		 * @param {object} state the store data
+		 * @return {Array}
+		 */
+		sortedWritableCalendarsEvenWithoutSupportForEvents(state) {
+			return state.calendars
+				.filter((calendar) => !calendar.readOnly)
+				.sort((a, b) => a.order - b.order)
+		},
+
+		/**
 		 * List of sorted calendars owned by the principal
 		 *
 		 * @param {object} state the store data
@@ -126,17 +141,40 @@ export default defineStore('calendars', {
 		 * @return {Array}
 		 */
 		allDeletedCalendarObjects(state) {
-			const calendarUriMap = {}
+			const lastSegment = (uri) => (uri ?? '').split('/').filter(Boolean).at(-1) ?? ''
+
+			const sourceUriOf = (calendar) => {
+				const tail = lastSegment(calendar.url)
+				const at = tail.lastIndexOf('_shared_by_')
+				if (at > 0) {
+					return tail.slice(0, at)
+				}
+				return tail
+			}
+
+			// Key calendars by `${ownerUserId}|${sourceUri}` so deleted objects
+			// match their origin calendar across owned/shared/delegated views.
+			const calendarBySource = new Map()
 			state.calendars.forEach((calendar) => {
-				const withoutTrail = calendar.url.replace(/\/$/, '')
-				const uri = withoutTrail.slice(withoutTrail.lastIndexOf('/') + 1)
-				calendarUriMap[uri] = calendar
+				let key = `${lastSegment(calendar.owner)}|${sourceUriOf(calendar)}`
+				if (calendar.isDelegated) {
+					key += lastSegment(calendar.delegatorUrl)
+				}
+				calendarBySource.set(key, calendar)
 			})
 
-			return state.deletedCalendarObjects.map((obj) => ({
-				calendar: calendarUriMap[obj.dav._props['{http://nextcloud.com/ns}calendar-uri']],
-				...obj,
-			}))
+			return state.deletedCalendarObjects.map((obj) => {
+				const owner = obj.dav.calendarOwnerPrincipalUri
+				const sourceUri = obj.dav.sourceCalendarUri
+				let key = `${lastSegment(owner)}|${sourceUri}`
+				if (obj.dav.delegator) {
+					key += lastSegment(obj.dav.delegator)
+				}
+				return {
+					calendar: calendarBySource.get(key),
+					...obj,
+				}
+			})
 		},
 
 		/**
@@ -219,29 +257,6 @@ export default defineStore('calendars', {
 			}
 
 			return null
-		},
-
-		/**
-		 * @return {function({Boolean}, {Boolean}, {Boolean}): {Object}[]}
-		 */
-		sortedCalendarFilteredByComponents() {
-			return (vevent, vjournal, vtodo) => {
-				return this.sortedCalendars.filter((calendar) => {
-					if (vevent && !calendar.supportsEvents) {
-						return false
-					}
-
-					if (vjournal && !calendar.supportsJournals) {
-						return false
-					}
-
-					if (vtodo && !calendar.supportsTasks) {
-						return false
-					}
-
-					return true
-				})
-			}
 		},
 
 		/**
@@ -588,26 +603,41 @@ export default defineStore('calendars', {
 		},
 
 		/**
-		 * Change a calendar's default alarm
+		 * Change a calendar's default alarms for part-day and full-day events
 		 *
 		 * @param {object} data destructuring object
 		 * @param {object} data.calendar the calendar to modify
-		 * @param {string|null} data.defaultAlarm the new default alarm in seconds (or null to disable)
+		 * @param {number|null} data.defaultAlarmPartDay the new default alarm for part-day events in seconds (or null to disable)
+		 * @param {number|null} data.defaultAlarmFullDay the new default alarm for full-day events in seconds (or null to disable)
 		 * @return {Promise}
 		 */
-		async changeCalendarDefaultAlarm({ calendar, defaultAlarm }) {
+		async changeCalendarDefaultAlarms({ calendar, defaultAlarmPartDay, defaultAlarmFullDay }) {
 			if (!isAfterVersion(34)) {
 				return
 			}
 
-			if (calendar.dav.defaultAlarm === defaultAlarm) {
+			const partDayChanged = calendar.dav.defaultAlarmPartDay !== defaultAlarmPartDay
+			const fullDayChanged = calendar.dav.defaultAlarmFullDay !== defaultAlarmFullDay
+
+			if (!partDayChanged && !fullDayChanged) {
 				return
 			}
 
-			calendar.dav.defaultAlarm = defaultAlarm
+			if (partDayChanged) {
+				calendar.dav.defaultAlarmPartDay = defaultAlarmPartDay
+			}
+			if (fullDayChanged) {
+				calendar.dav.defaultAlarmFullDay = defaultAlarmFullDay
+			}
 
 			await calendar.dav.update()
-			this.calendarsById[calendar.id].defaultAlarm = defaultAlarm
+
+			if (partDayChanged) {
+				this.calendarsById[calendar.id].defaultAlarmPartDay = defaultAlarmPartDay
+			}
+			if (fullDayChanged) {
+				this.calendarsById[calendar.id].defaultAlarmFullDay = defaultAlarmFullDay
+			}
 		},
 
 		/**

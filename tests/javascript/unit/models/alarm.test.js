@@ -2,18 +2,18 @@
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import {getDefaultAlarmObject, mapAlarmComponentToAlarmObject} from '../../../../src/models/alarm.js'
+import { getDefaultAlarmObject, mapAlarmComponentToAlarmObject } from '../../../../src/models/alarm.js'
 import {
 	getAmountAndUnitForTimedEvents,
-	getAmountHoursMinutesAndUnitForAllDayEvents
+	getAmountHoursMinutesAndUnitForAllDayEvents,
 } from '../../../../src/utils/alarms.js'
 import { getDateFromDateTimeValue } from '../../../../src/utils/date.js'
+import { getAlarmComponentFromAsset } from '../loadAsset.js'
 
 vi.mock('../../../../src/utils/alarms.js')
 vi.mock('../../../../src/utils/date.js')
 
 describe('Test suite: Alarm model (models/alarm.js)', () => {
-
 	beforeEach(() => {
 		getAmountAndUnitForTimedEvents.mockClear()
 		getAmountHoursMinutesAndUnitForAllDayEvents.mockClear()
@@ -35,7 +35,7 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 			relativeAmountAllDay: null,
 			relativeHoursAllDay: null,
 			relativeMinutesAllDay: null,
-			relativeTrigger: null
+			relativeTrigger: null,
 		})
 	})
 
@@ -84,7 +84,7 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 			relativeAmountAllDay: null,
 			relativeHoursAllDay: null,
 			relativeMinutesAllDay: null,
-			relativeTrigger: null
+			relativeTrigger: null,
 		})
 
 		expect(getDateFromDateTimeValue.mock.calls[0][0].jsDate.toISOString()).toEqual('2020-03-06T08:30:00.000Z')
@@ -138,7 +138,7 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 				amount: 1,
 				unit: 'weeks',
 				hours: 9,
-				minutes: 0
+				minutes: 0,
 			})
 
 		const alarmModel = mapAlarmComponentToAlarmObject(alarmComponent)
@@ -166,20 +166,6 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 		expect(getAmountHoursMinutesAndUnitForAllDayEvents).toHaveBeenNthCalledWith(1, -572400)
 	})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	it('should properly load a relative alarm days before the event', () => {
 		const alarmComponent = getAlarmComponentFromAsset('alarms/relativeAlarmBefore')
 
@@ -193,7 +179,7 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 				amount: 1,
 				unit: 'days',
 				hours: 9,
-				minutes: 0
+				minutes: 0,
 			})
 
 		const alarmModel = mapAlarmComponentToAlarmObject(alarmComponent)
@@ -234,7 +220,7 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 				amount: 0,
 				unit: 'days',
 				hours: 9,
-				minutes: 0
+				minutes: 0,
 			})
 
 		const alarmModel = mapAlarmComponentToAlarmObject(alarmComponent)
@@ -275,7 +261,7 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 				amount: 1,
 				unit: 'days',
 				hours: 9,
-				minutes: 0
+				minutes: 0,
 			})
 
 		const alarmModel = mapAlarmComponentToAlarmObject(alarmComponent)
@@ -316,7 +302,7 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 				amount: 1,
 				unit: 'days',
 				hours: 9,
-				minutes: 0
+				minutes: 0,
 			})
 
 		const alarmModel = mapAlarmComponentToAlarmObject(alarmComponent)
@@ -343,6 +329,4 @@ describe('Test suite: Alarm model (models/alarm.js)', () => {
 		expect(getAmountHoursMinutesAndUnitForAllDayEvents).toHaveBeenCalledTimes(1)
 		expect(getAmountHoursMinutesAndUnitForAllDayEvents).toHaveBeenNthCalledWith(1, -54000)
 	})
-
 })
-

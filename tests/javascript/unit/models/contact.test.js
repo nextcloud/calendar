@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import {getDefaultContactsObject} from "../../../../src/models/contact.js";
+import { getDefaultContactsObject } from '../../../../src/models/contact.js'
 
 describe('Test suite: Contact model (models/contact.js)', () => {
-
 	it('should return a default contacts object', () => {
 		expect(getDefaultContactsObject()).toEqual({
 			name: null,
@@ -42,5 +41,4 @@ describe('Test suite: Contact model (models/contact.js)', () => {
 			otherProp: 'foo',
 		})
 	})
-
 })

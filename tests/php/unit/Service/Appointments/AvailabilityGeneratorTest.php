@@ -144,7 +144,6 @@ class AvailabilityGeneratorTest extends TestCase {
 		);
 	}
 
-
 	public function testNoAvailabilitySetRoundWithRealLifeTimesUgly(): void {
 		$config = new AppointmentConfig();
 		$config->setLength(900);

@@ -22,14 +22,15 @@
 				:options="options"
 				:searchable="true"
 				:placeholder="placeholder"
-				:labelOutside="true"
 				:name="readableName"
 				:multiple="true"
 				:taggable="true"
 				:noWrap="false"
-				:deselectFromDropdown="true"
+				:deselectFromDropdown="false"
 				:createOption="(label) => ({ value: label, label })"
-				inputId="label"
+				:inputId="readableName + '-select-multiple-input'"
+				:ariaLabelCombobox="readableName"
+				:ariaLabelListbox="readableName"
 				label="label"
 				@option:selecting="tag"
 				@option:deselected="unselectValue">
@@ -78,12 +79,9 @@ export default {
 			type: Boolean,
 			default: false,
 		},
-
-		closeOnSelect: {
-			type: Boolean,
-			default: false,
-		},
 	},
+
+	emits: ['removeSingleValue', 'addSingleValue'],
 
 	data() {
 		return {

@@ -11,14 +11,14 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
 import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
-import formatDateRange from '../../../filters/dateRangeFormat.js'
-import useSettingsStore from '../../../store/settings.js'
-import useWidgetStore from '../../../store/widget.js'
+import formatDateRange from '@/filters/dateRangeFormat.js'
+import useSettingsStore from '@/store/settings.js'
+import useWidgetStore from '@/store/widget.js'
 import {
 	getDateFromFirstdayParam,
 	getYYYYMMDDFromDate,
 	modifyDate,
-} from '../../../utils/date.js'
+} from '@/utils/date.js'
 
 const props = defineProps<{
 	isWidget?: boolean

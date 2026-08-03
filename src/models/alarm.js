@@ -2,6 +2,7 @@
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { markRaw } from 'vue'
 import {
 	getAmountAndUnitForTimedEvents,
 	getAmountHoursMinutesAndUnitForAllDayEvents,
@@ -75,7 +76,7 @@ function mapAlarmComponentToAlarmObject(alarmComponent) {
 		const relativeTrigger = alarmComponent.trigger.value.totalSeconds
 
 		return getDefaultAlarmObject({
-			alarmComponent,
+			alarmComponent: markRaw(alarmComponent),
 			type: alarmComponent.action,
 			isRelative: alarmComponent.trigger.isRelative(),
 			relativeIsBefore,
@@ -92,7 +93,7 @@ function mapAlarmComponentToAlarmObject(alarmComponent) {
 		const absoluteDate = getDateFromDateTimeValue(alarmComponent.trigger.value)
 
 		return getDefaultAlarmObject({
-			alarmComponent,
+			alarmComponent: markRaw(alarmComponent),
 			type: alarmComponent.action,
 			isRelative: alarmComponent.trigger.isRelative(),
 			absoluteDate,

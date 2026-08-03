@@ -3,16 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import windowResize from "../../../../../src/fullcalendar/rendering/windowResize.js";
+import windowResize from '../../../../../src/fullcalendar/rendering/windowResize.js'
 
 describe('fullcalendar/windowResize test suite', () => {
-
 	it('should provide the correct height with header bar', () => {
 		const window = {
-			innerHeight: 1337
+			innerHeight: 1337,
 		}
 		const header = {
-			offsetHeight: 42
+			offsetHeight: 42,
 		}
 		const view = {}
 
@@ -21,7 +20,7 @@ describe('fullcalendar/windowResize test suite', () => {
 
 	it('should provide the correct height without header bar', () => {
 		const window = {
-			innerHeight: 1337
+			innerHeight: 1337,
 		}
 		const header = null
 		const view = {}

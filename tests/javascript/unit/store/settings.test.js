@@ -2,18 +2,17 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import useSettingsStore from '../../../../src/store/settings.js'
+import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
+import { createPinia, setActivePinia } from 'pinia'
+import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../../../../src/models/calendar.js'
+import { CALDAV_BIRTHDAY_CALENDAR } from '../../../../src/models/consts.js'
+import { enableBirthdayCalendar } from '../../../../src/services/caldavService.js'
+import { setConfig } from '../../../../src/services/settings.js'
 import useCalendarObjectsStore from '../../../../src/store/calendarObjects.js'
 import useCalendarsStore from '../../../../src/store/calendars.js'
 import useFetchedTimeRangesStore from '../../../../src/store/fetchedTimeRanges.js'
-import { setActivePinia, createPinia } from 'pinia'
-
-import { enableBirthdayCalendar } from '../../../../src/services/caldavService.js'
-import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../../../../src/models/calendar.js'
-import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
-import { setConfig } from '../../../../src/services/settings.js'
+import useSettingsStore from '../../../../src/store/settings.js'
 import { logInfo } from '../../../../src/utils/logger.js'
-import { CALDAV_BIRTHDAY_CALENDAR } from '../../../../src/models/consts'
 
 vi.mock('../../../../src/services/caldavService.js')
 vi.mock('../../../../src/models/calendar.js')
@@ -22,7 +21,6 @@ vi.mock('../../../../src/services/settings.js')
 vi.mock('../../../../src/utils/logger.js')
 
 describe('store/settings test suite', () => {
-
 	beforeEach(() => {
 		enableBirthdayCalendar.mockClear()
 		mapDavCollectionToCalendar.mockClear()
@@ -49,6 +47,8 @@ describe('store/settings test suite', () => {
 			skipPopover: null,
 			slotDuration: null,
 			defaultReminder: null,
+			defaultReminderPartDay: null,
+			defaultReminderFullDay: null,
 			tasksEnabled: false,
 			tasksSidebar: true,
 			timezone: 'automatic',
@@ -59,6 +59,7 @@ describe('store/settings test suite', () => {
 			attachmentsFolderCreated: false,
 			showResources: true,
 			publicCalendars: null,
+			searchQuery: '',
 		})
 	})
 
@@ -76,6 +77,8 @@ describe('store/settings test suite', () => {
 			skipPopover: null,
 			slotDuration: null,
 			defaultReminder: null,
+			defaultReminderPartDay: null,
+			defaultReminderFullDay: null,
 			tasksEnabled: false,
 			tasksSidebar: true,
 			timezone: 'automatic',
@@ -102,6 +105,8 @@ describe('store/settings test suite', () => {
 			skipPopover: true,
 			slotDuration: '00:30:00',
 			defaultReminder: '-600',
+			defaultReminderPartDay: undefined,
+			defaultReminderFullDay: undefined,
 			talkEnabled: false,
 			tasksEnabled: true,
 			tasksSidebar: false,
@@ -130,6 +135,8 @@ Initial settings:
 	- SkipPopover: true
 	- SlotDuration: 00:30:00
 	- DefaultReminder: -600
+	- DefaultReminderPartDay: undefined
+	- DefaultReminderFullDay: undefined
 	- TalkEnabled: false
 	- TasksEnabled: true
 	- TasksSidebar: false
@@ -152,6 +159,8 @@ Initial settings:
 			skipPopover: true,
 			slotDuration: '00:30:00',
 			defaultReminder: '-600',
+			defaultReminderPartDay: '-600',
+			defaultReminderFullDay: '-600',
 			talkEnabled: false,
 			tasksEnabled: true,
 			tasksSidebar: false,
@@ -166,6 +175,7 @@ Initial settings:
 			attachmentsFolderCreated: false,
 			showResources: true,
 			publicCalendars: null,
+			searchQuery: '',
 		})
 	})
 
@@ -432,8 +442,6 @@ Initial settings:
 
 	it('should provide an action to toggle the task sidebar - false to true', async () => {
 		const settingsStore = useSettingsStore()
-		const calendarObjectsStore = useCalendarObjectsStore()
-		const fetchedTimeRangesStore = useFetchedTimeRangesStore()
 
 		expect.assertions(3)
 
@@ -598,6 +606,16 @@ Initial settings:
 		expect(settingsStore.timezone).toEqual('Europe/Berlin')
 	})
 
+	it('should provide an action to set the search query', () => {
+		const settingsStore = useSettingsStore()
+
+		settingsStore.setSearchQuery('meeting')
+		expect(settingsStore.searchQuery).toEqual('meeting')
+
+		settingsStore.setSearchQuery('')
+		expect(settingsStore.searchQuery).toEqual('')
+	})
+
 	it('should provide an action to initialize the calendar-js config', () => {
 		const settingsStore = useSettingsStore()
 
@@ -616,5 +634,4 @@ Initial settings:
 			'DESCRIPTION',
 		])
 	})
-
 })

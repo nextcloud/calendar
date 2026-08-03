@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { CalendarComponent, getParserManager } from '@nextcloud/calendar-js'
 import {
 	getDefaultSchedulingObject,
 	mapCalendarJsToSchedulingObject,
-	mapCDavObjectToSchedulingObject
-} from "../../../../src/models/schedulingObject.js";
-import {CalendarComponent, getParserManager} from "@nextcloud/calendar-js";
+	mapCDavObjectToSchedulingObject,
+} from '../../../../src/models/schedulingObject.js'
+import { loadICS } from '../loadAsset.js'
 
 describe('Test suite: Scheduling Object model (models/schedulingObject.js)', () => {
-
 	it('should return a default scheduling object object', () => {
 		expect(getDefaultSchedulingObject()).toEqual({
 			id: null,
@@ -65,7 +65,7 @@ describe('Test suite: Scheduling Object model (models/schedulingObject.js)', () 
 		}
 
 		expect(() => mapCDavObjectToSchedulingObject(dav))
-			.toThrowError(/^Empty scheduling object$/);
+			.toThrowError(/^Empty scheduling object$/)
 	})
 
 	it('should map a calendar-js calendar-object to scheduling object - empty', () => {
@@ -75,7 +75,7 @@ describe('Test suite: Scheduling Object model (models/schedulingObject.js)', () 
 		}
 
 		expect(() => mapCDavObjectToSchedulingObject(dav))
-			.toThrowError(/^Empty scheduling object$/);
+			.toThrowError(/^Empty scheduling object$/)
 	})
 
 	it('should map a calendar-js calendar-object to scheduling object - no method', () => {
@@ -85,7 +85,7 @@ describe('Test suite: Scheduling Object model (models/schedulingObject.js)', () 
 		}
 
 		expect(() => mapCDavObjectToSchedulingObject(dav))
-			.toThrowError(/^Scheduling-object does not have method$/);
+			.toThrowError(/^Scheduling-object does not have method$/)
 	})
 
 	it('should map a calendar-js calendar-object to scheduling object - no vobjects nor freebusy', () => {
@@ -95,7 +95,7 @@ describe('Test suite: Scheduling Object model (models/schedulingObject.js)', () 
 		}
 
 		expect(() => mapCDavObjectToSchedulingObject(dav))
-			.toThrowError(/^Empty scheduling object$/);
+			.toThrowError(/^Empty scheduling object$/)
 	})
 
 	it('should map a calendar-js calendar-object to scheduling object - add', () => {
@@ -368,7 +368,7 @@ describe('Test suite: Scheduling Object model (models/schedulingObject.js)', () 
 
 		const calendarComponent = parser.getAllItems()[0]
 		expect(() => mapCalendarJsToSchedulingObject(calendarComponent))
-			.toThrowError(/^Scheduling-object does not have method$/);
+			.toThrowError(/^Scheduling-object does not have method$/)
 	})
 
 	it('should map a calendar-js calendar-object to scheduling-object - add', () => {

@@ -41,6 +41,8 @@ export default {
 		},
 	},
 
+	emits: ['change'],
+
 	computed: {
 		placeholder() {
 			return this.$t('calendar', 'Type to search time zone')

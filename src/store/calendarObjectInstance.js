@@ -21,14 +21,13 @@ import {
 	getTotalSecondsFromAmountAndUnitForTimedEvents,
 	getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents,
 	updateAlarms,
+	updateDefaultAlarm,
 } from '../utils/alarms.js'
 import { getObjectAtRecurrenceId } from '../utils/calendarObject.js'
 import { getClosestCSS3ColorNameForHex, getHexForColorName } from '../utils/color.js'
 import {
 	getDateFromDateTimeValue,
 } from '../utils/date.js'
-import logger from '../utils/logger.js'
-import { isAfterVersion } from '../utils/nextcloudVersion.ts'
 import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/recurrence.js'
 import useCalendarObjectsStore from './calendarObjects.js'
 import useCalendarsStore from './calendars.js'
@@ -386,6 +385,18 @@ export default defineStore('calendarObjectInstance', {
 		},
 
 		/**
+		 * Change the invitation-forwarding property of an event
+		 *
+		 * @param {object} data The destructuring object
+		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+		 * @param {string} data.invitationForwarding Invitation forwarding value
+		 */
+		changeInvitationForwarding({ calendarObjectInstance, invitationForwarding }) {
+			calendarObjectInstance.eventComponent.updatePropertyWithValue('X-NC-INVITATION-FORWARDING', invitationForwarding)
+			calendarObjectInstance.invitationForwarding = invitationForwarding
+		},
+
+		/**
 		 * Change the customized color of an event
 		 *
 		 * @param {object} data The destructuring object
@@ -475,7 +486,7 @@ export default defineStore('calendarObjectInstance', {
 				role,
 				rsvp,
 				uri,
-				attendeeProperty: attendee,
+				attendeeProperty: markRaw(attendee),
 			})
 
 			if (!calendarObjectInstance.organizer && organizer) {
@@ -1391,7 +1402,6 @@ export default defineStore('calendarObjectInstance', {
 			timezoneId,
 		}) {
 			const calendarObjectsStore = useCalendarObjectsStore()
-			const settingsStore = useSettingsStore()
 
 			if (this.isNew === true) {
 				return Promise.resolve({
@@ -1410,36 +1420,17 @@ export default defineStore('calendarObjectInstance', {
 			const eventComponent = getObjectAtRecurrenceId(calendarObject, startDate)
 			const calendarObjectInstance = mapEventComponentToEventObject(eventComponent)
 
-			// Add an alarm if set. First check for calendar-specific default alarm (Nextcloud 34+),
-			// then fall back to the global default reminder setting.
 			const calendarsStore = useCalendarsStore()
 			const calendar = calendarsStore.getCalendarById(calendarObject.calendarId)
 
-			// Inherit calendar transparency to new events (fix for "Never show me as busy")
-			if (calendar?.transparency === 'transparent') {
-				calendarObjectInstance.timeTransparency = 'transparent'
-				calendarObjectInstance.eventComponent.timeTransparency = 'transparent'
+			// Inherit calendar transparency to new events
+			if (['TRANSPARENT', 'OPAQUE'].includes(calendar.transparency.toUpperCase())) {
+				const value = calendar.transparency.toUpperCase()
+				calendarObjectInstance.timeTransparency = value
+				calendarObjectInstance.eventComponent.timeTransparency = value
 			}
 
-			let defaultReminder = null
-			if (isAfterVersion(34) && calendar && calendar.defaultAlarm !== null) {
-				defaultReminder = parseInt(calendar.defaultAlarm)
-			} else {
-				defaultReminder = parseInt(settingsStore.defaultReminder)
-			}
-
-			if (
-				!isNaN(defaultReminder)
-				&& !calendarObjectInstance.alarms.some((alarm) => alarm.alarmComponent.getFirstPropertyFirstValue('X-NC-DEFAULT-ALARM'))
-			) {
-				this.addAlarmToCalendarObjectInstance({
-					calendarObjectInstance,
-					type: 'DISPLAY',
-					totalSeconds: defaultReminder,
-					isDefault: true,
-				})
-				logger.debug(`Added defaultReminder (${defaultReminder}s) to newly created event`)
-			}
+			updateDefaultAlarm(calendarObject.calendarId, calendarObjectInstance)
 
 			// Add default status
 			const rfcProps = getRFCProperties()
@@ -1569,7 +1560,7 @@ export default defineStore('calendarObjectInstance', {
 				calendarId: this.calendarObject?.calendarId ?? null,
 			})
 			const eventComponent = getObjectAtRecurrenceId(calendarObject, startDate.jsDate)
-			copyCalendarObjectInstanceIntoEventComponent(oldCalendarObjectInstance, eventComponent, true)
+			copyCalendarObjectInstanceIntoEventComponent(oldCalendarObjectInstance, eventComponent)
 			const calendarObjectInstance = mapEventComponentToEventObject(eventComponent)
 
 			await this.setCalendarObjectInstanceForNewEvent({

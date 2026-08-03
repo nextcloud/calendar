@@ -8,12 +8,13 @@
 		class="invitees-search__vselect"
 		:options="matches"
 		:searchable="true"
+		:filterBy="filterAttendees"
 		:max-height="600"
 		:placeholder="placeholder"
 		:class="{ showContent: inputGiven, 'icon-loading': isLoading }"
 		:clearable="false"
-		:labelOutside="true"
-		inputId="uid"
+		:ariaLabelCombobox="$t('calendar', 'Search for attendees')"
+		inputId="invitees-search-uid"
 		label="dropdownName"
 		@search="findAttendees"
 		@option:selected="addAttendee">
@@ -23,7 +24,7 @@
 				<Avatar
 					v-if="option.isUser"
 					:key="option.uid"
-					:user="option.avatar"
+					:url="option.avatar"
 					:displayName="option.dropdownName" />
 				<Avatar v-else-if="option.type === 'circle'">
 					<template #icon>
@@ -90,6 +91,8 @@ export default {
 		},
 	},
 
+	emits: ['addAttendee'],
+
 	data() {
 		return {
 			isLoading: false,
@@ -110,6 +113,11 @@ export default {
 	},
 
 	methods: {
+		// Required to disable NCSelect's internal filtering
+		filterAttendees() {
+			return true
+		},
+
 		findAttendees: debounce(async function(query) {
 			this.isLoading = true
 			const matches = []
@@ -275,7 +283,7 @@ export default {
 						calendarUserType: 'INDIVIDUAL',
 						commonName: result.name,
 						email,
-						isUser: false,
+						isUser: result.source === 'system' ? true : false,
 						avatar: result.photo,
 						language: result.lang,
 						timezoneId: result.tzid,
@@ -317,5 +325,9 @@ export default {
 <style scoped>
 :deep(.avatardiv) {
 	overflow: visible !important;
+}
+
+:deep(.vs__search::placeholder) {
+	text-overflow: ellipsis;
 }
 </style>

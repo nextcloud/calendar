@@ -2,8 +2,8 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { createPinia, setActivePinia } from 'pinia'
 import useDavRestrictionsStore from '../../../../src/store/davRestrictions.js'
-import { setActivePinia, createPinia } from 'pinia'
 
 describe('store/davRestrictions test suite', () => {
 	beforeEach(() => {
@@ -33,5 +33,4 @@ describe('store/davRestrictions test suite', () => {
 			maximumDate: '2019-12-31T23:59:59Z',
 		})
 	})
-
 })

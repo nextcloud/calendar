@@ -4,9 +4,7 @@
  */
 
 describe('store/principals test suite', () => {
-
 	it('should be true', () => {
 		expect(true).toEqual(true)
 	})
-
 })

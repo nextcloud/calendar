@@ -80,18 +80,20 @@ export default defineStore('principals', {
 		 * @return {Promise<void>}
 		 */
 		async fetchPrincipalByUrl({ url }) {
-			// Don't refetch principals we already have
-			if (this.getPrincipalByUrl(url)) {
-				return
+			const existing = this.getPrincipalByUrl(url)
+			if (existing) {
+				return existing
 			}
 
 			const principal = await findPrincipalByUrl(url)
 			if (!principal) {
 				// TODO - handle error
-				return
+				return undefined
 			}
 
-			this.addPrincipalMutation({ principal: mapDavToPrincipal(principal) })
+			const mapped = mapDavToPrincipal(principal)
+			this.addPrincipalMutation({ principal: mapped })
+			return this.getPrincipalById(mapped.id)
 		},
 
 		/**

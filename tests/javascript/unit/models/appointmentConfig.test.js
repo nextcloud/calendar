@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import AppointmentConfig from '../../../../src/models/appointmentConfig.js'
 import { getBaseUrl } from '@nextcloud/router'
+import AppointmentConfig from '../../../../src/models/appointmentConfig.js'
 
 vi.mock('@nextcloud/calendar-availability-vue')
 vi.mock('@nextcloud/router', () => ({
@@ -12,7 +12,7 @@ vi.mock('@nextcloud/router', () => ({
 		const baseURL = options?.baseURL || ''
 		let path = url
 		if (params) {
-			Object.keys(params).forEach(key => {
+			Object.keys(params).forEach((key) => {
 				path = path.replace(`{${key}}`, params[key])
 			})
 		}
@@ -30,7 +30,7 @@ describe('models/appointmentConfig test suite', () => {
 	test.each([
 		[
 			{ protocol: 'https:', host: 'nextcloud.testing' },
-			'https://nextcloud.testing/nextcloud/index.php/apps/calendar/appointment/foobar'
+			'https://nextcloud.testing/nextcloud/index.php/apps/calendar/appointment/foobar',
 		],
 		[
 			{ protocol: 'http:', host: 'nextcloud.testing' },
@@ -47,7 +47,7 @@ describe('models/appointmentConfig test suite', () => {
 	])('should generate absolute URLs', (location, expected) => {
 		const baseUrl = location.protocol + '//' + location.host + '/nextcloud'
 		getBaseUrl.mockReturnValue(baseUrl)
-		
+
 		const config = new AppointmentConfig({
 			token: 'foobar',
 		})

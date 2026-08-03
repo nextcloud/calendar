@@ -10,8 +10,8 @@
 		:options="options"
 		:disabled="disabled"
 		:clearable="false"
-		:labelOutside="true"
-		inputId="unit"
+		:ariaLabelCombobox="$t('calendar', 'Time unit')"
+		inputId="alarm-time-unit"
 		label="label" />
 </template>
 
@@ -35,16 +35,13 @@ export default {
 			required: true,
 		},
 
-		count: {
-			type: Number,
-			required: true,
-		},
-
 		disabled: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
+	emits: ['change'],
 
 	computed: {
 		/**

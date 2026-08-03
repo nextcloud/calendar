@@ -70,11 +70,11 @@
 									</td>
 									<td>
 										<div class="item-actions">
-											<NcButton variant="secondary" @click="restore(item)">
+											<NcButton v-if="item.canRestore" variant="secondary" @click="restore(item)">
 												{{ t('calendar', 'Restore') }}
 											</NcButton>
 
-											<NcActions :forceMenu="true">
+											<NcActions v-if="item.canDelete" :forceMenu="item.canRestore">
 												<NcActionButton @click="onDeletePermanently(item)">
 													<template #icon>
 														<IconDelete :size="20" decorative />
@@ -164,6 +164,8 @@ export default {
 				url: calendar._url,
 				deletedAt: calendar._props['{http://nextcloud.com/ns}deleted-at'],
 				color: calendar.color ?? uidToHexColor(calendar.displayname),
+				canDelete: this.canDeleteCalendar(calendar),
+				canRestore: this.canRestoreCalendar(calendar),
 			}))
 			const formattedCalendarObjects = this.objects.map((vobject) => {
 				let eventSummary = t('calendar', 'Untitled item')
@@ -185,6 +187,8 @@ export default {
 				const color = vobject.calendarComponent.getComponentIterator().next().value?.color
 					?? vobject.calendar?.color
 					?? uidToHexColor(subline)
+				const canDelete = vobject.calendar?.canDeleteObject
+				const canRestore = vobject.calendar?.canCreateObject && vobject.calendar?.canModifyObject
 				return {
 					vobject,
 					type: 'object',
@@ -194,6 +198,8 @@ export default {
 					url: vobject.uri,
 					deletedAt: vobject.dav._props['{http://nextcloud.com/ns}deleted-at'],
 					color,
+					canDelete,
+					canRestore,
 				}
 			})
 
@@ -281,8 +287,33 @@ export default {
 				return
 			}
 			this.items.forEach((item) => {
+				if (!item.canDelete) {
+					return
+				}
 				this.onDeletePermanently(item)
 			})
+		},
+
+		/**
+		 * Whether the current user is allowed to restore a deleted calendar.
+		 *
+		 * @return {boolean}
+		 */
+		canRestoreCalendar(calendar) {
+			const privileges = calendar?.currentUserPrivilegeSet ?? []
+			return privileges.includes('{DAV:}write')
+				|| privileges.includes('{DAV:}all')
+		},
+
+		/**
+		 * Whether the current user is allowed to permanently delete a deleted calendar.
+		 *
+		 * @return {boolean}
+		 */
+		canDeleteCalendar(calendar) {
+			const privileges = calendar?.currentUserPrivilegeSet ?? []
+			return privileges.includes('{DAV:}write')
+				|| privileges.includes('{DAV:}all')
 		},
 	},
 }

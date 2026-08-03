@@ -4,9 +4,7 @@
  */
 
 describe('services/timezoneDataProviderService test suite', () => {
-
 	it('should be true', () => {
 		expect(true).toEqual(true)
 	})
-
 })

@@ -2,16 +2,55 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { getParserManager } from '@nextcloud/calendar-js'
 import {
-	getFactorForAlarmUnit,
-	getAmountHoursMinutesAndUnitForAllDayEvents,
 	getAmountAndUnitForTimedEvents,
+	getAmountHoursMinutesAndUnitForAllDayEvents,
+	getFactorForAlarmUnit,
 	getTotalSecondsFromAmountAndUnitForTimedEvents,
-	getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents
+	getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents,
+	updateAlarms,
 } from '../../../../src/utils/alarms.js'
 
-describe('utils/alarms test suite', () => {
+/**
+ * Parse an ICS string and return the first event component.
+ *
+ * @param {string} ics The calendar data
+ * @return {object} The first event component
+ */
+function firstEventFromICS(ics) {
+	const parser = getParserManager().getParserForFileType('text/calendar')
+	parser.parse(ics)
+	const calendarComponent = parser.getAllItems()[0]
+	return calendarComponent.getVObjectIterator().next().value
+}
 
+/**
+ * Build a single-event ICS with the given alarm and attendee blocks.
+ *
+ * @param {string} alarms VALARM blocks
+ * @param {string} attendees ATTENDEE lines
+ * @return {string} The calendar data
+ */
+function eventICS(alarms, attendees = '') {
+	return [
+		'BEGIN:VCALENDAR',
+		'PRODID:-//test//test//EN',
+		'VERSION:2.0',
+		'BEGIN:VEVENT',
+		'UID:alarm-attendee-test',
+		'DTSTAMP:20260101T000000Z',
+		'DTSTART:20260101T100000Z',
+		'DTEND:20260101T110000Z',
+		'SUMMARY:My event',
+		attendees,
+		alarms,
+		'END:VEVENT',
+		'END:VCALENDAR',
+	].filter(Boolean).join('\r\n')
+}
+
+describe('utils/alarms test suite', () => {
 	it('should return the correct factor for different units', () => {
 		expect(getFactorForAlarmUnit('seconds')).toEqual(1)
 		expect(getFactorForAlarmUnit('minutes')).toEqual(60)
@@ -24,52 +63,52 @@ describe('utils/alarms test suite', () => {
 	it('should get the amount and unit from total seconds', () => {
 		expect(getAmountAndUnitForTimedEvents(0)).toEqual({
 			amount: 0,
-			unit: 'minutes'
+			unit: 'minutes',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(-60)).toEqual({
 			amount: 1,
-			unit: 'minutes'
+			unit: 'minutes',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(59)).toEqual({
 			amount: 59,
-			unit: 'seconds'
+			unit: 'seconds',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(-61)).toEqual({
 			amount: 61,
-			unit: 'seconds'
+			unit: 'seconds',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(120)).toEqual({
 			amount: 2,
-			unit: 'minutes'
+			unit: 'minutes',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(-3600)).toEqual({
 			amount: 1,
-			unit: 'hours'
+			unit: 'hours',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(3660)).toEqual({
 			amount: 61,
-			unit: 'minutes'
+			unit: 'minutes',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(-43200)).toEqual({
 			amount: 12,
-			unit: 'hours'
+			unit: 'hours',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(259200)).toEqual({
 			amount: 3,
-			unit: 'days'
+			unit: 'days',
 		})
 
 		expect(getAmountAndUnitForTimedEvents(-1209600)).toEqual({
 			amount: 2,
-			unit: 'weeks'
+			unit: 'weeks',
 		})
 	})
 
@@ -99,7 +138,7 @@ describe('utils/alarms test suite', () => {
 			amount: 0,
 			hours: 9,
 			minutes: 1,
-			unit: 'days'
+			unit: 'days',
 		})
 
 		// 1 day before at 9am
@@ -107,7 +146,7 @@ describe('utils/alarms test suite', () => {
 			amount: 1,
 			hours: 9,
 			minutes: 0,
-			unit: 'days'
+			unit: 'days',
 		})
 
 		// 2 days before at 9am
@@ -115,7 +154,7 @@ describe('utils/alarms test suite', () => {
 			amount: 2,
 			hours: 9,
 			minutes: 0,
-			unit: 'days'
+			unit: 'days',
 		})
 
 		// 1 week before at 9am
@@ -123,7 +162,7 @@ describe('utils/alarms test suite', () => {
 			amount: 1,
 			hours: 9,
 			minutes: 0,
-			unit: 'weeks'
+			unit: 'weeks',
 		})
 
 		// 10 days before at 9am
@@ -131,7 +170,7 @@ describe('utils/alarms test suite', () => {
 			amount: 10,
 			hours: 9,
 			minutes: 0,
-			unit: 'days'
+			unit: 'days',
 		})
 
 		// 1 week before at 8:30am
@@ -139,7 +178,7 @@ describe('utils/alarms test suite', () => {
 			amount: 1,
 			hours: 8,
 			minutes: 30,
-			unit: 'weeks'
+			unit: 'weeks',
 		})
 	})
 
@@ -156,6 +195,74 @@ describe('utils/alarms test suite', () => {
 
 		expect(getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(1, 8, 30, 'weeks')).toEqual(-159 * 60 * 60 - 30 * 60)
 	})
+
+	describe('updateAlarms', () => {
+		it('keeps DISPLAY alarms RFC-conformant: a DESCRIPTION but no SUMMARY/ATTENDEE', () => {
+			const event = firstEventFromICS(eventICS(
+				['BEGIN:VALARM', 'ACTION:DISPLAY', 'TRIGGER:-PT15M', 'END:VALARM'].join('\r\n'),
+				['ATTENDEE:mailto:a@example.com', 'ATTENDEE:mailto:b@example.com'].join('\r\n'),
+			))
+
+			updateAlarms(event)
+
+			const alarm = event.getAlarmIterator().next().value
+			expect(alarm.action).toEqual('DISPLAY')
+			expect(alarm.hasProperty('DESCRIPTION')).toBe(true)
+			expect(alarm.hasProperty('SUMMARY')).toBe(false)
+			expect(alarm.hasProperty('ATTENDEE')).toBe(false)
+		})
+
+		it('populates EMAIL alarms with SUMMARY, DESCRIPTION and one ATTENDEE per event attendee', () => {
+			const event = firstEventFromICS(eventICS(
+				['BEGIN:VALARM', 'ACTION:EMAIL', 'TRIGGER:-PT30M', 'END:VALARM'].join('\r\n'),
+				['ATTENDEE:mailto:a@example.com', 'ATTENDEE:mailto:b@example.com'].join('\r\n'),
+			))
+
+			updateAlarms(event)
+
+			const alarm = event.getAlarmIterator().next().value
+			expect(alarm.action).toEqual('EMAIL')
+			expect(alarm.hasProperty('DESCRIPTION')).toBe(true)
+			expect(alarm.hasProperty('SUMMARY')).toBe(true)
+			expect([...alarm.getPropertyIterator('ATTENDEE')]).toHaveLength(2)
+		})
+
+		it('strips a stale SUMMARY/ATTENDEE that a DISPLAY alarm received previously', () => {
+			const event = firstEventFromICS(eventICS(
+				[
+					'BEGIN:VALARM',
+					'ACTION:DISPLAY',
+					'TRIGGER:-PT15M',
+					'DESCRIPTION:This is an event reminder.',
+					'SUMMARY:My event',
+					'ATTENDEE:mailto:a@example.com',
+					'END:VALARM',
+				].join('\r\n'),
+				'ATTENDEE:mailto:a@example.com',
+			))
+
+			updateAlarms(event)
+
+			const alarm = event.getAlarmIterator().next().value
+			expect(alarm.hasProperty('SUMMARY')).toBe(false)
+			expect(alarm.hasProperty('ATTENDEE')).toBe(false)
+			expect(alarm.hasProperty('DESCRIPTION')).toBe(true)
+		})
+
+		it('does not copy ROOM or RESOURCE attendees into EMAIL alarms', () => {
+			const event = firstEventFromICS(eventICS(
+				['BEGIN:VALARM', 'ACTION:EMAIL', 'TRIGGER:-PT30M', 'END:VALARM'].join('\r\n'),
+				[
+					'ATTENDEE:mailto:a@example.com',
+					'ATTENDEE;CUTYPE=ROOM:mailto:room@example.com',
+					'ATTENDEE;CUTYPE=RESOURCE:mailto:beamer@example.com',
+				].join('\r\n'),
+			))
+
+			updateAlarms(event)
+
+			const alarm = event.getAlarmIterator().next().value
+			expect([...alarm.getPropertyIterator('ATTENDEE')]).toHaveLength(1)
+		})
+	})
 })
-
-

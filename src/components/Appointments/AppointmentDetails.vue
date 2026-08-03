@@ -173,6 +173,8 @@ export default {
 		},
 	},
 
+	emits: ['goBack', 'save'],
+
 	data() {
 		return {
 			description: '',
@@ -303,11 +305,6 @@ h3 {
 		border-radius: var(--border-radius);
 		background-color: var(--color-main-background);
 		cursor: text;
-
-		&:hover {
-			border-color: var(--color-primary-element) !important;
-			outline: none !important;
-		}
 	}
 }
 </style>

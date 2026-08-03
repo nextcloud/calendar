@@ -2,11 +2,10 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { createPinia, setActivePinia } from 'pinia'
 import useContactsStore from '../../../../src/store/contacts.js'
-import { setActivePinia, createPinia } from 'pinia'
 
 describe('store/contacts test suite', () => {
-
 	let contactsStore
 
 	beforeEach(() => {
@@ -69,7 +68,7 @@ describe('store/contacts test suite', () => {
 		contactsStore.appendContact({ contact: contact2 })
 
 		contactsStore.removeContact({ contact: contact1 })
-		
+
 		expect(contactsStore.contacts).toEqual([
 			contact2,
 		])

@@ -20,7 +20,7 @@
 			v-if="canBeSharedWritable"
 			v-model="isWriteable"
 			:disabled="updatingSharee"
-			@update:checked="updatePermission">
+			@update:modelValue="updatePermission">
 			{{ $t('calendar', 'can edit and see confidential events') }}
 		</NcCheckboxRadioSwitch>
 
@@ -79,15 +79,12 @@ export default {
 			id: randomId(),
 			updatingSharee: false,
 			shareeEmail: '',
-			isWriteable: false,
+			isWriteable: this.sharee.writeable,
 		}
 	},
 
 	computed: {
 		...mapStores(useCalendarsStore, usePrincipalsStore),
-		uid() {
-			return this._uid
-		},
 
 		/**
 		 * @return {string}
@@ -109,22 +106,9 @@ export default {
 			return this.calendar.canCreateObject || this.calendar.canModifyObject
 		},
 
-		/**
-		 * @return {boolean}
-		 */
-		initialIsWriteable() {
-			return this.sharee.writeable
-		},
-	},
-
-	watch: {
-		isWriteable() {
-			this.updatePermission()
-		},
 	},
 
 	mounted() {
-		this.isWriteable = this.initialIsWriteable
 		this.updateShareeEmail()
 	},
 

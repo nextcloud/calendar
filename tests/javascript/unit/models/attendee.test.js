@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import {getDefaultAttendeeObject, mapAttendeePropertyToAttendeeObject, mapPrincipalObjectToAttendeeObject} from "../../../../src/models/attendee.js";
 import { AttendeeProperty } from '@nextcloud/calendar-js'
+import { getDefaultAttendeeObject, mapAttendeePropertyToAttendeeObject, mapPrincipalObjectToAttendeeObject } from '../../../../src/models/attendee.js'
+import { getAttendeePropertyFromAsset } from '../loadAsset.js'
 
 describe('Test suite: Attendee model (models/attendee.js)', () => {
-
 	it('should return a default attendee object', () => {
 		expect(getDefaultAttendeeObject()).toEqual({
 			attendeeProperty: null,

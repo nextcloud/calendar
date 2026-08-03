@@ -2,15 +2,15 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import eventDrop from '../../../../../src/fullcalendar/interaction/eventDrop.js'
-import { getDurationValueFromFullCalendarDuration } from '../../../../../src/fullcalendar/duration.js'
-import getTimezoneManager from '../../../../../src/services/timezoneDataProviderService.js'
-import { getObjectAtRecurrenceId } from '../../../../../src/utils/calendarObject.js'
-import useCalendarsStore from '../../../../../src/store/calendars.js'
-import useCalendarObjectsStore from '../../../../../src/store/calendarObjects.js'
-import usePrincipalsStore from '../../../../../src/store/principals.js'
-import { translate } from '@nextcloud/l10n'
 import { showWarning } from '@nextcloud/dialogs'
+import { translate } from '@nextcloud/l10n'
+import { getDurationValueFromFullCalendarDuration } from '../../../../../src/fullcalendar/duration.js'
+import eventDrop from '../../../../../src/fullcalendar/interaction/eventDrop.js'
+import getTimezoneManager from '../../../../../src/services/timezoneDataProviderService.js'
+import useCalendarObjectsStore from '../../../../../src/store/calendarObjects.js'
+import useCalendarsStore from '../../../../../src/store/calendars.js'
+import usePrincipalsStore from '../../../../../src/store/principals.js'
+import { getObjectAtRecurrenceId } from '../../../../../src/utils/calendarObject.js'
 
 vi.mock('../../../../../src/fullcalendar/duration.js')
 vi.mock('../../../../../src/services/timezoneDataProviderService.js')
@@ -22,7 +22,6 @@ vi.mock('@nextcloud/l10n')
 vi.mock('@nextcloud/dialogs')
 
 describe('fullcalendar/eventDrop test suite', () => {
-
 	beforeEach(() => {
 		getDurationValueFromFullCalendarDuration.mockClear()
 		getTimezoneManager.mockClear()
@@ -370,9 +369,6 @@ describe('fullcalendar/eventDrop test suite', () => {
 			createRecurrenceException: vi.fn(),
 			organizer: 'mailto:organizer@example.org',
 		}
-		const calendarObject = {
-			_isCalendarObject: true,
-		}
 		getObjectAtRecurrenceId
 			.mockReturnValue(eventComponent)
 
@@ -600,9 +596,6 @@ describe('fullcalendar/eventDrop test suite', () => {
 			createRecurrenceException: vi.fn(),
 			organizer: 'mailto:organizer@example.org',
 		}
-		const calendarObject = {
-			_isCalendarObject: true,
-		}
 		getObjectAtRecurrenceId
 			.mockReturnValue(eventComponent)
 
@@ -764,7 +757,7 @@ describe('fullcalendar/eventDrop test suite', () => {
 			organizer: 'mailto:organizer@example.org',
 			hasProperty: vi.fn().mockReturnValue(true),
 			getFirstProperty: vi.fn().mockReturnValue({ value: 'mailto:organizer@example.org' }),
-  getAttendeeIterator: vi.fn().mockReturnValue([]),
+			getAttendeeIterator: vi.fn().mockReturnValue([]),
 		}
 		const calendarObject = {
 			_isCalendarObject: true,
@@ -858,7 +851,7 @@ describe('fullcalendar/eventDrop test suite', () => {
 			organizer: 'mailto:organizer@example.org',
 			hasProperty: vi.fn().mockReturnValue(true),
 			getFirstProperty: vi.fn().mockReturnValue({ value: 'mailto:organizer@example.org' }),
-  getAttendeeIterator: vi.fn().mockReturnValue([]),
+			getAttendeeIterator: vi.fn().mockReturnValue([]),
 		}
 		const calendarObject = {
 			_isCalendarObject: true,

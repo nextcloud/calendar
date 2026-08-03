@@ -2,12 +2,11 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getLinkToConfig } from '../../../../src/utils/settings.js'
 import { linkTo } from '@nextcloud/router'
+import { getLinkToConfig } from '../../../../src/utils/settings.js'
 vi.mock('@nextcloud/router')
 
 describe('utils/settings test suite', () => {
-
 	beforeEach(() => {
 		linkTo.mockClear()
 	})

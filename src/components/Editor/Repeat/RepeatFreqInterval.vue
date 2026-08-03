@@ -44,6 +44,8 @@ export default {
 		},
 	},
 
+	emits: ['changeInterval', 'changeFrequency'],
+
 	computed: {
 		repeatEveryLabel() {
 			if (this.frequency === 'NONE') {
@@ -83,9 +85,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.repeat-option-set--interval-freq {
-	display: flex;
-	flex-direction: column;
-	gap: calc(var(--default-grid-baseline) * 2);
+.repeat-option-set {
+	&--interval-freq {
+		display: flex;
+		flex-direction: row;
+		gap: var(--default-grid-baseline);
+	}
+
+	&__interval {
+		flex: 1 1 0px;
+	}
+
+	&__frequency {
+		min-width: initial;
+		flex: 1 1 0px;
+	}
 }
 </style>

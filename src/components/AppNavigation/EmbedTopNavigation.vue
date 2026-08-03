@@ -2,6 +2,55 @@
   - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
+<script setup lang="ts">
+import type { CalendarInterface } from '@/types/calendar.ts'
+
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { generateRemoteUrl } from '@nextcloud/router'
+import {
+	NcActionButton as ActionButton,
+	NcActionLink as ActionLink,
+	NcActions as Actions,
+} from '@nextcloud/vue'
+import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
+import Download from 'vue-material-design-icons/TrayArrowDown.vue'
+import AppNavigationHeaderDatePicker from './AppNavigationHeader/AppNavigationHeaderDatePicker.vue'
+import AppNavigationHeaderTodayButton from './EmbedHeader/EmbedHeaderTodayButton.vue'
+import AppNavigationHeaderViewButtons from './EmbedHeader/EmbedHeaderViewButtons.vue'
+import useCalendarsStore from '@/store/calendars.js'
+
+withDefaults(defineProps<{
+	isWidget?: boolean
+}>(), {
+	isWidget: false,
+})
+
+const calendarsStore = useCalendarsStore()
+
+/**
+ * Copies the webcal subscription link of the given calendar to the clipboard.
+ *
+ * @param calendar the calendar to copy the subscription link for
+ */
+async function copySubscriptionLink(calendar: CalendarInterface): Promise<void> {
+	const rootURL = generateRemoteUrl('dav')
+	const url = new URL(calendar.url + '?export', rootURL)
+
+	url.protocol = 'webcal:'
+
+	// copy link for calendar to clipboard
+	try {
+		await navigator.clipboard.writeText(url.toString())
+		showSuccess(t('calendar', 'Calendar link copied to clipboard.'))
+	} catch (error) {
+		console.debug(error)
+		showError(t('calendar', 'Calendar link could not be copied to clipboard.'))
+	}
+}
+</script>
+
 <template>
 	<header :id="isWidget ? 'widget-header' : 'embed-header'" role="banner">
 		<div :class="isWidget ? 'widget-header__date-section' : 'embed-header__date-section'">
@@ -25,7 +74,7 @@
 					<template #icon>
 						<Download :size="20" decorative />
 					</template>
-					{{ $t('calendar', 'Export {name}', { name: calendar.displayName || $t('calendar', 'Untitled calendar') }) }}
+					{{ t('calendar', 'Export {name}', { name: calendar.displayName || t('calendar', 'Untitled calendar') }) }}
 				</ActionLink>
 			</Actions>
 			<Actions>
@@ -39,75 +88,12 @@
 					<template #icon>
 						<CalendarBlank :size="20" decorative />
 					</template>
-					{{ $t('calendar', 'Subscribe to {name}', { name: calendar.displayName || $t('calendar', 'Untitled calendar') }) }}
+					{{ t('calendar', 'Subscribe to {name}', { name: calendar.displayName || t('calendar', 'Untitled calendar') }) }}
 				</ActionButton>
 			</Actions>
 		</div>
 	</header>
 </template>
-
-<script>
-import {
-	showError,
-	showSuccess,
-} from '@nextcloud/dialogs'
-import { generateRemoteUrl } from '@nextcloud/router'
-import {
-	NcActionButton as ActionButton,
-	NcActionLink as ActionLink,
-	NcActions as Actions,
-} from '@nextcloud/vue'
-import { mapStores } from 'pinia'
-import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
-import Download from 'vue-material-design-icons/TrayArrowDown.vue'
-import AppNavigationHeaderDatePicker from './AppNavigationHeader/AppNavigationHeaderDatePicker.vue'
-import AppNavigationHeaderTodayButton from './EmbedHeader/EmbedHeaderTodayButton.vue'
-import AppNavigationHeaderViewButtons from './EmbedHeader/EmbedHeaderViewButtons.vue'
-import useCalendarsStore from '../../store/calendars.js'
-
-export default {
-	name: 'EmbedTopNavigation',
-	components: {
-		AppNavigationHeaderDatePicker,
-		AppNavigationHeaderTodayButton,
-		AppNavigationHeaderViewButtons,
-		Actions,
-		ActionButton,
-		ActionLink,
-		CalendarBlank,
-		Download,
-	},
-
-	props: {
-		isWidget: {
-			type: Boolean,
-			default: false,
-		},
-	},
-
-	computed: {
-		...mapStores(useCalendarsStore),
-	},
-
-	methods: {
-		async copySubscriptionLink(calendar) {
-			const rootURL = generateRemoteUrl('dav')
-			const url = new URL(calendar.url + '?export', rootURL)
-
-			url.protocol = 'webcal:'
-
-			// copy link for calendar to clipboard
-			try {
-				await navigator.clipboard.writeText(url)
-				showSuccess(this.$t('calendar', 'Calendar link copied to clipboard.'))
-			} catch (error) {
-				console.debug(error)
-				showError(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
-			}
-		},
-	},
-}
-</script>
 
 <style lang="scss">
 #widget-header {
