@@ -140,6 +140,8 @@
 </template>
 
 <script setup lang="ts">
+import type { RoomPrincipal } from '../../../model/principals.ts'
+
 import { loadState } from '@nextcloud/initial-state'
 import { t } from '@nextcloud/l10n'
 import { NcCheckboxRadioSwitch, NcLoadingIcon, NcSelect } from '@nextcloud/vue'
@@ -156,22 +158,6 @@ import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstanc
 import usePrincipalsStore from '../../../store/principals.js'
 import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
 import logger from '../../../utils/logger.js'
-
-interface RoomPrincipal {
-	id: string | null
-	displayname: string | null
-	emailAddress: string | null
-	calendarUserType: string
-	isAvailable: boolean
-	roomSeatingCapacity: string | null
-	roomType: string | null
-	roomAddress: string | null
-	roomFeatures: string | null
-	roomNumber: string | null
-	roomFloor: string | null
-	roomBuildingName: string | null
-	roomBuildingAddress: string | null
-}
 
 interface RoomGroup {
 	name: string

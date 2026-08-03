@@ -46,28 +46,14 @@
 </template>
 
 <script setup lang="ts">
+import type { RoomPrincipal } from '../../../model/principals.ts'
+
 import { t } from '@nextcloud/l10n'
 import { NcButton } from '@nextcloud/vue'
 import { computed } from 'vue'
 import Minus from 'vue-material-design-icons/Minus.vue'
 import Plus from 'vue-material-design-icons/Plus.vue'
 import { formatRoomType } from '../../../models/resourceProps.js'
-
-interface RoomPrincipal {
-	id: string | null
-	displayname: string | null
-	emailAddress: string | null
-	calendarUserType: string
-	isAvailable: boolean
-	roomSeatingCapacity: string | null
-	roomType: string | null
-	roomAddress: string | null
-	roomFeatures: string | null
-	roomNumber: string | null
-	roomFloor: string | null
-	roomBuildingName: string | null
-	roomBuildingAddress: string | null
-}
 
 interface AddRoomPayload {
 	commonName: string | null
