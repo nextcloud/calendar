@@ -85,6 +85,11 @@ node_modules/
 src/fonts
 *.clover
 
+# CSS extracted from the JS build (CssExtractRspackPlugin)
+css/calendar-*.css
+css/calendar-*.css.map
+css/chunks/
+
 # just sane ignores
 .*.sw[po]
 *.bak
