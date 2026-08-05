@@ -118,16 +118,32 @@ module.exports = defineConfig((env) => {
 				{
 					test: /\.css$/,
 					use: [
-						'vue-style-loader',
+						{
+							loader: CssExtractRspackPlugin.loader,
+						},
 						'css-loader',
 					],
 				},
 				{
 					test: /\.scss$/,
 					use: [
-						'vue-style-loader',
+						{
+							loader: CssExtractRspackPlugin.loader,
+						},
 						'css-loader',
-						'sass-loader',
+						{
+							loader: 'sass-loader',
+							options: {
+								sassOptions: {
+									// Sass emits a BOM for CSS files with non-ASCII characters in production builds by default.
+									// PostCSS (used by css-loader) >=8.5.24 stopped stripping it, so extracted stylesheets end up
+									// with a stray BOM between merged files, breaking the first selector of each one.
+									// Safe to disable since every page already sets <meta charset="utf-8">.
+									// See: https://github.com/nextcloud-libraries/webpack-vue-config/pull/798
+									charset: false,
+								},
+							},
+						},
 					],
 				},
 				{
@@ -211,6 +227,11 @@ module.exports = defineConfig((env) => {
 			new IgnorePlugin({
 				resourceRegExp: /^\.\/locale$/,
 				contextRegExp: /moment$/,
+			}),
+			new CssExtractRspackPlugin({
+				filename: '../css/calendar-[name].css',
+				chunkFilename: '../css/chunks/[id].chunk.css',
+				ignoreOrder: true,
 			}),
 			process.env.RSDOCTOR && new RsdoctorRspackPlugin(),
 		],

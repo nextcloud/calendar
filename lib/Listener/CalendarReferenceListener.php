@@ -33,5 +33,6 @@ class CalendarReferenceListener implements IEventListener {
 
 		$this->calendarInitialStateService->run();
 		Util::addScript(Application::APP_ID, 'calendar-reference');
+		Util::addStyle(Application::APP_ID, 'calendar-reference');
 	}
 }

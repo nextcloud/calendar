@@ -39,6 +39,7 @@ class ProposalPublicController extends Controller {
 	#[UserRateLimit(limit: 10, period: 300)]
 	public function index(string $token): Response {
 		\OCP\Util::addScript(Application::APP_ID, Application::APP_ID . '-proposal-public');
+		\OCP\Util::addStyle(Application::APP_ID, Application::APP_ID . '-proposal-public');
 
 		return new TemplateResponse(Application::APP_ID, 'public', [], TemplateResponse::RENDER_AS_PUBLIC);
 	}
