@@ -5,17 +5,6 @@
 
 <template>
 	<div class="resource-search">
-		<NcButton class="button availability" @click="openRoomAvailability">
-			{{ $t('calendar', 'Show all rooms') }}
-		</NcButton>
-
-		<RoomAvailabilityList
-			v-if="showRoomAvailabilityModal"
-			:showDialog="showRoomAvailabilityModal"
-			:calendarObjectInstance="calendarObjectInstance"
-			:startDate="calendarObjectInstance.startDate"
-			:endDate="calendarObjectInstance.endDate"
-			@update:showDialog="setShowRoomAvailabilityModal" />
 		<NcSelect
 			v-model="selectedResource"
 			class="resource-search__multiselect"
@@ -80,12 +69,10 @@ import {
 	NcActionCheckbox as ActionCheckbox,
 	NcActions as Actions,
 	NcAvatar as Avatar,
-	NcButton,
 	NcSelect,
 } from '@nextcloud/vue'
 import debounce from 'debounce'
 import { mapStores } from 'pinia'
-import RoomAvailabilityList from '../FreeBusy/RoomAvailabilityList.vue'
 import ResourceRoomType from './ResourceRoomType.vue'
 import ResourceSeatingCapacity from './ResourceSeatingCapacity.vue'
 import { advancedPrincipalPropertySearch } from '../../../services/caldavService.js'
@@ -95,9 +82,7 @@ import logger from '../../../utils/logger.js'
 export default {
 	name: 'ResourceListSearch',
 	components: {
-		RoomAvailabilityList,
 		Avatar,
-		NcButton,
 		NcSelect,
 		ResourceSeatingCapacity,
 		Actions,
@@ -128,7 +113,6 @@ export default {
 			isAccessible: false,
 			hasProjector: false,
 			hasWhiteboard: false,
-			showRoomAvailabilityModal: false,
 			selectedResource: null,
 			rooms: [],
 		}
@@ -171,13 +155,6 @@ export default {
 	},
 
 	methods: {
-		openRoomAvailability() {
-			this.showRoomAvailabilityModal = true
-		},
-
-		setShowRoomAvailabilityModal(value) {
-			this.showRoomAvailabilityModal = value
-		},
 
 		findResources: debounce(async function(query) {
 			this.isLoading = true
@@ -286,9 +263,3 @@ export default {
 	},
 }
 </script>
-
-<style lang="scss" scoped>
-.button.availability {
-      margin-bottom: 8px;
-}
-</style>
