@@ -7,7 +7,7 @@ import { linkTo } from '@nextcloud/router'
  */
 import { NcCustomPickerRenderResult, registerWidget } from '@nextcloud/vue/functions/registerReference'
 
-import '../css/calendar.scss'
+import '@/styles/calendar.scss'
 
 __webpack_nonce__ = btoa(getRequestToken())
 __webpack_public_path__ = linkTo('calendar', 'js/') // eslint-disable-line
