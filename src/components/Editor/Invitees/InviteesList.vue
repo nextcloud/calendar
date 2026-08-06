@@ -22,10 +22,9 @@
 				</NcButton>
 			</div>
 
-			<div v-if="!hideButtons" class="invitees-list-button-group">
+			<template v-if="!hideButtons">
 				<NcButton
 					v-if="!isReadOnly"
-					class="invitees-list-button-group__button"
 					:disabled="isListEmpty || !isOrganizer"
 					@click="openFreeBusy">
 					{{ $t('calendar', 'Find a time') }}
@@ -43,10 +42,10 @@
 					@addAttendee="addAttendee"
 					@updateDates="saveNewDate"
 					@close="closeFreeBusy" />
-			</div>
+			</template>
 		</div>
 
-		<div class="invitees-list__subtitle">
+		<div v-if="statusHeader" class="invitees-list__subtitle">
 			{{ statusHeader }}
 		</div>
 
@@ -498,28 +497,6 @@ export default {
 
 <style lang="scss" scoped>
 .invitees-list {
-	&__header {
-		display: flex;
-		gap: calc(var(--default-grid-baseline) * 6);
-		align-items: center;
-
-		&__title {
-			display: flex;
-			gap: calc(var(--default-grid-baseline) * 2);
-			font-size: calc(var(--default-font-size) * 1.2);
-			align-items: center;
-			font-weight: bold;
-
-			div {
-				box-sizing: border-box;
-			}
-
-			&__text {
-				margin-inline-start: calc(var(--default-grid-baseline) * 2);
-			}
-		}
-	}
-
 	&__subtitle {
 		color: var(--color-text-maxcontrast);
 		margin-inline-start: calc(var(--default-grid-baseline) * 9);
@@ -528,22 +505,6 @@ export default {
 	&__more {
 		padding: calc(var(--default-grid-baseline) * 4) 0 0 calc(var(--default-grid-baseline) * 11);
 		opacity: 0.75;
-	}
-
-	.invitees-list-button-group {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 5px;
-
-		&__button {
-			flex: 1 0 100px;
-
-			:deep(.button-vue__text) {
-				white-space: unset !important;
-				overflow: unset !important;
-				text-overflow: unset !important;
-			}
-		}
 	}
 }
 </style>
