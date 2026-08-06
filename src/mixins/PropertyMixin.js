@@ -10,6 +10,7 @@
  * See inline for more documentation
  */
 
+import AccountMultiplePlusOutline from 'vue-material-design-icons/AccountMultiplePlusOutline.vue'
 import AccountPlusOutline from 'vue-material-design-icons/AccountPlusOutline.vue'
 import Bell from 'vue-material-design-icons/BellOutline.vue'
 import Briefcase from 'vue-material-design-icons/BriefcaseOutline.vue'
@@ -22,6 +23,7 @@ import TextBoxOutline from 'vue-material-design-icons/TextBoxOutline.vue'
 
 export default {
 	components: {
+		AccountMultiplePlusOutline,
 		AccountPlusOutline,
 		Briefcase,
 		Check,

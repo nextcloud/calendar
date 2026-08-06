@@ -4,6 +4,7 @@
  */
 
 import { showError, showSuccess } from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { mapState, mapStores } from 'pinia'
@@ -240,6 +241,41 @@ export default {
 			const principal = removeMailtoPrefix(this.principalsStore.getCurrentUserPrincipalEmail)
 			const organizer = this.calendarObjectInstance.organizer
 			return removeMailtoPrefix(organizer.uri) === principal
+		},
+		/**
+		 * Returns whether the organizer let attendees invite guests to this event.
+		 *
+		 * X-NC-ALLOW-ATTENDEE-GUESTS has to be turned on explicitly, so it is also
+		 * absent on invitations we could not report guests back to.
+		 *
+		 * @return {boolean}
+		 */
+		isAddingGuestsAllowed() {
+			// Our own server has to generate the reply carrying the guests
+			if (loadState('core', 'capabilities', {})?.dav?.attendee_guests !== true) {
+				return false
+			}
+
+			// isViewedByAttendee is false on read-only calendars and for non-attendees,
+			// but true for an organizer who also attends their own event
+			return this.isViewedByAttendee
+				&& this.isViewedByOrganizer !== true
+				&& this.calendarObjectInstance?.allowAttendeeGuests === 'TRUE'
+		},
+		/**
+		 * Returns whether guests added here actually reach the organizer.
+		 *
+		 * The organizer only picks up guests of the base instance, so recurring
+		 * events are left to them.
+		 *
+		 * @return {boolean}
+		 */
+		canAddGuests() {
+			// A recurrence exception is not the base instance, but it can not create
+			// one either, so both checks are needed
+			return this.isAddingGuestsAllowed
+				&& this.calendarObjectInstance?.isMasterItem === true
+				&& !this.canCreateRecurrenceException
 		},
 		/**
 		 * Returns the attendee property corresponding to the current user

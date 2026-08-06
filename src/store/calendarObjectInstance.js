@@ -374,6 +374,18 @@ export default defineStore('calendarObjectInstance', {
 		},
 
 		/**
+		 * Change whether attendees of an event may invite guests
+		 *
+		 * @param {object} data The destructuring object
+		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+		 * @param {string} data.allowAttendeeGuests Allow attendee guests value
+		 */
+		changeAllowAttendeeGuests({ calendarObjectInstance, allowAttendeeGuests }) {
+			calendarObjectInstance.eventComponent.updatePropertyWithValue('X-NC-ALLOW-ATTENDEE-GUESTS', allowAttendeeGuests)
+			calendarObjectInstance.allowAttendeeGuests = allowAttendeeGuests
+		},
+
+		/**
 		 * Change the customized color of an event
 		 *
 		 * @param {object} data The destructuring object

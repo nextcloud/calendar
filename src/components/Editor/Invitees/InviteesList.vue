@@ -50,7 +50,7 @@
 		</div>
 
 		<InviteesListSearch
-			v-if="!isReadOnly && hasUserEmailAddress"
+			v-if="(!isReadOnly || canAddGuests) && hasUserEmailAddress"
 			:alreadyInvitedEmails="alreadyInvitedEmails"
 			:organizer="calendarObjectInstance.organizer"
 			@addAttendee="addAttendee" />
@@ -67,6 +67,7 @@
 			:key="invitee.email"
 			:attendee="invitee"
 			:isReadOnly="isReadOnly"
+			:canRemove="isForwardedByMe(invitee)"
 			:organizerDisplayName="organizerDisplayName"
 			:members="invitee.members"
 			:isViewedByOrganizer="isViewedByOrganizer"
@@ -122,6 +123,15 @@ export default {
 			required: true,
 		},
 
+		/**
+		 * Whether the current user may add guests even though the list is
+		 * otherwise read-only for them, because they are an attendee.
+		 */
+		canAddGuests: {
+			type: Boolean,
+			default: false,
+		},
+
 		isSharedWithMe: {
 			type: Boolean,
 			required: true,
@@ -160,6 +170,9 @@ export default {
 			creatingTalkRoom: false,
 			showFreeBusyModel: false,
 			recentAttendees: [],
+			// Guests added in this session, so they can be taken off again before
+			// saving. Once saved, only the organizer can remove an attendee.
+			forwardedAttendees: [],
 		}
 	},
 
@@ -417,6 +430,23 @@ export default {
 				member,
 			})
 			this.recentAttendees.push(email)
+			if (this.canAddGuests) {
+				this.forwardedAttendees.push(email)
+			}
+		},
+
+		/**
+		 * Whether the given attendee was added by the current user and can
+		 * therefore still be removed again.
+		 *
+		 * @param {object} attendee The attendee to check
+		 * @return {boolean}
+		 */
+		isForwardedByMe(attendee) {
+			// Not once the editor switched to viewing, because the guest reached
+			// the organizer by then and only they can remove an attendee
+			return this.canAddGuests
+				&& this.forwardedAttendees.includes(removeMailtoPrefix(attendee.uri))
 		},
 
 		removeAttendee(attendee) {
@@ -433,6 +463,7 @@ export default {
 				attendee,
 			})
 			this.recentAttendees = this.recentAttendees.filter((a) => a.uri !== attendee.email)
+			this.forwardedAttendees = this.forwardedAttendees.filter((email) => email !== removeMailtoPrefix(attendee.uri))
 
 			if (this.showFreeBusyModel && this.calendarObjectInstance.attendees.length === 0) {
 				showWarning(this.$t('calendar', 'Please add at least one attendee to use the "Find a time" feature.'))
