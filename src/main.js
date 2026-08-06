@@ -16,7 +16,7 @@ import logger from './utils/logger.js'
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import 'core-js/stable/index.js'
-import '../css/calendar.scss'
+import '@/styles/calendar.scss'
 
 const pinia = createPinia()
 

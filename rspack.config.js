@@ -230,7 +230,7 @@ module.exports = defineConfig((env) => {
 			}),
 			new CssExtractRspackPlugin({
 				filename: '../css/calendar-[name].css',
-				chunkFilename: '../css/chunks/[id].chunk.css',
+				chunkFilename: '../css/[id].chunk.css',
 				ignoreOrder: true,
 			}),
 			process.env.RSDOCTOR && new RsdoctorRspackPlugin(),

@@ -86,9 +86,7 @@ src/fonts
 *.clover
 
 # CSS extracted from the JS build (CssExtractRspackPlugin)
-css/calendar-*.css
-css/calendar-*.css.map
-css/chunks/
+css/
 
 # just sane ignores
 .*.sw[po]
@@ -110,9 +108,6 @@ RCS/*
 .phpunit.result.cache
 
 coverage/
-
-js/public
-css/public
 
 /playwright-report
 /test-results
