@@ -23,6 +23,13 @@ describe('Test suite: Principal model (models/principal.js)', () => {
 			isCalendarRoom: false,
 			principalId: null,
 			scheduleDefaultCalendarUrl: null,
+			roomSeatingCapacity: null,
+			roomType: null,
+			roomAddress: null,
+			roomFeatures: null,
+			roomBuildingName: null,
+			roomBuildingAddress: null,
+			roomNumber: null,
 		})
 	})
 
@@ -47,6 +54,13 @@ describe('Test suite: Principal model (models/principal.js)', () => {
 			principalId: 'bar',
 			otherProp: 'foo',
 			scheduleDefaultCalendarUrl: null,
+			roomSeatingCapacity: null,
+			roomType: null,
+			roomAddress: null,
+			roomFeatures: null,
+			roomBuildingName: null,
+			roomBuildingAddress: null,
+			roomNumber: null,
 		})
 	})
 
@@ -81,6 +95,13 @@ describe('Test suite: Principal model (models/principal.js)', () => {
 			isCalendarRoom: false,
 			principalId: 'jane.doe',
 			userId: 'legacy-jane-doe-uid',
+			roomSeatingCapacity: null,
+			roomType: null,
+			roomAddress: null,
+			roomFeatures: null,
+			roomBuildingName: null,
+			roomBuildingAddress: null,
+			roomNumber: null,
 		})
 	})
 
@@ -115,6 +136,13 @@ describe('Test suite: Principal model (models/principal.js)', () => {
 			isCalendarRoom: false,
 			principalId: 'jane.doe',
 			userId: null,
+			roomSeatingCapacity: null,
+			roomType: null,
+			roomAddress: null,
+			roomFeatures: null,
+			roomBuildingName: null,
+			roomBuildingAddress: null,
+			roomNumber: null,
 		})
 	})
 
@@ -149,6 +177,13 @@ describe('Test suite: Principal model (models/principal.js)', () => {
 			isCalendarRoom: false,
 			principalId: 'CGAH82BAS285H',
 			userId: null,
+			roomSeatingCapacity: null,
+			roomType: null,
+			roomAddress: null,
+			roomFeatures: null,
+			roomBuildingName: null,
+			roomBuildingAddress: null,
+			roomNumber: null,
 		})
 	})
 
@@ -183,6 +218,13 @@ describe('Test suite: Principal model (models/principal.js)', () => {
 			isCalendarRoom: false,
 			principalId: 'projector-123',
 			userId: null,
+			roomSeatingCapacity: null,
+			roomType: null,
+			roomAddress: null,
+			roomFeatures: null,
+			roomBuildingName: null,
+			roomBuildingAddress: null,
+			roomNumber: null,
 		})
 	})
 
@@ -217,7 +259,88 @@ describe('Test suite: Principal model (models/principal.js)', () => {
 			isCalendarRoom: true,
 			principalId: 'room-123',
 			userId: null,
+			roomSeatingCapacity: null,
+			roomType: null,
+			roomAddress: null,
+			roomFeatures: null,
+			roomBuildingName: null,
+			roomBuildingAddress: null,
+			roomNumber: null,
 		})
+	})
+
+	it('should properly map a calendar-room-principal with room properties', () => {
+		const dav = {
+			addressBookHomes: undefined,
+			calendarHomes: [],
+			calendarUserAddressSet: [],
+			calendarUserType: 'ROOM',
+			displayname: 'Conference Room A',
+			email: 'conf-a@example.com',
+			principalScheme: 'principal:principals/calendar-rooms/conf-a',
+			principalUrl: '/remote.php/dav/principals/calendar-rooms/conf-a/',
+			scheduleInbox: null,
+			scheduleOutbox: null,
+			url: '/remote.php/dav/principals/calendar-rooms/conf-a/',
+			userId: null,
+			roomSeatingCapacity: 20,
+			roomType: 'conference-room',
+			roomFeatures: 'PROJECTOR,WHITEBOARD',
+			roomBuildingAddress: 'Building A, Main Street 1',
+			roomBuildingRoomNumber: '2.17',
+		}
+
+		expect(mapDavToPrincipal(dav)).toEqual({
+			id: 'L3JlbW90ZS5waHAvZGF2L3ByaW5jaXBhbHMvY2FsZW5kYXItcm9vbXMvY29uZi1hLw==',
+			dav,
+			calendarUserType: 'ROOM',
+			principalScheme: 'principal:principals/calendar-rooms/conf-a',
+			emailAddress: 'conf-a@example.com',
+			displayname: 'Conference Room A',
+			url: '/remote.php/dav/principals/calendar-rooms/conf-a/',
+			isUser: false,
+			isGroup: false,
+			isCircle: false,
+			isCalendarResource: false,
+			isCalendarRoom: true,
+			principalId: 'conf-a',
+			userId: null,
+			roomSeatingCapacity: 20,
+			roomType: 'conference-room',
+			roomFeatures: 'PROJECTOR,WHITEBOARD',
+			roomBuildingName: 'Building A',
+			roomBuildingAddress: 'Building A, Main Street 1',
+			roomNumber: '2.17',
+			roomAddress: 'Main Street 1 (Building A, Room 2.17)',
+		})
+	})
+
+	it('should strip leading commas and whitespace from roomBuildingAddress', () => {
+		const dav = {
+			addressBookHomes: undefined,
+			calendarHomes: [],
+			calendarUserAddressSet: [],
+			calendarUserType: 'ROOM',
+			displayname: 'AMS 0.11',
+			email: 'ams-011@example.com',
+			principalScheme: 'principal:principals/calendar-rooms/ams-011',
+			principalUrl: '/remote.php/dav/principals/calendar-rooms/ams-011/',
+			scheduleInbox: null,
+			scheduleOutbox: null,
+			url: '/remote.php/dav/principals/calendar-rooms/ams-011/',
+			userId: null,
+			roomSeatingCapacity: 1,
+			roomType: 'meeting-room',
+			roomFeatures: '  ',
+			roomBuildingAddress: ', Science Park 140, 1098 XG, Amsterdam',
+			roomBuildingRoomNumber: '0.11',
+		}
+
+		const result = mapDavToPrincipal(dav)
+		expect(result.roomBuildingAddress).toBe('Science Park 140, 1098 XG, Amsterdam')
+		expect(result.roomBuildingName).toBe('Science Park 140')
+		expect(result.roomFeatures).toBe(null)
+		expect(result.roomAddress).toBe('1098 XG, Amsterdam (Science Park 140, Room 0.11)')
 	})
 
 	it('should properly map a principal from an unknown backend to principal-object', () => {
@@ -251,6 +374,13 @@ describe('Test suite: Principal model (models/principal.js)', () => {
 			isCalendarRoom: false,
 			principalId: null,
 			userId: null,
+			roomSeatingCapacity: null,
+			roomType: null,
+			roomAddress: null,
+			roomFeatures: null,
+			roomBuildingName: null,
+			roomBuildingAddress: null,
+			roomNumber: null,
 		})
 	})
 })
