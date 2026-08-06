@@ -4,8 +4,26 @@
 -->
 
 <template>
-	<div>
-		<span v-if="!(!resources.length && !suggestedRooms.length)" class="app-full-subtitle"> <MapMarker :size="20" /> {{ t('calendar', 'Resources') }}</span>
+	<div v-if="resources.length > 0 || suggestedRooms.length > 0 || resourceBookingEnabled" class="resource-list">
+		<div class="resource-list__header">
+			<span class="resource-list__header__title">
+				<DoorOpenIcon :size="20" />
+				<span class="resource-list__header__title__text">{{ t('calendar', 'Resources') }}</span>
+			</span>
+
+			<NcButton
+				v-if="!isReadOnly && hasUserEmailAddress && resourceBookingEnabled"
+				class="resource-list__header__button"
+				@click="openRoomAvailability">
+				{{ $t('calendar', 'Show rooms') }}
+			</NcButton>
+		</div>
+
+		<RoomAvailabilityList
+			v-if="showRoomAvailabilityModal"
+			:showDialog="showRoomAvailabilityModal"
+			:calendarObjectInstance="calendarObjectInstance"
+			@update:showDialog="setShowRoomAvailabilityModal" />
 
 		<ResourceListSearch
 			v-if="!isReadOnly && hasUserEmailAddress && resourceBookingEnabled"
@@ -13,31 +31,33 @@
 			:calendarObjectInstance="calendarObjectInstance"
 			@addResource="addResource" />
 
-		<div class="resource-list">
-			<ResourceListItem
-				v-for="resource in resources"
-				:key="resource.email"
-				:resource="resource"
-				:organizerDisplayName="organizerDisplayName"
-				:isViewedByOrganizer="isViewedByOrganizer"
-				@removeResource="removeResource" />
+		<ResourceListItem
+			v-for="resource in resources"
+			:key="resource.email"
+			:resource="resource"
+			:organizerDisplayName="organizerDisplayName"
+			:isViewedByOrganizer="isViewedByOrganizer"
+			@removeResource="removeResource" />
 
-			<ResourceListItem
-				v-for="room in suggestedRooms"
-				:key="room.email + '-suggested'"
-				:resource="room"
-				:organizerDisplayName="organizerDisplayName"
-				:isSuggestion="true"
-				:isViewedByOrganizer="isViewedByOrganizer"
-				@addSuggestion="addResource" />
-		</div>
+		<ResourceListItem
+			v-for="room in suggestedRooms"
+			:key="room.email + '-suggested'"
+			:resource="room"
+			:organizerDisplayName="organizerDisplayName"
+			:isSuggestion="true"
+			:isViewedByOrganizer="isViewedByOrganizer"
+			@addSuggestion="addResource" />
 	</div>
 </template>
 
 <script>
 import { loadState } from '@nextcloud/initial-state'
+import {
+	NcButton,
+} from '@nextcloud/vue'
 import { mapStores } from 'pinia'
-import MapMarker from 'vue-material-design-icons/MapMarker.vue'
+import DoorOpenIcon from 'vue-material-design-icons/DoorOpen.vue'
+import RoomAvailabilityList from '../FreeBusy/RoomAvailabilityList.vue'
 import ResourceListItem from './ResourceListItem.vue'
 import ResourceListSearch from './ResourceListSearch.vue'
 import { advancedPrincipalPropertySearch } from '../../../services/caldavService.js'
@@ -46,13 +66,14 @@ import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstanc
 import usePrincipalsStore from '../../../store/principals.js'
 import { organizerDisplayName, removeMailtoPrefix } from '../../../utils/attendee.js'
 import logger from '../../../utils/logger.js'
-
 export default {
 	name: 'ResourceList',
 	components: {
 		ResourceListItem,
 		ResourceListSearch,
-		MapMarker,
+		NcButton,
+		DoorOpenIcon,
+		RoomAvailabilityList,
 	},
 
 	props: {
@@ -70,6 +91,7 @@ export default {
 	data() {
 		return {
 			suggestedRooms: [],
+			showRoomAvailabilityModal: false,
 		}
 	},
 
@@ -224,18 +246,14 @@ export default {
 				location,
 			})
 		},
+
+		openRoomAvailability() {
+			this.showRoomAvailabilityModal = true
+		},
+
+		setShowRoomAvailabilityModal(value) {
+			this.showRoomAvailabilityModal = value
+		},
 	},
 }
 </script>
-
-<style lang="scss" scoped>
-.resource-list {
-		margin-top: calc(var(--default-grid-baseline) * 4);
-}
-
-.app-full-subtitle {
-	font-size: calc(var(--default-font-size) * 1.2);
-	display: flex;
-	gap: calc(var(--default-grid-baseline) * 4);
-}
-</style>
