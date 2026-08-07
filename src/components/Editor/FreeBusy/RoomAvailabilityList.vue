@@ -78,16 +78,6 @@ export default {
 			required: true,
 		},
 
-		startDate: {
-			type: Date,
-			required: true,
-		},
-
-		endDate: {
-			type: Date,
-			required: true,
-		},
-
 		showDialog: {
 			type: Boolean,
 			default: true,

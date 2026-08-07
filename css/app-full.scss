@@ -130,10 +130,30 @@
 	gap: calc(var(--default-grid-baseline) * 4);
 }
 
-.invitees-list {
+.invitees-list,
+.resource-list {
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--default-grid-baseline) * 2);
+
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		min-height: calc(var(--default-grid-baseline) * 9);
+
+		&__title {
+			display: flex;
+			gap: calc(var(--default-grid-baseline) * 2);
+			font-size: calc(var(--default-font-size) * 1.2);
+			align-items: center;
+			font-weight: bold;
+
+			&__text {
+				margin-inline-start: calc(var(--default-grid-baseline) * 2);
+			}
+		}
+	}
 }
 
 .resource-search {
@@ -318,10 +338,6 @@
 	align-items: center;
 	min-height: 44px;
 
-	&__displayname {
-		margin-inline-start: calc(var(--default-grid-baseline) * 2);
-	}
-
 	&__actions {
 		margin-inline-start: auto;
 	}
@@ -334,7 +350,8 @@
 }
 
 .invitees-search__vselect {
-	margin-inline-start: calc(var(--default-grid-baseline) * 4 + 20px);
+	// !important because needs to override selector styles set by selector .v-select.select
+	margin-bottom: 0 !important;
 }
 
 .resource-search-list-item,
