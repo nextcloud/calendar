@@ -82,7 +82,7 @@
 								</template>
 								{{ $t('calendar', 'Export') }}
 							</ActionLink>
-							<ActionButton v-if="!canCreateRecurrenceException && !isReadOnly" @click="duplicateEvent()">
+							<ActionButton v-if="!canCreateRecurrenceException && hasWritableCalendars" @click="duplicateEvent()">
 								<template #icon>
 									<ContentDuplicate :size="20" decorative />
 								</template>
