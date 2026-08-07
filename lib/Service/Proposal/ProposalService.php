@@ -11,6 +11,7 @@ namespace OCA\Calendar\Service\Proposal;
 
 use DateTimeZone;
 use Exception;
+use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Db\ProposalDateMapper;
 use OCA\Calendar\Db\ProposalMapper;
 use OCA\Calendar\Db\ProposalParticipantMapper;
@@ -41,6 +42,7 @@ use OCP\Mail\IMailer;
 use OCP\Mail\Provider\Address;
 use OCP\Mail\Provider\IManager as IMailManager;
 use OCP\Mail\Provider\IMessageSend;
+use OCP\Notification\IManager as INotificationManager;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
@@ -62,6 +64,7 @@ class ProposalService {
 		private IMailer $systemMailManager,
 		private IMailManager $userMailManager,
 		private IManager $calendarManager,
+		private INotificationManager $notificationManager,
 	) {
 	}
 
@@ -449,6 +452,20 @@ class ProposalService {
 		// update participant status to responded
 		$participantEntry->setStatus(ProposalParticipantStatus::Responded->value);
 		$this->proposalParticipantMapper->update($participantEntry);
+
+		// notify the organiser with a bell notification
+		$notification = $this->notificationManager->createNotification();
+		$notification->setApp(Application::APP_ID)
+			->setUser($participantEntry->getUid())
+			->setDateTime(new \DateTime())
+			->setObject('proposal', (string)$proposalEntry->getId())
+			->setSubject('proposal_response', [
+				'id' => $proposalEntry->getId(),
+				'name' => $proposalEntry->getTitle(),
+				'participantId' => $participantEntry->getId(),
+				'participantName' => $participantEntry->getName() ?? $participantEntry->getAddress(),
+			]);
+		$this->notificationManager->notify($notification);
 	}
 
 	private function generateNotifications(IUser $user, ProposalObject $proposal, string $reason): void {

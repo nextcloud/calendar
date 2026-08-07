@@ -40,6 +40,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Mail\Provider\IManager as IMailManager;
+use OCP\Notification\IManager as INotificationManager;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -58,6 +59,7 @@ class ProposalServiceTest extends TestCase {
 	protected IMailer|MockObject $systemMailManager;
 	protected IMailManager|MockObject $userMailManager;
 	protected IManager|MockObject $calendarManager;
+	protected INotificationManager|MockObject $notificationManager;
 	protected ProposalService $service;
 	protected IUser|MockObject $user;
 
@@ -77,6 +79,7 @@ class ProposalServiceTest extends TestCase {
 		$this->systemMailManager = $this->createMock(IMailer::class);
 		$this->userMailManager = $this->createMock(IMailManager::class);
 		$this->calendarManager = $this->createMock(Manager::class);
+		$this->notificationManager = $this->createMock(INotificationManager::class);
 		$this->user = $this->createMock(IUser::class);
 
 		$this->user->method('getUID')->willReturn('testuser');
@@ -96,7 +99,8 @@ class ProposalServiceTest extends TestCase {
 			$this->userManager,
 			$this->systemMailManager,
 			$this->userMailManager,
-			$this->calendarManager
+			$this->calendarManager,
+			$this->notificationManager
 		);
 	}
 
@@ -483,6 +487,17 @@ class ProposalServiceTest extends TestCase {
 		$this->proposalParticipantMapper->expects($this->once())
 			->method('update')
 			->with($participantEntry);
+
+		$notification = $this->createMock(\OCP\Notification\INotification::class);
+		$notification->method('setApp')->willReturn($notification);
+		$notification->method('setUser')->willReturn($notification);
+		$notification->method('setDateTime')->willReturn($notification);
+		$notification->method('setObject')->willReturn($notification);
+		$notification->method('setSubject')->willReturn($notification);
+		$this->notificationManager->method('createNotification')->willReturn($notification);
+		$this->notificationManager->expects($this->once())
+			->method('notify')
+			->with($notification);
 
 		$this->service->storeResponse($response);
 	}
