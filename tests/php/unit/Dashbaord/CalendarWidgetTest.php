@@ -175,6 +175,82 @@ class CalendarWidgetTest extends TestCase {
 		$this->assertEquals($widgets[0], $widget);
 	}
 
+	public function testGetItemsNormalizesFixedOffsetTimeZone(): void {
+		$userId = 'admin';
+		$calendar = $this->createMock(ITestCalendar::class);
+		$time = (new DateTimeImmutable('2026-07-28 04:30:00 UTC'))->getTimestamp();
+		$rangeStart = (new DateTimeImmutable())->setTimestamp($time);
+		$backendStart = new DateTimeImmutable('2026-07-28 11:15:00 UTC');
+		$expectedStart = new DateTimeImmutable('2026-07-28 11:15:00 -04:00');
+		$options = [
+			'timerange' => [
+				'start' => $rangeStart,
+				'end' => $rangeStart->add(new \DateInterval('P14D')),
+			],
+		];
+		$result = [
+			'id' => '3601',
+			'uid' => 'fixed-offset-event',
+			'uri' => 'fixed-offset-event.ics',
+			'objects' => [[
+				'DTSTART' => [
+					$backendStart,
+					['TZID' => 'UTC-04:00'],
+				],
+				'SUMMARY' => ['Fixed offset event'],
+			]],
+		];
+
+		$this->calendarManager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->with('principals/users/' . $userId)
+			->willReturn([$calendar]);
+		$this->timeFactory->expects(self::once())
+			->method('getTime')
+			->willReturn($time);
+		$calendar->expects(self::once())
+			->method('isEnabled')
+			->willReturn(true);
+		$calendar->expects(self::once())
+			->method('isDeleted')
+			->willReturn(false);
+		$calendar->expects(self::once())
+			->method('search')
+			->with('', [], $options, 7)
+			->willReturn([$result]);
+		$calendar->expects(self::once())
+			->method('getDisplayColor')
+			->willReturn('#ffffff');
+		$this->dateTimeFormatter->expects(self::once())
+			->method('formatTimeSpan')
+			->with(self::callback(static fn (\DateTime $dateTime): bool => $dateTime->getTimestamp() === $expectedStart->getTimestamp()))
+			->willReturn('in 10 hours');
+		$this->urlGenerator->expects(self::once())
+			->method('getAbsoluteURL')
+			->willReturn('fixed-offset-event');
+
+		$widgets = $this->widget->getItems($userId);
+
+		$this->assertCount(1, $widgets);
+		$this->assertSame((string)$expectedStart->getTimestamp(), $widgets[0]->getSinceId());
+		$this->assertSame('in 10 hours', $widgets[0]->getSubtitle());
+		$this->assertSame($backendStart, $result['objects'][0]['DTSTART'][0]);
+		$this->assertSame('UTC-04:00', $result['objects'][0]['DTSTART'][1]['TZID']);
+	}
+
+	public function testFixedOffsetNormalizationLeavesAllDayValueUnchanged(): void {
+		$start = new DateTimeImmutable('2026-07-28 00:00:00 UTC');
+		$normalized = self::invokePrivate($this->widget, 'normalizeFixedOffsetDateTime', [[
+			$start,
+			[
+				'TZID' => 'UTC-04:00',
+				'VALUE' => 'DATE',
+			],
+		]]);
+
+		$this->assertSame($start, $normalized);
+	}
+
 	public function testGetItemsCachesCalendarDotPerRequest(): void {
 		$userId = 'admin';
 		$calendarA = $this->createMock(ITestCalendar::class);

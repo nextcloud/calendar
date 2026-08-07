@@ -11,6 +11,7 @@ namespace OCA\Calendar\Dashboard;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
+use DateTimeZone;
 use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Service\JSDataService;
 use OCP\AppFramework\Services\IInitialState;
@@ -146,16 +147,17 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 			foreach ($searchResult as $calendarEvent) {
 				// Find first recurrence in the future
 				$recurrence = null;
+				$startDate = null;
 				foreach ($calendarEvent['objects'] as $object) {
-					/** @var DateTimeImmutable $startDate */
-					$startDate = $object['DTSTART'][0];
-					if ($startDate->getTimestamp() >= $dateTime->getTimestamp()) {
+					$objectStartDate = $this->normalizeFixedOffsetDateTime($object['DTSTART']);
+					if ($objectStartDate->getTimestamp() >= $dateTime->getTimestamp()) {
 						$recurrence = $object;
+						$startDate = $objectStartDate;
 						break;
 					}
 				}
 
-				if ($recurrence === null) {
+				if ($recurrence === null || $startDate === null) {
 					continue;
 				}
 
@@ -175,6 +177,40 @@ class CalendarWidget implements IAPIWidget, IAPIWidgetV2, IButtonWidget, IIconWi
 		});
 
 		return $widgetItems;
+	}
+
+	/**
+	 * Sabre VObject falls back to PHP's default timezone when it cannot resolve
+	 * non-IANA fixed-offset TZIDs such as UTC-04:00. Preserve the parsed wall
+	 * clock and attach the explicit offset before the widget emits a timestamp.
+	 *
+	 * @param array{0: DateTimeImmutable, 1?: array<string, mixed>} $dateTimeProperty
+	 */
+	private function normalizeFixedOffsetDateTime(array $dateTimeProperty): DateTimeImmutable {
+		$dateTime = $dateTimeProperty[0];
+		$parameters = $dateTimeProperty[1] ?? [];
+		$tzid = isset($parameters['TZID']) ? (string)$parameters['TZID'] : '';
+		$valueType = isset($parameters['VALUE']) ? (string)$parameters['VALUE'] : '';
+
+		if (strcasecmp($valueType, 'DATE') === 0
+			|| preg_match('/^UTC([+-])(\d{2}):?(\d{2})$/i', $tzid, $matches) !== 1) {
+			return $dateTime;
+		}
+
+		$hours = (int)$matches[2];
+		$minutes = (int)$matches[3];
+		if ($hours > 23 || $minutes > 59) {
+			return $dateTime;
+		}
+
+		$timeZone = new DateTimeZone(sprintf('%s%02d:%02d', $matches[1], $hours, $minutes));
+		$normalized = DateTimeImmutable::createFromFormat(
+			'!Y-m-d H:i:s.u',
+			$dateTime->format('Y-m-d H:i:s.u'),
+			$timeZone,
+		);
+
+		return $normalized ?: $dateTime;
 	}
 
 	private function getCalendarDotIconUrl(?string $color): string {
