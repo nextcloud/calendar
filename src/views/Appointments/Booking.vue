@@ -260,9 +260,17 @@ export default {
 #appointment-booking {
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	// center would push .booking__container off-screen (negative offset) once it's taller than this box
+	align-items: flex-start;
 	width: 100%;
-	height: 100%;
+	min-height: 100%;
+}
+
+@media (max-width: 768px) {
+	// Hidden instead of reserved-for: overlaps booking content otherwise
+	footer {
+		display: none;
+	}
 }
 </style>
 
@@ -270,10 +278,17 @@ export default {
 .booking__container {
 	display: flex;
 	width: 100%;
-	height: 100vh;
+	min-height: calc(100vh - var(--header-height, 50px) - var(--footer-height, 65px));
+	min-height: calc(100dvh - var(--header-height, 50px) - var(--footer-height, 65px));
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+
+	@media (max-width: 768px) {
+		// Footer is hidden on mobile (see unscoped style block), so no need to reserve space for it
+		min-height: calc(100vh - var(--header-height, 50px));
+		min-height: calc(100dvh - var(--header-height, 50px));
+	}
 }
 
 .booking {
@@ -285,17 +300,41 @@ export default {
 	padding-top: calc(var(--default-grid-baseline) * 4);
 	padding-bottom: calc(var(--default-grid-baseline) * 4);
 	padding-inline: calc(var(--default-grid-baseline) * 4);
-	margin-bottom: var(--footer-height);
+
+	@media (max-width: 768px) {
+		flex-direction: column;
+		padding-inline: calc(var(--default-grid-baseline) * 2);
+	}
 }
 
 .booking__description {
 	white-space: break-spaces;
 }
 
+.booking__config-user-info,
+.booking__date-selection,
+.booking__slot-selection {
+	min-width: 0;
+}
+
 .booking__date-selection {
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--default-grid-baseline) * 2);
+
+	@media (max-width: 768px) {
+		overflow-x: auto;
+	}
+}
+
+.booking__time-zone {
+	@media (max-width: 768px) {
+		width: 100%;
+
+		:deep(.v-select) {
+			width: 100%;
+		}
+	}
 }
 
 .booking__slots {
@@ -307,6 +346,10 @@ export default {
 
 .booking__slot-selection {
 	min-width: 180px;
+
+	@media (max-width: 768px) {
+		min-width: 0;
+	}
 }
 
 :deep(.mx-input-wrapper) {
