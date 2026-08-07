@@ -117,6 +117,10 @@ After completing code changes:
 7. Suggest a commit message using Conventional Commits format
 8. The user will review and commit when ready
 
+### PR Descriptions
+
+A brief "How to test" section in the PR body is welcome, a few sentences describing what to exercise and what to look for. Do **not** write a checklist (no `- [ ] ...` items) in the testing section, it isn't useful and adds noise.
+
 ### PR Review Workflow
 
 Once a branch is pushed and under review, **do not force-push**. Reviewers track changes incrementally — a force-push destroys that history and forces them to re-read the full diff from scratch.
