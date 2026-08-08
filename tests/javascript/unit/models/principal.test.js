@@ -217,6 +217,13 @@ describe('Test suite: Principal model (models/principal.js)', () => {
 			isCalendarRoom: true,
 			principalId: 'room-123',
 			userId: null,
+			roomAddress: null,
+			roomBuildingAddress: null,
+			roomBuildingStory: null,
+			roomBuildingRoomNumber: null,
+			roomFeatures: null,
+			roomSeatingCapacity: null,
+			roomType: null,
 		})
 	})
 
