@@ -540,6 +540,7 @@ OC.L10N.register(
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "A definição de recorrência deste evento não é totalmente suportada pelo Nextcloud. Se você editar as opções de recorrência, determinadas recorrências poderão ser perdidas.",
     "No rooms or resources yet" : "Ainda não há salas ou recursos",
     "Resources" : "Recursos",
+    "Show rooms" : "Mostrar salas",
     "_{seatingCapacity} seat_::_{seatingCapacity} seats_" : ["{seatingCapacity} assento","{seatingCapacity} assentos","{seatingCapacity} assentos"],
     "Add resource" : "Adicionar recurso",
     "Has a projector" : "Tem projetor",

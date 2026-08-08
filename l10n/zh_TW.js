@@ -540,6 +540,7 @@ OC.L10N.register(
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "Nextcloud 不完全支援此活動的重複。如果您編輯了重複選項，某些重複可能會遺失。",
     "No rooms or resources yet" : "還沒有聊天室或資源",
     "Resources" : "資源",
+    "Show rooms" : "顯示聊天室",
     "_{seatingCapacity} seat_::_{seatingCapacity} seats_" : ["{seatingCapacity} 個座位"],
     "Add resource" : "新增資源",
     "Has a projector" : "有投影機",

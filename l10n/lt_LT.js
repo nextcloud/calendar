@@ -540,6 +540,7 @@ OC.L10N.register(
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "„Nextcloud“ nepalaiko pilnai šio įvykio pasikartojimo apibrėžimo. Jei taisysite pasikartojimo parinktis, tam tikri pasikartojimai gali būti prarasti.",
     "No rooms or resources yet" : "Kol kas nėra kambarių ar išteklių",
     "Resources" : "Ištekliai",
+    "Show rooms" : "Ekspozicijų salės",
     "_{seatingCapacity} seat_::_{seatingCapacity} seats_" : ["{seatingCapacity} sėdima vieta","{seatingCapacity} sėdimos vietos","{seatingCapacity} sėdimų vietų","{seatingCapacity} sėdima vieta"],
     "Add resource" : "Pridėti išteklių",
     "Has a projector" : "Yra projektorius",

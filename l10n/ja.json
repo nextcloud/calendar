@@ -538,6 +538,7 @@
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "このイベントの繰り返し定義は、Nextcloudでは完全にサポートされていません。繰り返しオプションを編集すると、特定の繰り返しが失われる場合があります。",
     "No rooms or resources yet" : "ルームやリソースがありません",
     "Resources" : "リソース",
+    "Show rooms" : "ルームを表示する",
     "_{seatingCapacity} seat_::_{seatingCapacity} seats_" : ["{seatingCapacity} 席"],
     "Add resource" : "リソースを追加する",
     "Has a projector" : "プロジェクタ設置",
