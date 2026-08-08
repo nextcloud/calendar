@@ -540,6 +540,7 @@ OC.L10N.register(
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "Selle sündmuse korduvuse määratlus pole Nextcloudis toetatud. Kui muudad korduvuse valikuid, siis mõned neist võivad kaotsi minna.",
     "No rooms or resources yet" : "Pole veel ruume ega ressursse",
     "Resources" : "Ressursid",
+    "Show rooms" : "Näita koosolekuruume",
     "_{seatingCapacity} seat_::_{seatingCapacity} seats_" : ["{seatingCapacity} koht","{seatingCapacity} kohta"],
     "Add resource" : "Lisa ressurss",
     "Has a projector" : "Olemas on projektor",
