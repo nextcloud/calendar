@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2022-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Block merges for EOL branches
+
+on: pull_request
+
+env:
+  ACTIVE_BRANCHES: "['master', 'stable6.5']"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: block-merge-eol-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  block-merges-eol:
+    name: Block merges for EOL branches
+    runs-on: ubuntu-latest-low
+
+    steps:
+      - name: Check base branch is active
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          if jq --exit-status --arg branch "$BASE_REF" 'index($branch) != null' <<< "$ACTIVE_BRANCHES" > /dev/null; then
+            echo "Pull requests targeting $BASE_REF are allowed."
+          else
+            echo "::error::Pull requests targeting $BASE_REF are not allowed. Active branches: $ACTIVE_BRANCHES."
+            exit 1
+          fi
