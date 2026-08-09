@@ -538,6 +538,7 @@
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "Ní thacaíonn Nextcloud go hiomlán le sainmhíniú atarlaithe an imeachta seo. Má chuireann tú na roghanna atarlaithe in eagar, seans go gcaillfear atarlú áirithe.",
     "No rooms or resources yet" : "Níl seomraí ná acmhainní ann fós",
     "Resources" : "Acmhainní",
+    "Show rooms" : "Seomraí taispeántais",
     "_{seatingCapacity} seat_::_{seatingCapacity} seats_" : [" {suíocháin Cumas} suíochán","{Toilleadh suíocháin} suíocháin","{Toilleadh suíocháin} suíocháin","{Toilleadh suíocháin} suíocháin","{Toilleadh suíocháin} suíocháin"],
     "Add resource" : "Cuir acmhainn leis",
     "Has a projector" : "Tá teilgeoir",
