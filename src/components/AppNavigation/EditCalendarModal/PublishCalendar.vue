@@ -151,6 +151,7 @@ import LinkIcon from 'vue-material-design-icons/Link.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import useCalendarsStore from '../../../store/calendars.js'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'PublishCalendar',
@@ -217,7 +218,7 @@ export default {
 			try {
 				await this.calendarsStore.publishCalendar({ calendar: this.calendar })
 			} catch (error) {
-				console.debug(error)
+				logger.debug(error)
 				showError(this.$t('calendar', 'An error occurred, unable to publish calendar.'))
 			} finally {
 				this.publishingCalendar = false
@@ -246,7 +247,7 @@ export default {
 					token: this.calendar.publishURL.split('/').slice(-1)[0],
 				})
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'An error occurred, unable to send email.'))
 			} finally {
 				this.showEMailLabel = true
@@ -268,7 +269,7 @@ export default {
 				await navigator.clipboard.writeText(url)
 				showSuccess(this.$t('calendar', 'Calendar link copied to clipboard.'))
 			} catch (error) {
-				console.debug(error)
+				logger.debug(error)
 				showError(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
 			} finally {
 				this.showCopyPublicLinkLabel = true
@@ -297,7 +298,7 @@ export default {
 
 				showSuccess(this.$t('calendar', 'Calendar link copied to clipboard.'))
 			} catch (error) {
-				console.debug(error)
+				logger.debug(error)
 				this.menuOpen = true
 				this.showCopySubscriptionLinkLabel = false
 				this.showCopySubscriptionLinkSpinner = false
@@ -339,7 +340,7 @@ export default {
 
 				showSuccess(this.$t('calendar', 'Embed code copied to clipboard.'))
 			} catch (error) {
-				console.debug(error)
+				logger.debug(error)
 				this.menuOpen = true
 				this.showCopyEmbedCodeLinkLabel = false
 				this.showCopyEmbedCodeLinkSpinner = false
@@ -365,7 +366,7 @@ export default {
 				await this.calendarsStore.unpublishCalendar({ calendar })
 				this.unpublishingCalendar = false
 			} catch (error) {
-				console.debug(error)
+				logger.debug(error)
 				this.unpublishingCalendar = false
 				showError(this.$t('calendar', 'Unpublishing calendar failed'))
 			}

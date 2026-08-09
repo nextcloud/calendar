@@ -450,7 +450,7 @@ export default {
 
 		if (isNewEvent) {
 			// For new events, create a new calendar object instance
-			console.debug('[Editor] Creating new event')
+			logger.debug('[Editor] Creating new event')
 			try {
 				await this.loadingCalendars()
 
@@ -472,9 +472,9 @@ export default {
 					this.addDelegatorAsAttendeeIfNeeded(this.selectedCalendar)
 				}
 
-				console.debug('[Editor] New event created successfully')
+				logger.debug('[Editor] New event created successfully')
 			} catch (error) {
-				console.error('[Editor] Error creating new event:', error)
+				logger.error('[Editor] Error creating new event:', { error })
 			} finally {
 				this.isLoading = false
 			}
@@ -483,7 +483,7 @@ export default {
 			const objectId = this.$route.params.object
 			const recurrenceId = this.$route.params.recurrenceId
 
-			console.debug('[Editor] Loading event data...', { objectId, recurrenceId })
+			logger.debug('[Editor] Loading event data...', { objectId, recurrenceId })
 
 			try {
 				await this.loadingCalendars()
@@ -491,14 +491,14 @@ export default {
 				this.calendarId = this.calendarObject.calendarId
 				this.isEditingMasterItem = this.eventComponent.isMasterItem()
 				this.isRecurrenceException = this.eventComponent.isRecurrenceException()
-				console.debug('[Editor] Event loaded successfully')
+				logger.debug('[Editor] Event loaded successfully')
 			} catch (error) {
-				console.error('[Editor] Error loading event:', error)
+				logger.error('[Editor] Error loading event:', { error })
 				this.isError = true
 				this.error = this.$t('calendar', 'It might have been deleted, or there was a typo in a link')
 			} finally {
 				this.isLoading = false
-				console.debug('[Editor] isLoading set to false')
+				logger.debug('[Editor] isLoading set to false')
 			}
 		}
 	},
@@ -956,7 +956,7 @@ export default {
 					await vm.calendarObjectInstanceStore.getCalendarObjectInstanceForNewEvent({ isAllDay, start, end, timezoneId })
 					vm.calendarId = vm.calendarObject.calendarId
 				} catch (error) {
-					console.debug(error)
+					logger.debug(error)
 					vm.isError = true
 					vm.error = t('calendar', 'It might have been deleted, or there was a typo in a link')
 				} finally {
@@ -982,7 +982,7 @@ export default {
 						const params = { ...vm.$route.params, recurrenceId }
 						vm.$router.replace({ name: vm.$route.name, params })
 					} catch (error) {
-						console.debug(error)
+						logger.debug(error)
 						vm.isError = true
 						vm.error = t('calendar', 'It might have been deleted, or there was a typo in a link')
 						return // if we cannot resolve next to an actual recurrenceId, return here to avoid further processing.
@@ -998,7 +998,7 @@ export default {
 					vm.isEditingMasterItem = vm.eventComponent.isMasterItem()
 					vm.isRecurrenceException = vm.eventComponent.isRecurrenceException()
 				} catch (error) {
-					console.debug(error)
+					logger.debug(error)
 					vm.isError = true
 					vm.error = t('calendar', 'It might have been deleted, or there was a typo in a link')
 				} finally {
@@ -1051,7 +1051,7 @@ export default {
 			try {
 				await this.save()
 			} catch (error) {
-				console.debug(error)
+				logger.debug(error)
 				next(false)
 				return
 			}
@@ -1078,7 +1078,7 @@ export default {
 				this.isEditingMasterItem = this.eventComponent.isMasterItem()
 				this.isRecurrenceException = this.eventComponent.isRecurrenceException()
 			} catch (error) {
-				console.debug(error)
+				logger.debug(error)
 				this.isError = true
 				this.error = t('calendar', 'It might have been deleted, or there was a typo in the link')
 			} finally {
@@ -1109,7 +1109,7 @@ export default {
 			}
 			next()
 		} catch (error) {
-			console.debug(error)
+			logger.debug(error)
 			next(false)
 		}
 	},

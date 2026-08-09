@@ -20,6 +20,7 @@ import {
 import { computed, ref } from 'vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import Download from 'vue-material-design-icons/TrayArrowDown.vue'
+import logger from '@/utils/logger.js'
 
 const props = defineProps<{
 	calendar: CalendarInterface
@@ -82,7 +83,7 @@ async function copySubscriptionLink(): Promise<void> {
 
 		showSuccess(t('calendar', 'Calendar link copied to clipboard.'))
 	} catch (error) {
-		console.debug(error)
+		logger.debug(error)
 		menuOpen.value = true
 		showCopySubscriptionLinkLabel.value = false
 		showCopySubscriptionLinkSpinner.value = false

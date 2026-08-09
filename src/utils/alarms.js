@@ -9,6 +9,7 @@ import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import useCalendarsStore from '../store/calendars.js'
 import useSettingsStore from '../store/settings.js'
 import { isAfterVersion } from './nextcloudVersion.ts'
+import logger from '@/utils/logger.js'
 
 /**
  * Get the factor for a given unit
@@ -217,7 +218,7 @@ export function updateDefaultAlarm(calendarId, calendarObjectInstance) {
 	const calendar = calendarsStore.getCalendarById(calendarId)
 
 	if (!calendar || !calendarObjectInstance) {
-		console.error('Missing calendar or calendar object instance to update default alarm for.')
+		logger.error('Missing calendar or calendar object instance to update default alarm for.')
 		return
 	}
 

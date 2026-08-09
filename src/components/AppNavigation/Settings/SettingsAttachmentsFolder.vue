@@ -74,7 +74,7 @@ export default {
 					showSuccess(this.$t('calendar', 'Attachments folder successfully saved.'))
 				})
 				.catch((error) => {
-					console.error(error)
+					logger.error(error)
 					showError(this.$t('calendar', 'Error on saving attachments folder.'))
 				})
 		},

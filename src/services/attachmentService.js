@@ -9,6 +9,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { generateOcsUrl, generateRemoteUrl } from '@nextcloud/router'
 import { parseXML } from 'webdav'
 import { parseUploadError } from '../utils/propfindErrorParse.js'
+import logger from '@/utils/logger.js'
 
 /**
  * Makes a share link for a given file or directory.
@@ -25,11 +26,11 @@ async function shareFile(path) {
 		return res.data.ocs.data
 	} catch (error) {
 		if (error?.response?.data?.ocs?.meta?.message) {
-			console.error(`Error while sharing file: ${error.response.data.ocs.meta.message}`)
+			logger.error(`Error while sharing file: ${error.response.data.ocs.meta.message}`)
 			showError(error.response.data.ocs.meta.message)
 			throw error
 		} else {
-			console.error('Error while sharing file: Unknown error')
+			logger.error('Error while sharing file: Unknown error')
 			showError(t('calendar', 'Error while sharing file'))
 			throw error
 		}
@@ -57,11 +58,11 @@ async function shareFileWith(path, sharedWith, permissions = 17) {
 		return res.data.ocs.data
 	} catch (error) {
 		if (error?.response?.data?.ocs?.meta?.message) {
-			console.error(`Error while sharing file with user: ${error.response.data.ocs.meta.message}`)
+			logger.error(`Error while sharing file with user: ${error.response.data.ocs.meta.message}`)
 			showError(error.response.data.ocs.meta.message)
 			throw error
 		} else {
-			console.error('Error while sharing file with user: Unknown error')
+			logger.error('Error while sharing file with user: Unknown error')
 			showError(t('calendar', 'Error while sharing file with user'))
 			throw error
 		}

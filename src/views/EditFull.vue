@@ -717,7 +717,7 @@ export default {
 							// toastify success
 						} catch (e) {
 							// toastify err
-							console.error(e)
+							logger.error(e)
 						}
 						return attachment
 					})

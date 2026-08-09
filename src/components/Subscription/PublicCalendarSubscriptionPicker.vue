@@ -63,6 +63,7 @@ import holidayCalendars from '../../resources/holiday_calendars.json'
 import { findAllSubscriptions } from '../../services/caldavService.js'
 import useCalendarsStore from '../../store/calendars.js'
 import { uidToHexColor } from '../../utils/color.js'
+import logger from '@/utils/logger.js'
 
 function isValidString(str, allowNull = false) {
 	return typeof str === 'string' || str instanceof String || (allowNull && !str)
@@ -112,12 +113,12 @@ export default {
 						&& isValidString(calendar.description, true)
 						&& isValidString(calendar.authors, true)
 					if (!isValid) {
-						console.error('Invalid public calendar', calendar)
+						logger.error('Invalid public calendar', { calendar })
 					}
 					return isValid
 				})
 			} catch (error) {
-				console.error('Could not read public calendars', error)
+				logger.error('Could not read public calendars', { error })
 				showError(this.$t('calendar', 'An error occurred, unable to read public calendars.'))
 			}
 		}
@@ -158,7 +159,7 @@ export default {
 				})
 				this.subscribed[calendar.source] = true
 			} catch (error) {
-				console.error('Could not add calendar subscription', error)
+				logger.error('Could not add calendar subscription', { error })
 				showError(this.$t('calendar', 'An error occurred, unable to subscribe to calendar.'))
 			} finally {
 				this.subscribing[calendar.source] = false

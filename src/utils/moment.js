@@ -4,6 +4,7 @@
  */
 import { getFirstDay, getLanguage, getLocale } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
+import logger from '@/utils/logger.js'
 
 /**
  *
@@ -69,7 +70,7 @@ async function getLocaleFor(locale) {
 			return locale
 		} catch {
 			// failure, fallback to english
-			console.debug('Fallback to locale', 'en')
+			logger.debug('Fallback to locale', { locale: 'en' })
 			// English is the default locale and doesn't need to imported.
 			// It is already included in moment.js.
 		}

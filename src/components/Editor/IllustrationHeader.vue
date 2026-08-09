@@ -17,6 +17,7 @@
 <script>
 import HttpClient from '@nextcloud/axios'
 import { uidToHexColor } from '../../utils/color.js'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'IllustrationHeader',
@@ -69,7 +70,7 @@ export default {
 					const response = await HttpClient.get(newUrl)
 					this.svg = response.data
 				} catch (error) {
-					console.debug(error)
+					logger.debug(error)
 					this.svg = ''
 				}
 			},

@@ -7,6 +7,7 @@ import HttpClient from '@nextcloud/axios'
 import { getLocale } from '@nextcloud/l10n'
 import { getBaseUrl, linkTo } from '@nextcloud/router'
 import { principalPropertySearchByDisplaynameOrEmail } from './caldavService.js'
+import logger from '@/utils/logger.js'
 
 /**
  *
@@ -32,7 +33,7 @@ export async function getAttendeeDetails(email) {
 			response = await HttpClient.get(getBaseUrl() + `/ocs/v1.php/cloud/users/${principles[0].userId}`, {})
 		}
 	} catch (error) {
-		console.debug(error)
+		logger.debug(error)
 		return {}
 	}
 
@@ -47,7 +48,7 @@ export async function getAttendeeDetails(email) {
 			search: email,
 		})
 	} catch (error) {
-		console.debug(error)
+		logger.debug(error)
 		return {}
 	}
 

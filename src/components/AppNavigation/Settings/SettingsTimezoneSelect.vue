@@ -23,6 +23,7 @@ import { NcTimezonePicker as TimezonePicker } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import useSettingsStore from '../../../store/settings.js'
 import { randomId } from '../../../utils/randomId.js'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'SettingsTimezoneSelect',
@@ -80,7 +81,7 @@ export default {
 		setTimezoneValue(timezoneId) {
 			this.settingsStore.setTimezone({ timezoneId })
 				.catch((error) => {
-					console.error(error)
+					logger.error(error)
 					showInfo(this.$t('calendar', 'New setting was not saved successfully.'))
 				})
 		},

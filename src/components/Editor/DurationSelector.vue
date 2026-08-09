@@ -10,6 +10,7 @@
 import { n, t } from '@nextcloud/l10n'
 import { computed, ref, watch } from 'vue'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
+import logger from '@/utils/logger.js'
 
 interface DurationOption {
 	value: number | 'custom'
@@ -322,7 +323,7 @@ function iso8601ToMinutes(iso8601: string): number {
 	const pattern = /^P(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?$/
 	const matches = iso8601.match(pattern)
 	if (!matches) {
-		console.warn('Invalid ISO 8601 duration format:', iso8601)
+		logger.warn('Invalid ISO 8601 duration format:', { iso8601 })
 		return 0
 	}
 	const days = parseInt(matches[1] || '0', 10)

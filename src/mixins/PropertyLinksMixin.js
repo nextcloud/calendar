@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { find as findLinks } from 'linkifyjs'
+import logger from '@/utils/logger.js'
 
 export default {
 	props: {
@@ -42,7 +43,7 @@ export default {
 			}
 			if (this.textareaHasFocus === true) {
 				// the textarea is shown already, should never happen
-				console.error('this.textareaHasFocus is true but click event is dispatched on div')
+				logger.error('this.textareaHasFocus is true but click event is dispatched on div')
 				return
 			}
 

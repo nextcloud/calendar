@@ -20,6 +20,7 @@ import AppNavigationHeaderDatePicker from './AppNavigationHeader/AppNavigationHe
 import AppNavigationHeaderTodayButton from './EmbedHeader/EmbedHeaderTodayButton.vue'
 import AppNavigationHeaderViewButtons from './EmbedHeader/EmbedHeaderViewButtons.vue'
 import useCalendarsStore from '@/store/calendars.js'
+import logger from '@/utils/logger.js'
 
 withDefaults(defineProps<{
 	isWidget?: boolean
@@ -45,7 +46,7 @@ async function copySubscriptionLink(calendar: CalendarInterface): Promise<void> 
 		await navigator.clipboard.writeText(url.toString())
 		showSuccess(t('calendar', 'Calendar link copied to clipboard.'))
 	} catch (error) {
-		console.debug(error)
+		logger.debug(error)
 		showError(t('calendar', 'Calendar link could not be copied to clipboard.'))
 	}
 }

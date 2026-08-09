@@ -49,6 +49,7 @@ import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import useCalendarsStore from '../../../store/calendars.js'
 import usePrincipalsStore from '../../../store/principals.js'
 import { randomId } from '../../../utils/randomId.js'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'ShareItem',
@@ -127,7 +128,7 @@ export default {
 				})
 				this.updatingSharee = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showInfo(this.$t('calendar', 'An error occurred while unsharing the calendar.'))
 
 				this.updatingSharee = false
@@ -148,7 +149,7 @@ export default {
 				})
 				this.updatingSharee = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showInfo(this.$t('calendar', 'An error occurred, unable to change the permission of the share.'))
 
 				this.updatingSharee = false

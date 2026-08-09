@@ -283,7 +283,7 @@ export default defineStore('calendars', {
 		async loadCollections() {
 			const principalsStore = usePrincipalsStore()
 			const { calendars, trashBins, scheduleInboxes, subscriptions } = await findAll()
-			console.info('calendar home scanned', calendars, trashBins, subscriptions)
+			logger.info('calendar home scanned', { calendars, trashBins, subscriptions })
 			calendars.map((calendar) => mapDavCollectionToCalendar(calendar, principalsStore.getCurrentUserPrincipal)).forEach((calendar) => {
 				this.addCalendarMutation({ calendar })
 			})
@@ -323,7 +323,7 @@ export default defineStore('calendars', {
 		 */
 		async loadDeletedCalendarObjects() {
 			const vobjects = await this.trashBin.findDeletedObjects() /// TODO what is this?
-			console.info('vobjects loaded', { vobjects })
+			logger.info('vobjects loaded', { vobjects })
 
 			vobjects.forEach((vobject) => {
 				try {
@@ -335,7 +335,7 @@ export default defineStore('calendars', {
 					}
 					this.deletedCalendarObjects.push(calendarObject)
 				} catch (error) {
-					console.error('could not convert calendar object', vobject, error)
+					logger.error('could not convert calendar object', { vobject, error })
 				}
 			})
 		},
@@ -457,7 +457,7 @@ export default defineStore('calendars', {
 					await this.deleteCalendar({ calendar })
 				} catch (error) {
 					showError(t('calendar', 'An error occurred, unable to delete the calendar.'))
-					console.error(error)
+					logger.error(error)
 				} finally {
 					clearInterval(deleteInterval)
 				}
@@ -766,7 +766,8 @@ export default defineStore('calendars', {
 					calendarObjects.push(calendarObject)
 					calendarObjectIds.push(calendarObject.id)
 				} catch (e) {
-					console.error(`could not convert calendar object of calendar ${calendar.id}`, e, {
+					logger.error(`could not convert calendar object of calendar ${calendar.id}`, {
+						e,
 						response: r,
 					})
 				}
@@ -893,7 +894,7 @@ export default defineStore('calendars', {
 							davObject = await calendar.dav.createVObject(ics)
 						} catch (error) {
 							importStateStore.denied++
-							console.error(error)
+							logger.error(error)
 							return
 						}
 
@@ -948,7 +949,7 @@ export default defineStore('calendars', {
 			await Promise.all(requests)
 
 			for (const { calendar, newOrder } of calendarsToUpdate) {
-				console.debug(calendar, newOrder)
+				logger.debug('Reordered calendar', { calendar, newOrder })
 				this.calendarsById[calendar.id].order = newOrder
 			}
 		},

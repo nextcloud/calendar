@@ -50,14 +50,14 @@ export default function(fcAPI) {
 		try {
 			calendarObject = await calendarsStore.getEventByObjectId({ objectId })
 		} catch (error) {
-			console.debug(error)
+			logger.debug(error)
 			revert()
 			return
 		}
 
 		const eventComponent = getObjectAtRecurrenceId(calendarObject, recurrenceIdDate)
 		if (!eventComponent) {
-			console.debug('Recurrence-id not found')
+			logger.debug('Recurrence-id not found')
 			revert()
 			return
 		}
@@ -88,7 +88,7 @@ export default function(fcAPI) {
 			calendarObjectsStore.resetCalendarObjectToDavMutation({
 				calendarObject,
 			})
-			console.debug(error)
+			logger.debug(error)
 			revert()
 			return
 		}
@@ -105,7 +105,7 @@ export default function(fcAPI) {
 			calendarObjectsStore.resetCalendarObjectToDavMutation({
 				calendarObject,
 			})
-			console.debug(error)
+			logger.debug(error)
 			revert()
 		}
 	}, 'eventDrop')

@@ -33,6 +33,7 @@ import useCalendarObjectsStore from './calendarObjects.js'
 import useCalendarsStore from './calendars.js'
 import useSettingsStore from './settings.js'
 import { updateRoomParticipantsFromEvent } from '@/services/talkService'
+import logger from '@/utils/logger.js'
 
 export default defineStore('calendarObjectInstance', {
 	state: () => {
@@ -415,10 +416,7 @@ export default defineStore('calendarObjectInstance', {
 
 			// Abort if either is undefined
 			if (!cssColorName || !hexColorOfCssName) {
-				console.error('Setting custom color failed')
-				console.error('customColor: ', customColor)
-				console.error('cssColorName: ', cssColorName)
-				console.error('hexColorOfCssName: ', hexColorOfCssName)
+				logger.error('Setting custom color failed', { customColor, cssColorName, hexColorOfCssName })
 				return
 			}
 
@@ -646,7 +644,7 @@ export default defineStore('calendarObjectInstance', {
 				recurrenceRule.recurrenceRuleValue.interval = interval
 				recurrenceRule.interval = interval
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
 		},
 
@@ -665,7 +663,7 @@ export default defineStore('calendarObjectInstance', {
 				recurrenceRule.recurrenceRuleValue.frequency = frequency
 				recurrenceRule.frequency = frequency
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
 		},
 
@@ -685,7 +683,7 @@ export default defineStore('calendarObjectInstance', {
 				recurrenceRule.count = count
 				recurrenceRule.until = null
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
 		},
 
@@ -712,7 +710,7 @@ export default defineStore('calendarObjectInstance', {
 				recurrenceRule.until = until
 				recurrenceRule.count = null
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
 		},
 
@@ -728,7 +726,7 @@ export default defineStore('calendarObjectInstance', {
 				recurrenceRule.until = null
 				recurrenceRule.count = null
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
 		},
 
@@ -768,7 +766,7 @@ export default defineStore('calendarObjectInstance', {
 				recurrenceRule.byMonthDay = []
 				recurrenceRule.bySetPosition = null
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
 		},
 
@@ -793,7 +791,7 @@ export default defineStore('calendarObjectInstance', {
 				recurrenceRule.byDay.push(byDay)
 				recurrenceRule.bySetPosition = bySetPosition
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
 		},
 
@@ -819,7 +817,7 @@ export default defineStore('calendarObjectInstance', {
 				recurrenceRule.byDay.push(byDay)
 				recurrenceRule.bySetPosition = bySetPosition
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
 		},
 
@@ -847,7 +845,7 @@ export default defineStore('calendarObjectInstance', {
 					recurrenceRule.byDay.push(byDay)
 				}
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
 		},
 
@@ -875,7 +873,7 @@ export default defineStore('calendarObjectInstance', {
 					recurrenceRule.byDay.splice(index2, 1)
 				}
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
 		},
 
@@ -903,7 +901,7 @@ export default defineStore('calendarObjectInstance', {
 					recurrenceRule.byMonthDay.push(byMonthDay)
 				}
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
 		},
 
@@ -931,7 +929,7 @@ export default defineStore('calendarObjectInstance', {
 					recurrenceRule.byMonthDay.splice(index2, 1)
 				}
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
 		},
 
@@ -947,7 +945,7 @@ export default defineStore('calendarObjectInstance', {
 			byMonth,
 		}) {
 			if (recurrenceRule.recurrenceRuleValue) {
-				console.debug('addByMonthToRecurrenceRule', byMonth)
+				logger.debug('addByMonthToRecurrenceRule', byMonth)
 
 				const byMonthList = recurrenceRule.recurrenceRuleValue.getComponent('BYMONTH')
 				const index = byMonthList.indexOf(byMonth)
@@ -961,7 +959,7 @@ export default defineStore('calendarObjectInstance', {
 					recurrenceRule.byMonth.push(byMonth)
 				}
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
 		},
 
@@ -977,7 +975,7 @@ export default defineStore('calendarObjectInstance', {
 			byMonth,
 		}) {
 			if (recurrenceRule.recurrenceRuleValue) {
-				console.debug('removeByMonthFromRecurrenceRule', byMonth)
+				logger.debug('removeByMonthFromRecurrenceRule', byMonth)
 
 				const byMonthList = recurrenceRule.recurrenceRuleValue.getComponent('BYMONTH')
 				const index = byMonthList.indexOf(byMonth)
@@ -991,7 +989,7 @@ export default defineStore('calendarObjectInstance', {
 					recurrenceRule.byMonth.splice(index2, 1)
 				}
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
 		},
 
@@ -1010,7 +1008,7 @@ export default defineStore('calendarObjectInstance', {
 				// TODO recurrenceRule.byDay = byDay
 				recurrenceRule.byDay = byDay
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
 		},
 
@@ -1030,7 +1028,7 @@ export default defineStore('calendarObjectInstance', {
 				/// TODO recurrenceRule.bySetPosition = bySetPosition
 				recurrenceRule.bySetPosition = bySetPosition
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
 		},
 
@@ -1057,7 +1055,7 @@ export default defineStore('calendarObjectInstance', {
 				alarm.alarmComponent.action = type
 				alarm.type = type
 
-				console.debug(alarm.alarmComponent.toICALJs().toString())
+				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
 		},
 
@@ -1081,7 +1079,7 @@ export default defineStore('calendarObjectInstance', {
 
 				alarm.absoluteDate = date
 
-				console.debug(alarm.alarmComponent.toICALJs().toString())
+				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
 		},
 
@@ -1101,7 +1099,7 @@ export default defineStore('calendarObjectInstance', {
 
 				alarm.absoluteTimezoneId = timezoneId
 
-				console.debug(alarm.alarmComponent.toICALJs().toString())
+				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
 		},
 
@@ -1135,7 +1133,7 @@ export default defineStore('calendarObjectInstance', {
 				alarm.relativeUnitTimed = timedParts.unit
 				alarm.relativeAmountTimed = timedParts.amount
 
-				console.debug(alarm.alarmComponent.toICALJs().toString())
+				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
 		},
 
@@ -1166,7 +1164,7 @@ export default defineStore('calendarObjectInstance', {
 
 				calendarObjectInstance.alarms.push(alarmObject)
 
-				console.debug(alarmObject.alarmComponent.toICALJs().toString())
+				logger.debug(alarmObject.alarmComponent.toICALJs().toString())
 			}
 		},
 
@@ -1708,9 +1706,7 @@ export default defineStore('calendarObjectInstance', {
 			recurrenceRule,
 			frequency,
 		}) {
-			console.debug(calendarObjectInstance)
-			console.debug(recurrenceRule)
-			console.debug(frequency)
+			logger.debug('changeRecurrenceFrequency', { calendarObjectInstance, recurrenceRule, frequency })
 
 			if (recurrenceRule.frequency === 'NONE' && frequency !== 'NONE') {
 				// Add a new recurrence-rule
@@ -1739,17 +1735,16 @@ export default defineStore('calendarObjectInstance', {
 					frequency,
 				})
 
-				console.debug(`changed from none to ${frequency}`)
+				logger.debug(`changed from none to ${frequency}`)
 			} else if (recurrenceRule.frequency !== 'NONE' && frequency === 'NONE') {
-				console.debug('calling removeRecurrenceRuleFromCalendarObjectInstance')
+				logger.debug('calling removeRecurrenceRuleFromCalendarObjectInstance')
 				// Remove the recurrence-rule
 				if (recurrenceRule.recurrenceRuleValue) {
 					calendarObjectInstance.eventComponent.deleteAllProperties('RRULE')
 					/// TODO calendarObjectInstance.recurrenceRule = getDefaultEventObject().recurrenceRule
 					calendarObjectInstance.recurrenceRule = getDefaultEventObject().recurrenceRule
 
-					console.debug(calendarObjectInstance)
-					console.debug(recurrenceRule)
+					logger.debug('Removed recurrence-rule', { calendarObjectInstance, recurrenceRule })
 				}
 			} else {
 				// Change frequency of existing recurrence-rule
@@ -1786,7 +1781,7 @@ export default defineStore('calendarObjectInstance', {
 						recurrenceRule.recurrenceRuleValue.setComponent('BYDAY', [byDay])
 						recurrenceRule.byDay.push(byDay)
 
-						console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+						logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 					}
 					break
 
@@ -1796,7 +1791,7 @@ export default defineStore('calendarObjectInstance', {
 						recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', [byMonthDay])
 						recurrenceRule.byMonthDay.push(byMonthDay)
 
-						console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+						logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 					}
 					break
 
@@ -1810,7 +1805,7 @@ export default defineStore('calendarObjectInstance', {
 						recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', [byMonthDay])
 						recurrenceRule.byMonthDay.push(byMonthDay)
 
-						console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+						logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 					}
 					break
 			}
@@ -1826,7 +1821,7 @@ export default defineStore('calendarObjectInstance', {
 			calendarObjectInstance,
 			recurrenceRule,
 		}) {
-			console.debug('changeMonthlyRecurrenceFromByDayToBySetPosition')
+			logger.debug('changeMonthlyRecurrenceFromByDayToBySetPosition')
 			this.resetRecurrenceByParts({ recurrenceRule })
 			this.setDefaultRecurrenceByPartsForMonthlyBySetPosition({
 				calendarObjectInstance,
@@ -1844,7 +1839,7 @@ export default defineStore('calendarObjectInstance', {
 			calendarObjectInstance,
 			recurrenceRule,
 		}) {
-			console.debug('changeMonthlyRecurrenceFromBySetPositionToByDay')
+			logger.debug('changeMonthlyRecurrenceFromBySetPositionToByDay')
 			this.resetRecurrenceByParts({ recurrenceRule })
 
 			if (recurrenceRule.recurrenceRuleValue) {
@@ -1852,7 +1847,7 @@ export default defineStore('calendarObjectInstance', {
 				recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', [byMonthDay])
 				recurrenceRule.byMonthDay.push(byMonthDay)
 
-				console.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
+				logger.debug(recurrenceRule.recurrenceRuleValue._innerValue.toString())
 			}
 		},
 
@@ -1981,7 +1976,7 @@ export default defineStore('calendarObjectInstance', {
 				alarm.relativeAmountTimed = amount
 				alarm.relativeTrigger = alarm.alarmComponent.trigger.value.totalSeconds
 
-				console.debug(alarm.alarmComponent.toICALJs().toString())
+				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
 			this.updateAlarmAllDayParts({ alarm })
 		},
@@ -1997,7 +1992,7 @@ export default defineStore('calendarObjectInstance', {
 				alarm.relativeUnitTimed = unit
 				alarm.relativeTrigger = alarm.alarmComponent.trigger.value.totalSeconds
 
-				console.debug(alarm.alarmComponent.toICALJs().toString())
+				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
 			this.updateAlarmAllDayParts({ alarm })
 		},
@@ -2018,7 +2013,7 @@ export default defineStore('calendarObjectInstance', {
 				alarm.relativeAmountAllDay = amount
 				alarm.relativeTrigger = alarm.alarmComponent.trigger.value.totalSeconds
 
-				console.debug(alarm.alarmComponent.toICALJs().toString())
+				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
 
 			this.updateAlarmTimedParts({ alarm })
@@ -2040,7 +2035,7 @@ export default defineStore('calendarObjectInstance', {
 				alarm.relativeUnitAllDay = unit
 				alarm.relativeTrigger = alarm.alarmComponent.trigger.value.totalSeconds
 
-				console.debug(alarm.alarmComponent.toICALJs().toString())
+				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
 
 			this.updateAlarmTimedParts({ alarm })
@@ -2064,7 +2059,7 @@ export default defineStore('calendarObjectInstance', {
 				alarm.relativeMinutesAllDay = minutes
 				alarm.relativeTrigger = alarm.alarmComponent.trigger.value.totalSeconds
 
-				console.debug(alarm.alarmComponent.toICALJs().toString())
+				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
 
 			this.updateAlarmTimedParts({ alarm })
@@ -2086,7 +2081,7 @@ export default defineStore('calendarObjectInstance', {
 				alarm.absoluteDate = getDateFromDateTimeValue(alarm.alarmComponent.trigger.value)
 				alarm.absoluteTimezoneId = alarm.alarmComponent.trigger.value.timezoneId
 
-				console.debug(alarm.alarmComponent.toICALJs().toString())
+				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
 
 			alarm.relativeIsBefore = null

@@ -74,7 +74,7 @@ async function circleGetMembers(circleId) {
 			},
 		})
 	} catch (error) {
-		console.debug(error)
+		logger.debug(error)
 		return []
 	}
 	return results

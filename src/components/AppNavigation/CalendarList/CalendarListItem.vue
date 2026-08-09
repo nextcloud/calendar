@@ -26,6 +26,7 @@ import Pencil from 'vue-material-design-icons/PencilOutline.vue'
 import Undo from 'vue-material-design-icons/Undo.vue'
 import useCalendarsStore from '@/store/calendars.js'
 import usePrincipalsStore from '@/store/principals.js'
+import logger from '@/utils/logger.js'
 
 const props = defineProps<{
 	calendar: CalendarInterface
@@ -137,7 +138,7 @@ async function toggleEnabled(): Promise<void> {
 		await calendarsStore.toggleCalendarEnabled({ calendar: props.calendar })
 	} catch (error) {
 		showError(t('calendar', 'An error occurred, unable to change visibility of the calendar.'))
-		console.error(error)
+		logger.error(error)
 	}
 }
 
@@ -168,7 +169,7 @@ async function copyPublicLink(): Promise<void> {
 		await navigator.clipboard.writeText(url.href)
 		showSuccess(t('calendar', 'Calendar link copied to clipboard.'))
 	} catch (error) {
-		console.debug(error)
+		logger.debug(error)
 		showError(t('calendar', 'Calendar link could not be copied to clipboard.'))
 	}
 }
