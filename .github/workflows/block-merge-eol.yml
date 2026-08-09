@@ -3,11 +3,10 @@
 
 name: Block merges for EOL branches
 
-on:
-  pull_request:
-    branches:
-      - main
-      - stable6.5
+on: pull_request
+
+env:
+  ACTIVE_BRANCHES: '["main", "stable6.5"]'
 
 permissions:
   contents: read
@@ -22,7 +21,13 @@ jobs:
     runs-on: ubuntu-latest-low
 
     steps:
-      - name: Confirm base branch is allowed
+      - name: Check base branch is active
         env:
           BASE_REF: ${{ github.base_ref }}
-        run: echo "Pull requests targeting $BASE_REF are allowed."
+        run: |
+          if jq --exit-status --arg branch "$BASE_REF" 'index($branch) != null' <<< "$ACTIVE_BRANCHES" > /dev/null; then
+            echo "Pull requests targeting $BASE_REF are allowed."
+          else
+            echo "::error::Pull requests targeting $BASE_REF are not allowed. Active branches: $ACTIVE_BRANCHES."
+            exit 1
+          fi
