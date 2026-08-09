@@ -604,7 +604,7 @@ export default {
 		/**
 		 * Resets the calendar-object back to its original state and closes the editor
 		 *
-		 * @param force whether to not show a confirmation modal before executing
+		 * @param {boolean} force whether to not show a confirmation modal before executing
 		 */
 		async cancel(force = false) {
 			if (this.isLoading) {

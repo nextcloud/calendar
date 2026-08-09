@@ -64,7 +64,7 @@ export default {
 		},
 
 		/**
-		 * @param {boolean} hasFocus
+		 * @param {boolean} hasFocus Whether the textarea currently has focus
 		 */
 		handleToggleTextareaFocus(hasFocus) {
 			if (this.linkifyLinks === false) {

@@ -106,7 +106,7 @@ export function getDateFromDateTimeValue(dateTimeValue) {
  * @param {number} data.day Number of days to add
  * @param {number} data.week Number of weeks to add
  * @param {number} data.month Number of months to add
- * @param data.year
+ * @param {number} data.year Number of years to add
  * @return {Date}
  */
 export function modifyDate(date, { day = 0, week = 0, month = 0, year = 0 }) {

@@ -44,7 +44,7 @@ async function initializeClientForPublicView() {
 /**
  * Fetch all calendars from the server
  *
- * @param {object} headers
+ * @param {object} headers Additional headers to send with the request
  * @return {Promise<CalendarHome>}
  */
 const getCalendarHome = (headers) => getClient(headers).calendarHomes[0]

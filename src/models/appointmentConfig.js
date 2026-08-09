@@ -108,8 +108,8 @@ export default class AppointmentConfig {
 	/**
 	 * Create a default appointment config instance
 	 *
-	 * @param {string} targetCalendarUri
-	 * @param {ScheduleInbox} scheduleInbox
+	 * @param {string} targetCalendarUri URI of the calendar new appointments are booked into
+	 * @param {ScheduleInbox} scheduleInbox The schedule inbox to derive default availability from
 	 * @param {string} timezoneId fallback time zone when no schedule inbox availability is set
 	 * @return {AppointmentConfig} Default appointment config instance
 	 */

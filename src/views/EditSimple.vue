@@ -665,6 +665,8 @@ export default {
 
 		/**
 		 * Calculate the popover position based on target element
+		 *
+		 * @param {Element} targetElement The element to position the popover relative to
 		 */
 		calculateAndApplyPosition(targetElement) {
 			const SPACING = 16

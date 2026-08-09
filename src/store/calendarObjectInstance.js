@@ -1143,6 +1143,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string} data.type Type of alarm
 		 * @param {number} data.totalSeconds Total amount of seconds for new alarm
+		 * @param {boolean=} data.isDefault Whether this is the default alarm
 		 */
 		addAlarmToCalendarObjectInstance({
 			calendarObjectInstance,
@@ -1203,10 +1204,9 @@ export default defineStore('calendarObjectInstance', {
 
 		/**
 		 * @deprecated
-		 * @param calendarObjectInstance.calendarObjectInstance
-		 * @param calendarObjectInstance
-		 * @param calendarObjectInstance.sharedData
-		 * @param sharedData
+		 * @param {object} data The destructuring object
+		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+		 * @param {object} data.sharedData The shared file data to attach
 		 */
 		addAttachmentBySharedData({
 			calendarObjectInstance,
@@ -1245,10 +1245,9 @@ export default defineStore('calendarObjectInstance', {
 
 		/**
 		 *
-		 * @param calendarObjectInstance.calendarObjectInstance
-		 * @param calendarObjectInstance
-		 * @param sharedData
-		 * @param calendarObjectInstance.sharedData
+		 * @param {object} data The destructuring object
+		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
+		 * @param {object} data.sharedData The shared file data to attach
 		 */
 		addAttachmentWithProperty({
 			calendarObjectInstance,
@@ -1594,7 +1593,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {Date} data.startDate The new start-date
 		 * @param {boolean} data.onlyTime Only update time
-		 * @param data.changeEndDate
+		 * @param {boolean=} data.changeEndDate Whether to also shift the end-date to preserve the duration
 		 */
 		changeStartDate({
 			calendarObjectInstance,
@@ -1894,8 +1893,8 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 *
 		 * @param {object} data The destructuring object for data
+		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
-		 * @param {string} data.byDay The new until to set
 		 */
 		enableRecurrenceLimitByUntil({
 			calendarObjectInstance,

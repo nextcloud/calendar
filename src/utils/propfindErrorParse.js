@@ -9,7 +9,7 @@ import logger from '@/utils/logger.js'
 /**
  * Parse PROPFIND error when uploading a file and return a readable message.
  *
- * @param exception the error object
+ * @param {Error} exception the error object
  */
 async function parseUploadError(exception) {
 	try {

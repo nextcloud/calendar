@@ -137,7 +137,7 @@ export default {
 		/**
 		 * TODO: this should emit the calendar id instead
 		 *
-		 * @param {{id: string}|{id: string}[]} options All selected options (including the new one)
+		 * @param {{id: string}} optionId The selected option
 		 */
 		change(optionId) {
 			if (!optionId) {

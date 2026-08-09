@@ -297,6 +297,7 @@ export default {
 		/**
 		 * Whether the current user is allowed to restore a deleted calendar.
 		 *
+		 * @param {object} calendar The calendar to check
 		 * @return {boolean}
 		 */
 		canRestoreCalendar(calendar) {
@@ -308,6 +309,7 @@ export default {
 		/**
 		 * Whether the current user is allowed to permanently delete a deleted calendar.
 		 *
+		 * @param {object} calendar The calendar to check
 		 * @return {boolean}
 		 */
 		canDeleteCalendar(calendar) {

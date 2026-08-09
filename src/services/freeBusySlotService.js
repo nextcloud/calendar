@@ -18,7 +18,7 @@ const daysToSearch = 7
  * @param {AttendeeProperty[]} attendees Array of the event's attendees
  * @param {Date} start The start date and time of the event
  * @param {Date} end The end date and time of the event
- * @param timeZoneId
+ * @param {string} timeZoneId The time zone id to interpret start and end in
  * @param {boolean} bulk fetch all attendees in one request
  * @return {Promise<>}
  */
@@ -73,7 +73,7 @@ export async function getBusySlots(organizer, attendees, start, end, timeZoneId,
  *
  * @param {Date} start The start date and time of the event
  * @param {Date} end The end date and time of the event
- * @param retrievedEvents Events found by the freebusy API
+ * @param {object[]} retrievedEvents Events found by the freebusy API
  * @return []
  */
 export function getFirstFreeSlot(start, end, retrievedEvents) {
@@ -120,6 +120,8 @@ export function getFirstFreeSlot(start, end, retrievedEvents) {
 }
 
 /**
+ * @param {Date|string} start The start date and time
+ * @param {Date|string} end The end date and time
  * @return {number}
  */
 function getDurationInSeconds(start, end) {
