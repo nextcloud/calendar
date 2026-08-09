@@ -11,13 +11,8 @@ import type { ProposalInterface, ProposalParticipantInterface } from '@/types/pr
 import type {
 	TalkRoom,
 	TalkRoomAddParticipantRequest,
-	TalkRoomAddParticipantResponse,
 	TalkRoomCreateRequest,
-	TalkRoomCreateResponse,
-	TalkRoomFetchParticipantsResponse,
-	TalkRoomFetchResponse,
 	TalkRoomListRequest,
-	TalkRoomListResponse,
 	TalkRoomParticipant,
 } from '@/types/talk'
 

@@ -451,7 +451,7 @@ export default {
 			}
 		},
 
-		calendarObjectInstance(newVal) {
+		calendarObjectInstance() {
 			this.hasLocation = false
 			this.hasDescription = false
 			this.hasAttendees = false
@@ -498,7 +498,7 @@ export default {
 			})
 		},
 
-		isLoading(newVal, oldVal) {
+		isLoading(newVal) {
 			// When loading completes, hide and reposition to fit the full content.
 			if (newVal === false) {
 				this.popoverReady = false
@@ -844,7 +844,7 @@ export default {
 			try {
 				await this.save(thisAndAllFuture)
 				this.requiresActionOnRouteLeave = false
-			} catch (error) {
+			} catch {
 				this.isViewing = false
 			}
 		},

@@ -171,7 +171,7 @@ export default {
 				let eventSummary = t('calendar', 'Untitled item')
 				try {
 					eventSummary = vobject?.calendarComponent.getComponentIterator().next().value?.title
-				} catch (e) {
+				} catch {
 					// ignore
 				}
 				let subline = vobject.calendar?.displayName || t('calendar', 'Unknown calendar')

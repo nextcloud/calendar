@@ -170,7 +170,7 @@ export default {
 					}
 				case 'DELEGATED':
 					return {
-						icon: IconDelegated,
+						...delegatedIcon,
 						text: t('calendar', 'Invitation is delegated'),
 					}
 				case 'DECLINED':
@@ -203,13 +203,13 @@ export default {
 				if (!this.scheduleStatus || this.scheduleStatus === '1.0') {
 					if (this.isResource) {
 						return {
-							icon: IconNoResponse,
+							...noResponseIcon,
 							text: t('calendar', 'Will be booked after saving, if available'),
 						}
 					}
 
 					return {
-						icon: IconNoResponse,
+						...noResponseIcon,
 						text: t('calendar', 'Invitation will be sent'),
 					}
 				}
@@ -219,32 +219,32 @@ export default {
 				if (this.scheduleStatus[0] === '3' || this.scheduleStatus[0] === '5') {
 					if (this.isResource) {
 						return {
-							icon: IconNoResponse,
+							...noResponseIcon,
 							text: t('calendar', 'Failed to check availability'),
 						}
 					}
 
 					return {
-						icon: IconNoResponse,
+						...noResponseIcon,
 						text: t('calendar', 'Failed to deliver invitation'),
 					}
 				}
 
 				return {
-					icon: IconNoResponse,
+					...noResponseIcon,
 					text: t('calendar', 'Awaiting response'),
 				}
 			}
 
 			if (this.isResource) {
 				return {
-					icon: IconNoResponse,
+					...noResponseIcon,
 					text: t('calendar', 'Checking availability'),
 				}
 			}
 
 			return {
-				icon: IconNoResponse,
+				...noResponseIcon,
 				text: t('calendar', 'Has not responded to {organizerName}\'s invitation yet', {
 					organizerName: this.organizerDisplayName,
 				}),

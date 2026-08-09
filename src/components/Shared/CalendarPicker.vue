@@ -102,7 +102,7 @@ export default {
 		 */
 		isCalendarSelectable: {
 			type: Function,
-			default: (calendar) => true,
+			default: () => true,
 		},
 	},
 
