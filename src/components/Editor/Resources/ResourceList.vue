@@ -140,7 +140,8 @@ export default {
 		},
 
 		resourceBookingEnabled() {
-			return loadState('calendar', 'resource_booking_enabled')
+			// The editor can be opened on pages without the calendar initial state
+			return loadState('calendar', 'resource_booking_enabled', false)
 		},
 
 		/**
