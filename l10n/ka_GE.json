@@ -100,9 +100,6 @@
     "When shared show only busy" : "როდესაც გაზიარებულია გამოჩნდეს მხოლოდ დაკავებული",
     "When shared hide this event" : "როდესაც გაზიარებულია არ გამოჩნდეს ეს მოვლენა",
     "Confirmed" : "დადასტურებლია",
-    "Categories" : "კატეგორიები",
-    "Hidden" : "უჩინარი",
-    "Show week numbers" : "კვირის ნომრების ჩვენება",
-    "Edit event" : "მოვლენის ცვლილება"
+    "Categories" : "კატეგორიები"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
 }

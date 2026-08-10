@@ -70,8 +70,6 @@ OC.L10N.register(
     "Weekly" : "Həftəlik",
     "second" : "saniyə",
     "Other" : "Digər",
-    "Categories" : "Kateqoriyalar",
-    "Hidden" : "Gizli",
-    "Edit event" : "Hadisəni dəyişdir"
+    "Categories" : "Kateqoriyalar"
 },
 "nplurals=2; plural=(n != 1);");

@@ -68,8 +68,6 @@
     "Weekly" : "Həftəlik",
     "second" : "saniyə",
     "Other" : "Digər",
-    "Categories" : "Kateqoriyalar",
-    "Hidden" : "Gizli",
-    "Edit event" : "Hadisəni dəyişdir"
+    "Categories" : "Kateqoriyalar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

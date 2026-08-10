@@ -93,8 +93,6 @@ OC.L10N.register(
     "second" : "sekonde",
     "Other" : "Ander",
     "Confirmed" : "Bevestig",
-    "Categories" : "Kategorieë",
-    "Hidden" : "Versteek",
-    "Show week numbers" : "Toon weeknommers"
+    "Categories" : "Kategorieë"
 },
 "nplurals=2; plural=(n != 1);");

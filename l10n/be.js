@@ -196,17 +196,6 @@ OC.L10N.register(
     "Canceled" : "Скасавана",
     "Categories" : "Катэгорыі",
     "Error while sharing file" : "Памылка пры абагульванні файла",
-    "User not found" : "Карыстальнік не знойдзены",
-    "%1$s - %2$s" : "%1$s - %2$s",
-    "Calendars" : "Календары",
-    "Calendar name …" : "Назва календара …",
-    "Enable birthday calendar" : "Уключыць каляндар дзён нараджэння",
-    "Show tasks in calendar" : "Паказаць заданні ў календары",
-    "Show weekends" : "Паказваць уік-энды",
-    "Show keyboard shortcuts" : "Паказаць спалучэнні клавіш",
-    "Successfully appended link to talk room to description." : "Спасылка на пакой у Talk паспяхова дададзена ў апісанне.",
-    "from {formattedDate} at {formattedTime}" : "ад {formattedDate} да {formattedTime}",
-    "Time:" : "Час:",
-    "{duration} min" : "{duration} хв"
+    "User not found" : "Карыстальнік не знойдзены"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

@@ -111,10 +111,6 @@ OC.L10N.register(
     "When shared show only busy" : "เมื่อแชร์จะแสดงเฉพาะไม่ว่าง",
     "When shared hide this event" : "เมื่อแชร์จะซ่อนกิจกรรมนี้",
     "Confirmed" : "ยืนยันแล้ว",
-    "Categories" : "หมวดหมู่",
-    "Calendars" : "ปฏิทิน",
-    "Hidden" : "ซ่อนอยู่",
-    "Pick a date" : "เลือกวันที่",
-    "Edit event" : "แก้ไขกิจกรรม"
+    "Categories" : "หมวดหมู่"
 },
 "nplurals=1; plural=0;");

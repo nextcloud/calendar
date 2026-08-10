@@ -188,12 +188,6 @@ OC.L10N.register(
     "Canceled" : "Yettwasemmet",
     "Categories" : "Taggayin",
     "Custom color" : "Ini yugnen",
-    "User not found" : "Ur yettwaf ara useqdac",
-    "Calendars" : "Iwitayen",
-    "Hidden" : "Udrig",
-    "Show keyboard shortcuts" : "Sken inegzumen n unasiw",
-    "Pick a date" : "Fren azemz",
-    "Time:" : "Akud:",
-    "Edit event" : "Edit event"
+    "User not found" : "Ur yettwaf ara useqdac"
 },
 "nplurals=2; plural=(n != 1);");

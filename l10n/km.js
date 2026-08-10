@@ -50,7 +50,6 @@ OC.L10N.register(
     "Weekly" : "រាល់​សប្ដាហ៍",
     "second" : "ទីពីរ",
     "last" : "ចុងក្រោយ",
-    "Other" : "ផ្សេងៗ",
-    "Edit event" : "កែ​ព្រឹត្តិការណ៍"
+    "Other" : "ផ្សេងៗ"
 },
 "nplurals=1; plural=0;");

@@ -79,8 +79,6 @@ OC.L10N.register(
     "Daily" : "Setiap hari",
     "Weekly" : "Setiap minggu",
     "second" : "kedua",
-    "Other" : "Lain",
-    "%1$s - %2$s" : "%1$s - %2$s",
-    "Edit event" : "Ubah peristiwa"
+    "Other" : "Lain"
 },
 "nplurals=1; plural=0;");

@@ -189,16 +189,6 @@ OC.L10N.register(
     "Categories" : "Categorias",
     "Custom color" : "Color personalizada",
     "Error while sharing file" : "Error pendent lo partiment del fichièr",
-    "User not found" : "Utilizaire pas trobat",
-    "Calendars" : "Calendièrs",
-    "Hidden" : "Amagat",
-    "Show weekends" : "Monstrar las dimenjadas",
-    "Event title" : "Títol de l’eveniment",
-    "_time_::_times_" : ["còp","còps"],
-    "from {formattedDate}" : "a partir de {formattedDate}",
-    "to {formattedDate}" : "cap a {formattedDate}",
-    "Pick a time" : "Causir una ora",
-    "Pick a date" : "Causir una data",
-    "Edit event" : "Editar un eveniment"
+    "User not found" : "Utilizaire pas trobat"
 },
 "nplurals=2; plural=(n > 1);");

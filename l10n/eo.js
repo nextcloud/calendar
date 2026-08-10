@@ -149,18 +149,6 @@ OC.L10N.register(
     "Canceled" : "Nuligita",
     "Categories" : "Kategorioj",
     "Add this as a new category" : "Aldoni tion kiel novan kategorion",
-    "User not found" : "Netrovita uzanto",
-    "Hidden" : "Nevidebla",
-    "Enable birthday calendar" : "Ebligi naskiĝtaga kalendaro",
-    "Show tasks in calendar" : "Montri taskojn en la kalendaro",
-    "Enable simplified editor" : "Ebligi simpligitan redaktilon",
-    "Show weekends" : "Montri semajnfinojn",
-    "Show week numbers" : "Montri numerojn de semajno",
-    "Show keyboard shortcuts" : "Montri klavarajn ŝparvojojn",
-    "Before the event" : "Antaŭe la evento",
-    "After the event" : "Post la evento",
-    "on {formattedDate}" : "je la {formattedDate}",
-    "Time:" : "Tempo:",
-    "Edit event" : "Redakti okazaĵon"
+    "User not found" : "Netrovita uzanto"
 },
 "nplurals=2; plural=(n != 1);");

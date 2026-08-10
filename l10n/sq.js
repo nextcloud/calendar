@@ -115,9 +115,6 @@ OC.L10N.register(
     "When shared hide this event" : "Kur ndahet fshihe këtë veprimtari",
     "Confirmed" : "E konfirmuar",
     "Canceled" : "Anuluar",
-    "Categories" : "Kategoritë",
-    "Hidden" : "I fshehur",
-    "Show week numbers" : "Shfaq numra javësh",
-    "Edit event" : "Përpunoni veprimtarinë"
+    "Categories" : "Kategoritë"
 },
 "nplurals=2; plural=(n != 1);");

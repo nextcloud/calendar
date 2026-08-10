@@ -103,9 +103,6 @@ OC.L10N.register(
     "When shared show only busy" : "Al compartir, mostrar sólo como ocupado ",
     "When shared hide this event" : "Al compartir, ocultar este evento ",
     "Confirmed" : "Confirmado",
-    "Categories" : "Categorías",
-    "Hidden" : "Oculto",
-    "Show week numbers" : "Mostrar número de semana",
-    "Edit event" : "Editar evento"
+    "Categories" : "Categorías"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
