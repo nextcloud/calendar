@@ -4,14 +4,14 @@
  */
 
 import { translate as t } from '@nextcloud/l10n'
-import useCalendarsStore from '../store/calendars.js'
-import usePrincipalsStore from '../store/principals.js'
-import useSettingsStore from '../store/settings.js'
-import { uidToHexColor } from '../utils/color.js'
-import logger from '../utils/logger.js'
-import loadMomentLocalization from '../utils/moment.js'
-import { getSettingsFromInitialState } from '../utils/settings.js'
-import { initializeClientForUserView } from './caldavService.js'
+import { initializeClientForUserView } from '@/services/caldavService.js'
+import useCalendarsStore from '@/store/calendars.js'
+import usePrincipalsStore from '@/store/principals.js'
+import useSettingsStore from '@/store/settings.js'
+import { uidToHexColor } from '@/utils/color.js'
+import logger from '@/utils/logger.js'
+import loadMomentLocalization from '@/utils/moment.js'
+import { getSettingsFromInitialState } from '@/utils/settings.js'
 
 /**
  * Prepare the stores needed to run the event editor standalone, that is outside
