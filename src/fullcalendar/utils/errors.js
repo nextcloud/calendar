@@ -8,10 +8,11 @@ import logger from '@/utils/logger.js'
 /**
  * Wraps a FullCalendar hook function with error logging
  *
- * @param {Function} hookFn The hook function to wrap
+ * @template {(...args: unknown[]) => unknown} T
+ * @param {T} hookFn The hook function to wrap
  * @param {string} hookName The name of the hook for logging
- * @param {*} [defaultReturn] The default return value if the hook throws an error
- * @return {Function} The wrapped hook function
+ * @param {ReturnType<T>} [defaultReturn] The default return value if the hook throws an error
+ * @return {T} The wrapped hook function
  */
 export function errorCatch(hookFn, hookName, defaultReturn = undefined) {
 	return function(...args) {
@@ -27,9 +28,10 @@ export function errorCatch(hookFn, hookName, defaultReturn = undefined) {
 /**
  * Wraps an async FullCalendar hook function with error logging
  *
- * @param {Function} hookFn The async hook function to wrap
+ * @template {(...args: unknown[]) => unknown} T
+ * @param {T} hookFn The async hook function to wrap
  * @param {string} hookName The name of the hook for logging
- * @return {Function} The wrapped async hook function
+ * @return {(...args: Parameters<T>) => Promise<Awaited<ReturnType<T>>|undefined>} The wrapped async hook function
  */
 export function errorCatchAsync(hookFn, hookName) {
 	return async function(...args) {

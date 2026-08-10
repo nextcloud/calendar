@@ -16,7 +16,7 @@ import { mapDavToRoomPrincipalProperties } from '@/models/principal/principal'
  * Creates a complete principal-object based on given props
  *
  * @param {object} props Principal-props already provided
- * @return {any}
+ * @return {object}
  */
 function getDefaultPrincipalObject(props) {
 	return { // Id of the principal

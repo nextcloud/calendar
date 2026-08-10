@@ -156,7 +156,7 @@ export default {
 		 * Returns the color of the calendar selected by the user
 		 * This is used to color illustration
 		 *
-		 * @return {string|*}
+		 * @return {string}
 		 */
 		selectedCalendarColor() {
 			if (!this.selectedCalendar) {
@@ -939,7 +939,7 @@ export default {
 	 *
 	 * @param {object} to The route to navigate to
 	 * @param {object} from The route coming from
-	 * @param {Function} next Function to be called when ready to load the next view
+	 * @param {(vm?: object) => void} next Function to be called when ready to load the next view
 	 */
 	async beforeRouteEnter(to, from, next) {
 		if (to.name === 'NewFullView' || to.name === 'NewPopoverView') {
@@ -1014,7 +1014,7 @@ export default {
 	 *
 	 * @param {object} to The route to navigate to
 	 * @param {object} from The route coming from
-	 * @param {Function} next Function to be called when ready to load the next view
+	 * @param {(vm?: object) => void} next Function to be called when ready to load the next view
 	 */
 	async beforeRouteUpdate(to, from, next) {
 		// If we are in the New Event dialog, we want to update the selected time
@@ -1092,7 +1092,7 @@ export default {
 	 *
 	 * @param {object} to The route to navigate to
 	 * @param {object} from The route coming from
-	 * @param {Function} next Function to be called when ready to load the next view
+	 * @param {(vm?: object) => void} next Function to be called when ready to load the next view
 	 */
 	async beforeRouteLeave(to, from, next) {
 		// requiresActionOnRouteLeave is false when an action like deleting / saving / cancelling was already taken.

@@ -12,7 +12,7 @@ import logger from '@/utils/logger.js'
 /**
  * Returns a function to resize an event
  *
- * @return {Function}
+ * @return {(info: {event: EventDef, startDelta: object, endDelta: object, revert: () => void}) => Promise<void>}
  */
 export default function() {
 	const calendarsStore = useCalendarsStore()

@@ -23,7 +23,7 @@ import { errorCatchAsync } from '../utils/errors.js'
  * @param {Window} window The window object
  * @param {boolean} isWidget Whether the calendar is embedded in a widget
  * @param {object} ref The ref object of CalendarGrid component
- * @return {Function}
+ * @return {(info: {event: EventDef}) => Promise<void>}
  */
 export default function(router, route, window, isWidget = false, ref = undefined) {
 	const widgetStore = useWidgetStore()
