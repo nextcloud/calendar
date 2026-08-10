@@ -135,7 +135,10 @@ OC.L10N.register(
     "Remove attendee" : "Remove attendee",
     "Title" : "Azwel",
     "From" : "Seg",
+    "Start date" : "Azemz n tazwara",
+    "Start time" : "Temps de début",
     "To" : "Ɣer",
+    "End date" : "Azemz n taggara",
     "Repeat" : "Ales",
     "Repeat event" : "Repeat event",
     "never" : "werjin",
@@ -156,7 +159,6 @@ OC.L10N.register(
     "Select a date" : "Fren Azemz",
     "Personal" : "Udmawan",
     "Discard changes" : "Sefsex ibeddilen",
-    "Edit event" : "Edit event",
     "All day" : "Ass kamel",
     "Invite" : "Snubget",
     "Discard changes?" : "Sefsex ibeddilen?",
@@ -186,11 +188,6 @@ OC.L10N.register(
     "Canceled" : "Yettwasemmet",
     "Categories" : "Taggayin",
     "Custom color" : "Ini yugnen",
-    "User not found" : "Ur yettwaf ara useqdac",
-    "Calendars" : "Iwitayen",
-    "Hidden" : "Udrig",
-    "Show keyboard shortcuts" : "Sken inegzumen n unasiw",
-    "Pick a date" : "Fren azemz",
-    "Time:" : "Akud:"
+    "User not found" : "Ur yettwaf ara useqdac"
 },
 "nplurals=2; plural=(n != 1);");

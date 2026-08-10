@@ -31,6 +31,7 @@ OC.L10N.register(
     "Delete permanently" : "Borrar permanentemente",
     "Deck" : "Deck",
     "Tasks" : "Tareas",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Compartir enlace",
     "Share with users or groups" : "Compartir con otros usuarios o grupos",
     "None" : "Ninguno",
@@ -82,6 +83,7 @@ OC.L10N.register(
     "Copied to clipboard" : "Copiado al portapapeles",
     "Status" : "Estatus",
     "Title" : "Título",
+    "Start date" : "Fecha de inicio",
     "Repeat" : "Repetir",
     "never" : "nunca",
     "after" : "después",
@@ -90,7 +92,6 @@ OC.L10N.register(
     "Global" : "Global",
     "Subscribe" : "Suscribir",
     "Personal" : "Personal",
-    "Edit event" : "Editar evento",
     "All day" : "Todo el día",
     "Close" : "Cerrar",
     "Participants" : "Participantes",
@@ -105,9 +106,6 @@ OC.L10N.register(
     "When shared hide this event" : "Al compartir, ocultar este evento ",
     "Confirmed" : "Confirmado",
     "Categories" : "Categorías",
-    "User not found" : "No se encontró el usuario",
-    "Calendars" : "Calendarios",
-    "Hidden" : "Oculto",
-    "Show week numbers" : "Mostrar número de semana"
+    "User not found" : "No se encontró el usuario"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

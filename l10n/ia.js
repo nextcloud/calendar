@@ -19,6 +19,7 @@ OC.L10N.register(
     "Deleted" : "Delite",
     "Restore" : "Restaurar",
     "Delete permanently" : "Deler permanentemente",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Compartir ligamine",
     "Share with users or groups" : "Compartir con usatores o gruppos",
     "None" : "Nulle",
@@ -64,7 +65,6 @@ OC.L10N.register(
     "Global" : "Global",
     "Subscribe" : "Subscribe",
     "Personal" : "Personal",
-    "Edit event" : "Modificar evento",
     "Close" : "Clauder",
     "Anniversary" : "Anniversario de evento",
     "Week {number} of {year}" : "Septimana {number} de {year}",
@@ -75,8 +75,6 @@ OC.L10N.register(
     "When shared show full event" : "Quando compartite, monstrar evento integremente",
     "When shared show only busy" : "Quando compartite, monstrar solo si illo es occupate",
     "When shared hide this event" : "Quando compartite, celar iste evento",
-    "Confirmed" : "Confirmate",
-    "Hidden" : "Occultate",
-    "Show week numbers" : "Monstrar le numero del septimanas"
+    "Confirmed" : "Confirmate"
 },
 "nplurals=2; plural=(n != 1);");

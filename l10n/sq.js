@@ -90,6 +90,7 @@ OC.L10N.register(
     "Status" : "Status",
     "Remove group" : "Hiq grupin",
     "Title" : "Titulli",
+    "Start date" : "Datë nisjeje",
     "Repeat" : "Përsërite",
     "never" : "kurrë",
     "after" : "pas",
@@ -100,7 +101,6 @@ OC.L10N.register(
     "Global" : "Globale",
     "Subscribe" : "Abonohu",
     "Personal" : "Personale",
-    "Edit event" : "Përpunoni veprimtarinë",
     "All day" : "Gjithë ditën",
     "Close" : "Mbylle",
     "Submit" : "Dërgo",
@@ -115,8 +115,6 @@ OC.L10N.register(
     "When shared hide this event" : "Kur ndahet fshihe këtë veprimtari",
     "Confirmed" : "E konfirmuar",
     "Canceled" : "Anuluar",
-    "Categories" : "Kategoritë",
-    "Hidden" : "I fshehur",
-    "Show week numbers" : "Shfaq numra javësh"
+    "Categories" : "Kategoritë"
 },
 "nplurals=2; plural=(n != 1);");

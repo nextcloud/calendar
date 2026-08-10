@@ -88,6 +88,7 @@
     "Status" : "Status",
     "Remove group" : "Hiq grupin",
     "Title" : "Titulli",
+    "Start date" : "Datë nisjeje",
     "Repeat" : "Përsërite",
     "never" : "kurrë",
     "after" : "pas",
@@ -98,7 +99,6 @@
     "Global" : "Globale",
     "Subscribe" : "Abonohu",
     "Personal" : "Personale",
-    "Edit event" : "Përpunoni veprimtarinë",
     "All day" : "Gjithë ditën",
     "Close" : "Mbylle",
     "Submit" : "Dërgo",
@@ -113,8 +113,6 @@
     "When shared hide this event" : "Kur ndahet fshihe këtë veprimtari",
     "Confirmed" : "E konfirmuar",
     "Canceled" : "Anuluar",
-    "Categories" : "Kategoritë",
-    "Hidden" : "I fshehur",
-    "Show week numbers" : "Shfaq numra javësh"
+    "Categories" : "Kategoritë"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

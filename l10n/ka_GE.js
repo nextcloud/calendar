@@ -28,6 +28,7 @@ OC.L10N.register(
     "Delete permanently" : "სამუდამოდ წაშლა",
     "Deck" : "დასტა",
     "Tasks" : "დავალებები",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "ბმულის გაზიარება",
     "Share with users or groups" : "გაზიარება მოხმარებლებთან ან ჯგუფებთან",
     "None" : "არც ერთი",
@@ -77,6 +78,7 @@ OC.L10N.register(
     "Copied to clipboard" : "კოპირებულია კლიპბორდში",
     "Status" : "სტატუსი",
     "Title" : "სათაური",
+    "Start date" : "დაწყების თარიღი",
     "Repeat" : "გამეორება",
     "never" : "არასდროს",
     "after" : "შემდეგ",
@@ -87,7 +89,6 @@ OC.L10N.register(
     "Global" : "გლობალური",
     "Subscribe" : "გამოწერა",
     "Personal" : "პირადი",
-    "Edit event" : "მოვლენის ცვლილება",
     "All day" : "მთელი დღე",
     "Close" : "დახურვა",
     "Participants" : "მონაწილეები",
@@ -101,8 +102,6 @@ OC.L10N.register(
     "When shared show only busy" : "როდესაც გაზიარებულია გამოჩნდეს მხოლოდ დაკავებული",
     "When shared hide this event" : "როდესაც გაზიარებულია არ გამოჩნდეს ეს მოვლენა",
     "Confirmed" : "დადასტურებლია",
-    "Categories" : "კატეგორიები",
-    "Hidden" : "უჩინარი",
-    "Show week numbers" : "კვირის ნომრების ჩვენება"
+    "Categories" : "კატეგორიები"
 },
 "nplurals=2; plural=(n!=1);");

@@ -20,6 +20,7 @@ OC.L10N.register(
     "Restore" : "Zrécksetzen",
     "Delete permanently" : "Permanent läschen",
     "Tasks" : "Tâchen",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Link deelen",
     "Share with users or groups" : "Mat Benotzer oder Gruppen deelen",
     "None" : "Keng",
@@ -27,6 +28,7 @@ OC.L10N.register(
     "Cancel" : "Ofbriechen",
     "Attendees" : "Participanten",
     "Automatic" : "Automatesch",
+    "Timezone" : "Zäitzon",
     "List view" : "Lëscht Vue",
     "Actions" : "Aktiounen",
     "General" : "Allgemeng",
@@ -63,7 +65,6 @@ OC.L10N.register(
     "Global" : "Global",
     "Subscribe" : "Umellen",
     "Personal" : "Perséinlech",
-    "Edit event" : "Evenement änneren",
     "Close" : "Zoumaachen",
     "Week {number} of {year}" : "Woch {Nummer} vum {Joer}",
     "Daily" : "All Dag",
@@ -72,8 +73,6 @@ OC.L10N.register(
     "Other" : "Aner",
     "When shared show full event" : "Wann et gedeelt gouf, dann de ganzen Evenement uweisen",
     "When shared show only busy" : "Wann et gedeelt gouf, dann nëmmen als beschäftegt uweisen",
-    "When shared hide this event" : "Wann et gedeelt gouf, dann verstopp dëst Evenement",
-    "Calendars" : "Kalenneren",
-    "Hidden" : "Verstoppt"
+    "When shared hide this event" : "Wann et gedeelt gouf, dann verstopp dëst Evenement"
 },
 "nplurals=2; plural=(n != 1);");

@@ -20,6 +20,7 @@ OC.L10N.register(
     "Restore" : "Geri qaytar",
     "Delete permanently" : "Həmişəlik sil",
     "Tasks" : "Tapşırıqlar",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Linki yayımla",
     "None" : "Heç bir",
     "Save" : "Saxla",
@@ -64,13 +65,11 @@ OC.L10N.register(
     "No" : "Xeyir",
     "Subscribe" : "Abunə",
     "Personal" : "Şəxsi",
-    "Edit event" : "Hadisəni dəyişdir",
     "Close" : "Bağla",
     "Daily" : "Günlük",
     "Weekly" : "Həftəlik",
     "second" : "saniyə",
     "Other" : "Digər",
-    "Categories" : "Kateqoriyalar",
-    "Hidden" : "Gizli"
+    "Categories" : "Kateqoriyalar"
 },
 "nplurals=2; plural=(n != 1);");

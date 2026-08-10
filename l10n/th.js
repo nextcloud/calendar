@@ -85,6 +85,7 @@ OC.L10N.register(
     "Copied to clipboard" : "คัดลอกไปยังคลิปบอร์ดแล้ว",
     "Status" : "สถานะ",
     "Remove group" : "ลบกลุ่ม",
+    "Start date" : "วันที่เริ่มต้น",
     "Repeat" : "ทำซ้ำ",
     "never" : "ไม่ต้องเลย",
     "after" : "หลังจาก",
@@ -95,7 +96,6 @@ OC.L10N.register(
     "Global" : "ทั่วไป",
     "Subscribe" : "สมัครรับข้อมูล",
     "Personal" : "ส่วนตัว",
-    "Edit event" : "แก้ไขกิจกรรม",
     "Close" : "ปิด",
     "Selected" : "เลือกอยู่",
     "Submit" : "ส่ง",
@@ -111,9 +111,6 @@ OC.L10N.register(
     "When shared show only busy" : "เมื่อแชร์จะแสดงเฉพาะไม่ว่าง",
     "When shared hide this event" : "เมื่อแชร์จะซ่อนกิจกรรมนี้",
     "Confirmed" : "ยืนยันแล้ว",
-    "Categories" : "หมวดหมู่",
-    "Calendars" : "ปฏิทิน",
-    "Hidden" : "ซ่อนอยู่",
-    "Pick a date" : "เลือกวันที่"
+    "Categories" : "หมวดหมู่"
 },
 "nplurals=1; plural=0;");

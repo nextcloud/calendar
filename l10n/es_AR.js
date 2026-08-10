@@ -103,6 +103,7 @@ OC.L10N.register(
     "Status" : "Estatus",
     "Role" : "Rol",
     "Remove group" : "Eliminar grupo",
+    "Start date" : "Fecha de inicio",
     "Repeat" : "Repetir",
     "never" : "nunca",
     "after" : "después",
@@ -114,7 +115,6 @@ OC.L10N.register(
     "Subscribe" : "Suscribirse",
     "Select a date" : "Elija una fecha",
     "Personal" : "Personal",
-    "Edit event" : "Editar evento",
     "All day" : "Todo el día",
     "Close" : "Cerrar",
     "Participants" : "Participantes",
@@ -130,9 +130,6 @@ OC.L10N.register(
     "When shared show only busy" : "Al compartir, mostrar sólo como ocupado ",
     "When shared hide this event" : "Al compartir, ocultar este evento ",
     "Confirmed" : "Confirmado",
-    "Categories" : "Categoría",
-    "Calendars" : "Calendarios",
-    "Hidden" : "Oculto",
-    "Show week numbers" : "Mostrar número de semana"
+    "Categories" : "Categoría"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

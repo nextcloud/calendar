@@ -27,10 +27,12 @@ OC.L10N.register(
     "Preview" : "පෙරදසුන",
     "Copy link" : "සබැඳිය පිටපත් කරන්න",
     "Edit" : "සංස්කරණය",
+    "Delete" : "Delete",
     "Untitled calendar" : "නිර්ණාමික දින දර්ශනය",
     "Name" : "නම",
     "Restore" : "ප්‍රතිෂ්ථාපනය",
     "Tasks" : "කාර්යයන්",
+    "Copy internal link" : "Copy internal link",
     "Save" : "සුරකින්න",
     "Cancel" : "අවලංගු කරන්න",
     "Busy" : "කාර්යබහුලයි",
@@ -68,7 +70,6 @@ OC.L10N.register(
     "Anniversary" : "සංවත්සරය",
     "Daily" : "දිනපතා",
     "Weekly" : "සතිපතා",
-    "Other" : "වෙනත්",
-    "Time:" : "වේලාව:"
+    "Other" : "වෙනත්"
 },
 "nplurals=2; plural=(n != 1);");

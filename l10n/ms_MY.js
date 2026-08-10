@@ -47,6 +47,7 @@ OC.L10N.register(
     "Name" : "Nama",
     "Deleted" : "Dipadam",
     "Restore" : "Pulihkan",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Share link",
     "Save" : "Simpan",
     "Cancel" : "Batal",
@@ -74,12 +75,10 @@ OC.L10N.register(
     "Yes" : "Ya",
     "No" : "Tidak",
     "Personal" : "Peribadi",
-    "Edit event" : "Ubah peristiwa",
     "Close" : "Tutup",
     "Daily" : "Setiap hari",
     "Weekly" : "Setiap minggu",
     "second" : "kedua",
-    "Other" : "Lain",
-    "%1$s - %2$s" : "%1$s - %2$s"
+    "Other" : "Lain"
 },
 "nplurals=1; plural=0;");

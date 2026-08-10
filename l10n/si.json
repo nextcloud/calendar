@@ -25,10 +25,12 @@
     "Preview" : "පෙරදසුන",
     "Copy link" : "සබැඳිය පිටපත් කරන්න",
     "Edit" : "සංස්කරණය",
+    "Delete" : "Delete",
     "Untitled calendar" : "නිර්ණාමික දින දර්ශනය",
     "Name" : "නම",
     "Restore" : "ප්‍රතිෂ්ථාපනය",
     "Tasks" : "කාර්යයන්",
+    "Copy internal link" : "Copy internal link",
     "Save" : "සුරකින්න",
     "Cancel" : "අවලංගු කරන්න",
     "Busy" : "කාර්යබහුලයි",
@@ -66,7 +68,6 @@
     "Anniversary" : "සංවත්සරය",
     "Daily" : "දිනපතා",
     "Weekly" : "සතිපතා",
-    "Other" : "වෙනත්",
-    "Time:" : "වේලාව:"
+    "Other" : "වෙනත්"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

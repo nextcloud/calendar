@@ -26,6 +26,7 @@
     "Delete permanently" : "Borrar permanentemente",
     "Deck" : "Deck",
     "Tasks" : "Tareas",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Compartir liga",
     "Share with users or groups" : "Compartir con otros usuarios o grupos",
     "None" : "Ninguno",
@@ -77,6 +78,7 @@
     "Copied to clipboard" : "Copiado al portapapeles",
     "Status" : "Estatus",
     "Title" : "Título",
+    "Start date" : "Fecha de inicio",
     "Repeat" : "Repetir",
     "never" : "nunca",
     "after" : "después",
@@ -85,7 +87,6 @@
     "Global" : "Global",
     "Subscribe" : "Suscribir",
     "Personal" : "Personal",
-    "Edit event" : "Editar evento",
     "All day" : "Todo el día",
     "Close" : "Cerrar",
     "Participants" : "Participantes",
@@ -100,8 +101,6 @@
     "When shared hide this event" : "Al compartir, ocultar este evento ",
     "Confirmed" : "Confirmado",
     "Categories" : "Categorías",
-    "User not found" : "No se encontró el usuario",
-    "Hidden" : "Oculto",
-    "Show week numbers" : "Mostrar número de semana"
+    "User not found" : "No se encontró el usuario"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

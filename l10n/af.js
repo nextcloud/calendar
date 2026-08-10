@@ -26,6 +26,7 @@ OC.L10N.register(
     "Restore" : "Herstel",
     "Delete permanently" : "Skrap permanent",
     "Tasks" : "Take",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Deel skakel",
     "Share with users or groups" : "Deel met gebruikers of groepe",
     "No users or groups" : "Geen gebruikers of groepe",
@@ -72,6 +73,7 @@ OC.L10N.register(
     "Accept" : "Aanvaar",
     "Status" : "Status",
     "From" : "Van",
+    "Start date" : "Begindatum",
     "To" : "Aan",
     "Repeat" : "Herhaal",
     "never" : "nooit",
@@ -91,8 +93,6 @@ OC.L10N.register(
     "second" : "sekonde",
     "Other" : "Ander",
     "Confirmed" : "Bevestig",
-    "Categories" : "Kategorieë",
-    "Hidden" : "Versteek",
-    "Show week numbers" : "Toon weeknommers"
+    "Categories" : "Kategorieë"
 },
 "nplurals=2; plural=(n != 1);");

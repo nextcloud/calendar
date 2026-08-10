@@ -15,6 +15,7 @@ OC.L10N.register(
     "Restore" : "மீட்டெடு",
     "Delete permanently" : "நிரந்தரமாக நீக்கவும்",
     "Tasks" : "கடமைகள்",
+    "Copy internal link" : "Copy internal link",
     "Share link" : "Share link",
     "None" : "ஒன்றுமில்லை",
     "Save" : "சேமிக்க ",
