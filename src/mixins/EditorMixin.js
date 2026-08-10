@@ -22,7 +22,7 @@ import { isBaseOccurrence } from '@/utils/calendarObject.js'
 import { uidToHexColor } from '@/utils/color.js'
 import { dateFactory } from '@/utils/date.js'
 import logger from '@/utils/logger.js'
-import { getPrefixedRoute, getViewMode, ViewMode } from '@/utils/router.js'
+import { getDefaultEndDateForNewEvent, getDefaultStartDateForNewEvent, getPrefixedRoute, getViewMode, ViewMode } from '@/utils/router.js'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
