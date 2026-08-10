@@ -7,9 +7,9 @@ import axios from '@nextcloud/axios'
 import { generateUrl } from '@nextcloud/router'
 
 /**
- * @param config {object} the appointment config object
- * @param date {string} selected availability date in yyyy-m-d format
- * @param timeZone {String} target time zone for the time stamps
+ * @param {object} config the appointment config object
+ * @param {string} date selected availability date in yyyy-m-d format
+ * @param {string} timeZone target time zone for the time stamps
  */
 export async function findSlots(config, date, timeZone) {
 	const url = generateUrl('/apps/calendar/appointment/{token}/slots?dateSelected={date}&timeZone={timeZone}', {
@@ -24,12 +24,12 @@ export async function findSlots(config, date, timeZone) {
 }
 
 /**
- * @param config
- * @param slot
- * @param displayName
- * @param email
- * @param description
- * @param timeZone
+ * @param {object} config the appointment config object
+ * @param {object} slot the selected availability slot to book
+ * @param {string} displayName display name of the person booking the slot
+ * @param {string} email email address of the person booking the slot
+ * @param {string} description description for the booked appointment
+ * @param {string} timeZone time zone the slot was selected in
  */
 export async function bookSlot(config, slot, displayName, email, description, timeZone) {
 	const url = generateUrl('/apps/calendar/appointment/{token}/book', {

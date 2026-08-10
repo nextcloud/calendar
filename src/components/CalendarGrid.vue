@@ -323,6 +323,8 @@ export default {
 		/**
 		 * Scroll the month view to today when loading the calendar,
 		 * so people can directly see today's date and events.
+		 *
+		 * @param {boolean} isLoading Whether the calendar is still loading
 		 */
 		scrollMonthViewToToday(isLoading) {
 			if (isLoading) {
@@ -352,6 +354,8 @@ export default {
 
 		/**
 		 * Add a todo task without end date to the calendar
+		 *
+		 * @param {object} info The FullCalendar eventReceive info
 		 */
 		async handleEventReceive(info) {
 			const { event } = info

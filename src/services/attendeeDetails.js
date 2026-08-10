@@ -11,7 +11,7 @@ import logger from '@/utils/logger.js'
 
 /**
  *
- * @param email {string} email of nextcloud user or contact
+ * @param {string} email email of nextcloud user or contact
  */
 export async function getAttendeeDetails(email) {
 	const allDetails = JSON.parse(localStorage.getItem('calendar-attendee-details') || '[]')
@@ -61,9 +61,9 @@ export async function getAttendeeDetails(email) {
 
 /**
  *
- * @param allDetails all the localstorage information
- * @param email attendee email
- * @param timezone fetched attendee timezone
+ * @param {object[]} allDetails all the localstorage information
+ * @param {string} email attendee email
+ * @param {string} timezone fetched attendee timezone
  */
 function generateDetails(allDetails, email, timezone) {
 	const newAttendeeDetails = {
@@ -87,8 +87,8 @@ function generateDetails(allDetails, email, timezone) {
 
 /**
  *
- * @param startDate starting date of event
- * @param timezone timezone of attendee
+ * @param {Date|string} startDate starting date of event
+ * @param {string} timezone timezone of attendee
  */
 export function adjustAttendeeTime(startDate, timezone) {
 	if (!timezone || !startDate) {

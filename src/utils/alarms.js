@@ -296,7 +296,7 @@ export function getDefaultReminderForEvent({ calendar, isAllDay }) {
  *
  * https://www.rfc-editor.org/rfc/rfc5545#section-3.6.6
  *
- * @param {AbstractRecurringComponent} eventComponent
+ * @param {AbstractRecurringComponent} eventComponent The event component to propagate alarm data for
  */
 export function updateAlarms(eventComponent) {
 	for (const alarmComponent of eventComponent.getAlarmIterator()) {

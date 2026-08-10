@@ -40,9 +40,9 @@ async function shareFile(path) {
 /**
  * Share file with a user with permissions
  *
- * @param path
- * @param sharedWith
- * @param permissions
+ * @param {string} path The file path from the user's root directory. e.g. `/myfile.txt`
+ * @param {string} sharedWith The user id to share the file with
+ * @param {number} permissions The share permissions bitmask
  * @return {Promise<[{path: string, permissions, scope: string, name: string, backend: string, type: string},{path: string, permissions: *, scope: string, name: string, backend: string, type: string}]>}
  */
 async function shareFileWith(path, sharedWith, permissions = 17) {

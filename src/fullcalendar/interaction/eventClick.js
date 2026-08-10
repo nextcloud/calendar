@@ -94,7 +94,7 @@ function handleEventClick(event, router, route, window, isWidget = false) {
  * @param {EventDef} event FullCalendar event
  * @param {object} route The current Vue route
  * @param {Window} window The window object
- * @param isWidget
+ * @param {boolean} isWidget Whether the calendar is embedded as a widget
  */
 function handleToDoClick(event, route, window, isWidget = false) {
 	const settingsStore = useSettingsStore()

@@ -2,6 +2,14 @@
  * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+/**
+ * Get the offset in minutes between a date's timezone and the given timezone
+ *
+ * @param proposalDate The date to compute the offset for
+ * @param timezoneId The timezone id to compute the offset against
+ * @return The offset in minutes
+ */
 export function getTimezoneOffset(proposalDate: Date, timezoneId: string): number {
 	let timezoneOffset = 0
 
