@@ -42,13 +42,12 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 		}
 		for (const object of allObjectsInTimeRange) {
 			const classNames = []
-			let didEveryoneDecline = false
 
 			// You are an organizer
 			if (object.getFirstPropertyFirstValue('ORGANIZER') === `mailto:${principalsStore.getCurrentUserPrincipalEmail}`) {
 				// Check if all the attendees have declined the event
 				if (object.hasProperty('ATTENDEE')) {
-					didEveryoneDecline = true
+					let didEveryoneDecline = true
 					for (const attendeeProperty of object.getPropertyIterator('ATTENDEE')) {
 						const hasDeclined = attendeeProperty.participationStatus === 'DECLINED'
 						if (!hasDeclined) {

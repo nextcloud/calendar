@@ -118,14 +118,9 @@ function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 	// Default alarm for full-day events in this calendar (in seconds)
 	const defaultAlarmFullDay = isAfterVersion(34) && calendar.defaultAlarmFullDay !== undefined ? calendar.defaultAlarmFullDay : null
 
-	let isSharedWithMe = false
-	if (!currentUserPrincipal) {
-		// If the user is not authenticated, the calendar
-		// will always be marked as shared with them
-		isSharedWithMe = true
-	} else {
-		isSharedWithMe = (owner !== currentUserPrincipal.url)
-	}
+	// If the user is not authenticated, the calendar
+	// will always be marked as shared with them
+	const isSharedWithMe = !currentUserPrincipal || (owner !== currentUserPrincipal.url)
 
 	let enabled
 	if (!currentUserPrincipal) {

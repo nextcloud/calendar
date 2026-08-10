@@ -124,7 +124,7 @@ export function getAmountHoursMinutesAndUnitForAllDayEvents(totalSeconds) {
 	}
 
 	let amount = 0
-	let unit = null
+	let unit
 	if (dayPart === 0) {
 		unit = 'days'
 	} else if (dayPart % 7 === 0) {
