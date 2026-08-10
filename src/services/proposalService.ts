@@ -24,7 +24,7 @@ class ProposalService {
 			})
 			return response.data as T
 		} catch (error) {
-			let message = 'Unknown error'
+			let message: string
 			if (error.response.headers['content-type'] && error.response.headers['content-type'].includes('application/json')) {
 				const ocsError = error.response.data as OcsEnvelope<OcsErrorData>
 				message = ocsError.ocs?.meta?.message ? ocsError.ocs.meta.message : `${error.response.status} ${error.response.statusText}`

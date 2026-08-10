@@ -11,7 +11,7 @@
  * @return The offset in minutes
  */
 export function getTimezoneOffset(proposalDate: Date, timezoneId: string): number {
-	let timezoneOffset = 0
+	let timezoneOffset: number
 
 	try {
 		const dtf = new Intl.DateTimeFormat('en-US', {

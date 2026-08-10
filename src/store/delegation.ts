@@ -65,8 +65,8 @@ export default defineStore('delegation', () => {
 			return
 		}
 
-		let writeUrls: string[] = []
-		let readUrls: string[] = []
+		let writeUrls: string[]
+		let readUrls: string[]
 		try {
 			const delegateUrls = await getClient().getDelegatesForPrincipal(currentUser.url)
 			writeUrls = delegateUrls.write

@@ -671,7 +671,7 @@ export default {
 		calculateAndApplyPosition(targetElement) {
 			const SPACING = 16
 			// In Vue 3, this.$el might be a comment node, so we need to check if querySelector exists
-			let existingPopover = null
+			let existingPopover
 			if (this.$el && typeof this.$el.querySelector === 'function') {
 				existingPopover = this.$el.querySelector('.event-popover')
 			} else {
@@ -724,8 +724,8 @@ export default {
 			const spaceRight = boundaryRect.right - targetRect.right - SPACING
 			const spaceLeft = targetRect.left - boundaryRect.left - SPACING
 
-			let top = targetRect.bottom + SPACING
-			let left = targetRect.left
+			let top
+			let left
 
 			// If target element doesn't exist yet (fallback element), center in boundary
 			if (isTargetFallback) {

@@ -24,7 +24,6 @@ export default [
 			'preserve-caught-error': 'warn',
 			'@nextcloud/no-deprecated-library-props': 'warn',
 			'vue/custom-event-name-casing': 'warn',
-			'no-useless-assignment': 'warn',
 			// JSDocs are welcome but lint:fix should not create empty ones
 			'jsdoc/require-jsdoc': ['warn', { enableFixer: false }],
 			'jsdoc/require-param': ['warn', { enableFixer: false }],
