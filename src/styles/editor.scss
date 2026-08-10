@@ -1,0 +1,11 @@
+/*!
+ * SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+// Global styles of the event editor.
+// Kept separate from `calendar.scss` because the editor can be opened
+// standalone from any other app, where the calendar view is never rendered.
+@use 'app-full.scss';
+@use 'freebusy.scss';
+@use 'props-linkify-links.scss';
