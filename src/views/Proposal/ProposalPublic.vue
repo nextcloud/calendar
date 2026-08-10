@@ -82,6 +82,7 @@ import { ProposalResponse, ProposalResponseDate } from '@/models/proposals/propo
 // types, object and stores
 import useProposalStore from '@/store/proposalStore'
 import { ProposalDateVote } from '@/types/proposals/proposalEnums'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'ProposalPublic',
@@ -182,7 +183,7 @@ export default {
 				await this.proposalStore.storeResponse(this.response)
 				this.contentView = 'responded'
 			} catch (e) {
-				console.error('Failed to store proposal response', e)
+				logger.error('Failed to store proposal response', { e })
 			}
 		},
 	},

@@ -100,6 +100,7 @@ import AppointmentBookingConfirmation from '../../components/Appointments/Appoin
 import AppointmentDetails from '../../components/Appointments/AppointmentDetails.vue'
 import AppointmentSlot from '../../components/Appointments/AppointmentSlot.vue'
 import { bookSlot, findSlots } from '../../services/appointmentService.js'
+import logger from '@/utils/logger.js'
 
 import '@nextcloud/dialogs/style.css'
 
@@ -211,7 +212,7 @@ export default {
 				)
 			} catch (e) {
 				showError(this.$t('calendar', 'Could not fetch slots'))
-				console.error('Could not fetch slots', e)
+				logger.error('Could not fetch slots', { e })
 			} finally {
 				this.loadingSlots = false
 			}
@@ -219,7 +220,7 @@ export default {
 
 		async onSave({ slot, displayName, email, description, timeZone }) {
 			this.bookingLoading = true
-			console.info('slot will be booked', {
+			logger.info('slot will be booked', {
 				slot,
 				description,
 				email,
@@ -232,12 +233,12 @@ export default {
 			try {
 				await bookSlot(this.config, slot, displayName, email, description, timeZone)
 
-				console.info('appointment booked')
+				logger.info('appointment booked')
 
 				this.selectedSlot = undefined
 				this.bookingConfirmed = true
 			} catch (e) {
-				console.error('could not book appointment', e)
+				logger.error('could not book appointment', { e })
 				if (e?.response?.status === 429) {
 					this.bookingRateLimit = true
 				} else {

@@ -19,6 +19,7 @@ import CalendarListNew from './CalendarList/CalendarListNew.vue'
 import PublicCalendarListItem from './CalendarList/PublicCalendarListItem.vue'
 import useCalendarsStore from '@/store/calendars.js'
 import usePrincipalsStore from '@/store/principals.js'
+import logger from '@/utils/logger.js'
 import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
 
 interface DelegatedGroup {
@@ -138,7 +139,7 @@ async function update(): Promise<void> {
 	try {
 		await limit(() => calendarsStore.updateCalendarListOrder({ newOrder }))
 	} catch (error) {
-		console.error(error)
+		logger.error(error)
 		showError(t('calendar', 'Could not update calendar order.'))
 		// Reset calendar list order on error
 		calendars.value = calendarsStore.sortedCalendarsSubscriptions

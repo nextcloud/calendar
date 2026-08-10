@@ -60,6 +60,7 @@ import useCalendarObjectsStore from '../../../store/calendarObjects.js'
 import useCalendarsStore from '../../../store/calendars.js'
 import useImportFilesStore from '../../../store/importFiles.js'
 import useImportStateStore from '../../../store/importState.js'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'SettingsImportSection',
@@ -195,7 +196,7 @@ export default {
 				try {
 					parser.parse(contents)
 				} catch (error) {
-					console.error(error)
+					logger.error(error)
 					showError(this.$t('calendar', '{filename} could not be parsed', {
 						filename: name,
 					}))

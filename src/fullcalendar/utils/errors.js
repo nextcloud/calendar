@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import logger from '@/utils/logger.js'
+
 /**
  * Wraps a FullCalendar hook function with error logging
  *
@@ -16,7 +18,7 @@ export function errorCatch(hookFn, hookName, defaultReturn = undefined) {
 		try {
 			return hookFn.apply(this, args)
 		} catch (error) {
-			console.error(`Calendar Hook Error in ${hookName}:`, error, ...args)
+			logger.error(`Calendar Hook Error in ${hookName}:`, { error, args })
 			return defaultReturn
 		}
 	}
@@ -34,7 +36,7 @@ export function errorCatchAsync(hookFn, hookName) {
 		try {
 			return await hookFn.apply(this, args)
 		} catch (error) {
-			console.error(`Calendar Hook Error in ${hookName}:`, error, ...args)
+			logger.error(`Calendar Hook Error in ${hookName}:`, { error, args })
 		}
 	}
 }

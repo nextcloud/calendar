@@ -307,6 +307,7 @@ import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import useSettingsStore from '../store/settings.js'
 import useWidgetStore from '../store/widget.js'
 import { getPrefixedRoute } from '../utils/router.js'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'EditSimple',
@@ -646,7 +647,7 @@ export default {
 			const targetElement = this.getDomElementForPopover(isNew, this.$route)
 
 			if (!targetElement) {
-				console.warn('[calendar] EditSimple: No target element found for popover')
+				logger.warn('[calendar] EditSimple: No target element found for popover')
 				return
 			}
 

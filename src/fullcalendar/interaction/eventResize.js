@@ -7,6 +7,7 @@ import useCalendarsStore from '../../store/calendars.js'
 import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
 import { getDurationValueFromFullCalendarDuration } from '../duration.js'
 import { errorCatchAsync } from '../utils/errors.js'
+import logger from '@/utils/logger.js'
 
 /**
  * Returns a function to resize an event
@@ -34,14 +35,14 @@ export default function() {
 		try {
 			calendarObject = await calendarsStore.getEventByObjectId({ objectId })
 		} catch (error) {
-			console.debug(error)
+			logger.debug(error)
 			revert()
 			return
 		}
 
 		const eventComponent = getObjectAtRecurrenceId(calendarObject, recurrenceIdDate)
 		if (!eventComponent) {
-			console.debug('Recurrence-id not found')
+			logger.debug('Recurrence-id not found')
 			revert()
 			return
 		}
@@ -65,7 +66,7 @@ export default function() {
 			calendarObjectsStore.resetCalendarObjectToDavMutation({
 				calendarObject,
 			})
-			console.debug(error)
+			logger.debug(error)
 			revert()
 		}
 	}, 'eventResize')

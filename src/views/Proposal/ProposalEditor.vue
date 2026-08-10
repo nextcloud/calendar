@@ -242,6 +242,7 @@ import usePrincipalStore from '@/store/principals.js'
 import useProposalStore from '@/store/proposalStore'
 import useSettingsStore from '@/store/settings.js'
 import { ProposalDateVote, ProposalParticipantAttendance, ProposalParticipantRealm, ProposalParticipantStatus } from '@/types/proposals/proposalEnums'
+import logger from '@/utils/logger.js'
 
 // Helper interface for participants emitted by InviteesListSearch
 interface ParticipantSearchInterface {
@@ -538,7 +539,7 @@ export default {
 				return
 			}
 			if (!this.calendarApi) {
-				console.warn('Calendar API not initialized yet')
+				logger.warn('Calendar API not initialized yet')
 				return
 			}
 			this.calendarApi.setOption('views', {
@@ -615,7 +616,7 @@ export default {
 		async onProposalSave() {
 			try {
 				if (!this.selectedProposal) {
-					return console.error('No proposal selected for this operation')
+					return logger.error('No proposal selected for this operation')
 				}
 				showSuccess(t('calendar', 'Saving proposal "{title}"', { title: this.selectedProposal.title ?? t('calendar', 'No title') }))
 				await this.proposalStore.storeProposal(this.selectedProposal)
@@ -623,13 +624,13 @@ export default {
 				this.onModalClose()
 			} catch (error) {
 				showError(t('calendar', 'Failed to save proposal'))
-				console.error('Failed to save proposal:', error)
+				logger.error('Failed to save proposal:', { error })
 			}
 		},
 
 		onProposalConvert(date: ProposalDate) {
 			if (!this.selectedProposal || !date.date) {
-				return console.error('No proposal selected or invalid date for meeting conversion')
+				return logger.error('No proposal selected or invalid date for meeting conversion')
 			}
 			this.pendingConvertDate = date
 			this.showConvertDialog = true
@@ -657,20 +658,20 @@ export default {
 
 		onProposalParticipantRemove(address: string): void {
 			if (!this.selectedProposal) {
-				return console.error('No proposal selected for this operation')
+				return logger.error('No proposal selected for this operation')
 			}
 			this.removeParticipant(address)
 		},
 
 		onProposalParticipantAttendance(address: string, attendance: ProposalParticipantAttendance): void {
 			if (!this.selectedProposal) {
-				return console.error('No proposal selected for this operation')
+				return logger.error('No proposal selected for this operation')
 			}
 			const participant = this.selectedProposal.participants.find((p) => p.address === address)
 			if (participant) {
 				participant.attendance = attendance
 			} else {
-				console.error('Participant not found:', address)
+				logger.error('Participant not found:', { address })
 			}
 		},
 
@@ -695,10 +696,10 @@ export default {
 
 		onProposalDateRemove(index: number): void {
 			if (!this.selectedProposal) {
-				return console.error('No proposal selected for this operation')
+				return logger.error('No proposal selected for this operation')
 			}
 			if (this.selectedProposal.dates[index] === undefined) {
-				return console.error('Can not remove proposed date, index value is invalid: ', index)
+				return logger.error('Can not remove proposed date, index value is invalid: ', { index })
 			}
 			this.selectedProposal.dates.splice(index, 1)
 			this.renderParticipantAvailability()
@@ -706,7 +707,7 @@ export default {
 
 		onProposalDateFocus(date: ProposalDate): void {
 			if (!this.calendarApi || !date) {
-				return console.warn('Calendar API not available or invalid date')
+				return logger.warn('Calendar API not available or invalid date')
 			}
 			// Focus the calendar on the specific date
 			this.calendarApi.gotoDate(date.date)
@@ -714,21 +715,21 @@ export default {
 
 		onCalendarFocusToday(): void {
 			if (!this.calendarApi) {
-				return console.error('Calendar API not initialized')
+				return logger.error('Calendar API not initialized')
 			}
 			this.calendarApi.today()
 		},
 
 		onCalendarSpanPrevious(): void {
 			if (!this.calendarApi) {
-				return console.error('Calendar API not initialized')
+				return logger.error('Calendar API not initialized')
 			}
 			this.calendarApi.prev()
 		},
 
 		onCalendarSpanNext(): void {
 			if (!this.calendarApi) {
-				return console.error('Calendar API not initialized')
+				return logger.error('Calendar API not initialized')
 			}
 			this.calendarApi.next()
 		},
@@ -756,7 +757,7 @@ export default {
 				this.storedProposals = await this.proposalStore.listProposals()
 			} catch (error) {
 				showError(t('calendar', 'Failed to fetch proposals'))
-				console.error('Failed to fetch proposals:', error)
+				logger.error('Failed to fetch proposals:', { error })
 			}
 		},
 
@@ -774,7 +775,7 @@ export default {
 				this.onModalClose()
 			} catch (error) {
 				showError(t('calendar', 'Failed to delete proposal'))
-				console.error('Failed to delete proposal:', error)
+				logger.error('Failed to delete proposal:', { error })
 			}
 		},
 
@@ -793,18 +794,18 @@ export default {
 				this.onModalClose()
 			} catch (error) {
 				showError(t('calendar', 'Failed to create a meeting for {date}', { date: dateString }))
-				console.error('Failed to create a meeting:', error)
+				logger.error('Failed to create a meeting:', { error })
 			}
 		},
 
 		changeDuration(duration: number): void {
 			if (!this.selectedProposal) {
-				return console.error('No proposal selected for this operation')
+				return logger.error('No proposal selected for this operation')
 			}
 			// Validate duration value
 			if (isNaN(duration) || duration <= 0) {
 				this.selectedProposal.duration = 0
-				return console.error('Invalid duration value:', duration)
+				return logger.error('Invalid duration value:', { duration })
 			}
 			this.selectedProposal.duration = duration
 			// Refresh calendar view
@@ -813,7 +814,7 @@ export default {
 
 		addParticipant(participant: ParticipantSearchInterface): void {
 			if (!this.selectedProposal) {
-				return console.error('No proposal selected for this operation')
+				return logger.error('No proposal selected for this operation')
 			}
 			if (!participant.email) {
 				return
@@ -832,7 +833,7 @@ export default {
 
 		removeParticipant(address: string): void {
 			if (!this.selectedProposal) {
-				return console.error('No proposal selected for this operation')
+				return logger.error('No proposal selected for this operation')
 			}
 			// remove the participant's availability data
 			if (this.participantAvailability[address]) {
@@ -846,7 +847,7 @@ export default {
 
 		addGroup(participant: ParticipantSearchInterface): void {
 			if (!this.selectedProposal) {
-				return console.error('No proposal selected for this operation')
+				return logger.error('No proposal selected for this operation')
 			}
 			if (!participant.email) {
 				return
@@ -862,7 +863,7 @@ export default {
 
 		addProposedDate(date: Date): void {
 			if (!this.selectedProposal) {
-				return console.error('No proposal selected for this operation')
+				return logger.error('No proposal selected for this operation')
 			}
 			const newProposalDate = new ProposalDate()
 			newProposalDate.date = date
@@ -879,10 +880,10 @@ export default {
 
 		changeProposedDate(index: number, date: Date): void {
 			if (!this.selectedProposal) {
-				return console.error('No proposal selected for this operation')
+				return logger.error('No proposal selected for this operation')
 			}
 			if (this.selectedProposal.dates[index] === undefined) {
-				return console.error('Can not change proposed date, index value is invalid: ', index)
+				return logger.error('Can not change proposed date, index value is invalid: ', { index })
 			}
 			this.selectedProposal.dates[index].date = date
 			// Force Vue to recognize the change for reactivity
@@ -894,7 +895,7 @@ export default {
 		async fetchParticipantAvailability(participant: ProposalParticipant | null = null): Promise<void> {
 			// Check if calendar API is available
 			if (!this.calendarApi) {
-				console.warn('Calendar API not available, skipping availability fetch')
+				logger.warn('Calendar API not available, skipping availability fetch')
 				return
 			}
 
@@ -906,21 +907,21 @@ export default {
 			// Use current user for organizer
 			const principal = this.principalStore.getCurrentUserPrincipal
 			if (!principal) {
-				console.error('No current user found cannot retrieve availability data')
+				logger.error('No current user found cannot retrieve availability data')
 				return
 			}
 			const organizer = AttendeeProperty.fromNameAndEMail(principal.displayname || '', principal.emailAddress || '', true)
 			const attendees: Array<{ name: string, email: string, isOrganizer: boolean }> = []
 			if (participant) {
 				if (participant.realm !== ProposalParticipantRealm.Internal) {
-					console.warn('Skipping availability fetch for non-internal participant:', participant)
+					logger.warn('Skipping availability fetch for non-internal participant:', { participant })
 					return
 				}
 				attendees.push(AttendeeProperty.fromNameAndEMail(participant.name, participant.address, false))
 			} else {
 				this.selectedProposal.participants.forEach((p: ProposalParticipant) => {
 					if (p.realm !== ProposalParticipantRealm.Internal) {
-						console.warn('Skipping availability fetch for non-internal participant:', p)
+						logger.warn('Skipping availability fetch for non-internal participant:', { p })
 						return
 					}
 					attendees.push(AttendeeProperty.fromNameAndEMail(p.name, p.address, false))
@@ -929,7 +930,7 @@ export default {
 			// fetch availability data
 			const { events, error } = await getBusySlots(organizer, attendees, start, end, timeZoneId) as { events: ParticipantBusySlotInterface[], error?: unknown }
 			if (error) {
-				console.error('Failed to fetch free/busy data:', error)
+				logger.error('Failed to fetch free/busy data:', { error })
 				showError(t('calendar', 'Failed to fetch free/busy data'))
 				return
 			}
@@ -956,7 +957,7 @@ export default {
 		renderParticipantAvailability(): void {
 			// Check if calendar API is available
 			if (!this.calendarApi) {
-				console.warn('Calendar API not available, skipping render')
+				logger.warn('Calendar API not available, skipping render')
 				return
 			}
 

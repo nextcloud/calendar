@@ -293,6 +293,7 @@ import useCalendarsStore from '../../../store/calendars.js'
 import useSettingsStore from '../../../store/settings.js'
 import { uidToHexColor } from '../../../utils/color.js'
 import { adjustAttendeeTime, getAttendeeDetails } from '@/services/attendeeDetails'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'FreeBusy',
@@ -726,7 +727,7 @@ export default {
 				this.freeSlots = freeSlots
 			} catch (error) {
 				// Handle error here
-				console.error('Error occurred while finding free slots:', error)
+				logger.error('Error occurred while finding free slots:', { error })
 				throw error // Re-throwing the error to handle it in the caller
 			}
 		},

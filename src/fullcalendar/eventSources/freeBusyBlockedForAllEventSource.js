@@ -34,7 +34,7 @@ export default function(organizer, attendees, resources) {
 			// eslint-disable-next-line no-unused-vars
 			failureCallback,
 		) => {
-			console.debug('freeBusyBlockedForAllEventSource', start, end, timeZone)
+			logger.debug('freeBusyBlockedForAllEventSource', { start, end, timeZone })
 
 			let timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
 			if (!timezoneObject) {
@@ -83,7 +83,7 @@ export default function(organizer, attendees, resources) {
 					currentSlotStart = combined.end
 				})
 			}
-			console.debug('deduplicated slots', slots, slotsWithoutOverlap)
+			logger.debug('deduplicated slots', { slots, slotsWithoutOverlap })
 
 			const events = slotsWithoutOverlap.map((slot) => {
 				return {
@@ -98,7 +98,7 @@ export default function(organizer, attendees, resources) {
 				}
 			})
 
-			console.debug('freeBusyBlockedForAllEventSource', slots, events)
+			logger.debug('freeBusyBlockedForAllEventSource', { slots, events })
 
 			successCallback(events)
 		},

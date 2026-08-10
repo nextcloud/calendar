@@ -20,7 +20,6 @@ export default [
 		},
 		rules: {
 			// Relax some rules for now. Can be improved later on (baseline).
-			'no-console': 'warn',
 			'@typescript-eslint/no-unused-vars': 'warn',
 			'vue/multi-word-component-names': 'warn',
 			'preserve-caught-error': 'warn',

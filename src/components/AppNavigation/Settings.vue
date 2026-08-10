@@ -416,7 +416,7 @@ export default {
 				await this.settingsStore.toggleBirthdayCalendarEnabled()
 				this.savingBirthdayCalendar = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingBirthdayCalendar = false
 			}
@@ -429,7 +429,7 @@ export default {
 				await this.settingsStore.toggleEventLimitEnabled()
 				this.savingEventLimit = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingEventLimit = false
 			}
@@ -442,7 +442,7 @@ export default {
 				await this.settingsStore.toggleTasksEnabled()
 				this.savingTasks = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingTasks = false
 			}
@@ -455,7 +455,7 @@ export default {
 				await this.settingsStore.togglePopoverEnabled()
 				this.savingPopover = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingPopover = false
 			}
@@ -468,7 +468,7 @@ export default {
 				await this.settingsStore.toggleWeekendsEnabled()
 				this.savingWeekend = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingWeekend = false
 			}
@@ -484,7 +484,7 @@ export default {
 				await this.settingsStore.toggleWeekNumberEnabled()
 				this.savingWeekNumber = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingWeekNumber = false
 			}
@@ -507,7 +507,7 @@ export default {
 				await this.settingsStore.setSlotDuration({ slotDuration: option.value })
 				this.savingSlotDuration = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingSlotDuration = false
 			}
@@ -594,7 +594,7 @@ export default {
 				})
 				this.savingDefaultReminderPartDay = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingDefaultReminderPartDay = false
 			}
@@ -619,7 +619,7 @@ export default {
 				})
 				this.savingDefaultReminderFullDay = false
 			} catch (error) {
-				console.error(error)
+				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingDefaultReminderFullDay = false
 			}
