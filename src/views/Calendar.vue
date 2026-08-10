@@ -148,6 +148,7 @@ import logger from '@/utils/logger.js'
 import loadMomentLocalization from '@/utils/moment.js'
 import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
 import { getViewMode, ViewMode } from '@/utils/router.js'
+import { getSettingsFromInitialState } from '@/utils/settings.js'
 
 import '@nextcloud/dialogs/style.css'
 

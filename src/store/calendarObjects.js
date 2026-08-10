@@ -11,6 +11,7 @@ import {
 import { defineStore } from 'pinia'
 import { markRaw } from 'vue'
 import { mapCalendarJsToCalendarObject } from '@/models/calendarObject.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
 import useCalendarsStore from '@/store/calendars.js'
 import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
 import logger from '@/utils/logger.js'
