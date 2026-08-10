@@ -645,7 +645,7 @@ export default {
 		keyboardDuplicateEvent(event) {
 			if (event.key === 'd' && event.ctrlKey === true) {
 				event.preventDefault()
-				if (!this.isNew && !this.isReadOnly && !this.canCreateRecurrenceException) {
+				if (!this.isNew && !this.canCreateRecurrenceException) {
 					this.duplicateEvent()
 				}
 			}
@@ -701,12 +701,20 @@ export default {
 		},
 
 		/**
-		 * Duplicates a calendar-object and saves it
+		 * Duplicates the calendar-object. If the source calendar is
+		 * read-only, the duplicate is created in the first writable calendar.
 		 *
 		 * @return {Promise<void>}
 		 */
 		async duplicateEvent() {
-			await this.calendarObjectInstanceStore.duplicateCalendarObjectInstance()
+			const calendarId = this.isReadOnly
+				? (this.calendarsStore.sortedCalendars[0]?.id ?? null)
+				: (this.calendarObject?.calendarId ?? null)
+			await this.calendarObjectInstanceStore.duplicateCalendarObjectInstance({ calendarId })
+
+			// The editor's calendar picker is driven by this.calendarId, which is
+			// separate from the store's calendarObject.calendarId.
+			this.calendarId = this.calendarObject?.calendarId ?? null
 		},
 
 		/**

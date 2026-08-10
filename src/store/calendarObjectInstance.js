@@ -1425,9 +1425,11 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 * Duplicate calendar-object-instance
 		 *
+		 * @param {object} data The destructuring object
+		 * @param {string=} data.calendarId The id of the calendar to duplicate the event into. Defaults to the source event's calendar
 		 * @return {Promise<void>}
 		 */
-		async duplicateCalendarObjectInstance() {
+		async duplicateCalendarObjectInstance({ calendarId } = {}) {
 			const calendarObjectsStore = useCalendarObjectsStore()
 
 			const oldCalendarObjectInstance = this.calendarObjectInstance
@@ -1439,7 +1441,7 @@ export default defineStore('calendarObjectInstance', {
 				end: endDate.unixTime,
 				timezoneId: oldEventComponent.startDate.timezoneId,
 				isAllDay: oldEventComponent.isAllDay(),
-				calendarId: this.calendarObject?.calendarId ?? null,
+				calendarId: calendarId ?? this.calendarObject?.calendarId ?? null,
 			})
 			const eventComponent = getObjectAtRecurrenceId(calendarObject, startDate.jsDate)
 			copyCalendarObjectInstanceIntoEventComponent(oldCalendarObjectInstance, eventComponent)

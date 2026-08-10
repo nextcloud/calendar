@@ -967,6 +967,55 @@ describe('Test suite: Event model (models/event.js)', () => {
 		expect(targetEventComponent.getFirstPropertyFirstValue('A-CUSTOM-PROPERTY')).toBe('TRUE')
 	})
 
+	it('should replace, not duplicate, DTSTART/DTEND in the new event component', () => {
+		// Given
+		// The target already has its own DTSTART/DTEND set from the occurrence
+		// it was created for. Simply appending the source's on top would leave
+		// the component with duplicate DTSTART/DTEND properties, which servers
+		// reject as invalid iCalendar - so the target's own values must be
+		// replaced by the source's, not added alongside them.
+		const sourceRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 7, 0, 0)), true)
+		const sourceEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-timed', sourceRecurrenceId)
+		const sourceEventObject = mapEventComponentToEventObject(sourceEventComponent)
+
+		const targetRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 9, 0, 0)), true)
+		const targetEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-minimal', targetRecurrenceId)
+
+		// When
+		copyCalendarObjectInstanceIntoEventComponent(sourceEventObject, targetEventComponent)
+
+		// Then
+		expect([...targetEventComponent.getPropertyIterator('DTSTART')]).toHaveLength(1)
+		expect([...targetEventComponent.getPropertyIterator('DTEND')]).toHaveLength(1)
+		expect(targetEventComponent.startDate.unixTime).toEqual(sourceEventComponent.startDate.unixTime)
+		expect(targetEventComponent.endDate.unixTime).toEqual(sourceEventComponent.endDate.unixTime)
+	})
+
+	it('should not leave a stale DTEND when the source uses DURATION instead', () => {
+		// Given
+		// DTEND and DURATION are mutually exclusive on a VEVENT. The target
+		// (created via calendar-js's createEvent()) always has a DTEND, so if
+		// the source describes its length with DURATION instead, the target's
+		// DTEND must still be cleared - not just left behind alongside the
+		// newly-added DURATION.
+		const sourceRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 7, 0, 0)), true)
+		const sourceEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-timed', sourceRecurrenceId)
+		sourceEventComponent.deleteAllProperties('DTEND')
+		sourceEventComponent.updatePropertyWithValue('DURATION', DurationValue.fromSeconds(3600))
+		const sourceEventObject = mapEventComponentToEventObject(sourceEventComponent)
+
+		const targetRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 9, 0, 0)), true)
+		const targetEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-minimal', targetRecurrenceId)
+		expect(targetEventComponent.hasProperty('DTEND')).toBe(true)
+
+		// When
+		copyCalendarObjectInstanceIntoEventComponent(sourceEventObject, targetEventComponent)
+
+		// Then
+		expect([...targetEventComponent.getPropertyIterator('DTEND')]).toHaveLength(0)
+		expect([...targetEventComponent.getPropertyIterator('DURATION')]).toHaveLength(1)
+	})
+
 	it('should not copy recurrence ID into a new event component', () => {
 		// Given
 		const sourceRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2020, 2, 8, 14, 0, 0)), true)
@@ -983,8 +1032,12 @@ describe('Test suite: Event model (models/event.js)', () => {
 		expect(targetEventComponent.hasProperty('RECURRENCE-ID')).toBeFalsy()
 	})
 
-	it('should not copy recurring events into a new event component', () => {
+	it('should not copy recurrence-defining properties into a new event component', () => {
 		// Given
+		// The first occurrence's recurrence-id matches the master item's own DTSTART,
+		// so calendar-js returns the master item itself here (RRULE and all) instead
+		// of a forked occurrence. A duplicate must still come out as a single,
+		// non-recurring event rather than throwing or inheriting the recurrence rule.
 		const sourceRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2020, 2, 1, 14, 0, 0)), true)
 		const sourceEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-recurring', sourceRecurrenceId)
 		const sourceEventObject = mapEventComponentToEventObject(sourceEventComponent)
@@ -993,8 +1046,15 @@ describe('Test suite: Event model (models/event.js)', () => {
 		const targetEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-minimal', targetRecurrenceId)
 
 		// When
-		expect(() => copyCalendarObjectInstanceIntoEventComponent(sourceEventObject, targetEventComponent))
-			.toThrow('Illegal argument: Event objects has recurrence related property RRULE.')
+		copyCalendarObjectInstanceIntoEventComponent(sourceEventObject, targetEventComponent)
+
+		// Then
+		expect(targetEventComponent.hasProperty('RRULE')).toBeFalsy()
+		expect(targetEventComponent.hasProperty('EXRULE')).toBeFalsy()
+		expect(targetEventComponent.hasProperty('RDATE')).toBeFalsy()
+		expect(targetEventComponent.hasProperty('EXDATE')).toBeFalsy()
+		// Non-recurrence properties from the source are still copied as usual.
+		expect(targetEventComponent.title).toEqual(sourceEventComponent.title)
 	})
 
 	it('should copy subcomponents into a new event component', () => {
