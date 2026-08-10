@@ -14,7 +14,7 @@ import { errorCatch } from '../utils/errors.js'
  * @param {object} router The Vue router
  * @param {object} route The Vue route
  * @param {Window} window The window object
- * @return {Function}
+ * @return {(info: {start: Date, end: Date, allDay: boolean}) => void}
  */
 export default function(router, route, window) {
 	const settingsStore = useSettingsStore()

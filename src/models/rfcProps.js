@@ -8,7 +8,15 @@ import { getDefaultCategories } from '../defaults/defaultCategories.js'
 /**
  * Gets all supported RFC properties
  *
- * @return {{color: {readableName: *, icon: string, multiple: boolean, info: *}, timeTransparency: {readableName: *, defaultValue: string, icon: string, multiple: boolean, options: *[], info: *}, description: {readableName: *, icon: string, placeholder: *, defaultNumberOfRows: number}, location: {readableName: *, icon: string, placeholder: *}, categories: {readableName: *, icon: string, multiple: boolean, options: *, tagPlaceholder: *, placeholder: *, info: *}, accessClass: {readableName: *, defaultValue: string, icon: string, options: *[], multiple: boolean, info: *}, status: {readableName: *, defaultValue: string, icon: string, options: *[], multiple: boolean, info: *}}}
+ * @return {{
+ *   accessClass: {readableName: string, icon: string, options: {value: string, label: string}[], multiple: boolean, info: string, defaultValue: string},
+ *   location: {readableName: string, placeholder: string, icon: string},
+ *   description: {readableName: string, placeholder: string, icon: string, defaultNumberOfRows: number},
+ *   status: {readableName: string, icon: string, options: {value: string, label: string}[], multiple: boolean, info: string, defaultValue: string},
+ *   timeTransparency: {readableName: string, icon: string, multiple: boolean, info: string, options: {value: string, label: string}[], defaultValue: string},
+ *   categories: {readableName: string, icon: string, multiple: boolean, info: string, placeholder: string, tagPlaceholder: string, options: {value: string, label: string}[]},
+ *   color: {readableName: string, icon: string, multiple: boolean, info: string},
+ * }}
  */
 function getRFCProperties() {
 	return {

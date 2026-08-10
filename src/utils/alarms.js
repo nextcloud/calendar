@@ -105,7 +105,7 @@ export function getTotalSecondsFromAmountAndUnitForTimedEvents(amount, unit, isB
  * Gets the amount of days / weeks, unit, hours and minutes from total seconds
  *
  * @param {number} totalSeconds Total amount of seconds
- * @return {{amount: *, unit: *, hours: *, minutes: *}}
+ * @return {{amount: number, unit: string, hours: number, minutes: number}}
  */
 export function getAmountHoursMinutesAndUnitForAllDayEvents(totalSeconds) {
 	const dayFactor = getFactorForAlarmUnit('days')

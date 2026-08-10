@@ -152,7 +152,7 @@ function mapCalendarJsToSchedulingObject(calendarComponent) {
  * Extracts the first object from the calendar-component
  *
  * @param {CalendarComponent} calendarComponent The calendar-component
- * @return {any} First VEvent / VJournal / VTodo / VFreeBusy
+ * @return {object|undefined} First VEvent / VJournal / VTodo / VFreeBusy
  */
 function getFirstObjectFromCalendarComponent(calendarComponent) {
 	const vObjectIterator = calendarComponent.getVObjectIterator()

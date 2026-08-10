@@ -18,7 +18,7 @@ import { errorCatchAsync } from '../utils/errors.js'
  * Returns a function to drop an event at a different position
  *
  * @param {object} fcAPI The fullcalendar api
- * @return {Function}
+ * @return {(info: {event: EventDef, delta: object, revert: () => void}) => Promise<void>}
  */
 export default function(fcAPI) {
 	const calendarsStore = useCalendarsStore()

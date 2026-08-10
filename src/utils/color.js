@@ -73,7 +73,7 @@ export function uidToHexColor(uid) {
  * Detects a color from a given string
  *
  * @param {string} color The color to get the real RGB hex string from
- * @return {string|boolean|*} String if color detected, boolean if not
+ * @return {string|boolean} String if color detected, boolean if not
  */
 export function detectColor(color) {
 	if (/^(#)((?:[A-Fa-f0-9]{3}){1,2})$/.test(color)) { // #ff00ff and #f0f

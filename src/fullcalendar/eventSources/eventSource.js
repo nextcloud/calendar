@@ -12,7 +12,7 @@ import { eventSourceFunction } from './eventSourceFunction.js'
 /**
  * Returns a function to generate a FullCalendar event-source based on the Vuex calendar model
  *
- * @return {function(*=): {backgroundColor: *, borderColor: *, className: *, id: *, textColor: *, events: events}}
+ * @return {(calendar: object) => {id: string, backgroundColor: string, borderColor: string, editable?: boolean, events: (info: {start: Date, end: Date, timeZone: string}, successCallback: (events: object[]) => void, failureCallback: (error: Error) => void) => Promise<void>}}
  */
 export default function() {
 	const fetchedTimeRangesStore = useFetchedTimeRangesStore()
