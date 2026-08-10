@@ -20,7 +20,7 @@ import { removeMailtoPrefix } from '@/utils/attendee.js'
 import { uidToHexColor } from '@/utils/color.js'
 import { dateFactory } from '@/utils/date.js'
 import logger from '@/utils/logger.js'
-import { getPrefixedRoute } from '@/utils/router.js'
+import { getPrefixedRoute, getViewMode, ViewMode } from '@/utils/router.js'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
@@ -292,6 +292,21 @@ export default {
 				return null
 			}
 			return this.principalsStore.getPrincipalByUrl(this.selectedCalendar.delegatorUrl)?.userId ?? null
+		},
+		/**
+		 * Returns the mode the editor is currently rendered in
+		 * (authenticated user, public share, embedded share, or widget).
+		 *
+		 * @return {string} One of ViewMode
+		 */
+		viewMode() {
+			return getViewMode(this.$route?.name, this.isWidget)
+		},
+		/**
+		 * @return {boolean}
+		 */
+		canDuplicate() {
+			return this.viewMode === ViewMode.USER
 		},
 		/**
 		 * Returns whether or not the user is allowed to delete this event
@@ -645,7 +660,7 @@ export default {
 		keyboardDuplicateEvent(event) {
 			if (event.key === 'd' && event.ctrlKey === true) {
 				event.preventDefault()
-				if (!this.isNew && !this.isReadOnly && !this.canCreateRecurrenceException) {
+				if (!this.isNew && this.canDuplicate) {
 					this.duplicateEvent()
 				}
 			}
@@ -701,12 +716,24 @@ export default {
 		},
 
 		/**
-		 * Duplicates a calendar-object and saves it
+		 * Duplicates the calendar-object. If the source calendar is
+		 * read-only, the duplicate is created in the first writable calendar.
 		 *
 		 * @return {Promise<void>}
 		 */
 		async duplicateEvent() {
-			await this.calendarObjectInstanceStore.duplicateCalendarObjectInstance()
+			if (!this.canDuplicate) {
+				return
+			}
+
+			const calendarId = this.isReadOnly
+				? (this.calendarsStore.sortedCalendars[0]?.id ?? null)
+				: (this.calendarObject?.calendarId ?? null)
+			await this.calendarObjectInstanceStore.duplicateCalendarObjectInstance({ calendarId })
+
+			// The editor's calendar picker is driven by this.calendarId, which is
+			// separate from the store's calendarObject.calendarId.
+			this.calendarId = this.calendarObject?.calendarId ?? null
 		},
 
 		/**
