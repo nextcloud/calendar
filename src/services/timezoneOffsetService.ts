@@ -36,7 +36,7 @@ export function getTimezoneOffset(proposalDate: Date, timezoneId: string): numbe
 		)
 
 		timezoneOffset = Math.round((asUTC - proposalDate.getTime()) / 60000)
-	} catch (e) {
+	} catch {
 		timezoneOffset = 0
 	}
 

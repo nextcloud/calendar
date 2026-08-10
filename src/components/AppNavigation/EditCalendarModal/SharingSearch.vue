@@ -192,7 +192,7 @@ export default {
 			let results
 			try {
 				results = await principalPropertySearchByDisplaynameOrEmail(query)
-			} catch (error) {
+			} catch {
 				return []
 			}
 
@@ -252,7 +252,7 @@ export default {
 						itemType: 'principals',
 					},
 				})
-			} catch (error) {
+			} catch {
 				return []
 			}
 
@@ -309,7 +309,7 @@ export default {
 						lookup: false,
 					},
 				})
-			} catch (error) {
+			} catch {
 				return []
 			}
 

@@ -21,7 +21,7 @@ export default function(id, resources, eventStart, eventEnd) {
 		startEditable: false,
 		durationEditable: false,
 		resourceEditable: false,
-		// eslint-disable-next-line no-unused-vars
+		// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
 		events: async ({ start, end, timeZone }, successCallback, failureCallback) => {
 			if (resources.length === 1) {
 				successCallback([{

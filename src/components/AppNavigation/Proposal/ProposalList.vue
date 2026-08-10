@@ -222,7 +222,7 @@ export default {
 				await this.proposalStore.destroyProposal(proposal)
 				showSuccess(t('calendar', 'Successfully deleted proposal'))
 				this.fetchProposals()
-			} catch (error) {
+			} catch {
 				showError(t('calendar', 'Failed to delete proposal'))
 			}
 		},
@@ -230,7 +230,7 @@ export default {
 		async fetchProposals() {
 			try {
 				this.storedProposals = await this.proposalStore.listProposals()
-			} catch (error) {
+			} catch {
 				showError(t('calendar', 'Failed to retrieve proposals'))
 			}
 		},
