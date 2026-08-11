@@ -269,7 +269,7 @@ OC.L10N.register(
     "Week view" : "Nädalavaade",
     "Month view" : "Kuuvaade",
     "Year view" : "Aasta vaade",
-    "List view" : "Nimekirjavaade",
+    "List view" : "Loendivaade",
     "Actions" : "Tegevused",
     "Create event" : "Lisa sündmus",
     "Show shortcuts" : "Näita kiirklahve",
