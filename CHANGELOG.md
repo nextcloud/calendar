@@ -1,3 +1,18 @@
+## [6.5.3](https://github.com/nextcloud/calendar/compare/v6.5.2...v6.5.3) (2026-08-11)
+
+
+### Bug Fixes
+
+* **editor:** only show a warning about required attendees if the free-busy modal was opened ([bc6e6c4](https://github.com/nextcloud/calendar/commit/bc6e6c452fe88575c1ed307d93c05ad82c26eb99))
+* **editor:** remove unneeded free busy request ([97bc992](https://github.com/nextcloud/calendar/commit/97bc992d28081f6fa8c478e01013dc9bb2f82057))
+* **editor:** show resource heading always together with search ([f7cce26](https://github.com/nextcloud/calendar/commit/f7cce2629dfaa309d0a96f6e661e6deafae87e44))
+* **l10n:** Update translations from Transifex ([0a10c94](https://github.com/nextcloud/calendar/commit/0a10c942df393bc3b9b53f7b459fca73d8267fde))
+* **l10n:** Update translations from Transifex ([fa0ee84](https://github.com/nextcloud/calendar/commit/fa0ee846080ce4c268f05264dbaf1a690f0a2c52))
+* remove min-height for shorter meetings ([f224505](https://github.com/nextcloud/calendar/commit/f2245055ff1940a0f9cc053c0d1a1115d939c8b5))
+* **settings:** display plus icon for  "add delegate" button ([a52ad92](https://github.com/nextcloud/calendar/commit/a52ad92a8ec792497cec7106ec76a2c56ae7fa2e))
+
+
+
 ## [6.5.2](https://github.com/nextcloud/calendar/compare/v6.5.1...v6.5.2) (2026-07-28)
 
 
