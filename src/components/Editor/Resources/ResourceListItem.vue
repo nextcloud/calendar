@@ -12,6 +12,7 @@
 			:isSuggestion="isSuggestion"
 			:participationStatus="participationStatus"
 			:scheduleStatus="scheduleStatus"
+			:availability="availability"
 			:organizerDisplayName="organizerDisplayName"
 			:commonName="commonName" />
 		<div class="resource-list-item__displayname">
@@ -125,6 +126,11 @@ export default {
 		isViewedByOrganizer: {
 			type: Boolean,
 			default: false,
+		},
+
+		availability: {
+			type: String, // 'checking' | 'available' | 'unavailable' | null
+			default: null,
 		},
 	},
 
