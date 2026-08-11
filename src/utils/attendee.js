@@ -58,6 +58,43 @@ export function organizerDisplayName(organizer) {
 }
 
 /**
+ * Get all attendees with the given calendar user type
+ *
+ * @param {object[]} attendees Attendees of a calendar-object-instance
+ * @param {string} userType Calendar user type to filter by, e.g. ROOM
+ * @return {object[]} Attendees with the given user type
+ */
+function getAttendeesByUserType(attendees, userType) {
+	if (!Array.isArray(attendees)) {
+		return []
+	}
+
+	return attendees.filter((attendee) => {
+		return attendee.attendeeProperty.userType === userType
+	})
+}
+
+/**
+ * Get all attendees that represent a room
+ *
+ * @param {object[]} attendees Attendees of a calendar-object-instance
+ * @return {object[]} Attendees with a ROOM user type
+ */
+export function getRoomAttendees(attendees) {
+	return getAttendeesByUserType(attendees, 'ROOM')
+}
+
+/**
+ * Get all attendees that represent a resource
+ *
+ * @param {object[]} attendees Attendees of a calendar-object-instance
+ * @return {object[]} Attendees with a RESOURCE user type
+ */
+export function getResourceAttendees(attendees) {
+	return getAttendeesByUserType(attendees, 'RESOURCE')
+}
+
+/**
  * Check if the current user is an attendee
  *
  * @param {string} currentUserPrincipalEmail Email address of the current user

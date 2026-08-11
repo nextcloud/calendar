@@ -4,102 +4,116 @@
 -->
 
 <template>
-	<div
+	<component
+		:is="isInteractive ? 'button' : 'div'"
 		class="room-card"
 		:class="{
-			'room-card--added': props.isAdded,
-			'room-card--unavailable': !props.room.isAvailable && !props.isAdded,
+			'room-card--selected': props.isSelected,
+			'room-card--unavailable': isUnavailable,
 		}"
-		:title="props.room.roomBuildingAddress || ''">
-		<div class="room-card__row">
-			<div class="room-card__info">
-				<span class="room-card__name">{{ props.room.displayname }}</span>
-				<span class="room-card__meta">
-					<span
-						class="room-card__status"
-						:class="statusClass">
-						{{ statusLabel }}
-					</span>
-					<template v-if="props.room.roomSeatingCapacity">
-						&middot; {{ props.room.roomSeatingCapacity }}p
-					</template>
-					<template v-if="subLocation">
-						&middot; {{ subLocation }}
-					</template>
-					<template v-if="roomTypeLabel">
-						&middot; {{ roomTypeLabel }}
-					</template>
+		:type="isInteractive ? 'button' : undefined"
+		:disabled="isInteractive ? isDisabled : undefined"
+		:aria-pressed="isInteractive ? props.isSelected : undefined"
+		:title="props.room.roomBuildingAddress || ''"
+		@click="onClick">
+		<MapMarker
+			v-if="props.compact && isRoom"
+			:size="20"
+			class="room-card__icon" />
+
+		<span class="room-card__info">
+			<span class="room-card__name">{{ props.room.displayname }}</span>
+			<span class="room-card__meta">
+				<span
+					v-if="!props.compact && props.room.roomSeatingCapacity"
+					class="room-card__capacity"
+					:aria-label="capacityLabel">
+					<AccountOutline :size="16" />
+					{{ props.room.roomSeatingCapacity }}
 				</span>
-			</div>
-			<NcButton
-				v-if="props.isViewedByOrganizer && !props.isReadOnly && (props.isAdded || (props.room.isAvailable && !props.hasRoomSelected))"
-				:variant="props.isAdded ? 'tertiary' : 'secondary'"
-				class="room-card__action"
-				@click="toggleRoom">
-				<template #icon>
-					<Minus v-if="props.isAdded" :size="20" />
-					<Plus v-else :size="20" />
-				</template>
-			</NcButton>
-		</div>
-	</div>
+				<span v-for="part in metaParts" :key="part">{{ part }}</span>
+			</span>
+		</span>
+
+		<span class="room-card__trailing">
+			<Check
+				v-if="props.isSelected && !props.removable"
+				:size="20"
+				class="room-card__check" />
+			<span
+				v-else-if="isUnavailable"
+				class="room-card__status room-card__status--busy">
+				{{ t('calendar', 'Unavailable') }}
+			</span>
+		</span>
+
+		<NcButton
+			v-if="props.removable"
+			variant="tertiary"
+			class="room-card__remove"
+			:aria-label="t('calendar', 'Remove')"
+			:title="t('calendar', 'Remove')"
+			@click="emit('remove', props.room)">
+			<template #icon>
+				<Close :size="20" />
+			</template>
+		</NcButton>
+	</component>
 </template>
 
 <script setup lang="ts">
-import type { RoomPrincipal } from '../../../model/principals.ts'
+import type { RoomPrincipal } from '../../../models/principal.ts'
 
-import { t } from '@nextcloud/l10n'
+import { n, t } from '@nextcloud/l10n'
 import { NcButton } from '@nextcloud/vue'
 import { computed } from 'vue'
-import Minus from 'vue-material-design-icons/Minus.vue'
-import Plus from 'vue-material-design-icons/Plus.vue'
+import AccountOutline from 'vue-material-design-icons/AccountOutline.vue'
+import Check from 'vue-material-design-icons/Check.vue'
+import Close from 'vue-material-design-icons/Close.vue'
+import MapMarker from 'vue-material-design-icons/MapMarker.vue'
 import { formatRoomType } from '../../../models/resourceProps.js'
-
-interface AddRoomPayload {
-	commonName: string | null
-	email: string | null
-	calendarUserType: string
-	roomAddress: string | null
-}
 
 const props = withDefaults(defineProps<{
 	room: RoomPrincipal
-	isAdded?: boolean
+	isSelected?: boolean
 	isReadOnly?: boolean
 	isViewedByOrganizer?: boolean
-	hasRoomSelected?: boolean
+	/** Whether the card is display-only, i.e. clicking it does not toggle the selection */
+	isStatic?: boolean
+	/** Whether to show a trailing remove button instead of the selected checkmark */
+	removable?: boolean
+	/** Condensed variant used to list what is booked, outside the picker */
+	compact?: boolean
 }>(), {
-	isAdded: false,
+	isSelected: false,
 	isReadOnly: false,
 	isViewedByOrganizer: false,
-	hasRoomSelected: false,
+	isStatic: false,
+	removable: false,
+	compact: false,
 })
 
 const emit = defineEmits<{
-	removeRoom: [room: RoomPrincipal]
-	addRoom: [payload: AddRoomPayload]
+	toggle: [room: RoomPrincipal]
+	remove: [room: RoomPrincipal]
 }>()
 
-const statusLabel = computed<string>(() => {
-	if (props.isAdded) {
-		return t('calendar', 'Reserved')
-	}
-	return props.room.isAvailable
-		? t('calendar', 'Available')
-		: t('calendar', 'Unavailable')
+const isInteractive = computed<boolean>(() => {
+	return !props.isStatic && !props.isReadOnly && props.isViewedByOrganizer
 })
 
-const statusClass = computed<string>(() => {
-	if (props.isAdded) {
-		return 'room-card__status--reserved'
-	}
-	return props.room.isAvailable
-		? 'room-card__status--free'
-		: 'room-card__status--busy'
+// An unavailable room can still be deselected once it is picked
+const isUnavailable = computed<boolean>(() => {
+	return !props.room.isAvailable && !props.isSelected
 })
 
-const subLocation = computed<string>(() => {
-	return props.room.roomNumber || ''
+const isDisabled = computed<boolean>(() => {
+	return isUnavailable.value
+})
+
+const capacityLabel = computed<string>(() => {
+	const capacity = parseInt(props.room.roomSeatingCapacity as string) || 0
+	return n('calendar', '%n seat', '%n seats', capacity)
 })
 
 const roomTypeLabel = computed<string>(() => {
@@ -110,40 +124,73 @@ const roomTypeLabel = computed<string>(() => {
 	return formatRoomType(type) ?? type
 })
 
-function toggleRoom(): void {
-	if (props.isAdded) {
-		emit('removeRoom', props.room)
-	} else {
-		emit('addRoom', {
-			commonName: props.room.displayname,
-			email: props.room.emailAddress,
-			calendarUserType: props.room.calendarUserType,
-			roomAddress: props.room.roomAddress,
-		})
+const isRoom = computed<boolean>(() => {
+	return props.room.calendarUserType === 'ROOM'
+})
+
+const metaParts = computed<string[]>(() => {
+	// The compact variant trades the seating capacity for the building name
+	const leading = props.compact ? [props.room.roomBuildingName] : []
+	return [...leading, props.room.roomNumber, roomTypeLabel.value].filter(Boolean) as string[]
+})
+
+/**
+ * Toggle the selection, unless the card is not interactive
+ */
+function onClick(): void {
+	if (!isInteractive.value || isDisabled.value) {
+		return
 	}
+	emit('toggle', props.room)
 }
 </script>
 
 <style lang="scss" scoped>
 .room-card {
-	padding: calc(var(--default-grid-baseline) * 1.5) calc(var(--default-grid-baseline) * 2.5);
+	--room-card-border-color: var(--color-border);
+	display: flex;
+	align-items: center;
+	gap: calc(var(--default-grid-baseline) * 2);
+	width: 100%;
+	// !important beats the server's global button margin rule
+	margin: 0 !important;
+	padding: calc(var(--default-grid-baseline) * 2) calc(var(--default-grid-baseline) * 3);
+	border: 1px solid var(--room-card-border-color);
 	border-radius: var(--border-radius-large);
-	border: 1px solid var(--color-border);
 	background: var(--color-main-background);
+	color: inherit;
+	font: inherit;
+	text-align: start;
 
-	&--added {
-		border-inline-start: 3px solid var(--color-primary);
+	&:is(button) {
+		cursor: pointer;
+
+		// The server's global button:hover rule (core/css/inputs.scss) would
+		// otherwise swap the border to --color-main-text, so re-assert ours
+		&:hover:not(:disabled) {
+			border-color: var(--room-card-border-color) !important;
+		}
+
+		&:disabled {
+			cursor: default;
+		}
+	}
+
+	&--selected {
+		--room-card-border-color: var(--color-primary-element-light-hover);
 		background: var(--color-primary-element-light);
 	}
 
-	&--unavailable:not(.room-card--added) {
-		opacity: 0.55;
+	// Declared after --selected so the condensed variant wins when both apply
+	&--compact {
+		--room-card-border-color: var(--color-border-dark);
+		padding: var(--default-grid-baseline);
+		background: var(--color-main-background);
 	}
 
-	&__row {
-		display: flex;
-		align-items: center;
-		gap: calc(var(--default-grid-baseline) * 2);
+	&__icon {
+		flex-shrink: 0;
+		color: var(--color-text-maxcontrast);
 	}
 
 	&__info {
@@ -157,34 +204,47 @@ function toggleRoom(): void {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-		line-height: 1.3;
 	}
 
 	&__meta {
-		display: block;
-		font-size: calc(var(--default-font-size) * 0.85);
+		display: flex;
+		align-items: center;
+		gap: var(--default-grid-baseline);
+		font-size: var(--font-size-small);
 		color: var(--color-text-maxcontrast);
-		line-height: 1.3;
+
+		> :not(:first-child)::before {
+			content: '·';
+			margin-inline-end: var(--default-grid-baseline);
+		}
+	}
+
+	&__capacity {
+		display: flex;
+		align-items: center;
+		gap: calc(var(--default-grid-baseline) / 2);
+	}
+
+	&__trailing {
+		display: flex;
+		align-items: center;
+		flex-shrink: 0;
+	}
+
+	&__check {
+		color: var(--color-primary-element);
 	}
 
 	&__status {
-		&--free {
-			color: var(--color-success-text);
-			font-weight: 600;
-		}
+		font-size: var(--font-size-small);
 
 		&--busy {
 			color: var(--color-error-text);
 			font-weight: 600;
 		}
-
-		&--reserved {
-			color: var(--color-primary-element);
-			font-weight: 600;
-		}
 	}
 
-	&__action {
+	&__remove {
 		flex-shrink: 0;
 	}
 }
