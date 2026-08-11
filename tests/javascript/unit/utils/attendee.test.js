@@ -5,6 +5,7 @@
 
 import {
 	addMailtoPrefix,
+	isPendingResourceBooking,
 	organizerDisplayName,
 	removeMailtoPrefix,
 } from '../../../../src/utils/attendee.js'
@@ -47,5 +48,19 @@ describe('utils/attendee test suite', () => {
 			commonName,
 			uri,
 		})).toEqual(commonName)
+	})
+
+	it('should detect pending resource bookings', () => {
+		expect(isPendingResourceBooking('NEEDS-ACTION', '')).toEqual(true)
+		expect(isPendingResourceBooking('NEEDS-ACTION', '1.0')).toEqual(true)
+		expect(isPendingResourceBooking('', '')).toEqual(true)
+	})
+
+	it('should not detect answered or failed resource bookings as pending', () => {
+		expect(isPendingResourceBooking('ACCEPTED', '')).toEqual(false)
+		expect(isPendingResourceBooking('DECLINED', '2.0')).toEqual(false)
+		expect(isPendingResourceBooking('TENTATIVE', '')).toEqual(false)
+		expect(isPendingResourceBooking('NEEDS-ACTION', '3.7')).toEqual(false)
+		expect(isPendingResourceBooking('NEEDS-ACTION', '5.1')).toEqual(false)
 	})
 })
