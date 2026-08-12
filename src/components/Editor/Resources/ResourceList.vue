@@ -19,11 +19,10 @@
 			</NcButton>
 		</div>
 
-		<RoomAvailabilityList
+		<RoomPickerModal
 			v-if="showRoomAvailabilityModal"
-			:showDialog="showRoomAvailabilityModal"
 			:calendarObjectInstance="calendarObjectInstance"
-			@update:showDialog="setShowRoomAvailabilityModal" />
+			@close="setShowRoomAvailabilityModal(false)" />
 
 		<ResourceListSearch
 			v-if="!isReadOnly && hasUserEmailAddress && resourceBookingEnabled"
@@ -59,9 +58,9 @@ import {
 import debounce from 'debounce'
 import { mapStores } from 'pinia'
 import DoorOpenIcon from 'vue-material-design-icons/DoorOpen.vue'
-import RoomAvailabilityList from '../FreeBusy/RoomAvailabilityList.vue'
 import ResourceListItem from './ResourceListItem.vue'
 import ResourceListSearch from './ResourceListSearch.vue'
+import RoomPickerModal from './RoomPickerModal.vue'
 import { advancedPrincipalPropertySearch } from '../../../services/caldavService.js'
 import { checkResourceAvailability } from '../../../services/freeBusyService.js'
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
@@ -75,7 +74,7 @@ export default {
 		ResourceListSearch,
 		NcButton,
 		DoorOpenIcon,
-		RoomAvailabilityList,
+		RoomPickerModal,
 	},
 
 	props: {

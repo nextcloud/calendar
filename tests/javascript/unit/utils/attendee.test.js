@@ -5,6 +5,7 @@
 
 import {
 	addMailtoPrefix,
+	getRoomAttendees,
 	isPendingResourceBooking,
 	organizerDisplayName,
 	removeMailtoPrefix,
@@ -62,5 +63,19 @@ describe('utils/attendee test suite', () => {
 		expect(isPendingResourceBooking('TENTATIVE', '')).toEqual(false)
 		expect(isPendingResourceBooking('NEEDS-ACTION', '3.7')).toEqual(false)
 		expect(isPendingResourceBooking('NEEDS-ACTION', '5.1')).toEqual(false)
+	})
+
+	it('should pick the room attendees out of a list of attendees', () => {
+		const room = { uri: 'room@test.com', attendeeProperty: { userType: 'ROOM' } }
+		const resource = { uri: 'beamer@test.com', attendeeProperty: { userType: 'RESOURCE' } }
+		const individual = { uri: 'user@test.com', attendeeProperty: { userType: 'INDIVIDUAL' } }
+
+		expect(getRoomAttendees([room, resource, individual])).toEqual([room])
+	})
+
+	it('should not choke on attendees without a user type', () => {
+		expect(getRoomAttendees([{ uri: 'user@test.com' }, null])).toEqual([])
+		expect(getRoomAttendees([])).toEqual([])
+		expect(getRoomAttendees(undefined)).toEqual([])
 	})
 })
