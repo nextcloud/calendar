@@ -42,6 +42,10 @@ const principalsStore = usePrincipalsStore()
 const calendarObjectInstanceStore = useCalendarObjectInstanceStore()
 
 const searchInputId = useId()
+const buildingInputId = useId()
+const storyInputId = useId()
+const capacityInputId = useId()
+const featureInputId = useId()
 const allRooms = ref<RoomOption[]>([])
 const isLoadingAvailability = ref(false)
 const expandedGroups = reactive<Record<string, boolean>>({})
@@ -272,51 +276,63 @@ watch(
 		contentClasses="room-picker"
 		:buttons="dialogButtons"
 		@update:open="emit('close')">
-		<div class="room-picker__filters">
+		<div class="room-picker__search">
+			<!-- The placeholder carries the design, the label carries the accessible name -->
+			<label :for="searchInputId" class="hidden-visually">{{ t('calendar', 'Search rooms') }}</label>
 			<NcTextField
 				:id="searchInputId"
 				v-model="searchText"
-				class="room-picker__filters__search"
-				:label="t('calendar', 'Search rooms')"
-				:placeholder="t('calendar', 'Search rooms')">
+				:labelOutside="true"
+				:placeholder="t('calendar', 'Name, building or room number')">
 				<template #icon>
 					<Magnify :size="16" />
 				</template>
 			</NcTextField>
+		</div>
 
-			<NcSelect
-				v-if="buildingOptions.length > 0"
-				v-model="selectedBuilding"
-				class="room-picker__filters__select"
-				:options="buildingOptions.map((option) => option.id)"
-				:inputLabel="t('calendar', 'Building')"
-				:placeholder="t('calendar', 'All buildings')" />
+		<div class="room-picker__filters">
+			<div v-if="buildingOptions.length > 0" class="room-picker__filter">
+				<label :for="buildingInputId">{{ t('calendar', 'Building') }}</label>
+				<NcSelect
+					v-model="selectedBuilding"
+					:inputId="buildingInputId"
+					:labelOutside="true"
+					:options="buildingOptions.map((option) => option.id)"
+					:placeholder="t('calendar', 'All buildings')" />
+			</div>
 
-			<NcSelect
-				v-if="storyOptions.length > 0"
-				v-model="selectedStory"
-				class="room-picker__filters__select"
-				:options="storyOptions.map((option) => option.id)"
-				:inputLabel="t('calendar', 'Floor')"
-				:placeholder="t('calendar', 'All floors')" />
+			<div v-if="storyOptions.length > 0" class="room-picker__filter">
+				<label :for="storyInputId">{{ t('calendar', 'Floor') }}</label>
+				<NcSelect
+					v-model="selectedStory"
+					:inputId="storyInputId"
+					:labelOutside="true"
+					:options="storyOptions.map((option) => option.id)"
+					:placeholder="t('calendar', 'All floors')" />
+			</div>
 
-			<NcTextField
-				v-model.number="minimumSeatingCapacity"
-				class="room-picker__filters__capacity"
-				type="number"
-				min="0"
-				:label="t('calendar', 'Minimum capacity')" />
+			<div class="room-picker__filter">
+				<label :for="capacityInputId">{{ t('calendar', 'Minimum capacity') }}</label>
+				<NcTextField
+					:id="capacityInputId"
+					v-model.number="minimumSeatingCapacity"
+					:labelOutside="true"
+					type="number"
+					min="0" />
+			</div>
 
-			<NcSelect
-				v-if="featureOptions.length > 0"
-				v-model="selectedFeatureOptions"
-				class="room-picker__filters__select"
-				:options="featureOptions"
-				:multiple="true"
-				:keepOpen="true"
-				label="label"
-				:inputLabel="t('calendar', 'Features')"
-				:placeholder="t('calendar', 'Any feature')" />
+			<div v-if="featureOptions.length > 0" class="room-picker__filter">
+				<label :for="featureInputId">{{ t('calendar', 'Features') }}</label>
+				<NcSelect
+					v-model="selectedFeatureOptions"
+					:inputId="featureInputId"
+					:labelOutside="true"
+					:options="featureOptions"
+					:multiple="true"
+					:keepOpen="true"
+					label="label"
+					:placeholder="t('calendar', 'Any feature')" />
+			</div>
 		</div>
 
 		<div v-if="isLoadingAvailability" class="room-picker__loading">
@@ -376,25 +392,53 @@ watch(
 
 <style lang="scss" scoped>
 .room-picker {
-	&__filters {
+	// Labels sit above their control rather than inside it, so that a text
+	// field and a select line up on the same baseline in the same row.
+	&__search,
+	&__filter {
 		display: flex;
-		flex-wrap: wrap;
-		align-items: end;
+		flex-direction: column;
+		gap: var(--default-grid-baseline);
+		min-width: 0;
+
+		> label {
+			color: var(--color-text-maxcontrast);
+			font-size: var(--font-size-small, 0.875rem);
+			// Align the label with the text inside the control below it
+			padding-inline-start: calc(var(--default-grid-baseline) * 2);
+		}
+
+		// Give every control the same height, whatever component renders it
+		:deep(.input-field__input),
+		:deep(.v-select.select) {
+			min-height: var(--default-clickable-area);
+			margin: 0;
+		}
+
+		:deep(.v-select.select .vs__dropdown-toggle) {
+			min-height: var(--default-clickable-area);
+		}
+
+		// While the dropdown is closed there is nothing to type into, so the
+		// search input only leaves a stray caret next to the selected value.
+		// It regains its width as soon as the dropdown opens.
+		:deep(.v-select.select:not(.vs--open) .vs__search) {
+			width: 0;
+			padding: 0;
+			margin: 0;
+		}
+	}
+
+	&__search {
+		margin-bottom: calc(var(--default-grid-baseline) * 2);
+	}
+
+	&__filters {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+		align-items: start;
 		gap: calc(var(--default-grid-baseline) * 2);
 		margin-bottom: calc(var(--default-grid-baseline) * 3);
-
-		&__search {
-			flex: 1 1 250px;
-		}
-
-		&__select {
-			flex: 1 1 180px;
-			min-width: 180px;
-		}
-
-		&__capacity {
-			flex: 0 1 150px;
-		}
 	}
 
 	&__loading {
