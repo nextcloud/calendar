@@ -77,13 +77,24 @@ function splitAddress(address: string): string[] {
 }
 
 /**
+ * Check whether an address segment is a postal code
+ *
+ * @param segment Address segment to check
+ * @return True if the segment looks like a postal code
+ */
+function isPostalCode(segment: string): boolean {
+	return /^\d{4,6}(\s*[A-Z]{1,2})?$/i.test(segment)
+}
+
+/**
  * Derive the name of the building a room is in
  *
  * @remarks
  * A heuristic, not data: rooms have no building name of their own, so the
  * first segment of the building address is used. It holds for backends that
- * publish "Building, Street, Postal code, City" and degrades to the street
- * for those that do not.
+ * publish "Building, Street, Postal code, City" and degrades to the street,
+ * or to the city, for those that do not. Postal codes are skipped: they are
+ * never a building name, and grouping rooms under "1098 XG" helps nobody.
  *
  * @param room Room to derive the building name of
  * @return Building name, or null if the room has no usable address
@@ -94,13 +105,13 @@ export function deriveBuildingName(room: RoomPrincipalProperties): string | null
 		return null
 	}
 
-	return splitAddress(address)[0] ?? null
+	return splitAddress(address).find((segment) => !isPostalCode(segment)) ?? null
 }
 
 /**
  * Join address segments, merging a postal code with the city that follows it
  *
- * @param segments Address segments without the building name
+ * @param segments Address segments
  * @return Human readable address, or an empty string if there are no segments
  */
 function joinAddressSegments(segments: string[]): string {
@@ -111,7 +122,7 @@ function joinAddressSegments(segments: string[]): string {
 		const next = segments[index + 1]
 		// A postal code belongs with its city: "1098 XG, Amsterdam" reads as
 		// "1098 XG Amsterdam" on an envelope, and in a map application.
-		if (next !== undefined && /^\d{4,6}\s*[A-Z]{0,2}$/i.test(segment)) {
+		if (next !== undefined && isPostalCode(segment)) {
 			parts.push(`${segment} ${next}`)
 			index++
 			continue
@@ -130,7 +141,8 @@ function joinAddressSegments(segments: string[]): string {
  * Deliberately not the `roomAddress` of the dav principal: that one joins
  * room number, story and address in that order, which reads as "2.17, 2,
  * Kerkstraat 10" and is of little use to a map or navigation application.
- * Street first, building and room number in trailing parentheses.
+ * The address is kept in the order the backend published it, with the room
+ * number appended, so nothing has to be guessed about what each part means.
  *
  * @param room Room to build a location for
  * @return Location string, or null if the room carries no usable address data
@@ -146,16 +158,12 @@ export function buildRoomLocation(room: RoomPrincipalProperties): string | null 
 		return roomLabel
 	}
 
-	const segments = splitAddress(address)
-	const building = segments[0] ?? null
-	const street = joinAddressSegments(segments.slice(1))
-	const details = [building, roomLabel].filter((part) => part !== null).join(', ')
-
+	const street = joinAddressSegments(splitAddress(address))
 	if (street === '') {
-		return details === '' ? null : details
+		return roomLabel
 	}
 
-	return details === '' ? street : `${street} (${details})`
+	return roomLabel === null ? street : `${street} (${roomLabel})`
 }
 
 /**

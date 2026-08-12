@@ -408,10 +408,15 @@ watch(
 			padding-inline-start: calc(var(--default-grid-baseline) * 2);
 		}
 
-		// Give every control the same height, whatever component renders it
+		// Give every control the same height, whatever component renders it,
+		// and let the grid decide their width: NcSelect defaults to a
+		// min-width of 260px, which overflows the dialog once there are more
+		// than a couple of filters next to each other.
 		:deep(.input-field__input),
 		:deep(.v-select.select) {
 			min-height: var(--default-clickable-area);
+			min-width: 0;
+			width: 100%;
 			margin: 0;
 		}
 
