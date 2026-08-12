@@ -59,19 +59,6 @@ describe('store/calendarObjectInstance test suite', () => {
 			)
 		})
 
-		it('falls back to the source calendar when no calendarId is given', async () => {
-			const store = useCalendarObjectInstanceStore()
-			const calendarObjectsStore = useCalendarObjectsStore()
-			setUpSourceEvent(store, 'source-calendar')
-			vi.spyOn(calendarObjectsStore, 'createNewEvent').mockResolvedValue({ calendarComponent: {} })
-
-			await store.duplicateCalendarObjectInstance()
-
-			expect(calendarObjectsStore.createNewEvent).toHaveBeenCalledWith(
-				expect.objectContaining({ calendarId: 'source-calendar' }),
-			)
-		})
-
 		it('marks the duplicated event as a new, unsaved calendar-object', async () => {
 			const store = useCalendarObjectInstanceStore()
 			const calendarObjectsStore = useCalendarObjectsStore()

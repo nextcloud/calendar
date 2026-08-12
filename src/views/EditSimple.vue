@@ -82,7 +82,7 @@
 								</template>
 								{{ $t('calendar', 'Export') }}
 							</ActionLink>
-							<ActionButton @click="duplicateEvent()">
+							<ActionButton v-if="canDuplicate" @click="duplicateEvent()">
 								<template #icon>
 									<ContentDuplicate :size="20" decorative />
 								</template>

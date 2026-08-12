@@ -93,11 +93,42 @@ export function getPrefixedRoute(currentRouteName, toRouteName) {
 }
 
 /**
- * Checks whether a routeName represents a public / embedded route
- *
- * @param {string} routeName Name of the route
- * @return {boolean}
+ * The different modes the calendar app can be rendered in.
+ * This is the single source of truth for what "public", "embedded"
+ * and "widget" mean across the app - components should derive their
+ * behaviour from this instead of re-deriving it from route names or
+ * calendar permissions.
  */
-export function isPublicOrEmbeddedRoute(routeName) {
-	return routeName.startsWith('Embed') || routeName.startsWith('Public')
+export const ViewMode = Object.freeze({
+	// A normal, authenticated user viewing their own calendars
+	USER: 'user',
+	// A public share link (/p/:tokens/...)
+	PUBLIC: 'public',
+	// An embedded share link (/embed/:tokens/...)
+	EMBEDDED: 'embedded',
+	// A dashboard / Talk / Text reference widget (no vue-router present)
+	WIDGET: 'widget',
+})
+
+/**
+ * Determines the view mode the calendar is currently rendered in.
+ *
+ * @param {string|undefined|null} routeName Name of the current vue-router route, if any
+ * @param {boolean} isWidget Whether the calendar is rendered as a reference widget
+ * @return {string} One of ViewMode
+ */
+export function getViewMode(routeName, isWidget = false) {
+	if (isWidget) {
+		return ViewMode.WIDGET
+	}
+
+	if (routeName?.startsWith('Embed')) {
+		return ViewMode.EMBEDDED
+	}
+
+	if (routeName?.startsWith('Public')) {
+		return ViewMode.PUBLIC
+	}
+
+	return ViewMode.USER
 }

@@ -147,6 +147,7 @@ import {
 import logger from '@/utils/logger.js'
 import loadMomentLocalization from '@/utils/moment.js'
 import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
+import { getViewMode, ViewMode } from '@/utils/router.js'
 
 import '@nextcloud/dialogs/style.css'
 
@@ -237,35 +238,36 @@ export default {
 			return getYYYYMMDDFromFirstdayParam(this.$route?.params?.firstDay ?? 'now')
 		},
 
+		// The mode this calendar is currently rendered in. This is the single
+		// source of truth for public/embedded/widget state
+		viewMode() {
+			if (this.isWidget) {
+				return this.isPublic ? ViewMode.PUBLIC : ViewMode.WIDGET
+			}
+			return getViewMode(this.$route?.name)
+		},
+
 		isEditable() {
 			// We do not allow drag and drop when the editor is open.
-			return !this.isPublicShare
-				&& !this.isEmbedded
-				&& !this.isWidget
+			return this.isAuthenticatedUser
 				&& this.$route?.name !== 'EditPopoverView'
 				&& this.$route?.name !== 'EditFullView'
 		},
 
 		isSelectable() {
-			return !this.isPublicShare && !this.isEmbedded && !this.isWidget
+			return this.isAuthenticatedUser
 		},
 
 		isAuthenticatedUser() {
-			return !this.isPublicShare && !this.isEmbedded && !this.isWidget
+			return this.viewMode === ViewMode.USER
 		},
 
 		isPublicShare() {
-			if (this.isWidget) {
-				return false
-			}
-			return this.$route.name.startsWith('Public')
+			return this.viewMode === ViewMode.PUBLIC
 		},
 
 		isEmbedded() {
-			if (this.isWidget) {
-				return false
-			}
-			return this.$route.name.startsWith('Embed')
+			return this.viewMode === ViewMode.EMBEDDED
 		},
 
 		showWidgetEventDetails() {
@@ -348,7 +350,7 @@ export default {
 		})
 		this.settingsStore.initializeCalendarJsConfig()
 
-		if (this.$route?.name.startsWith('Public') || this.$route?.name.startsWith('Embed') || this.isPublic) {
+		if (this.viewMode === ViewMode.PUBLIC || this.viewMode === ViewMode.EMBEDDED) {
 			await initializeClientForPublicView()
 			const tokens = this.isWidget ? [this.referenceToken] : this.$route.params.tokens.split('-')
 			const calendars = await this.calendarsStore.getPublicCalendars({ tokens })

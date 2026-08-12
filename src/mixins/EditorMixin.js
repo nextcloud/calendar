@@ -20,7 +20,7 @@ import { removeMailtoPrefix } from '@/utils/attendee.js'
 import { uidToHexColor } from '@/utils/color.js'
 import { dateFactory } from '@/utils/date.js'
 import logger from '@/utils/logger.js'
-import { getPrefixedRoute } from '@/utils/router.js'
+import { getPrefixedRoute, getViewMode, ViewMode } from '@/utils/router.js'
 
 /**
  * This is a mixin for the editor. It contains common Vue stuff, that is
@@ -292,6 +292,21 @@ export default {
 				return null
 			}
 			return this.principalsStore.getPrincipalByUrl(this.selectedCalendar.delegatorUrl)?.userId ?? null
+		},
+		/**
+		 * Returns the mode the editor is currently rendered in
+		 * (authenticated user, public share, embedded share, or widget).
+		 *
+		 * @return {string} One of ViewMode
+		 */
+		viewMode() {
+			return getViewMode(this.$route?.name, this.isWidget)
+		},
+		/**
+		 * @return {boolean}
+		 */
+		canDuplicate() {
+			return this.viewMode === ViewMode.USER
 		},
 		/**
 		 * Returns whether or not the user is allowed to delete this event
@@ -645,7 +660,7 @@ export default {
 		keyboardDuplicateEvent(event) {
 			if (event.key === 'd' && event.ctrlKey === true) {
 				event.preventDefault()
-				if (!this.isNew && !this.canCreateRecurrenceException) {
+				if (!this.isNew && this.canDuplicate) {
 					this.duplicateEvent()
 				}
 			}
@@ -707,6 +722,10 @@ export default {
 		 * @return {Promise<void>}
 		 */
 		async duplicateEvent() {
+			if (!this.canDuplicate) {
+				return
+			}
+
 			const calendarId = this.isReadOnly
 				? (this.calendarsStore.sortedCalendars[0]?.id ?? null)
 				: (this.calendarObject?.calendarId ?? null)
