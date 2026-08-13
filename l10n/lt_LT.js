@@ -416,6 +416,8 @@ OC.L10N.register(
     "Not available" : "Užimta",
     "Invitation declined" : "Pakvietimas atmestas.",
     "Declined {organizerName}'s invitation" : "Atmestas pakvietimas iš {organizerName}",
+    "Still available" : "Vis dar galima įsigyti",
+    "Already booked" : "Jau užsakyta",
     "Checking availability" : "Tikrinamas prieinamumas",
     "Will be booked after saving, if available" : "Bus užsakyta išsaugojus, jei bus laisvų vietų.",
     "Invitation will be sent" : "Pakvietimas bus išsiųstas",

@@ -414,6 +414,8 @@
     "Not available" : "無法使用",
     "Invitation declined" : "邀請被拒絕",
     "Declined {organizerName}'s invitation" : "已拒絕 {organizerName} 的邀請",
+    "Still available" : "仍然有空",
+    "Already booked" : "已被預約",
     "Checking availability" : "正在檢查可用性。",
     "Will be booked after saving, if available" : "若仍有空，將在儲存後預訂",
     "Invitation will be sent" : "將會傳送邀請",
