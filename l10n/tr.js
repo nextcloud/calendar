@@ -416,6 +416,8 @@ OC.L10N.register(
     "Not available" : "Kullanılamaz",
     "Invitation declined" : "Davet reddedildi",
     "Declined {organizerName}'s invitation" : "{organizerName} tarafından yapılan davet reddedildi",
+    "Still available" : "Hâlâ uygun",
+    "Already booked" : "Zaten ayırtılmış",
     "Checking availability" : "Uygunluk denetleniyor",
     "Will be booked after saving, if available" : "Kaydedildikten sonra ayırtılacak, uygunsa",
     "Invitation will be sent" : "Davet gönderilecek",

@@ -416,6 +416,8 @@ OC.L10N.register(
     "Not available" : "Nicht verfügbar",
     "Invitation declined" : "Einladung abgelehnt",
     "Declined {organizerName}'s invitation" : "Einladung von {organizerName} abgelehnt",
+    "Still available" : "Noch verfügbar",
+    "Already booked" : "Bereits gebucht",
     "Checking availability" : "Verfügbarkeit prüfen",
     "Will be booked after saving, if available" : "Wird nach dem Speichern gebucht, sofern verfügbar",
     "Invitation will be sent" : "Einladung wird verschickt",
