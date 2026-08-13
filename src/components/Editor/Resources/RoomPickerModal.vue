@@ -276,62 +276,75 @@ watch(
 		contentClasses="room-picker"
 		:buttons="dialogButtons"
 		@update:open="emit('close')">
-		<div class="room-picker__search">
+		<div class="room-picker__filters">
 			<!-- The placeholder carries the design, the label carries the accessible name -->
 			<label :for="searchInputId" class="hidden-visually">{{ t('calendar', 'Search rooms') }}</label>
 			<NcTextField
 				:id="searchInputId"
 				v-model="searchText"
 				:labelOutside="true"
-				:placeholder="t('calendar', 'Name, building or room number')">
+				:placeholder="t('calendar', 'Name, building or room number')"
+				:showTrailingButton="searchText.length > 0"
+				trailingButtonIcon="close"
+				@trailingButtonClick="searchText = ''">
 				<template #icon>
 					<Magnify :size="16" />
 				</template>
 			</NcTextField>
-		</div>
 
-		<div class="room-picker__filters">
-			<div v-if="buildingOptions.length > 0" class="room-picker__filter">
-				<label :for="buildingInputId">{{ t('calendar', 'Building') }}</label>
-				<NcSelect
-					v-model="selectedBuilding"
-					:inputId="buildingInputId"
-					:labelOutside="true"
-					:options="buildingOptions.map((option) => option.id)"
-					:placeholder="t('calendar', 'All buildings')" />
+			<div class="room-picker__filters__row">
+				<div v-if="buildingOptions.length > 0" class="room-picker__field">
+					<label class="room-picker__field__label" :for="buildingInputId">
+						{{ t('calendar', 'Building') }}
+					</label>
+					<NcSelect
+						v-model="selectedBuilding"
+						:inputId="buildingInputId"
+						:labelOutside="true"
+						:options="buildingOptions.map((option) => option.id)"
+						:placeholder="t('calendar', 'Any')" />
+				</div>
+
+				<div v-if="storyOptions.length > 0" class="room-picker__field">
+					<label class="room-picker__field__label" :for="storyInputId">
+						{{ t('calendar', 'Floor') }}
+					</label>
+					<NcSelect
+						v-model="selectedStory"
+						:inputId="storyInputId"
+						:labelOutside="true"
+						:options="storyOptions.map((option) => option.id)"
+						:placeholder="t('calendar', 'Any')" />
+				</div>
 			</div>
 
-			<div v-if="storyOptions.length > 0" class="room-picker__filter">
-				<label :for="storyInputId">{{ t('calendar', 'Floor') }}</label>
-				<NcSelect
-					v-model="selectedStory"
-					:inputId="storyInputId"
-					:labelOutside="true"
-					:options="storyOptions.map((option) => option.id)"
-					:placeholder="t('calendar', 'All floors')" />
-			</div>
+			<div class="room-picker__filters__row">
+				<div class="room-picker__field">
+					<label class="room-picker__field__label" :for="capacityInputId">
+						{{ t('calendar', 'Minimum capacity') }}
+					</label>
+					<NcTextField
+						:id="capacityInputId"
+						v-model.number="minimumSeatingCapacity"
+						:labelOutside="true"
+						type="number"
+						min="0" />
+				</div>
 
-			<div class="room-picker__filter">
-				<label :for="capacityInputId">{{ t('calendar', 'Minimum capacity') }}</label>
-				<NcTextField
-					:id="capacityInputId"
-					v-model.number="minimumSeatingCapacity"
-					:labelOutside="true"
-					type="number"
-					min="0" />
-			</div>
-
-			<div v-if="featureOptions.length > 0" class="room-picker__filter">
-				<label :for="featureInputId">{{ t('calendar', 'Features') }}</label>
-				<NcSelect
-					v-model="selectedFeatureOptions"
-					:inputId="featureInputId"
-					:labelOutside="true"
-					:options="featureOptions"
-					:multiple="true"
-					:keepOpen="true"
-					label="label"
-					:placeholder="t('calendar', 'Any feature')" />
+				<div v-if="featureOptions.length > 0" class="room-picker__field">
+					<label class="room-picker__field__label" :for="featureInputId">
+						{{ t('calendar', 'Features') }}
+					</label>
+					<NcSelect
+						v-model="selectedFeatureOptions"
+						:inputId="featureInputId"
+						:labelOutside="true"
+						:options="featureOptions"
+						:multiple="true"
+						:keepOpen="true"
+						label="label"
+						:placeholder="t('calendar', 'Any')" />
+				</div>
 			</div>
 		</div>
 
@@ -392,26 +405,40 @@ watch(
 
 <style lang="scss" scoped>
 .room-picker {
-	// Labels sit above their control rather than inside it, so that a text
-	// field and a select line up on the same baseline in the same row.
-	&__search,
-	&__filter {
+	&__filters {
 		display: flex;
 		flex-direction: column;
-		gap: var(--default-grid-baseline);
+		gap: calc(var(--default-grid-baseline) * 2);
+		margin-bottom: calc(var(--default-grid-baseline) * 3);
+
+		// Two controls per row at most: a select keeps a min-width of 260px,
+		// so a third one would push the row past the width of the dialog.
+		&__row {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: start;
+			gap: calc(var(--default-grid-baseline) * 3);
+
+			> * {
+				flex: 1 1 220px;
+			}
+		}
+	}
+
+	// A label above its control, so that a text field and a select line up
+	// on the same baseline within a row
+	&__field {
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--default-grid-baseline) / 2);
 		min-width: 0;
 
-		> label {
+		&__label {
 			color: var(--color-text-maxcontrast);
-			font-size: var(--font-size-small, 0.875rem);
-			// Align the label with the text inside the control below it
-			padding-inline-start: calc(var(--default-grid-baseline) * 2);
+			font-size: calc(var(--default-font-size) * 0.9);
 		}
 
-		// Give every control the same height, whatever component renders it,
-		// and let the grid decide their width: NcSelect defaults to a
-		// min-width of 260px, which overflows the dialog once there are more
-		// than a couple of filters next to each other.
+		// Give every control the same height and let the row decide the width
 		:deep(.input-field__input),
 		:deep(.v-select.select) {
 			min-height: var(--default-clickable-area);
@@ -432,18 +459,6 @@ watch(
 			padding: 0;
 			margin: 0;
 		}
-	}
-
-	&__search {
-		margin-bottom: calc(var(--default-grid-baseline) * 2);
-	}
-
-	&__filters {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-		align-items: start;
-		gap: calc(var(--default-grid-baseline) * 2);
-		margin-bottom: calc(var(--default-grid-baseline) * 3);
 	}
 
 	&__loading {

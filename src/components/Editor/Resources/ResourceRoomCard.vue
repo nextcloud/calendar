@@ -46,19 +46,26 @@ const capacityLabel = computed<string | null>(() => {
 
 /**
  * Building, room number and room type, whichever of them are known.
+ *
+ * @remarks
+ * Joined into one string rather than separated with a pseudo element: a
+ * generated separator ends up in the accessibility tree as a stray character,
+ * including for the cards of a collapsed building.
  */
-const metaParts = computed<string[]>(() => {
+const metaLabel = computed<string | null>(() => {
 	// A meeting room is the default type and carries no information: showing it
 	// on every card only pushes the parts that do differ out of view.
 	const roomType = props.room.roomType === null || props.room.roomType === 'meeting-room'
 		? null
 		: formatRoomType(props.room.roomType)
 
-	return [
+	const parts = [
 		deriveBuildingName(props.room),
 		props.room.roomBuildingRoomNumber,
 		roomType,
 	].filter((part): part is string => !!part)
+
+	return parts.length === 0 ? null : parts.join(' · ')
 })
 
 /**
@@ -88,11 +95,7 @@ function onToggle(): void {
 			@click="onToggle">
 			<span class="room-card__info">
 				<span class="room-card__name">{{ props.room.displayname }}</span>
-				<span v-if="metaParts.length > 0" class="room-card__meta">
-					<span v-for="part in metaParts" :key="part" class="room-card__meta__part">
-						{{ part }}
-					</span>
-				</span>
+				<span v-if="metaLabel !== null" class="room-card__meta">{{ metaLabel }}</span>
 			</span>
 
 			<span
@@ -177,16 +180,11 @@ function onToggle(): void {
 	}
 
 	&__meta {
-		display: flex;
-		flex-wrap: wrap;
-		gap: calc(var(--default-grid-baseline) * 2);
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 		color: var(--color-text-maxcontrast);
 		font-size: var(--font-size-small, 0.875rem);
-
-		&__part:not(:first-child)::before {
-			content: '·';
-			margin-inline-end: calc(var(--default-grid-baseline) * 2);
-		}
 	}
 
 	&__capacity {
