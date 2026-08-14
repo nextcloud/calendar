@@ -416,6 +416,8 @@ OC.L10N.register(
     "Not available" : "Pole saadaval",
     "Invitation declined" : "Kutse on tagasi lükatud",
     "Declined {organizerName}'s invitation" : "Keeldusid „{organizerName}“  korraldaja kutsest",
+    "Still available" : "Jätkuvalt saadaval",
+    "Already booked" : "Juba broneeritud",
     "Checking availability" : "Kontrollin saadavust",
     "Will be booked after saving, if available" : "Kui saadaval, siis broneeritakse peale salvestamist",
     "Invitation will be sent" : "Kutse saab olema saadetud",
