@@ -518,10 +518,6 @@ export default {
 			this.isLoading = false
 		}
 		this.boundaryElement = document.querySelector('.calendar-wrapper')
-		window.addEventListener('keydown', this.keyboardCloseEditor)
-		window.addEventListener('keydown', this.keyboardSaveEvent)
-		window.addEventListener('keydown', this.keyboardDeleteEvent)
-		window.addEventListener('keydown', this.keyboardDuplicateEvent)
 		window.addEventListener('resize', this.handleResize)
 
 		this.$nextTick(() => {
@@ -548,10 +544,6 @@ export default {
 	},
 
 	beforeUnmount() {
-		window.removeEventListener('keydown', this.keyboardCloseEditor)
-		window.removeEventListener('keydown', this.keyboardSaveEvent)
-		window.removeEventListener('keydown', this.keyboardDeleteEvent)
-		window.removeEventListener('keydown', this.keyboardDuplicateEvent)
 		window.removeEventListener('resize', this.handleResize)
 
 		// Clean up resize timeout
