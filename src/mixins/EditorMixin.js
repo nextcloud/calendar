@@ -6,6 +6,7 @@
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
 import { mapState, mapStores } from 'pinia'
 import { getRFCProperties } from '../models/rfcProps.js'
 import { containsRoomUrl } from '../services/talkService.ts'
@@ -59,6 +60,8 @@ export default {
 			isRecurrenceException: false,
 			// Whether or not the Talk modal is open
 			isTalkModalOpen: false,
+			// Cleanup functions for hotkeys
+			hotKeysRegister: [],
 		}
 	},
 	computed: {
@@ -503,6 +506,19 @@ export default {
 		}
 	},
 
+	mounted() {
+		this.hotKeysRegister = [
+			useHotKey('Escape', () => this.keyboardCloseEditor(), { allowInModal: true }),
+			useHotKey('Enter', () => this.keyboardSaveEvent(), { ctrl: true, allowInModal: true }),
+			useHotKey('Delete', () => this.keyboardDeleteEvent(), { ctrl: true, allowInModal: true }),
+			useHotKey('d', () => this.keyboardDuplicateEvent(), { ctrl: true, prevent: true, allowInModal: true }),
+		]
+	},
+
+	beforeUnmount() {
+		this.hotKeysRegister.forEach((stop) => stop())
+	},
+
 	methods: {
 		/**
 		 * Opens the Talk modal for selecting or creating a Talk room
@@ -628,27 +644,22 @@ export default {
 				this.closeEditor()
 			}
 		},
-		keyboardCloseEditor(event) {
-			if (event.key === 'Escape') {
-				this.cancel(false)
-			}
+		keyboardCloseEditor() {
+			this.cancel(false)
 		},
-		keyboardSaveEvent(event) {
-			if (event.key === 'Enter' && event.ctrlKey === true && !this.isReadOnly && !this.canCreateRecurrenceException) {
+		keyboardSaveEvent() {
+			if (!this.isReadOnly && !this.canCreateRecurrenceException) {
 				this.saveAndLeave(false)
 			}
 		},
-		keyboardDeleteEvent(event) {
-			if (event.key === 'Delete' && event.ctrlKey === true && this.canDelete && !this.canCreateRecurrenceException) {
+		keyboardDeleteEvent() {
+			if (this.canDelete && !this.canCreateRecurrenceException) {
 				this.deleteAndLeave(false)
 			}
 		},
-		keyboardDuplicateEvent(event) {
-			if (event.key === 'd' && event.ctrlKey === true) {
-				event.preventDefault()
-				if (!this.isNew && !this.isReadOnly && !this.canCreateRecurrenceException) {
-					this.duplicateEvent()
-				}
+		keyboardDuplicateEvent() {
+			if (!this.isNew && this.canDuplicate) {
+				this.duplicateEvent()
 			}
 		},
 		/**
