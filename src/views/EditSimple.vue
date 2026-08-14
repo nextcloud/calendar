@@ -302,6 +302,8 @@ import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'
 import PropertyTitleTimePicker
 	from '../components/Editor/Properties/PropertyTitleTimePicker.vue'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+import { getCurrentInstance } from 'vue'
 import EditorMixin from '../mixins/EditorMixin.js'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import useSettingsStore from '../store/settings.js'
@@ -345,6 +347,35 @@ export default {
 	mixins: [
 		EditorMixin,
 	],
+
+
+	setup() {
+		useHotKey('Escape', () => {
+			getCurrentInstance().proxy.cancel(false)
+		})
+
+		useHotKey('Enter', () => {
+			const c = getCurrentInstance().proxy
+			if (!c.isReadOnly && !c.canCreateRecurrenceException) {
+				c.saveAndLeave(false)
+			}
+		}, { ctrl: true })
+
+		useHotKey('Delete', () => {
+			const c = getCurrentInstance().proxy
+			if (c.canDelete && !c.canCreateRecurrenceException) {
+				c.deleteAndLeave(false)
+			}
+		}, { ctrl: true })
+
+		useHotKey('d', () => {
+			const c = getCurrentInstance().proxy
+			if (!c.isNew && !c.isReadOnly && !c.canCreateRecurrenceException) {
+				c.duplicateEvent()
+			}
+		}, { ctrl: true, prevent: true })
+	},
+
 
 	props: {
 		dark: {
@@ -521,10 +552,6 @@ export default {
 			this.isLoading = false
 		}
 		this.boundaryElement = document.querySelector('.calendar-wrapper')
-		window.addEventListener('keydown', this.keyboardCloseEditor)
-		window.addEventListener('keydown', this.keyboardSaveEvent)
-		window.addEventListener('keydown', this.keyboardDeleteEvent)
-		window.addEventListener('keydown', this.keyboardDuplicateEvent)
 		window.addEventListener('resize', this.handleResize)
 
 		this.$nextTick(() => {
@@ -551,10 +578,6 @@ export default {
 	},
 
 	beforeUnmount() {
-		window.removeEventListener('keydown', this.keyboardCloseEditor)
-		window.removeEventListener('keydown', this.keyboardSaveEvent)
-		window.removeEventListener('keydown', this.keyboardDeleteEvent)
-		window.removeEventListener('keydown', this.keyboardDuplicateEvent)
 		window.removeEventListener('resize', this.handleResize)
 
 		// Clean up resize timeout
