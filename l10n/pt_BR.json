@@ -414,6 +414,8 @@
     "Not available" : "Indisponível",
     "Invitation declined" : "Convite recusado",
     "Declined {organizerName}'s invitation" : "Recusou o convite de {organizerName}",
+    "Still available" : "Ainda disponível",
+    "Already booked" : "Já reservado",
     "Checking availability" : "Verificando disponibilidade",
     "Will be booked after saving, if available" : "Será agendado após o salvamento, se houver disponibilidade",
     "Invitation will be sent" : "O convite será enviado",
