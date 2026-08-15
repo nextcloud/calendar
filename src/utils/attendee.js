@@ -71,6 +71,20 @@ export function isPendingResourceBooking(participationStatus, scheduleStatus) {
 }
 
 /**
+ * Get all attendees that are rooms
+ *
+ * @param {object[]} attendees Attendees of an event
+ * @return {object[]} Attendees with a ROOM calendar user type
+ */
+export function getRoomAttendees(attendees) {
+	if (!Array.isArray(attendees)) {
+		return []
+	}
+
+	return attendees.filter((attendee) => attendee?.attendeeProperty?.userType === 'ROOM')
+}
+
+/**
  * Check if the current user is an attendee
  *
  * @param {string} currentUserPrincipalEmail Email address of the current user
