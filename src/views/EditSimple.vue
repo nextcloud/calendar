@@ -302,8 +302,7 @@ import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'
 import PropertyTitleTimePicker
 	from '../components/Editor/Properties/PropertyTitleTimePicker.vue'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
-import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
-import { getCurrentInstance } from 'vue'
+import { useEditorHotKeys } from '../composables/useEditorHotKeys.js'
 import EditorMixin from '../mixins/EditorMixin.js'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import useSettingsStore from '../store/settings.js'
@@ -348,34 +347,9 @@ export default {
 		EditorMixin,
 	],
 
-
 	setup() {
-		useHotKey('Escape', () => {
-			getCurrentInstance().proxy.cancel(false)
-		})
-
-		useHotKey('Enter', () => {
-			const c = getCurrentInstance().proxy
-			if (!c.isReadOnly && !c.canCreateRecurrenceException) {
-				c.saveAndLeave(false)
-			}
-		}, { ctrl: true })
-
-		useHotKey('Delete', () => {
-			const c = getCurrentInstance().proxy
-			if (c.canDelete && !c.canCreateRecurrenceException) {
-				c.deleteAndLeave(false)
-			}
-		}, { ctrl: true })
-
-		useHotKey('d', () => {
-			const c = getCurrentInstance().proxy
-			if (!c.isNew && !c.isReadOnly && !c.canCreateRecurrenceException) {
-				c.duplicateEvent()
-			}
-		}, { ctrl: true, prevent: true })
+		useEditorHotKeys()
 	},
-
 
 	props: {
 		dark: {
