@@ -24,7 +24,7 @@
 
 <script>
 import { NcSelect } from '@nextcloud/vue'
-import { getAllRoomTypes } from '../../../models/resourceProps.js'
+import { getAllRoomTypes } from '@/models/resourceProps'
 
 export default {
 	name: 'ResourceRoomType',

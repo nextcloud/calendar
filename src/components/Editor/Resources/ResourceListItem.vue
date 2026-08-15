@@ -86,12 +86,12 @@ import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
 import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
 import RoomAvailabilityModal from '../FreeBusy/RoomAvailabilityModal.vue'
 import { mapPrincipalObjectToAttendeeObject } from '../../../models/attendee.js'
-import { formatRoomType } from '../../../models/resourceProps.js'
 import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
 import usePrincipalsStore from '../../../store/principals.js'
 import { removeMailtoPrefix } from '../../../utils/attendee.js'
 import logger from '../../../utils/logger.js'
+import { formatRoomType } from '@/models/resourceProps'
 
 export default {
 	name: 'ResourceListItem',

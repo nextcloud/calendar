@@ -3,46 +3,56 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { RoomPrincipalProperties } from '@/types/models/principal'
-import type {
-	RoomFilterOption,
-	RoomFilterState,
-	RoomGroup,
-	RoomOption,
-} from '@/types/models/roomFilter'
+import type { RoomPrincipal } from '@/types/models/principal'
 
 import { t } from '@nextcloud/l10n'
+import { formatRoomFeature } from '@/models/resourceProps'
 
 /**
- * Known room features and their localized labels.
- *
- * Unknown features are shown as-is: room backends are free to publish their
- * own, and an untranslated raw value beats a mangled one.
- *
- * Evaluated lazily so that t() is not called at module import time.
- *
- * @return Map of raw feature value to human readable and localized label
+ * A room principal enriched with the outcome of a free/busy request.
  */
-function getFeatureLabels(): Record<string, string> {
-	return {
-		PROJECTOR: t('calendar', 'Projector'),
-		WHITEBOARD: t('calendar', 'Whiteboard'),
-		'WHEELCHAIR-ACCESSIBLE': t('calendar', 'Wheelchair accessible'),
-		'AV-EQUIPMENT': t('calendar', 'Audio-visual equipment'),
-		PHONE: t('calendar', 'Phone'),
-		'VIDEO-CONFERENCING': t('calendar', 'Video conferencing'),
-		TV: t('calendar', 'TV'),
-	}
+export interface RoomOption {
+	principal: RoomPrincipal
+	/** Whether the room is free for the time range that was checked. */
+	isAvailable: boolean
 }
 
 /**
- * Format a room feature as a human readable and localized string
- *
- * @param feature Raw feature value as published by the room backend
- * @return Localized label, or the raw value if the feature is not known
+ * A single choice in one of the room filter dropdowns.
  */
-export function formatRoomFeature(feature: string): string {
-	return getFeatureLabels()[feature.toUpperCase()] ?? feature
+export interface RoomFilterOption {
+	/** Raw value to filter on. */
+	id: string
+	/** Human readable and localized label. */
+	label: string
+}
+
+/**
+ * The state of all room filters combined.
+ */
+export interface RoomFilterState {
+	/** Free text to match against name, building, address and room number. */
+	searchText: string
+	/** Building name to restrict to, or `null` for all buildings. */
+	building: string | null
+	/** Building story to restrict to, or `null` for all stories. */
+	story: string | null
+	/** Minimum number of seats, `0` to not filter on capacity. */
+	minimumSeatingCapacity: number
+	/** Features a room must all have, `[]` to not filter on features. */
+	features: string[]
+}
+
+/**
+ * Rooms of one building, as rendered in a collapsible section.
+ */
+export interface RoomGroup {
+	/** Building name, or a fallback label for rooms without one. */
+	name: string
+	/** Rooms in this building, already filtered and sorted. */
+	rooms: RoomOption[]
+	/** How many of {@link rooms} are free for the checked time range. */
+	availableCount: number
 }
 
 /**
@@ -99,8 +109,8 @@ function isPostalCode(segment: string): boolean {
  * @param room Room to derive the building name of
  * @return Building name, or null if the room has no usable address
  */
-export function deriveBuildingName(room: RoomPrincipalProperties): string | null {
-	const address = normalizeText(room.roomBuildingAddress)
+export function deriveBuildingName(room: RoomOption): string | null {
+	const address = normalizeText(room.principal.roomBuildingAddress)
 	if (address === null) {
 		return null
 	}
@@ -147,12 +157,12 @@ function joinAddressSegments(segments: string[]): string {
  * @param room Room to build a location for
  * @return Location string, or null if the room carries no usable address data
  */
-export function buildRoomLocation(room: RoomPrincipalProperties): string | null {
-	const roomNumber = normalizeText(room.roomBuildingRoomNumber)
+export function buildRoomLocation(room: RoomOption): string | null {
+	const roomNumber = normalizeText(room.principal.roomBuildingRoomNumber)
 	const roomLabel = roomNumber === null
 		? null
 		: t('calendar', 'Room {roomNumber}', { roomNumber })
-	const address = normalizeText(room.roomBuildingAddress)
+	const address = normalizeText(room.principal.roomBuildingAddress)
 
 	if (address === null) {
 		return roomLabel
@@ -195,7 +205,7 @@ export function buildBuildingOptions(rooms: RoomOption[]): RoomFilterOption[] {
 export function buildStoryOptions(rooms: RoomOption[]): RoomFilterOption[] {
 	const stories = new Set<string>()
 	for (const room of rooms) {
-		const story = normalizeText(room.roomBuildingStory)
+		const story = normalizeText(room.principal.roomBuildingStory)
 		if (story !== null) {
 			stories.add(story)
 		}
@@ -215,13 +225,13 @@ export function buildStoryOptions(rooms: RoomOption[]): RoomFilterOption[] {
 export function buildFeatureOptions(rooms: RoomOption[]): RoomFilterOption[] {
 	const features = new Set<string>()
 	for (const room of rooms) {
-		for (const feature of room.roomFeatures ?? []) {
+		for (const feature of room.principal.roomFeatures ?? []) {
 			features.add(feature)
 		}
 	}
 
 	return [...features]
-		.map((feature) => ({ id: feature, label: formatRoomFeature(feature) }))
+		.map((feature) => ({ id: feature, label: formatRoomFeature(feature) ?? feature }))
 		.sort((a, b) => a.label.localeCompare(b.label))
 }
 
@@ -239,10 +249,10 @@ function matchesSearchText(room: RoomOption, searchText: string): boolean {
 	}
 
 	const haystack = [
-		room.displayname,
+		room.principal.displayname,
 		deriveBuildingName(room),
-		room.roomBuildingAddress,
-		room.roomBuildingRoomNumber,
+		room.principal.roomBuildingAddress,
+		room.principal.roomBuildingRoomNumber,
 	]
 
 	return haystack.some((value) => value?.toLowerCase().includes(needle) ?? false)
@@ -264,17 +274,17 @@ export function matchesRoomFilters(room: RoomOption, filters: RoomFilterState): 
 		return false
 	}
 
-	if (filters.story !== null && normalizeText(room.roomBuildingStory) !== filters.story) {
+	if (filters.story !== null && normalizeText(room.principal.roomBuildingStory) !== filters.story) {
 		return false
 	}
 
 	if (filters.minimumSeatingCapacity > 0
-		&& (room.roomSeatingCapacity ?? 0) < filters.minimumSeatingCapacity) {
+		&& (room.principal.roomSeatingCapacity ?? 0) < filters.minimumSeatingCapacity) {
 		return false
 	}
 
 	if (filters.features.length > 0) {
-		const features = room.roomFeatures ?? []
+		const features = room.principal.roomFeatures ?? []
 		if (!filters.features.every((feature) => features.includes(feature))) {
 			return false
 		}
@@ -299,7 +309,7 @@ export function filterRooms(
 	return rooms.filter((room) => {
 		// A room that is already booked must remain visible, otherwise it
 		// cannot be deselected without first clearing the filters.
-		if (room.emailAddress !== null && pinnedEmails.includes(room.emailAddress)) {
+		if (room.principal.emailAddress !== null && pinnedEmails.includes(room.principal.emailAddress)) {
 			return true
 		}
 
@@ -314,8 +324,8 @@ export function filterRooms(
  * @return Comparator for {@link Array.prototype.sort}
  */
 export function compareRoomsByBookingState(pinnedEmails: string[] = []): (a: RoomOption, b: RoomOption) => number {
-	const isPinned = (room: RoomOption) => room.emailAddress !== null
-		&& pinnedEmails.includes(room.emailAddress)
+	const isPinned = (room: RoomOption) => room.principal.emailAddress !== null
+		&& pinnedEmails.includes(room.principal.emailAddress)
 
 	return (a, b) => {
 		if (isPinned(a) !== isPinned(b)) {
@@ -326,7 +336,7 @@ export function compareRoomsByBookingState(pinnedEmails: string[] = []): (a: Roo
 			return a.isAvailable ? -1 : 1
 		}
 
-		return (a.displayname ?? '').localeCompare(b.displayname ?? '')
+		return (a.principal.displayname ?? '').localeCompare(b.principal.displayname ?? '')
 	}
 }
 

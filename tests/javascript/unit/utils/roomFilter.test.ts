@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { RoomFilterState, RoomOption } from '@/types/models/roomFilter'
+import type { RoomPrincipal } from '@/types/models/principal'
+import type { RoomFilterState, RoomOption } from '@/utils/roomFilter'
 
 import {
 	buildBuildingOptions,
@@ -21,24 +22,27 @@ import {
 /**
  * Build a room option with sensible defaults
  *
- * @param overrides Properties to override
+ * @param overrides room properties to override
+ * @param isAvailable Availibility status
  * @return Room option to use in a test
  */
-function room(overrides: Partial<RoomOption> = {}): RoomOption {
+function room(overrides: Partial<RoomPrincipal> = {}, isAvailable = true): RoomOption {
 	return {
-		id: 'principals/calendar-rooms/room-1',
-		displayname: 'Room 1',
-		emailAddress: 'room1@example.com',
-		calendarUserType: 'ROOM',
-		isAvailable: true,
-		roomType: 'meeting-room',
-		roomSeatingCapacity: null,
-		roomBuildingAddress: null,
-		roomBuildingStory: null,
-		roomBuildingRoomNumber: null,
-		roomFeatures: null,
-		roomAddress: null,
-		...overrides,
+		principal: {
+			id: 'principals/calendar-rooms/room-1',
+			displayname: 'Room 1',
+			emailAddress: 'room1@example.com',
+			calendarUserType: 'ROOM',
+			roomType: 'meeting-room',
+			roomSeatingCapacity: null,
+			roomBuildingAddress: null,
+			roomBuildingStory: null,
+			roomBuildingRoomNumber: null,
+			roomFeatures: null,
+			roomAddress: null,
+			...overrides,
+		},
+		isAvailable,
 	}
 }
 
@@ -242,15 +246,15 @@ describe('Test suite: Room filter (utils/roomFilter.ts)', () => {
 	describe('compareRoomsByBookingState', () => {
 		it('should sort booked first, then available, then by name', () => {
 			const rooms = [
-				room({ emailAddress: 'c@example.com', displayname: 'C', isAvailable: false }),
-				room({ emailAddress: 'a@example.com', displayname: 'A', isAvailable: true }),
-				room({ emailAddress: 'b@example.com', displayname: 'B', isAvailable: true }),
-				room({ emailAddress: 'booked@example.com', displayname: 'Z', isAvailable: false }),
+				room({ emailAddress: 'c@example.com', displayname: 'C' }, false),
+				room({ emailAddress: 'a@example.com', displayname: 'A' }, true),
+				room({ emailAddress: 'b@example.com', displayname: 'B' }, true),
+				room({ emailAddress: 'booked@example.com', displayname: 'Z' }, false),
 			]
 
 			const sorted = [...rooms].sort(compareRoomsByBookingState(['booked@example.com']))
 
-			expect(sorted.map((entry) => entry.displayname)).toEqual(['Z', 'A', 'B', 'C'])
+			expect(sorted.map((entry) => entry.principal.displayname)).toEqual(['Z', 'A', 'B', 'C'])
 		})
 	})
 
@@ -259,12 +263,12 @@ describe('Test suite: Room filter (utils/roomFilter.ts)', () => {
 			const groups = groupRoomsByBuilding([
 				room({ displayname: 'A', roomBuildingAddress: 'Utrecht, Straat 1' }),
 				room({ displayname: 'B', roomBuildingAddress: null }),
-				room({ displayname: 'C', roomBuildingAddress: 'Amsterdam, Straat 2', isAvailable: false }),
+				room({ displayname: 'C', roomBuildingAddress: 'Amsterdam, Straat 2' }, false),
 				room({ displayname: 'D', roomBuildingAddress: 'Amsterdam, Straat 3' }),
 			])
 
 			expect(groups.map((group) => group.name)).toEqual(['Amsterdam', 'Utrecht', 'Other rooms'])
-			expect(groups[0].rooms.map((entry) => entry.displayname)).toEqual(['D', 'C'])
+			expect(groups[0].rooms.map((entry) => entry.principal.displayname)).toEqual(['D', 'C'])
 			expect(groups[0].availableCount).toBe(1)
 		})
 	})

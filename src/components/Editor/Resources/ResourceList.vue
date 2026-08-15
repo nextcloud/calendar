@@ -19,7 +19,7 @@
 			</NcButton>
 		</div>
 
-		<RoomPickerModal
+		<RoomSelectionModal
 			v-if="showRoomAvailabilityModal"
 			:calendarObjectInstance="calendarObjectInstance"
 			@close="setShowRoomAvailabilityModal(false)" />
@@ -60,7 +60,7 @@ import { mapStores } from 'pinia'
 import DoorOpenIcon from 'vue-material-design-icons/DoorOpen.vue'
 import ResourceListItem from './ResourceListItem.vue'
 import ResourceListSearch from './ResourceListSearch.vue'
-import RoomPickerModal from './RoomPickerModal.vue'
+import RoomSelectionModal from './RoomSelectionModal.vue'
 import { advancedPrincipalPropertySearch } from '../../../services/caldavService.js'
 import { checkResourceAvailability } from '../../../services/freeBusyService.js'
 import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
@@ -74,7 +74,7 @@ export default {
 		ResourceListSearch,
 		NcButton,
 		DoorOpenIcon,
-		RoomPickerModal,
+		RoomSelectionModal,
 	},
 
 	props: {

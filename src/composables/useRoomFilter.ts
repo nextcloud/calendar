@@ -9,7 +9,7 @@ import type {
 	RoomFilterState,
 	RoomGroup,
 	RoomOption,
-} from '@/types/models/roomFilter'
+} from '@/utils/roomFilter'
 
 import { computed, ref, toValue } from 'vue'
 import {

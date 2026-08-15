@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import type { RoomOption } from '@/types/models/roomFilter'
+import type { RoomPrincipal } from '@/types/models/principal'
+import type { RoomOption } from '@/utils/roomFilter'
 
 import { ref } from 'vue'
 import { useRoomFilter } from '@/composables/useRoomFilter'
@@ -11,24 +12,27 @@ import { useRoomFilter } from '@/composables/useRoomFilter'
 /**
  * Build a room option with sensible defaults
  *
- * @param overrides Properties to override
+ * @param overrides room properties to override
+ * @param isAvailable Availibility status
  * @return Room option to use in a test
  */
-function room(overrides: Partial<RoomOption> = {}): RoomOption {
+function room(overrides: Partial<RoomPrincipal> = {}, isAvailable = true): RoomOption {
 	return {
-		id: 'principals/calendar-rooms/room-1',
-		displayname: 'Room 1',
-		emailAddress: 'room1@example.com',
-		calendarUserType: 'ROOM',
-		isAvailable: true,
-		roomType: 'meeting-room',
-		roomSeatingCapacity: null,
-		roomBuildingAddress: null,
-		roomBuildingStory: null,
-		roomBuildingRoomNumber: null,
-		roomFeatures: null,
-		roomAddress: null,
-		...overrides,
+		principal: {
+			id: 'principals/calendar-rooms/room-1',
+			displayname: 'Room 1',
+			emailAddress: 'room1@example.com',
+			calendarUserType: 'ROOM',
+			roomType: 'meeting-room',
+			roomSeatingCapacity: null,
+			roomBuildingAddress: null,
+			roomBuildingStory: null,
+			roomBuildingRoomNumber: null,
+			roomFeatures: null,
+			roomAddress: null,
+			...overrides,
+		},
+		isAvailable,
 	}
 }
 
@@ -54,8 +58,7 @@ const rooms: RoomOption[] = [
 		emailAddress: 'bibliotheek@example.com',
 		roomBuildingAddress: 'Stadskantoor, Marktplein 1',
 		roomSeatingCapacity: 20,
-		isAvailable: false,
-	}),
+	}, false),
 ]
 
 describe('Test suite: useRoomFilter (composables/useRoomFilter.ts)', () => {
@@ -79,7 +82,7 @@ describe('Test suite: useRoomFilter (composables/useRoomFilter.ts)', () => {
 
 		selectedBuilding.value = 'Poppodium'
 
-		expect(roomsFiltered.value.map((entry) => entry.displayname)).toEqual(['Aula', 'Vergaderzaal'])
+		expect(roomsFiltered.value.map((entry) => entry.principal.displayname)).toEqual(['Aula', 'Vergaderzaal'])
 		expect(buildingOptions.value).toHaveLength(2)
 	})
 
@@ -89,7 +92,7 @@ describe('Test suite: useRoomFilter (composables/useRoomFilter.ts)', () => {
 		selectedBuilding.value = 'Poppodium'
 		minimumSeatingCapacity.value = 50
 
-		expect(roomsFiltered.value.map((entry) => entry.displayname)).toEqual(['Aula'])
+		expect(roomsFiltered.value.map((entry) => entry.principal.displayname)).toEqual(['Aula'])
 	})
 
 	it('should search case-insensitively', () => {
@@ -97,7 +100,7 @@ describe('Test suite: useRoomFilter (composables/useRoomFilter.ts)', () => {
 
 		searchText.value = 'BIBLIO'
 
-		expect(roomsFiltered.value.map((entry) => entry.displayname)).toEqual(['Bibliotheek'])
+		expect(roomsFiltered.value.map((entry) => entry.principal.displayname)).toEqual(['Bibliotheek'])
 		expect(hasActiveFilters.value).toBe(true)
 	})
 
@@ -106,7 +109,7 @@ describe('Test suite: useRoomFilter (composables/useRoomFilter.ts)', () => {
 
 		searchText.value = 'aula'
 
-		expect(roomsFiltered.value.map((entry) => entry.displayname)).toEqual(['Aula', 'Bibliotheek'])
+		expect(roomsFiltered.value.map((entry) => entry.principal.displayname)).toEqual(['Aula', 'Bibliotheek'])
 	})
 
 	it('should group the filtered rooms by building', () => {

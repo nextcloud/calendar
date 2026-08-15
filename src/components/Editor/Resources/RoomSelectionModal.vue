@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import type { RoomFilterOption, RoomOption } from '../../../types/models/roomFilter.ts'
+import type { RoomFilterOption, RoomOption } from '@/utils/roomFilter.ts'
 
 import { n, t } from '@nextcloud/l10n'
 import { NcButton, NcDialog, NcLoadingIcon, NcSelect, NcTextField } from '@nextcloud/vue'
@@ -15,14 +15,14 @@ import ChevronRight from 'vue-material-design-icons/ChevronRight.vue'
 import Magnify from 'vue-material-design-icons/Magnify.vue'
 import RoomAvailabilityModal from '../FreeBusy/RoomAvailabilityModal.vue'
 import ResourceRoomCard from './ResourceRoomCard.vue'
-import { useRoomFilter } from '../../../composables/useRoomFilter.ts'
-import { mapPrincipalObjectToAttendeeObject } from '../../../models/attendee.js'
-import { checkResourceAvailability } from '../../../services/freeBusyService.js'
-import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
-import usePrincipalsStore from '../../../store/principals.js'
-import { getRoomAttendees, removeMailtoPrefix } from '../../../utils/attendee.js'
-import logger from '../../../utils/logger.js'
-import { buildRoomLocation } from '../../../utils/roomFilter.ts'
+import { useRoomFilter } from '@/composables/useRoomFilter.ts'
+import { mapPrincipalObjectToAttendeeObject } from '@/models/attendee.js'
+import { checkResourceAvailability } from '@/services/freeBusyService.js'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import usePrincipalsStore from '@/store/principals.js'
+import { getRoomAttendees, removeMailtoPrefix } from '@/utils/attendee.js'
+import logger from '@/utils/logger.js'
+import { buildRoomLocation } from '@/utils/roomFilter.ts'
 
 const props = defineProps<{
 	calendarObjectInstance: {
@@ -110,7 +110,7 @@ const dialogButtons = computed(() => [{
  * @return True if the room is currently picked
  */
 function isStaged(room: RoomOption): boolean {
-	return room.emailAddress !== null && room.emailAddress === stagedRoomEmail.value
+	return room.principal.emailAddress !== null && room.principal.emailAddress === stagedRoomEmail.value
 }
 
 /**
@@ -119,7 +119,7 @@ function isStaged(room: RoomOption): boolean {
  * @param room Room that was clicked
  */
 function toggleRoom(room: RoomOption): void {
-	stagedRoomEmail.value = isStaged(room) ? null : room.emailAddress
+	stagedRoomEmail.value = isStaged(room) ? null : room.principal.emailAddress
 }
 
 /**
@@ -151,7 +151,7 @@ function availabilityLabel(available: number, total: number): string {
 function applyAvailability(results: Map<string, boolean>): void {
 	allRooms.value = allRooms.value.map((room) => ({
 		...room,
-		isAvailable: room.emailAddress === null ? true : results.get(room.emailAddress) ?? true,
+		isAvailable: room.principal.emailAddress === null ? true : results.get(room.principal.emailAddress) ?? true,
 	}))
 }
 
@@ -160,8 +160,8 @@ function applyAvailability(results: Map<string, boolean>): void {
  */
 async function loadAvailability(): Promise<void> {
 	const options = allRooms.value
-		.filter((room) => room.emailAddress !== null)
-		.map((room) => ({ email: room.emailAddress as string, isAvailable: true }))
+		.filter((room) => room.principal.emailAddress !== null)
+		.map((room) => ({ email: room.principal.emailAddress as string, isAvailable: true }))
 	if (options.length === 0) {
 		return
 	}
@@ -204,9 +204,9 @@ function applySelection(): void {
 	if (staged !== undefined && !initiallyBookedEmails.value.includes(stagedRoomEmail.value as string)) {
 		calendarObjectInstanceStore.addAttendee({
 			calendarObjectInstance: props.calendarObjectInstance,
-			commonName: staged.displayname,
-			uri: staged.emailAddress,
-			calendarUserType: staged.calendarUserType || 'ROOM',
+			commonName: staged.principal.displayname,
+			uri: staged.principal.emailAddress,
+			calendarUserType: staged.principal.calendarUserType || 'ROOM',
 			participationStatus: 'NEEDS-ACTION',
 			role: 'REQ-PARTICIPANT',
 			rsvp: true,
@@ -247,7 +247,7 @@ onMounted(async () => {
 	stagedRoomEmail.value = bookedRoomEmails[0] ?? null
 
 	allRooms.value = principalsStore.getRoomPrincipals
-		.map((principal: RoomOption) => ({ ...principal, isAvailable: true }))
+		.map((principal: RoomOption) => ({ principal, isAvailable: true }))
 
 	// A handful of buildings fits on screen; more than that is easier to scan collapsed.
 	const groups = groupedRooms.value
@@ -272,7 +272,7 @@ watch(
 	<NcDialog
 		:open="true"
 		:name="t('calendar', 'Rooms')"
-		size="large"
+		size="normal"
 		contentClasses="room-picker"
 		:buttons="dialogButtons"
 		@update:open="emit('close')">
@@ -383,7 +383,7 @@ watch(
 				:id="`room-picker-group-${group.name}`">
 				<ResourceRoomCard
 					v-for="room in group.rooms"
-					:key="room.id"
+					:key="room.principal.id"
 					:room="room"
 					:isSelected="isStaged(room)"
 					:canCheckAvailability="true"

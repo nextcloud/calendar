@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import type { RoomOption } from '../../../types/models/roomFilter.ts'
+import type { RoomOption } from '@/utils/roomFilter.ts'
 
 import { n, t } from '@nextcloud/l10n'
 import { NcButton } from '@nextcloud/vue'
@@ -12,8 +12,8 @@ import { computed } from 'vue'
 import AccountOutline from 'vue-material-design-icons/AccountOutline.vue'
 import CalendarClock from 'vue-material-design-icons/CalendarClock.vue'
 import Check from 'vue-material-design-icons/Check.vue'
-import { formatRoomType } from '../../../models/resourceProps.js'
-import { deriveBuildingName } from '../../../utils/roomFilter.ts'
+import { formatRoomType } from '@/models/resourceProps'
+import { deriveBuildingName } from '@/utils/roomFilter'
 
 const props = withDefaults(defineProps<{
 	room: RoomOption
@@ -36,7 +36,7 @@ const emit = defineEmits<{
 const isUnavailable = computed<boolean>(() => !props.room.isAvailable && !props.isSelected)
 
 const capacityLabel = computed<string | null>(() => {
-	const capacity = props.room.roomSeatingCapacity
+	const capacity = props.room.principal.roomSeatingCapacity
 	if (capacity === null) {
 		return null
 	}
@@ -55,13 +55,13 @@ const capacityLabel = computed<string | null>(() => {
 const metaLabel = computed<string | null>(() => {
 	// A meeting room is the default type and carries no information: showing it
 	// on every card only pushes the parts that do differ out of view.
-	const roomType = props.room.roomType === null || props.room.roomType === 'meeting-room'
+	const roomType = props.room.principal.roomType === null || props.room.principal.roomType === 'meeting-room'
 		? null
-		: formatRoomType(props.room.roomType)
+		: formatRoomType(props.room.principal.roomType)
 
 	const parts = [
 		deriveBuildingName(props.room),
-		props.room.roomBuildingRoomNumber,
+		props.room.principal.roomBuildingRoomNumber,
 		roomType,
 	].filter((part): part is string => !!part)
 
@@ -94,16 +94,16 @@ function onToggle(): void {
 			:aria-disabled="isUnavailable"
 			@click="onToggle">
 			<span class="room-card__info">
-				<span class="room-card__name">{{ props.room.displayname }}</span>
+				<span class="room-card__name">{{ props.room.principal.displayname }}</span>
 				<span v-if="metaLabel !== null" class="room-card__meta">{{ metaLabel }}</span>
 			</span>
 
 			<span
-				v-if="props.room.roomSeatingCapacity !== null"
+				v-if="props.room.principal.roomSeatingCapacity !== null"
 				class="room-card__capacity"
 				:aria-label="capacityLabel">
 				<AccountOutline :size="16" />
-				{{ props.room.roomSeatingCapacity }}
+				{{ props.room.principal.roomSeatingCapacity }}
 			</span>
 
 			<span v-if="isUnavailable" class="room-card__status">
