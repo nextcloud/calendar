@@ -34,6 +34,11 @@ export interface RoomPrincipalProperties {
 	 */
 	roomSeatingCapacity: number | null
 	/**
+	 * Name of the the building the room is in.
+	 * `null` if not provided or invalid.
+	 */
+	roomBuildingName: string | null
+	/**
 	 * Street address of the building the room is in.
 	 * `null` if not provided or invalid.
 	 */

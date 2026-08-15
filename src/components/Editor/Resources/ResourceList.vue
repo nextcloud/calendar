@@ -12,17 +12,18 @@
 			</span>
 
 			<NcButton
-				v-if="!isReadOnly && hasUserEmailAddress && resourceBookingEnabled"
+				v-if="!isReadOnly && hasUserEmailAddress && resourceBookingEnabled && roomPrincipals.length > 0"
 				class="resource-list__header__button"
 				@click="openRoomAvailability">
 				{{ $t('calendar', 'Show rooms') }}
 			</NcButton>
 		</div>
 
-		<RoomAvailabilityList
+		<RoomSelectionModal
 			v-if="showRoomAvailabilityModal"
-			:showDialog="showRoomAvailabilityModal"
-			@update:showDialog="setShowRoomAvailabilityModal" />
+			:calendarObjectInstance="calendarObjectInstance"
+			:roomPrincipals="roomPrincipals"
+			@close="setShowRoomAvailabilityModal(false)" />
 
 		<ResourceListSearch
 			v-if="!isReadOnly && hasUserEmailAddress && resourceBookingEnabled"
@@ -57,9 +58,9 @@ import {
 import debounce from 'debounce'
 import { mapState, mapStores } from 'pinia'
 import DoorOpenIcon from 'vue-material-design-icons/DoorOpen.vue'
-import RoomAvailabilityList from '@/components/Editor/FreeBusy/RoomAvailabilityList.vue'
 import ResourceListItem from '@/components/Editor/Resources/ResourceListItem.vue'
 import ResourceListSearch from '@/components/Editor/Resources/ResourceListSearch.vue'
+import RoomSelectionModal from '@/components/Editor/Resources/RoomSelectionModal.vue'
 import { advancedPrincipalPropertySearch } from '@/services/caldavService.js'
 import { checkResourceAvailability } from '@/services/freeBusyService.js'
 import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
@@ -73,7 +74,7 @@ export default {
 		ResourceListSearch,
 		NcButton,
 		DoorOpenIcon,
-		RoomAvailabilityList,
+		RoomSelectionModal,
 	},
 
 	props: {
@@ -101,6 +102,10 @@ export default {
 			return this.calendarObjectInstance.attendees.filter((attendee) => {
 				return ['ROOM', 'RESOURCE'].includes(attendee.attendeeProperty.userType)
 			})
+		},
+
+		roomPrincipals() {
+			return this.principalsStore.getRoomPrincipals
 		},
 
 		attendees() {
