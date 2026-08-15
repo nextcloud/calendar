@@ -416,6 +416,8 @@ OC.L10N.register(
     "Not available" : "Не доступно",
     "Invitation declined" : "Запрошення відхилено",
     "Declined {organizerName}'s invitation" : "Відхилене від {organizerName} запрошення ",
+    "Still available" : "Все ще доступно",
+    "Already booked" : "Вже зарезервовано",
     "Checking availability" : "Перевірка доступності",
     "Will be booked after saving, if available" : "У разі доступності буде зарезервовано після збереження",
     "Invitation will be sent" : "Запрошення буде надіслано",
