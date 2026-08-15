@@ -58,6 +58,6 @@ function getFeatureLabels(): Record<string, string> {
  * @param feature Raw feature value as published by the room backend
  * @return Localized label, or the raw value if the feature is not known
  */
-export function formatRoomFeature(feature: string): string | null {
-	return getFeatureLabels()[feature.toUpperCase()] ?? null
+export function formatRoomFeature(feature: string): string {
+	return getFeatureLabels()[feature.toUpperCase()] ?? feature
 }

@@ -4,16 +4,15 @@
 -->
 
 <script setup lang="ts">
-import type { RoomOption } from '@/utils/roomFilter.ts'
+import type { RoomOption } from '@/utils/roomFilter'
 
 import { n, t } from '@nextcloud/l10n'
 import { NcButton } from '@nextcloud/vue'
 import { computed } from 'vue'
-import AccountOutline from 'vue-material-design-icons/AccountOutline.vue'
+import AccountOutlineIcon from 'vue-material-design-icons/AccountOutline.vue'
 import CalendarClock from 'vue-material-design-icons/CalendarClock.vue'
 import Check from 'vue-material-design-icons/Check.vue'
-import { formatRoomType } from '@/models/resourceProps'
-import { deriveBuildingName } from '@/utils/roomFilter'
+import { formatRoomFeature, formatRoomType } from '@/models/resourceProps'
 
 const props = withDefaults(defineProps<{
 	room: RoomOption
@@ -44,30 +43,24 @@ const capacityLabel = computed<string | null>(() => {
 	return n('calendar', '%n seat', '%n seats', capacity)
 })
 
-/**
- * Building, room number and room type, whichever of them are known.
- *
- * @remarks
- * Joined into one string rather than separated with a pseudo element: a
- * generated separator ends up in the accessibility tree as a stray character,
- * including for the cards of a collapsed building.
- */
-const metaLabel = computed<string | null>(() => {
-	// A meeting room is the default type and carries no information: showing it
-	// on every card only pushes the parts that do differ out of view.
-	const roomType = props.room.principal.roomType === null || props.room.principal.roomType === 'meeting-room'
-		? null
-		: formatRoomType(props.room.principal.roomType)
+const metaLabels = computed<string[]>(() => {
+	const labels = new Array<string>()
+	const roomType = props.room.principal.roomType
+	if (roomType) {
+		labels.push(formatRoomType(roomType) ?? roomType)
+	}
 
-	const parts = [
-		deriveBuildingName(props.room),
-		props.room.principal.roomBuildingRoomNumber,
-		roomType,
-	].filter((part): part is string => !!part)
+	const roomNumber = props.room.principal.roomBuildingRoomNumber
+	if (roomNumber) {
+		labels.push(roomNumber)
+	}
 
-	return parts.length === 0 ? null : parts.join(' · ')
+	for (const feature of props.room.principal.roomFeatures ?? []) {
+		labels.push(formatRoomFeature(feature))
+	}
+
+	return labels
 })
-
 /**
  * Toggle the room, unless it cannot be booked anyway
  */
@@ -84,45 +77,53 @@ function onToggle(): void {
 	<div
 		class="room-card"
 		:class="{
-			'room-card--selected': props.isSelected,
+			'room-card--selected': isSelected,
 			'room-card--unavailable': isUnavailable,
 		}">
 		<button
 			class="room-card__main"
 			type="button"
-			:aria-pressed="props.isSelected"
+			:aria-pressed="isSelected"
 			:aria-disabled="isUnavailable"
 			@click="onToggle">
 			<span class="room-card__info">
-				<span class="room-card__name">{{ props.room.principal.displayname }}</span>
-				<span v-if="metaLabel !== null" class="room-card__meta">{{ metaLabel }}</span>
+				<span class="room-card__name">{{ room.principal.displayname }}</span>
+				<span class="room-card__meta">
+					<span
+						v-if="room.principal.roomSeatingCapacity !== null"
+						class="room-card__meta__capacity"
+						:aria-label="capacityLabel">
+						<AccountOutlineIcon :size="16" />
+						{{ room.principal.roomSeatingCapacity }}
+					</span>
+					<template v-for="(metaLabel, idx) in metaLabels" :key="idx">
+						<span v-if="idx != 0 || room.principal.roomSeatingCapacity !== null">
+							·
+						</span>
+						<span>
+							{{ metaLabel }}
+						</span>
+					</template>
+				</span>
 			</span>
-
-			<span
-				v-if="props.room.principal.roomSeatingCapacity !== null"
-				class="room-card__capacity"
-				:aria-label="capacityLabel">
-				<AccountOutline :size="16" />
-				{{ props.room.principal.roomSeatingCapacity }}
-			</span>
-
 			<span v-if="isUnavailable" class="room-card__status">
 				{{ t('calendar', 'Unavailable') }}
 			</span>
-			<Check v-else-if="props.isSelected" class="room-card__check" :size="20" />
-		</button>
+			<Check v-else-if="isSelected" class="room-card__check" :size="20" />
 
-		<NcButton
-			v-if="props.canCheckAvailability"
-			class="room-card__availability"
-			variant="tertiary"
-			:ariaLabel="t('calendar', 'Check room availability')"
-			:title="t('calendar', 'Check room availability')"
-			@click="emit('checkAvailability', props.room)">
-			<template #icon>
-				<CalendarClock :size="20" />
-			</template>
-		</NcButton>
+			<div class="room-card__availability">
+				<NcButton
+					v-if="canCheckAvailability"
+					variant="tertiary"
+					:ariaLabel="t('calendar', 'Check room availability')"
+					:title="t('calendar', 'Check room availability')"
+					@click.stop="emit('checkAvailability', room)">
+					<template #icon>
+						<CalendarClock :size="20" />
+					</template>
+				</NcButton>
+			</div>
+		</button>
 	</div>
 </template>
 
@@ -140,10 +141,6 @@ function onToggle(): void {
 		background-color: var(--color-primary-element-light);
 	}
 
-	&--unavailable {
-		opacity: 0.7;
-	}
-
 	&__main {
 		display: flex;
 		align-items: center;
@@ -151,19 +148,27 @@ function onToggle(): void {
 		flex: 1 1 auto;
 		min-width: 0;
 		padding: calc(var(--default-grid-baseline) * 2);
+		margin: 0;
 		border: none;
-		border-radius: inherit;
 		background-color: transparent;
 		text-align: start;
 		font-weight: normal;
 
-		&[aria-disabled='true'] {
-			cursor: default;
+		&:focus {
+			background-color: unset;
 		}
+	}
 
-		&:hover:not([aria-disabled='true']) {
-			background-color: var(--color-background-hover);
-		}
+	&--unavailable &__main {
+		cursor: not-allowed;
+	}
+
+	&--unavailable &__main &__availability {
+		cursor: pointer;
+	}
+
+	&--unavailable &__info {
+		opacity: 0.7;
 	}
 
 	&__info {
@@ -185,14 +190,12 @@ function onToggle(): void {
 		text-overflow: ellipsis;
 		color: var(--color-text-maxcontrast);
 		font-size: var(--font-size-small, 0.875rem);
-	}
 
-	&__capacity {
-		display: flex;
-		align-items: center;
-		gap: var(--default-grid-baseline);
-		color: var(--color-text-maxcontrast);
-		white-space: nowrap;
+		&__capacity {
+			display: inline-flex;
+			align-items: baseline;
+			gap: var(--default-grid-baseline);
+		}
 	}
 
 	&__status {

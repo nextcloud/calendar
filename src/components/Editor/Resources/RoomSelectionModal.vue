@@ -4,25 +4,26 @@
 -->
 
 <script setup lang="ts">
+import type { RoomPrincipal } from '@/types/models/principal.js'
 import type { RoomFilterOption, RoomOption } from '@/utils/roomFilter.ts'
 
 import { n, t } from '@nextcloud/l10n'
 import { NcButton, NcDialog, NcLoadingIcon, NcSelect, NcTextField } from '@nextcloud/vue'
 import debounce from 'debounce'
-import { computed, onMounted, onUnmounted, reactive, ref, useId, watch } from 'vue'
+import { computed, onMounted, onUnmounted, reactive, ref, useId, watch, watchEffect } from 'vue'
 import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
 import ChevronRight from 'vue-material-design-icons/ChevronRight.vue'
 import Magnify from 'vue-material-design-icons/Magnify.vue'
 import RoomAvailabilityModal from '../FreeBusy/RoomAvailabilityModal.vue'
 import ResourceRoomCard from './ResourceRoomCard.vue'
-import { useRoomFilter } from '@/composables/useRoomFilter.ts'
+import { useRoomFilter } from '@/composables/useRoomFilter'
 import { mapPrincipalObjectToAttendeeObject } from '@/models/attendee.js'
 import { checkResourceAvailability } from '@/services/freeBusyService.js'
 import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
 import usePrincipalsStore from '@/store/principals.js'
 import { getRoomAttendees, removeMailtoPrefix } from '@/utils/attendee.js'
 import logger from '@/utils/logger.js'
-import { buildRoomLocation } from '@/utils/roomFilter.ts'
+import { buildRoomLocation } from '@/utils/roomFilter'
 
 const props = defineProps<{
 	calendarObjectInstance: {
@@ -49,7 +50,7 @@ const featureInputId = useId()
 const allRooms = ref<RoomOption[]>([])
 const isLoadingAvailability = ref(false)
 const expandedGroups = reactive<Record<string, boolean>>({})
-const roomToCheck = ref<RoomOption | null>(null)
+const roomToCheck = ref<RoomPrincipal | null>(null)
 
 /**
  * Rooms booked when the modal was opened.
@@ -388,15 +389,15 @@ watch(
 					:isSelected="isStaged(room)"
 					:canCheckAvailability="true"
 					@toggle="toggleRoom"
-					@checkAvailability="roomToCheck = $event" />
+					@checkAvailability="roomToCheck = $event.principal" />
 			</div>
 		</div>
 
 		<RoomAvailabilityModal
 			v-if="roomToCheck !== null"
 			:show="true"
-			:startDate="props.calendarObjectInstance.startDate"
-			:endDate="props.calendarObjectInstance.endDate"
+			:startDate="calendarObjectInstance.startDate"
+			:endDate="calendarObjectInstance.endDate"
 			:rooms="[roomToCheck]"
 			:organizer="organizerAsAttendee"
 			@update:show="roomToCheck = null" />
@@ -483,7 +484,7 @@ watch(
 			align-items: center;
 			gap: var(--default-grid-baseline);
 			width: 100%;
-			padding: var(--default-grid-baseline) 0;
+			padding: var(--default-grid-baseline);
 			border: none;
 			background-color: transparent;
 			text-align: start;

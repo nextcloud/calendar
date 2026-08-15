@@ -231,7 +231,7 @@ export function buildFeatureOptions(rooms: RoomOption[]): RoomFilterOption[] {
 	}
 
 	return [...features]
-		.map((feature) => ({ id: feature, label: formatRoomFeature(feature) ?? feature }))
+		.map((feature) => ({ id: feature, label: formatRoomFeature(feature) }))
 		.sort((a, b) => a.label.localeCompare(b.label))
 }
 

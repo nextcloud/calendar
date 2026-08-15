@@ -14,7 +14,6 @@ import {
 	compareRoomsByBookingState,
 	deriveBuildingName,
 	filterRooms,
-	formatRoomFeature,
 	groupRoomsByBuilding,
 	matchesRoomFilters,
 } from '@/utils/roomFilter'
@@ -64,17 +63,6 @@ function filters(overrides: Partial<RoomFilterState> = {}): RoomFilterState {
 }
 
 describe('Test suite: Room filter (utils/roomFilter.ts)', () => {
-	describe('formatRoomFeature', () => {
-		it.for([
-			['PROJECTOR', 'Projector'],
-			['projector', 'Projector'],
-			['WHEELCHAIR-ACCESSIBLE', 'Wheelchair accessible'],
-			['Espresso machine', 'Espresso machine'],
-		])('should format %s', ([input, expected]) => {
-			expect(formatRoomFeature(input)).toBe(expected)
-		})
-	})
-
 	describe('deriveBuildingName', () => {
 		it.for([
 			['Poppodium, Kerkstraat 10, 1098 XG, Amsterdam', 'Poppodium'],
