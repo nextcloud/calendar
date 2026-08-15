@@ -59,9 +59,9 @@
 <script>
 import { NcButton, NcDialog } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
-import RoomAvailabilityModal from './RoomAvailabilityModal.vue'
-import { mapPrincipalObjectToAttendeeObject } from '../../../models/attendee.js'
-import usePrincipalsStore from '../../../store/principals.js'
+import RoomAvailabilityModal from '@/components/Editor/FreeBusy/RoomAvailabilityModal.vue'
+import { mapPrincipalObjectToAttendeeObject } from '@/models/attendee.js'
+import usePrincipalsStore from '@/store/principals.js'
 
 export default {
 	name: 'RoomAvailabilityList',

@@ -48,18 +48,18 @@ import {
 import { NcButton } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import Upload from 'vue-material-design-icons/TrayArrowUp.vue'
-import ImportScreen from './ImportScreen.vue'
+import ImportScreen from '@/components/AppNavigation/Settings/ImportScreen.vue'
 import {
 	IMPORT_STAGE_AWAITING_USER_SELECT,
 	IMPORT_STAGE_DEFAULT,
 	IMPORT_STAGE_IMPORTING,
 	IMPORT_STAGE_PROCESSING,
-} from '../../../models/consts.js'
-import { readFileAsText } from '../../../services/readFileAsTextService.js'
-import useCalendarObjectsStore from '../../../store/calendarObjects.js'
-import useCalendarsStore from '../../../store/calendars.js'
-import useImportFilesStore from '../../../store/importFiles.js'
-import useImportStateStore from '../../../store/importState.js'
+} from '@/models/consts.js'
+import { readFileAsText } from '@/services/readFileAsTextService.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useImportFilesStore from '@/store/importFiles.js'
+import useImportStateStore from '@/store/importState.js'
 import logger from '@/utils/logger.js'
 
 export default {

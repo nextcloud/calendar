@@ -1,12 +1,12 @@
+import { getDurationValueFromFullCalendarDuration } from '@/fullcalendar/duration.js'
+import { errorCatchAsync } from '@/fullcalendar/utils/errors.js'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import useCalendarObjectsStore from '../../store/calendarObjects.js'
-import useCalendarsStore from '../../store/calendars.js'
-import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
-import { getDurationValueFromFullCalendarDuration } from '../duration.js'
-import { errorCatchAsync } from '../utils/errors.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useCalendarsStore from '@/store/calendars.js'
+import { getObjectAtRecurrenceId } from '@/utils/calendarObject.js'
 import logger from '@/utils/logger.js'
 
 /**

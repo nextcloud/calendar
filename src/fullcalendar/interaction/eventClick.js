@@ -6,13 +6,13 @@ import { showInfo } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
 import { translate as t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
-import useSettingsStore from '../../store/settings.js'
-import useWidgetStore from '../../store/widget.js'
+import { errorCatchAsync } from '@/fullcalendar/utils/errors.js'
+import useSettingsStore from '@/store/settings.js'
+import useWidgetStore from '@/store/widget.js'
 import {
 	getPrefixedRoute,
 	isPublicOrEmbeddedRoute,
-} from '../../utils/router.js'
-import { errorCatchAsync } from '../utils/errors.js'
+} from '@/utils/router.js'
 
 /**
  * Returns a function for click action on event. This will open the editor.

@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import HttpClient from '@nextcloud/axios'
-import { setConfig } from '../../../../src/services/settings.js'
-import { getLinkToConfig } from '../../../../src/utils/settings.js'
+import { setConfig } from '@/services/settings.js'
+import { getLinkToConfig } from '@/utils/settings.js'
 
 vi.mock('@nextcloud/axios')
-vi.mock('../../../../src/utils/settings.js')
+vi.mock('@/utils/settings.js')
 
 describe('Test suite: Settings service (services/settings.js)', () => {
 	beforeEach(() => {

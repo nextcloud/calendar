@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { translate } from '@nextcloud/l10n'
-import { getDefaultCategories } from '../../../../src/defaults/defaultCategories.js'
-import { getRFCProperties } from '../../../../src/models/rfcProps.js'
+import { getDefaultCategories } from '@/defaults/defaultCategories.js'
+import { getRFCProperties } from '@/models/rfcProps.js'
 vi.mock('@nextcloud/l10n')
-vi.mock('../../../../src/defaults/defaultCategories.js')
+vi.mock('@/defaults/defaultCategories.js')
 
 describe('Test suite: RFC properties (models/rfcProps.js)', () => {
 	beforeEach(() => {

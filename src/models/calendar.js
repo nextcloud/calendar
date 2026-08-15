@@ -1,10 +1,10 @@
+import { mapDavShareeToCalendarShareObject } from '@/models/calendarShare.js'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { detectColor, uidToHexColor } from '../utils/color.js'
-import { isAfterVersion } from '../utils/nextcloudVersion.ts'
-import { mapDavShareeToCalendarShareObject } from './calendarShare.js'
+import { detectColor, uidToHexColor } from '@/utils/color.js'
+import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
 
 /**
  * Creates a complete calendar-object based on given props

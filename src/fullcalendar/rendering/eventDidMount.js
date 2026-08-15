@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { getCanonicalLocale, translate as t } from '@nextcloud/l10n'
-import { formatDateWithTimezone, isMultiDayAllDayEvent } from '../../utils/date.js'
-import { errorCatch } from '../utils/errors.js'
+import { errorCatch } from '@/fullcalendar/utils/errors.js'
+import { formatDateWithTimezone, isMultiDayAllDayEvent } from '@/utils/date.js'
 
 /**
  * Build time description for all-day events

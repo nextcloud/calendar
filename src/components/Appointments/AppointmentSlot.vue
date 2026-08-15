@@ -11,7 +11,7 @@
 
 <script>
 import { NcButton } from '@nextcloud/vue'
-import { timeStampToLocaleTime } from '../../utils/localeTime.js'
+import { timeStampToLocaleTime } from '@/utils/localeTime.js'
 
 export default {
 	name: 'AppointmentSlot',

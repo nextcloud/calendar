@@ -33,7 +33,7 @@ registerContactsMenuAction({
 	enabled: (entry) => entry.isUser,
 	callback: async (args) => {
 		const { createApp } = await import('vue')
-		const { default: ContactsMenuAvailability } = await import('./views/ContactsMenuAvailability.vue')
+		const { default: ContactsMenuAvailability } = await import('@/views/ContactsMenuAvailability.vue')
 		const { createPinia } = await import('pinia')
 		const { translatePlural } = await import('@nextcloud/l10n')
 

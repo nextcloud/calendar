@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { createPinia, setActivePinia } from 'pinia'
-import select from '../../../../../src/fullcalendar/interaction/select.js'
-import useSettingsStore from '../../../../../src/store/settings.js'
+import select from '@/fullcalendar/interaction/select.js'
+import useSettingsStore from '@/store/settings.js'
 
 describe('fullcalendar/select test suite', () => {
 	beforeEach(() => {

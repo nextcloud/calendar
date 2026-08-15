@@ -150,7 +150,7 @@ import Email from 'vue-material-design-icons/EmailOutline.vue'
 import LinkIcon from 'vue-material-design-icons/Link.vue'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
-import useCalendarsStore from '../../../store/calendars.js'
+import useCalendarsStore from '@/store/calendars.js'
 import logger from '@/utils/logger.js'
 
 export default {

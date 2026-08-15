@@ -6,7 +6,7 @@ import {
 	allDayFirst,
 	allDayOrder,
 	partDayOrder,
-} from '../../../../../src/fullcalendar/rendering/eventOrder.js'
+} from '@/fullcalendar/rendering/eventOrder.js'
 
 describe('fullcalendar/eventOrder - allDayFirst', () => {
 	it('should sort all-day events before timed events', () => {

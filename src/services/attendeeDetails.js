@@ -6,7 +6,7 @@
 import HttpClient from '@nextcloud/axios'
 import { getLocale } from '@nextcloud/l10n'
 import { getBaseUrl, linkTo } from '@nextcloud/router'
-import { principalPropertySearchByDisplaynameOrEmail } from './caldavService.js'
+import { principalPropertySearchByDisplaynameOrEmail } from '@/services/caldavService.js'
 import logger from '@/utils/logger.js'
 
 /**

@@ -4,7 +4,7 @@
  */
 
 import { getBaseUrl } from '@nextcloud/router'
-import { extractRoomUrlToken, generateRoomUrl } from '../../../../src/services/talkService.ts'
+import { extractRoomUrlToken, generateRoomUrl } from '@/services/talkService.ts'
 
 vi.mock('@nextcloud/router', () => ({
 	generateUrl: vi.fn((url, params, options) => {

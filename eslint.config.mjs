@@ -4,6 +4,7 @@
  */
 
 import { recommended } from '@nextcloud/eslint-config'
+import eslintPluginPath from 'eslint-plugin-path'
 import pluginVue from 'eslint-plugin-vue'
 import tseslint from 'typescript-eslint'
 import vitest from '@vitest/eslint-plugin'
@@ -43,6 +44,15 @@ export default [
 			globals: {
 				...vitest.environments.env.globals,
 			},
+		},
+	},
+	{
+		files: ['**/*.js', '**/*.vue', '**/*.ts'],
+		plugins: {
+			path: eslintPluginPath,
+		},
+		rules: {
+			'path/only-absolute-imports': 'error',
 		},
 	},
 ]

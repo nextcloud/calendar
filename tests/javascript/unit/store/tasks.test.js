@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { createPinia, setActivePinia } from 'pinia'
-import useTasksStore from '../../../../src/store/unscheduledTasks.js'
+import useTasksStore from '@/store/unscheduledTasks.js'
 
 describe('store/tasks test suite', () => {
 	let tasksStore

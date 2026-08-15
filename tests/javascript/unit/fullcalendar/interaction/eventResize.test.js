@@ -2,16 +2,16 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getDurationValueFromFullCalendarDuration } from '../../../../../src/fullcalendar/duration.js'
-import eventResize from '../../../../../src/fullcalendar/interaction/eventResize.js'
-import useCalendarObjectsStore from '../../../../../src/store/calendarObjects.js'
-import useCalendarsStore from '../../../../../src/store/calendars.js'
-import { getObjectAtRecurrenceId } from '../../../../../src/utils/calendarObject.js'
+import { getDurationValueFromFullCalendarDuration } from '@/fullcalendar/duration.js'
+import eventResize from '@/fullcalendar/interaction/eventResize.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useCalendarsStore from '@/store/calendars.js'
+import { getObjectAtRecurrenceId } from '@/utils/calendarObject.js'
 
-vi.mock('../../../../../src/fullcalendar/duration.js')
-vi.mock('../../../../../src/utils/calendarObject.js')
-vi.mock('../../../../../src/store/calendars.js')
-vi.mock('../../../../../src/store/calendarObjects.js')
+vi.mock('@/fullcalendar/duration.js')
+vi.mock('@/utils/calendarObject.js')
+vi.mock('@/store/calendars.js')
+vi.mock('@/store/calendarObjects.js')
 
 describe('fullcalendar/eventResize test suite', () => {
 	beforeEach(() => {

@@ -40,7 +40,7 @@
 <script>
 import { NcSelect } from '@nextcloud/vue'
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
-import PropertyMixin from '../../../mixins/PropertyMixin.js'
+import PropertyMixin from '@/mixins/PropertyMixin.js'
 
 export default {
 	name: 'PropertySelect',

@@ -4,8 +4,8 @@
  */
 import { createPlugin } from '@fullcalendar/core'
 import { NamedTimeZoneImpl } from '@fullcalendar/core/internal'
-import getTimezoneManager from '../../services/timezoneDataProviderService.js'
-import logger from '../../utils/logger.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import logger from '@/utils/logger.js'
 
 /**
  * Our own FullCalendar Timezone implementation based on the VTimezones we ship

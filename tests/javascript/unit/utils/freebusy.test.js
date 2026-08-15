@@ -4,11 +4,11 @@
  */
 
 import { AttendeeProperty, DateTimeValue } from '@nextcloud/calendar-js'
-import { findSchedulingOutbox } from '../../../../src/services/caldavService.js'
-import { doFreeBusyRequest } from '../../../../src/utils/freebusy.js'
 import { loadICS } from '../loadAsset.js'
+import { findSchedulingOutbox } from '@/services/caldavService.js'
+import { doFreeBusyRequest } from '@/utils/freebusy.js'
 
-vi.mock('../../../../src/services/caldavService')
+vi.mock('@/services/caldavService')
 
 /**
  * Create an array from an async generator

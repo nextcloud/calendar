@@ -11,7 +11,7 @@ import {
 	hexToRGB,
 	isLight,
 	uidToHexColor,
-} from '../../../../src/utils/color.js'
+} from '@/utils/color.js'
 
 describe('utils/color test suite', () => {
 	it('should provide a function to generate a text-color from an rgb string', () => {

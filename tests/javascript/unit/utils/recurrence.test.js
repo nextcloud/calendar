@@ -5,7 +5,7 @@
 import {
 	getBySetPositionAndBySetFromDate,
 	getWeekDayFromDate,
-} from '../../../../src/utils/recurrence.js'
+} from '@/utils/recurrence.js'
 
 describe('utils/recurrence test suite', () => {
 	it('should get the BYSETPOS value for a date object', () => {

@@ -8,7 +8,7 @@ import {
 	getPreferredEditorRoute,
 	getPrefixedRoute,
 	isPublicOrEmbeddedRoute,
-} from '../../../../src/utils/router.js'
+} from '@/utils/router.js'
 
 vi.mock('@nextcloud/initial-state')
 

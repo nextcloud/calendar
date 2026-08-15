@@ -55,9 +55,9 @@ import debounce from 'debounce'
 import { mapStores } from 'pinia'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroup.vue'
 import AccountMultiple from 'vue-material-design-icons/AccountMultiple.vue'
-import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
-import useCalendarsStore from '../../../store/calendars.js'
-import usePrincipalsStore from '../../../store/principals.js'
+import { principalPropertySearchByDisplaynameOrEmail } from '@/services/caldavService.js'
+import useCalendarsStore from '@/store/calendars.js'
+import usePrincipalsStore from '@/store/principals.js'
 import { urldecode } from '@/utils/url.ts'
 
 export default {

@@ -92,8 +92,8 @@ import {
 import md5 from 'md5'
 import { mapStores } from 'pinia'
 import IconAdd from 'vue-material-design-icons/Plus.vue'
-import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
 import { addParticipantAsModerator, createRoom, generateRoomUrl, listRooms } from '@/services/talkService'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
 import logger from '@/utils/logger.js'
 
 // Ref https://github.com/nextcloud/spreed/blob/main/docs/constants.md

@@ -6,15 +6,15 @@ import { showInfo } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
 import { createPinia, setActivePinia } from 'pinia'
-import eventClick from '../../../../../src/fullcalendar/interaction/eventClick.js'
-import EditorMixin from '../../../../../src/mixins/EditorMixin.js'
-import useSettingsStore from '../../../../../src/store/settings.js'
+import eventClick from '@/fullcalendar/interaction/eventClick.js'
+import EditorMixin from '@/mixins/EditorMixin.js'
+import useSettingsStore from '@/store/settings.js'
 import {
 	getPrefixedRoute,
 	isPublicOrEmbeddedRoute,
-} from '../../../../../src/utils/router.js'
+} from '@/utils/router.js'
 
-vi.mock('../../../../../src/utils/router.js')
+vi.mock('@/utils/router.js')
 vi.mock('@nextcloud/router')
 vi.mock('@nextcloud/l10n')
 vi.mock('@nextcloud/dialogs')

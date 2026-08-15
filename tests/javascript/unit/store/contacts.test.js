@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { createPinia, setActivePinia } from 'pinia'
-import useContactsStore from '../../../../src/store/contacts.js'
+import useContactsStore from '@/store/contacts.js'
 
 describe('store/contacts test suite', () => {
 	let contactsStore

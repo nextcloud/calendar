@@ -1,17 +1,17 @@
+import { getAlarmComponentFromAsset } from '../loadAsset.js'
 /**
  * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getDefaultAlarmObject, mapAlarmComponentToAlarmObject } from '../../../../src/models/alarm.js'
+import { getDefaultAlarmObject, mapAlarmComponentToAlarmObject } from '@/models/alarm.js'
 import {
 	getAmountAndUnitForTimedEvents,
 	getAmountHoursMinutesAndUnitForAllDayEvents,
-} from '../../../../src/utils/alarms.js'
-import { getDateFromDateTimeValue } from '../../../../src/utils/date.js'
-import { getAlarmComponentFromAsset } from '../loadAsset.js'
+} from '@/utils/alarms.js'
+import { getDateFromDateTimeValue } from '@/utils/date.js'
 
-vi.mock('../../../../src/utils/alarms.js')
-vi.mock('../../../../src/utils/date.js')
+vi.mock('@/utils/alarms.js')
+vi.mock('@/utils/date.js')
 
 describe('Test suite: Alarm model (models/alarm.js)', () => {
 	beforeEach(() => {

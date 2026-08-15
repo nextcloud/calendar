@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import dateFormat from '../../../../src/filters/dateFormat.js'
+import dateFormat from '@/filters/dateFormat.js'
 
 describe('format/dateFormat test suite', () => {
 	it('should format an all-day date', () => {

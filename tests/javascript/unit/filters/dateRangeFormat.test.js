@@ -4,7 +4,7 @@
  */
 
 import { translate } from '@nextcloud/l10n'
-import dateRangeFormat from '../../../../src/filters/dateRangeFormat.js'
+import dateRangeFormat from '@/filters/dateRangeFormat.js'
 
 vi.mock('@nextcloud/l10n')
 

@@ -66,11 +66,11 @@ import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCircle
 import {
 	circleGetMembers,
 	circleSearchByName,
-} from '../../../services/circleService.js'
-import isCirclesEnabled from '../../../services/isCirclesEnabled.js'
-import { removeMailtoPrefix } from '../../../utils/attendee.js'
-import { randomId } from '../../../utils/randomId.js'
+} from '@/services/circleService.js'
+import isCirclesEnabled from '@/services/isCirclesEnabled.js'
+import { removeMailtoPrefix } from '@/utils/attendee.js'
 import logger from '@/utils/logger.js'
+import { randomId } from '@/utils/randomId.js'
 
 export default {
 	name: 'InviteesListSearch',

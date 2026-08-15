@@ -232,11 +232,11 @@ import InviteesListSearch from '@/components/Editor/Invitees/InviteesListSearch.
 import ProposalDateItem from '@/components/Proposal/ProposalDateItem.vue'
 import ProposalParticipantItem from '@/components/Proposal/ProposalParticipantItem.vue'
 import ProposalResponseMatrix from '@/components/Proposal/ProposalResponseMatrix.vue'
-import { getBusySlots } from '../../services/freeBusySlotService.js'
 import { getFullCalendarLocale } from '@/fullcalendar/localization/localeProvider.js'
 import FullCalendarMoment from '@/fullcalendar/localization/momentPlugin.js'
 import FullCalendarTimezones from '@/fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
 import { ProposalDate, ProposalParticipant } from '@/models/proposals/proposals'
+import { getBusySlots } from '@/services/freeBusySlotService.js'
 // types, object and stores
 import usePrincipalStore from '@/store/principals.js'
 import useProposalStore from '@/store/proposalStore'

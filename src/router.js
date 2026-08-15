@@ -5,15 +5,15 @@
 
 import { generateUrl, getRootUrl } from '@nextcloud/router'
 import { createRouter, createWebHistory } from 'vue-router'
-import Calendar from './views/Calendar.vue'
-import EditFull from './views/EditFull.vue'
-import EditSimple from './views/EditSimple.vue'
+import Calendar from '@/views/Calendar.vue'
+import EditFull from '@/views/EditFull.vue'
+import EditSimple from '@/views/EditSimple.vue'
 import {
 	getDefaultEndDateForNewEvent,
 	getDefaultStartDateForNewEvent,
 	getInitialView,
 	getPreferredEditorRoute,
-} from './utils/router.js'
+} from '@/utils/router.js'
 
 const webRootWithIndexPHP = getRootUrl() + '/index.php'
 const doesURLContainIndexPHP = window.location.pathname.startsWith(webRootWithIndexPHP)

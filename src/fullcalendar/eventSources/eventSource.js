@@ -1,13 +1,13 @@
-import getTimezoneManager from '../../services/timezoneDataProviderService.js'
-import useCalendarsStore from '../../store/calendars.js'
-import useFetchedTimeRangesStore from '../../store/fetchedTimeRanges.js'
+import { eventSourceFunction } from '@/fullcalendar/eventSources/eventSourceFunction.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getUnixTimestampFromDate } from '../../utils/date.js'
-import logger from '../../utils/logger.js'
-import { eventSourceFunction } from './eventSourceFunction.js'
+import { getUnixTimestampFromDate } from '@/utils/date.js'
+import logger from '@/utils/logger.js'
 
 /**
  * Returns a function to generate a FullCalendar event-source based on the Vuex calendar model

@@ -10,11 +10,11 @@ import { markRaw } from 'vue'
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { mapCalendarJsToCalendarObject } from '../models/calendarObject.js'
-import logger from '../utils/logger.js'
-import useCalendarObjectInstanceStore from './calendarObjectInstance.js'
-import useCalendarsStore from './calendars.js'
-import useFetchedTimeRangesStore from './fetchedTimeRanges.js'
+import { mapCalendarJsToCalendarObject } from '@/models/calendarObject.js'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
+import logger from '@/utils/logger.js'
 
 export default defineStore('calendarObjects', {
 	state: () => {

@@ -73,12 +73,12 @@ import {
 } from '@nextcloud/vue'
 import debounce from 'debounce'
 import { mapStores } from 'pinia'
-import ResourceRoomType from './ResourceRoomType.vue'
-import ResourceSeatingCapacity from './ResourceSeatingCapacity.vue'
-import { advancedPrincipalPropertySearch } from '../../../services/caldavService.js'
-import { checkResourceAvailability } from '../../../services/freeBusyService.js'
-import usePrincipalsStore from '../../../store/principals.js'
-import logger from '../../../utils/logger.js'
+import ResourceRoomType from '@/components/Editor/Resources/ResourceRoomType.vue'
+import ResourceSeatingCapacity from '@/components/Editor/Resources/ResourceSeatingCapacity.vue'
+import { advancedPrincipalPropertySearch } from '@/services/caldavService.js'
+import { checkResourceAvailability } from '@/services/freeBusyService.js'
+import usePrincipalsStore from '@/store/principals.js'
+import logger from '@/utils/logger.js'
 export default {
 	name: 'ResourceListSearch',
 	components: {

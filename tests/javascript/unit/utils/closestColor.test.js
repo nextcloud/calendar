@@ -6,7 +6,7 @@
 // Code was taken from:
 //   - https://github.com/juliuste/closest-css-color
 
-import closestColor from '../../../../src/utils/closestColor.js'
+import closestColor from '@/utils/closestColor.js'
 
 describe('utils/closestColor test suite', () => {
 	it('should calculate the closest color', () => {

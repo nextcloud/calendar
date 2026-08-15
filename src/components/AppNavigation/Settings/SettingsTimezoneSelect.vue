@@ -21,9 +21,9 @@ import {
 } from '@nextcloud/dialogs'
 import { NcTimezonePicker as TimezonePicker } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
-import useSettingsStore from '../../../store/settings.js'
-import { randomId } from '../../../utils/randomId.js'
+import useSettingsStore from '@/store/settings.js'
 import logger from '@/utils/logger.js'
+import { randomId } from '@/utils/randomId.js'
 
 export default {
 	name: 'SettingsTimezoneSelect',

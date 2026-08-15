@@ -2,18 +2,18 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import eventSource from '../../../../../src/fullcalendar/eventSources/eventSource.js'
-import { eventSourceFunction } from '../../../../../src/fullcalendar/eventSources/eventSourceFunction.js'
-import getTimezoneManager from '../../../../../src/services/timezoneDataProviderService.js'
-import useCalendarsStore from '../../../../../src/store/calendars.js'
-import useFetchedTimeRangesStore from '../../../../../src/store/fetchedTimeRanges.js'
-import { getUnixTimestampFromDate } from '../../../../../src/utils/date.js'
+import eventSource from '@/fullcalendar/eventSources/eventSource.js'
+import { eventSourceFunction } from '@/fullcalendar/eventSources/eventSourceFunction.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
+import { getUnixTimestampFromDate } from '@/utils/date.js'
 
-vi.mock('../../../../../src/services/timezoneDataProviderService')
-vi.mock('../../../../../src/utils/date.js')
-vi.mock('../../../../../src/fullcalendar/eventSources/eventSourceFunction.js')
-vi.mock('../../../../../src/store/fetchedTimeRanges.js')
-vi.mock('../../../../../src/store/calendars.js')
+vi.mock('@/services/timezoneDataProviderService')
+vi.mock('@/utils/date.js')
+vi.mock('@/fullcalendar/eventSources/eventSourceFunction.js')
+vi.mock('@/store/fetchedTimeRanges.js')
+vi.mock('@/store/calendars.js')
 
 describe('fullcalendar/eventSource test suite', () => {
 	beforeEach(() => {

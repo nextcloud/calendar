@@ -23,10 +23,10 @@
 
 <script>
 import { mapState, mapStores } from 'pinia'
-import AlarmListItem from './AlarmListItem.vue'
-import AlarmListNew from './AlarmListNew.vue'
-import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
-import useSettingsStore from '../../../store/settings.js'
+import AlarmListItem from '@/components/Editor/Alarm/AlarmListItem.vue'
+import AlarmListNew from '@/components/Editor/Alarm/AlarmListNew.vue'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import useSettingsStore from '@/store/settings.js'
 
 export default {
 	name: 'AlarmList',

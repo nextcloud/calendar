@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import {
 	getDefaultPrincipalObject,
 	mapDavToPrincipal,
-} from '../models/principal.js'
+} from '@/models/principal.js'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -12,8 +12,8 @@ import {
 	findPrincipalByUrl,
 	findPrincipalsInCollection,
 	getCurrentUserPrincipal,
-} from '../services/caldavService.js'
-import logger from '../utils/logger.js'
+} from '@/services/caldavService.js'
+import logger from '@/utils/logger.js'
 
 export default defineStore('principals', {
 	state: () => {

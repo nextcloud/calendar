@@ -6,7 +6,7 @@
 import { getCSPNonce } from '@nextcloud/auth'
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
-import ProposalPublic from './views/Proposal/ProposalPublic.vue'
+import ProposalPublic from '@/views/Proposal/ProposalPublic.vue'
 
 __webpack_nonce__ = getCSPNonce()!
 

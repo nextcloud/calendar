@@ -5,9 +5,9 @@
 import {
 	getDefaultCalendarObject,
 	mapDavCollectionToCalendar,
-} from '../../../../src/models/calendar.js'
-import { mapDavShareeToCalendarShareObject } from '../../../../src/models/calendarShare.js'
-vi.mock('../../../../src/models/calendarShare.js')
+} from '@/models/calendar.js'
+import { mapDavShareeToCalendarShareObject } from '@/models/calendarShare.js'
+vi.mock('@/models/calendarShare.js')
 
 describe('Test suite: Calendar model (models/calendar.js)', () => {
 	beforeEach(() => {

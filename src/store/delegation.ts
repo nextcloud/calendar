@@ -6,11 +6,11 @@ import { showError } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import useCalendarsStore from './calendars.js'
-import usePrincipalsStore from './principals.js'
 import { mapDavCollectionToCalendar } from '@/models/calendar.js'
 import { mapDavToPrincipal } from '@/models/principal.js'
 import { findCalendarsAtUrl, findPrincipalByUrl, getClient } from '@/services/caldavService.js'
+import useCalendarsStore from '@/store/calendars.js'
+import usePrincipalsStore from '@/store/principals.js'
 import logger from '@/utils/logger.js'
 
 export interface DelegatePrincipal {

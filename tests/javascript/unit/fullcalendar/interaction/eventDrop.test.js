@@ -4,20 +4,20 @@
  */
 import { showWarning } from '@nextcloud/dialogs'
 import { translate } from '@nextcloud/l10n'
-import { getDurationValueFromFullCalendarDuration } from '../../../../../src/fullcalendar/duration.js'
-import eventDrop from '../../../../../src/fullcalendar/interaction/eventDrop.js'
-import getTimezoneManager from '../../../../../src/services/timezoneDataProviderService.js'
-import useCalendarObjectsStore from '../../../../../src/store/calendarObjects.js'
-import useCalendarsStore from '../../../../../src/store/calendars.js'
-import usePrincipalsStore from '../../../../../src/store/principals.js'
-import { getObjectAtRecurrenceId } from '../../../../../src/utils/calendarObject.js'
+import { getDurationValueFromFullCalendarDuration } from '@/fullcalendar/duration.js'
+import eventDrop from '@/fullcalendar/interaction/eventDrop.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useCalendarsStore from '@/store/calendars.js'
+import usePrincipalsStore from '@/store/principals.js'
+import { getObjectAtRecurrenceId } from '@/utils/calendarObject.js'
 
-vi.mock('../../../../../src/fullcalendar/duration.js')
-vi.mock('../../../../../src/services/timezoneDataProviderService.js')
-vi.mock('../../../../../src/utils/calendarObject.js')
-vi.mock('../../../../../src/store/calendars.js')
-vi.mock('../../../../../src/store/calendarObjects.js')
-vi.mock('../../../../../src/store/principals.js')
+vi.mock('@/fullcalendar/duration.js')
+vi.mock('@/services/timezoneDataProviderService.js')
+vi.mock('@/utils/calendarObject.js')
+vi.mock('@/store/calendars.js')
+vi.mock('@/store/calendarObjects.js')
+vi.mock('@/store/principals.js')
 vi.mock('@nextcloud/l10n')
 vi.mock('@nextcloud/dialogs')
 

@@ -4,10 +4,10 @@
  */
 
 import { AttendeeProperty } from '@nextcloud/calendar-js'
-import { checkResourceAvailability } from '../../../../src/services/freeBusyService'
-import { doFreeBusyRequest } from '../../../../src/utils/freebusy'
+import { checkResourceAvailability } from '@/services/freeBusyService'
+import { doFreeBusyRequest } from '@/utils/freebusy'
 
-vi.mock('../../../../src/utils/freebusy')
+vi.mock('@/utils/freebusy')
 
 describe('services/freeBusyService test suite', () => {
 	beforeEach(() => {

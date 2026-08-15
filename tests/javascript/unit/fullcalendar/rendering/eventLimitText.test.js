@@ -4,7 +4,7 @@
  */
 
 import { translatePlural } from '@nextcloud/l10n'
-import eventLimitText from '../../../../../src/fullcalendar/rendering/eventLimitText.js'
+import eventLimitText from '@/fullcalendar/rendering/eventLimitText.js'
 vi.mock('@nextcloud/l10n')
 
 describe('fullcalendar/eventSourceFunction test suite', () => {

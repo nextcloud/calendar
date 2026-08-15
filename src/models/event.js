@@ -5,15 +5,15 @@
 
 import { DurationValue } from '@nextcloud/calendar-js'
 import { markRaw } from 'vue'
-import { getHexForColorName } from '../utils/color.js'
-import { getDateFromDateTimeValue } from '../utils/date.js'
-import { mapAlarmComponentToAlarmObject } from './alarm.js'
-import { mapAttachmentPropertyToAttchmentObject } from './attachment.js'
-import { mapAttendeePropertyToAttendeeObject } from './attendee.js'
+import { mapAlarmComponentToAlarmObject } from '@/models/alarm.js'
+import { mapAttachmentPropertyToAttchmentObject } from '@/models/attachment.js'
+import { mapAttendeePropertyToAttendeeObject } from '@/models/attendee.js'
 import {
 	getDefaultRecurrenceRuleObject,
 	mapRecurrenceRuleValueToRecurrenceRuleObject,
-} from './recurrenceRule.js'
+} from '@/models/recurrenceRule.js'
+import { getHexForColorName } from '@/utils/color.js'
+import { getDateFromDateTimeValue } from '@/utils/date.js'
 
 /**
  * Creates a complete calendar-object-instance-object based on given props

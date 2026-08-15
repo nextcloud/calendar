@@ -41,9 +41,9 @@
 <script>
 import { NcSelect } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
-import CalendarPickerOption from './CalendarPickerOption.vue'
-import useCalendarsStore from '../../store/calendars.js'
-import { randomId } from '../../utils/randomId.js'
+import CalendarPickerOption from '@/components/Shared/CalendarPickerOption.vue'
+import useCalendarsStore from '@/store/calendars.js'
+import { randomId } from '@/utils/randomId.js'
 
 export default {
 	name: 'CalendarPicker',

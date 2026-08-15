@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import CalendarPicker from '../../Shared/CalendarPicker.vue'
-import CalendarPickerOption from '../../Shared/CalendarPickerOption.vue'
+import CalendarPicker from '@/components/Shared/CalendarPicker.vue'
+import CalendarPickerOption from '@/components/Shared/CalendarPickerOption.vue'
 
 export default {
 	name: 'PropertyCalendarPicker',
