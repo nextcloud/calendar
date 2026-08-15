@@ -628,29 +628,6 @@ export default {
 				this.closeEditor()
 			}
 		},
-		keyboardCloseEditor(event) {
-			if (event.key === 'Escape') {
-				this.cancel(false)
-			}
-		},
-		keyboardSaveEvent(event) {
-			if (event.key === 'Enter' && event.ctrlKey === true && !this.isReadOnly && !this.canCreateRecurrenceException) {
-				this.saveAndLeave(false)
-			}
-		},
-		keyboardDeleteEvent(event) {
-			if (event.key === 'Delete' && event.ctrlKey === true && this.canDelete && !this.canCreateRecurrenceException) {
-				this.deleteAndLeave(false)
-			}
-		},
-		keyboardDuplicateEvent(event) {
-			if (event.key === 'd' && event.ctrlKey === true) {
-				event.preventDefault()
-				if (!this.isNew && !this.isReadOnly && !this.canCreateRecurrenceException) {
-					this.duplicateEvent()
-				}
-			}
-		},
 		/**
 		 * Saves a calendar-object
 		 *

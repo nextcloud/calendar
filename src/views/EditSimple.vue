@@ -302,6 +302,7 @@ import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'
 import PropertyTitleTimePicker
 	from '../components/Editor/Properties/PropertyTitleTimePicker.vue'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
+import { useEditorHotKeys } from '../composables/useEditorHotKeys.js'
 import EditorMixin from '../mixins/EditorMixin.js'
 import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
 import useSettingsStore from '../store/settings.js'
@@ -345,6 +346,10 @@ export default {
 	mixins: [
 		EditorMixin,
 	],
+
+	setup() {
+		useEditorHotKeys()
+	},
 
 	props: {
 		dark: {
@@ -521,10 +526,6 @@ export default {
 			this.isLoading = false
 		}
 		this.boundaryElement = document.querySelector('.calendar-wrapper')
-		window.addEventListener('keydown', this.keyboardCloseEditor)
-		window.addEventListener('keydown', this.keyboardSaveEvent)
-		window.addEventListener('keydown', this.keyboardDeleteEvent)
-		window.addEventListener('keydown', this.keyboardDuplicateEvent)
 		window.addEventListener('resize', this.handleResize)
 
 		this.$nextTick(() => {
@@ -551,10 +552,6 @@ export default {
 	},
 
 	beforeUnmount() {
-		window.removeEventListener('keydown', this.keyboardCloseEditor)
-		window.removeEventListener('keydown', this.keyboardSaveEvent)
-		window.removeEventListener('keydown', this.keyboardDeleteEvent)
-		window.removeEventListener('keydown', this.keyboardDuplicateEvent)
 		window.removeEventListener('resize', this.handleResize)
 
 		// Clean up resize timeout

@@ -385,6 +385,7 @@ import PropertyTitleTimePicker from '../components/Editor/Properties/PropertyTit
 import Repeat from '../components/Editor/Repeat/Repeat.vue'
 import ResourceList from '../components/Editor/Resources/ResourceList.vue'
 import SaveButtons from '../components/Editor/SaveButtons.vue'
+import { useEditorHotKeys } from '../composables/useEditorHotKeys.js'
 import EditorMixin from '../mixins/EditorMixin.js'
 import { shareFile } from '../services/attachmentService.js'
 import getTimezoneManager from '../services/timezoneDataProviderService.js'
@@ -436,6 +437,10 @@ export default {
 	mixins: [
 		EditorMixin,
 	],
+
+	setup() {
+		useEditorHotKeys()
+	},
 
 	data() {
 		return {
@@ -542,20 +547,6 @@ export default {
 		showInvitationForwarding() {
 			return isAfterVersion(34)
 		},
-	},
-
-	mounted() {
-		window.addEventListener('keydown', this.keyboardCloseEditor)
-		window.addEventListener('keydown', this.keyboardSaveEvent)
-		window.addEventListener('keydown', this.keyboardDeleteEvent)
-		window.addEventListener('keydown', this.keyboardDuplicateEvent)
-	},
-
-	beforeUnmount() {
-		window.removeEventListener('keydown', this.keyboardCloseEditor)
-		window.removeEventListener('keydown', this.keyboardSaveEvent)
-		window.removeEventListener('keydown', this.keyboardDeleteEvent)
-		window.removeEventListener('keydown', this.keyboardDuplicateEvent)
 	},
 
 	methods: {
