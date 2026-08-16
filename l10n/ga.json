@@ -414,6 +414,8 @@
     "Not available" : "Níl sé ar fáil",
     "Invitation declined" : "Diúltaíodh don chuireadh",
     "Declined {organizerName}'s invitation" : "Dhiúltaigh {organizerName} cuireadh",
+    "Still available" : "Ar fáil fós",
+    "Already booked" : "Tá áirithint déanta cheana féin",
     "Checking availability" : "Infhaighteacht a sheiceáil",
     "Will be booked after saving, if available" : "Déanfar áirithint tar éis sábháil, más féidir",
     "Invitation will be sent" : "Seolfar cuireadh",
