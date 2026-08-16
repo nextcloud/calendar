@@ -37,8 +37,8 @@
 <script>
 import { NcSelect, NcTextField } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
-import DatePicker from '../../Shared/DatePicker.vue'
-import useDavRestrictionsStore from '../../../store/davRestrictions.js'
+import DatePicker from '@/components/Shared/DatePicker.vue'
+import useDavRestrictionsStore from '@/store/davRestrictions.js'
 
 export default {
 	name: 'RepeatEndRepeat',

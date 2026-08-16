@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { createPinia, setActivePinia } from 'pinia'
-import useCalendarsStore from '../../../../src/store/calendars.js'
+import useCalendarsStore from '@/store/calendars.js'
 
 describe('store/calendars test suite', () => {
 	beforeEach(() => {

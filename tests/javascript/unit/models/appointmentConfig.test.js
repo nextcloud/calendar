@@ -4,7 +4,7 @@
  */
 
 import { getBaseUrl } from '@nextcloud/router'
-import AppointmentConfig from '../../../../src/models/appointmentConfig.js'
+import AppointmentConfig from '@/models/appointmentConfig.js'
 
 vi.mock('@nextcloud/calendar-availability-vue')
 vi.mock('@nextcloud/router', () => ({

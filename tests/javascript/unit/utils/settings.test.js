@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { linkTo } from '@nextcloud/router'
-import { getLinkToConfig } from '../../../../src/utils/settings.js'
+import { getLinkToConfig } from '@/utils/settings.js'
 vi.mock('@nextcloud/router')
 
 describe('utils/settings test suite', () => {

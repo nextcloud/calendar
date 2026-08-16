@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { getCanonicalLocale, translate } from '@nextcloud/l10n'
-import eventRender from '../../../../../src/fullcalendar/rendering/eventDidMount.js'
-import { formatDateWithTimezone, isMultiDayAllDayEvent } from '../../../../../src/utils/date.js'
+import eventRender from '@/fullcalendar/rendering/eventDidMount.js'
+import { formatDateWithTimezone, isMultiDayAllDayEvent } from '@/utils/date.js'
 
 vi.mock('@nextcloud/l10n')
-vi.mock('../../../../../src/utils/date.js')
+vi.mock('@/utils/date.js')
 
 describe('fullcalendar/eventDidMount test suite', () => {
 	it('should add extended properties from the event to the dataset of the dom element - existing event', () => {

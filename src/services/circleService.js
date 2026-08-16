@@ -7,7 +7,7 @@ import {
 	generateOcsUrl,
 	linkTo,
 } from '@nextcloud/router'
-import logger from '../utils/logger.js'
+import logger from '@/utils/logger.js'
 
 /**
  * Finds circles by displayname

@@ -2,9 +2,9 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import dateRangeFormat from '../filters/dateRangeFormat.js'
-import useSettingsStore from '../store/settings.js'
-import { getDateFromFirstdayParam } from '../utils/date.js'
+import dateRangeFormat from '@/filters/dateRangeFormat.js'
+import useSettingsStore from '@/store/settings.js'
+import { getDateFromFirstdayParam } from '@/utils/date.js'
 
 const originalWindowTitle = document.title
 

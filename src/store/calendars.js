@@ -4,14 +4,14 @@ import { translate as t } from '@nextcloud/l10n'
 import { Timezone } from '@nextcloud/timezones'
 import pLimit from 'p-limit'
 import { defineStore } from 'pinia'
-import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../models/calendar.js'
-import { mapCDavObjectToCalendarObject } from '../models/calendarObject.js'
+import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '@/models/calendar.js'
+import { mapCDavObjectToCalendarObject } from '@/models/calendarObject.js'
 import {
 	CALDAV_BIRTHDAY_CALENDAR,
 	CALDAV_PERSONAL_CALENDAR,
 	IMPORT_STAGE_IMPORTING,
 	IMPORT_STAGE_PROCESSING,
-} from '../models/consts.js'
+} from '@/models/consts.js'
 /**
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
@@ -22,18 +22,18 @@ import {
 	findAll,
 	findAllDeletedCalendars,
 	findPublicCalendarsByTokens,
-} from '../services/caldavService.js'
-import getTimezoneManager from '../services/timezoneDataProviderService.js'
-import { uidToHexColor } from '../utils/color.js'
-import { dateFactory, getUnixTimestampFromDate } from '../utils/date.js'
-import logger from '../utils/logger.js'
-import { isAfterVersion } from '../utils/nextcloudVersion.ts'
-import useCalendarObjectsStore from './calendarObjects.js'
-import useFetchedTimeRangesStore from './fetchedTimeRanges.js'
-import useImportFilesStore from './importFiles.js'
-import useImportStateStore from './importState.js'
-import usePrincipalsStore from './principals.js'
-import useSettingsStore from './settings.js'
+} from '@/services/caldavService.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
+import useImportFilesStore from '@/store/importFiles.js'
+import useImportStateStore from '@/store/importState.js'
+import usePrincipalsStore from '@/store/principals.js'
+import useSettingsStore from '@/store/settings.js'
+import { uidToHexColor } from '@/utils/color.js'
+import { dateFactory, getUnixTimestampFromDate } from '@/utils/date.js'
+import logger from '@/utils/logger.js'
+import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
 
 export default defineStore('calendars', {
 	state: () => {

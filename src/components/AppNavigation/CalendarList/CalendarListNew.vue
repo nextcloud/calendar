@@ -30,7 +30,7 @@ import useSettingsStore from '@/store/settings.js'
 import { uidToHexColor } from '@/utils/color.js'
 import logger from '@/utils/logger.js'
 
-const PublicCalendarSubscriptionPicker = defineAsyncComponent(() => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '../../Subscription/PublicCalendarSubscriptionPicker.vue'))
+const PublicCalendarSubscriptionPicker = defineAsyncComponent(() => import(/* webpackChunkName: "public-calendar-subscription-picker" */ '@/components/Subscription/PublicCalendarSubscriptionPicker.vue'))
 
 const calendarsStore = useCalendarsStore()
 const settingsStore = useSettingsStore()

@@ -16,7 +16,7 @@
 
 <script>
 import HttpClient from '@nextcloud/axios'
-import { uidToHexColor } from '../../utils/color.js'
+import { uidToHexColor } from '@/utils/color.js'
 import logger from '@/utils/logger.js'
 
 export default {

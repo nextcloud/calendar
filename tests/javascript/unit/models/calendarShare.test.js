@@ -6,7 +6,7 @@
 import {
 	getDefaultCalendarShareObject,
 	mapDavShareeToCalendarShareObject,
-} from '../../../../src/models/calendarShare.js'
+} from '@/models/calendarShare.js'
 
 describe('Test suite: Calendar share model (models/calendarShare.js)', () => {
 	it('should return a default calendar share object', () => {

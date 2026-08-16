@@ -18,7 +18,7 @@
 
 <script>
 import { NcSelect } from '@nextcloud/vue'
-import { getTranslatedOrdinalNumber } from '../../../filters/recurrenceRuleFormat.js'
+import { getTranslatedOrdinalNumber } from '@/filters/recurrenceRuleFormat.js'
 
 export default {
 	name: 'RepeatFirstLastSelect',

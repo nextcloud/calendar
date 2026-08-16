@@ -4,17 +4,17 @@
  */
 import { translate } from '@nextcloud/l10n'
 import { createPinia, setActivePinia } from 'pinia'
-import { eventSourceFunction } from '../../../../../src/fullcalendar/eventSources/eventSourceFunction.js'
-import useSettingsStore from '../../../../../src/store/settings.js'
-import { getAllObjectsInTimeRange } from '../../../../../src/utils/calendarObject.js'
+import { eventSourceFunction } from '@/fullcalendar/eventSources/eventSourceFunction.js'
+import useSettingsStore from '@/store/settings.js'
+import { getAllObjectsInTimeRange } from '@/utils/calendarObject.js'
 import {
 	generateTextColorForHex,
 	getHexForColorName,
 	isLight,
-} from '../../../../../src/utils/color.js'
+} from '@/utils/color.js'
 vi.mock('@nextcloud/l10n')
-vi.mock('../../../../../src/utils/color.js')
-vi.mock('../../../../../src/utils/calendarObject.js')
+vi.mock('@/utils/color.js')
+vi.mock('@/utils/calendarObject.js')
 
 describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 	beforeEach(() => {

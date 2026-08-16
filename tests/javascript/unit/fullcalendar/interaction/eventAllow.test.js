@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import eventAllow from '../../../../../src/fullcalendar/interaction/eventAllow.js'
+import eventAllow from '@/fullcalendar/interaction/eventAllow.js'
 
 describe('fullcalendar/eventAllow test suite', () => {
 	it('should always allow to drop an event that does allow modifying all-days', () => {

@@ -5,11 +5,11 @@
 
 import { AttendeeProperty, Property } from '@nextcloud/calendar-js'
 import { translate as t } from '@nextcloud/l10n'
-import useCalendarObjectInstanceStore from '../store/calendarObjectInstance.js'
-import useCalendarsStore from '../store/calendars.js'
-import useSettingsStore from '../store/settings.js'
-import { isAfterVersion } from './nextcloudVersion.ts'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useSettingsStore from '@/store/settings.js'
 import logger from '@/utils/logger.js'
+import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
 
 /**
  * Get the factor for a given unit

@@ -14,7 +14,7 @@ __webpack_public_path__ = linkTo('calendar', 'js/') // eslint-disable-line
 
 registerWidget('calendar_widget', async (el, { richObject }) => {
 	const { createApp } = await import('vue')
-	const { default: Calendar } = await import('./views/Calendar.vue')
+	const { default: Calendar } = await import('@/views/Calendar.vue')
 	const { createPinia } = await import('pinia')
 
 	const pinia = createPinia()

@@ -59,8 +59,8 @@ import IconCalendar from 'vue-material-design-icons/CalendarOutline.vue'
 import IconCheck from 'vue-material-design-icons/CheckOutline.vue'
 import IconTime from 'vue-material-design-icons/ClockTimeFourOutline.vue'
 import IconTimezone from 'vue-material-design-icons/Web.vue'
-import BookingResult from './BookingResult.vue'
-import { timeStampToLocaleDate, timeStampToLocaleTime } from '../../utils/localeTime.js'
+import BookingResult from '@/views/Appointments/BookingResult.vue'
+import { timeStampToLocaleDate, timeStampToLocaleTime } from '@/utils/localeTime.js'
 
 export default {
 	name: 'Confirmation',

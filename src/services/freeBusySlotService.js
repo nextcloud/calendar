@@ -4,10 +4,10 @@
  */
 
 import { AttendeeProperty, createFreeBusyRequest, DateTimeValue } from '@nextcloud/calendar-js'
-import freeBusyResourceEventSourceFunction from '../fullcalendar/eventSources/freeBusyResourceEventSourceFunction.js'
-import logger from '../utils/logger.js'
-import { findSchedulingOutbox } from './caldavService.js'
-import getTimezoneManager from './timezoneDataProviderService.js'
+import freeBusyResourceEventSourceFunction from '@/fullcalendar/eventSources/freeBusyResourceEventSourceFunction.js'
+import { findSchedulingOutbox } from '@/services/caldavService.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import logger from '@/utils/logger.js'
 
 const daysToSearch = 7
 

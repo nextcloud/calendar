@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { CalendarComponent, FreeBusyComponent, getParserManager } from '@nextcloud/calendar-js'
+import { loadICS } from '../loadAsset.js'
 import {
 	getDefaultCalendarObjectObject,
 	mapCalendarJsToCalendarObject,
 	mapCDavObjectToCalendarObject,
-} from '../../../../src/models/calendarObject.js'
-import { loadICS } from '../loadAsset.js'
+} from '@/models/calendarObject.js'
 
 describe('Test suite: Calendar object model (models/calendarObject.js)', () => {
 	it('should return a default calendarObject object', () => {

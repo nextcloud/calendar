@@ -4,14 +4,14 @@
  */
 
 import { DateTimeValue } from '@nextcloud/calendar-js'
+import { getRecurValueFromAsset } from '../loadAsset.js'
 import {
 	getDefaultRecurrenceRuleObject,
 	mapRecurrenceRuleValueToRecurrenceRuleObject,
-} from '../../../../src/models/recurrenceRule.js'
-import { getDateFromDateTimeValue } from '../../../../src/utils/date.js'
-import { getRecurValueFromAsset } from '../loadAsset.js'
+} from '@/models/recurrenceRule.js'
+import { getDateFromDateTimeValue } from '@/utils/date.js'
 
-vi.mock('../../../../src/utils/date.js')
+vi.mock('@/utils/date.js')
 
 describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 	beforeEach(() => {

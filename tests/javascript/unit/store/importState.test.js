@@ -6,8 +6,8 @@ import { createPinia, setActivePinia } from 'pinia'
 import {
 	IMPORT_STAGE_AWAITING_USER_SELECT,
 	IMPORT_STAGE_DEFAULT,
-} from '../../../../src/models/consts.js'
-import useImportStateStore from '../../../../src/store/importState.js'
+} from '@/models/consts.js'
+import useImportStateStore from '@/store/importState.js'
 
 describe('store/importState test suite', () => {
 	beforeEach(() => {

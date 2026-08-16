@@ -54,9 +54,9 @@
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActions from '@nextcloud/vue/components/NcActions'
 import Crown from 'vue-material-design-icons/CrownOutline.vue'
-import AvatarParticipationStatus from '../AvatarParticipationStatus.vue'
-import AttendeeDisplay from './AttendeeDisplay.vue'
-import { removeMailtoPrefix } from '../../../utils/attendee.js'
+import AvatarParticipationStatus from '@/components/Editor/AvatarParticipationStatus.vue'
+import AttendeeDisplay from '@/components/Editor/Invitees/AttendeeDisplay.vue'
+import { removeMailtoPrefix } from '@/utils/attendee.js'
 
 export default {
 	name: 'OrganizerListItem',

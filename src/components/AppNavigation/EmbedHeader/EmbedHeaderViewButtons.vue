@@ -41,7 +41,7 @@
 <script>
 import { NcButton } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
-import useWidgetStore from '../../../store/widget.js'
+import useWidgetStore from '@/store/widget.js'
 
 export default {
 	name: 'EmbedHeaderViewButtons',

@@ -4,21 +4,21 @@
  */
 import { setConfig as setCalendarJsConfig } from '@nextcloud/calendar-js'
 import { createPinia, setActivePinia } from 'pinia'
-import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '../../../../src/models/calendar.js'
-import { CALDAV_BIRTHDAY_CALENDAR } from '../../../../src/models/consts.js'
-import { enableBirthdayCalendar } from '../../../../src/services/caldavService.js'
-import { setConfig } from '../../../../src/services/settings.js'
-import useCalendarObjectsStore from '../../../../src/store/calendarObjects.js'
-import useCalendarsStore from '../../../../src/store/calendars.js'
-import useFetchedTimeRangesStore from '../../../../src/store/fetchedTimeRanges.js'
-import useSettingsStore from '../../../../src/store/settings.js'
-import { logInfo } from '../../../../src/utils/logger.js'
+import { getDefaultCalendarObject, mapDavCollectionToCalendar } from '@/models/calendar.js'
+import { CALDAV_BIRTHDAY_CALENDAR } from '@/models/consts.js'
+import { enableBirthdayCalendar } from '@/services/caldavService.js'
+import { setConfig } from '@/services/settings.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
+import useSettingsStore from '@/store/settings.js'
+import { logInfo } from '@/utils/logger.js'
 
-vi.mock('../../../../src/services/caldavService.js')
-vi.mock('../../../../src/models/calendar.js')
+vi.mock('@/services/caldavService.js')
+vi.mock('@/models/calendar.js')
 vi.mock('@nextcloud/calendar-js')
-vi.mock('../../../../src/services/settings.js')
-vi.mock('../../../../src/utils/logger.js')
+vi.mock('@/services/settings.js')
+vi.mock('@/utils/logger.js')
 
 describe('store/settings test suite', () => {
 	beforeEach(() => {

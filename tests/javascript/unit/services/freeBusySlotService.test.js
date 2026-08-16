@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getFirstFreeSlot } from '../../../../src/services/freeBusySlotService.js'
+import { getFirstFreeSlot } from '@/services/freeBusySlotService.js'
 
 describe('services/freeBusySlotService test suite', () => {
 	it('should return the first rounded slot after blocking event end', () => {

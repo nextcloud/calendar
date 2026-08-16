@@ -7,14 +7,18 @@ import { AttachmentProperty, AttendeeProperty, DateTimeValue, DurationValue, Par
 import { generateUrl } from '@nextcloud/router'
 import { defineStore } from 'pinia'
 import { markRaw } from 'vue'
-import { mapAlarmComponentToAlarmObject } from '../models/alarm.js'
+import { mapAlarmComponentToAlarmObject } from '@/models/alarm.js'
 import {
 	copyCalendarObjectInstanceIntoEventComponent,
 	getDefaultEventObject,
 	mapEventComponentToEventObject,
-} from '../models/event.js'
-import { getRFCProperties } from '../models/rfcProps.js'
-import getTimezoneManager from '../services/timezoneDataProviderService.js'
+} from '@/models/event.js'
+import { getRFCProperties } from '@/models/rfcProps.js'
+import { updateRoomParticipantsFromEvent } from '@/services/talkService'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useSettingsStore from '@/store/settings.js'
 import {
 	getAmountAndUnitForTimedEvents,
 	getAmountHoursMinutesAndUnitForAllDayEvents,
@@ -22,18 +26,14 @@ import {
 	getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents,
 	updateAlarms,
 	updateDefaultAlarm,
-} from '../utils/alarms.js'
-import { getObjectAtRecurrenceId } from '../utils/calendarObject.js'
-import { getClosestCSS3ColorNameForHex, getHexForColorName } from '../utils/color.js'
+} from '@/utils/alarms.js'
+import { getObjectAtRecurrenceId } from '@/utils/calendarObject.js'
+import { getClosestCSS3ColorNameForHex, getHexForColorName } from '@/utils/color.js'
 import {
 	getDateFromDateTimeValue,
-} from '../utils/date.js'
-import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '../utils/recurrence.js'
-import useCalendarObjectsStore from './calendarObjects.js'
-import useCalendarsStore from './calendars.js'
-import useSettingsStore from './settings.js'
-import { updateRoomParticipantsFromEvent } from '@/services/talkService'
+} from '@/utils/date.js'
 import logger from '@/utils/logger.js'
+import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '@/utils/recurrence.js'
 
 export default defineStore('calendarObjectInstance', {
 	state: () => {

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { createPinia, setActivePinia } from 'pinia'
-import useImportFilesStore from '../../../../src/store/importFiles.js'
+import useImportFilesStore from '@/store/importFiles.js'
 
 describe('store/importFiles test suite', () => {
 	beforeEach(() => {

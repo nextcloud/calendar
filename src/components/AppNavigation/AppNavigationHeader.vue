@@ -7,10 +7,10 @@
 import { t } from '@nextcloud/l10n'
 import { computed } from 'vue'
 import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
-import AppNavigationHeaderDatePicker from './AppNavigationHeader/AppNavigationHeaderDatePicker.vue'
-import AppNavigationHeaderNewEvent from './AppNavigationHeader/AppNavigationHeaderNewEvent.vue'
-import AppNavigationHeaderTodayButton from './AppNavigationHeader/AppNavigationHeaderTodayButton.vue'
-import AppNavigationHeaderViewMenu from './AppNavigationHeader/AppNavigationHeaderViewMenu.vue'
+import AppNavigationHeaderDatePicker from '@/components/AppNavigation/AppNavigationHeader/AppNavigationHeaderDatePicker.vue'
+import AppNavigationHeaderNewEvent from '@/components/AppNavigation/AppNavigationHeader/AppNavigationHeaderNewEvent.vue'
+import AppNavigationHeaderTodayButton from '@/components/AppNavigation/AppNavigationHeader/AppNavigationHeaderTodayButton.vue'
+import AppNavigationHeaderViewMenu from '@/components/AppNavigation/AppNavigationHeader/AppNavigationHeaderViewMenu.vue'
 import useSettingsStore from '@/store/settings.js'
 
 defineProps<{

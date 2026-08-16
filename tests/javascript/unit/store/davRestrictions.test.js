@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { createPinia, setActivePinia } from 'pinia'
-import useDavRestrictionsStore from '../../../../src/store/davRestrictions.js'
+import useDavRestrictionsStore from '@/store/davRestrictions.js'
 
 describe('store/davRestrictions test suite', () => {
 	beforeEach(() => {

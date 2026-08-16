@@ -54,8 +54,8 @@ import {
 } from '@nextcloud/vue'
 import { mapStores } from 'pinia'
 import CalendarQuestionIcon from 'vue-material-design-icons/CalendarQuestionOutline.vue'
-import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
-import logger from '../../utils/logger.js'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'InvitationResponseButtons',

@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { markRaw } from 'vue'
-import { getDateFromDateTimeValue } from '../utils/date.js'
-import { getWeekDayFromDate } from '../utils/recurrence.js'
+import { getDateFromDateTimeValue } from '@/utils/date.js'
+import { getWeekDayFromDate } from '@/utils/recurrence.js'
 
 /**
  * Creates a complete recurrence-rule-object based on given props

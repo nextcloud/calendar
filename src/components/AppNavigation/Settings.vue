@@ -169,30 +169,30 @@ import {
 } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import CogIcon from 'vue-material-design-icons/CogOutline.vue'
-import CalendarPicker from '../Shared/CalendarPicker.vue'
-import EventLegend from './Settings/EventLegend.vue'
-import SettingsAttachmentsFolder from './Settings/SettingsAttachmentsFolder.vue'
-import SettingsDelegationSection from './Settings/SettingsDelegationSection.vue'
-import SettingsImportSection from './Settings/SettingsImportSection.vue'
-import SettingsTimezoneSelect from './Settings/SettingsTimezoneSelect.vue'
-import ShortcutOverview from './Settings/ShortcutOverview.vue'
-import { getDefaultAlarms } from '../../defaults/defaultAlarmProvider.js'
-import alarmFormat from '../../filters/alarmFormat.js'
+import EventLegend from '@/components/AppNavigation/Settings/EventLegend.vue'
+import SettingsAttachmentsFolder from '@/components/AppNavigation/Settings/SettingsAttachmentsFolder.vue'
+import SettingsDelegationSection from '@/components/AppNavigation/Settings/SettingsDelegationSection.vue'
+import SettingsImportSection from '@/components/AppNavigation/Settings/SettingsImportSection.vue'
+import SettingsTimezoneSelect from '@/components/AppNavigation/Settings/SettingsTimezoneSelect.vue'
+import ShortcutOverview from '@/components/AppNavigation/Settings/ShortcutOverview.vue'
+import CalendarPicker from '@/components/Shared/CalendarPicker.vue'
+import { getDefaultAlarms } from '@/defaults/defaultAlarmProvider.js'
+import alarmFormat from '@/filters/alarmFormat.js'
 import {
 	IMPORT_STAGE_DEFAULT,
 	IMPORT_STAGE_IMPORTING,
 	IMPORT_STAGE_PROCESSING,
-} from '../../models/consts.js'
-import useCalendarsStore from '../../store/calendars.js'
-import useImportFilesStore from '../../store/importFiles.js'
-import usePrincipalsStore from '../../store/principals.js'
-import useSettingsStore from '../../store/settings.js'
+} from '@/models/consts.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useImportFilesStore from '@/store/importFiles.js'
+import usePrincipalsStore from '@/store/principals.js'
+import useSettingsStore from '@/store/settings.js'
 import {
 	getAmountAndUnitForTimedEvents,
 	getAmountHoursMinutesAndUnitForAllDayEvents,
-} from '../../utils/alarms.js'
-import logger from '../../utils/logger.js'
-import { isAfterVersion } from '../../utils/nextcloudVersion.ts'
+} from '@/utils/alarms.js'
+import logger from '@/utils/logger.js'
+import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
 
 export default {
 	name: 'Settings',

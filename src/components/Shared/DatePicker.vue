@@ -30,7 +30,7 @@ import {
 } from '@nextcloud/vue'
 import { getDateLocalePattern, getDateTimeLocalePattern, getTimeLocalePattern } from 'datetime-locale-patterns'
 import { mapStores } from 'pinia'
-import useDavRestrictionsStore from '../../store/davRestrictions.js'
+import useDavRestrictionsStore from '@/store/davRestrictions.js'
 
 const canonicalLocale = getCanonicalLocale()
 

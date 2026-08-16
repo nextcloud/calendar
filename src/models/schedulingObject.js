@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { getParserManager } from '@nextcloud/calendar-js'
-import { getDateFromDateTimeValue } from '../utils/date.js'
 import {
 	ITIP_MESSAGE_ADD,
 	ITIP_MESSAGE_CANCEL,
@@ -13,7 +12,8 @@ import {
 	ITIP_MESSAGE_REFRESH,
 	ITIP_MESSAGE_REPLY,
 	ITIP_MESSAGE_REQUEST,
-} from './consts.js'
+} from '@/models/consts.js'
+import { getDateFromDateTimeValue } from '@/utils/date.js'
 
 /**
  * Creates a complete scheduling-object-object based on given props

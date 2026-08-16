@@ -6,8 +6,8 @@ import { markRaw } from 'vue'
 import {
 	getAmountAndUnitForTimedEvents,
 	getAmountHoursMinutesAndUnitForAllDayEvents,
-} from '../utils/alarms.js'
-import { getDateFromDateTimeValue } from '../utils/date.js'
+} from '@/utils/alarms.js'
+import { getDateFromDateTimeValue } from '@/utils/date.js'
 
 /**
  * Creates a complete alarm object based on given props

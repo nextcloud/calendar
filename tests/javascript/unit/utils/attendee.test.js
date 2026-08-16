@@ -8,7 +8,7 @@ import {
 	isPendingResourceBooking,
 	organizerDisplayName,
 	removeMailtoPrefix,
-} from '../../../../src/utils/attendee.js'
+} from '@/utils/attendee.js'
 
 describe('utils/attendee test suite', () => {
 	it('should remove mailto prefixes from uris', () => {

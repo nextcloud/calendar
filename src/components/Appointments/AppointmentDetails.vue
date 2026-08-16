@@ -108,8 +108,8 @@ import IconCalendar from 'vue-material-design-icons/CalendarOutline.vue'
 import IconCheck from 'vue-material-design-icons/CheckOutline.vue'
 import IconTime from 'vue-material-design-icons/ClockTimeFourOutline.vue'
 import IconTimezone from 'vue-material-design-icons/Web.vue'
-import autosize from '../../directives/autosize.js'
-import { timeStampToLocaleDate, timeStampToLocaleTime } from '../../utils/localeTime.js'
+import autosize from '@/directives/autosize.js'
+import { timeStampToLocaleDate, timeStampToLocaleTime } from '@/utils/localeTime.js'
 
 export default {
 	name: 'AppointmentDetails',

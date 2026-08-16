@@ -5,19 +5,19 @@
 
 import { DateTimeValue, DurationValue } from '@nextcloud/calendar-js'
 import { expect } from 'vitest'
-import { mapAlarmComponentToAlarmObject } from '../../../../src/models/alarm.js'
-import { mapAttendeePropertyToAttendeeObject } from '../../../../src/models/attendee.js'
-import { copyCalendarObjectInstanceIntoEventComponent, getDefaultEventObject, mapEventComponentToEventObject } from '../../../../src/models/event.js'
-import { getDefaultRecurrenceRuleObject, mapRecurrenceRuleValueToRecurrenceRuleObject } from '../../../../src/models/recurrenceRule.js'
-import { getHexForColorName } from '../../../../src/utils/color.js'
-import { getDateFromDateTimeValue } from '../../../../src/utils/date.js'
 import { getEventComponentFromAsset } from '../loadAsset.js'
+import { mapAlarmComponentToAlarmObject } from '@/models/alarm.js'
+import { mapAttendeePropertyToAttendeeObject } from '@/models/attendee.js'
+import { copyCalendarObjectInstanceIntoEventComponent, getDefaultEventObject, mapEventComponentToEventObject } from '@/models/event.js'
+import { getDefaultRecurrenceRuleObject, mapRecurrenceRuleValueToRecurrenceRuleObject } from '@/models/recurrenceRule.js'
+import { getHexForColorName } from '@/utils/color.js'
+import { getDateFromDateTimeValue } from '@/utils/date.js'
 
-vi.mock('../../../../src/utils/date.js')
-vi.mock('../../../../src/utils/color.js')
-vi.mock('../../../../src/models/alarm.js')
-vi.mock('../../../../src/models/attendee.js')
-vi.mock('../../../../src/models/recurrenceRule.js')
+vi.mock('@/utils/date.js')
+vi.mock('@/utils/color.js')
+vi.mock('@/models/alarm.js')
+vi.mock('@/models/attendee.js')
+vi.mock('@/models/recurrenceRule.js')
 
 describe('Test suite: Event model (models/event.js)', () => {
 	beforeEach(() => {

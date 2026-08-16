@@ -10,9 +10,9 @@ import {
 	getYYYYMMDDFromDate,
 	getYYYYMMDDFromFirstdayParam,
 	modifyDate,
-} from '../../../../src/utils/date.js'
-import logger from '../../../../src/utils/logger.js'
-vi.mock('../../../../src/utils/logger.js')
+} from '@/utils/date.js'
+import logger from '@/utils/logger.js'
+vi.mock('@/utils/logger.js')
 
 describe('utils/alarms test suite', () => {
 	beforeEach(() => {

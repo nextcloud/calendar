@@ -6,7 +6,7 @@ import { loadState } from '@nextcloud/initial-state'
 import {
 	dateFactory,
 	getUnixTimestampFromDate,
-} from './date.js'
+} from '@/utils/date.js'
 
 /**
  * Gets the initial view

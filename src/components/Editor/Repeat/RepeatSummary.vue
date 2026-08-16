@@ -14,8 +14,8 @@
 
 <script>
 import { mapState } from 'pinia'
-import formatRecurrenceRule from '../../../filters/recurrenceRuleFormat.js'
-import useSettingsStore from '../../../store/settings.js'
+import formatRecurrenceRule from '@/filters/recurrenceRuleFormat.js'
+import useSettingsStore from '@/store/settings.js'
 
 export default {
 	name: 'RepeatSummary',

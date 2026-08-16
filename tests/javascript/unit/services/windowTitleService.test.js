@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { createPinia, setActivePinia } from 'pinia'
-import dateRangeFormat from '../../../../src/filters/dateRangeFormat.js'
-import windowTitleService from '../../../../src/services/windowTitleService.js'
-import useSettingsStore from '../../../../src/store/settings.js'
-import { getDateFromFirstdayParam } from '../../../../src/utils/date.js'
+import dateRangeFormat from '@/filters/dateRangeFormat.js'
+import windowTitleService from '@/services/windowTitleService.js'
+import useSettingsStore from '@/store/settings.js'
+import { getDateFromFirstdayParam } from '@/utils/date.js'
 
-vi.mock('../../../../src/filters/dateRangeFormat.js')
-vi.mock('../../../../src/utils/date.js')
+vi.mock('@/filters/dateRangeFormat.js')
+vi.mock('@/utils/date.js')
 
 describe('services/windowTitleService', () => {
 	beforeEach(() => {

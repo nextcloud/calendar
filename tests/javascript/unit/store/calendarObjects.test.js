@@ -4,7 +4,7 @@
  */
 import { createPinia, setActivePinia } from 'pinia'
 import { toRaw } from 'vue'
-import useCalendarObjectsStore from '../../../../src/store/calendarObjects.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
 
 describe('store/calendarObjects test suite', () => {
 	beforeEach(() => {

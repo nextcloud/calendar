@@ -8,8 +8,8 @@ import { showError, showSuccess } from '@nextcloud/dialogs'
 import { translate as t } from '@nextcloud/l10n'
 import { generateOcsUrl, generateRemoteUrl } from '@nextcloud/router'
 import { parseXML } from 'webdav'
-import { parseUploadError } from '../utils/propfindErrorParse.js'
 import logger from '@/utils/logger.js'
+import { parseUploadError } from '@/utils/propfindErrorParse.js'
 
 /**
  * Makes a share link for a given file or directory.

@@ -3,9 +3,9 @@ import { AttendeeProperty, DateTimeValue } from '@nextcloud/calendar-js'
  * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import getTimezoneManager from '../../services/timezoneDataProviderService.js'
-import { doFreeBusyRequest } from '../../utils/freebusy.js'
-import logger from '../../utils/logger.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import { doFreeBusyRequest } from '@/utils/freebusy.js'
+import logger from '@/utils/logger.js'
 
 /**
  * Returns an event source for free-busy

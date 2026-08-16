@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { translate, translatePlural } from '@nextcloud/l10n'
-import alarmFormat from '../../../../src/filters/alarmFormat.js'
+import alarmFormat from '@/filters/alarmFormat.js'
 
 vi.mock('@nextcloud/l10n')
 

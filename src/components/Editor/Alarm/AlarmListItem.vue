@@ -164,12 +164,12 @@ import { mapState, mapStores } from 'pinia'
 import Check from 'vue-material-design-icons/CheckOutline.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
-import DatePicker from '../../Shared/DatePicker.vue'
-import TimePicker from '../../Shared/TimePicker.vue'
-import AlarmTimeUnitSelect from './AlarmTimeUnitSelect.vue'
-import formatAlarm from '../../../filters/alarmFormat.js'
-import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
-import useSettingsStore from '../../../store/settings.js'
+import AlarmTimeUnitSelect from '@/components/Editor/Alarm/AlarmTimeUnitSelect.vue'
+import DatePicker from '@/components/Shared/DatePicker.vue'
+import TimePicker from '@/components/Shared/TimePicker.vue'
+import formatAlarm from '@/filters/alarmFormat.js'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import useSettingsStore from '@/store/settings.js'
 
 export default {
 	name: 'AlarmListItem',

@@ -2,7 +2,7 @@
  * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import getDefaultAlarms from '../../../../src/defaults/defaultAlarmProvider.js'
+import getDefaultAlarms from '@/defaults/defaultAlarmProvider.js'
 
 describe('defaults/defaultAlarmProvider test suite', () => {
 	it('should provide default alarms for timed events', () => {

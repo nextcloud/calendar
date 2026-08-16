@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { getDayNames, getMonthNames, translate, translatePlural } from '@nextcloud/l10n'
-import recurrenceRuleFormat from '../../../../src/filters/recurrenceRuleFormat.js'
+import recurrenceRuleFormat from '@/filters/recurrenceRuleFormat.js'
 
 vi.mock('@nextcloud/l10n')
 

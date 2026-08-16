@@ -46,9 +46,9 @@
 <script>
 import { Linkify } from '@nextcloud/vue'
 import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
-import autosize from '../../../directives/autosize.js'
-import PropertyLinksMixin from '../../../mixins/PropertyLinksMixin.js'
-import PropertyMixin from '../../../mixins/PropertyMixin.js'
+import autosize from '@/directives/autosize.js'
+import PropertyLinksMixin from '@/mixins/PropertyLinksMixin.js'
+import PropertyMixin from '@/mixins/PropertyMixin.js'
 
 export default {
 	name: 'PropertyText',

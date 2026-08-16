@@ -98,11 +98,11 @@ import Upload from 'vue-material-design-icons/UploadOutline.vue'
 import {
 	getFileInfo,
 	uploadLocalAttachment,
-} from '../../../services/attachmentService.js'
-import useCalendarObjectInstanceStore from '../../../store/calendarObjectInstance.js'
-import usePrincipalsStore from '../../../store/principals.js'
-import useSettingsStore from '../../../store/settings.js'
-import logger from '../../../utils/logger.js'
+} from '@/services/attachmentService.js'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import usePrincipalsStore from '@/store/principals.js'
+import useSettingsStore from '@/store/settings.js'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'AttachmentsList',

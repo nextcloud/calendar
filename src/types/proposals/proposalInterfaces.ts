@@ -8,7 +8,7 @@ import type {
 	ProposalParticipantAttendance,
 	ProposalParticipantRealm,
 	ProposalParticipantStatus,
-} from './proposalEnums.ts'
+} from '@/types/proposals/proposalEnums.ts'
 
 export interface ProposalParticipantInterface {
 	id: number | null

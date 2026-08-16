@@ -46,10 +46,10 @@ import { mapStores } from 'pinia'
 import AccountGroupIcon from 'vue-material-design-icons/AccountGroupOutline.vue'
 import AccountMultiple from 'vue-material-design-icons/AccountMultipleOutline.vue'
 import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
-import useCalendarsStore from '../../../store/calendars.js'
-import usePrincipalsStore from '../../../store/principals.js'
-import { randomId } from '../../../utils/randomId.js'
+import useCalendarsStore from '@/store/calendars.js'
+import usePrincipalsStore from '@/store/principals.js'
 import logger from '@/utils/logger.js'
+import { randomId } from '@/utils/randomId.js'
 
 export default {
 	name: 'ShareItem',

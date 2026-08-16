@@ -130,20 +130,20 @@ import CheckIcon from 'vue-material-design-icons/Check.vue'
 import CloseIcon from 'vue-material-design-icons/Close.vue'
 import DeleteIcon from 'vue-material-design-icons/TrashCanOutline.vue'
 import DownloadIcon from 'vue-material-design-icons/TrayArrowDown.vue'
-import InternalLink from './EditCalendarModal/InternalLink.vue'
-import PublishCalendar from './EditCalendarModal/PublishCalendar.vue'
-import ShareItem from './EditCalendarModal/ShareItem.vue'
-import SharingSearch from './EditCalendarModal/SharingSearch.vue'
-import { getDefaultAlarms } from '../../defaults/defaultAlarmProvider.js'
-import alarmFormat from '../../filters/alarmFormat.js'
-import useCalendarsStore from '../../store/calendars.js'
-import useSettingsStore from '../../store/settings.js'
+import InternalLink from '@/components/AppNavigation/EditCalendarModal/InternalLink.vue'
+import PublishCalendar from '@/components/AppNavigation/EditCalendarModal/PublishCalendar.vue'
+import ShareItem from '@/components/AppNavigation/EditCalendarModal/ShareItem.vue'
+import SharingSearch from '@/components/AppNavigation/EditCalendarModal/SharingSearch.vue'
+import { getDefaultAlarms } from '@/defaults/defaultAlarmProvider.js'
+import alarmFormat from '@/filters/alarmFormat.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useSettingsStore from '@/store/settings.js'
 import {
 	getAmountAndUnitForTimedEvents,
 	getAmountHoursMinutesAndUnitForAllDayEvents,
-} from '../../utils/alarms.js'
-import logger from '../../utils/logger.js'
-import { isAfterVersion } from '../../utils/nextcloudVersion.ts'
+} from '@/utils/alarms.js'
+import logger from '@/utils/logger.js'
+import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
 
 export default {
 	name: 'EditCalendarModal',

@@ -38,8 +38,8 @@ import IconAccepted from 'vue-material-design-icons/CheckCircleOutline.vue'
 import IconDeclined from 'vue-material-design-icons/CloseCircleOutline.vue'
 import IconTentative from 'vue-material-design-icons/HelpCircleOutline.vue'
 import IconNoResponse from 'vue-material-design-icons/MinusCircleOutline.vue'
-import useCalendarObjectInstanceStore from '../../store/calendarObjectInstance.js'
 import { adjustAttendeeTime } from '@/services/attendeeDetails'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
 
 export default {
 	name: 'AvatarParticipationStatus',

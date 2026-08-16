@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { translate } from '@nextcloud/l10n'
-import defaultCategories from '../../../../src/defaults/defaultCategories.js'
+import defaultCategories from '@/defaults/defaultCategories.js'
 
 vi.mock('@nextcloud/l10n')
 

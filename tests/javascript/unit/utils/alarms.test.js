@@ -10,7 +10,7 @@ import {
 	getTotalSecondsFromAmountAndUnitForTimedEvents,
 	getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents,
 	updateAlarms,
-} from '../../../../src/utils/alarms.js'
+} from '@/utils/alarms.js'
 
 /**
  * Parse an ICS string and return the first event component.

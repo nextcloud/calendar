@@ -4,9 +4,9 @@
  */
 
 import { DateTimeValue } from '@nextcloud/calendar-js'
-import getTimezoneManager from '../services/timezoneDataProviderService.js'
-import useSettingsStore from '../store/settings.js'
-import logger from './logger.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import useSettingsStore from '@/store/settings.js'
+import logger from '@/utils/logger.js'
 
 /**
  * returns a new Date object

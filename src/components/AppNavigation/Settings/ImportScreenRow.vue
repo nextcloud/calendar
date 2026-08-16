@@ -25,11 +25,11 @@
 <script>
 import { getLanguage } from '@nextcloud/l10n'
 import { mapStores } from 'pinia'
-import CalendarPicker from '../../Shared/CalendarPicker.vue'
-import useCalendarsStore from '../../../store/calendars.js'
-import useImportFilesStore from '../../../store/importFiles.js'
-import usePrincipalsStore from '../../../store/principals.js'
-import { uidToHexColor } from '../../../utils/color.js'
+import CalendarPicker from '@/components/Shared/CalendarPicker.vue'
+import useCalendarsStore from '@/store/calendars.js'
+import useImportFilesStore from '@/store/importFiles.js'
+import usePrincipalsStore from '@/store/principals.js'
+import { uidToHexColor } from '@/utils/color.js'
 
 export default {
 	name: 'ImportScreenRow',

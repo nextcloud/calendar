@@ -116,10 +116,10 @@ import {
 } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
 import IconDelete from 'vue-material-design-icons/TrashCanOutline.vue'
-import useCalendarsStore from '../../../store/calendars.js'
-import useSettingsStore from '../../../store/settings.js'
-import { uidToHexColor } from '../../../utils/color.js'
-import logger from '../../../utils/logger.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useSettingsStore from '@/store/settings.js'
+import { uidToHexColor } from '@/utils/color.js'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'Trashbin',

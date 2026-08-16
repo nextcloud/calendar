@@ -4,7 +4,7 @@ import { createPlugin } from '@fullcalendar/core'
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import moment from '@nextcloud/moment'
-import useSettingsStore from '../../store/settings.js'
+import useSettingsStore from '@/store/settings.js'
 
 /**
  * Creates a new moment object using the locale from the global Pinia store

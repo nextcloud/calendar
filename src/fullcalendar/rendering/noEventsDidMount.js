@@ -6,7 +6,7 @@ import { translate as t } from '@nextcloud/l10n'
 import { NcEmptyContent as EmptyContent } from '@nextcloud/vue'
 import { createApp, h } from 'vue'
 import CalendarIcon from 'vue-material-design-icons/CalendarBlank.vue'
-import { errorCatch } from '../utils/errors.js'
+import { errorCatch } from '@/fullcalendar/utils/errors.js'
 
 /**
  * Adds our standardized emptyContent component if list view is empty

@@ -15,14 +15,14 @@
 
 <script>
 import { mapState, mapStores } from 'pinia'
-import PropertySelect from '../Properties/PropertySelect.vue'
-import { getDefaultAlarms } from '../../../defaults/defaultAlarmProvider.js'
-import alarmFormat from '../../../filters/alarmFormat.js'
-import useSettingsStore from '../../../store/settings.js'
+import PropertySelect from '@/components/Editor/Properties/PropertySelect.vue'
+import { getDefaultAlarms } from '@/defaults/defaultAlarmProvider.js'
+import alarmFormat from '@/filters/alarmFormat.js'
+import useSettingsStore from '@/store/settings.js'
 import {
 	getAmountAndUnitForTimedEvents,
 	getAmountHoursMinutesAndUnitForAllDayEvents,
-} from '../../../utils/alarms.js'
+} from '@/utils/alarms.js'
 
 export default {
 	name: 'AlarmListNew',

@@ -4,8 +4,8 @@
  */
 import convert from 'color-convert'
 import css3Colors from 'css-color-names'
-import closestColor from './closestColor.js'
-import { uidToColor } from './uidToColor.js'
+import closestColor from '@/utils/closestColor.js'
+import { uidToColor } from '@/utils/uidToColor.js'
 
 /**
  * Detect if a color is light or dark
