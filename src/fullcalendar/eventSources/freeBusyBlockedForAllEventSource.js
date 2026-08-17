@@ -31,7 +31,7 @@ export default function(organizer, attendees, resources) {
 				timeZone,
 			},
 			successCallback,
-			// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+			// eslint-disable-next-line no-unused-vars
 			failureCallback,
 		) => {
 			logger.debug('freeBusyBlockedForAllEventSource', { start, end, timeZone })
