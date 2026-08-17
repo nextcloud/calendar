@@ -11,7 +11,6 @@ import { markRaw } from 'vue'
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { mapCalendarJsToCalendarObject } from '@/models/calendarObject.js'
-import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
 import useCalendarsStore from '@/store/calendars.js'
 import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
 import logger from '@/utils/logger.js'
@@ -244,59 +243,6 @@ export default defineStore('calendarObjects', {
 				calendarObject.calendarComponent = markRaw(calendarObject.calendarComponent)
 			}
 			return Promise.resolve(calendarObject)
-		},
-
-		/**
-		 * Updates the time of the new calendar object
-		 *
-		 * @param {object} data destructuring object
-		 * @param {CalendarObject} data.calendarObjectInstance Calendar-object to
-		 * @param {number} data.start Timestamp for start of new event
-		 * @param {number} data.end Timestamp for end of new event
-		 * @param {string} data.timezoneId asd
-		 * @param {boolean} data.isAllDay foo
-		 */
-		updateTimeOfNewEvent({ calendarObjectInstance, start, end, timezoneId, isAllDay }) {
-			const calendarObjectInstanceStore = useCalendarObjectInstanceStore()
-			const isDirty = calendarObjectInstanceStore.calendarObjectInstance.eventComponent.isDirty()
-			const startDate = new Date(start * 1000)
-			const endDate = new Date(end * 1000)
-
-			if (calendarObjectInstance.isAllDay !== isAllDay) {
-				calendarObjectInstanceStore.toggleAllDayMutation({ calendarObjectInstance })
-			}
-
-			calendarObjectInstanceStore.changeStartTimezone({
-				calendarObjectInstance,
-				startTimezone: timezoneId,
-			})
-			calendarObjectInstanceStore.changeEndTimezone({
-				calendarObjectInstance,
-				endTimezone: timezoneId,
-			})
-
-			calendarObjectInstanceStore.changeStartDateMutation({
-				calendarObjectInstance,
-				startDate,
-			})
-
-			if (isAllDay) {
-				// The full-calendar end date is exclusive, but the end-date
-				// that changeEndDate expects is inclusive, so we have to deduct one day.
-				calendarObjectInstanceStore.changeEndDateMutation({
-					calendarObjectInstance,
-					endDate: new Date(endDate.getTime() - 24 * 60 * 60 * 1000),
-				})
-			} else {
-				calendarObjectInstanceStore.changeEndDateMutation({
-					calendarObjectInstance,
-					endDate,
-				})
-			}
-
-			if (!isDirty) {
-				calendarObjectInstance.eventComponent.undirtify()
-			}
 		},
 
 		/**

@@ -1027,7 +1027,7 @@ export default {
 			const timezoneId = this.settingsStore.getResolvedTimezone
 
 			await this.loadingCalendars()
-			await this.calendarObjectInstanceStore.updateCalendarObjectInstanceForNewEvent({ isAllDay, start, end, timezoneId })
+			this.calendarObjectInstanceStore.updateCalendarObjectInstanceForNewEvent({ isAllDay, start, end, timezoneId })
 			next()
 		} else {
 			// If both the objectId and recurrenceId remained the same
