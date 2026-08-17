@@ -132,11 +132,6 @@ export default {
 			required: true,
 		},
 
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
-
 		showHeader: {
 			type: Boolean,
 			required: true,
@@ -170,6 +165,7 @@ export default {
 
 	computed: {
 		...mapStores(usePrincipalsStore, useCalendarsStore, useCalendarObjectInstanceStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
 		...mapState(useSettingsStore, ['talkEnabled']),
 		noInviteesMessage() {
 			return this.$t('calendar', 'No attendees yet')

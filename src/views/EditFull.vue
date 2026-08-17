@@ -130,8 +130,6 @@
 							<!-- TODO: If not editing the master item, force updating this and all future   -->
 							<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
 							<Repeat
-								:calendarObjectInstance="calendarObjectInstance"
-								:recurrenceRule="calendarObjectInstance.recurrenceRule"
 								:isReadOnly="isReadOnly || isViewedByOrganizer === false"
 								:isEditingMasterItem="isEditingMasterItem"
 								:isRecurrenceException="isRecurrenceException"
@@ -190,12 +188,10 @@
 							@update:value="updateDescription" />
 
 						<AlarmList
-							:calendarObjectInstance="calendarObjectInstance"
 							:isReadOnly="isReadOnly" />
 
 						<AttachmentsList
 							v-if="!isLoading"
-							:calendarObjectInstance="calendarObjectInstance"
 							:isReadOnly="isReadOnly" />
 					</div>
 
@@ -206,7 +202,6 @@
 							<IconVideo :size="20" class="property-text__icon property-add-talk__icon" />
 							<AddTalkModal
 								v-if="isTalkModalOpen"
-								:calendarObjectInstance="calendarObjectInstance"
 								:delegatorUserId="delegatorUserId"
 								@close="isTalkModalOpen = false"
 								@updateLocation="updateLocation"
@@ -316,7 +311,6 @@
 						<InviteesList
 							v-if="!isLoading"
 							:calendar="selectedCalendar"
-							:calendarObjectInstance="calendarObjectInstance"
 							:isReadOnly="isReadOnly || isViewedByOrganizer === false"
 							:isSharedWithMe="isSharedWithMe"
 							:showHeader="true"
@@ -326,7 +320,6 @@
 					<div class="app-full-footer__right">
 						<ResourceList
 							v-if="!isLoading"
-							:calendarObjectInstance="calendarObjectInstance"
 							:isReadOnly="isReadOnly || isViewedByOrganizer === false" />
 					</div>
 				</div>

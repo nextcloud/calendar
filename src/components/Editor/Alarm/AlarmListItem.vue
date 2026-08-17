@@ -193,11 +193,6 @@ export default {
 			required: true,
 		},
 
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
-
 		isReadOnly: {
 			type: Boolean,
 			required: true,
@@ -215,6 +210,7 @@ export default {
 
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore, useSettingsStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
 		...mapState(useSettingsStore, {
 			locale: 'momentLocale',
 			forceEventAlarmType: 'forceEventAlarmType',

@@ -88,7 +88,7 @@ import {
 	NcDialog,
 	NcListItem,
 } from '@nextcloud/vue'
-import { mapStores } from 'pinia'
+import { mapState, mapStores } from 'pinia'
 import { parseXML } from 'webdav'
 import Close from 'vue-material-design-icons/Close.vue'
 import Folder from 'vue-material-design-icons/FolderOutline.vue'
@@ -119,11 +119,6 @@ export default {
 	},
 
 	props: {
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
-
 		isReadOnly: {
 			type: Boolean,
 			default: true,
@@ -141,6 +136,7 @@ export default {
 
 	computed: {
 		...mapStores(usePrincipalsStore, useSettingsStore, useCalendarObjectInstanceStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
 		currentUser() {
 			return this.principalsStore.getCurrentUserPrincipal
 		},

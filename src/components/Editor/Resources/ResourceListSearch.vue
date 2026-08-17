@@ -72,11 +72,12 @@ import {
 	NcSelect,
 } from '@nextcloud/vue'
 import debounce from 'debounce'
-import { mapStores } from 'pinia'
+import { mapState, mapStores } from 'pinia'
 import ResourceRoomType from '@/components/Editor/Resources/ResourceRoomType.vue'
 import ResourceSeatingCapacity from '@/components/Editor/Resources/ResourceSeatingCapacity.vue'
 import { advancedPrincipalPropertySearch } from '@/services/caldavService.js'
 import { checkResourceAvailability } from '@/services/freeBusyService.js'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
 import usePrincipalsStore from '@/store/principals.js'
 import logger from '@/utils/logger.js'
 export default {
@@ -93,11 +94,6 @@ export default {
 	props: {
 		alreadyInvitedEmails: {
 			type: Array,
-			required: true,
-		},
-
-		calendarObjectInstance: {
-			type: Object,
 			required: true,
 		},
 	},
@@ -125,6 +121,7 @@ export default {
 
 	computed: {
 		...mapStores(usePrincipalsStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
 		placeholder() {
 			return this.$t('calendar', 'Search for resources or rooms')
 		},
@@ -162,6 +159,10 @@ export default {
 	methods: {
 
 		findResources: debounce(async function(query) {
+			if (!this.calendarObjectInstance) {
+				// Do not continue if event editor was closed in the meantime.
+				return
+			}
 			this.isLoading = true
 			let matches = []
 
@@ -192,6 +193,10 @@ export default {
 			} catch (error) {
 				logger.debug('Could not find resources', { error })
 				return []
+			}
+			if (!this.calendarObjectInstance) {
+				// Do not continue if event editor was closed in the meantime.
+				return
 			}
 
 			// Build options

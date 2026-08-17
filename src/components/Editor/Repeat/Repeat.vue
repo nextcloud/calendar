@@ -70,7 +70,6 @@
 					@changeToByMonthDay="changeToByDayYearly" />
 				<RepeatEndRepeat
 					v-if="isRepeating && !isRecurrenceException && !isReadOnly"
-					:calendarObjectInstance="calendarObjectInstance"
 					:until="recurrenceRule.until"
 					:count="recurrenceRule.count"
 					@setInfinite="setInfinite"
@@ -94,7 +93,7 @@
 
 <script>
 import { NcActionButton as ActionButton, NcActions as Actions, NcButton, NcModal } from '@nextcloud/vue'
-import { mapStores } from 'pinia'
+import { mapState, mapStores } from 'pinia'
 import Check from 'vue-material-design-icons/Check.vue'
 import Pencil from 'vue-material-design-icons/PencilOutline.vue'
 import RepeatIcon from 'vue-material-design-icons/Repeat.vue'
@@ -129,22 +128,6 @@ export default {
 	},
 
 	props: {
-		/**
-		 * The calendar-object instance
-		 */
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
-
-		/**
-		 * The recurrence-rule to display
-		 */
-		recurrenceRule: {
-			type: Object,
-			required: true,
-		},
-
 		/**
 		 * Whether or not the event is read-only
 		 */
@@ -183,6 +166,11 @@ export default {
 
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
+		recurrenceRule() {
+			return this.calendarObjectInstance.recurrenceRule
+		},
+
 		/**
 		 * Whether or not this event is recurring
 		 *

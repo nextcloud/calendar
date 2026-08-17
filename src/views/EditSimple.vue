@@ -187,7 +187,6 @@
 						</div>
 						<AddTalkModal
 							v-if="isTalkModalOpen"
-							:calendarObjectInstance="calendarObjectInstance"
 							:delegatorUserId="delegatorUserId"
 							@close="isTalkModalOpen = false"
 							@updateLocation="updateLocation"
@@ -209,8 +208,7 @@
 							:showHeader="true"
 							:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
 							:isSharedWithMe="isSharedWithMe"
-							:calendar="selectedCalendar"
-							:calendarObjectInstance="calendarObjectInstance" />
+							:calendar="selectedCalendar" />
 
 						<InvitationResponseButtons
 							v-if="isViewedByAttendee && isViewing"
@@ -222,7 +220,6 @@
 						<div v-if="isReadOnlyOrViewing && hasAlarms" class="property-alarm-wrapper">
 							<Bell :size="20" class="property-alarm-icon" />
 							<AlarmList
-								:calendarObjectInstance="calendarObjectInstance"
 								:isReadOnly="isReadOnlyOrViewing" />
 						</div>
 					</div>
