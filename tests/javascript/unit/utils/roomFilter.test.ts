@@ -9,7 +9,6 @@ import type { RoomFilterState, RoomOption } from '@/utils/roomFilter'
 import {
 	buildBuildingOptions,
 	buildFeatureOptions,
-	buildRoomLocation,
 	buildStoryOptions,
 	compareRoomsByBookingState,
 	deriveBuildingName,
@@ -79,54 +78,6 @@ describe('Test suite: Room filter (utils/roomFilter.ts)', () => {
 			[null, null],
 		])('should derive %s', ([address, expected]) => {
 			expect(deriveBuildingName(room({ roomBuildingAddress: address }))).toBe(expected)
-		})
-	})
-
-	describe('buildRoomLocation', () => {
-		it('should keep the address as published and append the room number', () => {
-			const location = buildRoomLocation(room({
-				roomBuildingAddress: 'Poppodium, Kerkstraat 10, 1098 XG, Amsterdam',
-				roomBuildingRoomNumber: '2.17',
-			}))
-
-			expect(location).toBe('Poppodium, Kerkstraat 10, 1098 XG Amsterdam (Room 2.17)')
-		})
-
-		it('should join a postal code with the city that follows it', () => {
-			const location = buildRoomLocation(room({
-				roomBuildingAddress: 'Poppodium, Kerkstraat 10, 1098 XG, Amsterdam',
-			}))
-
-			expect(location).toBe('Poppodium, Kerkstraat 10, 1098 XG Amsterdam')
-		})
-
-		it('should handle an address that is only a postal code and a city', () => {
-			const location = buildRoomLocation(room({
-				roomBuildingAddress: '1098 XG, Amsterdam',
-				roomBuildingRoomNumber: '0.01',
-			}))
-
-			expect(location).toBe('1098 XG Amsterdam (Room 0.01)')
-		})
-
-		it('should fall back to the room number without an address', () => {
-			const location = buildRoomLocation(room({ roomBuildingRoomNumber: '2.17' }))
-
-			expect(location).toBe('Room 2.17')
-		})
-
-		it('should handle an address of a single segment', () => {
-			const location = buildRoomLocation(room({ roomBuildingAddress: 'Kerkstraat 10' }))
-
-			expect(location).toBe('Kerkstraat 10')
-		})
-
-		it('should return null without any address data', () => {
-			expect(buildRoomLocation(room())).toBeNull()
-		})
-
-		it('should treat a blank address as absent', () => {
-			expect(buildRoomLocation(room({ roomBuildingAddress: '   ' }))).toBeNull()
 		})
 	})
 

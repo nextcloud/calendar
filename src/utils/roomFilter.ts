@@ -119,64 +119,6 @@ export function deriveBuildingName(room: RoomOption): string | null {
 }
 
 /**
- * Join address segments, merging a postal code with the city that follows it
- *
- * @param segments Address segments
- * @return Human readable address, or an empty string if there are no segments
- */
-function joinAddressSegments(segments: string[]): string {
-	const parts: string[] = []
-
-	for (let index = 0; index < segments.length; index++) {
-		const segment = segments[index]
-		const next = segments[index + 1]
-		// A postal code belongs with its city: "1098 XG, Amsterdam" reads as
-		// "1098 XG Amsterdam" on an envelope, and in a map application.
-		if (next !== undefined && isPostalCode(segment)) {
-			parts.push(`${segment} ${next}`)
-			index++
-			continue
-		}
-
-		parts.push(segment)
-	}
-
-	return parts.join(', ')
-}
-
-/**
- * Build a location string for the event LOCATION property
- *
- * @remarks
- * Deliberately not the `roomAddress` of the dav principal: that one joins
- * room number, story and address in that order, which reads as "2.17, 2,
- * Kerkstraat 10" and is of little use to a map or navigation application.
- * The address is kept in the order the backend published it, with the room
- * number appended, so nothing has to be guessed about what each part means.
- *
- * @param room Room to build a location for
- * @return Location string, or null if the room carries no usable address data
- */
-export function buildRoomLocation(room: RoomOption): string | null {
-	const roomNumber = normalizeText(room.principal.roomBuildingRoomNumber)
-	const roomLabel = roomNumber === null
-		? null
-		: t('calendar', 'Room {roomNumber}', { roomNumber })
-	const address = normalizeText(room.principal.roomBuildingAddress)
-
-	if (address === null) {
-		return roomLabel
-	}
-
-	const street = joinAddressSegments(splitAddress(address))
-	if (street === '') {
-		return roomLabel
-	}
-
-	return roomLabel === null ? street : `${street} (${roomLabel})`
-}
-
-/**
  * Build the options of the building filter
  *
  * @param rooms Rooms to collect buildings from

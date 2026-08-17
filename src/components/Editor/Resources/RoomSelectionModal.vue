@@ -23,7 +23,6 @@ import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
 import usePrincipalsStore from '@/store/principals.js'
 import { getRoomAttendees, removeMailtoPrefix } from '@/utils/attendee.js'
 import logger from '@/utils/logger.js'
-import { buildRoomLocation } from '@/utils/roomFilter'
 
 const props = defineProps<{
 	calendarObjectInstance: {
@@ -226,18 +225,18 @@ function applySelection(): void {
  * @param room Room that was picked
  */
 function updateLocation(room: RoomOption): void {
-	if (props.calendarObjectInstance.location || props.calendarObjectInstance.eventComponent.location) {
+	if (props.calendarObjectInstance.location) {
 		return
 	}
 
-	const location = buildRoomLocation(room)
-	if (location === null) {
+	const roomAddress = room.principal.roomAddress
+	if (roomAddress === null || roomAddress.trim().length === 0) {
 		return
 	}
 
 	calendarObjectInstanceStore.changeLocation({
 		calendarObjectInstance: props.calendarObjectInstance,
-		location,
+		location: roomAddress,
 	})
 }
 
