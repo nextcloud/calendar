@@ -42,10 +42,10 @@ import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '@/utils/re
 export default defineStore('calendarObjectInstance', {
 	state: () => {
 		return {
-			isNew: null,
+			_isNew: null,
 			calendarObject: null,
 			calendarObjectInstance: null,
-			existingEvent: {
+			_existingEvent: {
 				objectId: null,
 				recurrenceId: null,
 			},
@@ -68,11 +68,11 @@ export default defineStore('calendarObjectInstance', {
 			objectId,
 			recurrenceId,
 		}) {
-			this.isNew = false
+			this._isNew = false
 			this.calendarObject = calendarObject
 			this.calendarObjectInstance = calendarObjectInstance
-			this.existingEvent.objectId = objectId
-			this.existingEvent.recurrenceId = recurrenceId
+			this._existingEvent.objectId = objectId
+			this._existingEvent.recurrenceId = recurrenceId
 
 			if (this.calendarObjectInstance.eventComponent) {
 				this.calendarObjectInstance.eventComponent = markRaw(this.calendarObjectInstance.eventComponent)
@@ -90,11 +90,11 @@ export default defineStore('calendarObjectInstance', {
 			calendarObject,
 			calendarObjectInstance,
 		}) {
-			this.isNew = true
+			this._isNew = true
 			this.calendarObject = calendarObject
 			this.calendarObjectInstance = calendarObjectInstance
-			this.existingEvent.objectId = null
-			this.existingEvent.recurrenceId = null
+			this._existingEvent.objectId = null
+			this._existingEvent.recurrenceId = null
 
 			if (this.calendarObjectInstance.eventComponent) {
 				this.calendarObjectInstance.eventComponent = markRaw(this.calendarObjectInstance.eventComponent)
@@ -102,11 +102,11 @@ export default defineStore('calendarObjectInstance', {
 		},
 
 		resetCalendarObjectInstanceObjectIdAndRecurrenceId() {
-			this.isNew = false
+			this._isNew = false
 			this.calendarObject = null
 			this.calendarObjectInstance = null
-			this.existingEvent.objectId = null
-			this.existingEvent.recurrenceId = null
+			this._existingEvent.objectId = null
+			this._existingEvent.recurrenceId = null
 		},
 
 		/**
@@ -1358,7 +1358,7 @@ export default defineStore('calendarObjectInstance', {
 			recurrenceId,
 		}) {
 			const calendarsStore = useCalendarsStore()
-			if (this.existingEvent.objectId === objectId && this.existingEvent.recurrenceId === recurrenceId) {
+			if (this._existingEvent.objectId === objectId && this._existingEvent.recurrenceId === recurrenceId) {
 				return Promise.resolve({
 					calendarObject: this.calendarObject,
 					calendarObjectInstance: this.calendarObjectInstance,
@@ -1404,7 +1404,7 @@ export default defineStore('calendarObjectInstance', {
 		}) {
 			const calendarObjectsStore = useCalendarObjectsStore()
 
-			if (this.isNew === true) {
+			if (this._isNew === true) {
 				return Promise.resolve({
 					calendarObject: this.calendarObject,
 					calendarObjectInstance: this.calendarObjectInstance,
