@@ -49,7 +49,6 @@ export default defineStore('calendarObjectInstance', {
 				objectId: null,
 				recurrenceId: null,
 			},
-			emptyCalendarObjectInstance: null,
 		}
 	},
 	actions: {
@@ -1445,8 +1444,6 @@ export default defineStore('calendarObjectInstance', {
 			})
 
 			calendarObjectInstance.eventComponent.undirtify()
-
-			this.emptyCalendarObjectInstance = { ...calendarObjectInstance }
 
 			return {
 				calendarObject,
