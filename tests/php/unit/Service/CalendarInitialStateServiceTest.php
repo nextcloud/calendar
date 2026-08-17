@@ -10,15 +10,15 @@ namespace OCA\Calendar\Service;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use OC\App\CompareVersion;
+use OC\Calendar\Resource\Manager as ResourceManager;
+use OC\Calendar\Room\Manager as RoomManager;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCA\NotifyPush\Queue\IQueue;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\Calendar\Resource\IBackend as IResourceBackend;
-use OCP\Calendar\Resource\IManager as IResourceManager;
 use OCP\Calendar\Room\IBackend as IRoomBackend;
-use OCP\Calendar\Room\IManager as IRoomManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -53,8 +53,8 @@ class CalendarInitialStateServiceTest extends TestCase {
 	private $compareVersion;
 
 	private IAppConfig&MockObject $appConfig;
-	private IResourceManager&MockObject $resourceManager;
-	private IRoomManager&MockObject $roomManager;
+	private ResourceManager&MockObject $resourceManager;
+	private RoomManager&MockObject $roomManager;
 
 	/** @var (IQueue&MockObject)|null */
 	private $queue = null;
@@ -71,8 +71,8 @@ class CalendarInitialStateServiceTest extends TestCase {
 		$this->initialStateService = $this->createMock(IInitialState::class);
 		$this->compareVersion = $this->createMock(CompareVersion::class);
 		$this->userId = 'user123';
-		$this->resourceManager = $this->createMock(IResourceManager::class);
-		$this->roomManager = $this->createMock(IRoomManager::class);
+		$this->resourceManager = $this->createMock(ResourceManager::class);
+		$this->roomManager = $this->createMock(RoomManager::class);
 
 		if (interface_exists(IQueue::class)) {
 			$this->queue = $this->createMock(IQueue::class);

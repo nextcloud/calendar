@@ -9,12 +9,12 @@ declare(strict_types=1);
 namespace OCA\Calendar\Service;
 
 use OC\App\CompareVersion;
+use OC\Calendar\Resource\Manager as ResourceManager;
+use OC\Calendar\Room\Manager as RoomManager;
 use OCA\Calendar\Service\Appointments\AppointmentConfigService;
 use OCA\NotifyPush\Queue\IQueue;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IInitialState;
-use OCP\Calendar\Resource\IManager as IResourceManager;
-use OCP\Calendar\Room\IManager as IRoomManager;
 use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -32,8 +32,8 @@ class CalendarInitialStateService {
 		private AppointmentConfigService $appointmentConfigService,
 		private CompareVersion $compareVersion,
 		private ?string $userId,
-		private IResourceManager $resourceManager,
-		private IRoomManager $roomManager,
+		private ResourceManager $resourceManager,
+		private RoomManager $roomManager,
 		private ?IQueue $queue,
 		private IGroupManager $groupManager,
 		private IUserManager $userManager,
