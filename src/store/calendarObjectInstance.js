@@ -35,17 +35,13 @@ import {
 import logger from '@/utils/logger.js'
 import { getBySetPositionAndBySetFromDate, getWeekDayFromDate } from '@/utils/recurrence.js'
 
-// XXX "_" is used for marking actions and state.
-// A better way would be to use helper functions not exposed in `actions`.
-// "_" is still used because it maked refactoring easier to do and to understand.
-
 export default defineStore('calendarObjectInstance', {
 	state: () => {
 		return {
-			_isNew: null,
+			isNew: null,
 			calendarObject: null,
 			calendarObjectInstance: null,
-			_existingEvent: {
+			existingEvent: {
 				objectId: null,
 				recurrenceId: null,
 			},
@@ -61,17 +57,17 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {string} data.objectId The objectId of the calendar-object
 		 * @param {number} data.recurrenceId The recurrence-id of the calendar-object-instance
 		 */
-		_setCalendarObjectInstanceForExistingEvent({
+		setCalendarObjectInstanceForExistingEvent({
 			calendarObject,
 			calendarObjectInstance,
 			objectId,
 			recurrenceId,
 		}) {
-			this._isNew = false
+			this.isNew = false
 			this.calendarObject = calendarObject
 			this.calendarObjectInstance = calendarObjectInstance
-			this._existingEvent.objectId = objectId
-			this._existingEvent.recurrenceId = recurrenceId
+			this.existingEvent.objectId = objectId
+			this.existingEvent.recurrenceId = recurrenceId
 
 			if (this.calendarObjectInstance.eventComponent) {
 				this.calendarObjectInstance.eventComponent = markRaw(this.calendarObjectInstance.eventComponent)
@@ -85,15 +81,15 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data.calendarObject The calendar-object currently being created
 		 * @param {object} data.calendarObjectInstance The calendar-object-instance currently being crated
 		 */
-		_setCalendarObjectInstanceForNewEvent({
+		setCalendarObjectInstanceForNewEvent({
 			calendarObject,
 			calendarObjectInstance,
 		}) {
-			this._isNew = true
+			this.isNew = true
 			this.calendarObject = calendarObject
 			this.calendarObjectInstance = calendarObjectInstance
-			this._existingEvent.objectId = null
-			this._existingEvent.recurrenceId = null
+			this.existingEvent.objectId = null
+			this.existingEvent.recurrenceId = null
 
 			if (this.calendarObjectInstance.eventComponent) {
 				this.calendarObjectInstance.eventComponent = markRaw(this.calendarObjectInstance.eventComponent)
@@ -101,11 +97,11 @@ export default defineStore('calendarObjectInstance', {
 		},
 
 		resetCalendarObjectInstanceObjectIdAndRecurrenceId() {
-			this._isNew = false
+			this.isNew = false
 			this.calendarObject = null
 			this.calendarObjectInstance = null
-			this._existingEvent.objectId = null
-			this._existingEvent.recurrenceId = null
+			this.existingEvent.objectId = null
+			this.existingEvent.recurrenceId = null
 		},
 
 		/**
@@ -125,7 +121,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object
 		 * @param {Date} data.startDate New start date to set
 		 */
-		_changeStartDateMutation({
+		changeStartDateMutation({
 			startDate,
 		}) {
 			this.calendarObjectInstance.eventComponent.startDate.year = startDate.getFullYear()
@@ -167,7 +163,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object
 		 * @param {string} data.startTimezone New timezone to set for start
 		 */
-		_changeStartTimezoneMutation({
+		changeStartTimezoneMutation({
 			startTimezone,
 		}) {
 			const timezone = getTimezoneManager().getTimezoneForId(startTimezone)
@@ -187,7 +183,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object
 		 * @param {Date} data.endDate New end date to set
 		 */
-		_changeEndDateMutation({
+		changeEndDateMutation({
 			endDate,
 		}) {
 			// If the event is using DURATION, endDate is dynamically generated.
@@ -243,7 +239,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object
 		 * @param {string} data.endTimezone New timezone to set for end
 		 */
-		_changeEndTimezoneMutation({
+		changeEndTimezoneMutation({
 			endTimezone,
 		}) {
 			const timezone = getTimezoneManager().getTimezoneForId(endTimezone)
@@ -260,7 +256,7 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 * Switch from a timed event to allday or vice versa
 		 */
-		_toggleAllDayMutation() {
+		toggleAllDayMutation() {
 			if (!this.calendarObjectInstance.eventComponent.canModifyAllDay() && this.calendarObject.existsOnServer) {
 				return
 			}
@@ -281,7 +277,7 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 * Changes the time of a timed event to the default values
 		 */
-		_changeTimeToDefaultForTimedEvents() {
+		changeTimeToDefaultForTimedEvents() {
 			const startDate = this.calendarObjectInstance.eventComponent.startDate
 			const endDate = this.calendarObjectInstance.eventComponent.endDate
 			if (startDate.hour === 0 && startDate.minute === 0 && endDate.hour === 0 && endDate.minute === 0) {
@@ -626,7 +622,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 * @param {string} data.frequency The new frequency to set
 		 */
-		_changeRecurrenceFrequencyMutation({
+		changeRecurrenceFrequencyMutation({
 			recurrenceRule,
 			frequency,
 		}) {
@@ -705,7 +701,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 */
-		_resetRecurrenceByParts({ recurrenceRule }) {
+		resetRecurrenceByParts({ recurrenceRule }) {
 			if (recurrenceRule.recurrenceRuleValue) {
 				const parts = [
 					'BYSECOND',
@@ -744,7 +740,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 */
-		_setDefaultRecurrenceByPartsForMonthlyBySetPosition({
+		setDefaultRecurrenceByPartsForMonthlyBySetPosition({
 			recurrenceRule,
 		}) {
 			if (recurrenceRule.recurrenceRuleValue) {
@@ -767,7 +763,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 */
-		_setDefaultRecurrenceByPartsForYearlyBySetPosition({
+		setDefaultRecurrenceByPartsForYearlyBySetPosition({
 			recurrenceRule,
 		}) {
 			if (recurrenceRule.recurrenceRuleValue) {
@@ -1073,7 +1069,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object
 		 * @param {object} data.alarm The alarm object
 		 */
-		_updateAlarmAllDayParts({ alarm }) {
+		updateAlarmAllDayParts({ alarm }) {
 			if (alarm.alarmComponent) {
 				const totalSeconds = alarm.alarmComponent.trigger.value.totalSeconds
 				const allDayParts = getAmountHoursMinutesAndUnitForAllDayEvents(totalSeconds)
@@ -1090,7 +1086,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object
 		 * @param {object} data.alarm The alarm object
 		 */
-		_updateAlarmTimedParts({ alarm }) {
+		updateAlarmTimedParts({ alarm }) {
 			if (alarm.alarmComponent) {
 				const totalSeconds = alarm.alarmComponent.trigger.value.totalSeconds
 				const timedParts = getAmountAndUnitForTimedEvents(totalSeconds)
@@ -1270,7 +1266,7 @@ export default defineStore('calendarObjectInstance', {
 			recurrenceId,
 		}) {
 			const calendarsStore = useCalendarsStore()
-			if (this._existingEvent.objectId === objectId && this._existingEvent.recurrenceId === recurrenceId) {
+			if (this.existingEvent.objectId === objectId && this.existingEvent.recurrenceId === recurrenceId) {
 				return
 			}
 
@@ -1282,7 +1278,7 @@ export default defineStore('calendarObjectInstance', {
 			}
 
 			const calendarObjectInstance = mapEventComponentToEventObject(eventComponent)
-			this._setCalendarObjectInstanceForExistingEvent({
+			this.setCalendarObjectInstanceForExistingEvent({
 				calendarObject,
 				calendarObjectInstance,
 				objectId,
@@ -1308,7 +1304,7 @@ export default defineStore('calendarObjectInstance', {
 		}) {
 			const calendarObjectsStore = useCalendarObjectsStore()
 
-			if (this._isNew === true) {
+			if (this.isNew === true) {
 				return
 			}
 
@@ -1340,7 +1336,7 @@ export default defineStore('calendarObjectInstance', {
 
 			calendarObjectInstance.eventComponent.status = status
 
-			this._setCalendarObjectInstanceForNewEvent({
+			this.setCalendarObjectInstanceForNewEvent({
 				calendarObject,
 				calendarObjectInstance,
 			})
@@ -1363,13 +1359,13 @@ export default defineStore('calendarObjectInstance', {
 			end,
 			timezoneId,
 		}) {
-			this._updateTimeOfNewEvent({
+			this.updateTimeOfNewEvent({
 				start,
 				end,
 				isAllDay,
 				timezoneId,
 			})
-			this._setCalendarObjectInstanceForNewEvent({
+			this.setCalendarObjectInstanceForNewEvent({
 				calendarObject: this.calendarObject,
 				calendarObjectInstance: this.calendarObjectInstance,
 			})
@@ -1449,7 +1445,7 @@ export default defineStore('calendarObjectInstance', {
 			copyCalendarObjectInstanceIntoEventComponent(oldCalendarObjectInstance, eventComponent)
 			const calendarObjectInstance = mapEventComponentToEventObject(eventComponent)
 
-			this._setCalendarObjectInstanceForNewEvent({
+			this.setCalendarObjectInstanceForNewEvent({
 				calendarObject,
 				calendarObjectInstance,
 			})
@@ -1495,14 +1491,14 @@ export default defineStore('calendarObjectInstance', {
 				startDate.setFullYear(this.calendarObjectInstance.startDate.getFullYear(), this.calendarObjectInstance.startDate.getMonth(), this.calendarObjectInstance.startDate.getDate())
 			}
 
-			this._changeStartDateMutation({
+			this.changeStartDateMutation({
 				startDate,
 			})
 
 			// When changing time, preserve the original duration
 			if (changeEndDate) {
 				const newEndDate = new Date(startDate.getTime() + oldDuration)
-				this._changeEndDateMutation({
+				this.changeEndDateMutation({
 					endDate: newEndDate,
 				})
 			}
@@ -1517,13 +1513,13 @@ export default defineStore('calendarObjectInstance', {
 		changeStartTimezone({
 			startTimezone,
 		}) {
-			this._changeStartTimezoneMutation({
+			this.changeStartTimezoneMutation({
 				startTimezone,
 			})
 
 			// Simulate a change of the start time to trigger the comparison
 			// of start and end and trigger an update of end if necessary
-			this._changeStartDateMutation({
+			this.changeStartDateMutation({
 				startDate: this.calendarObjectInstance.startDate,
 			})
 		},
@@ -1542,7 +1538,7 @@ export default defineStore('calendarObjectInstance', {
 				endDate.setFullYear(this.calendarObjectInstance.endDate.getFullYear(), this.calendarObjectInstance.endDate.getMonth(), this.calendarObjectInstance.endDate.getDate())
 			}
 
-			this._changeEndDateMutation({
+			this.changeEndDateMutation({
 				endDate,
 			})
 		},
@@ -1556,13 +1552,13 @@ export default defineStore('calendarObjectInstance', {
 		changeEndTimezone({
 			endTimezone,
 		}) {
-			this._changeEndTimezoneMutation({
+			this.changeEndTimezoneMutation({
 				endTimezone,
 			})
 
 			// Simulate a change of the end time to trigger the comparison
 			// of start and end and trigger an update of start if necessary
-			this._changeEndDateMutation({
+			this.changeEndDateMutation({
 				endDate: this.calendarObjectInstance.endDate,
 			})
 		},
@@ -1586,8 +1582,8 @@ export default defineStore('calendarObjectInstance', {
 				this.calendarObjectInstance.eventComponent.addProperty(recurrenceProperty)
 				this.calendarObjectInstance.recurrenceRule.recurrenceRuleValue = recurrenceValue
 
-				this._resetRecurrenceByParts({ recurrenceRule })
-				this._changeRecurrenceFrequencyMutation({
+				this.resetRecurrenceByParts({ recurrenceRule })
+				this.changeRecurrenceFrequencyMutation({
 					recurrenceRule: this.calendarObjectInstance.recurrenceRule,
 					frequency,
 				})
@@ -1598,7 +1594,7 @@ export default defineStore('calendarObjectInstance', {
 				this.changeRecurrenceToInfinite({
 					recurrenceRule: this.calendarObjectInstance.recurrenceRule,
 				})
-				this._setDefaultRecurrenceByParts({
+				this.setDefaultRecurrenceByParts({
 					recurrenceRule,
 					frequency,
 				})
@@ -1616,12 +1612,12 @@ export default defineStore('calendarObjectInstance', {
 				}
 			} else {
 				// Change frequency of existing recurrence-rule
-				this._resetRecurrenceByParts({ recurrenceRule })
-				this._changeRecurrenceFrequencyMutation({
+				this.resetRecurrenceByParts({ recurrenceRule })
+				this.changeRecurrenceFrequencyMutation({
 					recurrenceRule: this.calendarObjectInstance.recurrenceRule,
 					frequency,
 				})
-				this._setDefaultRecurrenceByParts({
+				this.setDefaultRecurrenceByParts({
 					recurrenceRule,
 					frequency,
 				})
@@ -1634,7 +1630,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 * @param {string} data.frequency The new frequency to set
 		 */
-		_setDefaultRecurrenceByParts({
+		setDefaultRecurrenceByParts({
 			recurrenceRule,
 			frequency,
 		}) {
@@ -1684,8 +1680,8 @@ export default defineStore('calendarObjectInstance', {
 			recurrenceRule,
 		}) {
 			logger.debug('changeMonthlyRecurrenceFromByDayToBySetPosition')
-			this._resetRecurrenceByParts({ recurrenceRule })
-			this._setDefaultRecurrenceByPartsForMonthlyBySetPosition({
+			this.resetRecurrenceByParts({ recurrenceRule })
+			this.setDefaultRecurrenceByPartsForMonthlyBySetPosition({
 				recurrenceRule,
 			})
 		},
@@ -1699,7 +1695,7 @@ export default defineStore('calendarObjectInstance', {
 			recurrenceRule,
 		}) {
 			logger.debug('changeMonthlyRecurrenceFromBySetPositionToByDay')
-			this._resetRecurrenceByParts({ recurrenceRule })
+			this.resetRecurrenceByParts({ recurrenceRule })
 
 			if (recurrenceRule.recurrenceRuleValue) {
 				const byMonthDay = this.calendarObjectInstance.startDate.getDate()
@@ -1718,8 +1714,8 @@ export default defineStore('calendarObjectInstance', {
 		changeYearlyRecurrenceFromByDayToBySetPosition({
 			recurrenceRule,
 		}) {
-			this._resetRecurrenceByParts({ recurrenceRule })
-			this._setDefaultRecurrenceByPartsForYearlyBySetPosition({
+			this.resetRecurrenceByParts({ recurrenceRule })
+			this.setDefaultRecurrenceByPartsForYearlyBySetPosition({
 				recurrenceRule,
 			})
 		},
@@ -1732,7 +1728,7 @@ export default defineStore('calendarObjectInstance', {
 		changeYearlyRecurrenceFromBySetPositionToByDay({
 			recurrenceRule,
 		}) {
-			this._resetRecurrenceByParts({ recurrenceRule })
+			this.resetRecurrenceByParts({ recurrenceRule })
 
 			if (recurrenceRule.recurrenceRuleValue) {
 				const byMonth = this.calendarObjectInstance.startDate.getMonth() + 1 // Javascript months are zero-based
@@ -1829,7 +1825,7 @@ export default defineStore('calendarObjectInstance', {
 
 				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
-			this._updateAlarmAllDayParts({ alarm })
+			this.updateAlarmAllDayParts({ alarm })
 		},
 
 		changeAlarmUnitTimed({
@@ -1845,7 +1841,7 @@ export default defineStore('calendarObjectInstance', {
 
 				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
-			this._updateAlarmAllDayParts({ alarm })
+			this.updateAlarmAllDayParts({ alarm })
 		},
 
 		changeAlarmAmountAllDay({
@@ -1867,7 +1863,7 @@ export default defineStore('calendarObjectInstance', {
 				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
 
-			this._updateAlarmTimedParts({ alarm })
+			this.updateAlarmTimedParts({ alarm })
 		},
 
 		changeAlarmUnitAllDay({
@@ -1889,7 +1885,7 @@ export default defineStore('calendarObjectInstance', {
 				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
 
-			this._updateAlarmTimedParts({ alarm })
+			this.updateAlarmTimedParts({ alarm })
 		},
 
 		changeAlarmHoursMinutesAllDay({
@@ -1913,7 +1909,7 @@ export default defineStore('calendarObjectInstance', {
 				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
 
-			this._updateAlarmTimedParts({ alarm })
+			this.updateAlarmTimedParts({ alarm })
 		},
 
 		changeAlarmFromRelativeToAbsolute({
@@ -1958,8 +1954,8 @@ export default defineStore('calendarObjectInstance', {
 				alarm.relativeTrigger = duration.totalSeconds
 			}
 
-			this._updateAlarmAllDayParts({ alarm })
-			this._updateAlarmTimedParts({ alarm })
+			this.updateAlarmAllDayParts({ alarm })
+			this.updateAlarmTimedParts({ alarm })
 
 			alarm.absoluteDate = null
 			alarm.absoluteTimezoneId = null
@@ -1967,17 +1963,17 @@ export default defineStore('calendarObjectInstance', {
 
 		toggleAllDay() {
 			const settingsStore = useSettingsStore()
-			this._toggleAllDayMutation()
+			this.toggleAllDayMutation()
 
 			if (!this.calendarObjectInstance.isAllDay) {
 				if (this.calendarObjectInstance.startTimezoneId === 'floating') {
 					const startTimezone = settingsStore.getResolvedTimezone
-					this._changeStartTimezoneMutation({
+					this.changeStartTimezoneMutation({
 						startTimezone,
 					})
 				}
 
-				this._changeTimeToDefaultForTimedEvents()
+				this.changeTimeToDefaultForTimedEvents()
 			}
 		},
 
@@ -1990,13 +1986,13 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {string} data.timezoneId asd
 		 * @param {boolean} data.isAllDay foo
 		 */
-		_updateTimeOfNewEvent({ start, end, timezoneId, isAllDay }) {
+		updateTimeOfNewEvent({ start, end, timezoneId, isAllDay }) {
 			const isDirty = this.calendarObjectInstance.eventComponent.isDirty()
 			const startDate = new Date(start * 1000)
 			const endDate = new Date(end * 1000)
 
 			if (this.calendarObjectInstance.isAllDay !== isAllDay) {
-				this._toggleAllDayMutation()
+				this.toggleAllDayMutation()
 			}
 
 			this.changeStartTimezone({
@@ -2006,18 +2002,18 @@ export default defineStore('calendarObjectInstance', {
 				endTimezone: timezoneId,
 			})
 
-			this._changeStartDateMutation({
+			this.changeStartDateMutation({
 				startDate,
 			})
 
 			if (isAllDay) {
 				// The full-calendar end date is exclusive, but the end-date
 				// that changeEndDate expects is inclusive, so we have to deduct one day.
-				this._changeEndDateMutation({
+				this.changeEndDateMutation({
 					endDate: new Date(endDate.getTime() - 24 * 60 * 60 * 1000),
 				})
 			} else {
-				this._changeEndDateMutation({
+				this.changeEndDateMutation({
 					endDate,
 				})
 			}
