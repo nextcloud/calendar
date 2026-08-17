@@ -125,7 +125,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object
 		 * @param {Date} data.startDate New start date to set
 		 */
-		changeStartDateMutation({
+		_changeStartDateMutation({
 			startDate,
 		}) {
 			this.calendarObjectInstance.eventComponent.startDate.year = startDate.getFullYear()
@@ -187,7 +187,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object
 		 * @param {Date} data.endDate New end date to set
 		 */
-		changeEndDateMutation({
+		_changeEndDateMutation({
 			endDate,
 		}) {
 			// If the event is using DURATION, endDate is dynamically generated.
@@ -260,7 +260,7 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 * Switch from a timed event to allday or vice versa
 		 */
-		toggleAllDayMutation() {
+		_toggleAllDayMutation() {
 			if (!this.calendarObjectInstance.eventComponent.canModifyAllDay() && this.calendarObject.existsOnServer) {
 				return
 			}
@@ -767,7 +767,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 */
-		setDefaultRecurrenceByPartsForYearlyBySetPosition({
+		_setDefaultRecurrenceByPartsForYearlyBySetPosition({
 			recurrenceRule,
 		}) {
 			if (recurrenceRule.recurrenceRuleValue) {
@@ -1073,7 +1073,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object
 		 * @param {object} data.alarm The alarm object
 		 */
-		updateAlarmAllDayParts({ alarm }) {
+		_updateAlarmAllDayParts({ alarm }) {
 			if (alarm.alarmComponent) {
 				const totalSeconds = alarm.alarmComponent.trigger.value.totalSeconds
 				const allDayParts = getAmountHoursMinutesAndUnitForAllDayEvents(totalSeconds)
@@ -1090,7 +1090,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object
 		 * @param {object} data.alarm The alarm object
 		 */
-		updateAlarmTimedParts({ alarm }) {
+		_updateAlarmTimedParts({ alarm }) {
 			if (alarm.alarmComponent) {
 				const totalSeconds = alarm.alarmComponent.trigger.value.totalSeconds
 				const timedParts = getAmountAndUnitForTimedEvents(totalSeconds)
@@ -1495,14 +1495,14 @@ export default defineStore('calendarObjectInstance', {
 				startDate.setFullYear(this.calendarObjectInstance.startDate.getFullYear(), this.calendarObjectInstance.startDate.getMonth(), this.calendarObjectInstance.startDate.getDate())
 			}
 
-			this.changeStartDateMutation({
+			this._changeStartDateMutation({
 				startDate,
 			})
 
 			// When changing time, preserve the original duration
 			if (changeEndDate) {
 				const newEndDate = new Date(startDate.getTime() + oldDuration)
-				this.changeEndDateMutation({
+				this._changeEndDateMutation({
 					endDate: newEndDate,
 				})
 			}
@@ -1523,7 +1523,7 @@ export default defineStore('calendarObjectInstance', {
 
 			// Simulate a change of the start time to trigger the comparison
 			// of start and end and trigger an update of end if necessary
-			this.changeStartDateMutation({
+			this._changeStartDateMutation({
 				startDate: this.calendarObjectInstance.startDate,
 			})
 		},
@@ -1542,7 +1542,7 @@ export default defineStore('calendarObjectInstance', {
 				endDate.setFullYear(this.calendarObjectInstance.endDate.getFullYear(), this.calendarObjectInstance.endDate.getMonth(), this.calendarObjectInstance.endDate.getDate())
 			}
 
-			this.changeEndDateMutation({
+			this._changeEndDateMutation({
 				endDate,
 			})
 		},
@@ -1562,7 +1562,7 @@ export default defineStore('calendarObjectInstance', {
 
 			// Simulate a change of the end time to trigger the comparison
 			// of start and end and trigger an update of start if necessary
-			this.changeEndDateMutation({
+			this._changeEndDateMutation({
 				endDate: this.calendarObjectInstance.endDate,
 			})
 		},
@@ -1598,7 +1598,7 @@ export default defineStore('calendarObjectInstance', {
 				this.changeRecurrenceToInfinite({
 					recurrenceRule: this.calendarObjectInstance.recurrenceRule,
 				})
-				this.setDefaultRecurrenceByParts({
+				this._setDefaultRecurrenceByParts({
 					recurrenceRule,
 					frequency,
 				})
@@ -1621,7 +1621,7 @@ export default defineStore('calendarObjectInstance', {
 					recurrenceRule: this.calendarObjectInstance.recurrenceRule,
 					frequency,
 				})
-				this.setDefaultRecurrenceByParts({
+				this._setDefaultRecurrenceByParts({
 					recurrenceRule,
 					frequency,
 				})
@@ -1634,7 +1634,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 * @param {string} data.frequency The new frequency to set
 		 */
-		setDefaultRecurrenceByParts({
+		_setDefaultRecurrenceByParts({
 			recurrenceRule,
 			frequency,
 		}) {
@@ -1719,7 +1719,7 @@ export default defineStore('calendarObjectInstance', {
 			recurrenceRule,
 		}) {
 			this._resetRecurrenceByParts({ recurrenceRule })
-			this.setDefaultRecurrenceByPartsForYearlyBySetPosition({
+			this._setDefaultRecurrenceByPartsForYearlyBySetPosition({
 				recurrenceRule,
 			})
 		},
@@ -1829,7 +1829,7 @@ export default defineStore('calendarObjectInstance', {
 
 				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
-			this.updateAlarmAllDayParts({ alarm })
+			this._updateAlarmAllDayParts({ alarm })
 		},
 
 		changeAlarmUnitTimed({
@@ -1845,7 +1845,7 @@ export default defineStore('calendarObjectInstance', {
 
 				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
-			this.updateAlarmAllDayParts({ alarm })
+			this._updateAlarmAllDayParts({ alarm })
 		},
 
 		changeAlarmAmountAllDay({
@@ -1867,7 +1867,7 @@ export default defineStore('calendarObjectInstance', {
 				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
 
-			this.updateAlarmTimedParts({ alarm })
+			this._updateAlarmTimedParts({ alarm })
 		},
 
 		changeAlarmUnitAllDay({
@@ -1889,7 +1889,7 @@ export default defineStore('calendarObjectInstance', {
 				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
 
-			this.updateAlarmTimedParts({ alarm })
+			this._updateAlarmTimedParts({ alarm })
 		},
 
 		changeAlarmHoursMinutesAllDay({
@@ -1913,7 +1913,7 @@ export default defineStore('calendarObjectInstance', {
 				logger.debug(alarm.alarmComponent.toICALJs().toString())
 			}
 
-			this.updateAlarmTimedParts({ alarm })
+			this._updateAlarmTimedParts({ alarm })
 		},
 
 		changeAlarmFromRelativeToAbsolute({
@@ -1958,8 +1958,8 @@ export default defineStore('calendarObjectInstance', {
 				alarm.relativeTrigger = duration.totalSeconds
 			}
 
-			this.updateAlarmAllDayParts({ alarm })
-			this.updateAlarmTimedParts({ alarm })
+			this._updateAlarmAllDayParts({ alarm })
+			this._updateAlarmTimedParts({ alarm })
 
 			alarm.absoluteDate = null
 			alarm.absoluteTimezoneId = null
@@ -1967,7 +1967,7 @@ export default defineStore('calendarObjectInstance', {
 
 		toggleAllDay() {
 			const settingsStore = useSettingsStore()
-			this.toggleAllDayMutation()
+			this._toggleAllDayMutation()
 
 			if (!this.calendarObjectInstance.isAllDay) {
 				if (this.calendarObjectInstance.startTimezoneId === 'floating') {
@@ -1996,7 +1996,7 @@ export default defineStore('calendarObjectInstance', {
 			const endDate = new Date(end * 1000)
 
 			if (this.calendarObjectInstance.isAllDay !== isAllDay) {
-				this.toggleAllDayMutation()
+				this._toggleAllDayMutation()
 			}
 
 			this.changeStartTimezone({
@@ -2006,18 +2006,18 @@ export default defineStore('calendarObjectInstance', {
 				endTimezone: timezoneId,
 			})
 
-			this.changeStartDateMutation({
+			this._changeStartDateMutation({
 				startDate,
 			})
 
 			if (isAllDay) {
 				// The full-calendar end date is exclusive, but the end-date
 				// that changeEndDate expects is inclusive, so we have to deduct one day.
-				this.changeEndDateMutation({
+				this._changeEndDateMutation({
 					endDate: new Date(endDate.getTime() - 24 * 60 * 60 * 1000),
 				})
 			} else {
-				this.changeEndDateMutation({
+				this._changeEndDateMutation({
 					endDate,
 				})
 			}
