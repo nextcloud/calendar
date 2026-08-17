@@ -15,7 +15,6 @@
 			v-for="(alarm, index) in alarms"
 			:key="index"
 			:alarm="alarm"
-			:calendarObjectInstance="calendarObjectInstance"
 			:isReadOnly="isReadOnly"
 			@removeAlarm="removeAlarm" />
 	</div>
@@ -40,15 +39,11 @@ export default {
 			type: Boolean,
 			required: true,
 		},
-
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
 	},
 
 	computed: {
 		...mapStores(useCalendarObjectInstanceStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
 		...mapState(useSettingsStore, ['forceEventAlarmType']),
 		alarms() {
 			return this.calendarObjectInstance.alarms.slice().sort((a, b) => {
@@ -67,7 +62,6 @@ export default {
 		 */
 		addAlarm(totalSeconds) {
 			this.calendarObjectInstanceStore.addAlarmToCalendarObjectInstance({
-				calendarObjectInstance: this.calendarObjectInstance,
 				type: this.forceEventAlarmType || 'DISPLAY',
 				totalSeconds,
 			})
@@ -80,7 +74,6 @@ export default {
 		 */
 		removeAlarm(alarm) {
 			this.calendarObjectInstanceStore.removeAlarmFromCalendarObjectInstance({
-				calendarObjectInstance: this.calendarObjectInstance,
 				alarm,
 			})
 		},

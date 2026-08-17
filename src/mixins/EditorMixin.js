@@ -554,7 +554,6 @@ export default {
 
 			if (!this.calendarObjectInstance.organizer) {
 				this.calendarObjectInstanceStore.setOrganizer({
-					calendarObjectInstance: this.calendarObjectInstance,
 					commonName: delegatorPrincipal.displayname,
 					email: delegatorPrincipal.emailAddress,
 				})
@@ -770,7 +769,6 @@ export default {
 			}
 
 			this.calendarObjectInstanceStore.changeTitle({
-				calendarObjectInstance: this.calendarObjectInstance,
 				title,
 			})
 		},
@@ -781,7 +779,6 @@ export default {
 		 */
 		updateDescription(description) {
 			this.calendarObjectInstanceStore.changeDescription({
-				calendarObjectInstance: this.calendarObjectInstance,
 				description,
 			})
 		},
@@ -792,7 +789,6 @@ export default {
 		 */
 		updateLocation(location) {
 			this.calendarObjectInstanceStore.changeLocation({
-				calendarObjectInstance: this.calendarObjectInstance,
 				location,
 			})
 		},
@@ -811,7 +807,6 @@ export default {
 			)
 
 			this.calendarObjectInstanceStore.changeStartDate({
-				calendarObjectInstance: this.calendarObjectInstance,
 				startDate: combinedStartDate,
 				onlyTime: false,
 				changeEndDate: true,
@@ -824,7 +819,6 @@ export default {
 		 */
 		updateStartTime(startDate) {
 			this.calendarObjectInstanceStore.changeStartDate({
-				calendarObjectInstance: this.calendarObjectInstance,
 				startDate,
 				onlyTime: true,
 				changeEndDate: true,
@@ -841,7 +835,6 @@ export default {
 			}
 
 			this.calendarObjectInstanceStore.changeStartTimezone({
-				calendarObjectInstance: this.calendarObjectInstance,
 				startTimezone,
 			})
 		},
@@ -860,7 +853,6 @@ export default {
 			)
 
 			this.calendarObjectInstanceStore.changeEndDate({
-				calendarObjectInstance: this.calendarObjectInstance,
 				endDate: combinedEndDate,
 			})
 		},
@@ -871,7 +863,6 @@ export default {
 		 */
 		updateEndTime(endDate) {
 			this.calendarObjectInstanceStore.changeEndDate({
-				calendarObjectInstance: this.calendarObjectInstance,
 				endDate,
 				onlyTime: true,
 			})
@@ -887,7 +878,6 @@ export default {
 			}
 
 			this.calendarObjectInstanceStore.changeEndTimezone({
-				calendarObjectInstance: this.calendarObjectInstance,
 				endTimezone,
 			})
 		},
@@ -895,9 +885,7 @@ export default {
 		 * Toggles the event between all-day and timed
 		 */
 		toggleAllDay() {
-			this.calendarObjectInstanceStore.toggleAllDay({
-				calendarObjectInstance: this.calendarObjectInstance,
-			})
+			this.calendarObjectInstanceStore.toggleAllDay()
 
 			updateDefaultAlarm(this.calendarObject.calendarId, this.calendarObjectInstance)
 		},
@@ -1034,7 +1022,7 @@ export default {
 			const timezoneId = this.settingsStore.getResolvedTimezone
 
 			await this.loadingCalendars()
-			await this.calendarObjectInstanceStore.updateCalendarObjectInstanceForNewEvent({ isAllDay, start, end, timezoneId })
+			this.calendarObjectInstanceStore.updateCalendarObjectInstanceForNewEvent({ isAllDay, start, end, timezoneId })
 			next()
 		} else {
 			// If both the objectId and recurrenceId remained the same

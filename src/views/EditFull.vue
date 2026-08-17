@@ -130,8 +130,6 @@
 							<!-- TODO: If not editing the master item, force updating this and all future   -->
 							<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
 							<Repeat
-								:calendarObjectInstance="calendarObjectInstance"
-								:recurrenceRule="calendarObjectInstance.recurrenceRule"
 								:isReadOnly="isReadOnly || isViewedByOrganizer === false"
 								:isEditingMasterItem="isEditingMasterItem"
 								:isRecurrenceException="isRecurrenceException"
@@ -190,12 +188,10 @@
 							@update:value="updateDescription" />
 
 						<AlarmList
-							:calendarObjectInstance="calendarObjectInstance"
 							:isReadOnly="isReadOnly" />
 
 						<AttachmentsList
 							v-if="!isLoading"
-							:calendarObjectInstance="calendarObjectInstance"
 							:isReadOnly="isReadOnly" />
 					</div>
 
@@ -206,7 +202,6 @@
 							<IconVideo :size="20" class="property-text__icon property-add-talk__icon" />
 							<AddTalkModal
 								v-if="isTalkModalOpen"
-								:calendarObjectInstance="calendarObjectInstance"
 								:delegatorUserId="delegatorUserId"
 								@close="isTalkModalOpen = false"
 								@updateLocation="updateLocation"
@@ -316,7 +311,6 @@
 						<InviteesList
 							v-if="!isLoading"
 							:calendar="selectedCalendar"
-							:calendarObjectInstance="calendarObjectInstance"
 							:isReadOnly="isReadOnly || isViewedByOrganizer === false"
 							:isSharedWithMe="isSharedWithMe"
 							:showHeader="true"
@@ -326,7 +320,6 @@
 					<div class="app-full-footer__right">
 						<ResourceList
 							v-if="!isLoading"
-							:calendarObjectInstance="calendarObjectInstance"
 							:isReadOnly="isReadOnly || isViewedByOrganizer === false" />
 					</div>
 				</div>
@@ -561,14 +554,12 @@ export default {
 	methods: {
 		updateLocation(location) {
 			this.calendarObjectInstanceStore.changeLocation({
-				calendarObjectInstance: this.calendarObjectInstance,
 				location,
 			})
 		},
 
 		updateDescription(description) {
 			this.calendarObjectInstanceStore.changeDescription({
-				calendarObjectInstance: this.calendarObjectInstance,
 				description,
 			})
 		},
@@ -592,7 +583,6 @@ export default {
 		 */
 		updateAccessClass(accessClass) {
 			this.calendarObjectInstanceStore.changeAccessClass({
-				calendarObjectInstance: this.calendarObjectInstance,
 				accessClass,
 			})
 		},
@@ -604,7 +594,6 @@ export default {
 		 */
 		updateStatus(status) {
 			this.calendarObjectInstanceStore.changeStatus({
-				calendarObjectInstance: this.calendarObjectInstance,
 				status,
 			})
 		},
@@ -616,7 +605,6 @@ export default {
 		 */
 		updateTimeTransparency(timeTransparency) {
 			this.calendarObjectInstanceStore.changeTimeTransparency({
-				calendarObjectInstance: this.calendarObjectInstance,
 				timeTransparency,
 			})
 		},
@@ -628,7 +616,6 @@ export default {
 		 */
 		updateInvitationForwarding(invitationForwarding) {
 			this.calendarObjectInstanceStore.changeInvitationForwarding({
-				calendarObjectInstance: this.calendarObjectInstance,
 				invitationForwarding,
 			})
 		},
@@ -640,7 +627,6 @@ export default {
 		 */
 		addCategory(category) {
 			this.calendarObjectInstanceStore.addCategory({
-				calendarObjectInstance: this.calendarObjectInstance,
 				category,
 			})
 		},
@@ -652,7 +638,6 @@ export default {
 		 */
 		removeCategory(category) {
 			this.calendarObjectInstanceStore.removeCategory({
-				calendarObjectInstance: this.calendarObjectInstance,
 				category,
 			})
 		},
@@ -664,7 +649,6 @@ export default {
 		 */
 		updateColor(customColor) {
 			this.calendarObjectInstanceStore.changeCustomColor({
-				calendarObjectInstance: this.calendarObjectInstance,
 				customColor,
 			})
 		},

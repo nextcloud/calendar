@@ -90,7 +90,7 @@ import {
 	NcModal,
 } from '@nextcloud/vue'
 import md5 from 'md5'
-import { mapStores } from 'pinia'
+import { mapState } from 'pinia'
 import IconAdd from 'vue-material-design-icons/Plus.vue'
 import { addParticipantAsModerator, createRoom, generateRoomUrl, listRooms } from '@/services/talkService'
 import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
@@ -121,11 +121,6 @@ export default {
 	},
 
 	props: {
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
-
 		delegatorUserId: {
 			type: String,
 			default: null,
@@ -151,7 +146,7 @@ export default {
 	},
 
 	computed: {
-		...mapStores(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
 		/**
 		 * @return {object[]} Talk conversations sorted by most recent activity
 		 */
@@ -203,7 +198,6 @@ export default {
 
 				if ((this.calendarObjectInstance.location ?? '').trim() === '') {
 					this.calendarObjectInstanceStore.changeLocation({
-						calendarObjectInstance: this.calendarObjectInstance,
 						location: url,
 					})
 					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to location.'))
@@ -214,7 +208,6 @@ export default {
 						: url
 
 					this.calendarObjectInstanceStore.changeDescription({
-						calendarObjectInstance: this.calendarObjectInstance,
 						description: updatedDescription,
 					})
 					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to description.'))

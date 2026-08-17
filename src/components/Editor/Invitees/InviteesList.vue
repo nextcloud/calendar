@@ -132,11 +132,6 @@ export default {
 			required: true,
 		},
 
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
-
 		showHeader: {
 			type: Boolean,
 			required: true,
@@ -170,6 +165,7 @@ export default {
 
 	computed: {
 		...mapStores(usePrincipalsStore, useCalendarsStore, useCalendarObjectInstanceStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
 		...mapState(useSettingsStore, ['talkEnabled']),
 		noInviteesMessage() {
 			return this.$t('calendar', 'No attendees yet')
@@ -381,7 +377,6 @@ export default {
 			}
 			// set new organizer
 			this.calendarObjectInstanceStore.setOrganizer({
-				calendarObjectInstance: this.calendarObjectInstance,
 				commonName: label,
 				email: address,
 			})
@@ -403,7 +398,6 @@ export default {
 			if (modifiedMember) {
 				const group = modifiedMember.attendeeProperty.member
 				this.calendarObjectInstanceStore.removeAttendee({
-					calendarObjectInstance: this.calendarObjectInstance,
 					attendee: modifiedMember,
 				})
 				member = member.split(',')
@@ -411,7 +405,6 @@ export default {
 			}
 
 			this.calendarObjectInstanceStore.addAttendee({
-				calendarObjectInstance: this.calendarObjectInstance,
 				commonName,
 				uri: email,
 				calendarUserType,
@@ -437,7 +430,6 @@ export default {
 				})
 			}
 			this.calendarObjectInstanceStore.removeAttendee({
-				calendarObjectInstance: this.calendarObjectInstance,
 				attendee,
 			})
 			this.recentAttendees = this.recentAttendees.filter((a) => a.uri !== attendee.email)

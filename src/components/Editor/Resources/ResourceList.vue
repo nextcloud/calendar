@@ -22,13 +22,11 @@
 		<RoomAvailabilityList
 			v-if="showRoomAvailabilityModal"
 			:showDialog="showRoomAvailabilityModal"
-			:calendarObjectInstance="calendarObjectInstance"
 			@update:showDialog="setShowRoomAvailabilityModal" />
 
 		<ResourceListSearch
 			v-if="!isReadOnly && hasUserEmailAddress && resourceBookingEnabled"
 			:alreadyInvitedEmails="alreadyInvitedEmails"
-			:calendarObjectInstance="calendarObjectInstance"
 			@addResource="addResource" />
 
 		<ResourceListItem
@@ -57,7 +55,7 @@ import {
 	NcButton,
 } from '@nextcloud/vue'
 import debounce from 'debounce'
-import { mapStores } from 'pinia'
+import { mapState, mapStores } from 'pinia'
 import DoorOpenIcon from 'vue-material-design-icons/DoorOpen.vue'
 import RoomAvailabilityList from '@/components/Editor/FreeBusy/RoomAvailabilityList.vue'
 import ResourceListItem from '@/components/Editor/Resources/ResourceListItem.vue'
@@ -83,11 +81,6 @@ export default {
 			type: Boolean,
 			required: true,
 		},
-
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
 	},
 
 	data() {
@@ -103,6 +96,7 @@ export default {
 
 	computed: {
 		...mapStores(usePrincipalsStore, useCalendarObjectInstanceStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
 		resources() {
 			return this.calendarObjectInstance.attendees.filter((attendee) => {
 				return ['ROOM', 'RESOURCE'].includes(attendee.attendeeProperty.userType)
@@ -203,7 +197,6 @@ export default {
 	methods: {
 		addResource({ commonName, email, calendarUserType, language, timezoneId, roomAddress }) {
 			this.calendarObjectInstanceStore.addAttendee({
-				calendarObjectInstance: this.calendarObjectInstance,
 				commonName,
 				uri: email,
 				calendarUserType,
@@ -219,7 +212,6 @@ export default {
 
 		removeResource(resource) {
 			this.calendarObjectInstanceStore.removeAttendee({
-				calendarObjectInstance: this.calendarObjectInstance,
 				attendee: resource,
 			})
 		},
@@ -241,6 +233,10 @@ export default {
 		 * Recurring events are only probed for the edited occurrence.
 		 */
 		async checkPendingResourceAvailability() {
+			if (!this.calendarObjectInstance) {
+				// Do not continue if event editor was closed in the meantime.
+				return
+			}
 			if (this.isReadOnly || !this.isViewedByOrganizer || !this.resourceBookingEnabled) {
 				return
 			}
@@ -286,6 +282,10 @@ export default {
 		},
 
 		async loadRoomSuggestions() {
+			if (!this.calendarObjectInstance) {
+				// Do not continue if event editor was closed in the meantime.
+				return
+			}
 			if (!this.resourceBookingEnabled) {
 				return
 			}
@@ -316,6 +316,10 @@ export default {
 					}
 				})
 
+				if (!this.calendarObjectInstance) {
+					// Do not continue if event editor was closed in the meantime.
+					return
+				}
 				await checkResourceAvailability(
 					results,
 					this.principalsStore.getCurrentUserPrincipalEmail,
@@ -356,7 +360,6 @@ export default {
 			}
 
 			this.calendarObjectInstanceStore.changeLocation({
-				calendarObjectInstance: this.calendarObjectInstance,
 				location,
 			})
 		},
