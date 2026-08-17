@@ -62,7 +62,6 @@ export default {
 		 */
 		addAlarm(totalSeconds) {
 			this.calendarObjectInstanceStore.addAlarmToCalendarObjectInstance({
-				calendarObjectInstance: this.calendarObjectInstance,
 				type: this.forceEventAlarmType || 'DISPLAY',
 				totalSeconds,
 			})
@@ -75,7 +74,6 @@ export default {
 		 */
 		removeAlarm(alarm) {
 			this.calendarObjectInstanceStore.removeAlarmFromCalendarObjectInstance({
-				calendarObjectInstance: this.calendarObjectInstance,
 				alarm,
 			})
 		},

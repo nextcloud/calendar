@@ -123,65 +123,61 @@ export default defineStore('calendarObjectInstance', {
 		 * Change the event's start
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {Date} data.startDate New start date to set
 		 */
 		changeStartDateMutation({
-			calendarObjectInstance,
 			startDate,
 		}) {
-			calendarObjectInstance.eventComponent.startDate.year = startDate.getFullYear()
-			calendarObjectInstance.eventComponent.startDate.month = startDate.getMonth() + 1
-			calendarObjectInstance.eventComponent.startDate.day = startDate.getDate()
-			calendarObjectInstance.eventComponent.startDate.hour = startDate.getHours()
-			calendarObjectInstance.eventComponent.startDate.minute = startDate.getMinutes()
-			calendarObjectInstance.eventComponent.startDate.second = 0
+			this.calendarObjectInstance.eventComponent.startDate.year = startDate.getFullYear()
+			this.calendarObjectInstance.eventComponent.startDate.month = startDate.getMonth() + 1
+			this.calendarObjectInstance.eventComponent.startDate.day = startDate.getDate()
+			this.calendarObjectInstance.eventComponent.startDate.hour = startDate.getHours()
+			this.calendarObjectInstance.eventComponent.startDate.minute = startDate.getMinutes()
+			this.calendarObjectInstance.eventComponent.startDate.second = 0
 
-			const isAllDay = calendarObjectInstance.eventComponent.isAllDay()
-			const endDateObj = calendarObjectInstance.eventComponent.endDate.clone()
-			const startDateObj = calendarObjectInstance.eventComponent.startDate.clone()
+			const isAllDay = this.calendarObjectInstance.eventComponent.isAllDay()
+			const endDateObj = this.calendarObjectInstance.eventComponent.endDate.clone()
+			const startDateObj = this.calendarObjectInstance.eventComponent.startDate.clone()
 
 			if (isAllDay) {
 				endDateObj.addDuration(DurationValue.fromSeconds(-1 * 60 * 60 * 24))
 
 				if (endDateObj.compare(startDateObj) === -1) {
 					const timezone = getTimezoneManager().getTimezoneForId(endDateObj.timezoneId)
-					calendarObjectInstance.eventComponent.endDate
-						= calendarObjectInstance.eventComponent.startDate.getInTimezone(timezone)
-					calendarObjectInstance.endDate = getDateFromDateTimeValue(calendarObjectInstance.eventComponent.endDate)
-					calendarObjectInstance.eventComponent.endDate.addDuration(DurationValue.fromSeconds(60 * 60 * 24))
+					this.calendarObjectInstance.eventComponent.endDate
+						= this.calendarObjectInstance.eventComponent.startDate.getInTimezone(timezone)
+					this.calendarObjectInstance.endDate = getDateFromDateTimeValue(this.calendarObjectInstance.eventComponent.endDate)
+					this.calendarObjectInstance.eventComponent.endDate.addDuration(DurationValue.fromSeconds(60 * 60 * 24))
 				}
 			} else {
 				if (endDateObj.compare(startDateObj) === -1) {
 					const timezone = getTimezoneManager().getTimezoneForId(endDateObj.timezoneId)
-					calendarObjectInstance.eventComponent.endDate
-						= calendarObjectInstance.eventComponent.startDate.getInTimezone(timezone)
-					calendarObjectInstance.endDate = getDateFromDateTimeValue(calendarObjectInstance.eventComponent.endDate)
+					this.calendarObjectInstance.eventComponent.endDate
+						= this.calendarObjectInstance.eventComponent.startDate.getInTimezone(timezone)
+					this.calendarObjectInstance.endDate = getDateFromDateTimeValue(this.calendarObjectInstance.eventComponent.endDate)
 				}
 			}
 
-			calendarObjectInstance.startDate = startDate
+			this.calendarObjectInstance.startDate = startDate
 		},
 
 		/**
 		 * Change the timezone of the event's start
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string} data.startTimezone New timezone to set for start
 		 */
 		_changeStartTimezoneMutation({
-			calendarObjectInstance,
 			startTimezone,
 		}) {
 			const timezone = getTimezoneManager().getTimezoneForId(startTimezone)
-			calendarObjectInstance.eventComponent.startDate.replaceTimezone(timezone)
-			calendarObjectInstance.startTimezoneId = startTimezone
+			this.calendarObjectInstance.eventComponent.startDate.replaceTimezone(timezone)
+			this.calendarObjectInstance.startTimezoneId = startTimezone
 
 			// Either both are floating or both have a timezone, but it can't be mixed
-			if (startTimezone === 'floating' || calendarObjectInstance.endTimezoneId === 'floating') {
-				calendarObjectInstance.eventComponent.endDate.replaceTimezone(timezone)
-				calendarObjectInstance.endTimezoneId = startTimezone
+			if (startTimezone === 'floating' || this.calendarObjectInstance.endTimezoneId === 'floating') {
+				this.calendarObjectInstance.eventComponent.endDate.replaceTimezone(timezone)
+				this.calendarObjectInstance.endTimezoneId = startTimezone
 			}
 		},
 
@@ -189,39 +185,37 @@ export default defineStore('calendarObjectInstance', {
 		 * Change the event's end
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {Date} data.endDate New end date to set
 		 */
 		changeEndDateMutation({
-			calendarObjectInstance,
 			endDate,
 		}) {
 			// If the event is using DURATION, endDate is dynamically generated.
 			// In order to alter it, we need to explicitly set DTEND
-			const endDateObject = calendarObjectInstance.eventComponent.endDate
-			calendarObjectInstance.eventComponent.endDate = endDateObject
+			const endDateObject = this.calendarObjectInstance.eventComponent.endDate
+			this.calendarObjectInstance.eventComponent.endDate = endDateObject
 
-			calendarObjectInstance.eventComponent.endDate.year = endDate.getFullYear()
-			calendarObjectInstance.eventComponent.endDate.month = endDate.getMonth() + 1
-			calendarObjectInstance.eventComponent.endDate.day = endDate.getDate()
-			calendarObjectInstance.eventComponent.endDate.hour = endDate.getHours()
-			calendarObjectInstance.eventComponent.endDate.minute = endDate.getMinutes()
-			calendarObjectInstance.eventComponent.endDate.second = 0
+			this.calendarObjectInstance.eventComponent.endDate.year = endDate.getFullYear()
+			this.calendarObjectInstance.eventComponent.endDate.month = endDate.getMonth() + 1
+			this.calendarObjectInstance.eventComponent.endDate.day = endDate.getDate()
+			this.calendarObjectInstance.eventComponent.endDate.hour = endDate.getHours()
+			this.calendarObjectInstance.eventComponent.endDate.minute = endDate.getMinutes()
+			this.calendarObjectInstance.eventComponent.endDate.second = 0
 
-			const isAllDay = calendarObjectInstance.eventComponent.isAllDay()
-			const endDateObj = calendarObjectInstance.eventComponent.endDate.clone()
-			const startDateObj = calendarObjectInstance.eventComponent.startDate.clone()
+			const isAllDay = this.calendarObjectInstance.eventComponent.isAllDay()
+			const endDateObj = this.calendarObjectInstance.eventComponent.endDate.clone()
+			const startDateObj = this.calendarObjectInstance.eventComponent.startDate.clone()
 
 			if (isAllDay) {
 				if (endDateObj.compare(startDateObj) === -1) {
 					const timezone = getTimezoneManager().getTimezoneForId(startDateObj.timezoneId)
-					calendarObjectInstance.eventComponent.startDate
-						= calendarObjectInstance.eventComponent.endDate.getInTimezone(timezone)
-					calendarObjectInstance.startDate = getDateFromDateTimeValue(calendarObjectInstance.eventComponent.startDate)
+					this.calendarObjectInstance.eventComponent.startDate
+						= this.calendarObjectInstance.eventComponent.endDate.getInTimezone(timezone)
+					this.calendarObjectInstance.startDate = getDateFromDateTimeValue(this.calendarObjectInstance.eventComponent.startDate)
 				}
 
 				// endDate is inclusive, but DTEND needs to be exclusive, so always add one day
-				calendarObjectInstance.eventComponent.endDate.addDuration(DurationValue.fromSeconds(60 * 60 * 24))
+				this.calendarObjectInstance.eventComponent.endDate.addDuration(DurationValue.fromSeconds(60 * 60 * 24))
 			} else {
 				// Is end before start?
 				if (endDateObj.compare(startDateObj) === -1) {
@@ -229,63 +223,58 @@ export default defineStore('calendarObjectInstance', {
 					endDateObj.addDuration(DurationValue.fromSeconds(60 * 60 * 24))
 					if (endDateObj.compare(startDateObj) === -1) {
 						const timezone = getTimezoneManager().getTimezoneForId(startDateObj.timezoneId)
-						calendarObjectInstance.eventComponent.startDate
-							= calendarObjectInstance.eventComponent.endDate.getInTimezone(timezone)
-						calendarObjectInstance.startDate = getDateFromDateTimeValue(calendarObjectInstance.eventComponent.startDate)
+						this.calendarObjectInstance.eventComponent.startDate
+							= this.calendarObjectInstance.eventComponent.endDate.getInTimezone(timezone)
+						this.calendarObjectInstance.startDate = getDateFromDateTimeValue(this.calendarObjectInstance.eventComponent.startDate)
 					} else {
 						// add one day to endDate if the endDate is before the startDate which allows to easily create events that reach over or to 0:00
-						calendarObjectInstance.eventComponent.endDate.addDuration(DurationValue.fromSeconds(60 * 60 * 24))
+						this.calendarObjectInstance.eventComponent.endDate.addDuration(DurationValue.fromSeconds(60 * 60 * 24))
 						endDate = new Date(endDate.getTime() + 24 * 60 * 60 * 1000)
 					}
 				}
 			}
 
-			calendarObjectInstance.endDate = endDate
+			this.calendarObjectInstance.endDate = endDate
 		},
 
 		/**
 		 * Change the timezone of the event's end
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string} data.endTimezone New timezone to set for end
 		 */
 		_changeEndTimezoneMutation({
-			calendarObjectInstance,
 			endTimezone,
 		}) {
 			const timezone = getTimezoneManager().getTimezoneForId(endTimezone)
-			calendarObjectInstance.eventComponent.endDate.replaceTimezone(timezone)
-			calendarObjectInstance.endTimezoneId = endTimezone
+			this.calendarObjectInstance.eventComponent.endDate.replaceTimezone(timezone)
+			this.calendarObjectInstance.endTimezoneId = endTimezone
 
 			// Either both are floating or both have a timezone, but it can't be mixed
-			if (endTimezone === 'floating' || calendarObjectInstance.startTimezoneId === 'floating') {
-				calendarObjectInstance.eventComponent.startDate.replaceTimezone(timezone)
-				calendarObjectInstance.startTimezoneId = endTimezone
+			if (endTimezone === 'floating' || this.calendarObjectInstance.startTimezoneId === 'floating') {
+				this.calendarObjectInstance.eventComponent.startDate.replaceTimezone(timezone)
+				this.calendarObjectInstance.startTimezoneId = endTimezone
 			}
 		},
 
 		/**
 		 * Switch from a timed event to allday or vice versa
-		 *
-		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 */
-		toggleAllDayMutation({ calendarObjectInstance }) {
-			if (!calendarObjectInstance.eventComponent.canModifyAllDay() && this.calendarObject.existsOnServer) {
+		toggleAllDayMutation() {
+			if (!this.calendarObjectInstance.eventComponent.canModifyAllDay() && this.calendarObject.existsOnServer) {
 				return
 			}
 
-			const isAllDay = calendarObjectInstance.eventComponent.isAllDay()
-			calendarObjectInstance.eventComponent.startDate.isDate = !isAllDay
-			calendarObjectInstance.eventComponent.endDate.isDate = !isAllDay
-			calendarObjectInstance.isAllDay = calendarObjectInstance.eventComponent.isAllDay()
+			const isAllDay = this.calendarObjectInstance.eventComponent.isAllDay()
+			this.calendarObjectInstance.eventComponent.startDate.isDate = !isAllDay
+			this.calendarObjectInstance.eventComponent.endDate.isDate = !isAllDay
+			this.calendarObjectInstance.isAllDay = this.calendarObjectInstance.eventComponent.isAllDay()
 
 			// isAllDay = old value
 			if (isAllDay) {
-				calendarObjectInstance.eventComponent.endDate.addDuration(DurationValue.fromSeconds(-1 * 60 * 60 * 24))
+				this.calendarObjectInstance.eventComponent.endDate.addDuration(DurationValue.fromSeconds(-1 * 60 * 60 * 24))
 			} else {
-				calendarObjectInstance.eventComponent.endDate.addDuration(DurationValue.fromSeconds(60 * 60 * 24))
+				this.calendarObjectInstance.eventComponent.endDate.addDuration(DurationValue.fromSeconds(60 * 60 * 24))
 			}
 		},
 
@@ -308,33 +297,29 @@ export default defineStore('calendarObjectInstance', {
 		 * Change the location of an event
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string} data.location New location to set
 		 */
 		changeLocation({
-			calendarObjectInstance,
 			location,
 		}) {
 			// Special case: delete Apple-specific location property to avoid inconsistencies
-			calendarObjectInstance.eventComponent.deleteAllProperties('X-APPLE-STRUCTURED-LOCATION')
+			this.calendarObjectInstance.eventComponent.deleteAllProperties('X-APPLE-STRUCTURED-LOCATION')
 
-			calendarObjectInstance.eventComponent.location = location
-			calendarObjectInstance.location = location
+			this.calendarObjectInstance.eventComponent.location = location
+			this.calendarObjectInstance.location = location
 		},
 
 		/**
 		 * Change the description of an event
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string} data.description New description to set
 		 */
 		changeDescription({
-			calendarObjectInstance,
 			description,
 		}) {
 			// To avoid inconsistencies (bug #3863), remove all parameters (e.g., ALTREP) upon modification
-			const descriptionProperty = calendarObjectInstance.eventComponent.getFirstProperty('Description')
+			const descriptionProperty = this.calendarObjectInstance.eventComponent.getFirstProperty('Description')
 			if (descriptionProperty) {
 				for (const parameter of descriptionProperty.getParametersIterator()) {
 					descriptionProperty.deleteParameter(parameter.name)
@@ -342,10 +327,10 @@ export default defineStore('calendarObjectInstance', {
 			}
 
 			// Delete custom description properties
-			calendarObjectInstance.eventComponent.deleteAllProperties('X-ALT-DESC')
+			this.calendarObjectInstance.eventComponent.deleteAllProperties('X-ALT-DESC')
 
-			calendarObjectInstance.eventComponent.description = description
-			calendarObjectInstance.description = description
+			this.calendarObjectInstance.eventComponent.description = description
+			this.calendarObjectInstance.description = description
 		},
 
 		/**
@@ -422,7 +407,6 @@ export default defineStore('calendarObjectInstance', {
 		 * Adds an attendee to the event and sets the organizer if not present already
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string} data.commonName Displayname of attendee
 		 * @param {string} data.uri Email address of attendee
 		 * @param {string} data.calendarUserType Calendar-user-type of attendee (INDIVIDUAL, GROUP, RESOURCE, ROOM)
@@ -435,7 +419,6 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {string | Array} data.member Group membership(s)
 		 */
 		addAttendee({
-			calendarObjectInstance,
 			commonName,
 			uri,
 			calendarUserType = null,
@@ -471,8 +454,8 @@ export default defineStore('calendarObjectInstance', {
 			}
 
 			// TODO - use real addAttendeeFrom method
-			calendarObjectInstance.eventComponent.addProperty(attendee)
-			calendarObjectInstance.attendees.push({
+			this.calendarObjectInstance.eventComponent.addProperty(attendee)
+			this.calendarObjectInstance.attendees.push({
 				commonName,
 				participationStatus,
 				role,
@@ -481,9 +464,8 @@ export default defineStore('calendarObjectInstance', {
 				attendeeProperty: markRaw(attendee),
 			})
 
-			if (!calendarObjectInstance.organizer && organizer) {
+			if (!this.calendarObjectInstance.organizer && organizer) {
 				this.setOrganizer({
-					calendarObjectInstance,
 					commonName: organizer.displayname,
 					email: organizer.emailAddress,
 				})
@@ -494,14 +476,12 @@ export default defineStore('calendarObjectInstance', {
 		 * Removes an attendee from the event
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.attendee The attendee object to remove
 		 */
 		removeAttendee({
-			calendarObjectInstance,
 			attendee,
 		}) {
-			calendarObjectInstance.eventComponent.removeAttendee(attendee.attendeeProperty)
+			this.calendarObjectInstance.eventComponent.removeAttendee(attendee.attendeeProperty)
 			// Also remove members if attendee is a group
 			if (attendee.attendeeProperty.userType === 'GROUP') {
 				attendee.members.forEach(function(member) {
@@ -516,23 +496,23 @@ export default defineStore('calendarObjectInstance', {
 							member.attendeeProperty.member.splice(removeIndex, 1)
 						}
 					} else {
-						calendarObjectInstance.eventComponent.removeAttendee(member.attendeeProperty)
-						const index = calendarObjectInstance.attendees.indexOf(member)
+						this.calendarObjectInstance.eventComponent.removeAttendee(member.attendeeProperty)
+						const index = this.calendarObjectInstance.attendees.indexOf(member)
 						if (index !== -1) {
-							calendarObjectInstance.attendees.splice(index, 1)
+							this.calendarObjectInstance.attendees.splice(index, 1)
 						}
 					}
 				})
 			}
 
-			const index = calendarObjectInstance.attendees.indexOf(attendee)
+			const index = this.calendarObjectInstance.attendees.indexOf(attendee)
 			if (index !== -1) {
-				calendarObjectInstance.attendees.splice(index, 1)
+				this.calendarObjectInstance.attendees.splice(index, 1)
 			}
 
-			if (calendarObjectInstance.attendees.length === 0) {
-				calendarObjectInstance.organizer = null
-				calendarObjectInstance.eventComponent.deleteAllProperties('ORGANIZER')
+			if (this.calendarObjectInstance.attendees.length === 0) {
+				this.calendarObjectInstance.organizer = null
+				this.calendarObjectInstance.eventComponent.deleteAllProperties('ORGANIZER')
 			}
 		},
 
@@ -582,16 +562,15 @@ export default defineStore('calendarObjectInstance', {
 		 * Set the event's organizer
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string=} data.commonName Displayname of organizer
 		 * @param {string} data.email Email-address of organizer
 		 */
-		setOrganizer({ calendarObjectInstance, commonName = null, email }) {
-			calendarObjectInstance.eventComponent.setOrganizerFromNameAndEMail(commonName, email)
-			calendarObjectInstance.organizer = {
+		setOrganizer({ commonName = null, email }) {
+			this.calendarObjectInstance.eventComponent.setOrganizerFromNameAndEMail(commonName, email)
+			this.calendarObjectInstance.organizer = {
 				commonName,
 				uri: email,
-				attendeeProperty: calendarObjectInstance.eventComponent.getFirstProperty('ORGANIZER'),
+				attendeeProperty: this.calendarObjectInstance.eventComponent.getFirstProperty('ORGANIZER'),
 			}
 		},
 
@@ -599,7 +578,6 @@ export default defineStore('calendarObjectInstance', {
 		 * Adds a category to the event
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string} data.category Category to add
 		 */
 		addCategory({ category }) {
@@ -684,18 +662,16 @@ export default defineStore('calendarObjectInstance', {
 		 * Change the until limit of the recurrence-rule
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 * @param {Date} data.until The new until to set
 		 */
 		changeRecurrenceUntil({
-			calendarObjectInstance,
 			recurrenceRule,
 			until,
 		}) {
 			if (recurrenceRule.recurrenceRuleValue) {
 				// RFC 5545, setion 3.3.10: until must be in UTC if the start time is timezone-aware
-				if (calendarObjectInstance.startTimezoneId !== 'floating') {
+				if (this.calendarObjectInstance.startTimezoneId !== 'floating') {
 					recurrenceRule.recurrenceRuleValue.until = DateTimeValue.fromJSDate(until, { zone: 'utc' })
 				} else {
 					recurrenceRule.recurrenceRuleValue.until = DateTimeValue.fromJSDate(until)
@@ -766,18 +742,16 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 */
 		_setDefaultRecurrenceByPartsForMonthlyBySetPosition({
-			calendarObjectInstance,
 			recurrenceRule,
 		}) {
 			if (recurrenceRule.recurrenceRuleValue) {
 				const {
 					byDay,
 					bySetPosition,
-				} = getBySetPositionAndBySetFromDate(calendarObjectInstance.startDate)
+				} = getBySetPositionAndBySetFromDate(this.calendarObjectInstance.startDate)
 				recurrenceRule.recurrenceRuleValue.setComponent('BYDAY', [byDay])
 				recurrenceRule.recurrenceRuleValue.setComponent('BYSETPOS', [bySetPosition])
 
@@ -791,16 +765,14 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 */
 		setDefaultRecurrenceByPartsForYearlyBySetPosition({
-			calendarObjectInstance,
 			recurrenceRule,
 		}) {
 			if (recurrenceRule.recurrenceRuleValue) {
-				const byMonth = calendarObjectInstance.startDate.getMonth() + 1
-				const { byDay, bySetPosition } = getBySetPositionAndBySetFromDate(calendarObjectInstance.startDate)
+				const byMonth = this.calendarObjectInstance.startDate.getMonth() + 1
+				const { byDay, bySetPosition } = getBySetPositionAndBySetFromDate(this.calendarObjectInstance.startDate)
 
 				recurrenceRule.recurrenceRuleValue.setComponent('BYMONTH', [byMonth])
 				recurrenceRule.recurrenceRuleValue.setComponent('BYDAY', [byDay])
@@ -1133,19 +1105,17 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string} data.type Type of alarm
 		 * @param {number} data.totalSeconds Total amount of seconds for new alarm
 		 * @param {boolean=} data.isDefault Whether this is the default alarm
 		 */
 		addAlarmToCalendarObjectInstance({
-			calendarObjectInstance,
 			type,
 			totalSeconds,
 			isDefault = false,
 		}) {
-			if (calendarObjectInstance.eventComponent) {
-				const eventComponent = calendarObjectInstance.eventComponent
+			if (this.calendarObjectInstance.eventComponent) {
+				const eventComponent = this.calendarObjectInstance.eventComponent
 
 				const duration = DurationValue.fromSeconds(totalSeconds)
 				const alarmComponent = eventComponent.addRelativeAlarm(type, duration)
@@ -1156,7 +1126,7 @@ export default defineStore('calendarObjectInstance', {
 
 				const alarmObject = mapAlarmComponentToAlarmObject(alarmComponent)
 
-				calendarObjectInstance.alarms.push(alarmObject)
+				this.calendarObjectInstance.alarms.push(alarmObject)
 
 				logger.debug(alarmObject.alarmComponent.toICALJs().toString())
 			}
@@ -1165,15 +1135,13 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.alarm The alarm object
 		 */
 		removeAlarmFromCalendarObjectInstance({
-			calendarObjectInstance,
 			alarm,
 		}) {
 			if (alarm.alarmComponent) {
-				const alarmIterator = calendarObjectInstance.eventComponent.getAlarmIterator()
+				const alarmIterator = this.calendarObjectInstance.eventComponent.getAlarmIterator()
 				let matchedAlarm = null
 				const targetSeconds = alarm.alarmComponent.trigger.value.totalSeconds
 				const targetAction = alarm.alarmComponent.action
@@ -1185,12 +1153,12 @@ export default defineStore('calendarObjectInstance', {
 				}
 
 				if (matchedAlarm) {
-					calendarObjectInstance.eventComponent.removeAlarm(matchedAlarm)
+					this.calendarObjectInstance.eventComponent.removeAlarm(matchedAlarm)
 				}
 
-				const index = calendarObjectInstance.alarms.indexOf(alarm)
+				const index = this.calendarObjectInstance.alarms.indexOf(alarm)
 				if (index !== -1) {
-					calendarObjectInstance.alarms.splice(index, 1)
+					this.calendarObjectInstance.alarms.splice(index, 1)
 				}
 			}
 		},
@@ -1198,11 +1166,9 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 * @deprecated
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.sharedData The shared file data to attach
 		 */
 		addAttachmentBySharedData({
-			calendarObjectInstance,
 			sharedData,
 		}) {
 			const attachment = AttachmentProperty.fromLink(sharedData.url)
@@ -1232,18 +1198,16 @@ export default defineStore('calendarObjectInstance', {
 			attachment.formatType = sharedData.getcontenttype
 			attachment.uri = sharedData.url ? sharedData.url : generateUrl(`/f/${sharedData.fileid}`)
 
-			calendarObjectInstance.eventComponent.addProperty(attachment)
-			calendarObjectInstance.attachments.push(attachment)
+			this.calendarObjectInstance.eventComponent.addProperty(attachment)
+			this.calendarObjectInstance.attachments.push(attachment)
 		},
 
 		/**
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.sharedData The shared file data to attach
 		 */
 		addAttachmentWithProperty({
-			calendarObjectInstance,
 			sharedData,
 		}) {
 			const attachment = {}
@@ -1275,26 +1239,24 @@ export default defineStore('calendarObjectInstance', {
 
 			attachment.attachmentProperty = attachmentProperty
 
-			calendarObjectInstance.eventComponent.addProperty(attachmentProperty)
-			calendarObjectInstance.attachments.push(attachment)
+			this.calendarObjectInstance.eventComponent.addProperty(attachmentProperty)
+			this.calendarObjectInstance.attachments.push(attachment)
 		},
 
 		/**
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.attachment The attachment object
 		 */
 		deleteAttachment({
-			calendarObjectInstance,
 			attachment,
 		}) {
 			try {
-				const index = calendarObjectInstance.attachments.indexOf(attachment)
+				const index = this.calendarObjectInstance.attachments.indexOf(attachment)
 				if (index !== -1) {
-					calendarObjectInstance.attachments.splice(index, 1)
+					this.calendarObjectInstance.attachments.splice(index, 1)
 				}
-				calendarObjectInstance.eventComponent.removeAttachment(attachment.attachmentProperty)
+				this.calendarObjectInstance.eventComponent.removeAttachment(attachment.attachmentProperty)
 			} catch {
 				// Ignore
 			}
@@ -1441,7 +1403,6 @@ export default defineStore('calendarObjectInstance', {
 			timezoneId,
 		}) {
 			this._updateTimeOfNewEvent({
-				calendarObjectInstance: this.calendarObjectInstance,
 				start,
 				end,
 				isAllDay,
@@ -1574,7 +1535,6 @@ export default defineStore('calendarObjectInstance', {
 			}
 
 			this.changeStartDateMutation({
-				calendarObjectInstance: this.calendarObjectInstance,
 				startDate,
 			})
 
@@ -1582,7 +1542,6 @@ export default defineStore('calendarObjectInstance', {
 			if (changeEndDate) {
 				const newEndDate = new Date(startDate.getTime() + oldDuration)
 				this.changeEndDateMutation({
-					calendarObjectInstance: this.calendarObjectInstance,
 					endDate: newEndDate,
 				})
 			}
@@ -1592,23 +1551,19 @@ export default defineStore('calendarObjectInstance', {
 		 * Change the timezone of the event's start
 		 *
 		 * @param {object} data The destructuring object for data
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string} data.startTimezone New timezone to set for start
 		 */
 		changeStartTimezone({
-			calendarObjectInstance,
 			startTimezone,
 		}) {
 			this._changeStartTimezoneMutation({
-				calendarObjectInstance,
 				startTimezone,
 			})
 
 			// Simulate a change of the start time to trigger the comparison
 			// of start and end and trigger an update of end if necessary
 			this.changeStartDateMutation({
-				calendarObjectInstance,
-				startDate: calendarObjectInstance.startDate,
+				startDate: this.calendarObjectInstance.startDate,
 			})
 		},
 
@@ -1627,7 +1582,6 @@ export default defineStore('calendarObjectInstance', {
 			}
 
 			this.changeEndDateMutation({
-				calendarObjectInstance: this.calendarObjectInstance,
 				endDate,
 			})
 		},
@@ -1636,63 +1590,54 @@ export default defineStore('calendarObjectInstance', {
 		 * Change the timezone of the event's end
 		 *
 		 * @param {object} data The destructuring object for data
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string} data.endTimezone New timezone to set for end
 		 */
 		changeEndTimezone({
-			calendarObjectInstance,
 			endTimezone,
 		}) {
 			this._changeEndTimezoneMutation({
-				calendarObjectInstance,
 				endTimezone,
 			})
 
 			// Simulate a change of the end time to trigger the comparison
 			// of start and end and trigger an update of start if necessary
 			this.changeEndDateMutation({
-				calendarObjectInstance,
-				endDate: calendarObjectInstance.endDate,
+				endDate: this.calendarObjectInstance.endDate,
 			})
 		},
 
 		/**
 		 *
 		 * @param {object} data The destructuring object for data
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 * @param {string} data.frequency The new frequency to set
 		 */
 		changeRecurrenceFrequency({
-			calendarObjectInstance,
 			recurrenceRule,
 			frequency,
 		}) {
-			logger.debug('changeRecurrenceFrequency', { calendarObjectInstance, recurrenceRule, frequency })
+			logger.debug('changeRecurrenceFrequency', { calendarObjectInstance: this.calendarObjectInstance, recurrenceRule, frequency })
 
 			if (recurrenceRule.frequency === 'NONE' && frequency !== 'NONE') {
 				// Add a new recurrence-rule
 				const recurrenceValue = RecurValue.fromData({})
 				const recurrenceProperty = new Property('RRULE', recurrenceValue)
-				calendarObjectInstance.eventComponent.addProperty(recurrenceProperty)
-				calendarObjectInstance.recurrenceRule.recurrenceRuleValue = recurrenceValue
+				this.calendarObjectInstance.eventComponent.addProperty(recurrenceProperty)
+				this.calendarObjectInstance.recurrenceRule.recurrenceRuleValue = recurrenceValue
 
 				this._resetRecurrenceByParts({ recurrenceRule })
 				this._changeRecurrenceFrequencyMutation({
-					calendarObjectInstance,
-					recurrenceRule: calendarObjectInstance.recurrenceRule,
+					recurrenceRule: this.calendarObjectInstance.recurrenceRule,
 					frequency,
 				})
 				this.changeRecurrenceInterval({
-					calendarObjectInstance,
-					recurrenceRule: calendarObjectInstance.recurrenceRule,
+					recurrenceRule: this.calendarObjectInstance.recurrenceRule,
 					interval: 1,
 				})
 				this.changeRecurrenceToInfinite({
-					recurrenceRule: calendarObjectInstance.recurrenceRule,
+					recurrenceRule: this.calendarObjectInstance.recurrenceRule,
 				})
 				this.setDefaultRecurrenceByParts({
-					calendarObjectInstance,
 					recurrenceRule,
 					frequency,
 				})
@@ -1702,22 +1647,20 @@ export default defineStore('calendarObjectInstance', {
 				logger.debug('calling removeRecurrenceRuleFromCalendarObjectInstance')
 				// Remove the recurrence-rule
 				if (recurrenceRule.recurrenceRuleValue) {
-					calendarObjectInstance.eventComponent.deleteAllProperties('RRULE')
+					this.calendarObjectInstance.eventComponent.deleteAllProperties('RRULE')
 					/// TODO calendarObjectInstance.recurrenceRule = getDefaultEventObject().recurrenceRule
-					calendarObjectInstance.recurrenceRule = getDefaultEventObject().recurrenceRule
+					this.calendarObjectInstance.recurrenceRule = getDefaultEventObject().recurrenceRule
 
-					logger.debug('Removed recurrence-rule', { calendarObjectInstance, recurrenceRule })
+					logger.debug('Removed recurrence-rule', { calendarObjectInstance: this.calendarObjectInstance, recurrenceRule })
 				}
 			} else {
 				// Change frequency of existing recurrence-rule
 				this._resetRecurrenceByParts({ recurrenceRule })
 				this._changeRecurrenceFrequencyMutation({
-					calendarObjectInstance,
-					recurrenceRule: calendarObjectInstance.recurrenceRule,
+					recurrenceRule: this.calendarObjectInstance.recurrenceRule,
 					frequency,
 				})
 				this.setDefaultRecurrenceByParts({
-					calendarObjectInstance,
 					recurrenceRule,
 					frequency,
 				})
@@ -1727,19 +1670,17 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 *
 		 * @param {object} data The destructuring object for data
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 * @param {string} data.frequency The new frequency to set
 		 */
 		setDefaultRecurrenceByParts({
-			calendarObjectInstance,
 			recurrenceRule,
 			frequency,
 		}) {
 			switch (frequency) {
 				case 'WEEKLY':
 					if (recurrenceRule.recurrenceRuleValue) {
-						const byDay = getWeekDayFromDate(calendarObjectInstance.startDate)
+						const byDay = getWeekDayFromDate(this.calendarObjectInstance.startDate)
 						recurrenceRule.recurrenceRuleValue.setComponent('BYDAY', [byDay])
 						recurrenceRule.byDay.push(byDay)
 
@@ -1749,7 +1690,7 @@ export default defineStore('calendarObjectInstance', {
 
 				case 'MONTHLY':
 					if (recurrenceRule.recurrenceRuleValue) {
-						const byMonthDay = calendarObjectInstance.startDate.getDate()
+						const byMonthDay = this.calendarObjectInstance.startDate.getDate()
 						recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', [byMonthDay])
 						recurrenceRule.byMonthDay.push(byMonthDay)
 
@@ -1759,11 +1700,11 @@ export default defineStore('calendarObjectInstance', {
 
 				case 'YEARLY':
 					if (recurrenceRule.recurrenceRuleValue) {
-						const byMonth = calendarObjectInstance.startDate.getMonth() + 1 // Javascript months are zero-based
+						const byMonth = this.calendarObjectInstance.startDate.getMonth() + 1 // Javascript months are zero-based
 						recurrenceRule.recurrenceRuleValue.setComponent('BYMONTH', [byMonth])
 						recurrenceRule.byMonth.push(byMonth)
 
-						const byMonthDay = calendarObjectInstance.startDate.getDate()
+						const byMonthDay = this.calendarObjectInstance.startDate.getDate()
 						recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', [byMonthDay])
 						recurrenceRule.byMonthDay.push(byMonthDay)
 
@@ -1776,17 +1717,14 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 *
 		 * @param {object} data The destructuring object for data
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 */
 		changeMonthlyRecurrenceFromByDayToBySetPosition({
-			calendarObjectInstance,
 			recurrenceRule,
 		}) {
 			logger.debug('changeMonthlyRecurrenceFromByDayToBySetPosition')
 			this._resetRecurrenceByParts({ recurrenceRule })
 			this._setDefaultRecurrenceByPartsForMonthlyBySetPosition({
-				calendarObjectInstance,
 				recurrenceRule,
 			})
 		},
@@ -1794,18 +1732,16 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 *
 		 * @param {object} data The destructuring object for data
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 */
 		changeMonthlyRecurrenceFromBySetPositionToByDay({
-			calendarObjectInstance,
 			recurrenceRule,
 		}) {
 			logger.debug('changeMonthlyRecurrenceFromBySetPositionToByDay')
 			this._resetRecurrenceByParts({ recurrenceRule })
 
 			if (recurrenceRule.recurrenceRuleValue) {
-				const byMonthDay = calendarObjectInstance.startDate.getDate()
+				const byMonthDay = this.calendarObjectInstance.startDate.getDate()
 				recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', [byMonthDay])
 				recurrenceRule.byMonthDay.push(byMonthDay)
 
@@ -1816,16 +1752,13 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 *
 		 * @param {object} data The destructuring object for data
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 */
 		changeYearlyRecurrenceFromByDayToBySetPosition({
-			calendarObjectInstance,
 			recurrenceRule,
 		}) {
 			this._resetRecurrenceByParts({ recurrenceRule })
 			this.setDefaultRecurrenceByPartsForYearlyBySetPosition({
-				calendarObjectInstance,
 				recurrenceRule,
 			})
 		},
@@ -1833,21 +1766,19 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 *
 		 * @param {object} data The destructuring object for data
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 */
 		changeYearlyRecurrenceFromBySetPositionToByDay({
-			calendarObjectInstance,
 			recurrenceRule,
 		}) {
 			this._resetRecurrenceByParts({ recurrenceRule })
 
 			if (recurrenceRule.recurrenceRuleValue) {
-				const byMonth = calendarObjectInstance.startDate.getMonth() + 1 // Javascript months are zero-based
+				const byMonth = this.calendarObjectInstance.startDate.getMonth() + 1 // Javascript months are zero-based
 				recurrenceRule.recurrenceRuleValue.setComponent('BYMONTH', [byMonth])
 				recurrenceRule.byMonth.push(byMonth)
 
-				const byMonthDay = calendarObjectInstance.startDate.getDate()
+				const byMonthDay = this.calendarObjectInstance.startDate.getDate()
 				recurrenceRule.recurrenceRuleValue.setComponent('BYMONTHDAY', [byMonthDay])
 				recurrenceRule.byMonthDay.push(byMonthDay)
 			}
@@ -1856,31 +1787,29 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 *
 		 * @param {object} data The destructuring object for data
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {object} data.recurrenceRule The recurrenceRule object to modify
 		 */
 		enableRecurrenceLimitByUntil({
-			calendarObjectInstance,
 			recurrenceRule,
 		}) {
 			let until
 			switch (recurrenceRule.frequency) {
 			// Defaults to 7 days
 				case 'DAILY':
-					until = new Date(calendarObjectInstance.startDate.getTime() + 7 * 24 * 60 * 60 * 1000)
+					until = new Date(this.calendarObjectInstance.startDate.getTime() + 7 * 24 * 60 * 60 * 1000)
 					break
 
 				// Defaults to 4 weeks
 				case 'WEEKLY':
-					until = new Date(calendarObjectInstance.startDate.getTime() + 4 * 7 * 24 * 60 * 60 * 1000)
+					until = new Date(this.calendarObjectInstance.startDate.getTime() + 4 * 7 * 24 * 60 * 60 * 1000)
 					break
 
 				// Defaults to 10 year
 				case 'YEARLY':
 					until = new Date(
-						calendarObjectInstance.startDate.getFullYear() + 10,
-						calendarObjectInstance.startDate.getMonth(),
-						calendarObjectInstance.startDate.getDate(),
+						this.calendarObjectInstance.startDate.getFullYear() + 10,
+						this.calendarObjectInstance.startDate.getMonth(),
+						this.calendarObjectInstance.startDate.getDate(),
 						23,
 						59,
 						59,
@@ -1891,9 +1820,9 @@ export default defineStore('calendarObjectInstance', {
 				case 'MONTHLY':
 				default:
 					until = new Date(
-						calendarObjectInstance.startDate.getFullYear() + 1,
-						calendarObjectInstance.startDate.getMonth(),
-						calendarObjectInstance.startDate.getDate(),
+						this.calendarObjectInstance.startDate.getFullYear() + 1,
+						this.calendarObjectInstance.startDate.getMonth(),
+						this.calendarObjectInstance.startDate.getDate(),
 						23,
 						59,
 						59,
@@ -1905,7 +1834,6 @@ export default defineStore('calendarObjectInstance', {
 				recurrenceRule,
 			})
 			this.changeRecurrenceUntil({
-				calendarObjectInstance,
 				recurrenceRule,
 				until,
 			})
@@ -2028,11 +1956,10 @@ export default defineStore('calendarObjectInstance', {
 		},
 
 		changeAlarmFromRelativeToAbsolute({
-			calendarObjectInstance,
 			alarm,
 		}) {
 			if (alarm.alarmComponent) {
-				const triggerDateTime = calendarObjectInstance.eventComponent.startDate.clone()
+				const triggerDateTime = this.calendarObjectInstance.eventComponent.startDate.clone()
 				// The trigger of an alarm must be DATE-TIME, startDate can be either.
 				triggerDateTime.isDate = false
 
@@ -2058,12 +1985,11 @@ export default defineStore('calendarObjectInstance', {
 		},
 
 		changeAlarmFromAbsoluteToRelative({
-			calendarObjectInstance,
 			alarm,
 		}) {
 			if (alarm.alarmComponent) {
 				const duration = alarm.alarmComponent.trigger.value
-					.subtractDateWithTimezone(calendarObjectInstance.eventComponent.startDate)
+					.subtractDateWithTimezone(this.calendarObjectInstance.eventComponent.startDate)
 
 				alarm.alarmComponent.setTriggerFromRelative(duration)
 				alarm.relativeIsBefore = alarm.alarmComponent.trigger.value.isNegative
@@ -2080,13 +2006,12 @@ export default defineStore('calendarObjectInstance', {
 
 		toggleAllDay() {
 			const settingsStore = useSettingsStore()
-			this.toggleAllDayMutation({ calendarObjectInstance: this.calendarObjectInstance })
+			this.toggleAllDayMutation()
 
 			if (!this.calendarObjectInstance.isAllDay) {
 				if (this.calendarObjectInstance.startTimezoneId === 'floating') {
 					const startTimezone = settingsStore.getResolvedTimezone
 					this._changeStartTimezoneMutation({
-						calendarObjectInstance: this.calendarObjectInstance,
 						startTimezone,
 					})
 				}
@@ -2110,20 +2035,17 @@ export default defineStore('calendarObjectInstance', {
 			const endDate = new Date(end * 1000)
 
 			if (this.calendarObjectInstance.isAllDay !== isAllDay) {
-				this.toggleAllDayMutation({ calendarObjectInstance: this.calendarObjectInstance })
+				this.toggleAllDayMutation()
 			}
 
 			this.changeStartTimezone({
-				calendarObjectInstance: this.calendarObjectInstance,
 				startTimezone: timezoneId,
 			})
 			this.changeEndTimezone({
-				calendarObjectInstance: this.calendarObjectInstance,
 				endTimezone: timezoneId,
 			})
 
 			this.changeStartDateMutation({
-				calendarObjectInstance: this.calendarObjectInstance,
 				startDate,
 			})
 
@@ -2131,12 +2053,10 @@ export default defineStore('calendarObjectInstance', {
 				// The full-calendar end date is exclusive, but the end-date
 				// that changeEndDate expects is inclusive, so we have to deduct one day.
 				this.changeEndDateMutation({
-					calendarObjectInstance: this.calendarObjectInstance,
 					endDate: new Date(endDate.getTime() - 24 * 60 * 60 * 1000),
 				})
 			} else {
 				this.changeEndDateMutation({
-					calendarObjectInstance: this.calendarObjectInstance,
 					endDate,
 				})
 			}

@@ -253,7 +253,6 @@ export default {
 		 */
 		changeFrequency(frequency) {
 			this.calendarObjectInstanceStore.changeRecurrenceFrequency({
-				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 				frequency,
 			})
@@ -372,7 +371,6 @@ export default {
 		 */
 		changeToBySetPositionMonthly() {
 			this.calendarObjectInstanceStore.changeMonthlyRecurrenceFromByDayToBySetPosition({
-				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
@@ -384,7 +382,6 @@ export default {
 		 */
 		changeToByDayMonthly() {
 			this.calendarObjectInstanceStore.changeMonthlyRecurrenceFromBySetPositionToByDay({
-				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
@@ -396,7 +393,6 @@ export default {
 		 */
 		changeToBySetPositionYearly() {
 			this.calendarObjectInstanceStore.changeYearlyRecurrenceFromByDayToBySetPosition({
-				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
@@ -408,7 +404,6 @@ export default {
 		 */
 		changeToByDayYearly() {
 			this.calendarObjectInstanceStore.changeYearlyRecurrenceFromBySetPositionToByDay({
-				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
@@ -426,7 +421,6 @@ export default {
 
 		changeToUntil() {
 			this.calendarObjectInstanceStore.enableRecurrenceLimitByUntil({
-				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 			})
 			this.modified()
@@ -441,7 +435,6 @@ export default {
 		 */
 		setUntil(until) {
 			this.calendarObjectInstanceStore.changeRecurrenceUntil({
-				calendarObjectInstance: this.calendarObjectInstance,
 				recurrenceRule: this.recurrenceRule,
 				until,
 			})

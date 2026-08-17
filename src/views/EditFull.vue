@@ -554,14 +554,12 @@ export default {
 	methods: {
 		updateLocation(location) {
 			this.calendarObjectInstanceStore.changeLocation({
-				calendarObjectInstance: this.calendarObjectInstance,
 				location,
 			})
 		},
 
 		updateDescription(description) {
 			this.calendarObjectInstanceStore.changeDescription({
-				calendarObjectInstance: this.calendarObjectInstance,
 				description,
 			})
 		},
@@ -585,7 +583,6 @@ export default {
 		 */
 		updateAccessClass(accessClass) {
 			this.calendarObjectInstanceStore.changeAccessClass({
-				calendarObjectInstance: this.calendarObjectInstance,
 				accessClass,
 			})
 		},

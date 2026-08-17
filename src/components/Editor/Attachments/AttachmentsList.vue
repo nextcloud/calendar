@@ -156,7 +156,6 @@ export default {
 
 		deleteAttachmentFromEvent(attachment) {
 			this.calendarObjectInstanceStore.deleteAttachment({
-				calendarObjectInstance: this.calendarObjectInstance,
 				attachment,
 			})
 		},

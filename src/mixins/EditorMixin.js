@@ -554,7 +554,6 @@ export default {
 
 			if (!this.calendarObjectInstance.organizer) {
 				this.calendarObjectInstanceStore.setOrganizer({
-					calendarObjectInstance: this.calendarObjectInstance,
 					commonName: delegatorPrincipal.displayname,
 					email: delegatorPrincipal.emailAddress,
 				})
@@ -780,7 +779,6 @@ export default {
 		 */
 		updateDescription(description) {
 			this.calendarObjectInstanceStore.changeDescription({
-				calendarObjectInstance: this.calendarObjectInstance,
 				description,
 			})
 		},
@@ -791,7 +789,6 @@ export default {
 		 */
 		updateLocation(location) {
 			this.calendarObjectInstanceStore.changeLocation({
-				calendarObjectInstance: this.calendarObjectInstance,
 				location,
 			})
 		},
@@ -838,7 +835,6 @@ export default {
 			}
 
 			this.calendarObjectInstanceStore.changeStartTimezone({
-				calendarObjectInstance: this.calendarObjectInstance,
 				startTimezone,
 			})
 		},
@@ -882,7 +878,6 @@ export default {
 			}
 
 			this.calendarObjectInstanceStore.changeEndTimezone({
-				calendarObjectInstance: this.calendarObjectInstance,
 				endTimezone,
 			})
 		},

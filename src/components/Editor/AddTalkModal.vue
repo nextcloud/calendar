@@ -198,7 +198,6 @@ export default {
 
 				if ((this.calendarObjectInstance.location ?? '').trim() === '') {
 					this.calendarObjectInstanceStore.changeLocation({
-						calendarObjectInstance: this.calendarObjectInstance,
 						location: url,
 					})
 					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to location.'))
@@ -209,7 +208,6 @@ export default {
 						: url
 
 					this.calendarObjectInstanceStore.changeDescription({
-						calendarObjectInstance: this.calendarObjectInstance,
 						description: updatedDescription,
 					})
 					showSuccess(this.$t('calendar', 'Successfully added Talk conversation link to description.'))

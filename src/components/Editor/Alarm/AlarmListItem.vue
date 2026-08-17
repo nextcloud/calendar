@@ -385,7 +385,6 @@ export default {
 			}
 
 			this.calendarObjectInstanceStore.changeAlarmFromAbsoluteToRelative({
-				calendarObjectInstance: this.calendarObjectInstance,
 				alarm: this.alarm,
 			})
 
@@ -401,7 +400,6 @@ export default {
 			}
 
 			this.calendarObjectInstanceStore.changeAlarmFromRelativeToAbsolute({
-				calendarObjectInstance: this.calendarObjectInstance,
 				alarm: this.alarm,
 			})
 

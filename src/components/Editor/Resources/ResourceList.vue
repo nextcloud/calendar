@@ -197,7 +197,6 @@ export default {
 	methods: {
 		addResource({ commonName, email, calendarUserType, language, timezoneId, roomAddress }) {
 			this.calendarObjectInstanceStore.addAttendee({
-				calendarObjectInstance: this.calendarObjectInstance,
 				commonName,
 				uri: email,
 				calendarUserType,
@@ -213,7 +212,6 @@ export default {
 
 		removeResource(resource) {
 			this.calendarObjectInstanceStore.removeAttendee({
-				calendarObjectInstance: this.calendarObjectInstance,
 				attendee: resource,
 			})
 		},
@@ -362,7 +360,6 @@ export default {
 			}
 
 			this.calendarObjectInstanceStore.changeLocation({
-				calendarObjectInstance: this.calendarObjectInstance,
 				location,
 			})
 		},
