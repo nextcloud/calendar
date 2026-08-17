@@ -770,7 +770,6 @@ export default {
 			}
 
 			this.calendarObjectInstanceStore.changeTitle({
-				calendarObjectInstance: this.calendarObjectInstance,
 				title,
 			})
 		},
@@ -811,7 +810,6 @@ export default {
 			)
 
 			this.calendarObjectInstanceStore.changeStartDate({
-				calendarObjectInstance: this.calendarObjectInstance,
 				startDate: combinedStartDate,
 				onlyTime: false,
 				changeEndDate: true,
@@ -824,7 +822,6 @@ export default {
 		 */
 		updateStartTime(startDate) {
 			this.calendarObjectInstanceStore.changeStartDate({
-				calendarObjectInstance: this.calendarObjectInstance,
 				startDate,
 				onlyTime: true,
 				changeEndDate: true,
@@ -860,7 +857,6 @@ export default {
 			)
 
 			this.calendarObjectInstanceStore.changeEndDate({
-				calendarObjectInstance: this.calendarObjectInstance,
 				endDate: combinedEndDate,
 			})
 		},
@@ -871,7 +867,6 @@ export default {
 		 */
 		updateEndTime(endDate) {
 			this.calendarObjectInstanceStore.changeEndDate({
-				calendarObjectInstance: this.calendarObjectInstance,
 				endDate,
 				onlyTime: true,
 			})
@@ -895,9 +890,7 @@ export default {
 		 * Toggles the event between all-day and timed
 		 */
 		toggleAllDay() {
-			this.calendarObjectInstanceStore.toggleAllDay({
-				calendarObjectInstance: this.calendarObjectInstance,
-			})
+			this.calendarObjectInstanceStore.toggleAllDay()
 
 			updateDefaultAlarm(this.calendarObject.calendarId, this.calendarObjectInstance)
 		},

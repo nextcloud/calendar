@@ -604,7 +604,6 @@ export default {
 		 */
 		updateStatus(status) {
 			this.calendarObjectInstanceStore.changeStatus({
-				calendarObjectInstance: this.calendarObjectInstance,
 				status,
 			})
 		},
@@ -616,7 +615,6 @@ export default {
 		 */
 		updateTimeTransparency(timeTransparency) {
 			this.calendarObjectInstanceStore.changeTimeTransparency({
-				calendarObjectInstance: this.calendarObjectInstance,
 				timeTransparency,
 			})
 		},
@@ -628,7 +626,6 @@ export default {
 		 */
 		updateInvitationForwarding(invitationForwarding) {
 			this.calendarObjectInstanceStore.changeInvitationForwarding({
-				calendarObjectInstance: this.calendarObjectInstance,
 				invitationForwarding,
 			})
 		},
@@ -640,7 +637,6 @@ export default {
 		 */
 		addCategory(category) {
 			this.calendarObjectInstanceStore.addCategory({
-				calendarObjectInstance: this.calendarObjectInstance,
 				category,
 			})
 		},
@@ -652,7 +648,6 @@ export default {
 		 */
 		removeCategory(category) {
 			this.calendarObjectInstanceStore.removeCategory({
-				calendarObjectInstance: this.calendarObjectInstance,
 				category,
 			})
 		},
@@ -664,7 +659,6 @@ export default {
 		 */
 		updateColor(customColor) {
 			this.calendarObjectInstanceStore.changeCustomColor({
-				calendarObjectInstance: this.calendarObjectInstance,
 				customColor,
 			})
 		},

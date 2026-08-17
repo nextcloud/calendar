@@ -112,12 +112,11 @@ export default defineStore('calendarObjectInstance', {
 		 * Change the title of the event
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string} data.title The new Title
 		 */
-		changeTitle({ calendarObjectInstance, title }) {
-			calendarObjectInstance.eventComponent.title = title
-			calendarObjectInstance.title = title
+		changeTitle({ title }) {
+			this.calendarObjectInstance.eventComponent.title = title
+			this.calendarObjectInstance.title = title
 		},
 
 		/**
@@ -292,19 +291,16 @@ export default defineStore('calendarObjectInstance', {
 
 		/**
 		 * Changes the time of a timed event to the default values
-		 *
-		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 */
-		_changeTimeToDefaultForTimedEvents({ calendarObjectInstance }) {
-			const startDate = calendarObjectInstance.eventComponent.startDate
-			const endDate = calendarObjectInstance.eventComponent.endDate
+		_changeTimeToDefaultForTimedEvents() {
+			const startDate = this.calendarObjectInstance.eventComponent.startDate
+			const endDate = this.calendarObjectInstance.eventComponent.endDate
 			if (startDate.hour === 0 && startDate.minute === 0 && endDate.hour === 0 && endDate.minute === 0) {
 				startDate.hour = 10
 				endDate.hour = 11
 
-				calendarObjectInstance.startDate = getDateFromDateTimeValue(startDate)
-				calendarObjectInstance.endDate = getDateFromDateTimeValue(endDate)
+				this.calendarObjectInstance.startDate = getDateFromDateTimeValue(startDate)
+				this.calendarObjectInstance.endDate = getDateFromDateTimeValue(endDate)
 			}
 		},
 
@@ -356,61 +352,56 @@ export default defineStore('calendarObjectInstance', {
 		 * Change the access class of an event
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string} data.accessClass New access class to set
 		 */
-		changeAccessClass({ calendarObjectInstance, accessClass }) {
-			calendarObjectInstance.eventComponent.accessClass = accessClass
-			calendarObjectInstance.accessClass = accessClass
+		changeAccessClass({ accessClass }) {
+			this.calendarObjectInstance.eventComponent.accessClass = accessClass
+			this.calendarObjectInstance.accessClass = accessClass
 		},
 
 		/**
 		 * Change the status of an event
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string} data.status New status to set
 		 */
-		changeStatus({ calendarObjectInstance, status }) {
-			calendarObjectInstance.eventComponent.status = status
-			calendarObjectInstance.status = status
+		changeStatus({ status }) {
+			this.calendarObjectInstance.eventComponent.status = status
+			this.calendarObjectInstance.status = status
 		},
 
 		/**
 		 * Change the time-transparency of an event
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string} data.timeTransparency New time-transparency to set
 		 */
-		changeTimeTransparency({ calendarObjectInstance, timeTransparency }) {
-			calendarObjectInstance.eventComponent.timeTransparency = timeTransparency
-			calendarObjectInstance.timeTransparency = timeTransparency
+		changeTimeTransparency({ timeTransparency }) {
+			this.calendarObjectInstance.eventComponent.timeTransparency = timeTransparency
+			this.calendarObjectInstance.timeTransparency = timeTransparency
 		},
 
 		/**
 		 * Change the invitation-forwarding property of an event
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string} data.invitationForwarding Invitation forwarding value
 		 */
-		changeInvitationForwarding({ calendarObjectInstance, invitationForwarding }) {
-			calendarObjectInstance.eventComponent.updatePropertyWithValue('X-NC-INVITATION-FORWARDING', invitationForwarding)
-			calendarObjectInstance.invitationForwarding = invitationForwarding
+		changeInvitationForwarding({ invitationForwarding }) {
+			this.calendarObjectInstance.eventComponent.updatePropertyWithValue('X-NC-INVITATION-FORWARDING', invitationForwarding)
+			this.calendarObjectInstance.invitationForwarding = invitationForwarding
 		},
 
 		/**
 		 * Change the customized color of an event
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string | null} data.customColor New color to set
 		 */
-		changeCustomColor({ calendarObjectInstance, customColor }) {
+		changeCustomColor({ customColor }) {
 			if (customColor === null) {
-				calendarObjectInstance.eventComponent.deleteAllProperties('COLOR')
-				calendarObjectInstance.customColor = null
+				this.calendarObjectInstance.eventComponent.deleteAllProperties('COLOR')
+				this.calendarObjectInstance.customColor = null
 				return
 			}
 
@@ -423,8 +414,8 @@ export default defineStore('calendarObjectInstance', {
 				return
 			}
 
-			calendarObjectInstance.eventComponent.color = cssColorName
-			calendarObjectInstance.customColor = hexColorOfCssName
+			this.calendarObjectInstance.eventComponent.color = cssColorName
+			this.calendarObjectInstance.customColor = hexColorOfCssName
 		},
 
 		/**
@@ -611,24 +602,23 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string} data.category Category to add
 		 */
-		addCategory({ calendarObjectInstance, category }) {
-			calendarObjectInstance.eventComponent.addCategory(category)
-			calendarObjectInstance.categories.push(category)
+		addCategory({ category }) {
+			this.calendarObjectInstance.eventComponent.addCategory(category)
+			this.calendarObjectInstance.categories.push(category)
 		},
 
 		/**
 		 * Removes a category from the event
 		 *
 		 * @param {object} data The destructuring object
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {string} data.category Category to remove
 		 */
-		removeCategory({ calendarObjectInstance, category }) {
-			calendarObjectInstance.eventComponent.removeCategory(category)
+		removeCategory({ category }) {
+			this.calendarObjectInstance.eventComponent.removeCategory(category)
 
-			const index = calendarObjectInstance.categories.indexOf(category)
+			const index = this.calendarObjectInstance.categories.indexOf(category)
 			if (index !== -1) {
-				calendarObjectInstance.categories.splice(index, 1)
+				this.calendarObjectInstance.categories.splice(index, 1)
 			}
 		},
 
@@ -1591,26 +1581,24 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 *
 		 * @param {object} data The destructuring object for data
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {Date} data.startDate The new start-date
 		 * @param {boolean} data.onlyTime Only update time
 		 * @param {boolean=} data.changeEndDate Whether to also shift the end-date to preserve the duration
 		 */
 		changeStartDate({
-			calendarObjectInstance,
 			startDate,
 			onlyTime = false,
 			changeEndDate = true,
 		}) {
 			// Calculate current duration between start and end
-			const oldDuration = calendarObjectInstance.endDate.getTime() - calendarObjectInstance.startDate.getTime()
+			const oldDuration = this.calendarObjectInstance.endDate.getTime() - this.calendarObjectInstance.startDate.getTime()
 
 			if (onlyTime) {
-				startDate.setFullYear(calendarObjectInstance.startDate.getFullYear(), calendarObjectInstance.startDate.getMonth(), calendarObjectInstance.startDate.getDate())
+				startDate.setFullYear(this.calendarObjectInstance.startDate.getFullYear(), this.calendarObjectInstance.startDate.getMonth(), this.calendarObjectInstance.startDate.getDate())
 			}
 
 			this.changeStartDateMutation({
-				calendarObjectInstance,
+				calendarObjectInstance: this.calendarObjectInstance,
 				startDate,
 			})
 
@@ -1618,7 +1606,7 @@ export default defineStore('calendarObjectInstance', {
 			if (changeEndDate) {
 				const newEndDate = new Date(startDate.getTime() + oldDuration)
 				this.changeEndDateMutation({
-					calendarObjectInstance,
+					calendarObjectInstance: this.calendarObjectInstance,
 					endDate: newEndDate,
 				})
 			}
@@ -1651,21 +1639,19 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 *
 		 * @param {object} data The destructuring object for data
-		 * @param {object} data.calendarObjectInstance The calendarObjectInstance object
 		 * @param {Date} data.endDate The new end-date
 		 * @param {boolean} data.onlyTime Only update time
 		 */
 		changeEndDate({
-			calendarObjectInstance,
 			endDate,
 			onlyTime = false,
 		}) {
 			if (onlyTime) {
-				endDate.setFullYear(calendarObjectInstance.endDate.getFullYear(), calendarObjectInstance.endDate.getMonth(), calendarObjectInstance.endDate.getDate())
+				endDate.setFullYear(this.calendarObjectInstance.endDate.getFullYear(), this.calendarObjectInstance.endDate.getMonth(), this.calendarObjectInstance.endDate.getDate())
 			}
 
 			this.changeEndDateMutation({
-				calendarObjectInstance,
+				calendarObjectInstance: this.calendarObjectInstance,
 				endDate,
 			})
 		},
@@ -2116,20 +2102,20 @@ export default defineStore('calendarObjectInstance', {
 			alarm.absoluteTimezoneId = null
 		},
 
-		toggleAllDay({ calendarObjectInstance }) {
+		toggleAllDay() {
 			const settingsStore = useSettingsStore()
-			this.toggleAllDayMutation({ calendarObjectInstance })
+			this.toggleAllDayMutation({ calendarObjectInstance: this.calendarObjectInstance })
 
-			if (!calendarObjectInstance.isAllDay) {
-				if (calendarObjectInstance.startTimezoneId === 'floating') {
+			if (!this.calendarObjectInstance.isAllDay) {
+				if (this.calendarObjectInstance.startTimezoneId === 'floating') {
 					const startTimezone = settingsStore.getResolvedTimezone
 					this._changeStartTimezoneMutation({
-						calendarObjectInstance,
+						calendarObjectInstance: this.calendarObjectInstance,
 						startTimezone,
 					})
 				}
 
-				this._changeTimeToDefaultForTimedEvents({ calendarObjectInstance })
+				this._changeTimeToDefaultForTimedEvents()
 			}
 		},
 	},
