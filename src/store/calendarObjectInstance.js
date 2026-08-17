@@ -1340,7 +1340,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {object} data The destructuring object
 		 * @param {string} data.objectId The objectId of the calendar-object to edit
 		 * @param {number} data.recurrenceId The recurrence-id to edit
-		 * @return {Promise<{calendarObject: object, calendarObjectInstance: object}>}
+		 * @return {Promise<void>}
 		 */
 		async getCalendarObjectInstanceByObjectIdAndRecurrenceId({
 			objectId,
@@ -1348,10 +1348,7 @@ export default defineStore('calendarObjectInstance', {
 		}) {
 			const calendarsStore = useCalendarsStore()
 			if (this._existingEvent.objectId === objectId && this._existingEvent.recurrenceId === recurrenceId) {
-				return Promise.resolve({
-					calendarObject: this.calendarObject,
-					calendarObjectInstance: this.calendarObjectInstance,
-				})
+				return
 			}
 
 			const recurrenceIdDate = new Date(recurrenceId * 1000)
@@ -1368,11 +1365,6 @@ export default defineStore('calendarObjectInstance', {
 				objectId,
 				recurrenceId,
 			})
-
-			return {
-				calendarObject,
-				calendarObjectInstance,
-			}
 		},
 
 		/**
@@ -1383,7 +1375,7 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {number} data.start The start of the new event (unixtime)
 		 * @param {number} data.end The end of the new event (unixtime)
 		 * @param {string} data.timezoneId The timezoneId of the new event
-		 * @return {Promise<{calendarObject: object, calendarObjectInstance: object}>}
+		 * @return {Promise<void>}
 		 */
 		async getCalendarObjectInstanceForNewEvent({
 			isAllDay,
@@ -1394,10 +1386,7 @@ export default defineStore('calendarObjectInstance', {
 			const calendarObjectsStore = useCalendarObjectsStore()
 
 			if (this._isNew === true) {
-				return Promise.resolve({
-					calendarObject: this.calendarObject,
-					calendarObjectInstance: this.calendarObjectInstance,
-				})
+				return
 			}
 
 			const calendarObject = await calendarObjectsStore.createNewEvent({
@@ -1434,11 +1423,6 @@ export default defineStore('calendarObjectInstance', {
 			})
 
 			calendarObjectInstance.eventComponent.undirtify()
-
-			return {
-				calendarObject,
-				calendarObjectInstance,
-			}
 		},
 
 		/**
@@ -1449,7 +1433,6 @@ export default defineStore('calendarObjectInstance', {
 		 * @param {number} data.start The start of the new event (unixtime)
 		 * @param {number} data.end The end of the new event (unixtime)
 		 * @param {string} data.timezoneId The timezoneId of the new event
-		 * @return {Promise<{calendarObject: object, calendarObjectInstance: object}>}
 		 */
 		updateCalendarObjectInstanceForNewEvent({
 			isAllDay,
@@ -1468,11 +1451,6 @@ export default defineStore('calendarObjectInstance', {
 				calendarObject: this.calendarObject,
 				calendarObjectInstance: this.calendarObjectInstance,
 			})
-
-			return {
-				calendarObject: this.calendarObject,
-				calendarObjectInstance: this.calendarObjectInstance,
-			}
 		},
 
 		/**
