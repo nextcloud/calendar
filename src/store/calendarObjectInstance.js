@@ -1164,45 +1164,6 @@ export default defineStore('calendarObjectInstance', {
 		},
 
 		/**
-		 * @deprecated
-		 * @param {object} data The destructuring object
-		 * @param {object} data.sharedData The shared file data to attach
-		 */
-		addAttachmentBySharedData({
-			sharedData,
-		}) {
-			const attachment = AttachmentProperty.fromLink(sharedData.url)
-			const fileName = sharedData.fileName
-
-			// hot-fix needed temporary, because calendar-js has no fileName get-setter
-			const parameterFileName = new Parameter('FILENAME', fileName)
-			// custom has-preview parameter from dav file
-			const xNcHasPreview = new Parameter('X-NC-HAS-PREVIEW', sharedData['has-preview'].toString())
-			// custom file id parameter from dav file
-			const xNcFileId = new Parameter('X-NC-FILE-ID', sharedData.fileid.toString())
-			// custom share-types parameter from dav file
-			const xNcSharedTypes = new Parameter('X-NC-SHARED-TYPES', sharedData['share-types']['share-type']
-				? sharedData['share-types']['share-type'].join(',')
-				: '')
-			attachment.setParameter(parameterFileName)
-			attachment.setParameter(xNcFileId)
-			attachment.setParameter(xNcHasPreview)
-			attachment.setParameter(xNcSharedTypes)
-			attachment.isNew = true
-			attachment.shareTypes = sharedData['share-types']['share-type']
-				? sharedData['share-types']['share-type'].join(',')
-				: ''
-			attachment.fileName = fileName
-			attachment.xNcFileId = sharedData.fileid
-			attachment.xNcHasPreview = sharedData['has-preview']
-			attachment.formatType = sharedData.getcontenttype
-			attachment.uri = sharedData.url ? sharedData.url : generateUrl(`/f/${sharedData.fileid}`)
-
-			this.calendarObjectInstance.eventComponent.addProperty(attachment)
-			this.calendarObjectInstance.attachments.push(attachment)
-		},
-
-		/**
 		 *
 		 * @param {object} data The destructuring object
 		 * @param {object} data.sharedData The shared file data to attach
