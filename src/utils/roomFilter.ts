@@ -110,6 +110,7 @@ function isPostalCode(segment: string): boolean {
  * @return Building name, or null if the room has no usable address
  */
 export function deriveBuildingName(room: RoomOption): string | null {
+	// TODO https://github.com/nextcloud/calendar/issues/8734 Use the newly introduced building name after it becomes available.
 	const address = normalizeText(room.principal.roomBuildingAddress)
 	if (address === null) {
 		return null
