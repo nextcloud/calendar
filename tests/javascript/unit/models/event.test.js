@@ -64,6 +64,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			categories: [],
 			attachments: [],
 			invitationForwarding: 'TRUE',
+			allowAttendeeGuests: 'FALSE',
 		})
 
 		expect(getDefaultRecurrenceRuleObject).toHaveBeenCalledTimes(1)
@@ -107,6 +108,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			categories: [],
 			attachments: [],
 			invitationForwarding: 'TRUE',
+			allowAttendeeGuests: 'FALSE',
 			otherProp: 'foo',
 		})
 
@@ -158,6 +160,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			categories: [],
 			attachments: [],
 			invitationForwarding: 'TRUE',
+			allowAttendeeGuests: 'FALSE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -227,6 +230,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			categories: [],
 			attachments: [],
 			invitationForwarding: 'TRUE',
+			allowAttendeeGuests: 'FALSE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -295,6 +299,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			categories: [],
 			attachments: [],
 			invitationForwarding: 'TRUE',
+			allowAttendeeGuests: 'FALSE',
 		})
 
 		const alarms = eventComponent.getAlarmList()
@@ -350,6 +355,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			categories: ['BUSINESS', 'HUMAN RESOURCES'],
 			attachments: [],
 			invitationForwarding: 'TRUE',
+			allowAttendeeGuests: 'FALSE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -407,6 +413,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			categories: [],
 			attachments: [],
 			invitationForwarding: 'TRUE',
+			allowAttendeeGuests: 'FALSE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -467,6 +474,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			categories: [],
 			attachments: [],
 			invitationForwarding: 'TRUE',
+			allowAttendeeGuests: 'FALSE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -524,6 +532,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			categories: [],
 			attachments: [],
 			invitationForwarding: 'TRUE',
+			allowAttendeeGuests: 'FALSE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -578,6 +587,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			categories: [],
 			attachments: [],
 			invitationForwarding: 'TRUE',
+			allowAttendeeGuests: 'FALSE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -632,6 +642,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			categories: [],
 			attachments: [],
 			invitationForwarding: 'TRUE',
+			allowAttendeeGuests: 'FALSE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -690,6 +701,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			categories: [],
 			attachments: [],
 			invitationForwarding: 'TRUE',
+			allowAttendeeGuests: 'FALSE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -747,6 +759,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			categories: [],
 			attachments: [],
 			invitationForwarding: 'TRUE',
+			allowAttendeeGuests: 'FALSE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -802,6 +815,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			categories: [],
 			attachments: [],
 			invitationForwarding: 'TRUE',
+			allowAttendeeGuests: 'FALSE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -860,6 +874,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			categories: [],
 			attachments: [],
 			invitationForwarding: 'TRUE',
+			allowAttendeeGuests: 'FALSE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -875,13 +890,13 @@ describe('Test suite: Event model (models/event.js)', () => {
 		expect(getDefaultRecurrenceRuleObject).toHaveBeenCalledTimes(1)
 	})
 
-	it('should default invitation forwarding to TRUE', () => {
+	it('should default adding guests to FALSE', () => {
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
 				defaultRecurrenceObject: true,
 			})
 
-		expect(getDefaultEventObject().invitationForwarding).toEqual('TRUE')
+		expect(getDefaultEventObject().allowAttendeeGuests).toEqual('FALSE')
 	})
 
 	it('should map an event component custom invitation forwarding property', () => {

@@ -74,6 +74,8 @@ function getDefaultEventObject(props = {}) {
 		attachments: [],
 		// Invitation forwarding
 		invitationForwarding: 'TRUE',
+		// Attendees inviting guests, off unless the organizer turned it on
+		allowAttendeeGuests: 'FALSE',
 		...props,
 	}
 }
@@ -177,6 +179,10 @@ function mapEventComponentToEventObject(eventComponent) {
 
 	if (eventComponent.hasProperty('X-NC-INVITATION-FORWARDING')) {
 		eventObject.invitationForwarding = eventComponent.getFirstPropertyFirstValue('X-NC-INVITATION-FORWARDING')
+	}
+
+	if (eventComponent.hasProperty('X-NC-ALLOW-ATTENDEE-GUESTS')) {
+		eventObject.allowAttendeeGuests = eventComponent.getFirstPropertyFirstValue('X-NC-ALLOW-ATTENDEE-GUESTS')
 	}
 
 	return eventObject

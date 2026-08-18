@@ -46,6 +46,16 @@
 						:size="20" />
 				</template>
 			</NcButton>
+			<NcButton
+				v-if="canRemove && !isViewedByOrganizer"
+				variant="tertiary"
+				:aria-label="removeAttendeeText"
+				:title="removeAttendeeText"
+				@click="removeAttendee(attendee)">
+				<template #icon>
+					<Delete :size="20" />
+				</template>
+			</NcButton>
 			<Actions v-if="!isReadOnly && isViewedByOrganizer">
 				<ActionCheckbox
 					v-if="!members.length"
@@ -158,6 +168,15 @@ export default {
 		isReadOnly: {
 			type: Boolean,
 			required: true,
+		},
+
+		/**
+		 * Whether this attendee can be removed even though the list is read-only,
+		 * because the current user just added them.
+		 */
+		canRemove: {
+			type: Boolean,
+			default: false,
 		},
 
 		members: {

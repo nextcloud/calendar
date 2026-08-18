@@ -250,6 +250,12 @@
 							:propModel="propInvitationForwarding"
 							:value="invitationForwarding"
 							@update:value="updateInvitationForwarding" />
+						<PropertySelect
+							v-if="showAllowAttendeeGuests"
+							:isReadOnly="isReadOnly || isRecurring"
+							:propModel="propAllowAttendeeGuests"
+							:value="allowAttendeeGuests"
+							@update:value="updateAllowAttendeeGuests" />
 					</div>
 				</div>
 
@@ -312,6 +318,7 @@
 							v-if="!isLoading"
 							:calendar="selectedCalendar"
 							:isReadOnly="isReadOnly || isViewedByOrganizer === false"
+							:canAddGuests="canAddGuests"
 							:isSharedWithMe="isSharedWithMe"
 							:showHeader="true"
 							@updateDates="updateDates" />
@@ -338,6 +345,7 @@
 import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
 import IconDelete from '@mdi/svg/svg/delete.svg?raw'
 import { Parameter } from '@nextcloud/calendar-js'
+import { loadState } from '@nextcloud/initial-state'
 import { translate as t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import { generateUrl } from '@nextcloud/router'
@@ -469,6 +477,23 @@ export default {
 				info: t('calendar', 'Choose "Only invited attendees can respond" to prevent attendees from forwarding the invitation to others.'),
 				defaultValue: 'TRUE',
 			},
+
+			propAllowAttendeeGuests: {
+				// TRANSLATORS Setting of an event, deciding whether the people invited to it may invite further people
+				readableName: t('calendar', 'Allow attendees to invite guests'),
+				icon: 'AccountMultiplePlusOutline',
+				options: [
+					// TRANSLATORS A guest is someone invited by an attendee rather than by the organizer
+					{ value: 'TRUE', label: t('calendar', 'Attendees can invite guests') },
+					// TRANSLATORS "you" is the organizer of the event, who is reading this setting
+					{ value: 'FALSE', label: t('calendar', 'Only you can invite attendees') },
+				],
+
+				multiple: false,
+				// TRANSLATORS "you" is the organizer of the event, who is reading this setting
+				info: t('calendar', 'Attendees can add other people, who are then invited to the event just like the attendees you added yourself.'),
+				defaultValue: 'FALSE',
+			},
 		}
 	},
 
@@ -499,6 +524,10 @@ export default {
 
 		invitationForwarding() {
 			return this.calendarObjectInstance?.invitationForwarding ?? null
+		},
+
+		allowAttendeeGuests() {
+			return this.calendarObjectInstance?.allowAttendeeGuests ?? null
 		},
 
 		subTitle() {
@@ -534,6 +563,29 @@ export default {
 
 		showInvitationForwarding() {
 			return isAfterVersion(34)
+		},
+
+		showAllowAttendeeGuests() {
+			return loadState('core', 'capabilities', {})?.dav?.attendee_guests === true
+				&& this.isViewedByOrganizer !== false
+		},
+
+		/**
+		 * Guests are only reported to the organizer for the whole event, so they
+		 * are not offered for a recurring one.
+		 *
+		 * @return {boolean}
+		 */
+		isRecurring() {
+			return this.calendarObjectInstance?.recurrenceRule?.frequency !== 'NONE'
+		},
+	},
+
+	watch: {
+		isRecurring(isRecurring) {
+			if (isRecurring && this.allowAttendeeGuests === 'TRUE') {
+				this.updateAllowAttendeeGuests('FALSE')
+			}
 		},
 	},
 
@@ -617,6 +669,18 @@ export default {
 		updateInvitationForwarding(invitationForwarding) {
 			this.calendarObjectInstanceStore.changeInvitationForwarding({
 				invitationForwarding,
+			})
+		},
+
+		/**
+		 * Updates whether attendees may invite guests
+		 *
+		 * @param {string} allowAttendeeGuests Allow attendee guests value
+		 */
+		updateAllowAttendeeGuests(allowAttendeeGuests) {
+			this.calendarObjectInstanceStore.changeAllowAttendeeGuests({
+				calendarObjectInstance: this.calendarObjectInstance,
+				allowAttendeeGuests,
 			})
 		},
 

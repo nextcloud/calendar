@@ -207,6 +207,7 @@
 							:hideErrors="true"
 							:showHeader="true"
 							:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
+							:canAddGuests="canAddGuests && !isReadOnlyOrViewing"
 							:isSharedWithMe="isSharedWithMe"
 							:calendar="selectedCalendar" />
 
