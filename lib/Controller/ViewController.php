@@ -9,10 +9,13 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use OC\App\CompareVersion;
+use OCA\Calendar\Events\BeforeAppointmentModalLoadedEvent;
+use OCA\Calendar\Events\BeforeEventEditorLoadedEvent;
 use OCA\Calendar\Service\CalendarInitialStateService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IConfig;
 use OCP\IRequest;
 
@@ -28,13 +31,17 @@ class ViewController extends Controller {
 
 	private CalendarInitialStateService $calendarInitialStateService;
 
+	private IEventDispatcher $eventDispatcher;
+
 	public function __construct(string $appName,
 		IRequest $request,
 		IConfig $config,
-		CalendarInitialStateService $calendarInitialStateService) {
+		CalendarInitialStateService $calendarInitialStateService,
+		IEventDispatcher $eventDispatcher) {
 		parent::__construct($appName, $request);
 		$this->config = $config;
 		$this->calendarInitialStateService = $calendarInitialStateService;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -48,6 +55,8 @@ class ViewController extends Controller {
 	public function index():TemplateResponse {
 
 		$this->calendarInitialStateService->run();
+		$this->eventDispatcher->dispatchTyped(new BeforeAppointmentModalLoadedEvent());
+		$this->eventDispatcher->dispatchTyped(new BeforeEventEditorLoadedEvent());
 		return new TemplateResponse($this->appName, 'main');
 	}
 }
