@@ -1,3 +1,21 @@
+## [6.5.4](https://github.com/nextcloud/calendar/compare/v6.5.3...v6.5.4) (2026-08-19)
+
+
+### Bug Fixes
+
+* add missing workflow ([bd7ae7e](https://github.com/nextcloud/calendar/commit/bd7ae7e73e79cf1f6112a8899b8ff5cb2bf6e8b0))
+* **deps:** Fix npm audit ([51ae5b1](https://github.com/nextcloud/calendar/commit/51ae5b1926ca19eb491de13e28d0871678e97654))
+* failing pslam tests ([ca26446](https://github.com/nextcloud/calendar/commit/ca264467c03b0703745a33191e82216d03113eab))
+* **l10n:** Update translations from Transifex ([3a15c12](https://github.com/nextcloud/calendar/commit/3a15c12c93eba5e0eea133ab4e8ba44c55213046))
+* **l10n:** Update translations from Transifex ([86a6497](https://github.com/nextcloud/calendar/commit/86a64975236f4702c26d4563f62703db68fb3e39))
+* **l10n:** Update translations from Transifex ([cfd8d13](https://github.com/nextcloud/calendar/commit/cfd8d1392fbc78857da2db96377d902611374807))
+* **l10n:** Update translations from Transifex ([83e5330](https://github.com/nextcloud/calendar/commit/83e5330a794646329ad6ef68b80bce2216e92cd9))
+* **l10n:** Update translations from Transifex ([3421ebc](https://github.com/nextcloud/calendar/commit/3421ebc188311eec93564629d39636f9beed1650))
+* **l10n:** Update translations from Transifex ([161045a](https://github.com/nextcloud/calendar/commit/161045a04b312f730ce90ea2d6872231f0790d59))
+* **l10n:** Update translations from Transifex ([dcc1a66](https://github.com/nextcloud/calendar/commit/dcc1a6638f33fa6f375d867f5b976f56867a44d1))
+
+
+
 ## [6.5.3](https://github.com/nextcloud/calendar/compare/v6.5.2...v6.5.3) (2026-08-11)
 
 
