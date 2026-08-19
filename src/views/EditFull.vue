@@ -448,7 +448,7 @@ export default {
 			showPreloader: false,
 			cancelButtons: [
 				{
-					label: t('calendar', 'Discard changes'),
+					label: t('calendar', 'Discard'),
 					variant: 'secondary',
 					icon: IconDelete,
 					callback: () => { this.cancel(true) },
