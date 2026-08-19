@@ -168,8 +168,9 @@ export default defineStore('delegation', () => {
 	 * The calendars are tagged with isDelegated=true so CalendarList can show them
 	 * in their own section.
 	 *
-	 * Read-only delegators' calendars are additionally marked readOnly=true so they
-	 * are excluded from the calendar picker (which only lists writable calendars).
+	 * Read-only delegators' calendars additionally have their write permissions
+	 * cleared so they are excluded from the calendar picker (which only lists
+	 * calendars with canCreateObject or canModifyObject).
 	 */
 	async function fetchDelegatedCalendars(): Promise<void> {
 		if (!delegators.value.length) {
@@ -200,7 +201,7 @@ export default defineStore('delegation', () => {
 						isDelegated: true,
 						delegatorUrl: canonicalDelegatorUrl,
 						// Read-only proxy access: prevent editing and hide from calendar picker
-						...(permission === 'read' ? { readOnly: true } : {}),
+						...(permission === 'read' ? { canCreateObject: false, canModifyObject: false, canDeleteObject: false } : {}),
 					}))
 
 				for (const calendar of mappedCalendars) {

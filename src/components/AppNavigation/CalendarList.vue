@@ -74,7 +74,7 @@ const delegatedGroups = computed<DelegatedGroup[]>(() => {
 			groups.set(delegatorUrl, {
 				delegatorUrl,
 				displayname: principal?.displayname || principal?.userId || '',
-				readOnly: !!calendar.readOnly,
+				readOnly: !calendar.canCreateObject && !calendar.canModifyObject,
 				calendars: [],
 			})
 		}

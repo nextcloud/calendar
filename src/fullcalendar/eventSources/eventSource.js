@@ -59,7 +59,7 @@ export default function() {
 			},
 		}
 
-		if (calendar.readOnly) {
+		if (!calendar.canCreateObject && !calendar.canModifyObject) {
 			source.editable = false
 		}
 

@@ -375,7 +375,7 @@ export default {
 			})
 
 			const writeableCalendarIndex = calendars.findIndex((calendar) => {
-				return !calendar.readOnly
+				return calendar.canCreateObject || calendar.canModifyObject
 			})
 
 			// No writeable calendars? Create a new one!

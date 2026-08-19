@@ -39,8 +39,6 @@ function getDefaultCalendarObject(props = {}) {
 		publishURL: null,
 		// Internal CalDAV url of this calendar
 		url: '',
-		// Whether this calendar is read-only
-		readOnly: false,
 		// The order of this calendar in the calendar-list
 		order: 0,
 		// Whether or not the calendar is shared with me
@@ -99,7 +97,6 @@ function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 	const supportsJournals = calendar.components.includes('VJOURNAL')
 	const supportsTasks = calendar.components.includes('VTODO')
 	const owner = calendar.owner
-	const readOnly = !calendar.isWriteable()
 	const canBeShared = calendar.isShareable()
 	const canBePublished = calendar.isPublishable()
 	const canCreateObject = calendar.currentUserPrivilegeSet.includes('{DAV:}bind') || calendar.currentUserPrivilegeSet.includes('{DAV:}write') || calendar.currentUserPrivilegeSet.includes('{DAV:}all') === true
@@ -160,7 +157,6 @@ function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 		supportsTasks,
 		isSharedWithMe,
 		owner,
-		readOnly,
 		publishURL,
 		canBeShared,
 		canBePublished,

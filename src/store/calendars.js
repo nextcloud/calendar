@@ -74,7 +74,7 @@ export default defineStore('calendars', {
 		sortedCalendars(state) {
 			return state.calendars
 				.filter((calendar) => calendar.supportsEvents)
-				.filter((calendar) => !calendar.readOnly)
+				.filter((calendar) => calendar.canCreateObject || calendar.canModifyObject)
 				.sort((a, b) => a.order - b.order)
 		},
 
@@ -101,7 +101,7 @@ export default defineStore('calendars', {
 		 */
 		sortedWritableCalendarsEvenWithoutSupportForEvents(state) {
 			return state.calendars
-				.filter((calendar) => !calendar.readOnly)
+				.filter((calendar) => calendar.canCreateObject || calendar.canModifyObject)
 				.sort((a, b) => a.order - b.order)
 		},
 
@@ -114,7 +114,7 @@ export default defineStore('calendars', {
 		ownSortedCalendars(state) {
 			return state.calendars
 				.filter((calendar) => calendar.supportsEvents)
-				.filter((calendar) => !calendar.readOnly)
+				.filter((calendar) => calendar.canCreateObject || calendar.canModifyObject)
 				.filter((calendar) => !calendar.isSharedWithMe)
 				.sort((a, b) => a.order - b.order)
 		},
@@ -186,7 +186,7 @@ export default defineStore('calendars', {
 		sortedSubscriptions(state) {
 			return state.calendars
 				.filter((calendar) => calendar.supportsEvents)
-				.filter((calendar) => calendar.readOnly)
+				.filter((calendar) => !(calendar.canCreateObject || calendar.canModifyObject))
 				.sort((a, b) => a.order - b.order)
 		},
 

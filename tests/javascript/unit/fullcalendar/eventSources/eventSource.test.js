@@ -32,7 +32,8 @@ describe('fullcalendar/eventSource test suite', () => {
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			readOnly: false,
+			canCreateObject: true,
+			canModifyObject: true,
 		}
 
 		const eventSourceFunction = eventSource()
@@ -52,7 +53,8 @@ describe('fullcalendar/eventSource test suite', () => {
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			readOnly: true,
+			canCreateObject: false,
+			canModifyObject: false,
 		}
 
 		const eventSourceFunction = eventSource()
@@ -82,7 +84,8 @@ describe('fullcalendar/eventSource test suite', () => {
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			readOnly: true,
+			canCreateObject: false,
+			canModifyObject: false,
 		}
 
 		const getTimezoneForId = vi.fn()
@@ -151,7 +154,8 @@ describe('fullcalendar/eventSource test suite', () => {
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			readOnly: true,
+			canCreateObject: false,
+			canModifyObject: false,
 		}
 
 		const getTimezoneForId = vi.fn()
@@ -215,7 +219,8 @@ describe('fullcalendar/eventSource test suite', () => {
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			readOnly: true,
+			canCreateObject: false,
+			canModifyObject: false,
 		}
 
 		const getTimezoneForId = vi.fn()
@@ -282,7 +287,8 @@ describe('fullcalendar/eventSource test suite', () => {
 		const calendar = {
 			id: 'calendar-id-123',
 			color: '#ff00ff',
-			readOnly: true,
+			canCreateObject: false,
+			canModifyObject: false,
 		}
 
 		const getTimezoneForId = vi.fn()
