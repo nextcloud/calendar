@@ -191,18 +191,6 @@ function mapEventComponentToEventObject(eventComponent) {
 function copyCalendarObjectInstanceIntoEventComponent(eventObject, eventComponent) {
 	const sourceEventComponent = eventObject.eventComponent
 
-	const unexpectedRecurrenceProperties = new Set([
-		'RRULE',
-		'EXRULE',
-		'RDATE',
-		'EXDATE',
-	])
-	for (const property of sourceEventComponent.getPropertyIterator()) {
-		if (unexpectedRecurrenceProperties.has(property.name)) {
-			throw new Error(`Illegal argument: Event objects has recurrence related property ${property.name}.`)
-		}
-	}
-
 	const propertiesExcludedFromCopying = new Set([
 		// These properties are regenerated for the new copy.
 		'UID',
@@ -213,10 +201,48 @@ function copyCalendarObjectInstanceIntoEventComponent(eventObject, eventComponen
 		// Currently only copying as exact occurrences.
 		// Therefore, do not preserve any RECURRENCE-ID.
 		'RECURRENCE-ID',
+		// A duplicate is always a single, standalone event. If the source is
+		// the master item of a recurring series (e.g. when duplicating its
+		// first occurrence, calendar-js returns the master item itself),
+		// its recurrence-defining properties must not carry over.
+		'RRULE',
+		'EXRULE',
+		'RDATE',
+		'EXDATE',
 	])
+
+	// Properties that must not occur more than once on a VEVENT (RFC 5545
+	// section 3.6.1) but that the source may legitimately carry a value for.
+	const propertiesReplacedWhenCopying = new Set([
+		'DTSTART',
+		'DTEND',
+		'DURATION',
+		'CLASS',
+		'DESCRIPTION',
+		'GEO',
+		'LOCATION',
+		'ORGANIZER',
+		'PRIORITY',
+		'STATUS',
+		'SUMMARY',
+		'TRANSP',
+		'URL',
+	])
+
+	// DTEND and DURATION are mutually exclusive. If the source uses DURATION,
+	// a pre-existing target DTEND (or vice versa) would otherwise be left
+	// behind alongside it, which is invalid.
+	if (sourceEventComponent.hasProperty('DTEND') || sourceEventComponent.hasProperty('DURATION')) {
+		eventComponent.deleteAllProperties('DTEND')
+		eventComponent.deleteAllProperties('DURATION')
+	}
+
 	for (const property of sourceEventComponent.getPropertyIterator()) {
 		if (propertiesExcludedFromCopying.has(property.name)) {
 			continue
+		}
+		if (propertiesReplacedWhenCopying.has(property.name)) {
+			eventComponent.deleteAllProperties(property.name)
 		}
 		const successful = eventComponent.addProperty(property.clone())
 		if (!successful) {

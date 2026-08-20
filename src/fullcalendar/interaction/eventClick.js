@@ -11,7 +11,8 @@ import useSettingsStore from '@/store/settings.js'
 import useWidgetStore from '@/store/widget.js'
 import {
 	getPrefixedRoute,
-	isPublicOrEmbeddedRoute,
+	getViewMode,
+	ViewMode,
 } from '@/utils/router.js'
 
 /**
@@ -99,7 +100,7 @@ function handleEventClick(event, router, route, window, isWidget = false) {
 function handleToDoClick(event, route, window, isWidget = false) {
 	const settingsStore = useSettingsStore()
 
-	if (isWidget || isPublicOrEmbeddedRoute(route.name)) {
+	if (getViewMode(route.name, isWidget) !== ViewMode.USER) {
 		return
 	}
 

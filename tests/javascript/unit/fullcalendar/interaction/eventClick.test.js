@@ -11,7 +11,8 @@ import EditorMixin from '@/mixins/EditorMixin.js'
 import useSettingsStore from '@/store/settings.js'
 import {
 	getPrefixedRoute,
-	isPublicOrEmbeddedRoute,
+	getViewMode,
+	ViewMode,
 } from '@/utils/router.js'
 
 vi.mock('@/utils/router.js')
@@ -22,7 +23,10 @@ vi.mock('@nextcloud/dialogs')
 describe('fullcalendar/eventClick test suite', () => {
 	beforeEach(() => {
 		getPrefixedRoute.mockClear()
-		isPublicOrEmbeddedRoute.mockClear()
+		getViewMode.mockClear()
+		// Default to a normal authenticated view so tests that don't care
+		// about public/embedded/widget behaviour don't need to set this up.
+		getViewMode.mockReturnValue(ViewMode.USER)
 		generateUrl.mockClear()
 		translate.mockClear()
 		showInfo.mockClear()
@@ -349,8 +353,8 @@ describe('fullcalendar/eventClick test suite', () => {
 		}
 		const oldLocation = window.location
 
-		isPublicOrEmbeddedRoute
-			.mockReturnValueOnce(true)
+		getViewMode
+			.mockReturnValueOnce(ViewMode.PUBLIC)
 
 		const eventClickFunction = eventClick(router, route, window)
 		eventClickFunction({ event: {
@@ -362,8 +366,8 @@ describe('fullcalendar/eventClick test suite', () => {
 			},
 		}})
 
-		expect(isPublicOrEmbeddedRoute).toHaveBeenCalledTimes(1)
-		expect(isPublicOrEmbeddedRoute).toHaveBeenNthCalledWith(1, 'EditFullView')
+		expect(getViewMode).toHaveBeenCalledTimes(1)
+		expect(getViewMode).toHaveBeenNthCalledWith(1, 'EditFullView', false)
 
 		expect(generateUrl).toHaveBeenCalledTimes(0)
 		expect(window.location).toEqual(oldLocation)
@@ -391,8 +395,8 @@ describe('fullcalendar/eventClick test suite', () => {
 		}
 		const oldLocation = window.location
 
-		isPublicOrEmbeddedRoute
-			.mockReturnValueOnce(false)
+		getViewMode
+			.mockReturnValueOnce(ViewMode.USER)
 		translate
 			.mockReturnValue('translated hint')
 
@@ -412,8 +416,8 @@ describe('fullcalendar/eventClick test suite', () => {
 		expect(showInfo).toHaveBeenCalledTimes(1)
 		expect(showInfo).toHaveBeenNthCalledWith(1, 'translated hint')
 
-		expect(isPublicOrEmbeddedRoute).toHaveBeenCalledTimes(1)
-		expect(isPublicOrEmbeddedRoute).toHaveBeenNthCalledWith(1, 'EditFullView')
+		expect(getViewMode).toHaveBeenCalledTimes(1)
+		expect(getViewMode).toHaveBeenNthCalledWith(1, 'EditFullView', false)
 
 		expect(generateUrl).toHaveBeenCalledTimes(0)
 		expect(window.location).toEqual(oldLocation)
