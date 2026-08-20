@@ -612,7 +612,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Taispeáin tascanna neamhsceidealaithe",
     "Unscheduled tasks" : "Tascanna neamhsceidealaithe",
     "Availability of {displayName}" : "Infhaighteacht na{displayName}",
-    "Discard changes" : "Scrios na hathruithe",
+    "Discard" : "Caith amach",
     "Allow forwarding" : "Ceadaigh atreorú",
     "Anyone with the invitation can respond" : "Is féidir le duine ar bith a bhfuil an cuireadh aige freagra a thabhairt",
     "Only invited attendees can respond" : "Ní féidir ach le freastalaithe a raibh cuireadh tugtha dóibh freagra a thabhairt",

@@ -488,6 +488,7 @@
     "Show unscheduled tasks" : "Показване на непланирани задачи",
     "Unscheduled tasks" : "Непланирани задачи",
     "Availability of {displayName}" : "Наличие на {displayName}",
+    "Discard" : "Отхвърляне",
     "Event does not exist" : "Събитието не съществува",
     "Delete this occurrence" : "Изтриване на това събитие",
     "Delete this and all future" : "Изтриване на това и на всички бъдещи ",

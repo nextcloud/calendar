@@ -608,7 +608,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Visa oschemalagda uppgifter",
     "Unscheduled tasks" : "Oschemalagda uppgifter",
     "Availability of {displayName}" : "Tillgänglighet för {displayName}",
-    "Discard changes" : "Förkasta ändringar",
+    "Discard" : "Förkasta",
     "Allow forwarding" : "Tillåt vidarebefordran",
     "Anyone with the invitation can respond" : "Alla med en inbjudan kan svara",
     "Only invited attendees can respond" : "Endast inbjudna deltagare kan svara",

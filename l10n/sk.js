@@ -524,7 +524,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Zobraziť neplánované úlohy",
     "Unscheduled tasks" : "Neplánované úlohy",
     "Availability of {displayName}" : "Dostupnosť {displayName}",
-    "Discard changes" : "Zahodiť zmeny",
+    "Discard" : "Odstrániť",
     "Event does not exist" : "Udalosť neexistuje",
     "Delete this occurrence" : "Vymazať tento výskyt",
     "Delete this and all future" : "Vymazať toto a všetko budúce",

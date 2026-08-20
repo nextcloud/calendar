@@ -277,6 +277,7 @@ OC.L10N.register(
     "Global" : "גלובלי",
     "Subscribe" : "הרשמה",
     "Personal" : "אישי",
+    "Discard" : "התעלמות",
     "Event does not exist" : "האירוע לא קיים",
     "Delete this occurrence" : "מחיקת המופע הזה",
     "Delete this and all future" : "מחיקת זה והבאים",

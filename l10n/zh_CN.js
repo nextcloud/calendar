@@ -592,7 +592,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "显示未计划的任务",
     "Unscheduled tasks" : "未计划的任务",
     "Availability of {displayName}" : "{displayName} 的可用性",
-    "Discard changes" : "舍弃更改",
+    "Discard" : "丢弃",
     "Allow forwarding" : "允许转发",
     "Anyone with the invitation can respond" : "任何收到邀请的人都可以回复",
     "Only invited attendees can respond" : "只有受邀的参加者才能回复",

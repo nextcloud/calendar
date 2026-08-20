@@ -513,7 +513,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Onyesha kazi ambazo hazijaratibiwa",
     "Unscheduled tasks" : "Kazi ambazo hazijaratibiwa",
     "Availability of {displayName}" : "Upatikanaji wa {displayName}",
-    "Discard changes" : "Tupa mabadiliko",
+    "Discard" : "Tupilia ",
     "Event does not exist" : "Tukio halipatikani",
     "Delete this occurrence" : "Futa tukio hili",
     "Delete this and all future" : "Futa hii na muda wote ujao",

@@ -497,7 +497,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Show unscheduled tasks",
     "Unscheduled tasks" : "Unscheduled tasks",
     "Availability of {displayName}" : "Availability of {displayName}",
-    "Discard changes" : "Discard changes",
+    "Discard" : "ຍົກເລີກ",
     "Event does not exist" : "Event does not exist",
     "Delete this occurrence" : "Delete this occurrence",
     "Delete this and all future" : "Delete this and all future",

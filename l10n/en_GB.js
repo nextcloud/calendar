@@ -612,7 +612,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Show unscheduled tasks",
     "Unscheduled tasks" : "Unscheduled tasks",
     "Availability of {displayName}" : "Availability of {displayName}",
-    "Discard changes" : "Discard changes",
+    "Discard" : "Discard",
     "Allow forwarding" : "Allow forwarding",
     "Anyone with the invitation can respond" : "Anyone with the invitation can respond",
     "Only invited attendees can respond" : "Only invited attendees can respond",

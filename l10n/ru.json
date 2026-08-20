@@ -607,7 +607,7 @@
     "Show unscheduled tasks" : "Показать незапланированные задачи",
     "Unscheduled tasks" : "Незапланированные задачи",
     "Availability of {displayName}" : "Доступность {displayName}",
-    "Discard changes" : "Отменить изменения",
+    "Discard" : "Отмена",
     "Allow forwarding" : "Разрешить переадресацию",
     "Anyone with the invitation can respond" : "Ответить может любой, у кого есть приглашение",
     "Only invited attendees can respond" : "Только приглашённые участники могут отвечать",

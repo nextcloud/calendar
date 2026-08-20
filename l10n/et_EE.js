@@ -612,7 +612,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Näita ajastamata ülesandeid",
     "Unscheduled tasks" : "Ajastamata ülesanded",
     "Availability of {displayName}" : "{displayName} saadavus",
-    "Discard changes" : "Loobu muudatustest",
+    "Discard" : "Loobu",
     "Allow forwarding" : "Luba edastamine",
     "Anyone with the invitation can respond" : "Vastata võivad kõik, kes mingil viisil kutse saavad",
     "Only invited attendees can respond" : "Vastata võivad vaid kutsutud",

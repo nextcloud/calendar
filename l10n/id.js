@@ -507,7 +507,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Tampilkan tugas yang belum dijadwalkan",
     "Unscheduled tasks" : "Tugas yang belum dijadwalkan",
     "Availability of {displayName}" : "Ketersediaan {displayName}",
-    "Discard changes" : "Buang perubahan",
+    "Discard" : "Abaikan",
     "Event does not exist" : "Acara tidak ada",
     "Delete this occurrence" : "Hapus kejadian ini",
     "Delete this and all future" : "Hapus ini dan semua yang akan datang",

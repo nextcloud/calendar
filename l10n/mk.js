@@ -489,7 +489,6 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Прикажи незададени задачи",
     "Unscheduled tasks" : "Нездадени задачи",
     "Availability of {displayName}" : "Достапност на {displayName}",
-    "Discard changes" : "Орфрли промени",
     "Event does not exist" : "Настанот не постои",
     "Delete this occurrence" : "Избришете ја оваа можност",
     "Delete this and all future" : "Избришете го овој и сите во иднина",
