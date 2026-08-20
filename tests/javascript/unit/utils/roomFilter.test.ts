@@ -11,7 +11,6 @@ import {
 	buildFeatureOptions,
 	buildStoryOptions,
 	compareRoomsByBookingState,
-	deriveBuildingName,
 	filterRooms,
 	groupRoomsByBuilding,
 	matchesRoomFilters,
@@ -62,36 +61,14 @@ function filters(overrides: Partial<RoomFilterState> = {}): RoomFilterState {
 }
 
 describe('Test suite: Room filter (utils/roomFilter.ts)', () => {
-	describe('deriveBuildingName', () => {
-		it.for([
-			['Poppodium, Kerkstraat 10, 1098 XG, Amsterdam', 'Poppodium'],
-			// Imported data with an empty building column: degrades to the street
-			[', Science Park 140, 1098 XG, Amsterdam', 'Science Park 140'],
-			// Without a building and a street: degrades to the city, never the
-			// postal code, which is no use as a group heading
-			['1098 XG, Amsterdam', 'Amsterdam'],
-			['01324 Dresden', '01324 Dresden'],
-			['  Poppodium  ', 'Poppodium'],
-			['1098 XG', null],
-			['', null],
-			['  ', null],
-			[null, null],
-		])('should derive %s', ([address, expected]) => {
-			expect(deriveBuildingName(room({ roomBuildingAddress: address }))).toBe(expected)
-		})
-	})
-
 	describe('buildBuildingOptions', () => {
 		it('should return unique buildings sorted by name', () => {
 			const options = buildBuildingOptions([
-				room({ roomBuildingAddress: 'Utrecht, Straat 1' }),
-				room({ roomBuildingAddress: 'Amsterdam, Straat 2' }),
-				room({ roomBuildingAddress: 'Utrecht, Straat 3' }),
-				room({ roomBuildingAddress: null }),
+				room({ roomBuildingName: 'Utrecht' }),
+				room({ roomBuildingName: null }),
 			])
 
 			expect(options).toEqual([
-				{ id: 'Amsterdam', label: 'Amsterdam' },
 				{ id: 'Utrecht', label: 'Utrecht' },
 			])
 		})
@@ -156,7 +133,7 @@ describe('Test suite: Room filter (utils/roomFilter.ts)', () => {
 
 		it('should filter on building and story', () => {
 			const target = room({
-				roomBuildingAddress: 'Poppodium, Kerkstraat 10',
+				roomBuildingName: 'Poppodium',
 				roomBuildingStory: '2',
 			})
 
@@ -200,10 +177,10 @@ describe('Test suite: Room filter (utils/roomFilter.ts)', () => {
 	describe('groupRoomsByBuilding', () => {
 		it('should group by building and put rooms without one last', () => {
 			const groups = groupRoomsByBuilding([
-				room({ displayname: 'A', roomBuildingAddress: 'Utrecht, Straat 1' }),
-				room({ displayname: 'B', roomBuildingAddress: null }),
-				room({ displayname: 'C', roomBuildingAddress: 'Amsterdam, Straat 2' }, false),
-				room({ displayname: 'D', roomBuildingAddress: 'Amsterdam, Straat 3' }),
+				room({ displayname: 'A', roomBuildingName: 'Utrecht' }),
+				room({ displayname: 'B', roomBuildingName: null }),
+				room({ displayname: 'C', roomBuildingName: 'Amsterdam' }, false),
+				room({ displayname: 'D', roomBuildingName: 'Amsterdam' }),
 			])
 
 			expect(groups.map((group) => group.name)).toEqual(['Amsterdam', 'Utrecht', 'Other rooms'])

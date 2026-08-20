@@ -71,55 +71,6 @@ function normalizeText(value: string | null | undefined): string | null {
 }
 
 /**
- * Split an address into its segments, dropping empty ones
- *
- * Imported room data regularly carries empty fields, which surface as leading
- * or doubled commas, e.g. ", Science Park 140, 1098 XG, Amsterdam".
- *
- * @param address Comma separated address
- * @return Non-empty address segments in their original order
- */
-function splitAddress(address: string): string[] {
-	return address
-		.split(',')
-		.map((segment) => segment.trim())
-		.filter((segment) => segment !== '')
-}
-
-/**
- * Check whether an address segment is a postal code
- *
- * @param segment Address segment to check
- * @return True if the segment looks like a postal code
- */
-function isPostalCode(segment: string): boolean {
-	return /^\d{4,6}(\s*[A-Z]{1,2})?$/i.test(segment)
-}
-
-/**
- * Derive the name of the building a room is in
- *
- * @remarks
- * A heuristic, not data: rooms have no building name of their own, so the
- * first segment of the building address is used. It holds for backends that
- * publish "Building, Street, Postal code, City" and degrades to the street,
- * or to the city, for those that do not. Postal codes are skipped: they are
- * never a building name, and grouping rooms under "1098 XG" helps nobody.
- *
- * @param room Room to derive the building name of
- * @return Building name, or null if the room has no usable address
- */
-export function deriveBuildingName(room: RoomOption): string | null {
-	// TODO https://github.com/nextcloud/calendar/issues/8734 Use the newly introduced building name after it becomes available.
-	const address = normalizeText(room.principal.roomBuildingAddress)
-	if (address === null) {
-		return null
-	}
-
-	return splitAddress(address).find((segment) => !isPostalCode(segment)) ?? null
-}
-
-/**
  * Build the options of the building filter
  *
  * @param rooms Rooms to collect buildings from
@@ -128,7 +79,7 @@ export function deriveBuildingName(room: RoomOption): string | null {
 export function buildBuildingOptions(rooms: RoomOption[]): RoomFilterOption[] {
 	const buildings = new Set<string>()
 	for (const room of rooms) {
-		const building = deriveBuildingName(room)
+		const building = room.principal.roomBuildingName
 		if (building !== null) {
 			buildings.add(building)
 		}
@@ -193,7 +144,7 @@ function matchesSearchText(room: RoomOption, searchText: string): boolean {
 
 	const haystack = [
 		room.principal.displayname,
-		deriveBuildingName(room),
+		room.principal.roomBuildingName,
 		room.principal.roomBuildingAddress,
 		room.principal.roomBuildingRoomNumber,
 	]
@@ -213,7 +164,7 @@ export function matchesRoomFilters(room: RoomOption, filters: RoomFilterState): 
 		return false
 	}
 
-	if (filters.building !== null && deriveBuildingName(room) !== filters.building) {
+	if (filters.building !== null && normalizeText(room.principal.roomBuildingName) !== filters.building) {
 		return false
 	}
 
@@ -299,7 +250,7 @@ export function groupRoomsByBuilding(
 	const groups = new Map<string, RoomOption[]>()
 
 	for (const room of rooms) {
-		const name = deriveBuildingName(room) ?? fallbackName
+		const name = room.principal.roomBuildingName ?? fallbackName
 		const group = groups.get(name)
 		if (group === undefined) {
 			groups.set(name, [room])

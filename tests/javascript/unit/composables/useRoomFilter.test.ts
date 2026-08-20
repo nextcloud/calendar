@@ -25,6 +25,7 @@ function room(overrides: Partial<RoomPrincipal> = {}, isAvailable = true): RoomO
 			calendarUserType: 'ROOM',
 			roomType: 'meeting-room',
 			roomSeatingCapacity: null,
+			roomBuildingName: null,
 			roomBuildingAddress: null,
 			roomBuildingStory: null,
 			roomBuildingRoomNumber: null,
@@ -40,7 +41,8 @@ const rooms: RoomOption[] = [
 	room({
 		displayname: 'Aula',
 		emailAddress: 'aula@example.com',
-		roomBuildingAddress: 'Poppodium, Kerkstraat 10',
+		roomBuildingAddress: 'Kerkstraat 10',
+		roomBuildingName: 'Poppodium',
 		roomBuildingStory: '1',
 		roomSeatingCapacity: 100,
 		roomFeatures: ['PROJECTOR'],
@@ -48,7 +50,8 @@ const rooms: RoomOption[] = [
 	room({
 		displayname: 'Vergaderzaal',
 		emailAddress: 'vergaderzaal@example.com',
-		roomBuildingAddress: 'Poppodium, Kerkstraat 10',
+		roomBuildingAddress: 'Kerkstraat 10',
+		roomBuildingName: 'Poppodium',
 		roomBuildingStory: '2',
 		roomSeatingCapacity: 8,
 		roomFeatures: ['PROJECTOR', 'WHITEBOARD'],
@@ -56,7 +59,8 @@ const rooms: RoomOption[] = [
 	room({
 		displayname: 'Bibliotheek',
 		emailAddress: 'bibliotheek@example.com',
-		roomBuildingAddress: 'Stadskantoor, Marktplein 1',
+		roomBuildingAddress: 'Marktplein 1',
+		roomBuildingName: 'Stadskantoor',
 		roomSeatingCapacity: 20,
 	}, false),
 ]
