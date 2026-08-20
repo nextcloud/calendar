@@ -609,7 +609,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "نمایش وظایف زمان‌بندی نشده",
     "Unscheduled tasks" : "وظایف زمان‌بندی نشده",
     "Availability of {displayName}" : "زمان‌های موجود {displayName}",
-    "Discard changes" : "لغو تغییرات",
+    "Discard" : "لغو تغییرات",
     "Allow forwarding" : "اجازه ارسال",
     "Anyone with the invitation can respond" : "هر کسی که دعوتنامه را دارد می‌تواند پاسخ دهد",
     "Only invited attendees can respond" : "فقط شرکت‌کنندگان دعوت شده می‌توانند پاسخ دهند",

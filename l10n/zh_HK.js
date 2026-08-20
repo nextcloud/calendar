@@ -612,7 +612,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "顯示未排程的任務",
     "Unscheduled tasks" : "未排程的任務",
     "Availability of {displayName}" : "{displayName} 的可得性",
-    "Discard changes" : "放棄更新",
+    "Discard" : "取消",
     "Allow forwarding" : "允許轉寄",
     "Anyone with the invitation can respond" : "任何持有邀請的人均可回覆",
     "Only invited attendees can respond" : "只有受邀參加者可回覆",

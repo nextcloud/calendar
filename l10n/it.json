@@ -569,7 +569,7 @@
     "Show unscheduled tasks" : "Mostra attività non programmate",
     "Unscheduled tasks" : "Attività non programmate",
     "Availability of {displayName}" : "Disponibilità di {displayName}",
-    "Discard changes" : "Scarta le modifiche",
+    "Discard" : "Scarta",
     "Allow forwarding" : "Consenti l’inoltro",
     "Anyone with the invitation can respond" : "Chiunque abbia l’invito può rispondere",
     "Only invited attendees can respond" : "Solo i partecipanti possono rispondere",

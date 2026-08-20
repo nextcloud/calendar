@@ -158,7 +158,7 @@ OC.L10N.register(
     "Subscribe" : "Lteɣ",
     "Select a date" : "Fren Azemz",
     "Personal" : "Udmawan",
-    "Discard changes" : "Sefsex ibeddilen",
+    "Discard" : "Agi",
     "All day" : "Ass kamel",
     "Invite" : "Snubget",
     "Discard changes?" : "Sefsex ibeddilen?",

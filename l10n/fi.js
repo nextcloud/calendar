@@ -526,7 +526,7 @@ OC.L10N.register(
     "Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue." : "Asettamaasi aikavyöhykettä ({timezoneId}) ei löytynyt. Vaihdetaan takaisin UTC:hen.\nOle hyvä ja vaihda aikavyöhykkeesi asetuksista ja ilmoita tästä ongelmasta.",
     "Show unscheduled tasks" : "Näytä ajastamattomat tehtävät",
     "Unscheduled tasks" : "Ajastamattomat tehtävät",
-    "Discard changes" : "Hylkää muutokset",
+    "Discard" : "Hylkää",
     "Anyone with the invitation can respond" : "Kuka tahansa, jolla on kutsu, voi vastata",
     "Only invited attendees can respond" : "Vain kutsutut osallistujat voivat vastta",
     "Choose \"Only invited attendees can respond\" to prevent attendees from forwarding the invitation to others." : "Valitse \"Vain kutsutut osallistujat voivat vastata\" estääksesi osallistujia välittämästä kutsuja eteenpäin.",

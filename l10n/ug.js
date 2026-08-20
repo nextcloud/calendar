@@ -504,7 +504,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "پىلانلانمىغان ۋەزىپىلەرنى كۆرسەت",
     "Unscheduled tasks" : "پىلانلانمىغان ۋەزىپىلەر",
     "Availability of {displayName}" : "{displayName} نىڭ بىكار ۋاقىتلىرى",
-    "Discard changes" : "ئۆزگەرتىشلەرنى ئەمەلدىن قالدۇرۇڭ",
+    "Discard" : "تاشلىۋېتىش",
     "Event does not exist" : "ھادىسە مەۋجۇت ئەمەس",
     "Delete this occurrence" : "بۇ ھادىسىنى ئۆچۈرۈڭ",
     "Delete this and all future" : "بۇنى ۋە كەلگۈسىنى ئۆچۈرۈڭ",

@@ -608,7 +608,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Εμφάνιση μη προγραμματισμένων εργασιών",
     "Unscheduled tasks" : "Μη προγραμματισμένες εργασίες",
     "Availability of {displayName}" : "Διαθεσιμότητα του/της {displayName}",
-    "Discard changes" : "Απόρριψη αλλαγών",
+    "Discard" : "Απόρριψη",
     "Allow forwarding" : "Να επιτρέπεται η προώθηση",
     "Anyone with the invitation can respond" : "Οποιοσδήποτε έχει την πρόσκληση μπορεί να απαντήσει",
     "Only invited attendees can respond" : "Μόνο οι προσκεκλημένοι συμμετέχοντες μπορούν να απαντήσουν",

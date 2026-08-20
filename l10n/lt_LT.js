@@ -612,7 +612,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Rodyti nesuplanuotas užduotis",
     "Unscheduled tasks" : "Nesuplanuotos užduotys",
     "Availability of {displayName}" : "{displayName} užimtumas",
-    "Discard changes" : "Atmesti pakeitimus",
+    "Discard" : "Atmesti",
     "Allow forwarding" : "Leisti persiuntimą",
     "Anyone with the invitation can respond" : "Atsakyti gali kiekvienas, turintis kvietimą",
     "Only invited attendees can respond" : "Atsakyti gali tik pakviestieji dalyviai",

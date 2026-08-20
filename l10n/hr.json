@@ -520,7 +520,7 @@
     "Show unscheduled tasks" : "Prikaži nezakazane zadatke",
     "Unscheduled tasks" : "Nezakazani zadaci",
     "Availability of {displayName}" : "Dostupnost korisnika {displayName}",
-    "Discard changes" : "Odbaci promjene",
+    "Discard" : "Odbaci",
     "Event does not exist" : "Događaj ne postoji",
     "Delete this occurrence" : "Izbriši ovo ponavljanje",
     "Delete this and all future" : "Izbriši ovo i sva buduća ponavljanja",

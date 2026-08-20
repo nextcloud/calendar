@@ -566,7 +566,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Nem ütemezett feladatok megjelenítése",
     "Unscheduled tasks" : "Nem ütemezett feladatok",
     "Availability of {displayName}" : "{displayName} elérhetősége",
-    "Discard changes" : "Változtatások elvetése",
+    "Discard" : "Elvetés",
     "Allow forwarding" : "Továbbküldés engedélyezése",
     "Anyone with the invitation can respond" : "Bárki válaszolhat, akinek van meghívója",
     "Only invited attendees can respond" : "Csak a meghívott résztvevők válaszolhatnak",

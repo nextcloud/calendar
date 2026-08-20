@@ -604,7 +604,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Amosar as tarefas non programadas",
     "Unscheduled tasks" : "Tarefas non programadas",
     "Availability of {displayName}" : "Dispoñibilidade de {displayName}",
-    "Discard changes" : "Desbotar os cambios",
+    "Discard" : "Desbotar",
     "Allow forwarding" : "Permitir o reenvío",
     "Anyone with the invitation can respond" : "Calquera persoa coa invitación pode responder",
     "Only invited attendees can respond" : "Só os asistentes convidados poden responder",

@@ -164,7 +164,6 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Паказаць незапланаваныя заданні",
     "Unscheduled tasks" : "Незапланаваныя заданні",
     "Availability of {displayName}" : "Даступнасць {displayName}",
-    "Discard changes" : "Адхіліць змены",
     "All day" : "Увесь дзень",
     "Invite" : "Запрасіць",
     "Discard changes?" : "Адхіліць змены?",

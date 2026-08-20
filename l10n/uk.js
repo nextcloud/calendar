@@ -612,7 +612,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Показати незаплановані завдання",
     "Unscheduled tasks" : "Незаплановані завдання",
     "Availability of {displayName}" : "Доступність {displayName}",
-    "Discard changes" : "Відкинути зміни",
+    "Discard" : "Відхилити",
     "Allow forwarding" : "Дозволити пересилання",
     "Anyone with the invitation can respond" : "Будь-хто, хто отримав запрошення, можуть відповідати",
     "Only invited attendees can respond" : "Лише запрошені учасники можуть відповідати",

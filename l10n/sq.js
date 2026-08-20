@@ -101,6 +101,7 @@ OC.L10N.register(
     "Global" : "Globale",
     "Subscribe" : "Abonohu",
     "Personal" : "Personale",
+    "Discard" : "Hidh poshtë",
     "All day" : "Gjithë ditën",
     "Close" : "Mbylle",
     "Submit" : "Dërgo",

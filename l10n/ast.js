@@ -257,7 +257,6 @@ OC.L10N.register(
     "An error occurred, unable to subscribe to calendar." : "Prodúxose un error, nun ye posible soscribise al calendariu.",
     "Subscribe" : "Soscribise",
     "Personal" : "Personal",
-    "Discard changes" : "Escartar los cambeos",
     "Event does not exist" : "L'eventu nun esiste",
     "All day" : "Tol día",
     "Invite" : "Convidar",

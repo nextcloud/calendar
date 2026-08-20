@@ -502,7 +502,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Vis ikke planlagte opgaver",
     "Unscheduled tasks" : "Ikke planlagte opgaver",
     "Availability of {displayName}" : "Tilgængelighed af {displayName}",
-    "Discard changes" : "Fortryd ændringer",
+    "Discard" : "Kassér",
     "Event does not exist" : "Begivenheden eksisterer ikke",
     "Delete this occurrence" : "Slet denne forekomst",
     "Delete this and all future" : "Slet denne og alle fremtidige",

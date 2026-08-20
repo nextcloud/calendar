@@ -513,7 +513,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Rejadan tashqari vazifalarni ko'rsatish",
     "Unscheduled tasks" : "Rejadan tashqari vazifalar",
     "Availability of {displayName}" : " {displayName}uchun mavjud",
-    "Discard changes" : "O'zgarishlarni bekor qilish",
+    "Discard" : "Bekor qilish",
     "Event does not exist" : "Tadbir mavjud emas",
     "Delete this occurrence" : "Ushbu tadbirni o'chiring",
     "Delete this and all future" : "Buni va barcha keyingilarini o'chirib tashlang",

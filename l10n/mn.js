@@ -505,7 +505,6 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Товлоогүй даалгавруудыг харуулах",
     "Unscheduled tasks" : "Товлоогүй даалгаврууд",
     "Availability of {displayName}" : "{displayName}-ийн боломжтой байдал",
-    "Discard changes" : "Өөрчлөлтүүдийг хаях",
     "Event does not exist" : "Үйл явдал байхгүй",
     "Delete this occurrence" : "Энэ тохиолдлыг устгах",
     "Delete this and all future" : "Энэ болон бүх ирээдүйг устгах",

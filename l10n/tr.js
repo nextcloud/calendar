@@ -612,7 +612,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Zamanlanmamış görevleri görüntüle",
     "Unscheduled tasks" : "Zamanlanmamış görevler",
     "Availability of {displayName}" : "{displayName} uygunluğu",
-    "Discard changes" : "Değişiklikleri yok say",
+    "Discard" : "Yok say",
     "Allow forwarding" : "İletilebilsin",
     "Anyone with the invitation can respond" : "Daveti alan herhangi biri yanıt verebilir",
     "Only invited attendees can respond" : "Yalnızca davet edilmiş kişi yanıt verebilir",

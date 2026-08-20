@@ -612,7 +612,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Toon ongeplande taken",
     "Unscheduled tasks" : "Ongeplande taken",
     "Availability of {displayName}" : "Beschikbaarheid van {displayName}",
-    "Discard changes" : "Negeer wijzigingen",
+    "Discard" : "Weggooien",
     "Allow forwarding" : "Doorsturen toestaan",
     "Anyone with the invitation can respond" : "Iedereen met de uitnodiging kan reageren",
     "Only invited attendees can respond" : "Alleen uitgenodigde deelnemers kunnen reageren",

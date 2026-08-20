@@ -491,7 +491,7 @@
     "Show unscheduled tasks" : "Прикажи задатке који нису заказани",
     "Unscheduled tasks" : "Незаказани задаци",
     "Availability of {displayName}" : "Доступност корисника {displayName}",
-    "Discard changes" : "Одбаци измене",
+    "Discard" : "Одбаци",
     "Event does not exist" : "Догађај не постоји",
     "Delete this occurrence" : "Обриши ово појављивање",
     "Delete this and all future" : "Обриши ово и сва будућа",

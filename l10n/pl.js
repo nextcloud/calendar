@@ -570,7 +570,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "Pokaż niezaplanowane zadania",
     "Unscheduled tasks" : "Niezaplanowane zadania",
     "Availability of {displayName}" : "Dostępność {displayName}",
-    "Discard changes" : "Odrzuć zmiany",
+    "Discard" : "Odrzuć",
     "Allow forwarding" : "Zezwól na przekazywanie dalej",
     "Anyone with the invitation can respond" : "Każdy, kto ma zaproszenie, może odpowiedzieć",
     "Only invited attendees can respond" : "Tylko zaproszeni uczestnicy mogą odpowiadać",

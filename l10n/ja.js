@@ -610,7 +610,7 @@ OC.L10N.register(
     "Show unscheduled tasks" : "未スケジュールのタスクを表示",
     "Unscheduled tasks" : "未スケジュールのタスク",
     "Availability of {displayName}" : "{displayName}の空き状況",
-    "Discard changes" : "変更を破棄する",
+    "Discard" : "破棄",
     "Allow forwarding" : "転送を許可",
     "Anyone with the invitation can respond" : "招待状を持っている人は誰でも返答できます",
     "Only invited attendees can respond" : "招待された出席者のみが返答できます",
