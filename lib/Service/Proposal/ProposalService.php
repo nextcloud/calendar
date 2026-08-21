@@ -377,6 +377,12 @@ class ProposalService {
 		}
 		$this->applyCalendarBlockersParticipant($user, $proposal, 'M', $vObject);
 
+		// keep only the confirmed date so the notification email shows just that one
+		$confirmedDate = new ProposalDateCollection();
+		$confirmedDate[] = $selectedDate;
+		$proposal->setDates($confirmedDate);
+		// generate notifications for internal and external participants that the meeting is confirmed
+		$this->generateNotifications($user, $proposal, 'F');
 		// destroy the proposal entry
 		$this->proposalVoteMapper->deleteByProposalId($user->getUID(), $proposal->getId());
 		$this->proposalParticipantMapper->deleteByProposalId($user->getUID(), $proposal->getId());
@@ -496,6 +502,9 @@ class ProposalService {
 			),
 			'D' => $template->setSubject(
 				$this->l10n->t('%s has canceled a proposed meeting', [$senderName])
+			),
+			'F' => $template->setSubject(
+				$this->l10n->t('%s has confirmed a meeting date', [$senderName])
 			)
 		};
 		// heading
@@ -508,13 +517,18 @@ class ProposalService {
 			),
 			'D' => $template->addHeading(
 				$this->l10n->t('Dear %s, a proposed meeting has been cancelled', [$recipientName])
+			),
+			'F' => $template->addHeading(
+				$this->l10n->t('Dear %s, a meeting date has been confirmed', [$recipientName])
 			)
 		};
 		// buttons
-		$template->addBodyButton(
-			$this->l10n->t('Respond'),
-			$this->urlGenerator->linkToRouteAbsolute('Calendar.ProposalPublic.index', ['token' => $recipientToken])
-		);
+		if ($reason !== 'F') {
+			$template->addBodyButton(
+				$this->l10n->t('Respond'),
+				$this->urlGenerator->linkToRouteAbsolute('Calendar.ProposalPublic.index', ['token' => $recipientToken])
+			);
+		}
 		// description
 		if (!empty($proposal->getDescription())) {
 			$template->addBodyListItem($proposal->getDescription(), $this->l10n->t('Description:'));
