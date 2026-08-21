@@ -32,6 +32,7 @@ const props = defineProps<{
 		startDate: Date
 		endDate: Date
 	}
+	roomPrincipals: RoomPrincipal[]
 }>()
 
 const emit = defineEmits<{
@@ -246,8 +247,8 @@ onMounted(async () => {
 	initiallyBookedEmails.value = bookedRoomEmails
 	stagedRoomEmail.value = bookedRoomEmails[0] ?? null
 
-	allRooms.value = principalsStore.getRoomPrincipals
-		.map((principal: RoomOption) => ({ principal, isAvailable: true }))
+	allRooms.value = props.roomPrincipals
+		.map((principal: RoomPrincipal) => ({ principal, isAvailable: true }))
 
 	// A handful of buildings fits on screen; more than that is easier to scan collapsed.
 	const groups = groupedRooms.value

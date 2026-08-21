@@ -12,7 +12,7 @@
 			</span>
 
 			<NcButton
-				v-if="!isReadOnly && hasUserEmailAddress && resourceBookingEnabled"
+				v-if="!isReadOnly && hasUserEmailAddress && resourceBookingEnabled && roomPrincipals.length > 0"
 				class="resource-list__header__button"
 				@click="openRoomAvailability">
 				{{ $t('calendar', 'Show rooms') }}
@@ -22,6 +22,7 @@
 		<RoomSelectionModal
 			v-if="showRoomAvailabilityModal"
 			:calendarObjectInstance="calendarObjectInstance"
+			:roomPrincipals="roomPrincipals"
 			@close="setShowRoomAvailabilityModal(false)" />
 
 		<ResourceListSearch
@@ -101,6 +102,10 @@ export default {
 			return this.calendarObjectInstance.attendees.filter((attendee) => {
 				return ['ROOM', 'RESOURCE'].includes(attendee.attendeeProperty.userType)
 			})
+		},
+
+		roomPrincipals() {
+			return this.principalsStore.getRoomPrincipals
 		},
 
 		attendees() {
