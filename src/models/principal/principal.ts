@@ -19,6 +19,7 @@ function mapDavToRoomPrincipalProperties(dav: Record<string, unknown>): RoomPrin
 	const properties: RoomPrincipalProperties = {
 		roomType: null,
 		roomSeatingCapacity: null,
+		roomBuildingName: null,
 		roomBuildingAddress: null,
 		roomBuildingStory: null,
 		roomBuildingRoomNumber: null,
@@ -47,6 +48,12 @@ function mapDavToRoomPrincipalProperties(dav: Record<string, unknown>): RoomPrin
 		}
 	} else if (dav.roomSeatingCapacity !== undefined) {
 		logger.warn('Could not extract `roomSeatingCapacity`.', { dav })
+	}
+
+	if (typeof dav.roomBuildingName === 'string') {
+		properties.roomBuildingName = dav.roomBuildingName
+	} else if (dav.roomBuildingName !== undefined) {
+		logger.warn('Could not extract `roomBuildingName`.', { dav })
 	}
 
 	if (typeof dav.roomBuildingAddress === 'string') {

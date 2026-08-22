@@ -64,6 +64,28 @@ describe('Test suite: Principal model (models/principal/principal.ts)', () => {
 		})
 	})
 
+	describe('roomBuildingName', () => {
+		it.for([
+			['aBuilding', 'aBuilding'],
+			[undefined, null],
+		])('should accept %s', ([input, expected]) => {
+			const properties = mapDavToRoomPrincipalProperties({ roomBuildingName: input })
+
+			expect(properties).toMatchObject({ roomBuildingName: expected })
+			expect(logger.warn).toHaveBeenCalledTimes(0)
+		})
+
+		it.for([
+			[null, 'Could not extract `roomBuildingName`.'],
+			[true, 'Could not extract `roomBuildingName`.'],
+		])('should reject %s', ([input, warning]) => {
+			const properties = mapDavToRoomPrincipalProperties({ roomBuildingName: input })
+
+			expect(properties).toMatchObject({ roomBuildingName: null })
+			expect(logger.warn).toHaveBeenCalledExactlyOnceWith(warning, { dav: { roomBuildingName: input } })
+		})
+	})
+
 	describe('roomBuildingAddress', () => {
 		it.for([
 			['anAdreess', 'anAdreess'],
