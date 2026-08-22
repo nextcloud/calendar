@@ -66,8 +66,6 @@ export interface CalendarInterface {
 	publishURL: string | null
 	/** Internal CalDAV url of this calendar */
 	url: string
-	/** Whether this calendar is read-only */
-	readOnly: boolean
 	/** The order of this calendar in the calendar-list */
 	order: number
 	/** Whether the calendar is shared with the current user */

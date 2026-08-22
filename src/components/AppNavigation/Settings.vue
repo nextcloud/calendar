@@ -359,7 +359,7 @@ export default {
 
 		defaultCalendarOptions() {
 			return this.calendarsStore.calendars
-				.filter((calendar) => !calendar.readOnly
+				.filter((calendar) => (calendar.canCreateObject || calendar.canModifyObject)
 					&& !calendar.isSharedWithMe
 					&& calendar.supportsEvents)
 		},

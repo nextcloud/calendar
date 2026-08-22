@@ -17,10 +17,13 @@ describe('store/calendars test suite', () => {
 			order: 2,
 			supportsEvents: false,
 			supportsJournals: true,
+			canCreateObject: true,
+			canModifyObject: true,
 		}
 		const calendarReadOnly = {
 			id: '2',
-			readOnly: true,
+			canCreateObject: false,
+			canModifyObject: false,
 			supportsEvents: true,
 		}
 		const calendarOrderFirst = {
@@ -28,6 +31,8 @@ describe('store/calendars test suite', () => {
 			order: 1,
 			supportsEvents: true,
 			supportsJournals: false,
+			canCreateObject: true,
+			canModifyObject: true,
 		}
 		calendarsStore.addCalendarMutation({ calendar: calendarOrderLast })
 		calendarsStore.addCalendarMutation({ calendar: calendarReadOnly })

@@ -317,10 +317,11 @@ export default {
 			if (!this.calendarObject) {
 				return false
 			}
-			if (this.isReadOnly) {
+			if (this.isLoading) {
 				return false
 			}
-			if (this.isLoading) {
+			const calendar = this.calendarsStore.getCalendarById(this.calendarObject.calendarId)
+			if (!calendar?.canDeleteObject) {
 				return false
 			}
 
