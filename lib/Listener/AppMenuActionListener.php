@@ -17,6 +17,7 @@ use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
+use OCP\ServerVersion;
 use OCP\Util;
 
 /**
@@ -25,6 +26,12 @@ use OCP\Util;
  * @template-implements IEventListener<Event|LoadAdditionalEntriesEvent>
  */
 class AppMenuActionListener implements IEventListener {
+	/**
+	 * Actions in the app menu, and with it the new event dialog,
+	 * are only supported since Nextcloud 35.
+	 */
+	private const APP_MENU_ACTION_VERSION = 35;
+
 	public function __construct(
 		private IL10N $l10n,
 		private INavigationManager $navigationManager,
@@ -33,9 +40,20 @@ class AppMenuActionListener implements IEventListener {
 	) {
 	}
 
+	/**
+	 * Whether the server supports actions in the app menu.
+	 */
+	public static function hasAppMenuActions(): bool {
+		return (new ServerVersion())->getMajorVersion() >= self::APP_MENU_ACTION_VERSION;
+	}
+
 	#[\Override]
 	public function handle(Event $event): void {
 		if (!$event instanceof LoadAdditionalEntriesEvent) {
+			return;
+		}
+
+		if (!self::hasAppMenuActions()) {
 			return;
 		}
 
