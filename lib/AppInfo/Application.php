@@ -31,7 +31,6 @@ use OCP\Calendar\Events\CalendarObjectUpdatedEvent;
 use OCP\Collaboration\Reference\RenderReferenceEvent;
 use OCP\IUserSession;
 use OCP\Navigation\Events\LoadAdditionalEntriesEvent;
-use OCP\ServerVersion;
 use OCP\User\Events\UserDeletedEvent;
 use OCP\Util;
 use Psr\Container\ContainerInterface;
@@ -39,12 +38,6 @@ use Psr\Container\ContainerInterface;
 class Application extends App implements IBootstrap {
 	/** @var string */
 	public const APP_ID = 'calendar';
-
-	/**
-	 * Actions in the app menu, and with it the new event dialog,
-	 * are only supported since Nextcloud 35.
-	 */
-	private const APP_MENU_ACTION_VERSION = 35;
 
 	/**
 	 * @param array $params
@@ -69,7 +62,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(BeforeAppointmentBookedEvent::class, AppointmentBookedListener::class);
 		$context->registerEventListener(UserDeletedEvent::class, UserDeletedListener::class);
 		$context->registerEventListener(RenderReferenceEvent::class, CalendarReferenceListener::class);
-		if ($this->hasAppMenuActions()) {
+		if (AppMenuActionListener::hasAppMenuActions()) {
 			// The editor of the new event dialog can be opened on any page
 			$context->registerEventListener(BeforeTemplateRenderedEvent::class, EditorInitialStateListener::class);
 			// The app navigation action
@@ -107,10 +100,4 @@ class Application extends App implements IBootstrap {
 		Util::addStyle(self::APP_ID, 'calendar-contacts-menu');
 	}
 
-	/**
-	 * Whether the server supports actions in the app menu.
-	 */
-	private function hasAppMenuActions(): bool {
-		return (new ServerVersion())->getMajorVersion() >= self::APP_MENU_ACTION_VERSION;
-	}
 }
