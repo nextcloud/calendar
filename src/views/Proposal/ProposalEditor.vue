@@ -97,6 +97,12 @@
 							class="proposal-editor__proposal-duration"
 							:modelValue="selectedProposal.duration"
 							@update:modelValue="changeDuration" />
+						<NcCheckboxRadioSwitch
+							class="proposal-editor__proposal-response-notify"
+							:modelValue="selectedProposal.responseNotify"
+							@update:modelValue="onProposalResponseNotifyToggle">
+							{{ t('calendar', 'Notify me when participants respond') }}
+						</NcCheckboxRadioSwitch>
 						<InviteesListSearch
 							class="proposal-editor__proposal-participants-selector"
 							:alreadyInvitedEmails="existingParticipantAddressess"
@@ -519,12 +525,15 @@ export default {
 	},
 
 	watch: {
-		modalVisible(newVal) {
-			if (newVal) {
-				this.$nextTick(() => {
-					this.onModalOpen()
-				})
-			}
+		modalVisible: {
+			immediate: true,
+			handler(newVal) {
+				if (newVal) {
+					this.$nextTick(() => {
+						this.onModalOpen()
+					})
+				}
+			},
 		},
 
 		calendarDateSpan(newVal) {
@@ -645,6 +654,13 @@ export default {
 			} else {
 				this.selectedProposal.location = 'Talk conversation'
 			}
+		},
+
+		onProposalResponseNotifyToggle(value: boolean): void {
+			if (!this.selectedProposal) {
+				return
+			}
+			this.selectedProposal.responseNotify = value
 		},
 
 		onProposalParticipantAdd(participant: ParticipantSearchInterface): void {

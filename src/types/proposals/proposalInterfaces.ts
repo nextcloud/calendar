@@ -45,6 +45,7 @@ export interface ProposalInterface {
 	description: string | null
 	location: string | null
 	duration: number | null
+	responseNotify: boolean
 	participants: ProposalParticipantInterface[]
 	dates: ProposalDateInterface[]
 	votes: ProposalVoteInterface[]
