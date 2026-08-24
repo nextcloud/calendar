@@ -263,7 +263,8 @@ export default {
 	justify-content: center;
 	align-items: center;
 	width: 100%;
-	height: 100%;
+	align-self: flex-start;
+	min-height: 100%;
 }
 </style>
 
@@ -271,7 +272,7 @@ export default {
 .booking__container {
 	display: flex;
 	width: 100%;
-	height: 100vh;
+	align-self: stretch;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
@@ -281,16 +282,23 @@ export default {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
+	align-items: flex-start;
 	max-width: 100%;
 	gap: calc(var(--default-grid-baseline) * 6);
 	padding-top: calc(var(--default-grid-baseline) * 4);
 	padding-bottom: calc(var(--default-grid-baseline) * 4);
 	padding-inline: calc(var(--default-grid-baseline) * 4);
-	margin-bottom: var(--footer-height);
+}
+
+.booking__config-user-info {
+	flex: 1 1 320px;
+	min-width: 0;
+	max-width: 640px;
 }
 
 .booking__description {
 	white-space: break-spaces;
+	overflow-wrap: break-word;
 }
 
 .booking__date-selection {
@@ -304,6 +312,11 @@ export default {
 	flex-direction: column;
 	max-height: 440px;
 	overflow-y: auto;
+}
+
+.booking__date-selection,
+.booking__slot-selection {
+	flex: 0 0 auto;
 }
 
 .booking__slot-selection {
