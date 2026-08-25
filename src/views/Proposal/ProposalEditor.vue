@@ -305,6 +305,8 @@ export default {
 			calendarSpanMax: 28, // Maximum days that can be shown
 			calendarSpanMin: 1, // Minimum days that can be shown
 			calendarSpanDays: 7, // Currently applied span (derived)
+			calendarRangeStart: null as Date | null, // Reactive copy of the calendar view's active start
+			calendarRangeEnd: null as Date | null, // Reactive copy of the calendar view's active end
 			screenWidth: window.innerWidth, // Track screen width
 			showDeleteDialog: false,
 			pendingDeleteProposal: null as Proposal | null,
@@ -421,7 +423,7 @@ export default {
 				selectMirror: true,
 				select: (info: unknown) => this.onProposalDateAdd(info),
 				eventDrop: (info: unknown) => this.onProposalDateMove(info),
-				datesSet: () => {
+				datesSet: (info: { view: { activeStart: Date, activeEnd: Date } }) => {
 					if (!this.modalVisible) {
 						return
 					}
@@ -430,6 +432,9 @@ export default {
 					if (!this.calendarApi) {
 						return
 					}
+					// Keep a reactive copy of the active range so calendarDateRange updates
+					this.calendarRangeStart = info.view.activeStart
+					this.calendarRangeEnd = info.view.activeEnd
 					this.fetchParticipantAvailability()
 				},
 			}
@@ -490,13 +495,12 @@ export default {
 		},
 
 		calendarDateRange(): string {
-			if (!this.calendarApi) {
+			if (!this.calendarRangeStart || !this.calendarRangeEnd) {
 				return ''
 			}
 
-			const view = this.calendarApi.view
-			const start = view.activeStart
-			const end = new Date(view.activeEnd.getTime() - 1) // Subtract 1ms to get the last day shown
+			const start = this.calendarRangeStart
+			const end = new Date(this.calendarRangeEnd.getTime() - 1) // Subtract 1ms to get the last day shown
 
 			// Format start date
 			const startFormatted = moment(start).format('MMMM D')
