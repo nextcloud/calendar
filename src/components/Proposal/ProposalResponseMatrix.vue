@@ -123,182 +123,135 @@
 	</div>
 </template>
 
-<script lang="ts">
-import type { ProposalDate } from '@/models/proposals/proposals'
+<script setup lang="ts">
+import type { Component } from 'vue'
+import type { Proposal, ProposalDate, ProposalResponse } from '@/models/proposals/proposals'
 
 import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
+import { computed } from 'vue'
 import CreateIcon from 'vue-material-design-icons/CalendarOutline'
+// icons
 import VoteYesIcon from 'vue-material-design-icons/Check'
 import VoteNoIcon from 'vue-material-design-icons/Close'
 import VoteMaybeIcon from 'vue-material-design-icons/Help'
 import VoteNoneIcon from 'vue-material-design-icons/Minus'
+// components
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import { Proposal, ProposalResponse } from '@/models/proposals/proposals'
 import { getTimezoneOffset } from '@/services/timezoneOffsetService'
 import { ProposalDateVote } from '@/types/proposals/proposalEnums'
 
-export default {
-	name: 'ProposalResponseMatrix',
+interface DateGroup {
+	key: string
+	label: string
+	dates: ProposalDate[]
+}
 
-	components: {
-		NcButton,
-		NcAvatar,
-		NcCheckboxRadioSwitch,
-		VoteYesIcon,
-		VoteNoIcon,
-		VoteMaybeIcon,
-		VoteNoneIcon,
-		CreateIcon,
-	},
+const props = withDefaults(defineProps<{
+	mode: 'organizer' | 'participant'
+	proposal: Proposal
+	response?: ProposalResponse
+	timezoneId?: string
+}>(), {
+	timezoneId: 'UTC',
+})
 
-	props: {
-		mode: {
-			type: String,
-			required: true,
-		},
+defineEmits<{
+	dateConvert: [date: ProposalDate]
+	dateVote: [payload: { date: ProposalDate, vote: ProposalDateVote }]
+}>()
 
-		proposal: {
-			type: Proposal,
-			required: true,
-		},
-
-		response: {
-			type: ProposalResponse,
-		},
-
-		timezoneId: {
-			type: String,
-			default: 'UTC',
-		},
-	},
-
-	emits: [
-		'dateConvert',
-		'dateVote',
-	],
-
-	data() {
-		return {
-			ProposalDateVote,
+const datesGrouped = computed<DateGroup[]>(() => {
+	if (!props.proposal) {
+		return []
+	}
+	// Sort dates for predictable grouping
+	const dates = [...props.proposal.dates].sort((a, b) => {
+		if (!a.date || !b.date) {
+			return 0
 		}
-	},
+		return a.date.getTime() - b.date.getTime()
+	})
+	const groups: Record<string, ProposalDate[]> = {}
+	dates.forEach((d) => {
+		// Apply timezone offset for grouping by day
+		const offset = getTimezoneOffset(d.date, props.timezoneId)
+		const key = moment(d.date).utcOffset(offset).format('YYYY-MM-DD')
+		if (!groups[key]) {
+			groups[key] = []
+		}
+		groups[key].push(d)
+	})
+	return Object.entries(groups).map(([key, grp]) => {
+		const offset = getTimezoneOffset(grp[0].date, props.timezoneId)
+		return {
+			key,
+			label: moment(grp[0].date).utcOffset(offset).format('dddd, MMMM Do'),
+			dates: grp,
+		}
+	})
+})
 
-	computed: {
-		datesGrouped() {
-			if (!this.proposal) {
-				return []
-			}
-			// Sort dates for predictable grouping
-			const dates = [...this.proposal.dates].sort((a, b) => {
-				if (!a.date || !b.date) {
-					return 0
-				}
-				return a.date.getTime() - b.date.getTime()
-			})
-			const groups = {}
-			dates.forEach((d) => {
-				// Apply timezone offset for grouping by day
-				const offset = getTimezoneOffset(d.date, this.timezoneId)
-				const key = moment(d.date).utcOffset(offset).format('YYYY-MM-DD')
-				if (!groups[key]) {
-					groups[key] = []
-				}
-				groups[key].push(d)
-			})
-			return Object.entries(groups).map(([key, grp]: [string, ProposalDate[]]) => {
-				const offset = getTimezoneOffset(grp[0].date, this.timezoneId)
-				return {
-					key,
-					label: moment(grp[0].date).utcOffset(offset).format('dddd, MMMM Do'),
-					dates: grp,
-				}
-			})
-		},
+function dateTimeSpan(date: Date | null): string {
+	const offset = getTimezoneOffset(date, props.timezoneId)
+	const startDate = moment(date).utcOffset(offset)
+	const endDate = moment(date).utcOffset(offset).add(props.proposal.duration, 'minutes')
 
-		columnCount() {
-			// time + participants + action
-			const participants = this.proposal?.participants?.length ?? 0
-			return 2 + participants
-		},
+	const startTime = startDate.format('LT')
+	const endTime = endDate.format('LT')
 
-	},
+	return `${startTime} - ${endTime}`
+}
 
-	methods: {
-		t,
+function dateVoteValue(date: ProposalDate): ProposalDateVote {
+	if (date.id === null) {
+		return ProposalDateVote.Maybe
+	}
+	if (!props.response || !props.response.dates || !props.response.dates[date.id]) {
+		return ProposalDateVote.Maybe
+	}
+	return props.response.dates[date.id].vote
+}
 
-		dateTimeSpan(date) {
-			const offset = getTimezoneOffset(date, this.timezoneId)
-			const startDate = moment(date).utcOffset(offset)
-			const endDate = moment(date).utcOffset(offset).add(this.proposal.duration, 'minutes')
+function participantVoteIcon(participantId: number | null, dateId: number | null): Component {
+	const vote = participantVote(participantId, dateId)
+	switch (vote) {
+		case ProposalDateVote.Yes:
+			return VoteYesIcon
+		case ProposalDateVote.No:
+			return VoteNoIcon
+		case ProposalDateVote.Maybe:
+			return VoteMaybeIcon
+		default:
+			return VoteNoneIcon
+	}
+}
 
-			const startTime = startDate.format('LT')
-			const endTime = endDate.format('LT')
+function participantVoteLabel(participantId: number | null, dateId: number | null): string {
+	const vote = participantVote(participantId, dateId)
+	switch (vote) {
+		case ProposalDateVote.Yes:
+			return t('calendar', 'Yes')
+		case ProposalDateVote.No:
+			return t('calendar', 'No')
+		case ProposalDateVote.Maybe:
+			return t('calendar', 'Maybe')
+		default:
+			return t('calendar', 'None')
+	}
+}
 
-			return `${startTime} - ${endTime}`
-		},
+function participantVote(participantId: number | null, dateId: number | null): ProposalDateVote | null {
+	if (!props.proposal || !participantId || !dateId) {
+		return null // No response / unknown
+	}
 
-		dateVoteValue(date: ProposalDate): ProposalDateVote {
-			if (date.id === null) {
-				return ProposalDateVote.Maybe
-			}
-			if (!this.response || !this.response.dates || !this.response.dates[date.id]) {
-				return ProposalDateVote.Maybe
-			}
-			return this.response.dates[date.id].vote
-		},
+	// Find the vote for this participant and date combination
+	const vote = props.proposal.votes.find((v) => v.participant === participantId && v.date === dateId)
 
-		formatProposalDateCompact(date) {
-			if (!date) {
-				return ''
-			}
-			// Apply timezone offset and format very compact: "7/8 2PM"
-			const offset = getTimezoneOffset(date, this.timezoneId)
-			const adjustedDate = moment(date).utcOffset(offset)
-			return adjustedDate.format('M/D LT').replace(':00', '').replace(' ', ' ')
-		},
-
-		participantVoteIcon(participantId, dateId) {
-			const vote = this.participantVote(participantId, dateId)
-			switch (vote) {
-				case ProposalDateVote.Yes:
-					return 'VoteYesIcon'
-				case ProposalDateVote.No:
-					return 'VoteNoIcon'
-				case ProposalDateVote.Maybe:
-					return 'VoteMaybeIcon'
-				default:
-					return 'VoteNoneIcon'
-			}
-		},
-
-		participantVoteLabel(participantId, dateId) {
-			const vote = this.participantVote(participantId, dateId)
-			switch (vote) {
-				case ProposalDateVote.Yes:
-					return t('calendar', 'Yes')
-				case ProposalDateVote.No:
-					return t('calendar', 'No')
-				case ProposalDateVote.Maybe:
-					return t('calendar', 'Maybe')
-				default:
-					return t('calendar', 'None')
-			}
-		},
-
-		participantVote(participantId, dateId) {
-			if (!this.proposal || !participantId || !dateId) {
-				return null // No response / unknown
-			}
-
-			// Find the vote for this participant and date combination
-			const vote = this.proposal.votes.find((v) => v.participant === participantId && v.date === dateId)
-
-			return vote ? vote.vote : null // null indicates no response
-		},
-	},
+	return vote ? vote.vote : null // null indicates no response
 }
 </script>
 

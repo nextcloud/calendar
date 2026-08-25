@@ -64,10 +64,13 @@
 	</div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import type { Proposal, ProposalDate } from '@/models/proposals/proposals'
+
 import { t } from '@nextcloud/l10n'
-// icons
+import { computed, onMounted, ref } from 'vue'
 import ProposalIcon from 'vue-material-design-icons/BallotOutline'
+// icons
 import RespondedIcon from 'vue-material-design-icons/Check'
 import DurationIcon from 'vue-material-design-icons/ClockOutline'
 import LocationIcon from 'vue-material-design-icons/MapMarkerOutline'
@@ -84,110 +87,78 @@ import useProposalStore from '@/store/proposalStore'
 import { ProposalDateVote } from '@/types/proposals/proposalEnums'
 import logger from '@/utils/logger.js'
 
-export default {
-	name: 'ProposalPublic',
+const proposalStore = useProposalStore()
 
-	components: {
-		NcGuestContent,
-		NcEmptyContent,
-		NcAvatar,
-		NcButton,
-		NcTimezonePicker,
-		ProposalResponseMatrix,
-		ProposalIcon,
-		RespondedIcon,
-		LocationIcon,
-		DurationIcon,
-	},
+const token = ref('')
+const contentView = ref<'loading' | 'notfound' | 'responded' | 'loaded'>('loading')
+const storedProposal = ref<Proposal | null>(null)
+const response = ref(new ProposalResponse())
+const userTimezone = ref('UTC')
 
-	data() {
-		return {
-			proposalStore: useProposalStore(),
-			token: null,
-			contentView: 'loading',
-			storedProposal: null,
-			response: new ProposalResponse(),
-			ProposalDateVote,
-			userTimezone: 'UTC',
-		}
-	},
+const blankViewLabel = computed<string>(() => {
+	if (contentView.value === 'loading') {
+		return t('calendar', 'Loading meeting proposal')
+	} else {
+		return t('calendar', 'No meeting proposal found')
+	}
+})
 
-	computed: {
-		blankViewLabel() {
-			if (this.contentView === 'loading') {
-				return t('calendar', 'Loading meeting proposal')
-			} else {
-				return t('calendar', 'No meeting proposal found')
-			}
-		},
+const blankViewDescription = computed<string>(() => {
+	if (contentView.value === 'loading') {
+		return t('calendar', 'Please wait while we load the meeting proposal.')
+	} else {
+		return t('calendar', 'The link you followed may be broken, or the meeting proposal may no longer exist.')
+	}
+})
 
-		blankViewDescription() {
-			if (this.contentView === 'loading') {
-				return t('calendar', 'Please wait while we load the meeting proposal.')
-			} else {
-				return t('calendar', 'The link you followed may be broken, or the meeting proposal may no longer exist.')
-			}
-		},
+const respondedViewLabel = computed<string>(() => t('calendar', 'Thank you for your response!'))
 
-		respondedViewLabel() {
-			return t('calendar', 'Thank you for your response!')
-		},
+const respondedViewDescription = computed<string>(() => t('calendar', 'Your vote has been recorded. Thank you for participating!'))
 
-		respondedViewDescription() {
-			return t('calendar', 'Your vote has been recorded. Thank you for participating!')
-		},
-
-	},
-
-	mounted() {
-		// determine initial timezone
-		this.userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
-
-		const pathParts = window.location.pathname.split('/')
-		this.contentView = 'loading'
-		this.token = pathParts[pathParts.length - 1]
-		this.proposalStore.fetchProposalByToken(this.token)
-			.then((proposal) => {
-				this.storedProposal = proposal
-				this.response.token = this.token
-				// Initialize response state for each date
-				if (proposal && proposal.dates) {
-					proposal.dates.forEach((date) => {
-						if (date.id !== null) {
-							const responseDate = new ProposalResponseDate()
-							responseDate.id = date.id
-							responseDate.date = new Date(date.date)
-							responseDate.vote = ProposalDateVote.Maybe
-							this.response.dates[date.id] = responseDate
-						}
-					})
-				}
-				this.contentView = 'loaded'
-			})
-			.catch(() => {
-				this.contentView = 'notfound'
-			})
-	},
-
-	methods: {
-		t,
-
-		onDateVote({ date, vote }) {
-			if (this.response.dates[date.id]) {
-				this.response.dates[date.id].vote = vote
-			}
-		},
-
-		async onSubmit() {
-			try {
-				await this.proposalStore.storeResponse(this.response)
-				this.contentView = 'responded'
-			} catch (e) {
-				logger.error('Failed to store proposal response', { e })
-			}
-		},
-	},
+function onDateVote({ date, vote }: { date: ProposalDate, vote: ProposalDateVote }): void {
+	if (date.id !== null && response.value.dates[date.id]) {
+		response.value.dates[date.id].vote = vote
+	}
 }
+
+async function onSubmit(): Promise<void> {
+	try {
+		await proposalStore.storeResponse(response.value)
+		contentView.value = 'responded'
+	} catch (e) {
+		logger.error('Failed to store proposal response', { e })
+	}
+}
+
+onMounted(() => {
+	// determine initial timezone
+	userTimezone.value = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
+
+	const pathParts = window.location.pathname.split('/')
+	contentView.value = 'loading'
+	token.value = pathParts[pathParts.length - 1]
+	proposalStore.fetchProposalByToken(token.value)
+		.then((proposal) => {
+			storedProposal.value = proposal
+			response.value.token = token.value
+			// Initialize response state for each date
+			if (proposal && proposal.dates) {
+				proposal.dates.forEach((date) => {
+					if (date.id !== null) {
+						const responseDate = new ProposalResponseDate()
+						responseDate.id = date.id
+						responseDate.date = new Date(date.date ?? 0)
+						responseDate.vote = ProposalDateVote.Maybe
+						response.value.dates[date.id] = responseDate
+					}
+				})
+			}
+			contentView.value = 'loaded'
+		})
+		.catch(() => {
+			contentView.value = 'notfound'
+		})
+})
 </script>
 
 <style lang="scss" scoped>
