@@ -171,6 +171,7 @@
 
 				<div class="app-full-body">
 					<div class="app-full-body__left">
+						<div :ref="(el) => extensionZoneLeft = el" />
 						<PropertyText
 							class="property-location"
 							:isReadOnly="isReadOnly || isViewedByOrganizer === false"
@@ -469,6 +470,8 @@ export default {
 				info: t('calendar', 'Choose "Only invited attendees can respond" to prevent attendees from forwarding the invitation to others.'),
 				defaultValue: 'TRUE',
 			},
+
+			extensionZoneLeft: null,
 		}
 	},
 
@@ -537,6 +540,21 @@ export default {
 		},
 	},
 
+	watch: {
+		calendarObjectInstance() {
+			if (this.calendarObjectInstance) {
+				this.editorExtensionInstancesStore.markEditorOpenedOrUpdated({
+					view: 'full',
+					isReadOnly: this.isReadOnly,
+					calendarObjectInstance: this.calendarObjectInstance,
+				})
+			}
+		},
+
+		extensionZoneLeft: 'syncExtensions',
+		'editorExtensionInstancesStore.editorFields': 'syncExtensions',
+	},
+
 	mounted() {
 		window.addEventListener('keydown', this.keyboardCloseEditor)
 		window.addEventListener('keydown', this.keyboardSaveEvent)
@@ -552,6 +570,18 @@ export default {
 	},
 
 	methods: {
+		syncExtensions() {
+			if (this.extensionZoneLeft === null) {
+				return
+			}
+			const fields = this.editorExtensionInstancesStore.editorFields
+			for (const field of fields) {
+				if (field.parentElement !== this.extensionZoneLeft) {
+					this.extensionZoneLeft.append(field.element)
+				}
+			}
+		},
+
 		updateLocation(location) {
 			this.calendarObjectInstanceStore.changeLocation({
 				location,

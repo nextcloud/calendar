@@ -12,6 +12,7 @@ import { containsRoomUrl } from '@/services/talkService.ts'
 import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
 import useCalendarObjectsStore from '@/store/calendarObjects.js'
 import useCalendarsStore from '@/store/calendars.js'
+import useEditorExtensionInstancesStore from '@/store/editorExtensionInstances'
 import usePrincipalsStore from '@/store/principals.js'
 import useSettingsStore from '@/store/settings.js'
 import useWidgetStore from '@/store/widget.js'
@@ -68,7 +69,7 @@ export default {
 		...mapState(useSettingsStore, ['talkEnabled']),
 		...mapState(useCalendarsStore, ['initialCalendarsLoaded']),
 		...mapState(useCalendarObjectInstanceStore, ['calendarObject', 'calendarObjectInstance']),
-		...mapStores(useCalendarsStore, usePrincipalsStore, useCalendarObjectsStore, useCalendarObjectInstanceStore, useSettingsStore, useWidgetStore),
+		...mapStores(useCalendarsStore, usePrincipalsStore, useCalendarObjectsStore, useCalendarObjectInstanceStore, useSettingsStore, useWidgetStore, useEditorExtensionInstancesStore),
 		eventComponent() {
 			return this.calendarObjectInstance?.eventComponent
 		},
@@ -569,6 +570,7 @@ export default {
 		 * Closes the editor and returns to normal calendar-view
 		 */
 		closeEditor() {
+			this.editorExtensionInstancesStore.markEditorClosed()
 			if (this.isWidget) {
 				this.widgetStore.closeWidgetEventDetails()
 				return
@@ -667,6 +669,8 @@ export default {
 			if (this.forceThisAndAllFuture) {
 				thisAndAllFuture = true
 			}
+
+			this.editorExtensionInstancesStore.executeOnBeforeSave()
 
 			this.isLoading = true
 			this.isSaving = true
