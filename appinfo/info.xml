@@ -23,7 +23,7 @@
 * 📎 **Attachments!** Add, upload and view event attachments
 * 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
 	]]></description>
-	<version>6.6.0-dev.1</version>
+	<version>6.7.0-dev.1</version>
 	<licence>agpl</licence>
 	<author homepage="https://github.com/GVodyanov">Grigory Vodyanov</author>
 	<author homepage="https://github.com/SebastianKrupinski">Sebastian Krupinski </author>
@@ -43,8 +43,8 @@
 	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/main/screenshots/week_room_suggestion.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/main/screenshots/week_sidebar.png</screenshot>
 	<dependencies>
-		<php min-version="8.1" max-version="8.5" />
-		<nextcloud min-version="32" max-version="35" />
+		<php min-version="8.2" max-version="8.5" />
+		<nextcloud min-version="34" max-version="36" />
 		<backend>caldav</backend>
 	</dependencies>
 	<background-jobs>

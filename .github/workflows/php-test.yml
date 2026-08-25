@@ -12,11 +12,9 @@ jobs:
         nextcloud-versions: [ 'master' ]
         include:
           - php-versions: '8.5'
+            nextcloud-versions: 'stable35'
+          - php-versions: '8.4'
             nextcloud-versions: 'stable34'
-          - php-versions: '8.5'
-            nextcloud-versions: 'stable33'
-          - php-versions: '8.3'
-            nextcloud-versions: 'stable32'
     name: php${{ matrix.php-versions }} on ${{ matrix.nextcloud-versions }} unit tests
     env:
       CI: true
@@ -63,11 +61,9 @@ jobs:
         nextcloud-versions: [ 'master' ]
         include:
           - php-versions: '8.5'
+            nextcloud-versions: 'stable35'
+          - php-versions: '8.4'
             nextcloud-versions: 'stable34'
-          - php-versions: '8.5'
-            nextcloud-versions: 'stable33'
-          - php-versions: '8.3'
-            nextcloud-versions: 'stable32'
     name: php${{ matrix.php-versions }} on ${{ matrix.nextcloud-versions }} integration tests
     env:
       CI: true
