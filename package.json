@@ -96,7 +96,7 @@
     "@rspack/cli": "^2.1.10",
     "@rspack/core": "^2.1.10",
     "@rspack/plugin-node-polyfill": "^0.5.8",
-    "@types/node": "^26.2.0",
+    "@types/node": "^26.3.0",
     "@vitejs/plugin-vue": "^6.0.8",
     "@vitest/coverage-v8": "^4.1.10",
     "@vitest/eslint-plugin": "^1.6.27",
