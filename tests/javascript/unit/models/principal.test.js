@@ -218,6 +218,7 @@ describe('Test suite: Principal model (models/principal.js)', () => {
 			principalId: 'room-123',
 			userId: null,
 			roomAddress: null,
+			roomBuildingName: null,
 			roomBuildingAddress: null,
 			roomBuildingStory: null,
 			roomBuildingRoomNumber: null,
