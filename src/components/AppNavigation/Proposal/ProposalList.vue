@@ -92,12 +92,13 @@
 	</div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import type { Proposal } from '@/models/proposals/proposals'
 
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { generateUrl } from '@nextcloud/router'
+import { computed, onMounted, ref, watch } from 'vue'
 // icons
 import WarningIcon from 'vue-material-design-icons/AlertCircleOutline'
 import ViewIcon from 'vue-material-design-icons/CalendarMultiselect'
@@ -118,132 +119,93 @@ import usePrincipalStore from '@/store/principals'
 import useProposalStore from '@/store/proposalStore'
 import { ProposalParticipantStatus } from '@/types/proposals/proposalEnums'
 
-export default {
-	name: 'ProposalList',
+const principalStore = usePrincipalStore()
+const proposalStore = useProposalStore()
 
-	components: {
-		NcAppNavigationCaption,
-		NcAppNavigationItem,
-		NcActionButton,
-		NcDialog,
-		NcCounterBubble,
-		WarningIcon,
-		PendingIcon,
-		CompleteIcon,
-		VotingIcon,
-		ViewIcon,
-		CreateIcon,
-		ModifyIcon,
-		DestroyIcon,
+const storedProposals = ref<Proposal[]>([])
+const showDeleteDialog = ref(false)
+const pendingDeleteProposal = ref<Proposal | null>(null)
+
+const userHasEmailAddress = computed(() => (principalStore?.getCurrentUserPrincipal?.emailAddress?.length ?? 0) > 0)
+
+const deleteDialogMessage = computed(() => {
+	const title = pendingDeleteProposal.value?.title ?? t('calendar', 'No title')
+	return t('calendar', 'Are you sure you want to delete "{title}"?', { title })
+})
+
+const deleteDialogButtons = computed(() => [
+	{
+		label: t('calendar', 'Delete'),
+		variant: 'secondary',
+		callback: () => destroyProposal(),
 	},
-
-	data() {
-		const principalStore = usePrincipalStore()
-		const proposalStore = useProposalStore()
-		return {
-			principalStore,
-			proposalStore,
-			storedProposals: [] as Array<Proposal>,
-			showDeleteDialog: false,
-			pendingDeleteProposal: null as Proposal | null,
-		}
+	{
+		label: t('calendar', 'Cancel'),
+		variant: 'primary',
+		callback: () => { showDeleteDialog.value = false },
 	},
+])
 
-	computed: {
-		userHasEmailAddress() {
-			return this.principalStore?.getCurrentUserPrincipal?.emailAddress?.length > 0
-		},
-
-		deleteDialogMessage(): string {
-			const title = this.pendingDeleteProposal?.title ?? t('calendar', 'No title')
-			return t('calendar', 'Are you sure you want to delete "{title}"?', { title })
-		},
-
-		deleteDialogButtons() {
-			return [
-				{
-					label: t('calendar', 'Delete'),
-					variant: 'secondary',
-					callback: () => this.destroyProposal(),
-				},
-				{
-					label: t('calendar', 'Cancel'),
-					variant: 'primary',
-					callback: () => { this.showDeleteDialog = false },
-				},
-			]
-		},
-	},
-
-	watch: {
-		'proposalStore.modalVisible': function(newValue: boolean, oldValue: boolean) {
-			// Refresh the list when the modal closes (was true, now false)
-			if (oldValue === true && newValue === false) {
-				this.fetchProposals()
-			}
-		},
-	},
-
-	mounted() {
-		this.fetchProposals()
-	},
-
-	methods: {
-		t,
-
-		generateUrl,
-
-		onProposalView(proposal: Proposal) {
-			this.proposalStore.showModal('view', proposal)
-		},
-
-		onProposalCreate() {
-			this.proposalStore.showModal('create')
-		},
-
-		onProposalModify(proposal: Proposal) {
-			this.proposalStore.showModal('modify', proposal)
-		},
-
-		onProposalDestroy(proposal: Proposal) {
-			this.pendingDeleteProposal = proposal
-			this.showDeleteDialog = true
-		},
-
-		async destroyProposal() {
-			const proposal = this.pendingDeleteProposal
-			this.pendingDeleteProposal = null
-			this.showDeleteDialog = false
-			if (!proposal) {
-				return
-			}
-			try {
-				showSuccess(t('calendar', 'Deleting proposal "{title}"', { title: proposal.title ?? t('calendar', 'No title') }))
-				await this.proposalStore.destroyProposal(proposal)
-				showSuccess(t('calendar', 'Successfully deleted proposal'))
-				this.fetchProposals()
-			} catch {
-				showError(t('calendar', 'Failed to delete proposal'))
-			}
-		},
-
-		async fetchProposals() {
-			try {
-				this.storedProposals = await this.proposalStore.listProposals()
-			} catch {
-				showError(t('calendar', 'Failed to retrieve proposals'))
-			}
-		},
-
-		proposalParticipantsTotal(proposal: Proposal): number {
-			return proposal.participants.length
-		},
-
-		proposalParticipantsResponded(proposal: Proposal): number {
-			return proposal.participants.filter((p) => p.status === ProposalParticipantStatus.Responded).length
-		},
-	},
+function onProposalView(proposal: Proposal): void {
+	proposalStore.showModal('view', proposal)
 }
+
+function onProposalCreate(): void {
+	proposalStore.showModal('create')
+}
+
+function onProposalModify(proposal: Proposal): void {
+	proposalStore.showModal('modify', proposal)
+}
+
+function onProposalDestroy(proposal: Proposal): void {
+	pendingDeleteProposal.value = proposal
+	showDeleteDialog.value = true
+}
+
+async function destroyProposal(): Promise<void> {
+	const proposal = pendingDeleteProposal.value
+	pendingDeleteProposal.value = null
+	showDeleteDialog.value = false
+	if (!proposal) {
+		return
+	}
+	try {
+		showSuccess(t('calendar', 'Deleting proposal "{title}"', { title: proposal.title ?? t('calendar', 'No title') }))
+		await proposalStore.destroyProposal(proposal)
+		showSuccess(t('calendar', 'Successfully deleted proposal'))
+		fetchProposals()
+	} catch {
+		showError(t('calendar', 'Failed to delete proposal'))
+	}
+}
+
+async function fetchProposals(): Promise<void> {
+	try {
+		storedProposals.value = await proposalStore.listProposals()
+	} catch {
+		showError(t('calendar', 'Failed to retrieve proposals'))
+	}
+}
+
+function proposalParticipantsTotal(proposal: Proposal): number {
+	return proposal.participants.length
+}
+
+function proposalParticipantsResponded(proposal: Proposal): number {
+	return proposal.participants.filter((p) => p.status === ProposalParticipantStatus.Responded).length
+}
+
+watch(() => proposalStore.modalVisible, (newValue, oldValue) => {
+	// Refresh the list when the modal closes (was true, now false)
+	if (oldValue === true && newValue === false) {
+		fetchProposals()
+	}
+})
+
+onMounted(() => {
+	fetchProposals()
+})
 </script>
 
 <style lang="scss" scoped>

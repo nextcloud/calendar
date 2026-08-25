@@ -19,56 +19,40 @@
 	</div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import type { ProposalDateInterface } from '@/types/proposals/proposalInterfaces'
 
 // types, object and stores
 import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
+import { computed } from 'vue'
 // icons
 import ItemIcon from 'vue-material-design-icons/Calendar'
 import DestroyIcon from 'vue-material-design-icons/Close'
 import { getTimezoneOffset } from '@/services/timezoneOffsetService'
 
-export default {
-	name: 'ProposalDateItem',
+const props = withDefaults(defineProps<{
+	proposalDate: ProposalDateInterface
+	timezoneId?: string
+}>(), {
+	timezoneId: 'UTC',
+})
 
-	components: {
-		ItemIcon,
-		DestroyIcon,
-	},
+defineEmits<{
+	dateRemove: []
+	dateFocus: []
+}>()
 
-	props: {
-		proposalDate: {
-			type: Object as () => ProposalDateInterface,
-			required: true,
-		},
-
-		timezoneId: {
-			type: String,
-			default: 'UTC',
-		},
-	},
-
-	emits: ['dateRemove', 'dateFocus'],
-
-	computed: {
-		formattedDate(): string {
-			if (!this.proposalDate.date) {
-				return ''
-			}
-			// Get the timezone offset in minutes
-			const timezoneOffset = getTimezoneOffset(this.proposalDate.date, this.timezoneId)
-			const m = moment(this.proposalDate.date).utcOffset(timezoneOffset)
-			// Examples: "Mon, Jul 8, 2:30 PM" (en), "Mon, 8 Jul, 14:30" (en-GB), "Mo, 8. Jul, 14:30" (de)
-			return m.format('dddd, MMMM D, LT')
-		},
-	},
-
-	methods: {
-		t,
-	},
-}
+const formattedDate = computed<string>(() => {
+	if (!props.proposalDate.date) {
+		return ''
+	}
+	// Get the timezone offset in minutes
+	const timezoneOffset = getTimezoneOffset(props.proposalDate.date, props.timezoneId)
+	const m = moment(props.proposalDate.date).utcOffset(timezoneOffset)
+	// Examples: "Mon, Jul 8, 2:30 PM" (en), "Mon, 8 Jul, 14:30" (en-GB), "Mo, 8. Jul, 14:30" (de)
+	return m.format('dddd, MMMM D, LT')
+})
 </script>
 
 <style lang="scss" scoped>
