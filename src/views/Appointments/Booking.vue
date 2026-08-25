@@ -261,10 +261,11 @@ export default {
 #appointment-booking {
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: safe center;
 	width: 100%;
 	align-self: flex-start;
 	min-height: 100%;
+	height: auto;
 }
 </style>
 
@@ -273,8 +274,9 @@ export default {
 	display: flex;
 	width: 100%;
 	align-self: stretch;
+	min-height: 100vh;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: safe center;
 	align-items: center;
 }
 
