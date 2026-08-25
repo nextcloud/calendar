@@ -11,7 +11,7 @@
     errorBaseline="tests/psalm-baseline.xml"
 	findUnusedCode="false"
 	findUnusedBaselineEntry="false"
-	phpVersion="8.1"
+	phpVersion="8.2"
 >
     <projectFiles>
         <directory name="lib" />

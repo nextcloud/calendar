@@ -6,7 +6,7 @@ name: Block merges for EOL branches
 on: pull_request
 
 env:
-  ACTIVE_BRANCHES: '["main", "stable6.5"]'
+  ACTIVE_BRANCHES: '["main", "stable6.6", "stable6.5"]'
 
 permissions:
   contents: read
