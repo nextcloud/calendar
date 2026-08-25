@@ -9,11 +9,11 @@ jobs:
     strategy:
       matrix:
         php-versions: [ '8.3', '8.4', '8.5' ]
-        nextcloud-versions: [ 'master' ]
+        nextcloud-versions: [ 'stable35' ]
         include:
           - php-versions: '8.5'
             nextcloud-versions: 'stable34'
-          - php-versions: '8.5'
+          - php-versions: '8.4'
             nextcloud-versions: 'stable33'
           - php-versions: '8.3'
             nextcloud-versions: 'stable32'
@@ -60,11 +60,11 @@ jobs:
     strategy:
       matrix:
         php-versions: [ '8.3', '8.4', '8.5' ]
-        nextcloud-versions: [ 'master' ]
+        nextcloud-versions: [ 'stable35' ]
         include:
           - php-versions: '8.5'
             nextcloud-versions: 'stable34'
-          - php-versions: '8.5'
+          - php-versions: '8.4'
             nextcloud-versions: 'stable33'
           - php-versions: '8.3'
             nextcloud-versions: 'stable32'
