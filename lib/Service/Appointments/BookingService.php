@@ -49,9 +49,14 @@ class BookingService {
 	 * @throws NoSlotFoundException|ClientException|DbException
 	 */
 	public function confirmBooking(Booking $booking, AppointmentConfig $config): Booking {
-		$bookingSlot = current($this->getAvailableSlots($config, $booking->getStart(), $booking->getEnd()));
+		$availableSlots = $this->getAvailableSlots($config, $booking->getStart(), $booking->getEnd());
+		$selectedSlot = $this->findMatchingSlot(
+			$availableSlots,
+			$booking->getStart(),
+			$booking->getEnd(),
+		);
 
-		if (!$bookingSlot) {
+		if ($selectedSlot === null) {
 			throw new NoSlotFoundException('Slot for booking is not available any more');
 		}
 
@@ -93,9 +98,14 @@ class BookingService {
 	 * @throws ServiceException|DbException|NoSlotFoundException|InvalidArgumentException
 	 */
 	public function book(AppointmentConfig $config, int $start, int $end, string $timeZone, string $displayName, string $email, ?string $description = null): Booking {
-		$bookingSlot = current($this->getAvailableSlots($config, $start, $end));
+		$availableSlots = $this->getAvailableSlots($config, $start, $end);
+		$selectedSlot = $this->findMatchingSlot(
+			$availableSlots,
+			$start,
+			$end,
+		);
 
-		if (!$bookingSlot) {
+		if ($selectedSlot === null) {
 			throw new NoSlotFoundException('Could not find slot for booking');
 		}
 
@@ -112,8 +122,8 @@ class BookingService {
 		$booking->setDisplayName($displayName);
 		$booking->setDescription($description);
 		$booking->setEmail($email);
-		$booking->setStart($start);
-		$booking->setEnd($end);
+		$booking->setStart($selectedSlot->getStart());
+		$booking->setEnd($selectedSlot->getEnd());
 		$booking->setTimezone($tz->getName());
 		try {
 			$this->bookingMapper->insert($booking);
@@ -167,6 +177,21 @@ class BookingService {
 		]);
 
 		return $available;
+	}
+
+	/**
+	 * Find the slot within $slots whose bounds exactly match $start and $end.
+	 *
+	 * @param Interval[] $slots
+	 */
+	private function findMatchingSlot(array $slots, int $start, int $end): ?Interval {
+		foreach ($slots as $slot) {
+			if ($slot->getStart() === $start && $slot->getEnd() === $end) {
+				return $slot;
+			}
+		}
+
+		return null;
 	}
 
 	/**
