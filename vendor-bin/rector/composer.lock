@@ -4,25 +4,25 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "adc9bf3e1946cdca1463c3679107b6e5",
+    "content-hash": "5cbd7aefd3533652aadb0e4563b2b049",
     "packages": [],
     "packages-dev": [
         {
             "name": "nextcloud/ocp",
-            "version": "v34.0.3",
+            "version": "v34.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nextcloud-deps/ocp.git",
-                "reference": "3fb764be792476e4dcf1593101d978fc1dc8ac9a"
+                "reference": "1ce31d2ac587e22269fedd9d5b231c4380d8c5af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nextcloud-deps/ocp/zipball/3fb764be792476e4dcf1593101d978fc1dc8ac9a",
-                "reference": "3fb764be792476e4dcf1593101d978fc1dc8ac9a",
+                "url": "https://api.github.com/repos/nextcloud-deps/ocp/zipball/1ce31d2ac587e22269fedd9d5b231c4380d8c5af",
+                "reference": "1ce31d2ac587e22269fedd9d5b231c4380d8c5af",
                 "shasum": ""
             },
             "require": {
-                "php": "~8.2 || ~8.3 || ~8.4 || ~8.5",
+                "php": "~8.1 || ~8.2 || ~8.3 || ~8.4 || ~8.5",
                 "psr/clock": "^1.0",
                 "psr/container": "^2.0.2",
                 "psr/event-dispatcher": "^1.0",
@@ -52,9 +52,9 @@
             "description": "Composer package containing Nextcloud's public OCP API and the unstable NCU API",
             "support": {
                 "issues": "https://github.com/nextcloud-deps/ocp/issues",
-                "source": "https://github.com/nextcloud-deps/ocp/tree/v34.0.3"
+                "source": "https://github.com/nextcloud-deps/ocp/tree/v34.0.0"
             },
-            "time": "2026-08-07T02:03:36+00:00"
+            "time": "2026-06-04T02:37:14+00:00"
         },
         {
             "name": "nextcloud/rector",
@@ -617,5 +617,8 @@
     "prefer-lowest": false,
     "platform": {},
     "platform-dev": {},
+    "platform-overrides": {
+        "php": "8.1"
+    },
     "plugin-api-version": "2.6.0"
 }

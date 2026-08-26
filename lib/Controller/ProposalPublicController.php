@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCA\Calendar\Controller;
 
 use OCA\Calendar\AppInfo\Application;
-use OCA\Calendar\Service\Proposal\ProposalService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Attribute\AnonRateLimit;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
@@ -21,12 +20,12 @@ use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IRequest;
+use OCP\Util;
 
 class ProposalPublicController extends Controller {
 
 	public function __construct(
 		IRequest $request,
-		private ProposalService $proposalService,
 	) {
 		parent::__construct(Application::APP_ID, $request);
 	}
@@ -38,8 +37,8 @@ class ProposalPublicController extends Controller {
 	#[AnonRateLimit(limit: 10, period: 300)]
 	#[UserRateLimit(limit: 10, period: 300)]
 	public function index(string $token): Response {
-		\OCP\Util::addScript(Application::APP_ID, Application::APP_ID . '-proposal-public');
-		\OCP\Util::addStyle(Application::APP_ID, Application::APP_ID . '-proposal-public');
+		Util::addScript(Application::APP_ID, Application::APP_ID . '-proposal-public');
+		Util::addStyle(Application::APP_ID, Application::APP_ID . '-proposal-public');
 
 		return new TemplateResponse(Application::APP_ID, 'public', [], TemplateResponse::RENDER_AS_PUBLIC);
 	}

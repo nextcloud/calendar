@@ -21,8 +21,6 @@ use OCP\IConfig;
 use OCP\IRequest;
 
 class ViewController extends Controller {
-	/** @var IConfig */
-	private $config;
 
 	/** @var IAppManager */
 	private $appManager;
@@ -30,15 +28,13 @@ class ViewController extends Controller {
 	/** @var CompareVersion */
 	private $compareVersion;
 
-	private CalendarInitialStateService $calendarInitialStateService;
-
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IConfig $config,
-		CalendarInitialStateService $calendarInitialStateService) {
+		private IConfig $config,
+		private CalendarInitialStateService $calendarInitialStateService,
+	) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->calendarInitialStateService = $calendarInitialStateService;
 	}
 
 	/**

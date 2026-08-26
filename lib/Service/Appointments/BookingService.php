@@ -20,7 +20,6 @@ use OCA\Calendar\Exception\NoSlotFoundException;
 use OCA\Calendar\Exception\ServiceException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
-use OCP\DB\Exception;
 use OCP\DB\Exception as DbException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
@@ -32,56 +31,18 @@ class BookingService {
 	/** @var int the expiry of a booking confirmation */
 	public const EXPIRY = 86400;
 
-	/** @var AvailabilityGenerator */
-	private $availabilityGenerator;
-
-	/** @var SlotExtrapolator */
-	private $extrapolator;
-
-	/** @var DailyLimitFilter */
-	private $dailyLimitFilter;
-
-	/** @var EventConflictFilter */
-	private $eventConflictFilter;
-
-	/** @var BookingCalendarWriter */
-	private $calendarWriter;
-
-	/** @var BookingMapper */
-	private $bookingMapper;
-
-	/** @var ISecureRandom */
-	private $random;
-
-	/** @var MailService */
-	private $mailService;
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var LoggerInterface */
-	private $logger;
-
-	public function __construct(AvailabilityGenerator $availabilityGenerator,
-		SlotExtrapolator $extrapolator,
-		DailyLimitFilter $dailyLimitFilter,
-		EventConflictFilter $eventConflictFilter,
-		BookingMapper $bookingMapper,
-		BookingCalendarWriter $calendarWriter,
-		ISecureRandom $random,
-		MailService $mailService,
-		IEventDispatcher $eventDispatcher,
-		LoggerInterface $logger) {
-		$this->availabilityGenerator = $availabilityGenerator;
-		$this->extrapolator = $extrapolator;
-		$this->dailyLimitFilter = $dailyLimitFilter;
-		$this->eventConflictFilter = $eventConflictFilter;
-		$this->calendarWriter = $calendarWriter;
-		$this->bookingMapper = $bookingMapper;
-		$this->random = $random;
-		$this->mailService = $mailService;
-		$this->eventDispatcher = $eventDispatcher;
-		$this->logger = $logger;
+	public function __construct(
+		private AvailabilityGenerator $availabilityGenerator,
+		private SlotExtrapolator $extrapolator,
+		private DailyLimitFilter $dailyLimitFilter,
+		private EventConflictFilter $eventConflictFilter,
+		private BookingMapper $bookingMapper,
+		private BookingCalendarWriter $calendarWriter,
+		private ISecureRandom $random,
+		private MailService $mailService,
+		private IEventDispatcher $eventDispatcher,
+		private LoggerInterface $logger,
+	) {
 	}
 
 	/**
@@ -140,7 +101,7 @@ class BookingService {
 
 		try {
 			$tz = new DateTimeZone($timeZone);
-		} catch (Exception $e) {
+		} catch (DbException $e) {
 			throw new InvalidArgumentException('Could not make sense of the timezone', $e->getCode(), $e);
 		}
 
@@ -156,7 +117,7 @@ class BookingService {
 		$booking->setTimezone($tz->getName());
 		try {
 			$this->bookingMapper->insert($booking);
-		} catch (Exception $e) {
+		} catch (DbException $e) {
 			throw new ServiceException('Could not create booking', 0, $e);
 		}
 

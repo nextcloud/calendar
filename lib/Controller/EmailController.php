@@ -29,30 +29,6 @@ use OCP\Mail\IMessage;
  * @package OCA\Calendar\Controller
  */
 class EmailController extends Controller {
-	/** @var IConfig */
-	private $config;
-
-	/** @var Defaults */
-	private $defaults;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IMailer */
-	private $mailer;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var \OCP\Calendar\IManager */
-	private $calendarManager;
-
 	/**
 	 * EmailController constructor.
 	 *
@@ -61,31 +37,25 @@ class EmailController extends Controller {
 	 * @param IUserSession $userSession
 	 * @param IConfig $config
 	 * @param IMailer $mailer
-	 * @param IL10N $l10N
+	 * @param IL10N $l10n
 	 * @param Defaults $defaults
 	 * @param IURLGenerator $urlGenerator
 	 * @param IUserManager $userManager
 	 * @param IManager $calendarManager
 	 */
-	public function __construct(string $appName,
+	public function __construct(
+		string $appName,
 		IRequest $request,
-		IUserSession $userSession,
-		IConfig $config,
-		IMailer $mailer,
-		IL10N $l10N,
-		Defaults $defaults,
-		IURLGenerator $urlGenerator,
-		IUserManager $userManager,
-		IManager $calendarManager) {
+		private IUserSession $userSession,
+		private IConfig $config,
+		private IMailer $mailer,
+		private IL10N $l10n,
+		private Defaults $defaults,
+		private IURLGenerator $urlGenerator,
+		private IUserManager $userManager,
+		private IManager $calendarManager,
+	) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->userSession = $userSession;
-		$this->mailer = $mailer;
-		$this->l10n = $l10N;
-		$this->defaults = $defaults;
-		$this->urlGenerator = $urlGenerator;
-		$this->userManager = $userManager;
-		$this->calendarManager = $calendarManager;
 	}
 
 	/**

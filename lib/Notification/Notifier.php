@@ -16,12 +16,11 @@ use OCP\Notification\INotifier;
 use OCP\Notification\UnknownNotificationException;
 
 class Notifier implements INotifier {
-	private IFactory $factory;
-	private IURLGenerator $url;
-	public function __construct(IFactory $factory,
-		IURLGenerator $url) {
-		$this->factory = $factory;
-		$this->url = $url;
+
+	public function __construct(
+		private IFactory $factory,
+		private IURLGenerator $url,
+	) {
 	}
 	#[\Override]
 	public function getID(): string {

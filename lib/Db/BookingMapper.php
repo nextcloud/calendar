@@ -20,12 +20,11 @@ use OCP\IDBConnection;
  * @template-extends QBMapper<Booking>
  */
 class BookingMapper extends QBMapper {
-	/** @var ITimeFactory */
-	private $time;
-
-	public function __construct(IDBConnection $db, ITimeFactory $time) {
+	public function __construct(
+		IDBConnection $db,
+		private ITimeFactory $time,
+	) {
 		parent::__construct($db, 'calendar_appt_bookings');
-		$this->time = $time;
 	}
 
 	/**

@@ -11,6 +11,7 @@ namespace OCA\Calendar\Controller;
 use Exception;
 use OCA\Calendar\Service\ContactsService;
 use OCA\Calendar\Service\ServiceException;
+use OCA\Circles\Api\v1\Circles;
 use OCA\Circles\Exceptions\CircleNotFoundException;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -296,7 +297,7 @@ class ContactController extends Controller {
 		}
 
 		try {
-			$circle = \OCA\Circles\Api\v1\Circles::detailsCircle($circleId, true);
+			$circle = Circles::detailsCircle($circleId, true);
 		} catch (ContainerExceptionInterface $ex) {
 			return new JSONResponse();
 		} catch (CircleNotFoundException $ex) {

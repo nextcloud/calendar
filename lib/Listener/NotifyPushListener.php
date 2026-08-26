@@ -22,6 +22,7 @@ use OCP\IUserSession;
  * @template-implements IEventListener<CalendarObjectCreatedEvent|CalendarObjectUpdatedEvent|CalendarObjectDeletedEvent>
  */
 class NotifyPushListener implements IEventListener {
+
 	public function __construct(
 		private readonly IUserSession $userSession,
 		private readonly IURLGenerator $urlGenerator,

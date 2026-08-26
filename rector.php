@@ -21,6 +21,7 @@ return RectorConfig::configure()
 	->withAutoloadPaths([
 		__DIR__ . '/vendor-bin/rector/vendor/nextcloud/ocp/OCP',
 	])
+	->withImportNames(importShortClasses: false)
 	->withPhpVersion(PhpVersion::PHP_82)
 	->withRules([
 		TypedPropertyFromStrictConstructorRector::class,
