@@ -556,9 +556,13 @@ OC.L10N.register(
     "Search for resources" : "搜尋資源",
     "Projector" : "投影機",
     "Whiteboard" : "白板",
+    "Unavailable" : "無法使用",
     "Room type" : "房間類型",
     "Any" : "任何",
     "Minimum seating capacity" : "最小座位數量",
+    "Building" : "建築物",
+    "Features" : "功能",
+    "Clear filters" : "清除過濾器",
     "More details" : "更多細節",
     "Update this and all future" : "更新此次和以後的活動",
     "Update this occurrence" : "更新此重複",
@@ -645,7 +649,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "成功儲存提案",
     "Failed to save proposal" : "儲存提案失敗",
     "Please enter a valid duration in minutes." : "請輸入有效的分鐘數。",
-    "Failed to fetch proposals" : "擷取提案失敗",
     "Creating meeting for {date}" : "正在建立 {date} 的會議",
     "Successfully created meeting for {date}" : "成功建立 {date} 的會議",
     "Failed to create a meeting for {date}" : "建立 {date} 的會議失敗",
@@ -751,6 +754,7 @@ OC.L10N.register(
     "Lecture hall" : "講課廳",
     "Seminar room" : "研討室",
     "Other" : "其它",
+    "Phone" : "電話",
     "When shared show" : "當分享顯示時",
     "When shared show full event" : "分享的時候顯示完整活動",
     "When shared show only busy" : "分享的時候顯示忙碌中",
@@ -783,6 +787,7 @@ OC.L10N.register(
     "This is an event reminder." : "這是一個活動提醒。",
     "Error while parsing a PROPFIND error" : "解析 PROPFIND 錯誤時發生錯誤",
     "Appointment not found" : "找不到預約",
-    "User not found" : "找不到用戶"
+    "User not found" : "找不到用戶",
+    "Failed to fetch proposals" : "擷取提案失敗"
 },
 "nplurals=1; plural=0;");

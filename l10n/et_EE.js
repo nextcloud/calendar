@@ -556,9 +556,13 @@ OC.L10N.register(
     "Search for resources" : "Otsi ressursse",
     "Projector" : "Projektor",
     "Whiteboard" : "Tahvel",
+    "Unavailable" : "Pole saadaval",
     "Room type" : "Koosolekuruumi tüüp",
     "Any" : "Kõik",
     "Minimum seating capacity" : "Väikseim kohtade arv",
+    "Building" : "Hoone",
+    "Features" : "Funktsionaalsused",
+    "Clear filters" : "Eemalda filtrid",
     "More details" : "Täiendavad üksikasjad",
     "Update this and all future" : "Uuenda seda ja kõiki tulevasi",
     "Update this occurrence" : "Uuenda seda sündmust",
@@ -645,7 +649,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Ettepaneku salvestamine õnnestus",
     "Failed to save proposal" : "Ettepaneku salvestamine ei õnnestunud",
     "Please enter a valid duration in minutes." : "Palun sisesta korrektne kehtivus minutites",
-    "Failed to fetch proposals" : "Ettepanekute laadimine ei õnnestunud",
     "Creating meeting for {date}" : "Lisan kohtumise {date} kuupäevaks",
     "Successfully created meeting for {date}" : "Kohtumise lisamine {date} kuupäevaks õnnestus",
     "Failed to create a meeting for {date}" : "Kohtumise lisamine {date} kuupäevaks ei õnnestunud",
@@ -751,6 +754,7 @@ OC.L10N.register(
     "Lecture hall" : "Loengusaal",
     "Seminar room" : "Seminariruum",
     "Other" : "Muu",
+    "Phone" : "Telefon",
     "When shared show" : "Jagamisel näita",
     "When shared show full event" : "Kui on jagatud, siis näita kogu sündmust",
     "When shared show only busy" : "Kui on jagatud, siis näita ainult, kas on hõivatud",
@@ -783,6 +787,7 @@ OC.L10N.register(
     "This is an event reminder." : "See on sündmuse meeldetuletus.",
     "Error while parsing a PROPFIND error" : "Viga PROPFIND-meetodi vea töötlemisel",
     "Appointment not found" : "Kokkulepitud kohtumist ei leidu",
-    "User not found" : "Kasutajat ei leidunud"
+    "User not found" : "Kasutajat ei leidunud",
+    "Failed to fetch proposals" : "Ettepanekute laadimine ei õnnestunud"
 },
 "nplurals=2; plural=(n != 1);");

@@ -539,6 +539,9 @@ OC.L10N.register(
     "Room type" : "房间类型",
     "Any" : "任意",
     "Minimum seating capacity" : "最少座位数",
+    "Building" : "建筑",
+    "Features" : "功能",
+    "Clear filters" : "清除过滤器",
     "More details" : "更多细节",
     "Update this and all future" : "更新此项及以后的项目",
     "Update this occurrence" : "更新此重复活动",
@@ -624,7 +627,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "已成功保存提议",
     "Failed to save proposal" : "无法保存提议",
     "Please enter a valid duration in minutes." : "请输入有效的时长（分钟）。",
-    "Failed to fetch proposals" : "无法获取提议",
     "Creating meeting for {date}" : "正在创建 {date} 的会议",
     "Successfully created meeting for {date}" : "已成功创建 {date} 的会议",
     "Failed to create a meeting for {date}" : "无法创建 {date} 的会议",
@@ -725,6 +727,7 @@ OC.L10N.register(
     "Lecture hall" : "演讲厅",
     "Seminar room" : "研讨室",
     "Other" : "其他",
+    "Phone" : "电话",
     "When shared show" : "共享时显示",
     "When shared show full event" : "共享时显示完整活动",
     "When shared show only busy" : "共享时仅显示忙碌",
@@ -757,6 +760,7 @@ OC.L10N.register(
     "This is an event reminder." : "这是一个活动提醒。",
     "Error while parsing a PROPFIND error" : "解析 PROPFIND 错误时出错",
     "Appointment not found" : "未找到预约",
-    "User not found" : "未找到用户"
+    "User not found" : "未找到用户",
+    "Failed to fetch proposals" : "无法获取提议"
 },
 "nplurals=1; plural=0;");

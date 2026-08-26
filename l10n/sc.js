@@ -320,6 +320,7 @@ OC.L10N.register(
     "It might have been deleted, or there was a typo in a link" : "Fortzis est istadu cantzelladu, o b'at àpidu un'errore de digitatzione in unu ligòngiu",
     "It might have been deleted, or there was a typo in the link" : "Fortzis est istadu cantzelladu, o b'at àpidu un'errore de digitatzione in suligòngiu",
     "Other" : "Àteru",
+    "Phone" : "Telèfonu",
     "When shared show" : "Cando si cumpartzit, mustra•ddu",
     "When shared show full event" : "Cando si cumpartzit mustra totu s'eventu",
     "When shared show only busy" : "Cando si cumpartzit, mustra isceti ocupadu",

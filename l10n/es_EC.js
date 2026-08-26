@@ -351,6 +351,8 @@ OC.L10N.register(
     "Room type" : "Tipo de sala",
     "Any" : "Cualquiera",
     "Minimum seating capacity" : "Capacidad mínima de asientos",
+    "Building" : "Edificio",
+    "Clear filters" : "Borrar filtros",
     "Update this and all future" : "Actualizar esta y todas las siguientes",
     "Update this occurrence" : "Actualizar esta ocurrencia",
     "Public calendar does not exist" : "El calendario público no existe",

@@ -554,9 +554,13 @@
     "Search for resources" : "Rechercher des ressources",
     "Projector" : "Vidéoprojecteur",
     "Whiteboard" : "Tableau blanc",
+    "Unavailable" : "Indisponible",
     "Room type" : "Type de salle",
     "Any" : "Toutes",
     "Minimum seating capacity" : "Nombre minimum de places assises",
+    "Building" : "Bâtiment",
+    "Features" : "Fonctionnalités",
+    "Clear filters" : "Effacer les filtres",
     "More details" : "Plus de détails",
     "Update this and all future" : "Mettre à jour cette occurrence et toutes les prochaines",
     "Update this occurrence" : "Mettre à jour cette occurrence",
@@ -643,7 +647,6 @@
     "Successfully saved proposal" : "Proposition enregistrée avec succès",
     "Failed to save proposal" : "Impossible d'enregistrer la proposition",
     "Please enter a valid duration in minutes." : "Veuillez saisir une durée valide en minutes.",
-    "Failed to fetch proposals" : "Impossible de récupérer les propositions",
     "Creating meeting for {date}" : "Création d'une réunion le {date}",
     "Successfully created meeting for {date}" : "Réunion créée avec succès le {date}",
     "Failed to create a meeting for {date}" : "Impossible de créer une réunion le {date}",
@@ -749,6 +752,7 @@
     "Lecture hall" : "Salle de lecture",
     "Seminar room" : "Salle de séminaire",
     "Other" : "Autre",
+    "Phone" : "Téléphone",
     "When shared show" : "Si partagé, afficher",
     "When shared show full event" : "Si partagé, afficher l'évènement entier",
     "When shared show only busy" : "Si partagé, afficher seulement comme occupé",
@@ -781,6 +785,7 @@
     "This is an event reminder." : "Ceci est un rappel d'événement.",
     "Error while parsing a PROPFIND error" : "Erreur lors de l'analyse d'une erreur PROPFIND",
     "Appointment not found" : "Rendez-vous non trouvé",
-    "User not found" : "Utilisateur non trouvé"
+    "User not found" : "Utilisateur non trouvé",
+    "Failed to fetch proposals" : "Impossible de récupérer les propositions"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

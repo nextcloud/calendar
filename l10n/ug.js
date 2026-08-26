@@ -458,6 +458,8 @@ OC.L10N.register(
     "Room type" : "ياتاق تىپى",
     "Any" : "ھەر قانداق",
     "Minimum seating capacity" : "ئەڭ تۆۋەن ئولتۇرۇش ئىقتىدارى",
+    "Building" : "بىنا",
+    "Clear filters" : "سۈزگۈچنى تازىلاش",
     "More details" : "تېخىمۇ كۆپ تەپسىلاتلار",
     "Update this and all future" : "بۇنى ۋە كەلگۈسىنى يېڭىلاڭ",
     "Update this occurrence" : "بۇ ھادىسىنى يېڭىلاڭ",
@@ -531,7 +533,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "تەكلىپ مۇۋەپپەقىيەتلىك ساقلاندى",
     "Failed to save proposal" : "تەكلىپنى ساقلاش مەغلۇپ بولدى",
     "Please enter a valid duration in minutes." : "ئىناۋەتلىك بىر مىنۇتلۇق ئۇزۇنلۇقنى كىرگۈزۈڭ.",
-    "Failed to fetch proposals" : "تەكلىپنى چۈشۈرۈش مەغلۇپ بولدى",
     "Creating meeting for {date}" : "{date} دا يىغىن قۇرىۋاتىدۇ",
     "Successfully created meeting for {date}" : "{date} دا يىغىن مۇۋاپىقىيەتلىك قۇرۇلدى",
     "Failed to create a meeting for {date}" : "{date} دا يىغىن قۇرۇش مەغلۇپ بولدى",
@@ -630,6 +631,7 @@ OC.L10N.register(
     "Lecture hall" : "لېكسىيە زالى",
     "Seminar room" : "مۇھاكىمە ئۆيى",
     "Other" : "باشقا",
+    "Phone" : "تېلېفون",
     "When shared show" : "ھەمبەھىرلەنگەندە",
     "When shared show full event" : "ھەمبەھىرلەنگەندە تولۇق پائالىيەتنى كۆرسىتىدۇ",
     "When shared show only busy" : "ئورتاقلاشقاندا پەقەت ئالدىراش",
@@ -661,6 +663,7 @@ OC.L10N.register(
     "This is an event reminder." : "بۇ بىر ۋەقە ئەسكەرتىش.",
     "Error while parsing a PROPFIND error" : "PROPFIND خاتالىقىنى تەھلىل قىلغاندا خاتالىق",
     "Appointment not found" : "تەيىنلەنمىدى",
-    "User not found" : "ئىشلەتكۈچى تېپىلمىدى"
+    "User not found" : "ئىشلەتكۈچى تېپىلمىدى",
+    "Failed to fetch proposals" : "تەكلىپنى چۈشۈرۈش مەغلۇپ بولدى"
 },
 "nplurals=2; plural=(n != 1);");

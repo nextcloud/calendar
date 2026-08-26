@@ -475,6 +475,8 @@ OC.L10N.register(
     "Room type" : "Vrsta sobe",
     "Any" : "Bilo koji",
     "Minimum seating capacity" : "Minimalni broj sjedala",
+    "Features" : "Značajke",
+    "Clear filters" : "Očisti filtre",
     "More details" : "Više detalja",
     "Update this and all future" : "Ažuriraj ovo i sva buduća ponavljanja",
     "Update this occurrence" : "Ažuriraj ovo ponavljanje",
@@ -550,7 +552,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Prijedlog je uspješno spremljen",
     "Failed to save proposal" : "Spremanje prijedloga nije uspjelo",
     "Please enter a valid duration in minutes." : "Unesite valjano trajanje u minutama.",
-    "Failed to fetch proposals" : "Dohvaćanje prijedloga nije uspjelo",
     "Creating meeting for {date}" : "Stvaranje sastanka za {date}",
     "Successfully created meeting for {date}" : "Sastanak za {date} uspješno je stvoren",
     "Failed to create a meeting for {date}" : "Stvaranje sastanka za {date} nije uspjelo",
@@ -649,6 +650,7 @@ OC.L10N.register(
     "Lecture hall" : "Predavaonica",
     "Seminar room" : "Soba za seminare",
     "Other" : "Drugo",
+    "Phone" : "Telefon",
     "When shared show" : "Kada se dijeli, prikaži",
     "When shared show full event" : "Kada se dijeli, prikaži cijeli događaj",
     "When shared show only busy" : "Kada se dijeli, prikaži samo zauzeto",
@@ -680,6 +682,7 @@ OC.L10N.register(
     "This is an event reminder." : "Ovo je podsjetnik za događaj.",
     "Error while parsing a PROPFIND error" : "Pogreška pri obradi PROPFIND pogreške",
     "Appointment not found" : "Termin nije pronađen",
-    "User not found" : "Korisnik nije pronađen"
+    "User not found" : "Korisnik nije pronađen",
+    "Failed to fetch proposals" : "Dohvaćanje prijedloga nije uspjelo"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

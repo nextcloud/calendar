@@ -539,7 +539,6 @@
     "Successfully saved proposal" : "Taklif muvaffaqiyatli saqlandi",
     "Failed to save proposal" : "Taklif saqlanmadi",
     "Please enter a valid duration in minutes." : "Yaroqli muddatni daqiqalarda kiriting.",
-    "Failed to fetch proposals" : "Takliflarni olib bo‘lmadi",
     "Creating meeting for {date}" : "{date} uchun uchrashuv yaratilmoqda",
     "Successfully created meeting for {date}" : "{date} uchun uchrashuv muvaffaqiyatli yaratildi",
     "Failed to create a meeting for {date}" : "{date} uchun uchrashuv yaratib bo‘lmadi",
@@ -668,6 +667,7 @@
     "This is an event reminder." : "Bu tadbir eslatmasi.",
     "Error while parsing a PROPFIND error" : "PROPFIND xatosini tahlil qilishda xatolik yuz berdi",
     "Appointment not found" : "Uchrashuv topilmadi",
-    "User not found" : "Foydalanuvchi topilmadi"
+    "User not found" : "Foydalanuvchi topilmadi",
+    "Failed to fetch proposals" : "Takliflarni olib bo‘lmadi"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

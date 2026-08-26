@@ -467,6 +467,7 @@ OC.L10N.register(
     "Room type" : "Aina ya chumba",
     "Any" : "Yoyote",
     "Minimum seating capacity" : "Kiwango cha chini cha uwezo wa ukaaji",
+    "Clear filters" : "Futa vichujio",
     "More details" : "Maelezo ya ziada",
     "Update this and all future" : "Sasisha hii na zote wakati ujao",
     "Update this occurrence" : "Sasisha mabadiliko haya",
@@ -540,7 +541,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Imefaulu kuhifadhi pendekezo",
     "Failed to save proposal" : "Imeshindwa kuhifadhi pendekezo",
     "Please enter a valid duration in minutes." : "Tafadhali weka muda halali kwa dakika.",
-    "Failed to fetch proposals" : "Imeshindwa kuleta mapendekezo",
     "Creating meeting for {date}" : "Inaunda mkutano wa {date}",
     "Successfully created meeting for {date}" : "Imefaulu kuunda mkutano wa {date}",
     "Failed to create a meeting for {date}" : "Imeshindwa kuunda mkutano wa {date}",
@@ -639,6 +639,7 @@ OC.L10N.register(
     "Lecture hall" : "Bwalo la mihadhara",
     "Seminar room" : "Chumba cha semina",
     "Other" : "Mengine",
+    "Phone" : "Simu",
     "When shared show" : "Iliyoshirikishwa inapoonesha",
     "When shared show full event" : "Iliyoshirikishwa inapoonesha tukio zima",
     "When shared show only busy" : "Iliyoshirikishwa inapoonesha ubize tu",
@@ -670,6 +671,7 @@ OC.L10N.register(
     "This is an event reminder." : "Hiki ni kikumbishi cha tukio",
     "Error while parsing a PROPFIND error" : "Hitilafu wakati wa kuchanganua hitilafu ya PROPFIND",
     "Appointment not found" : "Muadi haupatikani",
-    "User not found" : "Mtumiaji hapatikani"
+    "User not found" : "Mtumiaji hapatikani",
+    "Failed to fetch proposals" : "Imeshindwa kuleta mapendekezo"
 },
 "nplurals=2; plural=(n != 1);");

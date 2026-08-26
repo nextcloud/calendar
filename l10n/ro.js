@@ -336,6 +336,7 @@ OC.L10N.register(
     "Room type" : "Tipul de cameră",
     "Any" : "Toate",
     "Minimum seating capacity" : "Capacitatea minimă",
+    "Clear filters" : "Șterge filtrele",
     "Update this and all future" : "Actualizează aceasta și toate viitoare",
     "Update this occurrence" : "Actualizați această ședință",
     "Public calendar does not exist" : "Calendarul public nu există",

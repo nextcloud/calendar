@@ -513,6 +513,7 @@ OC.L10N.register(
     "Lecture hall" : "Fyrirlestrarsalur",
     "Seminar room" : "Námskeiðssalur",
     "Other" : "Annað",
+    "Phone" : "Sími",
     "When shared show" : "Þegar er deilt, birta ",
     "When shared show full event" : "Þegar er deilt, birta allan atburð",
     "When shared show only busy" : "Þegar er deilt, birta eingöngu upptekið",

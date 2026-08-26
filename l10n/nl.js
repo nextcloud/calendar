@@ -556,9 +556,13 @@ OC.L10N.register(
     "Search for resources" : "Zoek bronnen",
     "Projector" : "Projector",
     "Whiteboard" : "Whiteboard",
+    "Unavailable" : "Niet beschikbaar",
     "Room type" : "Kamer type",
     "Any" : "Alle",
     "Minimum seating capacity" : "Minimale zit capaciteit",
+    "Building" : "Gebouw",
+    "Features" : "Mogelijkheden",
+    "Clear filters" : "Wis filters",
     "More details" : "Meer details",
     "Update this and all future" : "Deze en toekomstige afspraken bijwerken",
     "Update this occurrence" : "Deze afspraak bijwerken",
@@ -645,7 +649,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Voorstel succesvol opgeslagen",
     "Failed to save proposal" : "Voorstel opslaan mislukt",
     "Please enter a valid duration in minutes." : "Voer een geldig tijdsbestek in minuten in.",
-    "Failed to fetch proposals" : "Voorstellen ophalen mislukt",
     "Creating meeting for {date}" : "Bezig met het creëren van een vergadering op {date}",
     "Successfully created meeting for {date}" : "Vergadering succesvol gecreëerd op {date}",
     "Failed to create a meeting for {date}" : "Kon geen vergadering aanmaken voor {date}",
@@ -751,6 +754,7 @@ OC.L10N.register(
     "Lecture hall" : "Collegezaal",
     "Seminar room" : "Seminarruimte",
     "Other" : "Andere",
+    "Phone" : "Telefoon",
     "When shared show" : "Wanneer gedeeld toon",
     "When shared show full event" : "Wanneer gedeeld, toon gehele afspraak",
     "When shared show only busy" : "Wanneer gedeeld, toon alleen onbeschikbaarheid",
@@ -783,6 +787,7 @@ OC.L10N.register(
     "This is an event reminder." : "Dit is een herinnering aan het evenement.",
     "Error while parsing a PROPFIND error" : "Fout bij het parseren van een PROPFIND-fout",
     "Appointment not found" : "Afspraak niet gevonden",
-    "User not found" : "Gebruiker niet gevonden"
+    "User not found" : "Gebruiker niet gevonden",
+    "Failed to fetch proposals" : "Voorstellen ophalen mislukt"
 },
 "nplurals=2; plural=(n != 1);");

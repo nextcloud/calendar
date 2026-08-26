@@ -488,9 +488,13 @@ OC.L10N.register(
     "unavailable" : "no disponible",
     "Projector" : "Proyector",
     "Whiteboard" : "Pizarra",
+    "Unavailable" : "No disponible",
     "Room type" : "Tipo de sala",
     "Any" : "Cualquiera",
     "Minimum seating capacity" : "Capacidad mínima de asientos",
+    "Building" : "Edificio",
+    "Features" : "Características",
+    "Clear filters" : "Limpiar filtros",
     "More details" : "Más detalles",
     "Update this and all future" : "Actualizar este evento y todos los futuros",
     "Update this occurrence" : "Actualiza esta ocurrencia",
@@ -566,7 +570,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Se guardó la propuesta exitosamente",
     "Failed to save proposal" : "Fallo al guardar la propuesta",
     "Please enter a valid duration in minutes." : "Por favor, ingrese una duración valida en minutos",
-    "Failed to fetch proposals" : "Fallo al obtener propuestas",
     "Creating meeting for {date}" : "Crear una reunión para el {date}",
     "Successfully created meeting for {date}" : "Se creó una reunión para el {date} exitosamente",
     "Failed to create a meeting for {date}" : "Fallo al crear una reunión para el {date}",
@@ -665,6 +668,7 @@ OC.L10N.register(
     "Lecture hall" : "Sala de conferencias",
     "Seminar room" : "Sala de seminario",
     "Other" : "Otro",
+    "Phone" : "Teléfono",
     "When shared show" : "Al compartir, mostrar",
     "When shared show full event" : "Al compartir, mostrar el evento completo",
     "When shared show only busy" : "Al compartir, mostrar solo ocupado",
@@ -696,6 +700,7 @@ OC.L10N.register(
     "This is an event reminder." : "Esto es un recordatorio de evento.",
     "Error while parsing a PROPFIND error" : "Error al analizar un error PROPFIND",
     "Appointment not found" : "Cita no encontrada",
-    "User not found" : "Usuario no encontrado"
+    "User not found" : "Usuario no encontrado",
+    "Failed to fetch proposals" : "Fallo al obtener propuestas"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

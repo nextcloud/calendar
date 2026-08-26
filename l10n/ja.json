@@ -555,6 +555,7 @@
     "Room type" : "ルーム種別",
     "Any" : "Any",
     "Minimum seating capacity" : "最低座席数",
+    "Clear filters" : "フィルターをクリア",
     "More details" : "詳細情報",
     "Update this and all future" : "これ以降を更新",
     "Update this occurrence" : "この出来事を更新する",
@@ -641,7 +642,6 @@
     "Successfully saved proposal" : "提案を正常に保存しました",
     "Failed to save proposal" : "提案の保存に失敗しました",
     "Please enter a valid duration in minutes." : "有効な期間を分単位で入力してください。",
-    "Failed to fetch proposals" : "提案の取得に失敗しました",
     "Creating meeting for {date}" : "{date}のミーティングを作成中",
     "Successfully created meeting for {date}" : "{date}のミーティングを正常に作成しました",
     "Failed to create a meeting for {date}" : "{date}のミーティングの作成に失敗しました",
@@ -747,6 +747,7 @@
     "Lecture hall" : "講堂",
     "Seminar room" : "セミナー",
     "Other" : "その他",
+    "Phone" : "電話",
     "When shared show" : "共有した場合",
     "When shared show full event" : "共有時にすべてのイベントを表示",
     "When shared show only busy" : "共有時に実行中のみを表示",
@@ -779,6 +780,7 @@
     "This is an event reminder." : "これはイベントのリマインダーです。",
     "Error while parsing a PROPFIND error" : "PROPFINDエラーの解析中にエラーが発生しました",
     "Appointment not found" : "予定が見つかりません",
-    "User not found" : "ユーザーが見つかりません"
+    "User not found" : "ユーザーが見つかりません",
+    "Failed to fetch proposals" : "提案の取得に失敗しました"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

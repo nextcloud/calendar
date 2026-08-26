@@ -469,6 +469,9 @@ OC.L10N.register(
     "Room type" : "Tipo de sala",
     "Any" : "Qualquer uma",
     "Minimum seating capacity" : "Capacidade mínima de assentos",
+    "Building" : "Edifício",
+    "Features" : "Recursos",
+    "Clear filters" : "Limpar filtros",
     "Update this occurrence" : "Atualizar esta ocorrência",
     "Public calendar does not exist" : "Calendário público não existe",
     "Maybe the share was deleted or has expired?" : "Talvez o compartilhamento esteja excluído ou expirado?",
@@ -531,7 +534,6 @@ OC.L10N.register(
     "Saving proposal \"{title}\"" : "Salvando proposta \"{title}\"",
     "Successfully saved proposal" : "Proposta salva com sucesso",
     "Please enter a valid duration in minutes." : "Por favor, insira uma duração em minutos válida.",
-    "Failed to fetch proposals" : "Falha ao buscar propostas",
     "Creating meeting for {date}" : "Criando reunião para {date}",
     "Failed to create a meeting for {date}" : "Falha ao criar reunião para {date}",
     "Failed to fetch free/busy data" : "Falha ao buscar dados de livre/ocupado",
@@ -612,6 +614,7 @@ OC.L10N.register(
     "Lecture hall" : "Auditório",
     "Seminar room" : "Sala de seminários",
     "Other" : "Outro",
+    "Phone" : "Telefone",
     "When shared show" : "Quando compartilhando mostrar",
     "When shared show full event" : "Quando partilhado, mostrar evento completo",
     "When shared show only busy" : "Quando partilhado, mostrar apenas ocupados",
@@ -640,6 +643,7 @@ OC.L10N.register(
     "This is an event reminder." : "Este é um lembrete de evento.",
     "Error while parsing a PROPFIND error" : "Erro ao analisar um erro PROPFIND",
     "Appointment not found" : "Compromisso não encontrado",
-    "User not found" : "Utilizador não encontrado"
+    "User not found" : "Utilizador não encontrado",
+    "Failed to fetch proposals" : "Falha ao buscar propostas"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

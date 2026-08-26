@@ -559,6 +559,8 @@ OC.L10N.register(
     "Room type" : "Вид кімнати",
     "Any" : "Будь-яка",
     "Minimum seating capacity" : "Мінімальна кількість місць",
+    "Building" : "Будівля",
+    "Clear filters" : "Очистити фільтри",
     "More details" : "Докладно",
     "Update this and all future" : "Оновити цю подію та всі наступні",
     "Update this occurrence" : "Оновити це повторення",
@@ -645,7 +647,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Успішно збережено пропозицію зустрічі",
     "Failed to save proposal" : "Не вдалося зберегти пропозицію зустрічі",
     "Please enter a valid duration in minutes." : "Зазначте дійсну тривалість у хвилинах.",
-    "Failed to fetch proposals" : "Не вдалося отримати пропозиції зустрічей",
     "Creating meeting for {date}" : "Створення зустрічі для {date}",
     "Successfully created meeting for {date}" : "Успішно створено зустріч для {date}",
     "Failed to create a meeting for {date}" : "Не вдалося створити зустріч для {date}",
@@ -750,6 +751,7 @@ OC.L10N.register(
     "Lecture hall" : "Лекційна зала",
     "Seminar room" : "Кімната для занять",
     "Other" : "Інші",
+    "Phone" : "Телефон",
     "When shared show" : "Показувати, якщо у спільному доступі",
     "When shared show full event" : "Все про подію, якщо у спільному доступі",
     "When shared show only busy" : "Показувати тільки зайнятість, якщо у спільному доступі",
@@ -782,6 +784,7 @@ OC.L10N.register(
     "This is an event reminder." : "Це нагадування про подію.",
     "Error while parsing a PROPFIND error" : "Помилка під час обробки помилки PROPFIND",
     "Appointment not found" : "Запрошення на зустріч не знайдено",
-    "User not found" : "Користувача не знайдено"
+    "User not found" : "Користувача не знайдено",
+    "Failed to fetch proposals" : "Не вдалося отримати пропозиції зустрічей"
 },
 "nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);");

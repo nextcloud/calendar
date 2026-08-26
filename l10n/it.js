@@ -516,9 +516,13 @@ OC.L10N.register(
     "unavailable" : "non disponibile",
     "Projector" : "Proiettore",
     "Whiteboard" : "Lavagna",
+    "Unavailable" : "Non disponibile",
     "Room type" : "Tipo stanza",
     "Any" : "Qualsiasi",
     "Minimum seating capacity" : "Numero minimo di sedie",
+    "Building" : "Costruzione",
+    "Features" : "Funzionalità",
+    "Clear filters" : "Pulisci filtri",
     "More details" : "Maggiori dettagli",
     "Update this and all future" : "Aggiorna questa e tutte le future",
     "Update this occurrence" : "Aggiorna questa occorrenza",
@@ -603,7 +607,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Proposta salvata con successo",
     "Failed to save proposal" : "Impossibile salvare la proposta",
     "Please enter a valid duration in minutes." : "Inserisci una durata valida in minuti.",
-    "Failed to fetch proposals" : "Impossibile recuperare le proposte",
     "Creating meeting for {date}" : "Creazione di una riunione per {date}",
     "Successfully created meeting for {date}" : "Riunione creata con successo per {date}",
     "Failed to create a meeting for {date}" : "Impossibile creare una riunione per {date}",
@@ -704,6 +707,7 @@ OC.L10N.register(
     "Lecture hall" : "Sala conferenze",
     "Seminar room" : "Sala seminari",
     "Other" : "Altro",
+    "Phone" : "Telefono",
     "When shared show" : "Se condiviso, mostra",
     "When shared show full event" : "Se condiviso, mostra evento completo",
     "When shared show only busy" : "Se condiviso, mostra solo occupato",
@@ -735,6 +739,7 @@ OC.L10N.register(
     "This is an event reminder." : "Questo è un promemoria dell'evento.",
     "Error while parsing a PROPFIND error" : "Errore durante l'elaborazione di un errore PROPFIND",
     "Appointment not found" : "Appuntamento non trovato",
-    "User not found" : "Utente non trovato"
+    "User not found" : "Utente non trovato",
+    "Failed to fetch proposals" : "Impossibile recuperare le proposte"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
