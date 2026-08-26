@@ -14,11 +14,14 @@ import { getParserManager } from '@nextcloud/calendar-js'
  * @param {Date} start The start of the fetched time-range
  * @param {Date} end The end of the fetched time-range
  * @param {string} timezone Timezone of user viewing data
- * @param {string} attendeeName name of the attendee, used as title for the event
+ * @param {string} [attendeeName] Name of the attendee, used as title for the event.
+ *   Omitted by bulk callers, which render the name in the resource lane header
+ *   instead — passing undefined through to `title` made FullCalendar print the
+ *   string "undefined" inside every busy block.
  * @param {boolean} isOrganizer Whether or not the user is the organizer of the event
  * @return {object[]}
  */
-export default function(uri, calendarData, success, start, end, timezone, attendeeName, isOrganizer = false) {
+export default function(uri, calendarData, success, start, end, timezone, attendeeName = '', isOrganizer = false) {
 	if (!success) {
 		return [{
 			id: Math.random().toString(36).substring(7),
