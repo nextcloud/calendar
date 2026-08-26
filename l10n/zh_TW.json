@@ -557,6 +557,8 @@
     "Room type" : "房間類型",
     "Any" : "任何",
     "Minimum seating capacity" : "最小座位數",
+    "Features" : "功能",
+    "Clear filters" : "清除過濾條件",
     "More details" : "更多詳細資訊",
     "Update this and all future" : "更新這次和所有未來的重複",
     "Update this occurrence" : "更新此重複",
@@ -643,7 +645,6 @@
     "Successfully saved proposal" : "成功儲存提案",
     "Failed to save proposal" : "儲存提案失敗",
     "Please enter a valid duration in minutes." : "請輸入有效的分鐘數。",
-    "Failed to fetch proposals" : "擷取提案失敗",
     "Creating meeting for {date}" : "正在建立 {date} 的會議",
     "Successfully created meeting for {date}" : "成功建立 {date} 的會議",
     "Failed to create a meeting for {date}" : "建立 {date} 的會議失敗",
@@ -749,6 +750,7 @@
     "Lecture hall" : "演講廳",
     "Seminar room" : "研討室",
     "Other" : "其他",
+    "Phone" : "電話",
     "When shared show" : "當分享顯示時",
     "When shared show full event" : "分享的時候顯示完整活動",
     "When shared show only busy" : "分享的時候顯示忙碌中",
@@ -781,6 +783,7 @@
     "This is an event reminder." : "這是一個事件提醒。",
     "Error while parsing a PROPFIND error" : "解析 PROFIND 錯誤時發生錯誤",
     "Appointment not found" : "找不到預約",
-    "User not found" : "找不到使用者"
+    "User not found" : "找不到使用者",
+    "Failed to fetch proposals" : "擷取提案失敗"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -451,6 +451,8 @@ OC.L10N.register(
     "Room type" : "Room type",
     "Any" : "Any",
     "Minimum seating capacity" : "Minimum seating capacity",
+    "Building" : "ອາຄານ",
+    "Clear filters" : "Clear filters",
     "More details" : "More details",
     "Update this and all future" : "Update this and all future",
     "Update this occurrence" : "Update this occurrence",
@@ -524,7 +526,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Successfully saved proposal",
     "Failed to save proposal" : "Failed to save proposal",
     "Please enter a valid duration in minutes." : "Please enter a valid duration in minutes.",
-    "Failed to fetch proposals" : "Failed to fetch proposals",
     "Creating meeting for {date}" : "Creating meeting for {date}",
     "Successfully created meeting for {date}" : "Successfully created meeting for {date}",
     "Failed to create a meeting for {date}" : "Failed to create a meeting for {date}",
@@ -622,6 +623,7 @@ OC.L10N.register(
     "Lecture hall" : "Lecture hall",
     "Seminar room" : "Seminar room",
     "Other" : "ອື່ນໆ",
+    "Phone" : "ໂທລະສັບ",
     "When shared show" : "When shared show",
     "When shared show full event" : "When shared show full event",
     "When shared show only busy" : "When shared show only busy",
@@ -653,6 +655,7 @@ OC.L10N.register(
     "This is an event reminder." : "This is an event reminder.",
     "Error while parsing a PROPFIND error" : "Error while parsing a PROPFIND error",
     "Appointment not found" : "Appointment not found",
-    "User not found" : "User not found"
+    "User not found" : "User not found",
+    "Failed to fetch proposals" : "Failed to fetch proposals"
 },
 "nplurals=1; plural=0;");

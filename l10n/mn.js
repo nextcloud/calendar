@@ -458,6 +458,7 @@ OC.L10N.register(
     "Room type" : "Өрөөний төрөл",
     "Any" : "Аль ч",
     "Minimum seating capacity" : "Хамгийн бага суудлын багтаамж",
+    "Clear filters" : "Шүүлтүүр арилгах",
     "More details" : "Дэлгэрэнгүй",
     "Update this and all future" : "Энэ болон бүх ирээдүйг шинэчлэх",
     "Update this occurrence" : "Энэ тохиолдлыг шинэчлэх",
@@ -531,7 +532,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Санал амжилттай хадгалагдлаа",
     "Failed to save proposal" : "Саналыг хадгалж чадсангүй",
     "Please enter a valid duration in minutes." : "Минутаар зөв үргэлжлэх хугацаа оруулна уу.",
-    "Failed to fetch proposals" : "Саналуудыг авч чадсангүй",
     "Creating meeting for {date}" : "{date}-д уулзалт үүсгэж байна",
     "Successfully created meeting for {date}" : "{date}-д уулзалт амжилттай үүсгэгдлээ",
     "Failed to create a meeting for {date}" : "{date}-д уулзалт үүсгэж чадсангүй",
@@ -630,6 +630,7 @@ OC.L10N.register(
     "Lecture hall" : "Лекцийн танхим",
     "Seminar room" : "Семинарын өрөө",
     "Other" : "–ë—É—Å–∞–¥",
+    "Phone" : "Утас",
     "When shared show" : "Хуваалцсан үед харуулах",
     "When shared show full event" : "–¢“Ø–≥—ç—ç—Å—ç–Ω —Ç–æ—Ö–∏–æ–ª–¥–æ–ª–¥ “Ø–π–ª —è–≤–¥–ª—ã–≥ –±“Ø—Ç–Ω—ç—ç—Ä –Ω—å —Ö–∞—Ä—É—É–ª",
     "When shared show only busy" : "–¢“Ø–≥—ç—ç—Å—ç–Ω —Ç–æ—Ö–∏–æ–ª–¥–æ–ª–¥ –∑”©–≤—Ö”©–Ω –∑–∞–≤–≥“Ø–π –≥—ç–∂ —Ö–∞—Ä—É—É–ª",
@@ -661,6 +662,7 @@ OC.L10N.register(
     "This is an event reminder." : "Энэ бол үйл явдлын сануулагч.",
     "Error while parsing a PROPFIND error" : "PROPFIND алдааг задлахад алдаа гарлаа",
     "Appointment not found" : "Уулзалт олдсонгүй",
-    "User not found" : "Хэрэглэгч олдсонгүй"
+    "User not found" : "Хэрэглэгч олдсонгүй",
+    "Failed to fetch proposals" : "Саналуудыг авч чадсангүй"
 },
 "nplurals=2; plural=(n != 1);");

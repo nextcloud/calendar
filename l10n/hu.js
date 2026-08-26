@@ -514,6 +514,9 @@ OC.L10N.register(
     "Room type" : "Szoba típusa",
     "Any" : "Bármely",
     "Minimum seating capacity" : "Ülőhelyek legkisebb száma",
+    "Building" : "Épület",
+    "Features" : "Funkciók",
+    "Clear filters" : "Szűrők törlése",
     "More details" : "További részletek",
     "Update this and all future" : "Ezen és az összes jövőbeli frissítése",
     "Update this occurrence" : "Ezen előfordulás frissítése",
@@ -598,7 +601,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Javaslat sikeresen mentve",
     "Failed to save proposal" : "A javaslat mentése sikertelen",
     "Please enter a valid duration in minutes." : "Adjon meg egy érvényes hosszt percekben.",
-    "Failed to fetch proposals" : "A javaslatok letöltése sikertelen",
     "Creating meeting for {date}" : "Találkozó létrehozása ekkorra: {date}",
     "Successfully created meeting for {date}" : "Találkozó sikeresen létrehozva ekkorra: {date}",
     "Failed to create a meeting for {date}" : "Nem sikerült a találkozó létrehozása ekkorra: {date}",
@@ -699,6 +701,7 @@ OC.L10N.register(
     "Lecture hall" : "Előadóterem",
     "Seminar room" : "Szemináriumterem",
     "Other" : "Egyéb",
+    "Phone" : "Telefon",
     "When shared show" : "Megjelenítés megosztáskor",
     "When shared show full event" : "A teljes esemény megjelenítése megosztáskor",
     "When shared show only busy" : "Csak a foglaltság megjelenítése megosztáskor",
@@ -730,6 +733,7 @@ OC.L10N.register(
     "This is an event reminder." : "Ez egy eseményemlékeztető.",
     "Error while parsing a PROPFIND error" : "Hiba történt a PROPFIND hiba feldolgozása során",
     "Appointment not found" : "A találkozó nem található",
-    "User not found" : "A felhasználó nem található"
+    "User not found" : "A felhasználó nem található",
+    "Failed to fetch proposals" : "A javaslatok letöltése sikertelen"
 },
 "nplurals=2; plural=(n != 1);");

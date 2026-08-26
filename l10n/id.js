@@ -461,6 +461,7 @@ OC.L10N.register(
     "Room type" : "Jenis ruangan",
     "Any" : "Apa saja",
     "Minimum seating capacity" : "Kapasitas tempat duduk minimum",
+    "Clear filters" : "Hapus filter",
     "More details" : "Detail lebih lanjut",
     "Update this and all future" : "Perbarui ini dan semua yang akan datang",
     "Update this occurrence" : "Perbarui kejadian ini",
@@ -534,7 +535,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Berhasil menyimpan usulan",
     "Failed to save proposal" : "Gagal menyimpan usulan",
     "Please enter a valid duration in minutes." : "Silakan masukkan durasi yang valid dalam menit.",
-    "Failed to fetch proposals" : "Gagal mengambil usulan",
     "Creating meeting for {date}" : "Membuat pertemuan untuk {date}",
     "Successfully created meeting for {date}" : "Berhasil membuat pertemuan untuk {date}",
     "Failed to create a meeting for {date}" : "Gagal membuat pertemuan untuk {date}",
@@ -633,6 +633,7 @@ OC.L10N.register(
     "Lecture hall" : "Aula kuliah",
     "Seminar room" : "Ruang seminar",
     "Other" : "Lainnya",
+    "Phone" : "Telepon",
     "When shared show" : "Saat dibagikan tampilkan",
     "When shared show full event" : "Saat dibagikan tampilkan acara lengkap",
     "When shared show only busy" : "Saat dibagikan tampilkan hanya sibuk",
@@ -664,6 +665,7 @@ OC.L10N.register(
     "This is an event reminder." : "Ini adalah pengingat acara.",
     "Error while parsing a PROPFIND error" : "Kesalahan saat mengurai kesalahan PROPFIND",
     "Appointment not found" : "Janji temu tidak ditemukan",
-    "User not found" : "Pengguna tidak ditemukan"
+    "User not found" : "Pengguna tidak ditemukan",
+    "Failed to fetch proposals" : "Gagal mengambil usulan"
 },
 "nplurals=1; plural=0;");

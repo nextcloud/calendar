@@ -269,6 +269,7 @@ OC.L10N.register(
     "Does not repeat" : "אינו חוזר",
     "The recurrence definition of this event is not fully supported by Nextcloud. If you edit the recurrence-options, certain recurrences may be lost." : "הגדרת ה-recurrence (=הישנות) של אירוע זה אינה נתמכת במלואה על ידי Nextcloud. אם אתה עורך את ה-recurrence-options, הישנות מסוימות עשויות לאבד.",
     "Resources" : "משאבים",
+    "Features" : "תכונות",
     "Update this and all future" : "עדכון של זה והעתידיים",
     "Update this occurrence" : "עדכון המופע הזה",
     "Public calendar does not exist" : "לוח השנה הציבורי אינו קיים",

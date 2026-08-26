@@ -556,6 +556,9 @@ OC.L10N.register(
     "Room type" : "نوع اتاق",
     "Any" : "هر نوع",
     "Minimum seating capacity" : "حداقل ظرفیت نشستن",
+    "Building" : "ساختمان",
+    "Features" : "ویژگی‌ها",
+    "Clear filters" : "پاک کردن فیلترها",
     "More details" : "جزئیات بیشتر",
     "Update this and all future" : "به‌روزرسانی این و تمام آینده",
     "Update this occurrence" : "به‌روزرسانی این رویداد",
@@ -642,7 +645,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "پیشنهاد با موفقیت ذخیره شد",
     "Failed to save proposal" : "ذخیره پیشنهاد ناموفق بود",
     "Please enter a valid duration in minutes." : "لطفاً یک مدت زمان معتبر به دقیقه وارد کنید.",
-    "Failed to fetch proposals" : "دریافت پیشنهادات ناموفق بود",
     "Creating meeting for {date}" : "ایجاد جلسه برای {date}",
     "Successfully created meeting for {date}" : "جلسه برای {date} با موفقیت ایجاد شد",
     "Failed to create a meeting for {date}" : "ایجاد جلسه برای {date} ناموفق بود",
@@ -743,6 +745,7 @@ OC.L10N.register(
     "Lecture hall" : "سالن سخنرانی",
     "Seminar room" : "اتاق سمینار",
     "Other" : "سایر",
+    "Phone" : "تلفن",
     "When shared show" : "هنگام اشتراک‌گذاری نمایش داده شود",
     "When shared show full event" : "هنگام اشتراک‌گذاری، رویداد کامل نمایش داده شود",
     "When shared show only busy" : "هنگام اشتراک‌گذاری، فقط وضعیت مشغول نمایش داده شود",
@@ -775,6 +778,7 @@ OC.L10N.register(
     "This is an event reminder." : "این یک یادآوری رویداد است.",
     "Error while parsing a PROPFIND error" : "خطا در تجزیه خطای PROPFIND",
     "Appointment not found" : "قرار ملاقات یافت نشد",
-    "User not found" : "کاربر یافت نشد"
+    "User not found" : "کاربر یافت نشد",
+    "Failed to fetch proposals" : "دریافت پیشنهادات ناموفق بود"
 },
 "nplurals=2; plural=(n > 1);");

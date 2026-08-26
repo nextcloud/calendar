@@ -70,6 +70,7 @@ OC.L10N.register(
     "Anniversary" : "සංවත්සරය",
     "Daily" : "දිනපතා",
     "Weekly" : "සතිපතා",
-    "Other" : "වෙනත්"
+    "Other" : "වෙනත්",
+    "Phone" : "දුරකථනය"
 },
 "nplurals=2; plural=(n != 1);");

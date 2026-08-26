@@ -552,9 +552,13 @@ OC.L10N.register(
     "Search for resources" : "Sök efter resurser",
     "Projector" : "Projektor",
     "Whiteboard" : "Whiteboard",
+    "Unavailable" : "Otillgänglig",
     "Room type" : "Rumtyp",
     "Any" : "Alla",
     "Minimum seating capacity" : "Minsta antal platser",
+    "Building" : "Byggnad",
+    "Features" : "Funktioner",
+    "Clear filters" : "Rensa filter",
     "More details" : "Mer information",
     "Update this and all future" : "Uppdatera denna och alla kommande",
     "Update this occurrence" : "Uppdatera denna förekomst",
@@ -641,7 +645,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Förslaget har sparats",
     "Failed to save proposal" : "Det gick inte att spara förslaget",
     "Please enter a valid duration in minutes." : "Ange en giltig varaktighet i minuter.",
-    "Failed to fetch proposals" : "Det gick inte att hämta förslagen",
     "Creating meeting for {date}" : "Skapar möte för {date}",
     "Successfully created meeting for {date}" : "Möte har skapats för {date}",
     "Failed to create a meeting for {date}" : "Det gick inte att skapa ett möte för {date}",
@@ -747,6 +750,7 @@ OC.L10N.register(
     "Lecture hall" : "Föreläsningssal",
     "Seminar room" : "Seminarierum",
     "Other" : "Annat",
+    "Phone" : "Telefon",
     "When shared show" : "Visa om delad",
     "When shared show full event" : "Om delad, visa hela händelsen",
     "When shared show only busy" : "Om delad, visa endast upptagen",
@@ -779,6 +783,7 @@ OC.L10N.register(
     "This is an event reminder." : "Detta är en händelsepåminnelse.",
     "Error while parsing a PROPFIND error" : "Fel vid analys av ett PROPFIND-fel",
     "Appointment not found" : "Bokningen hittades inte",
-    "User not found" : "Användaren hittades inte"
+    "User not found" : "Användaren hittades inte",
+    "Failed to fetch proposals" : "Det gick inte att hämta förslagen"
 },
 "nplurals=2; plural=(n != 1);");

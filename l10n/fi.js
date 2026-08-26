@@ -482,6 +482,9 @@ OC.L10N.register(
     "Room type" : "Huoneen tyyppi",
     "Any" : "Mikä tahansa",
     "Minimum seating capacity" : "Istumapaikkoja vähintään",
+    "Building" : "Rakennus",
+    "Features" : "Ominaisuudet",
+    "Clear filters" : "Tyhjennä suodattimet",
     "More details" : "Lisätietoja",
     "Update this and all future" : "Päivitä tämä ja kaikki tulevat",
     "Update this occurrence" : "Päivitä tämä esiintymä",
@@ -553,7 +556,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Ehdotus tallennettu",
     "Failed to save proposal" : "Ehdotuksen tallentaminen epäonnistui",
     "Please enter a valid duration in minutes." : "Kirjoita kelvollinen kesto minuutteina.",
-    "Failed to fetch proposals" : "Ehdotusten noutaminen epäonnistui",
     "Creating meeting for {date}" : "Luo kokous päivälle {date}",
     "Selected" : "Valittu",
     "No Description" : "Ei kuvausta",
@@ -646,6 +648,7 @@ OC.L10N.register(
     "Lecture hall" : "Luentosali",
     "Seminar room" : "Seminaarihuone",
     "Other" : "Muu",
+    "Phone" : "Puhelin",
     "When shared show" : "Jaettaessa näytä",
     "When shared show full event" : "Jaettaessa näytä koko tapahtuma",
     "When shared show only busy" : "Jaettaessa näytä vain varattuna oleminen",
@@ -674,6 +677,7 @@ OC.L10N.register(
     "Imported {filename}" : "Tuotiin {filename}",
     "This is an event reminder." : "Tämä on tapahtuman muistutus.",
     "Appointment not found" : "Tapaamista ei löydy",
-    "User not found" : "Käyttäjää ei löydy"
+    "User not found" : "Käyttäjää ei löydy",
+    "Failed to fetch proposals" : "Ehdotusten noutaminen epäonnistui"
 },
 "nplurals=2; plural=(n != 1);");

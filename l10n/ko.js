@@ -360,6 +360,8 @@ OC.L10N.register(
     "Whiteboard" : "화이트보드",
     "Room type" : "호실 종류",
     "Minimum seating capacity" : "최소 좌석 수",
+    "Building" : "건물",
+    "Clear filters" : "필터링 제거",
     "Update this and all future" : "이후 모든 일정 업데이트",
     "Update this occurrence" : "이 일정 업데이트",
     "Public calendar does not exist" : "공용 달력이 존재하지 않음",

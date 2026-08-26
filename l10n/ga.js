@@ -556,9 +556,13 @@ OC.L10N.register(
     "Search for resources" : "Cuardaigh acmhainní",
     "Projector" : "Teilgeoir",
     "Whiteboard" : "Clár bán",
+    "Unavailable" : "Gan a bheith ar fáil",
     "Room type" : "Cineál seomra",
     "Any" : "Aon",
     "Minimum seating capacity" : "Toilleadh suíocháin íosta",
+    "Building" : "Foirgneamh",
+    "Features" : "Gnéithe",
+    "Clear filters" : "Glan na scagairí",
     "More details" : "Tuilleadh sonraí",
     "Update this and all future" : "Nuashonraigh seo agus gach todhchaí",
     "Update this occurrence" : "Nuashonraigh an teagmhas seo",
@@ -645,7 +649,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Sábháileadh an togra go rathúil",
     "Failed to save proposal" : "Theip ar an togra a shábháil",
     "Please enter a valid duration in minutes." : "Cuir isteach fad bailí i nóiméid le do thoil.",
-    "Failed to fetch proposals" : "Theip ar thograí a fháil",
     "Creating meeting for {date}" : "Cruinniú á chruthú do {date}",
     "Successfully created meeting for {date}" : "Cruinniú cruthaithe go rathúil do {date}",
     "Failed to create a meeting for {date}" : "Theip ar chruinniú a chruthú do {date}",
@@ -751,6 +754,7 @@ OC.L10N.register(
     "Lecture hall" : "halla léachta",
     "Seminar room" : "Seomra seimineáir",
     "Other" : "Eile",
+    "Phone" : "Fón",
     "When shared show" : "Nuair a bheidh an seó roinnte",
     "When shared show full event" : "Nuair a chomhroinntear taispeáin imeacht iomlán",
     "When shared show only busy" : "Nuair a bheidh an seó roinnte ach gnóthach",
@@ -783,6 +787,7 @@ OC.L10N.register(
     "This is an event reminder." : "Is meabhrúchán imeachta é seo.",
     "Error while parsing a PROPFIND error" : "Earráid agus earráid PROPFIND á parsáil",
     "Appointment not found" : "Níor aimsíodh an coinne",
-    "User not found" : "Úsáideoir gan aimsiú"
+    "User not found" : "Úsáideoir gan aimsiú",
+    "Failed to fetch proposals" : "Theip ar thograí a fháil"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

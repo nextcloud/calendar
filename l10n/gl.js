@@ -548,9 +548,13 @@ OC.L10N.register(
     "Search for resources" : "Buscar por recursos",
     "Projector" : "Proxector",
     "Whiteboard" : "Encerado dixital",
+    "Unavailable" : "Non dispoñíbel",
     "Room type" : "Tipo de sala",
     "Any" : "Calquera",
     "Minimum seating capacity" : "Capacidade mínima de asentos",
+    "Building" : "Edificio",
+    "Features" : "Características",
+    "Clear filters" : "Limpar os filtros",
     "More details" : "Máis detalles",
     "Update this and all future" : "Actualizar esta e todas as futuras",
     "Update this occurrence" : "Actualizar esta recorrencia",
@@ -636,7 +640,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "A proposta foi gardada satisfactoriamente",
     "Failed to save proposal" : "Produciuse un fallo ao gardar a proposta",
     "Please enter a valid duration in minutes." : "Introduza unha duración válida en minutos.",
-    "Failed to fetch proposals" : "Produciuse un fallo ao recuperar as propostas",
     "Creating meeting for {date}" : "Crear unha xuntanza para o {date}",
     "Successfully created meeting for {date}" : "Creouse satisfactoriamente unha xuntanza para o {date}",
     "Failed to create a meeting for {date}" : "Produciuse un fallo ao crear unha xuntanza para o {date}",
@@ -740,6 +743,7 @@ OC.L10N.register(
     "Lecture hall" : "Sala de conferencias",
     "Seminar room" : "Sala de seminarios",
     "Other" : "Outra",
+    "Phone" : "Teléfono",
     "When shared show" : "Amosar ao compartir",
     "When shared show full event" : "Amosar o evento completo ao compartir",
     "When shared show only busy" : "Amosar só o ocupado ao compartir",
@@ -772,6 +776,7 @@ OC.L10N.register(
     "This is an event reminder." : "Este é un lembrete de eventos.",
     "Error while parsing a PROPFIND error" : "Produciuse un erro ao analizar un erro PROPFIND",
     "Appointment not found" : "Non se atopou a cita",
-    "User not found" : "Non se atopou o usuario"
+    "User not found" : "Non se atopou o usuario",
+    "Failed to fetch proposals" : "Produciuse un fallo ao recuperar as propostas"
 },
 "nplurals=2; plural=(n != 1);");

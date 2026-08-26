@@ -443,6 +443,7 @@ OC.L10N.register(
     "Room type" : "Вид на соба",
     "Any" : "Било кој",
     "Minimum seating capacity" : "Минимален капацитет за седење",
+    "Building" : "Зграда",
     "More details" : "Повеќе детали",
     "Update this and all future" : "Ажурирајте го овој и сите во иднина",
     "Update this occurrence" : "Ажурирајте ја оваа можност",
@@ -515,7 +516,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Успешно зачуван предлог",
     "Failed to save proposal" : "Неуспешно зачувување на предлог",
     "Please enter a valid duration in minutes." : "Внесете валидно времетраење во минути.",
-    "Failed to fetch proposals" : "Не успеа да се преземат предлозите",
     "Creating meeting for {date}" : "Креирање состанок за {date}",
     "Successfully created meeting for {date}" : "Успешно креиран состанок за {date}",
     "Failed to create a meeting for {date}" : "Неуспешно креиран состанок за {date}",
@@ -614,6 +614,7 @@ OC.L10N.register(
     "Lecture hall" : "Сала за предавање",
     "Seminar room" : "Семинарска сала",
     "Other" : "Останато",
+    "Phone" : "Телефон",
     "When shared show" : "Приказ кога е споделен",
     "When shared show full event" : "Кога е споделен, прикажи го целосно настанот",
     "When shared show only busy" : "Кога е споделен, прикажи зафатено",
@@ -645,6 +646,7 @@ OC.L10N.register(
     "This is an event reminder." : "Ова е потсетник за настан.",
     "Error while parsing a PROPFIND error" : "Грешка при обработка на PROPFIND грешката",
     "Appointment not found" : "Терминот не е пронајден",
-    "User not found" : "Корисникот не е пронајден"
+    "User not found" : "Корисникот не е пронајден",
+    "Failed to fetch proposals" : "Не успеа да се преземат предлозите"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

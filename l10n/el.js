@@ -552,9 +552,13 @@ OC.L10N.register(
     "Search for resources" : "Αναζήτηση πόρων",
     "Projector" : "Προβολέας",
     "Whiteboard" : "Λευκός πίνακας",
+    "Unavailable" : "Μη διαθέσιμο",
     "Room type" : "Τύπος αίθουσας",
     "Any" : "Οποιοδήποτε",
     "Minimum seating capacity" : "Ελάχιστος αριθμός θέσεων",
+    "Building" : "Κτίριο",
+    "Features" : "Χαρακτηριστικά",
+    "Clear filters" : "Εκκαθάριση φίλτρων",
     "More details" : "Περισσότερες λεπτομέρειες",
     "Update this and all future" : "Ενημέρωση αυτού και όλων των μελλοντικών",
     "Update this occurrence" : "Ενημέρωση αυτής της επανάληψης",
@@ -641,7 +645,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Η πρόταση αποθηκεύτηκε επιτυχώς",
     "Failed to save proposal" : "Αποτυχία αποθήκευσης πρότασης",
     "Please enter a valid duration in minutes." : "Παρακαλώ εισάγετε μια έγκυρη διάρκεια σε λεπτά.",
-    "Failed to fetch proposals" : "Αποτυχία ανάκτησης προτάσεων",
     "Creating meeting for {date}" : "Δημιουργία συνάντησης για {date}",
     "Successfully created meeting for {date}" : "Η συνάντηση για {date} δημιουργήθηκε επιτυχώς",
     "Failed to create a meeting for {date}" : "Αποτυχία δημιουργίας συνάντησης για {date}",
@@ -747,6 +750,7 @@ OC.L10N.register(
     "Lecture hall" : "Αίθουσα διαλέξεων",
     "Seminar room" : "Αίθουσα σεμιναρίων",
     "Other" : "Άλλο",
+    "Phone" : "Τηλέφωνο",
     "When shared show" : "Εμφάνιση με την κοινή χρήση",
     "When shared show full event" : "Εμφάνιση πλήρους συμβάντος κατά την κοινή χρήση",
     "When shared show only busy" : "Εμφάνιση μόνο ως απασχολημένος/η κατά την κοινή χρήση",
@@ -779,6 +783,7 @@ OC.L10N.register(
     "This is an event reminder." : "Αυτή είναι μια υπενθύμιση συμβάντος.",
     "Error while parsing a PROPFIND error" : "Σφάλμα κατά την ανάλυση σφάλματος PROPFIND",
     "Appointment not found" : "Το ραντεβού δεν βρέθηκε",
-    "User not found" : "Ο/Η χρήστης δεν βρέθηκε"
+    "User not found" : "Ο/Η χρήστης δεν βρέθηκε",
+    "Failed to fetch proposals" : "Αποτυχία ανάκτησης προτάσεων"
 },
 "nplurals=2; plural=(n != 1);");

@@ -329,6 +329,7 @@ OC.L10N.register(
     "Room type" : "Telpas veids",
     "Any" : "jebkurš",
     "Minimum seating capacity" : "Mazākā sēdvietu ietilpība",
+    "Features" : "Iespējas",
     "More details" : "Izvērstāk",
     "Update this and all future" : "Atjaunināt šo un visus turpmākos",
     "Update this occurrence" : "Atjaunināt šo notikumu",

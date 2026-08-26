@@ -556,6 +556,9 @@ OC.L10N.register(
     "Room type" : "Тип комнаты",
     "Any" : "Любой",
     "Minimum seating capacity" : "Минимальная вместимость",
+    "Building" : "Строение",
+    "Features" : "Возможности",
+    "Clear filters" : "Сбросить фильтры",
     "More details" : "Подробнее",
     "Update this and all future" : "Обновить это и все будущие повторния",
     "Update this occurrence" : "Обновить это повторение",
@@ -642,7 +645,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Предложение успешно сохранено",
     "Failed to save proposal" : "Не удалось сохранить предложение",
     "Please enter a valid duration in minutes." : "Пожалуйста, введите допустимую длительность в минутах",
-    "Failed to fetch proposals" : "Не удалось получить предложения",
     "Creating meeting for {date}" : "Создать встречу на {date}",
     "Successfully created meeting for {date}" : "Встреча на {date} успешно создана",
     "Failed to create a meeting for {date}" : "Не удалось создать встречу на {date}",
@@ -748,6 +750,7 @@ OC.L10N.register(
     "Lecture hall" : "Лекционный зал",
     "Seminar room" : "Комната для семинаров",
     "Other" : "Другое",
+    "Phone" : "Телефон",
     "When shared show" : "Показывать при публикации",
     "When shared show full event" : "Показывать подробно при публикации",
     "When shared show only busy" : "Показывать только занятость при публикации",
@@ -780,6 +783,7 @@ OC.L10N.register(
     "This is an event reminder." : "Это напоминание о событии.",
     "Error while parsing a PROPFIND error" : "Ошибка при анализе ошибки PROPFIND",
     "Appointment not found" : "Встреча не найдена",
-    "User not found" : "Пользователь не найден"
+    "User not found" : "Пользователь не найден",
+    "Failed to fetch proposals" : "Не удалось получить предложения"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

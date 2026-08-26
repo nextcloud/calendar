@@ -484,9 +484,13 @@ OC.L10N.register(
     "unavailable" : "není dostupné",
     "Projector" : "Projektor",
     "Whiteboard" : "Tabule",
+    "Unavailable" : "Není dostupné",
     "Room type" : "Typ místnosti",
     "Any" : "Jakákoli",
     "Minimum seating capacity" : "Minimální kapacita k sezení",
+    "Building" : "Stavby",
+    "Features" : "Funkce",
+    "Clear filters" : "Vyčistit filtry",
     "More details" : "Další podrobnosti",
     "Update this and all future" : "Aktualizovat tento a všechny budoucí",
     "Update this occurrence" : "Aktualizovat tento výskyt",
@@ -563,7 +567,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Návrh úspěšně uložen",
     "Failed to save proposal" : "Návrh se nepodařilo uložit",
     "Please enter a valid duration in minutes." : "Zadejte platnou dobu trvání (v minutách).",
-    "Failed to fetch proposals" : "Nepodařilo se získat návrhy",
     "Creating meeting for {date}" : "Vytváření schůzky pro {date}",
     "Successfully created meeting for {date}" : "Úspěšně vytvořena schůzka v {date}",
     "Failed to create a meeting for {date}" : "Nepodařilo se vytvořit schůzku pro {date}",
@@ -662,6 +665,7 @@ OC.L10N.register(
     "Lecture hall" : "Posluchárna",
     "Seminar room" : "Místnost pro semináře",
     "Other" : "Jiná",
+    "Phone" : "Telefon",
     "When shared show" : "Při sdílení neskrývat",
     "When shared show full event" : "Když sdíleno zobrazit úplnou událost",
     "When shared show only busy" : "Když sdíleno zobrazit pouze zaneprázdněno",
@@ -693,6 +697,7 @@ OC.L10N.register(
     "This is an event reminder." : "Toto je připomínka události.",
     "Error while parsing a PROPFIND error" : "Chyba při zpracovávání PROPFIND chyby",
     "Appointment not found" : "Schůzka nenalezena",
-    "User not found" : "Uživatel nenalezen"
+    "User not found" : "Uživatel nenalezen",
+    "Failed to fetch proposals" : "Nepodařilo se získat návrhy"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

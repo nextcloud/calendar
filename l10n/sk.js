@@ -477,6 +477,9 @@ OC.L10N.register(
     "Room type" : "Typ miestnosti",
     "Any" : "Akékoľvek",
     "Minimum seating capacity" : "Minimálna kapacita miest na sedenie",
+    "Building" : "Budova",
+    "Features" : "Vlastnosti",
+    "Clear filters" : "Vyčistiť filtre",
     "More details" : "Viac podrobností",
     "Update this and all future" : "Aktualizovať tento a všetky budúce",
     "Update this occurrence" : "Aktualizovať tento výskyt",
@@ -552,7 +555,6 @@ OC.L10N.register(
     "Successfully saved proposal" : "Úspešne uložený návrh",
     "Failed to save proposal" : "Nepodarilo sa uložiť návrh",
     "Please enter a valid duration in minutes." : "Zadajte platnú dĺžku v minútach.",
-    "Failed to fetch proposals" : "Nepodarilo sa načítať návrhy",
     "Creating meeting for {date}" : "Vytváranie stretnutia na {date}",
     "Successfully created meeting for {date}" : "Úspešne vytvorené stretnutie na {date}",
     "Failed to create a meeting for {date}" : "Nepodarilo sa vytvoriť stretnutie na {date}",
@@ -651,6 +653,7 @@ OC.L10N.register(
     "Lecture hall" : "Školiaca miestnosť",
     "Seminar room" : "Seminárna miestnosť",
     "Other" : "Iné",
+    "Phone" : "Telefón",
     "When shared show" : "Pri zdieľaní zobraziť",
     "When shared show full event" : "Pri zdieľaní zobraziť udalosť úplne",
     "When shared show only busy" : "Pri zdieľaní zobraziť len zaneprázdnený",
@@ -682,6 +685,7 @@ OC.L10N.register(
     "This is an event reminder." : "Toto je pripomienka udalosti.",
     "Error while parsing a PROPFIND error" : "Chyba pri parsovaní chyby PROPFIND",
     "Appointment not found" : "Stretnutie nebolo nájdené",
-    "User not found" : "Užívateľ nebol nájdený"
+    "User not found" : "Užívateľ nebol nájdený",
+    "Failed to fetch proposals" : "Nepodarilo sa načítať návrhy"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

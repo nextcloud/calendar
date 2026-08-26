@@ -513,9 +513,13 @@
     "unavailable" : "niedostępny",
     "Projector" : "Projektor",
     "Whiteboard" : "Biała tablica",
+    "Unavailable" : "Niedostępna",
     "Room type" : "Rodzaj pokoju",
     "Any" : "Dowolny",
     "Minimum seating capacity" : "Minimalna ilość miejsc",
+    "Building" : "Budynek",
+    "Features" : "Funkcje",
+    "Clear filters" : "Wyczyść filtry",
     "More details" : "Więcej szczegółów",
     "Update this and all future" : "Zaktualizuj to i wszystkie przyszłe",
     "Update this occurrence" : "Zaktualizuj to wydarzenie",
@@ -600,7 +604,6 @@
     "Successfully saved proposal" : "Pomyślnie zapisano propozycję",
     "Failed to save proposal" : "Nie udało się zapisać propozycji",
     "Please enter a valid duration in minutes." : "Proszę podać prawidłowy czas trwania w minutach.",
-    "Failed to fetch proposals" : "Nie udało się pobrać propozycji",
     "Creating meeting for {date}" : "Tworzenie spotkania dla {date}",
     "Successfully created meeting for {date}" : "Pomyślnie utworzono spotkanie dla {date}",
     "Failed to create a meeting for {date}" : "Nie udało się utworzyć spotkania dla {date}",
@@ -701,6 +704,7 @@
     "Lecture hall" : "Sala wykładowa",
     "Seminar room" : "Pokój seminaryjny",
     "Other" : "Inny",
+    "Phone" : "Telefon",
     "When shared show" : "Po udostępnieniu pokaż",
     "When shared show full event" : "Gdy udostępniony pokaż pełne wydarzenie",
     "When shared show only busy" : "Gdy udostępniony pokaż tylko zajęty",
@@ -732,6 +736,7 @@
     "This is an event reminder." : "Przypomnienie o wydarzeniu.",
     "Error while parsing a PROPFIND error" : "Wystąpił błąd podczas analizowania błędu PROPFIND",
     "Appointment not found" : "Nie znaleziono spotkania",
-    "User not found" : "Nie znaleziono użytkownika"
+    "User not found" : "Nie znaleziono użytkownika",
+    "Failed to fetch proposals" : "Nie udało się pobrać propozycji"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

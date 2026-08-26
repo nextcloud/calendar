@@ -557,6 +557,9 @@
     "Room type" : "Kambario tipas",
     "Any" : "Bet koks",
     "Minimum seating capacity" : "Mažiausias vietų skaičius",
+    "Building" : "Pastatas",
+    "Features" : "Ypatybės",
+    "Clear filters" : "Išvalyti filtrus",
     "More details" : "Išsamiau",
     "Update this and all future" : "Atnaujinti šį ir visus būsimus",
     "Update this occurrence" : "Atnaujinti šį pasikartojimą",
@@ -643,7 +646,6 @@
     "Successfully saved proposal" : "Pasiūlymas sėkmingai išsaugotas",
     "Failed to save proposal" : "Nepavyko išsaugoti pasiūlymo",
     "Please enter a valid duration in minutes." : "Įveskite tinkamą trukmę minutėmis.",
-    "Failed to fetch proposals" : "Nepavyko gauti pasiūlymų",
     "Creating meeting for {date}" : "Kuriamas susitikimas {date}",
     "Successfully created meeting for {date}" : "Sėkmingai sukurtas susitikimas {date}",
     "Failed to create a meeting for {date}" : "Nepavyko sukurti susitikimo {date}",
@@ -749,6 +751,7 @@
     "Lecture hall" : "Paskaitų auditorija",
     "Seminar room" : "Seminarų salė",
     "Other" : "Kita",
+    "Phone" : "Telefonas",
     "When shared show" : "Bendrinant rodyti",
     "When shared show full event" : "Bendrinant, rodyti visą įvykio informaciją",
     "When shared show only busy" : "Bendrinant, rodyti tik kaip užimtą laiką",
@@ -781,6 +784,7 @@
     "This is an event reminder." : "Tai priminimas apie įvykį.",
     "Error while parsing a PROPFIND error" : "Klaida analizuojant „PROPFIND“ klaidą",
     "Appointment not found" : "Susitikimas nerastas",
-    "User not found" : "Naudotojas nerastas"
+    "User not found" : "Naudotojas nerastas",
+    "Failed to fetch proposals" : "Nepavyko gauti pasiūlymų"
 },"pluralForm" :"nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);"
 }
