@@ -128,6 +128,7 @@ async function update(): Promise<void> {
 		...sortedCalendars.shared,
 		...sortedCalendars.deck,
 		...sortedCalendars.tasks,
+		...sortedCalendars.delegated,
 	]
 	const newOrder = currentCalendars.reduce<Record<string, number>>((newOrderObj, currentItem, currentIndex) => {
 		newOrderObj[currentItem.id] = currentIndex
