@@ -71,7 +71,8 @@ function isValidString(str, allowNull = false) {
 function isValidURL(str) {
 	try {
 		return Boolean(new URL(str))
-	} catch {
+	} catch (error) {
+		logger.error('Failed to parse subscription URL', { error })
 		return false
 	}
 }

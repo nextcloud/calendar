@@ -843,7 +843,8 @@ export default {
 			try {
 				await this.save(thisAndAllFuture)
 				this.requiresActionOnRouteLeave = false
-			} catch {
+			} catch (error) {
+				logger.error('Failed to save event, reverting to edit mode', { error })
 				this.isViewing = false
 			}
 		},

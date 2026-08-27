@@ -7,6 +7,7 @@ import {
 	dateFactory,
 	getUnixTimestampFromDate,
 } from '@/utils/date.js'
+import logger from '@/utils/logger.js'
 
 /**
  * Gets the initial view
@@ -16,7 +17,8 @@ import {
 export function getInitialView() {
 	try {
 		return loadState('calendar', 'initial_view')
-	} catch {
+	} catch (error) {
+		logger.error('Failed to load initial view state', { error })
 		return 'dayGridMonth'
 	}
 }
@@ -30,7 +32,8 @@ export function getPreferredEditorRoute() {
 	let skipPopover
 	try {
 		skipPopover = loadState('calendar', 'skip_popover')
-	} catch {
+	} catch (error) {
+		logger.error('Failed to load skip-popover state', { error })
 		skipPopover = false
 	}
 

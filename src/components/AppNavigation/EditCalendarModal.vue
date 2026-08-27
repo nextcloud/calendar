@@ -467,7 +467,8 @@ export default {
 				if (this.isAfterVersion && this.defaultAlarmChanged) {
 					await this.saveDefaultAlarm()
 				}
-			} catch {
+			} catch (error) {
+				logger.error('Failed to save calendar changes', { error })
 				showError(this.$t('calendar', 'Failed to save calendar name and color'))
 			}
 

@@ -192,7 +192,8 @@ export default {
 			let results
 			try {
 				results = await principalPropertySearchByDisplaynameOrEmail(query)
-			} catch {
+			} catch (error) {
+				logger.error('Failed to search for sharees via DAV', { error })
 				return []
 			}
 
@@ -252,7 +253,8 @@ export default {
 						itemType: 'principals',
 					},
 				})
-			} catch {
+			} catch (error) {
+				logger.error('Failed to search for sharees via circles', { error })
 				return []
 			}
 
@@ -309,7 +311,8 @@ export default {
 						lookup: false,
 					},
 				})
-			} catch {
+			} catch (error) {
+				logger.error('Failed to search for remote sharees', { error })
 				return []
 			}
 

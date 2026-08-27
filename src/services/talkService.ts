@@ -131,7 +131,8 @@ export async function createRoomFromProposal(proposal: ProposalInterface): Promi
 								return
 							}
 							resolve({ email: participant.address })
-						} catch {
+						} catch (error) {
+							logger.error('Failed to resolve participant to a user account', { error })
 							resolve({ email: participant.address })
 						}
 					} else {

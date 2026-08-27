@@ -479,7 +479,8 @@ export default {
 			try {
 				await navigator.clipboard.writeText(tsvContent)
 				showSuccess(this.t('calendar', 'Attendees copied to clipboard'))
-			} catch {
+			} catch (error) {
+				logger.error('Failed to copy attendees to clipboard', { error })
 				showError(this.t('calendar', 'Failed to copy attendees to clipboard'))
 			}
 		},

@@ -22,6 +22,11 @@ export default [
 		rules: {
 			// Relax some rules for now. Can be improved later on (baseline).
 			'vue/multi-word-component-names': 'warn',
+			// Force to use the caught errors e.g. log, rethrow or comment about explicit exceptions.
+			'no-restricted-syntax': ['error', {
+				selector: 'CatchClause[param=null]',
+				message: 'Bind the caught error: use `catch (error)`.',
+			}],
 			'preserve-caught-error': 'warn',
 			'@nextcloud/no-deprecated-library-props': 'warn',
 			'vue/custom-event-name-casing': 'warn',

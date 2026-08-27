@@ -171,8 +171,8 @@ export default {
 				let eventSummary = t('calendar', 'Untitled item')
 				try {
 					eventSummary = vobject?.calendarComponent.getComponentIterator().next().value?.title
-				} catch {
-					// ignore
+				} catch (error) {
+					logger.error('Failed to read event summary from deleted calendar object', { error })
 				}
 				let subline = vobject.calendar?.displayName || t('calendar', 'Unknown calendar')
 				if (vobject.isEvent) {

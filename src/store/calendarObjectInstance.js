@@ -1214,8 +1214,8 @@ export default defineStore('calendarObjectInstance', {
 					this.calendarObjectInstance.attachments.splice(index, 1)
 				}
 				this.calendarObjectInstance.eventComponent.removeAttachment(attachment.attachmentProperty)
-			} catch {
-				// Ignore
+			} catch (error) {
+				logger.error('Failed to delete attachment', { error })
 			}
 		},
 
