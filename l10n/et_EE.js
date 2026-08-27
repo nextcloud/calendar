@@ -556,6 +556,7 @@ OC.L10N.register(
     "Search for resources" : "Otsi ressursse",
     "Projector" : "Projektor",
     "Whiteboard" : "Tahvel",
+    "_%n seat_::_%n seats_" : ["%n koht","%n kohta"],
     "Unavailable" : "Pole saadaval",
     "Room type" : "Koosolekuruumi tüüp",
     "Any" : "Kõik",
