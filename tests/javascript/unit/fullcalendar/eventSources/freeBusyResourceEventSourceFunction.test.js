@@ -5,6 +5,7 @@
 import { translate } from '@nextcloud/l10n'
 import { createPinia, setActivePinia } from 'pinia'
 import { eventSourceFunction } from '@/fullcalendar/eventSources/eventSourceFunction.js'
+import freeBusyResourceEventSourceFunction from '@/fullcalendar/eventSources/freeBusyResourceEventSourceFunction.js'
 import useSettingsStore from '@/store/settings.js'
 import { getAllObjectsInTimeRange } from '@/utils/calendarObject.js'
 import {
@@ -874,5 +875,42 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 		getAllObjectsInTimeRange.mockReturnValueOnce([eventA, eventB, eventC])
 		result = eventSourceFunction(calendarObjects, calendar, start, end, timezone)
 		expect(result).toHaveLength(3)
+	})
+
+	describe('event title', () => {
+		const start = { getInTimezone: () => ({ jsDate: new Date(2020, 1, 1, 10, 0, 0, 0) }) }
+		const end = { getInTimezone: () => ({ jsDate: new Date(2020, 1, 1, 11, 0, 0, 0) }) }
+
+		it('should not render "undefined" as title when no attendee name is given', () => {
+			// Bulk callers omit attendeeName because the name is already shown in
+			// the resource lane header. Before this was defaulted, `title` became
+			// the literal string "undefined" in every rendered busy block.
+			const result = freeBusyResourceEventSourceFunction(
+				'mailto:room@example.com',
+				null,
+				false,
+				start,
+				end,
+				'UTC',
+			)
+
+			expect(result).toHaveLength(1)
+			expect(result[0].title).toBe('')
+		})
+
+		it('should still use the attendee name when one is given', () => {
+			const result = freeBusyResourceEventSourceFunction(
+				'mailto:room@example.com',
+				null,
+				false,
+				start,
+				end,
+				'UTC',
+				'Meeting room A',
+			)
+
+			expect(result).toHaveLength(1)
+			expect(result[0].title).toBe('Meeting room A')
+		})
 	})
 })

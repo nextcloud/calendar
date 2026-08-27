@@ -18,7 +18,7 @@ import { getParserManager } from '@nextcloud/calendar-js'
  * @param {boolean} isOrganizer Whether or not the user is the organizer of the event
  * @return {object[]}
  */
-export default function(uri, calendarData, success, start, end, timezone, attendeeName, isOrganizer = false) {
+export default function(uri, calendarData, success, start, end, timezone, attendeeName = '', isOrganizer = false) {
 	if (!success) {
 		return [{
 			id: Math.random().toString(36).substring(7),
