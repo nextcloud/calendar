@@ -293,6 +293,7 @@ export default {
 				...this.sortedCalendars.shared,
 				...this.sortedCalendars.deck,
 				...this.sortedCalendars.tasks,
+				...this.sortedCalendars.delegated,
 			]
 			const newOrder = currentCalendars.reduce((newOrderObj, currentItem, currentIndex) => {
 				newOrderObj[currentItem.id] = currentIndex
