@@ -20,6 +20,7 @@ use OCP\Util;
  * @template-implements IEventListener<Event|RenderReferenceEvent>
  */
 class CalendarReferenceListener implements IEventListener {
+
 	public function __construct(
 		private CalendarInitialStateService $calendarInitialStateService,
 	) {

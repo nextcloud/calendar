@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace OCA\Calendar\Service\Appointments;
 
-use Sabre\VObject\Component;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VTimeZone;
 use Sabre\VObject\TimeZoneUtil;

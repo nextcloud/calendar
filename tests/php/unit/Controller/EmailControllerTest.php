@@ -61,7 +61,7 @@ class EmailControllerTest extends TestCase {
 	/** @var EmailController */
 	private $controller;
 
-	/** @var \OCP\Calendar\IManager|MockObject */
+	/** @var IManager|MockObject */
 	private $calendarManager;
 
 	protected function setUp():void {

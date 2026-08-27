@@ -33,7 +33,7 @@ class BookingMapperTest extends TestCase {
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->db = Server::get(\OCP\IDBConnection::class);
+		$this->db = Server::get(IDBConnection::class);
 		$this->time = $this->createConfiguredMock(ITimeFactory::class, [
 			'getTime' => 1635721200
 		]);

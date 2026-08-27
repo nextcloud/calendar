@@ -15,6 +15,7 @@ use OCA\Calendar\AppInfo\Application;
 use OCA\Calendar\Db\ProposalDateMapper;
 use OCA\Calendar\Db\ProposalMapper;
 use OCA\Calendar\Db\ProposalParticipantMapper;
+use OCA\Calendar\Db\ProposalVoteEntry;
 use OCA\Calendar\Db\ProposalVoteMapper;
 use OCA\Calendar\Objects\Proposal\ProposalCollection;
 use OCA\Calendar\Objects\Proposal\ProposalDateCollection;
@@ -43,6 +44,7 @@ use OCP\Mail\Provider\Address;
 use OCP\Mail\Provider\IManager as IMailManager;
 use OCP\Mail\Provider\IMessageSend;
 use OCP\Notification\IManager as INotificationManager;
+use OCP\Util;
 use Psr\Log\LoggerInterface;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Component\VEvent;
@@ -439,7 +441,7 @@ class ProposalService {
 			}
 			if ($foundDateEntry !== null) {
 				// create and save vote entry directly
-				$voteEntry = new \OCA\Calendar\Db\ProposalVoteEntry();
+				$voteEntry = new ProposalVoteEntry();
 				$voteEntry->setUid($participantEntry->getUid());
 				$voteEntry->setPid($participantEntry->getPid());
 				$voteEntry->setParticipantId($participantEntry->getId());
@@ -595,7 +597,7 @@ class ProposalService {
 				// send message
 				$mailService->sendMessage($message);
 			} else {
-				$fromAddress = \OCP\Util::getDefaultEmailAddress('proposal-noreply');
+				$fromAddress = Util::getDefaultEmailAddress('proposal-noreply');
 				// construct symfony mailer message and set required parameters
 				$message = $this->systemMailManager->createMessage();
 				$message->setFrom([$fromAddress => $senderName]);

@@ -15,17 +15,11 @@ use OCP\EventDispatcher\Event;
 
 class BeforeAppointmentBookedEvent extends Event {
 
-	/** @var Booking */
-	private $booking;
-	/** @var AppointmentConfig */
-
-	private $config;
-
-	public function __construct(Booking $booking, AppointmentConfig $config) {
+	public function __construct(
+		private Booking $booking,
+		private AppointmentConfig $config,
+	) {
 		parent::__construct();
-
-		$this->booking = $booking;
-		$this->config = $config;
 	}
 
 	public function getBooking(): Booking {

@@ -24,6 +24,8 @@
         "cs:check": "php-cs-fixer fix --dry-run --diff",
         "lint": "find . -name \\*.php -not -path './vendor/*' -not -path './tests/*' -print0 | xargs -0 -n1 php -l",
         "psalm": "psalm",
+        "rector:apply": "rector && composer cs:fix",
+        "rector:check": "rector --dry-run",
         "test:unit": "phpunit --configuration phpunit.unit.xml --fail-on-warning",
         "test:unit:dev": "phpunit --configuration phpunit.unit.xml --fail-on-warning --stop-on-error --stop-on-failure",
         "test:integration": "phpunit -c phpunit.integration.xml --fail-on-warning",

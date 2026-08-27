@@ -20,16 +20,11 @@ use OCP\IUser;
 use OCP\Security\ISecureRandom;
 
 class AppointmentConfigService {
-	/** @var AppointmentConfigMapper */
-	private $mapper;
 
-	/** @var ISecureRandom */
-	private $random;
-
-	public function __construct(AppointmentConfigMapper $mapper,
-		ISecureRandom $random) {
-		$this->mapper = $mapper;
-		$this->random = $random;
+	public function __construct(
+		private AppointmentConfigMapper $mapper,
+		private ISecureRandom $random,
+	) {
 	}
 
 	/**
