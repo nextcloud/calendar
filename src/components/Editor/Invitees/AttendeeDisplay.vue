@@ -81,7 +81,8 @@ export default {
 				const text = `${this.displayName} <${this.email}>`
 				await navigator.clipboard.writeText(text)
 				showSuccess(this.$t('calendar', 'Copied to clipboard'))
-			} catch {
+			} catch (error) {
+				logger.error('Failed to copy attendee to clipboard', { error })
 				showError(this.$t('calendar', 'Failed to copy'))
 			}
 		},

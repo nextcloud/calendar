@@ -60,6 +60,7 @@ async function getLocaleFor(locale) {
 		// default load e.g. en-de
 		await import(`moment/locale/${locale}.js`)
 		return locale
+	// eslint-disable-next-line no-restricted-syntax -- try-catch is used for availibility check
 	} catch {
 		const splitLocale = locale.split('-')
 		try {
@@ -68,6 +69,7 @@ async function getLocaleFor(locale) {
 			locale = splitLocale[0]
 			await import(`moment/locale/${locale}.js`)
 			return locale
+		// eslint-disable-next-line no-restricted-syntax -- try-catch is used for availibility check
 		} catch {
 			// failure, fallback to english
 			logger.debug('Fallback to locale', { locale: 'en' })

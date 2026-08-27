@@ -117,7 +117,8 @@ export default {
 				await this.setParticipationStatus('ACCEPTED')
 				showSuccess(this.t('calendar', 'The invitation has been accepted successfully.'))
 				this.$emit('close')
-			} catch {
+			} catch (error) {
+				logger.error('Failed to accept the invitation', { error })
 				showError(this.t('calendar', 'Failed to accept the invitation.'))
 			}
 		},
@@ -127,7 +128,8 @@ export default {
 				await this.setParticipationStatus('DECLINED')
 				showSuccess(this.t('calendar', 'The invitation has been declined successfully.'))
 				this.$emit('close')
-			} catch {
+			} catch (error) {
+				logger.error('Failed to decline the invitation', { error })
 				showError(this.t('calendar', 'Failed to decline the invitation.'))
 			}
 		},
@@ -137,7 +139,8 @@ export default {
 				await this.setParticipationStatus('TENTATIVE')
 				showSuccess(this.t('calendar', 'Your participation has been marked as tentative.'))
 				this.$emit('close')
-			} catch {
+			} catch (error) {
+				logger.error('Failed to set the participation status to tentative', { error })
 				showError(this.t('calendar', 'Failed to set the participation status to tentative.'))
 			}
 		},

@@ -175,7 +175,8 @@ async function destroyProposal(): Promise<void> {
 		await proposalStore.destroyProposal(proposal)
 		showSuccess(t('calendar', 'Successfully deleted proposal'))
 		fetchProposals()
-	} catch {
+	} catch (error) {
+		logger.error('Failed to delete proposal', { error })
 		showError(t('calendar', 'Failed to delete proposal'))
 	}
 }
@@ -183,7 +184,8 @@ async function destroyProposal(): Promise<void> {
 async function fetchProposals(): Promise<void> {
 	try {
 		storedProposals.value = await proposalStore.listProposals()
-	} catch {
+	} catch (error) {
+		logger.error('Failed to retrieve proposals', { error })
 		showError(t('calendar', 'Failed to retrieve proposals'))
 	}
 }
