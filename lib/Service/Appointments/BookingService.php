@@ -101,8 +101,8 @@ class BookingService {
 
 		try {
 			$tz = new DateTimeZone($timeZone);
-		} catch (DbException $e) {
-			throw new InvalidArgumentException('Could not make sense of the timezone', $e->getCode(), $e);
+		} catch (\Exception $e) {
+			throw new InvalidArgumentException('Could not make sense of the timezone', previous: $e);
 		}
 
 		$booking = new Booking();
