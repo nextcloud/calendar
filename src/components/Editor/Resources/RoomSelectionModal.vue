@@ -448,8 +448,13 @@ watch(
 			margin: 0;
 		}
 
+		// NcSelect pads the toggle by --border-width-input on every side, which
+		// stacks on top of the min-height and makes the select 2px taller than
+		// the text field next to it. The padding is dropped in the open state
+		// anyway, so clearing it here keeps both controls at the same height.
 		:deep(.v-select.select .vs__dropdown-toggle) {
 			min-height: var(--default-clickable-area);
+			padding: 0;
 		}
 
 		// While the dropdown is closed there is nothing to type into, so the
