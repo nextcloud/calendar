@@ -10,7 +10,6 @@ namespace OCA\Calendar\Controller;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use DateTime;
-use Exception;
 use InvalidArgumentException;
 use OC\URLGenerator;
 use OCA\Calendar\Db\AppointmentConfig;
@@ -166,9 +165,15 @@ class BookingControllerTest extends TestCase {
 			->with($apptConfg->getToken());
 		$this->bookingService->expects(self::never())
 			->method('getAvailableSlots');
-		$this->expectException(Exception::class);
+		$this->logger->expects(self::once())
+			->method('error')
+			->with('Timezone invalid');
 
-		$this->controller->getBookableSlots($apptConfg->getToken(), $selectedDate, 'Hook/Neverland');
+		$response = $this->controller->getBookableSlots($apptConfg->getToken(), $selectedDate, 'Hook/Neverland');
+
+		self::assertInstanceOf(JsonResponse::class, $response);
+		self::assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $response->getStatus());
+		self::assertSame(['status' => 'fail', 'data' => 'Invalid timezone'], $response->getData());
 	}
 
 	public function testGetBookableSlotsTimezoneIdentical(): void {
