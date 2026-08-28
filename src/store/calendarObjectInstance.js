@@ -1101,17 +1101,19 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 *
 		 * @param {object} data The destructuring object
+		 * @param {object=} data.calendarObjectInstance The calendar-object-instance to add the alarm to, defaults to the current one
 		 * @param {string} data.type Type of alarm
 		 * @param {number} data.totalSeconds Total amount of seconds for new alarm
 		 * @param {boolean=} data.isDefault Whether this is the default alarm
 		 */
 		addAlarmToCalendarObjectInstance({
+			calendarObjectInstance = this.calendarObjectInstance,
 			type,
 			totalSeconds,
 			isDefault = false,
 		}) {
-			if (this.calendarObjectInstance.eventComponent) {
-				const eventComponent = this.calendarObjectInstance.eventComponent
+			if (calendarObjectInstance.eventComponent) {
+				const eventComponent = calendarObjectInstance.eventComponent
 
 				const duration = DurationValue.fromSeconds(totalSeconds)
 				const alarmComponent = eventComponent.addRelativeAlarm(type, duration)
@@ -1122,7 +1124,7 @@ export default defineStore('calendarObjectInstance', {
 
 				const alarmObject = mapAlarmComponentToAlarmObject(alarmComponent)
 
-				this.calendarObjectInstance.alarms.push(alarmObject)
+				calendarObjectInstance.alarms.push(alarmObject)
 
 				logger.debug(alarmObject.alarmComponent.toICALJs().toString())
 			}
@@ -1131,13 +1133,15 @@ export default defineStore('calendarObjectInstance', {
 		/**
 		 *
 		 * @param {object} data The destructuring object
+		 * @param {object=} data.calendarObjectInstance The calendar-object-instance to remove the alarm from, defaults to the current one
 		 * @param {object} data.alarm The alarm object
 		 */
 		removeAlarmFromCalendarObjectInstance({
+			calendarObjectInstance = this.calendarObjectInstance,
 			alarm,
 		}) {
 			if (alarm.alarmComponent) {
-				const alarmIterator = this.calendarObjectInstance.eventComponent.getAlarmIterator()
+				const alarmIterator = calendarObjectInstance.eventComponent.getAlarmIterator()
 				let matchedAlarm = null
 				const targetSeconds = alarm.alarmComponent.trigger.value.totalSeconds
 				const targetAction = alarm.alarmComponent.action
@@ -1149,12 +1153,12 @@ export default defineStore('calendarObjectInstance', {
 				}
 
 				if (matchedAlarm) {
-					this.calendarObjectInstance.eventComponent.removeAlarm(matchedAlarm)
+					calendarObjectInstance.eventComponent.removeAlarm(matchedAlarm)
 				}
 
-				const index = this.calendarObjectInstance.alarms.indexOf(alarm)
+				const index = calendarObjectInstance.alarms.indexOf(alarm)
 				if (index !== -1) {
-					this.calendarObjectInstance.alarms.splice(index, 1)
+					calendarObjectInstance.alarms.splice(index, 1)
 				}
 			}
 		},
