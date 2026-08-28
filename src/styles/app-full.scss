@@ -70,17 +70,8 @@
 		.v-select {
 			width: 100%;
 			margin: 0 !important;
-			overflow-x: hidden;
-
-			.vs__dropdown-toggle {
-				overflow-y: visible !important;
-			}
 		}
 	}
-}
-
-.vs__selected-options {
-	max-width: calc(100% - var(--default-clickable-area) - var(--default-grid-baseline));
 }
 
 .property-repeat__summary__content {
