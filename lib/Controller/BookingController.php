@@ -25,7 +25,6 @@ use OCP\AppFramework\Http\Attribute\UserRateLimit;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
 use OCP\AppFramework\Utility\ITimeFactory;
-use OCP\DB\Exception;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -94,9 +93,9 @@ class BookingController extends Controller {
 	): JsonResponse {
 		try {
 			$tz = new DateTimeZone($timeZone);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$this->logger->error('Timezone invalid', ['exception' => $e]);
-			return JsonResponse::fail('Invalid time zone', Http::STATUS_UNPROCESSABLE_ENTITY);
+			return JsonResponse::fail('Invalid timezone', Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 		// Convert selected date to requesters selected timezone adjusted start and end of day in epoch
 		$startTimeInTz = (new DateTime($dateSelected, $tz))

@@ -20,7 +20,6 @@ use OCA\Calendar\Exception\NoSlotFoundException;
 use OCA\Calendar\Exception\ServiceException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Http;
-use OCP\DB\Exception;
 use OCP\DB\Exception as DbException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\IUser;
@@ -140,8 +139,8 @@ class BookingService {
 
 		try {
 			$tz = new DateTimeZone($timeZone);
-		} catch (Exception $e) {
-			throw new InvalidArgumentException('Could not make sense of the timezone', $e->getCode(), $e);
+		} catch (\Exception $e) {
+			throw new InvalidArgumentException('Could not make sense of the timezone', previous: $e);
 		}
 
 		$booking = new Booking();
@@ -156,7 +155,7 @@ class BookingService {
 		$booking->setTimezone($tz->getName());
 		try {
 			$this->bookingMapper->insert($booking);
-		} catch (Exception $e) {
+		} catch (DbException $e) {
 			throw new ServiceException('Could not create booking', 0, $e);
 		}
 

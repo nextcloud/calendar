@@ -10,7 +10,7 @@ namespace OCA\Calendar\Tests\Unit\Service\Appointments;
 
 use ChristophWurst\Nextcloud\Testing\TestCase;
 use DateTimeImmutable;
-use Exception;
+use InvalidArgumentException;
 use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\Booking;
 use OCA\Calendar\Db\BookingMapper;
@@ -160,7 +160,7 @@ class BookingServiceTest extends TestCase {
 		$this->random->expects(self::never())
 			->method('generate');
 
-		$this->expectException(Exception::class);
+		$this->expectExceptionObject(new InvalidArgumentException('Could not make sense of the timezone'));
 		$this->service->book(new AppointmentConfig(), 4054546654, 44545454, 'Nighttime/DAYTIME!', 'Test', 'test@test.com', 'Test');
 	}
 
