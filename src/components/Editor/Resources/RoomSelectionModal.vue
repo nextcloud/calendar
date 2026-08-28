@@ -436,7 +436,6 @@ watch(
 
 		&__label {
 			color: var(--color-text-maxcontrast);
-			font-size: calc(var(--default-font-size) * 0.9);
 		}
 
 		// Give every control the same height and let the row decide the width
@@ -448,8 +447,10 @@ watch(
 			margin: 0;
 		}
 
+		// NcSelect pads the toggle by --border-width-input on every side
 		:deep(.v-select.select .vs__dropdown-toggle) {
 			min-height: var(--default-clickable-area);
+			padding: 0;
 		}
 
 		// While the dropdown is closed there is nothing to type into, so the
