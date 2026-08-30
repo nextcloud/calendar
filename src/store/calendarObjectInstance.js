@@ -1416,6 +1416,7 @@ export default defineStore('calendarObjectInstance', {
 				}
 				// trigger room update but don't wait for it
 				updateRoomParticipantsFromEvent(eventComponent)
+				eventComponent.undirtify()
 			}
 
 			if (calendarId !== this.calendarObject.calendarId) {
