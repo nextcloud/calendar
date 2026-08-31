@@ -162,7 +162,7 @@ class BookingServiceTest extends TestCase {
 			->method('generate');
 
 		$this->expectExceptionObject(new InvalidArgumentException('Could not make sense of the timezone'));
-		$this->service->book(new AppointmentConfig(), 4054546654, 44545454, 'Nighttime/DAYTIME!', 'Test', 'test@test.com', 'Test');
+		$this->service->book(new AppointmentConfig(), 1891378800, 1891382400, 'Nighttime/DAYTIME!', 'Test', 'test@test.com', 'Test');
 	}
 
 	public function testBook(): void {
