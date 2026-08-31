@@ -282,7 +282,11 @@ export function getDefaultReminderForEvent({ calendar, isAllDay }) {
 		}
 	}
 
-	const globalDefaultReminder = parseInt(isAllDay ? settingsStore.defaultReminderFullDay : settingsStore.defaultReminderPartDay)
+	const globalDefaultReminderRaw = isAllDay ? settingsStore.defaultReminderFullDay : settingsStore.defaultReminderPartDay
+	if (globalDefaultReminderRaw === 'none') {
+		return null
+	}
+	const globalDefaultReminder = parseInt(globalDefaultReminderRaw)
 	if (!isNaN(globalDefaultReminder)) {
 		return globalDefaultReminder
 	}

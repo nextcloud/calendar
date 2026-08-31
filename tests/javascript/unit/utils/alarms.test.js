@@ -3,9 +3,12 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { getParserManager } from '@nextcloud/calendar-js'
+import { createPinia, setActivePinia } from 'pinia'
+import useSettingsStore from '@/store/settings.js'
 import {
 	getAmountAndUnitForTimedEvents,
 	getAmountHoursMinutesAndUnitForAllDayEvents,
+	getDefaultReminderForEvent,
 	getFactorForAlarmUnit,
 	getTotalSecondsFromAmountAndUnitForTimedEvents,
 	getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents,
@@ -263,6 +266,51 @@ describe('utils/alarms test suite', () => {
 
 			const alarm = event.getAlarmIterator().next().value
 			expect([...alarm.getPropertyIterator('ATTENDEE')]).toHaveLength(1)
+		})
+	})
+
+	describe('getDefaultReminderForEvent', () => {
+		let settingsStore
+
+		beforeEach(() => {
+			setActivePinia(createPinia())
+			settingsStore = useSettingsStore()
+		})
+
+		it('enabled part day reminder overrides legacy reminder', () => {
+			settingsStore.defaultReminder = '0'
+			settingsStore.defaultReminderPartDay = '3600'
+
+			const reminder = getDefaultReminderForEvent({ isAllDay: false })
+
+			expect(reminder).toBe(3600)
+		})
+
+		it('enabled full day reminder overrides legacy reminder', () => {
+			settingsStore.defaultReminder = '0'
+			settingsStore.defaultReminderFullDay = '3600'
+
+			const reminder = getDefaultReminderForEvent({ isAllDay: true })
+
+			expect(reminder).toBe(3600)
+		})
+
+		it('disabled part day reminder overrides legacy reminder', () => {
+			settingsStore.defaultReminder = '0'
+			settingsStore.defaultReminderPartDay = 'none'
+
+			const reminder = getDefaultReminderForEvent({ isAllDay: false })
+
+			expect(reminder).toBe(null)
+		})
+
+		it('disabled full day reminder overrides legacy reminder', () => {
+			settingsStore.defaultReminder = '0'
+			settingsStore.defaultReminderFullDay = 'none'
+
+			const reminder = getDefaultReminderForEvent({ isAllDay: true })
+
+			expect(reminder).toBe(null)
 		})
 	})
 })
