@@ -75,7 +75,7 @@
     "vue": "^3.5.42",
     "vue-loader": "^17.4.2",
     "vue-material-design-icons": "^5.3.1",
-    "vue-router": "^5.2.0",
+    "vue-router": "^5.3.0",
     "vuedraggable": "^4.1.0",
     "webdav": "^5.10.0"
   },
