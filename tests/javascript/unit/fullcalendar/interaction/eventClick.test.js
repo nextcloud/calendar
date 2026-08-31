@@ -310,6 +310,7 @@ describe('fullcalendar/eventClick test suite', () => {
 				protocol: 'http:',
 				host: 'nextcloud.testing',
 			},
+			open: vi.fn(),
 		}
 
 		generateUrl
@@ -328,7 +329,8 @@ describe('fullcalendar/eventClick test suite', () => {
 		expect(generateUrl).toHaveBeenCalledTimes(1)
 		expect(generateUrl).toHaveBeenNthCalledWith(1, 'apps/tasks/calendars/reminders/tasks/EAFB112A-4556-404A-B807-B1E040D0F7A0.ics')
 
-		expect(window.location.href).toEqual('/generated-url')
+		expect(window.open).toHaveBeenCalledTimes(1)
+		expect(window.open).toHaveBeenNthCalledWith(1, '/generated-url', '_blank')
 	})
 
 	it('should do nothing when tasks is disabled and route is public', () => {
@@ -603,6 +605,7 @@ describe('fullcalendar/eventClick test suite', () => {
 				protocol: 'http:',
 				host: 'nextcloud.testing',
 			},
+			open: vi.fn(),
 		}
 
 		generateUrl.mockReturnValueOnce('/generated-url')
@@ -619,7 +622,8 @@ describe('fullcalendar/eventClick test suite', () => {
 
 		expect(generateUrl).toHaveBeenCalledTimes(1)
 		expect(generateUrl).toHaveBeenNthCalledWith(1, 'apps/tasks/calendars/calendar_shared_by_User%2520NAME/tasks/EAFB112A-4556-404A-B807-B1E040D0F7A0.ics')
-		expect(window.location.href).toEqual('/generated-url')
+		expect(window.open).toHaveBeenCalledTimes(1)
+		expect(window.open).toHaveBeenNthCalledWith(1, '/generated-url', '_blank')
 	})
 
 	it('should encode special characters in calendarId and taskId', () => {
@@ -641,6 +645,7 @@ describe('fullcalendar/eventClick test suite', () => {
 				protocol: 'http:',
 				host: 'nextcloud.testing',
 			},
+			open: vi.fn(),
 		}
 
 		generateUrl.mockReturnValueOnce('/generated-url')
@@ -657,6 +662,7 @@ describe('fullcalendar/eventClick test suite', () => {
 
 		expect(generateUrl).toHaveBeenCalledTimes(1)
 		expect(generateUrl).toHaveBeenNthCalledWith(1, 'apps/tasks/calendars/calendar%23special/tasks/task%3Ffile%26name.ics')
-		expect(window.location.href).toEqual('/generated-url')
+		expect(window.open).toHaveBeenCalledTimes(1)
+		expect(window.open).toHaveBeenNthCalledWith(1, '/generated-url', '_blank')
 	})
 })
