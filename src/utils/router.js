@@ -1,38 +1,24 @@
 /**
- * @copyright Copyright (c) 2020 Georg Ehrke
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { loadState } from '@nextcloud/initial-state'
 import {
 	dateFactory,
 	getUnixTimestampFromDate,
-} from './date.js'
+} from '@/utils/date.js'
+import logger from '@/utils/logger.js'
 
 /**
  * Gets the initial view
  *
- * @returns {String}
+ * @return {string}
  */
 export function getInitialView() {
 	try {
 		return loadState('calendar', 'initial_view')
 	} catch (error) {
+		logger.error('Failed to load initial view state', { error })
 		return 'dayGridMonth'
 	}
 }
@@ -40,29 +26,32 @@ export function getInitialView() {
 /**
  * Gets the preferred editor view
  *
- * @returns {string} Either popover or sidebar
+ * @return {string} Either popover or full
  */
 export function getPreferredEditorRoute() {
 	let skipPopover
 	try {
 		skipPopover = loadState('calendar', 'skip_popover')
 	} catch (error) {
+		logger.error('Failed to load skip-popover state', { error })
 		skipPopover = false
 	}
 
-	if (window.innerWidth <= 768) {
+	// Don't show the popover if the window size is too small (less then its max width of 450 px + a bit)
+	// The mobile breakpoint of the reworked modals is 1024 px / 2 so simply use that.
+	if (window.innerWidth <= 1024 / 2) {
 		skipPopover = true
 	}
 
 	return skipPopover
-		? 'sidebar'
+		? 'full'
 		: 'popover'
 }
 
 /**
  * Gets the default start-date for a new event
  *
- * @returns {string}
+ * @return {string}
  */
 export function getDefaultStartDateForNewEvent() {
 	const start = dateFactory()
@@ -75,7 +64,7 @@ export function getDefaultStartDateForNewEvent() {
 /**
  * Gets the default end-date for a new event
  *
- * @returns {string}
+ * @return {string}
  */
 export function getDefaultEndDateForNewEvent() {
 	// When we have a setting for default event duration,
@@ -90,9 +79,9 @@ export function getDefaultEndDateForNewEvent() {
 /**
  * Prefixes a desired route name based on the current route
  *
- * @param {String} currentRouteName The name of the current route
- * @param {String} toRouteName The name of the desired route
- * @returns {String}
+ * @param {string} currentRouteName The name of the current route
+ * @param {string} toRouteName The name of the desired route
+ * @return {string}
  */
 export function getPrefixedRoute(currentRouteName, toRouteName) {
 	if (currentRouteName.startsWith('Embed')) {
@@ -107,11 +96,42 @@ export function getPrefixedRoute(currentRouteName, toRouteName) {
 }
 
 /**
- * Checks whether a routeName represents a public / embedded route
- *
- * @param {String} routeName Name of the route
- * @returns {Boolean}
+ * The different modes the calendar app can be rendered in.
+ * This is the single source of truth for what "public", "embedded"
+ * and "widget" mean across the app - components should derive their
+ * behaviour from this instead of re-deriving it from route names or
+ * calendar permissions.
  */
-export function isPublicOrEmbeddedRoute(routeName) {
-	return routeName.startsWith('Embed') || routeName.startsWith('Public')
+export const ViewMode = Object.freeze({
+	// A normal, authenticated user viewing their own calendars
+	USER: 'user',
+	// A public share link (/p/:tokens/...)
+	PUBLIC: 'public',
+	// An embedded share link (/embed/:tokens/...)
+	EMBEDDED: 'embedded',
+	// A dashboard / Talk / Text reference widget (no vue-router present)
+	WIDGET: 'widget',
+})
+
+/**
+ * Determines the view mode the calendar is currently rendered in.
+ *
+ * @param {string|undefined|null} routeName Name of the current vue-router route, if any
+ * @param {boolean} isWidget Whether the calendar is rendered as a reference widget
+ * @return {string} One of ViewMode
+ */
+export function getViewMode(routeName, isWidget = false) {
+	if (isWidget) {
+		return ViewMode.WIDGET
+	}
+
+	if (routeName?.startsWith('Embed')) {
+		return ViewMode.EMBEDDED
+	}
+
+	if (routeName?.startsWith('Public')) {
+		return ViewMode.PUBLIC
+	}
+
+	return ViewMode.USER
 }

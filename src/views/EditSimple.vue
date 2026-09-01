@@ -1,265 +1,1008 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<Popover
-		ref="popover"
-		:open="true"
-		:auto-hide="false"
-		:placement="placement"
-		:boundaries-element="boundaryElement"
-		open-class="event-popover"
-		trigger="manual">
-		<template v-if="isLoading">
-			<PopoverLoadingIndicator />
-		</template>
-
-		<template v-else-if="isError">
-			<div class="event-popover__top-right-actions">
-				<Actions>
-					<ActionButton
-						icon="icon-close"
-						@click="cancel">
-						{{ $t('calendar', 'Close') }}
-					</ActionButton>
-				</Actions>
-			</div>
-
-			<EmptyContent icon="icon-calendar-dark">
-				{{ $t('calendar', 'Event does not exist') }}
-				<template #desc>
-					{{ error }}
+	<div>
+		<div
+			v-if="showPopover && !isViewing"
+			class="modal-mask"
+			:class="{
+				'modal-mask--opaque': dark,
+				'modal-mask--light': lightBackdrop,
+			}"
+			tabindex="-1"
+			@click.self="cancel(false)" />
+		<div
+			v-if="showPopover"
+			class="event-popover"
+			role="dialog"
+			aria-modal="true"
+			:aria-label="t('calendar', 'Simple event editor')"
+			:style="{
+				...popoverStyle,
+				pointerEvents: popoverReady ? 'auto' : 'none',
+				visibility: popoverReady ? 'visible' : 'hidden',
+			}">
+			<div class="event-popover__inner edit-simple">
+				<template v-if="isLoading && !isSaving">
+					<div class="event-popover__loading">
+						<div class="icon icon-loading event-popover__loading-icon" />
+					</div>
 				</template>
-			</EmptyContent>
-		</template>
 
-		<template v-else>
-			<div class="event-popover__top-right-actions">
-				<Actions v-if="isReadOnly">
-					<ActionButton
-						icon="icon-fullscreen"
-						@click="showMore">
-						{{ $t('calendar', 'Show more details') }}
-					</ActionButton>
-				</Actions>
-				<Actions>
-					<ActionButton
-						icon="icon-close"
-						@click="cancel">
-						{{ $t('calendar', 'Close') }}
-					</ActionButton>
-				</Actions>
+				<template v-else-if="isError">
+					<div class="event-popover__top-actions">
+						<Actions>
+							<ActionButton @click="cancel(false)">
+								<template #icon>
+									<Close :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Close') }}
+							</ActionButton>
+						</Actions>
+					</div>
+
+					<EmptyContent :name="$t('calendar', 'Event does not exist')" :description="error">
+						<template #icon>
+							<CalendarBlank :size="20" decorative />
+						</template>
+					</EmptyContent>
+				</template>
+
+				<template v-else-if="calendarObjectInstance">
+					<div class="event-popover__top-actions">
+						<NcPopover v-if="isViewedByOrganizer === false" :noFocusTrap="true">
+							<template #trigger>
+								<NcButton variant="tertiary-no-background">
+									<template #icon>
+										<HelpCircleIcon :size="20" />
+									</template>
+								</NcButton>
+							</template>
+							<template #default>
+								<p class="warning-text">
+									{{ $t('calendar', 'Modifications will not get propagated to the organizer and other attendees') }}
+								</p>
+							</template>
+						</NcPopover>
+						<Actions v-if="!isLoading && !isError && !isNew" :forceMenu="true">
+							<ActionButton v-if="eventLink" @click="copyEventLink()">
+								<template #icon>
+									<ContentCopy :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Copy link') }}
+							</ActionButton>
+							<ActionLink
+								v-if="!hideEventExport && hasDownloadURL"
+								:href="downloadURL">
+								<template #icon>
+									<Download :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Export') }}
+							</ActionLink>
+							<ActionButton v-if="canDuplicate" @click="duplicateEvent()">
+								<template #icon>
+									<ContentDuplicate :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Duplicate') }}
+							</ActionButton>
+							<ActionButton v-if="canDelete && !canCreateRecurrenceException" @click="deleteAndLeave(false)">
+								<template #icon>
+									<Delete :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Delete') }}
+							</ActionButton>
+							<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(false)">
+								<template #icon>
+									<Delete :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Delete this occurrence') }}
+							</ActionButton>
+							<NcActionSeparator v-if="canDelete && canCreateRecurrenceException" />
+							<ActionButton v-if="canDelete && canCreateRecurrenceException" @click="deleteAndLeave(true)">
+								<template #icon>
+									<Delete :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Delete this and all future') }}
+							</ActionButton>
+						</Actions>
+						<Actions>
+							<ActionButton @click="cancel(false)">
+								<template #icon>
+									<Close :size="20" decorative />
+								</template>
+								{{ $t('calendar', 'Close') }}
+							</ActionButton>
+						</Actions>
+					</div>
+
+					<!-- Header -->
+					<div class="event-popover__header">
+						<CalendarPickerHeader
+							:value="selectedCalendar"
+							:calendars="calendars"
+							:isReadOnly="isReadOnlyOrViewing || !canModifyCalendar"
+							:isViewedByAttendee="isViewedByOrganizer === false"
+							@update:value="changeCalendar" />
+
+						<PropertyTitle
+							:value="titleOrPlaceholder"
+							:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
+							:isCancelled="isCancelled"
+							@update:value="updateTitle" />
+
+						<div v-if="isCancelled" class="event-popover__cancelled">
+							{{ $t('calendar', 'This event was cancelled') }}
+						</div>
+					</div>
+
+					<!-- Content -->
+					<div class="event-popover__content">
+						<PropertyTitleTimePicker
+							:startDate="startDate"
+							:startTimezone="startTimezone"
+							:endDate="endDate"
+							:endTimezone="endTimezone"
+							:isAllDay="isAllDay"
+							:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
+							:canModifyAllDay="canModifyAllDay"
+							:userTimezone="currentUserTimezone"
+							:wrap="true"
+							@updateStartDate="updateStartDate"
+							@updateStartTime="updateStartTime"
+							@updateStartTimezone="updateStartTimezone"
+							@updateEndDate="updateEndDate"
+							@updateEndTime="updateEndTime"
+							@updateEndTimezone="updateEndTimezone"
+							@toggleAllDay="toggleAllDay" />
+
+						<div v-if="!isReadOnlyOrViewing" class="event-popover__all-day">
+							<NcCheckboxRadioSwitch
+								:modelValue="isAllDay"
+								:disabled="isViewedByOrganizer === false || isReadOnlyOrViewing || !canModifyAllDay"
+								@update:modelValue="toggleAllDayPreliminary">
+								{{ $t('calendar', 'All day') }}
+							</NcCheckboxRadioSwitch>
+						</div>
+						<div class="event-popover__location-row">
+							<PropertyText
+								:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
+								:propModel="rfcProps.location"
+								:value="location"
+								:linkifyLinks="true"
+								@update:value="updateLocation" />
+							<NcButton
+								v-if="isCreateTalkRoomButtonVisible && !isReadOnlyOrViewing"
+								variant="secondary"
+								:disabled="isCreateTalkRoomButtonDisabled"
+								:ariaLabel="t('calendar', 'Add Talk conversation')"
+								:title="t('calendar', 'Add Talk conversation')"
+								@click="openTalkModal">
+								<template #icon>
+									<IconVideo :size="20" />
+								</template>
+							</NcButton>
+						</div>
+						<AddTalkModal
+							v-if="isTalkModalOpen"
+							:delegatorUserId="delegatorUserId"
+							@close="isTalkModalOpen = false"
+							@updateLocation="updateLocation"
+							@updateDescription="updateDescription" />
+
+						<PropertyText
+							:isReadOnly="isReadOnlyOrViewing"
+							:propModel="rfcProps.description"
+							:value="description"
+							:linkifyLinks="true"
+							:isDescription="true"
+							@update:value="updateDescription" />
+
+						<InviteesList
+							v-if="!isViewing || (isViewing && hasAttendees)"
+							class="event-popover__invitees"
+							:hideButtons="true"
+							:hideErrors="true"
+							:showHeader="true"
+							:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
+							:isSharedWithMe="isSharedWithMe"
+							:calendar="selectedCalendar" />
+
+						<InvitationResponseButtons
+							v-if="isViewedByAttendee && isViewing"
+							class="event-popover__response-buttons"
+							:attendee="userAsAttendee"
+							:calendarId="calendarId"
+							@close="closeEditorAndSkipAction" />
+
+						<div v-if="isReadOnlyOrViewing && hasAlarms" class="property-alarm-wrapper">
+							<Bell :size="20" class="property-alarm-icon" />
+							<AlarmList
+								:isReadOnly="isReadOnlyOrViewing" />
+						</div>
+					</div>
+
+					<!-- Footer -->
+					<div class="event-popover__footer">
+						<SaveButtons
+							v-if="!isWidget"
+							class="event-popover__buttons"
+							:canCreateRecurrenceException="canCreateRecurrenceException"
+							:isNew="isNew"
+							:isReadOnly="isReadOnlyOrViewing"
+							:forceThisAndAllFuture="forceThisAndAllFuture"
+							:showMoreButton="true"
+							:moreButtonType="isViewing ? 'tertiary' : undefined"
+							:disabled="isSaving"
+							@saveThisOnly="saveAndView(false)"
+							@saveThisAndAllFuture="saveAndView(true)"
+							@showMore="showMore">
+							<NcButton
+								v-if="!isReadOnly && isViewing"
+								:variant="isViewedByAttendee ? 'tertiary' : undefined"
+								@click="isViewing = false">
+								<template #icon>
+									<EditIcon :size="20" />
+								</template>
+								{{ $t('calendar', 'Edit') }}
+							</NcButton>
+						</SaveButtons>
+					</div>
+				</template>
 			</div>
-
-			<IllustrationHeader
-				:color="illustrationColor"
-				:illustration-url="backgroundImage" />
-
-			<PropertyTitle
-				:value="title"
-				:is-read-only="isReadOnly"
-				@update:value="updateTitle" />
-
-			<PropertyCalendarPicker
-				v-if="showCalendarPicker"
-				:calendars="calendars"
-				:calendar="selectedCalendar"
-				:is-read-only="isReadOnly"
-				@selectCalendar="changeCalendar" />
-
-			<PropertyTitleTimePicker
-				:start-date="startDate"
-				:start-timezone="startTimezone"
-				:end-date="endDate"
-				:end-timezone="endTimezone"
-				:is-all-day="isAllDay"
-				:is-read-only="isReadOnly"
-				:can-modify-all-day="canModifyAllDay"
-				:user-timezone="currentUserTimezone"
-				@updateStartDate="updateStartDate"
-				@updateStartTimezone="updateStartTimezone"
-				@updateEndDate="updateEndDate"
-				@updateEndTimezone="updateEndTimezone"
-				@toggleAllDay="toggleAllDay" />
-
-			<PropertyText
-				v-if="hasLocation"
-				:is-read-only="isReadOnly"
-				:prop-model="rfcProps.location"
-				:value="location"
-				@update:value="updateLocation" />
-			<PropertyText
-				v-if="hasDescription"
-				:is-read-only="isReadOnly"
-				:prop-model="rfcProps.description"
-				:value="description"
-				@update:value="updateDescription" />
-
-			<SaveButtons
-				v-if="!isReadOnly"
-				class="event-popover__buttons"
-				:can-create-recurrence-exception="canCreateRecurrenceException"
-				:is-new="isNew"
-				:force-this-and-all-future="forceThisAndAllFuture"
-				:show-more-button="true"
-				@saveThisOnly="saveAndLeave(false)"
-				@saveThisAndAllFuture="saveAndLeave(true)"
-				@showMore="showMore" />
-		</template>
-	</Popover>
+		</div>
+		<NcDialog
+			:open="showCancelDialog"
+			class="cancel-confirmation-dialog"
+			:name="t('calendar', 'Discard changes?')"
+			:message="t('calendar', 'Are you sure you want to discard the changes made to this event?')"
+			:buttons="cancelButtons"
+			@update:open="showCancelDialog = $event" />
+	</div>
 </template>
+
 <script>
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import EmptyContent from '@nextcloud/vue/dist/Components/EmptyContent'
-import Popover from '@nextcloud/vue/dist/Components/Popover'
-import EditorMixin from '../mixins/EditorMixin'
-import IllustrationHeader from '../components/Editor/IllustrationHeader.vue'
-import PropertyTitle from '../components/Editor/Properties/PropertyTitle.vue'
-import PropertyTitleTimePicker from '../components/Editor/Properties/PropertyTitleTimePicker.vue'
-import PropertyCalendarPicker from '../components/Editor/Properties/PropertyCalendarPicker.vue'
-import PropertyText from '../components/Editor/Properties/PropertyText.vue'
-import SaveButtons from '../components/Editor/SaveButtons.vue'
-import PopoverLoadingIndicator from '../components/Popover/PopoverLoadingIndicator.vue'
-import { getPrefixedRoute } from '../utils/router.js'
+import IconCancel from '@mdi/svg/svg/cancel.svg?raw'
+import IconDelete from '@mdi/svg/svg/delete.svg?raw'
+import {
+	NcActionButton as ActionButton,
+	NcActionLink as ActionLink,
+	NcActions as Actions,
+	NcEmptyContent as EmptyContent,
+	NcActionSeparator,
+	NcButton,
+	NcCheckboxRadioSwitch,
+	NcDialog,
+	NcPopover,
+} from '@nextcloud/vue'
+import { mapState, mapStores } from 'pinia'
+import Bell from 'vue-material-design-icons/BellOutline.vue'
+import CalendarBlank from 'vue-material-design-icons/CalendarBlankOutline.vue'
+import Close from 'vue-material-design-icons/Close.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
+import ContentDuplicate from 'vue-material-design-icons/ContentDuplicate.vue'
+import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
+import EditIcon from 'vue-material-design-icons/PencilOutline.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
+import Download from 'vue-material-design-icons/TrayArrowDown.vue'
+import IconVideo from 'vue-material-design-icons/VideoOutline.vue'
+import AddTalkModal from '@/components/Editor/AddTalkModal.vue'
+import AlarmList from '@/components/Editor/Alarm/AlarmList.vue'
+import CalendarPickerHeader from '@/components/Editor/CalendarPickerHeader.vue'
+import InvitationResponseButtons
+	from '@/components/Editor/InvitationResponseButtons.vue'
+import InviteesList from '@/components/Editor/Invitees/InviteesList.vue'
+import PropertyText from '@/components/Editor/Properties/PropertyText.vue'
+import PropertyTitle from '@/components/Editor/Properties/PropertyTitle.vue'
+import PropertyTitleTimePicker
+	from '@/components/Editor/Properties/PropertyTitleTimePicker.vue'
+import SaveButtons from '@/components/Editor/SaveButtons.vue'
+import EditorMixin from '@/mixins/EditorMixin.js'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import useSettingsStore from '@/store/settings.js'
+import useWidgetStore from '@/store/widget.js'
+import logger from '@/utils/logger.js'
+import { getPrefixedRoute } from '@/utils/router.js'
 
 export default {
 	name: 'EditSimple',
 	components: {
-		PopoverLoadingIndicator,
+		NcCheckboxRadioSwitch,
 		SaveButtons,
 		PropertyText,
-		PropertyCalendarPicker,
 		PropertyTitleTimePicker,
 		PropertyTitle,
-		IllustrationHeader,
-		Popover,
+		NcPopover,
 		Actions,
 		ActionButton,
+		ActionLink,
+		NcActionSeparator,
+		AlarmList,
+		Bell,
 		EmptyContent,
+		CalendarBlank,
+		Close,
+		Download,
+		ContentDuplicate,
+		ContentCopy,
+		Delete,
+		InvitationResponseButtons,
+		CalendarPickerHeader,
+		InviteesList,
+		NcButton,
+		EditIcon,
+		HelpCircleIcon,
+		NcDialog,
+		AddTalkModal,
+		IconVideo,
 	},
+
 	mixins: [
 		EditorMixin,
 	],
+
+	props: {
+		dark: {
+			type: Boolean,
+			default: false,
+		},
+
+		lightBackdrop: {
+			type: Boolean,
+			default: false,
+		},
+	},
+
 	data() {
 		return {
-			placement: 'auto',
 			hasLocation: false,
 			hasDescription: false,
-			boundaryElement: document.querySelector('#app-content > .fc'),
+			hasAttendees: false,
+			hasAlarms: false,
+			boundaryElement: null,
+			isVisible: true,
+			isViewing: true,
+			isCancelled: false,
+			closeMask: false,
+			showCancelDialog: false,
+			cancelButtons: [
+				{
+					label: t('calendar', 'Discard'),
+					variant: 'secondary',
+					icon: IconDelete,
+					callback: () => { this.cancel(true) },
+				},
+				{
+					label: t('calendar', 'Cancel'),
+					variant: 'primary',
+					icon: IconCancel,
+					callback: () => { this.closeCancelDialog() },
+				},
+			],
+
+			popoverStyle: {},
+			popoverReady: false,
+			resizeTimeout: null,
+			popoverResizeObserver: null,
+			lastTargetElement: null,
 		}
 	},
-	watch: {
-		eventComponent() {
-			const isNew = this.$route.name === 'NewPopoverView'
-			this.$refs.popover
-				.$children[0]
-				.$refs.trigger = this.getDomElementForPopover(isNew, this.$route)
-			this.$refs.popover
-				.$children[0]
-				.$_restartPopper()
+
+	computed: {
+		...mapStores(useCalendarObjectInstanceStore),
+		...mapState(useSettingsStore, ['hideEventExport']),
+		...mapState(useWidgetStore, [
+			'hideEventExport',
+			'widgetEventDetailsOpen',
+			'widgetEventDetails',
+			'widgetRef',
+		]),
+
+		showPopover() {
+			return this.isVisible || this.widgetEventDetailsOpen
 		},
+
+		/**
+		 * Returns true if the current event is read only or the user is viewing the event
+		 *
+		 * @return {boolean}
+		 */
+		isReadOnlyOrViewing() {
+			return this.isReadOnly || this.isViewing || this.isWidget
+		},
+
+		/**
+		 * Return the event's title or a placeholder if it is empty
+		 *
+		 * @return {string}
+		 */
+		titleOrPlaceholder() {
+			if (this.title === '' && this.isReadOnlyOrViewing && !this.isLoading) {
+				return t('calendar', 'Untitled event')
+			}
+
+			return this.title
+		},
+	},
+
+	watch: {
+		$route(to, from) {
+			// Hide popover when changing the view until the user selects a slot again
+			this.isVisible = to?.params.view === from?.params.view
+			if (this.isVisible) {
+				this.$nextTick(() => {
+					this.repositionPopover()
+				})
+			}
+		},
+
+		showPopover(newVal) {
+			if (!newVal) {
+				this.popoverReady = false
+			} else {
+				this.$nextTick(() => {
+					this.ensureElInDom()
+				})
+			}
+		},
+
 		calendarObjectInstance() {
 			this.hasLocation = false
 			this.hasDescription = false
+			this.hasAttendees = false
+			this.hasAlarms = false
+			this.isCancelled = false
 
-			if (typeof this.calendarObjectInstance.location === 'string' && this.calendarObjectInstance.location.trim() !== '') {
-				this.hasLocation = true
+			if (this.calendarObjectInstance) {
+				if (typeof this.calendarObjectInstance.location === 'string' && this.calendarObjectInstance.location.trim() !== '') {
+					this.hasLocation = true
+				}
+				if (typeof this.calendarObjectInstance.description === 'string' && this.calendarObjectInstance.description.trim() !== '') {
+					this.hasDescription = true
+				}
+				if (Array.isArray(this.calendarObjectInstance.attendees) && this.calendarObjectInstance.attendees.length > 0) {
+					this.hasAttendees = true
+				}
+				if (Array.isArray(this.calendarObjectInstance.alarms) && this.calendarObjectInstance.alarms.length > 0) {
+					this.hasAlarms = true
+				}
+				if (this.calendarObjectInstance.status === 'CANCELLED') {
+					this.isCancelled = true
+				}
+
+				// Reposition after content changes
+				this.$nextTick(() => {
+					this.repositionPopover()
+				})
 			}
-			if (typeof this.calendarObjectInstance.description === 'string' && this.calendarObjectInstance.description.trim() !== '') {
-				this.hasDescription = true
+		},
+
+		isNew: {
+			immediate: true,
+			handler(isNew) {
+				// New events should be editable from the start
+				this.isViewing = !isNew
+			},
+		},
+
+		isViewing() {
+			// Hide while repositioning so the size change is not animated.
+			this.popoverReady = false
+			this.$nextTick(() => {
+				this.repositionPopover(true)
+			})
+		},
+
+		isLoading(newVal) {
+			// When loading completes, hide and reposition to fit the full content.
+			if (newVal === false) {
+				this.popoverReady = false
+				this.$nextTick(() => {
+					this.repositionPopover(true)
+				})
 			}
 		},
 	},
-	mounted() {
+
+	async mounted() {
 		this.$nextTick(() => {
-			const isNew = this.$route.name === 'NewPopoverView'
+			this.ensureElInDom()
+		})
+		if (this.isWidget) {
+			const objectId = this.widgetEventDetails.object
+			const recurrenceId = this.widgetEventDetails.recurrenceId
+			await this.calendarObjectInstanceStore.getCalendarObjectInstanceByObjectIdAndRecurrenceId({ objectId, recurrenceId })
+			this.calendarId = this.calendarObject.calendarId
+			this.isLoading = false
+		}
+		this.boundaryElement = document.querySelector('.calendar-wrapper')
+		window.addEventListener('keydown', this.keyboardCloseEditor)
+		window.addEventListener('keydown', this.keyboardSaveEvent)
+		window.addEventListener('keydown', this.keyboardDeleteEvent)
+		window.addEventListener('keydown', this.keyboardDuplicateEvent)
+		window.addEventListener('resize', this.handleResize)
 
-			// TODO: test beforeRouteUpdate
+		this.$nextTick(() => {
+			this.repositionPopover()
 
-			// V3 of V-Tooltip will have a prop to define the reference element for popper.js
-			// For now we have to stick to this ugly hack
-			// https://github.com/Akryum/v-tooltip/issues/60
-			this.$refs.popover
-				.$children[0]
-				.$refs.trigger = this.getDomElementForPopover(isNew, this.$route)
-			this.isVisible = true
+			// Set up ResizeObserver to check if popover went out of bounds when content changes
+			const popoverEl = this.$el.querySelector('.event-popover')
+			if (popoverEl && 'ResizeObserver' in window) {
+				this.popoverResizeObserver = new ResizeObserver(() => {
+					// Debounce the resize events
+					if (this.resizeTimeout) {
+						clearTimeout(this.resizeTimeout)
+					}
+					// Reposition when content size changes
+					this.repositionPopover(true)
+				})
+				this.popoverResizeObserver.observe(popoverEl)
+			}
 		})
 	},
+
+	updated() {
+		this.ensureElInDom()
+	},
+
+	beforeUnmount() {
+		window.removeEventListener('keydown', this.keyboardCloseEditor)
+		window.removeEventListener('keydown', this.keyboardSaveEvent)
+		window.removeEventListener('keydown', this.keyboardDeleteEvent)
+		window.removeEventListener('keydown', this.keyboardDuplicateEvent)
+		window.removeEventListener('resize', this.handleResize)
+
+		// Clean up resize timeout
+		if (this.resizeTimeout) {
+			clearTimeout(this.resizeTimeout)
+		}
+
+		// Clean up ResizeObserver
+		if (this.popoverResizeObserver) {
+			this.popoverResizeObserver.disconnect()
+		}
+	},
+
 	methods: {
+		ensureElInDom() {
+			if (!this.$el) {
+				return
+			}
+			// Append directly to document.body so that position:fixed works relative
+			// to the viewport. NcContent can have backdrop-filter applied (when a
+			// background image is set), which turns it into a containing block for
+			// fixed descendants and clips them via overflow:hidden — cutting off the
+			// footer / save-button row.
+			if (this.$el.parentElement === document.body) {
+				return
+			}
+			document.body.appendChild(this.$el)
+		},
+
+		handleResize() {
+			// Debounce resize events
+			if (this.resizeTimeout) {
+				clearTimeout(this.resizeTimeout)
+			}
+			this.resizeTimeout = setTimeout(() => {
+				this.repositionPopover(true)
+			}, 25)
+		},
+
 		showMore() {
 			// Do not save yet
 			this.requiresActionOnRouteLeave = false
+			this.showMask = false
+			this.isVisible = false
 
-			const params = Object.assign({}, this.$route.params)
-			if (this.$route.name === 'NewPopoverView') {
-				this.$router.push({ name: 'NewSidebarView', params })
+			const params = { ...this.$route.params }
+			if (this.isNew) {
+				this.$router.push({ name: 'NewFullView', params })
 			} else {
 				this.$router.push({
-					name: getPrefixedRoute(this.$route.name, 'EditSidebarView'),
+					name: getPrefixedRoute(this.$route.name, 'EditFullView'),
 					params,
 				})
 			}
 		},
+
 		getDomElementForPopover(isNew, route) {
 			let matchingDomObject
+			if (this.isWidget) {
+				const objectId = this.widgetEventDetails.object
+				const recurrenceId = this.widgetEventDetails.recurrenceId
 
-			if (isNew) {
+				matchingDomObject = this.widgetRef.querySelector(`.fc-event[data-object-id="${objectId}"][data-recurrence-id="${recurrenceId}"]`)
+			} else if (isNew) {
 				matchingDomObject = document.querySelector('.fc-highlight')
-				this.placement = 'auto'
 
 				if (!matchingDomObject) {
-					matchingDomObject = document.querySelector(`.fc-event[data-is-new="yes"]`)
+					matchingDomObject = document.querySelector('.fc-event[data-is-new="yes"]')
 				}
 			} else {
 				const objectId = route.params.object
 				const recurrenceId = route.params.recurrenceId
 
 				matchingDomObject = document.querySelector(`.fc-event[data-object-id="${objectId}"][data-recurrence-id="${recurrenceId}"]`)
-				this.placement = 'auto'
 			}
 
 			if (!matchingDomObject) {
-				matchingDomObject = document.querySelector('#app-navigation')
-				this.placement = 'right'
+				matchingDomObject = document.querySelector('#app-navigation-vue')
 			}
 
 			if (!matchingDomObject) {
 				matchingDomObject = document.querySelector('body')
-				this.placement = 'auto'
 			}
 
 			return matchingDomObject
 		},
-	},
-	beforeRouteUpdate(to, from, next) {
-		const isNew = to.name === 'NewPopoverView'
-		this.$refs.popover
-			.$children[0]
-			.$refs.trigger = this.getDomElementForPopover(isNew, to)
-		this.$refs.popover
-			.$children[0]
-			.$_restartPopper()
 
-		next()
+		repositionPopover(force = false) {
+			const isNew = this.isWidget ? false : this.$route.name === 'NewPopoverView'
+			const targetElement = this.getDomElementForPopover(isNew, this.$route)
+
+			if (!targetElement) {
+				logger.warn('[calendar] EditSimple: No target element found for popover')
+				return
+			}
+
+			// Skip if target hasn't changed, unless forced
+			if (!force && targetElement === this.lastTargetElement) {
+				return
+			}
+
+			this.lastTargetElement = targetElement
+
+			this.$nextTick(() => {
+				this.calculateAndApplyPosition(targetElement)
+			})
+		},
+
+		/**
+		 * Calculate the popover position based on target element
+		 *
+		 * @param {Element} targetElement The element to position the popover relative to
+		 */
+		calculateAndApplyPosition(targetElement) {
+			const SPACING = 16
+			// In Vue 3, this.$el might be a comment node, so we need to check if querySelector exists
+			let existingPopover
+			if (this.$el && typeof this.$el.querySelector === 'function') {
+				existingPopover = this.$el.querySelector('.event-popover')
+			} else {
+				// Fallback: search in the document
+				existingPopover = document.querySelector('.event-popover')
+			}
+
+			const innerEl = this.$el?.querySelector?.('.event-popover__inner.edit-simple')
+				?? document.querySelector('.event-popover__inner.edit-simple')
+
+			// When repositioning while hidden, clear any stale maxHeight constraints so
+			// offsetHeight reflects the natural content height, not a previous estimate.
+			// Without this, the loading-spinner height locks in a maxHeight that is too
+			// small for the fully loaded content, causing an unwanted scrollbar.
+			if (!this.popoverReady) {
+				if (existingPopover) {
+					existingPopover.style.maxHeight = ''
+				}
+				if (innerEl) {
+					innerEl.style.maxHeight = ''
+				}
+			}
+
+			// Get current popover element dimensions (reading offsetHeight forces a reflow)
+			const naturalHeight = existingPopover?.offsetHeight || 0
+			const estimatedHeight = Math.max(naturalHeight, 200)
+			const estimatedWidth = Math.max(existingPopover?.offsetWidth || 0, 460)
+
+			// Get rectangles
+			const targetRect = targetElement.getBoundingClientRect()
+			const boundaryRect = this.boundaryElement?.getBoundingClientRect() || {
+				top: 0,
+				left: 0,
+				right: window.innerWidth,
+				bottom: window.innerHeight,
+			}
+
+			// Detect if target element is a fallback (body or navigation) - meaning the actual event element doesn't exist yet
+			const isTargetFallback = targetElement === document.body || targetElement.id === 'app-navigation-vue'
+
+			// Detect if target element spans most of the boundary width (like all-week or single day view events)
+			const boundaryWidth = boundaryRect.right - boundaryRect.left
+			const boundaryHeight = boundaryRect.bottom - boundaryRect.top
+			const targetWidth = targetRect.right - targetRect.left
+			const isFullWidthElement = targetWidth > boundaryWidth * 0.7
+
+			// Calculate available space in all directions
+			const spaceBelow = boundaryRect.bottom - targetRect.bottom - SPACING
+			const spaceAbove = targetRect.top - boundaryRect.top - SPACING
+			const spaceRight = boundaryRect.right - targetRect.right - SPACING
+			const spaceLeft = targetRect.left - boundaryRect.left - SPACING
+
+			let top
+			let left
+
+			// If target element doesn't exist yet (fallback element), center in boundary
+			if (isTargetFallback) {
+				top = boundaryRect.top + (boundaryHeight - estimatedHeight) / 2
+				left = boundaryRect.left + (boundaryWidth - estimatedWidth) / 2
+			} else {
+				// Determine best positioning strategy
+				const canFitRight = spaceRight >= estimatedWidth
+				const canFitLeft = spaceLeft >= estimatedWidth
+				const canFitBelow = spaceBelow >= estimatedHeight
+				const canFitAbove = spaceAbove >= estimatedHeight
+
+				if (canFitRight) {
+					// Position to the right
+					top = targetRect.top
+					left = targetRect.right + SPACING
+				} else if (canFitLeft) {
+					// Position to the left
+					top = targetRect.top
+					left = targetRect.left - estimatedWidth - SPACING
+				} else if (canFitBelow) {
+					// Position below
+					top = targetRect.bottom + SPACING
+					// If target spans full width, center popover horizontally
+					left = isFullWidthElement ? boundaryRect.left + (boundaryWidth - estimatedWidth) / 2 : targetRect.left
+				} else if (canFitAbove) {
+					// Position above
+					top = targetRect.top - estimatedHeight - SPACING
+					// If target spans full width, center popover horizontally
+					left = isFullWidthElement ? boundaryRect.left + (boundaryWidth - estimatedWidth) / 2 : targetRect.left
+				} else {
+					// Can't fit anywhere perfectly - use best available space
+					if (spaceRight > spaceLeft && spaceRight > spaceBelow && spaceRight > spaceAbove) {
+						top = targetRect.top
+						left = targetRect.right + SPACING
+					} else if (spaceLeft > spaceBelow && spaceLeft > spaceAbove) {
+						top = targetRect.top
+						left = targetRect.left - estimatedWidth - SPACING
+					} else if (spaceBelow > spaceAbove) {
+						top = targetRect.bottom + SPACING
+						// If target spans full width, center popover horizontally
+						left = isFullWidthElement ? boundaryRect.left + (boundaryWidth - estimatedWidth) / 2 : targetRect.left
+					} else {
+						top = targetRect.top - estimatedHeight - SPACING
+						// If target spans full width, center popover horizontally
+						left = isFullWidthElement ? boundaryRect.left + (boundaryWidth - estimatedWidth) / 2 : targetRect.left
+					}
+				}
+			}
+
+			// Keep horizontal position within bounds
+			if (left + estimatedWidth > boundaryRect.right - SPACING) {
+				left = boundaryRect.right - estimatedWidth - SPACING
+			}
+			if (left < boundaryRect.left + SPACING) {
+				left = boundaryRect.left + SPACING
+			}
+
+			// Keep vertical position within bounds, using viewport height as the
+			// hard ceiling so the popover is never positioned below the screen.
+			const viewportHeight = window.innerHeight
+			const effectiveBottom = Math.min(boundaryRect.bottom, viewportHeight)
+			if (top + estimatedHeight > effectiveBottom - SPACING) {
+				top = effectiveBottom - estimatedHeight - SPACING
+			}
+			if (top < boundaryRect.top + SPACING) {
+				top = boundaryRect.top + SPACING
+			}
+
+			// Calculate maxHeight in pixels so it is consistent with the JS
+			// coordinate system. Leave SPACING clearance at the bottom so the
+			// footer/save-button row is never flush against the viewport edge.
+			const maxH = Math.max(
+				Math.min(Math.floor(viewportHeight * 0.9), viewportHeight - top - SPACING),
+				200, // absolute minimum so loading spinner is still visible
+			)
+
+			// Apply the full style (position + size) while the popover is hidden.
+			this.popoverStyle = {
+				position: 'fixed',
+				top: `${top}px`,
+				left: `${left}px`,
+				zIndex: 9999,
+				maxWidth: '100vw',
+				maxHeight: `${maxH}px`,
+			}
+
+			// Always set the inner's maxHeight to the available viewport space.
+			// When content is shorter it has no effect (inner renders at natural height,
+			// no scrollbar). When the user later expands content (adds attendees, toggles
+			// all-day, etc.) the flex layout kicks in: the scrollable content area grows
+			// while the footer stays anchored at the bottom.
+			if (innerEl) {
+				innerEl.style.maxHeight = `${maxH}px`
+			}
+
+			// Show the popover only after the final layout is committed.
+			setTimeout(() => {
+				this.popoverReady = true
+			}, 25)
+		},
+
+		/**
+		 * Save changes and leave when creating a new event or return to viewing mode when editing
+		 * an existing event. Stay in editing mode if an error occurrs.
+		 *
+		 * @param {boolean} thisAndAllFuture Modify this and all future events
+		 * @return {Promise<void>}
+		 */
+		async saveAndView(thisAndAllFuture) {
+			// Transitioning from new to edit routes is not implemented for now
+			if (this.isNew) {
+				await this.saveAndLeave(thisAndAllFuture)
+				return
+			}
+
+			this.isViewing = true
+			try {
+				await this.save(thisAndAllFuture)
+				this.requiresActionOnRouteLeave = false
+			} catch (error) {
+				logger.error('Failed to save event, reverting to edit mode', { error })
+				this.isViewing = false
+			}
+		},
+
+		/**
+		 * Toggles the all-day state of an event
+		 */
+		toggleAllDayPreliminary() {
+			if (!this.canModifyAllDay) {
+				return
+			}
+
+			this.toggleAllDay()
+		},
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.modal-mask {
+	position: fixed;
+	z-index: 9998;
+	//the height of header
+	top: 50px;
+	inset-inline-start: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	--backdrop-color: 0, 0, 0;
+	background-color: rgba(var(--backdrop-color), .5);
+	&--opaque {
+		background-color: rgba(var(--backdrop-color), .92);
+	}
+	&--light {
+		--backdrop-color: 255, 255, 255;
+	}
+}
+
+.cancel-confirmation-dialog {
+	z-index: 1000000 !important;
+}
+
+.event-popover {
+	position: fixed;
+	width: calc(var(--default-grid-baseline) * 120);
+	max-width: calc(var(--default-grid-baseline) * 120);
+	max-height: 90vh;
+	overflow: hidden;
+	background: var(--color-main-background);
+	box-shadow: 0 4px 20px rgba(0, 0, 0, .8);
+	border: 1px solid var(--color-border);
+	border-radius: var(--border-radius-large);
+}
+
+.event-popover .event-popover__inner {
+	display: flex;
+	flex-direction: column;
+	max-height: 90vh;
+	box-sizing: border-box;
+	padding-inline-start: calc(var(--default-grid-baseline) * 4);
+	padding-inline-end: calc(var(--default-grid-baseline) * 2);
+	padding-top: calc(var(--default-grid-baseline) * 2);
+	padding-bottom: calc(var(--default-grid-baseline) * 2);
+
+	.empty-content {
+		margin-top: 0 !important;
+		padding: calc(var(--default-grid-baseline) * 12);
+	}
+
+	.event-popover__header {
+		flex-shrink: 0;
+		padding-inline-end: calc(var(--default-grid-baseline) * 4);
+		padding-bottom: calc(var(--default-grid-baseline) * 2);
+		background: var(--color-main-background);
+
+		:deep(.calendar-picker-header) {
+			margin-inline-start: 0;
+			margin-bottom: calc(var(--default-grid-baseline) * 2);
+		}
+
+		.event-popover__cancelled {
+			opacity: .7;
+		}
+	}
+
+	.event-popover__content {
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+		gap: calc(var(--default-grid-baseline) * 4);
+		padding-inline-end: calc(var(--default-grid-baseline) * 4);
+		overflow-y: auto;
+		overflow-x: hidden;
+		min-height: 0;
+
+		:deep(.property-title-time-picker__time-pickers-from) {
+			margin-inline-start: calc(var(--default-grid-baseline) * 3);
+			padding-inline-end: calc(var(--default-grid-baseline) * 3);
+		}
+
+		:deep(.property-title-time-picker__time-pickers-to) {
+			margin-inline-start: calc(var(--default-grid-baseline) * 3);
+			padding-inline-end: calc(var(--default-grid-baseline) * 3);
+		}
+	}
+
+	.event-popover__footer {
+		flex-shrink: 0;
+		padding-top: calc(var(--default-grid-baseline) * 2);
+		background: var(--color-main-background);
+	}
+	.event-popover__all-day {
+		margin-inline-start: calc(var(--default-grid-baseline) * 11);
+	}
+
+	.event-popover__loading-icon {
+		margin-block: calc(var(--default-grid-baseline) * 10);
+	}
+
+	.event-popover__top-actions {
+		display: flex;
+		gap: var(--default-grid-baseline);
+		position: absolute !important;
+		top: var(--default-grid-baseline) !important;
+		z-index: 100 !important;
+		opacity: .7 !important;
+		align-items: center;
+		inset-inline-end : var(--default-grid-baseline) !important;
+		.action-item.action-item--single {
+			width: 44px !important;
+			height: 44px !important;
+		}
+	}
+}
+
+.property-alarm-wrapper {
+	display: flex;
+	align-items: center;
+
+	// In the simple popover there is no label column to align with, so strip
+	// the large indent that app-full.scss adds for the full editor layout.
+	:deep(.property-alarm-item__front) {
+		margin-inline-start: calc(var(--default-grid-baseline) * 4);
+	}
+}
+
+.event-popover__location-row {
+	display: flex;
+	align-items: start;
+	gap: var(--default-grid-baseline);
+
+	.property-text {
+		flex: 1;
+		min-width: 0;
+	}
+}
+
+:deep(.checkbox-content__icon) {
+	margin-block: 0 !important;
+}
+</style>

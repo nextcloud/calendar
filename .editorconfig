@@ -1,3 +1,5 @@
+# SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
 root = true
 
 # General
@@ -6,11 +8,14 @@ charset = utf-8
 end_of_line = lf
 insert_final_newline = true
 
-[*.{js,php}]
+[*.{js,mjs,cjs,ts,php,vue,scss}]
 indent_style = tab
 insert_final_newline = true
 
 [Makefile]
+indent_style = tab
+
+[renovate.json]
 indent_style = tab
 
 [*.yml]

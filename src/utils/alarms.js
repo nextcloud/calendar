@@ -1,58 +1,49 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
+import { AttendeeProperty, Property } from '@nextcloud/calendar-js'
+import { translate as t } from '@nextcloud/l10n'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useSettingsStore from '@/store/settings.js'
+import logger from '@/utils/logger.js'
+import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
 
 /**
  * Get the factor for a given unit
  *
- * @param {String} unit The name of the unit to get the factor of
- * @returns {number}
+ * @param {string} unit The name of the unit to get the factor of
+ * @return {number}
  */
 export function getFactorForAlarmUnit(unit) {
 	switch (unit) {
-	case 'seconds':
-		return 1
+		case 'seconds':
+			return 1
 
-	case 'minutes':
-		return 60
+		case 'minutes':
+			return 60
 
-	case 'hours':
-		return 60 * 60
+		case 'hours':
+			return 60 * 60
 
-	case 'days':
-		return 24 * 60 * 60
+		case 'days':
+			return 24 * 60 * 60
 
-	case 'weeks':
-		return 7 * 24 * 60 * 60
+		case 'weeks':
+			return 7 * 24 * 60 * 60
 
-	default:
-		return 1
+		default:
+			return 1
 	}
 }
 
 /**
  * Gets the amount of days / weeks, unit from total seconds
  *
- * @param {Number} totalSeconds Total amount of seconds
- * @returns {{amount: number, unit: string}}
+ * @param {number} totalSeconds Total amount of seconds
+ * @return {{amount: number, unit: string}}
  */
 export function getAmountAndUnitForTimedEvents(totalSeconds) {
 	// Before or after the event is handled somewhere else,
@@ -101,10 +92,10 @@ export function getAmountAndUnitForTimedEvents(totalSeconds) {
 /**
  * Get the total amount of seconds based on amount and unit for timed events
  *
- * @param {Number} amount Amount of unit
- * @param {String} unit Minutes/Hours/Days/Weeks
- * @param {Boolean=} isBefore Whether the reminder is before or after the event
- * @returns {number}
+ * @param {number} amount Amount of unit
+ * @param {string} unit Minutes/Hours/Days/Weeks
+ * @param {boolean=} isBefore Whether the reminder is before or after the event
+ * @return {number}
  */
 export function getTotalSecondsFromAmountAndUnitForTimedEvents(amount, unit, isBefore = true) {
 	return amount * getFactorForAlarmUnit(unit) * (isBefore ? -1 : 1)
@@ -113,8 +104,8 @@ export function getTotalSecondsFromAmountAndUnitForTimedEvents(amount, unit, isB
 /**
  * Gets the amount of days / weeks, unit, hours and minutes from total seconds
  *
- * @param {Number} totalSeconds Total amount of seconds
- * @returns {{amount: *, unit: *, hours: *, minutes: *}}
+ * @param {number} totalSeconds Total amount of seconds
+ * @return {{amount: number, unit: string, hours: number, minutes: number}}
  */
 export function getAmountHoursMinutesAndUnitForAllDayEvents(totalSeconds) {
 	const dayFactor = getFactorForAlarmUnit('days')
@@ -133,7 +124,7 @@ export function getAmountHoursMinutesAndUnitForAllDayEvents(totalSeconds) {
 	}
 
 	let amount = 0
-	let unit = null
+	let unit
 	if (dayPart === 0) {
 		unit = 'days'
 	} else if (dayPart % 7 === 0) {
@@ -168,11 +159,11 @@ export function getAmountHoursMinutesAndUnitForAllDayEvents(totalSeconds) {
 /**
  * Get the total amount of seconds for all-day events
  *
- * @param {Number} amount amount of unit
- * @param {Number} hours Time of reminder
- * @param {Number} minutes Time of reminder
- * @param {String} unit days/weeks
- * @returns {Number}
+ * @param {number} amount amount of unit
+ * @param {number} hours Time of reminder
+ * @param {number} minutes Time of reminder
+ * @param {string} unit days/weeks
+ * @return {number}
  */
 export function getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(amount, hours, minutes, unit) {
 	if (unit === 'weeks') {
@@ -211,4 +202,136 @@ export function getTotalSecondsFromAmountHourMinutesAndUnitForAllDayEvents(amoun
 	}
 
 	return amount
+}
+
+/**
+ * Updates or creates the default alarm for an event.
+ * When no default alarm exists yet, one is only created for newly constructed instances
+ * passed in by the caller.
+ *
+ * @param {string} calendarId The ID of the calendar to update the default alarm from
+ * @param {object} calendarObjectInstance The calendar object instance to update
+ */
+export function updateDefaultAlarm(calendarId, calendarObjectInstance) {
+	const calendarObjectInstanceStore = useCalendarObjectInstanceStore()
+	const calendarsStore = useCalendarsStore()
+	const calendar = calendarsStore.getCalendarById(calendarId)
+
+	if (!calendar || !calendarObjectInstance) {
+		logger.error('Missing calendar or calendar object instance to update default alarm for.')
+		return
+	}
+
+	const defaultReminder = getDefaultReminderForEvent({
+		calendar,
+		isAllDay: calendarObjectInstance.isAllDay,
+	})
+
+	if (defaultReminder === null || isNaN(defaultReminder)) {
+		return
+	}
+
+	// Find the existing default alarm (if any)
+	const existingDefaultAlarm = calendarObjectInstance.alarms.find((alarm) => alarm.alarmComponent.getFirstPropertyFirstValue('X-NC-DEFAULT-ALARM'))
+	if (existingDefaultAlarm) {
+		calendarObjectInstanceStore.removeAlarmFromCalendarObjectInstance({
+			calendarObjectInstance,
+			alarm: existingDefaultAlarm,
+		})
+
+		calendarObjectInstanceStore.addAlarmToCalendarObjectInstance({
+			calendarObjectInstance,
+			type: 'DISPLAY',
+			totalSeconds: defaultReminder,
+			isDefault: true,
+		})
+		return
+	}
+
+	// Only create a missing default alarm for newly constructed event instances.
+	if (calendarObjectInstance !== calendarObjectInstanceStore.calendarObjectInstance) {
+		calendarObjectInstanceStore.addAlarmToCalendarObjectInstance({
+			calendarObjectInstance,
+			type: 'DISPLAY',
+			totalSeconds: defaultReminder,
+			isDefault: true,
+		})
+	}
+}
+
+/**
+ * Resolves the default reminder for an event.
+ * Calendar-specific defaults win, then the global part/full-day defaults,
+ * then the legacy global defaultReminder for backwards compatibility.
+ *
+ * @param {object} data The destructuring object
+ * @param {object|undefined} data.calendar The selected calendar
+ * @param {boolean} data.isAllDay Whether the event is all-day
+ * @return {number|null}
+ */
+export function getDefaultReminderForEvent({ calendar, isAllDay }) {
+	const settingsStore = useSettingsStore()
+
+	if (isAfterVersion(34) && calendar) {
+		if (isAllDay && calendar.dav.defaultAlarmFullDay !== undefined) {
+			return calendar.dav.defaultAlarmFullDay
+		}
+
+		if (!isAllDay && calendar.dav.defaultAlarmPartDay !== undefined) {
+			return calendar.dav.defaultAlarmPartDay
+		}
+	}
+
+	const globalDefaultReminder = parseInt(isAllDay ? settingsStore.defaultReminderFullDay : settingsStore.defaultReminderPartDay)
+	if (!isNaN(globalDefaultReminder)) {
+		return globalDefaultReminder
+	}
+
+	const legacyDefaultReminder = parseInt(settingsStore.defaultReminder)
+	return isNaN(legacyDefaultReminder) ? null : legacyDefaultReminder
+}
+
+/**
+ * Propagate data from an event component to its DISPLAY and EMAIL alarm components.
+ *
+ * https://www.rfc-editor.org/rfc/rfc5545#section-3.6.6
+ *
+ * @param {AbstractRecurringComponent} eventComponent The event component to propagate alarm data for
+ */
+export function updateAlarms(eventComponent) {
+	for (const alarmComponent of eventComponent.getAlarmIterator()) {
+		if (alarmComponent.action !== 'EMAIL' && alarmComponent.action !== 'DISPLAY') {
+			continue
+		}
+
+		if (!alarmComponent.hasProperty('DESCRIPTION')) {
+			const defaultDescription = t('calendar', 'This is an event reminder.')
+			alarmComponent.addProperty(new Property('DESCRIPTION', defaultDescription))
+		}
+
+		// Clear properties that are only valid on EMAIL alarms.
+		alarmComponent.deleteAllProperties('SUMMARY')
+		alarmComponent.deleteAllProperties('ATTENDEE')
+
+		if (alarmComponent.action !== 'EMAIL') {
+			continue
+		}
+
+		const summaryProperty = eventComponent.getFirstProperty('SUMMARY')
+		if (summaryProperty) {
+			alarmComponent.addProperty(summaryProperty.clone())
+		} else {
+			const defaultSummary = t('calendar', 'Untitled event')
+			alarmComponent.addProperty(new Property('SUMMARY', defaultSummary))
+		}
+
+		for (const attendee of eventComponent.getAttendeeIterator()) {
+			if (['RESOURCE', 'ROOM'].includes(attendee.userType)) {
+				continue
+			}
+
+			// Only copy the email address (value) of the attendee
+			alarmComponent.addProperty(new AttendeeProperty('ATTENDEE', attendee.value))
+		}
+	}
 }

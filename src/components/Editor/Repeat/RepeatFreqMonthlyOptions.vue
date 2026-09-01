@@ -1,61 +1,46 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<div class="repeat-option-set repeat-option-set--monthly">
 		<div class="repeat-option-set-section">
-			<ActionRadio
+			<NcCheckboxRadioSwitch
 				class="repeat-option-set-section__title"
+				type="radio"
 				:name="radioInputId"
-				:checked="byMonthDayEnabled"
-				@change="enableByMonthDay">
+				:modelValue="byMonthDayEnabled"
+				@update:modelValue="enableByMonthDay">
 				{{ $t('calendar', 'By day of the month') }}
-			</ActionRadio>
+			</NcCheckboxRadioSwitch>
 			<div class="repeat-option-set-section__grid">
-				<button
+				<NcButton
 					v-for="option in byMonthDayOptions"
 					:key="option.value"
 					class="repeat-option-set-section-grid-item"
-					:class="{ primary: option.selected }"
+					:variant="option.selected ? 'primary' : 'secondary'"
 					:disabled="!byMonthDayEnabled"
 					@click="toggleByMonthDay(option.value)">
 					{{ option.label }}
-				</button>
+				</NcButton>
 			</div>
 		</div>
 		<div class="repeat-option-set-section repeat-option-set-section--on-the-select">
-			<ActionRadio
+			<NcCheckboxRadioSwitch
 				class="repeat-option-set-section__title"
+				type="radio"
 				:name="radioInputId"
-				:checked="!byMonthDayEnabled"
-				@change="enableBySetPosition">
+				:modelValue="!byMonthDayEnabled"
+				@update:modelValue="enableBySetPosition">
 				{{ $t('calendar', 'On the') }}
-			</ActionRadio>
+			</NcCheckboxRadioSwitch>
 			<RepeatFirstLastSelect
-				:by-set-position="bySetPosition"
+				:bySetPosition="bySetPosition"
 				:disabled="byMonthDayEnabled"
 				@change="changeBySetPosition" />
 			<RepeatOnTheSelect
-				:by-day="byDay"
+				:byDay="byDay"
 				:disabled="byMonthDayEnabled"
 				@change="changeByDay" />
 		</div>
@@ -63,43 +48,50 @@
 </template>
 
 <script>
-import RepeatFirstLastSelect from './RepeatFirstLastSelect.vue'
-import RepeatOnTheSelect from './RepeatOnTheSelect.vue'
-import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
+import {
+	NcButton,
+	NcCheckboxRadioSwitch,
+} from '@nextcloud/vue'
+import { useId } from 'vue'
+import RepeatFirstLastSelect from '@/components/Editor/Repeat/RepeatFirstLastSelect.vue'
+import RepeatOnTheSelect from '@/components/Editor/Repeat/RepeatOnTheSelect.vue'
 
 export default {
 	name: 'RepeatFreqMonthlyOptions',
 	components: {
+		NcButton,
+		NcCheckboxRadioSwitch,
 		RepeatOnTheSelect,
 		RepeatFirstLastSelect,
-		ActionRadio,
 	},
+
 	props: {
-		/**
-		 *
-		 */
 		byDay: {
 			type: Array,
 			required: true,
 		},
-		/**
-		 *
-		 */
+
 		byMonthDay: {
 			type: Array,
 			required: true,
 		},
-		/**
-		 *
-		 */
+
 		bySetPosition: {
 			type: Number,
 			default: null,
 		},
 	},
+
+	emits: ['addByMonthDay', 'removeByMonthDay', 'changeToByMonthDay', 'changeToBySetPosition', 'changeByDay', 'changeBySetPosition'],
+
+	setup() {
+		const radioInputId = useId() + '-radio-select'
+		return { radioInputId }
+	},
+
 	computed: {
 		/**
-		 * @returns {Object[]}
+		 * @return {object[]}
 		 */
 		byMonthDayOptions() {
 			const options = []
@@ -107,30 +99,26 @@ export default {
 			for (let i = 1; i <= 31; i++) {
 				options.push({
 					label: i,
-					value: String(i),
-					selected: this.byMonthDay.indexOf(String(i)) !== -1,
+					value: i,
+					selected: this.byMonthDay.indexOf(i) !== -1,
 				})
 			}
 
 			return options
 		},
+
 		/**
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		byMonthDayEnabled() {
 			return this.byMonthDay.length > 0
 		},
-		/**
-		 * @returns {String}
-		 */
-		radioInputId() {
-			return this._uid + '-radio-select'
-		},
 	},
+
 	methods: {
 		/**
 		 *
-		 * @param {String} byMonthDay The month-day to toggle
+		 * @param {string} byMonthDay The month-day to toggle
 		 */
 		toggleByMonthDay(byMonthDay) {
 			if (this.byMonthDay.indexOf(byMonthDay) === -1) {
@@ -141,13 +129,15 @@ export default {
 				}
 			}
 		},
+
 		enableByMonthDay() {
 			if (this.byMonthDayEnabled) {
 				return
 			}
 
-			this.$emit('changeToByDay')
+			this.$emit('changeToByMonthDay')
 		},
+
 		enableBySetPosition() {
 			if (!this.byMonthDayEnabled) {
 				return
@@ -155,9 +145,11 @@ export default {
 
 			this.$emit('changeToBySetPosition')
 		},
+
 		changeByDay(value) {
 			this.$emit('changeByDay', value)
 		},
+
 		changeBySetPosition(value) {
 			this.$emit('changeBySetPosition', value)
 		},

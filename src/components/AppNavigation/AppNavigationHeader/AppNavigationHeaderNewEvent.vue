@@ -1,45 +1,40 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+<script setup lang="ts">
+import { t } from '@nextcloud/l10n'
+import { NcButton } from '@nextcloud/vue'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import Plus from 'vue-material-design-icons/Plus.vue'
+
+const route = useRoute()
+const router = useRouter()
+
+const newEventButtonAriaLabel = computed(() => t('calendar', 'Create new event'))
+
+/**
+ * Opens the new event dialog
+ */
+async function newEvent(): Promise<void> {
+	await router.push(`/new/${route.params.view}`)
+}
+
+useHotKey('c', () => newEvent())
+</script>
 
 <template>
-	<button
-		v-shortkey="['c']"
-		class="button primary new-event"
-		@click="newEvent"
-		@shortkey="newEvent">
-		{{ $t('calendar', '+ New event') }}
-	</button>
+	<NcButton
+		class="new-event"
+		variant="primary"
+		:aria-label="newEventButtonAriaLabel"
+		@click="newEvent">
+		<template #icon>
+			<Plus :size="20" />
+		</template>
+		{{ t('calendar', 'Event') }}
+	</NcButton>
 </template>
-
-<script>
-export default {
-	name: 'AppNavigationHeaderNewEvent',
-	methods: {
-		/**
-		 * Opens the new event dialog
-		 */
-		newEvent() {
-			this.$router.push('/new')
-		},
-	},
-}
-</script>

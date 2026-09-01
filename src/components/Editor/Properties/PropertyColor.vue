@@ -1,31 +1,17 @@
 <!--
-  - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<div class="property-color">
-		<div
+	<div class="property-color" :class="{ 'property-color--readonly': isReadOnly }">
+		<component
+			:is="icon"
+			:size="20"
+			:name="readableName"
 			class="property-color__icon"
-			:class="icon"
-			:title="readableName" />
+			:class="{ 'property-color__icon--hidden': !showIcon }"
+			decorative />
 
 		<div
 			v-if="isReadOnly"
@@ -33,47 +19,57 @@
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div
 				class="property-color__color-preview"
-				:style="{'background-color': selectedColor }" />
+				:style="{ 'background-color': selectedColor }" />
 		</div>
 		<div
 			v-else
 			class="property-color__input">
-			<ColorPicker
-				:value="selectedColor"
-				:open.sync="isColorPickerOpen"
-				@input="changeColor">
-				<button class="property-color__color-preview"
-					:style="{'background-color': selectedColor }" />
-			</ColorPicker>
-			<Actions
-				v-if="showColorRevertButton">
-				<ActionButton
-					icon="icon-history"
-					@click.prevent.stop="deleteColor">
-					{{ $t('calendar', 'Remove color') }}
-				</ActionButton>
-			</Actions>
+			<NcColorPicker
+				v-model="selectedColor"
+				v-model:shown="selectorOpen"
+				:advancedFields="true"
+				@update:modelValue="changeColor">
+				<NcButton
+					class="property-color__color-preview"
+					:style="{ 'background-color': selectedColor }" />
+			</NcColorPicker>
+			<NcButton
+				v-if="!isReadOnly && !!value"
+				variant="tertiary"
+				:arialLabel="$t('calendar', 'Remove color')"
+				@click="deleteColor">
+				<template #icon>
+					<Undo :size="20" decorative />
+				</template>
+			</NcButton>
 		</div>
 	</div>
 </template>
 
 <script>
-import PropertyMixin from '../../../mixins/PropertyMixin'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ColorPicker from '@nextcloud/vue/dist/Components/ColorPicker'
-import debounce from 'debounce'
+import {
+	NcActionButton as ActionButton,
+	NcActions as Actions,
+	NcButton,
+	NcColorPicker,
+} from '@nextcloud/vue'
+import Undo from 'vue-material-design-icons/Undo.vue'
+import PropertyMixin from '@/mixins/PropertyMixin.js'
 
 export default {
 	name: 'PropertyColor',
 	components: {
 		Actions,
 		ActionButton,
-		ColorPicker,
+		NcButton,
+		NcColorPicker,
+		Undo,
 	},
+
 	mixins: [
 		PropertyMixin,
 	],
+
 	props: {
 		/**
 		 * The color of the calendar
@@ -84,62 +80,46 @@ export default {
 			default: null,
 		},
 	},
+
+	emits: ['update:value'],
+
 	data() {
 		return {
-			isColorPickerOpen: false,
+			selectorOpen: false,
+			selectedColor: null,
 		}
 	},
-	computed: {
-		/**
-		 * The selected color is either custom or
-		 * defaults to the color of the calendar
-		 *
-		 * @returns {String}
-		 */
-		selectedColor() {
-			return this.value || this.calendarColor
-		},
-		/**
-		 * Whether or not to show the delete color button
-		 *
-		 * @returns {Boolean}
-		 */
-		showColorRevertButton() {
-			if (this.isReadOnly) {
-				return false
-			}
 
-			return !!this.value
-		},
+	mounted() {
+		this.defaultColor()
 	},
+
 	methods: {
+
+		/**
+		 * Determines the default color to show
+		 */
+		defaultColor() {
+			this.selectedColor = this.value || this.calendarColor
+		},
+
 		/**
 		 * Changes / Sets the custom color of this event
 		 *
-		 * The problem we are facing here is that the
-		 * color-picker component uses normal hex colors,
-		 * but the RFC 7986 property COLOR requires
-		 * css-color-names.
-		 *
-		 * The color-space of css-color-names is smaller
-		 * than the one of hex colors. Hence the color-
-		 * picker (especially in the custom color-picker)
-		 * will jump after the color changed. To prevent
-		 * flickering, we only update the color after the
-		 * user stopped moving the color-picker and not
-		 * immediately.
-		 *
-		 * @param {String} newColor The new Color as HEX
+		 * @param {string} newColor The new Color as HEX
 		 */
-		changeColor: debounce(function(newColor) {
+		changeColor(newColor) {
+			this.selectedColor = newColor
 			this.$emit('update:value', newColor)
-		}, 500),
+		},
+
 		/**
 		 * Removes the custom color from this event,
 		 * defaulting the color back to the calendar-color
 		 */
 		deleteColor() {
 			this.$emit('update:value', null)
+			this.selectedColor = this.calendarColor
 		},
 	},
 }

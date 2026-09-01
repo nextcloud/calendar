@@ -1,40 +1,24 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getColorForFBType } from '../../utils/freebusy.js'
-import { getParserManager } from 'calendar-js'
+import { getParserManager } from '@nextcloud/calendar-js'
 
 /**
  * Converts the response
  *
- * @param {String} uri URI of the resource
- * @param {String} calendarData Calendar-data containing free-busy data
+ * @param {string} uri URI of the resource
+ * @param {string} calendarData Calendar-data containing free-busy data
  * @param {boolean} success Whether or not the free-busy request was successful
- * @param {DateTimeValue} start The start of the fetched time-range
- * @param {DateTimeValue} end The end of the fetched time-range
- * @param {Timezone} timezone Timezone of user viewing data
- * @returns {Object[]}
+ * @param {Date} start The start of the fetched time-range
+ * @param {Date} end The end of the fetched time-range
+ * @param {string} timezone Timezone of user viewing data
+ * @param {string} attendeeName name of the attendee, used as title for the event
+ * @param {boolean} isOrganizer Whether or not the user is the organizer of the event
+ * @return {object[]}
  */
-export default function(uri, calendarData, success, start, end, timezone) {
+export default function(uri, calendarData, success, start, end, timezone, attendeeName = '', isOrganizer = false) {
 	if (!success) {
 		return [{
 			id: Math.random().toString(36).substring(7),
@@ -43,8 +27,8 @@ export default function(uri, calendarData, success, start, end, timezone) {
 			resourceId: uri,
 			display: 'background',
 			allDay: false,
-			backgroundColor: getColorForFBType('UNKNOWN'),
-			borderColor: getColorForFBType('UNKNOWN'),
+			title: attendeeName,
+			textColor: '#FFFFFF',
 		}]
 	}
 
@@ -61,18 +45,22 @@ export default function(uri, calendarData, success, start, end, timezone) {
 
 	const events = []
 	for (const freeBusyProperty of freeBusyComponent.getPropertyIterator('FREEBUSY')) {
-		/** @var {FreeBusyProperty} freeBusyProperty */
+		/** @member {FreeBusyProperty} freeBusyProperty */
 		events.push({
 			id: Math.random().toString(36).substring(7),
-			start: freeBusyProperty.getFirstValue().start.getInTimezone(timezone).jsDate.toISOString(),
-			end: freeBusyProperty.getFirstValue().end.getInTimezone(timezone).jsDate.toISOString(),
+			start: freeBusyProperty.getFirstValue().start.getInTimezone(timezone).jsDate,
+			end: freeBusyProperty.getFirstValue().end.getInTimezone(timezone).jsDate,
+			allDay: (freeBusyProperty.getFirstValue().end.unixTime - freeBusyProperty.getFirstValue().start.unixTime) >= 24 * 60 * 60,
 			resourceId: uri,
-			display: 'background',
+			display: 'auto',
 			classNames: [
 				'free-busy-block',
+				isOrganizer ? 'free-busy-organizer' : '',
 				'free-busy-' + freeBusyProperty.type.toLowerCase(),
+				isOrganizer && freeBusyProperty.type === 'BUSY-UNAVAILABLE' ? 'free-busy-busy-unavailable--organizer' : '',
 			],
-			backgroundColor: getColorForFBType(freeBusyProperty.type),
+			title: attendeeName,
+			textColor: 'var(--color-main-text)',
 		})
 	}
 

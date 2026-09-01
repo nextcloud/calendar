@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2020 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import autosize from 'autosize'
 import debounce from 'debounce'
@@ -25,7 +8,7 @@ import debounce from 'debounce'
 let resizeObserver
 
 if (window.ResizeObserver) {
-	resizeObserver = new ResizeObserver(debounce(entries => {
+	resizeObserver = new ResizeObserver(debounce((entries) => {
 		for (const entry of entries) {
 			autosize.update(entry.target)
 		}
@@ -36,10 +19,10 @@ if (window.ResizeObserver) {
  * Adds autosize to textarea on bind
  *
  * @param {Element} el The DOM element
- * @param {Object} binding The binding's object
+ * @param {object} binding The binding's object
  * @param {VNode} vnode Virtual node
  */
-const bind = (el, binding, vnode) => {
+function bind(el, binding, vnode) {
 	// Check that the binding is true
 	if (binding.value !== true) {
 		return
@@ -63,10 +46,10 @@ const bind = (el, binding, vnode) => {
  * Updates the size of the textarea when updated
  *
  * @param {Element} el The DOM element
- * @param {Object} binding The binding's object
+ * @param {object} binding The binding's object
  * @param {VNode} vnode Virtual node
  */
-const update = (el, binding, vnode) => {
+function update(el, binding, vnode) {
 	if (binding.value === true && binding.oldValue === false) {
 		bind(el, binding, vnode)
 	}
@@ -83,7 +66,7 @@ const update = (el, binding, vnode) => {
  *
  * @param {Element} el The DOM element
  */
-const unbind = (el) => {
+function unbind(el) {
 	autosize.destroy(el)
 	if (resizeObserver) {
 		resizeObserver.unobserve(el)

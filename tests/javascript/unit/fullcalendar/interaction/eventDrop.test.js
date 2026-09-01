@@ -1,47 +1,54 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import eventDrop from "../../../../../src/fullcalendar/interaction/eventDrop.js";
-import { getDurationValueFromFullCalendarDuration} from "../../../../../src/fullcalendar/duration.js";
-import getTimezoneManager from '../../../../../src/services/timezoneDataProviderService.js'
-import {getObjectAtRecurrenceId} from "../../../../../src/utils/calendarObject.js";
+import { showWarning } from '@nextcloud/dialogs'
+import { translate } from '@nextcloud/l10n'
+import { getDurationValueFromFullCalendarDuration } from '@/fullcalendar/duration.js'
+import eventDrop from '@/fullcalendar/interaction/eventDrop.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useCalendarsStore from '@/store/calendars.js'
+import usePrincipalsStore from '@/store/principals.js'
+import { getObjectAtRecurrenceId } from '@/utils/calendarObject.js'
 
-jest.mock("../../../../../src/fullcalendar/duration.js")
-jest.mock('../../../../../src/services/timezoneDataProviderService.js')
-jest.mock("../../../../../src/utils/calendarObject.js")
+vi.mock('@/fullcalendar/duration.js')
+vi.mock('@/services/timezoneDataProviderService.js')
+vi.mock('@/utils/calendarObject.js')
+vi.mock('@/store/calendars.js')
+vi.mock('@/store/calendarObjects.js')
+vi.mock('@/store/principals.js')
+vi.mock('@nextcloud/l10n')
+vi.mock('@nextcloud/dialogs')
 
 describe('fullcalendar/eventDrop test suite', () => {
-
 	beforeEach(() => {
 		getDurationValueFromFullCalendarDuration.mockClear()
 		getTimezoneManager.mockClear()
 		getObjectAtRecurrenceId.mockClear()
+		useCalendarsStore.mockClear()
+		useCalendarObjectsStore.mockClear()
+		usePrincipalsStore.mockClear()
+		translate.mockClear()
+		showWarning.mockClear()
 	})
 
 	it('should properly drop a non-recurring event', async () => {
-		const store = {
-			dispatch: jest.fn()
+		const calendarsStore = {
+			getEventByObjectId: vi.fn(),
 		}
+		useCalendarsStore.mockReturnValue(calendarsStore)
+		const calendarObjectsStore = {
+			updateCalendarObject: vi.fn(),
+		}
+		useCalendarObjectsStore.mockReturnValue(calendarObjectsStore)
+		const principalsStore = {
+			getCurrentUserPrincipalEmail: 'organizer@example.org',
+		}
+		usePrincipalsStore.mockReturnValue(principalsStore)
+
 		const fcAPI = {
-			getOption: jest.fn()
+			getOption: vi.fn()
 				.mockReturnValueOnce({ days: 1 })
 				.mockReturnValueOnce({ hours: 2 })
 				.mockReturnValueOnce('America/New_York'),
@@ -51,30 +58,34 @@ describe('fullcalendar/eventDrop test suite', () => {
 			allDay: false,
 			extendedProps: {
 				objectId: 'object123',
-				recurrenceId: '1573554842'
-			}
+				recurrenceId: '1573554842',
+			},
 		}
 		const delta = {
-			hours: 5
+			hours: 5,
 		}
-		const revert = jest.fn()
+		const revert = vi.fn()
 
 		getDurationValueFromFullCalendarDuration
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 5 })
 			.mockReturnValueOnce({ calendarJsDurationValue: true, days: 1 })
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 2 })
 
-		const getTimezoneForId = jest.fn()
+		const getTimezoneForId = vi.fn()
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'America/New_York' })
 		getTimezoneManager
 			.mockReturnValue({
-				getTimezoneForId
+				getTimezoneForId,
 			})
 
 		const eventComponent = {
-			shiftByDuration: jest.fn(),
-			canCreateRecurrenceExceptions: jest.fn().mockReturnValue(false),
-			createRecurrenceException: jest.fn(),
+			shiftByDuration: vi.fn(),
+			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(false),
+			createRecurrenceException: vi.fn(),
+			organizer: 'mailto:organizer@example.org',
+			hasProperty: vi.fn().mockReturnValue(true),
+			getFirstProperty: vi.fn().mockReturnValue({ value: 'mailto:organizer@example.org' }),
+			getAttendeeIterator: vi.fn().mockReturnValue([]),
 		}
 		const calendarObject = {
 			_isCalendarObject: true,
@@ -82,11 +93,10 @@ describe('fullcalendar/eventDrop test suite', () => {
 		getObjectAtRecurrenceId
 			.mockReturnValue(eventComponent)
 
-		store.dispatch
-			.mockResolvedValueOnce(calendarObject) // getEventByObjectId
-			.mockResolvedValueOnce() // updateCalendarObject
+		calendarsStore.getEventByObjectId.mockResolvedValueOnce(calendarObject)
+		calendarObjectsStore.updateCalendarObject.mockResolvedValueOnce()
 
-		const eventDropFunction = eventDrop(store, fcAPI)
+		const eventDropFunction = eventDrop(fcAPI)
 		await eventDropFunction({ event, delta, revert })
 
 		expect(fcAPI.getOption).toHaveBeenCalledTimes(3)
@@ -96,12 +106,18 @@ describe('fullcalendar/eventDrop test suite', () => {
 
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenCalledTimes(3)
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(1, delta)
-		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1})
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1 })
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(3, { hours: 2 })
 
-		expect(store.dispatch).toHaveBeenCalledTimes(2)
-		expect(store.dispatch).toHaveBeenNthCalledWith(1, 'getEventByObjectId', { objectId: 'object123' })
-		expect(store.dispatch).toHaveBeenNthCalledWith(2, 'updateCalendarObject', { calendarObject })
+		expect(useCalendarsStore).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventByObjectId).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventByObjectId).toHaveBeenNthCalledWith(1, { objectId: 'object123' })
+
+		expect(useCalendarObjectsStore).toHaveBeenCalledTimes(1)
+		expect(calendarObjectsStore.updateCalendarObject).toHaveBeenCalledTimes(1)
+		expect(calendarObjectsStore.updateCalendarObject).toHaveBeenNthCalledWith(1, { calendarObject })
+
+		expect(usePrincipalsStore).toHaveBeenCalledTimes(1)
 
 		expect(eventComponent.shiftByDuration).toHaveBeenCalledTimes(1)
 		expect(eventComponent.shiftByDuration).toHaveBeenNthCalledWith(1, { calendarJsDurationValue: true, hours: 5 }, false, { calendarJsTimezone: true, tzid: 'America/New_York' }, { calendarJsDurationValue: true, days: 1 }, { calendarJsDurationValue: true, hours: 2 })
@@ -113,45 +129,58 @@ describe('fullcalendar/eventDrop test suite', () => {
 	})
 
 	it('should properly drop a non-recurring event - unknown timezone', async () => {
-		const store = {
-			dispatch: jest.fn()
+		const calendarsStore = {
+			getEventByObjectId: vi.fn(),
 		}
+		useCalendarsStore.mockReturnValue(calendarsStore)
+		const calendarObjectsStore = {
+			updateCalendarObject: vi.fn(),
+		}
+		useCalendarObjectsStore.mockReturnValue(calendarObjectsStore)
 		const fcAPI = {
-			getOption: jest.fn()
+			getOption: vi.fn()
 				.mockReturnValueOnce({ days: 1 })
 				.mockReturnValueOnce({ hours: 2 })
 				.mockReturnValueOnce('America/New_York'),
 		}
+		const principalsStore = {
+			getCurrentUserPrincipalEmail: 'organizer@example.org',
+		}
+		usePrincipalsStore.mockReturnValue(principalsStore)
 
 		const event = {
 			allDay: false,
 			extendedProps: {
 				objectId: 'object123',
-				recurrenceId: '1573554842'
-			}
+				recurrenceId: '1573554842',
+			},
 		}
 		const delta = {
-			hours: 5
+			hours: 5,
 		}
-		const revert = jest.fn()
+		const revert = vi.fn()
 
 		getDurationValueFromFullCalendarDuration
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 5 })
 			.mockReturnValueOnce({ calendarJsDurationValue: true, days: 1 })
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 2 })
 
-		const getTimezoneForId = jest.fn()
+		const getTimezoneForId = vi.fn()
 			.mockReturnValueOnce(null)
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'UTC' })
 		getTimezoneManager
 			.mockReturnValue({
-				getTimezoneForId
+				getTimezoneForId,
 			})
 
 		const eventComponent = {
-			shiftByDuration: jest.fn(),
-			canCreateRecurrenceExceptions: jest.fn().mockReturnValue(false),
-			createRecurrenceException: jest.fn(),
+			shiftByDuration: vi.fn(),
+			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(false),
+			createRecurrenceException: vi.fn(),
+			organizer: 'mailto:organizer@example.org',
+			hasProperty: vi.fn().mockReturnValue(true),
+			getFirstProperty: vi.fn().mockReturnValue({ value: 'mailto:organizer@example.org' }),
+			getAttendeeIterator: vi.fn().mockReturnValue([]),
 		}
 
 		const calendarObject = {
@@ -160,10 +189,10 @@ describe('fullcalendar/eventDrop test suite', () => {
 		getObjectAtRecurrenceId
 			.mockReturnValue(eventComponent)
 
-		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
-			.mockResolvedValueOnce() // updateCalendarObject
+		calendarsStore.getEventByObjectId.mockResolvedValueOnce(calendarObject)
+		calendarObjectsStore.updateCalendarObject.mockResolvedValueOnce()
 
-		const eventDropFunction = eventDrop(store, fcAPI)
+		const eventDropFunction = eventDrop(fcAPI)
 		await eventDropFunction({ event, delta, revert })
 
 		expect(getTimezoneForId).toHaveBeenCalledTimes(2)
@@ -177,12 +206,18 @@ describe('fullcalendar/eventDrop test suite', () => {
 
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenCalledTimes(3)
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(1, delta)
-		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1})
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1 })
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(3, { hours: 2 })
 
-		expect(store.dispatch).toHaveBeenCalledTimes(2)
-		expect(store.dispatch).toHaveBeenNthCalledWith(1, 'getEventByObjectId', { objectId: 'object123' })
-		expect(store.dispatch).toHaveBeenNthCalledWith(2, 'updateCalendarObject', { calendarObject })
+		expect(useCalendarsStore).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventByObjectId).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventByObjectId).toHaveBeenNthCalledWith(1, { objectId: 'object123' })
+
+		expect(useCalendarObjectsStore).toHaveBeenCalledTimes(1)
+		expect(calendarObjectsStore.updateCalendarObject).toHaveBeenCalledTimes(1)
+		expect(calendarObjectsStore.updateCalendarObject).toHaveBeenNthCalledWith(1, { calendarObject })
+
+		expect(usePrincipalsStore).toHaveBeenCalledTimes(1)
 
 		expect(eventComponent.shiftByDuration).toHaveBeenCalledTimes(1)
 		expect(eventComponent.shiftByDuration).toHaveBeenNthCalledWith(1, { calendarJsDurationValue: true, hours: 5 }, false, { calendarJsTimezone: true, tzid: 'UTC' }, { calendarJsDurationValue: true, days: 1 }, { calendarJsDurationValue: true, hours: 2 })
@@ -194,44 +229,57 @@ describe('fullcalendar/eventDrop test suite', () => {
 	})
 
 	it('should properly drop a recurring event', async () => {
-		const store = {
-			dispatch: jest.fn()
+		const calendarsStore = {
+			getEventByObjectId: vi.fn(),
 		}
+		useCalendarsStore.mockReturnValue(calendarsStore)
+		const calendarObjectsStore = {
+			updateCalendarObject: vi.fn(),
+		}
+		useCalendarObjectsStore.mockReturnValue(calendarObjectsStore)
 		const fcAPI = {
-			getOption: jest.fn()
+			getOption: vi.fn()
 				.mockReturnValueOnce({ days: 1 })
 				.mockReturnValueOnce({ hours: 2 })
 				.mockReturnValueOnce('America/New_York'),
 		}
+		const principalsStore = {
+			getCurrentUserPrincipalEmail: 'organizer@example.org',
+		}
+		usePrincipalsStore.mockReturnValue(principalsStore)
 
 		const event = {
 			allDay: false,
 			extendedProps: {
 				objectId: 'object123',
-				recurrenceId: '1573554842'
-			}
+				recurrenceId: '1573554842',
+			},
 		}
 		const delta = {
-			hours: 5
+			hours: 5,
 		}
-		const revert = jest.fn()
+		const revert = vi.fn()
 
 		getDurationValueFromFullCalendarDuration
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 5 })
 			.mockReturnValueOnce({ calendarJsDurationValue: true, days: 1 })
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 2 })
 
-		const getTimezoneForId = jest.fn()
+		const getTimezoneForId = vi.fn()
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'America/New_York' })
 		getTimezoneManager
 			.mockReturnValue({
-				getTimezoneForId
+				getTimezoneForId,
 			})
 
 		const eventComponent = {
-			shiftByDuration: jest.fn(),
-			canCreateRecurrenceExceptions: jest.fn().mockReturnValue(true),
-			createRecurrenceException: jest.fn(),
+			shiftByDuration: vi.fn(),
+			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(true),
+			createRecurrenceException: vi.fn(),
+			organizer: 'mailto:organizer@example.org',
+			hasProperty: vi.fn().mockReturnValue(true),
+			getFirstProperty: vi.fn().mockReturnValue({ value: 'mailto:organizer@example.org' }),
+			getAttendeeIterator: vi.fn().mockReturnValue([]),
 		}
 		const calendarObject = {
 			_isCalendarObject: true,
@@ -239,10 +287,10 @@ describe('fullcalendar/eventDrop test suite', () => {
 		getObjectAtRecurrenceId
 			.mockReturnValue(eventComponent)
 
-		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
-		store.dispatch.mockResolvedValueOnce() // updateCalendarObject
+		calendarsStore.getEventByObjectId.mockResolvedValueOnce(calendarObject)
+		calendarObjectsStore.updateCalendarObject.mockResolvedValueOnce()
 
-		const eventDropFunction = eventDrop(store, fcAPI)
+		const eventDropFunction = eventDrop(fcAPI)
 		await eventDropFunction({ event, delta, revert })
 
 		expect(fcAPI.getOption).toHaveBeenCalledTimes(3)
@@ -252,12 +300,18 @@ describe('fullcalendar/eventDrop test suite', () => {
 
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenCalledTimes(3)
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(1, delta)
-		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1})
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1 })
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(3, { hours: 2 })
 
-		expect(store.dispatch).toHaveBeenCalledTimes(2)
-		expect(store.dispatch).toHaveBeenNthCalledWith(1, 'getEventByObjectId', { objectId: 'object123' })
-		expect(store.dispatch).toHaveBeenNthCalledWith(2, 'updateCalendarObject', { calendarObject })
+		expect(useCalendarsStore).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventByObjectId).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventByObjectId).toHaveBeenNthCalledWith(1, { objectId: 'object123' })
+
+		expect(useCalendarObjectsStore).toHaveBeenCalledTimes(1)
+		expect(calendarObjectsStore.updateCalendarObject).toHaveBeenCalledTimes(1)
+		expect(calendarObjectsStore.updateCalendarObject).toHaveBeenNthCalledWith(1, { calendarObject })
+
+		expect(usePrincipalsStore).toHaveBeenCalledTimes(1)
 
 		expect(eventComponent.shiftByDuration).toHaveBeenCalledTimes(1)
 		expect(eventComponent.shiftByDuration).toHaveBeenNthCalledWith(1, { calendarJsDurationValue: true, hours: 5 }, false, { calendarJsTimezone: true, tzid: 'America/New_York' }, { calendarJsDurationValue: true, days: 1 }, { calendarJsDurationValue: true, hours: 2 })
@@ -270,55 +324,55 @@ describe('fullcalendar/eventDrop test suite', () => {
 	})
 
 	it('should revert if delta duration could not be parsed', async () => {
-		const store = {
-			dispatch: jest.fn()
-		}
+		const calendarsStore = {}
+		useCalendarsStore.mockReturnValue(calendarsStore)
+		const calendarObjectsStore = {}
+		useCalendarObjectsStore.mockReturnValue(calendarObjectsStore)
 		const fcAPI = {
-			getOption: jest.fn()
+			getOption: vi.fn()
 				.mockReturnValueOnce({ days: 1 })
 				.mockReturnValueOnce({ hours: 2 })
 				.mockReturnValueOnce('America/New_York'),
 		}
+		const principalsStore = {
+			getCurrentUserPrincipalEmail: 'organizer@example.org',
+		}
+		usePrincipalsStore.mockReturnValue(principalsStore)
 
 		const event = {
 			allDay: false,
 			extendedProps: {
 				objectId: 'object123',
-				recurrenceId: '1573554842'
-			}
+				recurrenceId: '1573554842',
+			},
 		}
 		const delta = {
-			hours: 5
+			hours: 5,
 		}
-		const revert = jest.fn()
+		const revert = vi.fn()
 
 		getDurationValueFromFullCalendarDuration
 			.mockReturnValueOnce(false)
 			.mockReturnValueOnce({ calendarJsDurationValue: true, days: 1 })
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 2 })
 
-		const getTimezoneForId = jest.fn()
+		const getTimezoneForId = vi.fn()
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'America/New_York' })
 		getTimezoneManager
 			.mockReturnValue({
-				getTimezoneForId
+				getTimezoneForId,
 			})
 
 		const eventComponent = {
-			shiftByDuration: jest.fn(),
-			canCreateRecurrenceExceptions: jest.fn().mockReturnValue(false),
-			createRecurrenceException: jest.fn(),
-		}
-		const calendarObject = {
-			_isCalendarObject: true,
+			shiftByDuration: vi.fn(),
+			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(false),
+			createRecurrenceException: vi.fn(),
+			organizer: 'mailto:organizer@example.org',
 		}
 		getObjectAtRecurrenceId
 			.mockReturnValue(eventComponent)
 
-		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
-		store.dispatch.mockResolvedValueOnce() // updateCalendarObject
-
-		const eventDropFunction = eventDrop(store, fcAPI)
+		const eventDropFunction = eventDrop(fcAPI)
 		await eventDropFunction({ event, delta, revert })
 
 		expect(fcAPI.getOption).toHaveBeenCalledTimes(3)
@@ -328,10 +382,12 @@ describe('fullcalendar/eventDrop test suite', () => {
 
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenCalledTimes(3)
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(1, delta)
-		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1})
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1 })
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(3, { hours: 2 })
 
-		expect(store.dispatch).toHaveBeenCalledTimes(0)
+		expect(useCalendarsStore).toHaveBeenCalledTimes(1)
+		expect(useCalendarObjectsStore).toHaveBeenCalledTimes(1)
+		expect(usePrincipalsStore).toHaveBeenCalledTimes(1)
 
 		expect(eventComponent.shiftByDuration).toHaveBeenCalledTimes(0)
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(0)
@@ -341,44 +397,50 @@ describe('fullcalendar/eventDrop test suite', () => {
 	})
 
 	it('should revert if default allday duration could not be parsed', async () => {
-		const store = {
-			dispatch: jest.fn()
-		}
+		const calendarsStore = {}
+		useCalendarsStore.mockReturnValue(calendarsStore)
+		const calendarObjectsStore = {}
+		useCalendarObjectsStore.mockReturnValue(calendarObjectsStore)
 		const fcAPI = {
-			getOption: jest.fn()
+			getOption: vi.fn()
 				.mockReturnValueOnce({ days: 1 })
 				.mockReturnValueOnce({ hours: 2 })
 				.mockReturnValueOnce('America/New_York'),
 		}
+		const principalsStore = {
+			getCurrentUserPrincipalEmail: 'organizer@example.org',
+		}
+		usePrincipalsStore.mockReturnValue(principalsStore)
 
 		const event = {
 			allDay: false,
 			extendedProps: {
 				objectId: 'object123',
-				recurrenceId: '1573554842'
-			}
+				recurrenceId: '1573554842',
+			},
 		}
 		const delta = {
-			hours: 5
+			hours: 5,
 		}
-		const revert = jest.fn()
+		const revert = vi.fn()
 
 		getDurationValueFromFullCalendarDuration
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 5 })
 			.mockReturnValueOnce(false)
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 2 })
 
-		const getTimezoneForId = jest.fn()
+		const getTimezoneForId = vi.fn()
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'America/New_York' })
 		getTimezoneManager
 			.mockReturnValue({
-				getTimezoneForId
+				getTimezoneForId,
 			})
 
 		const eventComponent = {
-			shiftByDuration: jest.fn(),
-			canCreateRecurrenceExceptions: jest.fn().mockReturnValue(false),
-			createRecurrenceException: jest.fn(),
+			shiftByDuration: vi.fn(),
+			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(false),
+			createRecurrenceException: vi.fn(),
+			organizer: 'mailto:organizer@example.org',
 		}
 		const calendarObject = {
 			_isCalendarObject: true,
@@ -386,10 +448,7 @@ describe('fullcalendar/eventDrop test suite', () => {
 		getObjectAtRecurrenceId
 			.mockReturnValue(eventComponent)
 
-		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
-		store.dispatch.mockResolvedValueOnce() // updateCalendarObject
-
-		const eventDropFunction = eventDrop(store, fcAPI)
+		const eventDropFunction = eventDrop(fcAPI)
 		await eventDropFunction({ event, delta, revert })
 
 		expect(fcAPI.getOption).toHaveBeenCalledTimes(3)
@@ -399,10 +458,12 @@ describe('fullcalendar/eventDrop test suite', () => {
 
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenCalledTimes(3)
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(1, delta)
-		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1})
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1 })
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(3, { hours: 2 })
 
-		expect(store.dispatch).toHaveBeenCalledTimes(0)
+		expect(useCalendarsStore).toHaveBeenCalledTimes(1)
+		expect(useCalendarObjectsStore).toHaveBeenCalledTimes(1)
+		expect(usePrincipalsStore).toHaveBeenCalledTimes(1)
 
 		expect(eventComponent.shiftByDuration).toHaveBeenCalledTimes(0)
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(0)
@@ -412,44 +473,50 @@ describe('fullcalendar/eventDrop test suite', () => {
 	})
 
 	it('should revert if default timed duration could not be parsed', async () => {
-		const store = {
-			dispatch: jest.fn()
-		}
+		const calendarsStore = {}
+		useCalendarsStore.mockReturnValue(calendarsStore)
+		const calendarObjectsStore = {}
+		useCalendarObjectsStore.mockReturnValue(calendarObjectsStore)
 		const fcAPI = {
-			getOption: jest.fn()
+			getOption: vi.fn()
 				.mockReturnValueOnce({ days: 1 })
 				.mockReturnValueOnce({ hours: 2 })
 				.mockReturnValueOnce('America/New_York'),
 		}
+		const principalsStore = {
+			getCurrentUserPrincipalEmail: 'organizer@example.org',
+		}
+		usePrincipalsStore.mockReturnValue(principalsStore)
 
 		const event = {
 			allDay: false,
 			extendedProps: {
 				objectId: 'object123',
-				recurrenceId: '1573554842'
-			}
+				recurrenceId: '1573554842',
+			},
 		}
 		const delta = {
-			hours: 5
+			hours: 5,
 		}
-		const revert = jest.fn()
+		const revert = vi.fn()
 
 		getDurationValueFromFullCalendarDuration
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 1 })
 			.mockReturnValueOnce({ calendarJsDurationValue: true, days: 1 })
 			.mockReturnValueOnce(false)
 
-		const getTimezoneForId = jest.fn()
+		const getTimezoneForId = vi.fn()
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'America/New_York' })
 		getTimezoneManager
 			.mockReturnValue({
-				getTimezoneForId
+				getTimezoneForId,
 			})
 
 		const eventComponent = {
-			shiftByDuration: jest.fn(),
-			canCreateRecurrenceExceptions: jest.fn().mockReturnValue(false),
-			createRecurrenceException: jest.fn(),
+			shiftByDuration: vi.fn(),
+			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(false),
+			createRecurrenceException: vi.fn(),
+			organizer: 'mailto:organizer@example.org',
 		}
 		const calendarObject = {
 			_isCalendarObject: true,
@@ -457,10 +524,7 @@ describe('fullcalendar/eventDrop test suite', () => {
 		getObjectAtRecurrenceId
 			.mockReturnValue(eventComponent)
 
-		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
-		store.dispatch.mockResolvedValueOnce() // updateCalendarObject
-
-		const eventDropFunction = eventDrop(store, fcAPI)
+		const eventDropFunction = eventDrop(fcAPI)
 		await eventDropFunction({ event, delta, revert })
 
 		expect(fcAPI.getOption).toHaveBeenCalledTimes(3)
@@ -470,10 +534,12 @@ describe('fullcalendar/eventDrop test suite', () => {
 
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenCalledTimes(3)
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(1, delta)
-		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1})
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1 })
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(3, { hours: 2 })
 
-		expect(store.dispatch).toHaveBeenCalledTimes(0)
+		expect(useCalendarsStore).toHaveBeenCalledTimes(1)
+		expect(useCalendarObjectsStore).toHaveBeenCalledTimes(1)
+		expect(usePrincipalsStore).toHaveBeenCalledTimes(1)
 
 		expect(eventComponent.shiftByDuration).toHaveBeenCalledTimes(0)
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(0)
@@ -483,54 +549,60 @@ describe('fullcalendar/eventDrop test suite', () => {
 	})
 
 	it('should revert the action when the object was not found', async () => {
-		const store = {
-			dispatch: jest.fn()
+		const calendarsStore = {
+			getEventByObjectId: vi.fn(),
 		}
+		useCalendarsStore.mockReturnValue(calendarsStore)
+		const calendarObjectsStore = {}
+		useCalendarObjectsStore.mockReturnValue(calendarObjectsStore)
 		const fcAPI = {
-			getOption: jest.fn()
+			getOption: vi.fn()
 				.mockReturnValueOnce({ days: 1 })
 				.mockReturnValueOnce({ hours: 2 })
 				.mockReturnValueOnce('America/New_York'),
 		}
+		const principalsStore = {
+			getCurrentUserPrincipalEmail: 'organizer@example.org',
+		}
+		usePrincipalsStore.mockReturnValue(principalsStore)
 
 		const event = {
 			allDay: false,
 			extendedProps: {
 				objectId: 'object123',
-				recurrenceId: '1573554842'
-			}
+				recurrenceId: '1573554842',
+			},
 		}
 		const delta = {
-			hours: 5
+			hours: 5,
 		}
-		const revert = jest.fn()
+		const revert = vi.fn()
 
 		getDurationValueFromFullCalendarDuration
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 5 })
 			.mockReturnValueOnce({ calendarJsDurationValue: true, days: 1 })
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 2 })
 
-		const getTimezoneForId = jest.fn()
+		const getTimezoneForId = vi.fn()
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'America/New_York' })
 		getTimezoneManager
 			.mockReturnValue({
-				getTimezoneForId
+				getTimezoneForId,
 			})
 
 		const eventComponent = {
-			shiftByDuration: jest.fn(),
-			canCreateRecurrenceExceptions: jest.fn().mockReturnValue(false),
-			createRecurrenceException: jest.fn(),
-		}
-		const calendarObject = {
-			_isCalendarObject: true,
+			shiftByDuration: vi.fn(),
+			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(false),
+			createRecurrenceException: vi.fn(),
+			organizer: 'mailto:organizer@example.org',
 		}
 		getObjectAtRecurrenceId
 			.mockReturnValue(eventComponent)
 
-		store.dispatch.mockRejectedValueOnce({ message: 'error message' }) // getEventByObjectId
+		calendarsStore.getEventByObjectId
+			.mockRejectedValueOnce({ message: 'error message' })
 
-		const eventDropFunction = eventDrop(store, fcAPI)
+		const eventDropFunction = eventDrop(fcAPI)
 		await eventDropFunction({ event, delta, revert })
 
 		expect(fcAPI.getOption).toHaveBeenCalledTimes(3)
@@ -540,11 +612,16 @@ describe('fullcalendar/eventDrop test suite', () => {
 
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenCalledTimes(3)
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(1, delta)
-		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1})
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1 })
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(3, { hours: 2 })
 
-		expect(store.dispatch).toHaveBeenCalledTimes(1)
-		expect(store.dispatch).toHaveBeenNthCalledWith(1, 'getEventByObjectId', { objectId: 'object123' })
+		expect(useCalendarsStore).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventByObjectId).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventByObjectId).toHaveBeenNthCalledWith(1, { objectId: 'object123' })
+
+		expect(useCalendarObjectsStore).toHaveBeenCalledTimes(1)
+
+		expect(usePrincipalsStore).toHaveBeenCalledTimes(1)
 
 		expect(eventComponent.shiftByDuration).toHaveBeenCalledTimes(0)
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(0)
@@ -554,11 +631,18 @@ describe('fullcalendar/eventDrop test suite', () => {
 	})
 
 	it('should revert the action when the recurrence was not found', async () => {
-		const store = {
-			dispatch: jest.fn()
+		const calendarsStore = {
+			getEventByObjectId: vi.fn(),
 		}
+		useCalendarsStore.mockReturnValue(calendarsStore)
+		const calendarObjectsStore = {}
+		useCalendarObjectsStore.mockReturnValue(calendarObjectsStore)
+		const principalsStore = {
+			getCurrentUserPrincipalEmail: 'organizer@example.org',
+		}
+		usePrincipalsStore.mockReturnValue(principalsStore)
 		const fcAPI = {
-			getOption: jest.fn()
+			getOption: vi.fn()
 				.mockReturnValueOnce({ days: 1 })
 				.mockReturnValueOnce({ hours: 2 })
 				.mockReturnValueOnce('America/New_York'),
@@ -568,24 +652,24 @@ describe('fullcalendar/eventDrop test suite', () => {
 			allDay: false,
 			extendedProps: {
 				objectId: 'object123',
-				recurrenceId: '1573554842'
-			}
+				recurrenceId: '1573554842',
+			},
 		}
 		const delta = {
-			hours: 5
+			hours: 5,
 		}
-		const revert = jest.fn()
+		const revert = vi.fn()
 
 		getDurationValueFromFullCalendarDuration
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 5 })
 			.mockReturnValueOnce({ calendarJsDurationValue: true, days: 1 })
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 2 })
 
-		const getTimezoneForId = jest.fn()
+		const getTimezoneForId = vi.fn()
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'America/New_York' })
 		getTimezoneManager
 			.mockReturnValue({
-				getTimezoneForId
+				getTimezoneForId,
 			})
 
 		const calendarObject = {
@@ -594,10 +678,9 @@ describe('fullcalendar/eventDrop test suite', () => {
 		getObjectAtRecurrenceId
 			.mockReturnValue(null)
 
-		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
-		store.dispatch.mockResolvedValueOnce() // updateCalendarObject
+		calendarsStore.getEventByObjectId.mockResolvedValueOnce(calendarObject)
 
-		const eventDropFunction = eventDrop(store, fcAPI)
+		const eventDropFunction = eventDrop(fcAPI)
 		await eventDropFunction({ event, delta, revert })
 
 		expect(fcAPI.getOption).toHaveBeenCalledTimes(3)
@@ -607,21 +690,35 @@ describe('fullcalendar/eventDrop test suite', () => {
 
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenCalledTimes(3)
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(1, delta)
-		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1})
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1 })
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(3, { hours: 2 })
 
-		expect(store.dispatch).toHaveBeenCalledTimes(1)
-		expect(store.dispatch).toHaveBeenNthCalledWith(1, 'getEventByObjectId', { objectId: 'object123' })
+		expect(useCalendarsStore).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventByObjectId).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventByObjectId).toHaveBeenNthCalledWith(1, { objectId: 'object123' })
+
+		expect(useCalendarObjectsStore).toHaveBeenCalledTimes(1)
+
+		expect(usePrincipalsStore).toHaveBeenCalledTimes(1)
 
 		expect(revert).toHaveBeenCalledTimes(1)
 	})
 
 	it('should revert the action when shiftByDuration throws an exception', async () => {
-		const store = {
-			dispatch: jest.fn()
+		const calendarsStore = {
+			getEventByObjectId: vi.fn(),
 		}
+		useCalendarsStore.mockReturnValue(calendarsStore)
+		const calendarObjectsStore = {
+			resetCalendarObjectToDavMutation: vi.fn(),
+		}
+		useCalendarObjectsStore.mockReturnValue(calendarObjectsStore)
+		const principalsStore = {
+			getCurrentUserPrincipalEmail: 'organizer@example.org',
+		}
+		usePrincipalsStore.mockReturnValue(principalsStore)
 		const fcAPI = {
-			getOption: jest.fn()
+			getOption: vi.fn()
 				.mockReturnValueOnce({ days: 1 })
 				.mockReturnValueOnce({ hours: 2 })
 				.mockReturnValueOnce('America/New_York'),
@@ -631,32 +728,36 @@ describe('fullcalendar/eventDrop test suite', () => {
 			allDay: false,
 			extendedProps: {
 				objectId: 'object123',
-				recurrenceId: '1573554842'
-			}
+				recurrenceId: '1573554842',
+			},
 		}
 		const delta = {
-			hours: 5
+			hours: 5,
 		}
-		const revert = jest.fn()
+		const revert = vi.fn()
 
 		getDurationValueFromFullCalendarDuration
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 5 })
 			.mockReturnValueOnce({ calendarJsDurationValue: true, days: 1 })
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 2 })
 
-		const getTimezoneForId = jest.fn()
+		const getTimezoneForId = vi.fn()
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'America/New_York' })
 		getTimezoneManager
 			.mockReturnValue({
-				getTimezoneForId
+				getTimezoneForId,
 			})
 
 		const eventComponent = {
-			shiftByDuration: jest.fn().mockImplementation(() => {
-				throw new Error();
+			shiftByDuration: vi.fn().mockImplementation(() => {
+				throw new Error()
 			}),
-			canCreateRecurrenceExceptions: jest.fn().mockReturnValue(false),
-			createRecurrenceException: jest.fn(),
+			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(false),
+			createRecurrenceException: vi.fn(),
+			organizer: 'mailto:organizer@example.org',
+			hasProperty: vi.fn().mockReturnValue(true),
+			getFirstProperty: vi.fn().mockReturnValue({ value: 'mailto:organizer@example.org' }),
+			getAttendeeIterator: vi.fn().mockReturnValue([]),
 		}
 		const calendarObject = {
 			_isCalendarObject: true,
@@ -664,12 +765,10 @@ describe('fullcalendar/eventDrop test suite', () => {
 		getObjectAtRecurrenceId
 			.mockReturnValue(eventComponent)
 
-		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
-		store.dispatch.mockResolvedValueOnce() // updateCalendarObject
+		calendarsStore.getEventByObjectId.mockResolvedValueOnce(calendarObject)
+		calendarObjectsStore.resetCalendarObjectToDavMutation.mockReturnValueOnce()
 
-		store.commit = jest.fn()
-
-		const eventDropFunction = eventDrop(store, fcAPI)
+		const eventDropFunction = eventDrop(fcAPI)
 		await eventDropFunction({ event, delta, revert })
 
 		expect(fcAPI.getOption).toHaveBeenCalledTimes(3)
@@ -679,14 +778,17 @@ describe('fullcalendar/eventDrop test suite', () => {
 
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenCalledTimes(3)
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(1, delta)
-		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1})
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1 })
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(3, { hours: 2 })
 
-		expect(store.dispatch).toHaveBeenCalledTimes(1)
-		expect(store.dispatch).toHaveBeenNthCalledWith(1, 'getEventByObjectId', { objectId: 'object123' })
+		expect(useCalendarsStore).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventByObjectId).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventByObjectId).toHaveBeenNthCalledWith(1, { objectId: 'object123' })
 
-		expect(store.commit).toHaveBeenCalledTimes(1)
-		expect(store.commit).toHaveBeenNthCalledWith(1, 'resetCalendarObjectToDav', { calendarObject: calendarObject })
+		expect(useCalendarObjectsStore).toHaveBeenCalledTimes(1)
+		expect(calendarObjectsStore.resetCalendarObjectToDavMutation).toHaveBeenCalledTimes(1)
+		expect(calendarObjectsStore.resetCalendarObjectToDavMutation).toHaveBeenNthCalledWith(1, { calendarObject })
+		expect(usePrincipalsStore).toHaveBeenCalledTimes(1)
 
 		expect(eventComponent.shiftByDuration).toHaveBeenCalledTimes(1)
 		expect(eventComponent.shiftByDuration).toHaveBeenNthCalledWith(1, { calendarJsDurationValue: true, hours: 5 }, false, { calendarJsTimezone: true, tzid: 'America/New_York' }, { calendarJsDurationValue: true, days: 1 }, { calendarJsDurationValue: true, hours: 2 })
@@ -698,11 +800,21 @@ describe('fullcalendar/eventDrop test suite', () => {
 	})
 
 	it('should revert the action when there was an error updating the event', async () => {
-		const store = {
-			dispatch: jest.fn()
+		const calendarsStore = {
+			getEventByObjectId: vi.fn(),
 		}
+		useCalendarsStore.mockReturnValue(calendarsStore)
+		const calendarObjectsStore = {
+			updateCalendarObject: vi.fn(),
+			resetCalendarObjectToDavMutation: vi.fn(),
+		}
+		useCalendarObjectsStore.mockReturnValue(calendarObjectsStore)
+		const principalsStore = {
+			getCurrentUserPrincipalEmail: 'organizer@example.org',
+		}
+		usePrincipalsStore.mockReturnValue(principalsStore)
 		const fcAPI = {
-			getOption: jest.fn()
+			getOption: vi.fn()
 				.mockReturnValueOnce({ days: 1 })
 				.mockReturnValueOnce({ hours: 2 })
 				.mockReturnValueOnce('America/New_York'),
@@ -712,30 +824,34 @@ describe('fullcalendar/eventDrop test suite', () => {
 			allDay: false,
 			extendedProps: {
 				objectId: 'object123',
-				recurrenceId: '1573554842'
-			}
+				recurrenceId: '1573554842',
+			},
 		}
 		const delta = {
-			hours: 5
+			hours: 5,
 		}
-		const revert = jest.fn()
+		const revert = vi.fn()
 
 		getDurationValueFromFullCalendarDuration
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 5 })
 			.mockReturnValueOnce({ calendarJsDurationValue: true, days: 1 })
 			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 2 })
 
-		const getTimezoneForId = jest.fn()
+		const getTimezoneForId = vi.fn()
 			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'America/New_York' })
 		getTimezoneManager
 			.mockReturnValue({
-				getTimezoneForId
+				getTimezoneForId,
 			})
 
 		const eventComponent = {
-			shiftByDuration: jest.fn(),
-			canCreateRecurrenceExceptions: jest.fn().mockReturnValue(false),
-			createRecurrenceException: jest.fn(),
+			shiftByDuration: vi.fn(),
+			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(false),
+			createRecurrenceException: vi.fn(),
+			organizer: 'mailto:organizer@example.org',
+			hasProperty: vi.fn().mockReturnValue(true),
+			getFirstProperty: vi.fn().mockReturnValue({ value: 'mailto:organizer@example.org' }),
+			getAttendeeIterator: vi.fn().mockReturnValue([]),
 		}
 		const calendarObject = {
 			_isCalendarObject: true,
@@ -743,14 +859,11 @@ describe('fullcalendar/eventDrop test suite', () => {
 		getObjectAtRecurrenceId
 			.mockReturnValue(eventComponent)
 
-		store.dispatch.mockResolvedValueOnce(calendarObject) // getEventByObjectId
-		store.dispatch.mockImplementationOnce(() => {
-			throw new Error()
-		}) // updateCalendarObject
+		calendarsStore.getEventByObjectId.mockResolvedValueOnce(calendarObject)
+		calendarObjectsStore.updateCalendarObject.mockRejectedValueOnce(new Error())
+		calendarObjectsStore.resetCalendarObjectToDavMutation.mockReturnValueOnce()
 
-		store.commit = jest.fn()
-
-		const eventDropFunction = eventDrop(store, fcAPI)
+		const eventDropFunction = eventDrop(fcAPI)
 		await eventDropFunction({ event, delta, revert })
 
 		expect(fcAPI.getOption).toHaveBeenCalledTimes(3)
@@ -760,20 +873,125 @@ describe('fullcalendar/eventDrop test suite', () => {
 
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenCalledTimes(3)
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(1, delta)
-		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1})
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1 })
 		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(3, { hours: 2 })
 
-		expect(store.dispatch).toHaveBeenCalledTimes(2)
-		expect(store.dispatch).toHaveBeenNthCalledWith(1, 'getEventByObjectId', { objectId: 'object123' })
-		expect(store.dispatch).toHaveBeenNthCalledWith(2, 'updateCalendarObject', { calendarObject })
+		expect(useCalendarsStore).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventByObjectId).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventByObjectId).toHaveBeenNthCalledWith(1, { objectId: 'object123' })
 
-		expect(store.commit).toHaveBeenCalledTimes(1)
-		expect(store.commit).toHaveBeenNthCalledWith(1, 'resetCalendarObjectToDav', { calendarObject: calendarObject })
+		expect(useCalendarObjectsStore).toHaveBeenCalledTimes(1)
+		expect(calendarObjectsStore.updateCalendarObject).toHaveBeenCalledTimes(1)
+		expect(calendarObjectsStore.updateCalendarObject).toHaveBeenNthCalledWith(1, { calendarObject })
+		expect(calendarObjectsStore.resetCalendarObjectToDavMutation).toHaveBeenCalledTimes(1)
+		expect(calendarObjectsStore.resetCalendarObjectToDavMutation).toHaveBeenNthCalledWith(1, { calendarObject })
+
+		expect(usePrincipalsStore).toHaveBeenCalledTimes(1)
 
 		expect(eventComponent.shiftByDuration).toHaveBeenCalledTimes(1)
 		expect(eventComponent.shiftByDuration).toHaveBeenNthCalledWith(1, { calendarJsDurationValue: true, hours: 5 }, false, { calendarJsTimezone: true, tzid: 'America/New_York' }, { calendarJsDurationValue: true, days: 1 }, { calendarJsDurationValue: true, hours: 2 })
 
 		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(1)
+		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(0)
+
+		expect(revert).toHaveBeenCalledTimes(1)
+	})
+
+	it('should revert the action when current user is an attendee', async () => {
+		const calendarsStore = {
+			getEventByObjectId: vi.fn(),
+		}
+		useCalendarsStore.mockReturnValue(calendarsStore)
+		const calendarObjectsStore = {
+			updateCalendarObject: vi.fn(),
+		}
+		useCalendarObjectsStore.mockReturnValue(calendarObjectsStore)
+		const principalsStore = {
+			getCurrentUserPrincipalEmail: 'attendee@example.com',
+		}
+		usePrincipalsStore.mockReturnValue(principalsStore)
+
+		const fcAPI = {
+			getOption: vi.fn()
+				.mockReturnValueOnce({ days: 1 })
+				.mockReturnValueOnce({ hours: 2 })
+				.mockReturnValueOnce('America/New_York'),
+		}
+
+		const event = {
+			allDay: false,
+			extendedProps: {
+				objectId: 'object123',
+				recurrenceId: '1573554842',
+			},
+		}
+		const delta = {
+			hours: 5,
+		}
+		const revert = vi.fn()
+
+		translate
+			.mockReturnValue('translated message')
+
+		getDurationValueFromFullCalendarDuration
+			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 5 })
+			.mockReturnValueOnce({ calendarJsDurationValue: true, days: 1 })
+			.mockReturnValueOnce({ calendarJsDurationValue: true, hours: 2 })
+
+		const getTimezoneForId = vi.fn()
+			.mockReturnValueOnce({ calendarJsTimezone: true, tzid: 'America/New_York' })
+		getTimezoneManager
+			.mockReturnValue({
+				getTimezoneForId,
+			})
+
+		const eventComponent = {
+			shiftByDuration: vi.fn(),
+			canCreateRecurrenceExceptions: vi.fn().mockReturnValue(false),
+			createRecurrenceException: vi.fn(),
+			organizer: 'mailto:organizer@example.org',
+
+		}
+		const calendarObject = {
+			_isCalendarObject: true,
+		}
+		getObjectAtRecurrenceId
+			.mockReturnValue(eventComponent)
+
+		calendarsStore.getEventByObjectId.mockResolvedValueOnce(calendarObject)
+		calendarObjectsStore.updateCalendarObject.mockResolvedValueOnce()
+
+		const eventDropFunction = eventDrop(fcAPI)
+		await eventDropFunction({ event, delta, revert })
+
+		expect(fcAPI.getOption).toHaveBeenCalledTimes(3)
+		expect(fcAPI.getOption).toHaveBeenNthCalledWith(1, 'defaultAllDayEventDuration')
+		expect(fcAPI.getOption).toHaveBeenNthCalledWith(2, 'defaultTimedEventDuration')
+		expect(fcAPI.getOption).toHaveBeenNthCalledWith(3, 'timeZone')
+
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenCalledTimes(3)
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(1, delta)
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(2, { days: 1 })
+		expect(getDurationValueFromFullCalendarDuration).toHaveBeenNthCalledWith(3, { hours: 2 })
+
+		expect(useCalendarsStore).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventByObjectId).toHaveBeenCalledTimes(1)
+		expect(calendarsStore.getEventByObjectId).toHaveBeenNthCalledWith(1, { objectId: 'object123' })
+
+		expect(useCalendarObjectsStore).toHaveBeenCalledTimes(1)
+		expect(calendarObjectsStore.updateCalendarObject).toHaveBeenCalledTimes(0)
+
+		expect(usePrincipalsStore).toHaveBeenCalledTimes(1)
+
+		expect(translate).toHaveBeenCalledTimes(1)
+		expect(translate).toHaveBeenNthCalledWith(1, 'calendar', 'You are not allowed to edit this event as an attendee.')
+
+		expect(showWarning).toHaveBeenCalledTimes(1)
+		expect(showWarning).toHaveBeenNthCalledWith(1, 'translated message')
+
+		expect(eventComponent.shiftByDuration).toHaveBeenCalledTimes(0)
+
+		expect(eventComponent.canCreateRecurrenceExceptions).toHaveBeenCalledTimes(0)
 		expect(eventComponent.createRecurrenceException).toHaveBeenCalledTimes(0)
 
 		expect(revert).toHaveBeenCalledTimes(1)

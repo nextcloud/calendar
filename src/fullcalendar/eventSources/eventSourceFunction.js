@@ -1,45 +1,36 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { translate as t } from '@nextcloud/l10n'
+import usePrincipalsStore from '@/store/principals.js'
+import useSettingsStore from '@/store/settings.js'
+import useTasksStore from '@/store/unscheduledTasks.js'
+import { getAllObjectsInTimeRange } from '@/utils/calendarObject.js'
 import {
+	getHexForColorName,
 	hexToRGB,
 	isLight,
-	generateTextColorForHex,
-	getHexForColorName,
-} from '../../utils/color.js'
-import logger from '../../utils/logger.js'
-import { getAllObjectsInTimeRange } from '../../utils/calendarObject.js'
-
+} from '@/utils/color.js'
+import logger from '@/utils/logger.js'
 /**
  * convert an array of calendar-objects to events
  *
  * @param {CalendarObject[]} calendarObjects Array of calendar-objects to turn into fc events
- * @param {Object} calendar The calendar object
+ * @param {object} calendar The calendar object
  * @param {Date} start Start of time-range
  * @param {Date} end End of time-range
  * @param {Timezone} timezone Desired time-zone
- * @returns {Object}[]
+ * @return {object}[]
  */
 export function eventSourceFunction(calendarObjects, calendar, start, end, timezone) {
+	const principalsStore = usePrincipalsStore()
+	const tasksStore = useTasksStore()
+	const settingsStore = useSettingsStore()
+	tasksStore.emptyCalendar(calendar.id)
+
+	const searchTerms = settingsStore.searchQuery.trim().toLowerCase().split(/\s+/).filter(Boolean)
+
 	const fcEvents = []
 	for (const calendarObject of calendarObjects) {
 		let allObjectsInTimeRange
@@ -49,9 +40,25 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 			logger.error(error.message)
 			continue
 		}
-
 		for (const object of allObjectsInTimeRange) {
 			const classNames = []
+
+			// You are an organizer
+			if (object.getFirstPropertyFirstValue('ORGANIZER') === `mailto:${principalsStore.getCurrentUserPrincipalEmail}`) {
+				// Check if all the attendees have declined the event
+				if (object.hasProperty('ATTENDEE')) {
+					let didEveryoneDecline = true
+					for (const attendeeProperty of object.getPropertyIterator('ATTENDEE')) {
+						const hasDeclined = attendeeProperty.participationStatus === 'DECLINED'
+						if (!hasDeclined) {
+							didEveryoneDecline = false
+						}
+					}
+					if (didEveryoneDecline) {
+						classNames.push('fc-event-nc-all-declined')
+					}
+				}
+			}
 
 			if (object.status === 'CANCELLED') {
 				classNames.push('fc-event-nc-cancelled')
@@ -59,13 +66,25 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				classNames.push('fc-event-nc-tentative')
 			}
 
+			// You are invited
+			for (const attendeeProperty of object.getPropertyIterator('ATTENDEE')) {
+				if (attendeeProperty.email === `mailto:${principalsStore.getCurrentUserPrincipalEmail}`) {
+					if (attendeeProperty.participationStatus === 'DECLINED') {
+						classNames.push('fc-event-nc-declined')
+					} else if (attendeeProperty.participationStatus === 'TENTATIVE') {
+						classNames.push('fc-event-nc-tentative')
+					} else if (attendeeProperty.participationStatus === 'NEEDS-ACTION') {
+						classNames.push('fc-event-nc-needs-action')
+					}
+				}
+			}
+
 			if (object.hasComponent('VALARM')) {
 				classNames.push('fc-event-nc-alarms')
 			}
 
-			// For now, we only display
-			if (object.name === 'VTODO' && object.endDate === null) {
-				continue
+			if (object.name === 'VEVENT' && object.getFirstPropertyFirstValue('TRANSP') === 'TRANSPARENT') {
+				classNames.push('fc-event-nc-free')
 			}
 
 			let jsStart, jsEnd
@@ -73,12 +92,32 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				jsStart = object.startDate.getInTimezone(timezone).jsDate
 				jsEnd = object.endDate.getInTimezone(timezone).jsDate
 			} else if (object.name === 'VTODO') {
-				jsStart = jsEnd = object.endDate.getInTimezone(timezone).jsDate
-
-				// If available, set task start to allow visualization
+				// For tasks, we only want to display when it is due,
+				// not for how long it has been in progress already
+				// if there is no due date, we store the task in the
+				// tasksstore, so user can add it to the calendar if
+				// he wants
+				jsStart = null
+				jsEnd = null
+				// Pick up the start and end dates if available.
 				if (object.startDate) {
 					jsStart = object.startDate.getInTimezone(timezone).jsDate
 				}
+				if (object.endDate) {
+					jsEnd = object.endDate.getInTimezone(timezone).jsDate
+				}
+				if (jsStart === null && jsEnd !== null) {
+					// Task has no start date.  Display the start
+					// of the task as its due date.
+					jsStart = jsEnd
+				} else if (jsStart !== null && jsEnd === null) {
+					// Task has no due date.  Display the end of
+					// the task as its start date.
+					jsEnd = jsStart
+				}
+				// At this point in the code, the task may have suitable
+				// display start and end date (though if they are the same
+				// the code later bumps the end date by 1 second).
 			} else {
 				// We do not want to display anything that's neither
 				// an event nor a task
@@ -91,7 +130,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 			// If the event's start is equal to it's end, fullcalendar is giving
 			// the event a default length of one hour. We are preventing that by
 			// adding one second to the end in that case.
-			if (jsStart.getTime() === jsEnd.getTime()) {
+			if (jsStart && jsEnd && jsStart.getTime() === jsEnd.getTime()) {
 				jsEnd.setSeconds(jsEnd.getSeconds() + 1)
 			}
 
@@ -121,6 +160,10 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				}
 			}
 
+			const attendeeCount = object.hasComponent('ATTENDEE')
+				? [...object.getPropertyIterator('ATTENDEE')].length
+				: 0
+
 			const fcEvent = {
 				id: [calendarObject.id, object.id].join('###'),
 				title,
@@ -132,6 +175,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				classNames,
 				extendedProps: {
 					objectId: calendarObject.id,
+					vobjectId: object.id,
 					recurrenceId: object.getReferenceRecurrenceId()
 						? object.getReferenceRecurrenceId().unixTime
 						: null,
@@ -145,6 +189,7 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 					davUrl: calendarObject.dav.url,
 					location: object.location,
 					description: object.description,
+					attendeeCount,
 				},
 			}
 
@@ -153,12 +198,31 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				if (customColor) {
 					fcEvent.backgroundColor = customColor
 					fcEvent.borderColor = customColor
-					fcEvent.textColor = generateTextColorForHex(customColor)
+				}
+			}
+			if (searchTerms.length > 0) {
+				const organizerProperty = object.getFirstProperty('ORGANIZER')
+				const organizerText = organizerProperty
+					? [organizerProperty.commonName, organizerProperty.email?.replace('mailto:', '')].filter(Boolean).join(' ')
+					: ''
+				const attendeeText = [...object.getPropertyIterator('ATTENDEE')]
+					.map((a) => [a.commonName, a.email?.replace('mailto:', '')].filter(Boolean).join(' '))
+					.join(' ')
+				const haystack = [title, object.location, object.description, organizerText, attendeeText]
+					.filter(Boolean).join(' ').toLowerCase()
+				if (!searchTerms.some((term) => haystack.includes(term))) {
+					continue
 				}
 			}
 
-			fcEvents.push(fcEvent)
+			if (object.name === 'VTODO' && object.endDate === null && object.percent !== 100 && object.status !== 'COMPLETED') {
+				fcEvent.create = true
+				tasksStore.appendTask(calendar.id, fcEvent)
+			} else {
+				fcEvents.push(fcEvent)
+			}
 		}
+		tasksStore.finishCalendar(calendar.id)
 	}
 
 	return fcEvents

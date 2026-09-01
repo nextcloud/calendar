@@ -2,54 +2,35 @@
 
 declare(strict_types=1);
 /**
- * Calendar App
- *
- * @author Georg Ehrke
- * @copyright 2020 Georg Ehrke <oc.list@georgehrke.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Service;
 
 use OCA\Calendar\AppInfo\Application;
 use OCP\IConfig;
 use OCP\IUserSession;
+use ReturnTypeWillChange;
 
 class JSDataService implements \JsonSerializable {
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var IUserSession */
-	private $userSession;
-
 	/**
 	 * JSDataService constructor.
 	 *
 	 * @param IConfig $config
 	 * @param IUserSession $userSession
 	 */
-	public function __construct(IConfig $config,
-								IUserSession $userSession) {
-		$this->config = $config;
-		$this->userSession = $userSession;
+	public function __construct(
+		private IConfig $config,
+		private IUserSession $userSession,
+	) {
 	}
 
 	/**
 	 * @inheritDoc
 	 */
+	#[\Override]
+	#[ReturnTypeWillChange]
 	public function jsonSerialize() {
 		$user = $this->userSession->getUser();
 

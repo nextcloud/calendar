@@ -2,43 +2,32 @@
 
 declare(strict_types=1);
 /**
- * Calendar App
- *
- * @author Georg Ehrke
- * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Controller;
 
+use ChristophWurst\Nextcloud\Testing\TestCase;
+use OCA\DAV\CalDAV\CalendarImpl;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Calendar\IManager;
 use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
 use OCP\Mail\IMessage;
-use ChristophWurst\Nextcloud\Testing\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub\ReturnSelf;
 
 class EmailControllerTest extends TestCase {
-
 	/** @var string */
 	private $appName;
 
@@ -66,8 +55,14 @@ class EmailControllerTest extends TestCase {
 	/** @var IUser|MockObject */
 	private $user;
 
+	/** @var IUserManager|MockObject */
+	private $userManager;
+
 	/** @var EmailController */
 	private $controller;
+
+	/** @var IManager|MockObject */
+	private $calendarManager;
 
 	protected function setUp():void {
 		parent::setUp();
@@ -80,9 +75,12 @@ class EmailControllerTest extends TestCase {
 		$this->mailer = $this->createMock(IMailer::class);
 		$this->userSession = $this->createMock(IUserSession::class);
 		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->userManager = $this->createMock(IUserManager::class);
+		$this->calendarManager = $this->createMock(IManager::class);
 
 		$this->user = $this->createMock(IUser::class);
-		$this->user->method('getDisplayName')->willReturn('User Displayname 123');
+		$this->user->method('getUID')->willReturn('123');
+		$this->userManager->method('getDisplayName')->willReturn('User Displayname 123');
 
 		$this->l10n->expects($this->any())
 			->method('t')
@@ -93,7 +91,8 @@ class EmailControllerTest extends TestCase {
 		$this->controller = new EmailController($this->appName,
 			$this->request, $this->userSession, $this->config,
 			$this->mailer, $this->l10n, $this->defaults,
-			$this->urlGenerator);
+			$this->urlGenerator, $this->userManager,
+			$this->calendarManager);
 	}
 
 	public function testSendUserSessionExpired():void {
@@ -107,7 +106,7 @@ class EmailControllerTest extends TestCase {
 		$this->urlGenerator->expects($this->never())
 			->method($this->anything());
 
-		$response = $this->controller->sendEmailPublicLink('foo@bar.com', 'token123', 'calendarHome');
+		$response = $this->controller->sendEmailPublicLink('foo@bar.com', 'token123');
 
 		$this->assertInstanceOf(JSONResponse::class, $response);
 		$this->assertEquals([
@@ -130,13 +129,53 @@ class EmailControllerTest extends TestCase {
 		$this->urlGenerator->expects($this->never())
 			->method($this->anything());
 
-		$response = $this->controller->sendEmailPublicLink('foo@bar.com', 'token123', 'calendarHome');
+		$response = $this->controller->sendEmailPublicLink('foo@bar.com', 'token123');
 
 		$this->assertInstanceOf(JSONResponse::class, $response);
 		$this->assertEquals([
 			'message' => 'TRANSLATED: Provided email-address is not valid'
 		], $response->getData());
 		$this->assertEquals(400, $response->getStatus());
+	}
+
+	public function testSendInvalidToken(): void {
+		$testToken1 = 'token123';
+		$testToken2 = 'token456';
+		$testToken3 = 'token789';
+
+		$this->userSession->expects(self::once())
+			->method('getUser')
+			->willReturn($this->user);
+
+		$this->mailer->expects(self::once())
+			->method('validateMailAddress')
+			->with('foo@bar.com')
+			->willReturn(true);
+
+		$calendar1 = $this->createMock(CalendarImpl::class);
+		$calendar1->expects(self::once())
+			->method('getPublicToken')
+			->willReturn($testToken1);
+
+		$calendar2 = $this->createMock(CalendarImpl::class);
+		$calendar2->expects(self::once())
+			->method('getPublicToken')
+			->willReturn($testToken2);
+
+		$this->calendarManager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->with("principals/users/{$this->user->getUID()}")
+			->willReturn([$calendar1, $calendar2]);
+
+		$response = $this->controller->sendEmailPublicLink(
+			'foo@bar.com',
+			$testToken3,
+		);
+
+		$this->assertEquals([
+			'message' => 'TRANSLATED: An error occurred during sending email'
+		], $response->getData());
+		$this->assertEquals(Http::STATUS_BAD_REQUEST, $response->getStatus());
 	}
 
 	public function testSendWithMailerError() {
@@ -148,6 +187,19 @@ class EmailControllerTest extends TestCase {
 			->method('validateMailAddress')
 			->with('foo@bar.com')
 			->willReturn(true);
+
+		$calendar = $this->createMock(CalendarImpl::class);
+		$calendar->expects(self::once())
+			->method('getPublicToken')
+			->willReturn('token123');
+		$calendar->expects(self::once())
+			->method('getDisplayName')
+			->willReturn('calendar name 456');
+
+		$this->calendarManager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->with("principals/users/{$this->user->getUID()}")
+			->willReturn([$calendar]);
 
 		$this->config->expects(self::exactly(2))
 			->method('getSystemValue')
@@ -183,12 +235,11 @@ class EmailControllerTest extends TestCase {
 			->willReturn($template);
 		$template->expects(self::exactly(3))
 			->method('addBodyText')
-			->withConsecutive(
-				['TRANSLATED: Hello,'],
-				['TRANSLATED: We wanted to inform you that User Displayname 123 has published the calendar »calendar name 456«.'],
-				['TRANSLATED: Cheers!']
-			)
-			->willReturnSelf();
+			->willReturnMap([
+				['TRANSLATED: Hello,', new ReturnSelf()],
+				['TRANSLATED: We wanted to inform you that User Displayname 123 has published the calendar »calendar name 456«.', new ReturnSelf()],
+				['TRANSLATED: Cheers!', new ReturnSelf()],
+			]);
 		$template->expects(self::once())
 			->method('addBodyButton')
 			->with('TRANSLATED: Open »calendar name 456«', 'http://publicURL123')
@@ -229,7 +280,7 @@ class EmailControllerTest extends TestCase {
 			->with($message)
 			->willThrowException(new \Exception('123'));
 
-		$response = $this->controller->sendEmailPublicLink('foo@bar.com', 'token123', 'calendar name 456');
+		$response = $this->controller->sendEmailPublicLink('foo@bar.com', 'token123');
 
 		$this->assertInstanceOf(JSONResponse::class, $response);
 		$this->assertEquals([
@@ -248,6 +299,19 @@ class EmailControllerTest extends TestCase {
 			->method('validateMailAddress')
 			->with('foo@bar.com')
 			->willReturn(true);
+
+		$calendar = $this->createMock(CalendarImpl::class);
+		$calendar->expects(self::once())
+			->method('getPublicToken')
+			->willReturn('token123');
+		$calendar->expects(self::once())
+			->method('getDisplayName')
+			->willReturn('calendar name 456');
+
+		$this->calendarManager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->with("principals/users/{$this->user->getUID()}")
+			->willReturn([$calendar]);
 
 		$this->config->expects(self::exactly(2))
 			->method('getSystemValue')
@@ -281,14 +345,20 @@ class EmailControllerTest extends TestCase {
 			->method('addHeading')
 			->with('TRANSLATED: User Displayname 123 has published the calendar »calendar name 456«')
 			->willReturn($template);
+
+		$expectedCalls = [
+			'TRANSLATED: Hello,',
+			'TRANSLATED: We wanted to inform you that User Displayname 123 has published the calendar »calendar name 456«.',
+			'TRANSLATED: Cheers!',
+		];
+		$callIndex = 0;
 		$template->expects(self::exactly(3))
 			->method('addBodyText')
-			->withConsecutive(
-				['TRANSLATED: Hello,'],
-				['TRANSLATED: We wanted to inform you that User Displayname 123 has published the calendar »calendar name 456«.'],
-				['TRANSLATED: Cheers!']
-			)
-			->willReturnSelf();
+			->willReturnCallback(function ($text) use (&$callIndex, $expectedCalls, $template) {
+				$this->assertEquals($expectedCalls[$callIndex], $text);
+				$callIndex++;
+				return $template;
+			});
 		$template->expects(self::once())
 			->method('addBodyButton')
 			->with('TRANSLATED: Open »calendar name 456«', 'http://publicURL123')
@@ -328,7 +398,7 @@ class EmailControllerTest extends TestCase {
 			->method('send')
 			->with($message);
 
-		$response = $this->controller->sendEmailPublicLink('foo@bar.com', 'token123', 'calendar name 456');
+		$response = $this->controller->sendEmailPublicLink('foo@bar.com', 'token123');
 
 		$this->assertInstanceOf(JSONResponse::class, $response);
 		$this->assertEquals([

@@ -1,36 +1,19 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { loadState } from '@nextcloud/initial-state'
 import {
 	getInitialView,
-	getPrefixedRoute,
-	isPublicOrEmbeddedRoute,
 	getPreferredEditorRoute,
-} from '../../../../src/utils/router.js'
-import { loadState } from '@nextcloud/initial-state'
+	getPrefixedRoute,
+	getViewMode,
+	ViewMode,
+} from '@/utils/router.js'
 
-jest.mock('@nextcloud/initial-state')
+vi.mock('@nextcloud/initial-state')
 
 describe('utils/router test suite', () => {
-
 	beforeEach(() => {
 		loadState.mockClear()
 	})
@@ -56,7 +39,7 @@ describe('utils/router test suite', () => {
 			.mockReturnValueOnce(false)
 			.mockImplementationOnce(() => { throw new Error() })
 
-		expect(getPreferredEditorRoute()).toEqual('sidebar')
+		expect(getPreferredEditorRoute()).toEqual('full')
 		expect(getPreferredEditorRoute()).toEqual('popover')
 		expect(getPreferredEditorRoute()).toEqual('popover')
 
@@ -67,16 +50,16 @@ describe('utils/router test suite', () => {
 	})
 
 	it('should get the preferred editor view (small screens)', () => {
-		window.innerWidth = 760
+		window.innerWidth = 500
 
 		loadState
 			.mockReturnValueOnce(true)
 			.mockReturnValueOnce(false)
 			.mockImplementationOnce(() => { throw new Error() })
 
-		expect(getPreferredEditorRoute()).toEqual('sidebar')
-		expect(getPreferredEditorRoute()).toEqual('sidebar')
-		expect(getPreferredEditorRoute()).toEqual('sidebar')
+		expect(getPreferredEditorRoute()).toEqual('full')
+		expect(getPreferredEditorRoute()).toEqual('full')
+		expect(getPreferredEditorRoute()).toEqual('full')
 
 		expect(loadState).toHaveBeenCalledTimes(3)
 		expect(loadState).toHaveBeenNthCalledWith(1, 'calendar', 'skip_popover')
@@ -95,14 +78,26 @@ describe('utils/router test suite', () => {
 		expect(getPrefixedRoute('EditPopoverView', 'CalendarView')).toEqual('CalendarView')
 	})
 
-	it('should check whether a route is public or embedded', () => {
-		expect(isPublicOrEmbeddedRoute('PublicCalendarView')).toEqual(true)
-		expect(isPublicOrEmbeddedRoute('PublicEditPopoverView')).toEqual(true)
+	it('should always report widget mode when isWidget is true, regardless of route', () => {
+		expect(getViewMode('PublicCalendarView', true)).toEqual(ViewMode.WIDGET)
+		expect(getViewMode('EmbedCalendarView', true)).toEqual(ViewMode.WIDGET)
+		expect(getViewMode('CalendarView', true)).toEqual(ViewMode.WIDGET)
+		expect(getViewMode(undefined, true)).toEqual(ViewMode.WIDGET)
+	})
 
-		expect(isPublicOrEmbeddedRoute('EmbedCalendarView')).toEqual(true)
-		expect(isPublicOrEmbeddedRoute('EmbedEditPopoverView')).toEqual(true)
+	it('should derive the view mode from the route name when not a widget', () => {
+		expect(getViewMode('PublicCalendarView')).toEqual(ViewMode.PUBLIC)
+		expect(getViewMode('PublicEditPopoverView')).toEqual(ViewMode.PUBLIC)
 
-		expect(isPublicOrEmbeddedRoute('CalendarView')).toEqual(false)
-		expect(isPublicOrEmbeddedRoute('EditPopoverView')).toEqual(false)
+		expect(getViewMode('EmbedCalendarView')).toEqual(ViewMode.EMBEDDED)
+		expect(getViewMode('EmbedEditFullView')).toEqual(ViewMode.EMBEDDED)
+
+		expect(getViewMode('CalendarView')).toEqual(ViewMode.USER)
+		expect(getViewMode('EditPopoverView')).toEqual(ViewMode.USER)
+	})
+
+	it('should default to user mode when there is no route name', () => {
+		expect(getViewMode(undefined)).toEqual(ViewMode.USER)
+		expect(getViewMode(null)).toEqual(ViewMode.USER)
 	})
 })

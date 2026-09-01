@@ -1,0 +1,127 @@
+<!--
+  - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+<script setup lang="ts">
+import { t } from '@nextcloud/l10n'
+import {
+	NcActionButton as ActionButton,
+	NcAppNavigationCaption as AppNavigationCaption,
+} from '@nextcloud/vue'
+import { computed, ref } from 'vue'
+import PlusIcon from 'vue-material-design-icons/Plus.vue'
+import AppointmentConfigListItem from '@/components/AppNavigation/AppointmentConfigList/AppointmentConfigListItem.vue'
+import AppointmentConfigModal from '@/components/AppointmentConfigModal.vue'
+import NoEmailAddressWarning from '@/components/AppointmentConfigModal/NoEmailAddressWarning.vue'
+import AppointmentConfig from '@/models/appointmentConfig.js'
+import useAppointmentConfigsStore from '@/store/appointmentConfigs.js'
+import useCalendarsStore from '@/store/calendars.js'
+import usePrincipalsStore from '@/store/principals.js'
+import useSettingsStore from '@/store/settings.js'
+import logger from '@/utils/logger.js'
+
+const appointmentConfigsStore = useAppointmentConfigsStore()
+const calendarsStore = useCalendarsStore()
+const principalsStore = usePrincipalsStore()
+const settingsStore = useSettingsStore()
+
+const showModalForNewConfig = ref(false)
+
+const configs = computed<AppointmentConfig[]>(() => appointmentConfigsStore.allConfigs)
+
+const defaultConfig = computed<AppointmentConfig>(() => {
+	return AppointmentConfig.createDefault(
+		calendarUrlToUri(calendarsStore.ownSortedCalendars[0].url),
+		calendarsStore.scheduleInbox,
+		settingsStore.getResolvedTimezone,
+	)
+})
+
+const hasAtLeastOneCalendar = computed<boolean>(() => {
+	return !!calendarsStore.ownSortedCalendars[0]
+})
+
+const hasUserEmailAddress = computed<boolean>(() => {
+	const principal = principalsStore.getCurrentUserPrincipal
+	if (!principal) {
+		return false
+	}
+
+	return !!principal.emailAddress
+})
+
+const sortedConfigs = computed<AppointmentConfig[]>(() => {
+	return [...configs.value].sort((config1, config2) => config1.name.localeCompare(config2.name))
+})
+
+function closeModal(): void {
+	showModalForNewConfig.value = false
+}
+
+function calendarUrlToUri(url: string): string {
+	// Trim trailing slash and split into URL parts
+	const parts = url.replace(/\/$/, '').split('/')
+	// The last one is the URI
+	return parts[parts.length - 1]
+}
+
+async function deleteConfig(config: AppointmentConfig): Promise<void> {
+	logger.info('Deleting config', { config })
+
+	try {
+		await appointmentConfigsStore.deleteConfig({ id: config.id })
+
+		logger.info('Config deleted', { config })
+	} catch (error) {
+		logger.error(`Deleting appointment config failed: ${error}`, {
+			config,
+			error,
+		})
+	}
+}
+</script>
+
+<template>
+	<!--
+	 The appointments feature requires at least one calendar in the vuex store.
+	 Trying to use it before calendars are loaded will result in an error.
+	-->
+	<div
+		v-if="hasAtLeastOneCalendar"
+		class="appointment-config-list">
+		<AppNavigationCaption
+			class="appointment-config-list__caption"
+			:name="t('calendar', 'Appointment schedules')">
+			<template
+				v-if="hasUserEmailAddress"
+				#actions>
+				<ActionButton
+					:closeAfterClick="true"
+					@click="showModalForNewConfig = true">
+					<template #icon>
+						<PlusIcon :size="20" decorative />
+					</template>
+					{{ t('calendar', 'Create new') }}
+				</ActionButton>
+			</template>
+		</AppNavigationCaption>
+
+		<template v-if="hasUserEmailAddress">
+			<template v-if="sortedConfigs.length > 0">
+				<AppointmentConfigListItem
+					v-for="config in sortedConfigs"
+					:key="config.id"
+					:config="config"
+					@delete="deleteConfig(config)" />
+			</template>
+
+			<AppointmentConfigModal
+				v-if="showModalForNewConfig"
+				:isNew="true"
+				:config="defaultConfig"
+				@close="closeModal" />
+		</template>
+		<NoEmailAddressWarning v-else />
+	</div>
+</template>

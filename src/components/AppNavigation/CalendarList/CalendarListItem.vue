@@ -1,490 +1,304 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+<script setup lang="ts">
+import type { CalendarInterface } from '@/types/calendar.ts'
+
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { n, t } from '@nextcloud/l10n'
+import { generateRemoteUrl, generateUrl } from '@nextcloud/router'
+import {
+	NcActionButton as ActionButton,
+	NcAppNavigationItem as AppNavigationItem,
+	NcActionCaption,
+	NcActionSeparator,
+	NcActionText,
+	NcAvatar,
+} from '@nextcloud/vue'
+import { computed, ref } from 'vue'
+import CheckboxBlank from 'vue-material-design-icons/CheckboxBlankOutline.vue'
+import CheckboxMarked from 'vue-material-design-icons/CheckboxMarked.vue'
+import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
+import LinkVariant from 'vue-material-design-icons/Link.vue'
+import Pencil from 'vue-material-design-icons/PencilOutline.vue'
+import Undo from 'vue-material-design-icons/Undo.vue'
+import useCalendarsStore from '@/store/calendars.js'
+import usePrincipalsStore from '@/store/principals.js'
+import logger from '@/utils/logger.js'
+
+const props = defineProps<{
+	calendar: CalendarInterface
+}>()
+
+const calendarsStore = useCalendarsStore()
+const principalsStore = usePrincipalsStore()
+
+const actionsMenuOpen = ref(false)
+
+/**
+ * Whether to show the sharing section
+ */
+const canBeShared = computed<boolean>(() => {
+	// The backend falsely reports incoming editable shares as being shareable
+	// Ref https://github.com/nextcloud/calendar/issues/5755
+	if (props.calendar.isSharedWithMe || props.calendar.isDelegated) {
+		return false
+	}
+
+	return props.calendar.canBeShared || props.calendar.canBePublished
+})
+
+/**
+ * Whether the calendar is already published or not.
+ */
+const isPublished = computed<boolean>(() => props.calendar.publishURL !== null)
+
+/**
+ * Is the calendar shared with me?
+ */
+const isSharedWithMe = computed<boolean>(() => props.calendar.isSharedWithMe && !props.calendar.isDelegated)
+
+/**
+ * Is the calendar delegated to me by another user?
+ */
+const isDelegated = computed<boolean>(() => !!props.calendar.isDelegated)
+
+/**
+ * Is the calendar shared by me or published via a link?
+ */
+const isSharedByMe = computed<boolean>(() => props.calendar.shares.length > 0 || props.calendar.publishURL !== null)
+
+/**
+ * Whether or not the information about the owner principal was loaded
+ */
+const loadedOwnerPrincipal = computed<boolean>(() => principalsStore.getPrincipalByUrl(props.calendar.owner) !== undefined)
+
+const loadedDelegatorPrincipal = computed<boolean>(() => principalsStore.getPrincipalByUrl(props.calendar.delegatorUrl) !== undefined)
+
+const ownerUserId = computed<string>(() => {
+	const principal = principalsStore.getPrincipalByUrl(props.calendar.owner)
+	return principal?.userId || ''
+})
+
+const ownerDisplayname = computed<string>(() => {
+	const principal = principalsStore.getPrincipalByUrl(props.calendar.owner)
+	return principal?.displayname || ''
+})
+
+const delegatorUserId = computed<string>(() => {
+	const principal = principalsStore.getPrincipalByUrl(props.calendar.delegatorUrl)
+	return principal?.userId || ''
+})
+
+const delegatorDisplayname = computed<string>(() => {
+	const principal = principalsStore.getPrincipalByUrl(props.calendar.delegatorUrl)
+	return principal?.displayname || principal?.userId || ''
+})
+
+/**
+ * compute aria-description for AppNavigationItem link
+ */
+const descriptionAppNavigationItem = computed<string>(() => {
+	if (props.calendar.enabled && props.calendar.displayName) {
+		return t('calendar', 'Disable calendar "{calendar}"', { calendar: props.calendar.displayName })
+	} else if (props.calendar.enabled && !props.calendar.displayName) {
+		return t('calendar', 'Disable untitled calendar')
+	} else if (!props.calendar.enabled && props.calendar.displayName) {
+		return t('calendar', 'Enable calendar "{calendar}"', { calendar: props.calendar.displayName })
+	} else {
+		return t('calendar', 'Enable untitled calendar')
+	}
+})
+
+/**
+ * Whether the calendar is currently being deleted
+ */
+const isBeingDeleted = computed<boolean>(() => !!props.calendar.deleteInterval)
+
+/**
+ * Countdown to the deletion of the calendar
+ */
+const countdown = computed<number>(() => props.calendar.countdown ?? 0)
+
+const calendarDisplayName = computed<string>(() => {
+	if (props.calendar.displayName.substring(0, 5) === 'Deck:') {
+		return props.calendar.displayName.substring(5)
+	} else {
+		return props.calendar.displayName
+	}
+})
+
+/**
+ * Toggles the enabled state of this calendar
+ */
+async function toggleEnabled(): Promise<void> {
+	try {
+		await calendarsStore.toggleCalendarEnabled({ calendar: props.calendar })
+	} catch (error) {
+		showError(t('calendar', 'An error occurred, unable to change visibility of the calendar.'))
+		logger.error(error)
+	}
+}
+
+/**
+ * Cancels the deletion of a calendar
+ */
+function cancelDeleteCalendar(): void {
+	calendarsStore.cancelCalendarDeletion({ calendar: props.calendar })
+}
+
+/**
+ * Open the calendar modal for this calendar item.
+ */
+function showEditModal(): void {
+	calendarsStore.editCalendarModal = { calendarId: props.calendar.id }
+}
+
+/**
+ * Copies the public link of this calendar to the clipboard.
+ */
+async function copyPublicLink(): Promise<void> {
+	const rootURL = generateRemoteUrl('dav')
+	const token = props.calendar.publishURL!.split('/').slice(-1)[0]
+	const url = new URL(generateUrl('apps/calendar') + '/p/' + token, rootURL)
+
+	// copy link for calendar to clipboard
+	try {
+		await navigator.clipboard.writeText(url.href)
+		showSuccess(t('calendar', 'Calendar link copied to clipboard.'))
+	} catch (error) {
+		logger.debug(error)
+		showError(t('calendar', 'Calendar link could not be copied to clipboard.'))
+	}
+}
+</script>
 
 <template>
 	<AppNavigationItem
-		v-click-outside="closeShareMenu"
 		:loading="calendar.loading"
-		:title="calendar.displayName || $t('calendar', 'Untitled calendar')"
-		:class="{deleted: !!deleteTimeout, disabled: !calendar.enabled, 'open-sharing': shareMenuOpen}"
+		:aria-description="descriptionAppNavigationItem"
+		:name="calendarDisplayName || t('calendar', 'Untitled calendar')"
+		:class="{ deleted: isBeingDeleted, disabled: !calendar.enabled }"
+		@update:menuOpen="actionsMenuOpen = $event"
 		@click.prevent.stop="toggleEnabled">
-		<AppNavigationIconBullet
-			v-if="calendar.enabled"
-			slot="icon"
-			:color="calendar.color"
-			@click.prevent.stop="toggleEnabled" />
-		<AppNavigationDisabledCalendarIconBullet
-			v-if="!calendar.enabled"
-			slot="icon"
-			@click.prevent.stop="toggleEnabled" />
-
-		<template v-if="!deleteTimeout" slot="counter">
-			<Actions v-if="showSharingIcon">
-				<ActionButton :icon="sharingIconClass" @click="toggleShareMenu" />
-			</Actions>
-			<Avatar v-if="isSharedWithMe && loadedOwnerPrincipal" :user="ownerUserId" :display-name="ownerDisplayname" />
-			<div v-if="isSharedWithMe && !loadedOwnerPrincipal" class="icon icon-loading" />
+		<template #icon>
+			<CheckboxMarked
+				v-if="calendar.enabled"
+				:size="20"
+				:fillColor="calendar.color"
+				@click.prevent.stop="toggleEnabled" />
+			<CheckboxBlank
+				v-else
+				:size="20"
+				:fillColor="calendar.color"
+				@click.prevent.stop="toggleEnabled" />
 		</template>
 
-		<template v-if="!deleteTimeout" slot="actions">
-			<ActionButton
-				v-if="showRenameLabel"
-				icon="icon-rename"
-				@click.prevent.stop="openRenameInput">
-				{{ $t('calendar', 'Edit name') }}
-			</ActionButton>
-			<ActionInput
-				v-if="showRenameInput"
-				icon="icon-rename"
-				:value="calendar.displayName"
-				@submit.prevent.stop="saveRenameInput" />
-			<ActionText
-				v-if="showRenameSaving"
-				icon="icon-loading-small">
-				<!-- eslint-disable-next-line no-irregular-whitespace -->
-				{{ $t('calendar', 'Saving name …') }}
-			</ActionText>
-			<ActionButton
-				v-if="showColorLabel"
-				icon="icon-rename"
-				@click.prevent.stop="openColorInput">
-				{{ $t('calendar', 'Edit color') }}
-			</ActionButton>
-			<ActionInput
-				v-if="showColorInput"
-				icon="icon-rename"
-				:value="calendar.color"
-				type="color"
-				@submit.prevent.stop="saveColorInput" />
-			<ActionText
-				v-if="showColorSaving"
-				icon="icon-loading-small">
-				<!-- eslint-disable-next-line no-irregular-whitespace -->
-				{{ $t('calendar', 'Saving color …') }}
-			</ActionText>
-			<ActionButton
-				icon="icon-clippy"
-				@click.stop.prevent="copyLink">
-				{{ $t('calendar', 'Copy private link') }}
-			</ActionButton>
-			<ActionLink
-				icon="icon-download"
-				target="_blank"
-				:href="downloadUrl">
-				{{ $t('calendar', 'Download') }}
-			</ActionLink>
-			<ActionButton
-				v-if="calendar.isSharedWithMe"
-				icon="icon-delete"
-				@click.prevent.stop="deleteCalendar">
-				{{ $t('calendar', 'Unshare from me') }}
-			</ActionButton>
-			<ActionButton
-				v-if="!calendar.isSharedWithMe"
-				icon="icon-delete"
-				@click.prevent.stop="deleteCalendar">
-				{{ $t('calendar', 'Delete') }}
-			</ActionButton>
+		<template #counter>
+			<LinkVariant v-if="isSharedByMe" :size="20" />
+			<NcAvatar
+				v-else-if="isDelegated && loadedDelegatorPrincipal && !actionsMenuOpen"
+				:user="delegatorUserId"
+				:displayName="delegatorDisplayname"
+				:title="delegatorDisplayname"
+				:hideStatus="true"
+				:size="20"
+				class="delegated-counter-avatar" />
+			<NcAvatar
+				v-else-if="isSharedWithMe && loadedOwnerPrincipal && !actionsMenuOpen"
+				:user="ownerUserId"
+				:displayName="ownerDisplayname" />
+			<div v-else-if="(isSharedWithMe && !loadedOwnerPrincipal) || (isDelegated && !loadedDelegatorPrincipal)" class="icon icon-loading" />
 		</template>
 
-		<template v-if="!!deleteTimeout" slot="actions">
-			<ActionButton
-				v-if="calendar.isSharedWithMe"
-				icon="icon-history"
-				@click.prevent.stop="cancelDeleteCalendar">
-				{{ $n('calendar', 'Unsharing the calendar in {countdown} second', 'Unsharing the calendar in {countdown} seconds', countdown, { countdown }) }}
-			</ActionButton>
-			<ActionButton
-				v-if="!calendar.isSharedWithMe"
-				icon="icon-history"
-				@click.prevent.stop="cancelDeleteCalendar">
-				{{ $n('calendar', 'Deleting the calendar in {countdown} second', 'Deleting the calendar in {countdown} seconds', countdown, { countdown }) }}
-			</ActionButton>
-		</template>
-
-		<template v-if="!deleteTimeout">
-			<div v-show="shareMenuOpen" class="sharing-section">
-				<CalendarListItemSharingSearch v-if="calendar.canBeShared" :calendar="calendar" />
-				<CalendarListItemSharingPublishItem v-if="calendar.canBePublished" :calendar="calendar" />
-				<CalendarListItemSharingShareItem v-for="sharee in calendar.shares"
-					v-show="shareMenuOpen"
-					:key="sharee.uri"
-					:sharee="sharee"
-					:calendar="calendar" />
-			</div>
+		<template #actions>
+			<template v-if="!isBeingDeleted">
+				<template v-if="isDelegated">
+					<NcActionCaption :name="t('calendar', 'Delegated to you by')" />
+					<NcActionText class="delegated-action-text">
+						<template #icon>
+							<div class="actions-icon-avatar">
+								<NcAvatar :user="delegatorUserId" :displayName="delegatorDisplayname" :size="30" />
+							</div>
+						</template>
+						{{ delegatorDisplayname }}
+					</NcActionText>
+					<NcActionSeparator />
+				</template>
+				<template v-else-if="isSharedWithMe">
+					<NcActionCaption :name="t('calendar', 'Shared with you by')" />
+					<NcActionText>
+						<template #icon>
+							<div class="actions-icon-avatar">
+								<NcAvatar :user="ownerUserId" :displayName="ownerDisplayname" :size="30" />
+							</div>
+						</template>
+						{{ ownerDisplayname }}
+					</NcActionText>
+					<NcActionSeparator />
+				</template>
+				<ActionButton v-if="isPublished" @click.prevent.stop="copyPublicLink">
+					<template #icon>
+						<ContentCopy :size="20" decorative />
+					</template>
+					{{ t('calendar', 'Copy public link') }}
+				</ActionButton>
+				<ActionButton @click.prevent.stop="showEditModal">
+					<template #icon>
+						<Pencil :size="20" decorative />
+					</template>
+					{{ canBeShared ? t('calendar', 'Edit and share calendar') : t('calendar', 'Edit calendar') }}
+				</ActionButton>
+			</template>
+			<template v-else>
+				<ActionButton
+					v-if="calendar.isSharedWithMe"
+					@click.prevent.stop="cancelDeleteCalendar">
+					<template #icon>
+						<Undo :size="20" decorative />
+					</template>
+					{{ n('calendar', 'Unsharing the calendar in {countdown} second', 'Unsharing the calendar in {countdown} seconds', countdown, { countdown }) }}
+				</ActionButton>
+				<ActionButton
+					v-else
+					@click.prevent.stop="cancelDeleteCalendar">
+					<template #icon>
+						<Undo :size="20" decorative />
+					</template>
+					{{ n('calendar', 'Deleting the calendar in {countdown} second', 'Deleting the calendar in {countdown} seconds', countdown, { countdown }) }}
+				</ActionButton>
+			</template>
 		</template>
 	</AppNavigationItem>
 </template>
 
-<script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionInput from '@nextcloud/vue/dist/Components/ActionInput'
-import ActionLink from '@nextcloud/vue/dist/Components/ActionLink'
-import ActionText from '@nextcloud/vue/dist/Components/ActionText'
-import AppNavigationIconBullet from '@nextcloud/vue/dist/Components/AppNavigationIconBullet'
-import AppNavigationItem from '@nextcloud/vue/dist/Components/AppNavigationItem'
-import ClickOutside from 'vue-click-outside'
-import {
-	showInfo,
-	showSuccess,
-	showError,
-} from '@nextcloud/dialogs'
-import {
-	generateRemoteUrl,
-} from '@nextcloud/router'
+<style lang="scss" scoped>
+	.actions-icon-avatar {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+	}
 
-import AppNavigationDisabledCalendarIconBullet from './AppNavigationDisabledCalendarIconBullet.vue'
-import CalendarListItemSharingSearch from './CalendarListItemSharingSearch.vue'
-import CalendarListItemSharingPublishItem from './CalendarListItemSharingPublishItem.vue'
-import CalendarListItemSharingShareItem from './CalendarListItemSharingShareItem.vue'
+	// Size and position the delegated avatar in the counter slot to match icon buttons
+	.delegated-counter-avatar {
+		margin-inline-start: auto;
+	}
 
-export default {
-	name: 'CalendarListItem',
-	components: {
-		Avatar,
-		Actions,
-		ActionButton,
-		ActionInput,
-		ActionLink,
-		ActionText,
-		AppNavigationDisabledCalendarIconBullet,
-		AppNavigationIconBullet,
-		AppNavigationItem,
-		CalendarListItemSharingSearch,
-		CalendarListItemSharingPublishItem,
-		CalendarListItemSharingShareItem,
-	},
-	directives: {
-		ClickOutside,
-	},
-	props: {
-		calendar: {
-			type: Object,
-			required: true,
-		},
-	},
-	data: function() {
-		return {
-			// Rename action
-			showRenameLabel: true,
-			showRenameInput: false,
-			showRenameSaving: false,
-			// Color action
-			showColorLabel: true,
-			showColorInput: false,
-			showColorSaving: false,
-			// share menu
-			shareMenuOpen: false,
-			// Deleting
-			deleteInterval: null,
-			deleteTimeout: null,
-			countdown: 7,
-		}
-	},
-	computed: {
-		/**
-		 * Download url of the calendar
-		 *
-		 * @returns {String}
-		 */
-		downloadUrl() {
-			return this.calendar.url + '?export'
-		},
-		/**
-		 * Whether or not to display the sharing icon.
-		 * It will only be displayed when the calendar is either sharable or publishable
-		 *
-		 * @returns {Boolean}
-		 */
-		showSharingIcon() {
-			return this.calendar.canBeShared || this.calendar.canBePublished
-		},
-		/**
-		 * The sharing icon class.
-		 * This figures out what icon to display.
-		 *
-		 * The anchor icon when the calendar is published
-		 * The sharing icon with high opacity when the calendar is shared
-		 * The sharing icon with low opacity when the calendar is neither shared nor published
-		 *
-		 * @returns {String}
-		 */
-		sharingIconClass() {
-			if (this.isPublished) {
-				return 'icon-public'
-			}
+	// Vertically align the owner name with the avatar in the "Delegated to you by" row
+	:deep(.action-text__text) {
+		align-self: center ;
+	}
 
-			if (this.isShared) {
-				return 'icon-shared'
-			}
+	// Hide avatars if list item is hovered
+	:deep(.app-navigation-entry:hover .app-navigation-entry__counter-wrapper) {
+		display: none;
+	}
 
-			return 'icon-share'
-		},
-		/**
-		 * Whether or not the calendar is either shared or published
-		 * This is used to figure out whether or not to display the Shared label
-		 *
-		 * @returns {Boolean}
-		 */
-		isSharedOrPublished() {
-			return this.isShared || this.isPublished
-		},
-		/**
-		 * Is the calendar shared?
-		 *
-		 * @returns {Boolean}
-		 */
-		isShared() {
-			return !!this.calendar.shares.length
-		},
-		/**
-		 * Is the calendar shared with me?
-		 *
-		 * @returns {Boolean}
-		 */
-		isSharedWithMe() {
-			return this.calendar.isSharedWithMe
-		},
-		/**
-		 * Is the calendar published
-		 *
-		 * @returns {Boolean}
-		 */
-		isPublished() {
-			return !!this.calendar.publishURL
-		},
-		/**
-		 * TODO: this should use principals and principal.userId
-		 *
-		 * @returns {String}
-		 */
-		owner() {
-			if (this.calendar.owner.indexOf('principal:principals/users/') === '0') {
-				console.debug(this.calendar.owner.substr(27))
-				return this.calendar.owner.substr(27)
-			}
-
-			return ''
-		},
-		/**
-		 * Whether or not the information about the owner principal was loaded
-		 *
-		 * @returns {Boolean}
-		 */
-		loadedOwnerPrincipal() {
-			return this.$store.getters.getPrincipalByUrl(this.calendar.owner) !== undefined
-		},
-		ownerUserId() {
-			const principal = this.$store.getters.getPrincipalByUrl(this.calendar.owner)
-			if (principal) {
-				return principal.userId
-			}
-
-			return ''
-		},
-		ownerDisplayname() {
-			const principal = this.$store.getters.getPrincipalByUrl(this.calendar.owner)
-			if (principal) {
-				return principal.displayname
-			}
-
-			return ''
-		},
-	},
-	methods: {
-		/**
-		 * Toggles the enabled state of this calendar
-		 */
-		toggleEnabled() {
-			this.$store.dispatch('toggleCalendarEnabled', { calendar: this.calendar })
-				.catch((error) => {
-					showError(this.$t('calendar', 'An error occurred, unable to change visibility of the calendar.'))
-					console.error(error)
-				})
-		},
-		/**
-		 * Deletes or unshares the calendar
-		 */
-		deleteCalendar() {
-			this.deleteInterval = setInterval(() => {
-				this.countdown--
-
-				if (this.countdown < 0) {
-					this.countdown = 0
-				}
-			}, 1000)
-			this.deleteTimeout = setTimeout(async() => {
-				try {
-					await this.$store.dispatch('deleteCalendar', { calendar: this.calendar })
-				} catch (error) {
-					showError(this.$t('calendar', 'An error occurred, unable to delete the calendar.'))
-					console.error(error)
-				} finally {
-					clearInterval(this.deleteInterval)
-					this.deleteTimeout = null
-					this.deleteInterval = null
-					this.countdown = 7
-				}
-			}, 7000)
-		},
-		/**
-		 * Cancels the deletion of a calendar
-		 */
-		cancelDeleteCalendar() {
-			clearTimeout(this.deleteTimeout)
-			clearInterval(this.deleteInterval)
-			this.deleteTimeout = null
-			this.deleteInterval = null
-			this.countdown = 7
-		},
-		/**
-		 * Closes the share menu
-		 * This is used with v-click-outside
-		 *
-		 * @param {Event} event The javascript click event
-		 */
-		closeShareMenu(event) {
-			if (!event.isTrusted) {
-				return
-			}
-
-			if (this.$el.contains(event.target)) {
-				this.shareMenuOpen = true
-				return
-			}
-
-			if (event.composedPath && event.composedPath().includes(this.$el)) {
-				this.shareMenuOpen = true
-				return
-			}
-
-			this.shareMenuOpen = false
-		},
-		/**
-		 * Toggles the visibility of the share menu
-		 */
-		toggleShareMenu() {
-			this.shareMenuOpen = !this.shareMenuOpen
-			console.debug('toggled share menu')
-		},
-		/**
-		 * Copies the private calendar link
-		 * to be used with clients like Thunderbird
-		 */
-		async copyLink() {
-			const rootUrl = generateRemoteUrl('dav')
-			const url = new URL(this.calendar.url, rootUrl)
-
-			// TODO - use menuOpen to keep it open instead of toast
-
-			try {
-				await this.$copyText(url)
-				showSuccess(this.$t('calendar', 'Calendar link copied to clipboard.'))
-			} catch (error) {
-				console.debug(error)
-				showError(this.$t('calendar', 'Calendar link could not be copied to clipboard.'))
-			}
-		},
-		/**
-		 * Opens the input-field to rename the calendar
-		 */
-		openRenameInput() {
-			// Hide label and show input
-			this.showRenameLabel = false
-			this.showRenameInput = true
-			this.showRenameSaving = false
-			// Reset color input if necessary
-			this.showColorLabel = true
-			this.showColorInput = false
-			this.showColorSaving = false
-		},
-		/**
-		 * Saves the modified name of a calendar
-		 *
-		 * @param {Event} event The submit event
-		 */
-		async saveRenameInput(event) {
-			this.showRenameInput = false
-			this.showRenameSaving = true
-
-			const newName = event.target.querySelector('input[type=text]').value
-			try {
-				await this.$store.dispatch('renameCalendar', {
-					calendar: this.calendar,
-					newName,
-				})
-				this.showRenameLabel = true
-				this.showRenameInput = false
-				this.showRenameSaving = false
-			} catch (error) {
-				showInfo(this.$t('calendar', 'An error occurred, unable to rename the calendar.'))
-				console.error(error)
-
-				this.showRenameLabel = false
-				this.showRenameInput = true
-				this.showRenameSaving = false
-			}
-		},
-		/**
-		 * Opens the color-picker
-		 */
-		openColorInput() {
-			// Hide label and show input
-			this.showColorLabel = false
-			this.showColorInput = true
-			this.showColorSaving = false
-			// Reset rename input if necessary
-			this.showRenameLabel = true
-			this.showRenameInput = false
-			this.showRenameSaving = false
-		},
-		/**
-		 * Saves the modified color of a calendar
-		 *
-		 * @param {Event} event The submit event
-		 */
-		async saveColorInput(event) {
-			this.showColorInput = false
-			this.showColorSaving = true
-
-			const newColor = event.target.querySelector('input[type=color]').value
-			try {
-				await this.$store.dispatch('changeCalendarColor', {
-					calendar: this.calendar,
-					newColor,
-				})
-				this.showColorLabel = true
-				this.showColorInput = false
-				this.showColorSaving = false
-			} catch (error) {
-				showInfo(this.$t('calendar', 'An error occurred, unable to change the calendar\'s color.'))
-				console.error(error)
-
-				this.showColorLabel = false
-				this.showColorInput = true
-				this.showColorSaving = false
-			}
-		},
-	},
-}
-</script>
+	.app-navigation-entry__counter-wrapper .action-item.sharing .material-design-icon.share {
+		opacity: .3;
+	}
+</style>

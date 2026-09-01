@@ -1,0 +1,81 @@
+/**
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+import {
+	addMailtoPrefix,
+	getRoomAttendees,
+	isPendingResourceBooking,
+	organizerDisplayName,
+	removeMailtoPrefix,
+} from '@/utils/attendee.js'
+
+describe('utils/attendee test suite', () => {
+	it('should remove mailto prefixes from uris', () => {
+		const uri = 'principal@test.com'
+		expect(removeMailtoPrefix(uri)).toEqual(uri)
+		expect(removeMailtoPrefix(`mailto:${uri}`)).toEqual(uri)
+		expect(removeMailtoPrefix(`MAILTO:${uri}`)).toEqual(uri)
+		expect(removeMailtoPrefix(`MailTo:${uri}`)).toEqual(uri)
+	})
+
+	it('should return blank strings when uris are not of type string', () => {
+		expect(removeMailtoPrefix(null)).toEqual('')
+		expect(removeMailtoPrefix(undefined)).toEqual('')
+	})
+
+	it('should add mailto prefixes to uris', () => {
+		const uri = 'principal@test.com'
+		const uriWithPrefix = `mailto:${uri}`
+		expect(addMailtoPrefix(uri)).toEqual(uriWithPrefix)
+		expect(addMailtoPrefix(uriWithPrefix)).toEqual(uriWithPrefix)
+	})
+
+	it('should add mailto prefixes to uris when they are not of type string', () => {
+		expect(addMailtoPrefix(null)).toEqual('mailto:')
+		expect(addMailtoPrefix(undefined)).toEqual('mailto:')
+	})
+
+	it('should extract a display name of an organizer', () => {
+		const commonName = 'My Name'
+		const uri = 'uri@test.com'
+		expect(organizerDisplayName(null)).toEqual('')
+		expect(organizerDisplayName(undefined)).toEqual('')
+		expect(organizerDisplayName({ commonName })).toEqual(commonName)
+		expect(organizerDisplayName({ uri })).toEqual(uri)
+		expect(organizerDisplayName({ uri: `mailto:${uri}` })).toEqual(uri)
+		expect(organizerDisplayName({
+			commonName,
+			uri,
+		})).toEqual(commonName)
+	})
+
+	it('should detect pending resource bookings', () => {
+		expect(isPendingResourceBooking('NEEDS-ACTION', '')).toEqual(true)
+		expect(isPendingResourceBooking('NEEDS-ACTION', '1.0')).toEqual(true)
+		expect(isPendingResourceBooking('', '')).toEqual(true)
+	})
+
+	it('should not detect answered or failed resource bookings as pending', () => {
+		expect(isPendingResourceBooking('ACCEPTED', '')).toEqual(false)
+		expect(isPendingResourceBooking('DECLINED', '2.0')).toEqual(false)
+		expect(isPendingResourceBooking('TENTATIVE', '')).toEqual(false)
+		expect(isPendingResourceBooking('NEEDS-ACTION', '3.7')).toEqual(false)
+		expect(isPendingResourceBooking('NEEDS-ACTION', '5.1')).toEqual(false)
+	})
+
+	it('should pick the room attendees out of a list of attendees', () => {
+		const room = { uri: 'room@test.com', attendeeProperty: { userType: 'ROOM' } }
+		const resource = { uri: 'beamer@test.com', attendeeProperty: { userType: 'RESOURCE' } }
+		const individual = { uri: 'user@test.com', attendeeProperty: { userType: 'INDIVIDUAL' } }
+
+		expect(getRoomAttendees([room, resource, individual])).toEqual([room])
+	})
+
+	it('should not choke on attendees without a user type', () => {
+		expect(getRoomAttendees([{ uri: 'user@test.com' }, null])).toEqual([])
+		expect(getRoomAttendees([])).toEqual([])
+		expect(getRoomAttendees(undefined)).toEqual([])
+	})
+})

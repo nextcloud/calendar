@@ -1,78 +1,79 @@
 <!--
-  - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<FullCalendar
 		ref="fullCalendar"
+		:class="isWidget ? 'fullcalendar-widget' : ''"
 		:options="options" />
 </template>
 
 <script>
-// Import FullCalendar itself
-import FullCalendar from '@fullcalendar/vue'
+
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
+import multiMonthPlugin from '@fullcalendar/multimonth'
 import timeGridPlugin from '@fullcalendar/timegrid'
-
-// Import event sources
-import eventSource from '../fullcalendar/eventSources/eventSource.js'
-
-// Import interaction handlers
-import eventAllow from '../fullcalendar/interaction/eventAllow.js'
-import eventClick from '../fullcalendar/interaction/eventClick.js'
-import eventDrop from '../fullcalendar/interaction/eventDrop.js'
-import eventResize from '../fullcalendar/interaction/eventResize.js'
-import navLinkDayClick from '../fullcalendar/interaction/navLinkDayClick.js'
-import navLinkWeekClick from '../fullcalendar/interaction/navLinkWeekClick.js'
-import select from '../fullcalendar/interaction/select.js'
-
-// Import localization plugins
-import { getDateFormattingConfig } from '../fullcalendar/localization/dateFormattingConfig.js'
-import { getFullCalendarLocale } from '../fullcalendar/localization/localeProvider.js'
-import MomentPlugin from '../fullcalendar/localization/momentPlugin.js'
-
-// Import rendering handlers
-import dayHeaderDidMount from '../fullcalendar/rendering/dayHeaderDidMount.js'
-import eventDidMount from '../fullcalendar/rendering/eventDidMount.js'
-import eventOrder from '../fullcalendar/rendering/eventOrder.js'
-import noEventsDidMount from '../fullcalendar/rendering/noEventsDidMount.js'
-
-// Import timezone plugins
-import VTimezoneNamedTimezone from '../fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
-
+// Import FullCalendar itself
+import FullCalendar from '@fullcalendar/vue3'
+import { DateTimeValue } from '@nextcloud/calendar-js'
 // Import other dependencies
-import { mapGetters, mapState } from 'vuex'
 import debounce from 'debounce'
-import { getLocale } from '@nextcloud/l10n'
-import { getYYYYMMDDFromFirstdayParam } from '../utils/date.js'
-import { getFirstDayOfWeekFromMomentLocale } from '../utils/moment.js'
+import { mapState, mapStores } from 'pinia'
+// Import event sources
+import eventSource from '@/fullcalendar/eventSources/eventSource.js'
+// Import interaction handlers
+import eventAllow from '@/fullcalendar/interaction/eventAllow.js'
+import eventClick from '@/fullcalendar/interaction/eventClick.js'
+import eventDrop from '@/fullcalendar/interaction/eventDrop.js'
+import eventResize from '@/fullcalendar/interaction/eventResize.js'
+import navLinkDayClick from '@/fullcalendar/interaction/navLinkDayClick.js'
+import navLinkWeekClick from '@/fullcalendar/interaction/navLinkWeekClick.js'
+import select from '@/fullcalendar/interaction/select.js'
+// Import localization plugins
+import { getDateFormattingConfig } from '@/fullcalendar/localization/dateFormattingConfig.js'
+import { getFullCalendarLocale } from '@/fullcalendar/localization/localeProvider.js'
+import momentPlugin from '@/fullcalendar/localization/momentPlugin.js'
+// Import rendering handlers
+import dayCellDidMount from '@/fullcalendar/rendering/dayCellDidMount.js'
+import dayHeaderDidMount from '@/fullcalendar/rendering/dayHeaderDidMount.js'
+import eventDidMount from '@/fullcalendar/rendering/eventDidMount.js'
+import {
+	allDayFirst,
+	allDayOrder,
+	partDayOrder,
+} from '@/fullcalendar/rendering/eventOrder.js'
+import noEventsDidMount from '@/fullcalendar/rendering/noEventsDidMount.js'
+// Import timezone plugins
+import VTimezoneNamedTimezone from '@/fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
+import useSettingsStore from '@/store/settings.js'
+import useWidgetStore from '@/store/widget.js'
+import { getAllObjectsInTimeRange } from '@/utils/calendarObject.js'
+import { getYYYYMMDDFromFirstdayParam } from '@/utils/date.js'
 
 export default {
 	name: 'CalendarGrid',
 	components: {
 		FullCalendar,
 	},
+
 	props: {
+		isWidget: {
+			type: Boolean,
+			default: false,
+		},
+
+		url: {
+			type: String,
+			required: false,
+		},
+
 		/**
 		 * Whether or not the user is authenticated
 		 */
@@ -81,32 +82,45 @@ export default {
 			required: true,
 		},
 	},
+
 	data() {
 		return {
 			updateTodayJob: null,
 			updateTodayJobPreviousDate: null,
 		}
 	},
+
 	computed: {
-		...mapGetters({
+		...mapStores(
+			useCalendarsStore,
+			useSettingsStore,
+			useCalendarObjectsStore,
+			useFetchedTimeRangesStore,
+		),
+
+		...mapState(useSettingsStore, {
 			timezoneId: 'getResolvedTimezone',
 		}),
-		...mapState({
-			locale: (state) => state.settings.momentLocale,
-			eventLimit: state => state.settings.eventLimit,
-			skipPopover: state => state.settings.skipPopover,
-			showWeekends: state => state.settings.showWeekends,
-			showWeekNumbers: state => state.settings.showWeekNumbers,
-			slotDuration: state => state.settings.slotDuration,
-			showTasks: state => state.settings.showTasks,
-			timezone: state => state.settings.timezone,
-			modificationCount: state => state.calendarObjects.modificationCount,
-		}),
+
+		...mapState(useSettingsStore, [
+			'eventLimit',
+			'showWeekends',
+			'showWeekNumbers',
+			'slotDuration',
+			'searchQuery',
+		]),
+
+		...mapState(useCalendarObjectsStore, ['modificationCount']),
+		...mapState(useWidgetStore, [
+			'widgetView',
+			'widgetDate',
+		]),
+
 		options() {
 			return {
 				// Initialization:
-				initialDate: getYYYYMMDDFromFirstdayParam(this.$route.params.firstDay),
-				initialView: this.$route.params.view,
+				initialDate: getYYYYMMDDFromFirstdayParam(this.$route?.params?.firstDay ?? 'now'),
+				initialView: this.$route?.params.view ?? 'dayGridMonth',
 				// Data
 				eventSources: this.eventSources,
 				// Plugins
@@ -115,26 +129,29 @@ export default {
 				editable: this.isEditable,
 				selectable: this.isAuthenticatedUser,
 				eventAllow,
-				eventClick: eventClick(this.$store, this.$router, this.$route, window),
-				eventDrop: (...args) => eventDrop(this.$store, this.$refs.fullCalendar.getApi())(...args),
-				eventResize: eventResize(this.$store),
-				navLinkDayClick: navLinkDayClick(this.$router, this.$route),
-				navLinkWeekClick: navLinkWeekClick(this.$router, this.$route),
-				select: select(this.$store, this.$router, this.$route, window),
+				eventClick: eventClick(this.$router, this.$route, window, this.isWidget, this.$refs),
+				eventDrop: this.isWidget ? false : (...args) => eventDrop(this.$refs.fullCalendar.getApi())(...args),
+				eventResize: this.isWidget ? false : eventResize(),
+				eventResizableFromStart: true,
+				navLinkDayClick: this.isWidget ? false : navLinkDayClick(this.$router, this.$route),
+				navLinkWeekClick: this.isWidget ? false : navLinkWeekClick(this.$router, this.$route),
+				select: this.isWidget ? false : select(this.$router, this.$route, window),
 				navLinks: true,
+				selectLongPressDelay: 500,
 				// Localization
 				...getDateFormattingConfig(),
-				locale: getFullCalendarLocale(getLocale(), this.locale),
-				firstDay: getFirstDayOfWeekFromMomentLocale(this.locale),
+				...getFullCalendarLocale(),
 				// Rendering
+				dayCellDidMount,
 				dayHeaderDidMount,
 				eventDidMount,
 				noEventsDidMount,
-				eventOrder: ['start', '-duration', 'allDay', eventOrder],
+				eventOrder: [allDayFirst, allDayOrder, partDayOrder],
 				forceEventDuration: false,
 				headerToolbar: false,
 				height: '100%',
 				slotDuration: this.slotDuration,
+				expandRows: true,
 				weekNumbers: this.showWeekNumbers,
 				weekends: this.showWeekends,
 				dayMaxEventRows: this.eventLimit,
@@ -142,49 +159,86 @@ export default {
 				lazyFetching: false,
 				nowIndicator: true,
 				progressiveEventRendering: true,
-				unselectAuto: true,
+				unselectAuto: false,
 				// Timezones:
 				timeZone: this.timezoneId,
+				// Disable jumping in week view and day view when clicking on any event using the simple editor
+				scrollTimeReset: false,
+				// There is a custom resize observer
+				handleWindowResize: false,
+				// Dropping Tasks
+				droppable: true,
+				eventReceive: this.handleEventReceive,
+				eventShortHeight: 38,
+				loading: this.scrollMonthViewToToday,
 			}
 		},
+
 		eventSources() {
-			return this.$store.getters.enabledCalendars.map(eventSource(this.$store))
+			if (this.isWidget) {
+				const calendar = this.calendarsStore.getCalendarByUrl(this.url)
+				if (!calendar) {
+					return []
+				}
+				return [calendar].map(eventSource())
+			}
+			return this.calendarsStore.enabledCalendars.map(eventSource())
 		},
+
 		/**
 		 * FullCalendar Plugins
 		 *
-		 * @returns {(PluginDef)[]}
+		 * @return {(PluginDef)[]}
 		 */
 		plugins() {
 			return [
+				momentPlugin,
+				VTimezoneNamedTimezone,
 				dayGridPlugin,
 				interactionPlugin,
 				listPlugin,
 				timeGridPlugin,
-				MomentPlugin,
-				VTimezoneNamedTimezone,
+				multiMonthPlugin,
 			]
 		},
+
 		isEditable() {
 			// We do not allow drag and drop when the editor is open.
 			return this.isAuthenticatedUser
-				&& this.$route.name !== 'EditPopoverView'
-				&& this.$route.name !== 'EditSidebarView'
+				&& this.$route?.name !== 'EditPopoverView'
+				&& this.$route?.name !== 'EditFullView'
 		},
 	},
+
 	watch: {
+		widgetView(newView) {
+			const calendarApi = this.$refs.fullCalendar.getApi()
+			calendarApi.changeView(newView)
+		},
+
+		widgetDate(newDate) {
+			const calendarApi = this.$refs.fullCalendar.getApi()
+			calendarApi.gotoDate(getYYYYMMDDFromFirstdayParam(newDate))
+		},
+
 		modificationCount: debounce(function() {
 			const calendarApi = this.$refs.fullCalendar.getApi()
 			calendarApi.refetchEvents()
 		}, 50),
+
+		searchQuery: debounce(function() {
+			const calendarApi = this.$refs.fullCalendar.getApi()
+			calendarApi.refetchEvents()
+		}, 300),
 	},
+
 	/**
 	 * FullCalendar 5 is using calculated px values for the width
 	 * of its views.
 	 * Hence a simple `width: 100%` won't assure that the calendar-grid
 	 * is always using the full available width.
 	 *
-	 * Toggling the AppNavigation or AppSidebar will change the amount
+	 * Toggling the AppNavigation or AppFull will change the amount
 	 * of available space, but it will not be covered by the window
 	 * resize event, because the actual window size did not change.
 	 *
@@ -203,7 +257,8 @@ export default {
 			resizeObserver.observe(this.$refs.fullCalendar.$el)
 		}
 	},
-	created() {
+
+	async created() {
 		this.updateTodayJob = setInterval(() => {
 			const newDate = getYYYYMMDDFromFirstdayParam('now')
 
@@ -224,51 +279,167 @@ export default {
 		 * This view is not used as a router view,
 		 * hence we can't use beforeRouteUpdate directly.
 		 */
-		this.$router.beforeEach((to, from, next) => {
-			if (to.params.firstDay !== from.params.firstDay) {
-				const calendarApi = this.$refs.fullCalendar.getApi()
-				calendarApi.gotoDate(getYYYYMMDDFromFirstdayParam(to.params.firstDay))
-			}
-			if (to.params.view !== from.params.view) {
-				const calendarApi = this.$refs.fullCalendar.getApi()
-				calendarApi.changeView(to.params.view)
-				this.saveNewView(to.params.view)
-			}
+		if (!this.isWidget) {
+			this.$router.beforeEach((to, from, next) => {
+				if (to.params.firstDay !== from.params.firstDay) {
+					const calendarApi = this.$refs.fullCalendar.getApi()
+					calendarApi.gotoDate(getYYYYMMDDFromFirstdayParam(to.params.firstDay))
+				}
+				if (to.params.view !== from.params.view) {
+					const calendarApi = this.$refs.fullCalendar.getApi()
+					calendarApi.changeView(to.params.view)
+					this.saveNewView(to.params.view)
+				}
 
-			if ((from.name === 'NewPopoverView' || from.name === 'NewSidebarView')
-				&& to.name !== 'NewPopoverView'
-				&& to.name !== 'NewSidebarView') {
-				const calendarApi = this.$refs.fullCalendar.getApi()
-				calendarApi.unselect()
-			}
+				if ((from.name === 'NewPopoverView' || from.name === 'NewFullView')
+					&& to.name !== 'NewPopoverView'
+					&& to.name !== 'NewFullView') {
+					const calendarApi = this.$refs.fullCalendar.getApi()
+					calendarApi.unselect()
+				}
 
-			next()
-		})
+				next()
+			})
+
+			// Trigger the select event programmatically on initial page load to show the new event
+			// in the grid. Wait for the next tick because the ref isn't available right away.
+			await this.$nextTick()
+			if (['NewPopoverView', 'NewFullView'].includes(this.$route.name)) {
+				const start = new Date(parseInt(this.$route.params.dtstart) * 1000)
+				const end = new Date(parseInt(this.$route.params.dtend) * 1000)
+				if (!isNaN(start.getTime()) && !isNaN(end.getTime())) {
+					const calendarApi = this.$refs.fullCalendar.getApi()
+					calendarApi.select({
+						start,
+						end,
+						allDay: this.$route.params.allDay === '1',
+					})
+				}
+			}
+		}
 	},
+
 	methods: {
+		/**
+		 * Scroll the month view to today when loading the calendar,
+		 * so people can directly see today's date and events.
+		 *
+		 * @param {boolean} isLoading Whether the calendar is still loading
+		 */
+		scrollMonthViewToToday(isLoading) {
+			if (isLoading) {
+				return
+			}
+			const calendarApi = this.$refs.fullCalendar.getApi()
+			if (calendarApi.view.type !== 'dayGridMonth') {
+				return
+			}
+			this.$nextTick(() => {
+				const todayEl = this.$refs.fullCalendar.$el.querySelector('.fc-day-today')
+				if (todayEl) {
+					todayEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' })
+				}
+			})
+		},
+
 		/**
 		 * When a user changes the view, remember it and
 		 * use it the next time they open the calendar app
 		 */
 		saveNewView: debounce(function(initialView) {
 			if (this.isAuthenticatedUser) {
-				this.$store.dispatch('setInitialView', { initialView })
+				this.settingsStore.setInitialView({ initialView })
 			}
 		}, 5000),
+
+		/**
+		 * Add a todo task without end date to the calendar
+		 *
+		 * @param {object} info The FullCalendar eventReceive info
+		 */
+		async handleEventReceive(info) {
+			const { event } = info
+			const { objectId, vobjectId, calendarId } = event.extendedProps
+
+			// 1. Get the calenderobject by ID
+			const calendarObject = this.calendarObjectsStore.getCalendarObjectById(objectId)
+
+			// 2. Create the due date
+			event.setEnd(event.start)
+			const dueDate = DateTimeValue.fromJSDate(event.start, false)
+
+			// 3. Update the 'DUE' property for the vtodo object
+			const allObjectsInTimeRange = getAllObjectsInTimeRange(calendarObject, event.start, event.start)
+			const vtodo = allObjectsInTimeRange.find((el) => el.id === vobjectId)
+
+			// 3.1 Set to Date only value if view is month or year and start date is null or date only value
+			const view = this.$route?.params.view
+			const isDateOnlyView = view === 'dayGridMonth' || view === 'multiMonthYear'
+
+			if (isDateOnlyView && (!vtodo.hasProperty('dtstart') || vtodo.startDate.isDate)) {
+				dueDate.isDate = true
+			} else if (!isDateOnlyView && vtodo.startDate?.isDate) {
+				vtodo.startDate.isDate = false
+			}
+
+			// 3.2 Now do the actual update
+			vtodo.deleteAllProperties('due') // Clean old one
+			vtodo.updatePropertyWithValue('due', dueDate)
+
+			// 4. Check if start date is before due date and fix it then
+			if (vtodo.hasProperty('dtstart') && vtodo.startDate.compare(dueDate) >= 0) {
+				const dtStart = dueDate.clone()
+				vtodo.updatePropertyWithValue('dtstart', dtStart)
+			}
+
+			vtodo.undirtify()
+
+			// 5. Update the calendarobject
+			await this.calendarObjectsStore.updateCalendarObject({ calendarObject })
+
+			// 6. Update the affected calendar (maybe unnecessary)
+			const calendar = this.calendarsStore.getCalendarById(calendarId)
+
+			const fetchedTimeRanges = this.fetchedTimeRangesStore
+				.getAllTimeRangesForCalendar(calendar.id)
+			for (const timeRange of fetchedTimeRanges) {
+				this.fetchedTimeRangesStore.removeTimeRange({
+					timeRangeId: timeRange.id,
+				})
+				this.calendarsStore.deleteFetchedTimeRangeFromCalendarMutation({
+					calendar,
+					fetchedTimeRangeId: timeRange.id,
+				})
+			}
+
+			// 7. Remove the event that was created by full calendar
+			event.remove()
+		},
 	},
 }
 </script>
 
-<style lang="scss">
-@import '../fonts/scss/iconfont-calendar-app';
-
+<style scoped lang="scss">
 .calendar-grid-checkbox {
-	border-color: transparent;
-	@include iconfont('checkbox');
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 4px;
+	height: 16px;
+	width: 16px;
 }
 
 .calendar-grid-checkbox-checked {
-	border-color: transparent;
-	@include iconfont('checkbox-checked');
+	border-style: solid;
+	border-width: 8px;
+	border-radius: 4px;
+	height: 16px;
+	width: 16px;
+}
+
+.fullcalendar-widget{
+	min-height: 500px;
+	:deep(.fc-col-header-cell-cushion){
+		font-size: 9px;
+	}
 }
 </style>

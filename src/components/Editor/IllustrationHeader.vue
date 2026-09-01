@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<transition name="fade" mode="out-in">
@@ -33,7 +16,8 @@
 
 <script>
 import HttpClient from '@nextcloud/axios'
-import { uidToHexColor } from '../../utils/color.js'
+import { uidToHexColor } from '@/utils/color.js'
+import logger from '@/utils/logger.js'
 
 export default {
 	name: 'IllustrationHeader',
@@ -42,17 +26,20 @@ export default {
 			type: String,
 			required: true,
 		},
+
 		color: {
 			type: String,
 			required: true,
 			validator: (s) => /^(#)((?:[A-Fa-f0-9]{3}){1,2})$/.test(s),
 		},
 	},
+
 	data() {
 		return {
 			svg: '',
 		}
 	},
+
 	computed: {
 		coloredSVG() {
 			let color = this.color
@@ -71,6 +58,7 @@ export default {
 				.replace(/width="(\d)*(.(\d)*)?"/i, '')
 		},
 	},
+
 	watch: {
 		illustrationUrl: {
 			async handler(newUrl, oldUrl) {
@@ -82,10 +70,11 @@ export default {
 					const response = await HttpClient.get(newUrl)
 					this.svg = response.data
 				} catch (error) {
-					console.debug(error)
+					logger.debug(error)
 					this.svg = ''
 				}
 			},
+
 			immediate: true,
 		},
 	},

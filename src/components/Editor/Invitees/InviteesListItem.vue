@@ -1,86 +1,133 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<div class="invitees-list-item">
 		<AvatarParticipationStatus
-			:attendee-is-organizer="false"
-			:is-viewed-by-organizer="isViewedByOrganizer"
-			:avatar-link="avatarLink"
-			:participation-status="attendee.participationStatus"
-			:organizer-display-name="organizerDisplayName"
-			:common-name="commonName" />
-		<div class="invitees-list-item__displayname">
-			{{ commonName }}
-		</div>
+			:attendeeIsOrganizer="false"
+			:isViewedByOrganizer="isViewedByOrganizer"
+			:isResource="false"
+			:participationStatus="attendee.participationStatus"
+			:scheduleStatus="attendee.attendeeProperty.getParameterFirstValue('SCHEDULE-STATUS')"
+			:organizerDisplayName="organizerDisplayName"
+			:commonName="commonName"
+			:timezone="timezone"
+			:isGroup="isGroup" />
+
+		<AttendeeDisplay
+			:displayName="commonName"
+			:email="attendeeEmail"
+			:hasMembers="!!members.length">
+			<template #displayname>
+				{{ commonName }}
+				<span
+					v-if="members.length"
+					class="invitees-list-item__member-count">
+					({{ $n('calendar', '%n member', '%n members', members.length) }})
+				</span>
+			</template>
+		</AttendeeDisplay>
+
 		<div class="invitees-list-item__actions">
-			<Actions v-if="isViewedByOrganizer">
+			<NcButton
+				v-if="members.length"
+				class="icon-collapse"
+				:class="{ 'icon-collapse--open': memberListExpaneded }"
+				variant="tertiary"
+				@click="toggleMemberList">
+				<template #icon>
+					<ChevronUp
+						v-if="memberListExpaneded"
+						:size="20" />
+					<ChevronDown
+						v-else
+						:size="20" />
+				</template>
+			</NcButton>
+			<Actions v-if="!isReadOnly && isViewedByOrganizer">
 				<ActionCheckbox
-					:checked="attendee.rsvp"
-					@change="toggleRSVP">
-					{{ $t('calendar', 'Send email') }}
+					v-if="!members.length"
+					:modelValue="attendee.rsvp"
+					@update:modelValue="toggleRSVP">
+					{{ $t('calendar', 'Request reply') }}
 				</ActionCheckbox>
 
 				<ActionRadio
+					v-if="!members.length"
 					:name="radioName"
-					:checked="isChair"
-					@change="changeRole('CHAIR')">
+					value="CHAIR"
+					:modelValue="attendee.role"
+					@update:modelValue="changeRole">
 					{{ $t('calendar', 'Chairperson') }}
 				</ActionRadio>
 				<ActionRadio
+					v-if="!members.length"
 					:name="radioName"
-					:checked="isRequiredParticipant"
-					@change="changeRole('REQ-PARTICIPANT')">
+					value="REQ-PARTICIPANT"
+					:modelValue="attendee.role"
+					@update:modelValue="changeRole">
 					{{ $t('calendar', 'Required participant') }}
 				</ActionRadio>
 				<ActionRadio
+					v-if="!members.length"
 					:name="radioName"
-					:checked="isOptionalParticipant"
-					@change="changeRole('OPT-PARTICIPANT')">
+					value="OPT-PARTICIPANT"
+					:modelValue="attendee.role"
+					@update:modelValue="changeRole">
 					{{ $t('calendar', 'Optional participant') }}
 				</ActionRadio>
 				<ActionRadio
+					v-if="!members.length"
 					:name="radioName"
-					:checked="isNonParticipant"
-					@change="changeRole('NON-PARTICIPANT')">
+					value="NON-PARTICIPANT"
+					:modelValue="attendee.role"
+					@update:modelValue="changeRole">
 					{{ $t('calendar', 'Non-participant') }}
 				</ActionRadio>
 
-				<ActionButton
-					icon="icon-delete"
-					@click="removeAttendee">
-					{{ $t('calendar', 'Remove attendee') }}
+				<ActionButton :closeAfterClick="true" @click="removeAttendee(attendee)">
+					<template #icon>
+						<Delete :size="20" decorative />
+					</template>
+					{{ removeAttendeeText }}
 				</ActionButton>
 			</Actions>
+		</div>
+		<div
+			v-if="members.length"
+			class="member-list"
+			:class="{ 'member-list--open': memberListExpaneded }">
+			<InviteesListItem
+				v-for="member in members"
+				:key="member.email"
+				:attendee="member"
+				:isReadOnly="isReadOnly"
+				:organizerDisplayName="organizerDisplayName"
+				:members="member.members"
+				@removeAttendee="removeAttendee(member)" />
 		</div>
 	</div>
 </template>
 
 <script>
-import AvatarParticipationStatus from './AvatarParticipationStatus'
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-import ActionRadio from '@nextcloud/vue/dist/Components/ActionRadio'
-import ActionCheckbox from '@nextcloud/vue/dist/Components/ActionCheckbox'
+import {
+	NcActionButton as ActionButton,
+	NcActionCheckbox as ActionCheckbox,
+	NcActionRadio as ActionRadio,
+	NcActions as Actions,
+	NcButton,
+} from '@nextcloud/vue'
+import { mapState, mapStores } from 'pinia'
+import ChevronDown from 'vue-material-design-icons/ChevronDown.vue'
+import ChevronUp from 'vue-material-design-icons/ChevronUp.vue'
+import Delete from 'vue-material-design-icons/TrashCanOutline.vue'
+import AvatarParticipationStatus from '@/components/Editor/AvatarParticipationStatus.vue'
+import AttendeeDisplay from '@/components/Editor/Invitees/AttendeeDisplay.vue'
+import { getAttendeeDetails } from '@/services/attendeeDetails.js'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import { removeMailtoPrefix } from '@/utils/attendee.js'
 
 export default {
 	name: 'InviteesListItem',
@@ -90,83 +137,204 @@ export default {
 		ActionCheckbox,
 		ActionRadio,
 		Actions,
+		Delete,
+		NcButton,
+		ChevronDown,
+		ChevronUp,
+		AttendeeDisplay,
 	},
+
 	props: {
 		attendee: {
 			type: Object,
 			required: true,
 		},
+
 		organizerDisplayName: {
 			type: String,
 			required: true,
 		},
+
 		isReadOnly: {
 			type: Boolean,
 			required: true,
 		},
+
+		members: {
+			type: Array,
+			default: () => [],
+			required: false,
+		},
+
+		isViewedByOrganizer: {
+			type: Boolean,
+			default: false,
+		},
 	},
+
+	emits: ['removeAttendee'],
+
+	data() {
+		return {
+			memberListExpaneded: false,
+			timezone: null,
+		}
+	},
+
 	computed: {
+		...mapStores(useCalendarObjectInstanceStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
+		/**
+		 * @return {string}
+		 */
 		avatarLink() {
-			// return this.$store.getters.getAvatarForContact(this.uri) || this.commonName
 			return this.commonName
 		},
+
+		/**
+		 * @return {string}
+		 */
+		removeAttendeeText() {
+			if (this.isGroup) {
+				return this.$t('calendar', 'Remove group')
+			} else {
+				return this.$t('calendar', 'Remove attendee')
+			}
+		},
+
+		/**
+		 * Common name of the organizer or the uri without the 'mailto:' prefix.
+		 *
+		 * @return {string}
+		 */
 		commonName() {
 			if (this.attendee.commonName) {
 				return this.attendee.commonName
 			}
 
-			if (this.attendee.uri && this.attendee.uri.startsWith('mailto:')) {
-				return this.attendee.uri.substr(7)
+			if (this.attendee.uri) {
+				return removeMailtoPrefix(this.attendee.uri)
 			}
 
-			return this.attendee.uri
+			return ''
 		},
+
+		/**
+		 * Email address without the 'mailto:' prefix
+		 *
+		 * @return {string}
+		 */
+		attendeeEmail() {
+			return this.attendee.uri ? removeMailtoPrefix(this.attendee.uri) : ''
+		},
+
 		radioName() {
-			return this._uid + '-role-radio-input-group'
+			return this.$.uid + '-role-radio-input-group'
 		},
-		isChair() {
-			return this.attendee.role === 'CHAIR'
-		},
-		isRequiredParticipant() {
-			return this.attendee.role === 'REQ-PARTICIPANT'
-		},
-		isOptionalParticipant() {
-			return this.attendee.role === 'OPT-PARTICIPANT'
-		},
-		isNonParticipant() {
-			return this.attendee.role === 'NON-PARTICIPANT'
-		},
-		isViewedByOrganizer() {
-			// TODO: check if also viewed by organizer
-			return !this.isReadOnly
+
+		isGroup() {
+			return this.attendee.attendeeProperty.userType === 'GROUP'
 		},
 	},
+
+	watch: {
+		'calendarObjectInstance.isAllDay': function(newVal) {
+			if (!newVal) {
+				getAttendeeDetails(this.attendee.uri).then((res) => {
+					this.timezone = res?.timezone
+				})
+			} else {
+				this.timezone = null
+			}
+		},
+	},
+
+	mounted() {
+		if (!this.calendarObjectInstance.isAllDay) {
+			getAttendeeDetails(this.attendee.uri).then((res) => {
+				this.timezone = res?.timezone
+			})
+		}
+	},
+
 	methods: {
 		/**
 		 * Toggles the RSVP flag of the attendee
 		 */
 		toggleRSVP() {
-			this.$store.commit('toggleAttendeeRSVP', {
+			this.calendarObjectInstanceStore.toggleAttendeeRSVP({
 				attendee: this.attendee,
 			})
 		},
+
 		/**
 		 * Updates the role of the attendee
 		 *
-		 * @param {String} role The new role of the attendee
+		 * @param {string} role The new role of the attendee
 		 */
 		changeRole(role) {
-			this.$store.commit('changeAttendeesRole', {
+			this.calendarObjectInstanceStore.changeAttendeesRole({
 				attendee: this.attendee,
 				role,
 			})
 		},
+
 		/**
 		 * Removes an attendee from the event
+		 *
+		 * @param {object} attendee Attendee object to remove
 		 */
-		removeAttendee() {
-			this.$emit('removeAttendee', this.attendee)
+		removeAttendee(attendee) {
+			this.$emit('removeAttendee', attendee)
+		},
+
+		/**
+		 * Toggle member list if attendee is a group
+		 */
+		toggleMemberList() {
+			this.memberListExpaneded = !this.memberListExpaneded
 		},
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.invitees-list-item {
+	flex-wrap: wrap;
+}
+
+.invitees-list-item__actions {
+	display: flex;
+}
+
+.avatar-participation-status {
+	margin-top: 5px;
+}
+
+.attendee-display {
+	flex: 1;
+	min-width: 0;
+}
+
+.invitees-list-item__member-count {
+	color: var(--color-text-maxcontrast);
+	font-weight: 300;
+}
+
+.member-list {
+	height: auto;
+	max-height: 0;
+	flex-basis: 100%;
+	overflow: hidden;
+	transition: all 0.3s ease;
+	padding: 0;
+	opacity: 0;
+}
+
+.member-list--open {
+	max-height: 1000px;
+	transition: all 0.3s ease;
+	padding: 0 0 10px 15px;
+	opacity: 1;
+}
+</style>

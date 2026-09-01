@@ -1,26 +1,10 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import dateRangeFormat from '../filters/dateRangeFormat.js'
-import { getDateFromFirstdayParam } from '../utils/date.js'
+import dateRangeFormat from '@/filters/dateRangeFormat.js'
+import useSettingsStore from '@/store/settings.js'
+import { getDateFromFirstdayParam } from '@/utils/date.js'
 
 const originalWindowTitle = document.title
 
@@ -29,15 +13,16 @@ const originalWindowTitle = document.title
  * automatically adjusts the title of the window
  *
  * @param {VueRouter} router The VueJS Router instance
- * @param {Store} store The vuex store
  */
-export default function(router, store) {
+export default function(router) {
+	const settingsStore = useSettingsStore()
+
 	/**
 	 * Updates the title of the window
 	 *
 	 * @param {Date} date viewed Date
-	 * @param {String} view Name of the current view
-	 * @param {String} locale Locale to be used for formatting
+	 * @param {string} view Name of the current view
+	 * @param {string} locale Locale to be used for formatting
 	 */
 	function updateTitle(date, view, locale) {
 		const title = dateRangeFormat(date, view, locale)
@@ -59,7 +44,7 @@ export default function(router, store) {
 
 		const date = getDateFromFirstdayParam(to.params.firstDay)
 		const view = to.params.view
-		const locale = store.state.settings.momentLocale
+		const locale = settingsStore.momentLocale
 
 		updateTitle(date, view, locale)
 
@@ -70,14 +55,20 @@ export default function(router, store) {
 	 * This listens to changes of the locale
 	 * and automatically updates it.
 	 */
-	store.subscribe(mutation => {
-		if (mutation.type !== 'setMomentLocale') {
+	settingsStore.$onAction(({
+		name,
+		args,
+	}) => {
+		if (name !== 'setMomentLocale') {
+			return
+		}
+		if (!router.currentRoute.params?.firstDay) {
 			return
 		}
 
 		const date = getDateFromFirstdayParam(router.currentRoute.params.firstDay)
 		const view = router.currentRoute.params.view
-		const { locale } = mutation.payload
+		const { locale } = args[0] // JavaScript, I love it ...
 
 		updateTitle(date, view, locale)
 	})

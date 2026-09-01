@@ -1,0 +1,94 @@
+# SPDX-FileCopyrightText: 2025 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: E2E tests
+on: pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  matrix:
+    runs-on: ubuntu-latest-low
+    outputs:
+      php-min: ${{ steps.versions.outputs.php-min }}
+      branches-min: ${{ steps.versions.outputs.branches-min }}
+    steps:
+      - name: Checkout app
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Get version matrix
+        id: versions
+        uses: icewind1991/nextcloud-version-matrix@cd0211ffcef1065e2020cd579e4843b8746e7a58 # v1.3.3
+
+  frontend-e2e-tests:
+    runs-on: ubuntu-latest
+    name: Front-end E2E tests
+    needs: matrix
+    steps:
+      - name: Set up Nextcloud env
+        uses: ChristophWurst/setup-nextcloud@14cf58de73855aa30212721e8177ca45626e4477 # v0.4.2
+        with:
+          nextcloud-version: ${{ needs.matrix.outputs.branches-min }}
+          php-version: ${{ needs.matrix.outputs.php-min }}
+          install: true
+      - name: Configure Nextcloud for testing
+        run: |
+          php -f nextcloud/occ config:system:set debug --type=bool --value=true
+          php -f nextcloud/occ config:system:set overwriteprotocol --value=https
+          php -f nextcloud/occ config:system:set overwritehost --value=localhost
+          php -f nextcloud/occ config:system:set overwrite.cli.url --value=https://localhost
+      - name: Check out the app
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          path: nextcloud/apps/calendar
+      - name: Read package.json node and npm engines version
+        uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
+        id: package-engines-versions
+        with:
+          fallbackNode: '^24'
+          fallbackNpm: '^11'
+          path: nextcloud/apps/calendar
+      - name: Set up node 24.15.0
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 24.15.0
+      - name: Set up npm ${{ steps.package-engines-versions.outputs.npmVersion }}
+        run: npm i -g 'npm@${{ steps.package-engines-versions.outputs.npmVersion }}'
+      - name: Install php dependencies
+        working-directory: nextcloud/apps/calendar
+        run: composer install
+      - name: Install the app
+        run: php -f nextcloud/occ app:enable calendar
+      - name: Install npm dependencies
+        working-directory: nextcloud/apps/calendar
+        run: npm ci
+      - name: Build frontend
+        working-directory: nextcloud/apps/calendar
+        run: npm run build
+      - name: Install stunnel (tiny https proxy)
+        run: sudo apt-get update && sudo apt-get install -y stunnel
+      - name: Start php server and https proxy
+        working-directory: nextcloud
+        run: |
+          openssl req -new -x509 -days 365 -nodes -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=localhost" -out stunnel.pem -keyout stunnel.pem
+          php -S 127.0.0.1:8080 &
+          sudo stunnel3 -p stunnel.pem -d 443 -r 8080
+      - name: Test https access
+        run: curl --insecure -Li https://localhost
+      - name: Install Playwright browsers
+        working-directory: nextcloud/apps/calendar
+        run: npx playwright install --with-deps chromium
+      - name: Run Playwright tests
+        working-directory: nextcloud/apps/calendar
+        run: DEBUG=pw:api npx playwright test
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        if: always()
+        with:
+          name: playwright-report-${{ github.event.number }}-nc${{ needs.matrix.outputs.branches-min }}-php${{ needs.matrix.outputs.php-min }}-node${{ steps.package-engines-versions.outputs.nodeVersion }}
+          path: nextcloud/apps/calendar/playwright-report/
+          retention-days: 14
+      - name: Print server logs
+        if: always()
+        run: cat nextcloud/data/nextcloud.log*
+    env:
+      CI: true

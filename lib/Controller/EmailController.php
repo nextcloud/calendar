@@ -2,37 +2,22 @@
 
 declare(strict_types=1);
 /**
- * @author Thomas Citharel
- * @author Georg Ehrke
- *
- * @copyright 2016 Thomas Citharel <tcit@tcit.fr>
- * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This code is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License, version 3,
- * as published by the Free Software Foundation.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License, version 3,
- * along with this program.  If not, see <http://www.gnu.org/licenses/>
- *
+ * SPDX-FileCopyrightText: 2016 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Calendar\IManager;
 use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IEMailTemplate;
 use OCP\Mail\IMailer;
@@ -44,25 +29,6 @@ use OCP\Mail\IMessage;
  * @package OCA\Calendar\Controller
  */
 class EmailController extends Controller {
-
-	/** @var IConfig */
-	private $config;
-
-	/** @var Defaults */
-	private $defaults;
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var IMailer */
-	private $mailer;
-
-	/** @var IUserSession */
-	private $userSession;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
 	/**
 	 * EmailController constructor.
 	 *
@@ -71,31 +37,30 @@ class EmailController extends Controller {
 	 * @param IUserSession $userSession
 	 * @param IConfig $config
 	 * @param IMailer $mailer
-	 * @param IL10N $l10N
+	 * @param IL10N $l10n
 	 * @param Defaults $defaults
 	 * @param IURLGenerator $urlGenerator
+	 * @param IUserManager $userManager
+	 * @param IManager $calendarManager
 	 */
-	public function __construct(string $appName,
-								IRequest $request,
-								IUserSession $userSession,
-								IConfig $config,
-								IMailer $mailer,
-								IL10N $l10N,
-								Defaults $defaults,
-								IURLGenerator $urlGenerator) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IUserSession $userSession,
+		private IConfig $config,
+		private IMailer $mailer,
+		private IL10N $l10n,
+		private Defaults $defaults,
+		private IURLGenerator $urlGenerator,
+		private IUserManager $userManager,
+		private IManager $calendarManager,
+	) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->userSession = $userSession;
-		$this->mailer = $mailer;
-		$this->l10n = $l10N;
-		$this->defaults = $defaults;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
 	 * @param string $recipient
 	 * @param string $token
-	 * @param string $calendarName
 	 * @return JSONResponse
 	 *
 	 * @UserRateThrottle(limit=5, period=100)
@@ -103,8 +68,13 @@ class EmailController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function sendEmailPublicLink(string $recipient,
-										string $token,
-										string $calendarName):JSONResponse {
+		string $token):JSONResponse {
+		if (strlen($recipient) > 512) {
+			return new JSONResponse([
+				'message' => $this->l10n->t('Provided email-address is too long'),
+			], Http::STATUS_BAD_REQUEST);
+		}
+
 		$user = $this->userSession->getUser();
 		if (!$user) {
 			return new JSONResponse([
@@ -118,11 +88,20 @@ class EmailController extends Controller {
 			], Http::STATUS_BAD_REQUEST);
 		}
 
-		$fromAddress = $this->getFromAddress();
-		$displayName = $user->getDisplayName();
-		$subject = $this->l10n->t('%s has published the calendar »%s«', [$displayName, $calendarName]);
+		$calendar = $this->findCalendarByToken($user, $token);
 
-		$template = $this->createTemplate($subject, $displayName, $calendarName, $token);
+		if ($calendar === null) {
+			return new JSONResponse([
+				'message' => $this->l10n->t('An error occurred during sending email'),
+			], Http::STATUS_BAD_REQUEST);
+		}
+
+		$fromAddress = $this->getFromAddress();
+		$displayNameOfUser = $this->userManager->getDisplayName($user->getUID()) ?? $user->getUID();
+		$displayNameOfCalendar = $calendar->getDisplayName() ?? $calendar->getKey();
+		$subject = $this->l10n->t('%s has published the calendar »%s«', [$displayNameOfUser, $displayNameOfCalendar]);
+
+		$template = $this->createTemplate($subject, $displayNameOfUser, $displayNameOfCalendar, $token);
 		$message = $this->createMessage($fromAddress, [$recipient => $recipient], $template);
 
 		try {
@@ -134,7 +113,7 @@ class EmailController extends Controller {
 		}
 
 		return new JSONResponse([
-			'message' => $this->l10n->t('Successfully sent email to ' . $recipient),
+			'message' => $this->l10n->t('Successfully sent email to %1$s', [$recipient]),
 		]);
 	}
 
@@ -160,8 +139,8 @@ class EmailController extends Controller {
 	 * @return IMessage
 	 */
 	private function createMessage(string $from,
-								   array $recipients,
-								   IEMailTemplate $template):IMessage {
+		array $recipients,
+		IEMailTemplate $template):IMessage {
 		$message = $this->mailer->createMessage();
 		$message->setFrom([$from => $this->defaults->getName()]);
 		$message->setTo($recipients);
@@ -178,9 +157,9 @@ class EmailController extends Controller {
 	 * @return IEMailTemplate
 	 */
 	private function createTemplate(string $subject,
-									string $displayName,
-									string $calendarName,
-									string $token):IEMailTemplate {
+		string $displayName,
+		string $calendarName,
+		string $token):IEMailTemplate {
 		$url = $this->getURLFromToken($token);
 		$emailTemplate = $this->mailer->createEMailTemplate('calendar.PublicShareNotification', [
 			'displayname' => $displayName,
@@ -212,5 +191,27 @@ class EmailController extends Controller {
 		return $this->urlGenerator->linkToRouteAbsolute('calendar.publicView.public_index_with_branding', [
 			'token' => $token,
 		]);
+	}
+
+	/**
+	 * Returns the calendar that matches
+	 * the given public sharing token.
+	 *
+	 * @param string $token
+	 * @return \OCA\DAV\CalDAV\CalendarImpl|null
+	 */
+	private function findCalendarByToken($user, string $token): mixed {
+		$userId = $user->getUID();
+		$userCalendars = $this->calendarManager->getCalendarsForPrincipal("principals/users/$userId");
+
+		$matchingCalendar = array_find($userCalendars, function ($calendar) use ($token) {
+			// TODO: Remove method_exists check once there is no risk
+			//  anymore the method isn't available.
+			if (method_exists($calendar, 'getPublicToken')) {
+				return $calendar->getPublicToken() === $token;
+			}
+		});
+
+		return $matchingCalendar;
 	}
 }

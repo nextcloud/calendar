@@ -2,30 +2,15 @@
 
 declare(strict_types=1);
 /**
- * Calendar App
- *
- * @author Georg Ehrke
- * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/g/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Controller;
 
 use OCP\AppFramework\Controller;
-use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\IConfig;
 use OCP\IRequest;
 
@@ -36,12 +21,6 @@ use OCP\IRequest;
  */
 class SettingsController extends Controller {
 
-	/** @var IConfig */
-	private $config;
-
-	/** @var string */
-	private $userId;
-
 	/**
 	 * SettingsController constructor.
 	 *
@@ -50,13 +29,13 @@ class SettingsController extends Controller {
 	 * @param IConfig $config
 	 * @param string $userId
 	 */
-	public function __construct(string $appName,
-								IRequest $request,
-								IConfig $config,
-								string $userId) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IConfig $config,
+		private string $userId,
+	) {
 		parent::__construct($appName, $request);
-		$this->config = $config;
-		$this->userId = $userId;
 	}
 
 	/**
@@ -69,7 +48,7 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	public function setConfig(string $key,
-							  string $value):JSONResponse {
+		string $value):JSONResponse {
 		switch ($key) {
 			case 'view':
 				return $this->setView($value);
@@ -87,13 +66,22 @@ class SettingsController extends Controller {
 				return $this->setEventLimit($value);
 			case 'slotDuration':
 				return $this->setSlotDuration($value);
+			case 'defaultReminder':
+				return $this->setDefaultReminder($value);
+			case 'defaultReminderPartDay':
+				return $this->setDefaultReminderPartDay($value);
+			case 'defaultReminderFullDay':
+				return $this->setDefaultReminderFullDay($value);
 			case 'showTasks':
 				return $this->setShowTasks($value);
+			case 'tasksSidebar':
+				return $this->setTasksSidebar($value);
+			case 'attachmentsFolder':
+				return $this->setAttachmentsFolder($value);
 			default:
 				return new JSONResponse([], Http::STATUS_BAD_REQUEST);
 		}
 	}
-
 
 	/**
 	 * set a new view
@@ -102,7 +90,7 @@ class SettingsController extends Controller {
 	 * @return JSONResponse
 	 */
 	private function setView(string $view):JSONResponse {
-		if (!\in_array($view, ['timeGridDay', 'timeGridWeek', 'dayGridMonth', 'listMonth'])) {
+		if (!\in_array($view, ['timeGridDay', 'timeGridWeek', 'dayGridMonth', 'multiMonthYear', 'listMonth'])) {
 			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 
@@ -161,6 +149,52 @@ class SettingsController extends Controller {
 				$this->userId,
 				$this->appName,
 				'showTasks',
+				$value
+			);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * set config value for enabling the sidebar for unscheduled tasks by default
+	 *
+	 * @param $value User-selected option whether or not to show the sidebar
+	 * @return JSONResponse
+	 */
+	private function setTasksSidebar(string $value):JSONResponse {
+		if (!\in_array($value, ['yes', 'no'])) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'tasksSidebar',
+				$value
+			);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * Set config for attachments folder
+	 *
+	 * @param string $value
+	 * @return JSONResponse
+	 */
+	private function setAttachmentsFolder(string $value):JSONResponse {
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				'dav',
+				'attachmentsFolder',
 				$value
 			);
 		} catch (\Exception $e) {
@@ -302,6 +336,98 @@ class SettingsController extends Controller {
 				$this->userId,
 				$this->appName,
 				'slotDuration',
+				$value
+			);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * validates reminder values
+	 *
+	 * @param string $value User-selected reminder value
+	 * @param bool $allowPositive Whether positive trigger offsets are allowed
+	 * @return bool
+	 */
+	private function isValidReminderValue(string $value, bool $allowPositive = false): bool {
+		if ($value === 'none') {
+			return true;
+		}
+
+		$options = $allowPositive ? [] : ['options' => ['max_range' => 0]];
+
+		return filter_var($value, FILTER_VALIDATE_INT, $options) !== false;
+	}
+
+	/**
+	 * sets defaultReminder for user
+	 *
+	 * @param string $value User-selected option for default_reminder in agenda view
+	 * @return JSONResponse
+	 */
+	private function setDefaultReminder(string $value):JSONResponse {
+		if (!$this->isValidReminderValue($value)) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'defaultReminder',
+				$value
+			);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * sets defaultReminderPartDay for user
+	 *
+	 * @param string $value User-selected option for the part-day default reminder
+	 * @return JSONResponse
+	 */
+	private function setDefaultReminderPartDay(string $value):JSONResponse {
+		if (!$this->isValidReminderValue($value)) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'defaultReminderPartDay',
+				$value
+			);
+		} catch (\Exception $e) {
+			return new JSONResponse([], Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		return new JSONResponse();
+	}
+
+	/**
+	 * sets defaultReminderFullDay for user
+	 *
+	 * @param string $value User-selected option for the full-day default reminder
+	 * @return JSONResponse
+	 */
+	private function setDefaultReminderFullDay(string $value):JSONResponse {
+		if (!$this->isValidReminderValue($value, true)) {
+			return new JSONResponse([], Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
+
+		try {
+			$this->config->setUserValue(
+				$this->userId,
+				$this->appName,
+				'defaultReminderFullDay',
 				$value
 			);
 		} catch (\Exception $e) {

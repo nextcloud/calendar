@@ -1,5 +1,8 @@
 # Configuration for probot-no-response - https://github.com/probot/no-response
-
+#
+# SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+#
 # Number of days of inactivity before an Issue is closed for lack of response
 daysUntilClose: 21
 # Label requiring a response

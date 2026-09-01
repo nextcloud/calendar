@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 /**
@@ -26,7 +9,29 @@
  *
  * See inline for more documentation
  */
+
+import AccountPlusOutline from 'vue-material-design-icons/AccountPlusOutline.vue'
+import Bell from 'vue-material-design-icons/BellOutline.vue'
+import Briefcase from 'vue-material-design-icons/BriefcaseOutline.vue'
+import Check from 'vue-material-design-icons/Check.vue'
+import EyedropperVariant from 'vue-material-design-icons/EyedropperVariant.vue'
+import Eye from 'vue-material-design-icons/EyeOutline.vue'
+import MapMarker from 'vue-material-design-icons/MapMarkerOutline.vue'
+import Tag from 'vue-material-design-icons/TagOutline.vue'
+import TextBoxOutline from 'vue-material-design-icons/TextBoxOutline.vue'
+
 export default {
+	components: {
+		AccountPlusOutline,
+		Briefcase,
+		Check,
+		Eye,
+		EyedropperVariant,
+		MapMarker,
+		Tag,
+		TextBoxOutline,
+		Bell,
+	},
 	props: {
 		/**
 		 * The prop-model object containing information about the
@@ -52,13 +57,21 @@ export default {
 		value: {
 			required: true,
 		},
+		/**
+		 * Show the icon left of the input.
+		 * Will be shown by default.
+		 */
+		showIcon: {
+			type: Boolean,
+			default: true,
+		},
 	},
 	computed: {
 		/**
 		 * Returns the icon stored in the property-model
 		 * If there is no icon set, it returns an empty string
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		icon() {
 			return this.propModel.icon || ''
@@ -67,7 +80,7 @@ export default {
 		 * Returns the placeholder text stored in the property-model
 		 * If there is no placeholder text set, it returns an empty string
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		placeholder() {
 			return this.propModel.placeholder || ''
@@ -76,7 +89,7 @@ export default {
 		 * Returns the placeholder text for tags stored in the property-model
 		 * If there is no placeholder text for tags set, it returns an empty string
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		tagPlaceholder() {
 			return this.propModel.tagPlaceholder || ''
@@ -85,7 +98,7 @@ export default {
 		 * Returns the info text stored in the property-model
 		 * If there is no info text set, it returns an empty string
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		info() {
 			return this.propModel.info || ''
@@ -94,7 +107,7 @@ export default {
 		 * Returns the property's readable name stored in the property-model
 		 * If there is no readable name set, it returns an empty string
 		 *
-		 * @returns {string}
+		 * @return {string}
 		 */
 		readableName() {
 			return this.propModel.readableName || ''
@@ -105,7 +118,7 @@ export default {
 		 * is actually an info set and if the event is viewed
 		 * with edit permission.
 		 *
-		 * @returns {boolean}
+		 * @return {boolean}
 		 */
 		hasInfo() {
 			return this.propModel.info !== undefined && !this.isReadOnly

@@ -1,28 +1,10 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getDurationValueFromFullCalendarDuration, getFullCalendarDurationFromDurationValue } from '../../../../src/fullcalendar/duration.js'
+import { getDurationValueFromFullCalendarDuration, getFullCalendarDurationFromDurationValue } from '@/fullcalendar/duration.js'
 
 describe('fullcalendar/duration test suite', () => {
-
 	it('should get the calendar-js duration from a fullcalendar duration object - object', () => {
 		expect(getDurationValueFromFullCalendarDuration({
 			year: 99,
@@ -32,13 +14,13 @@ describe('fullcalendar/duration test suite', () => {
 		expect(getDurationValueFromFullCalendarDuration({
 			days: 2,
 			minutes: 50,
-			seconds: 2
+			seconds: 2,
 		}).totalSeconds).toEqual(175802)
 
 		expect(getDurationValueFromFullCalendarDuration({
 			day: 2,
 			minute: 50,
-			second: 2
+			second: 2,
 		}).totalSeconds).toEqual(175802)
 
 		expect(getDurationValueFromFullCalendarDuration({
@@ -50,7 +32,7 @@ describe('fullcalendar/duration test suite', () => {
 			second: 1,
 			milliseconds: 5555,
 			millisecond: 6666,
-			ms: 7777
+			ms: 7777,
 		}).totalSeconds).toEqual(175820)
 	})
 

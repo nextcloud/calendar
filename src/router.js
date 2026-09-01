@@ -1,39 +1,23 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import Vue from 'vue'
-import Router from 'vue-router'
-import { getRootUrl, generateUrl } from '@nextcloud/router'
-
-import Calendar from './views/Calendar'
-import EditSimple from './views/EditSimple'
-import EditSidebar from './views/EditSidebar'
+import { showError } from '@nextcloud/dialogs'
+import { t } from '@nextcloud/l10n'
+import { generateUrl, getRootUrl } from '@nextcloud/router'
+import { createRouter, createWebHistory } from 'vue-router'
+import Calendar from '@/views/Calendar.vue'
+import EditFull from '@/views/EditFull.vue'
+import EditSimple from '@/views/EditSimple.vue'
+import useProposalStore from '@/store/proposalStore'
+import logger from '@/utils/logger.js'
 import {
 	getDefaultEndDateForNewEvent,
 	getDefaultStartDateForNewEvent,
 	getInitialView,
 	getPreferredEditorRoute,
-} from './utils/router.js'
-
-Vue.use(Router)
+} from '@/utils/router.js'
 
 const webRootWithIndexPHP = getRootUrl() + '/index.php'
 const doesURLContainIndexPHP = window.location.pathname.startsWith(webRootWithIndexPHP)
@@ -41,9 +25,8 @@ const base = generateUrl('apps/calendar', {}, {
 	noRewrite: doesURLContainIndexPHP,
 })
 
-const router = new Router({
-	mode: 'history',
-	base,
+const router = createRouter({
+	history: createWebHistory(base),
 	routes: [
 		{
 			path: '/p/:tokens/:view/:firstDay',
@@ -56,9 +39,9 @@ const router = new Router({
 					component: EditSimple,
 				},
 				{
-					path: '/p/:tokens/:view/:firstDay/view/sidebar/:object/:recurrenceId',
-					name: 'PublicEditSidebarView',
-					component: EditSidebar,
+					path: '/p/:tokens/:view/:firstDay/view/full/:object/:recurrenceId',
+					name: 'PublicEditFullView',
+					component: EditFull,
 				},
 			],
 		},
@@ -73,9 +56,9 @@ const router = new Router({
 					component: EditSimple,
 				},
 				{
-					path: '/embed/:tokens/:view/:firstDay/view/sidebar/:object/:recurrenceId',
-					name: 'EmbedEditSidebarView',
-					component: EditSidebar,
+					path: '/embed/:tokens/:view/:firstDay/view/full/:object/:recurrenceId',
+					name: 'EmbedEditFullView',
+					component: EditFull,
 				},
 			],
 		},
@@ -92,38 +75,42 @@ const router = new Router({
 		},
 		{
 			path: '/p/:tokens/:fancyName?',
-			redirect: `/p/:tokens/${getInitialView()}/now`,
+			redirect: (to) => `/p/${to.params.tokens}/${getInitialView()}/now`,
 		},
 		{
 			path: '/public/:tokens/:fancyName?',
-			redirect: `/p/:tokens/${getInitialView()}/now`,
+			redirect: (to) => `/p/${to.params.tokens}/${getInitialView()}/now`,
 		},
 		{
 			path: '/embed/:tokens',
-			redirect: `/embed/:tokens/${getInitialView()}/now`,
+			redirect: (to) => `/embed/${to.params.tokens}/${getInitialView()}/now`,
 		},
 		{
-			path: '/new',
-			redirect: () => `/${getInitialView()}/now/new/${getPreferredEditorRoute()}/0/${getDefaultStartDateForNewEvent()}/${getDefaultEndDateForNewEvent()}`,
+			path: '/new/:view?',
+			redirect: (to) => `/${to.params.view || getInitialView()}/now/new/${getPreferredEditorRoute()}/0/${getDefaultStartDateForNewEvent()}/${getDefaultEndDateForNewEvent()}`,
 		},
 		{
 			path: '/new/:allDay/:dtstart/:dtend',
-			redirect: () => `/${getInitialView()}/:dtstart/new/${getPreferredEditorRoute()}/:allDay/:dtstart/:dtend`,
+			redirect: (to) => `/${getInitialView()}/${to.params.dtstart}/new/${getPreferredEditorRoute()}/${to.params.allDay}/${to.params.dtstart}/${to.params.dtend}`,
 		},
 		{
 			path: '/edit/:object',
-			redirect: () => `/${getInitialView()}/now/edit/${getPreferredEditorRoute()}/:object/next`,
+			redirect: (to) => `/${getInitialView()}/now/edit/${getPreferredEditorRoute()}/${to.params.object}/next`,
 		},
 		{
 			path: '/edit/:object/:recurrenceId',
-			redirect: () => `/${getInitialView()}/now/edit/${getPreferredEditorRoute()}/:object/:recurrenceId`,
+			redirect: (to) => `/${getInitialView()}/now/edit/${getPreferredEditorRoute()}/${to.params.object}/${to.params.recurrenceId}`,
+		},
+		{
+			path: '/proposal/view/:proposalId',
+			redirect: (to) => `/${getInitialView()}/now/proposal/${to.params.proposalId}`,
 		},
 		/**
 		 * This is the main route that contains the current view and viewed day
 		 * It has to be last, so that other routes starting with /p/, etc. match first
 		 */
 		{
-			path: '/:view/:firstDay',
+			path: '/:view([a-zA-Z]+)/:firstDay(now|[0-9]+-[0-9]{2}-[0-9]{2})',
 			component: Calendar,
 			name: 'CalendarView',
 			children: [
@@ -133,9 +120,17 @@ const router = new Router({
 					component: EditSimple,
 				},
 				{
+					path: '/:view/:firstDay/edit/full/:object/:recurrenceId',
+					name: 'EditFullView',
+					component: EditFull,
+				},
+				// Redirect the old sidebar route until Calendar drops support for Nextcloud < 32
+				// Ref https://github.com/nextcloud/server/pull/52410
+				{
 					path: '/:view/:firstDay/edit/sidebar/:object/:recurrenceId',
-					name: 'EditSidebarView',
-					component: EditSidebar,
+					redirect: {
+						name: 'EditFullView',
+					},
 				},
 				{
 					path: '/:view/:firstDay/new/popover/:allDay/:dtstart/:dtend',
@@ -143,9 +138,35 @@ const router = new Router({
 					component: EditSimple,
 				},
 				{
-					path: '/:view/:firstDay/new/sidebar/:allDay/:dtstart/:dtend',
-					name: 'NewSidebarView',
-					component: EditSidebar,
+					path: '/:view/:firstDay/new/full/:allDay/:dtstart/:dtend',
+					name: 'NewFullView',
+					component: EditFull,
+				},
+				{
+					path: '/:view/:firstDay/proposal/:proposalId',
+					name: 'ProposalViewLink',
+					beforeEnter: async (to) => {
+						const proposalStore = useProposalStore()
+						const proposalId = Number(to.params.proposalId)
+
+						try {
+							const found = await proposalStore.openProposal(proposalId)
+							if (!found) {
+								showError(t('calendar', 'This meeting proposal no longer exists'))
+							}
+						} catch (error) {
+							logger.error('Failed to open meeting proposal', { error })
+							showError(t('calendar', 'Failed to open meeting proposal'))
+						}
+
+						return {
+							name: 'CalendarView',
+							params: {
+								view: to.params.view,
+								firstDay: to.params.firstDay,
+							},
+						}
+					},
 				},
 			],
 		},

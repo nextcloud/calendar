@@ -1,87 +1,99 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<li class="settings-fieldset-interior-item settings-fieldset-interior-item--timezone">
-		<TimezoneSelect
-			:additional-timezones="additionalTimezones"
-			:value="timezone"
-			@change="setTimezoneValue" />
+		<label :for="inputId">
+			{{ $t('calendar', 'Timezone') }}
+		</label>
+		<TimezonePicker
+			v-model="timezone"
+			:uid="inputId"
+			:additionalTimezones="additionalTimezones" />
 	</li>
 </template>
 
 <script>
 import {
-	mapState,
-} from 'vuex'
-
-import TimezoneSelect from '../../Shared/TimezoneSelect.vue'
-import { detectTimezone } from '../../../services/timezoneDetectionService.js'
-import {
 	showInfo,
 } from '@nextcloud/dialogs'
+import { NcTimezonePicker as TimezonePicker } from '@nextcloud/vue'
+import { mapState, mapStores } from 'pinia'
+import useSettingsStore from '@/store/settings.js'
+import logger from '@/utils/logger.js'
+import { randomId } from '@/utils/randomId.js'
 
 export default {
 	name: 'SettingsTimezoneSelect',
 	components: {
-		TimezoneSelect,
+		TimezonePicker,
 	},
-	props: {
-		isDisabled: {
-			type: Boolean,
-			required: true,
-		},
+
+	data() {
+		return {
+			timezone: null,
+		}
 	},
+
 	computed: {
-		...mapState({
-			timezone: state => (state.settings.timezone || 'automatic'),
+		...mapStores(useSettingsStore),
+		...mapState(useSettingsStore, {
+			initialTimezone: (store) => store.timezone || 'automatic',
 		}),
+
+		inputId() {
+			return `input-${randomId()}`
+		},
+
 		/**
 		 * Offer "Automatic" as an additional timezone
 		 *
-		 * @returns {Object[]}
+		 * @return {object[]}
 		 */
 		additionalTimezones() {
+			const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC'
 			return [{
 				continent: this.$t('calendar', 'Automatic'),
 				timezoneId: 'automatic',
-				label: this.$t('calendar', 'Automatic ({detected})', {
-					detected: detectTimezone(),
-				}),
+				label: this.$t('calendar', 'Automatic ({timezone})', { timezone }),
 			}]
 		},
 	},
+
+	watch: {
+		timezone(newTimezoneId) {
+			this.setTimezoneValue(newTimezoneId)
+		},
+	},
+
+	mounted() {
+		this.timezone = this.initialTimezone
+	},
+
 	methods: {
 		/**
 		 * Updates the timezone set by the user
 		 *
-		 * @param {String} timezoneId New timezoneId to save
+		 * @param {string} timezoneId New timezoneId to save
 		 */
 		setTimezoneValue(timezoneId) {
-			this.$store.dispatch('setTimezone', { timezoneId })
+			this.settingsStore.setTimezone({ timezoneId })
 				.catch((error) => {
-					console.error(error)
+					logger.error(error)
 					showInfo(this.$t('calendar', 'New setting was not saved successfully.'))
 				})
 		},
 	},
 }
 </script>
+
+<style scoped>
+/* Ensure the label sits on top of the timezone picker rather than inline */
+.settings-fieldset-interior-item--timezone {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+</style>

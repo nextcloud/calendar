@@ -1,39 +1,17 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import getTimezoneManager from '../../services/timezoneDataProviderService.js'
-import { createFreeBusyRequest } from 'calendar-js'
-import DateTimeValue from 'calendar-js/src/values/dateTimeValue.js'
-import { findSchedulingOutbox } from '../../services/caldavService.js'
-import freeBusyResourceEventSourceFunction from './freeBusyResourceEventSourceFunction.js'
-import logger from '../../utils/logger.js'
-// import AttendeeProperty from 'calendar-js/src/properties/attendeeProperty.js'
+
+import { getBusySlots } from '@/services/freeBusySlotService.js'
 
 /**
  * Returns an event source for free-busy
  *
- * @param {String} id Identification for this source
+ * @param {string} id Identification for this source
  * @param {AttendeeProperty} organizer The organizer of the event
  * @param {AttendeeProperty[]} attendees Array of the event's attendees
- * @returns {{startEditable: boolean, resourceEditable: boolean, editable: boolean, id: string, durationEditable: boolean, events: events}}
+ * @return {{startEditable: boolean, resourceEditable: boolean, editable: boolean, id: string, durationEditable: boolean, events: events}}
  */
 export default function(id, organizer, attendees) {
 	return {
@@ -42,44 +20,13 @@ export default function(id, organizer, attendees) {
 		startEditable: false,
 		durationEditable: false,
 		resourceEditable: false,
-		events: async({ start, end, timeZone }, successCallback, failureCallback) => {
-			console.debug(start, end, timeZone)
-
-			let timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
-			if (!timezoneObject) {
-				timezoneObject = getTimezoneManager().getTimezoneForId('UTC')
-				logger.error(`FreeBusyEventSource: Timezone ${timeZone} not found, falling back to UTC.`)
+		events: async ({ start, end, timeZone }, successCallback, failureCallback) => {
+			const result = await getBusySlots(organizer, attendees, start, end, timeZone)
+			if (result.error) {
+				failureCallback(result.error)
+			} else {
+				successCallback(result.events)
 			}
-
-			const startDateTime = DateTimeValue.fromJSDate(start, true)
-			const endDateTime = DateTimeValue.fromJSDate(end, true)
-
-			// const organizerAsAttendee = new AttendeeProperty('ATTENDEE', organizer.email)
-			const freeBusyComponent = createFreeBusyRequest(startDateTime, endDateTime, organizer, attendees)
-			const freeBusyICS = freeBusyComponent.toICS()
-
-			let outbox
-			try {
-				outbox = await findSchedulingOutbox()
-			} catch (error) {
-				failureCallback(error)
-				return
-			}
-
-			let freeBusyData
-			try {
-				freeBusyData = await outbox.freeBusyRequest(freeBusyICS)
-			} catch (error) {
-				failureCallback(error)
-				return
-			}
-			const events = []
-			for (const [uri, data] of Object.entries(freeBusyData)) {
-				events.push(...freeBusyResourceEventSourceFunction(uri, data.calendarData, data.success, startDateTime, endDateTime, timezoneObject))
-			}
-
-			console.debug(events)
-			successCallback(events)
 		},
 	}
 }

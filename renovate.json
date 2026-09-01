@@ -1,0 +1,117 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": [
+		"config:recommended",
+		"helpers:pinGitHubActionDigests",
+		":dependencyDashboard",
+		":semanticCommits",
+		":gitSignOff"
+	],
+	"assigneesFromCodeOwners": true,
+	"expandCodeOwnersGroups": true,
+	"timezone": "Europe/Berlin",
+	"schedule": [
+		"before 5am on wednesday"
+	],
+	"labels": [
+		"dependencies",
+		"3. to review"
+	],
+	"rangeStrategy": "bump",
+	"rebaseWhen": "conflicted",
+	"ignoreUnstable": false,
+	"baseBranchPatterns": [
+		"main",
+		"stable6.6",
+		"stable6.5"
+	],
+	"enabledManagers": [
+		"composer",
+		"github-actions",
+		"npm"
+	],
+	"ignoreDeps": [
+		"node",
+		"npm",
+		"php",
+		"postcss-loader"
+	],
+	"packageRules": [
+		{
+			"description": "Request JavaScript reviews",
+			"matchManagers": ["npm"]
+		},
+		{
+			"description": "Request PHP reviews",
+			"matchManagers": ["composer"]
+		},
+		{
+			"description": "Bump Github actions monthly and request reviews",
+			"matchManagers": ["github-actions"],
+			"extends": ["schedule:monthly"]
+		},
+		{
+			"matchUpdateTypes": ["minor", "patch"],
+			"matchCurrentVersion": "!/^0/",
+			"automerge": true,
+			"automergeType": "pr",
+			"platformAutomerge": true,
+			"labels": [
+				"dependencies",
+				"4. to release"
+			],
+			"reviewers": []
+		},
+		{
+			"description": "Only automerge packages that follow semver",
+			"matchPackageNames": ["@nextcloud/vue", "friendsofphp/php-cs-fixer"],
+			"automerge": false,
+			"labels": [
+				"dependencies",
+				"3. to review"
+			]
+		},
+		{
+			"enabled": false,
+			"matchBaseBranches": "/^stable(.)+/"
+		},
+		{
+			"matchBaseBranches": ["main"],
+			"matchDepTypes": ["devDependencies"],
+			"extends": ["schedule:monthly"]
+		},
+		{
+			"groupName": "FullCalendar family",
+			"matchPackageNames": [
+				"@fullcalendar/core",
+				"@fullcalendar/daygrid",
+				"@fullcalendar/interaction",
+				"@fullcalendar/list",
+				"@fullcalendar/multimonth",
+				"@fullcalendar/resource",
+				"@fullcalendar/resource-timeline",
+				"@fullcalendar/timegrid",
+				"@fullcalendar/vue3"
+			],
+			"rangeStrategy": "pin",
+			"automerge": false
+		},
+		{
+			"groupName": "Jest family",
+			"matchPackageNames": [
+				"jest",
+				"jest-environment-jsdom",
+				"babel-jest"
+			],
+			"automerge": true
+		}
+	],
+	"vulnerabilityAlerts": {
+		"enabled": true,
+		"semanticCommitType": "fix",
+		"schedule": "before 7am every weekday",
+		"dependencyDashboardApproval": false,
+		"commitMessageSuffix": ""
+	},
+	"osvVulnerabilityAlerts": true
+}

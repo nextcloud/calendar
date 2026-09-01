@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2020 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 const COMPONENT_NAME_EVENT = 'VEVENT'
 const COMPONENT_NAME_JOURNAL = 'VJOURNAL'
@@ -37,8 +20,10 @@ const PRINCIPAL_PREFIX_GROUP = 'principal:principals/groups/'
 const PRINCIPAL_PREFIX_CIRCLE = 'principal:principals/circles/'
 const PRINCIPAL_PREFIX_CALENDAR_RESOURCE = 'principal:principals/calendar-resources/'
 const PRINCIPAL_PREFIX_CALENDAR_ROOM = 'principal:principals/calendar-rooms/'
+const PRINCIPAL_PREFIX_REMOTE_USER = 'principal:principals/remote-users/'
 
 const CALDAV_BIRTHDAY_CALENDAR = 'contact_birthdays'
+const CALDAV_PERSONAL_CALENDAR = 'personal'
 
 const IMPORT_STAGE_DEFAULT = 'default'
 const IMPORT_STAGE_IMPORTING = 'importing'
@@ -46,9 +31,15 @@ const IMPORT_STAGE_AWAITING_USER_SELECT = 'awaitingUserSelect'
 const IMPORT_STAGE_PROCESSING = 'processing'
 
 export {
+	CALDAV_BIRTHDAY_CALENDAR,
+	CALDAV_PERSONAL_CALENDAR,
 	COMPONENT_NAME_EVENT,
 	COMPONENT_NAME_JOURNAL,
 	COMPONENT_NAME_VTODO,
+	IMPORT_STAGE_AWAITING_USER_SELECT,
+	IMPORT_STAGE_DEFAULT,
+	IMPORT_STAGE_IMPORTING,
+	IMPORT_STAGE_PROCESSING,
 	ITIP_MESSAGE_ADD,
 	ITIP_MESSAGE_CANCEL,
 	ITIP_MESSAGE_COUNTER,
@@ -57,14 +48,10 @@ export {
 	ITIP_MESSAGE_REFRESH,
 	ITIP_MESSAGE_REPLY,
 	ITIP_MESSAGE_REQUEST,
-	PRINCIPAL_PREFIX_USER,
-	PRINCIPAL_PREFIX_GROUP,
-	PRINCIPAL_PREFIX_CIRCLE,
 	PRINCIPAL_PREFIX_CALENDAR_RESOURCE,
 	PRINCIPAL_PREFIX_CALENDAR_ROOM,
-	CALDAV_BIRTHDAY_CALENDAR,
-	IMPORT_STAGE_DEFAULT,
-	IMPORT_STAGE_IMPORTING,
-	IMPORT_STAGE_AWAITING_USER_SELECT,
-	IMPORT_STAGE_PROCESSING,
+	PRINCIPAL_PREFIX_CIRCLE,
+	PRINCIPAL_PREFIX_GROUP,
+	PRINCIPAL_PREFIX_REMOTE_USER,
+	PRINCIPAL_PREFIX_USER,
 }

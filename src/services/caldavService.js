@@ -1,93 +1,103 @@
 /**
- * @copyright Copyright (c) 2020 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import DavClient from 'cdav-library'
+import DavClient from '@nextcloud/cdav-library'
 import { generateRemoteUrl } from '@nextcloud/router'
-import { getRequestToken } from '@nextcloud/auth'
-import { CALDAV_BIRTHDAY_CALENDAR } from '../models/consts.js'
+import { CALDAV_BIRTHDAY_CALENDAR } from '@/models/consts.js'
 
-let client = null
-const getClient = () => {
-	if (client) {
-		return client
+const clients = {}
+
+const getClientKey = (headers) => JSON.stringify(headers)
+
+function getClient(headers = {}) {
+	const clientKey = getClientKey(headers)
+	if (clients[clientKey]) {
+		return clients[clientKey]
 	}
 
-	client = new DavClient({
+	clients[clientKey] = new DavClient({
 		rootUrl: generateRemoteUrl('dav'),
-	}, () => {
-		const headers = {
-			'X-Requested-With': 'XMLHttpRequest',
-			'requesttoken': getRequestToken(),
+		defaultHeaders: {
 			'X-NC-CalDAV-Webcal-Caching': 'On',
-		}
-		const xhr = new XMLHttpRequest()
-		const oldOpen = xhr.open
-
-		// override open() method to add headers
-		xhr.open = function() {
-			const result = oldOpen.apply(this, arguments)
-			for (const name in headers) {
-				xhr.setRequestHeader(name, headers[name])
-			}
-
-			return result
-		}
-
-		OC.registerXHRForErrorProcessing(xhr) // eslint-disable-line no-undef
-		return xhr
+			...headers,
+		},
 	})
 
-	return getClient()
+	return clients[clientKey]
 }
 
 /**
  * Initializes the client for use in the user-view
  */
-const initializeClientForUserView = async() => {
+async function initializeClientForUserView() {
 	await getClient().connect({ enableCalDAV: true })
 }
 
 /**
  * Initializes the client for use in the public/embed-view
  */
-const initializeClientForPublicView = async() => {
+async function initializeClientForPublicView() {
 	await getClient()._createPublicCalendarHome()
 }
 
 /**
  * Fetch all calendars from the server
  *
- * @returns {Promise<Calendar[]>}
+ * @param {object} headers Additional headers to send with the request
+ * @return {Promise<CalendarHome>}
  */
-const findAllCalendars = () => {
-	return getClient().calendarHomes[0].findAllCalendars()
+const getCalendarHome = (headers) => getClient(headers).calendarHomes[0]
+
+/**
+ * Fetch all collections in the calendar home from the server
+ *
+ * @return {Promise<Collection[]>}
+ */
+function findAll() {
+	return getCalendarHome().findAllCalDAVCollectionsGrouped()
+}
+
+/**
+ * Fetch all calendars in the calendar home from the server
+ *
+ * @return {Promise<Calendar[]>}
+ */
+function findAllCalendars() {
+	return getCalendarHome().findAllCalendars()
+}
+
+/**
+ * Fetch all subscriptions in the calendar home from the server
+ */
+export async function findAllSubscriptions() {
+	// If this header is not set, the client will not detect subscribed calendars as such.
+	const headers = {
+		'X-NC-CalDAV-Webcal-Caching': 'Off',
+	}
+
+	// Ensure the client is initialized once
+	await getClient(headers).connect({ enableCalDAV: true })
+
+	return getCalendarHome(headers).findAllSubscriptions()
+}
+
+/**
+ * Fetch all deleted calendars from the server
+ *
+ * @return {Promise<Calendar[]>}
+ */
+function findAllDeletedCalendars() {
+	return getCalendarHome().findAllDeletedCalendars()
 }
 
 /**
  * Fetch public calendars by their token
  *
- * @param {String[]} tokens List of tokens
- * @returns {Promise<Calendar[]>}
+ * @param {string[]} tokens List of tokens
+ * @return {Promise<Calendar[]>}
  */
-const findPublicCalendarsByTokens = async(tokens) => {
+async function findPublicCalendarsByTokens(tokens) {
 	const findPromises = []
 
 	for (const token of tokens) {
@@ -113,10 +123,10 @@ const findPublicCalendarsByTokens = async(tokens) => {
  *
  * https://tools.ietf.org/html/rfc6638#section-2.2.1
  *
- * @returns {Promise<ScheduleInbox[]>}
+ * @return {Promise<ScheduleInbox[]>}
  */
-const findSchedulingInbox = async() => {
-	const inboxes = await getClient().calendarHomes[0].findAllScheduleInboxes()
+async function findSchedulingInbox() {
+	const inboxes = await getCalendarHome().findAllScheduleInboxes()
 	return inboxes[0]
 }
 
@@ -131,25 +141,25 @@ const findSchedulingInbox = async() => {
  *
  * https://tools.ietf.org/html/rfc6638#section-2.1.1
  *
- * @returns {Promise<ScheduleOutbox>}
+ * @return {Promise<ScheduleOutbox>}
  */
-const findSchedulingOutbox = async() => {
-	const outboxes = await getClient().calendarHomes[0].findAllScheduleOutboxes()
+async function findSchedulingOutbox() {
+	const outboxes = await getCalendarHome().findAllScheduleOutboxes()
 	return outboxes[0]
 }
 
 /**
  * Creates a calendar
  *
- * @param {String} displayName Visible name
- * @param {String} color Color
- * @param {String[]} components Supported component set
- * @param {Number} order Order of calendar in list
- * @param {String} timezoneIcs ICS representation of timezone
- * @returns {Promise<Calendar>}
+ * @param {string} displayName Visible name
+ * @param {string} color Color
+ * @param {string[]} components Supported component set
+ * @param {number} order Order of calendar in list
+ * @param {string} timezoneIcs ICS representation of timezone
+ * @return {Promise<Calendar>}
  */
-const createCalendar = async(displayName, color, components, order, timezoneIcs) => {
-	return getClient().calendarHomes[0].createCalendarCollection(displayName, color, components, order, timezoneIcs)
+async function createCalendar(displayName, color, components, order, timezoneIcs) {
+	return getCalendarHome().createCalendarCollection(displayName, color, components, order, timezoneIcs)
 }
 
 /**
@@ -157,76 +167,119 @@ const createCalendar = async(displayName, color, components, order, timezoneIcs)
  *
  * This function does not return a subscription, but a cached calendar
  *
- * @param {String} displayName Visible name
- * @param {String} color Color
- * @param {String} source Link to WebCAL Source
- * @param {Number} order Order of calendar in list
- * @returns {Promise<Calendar>}
+ * @param {string} displayName Visible name
+ * @param {string} color Color
+ * @param {string} source Link to WebCAL Source
+ * @param {number} order Order of calendar in list
+ * @return {Promise<Calendar>}
  */
-const createSubscription = async(displayName, color, source, order) => {
-	return getClient().calendarHomes[0].createSubscribedCollection(displayName, color, source, order)
+async function createSubscription(displayName, color, source, order) {
+	return getCalendarHome().createSubscribedCollection(displayName, color, source, order)
 }
 
 /**
  * Enables the birthday calendar
  *
- * @returns {Promise<Calendar>}
+ * @return {Promise<Calendar>}
  */
-const enableBirthdayCalendar = async() => {
-	await getClient().calendarHomes[0].enableBirthdayCalendar()
+async function enableBirthdayCalendar() {
+	await getCalendarHome().enableBirthdayCalendar()
 	return getBirthdayCalendar()
 }
 
 /**
  * Gets the birthday calendar
  *
- * @returns {Promise<Calendar>}
+ * @return {Promise<Calendar>}
  */
-const getBirthdayCalendar = async() => {
-	return getClient().calendarHomes[0].find(CALDAV_BIRTHDAY_CALENDAR)
+async function getBirthdayCalendar() {
+	return getCalendarHome().find(CALDAV_BIRTHDAY_CALENDAR)
 }
 
 /**
  * Returns the Current User Principal
  *
- * @returns {Principal}
+ * @return {Principal}
  */
-const getCurrentUserPrincipal = () => {
+function getCurrentUserPrincipal() {
 	return getClient().currentUserPrincipal
 }
 
 /**
  * Finds calendar principals by displayname
  *
- * @param {String} term The search-term
- * @returns {Promise<void>}
+ * @param {string} term The search-term
+ * @return {Promise<void>}
  */
-const principalPropertySearchByDisplaynameOrEmail = async(term) => {
+async function principalPropertySearchByDisplaynameOrEmail(term) {
 	return getClient().principalPropertySearchByDisplaynameOrEmail(term)
+}
+
+/**
+ * Performs a principal property search based on multiple advanced filters
+ *
+ * @param {object} query The destructuring query object
+ * @param {string=} query.displayName The display name to search for
+ * @param {number=} query.capacity The minimum required seating capacity
+ * @param {string[]=} query.features The features to filter by
+ * @param {string=} query.roomType The room type to filter by
+ * @return {Promise<Principal[]>}
+ */
+async function advancedPrincipalPropertySearch(query) {
+	return getClient().advancedPrincipalPropertySearch(query)
 }
 
 /**
  * Finds one principal by it's URL
  *
- * @param {String} url The principal-url
- * @returns {Promise<Principal>}
+ * @param {string} url The principal-url
+ * @return {Promise<Principal>}
  */
-const findPrincipalByUrl = async(url) => {
+async function findPrincipalByUrl(url) {
 	return getClient().findPrincipal(url)
 }
 
+/**
+ * Finds all principals in a collection at the given URL
+ *
+ * @param {string} url The URL of the principal collection
+ * @param {object} options Passed to cdav-library/Principal::getPropFindList()
+ * @return {Promise<Principal[]>}
+ */
+async function findPrincipalsInCollection(url, options = {}) {
+	return getClient().findPrincipalsInCollection(url, options)
+}
+
+/**
+ * Fetches all calendars from a calendar home at an arbitrary URL.
+ * Used to load calendars from another user's calendar home when acting as their proxy.
+ *
+ * @param {string} calendarHomeUrl Absolute URL of the calendar home to fetch from
+ * @return {Promise<Calendar[]>} Raw cdav-library Calendar objects
+ */
+async function findCalendarsAtUrl(calendarHomeUrl) {
+	const calendarHome = getClient().getCalendarHomeForUrl(calendarHomeUrl)
+	return calendarHome.findAllCalendars()
+}
+
 export {
-	initializeClientForUserView,
-	initializeClientForPublicView,
-	findAllCalendars,
-	findPublicCalendarsByTokens,
-	findSchedulingInbox,
-	findSchedulingOutbox,
+	advancedPrincipalPropertySearch,
 	createCalendar,
 	createSubscription,
 	enableBirthdayCalendar,
-	getBirthdayCalendar,
-	getCurrentUserPrincipal,
-	principalPropertySearchByDisplaynameOrEmail,
+	findAll,
+	findAllCalendars,
+	findAllDeletedCalendars,
+	findCalendarsAtUrl,
 	findPrincipalByUrl,
+	findPrincipalsInCollection,
+	findPublicCalendarsByTokens,
+	findSchedulingInbox,
+	findSchedulingOutbox,
+	getBirthdayCalendar,
+	getClient,
+	getCurrentUserPrincipal,
+	initializeClientForPublicView,
+	initializeClientForUserView,
+	principalPropertySearchByDisplaynameOrEmail,
 }

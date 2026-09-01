@@ -1,47 +1,31 @@
+import { createPlugin } from '@fullcalendar/core'
 /**
- * @copyright Copyright (c) 2020 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import moment from '@nextcloud/moment'
-import { createPlugin } from '@fullcalendar/core'
-import store from './../../store'
+import useSettingsStore from '@/store/settings.js'
 
 /**
- * Creates a new moment object
+ * Creates a new moment object using the locale from the global Pinia store
  *
- * @param {Object} data The fullcalendar data
- * @param {Number[]} data.array Input data to initialize moment
- * @returns {moment}
+ * @param {object[]} data FullCalendar object containing the date etc.
+ * @param {number[]} data.array Input data to initialize moment
+ * @return {moment.Moment}
  */
-const momentFactory = ({ array }) => {
-	return moment(array).locale(store.state.settings.momentLocale)
+function momentFactory({ array }) {
+	const settingsStore = useSettingsStore()
+	return moment(array).locale(settingsStore.momentLocale)
 }
 
 /**
  * Formats a date with given cmdStr
  *
- * @param {String} cmdStr The formatting string
- * @param {Object} arg An Object containing the date, etc.
- * @returns {String}
+ * @param {string} cmdStr The formatting string
+ * @param {object} arg An Object containing the date, etc.
+ * @return {function(string, string):string} cmdFormatter function
  */
-const cmdFormatter = (cmdStr, arg) => {
+function cmdFormatter(cmdStr, arg) {
 	// With our specific DateFormattingConfig,
 	// cmdStr will always be a moment parsable string
 	// like LT, etc.
@@ -67,5 +51,6 @@ const cmdFormatter = (cmdStr, arg) => {
 }
 
 export default createPlugin({
+	name: '@nextcloud/moment-plugin',
 	cmdFormatter,
 })

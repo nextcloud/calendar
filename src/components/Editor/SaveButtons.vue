@@ -1,104 +1,167 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<div>
-		<button
+	<div class="save-buttons">
+		<NcButton
 			v-if="showMoreButton"
+			:type="moreButtonType"
+			:disabled="disabled"
 			@click="showMore">
-			{{ $t('calendar', 'More') }}
-		</button>
-		<button
+			{{ $t('calendar', 'More details') }}
+		</NcButton>
+		<NcButton
 			v-if="showSaveButton"
-			class="primary"
+			variant="primary"
+			:disabled="disabled"
 			@click="saveThisOnly">
+			<template #icon>
+				<CheckIcon :size="20" />
+			</template>
 			{{ $t('calendar', 'Save') }}
-		</button>
-		<button
-			v-if="shoUpdateButton"
-			class="primary"
+		</NcButton>
+		<NcButton
+			v-if="showUpdateButton"
+			variant="primary"
+			:disabled="disabled"
 			@click="saveThisOnly">
+			<template #icon>
+				<CheckIcon :size="20" />
+			</template>
 			{{ $t('calendar', 'Update') }}
-		</button>
-		<button
-			v-if="showUpdateOnlyThisButton"
-			class="primary"
-			@click="saveThisOnly">
-			{{ $t('calendar', 'Update this occurrence') }}
-		</button>
-		<button
-			v-if="showUpdateThisAndFutureButton"
-			:class="{ primary: forceThisAndAllFuture}"
+		</NcButton>
+		<NcButton
+			v-if="showUpdateThisAndFutureButton && !showUpdateOnlyThisButton"
+			variant="primary"
+			:disabled="disabled"
 			@click="saveThisAndAllFuture">
 			{{ $t('calendar', 'Update this and all future') }}
-		</button>
+		</NcButton>
+		<NcButton
+			v-if="showUpdateOnlyThisButton && !showUpdateThisAndFutureButton"
+			variant="primary"
+			:disabled="disabled"
+			@click="saveThisOnly">
+			{{ $t('calendar', 'Update this occurrence') }}
+		</NcButton>
+
+		<NcActions v-if="showUpdateThisAndFutureButton && showUpdateOnlyThisButton" :primary="true" :menuName="t('calendar', 'Update')">
+			<template #icon>
+				<CheckIcon :size="20" />
+			</template>
+			<NcActionButton @click="saveThisAndAllFuture">
+				<template #icon>
+					<CheckAllIcon :size="20" />
+				</template>
+				{{ $t('calendar', 'Update this and all future') }}
+			</NcActionButton>
+			<NcActionButton @click="saveThisOnly">
+				<template #icon>
+					<CheckIcon :size="20" />
+				</template>
+				{{ $t('calendar', 'Update this occurrence') }}
+			</NcActionButton>
+		</NcActions>
+
+		<!-- Allow additional buttons -->
+		<slot />
 	</div>
 </template>
 
 <script>
+import { NcActionButton, NcActions, NcButton } from '@nextcloud/vue'
+import CheckIcon from 'vue-material-design-icons/Check.vue'
+import CheckAllIcon from 'vue-material-design-icons/CheckAll.vue'
+
 export default {
 	name: 'SaveButtons',
+	components: {
+		NcButton,
+		CheckIcon,
+		CheckAllIcon,
+		NcActions,
+		NcActionButton,
+	},
+
 	props: {
 		canCreateRecurrenceException: {
 			type: Boolean,
 			required: true,
 		},
+
 		isNew: {
 			type: Boolean,
 			required: true,
 		},
+
+		isReadOnly: {
+			type: Boolean,
+			required: true,
+		},
+
 		forceThisAndAllFuture: {
 			type: Boolean,
 			required: true,
 		},
+
 		showMoreButton: {
 			type: Boolean,
 			default: false,
 		},
+
+		moreButtonType: {
+			type: String,
+			default: undefined,
+		},
+
+		disabled: {
+			type: Boolean,
+			default: false,
+		},
 	},
+
+	emits: ['saveThisOnly', 'saveThisAndAllFuture', 'showMore'],
+
 	computed: {
 		showSaveButton() {
-			return this.isNew && !this.canCreateRecurrenceException
+			return !this.isReadOnly && this.isNew && !this.canCreateRecurrenceException
 		},
-		shoUpdateButton() {
-			return !this.isNew && !this.canCreateRecurrenceException
+
+		showUpdateButton() {
+			return !this.isReadOnly && !this.isNew && !this.canCreateRecurrenceException
 		},
+
 		showUpdateOnlyThisButton() {
-			return this.canCreateRecurrenceException && !this.forceThisAndAllFuture
+			return !this.isReadOnly && this.canCreateRecurrenceException && !this.forceThisAndAllFuture
 		},
+
 		showUpdateThisAndFutureButton() {
-			return this.canCreateRecurrenceException
+			return !this.isReadOnly && this.canCreateRecurrenceException
 		},
 	},
+
 	methods: {
 		saveThisOnly() {
 			this.$emit('saveThisOnly')
 		},
+
 		saveThisAndAllFuture() {
 			this.$emit('saveThisAndAllFuture')
 		},
+
 		showMore() {
 			this.$emit('showMore')
 		},
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.save-buttons {
+	display: flex;
+	justify-content: end;
+	gap: var(--default-grid-baseline);
+}
+</style>

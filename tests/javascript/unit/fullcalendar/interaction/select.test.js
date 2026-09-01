@@ -1,31 +1,21 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import select from "../../../../../src/fullcalendar/interaction/select.js";
+import { createPinia, setActivePinia } from 'pinia'
+import select from '@/fullcalendar/interaction/select.js'
+import useSettingsStore from '@/store/settings.js'
 
 describe('fullcalendar/select test suite', () => {
+	beforeEach(() => {
+		setActivePinia(createPinia())
+	})
 
 	it('should open the Popover on big screens', () => {
-		const store = { state: { settings: { skipPopover: false } } }
-		const router = { push: jest.fn() }
+		const settingsStore = useSettingsStore()
+		settingsStore.skipPopover = false
+
+		const router = { push: vi.fn() }
 		const route = { name: 'CalendarView', params: { otherParam: '456' } }
 		const window = { innerWidth: 1920 }
 
@@ -33,7 +23,7 @@ describe('fullcalendar/select test suite', () => {
 		const end = new Date(Date.UTC(2019, 0, 2, 0, 0, 0, 0))
 		const allDay = true
 
-		const selectFunction = select(store, router, route, window)
+		const selectFunction = select(router, route, window)
 		selectFunction({ start, end, allDay })
 
 		expect(router.push).toHaveBeenCalledTimes(1)
@@ -48,9 +38,11 @@ describe('fullcalendar/select test suite', () => {
 		})
 	})
 
-	it('should open the Sidebar on big screens if the user wishes so', () => {
-		const store = { state: { settings: { skipPopover: true } } }
-		const router = { push: jest.fn() }
+	it('should open the full editor on big screens if the user wishes so', () => {
+		const settingsStore = useSettingsStore()
+		settingsStore.skipPopover = true
+
+		const router = { push: vi.fn() }
 		const route = { name: 'CalendarView', params: { otherParam: '456' } }
 		const window = { innerWidth: 1920 }
 
@@ -58,12 +50,12 @@ describe('fullcalendar/select test suite', () => {
 		const end = new Date(Date.UTC(2019, 0, 2, 0, 0, 0, 0))
 		const allDay = true
 
-		const selectFunction = select(store, router, route, window)
+		const selectFunction = select(router, route, window)
 		selectFunction({ start, end, allDay })
 
 		expect(router.push).toHaveBeenCalledTimes(1)
 		expect(router.push).toHaveBeenNthCalledWith(1, {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '1',
@@ -73,22 +65,24 @@ describe('fullcalendar/select test suite', () => {
 		})
 	})
 
-	it('should open the Sidebar on smaller screens', () => {
-		const store = { state: { settings: { skipPopover: false } } }
-		const router = { push: jest.fn() }
+	it('should open the full editor on smaller screens', () => {
+		const settingsStore = useSettingsStore()
+		settingsStore.skipPopover = false
+
+		const router = { push: vi.fn() }
 		const route = { name: 'CalendarView', params: { otherParam: '456' } }
-		const window = { innerWidth: 760 }
+		const window = { innerWidth: 500 }
 
 		const start = new Date(Date.UTC(2019, 0, 1, 0, 0, 0, 0))
 		const end = new Date(Date.UTC(2019, 0, 2, 0, 0, 0, 0))
 		const allDay = true
 
-		const selectFunction = select(store, router, route, window)
+		const selectFunction = select(router, route, window)
 		selectFunction({ start, end, allDay })
 
 		expect(router.push).toHaveBeenCalledTimes(1)
 		expect(router.push).toHaveBeenNthCalledWith(1, {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '1',
@@ -99,8 +93,10 @@ describe('fullcalendar/select test suite', () => {
 	})
 
 	it('should not update the route if the exact time-range is already open - Popover to Popover', () => {
-		const store = { state: { settings: { skipPopover: false } } }
-		const router = { push: jest.fn() }
+		const settingsStore = useSettingsStore()
+		settingsStore.skipPopover = false
+
+		const router = { push: vi.fn() }
 		const route = {
 			name: 'NewPopoverView',
 			params: {
@@ -116,17 +112,19 @@ describe('fullcalendar/select test suite', () => {
 		const end = new Date(Date.UTC(2019, 0, 2, 0, 0, 0, 0))
 		const allDay = true
 
-		const selectFunction = select(store, router, route, window)
+		const selectFunction = select(router, route, window)
 		selectFunction({ start, end, allDay })
 
 		expect(router.push).toHaveBeenCalledTimes(0)
 	})
 
-	it('should not update the route if the exact time-range is already open - Sidebar to Popover', () => {
-		const store = { state: { settings: { skipPopover: false } } }
-		const router = { push: jest.fn() }
+	it('should not update the route if the exact time-range is already open - Full to Popover', () => {
+		const settingsStore = useSettingsStore()
+		settingsStore.skipPopover = false
+
+		const router = { push: vi.fn() }
 		const route = {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '1',
@@ -140,17 +138,19 @@ describe('fullcalendar/select test suite', () => {
 		const end = new Date(Date.UTC(2019, 0, 2, 0, 0, 0, 0))
 		const allDay = true
 
-		const selectFunction = select(store, router, route, window)
+		const selectFunction = select(router, route, window)
 		selectFunction({ start, end, allDay })
 
 		expect(router.push).toHaveBeenCalledTimes(0)
 	})
 
-	it('should not update the route if the exact time-range is already open - Sidebar to Sidebar', () => {
-		const store = { state: { settings: { skipPopover: true } } }
-		const router = { push: jest.fn() }
+	it('should not update the route if the exact time-range is already open - Full to Full', () => {
+		const settingsStore = useSettingsStore()
+		settingsStore.skipPopover = true
+
+		const router = { push: vi.fn() }
 		const route = {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '1',
@@ -164,15 +164,17 @@ describe('fullcalendar/select test suite', () => {
 		const end = new Date(Date.UTC(2019, 0, 2, 0, 0, 0, 0))
 		const allDay = true
 
-		const selectFunction = select(store, router, route, window)
+		const selectFunction = select(router, route, window)
 		selectFunction({ start, end, allDay })
 
 		expect(router.push).toHaveBeenCalledTimes(0)
 	})
 
-	it('should not update the route if the exact time-range is already open - Popover to Sidebar', () => {
-		const store = { state: { settings: { skipPopover: true } } }
-		const router = { push: jest.fn() }
+	it('should not update the route if the exact time-range is already open - Popover to Full', () => {
+		const settingsStore = useSettingsStore()
+		settingsStore.skipPopover = true
+
+		const router = { push: vi.fn() }
 		const route = {
 			name: 'NewPopoverView',
 			params: {
@@ -188,15 +190,17 @@ describe('fullcalendar/select test suite', () => {
 		const end = new Date(Date.UTC(2019, 0, 2, 0, 0, 0, 0))
 		const allDay = true
 
-		const selectFunction = select(store, router, route, window)
+		const selectFunction = select(router, route, window)
 		selectFunction({ start, end, allDay })
 
 		expect(router.push).toHaveBeenCalledTimes(0)
 	})
 
-	it('should not the popover when a new event sidebar is already open - Popover', () => {
-		const store = { state: { settings: { skipPopover: false } } }
-		const router = { push: jest.fn() }
+	it('should not the popover when a new event full editor is already open - Popover', () => {
+		const settingsStore = useSettingsStore()
+		settingsStore.skipPopover = false
+
+		const router = { push: vi.fn() }
 		const route = {
 			name: 'NewPopoverView',
 			params: {
@@ -212,7 +216,7 @@ describe('fullcalendar/select test suite', () => {
 		const end = new Date(Date.UTC(2019, 3, 2, 0, 0, 0, 0))
 		const allDay = false
 
-		const selectFunction = select(store, router, route, window)
+		const selectFunction = select(router, route, window)
 		selectFunction({ start, end, allDay })
 
 		expect(router.push).toHaveBeenCalledTimes(1)
@@ -227,11 +231,13 @@ describe('fullcalendar/select test suite', () => {
 		})
 	})
 
-	it('should not the popover when a new event sidebar is already open - Sidebar', () => {
-		const store = { state: { settings: { skipPopover: false } } }
-		const router = { push: jest.fn() }
+	it('should not the popover when a new event full editor is already open - Full', () => {
+		const settingsStore = useSettingsStore()
+		settingsStore.skipPopover = false
+
+		const router = { push: vi.fn() }
 		const route = {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '1',
@@ -245,12 +251,12 @@ describe('fullcalendar/select test suite', () => {
 		const end = new Date(Date.UTC(2019, 3, 2, 0, 0, 0, 0))
 		const allDay = false
 
-		const selectFunction = select(store, router, route, window)
+		const selectFunction = select(router, route, window)
 		selectFunction({ start, end, allDay })
 
 		expect(router.push).toHaveBeenCalledTimes(1)
 		expect(router.push).toHaveBeenNthCalledWith(1, {
-			name: 'NewSidebarView',
+			name: 'NewFullView',
 			params: {
 				otherParam: '456',
 				allDay: '0',

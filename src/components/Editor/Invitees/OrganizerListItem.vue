@@ -1,80 +1,163 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<div class="invitees-list-item">
 		<AvatarParticipationStatus
-			:attendee-is-organizer="true"
-			:avatar-link="avatarLink"
-			:is-viewed-by-organizer="isViewedByOrganizer"
-			:common-name="commonName"
-			:organizer-display-name="commonName"
-			participation-status="ACCEPTED" />
-		<div class="invitees-list-item__displayname">
-			{{ commonName }}
-		</div>
+			:attendeeIsOrganizer="true"
+			:isViewedByOrganizer="isViewedByOrganizer"
+			:isResource="isResource"
+			:commonName="commonName"
+			:organizerDisplayName="commonName"
+			:scheduleStatus="organizer.attendeeProperty.getParameterFirstValue('SCHEDULE-STATUS')"
+			participationStatus="ACCEPTED" />
+
+		<AttendeeDisplay
+			:displayName="commonName"
+			:email="organizerEmail" />
+
 		<div class="invitees-list-item__organizer-hint">
 			{{ $t('calendar', '(organizer)') }}
+		</div>
+		<div class="invitees-list-item__actions">
+			<NcActions v-if="!isReadOnly && isSharedWithMe">
+				<template v-for="person in organizerSelection">
+					<NcActionButton
+						v-if="!selectedOrganizer(person.address)"
+						:key="person.address + '-1'"
+						:closeAfterClick="true"
+						@click="changeOrganizer(person, false)">
+						<template #icon>
+							<Crown :size="20" />
+						</template>
+						{{ $t('calendar', 'Make {label} the organizer', { label: person.label }) }}
+					</NcActionButton>
+					<NcActionButton
+						v-if="!selectedOrganizer(person.address)"
+						:key="person.address + '-2'"
+						:closeAfterClick="true"
+						@click="changeOrganizer(person, true)">
+						<template #icon>
+							<Crown :size="20" />
+						</template>
+						{{ $t('calendar', 'Make {label} the organizer and attend', { label: person.label }) }}
+					</NcActionButton>
+				</template>
+			</NcActions>
 		</div>
 	</div>
 </template>
 
 <script>
-import AvatarParticipationStatus from './AvatarParticipationStatus'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import Crown from 'vue-material-design-icons/CrownOutline.vue'
+import AvatarParticipationStatus from '@/components/Editor/AvatarParticipationStatus.vue'
+import AttendeeDisplay from '@/components/Editor/Invitees/AttendeeDisplay.vue'
+import { removeMailtoPrefix } from '@/utils/attendee.js'
 
 export default {
 	name: 'OrganizerListItem',
 	components: {
+		AttendeeDisplay,
 		AvatarParticipationStatus,
+		Crown,
+		NcActions,
+		NcActionButton,
 	},
+
 	props: {
 		organizer: {
 			type: Object,
 			required: true,
 		},
+
+		organizerSelection: {
+			type: Array,
+			required: true,
+		},
+
 		isReadOnly: {
 			type: Boolean,
 			required: true,
 		},
-	},
-	computed: {
-		avatarLink() {
-			// return this.$store.getters.getAvatarForContact(this.uri) || this.commonName
-			return this.organizer.commonName
+
+		isSharedWithMe: {
+			type: Boolean,
+			required: true,
 		},
+
+		isViewedByOrganizer: {
+			type: Boolean,
+			default: false,
+		},
+	},
+
+	emits: ['changeOrganizer'],
+
+	computed: {
+		/**
+		 * @return {string}
+		 */
+		avatarLink() {
+			return this.commonName
+		},
+
+		/**
+		 * Common name of the attendee or the uri without the 'mailto:' prefix.
+		 *
+		 * @return {string}
+		 */
 		commonName() {
 			if (this.organizer.commonName) {
 				return this.organizer.commonName
 			}
 
-			if (this.organizer.uri && this.organizer.uri.startsWith('mailto:')) {
-				return this.organizer.uri.substr(7)
+			if (this.organizer.uri) {
+				return removeMailtoPrefix(this.organizer.uri)
 			}
 
-			return this.organizer.uri
+			return ''
 		},
-		isViewedByOrganizer() {
-			return true
+
+		/**
+		 * Email address without the 'mailto:' prefix
+		 *
+		 * @return {string}
+		 */
+		organizerEmail() {
+			return this.organizer.uri ? removeMailtoPrefix(this.organizer.uri) : ''
+		},
+
+		isResource() {
+			// The organizer does not have a tooltip
+			return false
+		},
+	},
+
+	methods: {
+		selectedOrganizer(address) {
+			if (removeMailtoPrefix(this.organizer.uri) === address) {
+				return true
+			}
+			return false
+		},
+
+		changeOrganizer(person, attend) {
+			this.$emit('changeOrganizer', person, attend)
 		},
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.invitees-list-item__organizer-hint {
+	margin-bottom: 14px;
+}
+
+.avatar-participation-status {
+	margin-top: 10px;
+}
+</style>

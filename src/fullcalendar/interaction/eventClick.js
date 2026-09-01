@@ -1,83 +1,86 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import {
-	getPrefixedRoute,
-	isPublicOrEmbeddedRoute,
-} from '../../utils/router'
-import { generateUrl } from '@nextcloud/router'
-import { translate as t } from '@nextcloud/l10n'
 import { showInfo } from '@nextcloud/dialogs'
 import { emit } from '@nextcloud/event-bus'
+import { translate as t } from '@nextcloud/l10n'
+import { generateUrl } from '@nextcloud/router'
+import { errorCatchAsync } from '@/fullcalendar/utils/errors.js'
+import useSettingsStore from '@/store/settings.js'
+import useWidgetStore from '@/store/widget.js'
+import {
+	getPrefixedRoute,
+	getViewMode,
+	ViewMode,
+} from '@/utils/router.js'
 
 /**
  * Returns a function for click action on event. This will open the editor.
- * Either the popover or the sidebar, based on the user's preference.
+ * Either the popover or the full, based on the user's preference.
  *
- * @param {Object} store The Vuex store
- * @param {Object} router The Vue router
- * @param {Object} route The current Vue route
+ * @param {object} router The Vue router
+ * @param {object} route The current Vue route
  * @param {Window} window The window object
- * @returns {Function}
+ * @param {boolean} isWidget Whether the calendar is embedded in a widget
+ * @param {object} ref The ref object of CalendarGrid component
+ * @return {(info: {event: EventDef}) => Promise<void>}
  */
-export default function(store, router, route, window) {
-	return function({ event }) {
-		switch (event.extendedProps.objectType) {
-		case 'VEVENT':
-			handleEventClick(event, store, router, route, window)
-			break
-
-		case 'VTODO':
-			handleToDoClick(event, store, route, window)
-			break
+export default function(router, route, window, isWidget = false, ref = undefined) {
+	const widgetStore = useWidgetStore()
+	return errorCatchAsync(function({ event }) {
+		if (isWidget) {
+			widgetStore.setWidgetRef({ widgetRef: ref.fullCalendar.$el })
 		}
-	}
+		switch (event.extendedProps.objectType) {
+			case 'VEVENT':
+				handleEventClick(event, router, route, window, isWidget)
+				break
+
+			case 'VTODO':
+				handleToDoClick(event, route, window, isWidget)
+				break
+		}
+	}, 'eventClick')
 }
 
 /**
  * Handle eventClick for VEVENT
  *
  * @param {EventDef} event FullCalendar event
- * @param {Object} store The Vuex store
- * @param {Object} router The Vue router
- * @param {Object} route The current Vue route
+ * @param {object} router The Vue router
+ * @param {object} route The current Vue route
  * @param {Window} window The window object
+ * @param {boolean} isWidget Whether the calendar is embedded in a widget
  */
-function handleEventClick(event, store, router, route, window) {
-	let desiredRoute = store.state.settings.skipPopover
-		? 'EditSidebarView'
+function handleEventClick(event, router, route, window, isWidget = false) {
+	const settingsStore = useSettingsStore()
+	const widgetStore = useWidgetStore()
+	if (isWidget) {
+		widgetStore.setSelectedEvent({ object: event.extendedProps.objectId, recurrenceId: event.extendedProps.recurrenceId })
+		return
+	}
+	let desiredRoute = settingsStore.skipPopover
+		? 'EditFullView'
 		: 'EditPopoverView'
 
-	if (window.innerWidth <= 768 && desiredRoute === 'EditPopoverView') {
-		desiredRoute = 'EditSidebarView'
+	// Don't show the popover if the window size is too small (less than its max width of 516 px + a bit)
+	// The sidebar is 300px, so we check 850px (300 + 516 + some margin)
+
+	// The popover also becomes uncomfortable to use on short screens
+	if ((window.innerWidth <= 850 || window.innerHeight <= 400) && desiredRoute === 'EditPopoverView') {
+		desiredRoute = 'EditFullView'
 	}
 
 	const name = getPrefixedRoute(route.name, desiredRoute)
-	const params = Object.assign({}, route.params, {
+	const params = {
+		...route.params,
 		object: event.extendedProps.objectId,
 		recurrenceId: String(event.extendedProps.recurrenceId),
-	})
+	}
 
 	// Don't push new route when day didn't change
-	if ((getPrefixedRoute(route.name, 'EditPopoverView') === route.name || getPrefixedRoute(route.name, 'EditSidebarView') === route.name)
+	if ((getPrefixedRoute(route.name, 'EditPopoverView') === route.name || getPrefixedRoute(route.name, 'EditFullView') === route.name)
 		&& params.object === route.params.object
 		&& params.recurrenceId === route.params.recurrenceId) {
 		return
@@ -90,13 +93,14 @@ function handleEventClick(event, store, router, route, window) {
  * Handle eventClick for VTODO
  *
  * @param {EventDef} event FullCalendar event
- * @param {Object} store The Vuex store
- * @param {Object} route The current Vue route
+ * @param {object} route The current Vue route
  * @param {Window} window The window object
+ * @param {boolean} isWidget Whether the calendar is embedded as a widget
  */
-function handleToDoClick(event, store, route, window) {
+function handleToDoClick(event, route, window, isWidget = false) {
+	const settingsStore = useSettingsStore()
 
-	if (isPublicOrEmbeddedRoute(route.name)) {
+	if (getViewMode(route.name, isWidget) !== ViewMode.USER) {
 		return
 	}
 
@@ -106,10 +110,10 @@ function handleToDoClick(event, store, route, window) {
 
 	emit('calendar:handle-todo-click', { calendarId, taskId })
 
-	if (!store.state.settings.tasksEnabled) {
+	if (!settingsStore.tasksEnabled) {
 		showInfo(t('calendar', 'Please ask your administrator to enable the Tasks App.'))
 		return
 	}
-	const url = `apps/tasks/#/calendars/${calendarId}/tasks/${taskId}`
-	window.location = window.location.protocol + '//' + window.location.host + generateUrl(url)
+	const url = `apps/tasks/calendars/${encodeURIComponent(calendarId)}/tasks/${encodeURIComponent(taskId)}`
+	window.open(generateUrl(url), '_blank')
 }

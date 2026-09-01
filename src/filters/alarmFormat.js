@@ -1,36 +1,19 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { translate as t, translatePlural as n } from '@nextcloud/l10n'
+import { translatePlural as n, translate as t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 
 /**
  * Formats an alarm
  *
- * @param {Object} alarm The alarm object to format
- * @param {Boolean} isAllDay Whether or not the event is all-day
- * @param {String} currentUserTimezone The current timezone of the user
- * @param {String} locale The locale to format it in
- * @returns {String}
+ * @param {object} alarm The alarm object to format
+ * @param {boolean} isAllDay Whether or not the event is all-day
+ * @param {string} currentUserTimezone The current timezone of the user
+ * @param {string} locale The locale to format it in
+ * @return {string}
  */
 export default (alarm, isAllDay, currentUserTimezone, locale) => {
 	if (alarm.relativeTrigger !== null) {
@@ -49,19 +32,25 @@ export default (alarm, isAllDay, currentUserTimezone, locale) => {
 
 			if (alarm.relativeTrigger < 0) {
 				if (alarm.relativeUnitAllDay === 'days') {
-					return n('calendar',
+					return n(
+						'calendar',
 						'%n day before the event at {formattedHourMinute}',
 						'%n days before the event at {formattedHourMinute}',
-						alarm.relativeAmountAllDay, {
+						alarm.relativeAmountAllDay,
+						{
 							formattedHourMinute,
-						})
+						},
+					)
 				} else {
-					return n('calendar',
+					return n(
+						'calendar',
 						'%n week before the event at {formattedHourMinute}',
 						'%n weeks before the event at {formattedHourMinute}',
-						alarm.relativeAmountAllDay, {
+						alarm.relativeAmountAllDay,
+						{
 							formattedHourMinute,
-						})
+						},
+					)
 				}
 			}
 			return t('calendar', 'on the day of the event at {formattedHourMinute}', {

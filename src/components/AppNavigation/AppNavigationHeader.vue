@@ -1,26 +1,36 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+<script setup lang="ts">
+import { t } from '@nextcloud/l10n'
+import { computed } from 'vue'
+import NcAppNavigationSearch from '@nextcloud/vue/components/NcAppNavigationSearch'
+import AppNavigationHeaderDatePicker from '@/components/AppNavigation/AppNavigationHeader/AppNavigationHeaderDatePicker.vue'
+import AppNavigationHeaderNewEvent from '@/components/AppNavigation/AppNavigationHeader/AppNavigationHeaderNewEvent.vue'
+import AppNavigationHeaderTodayButton from '@/components/AppNavigation/AppNavigationHeader/AppNavigationHeaderTodayButton.vue'
+import AppNavigationHeaderViewMenu from '@/components/AppNavigation/AppNavigationHeader/AppNavigationHeaderViewMenu.vue'
+import useSettingsStore from '@/store/settings.js'
+
+defineProps<{
+	isPublic: boolean
+}>()
+
+const settingsStore = useSettingsStore()
+
+const searchQuery = computed<string>({
+	get: () => settingsStore.searchQuery,
+	set: (val) => settingsStore.setSearchQuery(val),
+})
+</script>
 
 <template>
 	<header class="app-navigation-header">
+		<NcAppNavigationSearch
+			v-model="searchQuery"
+			:label="t('calendar', 'Filter events …')"
+			class="app-navigation-header__filter" />
 		<AppNavigationHeaderDatePicker />
 		<div class="new-event-today-view-section">
 			<AppNavigationHeaderNewEvent v-if="!isPublic" />
@@ -30,25 +40,9 @@
 	</header>
 </template>
 
-<script>
-import AppNavigationHeaderDatePicker from './AppNavigationHeader/AppNavigationHeaderDatePicker.vue'
-import AppNavigationHeaderTodayButton from './AppNavigationHeader/AppNavigationHeaderTodayButton.vue'
-import AppNavigationHeaderNewEvent from './AppNavigationHeader/AppNavigationHeaderNewEvent.vue'
-import AppNavigationHeaderViewMenu from './AppNavigationHeader/AppNavigationHeaderViewMenu.vue'
-
-export default {
-	name: 'AppNavigationHeader',
-	components: {
-		AppNavigationHeaderDatePicker,
-		AppNavigationHeaderTodayButton,
-		AppNavigationHeaderNewEvent,
-		AppNavigationHeaderViewMenu,
-	},
-	props: {
-		isPublic: {
-			type: Boolean,
-			required: true,
-		},
-	},
+<style lang="scss" scoped>
+.app-navigation-header__filter {
+	padding: 0;
+	margin-bottom: var(--default-grid-baseline);
 }
-</script>
+</style>

@@ -1,0 +1,37 @@
+/*!
+ * SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+.property-text__input--linkify {
+	flex-basis: min-content;
+}
+
+.linkify-links {
+	border: 2px solid var(--color-border-maxcontrast);
+	border-radius: var(--border-radius-large);
+	cursor: text;
+	width: 100% !important;
+	box-sizing: border-box;
+	padding: 12px;
+	white-space: pre-line;
+	overflow: auto;
+	line-height: normal;
+	/* https://developer.mozilla.org/en-US/docs/Web/CSS/word-break */
+	/* stylelint-disable-next-line declaration-property-value-keyword-no-deprecated */
+	word-break: break-word;
+	display: inline-block;
+	vertical-align: top;
+	max-height: 16em;
+	max-height: calc(100vh - 500px);
+
+	a.linkified {
+		text-decoration: underline;
+
+		// Prevent misalignment when a linkified line starts with a link, e.g. in the location field
+		margin: 0;
+
+		&::after {
+			content: ' ↗';
+		}
+	}
+}

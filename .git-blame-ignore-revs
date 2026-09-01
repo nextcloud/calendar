@@ -1,0 +1,16 @@
+# .git-blame-ignore-revs
+
+# SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+
+# Update to coding-standard 1.2.3
+3b3935b4e754ccbc00d3abb71ab6836f3db5b026
+
+# Update to coding-standard 1.3.1
+db4964b631856f514bc08d3da0e86014a18d678f
+
+# Update to coding-standard 1.4.0
+b80042c652fd7283482b732374878351ce66c2a5
+
+# Bump @nextcloud/eslint-config to v9.0.0-rc.5
+9aeb5317d40b195cdb02e515c1637cf6019b3fc3

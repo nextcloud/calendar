@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="6.13.1@1e3b7f0a8ab32b23197b91107adc0a7ed8a05b51">
+  <file src="lib/Controller/AppointmentConfigController.php">
+    <RedundantCondition>
+      <code><![CDATA[$expectedDayKeys !== $actualDayKeys]]></code>
+      <code><![CDATA[$slotKeys !== ['end', 'start']]]></code>
+    </RedundantCondition>
+  </file>
+  <file src="lib/Controller/AppointmentController.php">
+    <PossiblyUndefinedVariable>
+      <code><![CDATA[$config]]></code>
+      <code><![CDATA[$config]]></code>
+    </PossiblyUndefinedVariable>
+  </file>
+  <file src="lib/Controller/BookingController.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$timeZone]]></code>
+    </ArgumentTypeCoercion>
+  </file>
+  <file src="lib/Controller/ContactController.php">
+    <PossiblyUndefinedVariable>
+      <code><![CDATA[$contacts]]></code>
+      <code><![CDATA[$contacts]]></code>
+    </PossiblyUndefinedVariable>
+  </file>
+  <file src="lib/Controller/EmailController.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$displayName]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="lib/Controller/ProposalController.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$proposal->getUid()]]></code>
+    </PossiblyNullArgument>
+    <PossiblyNullReference>
+      <code><![CDATA[getUID]]></code>
+      <code><![CDATA[getUID]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="lib/Controller/ViewController.php">
+    <PossiblyNullPropertyAssignmentValue>
+      <code><![CDATA[$userId]]></code>
+    </PossiblyNullPropertyAssignmentValue>
+  </file>
+  <file src="lib/Dashboard/CalendarWidget.php">
+    <PossiblyUndefinedVariable>
+      <code><![CDATA[$startDate]]></code>
+    </PossiblyUndefinedVariable>
+  </file>
+  <file src="lib/Db/AppointmentConfig.php">
+    <PossiblyFalseArgument>
+      <code><![CDATA[json_encode($availability)]]></code>
+      <code><![CDATA[json_encode($uris)]]></code>
+    </PossiblyFalseArgument>
+    <PossiblyNullArgument>
+      <code><![CDATA[$this->getCalendarFreebusyUris()]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="lib/Http/JsonResponse.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$statusCode]]></code>
+    </ArgumentTypeCoercion>
+    <LessSpecificReturnStatement>
+      <code><![CDATA[new self(
+			[
+				'status' => 'fail',
+				'data' => $data,
+			],
+			$status
+		)]]></code>
+      <code><![CDATA[new self(
+			[
+				'status' => 'success',
+				'data' => $data,
+			],
+			$status
+		)]]></code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType>
+      <code><![CDATA[static]]></code>
+      <code><![CDATA[static]]></code>
+    </MoreSpecificReturnType>
+    <PossiblyInvalidArgument>
+      <code><![CDATA[$error->getCode()]]></code>
+    </PossiblyInvalidArgument>
+    <PossiblyNullArgument>
+      <code><![CDATA[self::serializeException($error)]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="lib/Listener/AppointmentBookedListener.php">
+    <MissingTemplateParam>
+      <code><![CDATA[IEventListener]]></code>
+    </MissingTemplateParam>
+  </file>
+  <file src="lib/Listener/NotifyPushListener.php">
+    <UndefinedClass>
+      <code><![CDATA[$this->queue]]></code>
+      <code><![CDATA[private]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Objects/BaseCollection.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$key]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="lib/Objects/Proposal/ProposalDateObject.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$this->id]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="lib/Objects/Proposal/ProposalObject.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$this->duration]]></code>
+      <code><![CDATA[$this->id]]></code>
+      <code><![CDATA[$this->uid]]></code>
+      <code><![CDATA[$this->uuid]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="lib/Objects/Proposal/ProposalParticipantObject.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$entry->getAttendance()]]></code>
+      <code><![CDATA[$entry->getRealm()]]></code>
+      <code><![CDATA[$entry->getStatus()]]></code>
+      <code><![CDATA[$this->address]]></code>
+      <code><![CDATA[$this->id]]></code>
+      <code><![CDATA[$this->name]]></code>
+      <code><![CDATA[$this->token]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="lib/Objects/Proposal/ProposalVoteObject.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$entry->getVote()]]></code>
+      <code><![CDATA[$this->dateId]]></code>
+      <code><![CDATA[$this->id]]></code>
+      <code><![CDATA[$this->participantId]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="lib/Profile/AppointmentsAction.php">
+    <PossiblyNullReference>
+      <code><![CDATA[getUID]]></code>
+    </PossiblyNullReference>
+  </file>
+  <file src="lib/Reference/ReferenceProvider.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$token]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="lib/Service/Appointments/AppointmentConfigService.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$calendarFreeBusyUris]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="lib/Service/Appointments/AvailabilityGenerator.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$timeZone]]></code>
+    </ArgumentTypeCoercion>
+  </file>
+  <file src="lib/Service/Appointments/BookingService.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$booking->getTimezone()]]></code>
+      <code><![CDATA[$timeZone]]></code>
+    </ArgumentTypeCoercion>
+  </file>
+  <file src="lib/Service/Appointments/EventConflictFilter.php">
+    <PossiblyFalseArgument>
+      <code><![CDATA[$followUpDuration]]></code>
+      <code><![CDATA[$followUpDuration]]></code>
+      <code><![CDATA[$preparationDuration]]></code>
+      <code><![CDATA[$preparationDuration]]></code>
+    </PossiblyFalseArgument>
+  </file>
+  <file src="lib/Service/Appointments/MailService.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$booking->getTimezone()]]></code>
+      <code><![CDATA[$booking->getTimezone()]]></code>
+    </ArgumentTypeCoercion>
+    <PossiblyNullArgument>
+      <code><![CDATA[$booking->getDescription()]]></code>
+      <code><![CDATA[$booking->getTalkUrl()]]></code>
+      <code><![CDATA[$booking->getTalkUrl()]]></code>
+      <code><![CDATA[$config->getDescription()]]></code>
+      <code><![CDATA[$config->getDescription()]]></code>
+      <code><![CDATA[$config->getDescription()]]></code>
+    </PossiblyNullArgument>
+  </file>
+  <file src="lib/Service/Appointments/TimezoneGenerator.php">
+    <ArgumentTypeCoercion>
+      <code><![CDATA[$timezone]]></code>
+    </ArgumentTypeCoercion>
+    <PossiblyUndefinedVariable>
+      <code><![CDATA[$daylightDefinition]]></code>
+      <code><![CDATA[$daylightDefinition]]></code>
+      <code><![CDATA[$standardDefinition]]></code>
+      <code><![CDATA[$standardDefinition]]></code>
+      <code><![CDATA[$tzfrom]]></code>
+      <code><![CDATA[$tzfrom]]></code>
+    </PossiblyUndefinedVariable>
+  </file>
+  <file src="lib/Service/CalendarInitialStateService.php">
+    <UndefinedClass>
+      <code><![CDATA[IQueue]]></code>
+    </UndefinedClass>
+  </file>
+  <file src="lib/Service/ContactsService.php">
+    <PossiblyInvalidArgument>
+      <code><![CDATA[preg_replace("/\n+/", "\n", str_replace(';', "\n", $address))]]></code>
+    </PossiblyInvalidArgument>
+  </file>
+  <file src="lib/Service/Proposal/ProposalService.php">
+    <PossiblyNullArgument>
+      <code><![CDATA[$currentProposal->getId()]]></code>
+      <code><![CDATA[$mutatedProposal->getId()]]></code>
+      <code><![CDATA[$participantEntry->getPid()]]></code>
+      <code><![CDATA[$participantEntry->getPid()]]></code>
+      <code><![CDATA[$participantEntry->getPid()]]></code>
+      <code><![CDATA[$participantEntry->getPid()]]></code>
+      <code><![CDATA[$participantEntry->getUid()]]></code>
+      <code><![CDATA[$participantEntry->getUid()]]></code>
+      <code><![CDATA[$participantEntry->getUid()]]></code>
+      <code><![CDATA[$participantEntry->getUid()]]></code>
+      <code><![CDATA[$participantEntry->getUid()]]></code>
+      <code><![CDATA[$proposal]]></code>
+      <code><![CDATA[$proposal]]></code>
+      <code><![CDATA[$proposal->getDescription()]]></code>
+      <code><![CDATA[$proposal->getId()]]></code>
+      <code><![CDATA[$proposal->getId()]]></code>
+      <code><![CDATA[$proposal->getId()]]></code>
+      <code><![CDATA[$proposal->getId()]]></code>
+      <code><![CDATA[$proposal->getId()]]></code>
+      <code><![CDATA[$proposal->getId()]]></code>
+      <code><![CDATA[$proposal->getId()]]></code>
+      <code><![CDATA[$proposal->getId()]]></code>
+      <code><![CDATA[$proposal->getLocation()]]></code>
+      <code><![CDATA[$user]]></code>
+    </PossiblyNullArgument>
+    <PossiblyUndefinedVariable>
+      <code><![CDATA[$userCalendar]]></code>
+    </PossiblyUndefinedVariable>
+  </file>
+</files>

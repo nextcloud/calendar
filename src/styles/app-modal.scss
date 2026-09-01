@@ -1,0 +1,90 @@
+/*!
+ * SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+.appointment-config-modal {
+	padding: calc(var(--default-grid-baseline) * 6);
+
+	&__form {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+
+		&__title {
+			h2 {
+				margin: 0;
+			}
+
+		}
+
+		fieldset {
+			padding: calc(var(--default-grid-baseline) * 4) 0;
+
+			header {
+
+				h3 {
+					font-size: 20px;
+					font-weight: 600;
+					margin: var(--default-grid-baseline) 0;
+				}
+			}
+		}
+
+		.availability-select, .calendar-select, .visibility-select, .duration-select {
+			display: flex;
+			flex-direction: column;
+		}
+
+		&__row {
+			&--wrapped {
+				display: flex;
+				// flex-direction: column;
+				flex-wrap: wrap;
+				gap: calc(var(--default-grid-baseline) * 2) calc(var(--default-grid-baseline) * 4);
+
+				> div {
+					flex: 1;
+				}
+			}
+
+			// Rows that don't have their own vue components
+			&--local {
+				display: flex;
+				flex-direction: column;
+			}
+		}
+
+		&__row + &__row {
+			margin-top: calc(var(--default-grid-baseline) * 2);
+		}
+
+		// Fix calendar picker styling
+		.multiselect__tags {
+			height: unset !important;
+			margin: 0 !important;
+		}
+	}
+
+	&__submit-button {
+		margin-top: calc(var(--default-grid-baseline) * 4);
+		margin-inline-start: auto;
+	}
+}
+
+.modal-mask.add-talk-modal {
+	z-index: 10000 !important;
+}
+
+.app-config-modal-confirmation {
+	.empty-content {
+		margin-top: 0 !important;
+		margin-bottom: calc(var(--default-grid-baseline) * 4);
+	}
+
+	&__buttons {
+		display: flex;
+		justify-content: center;
+		gap: 0 calc(var(--default-grid-baseline) * 2);
+	}
+}

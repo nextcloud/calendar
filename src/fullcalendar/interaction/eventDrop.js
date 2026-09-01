@@ -1,42 +1,36 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getDurationValueFromFullCalendarDuration } from '../duration'
-import getTimezoneManager from '../../services/timezoneDataProviderService'
-import logger from '../../utils/logger.js'
-import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
+import { showWarning } from '@nextcloud/dialogs'
+import { translate as t } from '@nextcloud/l10n'
+import { getDurationValueFromFullCalendarDuration } from '@/fullcalendar/duration.js'
+import { errorCatchAsync } from '@/fullcalendar/utils/errors.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useCalendarsStore from '@/store/calendars.js'
+import usePrincipalsStore from '@/store/principals.js'
+import { isOrganizer } from '@/utils/attendee.js'
+import { getObjectAtRecurrenceId } from '@/utils/calendarObject.js'
+import logger from '@/utils/logger.js'
 
 /**
  * Returns a function to drop an event at a different position
  *
- * @param {Object} store The Vuex store
- * @param {Object} fcAPI The fullcalendar api
- * @returns {Function}
+ * @param {object} fcAPI The fullcalendar api
+ * @return {(info: {event: EventDef, delta: object, revert: () => void}) => Promise<void>}
  */
-export default function(store, fcAPI) {
-	return async function({ event, delta, revert }) {
+export default function(fcAPI) {
+	const calendarsStore = useCalendarsStore()
+	const calendarObjectsStore = useCalendarObjectsStore()
+	const principalsStore = usePrincipalsStore()
+
+	return errorCatchAsync(async function({ event, delta, revert }) {
 		const deltaDuration = getDurationValueFromFullCalendarDuration(delta)
 		const defaultAllDayDuration = getDurationValueFromFullCalendarDuration(fcAPI.getOption('defaultAllDayEventDuration'))
 		const defaultTimedDuration = getDurationValueFromFullCalendarDuration(fcAPI.getOption('defaultTimedEventDuration'))
 		const timezoneId = fcAPI.getOption('timeZone')
+
 		let timezone = getTimezoneManager().getTimezoneForId(timezoneId)
 		if (!timezone) {
 			timezone = getTimezoneManager().getTimezoneForId('UTC')
@@ -54,28 +48,47 @@ export default function(store, fcAPI) {
 
 		let calendarObject
 		try {
-			calendarObject = await store.dispatch('getEventByObjectId', { objectId })
+			calendarObject = await calendarsStore.getEventByObjectId({ objectId })
 		} catch (error) {
-			console.debug(error)
+			logger.debug(error)
 			revert()
 			return
 		}
 
 		const eventComponent = getObjectAtRecurrenceId(calendarObject, recurrenceIdDate)
 		if (!eventComponent) {
-			console.debug('Recurrence-id not found')
+			logger.debug('Recurrence-id not found')
 			revert()
 			return
+		}
+
+		if (!isOrganizer(principalsStore.getCurrentUserPrincipalEmail, eventComponent.organizer)) {
+			revert()
+			showWarning(t('calendar', 'You are not allowed to edit this event as an attendee.'))
+			return
+		}
+
+		// Reset attendees participation state to NEEDS-ACTION, since eventDrop
+		// is always a signification change
+		// Partly a workaround for Sabre-DAV not respecting RFC 6638 3.2.8, see
+		// https://github.com/sabre-io/dav/issues/1282
+		if (eventComponent.organizer && eventComponent.hasProperty('ATTENDEE')) {
+			const organizer = eventComponent.getFirstProperty('ORGANIZER')
+			for (const attendee of eventComponent.getAttendeeIterator()) {
+				if (organizer.value !== attendee.value) {
+					attendee.participationStatus = 'NEEDS-ACTION'
+				}
+			}
 		}
 
 		try {
 			// shiftByDuration may throw exceptions in certain cases
 			eventComponent.shiftByDuration(deltaDuration, event.allDay, timezone, defaultAllDayDuration, defaultTimedDuration)
 		} catch (error) {
-			store.commit('resetCalendarObjectToDav', {
+			calendarObjectsStore.resetCalendarObjectToDavMutation({
 				calendarObject,
 			})
-			console.debug(error)
+			logger.debug(error)
 			revert()
 			return
 		}
@@ -85,15 +98,15 @@ export default function(store, fcAPI) {
 		}
 
 		try {
-			await store.dispatch('updateCalendarObject', {
+			await calendarObjectsStore.updateCalendarObject({
 				calendarObject,
 			})
 		} catch (error) {
-			store.commit('resetCalendarObjectToDav', {
+			calendarObjectsStore.resetCalendarObjectToDavMutation({
 				calendarObject,
 			})
-			console.debug(error)
+			logger.debug(error)
 			revert()
 		}
-	}
+	}, 'eventDrop')
 }

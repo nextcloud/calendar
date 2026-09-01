@@ -1,44 +1,29 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { eventSourceFunction } from '../../../../../src/fullcalendar/eventSources/eventSourceFunction.js'
+import { translate } from '@nextcloud/l10n'
+import { createPinia, setActivePinia } from 'pinia'
+import { eventSourceFunction } from '@/fullcalendar/eventSources/eventSourceFunction.js'
+import freeBusyResourceEventSourceFunction from '@/fullcalendar/eventSources/freeBusyResourceEventSourceFunction.js'
+import useSettingsStore from '@/store/settings.js'
+import { getAllObjectsInTimeRange } from '@/utils/calendarObject.js'
 import {
-	hexToRGB,
-	isLight,
 	generateTextColorForHex,
 	getHexForColorName,
-} from '../../../../../src/utils/color.js'
-import { translate } from '@nextcloud/l10n'
-import {getAllObjectsInTimeRange} from "../../../../../src/utils/calendarObject.js";
-jest.mock('@nextcloud/l10n')
-jest.mock('../../../../../src/utils/color.js')
-jest.mock("../../../../../src/utils/calendarObject.js")
+	isLight,
+} from '@/utils/color.js'
+vi.mock('@nextcloud/l10n')
+vi.mock('@/utils/color.js')
+vi.mock('@/utils/calendarObject.js')
 
 describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
-
 	beforeEach(() => {
 		translate.mockClear()
 		getHexForColorName.mockClear()
 		generateTextColorForHex.mockClear()
 		getAllObjectsInTimeRange.mockClear()
+		setActivePinia(createPinia())
 	})
 
 	it('should provide fc-events', () => {
@@ -51,111 +36,121 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 		isLight
 			.mockImplementation(() => false)
 
-		const event11Start = new Date(2020, 1, 1, 10, 0, 0, 0);
-		const event11End = new Date(2020, 1, 1, 15, 0, 0, 0);
-		const event12Start = new Date(2020, 1, 2, 10, 0, 0, 0);
-		const event12End = new Date(2020, 1, 2, 15, 0, 0, 0);
-		const event13Start = new Date(2020, 1, 3, 10, 0, 0, 0);
-		const event13End = new Date(2020, 1, 3, 15, 0, 0, 0);
-		const event21Start = new Date(2020, 5, 5, 0, 0, 0, 0);
-		const event21End = new Date(2020, 5, 6, 0, 0, 0, 0);
-		const event31Start = new Date(2020, 6, 10, 10, 0, 0, 0);
-		const event31End = new Date(2020, 6, 10, 10, 0, 0, 0);
+		const event11Start = new Date(2020, 1, 1, 10, 0, 0, 0)
+		const event11End = new Date(2020, 1, 1, 15, 0, 0, 0)
+		const event12Start = new Date(2020, 1, 2, 10, 0, 0, 0)
+		const event12End = new Date(2020, 1, 2, 15, 0, 0, 0)
+		const event13Start = new Date(2020, 1, 3, 10, 0, 0, 0)
+		const event13End = new Date(2020, 1, 3, 15, 0, 0, 0)
+		const event21Start = new Date(2020, 5, 5, 0, 0, 0, 0)
+		const event21End = new Date(2020, 5, 6, 0, 0, 0, 0)
+		const event31Start = new Date(2020, 6, 10, 10, 0, 0, 0)
+		const event31End = new Date(2020, 6, 10, 10, 0, 0, 0)
 
 		const eventComponentSet1 = [{
 			name: 'VEVENT',
 			id: '1-1',
 			// To title on purpose
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event11Start
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event11Start,
+				}),
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event11End
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event11End,
+				}),
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}, {
 			name: 'VEVENT',
 			id: '1-2',
 			status: 'CANCELLED',
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 456 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 456 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event12Start
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event12Start,
+				}),
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event12End
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event12End,
+				}),
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
 			title: 'Untitled\nmultiline\nevent',
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}, {
 			name: 'VEVENT',
 			id: '1-3',
 			status: 'TENTATIVE',
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 789 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 789 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event13Start
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event13Start,
+				}),
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event13End
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event13End,
+				}),
 			},
-			hasComponent: jest.fn().mockReturnValue(true),
+			hasComponent: vi.fn().mockReturnValue(true),
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}]
 		const eventComponentSet2 = [{
 			name: 'VEVENT',
 			id: '2-1',
 			status: 'CONFIRMED',
-			isAllDay: jest.fn().mockReturnValue(true),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 101 }),
-			canModifyAllDay: jest.fn().mockReturnValue(true),
+			isAllDay: vi.fn().mockReturnValue(true),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 101 }),
+			canModifyAllDay: vi.fn().mockReturnValue(true),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event21Start
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event21Start,
+				}),
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event21End
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event21End,
+				}),
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}]
 		const eventComponentSet4 = [{
 			name: 'VEVENT',
 			id: '3-1',
 			status: 'CONFIRMED',
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 303 }),
-			canModifyAllDay: jest.fn().mockReturnValue(true),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 303 }),
+			canModifyAllDay: vi.fn().mockReturnValue(true),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event31Start
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event31Start,
+				}),
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event31End
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event31End,
+				}),
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
 			color: 'red',
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}]
 
 		getAllObjectsInTimeRange
@@ -210,6 +205,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				classNames: [],
 				extendedProps: {
 					objectId: '1',
+					vobjectId: '1-1',
 					recurrenceId: 123,
 					canModifyAllDay: false,
 					calendarId: 'Calendar id 456',
@@ -219,7 +215,10 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					davUrl: 'url1',
 					objectType: 'VEVENT',
 					percent: null,
-				}
+					description: undefined,
+					location: undefined,
+					attendeeCount: 0,
+				},
 			},
 			{
 				id: '1###1-2',
@@ -227,10 +226,11 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				allDay: false,
 				start: event12Start,
 				end: event12End,
-				classNames: [ 'fc-event-nc-cancelled' ],
+				classNames: ['fc-event-nc-cancelled'],
 				extendedProps: {
 					objectId: '1',
 					recurrenceId: 456,
+					vobjectId: '1-2',
 					canModifyAllDay: false,
 					calendarId: 'Calendar id 456',
 					calendarName: 'Calendar displayname',
@@ -239,7 +239,10 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					davUrl: 'url1',
 					objectType: 'VEVENT',
 					percent: null,
-				}
+					description: undefined,
+					location: undefined,
+					attendeeCount: 0,
+				},
 			},
 			{
 				id: '1###1-3',
@@ -247,10 +250,11 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				allDay: false,
 				start: event13Start,
 				end: event13End,
-				classNames: [ 'fc-event-nc-tentative', 'fc-event-nc-alarms' ],
+				classNames: ['fc-event-nc-tentative', 'fc-event-nc-alarms'],
 				extendedProps: {
 					objectId: '1',
 					recurrenceId: 789,
+					vobjectId: '1-3',
 					canModifyAllDay: false,
 					calendarId: 'Calendar id 456',
 					calendarName: 'Calendar displayname',
@@ -259,7 +263,10 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					davUrl: 'url1',
 					objectType: 'VEVENT',
 					percent: null,
-				}
+					description: undefined,
+					location: undefined,
+					attendeeCount: 0,
+				},
 			},
 			{
 				id: '2###2-1',
@@ -271,6 +278,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				extendedProps: {
 					objectId: '2',
 					recurrenceId: 101,
+					vobjectId: '2-1',
 					canModifyAllDay: true,
 					calendarId: 'Calendar id 456',
 					calendarName: 'Calendar displayname',
@@ -279,7 +287,10 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					davUrl: 'url2',
 					objectType: 'VEVENT',
 					percent: null,
-				}
+					description: undefined,
+					location: undefined,
+					attendeeCount: 0,
+				},
 			},
 			{
 				id: '4###3-1',
@@ -291,6 +302,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				extendedProps: {
 					objectId: '4',
 					recurrenceId: 303,
+					vobjectId: '3-1',
 					canModifyAllDay: true,
 					calendarId: 'Calendar id 456',
 					calendarName: 'Calendar displayname',
@@ -299,11 +311,13 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					davUrl: 'url4',
 					objectType: 'VEVENT',
 					percent: null,
+					description: undefined,
+					location: undefined,
+					attendeeCount: 0,
 				},
 				backgroundColor: '#ff0000',
 				borderColor: '#ff0000',
-				textColor: '#eeeeee',
-			}
+			},
 		])
 
 		expect(eventComponentSet1[0].startDate.getInTimezone).toHaveBeenCalledTimes(1)
@@ -346,8 +360,7 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 		expect(getHexForColorName).toHaveBeenCalledTimes(1)
 		expect(getHexForColorName).toHaveBeenNthCalledWith(1, 'red')
 
-		expect(generateTextColorForHex).toHaveBeenCalledTimes(1)
-		expect(generateTextColorForHex).toHaveBeenNthCalledWith(1, '#ff0000')
+		expect(generateTextColorForHex).toHaveBeenCalledTimes(0)
 
 		// Make sure the following dates have not been touched
 		expect(event11Start.getFullYear()).toEqual(2020)
@@ -432,126 +445,138 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 		isLight
 			.mockImplementation(() => false)
 
-		const event1Start = new Date(2020, 1, 1, 10, 0, 0, 0);
-		const event1End = new Date(2020, 1, 1, 15, 0, 0, 0);
-		const event2Start = new Date(2020, 1, 2, 10, 0, 0, 0);
-		const event2End = new Date(2020, 1, 2, 15, 0, 0, 0);
-		const event3Start = new Date(2020, 1, 3, 10, 0, 0, 0);
-		const event3End = new Date(2020, 1, 3, 15, 0, 0, 0);
-		const event4Start = new Date(2020, 5, 5, 0, 0, 0, 0);
-		const event4End = new Date(2020, 5, 6, 0, 0, 0, 0);
-		const event5Start = new Date(2020, 6, 10, 10, 0, 0, 0);
-		const event5End = new Date(2020, 6, 10, 10, 0, 0, 0);
+		const event1Start = new Date(2020, 1, 1, 10, 0, 0, 0)
+		const event1End = new Date(2020, 1, 1, 15, 0, 0, 0)
+		const event2Start = new Date(2020, 1, 2, 10, 0, 0, 0)
+		const event2End = new Date(2020, 1, 2, 15, 0, 0, 0)
+		const event3Start = new Date(2020, 1, 3, 10, 0, 0, 0)
+		const event3End = new Date(2020, 1, 3, 15, 0, 0, 0)
+		const event4Start = new Date(2020, 5, 5, 0, 0, 0, 0)
+		const event4End = new Date(2020, 5, 6, 0, 0, 0, 0)
+		const event5Start = new Date(2020, 6, 10, 10, 0, 0, 0)
+		const event5End = new Date(2020, 6, 10, 10, 0, 0, 0)
 
 		const eventComponentSet = [{
 			name: 'VTODO',
 			id: '1',
 			// To title on purpose
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event1Start
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event1Start,
+				}),
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event1End
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event1End,
+				}),
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
 			percent: null,
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '2',
 			// To title on purpose
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event2Start
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event2Start,
+				}),
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event2End
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event2End,
+				}),
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
 			percent: null,
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '3',
 			// To title on purpose
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event3Start
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event3Start,
+				}),
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event3End
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event3End,
+				}),
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
 			percent: 99,
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '4',
 			// To title on purpose
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event4Start
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event4Start,
+				}),
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event4End
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event4End,
+				}),
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
 			title: 'This task has a title',
 			percent: null,
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '5',
 			// To title on purpose
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
 			startDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event5Start
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event5Start,
+				}),
 			},
 			endDate: {
-				getInTimezone: jest.fn().mockReturnValue({
-					jsDate: event5End
-				})
+				getInTimezone: vi.fn().mockReturnValue({
+					jsDate: event5End,
+				}),
 			},
-			hasComponent: jest.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
 			title: 'This task has a title and percent',
 			percent: 99,
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}, {
 			name: 'VTODO',
 			id: '6',
 			// To title on purpose
-			isAllDay: jest.fn().mockReturnValue(false),
-			getReferenceRecurrenceId: jest.fn().mockReturnValue({ unixTime: 123 }),
-			canModifyAllDay: jest.fn().mockReturnValue(false),
-			hasComponent: jest.fn().mockReturnValue(false),
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 123 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
+			hasComponent: vi.fn().mockReturnValue(false),
 			title: 'Task without Due',
 			startDate: null,
 			endDate: null,
 			percent: null,
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
 		}]
 
 		getAllObjectsInTimeRange
@@ -587,9 +612,13 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				darkText: false,
 				davUrl: 'url1',
 				objectId: '1',
+				vobjectId: '1',
 				objectType: 'VTODO',
 				percent: null,
 				recurrenceId: 123,
+				description: undefined,
+				location: undefined,
+				attendeeCount: 0,
 			},
 			id: '1###1',
 			start: event1Start,
@@ -608,9 +637,13 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				darkText: false,
 				davUrl: 'url1',
 				objectId: '1',
+				vobjectId: '2',
 				objectType: 'VTODO',
 				percent: null,
 				recurrenceId: 123,
+				description: undefined,
+				location: undefined,
+				attendeeCount: 0,
 			},
 			id: '1###2',
 			start: event2Start,
@@ -629,9 +662,13 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				darkText: false,
 				davUrl: 'url1',
 				objectId: '1',
+				vobjectId: '3',
 				objectType: 'VTODO',
 				percent: 99,
 				recurrenceId: 123,
+				description: undefined,
+				location: undefined,
+				attendeeCount: 0,
 			},
 			id: '1###3',
 			start: event3Start,
@@ -650,9 +687,13 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				darkText: false,
 				davUrl: 'url1',
 				objectId: '1',
+				vobjectId: '4',
 				objectType: 'VTODO',
 				percent: null,
 				recurrenceId: 123,
+				description: undefined,
+				location: undefined,
+				attendeeCount: 0,
 			},
 			id: '1###4',
 			start: event4Start,
@@ -671,9 +712,13 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				darkText: false,
 				davUrl: 'url1',
 				objectId: '1',
+				vobjectId: '5',
 				objectType: 'VTODO',
 				percent: 99,
 				recurrenceId: 123,
+				description: undefined,
+				location: undefined,
+				attendeeCount: 0,
 			},
 			id: '1###5',
 			start: event5Start,
@@ -713,4 +758,159 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 		expect(generateTextColorForHex).toHaveBeenCalledTimes(0)
 	})
 
+	it('should filter events by search query matching title, location, description, attendee, and organizer', () => {
+		translate.mockImplementation((app, str) => str)
+		isLight.mockImplementation(() => false)
+
+		const start = new Date(Date.UTC(2019, 0, 1, 0, 0, 0, 0))
+		const end = new Date(Date.UTC(2020, 0, 31, 59, 59, 59, 999))
+		const timezone = { calendarJsTimezone: true, tzid: 'UTC' }
+
+		const makeEvent = (id, overrides) => ({
+			name: 'VEVENT',
+			id,
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 1 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
+			startDate: { getInTimezone: vi.fn().mockReturnValue({ jsDate: new Date(2020, 1, 1, 10, 0, 0) }) },
+			endDate: { getInTimezone: vi.fn().mockReturnValue({ jsDate: new Date(2020, 1, 1, 11, 0, 0) }) },
+			hasComponent: vi.fn().mockReturnValue(false),
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getFirstProperty: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
+			...overrides,
+		})
+
+		const eventMatchTitle = makeEvent('title', { title: 'Team meeting' })
+		const eventMatchLocation = makeEvent('location', { title: 'Other', location: 'Main office' })
+		const eventMatchDescription = makeEvent('description', { title: 'Other', description: 'project review' })
+		const eventMatchAttendee = makeEvent('attendee', {
+			title: 'Other',
+			getPropertyIterator: vi.fn().mockReturnValue([
+				{ commonName: 'John Doe', email: 'mailto:john@example.com' },
+			]),
+		})
+		const eventMatchOrganizer = makeEvent('organizer', {
+			title: 'Other',
+			getFirstProperty: vi.fn().mockReturnValue({ commonName: 'Jane Smith', email: 'mailto:jane@example.com' }),
+		})
+		const eventNoMatch = makeEvent('nomatch', { title: 'Lunch break', location: 'Canteen' })
+
+		const calendarObjects = [{ id: 'cal1', dav: { url: 'url1' } }]
+		const calendar = { order: 1, displayName: 'Test', id: 'cal1', color: '#ff0000' }
+
+		const settingsStore = useSettingsStore()
+		settingsStore.searchQuery = 'meeting'
+		getAllObjectsInTimeRange.mockReturnValueOnce([eventMatchTitle, eventNoMatch])
+		let result = eventSourceFunction(calendarObjects, calendar, start, end, timezone)
+		expect(result).toHaveLength(1)
+		expect(result[0].id).toEqual('cal1###title')
+
+		settingsStore.searchQuery = 'office'
+		getAllObjectsInTimeRange.mockReturnValueOnce([eventMatchLocation, eventNoMatch])
+		result = eventSourceFunction(calendarObjects, calendar, start, end, timezone)
+		expect(result).toHaveLength(1)
+		expect(result[0].id).toEqual('cal1###location')
+
+		settingsStore.searchQuery = 'project'
+		getAllObjectsInTimeRange.mockReturnValueOnce([eventMatchDescription, eventNoMatch])
+		result = eventSourceFunction(calendarObjects, calendar, start, end, timezone)
+		expect(result).toHaveLength(1)
+		expect(result[0].id).toEqual('cal1###description')
+
+		settingsStore.searchQuery = 'john'
+		getAllObjectsInTimeRange.mockReturnValueOnce([eventMatchAttendee, eventNoMatch])
+		result = eventSourceFunction(calendarObjects, calendar, start, end, timezone)
+		expect(result).toHaveLength(1)
+		expect(result[0].id).toEqual('cal1###attendee')
+
+		settingsStore.searchQuery = 'jane'
+		getAllObjectsInTimeRange.mockReturnValueOnce([eventMatchOrganizer, eventNoMatch])
+		result = eventSourceFunction(calendarObjects, calendar, start, end, timezone)
+		expect(result).toHaveLength(1)
+		expect(result[0].id).toEqual('cal1###organizer')
+	})
+
+	it('should treat multiple search words as OR and return all events when query is empty', () => {
+		translate.mockImplementation((app, str) => str)
+		isLight.mockImplementation(() => false)
+
+		const start = new Date(Date.UTC(2019, 0, 1, 0, 0, 0, 0))
+		const end = new Date(Date.UTC(2020, 0, 31, 59, 59, 59, 999))
+		const timezone = { calendarJsTimezone: true, tzid: 'UTC' }
+
+		const makeEvent = (id, title) => ({
+			name: 'VEVENT',
+			id,
+			title,
+			isAllDay: vi.fn().mockReturnValue(false),
+			getReferenceRecurrenceId: vi.fn().mockReturnValue({ unixTime: 1 }),
+			canModifyAllDay: vi.fn().mockReturnValue(false),
+			startDate: { getInTimezone: vi.fn().mockReturnValue({ jsDate: new Date(2020, 1, 1, 10, 0, 0) }) },
+			endDate: { getInTimezone: vi.fn().mockReturnValue({ jsDate: new Date(2020, 1, 1, 11, 0, 0) }) },
+			hasComponent: vi.fn().mockReturnValue(false),
+			getFirstPropertyFirstValue: vi.fn().mockReturnValue(null),
+			getFirstProperty: vi.fn().mockReturnValue(null),
+			getPropertyIterator: vi.fn().mockReturnValue([]),
+		})
+
+		const eventA = makeEvent('a', 'Team meeting')
+		const eventB = makeEvent('b', 'Lunch break')
+		const eventC = makeEvent('c', 'Doctor appointment')
+
+		const calendarObjects = [{ id: 'cal1', dav: { url: 'url1' } }]
+		const calendar = { order: 1, displayName: 'Test', id: 'cal1', color: '#ff0000' }
+
+		const settingsStore = useSettingsStore()
+
+		// Multiple words: OR logic — 'meeting' matches A, 'lunch' matches B, C excluded
+		settingsStore.searchQuery = 'meeting lunch'
+		getAllObjectsInTimeRange.mockReturnValueOnce([eventA, eventB, eventC])
+		let result = eventSourceFunction(calendarObjects, calendar, start, end, timezone)
+		expect(result).toHaveLength(2)
+		expect(result.map((e) => e.id)).toEqual(['cal1###a', 'cal1###b'])
+
+		// Empty query: all events returned
+		settingsStore.searchQuery = ''
+		getAllObjectsInTimeRange.mockReturnValueOnce([eventA, eventB, eventC])
+		result = eventSourceFunction(calendarObjects, calendar, start, end, timezone)
+		expect(result).toHaveLength(3)
+	})
+
+	describe('event title', () => {
+		const start = { getInTimezone: () => ({ jsDate: new Date(2020, 1, 1, 10, 0, 0, 0) }) }
+		const end = { getInTimezone: () => ({ jsDate: new Date(2020, 1, 1, 11, 0, 0, 0) }) }
+
+		it('should not render "undefined" as title when no attendee name is given', () => {
+			// Bulk callers omit attendeeName because the name is already shown in
+			// the resource lane header. Before this was defaulted, `title` became
+			// the literal string "undefined" in every rendered busy block.
+			const result = freeBusyResourceEventSourceFunction(
+				'mailto:room@example.com',
+				null,
+				false,
+				start,
+				end,
+				'UTC',
+			)
+
+			expect(result).toHaveLength(1)
+			expect(result[0].title).toBe('')
+		})
+
+		it('should still use the attendee name when one is given', () => {
+			const result = freeBusyResourceEventSourceFunction(
+				'mailto:room@example.com',
+				null,
+				false,
+				start,
+				end,
+				'UTC',
+				'Meeting room A',
+			)
+
+			expect(result).toHaveLength(1)
+			expect(result[0].title).toBe('Meeting room A')
+		})
+	})
 })

@@ -1,133 +1,111 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<div class="repeat-option-set repeat-option-set--end">
-		<span class="repeat-option-end__label">{{ $t('calendar', 'End repeat') }}</span>
-		<Multiselect
+		<label for="repeat-end-type-select" class="repeat-option-end__label">{{ $t('calendar', 'End repeat') }}</label>
+		<NcSelect
+			v-model="selectedOption"
 			class="repeat-option-end__end-type-select"
 			:options="options"
 			:searchable="false"
-			:allow-empty="false"
-			:title="$t('calendar', 'Select to end repeat')"
-			:value="selectedOption"
-			track-by="value"
-			label="label"
-			@select="changeEndType" />
+			:inputOutside="true"
+			:clearable="false"
+			inputId="repeat-end-type-select"
+			label="label" />
 		<DatePicker
 			v-if="isUntil"
 			class="repeat-option-end__until"
 			:min="minimumDate"
 			:date="until"
-			:is-all-day="true"
+			type="date"
+			:ariaLabel="$t('calendar', 'End repeat date')"
+			:appendToBody="true"
 			@change="changeUntil" />
-		<input
+		<NcTextField
 			v-if="isCount"
 			class="repeat-option-end__count"
 			type="number"
-			min="1"
-			max="3500"
-			:value="count"
-			@input="changeCount">
-		<span
-			v-if="isCount"
-			class="repeat-option-end__count">
-			{{ occurrencesLabel }}
-		</span>
+			:label="$t('calendar', 'Occurrences')"
+			:modelValue="String(count)"
+			@update:modelValue="changeCount" />
 	</div>
 </template>
 
 <script>
-import DatePicker from '../../Shared/DatePicker.vue'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
+import { NcSelect, NcTextField } from '@nextcloud/vue'
+import { mapState, mapStores } from 'pinia'
+import DatePicker from '@/components/Shared/DatePicker.vue'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import useDavRestrictionsStore from '@/store/davRestrictions.js'
 
 export default {
 	name: 'RepeatEndRepeat',
 	components: {
 		DatePicker,
-		Multiselect,
+		NcSelect,
+		NcTextField,
 	},
+
 	props: {
-		/**
-		 * The calendar-object instance
-		 */
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
 		count: {
 			type: Number,
 			default: null,
 		},
+
 		until: {
 			type: Date,
 			default: null,
 		},
 	},
+
+	emits: ['changeToUntil', 'changeToCount', 'setInfinite', 'setUntil', 'setCount'],
+
 	computed: {
+		...mapStores(useDavRestrictionsStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
 		/**
 		 * The minimum date the user can select in the until date-picker
 		 *
-		 * @returns {Date}
+		 * @return {Date}
 		 */
 		minimumDate() {
 			return this.calendarObjectInstance.startDate
 		},
+
 		/**
 		 * The maximum date the user can select in the until date-picker
 		 *
-		 * @returns {Date}
+		 * @return {Date}
 		 */
 		maximumDate() {
-			return new Date(this.$store.state.davRestrictions.maximumDate)
+			return new Date(this.davRestrictionsStore.maximumDate)
 		},
+
 		/**
 		 * Whether or not this event is recurring until a given date
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		isUntil() {
 			return this.count === null && this.until !== null
 		},
+
 		/**
 		 * Whether or not this event is recurring after a given amount of occurrences
 		 *
-		 * @returns {Boolean}
+		 * @return {boolean}
 		 */
 		isCount() {
 			return this.count !== null && this.until === null
 		},
-		/**
-		 * Label for time/times
-		 *
-		 * @returns {string}
-		 */
-		occurrencesLabel() {
-			return this.$n('calendar', 'time', 'times', this.count)
-		},
+
 		/**
 		 * Options for recurrence-end
 		 *
-		 * @returns {Object[]}
+		 * @return {object[]}
 		 */
 		options() {
 			return [{
@@ -141,48 +119,47 @@ export default {
 				value: 'count',
 			}]
 		},
+
 		/**
 		 * The selected option for the recurrence-end
 		 *
-		 * @returns {Object}
+		 * @return {object}
 		 */
-		selectedOption() {
-			if (this.count !== null) {
-				return this.options.find(option => option.value === 'count')
-			} else if (this.until !== null) {
-				return this.options.find(option => option.value === 'until')
-			} else {
-				return this.options.find(option => option.value === 'never')
-			}
+		selectedOption: {
+			get() {
+				if (this.count !== null) {
+					return this.options.find((option) => option.value === 'count')
+				} else if (this.until !== null) {
+					return this.options.find((option) => option.value === 'until')
+				}
+
+				return this.options.find((option) => option.value === 'never')
+			},
+
+			set(value) {
+				if (!value) {
+					return
+				}
+
+				switch (value.value) {
+					case 'until':
+						this.$emit('changeToUntil')
+						break
+
+					case 'count':
+						this.$emit('changeToCount')
+						break
+
+					case 'never':
+					default:
+						this.$emit('setInfinite')
+				}
+			},
 		},
 	},
+
 	methods: {
-		/**
-		 * Changes the type of recurrence-end
-		 * Whether it ends never, on a given date or after an amount of occurrences
-		 *
-		 * @param {Object} value The new type of recurrence-end to select
-		 */
-		changeEndType(value) {
-			console.debug(value)
-			if (!value) {
-				return
-			}
 
-			switch (value.value) {
-			case 'until':
-				this.$emit('changeToUntil')
-				break
-
-			case 'count':
-				this.$emit('changeToCount')
-				break
-
-			case 'never':
-			default:
-				this.$emit('setInfinite')
-			}
-		},
 		/**
 		 * Changes the until-date of this recurrence-set
 		 *
@@ -191,15 +168,16 @@ export default {
 		changeUntil(date) {
 			this.$emit('setUntil', date)
 		},
+
 		/**
 		 * Changes the number of occurrences in this recurrence-set
 		 *
-		 * @param {Event} event The input event
+		 * @param {string} value The input value
 		 */
-		changeCount(event) {
-			const minimumValue = parseInt(event.target.min, 10)
-			const maximumValue = parseInt(event.target.max, 10)
-			const selectedValue = parseInt(event.target.value, 10)
+		changeCount(value) {
+			const minimumValue = 1
+			const maximumValue = 3500
+			const selectedValue = parseInt(value, 10)
 
 			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
 				this.$emit('setCount', selectedValue)

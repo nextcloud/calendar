@@ -1,15 +1,17 @@
+# SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: AGPL-3.0-or-later
+__mocks__
 .editorconfig
-.eslintrc.js
 .git
+.git-blame-ignore-revs
 .github
 .gitignore
 .gitlab-ci.yml
 .idea
 .nextcloudignore
-.php_cs.dist
+.php-cs-fixer.dist.php
+.php-cs-fixer.cache
 .scrutinizer.yml
-.stylelintignore
-.stylelintrc
 .tx
 babel.config.js
 build
@@ -24,8 +26,20 @@ package.json
 package-lock.json
 phpunit.unit.xml
 README.md
+phpunit*.xml
+/psalm.xml
+renovate.json
 screenshots
 src
+stylelint.config.mjs
 tests
 timezones
-webpack.*
+/vendor/bin
+/vendor/bamarni/composer-bin-plugin/e2e
+/vendor-bin
+eslint.config.mjs
+rspack.config.js
+playwright.config.js
+vitest.config.js
+tsconfig.json
+tsconfig.json.license

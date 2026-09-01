@@ -1,60 +1,47 @@
+import { eventSourceFunction } from '@/fullcalendar/eventSources/eventSourceFunction.js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import {
-	generateTextColorForHex,
-} from '../../utils/color.js'
-import getTimezoneManager from '../../services/timezoneDataProviderService'
-import { getUnixTimestampFromDate } from '../../utils/date.js'
-import { eventSourceFunction } from './eventSourceFunction.js'
-import logger from '../../utils/logger.js'
+import { getUnixTimestampFromDate } from '@/utils/date.js'
+import logger from '@/utils/logger.js'
 
 /**
  * Returns a function to generate a FullCalendar event-source based on the Vuex calendar model
  *
- * @param {Object} store The Vuex store
- * @returns {function(*=): {backgroundColor: *, borderColor: *, className: *, id: *, textColor: *, events: events}}
+ * @return {(calendar: object) => {id: string, backgroundColor: string, borderColor: string, editable?: boolean, events: (info: {start: Date, end: Date, timeZone: string}, successCallback: (events: object[]) => void, failureCallback: (error: Error) => void) => Promise<void>}}
  */
-export default function(store) {
+export default function() {
+	const fetchedTimeRangesStore = useFetchedTimeRangesStore()
+	const calendarsStore = useCalendarsStore()
+
 	return function(calendar) {
 		const source = {
 			id: calendar.id,
 			// coloring
 			backgroundColor: calendar.color,
 			borderColor: calendar.color,
-			textColor: generateTextColorForHex(calendar.color),
 			// html foo
-			events: async({ start, end, timeZone }, successCallback, failureCallback) => {
+			events: async ({ start, end, timeZone }, successCallback, failureCallback) => {
 				let timezoneObject = getTimezoneManager().getTimezoneForId(timeZone)
 				if (!timezoneObject) {
 					timezoneObject = getTimezoneManager().getTimezoneForId('UTC')
 					logger.error(`EventSource: Timezone ${timeZone} not found, falling back to UTC.`)
 				}
 
-				const timeRange = store.getters.getTimeRangeForCalendarCoveringRange(calendar.id, getUnixTimestampFromDate(start), getUnixTimestampFromDate(end))
+				// This code assumes that once a time range has been fetched it won't be changed
+				// outside of the Pinia store. Triggering a refetch will just update all known
+				// calendar objects inside this time range. New events that were added to a cached
+				// time range externally will not be fetched and have to be added manually.
+				const timeRange = fetchedTimeRangesStore.getTimeRangeForCalendarCoveringRange(calendar.id, getUnixTimestampFromDate(start), getUnixTimestampFromDate(end))
 				if (!timeRange) {
 					let timeRangeId
 					try {
-						timeRangeId = await store.dispatch('getEventsFromCalendarInTimeRange', {
-							calendar: calendar,
+						timeRangeId = await calendarsStore.getEventsFromCalendarInTimeRange({
+							calendar,
 							from: start,
 							to: end,
 						})
@@ -63,10 +50,10 @@ export default function(store) {
 						return
 					}
 
-					const calendarObjects = store.getters.getCalendarObjectsByTimeRangeId(timeRangeId)
+					const calendarObjects = fetchedTimeRangesStore.getCalendarObjectsByTimeRangeId(timeRangeId)
 					successCallback(eventSourceFunction(calendarObjects, calendar, start, end, timezoneObject))
 				} else {
-					const calendarObjects = store.getters.getCalendarObjectsByTimeRangeId(timeRange.id)
+					const calendarObjects = fetchedTimeRangesStore.getCalendarObjectsByTimeRangeId(timeRange.id)
 					successCallback(eventSourceFunction(calendarObjects, calendar, start, end, timezoneObject))
 				}
 			},

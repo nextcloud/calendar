@@ -1,50 +1,36 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<div v-if="display" class="property-select">
+	<div
+		v-if="display"
+		class="property-select"
+		:class="{ 'property-select--readonly': isReadOnly }">
 		<div
 			class="property-select__input"
 			:class="{ 'property-select__input--readonly-calendar-picker': isReadOnly }">
 			<CalendarPicker
 				v-if="!isReadOnly"
-				:calendar="calendar"
+				:value="calendar"
 				:calendars="calendars"
-				:show-calendar-on-select="true"
+				:showCalendarOnSelect="true"
 				@selectCalendar="selectCalendar" />
 
 			<CalendarPickerOption
 				v-else
 				:color="calendar.color"
-				:display-name="calendar.displayName"
-				:is-shared-with-me="calendar.isSharedWithMe"
+				:displayName="calendar.displayName"
+				:isSharedWithMe="calendar.isSharedWithMe"
 				:owner="calendar.owner" />
 		</div>
 	</div>
 </template>
 
 <script>
-import CalendarPicker from '../../Shared/CalendarPicker'
-import CalendarPickerOption from '../../Shared/CalendarPickerOption.vue'
+import CalendarPicker from '@/components/Shared/CalendarPicker.vue'
+import CalendarPickerOption from '@/components/Shared/CalendarPickerOption.vue'
 
 export default {
 	name: 'PropertyCalendarPicker',
@@ -52,31 +38,39 @@ export default {
 		CalendarPickerOption,
 		CalendarPicker,
 	},
+
 	props: {
 		calendar: {
 			type: Object,
 			default: undefined,
 		},
+
 		calendars: {
 			type: Array,
 			required: true,
 		},
+
 		isReadOnly: {
 			type: Boolean,
 			required: true,
 		},
 	},
+
+	emits: ['selectCalendar'],
+
 	computed: {
 		display() {
 			return this.calendar !== undefined
 		},
 	},
+
 	methods: {
 		/**
 		 * Emits the select calendar event
 		 *
 		 * // TODO: this should emit the calendar id instead
-		 * @param {Object} value The calendar Object
+		 *
+		 * @param {object} value The calendar Object
 		 */
 		selectCalendar(value) {
 			this.$emit('selectCalendar', value)

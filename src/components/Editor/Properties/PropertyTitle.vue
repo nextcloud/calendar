@@ -1,59 +1,85 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<div class="property-title">
+	<div class="property-title" :class="{ 'property-title--readonly': isReadOnly }">
 		<div
 			class="property-title__input"
 			:class="{ 'property-title__input--readonly': isReadOnly }">
-			<input
+			<NcTextField
 				v-if="!isReadOnly"
-				type="text"
-				:placeholder="$t('calendar', 'Event title')"
-				:value="value"
-				@input.prevent.stop="changeValue">
+				v-focus
+				:placeholder="t('calendar', 'Title')"
+				:label="t('calendar', 'Title')"
+				:labelOutside="true"
+				:modelValue="value"
+				@update:modelValue="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
-			<div v-else>{{ value }}</div>
+			<div v-else :class="{ 'property-title__input__rtl': isRTL, 'property-title__input--cancelled': isCancelled }">{{ value }}</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import { getLanguage, isRTL, t } from '@nextcloud/l10n'
+import { NcTextField } from '@nextcloud/vue'
+import focus from '@/directives/focus.js'
+
 export default {
 	name: 'PropertyTitle',
+
+	components: {
+		NcTextField,
+	},
+
+	directives: {
+		focus,
+	},
+
 	props: {
 		isReadOnly: {
 			type: Boolean,
 			required: true,
 		},
+
+		isCancelled: {
+			type: Boolean,
+			default: false,
+		},
+
 		value: {
 			type: String,
 			default: '',
 		},
 	},
+
+	emits: ['update:value'],
+
+	computed: {
+		isRTL() {
+			return isRTL(getLanguage())
+		},
+	},
+
 	methods: {
-		changeValue(event) {
-			this.$emit('update:value', event.target.value)
+		t,
+		changeValue(value) {
+			this.$emit('update:value', value)
 		},
 	},
 }
 </script>
+
+<style scoped lang="scss">
+.property-title__input--readonly {
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+.property-title__input--cancelled {
+	text-decoration-line: line-through;
+	opacity: 0.7;
+}
+</style>

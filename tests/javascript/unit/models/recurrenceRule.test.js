@@ -1,36 +1,19 @@
 /**
- * @copyright Copyright (c) 2020 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+import { DateTimeValue } from '@nextcloud/calendar-js'
+import { getRecurValueFromAsset } from '../loadAsset.js'
 import {
 	getDefaultRecurrenceRuleObject,
-	mapRecurrenceRuleValueToRecurrenceRuleObject
-} from "../../../../src/models/recurrenceRule.js";
-import { getDateFromDateTimeValue } from '../../../../src/utils/date.js'
-import DateTimeValue from "calendar-js/src/values/dateTimeValue.js";
+	mapRecurrenceRuleValueToRecurrenceRuleObject,
+} from '@/models/recurrenceRule.js'
+import { getDateFromDateTimeValue } from '@/utils/date.js'
 
-jest.mock('../../../../src/utils/date.js')
+vi.mock('@/utils/date.js')
 
 describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
-
 	beforeEach(() => {
 		getDateFromDateTimeValue.mockClear()
 	})
@@ -304,7 +287,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			until: null,
 			byDay: [],
 			byMonth: [],
-			byMonthDay: ['15'],
+			byMonthDay: [15],
 			bySetPosition: null,
 			isUnsupported: false,
 		})
@@ -328,7 +311,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			until: null,
 			byDay: [],
 			byMonth: [],
-			byMonthDay: ['1', '2', '3', '30', '31'],
+			byMonthDay: [1, 2, 3, 30, 31],
 			bySetPosition: null,
 			isUnsupported: false,
 		})
@@ -352,7 +335,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			until: null,
 			byDay: [],
 			byMonth: [],
-			byMonthDay: ['2', '30', '31'],
+			byMonthDay: [2, 30, 31],
 			bySetPosition: null,
 			isUnsupported: true,
 		})
@@ -376,7 +359,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			until: null,
 			byDay: [],
 			byMonth: [],
-			byMonthDay: ['1', '2', '3', '30', '31'],
+			byMonthDay: [1, 2, 3, 30, 31],
 			bySetPosition: null,
 			isUnsupported: true,
 		})
@@ -495,8 +478,8 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			count: null,
 			until: null,
 			byDay: [],
-			byMonth: ['3'],
-			byMonthDay: [],
+			byMonth: [3],
+			byMonthDay: [15],
 			bySetPosition: null,
 			isUnsupported: false,
 		})
@@ -519,35 +502,17 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			count: null,
 			until: null,
 			byDay: [],
-			byMonth: ['1', '2', '3'],
-			byMonthDay: [],
+			byMonth: [1, 2, 3],
+			byMonthDay: [15],
 			bySetPosition: null,
 			isUnsupported: false,
 		})
 	})
 
 	it('should properly load a recurrence-rule (20/24)', () => {
-		const recurrenceRuleValue = getRecurValueFromAsset('rrules/rrules20')
-		const baseDate = DateTimeValue.fromData({
-			year: 2020,
-			month: 3,
-			day: 15,
-			isDate: true,
-		})
-
 		// YEARLY with invalid BYMONTH
-		expect(mapRecurrenceRuleValueToRecurrenceRuleObject(recurrenceRuleValue, baseDate)).toEqual({
-			recurrenceRuleValue,
-			frequency: 'YEARLY',
-			interval: 1,
-			count: null,
-			until: null,
-			byDay: [],
-			byMonth: ['1', '2', '3'],
-			byMonthDay: [],
-			bySetPosition: null,
-			isUnsupported: true,
-		})
+		// Skipped as it is fixed upstream
+		// https://github.com/mozilla-comm/ical.js/pull/486
 	})
 
 	it('should properly load a recurrence-rule (21/24)', () => {
@@ -567,7 +532,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			count: null,
 			until: null,
 			byDay: ['MO'],
-			byMonth: ['3'],
+			byMonth: [3],
 			byMonthDay: [],
 			bySetPosition: 3,
 			isUnsupported: false,
@@ -591,7 +556,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			count: null,
 			until: null,
 			byDay: ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'],
-			byMonth: ['3'],
+			byMonth: [3],
 			byMonthDay: [],
 			bySetPosition: 3,
 			isUnsupported: true,
@@ -615,7 +580,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			count: null,
 			until: null,
 			byDay: ['MO'],
-			byMonth: ['3'],
+			byMonth: [3],
 			byMonthDay: [],
 			bySetPosition: 1,
 			isUnsupported: true,
@@ -639,7 +604,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			count: null,
 			until: null,
 			byDay: ['MO'],
-			byMonth: ['3'],
+			byMonth: [3],
 			byMonthDay: [],
 			bySetPosition: 1,
 			isUnsupported: true,
@@ -664,7 +629,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			until: null,
 			byDay: [],
 			byMonth: [],
-			byMonthDay: ['15'],
+			byMonthDay: [15],
 			bySetPosition: null,
 			isUnsupported: true,
 		})
@@ -736,7 +701,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			until: null,
 			byDay: [],
 			byMonth: [],
-			byMonthDay: ['15'],
+			byMonthDay: [15],
 			bySetPosition: null,
 			isUnsupported: true,
 		})
@@ -759,8 +724,8 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			count: null,
 			until: null,
 			byDay: [],
-			byMonth: ['3'],
-			byMonthDay: [],
+			byMonth: [3],
+			byMonthDay: [15],
 			bySetPosition: null,
 			isUnsupported: true,
 		})
@@ -783,7 +748,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			count: null,
 			until: null,
 			byDay: ['MO'],
-			byMonth: ['3'],
+			byMonth: [3],
 			byMonthDay: [],
 			bySetPosition: 3,
 			isUnsupported: false,
@@ -807,7 +772,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			count: null,
 			until: null,
 			byDay: ['MO'],
-			byMonth: ['3'],
+			byMonth: [3],
 			byMonthDay: [],
 			bySetPosition: 1,
 			isUnsupported: true,
@@ -831,8 +796,8 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			count: null,
 			until: null,
 			byDay: [],
-			byMonth: ['3'],
-			byMonthDay: [],
+			byMonth: [3],
+			byMonthDay: [15],
 			bySetPosition: null,
 			isUnsupported: true,
 		})
@@ -856,7 +821,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			until: null,
 			byDay: [],
 			byMonth: [],
-			byMonthDay: ['15'],
+			byMonthDay: [15],
 			bySetPosition: null,
 			isUnsupported: false,
 		})
@@ -884,7 +849,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			until: mockDate,
 			byDay: [],
 			byMonth: [],
-			byMonthDay: ['15'],
+			byMonthDay: [15],
 			bySetPosition: null,
 			isUnsupported: false,
 		})
@@ -906,7 +871,6 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 		getDateFromDateTimeValue
 			.mockReturnValueOnce(mockDate)
 
-
 		// plain MONTHLY
 		expect(mapRecurrenceRuleValueToRecurrenceRuleObject(recurrenceRuleValue, baseDate)).toEqual({
 			recurrenceRuleValue,
@@ -916,7 +880,7 @@ describe('Test suite: Recurrence Rule model (models/recurrenceRule.js)', () => {
 			until: mockDate,
 			byDay: [],
 			byMonth: [],
-			byMonthDay: ['15'],
+			byMonthDay: [15],
 			bySetPosition: null,
 			isUnsupported: true,
 		})

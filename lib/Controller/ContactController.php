@@ -2,37 +2,29 @@
 
 declare(strict_types=1);
 /**
- * Calendar App
- *
- * @author Georg Ehrke
- * @author Jakob Röhrl
- * @author Christoph Wurst
- *
- * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
- * @copyright 2019 Jakob Röhrl <jakob.roehrl@web.de>
- * @copyright 2019 Christoph Wurst <christoph@winzerhof-wurst.at>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Controller;
 
+use Exception;
+use OCA\Calendar\Service\ContactsService;
+use OCA\Calendar\Service\ServiceException;
+use OCA\Circles\Api\v1\Circles;
+use OCA\Circles\Exceptions\CircleNotFoundException;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Contacts\IManager;
+use OCP\IAppConfig;
+use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\IRequest;
+use OCP\IUserManager;
+use Psr\Container\ContainerExceptionInterface;
 
 /**
  * Class ContactController
@@ -40,43 +32,44 @@ use OCP\IRequest;
  * @package OCA\Calendar\Controller
  */
 class ContactController extends Controller {
-
-	/** @var IManager */
-	private $contactsManager;
-
 	/**
 	 * ContactController constructor.
 	 *
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param IManager $contacts
 	 */
-	public function __construct(string $appName,
-								IRequest $request,
-								IManager $contacts) {
+	public function __construct(
+		string $appName,
+		IRequest $request,
+		private IManager $contactsManager,
+		private IAppManager $appManager,
+		private IUserManager $userManager,
+		private ContactsService $contactsService,
+		private IAppConfig $appConfig,
+		private IConfig $config,
+		private IGroupManager $groupManager,
+		private ?string $userId,
+	) {
 		parent::__construct($appName, $request);
-		$this->contactsManager = $contacts;
 	}
 
 	/**
 	 * Search for a location based on a contact's name or address
 	 *
 	 * @param string $search Name or address to search for
-	 * @return JSONResponse
-	 *
-	 * @NoAdminRequired
 	 */
-	public function searchLocation(string $search):JSONResponse {
+	#[NoAdminRequired]
+	public function searchLocation(string $search): JSONResponse {
 		if (!$this->contactsManager->isEnabled()) {
 			return new JSONResponse();
 		}
 
-		$result = $this->contactsManager->search($search, ['FN', 'ADR']);
+		$result = $this->contactsManager->search($search, ['FN', 'ADR'], ['enumeration' => false]);
 
 		$contacts = [];
 		foreach ($result as $r) {
 			// Information about system users is fetched via DAV nowadays
-			if (isset($r['isLocalSystemBook']) && $r['isLocalSystemBook']) {
+			if ($this->contactsService->isSystemBook($r)) {
 				continue;
 			}
 
@@ -84,19 +77,9 @@ class ContactController extends Controller {
 				continue;
 			}
 
-			$name = $this->getNameFromContact($r);
-			if (\is_string($r['ADR'])) {
-				$r['ADR'] = [$r['ADR']];
-			}
-
-			$photo = isset($r['PHOTO'])
-				? $this->getPhotoUri($r['PHOTO'])
-				: null;
-
-			$addresses = [];
-			foreach ($r['ADR'] as $address) {
-				$addresses[] = trim(preg_replace("/\n+/", "\n", str_replace(';', "\n", $address)));
-			}
+			$name = $this->contactsService->getNameFromContact($r);
+			$photo = $this->contactsService->getPhotoUri($r);
+			$addresses = $this->contactsService->getAddress($r);
 
 			$contacts[] = [
 				'name' => $name,
@@ -108,67 +91,247 @@ class ContactController extends Controller {
 		return new JSONResponse($contacts);
 	}
 
-
 	/**
 	 * Search for a contact based on a contact's name or email-address
 	 *
 	 * @param string $search Name or email to search for
-	 * @return JSONResponse
-	 *
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function searchAttendee(string $search):JSONResponse {
 		if (!$this->contactsManager->isEnabled()) {
 			return new JSONResponse();
 		}
 
-		$result = $this->contactsManager->search($search, ['FN', 'EMAIL']);
+		// Read restriction configuration
+		$externalAttendeesDisabled = $this->appConfig->getValueBool('dav', 'caldav_external_attendees_disabled', false);
+		$shareeGroupsOnlyRestriction = $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
+		$shareeGroupsOnlyExclusion = [];
+		$shareeEnumeration = $this->config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes') === 'yes';
+		$shareeEnumerationInGroupOnly = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_to_group', 'no') === 'yes';
+		$shareeEnumerationFullMatch = $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match', 'yes') === 'yes';
+		$shareeEnumerationFullMatchUserId = $shareeEnumerationFullMatch && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_userid', 'yes') === 'yes';
+		$shareeEnumerationFullMatchEmail = $shareeEnumerationFullMatch && $this->config->getAppValue('core', 'shareapi_restrict_user_enumeration_full_match_email', 'yes') === 'yes';
+		if ($shareeGroupsOnlyRestriction) {
+			$excludedGroups = json_decode(
+				$this->config->getAppValue('core', 'shareapi_only_share_with_group_members_exclude_group_list', '[]'),
+				true
+			);
+			if (is_array($excludedGroups)) {
+				$shareeGroupsOnlyExclusion = $excludedGroups;
+			}
+		}
+
+		$result = $this->contactsManager->search(
+			$search,
+			['UID', 'FN', 'EMAIL'],
+			[
+				'enumeration' => $shareeEnumeration,
+				'fullmatch' => $shareeEnumerationFullMatch,
+			]
+		);
+
+		// Get user groups if group restriction is enabled
+		$userGroups = [];
+		if (($shareeGroupsOnlyRestriction || ($shareeEnumeration && $shareeEnumerationInGroupOnly)) && $this->userId !== null) {
+			$user = $this->userManager->get($this->userId);
+			if ($user === null) {
+				return new JSONResponse();
+			}
+			$userGroups = $this->groupManager->getUserGroupIds($user);
+
+			if ($shareeGroupsOnlyRestriction && $shareeGroupsOnlyExclusion !== []
+				&& array_intersect($userGroups, $shareeGroupsOnlyExclusion) !== []) {
+				$shareeGroupsOnlyRestriction = false;
+			}
+		}
 
 		$contacts = [];
 		foreach ($result as $r) {
-			// Information about system users is fetched via DAV nowadays
-			if (isset($r['isLocalSystemBook']) && $r['isLocalSystemBook']) {
+			if (!$this->contactsService->hasEmail($r)) {
 				continue;
 			}
 
-			if (!isset($r['EMAIL'])) {
+			$isSystemUser = $this->contactsService->isSystemBook($r);
+
+			// When external attendees are disabled, only include system book contacts
+			if ($externalAttendeesDisabled && !$isSystemUser) {
 				continue;
 			}
 
-			$name = $this->getNameFromContact($r);
-			if (\is_string($r['EMAIL'])) {
-				$r['EMAIL'] = [$r['EMAIL']];
-			}
-
-			$photo = isset($r['PHOTO'])
-				? $this->getPhotoUri($r['PHOTO'])
-				: null;
-
-			$lang = null;
-			if (isset($r['LANG'])) {
-				if (\is_array($r['LANG'])) {
-					$lang = $r['LANG'][0];
-				} else {
-					$lang = $r['LANG'];
+			// Apply group restrictions for system users
+			$isInSameGroup = false;
+			if ($isSystemUser && ($shareeGroupsOnlyRestriction || $shareeEnumerationInGroupOnly)) {
+				foreach ($userGroups as $userGroup) {
+					if ($this->groupManager->isInGroup($r['UID'], $userGroup)) {
+						$isInSameGroup = true;
+						break;
+					}
+				}
+				if ($shareeGroupsOnlyRestriction && !$isInSameGroup) {
+					continue;
+				}
+				if (!$shareeEnumerationFullMatch && !$isInSameGroup) {
+					continue;
 				}
 			}
 
-			$timezoneId = null;
-			if (isset($r['TZ'])) {
-				if (\is_array($r['TZ'])) {
-					$timezoneId = $r['TZ'][0];
-				} else {
-					$timezoneId = $r['TZ'];
+			$name = $this->contactsService->getNameFromContact($r);
+			$email = $this->contactsService->getEmail($r);
+			$photo = $this->contactsService->getPhotoUri($r);
+			$timezoneId = $this->contactsService->getTimezoneId($r);
+			$lang = $this->contactsService->getLanguageId($r);
+
+			// Check full match requirements for system users not in same group
+			if ($isSystemUser && $shareeEnumerationInGroupOnly && !$isInSameGroup) {
+				$lowerSearch = strtolower($search);
+				$matchFound = false;
+
+				// Check for full match on name, user ID, or email
+				if ($lowerSearch !== '') {
+					if ($shareeEnumerationFullMatch && !empty($name) && $lowerSearch === strtolower($name)) {
+						$matchFound = true;
+					}
+					if ($shareeEnumerationFullMatchUserId && $lowerSearch === strtolower($r['UID'])) {
+						$matchFound = true;
+					}
+					if ($shareeEnumerationFullMatchEmail && $email) {
+						foreach ($email as $e) {
+							if ($lowerSearch === strtolower($e)) {
+								$matchFound = true;
+								break;
+							}
+						}
+					}
+				}
+
+				if (!$matchFound) {
+					continue;
 				}
 			}
 
 			$contacts[] = [
 				'name' => $name,
-				'emails' => $r['EMAIL'],
+				'emails' => $email,
 				'lang' => $lang,
 				'tzid' => $timezoneId,
 				'photo' => $photo,
+				'type' => 'individual',
+				'source' => $isSystemUser ? 'system' : 'user',
 			];
+		}
+
+		// Skip contact groups when external attendees are disabled
+		if (!$externalAttendeesDisabled) {
+			$groups = $this->contactsManager->search($search, ['CATEGORIES']);
+			$groups = array_filter($groups, function ($group) {
+				return $this->contactsService->hasEmail($group);
+			});
+			$filtered = $this->contactsService->filterGroupsWithCount($groups, $search);
+			foreach ($filtered as $groupName => $count) {
+				if ($count === 0) {
+					continue;
+				}
+				$contacts[] = [
+					'name' => $groupName,
+					'emails' => ['mailto:' . urlencode($groupName) . '@group'],
+					'lang' => '',
+					'tzid' => '',
+					'photo' => '',
+					'type' => 'contactsgroup',
+					'source' => 'user',
+					'members' => $count,
+				];
+			}
+		}
+
+		return new JSONResponse($contacts);
+	}
+
+	#[NoAdminRequired]
+	public function getContactGroupMembers(string $groupName): JSONResponse {
+		if (!$this->contactsManager->isEnabled()) {
+			return new JSONResponse();
+		}
+
+		$groupmembers = $this->contactsManager->search($groupName, ['CATEGORIES'], ['enumeration' => false]);
+		$contacts = [];
+		foreach ($groupmembers as $r) {
+			if (!in_array($groupName, explode(',', $r['CATEGORIES']), true)) {
+				continue;
+			}
+			if (!$this->contactsService->hasEmail($r) || $this->contactsService->isSystemBook($r)) {
+				continue;
+			}
+			$name = $this->contactsService->getNameFromContact($r);
+			$email = $this->contactsService->getEmail($r);
+			$photo = $this->contactsService->getPhotoUri($r);
+			$timezoneId = $this->contactsService->getTimezoneId($r);
+			$lang = $this->contactsService->getLanguageId($r);
+			$contacts[] = [
+				'commonName' => $name,
+				'email' => $email[0],
+				'calendarUserType' => 'INDIVIDUAL',
+				'language' => $lang,
+				'timezoneId' => $timezoneId,
+				'avatar' => $photo,
+				'isUser' => false,
+				'member' => 'mailto:' . urlencode($groupName) . '@group',
+			];
+		}
+		return new JSONResponse($contacts);
+	}
+
+	/**
+	 * Query members of a circle by circleId
+	 *
+	 * @param string $circleId CircleId to query for members
+	 * @throws Exception
+	 */
+	#[NoAdminRequired]
+	public function getCircleMembers(string $circleId):JSONResponse {
+		if (!$this->appManager->isEnabledForUser('circles') || !class_exists('\OCA\Circles\Api\v1\Circles')) {
+			return new JSONResponse();
+		}
+		if (!$this->contactsManager->isEnabled()) {
+			return new JSONResponse();
+		}
+
+		try {
+			$circle = Circles::detailsCircle($circleId, true);
+		} catch (ContainerExceptionInterface $ex) {
+			return new JSONResponse();
+		} catch (CircleNotFoundException $ex) {
+			return new JSONResponse();
+		}
+
+		if (!$circle) {
+			return new JSONResponse();
+		}
+
+		$circleMembers = $circle->getInheritedMembers();
+
+		foreach ($circleMembers as $circleMember) {
+			if ($circleMember->isLocal()) {
+
+				$circleMemberUserId = $circleMember->getUserId();
+
+				$user = $this->userManager->get($circleMemberUserId);
+
+				if ($user === null) {
+					throw new ServiceException('Could not find organizer');
+				}
+
+				$contacts[] = [
+					'commonName' => $circleMember->getDisplayName(),
+					'calendarUserType' => 'INDIVIDUAL',
+					'email' => $user->getEMailAddress(),
+					'isUser' => true,
+					'avatar' => $circleMemberUserId,
+					'hasMultipleEMails' => false,
+					'dropdownName' => $circleMember->getDisplayName(),
+					'member' => 'mailto:circle+' . $circleId . '@' . $circleMember->getInstance(),
+				];
+			}
 		}
 
 		return new JSONResponse($contacts);
@@ -178,29 +341,24 @@ class ContactController extends Controller {
 	 * Get a contact's photo based on their email-address
 	 *
 	 * @param string $search Exact email-address to match
-	 * @return JSONResponse
-	 *
-	 * @NoAdminRequired
 	 */
+	#[NoAdminRequired]
 	public function searchPhoto(string $search):JSONResponse {
 		if (!$this->contactsManager->isEnabled()) {
 			return new JSONResponse([], Http::STATUS_NOT_FOUND);
 		}
 
-		$result = $this->contactsManager->search($search, ['EMAIL']);
+		$result = $this->contactsManager->search($search, ['EMAIL'], ['enumeration' => false]);
 
 		foreach ($result as $r) {
-			if (!isset($r['EMAIL'])) {
+			if (!$this->contactsService->hasEmail($r) || $this->contactsService->isSystemBook($r)) {
 				continue;
 			}
-
-			if (\is_string($r['EMAIL'])) {
-				$r['EMAIL'] = [$r['EMAIL']];
-			}
+			$email = $this->contactsService->getEmail($r);
 
 			$match = false;
-			foreach ($r['EMAIL'] as $email) {
-				if ($email === $search) {
+			foreach ($email as $e) {
+				if ($e === $search) {
 					$match = true;
 				}
 			}
@@ -209,15 +367,12 @@ class ContactController extends Controller {
 				continue;
 			}
 
-			if (!isset($r['PHOTO'])) {
+			$photo = $this->contactsService->getPhotoUri($r);
+			if ($photo === null) {
 				continue;
 			}
 
-			$name = $this->getNameFromContact($r);
-			$photo = $this->getPhotoUri($r['PHOTO']);
-			if (!$photo) {
-				continue;
-			}
+			$name = $this->contactsService->getNameFromContact($r);
 
 			return new JSONResponse([
 				'name' => $name,
@@ -228,28 +383,4 @@ class ContactController extends Controller {
 		return new JSONResponse([], Http::STATUS_NOT_FOUND);
 	}
 
-	/**
-	 * Extract name from an array containing a contact's information
-	 *
-	 * @param array $r
-	 * @return string
-	 */
-	private function getNameFromContact(array $r):string {
-		return $r['FN'] ?? '';
-	}
-
-	/**
-	 * Get photo uri from contact
-	 *
-	 * @param string $raw
-	 * @return string|null
-	 */
-	private function getPhotoUri(string $raw):?string {
-		$uriPrefix = 'VALUE=uri:';
-		if (substr($raw, 0, strlen($uriPrefix)) === $uriPrefix) {
-			return substr($raw, strpos($raw, 'http'));
-		}
-
-		return null;
-	}
 }

@@ -1,0 +1,87 @@
+# This workflow is provided via the organization template repository
+#
+# https://github.com/nextcloud/.github
+# https://docs.github.com/en/actions/learn-github-actions/sharing-workflows-with-your-organization
+#
+# SPDX-FileCopyrightText: 2021-2025 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+name: Build and publish app release conventionally
+
+on:
+  workflow_dispatch:
+    branches: stable*
+    inputs:
+      prerelease:
+        description: 'Pre-release'
+        type: boolean
+        required: true
+      prereleaseIdentifier:
+        description: 'Pre-release identifier'
+        required: true
+        default: 'rc'
+        type: choice
+        options:
+          - alpha
+          - beta
+          - rc
+
+env:
+  PHP_VERSION: 8.3
+
+jobs:
+  build_and_publish:
+    runs-on: [ubuntu-latest, self-hosted]
+    environment: release
+
+    steps:
+      - name: Check actor permission
+        uses: skjnldsv/check-actor-permission@69e92a3c4711150929bca9fcf34448c5bf5526e7 # v3.0
+        with:
+          require: write
+
+      - name: Set app env
+        run: |
+          # Split and keep last
+          echo "APP_NAME=${GITHUB_REPOSITORY##*/}" >> $GITHUB_ENV
+          echo "APP_VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          token: ${{ secrets.RELEASE_PAT }}
+          fetch-depth: 0
+
+      - name: Conventional Changelog Action
+        id: changelog
+        uses: TriPSs/conventional-changelog-action@ee43def3241429afddab215ba89090cbf64fb45c # v6
+        with:
+          github-token: ${{ secrets.RELEASE_PAT }}
+          git-user-email: nextcloud-command@users.noreply.github.com
+          git-user-name: Nextcloud Command Bot
+          skip-git-pull: "true"
+          pre-commit: build/pre-commit.js
+          release-count: 0
+          version-file: "package.json, package-lock.json"
+          pre-release: ${{ inputs.prerelease }}
+          pre-release-identifier: ${{ inputs.prereleaseIdentifier }}
+
+      - name: Push tag to releases organization
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        run: |
+          git remote add release https://github.com/nextcloud-releases/${{ env.APP_NAME }}.git
+          git push release ${{ steps.changelog.outputs.tag }}
+
+      - name: Create Release
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
+        id: create_release
+        uses: actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e # v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
+        with:
+          owner: nextcloud-releases
+          repo: ${{ env.APP_NAME }}
+          tag_name: ${{ steps.changelog.outputs.tag }}
+          release_name: ${{ steps.changelog.outputs.tag }}
+          body: ${{ steps.changelog.outputs.clean_changelog }}
+          prerelease: ${{ inputs.prerelease }}

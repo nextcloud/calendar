@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2018 John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @author John Molakvoæ <skjnldsv@protonmail.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import md5 from 'md5'
 
@@ -25,7 +8,7 @@ import md5 from 'md5'
  * This is copied from nextcloud-vue for now, until it is exposed upstream.
  */
 
-export const uidToColor = (uid) => {
+export function uidToColor(uid) {
 	// Normalize hash
 	let hash = uid.toLowerCase()
 
@@ -39,7 +22,13 @@ export const uidToColor = (uid) => {
 	const steps = 6
 	const finalPalette = GenColors(steps)
 
-	// Convert a string to an integer evenly
+	/**
+	 * Convert a string to an integer evenly
+	 *
+	 * @param {string} hash The string to convert
+	 * @param {number} maximum The maximum value
+	 * @return {number} The integer calculated
+	 */
 	function hashToInt(hash, maximum) {
 		let finalInt = 0
 		const result = []
@@ -62,12 +51,26 @@ export const uidToColor = (uid) => {
 	return finalPalette[hashToInt(hash, steps * 3)]
 }
 
+/**
+ * Color object
+ *
+ * @param {number} r The red value
+ * @param {number} g The green value
+ * @param {number} b The blue value
+ */
 function Color(r, g, b) {
 	this.r = r
 	this.g = g
 	this.b = b
 }
 
+/**
+ * Calculate the number of steps
+ *
+ * @param {number} steps The number of steps
+ * @param {Array} ends The ends
+ * @return {Array} Array containing the number of steps per color
+ */
 function stepCalc(steps, ends) {
 	const step = new Array(3)
 	step[0] = (ends[1].r - ends[0].r) / steps
@@ -76,6 +79,14 @@ function stepCalc(steps, ends) {
 	return step
 }
 
+/**
+ * Create a color palette from two colors
+ *
+ * @param {number} steps The number of steps the palette has
+ * @param {string} color1 The first color
+ * @param {string} color2 The second color
+ * @return {Array} The created palette array
+ */
 function mixPalette(steps, color1, color2) {
 	const palette = []
 	palette.push(color1)
@@ -95,8 +106,8 @@ function mixPalette(steps, color1, color2) {
  * if step = 6
  * 3 colors * 6 will result in 18 generated colors
  *
- * @param {number} [steps=6] Number of steps to go from a color to another
- * @returns {Object[]}
+ * @param {number} [steps] Number of steps to go from a color to another
+ * @return {object[]}
  */
 function GenColors(steps) {
 	if (!steps) {

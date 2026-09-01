@@ -1,158 +1,283 @@
 <!--
-  - @copyright Copyright (c) 2020 Georg Ehrke <oc.list@georgehrke.com>
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
-
+  - SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<Content app-name="calendar" :class="classNames">
-		<AppNavigation v-if="!isEmbedded && !showEmptyCalendarScreen">
+	<div v-if="isWidget" class="calendar-Widget">
+		<EmbedTopNavigation v-if="!showEmptyCalendarScreen" :isWidget="true" />
+
+		<CalendarGrid
+			v-if="!showEmptyCalendarScreen"
+			ref="calendarGridWidget"
+			:isWidget="isWidget"
+			:url="url"
+			:isAuthenticatedUser="isAuthenticatedUser" />
+		<EmptyCalendar v-else />
+
+		<EditSimple v-if="showWidgetEventDetails" :isWidget="true" />
+	</div>
+
+	<NcContent v-else appName="calendar" :class="classNames">
+		<AppNavigation
+			v-if="!isWidget && !isEmbedded && !showEmptyCalendarScreen"
+			aria-label="Calendar navigation">
 			<!-- Date Picker, View Buttons, Today Button -->
-			<AppNavigationHeader :is-public="!isAuthenticatedUser" />
+			<AppNavigationHeader :isPublic="!isAuthenticatedUser" />
 			<template #list>
-				<AppNavigationSpacer />
 				<!-- Calendar / Subscription List -->
 				<CalendarList
-					:is-public="!isAuthenticatedUser"
-					:loading-calendars="loadingCalendars" />
-				<CalendarListNew
-					v-if="!loadingCalendars && isAuthenticatedUser"
-					:disabled="loadingCalendars" />
+					:isPublic="!isAuthenticatedUser"
+					:loadingCalendars="loadingCalendars" />
+				<EditCalendarModal />
+
+				<!-- Proposals -->
+				<template v-if="isAuthenticatedUser">
+					<ProposalEditor />
+					<ProposalList />
+				</template>
+
+				<!-- Appointment Configuration List -->
+				<template v-if="!disableAppointments && isAuthenticatedUser">
+					<AppointmentConfigList />
+				</template>
+
+				<!-- Trashbin -->
+				<Trashbin v-if="calendarsStore.hasTrashBin" />
 			</template>
 			<!-- Settings and import -->
 			<template #footer>
 				<Settings
 					v-if="isAuthenticatedUser"
-					:loading-calendars="loadingCalendars" />
+					:loadingCalendars="loadingCalendars" />
 			</template>
 		</AppNavigation>
 		<EmbedTopNavigation v-if="isEmbedded" />
 		<AppContent>
-			<CalendarGrid
-				v-if="!showEmptyCalendarScreen"
-				:is-authenticated-user="isAuthenticatedUser" />
-			<EmptyCalendar v-else />
+			<div class="calendar-wrapper">
+				<div v-if="isAuthenticatedUser" v-show="tasksSidebarEnabled" class="app-navigation-toggle-wrapper">
+					<NcActions class="toggle-button app-navigation-toggle--prevent-overlap">
+						<NcActionButton @click="toggletasksSidebar()">
+							<template #icon>
+								<PlaylistCheckIcon :size="20" />
+							</template>
+							{{ t('calendar', 'Show unscheduled tasks') }}
+						</NcActionButton>
+					</NcActions>
+				</div>
+
+				<CalendarGrid
+					v-if="!showEmptyCalendarScreen"
+					ref="CalendarGrid"
+					:isAuthenticatedUser="isAuthenticatedUser" />
+				<EmptyCalendar v-else />
+			</div>
 		</AppContent>
+
+		<NcAppSidebar
+			v-if="isAuthenticatedUser"
+			v-show="tasksSidebar && tasksSidebarEnabled"
+			:name="t('calendar', 'Unscheduled tasks')"
+			@close="toggletasksSidebar()">
+			<NcAppSidebarTab id="settings-tab" name="Settings">
+				<!-- Task without End Date List -->
+				<UnscheduledTasksList
+					@tasksEmpty="handleTasksEmpty"
+					@taskClicked="handleTaskClick" />
+			</NcAppSidebarTab>
+		</NcAppSidebar>
 		<!-- Edit modal -->
-		<router-view />
-	</Content>
+		<router-view :key="$route.fullPath" />
+	</NcContent>
 </template>
 
 <script>
+import {
+	showWarning,
+} from '@nextcloud/dialogs'
+import { loadState } from '@nextcloud/initial-state'
 // Import vue components
-import AppNavigation from '@nextcloud/vue/dist/Components/AppNavigation'
-import AppNavigationSpacer from '@nextcloud/vue/dist/Components/AppNavigationSpacer'
-import AppContent from '@nextcloud/vue/dist/Components/AppContent'
-import Content from '@nextcloud/vue/dist/Components/Content'
-import AppNavigationHeader from '../components/AppNavigation/AppNavigationHeader.vue'
-import CalendarList from '../components/AppNavigation/CalendarList.vue'
-import Settings from '../components/AppNavigation/Settings.vue'
-import CalendarListNew from '../components/AppNavigation/CalendarList/CalendarListNew.vue'
-import EmbedTopNavigation from '../components/AppNavigation/EmbedTopNavigation.vue'
-import EmptyCalendar from '../components/EmptyCalendar.vue'
-import CalendarGrid from '../components/CalendarGrid.vue'
-
+import {
+	NcAppContent as AppContent,
+	NcAppNavigation as AppNavigation,
+	NcActionButton,
+	NcActions,
+	NcAppSidebar,
+	NcAppSidebarTab,
+	NcContent,
+} from '@nextcloud/vue'
+import { mapState, mapStores } from 'pinia'
+import PlaylistCheckIcon from 'vue-material-design-icons/PlaylistCheck.vue'
+import AppNavigationHeader from '@/components/AppNavigation/AppNavigationHeader.vue'
+import AppointmentConfigList from '@/components/AppNavigation/AppointmentConfigList.vue'
+import CalendarList from '@/components/AppNavigation/CalendarList.vue'
+import Trashbin from '@/components/AppNavigation/CalendarList/Trashbin.vue'
+import EditCalendarModal from '@/components/AppNavigation/EditCalendarModal.vue'
+import EmbedTopNavigation from '@/components/AppNavigation/EmbedTopNavigation.vue'
+import ProposalList from '@/components/AppNavigation/Proposal/ProposalList.vue'
+import Settings from '@/components/AppNavigation/Settings.vue'
+import UnscheduledTasksList from '@/components/AppNavigation/UnscheduledTasksList.vue'
+import CalendarGrid from '@/components/CalendarGrid.vue'
+import EmptyCalendar from '@/components/EmptyCalendar.vue'
+import EditSimple from '@/views/EditSimple.vue'
+import ProposalEditor from '@/views/Proposal/ProposalEditor.vue'
+import eventClick from '@/fullcalendar/interaction/eventClick.js'
+import { mapDavCollectionToCalendar } from '@/models/calendar.js'
 // Import CalDAV related methods
 import {
+	findAllCalendars,
 	initializeClientForPublicView,
 	initializeClientForUserView,
-} from '../services/caldavService.js'
-
+} from '@/services/caldavService.js'
+import { isNotifyPushAvailable, registerNotifyPushSyncListener } from '@/services/notifyService.ts'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useCalendarsStore from '@/store/calendars.js'
+import useDelegationStore from '@/store/delegation.ts'
+import useFetchedTimeRangesStore from '@/store/fetchedTimeRanges.js'
+import usePrincipalsStore from '@/store/principals.js'
+import useSettingsStore from '@/store/settings.js'
+import useWidgetStore from '@/store/widget.js'
 // Import others
-import { uidToHexColor } from '../utils/color.js'
+import { uidToHexColor } from '@/utils/color.js'
 import {
 	dateFactory,
 	getUnixTimestampFromDate,
 	getYYYYMMDDFromFirstdayParam,
-} from '../utils/date.js'
-import getTimezoneManager from '../services/timezoneDataProviderService'
-import {
-	mapGetters,
-	mapState,
-} from 'vuex'
-import loadMomentLocalization from '../utils/moment.js'
-import { loadState } from '@nextcloud/initial-state'
-import {
-	showWarning,
-} from '@nextcloud/dialogs'
-import '@nextcloud/dialogs/styles/toast.scss'
+} from '@/utils/date.js'
+import logger from '@/utils/logger.js'
+import loadMomentLocalization from '@/utils/moment.js'
+import { isAfterVersion } from '@/utils/nextcloudVersion.ts'
+import { getViewMode, ViewMode } from '@/utils/router.js'
+
+import '@nextcloud/dialogs/style.css'
 
 export default {
 	name: 'Calendar',
 	components: {
+		AppointmentConfigList,
+		UnscheduledTasksList,
 		CalendarGrid,
 		EmptyCalendar,
 		EmbedTopNavigation,
 		Settings,
 		CalendarList,
 		AppNavigationHeader,
-		Content,
+		NcContent,
 		AppContent,
 		AppNavigation,
-		AppNavigationSpacer,
-		CalendarListNew,
+		Trashbin,
+		EditCalendarModal,
+		EditSimple,
+		NcActions,
+		NcActionButton,
+		PlaylistCheckIcon,
+		NcAppSidebar,
+		NcAppSidebarTab,
+		ProposalEditor,
+		ProposalList,
 	},
+
+	props: {
+		// Is the calendar in a widget ?
+		isWidget: {
+			type: Boolean,
+			default: false,
+		},
+
+		// The reference token for the widget for public share calendars
+		referenceToken: {
+			type: String,
+			required: false,
+		},
+
+		// Is public share ?
+		isPublic: {
+			type: Boolean,
+			required: false,
+		},
+
+		// Url of private calendar
+		url: {
+			type: String,
+			required: false,
+		},
+	},
+
 	data() {
 		return {
 			loadingCalendars: true,
+			backgroundSyncJob: null,
 			timeFrameCacheExpiryJob: null,
 			showEmptyCalendarScreen: false,
+			tasksSidebarEnabled: false,
 		}
 	},
+
 	computed: {
-		...mapGetters({
+		...mapStores(
+			useFetchedTimeRangesStore,
+			useCalendarsStore,
+			useCalendarObjectsStore,
+			usePrincipalsStore,
+			useSettingsStore,
+			useWidgetStore,
+			useDelegationStore,
+		),
+
+		...mapState(useSettingsStore, {
 			timezoneId: 'getResolvedTimezone',
 		}),
-		...mapState({
-			eventLimit: state => state.settings.eventLimit,
-			skipPopover: state => state.settings.skipPopover,
-			showWeekends: state => state.settings.showWeekends,
-			showWeekNumbers: state => state.settings.showWeekNumbers,
-			slotDuration: state => state.settings.slotDuration,
-			showTasks: state => state.settings.showTasks,
-			timezone: state => state.settings.timezone,
-			modificationCount: state => state.calendarObjects.modificationCount,
-		}),
+
+		...mapState(useSettingsStore, [
+			'timezone',
+			'disableAppointments',
+			'tasksSidebar',
+		]),
+
 		defaultDate() {
-			return getYYYYMMDDFromFirstdayParam(this.$route.params.firstDay)
+			return getYYYYMMDDFromFirstdayParam(this.$route?.params?.firstDay ?? 'now')
 		},
+
+		// The mode this calendar is currently rendered in. This is the single
+		// source of truth for public/embedded/widget state
+		viewMode() {
+			if (this.isWidget) {
+				return this.isPublic ? ViewMode.PUBLIC : ViewMode.WIDGET
+			}
+			return getViewMode(this.$route?.name)
+		},
+
 		isEditable() {
 			// We do not allow drag and drop when the editor is open.
-			return !this.isPublicShare
-				&& !this.isEmbedded
-				&& this.$route.name !== 'EditPopoverView'
-				&& this.$route.name !== 'EditSidebarView'
+			return this.isAuthenticatedUser
+				&& this.$route?.name !== 'EditPopoverView'
+				&& this.$route?.name !== 'EditFullView'
 		},
+
 		isSelectable() {
-			return !this.isPublicShare && !this.isEmbedded
+			return this.isAuthenticatedUser
 		},
+
 		isAuthenticatedUser() {
-			return !this.isPublicShare && !this.isEmbedded
+			return this.viewMode === ViewMode.USER
 		},
+
 		isPublicShare() {
-			return this.$route.name.startsWith('Public')
+			return this.viewMode === ViewMode.PUBLIC
 		},
+
 		isEmbedded() {
-			return this.$route.name.startsWith('Embed')
+			return this.viewMode === ViewMode.EMBEDDED
 		},
+
+		showWidgetEventDetails() {
+			return this.widgetStore.widgetEventDetailsOpen && this.$refs.calendarGridWidget.$el === this.widgetStore.widgetRef
+		},
+
 		showHeader() {
-			return this.isPublicShare && this.isEmbedded
+			return this.isPublicShare && this.isEmbedded && this.isWidget
 		},
+
 		classNames() {
 			if (this.isEmbedded) {
 				return 'app-calendar-public-embedded'
@@ -164,16 +289,31 @@ export default {
 			return null
 		},
 	},
+
 	created() {
+		if (isNotifyPushAvailable() && registerNotifyPushSyncListener()) {
+			logger.info('Using notify_push sync')
+		} else {
+			logger.info('Using periodic background sync')
+			this.backgroundSyncJob = setInterval(async () => {
+				const currentUserPrincipal = this.principalsStore.getCurrentUserPrincipal
+				const calendars = (await findAllCalendars())
+					.map((calendar) => mapDavCollectionToCalendar(calendar, currentUserPrincipal))
+				for (const calendar of calendars) {
+					this.calendarsStore.syncCalendar({ calendar, skipIfUnchangedSyncToken: true })
+				}
+			}, 1000 * 60)
+		}
+
 		this.timeFrameCacheExpiryJob = setInterval(() => {
 			const timestamp = (getUnixTimestampFromDate(dateFactory()) - 60 * 10)
-			const timeRanges = this.$store.getters.getAllTimeRangesOlderThan(timestamp)
+			const timeRanges = this.fetchedTimeRangesStore.getAllTimeRangesOlderThan(timestamp)
 
 			for (const timeRange of timeRanges) {
-				this.$store.commit('removeTimeRange', {
+				this.fetchedTimeRangesStore.removeTimeRange({
 					timeRangeId: timeRange.id,
 				})
-				this.$store.commit('deleteFetchedTimeRangeFromCalendar', {
+				this.calendarsStore.deleteFetchedTimeRangeFromCalendarMutation({
 					calendar: {
 						id: timeRange.calendarId,
 					},
@@ -182,8 +322,9 @@ export default {
 			}
 		}, 1000 * 60)
 	},
+
 	async beforeMount() {
-		this.$store.commit('loadSettingsFromServer', {
+		this.settingsStore.loadSettingsFromServer({
 			appVersion: loadState('calendar', 'app_version'),
 			eventLimit: loadState('calendar', 'event_limit'),
 			firstRun: loadState('calendar', 'first_run'),
@@ -191,17 +332,28 @@ export default {
 			showWeekNumbers: loadState('calendar', 'show_week_numbers'),
 			skipPopover: loadState('calendar', 'skip_popover'),
 			slotDuration: loadState('calendar', 'slot_duration'),
+			defaultReminder: loadState('calendar', 'default_reminder'),
+			defaultReminderPartDay: loadState('calendar', 'default_reminder_part_day', loadState('calendar', 'default_reminder')),
+			defaultReminderFullDay: loadState('calendar', 'default_reminder_full_day', loadState('calendar', 'default_reminder')),
 			talkEnabled: loadState('calendar', 'talk_enabled'),
 			tasksEnabled: loadState('calendar', 'tasks_enabled'),
 			timezone: loadState('calendar', 'timezone'),
 			showTasks: loadState('calendar', 'show_tasks'),
+			hideEventExport: loadState('calendar', 'hide_event_export'),
+			forceEventAlarmType: loadState('calendar', 'force_event_alarm_type', false),
+			disableAppointments: loadState('calendar', 'disable_appointments', false),
+			canSubscribeLink: loadState('calendar', 'can_subscribe_link', false),
+			attachmentsFolder: loadState('calendar', 'attachments_folder', false),
+			showResources: loadState('calendar', 'show_resources', true),
+			publicCalendars: loadState('calendar', 'publicCalendars', []),
+			tasksSidebar: loadState('calendar', 'tasks_sidebar', true),
 		})
-		this.$store.dispatch('initializeCalendarJsConfig')
+		this.settingsStore.initializeCalendarJsConfig()
 
-		if (this.$route.name.startsWith('Public') || this.$route.name.startsWith('Embed')) {
+		if (this.viewMode === ViewMode.PUBLIC || this.viewMode === ViewMode.EMBEDDED) {
 			await initializeClientForPublicView()
-			const tokens = this.$route.params.tokens.split('-')
-			const calendars = await this.$store.dispatch('getPublicCalendars', { tokens })
+			const tokens = this.isWidget ? [this.referenceToken] : this.$route.params.tokens.split('-')
+			const calendars = await this.calendarsStore.getPublicCalendars({ tokens })
 			this.loadingCalendars = false
 
 			if (calendars.length === 0) {
@@ -209,8 +361,9 @@ export default {
 			}
 		} else {
 			await initializeClientForUserView()
-			await this.$store.dispatch('fetchCurrentUserPrincipal')
-			const calendars = await this.$store.dispatch('getCalendars')
+			await this.principalsStore.fetchCurrentUserPrincipal()
+			const { calendars, trashBin } = await this.calendarsStore.loadCollections()
+			logger.debug('calendars and trash bin loaded', { calendars, trashBin })
 			const owners = []
 			calendars.forEach((calendar) => {
 				if (owners.indexOf(calendar.owner) === -1) {
@@ -218,9 +371,7 @@ export default {
 				}
 			})
 			owners.forEach((owner) => {
-				this.$store.dispatch('fetchPrincipalByUrl', {
-					url: owner,
-				})
+				this.principalsStore.fetchPrincipalByUrl({ url: owner })
 			})
 
 			const writeableCalendarIndex = calendars.findIndex((calendar) => {
@@ -229,43 +380,103 @@ export default {
 
 			// No writeable calendars? Create a new one!
 			if (writeableCalendarIndex === -1) {
+				logger.info('User has no writable calendar, a new personal calendar will be created')
 				this.loadingCalendars = true
-				await this.$store.dispatch('appendCalendar', {
-					displayName: this.$t('calendars', 'Personal'),
-					color: uidToHexColor(this.$t('calendars', 'Personal')),
+				await this.calendarsStore.appendCalendar({
+					displayName: this.$t('calendar', 'Personal'),
+					color: uidToHexColor(this.$t('calendar', 'Personal')),
 					order: 0,
 				})
+			}
+
+			// Load delegation info: who has delegated their calendars to the current user
+			if (isAfterVersion(34)) {
+				await this.delegationStore.fetchDelegators()
+				await this.delegationStore.fetchDelegatedCalendars()
 			}
 
 			this.loadingCalendars = false
 		}
 	},
+
 	async mounted() {
 		if (this.timezone === 'automatic' && this.timezoneId === 'UTC') {
 			const { toastElement }
-				= showWarning(this.$t('calendar', 'The automatic timezone detection determined your timezone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your timezone manually in the calendar settings.'), { timeout: 60000 })
+				= showWarning(this.$t('calendar', 'The automatic time zone detection determined your time zone to be UTC.\nThis is most likely the result of security measures of your web browser.\nPlease set your time zone manually in the calendar settings.'), { timeout: 60000 })
 
 			toastElement.classList.add('toast-calendar-multiline')
 		}
 		if (getTimezoneManager().getTimezoneForId(this.timezoneId) === null) {
 			const { toastElement }
-				= showWarning(this.$t('calendar', 'Your configured timezone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your timezone in the settings and report this issue.', { timezoneId: this.timezoneId }), { timeout: 60000 })
+				= showWarning(this.$t('calendar', 'Your configured time zone ({timezoneId}) was not found. Falling back to UTC.\nPlease change your time zone in the settings and report this issue.', { timezoneId: this.timezoneId }), { timeout: 60000 })
 
 			toastElement.classList.add('toast-calendar-multiline')
 		}
 
 		await this.loadMomentLocale()
+
+		await this.principalsStore.fetchRoomAndResourcePrincipals()
+		logger.debug('Fetched rooms and resources', {
+			rooms: this.principalsStore.getRoomPrincipals,
+			resources: this.principalsStore.getResourcePrincipals,
+		})
 	},
+
 	methods: {
 		/**
 		 * Loads the locale data for moment.js
 		 *
-		 * @returns {Promise<void>}
+		 * @return {Promise<void>}
 		 */
 		async loadMomentLocale() {
 			const locale = await loadMomentLocalization()
-			this.$store.commit('setMomentLocale', { locale })
+			this.settingsStore.setMomentLocale({ locale })
 		},
+
+		toggletasksSidebar() {
+			this.settingsStore.toggleTasksSidebar()
+		},
+
+		handleTasksEmpty(isEmpty) {
+			this.tasksSidebarEnabled = !isEmpty
+		},
+
+		handleTaskClick(task) {
+			const grid = this.$refs.CalendarGrid
+			eventClick(task, grid.$route, window)({ event: task })
+		},
+
 	},
 }
 </script>
+
+<style lang="scss">
+.app-navigation-toggle-wrapper {
+	position: absolute;
+	top: var(--app-navigation-padding);
+	inset-inline-end: 0;
+}
+
+.calendar-wrapper {
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+
+.toggle-button {
+	position: absolute;
+	top: 2px;
+	inset-inline-end: var(--app-navigation-padding);
+	z-index: 1000;
+}
+
+.calendar-Widget {
+	width: 100%;
+}
+
+.property-title-time-picker__time-pickers-from, .property-title-time-picker__time-pickers-to {
+	margin-inline-start: unset !important;
+	padding-inline-end: unset !important;
+}
+</style>
+```

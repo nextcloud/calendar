@@ -1,0 +1,74 @@
+/*!
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+.modal--scheduler {
+	position: relative;
+
+	.fc-bgevent {
+		opacity: .8;
+	}
+
+	.blocking-event-free-busy {
+		border-color: var(--color-primary-element);
+		border-style: solid;
+		border-inline-start-width: 2px;
+		border-inline-end-width: 2px;
+		background-color: transparent !important;
+		opacity: 0.7 !important;
+		z-index: 2;
+	}
+
+	.blocking-event-free-busy.blocking-event-free-busy--first-row {
+		border-radius: var(--border-radius) var(--border-radius) 0 0;
+		border-block-start-width: 2px;
+	}
+
+	.blocking-event-free-busy.blocking-event-free-busy--last-row {
+		border-radius: 0 0 var(--border-radius) var(--border-radius) ;
+		border-block-end-width: 2px;
+	}
+
+	.loading-indicator {
+		width: 100%;
+		position: absolute;
+		top: 0;
+		height: 50px;
+		margin-top: 75px;
+	}
+}
+
+.freebusy-caption {
+	margin-top: 10px;
+
+	&__calendar-user-types,
+	&__colors {
+		width: 50%;
+		display: flex;
+	}
+
+	&__colors {
+		width: 100%;
+		display:flex;
+		flex-direction: column;
+		padding: 5px;
+		.freebusy-caption-item {
+			display: flex;
+			align-items: center;
+			margin-inline-end: 30px;
+
+			&__color {
+				height: 1em;
+				width: 2em;
+				display: block;
+				border: 1px solid var(--color-border-dark);
+				opacity: 0.8;
+			}
+
+			&__label {
+				margin-inline-start: 5px;
+			}
+		}
+	}
+}

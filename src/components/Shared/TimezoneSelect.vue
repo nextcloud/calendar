@@ -1,45 +1,53 @@
+<!--
+  - SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <template>
-	<Multiselect
-		:value="selectedTimezone"
+	<NcSelect
+		v-model="selectedTimezone"
 		:options="options"
 		:multiple="false"
-		:group-select="false"
+		:groupSelect="false"
 		:placeholder="placeholder"
-		group-values="regions"
-		group-label="continent"
-		track-by="timezoneId"
+		:clearable="false"
+		groupValues="regions"
+		groupLabel="continent"
+		trackBy="timezoneId"
 		label="label"
-		open-direction="above"
-		@input="change" />
+		openDirection="above" />
 </template>
 
 <script>
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import {
-	getReadableTimezoneName,
-	getSortedTimezoneList,
-} from '../../utils/timezone.js'
-import getTimezoneManager from '../../services/timezoneDataProviderService.js'
+import { translate as t } from '@nextcloud/l10n'
+import { getReadableTimezoneName, getSortedTimezoneList } from '@nextcloud/timezones'
+import { NcSelect } from '@nextcloud/vue'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
 
 export default {
 	name: 'TimezoneSelect',
 	components: {
-		Multiselect,
+		NcSelect,
 	},
+
 	props: {
 		additionalTimezones: {
 			type: Array,
 			default: () => [],
 		},
+
 		value: {
 			type: String,
 			default: 'floating',
 		},
 	},
+
+	emits: ['change'],
+
 	computed: {
 		placeholder() {
-			return this.$t('calendar', 'Type to search timezone')
+			return this.$t('calendar', 'Type to search time zone')
 		},
+
 		selectedTimezone: {
 			get() {
 				for (const additionalTimezone of this.additionalTimezones) {
@@ -53,20 +61,26 @@ export default {
 					timezoneId: this.value,
 				}
 			},
+
+			set(newValue) {
+				if (!newValue) {
+					return
+				}
+
+				this.$emit('change', newValue.timezoneId)
+			},
 		},
+
 		options() {
 			const timezoneManager = getTimezoneManager()
-			return getSortedTimezoneList(timezoneManager.listAllTimezones(), this.additionalTimezones)
+			return getSortedTimezoneList(
+				timezoneManager.listAllTimezones(),
+				this.additionalTimezones,
+				// TRANSLATORS This refers to global timezones in the timezone picker
+				t('calendar', 'Global'),
+			)
 		},
 	},
-	methods: {
-		change(newValue) {
-			if (!newValue) {
-				return
-			}
 
-			this.$emit('change', newValue.timezoneId)
-		},
-	},
 }
 </script>

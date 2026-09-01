@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2023 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<psalm
+    errorLevel="3"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config"
+    errorBaseline="tests/psalm-baseline.xml"
+	findUnusedCode="false"
+	findUnusedBaselineEntry="false"
+	phpVersion="8.2"
+>
+    <projectFiles>
+        <directory name="lib" />
+		<ignoreFiles>
+			<directory name="vendor" />
+			<directory name="vendor-bin" />
+		</ignoreFiles>
+    </projectFiles>
+    <extraFiles>
+        <directory name="vendor" />
+		<directory name="vendor/nextcloud/ocp" />
+    </extraFiles>
+	<issueHandlers>
+		<UndefinedClass>
+			<errorLevel type="suppress">
+				<referencedClass name="Doctrine\DBAL\Platforms\MySQLPlatform" />
+				<referencedClass name="Doctrine\DBAL\Platforms\PostgreSQL94Platform" />
+				<referencedClass name="Doctrine\DBAL\Platforms\SqlitePlatform" />
+				<referencedClass name="Doctrine\DBAL\Types\Type" />
+				<referencedClass name="Doctrine\DBAL\Types\Types" />
+				<referencedClass name="OC\Security\CSP\ContentSecurityPolicyNonceManager" />
+				<referencedClass name="OC\App\CompareVersion" />
+				<referencedClass name="OCA\Circles\Api\v1\Circles" />
+				<referencedClass name="OCA\Circles\Exceptions\CircleNotFoundException" />
+				<referencedClass name="OCA\Calendar\Controller\Exception" />
+				<referencedClass name="OCA\DAV\CalDAV\Calendar" />
+				<referencedClass name="OCA\DAV\CalDAV\CalendarHome" />
+				<referencedClass name="OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer" />
+				<referencedClass name="OCA\NotifyPush\Queue\IQueue" />
+				<referencedClass name="Psr\Http\Client\ClientExceptionInterface" />
+				<referencedClass name="Sabre\VObject\Component\VCalendar" />
+				<referencedClass name="Sabre\VObject\Component\VEvent" />
+				<referencedClass name="Sabre\VObject\Component\VTimezone" />
+				<referencedClass name="Sabre\VObject\TimeZoneUtil" />
+				<referencedClass name="Symfony\Component\HttpFoundation\IpUtils" />
+				<referencedClass name="Symfony\Component\Console\Command\Command" />
+				<referencedClass name="Symfony\Component\Console\Input\InputArgument" />
+				<referencedClass name="Symfony\Component\Console\Input\InputInterface" />
+				<referencedClass name="Symfony\Component\Console\Input\InputOption" />
+				<referencedClass name="Symfony\Component\Console\Output\OutputInterface" />
+				<referencedClass name="Symfony\Component\Uid\Uuid" />
+			</errorLevel>
+		</UndefinedClass>
+		<UndefinedDocblockClass>
+			<errorLevel type="suppress">
+				<referencedClass name="Doctrine\DBAL\Driver\Statement" />
+				<referencedClass name="Doctrine\DBAL\Platforms\AbstractPlatform" />
+				<referencedClass name="Doctrine\DBAL\Schema\Schema" />
+				<referencedClass name="Doctrine\DBAL\Schema\SchemaException" />
+				<referencedClass name="Doctrine\DBAL\Schema\Table" />
+				<referencedClass name="OC\Security\CSP\ContentSecurityPolicyNonceManager" />
+				<referencedClass name="Sabre\VObject\Component\VAlarm" />
+				<referencedClass name="Sabre\VObject\Component\VEvent" />
+				<referencedClass name="Sabre\VObject\Component\VTimezone" />
+				<referencedClass name="OC\App\CompareVersion" />
+				<referencedClass name="OCA\Calendar\Controller\Exception" />
+				<referencedClass name="OCA\Circles\Api\v1\Circles" />
+				<referencedClass name="OCA\DAV\CalDAV\Calendar" />
+				<referencedClass name="OCA\DAV\CalDAV\CalendarHome" />
+				<referencedClass name="OCA\DAV\CalDAV\CalendarImpl" />
+				<referencedClass name="OCA\DAV\CalDAV\InvitationResponse\InvitationResponseServer" />
+				<referencedClass name="Symfony\Component\Console\Output\OutputInterface" />
+			</errorLevel>
+		</UndefinedDocblockClass>
+	</issueHandlers>
+</psalm>

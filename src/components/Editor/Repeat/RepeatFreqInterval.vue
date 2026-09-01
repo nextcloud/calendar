@@ -1,39 +1,20 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<div class="repeat-option-set repeat-option-set--interval-freq">
-		<span class="repeat-option-set__label">
-			{{ repeatEveryLabel }}
-		</span>
-		<input
+		<NcTextField
 			v-if="!isIntervalDisabled"
-			class="intervalInput"
+			v-model="localInterval"
+			:label="repeatEveryLabel"
 			type="number"
+			class="repeat-option-set__interval"
 			min="1"
-			max="366"
-			:value="interval"
-			@input="changeInterval">
+			max="366" />
 		<RepeatFreqSelect
+			class="repeat-option-set__frequency"
 			:freq="frequency"
 			:count="interval"
 			@change="changeFrequency" />
@@ -41,53 +22,83 @@
 </template>
 
 <script>
-import RepeatFreqSelect from './RepeatFreqSelect.vue'
+import NcTextField from '@nextcloud/vue/components/NcTextField'
+import RepeatFreqSelect from '@/components/Editor/Repeat/RepeatFreqSelect.vue'
 
 export default {
 	name: 'RepeatFreqInterval',
 	components: {
 		RepeatFreqSelect,
+		NcTextField,
 	},
+
 	props: {
 		frequency: {
 			type: String,
 			required: true,
 		},
+
 		interval: {
 			type: Number,
 			required: true,
 		},
 	},
+
+	emits: ['changeInterval', 'changeFrequency'],
+
 	computed: {
 		repeatEveryLabel() {
-			console.debug(this.frequency)
 			if (this.frequency === 'NONE') {
 				return this.$t('calendar', 'Repeat')
 			}
 
 			return this.$t('calendar', 'Repeat every')
 		},
+
 		isIntervalDisabled() {
 			return this.frequency === 'NONE'
 		},
+
+		localInterval: {
+			get() {
+				return this.interval
+			},
+
+			set(value) {
+				const minimumValue = parseInt(this.$el?.querySelector('input')?.min || '1', 10)
+				const maximumValue = parseInt(this.$el?.querySelector('input')?.max || '366', 10)
+				const selectedValue = parseInt(value, 10)
+
+				if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
+					this.$emit('changeInterval', selectedValue)
+				}
+			},
+		},
 	},
+
 	methods: {
 		changeFrequency(value) {
 			this.$emit('changeFrequency', value)
 		},
-		/**
-		 *
-		 * @param {Event} event The Input-event triggered when modifying the input
-		 */
-		changeInterval(event) {
-			const minimumValue = parseInt(event.target.min, 10)
-			const maximumValue = parseInt(event.target.max, 10)
-			const selectedValue = parseInt(event.target.value, 10)
-
-			if (selectedValue >= minimumValue && selectedValue <= maximumValue) {
-				this.$emit('changeInterval', selectedValue)
-			}
-		},
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.repeat-option-set {
+	&--interval-freq {
+		display: flex;
+		flex-direction: row;
+		gap: var(--default-grid-baseline);
+	}
+
+	&__interval {
+		flex: 1 1 0px;
+	}
+
+	&__frequency {
+		min-width: initial;
+		flex: 1 1 0px;
+	}
+}
+</style>

@@ -1,0 +1,776 @@
+[
+  {
+    "country": "Albania",
+    "locale": "AL",
+    "language": "sq",
+    "filename": "autogen/AlbaniaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Algeria (Arabic)",
+    "locale": "DZ",
+    "language": "ar",
+    "filename": "autogen/AlgeriaHolidaysArabic.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Algeria (French)",
+    "locale": "DZ",
+    "language": "fr",
+    "filename": "autogen/AlgeriaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Argentina",
+    "locale": "AR",
+    "language": "es",
+    "filename": "autogen/ArgentinaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Armenia",
+    "locale": "AM",
+    "language": "hy",
+    "filename": "autogen/ArmeniaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Australia",
+    "locale": "AU",
+    "language": "en",
+    "filename": "autogen/AustraliaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Austrian",
+    "locale": "AT",
+    "language": "de",
+    "filename": "autogen/AustrianHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Belgian (French)",
+    "locale": "BE",
+    "language": "fr",
+    "filename": "autogen/BelgianHolidaysFrench.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Belgian (Dutch)",
+    "locale": "BE",
+    "language": "nl",
+    "filename": "autogen/BelgianHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Bolivia",
+    "locale": "BO",
+    "language": "es",
+    "filename": "autogen/BoliviaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Brazil",
+    "locale": "BR",
+    "language": "pt",
+    "filename": "autogen/BrazilHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Bulgaria",
+    "locale": "BG",
+    "language": "bg",
+    "filename": "autogen/BulgarianHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Canada (English)",
+    "locale": "CA",
+    "language": "en",
+    "filename": "autogen/CanadaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Canada (French)",
+    "locale": "CA",
+    "language": "fr",
+    "filename": "autogen/CanadaHolidaysFrench.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Chile",
+    "locale": "CL",
+    "language": "es",
+    "filename": "autogen/ChileHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "China",
+    "locale": "CN",
+    "language": "zh",
+    "filename": "autogen/ChinaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Colombia",
+    "locale": "CO",
+    "language": "es",
+    "filename": "autogen/ColombianHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Costa Rica",
+    "locale": "CR",
+    "language": "es",
+    "filename": "autogen/CostaRicaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Croatia",
+    "locale": "HR",
+    "language": "hr",
+    "filename": "autogen/CroatiaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Czech",
+    "locale": "CZ",
+    "language": "cs",
+    "filename": "autogen/CzechHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Denmark",
+    "locale": "DK",
+    "language": "da",
+    "filename": "autogen/DenmarkHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Dominican Republic",
+    "locale": "DO",
+    "language": "es",
+    "filename": "autogen/DominicanRepublicHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Netherlands (Dutch)",
+    "locale": "NL",
+    "language": "nl",
+    "filename": "autogen/DutchHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Netherlands (English)",
+    "locale": "NL",
+    "language": "en",
+    "filename": "autogen/DutchHolidaysEnglish.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Netherlands (German)",
+    "locale": "NL",
+    "language": "de",
+    "filename": "autogen/DutchHolidaysGerman.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Netherlands (French)",
+    "locale": "NL",
+    "language": "fr",
+    "filename": "autogen/DutchHolidaysFrench.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Estonia",
+    "locale": "EE",
+    "language": "et",
+    "filename": "autogen/EstoniaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Finland (Finnish)",
+    "locale": "FI",
+    "language": "fi",
+    "filename": "autogen/FinlandHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Finland (Swedish)",
+    "locale": "FI",
+    "language": "sv",
+    "filename": "autogen/FinlandHolidaysSwedish.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "France",
+    "locale": "FR",
+    "language": "fr",
+    "filename": "autogen/FrenchHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Germany",
+    "locale": "DE",
+    "language": "de",
+    "filename": "autogen/GermanHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Greece",
+    "locale": "GR",
+    "language": "el",
+    "filename": "autogen/GreeceHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Guyana",
+    "locale": "GY",
+    "language": "en",
+    "filename": "autogen/GuyanaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Haiti",
+    "locale": "HT",
+    "language": "ht",
+    "filename": "autogen/HaitiHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Hong Kong",
+    "locale": "HK",
+    "language": "zh",
+    "filename": "autogen/HongKongHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Hungary",
+    "locale": "HU",
+    "language": "hu",
+    "filename": "autogen/HungarianHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Iceland",
+    "locale": "IS",
+    "language": "is",
+    "filename": "autogen/IcelandHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "India",
+    "locale": "IN",
+    "language": "hi",
+    "filename": "autogen/IndiaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Indonesia",
+    "locale": "ID",
+    "language": "id",
+    "filename": "autogen/IndonesiaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Ireland (Irish)",
+    "locale": "IE",
+    "language": "ga",
+    "filename": "autogen/IrelandHolidaysIrish.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Ireland (English)",
+    "locale": "IE",
+    "language": "en",
+    "filename": "autogen/IrelandHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Israel",
+    "locale": "IL",
+    "language": "en",
+    "filename": "autogen/IsraelHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Italy",
+    "locale": "IT",
+    "language": "it",
+    "filename": "autogen/ItalianHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Japan",
+    "locale": "JP",
+    "language": "ja",
+    "filename": "autogen/JapanHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Kazakhstan",
+    "locale": "KZ",
+    "language": "kk",
+    "filename": "autogen/KazakhstanHolidaysEnglish.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Kenya",
+    "locale": "KE",
+    "language": "sw",
+    "filename": "autogen/KenyaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Latvia",
+    "locale": "LV",
+    "language": "lv",
+    "filename": "autogen/LatviaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Lebanon",
+    "locale": "LB",
+    "language": "ar",
+    "filename": "autogen/LebanonHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Liechtenstein",
+    "locale": "LI",
+    "language": "de",
+    "filename": "autogen/LiechtensteinHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Lithuania",
+    "locale": "LT",
+    "language": "lt",
+    "filename": "autogen/LithuanianHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Luxembourg (French)",
+    "locale": "LU",
+    "language": "fr",
+    "filename": "autogen/LuxembourgHolidaysFrench.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Luxembourg (German)",
+    "locale": "LU",
+    "language": "de",
+    "filename": "autogen/LuxembourgHolidaysGerman.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Malaysia",
+    "locale": "MY",
+    "language": "ms",
+    "filename": "autogen/MalaysiaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Malta",
+    "locale": "MT",
+    "language": "mt",
+    "filename": "autogen/MaltaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Mexico",
+    "locale": "MX",
+    "language": "es",
+    "filename": "autogen/MexicoHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Morocco",
+    "locale": "MA",
+    "language": "ar",
+    "filename": "autogen/MoroccoHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Namibia",
+    "locale": "NA",
+    "language": "en",
+    "filename": "autogen/NamibiaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "New Zealand",
+    "locale": "NZ",
+    "language": "en",
+    "filename": "autogen/NewZealandHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Nicaragua",
+    "locale": "NI",
+    "language": "en",
+    "filename": "autogen/NicaraguaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Norway",
+    "locale": "NO",
+    "language": "no",
+    "filename": "autogen/NorwegianHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Pakistan",
+    "locale": "PK",
+    "language": "ur",
+    "filename": "autogen/PakistanHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Peru",
+    "locale": "PE",
+    "language": "es",
+    "filename": "autogen/PeruHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Philippines",
+    "locale": "PH",
+    "language": "en",
+    "filename": "autogen/PhilippinesHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Polish",
+    "locale": "PL",
+    "language": "pl",
+    "filename": "autogen/PolishHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Portugal",
+    "locale": "PT",
+    "language": "pt",
+    "filename": "autogen/PortugalHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Puerto Rico",
+    "locale": "PR",
+    "language": "en",
+    "filename": "autogen/PuertoRicoHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Romania",
+    "locale": "RO",
+    "language": "ro",
+    "filename": "autogen/RomaniaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Russia",
+    "locale": "RU",
+    "language": "ru",
+    "filename": "autogen/RussiaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Singapore",
+    "locale": "SG",
+    "language": "ms",
+    "filename": "autogen/SingaporeHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Slovakia",
+    "locale": "SK",
+    "language": "sk",
+    "filename": "autogen/SlovakHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Slovenia",
+    "locale": "SI",
+    "language": "sl",
+    "filename": "autogen/SlovenianHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "South Africa",
+    "locale": "ZA",
+    "language": "en",
+    "filename": "autogen/SouthAfricaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "South Korea",
+    "locale": "KR",
+    "language": "ko",
+    "filename": "autogen/SouthKoreaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Spain",
+    "locale": "ES",
+    "language": "es",
+    "filename": "autogen/SpainHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Sri Lanka",
+    "locale": "LK",
+    "language": "en",
+    "filename": "autogen/SriLankaHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Swedish",
+    "locale": "SE",
+    "language": "sv",
+    "filename": "autogen/SwedishHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Switzerland",
+    "locale": "CH",
+    "language": "en",
+    "filename": "autogen/SwissHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Taiwan",
+    "locale": "TW",
+    "language": "zh",
+    "filename": "autogen/TaiwanHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Thailand",
+    "locale": "TH",
+    "language": "th",
+    "filename": "autogen/ThailandHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Trinidad and Tobago",
+    "locale": "TT",
+    "language": "en",
+    "filename": "autogen/TrinidadandTobagoHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Turkey",
+    "locale": "TR",
+    "language": "tr",
+    "filename": "autogen/TurkeyHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "United Kingdom",
+    "locale": "GB",
+    "language": "en",
+    "filename": "autogen/UKHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Ukraine",
+    "locale": "UA",
+    "language": "uk",
+    "filename": "autogen/UkraineHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Uruguay",
+    "locale": "UY",
+    "language": "es",
+    "filename": "autogen/UruguayHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "United States",
+    "locale": "US",
+    "language": "en",
+    "filename": "autogen/USHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  },
+  {
+    "country": "Vietnam",
+    "locale": "VN",
+    "language": "vi",
+    "filename": "autogen/VietnamHolidays.ics",
+    "datespan": "2024-2027",
+    "authors": "Thunderbird",
+    "updated": "2024-04-01T16:00:03+00:00"
+  }
+]

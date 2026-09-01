@@ -1,41 +1,21 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import {
-	NamedTimeZoneImpl,
-	createPlugin,
-} from '@fullcalendar/core'
-import getTimezoneManager from '../../services/timezoneDataProviderService'
-import logger from '../../utils/logger.js'
+import { createPlugin } from '@fullcalendar/core'
+import { NamedTimeZoneImpl } from '@fullcalendar/core/internal'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import logger from '@/utils/logger.js'
 
 /**
  * Our own FullCalendar Timezone implementation based on the VTimezones we ship
  */
 class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
-
 	/**
 	 * gets UTC offset for given date of this timezone
 	 *
-	 * @param {Number[]} date an array that mirrors the parameters from new Date()
-	 * @returns {Number} offset in minutes
+	 * @param {number[]} date an array that mirrors the parameters from new Date()
+	 * @return {number} offset in minutes
 	 */
 	offsetForArray([year, month, day, hour, minute, second]) {
 		let timezone = getTimezoneManager().getTimezoneForId(this.timeZoneName)
@@ -53,8 +33,8 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 	/**
 	 * returns parameters for Date object in this timezone based on given timestamp
 	 *
-	 * @param {Number} ms Timestamp in milliseconds
-	 * @returns {Number[]}
+	 * @param {number} ms Timestamp in milliseconds
+	 * @return {number[]}
 	 */
 	timestampToArray(ms) {
 		let timezone = getTimezoneManager().getTimezoneForId(this.timeZoneName)
@@ -70,9 +50,9 @@ class VTimezoneNamedTimezone extends NamedTimeZoneImpl {
 
 		return timestampArray
 	}
-
 }
 
 export default createPlugin({
+	name: '@nextcloud/v-timezone-named-timezone-plugin',
 	namedTimeZonedImpl: VTimezoneNamedTimezone,
 })

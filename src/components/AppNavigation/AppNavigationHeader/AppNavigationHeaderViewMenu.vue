@@ -1,109 +1,95 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+<script setup lang="ts">
+import { t } from '@nextcloud/l10n'
+import { NcActionButton, NcActions } from '@nextcloud/vue'
+import { useHotKey } from '@nextcloud/vue/composables/useHotKey'
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import ViewComfy from 'vue-material-design-icons/ViewComfy.vue'
+import ViewDay from 'vue-material-design-icons/ViewDay.vue'
+import ViewGrid from 'vue-material-design-icons/ViewGrid.vue'
+import ViewList from 'vue-material-design-icons/ViewList.vue'
+import ViewModule from 'vue-material-design-icons/ViewModule.vue'
+import ViewWeek from 'vue-material-design-icons/ViewWeek.vue'
+
+const route = useRoute()
+const router = useRouter()
+
+const views = [{
+	id: 'timeGridDay',
+	icon: ViewDay,
+	label: t('calendar', 'Day'),
+}, {
+	id: 'timeGridWeek',
+	icon: ViewWeek,
+	label: t('calendar', 'Week'),
+}, {
+	id: 'dayGridMonth',
+	icon: ViewModule,
+	label: t('calendar', 'Month'),
+}, {
+	id: 'multiMonthYear',
+	icon: ViewComfy,
+	label: t('calendar', 'Year'),
+}, {
+	id: 'listMonth',
+	icon: ViewList,
+	label: t('calendar', 'List'),
+}]
+
+const defaultIcon = computed(() => {
+	for (const view of views) {
+		if (view.id === route.params.view) {
+			return view.icon
+		}
+	}
+
+	return ViewGrid
+})
+
+async function selectView(viewName: string): Promise<void> {
+	// Don't push new route when view didn't change
+	if (route.params.view === viewName) {
+		return
+	}
+
+	const name = route.name!
+	const params = {
+		...route.params,
+		view: viewName,
+	}
+
+	await router.push({ name, params })
+}
+
+useHotKey(['d', '1'], () => selectView('timeGridDay'))
+useHotKey(['w', '2'], () => selectView('timeGridWeek'))
+useHotKey(['m', '3'], () => selectView('dayGridMonth'))
+useHotKey(['y', '4'], () => selectView('multiMonthYear'))
+useHotKey(['l', '5'], () => selectView('listMonth'))
+</script>
 
 <template>
-	<Actions
-		v-shortkey="shortKeyConf"
-		:default-icon="defaultIcon"
-		menu-align="right"
-		@shortkey.native="selectViewFromShortcut">
-		<ActionButton
-			v-for="view in views"
-			:key="view.id"
-			:icon="view.icon"
-			@click="selectView(view.id)">
-			{{ view.label }}
-		</ActionButton>
-	</Actions>
+	<div>
+		<NcActions menuAlign="right">
+			<template #icon>
+				<component :is="defaultIcon" :size="20" />
+			</template>
+			<NcActionButton
+				v-for="view in views"
+				:key="view.id"
+				:icon="view.icon"
+				:closeAfterClick="true"
+				@click="selectView(view.id)">
+				<template #icon>
+					<component :is="view.icon" :size="20" />
+				</template>
+				{{ view.label }}
+			</NcActionButton>
+		</NcActions>
+	</div>
 </template>
-
-<script>
-import Actions from '@nextcloud/vue/dist/Components/Actions'
-import ActionButton from '@nextcloud/vue/dist/Components/ActionButton'
-
-export default {
-	name: 'AppNavigationHeaderViewMenu',
-	components: {
-		Actions,
-		ActionButton,
-	},
-	computed: {
-		views() {
-			return [{
-				id: 'timeGridDay',
-				icon: 'icon-view-day',
-				label: this.$t('calendar', 'Day'),
-			}, {
-				id: 'timeGridWeek',
-				icon: 'icon-view-week',
-				label: this.$t('calendar', 'Week'),
-			}, {
-				id: 'dayGridMonth',
-				icon: 'icon-view-module',
-				label: this.$t('calendar', 'Month'),
-			}, {
-				id: 'listMonth',
-				icon: 'icon-view-list',
-				label: this.$t('calendar', 'List'),
-			}]
-		},
-		shortKeyConf() {
-			return {
-				timeGridDay: ['d'],
-				timeGridDay_Num: [1],
-				timeGridWeek: ['w'],
-				timeGridWeek_Num: [2],
-				dayGridMonth: ['m'],
-				dayGridMonth_Num: [3],
-				listMonth: ['l'],
-				listMonth_Num: [4],
-			}
-		},
-		defaultIcon() {
-			for (const view of this.views) {
-				if (view.id === this.$route.params.view) {
-					return view.icon
-				}
-			}
-
-			return 'icon-toggle-pictures'
-		},
-	},
-	methods: {
-		selectView(viewName) {
-			const name = this.$route.name
-			const params = Object.assign({}, this.$route.params, {
-				view: viewName,
-			})
-
-			// Don't push new route when view didn't change
-			if (this.$route.params.view === viewName) {
-				return
-			}
-
-			this.$router.push({ name, params })
-		},
-		selectViewFromShortcut(event) {
-			this.selectView(event.srcKey.split('_')[0])
-		},
-	},
-}
-</script>

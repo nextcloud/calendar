@@ -1,46 +1,55 @@
 <?xml version="1.0"?>
+<!--
+  - SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 <info xmlns:xsi= "http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>calendar</id>
 	<name>Calendar</name>
 	<summary>A Calendar app for Nextcloud</summary>
-	<description><![CDATA[The Calendar app is a user interface for Nextcloud's CalDAV server. Easily sync events from various devices with your Nextcloud and edit them online.
+	<description><![CDATA[A Calendar app for Nextcloud. Easily sync events from various devices with your Nextcloud and edit them online.
 
-* 🚀 **Integration with other Nextcloud apps!** Currently Contacts - more to come.
-* 🌐 **WebCal Support!** Want to see your favorite team’s matchdays in your calendar? No problem!
+* 🚀 **Integration with other Nextcloud apps!** Like Contacts, Talk, Tasks, Deck and Circles
+* 🌐 **WebCal Support!** Want to see your favorite team's matchdays in your calendar? No problem!
 * 🙋 **Attendees!** Invite people to your events
-* ⌚️ **Free/Busy!** See when your attendees are available to meet
+* ⌚ **Free/Busy!** See when your attendees are available to meet
 * ⏰ **Reminders!** Get alarms for events inside your browser and via email
-* 🔍 Search! Find your events at ease
-* ☑️ Tasks! See tasks with a due date directly in the calendar
+* 🔍 **Search!** Find your events at ease
+* ☑️ **Tasks!** See tasks or Deck cards with a due date directly in the calendar
+* 🔈 **Talk rooms!** Create an associated Talk room when booking a meeting with just one click
+* 📆 **Appointment booking** Send people a link so they can book an appointment with you [using this app](https://apps.nextcloud.com/apps/appointments)
+* 📎 **Attachments!** Add, upload and view event attachments
 * 🙈 **We’re not reinventing the wheel!** Based on the great [c-dav library](https://github.com/nextcloud/cdav-library), [ical.js](https://github.com/mozilla-comm/ical.js) and [fullcalendar](https://github.com/fullcalendar/fullcalendar) libraries.
 	]]></description>
-	<version>2.2.0</version>
+	<version>6.7.0-dev.1</version>
 	<licence>agpl</licence>
-	<author homepage="https://georg.coffee">Georg Ehrke</author>
-	<author homepage="https://tcit.fr">Thomas Citharel</author>
+	<author homepage="https://github.com/GVodyanov">Grigory Vodyanov</author>
+	<author homepage="https://github.com/SebastianKrupinski">Sebastian Krupinski </author>
+	<author homepage="https://github.com/tcitworld">Thomas Citharel</author>
 	<namespace>Calendar</namespace>
 	<documentation>
-		<user>https://docs.nextcloud.com/server/latest/user_manual/en/pim/calendar.html</user>
+		<user>https://docs.nextcloud.com/server/latest/user_manual/en/groupware/calendar.html</user>
+		<admin>https://docs.nextcloud.com/server/latest/admin_manual/groupware/calendar.html</admin>
+		<developer>https://github.com/nextcloud/calendar/wiki</developer>
 	</documentation>
 	<category>office</category>
 	<category>organization</category>
 	<website>https://github.com/nextcloud/calendar/</website>
 	<bugs>https://github.com/nextcloud/calendar/issues</bugs>
 	<repository type="git">https://github.com/nextcloud/calendar.git</repository>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/view_week.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/public_sharing.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar_attendees.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/master/screenshots/sidebar_reminders.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/main/screenshots/week_new_event.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/main/screenshots/week_room_suggestion.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/nextcloud/calendar/main/screenshots/week_sidebar.png</screenshot>
 	<dependencies>
-		<nextcloud min-version="20" max-version="22" />
+		<php min-version="8.2" max-version="8.5" />
+		<nextcloud min-version="34" max-version="36" />
+		<backend>caldav</backend>
 	</dependencies>
-	<repair-steps>
-		<post-migration>
-			<step>OCA\Calendar\RepairSteps\CurrentViewNameRepairStep</step>
-		</post-migration>
-	</repair-steps>
+	<background-jobs>
+		<job>OCA\Calendar\BackgroundJob\CleanUpOutdatedBookingsJob</job>
+	</background-jobs>
 	<navigations>
 		<navigation>
 			<id>calendar</id>

@@ -1,75 +1,106 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<div class="view-button-section">
-		<button :class="{primary: isAgendaDayViewSelected}" class="button" @click="view('timeGridDay')">
+		<NcButton
+			:variant="isAgendaDayViewSelected ? 'primary' : 'secondary'"
+			class="button"
+			@click="view('timeGridDay')">
 			{{ $t('calendar', 'Day') }}
-		</button>
-		<button :class="{primary: isAgendaWeekViewSelected}" class="button" @click="view('timeGridWeek')">
+		</NcButton>
+		<NcButton
+			:variant="isAgendaWeekViewSelected ? 'primary' : 'secondary'"
+			class="button"
+			@click="view('timeGridWeek')">
 			{{ $t('calendar', 'Week') }}
-		</button>
-		<button :class="{primary: isMonthViewSelected}" class="button" @click="view('dayGridMonth')">
+		</NcButton>
+		<NcButton
+			:variant="isMonthViewSelected ? 'primary' : 'secondary'"
+			class="button"
+			@click="view('dayGridMonth')">
 			{{ $t('calendar', 'Month') }}
-		</button>
-		<button :class="{primary: isMonthListViewSelected}" class="button" @click="view('listMonth')">
+		</NcButton>
+		<NcButton
+			:variant="isYearViewSelected ? 'primary' : 'secondary'"
+			class="button"
+			@click="view('multiMonthYear')">
+			{{ $t('calendar', 'Year') }}
+		</NcButton>
+		<NcButton
+			:variant="isMonthListViewSelected ? 'primary' : 'secondary'"
+			class="button"
+			@click="view('listMonth')">
 			{{ $t('calendar', 'List') }}
-		</button>
+		</NcButton>
 	</div>
 </template>
 
 <script>
+import { NcButton } from '@nextcloud/vue'
+import { mapStores } from 'pinia'
+import useWidgetStore from '@/store/widget.js'
+
 export default {
 	name: 'EmbedHeaderViewButtons',
+	components: {
+		NcButton,
+	},
+
+	props: {
+		isWidget: {
+			type: Boolean,
+			default: false,
+		},
+	},
+
 	computed: {
+		...mapStores(useWidgetStore),
 		isAgendaDayViewSelected() {
 			return this.selectedView === 'timeGridDay'
 		},
+
 		isAgendaWeekViewSelected() {
 			return this.selectedView === 'timeGridWeek'
 		},
+
 		isMonthViewSelected() {
 			return this.selectedView === 'dayGridMonth'
 		},
+
+		isYearViewSelected() {
+			return this.selectedView === 'multiMonthYear'
+		},
+
 		isMonthListViewSelected() {
 			return this.selectedView === 'listMonth'
 		},
+
 		selectedView() {
+			if (this.isWidget) {
+				return this.widgetStore.widgetView
+			}
 			return this.$route.params.view
 		},
 	},
+
 	methods: {
 		view(viewName) {
-			const name = this.$route.name
-			const params = Object.assign({}, this.$route.params, {
-				view: viewName,
-			})
+			if (this.isWidget) {
+				this.widgetStore.setWidgetView({ viewName })
+			} else {
+				const name = this.$route.name
+				const params = { ...this.$route.params, view: viewName }
 
-			// Don't push new route when view didn't change
-			if (this.$route.params.view === viewName) {
-				return
+				// Don't push new route when view didn't change
+				if (this.$route.params.view === viewName) {
+					return
+				}
+
+				this.$router.push({ name, params })
 			}
-
-			this.$router.push({ name, params })
 		},
 	},
 }

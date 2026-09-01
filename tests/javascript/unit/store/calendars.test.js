@@ -1,29 +1,39 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+import { createPinia, setActivePinia } from 'pinia'
+import useCalendarsStore from '@/store/calendars.js'
 
 describe('store/calendars test suite', () => {
-
-	it('should be true', () => {
-		expect(true).toEqual(true)
+	beforeEach(() => {
+		setActivePinia(createPinia())
 	})
 
+	it('should provide a getter for all writable calendars sorted', () => {
+		const calendarsStore = useCalendarsStore()
+		const calendarOrderLast = {
+			id: '1',
+			order: 2,
+			supportsEvents: false,
+			supportsJournals: true,
+		}
+		const calendarReadOnly = {
+			id: '2',
+			readOnly: true,
+			supportsEvents: true,
+		}
+		const calendarOrderFirst = {
+			id: '3',
+			order: 1,
+			supportsEvents: true,
+			supportsJournals: false,
+		}
+		calendarsStore.addCalendarMutation({ calendar: calendarOrderLast })
+		calendarsStore.addCalendarMutation({ calendar: calendarReadOnly })
+		calendarsStore.addCalendarMutation({ calendar: calendarOrderFirst })
+
+		const writableCalendars = calendarsStore.sortedWritableCalendarsEvenWithoutSupportForEvents
+		expect(writableCalendars).toMatchObject([calendarOrderFirst, calendarOrderLast])
+	})
 })

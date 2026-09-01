@@ -1,35 +1,24 @@
+import { getDurationValueFromFullCalendarDuration } from '@/fullcalendar/duration.js'
+import { errorCatchAsync } from '@/fullcalendar/utils/errors.js'
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import { getDurationValueFromFullCalendarDuration } from '../duration'
-import { getObjectAtRecurrenceId } from '../../utils/calendarObject.js'
+import useCalendarObjectsStore from '@/store/calendarObjects.js'
+import useCalendarsStore from '@/store/calendars.js'
+import { getObjectAtRecurrenceId } from '@/utils/calendarObject.js'
+import logger from '@/utils/logger.js'
 
 /**
  * Returns a function to resize an event
  *
- * @param {Object} store The Vuex Store
- * @returns {Function}
+ * @return {(info: {event: EventDef, startDelta: object, endDelta: object, revert: () => void}) => Promise<void>}
  */
-export default function(store) {
-	return async function({ event, startDelta, endDelta, revert }) {
+export default function() {
+	const calendarsStore = useCalendarsStore()
+	const calendarObjectsStore = useCalendarObjectsStore()
+
+	return errorCatchAsync(async function({ event, startDelta, endDelta, revert }) {
 		const startDeltaDuration = getDurationValueFromFullCalendarDuration(startDelta)
 		const endDeltaDuration = getDurationValueFromFullCalendarDuration(endDelta)
 
@@ -44,16 +33,16 @@ export default function(store) {
 
 		let calendarObject
 		try {
-			calendarObject = await store.dispatch('getEventByObjectId', { objectId })
+			calendarObject = await calendarsStore.getEventByObjectId({ objectId })
 		} catch (error) {
-			console.debug(error)
+			logger.debug(error)
 			revert()
 			return
 		}
 
 		const eventComponent = getObjectAtRecurrenceId(calendarObject, recurrenceIdDate)
 		if (!eventComponent) {
-			console.debug('Recurrence-id not found')
+			logger.debug('Recurrence-id not found')
 			revert()
 			return
 		}
@@ -70,15 +59,15 @@ export default function(store) {
 		}
 
 		try {
-			await store.dispatch('updateCalendarObject', {
+			await calendarObjectsStore.updateCalendarObject({
 				calendarObject,
 			})
 		} catch (error) {
-			store.commit('resetCalendarObjectToDav', {
+			calendarObjectsStore.resetCalendarObjectToDavMutation({
 				calendarObject,
 			})
-			console.debug(error)
+			logger.debug(error)
 			revert()
 		}
-	}
+	}, 'eventResize')
 }

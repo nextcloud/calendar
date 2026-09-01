@@ -1,37 +1,19 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import {
+	detectColor,
 	generateTextColorForHex,
 	generateTextColorForRGB,
+	getClosestCSS3ColorNameForHex,
+	getHexForColorName,
 	hexToRGB,
 	isLight,
 	uidToHexColor,
-	detectColor,
-	getHexForColorName,
-	getClosestCSS3ColorNameForHex
-} from '../../../../src/utils/color.js'
+} from '@/utils/color.js'
 
 describe('utils/color test suite', () => {
-
 	it('should provide a function to generate a text-color from an rgb string', () => {
 		expect(generateTextColorForHex('#fff')).toEqual('#000000')
 		expect(generateTextColorForHex('#000')).toEqual('#FAFAFA')
@@ -47,8 +29,8 @@ describe('utils/color test suite', () => {
 	})
 
 	it('should determine whether a color is light', () => {
-		expect(isLight({ red: 255, green: 255, blue: 255 })).toEqual(true);
-		expect(isLight({ red: 0, green: 0, blue: 0 })).toEqual(false);
+		expect(isLight({ red: 255, green: 255, blue: 255 })).toEqual(true)
+		expect(isLight({ red: 0, green: 0, blue: 0 })).toEqual(false)
 	})
 
 	it('should provide a RGB object for a hex string', () => {

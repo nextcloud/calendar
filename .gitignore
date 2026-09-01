@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2016-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-FileCopyrightText: 2014-2016 ownCloud, Inc.
+# SPDX-License-Identifier: AGPL-3.0-or-later
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm
 
@@ -62,7 +65,8 @@ build/.sass-cache/
 
 ### Composer ###
 composer.phar
-vendor/
+/vendor/
+/vendor-bin/*/vendor
 
 # vim ex mode
 .vimrc
@@ -71,11 +75,18 @@ vendor/
 .kdev
 *.kdev4
 
+# VSCode / VSCodium
+.vscode/
+*.code-workspace
+
 build/
 js/
 node_modules/
 src/fonts
 *.clover
+
+# CSS extracted from the JS build (CssExtractRspackPlugin)
+css/
 
 # just sane ignores
 .*.sw[po]
@@ -93,11 +104,10 @@ CVS/*
 RCS/*
 
 /.project
-.php_cs.cache
+.php-cs-fixer.cache
 .phpunit.result.cache
 
 coverage/
 
-js/public
-css/public
-
+/playwright-report
+/test-results

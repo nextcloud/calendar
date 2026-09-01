@@ -1,70 +1,77 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<div v-if="display" class="property-text">
-		<div
+	<div
+		v-if="display"
+		class="property-text"
+		:class="{ 'property-text--readonly': isReadOnly }">
+		<component
+			:is="icon"
+			:title="info"
+			:size="20"
+			:name="readableName"
 			class="property-text__icon"
-			:class="icon"
-			:title="readableName" />
+			:class="{ 'property-text__icon--hidden': !showIcon }" />
 
 		<div
 			class="property-text__input"
-			:class="{ 'property-text__input--readonly': isReadOnly }">
+			:class="{ 'property-text__input--readonly': isReadOnly, 'property-text__input--linkify': showLinksClickable }">
 			<textarea
-				v-if="!isReadOnly"
+				v-if="!isReadOnly && !showLinksClickable"
 				v-autosize="true"
+				:aria-label="readableName"
 				:placeholder="placeholder"
 				:rows="rows"
-				:title="readableName"
+				:name="readableName"
 				:value="value"
+				:class="{ 'textarea--description': isDescription }"
+				@focus="handleToggleTextareaFocus(true)"
+				@blur="handleToggleTextareaFocus(false)"
 				@input.prevent.stop="changeValue" />
 			<!-- eslint-disable-next-line vue/singleline-html-element-content-newline -->
 			<div
 				v-else
-				v-linkify="value" />
+				v-linkify="{ text: value, linkify: true }"
+				class="property-text__readonly-value"
+				:class="{ 'linkify-links': linkifyLinks && !isReadOnly }"
+				:style="{ 'min-height': linkifyMinHeight }"
+				@click="handleShowTextarea" />
 		</div>
-
-		<div
-			v-if="hasInfo"
-			v-tooltip="info"
-			class="property-text__info icon-details" />
 	</div>
 </template>
 
 <script>
-import autosize from '../../../directives/autosize.js'
-import PropertyMixin from '../../../mixins/PropertyMixin'
-import { linkify } from '../../../directives/linkify.js'
+import { Linkify } from '@nextcloud/vue'
+import InformationVariant from 'vue-material-design-icons/InformationVariant.vue'
+import autosize from '@/directives/autosize.js'
+import PropertyLinksMixin from '@/mixins/PropertyLinksMixin.js'
+import PropertyMixin from '@/mixins/PropertyMixin.js'
 
 export default {
 	name: 'PropertyText',
 	directives: {
 		autosize,
-		linkify,
+		Linkify,
+		InformationVariant,
 	},
+
 	mixins: [
 		PropertyMixin,
+		PropertyLinksMixin,
 	],
+
+	props: {
+		isDescription: {
+			type: Boolean,
+			default: false,
+		},
+	},
+
+	emits: ['update:value'],
+
 	computed: {
 		display() {
 			if (this.isReadOnly) {
@@ -78,16 +85,18 @@ export default {
 
 			return true
 		},
+
 		/**
 		 * Returns the default number of rows for a textarea.
 		 * This is used to give the description field an automatic size 2 rows
 		 *
-		 * @returns {number}
+		 * @return {number}
 		 */
 		rows() {
 			return this.propModel.defaultNumberOfRows || 1
 		},
 	},
+
 	methods: {
 		changeValue(event) {
 			if (event.target.value.trim() === '') {
@@ -99,3 +108,42 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss" scoped>
+.property-text {
+	position: relative;
+}
+
+.property-text__icon {
+	position: absolute;
+	top: calc(var(--default-grid-baseline) * 1);
+}
+
+.property-text__input {
+	padding-inline-start: calc(var(--default-grid-baseline) * 9);
+}
+
+.edit-simple .property-text__input {
+	padding-inline-start: calc(var(--default-grid-baseline) * 12);
+}
+
+.property-text--readonly .property-text__input {
+	padding-inline-start: calc(var(--default-grid-baseline) * 9);
+}
+
+.property-text__readonly-value {
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+.textarea--description {
+	height: 120px;
+	overflow-y: auto;
+}
+
+textarea {
+	margin: 0 !important;
+	margin-bottom: -8px !important;
+	resize: none;
+}
+</style>

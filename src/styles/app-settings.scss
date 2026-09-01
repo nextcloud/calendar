@@ -1,0 +1,27 @@
+/*!
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+#app-settings-modal {
+	.settings-fieldset-interior-item {
+		align-items: stretch;
+	}
+
+	.button-content-with-icon {
+		display: flex;
+		align-items: center;
+		gap: calc(var(--default-grid-baseline) * 2);
+	}
+
+	.no-wrap-label {
+		white-space: nowrap;
+	}
+}
+
+// Fix the shortcut overview on smaller screens
+@media screen and (max-width: 800px) {
+	.shortcut-overview-modal .modal-container .shortcut-section {
+		width: 100%;
+	}
+}

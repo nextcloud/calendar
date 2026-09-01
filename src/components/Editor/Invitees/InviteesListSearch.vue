@@ -1,119 +1,124 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
-	<Multiselect
-		class="invitees-search"
+	<NcSelect
+		class="invitees-search__vselect"
 		:options="matches"
 		:searchable="true"
-		:internal-search="false"
+		:filterBy="filterAttendees"
 		:max-height="600"
-		:show-no-results="true"
-		:show-no-options="false"
 		:placeholder="placeholder"
-		:class="{ 'showContent': inputGiven, 'icon-loading': isLoading }"
-		open-direction="bottom"
-		track-by="email"
+		:class="{ showContent: inputGiven, 'icon-loading': isLoading }"
+		:clearable="false"
+		:ariaLabelCombobox="$t('calendar', 'Search for attendees')"
+		inputId="invitees-search-uid"
 		label="dropdownName"
-		@search-change="findAttendees"
-		@select="addAttendee">
-		<!--<template slot="singleLabel" slot-scope="props"><img class="option__image" :src="props.option.img" alt="No Man’s Sky"><span class="option__desc"><span class="option__title">{{ props.option.title }}</span></span></template>-->
-		<template slot="singleLabel" slot-scope="props">
+		@search="findAttendees"
+		@option:selected="addAttendee">
+		<template #option="option">
 			<div class="invitees-search-list-item">
-				<Avatar v-if="props.option.isUser" :user="props.option.avatar" :display-name="props.option.dropdownName" />
-				<Avatar v-if="!props.option.isUser" :url="props.option.avatar" :display-name="props.option.dropdownName" />
-				<div v-if="props.option.hasMultipleEMails" class="invitees-search-list-item__label invitees-search-list-item__label--with-displayname">
+				<!-- We need to specify a unique key here for the avatar to be reactive. -->
+				<Avatar
+					v-if="option.isUser"
+					:key="option.uid"
+					:url="option.avatar"
+					:displayName="option.dropdownName" />
+				<Avatar v-else-if="option.type === 'circle'">
+					<template #icon>
+						<GoogleCirclesCommunitiesIcon :size="20" />
+					</template>
+				</Avatar>
+				<Avatar
+					v-if="!option.isUser && option.type !== 'circle'"
+					:key="option.uid"
+					:url="option.avatar"
+					:displayName="option.commonName" />
+
+				<div class="invitees-search-list-item__label">
 					<div>
-						{{ props.option.commonName }}
+						{{ option.commonName }}
 					</div>
-					<div>
-						{{ props.option.email }}
+					<div v-if="option.email !== option.commonName && option.type !== 'circle' && option.type !== 'contactsgroup'">
+						{{ option.email }}
 					</div>
-				</div>
-				<div v-else class="invitees-search-list-item__label invitees-search-list-item__label--single-email">
-					<div>
-						{{ props.option.dropdownName }}
+					<div v-if="option.type === 'circle' || option.type === 'contactsgroup'">
+						{{ option.subtitle }}
 					</div>
 				</div>
 			</div>
 		</template>
-		<template slot="option" slot-scope="props">
-			<div class="invitees-search-list-item">
-				<Avatar v-if="props.option.isUser" :user="props.option.avatar" :display-name="props.option.dropdownName" />
-				<Avatar v-if="!props.option.isUser" :url="props.option.avatar" :display-name="props.option.dropdownName" />
-				<div v-if="props.option.hasMultipleEMails" class="invitees-search-list-item__label invitees-search-list-item__label--with-multiple-email">
-					<div>
-						{{ props.option.commonName }}
-					</div>
-					<div>
-						{{ props.option.email }}
-					</div>
-				</div>
-				<div v-else class="invitees-search-list-item__label invitees-search-list-item__label--single-email">
-					<div>
-						{{ props.option.dropdownName }}
-					</div>
-				</div>
-			</div>
-		</template>
-	</Multiselect>
+	</NcSelect>
 </template>
 
 <script>
-import Avatar from '@nextcloud/vue/dist/Components/Avatar'
-import Multiselect from '@nextcloud/vue/dist/Components/Multiselect'
-import { principalPropertySearchByDisplaynameOrEmail } from '../../../services/caldavService.js'
 import HttpClient from '@nextcloud/axios'
-import debounce from 'debounce'
+import { showInfo } from '@nextcloud/dialogs'
 import { linkTo } from '@nextcloud/router'
+import {
+	NcAvatar as Avatar,
+	NcSelect,
+} from '@nextcloud/vue'
+import debounce from 'debounce'
+import GoogleCirclesCommunitiesIcon from 'vue-material-design-icons/GoogleCirclesCommunities.vue'
+import {
+	circleGetMembers,
+	circleSearchByName,
+} from '@/services/circleService.js'
+import isCirclesEnabled from '@/services/isCirclesEnabled.js'
+import { removeMailtoPrefix } from '@/utils/attendee.js'
+import logger from '@/utils/logger.js'
+import { randomId } from '@/utils/randomId.js'
 
 export default {
 	name: 'InviteesListSearch',
 	components: {
 		Avatar,
-		Multiselect,
+		NcSelect,
+		GoogleCirclesCommunitiesIcon,
 	},
+
 	props: {
 		alreadyInvitedEmails: {
 			type: Array,
 			required: true,
 		},
+
+		organizer: {
+			type: Object,
+			required: false,
+		},
 	},
+
+	emits: ['addAttendee'],
+
 	data() {
 		return {
 			isLoading: false,
 			inputGiven: false,
 			matches: [],
+			isCirclesEnabled,
 		}
 	},
+
 	computed: {
 		placeholder() {
-			return this.$t('calendar', 'Search for emails, users, contacts, resources or rooms')
+			return this.$t('calendar', 'Search for emails, users, contacts, contact groups or teams')
 		},
+
 		noResult() {
 			return this.$t('calendar', 'No match found')
 		},
 	},
+
 	methods: {
+		// Required to disable NCSelect's internal filtering
+		filterAttendees() {
+			return true
+		},
+
 		findAttendees: debounce(async function(query) {
 			this.isLoading = true
 			const matches = []
@@ -121,18 +126,23 @@ export default {
 			if (query.length > 0) {
 				const promises = [
 					this.findAttendeesFromContactsAPI(query),
-					this.findAttendeesFromDAV(query),
 				]
+				if (isCirclesEnabled) {
+					promises.push(this.findAttendeesFromCircles(query))
+				}
 
-				const [contactsResults, davResults] = await Promise.all(promises)
+				const results = await Promise.all(promises)
+				const [contactsResults, circleResults] = results
 				matches.push(...contactsResults)
-				matches.push(...davResults)
+				if (isCirclesEnabled) {
+					matches.push(...circleResults)
+				}
 
 				// Source of the Regex: https://stackoverflow.com/a/46181
 				// eslint-disable-next-line
 				const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 				if (emailRegex.test(query)) {
-					const alreadyInList = matches.find((attendee) => attendee.email === query)
+					const alreadyInList = matches.find((attendee) => attendee.email.toLowerCase() === query.toLowerCase())
 					if (!alreadyInList) {
 						matches.unshift({
 							calendarUserType: 'INDIVIDUAL',
@@ -148,6 +158,11 @@ export default {
 					}
 				}
 
+				// Generate a unique id for every result to make the avatar components reactive
+				for (const match of matches) {
+					match.uid = randomId()
+				}
+
 				this.isLoading = false
 				this.inputGiven = true
 			} else {
@@ -157,9 +172,66 @@ export default {
 
 			this.matches = matches
 		}, 500),
+
 		addAttendee(selectedValue) {
+			if (selectedValue.type === 'circle') {
+				showInfo(this.$t('calendar', 'Note that members of circles get invited but are not synced yet.'))
+				this.resolveCircleMembers(selectedValue.id)
+			}
+			if (selectedValue.type === 'contactsgroup') {
+				showInfo(this.$t('calendar', 'Note that members of contact groups get invited but are not synced yet.'))
+				this.getContactGroupMembers(selectedValue.commonName)
+				const group = {
+					calendarUserType: 'GROUP',
+					commonName: selectedValue.commonName,
+					dropdownName: selectedValue.dropdownName,
+					email: selectedValue.email,
+					isUser: false,
+					subtitle: selectedValue.subtitle,
+					type: 'contactsgroup',
+				}
+				this.$emit('addAttendee', group)
+				return
+			}
 			this.$emit('addAttendee', selectedValue)
 		},
+
+		async resolveCircleMembers(circleId) {
+			let results
+			try {
+				// Going to query custom backend to fetch Circle members since we're going to use
+				// mail addresses of local circle members. The Circles API doesn't expose member
+				// emails yet. Change approved by @miaulalala and @ChristophWurst.
+				results = await circleGetMembers(circleId)
+			} catch (error) {
+				logger.debug(error)
+				return []
+			}
+			results.data.forEach((member) => {
+				if (!this.organizer || member.email !== this.organizer.uri) {
+					this.$emit('addAttendee', member)
+				}
+			})
+		},
+
+		async getContactGroupMembers(groupName) {
+			let results
+			try {
+				results = await HttpClient.post(linkTo('calendar', 'index.php') + '/v1/autocompletion/groupmembers', {
+					groupName,
+				})
+			} catch (error) {
+				logger.error('Failed to fetch contact group members', { error })
+				return []
+			}
+
+			results.data.forEach((member) => {
+				if (!this.organizer || member.email !== this.organizer.uri) {
+					this.$emit('addAttendee', member)
+				}
+			})
+		},
+
 		async findAttendeesFromContactsAPI(query) {
 			let response
 
@@ -168,7 +240,7 @@ export default {
 					search: query,
 				})
 			} catch (error) {
-				console.debug(error)
+				logger.debug(error)
 				return []
 			}
 
@@ -186,63 +258,77 @@ export default {
 						name = email
 					}
 
-					if (this.alreadyInvitedEmails.includes(email)) {
+					if (email && this.alreadyInvitedEmails.includes(removeMailtoPrefix(email))) {
+						return
+					}
+
+					if (result.type === 'contactsgroup') {
+						arr.push({
+							calendarUserType: 'GROUP',
+							commonName: result.name,
+							subtitle: this.$n('calendar', '%n member', '%n members', result.members),
+							members: { length: result.members },
+							email,
+							isUser: false,
+							avatar: result.photo,
+							language: result.lang,
+							timezoneId: result.tzid,
+							hasMultipleEMails: false,
+							dropdownName: name + ' ' + email,
+							type: 'contactsgroup',
+						})
 						return
 					}
 
 					arr.push({
 						calendarUserType: 'INDIVIDUAL',
 						commonName: result.name,
-						email: email,
-						isUser: false,
+						email,
+						isUser: result.source === 'system' ? true : false,
 						avatar: result.photo,
 						language: result.lang,
 						timezoneId: result.tzid,
 						hasMultipleEMails,
-						dropdownName: name,
+						dropdownName: name + ' ' + email,
 					})
 				})
 
 				return arr
 			}, [])
 		},
-		async findAttendeesFromDAV(query) {
+
+		async findAttendeesFromCircles(query) {
 			let results
 			try {
-				results = await principalPropertySearchByDisplaynameOrEmail(query)
+				results = await circleSearchByName(query)
 			} catch (error) {
-				console.debug(error)
+				logger.debug(error)
 				return []
 			}
 
-			return results.filter((principal) => {
-				if (!principal.email) {
-					return false
-				}
-
-				if (this.alreadyInvitedEmails.includes(principal.email)) {
-					return
-				}
-
-				// We do not support GROUPS for now
-				if (principal.calendarUserType === 'GROUP') {
-					return false
-				}
-
-				return true
-			}).map((principal) => {
+			return results.map((circle) => {
 				return {
-					commonName: principal.displayname,
-					calendarUserType: principal.calendarUserType,
-					email: principal.email,
-					lang: null,
-					isUser: principal.calendarUserType === 'INDIVIDUAL',
-					avatar: principal.userId,
-					hasMultipleEMails: false,
-					dropdownName: principal.displayname || principal.email,
+					commonName: circle.displayname,
+					calendarUserType: 'GROUP',
+					email: 'circle+' + circle.id + '@' + circle.instance,
+					isUser: false,
+					dropdownName: circle.displayname,
+					type: 'circle',
+					id: circle.id,
+					subtitle: this.$n('calendar', '%n member', '%n members', circle.population),
 				}
 			})
 		},
 	},
 }
 </script>
+
+<style scoped>
+:deep(.avatardiv) {
+	overflow: visible !important;
+}
+
+:deep(.vs__search::placeholder) {
+	text-overflow: ellipsis;
+}
+</style>

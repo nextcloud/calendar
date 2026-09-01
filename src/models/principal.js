@@ -1,23 +1,6 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
 import {
@@ -26,60 +9,66 @@ import {
 	PRINCIPAL_PREFIX_CIRCLE,
 	PRINCIPAL_PREFIX_GROUP,
 	PRINCIPAL_PREFIX_USER,
-} from './consts.js'
+} from '@/models/consts.js'
+import { mapDavToRoomPrincipalProperties } from '@/models/principal/principal'
 
 /**
  * Creates a complete principal-object based on given props
  *
- * @param {Object} props Principal-props already provided
- * @returns {any}
+ * @param {object} props Principal-props already provided
+ * @return {object}
  */
-const getDefaultPrincipalObject = (props) => Object.assign({}, {
-	// Id of the principal
-	id: null,
-	// Calendar-user-type. This can be INDIVIDUAL, GROUP, RESOURCE or ROOM
-	calendarUserType: 'INDIVIDUAL',
-	// E-Mail address of principal used for scheduling
-	emailAddress: null,
-	// The principals display-name
-	// TODO: this should be renamed to displayName
-	displayname: null,
-	// principalScheme
-	principalScheme: null,
-	// The internal user-id in case it is of type INDIVIDUAL and a user
-	// TODO: userId is deprecrated, use principalId instead
-	userId: null,
-	// url to the DAV-principal-resource
-	url: null,
-	// The cdav-library object
-	dav: null,
-	// Whether or not this principal represents a circle
-	isCircle: false,
-	// Whether or not this principal represents a user
-	isUser: false,
-	// Whether or not this principal represents a group
-	isGroup: false,
-	// Whether or not this principal represents a calendar-resource
-	isCalendarResource: false,
-	// Whether or not this principal represents a calendar-room
-	isCalendarRoom: false,
-	// The id of the principal without prefix. e.g. userId / groupId / etc.
-	principalId: null,
-}, props)
+function getDefaultPrincipalObject(props) {
+	return { // Id of the principal
+		id: null,
+		// Calendar-user-type. This can be INDIVIDUAL, GROUP, RESOURCE or ROOM
+		calendarUserType: 'INDIVIDUAL',
+		// E-Mail address of principal used for scheduling
+		emailAddress: null,
+		// The principals display-name
+		// TODO: this should be renamed to displayName
+		displayname: null,
+		// principalScheme
+		principalScheme: null,
+		// The internal user-id in case it is of type INDIVIDUAL and a user
+		// TODO: userId is deprecrated, use principalId instead
+		userId: null,
+		// url to the DAV-principal-resource
+		url: null,
+		// The cdav-library object
+		dav: null,
+		// Whether or not this principal represents a circle
+		isCircle: false,
+		// Whether or not this principal represents a user
+		isUser: false,
+		// Whether or not this principal represents a group
+		isGroup: false,
+		// Whether or not this principal represents a calendar-resource
+		isCalendarResource: false,
+		// Whether or not this principal represents a calendar-room
+		isCalendarRoom: false,
+		// The id of the principal without prefix. e.g. userId / groupId / etc.
+		principalId: null,
+		// The url of the default calendar for invitations
+		scheduleDefaultCalendarUrl: null,
+		...props,
+	}
+}
 
 /**
  * converts a dav principal into a vuex object
  *
- * @param {Object} dav cdav-library Principal object
- * @returns {Object}
+ * @param {object} dav cdav-library Principal object
+ * @return {object}
  */
-const mapDavToPrincipal = (dav) => {
+function mapDavToPrincipal(dav) {
 	const id = btoa(encodeURI(dav.url))
 	const calendarUserType = dav.calendarUserType
 	const principalScheme = dav.principalScheme
 	const emailAddress = dav.email
 
 	const displayname = dav.displayname
+	const scheduleDefaultCalendarUrl = dav.scheduleDefaultCalendarUrl
 
 	const isUser = dav.principalScheme.startsWith(PRINCIPAL_PREFIX_USER)
 	const isGroup = dav.principalScheme.startsWith(PRINCIPAL_PREFIX_GROUP)
@@ -103,6 +92,11 @@ const mapDavToPrincipal = (dav) => {
 	const url = dav.principalUrl
 	const userId = dav.userId
 
+	let roomProperties
+	if (isCalendarRoom) {
+		roomProperties = mapDavToRoomPrincipalProperties(dav)
+	}
+
 	return getDefaultPrincipalObject({
 		id,
 		calendarUserType,
@@ -118,6 +112,8 @@ const mapDavToPrincipal = (dav) => {
 		isCalendarRoom,
 		principalId,
 		userId,
+		scheduleDefaultCalendarUrl,
+		...roomProperties,
 	})
 }
 

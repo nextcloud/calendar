@@ -2,54 +2,80 @@
 
 declare(strict_types=1);
 /**
- * Calendar App
- *
- * @author Georg Ehrke
- * @copyright 2020 Georg Ehrke <oc.list@georgehrke.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Dashboard;
 
-use ChristophWurst\Nextcloud\Testing\TestCase;
+use DateTimeImmutable;
 use OCA\Calendar\Service\JSDataService;
-use OCP\IInitialStateService;
+use OCP\AppFramework\Services\IInitialState;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\Calendar\ICalendar;
+use OCP\Calendar\ICalendarIsEnabled;
+use OCP\Calendar\IManager;
+use OCP\Dashboard\IButtonWidget;
+use OCP\Dashboard\Model\WidgetItem;
+use OCP\IDateTimeFormatter;
 use OCP\IL10N;
+use OCP\IURLGenerator;
+use PHPUnit\Framework\MockObject\MockObject;
+use Test\TestCase;
+
+interface ITestCalendar extends ICalendar, ICalendarIsEnabled {
+	// workaround for creating mock class with multiple interfaces
+	// TODO: remove after phpUnit 10 is supported.
+}
 
 class CalendarWidgetTest extends TestCase {
-
-	/** @var IL10N|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IL10N|MockObject */
 	private $l10n;
 
-	/** @var IInitialStateService|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var IInitialState|MockObject */
 	private $initialState;
 
-	/** @var JSDataService|\PHPUnit\Framework\MockObject\MockObject */
+	/** @var JSDataService|MockObject */
 	private $service;
 
-	/** @var CalendarWidget */
-	private $widget;
+	private CalendarWidget $widget;
+
+	/** @var IDateTimeFormatter|MockObject */
+	private $dateTimeFormatter;
+
+	/** @var IURLGenerator|MockObject */
+	private $urlGenerator;
+
+	/** @var IManager|MockObject */
+	private $calendarManager;
+
+	/** @var ITimeFactory|MockObject */
+	private $timeFactory;
 
 	protected function setUp(): void {
 		parent::setUp();
 
-		$this->l10n = $this->createMock(IL10N::class);
-		$this->initialState = $this->createMock(IInitialStateService::class);
-		$this->service = $this->createMock(JSDataService::class);
+		if (!interface_exists(IButtonWidget::class)) {
+			self::markTestIncomplete();
+		}
 
-		$this->widget = new CalendarWidget($this->l10n, $this->initialState, $this->service);
+		$this->l10n = $this->createMock(IL10N::class);
+		$this->initialState = $this->createMock(IInitialState::class);
+		$this->service = $this->createMock(JSDataService::class);
+		$this->dateTimeFormatter = $this->createMock(IDateTimeFormatter::class);
+		$this->urlGenerator = $this->createMock(IURLGenerator::class);
+		$this->calendarManager = $this->createMock(IManager::class);
+		$this->timeFactory = $this->createMock(ITimeFactory::class);
+
+		$this->widget = new CalendarWidget(
+			$this->l10n,
+			$this->initialState,
+			$this->service,
+			$this->dateTimeFormatter,
+			$this->urlGenerator,
+			$this->calendarManager,
+			$this->timeFactory,
+		);
 	}
 
 	public function testGetId(): void {
@@ -69,21 +95,258 @@ class CalendarWidgetTest extends TestCase {
 	}
 
 	public function testGetIconClass(): void {
-		$this->assertEquals('icon-calendar-dark', $this->widget->getIconClass());
+		$this->assertEquals('app-icon-calendar', $this->widget->getIconClass());
 	}
 
 	public function testGetUrl(): void {
 		$this->assertNull($this->widget->getUrl());
 	}
 
-	public function testLoad(): void {
-		$this->initialState->expects($this->once())
-			->method('provideLazyInitialState')
-			->with('calendar', 'dashboard_data', $this->callback(function ($actual) {
-				$fnResult = $actual();
-				return $fnResult === $this->service;
-			}));
+	public function testGetItems() : void {
+		$userId = 'admin';
+		$calendar = $this->createMock(ITestCalendar::class);
+		self::invokePrivate($calendar, 'calendarInfo', [['{http://apple.com/ns/ical/}calendar-color' => '#ffffff']]);
+		$calendars = [$calendar];
+		$time = 1665550936;
+		$start = (new DateTimeImmutable())->setTimestamp($time);
+		$twoWeeks = $start->add(new \DateInterval('P14D'));
+		$options = [
+			'timerange' => [
+				'start' => $start,
+				'end' => $twoWeeks,
+			]
+		];
+		$limit = 7;
+		$result = [
+			'id' => '3599',
+			'uid' => '59d30b6c-5a31-4d28-b1d6-c8f928180e96',
+			'uri' => '60EE4FCB-2144-4811-BBD3-FFEA44739F40.ics',
+			'objects' => [
+				[
+					'DTSTART' => [
+						$start
+					],
+					'SUMMARY' => [
+						'Test',
+					]
+				]
+			]
+		];
 
-		$this->widget->load();
+		$this->calendarManager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->with('principals/users/' . $userId)
+			->willReturn($calendars);
+		$this->timeFactory->expects(self::once())
+			->method('getTime')
+			->willReturn($time);
+		$calendar->expects(self::once())
+			->method('isEnabled')
+			->willReturn(true);
+		$calendar->expects(self::once())
+			->method('isDeleted')
+			->willReturn(false);
+		$calendar->expects(self::once())
+			->method('search')
+			->with('', [], $options, $limit)
+			->willReturn([$result]);
+		$calendar->expects(self::once())
+			->method('getDisplayColor')
+			->willReturn('#ffffff');
+		$this->dateTimeFormatter->expects(self::once())
+			->method('formatTimeSpan')
+			->willReturn('12345678');
+		$this->urlGenerator->expects(self::once())
+			->method('getAbsoluteURL')
+			->willReturn('59d30b6c-5a31-4d28-b1d6-c8f928180e96');
+
+		$icon = 'data:image/svg+xml,' . rawurlencode('<svg height="32" width="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#ffffff"/></svg>');
+
+		$widget = new WidgetItem(
+			$result['objects'][0]['SUMMARY'][0],
+			'12345678',
+			'59d30b6c-5a31-4d28-b1d6-c8f928180e96',
+			$icon,
+			(string)$start->getTimestamp(),
+		);
+
+		$widgets = $this->widget->getItems($userId);
+		$this->assertCount(1, $widgets);
+		$this->assertEquals($widgets[0], $widget);
+	}
+
+	public function testGetItemsCachesCalendarDotPerRequest(): void {
+		$userId = 'admin';
+		$calendarA = $this->createMock(ITestCalendar::class);
+		$calendarB = $this->createMock(ITestCalendar::class);
+		$time = 1665550936;
+		$start = (new DateTimeImmutable())->setTimestamp($time);
+		$twoWeeks = $start->add(new \DateInterval('P14D'));
+		$options = [
+			'timerange' => [
+				'start' => $start,
+				'end' => $twoWeeks,
+			]
+		];
+		$resultA = [
+			'id' => '3599',
+			'uid' => 'uid-a',
+			'uri' => 'a.ics',
+			'objects' => [[
+				'DTSTART' => [$start],
+				'SUMMARY' => ['Test A'],
+			]],
+		];
+		$resultB = [
+			'id' => '3600',
+			'uid' => 'uid-b',
+			'uri' => 'b.ics',
+			'objects' => [[
+				'DTSTART' => [$start],
+				'SUMMARY' => ['Test B'],
+			]],
+		];
+
+		$this->calendarManager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->with('principals/users/' . $userId)
+			->willReturn([$calendarA, $calendarB]);
+		$this->timeFactory->expects(self::once())
+			->method('getTime')
+			->willReturn($time);
+		$calendarA->expects(self::once())
+			->method('isEnabled')
+			->willReturn(true);
+		$calendarB->expects(self::once())
+			->method('isEnabled')
+			->willReturn(true);
+		$calendarA->expects(self::once())
+			->method('isDeleted')
+			->willReturn(false);
+		$calendarB->expects(self::once())
+			->method('isDeleted')
+			->willReturn(false);
+		$calendarA->expects(self::once())
+			->method('search')
+			->with('', [], $options, 7)
+			->willReturn([$resultA]);
+		$calendarB->expects(self::once())
+			->method('search')
+			->with('', [], $options, 7)
+			->willReturn([$resultB]);
+		$calendarA->expects(self::once())
+			->method('getDisplayColor')
+			->willReturn('#abcdef');
+		$calendarB->expects(self::once())
+			->method('getDisplayColor')
+			->willReturn('#abcdef');
+		$this->dateTimeFormatter->expects(self::exactly(2))
+			->method('formatTimeSpan')
+			->willReturn('12345678');
+		$this->urlGenerator->expects(self::exactly(2))
+			->method('getAbsoluteURL')
+			->willReturnOnConsecutiveCalls('uid-a', 'uid-b');
+
+		$widgets = $this->widget->getItems($userId);
+
+		$this->assertCount(2, $widgets);
+		$this->assertSame($widgets[0]->getIconUrl(), $widgets[1]->getIconUrl());
+	}
+
+	public function testGetItemsWithDisabledCalendar() {
+		$userId = 'admin';
+		$calendar = $this->createMock(ITestCalendar::class);
+		$calendars = [$calendar];
+		$time = 1665550936;
+		$start = (new DateTimeImmutable())->setTimestamp($time);
+		$twoWeeks = $start->add(new \DateInterval('P14D'));
+		$options = [
+			'timerange' => [
+				'start' => $start,
+				'end' => $twoWeeks,
+			]
+		];
+		$limit = 7;
+		$result = [
+			'id' => '3599',
+			'uid' => '59d30b6c-5a31-4d28-b1d6-c8f928180e96',
+			'uri' => '60EE4FCB-2144-4811-BBD3-FFEA44739F40.ics',
+			'objects' => [
+				[
+					'DTSTART' => [
+						$start
+					],
+					'SUMMARY' => [
+						'Test',
+					]
+				]
+			]
+		];
+
+		$this->calendarManager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->with('principals/users/' . $userId)
+			->willReturn($calendars);
+		$this->timeFactory->expects(self::once())
+			->method('getTime')
+			->willReturn($time);
+		$calendar->expects(self::once())
+			->method('isEnabled')
+			->willReturn(false);
+		$calendar->expects(self::never())
+			->method('isDeleted');
+
+		$widgets = $this->widget->getItems($userId);
+		$this->assertCount(0, $widgets);
+	}
+
+	public function testGetItemsWithDeletedCalendar() {
+		$userId = 'admin';
+		$calendar = $this->createMock(ITestCalendar::class);
+		$calendars = [$calendar];
+		$time = 1665550936;
+		$start = (new DateTimeImmutable())->setTimestamp($time);
+		$twoWeeks = $start->add(new \DateInterval('P14D'));
+		$options = [
+			'timerange' => [
+				'start' => $start,
+				'end' => $twoWeeks,
+			]
+		];
+		$limit = 7;
+		$result = [
+			'id' => '3599',
+			'uid' => '59d30b6c-5a31-4d28-b1d6-c8f928180e96',
+			'uri' => '60EE4FCB-2144-4811-BBD3-FFEA44739F40.ics',
+			'objects' => [
+				[
+					'DTSTART' => [
+						$start
+					],
+					'SUMMARY' => [
+						'Test',
+					]
+				]
+			]
+		];
+
+		$this->calendarManager->expects(self::once())
+			->method('getCalendarsForPrincipal')
+			->with('principals/users/' . $userId)
+			->willReturn($calendars);
+		$this->timeFactory->expects(self::once())
+			->method('getTime')
+			->willReturn($time);
+		$calendar->expects(self::once())
+			->method('isEnabled')
+			->willReturn(true);
+		$calendar->expects(self::once())
+			->method('isDeleted')
+			->willReturn(true);
+		$calendar->expects(self::never())
+			->method('search');
+
+		$widgets = $this->widget->getItems($userId);
+		$this->assertCount(0, $widgets);
 	}
 }

@@ -1,32 +1,46 @@
+# SPDX-FileCopyrightText: 2021-2024 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
 name: Packaging
-
-on: [push, pull_request]
+on: pull_request
 
 jobs:
   release-tarball:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     name: Build release tarball
     steps:
       - name: Checkout
-        uses: actions/checkout@master
-      - name: Set up Node
-        uses: actions/setup-node@v1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Read package.json node and npm engines version
+        uses: skjnldsv/read-package-engines-version-actions@06d6baf7d8f41934ab630e97d9e6c0bc9c9ac5e4 # v3
+        id: versions
         with:
-          node-version: 14
-      - name: Set up php$
-        uses: shivammathur/setup-php@master
+          fallbackNode: '^20'
+          fallbackNpm: '^10'
+      - name: Set up node ${{ steps.versions.outputs.nodeVersion }}
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          php-version: 7.4
-          tools: composer:v1
+          node-version: ${{ steps.versions.outputs.nodeVersion }}
+      - name: Set up npm ${{ steps.versions.outputs.npmVersion }}
+        run: npm i -g 'npm@${{ steps.versions.outputs.npmVersion }}'
+      - name: Get php version
+        id: php-versions
+        uses: icewind1991/nextcloud-version-matrix@cd0211ffcef1065e2020cd579e4843b8746e7a58 # v1.3.3
+      - name: Set up php ${{ steps.php-versions.outputs.php-min }}
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2 with verbose logging due to stuck runs
+        with:
+          php-version: ${{ steps.php-versions.outputs.php-min }}
+          tools: composer
           extensions: ctype,curl,dom,gd,iconv,intl,json,mbstring,openssl,posix,sqlite,xml,zip,gmp
           coverage: none
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Install Krankerl
         run: |
-          wget https://github.com/ChristophWurst/krankerl/releases/download/v0.12.3/krankerl_0.12.3_amd64.deb
-          sudo dpkg -i krankerl_0.12.3_amd64.deb
+          wget https://github.com/ChristophWurst/krankerl/releases/download/v0.14.0/krankerl_0.14.0_amd64.deb
+          sudo dpkg -i krankerl_0.14.0_amd64.deb
       - name: Package app
         run: krankerl package
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           path: build/artifacts/calendar.tar.gz
           if-no-files-found: error

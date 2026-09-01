@@ -1,24 +1,7 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<div class="repeat-option-set repeat-option-set--weekly">
@@ -26,29 +9,37 @@
 			{{ $t('calendar', 'on') }}
 		</span>
 		<div class="repeat-option-set-section__grid">
-			<button
+			<NcButton
 				v-for="option in options"
 				:key="option.value"
 				class="repeat-option-set-section-grid-item"
-				:class="{ primary: option.selected }"
+				:variant="option.selected ? 'primary' : 'secondary'"
 				@click="toggleByDay(option.value)">
 				{{ option.label }}
-			</button>
+			</NcButton>
 		</div>
 	</div>
 </template>
 
 <script>
 import { getDayNamesMin } from '@nextcloud/l10n'
+import { NcButton } from '@nextcloud/vue'
 
 export default {
 	name: 'RepeatFreqWeeklyOptions',
+	components: {
+		NcButton,
+	},
+
 	props: {
 		byDay: {
 			type: Array,
 			required: true,
 		},
 	},
+
+	emits: ['addByDay', 'removeByDay'],
+
 	computed: {
 		options() {
 			const dayNamesMin = getDayNamesMin()
@@ -84,6 +75,7 @@ export default {
 			}]
 		},
 	},
+
 	methods: {
 		toggleByDay(day) {
 			if (this.byDay.indexOf(day) === -1) {

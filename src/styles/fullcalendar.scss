@@ -1,0 +1,376 @@
+/*!
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+/** Override some FullCalendar CSS vars: */
+.fc {
+	--fc-small-font-size: 0.875em;
+	--fc-page-bg-color: var(--color-main-background) !important;
+	--fc-neutral-bg-color: var(--color-background-dark) !important;
+	--fc-neutral-text-color: var(--color-text-lighter) !important;
+	--fc-border-color: var(--color-border) !important;
+
+	--fc-daygrid-event-dot-width: 10px !important;
+
+	--fc-event-bg-color: var(--color-primary-element);
+	--fc-event-border-color: var(--color-primary-element);
+	--fc-event-text-color: var(--color-main-text);
+	--fc-event-selected-overlay-color: var(--color-box-shadow);
+
+	--fc-event-resizer-thickness: 8px;
+	--fc-event-resizer-dot-total-width: 8px;
+	--fc-event-resizer-dot-border-width: 1px;
+
+	--fc-non-business-color: var(--color-background-dark);
+	--fc-bg-event-color: var(--color-primary-element);
+	--fc-bg-event-opacity: 0.3;
+	--fc-highlight-color: rgba(188, 232, 241, 0.3); // TODO - use some color css var from us?
+	--fc-today-bg-color: var(--color-main-background) !important;
+	--fc-now-indicator-color: red;
+	--fc-list-event-hover-bg-color: var(--color-background-hover) !important;
+	font-family: var(--font-face) !important;
+}
+
+// ### FullCalendar Grid adjustments
+// Make the labels lighter
+.fc-timegrid-axis-frame,
+.fc-timegrid-slot-label,
+.fc-col-header-cell a {
+	color: var(--color-text-lighter) !important;
+}
+
+// Remove dotted half-lines
+.fc .fc-timegrid-slot-minor {
+	border-block-start-style: none !important;
+}
+
+// Center the date in month view
+.fc-daygrid-day-top {
+	justify-content: center;
+}
+
+// Override Nextcloud styles which highlight table rows on hover
+.fc-state-highlight.fc-day-number,
+.fc tbody tr,
+.fc tbody tr:hover,
+.fc tbody tr:focus {
+	background: inherit !important;
+}
+
+// Today highlighting
+.fc-day-today {
+	&.fc-col-header-cell {
+		a, span {
+			padding: 2px 6px;
+			font-weight: bold;
+			background-color: var(--color-primary-element);
+			color: var(--color-primary-element-text) !important;
+			border-radius: var(--border-radius-small);
+		}
+	}
+
+	.fc-event {
+		box-shadow: 0px 0px 0px 1px var(--color-primary-element-light) !important;
+		margin-top: 0px;
+	}
+
+	.fc-daygrid-day-top {
+		.fc-daygrid-day-number {
+			margin: var(--default-grid-baseline) 0 calc(var(--default-grid-baseline) + 1px);
+			padding: 0 var(--default-grid-baseline);
+			text-align: center;
+			font-weight: bold !important;
+			background: var(--color-primary-element);
+			color: var(--color-primary-element-text);
+			border-radius: var(--border-radius-small);
+		}
+	}
+}
+
+// Fix list table
+.fc-list-table td {
+	white-space: normal;
+	/* https://developer.mozilla.org/en-US/docs/Web/CSS/word-break */
+	/* stylelint-disable-next-line declaration-property-value-keyword-no-deprecated */
+	word-break: break-word;
+}
+
+// Prevent events overlapping over day header
+.fc .fc-list-sticky .fc-list-day > * {
+	z-index: 1;
+}
+
+// Padding to account for left navigation toggle
+.fc-list-table .fc-list-day-cushion {
+	padding-inline-start: calc(var(--default-clickable-area) + var(--default-grid-baseline) * 2);
+}
+
+// highlight current day (exclude day view)
+.fc-timeGridWeek-view,
+.fc-dayGridMonth-view {
+	.fc-col-header-cell.fc-day-today,
+	.fc-daygrid-day.fc-day-today,
+	.fc-timegrid-col.fc-day-today {
+		background-color: var(--color-primary-element-light) !important;
+	}
+}
+
+// emphasize current month in month view
+.fc-daygrid-day.fc-day.fc-day-other,
+.fc .fc-daygrid-day.fc-day-today.fc-day-other {
+	background-color: var(--color-background-dark) !important;
+	border: 1px solid var(--color-background-darker);
+	.fc-daygrid-day-top {
+		opacity: 0.8;
+	}
+}
+
+// ### FullCalendar Event adjustments
+.fc-event {
+	padding-inline-start: 3px;
+
+	// Only show the left border, thick and full-opacity (dot events and list events are excluded)
+	&:not(.fc-daygrid-dot-event):not(.fc-list-event) {
+		border-block-start-width: 0 !important;
+		border-block-end-width: 0 !important;
+		border-inline-end-width: 0 !important;
+		border-inline-start-width: calc(var(--default-grid-baseline) + var(--default-grid-basline) * 0.5) !important;
+		border-inline-start-style: solid !important;
+	}
+
+	// Free (TRANSP:TRANSPARENT) events: hollow left strip — 1px accent | page-bg | 1px accent
+	&.fc-event-nc-free {
+		&:not(.fc-daygrid-dot-event):not(.fc-list-event) {
+			&:not(.fc-timegrid-event) {
+				position: relative;
+			}
+			// Hide the solid left border; the ::before pseudo-element takes its place
+			border-inline-start-color: transparent !important;
+
+			&::before {
+				content: '';
+				position: absolute;
+				// Offset into the (transparent) border area so we start at the true left edge
+				inset-inline-start: calc(-1 * var(--default-grid-baseline));
+				top: 0;
+				bottom: 0;
+				width: var(--default-grid-baseline);
+				background: var(--fc-page-bg-color);
+				border-inline-start: 1px solid var(--nc-event-color, currentColor);
+				border-inline-end: 1px solid var(--nc-event-color, currentColor);
+				border-start-start-radius: inherit;
+				border-end-start-radius: inherit;
+				box-sizing: border-box;
+			}
+		}
+	}
+
+	&.fc-event-nc-task-completed,
+	&.fc-event-nc-cancelled {
+		.fc-event-title,
+		.fc-list-event-title {
+			text-decoration: line-through !important;
+		}
+	}
+
+
+	// Participation-state events with no fill keep the thick left stripe plus a 1px frame.
+	&.fc-event-nc-all-declined,
+	&.fc-event-nc-needs-action,
+	&.fc-event-nc-declined {
+		&:not(.fc-daygrid-dot-event):not(.fc-list-event) {
+			background-color: transparent !important;
+			border-block-start-width: 1px !important;
+			border-block-end-width: 1px !important;
+			border-inline-end-width: 1px !important;
+			border-inline-start-width: calc(var(--default-grid-baseline) + var(--default-grid-basline) * 0.5) !important;
+		}
+	}
+
+	.fc-event-title {
+		text-overflow: ellipsis;
+		font-weight: var(--font-weight-element);
+	}
+
+	// Reminder icon on events with alarms set
+	.fc-event-nc-alarms {
+		.icon-event-reminder {
+			background-color: inherit;
+			background-position: right;
+			position: absolute;
+			top: 0;
+			inset-inline-end: 0;
+			&--light {
+				background-image: var(--icon-calendar-reminder-fffffe)
+			}
+			&--dark {
+				background-image: var(--icon-calendar-reminder-000001)
+			}
+		}
+	}
+
+	// Checkboxes for Tasks
+	.fc-event-title-container {
+		display: flex;
+		align-content: center;
+
+		.fc-event-title-checkbox {
+			margin: 4px 4px 0 0;
+			line-height: 1;
+		}
+	}
+
+	.fc-list-event-checkbox {
+		margin: 2px 4px 0 -2px;
+		line-height: 1;
+	}
+
+	.fc-daygrid-event-checkbox {
+		margin: 2px 4px 0 4px;
+		line-height: 1;
+	}
+
+	.fc-list-event-location span,
+	.fc-list-event-description span {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		white-space: pre-wrap;
+		max-width: 25vw;
+	}
+
+	svg {
+		margin-inline-end: 2px;
+	}
+
+	@media only screen and (max-width: 767px) {
+		.fc-list-event-location,
+		.fc-list-event-description {
+			display: none;
+		}
+	}
+}
+
+.fc-list-empty {
+	.fc-list-empty-cushion {
+		display: none;
+	}
+
+	.empty-content {
+		margin-top: 0 !important;
+	}
+}
+
+.fc-timeGridWeek-view {
+	.fc-daygrid-more-link {
+		/* https://developer.mozilla.org/en-US/docs/Web/CSS/word-break */
+		/* stylelint-disable-next-line declaration-property-value-keyword-no-deprecated */
+		word-break: break-all;
+		white-space: normal;
+	}
+
+	.fc-event-main {
+		flex-wrap: wrap;
+	}
+}
+
+.fc-timegrid-col-events{
+	margin: 0 !important;
+}
+
+.fc-v-event {
+	.fc-event-title {
+		white-space: initial;
+	}
+}
+
+// Fix Month view
+.fc-dayGridMonth-view {
+	.fc-daygrid-more-link {
+		/* https://developer.mozilla.org/en-US/docs/Web/CSS/word-break */
+		/* stylelint-disable-next-line declaration-property-value-keyword-no-deprecated */
+		word-break: break-word;
+		white-space: normal;
+	}
+
+	.fc-daygrid-day-frame {
+		min-height: 150px !important;
+	}
+}
+
+// Fix week button overlapping with the toggle
+.fc-col-header-cell {
+	padding-top: 10px !important;
+
+	&-cushion {
+		text-overflow: ellipsis;
+		overflow: clip;
+		max-width: 100%;
+	}
+}
+
+.fc-timegrid-axis-cushion {
+	margin-top: 44px;
+}
+
+// Additional workaround for Firefox
+.fc-timegrid-axis.fc-scrollgrid-shrink {
+	height: 65px;
+}
+
+.fc-timegrid-event-harness,
+.fc-timegrid-event {
+	// previously was 1px for no apparent reason
+	margin-bottom: 0;
+}
+
+// Leave some space for dragging
+.fc-timeGridDay-view, .fc-timeGridWeek-view {
+	.fc-event {
+		margin-inline-end: 1vw;
+	}
+
+	.fc-event-mirror {
+		border: none !important;
+	}
+
+}
+
+.fc-timeGridDay-view {
+	.fc-event {
+		margin-inline-end: 2vw;
+	}
+}
+
+// High-contrast mode: events use plain page background so the coloured left
+// border is the sole colour indicator (no transparency, no stripe patterns).
+// Two triggers:
+//   1. OS/browser prefers-contrast: more media feature.
+//   2. Nextcloud in-app Accessibility theme, which writes
+//      data-themes="light-highcontrast" (or dark-highcontrast) on <body>
+//      without necessarily setting the OS media feature.
+@mixin _fc-high-contrast-events {
+	.fc-event:not(.fc-daygrid-dot-event):not(.fc-list-event) {
+		background-color: var(--fc-page-bg-color) !important;
+		background-image: none !important;
+
+		.fc-event-title,
+		.fc-event-time {
+			color: var(--color-main-text) !important;
+		}
+	}
+}
+
+@media (prefers-contrast: more) {
+	@include _fc-high-contrast-events;
+}
+
+[data-theme-light-highcontrast],
+[data-theme-dark-highcontrast],
+[data-themes*="highcontrast"] {
+	@include _fc-high-contrast-events;
+}
+

@@ -1,0 +1,388 @@
+<!--
+  - SPDX-FileCopyrightText: 2024 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+<template>
+	<NcModal
+		size="large"
+		:show="show"
+		:name="$t('calendar', 'Check room availability')"
+		@update:show="(e) => $emit('update:show', e)">
+		<div class="modal__content">
+			<div class="modal__content__header">
+				<h2>{{ $t('calendar', 'Find a time') }}</h2>
+			</div>
+			<div class="modal__content__actions">
+				<div class="modal__content__actions__date">
+					<NcButton
+						variant="secondary"
+						@click="handleActions('today')">
+						{{ $t('calendar', 'Today') }}
+					</NcButton>
+					<NcButton
+						variant="secondary"
+						@click="handleActions('left')">
+						<template #icon>
+							<ChevronLeftIcon :size="20" />
+						</template>
+					</NcButton>
+					<NcButton
+						variant="secondary"
+						@click="handleActions('right')">
+						<template #icon>
+							<ChevronRightIcon :size="20" />
+						</template>
+					</NcButton>
+
+					<NcDateTimePickerNative
+						:id="datePickerInputId"
+						:hideLabel="true"
+						:modelValue="currentDate"
+						@update:modelValue="(date) => handleActions('picker', date)" />
+					<NcPopover :noFocusTrap="true">
+						<template #trigger>
+							<NcButton variant="tertiary-no-background">
+								<template #icon>
+									<HelpCircleIcon :size="20" />
+								</template>
+							</NcButton>
+						</template>
+						<template #default>
+							<div class="freebusy-caption">
+								<div class="freebusy-caption__calendar-user-types" />
+								<div class="freebusy-caption__colors">
+									<div v-for="color in colorCaption" :key="color.color" class="freebusy-caption-item">
+										<div class="freebusy-caption-item__color" :style="{ 'background-color': color.color }" />
+										<div class="fregetebusy-caption-item__label">
+											{{ color.label }}
+										</div>
+									</div>
+								</div>
+							</div>
+						</template>
+					</NcPopover>
+				</div>
+			</div>
+			<FullCalendar
+				ref="freeBusyFullCalendar"
+				:options="options" />
+		</div>
+	</NcModal>
+</template>
+
+<script>
+import resourceTimelinePlugin from '@fullcalendar/resource-timeline'
+import FullCalendar from '@fullcalendar/vue3'
+import { NcButton, NcDateTimePickerNative, NcModal, NcPopover } from '@nextcloud/vue'
+import { mapState } from 'pinia'
+import { useId } from 'vue'
+import ChevronLeftIcon from 'vue-material-design-icons/ChevronLeft.vue'
+import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
+import HelpCircleIcon from 'vue-material-design-icons/HelpCircleOutline.vue'
+import freeBusyBlockedForAllEventSource from '@/fullcalendar/eventSources/freeBusyBlockedForAllEventSource.js'
+import freeBusyFakeBlockingEventSource from '@/fullcalendar/eventSources/freeBusyFakeBlockingEventSource.js'
+import freeBusyResourceEventSource from '@/fullcalendar/eventSources/freeBusyResourceEventSource.js'
+import { getDateFormattingConfig } from '@/fullcalendar/localization/dateFormattingConfig.js'
+import { getFullCalendarLocale } from '@/fullcalendar/localization/localeProvider.js'
+import momentPlugin from '@/fullcalendar/localization/momentPlugin.js'
+import VTimezoneNamedTimezone from '@/fullcalendar/timezones/vtimezoneNamedTimezoneImpl.js'
+import { mapPrincipalObjectToAttendeeObject } from '@/models/attendee.js'
+import useSettingsStore from '@/store/settings.js'
+import { getColorForFBType } from '@/utils/freebusy.js'
+import { randomId } from '@/utils/randomId.js'
+
+export default {
+	name: 'RoomAvailabilityModal',
+	components: {
+		ChevronRightIcon,
+		ChevronLeftIcon,
+		HelpCircleIcon,
+		NcPopover,
+		NcModal,
+		FullCalendar,
+		NcDateTimePickerNative,
+		NcButton,
+	},
+
+	props: {
+		show: {
+			type: Boolean,
+			required: true,
+		},
+
+		startDate: {
+			type: Date,
+			required: true,
+		},
+
+		endDate: {
+			type: Date,
+			required: true,
+		},
+
+		organizer: {
+			type: Object,
+			required: true,
+		},
+
+		rooms: {
+			type: Array,
+			required: true,
+		},
+	},
+
+	emits: ['update:show'],
+
+	setup() {
+		const uniqueComponentId = useId()
+		return { uniqueComponentId }
+	},
+
+	data() {
+		return {
+			currentDate: this.startDate,
+			currentStart: this.startDate,
+			currentEnd: this.endDate,
+			lang: getFullCalendarLocale().locale,
+		}
+	},
+
+	computed: {
+		...mapState(useSettingsStore, {
+			timezoneId: 'getResolvedTimezone',
+		}),
+
+		/**
+		 * Map all given rooms to attendee properties.
+		 *
+		 * @return {import('@nextcloud/calendar-js').AttendeeProperty[]}
+		 */
+		attendees() {
+			return this.rooms.map((room) => mapPrincipalObjectToAttendeeObject(room))
+		},
+
+		resources() {
+			const resources = []
+			for (const attendee of this.attendees) {
+				const title = attendee.commonName || attendee.uri.slice(7)
+				resources.push({
+					id: attendee.attendeeProperty.email,
+					title,
+				})
+			}
+			// Sort the resources by ID, just like fullcalendar does. This ensures that
+			// the fake blocking event can know the first and last resource reliably
+			// ref https://fullcalendar.io/docs/resourceOrder
+			resources.sort((a, b) => (a.id > b.id) - (a.id < b.id))
+
+			return resources
+		},
+
+		eventSources() {
+			return [
+				freeBusyResourceEventSource(
+					this.uniqueComponentId,
+					this.organizer.attendeeProperty,
+					this.attendees.map((a) => a.attendeeProperty),
+				),
+				freeBusyFakeBlockingEventSource(
+					this.uniqueComponentId,
+					this.resources,
+					this.currentStart,
+					this.currentEnd,
+				),
+				freeBusyBlockedForAllEventSource(
+					this.organizer.attendeeProperty,
+					this.attendees.map((a) => a.attendeeProperty),
+					this.resources,
+				),
+			]
+		},
+
+		/**
+		 * FullCalendar Plugins
+		 *
+		 * @return {(PluginDef)[]}
+		 */
+		plugins() {
+			return [
+				resourceTimelinePlugin,
+				momentPlugin,
+				VTimezoneNamedTimezone,
+			]
+		},
+
+		scrollTime() {
+			const options = { hour: '2-digit', minute: '2-digit', seconds: '2-digit', hour12: false }
+
+			return this.currentDate.getHours() > 0 ? new Date(this.currentDate.getTime() - 60 * 60 * 1000).toLocaleTimeString(this.lang, options) : '10:00:00'
+		},
+
+		/**
+		 * List of possible Free-Busy values.
+		 * This is used as legend.
+		 *
+		 * @return {({color: string, label: string})[]}
+		 */
+		colorCaption() {
+			return [{
+				// TRANSLATORS: free as in available
+				label: this.$t('calendar', 'Free'),
+				color: getColorForFBType('FREE'),
+			}, {
+				label: this.$t('calendar', 'Busy (tentative)'),
+				color: getColorForFBType('BUSY-TENTATIVE'),
+			}, {
+				label: this.$t('calendar', 'Busy'),
+				color: getColorForFBType('BUSY'),
+			}, {
+				label: this.$t('calendar', 'Out of office'),
+				color: getColorForFBType('BUSY-UNAVAILABLE'),
+			}, {
+				label: this.$t('calendar', 'Unknown'),
+				color: getColorForFBType('UNKNOWN'),
+			}]
+		},
+
+		options() {
+			return {
+				// Initialization:
+				initialView: 'resourceTimelineDay',
+				initialDate: this.currentStart,
+				schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+				// Data
+				eventSources: this.eventSources,
+				resources: this.resources,
+				// Plugins
+				plugins: this.plugins,
+				// Localization:
+				...getDateFormattingConfig(),
+				...getFullCalendarLocale(),
+				// Rendering
+				height: 'auto',
+				headerToolbar: false,
+				resourceAreaColumns: [
+					{
+						field: 'title',
+						headerContent: 'Room',
+					},
+				],
+
+				// Timezones:
+				timeZone: this.timezoneId,
+				// Formatting of the title
+				// will produce something like "Tuesday, September 18, 2018"
+				// ref https://fullcalendar.io/docs/date-formatting
+				titleFormat: {
+					month: 'long',
+					year: 'numeric',
+					day: 'numeric',
+					weekday: 'long',
+				},
+			}
+		},
+
+		/**
+		 * @return {string}
+		 */
+		datePickerInputId() {
+			return randomId()
+		},
+	},
+
+	methods: {
+		handleActions(action, date = null) {
+			const calendar = this.$refs.freeBusyFullCalendar.getApi()
+			switch (action) {
+				case 'today':
+					calendar.today()
+					break
+				case 'left':
+					calendar.prev()
+					break
+				case 'right':
+					calendar.next()
+					break
+				case 'picker':
+					// `date` is `null` when the "clear" button of the native date input was used.
+					if (date === null) {
+						return
+					}
+					calendar.gotoDate(date)
+					break
+			}
+			this.currentDate = calendar.getDate()
+			calendar.scrollToTime(this.scrollTime)
+		},
+	},
+}
+</script>
+
+<style scoped lang="scss">
+.icon-close {
+	display: block;
+	height: 100%;
+}
+
+.modal__content {
+	padding: 15px;
+	//when the calendar is open, it's cut at the bottom, adding a margin fixes it
+	margin-bottom: 95px;
+	&__actions{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 20px;
+		&__select{
+			width: 260px;
+		}
+		&__date{
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			& > *{
+				margin-inline-start: 5px;
+			}
+		}
+	}
+	&__header{
+		margin-bottom: 20px;
+		h3{
+			font-weight: 500;
+		}
+	}
+	&__footer{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 20px;
+		&__title{
+			h3{
+				font-weight: 500;
+			}
+			&__timezone{
+				color: var(--color-text-lighter);
+			}
+		}
+	}
+}
+
+:deep(.vs__search ) {
+	text-overflow: ellipsis;
+}
+
+:deep(.mx-input) {
+	height: 38px !important;
+}
+</style>
+
+<style lang="scss">
+.blocking-event-free-busy {
+	// Show the blocking event above any other blocks, especially the *blocked for all* one
+	z-index: 3 !important;
+}
+
+.free-busy-block {
+	opacity: 0.7 !important;
+}
+</style>

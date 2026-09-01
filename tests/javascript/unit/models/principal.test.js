@@ -1,29 +1,11 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import {getDefaultPrincipalObject, mapDavToPrincipal} from "../../../../src/models/principal.js";
+import { getDefaultPrincipalObject, mapDavToPrincipal } from '@/models/principal.js'
 
 describe('Test suite: Principal model (models/principal.js)', () => {
-
 	it('should return a default principal object', () => {
 		expect(getDefaultPrincipalObject()).toEqual({
 			id: null,
@@ -40,6 +22,7 @@ describe('Test suite: Principal model (models/principal.js)', () => {
 			isCalendarResource: false,
 			isCalendarRoom: false,
 			principalId: null,
+			scheduleDefaultCalendarUrl: null,
 		})
 	})
 
@@ -63,6 +46,7 @@ describe('Test suite: Principal model (models/principal.js)', () => {
 			isCalendarRoom: false,
 			principalId: 'bar',
 			otherProp: 'foo',
+			scheduleDefaultCalendarUrl: null,
 		})
 	})
 
@@ -79,7 +63,7 @@ describe('Test suite: Principal model (models/principal.js)', () => {
 			scheduleInbox: null,
 			scheduleOutbox: null,
 			url: '/remote.php/dav/principals/users/jane.doe/',
-			userId: 'legacy-jane-doe-uid'
+			userId: 'legacy-jane-doe-uid',
 		}
 
 		expect(mapDavToPrincipal(dav)).toEqual({
@@ -233,6 +217,14 @@ describe('Test suite: Principal model (models/principal.js)', () => {
 			isCalendarRoom: true,
 			principalId: 'room-123',
 			userId: null,
+			roomAddress: null,
+			roomBuildingName: null,
+			roomBuildingAddress: null,
+			roomBuildingStory: null,
+			roomBuildingRoomNumber: null,
+			roomFeatures: null,
+			roomSeatingCapacity: null,
+			roomType: null,
 		})
 	})
 

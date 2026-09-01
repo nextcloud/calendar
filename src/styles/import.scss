@@ -1,0 +1,44 @@
+/*!
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+.import-modal {
+	.modal-container {
+		padding: 24px !important;
+		min-width: 50%;
+		overflow: visible !important;
+
+		.import-modal__title,
+		.import-modal__subtitle {
+			text-align: center;
+		}
+
+		.import-modal__actions {
+			display: flex;
+			gap: 5px;
+		}
+
+		.import-modal-file-item {
+			display: flex;
+			margin-top: calc(var(--default-grid-baseline) * 2);
+			margin-bottom: calc(var(--default-grid-baseline) * 2);
+
+			&--header {
+				font-weight: bold;
+			}
+
+			&__filename {
+				flex: 2 1 0;
+			}
+
+			&__calendar-select {
+				flex: 1 1 0;
+			}
+			
+			&__calendar-disabled-hint {
+				color: var(--color-text-maxcontrast);
+			}
+		}
+	}
+}

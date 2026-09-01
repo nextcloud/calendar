@@ -1,31 +1,17 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import logger from './logger.js'
+import { DateTimeValue } from '@nextcloud/calendar-js'
+import getTimezoneManager from '@/services/timezoneDataProviderService.js'
+import useSettingsStore from '@/store/settings.js'
+import logger from '@/utils/logger.js'
 
 /**
  * returns a new Date object
  *
- * @returns {Date}
+ * @return {Date}
  */
 export function dateFactory() {
 	return new Date()
@@ -35,7 +21,7 @@ export function dateFactory() {
  * formats a Date object as YYYYMMDD
  *
  * @param {Date} date Date to format
- * @returns {string}
+ * @return {string}
  */
 export function getYYYYMMDDFromDate(date) {
 	return new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
@@ -47,7 +33,7 @@ export function getYYYYMMDDFromDate(date) {
  * get unix time from date object
  *
  * @param {Date} date Date to format
- * @returns {number}
+ * @return {number}
  */
 export function getUnixTimestampFromDate(date) {
 	return Math.floor(date.getTime() / 1000)
@@ -56,8 +42,8 @@ export function getUnixTimestampFromDate(date) {
 /**
  * Gets a Date-object based on the firstday param used in routes
  *
- * @param {String} firstDayParam The firstday param from the router
- * @returns {Date}
+ * @param {string} firstDayParam The firstday param from the router
+ * @return {Date}
  */
 export function getDateFromFirstdayParam(firstDayParam) {
 	if (firstDayParam === 'now') {
@@ -82,8 +68,8 @@ export function getDateFromFirstdayParam(firstDayParam) {
 /**
  * formats firstday param as YYYYMMDD
  *
- * @param {String} firstDayParam The firstday param from the router
- * @returns {string}
+ * @param {string} firstDayParam The firstday param from the router
+ * @return {string}
  */
 export function getYYYYMMDDFromFirstdayParam(firstDayParam) {
 	if (firstDayParam === 'now') {
@@ -98,7 +84,7 @@ export function getYYYYMMDDFromFirstdayParam(firstDayParam) {
  * Ignores given timezone-information
  *
  * @param {DateTimeValue} dateTimeValue Value to get date from
- * @returns {Date}
+ * @return {Date}
  */
 export function getDateFromDateTimeValue(dateTimeValue) {
 	return new Date(
@@ -108,7 +94,7 @@ export function getDateFromDateTimeValue(dateTimeValue) {
 		dateTimeValue.hour,
 		dateTimeValue.minute,
 		0,
-		0
+		0,
 	)
 }
 
@@ -116,17 +102,71 @@ export function getDateFromDateTimeValue(dateTimeValue) {
  * modifies a date
  *
  * @param {Date} date Date object to modify
- * @param {Object} data The destructuring object
- * @param {Number} data.day Number of days to add
- * @param {Number} data.week Number of weeks to add
- * @param {Number} data.month Number of months to add
- * @returns {Date}
+ * @param {object} data The destructuring object
+ * @param {number} data.day Number of days to add
+ * @param {number} data.week Number of weeks to add
+ * @param {number} data.month Number of months to add
+ * @param {number} data.year Number of years to add
+ * @return {Date}
  */
-export function modifyDate(date, { day = 0, week = 0, month = 0 }) {
+export function modifyDate(date, { day = 0, week = 0, month = 0, year = 0 }) {
 	date = new Date(date.getTime())
 	date.setDate(date.getDate() + day)
 	date.setDate(date.getDate() + week * 7)
 	date.setMonth(date.getMonth() + month)
+	date.setFullYear(date.getFullYear() + year)
 
 	return date
+}
+
+/**
+ * Convert a date from UTC to user's timezone
+ *
+ * @param {Date} date The date to convert (in UTC)
+ * @return {Date} Converted date in user's timezone
+ */
+export function convertDateToUserTimezone(date) {
+	const settingsStore = useSettingsStore()
+	const userTimezoneId = settingsStore.getResolvedTimezone
+
+	const tzManager = getTimezoneManager()
+	const utcTimezone = tzManager.getTimezoneForId('UTC')
+	const userTimezone = tzManager.getTimezoneForId(userTimezoneId)
+
+	const dateTimeValue = DateTimeValue.fromJSDate(date, true)
+	dateTimeValue.replaceTimezone(utcTimezone)
+	return getDateFromDateTimeValue(dateTimeValue.getInTimezone(userTimezone))
+}
+
+/**
+ * Format a date with specified options
+ *
+ * @param {Date} date The date to format (in UTC for timed events, local for all-day)
+ * @param {string|undefined} locale The locale to use
+ * @param {object} options Formatting options
+ * @param {boolean} convertTimezone Whether to convert from UTC to user timezone
+ * @return {string} Formatted date string
+ */
+export function formatDateWithTimezone(date, locale, options, convertTimezone = false) {
+	const dateToFormat = convertTimezone ? convertDateToUserTimezone(date) : date
+	return dateToFormat.toLocaleString(locale ?? 'en_001', options)
+}
+
+/**
+ * Check if an all-day event spans multiple days
+ *
+ * @param {Date} start Start date
+ * @param {Date} end End date (exclusive in FullCalendar)
+ * @return {boolean} True if multi-day
+ */
+export function isMultiDayAllDayEvent(start, end) {
+	// FullCalendar all-day end dates are exclusive, so subtract one day
+	const adjustedEnd = new Date(end)
+	adjustedEnd.setDate(adjustedEnd.getDate() - 1)
+	adjustedEnd.setHours(0, 0, 0, 0)
+
+	const startMidnight = new Date(start)
+	startMidnight.setHours(0, 0, 0, 0)
+
+	return adjustedEnd.getTime() > startMidnight.getTime()
 }

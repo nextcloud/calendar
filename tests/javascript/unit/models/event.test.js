@@ -1,41 +1,25 @@
 /**
- * @copyright Copyright (c) 2020 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2020 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { getDefaultEventObject, mapEventComponentToEventObject } from "../../../../src/models/event.js";
-import { getDateFromDateTimeValue } from '../../../../src/utils/date.js'
-import { getHexForColorName } from '../../../../src/utils/color.js'
-import { mapAlarmComponentToAlarmObject } from '../../../../src/models/alarm.js'
-import { mapAttendeePropertyToAttendeeObject } from '../../../../src/models/attendee.js'
-import { getDefaultRecurrenceRuleObject, mapRecurrenceRuleValueToRecurrenceRuleObject } from '../../../../src/models/recurrenceRule.js'
-import DateTimeValue from "calendar-js/src/values/dateTimeValue.js";
+import { DateTimeValue, DurationValue } from '@nextcloud/calendar-js'
+import { expect } from 'vitest'
+import { getEventComponentFromAsset } from '../loadAsset.js'
+import { mapAlarmComponentToAlarmObject } from '@/models/alarm.js'
+import { mapAttendeePropertyToAttendeeObject } from '@/models/attendee.js'
+import { copyCalendarObjectInstanceIntoEventComponent, getDefaultEventObject, mapEventComponentToEventObject } from '@/models/event.js'
+import { getDefaultRecurrenceRuleObject, mapRecurrenceRuleValueToRecurrenceRuleObject } from '@/models/recurrenceRule.js'
+import { getHexForColorName } from '@/utils/color.js'
+import { getDateFromDateTimeValue } from '@/utils/date.js'
 
-jest.mock('../../../../src/utils/date.js')
-jest.mock('../../../../src/utils/color.js')
-jest.mock('../../../../src/models/alarm.js')
-jest.mock('../../../../src/models/attendee.js')
-jest.mock('../../../../src/models/recurrenceRule.js')
+vi.mock('@/utils/date.js')
+vi.mock('@/utils/color.js')
+vi.mock('@/models/alarm.js')
+vi.mock('@/models/attendee.js')
+vi.mock('@/models/recurrenceRule.js')
 
 describe('Test suite: Event model (models/event.js)', () => {
-
 	beforeEach(() => {
 		getDateFromDateTimeValue.mockClear()
 		getHexForColorName.mockClear()
@@ -48,7 +32,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 	it('should return a default event object', () => {
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(getDefaultEventObject()).toEqual({
@@ -66,7 +50,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: null,
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: false,
@@ -78,6 +62,8 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDefaultRecurrenceRuleObject).toHaveBeenCalledTimes(1)
@@ -86,7 +72,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 	it('should fill up an object with default values', () => {
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(getDefaultEventObject({
@@ -107,7 +93,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: null,
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: false,
@@ -119,6 +105,8 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
+			invitationForwarding: 'TRUE',
 			otherProp: 'foo',
 		})
 
@@ -138,7 +126,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -156,7 +144,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -168,6 +156,8 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -196,7 +186,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -214,7 +204,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -235,6 +225,8 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -268,7 +260,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -286,7 +278,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -301,6 +293,8 @@ describe('Test suite: Event model (models/event.js)', () => {
 			],
 			customColor: null,
 			categories: [],
+			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		const alarms = eventComponent.getAlarmList()
@@ -324,7 +318,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -342,7 +336,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -354,6 +348,8 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: ['BUSINESS', 'HUMAN RESOURCES'],
+			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -379,7 +375,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -397,7 +393,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -409,6 +405,8 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: '#eeffee',
 			categories: [],
+			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -437,7 +435,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -455,7 +453,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -467,6 +465,8 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -492,7 +492,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -510,7 +510,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -522,6 +522,8 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -544,7 +546,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -562,7 +564,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -574,6 +576,8 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -596,7 +600,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -614,7 +618,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'TRANSPARENT',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: true,
@@ -626,6 +630,8 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -654,7 +660,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -682,6 +688,8 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -707,7 +715,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -725,7 +733,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 			status: null,
 			timeTransparency: 'OPAQUE',
 			recurrenceRule: {
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			},
 			hasMultipleRRules: false,
 			isMasterItem: false,
@@ -737,6 +745,8 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -762,7 +772,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -790,6 +800,8 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -818,7 +830,7 @@ describe('Test suite: Event model (models/event.js)', () => {
 
 		getDefaultRecurrenceRuleObject
 			.mockReturnValueOnce({
-				defaultRecurrenceObject: true
+				defaultRecurrenceObject: true,
 			})
 
 		expect(mapEventComponentToEventObject(eventComponent)).toEqual({
@@ -846,6 +858,8 @@ describe('Test suite: Event model (models/event.js)', () => {
 			alarms: [],
 			customColor: null,
 			categories: [],
+			attachments: [],
+			invitationForwarding: 'TRUE',
 		})
 
 		expect(getDateFromDateTimeValue).toHaveBeenCalledTimes(2)
@@ -859,5 +873,224 @@ describe('Test suite: Event model (models/event.js)', () => {
 		expect(mapRecurrenceRuleValueToRecurrenceRuleObject).toHaveBeenNthCalledWith(1, eventComponent.getFirstPropertyFirstValue('RRULE'), eventComponent.startDate)
 
 		expect(getDefaultRecurrenceRuleObject).toHaveBeenCalledTimes(1)
+	})
+
+	it('should default invitation forwarding to TRUE', () => {
+		getDefaultRecurrenceRuleObject
+			.mockReturnValueOnce({
+				defaultRecurrenceObject: true,
+			})
+
+		expect(getDefaultEventObject().invitationForwarding).toEqual('TRUE')
+	})
+
+	it('should map an event component custom invitation forwarding property', () => {
+		const recurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 7, 0, 0)), true)
+		const eventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-timed', recurrenceId)
+		eventComponent.updatePropertyWithValue('X-NC-INVITATION-FORWARDING', 'FALSE')
+
+		const mockDate1 = new Date()
+		const mockDate2 = new Date()
+		getDateFromDateTimeValue
+			.mockReturnValueOnce(mockDate1)
+			.mockReturnValueOnce(mockDate2)
+
+		getDefaultRecurrenceRuleObject
+			.mockReturnValueOnce({
+				defaultRecurrenceObject: true,
+			})
+
+		expect(mapEventComponentToEventObject(eventComponent).invitationForwarding).toEqual('FALSE')
+	})
+
+	it('should not copy generated properties into a new event component', () => {
+		// Given
+		const recurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 7, 0, 0)), true)
+		const sourceEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-timed', recurrenceId)
+		const notNow = DateTimeValue.fromJSDate(new Date(Date.UTC(2025, 1, 1, 7, 0, 0)), true)
+		sourceEventComponent.sequence = 1
+		sourceEventComponent.creationTime = notNow
+		sourceEventComponent.updatePropertyWithValue('DTSTAMP', notNow)
+		sourceEventComponent.modificationTime = notNow
+		const sourceEventObject = mapEventComponentToEventObject(sourceEventComponent)
+
+		const targetEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-timed', recurrenceId)
+		const now = DateTimeValue.fromJSDate(new Date(Date.UTC(2026, 11, 11, 7, 0, 0)), true)
+		targetEventComponent.sequence = 0
+		targetEventComponent.uid = 'aUID'
+		targetEventComponent.creationTime = now
+		targetEventComponent.updatePropertyWithValue('DTSTAMP', now)
+		targetEventComponent.modificationTime = now
+
+		// When
+		copyCalendarObjectInstanceIntoEventComponent(sourceEventObject, targetEventComponent)
+
+		// Then
+		expect([...targetEventComponent.getPropertyIterator('UID')]).toHaveLength(1)
+		expect(targetEventComponent.uid).not.toEqual(sourceEventComponent.uid)
+
+		expect([...targetEventComponent.getPropertyIterator('SEQUENCE')]).toHaveLength(1)
+		expect(targetEventComponent.sequence).not.toEqual(sourceEventComponent.sequence)
+
+		expect([...targetEventComponent.getPropertyIterator('CREATED')]).toHaveLength(1)
+		expect(targetEventComponent.creationTime).not.toEqual(sourceEventComponent.creationTime)
+
+		expect([...targetEventComponent.getPropertyIterator('DTSTAMP')]).toHaveLength(1)
+		expect(targetEventComponent.getFirstPropertyFirstValue('DTSTAMP')).not.toEqual(sourceEventComponent.getFirstPropertyFirstValue('DTSTAMP'))
+
+		expect([...targetEventComponent.getPropertyIterator('LAST-MODIFIED')]).toHaveLength(1)
+		expect(targetEventComponent.modificationTime).not.toEqual(sourceEventComponent.modificationTime)
+	})
+
+	it('should copy properties into a new event component', () => {
+		// Given
+		const sourceRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 7, 0, 0)), true)
+		const sourceEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-timed', sourceRecurrenceId)
+		sourceEventComponent.updatePropertyWithValue('X-A-CUSTOM-PROPERTY', 'TRUE')
+		sourceEventComponent.updatePropertyWithValue('A-CUSTOM-PROPERTY', 'TRUE')
+		const sourceEventObject = mapEventComponentToEventObject(sourceEventComponent)
+
+		const targetRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 9, 0, 0)), true)
+		const targetEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-minimal', targetRecurrenceId)
+
+		// When
+		copyCalendarObjectInstanceIntoEventComponent(sourceEventObject, targetEventComponent)
+
+		// Then
+		expect(targetEventComponent.title).toEqual(sourceEventComponent.title)
+		expect(targetEventComponent.location).toEqual(sourceEventComponent.location)
+		expect(targetEventComponent.description).toEqual(sourceEventComponent.description)
+		expect(targetEventComponent.accessClass).toEqual(sourceEventComponent.accessClass)
+		expect(targetEventComponent.status).toEqual(sourceEventComponent.status)
+		expect(targetEventComponent.timeTransparency).toEqual(sourceEventComponent.timeTransparency)
+		expect(targetEventComponent.getFirstPropertyFirstValue('X-A-CUSTOM-PROPERTY')).toBe('TRUE')
+		expect(targetEventComponent.getFirstPropertyFirstValue('A-CUSTOM-PROPERTY')).toBe('TRUE')
+	})
+
+	it('should replace, not duplicate, DTSTART/DTEND in the new event component', () => {
+		// Given
+		// The target already has its own DTSTART/DTEND set from the occurrence
+		// it was created for. Simply appending the source's on top would leave
+		// the component with duplicate DTSTART/DTEND properties, which servers
+		// reject as invalid iCalendar - so the target's own values must be
+		// replaced by the source's, not added alongside them.
+		const sourceRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 7, 0, 0)), true)
+		const sourceEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-timed', sourceRecurrenceId)
+		const sourceEventObject = mapEventComponentToEventObject(sourceEventComponent)
+
+		const targetRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 9, 0, 0)), true)
+		const targetEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-minimal', targetRecurrenceId)
+
+		// When
+		copyCalendarObjectInstanceIntoEventComponent(sourceEventObject, targetEventComponent)
+
+		// Then
+		expect([...targetEventComponent.getPropertyIterator('DTSTART')]).toHaveLength(1)
+		expect([...targetEventComponent.getPropertyIterator('DTEND')]).toHaveLength(1)
+		expect(targetEventComponent.startDate.unixTime).toEqual(sourceEventComponent.startDate.unixTime)
+		expect(targetEventComponent.endDate.unixTime).toEqual(sourceEventComponent.endDate.unixTime)
+	})
+
+	it('should not leave a stale DTEND when the source uses DURATION instead', () => {
+		// Given
+		// DTEND and DURATION are mutually exclusive on a VEVENT. The target
+		// (created via calendar-js's createEvent()) always has a DTEND, so if
+		// the source describes its length with DURATION instead, the target's
+		// DTEND must still be cleared - not just left behind alongside the
+		// newly-added DURATION.
+		const sourceRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 7, 0, 0)), true)
+		const sourceEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-timed', sourceRecurrenceId)
+		sourceEventComponent.deleteAllProperties('DTEND')
+		sourceEventComponent.updatePropertyWithValue('DURATION', DurationValue.fromSeconds(3600))
+		const sourceEventObject = mapEventComponentToEventObject(sourceEventComponent)
+
+		const targetRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 9, 0, 0)), true)
+		const targetEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-minimal', targetRecurrenceId)
+		expect(targetEventComponent.hasProperty('DTEND')).toBe(true)
+
+		// When
+		copyCalendarObjectInstanceIntoEventComponent(sourceEventObject, targetEventComponent)
+
+		// Then
+		expect([...targetEventComponent.getPropertyIterator('DTEND')]).toHaveLength(0)
+		expect([...targetEventComponent.getPropertyIterator('DURATION')]).toHaveLength(1)
+	})
+
+	it('should not copy recurrence ID into a new event component', () => {
+		// Given
+		const sourceRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2020, 2, 8, 14, 0, 0)), true)
+		const sourceEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-recurring', sourceRecurrenceId)
+		const sourceEventObject = mapEventComponentToEventObject(sourceEventComponent)
+
+		const targetRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 9, 0, 0)), true)
+		const targetEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-minimal', targetRecurrenceId)
+
+		// When
+		copyCalendarObjectInstanceIntoEventComponent(sourceEventObject, targetEventComponent)
+
+		// Then
+		expect(targetEventComponent.hasProperty('RECURRENCE-ID')).toBeFalsy()
+	})
+
+	it('should not copy recurrence-defining properties into a new event component', () => {
+		// Given
+		// The first occurrence's recurrence-id matches the master item's own DTSTART,
+		// so calendar-js returns the master item itself here (RRULE and all) instead
+		// of a forked occurrence. A duplicate must still come out as a single,
+		// non-recurring event rather than throwing or inheriting the recurrence rule.
+		const sourceRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2020, 2, 1, 14, 0, 0)), true)
+		const sourceEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-recurring', sourceRecurrenceId)
+		const sourceEventObject = mapEventComponentToEventObject(sourceEventComponent)
+
+		const targetRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 9, 0, 0)), true)
+		const targetEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-minimal', targetRecurrenceId)
+
+		// When
+		copyCalendarObjectInstanceIntoEventComponent(sourceEventObject, targetEventComponent)
+
+		// Then
+		expect(targetEventComponent.hasProperty('RRULE')).toBeFalsy()
+		expect(targetEventComponent.hasProperty('EXRULE')).toBeFalsy()
+		expect(targetEventComponent.hasProperty('RDATE')).toBeFalsy()
+		expect(targetEventComponent.hasProperty('EXDATE')).toBeFalsy()
+		// Non-recurrence properties from the source are still copied as usual.
+		expect(targetEventComponent.title).toEqual(sourceEventComponent.title)
+	})
+
+	it('should copy subcomponents into a new event component', () => {
+		// Given
+		const sourceRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 7, 0, 0)), true)
+		const sourceEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-alarms', sourceRecurrenceId)
+		const sourceEventObject = mapEventComponentToEventObject(sourceEventComponent)
+
+		const targetRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 9, 0, 0)), true)
+		const targetEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-minimal', targetRecurrenceId)
+
+		// When
+		copyCalendarObjectInstanceIntoEventComponent(sourceEventObject, targetEventComponent)
+
+		// Then
+		const alarms = targetEventComponent.getAlarmList()
+		expect(alarms).toHaveLength(2)
+		expect(alarms[0].trigger.value.totalSeconds).toEqual(DurationValue.fromSeconds(60 * 60 * 33).totalSeconds)
+	})
+
+	it('should copy and reset attendee status', () => {
+		// Given
+		const sourceRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 7, 0, 0)), true)
+		const sourceEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-attendees', sourceRecurrenceId)
+		const sourceEventObject = mapEventComponentToEventObject(sourceEventComponent)
+
+		const targetRecurrenceId = DateTimeValue.fromJSDate(new Date(Date.UTC(2016, 7, 16, 9, 0, 0)), true)
+		const targetEventComponent = getEventComponentFromAsset('vcalendars/vcalendar-event-minimal', targetRecurrenceId)
+
+		// When
+		copyCalendarObjectInstanceIntoEventComponent(sourceEventObject, targetEventComponent)
+
+		// Then
+		const attendees = targetEventComponent.getAttendeeList()
+		expect(attendees).toHaveLength(4)
+		expect(attendees[0].participationStatus).toEqual('NEEDS-ACTION')
+		expect(attendees[0].rsvp).toBeTruthy()
 	})
 })

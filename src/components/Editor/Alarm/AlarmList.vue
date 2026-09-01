@@ -1,94 +1,79 @@
 <!--
-  - @copyright Copyright (c) 2019 Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @author Georg Ehrke <oc.list@georgehrke.com>
-  -
-  - @license GNU AGPL version 3 or any later version
-  -
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU Affero General Public License as
-  - published by the Free Software Foundation, either version 3 of the
-  - License, or (at your option) any later version.
-  -
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU Affero General Public License for more details.
-  -
-  - You should have received a copy of the GNU Affero General Public License
-  - along with this program. If not, see <http://www.gnu.org/licenses/>.
-  -
-  -->
+  - SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
 
 <template>
 	<div class="property-alarm-list">
+		<!-- TODO: probably not use index here for the key -->
+		<AlarmListNew
+			v-if="!isReadOnly"
+			:isAllDay="calendarObjectInstance.isAllDay"
+			:showIcon="alarms.length === 0"
+			@addAlarm="addAlarm" />
 		<AlarmListItem
 			v-for="(alarm, index) in alarms"
 			:key="index"
 			:alarm="alarm"
-			:calendar-object-instance="calendarObjectInstance"
-			:is-read-only="isReadOnly"
+			:isReadOnly="isReadOnly"
 			@removeAlarm="removeAlarm" />
-		<AlarmListNew
-			v-if="!isReadOnly"
-			:is-all-day="calendarObjectInstance.isAllDay"
-			@addAlarm="addAlarm" />
-		<NoAlarmView
-			v-if="isListEmpty" />
 	</div>
 </template>
 
 <script>
-import AlarmListNew from './AlarmListNew'
-import AlarmListItem from './AlarmListItem'
-import NoAlarmView from './NoAlarmView.vue'
+import { mapState, mapStores } from 'pinia'
+import AlarmListItem from '@/components/Editor/Alarm/AlarmListItem.vue'
+import AlarmListNew from '@/components/Editor/Alarm/AlarmListNew.vue'
+import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
+import useSettingsStore from '@/store/settings.js'
 
 export default {
 	name: 'AlarmList',
 	components: {
-		NoAlarmView,
 		AlarmListItem,
 		AlarmListNew,
 	},
+
 	props: {
 		isReadOnly: {
 			type: Boolean,
 			required: true,
 		},
-		calendarObjectInstance: {
-			type: Object,
-			required: true,
-		},
 	},
+
 	computed: {
+		...mapStores(useCalendarObjectInstanceStore),
+		...mapState(useCalendarObjectInstanceStore, ['calendarObjectInstance']),
+		...mapState(useSettingsStore, ['forceEventAlarmType']),
 		alarms() {
-			return this.calendarObjectInstance.alarms
-		},
-		isListEmpty() {
-			return this.alarms.length === 0
+			return this.calendarObjectInstance.alarms.slice().sort((a, b) => {
+				const aIsDefault = a.alarmComponent.getFirstPropertyFirstValue('X-NC-DEFAULT-ALARM') ? 1 : 0
+				const bIsDefault = b.alarmComponent.getFirstPropertyFirstValue('X-NC-DEFAULT-ALARM') ? 1 : 0
+				return bIsDefault - aIsDefault
+			})
 		},
 	},
+
 	methods: {
 		/**
 		 * Adds another of the default alarms to the event
 		 *
-		 * @param {Number} totalSeconds Amount of seconds for the alarm
+		 * @param {number} totalSeconds Amount of seconds for the alarm
 		 */
 		addAlarm(totalSeconds) {
-			this.$store.commit('addAlarmToCalendarObjectInstance', {
-				calendarObjectInstance: this.calendarObjectInstance,
-				type: 'DISPLAY',
+			this.calendarObjectInstanceStore.addAlarmToCalendarObjectInstance({
+				type: this.forceEventAlarmType || 'DISPLAY',
 				totalSeconds,
 			})
 		},
+
 		/**
 		 * Removes an alarm from this event
 		 *
-		 * @param {Object} alarm The alarm object
+		 * @param {object} alarm The alarm object
 		 */
 		removeAlarm(alarm) {
-			this.$store.commit('removeAlarmFromCalendarObjectInstance', {
-				calendarObjectInstance: this.calendarObjectInstance,
+			this.calendarObjectInstanceStore.removeAlarmFromCalendarObjectInstance({
 				alarm,
 			})
 		},

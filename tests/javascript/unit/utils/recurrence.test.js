@@ -1,52 +1,33 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import {
 	getBySetPositionAndBySetFromDate,
-	getWeekDayFromDate
-} from '../../../../src/utils/recurrence.js'
-
+	getWeekDayFromDate,
+} from '@/utils/recurrence.js'
 
 describe('utils/recurrence test suite', () => {
-
 	it('should get the BYSETPOS value for a date object', () => {
 		expect(getBySetPositionAndBySetFromDate(new Date(2019, 0, 1))).toEqual({
 			byDay: 'TU',
-			bySetPosition: 1
+			bySetPosition: 1,
 		})
 		expect(getBySetPositionAndBySetFromDate(new Date(2019, 0, 8))).toEqual({
 			byDay: 'TU',
-			bySetPosition: 2
+			bySetPosition: 2,
 		})
 		expect(getBySetPositionAndBySetFromDate(new Date(2019, 0, 15))).toEqual({
 			byDay: 'TU',
-			bySetPosition: 3
+			bySetPosition: 3,
 		})
 		expect(getBySetPositionAndBySetFromDate(new Date(2019, 0, 22))).toEqual({
 			byDay: 'TU',
-			bySetPosition: 4
+			bySetPosition: 4,
 		})
 		expect(getBySetPositionAndBySetFromDate(new Date(2019, 0, 29))).toEqual({
 			byDay: 'TU',
-			bySetPosition: 5
+			bySetPosition: 5,
 		})
 	})
 
@@ -61,7 +42,7 @@ describe('utils/recurrence test suite', () => {
 
 		expect(() => {
 			getWeekDayFromDate({
-				getDay: () => 99
+				getDay: () => 99,
 			})
 		}).toThrow(TypeError)
 	})

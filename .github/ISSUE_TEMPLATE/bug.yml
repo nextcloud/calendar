@@ -1,0 +1,185 @@
+name: "Bug"
+description: "Have you encountered a bug?"
+labels: ["bug", "0. to triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### 👍Thanks for reporting issues back to Nextcloud! 
+        This is the issue tracker of Nextcloud, if you have any support question please check out [the support on our website](https://nextcloud.com/support).
+        
+        This is the bug tracker for the web-calendar component. Find other components [in our Github Organisation](https://github.com/nextcloud/)
+        Everything that is related to the CalDAV server, meaning it does not only affect the web-calendar but also your mobile and desktop clients, belongs in [the Server repository](https://github.com/nextcloud/server).
+        
+        For reporting potential security issues please see [the security page on our website](https://nextcloud.com/security/).
+        
+        To make it possible for us to help you please fill out below information carefully. 
+        
+        If you are a customer, please submit your issue directly in [the Nextcloud Portal](https://portal.nextcloud.com) so it gets resolved more quickly by our dedicated engineers.
+        
+        Note that Nextcloud is an open source project backed by Nextcloud GmbH. Most of our volunteers are home users and thus primarily care about issues that affect home users. Our paid engineers prioritize issues of our customers. If you are neither a home user nor a customer, consider paying somebody to fix your issue, do it yourself or become a customer.
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: |
+        Describe the steps to reproduce the bug.
+        The better your description is _(go 'here', click 'there'…)_ the fastest you'll get an _(accurate)_ answer.
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected behavior
+      description: Tell us what should happen
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual behavior
+      description: |
+        Tell us what happens instead
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: "## Calendar app"
+  - type: input
+    id: calendar-app-version
+    attributes:
+      label: Calendar app version
+      description: |
+        See apps admin page, e.g. 3.5.3
+  - type: input
+    id: CalDAV-clients-used
+    attributes:
+      label: CalDAV-clients used
+      description: e.g. Thunderbird Lightning, DAVx5, Evolution, macOS Calendar, etc...
+  - type: markdown
+    attributes:
+      value: "## Client configuration"
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      description: e.g Firefox 56
+  - type: input
+    id: client-os
+    attributes:
+      label: Client operating system
+      description: e.g. Arch Linux
+  - type: markdown
+    attributes:
+      value: "## Server configuration"
+  - type: input
+    id: server-os
+    attributes:
+      label: Server operating system
+      description: e.g. Arch Linux
+  - type: dropdown
+    id: webserver
+    attributes:
+      label: Web server
+      description: |
+        Select Webserver serving Nextcloud Server.
+        _Describe in the "Additional info" section if you chose "Other"._
+      options:
+        - "Apache"
+        - "Nginx"
+        - "Other"
+  - type: dropdown
+    id: database
+    attributes:
+      label: Database engine version
+      description: |
+        Select Database engine serving Nextcloud Server.
+        _Describe in the "Additional info" section if you chose "Other"._
+      options:
+        - "MySQL"
+        - "MariaDB"
+        - "PostgreSQL"
+        - "SQlite"
+        - "Oracle"
+        - "Other"
+  - type: dropdown
+    id: php
+    attributes:
+      label: PHP engine version
+      description: |
+        Select PHP engine version serving Nextcloud Server.
+        _Describe in the "Additional info" section if you chose "Other"._
+      options:
+        - "PHP 7.4"
+        - "PHP 8.0"
+        - "PHP 8.1"
+        - "PHP 8.2"
+        - "PHP 8.3"
+        - "PHP 8.4"
+        - "Other"
+  - type: input
+    id: nextcloud-version
+    attributes:
+      label: Nextcloud version
+      description: see admin page, e.g. 24.0.0
+  - type: dropdown
+    id: fresh-install-update
+    attributes:
+      label: Updated from an older installed version or fresh install
+      options:
+        - "Updated from an older version"
+        - "Fresh install"
+  - type: textarea
+    id: list-active-apps
+    attributes:
+      label: List of activated apps
+      description: |
+        If you have access to your command line run e.g.:
+        ``sudo -u www-data php occ app:list``
+        from within your instance's installation folder
+      render: Text
+  - type: textarea
+    id: config
+    attributes:
+      label: Nextcloud configuration
+      description: |
+        Provide information about your configuration.
+        ``sudo -u www-data php occ config:list system``
+        from within your instance's installation folder.
+      render: Text
+  - type: markdown
+    attributes:
+      value: "## Logs"
+  - type: textarea
+    id: log
+    attributes:
+      label: Web server error log
+      description: |
+        Insert your webserver log here
+      render: Text
+  - type: textarea
+    id: log-file
+    attributes:
+      label: Log file
+      description: |
+        Insert your nextcloud.log file here
+      render: Text
+  - type: textarea
+    id: browser-log
+    attributes:
+      label: Browser log
+      description: |
+        Insert your browser log here, this could for example include:
+        a) The javascript console log
+        b) The network log
+        c) ...
+      render: Text
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional info
+      description: Any additional information related to the issue (ex. browser console errors, software versions).

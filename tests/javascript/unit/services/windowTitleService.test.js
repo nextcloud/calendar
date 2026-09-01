@@ -1,66 +1,48 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-import dateRangeFormat from '../../../../src/filters/dateRangeFormat.js'
-import { getDateFromFirstdayParam } from '../../../../src/utils/date.js'
-import windowTitleService from "../../../../src/services/windowTitleService.js";
-jest.mock('../../../../src/filters/dateRangeFormat.js')
-jest.mock('../../../../src/utils/date.js')
+import { createPinia, setActivePinia } from 'pinia'
+import dateRangeFormat from '@/filters/dateRangeFormat.js'
+import windowTitleService from '@/services/windowTitleService.js'
+import useSettingsStore from '@/store/settings.js'
+import { getDateFromFirstdayParam } from '@/utils/date.js'
+
+vi.mock('@/filters/dateRangeFormat.js')
+vi.mock('@/utils/date.js')
 
 describe('services/windowTitleService', () => {
-
 	beforeEach(() => {
 		dateRangeFormat.mockClear()
 		getDateFromFirstdayParam.mockClear()
 
 		// Reset to previous one
 		document.title = 'Standard Nextcloud title'
+
+		setActivePinia(createPinia())
 	})
 
 	it('should update the title on route changes', () => {
+		const settingsStore = useSettingsStore()
+		settingsStore.momentLocale = 'momentLocaleLoadedFromState'
+
 		const router = {
-			beforeEach: jest.fn(),
-		}
-		const store = {
-			subscribe: jest.fn(),
-			state: {
-				settings: {
-					momentLocale: 'momentLocaleLoadedFromState',
-				},
-			},
+			beforeEach: vi.fn(),
 		}
 
 		const to = {
 			params: {
 				firstDay: 'first-day-param-of-to',
 				view: 'view-param-of-to',
-			}
+			},
 		}
 		const from = {
 			params: {
 				firstDay: 'first-day-param-of-from',
 				view: 'view-param-of-from',
-			}
+			},
 		}
-		const next = jest.fn()
+		const next = vi.fn()
 
 		dateRangeFormat
 			.mockReturnValueOnce('formatted date range')
@@ -69,7 +51,7 @@ describe('services/windowTitleService', () => {
 
 		expect(document.title).toEqual('Standard Nextcloud title')
 
-		windowTitleService(router, store)
+		windowTitleService(router)
 
 		expect(document.title).toEqual('Standard Nextcloud title')
 
@@ -87,29 +69,24 @@ describe('services/windowTitleService', () => {
 	})
 
 	it('should not update the title if there is no firstDay in route', () => {
+		const settingsStore = useSettingsStore()
+		settingsStore.momentLocale = 'momentLocaleLoadedFromState'
+
 		const router = {
-			beforeEach: jest.fn(),
-		}
-		const store = {
-			subscribe: jest.fn(),
-			state: {
-				settings: {
-					momentLocale: 'momentLocaleLoadedFromState',
-				},
-			},
+			beforeEach: vi.fn(),
 		}
 
 		const to = {
 			params: {
 				view: 'view-param-of-to',
-			}
+			},
 		}
 		const from = {
 			params: {
 				view: 'view-param-of-from',
-			}
+			},
 		}
-		const next = jest.fn()
+		const next = vi.fn()
 
 		dateRangeFormat
 			.mockReturnValueOnce('formatted date range')
@@ -118,7 +95,7 @@ describe('services/windowTitleService', () => {
 
 		expect(document.title).toEqual('Standard Nextcloud title')
 
-		windowTitleService(router, store)
+		windowTitleService(router)
 
 		expect(document.title).toEqual('Standard Nextcloud title')
 
@@ -133,17 +110,16 @@ describe('services/windowTitleService', () => {
 	})
 
 	it('should update the title on update of locale', () => {
+		const settingsStore = useSettingsStore()
+
 		const router = {
-			beforeEach: jest.fn(),
+			beforeEach: vi.fn(),
 			currentRoute: {
 				params: {
 					firstDay: 'first-day-param-of-current-route',
 					view: 'view-param-of-current-route',
-				}
-			}
-		}
-		const store = {
-			subscribe: jest.fn(),
+				},
+			},
 		}
 
 		dateRangeFormat
@@ -153,20 +129,11 @@ describe('services/windowTitleService', () => {
 
 		expect(document.title).toEqual('Standard Nextcloud title')
 
-		windowTitleService(router, store)
+		windowTitleService(router)
 
 		expect(document.title).toEqual('Standard Nextcloud title')
 
-		store.subscribe.mock.calls[0][0]({
-			type: 'some_other_mutation',
-		})
-
-		expect(document.title).toEqual('Standard Nextcloud title')
-
-		store.subscribe.mock.calls[0][0]({
-			type: 'setMomentLocale',
-			payload: { locale: 'momentLocaleFromPayload' }
-		})
+		settingsStore.setMomentLocale({ locale: 'momentLocaleFromPayload' })
 
 		expect(document.title).toEqual('formatted date range - Standard Nextcloud title')
 
@@ -175,7 +142,5 @@ describe('services/windowTitleService', () => {
 
 		expect(getDateFromFirstdayParam).toHaveBeenCalledTimes(1)
 		expect(getDateFromFirstdayParam).toHaveBeenNthCalledWith(1, 'first-day-param-of-current-route')
-
 	})
-
 })

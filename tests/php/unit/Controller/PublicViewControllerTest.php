@@ -2,37 +2,22 @@
 
 declare(strict_types=1);
 /**
- * Calendar App
- *
- * @author Georg Ehrke
- * @copyright 2019 Georg Ehrke <oc.list@georgehrke.com>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
+
 namespace OCA\Calendar\Controller;
 
-use OCP\AppFramework\Http\TemplateResponse;
+use ChristophWurst\Nextcloud\Testing\TestCase;
+use OCP\AppFramework\Http\RedirectResponse;
+use OCP\AppFramework\Http\Template\PublicTemplateResponse;
 use OCP\IConfig;
 use OCP\IInitialStateService;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use ChristophWurst\Nextcloud\Testing\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class PublicViewControllerTest extends TestCase {
-
 	/** @var string */
 	private $appName;
 
@@ -63,7 +48,7 @@ class PublicViewControllerTest extends TestCase {
 	}
 
 	public function testPublicIndexWithBranding():void {
-		$this->config->expects(self::exactly(9))
+		$this->config->expects(self::exactly(12))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'no'],
@@ -73,8 +58,11 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'skipPopover', 'yes', 'yes'],
 				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
+				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'yes'],
-				['calendar', 'installed_version', null, '1.0.0']
+				['calendar', 'tasksSidebar', 'yes', 'yes'],
+				['dav', 'allow_calendar_link_subscriptions', 'yes', 'defaultCanSubscribeLink'],
+				['calendar', 'installed_version', '', '1.0.0']
 			]);
 
 		$this->request->expects(self::once())
@@ -99,9 +87,9 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService->expects(self::exactly(12))
+		$this->initialStateService->expects(self::exactly(18))
 			->method('provideInitialState')
-			->withConsecutive(
+			->willReturnMap([
 				['calendar', 'app_version', '1.0.0'],
 				['calendar', 'event_limit', false],
 				['calendar', 'first_run', false],
@@ -110,15 +98,21 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'show_week_numbers', true],
 				['calendar', 'skip_popover', true],
 				['calendar', 'talk_enabled', false],
+				['calendar', 'talk_api_version', 'v1'],
 				['calendar', 'timezone', 'defaultTimezone'],
 				['calendar', 'slot_duration', 'defaultSlotDuration'],
+				['calendar', 'default_reminder', 'defaultDefaultReminder'],
 				['calendar', 'show_tasks', true],
-				['calendar', 'tasks_enabled', false]
-			);
+				['calendar', 'tasks_sidebar', true],
+				['calendar', 'tasks_enabled', false],
+				['calendar', 'hide_event_export', false],
+				['calendar', 'can_subscribe_link', 'defaultCanSubscribeLink'],
+				['calendar', 'show_resources', false],
+			]);
 
 		$response = $this->controller->publicIndexWithBranding('');
 
-		$this->assertInstanceOf(TemplateResponse::class, $response);
+		$this->assertInstanceOf(PublicTemplateResponse::class, $response);
 		$this->assertEquals([
 			'share_url' => 'protocol://host123/456',
 			'preview_image' => 'absoluteImagePath456'
@@ -127,8 +121,18 @@ class PublicViewControllerTest extends TestCase {
 		$this->assertEquals('main', $response->getTemplateName());
 	}
 
+	public function testRedirectionIfRequestedWithAcceptCalendarHeader(): void {
+		$endpoint = 'https://somewhere.net/remote.php';
+
+		$this->request->expects(self::once())->method('getHeader')->with('Accept')->willReturn('text/calendar');
+		$this->urlGenerator->expects(self::once())->method('linkTo')->with('', 'remote.php')->willReturn($endpoint);
+		$response = $this->controller->publicIndexWithBranding('some-token');
+		self::assertInstanceOf(RedirectResponse::class, $response);
+		self::assertEquals($endpoint . '/dav/public-calendars/some-token/?export', $response->getRedirectURL());
+	}
+
 	public function testPublicIndexForEmbedding():void {
-		$this->config->expects(self::any())
+		$this->config->expects(self::exactly(12))
 			->method('getAppValue')
 			->willReturnMap([
 				['calendar', 'eventLimit', 'yes', 'yes'],
@@ -138,8 +142,11 @@ class PublicViewControllerTest extends TestCase {
 				['calendar', 'skipPopover', 'yes', 'yes'],
 				['calendar', 'timezone', 'automatic', 'defaultTimezone'],
 				['calendar', 'slotDuration', '00:30:00', 'defaultSlotDuration'],
+				['calendar', 'defaultReminder', 'none', 'defaultDefaultReminder'],
 				['calendar', 'showTasks', 'yes', 'defaultShowTasks'],
-				['calendar', 'installed_version', null, '1.0.0']
+				['calendar', 'tasksSidebar', 'yes', 'defaulttasksSidebar'],
+				['dav', 'allow_calendar_link_subscriptions', 'yes', 'defaultCanSubscribeLink'],
+				['calendar', 'installed_version', '', '1.0.0']
 			]);
 		$this->request->expects(self::once())
 			->method('getServerProtocol')
@@ -163,31 +170,46 @@ class PublicViewControllerTest extends TestCase {
 			->with('imagePath456')
 			->willReturn('absoluteImagePath456');
 
-		$this->initialStateService->expects(self::exactly(12))
+		$expectedCalls = [
+			['calendar', 'app_version', '1.0.0'],
+			['calendar', 'event_limit', true],
+			['calendar', 'first_run', false],
+			['calendar', 'initial_view', 'defaultCurrentView'],
+			['calendar', 'show_weekends', false],
+			['calendar', 'show_week_numbers', true],
+			['calendar', 'skip_popover', true],
+			['calendar', 'talk_enabled', false],
+			['calendar', 'talk_api_version', 'v1'],
+			['calendar', 'timezone', 'defaultTimezone'],
+			['calendar', 'slot_duration', 'defaultSlotDuration'],
+			['calendar', 'default_reminder', 'defaultDefaultReminder'],
+			['calendar', 'show_tasks', false],
+			['calendar', 'tasks_sidebar', false],
+			['calendar', 'tasks_enabled', false],
+			['calendar', 'hide_event_export', false],
+			['calendar', 'can_subscribe_link', 'defaultCanSubscribeLink'],
+			['calendar', 'show_resources', false],
+			['calendar', 'is_embed', true],
+		];
+		$callIndex = 0;
+
+		$this->initialStateService->expects(self::exactly(19))
 			->method('provideInitialState')
-			->withConsecutive(
-				['calendar', 'app_version', '1.0.0'],
-				['calendar', 'event_limit', true],
-				['calendar', 'first_run', false],
-				['calendar', 'initial_view', 'defaultCurrentView'],
-				['calendar', 'show_weekends', false],
-				['calendar', 'show_week_numbers', true],
-				['calendar', 'skip_popover', true],
-				['calendar', 'talk_enabled', false],
-				['calendar', 'timezone', 'defaultTimezone'],
-				['calendar', 'slot_duration', 'defaultSlotDuration'],
-				['calendar', 'show_tasks', false],
-				['calendar', 'tasks_enabled', false]
-			);
+			->willReturnCallback(function ($appName, $key, $value) use (&$callIndex, $expectedCalls) {
+				$this->assertEquals($expectedCalls[$callIndex][0], $appName);
+				$this->assertEquals($expectedCalls[$callIndex][1], $key);
+				$this->assertEquals($expectedCalls[$callIndex][2], $value);
+				$callIndex++;
+			});
 
 		$response = $this->controller->publicIndexForEmbedding('');
 
-		$this->assertInstanceOf(TemplateResponse::class, $response);
+		$this->assertInstanceOf(PublicTemplateResponse::class, $response);
 		$this->assertEquals([
 			'share_url' => 'protocol://host123/456',
 			'preview_image' => 'absoluteImagePath456'
 		], $response->getParams());
-		$this->assertEquals('base', $response->getRenderAs());
+		$this->assertEquals('public', $response->getRenderAs());
 		$this->assertEquals('main', $response->getTemplateName());
 	}
 }

@@ -1,47 +1,38 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import { translate as t } from '@nextcloud/l10n'
-import { getDefaultCategories } from '../defaults/defaultCategories.js'
+import { getDefaultCategories } from '@/defaults/defaultCategories.js'
 
 /**
  * Gets all supported RFC properties
  *
- * @returns {{color: {readableName: *, icon: string, multiple: boolean, info: *}, timeTransparency: {readableName: *, defaultValue: string, icon: string, multiple: boolean, options: *[], info: *}, description: {readableName: *, icon: string, placeholder: *, defaultNumberOfRows: number}, location: {readableName: *, icon: string, placeholder: *}, categories: {readableName: *, icon: string, multiple: boolean, options: *, tagPlaceholder: *, placeholder: *, info: *}, accessClass: {readableName: *, defaultValue: string, icon: string, options: *[], multiple: boolean, info: *}, status: {readableName: *, defaultValue: string, icon: string, options: *[], multiple: boolean, info: *}}}
+ * @return {{
+ *   accessClass: {readableName: string, icon: string, options: {value: string, label: string}[], multiple: boolean, info: string, defaultValue: string},
+ *   location: {readableName: string, placeholder: string, icon: string},
+ *   description: {readableName: string, placeholder: string, icon: string, defaultNumberOfRows: number},
+ *   status: {readableName: string, icon: string, options: {value: string, label: string}[], multiple: boolean, info: string, defaultValue: string},
+ *   timeTransparency: {readableName: string, icon: string, multiple: boolean, info: string, options: {value: string, label: string}[], defaultValue: string},
+ *   categories: {readableName: string, icon: string, multiple: boolean, info: string, placeholder: string, tagPlaceholder: string, options: {value: string, label: string}[]},
+ *   color: {readableName: string, icon: string, multiple: boolean, info: string},
+ * }}
  */
-const getRFCProperties = () => {
+function getRFCProperties() {
 	return {
 		/**
 		 * https://tools.ietf.org/html/rfc5545#section-3.8.1.3
 		 */
 		accessClass: {
 			readableName: t('calendar', 'When shared show'),
-			icon: 'icon-eye',
+			icon: 'Eye',
 			options: [
 				{ value: 'PUBLIC', label: t('calendar', 'When shared show full event') },
 				{ value: 'CONFIDENTIAL', label: t('calendar', 'When shared show only busy') },
 				{ value: 'PRIVATE', label: t('calendar', 'When shared hide this event') },
 			],
 			multiple: false,
-			info: t('calendar', 'The visibility of this event in shared calendars.'),
+			info: t('calendar', 'The visibility of this event in read-only shared calendars.'),
 			defaultValue: 'PUBLIC',
 		},
 		/**
@@ -50,15 +41,19 @@ const getRFCProperties = () => {
 		location: {
 			readableName: t('calendar', 'Location'),
 			placeholder: t('calendar', 'Add a location'),
-			icon: 'icon-address',
+			icon: 'MapMarker',
 		},
 		/**
 		 * https://tools.ietf.org/html/rfc5545#section-3.8.1.5
 		 */
 		description: {
 			readableName: t('calendar', 'Description'),
-			placeholder: t('calendar', 'Add a description'),
-			icon: 'icon-menu',
+			placeholder: t('calendar', 'Add a description\n'
+			+ '\n'
+			+ '- What is this meeting about\n'
+			+ '- Agenda items\n'
+			+ '- Anything participants need to prepare'),
+			icon: 'TextBoxOutline',
 			defaultNumberOfRows: 2,
 		},
 		/**
@@ -66,7 +61,7 @@ const getRFCProperties = () => {
 		 */
 		status: {
 			readableName: t('calendar', 'Status'),
-			icon: 'icon-checkmark',
+			icon: 'Check',
 			options: [
 				{ value: 'CONFIRMED', label: t('calendar', 'Confirmed') },
 				{ value: 'TENTATIVE', label: t('calendar', 'Tentative') },
@@ -81,7 +76,7 @@ const getRFCProperties = () => {
 		 */
 		timeTransparency: {
 			readableName: t('calendar', 'Show as'),
-			icon: 'icon-briefcase',
+			icon: 'Briefcase',
 			multiple: false,
 			info: t('calendar', 'Take this event into account when calculating free-busy information.'),
 			options: [
@@ -95,7 +90,7 @@ const getRFCProperties = () => {
 		 */
 		categories: {
 			readableName: t('calendar', 'Categories'),
-			icon: 'icon-tag',
+			icon: 'Tag',
 			multiple: true,
 			info: t('calendar', 'Categories help you to structure and organize your events.'),
 			placeholder: t('calendar', 'Search or add categories'),
@@ -107,7 +102,7 @@ const getRFCProperties = () => {
 		 */
 		color: {
 			readableName: t('calendar', 'Custom color'),
-			icon: 'icon-color-picker',
+			icon: 'EyedropperVariant',
 			multiple: false,
 			info: t('calendar', 'Special color of this event. Overrides the calendar-color.'),
 		},

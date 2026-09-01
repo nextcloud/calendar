@@ -1,33 +1,15 @@
 /**
- * @copyright Copyright (c) 2019 Georg Ehrke
- *
- * @author Georg Ehrke <oc.list@georgehrke.com>
- *
- * @license GNU AGPL version 3 or any later version
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- *
+ * SPDX-FileCopyrightText: 2019 Nextcloud GmbH and Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 import {
 	getDefaultCalendarObject,
 	mapDavCollectionToCalendar,
-} from '../../../../src/models/calendar.js'
-import { mapDavShareeToCalendarShareObject } from "../../../../src/models/calendarShare.js";
-jest.mock("../../../../src/models/calendarShare.js")
+} from '@/models/calendar.js'
+import { mapDavShareeToCalendarShareObject } from '@/models/calendarShare.js'
+vi.mock('@/models/calendarShare.js')
 
 describe('Test suite: Calendar model (models/calendar.js)', () => {
-
 	beforeEach(() => {
 		mapDavShareeToCalendarShareObject.mockClear()
 	})
@@ -49,12 +31,20 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			url: '',
 			readOnly: false,
 			order: 0,
+			isDelegated: false,
 			isSharedWithMe: false,
 			canBeShared: false,
 			canBePublished: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			dav: false,
 			calendarObjects: [],
-			fetchedTimeRanges: []
+			fetchedTimeRanges: [],
+			transparency: 'opaque',
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 	})
 
@@ -62,7 +52,7 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 		expect(getDefaultCalendarObject({
 			id: '123',
 			displayName: 'Foo',
-			loading: true
+			loading: true,
 		})).toEqual({
 			id: '123',
 			displayName: 'Foo',
@@ -79,12 +69,20 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			url: '',
 			readOnly: false,
 			order: 0,
+			isDelegated: false,
 			isSharedWithMe: false,
 			canBeShared: false,
 			canBePublished: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			dav: false,
 			calendarObjects: [],
-			fetchedTimeRanges: []
+			fetchedTimeRanges: [],
+			transparency: 'opaque',
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 	})
 
@@ -102,10 +100,12 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			publishURL: undefined,
 			enabled: true,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
+			transparency: 'opaque',
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/admin/'
+			url: '/remote.php/dav/principals/users/admin/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -122,12 +122,20 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
+			transparency: 'opaque',
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -146,11 +154,13 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			order: undefined,
 			publishURL: undefined,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
-			enabled: false
+			transparency: 'transparent',
+			enabled: false,
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/admin/'
+			url: '/remote.php/dav/principals/users/admin/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -167,12 +177,20 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
+			transparency: 'transparent',
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -190,11 +208,12 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isPublishable: () => true,
 			order: undefined,
 			publishURL: undefined,
-			enabled: undefined
+			enabled: undefined,
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/admin/'
+			url: '/remote.php/dav/principals/users/admin/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -211,12 +230,20 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: null,
+			transparency: 'opaque',
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -234,18 +261,19 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isPublishable: () => true,
 			order: undefined,
 			publishURL: undefined,
-			enabled: undefined
+			enabled: undefined,
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/user123/'
+			url: '/remote.php/dav/principals/users/user123/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
 			color: '#FF00FF',
 			dav: cdavObject,
 			displayName: 'Displayname of calendar 123',
-			enabled: false,
+			enabled: true,
 			id: 'L2Zvby9iYXI=',
 			order: 0,
 			owner: '/remote.php/dav/principals/users/admin/',
@@ -255,12 +283,20 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: true,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: null,
+			transparency: 'opaque',
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -278,11 +314,12 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isPublishable: () => true,
 			order: undefined,
 			publishURL: undefined,
-			enabled: true
+			enabled: true,
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/admin/'
+			url: '/remote.php/dav/principals/users/admin/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -299,12 +336,20 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: null,
+			transparency: 'opaque',
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -322,11 +367,12 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isPublishable: () => true,
 			order: undefined,
 			publishURL: undefined,
-			enabled: true
+			enabled: true,
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/admin/'
+			url: '/remote.php/dav/principals/users/admin/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -343,12 +389,20 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: null,
+			transparency: 'opaque',
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -366,11 +420,12 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isPublishable: () => true,
 			order: undefined,
 			publishURL: undefined,
-			enabled: true
+			enabled: true,
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/admin/'
+			url: '/remote.php/dav/principals/users/admin/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -387,12 +442,20 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: null,
+			transparency: 'opaque',
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -410,11 +473,12 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			isPublishable: () => true,
 			order: undefined,
 			publishURL: undefined,
-			enabled: true
+			enabled: true,
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/admin/'
+			url: '/remote.php/dav/principals/users/admin/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -431,12 +495,20 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: null,
+			transparency: 'opaque',
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -465,51 +537,52 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			enabled: true,
 			shares: [
 				{
-					'href': 'principal:principals/users/user4',
+					href: 'principal:principals/users/user4',
 					'common-name': 'Marcus Beehler',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read'
-					]
+					access: [
+						'{http://owncloud.org/ns}read',
+					],
 				},
 				{
-					'href': 'principal:principals/users/admin',
+					href: 'principal:principals/users/admin',
 					'common-name': 'admin',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read-write'
-					]
+					access: [
+						'{http://owncloud.org/ns}read-write',
+					],
 				},
 				{
-					'href': 'principal:principals/circles/c479c14bd82415',
+					href: 'principal:principals/circles/c479c14bd82415',
 					'common-name': 'My personal circle',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read'
-					]
+					access: [
+						'{http://owncloud.org/ns}read',
+					],
 				},
 				{
-					'href': 'principal:principals/users/user3',
+					href: 'principal:principals/users/user3',
 					'common-name': 'Whitney Anders',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read-write'
-					]
+					access: [
+						'{http://owncloud.org/ns}read-write',
+					],
 				},
 				{
-					'href': 'principal:principals/groups/admin',
+					href: 'principal:principals/groups/admin',
 					'common-name': '',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read'
-					]
-				}
-			]
+					access: [
+						'{http://owncloud.org/ns}read',
+					],
+				},
+			],
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
 			url: '/remote.php/dav/principals/users/admin/',
-			principalScheme: 'principal:principals/users/admin'
+			principalScheme: 'principal:principals/users/admin',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -531,46 +604,54 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: null,
+			transparency: 'opaque',
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(4)
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenNthCalledWith(1, {
-			'href': 'principal:principals/users/user4',
+			href: 'principal:principals/users/user4',
 			'common-name': 'Marcus Beehler',
 			'invite-accepted': true,
-			'access': [
-				'{http://owncloud.org/ns}read'
-			]
+			access: [
+				'{http://owncloud.org/ns}read',
+			],
 		})
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenNthCalledWith(2, {
-			'href': 'principal:principals/circles/c479c14bd82415',
+			href: 'principal:principals/circles/c479c14bd82415',
 			'common-name': 'My personal circle',
 			'invite-accepted': true,
-			'access': [
-				'{http://owncloud.org/ns}read'
-			]
+			access: [
+				'{http://owncloud.org/ns}read',
+			],
 		})
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenNthCalledWith(3, {
-			'href': 'principal:principals/users/user3',
+			href: 'principal:principals/users/user3',
 			'common-name': 'Whitney Anders',
 			'invite-accepted': true,
-			'access': [
-				'{http://owncloud.org/ns}read-write'
-			]
+			access: [
+				'{http://owncloud.org/ns}read-write',
+			],
 		})
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenNthCalledWith(4, {
-			'href': 'principal:principals/groups/admin',
+			href: 'principal:principals/groups/admin',
 			'common-name': '',
 			'invite-accepted': true,
-			'access': [
-				'{http://owncloud.org/ns}read'
-			]
+			access: [
+				'{http://owncloud.org/ns}read',
+			],
 		})
 	})
 
@@ -589,46 +670,47 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			enabled: true,
 			shares: [
 				{
-					'href': 'principal:principals/users/user4',
+					href: 'principal:principals/users/user4',
 					'common-name': 'Marcus Beehler',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read'
-					]
+					access: [
+						'{http://owncloud.org/ns}read',
+					],
 				},
 				{
-					'href': 'principal:principals/users/admin',
+					href: 'principal:principals/users/admin',
 					'common-name': 'admin',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read-write'
-					]
+					access: [
+						'{http://owncloud.org/ns}read-write',
+					],
 				},
 				{
-					'href': 'principal:principals/circles/c479c14bd82415',
+					href: 'principal:principals/circles/c479c14bd82415',
 					'common-name': 'My personal circle',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read'
-					]
+					access: [
+						'{http://owncloud.org/ns}read',
+					],
 				},
 				{
-					'href': 'principal:principals/users/user3',
+					href: 'principal:principals/users/user3',
 					'common-name': 'Whitney Anders',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read-write'
-					]
+					access: [
+						'{http://owncloud.org/ns}read-write',
+					],
 				},
 				{
-					'href': 'principal:principals/groups/admin',
+					href: 'principal:principals/groups/admin',
 					'common-name': '',
 					'invite-accepted': true,
-					'access': [
-						'{http://owncloud.org/ns}read'
-					]
-				}
-			]
+					access: [
+						'{http://owncloud.org/ns}read',
+					],
+				},
+			],
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject)).toEqual({
@@ -647,12 +729,20 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: true,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: null,
+			transparency: 'opaque',
 			url: '/foo/bar',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 
 		expect(mapDavShareeToCalendarShareObject).toHaveBeenCalledTimes(0)
@@ -671,11 +761,12 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			order: undefined,
 			publishURL: undefined,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
-			enabled: false
+			enabled: false,
+			currentUserPrivilegeSet: [],
 		}
 
 		expect(mapDavCollectionToCalendar(cdavObject, {
-			url: '/remote.php/dav/principals/users/admin/'
+			url: '/remote.php/dav/principals/users/admin/',
 		})).toEqual({
 			canBePublished: true,
 			canBeShared: true,
@@ -692,13 +783,20 @@ describe('Test suite: Calendar model (models/calendar.js)', () => {
 			supportsEvents: true,
 			supportsJournals: false,
 			supportsTasks: false,
+			isDelegated: false,
 			isSharedWithMe: false,
+			canCreateObject: false,
+			canDeleteObject: false,
+			canModifyObject: false,
 			timezone: 'BEGIN:VCALENDAR...END:VCALENDAR',
+			transparency: 'opaque',
 			url: '/remote.php/dav/calendars/admin/personal/',
 			calendarObjects: [],
 			fetchedTimeRanges: [],
 			loading: false,
+			defaultAlarmFullDay: null,
+			defaultAlarmPartDay: null,
+			delegatorUrl: '',
 		})
 	})
-
 })
