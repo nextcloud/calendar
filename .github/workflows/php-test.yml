@@ -9,6 +9,8 @@ jobs:
     permissions:
       contents: read
       pull-requests: read
+    outputs:
+      backend: ${{ steps.changes.outputs.backend }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -17,6 +19,7 @@ jobs:
           sparse-checkout-cone-mode: false
       - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
         id: changes
+        continue-on-error: true
         with:
           filters: .github/filters.yml
 
