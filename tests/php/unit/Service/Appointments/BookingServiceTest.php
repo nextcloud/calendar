@@ -15,6 +15,7 @@ use OCA\Calendar\Db\AppointmentConfig;
 use OCA\Calendar\Db\Booking;
 use OCA\Calendar\Db\BookingMapper;
 use OCA\Calendar\Exception\ClientException;
+use OCA\Calendar\Exception\NoSlotFoundException;
 use OCA\Calendar\Service\Appointments\AvailabilityGenerator;
 use OCA\Calendar\Service\Appointments\BookingCalendarWriter;
 use OCA\Calendar\Service\Appointments\BookingService;
@@ -161,7 +162,7 @@ class BookingServiceTest extends TestCase {
 			->method('generate');
 
 		$this->expectExceptionObject(new InvalidArgumentException('Could not make sense of the timezone'));
-		$this->service->book(new AppointmentConfig(), 4054546654, 44545454, 'Nighttime/DAYTIME!', 'Test', 'test@test.com', 'Test');
+		$this->service->book(new AppointmentConfig(), 1891378800, 1891382400, 'Nighttime/DAYTIME!', 'Test', 'test@test.com', 'Test');
 	}
 
 	public function testBook(): void {
@@ -195,6 +196,33 @@ class BookingServiceTest extends TestCase {
 			->willReturn('abc');
 
 		$this->service->book(new AppointmentConfig(), $start->getTimestamp(), $end->getTimestamp(), 'Europe/Berlin', 'Test', 'test@test.com');
+	}
+
+	public function testBookSlotMismatch(): void {
+		// Attacker-supplied range that only overlaps a real slot instead of matching one exactly.
+		$start = 1891378800;
+		$end = 1891389600;
+		$intervals = [
+			new Interval(1891382400, 1891386000),
+		];
+
+		$this->availabilityGenerator->expects(self::once())
+			->method('generate')
+			->willReturn($intervals);
+		$this->extrapolator->expects(self::once())
+			->method('extrapolate')
+			->willReturnArgument(1);
+		$this->dailyLimitFilter->expects(self::once())
+			->method('filter')
+			->willReturnArgument(1);
+		$this->eventConflictFilter->expects(self::once())
+			->method('filter')
+			->willReturnArgument(1);
+		$this->bookingMapper->expects(self::never())
+			->method('insert');
+
+		$this->expectException(NoSlotFoundException::class);
+		$this->service->book(new AppointmentConfig(), $start, $end, 'Europe/Berlin', 'Test', 'test@test.com');
 	}
 
 	public function testConfirmBooking(): void {
@@ -261,6 +289,38 @@ class BookingServiceTest extends TestCase {
 			->method('sendBookingInformationEmail');
 
 		$this->expectException(ClientException::class);
+		$this->service->confirmBooking($booking, $config);
+	}
+
+	public function testConfirmBookingSlotMismatch(): void {
+		// The persisted booking's start/end no longer match any currently available slot,
+		// even though the availability check itself returns a non-empty list.
+		$booking = new Booking();
+		$booking->setStart(1891378800);
+		$booking->setEnd(1891382400);
+		$config = new AppointmentConfig();
+		$interval = [
+			new Interval(1891382400, 1891386000),
+		];
+
+		$this->availabilityGenerator->expects(self::once())
+			->method('generate')
+			->willReturn($interval);
+		$this->extrapolator->expects(self::once())
+			->method('extrapolate')
+			->willReturnArgument(1);
+		$this->dailyLimitFilter->expects(self::once())
+			->method('filter')
+			->willReturnArgument(1);
+		$this->eventConflictFilter->expects(self::once())
+			->method('filter')
+			->willReturnArgument(1);
+		$this->bookingCalendarWriter->expects(self::never())
+			->method('write');
+		$this->bookingMapper->expects(self::never())
+			->method('update');
+
+		$this->expectException(NoSlotFoundException::class);
 		$this->service->confirmBooking($booking, $config);
 	}
 
