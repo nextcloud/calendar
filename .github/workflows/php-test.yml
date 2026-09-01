@@ -30,6 +30,8 @@ jobs:
               - 'composer/**'
               - 'composer.json'
               - 'composer.lock'
+              - 'phpunit.integration.xml'
+              - 'phpunit.unit'
 
   unit-tests:
     runs-on: ubuntu-latest
