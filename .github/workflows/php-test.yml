@@ -9,34 +9,22 @@ jobs:
     permissions:
       contents: read
       pull-requests: read
-
-    outputs:
-      src: ${{ steps.changes.outputs.src}}
-
     steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 1
+          sparse-checkout: .github/filters.yaml
+          sparse-checkout-cone-mode: false
       - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
         id: changes
         continue-on-error: true
         with:
-          filters: |
-            src:
-              - '.github/workflows/**'
-              - 'appinfo/**'
-              - 'lib/**'
-              - 'templates/**'
-              - 'tests/php/**'
-              - 'vendor/**'
-              - 'vendor-bin/**'
-              - 'composer/**'
-              - 'composer.json'
-              - 'composer.lock'
-              - 'phpunit.integration.xml'
-              - 'phpunit.unit'
+          filters: .github/filters.yaml
 
   unit-tests:
     runs-on: ubuntu-latest
     needs: changes
-    if: needs.changes.outputs.src != 'false'
+    if: needs.changes.outputs.backend != 'false'
     strategy:
       matrix:
         php-versions: [ '8.3', '8.4', '8.5' ]
@@ -87,7 +75,7 @@ jobs:
   integration-tests:
     runs-on: ubuntu-latest
     needs: changes
-    if: needs.changes.outputs.src != 'false'
+    if: needs.changes.outputs.backend != 'false'
     strategy:
       matrix:
         php-versions: [ '8.3', '8.4', '8.5' ]
