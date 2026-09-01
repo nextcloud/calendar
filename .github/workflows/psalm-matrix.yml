@@ -104,4 +104,4 @@ jobs:
 
     steps:
       - name: Summary status
-        run: if ${{ needs.static-analysis.result != 'success' }}; then exit 1; fi
+        run: if ${{ needs.static-analysis.result != 'success' && needs.static-analysis.result != 'skipped' }}; then exit 1; fi

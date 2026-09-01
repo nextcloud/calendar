@@ -68,3 +68,17 @@ jobs:
 
       - name: Lint
         run: composer run cs:check || ( echo 'Please run `composer run cs:fix` to format your code' && exit 1 )
+
+summary:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest-low
+    needs: lint
+
+    if: always()
+
+    name: php-cs-lint-summary
+
+    steps:
+      - name: Summary status
+        run: if ${{ needs.lint.result != 'success' && needs.lint.result != 'skipped' }}; then exit 1; fi
