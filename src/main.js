@@ -18,6 +18,7 @@ import logger from '@/utils/logger.js'
 import 'core-js/stable/index.js'
 import '@/styles/calendar.scss'
 
+// Some change
 const pinia = createPinia()
 
 // CSP config for webpack dynamic chunk loading
