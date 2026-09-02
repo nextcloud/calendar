@@ -1,0 +1,51 @@
+# SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
+# SPDX-License-Identifier: MIT
+
+# Periodically pull server styles into this repo for reproducible component tests.
+# Adapted from https://github.com/nextcloud-libraries/nextcloud-vue/blob/ac7e60606aee3d38f51b5385beb2f4e61a94c0ed/.github/workflows/server-styling-update.yml
+
+name: Update server styling
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 5 * * *"
+
+jobs:
+  server-styling-update:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        branch: ['main', 'stable6.6', 'stable6.5']
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          ref: ${{ matrix.branch }}
+
+      - name: Download CSS
+        # Removes sourceMappingURL from downloaded to avoid warning about missing source maps.
+        # Alternativly we could pull and check in all the source maps.
+        run: |
+          cd tests/javascript/component/gallery/assets/server
+          curl https://nextcloud.github.io/server/apps/theming/css/default.css > apps/theming/css/default.css
+          curl https://nextcloud.github.io/server/core/css/server.css |  sed 's|/\*# sourceMappingURL=[^*]*\*/||' > core/css/server.css
+          curl https://nextcloud.github.io/server/dist/icons.css > dist/icons.css 
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          token: ${{ secrets.COMMAND_BOT_PAT }}
+          author: nextcloud-command <nextcloud-command@users.noreply.github.com>
+          committer: nextcloud-command <nextcloud-command@users.noreply.github.com>
+          commit-message: "chore(tests): update component test styling from server"
+          signoff: true
+          branch: 'automated/${{ github.run_id }}/server-styling-update-${{ matrix.branch }}'
+          title: '[${{ matrix.branch }}] chore(docs): Automated styling update from server'
+          add-paths: styleguide/assets
+          body: |
+            Auto-generated update of our locally cached CSS styling from https://nextcloud.github.io
+          labels: |
+            dependencies
+            3. to review
