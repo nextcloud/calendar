@@ -107,7 +107,7 @@
     "jsdom": "^30.0.1",
     "sass": "^1.103.1",
     "sass-loader": "^17.0.1",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "vitest": "^4.1.11"
   },
   "optionalDependencies": {
