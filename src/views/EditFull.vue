@@ -957,12 +957,6 @@ export default {
 		flex-direction: column;
 		gap: calc(var(--default-grid-baseline) * 4);
 
-		:deep(.property-select__input) {
-			max-width: calc(var(--total-width) * 1 / 3 - var(--column-gap) / 2 - 36px);
-			display: flex;
-			align-items: center;
-		}
-
 		.multiselect__tag {
 			padding: var(--default-grid-baseline);
 			border-radius: var(--border-radius-element);
@@ -995,10 +989,6 @@ export default {
 @media screen and (max-width: 915px) {
 	.app-full-body__right {
 		width: calc(var(--total-width) * 2 / 3 - var(--column-gap) / 2) !important;
-
-		.property-select__input {
-			max-width: 100% !important;
-		}
 	}
 }
 
@@ -1029,10 +1019,6 @@ export default {
 @media screen and (max-width: 840px) {
 	.app-full-footer__right {
 		width: calc(var(--total-width) * 2 / 3 - var(--column-gap) / 2) !important;
-
-		.property-select__input {
-			max-width: 100% !important;
-		}
 	}
 }
 
