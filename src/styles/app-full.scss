@@ -62,7 +62,12 @@
 	align-items: center;
 	gap: calc(var(--default-grid-baseline) * 4);
 	justify-content: flex-start;
+	// This is the usuall size of input and selects provided by @nextcloud/vue.
+	// We never want to be smaller.
+	min-height: var(--default-clickable-area);
+}
 
+.property-select-multiple, .property-color, .property-repeat__summary {
 	&__input {
 		width: unset !important;
 		flex-grow: 1;
@@ -381,8 +386,4 @@
 
 textarea {
 	padding: 5px 12px !important;
-}
-
-.property-select__input {
-	height: 34px;
 }
