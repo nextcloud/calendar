@@ -9,8 +9,6 @@ import useTasksStore from '@/store/unscheduledTasks.js'
 import { getAllObjectsInTimeRange } from '@/utils/calendarObject.js'
 import {
 	getHexForColorName,
-	hexToRGB,
-	isLight,
 } from '@/utils/color.js'
 import logger from '@/utils/logger.js'
 /**
@@ -169,7 +167,6 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 					calendarOrder: calendar.order,
 					calendarName: calendar.displayName,
 					calendarId: calendar.id,
-					darkText: isLight(hexToRGB(calendar.color)),
 					objectType: object.name,
 					percent: object.percent || null,
 					davUrl: calendarObject.dav.url,
