@@ -45,7 +45,7 @@
 				<div class="booking__slot-selection">
 					<h5>{{ $t('calendar', 'Select slot') }}</h5>
 					<div class="booking__slots">
-						<Loading v-if="loadingSlots" class="loading" :size="24" />
+						<NcLoadingIcon v-if="loadingSlots" :size="24" />
 						<NcEmptyContent
 							v-else-if="slots.length === 0 && !loadingSlots"
 							:title="$t('calendar', 'No slots available')"
@@ -92,23 +92,15 @@ import {
 	NcDateTimePicker as DateTimePicker,
 	NcEmptyContent,
 	NcGuestContent,
+	NcLoadingIcon,
 	NcTimezonePicker as TimezonePicker,
 } from '@nextcloud/vue'
-import { h } from 'vue'
-import MDILoading from 'vue-material-design-icons/Loading.vue'
 import AppointmentBookingConfirmation from '../../components/Appointments/AppointmentBookingConfirmation.vue'
 import AppointmentDetails from '../../components/Appointments/AppointmentDetails.vue'
 import AppointmentSlot from '../../components/Appointments/AppointmentSlot.vue'
 import { bookSlot, findSlots } from '../../services/appointmentService.js'
 
 import '@nextcloud/dialogs/style.css'
-
-function Loading(props) {
-	return h(MDILoading, {
-		class: 'animation-rotate',
-		...props,
-	})
-}
 
 export default {
 	name: 'Booking',
@@ -120,8 +112,8 @@ export default {
 		AppointmentDetails,
 		AppointmentBookingConfirmation,
 		NcGuestContent,
-		Loading,
 		NcEmptyContent,
+		NcLoadingIcon,
 	},
 
 	props: {
