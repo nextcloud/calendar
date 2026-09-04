@@ -12,9 +12,12 @@
 		<div class="modal-content">
 			<NcEmptyContent
 				v-if="loading"
-				icon="icon-loading"
 				class="modal__content__loading"
-				:description="t('calendar', 'Fetching Talk rooms…')" />
+				:description="t('calendar', 'Fetching Talk rooms…')">
+				<template #icon>
+					<NcLoadingIcon decorative />
+				</template>
+			</NcEmptyContent>
 			<NcEmptyContent
 				v-else-if="talkConversations.length === 0"
 				:description="t('calendar', 'No Talk room available')" />
@@ -87,6 +90,7 @@ import {
 	NcFormBoxButton,
 	NcFormGroup,
 	NcListItem,
+	NcLoadingIcon,
 	NcModal,
 } from '@nextcloud/vue'
 import md5 from 'md5'
@@ -118,6 +122,7 @@ export default {
 		NcFormBoxButton,
 		NcListItem,
 		NcFormGroup,
+		NcLoadingIcon,
 	},
 
 	props: {

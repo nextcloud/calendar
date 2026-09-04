@@ -20,7 +20,7 @@
 				:title="$t('calendar', 'No valid public calendars configured')"
 				:description="$t('calendar', 'Contact your server administrator to resolve this issue.')">
 				<template #icon>
-					<CalendarBlank :size="20" decorative />
+					<CalendarBlank decorative />
 				</template>
 			</NcEmptyContent>
 			<p v-else-if="showHolidays" class="holiday-subscription-picker__attribution">
