@@ -14,9 +14,12 @@
 			:description="t('calendar', 'Allow users to manage your calendar events and invitations on your behalf.')">
 			<NcEmptyContent
 				v-if="loading"
-				icon="icon-loading"
 				class="delegation-settings__loading"
-				:description="t('calendar', 'Loading delegates\u2026')" />
+				:description="t('calendar', 'Loading delegates\u2026')">
+				<template #icon>
+					<NcLoadingIcon decorative />
+				</template>
+			</NcEmptyContent>
 			<ul v-else class="delegation-settings__list">
 				<NcListItem
 					v-for="delegate in delegationStore.delegates"
