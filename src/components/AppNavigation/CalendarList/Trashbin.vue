@@ -21,15 +21,18 @@
 					<h2>{{ t('calendar', 'Trash bin') }}</h2>
 					<NcEmptyContent
 						v-if="loading"
-						icon="icon-loading"
 						class="modal__content__loading"
-						:description="t('calendar', 'Loading deleted items.')" />
+						:description="t('calendar', 'Loading deleted items.')">
+						<template #icon>
+							<NcLoadingIcon decorative />
+						</template>
+					</NcEmptyContent>
 					<NcEmptyContent
 						v-else-if="!items.length"
 						class="modal__content__empty"
 						:description="t('calendar', 'You do not have any deleted items.')">
 						<template #icon>
-							<IconDelete :size="20" decorative />
+							<IconDelete decorative />
 						</template>
 					</NcEmptyContent>
 					<template v-else>
@@ -112,6 +115,7 @@ import {
 	NcButton,
 	NcDateTime,
 	NcEmptyContent,
+	NcLoadingIcon,
 	NcModal,
 } from '@nextcloud/vue'
 import { mapState, mapStores } from 'pinia'
@@ -132,6 +136,7 @@ export default {
 		NcEmptyContent,
 		NcModal,
 		IconDelete,
+		NcLoadingIcon,
 	},
 
 	data() {

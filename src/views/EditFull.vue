@@ -27,7 +27,7 @@
 			<template v-else-if="isError">
 				<NcEmptyContent :name="$t('calendar', 'Event does not exist')" :description="error">
 					<template #icon>
-						<CalendarBlank :size="20" decorative />
+						<CalendarBlank decorative />
 					</template>
 				</NcEmptyContent>
 			</template>

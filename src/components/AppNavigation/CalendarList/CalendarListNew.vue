@@ -291,10 +291,8 @@ function closeMenu(): void {
 					</template>
 				</ActionInput>
 				<ActionText
-					v-if="showCreateCalendarSaving">
-					<template #icon>
-						<div class="icon icon-loading-small" />
-					</template>
+					v-if="showCreateCalendarSaving"
+					icon="icon-loading-small">
 					{{ t('calendar', 'Creating calendar …') }}
 				</ActionText>
 
@@ -315,10 +313,8 @@ function closeMenu(): void {
 					</template>
 				</ActionInput>
 				<ActionText
-					v-if="showCreateCalendarTaskListSaving">
-					<template #icon>
-						<div class="icon icon-loading-small" />
-					</template>
+					v-if="showCreateCalendarTaskListSaving"
+					icon="icon-loading-small">
 					{{ t('calendar', 'Creating calendar …') }}
 				</ActionText>
 
@@ -340,10 +336,8 @@ function closeMenu(): void {
 					</template>
 				</ActionInput>
 				<ActionText
-					v-if="showCreateSubscriptionSaving">
-					<template #icon>
-						<div class="icon icon-loading-small" />
-					</template>
+					v-if="showCreateSubscriptionSaving"
+					icon="icon-loading-small">
 					{{ t('calendar', 'Creating subscription …') }}
 				</ActionText>
 				<ActionButton
