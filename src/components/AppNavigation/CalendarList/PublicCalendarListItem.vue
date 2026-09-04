@@ -129,10 +129,8 @@ async function copySubscriptionLink(): Promise<void> {
 				{{ t('calendar', 'Copy subscription link') }}
 			</ActionButton>
 			<ActionText
-				v-if="showCopySubscriptionLinkSpinner">
-				<template #icon>
-					<div class="icon icon-loading-small" />
-				</template>
+				v-if="showCopySubscriptionLinkSpinner"
+				icon="icon-loading-small">
 				{{ t('calendar', 'Copying link …') }}
 			</ActionText>
 			<ActionText v-if="showCopySubscriptionLinkSuccess">
