@@ -18,6 +18,7 @@ import {
 	NcAvatar,
 } from '@nextcloud/vue'
 import { computed, ref } from 'vue'
+import BellOffOutline from 'vue-material-design-icons/BellOffOutline.vue'
 import CheckboxBlank from 'vue-material-design-icons/CheckboxBlankOutline.vue'
 import CheckboxMarked from 'vue-material-design-icons/CheckboxMarked.vue'
 import ContentCopy from 'vue-material-design-icons/ContentCopy.vue'
@@ -173,6 +174,7 @@ async function copyPublicLink(): Promise<void> {
 		showError(t('calendar', 'Calendar link could not be copied to clipboard.'))
 	}
 }
+
 </script>
 
 <template>
@@ -197,7 +199,8 @@ async function copyPublicLink(): Promise<void> {
 		</template>
 
 		<template #counter>
-			<LinkVariant v-if="isSharedByMe" :size="20" />
+			<BellOffOutline v-if="calendar.disableAlarmNotifications" :size="20" :title="t('calendar', 'Notifications muted')" />
+			<LinkVariant v-else-if="isSharedByMe" :size="20" />
 			<NcAvatar
 				v-else-if="isDelegated && loadedDelegatorPrincipal && !actionsMenuOpen"
 				:user="delegatorUserId"

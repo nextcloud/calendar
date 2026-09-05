@@ -641,6 +641,30 @@ export default defineStore('calendars', {
 		},
 
 		/**
+		 * Change whether alarm notifications are disabled for a calendar
+		 *
+		 * @param {object} data destructuring object
+		 * @param {object} data.calendar the calendar to modify
+		 * @param {boolean} data.disableAlarmNotifications whether alarm notifications should be disabled
+		 * @return {Promise}
+		 */
+		async changeCalendarDisableAlarmNotifications({ calendar, disableAlarmNotifications }) {
+			const disableAlarmNotificationsChanged = calendar.disableAlarmNotifications !== disableAlarmNotifications
+
+			if (!disableAlarmNotificationsChanged) {
+				return
+			}
+
+			calendar.dav.disableAlarmNotifications = disableAlarmNotifications
+
+			await calendar.dav.update()
+
+			if (this.calendarsById[calendar.id]) {
+				this.calendarsById[calendar.id].disableAlarmNotifications = disableAlarmNotifications
+			}
+		},
+
+		/**
 		 * Share calendar with User or Group
 		 *
 		 * @param {object} data destructuring object

@@ -72,6 +72,8 @@ function getDefaultCalendarObject(props = {}) {
 		defaultAlarmPartDay: null,
 		// Default alarm/reminder for full-day events in seconds (null if disabled)
 		defaultAlarmFullDay: null,
+		// Whether alarm notifications/reminders are disabled for this calendar
+		disableAlarmNotifications: false,
 		...props,
 	}
 }
@@ -117,6 +119,7 @@ function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 	const defaultAlarmPartDay = isAfterVersion(34) && calendar.defaultAlarmPartDay !== undefined ? calendar.defaultAlarmPartDay : null
 	// Default alarm for full-day events in this calendar (in seconds)
 	const defaultAlarmFullDay = isAfterVersion(34) && calendar.defaultAlarmFullDay !== undefined ? calendar.defaultAlarmFullDay : null
+	const disableAlarmNotifications = isAfterVersion(36) && calendar.disableAlarmNotifications !== undefined ? Boolean(calendar.disableAlarmNotifications) : false
 
 	// If the user is not authenticated, the calendar
 	// will always be marked as shared with them
@@ -172,6 +175,7 @@ function mapDavCollectionToCalendar(calendar, currentUserPrincipal) {
 		transparency,
 		defaultAlarmPartDay,
 		defaultAlarmFullDay,
+		disableAlarmNotifications,
 		dav: calendar,
 	})
 }
