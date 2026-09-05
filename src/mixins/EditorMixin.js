@@ -17,6 +17,7 @@ import useSettingsStore from '@/store/settings.js'
 import useWidgetStore from '@/store/widget.js'
 import { updateDefaultAlarm } from '@/utils/alarms.js'
 import { removeMailtoPrefix } from '@/utils/attendee.js'
+import { isBaseOccurrence } from '@/utils/calendarObject.js'
 import { uidToHexColor } from '@/utils/color.js'
 import { dateFactory } from '@/utils/date.js'
 import logger from '@/utils/logger.js'
@@ -50,13 +51,13 @@ export default {
 			calendarId: null,
 			// Whether or not an action is required on leave
 			requiresActionOnRouteLeave: true,
-			// Whether or not the this and all future option will be forced
-			// This is the case when editing the recurrence-rule of an existing recurring event
-			forceThisAndAllFuture: false,
-			// Whether or not the master item is being edited
-			isEditingMasterItem: false,
-			// Whether or not it is a recurrence-exception
-			isRecurrenceException: false,
+			// Whether changing the recurrence rule requires updating this and future occurrences
+			requiresFutureUpdate: false,
+			// Whether the primary (first) occurrence of a recurring series is being edited,
+			// as opposed to any later occurrence - always true for a brand new event
+			isEditingBaseInstance: false,
+			// Whether or not a recurrence-exception is being edited
+			isEditingExceptionInstance: false,
 			// Whether or not the Talk modal is open
 			isTalkModalOpen: false,
 		}
@@ -309,22 +310,12 @@ export default {
 			return this.viewMode === ViewMode.USER
 		},
 		/**
-		 * Returns whether or not the user is allowed to delete this event
+		 * Returns whether the current event is a recurring instance or exception.
 		 *
 		 * @return {boolean}
 		 */
-		canDelete() {
-			if (!this.calendarObject) {
-				return false
-			}
-			if (this.isReadOnly) {
-				return false
-			}
-			if (this.isLoading) {
-				return false
-			}
-
-			return this.calendarObject?.existsOnServer ?? false
+		isRecurringInstance() {
+			return this.canCreateRecurrenceException || this.isEditingExceptionInstance
 		},
 		/**
 		 * Returns whether or not the user is allowed to create recurrence exceptions for this event
@@ -487,6 +478,9 @@ export default {
 					this.addDelegatorAsAttendeeIfNeeded(this.selectedCalendar)
 				}
 
+				// A new event has no recurrence-id, so it is always its own base item
+				this.isEditingBaseInstance = true
+
 				logger.debug('[Editor] New event created successfully')
 			} catch (error) {
 				logger.error('[Editor] Error creating new event:', { error })
@@ -504,8 +498,8 @@ export default {
 				await this.loadingCalendars()
 				await this.calendarObjectInstanceStore.getCalendarObjectInstanceByObjectIdAndRecurrenceId({ objectId, recurrenceId })
 				this.calendarId = this.calendarObject.calendarId
-				this.isEditingMasterItem = this.eventComponent.isMasterItem()
-				this.isRecurrenceException = this.eventComponent.isRecurrenceException()
+				this.isEditingBaseInstance = isBaseOccurrence(this.calendarObject, this.eventComponent)
+				this.isEditingExceptionInstance = this.eventComponent.isRecurrenceException()
 				logger.debug('[Editor] Event loaded successfully')
 			} catch (error) {
 				logger.error('[Editor] Error loading event:', { error })
@@ -575,10 +569,10 @@ export default {
 			}
 		},
 		/**
-		 * This will force the user to update this and all future occurrences when saving
+		 * Require recurrence changes to apply to this and future occurrences.
 		 */
-		forceModifyingFuture() {
-			this.forceThisAndAllFuture = true
+		requireFutureUpdate() {
+			this.requiresFutureUpdate = true
 		},
 		/**
 		 * Closes the editor and returns to normal calendar-view
@@ -648,13 +642,13 @@ export default {
 			}
 		},
 		keyboardSaveEvent(event) {
-			if (event.key === 'Enter' && event.ctrlKey === true && !this.isReadOnly && !this.canCreateRecurrenceException) {
-				this.saveAndLeave(false)
+			if (event.key === 'Enter' && event.ctrlKey === true && !this.isRecurringInstance && this.canUpdate('occurrence')) {
+				this.saveAndLeave('occurrence')
 			}
 		},
 		keyboardDeleteEvent(event) {
-			if (event.key === 'Delete' && event.ctrlKey === true && this.canDelete && !this.canCreateRecurrenceException) {
-				this.deleteAndLeave(false)
+			if (event.key === 'Delete' && event.ctrlKey === true && !this.isRecurringInstance && this.canDelete('occurrence')) {
+				this.deleteAndLeave('occurrence')
 			}
 		},
 		keyboardDuplicateEvent(event) {
@@ -668,26 +662,26 @@ export default {
 		/**
 		 * Saves a calendar-object
 		 *
-		 * @param {boolean} thisAndAllFuture Whether to modify only this or this and all future occurrences
+		 * @param {string} scope Modification scope: 'occurrence', 'future', or 'series'
 		 * @return {Promise<void>}
 		 */
-		async save(thisAndAllFuture = false) {
+		async save(scope = 'occurrence') {
 			if (!this.calendarObject) {
 				logger.error('Calendar-object not found')
 				return
 			}
-			if (this.isReadOnly) {
-				return
+			if (this.requiresFutureUpdate) {
+				scope = 'future'
 			}
-			if (this.forceThisAndAllFuture) {
-				thisAndAllFuture = true
+			if (!this.canUpdate(scope)) {
+				return
 			}
 
 			this.isLoading = true
 			this.isSaving = true
 			try {
 				await this.calendarObjectInstanceStore.saveCalendarObjectInstance({
-					thisAndAllFuture,
+					scope,
 					calendarId: this.calendarId,
 				})
 			} catch (error) {
@@ -704,13 +698,48 @@ export default {
 		},
 
 		/**
+		 * Returns whether the current user can update the event with the given scope.
+		 *
+		 * @param {string} scope Modification scope: 'occurrence', 'future', or 'series'
+		 * @return {boolean}
+		 */
+		canUpdate(scope) {
+			if (!this.calendarObject || this.isReadOnly || this.isLoading) {
+				return false
+			}
+			if (this.isNew) {
+				return scope === 'occurrence'
+			}
+			if (!this.calendarObject.existsOnServer) {
+				return false
+			}
+			if (this.requiresFutureUpdate) {
+				return scope === 'future'
+			}
+			if (!this.isRecurringInstance) {
+				return scope === 'occurrence'
+			}
+			if ((scope === 'series' || scope === 'future') && this.isEditingExceptionInstance) {
+				return false
+			}
+			if (this.isViewedByAttendee) {
+				return scope === 'series' || (this.isEditingExceptionInstance && scope === 'occurrence')
+			}
+			if (!this.isEditingExceptionInstance && this.isEditingBaseInstance && scope !== 'series') {
+				return false
+			}
+
+			return ['occurrence', 'future', 'series'].includes(scope)
+		},
+
+		/**
 		 * Saves a calendar-object and closes the editor
 		 *
-		 * @param {boolean} thisAndAllFuture Whether to modify only this or this and all future occurrences
+		 * @param {string} scope Modification scope: 'occurrence', 'future', or 'series'
 		 * @return {Promise<void>}
 		 */
-		async saveAndLeave(thisAndAllFuture = false) {
-			await this.save(thisAndAllFuture)
+		async saveAndLeave(scope = 'occurrence') {
+			await this.save(scope)
 			this.requiresActionOnRouteLeave = false
 			this.closeEditor()
 		},
@@ -756,35 +785,63 @@ export default {
 		},
 
 		/**
+		 * Returns whether the current user can delete the event with the given scope.
+		 *
+		 * @param {string} scope Deletion scope: 'occurrence', 'future', or 'series'
+		 * @return {boolean}
+		 */
+		canDelete(scope) {
+			if (!this.calendarObject || this.isReadOnly || this.isLoading || !this.calendarObject.existsOnServer) {
+				return false
+			}
+			if (!this.isRecurringInstance) {
+				return scope === 'occurrence'
+			}
+			if ((scope === 'series' || scope === 'future') && this.isEditingExceptionInstance) {
+				return false
+			}
+			if (this.isViewedByAttendee) {
+				return scope === 'series' || (this.isEditingExceptionInstance && scope === 'occurrence')
+			}
+			if (!this.isEditingExceptionInstance && this.isEditingBaseInstance && scope !== 'series') {
+				return false
+			}
+
+			return ['occurrence', 'future', 'series'].includes(scope)
+		},
+
+		/**
 		 * Deletes a calendar-object
 		 *
-		 * @param {boolean} thisAndAllFuture Whether to delete only this or this and all future occurrences
+		 * @param {string} scope Deletion scope: 'occurrence', 'future', or 'series'
 		 * @return {Promise<void>}
 		 */
-		async delete(thisAndAllFuture = false) {
+		async delete(scope = 'occurrence') {
 			if (!this.calendarObject) {
 				logger.error('Calendar-object not found')
 				return
 			}
-			if (this.isReadOnly) {
+			if (!this.canDelete(scope)) {
 				return
 			}
 
 			this.isLoading = true
-			await this.calendarObjectInstanceStore.deleteCalendarObjectInstance({ thisAndAllFuture })
+			await this.calendarObjectInstanceStore.deleteCalendarObjectInstance({ scope })
 			this.isLoading = false
 		},
+
 		/**
 		 * Deletes a calendar-object and closes the editor
 		 *
-		 * @param {boolean} thisAndAllFuture Whether to delete only this or this and all future occurrences
+		 * @param {string} scope Deletion scope: 'occurrence', 'future', or 'series'
 		 * @return {Promise<void>}
 		 */
-		async deleteAndLeave(thisAndAllFuture = false) {
-			await this.delete(thisAndAllFuture)
+		async deleteAndLeave(scope = 'occurrence') {
+			await this.delete(scope)
 			this.requiresActionOnRouteLeave = false
 			this.closeEditor()
 		},
+
 		/**
 		 * Updates the title of this event
 		 *
@@ -926,9 +983,9 @@ export default {
 			this.error = null
 			this.calendarId = null
 			this.requiresActionOnRouteLeave = true
-			this.forceThisAndAllFuture = false
-			this.isEditingMasterItem = false
-			this.isRecurrenceException = false
+			this.requiresFutureUpdate = false
+			this.isEditingBaseInstance = false
+			this.isEditingExceptionInstance = false
 		},
 		/**
 		 * This function returns a promise that resolves
@@ -1010,8 +1067,8 @@ export default {
 					await vm.loadingCalendars()
 					await vm.calendarObjectInstanceStore.getCalendarObjectInstanceByObjectIdAndRecurrenceId({ objectId, recurrenceId })
 					vm.calendarId = vm.calendarObject.calendarId
-					vm.isEditingMasterItem = vm.eventComponent.isMasterItem()
-					vm.isRecurrenceException = vm.eventComponent.isRecurrenceException()
+					vm.isEditingBaseInstance = isBaseOccurrence(vm.calendarObject, vm.eventComponent)
+					vm.isEditingExceptionInstance = vm.eventComponent.isRecurrenceException()
 				} catch (error) {
 					logger.debug(error)
 					vm.isError = true
@@ -1090,8 +1147,8 @@ export default {
 				await this.loadingCalendars()
 				await this.calendarObjectInstanceStore.getCalendarObjectInstanceByObjectIdAndRecurrenceId({ objectId, recurrenceId })
 				this.calendarId = this.calendarObject.calendarId
-				this.isEditingMasterItem = this.eventComponent.isMasterItem()
-				this.isRecurrenceException = this.eventComponent.isRecurrenceException()
+				this.isEditingBaseInstance = isBaseOccurrence(this.calendarObject, this.eventComponent)
+				this.isEditingExceptionInstance = this.eventComponent.isRecurrenceException()
 			} catch (error) {
 				logger.debug(error)
 				this.isError = true

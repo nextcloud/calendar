@@ -49,12 +49,14 @@
 						<SaveButtons
 							v-if="showSaveButtons"
 							class="app-full-tab__buttons"
-							:canCreateRecurrenceException="canCreateRecurrenceException"
+							:canUpdateOccurrence="canUpdate('occurrence')"
+							:canUpdateFuture="canUpdate('future')"
+							:canUpdateSeries="canUpdate('series')"
 							:isNew="isNew"
 							:isReadOnly="isReadOnly"
-							:forceThisAndAllFuture="forceThisAndAllFuture"
-							@saveThisOnly="prepareAccessForAttachments(false)"
-							@saveThisAndAllFuture="prepareAccessForAttachments(true)" />
+							@saveOccurrence="prepareAccessForAttachments('occurrence')"
+							@saveFuture="prepareAccessForAttachments('future')"
+							@saveSeries="prepareAccessForAttachments('series')" />
 						<div class="app-full__actions__inner" :class="[{ 'app-full__actions__inner__readonly': isReadOnly }]">
 							<NcActions>
 								<NcActionButton v-if="eventLink && !isNew" @click="copyEventLink()">
@@ -75,24 +77,29 @@
 									</template>
 									{{ $t('calendar', 'Duplicate') }}
 								</NcActionButton>
-								<NcActionButton v-if="canDelete && !canCreateRecurrenceException && !isNew" @click="deleteAndLeave(false)">
+								<NcActionButton v-if="!isNew && !isRecurringInstance && canDelete('occurrence')" @click="deleteAndLeave('occurrence')">
 									<template #icon>
 										<Delete :size="20" decorative />
 									</template>
 									{{ $t('calendar', 'Delete') }}
 								</NcActionButton>
-								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" @click="deleteAndLeave(false)">
+								<NcActionButton v-if="!isNew && isRecurringInstance && canDelete('occurrence')" @click="deleteAndLeave('occurrence')">
 									<template #icon>
 										<Delete :size="20" decorative />
 									</template>
 									{{ $t('calendar', 'Delete this occurrence') }}
 								</NcActionButton>
-								<NcActionSeparator v-if="canDelete && canCreateRecurrenceException && !isNew" />
-								<NcActionButton v-if="canDelete && canCreateRecurrenceException && !isNew" @click="deleteAndLeave(true)">
+								<NcActionButton v-if="!isNew && isRecurringInstance && canDelete('future')" @click="deleteAndLeave('future')">
 									<template #icon>
 										<Delete :size="20" decorative />
 									</template>
-									{{ $t('calendar', 'Delete this and all future') }}
+									{{ $t('calendar', 'Delete this and future occurrences') }}
+								</NcActionButton>
+								<NcActionButton v-if="!isNew && isRecurringInstance && canDelete('series')" @click="deleteAndLeave('series')">
+									<template #icon>
+										<Delete :size="20" decorative />
+									</template>
+									{{ $t('calendar', 'Delete entire series') }}
 								</NcActionButton>
 							</NcActions>
 						</div>
@@ -127,13 +134,13 @@
 								{{ $t('calendar', 'All day') }}
 							</NcCheckboxRadioSwitch>
 
-							<!-- TODO: If not editing the master item, force updating this and all future   -->
+							<!-- TODO: If not editing the base instance, force updating this and all future   -->
 							<!-- TODO: You can't edit recurrence-rule of no-range recurrence-exception -->
 							<Repeat
 								:isReadOnly="isReadOnly || isViewedByOrganizer === false"
-								:isEditingMasterItem="isEditingMasterItem"
-								:isRecurrenceException="isRecurrenceException"
-								@forceThisAndAllFuture="forceModifyingFuture" />
+								:isEditingBaseInstance="isEditingBaseInstance"
+								:isEditingExceptionInstance="isEditingExceptionInstance"
+								@requireFutureUpdate="requireFutureUpdate" />
 						</div>
 
 						<div class="app-full__header__details-calendar">
@@ -163,7 +170,6 @@
 					<InvitationResponseButtons
 						v-if="isViewedByAttendee"
 						:attendee="userAsAttendee"
-						:calendarId="calendarId"
 						:narrow="true"
 						:growHorizontally="true"
 						@close="closeEditorAndSkipAction" />
@@ -298,7 +304,7 @@
 								<NcButton
 									variant="primary"
 									:disabled="showPreloader"
-									@click="acceptAttachmentsModal(thisAndAllFuture)">
+									@click="acceptAttachmentsModal()">
 									{{ t('calendar', 'Invite') }}
 								</NcButton>
 							</div>
@@ -345,7 +351,6 @@ import {
 	NcActionButton,
 	NcActionLink,
 	NcActions,
-	NcActionSeparator,
 	NcButton,
 	NcCheckboxRadioSwitch,
 	NcDialog,
@@ -422,7 +427,6 @@ export default {
 		IconVideo,
 		HelpCircleIcon,
 		NcActions,
-		NcActionSeparator,
 		Close,
 	},
 
@@ -432,7 +436,7 @@ export default {
 
 	data() {
 		return {
-			thisAndAllFuture: false,
+			saveScope: 'occurrence',
 			doNotShare: false,
 			showModal: false,
 			showModalNewAttachments: [],
@@ -719,7 +723,7 @@ export default {
 				this.showModal = false
 				this.showModalNewAttachments = []
 				this.showModalUsers = []
-				this.saveEvent(this.thisAndAllFuture)
+				this.saveEvent(this.saveScope)
 			}, 500)
 			// trigger save event after make each attachment access
 			// 1) if !isPrivate get attachments NOT SHARED  and SharedType is empry -> API ADD SHARE
@@ -743,8 +747,8 @@ export default {
 			return name.split('/').pop()
 		},
 
-		prepareAccessForAttachments(thisAndAllFuture = false) {
-			this.thisAndAllFuture = thisAndAllFuture
+		prepareAccessForAttachments(scope) {
+			this.saveScope = scope
 			const newAttachments = this.calendarObjectInstance.attachments.filter((attachment) => {
 				// get only new attachments
 				// TODO get NOT only new attachments =) Maybe we should filter all attachments without share-type, 'cause event can be private and AFTER save owner could add new participant
@@ -764,14 +768,14 @@ export default {
 					return false
 				})
 			} else {
-				this.saveEvent(thisAndAllFuture)
+				this.saveEvent(this.saveScope)
 			}
 		},
 
-		saveEvent(thisAndAllFuture = false) {
+		saveEvent(scope) {
 			// if there is new attachments and !private, then make modal with users and files/
 			// maybe check shared access before add file
-			this.saveAndLeave(thisAndAllFuture)
+			this.saveAndLeave(scope)
 			this.calendarObjectInstance.attachments = this.calendarObjectInstance.attachments.map((attachment) => {
 				if (attachment.isNew) {
 					delete attachment.isNew
