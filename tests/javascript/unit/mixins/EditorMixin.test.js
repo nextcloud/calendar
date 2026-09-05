@@ -72,18 +72,59 @@ describe('mixins/EditorMixin test suite', () => {
 		})
 	})
 
+	describe('keyboardCloseEditor', () => {
+		it('cancels the editor', () => {
+			const cancel = vi.fn()
+			EditorMixin.methods.keyboardCloseEditor.call({ cancel })
+
+			expect(cancel).toHaveBeenCalledWith(false)
+		})
+	})
+
+	describe('keyboardSaveEvent', () => {
+		it('does not save when read-only or editing a recurrence exception', () => {
+			const saveAndLeave = vi.fn()
+			EditorMixin.methods.keyboardSaveEvent.call({ isReadOnly: true, canCreateRecurrenceException: false, saveAndLeave })
+			EditorMixin.methods.keyboardSaveEvent.call({ isReadOnly: false, canCreateRecurrenceException: true, saveAndLeave })
+
+			expect(saveAndLeave).not.toHaveBeenCalled()
+		})
+
+		it('saves when allowed', () => {
+			const saveAndLeave = vi.fn()
+			EditorMixin.methods.keyboardSaveEvent.call({ isReadOnly: false, canCreateRecurrenceException: false, saveAndLeave })
+
+			expect(saveAndLeave).toHaveBeenCalledWith(false)
+		})
+	})
+
+	describe('keyboardDeleteEvent', () => {
+		it('does not delete when not allowed or editing a recurrence exception', () => {
+			const deleteAndLeave = vi.fn()
+			EditorMixin.methods.keyboardDeleteEvent.call({ canDelete: false, canCreateRecurrenceException: false, deleteAndLeave })
+			EditorMixin.methods.keyboardDeleteEvent.call({ canDelete: true, canCreateRecurrenceException: true, deleteAndLeave })
+
+			expect(deleteAndLeave).not.toHaveBeenCalled()
+		})
+
+		it('deletes when allowed', () => {
+			const deleteAndLeave = vi.fn()
+			EditorMixin.methods.keyboardDeleteEvent.call({ canDelete: true, canCreateRecurrenceException: false, deleteAndLeave })
+
+			expect(deleteAndLeave).toHaveBeenCalledWith(false)
+		})
+	})
+
 	describe('keyboardDuplicateEvent', () => {
 		it('does not trigger a duplication when it is not allowed in the current view', () => {
 			const duplicateEvent = vi.fn()
 			const vm = {
 				isNew: false,
-				canCreateRecurrenceException: false,
 				canDuplicate: false,
 				duplicateEvent,
 			}
-			const event = { key: 'd', ctrlKey: true, preventDefault: vi.fn() }
 
-			EditorMixin.methods.keyboardDuplicateEvent.call(vm, event)
+			EditorMixin.methods.keyboardDuplicateEvent.call(vm)
 
 			expect(duplicateEvent).not.toHaveBeenCalled()
 		})
@@ -92,15 +133,37 @@ describe('mixins/EditorMixin test suite', () => {
 			const duplicateEvent = vi.fn()
 			const vm = {
 				isNew: false,
-				canCreateRecurrenceException: false,
 				canDuplicate: true,
 				duplicateEvent,
 			}
-			const event = { key: 'd', ctrlKey: true, preventDefault: vi.fn() }
 
-			EditorMixin.methods.keyboardDuplicateEvent.call(vm, event)
+			EditorMixin.methods.keyboardDuplicateEvent.call(vm)
 
 			expect(duplicateEvent).toHaveBeenCalled()
+		})
+	})
+
+	describe('mounted/beforeUnmount hotkey wiring', () => {
+		it('registers hotkeys on mount and removes them on unmount', () => {
+			const duplicateEvent = vi.fn()
+			const vm = {
+				...EditorMixin.methods,
+				isNew: false,
+				canDuplicate: true,
+				duplicateEvent,
+				hotKeysRegister: [],
+			}
+
+			EditorMixin.mounted.call(vm)
+			expect(vm.hotKeysRegister).toHaveLength(4)
+
+			document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', ctrlKey: true, bubbles: true }))
+			expect(duplicateEvent).toHaveBeenCalledTimes(1)
+
+			EditorMixin.beforeUnmount.call(vm)
+
+			document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'd', ctrlKey: true, bubbles: true }))
+			expect(duplicateEvent).toHaveBeenCalledTimes(1)
 		})
 	})
 })
