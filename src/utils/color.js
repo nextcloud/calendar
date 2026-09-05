@@ -24,16 +24,6 @@ export function isLight({ red, green, blue }) {
 /**
  * Get a text-color that's readable on a given background color
  *
- * @param {string} hexColor The hex color to get a text color for
- * @return {string} the matching text color
- */
-export function generateTextColorForHex(hexColor) {
-	return generateTextColorForRGB(hexToRGB(hexColor))
-}
-
-/**
- * Get a text-color that's readable on a given background color
- *
  * @param {object} data The destructuring object
  * @param {number} data.red Red part of the RGB
  * @param {number} data.green Green part of the RGB
@@ -42,20 +32,6 @@ export function generateTextColorForHex(hexColor) {
  */
 export function generateTextColorForRGB({ red, green, blue }) {
 	return isLight({ red, green, blue }) ? '#000000' : '#FAFAFA'
-}
-
-/**
- * Convert hex string to RGB
- *
- * @param {string} hexColor The hex color to convert
- * @return {string} the RGB result
- */
-export function hexToRGB(hexColor) {
-	if (hexColor === null) {
-		return { red: 0, green: 0, blue: 0 }
-	}
-	const [red, green, blue] = convert.hex.rgb(hexColor.slice(1))
-	return { red, green, blue }
 }
 
 /**
