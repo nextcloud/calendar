@@ -8,7 +8,6 @@ import { eventSourceFunction } from '@/fullcalendar/eventSources/eventSourceFunc
 import useSettingsStore from '@/store/settings.js'
 import { getAllObjectsInTimeRange } from '@/utils/calendarObject.js'
 import {
-	generateTextColorForHex,
 	getHexForColorName,
 	isLight,
 } from '@/utils/color.js'
@@ -20,7 +19,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 	beforeEach(() => {
 		translate.mockClear()
 		getHexForColorName.mockClear()
-		generateTextColorForHex.mockClear()
 		getAllObjectsInTimeRange.mockClear()
 		setActivePinia(createPinia())
 	})
@@ -30,8 +28,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			.mockImplementation((app, str) => str)
 		getHexForColorName
 			.mockImplementation(() => '#ff0000')
-		generateTextColorForHex
-			.mockImplementation(() => '#eeeeee')
 		isLight
 			.mockImplementation(() => false)
 
@@ -210,7 +206,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					calendarId: 'Calendar id 456',
 					calendarName: 'Calendar displayname',
 					calendarOrder: 1337,
-					darkText: false,
 					davUrl: 'url1',
 					objectType: 'VEVENT',
 					percent: null,
@@ -234,7 +229,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					calendarId: 'Calendar id 456',
 					calendarName: 'Calendar displayname',
 					calendarOrder: 1337,
-					darkText: false,
 					davUrl: 'url1',
 					objectType: 'VEVENT',
 					percent: null,
@@ -258,7 +252,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					calendarId: 'Calendar id 456',
 					calendarName: 'Calendar displayname',
 					calendarOrder: 1337,
-					darkText: false,
 					davUrl: 'url1',
 					objectType: 'VEVENT',
 					percent: null,
@@ -282,7 +275,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					calendarId: 'Calendar id 456',
 					calendarName: 'Calendar displayname',
 					calendarOrder: 1337,
-					darkText: false,
 					davUrl: 'url2',
 					objectType: 'VEVENT',
 					percent: null,
@@ -306,7 +298,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 					calendarId: 'Calendar id 456',
 					calendarName: 'Calendar displayname',
 					calendarOrder: 1337,
-					darkText: false,
 					davUrl: 'url4',
 					objectType: 'VEVENT',
 					percent: null,
@@ -358,8 +349,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 
 		expect(getHexForColorName).toHaveBeenCalledTimes(1)
 		expect(getHexForColorName).toHaveBeenNthCalledWith(1, 'red')
-
-		expect(generateTextColorForHex).toHaveBeenCalledTimes(0)
 
 		// Make sure the following dates have not been touched
 		expect(event11Start.getFullYear()).toEqual(2020)
@@ -439,8 +428,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 			.mockImplementation((app, str) => str)
 		getHexForColorName
 			.mockImplementation(() => '#ff0000')
-		generateTextColorForHex
-			.mockImplementation(() => '#eeeeee')
 		isLight
 			.mockImplementation(() => false)
 
@@ -608,7 +595,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				calendarName: 'Calendar displayname',
 				calendarOrder: 1337,
 				canModifyAllDay: false,
-				darkText: false,
 				davUrl: 'url1',
 				objectId: '1',
 				vobjectId: '1',
@@ -633,7 +619,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				calendarName: 'Calendar displayname',
 				calendarOrder: 1337,
 				canModifyAllDay: false,
-				darkText: false,
 				davUrl: 'url1',
 				objectId: '1',
 				vobjectId: '2',
@@ -658,7 +643,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				calendarName: 'Calendar displayname',
 				calendarOrder: 1337,
 				canModifyAllDay: false,
-				darkText: false,
 				davUrl: 'url1',
 				objectId: '1',
 				vobjectId: '3',
@@ -683,7 +667,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				calendarName: 'Calendar displayname',
 				calendarOrder: 1337,
 				canModifyAllDay: false,
-				darkText: false,
 				davUrl: 'url1',
 				objectId: '1',
 				vobjectId: '4',
@@ -708,7 +691,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 				calendarName: 'Calendar displayname',
 				calendarOrder: 1337,
 				canModifyAllDay: false,
-				darkText: false,
 				davUrl: 'url1',
 				objectId: '1',
 				vobjectId: '5',
@@ -754,7 +736,6 @@ describe('fullcalendar/freeBusyResourceEventSourceFunction test suite', () => {
 		expect(getAllObjectsInTimeRange).toHaveBeenNthCalledWith(1, calendarObjects[0], start, end)
 
 		expect(getHexForColorName).toHaveBeenCalledTimes(0)
-		expect(generateTextColorForHex).toHaveBeenCalledTimes(0)
 	})
 
 	it('should filter events by search query matching title, location, description, attendee, and organizer', () => {
