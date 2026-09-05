@@ -82,16 +82,35 @@ class AppointmentConfigController extends Controller {
 		if ($expectedKeys !== $actualKeys) {
 			throw new InvalidArgumentException('Invalid value for availability');
 		}
+		if (!is_string($availability['timezoneId']) || $availability['timezoneId'] === '') {
+			throw new InvalidArgumentException('Invalid value for availability timezone');
+		}
+		try {
+			new \DateTimeZone($availability['timezoneId']);
+		} catch (\Exception $e) {
+			throw new InvalidArgumentException('Invalid value for availability timezone', 0, $e);
+		}
 
 		$expectedDayKeys = ['FR', 'MO', 'SA', 'SU', 'TH', 'TU', 'WE'];
+		if (!is_array($availability['slots'])) {
+			throw new InvalidArgumentException('Invalid value for availability slots');
+		}
 		$actualDayKeys = array_keys($availability['slots']);
 		sort($actualDayKeys);
 		if ($expectedDayKeys !== $actualDayKeys) {
 			throw new InvalidArgumentException('Invalid value for availability slots');
 		}
+		foreach ($availability['slots'] as $daySlots) {
+			if (!is_array($daySlots)) {
+				throw new InvalidArgumentException('Invalid value for availability slots');
+			}
+		}
 
 		$slots = array_merge(...array_values($availability['slots']));
 		foreach ($slots as $slot) {
+			if (!is_array($slot) || !isset($slot['start'], $slot['end']) || !is_int($slot['start']) || !is_int($slot['end']) || $slot['start'] >= $slot['end']) {
+				throw new InvalidArgumentException('Invalid value for availability slot');
+			}
 			$slotKeys = array_keys($slot);
 			sort($slotKeys);
 			if ($slotKeys !== ['end', 'start']) {

@@ -145,6 +145,69 @@ class AppointmentConfigControllerTest extends TestCase {
 		self::assertEquals(422, $response->getStatus());
 	}
 
+	public function testCreateWithInvalidAvailabilityTimezone(): void {
+		$availability = $this->availability;
+		$availability['timezoneId'] = 'Invalid/Timezone';
+
+		$this->service->expects(self::never())
+			->method('create');
+
+		$response = $this->controller->create(
+			'Test',
+			'Test',
+			'Test',
+			'PUBLIC',
+			'test',
+			$availability,
+			5 * 60,
+			5 * 60
+		);
+
+		self::assertEquals(422, $response->getStatus());
+	}
+
+	public function testCreateWithInvalidAvailabilitySlot(): void {
+		$availability = $this->availability;
+		$availability['slots']['MO'][] = ['start' => '10:00', 'end' => '11:00'];
+
+		$this->service->expects(self::never())
+			->method('create');
+
+		$response = $this->controller->create(
+			'Test',
+			'Test',
+			'Test',
+			'PUBLIC',
+			'test',
+			$availability,
+			5 * 60,
+			5 * 60
+		);
+
+		self::assertEquals(422, $response->getStatus());
+	}
+
+	public function testCreateWithInvalidAvailabilityDay(): void {
+		$availability = $this->availability;
+		$availability['slots']['MO'] = 'invalid';
+
+		$this->service->expects(self::never())
+			->method('create');
+
+		$response = $this->controller->create(
+			'Test',
+			'Test',
+			'Test',
+			'PUBLIC',
+			'test',
+			$availability,
+			5 * 60,
+			5 * 60
+		);
+
+		self::assertEquals(422, $response->getStatus());
+	}
+
 	public function testCreate(): void {
 		$appointment = new AppointmentConfig();
 		$appointment->setName('Test');
