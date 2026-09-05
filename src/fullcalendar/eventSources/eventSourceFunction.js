@@ -95,13 +95,27 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				// if there is no due date, we store the task in the
 				// tasksstore, so user can add it to the calendar if
 				// he wants
-				if (object.endDate === null) {
-					jsStart = null
-					jsEnd = null
-				} else {
-					jsStart = object.endDate.getInTimezone(timezone).jsDate
+				jsStart = null
+				jsEnd = null
+				// Pick up the start and end dates if available.
+				if (object.startDate) {
+					jsStart = object.startDate.getInTimezone(timezone).jsDate
+				}
+				if (object.endDate) {
 					jsEnd = object.endDate.getInTimezone(timezone).jsDate
 				}
+				if (jsStart === null && jsEnd !== null) {
+					// Task has no start date.  Display the start
+					// of the task as its due date.
+					jsStart = jsEnd
+				} else if (jsStart !== null && jsEnd === null) {
+					// Task has no due date.  Display the end of
+					// the task as its start date.
+					jsEnd = jsStart
+				}
+				// At this point in the code, the task may have suitable
+				// display start and end date (though if they are the same
+				// the code later bumps the end date by 1 second).
 			} else {
 				// We do not want to display anything that's neither
 				// an event nor a task
