@@ -152,9 +152,9 @@ export default errorCatch(function({ event, el }) {
 			dotElement.style.color = 'var(--color-main-text)'
 
 			if (event.extendedProps.percent === 100) {
-				dotElement.classList.add('calendar-grid-checkbox-checked')
+				dotElement.classList.add('fc-task-checkbox--checked')
 			} else {
-				dotElement.classList.add('calendar-grid-checkbox')
+				dotElement.classList.add('fc-task-checkbox')
 			}
 		} else if (el.classList.contains('fc-daygrid-dot-event')) {
 			// Dot event in day grid view
@@ -164,9 +164,9 @@ export default errorCatch(function({ event, el }) {
 			dotElement.style.color = 'var(--color-main-text)'
 
 			if (event.extendedProps.percent === 100) {
-				dotElement.classList.add('calendar-grid-checkbox-checked')
+				dotElement.classList.add('fc-task-checkbox--checked')
 			} else {
-				dotElement.classList.add('calendar-grid-checkbox')
+				dotElement.classList.add('fc-task-checkbox')
 			}
 		} else {
 			// AgendaView and all-day grid view
@@ -174,9 +174,9 @@ export default errorCatch(function({ event, el }) {
 			const checkboxElement = document.createElement('div')
 			checkboxElement.classList.add('fc-event-title-checkbox')
 			if (event.extendedProps.percent === 100) {
-				checkboxElement.classList.add('calendar-grid-checkbox-checked')
+				checkboxElement.classList.add('fc-task-checkbox--checked')
 			} else {
-				checkboxElement.classList.add('calendar-grid-checkbox')
+				checkboxElement.classList.add('fc-task-checkbox')
 			}
 
 			titleContainer.prepend(checkboxElement)
