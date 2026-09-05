@@ -208,6 +208,37 @@ class AppointmentConfigControllerTest extends TestCase {
 		self::assertEquals(422, $response->getStatus());
 	}
 
+	/**
+	 * @dataProvider invalidConfigValuesProvider
+	 */
+	public function testCreateWithInvalidConfigValues(array $values): void {
+		$this->service->expects(self::never())
+			->method('create');
+
+		$response = $this->controller->create(
+			'Test',
+			'Test',
+			'Test',
+			'PUBLIC',
+			'test',
+			$this->availability,
+			...$values,
+		);
+
+		self::assertEquals(422, $response->getStatus());
+	}
+
+	public static function invalidConfigValuesProvider(): array {
+		return [
+			'negative preparation duration' => [[5 * 60, 5 * 60, -1, 0, 0, null, null, null, null, null]],
+			'negative follow-up duration' => [[5 * 60, 5 * 60, 0, -1, 0, null, null, null, null, null]],
+			'negative buffer' => [[5 * 60, 5 * 60, 0, 0, -1, null, null, null, null, null]],
+			'zero daily maximum' => [[5 * 60, 5 * 60, 0, 0, 0, 0, null, null, null, null]],
+			'zero future limit' => [[5 * 60, 5 * 60, 0, 0, 0, null, null, null, null, 0]],
+			'end before start' => [[5 * 60, 5 * 60, 0, 0, 0, null, null, 2, 1, null]],
+		];
+	}
+
 	public function testCreate(): void {
 		$appointment = new AppointmentConfig();
 		$appointment->setName('Test');
@@ -303,6 +334,27 @@ class AppointmentConfigControllerTest extends TestCase {
 		);
 
 		self::assertEquals(200, $response->getStatus());
+	}
+
+	public function testUpdateWithInvalidIncrement(): void {
+		$this->service->expects(self::never())
+			->method('findByIdAndUser');
+		$this->service->expects(self::never())
+			->method('update');
+
+		$response = $this->controller->update(
+			1,
+			'Test',
+			'Test',
+			'Test',
+			'PUBLIC',
+			'test',
+			$this->availability,
+			5 * 60,
+			0
+		);
+
+		self::assertEquals(422, $response->getStatus());
 	}
 
 	public function testUpdateNotFound(): void {
