@@ -5,6 +5,7 @@
 import { getCanonicalLocale, translate as t } from '@nextcloud/l10n'
 import { errorCatch } from '@/fullcalendar/utils/errors.js'
 import { formatDateWithTimezone, isMultiDayAllDayEvent } from '@/utils/date.js'
+import { createSvgIconElement } from '@/utils/svg.ts'
 
 /**
  * Build time description for all-day events
@@ -136,11 +137,9 @@ export default errorCatch(function({ event, el }) {
 		const notificationIcon = document.createElement('span')
 		notificationIcon.classList.add('icon-event-reminder')
 		notificationIcon.setAttribute('aria-hidden', 'true')
-		if (event.extendedProps.darkText) {
-			notificationIcon.classList.add('icon-event-reminder--dark')
-		} else {
-			notificationIcon.classList.add('icon-event-reminder--light')
-		}
+		// From node_modules/vue-material-design-icons/Bell.vue
+		const bellIcon = createSvgIconElement('M21,19V20H3V19L5,17V11C5,7.9 7.03,5.17 10,4.29C10,4.19 10,4.1 10,4A2,2 0 0,1 12,2A2,2 0 0,1 14,4C14,4.1 14,4.19 14,4.29C16.97,5.17 19,7.9 19,11V17L21,19M14,21A2,2 0 0,1 12,23A2,2 0 0,1 10,21')
+		notificationIcon.appendChild(bellIcon)
 		el.firstChild.appendChild(notificationIcon)
 	}
 
@@ -305,11 +304,13 @@ export default errorCatch(function({ event, el }) {
 		event.extendedProps.attendeeCount >= 1
 		&& !el.classList.contains('fc-event-nc-task')
 	) {
-		prependTitleIcon(el, 'M40-160v-112q0-34 17.5-62.5T104-378q62-31 126-46.5T360-440q66 0 130 15.5T616-378q29 15 46.5 43.5T680-272v112H40Zm640 0v-112q0-51-26-95.5T586-441q51 6 98 20.5t84 35.5q36 20 57 44.5t21 52.5v112H680ZM360-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47Zm400-160q0 66-47 113t-113 47q-11 0-28-2.5t-28-5.5q27-32 41.5-71t14.5-81q0-42-14.5-81T544-792q14-5 28-6.5t28-1.5q66 0 113 47t47 113Z')
+		// From node_modules/vue-material-design-icons/AccountMultiple.vue
+		prependTitleIcon(el, 'M16 17V19H2V17S2 13 9 13 16 17 16 17M12.5 7.5A3.5 3.5 0 1 0 9 11A3.5 3.5 0 0 0 12.5 7.5M15.94 13A5.32 5.32 0 0 1 18 17V19H22V17S22 13.37 15.94 13M15 4A3.39 3.39 0 0 0 13.07 4.59A5 5 0 0 1 13.07 10.41A3.39 3.39 0 0 0 15 11A3.5 3.5 0 0 0 15 4Z')
 	}
 
 	if (el.classList.contains('fc-event-nc-all-declined')) {
-		prependTitleIcon(el, 'm40-120 440-760 440 760H40Zm440-120q17 0 28.5-11.5T520-280q0-17-11.5-28.5T480-320q-17 0-28.5 11.5T440-280q0 17 11.5 28.5T480-240Zm-40-120h80v-200h-80v200Z')
+		// From node_modules/vue-material-design-icons/Alert.vue
+		prependTitleIcon(el, 'M13 14H11V9H13M13 18H11V16H13M1 21H23L12 2L1 21Z')
 	}
 
 	if (el.classList.contains('fc-event-nc-tentative')) {
@@ -374,16 +375,7 @@ function prependTitleIcon(el, svgPath) {
 		}
 	}
 
-	const svgNS = 'http://www.w3.org/2000/svg'
-	const svgElement = document.createElementNS(svgNS, 'svg')
-	svgElement.setAttribute('viewBox', '0 -960 960 960')
-	const pathElement = document.createElementNS(svgNS, 'path')
-	pathElement.setAttribute('d', svgPath)
-	svgElement.appendChild(pathElement)
-	svgElement.style.fill = el.style.borderColor
-	svgElement.style.width = '1em'
-	svgElement.style.marginBottom = '0.2em'
-	svgElement.style.verticalAlign = 'middle'
+	const svgElement = createSvgIconElement(svgPath)
 	titleElement.insertBefore(svgElement, titleElement.firstChild)
 }
 
