@@ -2,6 +2,21 @@
   - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+<script setup lang="ts">
+import moment from '@nextcloud/moment'
+import { computed } from 'vue'
+
+const props = defineProps<{
+	link: string
+	confirmed: boolean
+	start: number
+	end: number
+}>()
+
+const startDate = computed<string>(() => moment(props.start * 1000).format('LLL'))
+const endDate = computed<string>(() => moment(props.end * 1000).format('LLL'))
+</script>
+
 <template>
 	<div class="guest-box">
 		<div class="update">
@@ -24,43 +39,3 @@
 		</div>
 	</div>
 </template>
-
-<script>
-
-import moment from '@nextcloud/moment'
-
-export default {
-	name: 'BookingResult',
-	props: {
-		link: {
-			required: true,
-			type: String,
-		},
-
-		confirmed: {
-			required: true,
-			type: Boolean,
-		},
-
-		start: {
-			required: true,
-			type: Number,
-		},
-
-		end: {
-			required: true,
-			type: Number,
-		},
-	},
-
-	computed: {
-		startDate() {
-			return moment(this.start * 1000).format('LLL')
-		},
-
-		endDate() {
-			return moment(this.end * 1000).format('LLL')
-		},
-	},
-}
-</script>
