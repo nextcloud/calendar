@@ -417,22 +417,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.calendar-grid-checkbox {
-	border-style: solid;
-	border-width: 2px;
-	border-radius: 4px;
-	height: 16px;
-	width: 16px;
-}
-
-.calendar-grid-checkbox-checked {
-	border-style: solid;
-	border-width: 8px;
-	border-radius: 4px;
-	height: 16px;
-	width: 16px;
-}
-
 .fullcalendar-widget{
 	min-height: 500px;
 	:deep(.fc-col-header-cell-cushion){
