@@ -2,6 +2,58 @@
   - SPDX-FileCopyrightText: 2021 Nextcloud GmbH and Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+<script setup lang="ts">
+import type { AppointmentBooking } from '@/types/appointments.ts'
+
+import axios from '@nextcloud/axios'
+import { generateUrl } from '@nextcloud/router'
+import { NcButton, NcLoadingIcon, NcNoteCard } from '@nextcloud/vue'
+import { computed, ref } from 'vue'
+import IconAccount from 'vue-material-design-icons/AccountOutline.vue'
+import IconCalendar from 'vue-material-design-icons/CalendarOutline.vue'
+import IconCheck from 'vue-material-design-icons/CheckOutline.vue'
+import IconTime from 'vue-material-design-icons/ClockTimeFourOutline.vue'
+import IconTimezone from 'vue-material-design-icons/Web.vue'
+import BookingResult from '@/views/Appointments/BookingResult.vue'
+import { timeStampToLocaleDate, timeStampToLocaleTime } from '@/utils/localeTime.js'
+
+const props = defineProps<{
+	booking: AppointmentBooking
+	link: string
+	token: string
+}>()
+
+type BookingStatus = 'confirmed' | 'pending' | 'conflict' | 'expired'
+
+const status = ref<BookingStatus>(props.booking.confirmed ? 'confirmed' : 'pending')
+const loading = ref(false)
+const error = ref(false)
+
+const date = computed<string>(() => timeStampToLocaleDate(props.booking.start, props.booking.timezone))
+const startTime = computed<string>(() => timeStampToLocaleTime(props.booking.start, props.booking.timezone))
+const endTime = computed<string>(() => timeStampToLocaleTime(props.booking.end, props.booking.timezone))
+
+async function confirm(): Promise<void> {
+	loading.value = true
+	error.value = false
+	try {
+		const url = generateUrl('/apps/calendar/appointment/confirm/{token}', { token: props.token })
+		await axios.post(url)
+		status.value = 'confirmed'
+	} catch (e) {
+		if (e?.response?.status === 409) {
+			status.value = 'conflict'
+		} else if (e?.response?.status === 404) {
+			status.value = 'expired'
+		} else {
+			error.value = true
+		}
+	} finally {
+		loading.value = false
+	}
+}
+</script>
+
 <template>
 	<div class="guest-box">
 		<div v-if="status === 'expired'" class="update">
@@ -49,96 +101,6 @@
 		</div>
 	</div>
 </template>
-
-<script>
-import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
-import { NcButton, NcLoadingIcon, NcNoteCard } from '@nextcloud/vue'
-import IconAccount from 'vue-material-design-icons/AccountOutline.vue'
-import IconCalendar from 'vue-material-design-icons/CalendarOutline.vue'
-import IconCheck from 'vue-material-design-icons/CheckOutline.vue'
-import IconTime from 'vue-material-design-icons/ClockTimeFourOutline.vue'
-import IconTimezone from 'vue-material-design-icons/Web.vue'
-import BookingResult from '@/views/Appointments/BookingResult.vue'
-import { timeStampToLocaleDate, timeStampToLocaleTime } from '@/utils/localeTime.js'
-
-export default {
-	name: 'Confirmation',
-
-	components: {
-		BookingResult,
-		NcButton,
-		NcLoadingIcon,
-		NcNoteCard,
-		IconAccount,
-		IconCheck,
-		IconCalendar,
-		IconTime,
-		IconTimezone,
-	},
-
-	props: {
-		booking: {
-			required: true,
-			type: Object,
-		},
-
-		link: {
-			required: true,
-			type: String,
-		},
-
-		token: {
-			required: true,
-			type: String,
-		},
-	},
-
-	data() {
-		return {
-			status: this.booking.confirmed ? 'confirmed' : 'pending',
-			loading: false,
-			error: false,
-		}
-	},
-
-	computed: {
-		date() {
-			return timeStampToLocaleDate(this.booking.start, this.booking.timezone)
-		},
-
-		startTime() {
-			return timeStampToLocaleTime(this.booking.start, this.booking.timezone)
-		},
-
-		endTime() {
-			return timeStampToLocaleTime(this.booking.end, this.booking.timezone)
-		},
-	},
-
-	methods: {
-		async confirm() {
-			this.loading = true
-			this.error = false
-			try {
-				const url = generateUrl('/apps/calendar/appointment/confirm/{token}', { token: this.token })
-				await axios.post(url)
-				this.status = 'confirmed'
-			} catch (e) {
-				if (e.response?.status === 409) {
-					this.status = 'conflict'
-				} else if (e.response?.status === 404) {
-					this.status = 'expired'
-				} else {
-					this.error = true
-				}
-			} finally {
-				this.loading = false
-			}
-		},
-	},
-}
-</script>
 
 <style lang="scss" scoped>
 .booking__date,
