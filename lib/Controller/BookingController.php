@@ -69,12 +69,17 @@ class BookingController extends Controller {
 			$this->logger->error('Timezone invalid', ['exception' => $e]);
 			return JsonResponse::fail('Invalid timezone', Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
-		// Convert selected date to requesters selected timezone adjusted start and end of day in epoch
-		$startTimeInTz = (new DateTime($dateSelected, $tz))
-			->getTimestamp();
-		$endTimeInTz = (new DateTime($dateSelected, $tz))
-			->modify('+1 day')
-			->getTimestamp();
+		try {
+			// Convert selected date to requesters selected timezone adjusted start and end of day in epoch
+			$startTimeInTz = (new DateTime($dateSelected, $tz))
+				->getTimestamp();
+			$endTimeInTz = (new DateTime($dateSelected, $tz))
+				->modify('+1 day')
+				->getTimestamp();
+		} catch (\Exception $e) {
+			$this->logger->error('Date invalid', ['exception' => $e]);
+			return JsonResponse::fail('Invalid date', Http::STATUS_UNPROCESSABLE_ENTITY);
+		}
 
 		if ($startTimeInTz > $endTimeInTz) {
 			$this->logger->warning('Invalid time range - end time ' . $endTimeInTz . ' before start time ' . $startTimeInTz);

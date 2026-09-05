@@ -176,6 +176,24 @@ class BookingControllerTest extends TestCase {
 		self::assertSame(['status' => 'fail', 'data' => 'Invalid timezone'], $response->getData());
 	}
 
+	public function testGetBookableSlotsInvalidDate(): void {
+		$this->time->expects(self::never())
+			->method('getTime');
+		$this->apptService->expects(self::never())
+			->method('findByToken');
+		$this->bookingService->expects(self::never())
+			->method('getAvailableSlots');
+		$this->logger->expects(self::once())
+			->method('error')
+			->with('Date invalid');
+
+		$response = $this->controller->getBookableSlots('abc123', 'not-a-date', 'Europe/Berlin');
+
+		self::assertInstanceOf(JsonResponse::class, $response);
+		self::assertSame(Http::STATUS_UNPROCESSABLE_ENTITY, $response->getStatus());
+		self::assertSame(['status' => 'fail', 'data' => 'Invalid date'], $response->getData());
+	}
+
 	public function testGetBookableSlotsTimezoneIdentical(): void {
 		$currentDate = (new DateTime('2024-6-30'))->getTimestamp();
 		$selectedDate = '2024-7-1';
