@@ -120,6 +120,40 @@ class AppointmentConfigController extends Controller {
 	}
 
 	/**
+	 * @throws InvalidArgumentException
+	 */
+	private function validateValues(
+		int $length,
+		int $increment,
+		int $preparationDuration,
+		int $followupDuration,
+		int $timeBeforeNextSlot,
+		?int $dailyMax,
+		?int $start,
+		?int $end,
+		?int $futureLimit,
+	): void {
+		if ($length <= 0) {
+			throw new InvalidArgumentException('Length must be greater than zero');
+		}
+		if ($increment < 5 * 60) {
+			throw new InvalidArgumentException('Increment must be at least 5 minutes');
+		}
+		if ($preparationDuration < 0 || $followupDuration < 0 || $timeBeforeNextSlot < 0) {
+			throw new InvalidArgumentException('Durations must not be negative');
+		}
+		if ($dailyMax !== null && $dailyMax <= 0) {
+			throw new InvalidArgumentException('Daily maximum must be greater than zero');
+		}
+		if ($futureLimit !== null && $futureLimit <= 0) {
+			throw new InvalidArgumentException('Future limit must be greater than zero');
+		}
+		if ($start !== null && $end !== null && $start >= $end) {
+			throw new InvalidArgumentException('Start must be before end');
+		}
+	}
+
+	/**
 	 * @NoAdminRequired
 	 *
 	 * @param string $name
@@ -164,6 +198,7 @@ class AppointmentConfigController extends Controller {
 			return JsonResponse::fail();
 		}
 		try {
+			$this->validateValues($length, $increment, $preparationDuration, $followupDuration, $timeBeforeNextSlot, $dailyMax, $start, $end, $futureLimit);
 			$this->validateAvailability($availability);
 		} catch (InvalidArgumentException $e) {
 			return JsonResponse::fail($e->getMessage(), Http::STATUS_UNPROCESSABLE_ENTITY);
@@ -242,6 +277,7 @@ class AppointmentConfigController extends Controller {
 			return JsonResponse::fail(null, Http::STATUS_NOT_FOUND);
 		}
 		try {
+			$this->validateValues($length, $increment, $preparationDuration, $followupDuration, $timeBeforeNextSlot, $dailyMax, $start, $end, $futureLimit);
 			$this->validateAvailability($availability);
 		} catch (InvalidArgumentException $e) {
 			return JsonResponse::fail($e->getMessage(), Http::STATUS_UNPROCESSABLE_ENTITY);
