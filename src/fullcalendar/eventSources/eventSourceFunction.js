@@ -11,6 +11,7 @@ import {
 	getHexForColorName,
 } from '@/utils/color.js'
 import logger from '@/utils/logger.js'
+import { generateTaskUrl } from '@/utils/url.ts'
 /**
  * convert an array of calendar-objects to events
  *
@@ -204,6 +205,10 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 					description: object.description,
 					attendeeCount,
 				},
+			}
+
+			if (object.name === 'VTODO' && settingsStore.tasksEnabled) {
+				fcEvent.url = generateTaskUrl(calendarObject.dav.url)
 			}
 
 			if (object.color) {
