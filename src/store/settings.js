@@ -41,6 +41,7 @@ export default defineStore('settings', {
 			timezone: 'automatic',
 			hideEventExport: false,
 			forceEventAlarmType: false,
+			sendInvitations: true,
 			canSubscribeLink: true,
 			showResources: true,
 			// user-defined Nextcloud settings
@@ -347,8 +348,9 @@ export default defineStore('settings', {
 		 * @param {string} data.attachmentsFolder Default user's attachments folder
 		 * @param {boolean} data.showResources Show or hide the resources tab
 		 * @param {string} data.publicCalendars The list of public calendars configured by the administrator
+		 * @param {boolean} data.sendInvitations Whether or not sending invitation e-mails is enabled
 		 */
-		loadSettingsFromServer({ appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, defaultReminderPartDay, defaultReminderFullDay, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, tasksSidebar, canSubscribeLink, attachmentsFolder, showResources, publicCalendars }) {
+		loadSettingsFromServer({ appVersion, eventLimit, firstRun, showWeekNumbers, showTasks, showWeekends, skipPopover, slotDuration, defaultReminder, defaultReminderPartDay, defaultReminderFullDay, talkEnabled, tasksEnabled, timezone, hideEventExport, forceEventAlarmType, disableAppointments, tasksSidebar, canSubscribeLink, attachmentsFolder, showResources, publicCalendars, sendInvitations }) {
 			logInfo(`
 Initial settings:
 	- AppVersion: ${appVersion}
@@ -373,6 +375,7 @@ Initial settings:
 	- attachmentsFolder: ${attachmentsFolder}
 	- ShowResources: ${showResources}
 	- PublicCalendars: ${publicCalendars}
+	- SendInvitations: ${sendInvitations}
 `)
 
 			this.appVersion = appVersion
@@ -397,6 +400,7 @@ Initial settings:
 			this.attachmentsFolder = attachmentsFolder
 			this.showResources = showResources
 			this.publicCalendars = publicCalendars
+			this.sendInvitations = sendInvitations
 		},
 
 		/**

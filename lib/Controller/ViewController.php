@@ -46,7 +46,6 @@ class ViewController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function index():TemplateResponse {
-
 		$this->calendarInitialStateService->run();
 		return new TemplateResponse($this->appName, 'main');
 	}
