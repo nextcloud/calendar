@@ -256,7 +256,6 @@ export default {
 			'slotDuration',
 			'defaultReminderPartDay',
 			'defaultReminderFullDay',
-			'defaultReminder',
 		]),
 
 		...mapState(useSettingsStore, {
@@ -344,13 +343,11 @@ export default {
 		},
 
 		selectedDefaultReminderPartDayOption() {
-			const selectedValue = this.defaultReminderPartDay ?? this.defaultReminder
-			return this.defaultReminderPartDayOptions.find((o) => o.value === selectedValue)
+			return this.defaultReminderPartDayOptions.find((o) => o.value === this.defaultReminderPartDay)
 		},
 
 		selectedDefaultReminderFullDayOption() {
-			const selectedValue = this.defaultReminderFullDay ?? this.defaultReminder
-			return this.defaultReminderFullDayOptions.find((o) => o.value === selectedValue)
+			return this.defaultReminderFullDayOptions.find((o) => o.value === this.defaultReminderFullDay)
 		},
 
 		availabilitySettingsUrl() {

@@ -46,7 +46,6 @@ describe('store/settings test suite', () => {
 			showWeekNumbers: null,
 			skipPopover: null,
 			slotDuration: null,
-			defaultReminder: null,
 			defaultReminderPartDay: null,
 			defaultReminderFullDay: null,
 			tasksEnabled: false,
@@ -76,7 +75,6 @@ describe('store/settings test suite', () => {
 			showWeekNumbers: null,
 			skipPopover: null,
 			slotDuration: null,
-			defaultReminder: null,
 			defaultReminderPartDay: null,
 			defaultReminderFullDay: null,
 			tasksEnabled: false,
@@ -104,9 +102,8 @@ describe('store/settings test suite', () => {
 			showWeekends: true,
 			skipPopover: true,
 			slotDuration: '00:30:00',
-			defaultReminder: '-600',
-			defaultReminderPartDay: undefined,
-			defaultReminderFullDay: undefined,
+			defaultReminderPartDay: '-600',
+			defaultReminderFullDay: '32400',
 			talkEnabled: false,
 			tasksEnabled: true,
 			tasksSidebar: false,
@@ -134,9 +131,8 @@ Initial settings:
 	- ShowWeekends: true
 	- SkipPopover: true
 	- SlotDuration: 00:30:00
-	- DefaultReminder: -600
-	- DefaultReminderPartDay: undefined
-	- DefaultReminderFullDay: undefined
+	- DefaultReminderPartDay: -600
+	- DefaultReminderFullDay: 32400
 	- TalkEnabled: false
 	- TasksEnabled: true
 	- TasksSidebar: false
@@ -158,9 +154,8 @@ Initial settings:
 			showWeekends: true,
 			skipPopover: true,
 			slotDuration: '00:30:00',
-			defaultReminder: '-600',
 			defaultReminderPartDay: '-600',
-			defaultReminderFullDay: '-600',
+			defaultReminderFullDay: '32400',
 			talkEnabled: false,
 			tasksEnabled: true,
 			tasksSidebar: false,
@@ -531,43 +526,6 @@ Initial settings:
 		expect(setConfig).toHaveBeenNthCalledWith(1, 'slotDuration', '00:30:00')
 
 		expect(settingsStore.slotDuration).toEqual('00:30:00')
-	})
-
-	it('should provide an action to set the default reminder setting - same value', async () => {
-		const settingsStore = useSettingsStore()
-
-		expect.assertions(2)
-
-		const state = {
-			defaultReminder: 'none',
-		}
-
-		settingsStore.defaultReminder = state.defaultReminder
-
-		await settingsStore.setDefaultReminder({ defaultReminder: 'none' })
-
-		expect(setConfig).toHaveBeenCalledTimes(0)
-		expect(settingsStore.defaultReminder).toEqual(state.defaultReminder)
-	})
-
-	it('should provide an action to set the default reminder setting - different value', async () => {
-		const settingsStore = useSettingsStore()
-
-		expect.assertions(3)
-
-		const state = {
-			defaultReminder: 'none',
-		}
-
-		settingsStore.defaultReminder = state.defaultReminder
-		setConfig.mockResolvedValueOnce()
-
-		await settingsStore.setDefaultReminder({ defaultReminder: '00:10:00' })
-
-		expect(setConfig).toHaveBeenCalledTimes(1)
-		expect(setConfig).toHaveBeenNthCalledWith(1, 'defaultReminder', '00:10:00')
-
-		expect(settingsStore.defaultReminder).toEqual('00:10:00')
 	})
 
 	it('should provide an action to set the timezone setting - same value', async () => {
