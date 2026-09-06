@@ -45,9 +45,14 @@ const view = computed<string>(() => {
 	return route.params.view
 })
 
-function dateFormatWrapper(date: Date): string {
-	return formatDateRange(date, view.value, settingsStore.momentLocale, false)
-}
+type NcDateTimePickerFormatProp = InstanceType<typeof NcDateTimePicker>['$props']['format']
+const dateFormatFn = computed<NcDateTimePickerFormatProp>(() => {
+	const momentLocaleValue = settingsStore.momentLocale
+	const viewValue = view.value
+	return function(date: Date) {
+		return formatDateRange(date, viewValue, momentLocaleValue)
+	}
+})
 
 const previousLabel = computed(() => {
 	switch (view.value) {
@@ -172,7 +177,7 @@ useHotKey(['p', 'k'], () => navigateTimeRangeBackward())
 		</NcButton>
 		<NcDateTimePicker
 			class="datepicker-button-section__datepicker"
-			:format="dateFormatWrapper"
+			:format="dateFormatFn"
 			:modelValue="selectedDate"
 			:type="view === 'multiMonthYear' ? 'year' : 'date'"
 			@update:modelValue="navigateToDate" />
