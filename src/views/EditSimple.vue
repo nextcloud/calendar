@@ -108,14 +108,6 @@
 								{{ $t('calendar', 'Delete this and all future') }}
 							</ActionButton>
 						</Actions>
-						<Actions>
-							<ActionButton @click="cancel(false)">
-								<template #icon>
-									<Close :size="20" decorative />
-								</template>
-								{{ $t('calendar', 'Close') }}
-							</ActionButton>
-						</Actions>
 					</div>
 
 					<!-- Header -->
@@ -125,7 +117,20 @@
 							:calendars="calendars"
 							:isReadOnly="isReadOnlyOrViewing || !canModifyCalendar"
 							:isViewedByAttendee="isViewedByOrganizer === false"
-							@update:value="changeCalendar" />
+							@update:value="changeCalendar">
+							<template #actions>
+								<div class="event-popover__header-actions">
+									<Actions>
+										<ActionButton @click="cancel(false)">
+											<template #icon>
+												<Close :size="20" decorative />
+											</template>
+											{{ $t('calendar', 'Close') }}
+										</ActionButton>
+									</Actions>
+								</div>
+							</template>
+						</CalendarPickerHeader>
 
 						<PropertyTitle
 							:value="titleOrPlaceholder"
@@ -915,6 +920,19 @@ export default {
 		:deep(.calendar-picker-header) {
 			margin-inline-start: 0;
 			margin-bottom: calc(var(--default-grid-baseline) * 2);
+		}
+
+		.event-popover__header-actions {
+			display: flex;
+			flex-shrink: 0;
+			gap: var(--default-grid-baseline);
+			align-items: center;
+			opacity: .7;
+
+			:deep(.action-item.action-item--single) {
+				width: calc(var(--default-grid-baseline) * 11);
+				height: calc(var(--default-grid-baseline) * 11);
+			}
 		}
 
 		.event-popover__cancelled {
