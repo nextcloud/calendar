@@ -82,6 +82,9 @@
 			:user="ownerUserId"
 			:displayName="ownerDisplayName"
 			:size="24" />
+		<div v-if="$slots.actions" class="calendar-picker-header__actions">
+			<slot name="actions" />
+		</div>
 	</div>
 </template>
 
@@ -343,6 +346,16 @@ export default {
 		flex-shrink: 0;
 		align-self: center;
 		margin-inline-start: var(--default-grid-baseline);
+	}
+
+	&__actions {
+		flex-shrink: 0;
+		align-self: center;
+		margin-inline-start: auto;
+
+		:deep(button) {
+			margin-inline-start: 0;
+		}
 	}
 
 	&__icon {
