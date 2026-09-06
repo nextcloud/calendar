@@ -158,13 +158,18 @@
 							@updateEndTimezone="updateEndTimezone"
 							@toggleAllDay="toggleAllDay" />
 
-						<div v-if="!isReadOnlyOrViewing" class="event-popover__all-day">
+						<div v-if="!isReadOnlyOrViewing" class="event-popover__date-options">
 							<NcCheckboxRadioSwitch
 								:modelValue="isAllDay"
 								:disabled="isViewedByOrganizer === false || isReadOnlyOrViewing || !canModifyAllDay"
 								@update:modelValue="toggleAllDayPreliminary">
 								{{ $t('calendar', 'All day') }}
 							</NcCheckboxRadioSwitch>
+							<Repeat
+								:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
+								:isEditingMasterItem="isEditingMasterItem"
+								:isRecurrenceException="isRecurrenceException"
+								@forceThisAndAllFuture="forceModifyingFuture" />
 						</div>
 						<div class="event-popover__location-row">
 							<PropertyText
@@ -298,6 +303,7 @@ import PropertyText from '@/components/Editor/Properties/PropertyText.vue'
 import PropertyTitle from '@/components/Editor/Properties/PropertyTitle.vue'
 import PropertyTitleTimePicker
 	from '@/components/Editor/Properties/PropertyTitleTimePicker.vue'
+import Repeat from '@/components/Editor/Repeat/Repeat.vue'
 import SaveButtons from '@/components/Editor/SaveButtons.vue'
 import EditorMixin from '@/mixins/EditorMixin.js'
 import useCalendarObjectInstanceStore from '@/store/calendarObjectInstance.js'
@@ -314,6 +320,7 @@ export default {
 		PropertyText,
 		PropertyTitleTimePicker,
 		PropertyTitle,
+		Repeat,
 		NcPopover,
 		Actions,
 		ActionButton,
@@ -797,7 +804,7 @@ export default {
 				position: 'fixed',
 				top: `${top}px`,
 				left: `${left}px`,
-				zIndex: 9999,
+				zIndex: 9997,
 				maxWidth: '100vw',
 				maxHeight: `${maxH}px`,
 			}
@@ -858,7 +865,7 @@ export default {
 <style lang="scss" scoped>
 .modal-mask {
 	position: fixed;
-	z-index: 9998;
+	z-index: 9996;
 	//the height of header
 	top: 50px;
 	inset-inline-start: 0;
@@ -948,7 +955,10 @@ export default {
 		padding-top: calc(var(--default-grid-baseline) * 2);
 		background: var(--color-main-background);
 	}
-	.event-popover__all-day {
+	.event-popover__date-options {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 		margin-inline-start: calc(var(--default-grid-baseline) * 11);
 	}
 
