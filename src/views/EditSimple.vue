@@ -166,7 +166,7 @@
 								{{ $t('calendar', 'All day') }}
 							</NcCheckboxRadioSwitch>
 						</div>
-						<div class="event-popover__location-row">
+						<div v-if="!isViewing || hasLocation" class="event-popover__location-row">
 							<PropertyText
 								:isReadOnly="isReadOnlyOrViewing || isViewedByOrganizer === false"
 								:propModel="rfcProps.location"
