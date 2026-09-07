@@ -338,6 +338,7 @@ export default {
 			tasksEnabled: loadState('calendar', 'tasks_enabled'),
 			timezone: loadState('calendar', 'timezone'),
 			showTasks: loadState('calendar', 'show_tasks'),
+			showDeclined: loadState('calendar', 'show_declined'),
 			hideEventExport: loadState('calendar', 'hide_event_export'),
 			forceEventAlarmType: loadState('calendar', 'force_event_alarm_type', false),
 			disableAppointments: loadState('calendar', 'disable_appointments', false),

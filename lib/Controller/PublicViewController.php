@@ -103,6 +103,7 @@ class PublicViewController extends Controller {
 		$this->initialStateService->provideInitialState($this->appName, 'timezone', $defaultTimezone);
 		$this->initialStateService->provideInitialState($this->appName, 'slot_duration', $defaultSlotDuration);
 		$this->initialStateService->provideInitialState($this->appName, 'show_tasks', $defaultShowTasks === 'yes');
+		$this->initialStateService->provideInitialState($this->appName, 'show_declined', true);
 		$this->initialStateService->provideInitialState($this->appName, 'tasks_sidebar', $defaultTasksSidebar === 'yes');
 		$this->initialStateService->provideInitialState($this->appName, 'tasks_enabled', false);
 		$this->initialStateService->provideInitialState($this->appName, 'hide_event_export', false);
