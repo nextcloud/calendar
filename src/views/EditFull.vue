@@ -161,7 +161,7 @@
 					</div>
 
 					<InvitationResponseButtons
-						v-if="isViewedByAttendee"
+						v-if="isViewedByAttendee && !isCancelled"
 						:attendee="userAsAttendee"
 						:calendarId="calendarId"
 						:narrow="true"

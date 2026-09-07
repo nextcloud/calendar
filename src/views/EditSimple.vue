@@ -216,7 +216,7 @@
 							:calendar="selectedCalendar" />
 
 						<InvitationResponseButtons
-							v-if="isViewedByAttendee && isViewing"
+							v-if="isViewedByAttendee && isViewing && !isCancelled"
 							class="event-popover__response-buttons"
 							:attendee="userAsAttendee"
 							:calendarId="calendarId"
@@ -371,7 +371,6 @@ export default {
 			boundaryElement: null,
 			isVisible: true,
 			isViewing: true,
-			isCancelled: false,
 			closeMask: false,
 			showCancelDialog: false,
 			cancelButtons: [
@@ -460,7 +459,6 @@ export default {
 			this.hasDescription = false
 			this.hasAttendees = false
 			this.hasAlarms = false
-			this.isCancelled = false
 
 			if (this.calendarObjectInstance) {
 				if (typeof this.calendarObjectInstance.location === 'string' && this.calendarObjectInstance.location.trim() !== '') {
@@ -474,9 +472,6 @@ export default {
 				}
 				if (Array.isArray(this.calendarObjectInstance.alarms) && this.calendarObjectInstance.alarms.length > 0) {
 					this.hasAlarms = true
-				}
-				if (this.calendarObjectInstance.status === 'CANCELLED') {
-					this.isCancelled = true
 				}
 
 				// Reposition after content changes

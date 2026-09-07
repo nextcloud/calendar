@@ -140,6 +140,14 @@ export default {
 			return this.calendarObjectInstance?.isAllDay ?? false
 		},
 		/**
+		 * Returns whether or not the event has been cancelled
+		 *
+		 * @return {boolean}
+		 */
+		isCancelled() {
+			return this.calendarObjectInstance.status === 'CANCELLED'
+		},
+		/**
 		 * Returns whether or not the user is allowed to modify the all-day setting
 		 *
 		 * @return {boolean}
