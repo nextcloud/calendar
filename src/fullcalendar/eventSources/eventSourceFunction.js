@@ -64,17 +64,26 @@ export function eventSourceFunction(calendarObjects, calendar, start, end, timez
 				classNames.push('fc-event-nc-tentative')
 			}
 
+			let declined = false
+
 			// You are invited
 			for (const attendeeProperty of object.getPropertyIterator('ATTENDEE')) {
 				if (attendeeProperty.email === `mailto:${principalsStore.getCurrentUserPrincipalEmail}`) {
 					if (attendeeProperty.participationStatus === 'DECLINED') {
 						classNames.push('fc-event-nc-declined')
+						declined = true
 					} else if (attendeeProperty.participationStatus === 'TENTATIVE') {
 						classNames.push('fc-event-nc-tentative')
 					} else if (attendeeProperty.participationStatus === 'NEEDS-ACTION') {
 						classNames.push('fc-event-nc-needs-action')
 					}
+
+					break
 				}
+			}
+
+			if (declined && settingsStore.showDeclinedAppointments === false) {
+				continue
 			}
 
 			if (object.hasComponent('VALARM')) {
