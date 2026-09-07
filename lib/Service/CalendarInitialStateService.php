@@ -50,6 +50,7 @@ class CalendarInitialStateService {
 		$defaultSlotDuration = $this->config->getAppValue($this->appName, 'slotDuration', '00:30:00');
 		$defaultDefaultReminder = $this->config->getAppValue($this->appName, 'defaultReminder', 'none');
 		$defaultShowTasks = $this->config->getAppValue($this->appName, 'showTasks', 'yes');
+		$defaultShowDeclinedAppointments = $this->config->getAppValue($this->appName, 'showDeclinedAppointments', 'yes');
 		$defaultTasksSidebar = $this->config->getAppValue($this->appName, 'tasksSidebar', 'yes');
 
 		$appVersion = $this->config->getAppValue($this->appName, 'installed_version', '');
@@ -66,6 +67,7 @@ class CalendarInitialStateService {
 		$defaultReminderPartDay = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminderPartDay', $defaultReminder);
 		$defaultReminderFullDay = $this->config->getUserValue($this->userId, $this->appName, 'defaultReminderFullDay', $defaultReminder);
 		$showTasks = $this->config->getUserValue($this->userId, $this->appName, 'showTasks', $defaultShowTasks) === 'yes';
+		$showDeclinedAppointments = $this->config->getUserValue($this->userId, $this->appName, 'showDeclinedAppointments', $defaultShowDeclinedAppointments) === 'yes';
 		$tasksSidebar = $this->config->getUserValue($this->userId, $this->appName, 'tasksSidebar', $defaultTasksSidebar) === 'yes';
 		$hideEventExport = $this->config->getAppValue($this->appName, 'hideEventExport', 'no') === 'yes';
 		$disableAppointments = $this->config->getAppValue($this->appName, 'disableAppointments', 'no') === 'yes';
@@ -115,6 +117,7 @@ class CalendarInitialStateService {
 		$this->initialStateService->provideInitialState('default_reminder_part_day', $defaultReminderPartDay);
 		$this->initialStateService->provideInitialState('default_reminder_full_day', $defaultReminderFullDay);
 		$this->initialStateService->provideInitialState('show_tasks', $showTasks);
+		$this->initialStateService->provideInitialState('show_declined_appointments', $showDeclinedAppointments);
 		$this->initialStateService->provideInitialState('tasks_sidebar', $tasksSidebar);
 		$this->initialStateService->provideInitialState('tasks_enabled', $tasksEnabled);
 		$this->initialStateService->provideInitialState('hide_event_export', $hideEventExport);

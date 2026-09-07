@@ -66,6 +66,12 @@
 							{{ $t('calendar', 'Tasks in calendar') }}
 						</NcFormBoxSwitch>
 						<NcFormBoxSwitch
+							v-model="showDeclinedAppointments"
+							:disabled="savingShowDeclinedAppointments"
+							@update:modelValue="toggleShowDeclinedAppointments">
+							{{ $t('calendar', 'Show declined appointments') }}
+						</NcFormBoxSwitch>
+						<NcFormBoxSwitch
 							v-model="showWeekendsBinding"
 							:disabled="savingWeekend"
 							@update:modelValue="toggleWeekendsEnabled">
@@ -229,6 +235,7 @@ export default {
 			savingBirthdayCalendar: false,
 			savingEventLimit: false,
 			savingTasks: false,
+			savingShowDeclinedAppointments: false,
 			savingPopover: false,
 			savingSlotDuration: false,
 			savingDefaultReminderPartDay: false,
@@ -238,6 +245,7 @@ export default {
 			savingWeekNumber: false,
 			savingDefaultCalendar: false,
 			showTasksBinding: false,
+			showDeclinedAppointments: false,
 			showWeekendsBinding: false,
 			showWeekNumbersBinding: false,
 			eventLimitBinding: false,
@@ -444,6 +452,19 @@ export default {
 				logger.error(error)
 				showError(this.$t('calendar', 'New setting was not saved successfully.'))
 				this.savingTasks = false
+			}
+		},
+
+		async toggleShowDeclinedAppointments() {
+			// change to loading status
+			this.savingShowDeclinedAppointments = true
+			try {
+				await this.settingsStore.toggleShowDeclinedAppointments()
+				this.savingShowDeclinedAppointments = false
+			} catch (error) {
+				logger.error(error)
+				showError(this.$t('calendar', 'New setting was not saved successfully.'))
+				this.savingShowDeclinedAppointments = false
 			}
 		},
 
