@@ -16,7 +16,7 @@
 			v-if="showSaveButton"
 			variant="primary"
 			:disabled="disabled"
-			@click="saveThisOnly">
+			@click="saveOccurrence">
 			<template #icon>
 				<CheckIcon :size="20" />
 			</template>
@@ -26,38 +26,43 @@
 			v-if="showUpdateButton"
 			variant="primary"
 			:disabled="disabled"
-			@click="saveThisOnly">
+			@click="saveOccurrence">
 			<template #icon>
 				<CheckIcon :size="20" />
 			</template>
 			{{ $t('calendar', 'Update') }}
 		</NcButton>
 		<NcButton
-			v-if="showUpdateThisAndFutureButton && !showUpdateOnlyThisButton"
+			v-if="showUpdateSeriesButton"
 			variant="primary"
 			:disabled="disabled"
-			@click="saveThisAndAllFuture">
-			{{ $t('calendar', 'Update this and all future') }}
+			@click="saveSeries">
+			{{ $t('calendar', 'Update entire series') }}
 		</NcButton>
 		<NcButton
-			v-if="showUpdateOnlyThisButton && !showUpdateThisAndFutureButton"
+			v-if="showUpdateFutureButton"
 			variant="primary"
 			:disabled="disabled"
-			@click="saveThisOnly">
-			{{ $t('calendar', 'Update this occurrence') }}
+			@click="saveFuture">
+			{{ $t('calendar', 'Update this and future occurrences') }}
 		</NcButton>
-
-		<NcActions v-if="showUpdateThisAndFutureButton && showUpdateOnlyThisButton" :primary="true" :menuName="t('calendar', 'Update')">
+		<NcActions v-if="showUpdateMenu" :primary="true" :menuName="t('calendar', 'Update')">
 			<template #icon>
 				<CheckIcon :size="20" />
 			</template>
-			<NcActionButton @click="saveThisAndAllFuture">
+			<NcActionButton v-if="canUpdateSeries" @click="saveSeries">
+				<template #icon>
+					<CheckIcon :size="20" />
+				</template>
+				{{ $t('calendar', 'Update entire series') }}
+			</NcActionButton>
+			<NcActionButton v-if="canUpdateFuture" @click="saveFuture">
 				<template #icon>
 					<CheckAllIcon :size="20" />
 				</template>
-				{{ $t('calendar', 'Update this and all future') }}
+				{{ $t('calendar', 'Update this and future occurrences') }}
 			</NcActionButton>
-			<NcActionButton @click="saveThisOnly">
+			<NcActionButton v-if="canUpdateOccurrence" @click="saveOccurrence">
 				<template #icon>
 					<CheckIcon :size="20" />
 				</template>
@@ -86,7 +91,17 @@ export default {
 	},
 
 	props: {
-		canCreateRecurrenceException: {
+		canUpdateOccurrence: {
+			type: Boolean,
+			required: true,
+		},
+
+		canUpdateFuture: {
+			type: Boolean,
+			required: true,
+		},
+
+		canUpdateSeries: {
 			type: Boolean,
 			required: true,
 		},
@@ -97,11 +112,6 @@ export default {
 		},
 
 		isReadOnly: {
-			type: Boolean,
-			required: true,
-		},
-
-		forceThisAndAllFuture: {
 			type: Boolean,
 			required: true,
 		},
@@ -122,33 +132,45 @@ export default {
 		},
 	},
 
-	emits: ['saveThisOnly', 'saveThisAndAllFuture', 'showMore'],
+	emits: ['saveOccurrence', 'saveFuture', 'saveSeries', 'showMore'],
 
 	computed: {
 		showSaveButton() {
-			return !this.isReadOnly && this.isNew && !this.canCreateRecurrenceException
+			return !this.isReadOnly && this.isNew
 		},
 
 		showUpdateButton() {
-			return !this.isReadOnly && !this.isNew && !this.canCreateRecurrenceException
+			return !this.isReadOnly && !this.isNew && this.allowedUpdateScopeCount === 1 && this.canUpdateOccurrence
 		},
 
-		showUpdateOnlyThisButton() {
-			return !this.isReadOnly && this.canCreateRecurrenceException && !this.forceThisAndAllFuture
+		allowedUpdateScopeCount() {
+			return [this.canUpdateOccurrence, this.canUpdateFuture, this.canUpdateSeries].filter(Boolean).length
 		},
 
-		showUpdateThisAndFutureButton() {
-			return !this.isReadOnly && this.canCreateRecurrenceException
+		showUpdateFutureButton() {
+			return !this.isReadOnly && !this.isNew && this.allowedUpdateScopeCount === 1 && this.canUpdateFuture
+		},
+
+		showUpdateSeriesButton() {
+			return !this.isReadOnly && !this.isNew && this.allowedUpdateScopeCount === 1 && this.canUpdateSeries
+		},
+
+		showUpdateMenu() {
+			return !this.isReadOnly && !this.isNew && this.allowedUpdateScopeCount > 1
 		},
 	},
 
 	methods: {
-		saveThisOnly() {
-			this.$emit('saveThisOnly')
+		saveOccurrence() {
+			this.$emit('saveOccurrence')
 		},
 
-		saveThisAndAllFuture() {
-			this.$emit('saveThisAndAllFuture')
+		saveFuture() {
+			this.$emit('saveFuture')
+		},
+
+		saveSeries() {
+			this.$emit('saveSeries')
 		},
 
 		showMore() {
