@@ -513,7 +513,7 @@ OC.L10N.register(
     "From" : "De",
     "Start date" : "Data de início",
     "Start time" : "Hora de início",
-    "To" : "Para",
+    "To" : "Até",
     "End date" : "Data de término",
     "End time" : "Hora de término",
     "Your Time" : "Seu Horário",
