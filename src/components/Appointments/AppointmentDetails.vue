@@ -215,6 +215,10 @@ h3 {
 	margin-top: 0;
 }
 
+.booking__name {
+	overflow-wrap: anywhere;
+}
+
 .booking__date, .booking__time {
 	display: flex;
 	align-items: center;
@@ -229,8 +233,6 @@ h3 {
 	flex-wrap: wrap;
 	width: calc(100vw - 120px);
 	max-width: 720px;
-	max-height: 500px;
-	overflow: auto;
 }
 
 .booking-appointment-wrapper {
