@@ -914,6 +914,11 @@ export default {
 		:deep(.calendar-picker-header) {
 			margin-inline-start: 0;
 			margin-bottom: calc(var(--default-grid-baseline) * 2);
+
+			&::after {
+				content: '';
+				flex: 0 0 calc(var(--default-grid-baseline) * 11);
+			}
 		}
 
 		.event-popover__cancelled {
