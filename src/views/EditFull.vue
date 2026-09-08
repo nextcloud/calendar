@@ -168,7 +168,7 @@
 					</div>
 
 					<InvitationResponseButtons
-						v-if="isViewedByAttendee"
+						v-if="isViewedByAttendee && !isCancelled"
 						:attendee="userAsAttendee"
 						:narrow="true"
 						:growHorizontally="true"
