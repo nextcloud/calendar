@@ -201,12 +201,17 @@ useHotKey(['p', 'k'], () => navigateTimeRangeBackward())
 		border-radius: 0 !important;
 		text-align: center;
 		border: 1px solid var(--color-primary-element-light-hover) !important;
-		font-weight: bold;
+		font-weight: var(--font-weight-element);
 		background-color: var(--color-primary-element-light) !important;
 		margin: 0 !important;
 
 		padding: 0 !important;
 		width: calc(var(--default-grid-baseline) * 54) !important;
+
+		&:hover {
+			background-color: var(--color-primary-element-light-hover) !important;
+			box-shadow: none;
+		}
 	}
 
 	:deep(.dp__input_not_clearable) {
