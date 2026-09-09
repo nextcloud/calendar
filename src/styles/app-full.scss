@@ -75,6 +75,10 @@
 		.v-select {
 			width: 100%;
 			margin: 0 !important;
+
+			.vs__selected-options {
+				max-width: calc(100% - var(--default-clickable-area) - var(--default-grid-baseline));
+			}
 		}
 	}
 }
