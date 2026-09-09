@@ -302,7 +302,6 @@ OC.L10N.register(
     "Room type" : "Loại phòng",
     "Any" : "Bất cứ",
     "Minimum seating capacity" : "Số ghế ngồi tối thiểu",
-    "Update this and all future" : "Cập nhập định kỳ này và cho toàn bộ tương lai",
     "Update this occurrence" : "Cập nhập định kỳ này",
     "Public calendar does not exist" : "Lịch công khai không tồn tại",
     "Maybe the share was deleted or has expired?" : "Có lẽ chia sẽ đã bị xóa hoặc hết hạn ? ",
@@ -328,7 +327,6 @@ OC.L10N.register(
     "Discard" : "Không lưu",
     "Event does not exist" : "Sự kiện không tồn tại",
     "Delete this occurrence" : "Xóa định kỳ này",
-    "Delete this and all future" : "Xóa địnhy kỳ này và tất cả tương lai của nó",
     "All day" : "Cả ngày",
     "Invite" : "Mời",
     "Untitled event" : "Sự kiện không tiêu đề",
@@ -419,6 +417,8 @@ OC.L10N.register(
     "An error occurred, unable to delete the calendar." : "Một lỗi đã xảy ra, không thể xóa lịch.",
     "Imported {filename}" : " {filename} đã được nhập",
     "Appointment not found" : "Không tìm thấy cuộc hẹn",
-    "User not found" : "Không tìm thấy người dùng"
+    "User not found" : "Không tìm thấy người dùng",
+    "Update this and all future" : "Cập nhập định kỳ này và cho toàn bộ tương lai",
+    "Delete this and all future" : "Xóa địnhy kỳ này và tất cả tương lai của nó"
 },
 "nplurals=1; plural=0;");

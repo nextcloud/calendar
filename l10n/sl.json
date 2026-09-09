@@ -305,14 +305,14 @@
     "Busy (tentative)" : "Načrtovano delo",
     "Unknown" : "Neopredeljeno",
     "Find a time" : "Najdi čas",
+    "Accept" : "Sprejmi",
+    "Decline" : "Zavrni",
     "The invitation has been accepted successfully." : "Vabilo je uspešno sprejeto.",
     "Failed to accept the invitation." : "Sprejemanje povabila je spodletelo.",
     "The invitation has been declined successfully." : "Vabilo je uspešno zavrnjeno.",
     "Failed to decline the invitation." : "Zavrnitev vabila je spodletela.",
     "Your participation has been marked as tentative." : "Vaša udeležba je označena kot nedorečena.",
     "Failed to set the participation status to tentative." : "Spreminjanje stanja udeležbe na nedorečeno je spodletelo.",
-    "Accept" : "Sprejmi",
-    "Decline" : "Zavrni",
     "Copied to clipboard" : "Kopirano v odložišče",
     "No attendees yet" : "Ni še vpisanih udeležencev",
     "Status" : "Stanje",
@@ -372,7 +372,6 @@
     "Building" : "Zgradba",
     "Clear filters" : "Počisti filtre",
     "More details" : "Več podrobnosti",
-    "Update this and all future" : "Posodobi to in vse prihodnje pojavitve",
     "Update this occurrence" : "Posodobi to pojavitev",
     "Public calendar does not exist" : "Javni koledar ne obstaja",
     "Maybe the share was deleted or has expired?" : "Morda je mesto souporabe izbrisano ali je časovno poteklo.",
@@ -408,7 +407,6 @@
     "Discard" : "Opusti",
     "Event does not exist" : "Dogodek ne obstaja",
     "Delete this occurrence" : "Izbriši to pojavitev",
-    "Delete this and all future" : "Izbriši to in vse prihodnje pojavitve",
     "All day" : "Ves dan",
     "Managing shared access" : "Upravljanje z dostopom",
     "Deny access" : "Zavrni dostop",
@@ -508,6 +506,8 @@
     "Imported {filename}" : "Uvožena datoteka {filename}",
     "This is an event reminder." : "To je opomnik dogodka.",
     "Appointment not found" : "Sestanka ni mogoče najti",
-    "User not found" : "Uporabnika ni mogoče najti"
+    "User not found" : "Uporabnika ni mogoče najti",
+    "Update this and all future" : "Posodobi to in vse prihodnje pojavitve",
+    "Delete this and all future" : "Izbriši to in vse prihodnje pojavitve"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

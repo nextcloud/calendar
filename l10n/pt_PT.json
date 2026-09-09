@@ -392,14 +392,14 @@
     "Check room availability" : "Verificar disponibilidade da sala",
     "Busy (tentative)" : "Ocupado (tentativa)",
     "Unknown" : "Desconhecido",
+    "Accept" : "Aceitar",
+    "Decline" : "Recusar",
     "The invitation has been accepted successfully." : "O convite foi aceite com sucesso.",
     "Failed to accept the invitation." : "Falha ao aceitar o convite.",
     "The invitation has been declined successfully." : "O convite foi recusado com sucesso.",
     "Failed to decline the invitation." : "Falha ao recusar o convite.",
     "Your participation has been marked as tentative." : "Sua participação foi marcada como tentativa.",
     "Failed to set the participation status to tentative." : "Falha ao marcar seu status da participação como tentativa.",
-    "Accept" : "Aceitar",
-    "Decline" : "Recusar",
     "Copied to clipboard" : "Copiado para a área de transferência",
     "Failed to copy" : "Falha ao copiar",
     "Send email to {email}" : "Enviar e-mail para {email}",
@@ -514,7 +514,6 @@
     "Anyone with the invitation can respond" : "Qualquer pessoa que tenha recebido o convite pode responder",
     "Only invited attendees can respond" : "Somente os participantes convidados podem responder",
     "Event does not exist" : "O evento não existe",
-    "Delete this and all future" : "Excluir esta e todas as futuras",
     "All day" : "Todo o dia",
     "Modifications wont get propagated to the organizer and other attendees" : "As modificações não serão propagadas para o organizador e outros participantes",
     "Add Talk conversation" : "Adicionar conversa do Talk",
@@ -642,6 +641,7 @@
     "Error while parsing a PROPFIND error" : "Erro ao analisar um erro PROPFIND",
     "Appointment not found" : "Compromisso não encontrado",
     "User not found" : "Utilizador não encontrado",
+    "Delete this and all future" : "Excluir esta e todas as futuras",
     "Failed to fetch proposals" : "Falha ao buscar propostas"
 },"pluralForm" :"nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

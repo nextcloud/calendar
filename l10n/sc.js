@@ -234,7 +234,6 @@ OC.L10N.register(
     "Resources" : "Risorsas",
     "Remove resource" : "Boga·nche risorsa",
     "Search for resources or rooms" : "Chirca risorsas o istantzas",
-    "Update this and all future" : "Agiorna custa e is àteras imbenientes",
     "Update this occurrence" : "Agiorna custa ocurrèntzia",
     "Public calendar does not exist" : "Su calendàriu pùblicu no esistit",
     "Maybe the share was deleted or has expired?" : "Mancai sa cumpartzidura est istada cantzellada o est iscadida?",
@@ -252,7 +251,6 @@ OC.L10N.register(
     "Discard" : "Iscarta",
     "Event does not exist" : "S'eventu no esistit",
     "Delete this occurrence" : "Cantzella custa ocurrèntzia",
-    "Delete this and all future" : "Cantzella custa e is àteras imbenientes",
     "All day" : "Totu sa die",
     "Invite" : "Invita",
     "Untitled event" : "Eventu chene tìtulu",
@@ -340,6 +338,8 @@ OC.L10N.register(
     "Error while sharing file" : "Errore in sa cumpartzidura de s'archìviu",
     "An error occurred, unable to delete the calendar." : "B'at àpidu un'errore, no at fatu a cantzellare su calendàriu.",
     "Imported {filename}" : "Importadu {filename}",
-    "User not found" : "Utèntzia no agatada"
+    "User not found" : "Utèntzia no agatada",
+    "Update this and all future" : "Agiorna custa e is àteras imbenientes",
+    "Delete this and all future" : "Cantzella custa e is àteras imbenientes"
 },
 "nplurals=2; plural=(n != 1);");
